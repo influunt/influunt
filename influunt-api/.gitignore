@@ -19,5 +19,5 @@ test-result
 server.pid
 *.eml
 /dist/
-.cache
+.cache*
 project/sbteclipse.sbt
