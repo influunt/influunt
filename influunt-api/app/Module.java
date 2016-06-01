@@ -1,4 +1,9 @@
 import com.google.inject.AbstractModule;
+import com.google.inject.Singleton;
+
+import security.Authenticator;
+import security.DumbAuthenticator;
+
 import java.time.Clock;
 
 import services.ApplicationTimer;
@@ -26,6 +31,8 @@ public class Module extends AbstractModule {
         bind(ApplicationTimer.class).asEagerSingleton();
         // Set AtomicCounter as the implementation for Counter.
         bind(Counter.class).to(AtomicCounter.class);
+        bind(Counter.class).to(AtomicCounter.class);
+        bind(Authenticator.class).to(DumbAuthenticator.class).in(Singleton.class);
     }
 
 }

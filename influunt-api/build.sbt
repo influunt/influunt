@@ -16,3 +16,7 @@ libraryDependencies ++= Seq(
   "be.objectify" %% "deadbolt-java" % "2.5.0"
   
 )
+
+EclipseKeys.projectFlavor := EclipseProjectFlavor.Java           
+EclipseKeys.createSrc := EclipseCreateSrc.ValueSet(EclipseCreateSrc.ManagedClasses, EclipseCreateSrc.ManagedResources) 
+EclipseKeys.preTasks := Seq(compile in Compile)
