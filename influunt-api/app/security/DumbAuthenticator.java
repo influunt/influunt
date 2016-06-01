@@ -15,7 +15,7 @@ public class DumbAuthenticator implements Authenticator{
 	
 	@Override
 	public Subject getSubjectByCredentials(String user, String password) {
-		if(user.equals("admin") && password.equals("1234")){
+		if("admin".equals(user) && "1234".equals(password)){
 			Usuario u = new Usuario();
 			u.setLogin("admin");
 			u.setNome("Administrator");
@@ -27,7 +27,7 @@ public class DumbAuthenticator implements Authenticator{
 	@Override
 	public Subject getSubjectByToken(String token) {
 
-		if(token.equals("1234")){
+		if("1234".equals(token)){
 			Usuario u = new Usuario();
 			u.setLogin("admin");
 			u.setNome("Administrator");

@@ -17,7 +17,7 @@ import security.Authenticator;
 
 public class SecurityController extends Controller {
 
-    @Inject Authenticator authenticator;
+    @Inject private Authenticator authenticator;
 
     public final static String AUTH_TOKEN_HEADER = "X-AUTH-TOKEN";
     public static final String AUTH_TOKEN = "authToken";

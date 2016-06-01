@@ -1,12 +1,11 @@
-import org.junit.*;
+import static org.junit.Assert.assertTrue;
+import static play.test.Helpers.HTMLUNIT;
+import static play.test.Helpers.fakeApplication;
+import static play.test.Helpers.inMemoryDatabase;
+import static play.test.Helpers.running;
+import static play.test.Helpers.testServer;
 
-import play.mvc.*;
-import play.test.*;
-
-import static play.test.Helpers.*;
-import static org.junit.Assert.*;
-
-import static org.fluentlenium.core.filter.FilterConstructor.*;
+import org.junit.Test;
 
 public class IntegrationTest {
 
