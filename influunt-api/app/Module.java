@@ -31,6 +31,10 @@ public class Module extends AbstractModule {
         bind(ApplicationTimer.class).asEagerSingleton();
         // Set AtomicCounter as the implementation for Counter.
         bind(Counter.class).to(AtomicCounter.class);
+<<<<<<< HEAD
+=======
+        bind(Counter.class).to(AtomicCounter.class);
+>>>>>>> 01ada9809eca6607200a257394a8f513bee6057b
         bind(Authenticator.class).to(DumbAuthenticator.class).in(Singleton.class);
     }
 

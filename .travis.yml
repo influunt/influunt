@@ -1,0 +1,8 @@
+language: java
+jdk:
+  - oraclejdk8
+before_script:
+  - wget http://downloads.typesafe.com/typesafe-activator/1.3.10/typesafe-activator-1.3.10-minimal.zip
+  - unzip -q typesafe-activator-1.3.10-minimal.zip
+script: cd influunt-api && ../activator-1.3.10-minimal/bin/activator test
+

@@ -16,7 +16,7 @@ public class TestAuthenticator implements Authenticator{
 	
 	@Override
 	public Subject getSubjectByCredentials(String user, String password) {
-		if("admin".equals(user) && "1234".equals(password)){
+		if(user.equals("admin") && password.equals("1234")){
 			Usuario u = new Usuario();
 			u.setLogin("admin");
 			u.setNome("Administrator");
@@ -28,7 +28,7 @@ public class TestAuthenticator implements Authenticator{
 	@Override
 	public Subject getSubjectByToken(String token) {
 
-		if("1234".equals(token)){
+		if(token.equals("1234")){
 			Usuario u = new Usuario();
 			u.setLogin("admin");
 			u.setNome("Administrator");
