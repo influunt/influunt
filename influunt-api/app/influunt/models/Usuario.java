@@ -1,4 +1,4 @@
-package models;
+package influunt.models;
 
 import java.util.List;
 

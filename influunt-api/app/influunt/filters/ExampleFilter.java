@@ -1,4 +1,4 @@
-package filters;
+package influunt.filters;
 
 import akka.stream.Materializer;
 import java.util.concurrent.CompletionStage;

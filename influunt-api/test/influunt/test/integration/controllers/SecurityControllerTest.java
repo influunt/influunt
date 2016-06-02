@@ -1,4 +1,4 @@
-package integration.controllers;
+package influunt.test.integration.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static play.inject.Bindings.bind;
@@ -15,7 +15,8 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import controllers.routes;
-import models.Usuario;
+import influunt.models.Usuario;
+import influunt.security.Authenticator;
 import play.Application;
 import play.Mode;
 import play.inject.guice.GuiceApplicationBuilder;
@@ -24,7 +25,6 @@ import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
 import play.test.WithApplication;
-import security.Authenticator;
 
 public class SecurityControllerTest extends WithApplication {
 	

@@ -1,4 +1,4 @@
-package controllers;
+package influunt.controllers;
 
 
 import java.nio.charset.Charset;
@@ -8,12 +8,12 @@ import java.util.concurrent.CompletionStage;
 
 import javax.inject.Inject;
 
-import models.Usuario;
+import influunt.models.Usuario;
+import influunt.security.Authenticator;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
-import security.Authenticator;
 
 public class SecurityController extends Controller {
 

@@ -1,8 +1,8 @@
-package security;
+package influunt.security;
 import com.google.inject.Inject;
 
 import be.objectify.deadbolt.java.models.Subject;
-import controllers.SecurityController;
+import influunt.controllers.SecurityController;
 import play.mvc.Http.Context;
 import play.mvc.Result;
 import play.mvc.Security;

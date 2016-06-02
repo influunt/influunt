@@ -1,4 +1,4 @@
-package integration.controllers;
+package influunt.security;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -6,12 +6,11 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import be.objectify.deadbolt.java.models.Subject;
-import models.Usuario;
-import security.Authenticator;
-import security.UserSession;
+import influunt.models.Usuario;
 
-public class TestAuthenticator implements Authenticator{
-	
+
+public class DumbAuthenticator implements Authenticator{
+
 	private Map<String,UserSession> sessions = new HashMap<String,UserSession>();
 	
 	@Override
@@ -66,4 +65,5 @@ public class TestAuthenticator implements Authenticator{
 				       .filter(entry -> entry.getSubject().equals(subject))
 				       .collect(Collectors.toList());
 	}
+
 }
