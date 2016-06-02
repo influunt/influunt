@@ -19,9 +19,6 @@ describe('Controller: AboutCtrl', function () {
 
 
   it('should attach a list of awesomeThings to the scope', function () {
-    var app = angular.module('influuntApp');
-    console.log(app._invokeQueue[0][2][0]);
-    // expect(AboutCtrl.awesomeThings.length).toBe(3);
-    expect(true).toBe(true);
+    expect(AboutCtrl.awesomeThings.length).toBe(3);
   });
 });
