@@ -26,7 +26,7 @@ public class ExampleFilter extends Filter {
      * It is used below by the <code>thenAsyncApply</code> method.
      */
     @Inject
-    public ExampleFilter(Materializer mat, Executor exec) {
+    public ExampleFilter(final Materializer mat, Executor exec) {
         super(mat);
         this.exec = exec;
     }

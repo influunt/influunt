@@ -12,7 +12,7 @@ import security.UserSession;
 
 public class TestAuthenticator implements Authenticator{
 
-	private Map<String,UserSession> sessions = new HashMap<String,UserSession>();
+	final private Map<String,UserSession> sessions = new HashMap<String,UserSession>();
 
 	@Override
 	public Subject getSubjectByCredentials(String user, String password) {
@@ -26,7 +26,7 @@ public class TestAuthenticator implements Authenticator{
 	}
 
 	@Override
-	public Subject getSubjectByToken(String token) {
+	public Subject getSubjectByToken(final String token) {
 
 		if("1234".equals(token)){
 			Usuario u = new Usuario();
@@ -38,19 +38,19 @@ public class TestAuthenticator implements Authenticator{
 	}
 
 	@Override
-	public String createSession(Subject subject) {
+	public String createSession(final Subject subject) {
 		UserSession newSession = new UserSession(subject);
 		sessions.put(newSession.getToken(),newSession);
 		return newSession.getToken();
 	}
 
 	@Override
-	public void destroySession(Subject subject) {
+	public void destroySession(final Subject subject) {
 		sessions.entrySet().removeIf(entry -> entry.getValue().getSubject().equals(subject));
 	}
 
 	@Override
-	public void destroySession(String token) {
+	public void destroySession(final String token) {
 		sessions.entrySet().removeIf(entry -> entry.getKey().equals(token));
 	}
 
@@ -60,7 +60,7 @@ public class TestAuthenticator implements Authenticator{
 	}
 
 	@Override
-	public Collection<UserSession> listSessions(Subject subject) {
+	public Collection<UserSession> listSessions(final Subject subject) {
 		return sessions.values()
 				       .stream()
 				       .filter(entry -> entry.getSubject().equals(subject))

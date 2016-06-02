@@ -28,7 +28,7 @@ public class Filters implements HttpFilters {
      * @param exampleFilter A demonstration filter that adds a header to
      */
     @Inject
-    public Filters(Environment env, ExampleFilter exampleFilter) {
+    public Filters(Environment env, final ExampleFilter exampleFilter) {
         this.env = env;
         this.exampleFilter = exampleFilter;
     }

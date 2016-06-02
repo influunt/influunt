@@ -17,7 +17,7 @@ public class Secured extends Security.Authenticator {
 	
     @Override
     public String getUsername(Context ctx) {
-        String[] authTokenHeaderValues = ctx.request().headers().get(SecurityController.AUTH_TOKEN_HEADER);
+        final String[] authTokenHeaderValues = ctx.request().headers().get(SecurityController.AUTH_TOKEN_HEADER);
         if ((authTokenHeaderValues != null) && (authTokenHeaderValues.length == 1) && (authTokenHeaderValues[0] != null)) {
             Subject usuario = authenticator.getSubjectByToken(authTokenHeaderValues[0]);
             if (usuario != null) {
@@ -30,7 +30,7 @@ public class Secured extends Security.Authenticator {
     }
 
     @Override
-    public Result onUnauthorized(Context ctx) {
+    public Result onUnauthorized(final Context ctx) {
         return unauthorized();
     }
 

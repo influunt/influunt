@@ -23,14 +23,14 @@ public class SecurityController extends Controller {
     public static final String AUTH_TOKEN = "authToken";
 
     public CompletionStage<Result> login() {
-    	 String authorization = request().getHeader("Authorization");
+    	 final String authorization = request().getHeader("Authorization");
 	     if (authorization != null && authorization.startsWith("Basic")) {
 
-	    	 String base64Credentials = authorization.substring("Basic".length()).trim();
-	        String credentials = new String(Base64.getDecoder().decode(base64Credentials),Charset.forName("UTF-8"));
+	    	final String base64Credentials = authorization.substring("Basic".length()).trim();
+	        final String credentials = new String(Base64.getDecoder().decode(base64Credentials),Charset.forName("UTF-8"));
 
 	        final String[] values = credentials.split(":",2);
-	        Usuario usuario = (Usuario) authenticator.getSubjectByCredentials(values[0], values[1]);
+	        final Usuario usuario = (Usuario) authenticator.getSubjectByCredentials(values[0], values[1]);
 	        if(usuario != null){
 	        	response().setCookie(Http.Cookie.builder(AUTH_TOKEN, authenticator.createSession(usuario)).withSecure(ctx().request().secure()).build());
 	        	return CompletableFuture.completedFuture(ok(Json.toJson(usuario)));

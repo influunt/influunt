@@ -12,7 +12,7 @@ public class UserSession {
 	private Date createdAt;
 	
 	
-	public UserSession(Subject subject){
+	public UserSession(final Subject subject){
 		this.token = UUID.randomUUID().toString();
 		this.subject = subject;
 		this.createdAt = new Date();
@@ -22,7 +22,7 @@ public class UserSession {
 		return token;
 	}
 	
-	public void setToken(String token) {
+	public void setToken(final String token) {
 		this.token = token;
 	}
 	
@@ -30,7 +30,7 @@ public class UserSession {
 		return subject;
 	}
 	
-	public void setSubject(Subject subject) {
+	public void setSubject(final Subject subject) {
 		this.subject = subject;
 	}
 	

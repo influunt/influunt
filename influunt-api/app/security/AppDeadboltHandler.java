@@ -15,7 +15,7 @@ import play.mvc.Results;
 public class AppDeadboltHandler implements DeadboltHandler {
 
 	@Override
-	public CompletionStage<Optional<Result>> beforeAuthCheck(Context arg0) {
+	public CompletionStage<Optional<Result>> beforeAuthCheck(final Context context) {
 		 return CompletableFuture.completedFuture(Optional.empty());
 	}
 
@@ -25,7 +25,7 @@ public class AppDeadboltHandler implements DeadboltHandler {
 	}
 
 	@Override
-	public CompletionStage<Optional<? extends Subject>> getSubject(Context context) {
+	public CompletionStage<Optional<? extends Subject>> getSubject(final Context context) {
 		Usuario u = new Usuario();
 		u.setLogin("rodrigosol@gmail.com");
 		return CompletableFuture.supplyAsync(() -> Optional.ofNullable(u));
@@ -33,7 +33,7 @@ public class AppDeadboltHandler implements DeadboltHandler {
 	}
 
 	@Override
-	public CompletionStage<Result> onAuthFailure(Context arg0, Optional<String> arg1) {
+	public CompletionStage<Result> onAuthFailure(final Context arg0, Optional<String> arg1) {
 		  return CompletableFuture.completedFuture(Results.forbidden());
 	}
 

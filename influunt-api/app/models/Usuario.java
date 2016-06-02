@@ -15,7 +15,7 @@ public class Usuario implements Subject{
 		return login;
 	}
 
-	public void setLogin(String login) {
+	public void setLogin(final String login) {
 		this.login = login;
 	}
 
@@ -23,7 +23,7 @@ public class Usuario implements Subject{
 		return nome;
 	}
 
-	public void setNome(String nome) {
+	public void setNome(final String nome) {
 		this.nome = nome;
 	}
 
@@ -60,7 +60,7 @@ public class Usuario implements Subject{
 		} else if (getClass() != obj.getClass()) {
 			return false;
 		}
-		Usuario other = (Usuario) obj;
+		final Usuario other = (Usuario) obj;
 		if (login == null) {
 			if (other.login != null) {
 				return false;
