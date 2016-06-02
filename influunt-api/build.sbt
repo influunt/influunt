@@ -13,6 +13,9 @@ libraryDependencies ++= Seq(
   javaJpa,
   evolutions,  
   "org.hibernate" % "hibernate-entitymanager" % "5.1.0.Final",
-  "be.objectify" %% "deadbolt-java" % "2.5.0"
-  
+  "be.objectify" %% "deadbolt-java" % "2.5.0" 
 )
+
+jacoco.settings
+jacoco.reportFormats in jacoco.Config := Seq(
+  de.johoop.jacoco4sbt.XMLReport(encoding = "utf-8"))
