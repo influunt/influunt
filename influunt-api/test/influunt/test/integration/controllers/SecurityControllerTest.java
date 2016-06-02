@@ -15,8 +15,7 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import controllers.routes;
-import influunt.models.Usuario;
-import influunt.security.Authenticator;
+import models.Usuario;
 import play.Application;
 import play.Mode;
 import play.inject.guice.GuiceApplicationBuilder;
@@ -25,6 +24,7 @@ import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
 import play.test.WithApplication;
+import security.Authenticator;
 
 public class SecurityControllerTest extends WithApplication {
 	

@@ -1,4 +1,4 @@
-package influunt.security;
+package security;
 
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;

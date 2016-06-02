@@ -1,4 +1,4 @@
-package influunt.security;
+package security;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import be.objectify.deadbolt.java.models.Subject;
-import influunt.models.Usuario;
+import models.Usuario;
 
 
 public class DumbAuthenticator implements Authenticator{

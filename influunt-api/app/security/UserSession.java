@@ -1,4 +1,4 @@
-package influunt.security;
+package security;
 
 import java.util.Date;
 import java.util.UUID;

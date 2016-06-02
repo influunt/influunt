@@ -1,8 +1,8 @@
-package influunt;
+package filters;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import influunt.filters.ExampleFilter;
 import play.Environment;
 import play.Mode;
 import play.http.HttpFilters;

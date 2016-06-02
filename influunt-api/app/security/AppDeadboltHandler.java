@@ -1,4 +1,4 @@
-package influunt.security;
+package security;
 
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -7,7 +7,7 @@ import java.util.concurrent.CompletionStage;
 import be.objectify.deadbolt.java.DeadboltHandler;
 import be.objectify.deadbolt.java.DynamicResourceHandler;
 import be.objectify.deadbolt.java.models.Subject;
-import influunt.models.Usuario;
+import models.Usuario;
 import play.mvc.Http.Context;
 import play.mvc.Result;
 import play.mvc.Results;

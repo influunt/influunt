@@ -6,9 +6,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import be.objectify.deadbolt.java.models.Subject;
-import influunt.models.Usuario;
-import influunt.security.Authenticator;
-import influunt.security.UserSession;
+import models.Usuario;
+import security.Authenticator;
+import security.UserSession;
 
 public class TestAuthenticator implements Authenticator{
 

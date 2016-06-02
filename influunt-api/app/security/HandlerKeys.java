@@ -1,4 +1,4 @@
-package influunt.security;
+package security;
 
 import be.objectify.deadbolt.java.ConfigKeys;
 

@@ -1,4 +1,4 @@
-package influunt.controllers;
+package controllers;
 
 import play.mvc.*;
 

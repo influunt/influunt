@@ -1,9 +1,9 @@
-package influunt;
+
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
-import influunt.security.Authenticator;
-import influunt.security.DumbAuthenticator;
+import security.Authenticator;
+import security.DumbAuthenticator;
 
 /**
  * This class is a Guice module that tells Guice how to bind several
