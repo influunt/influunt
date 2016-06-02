@@ -10,7 +10,7 @@ public class Usuario implements Subject{
 
 	private String login;
 	private String nome;
-	
+
 	public String getLogin() {
 		return login;
 	}
@@ -31,7 +31,7 @@ public class Usuario implements Subject{
 	public String getIdentifier() {
 		return login;
 	}
-	
+
 	@Override
 	public List<? extends Permission> getPermissions() {
 		// TODO Auto-generated method stub
@@ -53,20 +53,23 @@ public class Usuario implements Subject{
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		} else if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		} else if (getClass() != obj.getClass()) {
 			return false;
+		}
 		Usuario other = (Usuario) obj;
 		if (login == null) {
-			if (other.login != null)
+			if (other.login != null) {
 				return false;
-		} else if (!login.equals(other.login))
+			}
+		} else if (!login.equals(other.login)) {
 			return false;
+		}
 		return true;
 	}
-	
-	
+
+
 }
