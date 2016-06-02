@@ -1,8 +1,12 @@
 language: java
 jdk:
   - oraclejdk8
+sudo: required
 before_script:
+  - curl https://www.jpm4j.org/install/script | sudo sh
+  - sudo jpm install com.codacy:codacy-coverage-reporter:assembly
   - wget http://downloads.typesafe.com/typesafe-activator/1.3.10/typesafe-activator-1.3.10-minimal.zip
   - unzip -q typesafe-activator-1.3.10-minimal.zip
-script: cd influunt-api && ../activator-1.3.10-minimal/bin/activator test
-
+script: cd influunt-api && ../activator-1.3.10-minimal/bin/activator jacoco:cover
+after_script:
+  - codacy-coverage-reporter -l Java -r target/scala-2.11/jacoco/jacoco.xml
