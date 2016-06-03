@@ -13,17 +13,17 @@ public class AppHandlerCache implements be.objectify.deadbolt.java.cache.Handler
     private final Map<String, DeadboltHandler> handlers = new HashMap<>();
 
     public AppHandlerCache() {
-	handlers.put(HandlerKeys.DEFAULT.key, new AppDeadboltHandler());
+        handlers.put(HandlerKeys.DEFAULT.key, new AppDeadboltHandler());
     }
 
     @Override
     public DeadboltHandler apply(final String key) {
-	return handlers.get(key);
+        return handlers.get(key);
     }
 
     @Override
     public DeadboltHandler get() {
-	return handlers.get(HandlerKeys.DEFAULT.key);
+        return handlers.get(HandlerKeys.DEFAULT.key);
     }
 
 }

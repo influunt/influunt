@@ -17,7 +17,7 @@ public class Module extends AbstractModule {
 
     @Override
     public void configure() {
-	bind(Authenticator.class).to(DumbAuthenticator.class).in(Singleton.class);
+        bind(Authenticator.class).to(DumbAuthenticator.class).in(Singleton.class);
     }
 
 }

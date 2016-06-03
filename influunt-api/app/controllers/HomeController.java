@@ -17,7 +17,7 @@ public class HomeController extends Controller {
      * path of <code>/</code>.
      */
     public Result index() {
-	return ok(index.render("Your new application is ready."));
+        return ok(index.render("Your new application is ready."));
     }
 
 }

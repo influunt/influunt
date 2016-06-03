@@ -14,53 +14,53 @@ public class DumbAuthenticator implements Authenticator {
 
     @Override
     public Subject getSubjectByCredentials(final String user, final String password) {
-	if ("admin".equals(user) && "1234".equals(password)) {
-	    final Usuario u = new Usuario();
-	    u.setLogin("admin");
-	    u.setNome("Administrator");
-	    return u;
-	}
-	return null;
+        if ("admin".equals(user) && "1234".equals(password)) {
+            final Usuario u = new Usuario();
+            u.setLogin("admin");
+            u.setNome("Administrator");
+            return u;
+        }
+        return null;
     }
 
     @Override
     public Subject getSubjectByToken(final String token) {
 
-	if ("1234".equals(token)) {
-	    Usuario u = new Usuario();
-	    u.setLogin("admin");
-	    u.setNome("Administrator");
-	    return u;
-	}
-	return null;
+        if ("1234".equals(token)) {
+            Usuario u = new Usuario();
+            u.setLogin("admin");
+            u.setNome("Administrator");
+            return u;
+        }
+        return null;
     }
 
     @Override
     public String createSession(final Subject subject) {
-	UserSession newSession = new UserSession(subject);
-	sessions.put(newSession.getToken(), newSession);
-	return newSession.getToken();
+        UserSession newSession = new UserSession(subject);
+        sessions.put(newSession.getToken(), newSession);
+        return newSession.getToken();
     }
 
     @Override
     public void destroySession(final Subject subject) {
-	sessions.entrySet().removeIf(entry -> entry.getValue().getSubject().equals(subject));
+        sessions.entrySet().removeIf(entry -> entry.getValue().getSubject().equals(subject));
     }
 
     @Override
     public void destroySession(final String token) {
-	sessions.entrySet().removeIf(entry -> entry.getKey().equals(token));
+        sessions.entrySet().removeIf(entry -> entry.getKey().equals(token));
     }
 
     @Override
     public Collection<UserSession> listSessions() {
-	return sessions.values();
+        return sessions.values();
     }
 
     @Override
     public Collection<UserSession> listSessions(Subject subject) {
-	return sessions.values().stream().filter(entry -> entry.getSubject().equals(subject))
-		.collect(Collectors.toList());
+        return sessions.values().stream().filter(entry -> entry.getSubject().equals(subject))
+                .collect(Collectors.toList());
     }
 
 }

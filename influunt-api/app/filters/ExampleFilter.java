@@ -27,15 +27,15 @@ public class ExampleFilter extends Filter {
      */
     @Inject
     public ExampleFilter(final Materializer mat, Executor exec) {
-	super(mat);
-	this.exec = exec;
+        super(mat);
+        this.exec = exec;
     }
 
     @Override
     public CompletionStage<Result> apply(Function<RequestHeader, CompletionStage<Result>> next,
-	    RequestHeader requestHeader) {
+            RequestHeader requestHeader) {
 
-	return next.apply(requestHeader).thenApplyAsync(result -> result.withHeader("X-ExampleFilter", "foo"), exec);
+        return next.apply(requestHeader).thenApplyAsync(result -> result.withHeader("X-ExampleFilter", "foo"), exec);
     }
 
 }
