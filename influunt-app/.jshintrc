@@ -5,6 +5,7 @@
   "eqeqeq": true,
   "esnext": true,
   "latedef": true,
+  "maxcomplexity": 7,
   "noarg": true,
   "node": true,
   "strict": true,
