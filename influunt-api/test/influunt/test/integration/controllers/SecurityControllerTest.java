@@ -31,35 +31,35 @@ public class SecurityControllerTest extends WithApplication {
 
     @Override
     protected Application provideApplication() {
-	return getApplication(inMemoryDatabase());
+        return getApplication(inMemoryDatabase());
     }
 
-    private Application getApplication(Map<String,String> configuration) {
-	return new GuiceApplicationBuilder().configure((Configuration) configuration)
-		.overrides(bind(Authenticator.class).to(TestAuthenticator.class)).in(Mode.TEST).build();
+    private Application getApplication(Map configuration) {
+        return new GuiceApplicationBuilder().configure(configuration)
+                .overrides(bind(Authenticator.class).to(TestAuthenticator.class)).in(Mode.TEST).build();
     }
 
     @Test
     public void testUnauthorizedLogin() throws InterruptedException, ExecutionException {
-	Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-		.uri(routes.SecurityController.login().url());
-	Result postResult = route(postRequest);
-	assertEquals(UNAUTHORIZED, postResult.status());
+        Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
+                .uri(routes.SecurityController.login().url());
+        Result postResult = route(postRequest);
+        assertEquals(UNAUTHORIZED, postResult.status());
 
     }
 
     @Test
     public void testAuthorizedLogin() throws InterruptedException, ExecutionException {
-	Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-		.header("Authorization", "Basic YWRtaW46MTIzNA==").uri(routes.SecurityController.login().url());
-	Result postResult = route(postRequest);
-	assertEquals(OK, postResult.status());
+        Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
+                .header("Authorization", "Basic YWRtaW46MTIzNA==").uri(routes.SecurityController.login().url());
+        Result postResult = route(postRequest);
+        assertEquals(OK, postResult.status());
 
-	JsonNode json = Json.parse(Helpers.contentAsString(postResult));
+        JsonNode json = Json.parse(Helpers.contentAsString(postResult));
 
-	Usuario usuario = Json.fromJson(json, Usuario.class);
-	assertEquals("admin", usuario.getLogin());
-	assertEquals("Administrator", usuario.getNome());
+        Usuario usuario = Json.fromJson(json, Usuario.class);
+        assertEquals("admin", usuario.getLogin());
+        assertEquals("Administrator", usuario.getNome());
 
     }
 
