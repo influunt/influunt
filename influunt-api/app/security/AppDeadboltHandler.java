@@ -16,25 +16,25 @@ public class AppDeadboltHandler implements DeadboltHandler {
 
     @Override
     public CompletionStage<Optional<Result>> beforeAuthCheck(final Context context) {
-	return CompletableFuture.completedFuture(Optional.empty());
+        return CompletableFuture.completedFuture(Optional.empty());
     }
 
     @Override
     public CompletionStage<Optional<DynamicResourceHandler>> getDynamicResourceHandler(Context arg0) {
-	return CompletableFuture.supplyAsync(() -> Optional.of(new AppDynamicResourceHandler()));
+        return CompletableFuture.supplyAsync(() -> Optional.of(new AppDynamicResourceHandler()));
     }
 
     @Override
     public CompletionStage<Optional<? extends Subject>> getSubject(final Context context) {
-	Usuario u = new Usuario();
-	u.setLogin("rodrigosol@gmail.com");
-	return CompletableFuture.supplyAsync(() -> Optional.ofNullable(u));
+        Usuario u = new Usuario();
+        u.setLogin("rodrigosol@gmail.com");
+        return CompletableFuture.supplyAsync(() -> Optional.ofNullable(u));
 
     }
 
     @Override
     public CompletionStage<Result> onAuthFailure(final Context arg0, Optional<String> arg1) {
-	return CompletableFuture.completedFuture(Results.forbidden());
+        return CompletableFuture.completedFuture(Results.forbidden());
     }
 
 }

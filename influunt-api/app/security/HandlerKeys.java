@@ -8,6 +8,6 @@ public enum HandlerKeys {
     public final String key;
 
     private HandlerKeys(final String key) {
-	this.key = key;
+        this.key = key;
     }
 }

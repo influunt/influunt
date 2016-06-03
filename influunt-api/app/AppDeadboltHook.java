@@ -12,6 +12,6 @@ import security.AppHandlerCache;
 public class AppDeadboltHook extends Module {
     @Override
     public Seq<Binding<?>> bindings(final Environment environment, final Configuration configuration) {
-	return seq(bind(HandlerCache.class).to(AppHandlerCache.class).in(Singleton.class));
+        return seq(bind(HandlerCache.class).to(AppHandlerCache.class).in(Singleton.class));
     }
 }

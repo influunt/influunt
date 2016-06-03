@@ -17,7 +17,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import controllers.routes;
 import models.Usuario;
 import play.Application;
-import play.Configuration;
 import play.Mode;
 import play.inject.guice.GuiceApplicationBuilder;
 import play.libs.Json;

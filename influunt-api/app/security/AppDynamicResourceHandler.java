@@ -12,14 +12,14 @@ public class AppDynamicResourceHandler implements DynamicResourceHandler {
 
     @Override
     public CompletionStage<Boolean> checkPermission(final String arg0, Optional<String> arg1, DeadboltHandler arg2,
-	    Context arg3) {
-	return CompletableFuture.completedFuture(Boolean.TRUE);
+            Context arg3) {
+        return CompletableFuture.completedFuture(Boolean.TRUE);
     }
 
     @Override
     public CompletionStage<Boolean> isAllowed(final String arg0, Optional<String> arg1, DeadboltHandler arg2,
-	    Context arg3) {
-	return CompletableFuture.completedFuture(Boolean.FALSE);
+            Context arg3) {
+        return CompletableFuture.completedFuture(Boolean.FALSE);
     }
 
 }
