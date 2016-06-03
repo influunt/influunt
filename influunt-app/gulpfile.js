@@ -15,10 +15,13 @@ var yeoman = {
 };
 
 var paths = {
-  scripts: [yeoman.app + '/scripts/**/*.js'],
+  scripts: [
+    yeoman.app + '/scripts/**/*.js'
+  ],
   styles: [yeoman.app + '/styles/**/*.scss'],
   test: ['test/spec/**/*.js'],
   testRequire: [
+    'bower_components/jquery/dist/jquery.js',
     'bower_components/angular/angular.js',
     'bower_components/angular-mocks/angular-mocks.js',
     'bower_components/angular-resource/angular-resource.js',
@@ -28,22 +31,11 @@ var paths = {
     'bower_components/angular-animate/angular-animate.js',
     'bower_components/angular-touch/angular-touch.js',
 
-    'app/plugins/oclazyload/dist/ocLazyLoad.js',
+    yeoman.app + '/plugins/metisMenu/jquery.metisMenu.js',
+    yeoman.app + '/plugins/ui-bootstrap-tpls-1.1.2.min.js',
+    yeoman.app + '/plugins/inspinia.js',
 
     'test/mock/**/*.js',
-    'test/spec/**/*.js'
-
-    // 'bower_components/angular/angular.js',
-    // 'bower_components/angular-animate/angular-animate.js',
-    // 'bower_components/angular-touch/angular-touch.js',
-    // 'bower_components/angular-mocks/angular-mocks.js',
-    // 'bower_components/angular-resource/angular-resource.js',
-    // 'bower_components/angular-cookies/angular-cookies.js',
-    // 'bower_components/angular-sanitize/angular-sanitize.js',
-    // 'bower_components/angular-ui-router/release/angular-ui-router.js',
-
-    // 'test/mock/**/*.js',
-    // 'test/spec/**/*.js'
   ],
   // karma: 'karma.conf.js',
   karma: 'test/karma.conf.js',
@@ -153,7 +145,6 @@ gulp.task('serve:prod', function() {
 
 gulp.task('test', ['start:server:test'], function () {
   var testToFiles = paths.testRequire.concat(paths.scripts, paths.test);
-  console.log(JSON.stringify(testToFiles));
   return gulp.src(testToFiles)
     .pipe($.karma({
       configFile: paths.karma,

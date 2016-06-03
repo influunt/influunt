@@ -26,7 +26,9 @@
     "jshint-stylish": "^1.0.0",
     "karma": "^0.13.22",
     "karma-chrome-launcher": "^1.0.1",
+    "karma-coverage": "^1.0.0",
     "karma-jasmine": "^1.0.2",
+    "karma-jasmine-html-reporter": "^0.2.0",
     "karma-phantomjs-launcher": "^1.0.0",
     "lazypipe": "^0.2.4",
     "open": "0.0.5",
@@ -36,8 +38,13 @@
     "run-sequence": "^1.1.1",
     "wiredep": "^2.2.2"
   },
+  "scripts": {
+    "test": "./node_modules/.bin/karma start ./test/karma.conf.js  --single-run --browsers PhantomJS"
+  },
   "engines": {
     "node": ">=0.10.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "codacy-coverage": "^1.1.3"
+  }
 }

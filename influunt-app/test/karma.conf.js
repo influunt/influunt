@@ -19,34 +19,21 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-
-      // // bower:js
-      // 'bower_components/jquery/dist/jquery.js',
-      // 'bower_components/angular/angular.js',
-      // 'bower_components/angular-mocks/angular-mocks.js',
-      // 'bower_components/bootstrap/dist/js/bootstrap.js',
-      // 'bower_components/angular-animate/angular-animate.js',
-      // 'bower_components/angular-cookies/angular-cookies.js',
-      // 'bower_components/angular-resource/angular-resource.js',
-      // 'bower_components/angular-sanitize/angular-sanitize.js',
-      // 'bower_components/angular-touch/angular-touch.js',
-      // 'bower_components/jquery-ui/jquery-ui.js',
-      // 'bower_components/PACE/pace.js',
-      // 'bower_components/jquery.slimscroll/jquery.slimscroll.js',
-      // 'bower_components/angular-ui-router/release/angular-ui-router.js',
-      // // endbower
-
-      // // inspinea scripts.
-      // 'app/plugins/oclazyload/dist/ocLazyLoad.js',
-      // 'app/plugins/metisMenu/jquery.metisMenu.js',
-      // 'app/plugins/ui-bootstrap-tpls-1.1.2.min.js',
-      // 'app/plugins/inspinia.js',
-      // 'app/plugins/inspinia-directives.js',
-
-      // // app scripts.
-      // 'app/scripts/**/*.js',
-      // 'test/mock/**/*.js',
-      // 'test/spec/**/*.js'
+      'bower_components/jquery/dist/jquery.js',
+      'bower_components/angular/angular.js',
+      'bower_components/angular-mocks/angular-mocks.js',
+      'bower_components/angular-resource/angular-resource.js',
+      'bower_components/angular-cookies/angular-cookies.js',
+      'bower_components/angular-sanitize/angular-sanitize.js',
+      'bower_components/angular-ui-router/release/angular-ui-router.js',
+      'bower_components/angular-animate/angular-animate.js',
+      'bower_components/angular-touch/angular-touch.js',
+      'app/plugins/metisMenu/jquery.metisMenu.js',
+      'app/plugins/ui-bootstrap-tpls-1.1.2.min.js',
+      'app/plugins/inspinia.js',
+      'test/mock/**/*.js',
+      'app/scripts/**/*.js',
+      'test/spec/**/*.js',
     ],
 
     // list of files / patterns to exclude
@@ -68,10 +55,14 @@ module.exports = function(config) {
       'PhantomJS'
     ],
 
+    reporters: ['progress', 'kjhtml', 'coverage'],
+
     // plugins to enable
     plugins: [
       'karma-phantomjs-launcher',
-      'karma-jasmine'
+      'karma-jasmine',
+      'karma-jasmine-html-reporter',
+      'karma-coverage',
     ],
 
     // Continuous Integration mode
@@ -83,6 +74,20 @@ module.exports = function(config) {
     // level of logging
     // possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
     logLevel: config.LOG_INFO,
+
+    preprocessors: {
+      'app/scripts/**/*.js': ['coverage']
+    },
+
+    coverageReporter: {
+      reporters: [
+        {
+          type: 'lcov',
+          dir: 'coverage/',
+          subdir: '.',
+        }
+      ]
+    }
 
     // Uncomment the following lines if you are using grunt's server to run the tests
     // proxies: {

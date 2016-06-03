@@ -16,16 +16,10 @@ angular
     'ui.router',
     'ngSanitize',
     'ngTouch',
-    'oc.lazyLoad',
     'ui.bootstrap',
   ])
-  .config(['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider',
-    function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
-
-      $ocLazyLoadProvider.config({
-        // Set to true if you want to see what and when is dynamically loaded
-        debug: false
-      });
+  .config(['$stateProvider', '$urlRouterProvider',
+    function ($stateProvider, $urlRouterProvider) {
 
       $urlRouterProvider.otherwise("/index/main");
 
