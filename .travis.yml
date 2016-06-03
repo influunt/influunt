@@ -13,5 +13,6 @@ before_script:
 script: cd influunt-app && npm test && cd ../influunt-api && ../activator-1.3.10-minimal/bin/activator jacoco:cover
 after_script:
   - codacy-coverage-reporter -l Java -r target/scala-2.11/jacoco/jacoco.xml
+  - cat ../influunt-app/coverage/lcov.info | ../influunt-app/node_modules/.bin/codacy-coverage
 notifications:
   slack: influunt:dcSLFuPoNSbWFijZ4jOJFVeE
