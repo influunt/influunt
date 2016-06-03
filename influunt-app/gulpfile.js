@@ -36,7 +36,7 @@ var paths = {
     yeoman.app + '/plugins/ui-bootstrap-tpls-1.1.2.min.js',
     yeoman.app + '/plugins/inspinia.js',
 
-    'test/mock/**/*.js',
+    'test/mock/**/*.js'
   ],
   // karma: 'karma.conf.js',
   karma: 'test/karma.conf.js',
@@ -207,7 +207,7 @@ gulp.task('images', function () {
 });
 
 gulp.task('copy:extras', function () {
-  return gulp.src(yeoman.app + '/*/.*', { dot: true })
+  return gulp.src(yeoman.app + '/*/.*', {dot: true})
     .pipe(gulp.dest(yeoman.dist));
 });
 

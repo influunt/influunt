@@ -8,7 +8,7 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('MainCtrl', [function () {
+  .controller('MainCtrl', [function MainCtrl() {
 
     this.userName = 'Example user';
     this.helloText = 'Welcome in SeedProject';

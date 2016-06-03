@@ -62,7 +62,7 @@ module.exports = function(config) {
       'karma-phantomjs-launcher',
       'karma-jasmine',
       'karma-jasmine-html-reporter',
-      'karma-coverage',
+      'karma-coverage'
     ],
 
     // Continuous Integration mode
