@@ -8,9 +8,10 @@ var lazypipe = require('lazypipe');
 var rimraf = require('rimraf');
 var wiredep = require('wiredep').stream;
 var runSequence = require('run-sequence');
+var bowerJsonFile = require('./bower.json');
 
 var yeoman = {
-  app: require('./bower.json').appPath || 'app',
+  app: bowerJsonFile.appPath || 'app',
   dist: 'dist'
 };
 
@@ -45,9 +46,9 @@ var paths = {
   }
 };
 
-////////////////////////
+// //////////////////////
 // Reusable pipelines //
-////////////////////////
+// //////////////////////
 
 var lintScripts = lazypipe()
   .pipe($.jshint, '.jshintrc')
@@ -61,9 +62,9 @@ var styles = lazypipe()
   .pipe($.autoprefixer, 'last 1 version')
   .pipe(gulp.dest, '.tmp/styles');
 
-///////////
+// /////////
 // Tasks //
-///////////
+// /////////
 
 gulp.task('styles', function () {
   return gulp.src(paths.styles)
@@ -90,7 +91,7 @@ gulp.task('start:server', function() {
     // Change this to '0.0.0.0' to access the server from outside.
     port: 9000,
     middleware: function (connect) {
-      return [connect().use('/bower_components',connect.static('./bower_components'))];
+      return [connect().use('/bower_components', connect.static('./bower_components'))];
     }
   });
 });
@@ -101,7 +102,7 @@ gulp.task('start:server:test', function() {
     livereload: true,
     port: 9001,
     middleware: function (connect) {
-      return [connect().use('/bower_components',connect.static('./bower_components'))];
+      return [connect().use('/bower_components', connect.static('./bower_components'))];
     }
   });
 });
@@ -128,7 +129,7 @@ gulp.task('watch', function () {
   gulp.watch('bower.json', ['bower']);
 });
 
-gulp.task('serve', function (cb) {
+gulp.task('serve', function(cb) {
   runSequence('clean:tmp',
     ['lint:scripts'],
     ['start:client'],
@@ -143,8 +144,9 @@ gulp.task('serve:prod', function() {
   });
 });
 
-gulp.task('test', ['start:server:test'], function () {
+gulp.task('test', ['start:server:test'], function() {
   var testToFiles = paths.testRequire.concat(paths.scripts, paths.test);
+
   return gulp.src(testToFiles)
     .pipe($.karma({
       configFile: paths.karma,
@@ -163,11 +165,11 @@ gulp.task('bower', function () {
   .pipe(gulp.dest(yeoman.app));
 });
 
-///////////
+// /////////
 // Build //
-///////////
+// /////////
 
-gulp.task('clean:dist', function (cb) {
+gulp.task('clean:dist', function(cb) {
   rimraf('./dist', cb);
 });
 
@@ -197,9 +199,9 @@ gulp.task('html', function () {
 gulp.task('images', function () {
   return gulp.src(yeoman.app + '/images/**/*')
     .pipe($.cache($.imagemin({
-        optimizationLevel: 5,
-        progressive: true,
-        interlaced: true
+      optimizationLevel: 5,
+      progressive: true,
+      interlaced: true
     })))
     .pipe(gulp.dest(yeoman.dist + '/images'));
 });
