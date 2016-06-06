@@ -33,7 +33,7 @@ module.exports = function(config) {
       'app/plugins/inspinia.js',
       'test/mock/**/*.js',
       'app/scripts/**/*.js',
-      'test/spec/**/*.js',
+      'test/spec/**/*.js'
     ],
 
     // list of files / patterns to exclude
