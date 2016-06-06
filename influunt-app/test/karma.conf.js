@@ -33,7 +33,7 @@ module.exports = function(config) {
       'app/plugins/inspinia.js',
       'test/mock/**/*.js',
       'app/scripts/**/*.js',
-      'test/spec/**/*.js',
+      'test/spec/**/*.js'
     ],
 
     // list of files / patterns to exclude
@@ -62,7 +62,7 @@ module.exports = function(config) {
       'karma-phantomjs-launcher',
       'karma-jasmine',
       'karma-jasmine-html-reporter',
-      'karma-coverage',
+      'karma-coverage'
     ],
 
     // Continuous Integration mode
@@ -84,7 +84,7 @@ module.exports = function(config) {
         {
           type: 'lcov',
           dir: 'coverage/',
-          subdir: '.',
+          subdir: '.'
         }
       ]
     }
