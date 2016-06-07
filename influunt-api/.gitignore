@@ -15,6 +15,7 @@ bin/
 /project/target
 /target
 tmp/
+/log
 test-result
 server.pid
 *.eml
