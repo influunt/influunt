@@ -1,5 +1,6 @@
 .DS_Store
 influunt-app/.tmp
 influunt-app/bower_components
-influunt-app/node_modules
 influunt-app/coverage
+influunt-app/dist
+influunt-app/node_modules
