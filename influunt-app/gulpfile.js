@@ -10,8 +10,6 @@ var wiredep = require('wiredep').stream;
 var runSequence = require('run-sequence');
 var bowerJsonFile = require('./bower.json');
 
-var debug = require('gulp-debug');
-
 var yeoman = {
   app: bowerJsonFile.appPath || 'app',
   dist: 'dist'

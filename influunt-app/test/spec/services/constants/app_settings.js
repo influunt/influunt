@@ -6,17 +6,17 @@ describe('Service: app_settings', function () {
   beforeEach(module('influuntApp'));
 
   // instantiate service
-  var app_settings;
+  var appSettings;
   beforeEach(inject(function (_APP_SETTINGS_) {
-    app_settings = _APP_SETTINGS_;
+    appSettings = _APP_SETTINGS_;
   }));
 
   it('deve existir um objeto', function () {
-    expect(!!app_settings).toBe(true);
+    expect(!!appSettings).toBe(true);
   });
 
   it('deve possuir um atributo "default_locale"', function() {
-    expect(app_settings.default_locale).toBeDefined();
+    expect(appSettings.default_locale).toBeDefined();
   });
 
 });
