@@ -1,0 +1,8 @@
+.tmp
+bower_components
+node_modules
+coverage
+app/i18n/locales/*
+!app/i18n/locales/.gitkeep
+log
+dist

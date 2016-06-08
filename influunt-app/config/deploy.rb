@@ -1,16 +1,18 @@
 require_relative 'no_git_strategy'
 
+
+require 'pry'
 # config valid only for current version of Capistrano
 lock '3.5.0'
 
-set :application, 'influunt-api'
+set :application, 'influunt-app'
 # set :repo_url, 'git@github.com:influunt/influunt.git'
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 # Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, '/app/influunt-api'
+set :deploy_to, '/app/influunt-app'
 
 # Default value for :scm is :git
 # set :scm, :git
@@ -41,7 +43,7 @@ set :format_options, command_output: true, log_file: 'log/capistrano.log', color
 set :project_release_id, `git log --pretty=format:'%h' -n 1 staging`
 
 # the same path is used local and remote... just to make things simple for who wrote this.
-set :project_tarball_path, Dir.glob('target/universal/influunt-api-*.zip').first
+set :project_tarball_path, 'influunt-app.tar.gz'
 
 set :git_strategy, NoGitStrategy
 
