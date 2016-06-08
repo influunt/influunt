@@ -13,6 +13,11 @@ import org.hibernate.annotations.GenericGenerator;
 
 import framework.BaseEntity;
 
+/**
+ * Entidade que representa o {@link Detector} no sistema
+ * @author lesiopinheiro
+ *
+ */
 @Entity
 public class Detector extends BaseEntity<String> {
 

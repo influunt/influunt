@@ -13,6 +13,11 @@ import org.hibernate.annotations.GenericGenerator;
 
 import framework.BaseEntity;
 
+/**
+ * Entidade que repesenta o {@link Modelo} do {@link Controlador} no sistema
+ * @author lesiopinheiro
+ *
+ */
 @Entity
 public class Modelo extends BaseEntity<String> {
     

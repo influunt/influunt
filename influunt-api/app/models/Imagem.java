@@ -4,6 +4,7 @@ import java.util.Date;
 
 import framework.BaseEntity;
 
+// TODO - Verificar como serao salva as imagens
 public class Imagem extends BaseEntity<String> {
 
     private static final long serialVersionUID = 238472872642410060L;

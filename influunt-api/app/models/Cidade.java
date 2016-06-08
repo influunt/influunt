@@ -14,6 +14,11 @@ import org.hibernate.annotations.GenericGenerator;
 
 import framework.BaseEntity;
 
+/**
+ * Entidade que representa a {@link Cidade} no sistema
+ * @author lesiopinheiro
+ *
+ */
 @Entity
 public class Cidade extends BaseEntity<String> {
     

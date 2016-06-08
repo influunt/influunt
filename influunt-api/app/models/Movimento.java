@@ -14,6 +14,11 @@ import org.hibernate.annotations.GenericGenerator;
 
 import framework.BaseEntity;
 
+/**
+ * Entidade que representa o {@link Movimento} no sistema
+ * @author lesiopinheiro
+ *
+ */
 @Entity
 public class Movimento extends BaseEntity<String> {
 

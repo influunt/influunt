@@ -17,6 +17,12 @@ import org.hibernate.annotations.GenericGenerator;
 
 import framework.BaseEntity;
 
+/**
+ * Entidade que representa o {@link Anel} no sistema
+ * 
+ * @author lesiopinheiro
+ *
+ */
 @Entity
 public class Anel extends BaseEntity<String> {
 
