@@ -10,6 +10,8 @@ var wiredep = require('wiredep').stream;
 var runSequence = require('run-sequence');
 var bowerJsonFile = require('./bower.json');
 
+var debug = require('gulp-debug');
+
 var yeoman = {
   app: bowerJsonFile.appPath || 'app',
   dist: 'dist'
@@ -173,12 +175,12 @@ gulp.task('clean:dist', function(cb) {
   rimraf('./dist', cb);
 });
 
-gulp.task('client:build', ['html', 'styles'], function () {
+gulp.task('client:build', ['bower', 'html', 'styles'], function () {
   var jsFilter = $.filter('**/*.js');
   var cssFilter = $.filter('**/*.css');
 
   return gulp.src(paths.views.main)
-    .pipe($.useref({searchPath: [yeoman.app, '.tmp']}))
+    .pipe($.useref({searchPath: [yeoman.app, yeoman.temp]}))
     .pipe(jsFilter)
     .pipe($.ngAnnotate())
     .pipe($.uglify())
@@ -186,8 +188,6 @@ gulp.task('client:build', ['html', 'styles'], function () {
     .pipe(cssFilter)
     .pipe($.minifyCss({cache: true}))
     .pipe(cssFilter.restore())
-    .pipe($.rev())
-    .pipe($.revReplace())
     .pipe(gulp.dest(yeoman.dist));
 });
 
@@ -207,7 +207,18 @@ gulp.task('images', function () {
 });
 
 gulp.task('copy:extras', function () {
-  return gulp.src(yeoman.app + '/*/.*', {dot: true})
+  // hardcoded copy font-awesome fonts to app.
+  gulp
+    .src(['bower_components/font-awesome/fonts/fontawesome-webfont.*'])
+    .pipe(gulp.dest(yeoman.dist + '/fonts/'));
+
+  // hardcoded copy patterns (images) from inspinea pack.
+  gulp
+    .src(yeoman.app + '/styles/patterns/*.*', {dot: true})
+    .pipe(gulp.dest(yeoman.dist + '/styles/patterns/'));
+
+  return gulp
+    .src(yeoman.app + '/*/.*', {dot: true})
     .pipe(gulp.dest(yeoman.dist));
 });
 
