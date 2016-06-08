@@ -221,6 +221,10 @@ gulp.task('copy:extras', function () {
     .src(yeoman.app + '/styles/patterns/*.*', {dot: true})
     .pipe(gulp.dest(yeoman.dist + '/styles/patterns/'));
 
+  gulp
+    .src(yeoman.app + '/i18n/**/*.*', {dot: true})
+    .pipe(gulp.dest(yeoman.dist + '/i18n/'));
+
   return gulp
     .src(yeoman.app + '/*/.*', {dot: true})
     .pipe(gulp.dest(yeoman.dist));
