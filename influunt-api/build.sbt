@@ -3,7 +3,7 @@ name := """influunt-api"""
 version := "1.0-SNAPSHOT"
 
 lazy val root = (project in file(".")).enablePlugins(PlayJava).dependsOn(swagger)
-lazy val swagger = RootProject(uri("ssh://git@github.com/CreditCardsCom/swagger-play.git"))
+lazy val swagger = RootProject(uri("https://github.com/CreditCardsCom/swagger-play.git"))
 
 scalaVersion := "2.11.7"
 
