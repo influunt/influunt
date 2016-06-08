@@ -1,4 +1,10 @@
 {
+  "login": {
+    "acessar": "Acessar",
+    "esqueceu_sua_senha": "Esqueceu sua senha?",
+    "senha": "Senha",
+    "usuario": "Usuário"
+  },
   "main": {
     "hello_world": "olá mundo - i18n"
   }

@@ -10,16 +10,16 @@
     <p>Login in. To see it in action.</p>
     <form class="m-t" name="loginForm" data-ng-submit="submitLogin(loginForm.$valid)" novalidate>
       <div class="form-group">
-        <input type="text" class="form-control" name="usuario" placeholder="Usuário" data-ng-model="credenciais.usuario" required>
+        <input type="text" class="form-control" name="usuario" placeholder="{{ 'login.usuario' | translate }}" data-ng-model="credenciais.usuario" required>
         <p ng-show="loginForm.usuario.$invalid && !loginForm.usuario.$pristine" class="help-block">Campo obrigatório.</p>
       </div>
       <div class="form-group">
-        <input type="password" class="form-control" name="senha" placeholder="Senha" data-ng-model="credenciais.senha" required>
+        <input type="password" class="form-control" name="senha" placeholder="{{ 'login.senha' | translate }}" data-ng-model="credenciais.senha" required>
         <p ng-show="loginForm.senha.$invalid && !loginForm.senha.$pristine" class="help-block">Campo obrigatório.</p>
       </div>
-      <button type="submit" class="btn btn-primary block full-width m-b" data-ng-click="login()">Acessar</button>
+      <button type="submit" class="btn btn-primary block full-width m-b" data-ng-click="login()">{{ 'login.acessar' | translate }}</button>
 
-      <a data-ng-click="forgotPassword()"><small>Esqueceu sua senha?</small></a>
+      <a data-ng-click="forgotPassword()"><small>{{ 'login.esqueceu_sua_senha' | translate }}</small></a>
       <!-- <p class="text-muted text-center"><small>Do not have an account?</small></p>
       <a class="btn btn-sm btn-white btn-block" ui-sref="register">Create an account</a> -->
     </form>
