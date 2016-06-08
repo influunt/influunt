@@ -48,7 +48,7 @@ set :git_strategy, NoGitStrategy
 # Finally we need a task to create the tarball and upload it,
 namespace :deploy do
   desc 'Create and upload project tarball'
-  task :upload_tarball do |task, args|
+  task :upload_tarball do
     tarball_path = fetch(:project_tarball_path)
 
     on roles(:all) do
