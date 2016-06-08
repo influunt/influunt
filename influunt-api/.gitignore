@@ -22,3 +22,5 @@ server.pid
 /dist/
 .cache*
 project/sbteclipse.sbt
+*.ucls
+app/models/modelo.png
