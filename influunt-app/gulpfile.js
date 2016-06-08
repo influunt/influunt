@@ -33,7 +33,11 @@ var paths = {
     'bower_components/angular-ui-router/release/angular-ui-router.js',
     'bower_components/angular-animate/angular-animate.js',
     'bower_components/angular-touch/angular-touch.js',
-
+    'bower_components/angular-translate/angular-translate.js',
+    'bower_components/messageformat/messageformat.js',
+    'bower_components/angular-translate-interpolation-messageformat/angular-translate-interpolation-messageformat.js',
+    'bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
+    'bower_components/angular-dynamic-locale/src/tmhDynamicLocale.js',
     yeoman.app + '/plugins/metisMenu/jquery.metisMenu.js',
     yeoman.app + '/plugins/ui-bootstrap-tpls-1.1.2.min.js',
     yeoman.app + '/plugins/inspinia.js',
