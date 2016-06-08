@@ -3,3 +3,5 @@ influunt-app/.tmp
 influunt-app/bower_components
 influunt-app/node_modules
 influunt-app/coverage
+influunt-app/app/i18n/locales/*
+!influunt-app/app/i18n/locales/.gitkeep

@@ -16,7 +16,11 @@ angular
     'ui.router',
     'ngSanitize',
     'ngTouch',
-    'ui.bootstrap'
+    'ui.bootstrap',
+
+    // i18n modules.
+    'pascalprecht.translate',
+    'tmh.dynamicLocale'
   ])
   .config(['$stateProvider', '$urlRouterProvider',
     function ($stateProvider, $urlRouterProvider) {
