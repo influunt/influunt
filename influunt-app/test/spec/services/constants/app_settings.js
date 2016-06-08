@@ -15,8 +15,8 @@ describe('Service: app_settings', function () {
     expect(!!appSettings).toBe(true);
   });
 
-  it('deve possuir um atributo "default_locale"', function() {
-    expect(appSettings.default_locale).toBeDefined();
+  it('deve possuir um atributo "defaultLocale"', function() {
+    expect(appSettings.defaultLocale).toBeDefined();
   });
 
 });
