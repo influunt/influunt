@@ -16,6 +16,7 @@ import framework.BaseEntity;
 
 /**
  * Entidade que representa o {@link Movimento} no sistema
+ * 
  * @author lesiopinheiro
  *
  */
@@ -29,21 +30,21 @@ public class Movimento extends BaseEntity<String> {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name = "id", unique = true)
     private String id;
-    
+
     @Column
     private String descricao;
-    
+
     // TODO - verificar como as imagens serao salvas
     @Transient
     private Imagem imagem;
-    
+
     @ManyToOne
     @JoinColumn(name = "anel_id")
     private Anel anel;
-    
+
     @Column
     private Date dataCriacao;
-    
+
     @Column
     private Date dataAtualizacao;
 

@@ -15,12 +15,13 @@ import framework.BaseEntity;
 
 /**
  * Entidade que representa o {@link TipoGrupoSemaforico} no sistema
+ * 
  * @author lesiopinheiro
  *
  */
 @Entity
 public class TipoGrupoSemaforico extends BaseEntity<String> {
-    
+
     private static final long serialVersionUID = -5973761973329033820L;
 
     @Id
@@ -28,16 +29,16 @@ public class TipoGrupoSemaforico extends BaseEntity<String> {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name = "id", unique = true)
     private String id;
-    
+
     @Column
     private String descricao;
-    
+
     @OneToMany(mappedBy = "tipo", orphanRemoval = false)
     private List<GrupoSemaforico> gruposSemaforicos;
-    
+
     @Column
     private Date dataCriacao;
-    
+
     @Column
     private Date dataAtualizacao;
 
@@ -80,6 +81,5 @@ public class TipoGrupoSemaforico extends BaseEntity<String> {
     protected void setDataAtualizacao(Date dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
     }
-
 
 }

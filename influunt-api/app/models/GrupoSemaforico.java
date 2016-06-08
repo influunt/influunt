@@ -17,6 +17,7 @@ import framework.BaseEntity;
 
 /**
  * Entidade que representa o {@link GrupoSemaforico} no sistema
+ * 
  * @author lesiopinheiro
  *
  */
@@ -28,30 +29,30 @@ public class GrupoSemaforico extends BaseEntity<String> {
     @Id
     @GeneratedValue(generator = "hibernate-uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    @Column(name = "id", unique = true)    
+    @Column(name = "id", unique = true)
     private String id;
-    
+
     @ManyToOne
     @JoinColumn(name = "tipo_detector_id")
     private TipoGrupoSemaforico tipo;
-    
+
     @ManyToOne
     @JoinColumn(name = "anel_id")
     private Anel anel;
-    
+
     @ManyToOne
     @JoinColumn(name = "controlador_id")
     private Controlador controlador;
-    
+
     @ManyToOne
     private GrupoSemaforico grupoConflito;
-    
+
     @OneToMany(mappedBy = "grupoConflito")
     private List<GrupoSemaforico> verdesConflitantes;
-    
+
     @Column
     private Date dataCriacao;
-    
+
     @Column
     private Date dataAtualizacao;
 
@@ -118,6 +119,5 @@ public class GrupoSemaforico extends BaseEntity<String> {
     protected void setDataAtualizacao(Date dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
     }
-
 
 }

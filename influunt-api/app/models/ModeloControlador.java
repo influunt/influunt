@@ -14,32 +14,34 @@ import org.hibernate.annotations.GenericGenerator;
 import framework.BaseEntity;
 
 /**
- * Entidade que repesenta o {@link Modelo} do {@link Controlador} no sistema
+ * Entidade que repesenta o {@link ModeloControlador} do {@link Controlador} no
+ * sistema
+ * 
  * @author lesiopinheiro
  *
  */
 @Entity
-public class Modelo extends BaseEntity<String> {
-    
+public class ModeloControlador extends BaseEntity<String> {
+
     private static final long serialVersionUID = -3153929481907380680L;
-    
+
     @Id
     @GeneratedValue(generator = "hibernate-uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name = "id", unique = true)
     private String id;
-    
+
     @ManyToOne
     @JoinColumn(name = "fabricante_id")
     private Fabricante fabricante;
-    
+
     @ManyToOne
     @JoinColumn(name = "configuracao_controlador_id")
     private ConfiguracaoControlador configuracao;
-    
+
     @Column
     private Date dataCriacao;
-    
+
     @Column
     private Date dataAtualizacao;
 
@@ -83,5 +85,4 @@ public class Modelo extends BaseEntity<String> {
         this.dataAtualizacao = dataAtualizacao;
     }
 
-    
 }

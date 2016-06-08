@@ -13,12 +13,13 @@ import framework.BaseEntity;
 
 /**
  * Entidade que representa todas as coordenadas geograficas no sistema.
+ * 
  * @author lesiopinheiro
  *
  */
 @Entity
 public class CoordenadaGeografica extends BaseEntity<String> {
-    
+
     private static final long serialVersionUID = -2938220305527197172L;
 
     @Id
@@ -26,16 +27,16 @@ public class CoordenadaGeografica extends BaseEntity<String> {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name = "id", unique = true)
     private String id;
-    
+
     @Column
     private Double latitude;
-    
+
     @Column
     private Double longitude;
-    
+
     @Column
     private Date dataCriacao;
-    
+
     @Column
     private Date dataAtualizacao;
 
@@ -78,6 +79,5 @@ public class CoordenadaGeografica extends BaseEntity<String> {
     protected void setDataAtualizacao(Date dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
     }
-
 
 }

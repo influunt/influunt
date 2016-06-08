@@ -16,12 +16,13 @@ import framework.BaseEntity;
 
 /**
  * Entidade que representa a {@link Cidade} no sistema
+ * 
  * @author lesiopinheiro
  *
  */
 @Entity
 public class Cidade extends BaseEntity<String> {
-    
+
     private static final long serialVersionUID = 6446144066408570296L;
 
     @Id
@@ -29,16 +30,16 @@ public class Cidade extends BaseEntity<String> {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name = "id", unique = true)
     private String id;
-    
+
     @Column
     private String nome;
-    
+
     @OneToMany(mappedBy = "cidade", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Area> areas;
 
     @Column
     private Date dataCriacao;
-    
+
     @Column
     private Date dataAtualizacao;
 
@@ -85,5 +86,5 @@ public class Cidade extends BaseEntity<String> {
     public static long getSerialversionuid() {
         return serialVersionUID;
     }
-    
+
 }

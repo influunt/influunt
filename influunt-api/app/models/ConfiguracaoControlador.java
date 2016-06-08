@@ -13,12 +13,13 @@ import framework.BaseEntity;
 
 /**
  * Entidade que represnta as configurações dos controladores no sistema
+ * 
  * @author lesiopinheiro
  *
  */
 @Entity
 public class ConfiguracaoControlador extends BaseEntity<String> {
-    
+
     private static final long serialVersionUID = -4628897272277523020L;
 
     @Id
@@ -26,25 +27,25 @@ public class ConfiguracaoControlador extends BaseEntity<String> {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name = "id", unique = true)
     private String id;
-    
+
     @Column
     private Integer limiteEstagio = 16;
-    
+
     @Column
     private Integer limiteGrupoSemaforico = 16;
-    
+
     @Column
     private Integer limiteAnel = 4;
-    
+
     @Column
     private Integer limiteDetectorPedestre = 4;
-    
+
     @Column
     private Integer limiteDetectorVeicular = 8;
-    
+
     @Column
     private Date dataCriacao;
-    
+
     @Column
     private Date dataAtualizacao;
 

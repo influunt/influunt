@@ -33,36 +33,36 @@ public class Anel extends BaseEntity<String> {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name = "id", unique = true)
     private String id;
-    
+
     @Column
     private String descricao;
-    
+
     @Column
     private String idAnel;
-    
+
     @Column
     private String numeroSMEE;
-    
+
     @OneToOne
     @JoinColumn(name = "coordenada_id")
     private CoordenadaGeografica coordenada;
-    
+
     @ManyToOne
     @JoinColumn(name = "controlador_id")
     private Controlador controlador;
-    
+
     @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Detector> detectores;
-    
+
     @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<GrupoSemaforico> gruposSemaforicos;
-    
+
     @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Movimento> movimentos;
-    
+
     @Column
     private Date dataCriacao;
-    
+
     @Column
     private Date dataAtualizacao;
 
@@ -153,5 +153,5 @@ public class Anel extends BaseEntity<String> {
     protected void setDataAtualizacao(Date dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
     }
-    
+
 }

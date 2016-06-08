@@ -18,36 +18,37 @@ import framework.BaseEntity;
 
 /**
  * Entidade que representa a {@link Aera} no sistema
+ * 
  * @author lesiopinheiro
  *
  */
 @Entity
 public class Area extends BaseEntity<String> {
-    
+
     private static final long serialVersionUID = 3282755453785165923L;
-    
+
     @Id
     @GeneratedValue(generator = "hibernate-uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name = "id", unique = true)
     private String id;
-    
+
     @Column
     private String descricao;
-    
+
     @OneToOne
     @JoinColumn(name = "cidade_id")
     private Cidade cidade;
-    
+
     @OneToMany(mappedBy = "area", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CoordenadaGeografica> coordenadas;
-    
+
     @OneToMany(mappedBy = "area", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Controlador> controladores;
-    
+
     @Column
     private Date dataCriacao;
-    
+
     @Column
     private Date dataAtualizacao;
 

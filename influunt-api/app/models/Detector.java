@@ -15,6 +15,7 @@ import framework.BaseEntity;
 
 /**
  * Entidade que representa o {@link Detector} no sistema
+ * 
  * @author lesiopinheiro
  *
  */
@@ -28,18 +29,18 @@ public class Detector extends BaseEntity<String> {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name = "id", unique = true)
     private String id;
-    
+
     @ManyToOne
     @JoinColumn(name = "tipo_detector_id")
     private TipoDetector tipo;
-    
+
     @ManyToOne
     @JoinColumn(name = "anel_id")
     private Anel anel;
-    
+
     @Column
     private Date dataCriacao;
-    
+
     @Column
     private Date dataAtualizacao;
 

@@ -15,12 +15,13 @@ import framework.BaseEntity;
 
 /**
  * Entidade que representa o {@link TipoDetector} no sistema
+ * 
  * @author lesiopinheiro
  *
  */
 @Entity
 public class TipoDetector extends BaseEntity<String> {
-    
+
     private static final long serialVersionUID = -5589722928829006871L;
 
     @Id
@@ -28,16 +29,16 @@ public class TipoDetector extends BaseEntity<String> {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name = "id", unique = true)
     private String id;
-    
+
     @Column
     private String descricao;
-    
+
     @OneToMany(mappedBy = "tipo", orphanRemoval = false)
     private List<Detector> detectores;
-    
+
     @Column
     private Date dataCriacao;
-    
+
     @Column
     private Date dataAtualizacao;
 
@@ -84,5 +85,5 @@ public class TipoDetector extends BaseEntity<String> {
     public static long getSerialversionuid() {
         return serialVersionUID;
     }
-    
+
 }

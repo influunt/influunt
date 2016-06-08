@@ -18,6 +18,7 @@ import framework.BaseEntity;
 
 /**
  * Entidade que representa o {@link Controlador} no sistema
+ * 
  * @author lesiopinheiro
  *
  */
@@ -37,26 +38,26 @@ public class Controlador extends BaseEntity<String> {
 
     @Column
     private String numeroSMEE;
-    
+
     @Column
     private String idControlador;
-    
+
     @Column
     private String numeroSMEEConjugado1;
-    
+
     @Column
     private String numeroSMEEConjugado2;
-    
+
     @Column
     private String numeroSMEEConjugado3;
-    
+
     @Column
     private String firmware;
-    
+
     @OneToOne
     @JoinColumn(name = "coordenada_id")
     private CoordenadaGeografica coordenada;
-    private Modelo modelo;
+    private ModeloControlador modelo;
 
     @OneToOne
     @JoinColumn(name = "area_id")
@@ -146,11 +147,11 @@ public class Controlador extends BaseEntity<String> {
         this.coordenada = coordenada;
     }
 
-    public Modelo getModelo() {
+    public ModeloControlador getModelo() {
         return modelo;
     }
 
-    public void setModelo(Modelo modelo) {
+    public void setModelo(ModeloControlador modelo) {
         this.modelo = modelo;
     }
 
@@ -197,5 +198,5 @@ public class Controlador extends BaseEntity<String> {
     public static long getSerialversionuid() {
         return serialVersionUID;
     }
-    
+
 }

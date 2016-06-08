@@ -16,12 +16,13 @@ import framework.BaseEntity;
 
 /**
  * Entidade que representa o {@link Fabricante} no sistema
+ * 
  * @author lesiopinheiro
  *
  */
 @Entity
 public class Fabricante extends BaseEntity<String> {
-    
+
     private static final long serialVersionUID = 7365610316754360728L;
 
     @Id
@@ -29,16 +30,16 @@ public class Fabricante extends BaseEntity<String> {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name = "id", unique = true)
     private String id;
-    
+
     @Column
     private String nome;
-    
+
     @OneToMany(mappedBy = "fabricante", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Modelo> modelos;
-    
+    private List<ModeloControlador> modelos;
+
     @Column
     private Date dataCriacao;
-    
+
     @Column
     private Date dataAtualizacao;
 
@@ -58,11 +59,11 @@ public class Fabricante extends BaseEntity<String> {
         this.nome = nome;
     }
 
-    public List<Modelo> getModelos() {
+    public List<ModeloControlador> getModelos() {
         return modelos;
     }
 
-    public void setModelos(List<Modelo> modelos) {
+    public void setModelos(List<ModeloControlador> modelos) {
         this.modelos = modelos;
     }
 
@@ -85,5 +86,5 @@ public class Fabricante extends BaseEntity<String> {
     public static long getSerialversionuid() {
         return serialVersionUID;
     }
-    
+
 }
