@@ -31,7 +31,11 @@ var paths = {
     'bower_components/angular-ui-router/release/angular-ui-router.js',
     'bower_components/angular-animate/angular-animate.js',
     'bower_components/angular-touch/angular-touch.js',
-
+    'bower_components/angular-translate/angular-translate.js',
+    'bower_components/messageformat/messageformat.js',
+    'bower_components/angular-translate-interpolation-messageformat/angular-translate-interpolation-messageformat.js',
+    'bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
+    'bower_components/angular-dynamic-locale/src/tmhDynamicLocale.js',
     yeoman.app + '/plugins/metisMenu/jquery.metisMenu.js',
     yeoman.app + '/plugins/ui-bootstrap-tpls-1.1.2.min.js',
     yeoman.app + '/plugins/inspinia.js',
@@ -173,12 +177,12 @@ gulp.task('clean:dist', function(cb) {
   rimraf('./dist', cb);
 });
 
-gulp.task('client:build', ['html', 'styles'], function () {
+gulp.task('client:build', ['bower', 'html', 'styles'], function () {
   var jsFilter = $.filter('**/*.js');
   var cssFilter = $.filter('**/*.css');
 
   return gulp.src(paths.views.main)
-    .pipe($.useref({searchPath: [yeoman.app, '.tmp']}))
+    .pipe($.useref({searchPath: [yeoman.app, yeoman.temp]}))
     .pipe(jsFilter)
     .pipe($.ngAnnotate())
     .pipe($.uglify())
@@ -186,8 +190,6 @@ gulp.task('client:build', ['html', 'styles'], function () {
     .pipe(cssFilter)
     .pipe($.minifyCss({cache: true}))
     .pipe(cssFilter.restore())
-    .pipe($.rev())
-    .pipe($.revReplace())
     .pipe(gulp.dest(yeoman.dist));
 });
 
@@ -207,7 +209,22 @@ gulp.task('images', function () {
 });
 
 gulp.task('copy:extras', function () {
-  return gulp.src(yeoman.app + '/*/.*', {dot: true})
+  // hardcoded copy font-awesome fonts to app.
+  gulp
+    .src(['bower_components/font-awesome/fonts/fontawesome-webfont.*'])
+    .pipe(gulp.dest(yeoman.dist + '/fonts/'));
+
+  // hardcoded copy patterns (images) from inspinea pack.
+  gulp
+    .src(yeoman.app + '/styles/patterns/*.*', {dot: true})
+    .pipe(gulp.dest(yeoman.dist + '/styles/patterns/'));
+
+  gulp
+    .src(yeoman.app + '/i18n/**/*.*', {dot: true})
+    .pipe(gulp.dest(yeoman.dist + '/i18n/'));
+
+  return gulp
+    .src(yeoman.app + '/*/.*', {dot: true})
     .pipe(gulp.dest(yeoman.dist));
 });
 
