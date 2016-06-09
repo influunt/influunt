@@ -18,3 +18,6 @@ GET     /lib/*file              controllers.Assets.at(path="/public/swagger/lib/
 
 
 POST    /api/v1/login               controllers.SecurityController.login
+
+# Cidades
+POST    /api/v1/cidades         controllers.CidadesController.create()

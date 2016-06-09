@@ -14,8 +14,8 @@ libraryDependencies ++= Seq(
   javaJpa,
   evolutions,  
   "org.hibernate" % "hibernate-entitymanager" % "5.1.0.Final",
-  "be.objectify" %% "deadbolt-java" % "2.5.0" ,
-  "io.swagger" %% "swagger-play2" % "1.5.2-SNAPSHOT"
+  "io.swagger" %% "swagger-play2" % "1.5.2-SNAPSHOT",
+  "be.objectify" %% "deadbolt-java" % "2.5.0" 
 )
 
 EclipseKeys.projectFlavor := EclipseProjectFlavor.Java           
