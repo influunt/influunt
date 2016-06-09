@@ -28,8 +28,8 @@ public class Area extends BaseEntity<String> {
     private static final long serialVersionUID = 3282755453785165923L;
 
     @Id
-    @GeneratedValue(generator = "hibernate-uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(name = "id", unique = true)
     private String id;
 
@@ -40,10 +40,10 @@ public class Area extends BaseEntity<String> {
     @JoinColumn(name = "cidade_id")
     private Cidade cidade;
 
-    @OneToMany(mappedBy = "area", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CoordenadaGeografica> coordenadas;
 
-    @OneToMany(mappedBy = "area", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Controlador> controladores;
 
     @Column
