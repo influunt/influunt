@@ -18,6 +18,9 @@ angular
     'ngTouch',
     'ui.bootstrap',
 
+    // template cache engine.
+    'templates',
+
     // i18n modules.
     'pascalprecht.translate',
     'tmh.dynamicLocale'

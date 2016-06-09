@@ -1,4 +1,7 @@
 {
+  "geral": {
+    "campo_obrigatorio": "Campo Obrigatório"
+  },
   "login": {
     "acessar": "Acessar",
     "esqueceu_sua_senha": "Esqueceu sua senha?",

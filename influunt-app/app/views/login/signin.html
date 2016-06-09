@@ -9,15 +9,15 @@
     </p>
     <p>Login in. To see it in action.</p>
     <form class="m-t" name="loginForm" data-ng-submit="submitLogin(loginForm.$valid)" novalidate>
-      <div class="form-group">
+      <div class="form-group login usuario" data-ng-class="{'has-error': loginForm.usuario.$invalid && (!loginForm.usuario.$pristine || submited)}">
         <input type="text" class="form-control" name="usuario" placeholder="{{ 'login.usuario' | translate }}" data-ng-model="credenciais.usuario" required>
-        <p ng-show="loginForm.usuario.$invalid && !loginForm.usuario.$pristine" class="help-block">Campo obrigatório.</p>
+        <p ng-show="loginForm.usuario.$invalid && (!loginForm.usuario.$pristine || submited)" class="help-block">{{ 'geral.campo_obrigatorio' | translate }}</p>
       </div>
-      <div class="form-group">
+      <div class="form-group login senha" data-ng-class="{'has-error': loginForm.senha.$invalid && (!loginForm.senha.$pristine || submited)}">
         <input type="password" class="form-control" name="senha" placeholder="{{ 'login.senha' | translate }}" data-ng-model="credenciais.senha" required>
-        <p ng-show="loginForm.senha.$invalid && !loginForm.senha.$pristine" class="help-block">Campo obrigatório.</p>
+        <p ng-show="loginForm.senha.$invalid && (!loginForm.senha.$pristine || submited)" class="help-block">{{ 'geral.campo_obrigatorio' | translate }}</p>
       </div>
-      <button type="submit" class="btn btn-primary block full-width m-b" data-ng-click="login()">{{ 'login.acessar' | translate }}</button>
+      <button type="submit" class="btn btn-primary block full-width m-b" id="acessar" >{{ 'login.acessar' | translate }}</button>
 
       <a data-ng-click="forgotPassword()"><small>{{ 'login.esqueceu_sua_senha' | translate }}</small></a>
       <!-- <p class="text-muted text-center"><small>Do not have an account?</small></p>

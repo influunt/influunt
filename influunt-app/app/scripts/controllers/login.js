@@ -11,4 +11,11 @@ angular.module('influuntApp')
   .controller('LoginCtrl', ['$scope', function LoginCtrl ($scope) {
     $scope.credenciais = {};
 
+    $scope.submitLogin = function(formValido) {
+      $scope.submited = true;
+      if (!formValido) {
+        return false;
+      }
+    };
+
   }]);

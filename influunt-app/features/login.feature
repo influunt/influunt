@@ -1,5 +1,4 @@
 # language: pt
-
 Funcionalidade: Usuário fazendo login
   Como um usuário não logado
   Com o objetivo de entrar no sistema Influunt
