@@ -12,6 +12,8 @@ var bowerJsonFile = require('./bower.json');
 
 var angularTemplateCache = require('gulp-angular-templatecache');
 var concat = require('gulp-concat');
+var childProcess = require('child_process');
+var exec = childProcess.exec;
 
 var yeoman = {
   app: bowerJsonFile.appPath || 'app',
@@ -45,6 +47,9 @@ var paths = {
     // yeoman.app + '/i18n/**/*.js'
     // 'test/mock/**/*.js'
   ],
+  cucumberFeatures: ['features/**/*.feature'],
+  cucumberStepDefinitions: ['features/step_definitions/**/*.steps.js'],
+  cucumberSupportScripts: ['features/support/**/*.js'],
   // karma: 'karma.conf.js',
   karma: 'test/karma.conf.js',
   views: {
@@ -70,6 +75,20 @@ var templateCache = function() {
     .pipe($.connect.reload());
 };
 
+/**
+ * Runs cucumber task for a specific file (if there's a .feature file passed as paramter) or for all .feature files.
+ *
+ * @param      {Object}  file    The file.
+ */
+var runCucumber = function(file) {
+  var features = file && file.path && !!file.path.match(/\.feature$/) ? file.path : 'features/';
+
+  exec('node node_modules/cucumber/bin/cucumber.js ' + features + ' -f pretty -t ~@ignore',
+    function(err, stdout, stderr) {
+      console.log(stdout);
+      console.log(stderr);
+    });
+};
 
 var lintScripts = lazypipe()
   .pipe($.jshint, '.jshintrc')
@@ -147,6 +166,14 @@ gulp.task('watch', function () {
     .pipe($.plumber())
     .pipe(lintScripts());
 
+  $.watch(paths.cucumberStepDefinitions)
+    .pipe($.plumber())
+    .pipe(lintScripts());
+
+    $.watch(paths.cucumberSupportScripts)
+    .pipe($.plumber())
+    .pipe(lintScripts());
+
   gulp.watch(paths.views.files, ['templates'])
   gulp.watch('bower.json', ['bower']);
 });
@@ -169,6 +196,12 @@ gulp.task('serve:prod', function() {
 
 gulp.task('test', ['start:server:test'], function() {
   var testToFiles = paths.testRequire.concat(paths.scripts, paths.test);
+  var cucumberFiles = paths.cucumberFeatures.concat(paths.cucumberStepDefinitions);
+
+  gulp.watch(cucumberFiles)
+    .on('change', function(file) {
+      runCucumber(file);
+    });
 
   return gulp.src(testToFiles)
     .pipe($.karma({
@@ -176,6 +209,8 @@ gulp.task('test', ['start:server:test'], function() {
       action: 'watch'
     }));
 });
+
+gulp.task('test:cucumber', runCucumber);
 
 // inject bower components
 gulp.task('bower', function () {

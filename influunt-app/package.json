@@ -2,6 +2,8 @@
   "name": "influunt",
   "private": true,
   "devDependencies": {
+    "chai": "^3.5.0",
+    "chromedriver": "^2.21.2",
     "cucumber": "^1.0.0",
     "gulp": "^3.9.0",
     "gulp-angular-templatecache": "^1.8.0",
@@ -40,6 +42,7 @@
     "phantomjs": "^2.1.7",
     "rimraf": "^2.4.0",
     "run-sequence": "^1.1.1",
+    "selenium-webdriver": "^2.53.2",
     "wiredep": "^2.2.2"
   },
   "scripts": {
