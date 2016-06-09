@@ -3,7 +3,6 @@ package services;
 import java.io.Serializable;
 
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 import framework.BaseEntity;
 import play.db.jpa.JPAApi;
@@ -24,9 +23,9 @@ public abstract class CrudService<T extends BaseEntity<ID>, ID extends Serializa
 //        return jpaApi.em().save(entities);
 //    }
 //
-//    public T findOne(ID id) {
-//        return jpaApi.em().findOne(id);
-//    }
+    public T findOne(ID id) {
+        return (T) jpaApi.em().find(BaseEntity.class, id);
+    }
 //
 //    public boolean exists(ID id) {
 //        return jpaApi.em().exists(id);

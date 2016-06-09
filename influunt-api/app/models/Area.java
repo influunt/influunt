@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -24,6 +25,7 @@ import framework.BaseEntity;
  *
  */
 @Entity
+@Table(name = "areas")
 public class Area extends BaseEntity<String> {
 
     private static final long serialVersionUID = 3282755453785165923L;

@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -21,6 +22,7 @@ import framework.BaseEntity;
  *
  */
 @Entity
+@Table(name = "movimentos")
 public class Movimento extends BaseEntity<String> {
 
     private static final long serialVersionUID = 5984122994022835262L;

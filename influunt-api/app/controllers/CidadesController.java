@@ -47,5 +47,17 @@ public class CidadesController extends Controller {
         }
 
     }
+    
+    
+    public CompletionStage<Result> findOne() {
+        JsonNode json = request().body().asJson();
+        
+        if (json == null) {
+            return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
+        } else {
+            return CompletableFuture.completedFuture(ok(Json.toJson(cidadeService.findOne("1"))));
+        }
+
+    }
 
 }

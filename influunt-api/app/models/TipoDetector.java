@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -20,6 +21,7 @@ import framework.BaseEntity;
  *
  */
 @Entity
+@Table(name = "tipos_detectores")
 public class TipoDetector extends BaseEntity<String> {
 
     private static final long serialVersionUID = -5589722928829006871L;
