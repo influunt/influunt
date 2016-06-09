@@ -13,7 +13,7 @@ angular
   .config(['$stateProvider', '$urlRouterProvider',
     function ($stateProvider, $urlRouterProvider) {
 
-      $urlRouterProvider.otherwise('/index/main');
+      $urlRouterProvider.otherwise('/app/main');
 
       $stateProvider
         .state('login', {
@@ -22,6 +22,20 @@ angular
           controller: 'LoginCtrl',
           controllerAs: 'login'
         })
+        .state('app', {
+          abstract: true,
+          url: '/app',
+          templateUrl: 'views/common/content_top_navigation.html',
+          controller: 'MainCtrl',
+          controllerAs: 'main'
+        })
+        .state('app.main', {
+          url: '/main',
+          templateUrl: 'views/main.html',
+          data: {pageTitle: 'Example view'}
+        })
+
+        // Rotas de teste. Podem ser removidas em breve.
         .state('index', {
           abstract: true,
           url: '/index',
