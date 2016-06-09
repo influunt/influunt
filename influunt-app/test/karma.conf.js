@@ -37,8 +37,8 @@ module.exports = function(config) {
       'app/plugins/ui-bootstrap-tpls-1.1.2.min.js',
       'app/plugins/inspinia.js',
       'test/mock/**/*.js',
-      'app/scripts/**/*.js'
-      // 'test/spec/**/*.js',
+      'app/scripts/**/*.js',
+      'test/spec/**/*.js'
       // 'app/i18n/**/*.js'
     ],
 
