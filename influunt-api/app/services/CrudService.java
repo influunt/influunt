@@ -1,58 +1,76 @@
 package services;
 
 import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
+import java.util.Date;
+
+import javax.persistence.EntityManager;
 
 import com.google.inject.Inject;
 
+import exceptions.EntityNotFound;
 import framework.BaseEntity;
 import play.db.jpa.JPAApi;
 
 public abstract class CrudService<T extends BaseEntity<ID>, ID extends Serializable> {
-    
+
     @Inject
     private JPAApi jpaApi;
-    
+
     public <S extends T> S save(S entity) {
+        entity.setDataAtualizacao(new Date());
         jpaApi.withTransaction(() -> {
-            jpaApi.em().persist(entity);
+            if (entity.getId() == null) {
+                entity.setDataCriacao(new Date());
+                jpaApi.em().persist(entity);
+            } else {
+                jpaApi.em().merge(entity);
+            }
         });
         return entity;
     }
-//
-//    public <S extends T> Iterable<S> save(Iterable<S> entities) {
-//        return jpaApi.em().save(entities);
-//    }
-//
-    public T findOne(ID id) {
-        return (T) jpaApi.em().find(BaseEntity.class, id);
+
+    public <S extends T> S update(S entity, ID id) {
+        jpaApi.withTransaction(() -> {
+            entity.setDataAtualizacao(new Date());
+            entity.setId(id);
+            jpaApi.em().merge(entity);
+        });
+        return entity;
     }
-//
-//    public boolean exists(ID id) {
-//        return jpaApi.em().exists(id);
-//    }
-//
-//    public Iterable<T> findAll(Sort sort) {
-//        return jpaApi.em().findAll(sort);
-//    }
-//
-//    public Page<T> findAll(Pageable pageable) {
-//        return jpaApi.em().findAll(pageable);
-//    }
-//
-//    public long count() {
-//        return jpaApi.em().count();
-//    }
-//
-//    public void delete(ID id) {
-//        jpaApi.em().delete(id);
-//    }
-//
-//    public void delete(T entity) {
-//        jpaApi.em().delete(entity);
-//    }
-//
-//    public void delete(Iterable<? extends T> entities) {
-//        jpaApi.em().delete(entities);
-//    }
+
+    @SuppressWarnings("unchecked")
+    public T findOne(ID id) {
+        return (T) jpaApi.withTransaction(() -> {
+            return (T) jpaApi.em().find(getGenericType(), id);
+        });
+    }
+
+    @SuppressWarnings("unchecked")
+    public Iterable<T> findAll() {
+        return jpaApi.withTransaction(() -> {
+            return jpaApi.em().createQuery("Select t from " + getGenericType().getSimpleName() + " t").getResultList();
+        });
+    }
+
+    public void delete(ID id) throws EntityNotFound {
+        boolean deleted = jpaApi.withTransaction(() -> {
+            T entity = findOne(id);
+            if (entity != null) {
+                EntityManager em = jpaApi.em();
+                em.remove(em.contains(entity) ? entity : em.merge(entity));
+//                jpaApi.em().remove(entity);
+                return true;
+            }
+            return false;
+        });
+        if (!deleted) {
+            throw new EntityNotFound(getGenericType().getSimpleName() + " não encontrado.");
+        }
+    }
+
+    private Class getGenericType() {
+        return ((Class) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0]);
+    }
 
 }

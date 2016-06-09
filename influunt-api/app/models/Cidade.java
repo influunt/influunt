@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -36,7 +37,7 @@ public class Cidade extends BaseEntity<String> {
     @Column
     private String nome;
 
-    @OneToMany(mappedBy = "cidade", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "cidade", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<Area> areas;
 
     @Column

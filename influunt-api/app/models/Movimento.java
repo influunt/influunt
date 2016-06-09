@@ -94,7 +94,7 @@ public class Movimento extends BaseEntity<String> {
         return dataAtualizacao;
     }
 
-    protected void setDataAtualizacao(Date dataAtualizacao) {
+    public void setDataAtualizacao(Date dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
     }
 
