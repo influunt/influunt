@@ -26,8 +26,8 @@ public class ModeloControlador extends BaseEntity<String> {
     private static final long serialVersionUID = -3153929481907380680L;
 
     @Id
-    @GeneratedValue(generator = "hibernate-uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(name = "id", unique = true)
     private String id;
 

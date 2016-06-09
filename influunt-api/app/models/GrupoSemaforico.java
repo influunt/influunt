@@ -27,8 +27,8 @@ public class GrupoSemaforico extends BaseEntity<String> {
     private static final long serialVersionUID = 7439393568357903233L;
 
     @Id
-    @GeneratedValue(generator = "hibernate-uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(name = "id", unique = true)
     private String id;
 

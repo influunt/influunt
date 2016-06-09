@@ -7,6 +7,13 @@
 
 
 # An example controller showing a sample home page
+
+
+POST    /api/v1/login               controllers.SecurityController.login
+
+GET     /api/v1/cidades				controllers.CidadesController.index
+
+#Swagger
 GET     /swagger.json           controllers.ApiHelpController.getResources
 GET     /                       controllers.Assets.at(path="/public/swagger", file="index.html")
 GET     /*file                  controllers.Assets.at(path="/public/swagger/", file)
@@ -15,6 +22,3 @@ GET     /fonts/*file            controllers.Assets.at(path="/public/swagger/font
 GET     /images/*file           controllers.Assets.at(path="/public/swagger/images/", file)
 GET     /lang/*file             controllers.Assets.at(path="/public/swagger/lang/", file)
 GET     /lib/*file              controllers.Assets.at(path="/public/swagger/lib/", file)
-
-
-POST    /api/v1/login               controllers.SecurityController.login
