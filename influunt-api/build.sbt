@@ -24,6 +24,7 @@ EclipseKeys.createSrc := EclipseCreateSrc.ValueSet(EclipseCreateSrc.ManagedClass
 EclipseKeys.preTasks := Seq(compile in Compile)
 EclipseKeys.skipProject in swagger := true
 jacoco.settings
+parallelExecution in jacoco.Config := false
 jacoco.reportFormats in jacoco.Config := Seq(
   de.johoop.jacoco4sbt.XMLReport(encoding = "utf-8"))
 

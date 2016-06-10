@@ -38,6 +38,7 @@ public class CidadesControllerTest extends WithApplication {
         return getApplication(inMemoryDatabase("default", options));
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     private Application getApplication(Map configuration) {
         return new GuiceApplicationBuilder().configure(configuration)
                 .overrides(bind(Authenticator.class).to(TestAuthenticator.class)).in(Mode.TEST).build();
