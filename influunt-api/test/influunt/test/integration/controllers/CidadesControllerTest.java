@@ -3,24 +3,24 @@ package influunt.test.integration.controllers;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static play.inject.Bindings.bind;
 import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.route;
 
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.inject.Inject;
 
 import controllers.routes;
 import models.Cidade;
 import play.Application;
 import play.Mode;
-import play.inject.Injector;
 import play.inject.guice.GuiceApplicationBuilder;
-import play.inject.guice.GuiceInjectorBuilder;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -28,13 +28,9 @@ import play.test.Helpers;
 import play.test.WithApplication;
 import security.Authenticator;
 import services.CidadeCrudService;
-import services.CrudService;
 
 public class CidadesControllerTest extends WithApplication {
 
-//    @Inject
-//    CidadeCrudService cidadeService;
-    
     @Override
     protected Application provideApplication() {
         return getApplication(inMemoryDatabase());
@@ -49,64 +45,99 @@ public class CidadesControllerTest extends WithApplication {
     public void testCriarNovaCidade() {
         Cidade cidade = new Cidade();
         cidade.setNome("Teste");
-        
+
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
                 .uri(routes.CidadesController.create().url()).bodyJson(Json.toJson(cidade));
         Result postResult = route(postRequest);
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
         Cidade cidadeRetornada = Json.fromJson(json, Cidade.class);
+        
+        assertEquals(200, postResult.status());
         assertEquals("Teste", cidadeRetornada.getNome());
         assertNotNull(cidadeRetornada.getId());
     }
 
     @Test
-    public void testAtualizarCidade() {
+    public void testAtualizarCidadeExistente() {
+        CidadeCrudService cidadeService = app.injector().instanceOf(CidadeCrudService.class);
         Cidade cidade = new Cidade();
         cidade.setNome("Teste");
+        cidadeService.save(cidade);
+
+        String cidadeId = cidade.getId();
+        cidade.setNome("Teste atualizar");
         
-        // TODO Verificar com injetar o CidadeCrudService para criar a cidade ao invés de fazer a requisição.
-        Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.CidadesController.create().url()).bodyJson(Json.toJson(cidade));
-        Result postResult = route(postRequest);
-        JsonNode json = Json.parse(Helpers.contentAsString(postResult));
-        Cidade cidadeRetornada = Json.fromJson(json, Cidade.class);
-        assertEquals("Teste", cidadeRetornada.getNome());
-        assertNotNull(cidadeRetornada.getId());
-        
-        cidadeRetornada.setNome("Teste Atualizada");
         Http.RequestBuilder putRequest = new Http.RequestBuilder().method("PUT")
-                .uri(routes.CidadesController.update(cidadeRetornada.getId()).url()).bodyJson(Json.toJson(cidadeRetornada));
+                .uri(routes.CidadesController.update(cidadeId).url())
+                .bodyJson(Json.toJson(cidade));
         Result putResult = route(putRequest);
-        json = Json.parse(Helpers.contentAsString(putResult));
-        cidadeRetornada = Json.fromJson(json, Cidade.class);
-        assertEquals("Teste Atualizada", cidadeRetornada.getNome());
+        JsonNode json = Json.parse(Helpers.contentAsString(putResult));
+        Cidade cidadeRetornada = Json.fromJson(json, Cidade.class);
+        
+        assertEquals(200, putResult.status());
+        assertEquals("Teste atualizar", cidadeRetornada.getNome());
         assertNotNull(cidadeRetornada.getId());
     }
     
     @Test
-    public void testApagarCidade() {
+    public void testAtualizarCidadeNaoExistente() {
         Cidade cidade = new Cidade();
         cidade.setNome("Teste");
         
-        // TODO Verificar com injetar o CidadeCrudService para criar a cidade ao in vés de fazer a requisição.
-        Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.CidadesController.create().url()).bodyJson(Json.toJson(cidade));
-        Result postResult = route(postRequest);
-        JsonNode json = Json.parse(Helpers.contentAsString(postResult));
-        Cidade cidadeRetornada = Json.fromJson(json, Cidade.class);
-        assertEquals("Teste", cidadeRetornada.getNome());
-        assertNotNull(cidadeRetornada.getId());
-        
-        String cidadeId = cidadeRetornada.getId();
-        
-        Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.CidadesController.delete(cidadeId).url()).bodyJson(Json.toJson(cidade));
-        route(deleteRequest);
-     
+        Http.RequestBuilder putRequest = new Http.RequestBuilder().method("PUT")
+                .uri(routes.CidadesController.update("1234").url())
+                .bodyJson(Json.toJson(cidade));
+        Result putResult = route(putRequest);
+        assertEquals(404, putResult.status());
+    }
+
+    @Test
+    public void testApagarCidadeExistente() {
         CidadeCrudService cidadeService = app.injector().instanceOf(CidadeCrudService.class);
-        
+        Cidade cidade = new Cidade();
+        cidade.setNome("Teste");
+        cidadeService.save(cidade);
+        String cidadeId = cidade.getId();
+
+        Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
+                .uri(routes.CidadesController.delete(cidadeId).url());
+        Result result = route(deleteRequest);
+           
+        assertEquals(200, result.status());
         cidade = cidadeService.findOne(cidadeId);
         assertNull(cidade);
+    }
+    
+    @Test
+    public void testApagarCidadeNaoExistente() {
+        Cidade cidade = new Cidade();
+        cidade.setNome("Teste");
+
+        Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
+                .uri(routes.CidadesController.delete("1234").url());
+        Result result = route(deleteRequest);
+        assertEquals(404, result.status());
+    }
+    
+    @Test
+    public void testListarCidades() {
+        CidadeCrudService cidadeService = app.injector().instanceOf(CidadeCrudService.class);
+        
+        Cidade cidade = new Cidade();
+        cidade.setNome("Cidade 1");
+        cidadeService.save(cidade);
+        cidade.setNome("Cidade 2");
+        cidade.setId(null);
+        cidadeService.save(cidade);
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
+                .uri(routes.CidadesController.findAll().url());
+        Result result = route(request);
+        JsonNode json = Json.parse(Helpers.contentAsString(result));
+        List<Cidade> cidades = Json.fromJson(json, List.class);  
+        
+        assertEquals(200, result.status());
+        assertEquals(2, cidades.size());
     }
 
 }

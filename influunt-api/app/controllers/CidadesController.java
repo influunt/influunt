@@ -69,8 +69,8 @@ public class CidadesController extends Controller {
     @ApiOperation(value = "Deletar uma cidade", httpMethod = "DELETE", authorizations = {
             @Authorization(value = "basic", scopes = {}) })
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Cidade apagada com sucesso"),
-            @ApiResponse(code = 401, message = "Não autorizado") })
-    @ApiResponse(code = 404, message = "A cidade não foi encontrada")
+            @ApiResponse(code = 401, message = "Não autorizado"),
+            @ApiResponse(code = 404, message = "A cidade não foi encontrada") })
     public CompletionStage<Result> delete(String id) {
         try {
             cidadeService.delete(id);
@@ -91,8 +91,13 @@ public class CidadesController extends Controller {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         } else {
             Cidade cidade = Json.fromJson(json, Cidade.class);
-            cidadeService.update(cidade, id);
-            return CompletableFuture.completedFuture(ok(Json.toJson(cidade)));
+            if (cidade.getId() != null) {
+                cidadeService.update(cidade, id);
+                return CompletableFuture.completedFuture(ok(Json.toJson(cidade)));
+            }
+            else {
+                return CompletableFuture.completedFuture(notFound());
+            }
         }
     }
 
