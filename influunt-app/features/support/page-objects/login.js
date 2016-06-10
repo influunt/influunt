@@ -1,7 +1,8 @@
+'use strict';
+
 var worldObj = require('../world');
 
 var world = new worldObj.World();
-var driver = worldObj.getDriver();
 
 var LoginPage = function LoginPage() {
   var LOGIN_URL = 'http://localhost:9000/#/login';

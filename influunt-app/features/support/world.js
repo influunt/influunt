@@ -50,7 +50,7 @@ var World = function World() {
   };
 
   this.setValue = function(selector, value) {
-    return driver.findElement(selector).sendKeys(value)
+    return driver.findElement(selector).sendKeys(value);
   };
 
   this.clickButton = function(selector) {
@@ -60,7 +60,6 @@ var World = function World() {
   this.getElements = function(selector) {
     return driver.findElements(selector);
   };
-
 };
 
 switch(platform) {
