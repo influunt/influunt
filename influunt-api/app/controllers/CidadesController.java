@@ -9,6 +9,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import exceptions.EntityNotFound;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -21,7 +23,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import services.CidadeCrudService;
 
-@Api(value = "/api/cidades")
+@Api(tags = { "Cidade" })
 public class CidadesController extends Controller {
 
     @Inject
@@ -29,8 +31,10 @@ public class CidadesController extends Controller {
 
     @ApiOperation(value = "Criar uma nova cidade", httpMethod = "POST", authorizations = {
             @Authorization(value = "basic", scopes = {}) })
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "cidade", dataType = "models.Cidade", required = true, paramType = "body", value = "Cidade") })
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "A cidade foi criada ", response = Usuario.class, responseHeaders = @ResponseHeader(name = "authToken", description = "Cookie com o token de sessão", response = String.class)),
+            @ApiResponse(code = 200, message = "Cidade criada com sucesso", response = Cidade.class, responseHeaders = @ResponseHeader(name = "authToken", description = "Cookie com o token de sessão", response = String.class)),
             @ApiResponse(code = 401, message = "Não autorizado") })
     public CompletionStage<Result> create() {
         JsonNode json = request().body().asJson();
@@ -44,6 +48,8 @@ public class CidadesController extends Controller {
         }
     }
 
+    @ApiOperation(value = "Buscar dados de uma cidade", httpMethod = "GET", authorizations = {
+            @Authorization(value = "basic", scopes = {}) })
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "A cidade foi retornada com sucesso", response = Cidade.class, responseHeaders = @ResponseHeader(name = "authToken", description = "Cookie com o token de sessão", response = String.class)),
             @ApiResponse(code = 401, message = "Não autorizado"),
@@ -82,6 +88,8 @@ public class CidadesController extends Controller {
 
     @ApiOperation(value = "Atualizar os dados de uma cidade", httpMethod = "PUT", authorizations = {
             @Authorization(value = "basic", scopes = {}) })
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "cidade", dataType = "models.Cidade", required = true, paramType = "body", value = "Cidade") })
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "A cidade foi atualizada ", response = Usuario.class, responseHeaders = @ResponseHeader(name = "authToken", description = "Cookie com o token de sessão", response = String.class)),
             @ApiResponse(code = 401, message = "Não autorizado") })
@@ -94,8 +102,7 @@ public class CidadesController extends Controller {
             if (cidade.getId() != null) {
                 cidadeService.update(cidade, id);
                 return CompletableFuture.completedFuture(ok(Json.toJson(cidade)));
-            }
-            else {
+            } else {
                 return CompletableFuture.completedFuture(notFound());
             }
         }
