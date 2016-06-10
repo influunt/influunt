@@ -34,6 +34,7 @@ public class CidadesControllerTest extends WithApplication {
     protected Application provideApplication() {
         Map<String, String> options = new HashMap<String, String>();
         options.put("DATABASE_TO_UPPER", "FALSE");
+        options.put("DB_CLOSE_DELAY", "-1");
         return getApplication(inMemoryDatabase("default", options));
     }
 
