@@ -39,10 +39,12 @@ module.exports = function(config) {
       'test/mock/**/*.js',
       'app/scripts/**/*.js',
       'test/spec/**/*.js'
+      // 'app/i18n/**/*.js'
     ],
 
     // list of files / patterns to exclude
     exclude: [
+      'app/scripts/services/initializers/translations.js'
     ],
 
     // web server port

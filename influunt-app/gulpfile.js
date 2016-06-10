@@ -10,6 +10,11 @@ var wiredep = require('wiredep').stream;
 var runSequence = require('run-sequence');
 var bowerJsonFile = require('./bower.json');
 
+var angularTemplateCache = require('gulp-angular-templatecache');
+var concat = require('gulp-concat');
+var childProcess = require('child_process');
+var exec = childProcess.exec;
+
 var yeoman = {
   app: bowerJsonFile.appPath || 'app',
   dist: 'dist'
@@ -38,10 +43,13 @@ var paths = {
     'bower_components/angular-dynamic-locale/src/tmhDynamicLocale.js',
     yeoman.app + '/plugins/metisMenu/jquery.metisMenu.js',
     yeoman.app + '/plugins/ui-bootstrap-tpls-1.1.2.min.js',
-    yeoman.app + '/plugins/inspinia.js',
-
-    'test/mock/**/*.js'
+    yeoman.app + '/plugins/inspinia.js'
+    // yeoman.app + '/i18n/**/*.js'
+    // 'test/mock/**/*.js'
   ],
+  cucumberFeatures: ['features/**/*.feature'],
+  cucumberStepDefinitions: ['features/step_definitions/**/*.steps.js'],
+  cucumberSupportScripts: ['features/support/**/*.js'],
   // karma: 'karma.conf.js',
   karma: 'test/karma.conf.js',
   views: {
@@ -53,6 +61,34 @@ var paths = {
 // //////////////////////
 // Reusable pipelines //
 // //////////////////////
+
+var templateCache = function() {
+  var TEMPLATE_HEADER = 'angular.module("<%= module %>"<%= standalone %>).run(["$templateCache", function($templateCache) {';
+  var useStrictTemplate = '\'use strict\';'
+  return gulp.src(paths.views.files)
+    .pipe(angularTemplateCache({
+      root: 'views', standalone: true,
+      templateHeader: useStrictTemplate + '\n\n' + TEMPLATE_HEADER
+    }))
+    .pipe(concat('templates.js'))
+    .pipe(gulp.dest('app/scripts'))
+    .pipe($.connect.reload());
+};
+
+/**
+ * Runs cucumber task for a specific file (if there's a .feature file passed as paramter) or for all .feature files.
+ *
+ * @param      {Object}  file    The file.
+ */
+var runCucumber = function(file) {
+  var features = file && file.path && !!file.path.match(/\.feature$/) ? file.path : 'features/';
+
+  exec('node node_modules/cucumber/bin/cucumber.js ' + features + ' -f pretty -t ~@ignore',
+    function(err, stdout, stderr) {
+      console.log(stdout);
+      console.log(stderr);
+    });
+};
 
 var lintScripts = lazypipe()
   .pipe($.jshint, '.jshintrc')
@@ -69,6 +105,10 @@ var styles = lazypipe()
 // /////////
 // Tasks //
 // /////////
+
+gulp.task('templates', function() {
+  return templateCache();
+});
 
 gulp.task('styles', function () {
   return gulp.src(paths.styles)
@@ -117,10 +157,6 @@ gulp.task('watch', function () {
     .pipe(styles())
     .pipe($.connect.reload());
 
-  $.watch(paths.views.files)
-    .pipe($.plumber())
-    .pipe($.connect.reload());
-
   $.watch(paths.scripts)
     .pipe($.plumber())
     .pipe(lintScripts())
@@ -130,6 +166,15 @@ gulp.task('watch', function () {
     .pipe($.plumber())
     .pipe(lintScripts());
 
+  $.watch(paths.cucumberStepDefinitions)
+    .pipe($.plumber())
+    .pipe(lintScripts());
+
+    $.watch(paths.cucumberSupportScripts)
+    .pipe($.plumber())
+    .pipe(lintScripts());
+
+  gulp.watch(paths.views.files, ['templates'])
   gulp.watch('bower.json', ['bower']);
 });
 
@@ -137,6 +182,7 @@ gulp.task('serve', function(cb) {
   runSequence('clean:tmp',
     ['lint:scripts'],
     ['start:client'],
+    ['templates'],
     'watch', cb);
 });
 
@@ -150,6 +196,12 @@ gulp.task('serve:prod', function() {
 
 gulp.task('test', ['start:server:test'], function() {
   var testToFiles = paths.testRequire.concat(paths.scripts, paths.test);
+  var cucumberFiles = paths.cucumberFeatures.concat(paths.cucumberStepDefinitions);
+
+  gulp.watch(cucumberFiles)
+    .on('change', function(file) {
+      runCucumber(file);
+    });
 
   return gulp.src(testToFiles)
     .pipe($.karma({
@@ -157,6 +209,8 @@ gulp.task('test', ['start:server:test'], function() {
       action: 'watch'
     }));
 });
+
+gulp.task('test:cucumber', runCucumber);
 
 // inject bower components
 gulp.task('bower', function () {
@@ -234,7 +288,7 @@ gulp.task('copy:fonts', function () {
 });
 
 gulp.task('build', ['clean:dist'], function () {
-  runSequence(['images', 'copy:extras', 'copy:fonts', 'client:build']);
+  runSequence(['images', 'copy:extras', 'copy:fonts', 'client:build', 'templates']);
 });
 
 gulp.task('default', ['build']);

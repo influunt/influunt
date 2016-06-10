@@ -2,9 +2,14 @@
   "name": "influunt",
   "private": true,
   "devDependencies": {
+    "chai": "^3.5.0",
+    "chromedriver": "^2.21.2",
+    "cucumber": "^1.0.0",
     "gulp": "^3.9.0",
+    "gulp-angular-templatecache": "^1.8.0",
     "gulp-autoprefixer": "2.3.1",
     "gulp-cache": "^0.2.10",
+    "gulp-concat": "^2.6.0",
     "gulp-connect": "^2.2.0",
     "gulp-debug": "^2.1.2",
     "gulp-filter": "^2.0.2",
@@ -37,6 +42,7 @@
     "phantomjs": "^2.1.7",
     "rimraf": "^2.4.0",
     "run-sequence": "^1.1.1",
+    "selenium-webdriver": "^2.53.2",
     "wiredep": "^2.2.2"
   },
   "scripts": {
