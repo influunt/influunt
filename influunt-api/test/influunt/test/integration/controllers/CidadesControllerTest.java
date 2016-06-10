@@ -3,15 +3,14 @@ package influunt.test.integration.controllers;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 import static play.inject.Bindings.bind;
 import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.route;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -33,7 +32,9 @@ public class CidadesControllerTest extends WithApplication {
 
     @Override
     protected Application provideApplication() {
-        return getApplication(inMemoryDatabase());
+        Map<String, String> options = new HashMap<String, String>();
+        options.put("DATABASE_TO_UPPER", "FALSE");
+        return getApplication(inMemoryDatabase("default", options));
     }
 
     private Application getApplication(Map configuration) {
