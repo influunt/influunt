@@ -40,6 +40,27 @@ var World = function World() {
       return driver.isElementPresent({ css: cssLocator });
     }, waitTimeout);
   };
+
+  this.visit = function(url) {
+    return driver.get(url);
+  };
+
+  this.getCurrentUrl = function() {
+    return driver.getCurrentUrl();
+  };
+
+  this.setValue = function(selector, value) {
+    return driver.findElement(selector).sendKeys(value)
+  };
+
+  this.clickButton = function(selector) {
+    return driver.findElement(selector).sendKeys(webdriver.Key.ENTER);
+  };
+
+  this.getElements = function(selector) {
+    return driver.findElements(selector);
+  };
+
 };
 
 switch(platform) {

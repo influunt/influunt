@@ -4,7 +4,7 @@ Funcionalidade: Usuário fazendo login
   Com o objetivo de entrar no sistema Influunt
   O usuário deve informar login e senha para conseguir acesso ao sistema.
 
-  Cenário: Tentavia de acesso com senha não informada
+  Cenário: Tentativa de acesso com senha não informada
     # Dado que o usuário não esteja logado
     Quando o usuário acessa a tela de login
     E informa somente o nome "João" no campo usuário
