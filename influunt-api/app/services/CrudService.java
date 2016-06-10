@@ -59,7 +59,6 @@ public abstract class CrudService<T extends BaseEntity<ID>, ID extends Serializa
             if (entity != null) {
                 EntityManager em = jpaApi.em();
                 em.remove(em.contains(entity) ? entity : em.merge(entity));
-//                jpaApi.em().remove(entity);
                 return true;
             }
             return false;

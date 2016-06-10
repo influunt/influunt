@@ -99,12 +99,11 @@ public class CidadesController extends Controller {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         } else {
             Cidade cidade = Json.fromJson(json, Cidade.class);
-            if (cidade.getId() != null) {
-                cidadeService.update(cidade, id);
-                return CompletableFuture.completedFuture(ok(Json.toJson(cidade)));
-            } else {
+            if (cidade.getId() == null) {
                 return CompletableFuture.completedFuture(notFound());
             }
+            cidadeService.update(cidade, id);
+            return CompletableFuture.completedFuture(ok(Json.toJson(cidade)));
         }
     }
 
