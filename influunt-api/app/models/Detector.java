@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -20,13 +21,14 @@ import framework.BaseEntity;
  *
  */
 @Entity
+@Table(name = "detectores")
 public class Detector extends BaseEntity<String> {
 
     private static final long serialVersionUID = 3752412658492551927L;
 
     @Id
-    @GeneratedValue(generator = "hibernate-uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(name = "id", unique = true)
     private String id;
 
@@ -80,7 +82,7 @@ public class Detector extends BaseEntity<String> {
         return dataAtualizacao;
     }
 
-    protected void setDataAtualizacao(Date dataAtualizacao) {
+    public void setDataAtualizacao(Date dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
     }
 
