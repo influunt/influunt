@@ -43,8 +43,7 @@ public class Area extends BaseEntity<String> {
     @JoinColumn(name = "cidade_id")
     private Cidade cidade;
 
-    @Transient
-    //@OneToMany(mappedBy = "area", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CoordenadaGeografica> coordenadas;
 
     @OneToMany(mappedBy = "area", cascade = CascadeType.ALL, orphanRemoval = true)
