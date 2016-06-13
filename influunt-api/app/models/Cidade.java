@@ -90,4 +90,12 @@ public class Cidade extends BaseEntity<String> {
         return serialVersionUID;
     }
 
+    @Override
+    public String toString() {
+        return "Cidade [id=" + id + ", nome=" + nome + ", areas=" + areas + ", dataCriacao=" + dataCriacao
+                + ", dataAtualizacao=" + dataAtualizacao + "]";
+    }
+    
+    
+
 }

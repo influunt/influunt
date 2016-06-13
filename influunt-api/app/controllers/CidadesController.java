@@ -41,11 +41,10 @@ public class CidadesController extends Controller {
 
         if (json == null) {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
-        } else {
-            Cidade cidade = Json.fromJson(json, Cidade.class);
-            cidadeService.save(cidade);
-            return CompletableFuture.completedFuture(ok(Json.toJson(cidade)));
         }
+        Cidade cidade = Json.fromJson(json, Cidade.class);
+        cidadeService.save(cidade);
+        return CompletableFuture.completedFuture(ok(Json.toJson(cidade)));
     }
 
     @ApiOperation(value = "Buscar dados de uma cidade", httpMethod = "GET", authorizations = {
@@ -97,14 +96,13 @@ public class CidadesController extends Controller {
         JsonNode json = request().body().asJson();
         if (json == null) {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
-        } else {
-            Cidade cidade = Json.fromJson(json, Cidade.class);
-            if (cidade.getId() == null) {
-                return CompletableFuture.completedFuture(notFound());
-            }
-            cidadeService.update(cidade, id);
-            return CompletableFuture.completedFuture(ok(Json.toJson(cidade)));
         }
+        Cidade cidade = Json.fromJson(json, Cidade.class);
+        cidade = cidadeService.update(cidade, id);
+        if (cidade == null) {
+            return CompletableFuture.completedFuture(notFound());
+        }
+        return CompletableFuture.completedFuture(ok(Json.toJson(cidade)));
     }
 
 }

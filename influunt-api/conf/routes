@@ -4,12 +4,18 @@
 
 
 # Cidades
-GET         /api/v1/cidades/:id         controllers.CidadesController.findOne(id)
+GET         /api/v1/cidades             controllers.CidadesController.findAll()
+POST        /api/v1/cidades             controllers.CidadesController.create()
 PUT         /api/v1/cidades/:id         controllers.CidadesController.update(id)
-POST        /api/v1/cidades         controllers.CidadesController.create()
-GET         /api/v1/cidades         controllers.CidadesController.findAll()
-DELETE      /api/v1/cidades         controllers.CidadesController.delete(id)
+GET         /api/v1/cidades/:id         controllers.CidadesController.findOne(id)
+DELETE      /api/v1/cidades/:id         controllers.CidadesController.delete(id)
 
+# Tipos de Detectores
+GET         /api/v1/tipos_detectores             controllers.TiposDetectoresController.findAll()
+POST        /api/v1/tipos_detectores             controllers.TiposDetectoresController.create()
+PUT         /api/v1/tipos_detectores/:id         controllers.TiposDetectoresController.update(id)
+GET         /api/v1/tipos_detectores/:id         controllers.TiposDetectoresController.findOne(id)
+DELETE      /api/v1/tipos_detectores/:id         controllers.TiposDetectoresController.delete(id)
 
 
 # An example controller showing a sample home page
