@@ -64,7 +64,7 @@ var paths = {
 
 var templateCache = function() {
   var TEMPLATE_HEADER = 'angular.module("<%= module %>"<%= standalone %>).run(["$templateCache", function($templateCache) {';
-  var useStrictTemplate = '\'use strict\';'
+  var useStrictTemplate = '\'use strict\';';
   return gulp.src(paths.views.files)
     .pipe(angularTemplateCache({
       root: 'views', standalone: true,
@@ -174,7 +174,7 @@ gulp.task('watch', function () {
     .pipe($.plumber())
     .pipe(lintScripts());
 
-  gulp.watch(paths.views.files, ['templates'])
+  gulp.watch(paths.views.files, ['templates']);
   gulp.watch('bower.json', ['bower']);
 });
 
