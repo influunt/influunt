@@ -16,7 +16,6 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import controllers.routes;
-import models.Area;
 import models.Cidade;
 import play.Application;
 import play.Mode;
@@ -27,7 +26,6 @@ import play.mvc.Result;
 import play.test.Helpers;
 import play.test.WithApplication;
 import security.Authenticator;
-import services.AreaCrudService;
 import services.CidadeCrudService;
 
 public class CidadesControllerTest extends WithApplication {
@@ -125,6 +123,7 @@ public class CidadesControllerTest extends WithApplication {
     }
     
     @Test
+    @SuppressWarnings("unchecked")
     public void testListarCidades() {
         CidadeCrudService cidadeService = app.injector().instanceOf(CidadeCrudService.class);
         

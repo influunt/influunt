@@ -15,7 +15,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.Authorization;
-import models.Cidade;
 import models.TipoDetector;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -96,7 +95,7 @@ public class TiposDetectoresController extends Controller {
             @Authorization(value = "basic", scopes = {}) })
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Tipo de detector apagado com sucesso"),
             @ApiResponse(code = 401, message = "Não autorizado"),
-            @ApiResponse(code = 404, message = "A cidade não foi encontrada") })
+            @ApiResponse(code = 404, message = "O tipo de detector não foi encontrado") })
     public CompletionStage<Result> delete(String id) {
         try {
             tipoDetectorService.delete(id);
