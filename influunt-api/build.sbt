@@ -14,8 +14,9 @@ libraryDependencies ++= Seq(
   javaJpa,
   evolutions,  
   "org.hibernate" % "hibernate-entitymanager" % "5.1.0.Final",
-  "be.objectify" %% "deadbolt-java" % "2.5.0" ,
-  "io.swagger" %% "swagger-play2" % "1.5.2-SNAPSHOT"
+  "io.swagger" %% "swagger-play2" % "1.5.2-SNAPSHOT",
+  "be.objectify" %% "deadbolt-java" % "2.5.0", 
+  "mysql" % "mysql-connector-java" % "5.1.36"
 )
 
 EclipseKeys.projectFlavor := EclipseProjectFlavor.Java           
@@ -23,5 +24,11 @@ EclipseKeys.createSrc := EclipseCreateSrc.ValueSet(EclipseCreateSrc.ManagedClass
 EclipseKeys.preTasks := Seq(compile in Compile)
 EclipseKeys.skipProject in swagger := true
 jacoco.settings
+parallelExecution in jacoco.Config := false
 jacoco.reportFormats in jacoco.Config := Seq(
   de.johoop.jacoco4sbt.XMLReport(encoding = "utf-8"))
+
+  
+fork in run := false
+
+fork in Test := false

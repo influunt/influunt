@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -22,13 +23,14 @@ import framework.BaseEntity;
  *
  */
 @Entity
+@Table(name = "grupos_semaforicos")
 public class GrupoSemaforico extends BaseEntity<String> {
 
     private static final long serialVersionUID = 7439393568357903233L;
 
     @Id
-    @GeneratedValue(generator = "hibernate-uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(name = "id", unique = true)
     private String id;
 
@@ -116,7 +118,7 @@ public class GrupoSemaforico extends BaseEntity<String> {
         return dataAtualizacao;
     }
 
-    protected void setDataAtualizacao(Date dataAtualizacao) {
+    public void setDataAtualizacao(Date dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
     }
 

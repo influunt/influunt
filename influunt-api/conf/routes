@@ -3,18 +3,24 @@
 # ~~~~
 
 
+# Cidades
+GET         /api/v1/cidades/:id         controllers.CidadesController.findOne(id)
+PUT         /api/v1/cidades/:id         controllers.CidadesController.update(id)
+POST        /api/v1/cidades         controllers.CidadesController.create()
+GET         /api/v1/cidades         controllers.CidadesController.findAll()
+DELETE      /api/v1/cidades         controllers.CidadesController.delete(id)
 
 
 
 # An example controller showing a sample home page
 GET     /swagger.json           controllers.ApiHelpController.getResources
 GET     /                       controllers.Assets.at(path="/public/swagger", file="index.html")
-GET     /*file                  controllers.Assets.at(path="/public/swagger/", file)
 GET     /css/*file              controllers.Assets.at(path="/public/swagger/css/", file)
 GET     /fonts/*file            controllers.Assets.at(path="/public/swagger/fonts/", file)
 GET     /images/*file           controllers.Assets.at(path="/public/swagger/images/", file)
 GET     /lang/*file             controllers.Assets.at(path="/public/swagger/lang/", file)
 GET     /lib/*file              controllers.Assets.at(path="/public/swagger/lib/", file)
+GET     /*file                  controllers.Assets.at(path="/public/swagger/", file)
 
 
 POST    /api/v1/login               controllers.SecurityController.login

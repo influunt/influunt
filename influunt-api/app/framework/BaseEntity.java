@@ -19,6 +19,10 @@ public abstract class BaseEntity<T> implements IBaseEntity<T>, Serializable {
 
     public abstract Date getDataAtualizacao();
 
+    public abstract void setDataCriacao(Date dataCiacao);
+
+    public abstract void setDataAtualizacao(Date dataCiacao);
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null || !this.getClass().isInstance(obj)) {
