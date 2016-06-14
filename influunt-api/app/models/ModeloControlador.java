@@ -17,9 +17,8 @@ import framework.BaseEntity;
 /**
  * Entidade que repesenta o {@link ModeloControlador} do {@link Controlador} no
  * sistema
- * 
- * @author lesiopinheiro
  *
+ * @author lesiopinheiro
  */
 @Entity
 @Table(name = "modelo_controladores")
@@ -46,6 +45,10 @@ public class ModeloControlador extends BaseEntity<String> {
 
     @Column
     private Date dataAtualizacao;
+
+    @Column
+    private String descricao;
+
 
     public String getId() {
         return id;
@@ -85,6 +88,14 @@ public class ModeloControlador extends BaseEntity<String> {
 
     public void setDataAtualizacao(Date dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
 }

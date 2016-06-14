@@ -1,5 +1,6 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +17,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 import framework.BaseEntity;
+import play.data.validation.Constraints;
+import play.data.validation.ValidationError;
 
 /**
  * Entidade que representa o {@link Controlador} no sistema
@@ -36,12 +39,16 @@ public class Controlador extends BaseEntity<String> {
     private String id;
 
     @Column
+    @Constraints.Required
+    @Constraints.MaxLength(value = 256)
     private String descricao;
 
     @Column
+    @Constraints.Required
     private String numeroSMEE;
 
     @Column
+    @Constraints.Required
     private String idControlador;
 
     @Column
@@ -54,15 +61,20 @@ public class Controlador extends BaseEntity<String> {
     private String numeroSMEEConjugado3;
 
     @Column
+    @Constraints.Required
     private String firmware;
 
     @OneToOne
     @JoinColumn(name = "coordenada_id")
+    @Constraints.Required
     private CoordenadaGeografica coordenada;
+
+    @Constraints.Required
     private ModeloControlador modelo;
 
     @OneToOne
     @JoinColumn(name = "area_id")
+    @Constraints.Required
     private Area area;
 
     @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -77,128 +89,157 @@ public class Controlador extends BaseEntity<String> {
     @Column
     private Date dataAtualizacao;
 
+    public List<ValidationError> validate() {
+	List<ValidationError> errors = new ArrayList<ValidationError>();
+	if(this.modelo != null){
+	    ConfiguracaoControlador conf = this.modelo.getConfiguracao();
+	    if(this.aneis == null){
+		errors.add(new ValidationError("aneis", "Nenhum anel foi preenchido"));
+	    }else{
+		if(this.aneis.size()  < 1){
+		    errors.add(new ValidationError("aneis", "No mínimo 1 anel precisa ser ativado"));    
+		}else if(this.aneis.size() > conf.getLimiteAnel()){
+		    errors.add(new ValidationError("aneis", "Este modelo de controlador permite no máximo " + conf.getLimiteAnel() + " anéis"));
+		}
+	    }
+	    if(this.gruposSemaforicos == null){
+		errors.add(new ValidationError("gruposSemaforicos", "Nenhum grupo semáforico foi preenchido"));
+	    }else{
+		if(this.gruposSemaforicos.size()  < 1){
+		    errors.add(new ValidationError("gruposSemaforicos", "No mínimo 1 grupo semáforico precisa ser preenchido"));    
+		}else if(this.gruposSemaforicos.size() > conf.getLimiteGrupoSemaforico()){
+		    errors.add(new ValidationError("aneis", "Este modelo de controlador permite no máximo " + conf.getLimiteGrupoSemaforico() + " grupos semafóricos"));
+		}
+	    }
+
+
+	}
+	return errors.isEmpty() ? null : errors;
+    }
+
     public String getId() {
-        return id;
+	return id;
     }
 
     public void setId(String id) {
-        this.id = id;
+	this.id = id;
     }
 
     public String getDescricao() {
-        return descricao;
+	return descricao;
     }
 
     public void setDescricao(String descricao) {
-        this.descricao = descricao;
+	this.descricao = descricao;
     }
 
     public String getNumeroSMEE() {
-        return numeroSMEE;
+	return numeroSMEE;
     }
 
     public void setNumeroSMEE(String numeroSMEE) {
-        this.numeroSMEE = numeroSMEE;
+	this.numeroSMEE = numeroSMEE;
     }
 
     public String getIdControlador() {
-        return idControlador;
+	return idControlador;
     }
 
     public void setIdControlador(String idControlador) {
-        this.idControlador = idControlador;
+	this.idControlador = idControlador;
     }
 
     public String getNumeroSMEEConjugado1() {
-        return numeroSMEEConjugado1;
+	return numeroSMEEConjugado1;
     }
 
     public void setNumeroSMEEConjugado1(String numeroSMEEConjugado1) {
-        this.numeroSMEEConjugado1 = numeroSMEEConjugado1;
+	this.numeroSMEEConjugado1 = numeroSMEEConjugado1;
     }
 
     public String getNumeroSMEEConjugado2() {
-        return numeroSMEEConjugado2;
+	return numeroSMEEConjugado2;
     }
 
     public void setNumeroSMEEConjugado2(String numeroSMEEConjugado2) {
-        this.numeroSMEEConjugado2 = numeroSMEEConjugado2;
+	this.numeroSMEEConjugado2 = numeroSMEEConjugado2;
     }
 
     public String getNumeroSMEEConjugado3() {
-        return numeroSMEEConjugado3;
+	return numeroSMEEConjugado3;
     }
 
     public void setNumeroSMEEConjugado3(String numeroSMEEConjugado3) {
-        this.numeroSMEEConjugado3 = numeroSMEEConjugado3;
+	this.numeroSMEEConjugado3 = numeroSMEEConjugado3;
     }
 
     public String getFirmware() {
-        return firmware;
+	return firmware;
     }
 
     public void setFirmware(String firmware) {
-        this.firmware = firmware;
+	this.firmware = firmware;
     }
 
     public CoordenadaGeografica getCoordenada() {
-        return coordenada;
+	return coordenada;
     }
 
     public void setCoordenada(CoordenadaGeografica coordenada) {
-        this.coordenada = coordenada;
+	this.coordenada = coordenada;
     }
 
     public ModeloControlador getModelo() {
-        return modelo;
+	return modelo;
     }
 
     public void setModelo(ModeloControlador modelo) {
-        this.modelo = modelo;
+	this.modelo = modelo;
     }
 
     public Area getArea() {
-        return area;
+	return area;
     }
 
     public void setArea(Area area) {
-        this.area = area;
+	this.area = area;
     }
 
     public List<Anel> getAneis() {
-        return aneis;
+	return aneis;
     }
 
     public void setAneis(List<Anel> aneis) {
-        this.aneis = aneis;
+	this.aneis = aneis;
     }
 
     public List<GrupoSemaforico> getGruposSemaforicos() {
-        return gruposSemaforicos;
+	return gruposSemaforicos;
     }
 
     public void setGruposSemaforicos(List<GrupoSemaforico> gruposSemaforicos) {
-        this.gruposSemaforicos = gruposSemaforicos;
+	this.gruposSemaforicos = gruposSemaforicos;
     }
 
     public Date getDataCriacao() {
-        return dataCriacao;
+	return dataCriacao;
     }
 
     public void setDataCriacao(Date dataCriacao) {
-        this.dataCriacao = dataCriacao;
+	this.dataCriacao = dataCriacao;
     }
 
     public Date getDataAtualizacao() {
-        return dataAtualizacao;
+	return dataAtualizacao;
     }
 
     public void setDataAtualizacao(Date dataAtualizacao) {
-        this.dataAtualizacao = dataAtualizacao;
+	this.dataAtualizacao = dataAtualizacao;
     }
 
     public static long getSerialversionuid() {
-        return serialVersionUID;
+	return serialVersionUID;
     }
+
 
 }
