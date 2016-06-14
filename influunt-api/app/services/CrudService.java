@@ -23,8 +23,7 @@ public abstract class CrudService<T extends BaseEntity<ID>, ID extends Serializa
         entity.setDataAtualizacao(new Date());
         jpaApi.withTransaction(() -> {
             if (entity.getId() == null) {
-                entity.setDataCriacao(new Date());
-                //entity.setDataAtualizacao(new Date());
+                entity.setDataCriacao(entity.getDataAtualizacao());
                 jpaApi.em().persist(entity);
             } else {
                 jpaApi.em().merge(entity);
