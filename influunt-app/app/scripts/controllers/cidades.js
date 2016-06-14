@@ -84,7 +84,7 @@ angular.module('influuntApp')
             closeOnConfirm: true,
             closeOnCancel: true
           }, function (confirmado) {
-            return confirmado && Restangular.all('cidades').remove({id: id})
+            return confirmado && Restangular.one('cidades', id).remove()
               .then(function() {
                 toast.success($filter('translate')('geral.mensagens.salvo_com_sucesso'));
                 return $scope.index();
