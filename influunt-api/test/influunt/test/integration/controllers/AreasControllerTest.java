@@ -112,7 +112,7 @@ public class AreasControllerTest extends WithApplication {
     }
     
     @Test
-    public void testApagarCidadeNaoExistente() {
+    public void testApagarAreaNaoExistente() {
         Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
                 .uri(routes.AreasController.delete("1234").url());
         Result result = route(deleteRequest);
@@ -127,7 +127,7 @@ public class AreasControllerTest extends WithApplication {
         Area area = new Area();
         area.setDescricao("CTA 1");
         areaService.save(area);
-        area.setDescricao("Cidade 2");
+        area.setDescricao("CTA 2");
         area.setId(null);
         areaService.save(area);
 
