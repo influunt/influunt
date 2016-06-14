@@ -9,15 +9,12 @@
         <div class="navbar-collapse collapse" id="navbar">
             <ul class="nav navbar-nav">
                 <li uib-dropdown>
-                    <a href uib-dropdown-toggle> Menu item <span class="caret"></span></a>
+                    <a href uib-dropdown-toggle> {{ 'menu.cadastros' | translate }} <span class="caret"></span></a>
                     <ul role="menu" uib-dropdown-menu>
-                        <li><a href="#">Menu item</a></li>
-                        <li><a href="#">Menu item</a></li>
-                        <li><a href="#">Menu item</a></li>
-                        <li><a href="#">Menu item</a></li>
+                        <li><a ui-sref="app.cidades">{{ 'cidades.titulo' | translate }}</a></li>
                     </ul>
                 </li>
-                <li uib-dropdown>
+                <!-- <li uib-dropdown>
                     <a href uib-dropdown-toggle> Menu item <span class="caret"></span></a>
                     <ul role="menu" uib-dropdown-menu>
                         <li><a href="#">Menu item</a></li>
@@ -44,7 +41,7 @@
                         <li><a href="#">Menu item</a></li>
                     </ul>
                 </li>
-
+ -->
 
 
             </ul>

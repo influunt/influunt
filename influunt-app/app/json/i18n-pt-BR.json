@@ -1,17 +1,15 @@
 {
   "appname": "Influunt",
+  "cidades": {
+    "areas": "ÁREAS",
+    "nome": "NOME",
+    "novo": "Nova Cidade",
+    "titulo": "Cidades"
+  },
   "geral": {
-    "mensagens": {
-      "sim": "Sim",
-      "nao": "Não",
-      "cancelar": "Cancelar",
-      "salvo_com_sucesso": "Salvo com sucesso",
-      "removido_com_sucesso": "Removido com sucesso",
-      "default_erro": "Ocorreu um erro. Tente novamente mais tarde.",
-      "popup_delete": {
-        "titulo": "Confirma?",
-        "mensagem": "quer mesmo apagar esta cidade?"
-      }
+    "auditoria": {
+      "dataAtualizacao": "Data de Atualização",
+      "dataCriacao": "Data de Criação"
     },
     "crud": {
       "editar": "Editar",
@@ -22,12 +20,20 @@
       "visualizar": "Visualizar",
       "voltar": "Voltar"
     },
-    "auditoria": {
-      "dataCriacao": "Data de Criação",
-      "dataAtualizacao": "Data de Atualização"
-    },
     "campo_obrigatorio": "Campo Obrigatório",
     "dashboard": "Dashboard",
+    "mensagens": {
+      "cancelar": "Cancelar",
+      "default_erro": "Ocorreu um erro. Tente novamente mais tarde.",
+      "nao": "Não",
+      "popup_delete": {
+        "mensagem": "quer mesmo apagar esta cidade?",
+        "titulo": "Confirma?"
+      },
+      "removido_com_sucesso": "Removido com sucesso",
+      "salvo_com_sucesso": "Salvo com sucesso",
+      "sim": "Sim"
+    },
     "titulo_padrao": "Título não definido."
   },
   "login": {
@@ -36,14 +42,11 @@
     "senha": "Senha",
     "usuario": "Usuário"
   },
-  "cidades": {
-    "areas": "ÁREAS",
-    "novo": "Nova Cidade",
-    "titulo": "Cidades",
-    "nome": "NOME"
-  },
   "main": {
-    "hello_world": "olá mundo - i18n"
+    "hello_world": "Dashboard"
+  },
+  "menu": {
+    "cadastros": "CADASTROS"
   },
   "plugins": {
     "datatables_cdn": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json"
