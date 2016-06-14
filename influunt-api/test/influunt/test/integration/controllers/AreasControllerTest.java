@@ -68,9 +68,6 @@ public class AreasControllerTest extends WithApplication {
         
         String areaId = area.getId();
         
-        play.Logger.info("TESTE UPDATE AREA ID: " + areaId);
-        play.Logger.info("BOOLEAN: " + area.isTransient());
-        
         area.setDescricao("Area atualizada");
         
         Http.RequestBuilder putRequest = new Http.RequestBuilder().method("PUT")
@@ -138,10 +135,10 @@ public class AreasControllerTest extends WithApplication {
                 .uri(routes.AreasController.findAll().url());
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
-        List<Area> cidades = Json.fromJson(json, List.class);  
+        List<Area> areas = Json.fromJson(json, List.class);  
         
         assertEquals(200, result.status());
-        assertEquals(2, cidades.size());
+        assertEquals(2, areas.size());
     }
     
 }
