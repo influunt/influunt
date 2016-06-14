@@ -2,9 +2,16 @@
   "appname": "Influunt",
   "geral": {
     "mensagens": {
+      "sim": "Sim",
+      "nao": "Não",
+      "cancelar": "Cancelar",
       "salvo_com_sucesso": "Salvo com sucesso",
       "removido_com_sucesso": "Removido com sucesso",
-      "default_erro": "Ocorreu um erro. Tente novamente mais tarde."
+      "default_erro": "Ocorreu um erro. Tente novamente mais tarde.",
+      "popup_delete": {
+        "titulo": "Confirma?",
+        "mensagem": "quer mesmo apagar esta cidade?"
+      }
     },
     "crud": {
       "editar": "Editar",

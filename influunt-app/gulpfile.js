@@ -139,9 +139,9 @@ gulp.task('constants', function () {
       constants: envConfig,
       stream: true,
       template: `'use strict';
-angular.module("<%- moduleName %>"<% if (deps) { %>, <%= JSON.stringify(deps) %><% } %>)
+angular.module('<%- moduleName %>'<% if (deps) { %>, <%= JSON.stringify(deps) %><% } %>)
 <% constants.forEach(function(constant) { %>
-.constant("<%- constant.name %>", <%= constant.value %>)
+.constant('<%- constant.name %>', <%= constant.value %>)
 <% }) %>;`
     })
     .pipe(gulp.dest('app/scripts'));
