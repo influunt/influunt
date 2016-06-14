@@ -147,6 +147,10 @@ angular.module('<%- moduleName %>'<% if (deps) { %>, <%= JSON.stringify(deps) %>
     .pipe(gulp.dest('app/scripts'));
 });
 
+gulp.task('constants:production', function() {
+  return exec('ENVIRONMENT=production gulp constants');
+});
+
 gulp.task('templates', function() {
   return templateCache();
 });
@@ -330,7 +334,7 @@ gulp.task('copy:fonts', function () {
 });
 
 gulp.task('build', ['clean:dist'], function () {
-  runSequence(['images', 'copy:extras', 'copy:fonts', 'client:build', 'templates']);
+  runSequence(['constants:production', 'images', 'copy:extras', 'copy:fonts', 'client:build', 'templates']);
 });
 
 gulp.task('default', ['build']);
