@@ -67,16 +67,17 @@ public class CidadesControllerTest extends WithApplication {
         cidadeService.save(cidade);
 
         String cidadeId = cidade.getId();
-        cidade.setNome("Teste atualizar");
+        Cidade novaCidade = new Cidade();
+        novaCidade.setNome("Teste atualizar");
         
-        Http.RequestBuilder putRequest = new Http.RequestBuilder().method("PUT")
+        Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
                 .uri(routes.CidadesController.update(cidadeId).url())
-                .bodyJson(Json.toJson(cidade));
-        Result putResult = route(putRequest);
-        JsonNode json = Json.parse(Helpers.contentAsString(putResult));
+                .bodyJson(Json.toJson(novaCidade));
+        Result result = route(request);
+        JsonNode json = Json.parse(Helpers.contentAsString(result));
         Cidade cidadeRetornada = Json.fromJson(json, Cidade.class);
         
-        assertEquals(200, putResult.status());
+        assertEquals(200, result.status());
         assertEquals("Teste atualizar", cidadeRetornada.getNome());
         assertNotNull(cidadeRetornada.getId());
     }
@@ -87,7 +88,7 @@ public class CidadesControllerTest extends WithApplication {
         cidade.setNome("Teste");
         
         Http.RequestBuilder putRequest = new Http.RequestBuilder().method("PUT")
-                .uri(routes.CidadesController.update("1234").url())
+                .uri(routes.CidadesController.update("xxxx").url())
                 .bodyJson(Json.toJson(cidade));
         Result putResult = route(putRequest);
         assertEquals(404, putResult.status());
@@ -122,6 +123,7 @@ public class CidadesControllerTest extends WithApplication {
     }
     
     @Test
+    @SuppressWarnings("unchecked")
     public void testListarCidades() {
         CidadeCrudService cidadeService = app.injector().instanceOf(CidadeCrudService.class);
         
@@ -141,5 +143,5 @@ public class CidadesControllerTest extends WithApplication {
         assertEquals(200, result.status());
         assertEquals(2, cidades.size());
     }
-
+    
 }

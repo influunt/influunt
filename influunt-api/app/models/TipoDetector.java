@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -35,7 +36,7 @@ public class TipoDetector extends BaseEntity<String> {
     @Column
     private String descricao;
 
-    @OneToMany(mappedBy = "tipo", orphanRemoval = false)
+    @OneToMany(mappedBy = "tipo", orphanRemoval = false, fetch = FetchType.EAGER)
     private List<Detector> detectores;
 
     @Column

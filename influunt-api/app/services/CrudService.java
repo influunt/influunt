@@ -17,26 +17,29 @@ public abstract class CrudService<T extends BaseEntity<ID>, ID extends Serializa
     @Inject
     private JPAApi jpaApi;
 
+    public abstract void parseFromEntity(T existingEntity, T entity);
+    
     public <S extends T> S save(S entity) {
         entity.setDataAtualizacao(new Date());
         jpaApi.withTransaction(() -> {
-            if (entity.getId() == null) {
-                entity.setDataCriacao(new Date());
-                jpaApi.em().persist(entity);
-            } else {
-                jpaApi.em().merge(entity);
-            }
+            entity.setDataCriacao(new Date());
+            jpaApi.em().persist(entity);
         });
         return entity;
     }
 
+    @SuppressWarnings("unchecked")
     public <S extends T> S update(S entity, ID id) {
-        jpaApi.withTransaction(() -> {
-            entity.setDataAtualizacao(new Date());
-            entity.setId(id);
-            jpaApi.em().merge(entity);
+        return jpaApi.withTransaction(() -> {
+            EntityManager em = jpaApi.em();
+            S existingEntity = (S) em.find(getGenericType(), id);
+            if (existingEntity != null) {
+                existingEntity.setDataAtualizacao(new Date());
+                parseFromEntity(existingEntity, entity);
+                return existingEntity;
+            }
+            return null;
         });
-        return entity;
     }
 
     @SuppressWarnings("unchecked")
@@ -71,5 +74,6 @@ public abstract class CrudService<T extends BaseEntity<ID>, ID extends Serializa
     private Class getGenericType() {
         return ((Class) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0]);
     }
+    
 
 }
