@@ -1,12 +1,12 @@
-/*@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700");
-@import url("https://fonts.googleapis.com/css?family=Roboto:400,300,500,700");*/
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700");
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,300,500,700");
 /*
  *
  *   INSPINIA - Responsive Admin Theme
  *   version 2.4
  *
 */
-h1,
+h1, 
 h2,
 h3,
 h4,
@@ -3143,6 +3143,8 @@ body.tour-open .animated {
   margin: 10px;
   float: left;
   overflow: hidden;
+  min-height: 150px;
+  min-width: 150px;
 }
 .resizable-panels .ibox .ibox-content {
   height: calc(100% - 49px);
@@ -3298,7 +3300,6 @@ body.tour-open .animated {
 }
 body {
   font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  background-color: #2f4050;
   font-size: 13px;
   color: #676a6c;
   overflow-x: hidden;
@@ -3441,17 +3442,17 @@ video {
   padding: 0 20px;
 }
 .wrapper-content {
-  padding: 20px 10px 40px;
+  padding: 20px 0;
 }
 #page-wrapper {
-  padding: 0 15px;
+  padding: 0 0;
   min-height: 568px;
   position: relative !important;
 }
 @media (min-width: 768px) {
   #page-wrapper {
     position: inherit;
-    margin: 0 0 0 240px;
+    margin: 0 0 0 0;
     min-height: 2002px;
   }
 }
@@ -8115,7 +8116,7 @@ body.md-skin {
 @media (min-width: 768px) {
   #page-wrapper {
     position: inherit;
-    margin: 0 0 0 220px;
+    margin: 0 0 0 0;
     min-height: 1200px;
   }
   .navbar-static-side {
@@ -8224,9 +8225,4 @@ body.md-skin {
   #page-wrapper {
     margin: 0;
   }
-}
-
-.dropzone {
-  border: 2px dashed #1ab394 !important;
-  padding: 40px 20px !important;
 }
