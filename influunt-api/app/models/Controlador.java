@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.*;
 
 import com.google.inject.Inject;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 
 import framework.BaseEntity;
@@ -57,7 +58,7 @@ public class Controlador extends BaseEntity<String> {
     @Constraints.Required
     private String firmware;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade =  CascadeType.ALL)
     @JoinColumn(name = "coordenada_id")
     @Constraints.Required
     private CoordenadaGeografica coordenada;

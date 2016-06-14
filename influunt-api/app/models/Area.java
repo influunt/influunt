@@ -49,7 +49,7 @@ public class Area extends BaseEntity<String> {
     private List<CoordenadaGeografica> coordenadas;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "area", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "area", fetch = FetchType.EAGER)
     private List<Controlador> controladores;
 
     @Column

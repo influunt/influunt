@@ -20,6 +20,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import play.Application;
 import play.Mode;
+import play.api.libs.iteratee.Cont;
 import play.i18n.Messages;
 import play.db.jpa.JPA;
 import play.db.jpa.JPAApi;
@@ -68,8 +69,7 @@ public class ControladoresControllerTest extends WithApplication {
         this.cidade = new Cidade();
         this.cidade.setNome("Belo Horizonte");
 
-        jpaApi.withTransaction(() -> { this.cidadeCrudService.save(cidade); });
-        assertNotNull(cidade.getId());
+        this.cidade = jpaApi.withTransaction(() -> { return this.cidadeCrudService.save(cidade); });
 
         this.area =  new Area();
         this.area.setDescricao("CTA-1");
@@ -137,7 +137,8 @@ public class ControladoresControllerTest extends WithApplication {
     @Test
     public void testAtualizarControladorExistenteComConfiguracaoInvalida() {
         Controlador controlador = getControlador();
-        controladorCrudService.save(controlador);
+        jpaApi.withTransaction(() -> {controladorCrudService.save(controlador);});
+
         controlador.setAneis(null);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
@@ -151,7 +152,8 @@ public class ControladoresControllerTest extends WithApplication {
     @Test
     public void testAtualizarControladorExistente() {
         Controlador controlador = getControlador();
-        controladorCrudService.save(controlador);
+        jpaApi.withTransaction(() -> {controladorCrudService.save(controlador);});
+
         CoordenadaGeografica coordenadaGeografica = controlador.getCoordenada();
         controlador.setCoordenada(new CoordenadaGeografica(2.0,3.0));
 
@@ -164,9 +166,33 @@ public class ControladoresControllerTest extends WithApplication {
         JsonNode json = Json.parse(Helpers.contentAsString(result));
         Controlador controladorAtualizado =  Json.fromJson(json,Controlador.class);
         assertEquals(controlador.getId(),controladorAtualizado.getId());
-        assertNotEquals(coordenadaGeografica.getId(),controladorAtualizado.getCoordenada().getId());
+        assertNotEquals(coordenadaGeografica.getLatitude(),controladorAtualizado.getCoordenada().getLatitude());
     }
 
+    @Test
+    public void testAtualizarAreaControladorExistente() {
+        Controlador controlador = getControlador();
+        jpaApi.withTransaction(() -> {controladorCrudService.save(controlador);});
+
+        Area novaArea = new Area();
+        novaArea.setDescricao("Nova Area");
+
+        jpaApi.withTransaction(() -> {areaCrudService.save(novaArea);});
+
+        assertNotEquals(novaArea.getId(),controlador.getArea().getId());
+        controlador.setArea(novaArea);
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
+                .uri(routes.ControladoresController.update(controlador.getId()).url())
+                .bodyJson(Json.toJson(controlador));
+        Result result = route(request);
+        assertEquals(OK, result.status());
+//
+//        JsonNode json = Json.parse(Helpers.contentAsString(result));
+//        Controlador controladorAtualizado =  Json.fromJson(json,Controlador.class);
+//        assertEquals(controlador.getId(),controladorAtualizado.getId());
+//        assertEquals(novaArea.getId(),controladorAtualizado.getArea().getId());
+    }
     @Test
     public void testAtualizarControladorNaoExistente() {
         Controlador controlador = getControlador();
@@ -180,7 +206,8 @@ public class ControladoresControllerTest extends WithApplication {
 
     @Test
     public void testApagarControladorExistente() {
-        Controlador controlador = getControlador();
+        final Controlador controlador = getControlador();
+        jpaApi.withTransaction(() -> {controladorCrudService.save(controlador);});
         String controladorId = controlador.getId();
 
         Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
@@ -188,8 +215,9 @@ public class ControladoresControllerTest extends WithApplication {
         Result result = route(deleteRequest);
 
         assertEquals(200, result.status());
-        controlador = controladorCrudService.findOne(controladorId);
-        assertNull(controlador);
+        Controlador controlador1 = jpaApi.withTransaction(() -> { return controladorCrudService.findOne(controladorId); });
+        assertNull(controlador1);
+
     }
 
     @Test
@@ -205,9 +233,9 @@ public class ControladoresControllerTest extends WithApplication {
     @SuppressWarnings("unchecked")
     public void testListarControladores() {
 
-        controladorCrudService.save(getControlador());
-        controladorCrudService.save(getControlador());
-        controladorCrudService.save(getControlador());
+        jpaApi.withTransaction(() -> {controladorCrudService.save(getControlador());});
+        jpaApi.withTransaction(() -> {controladorCrudService.save(getControlador());});
+        jpaApi.withTransaction(() -> {controladorCrudService.save(getControlador());});
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
                 .uri(routes.ControladoresController.findAll().url());

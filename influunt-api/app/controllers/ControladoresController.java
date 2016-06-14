@@ -72,7 +72,7 @@ public class ControladoresController extends Controller {
         }else{
 
             Controlador controlador = form.get();
-            controlador = controladorService.update(controlador, id);
+            controlador = controladorService.update(controlador,id);
             if (controlador == null) {
                 return CompletableFuture.completedFuture(notFound());
             }
