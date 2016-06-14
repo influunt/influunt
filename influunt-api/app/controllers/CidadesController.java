@@ -3,6 +3,7 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import exceptions.EntityNotFound;
 import models.Cidade;
+import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -16,10 +17,11 @@ public class CidadesController extends Controller {
 
     @Inject
     private CidadeCrudService cidadeService;
-    
+
+    @Transactional
     public CompletionStage<Result> create() {
 
-	JsonNode json = request().body().asJson();
+        JsonNode json = request().body().asJson();
 
         if (json == null) {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
@@ -29,6 +31,7 @@ public class CidadesController extends Controller {
         return CompletableFuture.completedFuture(ok(Json.toJson(cidade)));
     }
 
+    @Transactional
     public CompletionStage<Result> findOne(String id) {
         Cidade cidade = cidadeService.findOne(id);
         if (cidade == null) {
@@ -38,10 +41,12 @@ public class CidadesController extends Controller {
         }
     }
 
+    @Transactional
     public CompletionStage<Result> findAll() {
         return CompletableFuture.completedFuture(ok(Json.toJson(cidadeService.findAll())));
     }
 
+    @Transactional
     public CompletionStage<Result> delete(String id) {
         try {
             cidadeService.delete(id);
@@ -51,6 +56,7 @@ public class CidadesController extends Controller {
         return CompletableFuture.completedFuture(ok());
     }
 
+    @Transactional
     public CompletionStage<Result> update(String id) {
         JsonNode json = request().body().asJson();
         if (json == null) {

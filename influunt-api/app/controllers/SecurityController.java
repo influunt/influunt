@@ -8,6 +8,7 @@ import java.util.concurrent.CompletionStage;
 import javax.inject.Inject;
 
 import models.Usuario;
+import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -23,6 +24,7 @@ public class SecurityController extends Controller {
     public final static String AUTH_TOKEN_HEADER = "X-AUTH-TOKEN";
     public static final String AUTH_TOKEN = "authToken";
 
+    @Transactional
     public CompletionStage<Result> login() {
         final String authorization = request().getHeader("Authorization");
         if (authorization != null && authorization.startsWith("Basic")) {

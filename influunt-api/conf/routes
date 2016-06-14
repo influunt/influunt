@@ -2,7 +2,6 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-
 # Cidades
 GET         /api/v1/cidades                      controllers.CidadesController.findAll()
 POST        /api/v1/cidades                      controllers.CidadesController.create()
@@ -18,21 +17,18 @@ GET         /api/v1/tipos_detectores/:id         controllers.TiposDetectoresCont
 DELETE      /api/v1/tipos_detectores/:id         controllers.TiposDetectoresController.delete(id)
 
 # Areas
-GET         /api/v1/areas/:id                    controllers.AreasController.findOne(id)
-PUT         /api/v1/areas/:id                    controllers.AreasController.update(id)
-POST        /api/v1/areas                        controllers.AreasController.create()
-GET         /api/v1/areas                        controllers.AreasController.findAll()
-DELETE      /api/v1/areas                        controllers.AreasController.delete(id)
+GET         /api/v1/areas                            controllers.AreasController.findAll()
+POST        /api/v1/areas                            controllers.AreasController.create()
+PUT         /api/v1/areas/:id                        controllers.AreasController.update(id)
+GET         /api/v1/areas/:id                        controllers.AreasController.findOne(id)
+DELETE      /api/v1/areas/:id                        controllers.AreasController.delete(id)
 
 # Controladores
-GET         /api/v1/controladores/:id         controllers.ControladoresController.findOne(id)
-PUT         /api/v1/controladores/:id         controllers.ControladoresController.update(id)
-POST        /api/v1/controladores         	  controllers.ControladoresController.create()
-GET         /api/v1/controladores             controllers.ControladoresController.findAll()
-DELETE      /api/v1/controladores             controllers.ControladoresController.delete(id)
-
-
-
+GET         /api/v1/controladores                 controllers.ControladoresController.findAll()
+POST        /api/v1/controladores         	      controllers.ControladoresController.create()
+PUT         /api/v1/controladores/:id             controllers.ControladoresController.update(id)
+GET         /api/v1/controladores/:id             controllers.ControladoresController.findOne(id)
+DELETE      /api/v1/controladores/:id             controllers.ControladoresController.delete(id)
 
 
 POST    /api/v1/login               controllers.SecurityController.login

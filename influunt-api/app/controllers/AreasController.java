@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import exceptions.EntityNotFound;
 import models.Area;
+import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -19,6 +20,7 @@ public class AreasController extends Controller {
     @Inject
     private AreaCrudService aeraService;
 
+    @Transactional
     public CompletionStage<Result> create() {
         JsonNode json = request().body().asJson();
 
@@ -31,6 +33,7 @@ public class AreasController extends Controller {
         }
     }
 
+    @Transactional
     public CompletionStage<Result> findOne(String id) {
         Area area = aeraService.findOne(id);
         if (area == null) {
@@ -40,10 +43,12 @@ public class AreasController extends Controller {
         }
     }
 
+    @Transactional
     public CompletionStage<Result> findAll() {
         return CompletableFuture.completedFuture(ok(Json.toJson(aeraService.findAll())));
     }
 
+    @Transactional
     public CompletionStage<Result> delete(String id) {
         try {
             aeraService.delete(id);
@@ -53,6 +58,7 @@ public class AreasController extends Controller {
         return CompletableFuture.completedFuture(ok());
     }
 
+    @Transactional
     public CompletionStage<Result> update(String id) {
         JsonNode json = request().body().asJson();
         if (json == null) {

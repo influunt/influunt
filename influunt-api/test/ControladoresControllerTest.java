@@ -35,7 +35,6 @@ import security.Authenticator;
 import services.*;
 
 public class ControladoresControllerTest extends WithApplication {
-    @Inject
     JPAApi jpaApi;
 
     CidadeCrudService cidadeCrudService;
@@ -56,6 +55,7 @@ public class ControladoresControllerTest extends WithApplication {
     @Before
     public void setUp() {
 
+        jpaApi = app.injector().instanceOf(JPAApi.class);
         cidadeCrudService = app.injector().instanceOf(CidadeCrudService.class);
         areaCrudService = app.injector().instanceOf(AreaCrudService.class);
         fabricanteCrudService = app.injector().instanceOf(FabricanteCrudService.class);
@@ -67,35 +67,32 @@ public class ControladoresControllerTest extends WithApplication {
         this.cidade = new Cidade();
         this.cidade.setNome("Belo Horizonte");
 
-        this.cidadeCrudService.save(cidade);
+        jpaApi.withTransaction(() -> { this.cidadeCrudService.save(cidade); });
         assertNotNull(cidade.getId());
 
         this.area =  new Area();
         this.area.setDescricao("CTA-1");
         this.area.setCidade(cidade);
-        this.area = areaCrudService.save(this.area);
+        this.area = jpaApi.withTransaction(() -> { return areaCrudService.save(this.area); });
 
         this.fabricante = new Fabricante();
         this.fabricante.setNome("Raro Labs");
-        this.fabricante = fabricanteCrudService.save(this.fabricante);
+        this.fabricante = jpaApi.withTransaction(() -> { return fabricanteCrudService.save(this.fabricante); });
 
         this.configuracao = new ConfiguracaoControlador();
         this.configuracao.setLimiteAnel(4);
         this.configuracao.setLimiteGrupoSemaforico(16);
-        this.configuracao = configuracaoControladorCrudService.save(this.configuracao);
+        this.configuracao = jpaApi.withTransaction(() -> { return configuracaoControladorCrudService.save(this.configuracao); });
 
         this.modeloControlador = new ModeloControlador();
         this.modeloControlador.setConfiguracao(configuracao);
         this.modeloControlador.setFabricante(fabricante);
-        this.modeloControlador = modeloControladorCrudService.save(this.modeloControlador);
+        this.modeloControlador = jpaApi.withTransaction(() -> { return modeloControladorCrudService.save(this.modeloControlador); });
 
         this.coordenadaGeografica = new CoordenadaGeografica();
         this.coordenadaGeografica.setLatitude(1.0);
         this.coordenadaGeografica.setLongitude(2.0);
-        this.coordenadaGeografica = coordenadaGeograficaCrudService.save(coordenadaGeografica);
-
-
-
+        this.coordenadaGeografica = jpaApi.withTransaction(() -> { return coordenadaGeograficaCrudService.save(coordenadaGeografica); });
     }
 
     @Override
