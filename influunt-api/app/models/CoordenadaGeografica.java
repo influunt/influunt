@@ -42,6 +42,15 @@ public class CoordenadaGeografica extends BaseEntity<String> {
     @Column
     private Date dataAtualizacao;
 
+    public CoordenadaGeografica() {
+        super();
+    }
+    public CoordenadaGeografica(Double latitude, Double longitude) {
+        super();
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
     public String getId() {
         return id;
     }

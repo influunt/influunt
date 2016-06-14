@@ -4,23 +4,35 @@
 
 
 # Cidades
-GET         /api/v1/cidades/:id         controllers.CidadesController.findOne(id)
-PUT         /api/v1/cidades/:id         controllers.CidadesController.update(id)
-POST        /api/v1/cidades         controllers.CidadesController.create()
-GET         /api/v1/cidades         controllers.CidadesController.findAll()
-DELETE      /api/v1/cidades         controllers.CidadesController.delete(id)
+GET         /api/v1/cidades                      controllers.CidadesController.findAll()
+POST        /api/v1/cidades                      controllers.CidadesController.create()
+PUT         /api/v1/cidades/:id                  controllers.CidadesController.update(id)
+GET         /api/v1/cidades/:id                  controllers.CidadesController.findOne(id)
+DELETE      /api/v1/cidades/:id                  controllers.CidadesController.delete(id)
+
+# Tipos de Detectores
+GET         /api/v1/tipos_detectores             controllers.TiposDetectoresController.findAll()
+POST        /api/v1/tipos_detectores             controllers.TiposDetectoresController.create()
+PUT         /api/v1/tipos_detectores/:id         controllers.TiposDetectoresController.update(id)
+GET         /api/v1/tipos_detectores/:id         controllers.TiposDetectoresController.findOne(id)
+DELETE      /api/v1/tipos_detectores/:id         controllers.TiposDetectoresController.delete(id)
+
+# Areas
+GET         /api/v1/areas/:id                    controllers.AreasController.findOne(id)
+PUT         /api/v1/areas/:id                    controllers.AreasController.update(id)
+POST        /api/v1/areas                        controllers.AreasController.create()
+GET         /api/v1/areas                        controllers.AreasController.findAll()
+DELETE      /api/v1/areas                        controllers.AreasController.delete(id)
+
+# Controladores
+GET         /api/v1/controladores/:id         controllers.ControladoresController.findOne(id)
+PUT         /api/v1/controladores/:id         controllers.ControladoresController.update(id)
+POST        /api/v1/controladores         	  controllers.ControladoresController.create()
+GET         /api/v1/controladores             controllers.ControladoresController.findAll()
+DELETE      /api/v1/controladores             controllers.ControladoresController.delete(id)
 
 
 
-# An example controller showing a sample home page
-GET     /swagger.json           controllers.ApiHelpController.getResources
-GET     /                       controllers.Assets.at(path="/public/swagger", file="index.html")
-GET     /css/*file              controllers.Assets.at(path="/public/swagger/css/", file)
-GET     /fonts/*file            controllers.Assets.at(path="/public/swagger/fonts/", file)
-GET     /images/*file           controllers.Assets.at(path="/public/swagger/images/", file)
-GET     /lang/*file             controllers.Assets.at(path="/public/swagger/lang/", file)
-GET     /lib/*file              controllers.Assets.at(path="/public/swagger/lib/", file)
-GET     /*file                  controllers.Assets.at(path="/public/swagger/", file)
 
 
 POST    /api/v1/login               controllers.SecurityController.login

@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 import framework.BaseEntity;
+import play.data.validation.Constraints.Required;
 
 /**
  * Entidade que representa a {@link Cidade} no sistema
@@ -35,6 +36,7 @@ public class Cidade extends BaseEntity<String> {
     private String id;
 
     @Column
+    @Required
     private String nome;
 
     @OneToMany(mappedBy = "cidade", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
@@ -89,5 +91,13 @@ public class Cidade extends BaseEntity<String> {
     public static long getSerialversionuid() {
         return serialVersionUID;
     }
+
+    @Override
+    public String toString() {
+        return "Cidade [id=" + id + ", nome=" + nome + ", areas=" + areas + ", dataCriacao=" + dataCriacao
+                + ", dataAtualizacao=" + dataAtualizacao + "]";
+    }
+    
+    
 
 }
