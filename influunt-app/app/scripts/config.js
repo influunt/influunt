@@ -27,12 +27,55 @@ angular
           url: '/app',
           templateUrl: 'views/common/content_top_navigation.html',
           controller: 'MainCtrl',
-          controllerAs: 'main'
+          controllerAs: 'main',
+          data: {
+            title: 'geral.dashboard',
+            redirectTo: 'app.main'
+          }
         })
         .state('app.main', {
           url: '/main',
-          templateUrl: 'views/main.html',
-          data: {pageTitle: 'Example view'}
+          templateUrl: 'views/main.html'
+        })
+
+        .state('app.cidades', {
+          url: '/cidades',
+          templateUrl: 'views/cidades/index.html',
+          controller: 'CidadesCtrl',
+          controllerAs: 'cidades',
+          data: {
+            title: 'cidades.titulo'
+          }
+        })
+
+        .state('app.cidades_new', {
+          url: '/cidades/new',
+          templateUrl: 'views/cidades/new.html',
+          controller: 'CidadesCtrl',
+          controllerAs: 'cidades',
+          data: {
+            title: 'cidades.titulo'
+          }
+        })
+
+        .state('app.cidades_edit', {
+          url: '/cidades/:id/edit',
+          templateUrl: 'views/cidades/edit.html',
+          controller: 'CidadesCtrl',
+          controllerAs: 'cidades',
+          data: {
+            title: 'cidades.titulo'
+          }
+        })
+
+        .state('app.cidades_show', {
+          url: '/cidades/:id',
+          templateUrl: 'views/cidades/show.html',
+          controller: 'CidadesCtrl',
+          controllerAs: 'cidades',
+          data: {
+            title: 'cidades.titulo'
+          }
         })
 
         // Rotas de teste. Podem ser removidas em breve.

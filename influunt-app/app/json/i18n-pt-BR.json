@@ -1,0 +1,44 @@
+{
+  "appname": "Influunt",
+  "geral": {
+    "mensagens": {
+      "salvo_com_sucesso": "Salvo com sucesso",
+      "removido_com_sucesso": "Removido com sucesso",
+      "default_erro": "Ocorreu um erro. Tente novamente mais tarde."
+    },
+    "crud": {
+      "editar": "Editar",
+      "excluir": "Excluir",
+      "novo": "Novo",
+      "opcoes": "Opções",
+      "salvar": "Salvar",
+      "visualizar": "Visualizar",
+      "voltar": "Voltar"
+    },
+    "auditoria": {
+      "dataCriacao": "Data de Criação",
+      "dataAtualizacao": "Data de Atualização"
+    },
+    "campo_obrigatorio": "Campo Obrigatório",
+    "dashboard": "Dashboard",
+    "titulo_padrao": "Título não definido."
+  },
+  "login": {
+    "acessar": "Acessar",
+    "esqueceu_sua_senha": "Esqueceu sua senha?",
+    "senha": "Senha",
+    "usuario": "Usuário"
+  },
+  "cidades": {
+    "areas": "ÁREAS",
+    "novo": "Nova Cidade",
+    "titulo": "Cidades",
+    "nome": "NOME"
+  },
+  "main": {
+    "hello_world": "olá mundo - i18n"
+  },
+  "plugins": {
+    "datatables_cdn": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json"
+  }
+}

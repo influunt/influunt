@@ -10,6 +10,8 @@ var wiredep = require('wiredep').stream;
 var runSequence = require('run-sequence');
 var bowerJsonFile = require('./bower.json');
 
+var ngConstant = require('gulp-ng-constant');
+
 var angularTemplateCache = require('gulp-angular-templatecache');
 var concat = require('gulp-concat');
 var childProcess = require('child_process');
@@ -27,6 +29,7 @@ var paths = {
   styles: [yeoman.app + '/styles/**/*.scss'],
   test: ['test/spec/**/*.js'],
   testRequire: [
+    // Bower plugins
     'bower_components/jquery/dist/jquery.js',
     'bower_components/angular/angular.js',
     'bower_components/angular-mocks/angular-mocks.js',
@@ -41,10 +44,30 @@ var paths = {
     'bower_components/angular-translate-interpolation-messageformat/angular-translate-interpolation-messageformat.js',
     'bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
     'bower_components/angular-dynamic-locale/src/tmhDynamicLocale.js',
+    'bower_components/lodash/lodash.js',
+    'bower_components/restangular/dist/restangular.js',
+    'bower_components/datatables/media/js/jquery.dataTables.js',
+    'bower_components/angular-datatables/dist/angular-datatables.js',
+    'bower_components/angular-datatables/dist/plugins/bootstrap/angular-datatables.bootstrap.js',
+    'bower_components/angular-datatables/dist/plugins/colreorder/angular-datatables.colreorder.js',
+    'bower_components/angular-datatables/dist/plugins/columnfilter/angular-datatables.columnfilter.js',
+    'bower_components/angular-datatables/dist/plugins/light-columnfilter/angular-datatables.light-columnfilter.js',
+    'bower_components/angular-datatables/dist/plugins/colvis/angular-datatables.colvis.js',
+    'bower_components/angular-datatables/dist/plugins/fixedcolumns/angular-datatables.fixedcolumns.js',
+    'bower_components/angular-datatables/dist/plugins/fixedheader/angular-datatables.fixedheader.js',
+    'bower_components/angular-datatables/dist/plugins/scroller/angular-datatables.scroller.js',
+    'bower_components/angular-datatables/dist/plugins/tabletools/angular-datatables.tabletools.js',
+    'bower_components/angular-datatables/dist/plugins/buttons/angular-datatables.buttons.js',
+    'bower_components/angular-datatables/dist/plugins/select/angular-datatables.select.js',
+    'bower_components/AngularJS-Toaster/toaster.js',
+    'bower_components/sweetalert/dist/sweetalert.min.js',
+    'bower_components/ngSweetAlert/SweetAlert.js',
+
+    // inspinea scripts.
     yeoman.app + '/plugins/metisMenu/jquery.metisMenu.js',
     yeoman.app + '/plugins/ui-bootstrap-tpls-1.1.2.min.js',
     yeoman.app + '/plugins/inspinia.js'
-    // yeoman.app + '/i18n/**/*.js'
+    // yeoman.app + '/json/**/*.js'
     // 'test/mock/**/*.js'
   ],
   cucumberFeatures: ['features/**/*.feature'],
@@ -100,11 +123,29 @@ var styles = lazypipe()
     precision: 10
   })
   .pipe($.autoprefixer, 'last 1 version')
-  .pipe(gulp.dest, '.tmp/styles');
+  .pipe(gulp.dest, 'app/styles');
+  // .pipe(gulp.dest, '.tmp/styles');
 
 // /////////
 // Tasks //
 // /////////
+
+gulp.task('constants', function () {
+  var myConfig = require('./app/json/env.json');
+  var envConfig = myConfig[process.env.ENVIRONMENT || 'development'];
+
+  return ngConstant({
+      name: 'environment',
+      constants: envConfig,
+      stream: true,
+      template: `'use strict';
+angular.module("<%- moduleName %>"<% if (deps) { %>, <%= JSON.stringify(deps) %><% } %>)
+<% constants.forEach(function(constant) { %>
+.constant("<%- constant.name %>", <%= constant.value %>)
+<% }) %>;`
+    })
+    .pipe(gulp.dest('app/scripts'));
+});
 
 gulp.task('templates', function() {
   return templateCache();
@@ -125,7 +166,7 @@ gulp.task('clean:tmp', function (cb) {
 });
 
 gulp.task('start:client', ['start:server', 'styles'], function () {
-  openURL('http://localhost:9000');
+  openURL('http://localhost:9009');
 });
 
 gulp.task('start:server', function() {
@@ -133,7 +174,7 @@ gulp.task('start:server', function() {
     root: [yeoman.app, '.tmp'],
     livereload: true,
     // Change this to '0.0.0.0' to access the server from outside.
-    port: 9000,
+    port: 9009,
     middleware: function (connect) {
       return [connect().use('/bower_components', connect.static('./bower_components'))];
     }
@@ -180,6 +221,7 @@ gulp.task('watch', function () {
 
 gulp.task('serve', function(cb) {
   runSequence('clean:tmp',
+    ['constants'],
     ['lint:scripts'],
     ['start:client'],
     ['templates'],
@@ -190,7 +232,7 @@ gulp.task('serve:prod', function() {
   $.connect.server({
     root: [yeoman.dist],
     livereload: true,
-    port: 9000
+    port: 9009
   });
 });
 
@@ -274,8 +316,8 @@ gulp.task('copy:extras', function () {
     .pipe(gulp.dest(yeoman.dist + '/styles/patterns/'));
 
   gulp
-    .src(yeoman.app + '/i18n/**/*.*', {dot: true})
-    .pipe(gulp.dest(yeoman.dist + '/i18n/'));
+    .src(yeoman.app + '/json/**/*.*', {dot: true})
+    .pipe(gulp.dest(yeoman.dist + '/json/'));
 
   return gulp
     .src(yeoman.app + '/*/.*', {dot: true})

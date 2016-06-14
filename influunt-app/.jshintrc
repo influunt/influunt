@@ -13,6 +13,7 @@
   "unused": true,
   "globals": {
     "angular": false,
+    "$": true,
 
     // karma/jasmine globals
     "beforeEach": true,

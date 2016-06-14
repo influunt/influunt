@@ -17,7 +17,17 @@ angular
     'ngSanitize',
     'ngTouch',
     'ui.bootstrap',
+    'datatables',
 
+
+    'environment',
+
+    // API consume.
+    'restangular',
+
+    // ui
+    'toaster',
+    'oitozero.ngSweetAlert',
     // template cache engine.
     'templates',
 
