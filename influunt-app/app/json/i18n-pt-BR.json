@@ -1,0 +1,54 @@
+{
+  "appname": "Influunt",
+  "cidades": {
+    "areas": "ÁREAS",
+    "nome": "NOME",
+    "novo": "Nova Cidade",
+    "titulo": "Cidades"
+  },
+  "geral": {
+    "auditoria": {
+      "dataAtualizacao": "Data de Atualização",
+      "dataCriacao": "Data de Criação"
+    },
+    "crud": {
+      "editar": "Editar",
+      "excluir": "Excluir",
+      "novo": "Novo",
+      "opcoes": "Opções",
+      "salvar": "Salvar",
+      "visualizar": "Visualizar",
+      "voltar": "Voltar"
+    },
+    "campo_obrigatorio": "Campo Obrigatório",
+    "dashboard": "Dashboard",
+    "mensagens": {
+      "cancelar": "Cancelar",
+      "default_erro": "Ocorreu um erro. Tente novamente mais tarde.",
+      "nao": "Não",
+      "popup_delete": {
+        "mensagem": "quer mesmo apagar esta cidade?",
+        "titulo": "Confirma?"
+      },
+      "removido_com_sucesso": "Removido com sucesso",
+      "salvo_com_sucesso": "Salvo com sucesso",
+      "sim": "Sim"
+    },
+    "titulo_padrao": "Título não definido."
+  },
+  "login": {
+    "acessar": "Acessar",
+    "esqueceu_sua_senha": "Esqueceu sua senha?",
+    "senha": "Senha",
+    "usuario": "Usuário"
+  },
+  "main": {
+    "hello_world": "Dashboard"
+  },
+  "menu": {
+    "cadastros": "CADASTROS"
+  },
+  "plugins": {
+    "datatables_cdn": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json"
+  }
+}

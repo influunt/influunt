@@ -11,8 +11,11 @@
     <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.css" />
     <!-- bower:css -->
     <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="/bower_components/datatables/media/css/jquery.dataTables.css" />
+    <link rel="stylesheet" href="/bower_components/AngularJS-Toaster/toaster.css" />
+    <link rel="stylesheet" href="/bower_components/sweetalert/dist/sweetalert.css" />
     <!-- endbower -->
-    <!-- build:css(.tmp) styles/main.css -->
+    <!-- build:css(app) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
@@ -54,6 +57,24 @@
     <script src="/bower_components/angular-translate-interpolation-messageformat/angular-translate-interpolation-messageformat.js"></script>
     <script src="/bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
     <script src="/bower_components/angular-dynamic-locale/src/tmhDynamicLocale.js"></script>
+    <script src="/bower_components/lodash/lodash.js"></script>
+    <script src="/bower_components/restangular/dist/restangular.js"></script>
+    <script src="/bower_components/datatables/media/js/jquery.dataTables.js"></script>
+    <script src="/bower_components/angular-datatables/dist/angular-datatables.js"></script>
+    <script src="/bower_components/angular-datatables/dist/plugins/bootstrap/angular-datatables.bootstrap.js"></script>
+    <script src="/bower_components/angular-datatables/dist/plugins/colreorder/angular-datatables.colreorder.js"></script>
+    <script src="/bower_components/angular-datatables/dist/plugins/columnfilter/angular-datatables.columnfilter.js"></script>
+    <script src="/bower_components/angular-datatables/dist/plugins/light-columnfilter/angular-datatables.light-columnfilter.js"></script>
+    <script src="/bower_components/angular-datatables/dist/plugins/colvis/angular-datatables.colvis.js"></script>
+    <script src="/bower_components/angular-datatables/dist/plugins/fixedcolumns/angular-datatables.fixedcolumns.js"></script>
+    <script src="/bower_components/angular-datatables/dist/plugins/fixedheader/angular-datatables.fixedheader.js"></script>
+    <script src="/bower_components/angular-datatables/dist/plugins/scroller/angular-datatables.scroller.js"></script>
+    <script src="/bower_components/angular-datatables/dist/plugins/tabletools/angular-datatables.tabletools.js"></script>
+    <script src="/bower_components/angular-datatables/dist/plugins/buttons/angular-datatables.buttons.js"></script>
+    <script src="/bower_components/angular-datatables/dist/plugins/select/angular-datatables.select.js"></script>
+    <script src="/bower_components/AngularJS-Toaster/toaster.js"></script>
+    <script src="/bower_components/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="/bower_components/ngSweetAlert/SweetAlert.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -71,6 +92,14 @@
         <script src="scripts/controllers/login.js"></script>
         <script src="scripts/services/initializers/translations.js"></script>
         <script src="scripts/services/constants/app_settings.js"></script>
+        <script src="scripts/controllers/cidades.js"></script>
+        <script src="scripts/services/crud/breadcrumbs.js"></script>
+        <script src="scripts/controllers/concerns/breadcrumbs.js"></script>
+        <script src="scripts/controllers/concerns/datatables.js"></script>
+        <script src="scripts/services/initializers/restangular.js"></script>
+        <script src="scripts/ngConstants.js"></script>
+        <script src="scripts/services/crud/toast.js"></script>
+        <script src="scripts/filters/nome-areas.js"></script>
         <!-- endbuild -->
 </body>
 </html>

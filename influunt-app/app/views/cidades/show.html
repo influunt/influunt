@@ -1,0 +1,42 @@
+<div id="form" data-ng-init="show()">
+  <div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>
+              {{ pageTitle | translate }}
+              <small style="margin-left: 2px;">{{ cidade.nome }} - #{{ minid }}</small>
+            </h5>
+          </div>
+          <div class="ibox-content">
+            <div class="widget-box">
+              <div class="widget-body">
+                <div class="widget-main">
+                  <table class="table table-bordered table-striped">
+                    <tbody>
+                      <tr>
+                        <th>{{ 'cidades.nome' | translate }}</th>
+                        <td> {{ cidade.nome }} </td>
+                      </tr>
+                      <tr>
+                        <th>{{ 'geral.auditoria.dataCriacao' | translate }}</th>
+                        <td>{{ cidade.dataCriacao | date }}</td>
+                      </tr>
+                      <tr>
+                        <th>{{ 'geral.auditoria.dataAtualizacao' | translate }}</th>
+                        <td>{{ cidade.dataAtualizacao | date }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <a class="btn btn-default" ui-sref="app.cidades">{{ 'geral.crud.voltar' | translate }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

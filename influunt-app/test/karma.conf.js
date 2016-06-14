@@ -19,6 +19,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      // Bower plugins
       'bower_components/jquery/dist/jquery.js',
       'bower_components/angular/angular.js',
       'bower_components/angular-mocks/angular-mocks.js',
@@ -33,13 +34,34 @@ module.exports = function(config) {
       'bower_components/angular-translate-interpolation-messageformat/angular-translate-interpolation-messageformat.js',
       'bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
       'bower_components/angular-dynamic-locale/src/tmhDynamicLocale.js',
+      'bower_components/lodash/lodash.js',
+      'bower_components/restangular/dist/restangular.js',
+      'bower_components/datatables/media/js/jquery.dataTables.js',
+      'bower_components/angular-datatables/dist/angular-datatables.js',
+      'bower_components/angular-datatables/dist/plugins/bootstrap/angular-datatables.bootstrap.js',
+      'bower_components/angular-datatables/dist/plugins/colreorder/angular-datatables.colreorder.js',
+      'bower_components/angular-datatables/dist/plugins/columnfilter/angular-datatables.columnfilter.js',
+      'bower_components/angular-datatables/dist/plugins/light-columnfilter/angular-datatables.light-columnfilter.js',
+      'bower_components/angular-datatables/dist/plugins/colvis/angular-datatables.colvis.js',
+      'bower_components/angular-datatables/dist/plugins/fixedcolumns/angular-datatables.fixedcolumns.js',
+      'bower_components/angular-datatables/dist/plugins/fixedheader/angular-datatables.fixedheader.js',
+      'bower_components/angular-datatables/dist/plugins/scroller/angular-datatables.scroller.js',
+      'bower_components/angular-datatables/dist/plugins/tabletools/angular-datatables.tabletools.js',
+      'bower_components/angular-datatables/dist/plugins/buttons/angular-datatables.buttons.js',
+      'bower_components/angular-datatables/dist/plugins/select/angular-datatables.select.js',
+      'bower_components/AngularJS-Toaster/toaster.js',
+      'bower_components/sweetalert/dist/sweetalert.min.js',
+      'bower_components/ngSweetAlert/SweetAlert.js',
+
+      // inspinea scripts.
       'app/plugins/metisMenu/jquery.metisMenu.js',
       'app/plugins/ui-bootstrap-tpls-1.1.2.min.js',
       'app/plugins/inspinia.js',
+
+      // tests and scripts.
       'test/mock/**/*.js',
       'app/scripts/**/*.js',
       'test/spec/**/*.js'
-      // 'app/i18n/**/*.js'
     ],
 
     // list of files / patterns to exclude
@@ -48,7 +70,7 @@ module.exports = function(config) {
     ],
 
     // web server port
-    port: 8080,
+    port: 8081,
 
     // Start these browsers, currently available:
     // - Chrome

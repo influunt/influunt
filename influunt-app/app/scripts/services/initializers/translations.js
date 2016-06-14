@@ -1,6 +1,6 @@
 'use strict';
 
-var LOCALE_LOCATION_PATTERN = 'i18n/locales/angular-locale_{{locale}}.js';
+var LOCALE_LOCATION_PATTERN = 'json/locales/angular-locale_{{locale}}.js';
 
 /**
  * @ngdoc run
@@ -16,14 +16,14 @@ angular.module('influuntApp')
     function($translateProvider, tmhDynamicLocaleProvider, APP_SETTINGS) {
       $translateProvider.useSanitizeValueStrategy(null);
       $translateProvider.useStaticFilesLoader({
-        prefix: 'i18n/i18n-',
+        prefix: 'json/i18n-',
         suffix: '.json'
       });
 
       $translateProvider.useMessageFormatInterpolation();
       $translateProvider.preferredLanguage(APP_SETTINGS.defaultLocale);
 
-      tmhDynamicLocaleProvider.localeLocationPattern('i18n/locales/angular-locale_{{locale}}.js');
+      tmhDynamicLocaleProvider.localeLocationPattern('json/locales/angular-locale_{{locale}}.js');
     }])
     .run(['tmhDynamicLocale', 'APP_SETTINGS', '$http', '$log',
       function(tmhDynamicLocale, APP_SETTINGS, $http, $log) {

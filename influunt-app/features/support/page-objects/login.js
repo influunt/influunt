@@ -4,7 +4,7 @@ var worldObj = require('../world');
 
 var world = new worldObj.World();
 
-var LoginPage = function LoginPage() {
+var LoginPage = function () {
   var LOGIN_URL = 'http://localhost:9000/#/login';
 
   this.acessar = function() {

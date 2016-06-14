@@ -2,7 +2,7 @@
 
 var fs = require('fs');
 var webdriver = require('selenium-webdriver');
-var platform = process.env.PLATFORM || "PHANTOMJS";
+var platform = process.env.PLATFORM || 'PHANTOMJS';
 var driver = null;
 
 var buildChromeDriver = function() {
@@ -23,9 +23,9 @@ var getDriver = function() {
   return driver;
 };
 
-var World = function World() {
+var World = function () {
   var defaultTimeout = 20 * 1000;
-  var screenshotPath = "screenshots";
+  var screenshotPath = 'screenshots';
 
   this.webdriver = webdriver;
   this.driver = driver;

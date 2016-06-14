@@ -7,6 +7,8 @@
     <!-- Page wraper -->
     <!-- ng-class with current state name give you the ability to extended customization your view -->
     <div id="page-wrapper" class="gray-bg {{$state.current.name}}">
+        <toaster-container></toaster-container>
+        <ng-include src="'views/common/breadcrumbs.html'"></ng-include>
 
         <!-- Main view  -->
         <div ui-view></div>

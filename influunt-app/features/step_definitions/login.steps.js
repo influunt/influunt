@@ -23,7 +23,7 @@ module.exports = function() {
     });
   });
 
-  this.Given(/^o sistema deve informar "([^"]*)" para o campo de senha$/, function (arg1) {
+  this.Given(/^o sistema deve informar "Campo obrigatório" para o campo de senha$/, function () {
     return loginPage.campoSenhaInvalido().then(function(res) {
       expect(res).to.equal(true);
     });
@@ -34,7 +34,7 @@ module.exports = function() {
     loginPage.confirmarFormulario();
   });
 
-  this.Given(/^o sistema deve informar "([^"]*)" para o campo de usuário$/, function (arg1) {
+  this.Given(/^o sistema deve informar "Campo obrigatório" para o campo de usuário$/, function () {
     return loginPage.campoUsuarioInvalido().then(function(res) {
       expect(res).to.equal(true);
     });

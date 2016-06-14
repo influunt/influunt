@@ -8,16 +8,10 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('MainCtrl', [function MainCtrl() {
-
-    this.userName = 'Example user';
-    this.helloText = 'Welcome in SeedProject';
-    this.descriptionText = 'It is an application skeleton for a typical AngularJS web app. You can use it to quickly bootstrap your angular webapp projects and dev environment for these projects.';
-
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
-
-  }]);
+  .controller('MainCtrl', ['$scope', '$controller',
+    function MainCtrl($scope, $controller) {
+      // Herda todo o comportamento de breadcrumbs.
+      $controller('BreadcrumbsCtrl', {$scope: $scope});
+      $controller('DatatablesCtrl', {$scope: $scope});
+    }
+  ]);

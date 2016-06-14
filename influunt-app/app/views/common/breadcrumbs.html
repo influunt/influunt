@@ -1,0 +1,11 @@
+<div class="row wrapper border-bottom white-bg page-heading" data-ng-init="udpateBreadcrumbs()">
+  <div class="col-lg-10">
+    <h2>{{ pageTitle | translate }}</h2>
+    <ol class="breadcrumb">
+      <li data-ng-repeat="breadcrumb in breadcrumbs" data-ng-class="{active: $last}">
+        <a ui-sref="{{breadcrumb.url}}" data-ng-if="!$last">{{ breadcrumb.title | translate }}</a>
+        <strong data-ng-if="$last">{{ breadcrumb.title | translate }}</strong>
+      </li>
+    </ol>
+  </div>
+</div>

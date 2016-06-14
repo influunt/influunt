@@ -2,7 +2,7 @@
 bower_components
 node_modules
 coverage
-app/i18n/locales/*
-!app/i18n/locales/.gitkeep
+app/json/locales/*
+!app/json/locales/.gitkeep
 log
 dist
