@@ -1,28 +1,29 @@
 package controllers;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
-
-import javax.inject.Inject;
-
 import com.fasterxml.jackson.databind.JsonNode;
-
+import com.google.inject.Inject;
 import exceptions.EntityNotFound;
 import models.TipoDetector;
+import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import services.TipoDetectorCrudService;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
 public class TiposDetectoresController extends Controller {
 
     @Inject
     private TipoDetectorCrudService tipoDetectorService;
 
+    @Transactional
     public CompletionStage<Result> findAll() {
         return CompletableFuture.completedFuture(ok(Json.toJson(tipoDetectorService.findAll())));
     }
 
+    @Transactional
     public CompletionStage<Result> create() {
         JsonNode json = request().body().asJson();
 
@@ -35,6 +36,7 @@ public class TiposDetectoresController extends Controller {
         }
     }
 
+    @Transactional
     public CompletionStage<Result> update(String id) {
         JsonNode json = request().body().asJson();
         if (json == null) {
@@ -48,6 +50,7 @@ public class TiposDetectoresController extends Controller {
         return CompletableFuture.completedFuture(ok(Json.toJson(tipoDetector)));
     }
 
+    @Transactional
     public CompletionStage<Result> findOne(String id) {
         TipoDetector tipoDetector = tipoDetectorService.findOne(id);
         if (tipoDetector == null) {
@@ -57,6 +60,7 @@ public class TiposDetectoresController extends Controller {
         }
     }
 
+    @Transactional
     public CompletionStage<Result> delete(String id) {
         try {
             tipoDetectorService.delete(id);
