@@ -1,14 +1,11 @@
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 import static play.inject.Bindings.bind;
+import static play.mvc.Http.Status.OK;
+import static play.mvc.Http.Status.UNPROCESSABLE_ENTITY;
 import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.route;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.google.inject.Inject;
 import com.sun.media.jfxmedia.logging.Logger;
@@ -23,8 +20,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import play.Application;
 import play.Mode;
+import play.i18n.Messages;
 import play.db.jpa.JPA;
 import play.db.jpa.JPAApi;
+import play.i18n.MessagesApi;
 import play.inject.guice.GuiceApplicationBuilder;
 import play.libs.Json;
 import play.mvc.Http;
@@ -37,12 +36,13 @@ import services.*;
 public class ControladoresControllerTest extends WithApplication {
     JPAApi jpaApi;
 
-    CidadeCrudService cidadeCrudService;
-    AreaCrudService areaCrudService;
-    FabricanteCrudService fabricanteCrudService;
-    ConfiguracaoControladorCrudService configuracaoControladorCrudService;
-    ModeloControladorCrudService modeloControladorCrudService;
-    CoordenadaGeograficaCrudService coordenadaGeograficaCrudService;
+    private CidadeCrudService cidadeCrudService;
+    private AreaCrudService areaCrudService;
+    private FabricanteCrudService fabricanteCrudService;
+    private ConfiguracaoControladorCrudService configuracaoControladorCrudService;
+    private ModeloControladorCrudService modeloControladorCrudService;
+    private CoordenadaGeograficaCrudService coordenadaGeograficaCrudService;
+    private ControladorCrudService controladorCrudService;
 
     private Cidade cidade;
     private Area area;
@@ -50,6 +50,7 @@ public class ControladoresControllerTest extends WithApplication {
     private ConfiguracaoControlador configuracao;
     private ModeloControlador modeloControlador;
     private CoordenadaGeografica coordenadaGeografica;
+
 
 
     @Before
@@ -61,7 +62,7 @@ public class ControladoresControllerTest extends WithApplication {
         fabricanteCrudService = app.injector().instanceOf(FabricanteCrudService.class);
         configuracaoControladorCrudService = app.injector().instanceOf(ConfiguracaoControladorCrudService.class);
         modeloControladorCrudService = app.injector().instanceOf(ModeloControladorCrudService.class);
-        coordenadaGeograficaCrudService = app.injector().instanceOf(CoordenadaGeograficaCrudService.class);
+        controladorCrudService = app.injector().instanceOf(ControladorCrudService.class);
 
 
         this.cidade = new Cidade();
@@ -89,10 +90,6 @@ public class ControladoresControllerTest extends WithApplication {
         this.modeloControlador.setFabricante(fabricante);
         this.modeloControlador = jpaApi.withTransaction(() -> { return modeloControladorCrudService.save(this.modeloControlador); });
 
-        this.coordenadaGeografica = new CoordenadaGeografica();
-        this.coordenadaGeografica.setLatitude(1.0);
-        this.coordenadaGeografica.setLongitude(2.0);
-        this.coordenadaGeografica = jpaApi.withTransaction(() -> { return coordenadaGeograficaCrudService.save(coordenadaGeografica); });
     }
 
     @Override
@@ -123,30 +120,126 @@ public class ControladoresControllerTest extends WithApplication {
 
     @Test
     public void testCriarNovoComDadosBasicos() {
+        Controlador controlador = getControlador();
 
-        Controlador controlador = new Controlador();
-        controlador.setDescricao("Teste");
-        controlador.setNumeroSMEE("1234");
-        controlador.setArea(area);
-        controlador.setCoordenada(coordenadaGeografica);
-        controlador.setIdControlador("10.02.122");
-        controlador.setModelo(modeloControlador);
-        controlador.setFirmware("1.0.0");
-        List<Anel> aneis = new ArrayList<Anel>();
-        aneis.add(new Anel());
-        controlador.setAneis(aneis);
-
-        List<GrupoSemaforico> grupoSemaforicos = new ArrayList<GrupoSemaforico>();
-        grupoSemaforicos.add(new GrupoSemaforico());
-        controlador.setGruposSemaforicos(grupoSemaforicos);
-
-
-        play.Logger.info("JSON ENVIADO:" + Json.toJson(controlador).toString());
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
                 .uri(routes.ControladoresController.create().url()).bodyJson(Json.toJson(controlador));
         Result postResult = route(postRequest);
         assertEquals(200, postResult.status());
-        // JsonNode json = Json.parse(Helpers.contentAsString(postResult));
+        JsonNode json = Json.parse(Helpers.contentAsString(postResult));
+        Controlador controladorRetornado = Json.fromJson(json,Controlador.class);
+        assertNotNull(controladorRetornado.getId());
+        assertNotNull(controladorRetornado.getCoordenada().getId());
+        assertEquals(configuracao.getLimiteAnel(),Integer.valueOf(controlador.getAneis().size()));
+
     }
+
+    @Test
+    public void testAtualizarControladorExistenteComConfiguracaoInvalida() {
+        Controlador controlador = getControlador();
+        controladorCrudService.save(controlador);
+        controlador.setAneis(null);
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
+                .uri(routes.ControladoresController.update(controlador.getId()).url())
+                .bodyJson(Json.toJson(controlador));
+        Result result = route(request);
+
+        assertEquals(UNPROCESSABLE_ENTITY, result.status());
+    }
+
+    @Test
+    public void testAtualizarControladorExistente() {
+        Controlador controlador = getControlador();
+        controladorCrudService.save(controlador);
+        CoordenadaGeografica coordenadaGeografica = controlador.getCoordenada();
+        controlador.setCoordenada(new CoordenadaGeografica(2.0,3.0));
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
+                .uri(routes.ControladoresController.update(controlador.getId()).url())
+                .bodyJson(Json.toJson(controlador));
+        Result result = route(request);
+        assertEquals(OK, result.status());
+
+        JsonNode json = Json.parse(Helpers.contentAsString(result));
+        Controlador controladorAtualizado =  Json.fromJson(json,Controlador.class);
+        assertEquals(controlador.getId(),controladorAtualizado.getId());
+        assertNotEquals(coordenadaGeografica.getId(),controladorAtualizado.getCoordenada().getId());
+    }
+
+    @Test
+    public void testAtualizarControladorNaoExistente() {
+        Controlador controlador = getControlador();
+
+        Http.RequestBuilder putRequest = new Http.RequestBuilder().method("PUT")
+                .uri(routes.ControladoresController.update("xxxx").url())
+                .bodyJson(Json.toJson(controlador));
+        Result putResult = route(putRequest);
+        assertEquals(404, putResult.status());
+    }
+
+    @Test
+    public void testApagarControladorExistente() {
+        Controlador controlador = getControlador();
+        String controladorId = controlador.getId();
+
+        Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
+                .uri(routes.ControladoresController.delete(controladorId).url());
+        Result result = route(deleteRequest);
+
+        assertEquals(200, result.status());
+        controlador = controladorCrudService.findOne(controladorId);
+        assertNull(controlador);
+    }
+
+    @Test
+    public void testApagarControladorNaoExistente() {
+
+        Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
+                .uri(routes.CidadesController.delete("1234").url());
+        Result result = route(deleteRequest);
+        assertEquals(404, result.status());
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void testListarControladores() {
+
+        controladorCrudService.save(getControlador());
+        controladorCrudService.save(getControlador());
+        controladorCrudService.save(getControlador());
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
+                .uri(routes.ControladoresController.findAll().url());
+        Result result = route(request);
+        JsonNode json = Json.parse(Helpers.contentAsString(result));
+        List<Controlador> controladores = Json.fromJson(json, List.class);
+
+        assertEquals(200, result.status());
+        assertEquals(3, controladores.size());
+    }
+
+    private Controlador getControlador() {
+        Controlador controlador = new Controlador();
+        controlador.setDescricao("Teste");
+        controlador.setNumeroSMEE("1234");
+        controlador.setArea(area);
+        controlador.setCoordenada(new CoordenadaGeografica(1.0,2.0));
+        controlador.setIdControlador("10.02.122");
+        controlador.setModelo(modeloControlador);
+        controlador.setFirmware("1.0.0");
+        List<Anel> aneis = Arrays.asList(new Anel(), new Anel(), new Anel(), new Anel());
+        controlador.setAneis(aneis);
+
+        List<GrupoSemaforico> grupoSemaforicos = Arrays.asList(new GrupoSemaforico(),new GrupoSemaforico(),new GrupoSemaforico(),new GrupoSemaforico(),
+                new GrupoSemaforico(),new GrupoSemaforico(),new GrupoSemaforico(),new GrupoSemaforico(),
+                new GrupoSemaforico(),new GrupoSemaforico(),new GrupoSemaforico(),new GrupoSemaforico(),
+                new GrupoSemaforico(),new GrupoSemaforico(),new GrupoSemaforico(),new GrupoSemaforico());
+
+        controlador.setGruposSemaforicos(grupoSemaforicos);
+        return controlador;
+    }
+
+
 
 }

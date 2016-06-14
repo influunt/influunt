@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import framework.BaseEntity;
@@ -39,6 +40,7 @@ public class Cidade extends BaseEntity<String> {
     @Required
     private String nome;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "cidade", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<Area> areas;
 

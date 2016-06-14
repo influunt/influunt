@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import framework.BaseEntity;
@@ -43,9 +44,11 @@ public class Area extends BaseEntity<String> {
     @JoinColumn(name = "cidade_id")
     private Cidade cidade;
 
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<CoordenadaGeografica> coordenadas;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "area", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Controlador> controladores;
 

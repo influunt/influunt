@@ -1,10 +1,8 @@
 package controllers;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import exceptions.EntityNotFound;
 import models.Controlador;
-import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
 import play.db.jpa.Transactional;
@@ -18,6 +16,7 @@ import java.util.concurrent.CompletionStage;
 
 public class ControladoresController extends Controller {
 
+
     @Inject
     private ControladorCrudService controladorService;
 
@@ -26,17 +25,13 @@ public class ControladoresController extends Controller {
 
     @Transactional
     public CompletionStage<Result> create() {
-
         if (request().body() == null) {
             return CompletableFuture.completedFuture(badRequest());
         }
-
         Form<Controlador> form = formFactory.form(Controlador.class).bind(request().body().asJson());
-        Logger.info("Form Recebido:" + form.toString());
-
-        if (form.hasErrors()) {
-            return CompletableFuture.completedFuture(status(422, form.errorsAsJson()));
-        } else {
+        if(form.hasErrors()){
+            return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, form.errorsAsJson()));
+        }else{
             return CompletableFuture.completedFuture(ok(Json.toJson(controladorService.save(form.get()))));
         }
     }
@@ -68,16 +63,21 @@ public class ControladoresController extends Controller {
 
     @Transactional
     public CompletionStage<Result> update(String id) {
-        JsonNode json = request().body().asJson();
-        if (json == null) {
-            return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
-        } else {
-            Controlador controlador = Json.fromJson(json, Controlador.class);
-            if (controlador.getId() == null) {
+        if(request().body()==null) {
+            return CompletableFuture.completedFuture(badRequest());
+        }
+        Form<Controlador> form = formFactory.form(Controlador.class).bind(request().body().asJson());
+        if(form.hasErrors()){
+            return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, form.errorsAsJson()));
+        }else{
+
+            Controlador controlador = form.get();
+            controlador = controladorService.update(controlador, id);
+            if (controlador == null) {
                 return CompletableFuture.completedFuture(notFound());
             }
-            controladorService.update(controlador, id);
             return CompletableFuture.completedFuture(ok(Json.toJson(controlador)));
+
         }
     }
 
