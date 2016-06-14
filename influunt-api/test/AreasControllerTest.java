@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.inject.Inject;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -17,6 +18,8 @@ import controllers.routes;
 import models.Area;
 import play.Application;
 import play.Mode;
+import play.db.jpa.JPAApi;
+import play.db.jpa.Transactional;
 import play.inject.guice.GuiceApplicationBuilder;
 import play.libs.Json;
 import play.mvc.Http;
@@ -27,6 +30,7 @@ import security.Authenticator;
 import services.AreaCrudService;
 
 public class AreasControllerTest extends WithApplication {
+
 
     @Override
     protected Application provideApplication() {
@@ -42,6 +46,7 @@ public class AreasControllerTest extends WithApplication {
     }
 
     @Test
+    @Transactional
     public void testCriarNovaArea() {
         Area area = new Area();
         area.setDescricao("CTA 1");
@@ -58,12 +63,17 @@ public class AreasControllerTest extends WithApplication {
     }
 
     @Test
+    @Transactional
     public void testAtualizarAreaExistente() {
         AreaCrudService areaService = app.injector().instanceOf(AreaCrudService.class);
+        JPAApi jpaApi = app.injector().instanceOf(JPAApi.class);
+
         Area area = new Area();
-        area.setDescricao("Area 1");
-        areaService.save(area);
-        
+        jpaApi.withTransaction(() -> {
+            area.setDescricao("Area 1");
+            areaService.save(area);
+        });
+
         String areaId = area.getId();
         
         area.setDescricao("Area atualizada");
@@ -81,6 +91,7 @@ public class AreasControllerTest extends WithApplication {
     }
     
     @Test
+    @Transactional
     public void testAtualizarAreaNaoExistente() {
         Area area = new Area();
         area.setDescricao("CTA 1");
@@ -93,23 +104,31 @@ public class AreasControllerTest extends WithApplication {
     }
 
     @Test
+    @Transactional
     public void testApagarAreaExistente() {
+        JPAApi jpaApi = app.injector().instanceOf(JPAApi.class);
         AreaCrudService areaService = app.injector().instanceOf(AreaCrudService.class);
-        Area area = new Area();
-        area.setDescricao("CTA 1");
-        areaService.save(area);
-        String areaId = area.getId();
+
+        String areaId = jpaApi.withTransaction(() -> {
+            Area area = new Area();
+            area.setDescricao("CTA 1");
+            areaService.save(area);
+            return area.getId();
+        });
 
         Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
                 .uri(routes.AreasController.delete(areaId).url());
         Result result = route(deleteRequest);
            
         assertEquals(200, result.status());
-        area = areaService.findOne(areaId);
-        assertNull(area);
+        jpaApi.withTransaction(() -> {
+            Area area = areaService.findOne(areaId);
+            assertNull(area);
+        });
     }
     
     @Test
+    @Transactional
     public void testApagarAreaNaoExistente() {
         Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
                 .uri(routes.AreasController.delete("1234").url());
@@ -118,16 +137,21 @@ public class AreasControllerTest extends WithApplication {
     }
     
     @Test
+    @Transactional
     @SuppressWarnings("unchecked")
     public void testListarAreas() {
         AreaCrudService areaService = app.injector().instanceOf(AreaCrudService.class);
+        JPAApi jpaApi = app.injector().instanceOf(JPAApi.class);
         
-        Area area = new Area();
-        area.setDescricao("CTA 1");
-        areaService.save(area);
-        area.setDescricao("CTA 2");
-        area.setId(null);
-        areaService.save(area);
+        jpaApi.withTransaction(() -> {
+            Area area = new Area();
+            area.setDescricao("CTA 1");
+            areaService.save(area);
+
+            area = new Area();
+            area.setDescricao("CTA 2");
+            areaService.save(area);
+        });
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
                 .uri(routes.AreasController.findAll().url());

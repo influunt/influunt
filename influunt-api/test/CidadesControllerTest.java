@@ -18,6 +18,7 @@ import models.Cidade;
 import play.Application;
 import play.Logger;
 import play.Mode;
+import play.db.jpa.JPAApi;
 import play.inject.guice.GuiceApplicationBuilder;
 import play.libs.Json;
 import play.mvc.Http;
@@ -59,10 +60,13 @@ public class CidadesControllerTest extends WithApplication {
 
     @Test
     public void testAtualizarCidadeExistente() {
+        JPAApi jpaApi = app.injector().instanceOf(JPAApi.class);
         CidadeCrudService cidadeService = app.injector().instanceOf(CidadeCrudService.class);
+
         Cidade cidade = new Cidade();
         cidade.setNome("Teste");
-        cidadeService.save(cidade);
+
+        jpaApi.withTransaction(() -> { cidadeService.save(cidade); });
 
         String cidadeId = cidade.getId();
         Cidade novaCidade = new Cidade();
@@ -94,18 +98,23 @@ public class CidadesControllerTest extends WithApplication {
 
     @Test
     public void testApagarCidadeExistente() {
+        JPAApi jpaApi = app.injector().instanceOf(JPAApi.class);
         CidadeCrudService cidadeService = app.injector().instanceOf(CidadeCrudService.class);
-        Cidade cidade = new Cidade();
-        cidade.setNome("Teste");
-        cidadeService.save(cidade);
-        String cidadeId = cidade.getId();
+
+
+        String cidadeId = jpaApi.withTransaction(() -> {
+            Cidade cidade = new Cidade();
+            cidade.setNome("Teste");
+            cidadeService.save(cidade);
+            return cidade.getId();
+        });
 
         Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
                 .uri(routes.CidadesController.delete(cidadeId).url());
         Result result = route(deleteRequest);
            
         assertEquals(200, result.status());
-        cidade = cidadeService.findOne(cidadeId);
+        Cidade cidade = jpaApi.withTransaction(() -> { return cidadeService.findOne(cidadeId); });
         assertNull(cidade);
     }
     
@@ -123,14 +132,15 @@ public class CidadesControllerTest extends WithApplication {
     @Test
     @SuppressWarnings("unchecked")
     public void testListarCidades() {
+        JPAApi jpaApi = app.injector().instanceOf(JPAApi.class);
         CidadeCrudService cidadeService = app.injector().instanceOf(CidadeCrudService.class);
         
         Cidade cidade = new Cidade();
         cidade.setNome("Cidade 1");
-        cidadeService.save(cidade);
+        jpaApi.withTransaction(() -> { cidadeService.save(cidade); });
         cidade.setNome("Cidade 2");
         cidade.setId(null);
-        cidadeService.save(cidade);
+        jpaApi.withTransaction(() -> { cidadeService.save(cidade); });
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
                 .uri(routes.CidadesController.findAll().url());

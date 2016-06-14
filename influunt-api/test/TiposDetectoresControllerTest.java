@@ -4,6 +4,7 @@ import models.TipoDetector;
 import org.junit.Test;
 import play.Application;
 import play.Mode;
+import play.db.jpa.JPAApi;
 import play.inject.guice.GuiceApplicationBuilder;
 import play.libs.Json;
 import play.mvc.Http;
@@ -56,11 +57,15 @@ public class TiposDetectoresControllerTest extends WithApplication {
     @Test
     public void testAtualizarTipoDetectorExistente() {
         TipoDetectorCrudService tipoDetectorService = app.injector().instanceOf(TipoDetectorCrudService.class);
+        JPAApi jpaApi = app.injector().instanceOf(JPAApi.class);
 
-        TipoDetector tipoDetector = new TipoDetector();
-        tipoDetector.setDescricao("Descrição");
-        tipoDetectorService.save(tipoDetector);
-        String tipoDetectorId = tipoDetector.getId();
+        String tipoDetectorId = jpaApi.withTransaction(() -> {
+            TipoDetector tipoDetector = new TipoDetector();
+            tipoDetector.setDescricao("Descrição");
+            tipoDetectorService.save(tipoDetector);
+            return tipoDetector.getId();
+        });
+
         
         TipoDetector novoTipo = new TipoDetector();
         novoTipo.setDescricao("Teste");
@@ -70,7 +75,7 @@ public class TiposDetectoresControllerTest extends WithApplication {
                 .bodyJson(Json.toJson(novoTipo));
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
-        tipoDetector = Json.fromJson(json, TipoDetector.class);
+        TipoDetector tipoDetector = Json.fromJson(json, TipoDetector.class);
         
         assertEquals(200, result.status());
         assertEquals("Teste", tipoDetector.getDescricao());
@@ -92,17 +97,21 @@ public class TiposDetectoresControllerTest extends WithApplication {
     @Test
     public void testApagarTipoDetectorExistente() {
         TipoDetectorCrudService tipoDetectorService = app.injector().instanceOf(TipoDetectorCrudService.class);
-        TipoDetector tipoDetector = new TipoDetector();
-        tipoDetector.setDescricao("Teste");
-        tipoDetectorService.save(tipoDetector);
-        String tipoDetectorId = tipoDetector.getId();
+        JPAApi jpaApi = app.injector().instanceOf(JPAApi.class);
+
+        String tipoDetectorId = jpaApi.withTransaction(() -> {
+            TipoDetector tipoDetector = new TipoDetector();
+            tipoDetector.setDescricao("Teste");
+            tipoDetectorService.save(tipoDetector);
+            return tipoDetector.getId();
+        });
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("DELETE")
                 .uri(routes.TiposDetectoresController.delete(tipoDetectorId).url());
         Result result = route(request);
            
         assertEquals(200, result.status());
-        tipoDetector = tipoDetectorService.findOne(tipoDetectorId);
+        TipoDetector tipoDetector = jpaApi.withTransaction(() -> { return tipoDetectorService.findOne(tipoDetectorId); });
         assertNull(tipoDetector);
     }
 
@@ -119,21 +128,26 @@ public class TiposDetectoresControllerTest extends WithApplication {
 
     @Test
     public void testListarTiposDetectores() {
+        JPAApi jpaApi = app.injector().instanceOf(JPAApi.class);
         TipoDetectorCrudService tipoDetectorService = app.injector().instanceOf(TipoDetectorCrudService.class);
-        TipoDetector tipoDetector = new TipoDetector();
-        tipoDetector.setDescricao("Teste 1");
-        tipoDetectorService.save(tipoDetector);
-        
-        tipoDetector.setId(null);
-        tipoDetector.setDescricao("Teste 2");
-        tipoDetectorService.save(tipoDetector);
-        
+
+        jpaApi.withTransaction(() -> {
+            TipoDetector tipoDetector = new TipoDetector();
+            tipoDetector.setDescricao("Teste 1");
+            tipoDetectorService.save(tipoDetector);
+
+            tipoDetector = new TipoDetector();
+            tipoDetector.setDescricao("Teste 2");
+            tipoDetectorService.save(tipoDetector);
+        });
+
+
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
                 .uri(routes.TiposDetectoresController.findAll().url());
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
-        List<TipoDetector> tiposDetectores = Json.fromJson(json, List.class);  
-        
+        List<TipoDetector> tiposDetectores = Json.fromJson(json, List.class);
+
         assertEquals(200, result.status());
         assertEquals(2, tiposDetectores.size());
     }
