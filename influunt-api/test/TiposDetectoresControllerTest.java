@@ -1,22 +1,7 @@
-package influunt.test.integration.controllers;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static play.inject.Bindings.bind;
-import static play.test.Helpers.inMemoryDatabase;
-import static play.test.Helpers.route;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.junit.Test;
-
 import com.fasterxml.jackson.databind.JsonNode;
-
 import controllers.routes;
 import models.TipoDetector;
+import org.junit.Test;
 import play.Application;
 import play.Mode;
 import play.inject.guice.GuiceApplicationBuilder;
@@ -27,6 +12,15 @@ import play.test.Helpers;
 import play.test.WithApplication;
 import security.Authenticator;
 import services.TipoDetectorCrudService;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.*;
+import static play.inject.Bindings.bind;
+import static play.test.Helpers.inMemoryDatabase;
+import static play.test.Helpers.route;
 
 public class TiposDetectoresControllerTest extends WithApplication {
 
