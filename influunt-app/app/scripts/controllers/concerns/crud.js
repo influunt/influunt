@@ -49,6 +49,7 @@ angular.module('influuntApp')
         .then(function(res) {
           $scope.minid = res.id.split('-')[0];
           $scope.objeto = res;
+          $scope.afterShow();
         });
     };
 
@@ -58,6 +59,7 @@ angular.module('influuntApp')
     $scope.new = function() {
       $scope.beforeShow();
       $scope.objeto = {};
+      $scope.afterShow();
     };
 
     /**
@@ -115,10 +117,14 @@ angular.module('influuntApp')
     };
 
     // callbacks
-
     /**
      * Implementação de callbacks para o crud base.
      */
     $scope.beforeShow = function() {};
+
+    /**
+     * Implementação de callbacks para o crud base.
+     */
+    $scope.afterShow = function() {};
 
   }]);

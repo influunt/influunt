@@ -1,29 +1,12 @@
 <div class="form-group col-md-9">
 
   <div ng-repeat="coordenada in objeto.coordenadas">
-    <div class="form-group">
-
-      <label class="control-label col-md-2">Latitude</label>
-      <div class="col-md-3">
-        <input type="text" class="form-control" ng-model="coordenada.latitude" placeholder="Latitude"/>
-      </div>
-
-      <label class="control-label col-md-2">Longitude</label>
-      <div class="col-md-3">
-        <input type="text" class="form-control" ng-model="coordenada.longitude" placeholder="Longitude"/>
-      </div>
-
-
-      <div class="col-md-2">
-        <a ng-click="removerCoordenadas($index)" class="btn btn-xs btn-danger">X</a>
-      </div>
-    </div>
-    <hr/>
+    <ng-include src="'views/coordenada/_coordenada.html'"></ng-include>
   </div>
 
   <div class="form-group">
     <div class="col-md-offset-6">
-      <a ng-click="adicionarCoordenadas()" class="btn btn-success btn-xs">+ Add Coordenadas</a>
+      <a ng-click="adicionarCoordenadas()" class="btn btn-success btn-xs">{{ 'areas.adicionar_coordenada' | translate }}</a>
     </div>
   </div>
 </div>

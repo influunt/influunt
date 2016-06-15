@@ -120,6 +120,47 @@ angular
           }
         })
 
+        // Crud tipos detectores.
+        .state('app.tipos_detectores', {
+          url: '/tipos_detectores',
+          templateUrl: 'views/tipos_detectores/index.html',
+          controller: 'TiposDetectoresCtrl',
+          controllerAs: 'tipos_detectores',
+          data: {
+            title: 'tipos_detectores.titulo'
+          }
+        })
+
+        .state('app.tipos_detectores_new', {
+          url: '/tipos_detectores/new',
+          templateUrl: 'views/tipos_detectores/new.html',
+          controller: 'TiposDetectoresCtrl',
+          controllerAs: 'tipos_detectores',
+          data: {
+            title: 'tipos_detectores.titulo'
+          }
+        })
+
+        .state('app.tipos_detectores_edit', {
+          url: '/tipos_detectores/:id/edit',
+          templateUrl: 'views/tipos_detectores/edit.html',
+          controller: 'TiposDetectoresCtrl',
+          controllerAs: 'tipos_detectores',
+          data: {
+            title: 'tipos_detectores.titulo'
+          }
+        })
+
+        .state('app.tipos_detectores_show', {
+          url: '/tipos_detectores/:id',
+          templateUrl: 'views/tipos_detectores/show.html',
+          controller: 'TiposDetectoresCtrl',
+          controllerAs: 'tipos_detectores',
+          data: {
+            title: 'tipos_detectores.titulo'
+          }
+        })
+
         // Rotas de teste. Podem ser removidas em breve.
         .state('index', {
           abstract: true,
