@@ -78,6 +78,12 @@ angular
           }
         })
 
+        .state('index.dados', {
+          url: '/dados',
+          templateUrl: 'views/dados.html',
+          data: {pageTitle: 'Example view'}
+        })
+
         // Rotas de teste. Podem ser removidas em breve.
         .state('index', {
           abstract: true,
