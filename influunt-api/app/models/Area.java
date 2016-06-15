@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.joda.time.DateTime;
@@ -28,9 +29,10 @@ public class Area extends Model {
     @Column
     private String descricao;
 
-    @OneToOne
-    @JoinColumn(name = "cidade_id")
+    @ManyToOne
+    @JsonBackReference
     private Cidade cidade;
+
 
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "area")

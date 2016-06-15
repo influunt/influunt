@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
@@ -27,6 +28,7 @@ public class Fabricante extends Model {
     @Column
     private String nome;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "fabricante", cascade = CascadeType.ALL)
     private List<ModeloControlador> modelos;
 
