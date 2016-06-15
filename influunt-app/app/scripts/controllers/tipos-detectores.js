@@ -2,15 +2,15 @@
 
 /**
  * @ngdoc function
- * @name influuntApp:CidadesCtrl
+ * @name influuntApp.controller:TiposDetectoresCtrl
  * @description
- * # CidadesCtrl
+ * # TiposDetectoresCtrl
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('CidadesCtrl', ['$scope', '$controller',
-    function ($scope, $controller) {
+  .controller('TiposDetectoresCtrl', ['$controller', '$scope',
+    function ($controller, $scope) {
       // Herda todo o comportamento do crud basico.
       $controller('CrudCtrl', {$scope: $scope});
-      $scope.inicializaNovoCrud('cidades');
+      $scope.inicializaNovoCrud('tipos_detectores');
     }]);

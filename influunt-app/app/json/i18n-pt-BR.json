@@ -1,15 +1,32 @@
 {
   "appname": "Influunt",
+  "areas": {
+    "adicionar_coordenada": "adicionar coordenadas",
+    "cidade": "CIDADE",
+    "coordenadas": "COORDENADAS",
+    "descricao": "DESCRIÇÃO",
+    "novo": "Nova Área",
+    "titulo": "Áreas"
+  },
   "cidades": {
     "areas": "ÁREAS",
     "nome": "NOME",
     "novo": "Nova Cidade",
     "titulo": "Cidades"
   },
+  "coordenadas": {
+    "latitude": "LATITUDE",
+    "longitude": "LONGITUDE"
+  },
+  "tipos_detectores": {
+    "descricao": "DESCRIÇÃO",
+    "novo": "Novo Tipo de Detector",
+    "titulo": "Tipos de Detectores"
+  },
   "geral": {
     "auditoria": {
-      "dataAtualizacao": "Data de Atualização",
-      "dataCriacao": "Data de Criação"
+      "dataAtualizacao": "DATA DE ATUALIZAÇÃO",
+      "dataCriacao": "DATA DE CRIAÇÃO"
     },
     "crud": {
       "editar": "Editar",
@@ -27,7 +44,7 @@
       "default_erro": "Ocorreu um erro. Tente novamente mais tarde.",
       "nao": "Não",
       "popup_delete": {
-        "mensagem": "quer mesmo apagar esta cidade?",
+        "mensagem": "quer mesmo apagar este registro?",
         "titulo": "Confirma?"
       },
       "removido_com_sucesso": "Removido com sucesso",
