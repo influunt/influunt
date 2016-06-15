@@ -201,10 +201,12 @@ angular
             title: 'tipos_detectores.titulo'
           }
 
-        .state('index.dados', {
+        .state('app.dados', {
           url: '/dados',
           templateUrl: 'views/dados.html',
-          data: {pageTitle: 'Example view'}
+          data: {
+            title: 'Example view'
+          }
         })
 
         // Rotas de teste. Podem ser removidas em breve.
