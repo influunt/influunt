@@ -1,6 +1,7 @@
 {
   "appname": "Influunt",
   "areas": {
+    "cidade": "CIDADE",
     "coordenadas": "COORDENADAS",
     "descricao": "DESCRIÇÃO",
     "novo": "Nova Área",

@@ -42,6 +42,7 @@ angular.module('influuntApp')
      * @return     {Object}  Promise
      */
     $scope.show = function() {
+      $scope.beforeShow();
       var id = $state.params.id;
 
       return Restangular.one(resourceName, id).get()
@@ -55,6 +56,7 @@ angular.module('influuntApp')
      * Inicializa o objeto a ser salvo.
      */
     $scope.new = function() {
+      $scope.beforeShow();
       $scope.objeto = {};
     };
 
@@ -111,5 +113,12 @@ angular.module('influuntApp')
             });
       });
     };
+
+    // callbacks
+
+    /**
+     * Implementação de callbacks para o crud base.
+     */
+    $scope.beforeShow = function() {};
 
   }]);
