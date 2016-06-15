@@ -45,4 +45,7 @@ GET         /api/v1/fabricantes/:id             controllers.FabricantesControlle
 DELETE      /api/v1/fabricantes/:id             controllers.FabricantesController.delete(id)
 
 
+#View Helpers
+GET        /api/v1/helpers/controlador          controllers.HelpersController.controladorHelper()
+
 POST    /api/v1/login               controllers.SecurityController.login
