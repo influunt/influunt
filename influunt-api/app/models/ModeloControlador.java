@@ -1,18 +1,11 @@
 package models;
 
-import java.util.Date;
+import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.joda.time.DateTime;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.GenericGenerator;
-
-import framework.BaseEntity;
+import javax.persistence.*;
+import java.util.UUID;
 
 /**
  * Entidade que repesenta o {@link ModeloControlador} do {@link Controlador} no
@@ -22,39 +15,34 @@ import framework.BaseEntity;
  */
 @Entity
 @Table(name = "modelo_controladores")
-public class ModeloControlador extends BaseEntity<String> {
+public class ModeloControlador extends Model{
 
     private static final long serialVersionUID = -3153929481907380680L;
 
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(name = "id", unique = true)
-    private String id;
+    private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "fabricante_id")
+    @JsonBackReference
     private Fabricante fabricante;
 
     @ManyToOne
-    @JoinColumn(name = "configuracao_controlador_id")
     private ConfiguracaoControlador configuracao;
-
-    @Column
-    private Date dataCriacao;
-
-    @Column
-    private Date dataAtualizacao;
 
     @Column
     private String descricao;
 
+    @Column
+    private DateTime dataCriacao;
 
-    public String getId() {
+    @Column
+    private DateTime dataAtualizacao;
+
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -74,22 +62,6 @@ public class ModeloControlador extends BaseEntity<String> {
         this.configuracao = configuracao;
     }
 
-    public Date getDataCriacao() {
-        return dataCriacao;
-    }
-
-    public void setDataCriacao(Date dataCriacao) {
-        this.dataCriacao = dataCriacao;
-    }
-
-    public Date getDataAtualizacao() {
-        return dataAtualizacao;
-    }
-
-    public void setDataAtualizacao(Date dataAtualizacao) {
-        this.dataAtualizacao = dataAtualizacao;
-    }
-
     public String getDescricao() {
         return descricao;
     }
@@ -98,4 +70,19 @@ public class ModeloControlador extends BaseEntity<String> {
         this.descricao = descricao;
     }
 
+    public DateTime getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(DateTime dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
+    public DateTime getDataAtualizacao() {
+        return dataAtualizacao;
+    }
+
+    public void setDataAtualizacao(DateTime dataAtualizacao) {
+        this.dataAtualizacao = dataAtualizacao;
+    }
 }

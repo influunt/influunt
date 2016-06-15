@@ -1,0 +1,2 @@
+modelos.controlador.errors.numero_de_aneis_invalido=Esse modelo de controlador exige que {0} anéis sejam cadastrados
+modelos.controlador.errors.numero_de_grupos_semaforicos_invalido=Esse modelo de controlador exige que {0} grupos semafóricos sejam cadastrados

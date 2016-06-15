@@ -2,6 +2,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import models.TipoDetector;
+import models.TipoGrupoSemaforico;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -11,11 +12,11 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
-public class TiposDetectoresController extends Controller {
+public class TiposGruposSemaforicosController extends Controller {
 
     @Transactional
     public CompletionStage<Result> findAll() {
-        return CompletableFuture.completedFuture(ok(Json.toJson(TipoDetector.find.findList())));
+        return CompletableFuture.completedFuture(ok(Json.toJson(TipoGrupoSemaforico.find.findList())));
     }
 
     @Transactional
@@ -25,9 +26,9 @@ public class TiposDetectoresController extends Controller {
         if (json == null) {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         } else {
-            TipoDetector tipoDetector = Json.fromJson(json, TipoDetector.class);
-            tipoDetector.save();
-            return CompletableFuture.completedFuture(ok(Json.toJson(tipoDetector)));
+            TipoGrupoSemaforico tipoGrupoSemaforico = Json.fromJson(json, TipoGrupoSemaforico.class);
+            tipoGrupoSemaforico.save();
+            return CompletableFuture.completedFuture(ok(Json.toJson(tipoGrupoSemaforico)));
         }
     }
 
@@ -37,34 +38,34 @@ public class TiposDetectoresController extends Controller {
         if (json == null) {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         }
-        TipoDetector tipoDetector = TipoDetector.find.byId(UUID.fromString(id));
-        if (tipoDetector == null) {
+        TipoGrupoSemaforico tipoGrupoSemaforico = TipoGrupoSemaforico.find.byId(UUID.fromString(id));
+        if (tipoGrupoSemaforico == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
-            tipoDetector = Json.fromJson(json, TipoDetector.class);
-            tipoDetector.setId(UUID.fromString(id));
-            tipoDetector.update();
-            return CompletableFuture.completedFuture(ok(Json.toJson(tipoDetector)));
+            tipoGrupoSemaforico = Json.fromJson(json, TipoGrupoSemaforico.class);
+            tipoGrupoSemaforico.setId(UUID.fromString(id));
+            tipoGrupoSemaforico.update();
+            return CompletableFuture.completedFuture(ok(Json.toJson(tipoGrupoSemaforico)));
         }
     }
 
     @Transactional
     public CompletionStage<Result> findOne(String id) {
-        TipoDetector tipoDetector = TipoDetector.find.byId(UUID.fromString(id));
-        if (tipoDetector == null) {
+        TipoGrupoSemaforico tipoGrupoSemaforico = TipoGrupoSemaforico.find.byId(UUID.fromString(id));
+        if (tipoGrupoSemaforico == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
-            return CompletableFuture.completedFuture(ok(Json.toJson(tipoDetector)));
+            return CompletableFuture.completedFuture(ok(Json.toJson(tipoGrupoSemaforico)));
         }
     }
 
     @Transactional
     public CompletionStage<Result> delete(String id) {
-        TipoDetector tipoDetector = TipoDetector.find.byId(UUID.fromString(id));
-        if (tipoDetector == null) {
+        TipoGrupoSemaforico tipoGrupoSemaforico = TipoGrupoSemaforico.find.byId(UUID.fromString(id));
+        if (tipoGrupoSemaforico == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
-            tipoDetector.delete();
+            tipoGrupoSemaforico.delete();
             return CompletableFuture.completedFuture(ok());
         }
     }
