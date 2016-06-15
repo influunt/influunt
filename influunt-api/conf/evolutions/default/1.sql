@@ -138,7 +138,6 @@ create table tipo_grupo_semaforicos (
 );
 
 alter table aneis add constraint fk_aneis_controlador_id foreign key (controlador_id) references controladores (id) on delete restrict on update restrict;
-create index ix_aneis_controlador_id on aneis (controlador_id);
 
 alter table areas add constraint fk_areas_cidade_id foreign key (cidade_id) references cidades (id) on delete restrict on update restrict;
 
@@ -178,7 +177,6 @@ create index ix_movimentos_anel_id on movimentos (anel_id);
 # --- !Downs
 
 alter table aneis drop foreign key fk_aneis_controlador_id;
-drop index ix_aneis_controlador_id on aneis;
 
 alter table areas drop foreign key fk_areas_cidade_id;
 

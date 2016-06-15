@@ -42,6 +42,7 @@ public class TiposDetectoresController extends Controller {
             return CompletableFuture.completedFuture(notFound());
         } else {
             tipoDetector = Json.fromJson(json, TipoDetector.class);
+            tipoDetector.setId(UUID.fromString(id));
             tipoDetector.update();
             return CompletableFuture.completedFuture(ok(Json.toJson(tipoDetector)));
         }

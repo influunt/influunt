@@ -47,9 +47,9 @@ public class AreasController extends Controller {
         Area area = Area.find.byId(UUID.fromString(id));
         if(area == null) {
             return CompletableFuture.completedFuture(notFound());
-        }else {
-            return CompletableFuture.completedFuture(ok());
         }
+        area.delete();
+        return CompletableFuture.completedFuture(ok());
     }
 
     @Transactional
@@ -57,16 +57,16 @@ public class AreasController extends Controller {
         JsonNode json = request().body().asJson();
         if (json == null) {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
-        } else {
-            if (Area.find.byId(UUID.fromString(id)) == null) {
-                return CompletableFuture.completedFuture(notFound());
-            }else{
-                Area area = Json.fromJson(json, Area.class);
-                area.setId(UUID.fromString(id));
-                area.update();
-                return CompletableFuture.completedFuture(ok(Json.toJson(area)));
-            }
         }
+        Area areaExistente = Area.find.byId(UUID.fromString(id));
+        if (areaExistente == null) {
+            return CompletableFuture.completedFuture(notFound());
+        }
+
+        Area area = Json.fromJson(json, Area.class);
+        area.setId(UUID.fromString(id));
+        area.update();
+        return CompletableFuture.completedFuture(ok(Json.toJson(area)));
     }
 
 }

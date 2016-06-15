@@ -3,9 +3,7 @@ import controllers.routes;
 import models.Cidade;
 import org.junit.Test;
 import play.Application;
-import play.Logger;
 import play.Mode;
-
 import play.inject.guice.GuiceApplicationBuilder;
 import play.libs.Json;
 import play.mvc.Http;
@@ -48,7 +46,7 @@ public class CidadesControllerTest extends WithApplication {
         Result postResult = route(postRequest);
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
         Cidade cidadeRetornada = Json.fromJson(json, Cidade.class);
-        
+
         assertEquals(200, postResult.status());
         assertEquals("Teste", cidadeRetornada.getNome());
         assertNotNull(cidadeRetornada.getId());
@@ -65,24 +63,24 @@ public class CidadesControllerTest extends WithApplication {
         assertNotNull(cidade.getId());
         Cidade novaCidade = new Cidade();
         novaCidade.setNome("Teste atualizar");
-        
+
         Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
                 .uri(routes.CidadesController.update(cidadeId.toString()).url())
                 .bodyJson(Json.toJson(novaCidade));
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
         Cidade cidadeRetornada = Json.fromJson(json, Cidade.class);
-        
+
         assertEquals(200, result.status());
         assertEquals("Teste atualizar", cidadeRetornada.getNome());
         assertNotNull(cidadeRetornada.getId());
     }
-    
+
     @Test
     public void testAtualizarCidadeNaoExistente() {
         Cidade cidade = new Cidade();
         cidade.setNome("Teste");
-        
+
         Http.RequestBuilder putRequest = new Http.RequestBuilder().method("PUT")
                 .uri(routes.CidadesController.update(UUID.randomUUID().toString()).url())
                 .bodyJson(Json.toJson(cidade));
@@ -92,29 +90,26 @@ public class CidadesControllerTest extends WithApplication {
 
     @Test
     public void testApagarCidadeExistente() {
-            Cidade cidade = new Cidade();
-            cidade.setNome("Teste");
-            cidade.save();
+        Cidade cidade = new Cidade();
+        cidade.setNome("Teste");
+        cidade.save();
 
         Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
                 .uri(routes.CidadesController.delete(cidade.getId().toString()).url());
         Result result = route(deleteRequest);
-           
+
         assertEquals(200, result.status());
         assertNull(Cidade.find.byId(cidade.getId()));
     }
-    
+
     @Test
     public void testApagarCidadeNaoExistente() {
-        Cidade cidade = new Cidade();
-        cidade.setNome("Teste");
-
         Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
                 .uri(routes.CidadesController.delete(UUID.randomUUID().toString()).url());
         Result result = route(deleteRequest);
         assertEquals(404, result.status());
     }
-    
+
     @Test
     @SuppressWarnings("unchecked")
     public void testListarCidades() {
@@ -131,10 +126,10 @@ public class CidadesControllerTest extends WithApplication {
                 .uri(routes.CidadesController.findAll().url());
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
-        List<Cidade> cidades = Json.fromJson(json, List.class);  
-        
+        List<Cidade> cidades = Json.fromJson(json, List.class);
+
         assertEquals(200, result.status());
         assertEquals(2, cidades.size());
     }
-    
+
 }
