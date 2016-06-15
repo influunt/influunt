@@ -4,6 +4,7 @@ import models.*;
 import org.junit.Before;
 import org.junit.Test;
 import play.Application;
+import play.Logger;
 import play.Mode;
 
 import play.inject.Bindings;
@@ -34,7 +35,7 @@ public class ControladoresControllerTest extends WithApplication {
     private Fabricante fabricante;
     private ConfiguracaoControlador configuracao;
     private ModeloControlador modeloControlador;
-    private CoordenadaGeografica coordenadaGeografica;
+    private TipoGrupoSemaforico tipoGrupoSemaforico;
 
     @Before
     public void setUp() {
@@ -62,6 +63,11 @@ public class ControladoresControllerTest extends WithApplication {
         this.modeloControlador.setConfiguracao(configuracao);
         this.modeloControlador.setFabricante(fabricante);
         this.modeloControlador.save();
+
+        this.tipoGrupoSemaforico = new TipoGrupoSemaforico();
+        this.tipoGrupoSemaforico.setDescricao("Veicular");
+        this.tipoGrupoSemaforico.save();
+
 
     }
 
@@ -94,14 +100,17 @@ public class ControladoresControllerTest extends WithApplication {
     public void testCriarNovoComDadosBasicos() {
         Controlador controlador = getControlador();
 
+        Logger.debug("JSON:" + Json.toJson(controlador));
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
                 .uri(routes.ControladoresController.create().url()).bodyJson(Json.toJson(controlador));
         Result postResult = route(postRequest);
-        assertEquals(200, postResult.status());
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
+        Logger.debug(json.toString());
+
+        assertEquals(200, postResult.status());
         Controlador controladorRetornado = Json.fromJson(json,Controlador.class);
         assertNotNull(controladorRetornado.getId());
-        assertNotNull(controladorRetornado.getCoordenada().getId());
+        assertNotNull(controladorRetornado.getArea().getId());
         assertEquals(configuracao.getLimiteAnel(),Integer.valueOf(controlador.getAneis().size()));
 
     }
@@ -120,25 +129,7 @@ public class ControladoresControllerTest extends WithApplication {
         assertEquals(UNPROCESSABLE_ENTITY, result.status());
     }
 
-    @Test
-    public void testAtualizarControladorExistente() {
-        Controlador controlador = getControlador();
-        controlador.save();
 
-        CoordenadaGeografica coordenadaGeografica = controlador.getCoordenada();
-        controlador.setCoordenada(new CoordenadaGeografica(2.0,3.0));
-
-        Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
-                .uri(routes.ControladoresController.update(controlador.getId().toString()).url())
-                .bodyJson(Json.toJson(controlador));
-        Result result = route(request);
-        assertEquals(OK, result.status());
-
-        JsonNode json = Json.parse(Helpers.contentAsString(result));
-        Controlador controladorAtualizado =  Json.fromJson(json,Controlador.class);
-        assertEquals(controlador.getId(),controladorAtualizado.getId());
-        assertNotEquals(coordenadaGeografica.getLatitude(),controladorAtualizado.getCoordenada().getLatitude());
-    }
 
     @Test
     public void testAtualizarAreaControladorExistente() {
@@ -162,6 +153,8 @@ public class ControladoresControllerTest extends WithApplication {
         Controlador controladorAtualizado =  Json.fromJson(json,Controlador.class);
         assertEquals(controlador.getId(),controladorAtualizado.getId());
         assertEquals(novaArea.getId(),controladorAtualizado.getArea().getId());
+        assertEquals(4,controladorAtualizado.getAneis().size());
+        assertEquals(16,controladorAtualizado.getGruposSemaforicos().size());
     }
     @Test
     public void testAtualizarControladorNaoExistente() {
@@ -205,8 +198,8 @@ public class ControladoresControllerTest extends WithApplication {
     @SuppressWarnings("unchecked")
     public void testListarControladores() {
         getControlador().save();
-//        getControlador().save();
-//        getControlador().save();
+        getControlador().save();
+        getControlador().save();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
                 .uri(routes.ControladoresController.findAll().url());
@@ -223,17 +216,25 @@ public class ControladoresControllerTest extends WithApplication {
         controlador.setDescricao("Teste");
         controlador.setNumeroSMEE("1234");
         controlador.setArea(area);
-        controlador.setCoordenada(new CoordenadaGeografica(1.0,2.0));
+        controlador.setLatitude(1.0);
+        controlador.setLongitude(2.0);
         controlador.setIdControlador("10.02.122");
         controlador.setModelo(modeloControlador);
         controlador.setFirmware("1.0.0");
-        List<Anel> aneis = Arrays.asList(new Anel(), new Anel(), new Anel(), new Anel());
-        controlador.setAneis(aneis);
 
-        List<GrupoSemaforico> grupoSemaforicos = Arrays.asList(new GrupoSemaforico(),new GrupoSemaforico(),new GrupoSemaforico(),new GrupoSemaforico(),
-                new GrupoSemaforico(),new GrupoSemaforico(),new GrupoSemaforico(),new GrupoSemaforico(),
-                new GrupoSemaforico(),new GrupoSemaforico(),new GrupoSemaforico(),new GrupoSemaforico(),
-                new GrupoSemaforico(),new GrupoSemaforico(),new GrupoSemaforico(),new GrupoSemaforico());
+
+
+
+        List<Anel> aneis = Arrays.asList(new Anel("Anel 1"),new Anel("Anel 2"),new Anel("Anel 3"),new Anel("Anel 4"));
+        controlador.setAneis(aneis);
+        for(Anel anel: controlador.getAneis()){
+            anel.setControlador(controlador);
+        }
+
+        List<GrupoSemaforico> grupoSemaforicos = Arrays.asList(new GrupoSemaforico(tipoGrupoSemaforico),new GrupoSemaforico(tipoGrupoSemaforico),new GrupoSemaforico(tipoGrupoSemaforico),new GrupoSemaforico(tipoGrupoSemaforico),
+                new GrupoSemaforico(tipoGrupoSemaforico),new GrupoSemaforico(tipoGrupoSemaforico),new GrupoSemaforico(tipoGrupoSemaforico),new GrupoSemaforico(tipoGrupoSemaforico),
+                new GrupoSemaforico(tipoGrupoSemaforico),new GrupoSemaforico(tipoGrupoSemaforico),new GrupoSemaforico(tipoGrupoSemaforico),new GrupoSemaforico(tipoGrupoSemaforico),
+                new GrupoSemaforico(tipoGrupoSemaforico),new GrupoSemaforico(tipoGrupoSemaforico),new GrupoSemaforico(tipoGrupoSemaforico),new GrupoSemaforico(tipoGrupoSemaforico));
 
         controlador.setGruposSemaforicos(grupoSemaforicos);
         return controlador;

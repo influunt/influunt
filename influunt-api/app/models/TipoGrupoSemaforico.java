@@ -1,6 +1,8 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -25,6 +27,7 @@ public class TipoGrupoSemaforico extends Model {
     private String descricao;
 
     @OneToMany(mappedBy = "tipo")
+    @JsonIgnore
     private List<GrupoSemaforico> gruposSemaforicos;
 
     @Column

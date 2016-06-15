@@ -1,6 +1,9 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
@@ -23,7 +26,6 @@ public class GrupoSemaforico extends Model {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "tipo_detector_id")
     private TipoGrupoSemaforico tipo;
 
     @ManyToOne
@@ -31,7 +33,7 @@ public class GrupoSemaforico extends Model {
     private Anel anel;
 
     @ManyToOne
-    @JoinColumn(name = "controlador_id")
+    @JsonIgnore
     private Controlador controlador;
 
     @ManyToOne
@@ -45,6 +47,10 @@ public class GrupoSemaforico extends Model {
 
     @Column
     private DateTime dataAtualizacao;
+
+    public GrupoSemaforico(TipoGrupoSemaforico tipoGrupoSemaforico) {
+        this.tipo = tipoGrupoSemaforico;
+    }
 
     public UUID getId() {
         return id;

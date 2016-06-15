@@ -1,6 +1,8 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.joda.time.DateTime;
 import play.data.validation.Constraints;
 import play.data.validation.ValidationError;
@@ -57,20 +59,21 @@ public class Controlador extends Model {
     @Constraints.Required
     private String firmware;
 
-    @OneToOne(cascade =  CascadeType.ALL)
-    @JoinColumn(name = "coordenada_id")
-    @Constraints.Required
-    private CoordenadaGeografica coordenada;
+    @Column
+    private Double latitude;
+
+    @Column
+    private Double longitude;
 
     @Constraints.Required
     private ModeloControlador modelo;
 
-    @OneToOne
-    @JoinColumn(name = "area_id")
+    @ManyToOne
     @Constraints.Required
     private Area area;
 
     @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Anel> aneis;
 
     @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
@@ -155,14 +158,6 @@ public class Controlador extends Model {
         this.firmware = firmware;
     }
 
-    public CoordenadaGeografica getCoordenada() {
-        return coordenada;
-    }
-
-    public void setCoordenada(CoordenadaGeografica coordenada) {
-        this.coordenada = coordenada;
-    }
-
     public ModeloControlador getModelo() {
         return modelo;
     }
@@ -209,5 +204,21 @@ public class Controlador extends Model {
 
     public void setDataAtualizacao(DateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 }

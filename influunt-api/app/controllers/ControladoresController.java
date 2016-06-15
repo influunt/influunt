@@ -1,8 +1,11 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import exceptions.EntityNotFound;
+import models.Anel;
 import models.Controlador;
+import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
 import play.db.ebean.Transactional;
@@ -10,6 +13,9 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -26,6 +32,16 @@ public class ControladoresController extends Controller {
             return CompletableFuture.completedFuture(badRequest());
         }
         Form<Controlador> form = formFactory.form(Controlador.class).bind(request().body().asJson());
+        Iterator<JsonNode> aneisIterator = request().body().asJson().get("aneis").iterator();
+        List<Anel> aneis = new ArrayList<Anel>();
+        while (aneisIterator.hasNext()){
+         aneis.add(Json.fromJson(aneisIterator.next(),Anel.class));
+        }
+
+        //((Controlador) form.field()).setAneis(aneis);
+
+
+        Logger.debug(form.toString());
         if (form.hasErrors()) {
             return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, form.errorsAsJson()));
         } else {
@@ -71,6 +87,7 @@ public class ControladoresController extends Controller {
             return CompletableFuture.completedFuture(notFound());
         }else{
             Form<Controlador> form = formFactory.form(Controlador.class).bind(request().body().asJson());
+
             if (form.hasErrors()) {
                 return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, form.errorsAsJson()));
             }else{

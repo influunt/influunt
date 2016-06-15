@@ -2,6 +2,7 @@ package models;
 
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
@@ -32,11 +33,12 @@ public class Area extends Model {
     private Cidade cidade;
 
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="area")
-    private List<CoordenadaGeografica> coordenadas;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "area")
+    private List<LimiteArea> limitesGeograficos;
 
+
+    @OneToMany(mappedBy = "area")
     @JsonIgnore
-    @OneToMany(mappedBy = "area", fetch = FetchType.EAGER)
     private List<Controlador> controladores;
 
     @Column
@@ -69,14 +71,6 @@ public class Area extends Model {
         this.cidade = cidade;
     }
 
-    public List<CoordenadaGeografica> getCoordenadas() {
-        return coordenadas;
-    }
-
-    public void setCoordenadas(List<CoordenadaGeografica> coordenadas) {
-        this.coordenadas = coordenadas;
-    }
-
     public List<Controlador> getControladores() {
         return controladores;
     }
@@ -101,5 +95,11 @@ public class Area extends Model {
         this.dataAtualizacao = dataAtualizacao;
     }
 
+    public List<LimiteArea> getLimitesGeograficos() {
+        return limitesGeograficos;
+    }
 
+    public void setLimitesGeograficos(List<LimiteArea> limitesGeograficos) {
+        this.limitesGeograficos = limitesGeograficos;
+    }
 }

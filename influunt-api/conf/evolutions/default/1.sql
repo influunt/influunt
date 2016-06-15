@@ -8,11 +8,11 @@ create table aneis (
   descricao                     varchar(255),
   id_anel                       varchar(255),
   numero_smee                   varchar(255),
-  coordenada_id                 varchar(40),
+  latitude                      double,
+  longitude                     double,
   controlador_id                varchar(40),
   data_criacao                  datetime(6),
   data_atualizacao              datetime(6),
-  constraint uq_aneis_coordenada_id unique (coordenada_id),
   constraint pk_aneis primary key (id)
 );
 
@@ -57,21 +57,11 @@ create table controladores (
   numero_smeeconjugado2         varchar(255),
   numero_smeeconjugado3         varchar(255),
   firmware                      varchar(255),
-  coordenada_id                 varchar(40),
-  area_id                       varchar(40),
-  constraint uq_controladores_coordenada_id unique (coordenada_id),
-  constraint uq_controladores_area_id unique (area_id),
-  constraint pk_controladores primary key (id)
-);
-
-create table coordenadas_geograficas (
-  id                            varchar(40) not null,
-  area_id                       varchar(40) not null,
   latitude                      double,
   longitude                     double,
-  data_criacao                  datetime(6),
-  data_atualizacao              datetime(6),
-  constraint pk_coordenadas_geograficas primary key (id)
+  area_id                       varchar(40),
+  constraint uq_controladores_area_id unique (area_id),
+  constraint pk_controladores primary key (id)
 );
 
 create table detectores (
@@ -100,6 +90,16 @@ create table grupos_semaforicos (
   data_criacao                  datetime(6),
   data_atualizacao              datetime(6),
   constraint pk_grupos_semaforicos primary key (id)
+);
+
+create table limite_area (
+  id                            varchar(40) not null,
+  latitude                      double,
+  longitude                     double,
+  area_id                       varchar(40),
+  data_criacao                  datetime(6),
+  data_atualizacao              datetime(6),
+  constraint pk_limite_area primary key (id)
 );
 
 create table modelo_controladores (
@@ -137,19 +137,12 @@ create table tipo_grupo_semaforicos (
   constraint pk_tipo_grupo_semaforicos primary key (id)
 );
 
-alter table aneis add constraint fk_aneis_coordenada_id foreign key (coordenada_id) references coordenadas_geograficas (id) on delete restrict on update restrict;
-
 alter table aneis add constraint fk_aneis_controlador_id foreign key (controlador_id) references controladores (id) on delete restrict on update restrict;
 create index ix_aneis_controlador_id on aneis (controlador_id);
 
 alter table areas add constraint fk_areas_cidade_id foreign key (cidade_id) references cidades (id) on delete restrict on update restrict;
 
-alter table controladores add constraint fk_controladores_coordenada_id foreign key (coordenada_id) references coordenadas_geograficas (id) on delete restrict on update restrict;
-
 alter table controladores add constraint fk_controladores_area_id foreign key (area_id) references areas (id) on delete restrict on update restrict;
-
-alter table coordenadas_geograficas add constraint fk_coordenadas_geograficas_area_id foreign key (area_id) references areas (id) on delete restrict on update restrict;
-create index ix_coordenadas_geograficas_area_id on coordenadas_geograficas (area_id);
 
 alter table detectores add constraint fk_detectores_tipo_detector_id foreign key (tipo_detector_id) references tipos_detectores (id) on delete restrict on update restrict;
 create index ix_detectores_tipo_detector_id on detectores (tipo_detector_id);
@@ -169,6 +162,9 @@ create index ix_grupos_semaforicos_controlador_id on grupos_semaforicos (control
 alter table grupos_semaforicos add constraint fk_grupos_semaforicos_grupo_conflito_id foreign key (grupo_conflito_id) references grupos_semaforicos (id) on delete restrict on update restrict;
 create index ix_grupos_semaforicos_grupo_conflito_id on grupos_semaforicos (grupo_conflito_id);
 
+alter table limite_area add constraint fk_limite_area_area_id foreign key (area_id) references areas (id) on delete restrict on update restrict;
+create index ix_limite_area_area_id on limite_area (area_id);
+
 alter table modelo_controladores add constraint fk_modelo_controladores_fabricante_id foreign key (fabricante_id) references fabricantes (id) on delete restrict on update restrict;
 create index ix_modelo_controladores_fabricante_id on modelo_controladores (fabricante_id);
 
@@ -181,19 +177,12 @@ create index ix_movimentos_anel_id on movimentos (anel_id);
 
 # --- !Downs
 
-alter table aneis drop foreign key fk_aneis_coordenada_id;
-
 alter table aneis drop foreign key fk_aneis_controlador_id;
 drop index ix_aneis_controlador_id on aneis;
 
 alter table areas drop foreign key fk_areas_cidade_id;
 
-alter table controladores drop foreign key fk_controladores_coordenada_id;
-
 alter table controladores drop foreign key fk_controladores_area_id;
-
-alter table coordenadas_geograficas drop foreign key fk_coordenadas_geograficas_area_id;
-drop index ix_coordenadas_geograficas_area_id on coordenadas_geograficas;
 
 alter table detectores drop foreign key fk_detectores_tipo_detector_id;
 drop index ix_detectores_tipo_detector_id on detectores;
@@ -212,6 +201,9 @@ drop index ix_grupos_semaforicos_controlador_id on grupos_semaforicos;
 
 alter table grupos_semaforicos drop foreign key fk_grupos_semaforicos_grupo_conflito_id;
 drop index ix_grupos_semaforicos_grupo_conflito_id on grupos_semaforicos;
+
+alter table limite_area drop foreign key fk_limite_area_area_id;
+drop index ix_limite_area_area_id on limite_area;
 
 alter table modelo_controladores drop foreign key fk_modelo_controladores_fabricante_id;
 drop index ix_modelo_controladores_fabricante_id on modelo_controladores;
@@ -232,13 +224,13 @@ drop table if exists configuracao_controladores;
 
 drop table if exists controladores;
 
-drop table if exists coordenadas_geograficas;
-
 drop table if exists detectores;
 
 drop table if exists fabricantes;
 
 drop table if exists grupos_semaforicos;
+
+drop table if exists limite_area;
 
 drop table if exists modelo_controladores;
 

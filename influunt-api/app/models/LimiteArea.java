@@ -13,8 +13,7 @@ import java.util.UUID;
  *
  */
 @Entity
-@Table(name = "coordenadas_geograficas")
-public class CoordenadaGeografica extends Model {
+public class LimiteArea extends Model {
 
     private static final long serialVersionUID = -2938220305527197172L;
 
@@ -27,20 +26,19 @@ public class CoordenadaGeografica extends Model {
     @Column
     private Double longitude;
 
+    @ManyToOne
+    private Area area;
+
     @Column
     private DateTime dataCriacao;
 
     @Column
     private DateTime dataAtualizacao;
 
-    @ManyToOne
-    @JoinColumn(name="area_id")
-    private Area area;
-
-    public CoordenadaGeografica() {
+    public LimiteArea() {
         super();
     }
-    public CoordenadaGeografica(Double latitude, Double longitude) {
+    public LimiteArea(Double latitude, Double longitude) {
         super();
         this.latitude = latitude;
         this.longitude = longitude;
@@ -86,11 +84,4 @@ public class CoordenadaGeografica extends Model {
         this.dataAtualizacao = dataAtualizacao;
     }
 
-    public Area getArea() {
-        return area;
-    }
-
-    public void setArea(Area area) {
-        this.area = area;
-    }
 }

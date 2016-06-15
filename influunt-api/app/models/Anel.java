@@ -1,7 +1,10 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.joda.time.DateTime;
+import play.data.validation.Constraints;
 
 import javax.persistence.*;
 import java.util.List;
@@ -22,21 +25,28 @@ public class Anel extends Model {
     @Id
     private UUID id;
 
+    @Constraints.Required
     @Column
     private String descricao;
 
+    @Constraints.Required
     @Column
     private String idAnel;
 
+    @Constraints.Required
     @Column
     private String numeroSMEE;
 
-    @OneToOne
-    @JoinColumn(name = "coordenada_id")
-    private CoordenadaGeografica coordenada;
+    @Constraints.Required
+    @Column
+    private Double latitude;
 
-    @OneToOne
-    @JoinColumn(name = "controlador_id")
+    @Constraints.Required
+    @Column
+    private Double longitude;
+
+    @ManyToOne
+    @JsonBackReference
     private Controlador controlador;
 
     @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL)
@@ -53,6 +63,10 @@ public class Anel extends Model {
 
     @Column
     private DateTime dataAtualizacao;
+
+    public Anel(String descricao) {
+        this.descricao = descricao;
+    }
 
     public UUID getId() {
         return id;
@@ -102,14 +116,6 @@ public class Anel extends Model {
         this.numeroSMEE = numeroSMEE;
     }
 
-    public CoordenadaGeografica getCoordenada() {
-        return coordenada;
-    }
-
-    public void setCoordenada(CoordenadaGeografica coordenada) {
-        this.coordenada = coordenada;
-    }
-
     public Controlador getControlador() {
         return controlador;
     }
@@ -141,4 +147,21 @@ public class Anel extends Model {
     public void setMovimentos(List<Movimento> movimentos) {
         this.movimentos = movimentos;
     }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
 }
+
