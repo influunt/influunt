@@ -5,15 +5,12 @@ import models.*;
 import org.junit.Test;
 import play.Application;
 import play.Logger;
-import play.Mode;
-import play.inject.Bindings;
 import play.inject.guice.GuiceApplicationBuilder;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
 import play.test.WithApplication;
-import security.Authenticator;
 
 import java.util.HashMap;
 import java.util.Map;
