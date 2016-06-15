@@ -1,26 +1,21 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.inject.Inject;
-import exceptions.EntityNotFound;
 import models.TipoDetector;
-import play.db.jpa.Transactional;
+import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-import services.TipoDetectorCrudService;
 
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 public class TiposDetectoresController extends Controller {
 
-    @Inject
-    private TipoDetectorCrudService tipoDetectorService;
-
     @Transactional
     public CompletionStage<Result> findAll() {
-        return CompletableFuture.completedFuture(ok(Json.toJson(tipoDetectorService.findAll())));
+        return CompletableFuture.completedFuture(ok(Json.toJson(TipoDetector.find.findList())));
     }
 
     @Transactional
@@ -31,7 +26,7 @@ public class TiposDetectoresController extends Controller {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         } else {
             TipoDetector tipoDetector = Json.fromJson(json, TipoDetector.class);
-            tipoDetectorService.save(tipoDetector);
+            tipoDetector.save();
             return CompletableFuture.completedFuture(ok(Json.toJson(tipoDetector)));
         }
     }
@@ -42,17 +37,20 @@ public class TiposDetectoresController extends Controller {
         if (json == null) {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         }
-        TipoDetector tipoDetector = Json.fromJson(json, TipoDetector.class);
-        tipoDetector = tipoDetectorService.update(tipoDetector, id);
+        TipoDetector tipoDetector = TipoDetector.find.byId(UUID.fromString(id));
         if (tipoDetector == null) {
             return CompletableFuture.completedFuture(notFound());
+        } else {
+            tipoDetector = Json.fromJson(json, TipoDetector.class);
+            tipoDetector.setId(UUID.fromString(id));
+            tipoDetector.update();
+            return CompletableFuture.completedFuture(ok(Json.toJson(tipoDetector)));
         }
-        return CompletableFuture.completedFuture(ok(Json.toJson(tipoDetector)));
     }
 
     @Transactional
     public CompletionStage<Result> findOne(String id) {
-        TipoDetector tipoDetector = tipoDetectorService.findOne(id);
+        TipoDetector tipoDetector = TipoDetector.find.byId(UUID.fromString(id));
         if (tipoDetector == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
@@ -62,12 +60,13 @@ public class TiposDetectoresController extends Controller {
 
     @Transactional
     public CompletionStage<Result> delete(String id) {
-        try {
-            tipoDetectorService.delete(id);
-        } catch (EntityNotFound e) {
+        TipoDetector tipoDetector = TipoDetector.find.byId(UUID.fromString(id));
+        if (tipoDetector == null) {
             return CompletableFuture.completedFuture(notFound());
+        } else {
+            tipoDetector.delete();
+            return CompletableFuture.completedFuture(ok());
         }
-        return CompletableFuture.completedFuture(ok());
     }
 
 }

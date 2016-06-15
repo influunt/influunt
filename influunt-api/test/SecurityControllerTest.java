@@ -1,19 +1,7 @@
-import static org.junit.Assert.assertEquals;
-import static play.inject.Bindings.bind;
-import static play.mvc.Http.Status.OK;
-import static play.mvc.Http.Status.UNAUTHORIZED;
-import static play.test.Helpers.inMemoryDatabase;
-import static play.test.Helpers.route;
-
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
-
-import org.junit.Test;
-
 import com.fasterxml.jackson.databind.JsonNode;
-
 import controllers.routes;
 import models.Usuario;
+import org.junit.Test;
 import play.Application;
 import play.Mode;
 import play.inject.guice.GuiceApplicationBuilder;
@@ -23,6 +11,16 @@ import play.mvc.Result;
 import play.test.Helpers;
 import play.test.WithApplication;
 import security.Authenticator;
+
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
+
+import static org.junit.Assert.assertEquals;
+import static play.inject.Bindings.bind;
+import static play.mvc.Http.Status.OK;
+import static play.mvc.Http.Status.UNAUTHORIZED;
+import static play.test.Helpers.inMemoryDatabase;
+import static play.test.Helpers.route;
 
 public class SecurityControllerTest extends WithApplication {
 

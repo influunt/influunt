@@ -2,10 +2,11 @@ package models;
 
 import java.util.Date;
 
-import framework.BaseEntity;
+import com.avaje.ebean.Model;
+
 
 // TODO - Verificar como serao salva as imagens
-public class Imagem extends BaseEntity<String> {
+public class Imagem extends Model {
 
     private static final long serialVersionUID = 238472872642410060L;
 

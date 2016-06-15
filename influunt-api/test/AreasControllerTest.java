@@ -1,25 +1,9 @@
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static play.inject.Bindings.bind;
-import static play.test.Helpers.inMemoryDatabase;
-import static play.test.Helpers.route;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.google.inject.Inject;
-import org.junit.Test;
-
 import com.fasterxml.jackson.databind.JsonNode;
-
 import controllers.routes;
 import models.Area;
+import org.junit.Test;
 import play.Application;
 import play.Mode;
-import play.db.jpa.JPAApi;
-import play.db.jpa.Transactional;
 import play.inject.guice.GuiceApplicationBuilder;
 import play.libs.Json;
 import play.mvc.Http;
@@ -27,10 +11,18 @@ import play.mvc.Result;
 import play.test.Helpers;
 import play.test.WithApplication;
 import security.Authenticator;
-import services.AreaCrudService;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import static org.junit.Assert.*;
+import static play.inject.Bindings.bind;
+import static play.test.Helpers.inMemoryDatabase;
+import static play.test.Helpers.route;
 
 public class AreasControllerTest extends WithApplication {
-
 
     @Override
     protected Application provideApplication() {
@@ -46,7 +38,6 @@ public class AreasControllerTest extends WithApplication {
     }
 
     @Test
-    @Transactional
     public void testCriarNovaArea() {
         Area area = new Area();
         area.setDescricao("CTA 1");
@@ -56,111 +47,93 @@ public class AreasControllerTest extends WithApplication {
         Result postResult = route(postRequest);
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
         Area areaRetornada = Json.fromJson(json, Area.class);
-        
+
         assertEquals(200, postResult.status());
         assertEquals("CTA 1", areaRetornada.getDescricao());
         assertNotNull(areaRetornada.getId());
     }
 
     @Test
-    @Transactional
-    public void testAtualizarAreaExistente() {
-        AreaCrudService areaService = app.injector().instanceOf(AreaCrudService.class);
-        JPAApi jpaApi = app.injector().instanceOf(JPAApi.class);
-
-        Area area = new Area();
-        jpaApi.withTransaction(() -> {
-            area.setDescricao("Area 1");
-            areaService.save(area);
-        });
-
-        String areaId = area.getId();
-        
-        area.setDescricao("Area atualizada");
-        
-        Http.RequestBuilder putRequest = new Http.RequestBuilder().method("PUT")
-                .uri(routes.AreasController.update(areaId).url())
-                .bodyJson(Json.toJson(area));
-        Result putResult = route(putRequest);
-        JsonNode json = Json.parse(Helpers.contentAsString(putResult));
-        Area areaRetornada = Json.fromJson(json, Area.class);
-        
-        assertEquals(200, putResult.status());
-        assertEquals("Area atualizada", areaRetornada.getDescricao());
-        assertNotNull(areaRetornada.getId());
-    }
-    
-    @Test
-    @Transactional
     public void testAtualizarAreaNaoExistente() {
         Area area = new Area();
         area.setDescricao("CTA 1");
-        
+
         Http.RequestBuilder putRequest = new Http.RequestBuilder().method("PUT")
-                .uri(routes.AreasController.update("xxxx").url())
+                .uri(routes.AreasController.update(UUID.randomUUID().toString()).url())
                 .bodyJson(Json.toJson(area));
         Result putResult = route(putRequest);
         assertEquals(404, putResult.status());
     }
 
     @Test
-    @Transactional
-    public void testApagarAreaExistente() {
-        JPAApi jpaApi = app.injector().instanceOf(JPAApi.class);
-        AreaCrudService areaService = app.injector().instanceOf(AreaCrudService.class);
+    public void testAtualizarAreaExistente() {
+        Area area = new Area();
+        area.setDescricao("CTA 1");
+        area.save();
 
-        String areaId = jpaApi.withTransaction(() -> {
-            Area area = new Area();
-            area.setDescricao("CTA 1");
-            areaService.save(area);
-            return area.getId();
-        });
 
-        Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.AreasController.delete(areaId).url());
-        Result result = route(deleteRequest);
-           
+        UUID areaId = area.getId();
+        assertNotNull(areaId);
+
+        Area areaSalvada = Area.find.byId(areaId);
+
+        Area novaArea = new Area();
+        novaArea.setDescricao("Teste atualizar");
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
+                .uri(routes.AreasController.update(areaId.toString()).url())
+                .bodyJson(Json.toJson(novaArea));
+
+        Result result = route(request);
         assertEquals(200, result.status());
-        jpaApi.withTransaction(() -> {
-            Area area = areaService.findOne(areaId);
-            assertNull(area);
-        });
+
+        JsonNode json = Json.parse(Helpers.contentAsString(result));
+        Area areaRetornada = Json.fromJson(json, Area.class);
+
+        assertEquals("Teste atualizar", areaRetornada.getDescricao());
+        assertNotNull(areaRetornada.getId());
     }
-    
+
     @Test
-    @Transactional
+    public void testApagarAreaExistente() {
+        Area area = new Area();
+        area.setDescricao("Teste");
+        area.save();
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("DELETE")
+                .uri(routes.AreasController.delete(area.getId().toString()).url());
+        Result result = route(request);
+
+        assertEquals(200, result.status());
+        assertNull(Area.find.byId(area.getId()));
+    }
+
+    @Test
     public void testApagarAreaNaoExistente() {
         Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.AreasController.delete("1234").url());
+                .uri(routes.AreasController.delete(UUID.randomUUID().toString()).url());
         Result result = route(deleteRequest);
         assertEquals(404, result.status());
     }
-    
-    @Test
-    @Transactional
-    @SuppressWarnings("unchecked")
-    public void testListarAreas() {
-        AreaCrudService areaService = app.injector().instanceOf(AreaCrudService.class);
-        JPAApi jpaApi = app.injector().instanceOf(JPAApi.class);
-        
-        jpaApi.withTransaction(() -> {
-            Area area = new Area();
-            area.setDescricao("CTA 1");
-            areaService.save(area);
 
-            area = new Area();
-            area.setDescricao("CTA 2");
-            areaService.save(area);
-        });
+    @Test
+    public void testListarAreas() {
+        Area area = new Area();
+        area.setDescricao("CTA-1");
+        area.save();
+
+        Area area1 = new Area();
+        area1.setDescricao("CTA-2");
+        area1.save();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
                 .uri(routes.AreasController.findAll().url());
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
-        List<Area> areas = Json.fromJson(json, List.class);  
-        
+        List<Area> areas = Json.fromJson(json, List.class);
+
         assertEquals(200, result.status());
         assertEquals(2, areas.size());
     }
-    
+
 }

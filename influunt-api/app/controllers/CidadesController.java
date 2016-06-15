@@ -1,22 +1,19 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import exceptions.EntityNotFound;
 import models.Cidade;
-import play.db.jpa.Transactional;
+import play.Logger;
+import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-import services.CidadeCrudService;
 
-import javax.inject.Inject;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 public class CidadesController extends Controller {
 
-    @Inject
-    private CidadeCrudService cidadeService;
 
     @Transactional
     public CompletionStage<Result> create() {
@@ -26,14 +23,16 @@ public class CidadesController extends Controller {
         if (json == null) {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         }
+
         Cidade cidade = Json.fromJson(json, Cidade.class);
-        cidadeService.save(cidade);
+        cidade.save();
+
         return CompletableFuture.completedFuture(ok(Json.toJson(cidade)));
     }
 
     @Transactional
     public CompletionStage<Result> findOne(String id) {
-        Cidade cidade = cidadeService.findOne(id);
+        Cidade cidade = Cidade.find.byId(UUID.fromString(id));
         if (cidade == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
@@ -43,17 +42,18 @@ public class CidadesController extends Controller {
 
     @Transactional
     public CompletionStage<Result> findAll() {
-        return CompletableFuture.completedFuture(ok(Json.toJson(cidadeService.findAll())));
+        return CompletableFuture.completedFuture(ok(Json.toJson(Cidade.find.findList())));
     }
 
     @Transactional
     public CompletionStage<Result> delete(String id) {
-        try {
-            cidadeService.delete(id);
-        } catch (EntityNotFound e) {
+        Cidade cidade = Cidade.find.byId(UUID.fromString(id));
+        if (cidade == null) {
             return CompletableFuture.completedFuture(notFound());
+        } else {
+            cidade.delete();
+            return CompletableFuture.completedFuture(ok());
         }
-        return CompletableFuture.completedFuture(ok());
     }
 
     @Transactional
@@ -62,12 +62,18 @@ public class CidadesController extends Controller {
         if (json == null) {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         }
-        Cidade cidade = Json.fromJson(json, Cidade.class);
-        cidade = cidadeService.update(cidade, id);
+
+        Cidade cidade = Cidade.find.byId(UUID.fromString(id));
         if (cidade == null) {
             return CompletableFuture.completedFuture(notFound());
+        }else{
+            cidade = Json.fromJson(json, Cidade.class);
+            cidade.setId(UUID.fromString(id));
+            cidade.update();
+            Logger.info("Cidade Atualizada:" + cidade);
+            return CompletableFuture.completedFuture(ok(Json.toJson(cidade)));
         }
-        return CompletableFuture.completedFuture(ok(Json.toJson(cidade)));
+
     }
 
 }

@@ -1,18 +1,10 @@
 package models;
 
-import java.util.Date;
+import com.avaje.ebean.Model;
+import org.joda.time.DateTime;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.GenericGenerator;
-
-import framework.BaseEntity;
+import javax.persistence.*;
+import java.util.UUID;
 
 /**
  * Entidade que representa o {@link Detector} no sistema
@@ -22,15 +14,12 @@ import framework.BaseEntity;
  */
 @Entity
 @Table(name = "detectores")
-public class Detector extends BaseEntity<String> {
+public class Detector extends Model {
 
     private static final long serialVersionUID = 3752412658492551927L;
 
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(name = "id", unique = true)
-    private String id;
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "tipo_detector_id")
@@ -41,16 +30,16 @@ public class Detector extends BaseEntity<String> {
     private Anel anel;
 
     @Column
-    private Date dataCriacao;
-
+    private DateTime dataCriacao;
     @Column
-    private Date dataAtualizacao;
+    private DateTime dataAtualizacao;
 
-    public String getId() {
+
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -70,20 +59,19 @@ public class Detector extends BaseEntity<String> {
         this.anel = anel;
     }
 
-    public Date getDataCriacao() {
+    public DateTime getDataCriacao() {
         return dataCriacao;
     }
 
-    public void setDataCriacao(Date dataCriacao) {
+    public void setDataCriacao(DateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 
-    public Date getDataAtualizacao() {
+    public DateTime getDataAtualizacao() {
         return dataAtualizacao;
     }
 
-    public void setDataAtualizacao(Date dataAtualizacao) {
+    public void setDataAtualizacao(DateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
     }
-
 }
