@@ -19,6 +19,8 @@ public class ModeloControlador extends Model{
 
     private static final long serialVersionUID = -3153929481907380680L;
 
+    public static Finder<UUID, ModeloControlador> find = new Finder<UUID, ModeloControlador>(ModeloControlador.class);
+
     @Id
     private UUID id;
 

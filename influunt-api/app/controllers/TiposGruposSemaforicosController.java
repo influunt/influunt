@@ -1,7 +1,6 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import models.TipoDetector;
 import models.TipoGrupoSemaforico;
 import play.db.ebean.Transactional;
 import play.libs.Json;

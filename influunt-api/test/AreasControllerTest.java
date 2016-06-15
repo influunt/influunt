@@ -1,7 +1,6 @@
 import com.fasterxml.jackson.databind.JsonNode;
 import controllers.routes;
 import models.Area;
-import org.junit.Assert;
 import org.junit.Test;
 import play.Application;
 import play.Mode;
@@ -72,11 +71,8 @@ public class AreasControllerTest extends WithApplication {
         area.setDescricao("CTA 1");
         area.save();
 
-
         UUID areaId = area.getId();
         assertNotNull(areaId);
-
-        Area areaSalvada = Area.find.byId(areaId);
 
         Area novaArea = new Area();
         novaArea.setDescricao("Teste atualizar");
@@ -143,7 +139,7 @@ public class AreasControllerTest extends WithApplication {
         area.setDescricao("Teste");
         area.save();
         UUID areaId = area.getId();
-        Assert.assertNotNull(areaId);
+        assertNotNull(areaId);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
                 .uri(routes.AreasController.findOne(areaId.toString()).url());
