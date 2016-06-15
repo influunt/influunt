@@ -127,4 +127,21 @@ public class TiposGruposSemaforicosControllerTest extends WithApplication {
         assertEquals(2, tipoGruposSemaforicos.size());
     }
 
+    @Test
+    public void testBuscarDadosTipoGrupoSemaforico() {
+        TipoGrupoSemaforico tipoGrupoSemaforico = new TipoGrupoSemaforico();
+        tipoGrupoSemaforico.setDescricao("Veicular");
+        tipoGrupoSemaforico.save();
+
+        UUID tipoGrupoSemaforicoId = tipoGrupoSemaforico.getId();
+        assertNotNull(tipoGrupoSemaforicoId);
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("GET").uri(routes.TiposGruposSemaforicosController.findOne(tipoGrupoSemaforicoId.toString()).url());
+        Result result = route(request);
+        JsonNode json = Json.parse(Helpers.contentAsString(result));
+        TipoGrupoSemaforico tipoGrupoSemaforicoRetornado =  Json.fromJson(json, TipoGrupoSemaforico.class);
+        assertEquals(200, result.status());
+        assertEquals(tipoGrupoSemaforicoId, tipoGrupoSemaforicoRetornado.getId());
+    }
+
 }
