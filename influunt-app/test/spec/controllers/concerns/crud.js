@@ -1,21 +1,28 @@
 'use strict';
 
 describe('Controller: CrudCtrl', function () {
-
-  // ad the controller's module
-  beforeEach(module('influuntApp', function(RestangularProvider) {
-    RestangularProvider.setBaseUrl('');
-  }));
-
   var CrudCtrl,
     scope,
     resourceList,
     resourceObj,
     httpBackend,
-    $q;
+    $q,
+    toast;
+
+  // ad the controller's module
+  beforeEach(module('influuntApp', function(RestangularProvider, $provide) {
+    RestangularProvider.setBaseUrl('');
+    $provide.factory('toast', function() {
+      return {
+        error: function() {},
+        success: function() {},
+      }
+    });
+  }));
+
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope, $httpBackend, _$q_) {
+  beforeEach(inject(function ($controller, $rootScope, $httpBackend, _$q_, _toast_) {
     scope = $rootScope.$new();
     CrudCtrl = $controller('CrudCtrl', {
       $scope: scope,
@@ -26,6 +33,9 @@ describe('Controller: CrudCtrl', function () {
     });
 
     $q = _$q_;
+
+    toast = _toast_;
+    spyOn(toast, 'error');
 
     httpBackend = $httpBackend;
 
@@ -43,6 +53,13 @@ describe('Controller: CrudCtrl', function () {
     scope.index();
     httpBackend.flush();
     expect(scope.lista.length).toBe(2);
+  });
+
+  it('Quando o index é executado e houver um erro na api, uma mensagem de erro deve ser apresentada', function() {
+    httpBackend.expectGET('/resource').respond(500, {});
+    scope.index();
+    httpBackend.flush();
+    expect(toast.error).toHaveBeenCalled();
   });
 
   it('Quando o show é executado, deve retornar um objeto do resource', function() {
