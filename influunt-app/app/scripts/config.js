@@ -38,6 +38,7 @@ angular
           templateUrl: 'views/main.html'
         })
 
+        // Crud Cidades.
         .state('app.cidades', {
           url: '/cidades',
           templateUrl: 'views/cidades/index.html',
@@ -75,6 +76,47 @@ angular
           controllerAs: 'cidades',
           data: {
             title: 'cidades.titulo'
+          }
+        })
+
+        // Crud areas.
+        .state('app.areas', {
+          url: '/areas',
+          templateUrl: 'views/areas/index.html',
+          controller: 'AreasCtrl',
+          controllerAs: 'areas',
+          data: {
+            title: 'areas.titulo'
+          }
+        })
+
+        .state('app.areas_new', {
+          url: '/areas/new',
+          templateUrl: 'views/areas/new.html',
+          controller: 'AreasCtrl',
+          controllerAs: 'areas',
+          data: {
+            title: 'areas.titulo'
+          }
+        })
+
+        .state('app.areas_edit', {
+          url: '/areas/:id/edit',
+          templateUrl: 'views/areas/edit.html',
+          controller: 'AreasCtrl',
+          controllerAs: 'areas',
+          data: {
+            title: 'areas.titulo'
+          }
+        })
+
+        .state('app.areas_show', {
+          url: '/areas/:id',
+          templateUrl: 'views/areas/show.html',
+          controller: 'AreasCtrl',
+          controllerAs: 'areas',
+          data: {
+            title: 'areas.titulo'
           }
         })
 

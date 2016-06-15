@@ -7,9 +7,9 @@
         </div>
         <div class="ibox-content">
 
-          <!-- botão de nova cidade -->
+          <!-- botão de nova area -->
           <div class="pull-right actions">
-            <a class="btn btn-small btn-primary btn-rounded" ui-sref="app.cidades_new">
+            <a class="btn btn-small btn-primary btn-rounded" ui-sref="app.areas_new">
               <i class="fa fa-plus"></i>
               {{ 'geral.crud.novo' | translate }}
             </a>
@@ -19,19 +19,21 @@
             <div class="table">
               <thead>
                 <tr>
-                  <th>{{ 'cidades.nome' | translate }}</th>
-                  <th>{{ 'cidades.areas' | translate }}</th>
+                  <th>{{ 'areas.cidade' | translate }}</th>
+                  <th>{{ 'areas.descricao' | translate }}</th>
+                  <th>{{ 'areas.coordenadas' | translate }}</th>
                   <th>{{ 'geral.crud.opcoes' | translate }}</th>
                 </tr>
               </thead>
               <tbody>
-                <tr data-ng-repeat="cidade in lista">
-                  <td>{{ cidade.nome }}</td>
-                  <td data-ng-bind-html="cidade.areas | nomeAreas"></td>
+                <tr data-ng-repeat="area in lista">
+                  <td>{{ area.cidade | nomeCidade }}</td>
+                  <td>{{ area.descricao }}</td>
+                  <td data-ng-bind-html="area.coordenadas"></td>
                   <td>
-                    <a ui-sref="app.cidades_show({id: cidade.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
-                    <a ui-sref="app.cidades_edit({id: cidade.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.editar' | translate }}</a>
-                    <a data-ng-click="confirmDelete(cidade.id)" class="btn btn-danger btn-xs">{{ 'geral.crud.excluir' | translate }}</a>
+                    <a ui-sref="app.areas_show({id: area.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
+                    <a ui-sref="app.areas_edit({id: area.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.editar' | translate }}</a>
+                    <a data-ng-click="confirmDelete(area.id)" class="btn btn-danger btn-xs">{{ 'geral.crud.excluir' | translate }}</a>
                   </td>
                 </tr>
               </tbody>

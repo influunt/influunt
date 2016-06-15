@@ -16,8 +16,11 @@ describe('Controller: CidadesCtrl', function () {
     });
   }));
 
-  it('deve criar um objeto de cidade quando a rota de new for chamada', function() {
-    scope.new();
-    expect(scope.cidade).toBeDefined();
+  it('Deve conter as definições das funções de CRUD', function() {
+    expect(scope.index).toBeDefined();
+    expect(scope.show).toBeDefined();
+    expect(scope.new).toBeDefined();
+    expect(scope.save).toBeDefined();
+    expect(scope.confirmDelete).toBeDefined();
   });
 });

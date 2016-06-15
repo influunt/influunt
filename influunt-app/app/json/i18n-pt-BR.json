@@ -1,5 +1,12 @@
 {
   "appname": "Influunt",
+  "areas": {
+    "cidade": "CIDADE",
+    "coordenadas": "COORDENADAS",
+    "descricao": "DESCRIÇÃO",
+    "novo": "Nova Área",
+    "titulo": "Áreas"
+  },
   "cidades": {
     "areas": "ÁREAS",
     "nome": "NOME",
@@ -8,8 +15,8 @@
   },
   "geral": {
     "auditoria": {
-      "dataAtualizacao": "Data de Atualização",
-      "dataCriacao": "Data de Criação"
+      "dataAtualizacao": "DATA DE ATUALIZAÇÃO",
+      "dataCriacao": "DATA DE CRIAÇÃO"
     },
     "crud": {
       "editar": "Editar",

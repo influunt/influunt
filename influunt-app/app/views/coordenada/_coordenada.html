@@ -1,0 +1,20 @@
+<div class="form-group">
+
+  <label class="control-label col-md-2">{{ 'coordenadas.latitude' | translate }}</label>
+  <div class="col-md-3">
+    <input type="text" class="form-control" ng-model="coordenada.latitude"
+      placeholder="{{ 'coordenadas.latitude' | translate }}"/>
+  </div>
+
+  <label class="control-label col-md-2">{{ 'coordenadas.longitude' | translate }}</label>
+  <div class="col-md-3">
+    <input type="text" class="form-control" ng-model="coordenada.longitude"
+      placeholder="{{ 'coordenadas.longitude' | translate }}"/>
+  </div>
+
+
+  <div class="col-md-2" data-ng-hide="hideRemoveCoordenada">
+    <a ng-click="removerCoordenadas($index)" class="btn btn-xs btn-danger">X</a>
+  </div>
+</div>
+<hr/>
