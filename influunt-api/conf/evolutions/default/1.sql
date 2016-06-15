@@ -60,7 +60,6 @@ create table controladores (
   latitude                      double,
   longitude                     double,
   area_id                       varchar(40),
-  constraint uq_controladores_area_id unique (area_id),
   constraint pk_controladores primary key (id)
 );
 
@@ -83,7 +82,7 @@ create table fabricantes (
 
 create table grupos_semaforicos (
   id                            varchar(40) not null,
-  tipo_detector_id              varchar(40),
+  tipo_id                       varchar(40),
   anel_id                       varchar(40),
   controlador_id                varchar(40),
   grupo_conflito_id             varchar(40),
@@ -138,10 +137,12 @@ create table tipo_grupo_semaforicos (
 );
 
 alter table aneis add constraint fk_aneis_controlador_id foreign key (controlador_id) references controladores (id) on delete restrict on update restrict;
+create index ix_aneis_controlador_id on aneis (controlador_id);
 
 alter table areas add constraint fk_areas_cidade_id foreign key (cidade_id) references cidades (id) on delete restrict on update restrict;
 
 alter table controladores add constraint fk_controladores_area_id foreign key (area_id) references areas (id) on delete restrict on update restrict;
+create index ix_controladores_area_id on controladores (area_id);
 
 alter table detectores add constraint fk_detectores_tipo_detector_id foreign key (tipo_detector_id) references tipos_detectores (id) on delete restrict on update restrict;
 create index ix_detectores_tipo_detector_id on detectores (tipo_detector_id);
@@ -149,8 +150,8 @@ create index ix_detectores_tipo_detector_id on detectores (tipo_detector_id);
 alter table detectores add constraint fk_detectores_anel_id foreign key (anel_id) references aneis (id) on delete restrict on update restrict;
 create index ix_detectores_anel_id on detectores (anel_id);
 
-alter table grupos_semaforicos add constraint fk_grupos_semaforicos_tipo_detector_id foreign key (tipo_detector_id) references tipo_grupo_semaforicos (id) on delete restrict on update restrict;
-create index ix_grupos_semaforicos_tipo_detector_id on grupos_semaforicos (tipo_detector_id);
+alter table grupos_semaforicos add constraint fk_grupos_semaforicos_tipo_id foreign key (tipo_id) references tipo_grupo_semaforicos (id) on delete restrict on update restrict;
+create index ix_grupos_semaforicos_tipo_id on grupos_semaforicos (tipo_id);
 
 alter table grupos_semaforicos add constraint fk_grupos_semaforicos_anel_id foreign key (anel_id) references aneis (id) on delete restrict on update restrict;
 create index ix_grupos_semaforicos_anel_id on grupos_semaforicos (anel_id);
@@ -177,10 +178,12 @@ create index ix_movimentos_anel_id on movimentos (anel_id);
 # --- !Downs
 
 alter table aneis drop foreign key fk_aneis_controlador_id;
+drop index ix_aneis_controlador_id on aneis;
 
 alter table areas drop foreign key fk_areas_cidade_id;
 
 alter table controladores drop foreign key fk_controladores_area_id;
+drop index ix_controladores_area_id on controladores;
 
 alter table detectores drop foreign key fk_detectores_tipo_detector_id;
 drop index ix_detectores_tipo_detector_id on detectores;
@@ -188,8 +191,8 @@ drop index ix_detectores_tipo_detector_id on detectores;
 alter table detectores drop foreign key fk_detectores_anel_id;
 drop index ix_detectores_anel_id on detectores;
 
-alter table grupos_semaforicos drop foreign key fk_grupos_semaforicos_tipo_detector_id;
-drop index ix_grupos_semaforicos_tipo_detector_id on grupos_semaforicos;
+alter table grupos_semaforicos drop foreign key fk_grupos_semaforicos_tipo_id;
+drop index ix_grupos_semaforicos_tipo_id on grupos_semaforicos;
 
 alter table grupos_semaforicos drop foreign key fk_grupos_semaforicos_anel_id;
 drop index ix_grupos_semaforicos_anel_id on grupos_semaforicos;
