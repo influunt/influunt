@@ -114,9 +114,9 @@ public class TiposDetectoresControllerTest extends WithApplication {
         tipoDetector.setDescricao("CTA-1");
         tipoDetector.save();
 
-        TipoDetector area1 = new TipoDetector();
-        area1.setDescricao("CTA-2");
-        area1.save();
+        TipoDetector tipoDetector1 = new TipoDetector();
+        tipoDetector1.setDescricao("CTA-2");
+        tipoDetector1.save();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
                 .uri(routes.TiposDetectoresController.findAll().url());

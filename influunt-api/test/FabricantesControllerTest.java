@@ -1,6 +1,5 @@
 import com.fasterxml.jackson.databind.JsonNode;
 import controllers.routes;
-import models.Cidade;
 import models.Fabricante;
 import org.junit.Assert;
 import org.junit.Test;
@@ -44,28 +43,28 @@ public class FabricantesControllerTest extends WithApplication {
 
     @Test
     public void testCriarNovoFabricante() {
-        Fabricante cidade = new Fabricante();
-        cidade.setNome("Teste");
+        Fabricante fabricante = new Fabricante();
+        fabricante.setNome("Teste");
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.FabricantesController.create().url()).bodyJson(Json.toJson(cidade));
+                .uri(routes.FabricantesController.create().url()).bodyJson(Json.toJson(fabricante));
         Result postResult = route(postRequest);
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
-        Cidade cidadeRetornada = Json.fromJson(json, Cidade.class);
+        Fabricante fabricanteRetornado = Json.fromJson(json, Fabricante.class);
 
         assertEquals(200, postResult.status());
-        assertEquals("Teste", cidadeRetornada.getNome());
-        assertNotNull(cidadeRetornada.getId());
+        assertEquals("Teste", fabricanteRetornado.getNome());
+        assertNotNull(fabricanteRetornado.getId());
     }
 
     @Test
     @SuppressWarnings("unchecked")
     public void testListarFabricantes() {
         Fabricante fabricante = new Fabricante();
-        fabricante.setNome("Cidade 1");
+        fabricante.setNome("Fabricante 1");
         fabricante.save();
 
         Fabricante fabricante1 = new Fabricante();
-        fabricante1.setNome("Cidade 2");
+        fabricante1.setNome("Fabricante 2");
         fabricante1.save();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
