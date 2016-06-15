@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
@@ -22,11 +23,10 @@ public class ModeloControlador extends Model{
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "fabricante_id")
+    @JsonBackReference
     private Fabricante fabricante;
 
     @ManyToOne
-    @JoinColumn(name = "configuracao_controlador_id")
     private ConfiguracaoControlador configuracao;
 
     @Column

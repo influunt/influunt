@@ -2,6 +2,7 @@ package models;
 
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.joda.time.DateTime;
 import play.data.validation.Constraints;
 
@@ -30,8 +31,8 @@ public class Cidade extends Model {
     @Constraints.Required
     private String nome;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "cidade", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @OneToMany(mappedBy = "cidade", cascade = CascadeType.REMOVE)
     private List<Area> areas;
 
     @Column
