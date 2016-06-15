@@ -16,6 +16,7 @@
     "$": true,
 
     // karma/jasmine globals
+    "afterEach": true,
     "beforeEach": true,
     "describe": true,
     "expect": true,
