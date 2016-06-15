@@ -200,6 +200,11 @@ angular
           data: {
             title: 'tipos_detectores.titulo'
           }
+
+        .state('index.dados', {
+          url: '/dados',
+          templateUrl: 'views/dados.html',
+          data: {pageTitle: 'Example view'}
         })
 
         // Rotas de teste. Podem ser removidas em breve.
