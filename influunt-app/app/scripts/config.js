@@ -120,6 +120,47 @@ angular
           }
         })
 
+        // Crud controladores.
+        .state('app.controladores', {
+          url: '/controladores',
+          templateUrl: 'views/controladores/index.html',
+          controller: 'ControladoresCtrl',
+          controllerAs: 'controladores',
+          data: {
+            title: 'controladores.titulo'
+          }
+        })
+
+        .state('app.controladores_new', {
+          url: '/controladores/new',
+          templateUrl: 'views/controladores/new.html',
+          controller: 'ControladoresCtrl',
+          controllerAs: 'controladores',
+          data: {
+            title: 'controladores.titulo'
+          }
+        })
+
+        .state('app.controladores_edit', {
+          url: '/controladores/:id/edit',
+          templateUrl: 'views/controladores/edit.html',
+          controller: 'ControladoresCtrl',
+          controllerAs: 'controladores',
+          data: {
+            title: 'controladores.titulo'
+          }
+        })
+
+        .state('app.controladores_show', {
+          url: '/controladores/:id',
+          templateUrl: 'views/controladores/show.html',
+          controller: 'ControladoresCtrl',
+          controllerAs: 'controladores',
+          data: {
+            title: 'controladores.titulo'
+          }
+        })
+
         // Crud tipos detectores.
         .state('app.tipos_detectores', {
           url: '/tipos_detectores',

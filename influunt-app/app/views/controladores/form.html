@@ -1,0 +1,86 @@
+<div class="ibox-content">
+  <form class="simple_form form-horizontal"
+      method="post"
+      name="formAreas"
+      novalidate="novalidate"
+      data-ng-submit="save()">
+
+    <div class="form-group">
+      <label class="control-label col-sm-2 control-label">{{ 'controladores.descricao' | translate }}</label>
+      <div class="col-sm-9">
+        <input class="string optional form-control" name="controlador_descricao" type="text" data-ng-model="objeto.descricao">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-2 control-label">{{ 'controladores.firmware' | translate }}</label>
+      <div class="col-sm-9">
+        <input class="string optional form-control" name="controlador_firmware" type="text" data-ng-model="objeto.firmware">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-2 control-label">{{ 'controladores.idControlador' | translate }}</label>
+      <div class="col-sm-9">
+        <input class="string optional form-control" name="controlador_idControlador" type="text" data-ng-model="objeto.idControlador">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-2 control-label">{{ 'controladores.modelo' | translate }}</label>
+      <div class="col-sm-9">
+        <input class="string optional form-control" name="controlador_modelo" type="text" data-ng-model="objeto.modelo">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-2 control-label">{{ 'controladores.numeroSMEE' | translate }}</label>
+      <div class="col-sm-9">
+        <input class="string optional form-control" name="controlador_numeroSMEE" type="text" data-ng-model="objeto.numeroSMEE">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-2 control-label">{{ 'controladores.numeroSMEEConjugado1' | translate }}</label>
+      <div class="col-sm-9">
+        <input class="string optional form-control" name="controlador_numeroSMEEConjugado1" type="text" data-ng-model="objeto.numeroSMEEConjugado1">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-2 control-label">{{ 'controladores.numeroSMEEConjugado2' | translate }}</label>
+      <div class="col-sm-9">
+        <input class="string optional form-control" name="controlador_numeroSMEEConjugado2" type="text" data-ng-model="objeto.numeroSMEEConjugado2">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-2 control-label">{{ 'controladores.numeroSMEEConjugado3' | translate }}</label>
+      <div class="col-sm-9">
+        <input class="string optional form-control" name="controlador_numeroSMEEConjugado3" type="text" data-ng-model="objeto.numeroSMEEConjugado3">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-2 control-label">{{ 'controladores.area' | translate }}</label>
+      <div class="col-sm-9">
+        <select name="area" class="form-control"
+          data-ng-options="area as area.descricao for area in areas"
+          data-ng-model="objeto.area"></select>
+      </div>
+    </div>
+
+    <label class="control-label col-sm-2 control-label">{{ 'controladores.coordenadas' | translate }}</label>
+    <div class="form-group col-md-9">
+      <ng-include src="'views/coordenada/_coordenada.html'"></ng-include>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-4 col-sm-offset-2">
+        <input class="btn btn-primary" name="commit" type="submit" value="{{ 'geral.crud.salvar' | translate }}">
+        <a class="btn btn-default" ui-sref="app.controladores">{{ 'geral.crud.voltar' | translate }}</a>
+      </div>
+    </div>
+
+  </form>
+</div>
