@@ -1,7 +1,6 @@
 package models;
 
 import com.avaje.ebean.Model;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -11,9 +10,8 @@ import java.util.UUID;
 
 /**
  * Entidade que representa o {@link TipoGrupoSemaforico} no sistema
- * 
- * @author lesiopinheiro
  *
+ * @author lesiopinheiro
  */
 @Entity
 @Table(name = "tipo_grupo_semaforicos")
@@ -21,8 +19,11 @@ public class TipoGrupoSemaforico extends Model {
 
     private static final long serialVersionUID = -5973761973329033820L;
 
+    public static Finder<UUID, TipoGrupoSemaforico> find = new Finder<UUID, TipoGrupoSemaforico>(TipoGrupoSemaforico.class);
+
     @Id
     private UUID id;
+
     @Column
     private String descricao;
 

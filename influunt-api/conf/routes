@@ -23,6 +23,13 @@ PUT         /api/v1/areas/:id                        controllers.AreasController
 GET         /api/v1/areas/:id                        controllers.AreasController.findOne(id)
 DELETE      /api/v1/areas/:id                        controllers.AreasController.delete(id)
 
+# Tipos de Grupos Semaforicos
+GET         /api/v1/tipos_grupos_semaforicos         controllers.TiposGruposSemaforicosController.findAll()
+POST        /api/v1/tipos_grupos_semaforicos         controllers.TiposGruposSemaforicosController.create()
+PUT         /api/v1/tipos_grupos_semaforicos/:id     controllers.TiposGruposSemaforicosController.update(id)
+GET         /api/v1/tipos_grupos_semaforicos/:id     controllers.TiposGruposSemaforicosController.findOne(id)
+DELETE      /api/v1/tipos_grupos_semaforicos/:id     controllers.TiposGruposSemaforicosController.delete(id)
+
 # Controladores
 GET         /api/v1/controladores                 controllers.ControladoresController.findAll()
 POST        /api/v1/controladores         	      controllers.ControladoresController.create()
