@@ -1,24 +1,18 @@
 package controllers;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
-
-import javax.inject.Inject;
-
 import com.fasterxml.jackson.databind.JsonNode;
-
-import exceptions.EntityNotFound;
 import models.Area;
-import play.db.jpa.Transactional;
+import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-import services.AreaCrudService;
+
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
 public class AreasController extends Controller {
 
-    @Inject
-    private AreaCrudService aeraService;
 
     @Transactional
     public CompletionStage<Result> create() {
@@ -28,14 +22,14 @@ public class AreasController extends Controller {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         } else {
             Area area = Json.fromJson(json, Area.class);
-            aeraService.save(area);
+            area.save();
             return CompletableFuture.completedFuture(ok(Json.toJson(area)));
         }
     }
 
     @Transactional
     public CompletionStage<Result> findOne(String id) {
-        Area area = aeraService.findOne(id);
+        Area area = Area.find.byId(UUID.fromString(id));
         if (area == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
@@ -45,17 +39,17 @@ public class AreasController extends Controller {
 
     @Transactional
     public CompletionStage<Result> findAll() {
-        return CompletableFuture.completedFuture(ok(Json.toJson(aeraService.findAll())));
+        return CompletableFuture.completedFuture(ok(Json.toJson(Area.find.findList())));
     }
 
     @Transactional
     public CompletionStage<Result> delete(String id) {
-        try {
-            aeraService.delete(id);
-        } catch (EntityNotFound e) {
+        Area area = Area.find.byId(UUID.fromString(id));
+        if(area == null) {
             return CompletableFuture.completedFuture(notFound());
+        }else {
+            return CompletableFuture.completedFuture(ok());
         }
-        return CompletableFuture.completedFuture(ok());
     }
 
     @Transactional
@@ -64,12 +58,14 @@ public class AreasController extends Controller {
         if (json == null) {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         } else {
-            Area area = Json.fromJson(json, Area.class);
-            if (area.getId() == null) {
+            if (Area.find.byId(UUID.fromString(id)) == null) {
                 return CompletableFuture.completedFuture(notFound());
+            }else{
+                Area area = Json.fromJson(json, Area.class);
+                area.setId(UUID.fromString(id));
+                area.update();
+                return CompletableFuture.completedFuture(ok(Json.toJson(area)));
             }
-            aeraService.update(area, id);
-            return CompletableFuture.completedFuture(ok(Json.toJson(area)));
         }
     }
 

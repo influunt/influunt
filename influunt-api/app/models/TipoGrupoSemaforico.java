@@ -1,18 +1,11 @@
 package models;
 
+import com.avaje.ebean.Model;
+
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.GenericGenerator;
-
-import framework.BaseEntity;
+import java.util.UUID;
 
 /**
  * Entidade que representa o {@link TipoGrupoSemaforico} no sistema
@@ -22,20 +15,16 @@ import framework.BaseEntity;
  */
 @Entity
 @Table(name = "tipo_grupo_semaforicos")
-public class TipoGrupoSemaforico extends BaseEntity<String> {
+public class TipoGrupoSemaforico extends Model {
 
     private static final long serialVersionUID = -5973761973329033820L;
 
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(name = "id", unique = true)
-    private String id;
-
+    private UUID id;
     @Column
     private String descricao;
 
-    @OneToMany(mappedBy = "tipo", orphanRemoval = false)
+    @OneToMany(mappedBy = "tipo")
     private List<GrupoSemaforico> gruposSemaforicos;
 
     @Column
@@ -44,11 +33,11 @@ public class TipoGrupoSemaforico extends BaseEntity<String> {
     @Column
     private Date dataAtualizacao;
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -83,5 +72,4 @@ public class TipoGrupoSemaforico extends BaseEntity<String> {
     public void setDataAtualizacao(Date dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
     }
-
 }

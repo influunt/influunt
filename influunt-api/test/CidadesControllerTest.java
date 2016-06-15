@@ -1,24 +1,11 @@
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static play.inject.Bindings.bind;
-import static play.test.Helpers.inMemoryDatabase;
-import static play.test.Helpers.route;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.junit.Test;
-
 import com.fasterxml.jackson.databind.JsonNode;
-
 import controllers.routes;
 import models.Cidade;
+import org.junit.Test;
 import play.Application;
 import play.Logger;
 import play.Mode;
-import play.db.jpa.JPAApi;
+
 import play.inject.guice.GuiceApplicationBuilder;
 import play.libs.Json;
 import play.mvc.Http;
@@ -26,7 +13,16 @@ import play.mvc.Result;
 import play.test.Helpers;
 import play.test.WithApplication;
 import security.Authenticator;
-import services.CidadeCrudService;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import static org.junit.Assert.*;
+import static play.inject.Bindings.bind;
+import static play.test.Helpers.inMemoryDatabase;
+import static play.test.Helpers.route;
 
 public class CidadesControllerTest extends WithApplication {
 
@@ -60,20 +56,18 @@ public class CidadesControllerTest extends WithApplication {
 
     @Test
     public void testAtualizarCidadeExistente() {
-        JPAApi jpaApi = app.injector().instanceOf(JPAApi.class);
-        CidadeCrudService cidadeService = app.injector().instanceOf(CidadeCrudService.class);
 
         Cidade cidade = new Cidade();
         cidade.setNome("Teste");
+        cidade.save();
 
-        jpaApi.withTransaction(() -> { cidadeService.save(cidade); });
-
-        String cidadeId = cidade.getId();
+        UUID cidadeId = cidade.getId();
+        assertNotNull(cidade.getId());
         Cidade novaCidade = new Cidade();
         novaCidade.setNome("Teste atualizar");
         
         Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
-                .uri(routes.CidadesController.update(cidadeId).url())
+                .uri(routes.CidadesController.update(cidadeId.toString()).url())
                 .bodyJson(Json.toJson(novaCidade));
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
@@ -90,7 +84,7 @@ public class CidadesControllerTest extends WithApplication {
         cidade.setNome("Teste");
         
         Http.RequestBuilder putRequest = new Http.RequestBuilder().method("PUT")
-                .uri(routes.CidadesController.update("xxxx").url())
+                .uri(routes.CidadesController.update(UUID.randomUUID().toString()).url())
                 .bodyJson(Json.toJson(cidade));
         Result putResult = route(putRequest);
         assertEquals(404, putResult.status());
@@ -98,24 +92,16 @@ public class CidadesControllerTest extends WithApplication {
 
     @Test
     public void testApagarCidadeExistente() {
-        JPAApi jpaApi = app.injector().instanceOf(JPAApi.class);
-        CidadeCrudService cidadeService = app.injector().instanceOf(CidadeCrudService.class);
-
-
-        String cidadeId = jpaApi.withTransaction(() -> {
             Cidade cidade = new Cidade();
             cidade.setNome("Teste");
-            cidadeService.save(cidade);
-            return cidade.getId();
-        });
+            cidade.save();
 
         Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.CidadesController.delete(cidadeId).url());
+                .uri(routes.CidadesController.delete(cidade.getId().toString()).url());
         Result result = route(deleteRequest);
            
         assertEquals(200, result.status());
-        Cidade cidade = jpaApi.withTransaction(() -> { return cidadeService.findOne(cidadeId); });
-        assertNull(cidade);
+        assertNull(Cidade.find.byId(cidade.getId()));
     }
     
     @Test
@@ -124,7 +110,7 @@ public class CidadesControllerTest extends WithApplication {
         cidade.setNome("Teste");
 
         Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.CidadesController.delete("1234").url());
+                .uri(routes.CidadesController.delete(UUID.randomUUID().toString()).url());
         Result result = route(deleteRequest);
         assertEquals(404, result.status());
     }
@@ -132,15 +118,14 @@ public class CidadesControllerTest extends WithApplication {
     @Test
     @SuppressWarnings("unchecked")
     public void testListarCidades() {
-        JPAApi jpaApi = app.injector().instanceOf(JPAApi.class);
-        CidadeCrudService cidadeService = app.injector().instanceOf(CidadeCrudService.class);
-        
         Cidade cidade = new Cidade();
         cidade.setNome("Cidade 1");
-        jpaApi.withTransaction(() -> { cidadeService.save(cidade); });
-        cidade.setNome("Cidade 2");
-        cidade.setId(null);
-        jpaApi.withTransaction(() -> { cidadeService.save(cidade); });
+        cidade.save();
+
+        Cidade cidade1 = new Cidade();
+        cidade1.setNome("Cidade 2");
+        cidade1.setId(null);
+        cidade1.save();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
                 .uri(routes.CidadesController.findAll().url());

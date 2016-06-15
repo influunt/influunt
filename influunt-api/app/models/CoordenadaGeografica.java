@@ -1,16 +1,10 @@
 package models;
 
-import java.util.Date;
+import com.avaje.ebean.Model;
+import org.joda.time.DateTime;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.GenericGenerator;
-
-import framework.BaseEntity;
+import javax.persistence.*;
+import java.util.UUID;
 
 /**
  * Entidade que representa todas as coordenadas geograficas no sistema.
@@ -20,15 +14,12 @@ import framework.BaseEntity;
  */
 @Entity
 @Table(name = "coordenadas_geograficas")
-public class CoordenadaGeografica extends BaseEntity<String> {
+public class CoordenadaGeografica extends Model {
 
     private static final long serialVersionUID = -2938220305527197172L;
 
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(name = "id", unique = true)
-    private String id;
+    private UUID id;
 
     @Column
     private Double latitude;
@@ -37,10 +28,14 @@ public class CoordenadaGeografica extends BaseEntity<String> {
     private Double longitude;
 
     @Column
-    private Date dataCriacao;
+    private DateTime dataCriacao;
 
     @Column
-    private Date dataAtualizacao;
+    private DateTime dataAtualizacao;
+
+    @ManyToOne
+    @JoinColumn(name="area_id")
+    private Area area;
 
     public CoordenadaGeografica() {
         super();
@@ -51,11 +46,11 @@ public class CoordenadaGeografica extends BaseEntity<String> {
         this.longitude = longitude;
     }
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -75,20 +70,27 @@ public class CoordenadaGeografica extends BaseEntity<String> {
         this.longitude = longitude;
     }
 
-    public Date getDataCriacao() {
+    public DateTime getDataCriacao() {
         return dataCriacao;
     }
 
-    public void setDataCriacao(Date dataCriacao) {
+    public void setDataCriacao(DateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 
-    public Date getDataAtualizacao() {
+    public DateTime getDataAtualizacao() {
         return dataAtualizacao;
     }
 
-    public void setDataAtualizacao(Date dataAtualizacao) {
+    public void setDataAtualizacao(DateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
     }
 
+    public Area getArea() {
+        return area;
+    }
+
+    public void setArea(Area area) {
+        this.area = area;
+    }
 }

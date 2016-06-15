@@ -1,19 +1,15 @@
 package models;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.*;
-
-import com.google.inject.Inject;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.GenericGenerator;
-
-import framework.BaseEntity;
+import com.avaje.ebean.Model;
+import org.joda.time.DateTime;
 import play.data.validation.Constraints;
 import play.data.validation.ValidationError;
 import play.i18n.Messages;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Entidade que representa o {@link Controlador} no sistema
@@ -22,15 +18,18 @@ import play.i18n.Messages;
  */
 @Entity
 @Table(name = "controladores")
-public class Controlador extends BaseEntity<String> {
+public class Controlador extends Model {
 
     private static final long serialVersionUID = 521560643019927963L;
+    public static Finder<UUID, Controlador> find = new Finder<UUID, Controlador>(Controlador.class);
 
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(name = "id", unique = true)
-    private String id;
+    private UUID id;
+
+    @Column
+    private DateTime dataCriacao;
+    @Column
+    private DateTime dataAtualizacao;
 
     @Column
     @Constraints.Required
@@ -71,17 +70,11 @@ public class Controlador extends BaseEntity<String> {
     @Constraints.Required
     private Area area;
 
-    @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
     private List<Anel> aneis;
 
-    @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
     private List<GrupoSemaforico> gruposSemaforicos;
-
-    @Column
-    private Date dataCriacao;
-
-    @Column
-    private Date dataAtualizacao;
 
     public List<ValidationError> validate() {
         List<ValidationError> errors = new ArrayList<ValidationError>();
@@ -98,11 +91,11 @@ public class Controlador extends BaseEntity<String> {
         return errors.isEmpty()?null:errors;
     }
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -202,25 +195,19 @@ public class Controlador extends BaseEntity<String> {
         this.gruposSemaforicos = gruposSemaforicos;
     }
 
-    public Date getDataCriacao() {
+    public DateTime getDataCriacao() {
         return dataCriacao;
     }
 
-    public void setDataCriacao(Date dataCriacao) {
+    public void setDataCriacao(DateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 
-    public Date getDataAtualizacao() {
+    public DateTime getDataAtualizacao() {
         return dataAtualizacao;
     }
 
-    public void setDataAtualizacao(Date dataAtualizacao) {
+    public void setDataAtualizacao(DateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
     }
-
-    public static long getSerialversionuid() {
-        return serialVersionUID;
-    }
-
-
 }

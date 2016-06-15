@@ -5,20 +5,17 @@ import exceptions.EntityNotFound;
 import models.Controlador;
 import play.data.Form;
 import play.data.FormFactory;
-import play.db.jpa.Transactional;
+import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-import services.ControladorCrudService;
 
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 public class ControladoresController extends Controller {
 
-
-    @Inject
-    private ControladorCrudService controladorService;
 
     @Inject
     FormFactory formFactory;
@@ -29,16 +26,18 @@ public class ControladoresController extends Controller {
             return CompletableFuture.completedFuture(badRequest());
         }
         Form<Controlador> form = formFactory.form(Controlador.class).bind(request().body().asJson());
-        if(form.hasErrors()){
+        if (form.hasErrors()) {
             return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, form.errorsAsJson()));
-        }else{
-            return CompletableFuture.completedFuture(ok(Json.toJson(controladorService.save(form.get()))));
+        } else {
+            Controlador controlador = form.get();
+            controlador.save();
+            return CompletableFuture.completedFuture(ok(Json.toJson(controlador)));
         }
     }
 
     @Transactional
     public CompletionStage<Result> findOne(String id) {
-        Controlador controlador = controladorService.findOne(id);
+        Controlador controlador = Controlador.find.byId(UUID.fromString(id));
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
@@ -48,35 +47,38 @@ public class ControladoresController extends Controller {
 
     @Transactional
     public CompletionStage<Result> findAll() {
-        return CompletableFuture.completedFuture(ok(Json.toJson(controladorService.findAll())));
+        return CompletableFuture.completedFuture(ok(Json.toJson(Controlador.find.findList())));
     }
 
     @Transactional
     public CompletionStage<Result> delete(String id) {
-        try {
-            controladorService.delete(id);
-        } catch (EntityNotFound e) {
+        Controlador controlador = Controlador.find.byId(UUID.fromString(id));
+        if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
+        } else {
+            controlador.delete();
+            return CompletableFuture.completedFuture(ok());
         }
-        return CompletableFuture.completedFuture(ok());
     }
 
     @Transactional
     public CompletionStage<Result> update(String id) {
-        if(request().body()==null) {
+        if (request().body() == null) {
             return CompletableFuture.completedFuture(badRequest());
         }
-        Form<Controlador> form = formFactory.form(Controlador.class).bind(request().body().asJson());
-        if(form.hasErrors()){
-            return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, form.errorsAsJson()));
+        Controlador controlador = Controlador.find.byId(UUID.fromString(id));
+        if (controlador == null) {
+            return CompletableFuture.completedFuture(notFound());
         }else{
-
-            Controlador controlador = form.get();
-            controlador = controladorService.update(controlador,id);
-            if (controlador == null) {
-                return CompletableFuture.completedFuture(notFound());
+            Form<Controlador> form = formFactory.form(Controlador.class).bind(request().body().asJson());
+            if (form.hasErrors()) {
+                return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, form.errorsAsJson()));
+            }else{
+                controlador = form.get();
+                controlador.setId(UUID.fromString(id));
+                controlador.update();
+                return CompletableFuture.completedFuture(ok(Json.toJson(controlador)));
             }
-            return CompletableFuture.completedFuture(ok(Json.toJson(controlador)));
 
         }
     }

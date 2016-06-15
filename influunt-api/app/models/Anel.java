@@ -1,22 +1,11 @@
 package models;
 
-import java.util.Date;
+import com.avaje.ebean.Model;
+import org.joda.time.DateTime;
+
+import javax.persistence.*;
 import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.GenericGenerator;
-
-import framework.BaseEntity;
+import java.util.UUID;
 
 /**
  * Entidade que representa o {@link Anel} no sistema
@@ -26,15 +15,12 @@ import framework.BaseEntity;
  */
 @Entity
 @Table(name = "aneis")
-public class Anel extends BaseEntity<String> {
+public class Anel extends Model {
 
     private static final long serialVersionUID = 4919501406230732757L;
 
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(name = "id", unique = true)
-    private String id;
+    private UUID id;
 
     @Column
     private String descricao;
@@ -49,31 +35,47 @@ public class Anel extends BaseEntity<String> {
     @JoinColumn(name = "coordenada_id")
     private CoordenadaGeografica coordenada;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "controlador_id")
     private Controlador controlador;
 
-    @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL)
     private List<Detector> detectores;
 
-    @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL)
     private List<GrupoSemaforico> gruposSemaforicos;
 
-    @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL)
     private List<Movimento> movimentos;
 
     @Column
-    private Date dataCriacao;
+    private DateTime dataCriacao;
 
     @Column
-    private Date dataAtualizacao;
+    private DateTime dataAtualizacao;
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
+    }
+
+    public DateTime getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(DateTime dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
+    public DateTime getDataAtualizacao() {
+        return dataAtualizacao;
+    }
+
+    public void setDataAtualizacao(DateTime dataAtualizacao) {
+        this.dataAtualizacao = dataAtualizacao;
     }
 
     public String getDescricao() {
@@ -139,21 +141,4 @@ public class Anel extends BaseEntity<String> {
     public void setMovimentos(List<Movimento> movimentos) {
         this.movimentos = movimentos;
     }
-
-    public Date getDataCriacao() {
-        return dataCriacao;
-    }
-
-    public void setDataCriacao(Date dataCriacao) {
-        this.dataCriacao = dataCriacao;
-    }
-
-    public Date getDataAtualizacao() {
-        return dataAtualizacao;
-    }
-
-    public void setDataAtualizacao(Date dataAtualizacao) {
-        this.dataAtualizacao = dataAtualizacao;
-    }
-
 }
