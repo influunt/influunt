@@ -8,7 +8,7 @@ import java.util.concurrent.CompletionStage;
 import javax.inject.Inject;
 
 import models.Usuario;
-import play.db.jpa.Transactional;
+import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
