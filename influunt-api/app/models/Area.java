@@ -1,22 +1,13 @@
 package models;
 
-import java.util.Date;
+import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.joda.time.DateTime;
+
+import javax.persistence.*;
 import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.GenericGenerator;
-
-import framework.BaseEntity;
+import java.util.UUID;
 
 /**
  * Entidade que representa a {@link Aera} no sistema
@@ -26,15 +17,13 @@ import framework.BaseEntity;
  */
 @Entity
 @Table(name = "areas")
-public class Area extends BaseEntity<String> {
+public class Area extends Model {
 
     private static final long serialVersionUID = 3282755453785165923L;
+    public static Finder<UUID, Area> find = new Finder<UUID, Area>(Area.class);
 
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(name = "id", unique = true)
-    private String id;
+    private UUID id;
 
     @Column
     private String descricao;
@@ -43,23 +32,26 @@ public class Area extends BaseEntity<String> {
     @JoinColumn(name = "cidade_id")
     private Cidade cidade;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<CoordenadaGeografica> coordenadas;
 
-    @OneToMany(mappedBy = "area", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "area")
+    private List<LimiteArea> limitesGeograficos;
+
+
+    @OneToMany(mappedBy = "area")
+    @JsonIgnore
     private List<Controlador> controladores;
 
     @Column
-    private Date dataCriacao;
+    private DateTime dataCriacao;
 
     @Column
-    private Date dataAtualizacao;
+    private DateTime dataAtualizacao;
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -79,14 +71,6 @@ public class Area extends BaseEntity<String> {
         this.cidade = cidade;
     }
 
-    public List<CoordenadaGeografica> getCoordenadas() {
-        return coordenadas;
-    }
-
-    public void setCoordenadas(List<CoordenadaGeografica> coordenadas) {
-        this.coordenadas = coordenadas;
-    }
-
     public List<Controlador> getControladores() {
         return controladores;
     }
@@ -95,20 +79,27 @@ public class Area extends BaseEntity<String> {
         this.controladores = controladores;
     }
 
-    public Date getDataCriacao() {
+    public DateTime getDataCriacao() {
         return dataCriacao;
     }
 
-    public void setDataCriacao(Date dataCriacao) {
+    public void setDataCriacao(DateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 
-    public Date getDataAtualizacao() {
+    public DateTime getDataAtualizacao() {
         return dataAtualizacao;
     }
 
-    public void setDataAtualizacao(Date dataAtualizacao) {
+    public void setDataAtualizacao(DateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
     }
 
+    public List<LimiteArea> getLimitesGeograficos() {
+        return limitesGeograficos;
+    }
+
+    public void setLimitesGeograficos(List<LimiteArea> limitesGeograficos) {
+        this.limitesGeograficos = limitesGeograficos;
+    }
 }

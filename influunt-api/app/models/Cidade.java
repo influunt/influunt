@@ -1,58 +1,50 @@
 package models;
 
-import java.util.Date;
+import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.joda.time.DateTime;
+import play.data.validation.Constraints;
+
+import javax.persistence.*;
 import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.GenericGenerator;
-
-import framework.BaseEntity;
-import play.data.validation.Constraints.Required;
+import java.util.UUID;
 
 /**
  * Entidade que representa a {@link Cidade} no sistema
- * 
+ *
  * @author lesiopinheiro
  *
  */
 @Entity
 @Table(name = "cidades")
-public class Cidade extends BaseEntity<String> {
+public class Cidade extends Model {
 
     private static final long serialVersionUID = 6446144066408570296L;
 
+    public static Finder<UUID, Cidade> find = new Finder<UUID, Cidade>(Cidade.class);
+
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(name = "id", unique = true)
-    private String id;
+    private UUID id;
 
     @Column
-    @Required
+    @Constraints.Required
     private String nome;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "cidade", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<Area> areas;
 
     @Column
-    private Date dataCriacao;
+    private DateTime dataCriacao;
 
     @Column
-    private Date dataAtualizacao;
+    private DateTime dataAtualizacao;
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -72,24 +64,20 @@ public class Cidade extends BaseEntity<String> {
         this.areas = areas;
     }
 
-    public Date getDataCriacao() {
+    public DateTime getDataCriacao() {
         return dataCriacao;
     }
 
-    public void setDataCriacao(Date dataCriacao) {
+    public void setDataCriacao(DateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 
-    public Date getDataAtualizacao() {
+    public DateTime getDataAtualizacao() {
         return dataAtualizacao;
     }
 
-    public void setDataAtualizacao(Date dataAtualizacao) {
+    public void setDataAtualizacao(DateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
-    }
-
-    public static long getSerialversionuid() {
-        return serialVersionUID;
     }
 
     @Override
@@ -97,7 +85,8 @@ public class Cidade extends BaseEntity<String> {
         return "Cidade [id=" + id + ", nome=" + nome + ", areas=" + areas + ", dataCriacao=" + dataCriacao
                 + ", dataAtualizacao=" + dataAtualizacao + "]";
     }
-    
-    
+
+
+
 
 }
