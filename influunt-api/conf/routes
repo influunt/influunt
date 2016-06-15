@@ -37,5 +37,12 @@ PUT         /api/v1/controladores/:id             controllers.ControladoresContr
 GET         /api/v1/controladores/:id             controllers.ControladoresController.findOne(id)
 DELETE      /api/v1/controladores/:id             controllers.ControladoresController.delete(id)
 
+# Fabricantes
+GET         /api/v1/fabricantes                 controllers.FabricantesController.findAll()
+POST        /api/v1/fabricantes                 controllers.FabricantesController.create()
+PUT         /api/v1/fabricantes/:id             controllers.FabricantesController.update(id)
+GET         /api/v1/fabricantes/:id             controllers.FabricantesController.findOne(id)
+DELETE      /api/v1/fabricantes/:id             controllers.FabricantesController.delete(id)
+
 
 POST    /api/v1/login               controllers.SecurityController.login

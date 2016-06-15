@@ -1,6 +1,7 @@
 import com.fasterxml.jackson.databind.JsonNode;
 import controllers.routes;
 import models.Cidade;
+import org.junit.Assert;
 import org.junit.Test;
 import play.Application;
 import play.Mode;
@@ -130,6 +131,24 @@ public class CidadesControllerTest extends WithApplication {
 
         assertEquals(200, result.status());
         assertEquals(2, cidades.size());
+    }
+
+    @Test
+    public void testBuscarDadosCidade() {
+        Cidade cidade = new Cidade();
+        cidade.setNome("Teste");
+        cidade.save();
+        UUID cidadeId = cidade.getId();
+        Assert.assertNotNull(cidadeId);
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
+                .uri(routes.CidadesController.findOne(cidadeId.toString()).url());
+        Result result = route(request);
+        JsonNode json = Json.parse(Helpers.contentAsString(result));
+        Cidade cidadeRetornada = Json.fromJson(json, Cidade.class);
+
+        assertEquals(200, result.status());
+        assertEquals(cidadeId, cidadeRetornada.getId());
     }
 
 }

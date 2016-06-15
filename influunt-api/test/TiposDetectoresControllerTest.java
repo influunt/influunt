@@ -1,6 +1,7 @@
 import com.fasterxml.jackson.databind.JsonNode;
 import controllers.routes;
 import models.TipoDetector;
+import org.junit.Assert;
 import org.junit.Test;
 import play.Application;
 import play.Mode;
@@ -113,9 +114,9 @@ public class TiposDetectoresControllerTest extends WithApplication {
         tipoDetector.setDescricao("CTA-1");
         tipoDetector.save();
 
-        TipoDetector area1 = new TipoDetector();
-        area1.setDescricao("CTA-2");
-        area1.save();
+        TipoDetector tipoDetector1 = new TipoDetector();
+        tipoDetector1.setDescricao("CTA-2");
+        tipoDetector1.save();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
                 .uri(routes.TiposDetectoresController.findAll().url());
@@ -125,6 +126,24 @@ public class TiposDetectoresControllerTest extends WithApplication {
 
         assertEquals(200, result.status());
         assertEquals(2, tipoDetectores.size());
+    }
+
+    @Test
+    public void testBuscarDadosTipoDetector() {
+        TipoDetector tipoDetector = new TipoDetector();
+        tipoDetector.setDescricao("Teste");
+        tipoDetector.save();
+        UUID tipoDetectorId = tipoDetector.getId();
+        Assert.assertNotNull(tipoDetectorId);
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
+                .uri(routes.TiposDetectoresController.findOne(tipoDetectorId.toString()).url());
+        Result result = route(request);
+        JsonNode json = Json.parse(Helpers.contentAsString(result));
+        TipoDetector tipoDetectorRetornado = Json.fromJson(json, TipoDetector.class);
+
+        assertEquals(200, result.status());
+        assertEquals(tipoDetectorId, tipoDetectorRetornado.getId());
     }
 
 }

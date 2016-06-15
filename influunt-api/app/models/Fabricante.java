@@ -9,7 +9,7 @@ import java.util.UUID;
 
 /**
  * Entidade que representa o {@link Fabricante} no sistema
- * 
+ *
  * @author lesiopinheiro
  *
  */
@@ -19,8 +19,11 @@ public class Fabricante extends Model {
 
     private static final long serialVersionUID = 7365610316754360728L;
 
+    public static Finder<UUID, Fabricante> find = new Finder<UUID, Fabricante>(Fabricante.class);
+
     @Id
     private UUID id;
+
     @Column
     private String nome;
 

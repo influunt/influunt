@@ -1,6 +1,7 @@
 import com.fasterxml.jackson.databind.JsonNode;
 import controllers.routes;
 import models.Area;
+import org.junit.Assert;
 import org.junit.Test;
 import play.Application;
 import play.Mode;
@@ -134,6 +135,24 @@ public class AreasControllerTest extends WithApplication {
 
         assertEquals(200, result.status());
         assertEquals(2, areas.size());
+    }
+
+    @Test
+    public void testBuscarDadosArea() {
+        Area area = new Area();
+        area.setDescricao("Teste");
+        area.save();
+        UUID areaId = area.getId();
+        Assert.assertNotNull(areaId);
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
+                .uri(routes.AreasController.findOne(areaId.toString()).url());
+        Result result = route(request);
+        JsonNode json = Json.parse(Helpers.contentAsString(result));
+        Area areaRetornada = Json.fromJson(json, Area.class);
+
+        assertEquals(200, result.status());
+        assertEquals(areaId, areaRetornada.getId());
     }
 
 }

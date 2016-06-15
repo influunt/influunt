@@ -11,7 +11,7 @@ import java.util.UUID;
 
 /**
  * Entidade que representa a {@link Cidade} no sistema
- * 
+ *
  * @author lesiopinheiro
  *
  */
@@ -20,7 +20,9 @@ import java.util.UUID;
 public class Cidade extends Model {
 
     private static final long serialVersionUID = 6446144066408570296L;
+
     public static Finder<UUID, Cidade> find = new Finder<UUID, Cidade>(Cidade.class);
+
     @Id
     private UUID id;
 
@@ -85,6 +87,6 @@ public class Cidade extends Model {
     }
 
 
-    
+
 
 }
