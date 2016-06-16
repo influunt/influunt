@@ -1,0 +1,155 @@
+<fieldset>
+  <div class="text-center m-t-md">
+    <div class="col-lg-12 col-sm-12">
+      <div class="ibox float-e-margins">
+        <div class="">
+          <form name="formDadosBasicos" novalidate>
+            <div class="col-lg-5 col-sm-5">
+              <div class="form-group" />
+
+              <div class="form-group">
+                <label>{{ 'controladores.cidade' | translate }}:</label>
+                <select name="cidade" class="form-control"
+                  data-ng-options="cidade as cidade.nome for cidade in data.cidades"
+                  data-ng-model="objeto.cidade"></select>
+              </div>
+
+              <div class="form-group">
+                <label>{{ 'controladores.area' | translate }}:</label>
+                <select name="area" class="form-control"
+                  data-ng-options="area as area.descricao for area in objeto.cidade.areas"
+                  data-ng-model="objeto.area"></select>
+              </div>
+
+              <div class="form-group">
+                <label>{{ 'controladores.descricao' | translate }}:</label>
+                <textarea type="text" placeholder="" name="descricao" class="form-control"
+                  data-ng-model="objeto.descricao" required></textarea>
+              </div>
+              <div class="form-group">
+                <label>{{ 'controladores.numeroSMEE' | translate }}:</label>
+                <input type="text" placeholder="" name="numeroSMEE" class="form-control"
+                  data-ng-model="objeto.numeroSMEE">
+              </div>
+
+              <div class="form-group">
+                <label>{{ 'controladores.idControlador' | translate }}:</label>
+                <input type="text" placeholder="" name="idControlador" class="form-control"
+                  data-ng-model="objeto.idControlador">
+              </div>
+
+              <div class="col-lg-4 col-sm-4 no-padding-right">
+                <div class="form-group">
+                  <label>{{ 'controladores.numeroSMEEConjugado1' | translate }}:</label>
+                  <input type="text" placeholder="" name="numeroSMEEConjugado1" class="form-control"
+                    data-ng-model="objeto.numeroSMEEConjugado1">
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-sm-4 no-padding-right">
+                <div class="form-group">
+                  <label>{{ 'controladores.numeroSMEEConjugado2' | translate }}:</label>
+                  <input type="text" placeholder="" name="numeroSMEEConjugado2" class="form-control"
+                    data-ng-model="objeto.numeroSMEEConjugado2">
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-sm-4 no-padding-right">
+                <div class="form-group">
+                  <label>{{ 'controladores.numeroSMEEConjugado3' | translate }}:</label>
+                  <input type="text" placeholder="" name="numeroSMEEConjugado3" class="form-control"
+                    data-ng-model="objeto.numeroSMEEConjugado3">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>{{ 'controladores.versaoFirmware' | translate }}:</label>
+                <input type="text" placeholder="" name="firmware" class="form-control"
+                  data-ng-model="objeto.firmware">
+              </div>
+
+              <footer class="form-group">
+                <p><small>{{ 'geral.auditoria.dataCriacao' | translate }}: {{ objeto.dataCriacao | date:"short" }}</small></p>
+                <p><small>{{ 'geral.auditoria.dataAtualizacao' | translate }}: {{ objeto.dataAtualizacao | date:"short" }}</small></p>
+                <p><small>{{ 'geral.auditoria.atualizadoPor' | translate}}: {{ objeto.atualizadoPor }}</small></p>
+              </footer>
+
+            </div>
+            <div class="col-lg-4 col-sm-4 maps">
+              <figure>
+                <div id="mapid" influunt-map style="border: 1px solid black; width: 100%; height: 280px;"></div>
+              </figure>
+
+              <div class="col-lg-6 col-sm-6 no-padding">
+                <div class="form-group">
+                  <label>{{ 'controladores.latitude' | translate }}:</label>
+                  <input type="text" placeholder="" name="coordenada_latitude" class="form-control"
+                    data-ng-model="objeto.coordenada.latitude">
+                </div>
+              </div>
+              <div class="col-lg-6 col-sm-6 no-padding-right">
+                <div class="form-group">
+                  <label>{{ 'controladores.longitude' | translate }}:</label>
+                  <input type="text" placeholder="" name="coordenada_longitude" class="form-control"
+                    data-ng-model="objeto.coordenada.longitude">
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-sm-3 divider">
+              <div class="form-group">
+                <label class="col-sm-12 no-padding control-label">{{ 'controladores.fornecedor' | translate }}</label>
+                <div class="col-sm-12 no-padding">
+                  <select name="fornecedor" class="form-control"
+                    data-ng-options="fornecedor as fornecedor.nome for fornecedor in fornecedores"
+                    data-ng-model="objeto.fornecedor"></select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-12 no-padding control-label">{{ 'controladores.modelo' | translate }}</label>
+                <div class="col-sm-12 no-padding">
+                  <select name="modelo" class="form-control"
+                    data-ng-options="modelo as modelo.nome for modelo in modelos"
+                    data-ng-model="objeto.modelo"></select>
+                </div>
+              </div>
+              <!--
+              <div class="form-group">
+                <label class="col-sm-12 no-padding control-label">{{ 'controladores.tipo' | translate }}</label>
+                <div class="col-sm-12 no-padding">
+                  <select name="tipo" class="form-control"
+                    data-ng-options="tipo as tipo.nome for tipo in tipos"
+                    data-ng-model="objeto.tipo"></select>
+                </div>
+              </div>
+              -->
+
+              <div class="col-lg-4 col-sm-4 no-padding">
+                <h1><b>{{ objeto.maxEstagios }}</b></h1>
+                <p>{{ 'controladores.maxEstagios' | translate }}</p>
+              </div>
+              <div class="col-lg-4 col-sm-4 no-padding-right">
+                <h1><b>{{ objeto.maxGrupoSemaforos }}</b></h1>
+                <p>{{ 'controladores.maxGrupoSemaforos' | translate }}</p>
+              </div>
+              <div class="col-lg-4 col-sm-4 no-padding-right">
+                <h1><b>{{ objeto.maxAneis }}</b></h1>
+                <p>{{ 'controladores.maxAneis' | translate }}</p>
+              </div>
+              <div class="clearfix"></div>
+              <div class="col-lg-4 col-sm-4 no-padding">
+                <h1><b>{{ objeto.maxDetectorVeicular }}</b></h1>
+                <p>{{ 'controladores.maxDetectorVeicular' | translate }}</p>
+              </div>
+               <div class="col-lg-4 col-sm-4 no-padding-right">
+                <h1><b>{{ objeto.maxDetectorPedestre }}</b></h1>
+                <p>{{ 'controladores.maxDetectorPedestre' | translate }}</p>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a ui-sref="app.controladores.aneis" class="btn btn-primary">{{ 'plugins.steps.labels.next' | translate }}</a>
+</fieldset>

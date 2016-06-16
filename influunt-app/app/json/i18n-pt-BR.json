@@ -1,5 +1,39 @@
 {
   "appname": "Influunt",
+  "controladores": {
+    "area": "Área",
+    "cidade": "Cidade",
+    "dadosBasicos": "Dados Básicos",
+    "descricao": "Descrição",
+    "fornecedor": "Fornecedor",
+    "idControlador": "ID Controlador",
+    "latitude": "Latitude",
+    "longitude": "Longitude",
+    "maxAneis": "No máximo anéis",
+    "maxDetectorPedestre": "Limite detector pedestre",
+    "maxDetectorVeicular": "Limite detector veicular",
+    "maxEstagios": "No máximo estágios",
+    "maxGrupoSemaforos": "No máximo grupos de semáforos",
+    "modelo": "Modelo",
+    "numeroSMEE": "Número SMEE",
+    "numeroSMEEConjugado1": "No SMEE conjugado 1",
+    "numeroSMEEConjugado2": "No SMEE conjugado 2",
+    "numeroSMEEConjugado3": "No SMEE conjugado 3",
+    "tipo": "Tipo",
+    "titulo": "Controladores",
+    "versaoFirmware": "Versão do Firmware",
+
+    "aneis": "Aneis",
+    "anel": "Anel",
+    "ativo": "Ativo",
+    "gruposPedestres": "Grupos de pedestres",
+    "gruposSinaisVeiculares": "Grupos de sinais veiculares",
+    "numeroDetectores": "No detectores",
+    "numeroDetectoresPedestres": "No detectores pedestres",
+    "localizacao": "Localização",
+    "movimentos": "Movimentos",
+    "enviarImagens": "Enviar Imagens"
+  },
   "cidades": {
     "areas": "ÁREAS",
     "nome": "NOME",
@@ -8,6 +42,7 @@
   },
   "geral": {
     "auditoria": {
+      "atualizadoPor": "Atualizado Por",
       "dataAtualizacao": "Data de Atualização",
       "dataCriacao": "Data de Criação"
     },
@@ -49,6 +84,17 @@
     "cadastros": "CADASTROS"
   },
   "plugins": {
-    "datatables_cdn": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json"
+    "datatables_cdn": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json",
+    "steps": {
+      "labels": {
+        "cancel": "cancelar",
+        "current": "atual",
+        "pagination": "paginação",
+        "finish": "finalizar",
+        "next": "próximo",
+        "previous": "Anterior",
+        "loading": "carregando"
+      }
+    }
   }
 }

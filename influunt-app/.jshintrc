@@ -15,6 +15,9 @@
     "angular": false,
     "$": true,
 
+    // leaflet lib
+    "L": true,
+
     // karma/jasmine globals
     "beforeEach": true,
     "describe": true,

@@ -78,11 +78,46 @@ angular
           }
         })
 
-        .state('app.dados', {
-          url: '/dados',
-          templateUrl: 'views/dados.html',
+        .state('app.wizard', {
+          url: '/wizard',
+          templateUrl: 'views/controladores/dados.html',
+          controller: 'ControladoresCtrl',
+          controllerAs: 'controladores',
           data: {
-            title: 'Example view'
+            title: 'controladores.titulo'
+          }
+        })
+
+        .state('app.controladores', {
+          url: '/controladores',
+          templateUrl: 'views/controladores/wizard/wizard.html',
+          controller: 'ControladoresCtrl',
+          data: {
+            title: 'controladores.titulo'
+          }
+        })
+
+        .state('app.controladores.dados_basicos', {
+          url: '/dados-basicos',
+          templateUrl: 'views/controladores/wizard/dados-basicos.html',
+          data: {
+            title: 'controladores.titulo'
+          }
+        })
+
+        .state('app.controladores.aneis', {
+          url: '/aneis',
+          templateUrl: 'views/controladores/wizard/aneis.html',
+          data: {
+            title: 'controladores.titulo'
+          }
+        })
+
+        .state('app.controladores.verdes_conflitantes', {
+          url: '/verdes-conflitantes',
+          templateUrl: 'views/controladores/wizard/verdes-conflitantes.html',
+          data: {
+            title: 'controladores.titulo'
           }
         })
 

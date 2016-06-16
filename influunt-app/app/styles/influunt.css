@@ -19,7 +19,7 @@
 }
 header .nav-first {
   background: #2f4050;
-  height: 70px;  
+  height: 70px;
 }
 header .nav-secon {
   border-bottom: 1px solid #e7eaec;
@@ -34,7 +34,7 @@ header .nav-secon li {
   list-style: none;
   line-height: 62px;
 }
-header .nav-secon li a {  
+header .nav-secon li a {
   font-family: 'Open Sans', sans-serif;
   font-weight: 300;
   font-size: 24px;
@@ -76,7 +76,7 @@ header .nav-secon li a {
 .wrapper-content .filters form ul li label {
   font-size: 13px;
   font-weight: normal;
-  
+
 }
 .wrapper-content .filters form {
   border-top: 1px solid #e7eaec;
@@ -108,7 +108,7 @@ header .nav-secon li a {
 }
 .wrapper-content .controller li {
   width: 20%;
-  float: left;  
+  float: left;
   list-style: none;
   padding-right: 1%;
 }
@@ -123,15 +123,15 @@ header .nav-secon li a {
 }
 .wrapper-content .basic-wizard .content .body .tableless table .tg-031e.rings-2 {
   background: #f8d334;
-  
+
 }
 .wrapper-content .basic-wizard .content .body .tableless table .tg-031e.rings-3 {
   background: #a23737;
-  
+
 }
 .wrapper-content .basic-wizard .content .body .tableless table .tg-031e.rings-4 {
   background: #2f4050;
-  
+
 }
 .wrapper-content .basic-wizard .content .body .tableless table .tg-031e {
   background: #e5e5e5;
@@ -148,7 +148,7 @@ header .nav-secon li a {
   text-align: center;
 }
 .wrapper-content .basic-wizard .content .body .tableless table thead {
-  
+
 }
 .wrapper-content .basic-wizard .content .body .tableless table tbody tr td.active {
 
@@ -180,7 +180,7 @@ header .nav-secon li a {
   border: 1px solid #cacaca;
   width: 5%;
   background: #e5e5e5;
-  
+
 }
 .wrapper-content .basic-wizard .content .body .tableless {
   margin: 50px 0 0;
@@ -191,7 +191,7 @@ header .nav-secon li a {
 }
 .wrapper-content .basic-wizard .content .body .figures ul.bxslider {
   width: 7000px;
-  
+
 }
 .wrapper-content .basic-wizard .content .body .figures {
   min-height: 190px;
@@ -200,7 +200,7 @@ header .nav-secon li a {
   margin-right: 20px;
   list-style: none;
   float: left;
-  display: list-item;  
+  display: list-item;
 }
 .wrapper-content .basic-wizard .content .body .figures li figure.rings-1 {
   box-sizing: border-box;
@@ -221,9 +221,9 @@ header .nav-secon li a {
   max-width: 180px;
   max-height: 150px;
   overflow: hidden;
-  
+
 }
-.wrapper-content .basic-wizard .content .body .movements #my-awesome-dropzone button {
+.wrapper-content .basic-wizard .content .body .movements button {
   margin: 0 auto;
   display: block;
   text-align: center;
@@ -232,7 +232,7 @@ header .nav-secon li a {
   left: 35%;
 
 }
-.wrapper-content .basic-wizard .content .body .movements #my-awesome-dropzone .dz-default.dz-message span {
+.wrapper-content .basic-wizard .content .body .movements .dz-default.dz-message span {
   display: block;
   font-size: 13px;
   font-weight: bold;
@@ -275,11 +275,11 @@ header .nav-secon li a {
 .wrapper-content .basic-wizard .content .body .divider {
   border-left: 2px solid #e7eaec;
   height: 100%;
-  
+
 }
 .wrapper-content .basic-wizard .content .body .maps {
   margin: 25px 0 0;
-  
+
 }
 .wrapper-content .basic-wizard .content .body .maps iframe {
   pointer-events: none;
@@ -329,7 +329,7 @@ header .nav-secon li a {
   padding: 0;
   text-indent: 20px;
   margin-right: 20px;
-  
+
 }
 .wrapper-content .controller li .ibox-content .status {
   margin: 0 0 5px 0;
@@ -347,7 +347,7 @@ header .nav-secon li a {
 }
 .wrapper-content .controller li .ibox-content hgroup {
   text-align: right;
-  
+
 }
 .wrapper-content .controller li .ibox-content hgroup button {
   margin-right: 5px;
@@ -368,9 +368,9 @@ header .nav-secon li a {
     text-align: center;
 }
 
-.slick-prev:before, 
+.slick-prev:before,
 .slick-next:before {
-    color: black;    
+    color: black;
 }
 
 .slick-dots {

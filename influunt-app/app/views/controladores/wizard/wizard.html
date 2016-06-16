@@ -1,0 +1,33 @@
+<div class="container-fluid wrapper wrapper-content animated fadeInRight" data-ng-init="initWizard()">
+  <div class="col-lg-12 col-sm-12">
+    <section role="complementary" class="basic-wizard">
+      <div class="col-lg-12 col-sm-12 no-padding">
+        <div class="ibox float-e-margins">
+          <div class="steps-wrapper wizard clearfix">
+            <div class="steps clearfix">
+              <ul>
+                <li ui-sref-active="current">
+                  <a ui-sref=".dados_basicos" class="btn-default">{{ 'controladores.dadosBasicos' | translate }}</a>
+                </li>
+                <li ui-sref-active="current">
+                  <a ui-sref=".aneis" class="btn-default">{{ 'controladores.aneis' | translate }}</a>
+                </li>
+                <li ui-sref-active="current">
+                  <a ui-sref=".verdes_conflitantes" class="btn-default">Verdes conflitantes</a>
+                </li>
+              </ul>
+            </div>
+
+            <div class="content clearfix">
+              <div class="step-content body">
+                <form name="signupForm" ng-submit="processForm()" class="p-lg">
+                  <div id="form-views" ui-view></div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

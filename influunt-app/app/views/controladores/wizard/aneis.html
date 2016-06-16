@@ -1,0 +1,109 @@
+<fieldset>
+  <div class="row">
+    <div class="text-center m-t-md rings">
+      <div class="col-lg-3 col-sm-3">
+        <div class="col-lg-4 col-sm-4"><p class="activ">{{ 'controladores.ativo' | translate | uppercase }}</p></div>
+        <div class="col-lg-4 col-sm-4"><p class="rings">{{ 'controladores.anel' | translate | uppercase }}</p></div>
+        <div class="clearfix"></div>
+        <div class="col-lg-12 col-sm-12">
+         <nav>
+           <ul>
+             <li>
+               <div class="i-checks" ichecks><label><span class="number">1</span><input type="checkbox" value="">03597162-1</label></div>
+             </li>
+              <li>
+               <div class="i-checks" ichecks><label><span class="number">2</span><input type="checkbox" value="">03597162-2</label></div>
+             </li>
+              <li>
+               <div class="i-checks" ichecks><label><span class="number">3</span><input type="checkbox" value="">03597162-3</label></div>
+             </li>
+             <li>
+               <div class="i-checks" ichecks><label><span class="number">4</span><input type="checkbox" value="">03597162-4</label></div>
+             </li>
+           </ul>
+         </nav>
+        </div>
+      </div>
+
+      <div class="col-lg-6 col-sm-6 groups">
+        <div class="col-lg-3 col-sm-3">
+          <div class="form-group"><label><p>{{ 'controladores.gruposPedestres' | translate }}</p></label>
+          <input type="text" placeholder="" class="form-control"></div>
+        </div>
+        <div class="col-lg-3 col-sm-3">
+          <div class="form-group"><label><p>{{ 'controladores.gruposSinaisVeiculares' | translate }}</p></label>
+          <input type="text" placeholder="" class="form-control"></div>
+        </div>
+        <div class="col-lg-3 col-sm-3">
+          <div class="form-group"><label><p>{{ 'controladores.numeroDetectores' | translate }}</p></label>
+          <input type="text" placeholder="" class="form-control"></div>
+        </div>
+        <div class="col-lg-3 col-sm-3">
+          <div class="form-group"><label><p>{{ 'controladores.numeroDetectoresPedestres' | translate }}</p></label>
+          <input type="text" placeholder="" class="form-control"></div>
+        </div>
+        <div class="col-lg-12 col-sm-12">
+          <div class="form-group"><label><p>{{ 'controladores.descricao' | translate }}</p></label>
+            <textarea type="text" placeholder="" class="form-control"></textarea>
+          </div>
+          <div class="form-group"><label><p>{{ 'controladores.numeroSMEE' | translate }}</p></label>
+          <input type="text" placeholder="" class="form-control"></div>
+        </div>
+        <div class="col-lg-12 col-sm-12">
+          <div class="form-group"><label><p>{{ 'controladores.localizacao' | translate }}</p></label>
+            <figure>
+              <div id="mapid" influunt-map style="border: 1px solid black; width: 100%; height: 280px;"></div>
+            </figure>
+
+            <div class="col-lg-6 col-sm-6 no-padding">
+              <div class="form-group">
+                <label>{{ 'controladores.latitude' | translate }}:</label>
+                <input type="text" placeholder="" name="coordenada_latitude" class="form-control"
+                  data-ng-model="objeto.coordenada.latitude">
+              </div>
+            </div>
+            <div class="col-lg-6 col-sm-6 no-padding-right">
+              <div class="form-group">
+                <label>{{ 'controladores.latitude' | translate }}:</label>
+                <input type="text" placeholder="" name="coordenada_latitude" class="form-control"
+                  data-ng-model="objeto.coordenada.latitude">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-3 movements">
+        <hgroup>
+          <label for=""><p>{{ 'controladores.movimentos' | translate }}</p></label>
+        </hgroup>
+        <form class="dropzone" id="my-awesome-dropzone" action="upa">
+          <div class="dropzone-previews"></div>
+          <div class="fallback">
+            <input name="step_into_the_sun" type="file" multiple />
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <a ui-sref="app.contrladores.dados-basicos" class="btn btn-default">{{ 'plugins.steps.labels.previous' | translate }}</a>
+  <a ui-sref="app.contrladores.verdes-conflitantes" class="btn btn-primary">{{ 'plugins.steps.labels.next' | translate }}</a>
+</fieldset>
+
+<script>
+  $(document).ready(function(){
+    $("#my-awesome-dropzone").dropzone({
+      url: "/file/post",
+      dictDefaultMessage: "Arraste imagens para este local",
+      dictFallbackMessage: "Seu navegador não suporta arrastar e soltar upload de arquivos.",
+      autoProcessQueue: false,
+      uploadMultiple: true,
+      parallelUploads: 100,
+      thumbnailHeight: 100,
+      thumbnailWidth: 100,
+      clickable: true,
+      paramName: true,
+      maxFiles: 100,
+    });
+  });
+</script>
