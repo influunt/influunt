@@ -240,6 +240,10 @@ gulp.task('serve:prod', function() {
   });
 });
 
+gulp.task('pre-test', function(cb) {
+  runSequence(['constants', 'templates']);
+});
+
 gulp.task('test', ['start:server:test'], function() {
   var testToFiles = paths.testRequire.concat(paths.scripts, paths.test);
   var cucumberFiles = paths.cucumberFeatures.concat(paths.cucumberStepDefinitions);
