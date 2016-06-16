@@ -12,7 +12,7 @@ import java.util.UUID;
 
 /**
  * Entidade que representa o {@link Anel} no sistema
- * 
+ *
  * @author lesiopinheiro
  *
  */

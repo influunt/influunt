@@ -44,6 +44,13 @@ PUT         /api/v1/fabricantes/:id             controllers.FabricantesControlle
 GET         /api/v1/fabricantes/:id             controllers.FabricantesController.findOne(id)
 DELETE      /api/v1/fabricantes/:id             controllers.FabricantesController.delete(id)
 
+# ConfiguracoesControladores
+GET         /api/v1/configuracoes_controladores                 controllers.ConfiguracoesControladoresController.findAll()
+POST        /api/v1/configuracoes_controladores                 controllers.ConfiguracoesControladoresController.create()
+PUT         /api/v1/configuracoes_controladores/:id             controllers.ConfiguracoesControladoresController.update(id)
+GET         /api/v1/configuracoes_controladores/:id             controllers.ConfiguracoesControladoresController.findOne(id)
+DELETE      /api/v1/configuracoes_controladores/:id             controllers.ConfiguracoesControladoresController.delete(id)
+
 
 #View Helpers
 GET        /api/v1/helpers/controlador          controllers.HelpersController.controladorHelper()
