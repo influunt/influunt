@@ -44,7 +44,6 @@ describe('Controller: BreadcrumbsCtrl', function () {
       }
     };
 
-    console.log($state.current);
     scope.udpateBreadcrumbs();
     expect(scope.pageTitle).toBe($state.current.data.title);
   });
