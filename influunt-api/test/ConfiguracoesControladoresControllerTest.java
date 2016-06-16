@@ -1,7 +1,6 @@
 import com.fasterxml.jackson.databind.JsonNode;
 import controllers.routes;
 import models.ConfiguracaoControlador;
-import models.Fabricante;
 import org.junit.Test;
 import play.Application;
 import play.Mode;
@@ -18,9 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 import static play.inject.Bindings.bind;
 import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.route;
@@ -88,19 +85,19 @@ public class ConfiguracoesControladoresControllerTest extends WithApplication {
                 .bodyJson(Json.toJson(configuracaoControlador1));
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
-        ConfiguracaoControlador fabricanteRetornado = Json.fromJson(json, ConfiguracaoControlador.class);
+        ConfiguracaoControlador configuracaoControladorRetornado = Json.fromJson(json, ConfiguracaoControlador.class);
 
         assertEquals(200, result.status());
-        assertNotNull(fabricanteRetornado.getId());
+        assertNotNull(configuracaoControladorRetornado.getId());
     }
 
     @Test
     public void testAtualizarConfiguracaoControladorNaoExistente() {
-        ConfiguracaoControlador fabricante = new ConfiguracaoControlador();
+        ConfiguracaoControlador configuracaoControlador = new ConfiguracaoControlador();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
                 .uri(routes.ConfiguracoesControladoresController.update(UUID.randomUUID().toString()).url())
-                .bodyJson(Json.toJson(fabricante));
+                .bodyJson(Json.toJson(configuracaoControlador));
         Result result = route(request);
         assertEquals(404, result.status());
     }
@@ -132,7 +129,7 @@ public class ConfiguracoesControladoresControllerTest extends WithApplication {
         Result result = route(request);
 
         assertEquals(200, result.status());
-        assertNull(Fabricante.find.byId(configuracaoControlador.getId()));
+        assertNull(ConfiguracaoControlador.find.byId(configuracaoControlador.getId()));
     }
 
     @Test
