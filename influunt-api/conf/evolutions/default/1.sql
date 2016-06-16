@@ -177,8 +177,8 @@ create index ix_movimentos_anel_id on movimentos (anel_id);
 
 # --- !Downs
 
-alter table aneis drop constraint if exists fk_aneis_controlador_id;
-drop index if exists ix_aneis_controlador_id;
+alter table aneis drop foreign key fk_aneis_controlador_id;
+drop index ix_aneis_controlador_id on aneis;
 
 alter table areas drop constraint if exists fk_areas_cidade_id;
 drop index if exists ix_areas_cidade_id;
