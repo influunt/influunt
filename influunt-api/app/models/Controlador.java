@@ -14,9 +14,13 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 <<<<<<< ca1fd2bb7c15e4ff59efb364369f024784e60036
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+<<<<<<< 5b2cd85ebc3452d91f97ccb39bb5e65c7939fd13
 =======
 import org.hibernate.validator.constraints.NotBlank;
 >>>>>>> Inclusao do mecanismo de validacao
+=======
+import org.hibernate.validator.constraints.NotBlank;
+>>>>>>> fix code review
 import org.joda.time.DateTime;
 <<<<<<< 47bc816fbe65adf0899c0eabb4c210ab7635be11
 import play.data.validation.Constraints;
@@ -65,7 +69,6 @@ public class Controlador extends Model {
 
     @Column
     @NotBlank
-    @Max(value = 256)
     private String descricao;
 
     @Column

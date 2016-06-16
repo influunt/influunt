@@ -110,21 +110,6 @@ public class ControladoresControllerTest extends WithApplication {
 
     }
 
-    @Test
-    public void testAtualizarControladorExistenteComConfiguracaoInvalida() {
-        Controlador controlador = getControlador();
-        controlador.save();
-        controlador.setAneis(null);
-
-        Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
-                .uri(routes.ControladoresController.update(controlador.getId().toString()).url())
-                .bodyJson(Json.toJson(controlador));
-        Result result = route(request);
-
-        assertEquals(UNPROCESSABLE_ENTITY, result.status());
-    }
-
-
 
     @Test
     public void testAtualizarAreaControladorExistente() {
@@ -219,12 +204,15 @@ public class ControladoresControllerTest extends WithApplication {
         controlador.setIdControlador("10.02.122");
         controlador.setModelo(modeloControlador);
         controlador.setFirmware("1.0.0");
+        Anel anel = new Anel();
+        anel.setDescricao("1");
+        anel.setLongitude(1.0);
+        anel.setLatitude(2.0);
+        anel.setIdAnel("1");
+        anel.setNumeroSMEE("1234");
 
-        List<Anel> aneis = Arrays.asList(new Anel("Anel 1"),new Anel("Anel 2"),new Anel("Anel 3"),new Anel("Anel 4"));
+        List<Anel> aneis = Arrays.asList(anel,anel,anel,anel);
         controlador.setAneis(aneis);
-        for(Anel anel: controlador.getAneis()){
-            anel.setControlador(controlador);
-        }
 
         List<GrupoSemaforico> grupoSemaforicos = Arrays.asList(new GrupoSemaforico(tipoGrupoSemaforico),new GrupoSemaforico(tipoGrupoSemaforico),new GrupoSemaforico(tipoGrupoSemaforico),new GrupoSemaforico(tipoGrupoSemaforico),
                 new GrupoSemaforico(tipoGrupoSemaforico),new GrupoSemaforico(tipoGrupoSemaforico),new GrupoSemaforico(tipoGrupoSemaforico),new GrupoSemaforico(tipoGrupoSemaforico),
