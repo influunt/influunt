@@ -200,6 +200,7 @@ angular
           data: {
             title: 'tipos_detectores.titulo'
           }
+        })
 
         .state('app.dados', {
           url: '/dados',
