@@ -8,3 +8,6 @@ app/scripts/templates.js
 !app/json/locales/.gitkeep
 log
 dist
+
+# auto generated file.
+app/scripts/templates.js

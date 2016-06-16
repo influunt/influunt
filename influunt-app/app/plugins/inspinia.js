@@ -9,7 +9,6 @@
 
 $(document).ready(function () {
 
-
     // Full height of sidebar
     function fix_height() {
         var heightWithoutNavbar = $("body > #wrapper").height() - 61;
