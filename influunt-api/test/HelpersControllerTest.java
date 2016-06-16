@@ -53,7 +53,7 @@ public class HelpersControllerTest extends WithApplication {
         norte.save();
 
         Cidade rio = new Cidade();
-        bh.setNome("Rio de Janeiro");
+        rio.setNome("Rio de Janeiro");
         rio.save();
 
 

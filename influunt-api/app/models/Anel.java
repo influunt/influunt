@@ -79,9 +79,6 @@ public class Anel extends Model {
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
 
-    public Anel(String descricao) {
-        this.descricao = descricao;
-    }
 
     public UUID getId() {
         return id;

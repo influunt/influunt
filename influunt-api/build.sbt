@@ -16,6 +16,7 @@ libraryDependencies ++= Seq(
   evolutions,
   "be.objectify" %% "deadbolt-java" % "2.5.0",
   "mysql" % "mysql-connector-java" % "5.1.36",
+  "org.hibernate" % "hibernate-validator" % "5.2.4.Final",
   "com.fasterxml.jackson.datatype" % "jackson-datatype-joda" % "2.7.5"
 )
 
