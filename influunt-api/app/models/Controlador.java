@@ -2,11 +2,14 @@ package models;
 
 import checks.ControladorAneisCheck;
 import checks.ControladorDadosBasicosChecks;
-import checks.NumeroDeAneis;
-import checks.NumeroDeGrupos;
+import checks.NumeroDeAneisIgualAoModelo;
+import checks.NumeroDeGruposIgualAoModelo;
 import com.avaje.ebean.Model;
+<<<<<<< 47bc816fbe65adf0899c0eabb4c210ab7635be11
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
+=======
+>>>>>>> fix code review
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 <<<<<<< ca1fd2bb7c15e4ff59efb364369f024784e60036
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -15,17 +18,19 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.hibernate.validator.constraints.NotBlank;
 >>>>>>> Inclusao do mecanismo de validacao
 import org.joda.time.DateTime;
+<<<<<<< 47bc816fbe65adf0899c0eabb4c210ab7635be11
 import play.data.validation.Constraints;
 import play.data.validation.ValidationError;
 import play.i18n.Messages;
 import utils.InfluuntDateTimeDeserializer;
 import utils.InfluuntDateTimeSerializer;
+=======
+>>>>>>> fix code review
 
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,8 +41,8 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "controladores")
-@NumeroDeAneis(groups = ControladorAneisCheck.class)
-@NumeroDeGrupos(groups = ControladorAneisCheck.class)
+@NumeroDeAneisIgualAoModelo(groups = ControladorAneisCheck.class)
+@NumeroDeGruposIgualAoModelo(groups = ControladorAneisCheck.class)
 public class Controlador extends Model {
 
     private static final long serialVersionUID = 521560643019927963L;
@@ -109,27 +114,9 @@ public class Controlador extends Model {
 
     @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
     @JsonManagedReference
-<<<<<<< ca1fd2bb7c15e4ff59efb364369f024784e60036
-=======
     @Valid
     @NotNull(groups = ControladorAneisCheck.class)
->>>>>>> Inclusao do mecanismo de validacao
     private List<GrupoSemaforico> gruposSemaforicos;
-
-//    public List<ValidationError> validate() {
-//        List<ValidationError> errors = new ArrayList<ValidationError>();
-//        if (this.modelo != null) {
-//            ConfiguracaoControlador conf = this.modelo.getConfiguracao();
-//            if (this.aneis == null || this.aneis.size() != conf.getLimiteAnel()) {
-//                errors.add(new ValidationError("aneis", Messages.get("modelos.controlador.errors.numero_de_aneis_invalido", conf.getLimiteAnel())));
-//            }
-//            if (this.gruposSemaforicos == null || this.gruposSemaforicos.size() != conf.getLimiteGrupoSemaforico()) {
-//                errors.add(new ValidationError("gruposSemaforicos",
-//                        Messages.get("modelos.controlador.errors.numero_de_grupos_semaforicos_invalido", conf.getLimiteGrupoSemaforico())));
-//            }
-//        }
-//        return errors.isEmpty()?null:errors;
-//    }
 
     public UUID getId() {
         return id;

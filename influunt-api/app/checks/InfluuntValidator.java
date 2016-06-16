@@ -14,16 +14,17 @@ public class InfluuntValidator<T> {
 
     public static class Erro{
 
+        public String root;
+        public String message;
+        public String path;
+        public Object invalidValue;
+
         public Erro(String root, String message, String path,Object invalidValue){
             this.root = root;
             this.message = message;
             this.path = path;
             this.invalidValue = invalidValue;
         }
-        public String root;
-        public String message;
-        public String path;
-        public Object invalidValue;
     }
 
     public static Validator validator;

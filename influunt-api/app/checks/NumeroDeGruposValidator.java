@@ -8,9 +8,9 @@ import javax.validation.ConstraintValidatorContext;
 /**
  * Created by rodrigosol on 6/16/16.
  */
-public class NumeroDeGruposValidator implements ConstraintValidator<NumeroDeGrupos, Controlador> {
+public class NumeroDeGruposValidator implements ConstraintValidator<NumeroDeGruposIgualAoModelo, Controlador> {
     @Override
-    public void initialize(NumeroDeGrupos constraintAnnotation) {
+    public void initialize(NumeroDeGruposIgualAoModelo constraintAnnotation) {
 
     }
 
