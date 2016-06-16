@@ -22,7 +22,6 @@ create table areas (
   cidade_id                     varchar(40),
   data_criacao                  datetime(6),
   data_atualizacao              datetime(6),
-  constraint uq_areas_cidade_id unique (cidade_id),
   constraint pk_areas primary key (id)
 );
 
@@ -104,7 +103,7 @@ create table limite_area (
 create table modelo_controladores (
   id                            varchar(40) not null,
   fabricante_id                 varchar(40),
-  configuracao_controlador_id   varchar(40),
+  configuracao_id               varchar(40),
   descricao                     varchar(255),
   data_criacao                  datetime(6),
   data_atualizacao              datetime(6),
@@ -140,6 +139,7 @@ alter table aneis add constraint fk_aneis_controlador_id foreign key (controlado
 create index ix_aneis_controlador_id on aneis (controlador_id);
 
 alter table areas add constraint fk_areas_cidade_id foreign key (cidade_id) references cidades (id) on delete restrict on update restrict;
+create index ix_areas_cidade_id on areas (cidade_id);
 
 alter table controladores add constraint fk_controladores_area_id foreign key (area_id) references areas (id) on delete restrict on update restrict;
 create index ix_controladores_area_id on controladores (area_id);
@@ -168,8 +168,8 @@ create index ix_limite_area_area_id on limite_area (area_id);
 alter table modelo_controladores add constraint fk_modelo_controladores_fabricante_id foreign key (fabricante_id) references fabricantes (id) on delete restrict on update restrict;
 create index ix_modelo_controladores_fabricante_id on modelo_controladores (fabricante_id);
 
-alter table modelo_controladores add constraint fk_modelo_controladores_configuracao_controlador_id foreign key (configuracao_controlador_id) references configuracao_controladores (id) on delete restrict on update restrict;
-create index ix_modelo_controladores_configuracao_controlador_id on modelo_controladores (configuracao_controlador_id);
+alter table modelo_controladores add constraint fk_modelo_controladores_configuracao_id foreign key (configuracao_id) references configuracao_controladores (id) on delete restrict on update restrict;
+create index ix_modelo_controladores_configuracao_id on modelo_controladores (configuracao_id);
 
 alter table movimentos add constraint fk_movimentos_anel_id foreign key (anel_id) references aneis (id) on delete restrict on update restrict;
 create index ix_movimentos_anel_id on movimentos (anel_id);
@@ -181,6 +181,7 @@ alter table aneis drop foreign key fk_aneis_controlador_id;
 drop index ix_aneis_controlador_id on aneis;
 
 alter table areas drop foreign key fk_areas_cidade_id;
+drop index ix_areas_cidade_id on areas;
 
 alter table controladores drop foreign key fk_controladores_area_id;
 drop index ix_controladores_area_id on controladores;
@@ -209,8 +210,8 @@ drop index ix_limite_area_area_id on limite_area;
 alter table modelo_controladores drop foreign key fk_modelo_controladores_fabricante_id;
 drop index ix_modelo_controladores_fabricante_id on modelo_controladores;
 
-alter table modelo_controladores drop foreign key fk_modelo_controladores_configuracao_controlador_id;
-drop index ix_modelo_controladores_configuracao_controlador_id on modelo_controladores;
+alter table modelo_controladores drop foreign key fk_modelo_controladores_configuracao_id;
+drop index ix_modelo_controladores_configuracao_id on modelo_controladores;
 
 alter table movimentos drop foreign key fk_movimentos_anel_id;
 drop index ix_movimentos_anel_id on movimentos;

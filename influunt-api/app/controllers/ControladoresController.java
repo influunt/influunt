@@ -31,24 +31,9 @@ public class ControladoresController extends Controller {
         if (request().body() == null) {
             return CompletableFuture.completedFuture(badRequest());
         }
-        Form<Controlador> form = formFactory.form(Controlador.class).bind(request().body().asJson());
-        Iterator<JsonNode> aneisIterator = request().body().asJson().get("aneis").iterator();
-        List<Anel> aneis = new ArrayList<Anel>();
-        while (aneisIterator.hasNext()){
-         aneis.add(Json.fromJson(aneisIterator.next(),Anel.class));
-        }
-
-        //((Controlador) form.field()).setAneis(aneis);
-
-
-        Logger.debug(form.toString());
-        if (form.hasErrors()) {
-            return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, form.errorsAsJson()));
-        } else {
-            Controlador controlador = form.get();
-            controlador.save();
-            return CompletableFuture.completedFuture(ok(Json.toJson(controlador)));
-        }
+        Controlador controlador = Json.fromJson(request().body().asJson(), Controlador.class);
+        controlador.save();
+        return CompletableFuture.completedFuture(ok(Json.toJson(controlador)));
     }
 
     @Transactional

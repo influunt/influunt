@@ -11,13 +11,13 @@
                 <label>{{ 'controladores.cidade' | translate }}:</label>
                 <select name="cidade" class="form-control"
                   data-ng-options="cidade as cidade.nome for cidade in data.cidades"
-                  data-ng-model="objeto.cidade"></select>
+                  data-ng-model="helpers.cidade"></select>
               </div>
 
               <div class="form-group">
                 <label>{{ 'controladores.area' | translate }}:</label>
                 <select name="area" class="form-control"
-                  data-ng-options="area as area.descricao for area in objeto.cidade.areas"
+                  data-ng-options="area as area.descricao for area in helpers.cidade.areas"
                   data-ng-model="objeto.area"></select>
               </div>
 
@@ -100,15 +100,15 @@
                 <label class="col-sm-12 no-padding control-label">{{ 'controladores.fornecedor' | translate }}</label>
                 <div class="col-sm-12 no-padding">
                   <select name="fornecedor" class="form-control"
-                    data-ng-options="fornecedor as fornecedor.nome for fornecedor in fornecedores"
-                    data-ng-model="objeto.fornecedor"></select>
+                    data-ng-options="fornecedor as fornecedor.nome for fornecedor in data.fabricantes"
+                    data-ng-model="helpers.fornecedor"></select>
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-12 no-padding control-label">{{ 'controladores.modelo' | translate }}</label>
                 <div class="col-sm-12 no-padding">
                   <select name="modelo" class="form-control"
-                    data-ng-options="modelo as modelo.nome for modelo in modelos"
+                    data-ng-options="modelo as modelo.descricao for modelo in helpers.fornecedor.modelos"
                     data-ng-model="objeto.modelo"></select>
                 </div>
               </div>
@@ -151,5 +151,5 @@
     </div>
   </div>
 
-  <a ui-sref="app.controladores.aneis" class="btn btn-primary">{{ 'plugins.steps.labels.next' | translate }}</a>
+  <a data-ng-click="submitDadosBasicos()" class="btn btn-primary">{{ 'plugins.steps.labels.next' | translate }}</a>
 </fieldset>
