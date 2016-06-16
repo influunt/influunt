@@ -12,6 +12,7 @@ import utils.InfluuntDateTimeDeserializer;
 import utils.InfluuntDateTimeSerializer;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,7 +34,7 @@ public class Cidade extends Model {
     private UUID id;
 
     @Column
-    @Constraints.Required
+    @NotNull
     private String nome;
 
     @JsonManagedReference
@@ -50,6 +51,7 @@ public class Cidade extends Model {
     @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using= InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
+    @NotNull
     private DateTime dataAtualizacao;
 
     public UUID getId() {

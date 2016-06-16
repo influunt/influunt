@@ -16,7 +16,8 @@ libraryDependencies ++= Seq(
   evolutions,
   "be.objectify" %% "deadbolt-java" % "2.5.0",
   "mysql" % "mysql-connector-java" % "5.1.36",
-  "com.fasterxml.jackson.datatype" % "jackson-datatype-joda" % "2.7.5"
+  "com.fasterxml.jackson.datatype" % "jackson-datatype-joda" % "2.7.5",
+  "org.hibernate" % "hibernate-validator" % "5.2.4.Final"
 )
 
 jacoco.settings
