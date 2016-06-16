@@ -58,6 +58,13 @@ PUT         /api/v1/modelos_controladores/:id             controllers.ModelosCon
 GET         /api/v1/modelos_controladores/:id             controllers.ModelosControladoresController.findOne(id)
 DELETE      /api/v1/modelos_controladores/:id             controllers.ModelosControladoresController.delete(id)
 
+# Detectores
+GET         /api/v1/detectores                 controllers.DetectoresController.findAll()
+POST        /api/v1/detectores                 controllers.DetectoresController.create()
+PUT         /api/v1/detectores/:id             controllers.DetectoresController.update(id)
+GET         /api/v1/detectores/:id             controllers.DetectoresController.findOne(id)
+DELETE      /api/v1/detectores/:id             controllers.DetectoresController.delete(id)
+
 
 #View Helpers
 GET        /api/v1/helpers/controlador          controllers.HelpersController.controladorHelper()
