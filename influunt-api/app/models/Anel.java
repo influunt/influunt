@@ -31,6 +31,8 @@ public class Anel extends Model {
 
     private static final long serialVersionUID = 4919501406230732757L;
 
+    public static Finder<UUID, Anel> find = new Finder<UUID, Anel>(Anel.class);
+
     @Id
     private UUID id;
 
@@ -79,6 +81,13 @@ public class Anel extends Model {
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
 
+    public Anel() {
+        super();
+    }
+
+    public Anel(String descricao) {
+        this.descricao = descricao;
+    }
 
     public UUID getId() {
         return id;
