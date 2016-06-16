@@ -5,35 +5,18 @@ import checks.ControladorDadosBasicosChecks;
 import checks.NumeroDeAneisIgualAoModelo;
 import checks.NumeroDeGruposIgualAoModelo;
 import com.avaje.ebean.Model;
-<<<<<<< 47bc816fbe65adf0899c0eabb4c210ab7635be11
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
-=======
->>>>>>> fix code review
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-<<<<<<< ca1fd2bb7c15e4ff59efb364369f024784e60036
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-<<<<<<< 5b2cd85ebc3452d91f97ccb39bb5e65c7939fd13
-=======
 import org.hibernate.validator.constraints.NotBlank;
->>>>>>> Inclusao do mecanismo de validacao
-=======
-import org.hibernate.validator.constraints.NotBlank;
->>>>>>> fix code review
 import org.joda.time.DateTime;
-<<<<<<< 47bc816fbe65adf0899c0eabb4c210ab7635be11
-import play.data.validation.Constraints;
-import play.data.validation.ValidationError;
-import play.i18n.Messages;
 import utils.InfluuntDateTimeDeserializer;
 import utils.InfluuntDateTimeSerializer;
-=======
->>>>>>> fix code review
 
 import javax.persistence.*;
 import javax.validation.Valid;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
