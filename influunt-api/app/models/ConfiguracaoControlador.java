@@ -11,7 +11,7 @@ import java.util.UUID;
 
 /**
  * Entidade que represnta as configurações dos controladores no sistema
- * 
+ *
  * @author lesiopinheiro
  *
  */
@@ -20,6 +20,8 @@ import java.util.UUID;
 public class ConfiguracaoControlador extends Model {
 
     private static final long serialVersionUID = -4628897272277523020L;
+
+    public static Finder<UUID, ConfiguracaoControlador> find = new Finder<UUID, ConfiguracaoControlador>(ConfiguracaoControlador.class);
 
     @Id
     private UUID id;
@@ -41,6 +43,7 @@ public class ConfiguracaoControlador extends Model {
 
     @Column
     private DateTime dataCriacao;
+
     @Column
     private DateTime dataAtualizacao;
 
