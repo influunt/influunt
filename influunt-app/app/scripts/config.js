@@ -78,6 +78,163 @@ angular
           }
         })
 
+        // Crud areas.
+        .state('app.areas', {
+          url: '/areas',
+          templateUrl: 'views/areas/index.html',
+          controller: 'AreasCtrl',
+          controllerAs: 'areas',
+          data: {
+            title: 'areas.titulo'
+          }
+        })
+
+        .state('app.areas_new', {
+          url: '/areas/new',
+          templateUrl: 'views/areas/new.html',
+          controller: 'AreasCtrl',
+          controllerAs: 'areas',
+          data: {
+            title: 'areas.titulo'
+          }
+        })
+
+        .state('app.areas_edit', {
+          url: '/areas/:id/edit',
+          templateUrl: 'views/areas/edit.html',
+          controller: 'AreasCtrl',
+          controllerAs: 'areas',
+          data: {
+            title: 'areas.titulo'
+          }
+        })
+
+        .state('app.areas_show', {
+          url: '/areas/:id',
+          templateUrl: 'views/areas/show.html',
+          controller: 'AreasCtrl',
+          controllerAs: 'areas',
+          data: {
+            title: 'areas.titulo'
+          }
+        })
+
+        // Crud controladores.
+        .state('app.controladores', {
+          url: '/controladores',
+          templateUrl: 'views/controladores/index.html',
+          controller: 'ControladoresCtrl',
+          controllerAs: 'controladores',
+          data: {
+            title: 'controladores.titulo'
+          }
+        })
+
+        .state('app.controladores_new', {
+          url: '/controladores/new',
+          templateUrl: 'views/controladores/new.html',
+          controller: 'ControladoresCtrl',
+          controllerAs: 'controladores',
+          data: {
+            title: 'controladores.titulo'
+          }
+        })
+
+        .state('app.controladores_edit', {
+          url: '/controladores/:id/edit',
+          templateUrl: 'views/controladores/edit.html',
+          controller: 'ControladoresCtrl',
+          controllerAs: 'controladores',
+          data: {
+            title: 'controladores.titulo'
+          }
+        })
+
+        .state('app.controladores_show', {
+          url: '/controladores/:id',
+          templateUrl: 'views/controladores/show.html',
+          controller: 'ControladoresCtrl',
+          controllerAs: 'controladores',
+          data: {
+            title: 'controladores.titulo'
+          }
+        })
+
+        // Crud tipos detectores.
+        .state('app.tipos_detectores', {
+          url: '/tipos_detectores',
+          templateUrl: 'views/tipos_detectores/index.html',
+          controller: 'TiposDetectoresCtrl',
+          controllerAs: 'tipos_detectores',
+          data: {
+            title: 'tipos_detectores.titulo'
+          }
+        })
+
+        .state('app.tipos_detectores_new', {
+          url: '/tipos_detectores/new',
+          templateUrl: 'views/tipos_detectores/new.html',
+          controller: 'TiposDetectoresCtrl',
+          controllerAs: 'tipos_detectores',
+          data: {
+            title: 'tipos_detectores.titulo'
+          }
+        })
+
+        .state('app.tipos_detectores_edit', {
+          url: '/tipos_detectores/:id/edit',
+          templateUrl: 'views/tipos_detectores/edit.html',
+          controller: 'TiposDetectoresCtrl',
+          controllerAs: 'tipos_detectores',
+          data: {
+            title: 'tipos_detectores.titulo'
+          }
+        })
+
+        .state('app.tipos_detectores_show', {
+          url: '/tipos_detectores/:id',
+          templateUrl: 'views/tipos_detectores/show.html',
+          controller: 'TiposDetectoresCtrl',
+          controllerAs: 'tipos_detectores',
+          data: {
+            title: 'tipos_detectores.titulo'
+          }
+        })
+
+        .state('app.wizard_controladores', {
+          url: '/wizard-controladores',
+          templateUrl: 'views/controladores/wizard/wizard.html',
+          controller: 'ControladoresCtrl',
+          data: {
+            title: 'controladores.titulo'
+          }
+        })
+
+        .state('app.wizard_controladores.dados_basicos', {
+          url: '/dados-basicos',
+          templateUrl: 'views/controladores/wizard/dados-basicos.html',
+          data: {
+            title: 'controladores.titulo'
+          }
+        })
+
+        .state('app.wizard_controladores.aneis', {
+          url: '/aneis',
+          templateUrl: 'views/controladores/wizard/aneis.html',
+          data: {
+            title: 'controladores.titulo'
+          }
+        })
+
+        .state('app.wizard_controladores.verdes_conflitantes', {
+          url: '/verdes-conflitantes',
+          templateUrl: 'views/controladores/wizard/verdes-conflitantes.html',
+          data: {
+            title: 'controladores.titulo'
+          }
+        })
+
+        // Rotas de teste. Podem ser removidas em breve.
         .state('app.wizard', {
           url: '/wizard',
           templateUrl: 'views/controladores/dados.html',
@@ -88,40 +245,6 @@ angular
           }
         })
 
-        .state('app.controladores', {
-          url: '/controladores',
-          templateUrl: 'views/controladores/wizard/wizard.html',
-          controller: 'ControladoresCtrl',
-          data: {
-            title: 'controladores.titulo'
-          }
-        })
-
-        .state('app.controladores.dados_basicos', {
-          url: '/dados-basicos',
-          templateUrl: 'views/controladores/wizard/dados-basicos.html',
-          data: {
-            title: 'controladores.titulo'
-          }
-        })
-
-        .state('app.controladores.aneis', {
-          url: '/aneis',
-          templateUrl: 'views/controladores/wizard/aneis.html',
-          data: {
-            title: 'controladores.titulo'
-          }
-        })
-
-        .state('app.controladores.verdes_conflitantes', {
-          url: '/verdes-conflitantes',
-          templateUrl: 'views/controladores/wizard/verdes-conflitantes.html',
-          data: {
-            title: 'controladores.titulo'
-          }
-        })
-
-        // Rotas de teste. Podem ser removidas em breve.
         .state('index', {
           abstract: true,
           url: '/index',

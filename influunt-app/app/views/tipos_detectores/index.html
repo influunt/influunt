@@ -7,9 +7,9 @@
         </div>
         <div class="ibox-content">
 
-          <!-- botão de nova cidade -->
+          <!-- botão de nova tipos detectores -->
           <div class="pull-right actions">
-            <a class="btn btn-small btn-primary btn-rounded" ui-sref="app.cidades_new">
+            <a class="btn btn-small btn-primary btn-rounded" ui-sref="app.tipos_detectores_new">
               <i class="fa fa-plus"></i>
               {{ 'geral.crud.novo' | translate }}
             </a>
@@ -19,19 +19,17 @@
             <div class="table">
               <thead>
                 <tr>
-                  <th>{{ 'cidades.nome' | translate }}</th>
-                  <th>{{ 'cidades.areas' | translate }}</th>
+                  <th>{{ 'tipos_detectores.descricao' | translate }}</th>
                   <th>{{ 'geral.crud.opcoes' | translate }}</th>
                 </tr>
               </thead>
               <tbody>
-                <tr data-ng-repeat="cidade in lista">
-                  <td>{{ cidade.nome }}</td>
-                  <td data-ng-bind-html="cidade.areas | nomeAreas"></td>
+                <tr data-ng-repeat="tipo_detector in lista">
+                  <td>{{ tipo_detector.descricao }}</td>
                   <td>
-                    <a ui-sref="app.cidades_show({id: cidade.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
-                    <a ui-sref="app.cidades_edit({id: cidade.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.editar' | translate }}</a>
-                    <a data-ng-click="confirmDelete(cidade.id)" class="btn btn-danger btn-xs">{{ 'geral.crud.excluir' | translate }}</a>
+                    <a ui-sref="app.tipos_detectores_show({id: tipo_detector.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
+                    <a ui-sref="app.tipos_detectores_edit({id: tipo_detector.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.editar' | translate }}</a>
+                    <a data-ng-click="confirmDelete(tipo_detector.id)" class="btn btn-danger btn-xs">{{ 'geral.crud.excluir' | translate }}</a>
                   </td>
                 </tr>
               </tbody>

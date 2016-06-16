@@ -1,13 +1,22 @@
 {
   "appname": "Influunt",
   "controladores": {
+    "aneis": "Aneis",
+    "anel": "Anel",
     "area": "Área",
+    "ativo": "Ativo",
     "cidade": "Cidade",
+    "coordenadas": "COORDENADAS",
     "dadosBasicos": "Dados Básicos",
     "descricao": "Descrição",
+    "enviarImagens": "Enviar Imagens",
+    "firmware": "FIRMWARE",
     "fornecedor": "Fornecedor",
+    "gruposPedestres": "Grupos de pedestres",
+    "gruposSinaisVeiculares": "Grupos de sinais veiculares",
     "idControlador": "ID Controlador",
     "latitude": "Latitude",
+    "localizacao": "Localização",
     "longitude": "Longitude",
     "maxAneis": "No máximo anéis",
     "maxDetectorPedestre": "Limite detector pedestre",
@@ -15,30 +24,40 @@
     "maxEstagios": "No máximo estágios",
     "maxGrupoSemaforos": "No máximo grupos de semáforos",
     "modelo": "Modelo",
+    "movimentos": "Movimentos",
+    "novo": "Novo Controlador",
+    "numeroDetectores": "No detectores",
+    "numeroDetectoresPedestres": "No detectores pedestres",
     "numeroSMEE": "Número SMEE",
     "numeroSMEEConjugado1": "No SMEE conjugado 1",
     "numeroSMEEConjugado2": "No SMEE conjugado 2",
     "numeroSMEEConjugado3": "No SMEE conjugado 3",
     "tipo": "Tipo",
     "titulo": "Controladores",
-    "versaoFirmware": "Versão do Firmware",
-
-    "aneis": "Aneis",
-    "anel": "Anel",
-    "ativo": "Ativo",
-    "gruposPedestres": "Grupos de pedestres",
-    "gruposSinaisVeiculares": "Grupos de sinais veiculares",
-    "numeroDetectores": "No detectores",
-    "numeroDetectoresPedestres": "No detectores pedestres",
-    "localizacao": "Localização",
-    "movimentos": "Movimentos",
-    "enviarImagens": "Enviar Imagens"
+    "versaoFirmware": "Versão do Firmware"
+  },
+  "areas": {
+    "adicionar_coordenada": "adicionar coordenadas",
+    "cidade": "CIDADE",
+    "coordenadas": "COORDENADAS",
+    "descricao": "DESCRIÇÃO",
+    "novo": "Nova Área",
+    "titulo": "Áreas"
   },
   "cidades": {
     "areas": "ÁREAS",
     "nome": "NOME",
     "novo": "Nova Cidade",
     "titulo": "Cidades"
+  },
+  "coordenadas": {
+    "latitude": "LATITUDE",
+    "longitude": "LONGITUDE"
+  },
+  "tipos_detectores": {
+    "descricao": "DESCRIÇÃO",
+    "novo": "Novo Tipo de Detector",
+    "titulo": "Tipos de Detectores"
   },
   "geral": {
     "auditoria": {
@@ -62,7 +81,7 @@
       "default_erro": "Ocorreu um erro. Tente novamente mais tarde.",
       "nao": "Não",
       "popup_delete": {
-        "mensagem": "quer mesmo apagar esta cidade?",
+        "mensagem": "quer mesmo apagar este registro?",
         "titulo": "Confirma?"
       },
       "removido_com_sucesso": "Removido com sucesso",

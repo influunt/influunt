@@ -1,3 +1,9 @@
+// bower:scss
+// endbower
+
+// Dependencia registrada de forma incorreta no pacote bower. Esta está registrada aqui
+// somente para que o wiredep não o remova da lista de dependencias.
+@import "./../../bower_components/angular-datatables/dist/css/angular-datatables.css";
 @import "./influunt.css";
 @import "./animate.css";
 @import "./style.css";

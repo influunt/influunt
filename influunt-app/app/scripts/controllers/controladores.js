@@ -8,8 +8,37 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresCtrl', ['$scope', 'Restangular',
-    function ($scope, Restangular) {
+  .controller('ControladoresCtrl', ['$controller', '$scope', 'Restangular',
+    function ($controller, $scope, Restangular) {
+
+      // Herda todo o comportamento do crud basico.
+      $controller('CrudCtrl', {$scope: $scope});
+      $scope.inicializaNovoCrud('controladores');
+      $scope.hideRemoveCoordenada = true;
+
+      /**
+       * Carrega as listas de dependencias dos controladores. Atua na tela de crud.
+       */
+      $scope.beforeShow = function() {
+        Restangular.all('areas').getList().then(function(res) {
+          $scope.areas = res;
+        });
+      };
+
+      /**
+       * Inicializa o objeto de coordenadas do controlador, caso este ainda não
+       * tenha sido definido. Atua na tela de crud.
+       */
+      $scope.afterShow = function() {
+        var coordenadaDefault = {
+          latitude: null,
+          longitude: null
+        };
+
+        $scope.objeto.coordenada = $scope.objeto.coordenada || coordenadaDefault;
+        $scope.coordenada = $scope.objeto.coordenada;
+      };
+
       $scope.initWizard = function() {
         Restangular
           .all('helpers')
@@ -27,40 +56,4 @@ angular.module('influuntApp')
         console.log($scope.submitDadosValidos);
         console.log($scope.submitDadosValidos.$valid);
       };
-
-
-      var resourceName = 'controladores';
-      // Temporário. Deve ser substituído pela abstração de crud quando o PR for aceito.
-      /**
-       * Salva o registro.
-       *
-       * @return     {Object}  Promise
-       */
-      $scope.save = function() {
-        var promise = $scope.objeto.id ? $scope.update() : $scope.create();
-        return promise
-          .then(function(res) {
-            console.log(res);
-            alert('geral.mensagens.salvo_com_sucesso');
-          })
-          .catch(function(err) {
-            console.log(err);
-            alert('geral.mensagens.default_erro');
-          });
-      };
-
-      /**
-       * Cria um novo registro.
-       */
-      $scope.create = function() {
-        return Restangular.service(resourceName).post($scope.objeto);
-      };
-
-      /**
-       * Atualiza um registro.
-       */
-      $scope.update = function() {
-        return $scope.objeto.save();
-      };
-
     }]);

@@ -1,16 +1,17 @@
 'use strict';
 
-describe('Controller: CidadesCtrl', function () {
+describe('Controller: ControladoresCtrl', function () {
+
   // load the controller's module
   beforeEach(module('influuntApp'));
 
-  var CidadesCtrl,
+  var ControladoresCtrl,
     scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    CidadesCtrl = $controller('CidadesCtrl', {
+    ControladoresCtrl = $controller('ControladoresCtrl', {
       $scope: scope
       // place here mocked dependencies
     });

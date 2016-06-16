@@ -7,9 +7,9 @@
         </div>
         <div class="ibox-content">
 
-          <!-- botão de nova cidade -->
+          <!-- botão de novo controlador -->
           <div class="pull-right actions">
-            <a class="btn btn-small btn-primary btn-rounded" ui-sref="app.cidades_new">
+            <a class="btn btn-small btn-primary btn-rounded" ui-sref="app.controladores_new">
               <i class="fa fa-plus"></i>
               {{ 'geral.crud.novo' | translate }}
             </a>
@@ -19,19 +19,19 @@
             <div class="table">
               <thead>
                 <tr>
-                  <th>{{ 'cidades.nome' | translate }}</th>
-                  <th>{{ 'cidades.areas' | translate }}</th>
+                  <th>{{ 'controladores.descricao' | translate }}</th>
+                  <th>{{ 'controladores.idControlador' | translate }}</th>
                   <th>{{ 'geral.crud.opcoes' | translate }}</th>
                 </tr>
               </thead>
               <tbody>
-                <tr data-ng-repeat="cidade in lista">
-                  <td>{{ cidade.nome }}</td>
-                  <td data-ng-bind-html="cidade.areas | nomeAreas"></td>
+                <tr data-ng-repeat="controlador in lista">
+                  <td>{{ controlador.descricao }}</td>
+                  <td>{{ controlador.idControlador }}</td>
                   <td>
-                    <a ui-sref="app.cidades_show({id: cidade.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
-                    <a ui-sref="app.cidades_edit({id: cidade.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.editar' | translate }}</a>
-                    <a data-ng-click="confirmDelete(cidade.id)" class="btn btn-danger btn-xs">{{ 'geral.crud.excluir' | translate }}</a>
+                    <a ui-sref="app.areas_show({id: area.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
+                    <a ui-sref="app.areas_edit({id: area.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.editar' | translate }}</a>
+                    <a data-ng-click="confirmDelete(area.id)" class="btn btn-danger btn-xs">{{ 'geral.crud.excluir' | translate }}</a>
                   </td>
                 </tr>
               </tbody>

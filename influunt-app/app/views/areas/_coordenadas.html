@@ -1,0 +1,12 @@
+<div class="form-group col-md-9">
+
+  <div ng-repeat="coordenada in objeto.coordenadas">
+    <ng-include src="'views/coordenada/_coordenada.html'"></ng-include>
+  </div>
+
+  <div class="form-group">
+    <div class="col-md-offset-6">
+      <a ng-click="adicionarCoordenadas()" class="btn btn-success btn-xs">{{ 'areas.adicionar_coordenada' | translate }}</a>
+    </div>
+  </div>
+</div>

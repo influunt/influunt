@@ -1,0 +1,23 @@
+<div class="ibox-content">
+  <form class="simple_form form-horizontal"
+      method="post"
+      name="formTiposDetectores"
+      novalidate="novalidate"
+      data-ng-submit="save()">
+
+    <div class="form-group">
+      <label class="control-label col-sm-2 control-label">{{ 'tipos_detectores.descricao' | translate }}</label>
+      <div class="col-sm-9">
+        <input class="string optional form-control" name="tipo_detector_descricao" type="text" data-ng-model="objeto.descricao">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-4 col-sm-offset-2">
+        <input class="btn btn-primary" name="commit" type="submit" value="{{ 'geral.crud.salvar' | translate }}">
+        <a class="btn btn-default" ui-sref="app.tipos_detectores">{{ 'geral.crud.voltar' | translate }}</a>
+      </div>
+    </div>
+
+  </form>
+</div>
