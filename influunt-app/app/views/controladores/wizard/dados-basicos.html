@@ -124,24 +124,24 @@
               -->
 
               <div class="col-lg-4 col-sm-4 no-padding">
-                <h1><b>{{ objeto.maxEstagios }}</b></h1>
+                <h1><b>{{ objeto.modelo.maxEstagios || 0 }}</b></h1>
                 <p>{{ 'controladores.maxEstagios' | translate }}</p>
               </div>
               <div class="col-lg-4 col-sm-4 no-padding-right">
-                <h1><b>{{ objeto.maxGrupoSemaforos }}</b></h1>
+                <h1><b>{{ objeto.modelo.maxGrupoSemaforos || 0 }}</b></h1>
                 <p>{{ 'controladores.maxGrupoSemaforos' | translate }}</p>
               </div>
               <div class="col-lg-4 col-sm-4 no-padding-right">
-                <h1><b>{{ objeto.maxAneis }}</b></h1>
+                <h1><b>{{ objeto.modelo.maxAneis || 0 }}</b></h1>
                 <p>{{ 'controladores.maxAneis' | translate }}</p>
               </div>
               <div class="clearfix"></div>
               <div class="col-lg-4 col-sm-4 no-padding">
-                <h1><b>{{ objeto.maxDetectorVeicular }}</b></h1>
+                <h1><b>{{ objeto.modelo.maxDetectorVeicular || 0 }}</b></h1>
                 <p>{{ 'controladores.maxDetectorVeicular' | translate }}</p>
               </div>
                <div class="col-lg-4 col-sm-4 no-padding-right">
-                <h1><b>{{ objeto.maxDetectorPedestre }}</b></h1>
+                <h1><b>{{ objeto.modelo.maxDetectorPedestre || 0 }}</b></h1>
                 <p>{{ 'controladores.maxDetectorPedestre' | translate }}</p>
               </div>
             </div>

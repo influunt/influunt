@@ -53,7 +53,13 @@ angular.module('influuntApp')
       };
 
       $scope.submitDadosBasicos = function() {
-        console.log($scope.submitDadosValidos);
-        console.log($scope.submitDadosValidos.$valid);
+        $scope
+          .save()
+          .then(function() {
+            $state.go('app.wizard_controladores.aneis');
+          })
+          .catch(function() {
+
+          });
       };
     }]);
