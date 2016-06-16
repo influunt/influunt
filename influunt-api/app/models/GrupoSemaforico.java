@@ -1,8 +1,14 @@
 package models;
 
 import com.avaje.ebean.Model;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.avaje.ebean.annotation.CreatedTimestamp;
+import com.avaje.ebean.annotation.UpdatedTimestamp;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.joda.time.DateTime;
+import utils.InfluuntDateTimeDeserializer;
+import utils.InfluuntDateTimeSerializer;
 
 import javax.persistence.*;
 import java.util.List;
@@ -31,7 +37,7 @@ public class GrupoSemaforico extends Model {
     private Anel anel;
 
     @ManyToOne
-    @JsonIgnore
+    @JsonBackReference
     private Controlador controlador;
 
     @ManyToOne
@@ -41,9 +47,15 @@ public class GrupoSemaforico extends Model {
     private List<GrupoSemaforico> verdesConflitantes;
 
     @Column
+    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @CreatedTimestamp
     private DateTime dataCriacao;
 
     @Column
+    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @UpdatedTimestamp
     private DateTime dataAtualizacao;
 
     public GrupoSemaforico(TipoGrupoSemaforico tipoGrupoSemaforico) {

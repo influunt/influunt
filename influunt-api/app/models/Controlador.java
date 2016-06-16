@@ -1,12 +1,17 @@
 package models;
 
 import com.avaje.ebean.Model;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.avaje.ebean.annotation.CreatedTimestamp;
+import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.joda.time.DateTime;
 import play.data.validation.Constraints;
 import play.data.validation.ValidationError;
 import play.i18n.Messages;
+import utils.InfluuntDateTimeDeserializer;
+import utils.InfluuntDateTimeSerializer;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -29,8 +34,15 @@ public class Controlador extends Model {
     private UUID id;
 
     @Column
+    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @CreatedTimestamp
     private DateTime dataCriacao;
+
     @Column
+    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @UpdatedTimestamp
     private DateTime dataAtualizacao;
 
     @Column
@@ -77,6 +89,7 @@ public class Controlador extends Model {
     private List<Anel> aneis;
 
     @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<GrupoSemaforico> gruposSemaforicos;
 
     public List<ValidationError> validate() {

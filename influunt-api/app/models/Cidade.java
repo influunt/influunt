@@ -1,10 +1,15 @@
 package models;
 
 import com.avaje.ebean.Model;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.avaje.ebean.annotation.CreatedTimestamp;
+import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.joda.time.DateTime;
 import play.data.validation.Constraints;
+import utils.InfluuntDateTimeDeserializer;
+import utils.InfluuntDateTimeSerializer;
 
 import javax.persistence.*;
 import java.util.List;
@@ -36,9 +41,15 @@ public class Cidade extends Model {
     private List<Area> areas;
 
     @Column
+    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @CreatedTimestamp
     private DateTime dataCriacao;
 
     @Column
+    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @UpdatedTimestamp
     private DateTime dataAtualizacao;
 
     public UUID getId() {
@@ -86,8 +97,5 @@ public class Cidade extends Model {
         return "Cidade [id=" + id + ", nome=" + nome + ", areas=" + areas + ", dataCriacao=" + dataCriacao
                 + ", dataAtualizacao=" + dataAtualizacao + "]";
     }
-
-
-
 
 }

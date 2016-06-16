@@ -1,8 +1,14 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.CreatedTimestamp;
+import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.joda.time.DateTime;
+import utils.InfluuntDateTimeDeserializer;
+import utils.InfluuntDateTimeSerializer;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -15,7 +21,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "modelo_controladores")
-public class ModeloControlador extends Model{
+public class ModeloControlador extends Model {
 
     private static final long serialVersionUID = -3153929481907380680L;
 
@@ -35,9 +41,15 @@ public class ModeloControlador extends Model{
     private String descricao;
 
     @Column
+    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @CreatedTimestamp
     private DateTime dataCriacao;
 
     @Column
+    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @UpdatedTimestamp
     private DateTime dataAtualizacao;
 
     public UUID getId() {
