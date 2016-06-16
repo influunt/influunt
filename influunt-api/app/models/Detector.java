@@ -8,7 +8,7 @@ import java.util.UUID;
 
 /**
  * Entidade que representa o {@link Detector} no sistema
- * 
+ *
  * @author lesiopinheiro
  *
  */
@@ -17,6 +17,8 @@ import java.util.UUID;
 public class Detector extends Model {
 
     private static final long serialVersionUID = 3752412658492551927L;
+
+    public static Finder<UUID, Detector> find = new Finder<UUID, Detector>(Detector.class);
 
     @Id
     private UUID id;
@@ -31,6 +33,7 @@ public class Detector extends Model {
 
     @Column
     private DateTime dataCriacao;
+
     @Column
     private DateTime dataAtualizacao;
 
