@@ -312,6 +312,16 @@ gulp.task('images', function () {
     .pipe(gulp.dest(yeoman.dist + '/images'));
 });
 
+gulp.task('favicon', function () {
+  return gulp.src(yeoman.app + '/favicon.ico')
+    .pipe($.cache($.imagemin({
+      optimizationLevel: 5,
+      progressive: true,
+      interlaced: true
+    })))
+    .pipe(gulp.dest(yeoman.dist));
+});
+
 gulp.task('copy:extras', function () {
   // hardcoded copy font-awesome fonts to app.
   gulp
@@ -338,7 +348,7 @@ gulp.task('copy:fonts', function () {
 });
 
 gulp.task('build', ['clean:dist'], function () {
-  runSequence(['constants:production', 'images', 'copy:extras', 'copy:fonts', 'client:build', 'templates']);
+  runSequence(['constants:production', 'favicon', 'images', 'copy:extras', 'copy:fonts', 'client:build', 'templates']);
 });
 
 gulp.task('default', ['build']);
