@@ -37,4 +37,27 @@ angular.module('influuntApp')
         $scope.objeto.coordenada = $scope.objeto.coordenada || coordenadaDefault;
         $scope.coordenada = $scope.objeto.coordenada;
       };
+
+      /**
+       * Filtra controladores baseado nos checkboxes
+       * nos filtros à esquerda.
+       */
+      $scope.filtrarControlador = function(controlador) {
+        if ($scope.filtroLateral[controlador.id]) {
+          return true;
+        }
+
+        for (var controlador_id in $scope.filtroLateral) {
+          if ($scope.filtroLateral[controlador_id]) {
+            return false;
+          }
+        }
+        return true;
+      };
+
+      $scope.inicializa_index = function(){
+        $scope.filtros = {};
+        $scope.filtroLateral = {};
+        $scope.index();
+      };
     }]);

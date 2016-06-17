@@ -22,7 +22,7 @@ Funcionalidade: Listagem de dados de controladores
     | 2  | cont_2    | 2          | 2             | 2                    | 2                    | 2                    | 223      | 01/01/2000  | 01/01/2000      |
     | 3  | cont_3    | 3          | 3             | 3                    | 3                    | 3                    | 323      | 01/01/2000  | 01/01/2000      |
     Quando o usuário acessar a tela de controladores
-    E clicar no botão de visualização em cards
+    E clicar no botão de visualização em grid
     Então o sistema deve apresentar a lista de controladores no formato de visualização em grid
 
 
