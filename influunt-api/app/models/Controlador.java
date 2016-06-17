@@ -1,9 +1,6 @@
 package models;
 
-import checks.ControladorAneisCheck;
-import checks.ControladorDadosBasicosChecks;
-import checks.NumeroDeAneisIgualAoModelo;
-import checks.NumeroDeGruposIgualAoModelo;
+import checks.*;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
@@ -17,6 +14,7 @@ import utils.InfluuntDateTimeSerializer;
 
 import javax.persistence.*;
 import javax.validation.Valid;
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
@@ -29,14 +27,18 @@ import java.util.UUID;
 @Entity
 @Table(name = "controladores")
 @NumeroDeAneisIgualAoModelo(groups = ControladorAneisCheck.class)
-@NumeroDeGruposIgualAoModelo(groups = ControladorAneisCheck.class)
+@ConformidadeDeNumeroDeGruposSemaforicos(groups = ControladorAneisCheck.class)
+@ConformidadeDeNumeroDeDetectoresDePedestre(groups = ControladorAneisCheck.class)
+@ConformidadeDeNumeroDeDetectoresVeicular(groups = ControladorAneisCheck.class)
+@AoMenosUmAnelAtivo(groups = ControladorAneisCheck.class)
 public class Controlador extends Model {
 
     private static final long serialVersionUID = 521560643019927963L;
-    public static Finder<UUID, Controlador> find = new Finder<UUID, Controlador>(Controlador.class);
+    public static Finder<Long, Controlador> find = new Finder<Long, Controlador>(Controlador.class);
 
     @Id
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     @Column
     @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
@@ -57,10 +59,6 @@ public class Controlador extends Model {
     @Column
     @NotNull
     private String numeroSMEE;
-
-    @Column
-    @NotNull
-    private String idControlador;
 
     @Column
     private String numeroSMEEConjugado1;
@@ -84,31 +82,52 @@ public class Controlador extends Model {
     private Double longitude;
 
     @Valid
-    @NotNull(groups = ControladorDadosBasicosChecks.class)
+    @NotNull
     private ModeloControlador modelo;
 
     @ManyToOne
     @Valid
-    @NotNull(groups = ControladorDadosBasicosChecks.class)
+    @NotNull
     private Area area;
 
     @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
     @JsonManagedReference
     @Valid
-    @NotNull(groups = ControladorAneisCheck.class)
     private List<Anel> aneis;
 
     @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
     @JsonManagedReference
     @Valid
-    @NotNull(groups = ControladorAneisCheck.class)
     private List<GrupoSemaforico> gruposSemaforicos;
 
-    public UUID getId() {
+    @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    @Valid
+    private List<Detector> detectores;
+
+
+    @Override
+    public void save(){
+        if(getAneis() != null){
+            getAneis().stream().forEach(anel -> {
+                anel.criaGruposSemaforicos();
+                anel.criaDetectores();
+                if(anel.getMovimentos()!=null){
+                    anel.getMovimentos().stream().forEach(movimento -> movimento.criarEstagio());
+                }
+            });
+        }
+
+
+        super.save();
+    }
+
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -129,12 +148,12 @@ public class Controlador extends Model {
     }
 
     public String getIdControlador() {
-        return idControlador;
+        if(this.id != null && this.area != null){
+           return String.format("%01d.%03d.%04d", this.area.getDescricao(), 0, this.id);
+        }
+        return "";
     }
 
-    public void setIdControlador(String idControlador) {
-        this.idControlador = idControlador;
-    }
 
     public String getNumeroSMEEConjugado1() {
         return numeroSMEEConjugado1;
@@ -190,6 +209,7 @@ public class Controlador extends Model {
 
     public void setAneis(List<Anel> aneis) {
         this.aneis = aneis;
+        this.aneis.stream().forEach(anel -> anel.setControlador(this));
     }
 
     public List<GrupoSemaforico> getGruposSemaforicos() {
@@ -198,6 +218,14 @@ public class Controlador extends Model {
 
     public void setGruposSemaforicos(List<GrupoSemaforico> gruposSemaforicos) {
         this.gruposSemaforicos = gruposSemaforicos;
+    }
+
+    public List<Detector> getDetectores() {
+        return detectores;
+    }
+
+    public void setDetectores(List<Detector> detectores) {
+        this.detectores = detectores;
     }
 
     public DateTime getDataCriacao() {

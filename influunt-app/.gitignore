@@ -2,10 +2,8 @@
 bower_components
 node_modules
 coverage
-app/json/locales/*
 app/scripts/ngConstants.js
 app/scripts/templates.js
-!app/json/locales/.gitkeep
 log
 dist
 

@@ -1,0 +1,149 @@
+{
+  "appname": "Influunt",
+  "controladores": {
+    "aneis": "Aneis",
+    "anel": "Anel",
+    "associacao": "Associação",
+    "area": "Área",
+    "ativo": "Ativo",
+    "cidade": "Cidade",
+    "coordenadas": "COORDENADAS",
+    "dadosBasicos": "Dados Básicos",
+    "descricao": "Descrição",
+    "enviarImagens": "Enviar Imagens",
+    "firmware": "FIRMWARE",
+    "fornecedor": "Fornecedor",
+    "gruposPedestres": "Grupos de pedestres",
+    "gruposSinaisVeiculares": "Grupos de sinais veiculares",
+    "idControlador": "ID Controlador",
+    "latitude": "Latitude",
+    "localizacao": "Localização",
+    "longitude": "Longitude",
+    "maxAneis": "No anéis",
+    "maxDetectorPedestre": "No detector pedestre",
+    "maxDetectorVeicular": "No detector veicular",
+    "maxEstagios": "No estágios",
+    "maxGrupoSemaforos": "No grupos de semáforos",
+    "modelo": "Modelo",
+    "movimentos": "Movimentos",
+    "novo": "Novo Controlador",
+    "numeroDetectores": "No detectores",
+    "numeroDetectoresPedestres": "No detectores pedestres",
+    "numeroSMEE": "Número SMEE",
+    "numeroSMEEConjugado1": "No SMEE conjugado 1",
+    "numeroSMEEConjugado2": "No SMEE conjugado 2",
+    "numeroSMEEConjugado3": "No SMEE conjugado 3",
+    "tipo": "Tipo",
+    "titulo": "Controladores",
+    "validacoes": {
+      "totalDetectorPedestres": "Total de <strong>detectores de pedestres</strong> maior que a quantidade máxima suportada pelo controlador",
+      "totalDetectorVeicular": "Total de <strong>detectores veicular</strong> maior que a quantidade máxima suportada pelo controlador",
+      "totalGruposSemaforicos": "Total de <strong>grupos semafóricos</strong> maior que a quantidade máxima suportada pelo controlador"
+    },
+    "verdes_conflitantes": "Verdes Conflitantes",
+    "versaoFirmware": "Versão do Firmware"
+  },
+  "areas": {
+    "adicionar_coordenada": "adicionar coordenadas",
+    "cidade": "CIDADE",
+    "coordenadas": "COORDENADAS",
+    "descricao": "DESCRIÇÃO",
+    "novo": "Nova Área",
+    "titulo": "Áreas"
+  },
+  "cidades": {
+    "areas": "ÁREAS",
+    "nome": "NOME",
+    "novo": "Nova Cidade",
+    "titulo": "Cidades"
+  },
+  "configuracoes_controladores": {
+    "descricao": "DESCRIÇÃO",
+    "limiteEstagio": "LIMITE ESTÁGIOS",
+    "limiteGrupoSemaforico": "LIMITE GRUPOS SEMAFÓRICOS",
+    "limiteAnel": "LIMITE ANEIS",
+    "limiteDetectorPedestre": "LIMITE DETECTORES PEDESTRE",
+    "limiteDetectorVeicular": "LIMITE DETECTORES VEICULARES",
+    "titulo": "Configurações de Controladores"
+  },
+  "coordenadas": {
+    "latitude": "LATITUDE",
+    "longitude": "LONGITUDE"
+  },
+  "fabricantes": {
+    "adicionar_modelo_controlador": "adicionar modelo controlador",
+    "fabricante": "FABRICANTE",
+    "modelo": "MODELO CONTROLADOR",
+    "nome": "NOME",
+    "novo": "Novo Fabricante",
+    "titulo": "Fabricantes"
+  },
+  "modelos_controladores": {
+    "descricao": "DESCRIÇÃO",
+    "fabricante": "FABRICANTE",
+    "configuracao": "CONFIGURAÇÃO CONTROLADOR",
+    "titulo": "Modelo de Controladores"
+  },
+  "tipos_detectores": {
+    "descricao": "DESCRIÇÃO",
+    "novo": "Novo Tipo de Detector",
+    "titulo": "Tipos de Detectores"
+  },
+  "geral": {
+    "auditoria": {
+      "atualizadoPor": "Atualizado Por",
+      "dataAtualizacao": "Data de Atualização",
+      "dataCriacao": "Data de Criação"
+    },
+    "crud": {
+      "editar": "Editar",
+      "excluir": "Excluir",
+      "novo": "Novo",
+      "opcoes": "Opções",
+      "salvar": "Salvar",
+      "visualizar": "Visualizar",
+      "voltar": "Voltar"
+    },
+    "campo_obrigatorio": "Campo Obrigatório",
+    "dashboard": "Dashboard",
+    "mensagens": {
+      "cancelar": "Cancelar",
+      "default_erro": "Ocorreu um erro. Tente novamente mais tarde.",
+      "nao": "Não",
+      "popup_delete": {
+        "mensagem": "quer mesmo apagar este registro?",
+        "titulo": "Confirma?"
+      },
+      "removido_com_sucesso": "Removido com sucesso",
+      "salvo_com_sucesso": "Salvo com sucesso",
+      "sim": "Sim"
+    },
+    "titulo_padrao": "Título não definido."
+  },
+  "login": {
+    "acessar": "Acessar",
+    "esqueceu_sua_senha": "Esqueceu sua senha?",
+    "senha": "Senha",
+    "usuario": "Usuário"
+  },
+  "main": {
+    "hello_world": "Dashboard"
+  },
+  "menu": {
+    "cadastros": "CADASTROS"
+  },
+  "plugins": {
+    "datatables_cdn": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json",
+    "steps": {
+      "labels": {
+        "cancel": "cancelar",
+        "current": "atual",
+        "pagination": "paginação",
+        "finish": "finalizar",
+        "next": "próximo",
+        "previous": "Anterior",
+        "loading": "carregando"
+      }
+    }
+  }
+}

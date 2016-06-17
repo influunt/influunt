@@ -32,7 +32,7 @@ public class Area extends Model {
     private UUID id;
 
     @Column
-    private String descricao;
+    private Integer descricao;
 
     @ManyToOne
     @JsonBackReference
@@ -68,11 +68,11 @@ public class Area extends Model {
         this.id = id;
     }
 
-    public String getDescricao() {
+    public Integer getDescricao() {
         return descricao;
     }
 
-    public void setDescricao(String descricao) {
+    public void setDescricao(Integer descricao) {
         this.descricao = descricao;
     }
 

@@ -4,6 +4,7 @@ import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.joda.time.DateTime;
@@ -98,5 +99,11 @@ public class ModeloControlador extends Model {
 
     public void setDataAtualizacao(DateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
+    }
+
+    @Transient
+    @JsonProperty("nomeFabricante")
+    public String getNomeFabricante() {
+        return this.getFabricante() != null ? this.getFabricante().getNome() : "";
     }
 }
