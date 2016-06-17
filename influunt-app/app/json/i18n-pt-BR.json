@@ -8,6 +8,8 @@
     "cidade": "Cidade",
     "coordenadas": "COORDENADAS",
     "dadosBasicos": "Dados Básicos",
+    "associacao": "Associação Grupo Semafórico",
+    "estagios":"Estágios",
     "descricao": "Descrição",
     "enviarImagens": "Enviar Imagens",
     "firmware": "FIRMWARE",
