@@ -241,3 +241,4 @@ drop table if exists movimentos;
 drop table if exists tipos_detectores;
 
 drop table if exists tipo_grupo_semaforicos;
+

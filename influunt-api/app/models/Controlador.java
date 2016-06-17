@@ -1,20 +1,23 @@
 package models;
 
+import checks.ControladorAneisCheck;
+import checks.ControladorDadosBasicosChecks;
+import checks.NumeroDeAneisIgualAoModelo;
+import checks.NumeroDeGruposIgualAoModelo;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
-import play.data.validation.Constraints;
-import play.data.validation.ValidationError;
-import play.i18n.Messages;
 import utils.InfluuntDateTimeDeserializer;
 import utils.InfluuntDateTimeSerializer;
 
 import javax.persistence.*;
-import java.util.ArrayList;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,6 +28,8 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "controladores")
+@NumeroDeAneisIgualAoModelo(groups = ControladorAneisCheck.class)
+@NumeroDeGruposIgualAoModelo(groups = ControladorAneisCheck.class)
 public class Controlador extends Model {
 
     private static final long serialVersionUID = 521560643019927963L;
@@ -46,16 +51,15 @@ public class Controlador extends Model {
     private DateTime dataAtualizacao;
 
     @Column
-    @Constraints.Required
-    @Constraints.MaxLength(value = 256)
+    @NotBlank
     private String descricao;
 
     @Column
-    @Constraints.Required
+    @NotNull
     private String numeroSMEE;
 
     @Column
-    @Constraints.Required
+    @NotNull
     private String idControlador;
 
     @Column
@@ -68,44 +72,37 @@ public class Controlador extends Model {
     private String numeroSMEEConjugado3;
 
     @Column
-    @Constraints.Required
+    @NotNull
     private String firmware;
 
     @Column
+    @NotNull
     private Double latitude;
 
     @Column
+    @NotNull
     private Double longitude;
 
-    @Constraints.Required
+    @Valid
+    @NotNull(groups = ControladorDadosBasicosChecks.class)
     private ModeloControlador modelo;
 
     @ManyToOne
-    @Constraints.Required
+    @Valid
+    @NotNull(groups = ControladorDadosBasicosChecks.class)
     private Area area;
 
     @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
     @JsonManagedReference
+    @Valid
+    @NotNull(groups = ControladorAneisCheck.class)
     private List<Anel> aneis;
 
     @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
     @JsonManagedReference
+    @Valid
+    @NotNull(groups = ControladorAneisCheck.class)
     private List<GrupoSemaforico> gruposSemaforicos;
-
-    public List<ValidationError> validate() {
-        List<ValidationError> errors = new ArrayList<ValidationError>();
-        if (this.modelo != null) {
-            ConfiguracaoControlador conf = this.modelo.getConfiguracao();
-            if (this.aneis == null || this.aneis.size() != conf.getLimiteAnel()) {
-                errors.add(new ValidationError("aneis", Messages.get("modelos.controlador.errors.numero_de_aneis_invalido", conf.getLimiteAnel())));
-            }
-            if (this.gruposSemaforicos == null || this.gruposSemaforicos.size() != conf.getLimiteGrupoSemaforico()) {
-                errors.add(new ValidationError("gruposSemaforicos",
-                        Messages.get("modelos.controlador.errors.numero_de_grupos_semaforicos_invalido", conf.getLimiteGrupoSemaforico())));
-            }
-        }
-        return errors.isEmpty()?null:errors;
-    }
 
     public UUID getId() {
         return id;
