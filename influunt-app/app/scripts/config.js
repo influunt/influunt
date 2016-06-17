@@ -226,6 +226,14 @@ angular
           }
         })
 
+        .state('app.wizard_controladores.associacao', {
+          url: '/associacao',
+          templateUrl: 'views/controladores/wizard/associacao.html',
+          data: {
+            title: 'controladores.titulo'
+          }
+        })
+
         .state('app.wizard_controladores.verdes_conflitantes', {
           url: '/verdes-conflitantes',
           templateUrl: 'views/controladores/wizard/verdes-conflitantes.html',

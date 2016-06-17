@@ -1,10 +1,10 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700");
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,300,500,700");
 /*
- *
- *   INSPINIA - Responsive Admin Theme
- *   version 2.4
- *
+*
+*   INSPINIA - Responsive Admin Theme
+*   version 2.4
+*
 */
 .container-fluid {
   width: 100%;
@@ -16,6 +16,12 @@
 .no-padding-right {
   padding-left: 15px !important;
   padding-right: 0px;
+}
+.left {
+  float: left;
+}
+.right {
+  float: right;
 }
 header .nav-first {
   background: #2f4050;
@@ -41,7 +47,8 @@ header .nav-secon li a {
   color: #999;
 }
 .wrapper-content .filters header {
-  border-top: 4px solid #e7eaec;}
+  border-top: 4px solid #e7eaec;
+}
 .wrapper-content .filters header h1 {
   font-size: 14px;
   display: block;
@@ -76,6 +83,7 @@ header .nav-secon li a {
 .wrapper-content .filters form ul li label {
   font-size: 13px;
   font-weight: normal;
+
 }
 .wrapper-content .filters form {
   border-top: 1px solid #e7eaec;
@@ -122,6 +130,7 @@ header .nav-secon li a {
 }
 .wrapper-content .basic-wizard .content .body .tableless table .tg-031e.rings-2 {
   background: #f8d334;
+
 }
 .wrapper-content .basic-wizard .content .body .tableless table .tg-031e.rings-3 {
   background: #a23737;
@@ -129,6 +138,7 @@ header .nav-secon li a {
 }
 .wrapper-content .basic-wizard .content .body .tableless table .tg-031e.rings-4 {
   background: #2f4050;
+
 }
 .wrapper-content .basic-wizard .content .body .tableless table .tg-031e {
   background: #e5e5e5;
@@ -145,6 +155,7 @@ header .nav-secon li a {
   text-align: center;
 }
 .wrapper-content .basic-wizard .content .body .tableless table thead {
+
 }
 .wrapper-content .basic-wizard .content .body .tableless table tbody tr td.active {
 
@@ -172,10 +183,10 @@ header .nav-secon li a {
   text-align: center;
   font-size: 15px;
   color: #676a6c;
-  v
   border: 1px solid #cacaca;
   width: 5%;
   background: #e5e5e5;
+
 }
 .wrapper-content .basic-wizard .content .body .tableless {
   margin: 50px 0 0;
@@ -198,24 +209,26 @@ header .nav-secon li a {
 }
 .wrapper-content .basic-wizard .content .body .figures li figure.rings-1 {
   box-sizing: border-box;
-  border: 2px solid #00ac9e;}
+  border: 2px solid #00ac9e;
+}
 .wrapper-content .basic-wizard .content .body .figures li figure.rings-2 {
   border: 2px solid #f8d334;
-  box-sizing: border-box;}
+  box-sizing: border-box;
+}
 .wrapper-content .basic-wizard .content .body .figures li figure.rings-3 {
   border: 2px solid #a23737;
-  box-sizing: border-box;}
+  box-sizing: border-box;
+}
 .wrapper-content .basic-wizard .content .body .figures li figure.rings-4 {
   border: 2px solid #2f4050;
-  box-sizing: border-box;}
-
+  box-sizing: border-box;
+}
 .wrapper-content .basic-wizard .content .body .figures li figure {
   float: left;
   clear: both;
   max-width: 180px;
   max-height: 150px;
   overflow: hidden;
-
 }
 .wrapper-content .basic-wizard .content .body .movements button {
   margin: 0 auto;
@@ -224,10 +237,8 @@ header .nav-secon li a {
   position: absolute;
   bottom: 10px;
   left: 35%;
-
 }
-.wrapper-content .basic-wizard .content .body .movements .dz-default.dz-message span,
-.wrapper-content .basic-wizard .content .body .movements #my-awesome-dropzone .dz-default.dz-message span {
+.wrapper-content .basic-wizard .content .body .movements .dz-default.dz-message span {
   display: block;
   font-size: 13px;
   font-weight: bold;
@@ -236,15 +247,237 @@ header .nav-secon li a {
 .wrapper-content .basic-wizard .content .body .movements label {
   width: 100%;
   text-align: left;
+}
+.wrapper-content .basic-wizard .content .body .association nav li:hover {
+  background: #19b4a8;
+}
+.wrapper-content .basic-wizard .content .body .association nav li a:hover {
+  color: white;
+}
+.wrapper-content .basic-wizard .content .body .association nav li a {
+  padding: 0 0 0 20px;
+  padding-left: 20px;
+  cursor: pointer;
+  color: #676a6c;
+  display: block;
+  margin: 0;
+}
+.wrapper-content .basic-wizard .content .body .association nav li {
+  line-height: 40px;
+  list-style: none;
+  text-align: left;
+  font-size:  16px;
+  height: 40px;
+  padding: 0;
+  margin: 0;
+}
+.wrapper-content .basic-wizard .content .body .stages nav li hgroup p::before {
+  color: #676a6c;
+  font-size: 16px;
+  content: "\f07d";
+  padding-right: 10%;
+  font-style: normal;
+  font-weight: normal;
+  font-family: FontAwesome;
+  text-decoration: inherit;
+}
+.wrapper-content .basic-wizard .content .body .stages nav li hgroup p {
+  line-height: 200px;
+  font-size: 16px;
+  color: #676a6c;
+  padding: 0;
+  margin: 0;
+}
+.wrapper-content .basic-wizard .content .body .stages nav li {
+  border-bottom:1px solid #e5e5e5;
+  position:relative;
+  background: white;
+  list-style: none;
+  min-height:200px;
+  width:100%;
+  float:left;
+  margin-bottom:0;
+}
+.wrapper-content .basic-wizard .content .body .deactivation nav li .select {
+  width: 45%;
+  float: right;
+  margin-bottom: 10px;
+}
+.wrapper-content .basic-wizard .content .body .deactivation nav li .input {
+  margin-bottom: 20px;
+
+}
+.wrapper-content .basic-wizard .content .body .deactivation nav li hgroup p {
+  float: left;
+  font-size: 18px;
+  margin: 0;;
+
+}
+.wrapper-content .basic-wizard .content .body .deactivation nav li hgroup {
+  float: left;
+  width: 50%;
+
+}
+.wrapper-content .basic-wizard .content .body .deactivation nav li hgroup label {
+  float: left;
+  width: 45%;
+
+}
+.wrapper-content .basic-wizard .content .body .deactivation nav li hgroup .label-name {
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 20px;
+
+}
+.wrapper-content .basic-wizard .content .body .deactivation nav li hgroup .label-status {
+  line-height: 35px;
+
+}
+.wrapper-content .basic-wizard .content .body .deactivation nav li hgroup p {
+  font-size: 13px;
+  font-weight: normal;
+
+}
+.wrapper-content .basic-wizard .content .body .deactivation nav li:last-child {
+  border-bottom: 0;
+}
+.wrapper-content .basic-wizard .content .body .deactivation nav li:first-child {
+  margin-top: 0;
+}
+.wrapper-content .basic-wizard .content .body .deactivation nav li {
+  list-style: none;
+  width: 100%;
+  float: left;
+  border-bottom: 1px solid #ebebeb;
+  margin-top: 15px;
+  margin-bottom: 0;
+}
+.wrapper-content .basic-wizard .content .body .deactivation {
+  max-height: 550px;
+  overflow: scroll;
+
+}
+.wrapper-content .basic-wizard .content .body .deactivation {
+  max-height: 550;
+
+}
+.wrapper-content .basic-wizard .content .body .stages .title-stages {
+  background: #e5e5e5;
+  position: relative;
+  height: 100%;
+  float: left;
+  width: 5%;
+  cursor: all-scroll;
+}
+.wrapper-content .basic-wizard .content .body .stages .times-stages {
+
+}
+.wrapper-content .basic-wizard .content .body .stages .times-stages {
+
+}
+.wrapper-content .basic-wizard .content .body .stages .times-stages {
+
+}
+.wrapper-content .basic-wizard .content .body .stages .times-stages {
+  margin-top: 20px;
+  text-align: left;
+  float: right;
+  width:  60%;
+
+}
+.wrapper-content .basic-wizard .content .body .stages .stage-stages {
+  float: left;
+  margin-top: 20px;
+}
+.wrapper-content .basic-wizard .content .body .stages .stage-stages .upload-figure hgroup {
+  float: left;
+  margin-top: 30px;
+
+}
+.wrapper-content .basic-wizard .content .body .stages .stage-stages .upload-figure {
+  float: left;
+
+}
+.wrapper-content .basic-wizard .content .body .stages .stage-stages .upload-figure .img-preview-sm {
+  left: -10px;
+  top: -10px;
+  height: 155px;
+  width: 185px;
+
+}
+.wrapper-content .basic-wizard .content .body .stages .stage-stages .upload-figure figure i {
+  font-size: 25px;
+
+}
+.wrapper-content .basic-wizard .content .body .stages .stage-stages .upload-figure figure label img {
+  display: none;
+}
+.wrapper-content .basic-wizard .content .body .stages .stage-stages .upload-figure figure label {
+  float: left;
+  font-size: 12px;
+  color: #676a6c;
+  text-align: center;
+  cursor: pointer;
+  margin-top: 7px;
+
+}
+.wrapper-content .basic-wizard .content .body .stages .stage-stages .exist-figure {
+  float: left;
+  margin: 0 13px 0 25px;
+}
+.wrapper-content .basic-wizard .content .body .stages .stage-stages .exist-figure figure {
+  margin: 0 0 5px 0;
+  overflow: hidden;
+  max-width: 155px;
+  max-height: 135px;
+  min-width: 155px;
+  min-height: 135px;
+  box-sizing: border-box;
+  border: 1px solid #898989;
+  background: #ebebeb;
+  display: block;
+}
+.wrapper-content .basic-wizard .content .body .stages .stage-stages .exist-figure figcaption {
+  font-size: 13px;
+  color: #676a6c;
+  text-align: left;
+  font-weight: normal;
+}
+.wrapper-content .basic-wizard .content .body .stages .times-stages label {
+  font-size: 13px;
+  font-weight: bold;
+  word-wrap: break-word;
+
+}
+.wrapper-content .basic-wizard .content .body .stages .times-stages .group-selectons {
+  margin-top: 10px;
+
+}
+.wrapper-content .basic-wizard .content .body .stages .times-stages .group-selectons label p {
+  float: left;
+  width: 60%;
+  font-size: 12px;
+  overflow: hidden;
+  text-align: right;
+
+}
+.wrapper-content .basic-wizard .content .body .stages .times-stages .group-selectons label {
+  margin: 0;
+  width: 24.2%;
+
+}
+.wrapper-content .basic-wizard .content .body .stages .times-stages .group-selectons label div {
+  margin-left: 0;
+  float: right;
+
+}
+.wrapper-content .basic-wizard .content .body .stages .times-stages .group-selectons input {
 
 }
 .wrapper-content .basic-wizard .content .body .rings .activ {
   text-align: left;
   text-indent: 20%;
   margin-bottom: 20px;
-}
-.wrapper-content .basic-wizard .content .body .groups label {
-
 }
 .wrapper-content .basic-wizard .content .body .rings li {
   list-style: none;
@@ -255,21 +488,19 @@ header .nav-secon li a {
 .wrapper-content .basic-wizard .content .body .rings li label {
   font-size: 16px;
   width: 100%;
-
 }
 .wrapper-content .basic-wizard .content .body .rings li .number {
   float: left;
   margin-right: 15px;
   margin-left: 0;
-
 }
 .wrapper-content .basic-wizard .content .body .rings li label div {
   float: left;
-
 }
 .wrapper-content .basic-wizard .content .body .divider {
   border-left: 2px solid #e7eaec;
   height: 100%;
+
 }
 .wrapper-content .basic-wizard .content .body .maps {
   margin: 25px 0 0;
@@ -277,9 +508,35 @@ header .nav-secon li a {
 .wrapper-content .basic-wizard .content .body .maps iframe {
   pointer-events: none;
 }
-.wrapper-content .basic-wizard .content .body figure {
-  margin: 0 0 7px 0;
+.wrapper-content .basic-wizard .content .body .stages .upload-figure figure.change {
+  border: 0;
+}
+.wrapper-content .basic-wizard .content .body .stages .upload-figure figure.change hgroup img  {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.wrapper-content .basic-wizard .content .body .stages .upload-figure figure.change hgroup i {
+  display: none;
+}
+.wrapper-content .basic-wizard .content .body .stages .upload-figure figure.change hgroup {
+  margin: 0;
+}
+.wrapper-content .basic-wizard .content .body .stages .upload-figure figure.change {
 
+}
+.wrapper-content .basic-wizard .content .body .stages .upload-figure figure {
+  overflow: hidden;
+  min-height: 135px;
+  max-height: 135px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  min-width: 155px;
+  max-width: 155px;
+  position: relative;
+  border: 2px dotted #898989;
+  box-sizing: border-box;
 }
 .wrapper-content .basic-wizard .content .body footer.form-group {
   margin: 60px 0 40px;
@@ -297,10 +554,9 @@ header .nav-secon li a {
   height: inherit;
   padding: 0;
   margin: 0;
-  background: white;
-  border-top: 4px solid #e7eaec;
   margin-top: 30px;
-
+  border-top: 4px solid #e7eaec;
+  background: white;
 }
 .wrapper-content .basic-wizard .content {
   background: initial;
@@ -308,11 +564,9 @@ header .nav-secon li a {
 }
 .wrapper-content .basic-wizard .steps ul li a .number {
   display: none;
-
 }
 .wrapper-content .basic-wizard .steps ul li:last-child a {
   margin: 0;
-
 }
 .wrapper-content .basic-wizard .steps ul li a {
   margin: 0;
@@ -325,7 +579,6 @@ header .nav-secon li a {
 }
 .wrapper-content .controller li .ibox-content .status {
   margin: 0 0 5px 0;
-
 }
 .wrapper-content .controller li .ibox-content .title {
   margin: 0 0 20px 0;
@@ -335,7 +588,6 @@ header .nav-secon li a {
 }
 .wrapper-content .controller li .ibox-content .status-active i {
   margin-right: 5px;
-
 }
 .wrapper-content .controller li .ibox-content hgroup {
   text-align: right;
@@ -343,43 +595,75 @@ header .nav-secon li a {
 .wrapper-content .controller li .ibox-content hgroup button {
   margin-right: 5px;
 }
-
-
 .slider {
-    width: auto;
-    margin: 30px 50px 50px;
+  width: auto;
+  margin: 30px 50px 50px;
 }
-
 .slick-slide {
-    background: red;
-    color: white;
-    padding: 40px 0;
-    font-size: 30px;
-    font-family: "Arial", "Helvetica";
-    text-align: center;
+  background: red;
+  color: white;
+  padding: 40px 0;
+  font-size: 30px;
+  font-family: "Arial", "Helvetica";
+  text-align: center;
 }
-
 .slick-prev:before,
 .slick-next:before {
-    color: black;
+  color: black;
 }
-
 .slick-dots {
-    bottom: -30px;
+  bottom: -30px;
 }
-
 .slick-slide:nth-child(odd) {
-     background: black;
+  background: black;
 }
 
-#my-awesome-dropzone .dz-default.dz-message:last-child {
-
+/**
+**/
+@media screen and (max-width: 1820px) {
+  .wrapper-content .basic-wizard .content .body .stages .times-stages {
+    width: 55%;
+  }
 }
-/*
-*/
-
 @media screen and (max-width: 1750px) {
   .wrapper-content .basic-wizard .content .body .groups .col-lg-3 label {
-  min-height: 46px;}
-  a {color: black;}
+    min-height: 46px;
+  }
+  a {
+    color: black;
+  }
+}
+@media screen and (max-width: 1620px) {
+  .wrapper-content .basic-wizard .content .body .stages .times-stages {
+    width: 50%;
+  }
+  .wrapper-content .basic-wizard .content .body .stages .times-stages .group-selectons label {
+  width: 23.9%;
+
+  }
+}
+@media screen and (max-width: 1450px) {
+  .wrapper-content .basic-wizard .content .body .stages .times-stages label {
+  font-size: 12px;
+
+  }
+  .wrapper-content .basic-wizard .content .body .stages .times-stages {
+    width: 46%;
+  }
+  .wrapper-content .basic-wizard .content .body .stages .times-stages .group-selectons label {
+  width: 23.8%;
+
+  }
+}
+@media screen and (max-width: 1340px) {
+  .wrapper-content .basic-wizard .content .body .stages .times-stages label {
+  font-size: 11px;
+  }
+  .wrapper-content .basic-wizard .content .body .stages .times-stages {
+    width: 40%;
+  }
+  .wrapper-content .basic-wizard .content .body .stages .times-stages .group-selectons label {
+  width: 23.8%;
+
+  }
 }

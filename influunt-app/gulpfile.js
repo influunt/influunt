@@ -150,7 +150,8 @@ angular.module('<%- moduleName %>'<% if (deps) { %>, <%= JSON.stringify(deps) %>
 });
 
 gulp.task('constants:production', function() {
-  return exec('ENVIRONMENT=production gulp constants');
+  var environment = process.env.ENVIRONMENT || 'production';
+  return exec('ENVIRONMENT=' + environment + ' gulp constants');
 });
 
 gulp.task('templates', function() {
