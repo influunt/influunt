@@ -6,12 +6,14 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700,600' rel='stylesheet' type='text/css'>
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700,600' rel='stylesheet' type='text/css'>
     <link href="plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
     <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.css" />
 
+    <!-- bower:css -->
     <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css" />
     <link href="plugins/cropper/cropper.min.css" rel="stylesheet">
     <link href="plugins/steps/jquery.steps.css" rel="stylesheet">
@@ -50,6 +52,8 @@
 
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
+ <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
     <script src="/bower_components/jquery/dist/jquery.js"></script>
     <script src="/bower_components/angular/angular.js"></script>
     <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
@@ -85,25 +89,24 @@
     <script src="/bower_components/AngularJS-Toaster/toaster.js"></script>
     <script src="/bower_components/sweetalert/dist/sweetalert.min.js"></script>
     <script src="/bower_components/ngSweetAlert/SweetAlert.js"></script>
-    <script src="/bower_components/leaflet/dist/leaflet-src.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
+
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
     <script src="plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="plugins/ui-bootstrap-tpls-1.1.2.min.js"></script>
-    <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
     <script src="plugins/jquery.steps.min.js"></script>
-    <script src="plugins/cropper/cropper.min.js"></script>
     <script src="plugins/icheck.min.js"></script>
     <script src="plugins/inspinia.js"></script>
+    <script src="plugins/dropzone/dropzone.js"></script>
 
     <script src="scripts/app.js"></script>
     <script src="scripts/config.js"></script>
     <script src="scripts/templates.js"></script>
     <script src="scripts/controllers/main.js"></script>
-    <script src="plugins/dropzone/dropzone.js"></script>
-    <script src="plugins/inspinia-directives.js"></script>
+    <script src="scripts/controllers/about.js"></script>
     <script src="scripts/controllers/login.js"></script>
     <script src="scripts/services/initializers/translations.js"></script>
     <script src="scripts/services/constants/app_settings.js"></script>
@@ -115,15 +118,15 @@
     <script src="scripts/ngConstants.js"></script>
     <script src="scripts/services/crud/toast.js"></script>
     <script src="scripts/filters/nome-areas.js"></script>
-    <script src="scripts/controllers/controladores.js"></script>
-    <script src="scripts/directives/wizard.js"></script>
-    <script src="scripts/directives/influunt-map.js"></script>
-    <script src="scripts/directives/influunt-dropzone.js"></script>
-    <script src="scripts/directives/ichecks.js"></script>
     <script src="scripts/controllers/areas.js"></script>
     <script src="scripts/controllers/concerns/crud.js"></script>
     <script src="scripts/filters/nome-cidade.js"></script>
     <script src="scripts/controllers/tipos-detectores.js"></script>
+    <script src="scripts/controllers/controladores.js"></script>
+    <script src="scripts/filters/nome-modelos.js"></script>
+    <script src="scripts/controllers/fabricantes.js"></script>
+    <script src="scripts/controllers/configuracoes_controladores.js"></script>
+    <script src="plugins/inspinia-directives.js"></script>
     <!-- endbuild -->
 </body>
 </html>

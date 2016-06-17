@@ -130,25 +130,25 @@ angular
           }
         })
 
-        .state('app.controladores_new', {
-          url: '/controladores/new',
-          templateUrl: 'views/controladores/new.html',
-          controller: 'ControladoresCtrl',
-          controllerAs: 'controladores',
-          data: {
-            title: 'controladores.titulo'
-          }
-        })
+        // .state('app.controladores_new', {
+        //   url: '/controladores/new',
+        //   templateUrl: 'views/controladores/new.html',
+        //   controller: 'ControladoresCtrl',
+        //   controllerAs: 'controladores',
+        //   data: {
+        //     title: 'controladores.titulo'
+        //   }
+        // })
 
-        .state('app.controladores_edit', {
-          url: '/controladores/:id/edit',
-          templateUrl: 'views/controladores/edit.html',
-          controller: 'ControladoresCtrl',
-          controllerAs: 'controladores',
-          data: {
-            title: 'controladores.titulo'
-          }
-        })
+        // .state('app.controladores_edit', {
+        //   url: '/controladores/:id/edit',
+        //   templateUrl: 'views/controladores/edit.html',
+        //   controller: 'ControladoresCtrl',
+        //   controllerAs: 'controladores',
+        //   data: {
+        //     title: 'controladores.titulo'
+        //   }
+        // })
 
         .state('app.controladores_show', {
           url: '/controladores/:id',
@@ -198,6 +198,97 @@ angular
           controllerAs: 'tipos_detectores',
           data: {
             title: 'tipos_detectores.titulo'
+          }
+        })
+				
+        // Crud Fabricantes.
+        .state('app.fabricantes', {
+          url: '/fabricantes',
+          templateUrl: 'views/fabricantes/index.html',
+          controller: 'FabricantesCtrl',
+          controllerAs: 'fabricantes',
+          data: {
+            title: 'fabricantes.titulo'
+          }
+        })
+
+        .state('app.fabricantes_new', {
+          url: '/fabricantes/new',
+          templateUrl: 'views/fabricantes/new.html',
+          controller: 'FabricantesCtrl',
+          controllerAs: 'fabricantes',
+          data: {
+            title: 'fabricantes.titulo'
+          }
+        })
+
+        .state('app.fabricantes_edit', {
+          url: '/fabricantes/:id/edit',
+          templateUrl: 'views/fabricantes/edit.html',
+          controller: 'FabricantesCtrl',
+          controllerAs: 'fabricantes',
+          data: {
+            title: 'fabricantes.titulo'
+          }
+        })
+
+        .state('app.fabricantes_show', {
+          url: '/fabricantes/:id',
+          templateUrl: 'views/fabricantes/show.html',
+          controller: 'FabricantesCtrl',
+          controllerAs: 'fabricantes',
+          data: {
+            title: 'fabricantes.titulo'
+          }
+        })
+				
+        // Crud Configuracao Controladores.
+        .state('app.configuracoes_controladores', {
+          url: '/configuracoes_controladores',
+          templateUrl: 'views/configuracoes_controladores/index.html',
+          controller: 'ConfiguracaoControladoresCtrl',
+          controllerAs: 'configuracoes_controladores',
+          data: {
+            title: 'configuracoes_controladores.titulo'
+          }
+        })
+
+        .state('app.configuracoes_controladores_new', {
+          url: '/configuracoes_controladores/new',
+          templateUrl: 'views/configuracoes_controladores/new.html',
+          controller: 'ConfiguracaoControladoresCtrl',
+          controllerAs: 'configuracoes_controladores',
+          data: {
+            title: 'configuracoes_controladores.titulo'
+          }
+        })
+
+        .state('app.configuracoes_controladores_edit', {
+          url: '/configuracoes_controladores/:id/edit',
+          templateUrl: 'views/configuracoes_controladores/edit.html',
+          controller: 'ConfiguracaoControladoresCtrl',
+          controllerAs: 'configuracoes_controladores',
+          data: {
+            title: 'configuracoes_controladores.titulo'
+          }
+        })
+
+        .state('app.configuracoes_controladores_show', {
+          url: '/configuracoes_controladores/:id',
+          templateUrl: 'views/configuracoes_controladores/show.html',
+          controller: 'ConfiguracaoControladoresCtrl',
+          controllerAs: 'configuracoes_controladores',
+          data: {
+            title: 'configuracoes_controladores.titulo'
+          }
+        })
+
+				// Dados
+        .state('app.dados', {
+          url: '/dados',
+          templateUrl: 'views/dados.html',
+          data: {
+            title: 'Example view'
           }
         })
 

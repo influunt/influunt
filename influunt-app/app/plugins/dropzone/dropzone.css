@@ -160,7 +160,7 @@
 }
 .dropzone {
   border: 1px solid rgba(0,0,0,0.03);
-  min-height: 625px;
+  min-height: 582px;
   -webkit-border-radius: 3px;
   border-radius: 3px;
   background: rgba(0,0,0,0.03);
