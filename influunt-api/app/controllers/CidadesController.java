@@ -2,7 +2,6 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Cidade;
-import play.Logger;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -66,11 +65,10 @@ public class CidadesController extends Controller {
         Cidade cidade = Cidade.find.byId(UUID.fromString(id));
         if (cidade == null) {
             return CompletableFuture.completedFuture(notFound());
-        }else{
+        } else {
             cidade = Json.fromJson(json, Cidade.class);
             cidade.setId(UUID.fromString(id));
             cidade.update();
-            Logger.info("Cidade Atualizada:" + cidade);
             return CompletableFuture.completedFuture(ok(Json.toJson(cidade)));
         }
 

@@ -6,7 +6,6 @@ import org.junit.Test;
 import play.Application;
 import play.Logger;
 import play.Mode;
-
 import play.inject.Bindings;
 import play.inject.guice.GuiceApplicationBuilder;
 import play.libs.Json;
@@ -16,14 +15,10 @@ import play.test.Helpers;
 import play.test.WithApplication;
 import security.Authenticator;
 
-
 import java.util.*;
 
-import static jdk.nashorn.internal.objects.NativeFunction.bind;
 import static junit.framework.TestCase.assertNotNull;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 import static play.mvc.Http.Status.OK;
 import static play.mvc.Http.Status.UNPROCESSABLE_ENTITY;
 import static play.test.Helpers.inMemoryDatabase;
@@ -136,6 +131,9 @@ public class ControladoresControllerTest extends WithApplication {
         Controlador controlador = getControlador();
         controlador.save();
 
+        assertEquals(4,controlador.getAneis().size());
+        assertEquals(16,controlador.getGruposSemaforicos().size());
+
         Area novaArea = new Area();
         novaArea.setDescricao("Nova Area");
         novaArea.save();
@@ -221,9 +219,6 @@ public class ControladoresControllerTest extends WithApplication {
         controlador.setIdControlador("10.02.122");
         controlador.setModelo(modeloControlador);
         controlador.setFirmware("1.0.0");
-
-
-
 
         List<Anel> aneis = Arrays.asList(new Anel("Anel 1"),new Anel("Anel 2"),new Anel("Anel 3"),new Anel("Anel 4"));
         controlador.setAneis(aneis);

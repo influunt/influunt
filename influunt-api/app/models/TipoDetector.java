@@ -1,9 +1,15 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.CreatedTimestamp;
+import com.avaje.ebean.annotation.UpdatedTimestamp;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.joda.time.DateTime;
+import utils.InfluuntDateTimeDeserializer;
+import utils.InfluuntDateTimeSerializer;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,10 +36,16 @@ public class TipoDetector extends Model {
     private List<Detector> detectores;
 
     @Column
-    private Date dataCriacao;
+    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @CreatedTimestamp
+    private DateTime dataCriacao;
 
     @Column
-    private Date dataAtualizacao;
+    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @UpdatedTimestamp
+    private DateTime dataAtualizacao;
 
     public UUID getId() {
         return id;
@@ -59,19 +71,19 @@ public class TipoDetector extends Model {
         this.detectores = detectores;
     }
 
-    public Date getDataCriacao() {
+    public DateTime getDataCriacao() {
         return dataCriacao;
     }
 
-    public void setDataCriacao(Date dataCriacao) {
+    public void setDataCriacao(DateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 
-    public Date getDataAtualizacao() {
+    public DateTime getDataAtualizacao() {
         return dataAtualizacao;
     }
 
-    public void setDataAtualizacao(Date dataAtualizacao) {
+    public void setDataAtualizacao(DateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
     }
 }

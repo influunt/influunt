@@ -76,7 +76,6 @@ header .nav-secon li a {
 .wrapper-content .filters form ul li label {
   font-size: 13px;
   font-weight: normal;
-
 }
 .wrapper-content .filters form {
   border-top: 1px solid #e7eaec;
@@ -123,7 +122,6 @@ header .nav-secon li a {
 }
 .wrapper-content .basic-wizard .content .body .tableless table .tg-031e.rings-2 {
   background: #f8d334;
-
 }
 .wrapper-content .basic-wizard .content .body .tableless table .tg-031e.rings-3 {
   background: #a23737;
@@ -131,7 +129,6 @@ header .nav-secon li a {
 }
 .wrapper-content .basic-wizard .content .body .tableless table .tg-031e.rings-4 {
   background: #2f4050;
-
 }
 .wrapper-content .basic-wizard .content .body .tableless table .tg-031e {
   background: #e5e5e5;
@@ -148,7 +145,6 @@ header .nav-secon li a {
   text-align: center;
 }
 .wrapper-content .basic-wizard .content .body .tableless table thead {
-
 }
 .wrapper-content .basic-wizard .content .body .tableless table tbody tr td.active {
 
@@ -180,7 +176,6 @@ header .nav-secon li a {
   border: 1px solid #cacaca;
   width: 5%;
   background: #e5e5e5;
-
 }
 .wrapper-content .basic-wizard .content .body .tableless {
   margin: 50px 0 0;
@@ -191,7 +186,6 @@ header .nav-secon li a {
 }
 .wrapper-content .basic-wizard .content .body .figures ul.bxslider {
   width: 7000px;
-
 }
 .wrapper-content .basic-wizard .content .body .figures {
   min-height: 190px;
@@ -232,7 +226,8 @@ header .nav-secon li a {
   left: 35%;
 
 }
-.wrapper-content .basic-wizard .content .body .movements .dz-default.dz-message span {
+.wrapper-content .basic-wizard .content .body .movements .dz-default.dz-message span,
+.wrapper-content .basic-wizard .content .body .movements #my-awesome-dropzone .dz-default.dz-message span {
   display: block;
   font-size: 13px;
   font-weight: bold;
@@ -275,11 +270,9 @@ header .nav-secon li a {
 .wrapper-content .basic-wizard .content .body .divider {
   border-left: 2px solid #e7eaec;
   height: 100%;
-
 }
 .wrapper-content .basic-wizard .content .body .maps {
   margin: 25px 0 0;
-
 }
 .wrapper-content .basic-wizard .content .body .maps iframe {
   pointer-events: none;
@@ -329,7 +322,6 @@ header .nav-secon li a {
   padding: 0;
   text-indent: 20px;
   margin-right: 20px;
-
 }
 .wrapper-content .controller li .ibox-content .status {
   margin: 0 0 5px 0;
@@ -347,7 +339,6 @@ header .nav-secon li a {
 }
 .wrapper-content .controller li .ibox-content hgroup {
   text-align: right;
-
 }
 .wrapper-content .controller li .ibox-content hgroup button {
   margin-right: 5px;

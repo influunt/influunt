@@ -11,8 +11,8 @@ create table aneis (
   latitude                      double,
   longitude                     double,
   controlador_id                varchar(40),
-  data_criacao                  datetime(6),
-  data_atualizacao              datetime(6),
+  data_criacao                  datetime(6) not null,
+  data_atualizacao              datetime(6) not null,
   constraint pk_aneis primary key (id)
 );
 
@@ -20,16 +20,16 @@ create table areas (
   id                            varchar(40) not null,
   descricao                     varchar(255),
   cidade_id                     varchar(40),
-  data_criacao                  datetime(6),
-  data_atualizacao              datetime(6),
+  data_criacao                  datetime(6) not null,
+  data_atualizacao              datetime(6) not null,
   constraint pk_areas primary key (id)
 );
 
 create table cidades (
   id                            varchar(40) not null,
   nome                          varchar(255),
-  data_criacao                  datetime(6),
-  data_atualizacao              datetime(6),
+  data_criacao                  datetime(6) not null,
+  data_atualizacao              datetime(6) not null,
   constraint pk_cidades primary key (id)
 );
 
@@ -40,15 +40,13 @@ create table configuracao_controladores (
   limite_anel                   integer,
   limite_detector_pedestre      integer,
   limite_detector_veicular      integer,
-  data_criacao                  datetime(6),
-  data_atualizacao              datetime(6),
+  data_criacao                  datetime(6) not null,
+  data_atualizacao              datetime(6) not null,
   constraint pk_configuracao_controladores primary key (id)
 );
 
 create table controladores (
   id                            varchar(40) not null,
-  data_criacao                  datetime(6),
-  data_atualizacao              datetime(6),
   descricao                     varchar(255),
   numero_smee                   varchar(255),
   id_controlador                varchar(255),
@@ -59,6 +57,8 @@ create table controladores (
   latitude                      double,
   longitude                     double,
   area_id                       varchar(40),
+  data_criacao                  datetime(6) not null,
+  data_atualizacao              datetime(6) not null,
   constraint pk_controladores primary key (id)
 );
 
@@ -66,16 +66,16 @@ create table detectores (
   id                            varchar(40) not null,
   tipo_detector_id              varchar(40),
   anel_id                       varchar(40),
-  data_criacao                  datetime(6),
-  data_atualizacao              datetime(6),
+  data_criacao                  datetime(6) not null,
+  data_atualizacao              datetime(6) not null,
   constraint pk_detectores primary key (id)
 );
 
 create table fabricantes (
   id                            varchar(40) not null,
   nome                          varchar(255),
-  data_criacao                  datetime(6),
-  data_atualizacao              datetime(6),
+  data_criacao                  datetime(6) not null,
+  data_atualizacao              datetime(6) not null,
   constraint pk_fabricantes primary key (id)
 );
 
@@ -85,8 +85,8 @@ create table grupos_semaforicos (
   anel_id                       varchar(40),
   controlador_id                varchar(40),
   grupo_conflito_id             varchar(40),
-  data_criacao                  datetime(6),
-  data_atualizacao              datetime(6),
+  data_criacao                  datetime(6) not null,
+  data_atualizacao              datetime(6) not null,
   constraint pk_grupos_semaforicos primary key (id)
 );
 
@@ -95,8 +95,8 @@ create table limite_area (
   latitude                      double,
   longitude                     double,
   area_id                       varchar(40),
-  data_criacao                  datetime(6),
-  data_atualizacao              datetime(6),
+  data_criacao                  datetime(6) not null,
+  data_atualizacao              datetime(6) not null,
   constraint pk_limite_area primary key (id)
 );
 
@@ -105,8 +105,8 @@ create table modelo_controladores (
   fabricante_id                 varchar(40),
   configuracao_id               varchar(40),
   descricao                     varchar(255),
-  data_criacao                  datetime(6),
-  data_atualizacao              datetime(6),
+  data_criacao                  datetime(6) not null,
+  data_atualizacao              datetime(6) not null,
   constraint pk_modelo_controladores primary key (id)
 );
 
@@ -114,24 +114,24 @@ create table movimentos (
   id                            varchar(40) not null,
   descricao                     varchar(255),
   anel_id                       varchar(40),
-  data_criacao                  datetime(6),
-  data_atualizacao              datetime(6),
+  data_criacao                  datetime(6) not null,
+  data_atualizacao              datetime(6) not null,
   constraint pk_movimentos primary key (id)
 );
 
 create table tipos_detectores (
   id                            varchar(40) not null,
   descricao                     varchar(255),
-  data_criacao                  datetime(6),
-  data_atualizacao              datetime(6),
+  data_criacao                  datetime(6) not null,
+  data_atualizacao              datetime(6) not null,
   constraint pk_tipos_detectores primary key (id)
 );
 
 create table tipo_grupo_semaforicos (
   id                            varchar(40) not null,
   descricao                     varchar(255),
-  data_criacao                  datetime(6),
-  data_atualizacao              datetime(6),
+  data_criacao                  datetime(6) not null,
+  data_atualizacao              datetime(6) not null,
   constraint pk_tipo_grupo_semaforicos primary key (id)
 );
 
@@ -241,4 +241,3 @@ drop table if exists movimentos;
 drop table if exists tipos_detectores;
 
 drop table if exists tipo_grupo_semaforicos;
-

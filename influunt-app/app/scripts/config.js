@@ -233,6 +233,13 @@ angular
             title: 'controladores.titulo'
           }
         })
+        .state('app.dados', {
+          url: '/dados',
+          templateUrl: 'views/dados.html',
+          data: {
+            title: 'Example view'
+          }
+        })
 
         // Rotas de teste. Podem ser removidas em breve.
         .state('app.wizard', {

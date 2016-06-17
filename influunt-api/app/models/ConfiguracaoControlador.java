@@ -1,7 +1,13 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.CreatedTimestamp;
+import com.avaje.ebean.annotation.UpdatedTimestamp;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.joda.time.DateTime;
+import utils.InfluuntDateTimeDeserializer;
+import utils.InfluuntDateTimeSerializer;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +17,7 @@ import java.util.UUID;
 
 /**
  * Entidade que represnta as configurações dos controladores no sistema
- * 
+ *
  * @author lesiopinheiro
  *
  */
@@ -20,6 +26,8 @@ import java.util.UUID;
 public class ConfiguracaoControlador extends Model {
 
     private static final long serialVersionUID = -4628897272277523020L;
+
+    public static Finder<UUID, ConfiguracaoControlador> find = new Finder<UUID, ConfiguracaoControlador>(ConfiguracaoControlador.class);
 
     @Id
     private UUID id;
@@ -40,8 +48,15 @@ public class ConfiguracaoControlador extends Model {
     private Integer limiteDetectorVeicular = 8;
 
     @Column
+    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @CreatedTimestamp
     private DateTime dataCriacao;
+
     @Column
+    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @UpdatedTimestamp
     private DateTime dataAtualizacao;
 
     public UUID getId() {

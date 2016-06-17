@@ -108,8 +108,8 @@ angular.module('influuntApp')
       };
 
       $scope.closeAlert = function() {
-        return $scope.validacoes.alerts = [];
-      }
+        $scope.validacoes.alerts = [];
+      };
 
       $scope.getHelpersControlador = function() {
         Restangular.all('helpers').all('controlador').customGET().then(function(res) {

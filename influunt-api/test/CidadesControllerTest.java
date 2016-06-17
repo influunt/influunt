@@ -1,7 +1,6 @@
 import com.fasterxml.jackson.databind.JsonNode;
 import controllers.routes;
 import models.Cidade;
-import org.junit.Assert;
 import org.junit.Test;
 import play.Application;
 import play.Mode;
@@ -139,7 +138,7 @@ public class CidadesControllerTest extends WithApplication {
         cidade.setNome("Teste");
         cidade.save();
         UUID cidadeId = cidade.getId();
-        Assert.assertNotNull(cidadeId);
+        assertNotNull(cidadeId);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
                 .uri(routes.CidadesController.findOne(cidadeId.toString()).url());
@@ -150,5 +149,4 @@ public class CidadesControllerTest extends WithApplication {
         assertEquals(200, result.status());
         assertEquals(cidadeId, cidadeRetornada.getId());
     }
-
 }

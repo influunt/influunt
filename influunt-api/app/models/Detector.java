@@ -1,14 +1,20 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.CreatedTimestamp;
+import com.avaje.ebean.annotation.UpdatedTimestamp;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.joda.time.DateTime;
+import utils.InfluuntDateTimeDeserializer;
+import utils.InfluuntDateTimeSerializer;
 
 import javax.persistence.*;
 import java.util.UUID;
 
 /**
  * Entidade que representa o {@link Detector} no sistema
- * 
+ *
  * @author lesiopinheiro
  *
  */
@@ -17,6 +23,8 @@ import java.util.UUID;
 public class Detector extends Model {
 
     private static final long serialVersionUID = 3752412658492551927L;
+
+    public static Finder<UUID, Detector> find = new Finder<UUID, Detector>(Detector.class);
 
     @Id
     private UUID id;
@@ -30,8 +38,15 @@ public class Detector extends Model {
     private Anel anel;
 
     @Column
+    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @CreatedTimestamp
     private DateTime dataCriacao;
+
     @Column
+    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @UpdatedTimestamp
     private DateTime dataAtualizacao;
 
 
