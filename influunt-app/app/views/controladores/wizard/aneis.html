@@ -72,8 +72,13 @@
         </div>
         <div class="col-lg-12 col-sm-12">
           <div class="form-group"><label><p>{{ 'controladores.localizacao' | translate }}</p></label>
+
             <figure>
-              <div id="mapid" influunt-map style="border: 1px solid black; width: 100%; height: 280px;"></div>
+              <div influunt-map
+                latitude="currentAnel.latitude"
+                longitude="currentAnel.longitude"
+                class="influunt-map">
+              </div>
             </figure>
 
             <div class="col-lg-6 col-sm-6 no-padding">
