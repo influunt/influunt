@@ -9,11 +9,11 @@ import java.lang.annotation.*;
  */
 @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = {NumeroDeGruposValidator.class})
+@Constraint(validatedBy = {AoMenosUmAnelAtivoValidator.class})
 @Documented
-public @interface NumeroDeGruposIgualAoModelo {
+public @interface AoMenosUmAnelAtivo {
 
-    String message() default "O numero de grupos semáforicos deve ser igual ao numero espeficado no modelo do controlador";
+    String message() default "Ao menos um anel deve estar ativo";
 
     Class<?>[] groups() default {};
 

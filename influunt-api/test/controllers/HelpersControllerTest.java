@@ -1,3 +1,5 @@
+package controllers;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import controllers.routes;
 import helpers.ControladorHelper;
@@ -5,6 +7,7 @@ import models.*;
 import org.junit.Test;
 import play.Application;
 import play.Logger;
+import play.Mode;
 import play.inject.guice.GuiceApplicationBuilder;
 import play.libs.Json;
 import play.mvc.Http;
@@ -33,7 +36,7 @@ public class HelpersControllerTest extends WithApplication {
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     private Application getApplication(Map configuration) {
-        return new GuiceApplicationBuilder().configure(configuration).build();
+        return new GuiceApplicationBuilder().configure(configuration).in(Mode.TEST).build();
     }
 
     @Test
@@ -43,12 +46,12 @@ public class HelpersControllerTest extends WithApplication {
         bh.save();
 
         Area sul = new Area();
-        sul.setDescricao("Zona Sul");
+        sul.setDescricao(2);
         sul.setCidade(bh);
         sul.save();
 
         Area norte = new Area();
-        norte.setDescricao("Zona Norte");
+        norte.setDescricao(2);
         norte.setCidade(bh);
         norte.save();
 

@@ -9,11 +9,11 @@ import java.lang.annotation.*;
  */
 @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = {NumeroDeGruposValidator.class})
+@Constraint(validatedBy = {ConformidadeDeNumeroDeDetectoresVeicularValidator.class})
 @Documented
-public @interface NumeroDeGruposIgualAoModelo {
+public @interface ConformidadeDeNumeroDeDetectoresVeicular {
 
-    String message() default "O numero de grupos semáforicos deve ser igual ao numero espeficado no modelo do controlador";
+    String message() default "Numero total de detectores veiculares informado individualmente nos aneis excede o limite do controlador";
 
     Class<?>[] groups() default {};
 

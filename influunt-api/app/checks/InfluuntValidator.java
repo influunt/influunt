@@ -42,8 +42,8 @@ public class InfluuntValidator<T> {
     }
 
 
-    public List<Erro> validate(T model, Class group) {
-        return parse(validator.validate(model,group));
+    public List<Erro> validate(T model, Class<?>... groups ) {
+        return parse(validator.validate(model,groups));
     }
 
     private List<Erro> parse(Set<ConstraintViolation<T>> violations) {

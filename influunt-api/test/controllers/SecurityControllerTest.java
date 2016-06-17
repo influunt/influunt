@@ -1,3 +1,5 @@
+package controllers;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import controllers.routes;
 import models.Usuario;
@@ -31,7 +33,7 @@ public class SecurityControllerTest extends WithApplication {
 
     private Application getApplication(Map configuration) {
         return new GuiceApplicationBuilder().configure(configuration)
-                .overrides(bind(Authenticator.class).to(TestAuthenticator.class)).in(Mode.TEST).build();
+                .in(Mode.TEST).build();
     }
 
     @Test
