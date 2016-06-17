@@ -25,6 +25,8 @@ import static play.test.Helpers.route;
 
 public class ConfiguracoesControladoresControllerTest extends WithApplication {
 
+    private final String DESCRICAO = "Configuracao 4 Controladores";
+
     @Override
     protected Application provideApplication() {
         Map<String, String> options = new HashMap<String, String>();
@@ -60,6 +62,8 @@ public class ConfiguracoesControladoresControllerTest extends WithApplication {
     @Test
     public void testCriarNovaConfiguracaoControlador() {
         ConfiguracaoControlador configuracaoControlador = new ConfiguracaoControlador();
+        configuracaoControlador.setDescricao(DESCRICAO);
+
         Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
                 .uri(routes.ConfiguracoesControladoresController.create().url()).bodyJson(Json.toJson(configuracaoControlador));
         Result result = route(request);
@@ -67,18 +71,22 @@ public class ConfiguracoesControladoresControllerTest extends WithApplication {
         ConfiguracaoControlador configuracaoControladorRetornada = Json.fromJson(json, ConfiguracaoControlador.class);
 
         assertEquals(200, result.status());
+        assertEquals(DESCRICAO, configuracaoControlador.getDescricao());
         assertNotNull(configuracaoControladorRetornada.getId());
     }
 
     @Test
     public void testAtualizarConfiguracaoControladorExistente() {
         ConfiguracaoControlador configuracaoControlador = new ConfiguracaoControlador();
+        configuracaoControlador.setDescricao(DESCRICAO);
         configuracaoControlador.save();
 
         UUID configuracaoControladorId = configuracaoControlador.getId();
+        assertEquals(DESCRICAO, configuracaoControlador.getDescricao());
         assertNotNull(configuracaoControladorId);
 
         ConfiguracaoControlador configuracaoControlador1 = new ConfiguracaoControlador();
+        configuracaoControlador1.setDescricao("NOVA");
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
                 .uri(routes.ConfiguracoesControladoresController.update(configuracaoControladorId.toString()).url())
@@ -88,6 +96,7 @@ public class ConfiguracoesControladoresControllerTest extends WithApplication {
         ConfiguracaoControlador configuracaoControladorRetornado = Json.fromJson(json, ConfiguracaoControlador.class);
 
         assertEquals(200, result.status());
+        assertEquals("NOVA", configuracaoControladorRetornado.getDescricao());
         assertNotNull(configuracaoControladorRetornado.getId());
     }
 
