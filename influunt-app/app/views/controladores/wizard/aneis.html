@@ -5,20 +5,28 @@
         <div class="col-lg-4 col-sm-4"><p class="activ">{{ 'controladores.ativo' | translate | uppercase }}</p></div>
         <div class="col-lg-4 col-sm-4"><p class="rings">{{ 'controladores.anel' | translate | uppercase }}</p></div>
         <div class="clearfix"></div>
-        <div class="col-lg-12 col-sm-12">
+        <div class="col-lg-12 col-sm-12" style="padding-left:0;">
          <nav>
            <ul>
             <li data-ng-repeat="anel in aneis"
                 data-ng-click="selecionaAnel($index)"
-                data-ng-class="{'anel-selecionado': $index === currentAnelId}">
-              <span class="number">{{ $index + 1 }}</span>
-              <input type="checkbox" data-ng-checked="$first" ichecks
-                is-disabled="$first"
-                ng-model="anel.checked">
-              <label>{{ anel.id_anel }}</label>
-              <span class="badge badge-danger" ng-show="!anel.valid.form">
-                <i class="fa fa-exclamation"></i>
-              </span>
+                data-ng-class="{'anel-selecionado': $index === currentAnelId}" class="row">
+              <div class="col-xs-1">
+                <span class="number">{{ $index + 1 }}</span>
+              </div>
+              <div class="col-xs-2" style="padding-right:0;">
+                <input type="checkbox" data-ng-checked="$first" ichecks
+                  is-disabled="$first"
+                  ng-model="anel.checked">
+              </div>
+              <div class="col-xs-7">
+                <label>{{ anel.id_anel }}</label>
+              </div>
+              <div class="col-xs-1">
+                <span class="badge badge-danger" ng-show="!anel.valid.form">
+                  <i class="fa fa-exclamation"></i>
+                </span>
+              </div>
             </li>
            </ul>
          </nav>
