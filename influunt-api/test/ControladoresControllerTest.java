@@ -20,7 +20,6 @@ import java.util.*;
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.*;
 import static play.mvc.Http.Status.OK;
-import static play.mvc.Http.Status.UNPROCESSABLE_ENTITY;
 import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.route;
 
@@ -41,7 +40,7 @@ public class ControladoresControllerTest extends WithApplication {
         this.cidade.save();
 
         this.area =  new Area();
-        this.area.setDescricao("CTA-1");
+        this.area.setDescricao(1);
         this.area.setCidade(cidade);
         this.area.save();
 
@@ -58,11 +57,6 @@ public class ControladoresControllerTest extends WithApplication {
         this.modeloControlador.setConfiguracao(configuracao);
         this.modeloControlador.setFabricante(fabricante);
         this.modeloControlador.save();
-
-        this.tipoGrupoSemaforico = new TipoGrupoSemaforico();
-        this.tipoGrupoSemaforico.setDescricao("Veicular");
-        this.tipoGrupoSemaforico.save();
-
 
     }
 
@@ -117,17 +111,17 @@ public class ControladoresControllerTest extends WithApplication {
         controlador.save();
 
         assertEquals(4,controlador.getAneis().size());
-        assertEquals(16,controlador.getGruposSemaforicos().size());
+        assertEquals(0,controlador.getGruposSemaforicos().size());
 
         Area novaArea = new Area();
-        novaArea.setDescricao("Nova Area");
+        novaArea.setDescricao(1);
         novaArea.save();
 
         assertNotEquals(novaArea.getId(),controlador.getArea().getId());
         controlador.setArea(novaArea);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
-                .uri(routes.ControladoresController.update(controlador.getId().toString()).url())
+                .uri(routes.ControladoresController.update(controlador.getId()).url())
                 .bodyJson(Json.toJson(controlador));
         Result result = route(request);
         assertEquals(OK, result.status());
@@ -137,14 +131,14 @@ public class ControladoresControllerTest extends WithApplication {
         assertEquals(controlador.getId(),controladorAtualizado.getId());
         assertEquals(novaArea.getId(),controladorAtualizado.getArea().getId());
         assertEquals(4,controladorAtualizado.getAneis().size());
-        assertEquals(16,controladorAtualizado.getGruposSemaforicos().size());
+        assertEquals(0,controladorAtualizado.getGruposSemaforicos().size());
     }
     @Test
     public void testAtualizarControladorNaoExistente() {
         Controlador controlador = getControlador();
 
         Http.RequestBuilder putRequest = new Http.RequestBuilder().method("PUT")
-                .uri(routes.ControladoresController.update(UUID.randomUUID().toString()).url())
+                .uri(routes.ControladoresController.update(234).url())
                 .bodyJson(Json.toJson(controlador));
         Result putResult = route(putRequest);
         assertEquals(404, putResult.status());
@@ -154,10 +148,10 @@ public class ControladoresControllerTest extends WithApplication {
     public void testApagarControladorExistente() {
         final Controlador controlador = getControlador();
         controlador.save();
-        UUID controladorId = controlador.getId();
+        long controladorId = controlador.getId();
 
         Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.ControladoresController.delete(controladorId.toString()).url());
+                .uri(routes.ControladoresController.delete(controladorId).url());
         Result result = route(deleteRequest);
 
         assertEquals(200, result.status());
@@ -172,7 +166,7 @@ public class ControladoresControllerTest extends WithApplication {
     public void testApagarControladorNaoExistente() {
 
         Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.CidadesController.delete(UUID.randomUUID().toString()).url());
+                .uri(routes.ControladoresController.delete(12345).url());
         Result result = route(deleteRequest);
         assertEquals(404, result.status());
     }
@@ -201,25 +195,17 @@ public class ControladoresControllerTest extends WithApplication {
         controlador.setArea(area);
         controlador.setLatitude(1.0);
         controlador.setLongitude(2.0);
-        controlador.setIdControlador("10.02.122");
         controlador.setModelo(modeloControlador);
         controlador.setFirmware("1.0.0");
         Anel anel = new Anel();
         anel.setDescricao("1");
         anel.setLongitude(1.0);
         anel.setLatitude(2.0);
-        anel.setIdAnel("1");
+        anel.setPosicao(1);
         anel.setNumeroSMEE("1234");
 
         List<Anel> aneis = Arrays.asList(anel,anel,anel,anel);
         controlador.setAneis(aneis);
-
-        List<GrupoSemaforico> grupoSemaforicos = Arrays.asList(new GrupoSemaforico(tipoGrupoSemaforico),new GrupoSemaforico(tipoGrupoSemaforico),new GrupoSemaforico(tipoGrupoSemaforico),new GrupoSemaforico(tipoGrupoSemaforico),
-                new GrupoSemaforico(tipoGrupoSemaforico),new GrupoSemaforico(tipoGrupoSemaforico),new GrupoSemaforico(tipoGrupoSemaforico),new GrupoSemaforico(tipoGrupoSemaforico),
-                new GrupoSemaforico(tipoGrupoSemaforico),new GrupoSemaforico(tipoGrupoSemaforico),new GrupoSemaforico(tipoGrupoSemaforico),new GrupoSemaforico(tipoGrupoSemaforico),
-                new GrupoSemaforico(tipoGrupoSemaforico),new GrupoSemaforico(tipoGrupoSemaforico),new GrupoSemaforico(tipoGrupoSemaforico),new GrupoSemaforico(tipoGrupoSemaforico));
-
-        controlador.setGruposSemaforicos(grupoSemaforicos);
         return controlador;
     }
 

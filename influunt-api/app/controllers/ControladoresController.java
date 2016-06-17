@@ -43,8 +43,8 @@ public class ControladoresController extends Controller {
     }
 
     @Transactional
-    public CompletionStage<Result> findOne(String id) {
-        Controlador controlador = Controlador.find.byId(UUID.fromString(id));
+    public CompletionStage<Result> findOne(Long id) {
+        Controlador controlador = Controlador.find.byId(id);
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
@@ -58,8 +58,8 @@ public class ControladoresController extends Controller {
     }
 
     @Transactional
-    public CompletionStage<Result> delete(String id) {
-        Controlador controlador = Controlador.find.byId(UUID.fromString(id));
+    public CompletionStage<Result> delete(Long id) {
+        Controlador controlador = Controlador.find.byId(id);
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
@@ -69,11 +69,11 @@ public class ControladoresController extends Controller {
     }
 
     @Transactional
-    public CompletionStage<Result> update(String id) {
+    public CompletionStage<Result> update(Long id) {
         if (request().body() == null) {
             return CompletableFuture.completedFuture(badRequest());
         }
-        Controlador controlador = Controlador.find.byId(UUID.fromString(id));
+        Controlador controlador = Controlador.find.byId(id);
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
         }else{
@@ -83,7 +83,7 @@ public class ControladoresController extends Controller {
             if (!erros.isEmpty()) {
                 return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
             }else{
-                controlador.setId(UUID.fromString(id));
+                controlador.setId(id);
                 controlador.update();
                 return CompletableFuture.completedFuture(ok(Json.toJson(controlador)));
             }

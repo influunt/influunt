@@ -40,7 +40,7 @@ public class AreasControllerTest extends WithApplication {
     @Test
     public void testCriarNovaArea() {
         Area area = new Area();
-        area.setDescricao("CTA 1");
+        area.setDescricao(1);
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
                 .uri(routes.AreasController.create().url()).bodyJson(Json.toJson(area));
@@ -49,14 +49,14 @@ public class AreasControllerTest extends WithApplication {
         Area areaRetornada = Json.fromJson(json, Area.class);
 
         assertEquals(200, postResult.status());
-        assertEquals("CTA 1", areaRetornada.getDescricao());
+        assertEquals(Integer.valueOf(1), areaRetornada.getDescricao());
         assertNotNull(areaRetornada.getId());
     }
 
     @Test
     public void testAtualizarAreaNaoExistente() {
         Area area = new Area();
-        area.setDescricao("CTA 1");
+        area.setDescricao(1);
 
         Http.RequestBuilder putRequest = new Http.RequestBuilder().method("PUT")
                 .uri(routes.AreasController.update(UUID.randomUUID().toString()).url())
@@ -68,14 +68,14 @@ public class AreasControllerTest extends WithApplication {
     @Test
     public void testAtualizarAreaExistente() {
         Area area = new Area();
-        area.setDescricao("CTA 1");
+        area.setDescricao(1);
         area.save();
 
         UUID areaId = area.getId();
         assertNotNull(areaId);
 
         Area novaArea = new Area();
-        novaArea.setDescricao("Teste atualizar");
+        novaArea.setDescricao(1);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
                 .uri(routes.AreasController.update(areaId.toString()).url())
@@ -87,14 +87,14 @@ public class AreasControllerTest extends WithApplication {
         JsonNode json = Json.parse(Helpers.contentAsString(result));
         Area areaRetornada = Json.fromJson(json, Area.class);
 
-        assertEquals("Teste atualizar", areaRetornada.getDescricao());
+        assertEquals(Integer.valueOf(1), areaRetornada.getDescricao());
         assertNotNull(areaRetornada.getId());
     }
 
     @Test
     public void testApagarAreaExistente() {
         Area area = new Area();
-        area.setDescricao("Teste");
+        area.setDescricao(1);
         area.save();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("DELETE")
@@ -116,11 +116,11 @@ public class AreasControllerTest extends WithApplication {
     @Test
     public void testListarAreas() {
         Area area = new Area();
-        area.setDescricao("CTA-1");
+        area.setDescricao(1);
         area.save();
 
         Area area1 = new Area();
-        area1.setDescricao("CTA-2");
+        area1.setDescricao(1);
         area1.save();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
@@ -136,7 +136,7 @@ public class AreasControllerTest extends WithApplication {
     @Test
     public void testBuscarDadosArea() {
         Area area = new Area();
-        area.setDescricao("Teste");
+        area.setDescricao(1);
         area.save();
         UUID areaId = area.getId();
         assertNotNull(areaId);

@@ -3,6 +3,7 @@ package models;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.joda.time.DateTime;
@@ -36,6 +37,10 @@ public class Detector extends Model {
     @ManyToOne
     @JoinColumn(name = "anel_id")
     private Anel anel;
+
+    @ManyToOne
+    @JsonBackReference
+    private Controlador controlador;
 
     @Column
     @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
@@ -72,6 +77,14 @@ public class Detector extends Model {
 
     public void setAnel(Anel anel) {
         this.anel = anel;
+    }
+
+    public Controlador getControlador() {
+        return controlador;
+    }
+
+    public void setControlador(Controlador controlador) {
+        this.controlador = controlador;
     }
 
     public DateTime getDataCriacao() {

@@ -15,7 +15,7 @@ import java.lang.annotation.*;
 @Documented
 public @interface NumeroDeAneisIgualAoModelo {
 
-    String message() default "{foo}";
+    String message() default "O numero de aneis deve ser igual ao numero espeficado no modelo do controlador";
     Class<?>[] groups() default { };
     Class<? extends Payload>[] payload() default { };
 

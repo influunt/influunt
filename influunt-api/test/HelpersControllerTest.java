@@ -43,12 +43,12 @@ public class HelpersControllerTest extends WithApplication {
         bh.save();
 
         Area sul = new Area();
-        sul.setDescricao("Zona Sul");
+        sul.setDescricao(2);
         sul.setCidade(bh);
         sul.save();
 
         Area norte = new Area();
-        norte.setDescricao("Zona Norte");
+        norte.setDescricao(2);
         norte.setCidade(bh);
         norte.save();
 
