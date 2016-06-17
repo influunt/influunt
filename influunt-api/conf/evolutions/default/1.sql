@@ -27,7 +27,7 @@ create table areas (
 
 create table cidades (
   id                            varchar(40) not null,
-  nome                          varchar(255),
+  nome                          varchar(255) not null,
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
   constraint pk_cidades primary key (id)
@@ -48,15 +48,15 @@ create table configuracao_controladores (
 create table controladores (
   id                            varchar(40) not null,
   descricao                     varchar(255),
-  numero_smee                   varchar(255),
-  id_controlador                varchar(255),
+  numero_smee                   varchar(255) not null,
+  id_controlador                varchar(255) not null,
   numero_smeeconjugado1         varchar(255),
   numero_smeeconjugado2         varchar(255),
   numero_smeeconjugado3         varchar(255),
-  firmware                      varchar(255),
-  latitude                      double,
-  longitude                     double,
-  area_id                       varchar(40),
+  firmware                      varchar(255) not null,
+  latitude                      double not null,
+  longitude                     double not null,
+  area_id                       varchar(40) not null,
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
   constraint pk_controladores primary key (id)
