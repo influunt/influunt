@@ -242,7 +242,49 @@ angular
             title: 'fabricantes.titulo'
           }
         })
+				
+        // Crud Configuracao Controladores.
+        .state('app.configuracoes_controladores', {
+          url: '/configuracoes_controladores',
+          templateUrl: 'views/configuracoes_controladores/index.html',
+          controller: 'ConfiguracaoControladoresCtrl',
+          controllerAs: 'configuracoes_controladores',
+          data: {
+            title: 'configuracoes_controladores.titulo'
+          }
+        })
 
+        .state('app.configuracoes_controladores_new', {
+          url: '/configuracoes_controladores/new',
+          templateUrl: 'views/configuracoes_controladores/new.html',
+          controller: 'ConfiguracaoControladoresCtrl',
+          controllerAs: 'configuracoes_controladores',
+          data: {
+            title: 'configuracoes_controladores.titulo'
+          }
+        })
+
+        .state('app.configuracoes_controladores_edit', {
+          url: '/configuracoes_controladores/:id/edit',
+          templateUrl: 'views/configuracoes_controladores/edit.html',
+          controller: 'ConfiguracaoControladoresCtrl',
+          controllerAs: 'configuracoes_controladores',
+          data: {
+            title: 'configuracoes_controladores.titulo'
+          }
+        })
+
+        .state('app.configuracoes_controladores_show', {
+          url: '/configuracoes_controladores/:id',
+          templateUrl: 'views/configuracoes_controladores/show.html',
+          controller: 'ConfiguracaoControladoresCtrl',
+          controllerAs: 'configuracoes_controladores',
+          data: {
+            title: 'configuracoes_controladores.titulo'
+          }
+        })
+
+				// Dados
         .state('app.dados', {
           url: '/dados',
           templateUrl: 'views/dados.html',

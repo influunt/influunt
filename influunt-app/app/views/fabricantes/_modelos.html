@@ -10,7 +10,7 @@
       <label class="control-label col-sm-2 control-label">{{ 'modeloControladores.configuracao' | translate }}</label>
       <div class="col-sm-7">
         <select name="configuracao" class="form-control"
-          data-ng-options="configuracao as configuracao.id for configuracao in configuracoes"
+          data-ng-options="configuracao as configuracao.descricao for configuracao in configuracoes"
           data-ng-model="modelo.configuracao"></select>
       </div>
       <div class="col-md-2">

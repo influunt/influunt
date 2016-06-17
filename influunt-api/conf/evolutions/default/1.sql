@@ -35,6 +35,7 @@ create table cidades (
 
 create table configuracao_controladores (
   id                            varchar(40) not null,
+  descricao                     varchar(255),
   limite_estagio                integer,
   limite_grupo_semaforico       integer,
   limite_anel                   integer,

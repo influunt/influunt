@@ -7,13 +7,21 @@
     "descricao": "DESCRIÇÃO",
     "novo": "Nova Área",
     "titulo": "Áreas"
-  },
-	
+  },	
   "cidades": {
     "areas": "ÁREAS",
     "nome": "NOME",
     "novo": "Nova Cidade",
     "titulo": "Cidades"
+  },
+  "configuracoes_controladores": {
+		"descricao": "DESCRIÇÃO",
+    "limiteEstagio": "LIMITE ESTÁGIOS",
+    "limiteGrupoSemaforico": "LIMITE GRUPOS SEMAFÓRICOS",
+    "limiteAnel": "LIMITE ANEIS",
+    "limiteDetectorPedestre": "LIMITE DETECTORES PEDESTRE",
+    "limiteDetectorVeicular": "LIMITE DETECTORES VEICULARES",
+		"titulo": "Configurações de Controladores"
   },
   "controladores": {
     "area": "ÁREA",
