@@ -4,50 +4,50 @@
 # --- !Ups
 
 create table aneis (
-  id                            varchar(40) not null,
+  id                            uuid not null,
   descricao                     varchar(255),
   id_anel                       varchar(255),
   numero_smee                   varchar(255),
   latitude                      double,
   longitude                     double,
-  controlador_id                varchar(40),
-  data_criacao                  datetime(6) not null,
-  data_atualizacao              datetime(6) not null,
+  controlador_id                uuid,
+  data_criacao                  timestamp not null,
+  data_atualizacao              timestamp not null,
   constraint pk_aneis primary key (id)
 );
 
 create table areas (
-  id                            varchar(40) not null,
+  id                            uuid not null,
   descricao                     varchar(255),
-  cidade_id                     varchar(40),
-  data_criacao                  datetime(6) not null,
-  data_atualizacao              datetime(6) not null,
+  cidade_id                     uuid,
+  data_criacao                  timestamp not null,
+  data_atualizacao              timestamp not null,
   constraint pk_areas primary key (id)
 );
 
 create table cidades (
-  id                            varchar(40) not null,
+  id                            uuid not null,
   nome                          varchar(255) not null,
-  data_criacao                  datetime(6) not null,
-  data_atualizacao              datetime(6) not null,
+  data_criacao                  timestamp not null,
+  data_atualizacao              timestamp not null,
   constraint pk_cidades primary key (id)
 );
 
 create table configuracao_controladores (
-  id                            varchar(40) not null,
+  id                            uuid not null,
   descricao                     varchar(255),
   limite_estagio                integer,
   limite_grupo_semaforico       integer,
   limite_anel                   integer,
   limite_detector_pedestre      integer,
   limite_detector_veicular      integer,
-  data_criacao                  datetime(6) not null,
-  data_atualizacao              datetime(6) not null,
+  data_criacao                  timestamp not null,
+  data_atualizacao              timestamp not null,
   constraint pk_configuracao_controladores primary key (id)
 );
 
 create table controladores (
-  id                            varchar(40) not null,
+  id                            uuid not null,
   descricao                     varchar(255),
   numero_smee                   varchar(255) not null,
   id_controlador                varchar(255) not null,
@@ -57,82 +57,91 @@ create table controladores (
   firmware                      varchar(255) not null,
   latitude                      double not null,
   longitude                     double not null,
-  area_id                       varchar(40) not null,
-  data_criacao                  datetime(6) not null,
-  data_atualizacao              datetime(6) not null,
+  area_id                       uuid not null,
+  data_criacao                  timestamp not null,
+  data_atualizacao              timestamp not null,
   constraint pk_controladores primary key (id)
 );
 
 create table detectores (
-  id                            varchar(40) not null,
-  tipo_detector_id              varchar(40),
-  anel_id                       varchar(40),
-  data_criacao                  datetime(6) not null,
-  data_atualizacao              datetime(6) not null,
+  id                            uuid not null,
+  tipo_detector_id              uuid,
+  anel_id                       uuid,
+  data_criacao                  timestamp not null,
+  data_atualizacao              timestamp not null,
   constraint pk_detectores primary key (id)
 );
 
 create table fabricantes (
-  id                            varchar(40) not null,
+  id                            uuid not null,
   nome                          varchar(255),
-  data_criacao                  datetime(6) not null,
-  data_atualizacao              datetime(6) not null,
+  data_criacao                  timestamp not null,
+  data_atualizacao              timestamp not null,
   constraint pk_fabricantes primary key (id)
 );
 
 create table grupos_semaforicos (
-  id                            varchar(40) not null,
-  tipo_id                       varchar(40),
-  anel_id                       varchar(40),
-  controlador_id                varchar(40),
-  grupo_conflito_id             varchar(40),
-  data_criacao                  datetime(6) not null,
-  data_atualizacao              datetime(6) not null,
+  id                            uuid not null,
+  tipo_id                       uuid,
+  anel_id                       uuid,
+  controlador_id                uuid,
+  grupo_conflito_id             uuid,
+  data_criacao                  timestamp not null,
+  data_atualizacao              timestamp not null,
   constraint pk_grupos_semaforicos primary key (id)
 );
 
+create table imagens (
+  id                            uuid not null,
+  filename                      varchar(255),
+  content_type                  varchar(255),
+  data_criacao                  timestamp not null,
+  data_atualizacao              timestamp not null,
+  constraint pk_imagens primary key (id)
+);
+
 create table limite_area (
-  id                            varchar(40) not null,
+  id                            uuid not null,
   latitude                      double,
   longitude                     double,
-  area_id                       varchar(40),
-  data_criacao                  datetime(6) not null,
-  data_atualizacao              datetime(6) not null,
+  area_id                       uuid,
+  data_criacao                  timestamp not null,
+  data_atualizacao              timestamp not null,
   constraint pk_limite_area primary key (id)
 );
 
 create table modelo_controladores (
-  id                            varchar(40) not null,
-  fabricante_id                 varchar(40),
-  configuracao_id               varchar(40),
+  id                            uuid not null,
+  fabricante_id                 uuid,
+  configuracao_id               uuid,
   descricao                     varchar(255),
-  data_criacao                  datetime(6) not null,
-  data_atualizacao              datetime(6) not null,
+  data_criacao                  timestamp not null,
+  data_atualizacao              timestamp not null,
   constraint pk_modelo_controladores primary key (id)
 );
 
 create table movimentos (
-  id                            varchar(40) not null,
+  id                            uuid not null,
   descricao                     varchar(255),
-  anel_id                       varchar(40),
-  data_criacao                  datetime(6) not null,
-  data_atualizacao              datetime(6) not null,
+  anel_id                       uuid,
+  data_criacao                  timestamp not null,
+  data_atualizacao              timestamp not null,
   constraint pk_movimentos primary key (id)
 );
 
 create table tipos_detectores (
-  id                            varchar(40) not null,
+  id                            uuid not null,
   descricao                     varchar(255),
-  data_criacao                  datetime(6) not null,
-  data_atualizacao              datetime(6) not null,
+  data_criacao                  timestamp not null,
+  data_atualizacao              timestamp not null,
   constraint pk_tipos_detectores primary key (id)
 );
 
 create table tipo_grupo_semaforicos (
-  id                            varchar(40) not null,
+  id                            uuid not null,
   descricao                     varchar(255),
-  data_criacao                  datetime(6) not null,
-  data_atualizacao              datetime(6) not null,
+  data_criacao                  timestamp not null,
+  data_atualizacao              timestamp not null,
   constraint pk_tipo_grupo_semaforicos primary key (id)
 );
 
@@ -178,44 +187,44 @@ create index ix_movimentos_anel_id on movimentos (anel_id);
 
 # --- !Downs
 
-alter table aneis drop foreign key fk_aneis_controlador_id;
-drop index ix_aneis_controlador_id on aneis;
+alter table aneis drop constraint if exists fk_aneis_controlador_id;
+drop index if exists ix_aneis_controlador_id;
 
-alter table areas drop foreign key fk_areas_cidade_id;
-drop index ix_areas_cidade_id on areas;
+alter table areas drop constraint if exists fk_areas_cidade_id;
+drop index if exists ix_areas_cidade_id;
 
-alter table controladores drop foreign key fk_controladores_area_id;
-drop index ix_controladores_area_id on controladores;
+alter table controladores drop constraint if exists fk_controladores_area_id;
+drop index if exists ix_controladores_area_id;
 
-alter table detectores drop foreign key fk_detectores_tipo_detector_id;
-drop index ix_detectores_tipo_detector_id on detectores;
+alter table detectores drop constraint if exists fk_detectores_tipo_detector_id;
+drop index if exists ix_detectores_tipo_detector_id;
 
-alter table detectores drop foreign key fk_detectores_anel_id;
-drop index ix_detectores_anel_id on detectores;
+alter table detectores drop constraint if exists fk_detectores_anel_id;
+drop index if exists ix_detectores_anel_id;
 
-alter table grupos_semaforicos drop foreign key fk_grupos_semaforicos_tipo_id;
-drop index ix_grupos_semaforicos_tipo_id on grupos_semaforicos;
+alter table grupos_semaforicos drop constraint if exists fk_grupos_semaforicos_tipo_id;
+drop index if exists ix_grupos_semaforicos_tipo_id;
 
-alter table grupos_semaforicos drop foreign key fk_grupos_semaforicos_anel_id;
-drop index ix_grupos_semaforicos_anel_id on grupos_semaforicos;
+alter table grupos_semaforicos drop constraint if exists fk_grupos_semaforicos_anel_id;
+drop index if exists ix_grupos_semaforicos_anel_id;
 
-alter table grupos_semaforicos drop foreign key fk_grupos_semaforicos_controlador_id;
-drop index ix_grupos_semaforicos_controlador_id on grupos_semaforicos;
+alter table grupos_semaforicos drop constraint if exists fk_grupos_semaforicos_controlador_id;
+drop index if exists ix_grupos_semaforicos_controlador_id;
 
-alter table grupos_semaforicos drop foreign key fk_grupos_semaforicos_grupo_conflito_id;
-drop index ix_grupos_semaforicos_grupo_conflito_id on grupos_semaforicos;
+alter table grupos_semaforicos drop constraint if exists fk_grupos_semaforicos_grupo_conflito_id;
+drop index if exists ix_grupos_semaforicos_grupo_conflito_id;
 
-alter table limite_area drop foreign key fk_limite_area_area_id;
-drop index ix_limite_area_area_id on limite_area;
+alter table limite_area drop constraint if exists fk_limite_area_area_id;
+drop index if exists ix_limite_area_area_id;
 
-alter table modelo_controladores drop foreign key fk_modelo_controladores_fabricante_id;
-drop index ix_modelo_controladores_fabricante_id on modelo_controladores;
+alter table modelo_controladores drop constraint if exists fk_modelo_controladores_fabricante_id;
+drop index if exists ix_modelo_controladores_fabricante_id;
 
-alter table modelo_controladores drop foreign key fk_modelo_controladores_configuracao_id;
-drop index ix_modelo_controladores_configuracao_id on modelo_controladores;
+alter table modelo_controladores drop constraint if exists fk_modelo_controladores_configuracao_id;
+drop index if exists ix_modelo_controladores_configuracao_id;
 
-alter table movimentos drop foreign key fk_movimentos_anel_id;
-drop index ix_movimentos_anel_id on movimentos;
+alter table movimentos drop constraint if exists fk_movimentos_anel_id;
+drop index if exists ix_movimentos_anel_id;
 
 drop table if exists aneis;
 
@@ -232,6 +241,8 @@ drop table if exists detectores;
 drop table if exists fabricantes;
 
 drop table if exists grupos_semaforicos;
+
+drop table if exists imagens;
 
 drop table if exists limite_area;
 

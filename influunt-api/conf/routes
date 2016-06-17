@@ -72,6 +72,10 @@ PUT         /api/v1/aneis/:id                           controllers.AneisControl
 GET         /api/v1/aneis/:id                           controllers.AneisController.findOne(id)
 DELETE      /api/v1/aneis/:id                           controllers.AneisController.delete(id)
 
+# Imagens
+POST        /api/v1/imagens                             controllers.ImagensController.create()
+GET         /api/v1/imagens/:id                         controllers.ImagensController.findOne(id)
+
 
 #View Helpers
 GET        /api/v1/helpers/controlador                  controllers.HelpersController.controladorHelper()
