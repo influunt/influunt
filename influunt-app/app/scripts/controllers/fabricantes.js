@@ -26,7 +26,7 @@ angular.module('influuntApp')
       };
 
       /**
-       * Remove um formulario de moelo da lista de modelos do fabricante.
+       * Remove um formulario de modelo da lista de modelos do fabricante.
        *
        * @param      {integer}  index   The index
        */
