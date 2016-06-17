@@ -11,6 +11,8 @@ import models.GrupoSemaforico;
 import models.Movimento;
 import org.junit.Assert;
 import org.junit.Test;
+import play.Logger;
+import play.libs.Json;
 
 import javax.validation.groups.Default;
 import java.util.Arrays;
@@ -23,7 +25,7 @@ public class ControladorVerdesConflitantesTest extends ControladorTest {
 
 
     @Test
-    public void testSalvarUpdateControladorComAnelValido() {
+    public void testSalvarUpdateControladorComAssociacaoValida() {
         Controlador controlador = getControladorComAssociacao();
 
         List<InfluuntValidator.Erro> erros = new InfluuntValidator<Controlador>().validate(controlador,
@@ -60,10 +62,21 @@ public class ControladorVerdesConflitantesTest extends ControladorTest {
         imprimeErros(erros);
 
         Assert.assertEquals(6, erros.size());
-
-
-
     }
+
+    @Test
+    public void testSalvarUpdateControladorComVerderConflitantes() {
+        Controlador controlador = getControladorComVerdesConflitantes();
+
+        List<InfluuntValidator.Erro> erros = new InfluuntValidator<Controlador>().validate(controlador,
+                Default.class,
+                ControladorAneisCheck.class,
+                ControladorAssociacaoGruposSemaforicosCheck.class,
+                ControladorVerdesConflitantesCheck.class);
+        imprimeErros(erros);
+        Assert.assertEquals(0, erros.size());
+    }
+
 
 
 }

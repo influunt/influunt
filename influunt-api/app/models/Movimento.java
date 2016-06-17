@@ -3,6 +3,7 @@ package models;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.joda.time.DateTime;
@@ -39,6 +40,7 @@ public class Movimento extends Model {
     private Anel anel;
 
     @OneToOne(mappedBy = "movimento", cascade = CascadeType.ALL)
+    @JsonManagedReference
     @Valid
     private Estagio estagio;
 

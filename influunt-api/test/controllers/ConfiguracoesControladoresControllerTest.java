@@ -1,3 +1,5 @@
+package controllers;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import controllers.routes;
 import models.ConfiguracaoControlador;
@@ -36,8 +38,7 @@ public class ConfiguracoesControladoresControllerTest extends WithApplication {
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     private Application getApplication(Map configuration) {
-        return new GuiceApplicationBuilder().configure(configuration)
-                .overrides(bind(Authenticator.class).to(TestAuthenticator.class)).in(Mode.TEST).build();
+        return new GuiceApplicationBuilder().configure(configuration).in(Mode.TEST).build();
     }
 
     @Test

@@ -4,6 +4,10 @@ import checks.ControladorAssociacaoGruposSemaforicosCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.joda.time.DateTime;
@@ -22,6 +26,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "estagios_grupos_semaforicos")
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class EstagioGrupoSemaforico extends Model {
 
     private static final long serialVersionUID = 5983122994022833262L;
@@ -101,6 +106,7 @@ public class EstagioGrupoSemaforico extends Model {
         this.dataAtualizacao = dataAtualizacao;
     }
 
+    @JsonIgnore
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class)
     public boolean isTipoGrupoSemaforicoOk(){
         if(this.grupoSemaforico != null){

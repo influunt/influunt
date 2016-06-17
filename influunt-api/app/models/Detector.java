@@ -30,8 +30,8 @@ public class Detector extends Model {
     @Id
     private UUID id;
 
-    @ManyToOne
-    @JoinColumn(name = "tipo_detector_id")
+    @Column
+    @Enumerated(EnumType.STRING)
     private TipoDetector tipo;
 
     @ManyToOne

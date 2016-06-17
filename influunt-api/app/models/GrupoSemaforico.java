@@ -5,7 +5,7 @@ import checks.ControladorVerdesConflitantesCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.joda.time.DateTime;
@@ -26,14 +26,16 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "grupos_semaforicos")
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class GrupoSemaforico extends Model {
-
+    public static Finder<UUID, GrupoSemaforico> find = new Finder<UUID, GrupoSemaforico>(GrupoSemaforico.class);
     private static final long serialVersionUID = 7439393568357903233L;
 
     @Id
     private UUID id;
 
-    @ManyToOne
+
+    @Enumerated(EnumType.STRING)
     private TipoGrupoSemaforico tipo;
 
     @ManyToOne
@@ -41,6 +43,7 @@ public class GrupoSemaforico extends Model {
     private Anel anel;
 
     @OneToMany
+    @JoinColumn(name = "grupo_semaforico_id")
     @Valid
     private List<EstagioGrupoSemaforico> estagioGrupoSemaforicos;
 
@@ -48,10 +51,10 @@ public class GrupoSemaforico extends Model {
     @JsonBackReference
     private Controlador controlador;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private GrupoSemaforico grupoConflito;
 
-    @OneToMany(mappedBy = "grupoConflito")
+    @OneToMany(mappedBy = "grupoConflito", cascade = CascadeType.ALL)
     private List<GrupoSemaforico> verdesConflitantes;
 
     @Column
@@ -138,6 +141,7 @@ public class GrupoSemaforico extends Model {
         this.dataAtualizacao = dataAtualizacao;
     }
 
+    @JsonIgnore
     @AssertTrue(groups = ControladorVerdesConflitantesCheck.class, message = "Esse grupo deve ter ao menos um verde conflitante")
     public boolean isAoMenosUmVerdeConflitante(){
         if(this.getAnel().isAtivo() && this.getEstagioGrupoSemaforicos() != null && !this.getEstagioGrupoSemaforicos().isEmpty() ){
@@ -147,6 +151,7 @@ public class GrupoSemaforico extends Model {
         }
     }
 
+    @JsonIgnore
     @AssertTrue(groups = ControladorVerdesConflitantesCheck.class, message = "Esse grupo semafórico não pode ter verde conflitante com ele mesmo")
     public boolean isNaoConflitaComEleMesmo(){
         if(this.getVerdesConflitantes() != null && !this.getVerdesConflitantes().isEmpty()){
@@ -156,6 +161,7 @@ public class GrupoSemaforico extends Model {
         }
     }
 
+    @JsonIgnore
     @AssertTrue(groups = ControladorVerdesConflitantesCheck.class, message = "Esse grupo semafórico não pode ter verde conflitante com grupos de outro anel")
     public boolean isNaoConflitaComGruposDeOutroAnel(){
         if(this.getVerdesConflitantes() != null && !this.getVerdesConflitantes().isEmpty()){

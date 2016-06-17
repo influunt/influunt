@@ -9,6 +9,7 @@ import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -253,16 +254,19 @@ public class Anel extends Model {
         return String.format("%s-%d", this.controlador.getIdControlador(), this.posicao);
     }
 
+    @JsonIgnore
     @AssertTrue(message = "Posicao deve ser informada")
     public boolean isPosicaoOk() {
         return !this.ativo || this.posicao != null;
     }
 
+    @JsonIgnore
     @AssertTrue(message = "Latitude deve ser informada")
     public boolean isLatitudeOk() {
         return !this.ativo || this.latitude != null;
     }
 
+    @JsonIgnore
     @AssertTrue(message = "Longitude deve ser informada")
     public boolean isLongitudeOk() {
         return !this.ativo || this.longitude != null;
@@ -323,6 +327,7 @@ public class Anel extends Model {
         }
     }
 
+    @JsonIgnore
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
                 message = "Quantidade de grupos semáforicos de pedestre diferente do definido no anel")
     public boolean isCheckQuantidadeGruposSemaforicosDePedestre() {
@@ -334,6 +339,7 @@ public class Anel extends Model {
         }
     }
 
+    @JsonIgnore
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
                 message = "Quantidade de grupos semáforicos veiculares diferente do definido no anel")
     public boolean isCheckQuantidadeGruposSemaforicosVeiculares() {

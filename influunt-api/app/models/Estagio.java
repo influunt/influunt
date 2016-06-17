@@ -4,6 +4,7 @@ import checks.ControladorAssociacaoGruposSemaforicosCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.joda.time.DateTime;
@@ -24,6 +25,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "estagios")
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Estagio extends Model {
 
     private static final long serialVersionUID = 5984122994022833262L;
@@ -45,9 +47,11 @@ public class Estagio extends Model {
     private Boolean demandaPrioritaria = false;
 
     @OneToOne
+    @JsonBackReference
     private Movimento movimento;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
+    @JoinColumn(name = "estagio_id")
     @Valid
     private List<EstagioGrupoSemaforico> estagiosGruposSemaforicos;
 
@@ -136,6 +140,7 @@ public class Estagio extends Model {
         this.dataAtualizacao = dataAtualizacao;
     }
 
+    @JsonIgnore
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
             message = "Este estágio deve ser associado a pelo menos 1 grupo semafórico"
     )

@@ -17,11 +17,13 @@ GET         /api/v1/areas/:id                           controllers.AreasControl
 DELETE      /api/v1/areas/:id                           controllers.AreasController.delete(id)
 
 # Controladores
-GET         /api/v1/controladores                       controllers.ControladoresController.findAll()
-POST        /api/v1/controladores         	            controllers.ControladoresController.create()
-PUT         /api/v1/controladores/:id                   controllers.ControladoresController.update(id: Long)
-GET         /api/v1/controladores/:id                   controllers.ControladoresController.findOne(id: Long)
-DELETE      /api/v1/controladores/:id                   controllers.ControladoresController.delete(id: Long)
+GET         /api/v1/controladores                               controllers.ControladoresController.findAll()
+POST        /api/v1/controladores/dados_basicos                 controllers.ControladoresController.dadosBasicos()
+POST        /api/v1/controladores/aneis        	                controllers.ControladoresController.aneis()
+POST        /api/v1/controladores/associacaoGruposSemaforicos   controllers.ControladoresController.associacaoGruposSemaforicos()
+POST        /api/v1/controladores/verdesConflitantes         	controllers.ControladoresController.verdesConflitantes()
+GET         /api/v1/controladores/:id                           controllers.ControladoresController.findOne(id: Long)
+DELETE      /api/v1/controladores/:id                           controllers.ControladoresController.delete(id: Long)
 
 # Fabricantes
 GET         /api/v1/fabricantes                         controllers.FabricantesController.findAll()

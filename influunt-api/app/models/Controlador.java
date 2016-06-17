@@ -37,6 +37,7 @@ public class Controlador extends Model {
     public static Finder<Long, Controlador> find = new Finder<Long, Controlador>(Controlador.class);
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column
