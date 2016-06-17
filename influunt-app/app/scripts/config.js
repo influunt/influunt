@@ -201,6 +201,47 @@ angular
             title: 'tipos_detectores.titulo'
           }
         })
+				
+        // Crud Fabricantes.
+        .state('app.fabricantes', {
+          url: '/fabricantes',
+          templateUrl: 'views/fabricantes/index.html',
+          controller: 'FabricantesCtrl',
+          controllerAs: 'fabricantes',
+          data: {
+            title: 'fabricantes.titulo'
+          }
+        })
+
+        .state('app.fabricantes_new', {
+          url: '/fabricantes/new',
+          templateUrl: 'views/fabricantes/new.html',
+          controller: 'FabricantesCtrl',
+          controllerAs: 'fabricantes',
+          data: {
+            title: 'fabricantes.titulo'
+          }
+        })
+
+        .state('app.fabricantes_edit', {
+          url: '/fabricantes/:id/edit',
+          templateUrl: 'views/fabricantes/edit.html',
+          controller: 'FabricantesCtrl',
+          controllerAs: 'fabricantes',
+          data: {
+            title: 'fabricantes.titulo'
+          }
+        })
+
+        .state('app.fabricantes_show', {
+          url: '/fabricantes/:id',
+          templateUrl: 'views/fabricantes/show.html',
+          controller: 'FabricantesCtrl',
+          controllerAs: 'fabricantes',
+          data: {
+            title: 'fabricantes.titulo'
+          }
+        })
 
         .state('app.dados', {
           url: '/dados',

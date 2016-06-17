@@ -8,6 +8,7 @@
     "novo": "Nova Área",
     "titulo": "Áreas"
   },
+	
   "cidades": {
     "areas": "ÁREAS",
     "nome": "NOME",
@@ -32,6 +33,18 @@
     "latitude": "LATITUDE",
     "longitude": "LONGITUDE"
   },
+  "fabricantes": {
+    "adicionar_modelo_controlador": "adicionar modelo controlador",
+    "fabricante": "FABRICANTE",
+		"modelo": "MODELO CONTROLADOR",
+    "nome": "NOME",
+    "novo": "Novo Fabricante",
+    "titulo": "Fabricantes"
+  },
+	"modeloControladores": {
+		"descricao": "DESCRIÇÃO",
+		"configuracao": "CONFIGURAÇÃO CONTROLADOR"
+	},
   "tipos_detectores": {
     "descricao": "DESCRIÇÃO",
     "novo": "Novo Tipo de Detector",

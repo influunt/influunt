@@ -381,6 +381,10 @@ header .nav-secon li a {
      background: black;
 }
 
+.margin-left-2 {
+	margin-left: 2px;
+}
+
 #my-awesome-dropzone .dz-default.dz-message:last-child {
 
 }
