@@ -88,9 +88,11 @@ var paths = {
 var templateCache = function() {
   var TEMPLATE_HEADER = 'angular.module("<%= module %>"<%= standalone %>).run(["$templateCache", function($templateCache) {';
   var useStrictTemplate = '\'use strict\';';
+
   return gulp.src(paths.views.files)
     .pipe(angularTemplateCache({
-      root: 'views', standalone: true,
+      root: 'views',
+      standalone: true,
       templateHeader: useStrictTemplate + '\n\n' + TEMPLATE_HEADER
     }))
     .pipe(concat('templates.js'))

@@ -5,3 +5,13 @@
 li.anel-selecionado {
   background-color: #6fd1bd;
 }
+
+i.sinal-verde-conflitante {
+  display: none;
+  color: #ED5766;
+  font-size: 20px;
+}
+
+i.sinal-verde-conflitante.ativo {
+  display: block;
+}

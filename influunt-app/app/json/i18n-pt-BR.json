@@ -39,6 +39,7 @@
       "totalDetectorVeicular": "Total de <strong>detectores veicular</strong> maior que a quantidade máxima suportada pelo controlador",
       "totalGruposSemaforicos": "Total de <strong>grupos semafóricos</strong> maior que a quantidade máxima suportada pelo controlador"
     },
+    "verdes_conflitantes": "Verdes Conflitantes",
     "versaoFirmware": "Versão do Firmware"
   },
   "areas": {

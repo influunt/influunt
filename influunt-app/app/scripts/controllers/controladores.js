@@ -142,4 +142,35 @@ angular.module('influuntApp')
         $scope.filtroLateral = {};
         $scope.index();
       };
+
+      $scope.inicializaVerdesConflitantes = function() {
+        $scope.aneis = [{"checked": true,"id_anel": "1234567-1","grupos_pedestres": 12,"grupos_sinais_veiculares": 1,"numero_detectores": null,"numero_detectores_pedestres": null,"descricao": "sdfd","numero_smee": null,"latitude": 123,"longitude": 123,"valid": {"form": true,"required": {"descricao": true,"latitude": true,"longitude": true},"totalGruposSemaforicos": true,"totalDetectorVeicular": true,"totalDetectorPedestres": true},"$$hashKey": "object:7","grupos_semaforicos": [{"attr1": "value_1"},{"attr1": "value_1"},{"attr1": "value_1"},{"attr1": "value_1"}]},{"checked": true,"id_anel": "1234567-2","grupos_pedestres": 1,"grupos_sinais_veiculares": null,"numero_detectores": null,"numero_detectores_pedestres": null,"descricao": "1231","numero_smee": null,"latitude": 123,"longitude": 123,"valid": {"form": true,"required": {"descricao": true,"latitude": true,"longitude": true}},"grupos_semaforicos": [{"attr1": "value_1"},{"attr1": "value_1"}]},{"checked": true,"id_anel": "1234567-2","grupos_pedestres": 1,"grupos_sinais_veiculares": null,"numero_detectores": null,"numero_detectores_pedestres": null,"descricao": "1231","numero_smee": null,"latitude": 123,"longitude": 123,"valid": {"form": true,"required": {"descricao": true,"latitude": true,"longitude": true}},"grupos_semaforicos": [{"attr1": "value_1"},{"attr1": "value_1"}]},{"checked": true,"id_anel": "1234567-2","grupos_pedestres": 1,"grupos_sinais_veiculares": null,"numero_detectores": null,"numero_detectores_pedestres": null,"descricao": "1231","numero_smee": null,"latitude": 123,"longitude": 123,"valid": {"form": true,"required": {"descricao": true,"latitude": true,"longitude": true}},"grupos_semaforicos": [{"attr1": "value_1"},{"attr1": "value_1"}]}];
+        $scope.grupos = _.times(16, function(i) {return 'G' + (i+1);});
+
+        var aneis = _.filter($scope.aneis, {checked: true});
+        var somador = 0;
+        $scope.intervalosAneis = aneis.map(function(anel) {
+          somador += anel.grupos_semaforicos.length;
+          return somador;
+        });
+        $scope.intervalosAneis.unshift(0);
+        $scope.gruposUtilizados = $scope.intervalosAneis[$scope.intervalosAneis.length - 1];
+
+        $scope.verdesConflitantes = [];
+        for (var i = 0; i < $scope.grupos.length; i++) {
+          for (var j = 0; j < $scope.grupos.length; j++) {
+            $scope.verdesConflitantes[i] = $scope.verdesConflitantes[i] || [];
+            $scope.verdesConflitantes[i][j] = false;
+          }
+        }
+      };
+
+      $scope.toggleVerdeConflitante = function(x, y, disabled) {
+        if (disabled) {
+          return false;
+        }
+
+        $scope.verdesConflitantes[x][y] = !$scope.verdesConflitantes[x][y];
+      };
+
     }]);
