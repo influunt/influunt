@@ -20,8 +20,8 @@ DELETE      /api/v1/areas/:id                           controllers.AreasControl
 GET         /api/v1/controladores                               controllers.ControladoresController.findAll()
 POST        /api/v1/controladores/dados_basicos                 controllers.ControladoresController.dadosBasicos()
 POST        /api/v1/controladores/aneis        	                controllers.ControladoresController.aneis()
-POST        /api/v1/controladores/associacaoGruposSemaforicos   controllers.ControladoresController.associacaoGruposSemaforicos()
-POST        /api/v1/controladores/verdesConflitantes         	controllers.ControladoresController.verdesConflitantes()
+POST        /api/v1/controladores/associacao_grupos_semaforicos   controllers.ControladoresController.associacaoGruposSemaforicos()
+POST        /api/v1/controladores/verdes_conflitantes         	controllers.ControladoresController.verdesConflitantes()
 GET         /api/v1/controladores/:id                           controllers.ControladoresController.findOne(id: Long)
 DELETE      /api/v1/controladores/:id                           controllers.ControladoresController.delete(id: Long)
 

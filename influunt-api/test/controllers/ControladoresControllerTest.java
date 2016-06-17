@@ -86,13 +86,14 @@ public class ControladoresControllerTest extends WithApplication {
     @Test
     public void testCriarNovoControladorAneis() {
         Controlador controlador = ControladorFixture.getControladorComAneis();
-
+        Logger.debug("IDA:" + Json.toJson(controlador).toString());
         Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
                 .uri(routes.ControladoresController.aneis().url()).bodyJson(Json.toJson(controlador));
 
         Result result = route(request);
         assertEquals(OK, result.status());
         JsonNode json  = Json.parse(Helpers.contentAsString(result));
+        Logger.debug("Volta:" + json.toString());
         Controlador controladorRetornado = Json.fromJson(json,Controlador.class);
         Assert.assertNotNull(controladorRetornado.getId());
     }
@@ -112,14 +113,14 @@ public class ControladoresControllerTest extends WithApplication {
     @Test
     public void testCriarNovoControladorAssociacao() {
         Controlador controlador = ControladorFixture.getControladorComAssociacao();
-
+        Logger.debug("IDA:" + Json.toJson(controlador).toString());
         Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
                 .uri(routes.ControladoresController.associacaoGruposSemaforicos().url()).bodyJson(Json.toJson(controlador));
 
         Result result = route(request);
         assertEquals(OK, result.status());
         JsonNode json  = Json.parse(Helpers.contentAsString(result));
-        Logger.debug(json.toString());
+        Logger.debug("Volta:" + json.toString());
         Controlador controladorRetornado = Json.fromJson(json,Controlador.class);
         Assert.assertNotNull(controladorRetornado.getId());
     }
@@ -142,14 +143,14 @@ public class ControladoresControllerTest extends WithApplication {
     @Test
     public void testCriarNovoControladorVerdesConflitantes() {
         Controlador controlador = ControladorFixture.getControladorComVerdesConflitantes();
-
+        Logger.debug("IDA:" + Json.toJson(controlador).toString());
         Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
                 .uri(routes.ControladoresController.verdesConflitantes().url()).bodyJson(Json.toJson(controlador));
 
         Result result = route(request);
 //        assertEquals(OK, result.status());
         JsonNode json  = Json.parse(Helpers.contentAsString(result));
-        System.out.println(json.toString());
+        Logger.debug("Volta:" + json.toString());
         Controlador controladorRetornado = Json.fromJson(json,Controlador.class);
         Assert.assertNotNull(controladorRetornado.getId());
     }
