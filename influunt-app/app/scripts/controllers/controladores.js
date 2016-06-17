@@ -43,12 +43,12 @@ angular.module('influuntApp')
        * nos filtros à esquerda.
        */
       $scope.filtrarControlador = function(controlador) {
-        if ($scope.filtro_lateral[controlador.id]) {
+        if ($scope.filtroLateral[controlador.id]) {
           return true;
         }
 
-        for (var controlador_id in $scope.filtro_lateral) {
-          if ($scope.filtro_lateral[controlador_id]) {
+        for (var controlador_id in $scope.filtroLateral) {
+          if ($scope.filtroLateral[controlador_id]) {
             return false;
           }
         }
@@ -57,7 +57,7 @@ angular.module('influuntApp')
 
       $scope.inicializa_index = function(){
         $scope.filtros = {};
-        $scope.filtro_lateral = {};
+        $scope.filtroLateral = {};
         $scope.index();
       };
     }]);
