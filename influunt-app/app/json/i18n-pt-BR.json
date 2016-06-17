@@ -49,9 +49,11 @@
     "novo": "Novo Fabricante",
     "titulo": "Fabricantes"
   },
-	"modeloControladores": {
+	"modelos_controladores": {
 		"descricao": "DESCRIÇÃO",
-		"configuracao": "CONFIGURAÇÃO CONTROLADOR"
+		"fabricante": "FABRICANTE",
+		"configuracao": "CONFIGURAÇÃO CONTROLADOR",
+		"titulo": "Modelo de Controladores"
 	},
   "tipos_detectores": {
     "descricao": "DESCRIÇÃO",
