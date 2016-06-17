@@ -25,7 +25,7 @@ parallelExecution in jacoco.Config := false
 jacoco.reportFormats in jacoco.Config := Seq(
   de.johoop.jacoco4sbt.XMLReport(encoding = "utf-8"))
 
-  
+
 fork in run := false
 
 fork in Test := false
