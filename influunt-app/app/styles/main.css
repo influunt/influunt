@@ -2,3 +2,6 @@
 @import url(./influunt.css);
 @import url(./animate.css);
 @import url(./style.css);
+li.anel-selecionado {
+  background-color: #1AB394;
+}

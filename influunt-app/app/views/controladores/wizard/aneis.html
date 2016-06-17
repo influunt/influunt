@@ -1,4 +1,4 @@
-<fieldset>
+<fieldset data-ng-init="inicializaAneis()">
   <div class="row">
     <div class="text-center m-t-md rings">
       <div class="col-lg-3 col-sm-3">
@@ -8,18 +8,18 @@
         <div class="col-lg-12 col-sm-12">
          <nav>
            <ul>
-             <li>
-               <div class="i-checks" ichecks><label><span class="number">1</span><input type="checkbox" value="">03597162-1</label></div>
-             </li>
-              <li>
-               <div class="i-checks" ichecks><label><span class="number">2</span><input type="checkbox" value="">03597162-2</label></div>
-             </li>
-              <li>
-               <div class="i-checks" ichecks><label><span class="number">3</span><input type="checkbox" value="">03597162-3</label></div>
-             </li>
-             <li>
-               <div class="i-checks" ichecks><label><span class="number">4</span><input type="checkbox" value="">03597162-4</label></div>
-             </li>
+            <li data-ng-repeat="anel in aneis"
+                data-ng-click="selecionaAnel($index)"
+                data-ng-class="{'anel-selecionado': $index === currentAnelId}">
+              <span class="number">{{ $index + 1 }}</span>
+              <input type="checkbox" data-ng-checked="$first" ichecks
+                is-disabled="$first"
+                ng-model="anel.checked">
+              <label>{{ anel.id_anel }}</label>
+              <span class="badge badge-danger" ng-show="!anel.valid.form">
+                <i class="fa fa-exclamation"></i>
+              </span>
+            </li>
            </ul>
          </nav>
         </div>
@@ -28,26 +28,39 @@
       <div class="col-lg-6 col-sm-6 groups">
         <div class="col-lg-3 col-sm-3">
           <div class="form-group"><label><p>{{ 'controladores.gruposPedestres' | translate }}</p></label>
-          <input type="text" placeholder="" class="form-control"></div>
+          <input type="number" name="grupos_pedestres" class="form-control"
+            ng-model="currentAnel.grupos_pedestres"></div>
         </div>
         <div class="col-lg-3 col-sm-3">
           <div class="form-group"><label><p>{{ 'controladores.gruposSinaisVeiculares' | translate }}</p></label>
-          <input type="text" placeholder="" class="form-control"></div>
+          <input type="number" name="grupos_sinais_veiculares" placeholder="" class="form-control"
+            data-ng-model="currentAnel.grupos_sinais_veiculares"></div>
         </div>
         <div class="col-lg-3 col-sm-3">
           <div class="form-group"><label><p>{{ 'controladores.numeroDetectores' | translate }}</p></label>
-          <input type="text" placeholder="" class="form-control"></div>
+          <input type="number" name="numero_detectores" placeholder="" class="form-control"
+            data-ng-model="currentAnel.numero_detectores"></div>
         </div>
         <div class="col-lg-3 col-sm-3">
           <div class="form-group"><label><p>{{ 'controladores.numeroDetectoresPedestres' | translate }}</p></label>
-          <input type="text" placeholder="" class="form-control"></div>
+          <input type="number" name="numero_detectores_pedestres" placeholder="" class="form-control"
+            data-ng-model="currentAnel.numero_detectores_pedestres"></div>
         </div>
         <div class="col-lg-12 col-sm-12">
-          <div class="form-group"><label><p>{{ 'controladores.descricao' | translate }}</p></label>
-            <textarea type="text" placeholder="" class="form-control"></textarea>
+          <div class="form-group" data-ng-class="{'has-error': !currentAnel.valid.form && !currentAnel.valid.required.descricao && !currentAnel.descricao}">
+            <label>
+              <p>{{ 'controladores.descricao' | translate }}</p>
+            </label>
+            <textarea type="text" name="descricao" placeholder="" class="form-control"
+              data-ng-model="currentAnel.descricao"></textarea>
+              <p ng-show="!currentAnel.valid.form && !currentAnel.valid.required.descricao && !currentAnel.descricao"
+                class="help-block error-msg">
+                  {{ 'geral.campo_obrigatorio' | translate }}
+              </p>
           </div>
           <div class="form-group"><label><p>{{ 'controladores.numeroSMEE' | translate }}</p></label>
-          <input type="text" placeholder="" class="form-control"></div>
+          <input type="text" name="numero_smee" placeholder="" class="form-control"
+            data-ng-model="currentAnel.numero_smee"></div>
         </div>
         <div class="col-lg-12 col-sm-12">
           <div class="form-group"><label><p>{{ 'controladores.localizacao' | translate }}</p></label>
@@ -56,22 +69,31 @@
             </figure>
 
             <div class="col-lg-6 col-sm-6 no-padding">
-              <div class="form-group">
+              <div class="form-group" data-ng-class="{'has-error': !currentAnel.valid.form && !currentAnel.valid.required.latitude && !currentAnel.latitude}">
                 <label>{{ 'controladores.latitude' | translate }}:</label>
-                <input type="text" placeholder="" name="coordenada_latitude" class="form-control"
-                  data-ng-model="objeto.coordenada.latitude">
+                <input type="number" placeholder="" name="latitude" class="form-control"
+                  data-ng-model="currentAnel.latitude">
+                <p ng-show="!currentAnel.valid.form && !currentAnel.valid.required.latitude && !currentAnel.latitude"
+                  class="help-block error-msg">
+                    {{ 'geral.campo_obrigatorio' | translate }}
+                </p>
               </div>
             </div>
-            <div class="col-lg-6 col-sm-6 no-padding-right">
+            <div class="col-lg-6 col-sm-6 no-padding-right" data-ng-class="{'has-error': !currentAnel.valid.form && !currentAnel.valid.required.longitude && !currentAnel.longitude}">
               <div class="form-group">
-                <label>{{ 'controladores.latitude' | translate }}:</label>
-                <input type="text" placeholder="" name="coordenada_latitude" class="form-control"
-                  data-ng-model="objeto.coordenada.latitude">
+                <label>{{ 'controladores.longitude' | translate }}:</label>
+                <input type="number" placeholder="" name="longitude" class="form-control"
+                  data-ng-model="currentAnel.longitude">
+                <p ng-show="!currentAnel.valid.form && !currentAnel.valid.required.longitude && !currentAnel.longitude"
+                  class="help-block error-msg">
+                    {{ 'geral.campo_obrigatorio' | translate }}
+                </p>
               </div>
             </div>
           </div>
         </div>
       </div>
+
       <div class="col-lg-3 col-sm-3 movements">
         <hgroup>
           <label for=""><p>{{ 'controladores.movimentos' | translate }}</p></label>
@@ -86,8 +108,9 @@
     </div>
   </div>
 
-  <a ui-sref="app.wizard_contrladores.dados-basicos" class="btn btn-default">{{ 'plugins.steps.labels.previous' | translate }}</a>
-  <a ui-sref="app.wizard_contrladores.verdes-conflitantes" class="btn btn-primary">{{ 'plugins.steps.labels.next' | translate }}</a>
+
+  <a data-ng-click="submitFormAneis('app.wizard_controladores.dados_basicos')" class="btn btn-default">{{ 'plugins.steps.labels.previous' | translate }}</a>
+  <a data-ng-click="submitFormAneis('app.wizard_controladores.verdes_conflitantes')" class="btn btn-primary">{{ 'plugins.steps.labels.next' | translate }}</a>
 </fieldset>
 
 <script>

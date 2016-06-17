@@ -18,11 +18,11 @@
     "latitude": "Latitude",
     "localizacao": "Localização",
     "longitude": "Longitude",
-    "maxAneis": "No máximo anéis",
-    "maxDetectorPedestre": "Limite detector pedestre",
-    "maxDetectorVeicular": "Limite detector veicular",
-    "maxEstagios": "No máximo estágios",
-    "maxGrupoSemaforos": "No máximo grupos de semáforos",
+    "maxAneis": "No anéis",
+    "maxDetectorPedestre": "No detector pedestre",
+    "maxDetectorVeicular": "No detector veicular",
+    "maxEstagios": "No estágios",
+    "maxGrupoSemaforos": "No grupos de semáforos",
     "modelo": "Modelo",
     "movimentos": "Movimentos",
     "novo": "Novo Controlador",
@@ -34,6 +34,11 @@
     "numeroSMEEConjugado3": "No SMEE conjugado 3",
     "tipo": "Tipo",
     "titulo": "Controladores",
+    "validacoes": {
+      "totalDetectorPedestres": "Total de <strong>detectores de pedestres</strong> maior que a quantidade máxima suportada pelo controlador",
+      "totalDetectorVeicular": "Total de <strong>detectores veicular</strong> maior que a quantidade máxima suportada pelo controlador",
+      "totalGruposSemaforicos": "Total de <strong>grupos semafóricos</strong> maior que a quantidade máxima suportada pelo controlador"
+    },
     "versaoFirmware": "Versão do Firmware"
   },
   "areas": {

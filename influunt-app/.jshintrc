@@ -14,6 +14,7 @@
   "globals": {
     "angular": false,
     "$": true,
+    "_": true,
 
     // leaflet lib
     "L": true,

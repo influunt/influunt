@@ -4,44 +4,59 @@
       <div class="ibox float-e-margins">
         <div class="">
           <form name="formDadosBasicos" novalidate>
+
             <div class="col-lg-5 col-sm-5">
               <div class="form-group" />
 
               <div class="form-group">
                 <label>{{ 'controladores.cidade' | translate }}:</label>
                 <select name="cidade" class="form-control"
+                  data-ng-model="helpers.cidade"
+                  data-ng-init="helpers.cidade = data.cidades[0]"
                   data-ng-options="cidade as cidade.nome for cidade in data.cidades"
-                  data-ng-model="helpers.cidade"></select>
+                  ></select>
               </div>
 
-              <div class="form-group">
+              <div class="form-group" data-ng-class="{'has-error': formDadosBasicos.area.$invalid && (!formDadosBasicos.area.$pristine || submited)}">
                 <label>{{ 'controladores.area' | translate }}:</label>
                 <select name="area" class="form-control"
                   data-ng-options="area as area.descricao for area in helpers.cidade.areas"
-                  data-ng-model="objeto.area"></select>
+                  data-ng-model="objeto.area" required></select>
+                  <p ng-show="formDadosBasicos.area.$invalid && (!formDadosBasicos.area.$pristine || submited)"
+                    class="help-block error-msg">
+                      {{ 'geral.campo_obrigatorio' | translate }}
+                  </p>
               </div>
 
-              <div class="form-group">
+              <div class="form-group" data-ng-class="{'has-error': formDadosBasicos.descricao.$invalid && (!formDadosBasicos.descricao.$pristine || submited)}">
                 <label>{{ 'controladores.descricao' | translate }}:</label>
-                <textarea type="text" placeholder="" name="descricao" class="form-control"
+                <textarea type="text" name="descricao" class="form-control"
                   data-ng-model="objeto.descricao" required></textarea>
+                <p ng-show="formDadosBasicos.descricao.$invalid && (!formDadosBasicos.descricao.$pristine || submited)"
+                  class="help-block error-msg">
+                    {{ 'geral.campo_obrigatorio' | translate }}
+                </p>
               </div>
-              <div class="form-group">
+              <div class="form-group" data-ng-class="{'has-error': formDadosBasicos.numeroSMEE.$invalid && (!formDadosBasicos.numeroSMEE.$pristine || submited)}">
                 <label>{{ 'controladores.numeroSMEE' | translate }}:</label>
-                <input type="text" placeholder="" name="numeroSMEE" class="form-control"
-                  data-ng-model="objeto.numeroSMEE">
+                <input type="text" name="numeroSMEE" class="form-control"
+                  data-ng-model="objeto.numeroSMEE" required>
+                <p ng-show="formDadosBasicos.numeroSMEE.$invalid && (!formDadosBasicos.numeroSMEE.$pristine || submited)"
+                  class="help-block error-msg">
+                    {{ 'geral.campo_obrigatorio' | translate }}
+                </p>
               </div>
 
               <div class="form-group">
                 <label>{{ 'controladores.idControlador' | translate }}:</label>
-                <input type="text" placeholder="" name="idControlador" class="form-control"
-                  data-ng-model="objeto.idControlador">
+                <input type="text" name="idControlador" class="form-control"
+                  data-ng-model="objeto.idControlador" readonly>
               </div>
 
-              <div class="col-lg-4 col-sm-4 no-padding-right">
+              <div class="col-lg-4 col-sm-4 no-padding">
                 <div class="form-group">
                   <label>{{ 'controladores.numeroSMEEConjugado1' | translate }}:</label>
-                  <input type="text" placeholder="" name="numeroSMEEConjugado1" class="form-control"
+                  <input type="text" name="numeroSMEEConjugado1" class="form-control"
                     data-ng-model="objeto.numeroSMEEConjugado1">
                 </div>
               </div>
@@ -49,7 +64,7 @@
               <div class="col-lg-4 col-sm-4 no-padding-right">
                 <div class="form-group">
                   <label>{{ 'controladores.numeroSMEEConjugado2' | translate }}:</label>
-                  <input type="text" placeholder="" name="numeroSMEEConjugado2" class="form-control"
+                  <input type="text" name="numeroSMEEConjugado2" class="form-control"
                     data-ng-model="objeto.numeroSMEEConjugado2">
                 </div>
               </div>
@@ -57,14 +72,14 @@
               <div class="col-lg-4 col-sm-4 no-padding-right">
                 <div class="form-group">
                   <label>{{ 'controladores.numeroSMEEConjugado3' | translate }}:</label>
-                  <input type="text" placeholder="" name="numeroSMEEConjugado3" class="form-control"
+                  <input type="text" name="numeroSMEEConjugado3" class="form-control"
                     data-ng-model="objeto.numeroSMEEConjugado3">
                 </div>
               </div>
 
               <div class="form-group">
                 <label>{{ 'controladores.versaoFirmware' | translate }}:</label>
-                <input type="text" placeholder="" name="firmware" class="form-control"
+                <input type="text" name="firmware" class="form-control"
                   data-ng-model="objeto.firmware">
               </div>
 
@@ -83,14 +98,14 @@
               <div class="col-lg-6 col-sm-6 no-padding">
                 <div class="form-group">
                   <label>{{ 'controladores.latitude' | translate }}:</label>
-                  <input type="text" placeholder="" name="coordenada_latitude" class="form-control"
+                  <input type="number" name="coordenada_latitude" class="form-control"
                     data-ng-model="objeto.coordenada.latitude">
                 </div>
               </div>
               <div class="col-lg-6 col-sm-6 no-padding-right">
                 <div class="form-group">
                   <label>{{ 'controladores.longitude' | translate }}:</label>
-                  <input type="text" placeholder="" name="coordenada_longitude" class="form-control"
+                  <input type="number" name="coordenada_longitude" class="form-control"
                     data-ng-model="objeto.coordenada.longitude">
                 </div>
               </div>
@@ -104,44 +119,38 @@
                     data-ng-model="helpers.fornecedor"></select>
                 </div>
               </div>
-              <div class="form-group">
+              <div class="form-group"  data-ng-class="{'has-error': formDadosBasicos.modelos.$invalid && (!formDadosBasicos.modelos.$pristine || submited)}">
                 <label class="col-sm-12 no-padding control-label">{{ 'controladores.modelo' | translate }}</label>
                 <div class="col-sm-12 no-padding">
                   <select name="modelo" class="form-control"
                     data-ng-options="modelo as modelo.descricao for modelo in helpers.fornecedor.modelos"
-                    data-ng-model="objeto.modelo"></select>
+                    data-ng-model="objeto.modelo" required></select>
+                  <p ng-show="formDadosBasicos.modelo.$invalid && (!formDadosBasicos.modelo.$pristine || submited)"
+                    class="help-block error-msg">
+                      {{ 'geral.campo_obrigatorio' | translate }}
+                  </p>
                 </div>
               </div>
-              <!--
-              <div class="form-group">
-                <label class="col-sm-12 no-padding control-label">{{ 'controladores.tipo' | translate }}</label>
-                <div class="col-sm-12 no-padding">
-                  <select name="tipo" class="form-control"
-                    data-ng-options="tipo as tipo.nome for tipo in tipos"
-                    data-ng-model="objeto.tipo"></select>
-                </div>
-              </div>
-              -->
 
               <div class="col-lg-4 col-sm-4 no-padding">
-                <h1><b>{{ objeto.modelo.maxEstagios || 0 }}</b></h1>
+                <h1><b>{{ objeto.modelo.configuracao.limiteEstagio || 0 }}</b></h1>
                 <p>{{ 'controladores.maxEstagios' | translate }}</p>
               </div>
               <div class="col-lg-4 col-sm-4 no-padding-right">
-                <h1><b>{{ objeto.modelo.maxGrupoSemaforos || 0 }}</b></h1>
+                <h1><b>{{ objeto.modelo.configuracao.limiteGrupoSemaforico || 0 }}</b></h1>
                 <p>{{ 'controladores.maxGrupoSemaforos' | translate }}</p>
               </div>
               <div class="col-lg-4 col-sm-4 no-padding-right">
-                <h1><b>{{ objeto.modelo.maxAneis || 0 }}</b></h1>
+                <h1><b>{{ objeto.modelo.configuracao.limiteAnel || 0 }}</b></h1>
                 <p>{{ 'controladores.maxAneis' | translate }}</p>
               </div>
               <div class="clearfix"></div>
               <div class="col-lg-4 col-sm-4 no-padding">
-                <h1><b>{{ objeto.modelo.maxDetectorVeicular || 0 }}</b></h1>
+                <h1><b>{{ objeto.modelo.configuracao.limiteDetectorVeicular || 0 }}</b></h1>
                 <p>{{ 'controladores.maxDetectorVeicular' | translate }}</p>
               </div>
                <div class="col-lg-4 col-sm-4 no-padding-right">
-                <h1><b>{{ objeto.modelo.maxDetectorPedestre || 0 }}</b></h1>
+                <h1><b>{{ objeto.modelo.configuracao.limiteDetectorPedestre || 0 }}</b></h1>
                 <p>{{ 'controladores.maxDetectorPedestre' | translate }}</p>
               </div>
             </div>
@@ -151,5 +160,5 @@
     </div>
   </div>
 
-  <a data-ng-click="submitDadosBasicos()" class="btn btn-primary">{{ 'plugins.steps.labels.next' | translate }}</a>
+  <a data-ng-click="submitForm(formDadosBasicos, 'app.wizard_controladores.aneis')" class="btn btn-primary">{{ 'plugins.steps.labels.next' | translate }}</a>
 </fieldset>
