@@ -4,6 +4,16 @@
 // Dependencia registrada de forma incorreta no pacote bower. Esta está registrada aqui
 // somente para que o wiredep não o remova da lista de dependencias.
 @import "./../../bower_components/angular-datatables/dist/css/angular-datatables.css";
+@import "./../plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css";
+@import "./../../bower_components/font-awesome/css/font-awesome.css";
+@import "./../../bower_components/bootstrap/dist/css/bootstrap.css";
+@import "./../plugins/steps/jquery.steps.css";
+@import "./../plugins/dropzone/dropzone.css";
+@import "./../plugins/dropzone/basic.css";
+@import "./../plugins/iCheck/custom.css";
+
+
+
 @import "./influunt.css";
 @import "./animate.css";
 @import "./style.css";
