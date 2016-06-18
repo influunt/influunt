@@ -342,7 +342,7 @@ angular
         })
 
         .state('app.wizard_controladores.aneis', {
-          url: '/aneis',
+          url: '/aneis/:id',
           templateUrl: 'views/controladores/wizard/aneis.html',
           data: {
             title: 'controladores.titulo'
@@ -350,7 +350,7 @@ angular
         })
 
         .state('app.wizard_controladores.associacao', {
-          url: '/associacao',
+          url: '/associacao/:id',
           templateUrl: 'views/controladores/wizard/associacao.html',
           data: {
             title: 'controladores.titulo'
@@ -358,7 +358,7 @@ angular
         })
 
         .state('app.wizard_controladores.verdes_conflitantes', {
-          url: '/verdes-conflitantes',
+          url: '/verdes-conflitantes/:id',
           templateUrl: 'views/controladores/wizard/verdes-conflitantes.html',
           data: {
             title: 'controladores.titulo'
