@@ -37,6 +37,8 @@
     "tipo": "Tipo",
     "titulo": "Controladores",
     "validacoes": {
+      "latitudeMayNotBeNull": "Campo de Latitude é Obrigatório",
+      "longitudeMayNotBeNull": "Campo de Longitude é Obrigatório",
       "totalDetectorPedestres": "Total de <strong>detectores de pedestres</strong> maior que a quantidade máxima suportada pelo controlador",
       "totalDetectorVeicular": "Total de <strong>detectores veicular</strong> maior que a quantidade máxima suportada pelo controlador",
       "totalGruposSemaforicos": "Total de <strong>grupos semafóricos</strong> maior que a quantidade máxima suportada pelo controlador"
@@ -145,6 +147,11 @@
         "previous": "Anterior",
         "loading": "carregando"
       }
+    }
+  },
+  "validacoesAPI": {
+    "controlador": {
+      "mayNotBeNull": "<strong>{CAMPO}</strong> precisa ser preenchido"
     }
   }
 }

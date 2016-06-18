@@ -95,24 +95,32 @@
             <div class="col-lg-4 col-sm-4 maps">
               <figure>
                 <div influunt-map
-                  latitude="objeto.coordenada.latitude"
-                  longitude="objeto.coordenada.longitude"
+                  latitude="objeto.latitude"
+                  longitude="objeto.longitude"
                   class="influunt-map">
                 </div>
               </figure>
 
               <div class="col-lg-6 col-sm-6 no-padding">
-                <div class="form-group">
+                <div class="form-group" data-ng-class="{'has-error': formDadosBasicos.latitude.$invalid && (!formDadosBasicos.latitude.$pristine || submited)}">
                   <label>{{ 'controladores.latitude' | translate }}:</label>
-                  <input type="number" name="coordenada_latitude" class="form-control"
-                    data-ng-model="objeto.coordenada.latitude">
+                  <input type="number" name="latitude" class="form-control"
+                    data-ng-model="objeto.latitude" required>
+                  <p ng-show="formDadosBasicos.latitude.$invalid && (!formDadosBasicos.latitude.$pristine || submited)"
+                    class="help-block error-msg">
+                      {{ 'geral.campo_obrigatorio' | translate }}
+                  </p>
                 </div>
               </div>
               <div class="col-lg-6 col-sm-6 no-padding-right">
-                <div class="form-group">
+                <div class="form-group" data-ng-class="{'has-error': formDadosBasicos.longitude.$invalid && (!formDadosBasicos.longitude.$pristine || submited)}">
                   <label>{{ 'controladores.longitude' | translate }}:</label>
-                  <input type="number" name="coordenada_longitude" class="form-control"
-                    data-ng-model="objeto.coordenada.longitude">
+                  <input type="number" name="longitude" class="form-control"
+                    data-ng-model="objeto.longitude" required>
+                  <p ng-show="formDadosBasicos.longitude.$invalid && (!formDadosBasicos.longitude.$pristine || submited)"
+                    class="help-block error-msg">
+                      {{ 'geral.campo_obrigatorio' | translate }}
+                  </p>
                 </div>
               </div>
             </div>
@@ -125,7 +133,7 @@
                     data-ng-model="helpers.fornecedor"></select>
                 </div>
               </div>
-              <div class="form-group"  data-ng-class="{'has-error': formDadosBasicos.modelos.$invalid && (!formDadosBasicos.modelos.$pristine || submited)}">
+              <div class="form-group"  data-ng-class="{'has-error': formDadosBasicos.modelo.$invalid && (!formDadosBasicos.modelo.$pristine || submited)}">
                 <label class="col-sm-12 no-padding control-label">{{ 'controladores.modelo' | translate }}</label>
                 <div class="col-sm-12 no-padding">
                   <select name="modelo" class="form-control"

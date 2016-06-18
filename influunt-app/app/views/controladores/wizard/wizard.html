@@ -26,7 +26,7 @@
                 <uib-alert type="danger" close="closeAlert()" ng-if="validacoes.alerts.length > 0">
                   <div style="padding-left: 12px;">
                     <ul>
-                      <li ng-repeat="alert in validacoes.alerts" ng-bind-html="alert.msg | translate"></li>
+                      <li ng-repeat="alert in validacoes.alerts" ng-bind-html="alert.msg | translate:alert.params"></li>
                     </ul>
                   </div>
                 </uib-alert>

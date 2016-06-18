@@ -51,25 +51,36 @@ angular.module('influuntApp')
       $scope.submitForm = function(form, nextStep) {
         $scope.submited = true;
         if (form.$valid) {
-          $state.go(nextStep);
+          Restangular
+            .all('controladores')
+            .all('dados_basicos')
+            .post($scope.objeto)
+            .then(function(res) {
+              console.log(res);
+              $scope.objeto = res;
+              $scope.submited = false;
 
-          $scope.objeto.idControlador = '1234567';
+              $state.go(nextStep);
+            })
+            .catch(function(res) {
+              var messages = res.data.map(function(a) {
+                return {
+                  msg: 'validacoesAPI.' + _.lowerCase(a.root) + '.' + _.camelCase(a.message),
+                  params: {
+                    CAMPO: a.path
+                  }
+                };
+              });
 
-          // $scope.save()
-          //   .then(function(res) {
-          //     console.log(res)
-          //     $state.go(nextStep);
-          //   })
-          //   .catch(function(err) {
-          //     console.log(err);
-          //   });
+              $scope.validacoes.alerts = messages;
+            });
 
-          $scope.submited = false;
+          // $scope.objeto.idControlador = '1234567';
+          // $scope.submited = false;
         }
       };
 
       $scope.inicializaAneis = function() {
-        $scope.objeto = {"idControlador": "1234567", "area": {"id": "4b6079e0-02db-4d78-a420-d66fdf5fc76f","descricao": "Barreiro","limitesGeograficos": [],"dataCriacao": null,"dataAtualizacao": null,"$$hashKey": "object:48"},"descricao": "sdfsad","numeroSMEE": "asdfa","numeroSMEEConjugado1": "asdfa","numeroSMEEConjugado2": "asfda","numeroSMEEConjugado3": "asdfa","firmware": "asdfa","coordenada": {"latitude": "12","longitude": "12"},"modelo": {"id": "2ee0c714-adcb-4ede-90d0-b1224896d0a9","configuracao": {"id": "919c93c4-da97-44ac-864b-055d573b7e41","limiteEstagio": 4,"limiteGrupoSemaforico": 16,"limiteAnel": 4,"limiteDetectorPedestre": 4,"limiteDetectorVeicular": 4,"dataCriacao": {"year": 2016,"dayOfMonth": 16,"dayOfWeek": 4,"era": 1,"dayOfYear": 168,"centuryOfEra": 20,"yearOfEra": 2016,"yearOfCentury": 16,"weekyear": 2016,"monthOfYear": 6,"weekOfWeekyear": 24,"hourOfDay": 10,"minuteOfHour": 55,"secondOfMinute": 56,"millisOfSecond": 0,"millisOfDay": 39356000,"secondOfDay": 39356,"minuteOfDay": 655,"zone": {"fixed": false,"uncachedZone": {"fixed": false,"cachable": true,"id": "America/Sao_Paulo"},"id": "America/Sao_Paulo"},"millis": 1466085356000,"chronology": {"zone": {"fixed": false,"uncachedZone": {"fixed": false,"cachable": true,"id": "America/Sao_Paulo"},"id": "America/Sao_Paulo"}},"afterNow": false,"beforeNow": true,"equalNow": false},"dataAtualizacao": {"year": 2016,"dayOfMonth": 16,"dayOfWeek": 4,"era": 1,"dayOfYear": 168,"centuryOfEra": 20,"yearOfEra": 2016,"yearOfCentury": 16,"weekyear": 2016,"monthOfYear": 6,"weekOfWeekyear": 24,"hourOfDay": 10,"minuteOfHour": 55,"secondOfMinute": 56,"millisOfSecond": 0,"millisOfDay": 39356000,"secondOfDay": 39356,"minuteOfDay": 655,"zone": {"fixed": false,"uncachedZone": {"fixed": false,"cachable": true,"id": "America/Sao_Paulo"},"id": "America/Sao_Paulo"},"millis": 1466085356000,"chronology": {"zone": {"fixed": false,"uncachedZone": {"fixed": false,"cachable": true,"id": "America/Sao_Paulo"},"id": "America/Sao_Paulo"}},"afterNow": false,"beforeNow": true,"equalNow": false}},"descricao": "modelo B","dataCriacao": null,"dataAtualizacao": null,"$$hashKey": "object:81"}};
         var numAneis = $scope.objeto.modelo.configuracao.limiteAnel;
         $scope.aneis = $scope.aneis || _.times(numAneis, 0).map(function(value, key) {
           return {
@@ -115,8 +126,7 @@ angular.module('influuntApp')
         Restangular.all('helpers').all('controlador').customGET().then(function(res) {
           $scope.data = res;
           $scope.helpers = {cidade: $scope.data.cidades[0]};
-          // $scope.objeto = {area: $scope.helpers.cidade.areas[0]};
-          $scope.objeto = {"idControlador": "1234567", "area": {"id": "4b6079e0-02db-4d78-a420-d66fdf5fc76f","descricao": "Barreiro","limitesGeograficos": [],"dataCriacao": null,"dataAtualizacao": null,"$$hashKey": "object:48"},"descricao": "sdfsad","numeroSMEE": "asdfa","numeroSMEEConjugado1": "asdfa","numeroSMEEConjugado2": "asfda","numeroSMEEConjugado3": "asdfa","firmware": "asdfa","coordenada": {"latitude": "12","longitude": "12"},"modelo": {"id": "2ee0c714-adcb-4ede-90d0-b1224896d0a9","configuracao": {"id": "919c93c4-da97-44ac-864b-055d573b7e41","limiteEstagio": 4,"limiteGrupoSemaforico": 16,"limiteAnel": 4,"limiteDetectorPedestre": 4,"limiteDetectorVeicular": 4,"dataCriacao": {"year": 2016,"dayOfMonth": 16,"dayOfWeek": 4,"era": 1,"dayOfYear": 168,"centuryOfEra": 20,"yearOfEra": 2016,"yearOfCentury": 16,"weekyear": 2016,"monthOfYear": 6,"weekOfWeekyear": 24,"hourOfDay": 10,"minuteOfHour": 55,"secondOfMinute": 56,"millisOfSecond": 0,"millisOfDay": 39356000,"secondOfDay": 39356,"minuteOfDay": 655,"zone": {"fixed": false,"uncachedZone": {"fixed": false,"cachable": true,"id": "America/Sao_Paulo"},"id": "America/Sao_Paulo"},"millis": 1466085356000,"chronology": {"zone": {"fixed": false,"uncachedZone": {"fixed": false,"cachable": true,"id": "America/Sao_Paulo"},"id": "America/Sao_Paulo"}},"afterNow": false,"beforeNow": true,"equalNow": false},"dataAtualizacao": {"year": 2016,"dayOfMonth": 16,"dayOfWeek": 4,"era": 1,"dayOfYear": 168,"centuryOfEra": 20,"yearOfEra": 2016,"yearOfCentury": 16,"weekyear": 2016,"monthOfYear": 6,"weekOfWeekyear": 24,"hourOfDay": 10,"minuteOfHour": 55,"secondOfMinute": 56,"millisOfSecond": 0,"millisOfDay": 39356000,"secondOfDay": 39356,"minuteOfDay": 655,"zone": {"fixed": false,"uncachedZone": {"fixed": false,"cachable": true,"id": "America/Sao_Paulo"},"id": "America/Sao_Paulo"},"millis": 1466085356000,"chronology": {"zone": {"fixed": false,"uncachedZone": {"fixed": false,"cachable": true,"id": "America/Sao_Paulo"},"id": "America/Sao_Paulo"}},"afterNow": false,"beforeNow": true,"equalNow": false}},"descricao": "modelo B","dataCriacao": null,"dataAtualizacao": null,"$$hashKey": "object:81"}};
+          $scope.objeto = {area: $scope.helpers.cidade.areas[0]};
         });
       };
 
