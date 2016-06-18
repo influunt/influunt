@@ -36,23 +36,23 @@
       <div class="col-lg-6 col-sm-6 groups">
         <div class="col-lg-3 col-sm-3">
           <div class="form-group"><label><p>{{ 'controladores.gruposPedestres' | translate }}</p></label>
-          <input type="number" name="grupos_pedestres" class="form-control"
-            ng-model="currentAnel.grupos_pedestres"></div>
+          <input type="number" name="quantidadeGrupoPedestre" class="form-control"
+            ng-model="currentAnel.quantidadeGrupoPedestre"></div>
         </div>
         <div class="col-lg-3 col-sm-3">
           <div class="form-group"><label><p>{{ 'controladores.gruposSinaisVeiculares' | translate }}</p></label>
-          <input type="number" name="grupos_sinais_veiculares" placeholder="" class="form-control"
-            data-ng-model="currentAnel.grupos_sinais_veiculares"></div>
+          <input type="number" name="quantidadeGrupoVeicular" placeholder="" class="form-control"
+            data-ng-model="currentAnel.quantidadeGrupoVeicular"></div>
         </div>
         <div class="col-lg-3 col-sm-3">
           <div class="form-group"><label><p>{{ 'controladores.numeroDetectores' | translate }}</p></label>
-          <input type="number" name="numero_detectores" placeholder="" class="form-control"
-            data-ng-model="currentAnel.numero_detectores"></div>
+          <input type="number" name="quantidadeDetectorVeicular" placeholder="" class="form-control"
+            data-ng-model="currentAnel.quantidadeDetectorVeicular"></div>
         </div>
         <div class="col-lg-3 col-sm-3">
           <div class="form-group"><label><p>{{ 'controladores.numeroDetectoresPedestres' | translate }}</p></label>
-          <input type="number" name="numero_detectores_pedestres" placeholder="" class="form-control"
-            data-ng-model="currentAnel.numero_detectores_pedestres"></div>
+          <input type="number" name="quantidadeDetectorPedestre" placeholder="" class="form-control"
+            data-ng-model="currentAnel.quantidadeDetectorPedestre"></div>
         </div>
         <div class="col-lg-12 col-sm-12">
           <div class="form-group" data-ng-class="{'has-error': !currentAnel.valid.form && !currentAnel.valid.required.descricao && !currentAnel.descricao}">
