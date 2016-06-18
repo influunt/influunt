@@ -113,9 +113,12 @@ public class Controlador extends Model {
 
 
     @Override
-    public void save(){
+    public void update(){
         if(getAneis() != null){
             getAneis().stream().forEach(anel -> {
+//                if (anel.getId() == null) {
+//                    anel.save();
+//                }
                 anel.criaGruposSemaforicos();
                 anel.criaDetectores();
                 if(anel.getMovimentos()!=null){
@@ -125,7 +128,7 @@ public class Controlador extends Model {
         }
 
 
-        super.save();
+        super.update();
     }
 
 

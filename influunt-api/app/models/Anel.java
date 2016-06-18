@@ -290,13 +290,17 @@ public class Anel extends Model {
 
 
     public void criaGruposSemaforicos() {
-        if (this.id == null && isAtivo()) {
-            this.gruposSemaforicos = new ArrayList<GrupoSemaforico>(this.getQuantidadeGrupoSemaforico());
-            for (int i = this.getQuantidadeGrupoSemaforico(); i > 0; i--) {
+        if (isAtivo()) {
+            if (getGruposSemaforicos() == null) {
+                setGruposSemaforicos(new ArrayList<GrupoSemaforico>(this.getQuantidadeGrupoSemaforico()));
+            }
+            for (int i = this.getGruposSemaforicos().size(); i < this.getQuantidadeGrupoSemaforico(); i++) {
                 GrupoSemaforico grupoSemaforico = new GrupoSemaforico();
                 grupoSemaforico.setAnel(this);
                 grupoSemaforico.setControlador(this.getControlador());
-                this.gruposSemaforicos.add(grupoSemaforico);
+//                grupoSemaforico.save();
+                getGruposSemaforicos().add(grupoSemaforico);
+                this.getControlador().getGruposSemaforicos().add(grupoSemaforico);
             }
         } else {
             //TODO:O que fazer se o cara alterar????
