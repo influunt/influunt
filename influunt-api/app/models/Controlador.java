@@ -106,6 +106,11 @@ public class Controlador extends Model {
     @Valid
     private List<Detector> detectores;
 
+    @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    @Valid
+    private List<Movimento> movimentos;
+
 
     @Override
     public void save(){
@@ -259,5 +264,13 @@ public class Controlador extends Model {
 
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
+    }
+
+    public List<Movimento> getMovimentos() {
+        return movimentos;
+    }
+
+    public void setMovimentos(List<Movimento> movimentos) {
+        this.movimentos = movimentos;
     }
 }

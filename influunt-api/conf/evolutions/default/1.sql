@@ -153,9 +153,12 @@ create table modelo_controladores (
 create table movimentos (
   id                            varchar(40) not null,
   descricao                     varchar(255),
+  imagem_id                     varchar(40),
+  controlador_id                bigint,
   anel_id                       varchar(40),
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
+  constraint uq_movimentos_imagem_id unique (imagem_id),
   constraint pk_movimentos primary key (id)
 );
 
@@ -202,6 +205,11 @@ create index ix_modelo_controladores_fabricante_id on modelo_controladores (fabr
 
 alter table modelo_controladores add constraint fk_modelo_controladores_configuracao_id foreign key (configuracao_id) references configuracao_controladores (id) on delete restrict on update restrict;
 create index ix_modelo_controladores_configuracao_id on modelo_controladores (configuracao_id);
+
+alter table movimentos add constraint fk_movimentos_imagem_id foreign key (imagem_id) references imagens (id) on delete restrict on update restrict;
+
+alter table movimentos add constraint fk_movimentos_controlador_id foreign key (controlador_id) references controladores (id) on delete restrict on update restrict;
+create index ix_movimentos_controlador_id on movimentos (controlador_id);
 
 alter table movimentos add constraint fk_movimentos_anel_id foreign key (anel_id) references aneis (id) on delete restrict on update restrict;
 create index ix_movimentos_anel_id on movimentos (anel_id);
@@ -252,6 +260,11 @@ drop index ix_modelo_controladores_fabricante_id on modelo_controladores;
 
 alter table modelo_controladores drop foreign key fk_modelo_controladores_configuracao_id;
 drop index ix_modelo_controladores_configuracao_id on modelo_controladores;
+
+alter table movimentos drop foreign key fk_movimentos_imagem_id;
+
+alter table movimentos drop foreign key fk_movimentos_controlador_id;
+drop index ix_movimentos_controlador_id on movimentos;
 
 alter table movimentos drop foreign key fk_movimentos_anel_id;
 drop index ix_movimentos_anel_id on movimentos;

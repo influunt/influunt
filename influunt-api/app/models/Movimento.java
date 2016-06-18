@@ -3,6 +3,7 @@ package models;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -32,9 +33,12 @@ public class Movimento extends Model {
     @Column
     private String descricao;
 
-    // TODO - verificar como as imagens serao salvas
-    @Transient
+    @OneToOne
     private Imagem imagem;
+
+    @ManyToOne
+    @JsonBackReference
+    private Controlador controlador;
 
     @ManyToOne
     @JoinColumn(name = "anel_id")
@@ -122,5 +126,13 @@ public class Movimento extends Model {
         }else{
             //TODO: O que fazer na atualizacao?
         }
+    }
+
+    public Controlador getControlador() {
+        return controlador;
+    }
+
+    public void setControlador(Controlador controlador) {
+        this.controlador = controlador;
     }
 }
