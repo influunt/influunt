@@ -38,9 +38,9 @@ angular.module('influuntApp')
           maxFiles: 100,
           success: function(upload, imagem) {
             var anel = scope.anel;
-            var url = scope.imagensUrl;
+            // var url = scope.imagensUrl;
             if (!('movimentos' in anel)) {
-              anel.movimentos = []
+              anel.movimentos = [];
             }
             anel.movimentos.push({ imagem: { id: imagem.id } });
           }

@@ -39,6 +39,7 @@ public class ImagensController extends Controller {
                 Files.copy(tmpFile, imagem.getPath(appRootPath));
             } catch (IOException e) {
                 imagem.delete();
+                e.printStackTrace();
                 return CompletableFuture.completedFuture(internalServerError());
             }
             return CompletableFuture.completedFuture(ok(Json.toJson(imagem)));

@@ -72,7 +72,7 @@ angular.module('influuntApp')
       };
 
       var loadWizardData = function(obj) {
-        $scope.getHelpersControlador();
+        getHelpersControlador();
         $scope.objeto = obj;
         $scope.validacoes = {
           alerts: []
@@ -258,7 +258,6 @@ angular.module('influuntApp')
                 posicao: key + 1,
                 quantidadeGrupoPedestre: null,
                 quantidadeGrupoVeicular: null,
-                quantidadeDetectorPedestre: null,
                 quantidadeDetectorPedestre: null,
                 descricao: null,
                 numero_smee: null,
