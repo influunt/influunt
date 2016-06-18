@@ -61,6 +61,7 @@ create table controladores (
   firmware                      varchar(255) not null,
   latitude                      double not null,
   longitude                     double not null,
+  modelo_id                     varchar(40) not null,
   area_id                       varchar(40) not null,
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
@@ -164,6 +165,9 @@ create index ix_aneis_controlador_id on aneis (controlador_id);
 alter table areas add constraint fk_areas_cidade_id foreign key (cidade_id) references cidades (id) on delete restrict on update restrict;
 create index ix_areas_cidade_id on areas (cidade_id);
 
+alter table controladores add constraint fk_controladores_modelo_id foreign key (modelo_id) references modelo_controladores (id) on delete restrict on update restrict;
+create index ix_controladores_modelo_id on controladores (modelo_id);
+
 alter table controladores add constraint fk_controladores_area_id foreign key (area_id) references areas (id) on delete restrict on update restrict;
 create index ix_controladores_area_id on controladores (area_id);
 
@@ -210,6 +214,9 @@ drop index ix_aneis_controlador_id on aneis;
 
 alter table areas drop foreign key fk_areas_cidade_id;
 drop index ix_areas_cidade_id on areas;
+
+alter table controladores drop foreign key fk_controladores_modelo_id;
+drop index ix_controladores_modelo_id on controladores;
 
 alter table controladores drop foreign key fk_controladores_area_id;
 drop index ix_controladores_area_id on controladores;

@@ -17,7 +17,7 @@
               <div class="col-xs-2" style="padding-right:0;">
                 <input type="checkbox" ichecks
                   is-disabled="$first"
-                  ng-model="anel.checked">
+                  ng-model="anel.ativo">
               </div>
               <div class="col-xs-7">
                 <label>{{ anel.id_anel }}</label>
@@ -121,9 +121,12 @@
     </div>
   </div>
 
-
-  <a data-ng-click="submitFormAneis('app.wizard_controladores.dados_basicos')" class="btn btn-default">{{ 'plugins.steps.labels.previous' | translate }}</a>
-  <a data-ng-click="submitFormAneis('app.wizard_controladores.verdes_conflitantes')" class="btn btn-primary">{{ 'plugins.steps.labels.next' | translate }}</a>
+  <div class="col-sm-12 col-lg-12 m-b-lg">
+    <div class="col-sm-12 col-lg-12">
+      <a data-ng-click="submitFormAneis('app.wizard_controladores.dados_basicos')" class="btn btn-default">{{ 'plugins.steps.labels.previous' | translate }}</a>
+      <a data-ng-click="submitFormAneis('app.wizard_controladores.verdes_conflitantes')" class="btn btn-primary">{{ 'plugins.steps.labels.next' | translate }}</a>
+    </div>
+  </div>
 </fieldset>
 
 <script>

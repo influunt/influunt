@@ -334,7 +334,7 @@ angular
         })
 
         .state('app.wizard_controladores.dados_basicos', {
-          url: '/dados-basicos',
+          url: '/dados-basicos/:id',
           templateUrl: 'views/controladores/wizard/dados-basicos.html',
           data: {
             title: 'controladores.titulo'

@@ -1,63 +1,67 @@
 <div class="container-fluid wrapper wrapper-content animated fadeInRight" ng-init="inicializa_index()">
-    <div class="col-lg-2 col-sm-2">
-        <nav role="navigation" class="filters">
-            <header>
-                <h1>FILTROS</h1>
-            </header>
-            <form action="">
-                <ul>
-                    <li ng-repeat="controlador in lista">
-                        <div class="i-checks"><label>{{ controlador.descricao }}<input ichecks type="checkbox" value="" ng-model="filtroLateral[controlador.id]"><i></i></label></div>
-                    </li>
-                </ul>
-            </form>
-        </nav>
-    </div>
+  <div class="col-lg-2 col-sm-2">
+    <nav role="navigation" class="filters">
+      <header>
+        <h1>FILTROS</h1>
+      </header>
+      <form action="">
+        <ul>
+          <li ng-repeat="controlador in lista">
+            <div class="i-checks"><label>{{ controlador.descricao }}<input ichecks type="checkbox" value="" ng-model="filtroLateral[controlador.id]"><i></i></label></div>
+          </li>
+        </ul>
+      </form>
+    </nav>
+  </div>
   <div class="col-lg-10 col-sm-10">
-    <section role="complementary" class="">
-            <div class="col-lg-4 col-sm-4 no-padding">
-                <form role="form" class="form-group">
-                    <div class="input-group">
-                        <input type="text" class="form-control" ng-model="filtros.campo_busca">
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-primary"><i class="fa fa-search" aria-hidden="true"></i></button>
-                        </span>
-                    </div>
-                </form>
+  <section role="complementary" class="">
+      <div class="col-lg-4 col-sm-4 no-padding">
+        <form role="form" class="form-group">
+          <div class="input-group">
+            <input type="text" class="form-control" ng-model="filtros.campo_busca">
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-primary">
+                <i class="fa fa-search" aria-hidden="true"></i>
+              </button>
+            </span>
+          </div>
+        </form>
+      </div>
+      <!--
+      <div class="col-lg-2 col-sm-2">
+        <button type="button" class="btn btn-primary"><i class="fa fa-th-large" aria-hidden="true"></i></button>
+        <button type="button" class="btn btn-primary"><i class="fa fa-th-list" aria-hidden="true"></i></button>
+      </div>
+      -->
+      <div class="clearfix"></div>
+      <div class="col-lg-2 no-padding">
+        <button type="button" class="btn btn-primary container-fluid" ui-sref="app.wizard_controladores.dados_basicos">Novo controlador</button>
+      </div>
+      <div class="clearfix"></div>
+      <div class="col-lg-12 controller no-padding">
+        <ul>
+          <li ng-repeat="controlador in lista | filter: filtros.campo_busca | filter:filtrarControlador">
+            <div class="ibox float-e-margins">
+              <div class="ibox-title">
+                <h5>{{ controlador.idControlador }}</h5>
+              </div>
+              <div class="ibox-content">
+                <p class="title">{{ controlador.descricao }}</p>
+                <!--
+                <p class="status"><b>Status:</b></p>
+                <p class="status-active"><i class="fa fa-circle text-navy"></i>Ativo</p>
+                -->
+                <hgroup>
+                  <a class="btn btn-primary" type="button" ui-sref="app.wizard_controladores.dados_basicos({id: controlador.id})">
+                    <i class="fa fa-pencil"></i>
+                  </a>
+                  <a class="btn btn-primary" type="button" ui-sref="app.controladores_show({id: controlador.id})"><i class="fa fa-eye"></i></a>
+                </hgroup>
+              </div>
             </div>
-            <!--
-            <div class="col-lg-2 col-sm-2">
-                <button type="button" class="btn btn-primary"><i class="fa fa-th-large" aria-hidden="true"></i></button>
-                <button type="button" class="btn btn-primary"><i class="fa fa-th-list" aria-hidden="true"></i></button>
-            </div>
-            -->
-            <div class="clearfix"></div>
-            <div class="col-lg-2 no-padding">
-                <button type="button" class="btn btn-primary container-fluid" ui-sref="app.wizard_controladores.dados_basicos">Novo controlador</button>
-            </div>
-            <div class="clearfix"></div>
-            <div class="col-lg-12 controller no-padding">
-                <ul>
-                    <li ng-repeat="controlador in lista | filter: filtros.campo_busca | filter:filtrarControlador">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <h5>{{ controlador.idControlador }}</h5>
-                            </div>
-                            <div class="ibox-content">
-                                <p class="title">{{ controlador.descricao }}</p>
-                                <!--
-                                <p class="status"><b>Status:</b></p>
-                                <p class="status-active"><i class="fa fa-circle text-navy"></i>Ativo</p>
-                                -->
-                                <hgroup>
-                                    <a class="btn btn-primary" type="button" ui-sref="app.wizard_controladores.dados_basicos"><i class="fa fa-pencil"></i></a>
-                                    <a class="btn btn-primary" type="button" ui-sref="app.controladores_show({id: controlador.id})"><i class="fa fa-eye"></i></a>
-                                </hgroup>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </section>
+          </li>
+        </ul>
+      </div>
+    </section>
   </div>
 </div>

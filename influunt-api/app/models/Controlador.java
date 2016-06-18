@@ -81,6 +81,7 @@ public class Controlador extends Model {
     @NotNull
     private Double longitude;
 
+    @ManyToOne
     @Valid
     @NotNull
     private ModeloControlador modelo;
