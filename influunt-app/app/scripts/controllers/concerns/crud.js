@@ -48,7 +48,7 @@ angular.module('influuntApp')
 
       return Restangular.one(resourceName, id).get()
         .then(function(res) {
-          $scope.minid = res.id.split('-')[0];
+          $scope.minid = (typeof res.id === 'string') ? res.id.split('-')[0] : res.id;
           $scope.objeto = res;
           $scope.afterShow();
         });
