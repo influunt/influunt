@@ -52,6 +52,7 @@ module.exports = function(config) {
       'bower_components/AngularJS-Toaster/toaster.js',
       'bower_components/sweetalert/dist/sweetalert.min.js',
       'bower_components/ngSweetAlert/SweetAlert.js',
+      'bower_components/leaflet/dist/leaflet-src.js',
 
       // inspinea scripts.
       'app/plugins/metisMenu/jquery.metisMenu.js',

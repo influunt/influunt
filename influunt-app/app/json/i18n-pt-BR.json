@@ -1,6 +1,7 @@
 {
   "appname": "Influunt",
   "controladores": {
+    "associacao": "Associação",
     "aneis": "Aneis",
     "anel": "Anel",
     "area": "Área",

@@ -6,15 +6,28 @@ describe('Directive: ichecks', function () {
   beforeEach(module('influuntApp'));
 
   var element,
-    scope;
+    scope,
+    icheck;
 
   beforeEach(inject(function ($rootScope) {
     scope = $rootScope.$new();
   }));
 
-  xit('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<ichecks></ichecks>');
-    element = $compile(element)(scope);
-    expect(element.text()).toBe('this is the ichecks directive');
+  beforeEach(inject(function ($compile) {
+    element = $compile(angular.element('<input type="checkbox" ichecks ng-model="test">'))(scope);
+    scope.$apply();
   }));
+
+  it('Deve criar um elemento ichecks sempre que o atributo icheck for adicionado a um checkbox', function() {
+    console.log(scope.test)
+    expect(element).toBeDefined();
+  });
+
+  it('Deve trocar o estado da variavel settada em ng-model sempre que o usuário clicar no icheck', function() {
+    element.click();
+    expect(scope.test).toBe(true);
+
+    element.click();
+    expect(scope.test).toBe(false);
+  });
 });

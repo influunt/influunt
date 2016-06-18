@@ -8,9 +8,17 @@ describe('Directive: influuntMap', function () {
   var element,
     scope;
 
-  beforeEach(inject(function ($rootScope) {
+  beforeEach(inject(function ($rootScope, $compile) {
     scope = $rootScope.$new();
+
+    var element = '<div influunt-map latitude="latitude" longitude="longitude" />';
+    element = $compile(element)(scope);
+    scope.$digest();
   }));
+
+  it('element should exist', function() {
+    console.log('=============> !!', element);
+  });
 
   xit('should make hidden element visible', inject(function ($compile) {
     element = angular.element('<influunt-map></influunt-map>');
