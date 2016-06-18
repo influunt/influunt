@@ -248,8 +248,12 @@ header .nav-secon li a {
   width: 100%;
   text-align: left;
 }
+.wrapper-content .basic-wizard .content .body .association {
+  margin-top: 15px;
+}
 .wrapper-content .basic-wizard .content .body .association nav li:hover {
   background: #19b4a8;
+  color: white;
 }
 .wrapper-content .basic-wizard .content .body .association nav li a:hover {
   color: white;
@@ -261,6 +265,10 @@ header .nav-secon li a {
   color: #676a6c;
   display: block;
   margin: 0;
+}
+.wrapper-content .basic-wizard .content .body .association nav li label {
+  padding-left: 15px;
+  text-transform: uppercase;
 }
 .wrapper-content .basic-wizard .content .body .association nav li {
   line-height: 40px;
@@ -355,18 +363,14 @@ header .nav-secon li a {
 .wrapper-content .basic-wizard .content .body .deactivation {
   max-height: 550px;
   overflow: scroll;
-
-}
-.wrapper-content .basic-wizard .content .body .deactivation {
-  max-height: 550;
-
+  padding:25px;
 }
 .wrapper-content .basic-wizard .content .body .stages .title-stages {
   background: #e5e5e5;
   position: relative;
   height: 100%;
   float: left;
-  width: 5%;
+  width: 7%;
   cursor: all-scroll;
 }
 .wrapper-content .basic-wizard .content .body .stages .times-stages {
@@ -447,11 +451,9 @@ header .nav-secon li a {
   font-size: 13px;
   font-weight: bold;
   word-wrap: break-word;
-
 }
 .wrapper-content .basic-wizard .content .body .stages .times-stages .group-selectons {
   margin-top: 10px;
-
 }
 .wrapper-content .basic-wizard .content .body .stages .times-stages .group-selectons label p {
   float: left;
@@ -459,12 +461,10 @@ header .nav-secon li a {
   font-size: 12px;
   overflow: hidden;
   text-align: right;
-
 }
 .wrapper-content .basic-wizard .content .body .stages .times-stages .group-selectons label {
   margin: 0;
-  width: 24.2%;
-
+  width: 24.7%;
 }
 .wrapper-content .basic-wizard .content .body .stages .times-stages .group-selectons label div {
   margin-left: 0;
@@ -638,7 +638,7 @@ header .nav-secon li a {
     width: 50%;
   }
   .wrapper-content .basic-wizard .content .body .stages .times-stages .group-selectons label {
-  width: 23.9%;
+  width: 24.5%;
 
   }
 }
@@ -651,7 +651,7 @@ header .nav-secon li a {
     width: 46%;
   }
   .wrapper-content .basic-wizard .content .body .stages .times-stages .group-selectons label {
-  width: 23.8%;
+  width: 24.5%;
 
   }
 }
@@ -663,7 +663,7 @@ header .nav-secon li a {
     width: 40%;
   }
   .wrapper-content .basic-wizard .content .body .stages .times-stages .group-selectons label {
-  width: 23.8%;
+  width: 24.9%;
 
   }
 }
