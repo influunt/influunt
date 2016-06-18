@@ -12,7 +12,8 @@ angular.module('influuntApp')
       restrict: 'A',
       scope: {
         isDisabled: '=',
-        ngModel: '='
+        ngModel: '=',
+        iChanged: '&'
       },
       link: function postLink(scope, element) {
         $(document).ready(function() {
@@ -25,6 +26,7 @@ angular.module('influuntApp')
             $(element[0]).on('ifChanged', function(ev) {
               $timeout(function() {
                 scope.ngModel = ev.target.checked;
+                return scope.iChanged && scope.iChanged();
               });
             });
 
