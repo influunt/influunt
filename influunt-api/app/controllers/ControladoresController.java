@@ -4,25 +4,15 @@ import checks.ControladorAneisCheck;
 import checks.ControladorAssociacaoGruposSemaforicosCheck;
 import checks.ControladorVerdesConflitantesCheck;
 import checks.InfluuntValidator;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
-import exceptions.EntityNotFound;
-import models.Anel;
 import models.Controlador;
-import play.Logger;
-import play.api.libs.iteratee.Cont;
-import play.data.Form;
 import play.data.FormFactory;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import javax.validation.groups.*;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
@@ -34,23 +24,23 @@ public class ControladoresController extends Controller {
 
     @Transactional
     public CompletionStage<Result> dadosBasicos() {
-        return doStep(false, javax.validation.groups.Default.class);
+        return doStep(javax.validation.groups.Default.class);
     }
 
     @Transactional
     public CompletionStage<Result> aneis() {
-        return doStep(true, javax.validation.groups.Default.class, ControladorAneisCheck.class);
+        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class);
     }
 
     @Transactional
     public CompletionStage<Result> associacaoGruposSemaforicos() {
-        return doStep(true, javax.validation.groups.Default.class, ControladorAneisCheck.class,
+        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class,
                 ControladorAssociacaoGruposSemaforicosCheck.class);
     }
 
     @Transactional
     public CompletionStage<Result> verdesConflitantes() {
-        return doStep(true, javax.validation.groups.Default.class, ControladorAneisCheck.class,
+        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class,
                 ControladorAssociacaoGruposSemaforicosCheck.class,ControladorVerdesConflitantesCheck.class);
     }
 
@@ -80,13 +70,13 @@ public class ControladoresController extends Controller {
         }
     }
 
-    private CompletionStage<Result> doStep(Boolean checkIfExists, Class<?>... validatiosGroups) {
+    private CompletionStage<Result> doStep(Class<?>... validatiosGroups) {
         if (request().body() == null) {
             return CompletableFuture.completedFuture(badRequest());
         }
 
         Controlador controlador = Json.fromJson(request().body().asJson(), Controlador.class);
-
+        boolean checkIfExists = controlador.getId() != null;
         if (checkIfExists && Controlador.find.byId(controlador.getId()) == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
@@ -103,9 +93,8 @@ public class ControladoresController extends Controller {
                                             .forEach(estagioGrupoSemaforico -> estagioGrupoSemaforico.save());
 
                                 }));
-
-                controlador.refresh();
-
+                //TODO: Esse Thor não funciona
+                //controlador.refresh();
             }
             List<InfluuntValidator.Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, validatiosGroups);
             if (erros.size() > 0) {
@@ -116,6 +105,7 @@ public class ControladoresController extends Controller {
                 } else {
                     controlador.save();
                 }
+                controlador.refresh();
                 return CompletableFuture.completedFuture(ok(Json.toJson(Controlador.find.byId(controlador.getId()))));
             }
 

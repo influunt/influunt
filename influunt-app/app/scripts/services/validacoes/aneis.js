@@ -35,7 +35,7 @@ angular.module('influuntApp')
     var validaQuantidadeGruposSemaforicos = function(aneis, controlador) {
       var maxGruposSemaforicos = controlador.modelo.configuracao.limiteGrupoSemaforico;
       var totalGruposSemaforicos = aneis.reduce(function(a, b) {
-        return a + (b.grupos_pedestres || 0) + (b.grupos_sinais_veiculares || 0);
+        return a + (b.quantidadeGrupoPedestre || 0) + (b.quantidadeGrupoVeicular || 0);
       }, 0);
 
       aneis[0].valid.totalGruposSemaforicos = maxGruposSemaforicos >= totalGruposSemaforicos;
@@ -45,7 +45,7 @@ angular.module('influuntApp')
     var validaQuantidadeDetectoresVeicular = function(aneis, controlador) {
       var maxDetectorVeicular = controlador.modelo.configuracao.limiteDetectorVeicular;
       var totalDetectorVeicular = aneis.reduce(function(a, b) {
-        return a + (b.numero_detectores || 0);
+        return a + (b.quantidadeDetectorVeicular || 0);
       }, 0);
 
       aneis[0].valid.totalDetectorVeicular = maxDetectorVeicular >= totalDetectorVeicular;
@@ -55,7 +55,7 @@ angular.module('influuntApp')
     var validaQuantidadeDetectoresPedestres = function(aneis, controlador) {
       var maxDetectorPedestres = controlador.modelo.configuracao.limiteDetectorPedestre;
       var totalDetectorPedestres = aneis.reduce(function(a, b) {
-        return a + (b.numero_detectores_pedestres || 0);
+        return a + (b.quantidadeDetectorPedestre || 0);
       }, 0);
 
       aneis[0].valid.totalDetectorPedestres = maxDetectorPedestres >= totalDetectorPedestres;
