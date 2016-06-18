@@ -74,7 +74,7 @@ angular.module('influuntApp')
               $scope.submited = false;
               $scope.criaAneis($scope.objeto);
 
-              $state.go(nextStep);
+              $state.go(nextStep, {id: $scope.objeto.id});
             })
             .catch(function(res) {
               $scope.mensagemValidacaoForm(res);

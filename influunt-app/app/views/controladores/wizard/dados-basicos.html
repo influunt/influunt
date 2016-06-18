@@ -79,10 +79,14 @@
                 </div>
               </div>
 
-              <div class="form-group">
+              <div class="form-group" data-ng-class="{'has-error': formDadosBasicos.firmware.$invalid && (!formDadosBasicos.firmware.$pristine || submited)}">
                 <label>{{ 'controladores.versaoFirmware' | translate }}:</label>
                 <input type="text" name="firmware" class="form-control"
                   data-ng-model="objeto.firmware">
+                <p ng-show="formDadosBasicos.firmware.$invalid && (!formDadosBasicos.firmware.$pristine || submited)"
+                  class="help-block error-msg">
+                    {{ 'geral.campo_obrigatorio' | translate }}
+                </p>
               </div>
 
               <footer class="form-group">
