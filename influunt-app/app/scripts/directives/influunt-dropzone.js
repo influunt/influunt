@@ -43,6 +43,8 @@ angular.module('influuntApp')
               anel.movimentos = []
             }
             anel.movimentos.push({ imagem: { id: imagem.id } });
+
+            console.log("anel: ", anel)
           }
         });
       }
