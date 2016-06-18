@@ -6,6 +6,7 @@ import com.google.inject.Provider;
 import models.Imagem;
 import play.Application;
 import play.db.ebean.Transactional;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -40,7 +41,7 @@ public class ImagensController extends Controller {
                 imagem.delete();
                 return CompletableFuture.completedFuture(internalServerError());
             }
-            return CompletableFuture.completedFuture(ok());
+            return CompletableFuture.completedFuture(ok(Json.toJson(imagem)));
         } else {
             return CompletableFuture.completedFuture(badRequest());
         }

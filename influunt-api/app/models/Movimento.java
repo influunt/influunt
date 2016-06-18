@@ -16,7 +16,7 @@ import java.util.UUID;
 
 /**
  * Entidade que representa o {@link Movimento} no sistema
- * 
+ *
  * @author lesiopinheiro
  *
  */
@@ -28,6 +28,7 @@ public class Movimento extends Model {
 
     @Id
     private UUID id;
+
     @Column
     private String descricao;
 

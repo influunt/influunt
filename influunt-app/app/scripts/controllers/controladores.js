@@ -8,13 +8,19 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresCtrl', ['$controller', '$scope', '$state','Restangular', 'validacoesAneis',
-    function ($controller, $scope, $state, Restangular, validacoesAneis) {
+  .controller('ControladoresCtrl', ['$controller', '$scope', '$state','Restangular', 'validacoesAneis', 'APP_ROOT',
+    function ($controller, $scope, $state, Restangular, validacoesAneis, APP_ROOT) {
 
       // Herda todo o comportamento do crud basico.
       $controller('CrudCtrl', {$scope: $scope});
       $scope.inicializaNovoCrud('controladores');
       $scope.hideRemoveCoordenada = true;
+
+      // Seta URL para salvar imagens
+      // $scope.imagensUrl = APP_ROOT + "/imagens";
+      $scope.dados = {
+        imagensUrl: APP_ROOT + "/imagens"
+      };
 
       /**
        * Carrega as listas de dependencias dos controladores. Atua na tela de crud.
@@ -81,6 +87,7 @@ angular.module('influuntApp')
       };
 
       $scope.inicializaAneis = function() {
+        $scope.objeto = {"id":null,"dataCriacao":null,"dataAtualizacao":null,"descricao":"Teste","numeroSMEE":"1234","numeroSMEEConjugado1":null,"numeroSMEEConjugado2":null,"numeroSMEEConjugado3":null,"firmware":"1235","latitude":1.0,"longitude":2.0,"modelo":{"id":"8bb5cfe2-8eeb-4a95-96e7-c4e36e2b5f63","configuracao":{"id":"2cf049b5-deaf-4eb8-8c4a-6bd4eb0db7d7","limiteEstagio":16,"limiteGrupoSemaforico":16,"limiteAnel":4,"limiteDetectorPedestre":4,"limiteDetectorVeicular":8,"dataCriacao":"17/06/2016 18:14:57","dataAtualizacao":"17/06/2016 18:14:57"},"descricao":null,"dataCriacao":"17/06/2016 18:14:57","dataAtualizacao":"17/06/2016 18:14:57"},"area":{"id":"d2dc6a64-56ec-43f0-b02d-88c9343fc7d5","descricao":1,"limitesGeograficos":[],"dataCriacao":"17/06/2016 18:14:57","dataAtualizacao":"17/06/2016 18:14:57"},"aneis":[],"gruposSemaforicos":[],"detectores":[],"idControlador":""};
         var numAneis = $scope.objeto.modelo.configuracao.limiteAnel;
         $scope.aneis = $scope.aneis || _.times(numAneis, 0).map(function(value, key) {
           return {
@@ -126,7 +133,8 @@ angular.module('influuntApp')
         Restangular.all('helpers').all('controlador').customGET().then(function(res) {
           $scope.data = res;
           $scope.helpers = {cidade: $scope.data.cidades[0]};
-          $scope.objeto = {area: $scope.helpers.cidade.areas[0]};
+          // $scope.objeto = {area: $scope.helpers.cidade.areas[0]};
+          $scope.objeto = {"id":null,"dataCriacao":null,"dataAtualizacao":null,"descricao":"Teste","numeroSMEE":"1234","numeroSMEEConjugado1":null,"numeroSMEEConjugado2":null,"numeroSMEEConjugado3":null,"firmware":"1235","latitude":1.0,"longitude":2.0,"modelo":{"id":"8bb5cfe2-8eeb-4a95-96e7-c4e36e2b5f63","configuracao":{"id":"2cf049b5-deaf-4eb8-8c4a-6bd4eb0db7d7","limiteEstagio":16,"limiteGrupoSemaforico":16,"limiteAnel":4,"limiteDetectorPedestre":4,"limiteDetectorVeicular":8,"dataCriacao":"17/06/2016 18:14:57","dataAtualizacao":"17/06/2016 18:14:57"},"descricao":null,"dataCriacao":"17/06/2016 18:14:57","dataAtualizacao":"17/06/2016 18:14:57"},"area":{"id":"d2dc6a64-56ec-43f0-b02d-88c9343fc7d5","descricao":1,"limitesGeograficos":[],"dataCriacao":"17/06/2016 18:14:57","dataAtualizacao":"17/06/2016 18:14:57"},"aneis":[],"gruposSemaforicos":[],"detectores":[],"idControlador":""};
         });
       };
 

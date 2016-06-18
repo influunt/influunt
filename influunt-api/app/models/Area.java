@@ -17,7 +17,7 @@ import java.util.UUID;
 
 /**
  * Entidade que representa a {@link Aera} no sistema
- * 
+ *
  * @author lesiopinheiro
  *
  */
