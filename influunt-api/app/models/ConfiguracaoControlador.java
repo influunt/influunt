@@ -33,6 +33,9 @@ public class ConfiguracaoControlador extends Model {
     private UUID id;
 
     @Column
+    private String descricao;
+
+    @Column
     private Integer limiteEstagio = 16;
 
     @Column
@@ -65,6 +68,14 @@ public class ConfiguracaoControlador extends Model {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public Integer getLimiteEstagio() {

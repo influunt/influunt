@@ -3,6 +3,7 @@ package models;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.joda.time.DateTime;
@@ -10,6 +11,7 @@ import utils.InfluuntDateTimeDeserializer;
 import utils.InfluuntDateTimeSerializer;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import java.util.UUID;
 
 /**
@@ -36,6 +38,11 @@ public class Movimento extends Model {
     @ManyToOne
     @JoinColumn(name = "anel_id")
     private Anel anel;
+
+    @OneToOne(mappedBy = "movimento", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    @Valid
+    private Estagio estagio;
 
     @Column
     @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
@@ -89,11 +96,30 @@ public class Movimento extends Model {
         this.dataCriacao = dataCriacao;
     }
 
+    public Estagio getEstagio() {
+        return estagio;
+    }
+
+    public void setEstagio(Estagio estagio) {
+        this.estagio = estagio;
+    }
+
     public DateTime getDataAtualizacao() {
         return dataAtualizacao;
     }
 
     public void setDataAtualizacao(DateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
+    }
+
+
+    public void criarEstagio(){
+        if(this.id == null){
+            Estagio estagio = new Estagio();
+            estagio.setMovimento(this);
+            this.setEstagio(estagio);
+        }else{
+            //TODO: O que fazer na atualizacao?
+        }
     }
 }

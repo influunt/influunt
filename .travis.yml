@@ -10,6 +10,8 @@ cache:
   directories:
   - $HOME/.ivy2/cache
   - $HOME/.sbt/boot/
+  - influunt-app/bower_components/
+  - influunt-app/node_modules/
 before_script:
   - npm install -g bower
   - cd influunt-app && npm install && bower install && cd ..

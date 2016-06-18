@@ -13,7 +13,7 @@ import java.lang.annotation.*;
 @Documented
 public @interface NumeroDeGruposIgualAoModelo {
 
-    String message() default "{bar}";
+    String message() default "O numero de grupos semáforicos deve ser igual ao numero espeficado no modelo do controlador";
 
     Class<?>[] groups() default {};
 

@@ -1,5 +1,8 @@
 package controllers;
 
+import checks.ControladorAneisCheck;
+import checks.ControladorAssociacaoGruposSemaforicosCheck;
+import checks.ControladorVerdesConflitantesCheck;
 import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
@@ -7,6 +10,7 @@ import exceptions.EntityNotFound;
 import models.Anel;
 import models.Controlador;
 import play.Logger;
+import play.api.libs.iteratee.Cont;
 import play.data.Form;
 import play.data.FormFactory;
 import play.db.ebean.Transactional;
@@ -14,6 +18,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import javax.validation.groups.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -28,23 +33,30 @@ public class ControladoresController extends Controller {
     FormFactory formFactory;
 
     @Transactional
-    public CompletionStage<Result> create() {
-        if (request().body() == null) {
-            return CompletableFuture.completedFuture(badRequest());
-        }
-        Controlador controlador = Json.fromJson(request().body().asJson(),Controlador.class);
-        List<InfluuntValidator.Erro> erros = new InfluuntValidator<Controlador>().validate(controlador);
-        if (erros.size() > 0) {
-            return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
-        } else {
-            controlador.save();
-            return CompletableFuture.completedFuture(ok(Json.toJson(controlador)));
-        }
+    public CompletionStage<Result> dadosBasicos() {
+        return doStep(false, javax.validation.groups.Default.class);
     }
 
     @Transactional
-    public CompletionStage<Result> findOne(String id) {
-        Controlador controlador = Controlador.find.byId(UUID.fromString(id));
+    public CompletionStage<Result> aneis() {
+        return doStep(true, javax.validation.groups.Default.class, ControladorAneisCheck.class);
+    }
+
+    @Transactional
+    public CompletionStage<Result> associacaoGruposSemaforicos() {
+        return doStep(true, javax.validation.groups.Default.class, ControladorAneisCheck.class,
+                ControladorAssociacaoGruposSemaforicosCheck.class);
+    }
+
+    @Transactional
+    public CompletionStage<Result> verdesConflitantes() {
+        return doStep(true, javax.validation.groups.Default.class, ControladorAneisCheck.class,
+                ControladorAssociacaoGruposSemaforicosCheck.class,ControladorVerdesConflitantesCheck.class);
+    }
+
+    @Transactional
+    public CompletionStage<Result> findOne(Long id) {
+        Controlador controlador = Controlador.find.byId(id);
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
@@ -58,8 +70,8 @@ public class ControladoresController extends Controller {
     }
 
     @Transactional
-    public CompletionStage<Result> delete(String id) {
-        Controlador controlador = Controlador.find.byId(UUID.fromString(id));
+    public CompletionStage<Result> delete(Long id) {
+        Controlador controlador = Controlador.find.byId(id);
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
@@ -68,27 +80,47 @@ public class ControladoresController extends Controller {
         }
     }
 
-    @Transactional
-    public CompletionStage<Result> update(String id) {
+    private CompletionStage<Result> doStep(Boolean checkIfExists, Class<?>... validatiosGroups) {
         if (request().body() == null) {
             return CompletableFuture.completedFuture(badRequest());
         }
-        Controlador controlador = Controlador.find.byId(UUID.fromString(id));
-        if (controlador == null) {
-            return CompletableFuture.completedFuture(notFound());
-        }else{
-            controlador = Json.fromJson(request().body().asJson(),Controlador.class);
-            List<InfluuntValidator.Erro> erros = new InfluuntValidator<Controlador>().validate(controlador);
 
-            if (!erros.isEmpty()) {
+        Controlador controlador = Json.fromJson(request().body().asJson(), Controlador.class);
+
+        if (checkIfExists && Controlador.find.byId(controlador.getId()) == null) {
+            return CompletableFuture.completedFuture(notFound());
+        } else {
+
+            if(checkIfExists){
+                controlador.getAneis().stream().filter(anel -> anel.isAtivo())
+                        .forEach(anel -> anel.getGruposSemaforicos().stream()
+                                .filter(grupoSemaforico -> grupoSemaforico.getEstagioGrupoSemaforicos() != null)
+                                .forEach(grupoSemaforico ->
+                                {
+                                    grupoSemaforico.update();
+                                    grupoSemaforico.getEstagioGrupoSemaforicos()
+                                            .stream()
+                                            .forEach(estagioGrupoSemaforico -> estagioGrupoSemaforico.save());
+
+                                }));
+
+                controlador.refresh();
+
+            }
+            List<InfluuntValidator.Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, validatiosGroups);
+            if (erros.size() > 0) {
                 return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
-            }else{
-                controlador.setId(UUID.fromString(id));
-                controlador.update();
-                return CompletableFuture.completedFuture(ok(Json.toJson(controlador)));
+            } else {
+                if (checkIfExists) {
+                    controlador.update();
+                } else {
+                    controlador.save();
+                }
+                return CompletableFuture.completedFuture(ok(Json.toJson(Controlador.find.byId(controlador.getId()))));
             }
 
         }
     }
+
 
 }
