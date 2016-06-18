@@ -10,26 +10,40 @@
  * carregado antes mesmo do angular-translate estar pronto (ele carrega o arquivo
  * i18n de forma assincrona).
  */
+
+// console.log('lendo arquivo directive dropzone');
+
 angular.module('influuntApp')
   .directive('influuntDropzone', function () {
+    console.log('registrando directive dropzone');
     return {
       restrict: 'A',
       scope: {
-        url: '@'
+        url: '@',
+        anel: "=",
+        imagensUrl: "="
       },
       link: function postLink(scope, element) {
         $(element).dropzone({
-          url: scope.url,
+          url: "http://localhost/api/v1/imagens",
           dictDefaultMessage: 'Arraste imagens para este local',
           dictFallbackMessage: 'Seu navegador não suporta arrastar e soltar upload de arquivos.',
-          autoProcessQueue: false,
-          uploadMultiple: true,
+          autoProcessQueue: true,
+          uploadMultiple: false,
           parallelUploads: 100,
           thumbnailHeight: 100,
           thumbnailWidth: 100,
           clickable: true,
-          paramName: true,
-          maxFiles: 100
+          paramName: "imagem",
+          maxFiles: 100,
+          success: function(upload, imagem) {
+            var anel = scope.anel;
+            var url = scope.imagensUrl;
+            if (!('movimentos' in anel)) {
+              anel.movimentos = []
+            }
+            anel.movimentos.push({ imagem: { id: imagem.id } });
+          }
         });
       }
     };

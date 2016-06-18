@@ -111,7 +111,7 @@
         <hgroup>
           <label for=""><p>{{ 'controladores.movimentos' | translate }}</p></label>
         </hgroup>
-        <form class="dropzone" id="my-awesome-dropzone" action="upa">
+        <form class="dropzone" id="my-awesome-dropzone" imagens-url="dados.imagensUrl" enctype="multipart/form-data" influunt-dropzone anel="currentAnel">
           <div class="dropzone-previews"></div>
           <div class="fallback">
             <input name="step_into_the_sun" type="file" multiple />
@@ -128,21 +128,3 @@
     </div>
   </div>
 </fieldset>
-
-<script>
-  $(document).ready(function(){
-    $("#my-awesome-dropzone").dropzone({
-      url: "/file/post",
-      dictDefaultMessage: "Arraste imagens para este local",
-      dictFallbackMessage: "Seu navegador não suporta arrastar e soltar upload de arquivos.",
-      autoProcessQueue: false,
-      uploadMultiple: true,
-      parallelUploads: 100,
-      thumbnailHeight: 100,
-      thumbnailWidth: 100,
-      clickable: true,
-      paramName: true,
-      maxFiles: 100,
-    });
-  });
-</script>

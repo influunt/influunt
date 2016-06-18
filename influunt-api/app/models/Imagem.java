@@ -95,6 +95,6 @@ public class Imagem extends Model {
     }
 
     public File getPath(File rootPath) {
-        return new File(rootPath, "imagens" + this.getId());
+        return new File(rootPath, "imagens/" + this.getId());
     }
 }

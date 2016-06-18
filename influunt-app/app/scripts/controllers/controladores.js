@@ -8,13 +8,18 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresCtrl', ['$controller', '$scope', '$state','Restangular', 'validacoesAneis', '$q',
-    function ($controller, $scope, $state, Restangular, validacoesAneis, $q) {
+  .controller('ControladoresCtrl', ['$controller', '$scope', '$state','Restangular', 'validacoesAneis', '$q', 'APP_ROOT',
+    function ($controller, $scope, $state, Restangular, validacoesAneis, $q, APP_ROOT) {
 
       // Herda todo o comportamento do crud basico.
       $controller('CrudCtrl', {$scope: $scope});
       $scope.inicializaNovoCrud('controladores');
       $scope.hideRemoveCoordenada = true;
+
+      // Seta URL para salvar imagens
+      $scope.dados = {
+        imagensUrl: APP_ROOT + "/imagens"
+      };
 
       /**
        * Filtra controladores baseado nos checkboxes

@@ -1,6 +1,5 @@
 package models;
 
-import checks.AoMenosUmAnelAtivo;
 import checks.AoMenosUmGrupoSemaforico;
 import checks.ConformidadeNumeroMovimentos;
 import checks.ControladorAssociacaoGruposSemaforicosCheck;
@@ -14,7 +13,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.joda.time.DateTime;
-import play.data.validation.Constraints;
 import utils.InfluuntDateTimeDeserializer;
 import utils.InfluuntDateTimeSerializer;
 
@@ -22,8 +20,9 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -211,6 +210,9 @@ public class Anel extends Model {
     }
 
     public Integer getQuantidadeGrupoPedestre() {
+        if (quantidadeGrupoPedestre == null) {
+            return 0;
+        }
         return quantidadeGrupoPedestre;
     }
 
@@ -219,6 +221,9 @@ public class Anel extends Model {
     }
 
     public Integer getQuantidadeGrupoVeicular() {
+        if (quantidadeGrupoVeicular == null) {
+            return 0;
+        }
         return quantidadeGrupoVeicular;
     }
 
@@ -227,6 +232,9 @@ public class Anel extends Model {
     }
 
     public Integer getQuantidadeDetectorPedestre() {
+        if (quantidadeDetectorPedestre == null) {
+            return 0;
+        }
         return quantidadeDetectorPedestre;
     }
 
@@ -235,6 +243,9 @@ public class Anel extends Model {
     }
 
     public Integer getQuantidadeDetectorVeicular() {
+        if (quantidadeDetectorVeicular == null) {
+            return 0;
+        }
         return quantidadeDetectorVeicular;
     }
 
@@ -255,7 +266,7 @@ public class Anel extends Model {
     }
 
     @JsonIgnore
-    @AssertTrue(message = "Posicao deve ser informada")
+    @AssertTrue(message = "Posição deve ser informada")
     public boolean isPosicaoOk() {
         return !this.ativo || this.posicao != null;
     }
@@ -274,12 +285,12 @@ public class Anel extends Model {
 
 
     public int getQuantidadeGrupoSemaforico() {
-        return this.quantidadeGrupoPedestre + this.quantidadeGrupoVeicular;
+        return getQuantidadeGrupoPedestre() + getQuantidadeGrupoVeicular();
     }
 
 
     public void criaGruposSemaforicos() {
-        if (this.id == null) {
+        if (this.id == null && isAtivo()) {
             this.gruposSemaforicos = new ArrayList<GrupoSemaforico>(this.getQuantidadeGrupoSemaforico());
             for (int i = this.getQuantidadeGrupoSemaforico(); i > 0; i--) {
                 GrupoSemaforico grupoSemaforico = new GrupoSemaforico();
@@ -294,7 +305,7 @@ public class Anel extends Model {
 
 
     public void criaDetectores() {
-        if (this.id == null) {
+        if (this.id == null && isAtivo()) {
             this.detectores = new ArrayList<Detector>(this.getQuantidadeDetectorPedestre() + this.getQuantidadeDetectorVeicular());
 
             for (int i = this.getQuantidadeDetectorPedestre(); i > 0; i--) {
