@@ -115,6 +115,7 @@ create table grupos_semaforicos (
   anel_id                       varchar(40),
   controlador_id                bigint,
   grupo_conflito_id             varchar(40),
+  posicao                       integer,
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
   constraint ck_grupos_semaforicos_tipo check (tipo in ('PEDESTRE','VEICULAR')),
