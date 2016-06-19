@@ -46,8 +46,9 @@
             <td data-ng-repeat="(indexTD, td) in grupos"
               class="clickable"
               data-ng-class="{disabled: tr === td || indexTR >= gruposUtilizados || indexTD >= gruposUtilizados}"
-              data-ng-click="toggleVerdeConflitante(indexTD, indexTR, (tr === td || indexTR >= gruposUtilizados || indexTD >= gruposUtilizados))">
-              <i class="fa fa-times sinal-verde-conflitante" data-ng-class="{ ativo : verdesConflitantes[indexTD][indexTR]}"></i>
+              data-ng-click="toggleVerdeConflitante(indexTR, indexTD, (tr === td || indexTR >= gruposUtilizados || indexTD >= gruposUtilizados))"
+              data-grupo-id="{{ grupoIds[indexTD] }}">
+              <i class="fa fa-times sinal-verde-conflitante" data-ng-class="{ ativo : verdesConflitantes[indexTR][indexTD]}"></i>
             </td>
           </tr>
         </tbody>
@@ -58,6 +59,6 @@
 <div class="col-sm-12 col-lg-12 m-b-lg">
 <fieldset class="m-t-md">
   <a ui-sref="app.wizard_controladores.aneis" class="btn btn-default">{{ 'plugins.steps.labels.previous' | translate }}</a>
-  <button type="submit" class="btn btn-primary">{{ 'plugins.steps.labels.finish' | translate }}</button>
+  <button class="btn btn-primary" ng-click="submitVerdesConflitantes()">{{ 'plugins.steps.labels.finish' | translate }}</button>
 </fieldset>
 </div>

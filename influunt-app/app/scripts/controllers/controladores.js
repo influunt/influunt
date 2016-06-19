@@ -138,7 +138,10 @@ angular.module('influuntApp')
 
       $scope.inicializaVerdesConflitantes = function() {
         return $scope.inicializaWizard().then(function() {
-          var totalGrupos = $scope.objeto.modelo.configuracao.limiteGrupoSemaforico
+          $scope.grupoIds = _.chain($scope.objeto.gruposSemaforicos).orderBy(['posicao'], ['asc']).map('id').value();
+          console.log($scope.grupoIds);
+
+          var totalGrupos = $scope.objeto.modelo.configuracao.limiteGrupoSemaforico;
           $scope.grupos = _.times(totalGrupos, function(i) {return 'G' + (i+1);});
 
           $scope.movimentos = _.chain($scope.objeto.aneis).map('movimentos').flatten().value();
@@ -165,6 +168,7 @@ angular.module('influuntApp')
       $scope.submitForm = function(form, stepResource, nextStep) {
         $scope.submited = true;
         if (form.$valid) {
+          console.log('asfdsa');
           Restangular
             .all('controladores')
             .all(stepResource)
@@ -188,6 +192,11 @@ angular.module('influuntApp')
         } else {
           $scope.validacoes.alerts = validacoesAneis.retornaMensagensValidacao($scope.objeto.aneis);
         }
+      };
+
+      $scope.submitVerdesConflitantes = function() {
+        console.log($scope.verdesConflitantes);
+        $scope.submitForm({$valid: true}, 'verdes_conflitantes', 'app.controladores');
       };
 
       $scope.selecionaAnel = function(index) {
@@ -218,6 +227,16 @@ angular.module('influuntApp')
       $scope.toggleVerdeConflitante = function(x, y, disabled) {
         if (disabled) {
           return false;
+        }
+
+        var grupo = _.find($scope.objeto.gruposSemaforicos, {id: $scope.grupoIds[x]});
+        grupo.verdesConflitantes = grupo.verdesConflitantes || [];
+
+        if ($scope.verdesConflitantes[x][y]) {
+          var index = _.findIndex(grupo.verdesConflitantes, {id: $scope.grupoIds[y]});
+          grupo.verdesConflitantes.splice(index, 1);
+        } else {
+          grupo.verdesConflitantes.push({id: $scope.grupoIds[y]});
         }
 
         $scope.verdesConflitantes[x][y] = !$scope.verdesConflitantes[x][y];
