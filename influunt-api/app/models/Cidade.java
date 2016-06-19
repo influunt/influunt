@@ -7,8 +7,10 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.joda.time.DateTime;
-import utils.InfluuntDateTimeDeserializer;
-import utils.InfluuntDateTimeSerializer;
+import models.deserializers.CidadeDeserializer;
+import models.serializers.CidadeSerializer;
+import models.deserializers.InfluuntDateTimeDeserializer;
+import models.serializers.InfluuntDateTimeSerializer;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -23,6 +25,8 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "cidades")
+@JsonSerialize(using = CidadeSerializer.class)
+@JsonDeserialize(using = CidadeDeserializer.class)
 public class Cidade extends Model {
 
     private static final long serialVersionUID = 6446144066408570296L;

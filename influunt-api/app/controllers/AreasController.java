@@ -23,6 +23,7 @@ public class AreasController extends Controller {
         } else {
             Area area = Json.fromJson(json, Area.class);
             area.save();
+            area.refresh();
             return CompletableFuture.completedFuture(ok(Json.toJson(area)));
         }
     }
@@ -33,6 +34,7 @@ public class AreasController extends Controller {
         if (area == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
+            area.getLimitesGeograficos();
             return CompletableFuture.completedFuture(ok(Json.toJson(area)));
         }
     }

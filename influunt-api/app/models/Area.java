@@ -3,13 +3,14 @@ package models;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.joda.time.DateTime;
-import utils.InfluuntDateTimeDeserializer;
-import utils.InfluuntDateTimeSerializer;
+import models.deserializers.AreaDeserializer;
+import models.serializers.AreaSerializer;
+import models.deserializers.InfluuntDateTimeDeserializer;
+import models.serializers.InfluuntDateTimeSerializer;
 
 import javax.persistence.*;
 import java.util.List;
@@ -21,6 +22,8 @@ import java.util.UUID;
  * @author lesiopinheiro
  *
  */
+@JsonSerialize(using = AreaSerializer.class)
+@JsonDeserialize(using = AreaDeserializer.class)
 @Entity
 @Table(name = "areas")
 public class Area extends Model {
@@ -35,7 +38,6 @@ public class Area extends Model {
     private Integer descricao;
 
     @ManyToOne
-    @JsonBackReference
     private Cidade cidade;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "area")

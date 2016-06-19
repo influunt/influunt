@@ -25,7 +25,6 @@ public class CidadesController extends Controller {
 
         Cidade cidade = Json.fromJson(json, Cidade.class);
         cidade.save();
-
         return CompletableFuture.completedFuture(ok(Json.toJson(cidade)));
     }
 
