@@ -32,10 +32,15 @@
                   <figcaption>Imgname.jpg</figcaption>
                 </div>
                 <div class="upload-figure">
-                  <figure>
-                    <form class="dropzone" enctype="multipart/form-data" influunt-dropzone anel="currentAnel" on-success="relacionaImagemAoEstagio(movimento, upload, imagem)">
-                      <div class="dropzone-previews">
-                        <hgroup>
+                  <!-- <figure data-ng-style="{ background: url({{ movimento.estagio.imagem.id | imageSource  }}) }"> -->
+                  <figure custom-background="movimento.estagio.imagem.id | imageSource">
+                    <form class="dropzone" enctype="multipart/form-data"
+                        influunt-dropzone anel="currentAnel"
+                        on-success="relacionaImagemAoEstagio(movimento, upload, imagem)"
+                        style="min-height: 135px;max-height: 135px; padding: 0;">
+                      <div>
+                        <!-- <img data-ng-if="movimento.estagio.imagem" data-ng-src="{{ movimento.estagio.imagem.id | imageSource  }}"> -->
+                        <hgroup data-ng-if="!movimento.estagio.imagem">
                           <i class="fa fa-upload" aria-hidden="true"></i>
                           <label title="Adicione um estágio a este movimento" for="anel-1" class="">
                             Adicione um Estágioa este Movimento
@@ -47,15 +52,6 @@
                         <input name="file" type="file" multiple />
                       </div>
                     </form>
-                    <!-- <form action="" method="" influunt-dropzone anel="currentAnel" on-success="relacionaImagemAoEstagio(movimento, upload, imagem)">
-                      <hgroup>
-                        <i class="fa fa-upload" aria-hidden="true"></i>
-                        <label title="Adicione um estágio a este movimento" for="anel-1" class="">
-                          <input type="file" class="imgInp hide" id="anel-1" />Adicione um Estágioa este Movimento
-                          <img class="attrImg" src="#" alt="" width="250" />
-                        </label>
-                      </hgroup>
-                    </form> -->
                   </figure>
                 </div>
               </div>

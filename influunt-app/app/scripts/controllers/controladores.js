@@ -276,7 +276,7 @@ angular.module('influuntApp')
       };
 
       $scope.associaImagemAoMovimento = function(upload, imagem) {
-        var anel = $scoe.currentAnel;
+        var anel = $scope.currentAnel;
         if (!('movimentos' in anel)) {
           anel.movimentos = [];
         }
@@ -286,6 +286,7 @@ angular.module('influuntApp')
 
       $scope.relacionaImagemAoEstagio = function(movimento, upload, imagem) {
         movimento.estagio.imagem = imagem;
+        $scope.$apply();
       };
 
     }]);
