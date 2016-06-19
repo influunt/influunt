@@ -275,4 +275,17 @@ angular.module('influuntApp')
         return controlador.aneis;
       };
 
+      $scope.associaImagemAoMovimento = function(upload, imagem) {
+        var anel = $scoe.currentAnel;
+        if (!('movimentos' in anel)) {
+          anel.movimentos = [];
+        }
+
+        anel.movimentos.push({ imagem: { id: imagem.id } });
+      };
+
+      $scope.relacionaImagemAoEstagio = function(movimento, upload, imagem) {
+        movimento.estagio.imagem = imagem;
+      };
+
     }]);

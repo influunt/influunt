@@ -33,7 +33,21 @@
                 </div>
                 <div class="upload-figure">
                   <figure>
-                    <form action="" method="">
+                    <form class="dropzone" enctype="multipart/form-data" influunt-dropzone anel="currentAnel" on-success="relacionaImagemAoEstagio(movimento, upload, imagem)">
+                      <div class="dropzone-previews">
+                        <hgroup>
+                          <i class="fa fa-upload" aria-hidden="true"></i>
+                          <label title="Adicione um estágio a este movimento" for="anel-1" class="">
+                            Adicione um Estágioa este Movimento
+                            <img class="attrImg" src="#" alt="" width="250" />
+                          </label>
+                        </hgroup>
+                      </div>
+                      <div class="fallback">
+                        <input name="file" type="file" multiple />
+                      </div>
+                    </form>
+                    <!-- <form action="" method="" influunt-dropzone anel="currentAnel" on-success="relacionaImagemAoEstagio(movimento, upload, imagem)">
                       <hgroup>
                         <i class="fa fa-upload" aria-hidden="true"></i>
                         <label title="Adicione um estágio a este movimento" for="anel-1" class="">
@@ -41,7 +55,7 @@
                           <img class="attrImg" src="#" alt="" width="250" />
                         </label>
                       </hgroup>
-                    </form>
+                    </form> -->
                   </figure>
                 </div>
               </div>

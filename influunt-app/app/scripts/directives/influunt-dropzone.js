@@ -17,7 +17,8 @@ angular.module('influuntApp')
       scope: {
         url: '@',
         anel: '=',
-        imagensUrl: '='
+        imagensUrl: '=',
+        onSuccess: '&'
       },
       link: function postLink(scope, element) {
         $(element).dropzone({
@@ -34,18 +35,12 @@ angular.module('influuntApp')
           maxFiles: 100,
           success: function(upload, imagem) {
             var anel = scope.anel;
-            // var url = scope.imagensUrl;
-            if (!('movimentos' in anel)) {
-              anel.movimentos = [];
-            }
-
-            anel.movimentos.push({ imagem: { id: imagem.id } });
 
             // Adiciona o anel id ao elemento do preview. Este id será utilizado
             // para filtrar as imagens de movimentos para os diferentes aneis.
             $('.dz-preview').filter(function() {
               return !$(this).attr('data-anel-id');
-            }).attr('data-anel-id', scope.anel.id_anel);
+            }).attr('data-anel-id', anel.id_anel);
 
             // A cada troca de anel, este watcher deverá esconder os itens que
             // não são deste anel e exibir aqueles que são deles.
@@ -53,6 +48,8 @@ angular.module('influuntApp')
               $('.dz-preview[data-anel-id="' + value + '"]').show();
               $('.dz-preview:not([data-anel-id="' + value + '"])').hide();
             });
+
+            return scope.onSuccess({upload: upload, imagem: imagem});
           }
         });
       }
