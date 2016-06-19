@@ -32,3 +32,9 @@ i.sinal-verde-conflitante.ativo {
 .movimento-selecionado {
   background-color: #6fd1bd !important;
 }
+
+.wizard-steps.disabled a {
+  pointer-events: none;
+  cursor: default;
+  background-color: #e6e6e6;
+}

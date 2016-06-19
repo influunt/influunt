@@ -31,9 +31,9 @@
     "numeroDetectores": "No detectores",
     "numeroDetectoresPedestres": "No detectores pedestres",
     "numeroSMEE": "Número SMEE",
-    "numeroSMEEConjugado1": "No SMEE conjugado 1",
-    "numeroSMEEConjugado2": "No SMEE conjugado 2",
-    "numeroSMEEConjugado3": "No SMEE conjugado 3",
+    "numeroSMEEConjugado1": "Num. SMEE conjugado 1",
+    "numeroSMEEConjugado2": "Num. SMEE conjugado 2",
+    "numeroSMEEConjugado3": "Num. SMEE conjugado 3",
     "tipo": "Tipo",
     "titulo": "Controladores",
     "validacoes": {

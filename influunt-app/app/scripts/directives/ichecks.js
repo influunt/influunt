@@ -39,7 +39,11 @@ angular.module('influuntApp')
             });
 
             scope.$watch('isDisabled', function(value) {
-              return value && $(element[0]).iCheck('disable');
+              if (value) {
+                $(element[0]).iCheck('disable');
+              } else {
+                $(element[0]).iCheck('enable');
+              }
             });
           });
         });
