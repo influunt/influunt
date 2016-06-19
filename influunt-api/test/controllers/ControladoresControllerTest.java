@@ -1,29 +1,26 @@
 package controllers;
 
-import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
-import controllers.routes;
 import fixtures.ControladorFixture;
-import models.*;
+import models.Controlador;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import play.Application;
 import play.Logger;
 import play.Mode;
-import play.inject.Bindings;
 import play.inject.guice.GuiceApplicationBuilder;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
 import play.test.WithApplication;
-import security.Authenticator;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import static junit.framework.TestCase.assertNotNull;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static play.mvc.Http.Status.OK;
 import static play.mvc.Http.Status.UNPROCESSABLE_ENTITY;
 import static play.test.Helpers.inMemoryDatabase;
@@ -182,6 +179,8 @@ public class ControladoresControllerTest extends WithApplication {
         assertEquals(404, result.status());
     }
 
+
+
     @Test
     @SuppressWarnings("unchecked")
     public void testListarControladores() {
@@ -198,6 +197,5 @@ public class ControladoresControllerTest extends WithApplication {
         assertEquals(200, result.status());
         assertEquals(3, controladores.size());
     }
-
 
 }

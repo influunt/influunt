@@ -8,13 +8,12 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.joda.time.DateTime;
-import utils.InfluuntDateTimeDeserializer;
-import utils.InfluuntDateTimeSerializer;
+import models.deserializers.InfluuntDateTimeDeserializer;
+import models.serializers.InfluuntDateTimeSerializer;
 
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
-import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.UUID;
 

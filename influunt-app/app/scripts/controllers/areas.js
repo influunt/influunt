@@ -18,8 +18,8 @@ angular.module('influuntApp')
        * Adiciona um novo formulario de coordenadas à area.
        */
       $scope.adicionarCoordenadas = function() {
-        $scope.objeto.coordenadas = $scope.objeto.coordenadas || [];
-        $scope.objeto.coordenadas.push({
+        $scope.objeto.limites = $scope.objeto.limites || [];
+        $scope.objeto.limites.push({
           latitude: null,
           longitude: null
         });
@@ -31,7 +31,7 @@ angular.module('influuntApp')
        * @param      {integer}  index   The index
        */
       $scope.removerCoordenadas = function(index) {
-        $scope.objeto.coordenadas.splice(index, 1);
+        $scope.objeto.limites.splice(index, 1);
       };
 
       /**

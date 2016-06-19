@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.joda.time.DateTime;
-import utils.InfluuntDateTimeDeserializer;
-import utils.InfluuntDateTimeSerializer;
+import models.deserializers.InfluuntDateTimeDeserializer;
+import models.serializers.InfluuntDateTimeSerializer;
 
 import javax.persistence.*;
 import java.util.UUID;

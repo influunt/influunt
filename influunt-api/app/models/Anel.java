@@ -13,8 +13,8 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.joda.time.DateTime;
-import utils.InfluuntDateTimeDeserializer;
-import utils.InfluuntDateTimeSerializer;
+import models.deserializers.InfluuntDateTimeDeserializer;
+import models.serializers.InfluuntDateTimeSerializer;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -300,7 +300,7 @@ public class Anel extends Model {
                 grupoSemaforico.setControlador(this.getControlador());
 //                grupoSemaforico.save();
                 getGruposSemaforicos().add(grupoSemaforico);
-                this.getControlador().getGruposSemaforicos().add(grupoSemaforico);
+//                this.getControlador().getGruposSemaforicos().add(grupoSemaforico);
             }
         } else {
             //TODO:O que fazer se o cara alterar????
