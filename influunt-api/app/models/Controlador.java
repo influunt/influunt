@@ -7,10 +7,12 @@ import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import models.deserializers.ControladorDeserializer;
+import models.deserializers.InfluuntDateTimeDeserializer;
+import models.serializers.ControladorSerializer;
+import models.serializers.InfluuntDateTimeSerializer;
 import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
-import models.deserializers.InfluuntDateTimeDeserializer;
-import models.serializers.InfluuntDateTimeSerializer;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -29,8 +31,9 @@ import java.util.List;
 @ConformidadeDeNumeroDeDetectoresDePedestre(groups = ControladorAneisCheck.class)
 @ConformidadeDeNumeroDeDetectoresVeicular(groups = ControladorAneisCheck.class)
 @AoMenosUmAnelAtivo(groups = ControladorAneisCheck.class)
+@JsonDeserialize(using = ControladorDeserializer.class)
+@JsonSerialize(using = ControladorSerializer.class)
 public class Controlador extends Model {
-
     private static final long serialVersionUID = 521560643019927963L;
     public static Finder<Long, Controlador> find = new Finder<Long, Controlador>(Controlador.class);
 
@@ -90,22 +93,18 @@ public class Controlador extends Model {
     private Area area;
 
     @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
-    @JsonManagedReference
     @Valid
     private List<Anel> aneis;
 
     @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
-    @JsonManagedReference
     @Valid
     private List<GrupoSemaforico> gruposSemaforicos;
 
     @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
-    @JsonManagedReference
     @Valid
     private List<Detector> detectores;
 
     @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
-    @JsonManagedReference
     @Valid
     private List<Movimento> movimentos;
 

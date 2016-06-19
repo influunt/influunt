@@ -9,6 +9,7 @@ import play.libs.Json;
 import java.io.IOException;
 import java.util.Arrays;
 
+import static java.awt.SystemColor.control;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -138,6 +139,12 @@ public class ControladorTest {
         controlador.update();
         assertEquals(5, controlador.getAneis().size());
         assertEquals(4, controlador.getGruposSemaforicos().size());
+    }
+
+    @Test
+    public TestCriarControlador() {
+        Controlador controlador = new Controlador();
+
     }
 
 }

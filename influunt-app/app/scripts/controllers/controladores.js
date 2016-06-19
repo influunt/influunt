@@ -113,6 +113,7 @@ angular.module('influuntApp')
       $scope.inicializaAssociacao = function() {
         return $scope.inicializaWizard().then(function() {
           $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
+          console.log($scope.aneis);
           _.each($scope.aneis, function(anel) {
             _.each(anel.gruposSemaforicos, function(grupo, index) {
               grupo.label = 'G' + (index+1);
@@ -306,6 +307,7 @@ angular.module('influuntApp')
       $scope.relacionaImagemAoEstagio = function(movimento, upload, imagem) {
         movimento.estagio.imagem = imagem;
         $scope.$apply();
+        console.log($scope.aneis);
       };
 
     }]);

@@ -25,8 +25,8 @@ public class CidadeSerializer extends JsonSerializer<Cidade> {
         if (cidade.getDataCriacao() != null) {
             jgen.writeStringField("dataCriacao", cidade.getDataCriacao().toString());
         }
-        if (cidade.getDataCriacao() != null) {
-            jgen.writeStringField("dataAtualizacao", cidade.getDataCriacao().toString());
+        if (cidade.getDataAtualizacao() != null) {
+            jgen.writeStringField("dataAtualizacao", cidade.getDataAtualizacao().toString());
         }
         jgen.writeArrayFieldStart("areas");
         for (Area area : cidade.getAreas()) {

@@ -20,7 +20,7 @@ public class AreaSerializer extends JsonSerializer<Area> {
         jgen.writeStringField("id", area.getId().toString());
         jgen.writeNumberField("descricao", area.getDescricao());
         jgen.writeStringField("dataCriacao", area.getDataCriacao().toString());
-        jgen.writeStringField("dataAtualizacao", area.getDataCriacao().toString());
+        jgen.writeStringField("dataAtualizacao", area.getDataAtualizacao().toString());
         jgen.writeObjectField("cidade", area.getCidade());
         jgen.writeArrayFieldStart("limites");
         for (LimiteArea limite : area.getLimitesGeograficos()) {

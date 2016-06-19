@@ -39,14 +39,12 @@ public class Imagem extends Model {
     @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using= InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
-    @NotNull
     private DateTime dataCriacao;
 
     @Column
     @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using= InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
-    @NotNull
     private DateTime dataAtualizacao;
 
     public UUID getId() {

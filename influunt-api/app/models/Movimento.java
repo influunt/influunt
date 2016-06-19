@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import models.deserializers.MovimentoDeserializer;
+import models.serializers.MovimentoSerializer;
 import org.joda.time.DateTime;
 import models.deserializers.InfluuntDateTimeDeserializer;
 import models.serializers.InfluuntDateTimeSerializer;
@@ -23,6 +25,8 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "movimentos")
+@JsonDeserialize(using = MovimentoDeserializer.class)
+@JsonSerialize(using = MovimentoSerializer.class)
 public class Movimento extends Model {
 
     private static final long serialVersionUID = 5984122994022835262L;
@@ -37,7 +41,6 @@ public class Movimento extends Model {
     private Imagem imagem;
 
     @ManyToOne
-    @JsonBackReference
     private Controlador controlador;
 
     @ManyToOne
@@ -45,7 +48,6 @@ public class Movimento extends Model {
     private Anel anel;
 
     @OneToOne(mappedBy = "movimento", cascade = CascadeType.ALL)
-    @JsonManagedReference
     @Valid
     private Estagio estagio;
 

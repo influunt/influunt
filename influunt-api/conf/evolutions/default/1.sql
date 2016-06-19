@@ -81,12 +81,14 @@ create table detectores (
 
 create table estagios (
   id                            varchar(40) not null,
+  imagem_id                     varchar(40),
   descricao                     varchar(255),
   tempo_maximo_permanencia      integer,
   demanda_prioritaria           tinyint(1) default 0,
   movimento_id                  varchar(40),
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
+  constraint uq_estagios_imagem_id unique (imagem_id),
   constraint uq_estagios_movimento_id unique (movimento_id),
   constraint pk_estagios primary key (id)
 );
@@ -180,6 +182,8 @@ create index ix_detectores_anel_id on detectores (anel_id);
 alter table detectores add constraint fk_detectores_controlador_id foreign key (controlador_id) references controladores (id) on delete restrict on update restrict;
 create index ix_detectores_controlador_id on detectores (controlador_id);
 
+alter table estagios add constraint fk_estagios_imagem_id foreign key (imagem_id) references imagens (id) on delete restrict on update restrict;
+
 alter table estagios add constraint fk_estagios_movimento_id foreign key (movimento_id) references movimentos (id) on delete restrict on update restrict;
 
 alter table estagios_grupos_semaforicos add constraint fk_estagios_grupos_semaforicos_estagio_id foreign key (estagio_id) references estagios (id) on delete restrict on update restrict;
@@ -234,6 +238,8 @@ drop index ix_detectores_anel_id on detectores;
 
 alter table detectores drop foreign key fk_detectores_controlador_id;
 drop index ix_detectores_controlador_id on detectores;
+
+alter table estagios drop foreign key fk_estagios_imagem_id;
 
 alter table estagios drop foreign key fk_estagios_movimento_id;
 

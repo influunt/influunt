@@ -6,15 +6,16 @@ import checks.ControladorAssociacaoGruposSemaforicosCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.joda.time.DateTime;
+import models.deserializers.AnelDeserializer;
 import models.deserializers.InfluuntDateTimeDeserializer;
+import models.serializers.AnelSerializer;
 import models.serializers.InfluuntDateTimeSerializer;
+import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -36,6 +37,8 @@ import java.util.stream.Collectors;
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @AoMenosUmGrupoSemaforico
 @ConformidadeNumeroMovimentos
+@JsonSerialize(using = AnelSerializer.class)
+@JsonDeserialize(using = AnelDeserializer.class)
 public class Anel extends Model {
 
     private static final long serialVersionUID = 4919501406230732757L;
@@ -78,7 +81,6 @@ public class Anel extends Model {
     private Integer quantidadeDetectorVeicular = 0;
 
     @ManyToOne
-    @JsonBackReference
     private Controlador controlador;
 
     @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL)
