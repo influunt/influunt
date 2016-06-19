@@ -6,7 +6,7 @@
           <div data-ng-repeat="anel in objeto.aneis">
             <li data-ng-repeat="movimento in anel.movimentos">
               <figure class="rings-{{ anel.posicao }}">
-                <img ng-src="{{ movimento.imagem.id | imageSource }}">
+                <img ng-src="{{ movimento.imagem.id | imageSource }}" style="width: 180px; height: 150px;">
                 <p>{{ movimento.imagem.descricao }}</p>
               </figure>
             </li>

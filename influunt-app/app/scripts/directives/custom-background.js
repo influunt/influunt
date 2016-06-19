@@ -17,8 +17,13 @@ angular.module('influuntApp')
         scope.$watch('customBackground', function(value) {
           if (value) {
             $(element[0]).css('background', 'url(' + value + ')');
+            $(element[0]).css('background-size', 'cover');
+            $(element[0]).css('background-repeat', 'no-repeat');
+            $(element[0]).css('background-position', 'center center');
           }
         });
       }
     };
   }]);
+
+
