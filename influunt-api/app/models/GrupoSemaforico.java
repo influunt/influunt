@@ -58,6 +58,9 @@ public class GrupoSemaforico extends Model {
     private List<GrupoSemaforico> verdesConflitantes;
 
     @Column
+    private Integer posicao;
+
+    @Column
     @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using= InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
@@ -123,6 +126,14 @@ public class GrupoSemaforico extends Model {
 
     public void setVerdesConflitantes(List<GrupoSemaforico> verdesConflitantes) {
         this.verdesConflitantes = verdesConflitantes;
+    }
+
+    public Integer getPosicao() {
+        return posicao;
+    }
+
+    public void setPosicao(Integer posicao) {
+        this.posicao = posicao;
     }
 
     public DateTime getDataCriacao() {

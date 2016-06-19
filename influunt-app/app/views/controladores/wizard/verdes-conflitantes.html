@@ -3,54 +3,14 @@
     <div class="col-lg-12 col-sm-12 figures">
       <div class="bxslider">
         <ul class="bxslider">
-          <li>
-            <figure class="rings-1"><img src="http://placehold.it/180x150&text=FooBar1" /></figure>
-            <p>NomeDaImagem.jpg</p>
-          </li>
-           <li>
-            <figure class="rings-1"><img src="http://placehold.it/180x150&text=FooBar2" /></figure>
-            <p>Imgname.jpg</p>
-          </li>
-           <li>
-            <figure class="rings-2"><img src="http://placehold.it/180x150&text=FooBar2" /></figure>
-            <p>Imgname.jpg</p>
-          </li>
-           <li>
-            <figure><img src="http://placehold.it/180x150&text=FooBar4" /></figure>
-            <p>NomeDaImagem.jpg</p>
-          </li>
-           <li>
-            <figure><img src="http://placehold.it/180x150&text=FooBar5" /></figure>
-            <p>NomeLongoDeImagem... .jpg</p>
-          </li>
-           <li>
-            <figure class="rings-3"><img src="http://placehold.it/180x150&text=FooBar6" /></figure>
-            <p>NomeLongoDeImagem... .jpg</p>
-          </li>
-           <li>
-            <figure class="rings-4"><img src="http://placehold.it/180x150&text=FooBar7" /></figure>
-            <p>NomeDaImagem.jpg</p>
-          </li>
-          <li>
-            <figure class=""><img src="http://placehold.it/180x150&text=FooBar8" /></figure>
-            <p>NomeDaImagem.jpg</p>
-          </li>
-          <li>
-            <figure><img src="http://placehold.it/180x150&text=FooBar9" /></figure>
-            <p>NomeDaImagem.jpg</p>
-          </li>
-          <li>
-            <figure><img src="http://placehold.it/180x150&text=FooBar10" /></figure>
-            <p>NomeDaImagem.jpg</p>
-          </li>
-          <li>
-            <figure><img src="http://placehold.it/180x150&text=FooBar11" /></figure>
-            <p>NomeDaImagem.jpg</p>
-          </li>
-           <li>
-            <figure><img src="http://placehold.it/180x150&text=FooBar12" /></figure>
-            <p>Imgname.jpg</p>
-          </li>
+          <div data-ng-repeat="anel in objeto.aneis">
+            <li data-ng-repeat="movimento in anel.movimentos">
+              <figure class="rings-{{ anel.posicao }}">
+                <img ng-src="{{ movimento.imagem.id | imageSource }}">
+                <p>{{ movimento.imagem.descricao }}</p>
+              </figure>
+            </li>
+          </div>
         </ul>
       </div>
     </div>
