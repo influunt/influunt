@@ -116,6 +116,15 @@ angular.module('influuntApp')
           _.each($scope.aneis, function(anel) {
             _.each(anel.gruposSemaforicos, function(grupo, index) {
               grupo.label = 'G' + (index+1);
+              grupo.ativo = false;
+
+              // Cria o objeto helper para marcar os grupos ativos em cada estagio da tela.
+              grupo.estagiosRelacionados = {};
+              grupo.estagiosAtivados = {};
+              grupo.estagioGrupoSemaforicos.forEach(function(estagioGrupo) {
+                grupo.estagiosRelacionados[estagioGrupo.estagio.id] = true;
+                grupo.estagiosAtivados[estagioGrupo.estagio.id] = estagioGrupo.ativo;
+              });
             });
           });
 
@@ -179,6 +188,11 @@ angular.module('influuntApp')
       $scope.selecionaAnel = function(index) {
         $scope.currentAnelId = index;
         $scope.currentAnel = $scope.aneis[$scope.currentAnelId];
+
+        if (angular.isDefined($scope.currentMovimentoId)) {
+          console.log($scope.currentMovimentoId);
+          $scope.selecionaMovimento($scope.currentMovimentoId);
+        }
       };
 
       $scope.selecionaMovimento = function(index) {
@@ -208,7 +222,12 @@ angular.module('influuntApp')
       $scope.toggleEstagioAtivado = function(grupo, movimento) {
         var estagioId = movimento.estagio.id;
         var estagio = _.find(grupo.estagioGrupoSemaforicos, {estagio: {id: estagioId}});
-        estagio.ativo = !estagio.ativo;
+
+        if (!!estagio) {
+          estagio.ativo = !estagio.ativo;
+          grupo.estagiosAtivados[movimento.estagio.id] = estagio.ativo;
+          $scope.$apply();
+        }
       };
 
       $scope.associaEstagiosGrupoSemaforico = function(grupo, movimento) {
@@ -218,13 +237,13 @@ angular.module('influuntApp')
         };
 
         var index = _.findIndex(grupo.estagioGrupoSemaforicos, obj);
-
         if (index >= 0) {
           grupo.estagioGrupoSemaforicos.splice(index, 1);
         } else {
           grupo.estagioGrupoSemaforicos.push(obj);
         }
 
+        $scope.toggleEstagioAtivado(grupo, movimento);
         $scope.atualizaGruposSemaforicosSelecionados();
       };
 

@@ -74,8 +74,7 @@
                 <div class="col-lg-12 col-sm-12 form-group group-selectons no-padding">
                   <label class="checkbox-inline i-checks" data-ng-repeat="(indexGrupo, grupo) in currentAnel.gruposSemaforicos">
                     <p>{{ grupo.label }}</p>
-                    <!-- <input type="checkbox" ichecks data-ng-model="grupo.checked" i-changed="associaEstagiosGrupoSemaforico(grupo, movimento)"> -->
-                    <input type="checkbox" ichecks data-ng-model="mentira" i-changed="associaEstagiosGrupoSemaforico(grupo, movimento)">
+                    <input type="checkbox" ichecks data-ng-model="grupo.estagiosRelacionados[movimento.estagio.id]" i-changed="associaEstagiosGrupoSemaforico(grupo, movimento)">
                   </label>
                 </div>
               </div>
@@ -91,7 +90,7 @@
                 <hgroup>
                   <label class="checkbox-inline i-checks">
                     <p class="label-name">{{ grupoSelecionado.label }}</p>
-                    <input type="checkbox" ichecks i-changed="toggleEstagioAtivado(grupoSelecionado, currentMovimento)" data-ng-model="mentira">
+                    <input type="checkbox" ichecks i-changed="toggleEstagioAtivado(grupoSelecionado, currentMovimento)" data-ng-model="grupoSelecionado.estagiosAtivados[currentMovimento.estagio.id]">
                   </label>
                   <p class="label-status">Ativado</p>
                 </hgroup>
@@ -120,10 +119,13 @@
     </div>
   </div>
   <div class="col-sm-12 col-lg-12 m-b-lg">
-    <a ui-sref="app.wizard_contrladores.dados-basicos" class="btn btn-default">{{ 'plugins.steps.labels.previous' | translate }}</a>
-    <a ui-sref="app.wizard_contrladores.verdes-conflitantes" class="btn btn-primary">{{ 'plugins.steps.labels.next' | translate }}</a>
+    <a data-ng-click="submitForm({$valid: true}, 'associacao', 'app.wizard_contrladores.aneis')" class="btn btn-default">{{ 'plugins.steps.labels.previous' | translate }}</a>
+    <a data-ng-click="submitFormAneis({$valid: true}, 'associacao', 'app.wizard_contrladores.verdes_conflitantes')" class="btn btn-primary">{{ 'plugins.steps.labels.next' | translate }}</a>
+    <!-- <a ui-sref="app.wizard_contrladores.dados-basicos" class="btn btn-default">{{ 'plugins.steps.labels.previous' | translate }}</a>
+    <a ui-sref="app.wizard_contrladores.verdes-conflitantes" class="btn btn-primary">{{ 'plugins.steps.labels.next' | translate }}</a> -->
   </div>
 </fieldset>
+<!-- {{ objeto }} -->
 
 <script>
   $(document).ready(function(){
@@ -162,9 +164,9 @@
       $(this).parents().eq(3).addClass('change');
     });
 
-    $('.i-checks').iCheck({
-        checkboxClass: 'icheckbox_square-green',
-        radioClass: 'iradio_square-green',
-    });
+    // $('.i-checks').iCheck({
+    //     checkboxClass: 'icheckbox_square-green',
+    //     radioClass: 'iradio_square-green',
+    // });
   });
 </script>
