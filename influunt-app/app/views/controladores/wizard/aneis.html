@@ -19,7 +19,9 @@
                 <span class="number">{{ $index + 1 }}</span>
               </div>
               <div class="col-xs-2" style="padding-right:0;">
-                <input type="checkbox" ichecks
+                <input type="checkbox"
+                  ichecks
+                  if-unchecked="desativaProximosAneis(anel)"
                   is-disabled="$first || !aneis[$index - 1].ativo"
                   ng-model="anel.ativo">
               </div>

@@ -348,4 +348,18 @@ angular.module('influuntApp')
         console.log($scope.aneis);
       };
 
+      /**
+       * Desativa todos os aneis após o anel corrente, caso o anel atual seja
+       * desativado.
+       *
+       * @param      {<type>}  currentAnel  The current anel
+       */
+      $scope.desativaProximosAneis = function(currentAnel) {
+        $scope.aneis.forEach(function(anel) {
+          if (anel.posicao > currentAnel.posicao) {
+            anel.ativo = false;
+          }
+        });
+      };
+
     }]);
