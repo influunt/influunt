@@ -71,25 +71,9 @@ angular.module('influuntApp')
         });
       };
 
-      var visitaRota = function() {
-        var step = _.camelCase("app.wizard_controladores.dados_basicos".split('.').reverse()[0]);
-        if ($scope.wizard.stepVisited.hasOwnProperty(step)) {
-          $scope.wizard.stepVisited[step] = true;
-        }
-      };
-
       var loadWizardData = function(obj) {
         getHelpersControlador();
         $scope.objeto = obj;
-        $scope.wizard = $scope.wizard || {
-          stepVisited: {
-            dadosBasicos: true,
-            aneis: false,
-            associacao: false,
-            verdesConflitantes: false
-          }
-        };
-        visitaRota();
 
         $scope.validacoes = {
           alerts: []
@@ -130,7 +114,6 @@ angular.module('influuntApp')
       $scope.inicializaAssociacao = function() {
         return $scope.inicializaWizard().then(function() {
           $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
-          console.log($scope.aneis);
           _.each($scope.aneis, function(anel) {
             anel.gruposSemaforicos = _.orderBy(anel.gruposSemaforicos, ['posicao'], ['asc']);
             _.each(anel.gruposSemaforicos, function(grupo) {

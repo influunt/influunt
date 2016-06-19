@@ -32,7 +32,7 @@ angular.module('influuntApp')
               });
             });
 
-            $(element[0]).on('ifUnchecked', function(ev) {
+            $(element[0]).on('ifUnchecked', function() {
               $timeout(function() {
                 return scope.ifUnchecked && scope.ifUnchecked();
               });
@@ -47,7 +47,7 @@ angular.module('influuntApp')
 
             scope.$watch('isDisabled', function(value) {
               if (angular.isUndefined(value)) {
-                return; false;
+                return false;
               }
 
               if (value) {
