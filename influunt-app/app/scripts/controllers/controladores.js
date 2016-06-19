@@ -116,6 +116,15 @@ angular.module('influuntApp')
           _.each($scope.aneis, function(anel) {
             _.each(anel.gruposSemaforicos, function(grupo, index) {
               grupo.label = 'G' + (index+1);
+              grupo.ativo = false;
+
+              // Cria o objeto helper para marcar os grupos ativos em cada estagio da tela.
+              grupo.estagiosRelacionados = {};
+              grupo.estagiosAtivados = {};
+              grupo.estagioGrupoSemaforicos.forEach(function(estagioGrupo) {
+                grupo.estagiosRelacionados[estagioGrupo.estagio.id] = true;
+                grupo.estagiosAtivados[estagioGrupo.estagio.id] = estagioGrupo.ativo;
+              });
             });
           });
 
@@ -209,16 +218,17 @@ angular.module('influuntApp')
         var estagioId = movimento.estagio.id;
         var estagio = _.find(grupo.estagioGrupoSemaforicos, {estagio: {id: estagioId}});
         estagio.ativo = !estagio.ativo;
+        $scope.$apply();
       };
 
       $scope.associaEstagiosGrupoSemaforico = function(grupo, movimento) {
         var obj = {
           grupoSemaforico: grupo.id,
-          estagio: movimento.estagio
+          estagio: movimento.estagio,
+          ativo: true
         };
 
         var index = _.findIndex(grupo.estagioGrupoSemaforicos, obj);
-
         if (index >= 0) {
           grupo.estagioGrupoSemaforicos.splice(index, 1);
         } else {
