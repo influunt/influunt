@@ -80,8 +80,8 @@ public class ControladoresController extends Controller {
         if (checkIfExists && Controlador.find.byId(controlador.getId()) == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
-
-            if(checkIfExists){
+            //TODO: Remover esse THOR!
+            if(THOR){
                 controlador.getAneis().stream().filter(anel -> anel.isAtivo())
                         .forEach(anel -> anel.getGruposSemaforicos().stream()
                                 .filter(grupoSemaforico -> grupoSemaforico.getEstagioGrupoSemaforicos() != null)
@@ -93,10 +93,7 @@ public class ControladoresController extends Controller {
                                             .forEach(estagioGrupoSemaforico -> estagioGrupoSemaforico.save());
 
                                 }));
-                //TODO: Remover esse THOR!
-                if(THOR) {
-                    controlador.refresh();
-                }
+                controlador.refresh();
             }
             List<InfluuntValidator.Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, validatiosGroups);
             if (erros.size() > 0) {
