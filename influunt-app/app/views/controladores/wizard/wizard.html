@@ -4,19 +4,18 @@
       <div class="ibox float-e-margins">
         <div class="steps-wrapper wizard clearfix">
           <div class="steps clearfix">
-            <!-- <ul wizard-steps enabled="wizard.stepVisited"> -->
-            <ul>
-              <li ui-sref-active="current" wizard-steps class="wizard-steps" enabled="wizard.stepVisited.dadosBasicos">
-                <a ui-sref=".dados_basicos({id: objeto.id})" class="btn-default">{{ 'controladores.dadosBasicos' | translate }}</a>
+            <ul wizard-steps enabled="wizard.stepVisited">
+              <li ui-sref-active="current" class="wizard-steps">
+                <a step-id="dadosBasicos" ui-sref=".dados_basicos({id: objeto.id})" class="btn-default">{{ 'controladores.dadosBasicos' | translate }}</a>
               </li>
-              <li ui-sref-active="current" wizard-steps class="wizard-steps" enabled="wizard.stepVisited.aneis">
-                <a ui-sref=".aneis({id: objeto.id})" class="btn-default">{{ 'controladores.aneis' | translate }}</a>
+              <li ui-sref-active="current" class="wizard-steps">
+                <a step-id="aneis" ui-sref=".aneis({id: objeto.id})" class="btn-default">{{ 'controladores.aneis' | translate }}</a>
               </li>
-              <li ui-sref-active="current" wizard-steps class="wizard-steps" enabled="wizard.stepVisited.associacao">
-                <a ui-sref=".associacao({id: objeto.id})" class="btn-default">{{ 'controladores.associacao' | translate }}</a>
+              <li ui-sref-active="current" class="wizard-steps">
+                <a step-id="associacao" ui-sref=".associacao({id: objeto.id})" class="btn-default">{{ 'controladores.associacao' | translate }}</a>
               </li>
-              <li ui-sref-active="current" wizard-steps class="wizard-steps" enabled="wizard.stepVisited.verdesConflitantes">
-                <a ui-sref=".verdes_conflitantes({id: objeto.id})" class="btn-default">{{ 'controladores.verdes_conflitantes' | translate }}</a>
+              <li ui-sref-active="current" class="wizard-steps">
+                <a step-id="verdesConflitantes" ui-sref=".verdes_conflitantes({id: objeto.id})" class="btn-default">{{ 'controladores.verdes_conflitantes' | translate }}</a>
               </li>
             </ul>
           </div>
