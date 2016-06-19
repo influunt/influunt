@@ -40,7 +40,7 @@ public class ControladoresController extends Controller {
 
     @Transactional
     public CompletionStage<Result> verdesConflitantes() {
-        return doStep(true, javax.validation.groups.Default.class, ControladorAneisCheck.class,
+        return doStep(false, javax.validation.groups.Default.class, ControladorAneisCheck.class,
                 ControladorAssociacaoGruposSemaforicosCheck.class,ControladorVerdesConflitantesCheck.class);
     }
 
