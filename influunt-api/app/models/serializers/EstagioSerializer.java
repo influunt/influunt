@@ -29,10 +29,10 @@ public class EstagioSerializer extends JsonSerializer<Estagio> {
             jgen.writeBooleanField("demandaPrioritaria", estagio.getDemandaPrioritaria());
         }
         if (estagio.getDataCriacao() != null) {
-            jgen.writeStringField("dataCriacao", estagio.getDataCriacao().toString());
+            jgen.writeStringField("dataCriacao", InfluuntDateTimeSerializer.parse(estagio.getDataAtualizacao()));
         }
         if (estagio.getDataAtualizacao() != null) {
-            jgen.writeStringField("dataAtualizacao", estagio.getDataAtualizacao().toString());
+            jgen.writeStringField("dataAtualizacao", InfluuntDateTimeSerializer.parse(estagio.getDataAtualizacao()));
         }
 
 //        jgen.writeArrayFieldStart("areas");

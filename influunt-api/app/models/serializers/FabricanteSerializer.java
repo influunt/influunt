@@ -22,10 +22,10 @@ public class FabricanteSerializer extends JsonSerializer<Fabricante> {
             jgen.writeStringField("nome", fabricante.getNome());
         }
         if (fabricante.getDataCriacao() != null) {
-            jgen.writeStringField("dataCriacao", fabricante.getDataCriacao().toString());
+            jgen.writeStringField("dataCriacao", InfluuntDateTimeSerializer.parse(fabricante.getDataCriacao()));
         }
-        if (fabricante.getDataCriacao() != null) {
-            jgen.writeStringField("dataAtualizacao", fabricante.getDataCriacao().toString());
+        if (fabricante.getDataAtualizacao() != null) {
+            jgen.writeStringField("dataAtualizacao", InfluuntDateTimeSerializer.parse(fabricante.getDataAtualizacao()));
         }
 
         jgen.writeArrayFieldStart("modelos");
