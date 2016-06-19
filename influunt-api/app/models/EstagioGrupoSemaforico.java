@@ -4,15 +4,13 @@ import checks.ControladorAssociacaoGruposSemaforicosCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import models.serializers.EstagioGrupoSemaforicoSerializer;
-import org.joda.time.DateTime;
+import models.deserializers.EstagioGrupoSemaforicoDeserializer;
 import models.deserializers.InfluuntDateTimeDeserializer;
+import models.serializers.EstagioGrupoSemaforicoSerializer;
 import models.serializers.InfluuntDateTimeSerializer;
+import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
@@ -27,6 +25,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "estagios_grupos_semaforicos")
 @JsonSerialize(using = EstagioGrupoSemaforicoSerializer.class)
+@JsonDeserialize(using = EstagioGrupoSemaforicoDeserializer.class)
 public class EstagioGrupoSemaforico extends Model {
 
     private static final long serialVersionUID = 5983122994022833262L;

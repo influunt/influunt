@@ -24,23 +24,23 @@ public class ControladoresController extends Controller {
 
     @Transactional
     public CompletionStage<Result> dadosBasicos() {
-        return doStep(javax.validation.groups.Default.class);
+        return doStep(false, javax.validation.groups.Default.class);
     }
 
     @Transactional
     public CompletionStage<Result> aneis() {
-        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class);
+        return doStep(false, javax.validation.groups.Default.class, ControladorAneisCheck.class);
     }
 
     @Transactional
     public CompletionStage<Result> associacaoGruposSemaforicos() {
-        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class,
+        return doStep(true, javax.validation.groups.Default.class, ControladorAneisCheck.class,
                 ControladorAssociacaoGruposSemaforicosCheck.class);
     }
 
     @Transactional
     public CompletionStage<Result> verdesConflitantes() {
-        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class,
+        return doStep(true, javax.validation.groups.Default.class, ControladorAneisCheck.class,
                 ControladorAssociacaoGruposSemaforicosCheck.class,ControladorVerdesConflitantesCheck.class);
     }
 
@@ -70,7 +70,7 @@ public class ControladoresController extends Controller {
         }
     }
 
-    private CompletionStage<Result> doStep(Class<?>... validatiosGroups) {
+    private CompletionStage<Result> doStep(Boolean THOR, Class<?>... validatiosGroups) {
         if (request().body() == null) {
             return CompletableFuture.completedFuture(badRequest());
         }
@@ -93,8 +93,10 @@ public class ControladoresController extends Controller {
                                             .forEach(estagioGrupoSemaforico -> estagioGrupoSemaforico.save());
 
                                 }));
-                //TODO: Esse Thor não funciona
-                //controlador.refresh();
+                //TODO: Remover esse THOR!
+                if(THOR) {
+                    controlador.refresh();
+                }
             }
             List<InfluuntValidator.Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, validatiosGroups);
             if (erros.size() > 0) {

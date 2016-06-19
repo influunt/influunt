@@ -24,6 +24,7 @@ public class FabricanteSerializer extends JsonSerializer<Fabricante> {
         if (fabricante.getDataCriacao() != null) {
             jgen.writeStringField("dataCriacao", InfluuntDateTimeSerializer.parse(fabricante.getDataCriacao()));
         }
+
         if (fabricante.getDataAtualizacao() != null) {
             jgen.writeStringField("dataAtualizacao", InfluuntDateTimeSerializer.parse(fabricante.getDataAtualizacao()));
         }

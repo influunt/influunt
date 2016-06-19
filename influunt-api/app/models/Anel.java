@@ -6,9 +6,7 @@ import checks.ControladorAssociacaoGruposSemaforicosCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import models.deserializers.AnelDeserializer;
@@ -34,7 +32,6 @@ import java.util.stream.Collectors;
  */
 @Entity
 @Table(name = "aneis")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @AoMenosUmGrupoSemaforico
 @ConformidadeNumeroMovimentos
 @JsonSerialize(using = AnelSerializer.class)
@@ -303,7 +300,7 @@ public class Anel extends Model {
                 grupoSemaforico.setControlador(this.getControlador());
 //                grupoSemaforico.save();
                 getGruposSemaforicos().add(grupoSemaforico);
-//                this.getControlador().getGruposSemaforicos().add(grupoSemaforico);
+                this.getControlador().getGruposSemaforicos().add(grupoSemaforico);
             }
         } else {
             //TODO:O que fazer se o cara alterar????

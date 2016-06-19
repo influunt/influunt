@@ -9,7 +9,6 @@ import play.libs.Json;
 import java.io.IOException;
 import java.util.Arrays;
 
-import static java.awt.SystemColor.control;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -142,7 +141,7 @@ public class ControladorTest {
     }
 
     @Test
-    public TestCriarControlador() {
+    public void TestCriarControlador() {
         Controlador controlador = new Controlador();
 
     }

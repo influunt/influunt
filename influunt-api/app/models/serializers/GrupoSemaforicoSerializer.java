@@ -20,13 +20,16 @@ public class GrupoSemaforicoSerializer extends JsonSerializer<GrupoSemaforico> {
             jgen.writeStringField("id", grupoSemaforico.getId().toString());
         }
         if (grupoSemaforico.getDataCriacao() != null) {
-            jgen.writeStringField("dataCriacao", grupoSemaforico.getDataCriacao().toString());
+            jgen.writeStringField("dataCriacao", InfluuntDateTimeSerializer.parse(grupoSemaforico.getDataCriacao()));
         }
         if (grupoSemaforico.getDataAtualizacao() != null) {
             jgen.writeStringField("dataAtualizacao", InfluuntDateTimeSerializer.parse(grupoSemaforico.getDataAtualizacao()));
         }
         if (grupoSemaforico.getTipo() != null) {
-            jgen.writeStringField("tipo", InfluuntDateTimeSerializer.parse(grupoSemaforico.getDataAtualizacao()));
+            jgen.writeStringField("tipo", grupoSemaforico.getTipo().toString());
+        }
+        if(grupoSemaforico.getPosicao() != null) {
+            jgen.writeNumberField("posicao", grupoSemaforico.getPosicao());
         }
 
         jgen.writeArrayFieldStart("estagioGrupoSemaforicos");
