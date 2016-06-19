@@ -10,8 +10,8 @@
       <label class="control-label col-sm-2 control-label">{{ 'modelos_controladores.configuracao' | translate }}</label>
       <div class="col-sm-7">
         <select name="configuracao" class="form-control"
-          data-ng-options="configuracao as configuracao.descricao for configuracao in configuracoes"
-          data-ng-model="modelo.configuracao"></select>
+          data-ng-options="configuracao.id as configuracao.descricao for configuracao in configuracoes"
+          data-ng-model="modelo.configuracao.id"></select>
       </div>
       <div class="col-md-2">
         <a ng-click="removerModelo($index)" class="btn btn-xs btn-danger">X</a>
