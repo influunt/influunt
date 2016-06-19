@@ -4,13 +4,13 @@ import checks.ControladorVerdesConflitantesCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import models.serializers.GrupoSemaforicoSerializer;
-import org.joda.time.DateTime;
 import models.deserializers.InfluuntDateTimeDeserializer;
+import models.serializers.GrupoSemaforicoSerializer;
 import models.serializers.InfluuntDateTimeSerializer;
+import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -26,7 +26,6 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "grupos_semaforicos")
-@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 @JsonSerialize(using = GrupoSemaforicoSerializer.class)
 public class GrupoSemaforico extends Model {
     public static Finder<UUID, GrupoSemaforico> find = new Finder<UUID, GrupoSemaforico>(GrupoSemaforico.class);

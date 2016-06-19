@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Anel;
+import models.GrupoSemaforico;
 import models.Movimento;
 import play.libs.Json;
 
@@ -66,6 +67,15 @@ public class AnelDeserializer extends JsonDeserializer<Anel> {
                     movimentos.add(mov);
                 }
                 anel.setMovimentos(movimentos);
+            }
+
+            if (node.has("gruposSemaforicos")) {
+                List<GrupoSemaforico> grupoSemaforicos = new ArrayList<GrupoSemaforico>();
+                for (JsonNode grupoSemaforicoNode : node.get("gruposSemaforicos")) {
+                    GrupoSemaforico grp = Json.fromJson(grupoSemaforicoNode, GrupoSemaforico.class);
+                    grupoSemaforicos.add(grp);
+                }
+                anel.setGruposSemaforicos(grupoSemaforicos);
             }
         }
 
