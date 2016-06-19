@@ -11,17 +11,16 @@
               <div class="form-group">
                 <label>{{ 'controladores.cidade' | translate }}:</label>
                 <select name="cidade" class="form-control"
-                  data-ng-model="helpers.cidade"
-                  data-ng-init="helpers.cidade = data.cidades[0]"
-                  data-ng-options="cidade as cidade.nome for cidade in data.cidades"
+                  data-ng-model="helpers.cidade.id"
+                  data-ng-options="cidade.id as cidade.nome for cidade in data.cidades"
                   ></select>
               </div>
 
               <div class="form-group" data-ng-class="{'has-error': formDadosBasicos.area.$invalid && (!formDadosBasicos.area.$pristine || submited)}">
                 <label>{{ 'controladores.area' | translate }}:</label>
                 <select name="area" class="form-control"
-                  data-ng-options="area as area.descricao for area in helpers.cidade.areas"
-                  data-ng-model="objeto.area" required></select>
+                  data-ng-options="area.id as area.descricao for area in helpers.cidade.areas"
+                  data-ng-model="objeto.area.id" required></select>
                   <p ng-show="formDadosBasicos.area.$invalid && (!formDadosBasicos.area.$pristine || submited)"
                     class="help-block error-msg">
                       {{ 'geral.campo_obrigatorio' | translate }}
