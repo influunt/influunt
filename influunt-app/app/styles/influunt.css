@@ -46,6 +46,11 @@ header .nav-secon li a {
   font-size: 24px;
   color: #999;
 }
+
+.content.clearfix.wizard-body {
+  padding: 0px 10px;
+}
+
 .wrapper-content .filters header {
   border-top: 4px solid #e7eaec;
 }
@@ -478,6 +483,8 @@ header .nav-secon li a {
   text-align: left;
   text-indent: 20%;
   margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: bold;
 }
 .wrapper-content .basic-wizard .content .body .rings li {
   list-style: none;
@@ -493,6 +500,8 @@ header .nav-secon li a {
   float: left;
   margin-right: 15px;
   margin-left: 0;
+  font-size: 16px;
+  font-weight: bold;
 }
 .wrapper-content .basic-wizard .content .body .rings li label div {
   float: left;

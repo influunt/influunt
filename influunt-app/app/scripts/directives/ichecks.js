@@ -13,7 +13,8 @@ angular.module('influuntApp')
       scope: {
         isDisabled: '=',
         ngModel: '=',
-        iChanged: '&'
+        iChanged: '&',
+        ifUnchecked: '&'
       },
       link: function postLink(scope, element) {
         $(document).ready(function() {
@@ -31,6 +32,12 @@ angular.module('influuntApp')
               });
             });
 
+            $(element[0]).on('ifUnchecked', function(ev) {
+              $timeout(function() {
+                return scope.ifUnchecked && scope.ifUnchecked();
+              });
+            });
+
             /**
              * Atualiza a view do componente sempre que o ng-model é alterado.
              */
@@ -39,7 +46,15 @@ angular.module('influuntApp')
             });
 
             scope.$watch('isDisabled', function(value) {
-              return value && $(element[0]).iCheck('disable');
+              if (angular.isUndefined(value)) {
+                return; false;
+              }
+
+              if (value) {
+                $(element[0]).iCheck('disable');
+              } else {
+                $(element[0]).iCheck('enable');
+              }
             });
           });
         });

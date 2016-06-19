@@ -19,10 +19,10 @@ public class EstagioGrupoSemaforicoSerializer extends JsonSerializer<EstagioGrup
             jgen.writeStringField("id", estagioGrupo.getId().toString());
         }
         if (estagioGrupo.getDataCriacao() != null) {
-            jgen.writeStringField("dataCriacao", estagioGrupo.getDataCriacao().toString());
+            jgen.writeStringField("dataCriacao", InfluuntDateTimeSerializer.parse(estagioGrupo.getDataAtualizacao()));
         }
         if (estagioGrupo.getDataAtualizacao() != null) {
-            jgen.writeStringField("dataAtualizacao", estagioGrupo.getDataAtualizacao().toString());
+            jgen.writeStringField("dataAtualizacao", InfluuntDateTimeSerializer.parse(estagioGrupo.getDataAtualizacao()));
         }
         if (estagioGrupo.getAtivo() != null) {
             jgen.writeBooleanField("ativo", estagioGrupo.getAtivo());

@@ -28,10 +28,10 @@ public class MovimentoSerializer extends JsonSerializer<Movimento> {
         }
 
         if (movimento.getDataCriacao() != null) {
-            jgen.writeStringField("dataCriacao", movimento.getDataCriacao().toString());
+            jgen.writeStringField("dataCriacao", InfluuntDateTimeSerializer.parse(movimento.getDataCriacao()));
         }
         if (movimento.getDataAtualizacao() != null) {
-            jgen.writeStringField("dataAtualizacao", movimento.getDataAtualizacao().toString());
+            jgen.writeStringField("dataAtualizacao", InfluuntDateTimeSerializer.parse(movimento.getDataCriacao()));
         }
         jgen.writeEndObject();
     }

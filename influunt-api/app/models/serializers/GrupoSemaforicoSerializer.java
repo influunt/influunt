@@ -23,10 +23,10 @@ public class GrupoSemaforicoSerializer extends JsonSerializer<GrupoSemaforico> {
             jgen.writeStringField("dataCriacao", grupoSemaforico.getDataCriacao().toString());
         }
         if (grupoSemaforico.getDataAtualizacao() != null) {
-            jgen.writeStringField("dataAtualizacao", grupoSemaforico.getDataAtualizacao().toString());
+            jgen.writeStringField("dataAtualizacao", InfluuntDateTimeSerializer.parse(grupoSemaforico.getDataAtualizacao()));
         }
         if (grupoSemaforico.getTipo() != null) {
-            jgen.writeStringField("tipo", grupoSemaforico.getTipo().toString());
+            jgen.writeStringField("tipo", InfluuntDateTimeSerializer.parse(grupoSemaforico.getDataAtualizacao()));
         }
 
         jgen.writeArrayFieldStart("estagioGrupoSemaforicos");

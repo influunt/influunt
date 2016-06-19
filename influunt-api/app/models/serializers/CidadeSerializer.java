@@ -23,10 +23,10 @@ public class CidadeSerializer extends JsonSerializer<Cidade> {
             jgen.writeStringField("nome", cidade.getNome());
         }
         if (cidade.getDataCriacao() != null) {
-            jgen.writeStringField("dataCriacao", cidade.getDataCriacao().toString());
+            jgen.writeStringField("dataCriacao", InfluuntDateTimeSerializer.parse(cidade.getDataCriacao()));
         }
         if (cidade.getDataAtualizacao() != null) {
-            jgen.writeStringField("dataAtualizacao", cidade.getDataAtualizacao().toString());
+            jgen.writeStringField("dataAtualizacao", InfluuntDateTimeSerializer.parse(cidade.getDataAtualizacao()));
         }
         jgen.writeArrayFieldStart("areas");
         for (Area area : cidade.getAreas()) {

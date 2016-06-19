@@ -43,4 +43,8 @@ public class InfluuntDateTimeSerializer extends JodaDateSerializerBase<DateTime>
         gen.writeString(DATETIME_FORMAT.print(value));
     }
 
+    public static String parse(DateTime dateTime) {
+        return DATETIME_FORMAT.print(dateTime);
+    }
+
 }
