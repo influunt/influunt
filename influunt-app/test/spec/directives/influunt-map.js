@@ -16,10 +16,6 @@ describe('Directive: influuntMap', function () {
     scope.$digest();
   }));
 
-  it('element should exist', function() {
-    console.log('=============> !!', element);
-  });
-
   xit('should make hidden element visible', inject(function ($compile) {
     element = angular.element('<influunt-map></influunt-map>');
     element = $compile(element)(scope);

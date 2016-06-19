@@ -19,7 +19,6 @@ describe('Directive: ichecks', function () {
   }));
 
   it('Deve criar um elemento ichecks sempre que o atributo icheck for adicionado a um checkbox', function() {
-    console.log(scope.test)
     expect(element).toBeDefined();
   });
 

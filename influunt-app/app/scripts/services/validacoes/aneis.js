@@ -64,10 +64,15 @@ angular.module('influuntApp')
 
     var valida = function(listaAneis, controlador) {
       var aneis = _.filter(listaAneis, {ativo: true});
-      var camposRequired = validaCamposRequired(aneis);
-      var quantidadeGruposSemaforicos = validaQuantidadeGruposSemaforicos(aneis, controlador);
-      var quantidadeDetectoresVeicular = validaQuantidadeDetectoresVeicular(aneis, controlador);
-      var quantidadeDetectoresPedestres = validaQuantidadeDetectoresPedestres(aneis, controlador);
+
+      if (!aneis || !controlador) {
+        return false;
+      }
+
+      var camposRequired = !!validaCamposRequired(aneis);
+      var quantidadeGruposSemaforicos = !!validaQuantidadeGruposSemaforicos(aneis, controlador);
+      var quantidadeDetectoresVeicular = !!validaQuantidadeDetectoresVeicular(aneis, controlador);
+      var quantidadeDetectoresPedestres = !!validaQuantidadeDetectoresPedestres(aneis, controlador);
 
       return camposRequired &&
         quantidadeGruposSemaforicos &&

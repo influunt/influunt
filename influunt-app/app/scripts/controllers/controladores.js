@@ -119,6 +119,7 @@ angular.module('influuntApp')
             });
           });
 
+          $scope.aneis = _.orderBy($scope.aneis, ['posicao'], ['asc']);
           $scope.selecionaAnel(0);
           $scope.selecionaMovimento(0);
         });

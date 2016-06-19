@@ -151,7 +151,8 @@
   },
   "validacoesAPI": {
     "controlador": {
-      "mayNotBeNull": "<strong>{CAMPO}</strong> precisa ser preenchido"
+      "mayNotBeNull": "<strong>{CAMPO}</strong> precisa ser preenchido",
+      "umAnelAtivoDeveTerAoMenosDoisMovimentoENoMaximoOLimiteDoModeloDoControlador": "um anel ativo deve ter ao menos <strong>dois movimento</strong> e no maximo o <strong>limite do modelo do controlador</strong>"
     }
   }
 }
