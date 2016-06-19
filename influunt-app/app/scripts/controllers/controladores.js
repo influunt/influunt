@@ -277,7 +277,7 @@ angular.module('influuntApp')
       };
 
       $scope.mensagemValidacaoForm = function(res) {
-        var messages = res.data.map(function(a) {
+        var messages = res && res.data && res.data.map(function(a) {
           return {
             // msg: 'validacoesAPI.' + _.lowerCase(a.root) + '.' + _.camelCase(a.message),
             msg: a.message,
@@ -286,6 +286,8 @@ angular.module('influuntApp')
             }
           };
         });
+
+        console.log(res);
 
         $scope.validacoes.alerts = messages;
       };
@@ -316,6 +318,20 @@ angular.module('influuntApp')
 
         return controlador.aneis;
       };
+
+      $scope.$watch('objeto.endereco', function(value) {
+        if (value && value.geometry && location) {
+          $scope.objeto.latitude = value.geometry.location.lat();
+          $scope.objeto.longitude = value.geometry.location.lng();
+        }
+      });
+
+      $scope.$watch('currentAnel.endereco', function(value) {
+        if (value && value.geometry && location) {
+          $scope.currentAnel.latitude = value.geometry.location.lat();
+          $scope.currentAnel.longitude = value.geometry.location.lng();
+        }
+      });
 
       $scope.associaImagemAoMovimento = function(upload, imagem) {
         var anel = $scope.currentAnel;

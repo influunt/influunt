@@ -105,6 +105,18 @@
                 </div>
               </figure>
 
+              <div class="col-lg-12 col-sm-12 no-padding">
+                <div class="form-group" data-ng-class="{'has-error': formDadosBasicos.endereco.$invalid && (!formDadosBasicos.endereco.$pristine || submited)}">
+                  <label>{{ 'controladores.endereco' | translate }}:</label>
+                  <input type="text" name="endereco" class="form-control"
+                    data-ng-model="objeto.endereco" g-places-autocomplete>
+                  <p ng-show="formDadosBasicos.endereco.$invalid && (!formDadosBasicos.endereco.$pristine || submited)"
+                    class="help-block error-msg">
+                      {{ 'geral.campo_obrigatorio' | translate }}
+                  </p>
+                </div>
+              </div>
+
               <div class="col-lg-6 col-sm-6 no-padding">
                 <div class="form-group" data-ng-class="{'has-error': formDadosBasicos.latitude.$invalid && (!formDadosBasicos.latitude.$pristine || submited)}">
                   <label>{{ 'controladores.latitude' | translate }}:</label>

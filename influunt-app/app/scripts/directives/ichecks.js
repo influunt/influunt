@@ -39,6 +39,10 @@ angular.module('influuntApp')
             });
 
             scope.$watch('isDisabled', function(value) {
+              if (angular.isUndefined(value)) {
+                return; false;
+              }
+
               if (value) {
                 $(element[0]).iCheck('disable');
               } else {
