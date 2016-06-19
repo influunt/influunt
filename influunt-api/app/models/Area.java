@@ -38,8 +38,6 @@ public class Area extends Model {
     @JsonBackReference
     private Cidade cidade;
 
-
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "area")
     private List<LimiteArea> limitesGeograficos;
 
