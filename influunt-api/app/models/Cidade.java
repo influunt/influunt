@@ -40,7 +40,6 @@ public class Cidade extends Model {
     @NotNull
     private String nome;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "cidade", cascade = CascadeType.REMOVE)
     private List<Area> areas;
 
