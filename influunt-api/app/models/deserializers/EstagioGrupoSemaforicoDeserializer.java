@@ -8,7 +8,8 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Estagio;
 import models.EstagioGrupoSemaforico;
-import models.Imagem;
+import models.GrupoSemaforico;
+import play.libs.Json;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -30,24 +31,27 @@ public class EstagioGrupoSemaforicoDeserializer extends JsonDeserializer<Estagio
         if (node.has("ativo")) {
             estagioGrupoSemaforico.setAtivo(node.get("ativo").asBoolean());
         }
+        if (node.has("grupoSemaforico")) {
+            estagioGrupoSemaforico.setGrupoSemaforico(Json.fromJson(node.get("grupoSemaforico"), GrupoSemaforico.class));
+        }
         if (node.has("estagio")) {
-            Estagio estagio = new Estagio();
-            JsonNode estagioNode = node.get("estagio");
-            if (estagioNode.has("descricao")) {
-                estagio.setDescricao(estagioNode.get("descricao").asText());
-            }
-            if (estagioNode.has("tempoMaximoPermanencia")) {
-                estagio.setTempoMaximoPermanencia(estagioNode.get("tempoMaximoPermanencia").asInt());
-            }
-            if (estagioNode.has("demandaPrioritaria")) {
-                estagio.setDemandaPrioritaria(estagioNode.get("demandaPrioritaria").asBoolean());
-            }
-            if (estagioNode.has("imagem")) {
-                Imagem img = new Imagem();
-                img.setId(UUID.fromString(estagioNode.get("imagem").get("id").asText()));
-                estagio.setImagem(img);
-            }
-            estagioGrupoSemaforico.setEstagio(estagio);
+//            Estagio estagio = new Estagio();
+//            JsonNode estagioNode = node.get("estagio");
+//            if (estagioNode.has("descricao")) {
+//                estagio.setDescricao(estagioNode.get("descricao").asText());
+//            }
+//            if (estagioNode.has("tempoMaximoPermanencia")) {
+//                estagio.setTempoMaximoPermanencia(estagioNode.get("tempoMaximoPermanencia").asInt());
+//            }
+//            if (estagioNode.has("demandaPrioritaria")) {
+//                estagio.setDemandaPrioritaria(estagioNode.get("demandaPrioritaria").asBoolean());
+//            }
+//            if (estagioNode.has("imagem")) {
+//                Imagem img = new Imagem();
+//                img.setId(UUID.fromString(estagioNode.get("imagem").get("id").asText()));
+//                estagio.setImagem(img);
+//            }
+            estagioGrupoSemaforico.setEstagio(Json.fromJson(node.get("estagio"), Estagio.class));
         }
 
         return estagioGrupoSemaforico;

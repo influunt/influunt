@@ -7,6 +7,7 @@ import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import models.deserializers.GrupoSemaforicoDeserializer;
 import models.deserializers.InfluuntDateTimeDeserializer;
 import models.serializers.GrupoSemaforicoSerializer;
 import models.serializers.InfluuntDateTimeSerializer;
@@ -27,6 +28,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "grupos_semaforicos")
 @JsonSerialize(using = GrupoSemaforicoSerializer.class)
+@JsonDeserialize(using = GrupoSemaforicoDeserializer.class)
 public class GrupoSemaforico extends Model {
     public static Finder<UUID, GrupoSemaforico> find = new Finder<UUID, GrupoSemaforico>(GrupoSemaforico.class);
     private static final long serialVersionUID = 7439393568357903233L;
@@ -41,8 +43,8 @@ public class GrupoSemaforico extends Model {
     @JoinColumn(name = "anel_id")
     private Anel anel;
 
-    @OneToMany
-    @JoinColumn(name = "grupo_semaforico_id")
+    @OneToMany(mappedBy = "grupoSemaforico", fetch = FetchType.EAGER)
+//    @JoinColumn(name = "grupo_semaforico_id")
     @Valid
     private List<EstagioGrupoSemaforico> estagioGrupoSemaforicos;
 

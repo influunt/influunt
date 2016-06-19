@@ -254,7 +254,7 @@ angular.module('influuntApp')
 
       $scope.associaEstagiosGrupoSemaforico = function(grupo, movimento) {
         var obj = {
-          grupoSemaforico: grupo.id,
+          grupoSemaforico: { id: grupo.id },
           estagio: movimento.estagio
         };
 

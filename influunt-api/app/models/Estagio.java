@@ -51,8 +51,8 @@ public class Estagio extends Model {
     @OneToOne
     private Movimento movimento;
 
-    @OneToMany
-    @JoinColumn(name = "estagio_id")
+    @OneToMany(mappedBy = "estagio", fetch = FetchType.EAGER)
+//    @JoinColumn(name = "estagio_id")
     @Valid
     private List<EstagioGrupoSemaforico> estagiosGruposSemaforicos;
 
@@ -145,6 +145,6 @@ public class Estagio extends Model {
             message = "Este estágio deve ser associado a pelo menos 1 grupo semafórico"
     )
     public boolean isAoMenosUmEstagioGrupoSemaforico(){
-        return this.estagiosGruposSemaforicos != null && !this.estagiosGruposSemaforicos.isEmpty();
+        return getEstagiosGruposSemaforicos() != null && !getEstagiosGruposSemaforicos().isEmpty();
     }
 }
