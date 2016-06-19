@@ -28,19 +28,36 @@ public class AnelDeserializer extends JsonDeserializer<Anel> {
         anel.setAtivo(node.get("ativo").asBoolean());
 
         if (anel.isAtivo()) {
-            JsonNode id = node.get("id");
-            if (id != null) {
+            if (node.has("id")) {
                 anel.setId(UUID.fromString(node.get("id").asText()));
             }
-            anel.setDescricao(node.get("descricao").asText());
-            anel.setAtivo(node.get("ativo").asBoolean());
-            anel.setPosicao(node.get("posicao").asInt());
-            anel.setLatitude(node.get("latitude").asDouble());
-            anel.setLongitude(node.get("longitude").asDouble());
-            anel.setQuantidadeGrupoPedestre(node.get("quantidadeGrupoPedestre").asInt());
-            anel.setQuantidadeGrupoVeicular(node.get("quantidadeGrupoVeicular").asInt());
-            anel.setQuantidadeDetectorPedestre(node.get("quantidadeDetectorPedestre").asInt());
-            anel.setQuantidadeDetectorVeicular(node.get("quantidadeDetectorVeicular").asInt());
+            if (node.has("descricao")) {
+                anel.setDescricao(node.get("descricao").asText());
+            }
+            if (node.has("ativo")) {
+                anel.setAtivo(node.get("ativo").asBoolean());
+            }
+            if (node.has("posicao")) {
+                anel.setPosicao(node.get("posicao").asInt());
+            }
+            if (node.has("latitude")) {
+                anel.setLatitude(node.get("latitude").asDouble());
+            }
+            if (node.has("longitude")) {
+                anel.setLongitude(node.get("longitude").asDouble());
+            }
+            if (node.has("quantidadeGrupoPedestre")) {
+                anel.setQuantidadeGrupoPedestre(node.get("quantidadeGrupoPedestre").asInt());
+            }
+            if (node.has("quantidadeGrupoVeicular")) {
+                anel.setQuantidadeGrupoVeicular(node.get("quantidadeGrupoVeicular").asInt());
+            }
+            if (node.has("quantidadeDetectorPedestre")) {
+                anel.setQuantidadeDetectorPedestre(node.get("quantidadeDetectorPedestre").asInt());
+            }
+            if (node.has("quantidadeDetectorVeicular")) {
+                anel.setQuantidadeDetectorVeicular(node.get("quantidadeDetectorVeicular").asInt());
+            }
 
             if (node.has("movimentos")) {
                 List<Movimento> movimentos = new ArrayList<Movimento>();

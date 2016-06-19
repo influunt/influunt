@@ -26,7 +26,9 @@ public class CidadeDeserializer extends JsonDeserializer<Cidade> {
         if (id != null) {
             cidade.setId(UUID.fromString(id.asText()));
         }
-        cidade.setNome(node.get("nome").asText());
+        if (node.has("nome")) {
+            cidade.setNome(node.get("nome").asText());
+        }
 
         return cidade;
     }

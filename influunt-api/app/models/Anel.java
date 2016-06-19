@@ -34,7 +34,6 @@ import java.util.stream.Collectors;
  */
 @Entity
 @Table(name = "aneis")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @AoMenosUmGrupoSemaforico
 @ConformidadeNumeroMovimentos
 @JsonSerialize(using = AnelSerializer.class)
