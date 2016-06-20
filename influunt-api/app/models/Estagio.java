@@ -35,7 +35,6 @@ public class Estagio extends Model {
     @Id
     private UUID id;
 
-    @Column
     @OneToOne
     private Imagem imagem;
 
@@ -141,10 +140,10 @@ public class Estagio extends Model {
         this.dataAtualizacao = dataAtualizacao;
     }
 
-    @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
-            message = "Este estágio deve ser associado a pelo menos 1 grupo semafórico"
-    )
-    public boolean isAoMenosUmEstagioGrupoSemaforico(){
-        return getEstagiosGruposSemaforicos() != null && !getEstagiosGruposSemaforicos().isEmpty();
-    }
+//    @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
+//            message = "Este estágio deve ser associado a pelo menos 1 grupo semafórico"
+//    )
+//    public boolean isAoMenosUmEstagioGrupoSemaforico(){
+//        return getEstagiosGruposSemaforicos() != null && !getEstagiosGruposSemaforicos().isEmpty();
+//    }
 }

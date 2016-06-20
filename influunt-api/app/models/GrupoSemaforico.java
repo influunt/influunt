@@ -23,7 +23,6 @@ import java.util.UUID;
  * Entidade que representa o {@link GrupoSemaforico} no sistema
  *
  * @author lesiopinheiro
- *
  */
 @Entity
 @Table(name = "grupos_semaforicos")
@@ -37,6 +36,7 @@ public class GrupoSemaforico extends Model {
     private UUID id;
 
     @Enumerated(EnumType.STRING)
+    @Column
     private TipoGrupoSemaforico tipo;
 
     @ManyToOne
@@ -61,14 +61,14 @@ public class GrupoSemaforico extends Model {
     private Integer posicao;
 
     @Column
-    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
-    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
 
     @Column
-    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
-    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
 
@@ -154,30 +154,30 @@ public class GrupoSemaforico extends Model {
 
     @JsonIgnore
     @AssertTrue(groups = ControladorVerdesConflitantesCheck.class, message = "Esse grupo deve ter ao menos um verde conflitante")
-    public boolean isAoMenosUmVerdeConflitante(){
-        if(this.getAnel().isAtivo() && this.getEstagioGrupoSemaforicos() != null && !this.getEstagioGrupoSemaforicos().isEmpty() ){
+    public boolean isAoMenosUmVerdeConflitante() {
+        if (this.getAnel().isAtivo() && this.getEstagioGrupoSemaforicos() != null && !this.getEstagioGrupoSemaforicos().isEmpty()) {
             return this.getVerdesConflitantes() != null && !this.getVerdesConflitantes().isEmpty();
-        }else{
+        } else {
             return true;
         }
     }
 
     @JsonIgnore
     @AssertTrue(groups = ControladorVerdesConflitantesCheck.class, message = "Esse grupo semafórico não pode ter verde conflitante com ele mesmo")
-    public boolean isNaoConflitaComEleMesmo(){
-        if(this.getVerdesConflitantes() != null && !this.getVerdesConflitantes().isEmpty()){
+    public boolean isNaoConflitaComEleMesmo() {
+        if (this.getVerdesConflitantes() != null && !this.getVerdesConflitantes().isEmpty()) {
             return this.getVerdesConflitantes().stream().filter(grupoSemaforico -> grupoSemaforico.getId().equals(this.getId())).count() == 0;
-        }else{
+        } else {
             return true;
         }
     }
 
     @JsonIgnore
     @AssertTrue(groups = ControladorVerdesConflitantesCheck.class, message = "Esse grupo semafórico não pode ter verde conflitante com grupos de outro anel")
-    public boolean isNaoConflitaComGruposDeOutroAnel(){
-        if(this.getVerdesConflitantes() != null && !this.getVerdesConflitantes().isEmpty()){
+    public boolean isNaoConflitaComGruposDeOutroAnel() {
+        if (this.getVerdesConflitantes() != null && !this.getVerdesConflitantes().isEmpty()) {
             return this.getVerdesConflitantes().stream().filter(grupoSemaforico -> !grupoSemaforico.getAnel().getId().equals(this.getAnel().getId())).count() == 0;
-        }else{
+        } else {
             return true;
         }
     }
