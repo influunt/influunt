@@ -5,7 +5,6 @@
     "aneis": "Aneis",
     "anel": "Anel",
     "area": "Área",
-    "associacao": "Associação",
     "ativo": "Ativo",
     "cidade": "Cidade",
     "coordenadas": "COORDENADAS",
@@ -38,6 +37,7 @@
     "tipo": "Tipo",
     "titulo": "Controladores",
     "validacoes": {
+      "aoMenosUmGrupoSemaforico": "Este anel deve ter mais de 1 grupo semáforico",
       "latitudeMayNotBeNull": "Campo de Latitude é Obrigatório",
       "longitudeMayNotBeNull": "Campo de Longitude é Obrigatório",
       "totalDetectorPedestres": "Total de <strong>detectores de pedestres</strong> maior que a quantidade máxima suportada pelo controlador",

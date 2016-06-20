@@ -12,9 +12,20 @@ describe('Directive: customBackground', function () {
     scope = $rootScope.$new();
   }));
 
-  it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<custom-background></custom-background>');
-    element = $compile(element)(scope);
-    expect(element.text()).toBe('this is the customBackground directive');
-  }));
+  it('Deve modificar algumas propriedades de css do elemento quando uma url for adicionada ao customBackground',
+    inject(function($compile) {
+
+      scope.test = {
+        url: 'my-url'
+      };
+
+      element = angular.element('<div custom-background="test.url"></div>');
+      element = $compile(element)(scope);
+      scope.$apply();
+
+      console.log('-----------> ', $(element).css('background'));
+
+      expect(true).toBe(true)
+    }));
+
 });
