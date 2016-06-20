@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import models.Anel;
 import models.Controlador;
+import models.GrupoSemaforico;
 
 import java.io.IOException;
 
@@ -56,6 +57,12 @@ public class ControladorSerializer extends JsonSerializer<Controlador> {
         jgen.writeArrayFieldStart("aneis");
         for (Anel anel : controlador.getAneis()) {
             jgen.writeObject(anel);
+        }
+        jgen.writeEndArray();
+
+        jgen.writeArrayFieldStart("gruposSemaforicos");
+        for (GrupoSemaforico grupoSemaforico : controlador.getGruposSemaforicos()) {
+            jgen.writeObject(grupoSemaforico);
         }
         jgen.writeEndArray();
 

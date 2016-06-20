@@ -108,16 +108,17 @@
                             <label class="col-sm-12 no-padding control-label">{{ 'controladores.fornecedor' | translate }}</label>
                             <div class="col-sm-12 no-padding">
                               <select name="fornecedor" class="form-control"
-                                data-ng-options="fornecedor as fornecedor.nome for fornecedor in fornecedores"
-                                data-ng-model="objeto.fornecedor"></select>
+                                data-ng-options="fornecedor.id as fornecedor.nome for fornecedor in fornecedores"
+                                data-ng-model="objeto.fornecedor.id"></select>
                             </div>
                           </div>
+                          {{ objeto.fornecedor }}
                           <div class="form-group">
                             <label class="col-sm-12 no-padding control-label">{{ 'controladores.modelo' | translate }}</label>
                             <div class="col-sm-12 no-padding">
                               <select name="modelo" class="form-control"
-                                data-ng-options="modelo as modelo.nome for modelo in modelos"
-                                data-ng-model="objeto.modelo"></select>
+                                data-ng-options="modelo.id as modelo.nome for modelo in modelos"
+                                data-ng-model="objeto.modelo.id"></select>
                             </div>
                           </div>
                           <div class="form-group">

@@ -2,7 +2,6 @@ package controllers;
 
 import checks.ControladorAneisCheck;
 import checks.ControladorAssociacaoGruposSemaforicosCheck;
-import checks.ControladorVerdesConflitantesCheck;
 import checks.InfluuntValidator;
 import com.google.inject.Inject;
 import models.Controlador;
@@ -34,14 +33,14 @@ public class ControladoresController extends Controller {
 
     @Transactional
     public CompletionStage<Result> associacaoGruposSemaforicos() {
-        return doStep(true, javax.validation.groups.Default.class, ControladorAneisCheck.class,
+        return doStep(false, javax.validation.groups.Default.class, ControladorAneisCheck.class,
                 ControladorAssociacaoGruposSemaforicosCheck.class);
     }
 
     @Transactional
     public CompletionStage<Result> verdesConflitantes() {
-        return doStep(true, javax.validation.groups.Default.class, ControladorAneisCheck.class,
-                ControladorAssociacaoGruposSemaforicosCheck.class,ControladorVerdesConflitantesCheck.class);
+        return doStep(false, javax.validation.groups.Default.class, ControladorAneisCheck.class,
+                ControladorAssociacaoGruposSemaforicosCheck.class);
     }
 
     @Transactional
@@ -80,8 +79,8 @@ public class ControladoresController extends Controller {
         if (checkIfExists && Controlador.find.byId(controlador.getId()) == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
-
-            if(checkIfExists){
+            //TODO: Remover esse THOR!
+            if (THOR) {
                 controlador.getAneis().stream().filter(anel -> anel.isAtivo())
                         .forEach(anel -> anel.getGruposSemaforicos().stream()
                                 .filter(grupoSemaforico -> grupoSemaforico.getEstagioGrupoSemaforicos() != null)
@@ -90,13 +89,13 @@ public class ControladoresController extends Controller {
                                     grupoSemaforico.update();
                                     grupoSemaforico.getEstagioGrupoSemaforicos()
                                             .stream()
-                                            .forEach(estagioGrupoSemaforico -> estagioGrupoSemaforico.save());
+                                            .forEach(estagioGrupoSemaforico -> {
+                                                estagioGrupoSemaforico.save();
+                                                estagioGrupoSemaforico.getEstagio().update();
+                                            });
 
                                 }));
-                //TODO: Remover esse THOR!
-                if(THOR) {
-                    controlador.refresh();
-                }
+                controlador.refresh();
             }
             List<InfluuntValidator.Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, validatiosGroups);
             if (erros.size() > 0) {
