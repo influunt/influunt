@@ -38,11 +38,11 @@ public class EstagioGrupoSemaforico extends Model {
     private Boolean ativo = false;
 
     @ManyToOne
-    @NotNull
+    @NotNull(groups = ControladorAssociacaoGruposSemaforicosCheck.class)
     private Estagio estagio;
 
     @ManyToOne
-    @NotNull
+    @NotNull(groups = ControladorAssociacaoGruposSemaforicosCheck.class)
     private GrupoSemaforico grupoSemaforico;
 
     @Column

@@ -27,12 +27,12 @@
               <div class="stage-stages">
                 <div class="exist-figure">
                   <figure>
-                    <img ng-src="{{ movimento.imagem.id | imageSource }}">
+                    <img ng-src="{{ movimento.imagem.id | imageSource }}" style="width: 155px; height: 135px;">
                   </figure>
                 </div>
                 <div class="upload-figure">
                   <!-- <figure data-ng-style="{ background: url({{ movimento.estagio.imagem.id | imageSource  }}) }"> -->
-                  <figure custom-background="movimento.estagio.imagem.id | imageSource">
+                  <figure custom-background="movimento.estagio.imagem.id | imageSource" style="background-size: cover; background-repeat: no-repeat; background-position: center center;">
                     <form class="dropzone" enctype="multipart/form-data"
                         influunt-dropzone anel="currentAnel"
                         on-success="relacionaImagemAoEstagio(movimento, upload, imagem)"

@@ -64,21 +64,27 @@ angular.module('influuntApp')
       var getHelpersControlador = function() {
         Restangular.all('helpers').all('controlador').customGET().then(function(res) {
           $scope.data = res;
-          $scope.helpers = {cidade: $scope.data.cidades[0]};
-          if (!$scope.objeto.area) {
-            $scope.objeto = {area: $scope.helpers.cidade.areas[0]};
+          $scope.helpers = {};
+
+          if ($scope.objeto.area) {
+            $scope.helpers.cidade = _.find($scope.data.cidades, {id: $scope.objeto.area.cidade.id});
+          } else {
+            $scope.helpers.cidade = $scope.data.cidades[0];
+          }
+
+          if ($scope.objeto.modelo) {
+            $scope.helpers.fornecedor = _.find($scope.data.fabricantes, {id: $scope.objeto.modelo.fabricante.id});
+            $scope.helpers.configuracao = $scope.objeto.modelo.configuracao;
           }
         });
       };
 
       var loadWizardData = function(obj) {
-        getHelpersControlador();
         $scope.objeto = obj;
-
+        getHelpersControlador();
         $scope.validacoes = {
           alerts: []
         };
-        $scope.helpers = {};
       };
 
       $scope.inicializaWizard = function() {
@@ -138,7 +144,10 @@ angular.module('influuntApp')
 
       $scope.inicializaVerdesConflitantes = function() {
         return $scope.inicializaWizard().then(function() {
-          var totalGrupos = $scope.objeto.modelo.configuracao.limiteGrupoSemaforico
+          $scope.grupoIds = _.chain($scope.objeto.gruposSemaforicos).orderBy(['posicao'], ['asc']).map('id').value();
+          console.log($scope.grupoIds);
+
+          var totalGrupos = $scope.objeto.modelo.configuracao.limiteGrupoSemaforico;
           $scope.grupos = _.times(totalGrupos, function(i) {return 'G' + (i+1);});
 
           $scope.movimentos = _.chain($scope.objeto.aneis).map('movimentos').flatten().value();
@@ -190,6 +199,11 @@ angular.module('influuntApp')
         }
       };
 
+      $scope.submitVerdesConflitantes = function() {
+        console.log($scope.verdesConflitantes);
+        $scope.submitForm({$valid: true}, 'verdes_conflitantes', 'app.controladores');
+      };
+
       $scope.selecionaAnel = function(index) {
         $scope.currentAnelId = index;
         $scope.currentAnel = $scope.aneis[$scope.currentAnelId];
@@ -218,6 +232,16 @@ angular.module('influuntApp')
       $scope.toggleVerdeConflitante = function(x, y, disabled) {
         if (disabled) {
           return false;
+        }
+
+        var grupo = _.find($scope.objeto.gruposSemaforicos, {id: $scope.grupoIds[x]});
+        grupo.verdesConflitantes = grupo.verdesConflitantes || [];
+
+        if ($scope.verdesConflitantes[x][y]) {
+          var index = _.findIndex(grupo.verdesConflitantes, {id: $scope.grupoIds[y]});
+          grupo.verdesConflitantes.splice(index, 1);
+        } else {
+          grupo.verdesConflitantes.push({id: $scope.grupoIds[y]});
         }
 
         $scope.verdesConflitantes[x][y] = !$scope.verdesConflitantes[x][y];
@@ -275,7 +299,8 @@ angular.module('influuntApp')
       };
 
       $scope.criaAneis = function(controlador) {
-        if (controlador.aneis) {
+        if (controlador.aneis.length === 0) {
+console.log('should create aneis');
           var idControlador = controlador.idControlador;
           controlador.aneis = _.times(controlador.modelo.configuracao.limiteAnel)
             .map(function(value, key) {
@@ -343,5 +368,13 @@ angular.module('influuntApp')
           }
         });
       };
+
+      $scope.$watch('objeto.modelo', function(value) {
+        if (value && $scope.data && $scope.helpers) {
+          var fabricante = _.find($scope.data.fabricantes, {id: $scope.helpers.fornecedor.id});
+          var modelo = _.find(fabricante.modelos, {id: value.id});
+          $scope.helpers.configuracao = modelo.configuracao;
+        }
+      }, true);
 
     }]);
