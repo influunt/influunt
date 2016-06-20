@@ -114,8 +114,6 @@ angular.module('influuntApp')
           $scope.criaAneis($scope.objeto);
           $scope.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
           $scope.currentAnel = $scope.objeto.aneis[$scope.currentAnelId];
-
-          console.log($scope.aneis)
         });
       };
 
@@ -327,7 +325,7 @@ angular.module('influuntApp')
             anel.id_anel = controlador.idControlador + '-' + (key + 1);
             anel.valid = {
               form: true
-            }
+            };
           });
         }
 
