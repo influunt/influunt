@@ -64,21 +64,27 @@ angular.module('influuntApp')
       var getHelpersControlador = function() {
         Restangular.all('helpers').all('controlador').customGET().then(function(res) {
           $scope.data = res;
-          $scope.helpers = {cidade: $scope.data.cidades[0]};
-          if (!$scope.objeto.area) {
-            $scope.objeto = {area: $scope.helpers.cidade.areas[0]};
+          $scope.helpers = {};
+
+          if ($scope.objeto.area) {
+            $scope.helpers.cidade = _.find($scope.data.cidades, {id: $scope.objeto.area.cidade.id});
+          } else {
+            $scope.helpers.cidade = $scope.data.cidades[0];
+          }
+
+          if ($scope.objeto.modelo) {
+            $scope.helpers.fornecedor = _.find($scope.data.fabricantes, {id: $scope.objeto.modelo.fabricante.id});
+            $scope.helpers.configuracao = $scope.objeto.modelo.configuracao;
           }
         });
       };
 
       var loadWizardData = function(obj) {
-        getHelpersControlador();
         $scope.objeto = obj;
-
+        getHelpersControlador();
         $scope.validacoes = {
           alerts: []
         };
-        $scope.helpers = {};
       };
 
       $scope.inicializaWizard = function() {
@@ -168,7 +174,6 @@ angular.module('influuntApp')
       $scope.submitForm = function(form, stepResource, nextStep) {
         $scope.submited = true;
         if (form.$valid) {
-          console.log('asfdsa');
           Restangular
             .all('controladores')
             .all(stepResource)
@@ -294,7 +299,8 @@ angular.module('influuntApp')
       };
 
       $scope.criaAneis = function(controlador) {
-        if (controlador.aneis) {
+        if (controlador.aneis.length === 0) {
+console.log('should create aneis');
           var idControlador = controlador.idControlador;
           controlador.aneis = _.times(controlador.modelo.configuracao.limiteAnel)
             .map(function(value, key) {
@@ -362,5 +368,13 @@ angular.module('influuntApp')
           }
         });
       };
+
+      $scope.$watch('objeto.modelo', function(value) {
+        if (value && $scope.data && $scope.helpers) {
+          var fabricante = _.find($scope.data.fabricantes, {id: $scope.helpers.fornecedor.id});
+          var modelo = _.find(fabricante.modelos, {id: value.id});
+          $scope.helpers.configuracao = modelo.configuracao;
+        }
+      }, true);
 
     }]);
