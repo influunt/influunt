@@ -23,9 +23,17 @@ describe('Directive: customBackground', function () {
       element = $compile(element)(scope);
       scope.$apply();
 
-      console.log('-----------> ', $(element).css('background'));
-
-      expect(true).toBe(true)
+      var background = $(element).css('background');
+      expect(background).toMatch(/my-url/);
     }));
+
+  it('não deverá modificar nada caso não haja nenhum valor para custom-background', inject(function($compile) {
+    element = angular.element('<div custom-background=""></div>');
+    element = $compile(element)(scope);
+    scope.$apply();
+
+    var background = $(element).css('background');
+    expect(background).toBe('');
+  }));
 
 });
