@@ -37,7 +37,7 @@ public class AreaDeserializer extends JsonDeserializer<Area> {
         cidade.setId(UUID.fromString(node.get("cidade").get("id").asText()));
         area.setCidade(cidade);
 
-        if (node.has("limites")) {
+        if (node.has("limites") && node.get("limites") != null) {
             List<LimiteArea> limites = new ArrayList<LimiteArea>();
             for (JsonNode nodeLimite : node.get("limites")) {
                 LimiteArea limite = new LimiteArea();
