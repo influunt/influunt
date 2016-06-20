@@ -1,7 +1,7 @@
 <fieldset data-ng-init="inicializaAssociacao()">
   <div class="row">
-    <div class="text-center">
-      <div class="col-lg-2 col-sm-2">
+    <div class="text-center m-t-md pd-lf-rt">
+      <div class="col-lg-2 col-sm-2 no-padding">
         <div class="col-lg-12 col-sm-12 association">
           <nav>
             <ul>
@@ -27,7 +27,7 @@
               <div class="stage-stages">
                 <div class="exist-figure">
                   <figure>
-                    <img ng-src="{{ movimento.imagem.id | imageSource }}" style="width: 155px; height: 135px;">
+                    <img ng-src="{{ movimento.imagem.id | imageSource }}" style="width: 155px;">
                   </figure>
                 </div>
                 <div class="upload-figure">
@@ -81,7 +81,7 @@
           </ul>
         </nav>
       </div>
-      <div class="col-lg-3 col-sm-3 deactivation">
+      <div class="col-lg-3 col-sm-3 deactivation bg-border">
         <form method="get" class="form-horizontal">
           <nav role="navigation">
             <ul>
@@ -115,13 +115,11 @@
           </nav>
         </form>
     </div>
+    <div class="ccol-sm-12 col-lg-12 no-pading bg-border pg-bt m-t-lg">
+      <a data-ng-click="submitForm({$valid: true}, 'associacao_grupos_semaforicos', 'app.wizard_controladores.aneis')" class="btn btn-default left" style="margin-right: 10px;">{{ 'plugins.steps.labels.previous' | translate }}</a>
+      <a data-ng-click="submitForm({$valid: true}, 'associacao_grupos_semaforicos', 'app.wizard_controladores.verdes_conflitantes')" class="btn btn-primary left">{{ 'plugins.steps.labels.next' | translate }}</a>
     </div>
-  </div>
-  <div class="col-sm-12 col-lg-12 m-b-lg">
-    <a data-ng-click="submitForm({$valid: true}, 'associacao_grupos_semaforicos', 'app.wizard_controladores.aneis')" class="btn btn-default">{{ 'plugins.steps.labels.previous' | translate }}</a>
-    <a data-ng-click="submitForm({$valid: true}, 'associacao_grupos_semaforicos', 'app.wizard_controladores.verdes_conflitantes')" class="btn btn-primary">{{ 'plugins.steps.labels.next' | translate }}</a>
-    <!-- <a ui-sref="app.wizard_controladores.dados-basicos" class="btn btn-default">{{ 'plugins.steps.labels.previous' | translate }}</a>
-    <a ui-sref="app.wizard_controladores.verdes-conflitantes" class="btn btn-primary">{{ 'plugins.steps.labels.next' | translate }}</a> -->
+    </div>
   </div>
 </fieldset>
 <!-- {{ objeto }} -->
