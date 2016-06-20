@@ -21,6 +21,9 @@ public class AnelSerializer extends JsonSerializer<Anel> {
         if (anel.getId() != null) {
             jgen.writeStringField("id", anel.getId().toString());
         }
+        if (anel.getNumeroSMEE() != null) {
+            jgen.writeStringField("numeroSMEE", anel.getNumeroSMEE().toString());
+        }
         if (anel.getDescricao() != null) {
             jgen.writeStringField("descricao", anel.getDescricao());
         }

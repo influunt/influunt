@@ -112,8 +112,10 @@ angular.module('influuntApp')
         return $scope.inicializaWizard().then(function() {
           $scope.currentAnelId = 0;
           $scope.criaAneis($scope.objeto);
-          $scope.aneis = $scope.objeto.aneis;
+          $scope.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
           $scope.currentAnel = $scope.objeto.aneis[$scope.currentAnelId];
+
+          console.log($scope.aneis)
         });
       };
 
@@ -300,7 +302,6 @@ angular.module('influuntApp')
 
       $scope.criaAneis = function(controlador) {
         if (controlador.aneis.length === 0) {
-console.log('should create aneis');
           var idControlador = controlador.idControlador;
           controlador.aneis = _.times(controlador.modelo.configuracao.limiteAnel)
             .map(function(value, key) {
@@ -321,6 +322,13 @@ console.log('should create aneis');
                 }
               };
             });
+        } else {
+          _.orderBy(controlador.aneis, ['posicao'], ['asc']).forEach(function(anel, key) {
+            anel.id_anel = controlador.idControlador + '-' + (key + 1);
+            anel.valid = {
+              form: true
+            }
+          });
         }
 
         return controlador.aneis;

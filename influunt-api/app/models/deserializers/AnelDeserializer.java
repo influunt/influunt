@@ -32,6 +32,9 @@ public class AnelDeserializer extends JsonDeserializer<Anel> {
             if (node.has("id")) {
                 anel.setId(UUID.fromString(node.get("id").asText()));
             }
+            if (node.has("numeroSMEE")) {
+                anel.setNumeroSMEE(node.get("numeroSMEE").asText());
+            }
             if (node.has("descricao")) {
                 anel.setDescricao(node.get("descricao").asText());
             }
