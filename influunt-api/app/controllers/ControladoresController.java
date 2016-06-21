@@ -106,7 +106,6 @@ public class ControladoresController extends Controller {
                 } else {
                     controlador.save();
                 }
-//                controlador.refresh();
                 return CompletableFuture.completedFuture(ok(Json.toJson(Controlador.find.byId(controlador.getId()))));
             }
 

@@ -37,7 +37,7 @@ public class EstagioGrupoSemaforico extends Model {
     @NotNull
     private Boolean ativo = false;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @NotNull(groups = ControladorAssociacaoGruposSemaforicosCheck.class)
     private Estagio estagio;
 
