@@ -23,6 +23,17 @@
 .right {
   float: right;
 }
+.bg-border {
+  border-top: 4px solid #e7eaec;
+  background: white;
+  padding-top: 30px;
+}
+.pg-bt {
+  padding-bottom: 25px;
+}
+.pd-lf-rt {
+  padding: 0 10px;
+}
 header .nav-first {
   background: #2f4050;
   height: 70px;
@@ -48,7 +59,7 @@ header .nav-secon li a {
 }
 
 .content.clearfix.wizard-body {
-  padding: 0px 10px;
+  padding: 0px 0px;
 }
 
 .wrapper-content .filters header {
@@ -243,6 +254,12 @@ header .nav-secon li a {
   bottom: 10px;
   left: 35%;
 }
+.wrapper-content .basic-wizard .content .body .movements {
+  border-top: 4px solid #e7eaec;
+  background: #f2f4f5;
+  padding-left: 20px;
+  padding-top: 30px;
+}
 .wrapper-content .basic-wizard .content .body .movements .dz-default.dz-message span {
   display: block;
   font-size: 13px;
@@ -254,7 +271,9 @@ header .nav-secon li a {
   text-align: left;
 }
 .wrapper-content .basic-wizard .content .body .association {
-  margin-top: 15px;
+    border-top: 4px solid #e7eaec;
+    padding: 15px 0 20px 0;
+    background: white;
 }
 .wrapper-content .basic-wizard .content .body .association nav li:hover {
   background: #19b4a8;
@@ -388,15 +407,16 @@ header .nav-secon li a {
 
 }
 .wrapper-content .basic-wizard .content .body .stages .times-stages {
-  margin-top: 20px;
-  text-align: left;
-  float: right;
-  width:  60%;
+    margin-top: 20px;
+    text-align: left;
+    float: left;
+    width: 56%;
 
 }
 .wrapper-content .basic-wizard .content .body .stages .stage-stages {
-  float: left;
-  margin-top: 20px;
+    float: left;
+    margin-top: 20px;
+    margin-right: 1%;
 }
 .wrapper-content .basic-wizard .content .body .stages .stage-stages .upload-figure hgroup {
   float: left;
@@ -479,6 +499,14 @@ header .nav-secon li a {
 .wrapper-content .basic-wizard .content .body .stages .times-stages .group-selectons input {
 
 }
+.wrapper-content .basic-wizard .content .body .rings .rings-status {
+  margin-right: 1.2%;
+  min-height: 780px;
+  width: 23.8%;
+}
+.wrapper-content .basic-wizard .content .body .rings .groups {
+  min-height: 780px;
+}
 .wrapper-content .basic-wizard .content .body .rings .activ {
   text-align: left;
   text-indent: 20%;
@@ -487,10 +515,11 @@ header .nav-secon li a {
   font-weight: bold;
 }
 .wrapper-content .basic-wizard .content .body .rings li {
-  list-style: none;
-  margin-bottom: 15px;
-  float: left;
-  width: 100%;
+    list-style: none;
+    float: left;
+    width: 100%;
+    height: 45px;
+    line-height: 45px;
 }
 .wrapper-content .basic-wizard .content .body .rings li label {
   font-size: 16px;
@@ -498,18 +527,19 @@ header .nav-secon li a {
 }
 .wrapper-content .basic-wizard .content .body .rings li .number {
   float: left;
-  margin-right: 15px;
-  margin-left: 0;
   font-size: 16px;
+  text-indent: 10px;
   font-weight: bold;
 }
 .wrapper-content .basic-wizard .content .body .rings li label div {
   float: left;
 }
 .wrapper-content .basic-wizard .content .body .divider {
-  border-left: 2px solid #e7eaec;
-  height: 100%;
-
+    border-left: 2px solid #e7eaec;
+    position: absolute;
+    margin: 25px 0 0;
+    height: 95%;    
+    right: 0;
 }
 .wrapper-content .basic-wizard .content .body .maps {
   margin: 25px 0 0;
@@ -563,9 +593,11 @@ header .nav-secon li a {
   height: inherit;
   padding: 0;
   margin: 0;
+  padding: 0 20px;
+  /*
   margin-top: 30px;
   border-top: 4px solid #e7eaec;
-  background: white;
+  background: white; */
 }
 .wrapper-content .basic-wizard .content {
   background: initial;
@@ -631,7 +663,7 @@ header .nav-secon li a {
 **/
 @media screen and (max-width: 1820px) {
   .wrapper-content .basic-wizard .content .body .stages .times-stages {
-    width: 55%;
+    width: 52%;
   }
 }
 @media screen and (max-width: 1750px) {
@@ -644,7 +676,7 @@ header .nav-secon li a {
 }
 @media screen and (max-width: 1620px) {
   .wrapper-content .basic-wizard .content .body .stages .times-stages {
-    width: 50%;
+    width: 47%;
   }
   .wrapper-content .basic-wizard .content .body .stages .times-stages .group-selectons label {
   width: 24.5%;
@@ -657,7 +689,7 @@ header .nav-secon li a {
 
   }
   .wrapper-content .basic-wizard .content .body .stages .times-stages {
-    width: 46%;
+    width: 44%;
   }
   .wrapper-content .basic-wizard .content .body .stages .times-stages .group-selectons label {
   width: 24.5%;
@@ -669,7 +701,7 @@ header .nav-secon li a {
   font-size: 11px;
   }
   .wrapper-content .basic-wizard .content .body .stages .times-stages {
-    width: 40%;
+    width: 38%;
   }
   .wrapper-content .basic-wizard .content .body .stages .times-stages .group-selectons label {
   width: 24.9%;

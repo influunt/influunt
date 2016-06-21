@@ -53,6 +53,8 @@ module.exports = function(config) {
       'bower_components/sweetalert/dist/sweetalert.min.js',
       'bower_components/ngSweetAlert/SweetAlert.js',
       'bower_components/leaflet/dist/leaflet-src.js',
+      'bower_components/angular-google-places-autocomplete/src/autocomplete.js',
+      'bower_components/angular-google-places-autocomplete/dist/autocomplete.min.js',
 
       // inspinea scripts.
       'app/plugins/metisMenu/jquery.metisMenu.js',
