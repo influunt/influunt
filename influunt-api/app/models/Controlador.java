@@ -106,8 +106,21 @@ public class Controlador extends Model {
     @Valid
     private List<Estagio> estagios;
 
+
     @Override
     public void save(){
+        antesDeSalvarOuAtualizar();
+        super.save();
+    }
+
+    @Override
+    public void update(){
+        antesDeSalvarOuAtualizar();
+        super.update();
+    }
+
+    private void antesDeSalvarOuAtualizar(){
+
         if(this.getId()==null){
             int quantidade = getModelo().getConfiguracao().getLimiteAnel();
             this.aneis = new ArrayList<Anel>(quantidade);
@@ -115,23 +128,15 @@ public class Controlador extends Model {
                 this.aneis.add(new Anel(this,i+1));
             }
         }
-        super.save();
-    }
 
-    @Override
-    public void update(){
         if(getAneis() != null){
             getAneis().stream().forEach(anel -> {
-//                if (anel.getId() == null) {
-//                    anel.save();
-//                }
                 anel.criaGruposSemaforicos();
                 anel.criaDetectores();
             });
         }
 
 
-        super.update();
     }
 
 

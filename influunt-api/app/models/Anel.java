@@ -33,6 +33,7 @@ import java.util.UUID;
 @Table(name = "aneis")
 @AoMenosUmGrupoSemaforico
 @ConformidadeNumeroEstagios
+
 @JsonSerialize(using = AnelSerializer.class)
 @JsonDeserialize(using = AnelDeserializer.class)
 public class Anel extends Model {

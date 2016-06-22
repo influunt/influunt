@@ -13,7 +13,7 @@ import java.lang.annotation.*;
 @Documented
 public @interface ConformidadeNumeroEstagios {
 
-    String message() default "Um anel ativo deve ter ao menos dois movimento e no máximo o limite do modelo do controlador";
+    String message() default "Um anel ativo deve ter ao menos dois estágios e no máximo o limite do modelo do controlador";
 
     Class<?>[] groups() default {};
 
