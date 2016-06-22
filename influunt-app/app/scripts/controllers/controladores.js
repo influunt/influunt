@@ -39,20 +39,22 @@ angular.module('influuntApp')
         });
       };
 
+      /**
+       * Carrega os dados de fabricas e cidades, que não estão diretamente relacionados ao contolador.
+       */
       var getHelpersControlador = function() {
         Restangular.all('helpers').all('controlador').customGET().then(function(res) {
           $scope.data = res;
           $scope.helpers = {};
 
           if ($scope.objeto.area) {
-            $scope.helpers.cidade = _.find($scope.data.cidades, {id: $scope.objeto.area.cidade.id});
+            $scope.helpers.cidade = $scope.objeto.area.cidade;
           } else {
             $scope.helpers.cidade = $scope.data.cidades[0];
           }
 
           if ($scope.objeto.modelo) {
-            $scope.helpers.fornecedor = _.find($scope.data.fabricantes, {id: $scope.objeto.modelo.fabricante.id});
-            $scope.helpers.configuracao = $scope.objeto.modelo.configuracao;
+            $scope.helpers.fornecedor = $scope.objeto.modelo.fabricante;
           }
         });
       };
@@ -86,10 +88,6 @@ angular.module('influuntApp')
         }
 
         return defer.promise;
-      };
-
-      $scope.inicializaDadosBasicos = function() {
-        return $scope.inicializaWizard();
       };
 
       $scope.inicializaAneis = function() {
@@ -353,13 +351,5 @@ angular.module('influuntApp')
           }
         });
       };
-
-      $scope.$watch('objeto.modelo', function(value) {
-        if (value && $scope.data && $scope.helpers) {
-          var fabricante = _.find($scope.data.fabricantes, {id: $scope.helpers.fornecedor.id});
-          var modelo = _.find(fabricante.modelos, {id: value.id});
-          $scope.helpers.configuracao = modelo.configuracao;
-        }
-      }, true);
 
     }]);

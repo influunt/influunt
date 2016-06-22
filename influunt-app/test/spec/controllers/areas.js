@@ -12,12 +12,10 @@ describe('Controller: AreasCtrl', function () {
     httpBackend,
     listaCidades;
 
-  // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope, $httpBackend) {
     scope = $rootScope.$new();
     AreasCtrl = $controller('AreasCtrl', {
       $scope: scope
-      // place here mocked dependencies
     });
 
     httpBackend = $httpBackend;

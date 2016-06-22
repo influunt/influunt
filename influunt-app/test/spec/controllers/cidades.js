@@ -7,12 +7,10 @@ describe('Controller: CidadesCtrl', function () {
   var CidadesCtrl,
     scope;
 
-  // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
     CidadesCtrl = $controller('CidadesCtrl', {
       $scope: scope
-      // place here mocked dependencies
     });
   }));
 

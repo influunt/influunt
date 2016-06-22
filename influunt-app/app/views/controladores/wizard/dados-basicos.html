@@ -1,4 +1,4 @@
-<fieldset data-ng-init="inicializaDadosBasicos()">
+<fieldset data-ng-init="inicializaWizard()">
   <div class="text-center m-t-md">
     <div class="col-lg-12 col-sm-12 bg-border no-padding">
       <div class="ibox float-e-margins">
@@ -12,7 +12,7 @@
                 <label>{{ 'controladores.cidade' | translate }}:</label>
                 <select name="cidade" class="form-control"
                   data-ng-model="helpers.cidade"
-                  data-ng-options="cidade as cidade.nome for cidade in data.cidades"></select>
+                  data-ng-options="cidade as cidade.nome for cidade in data.cidades track by cidade.id"></select>
               </div>
 
               <div class="form-group" data-ng-class="{'has-error': formDadosBasicos.area.$invalid && (!formDadosBasicos.area.$pristine || submited)}">
@@ -143,7 +143,7 @@
                 <label class="col-sm-12 no-padding control-label">{{ 'controladores.fornecedor' | translate }}</label>
                 <div class="col-sm-12 no-padding">
                   <select name="fornecedor" class="form-control"
-                    data-ng-options="fornecedor as fornecedor.nome for fornecedor in data.fabricantes"
+                    data-ng-options="fornecedor as fornecedor.nome for fornecedor in data.fabricantes track by fornecedor.id"
                     data-ng-model="helpers.fornecedor"></select>
                 </div>
               </div>
@@ -151,8 +151,8 @@
                 <label class="col-sm-12 no-padding control-label">{{ 'controladores.modelo' | translate }}</label>
                 <div class="col-sm-12 no-padding">
                   <select name="modelo" class="form-control"
-                    data-ng-options="modelo.id as modelo.descricao for modelo in helpers.fornecedor.modelos"
-                    data-ng-model="objeto.modelo.id" required></select>
+                    data-ng-options="modelo as modelo.descricao for modelo in helpers.fornecedor.modelos track by modelo.id"
+                    data-ng-model="objeto.modelo" required></select>
                   <p ng-show="formDadosBasicos.modelo.$invalid && (!formDadosBasicos.modelo.$pristine || submited)"
                     class="help-block error-msg">
                       {{ 'geral.campo_obrigatorio' | translate }}
@@ -161,24 +161,24 @@
               </div>
 
               <div class="col-lg-4 col-sm-4 no-padding">
-                <h1><b>{{ helpers.configuracao.limiteEstagio || 0 }}</b></h1>
+                <h1><b>{{ objeto.modelo.configuracao.limiteEstagio || 0 }}</b></h1>
                 <p>{{ 'controladores.maxEstagios' | translate }}</p>
               </div>
               <div class="col-lg-4 col-sm-4 no-padding-right">
-                <h1><b>{{ helpers.configuracao.limiteGrupoSemaforico || 0 }}</b></h1>
+                <h1><b>{{ objeto.modelo.configuracao.limiteGrupoSemaforico || 0 }}</b></h1>
                 <p>{{ 'controladores.maxGrupoSemaforos' | translate }}</p>
               </div>
               <div class="col-lg-4 col-sm-4 no-padding-right">
-                <h1><b>{{ helpers.configuracao.limiteAnel || 0 }}</b></h1>
+                <h1><b>{{ objeto.modelo.configuracao.limiteAnel || 0 }}</b></h1>
                 <p>{{ 'controladores.maxAneis' | translate }}</p>
               </div>
               <div class="clearfix"></div>
               <div class="col-lg-4 col-sm-4 no-padding">
-                <h1><b>{{ helpers.configuracao.limiteDetectorVeicular || 0 }}</b></h1>
+                <h1><b>{{ objeto.modelo.configuracao.limiteDetectorVeicular || 0 }}</b></h1>
                 <p>{{ 'controladores.maxDetectorVeicular' | translate }}</p>
               </div>
                <div class="col-lg-4 col-sm-4 no-padding-right">
-                <h1><b>{{ helpers.configuracao.limiteDetectorPedestre || 0 }}</b></h1>
+                <h1><b>{{ objeto.modelo.configuracao.limiteDetectorPedestre || 0 }}</b></h1>
                 <p>{{ 'controladores.maxDetectorPedestre' | translate }}</p>
               </div>
             </div>

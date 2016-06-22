@@ -8,12 +8,10 @@ describe('Controller: DatatablesCtrl', function () {
   var DatatablesCtrl,
     scope;
 
-  // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
     DatatablesCtrl = $controller('DatatablesCtrl', {
       $scope: scope
-      // place here mocked dependencies
     });
   }));
 

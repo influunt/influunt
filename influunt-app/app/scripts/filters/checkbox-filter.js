@@ -14,7 +14,7 @@ angular.module('influuntApp')
       var property = 'id';
 
       if (input) {
-        var hasFilters = _.reduce(checkboxes, function(a, b) {return a || b}, false);
+        var hasFilters = _.reduce(checkboxes, function(a, b) {return a || b;}, false);
 
         if (!hasFilters) {
           return input;

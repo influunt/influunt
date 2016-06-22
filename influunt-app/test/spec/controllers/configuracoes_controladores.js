@@ -7,7 +7,6 @@ describe('Controller: ConfiguracaoControladoresCtrl', function () {
 
   var ConfiguracaoControladoresCtrl, scope;
 
-  // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
     ConfiguracaoControladoresCtrl = $controller('ConfiguracaoControladoresCtrl', {$scope: scope});

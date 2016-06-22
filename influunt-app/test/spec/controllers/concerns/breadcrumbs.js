@@ -19,13 +19,11 @@ describe('Controller: BreadcrumbsCtrl', function () {
     scope,
     $state;
 
-  // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope, _$state_) {
     $state = _$state_;
     scope = $rootScope.$new();
     BreadcrumbsCtrl = $controller('BreadcrumbsCtrl', {
       $scope: scope
-      // place here mocked dependencies
     });
   }));
 

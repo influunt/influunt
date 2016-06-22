@@ -9,7 +9,6 @@ describe('Controller: ModelosControladoresCtrl', function () {
 
   var ModelosControladoresCtrl, scope, $httpBackend, $q;
 
-  // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope, _$httpBackend_, _$q_) {
     scope = $rootScope.$new();
     $q = _$q_;

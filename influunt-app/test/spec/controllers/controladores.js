@@ -9,16 +9,17 @@ describe('Controller: ControladoresCtrl', function () {
 
   var ControladoresCtrl,
     scope,
-    $q;
+    $q,
+    Restangular;
 
-  // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope, _$q_) {
+  beforeEach(inject(function ($controller, $rootScope, _$q_, _Restangular_) {
     scope = $rootScope.$new();
     ControladoresCtrl = $controller('ControladoresCtrl', {
       $scope: scope
     });
 
     $q = _$q_;
+    Restangular = _Restangular_;
   }));
 
   it('Deve conter as definições das funções de CRUD', function() {
@@ -29,23 +30,49 @@ describe('Controller: ControladoresCtrl', function () {
     expect(scope.confirmDelete).toBeDefined();
   });
 
-  it('Inicializa Index:', inject(function($httpBackend) {
-    var controladores = [{}, {}];
-    $httpBackend.expectGET('/controladores').respond(controladores);
-    scope.inicializaIndex();
-    $httpBackend.flush();
+  describe('CRUD de contrladores', function() {
+    it('Inicializa Index:', inject(function($httpBackend) {
+      var controladores = [{}, {}];
+      $httpBackend.expectGET('/controladores').respond(controladores);
+      scope.inicializaIndex();
+      $httpBackend.flush();
 
-    expect(scope.lista.length).toBe(2);
-    expect(scope.filtros).toEqual({});
-    expect(scope.filtroLateral).toEqual({});
-  }));
+      expect(scope.lista.length).toBe(2);
+      expect(scope.filtros).toEqual({});
+      expect(scope.filtroLateral).toEqual({});
+    }));
 
-  it('before show: carrega a lista de areas', inject(function($httpBackend) {
-    var areas = [{}, {}];
-    $httpBackend.expectGET('/areas').respond(areas);
-    scope.beforeShow();
-    $httpBackend.flush();
+    it('before show: carrega a lista de areas', inject(function($httpBackend) {
+      var areas = [{}, {}];
+      $httpBackend.expectGET('/areas').respond(areas);
+      scope.beforeShow();
+      $httpBackend.flush();
 
-    expect(scope.areas.length).toBe(2);
-  }));
+      expect(scope.areas.length).toBe(2);
+    }));
+  });
+
+  describe('Wizard para novo controlador', function() {
+    var helpers;
+
+    beforeEach(function() {
+      helpers = {"cidades":[{},{}],"fabricantes":[{},{},{}]};
+    })
+
+    it('Inicializa Wizard: Deve retornar um objeto vazio.', function() {
+      scope.inicializaWizard();
+      expect(scope.objeto).toEqual({});
+    });
+
+    it('Inicializa Wizard: Deve criar o objeto de helpers', inject(function($httpBackend) {
+
+    }));
+
+  });
+
+  describe('Wizard para edição de contrladores', function () {
+    it('Inicializa Wizard: ', function() {});
+  })
+
+
 });
