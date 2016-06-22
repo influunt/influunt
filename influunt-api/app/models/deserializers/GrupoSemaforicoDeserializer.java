@@ -6,10 +6,7 @@ import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Estagio;
-import models.EstagioGrupoSemaforico;
-import models.GrupoSemaforico;
-import models.TipoGrupoSemaforico;
+import models.*;
 import play.libs.Json;
 
 import java.io.IOException;
@@ -41,12 +38,7 @@ public class GrupoSemaforicoDeserializer extends JsonDeserializer<GrupoSemaforic
         if (node.has("estagioGrupoSemaforicos")) {
             List<EstagioGrupoSemaforico> estagioGrupoSemaforicos = new ArrayList<EstagioGrupoSemaforico>();
             for (JsonNode estagioGSNode : node.get("estagioGrupoSemaforicos")) {
-                EstagioGrupoSemaforico grp = new EstagioGrupoSemaforico();
-
-
-//                        Json.fromJson(estagioGSNode, EstagioGrupoSemaforico.class);
-//                grp.setGrupoSemaforico(grupoSemaforico);
-//                estagioGrupoSemaforicos.add(grp);
+                estagioGrupoSemaforicos.add(getEstagioGrupoSemaforico(estagioGSNode, grupoSemaforico));
             }
             grupoSemaforico.setEstagioGrupoSemaforicos(estagioGrupoSemaforicos);
         }
@@ -54,7 +46,7 @@ public class GrupoSemaforicoDeserializer extends JsonDeserializer<GrupoSemaforic
         return grupoSemaforico;
     }
 
-    private EstagioGrupoSemaforico getEstagioGrupoSemafgorico(JsonNode node, GrupoSemaforico grupoSemaforico) {
+    private EstagioGrupoSemaforico getEstagioGrupoSemaforico(JsonNode node, GrupoSemaforico grupoSemaforico) {
         EstagioGrupoSemaforico estagioGrupoSemaforico = new EstagioGrupoSemaforico();
 
         if (node.has("id")) {
@@ -67,25 +59,35 @@ public class GrupoSemaforicoDeserializer extends JsonDeserializer<GrupoSemaforic
             estagioGrupoSemaforico.setGrupoSemaforico(grupoSemaforico);
         }
         if (node.has("estagio")) {
-//            Estagio estagio = new Estagio();
-//            JsonNode estagioNode = node.get("estagio");
-//            if (estagioNode.has("descricao")) {
-//                estagio.setDescricao(estagioNode.get("descricao").asText());
-//            }
-//            if (estagioNode.has("tempoMaximoPermanencia")) {
-//                estagio.setTempoMaximoPermanencia(estagioNode.get("tempoMaximoPermanencia").asInt());
-//            }
-//            if (estagioNode.has("demandaPrioritaria")) {
-//                estagio.setDemandaPrioritaria(estagioNode.get("demandaPrioritaria").asBoolean());
-//            }
-//            if (estagioNode.has("imagem")) {
-//                Imagem img = new Imagem();
-//                img.setId(UUID.fromString(estagioNode.get("imagem").get("id").asText()));
-//                estagio.setImagem(img);
-//            }
-            Estagio estagio = Json.fromJson(node.get("estagio"), Estagio.class);
+            estagioGrupoSemaforico.setEstagio(getEstagio(node.get("estagio"), estagioGrupoSemaforico));
         }
 
         return estagioGrupoSemaforico;
+    }
+
+    private Estagio getEstagio(JsonNode node, EstagioGrupoSemaforico estagioGrupoSemaforico) {
+        Estagio estagio = new Estagio();
+        if (node.has("id")) {
+            estagio = Estagio.find.byId(UUID.fromString(node.get("id").asText()));
+            if (estagio == null) {
+                estagio = new Estagio();
+            }
+        }
+        if (node.has("imagem")) {
+            Imagem imagem = Json.fromJson(node.get("imagem"), Imagem.class);
+            estagio.setImagem(imagem);
+        }
+        if (node.has("descricao")) {
+            estagio.setDescricao(node.get("descricao").asText());
+        }
+        if (node.has("tempoMaximoPermanencia")) {
+            estagio.setTempoMaximoPermanencia(node.get("tempoMaximoPermanencia").asInt());
+        }
+        if (node.has("demandaPrioritaria")) {
+            estagio.setDemandaPrioritaria(node.get("demandaPrioritaria").asBoolean());
+        }
+
+        estagio.addEstagioGrupoSemaforico(estagioGrupoSemaforico);
+        return estagio;
     }
 }

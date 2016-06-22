@@ -43,9 +43,7 @@ public class GrupoSemaforico extends Model {
     @JoinColumn(name = "anel_id")
     private Anel anel;
 
-    @OneToMany(mappedBy = "grupoSemaforico", fetch = FetchType.EAGER)
-//    @JoinColumn(name = "grupo_semaforico_id")
-    @Valid
+    @OneToMany(mappedBy = "grupoSemaforico", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<EstagioGrupoSemaforico> estagioGrupoSemaforicos;
 
     @ManyToOne

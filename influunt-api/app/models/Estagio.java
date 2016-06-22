@@ -4,18 +4,17 @@ import checks.ControladorAssociacaoGruposSemaforicosCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
-import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import models.deserializers.EstagioDeserializer;
-import models.serializers.EstagioSerializer;
-import org.joda.time.DateTime;
 import models.deserializers.InfluuntDateTimeDeserializer;
+import models.serializers.EstagioSerializer;
 import models.serializers.InfluuntDateTimeSerializer;
+import org.joda.time.DateTime;
 
 import javax.persistence.*;
-import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,6 +30,8 @@ import java.util.UUID;
 public class Estagio extends Model {
 
     private static final long serialVersionUID = 5984122994022833262L;
+
+    public static Finder<UUID, Estagio> find = new Finder<UUID, Estagio>(Estagio.class);
 
     @Id
     private UUID id;
@@ -51,8 +52,6 @@ public class Estagio extends Model {
     private Movimento movimento;
 
     @OneToMany(mappedBy = "estagio", fetch = FetchType.EAGER)
-//    @JoinColumn(name = "estagio_id")
-    @Valid
     private List<EstagioGrupoSemaforico> estagiosGruposSemaforicos;
 
 
@@ -140,10 +139,19 @@ public class Estagio extends Model {
         this.dataAtualizacao = dataAtualizacao;
     }
 
+    public void addEstagioGrupoSemaforico(EstagioGrupoSemaforico estagioGrupoSemaforico) {
+        if (getEstagiosGruposSemaforicos() == null) {
+            setEstagiosGruposSemaforicos(new ArrayList<EstagioGrupoSemaforico>());
+        }
+        getEstagiosGruposSemaforicos().add(estagioGrupoSemaforico);
+    }
+
+
 //    @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
 //            message = "Este estágio deve ser associado a pelo menos 1 grupo semafórico"
 //    )
 //    public boolean isAoMenosUmEstagioGrupoSemaforico(){
 //        return getEstagiosGruposSemaforicos() != null && !getEstagiosGruposSemaforicos().isEmpty();
 //    }
+
 }
