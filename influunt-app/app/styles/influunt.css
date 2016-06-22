@@ -501,11 +501,11 @@ header .nav-secon li a {
 }
 .wrapper-content .basic-wizard .content .body .rings .rings-status {
   margin-right: 1.2%;
-  min-height: 780px;
+  min-height: 800px;
   width: 23.8%;
 }
 .wrapper-content .basic-wizard .content .body .rings .groups {
-  min-height: 780px;
+  min-height: 800px;
 }
 .wrapper-content .basic-wizard .content .body .rings .activ {
   text-align: left;
@@ -684,12 +684,37 @@ header .nav-secon li a {
   }
 }
 @media screen and (max-width: 1450px) {
+  .wrapper-content .basic-wizard .content .body .stages .stage-stages {
+  margin-right: 0;
+  width: 44%;
+
+  }
+  .wrapper-content .basic-wizard .content .body .stages .stage-stages .exist-figure {
+  margin: 0 10px 0 10px;
+
+  }
+  .wrapper-content .basic-wizard .content .body .stages .stage-stages .exist-figure figure {
+  max-width: 145px;
+  max-height: 135px;
+  min-width: 145px;
+  min-height: 135px;
+
+  }
+  .wrapper-content .basic-wizard .content .body .stages .stage-stages .upload-figure figure {
+  min-height: 135px;
+  max-height: 135px;
+  min-width: 140px;
+  max-width: 140px;
+  position: relative;
+
+  }
+  /**/
   .wrapper-content .basic-wizard .content .body .stages .times-stages label {
   font-size: 12px;
 
   }
   .wrapper-content .basic-wizard .content .body .stages .times-stages {
-    width: 44%;
+    width: 49%;
   }
   .wrapper-content .basic-wizard .content .body .stages .times-stages .group-selectons label {
   width: 24.5%;
@@ -701,10 +726,20 @@ header .nav-secon li a {
   font-size: 11px;
   }
   .wrapper-content .basic-wizard .content .body .stages .times-stages {
-    width: 38%;
+    width: 48%;
   }
   .wrapper-content .basic-wizard .content .body .stages .times-stages .group-selectons label {
   width: 24.9%;
 
+  }
+}
+@media screen and (max-width: 1280px) {
+  .wrapper-content .basic-wizard .content .body .stages .times-stages {
+  width: 44%;
+
+  }
+  .wrapper-content .basic-wizard .content .body .stages .stage-stages {
+  width: 48%;
+    
   }
 }
