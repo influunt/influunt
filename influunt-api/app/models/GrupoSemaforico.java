@@ -7,14 +7,13 @@ import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import models.deserializers.GrupoSemaforicoDeserializer;
-import models.deserializers.InfluuntDateTimeDeserializer;
-import models.serializers.GrupoSemaforicoSerializer;
-import models.serializers.InfluuntDateTimeSerializer;
+import json.deserializers.GrupoSemaforicoDeserializer;
+import json.deserializers.InfluuntDateTimeDeserializer;
+import json.serializers.GrupoSemaforicoSerializer;
+import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
-import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import java.util.List;
 import java.util.UUID;
@@ -54,6 +53,10 @@ public class GrupoSemaforico extends Model {
 
     @OneToMany(mappedBy = "grupoConflito", cascade = CascadeType.ALL)
     private List<GrupoSemaforico> verdesConflitantes;
+
+    @OneToMany
+    private List<TabelaEntreVerdes> tabelasEntreVerdes;
+
 
     @Column
     private Integer posicao;

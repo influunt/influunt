@@ -22,8 +22,8 @@ POST        /api/v1/controladores/dados_basicos                 controllers.Cont
 POST        /api/v1/controladores/aneis        	                controllers.ControladoresController.aneis()
 POST        /api/v1/controladores/associacao_grupos_semaforicos   controllers.ControladoresController.associacaoGruposSemaforicos()
 POST        /api/v1/controladores/verdes_conflitantes         	controllers.ControladoresController.verdesConflitantes()
-GET         /api/v1/controladores/:id                           controllers.ControladoresController.findOne(id: Long)
-DELETE      /api/v1/controladores/:id                           controllers.ControladoresController.delete(id: Long)
+GET         /api/v1/controladores/:id                           controllers.ControladoresController.findOne(id)
+DELETE      /api/v1/controladores/:id                           controllers.ControladoresController.delete(id)
 
 # Fabricantes
 GET         /api/v1/fabricantes                         controllers.FabricantesController.findAll()

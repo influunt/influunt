@@ -1,7 +1,6 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import controllers.routes;
 import models.Fabricante;
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,7 +12,6 @@ import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
 import play.test.WithApplication;
-import security.Authenticator;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +21,6 @@ import java.util.UUID;
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static play.inject.Bindings.bind;
 import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.route;
 

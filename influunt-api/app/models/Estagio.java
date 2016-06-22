@@ -1,19 +1,17 @@
 package models;
 
-import checks.ControladorAssociacaoGruposSemaforicosCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import models.deserializers.EstagioDeserializer;
-import models.deserializers.InfluuntDateTimeDeserializer;
-import models.serializers.EstagioSerializer;
-import models.serializers.InfluuntDateTimeSerializer;
+import json.deserializers.EstagioDeserializer;
+import json.deserializers.InfluuntDateTimeDeserializer;
+import json.serializers.EstagioSerializer;
+import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
-import javax.validation.constraints.AssertTrue;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -48,11 +46,26 @@ public class Estagio extends Model {
     @Column
     private Boolean demandaPrioritaria = false;
 
-    @OneToOne
-    private Movimento movimento;
-
-    @OneToMany(mappedBy = "estagio", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "estagio")
     private List<EstagioGrupoSemaforico> estagiosGruposSemaforicos;
+
+    @OneToMany(mappedBy = "origem")
+    private List<TransicaoProibida> origemDeTransacoesProibidas;
+
+    @OneToMany(mappedBy = "destino")
+    private List<TransicaoProibida> destinoDeTransacoesProibidas;
+
+    @OneToMany(mappedBy = "alternativo")
+    private List<TransicaoProibida> alternativaDeTransacoesProibidas;
+
+    @ManyToOne
+    private Anel anel;
+
+    @ManyToOne
+    private Controlador controlador;
+
+    private Detector detector;
+
 
 
     @Column
@@ -105,14 +118,6 @@ public class Estagio extends Model {
 
     public void setDemandaPrioritaria(Boolean demandaPrioritaria) {
         this.demandaPrioritaria = demandaPrioritaria;
-    }
-
-    public Movimento getMovimento() {
-        return movimento;
-    }
-
-    public void setMovimento(Movimento movimento) {
-        this.movimento = movimento;
     }
 
     public List<EstagioGrupoSemaforico> getEstagiosGruposSemaforicos() {

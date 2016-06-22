@@ -1,7 +1,7 @@
 package models;
 
 import checks.AoMenosUmGrupoSemaforico;
-import checks.ConformidadeNumeroMovimentos;
+import checks.ConformidadeNumeroEstagios;
 import checks.ControladorAssociacaoGruposSemaforicosCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
@@ -9,10 +9,10 @@ import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import models.deserializers.AnelDeserializer;
-import models.deserializers.InfluuntDateTimeDeserializer;
-import models.serializers.AnelSerializer;
-import models.serializers.InfluuntDateTimeSerializer;
+import json.deserializers.AnelDeserializer;
+import json.deserializers.InfluuntDateTimeDeserializer;
+import json.serializers.AnelSerializer;
+import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
@@ -22,7 +22,6 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 /**
  * Entidade que representa o {@link Anel} no sistema
@@ -33,7 +32,7 @@ import java.util.stream.Collectors;
 @Entity
 @Table(name = "aneis")
 @AoMenosUmGrupoSemaforico
-@ConformidadeNumeroMovimentos
+@ConformidadeNumeroEstagios
 @JsonSerialize(using = AnelSerializer.class)
 @JsonDeserialize(using = AnelDeserializer.class)
 public class Anel extends Model {
@@ -90,7 +89,7 @@ public class Anel extends Model {
 
     @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL)
     @Valid
-    private List<Movimento> movimentos;
+    private List<Estagio> estagios;
 
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
@@ -103,6 +102,13 @@ public class Anel extends Model {
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
+
+
+    public Anel(Controlador controlador, int posicao) {
+        super();
+        this.controlador = controlador;
+        this.posicao = posicao;
+    }
 
     public Anel() {
         super();
@@ -184,14 +190,6 @@ public class Anel extends Model {
         this.gruposSemaforicos = gruposSemaforicos;
     }
 
-    public List<Movimento> getMovimentos() {
-        return movimentos;
-    }
-
-    public void setMovimentos(List<Movimento> movimentos) {
-        this.movimentos = movimentos;
-    }
-
     public Double getLatitude() {
         return latitude;
     }
@@ -252,6 +250,14 @@ public class Anel extends Model {
         this.quantidadeDetectorVeicular = quantidadeDetectorVeicular;
     }
 
+    public List<Estagio> getEstagios() {
+        return estagios;
+    }
+
+    public void setEstagios(List<Estagio> estagios) {
+        this.estagios = estagios;
+    }
+
     public Boolean isAtivo() {
         return ativo;
     }
@@ -261,7 +267,7 @@ public class Anel extends Model {
     }
 
     public String getIdAnel() {
-        return String.format("%s-%d", this.controlador.getIdControlador(), this.posicao);
+        return String.format("%s-%d", this.controlador.getCLC(), this.posicao);
     }
 
     @JsonIgnore
@@ -328,17 +334,6 @@ public class Anel extends Model {
             }
         } else {
             //TODO:O que fazer se o cara alterar????
-        }
-    }
-
-    public List<Estagio> getEstagios() {
-        if (this.getMovimentos() != null) {
-            return this.getMovimentos().stream()
-                    .map(movimento -> movimento.getEstagio())
-                    .filter(estagio -> estagio != null).collect(Collectors.toList());
-
-        } else {
-            return new ArrayList<Estagio>();
         }
     }
 

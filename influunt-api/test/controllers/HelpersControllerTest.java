@@ -1,9 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import controllers.routes;
 import helpers.ControladorHelper;
-import models.*;
 import org.junit.Test;
 import play.Application;
 import play.Logger;
@@ -14,6 +12,7 @@ import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
 import play.test.WithApplication;
+import models.*;
 
 import java.util.HashMap;
 import java.util.Map;

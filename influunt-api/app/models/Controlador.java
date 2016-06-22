@@ -4,20 +4,21 @@ import checks.*;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import models.deserializers.ControladorDeserializer;
-import models.deserializers.InfluuntDateTimeDeserializer;
-import models.serializers.ControladorSerializer;
-import models.serializers.InfluuntDateTimeSerializer;
+import json.deserializers.ControladorDeserializer;
+import json.deserializers.InfluuntDateTimeDeserializer;
+import json.serializers.ControladorSerializer;
+import json.serializers.InfluuntDateTimeSerializer;
 import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Entidade que representa o {@link Controlador} no sistema
@@ -35,11 +36,10 @@ import java.util.List;
 @JsonSerialize(using = ControladorSerializer.class)
 public class Controlador extends Model {
     private static final long serialVersionUID = 521560643019927963L;
-    public static Finder<Long, Controlador> find = new Finder<Long, Controlador>(Controlador.class);
+    public static Finder<UUID, Controlador> find = new Finder<UUID, Controlador>(Controlador.class);
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private UUID id;
 
     @Column
     @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
@@ -54,11 +54,10 @@ public class Controlador extends Model {
     private DateTime dataAtualizacao;
 
     @Column
-    @NotBlank
-    private String descricao;
+    @NotBlank(message = "não pode ficar em branco")
+    private String localizacao;
 
     @Column
-    @NotNull
     private String numeroSMEE;
 
     @Column
@@ -71,25 +70,24 @@ public class Controlador extends Model {
     private String numeroSMEEConjugado3;
 
     @Column
-    @NotNull
     private String firmware;
 
     @Column
-    @NotNull
+    @NotNull(message = "não pode ficar em branco")
     private Double latitude;
 
     @Column
-    @NotNull
+    @NotNull(message = "não pode ficar em branco")
     private Double longitude;
 
     @ManyToOne
     @Valid
-    @NotNull
+    @NotNull(message = "não pode ficar em branco")
     private ModeloControlador modelo;
 
     @ManyToOne
     @Valid
-    @NotNull
+    @NotNull(message = "não pode ficar em branco")
     private Area area;
 
     @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
@@ -106,8 +104,19 @@ public class Controlador extends Model {
 
     @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
     @Valid
-    private List<Movimento> movimentos;
+    private List<Estagio> estagios;
 
+    @Override
+    public void save(){
+        if(this.getId()==null){
+            int quantidade = getModelo().getConfiguracao().getLimiteAnel();
+            this.aneis = new ArrayList<Anel>(quantidade);
+            for (int i = 0; i < quantidade; i++) {
+                this.aneis.add(new Anel(this,i+1));
+            }
+        }
+        super.save();
+    }
 
     @Override
     public void update(){
@@ -118,9 +127,6 @@ public class Controlador extends Model {
 //                }
                 anel.criaGruposSemaforicos();
                 anel.criaDetectores();
-                if(anel.getMovimentos()!=null){
-                    anel.getMovimentos().stream().forEach(movimento -> movimento.criarEstagio());
-                }
             });
         }
 
@@ -129,20 +135,20 @@ public class Controlador extends Model {
     }
 
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getLocalizacao() {
+        return localizacao;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setLocalizacao(String localizacao) {
+        this.localizacao = localizacao;
     }
 
     public String getNumeroSMEE() {
@@ -153,9 +159,9 @@ public class Controlador extends Model {
         this.numeroSMEE = numeroSMEE;
     }
 
-    public String getIdControlador() {
+    public String getCLC() {
         if(this.id != null && this.area != null){
-           return String.format("%01d.%03d.%04d", this.area.getDescricao(), 0, this.id);
+           return String.format("%01d.%03d.%04d", this.area.getDescricao(), 0, 999);
         }
         return "";
     }
@@ -266,11 +272,4 @@ public class Controlador extends Model {
         this.longitude = longitude;
     }
 
-    public List<Movimento> getMovimentos() {
-        return movimentos;
-    }
-
-    public void setMovimentos(List<Movimento> movimentos) {
-        this.movimentos = movimentos;
-    }
 }

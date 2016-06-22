@@ -3,14 +3,13 @@ package models;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.joda.time.DateTime;
-import models.deserializers.CidadeDeserializer;
-import models.serializers.CidadeSerializer;
-import models.deserializers.InfluuntDateTimeDeserializer;
-import models.serializers.InfluuntDateTimeSerializer;
+import json.deserializers.CidadeDeserializer;
+import json.serializers.CidadeSerializer;
+import json.deserializers.InfluuntDateTimeDeserializer;
+import json.serializers.InfluuntDateTimeSerializer;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

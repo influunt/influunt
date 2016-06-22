@@ -6,7 +6,7 @@
 create table aneis (
   id                            varchar(40) not null,
   ativo                         tinyint(1) default 0 not null,
-  descricao                     varchar(255),
+  localizacao                     varchar(255),
   posicao                       integer,
   numero_smee                   varchar(255),
   latitude                      double,
@@ -23,7 +23,7 @@ create table aneis (
 
 create table areas (
   id                            varchar(40) not null,
-  descricao                     integer,
+  localizacao                     integer,
   cidade_id                     varchar(40),
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
@@ -40,7 +40,7 @@ create table cidades (
 
 create table configuracao_controladores (
   id                            varchar(40) not null,
-  descricao                     varchar(255),
+  localizacao                     varchar(255),
   limite_estagio                integer,
   limite_grupo_semaforico       integer,
   limite_anel                   integer,
@@ -53,7 +53,7 @@ create table configuracao_controladores (
 
 create table controladores (
   id                            bigint auto_increment not null,
-  descricao                     varchar(255),
+  localizacao                     varchar(255),
   numero_smee                   varchar(255) not null,
   numero_smeeconjugado1         varchar(255),
   numero_smeeconjugado2         varchar(255),
@@ -82,7 +82,7 @@ create table detectores (
 create table estagios (
   id                            varchar(40) not null,
   imagem_id                     varchar(40),
-  descricao                     varchar(255),
+  localizacao                     varchar(255),
   tempo_maximo_permanencia      integer,
   demanda_prioritaria           tinyint(1) default 0,
   movimento_id                  varchar(40),
@@ -147,7 +147,7 @@ create table modelo_controladores (
   id                            varchar(40) not null,
   fabricante_id                 varchar(40),
   configuracao_id               varchar(40),
-  descricao                     varchar(255),
+  localizacao                     varchar(255),
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
   constraint pk_modelo_controladores primary key (id)
@@ -155,7 +155,7 @@ create table modelo_controladores (
 
 create table movimentos (
   id                            varchar(40) not null,
-  descricao                     varchar(255),
+  localizacao                     varchar(255),
   imagem_id                     varchar(40),
   controlador_id                bigint,
   anel_id                       varchar(40),

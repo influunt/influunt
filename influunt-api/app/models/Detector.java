@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.joda.time.DateTime;
-import models.deserializers.InfluuntDateTimeDeserializer;
-import models.serializers.InfluuntDateTimeSerializer;
+import json.deserializers.InfluuntDateTimeDeserializer;
+import json.serializers.InfluuntDateTimeSerializer;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -38,6 +38,8 @@ public class Detector extends Model {
     @JoinColumn(name = "anel_id")
     private Anel anel;
 
+    private Estagio estagio;
+
     @ManyToOne
     @JsonBackReference
     private Controlador controlador;
@@ -53,6 +55,13 @@ public class Detector extends Model {
     @JsonSerialize(using= InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
+
+    private Boolean monitorado = true;
+
+    private Integer tempoAuseciaDeteccaoMinima;
+    private Integer tempoAuseciaDeteccaoMaxima;
+    private Integer tempoDeteccaoPermanenteMinima;
+    private Integer tempoDeteccaoPermanenteMaxima;
 
 
     public UUID getId() {

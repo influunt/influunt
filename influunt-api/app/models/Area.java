@@ -6,10 +6,10 @@ import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import models.deserializers.AreaDeserializer;
-import models.deserializers.InfluuntDateTimeDeserializer;
-import models.serializers.AreaSerializer;
-import models.serializers.InfluuntDateTimeSerializer;
+import json.deserializers.AreaDeserializer;
+import json.deserializers.InfluuntDateTimeDeserializer;
+import json.serializers.AreaSerializer;
+import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;

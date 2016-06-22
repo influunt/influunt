@@ -6,14 +6,13 @@ import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.joda.time.DateTime;
-import models.deserializers.InfluuntDateTimeDeserializer;
-import models.serializers.InfluuntDateTimeSerializer;
+import json.deserializers.InfluuntDateTimeDeserializer;
+import json.serializers.InfluuntDateTimeSerializer;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.util.UUID;
 

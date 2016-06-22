@@ -2,6 +2,7 @@ package controllers;
 
 import checks.ControladorAneisCheck;
 import checks.ControladorAssociacaoGruposSemaforicosCheck;
+import checks.Erro;
 import checks.InfluuntValidator;
 import com.google.inject.Inject;
 import models.Controlador;
@@ -12,6 +13,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
@@ -23,29 +25,29 @@ public class ControladoresController extends Controller {
 
     @Transactional
     public CompletionStage<Result> dadosBasicos() {
-        return doStep(false, javax.validation.groups.Default.class);
+        return doStep(javax.validation.groups.Default.class);
     }
 
     @Transactional
     public CompletionStage<Result> aneis() {
-        return doStep(false, javax.validation.groups.Default.class, ControladorAneisCheck.class);
+        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class);
     }
 
     @Transactional
     public CompletionStage<Result> associacaoGruposSemaforicos() {
-        return doStep(false, javax.validation.groups.Default.class, ControladorAneisCheck.class,
+        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class,
                 ControladorAssociacaoGruposSemaforicosCheck.class);
     }
 
     @Transactional
     public CompletionStage<Result> verdesConflitantes() {
-        return doStep(false, javax.validation.groups.Default.class, ControladorAneisCheck.class,
+        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class,
                 ControladorAssociacaoGruposSemaforicosCheck.class);
     }
 
     @Transactional
-    public CompletionStage<Result> findOne(Long id) {
-        Controlador controlador = Controlador.find.byId(id);
+    public CompletionStage<Result> findOne(String id) {
+        Controlador controlador = Controlador.find.byId(UUID.fromString(id));
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
@@ -59,8 +61,8 @@ public class ControladoresController extends Controller {
     }
 
     @Transactional
-    public CompletionStage<Result> delete(Long id) {
-        Controlador controlador = Controlador.find.byId(id);
+    public CompletionStage<Result> delete(String id) {
+        Controlador controlador = Controlador.find.byId(UUID.fromString(id));
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
@@ -69,7 +71,7 @@ public class ControladoresController extends Controller {
         }
     }
 
-    private CompletionStage<Result> doStep(Boolean THOR, Class<?>... validatiosGroups) {
+    private CompletionStage<Result> doStep( Class<?>... validatiosGroups) {
         if (request().body() == null) {
             return CompletableFuture.completedFuture(badRequest());
         }
@@ -79,25 +81,7 @@ public class ControladoresController extends Controller {
         if (checkIfExists && Controlador.find.byId(controlador.getId()) == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
-            //TODO: Remover esse THOR!
-            if (THOR) {
-                controlador.getAneis().stream().filter(anel -> anel.isAtivo())
-                        .forEach(anel -> anel.getGruposSemaforicos().stream()
-                                .filter(grupoSemaforico -> grupoSemaforico.getEstagioGrupoSemaforicos() != null)
-                                .forEach(grupoSemaforico ->
-                                {
-                                    grupoSemaforico.update();
-                                    grupoSemaforico.getEstagioGrupoSemaforicos()
-                                            .stream()
-                                            .forEach(estagioGrupoSemaforico -> {
-                                                estagioGrupoSemaforico.save();
-                                                estagioGrupoSemaforico.getEstagio().update();
-                                            });
-
-                                }));
-                controlador.refresh();
-            }
-            List<InfluuntValidator.Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, validatiosGroups);
+            List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, validatiosGroups);
             if (erros.size() > 0) {
                 return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
             } else {
@@ -108,7 +92,6 @@ public class ControladoresController extends Controller {
                 }
                 return CompletableFuture.completedFuture(ok(Json.toJson(Controlador.find.byId(controlador.getId()))));
             }
-
         }
     }
 

@@ -3,7 +3,6 @@ import akka.stream.javadsl.FileIO;
 import akka.stream.javadsl.Source;
 import akka.util.ByteString;
 import controllers.routes;
-import models.Imagem;
 import org.junit.Test;
 import play.Application;
 import play.Mode;
@@ -13,6 +12,7 @@ import play.mvc.Http.MultipartFormData.DataPart;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import play.test.WithApplication;
+import models.Imagem;
 import security.Authenticator;
 
 import java.io.File;
