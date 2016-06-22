@@ -16,11 +16,11 @@ angular.module('influuntApp')
         }, function(val) {
           if (val && val.match(/current/)) {
             var current = $(el).find('li.current');
-            if (current.length > 0) {
-              current.addClass('visited');
-              current.nextAll(':not(.visited)').addClass('disabled');
-              current.prevAll().andSelf().removeClass('disabled');
-            }
+            current.addClass('visited');
+            current.nextAll(':not(.visited)').addClass('disabled');
+            current.prevAll().andSelf().removeClass('disabled');
+          } else {
+            $(el).children('li').addClass('disabled');
           }
         });
       }

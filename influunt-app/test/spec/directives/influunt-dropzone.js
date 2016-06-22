@@ -12,9 +12,11 @@ describe('Directive: influuntDropzone', function () {
     scope = $rootScope.$new();
   }));
 
-  xit('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<influunt-dropzone></influunt-dropzone>');
+  it('Deve criar um dropzone', inject(function($compile) {
+    var element = angular.element('<form class="dropzone" influunt-dropzone>');
     element = $compile(element)(scope);
-    expect(element.text()).toBe('this is the influuntDropzone directive');
+    scope.$apply();
+
+    expect(true).toBe(true);
   }));
 });

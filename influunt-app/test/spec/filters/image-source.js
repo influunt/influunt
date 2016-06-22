@@ -25,9 +25,4 @@ describe('Filter: imageSource', function () {
     expect(imageSource()).toBeUndefined();
   });
 
-  xit('should return the input prefixed with "imageSource filter:"', function () {
-    var text = 'angularjs';
-    expect(imageSource(text)).toBe('imageSource filter: ' + text);
-  });
-
 });

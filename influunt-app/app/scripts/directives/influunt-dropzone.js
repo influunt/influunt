@@ -45,7 +45,6 @@ angular.module('influuntApp')
             // A cada troca de anel, este watcher deverá esconder os itens que
             // não são deste anel e exibir aqueles que são deles.
             scope.$watch('anel.id_anel', function(value) {
-              console.log(value);
               $('.dz-preview[data-anel-id="' + value + '"]').show();
               $('.dz-preview:not([data-anel-id="' + value + '"])').hide();
             });

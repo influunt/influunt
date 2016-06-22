@@ -22,20 +22,12 @@ angular.module('influuntApp')
       };
 
       /**
-       * Filtra controladores baseado nos checkboxes
-       * nos filtros à esquerda.
+       * Inicializa os dados da tela de index e os objetos requeridos para o filtro.
        */
-      $scope.filtrarControlador = function(controlador) {
-        if ($scope.filtroLateral[controlador.id]) {
-          return true;
-        }
-
-        for (var controlador_id in $scope.filtroLateral) {
-          if ($scope.filtroLateral[controlador_id]) {
-            return false;
-          }
-        }
-        return true;
+      $scope.inicializaIndex = function(){
+        $scope.filtros = {};
+        $scope.filtroLateral = {};
+        $scope.index();
       };
 
       /**
@@ -45,20 +37,6 @@ angular.module('influuntApp')
         Restangular.all('areas').getList().then(function(res) {
           $scope.areas = res;
         });
-      };
-
-      /**
-       * Inicializa o objeto de coordenadas do controlador, caso este ainda não
-       * tenha sido definido. Atua na tela de crud.
-       */
-      $scope.afterShow = function() {
-        var coordenadaDefault = {
-          latitude: null,
-          longitude: null
-        };
-
-        $scope.objeto.coordenada = $scope.objeto.coordenada || coordenadaDefault;
-        $scope.coordenada = $scope.objeto.coordenada;
       };
 
       var getHelpersControlador = function() {
@@ -87,6 +65,12 @@ angular.module('influuntApp')
         };
       };
 
+      /**
+       * Função compartilhada por todos os passos do index. Deve carregar os dados
+       * do controlador, caso este tenha sido definido.
+       *
+       * @return     {<type>}  { description_of_the_return_value }
+       */
       $scope.inicializaWizard = function() {
         var defer = $q.defer();
 
@@ -223,12 +207,6 @@ angular.module('influuntApp')
         $scope.validacoes.alerts = [];
       };
 
-      $scope.inicializa_index = function(){
-        $scope.filtros = {};
-        $scope.filtroLateral = {};
-        $scope.index();
-      };
-
       $scope.toggleVerdeConflitante = function(x, y, disabled) {
         if (disabled) {
           return false;
@@ -323,6 +301,7 @@ angular.module('influuntApp')
         } else {
           _.orderBy(controlador.aneis, ['posicao'], ['asc']).forEach(function(anel, key) {
             anel.id_anel = controlador.idControlador + '-' + (key + 1);
+            anel.posicao = anel.posicao || (key + 1);
             anel.valid = {
               form: true
             };
