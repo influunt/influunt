@@ -684,6 +684,12 @@ header .nav-secon li a {
   }
 }
 @media screen and (max-width: 1450px) {
+  .wrapper-content .basic-wizard .content .body .conjugate {
+
+  }
+  .wrapper-content .basic-wizard .content .body .conjugate label {
+  min-height: 40px;
+  }
   .wrapper-content .basic-wizard .content .body .stages .stage-stages {
   margin-right: 0;
   width: 44%;
