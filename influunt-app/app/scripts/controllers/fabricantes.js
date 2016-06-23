@@ -31,7 +31,9 @@ angular.module('influuntApp')
        * @param      {integer}  index   The index
        */
       $scope.removerModelo = function(index) {
-        $scope.objeto.modelos.splice(index, 1);
+        if ($scope.objeto.modelos && $scope.objeto.modelos.length > index && index >= 0) {
+          $scope.objeto.modelos.splice(index, 1);
+        }
       };
 
       /**

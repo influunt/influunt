@@ -15,7 +15,6 @@ describe('Controller: LoginCtrl', function () {
     $translateProvider.translations('en', {});
   }));
 
-  // Initialize the controller and a mock scope
   // carrega o template de login.
   beforeEach(inject(function ($controller, $rootScope, $compile, $templateCache) {
     scope = $rootScope.$new();
@@ -39,7 +38,6 @@ describe('Controller: LoginCtrl', function () {
     scope.credenciais.usuario = null;
     scope.credenciais.senha = 'teste';
     scope.$apply();
-    // mocking o click do botão de submit
     scope.submitLogin(form.$valid);
 
     expect(form.$valid).toBe(false);
@@ -49,7 +47,6 @@ describe('Controller: LoginCtrl', function () {
     scope.credenciais.usuario = 'teste';
     scope.credenciais.senha = null;
     scope.$apply();
-    // mocking o click do botão de submit
     scope.submitLogin(form.$valid);
 
     expect(form.$valid).toBe(false);
@@ -59,7 +56,6 @@ describe('Controller: LoginCtrl', function () {
     scope.credenciais.usuario = 'teste';
     scope.credenciais.senha = 'teste';
     scope.$apply();
-    // mocking o click do botão de submit
     scope.submitLogin(form.$valid);
 
     expect(form.$valid).toBe(true);

@@ -4,15 +4,13 @@ import checks.ControladorAssociacaoGruposSemaforicosCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import json.deserializers.EstagioGrupoSemaforicoDeserializer;
+import json.deserializers.InfluuntDateTimeDeserializer;
+import json.serializers.EstagioGrupoSemaforicoSerializer;
+import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
-import utils.InfluuntDateTimeDeserializer;
-import utils.InfluuntDateTimeSerializer;
 
 import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
@@ -26,7 +24,8 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "estagios_grupos_semaforicos")
-@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
+@JsonSerialize(using = EstagioGrupoSemaforicoSerializer.class)
+@JsonDeserialize(using = EstagioGrupoSemaforicoDeserializer.class)
 public class EstagioGrupoSemaforico extends Model {
 
     private static final long serialVersionUID = 5983122994022833262L;
@@ -38,12 +37,12 @@ public class EstagioGrupoSemaforico extends Model {
     @NotNull
     private Boolean ativo = false;
 
-    @ManyToOne
-    @NotNull
+    @ManyToOne(cascade = CascadeType.ALL)
+    @NotNull(groups = ControladorAssociacaoGruposSemaforicosCheck.class)
     private Estagio estagio;
 
     @ManyToOne
-    @NotNull
+    @NotNull(groups = ControladorAssociacaoGruposSemaforicosCheck.class)
     private GrupoSemaforico grupoSemaforico;
 
     @Column
@@ -106,7 +105,6 @@ public class EstagioGrupoSemaforico extends Model {
         this.dataAtualizacao = dataAtualizacao;
     }
 
-    @JsonIgnore
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class)
     public boolean isTipoGrupoSemaforicoOk(){
         if(this.grupoSemaforico != null){

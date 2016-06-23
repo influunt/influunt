@@ -13,7 +13,7 @@ import java.lang.annotation.*;
 @Documented
 public @interface AoMenosUmGrupoSemaforico {
 
-    String message() default "Este anel deve ter mais de 1 grupo semáforico";
+    String message() default "Esse anel deve ter no mínimo 2 grupos semáforicos";
 
     Class<?>[] groups() default {};
 

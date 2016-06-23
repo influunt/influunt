@@ -38,7 +38,6 @@ angular
           templateUrl: 'views/main.html'
         })
 
-        // Crud Cidades.
         .state('app.cidades', {
           url: '/cidades',
           templateUrl: 'views/cidades/index.html',
@@ -201,7 +200,7 @@ angular
             title: 'tipos_detectores.titulo'
           }
         })
-				
+
         // Crud Fabricantes.
         .state('app.fabricantes', {
           url: '/fabricantes',
@@ -242,7 +241,7 @@ angular
             title: 'fabricantes.titulo'
           }
         })
-				
+
         // Crud Configuracao Controladores.
         .state('app.configuracoes_controladores', {
           url: '/configuracoes_controladores',
@@ -283,7 +282,7 @@ angular
             title: 'configuracoes_controladores.titulo'
           }
         })
-				
+
         // Crud Modelo Controladores.
         .state('app.modelos_controladores', {
           url: '/modelos_controladores',
@@ -325,6 +324,47 @@ angular
           }
         })
 
+        .state('app.wizard_controladores', {
+          url: '/wizard-controladores',
+          templateUrl: 'views/controladores/wizard/wizard.html',
+          controller: 'ControladoresCtrl',
+          data: {
+            title: 'controladores.titulo'
+          }
+        })
+
+        .state('app.wizard_controladores.dados_basicos', {
+          url: '/dados-basicos/:id',
+          templateUrl: 'views/controladores/wizard/dados-basicos.html',
+          data: {
+            title: 'controladores.titulo'
+          }
+        })
+
+        .state('app.wizard_controladores.aneis', {
+          url: '/aneis/:id',
+          templateUrl: 'views/controladores/wizard/aneis.html',
+          data: {
+            title: 'controladores.titulo'
+          }
+        })
+
+        .state('app.wizard_controladores.associacao', {
+          url: '/associacao/:id',
+          templateUrl: 'views/controladores/wizard/associacao.html',
+          data: {
+            title: 'controladores.titulo'
+          }
+        })
+
+        .state('app.wizard_controladores.verdes_conflitantes', {
+          url: '/verdes-conflitantes/:id',
+          templateUrl: 'views/controladores/wizard/verdes-conflitantes.html',
+          data: {
+            title: 'controladores.titulo'
+          }
+        })
+
 				// Dados
         .state('app.dados', {
           url: '/dados',
@@ -335,6 +375,16 @@ angular
         })
 
         // Rotas de teste. Podem ser removidas em breve.
+        .state('app.wizard', {
+          url: '/wizard',
+          templateUrl: 'views/controladores/dados.html',
+          controller: 'ControladoresCtrl',
+          controllerAs: 'controladores',
+          data: {
+            title: 'controladores.titulo'
+          }
+        })
+
         .state('index', {
           abstract: true,
           url: '/index',

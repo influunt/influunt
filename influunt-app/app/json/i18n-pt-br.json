@@ -1,5 +1,52 @@
 {
   "appname": "Influunt",
+  "controladores": {
+    "associacao": "Associação",
+    "aneis": "Aneis",
+    "anel": "Anel",
+    "area": "Área",
+    "ativo": "Ativo",
+    "cidade": "Cidade",
+    "coordenadas": "COORDENADAS",
+    "dadosBasicos": "Dados Básicos",
+    "descricao": "Descrição",
+    "endereco": "Pesquisar por endereço",
+    "enviarImagens": "Enviar Imagens",
+    "firmware": "FIRMWARE",
+    "fornecedor": "Fornecedor",
+    "gruposPedestres": "Grupos de pedestres",
+    "gruposSinaisVeiculares": "Grupos de sinais veiculares",
+    "idControlador": "ID Controlador",
+    "latitude": "Latitude",
+    "localizacao": "Localização",
+    "longitude": "Longitude",
+    "maxAneis": "No anéis",
+    "maxDetectorPedestre": "No detector pedestre",
+    "maxDetectorVeicular": "No detector veicular",
+    "maxEstagios": "No estágios",
+    "maxGrupoSemaforos": "No grupos de semáforos",
+    "modelo": "Modelo",
+    "movimentos": "Movimentos",
+    "novo": "Novo Controlador",
+    "numeroDetectores": "No detectores",
+    "numeroDetectoresPedestres": "No detectores pedestres",
+    "numeroSMEE": "Número SMEE",
+    "numeroSMEEConjugado1": "Num. SMEE conjugado 1",
+    "numeroSMEEConjugado2": "Num. SMEE conjugado 2",
+    "numeroSMEEConjugado3": "Num. SMEE conjugado 3",
+    "tipo": "Tipo",
+    "titulo": "Controladores",
+    "validacoes": {
+      "aoMenosUmGrupoSemaforico": "Este anel deve ter mais de 1 grupo semáforico",
+      "latitudeMayNotBeNull": "Campo de Latitude é Obrigatório",
+      "longitudeMayNotBeNull": "Campo de Longitude é Obrigatório",
+      "totalDetectorPedestres": "Total de <strong>detectores de pedestres</strong> maior que a quantidade máxima suportada pelo controlador",
+      "totalDetectorVeicular": "Total de <strong>detectores veicular</strong> maior que a quantidade máxima suportada pelo controlador",
+      "totalGruposSemaforicos": "Total de <strong>grupos semafóricos</strong> maior que a quantidade máxima suportada pelo controlador"
+    },
+    "verdes_conflitantes": "Verdes Conflitantes",
+    "versaoFirmware": "Versão do Firmware"
+  },
   "areas": {
     "adicionar_coordenada": "adicionar coordenadas",
     "cidade": "CIDADE",
@@ -7,7 +54,7 @@
     "descricao": "DESCRIÇÃO",
     "novo": "Nova Área",
     "titulo": "Áreas"
-  },	
+  },
   "cidades": {
     "areas": "ÁREAS",
     "nome": "NOME",
@@ -15,27 +62,13 @@
     "titulo": "Cidades"
   },
   "configuracoes_controladores": {
-		"descricao": "DESCRIÇÃO",
+    "descricao": "DESCRIÇÃO",
     "limiteEstagio": "LIMITE ESTÁGIOS",
     "limiteGrupoSemaforico": "LIMITE GRUPOS SEMAFÓRICOS",
     "limiteAnel": "LIMITE ANEIS",
     "limiteDetectorPedestre": "LIMITE DETECTORES PEDESTRE",
     "limiteDetectorVeicular": "LIMITE DETECTORES VEICULARES",
-		"titulo": "Configurações de Controladores"
-  },
-  "controladores": {
-    "area": "ÁREA",
-    "coordenadas": "COORDENADAS",
-    "descricao": "DESCRIÇÃO",
-    "firmware": "FIRMWARE",
-    "idControlador": "ID CONTROLADOR",
-    "modelo": "MODELO",
-    "novo": "Novo Controlador",
-    "numeroSMEE": "NÚMERO SMEE",
-    "numeroSMEEConjugado1": "NÚMERO SMEE CONJUGADO 1",
-    "numeroSMEEConjugado2": "NÚMERO SMEE CONJUGADO 2",
-    "numeroSMEEConjugado3": "NÚMERO SMEE CONJUGADO 3",
-    "titulo": "Controladores"
+    "titulo": "Configurações de Controladores"
   },
   "coordenadas": {
     "latitude": "LATITUDE",
@@ -44,17 +77,17 @@
   "fabricantes": {
     "adicionar_modelo_controlador": "adicionar modelo controlador",
     "fabricante": "FABRICANTE",
-		"modelo": "MODELO CONTROLADOR",
+    "modelo": "MODELO CONTROLADOR",
     "nome": "NOME",
     "novo": "Novo Fabricante",
     "titulo": "Fabricantes"
   },
-	"modelos_controladores": {
-		"descricao": "DESCRIÇÃO",
-		"fabricante": "FABRICANTE",
-		"configuracao": "CONFIGURAÇÃO CONTROLADOR",
-		"titulo": "Modelo de Controladores"
-	},
+  "modelos_controladores": {
+    "descricao": "DESCRIÇÃO",
+    "fabricante": "FABRICANTE",
+    "configuracao": "CONFIGURAÇÃO CONTROLADOR",
+    "titulo": "Modelo de Controladores"
+  },
   "tipos_detectores": {
     "descricao": "DESCRIÇÃO",
     "novo": "Novo Tipo de Detector",
@@ -62,8 +95,9 @@
   },
   "geral": {
     "auditoria": {
-      "dataAtualizacao": "DATA DE ATUALIZAÇÃO",
-      "dataCriacao": "DATA DE CRIAÇÃO"
+      "atualizadoPor": "Atualizado Por",
+      "dataAtualizacao": "Data de Atualização",
+      "dataCriacao": "Data de Criação"
     },
     "crud": {
       "editar": "Editar",
@@ -103,6 +137,23 @@
     "cadastros": "CADASTROS"
   },
   "plugins": {
-    "datatables_cdn": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json"
+    "datatables_cdn": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json",
+    "steps": {
+      "labels": {
+        "cancel": "cancelar",
+        "current": "atual",
+        "pagination": "paginação",
+        "finish": "finalizar",
+        "next": "próximo",
+        "previous": "Anterior",
+        "loading": "carregando"
+      }
+    }
+  },
+  "validacoesAPI": {
+    "controlador": {
+      "mayNotBeNull": "<strong>{CAMPO}</strong> precisa ser preenchido",
+      "umAnelAtivoDeveTerAoMenosDoisMovimentoENoMaximoOLimiteDoModeloDoControlador": "um anel ativo deve ter ao menos <strong>dois movimento</strong> e no maximo o <strong>limite do modelo do controlador</strong>"
+    }
   }
 }

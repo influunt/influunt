@@ -1,20 +1,18 @@
 package models;
 
-import checks.ControladorAssociacaoGruposSemaforicosCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
-import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import json.deserializers.EstagioDeserializer;
+import json.deserializers.InfluuntDateTimeDeserializer;
+import json.serializers.EstagioSerializer;
+import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
-import utils.InfluuntDateTimeDeserializer;
-import utils.InfluuntDateTimeSerializer;
 
 import javax.persistence.*;
-import javax.validation.Valid;
-import javax.validation.constraints.AssertTrue;
-import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,16 +23,18 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "estagios")
-@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
+@JsonSerialize(using = EstagioSerializer.class)
+@JsonDeserialize(using = EstagioDeserializer.class)
 public class Estagio extends Model {
 
     private static final long serialVersionUID = 5984122994022833262L;
 
+    public static Finder<UUID, Estagio> find = new Finder<UUID, Estagio>(Estagio.class);
+
     @Id
     private UUID id;
 
-    // TODO - verificar como as imagens serao salvas
-    @Transient
+    @OneToOne
     private Imagem imagem;
 
     @Column
@@ -46,14 +46,26 @@ public class Estagio extends Model {
     @Column
     private Boolean demandaPrioritaria = false;
 
-    @OneToOne
-    @JsonBackReference
-    private Movimento movimento;
-
-    @OneToMany
-    @JoinColumn(name = "estagio_id")
-    @Valid
+    @OneToMany(mappedBy = "estagio")
     private List<EstagioGrupoSemaforico> estagiosGruposSemaforicos;
+
+    @OneToMany(mappedBy = "origem")
+    private List<TransicaoProibida> origemDeTransacoesProibidas;
+
+    @OneToMany(mappedBy = "destino")
+    private List<TransicaoProibida> destinoDeTransacoesProibidas;
+
+    @OneToMany(mappedBy = "alternativo")
+    private List<TransicaoProibida> alternativaDeTransacoesProibidas;
+
+    @ManyToOne
+    private Anel anel;
+
+    @ManyToOne
+    private Controlador controlador;
+
+    private Detector detector;
+
 
 
     @Column
@@ -108,14 +120,6 @@ public class Estagio extends Model {
         this.demandaPrioritaria = demandaPrioritaria;
     }
 
-    public Movimento getMovimento() {
-        return movimento;
-    }
-
-    public void setMovimento(Movimento movimento) {
-        this.movimento = movimento;
-    }
-
     public List<EstagioGrupoSemaforico> getEstagiosGruposSemaforicos() {
         return estagiosGruposSemaforicos;
     }
@@ -140,11 +144,19 @@ public class Estagio extends Model {
         this.dataAtualizacao = dataAtualizacao;
     }
 
-    @JsonIgnore
-    @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
-            message = "Este estágio deve ser associado a pelo menos 1 grupo semafórico"
-    )
-    public boolean isAoMenosUmEstagioGrupoSemaforico(){
-        return this.estagiosGruposSemaforicos != null && !this.estagiosGruposSemaforicos.isEmpty();
+    public void addEstagioGrupoSemaforico(EstagioGrupoSemaforico estagioGrupoSemaforico) {
+        if (getEstagiosGruposSemaforicos() == null) {
+            setEstagiosGruposSemaforicos(new ArrayList<EstagioGrupoSemaforico>());
+        }
+        getEstagiosGruposSemaforicos().add(estagioGrupoSemaforico);
     }
+
+
+//    @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
+//            message = "Este estágio deve ser associado a pelo menos 1 grupo semafórico"
+//    )
+//    public boolean isAoMenosUmEstagioGrupoSemaforico(){
+//        return getEstagiosGruposSemaforicos() != null && !getEstagiosGruposSemaforicos().isEmpty();
+//    }
+
 }

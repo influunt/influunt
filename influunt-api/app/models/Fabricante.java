@@ -3,12 +3,13 @@ package models;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import json.deserializers.FabricanteDeserializer;
+import json.deserializers.InfluuntDateTimeDeserializer;
+import json.serializers.FabricanteSerializer;
+import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
-import utils.InfluuntDateTimeDeserializer;
-import utils.InfluuntDateTimeSerializer;
 
 import javax.persistence.*;
 import java.util.List;
@@ -22,6 +23,8 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "fabricantes")
+@JsonSerialize(using = FabricanteSerializer.class)
+@JsonDeserialize(using = FabricanteDeserializer.class)
 public class Fabricante extends Model {
 
     private static final long serialVersionUID = 7365610316754360728L;
@@ -34,7 +37,6 @@ public class Fabricante extends Model {
     @Column
     private String nome;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "fabricante", cascade = CascadeType.ALL)
     private List<ModeloControlador> modelos;
 

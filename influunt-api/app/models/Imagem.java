@@ -6,14 +6,13 @@ import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.joda.time.DateTime;
-import utils.InfluuntDateTimeDeserializer;
-import utils.InfluuntDateTimeSerializer;
+import json.deserializers.InfluuntDateTimeDeserializer;
+import json.serializers.InfluuntDateTimeSerializer;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.util.UUID;
 
@@ -39,14 +38,12 @@ public class Imagem extends Model {
     @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using= InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
-    @NotNull
     private DateTime dataCriacao;
 
     @Column
     @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using= InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
-    @NotNull
     private DateTime dataAtualizacao;
 
     public UUID getId() {
@@ -95,6 +92,10 @@ public class Imagem extends Model {
     }
 
     public File getPath(File rootPath) {
-        return new File(rootPath, "imagens" + this.getId());
+        File folder = new File(rootPath, "imagens");
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
+        return new File(rootPath, "imagens/" + this.getId());
     }
 }

@@ -1,7 +1,6 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import controllers.routes;
 import models.Cidade;
 import org.junit.Test;
 import play.Application;
@@ -12,7 +11,6 @@ import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
 import play.test.WithApplication;
-import security.Authenticator;
 
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +18,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
-import static play.inject.Bindings.bind;
 import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.route;
 
@@ -56,13 +53,12 @@ public class CidadesControllerTest extends WithApplication {
 
     @Test
     public void testAtualizarCidadeExistente() {
-
         Cidade cidade = new Cidade();
         cidade.setNome("Teste");
         cidade.save();
-
         UUID cidadeId = cidade.getId();
         assertNotNull(cidade.getId());
+
         Cidade novaCidade = new Cidade();
         novaCidade.setNome("Teste atualizar");
 

@@ -62,11 +62,16 @@ var paths = {
     'bower_components/AngularJS-Toaster/toaster.js',
     'bower_components/sweetalert/dist/sweetalert.min.js',
     'bower_components/ngSweetAlert/SweetAlert.js',
+    'bower_components/leaflet/dist/leaflet-src.js',
+    'bower_components/angular-google-places-autocomplete/src/autocomplete.js',
+    'bower_components/angular-google-places-autocomplete/dist/autocomplete.min.js',
 
     // inspinea scripts.
     yeoman.app + '/plugins/metisMenu/jquery.metisMenu.js',
     yeoman.app + '/plugins/ui-bootstrap-tpls-1.1.2.min.js',
-    yeoman.app + '/plugins/inspinia.js'
+    yeoman.app + '/plugins/inspinia.js',
+    yeoman.app + '/plugins/icheck.min.js',
+    yeoman.app + '/plugins/dropzone/dropzone.js'
     // yeoman.app + '/json/**/*.js'
     // 'test/mock/**/*.js'
   ],
@@ -88,9 +93,11 @@ var paths = {
 var templateCache = function() {
   var TEMPLATE_HEADER = 'angular.module("<%= module %>"<%= standalone %>).run(["$templateCache", function($templateCache) {';
   var useStrictTemplate = '\'use strict\';';
+
   return gulp.src(paths.views.files)
     .pipe(angularTemplateCache({
-      root: 'views', standalone: true,
+      root: 'views',
+      standalone: true,
       templateHeader: useStrictTemplate + '\n\n' + TEMPLATE_HEADER
     }))
     .pipe(concat('templates.js'))

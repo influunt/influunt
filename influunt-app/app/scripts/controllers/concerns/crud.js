@@ -31,8 +31,9 @@ angular.module('influuntApp')
         .then(function(res) {
           $scope.lista = res;
         })
-        .catch(function(res) {
-          toast.error(res);
+        .catch(function(err) {
+          toast.error(err);
+          throw new Error(err);
         });
     };
 
@@ -47,7 +48,7 @@ angular.module('influuntApp')
 
       return Restangular.one(resourceName, id).get()
         .then(function(res) {
-          $scope.minid = res.id.split('-')[0];
+          $scope.minid = (typeof res.id === 'string') ? res.id.split('-')[0] : res.id;
           $scope.objeto = res;
           $scope.afterShow();
         });
@@ -74,8 +75,9 @@ angular.module('influuntApp')
           $state.go('app.' + resourceName);
           toast.success($filter('translate')('geral.mensagens.salvo_com_sucesso'));
         })
-        .catch(function() {
+        .catch(function(err) {
           toast.error($filter('translate')('geral.mensagens.default_erro'));
+          throw new Error(JSON.stringify(err));
         });
     };
 
@@ -110,8 +112,9 @@ angular.module('influuntApp')
               toast.success($filter('translate')('geral.mensagens.removido_com_sucesso'));
               return $scope.index();
             })
-            .catch(function() {
+            .catch(function(err) {
               toast.error($filter('translate')('geral.mensagens.default_erro'));
+              throw new Error(err);
             });
       });
     };

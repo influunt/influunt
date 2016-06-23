@@ -3,12 +3,13 @@ package models;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.joda.time.DateTime;
-import utils.InfluuntDateTimeDeserializer;
-import utils.InfluuntDateTimeSerializer;
+import json.deserializers.CidadeDeserializer;
+import json.serializers.CidadeSerializer;
+import json.deserializers.InfluuntDateTimeDeserializer;
+import json.serializers.InfluuntDateTimeSerializer;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -23,6 +24,8 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "cidades")
+@JsonSerialize(using = CidadeSerializer.class)
+@JsonDeserialize(using = CidadeDeserializer.class)
 public class Cidade extends Model {
 
     private static final long serialVersionUID = 6446144066408570296L;
@@ -36,7 +39,6 @@ public class Cidade extends Model {
     @NotNull
     private String nome;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "cidade", cascade = CascadeType.REMOVE)
     private List<Area> areas;
 

@@ -12,12 +12,10 @@ describe('Controller: AreasCtrl', function () {
     httpBackend,
     listaCidades;
 
-  // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope, $httpBackend) {
     scope = $rootScope.$new();
     AreasCtrl = $controller('AreasCtrl', {
       $scope: scope
-      // place here mocked dependencies
     });
 
     httpBackend = $httpBackend;
@@ -38,13 +36,13 @@ describe('Controller: AreasCtrl', function () {
   it('Deve adicionar uma nova coordenada ao registro de área', function() {
     scope.objeto = {};
     scope.adicionarCoordenadas();
-    expect(scope.objeto.coordenadas.length).toBe(1);
+    expect(scope.objeto.limites.length).toBe(1);
   });
 
   it('Deve remover uma coordenada do registro de área dado o index do array passado por parametro', function() {
     var expectation = [{value: 1},{value: 3}];
     scope.objeto = {
-      coordenadas: [
+      limites: [
         {value: 1},
         {value: 2},
         {value: 3}
@@ -52,7 +50,7 @@ describe('Controller: AreasCtrl', function () {
     };
 
     scope.removerCoordenadas(1);
-    expect(scope.objeto.coordenadas).toEqual(expectation);
+    expect(scope.objeto.limites).toEqual(expectation);
   });
 
   it('Deve retornar a lista de cidades', function() {

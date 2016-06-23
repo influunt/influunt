@@ -52,11 +52,16 @@ module.exports = function(config) {
       'bower_components/AngularJS-Toaster/toaster.js',
       'bower_components/sweetalert/dist/sweetalert.min.js',
       'bower_components/ngSweetAlert/SweetAlert.js',
+      'bower_components/leaflet/dist/leaflet-src.js',
+      'bower_components/angular-google-places-autocomplete/src/autocomplete.js',
+      'bower_components/angular-google-places-autocomplete/dist/autocomplete.min.js',
 
       // inspinea scripts.
       'app/plugins/metisMenu/jquery.metisMenu.js',
       'app/plugins/ui-bootstrap-tpls-1.1.2.min.js',
       'app/plugins/inspinia.js',
+      'app/plugins/icheck.min.js',
+      'app/plugins/dropzone/dropzone.js',
 
       // tests and scripts.
       'test/mock/**/*.js',

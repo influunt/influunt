@@ -14,7 +14,6 @@ describe('Controller: CrudCtrl', function () {
     httpBackend,
     $q;
 
-  // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope, $httpBackend, _$q_) {
     scope = $rootScope.$new();
     CrudCtrl = $controller('CrudCtrl', {

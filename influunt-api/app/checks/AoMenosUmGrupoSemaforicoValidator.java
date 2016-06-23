@@ -1,7 +1,6 @@
 package checks;
 
 import models.Anel;
-import models.Controlador;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

@@ -160,12 +160,12 @@
 }
 .dropzone {
   border: 1px solid rgba(0,0,0,0.03);
-  min-height: 582px;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
   background: rgba(0,0,0,0.03);
+  -webkit-border-radius: 3px;
+  margin-bottom: 30px;
+   min-height: 732px;
+  border-radius: 3px;   
   padding: 23px;
-  margin-bottom: 40px;
 }
 .dropzone .dz-default.dz-message {
   opacity: 1;

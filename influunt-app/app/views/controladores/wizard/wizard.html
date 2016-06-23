@@ -1,0 +1,40 @@
+<div class="container-fluid wrapper wrapper-content animated fadeInRight">
+  <section role="complementary" class="basic-wizard">
+    <div class="col-lg-12 col-sm-12 no-padding">
+      <div class="ibox float-e-margins">
+        <div class="steps-wrapper wizard clearfix">
+          <div class="steps clearfix">
+            <ul wizard-steps>
+              <li ui-sref-active="current" class="wizard-steps">
+                <a step-id="dadosBasicos" ui-sref=".dados_basicos({id: objeto.id})" class="btn-default">{{ 'controladores.dadosBasicos' | translate }}</a>
+              </li>
+              <li ui-sref-active="current" class="wizard-steps">
+                <a step-id="aneis" ui-sref=".aneis({id: objeto.id})" class="btn-default">{{ 'controladores.aneis' | translate }}</a>
+              </li>
+              <li ui-sref-active="current" class="wizard-steps">
+                <a step-id="associacao" ui-sref=".associacao({id: objeto.id})" class="btn-default">{{ 'controladores.associacao' | translate }}</a>
+              </li>
+              <li ui-sref-active="current" class="wizard-steps">
+                <a step-id="verdesConflitantes" ui-sref=".verdes_conflitantes({id: objeto.id})" class="btn-default">{{ 'controladores.verdes_conflitantes' | translate }}</a>
+              </li>
+            </ul>
+          </div>
+          <div class="content clearfix wizard-body">
+            <div class="step-content body">
+              <div class="col-lg-12 col-md-12 no-padding">
+                <uib-alert type="danger" close="closeAlert()" ng-if="validacoes.alerts.length > 0">
+                  <div style="padding-left: 12px;">
+                    <ul>
+                      <li ng-repeat="alert in validacoes.alerts" ng-bind-html="alert.msg | translate:alert.params"></li>
+                    </ul>
+                  </div>
+                </uib-alert>
+                <div id="form-views" ui-view></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

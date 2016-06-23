@@ -12,21 +12,6 @@ import java.util.stream.Collectors;
  */
 public class InfluuntValidator<T> {
 
-    public static class Erro{
-
-        public String root;
-        public String message;
-        public String path;
-        public Object invalidValue;
-
-        public Erro(String root, String message, String path,Object invalidValue){
-            this.root = root;
-            this.message = message;
-            this.path = path;
-            this.invalidValue = invalidValue;
-        }
-    }
-
     public static Validator validator;
 
 
@@ -48,7 +33,7 @@ public class InfluuntValidator<T> {
 
     private List<Erro> parse(Set<ConstraintViolation<T>> violations) {
         return violations.stream().map( v ->
-            new Erro(v.getRootBeanClass().getSimpleName(),v.getMessage(),v.getPropertyPath().toString(),v.getInvalidValue())
+            new Erro(v.getRootBeanClass().getSimpleName(),v.getMessage(),v.getPropertyPath().toString())
         ).collect(Collectors.toList());
     }
 

@@ -543,7 +543,6 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
   margin-left: 0 !important;
 }
 .top-navigation .wrapper.wrapper-content {
-  padding: 40px;
 }
 .top-navigation.body-small .wrapper.wrapper-content,
 .body-small .top-navigation .wrapper.wrapper-content {
@@ -4068,6 +4067,9 @@ a.close-canvas-menu:hover {
 }
 .p-xs {
   padding: 10px;
+}
+.p-t-xs {
+  padding-top: 10px !important;
 }
 .p-sm {
   padding: 15px;

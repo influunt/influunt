@@ -1,30 +1,27 @@
 package models;
 
-import checks.AoMenosUmAnelAtivo;
 import checks.AoMenosUmGrupoSemaforico;
-import checks.ConformidadeNumeroMovimentos;
+import checks.ConformidadeNumeroEstagios;
 import checks.ControladorAssociacaoGruposSemaforicosCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import json.deserializers.AnelDeserializer;
+import json.deserializers.InfluuntDateTimeDeserializer;
+import json.serializers.AnelSerializer;
+import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
-import play.data.validation.Constraints;
-import utils.InfluuntDateTimeDeserializer;
-import utils.InfluuntDateTimeSerializer;
 
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Entidade que representa o {@link Anel} no sistema
@@ -34,9 +31,11 @@ import java.util.stream.Collectors;
  */
 @Entity
 @Table(name = "aneis")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @AoMenosUmGrupoSemaforico
-@ConformidadeNumeroMovimentos
+@ConformidadeNumeroEstagios
+
+@JsonSerialize(using = AnelSerializer.class)
+@JsonDeserialize(using = AnelDeserializer.class)
 public class Anel extends Model {
 
     private static final long serialVersionUID = 4919501406230732757L;
@@ -79,7 +78,6 @@ public class Anel extends Model {
     private Integer quantidadeDetectorVeicular = 0;
 
     @ManyToOne
-    @JsonBackReference
     private Controlador controlador;
 
     @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL)
@@ -92,7 +90,7 @@ public class Anel extends Model {
 
     @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL)
     @Valid
-    private List<Movimento> movimentos;
+    private List<Estagio> estagios;
 
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
@@ -105,6 +103,13 @@ public class Anel extends Model {
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
+
+
+    public Anel(Controlador controlador, int posicao) {
+        super();
+        this.controlador = controlador;
+        this.posicao = posicao;
+    }
 
     public Anel() {
         super();
@@ -186,14 +191,6 @@ public class Anel extends Model {
         this.gruposSemaforicos = gruposSemaforicos;
     }
 
-    public List<Movimento> getMovimentos() {
-        return movimentos;
-    }
-
-    public void setMovimentos(List<Movimento> movimentos) {
-        this.movimentos = movimentos;
-    }
-
     public Double getLatitude() {
         return latitude;
     }
@@ -211,6 +208,9 @@ public class Anel extends Model {
     }
 
     public Integer getQuantidadeGrupoPedestre() {
+        if (quantidadeGrupoPedestre == null) {
+            return 0;
+        }
         return quantidadeGrupoPedestre;
     }
 
@@ -219,6 +219,9 @@ public class Anel extends Model {
     }
 
     public Integer getQuantidadeGrupoVeicular() {
+        if (quantidadeGrupoVeicular == null) {
+            return 0;
+        }
         return quantidadeGrupoVeicular;
     }
 
@@ -227,6 +230,9 @@ public class Anel extends Model {
     }
 
     public Integer getQuantidadeDetectorPedestre() {
+        if (quantidadeDetectorPedestre == null) {
+            return 0;
+        }
         return quantidadeDetectorPedestre;
     }
 
@@ -235,11 +241,22 @@ public class Anel extends Model {
     }
 
     public Integer getQuantidadeDetectorVeicular() {
+        if (quantidadeDetectorVeicular == null) {
+            return 0;
+        }
         return quantidadeDetectorVeicular;
     }
 
     public void setQuantidadeDetectorVeicular(Integer quantidadeDetectorVeicular) {
         this.quantidadeDetectorVeicular = quantidadeDetectorVeicular;
+    }
+
+    public List<Estagio> getEstagios() {
+        return estagios;
+    }
+
+    public void setEstagios(List<Estagio> estagios) {
+        this.estagios = estagios;
     }
 
     public Boolean isAtivo() {
@@ -251,11 +268,11 @@ public class Anel extends Model {
     }
 
     public String getIdAnel() {
-        return String.format("%s-%d", this.controlador.getIdControlador(), this.posicao);
+        return String.format("%s-%d", this.controlador.getCLC(), this.posicao);
     }
 
     @JsonIgnore
-    @AssertTrue(message = "Posicao deve ser informada")
+    @AssertTrue(message = "Posição deve ser informada")
     public boolean isPosicaoOk() {
         return !this.ativo || this.posicao != null;
     }
@@ -274,18 +291,23 @@ public class Anel extends Model {
 
 
     public int getQuantidadeGrupoSemaforico() {
-        return this.quantidadeGrupoPedestre + this.quantidadeGrupoVeicular;
+        return getQuantidadeGrupoPedestre() + getQuantidadeGrupoVeicular();
     }
 
 
     public void criaGruposSemaforicos() {
-        if (this.id == null) {
-            this.gruposSemaforicos = new ArrayList<GrupoSemaforico>(this.getQuantidadeGrupoSemaforico());
-            for (int i = this.getQuantidadeGrupoSemaforico(); i > 0; i--) {
+        if (isAtivo()) {
+            if (getGruposSemaforicos() == null) {
+                setGruposSemaforicos(new ArrayList<GrupoSemaforico>(this.getQuantidadeGrupoSemaforico()));
+            }
+            for (int i = this.getGruposSemaforicos().size(); i < this.getQuantidadeGrupoSemaforico(); i++) {
                 GrupoSemaforico grupoSemaforico = new GrupoSemaforico();
                 grupoSemaforico.setAnel(this);
+                grupoSemaforico.setPosicao(this.getControlador().getGruposSemaforicos().size() + 1);
                 grupoSemaforico.setControlador(this.getControlador());
-                this.gruposSemaforicos.add(grupoSemaforico);
+//                grupoSemaforico.save();
+                getGruposSemaforicos().add(grupoSemaforico);
+                this.getControlador().getGruposSemaforicos().add(grupoSemaforico);
             }
         } else {
             //TODO:O que fazer se o cara alterar????
@@ -294,7 +316,7 @@ public class Anel extends Model {
 
 
     public void criaDetectores() {
-        if (this.id == null) {
+        if (this.id == null && isAtivo()) {
             this.detectores = new ArrayList<Detector>(this.getQuantidadeDetectorPedestre() + this.getQuantidadeDetectorVeicular());
 
             for (int i = this.getQuantidadeDetectorPedestre(); i > 0; i--) {
@@ -313,17 +335,6 @@ public class Anel extends Model {
             }
         } else {
             //TODO:O que fazer se o cara alterar????
-        }
-    }
-
-    public List<Estagio> getEstagios() {
-        if (this.getMovimentos() != null) {
-            return this.getMovimentos().stream()
-                    .map(movimento -> movimento.getEstagio())
-                    .filter(estagio -> estagio != null).collect(Collectors.toList());
-
-        } else {
-            return new ArrayList<Estagio>();
         }
     }
 

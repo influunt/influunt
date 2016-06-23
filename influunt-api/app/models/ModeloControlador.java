@@ -3,13 +3,13 @@ package models;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import json.deserializers.InfluuntDateTimeDeserializer;
+import json.deserializers.ModeloControladorDeserializer;
+import json.serializers.InfluuntDateTimeSerializer;
+import json.serializers.ModeloControladorSerializer;
 import org.joda.time.DateTime;
-import utils.InfluuntDateTimeDeserializer;
-import utils.InfluuntDateTimeSerializer;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -22,6 +22,8 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "modelo_controladores")
+@JsonSerialize(using = ModeloControladorSerializer.class)
+@JsonDeserialize(using = ModeloControladorDeserializer.class)
 public class ModeloControlador extends Model {
 
     private static final long serialVersionUID = -3153929481907380680L;
@@ -32,7 +34,6 @@ public class ModeloControlador extends Model {
     private UUID id;
 
     @ManyToOne
-    @JsonBackReference
     private Fabricante fabricante;
 
     @ManyToOne
@@ -101,9 +102,4 @@ public class ModeloControlador extends Model {
         this.dataAtualizacao = dataAtualizacao;
     }
 
-    @Transient
-    @JsonProperty("nomeFabricante")
-    public String getNomeFabricante() {
-        return this.getFabricante() != null ? this.getFabricante().getNome() : "";
-    }
 }

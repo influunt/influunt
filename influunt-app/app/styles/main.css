@@ -9,3 +9,36 @@
 @import url(./influunt.css);
 @import url(./animate.css);
 @import url(./style.css);
+li.anel-selecionado {
+  background-color: #6fd1bd;
+}
+
+li.anel-selecionado label {
+  color: white;
+}
+
+i.sinal-verde-conflitante {
+  display: none;
+  color: #ED5766;
+  font-size: 20px;
+}
+
+i.sinal-verde-conflitante.ativo {
+  display: block;
+}
+
+.influunt-map {
+  border: 1px solid black;
+  width: 100%;
+  height: 280px;
+}
+
+.movimento-selecionado {
+  background-color: #6fd1bd !important;
+}
+
+.wizard-steps.disabled a {
+  pointer-events: none;
+  cursor: default;
+  background-color: #e6e6e6;
+}

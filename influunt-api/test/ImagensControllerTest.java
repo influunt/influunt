@@ -3,7 +3,6 @@ import akka.stream.javadsl.FileIO;
 import akka.stream.javadsl.Source;
 import akka.util.ByteString;
 import controllers.routes;
-import models.Imagem;
 import org.junit.Test;
 import play.Application;
 import play.Mode;
@@ -13,6 +12,7 @@ import play.mvc.Http.MultipartFormData.DataPart;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import play.test.WithApplication;
+import models.Imagem;
 import security.Authenticator;
 
 import java.io.File;
@@ -45,7 +45,6 @@ public class ImagensControllerTest extends WithApplication {
         return new GuiceApplicationBuilder().configure(configuration)
                 .overrides(bind(Authenticator.class).to(TestAuthenticator.class)).in(Mode.TEST).build();
     }
-
 
 
     @Test
