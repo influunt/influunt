@@ -23,10 +23,10 @@ after_success:
   - sudo jpm install com.codacy:codacy-coverage-reporter:assembly
   - codacy-coverage-reporter -l Java -r influunt-api/target/scala-2.11/jacoco/jacoco.xml
   - cat influunt-app/coverage/lcov.info | influunt-app/node_modules/.bin/codacy-coverage -v
-  # - "[[ $TRAVIS_BRANCH = 'staging' ]] && openssl aes-256-cbc -K $encrypted_231a788889fa_key -iv $encrypted_231a788889fa_iv -in .staging_ssh_private_key.enc -out .staging_ssh_private_key -d"
-  # - "[[ $TRAVIS_BRANCH = 'staging' ]] && chmod 600 .staging_ssh_private_key"
-  # - "[[ $TRAVIS_BRANCH = 'staging' ]] && gem install capistrano -v '3.5.0'"
-  # - "[[ $TRAVIS_BRANCH = 'staging' ]] && cd influunt-app && gulp && tar czf influunt-app.tar.gz dist/ && cap staging deploy && cd .."
-  # - "[[ $TRAVIS_BRANCH = 'staging' ]] && cd influunt-api && ../activator-1.3.10-minimal/bin/activator dist && cap staging deploy"
+  - "[[ $TRAVIS_BRANCH = 'staging' ]] && openssl aes-256-cbc -K $encrypted_231a788889fa_key -iv $encrypted_231a788889fa_iv -in .staging_ssh_private_key.enc -out .staging_ssh_private_key -d"
+  - "[[ $TRAVIS_BRANCH = 'staging' ]] && chmod 600 .staging_ssh_private_key"
+  - "[[ $TRAVIS_BRANCH = 'staging' ]] && gem install capistrano -v '3.5.0'"
+  - "[[ $TRAVIS_BRANCH = 'staging' ]] && cd influunt-app && ENVIRONMENT=stage gulp && tar czf influunt-app.tar.gz dist/ && cap staging deploy && cd .."
+  - "[[ $TRAVIS_BRANCH = 'staging' ]] && cd influunt-api && ../activator-1.3.10-minimal/bin/activator dist && cap staging deploy"
 notifications:
   slack: influunt:dcSLFuPoNSbWFijZ4jOJFVeE
