@@ -43,7 +43,7 @@ angular.module('influuntApp')
        * Carrega os dados de fabricas e cidades, que não estão diretamente relacionados ao contolador.
        */
       var getHelpersControlador = function() {
-        Restangular.all('helpers').all('controlador').customGET().then(function(res) {
+        Restangular.one('helpers', 'controlador').get().then(function(res) {
           $scope.data = res;
           $scope.helpers = {};
 
@@ -78,7 +78,7 @@ angular.module('influuntApp')
 
         var id = $state.params.id;
         if (id) {
-          Restangular.one('controladores', id).customGET().then(function(res) {
+          Restangular.one('controladores', id).get().then(function(res) {
             loadWizardData(res);
             defer.resolve(res);
           });
@@ -127,7 +127,6 @@ angular.module('influuntApp')
       $scope.inicializaVerdesConflitantes = function() {
         return $scope.inicializaWizard().then(function() {
           $scope.grupoIds = _.chain($scope.objeto.gruposSemaforicos).orderBy(['posicao'], ['asc']).map('id').value();
-          console.log($scope.grupoIds);
 
           var totalGrupos = $scope.objeto.modelo.configuracao.limiteGrupoSemaforico;
           $scope.grupos = _.times(totalGrupos, function(i) {return 'G' + (i+1);});
@@ -182,7 +181,6 @@ angular.module('influuntApp')
       };
 
       $scope.submitVerdesConflitantes = function() {
-        console.log($scope.verdesConflitantes);
         $scope.submitForm({$valid: true}, 'verdes_conflitantes', 'app.controladores');
       };
 
@@ -269,8 +267,6 @@ angular.module('influuntApp')
           };
         });
 
-        console.log(res);
-
         $scope.validacoes.alerts = messages;
       };
 
@@ -335,7 +331,6 @@ angular.module('influuntApp')
       $scope.relacionaImagemAoEstagio = function(movimento, upload, imagem) {
         movimento.estagio.imagem = imagem;
         $scope.$apply();
-        console.log($scope.aneis);
       };
 
       /**

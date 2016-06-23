@@ -22,9 +22,6 @@ angular.module('influuntApp')
 
 
         return _.filter(input, function(obj) {
-          console.log('var checkboxes = ', checkboxes);
-          console.log('var obj = ', obj);
-          console.log('var property = ', property);
           return checkboxes[obj[property]];
         });
       }
