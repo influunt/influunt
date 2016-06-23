@@ -17,7 +17,11 @@ public class AreaSerializer extends JsonSerializer<Area> {
     @Override
     public void serialize(Area area, JsonGenerator jgen, SerializerProvider serializers) throws IOException, JsonProcessingException {
         jgen.writeStartObject();
-        jgen.writeStringField("id", area.getId().toString());
+        if (area.getId() == null) {
+            jgen.writeStringField("id", null);
+        } else {
+            jgen.writeStringField("id", area.getId().toString());
+        }
         jgen.writeNumberField("descricao", area.getDescricao());
         if (area.getDataCriacao() != null) {
             jgen.writeStringField("dataCriacao", InfluuntDateTimeSerializer.parse(area.getDataCriacao()));

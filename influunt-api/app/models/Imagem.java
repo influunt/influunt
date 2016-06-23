@@ -92,6 +92,10 @@ public class Imagem extends Model {
     }
 
     public File getPath(File rootPath) {
+        File folder = new File(rootPath, "imagens");
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
         return new File(rootPath, "imagens/" + this.getId());
     }
 }

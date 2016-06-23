@@ -18,7 +18,11 @@ public class CidadeSerializer extends JsonSerializer<Cidade> {
     @Override
     public void serialize(Cidade cidade, JsonGenerator jgen, SerializerProvider serializers) throws IOException, JsonProcessingException {
         jgen.writeStartObject();
-        jgen.writeStringField("id", cidade.getId().toString());
+        if (cidade.getId() == null) {
+            jgen.writeNullField("id");
+        } else {
+            jgen.writeStringField("id", cidade.getId().toString());
+        }
         if (cidade.getNome() != null) {
             jgen.writeStringField("nome", cidade.getNome());
         }

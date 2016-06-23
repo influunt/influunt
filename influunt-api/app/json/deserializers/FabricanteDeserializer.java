@@ -26,9 +26,12 @@ public class FabricanteDeserializer extends JsonDeserializer<Fabricante> {
         JsonNode node = oc.readTree(jp);
 
         Fabricante fabricante = new Fabricante();
-        JsonNode id = node.get("id");
-        if (id != null) {
-            fabricante.setId(UUID.fromString(id.asText()));
+
+        if (node.has("id")) {
+            JsonNode id = node.get("id");
+            if (!id.isNull()) {
+                fabricante.setId(UUID.fromString(id.asText()));
+            }
         }
         if (node.get("nome") != null) {
             fabricante.setNome(node.get("nome").asText());

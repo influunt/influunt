@@ -1,10 +1,9 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import helpers.ControladorHelper;
+import models.*;
 import org.junit.Test;
 import play.Application;
-import play.Logger;
 import play.Mode;
 import play.inject.guice.GuiceApplicationBuilder;
 import play.libs.Json;
@@ -12,7 +11,6 @@ import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
 import play.test.WithApplication;
-import models.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -60,7 +58,7 @@ public class HelpersControllerTest extends WithApplication {
 
 
         Fabricante raro = new Fabricante();
-        raro.setNome("Raro");
+        raro.setNome("Raro Labs");
         raro.save();
 
         ConfiguracaoControlador conf = new ConfiguracaoControlador();
@@ -75,25 +73,17 @@ public class HelpersControllerTest extends WithApplication {
         labs.setNome("Labs");
         labs.save();
 
-
-        Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
+        Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
                 .uri(routes.HelpersController.controladorHelper().url());
-        Result postResult = route(postRequest);
-        assertEquals(OK, postResult.status());
-        JsonNode json = Json.parse(Helpers.contentAsString(postResult));
-        Logger.debug(json.toString());
-        ControladorHelper ch =  Json.fromJson(json,ControladorHelper.class);
+        Result result = route(request);
+        assertEquals(OK, result.status());
+        JsonNode json = Json.parse(Helpers.contentAsString(result));
+//        Logger.debug(json.toString());
 
-        assertEquals(2,ch.getCidades().size());
-        assertEquals(2,ch.getCidades().get(0).getAreas().size());
-        assertEquals(2,ch.getFabricantes().size());
-        assertNotNull(ch.getFabricantes().get(0).getModelos());
-        assertNotNull(ch.getFabricantes().get(0).getModelos().get(0).getConfiguracao());
-
+        assertEquals(2, json.get("cidades").size());
+        assertEquals(2, json.get("cidades").get(0).get("areas").size());
+        assertEquals(2, json.get("fabricantes").size());
+        assertNotNull(json.get("fabricantes").get(0).get("modelos"));
+        assertNotNull(json.get("fabricantes").get(0).get("modelos").get(0).get("configuracao"));
     }
-
-
-
-
-
 }

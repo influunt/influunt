@@ -6,7 +6,7 @@
 create table aneis (
   id                            varchar(40) not null,
   ativo                         tinyint(1) default 0 not null,
-  localizacao                     varchar(255),
+  descricao                     varchar(255),
   posicao                       integer,
   numero_smee                   varchar(255),
   latitude                      double,
@@ -15,7 +15,7 @@ create table aneis (
   quantidade_grupo_veicular     integer,
   quantidade_detector_pedestre  integer,
   quantidade_detector_veicular  integer,
-  controlador_id                bigint,
+  controlador_id                varchar(40),
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
   constraint pk_aneis primary key (id)
@@ -23,7 +23,7 @@ create table aneis (
 
 create table areas (
   id                            varchar(40) not null,
-  localizacao                     integer,
+  descricao                     integer,
   cidade_id                     varchar(40),
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
@@ -40,7 +40,7 @@ create table cidades (
 
 create table configuracao_controladores (
   id                            varchar(40) not null,
-  localizacao                     varchar(255),
+  descricao                     varchar(255),
   limite_estagio                integer,
   limite_grupo_semaforico       integer,
   limite_anel                   integer,
@@ -52,13 +52,13 @@ create table configuracao_controladores (
 );
 
 create table controladores (
-  id                            bigint auto_increment not null,
-  localizacao                     varchar(255),
-  numero_smee                   varchar(255) not null,
+  id                            varchar(40) not null,
+  localizacao                   varchar(255),
+  numero_smee                   varchar(255),
   numero_smeeconjugado1         varchar(255),
   numero_smeeconjugado2         varchar(255),
   numero_smeeconjugado3         varchar(255),
-  firmware                      varchar(255) not null,
+  firmware                      varchar(255),
   latitude                      double not null,
   longitude                     double not null,
   modelo_id                     varchar(40) not null,
@@ -72,7 +72,12 @@ create table detectores (
   id                            varchar(40) not null,
   tipo                          varchar(8),
   anel_id                       varchar(40),
-  controlador_id                bigint,
+  controlador_id                varchar(40),
+  monitorado                    tinyint(1) default 0,
+  tempo_ausecia_deteccao_minima integer,
+  tempo_ausecia_deteccao_maxima integer,
+  tempo_deteccao_permanente_minima integer,
+  tempo_deteccao_permanente_maxima integer,
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
   constraint ck_detectores_tipo check (tipo in ('VEICULAR','PEDESTRE')),
@@ -82,14 +87,14 @@ create table detectores (
 create table estagios (
   id                            varchar(40) not null,
   imagem_id                     varchar(40),
-  localizacao                     varchar(255),
+  descricao                     varchar(255),
   tempo_maximo_permanencia      integer,
   demanda_prioritaria           tinyint(1) default 0,
-  movimento_id                  varchar(40),
+  anel_id                       varchar(40),
+  controlador_id                varchar(40),
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
   constraint uq_estagios_imagem_id unique (imagem_id),
-  constraint uq_estagios_movimento_id unique (movimento_id),
   constraint pk_estagios primary key (id)
 );
 
@@ -115,7 +120,7 @@ create table grupos_semaforicos (
   id                            varchar(40) not null,
   tipo                          varchar(8),
   anel_id                       varchar(40),
-  controlador_id                bigint,
+  controlador_id                varchar(40),
   grupo_conflito_id             varchar(40),
   posicao                       integer,
   data_criacao                  datetime(6) not null,
@@ -147,22 +152,41 @@ create table modelo_controladores (
   id                            varchar(40) not null,
   fabricante_id                 varchar(40),
   configuracao_id               varchar(40),
-  localizacao                     varchar(255),
+  descricao                     varchar(255),
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
   constraint pk_modelo_controladores primary key (id)
 );
 
-create table movimentos (
+create table tabela_entre_verdes (
   id                            varchar(40) not null,
-  localizacao                     varchar(255),
-  imagem_id                     varchar(40),
-  controlador_id                bigint,
-  anel_id                       varchar(40),
-  data_criacao                  datetime(6) not null,
-  data_atualizacao              datetime(6) not null,
-  constraint uq_movimentos_imagem_id unique (imagem_id),
-  constraint pk_movimentos primary key (id)
+  grupo_semaforico_id           varchar(40),
+  constraint pk_tabela_entre_verdes primary key (id)
+);
+
+create table transicao (
+  id                            varchar(40) not null,
+  tabela_entre_verdes_id        varchar(40),
+  origem_id                     varchar(40),
+  destino_id                    varchar(40),
+  tempo_amarelo                 integer,
+  tempo_vermelho_intermitente   integer,
+  tempo_vermelho_limpeza        integer,
+  tempo_atraso_grupo            integer,
+  constraint uq_transicao_origem_id unique (origem_id),
+  constraint uq_transicao_destino_id unique (destino_id),
+  constraint pk_transicao primary key (id)
+);
+
+create table transicao_proibida (
+  id                            varchar(40) not null,
+  origem_id                     varchar(40),
+  destino_id                    varchar(40),
+  alternativo_id                varchar(40),
+  constraint uq_transicao_proibida_origem_id unique (origem_id),
+  constraint uq_transicao_proibida_destino_id unique (destino_id),
+  constraint uq_transicao_proibida_alternativo_id unique (alternativo_id),
+  constraint pk_transicao_proibida primary key (id)
 );
 
 alter table aneis add constraint fk_aneis_controlador_id foreign key (controlador_id) references controladores (id) on delete restrict on update restrict;
@@ -185,7 +209,11 @@ create index ix_detectores_controlador_id on detectores (controlador_id);
 
 alter table estagios add constraint fk_estagios_imagem_id foreign key (imagem_id) references imagens (id) on delete restrict on update restrict;
 
-alter table estagios add constraint fk_estagios_movimento_id foreign key (movimento_id) references movimentos (id) on delete restrict on update restrict;
+alter table estagios add constraint fk_estagios_anel_id foreign key (anel_id) references aneis (id) on delete restrict on update restrict;
+create index ix_estagios_anel_id on estagios (anel_id);
+
+alter table estagios add constraint fk_estagios_controlador_id foreign key (controlador_id) references controladores (id) on delete restrict on update restrict;
+create index ix_estagios_controlador_id on estagios (controlador_id);
 
 alter table estagios_grupos_semaforicos add constraint fk_estagios_grupos_semaforicos_estagio_id foreign key (estagio_id) references estagios (id) on delete restrict on update restrict;
 create index ix_estagios_grupos_semaforicos_estagio_id on estagios_grupos_semaforicos (estagio_id);
@@ -211,13 +239,21 @@ create index ix_modelo_controladores_fabricante_id on modelo_controladores (fabr
 alter table modelo_controladores add constraint fk_modelo_controladores_configuracao_id foreign key (configuracao_id) references configuracao_controladores (id) on delete restrict on update restrict;
 create index ix_modelo_controladores_configuracao_id on modelo_controladores (configuracao_id);
 
-alter table movimentos add constraint fk_movimentos_imagem_id foreign key (imagem_id) references imagens (id) on delete restrict on update restrict;
+alter table tabela_entre_verdes add constraint fk_tabela_entre_verdes_grupo_semaforico_id foreign key (grupo_semaforico_id) references grupos_semaforicos (id) on delete restrict on update restrict;
+create index ix_tabela_entre_verdes_grupo_semaforico_id on tabela_entre_verdes (grupo_semaforico_id);
 
-alter table movimentos add constraint fk_movimentos_controlador_id foreign key (controlador_id) references controladores (id) on delete restrict on update restrict;
-create index ix_movimentos_controlador_id on movimentos (controlador_id);
+alter table transicao add constraint fk_transicao_tabela_entre_verdes_id foreign key (tabela_entre_verdes_id) references tabela_entre_verdes (id) on delete restrict on update restrict;
+create index ix_transicao_tabela_entre_verdes_id on transicao (tabela_entre_verdes_id);
 
-alter table movimentos add constraint fk_movimentos_anel_id foreign key (anel_id) references aneis (id) on delete restrict on update restrict;
-create index ix_movimentos_anel_id on movimentos (anel_id);
+alter table transicao add constraint fk_transicao_origem_id foreign key (origem_id) references estagios (id) on delete restrict on update restrict;
+
+alter table transicao add constraint fk_transicao_destino_id foreign key (destino_id) references estagios (id) on delete restrict on update restrict;
+
+alter table transicao_proibida add constraint fk_transicao_proibida_origem_id foreign key (origem_id) references estagios (id) on delete restrict on update restrict;
+
+alter table transicao_proibida add constraint fk_transicao_proibida_destino_id foreign key (destino_id) references estagios (id) on delete restrict on update restrict;
+
+alter table transicao_proibida add constraint fk_transicao_proibida_alternativo_id foreign key (alternativo_id) references estagios (id) on delete restrict on update restrict;
 
 
 # --- !Downs
@@ -242,7 +278,11 @@ drop index ix_detectores_controlador_id on detectores;
 
 alter table estagios drop foreign key fk_estagios_imagem_id;
 
-alter table estagios drop foreign key fk_estagios_movimento_id;
+alter table estagios drop foreign key fk_estagios_anel_id;
+drop index ix_estagios_anel_id on estagios;
+
+alter table estagios drop foreign key fk_estagios_controlador_id;
+drop index ix_estagios_controlador_id on estagios;
 
 alter table estagios_grupos_semaforicos drop foreign key fk_estagios_grupos_semaforicos_estagio_id;
 drop index ix_estagios_grupos_semaforicos_estagio_id on estagios_grupos_semaforicos;
@@ -268,13 +308,21 @@ drop index ix_modelo_controladores_fabricante_id on modelo_controladores;
 alter table modelo_controladores drop foreign key fk_modelo_controladores_configuracao_id;
 drop index ix_modelo_controladores_configuracao_id on modelo_controladores;
 
-alter table movimentos drop foreign key fk_movimentos_imagem_id;
+alter table tabela_entre_verdes drop foreign key fk_tabela_entre_verdes_grupo_semaforico_id;
+drop index ix_tabela_entre_verdes_grupo_semaforico_id on tabela_entre_verdes;
 
-alter table movimentos drop foreign key fk_movimentos_controlador_id;
-drop index ix_movimentos_controlador_id on movimentos;
+alter table transicao drop foreign key fk_transicao_tabela_entre_verdes_id;
+drop index ix_transicao_tabela_entre_verdes_id on transicao;
 
-alter table movimentos drop foreign key fk_movimentos_anel_id;
-drop index ix_movimentos_anel_id on movimentos;
+alter table transicao drop foreign key fk_transicao_origem_id;
+
+alter table transicao drop foreign key fk_transicao_destino_id;
+
+alter table transicao_proibida drop foreign key fk_transicao_proibida_origem_id;
+
+alter table transicao_proibida drop foreign key fk_transicao_proibida_destino_id;
+
+alter table transicao_proibida drop foreign key fk_transicao_proibida_alternativo_id;
 
 drop table if exists aneis;
 
@@ -302,5 +350,9 @@ drop table if exists limite_area;
 
 drop table if exists modelo_controladores;
 
-drop table if exists movimentos;
+drop table if exists tabela_entre_verdes;
+
+drop table if exists transicao;
+
+drop table if exists transicao_proibida;
 

@@ -47,7 +47,6 @@ public class ImagensControllerTest extends WithApplication {
     }
 
 
-
     @Test
     public void testCriarNovaImagem() {
         File appRootPath = app.path();

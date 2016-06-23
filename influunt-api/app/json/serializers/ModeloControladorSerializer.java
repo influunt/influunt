@@ -16,7 +16,11 @@ public class ModeloControladorSerializer extends JsonSerializer<ModeloControlado
     @Override
     public void serialize(ModeloControlador modeloControlador, JsonGenerator jgen, SerializerProvider serializers) throws IOException, JsonProcessingException {
         jgen.writeStartObject();
-        jgen.writeStringField("id", modeloControlador.getId().toString());
+        if (modeloControlador.getId() == null) {
+            jgen.writeNullField("id");
+        } else {
+            jgen.writeStringField("id", modeloControlador.getId().toString());
+        }
         if (modeloControlador.getDescricao() != null) {
             jgen.writeStringField("descricao", modeloControlador.getDescricao());
         }

@@ -24,21 +24,27 @@ public class ModeloControladorDeserializer extends JsonDeserializer<ModeloContro
         JsonNode node = oc.readTree(jp);
 
         ModeloControlador modeloControlador = new ModeloControlador();
-
-        JsonNode id = node.get("id");
-        if (id != null) {
-            modeloControlador.setId(UUID.fromString(node.get("id").asText()));
+        if (node.has("id")) {
+            JsonNode id = node.get("id");
+            if (!id.isNull()) {
+                modeloControlador.setId(UUID.fromString(id.asText()));
+            }
         }
-        modeloControlador.setDescricao(node.get("descricao").asText());
+        if (node.has("descricao")) {
+            modeloControlador.setDescricao(node.get("descricao").asText());
+        }
 
-        Fabricante fabricante = new Fabricante();
-        fabricante.setId(UUID.fromString(node.get("fabricante").get("id").asText()));
-        modeloControlador.setFabricante(fabricante);
+        if (node.has("fabricante") && !node.get("fabricante").isNull()) {
+            Fabricante fabricante = new Fabricante();
+            fabricante.setId(UUID.fromString(node.get("fabricante").get("id").asText()));
+            modeloControlador.setFabricante(fabricante);
+        }
 
-        ConfiguracaoControlador configuracao = new ConfiguracaoControlador();
-        configuracao.setId(UUID.fromString(node.get("configuracao").get("id").asText()));
-        modeloControlador.setConfiguracao(configuracao);
-
+        if (node.has("configuracao") && !node.get("configuracao").isNull()) {
+            ConfiguracaoControlador configuracao = new ConfiguracaoControlador();
+            configuracao.setId(UUID.fromString(node.get("configuracao").get("id").asText()));
+            modeloControlador.setConfiguracao(configuracao);
+        }
 
         return modeloControlador;
     }

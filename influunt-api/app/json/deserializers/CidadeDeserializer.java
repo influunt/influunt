@@ -22,9 +22,11 @@ public class CidadeDeserializer extends JsonDeserializer<Cidade> {
         JsonNode node = oc.readTree(jp);
 
         Cidade cidade = new Cidade();
-        JsonNode id = node.get("id");
-        if (id != null) {
-            cidade.setId(UUID.fromString(id.asText()));
+        if (node.has("id")) {
+            JsonNode id = node.get("id");
+            if (!id.isNull()) {
+                cidade.setId(UUID.fromString(id.asText()));
+            }
         }
         if (node.has("nome")) {
             cidade.setNome(node.get("nome").asText());

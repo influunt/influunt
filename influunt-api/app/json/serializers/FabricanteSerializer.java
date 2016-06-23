@@ -17,7 +17,11 @@ public class FabricanteSerializer extends JsonSerializer<Fabricante> {
     @Override
     public void serialize(Fabricante fabricante, JsonGenerator jgen, SerializerProvider serializers) throws IOException, JsonProcessingException {
         jgen.writeStartObject();
-        jgen.writeStringField("id", fabricante.getId().toString());
+        if (fabricante.getId() == null) {
+            jgen.writeNullField("id");
+        } else {
+            jgen.writeStringField("id", fabricante.getId().toString());
+        }
         if (fabricante.getNome() != null) {
             jgen.writeStringField("nome", fabricante.getNome());
         }

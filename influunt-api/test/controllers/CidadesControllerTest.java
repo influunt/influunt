@@ -53,13 +53,12 @@ public class CidadesControllerTest extends WithApplication {
 
     @Test
     public void testAtualizarCidadeExistente() {
-
         Cidade cidade = new Cidade();
         cidade.setNome("Teste");
         cidade.save();
-
         UUID cidadeId = cidade.getId();
         assertNotNull(cidade.getId());
+
         Cidade novaCidade = new Cidade();
         novaCidade.setNome("Teste atualizar");
 
