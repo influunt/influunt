@@ -120,7 +120,7 @@ angular.module('influuntApp')
 
           $scope.aneis = _.orderBy($scope.aneis, ['posicao'], ['asc']);
           $scope.selecionaAnel(0);
-          $scope.selecionaMovimento(0);
+          $scope.selecionaEstagio(0);
         });
       };
 
@@ -131,7 +131,7 @@ angular.module('influuntApp')
           var totalGrupos = $scope.objeto.modelo.configuracao.limiteGrupoSemaforico;
           $scope.grupos = _.times(totalGrupos, function(i) {return 'G' + (i+1);});
 
-          $scope.movimentos = _.chain($scope.objeto.aneis).map('movimentos').flatten().value();
+          $scope.estagios = _.chain($scope.objeto.aneis).map('estagios').flatten().value();
 
           var aneis = _.filter($scope.objeto.aneis, {ativo: true});
           var somador = 0;
@@ -188,14 +188,14 @@ angular.module('influuntApp')
         $scope.currentAnelId = index;
         $scope.currentAnel = $scope.aneis[$scope.currentAnelId];
 
-        if (angular.isDefined($scope.currentMovimentoId)) {
-          $scope.selecionaMovimento($scope.currentMovimentoId);
+        if (angular.isDefined($scope.currentEstagioId)) {
+          $scope.selecionaEstagio($scope.currentEstagioId);
         }
       };
 
-      $scope.selecionaMovimento = function(index) {
-        $scope.currentMovimentoId = index;
-        $scope.currentMovimento = $scope.currentAnel.movimentos[index];
+      $scope.selecionaEstagio = function(index) {
+        $scope.currentEstagioId = index;
+        $scope.currentEstagio = $scope.currentAnel.estagios[index];
         $scope.atualizaGruposSemaforicosSelecionados();
       };
 
@@ -221,21 +221,21 @@ angular.module('influuntApp')
         $scope.verdesConflitantes[x][y] = !$scope.verdesConflitantes[x][y];
       };
 
-      $scope.toggleEstagioAtivado = function(grupo, movimento) {
-        var estagioId = movimento.estagio.id;
-        var estagio = _.find(grupo.estagioGrupoSemaforicos, {estagio: {id: estagioId}});
+      $scope.toggleEstagioAtivado = function(grupo, estagio) {
+        var estagioId = estagio.id;
+        estagio = _.find(grupo.estagioGrupoSemaforicos, {estagio: {id: estagioId}});
 
         if (!!estagio) {
           estagio.ativo = !estagio.ativo;
-          grupo.estagiosAtivados[movimento.estagio.id] = estagio.ativo;
+          grupo.estagiosAtivados[estagio.id] = estagio.ativo;
           $scope.$apply();
         }
       };
 
-      $scope.associaEstagiosGrupoSemaforico = function(grupo, movimento) {
+      $scope.associaEstagiosGrupoSemaforico = function(grupo, estagio) {
         var obj = {
           grupoSemaforico: { id: grupo.id },
-          estagio: movimento.estagio
+          estagio: estagio
         };
 
         var index = _.findIndex(grupo.estagioGrupoSemaforicos, obj);
@@ -245,12 +245,12 @@ angular.module('influuntApp')
           grupo.estagioGrupoSemaforicos.push(obj);
         }
 
-        $scope.toggleEstagioAtivado(grupo, movimento);
+        $scope.toggleEstagioAtivado(grupo, estagio);
         $scope.atualizaGruposSemaforicosSelecionados();
       };
 
       $scope.atualizaGruposSemaforicosSelecionados = function() {
-        var estagioId = $scope.currentMovimento.estagio.id;
+        var estagioId = $scope.currentEstagio.estagio.id;
         $scope.gruposSelecionados = $scope.currentAnel.gruposSemaforicos.filter(function(grupo) {
           return !!_.filter(grupo.estagioGrupoSemaforicos, {estagio: {id: estagioId}}).length;
         });
@@ -271,37 +271,18 @@ angular.module('influuntApp')
       };
 
       $scope.criaAneis = function(controlador) {
-        if (controlador.aneis.length === 0) {
-          var idControlador = controlador.idControlador;
-          controlador.aneis = _.times(controlador.modelo.configuracao.limiteAnel)
-            .map(function(value, key) {
-              return {
-                ativo: key === 0,
-                id_anel: idControlador + '-' + (key + 1),
-                posicao: key + 1,
-                quantidadeGrupoPedestre: null,
-                quantidadeGrupoVeicular: null,
-                quantidadeDetectorPedestre: null,
-                descricao: null,
-                numero_smee: null,
-                latitude: null,
-                longitude: null,
-                valid: {
-                  form: true,
-                  required: {}
-                }
-              };
-            });
-        } else {
-          _.orderBy(controlador.aneis, ['posicao'], ['asc']).forEach(function(anel, key) {
-            anel.id_anel = controlador.idControlador + '-' + (key + 1);
-            anel.posicao = anel.posicao || (key + 1);
-            anel.valid = {
-              form: true
-            };
-          });
-        }
+        controlador.aneis = _.orderBy(controlador.aneis, ['posicao'], ['asc']).map(function(anel, key) {
+          anel.id_anel = controlador.idControlador + '-' + (key + 1);
+          anel.posicao = anel.posicao || (key + 1);
+          anel.valid = {
+            form: true
+          };
 
+          return anel;
+        });
+
+        // Garantia de que o primeiro anel será sempre null.
+        controlador.aneis[0].ativo = true;
         return controlador.aneis;
       };
 
@@ -319,17 +300,17 @@ angular.module('influuntApp')
         }
       });
 
-      $scope.associaImagemAoMovimento = function(upload, imagem) {
+      $scope.associaImagemAoEstagio = function(upload, imagem) {
         var anel = $scope.currentAnel;
-        if (!('movimentos' in anel)) {
-          anel.movimentos = [];
+        if (!('estagios' in anel)) {
+          anel.estagios = [];
         }
 
-        anel.movimentos.push({ imagem: { id: imagem.id } });
+        anel.estagios.push({ imagem: { id: imagem.id } });
       };
 
-      $scope.relacionaImagemAoEstagio = function(movimento, upload, imagem) {
-        movimento.estagio.imagem = imagem;
+      $scope.relacionaImagemAoEstagio = function(estagio, upload, imagem) {
+        estagio.imagem = imagem;
         $scope.$apply();
       };
 

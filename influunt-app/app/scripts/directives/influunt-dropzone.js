@@ -37,7 +37,7 @@ angular.module('influuntApp')
             var anel = scope.anel;
 
             // Adiciona o anel id ao elemento do preview. Este id será utilizado
-            // para filtrar as imagens de movimentos para os diferentes aneis.
+            // para filtrar as imagens de estagios para os diferentes aneis.
             $('.dz-preview').filter(function() {
               return !$(this).attr('data-anel-id');
             }).attr('data-anel-id', anel.id_anel);

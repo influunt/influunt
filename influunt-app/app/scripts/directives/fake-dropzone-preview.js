@@ -23,12 +23,12 @@ angular.module('influuntApp')
               $timeout(function() {
                 $form.children('.dz-preview').detach();
                 return scope.aneis && scope.aneis.forEach(function(anel) {
-                  return anel.movimentos && anel.movimentos.forEach(function(movimento) {
+                  return anel.estagios && anel.estagios.forEach(function(estagio) {
                     scope.data = {};
 
                     scope.data.id_anel = anel.id_anel;
-                    scope.data.nome = movimento.imagem.filename;
-                    scope.data.source = movimento.imagem.id;
+                    scope.data.nome = estagio.imagem.filename;
+                    scope.data.source = estagio.imagem.id;
 
                     var preview = $interpolate(template)(scope);
                     $form.append(preview);

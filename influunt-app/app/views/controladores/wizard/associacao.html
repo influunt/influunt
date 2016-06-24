@@ -17,9 +17,9 @@
       <div class="col-lg-7 col-sm-7 stages">
         <nav>
           <ul class="handle">
-            <li class="ibox" data-ng-repeat="(indexMovimento, movimento) in currentAnel.movimentos"
-                data-ng-click="selecionaMovimento(indexMovimento)">
-              <div class="title-stages" data-ng-class="{'movimento-selecionado': indexMovimento === currentMovimentoId}">
+            <li class="ibox" data-ng-repeat="(indexEstagio, estagio) in currentAnel.estagios"
+                data-ng-click="selecionaEstagio(indexEstagio)">
+              <div class="title-stages" data-ng-class="{'estagio-selecionado': indexEstagio === currentEstagioId}">
                 <hgroup>
                   <p>E{{ $index + 1 }}</p>
                 </hgroup>
@@ -27,22 +27,21 @@
               <div class="stage-stages">
                 <div class="exist-figure">
                   <figure>
-                    <img ng-src="{{ movimento.imagem.id | imageSource }}" style="width: 155px;">
+                    <img ng-src="{{ estagio.imagem.id | imageSource }}" style="width: 155px;">
                   </figure>
                 </div>
+                <!--
                 <div class="upload-figure">
-                  <!-- <figure data-ng-style="{ background: url({{ movimento.estagio.imagem.id | imageSource  }}) }"> -->
-                  <figure custom-background="movimento.estagio.imagem.id | imageSource" style="background-size: cover; background-repeat: no-repeat; background-position: center center;">
+                  <figure custom-background="estagio.imagem.id | imageSource" style="background-size: cover; background-repeat: no-repeat; background-position: center center;">
                     <form class="dropzone" enctype="multipart/form-data"
                         influunt-dropzone anel="currentAnel"
-                        on-success="relacionaImagemAoEstagio(movimento, upload, imagem)"
+                        on-success="relacionaImagemAoEstagio(estagio, upload, imagem)"
                         style="min-height: 135px; max-height: 135px; padding: 0;">
                       <div>
-                        <!-- <img data-ng-if="movimento.estagio.imagem" data-ng-src="{{ movimento.estagio.imagem.id | imageSource  }}"> -->
-                        <hgroup data-ng-if="!movimento.estagio.imagem">
+                        <hgroup data-ng-if="!estagio.imagem">
                           <i class="fa fa-upload" aria-hidden="true"></i>
-                          <label title="Adicione um estágio a este movimento" for="anel-1" class="">
-                            Adicione um Estágioa este Movimento
+                          <label title="Adicione um estágio a este estagio" for="anel-1" class="">
+                            Adicione um Estágioa este Estágio
                             <img class="attrImg" src="#" alt="" width="250" />
                           </label>
                         </hgroup>
@@ -53,6 +52,7 @@
                     </form>
                   </figure>
                 </div>
+                -->
               </div>
               <div class="times-stages">
                 <div class="col-lg-6 col-sm-6 no-padding left">
@@ -60,20 +60,20 @@
                     <label class="control-label no-padding">Tempo max. de permanência</label>
                   </div>
                   <div class="col-lg-6 col-sm-6 no-padding">
-                    <input type="number" ng-model="movimento.estagio.tempoMaximoPermanencia" class="form-control">
+                    <input type="number" ng-model="estagio.tempoMaximoPermanencia" class="form-control">
                   </div>
                 </div>
                 <div class="col-lg-6 col-sm-6 no-padding left">
                   <label class="checkbox-inline i-checks right">
                     <div class="col-lg-10 col-sm-10 left">Demanda prioritária</div>
-                    <input type="checkbox" ichecks data-ng-model="movimento.estagio.demandaPrioritaria">
+                    <input type="checkbox" ichecks data-ng-model="estagio.demandaPrioritaria">
                   </label>
                 </div>
                 <div class="clearfix"></div>
                 <div class="col-lg-12 col-sm-12 form-group group-selectons no-padding">
                   <label class="checkbox-inline i-checks" data-ng-repeat="(indexGrupo, grupo) in currentAnel.gruposSemaforicos">
                     <p>{{ grupo.label }}</p>
-                    <input type="checkbox" ichecks data-ng-model="grupo.estagiosRelacionados[movimento.estagio.id]" i-changed="associaEstagiosGrupoSemaforico(grupo, movimento)">
+                    <input type="checkbox" ichecks data-ng-model="grupo.estagiosRelacionados[estagio.id]" i-changed="associaEstagiosGrupoSemaforico(grupo, estagio)">
                   </label>
                 </div>
               </div>
@@ -89,7 +89,7 @@
                 <hgroup>
                   <label class="checkbox-inline i-checks">
                     <p class="label-name">{{ grupoSelecionado.label }}</p>
-                    <input type="checkbox" ichecks i-changed="toggleEstagioAtivado(grupoSelecionado, currentMovimento)" data-ng-model="grupoSelecionado.estagiosAtivados[currentMovimento.estagio.id]">
+                    <input type="checkbox" ichecks i-changed="toggleEstagioAtivado(grupoSelecionado, currentEstagio)" data-ng-model="grupoSelecionado.estagiosAtivados[currentEstagio.estagio.id]">
                   </label>
                   <p class="label-status">Ativado</p>
                 </hgroup>

@@ -18,7 +18,7 @@ describe('Directive: fakeDropzonePreview', function () {
         id_anel: 'id_anel',
         nome: 'nome',
         source: 'source',
-        movimentos: [{id: 'id',imagem: {id: 'id',filename: 'filename'}}]
+        estagios: [{id: 'id',imagem: {id: 'id',filename: 'filename'}}]
       }];
       element = angular.element('<form><fake-dropzone-preview aneis="aneis"><fake-dropzone-preview></form>');
       element = $compile(element)(scope);
