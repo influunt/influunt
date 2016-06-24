@@ -327,5 +327,4 @@ angular.module('influuntApp')
           }
         });
       };
-
     }]);
