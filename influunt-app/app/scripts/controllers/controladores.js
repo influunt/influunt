@@ -286,20 +286,6 @@ angular.module('influuntApp')
         return controlador.aneis;
       };
 
-      $scope.$watch('objeto.endereco', function(value) {
-        if (value && value.geometry && location) {
-          $scope.objeto.latitude = value.geometry.location.lat();
-          $scope.objeto.longitude = value.geometry.location.lng();
-        }
-      });
-
-      $scope.$watch('currentAnel.endereco', function(value) {
-        if (value && value.geometry && location) {
-          $scope.currentAnel.latitude = value.geometry.location.lat();
-          $scope.currentAnel.longitude = value.geometry.location.lng();
-        }
-      });
-
       $scope.associaImagemAoEstagio = function(upload, imagem) {
         var anel = $scope.currentAnel;
         if (!('estagios' in anel)) {

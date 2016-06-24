@@ -110,14 +110,9 @@
             </figure>
 
             <div class="col-lg-12 col-sm-12 no-padding">
-              <div class="form-group" data-ng-class="{'has-error': formDadosBasicos.endereco.$invalid && (!formDadosBasicos.endereco.$pristine || submited)}">
+              <div class="form-group">
                 <label>{{ 'controladores.endereco' | translate }}:</label>
-                <input type="text" name="endereco" class="form-control"
-                  data-ng-model="currentAnel.endereco" g-places-autocomplete>
-                <p ng-show="formDadosBasicos.endereco.$invalid && (!formDadosBasicos.endereco.$pristine || submited)"
-                  class="help-block error-msg">
-                    {{ 'geral.campo_obrigatorio' | translate }}
-                </p>
+                <helper-endereco ng-model="currentAnel.endereco" latitude="currentAnel.latitude" longitude="currentAnel.longitude"></helper-endereco>
               </div>
             </div>
 
