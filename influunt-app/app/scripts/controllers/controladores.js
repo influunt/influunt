@@ -115,6 +115,8 @@ angular.module('influuntApp')
                 grupo.estagiosRelacionados[estagioGrupo.estagio.id] = true;
                 grupo.estagiosAtivados[estagioGrupo.estagio.id] = estagioGrupo.ativo;
               });
+
+              console.log('------------->', grupo);
             });
           });
 
