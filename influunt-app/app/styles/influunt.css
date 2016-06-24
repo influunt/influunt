@@ -538,7 +538,7 @@ header .nav-secon li a {
     border-left: 2px solid #e7eaec;
     position: absolute;
     margin: 25px 0 0;
-    height: 95%;    
+    height: 95%;
     right: 0;
 }
 .wrapper-content .basic-wizard .content .body .maps {
@@ -741,11 +741,9 @@ header .nav-secon li a {
 }
 @media screen and (max-width: 1280px) {
   .wrapper-content .basic-wizard .content .body .stages .times-stages {
-  width: 44%;
-
+    width: 60%;
   }
   .wrapper-content .basic-wizard .content .body .stages .stage-stages {
-  width: 48%;
-    
+    width: 30%;
   }
 }
