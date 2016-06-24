@@ -250,7 +250,7 @@ angular.module('influuntApp')
       };
 
       $scope.atualizaGruposSemaforicosSelecionados = function() {
-        var estagioId = $scope.currentEstagio.estagio.id;
+        var estagioId = $scope.currentEstagio.id;
         $scope.gruposSelecionados = $scope.currentAnel.gruposSemaforicos.filter(function(grupo) {
           return !!_.filter(grupo.estagioGrupoSemaforicos, {estagio: {id: estagioId}}).length;
         });
@@ -272,7 +272,7 @@ angular.module('influuntApp')
 
       $scope.criaAneis = function(controlador) {
         controlador.aneis = _.orderBy(controlador.aneis, ['posicao'], ['asc']).map(function(anel, key) {
-          anel.id_anel = controlador.idControlador + '-' + (key + 1);
+          anel.id_anel = controlador.CLC + '-' + (key + 1);
           anel.posicao = anel.posicao || (key + 1);
           anel.valid = {
             form: true
