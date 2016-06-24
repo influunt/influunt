@@ -16,7 +16,7 @@ angular.module('influuntApp')
         latitude: '=',
         longitude: '='
       },
-      link: function postLink(scope, element, attrs) {
+      link: function postLink(scope) {
         scope.$watch('ngModel', function(value) {
           if (value && value.geometry && location) {
             scope.latitude = value.geometry.location.lat();
