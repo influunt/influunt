@@ -30,42 +30,27 @@
                     <img ng-src="{{ estagio.imagem.id | imageSource }}" style="width: 155px;">
                   </figure>
                 </div>
-                <!--
-                <div class="upload-figure">
-                  <figure custom-background="estagio.imagem.id | imageSource" style="background-size: cover; background-repeat: no-repeat; background-position: center center;">
-                    <form class="dropzone" enctype="multipart/form-data"
-                        influunt-dropzone anel="currentAnel"
-                        on-success="relacionaImagemAoEstagio(estagio, upload, imagem)"
-                        style="min-height: 135px; max-height: 135px; padding: 0;">
-                      <div>
-                        <hgroup data-ng-if="!estagio.imagem">
-                          <i class="fa fa-upload" aria-hidden="true"></i>
-                          <label title="Adicione um estágio a este estagio" for="anel-1" class="">
-                            Adicione um Estágioa este Estágio
-                            <img class="attrImg" src="#" alt="" width="250" />
-                          </label>
-                        </hgroup>
-                      </div>
-                      <div class="fallback">
-                        <input name="file" type="file" multiple />
-                      </div>
-                    </form>
-                  </figure>
-                </div>
-                -->
               </div>
               <div class="times-stages">
-                <div class="col-lg-6 col-sm-6 no-padding left">
-                  <div class="col-lg-6 col-sm-6">
-                    <label class="control-label no-padding">Tempo max. de permanência</label>
+                <div class="col-lg-7 col-sm-7 left no-padding">
+                  <div class="col-lg-5 col-sm-5">
+                    <label class="control-label no-padding">Desativação de tempo máximo</label>
                   </div>
-                  <div class="col-lg-6 col-sm-6 no-padding">
-                    <input type="number" ng-model="estagio.tempoMaximoPermanencia" class="form-control">
+                  <div class="col-lg-7 col-sm-7 no-padding">
+                    <div class="input-group m-b">
+                      <span class="input-group-addon padding-5">
+                        <input type="checkbox" ichecks data-ng-model="estagio.tempoMaximoPermanenciaAtivo"
+                          if-unchecked="toggleTempoPermanencia(estagio)">
+                      </span>
+                      <input type="number" ng-model="estagio.tempoMaximoPermanencia"
+                        data-ng-disabled="!estagio.tempoMaximoPermanenciaAtivo" class="form-control">
+                      <span class="input-group-addon" style="padding: 6px;">seg.</span>
+                    </div>
                   </div>
                 </div>
-                <div class="col-lg-6 col-sm-6 no-padding left">
-                  <label class="checkbox-inline i-checks right">
-                    <div class="col-lg-10 col-sm-10 left">Demanda prioritária</div>
+                <div class="col-md-offset-1 col-lg-4 col-sm-4 right">
+                  <label class="checkbox-inline i-checks right demanda-prioritaria">
+                    Demanda prioritária
                     <input type="checkbox" ichecks data-ng-model="estagio.demandaPrioritaria">
                   </label>
                 </div>

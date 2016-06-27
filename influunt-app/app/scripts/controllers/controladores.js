@@ -116,6 +116,13 @@ angular.module('influuntApp')
                 grupo.estagiosAtivados[estagioGrupo.estagio.id] = estagioGrupo.ativo;
               });
             });
+
+            // Inicializa o tempoMaximoPermanenciaAtivo true para os casos onde este
+            // já está preenchido.
+            _.each(anel.estagios, function(estagio) {
+              estagio.tempoMaximoPermanenciaAtivo = !!estagio.tempoMaximoPermanencia;
+            });
+
           });
 
           $scope.aneis = _.orderBy($scope.aneis, ['posicao'], ['asc']);
@@ -201,6 +208,16 @@ angular.module('influuntApp')
 
       $scope.closeAlert = function() {
         $scope.validacoes.alerts = [];
+      };
+
+      /**
+       * Limpa o tempo máximo de permanência do estágio caso o usuário uncheck o
+       * checkbox de tempo máximo de permanência.
+       *
+       * @param      {<type>}  estagio  The estagio
+       */
+      $scope.toggleTempoPermanencia = function(estagio) {
+        estagio.tempoMaximoPermanencia = null;
       };
 
       $scope.toggleVerdeConflitante = function(x, y, disabled) {

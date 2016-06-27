@@ -28,6 +28,13 @@ li.anel-selecionado {
   }
 }
 
+label.demanda-prioritaria {
+  div.icheckbox_square-green {
+    bottom: 10px;
+    left: 10px;
+  }
+}
+
 i.sinal-verde-conflitante {
   display: none;
   color: #ED5766;
