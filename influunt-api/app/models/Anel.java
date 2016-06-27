@@ -305,7 +305,6 @@ public class Anel extends Model {
                 grupoSemaforico.setAnel(this);
                 grupoSemaforico.setPosicao(this.getControlador().getGruposSemaforicos().size() + 1);
                 grupoSemaforico.setControlador(this.getControlador());
-//                grupoSemaforico.save();
                 getGruposSemaforicos().add(grupoSemaforico);
                 this.getControlador().getGruposSemaforicos().add(grupoSemaforico);
             }
