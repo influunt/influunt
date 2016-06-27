@@ -16,7 +16,7 @@
     "fornecedor": "Fornecedor",
     "gruposPedestres": "Grupos de pedestres",
     "gruposSinaisVeiculares": "Grupos de sinais veiculares",
-    "idControlador": "ID Controlador",
+    "CLC": "CLC",
     "latitude": "Latitude",
     "localizacao": "Localização",
     "longitude": "Longitude",
@@ -26,7 +26,7 @@
     "maxEstagios": "No estágios",
     "maxGrupoSemaforos": "No grupos de semáforos",
     "modelo": "Modelo",
-    "movimentos": "Movimentos",
+    "estagios": "Estágios",
     "novo": "Novo Controlador",
     "numeroDetectores": "No detectores",
     "numeroDetectoresPedestres": "No detectores pedestres",
@@ -148,12 +148,6 @@
         "previous": "Anterior",
         "loading": "carregando"
       }
-    }
-  },
-  "validacoesAPI": {
-    "controlador": {
-      "mayNotBeNull": "<strong>{CAMPO}</strong> precisa ser preenchido",
-      "umAnelAtivoDeveTerAoMenosDoisMovimentoENoMaximoOLimiteDoModeloDoControlador": "um anel ativo deve ter ao menos <strong>dois movimento</strong> e no maximo o <strong>limite do modelo do controlador</strong>"
     }
   }
 }

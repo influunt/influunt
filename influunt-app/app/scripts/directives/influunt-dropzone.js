@@ -21,6 +21,25 @@ angular.module('influuntApp')
         onSuccess: '&'
       },
       link: function postLink(scope, element) {
+        /**
+         * A cada troca de anel, este watcher deverá esconder os itens que
+         * não são deste anel e exibir aqueles que são deles.
+         */
+        var filterVisiblePreviews = function() {
+          $('.dz-preview[data-anel-id="' + scope.anel.idAnel + '"]').show();
+          $('.dz-preview:not([data-anel-id="' + scope.anel.idAnel + '"])').hide();
+        };
+
+        scope.$watch('anel.idAnel', function(value) {
+          return value && filterVisiblePreviews();
+        });
+
+        scope.$watch(function() {
+          return $(element).children('.dz-preview').length;
+        }, function(val) {
+          return val > 0 && filterVisiblePreviews();
+        });
+
         $(element).dropzone({
           url: APP_ROOT + '/imagens',
           dictDefaultMessage: 'Arraste imagens para este local',
@@ -37,17 +56,10 @@ angular.module('influuntApp')
             var anel = scope.anel;
 
             // Adiciona o anel id ao elemento do preview. Este id será utilizado
-            // para filtrar as imagens de movimentos para os diferentes aneis.
+            // para filtrar as imagens de estagios para os diferentes aneis.
             $('.dz-preview').filter(function() {
               return !$(this).attr('data-anel-id');
-            }).attr('data-anel-id', anel.id_anel);
-
-            // A cada troca de anel, este watcher deverá esconder os itens que
-            // não são deste anel e exibir aqueles que são deles.
-            scope.$watch('anel.id_anel', function(value) {
-              $('.dz-preview[data-anel-id="' + value + '"]').show();
-              $('.dz-preview:not([data-anel-id="' + value + '"])').hide();
-            });
+            }).attr('data-anel-id', anel.idAnel);
 
             return scope.onSuccess({upload: upload, imagem: imagem});
           }

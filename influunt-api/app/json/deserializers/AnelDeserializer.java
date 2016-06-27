@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Anel;
+import models.Estagio;
 import models.GrupoSemaforico;
 import play.libs.Json;
 
@@ -36,6 +37,14 @@ public class AnelDeserializer extends JsonDeserializer<Anel> {
             }
             if (node.has("descricao")) {
                 anel.setDescricao(node.get("descricao").asText());
+            }
+            if (node.has("estagios")) {
+                List<Estagio> estagios = new ArrayList<Estagio>();
+                for (JsonNode estagioNode : node.get("estagios")) {
+                    estagios.add(Json.fromJson(estagioNode, Estagio.class));
+                }
+
+                anel.setEstagios(estagios);
             }
             if (node.has("ativo")) {
                 anel.setAtivo(node.get("ativo").asBoolean());

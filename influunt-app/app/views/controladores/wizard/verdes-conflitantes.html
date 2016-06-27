@@ -4,10 +4,10 @@
       <div class="bxslider">
         <ul class="bxslider">
           <div data-ng-repeat="anel in objeto.aneis">
-            <li data-ng-repeat="movimento in anel.movimentos">
+            <li data-ng-repeat="estagio in anel.estagios">
               <figure class="rings-{{ anel.posicao }}">
-                <img ng-src="{{ movimento.imagem.id | imageSource }}" style="width: 200px;">
-                <p>{{ movimento.imagem.descricao }}</p>
+                <img ng-src="{{ estagio.imagem.id | imageSource }}" style="width: 200px;">
+                <p>{{ estagio.imagem.descricao }}</p>
               </figure>
             </li>
           </div>
