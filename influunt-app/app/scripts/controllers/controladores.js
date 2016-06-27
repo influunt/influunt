@@ -18,7 +18,7 @@ angular.module('influuntApp')
 
       // Seta URL para salvar imagens
       $scope.dados = {
-        imagensUrl: APP_ROOT + "/imagens"
+        imagensUrl: APP_ROOT + '/imagens'
       };
 
       /**

@@ -11,15 +11,15 @@ describe('Directive: wizardSteps', function () {
   beforeEach(inject(function ($rootScope, $compile) {
     scope = $rootScope.$new();
     element = '<ul wizard-steps><li class="current"></li><li></li><li></li><li></li><li></li></ul>';
-    element = angular.element(element)
+    element = angular.element(element);
     element = $compile(element)(scope);
     scope.$apply();
   }));
 
-  it('Se o primeiro for o elemento corrente, somente ele deverá estar ativo.', inject(function($compile) {
+  it('Se o primeiro for o elemento corrente, somente ele deverá estar ativo.', function() {
     var tabsInativas = element.children('.disabled');
     expect(tabsInativas.length).toBe(4);
-  }));
+  });
 
   it('Se o wizard avançar para o passo seguinte, o passo anterior deverá permanecer ativo', function() {
     var primeiraTab = element.children('li.current');
@@ -53,7 +53,7 @@ describe('Directive: wizardSteps', function () {
 
   it('se não houver uma tab current, todas deverão permanecer desativadas', inject(function($compile) {
     element = '<ul wizard-steps><li></li><li></li><li></li><li></li><li></li></ul>';
-    element = angular.element(element)
+    element = angular.element(element);
     element = $compile(element)(scope);
     scope.$apply();
     expect(element.children('li.disabled').length).toBe(5);

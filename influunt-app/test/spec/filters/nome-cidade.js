@@ -17,7 +17,7 @@ describe('Filter: nomeCidade', function () {
 
   it('Deve retornar o nome da cidade quando houver uma cidade', function() {
     var cidade = {
-      nome: "cidade A"
+      nome: 'cidade A'
     };
 
     expect(nomeCidade(cidade)).toBe(cidade.nome);

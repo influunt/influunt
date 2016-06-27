@@ -72,7 +72,7 @@ describe('Controller: ControladoresCtrl', function () {
     var helpers;
 
     beforeEach(function() {
-      helpers = {"cidades":[{},{}],"fabricantes":[{},{},{}]};
+      helpers = {cidades:[{},{}],fabricantes:[{},{},{}]};
       $httpBackend.expectGET('/helpers/controlador').respond(helpers);
       scope.inicializaWizard();
       $httpBackend.flush();
