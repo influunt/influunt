@@ -272,7 +272,7 @@ angular.module('influuntApp')
 
       $scope.criaAneis = function(controlador) {
         controlador.aneis = _.orderBy(controlador.aneis, ['posicao'], ['asc']).map(function(anel, key) {
-          anel.id_anel = controlador.CLC + '-' + (key + 1);
+          anel.idAnel = controlador.CLC + '-' + (key + 1);
           anel.posicao = anel.posicao || (key + 1);
           anel.valid = {
             form: true

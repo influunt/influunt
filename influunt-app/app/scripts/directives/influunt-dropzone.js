@@ -26,11 +26,11 @@ angular.module('influuntApp')
          * não são deste anel e exibir aqueles que são deles.
          */
         var filterVisiblePreviews = function() {
-          $('.dz-preview[data-anel-id="' + scope.anel.id_anel + '"]').show();
-          $('.dz-preview:not([data-anel-id="' + scope.anel.id_anel + '"])').hide();
+          $('.dz-preview[data-anel-id="' + scope.anel.idAnel + '"]').show();
+          $('.dz-preview:not([data-anel-id="' + scope.anel.idAnel + '"])').hide();
         };
 
-        scope.$watch('anel.id_anel', function(value) {
+        scope.$watch('anel.idAnel', function(value) {
           return value && filterVisiblePreviews();
         });
 
@@ -59,7 +59,7 @@ angular.module('influuntApp')
             // para filtrar as imagens de estagios para os diferentes aneis.
             $('.dz-preview').filter(function() {
               return !$(this).attr('data-anel-id');
-            }).attr('data-anel-id', anel.id_anel);
+            }).attr('data-anel-id', anel.idAnel);
 
             return scope.onSuccess({upload: upload, imagem: imagem});
           }
