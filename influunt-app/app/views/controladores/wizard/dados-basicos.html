@@ -15,24 +15,20 @@
                   data-ng-options="cidade as cidade.nome for cidade in data.cidades track by cidade.id"></select>
               </div>
 
-              <!-- <div class="form-group" data-ng-class="{'has-error': formDadosBasicos.area.$invalid && (!formDadosBasicos.area.$pristine || submited)}"> -->
-              <div class="form-group">
+              <div class="form-group" data-ng-class="{'has-error': errors.area}">
                 <label>{{ 'controladores.area' | translate }}:</label>
                 <select name="area" class="form-control"
                   data-ng-options="area.id as area.descricao for area in helpers.cidade.areas"
                   data-ng-model="objeto.area.id"></select>
-                  <!-- <p ng-show="formDadosBasicos.area.$invalid && (!formDadosBasicos.area.$pristine || submited)"
-                    class="help-block error-msg">
-                      {{ 'geral.campo_obrigatorio' | translate }}
-                  </p> -->
+                <p class="help-block error-msg">{{ errors.area }}</p>
               </div>
 
               <!-- <div class="form-group" data-ng-class="{'has-error': formDadosBasicos.descricao.$invalid && (!formDadosBasicos.descricao.$pristine || submited)}"> -->
               <div class="form-group">
-                <label>{{ 'controladores.descricao' | translate }}:</label>
-                <textarea type="text" name="descricao" class="form-control"
-                  data-ng-model="objeto.descricao"></textarea>
-                <!-- <p ng-show="formDadosBasicos.descricao.$invalid && (!formDadosBasicos.descricao.$pristine || submited)"
+                <label>{{ 'controladores.localizacao' | translate }}:</label>
+                <textarea type="text" name="localizacao" class="form-control"
+                  data-ng-model="objeto.localizacao"></textarea>
+                <!-- <p ng-show="formDadosBasicos.localizacao.$invalid && (!formDadosBasicos.localizacao.$pristine || submited)"
                   class="help-block error-msg">
                     {{ 'geral.campo_obrigatorio' | translate }}
                 </p> -->

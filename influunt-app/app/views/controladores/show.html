@@ -6,7 +6,7 @@
           <div class="ibox-title">
             <h5>
               {{ pageTitle | translate }}
-              <small style="margin-left: 2px;">{{ objeto.descricao }} - #{{ minid }}</small>
+              <small style="margin-left: 2px;">{{ objeto.localizacao }} - #{{ minid }}</small>
             </h5>
           </div>
           <div class="ibox-content">
@@ -16,8 +16,8 @@
                   <table class="table table-bordered table-striped">
                     <tbody>
                       <tr>
-                        <th>{{ 'controladores.descricao' | translate }}</th>
-                        <th>{{ objeto.descricao }}</th>
+                        <th>{{ 'controladores.localizacao' | translate }}</th>
+                        <th>{{ objeto.localizacao }}</th>
                       </tr>
                       <tr>
                         <th>{{ 'controladores.firmware' | translate }}</th>

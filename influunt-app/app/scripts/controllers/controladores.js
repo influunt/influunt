@@ -173,7 +173,9 @@ angular.module('influuntApp')
               $state.go(nextStep, {id: $scope.objeto.id});
             })
             .catch(function(res) {
-              $scope.mensagemValidacaoForm(res);
+              if (res.status === 422) {
+                $scope.builValidationMessages(res.data);
+              }
             });
         }
       };
@@ -260,19 +262,19 @@ angular.module('influuntApp')
         });
       };
 
-      $scope.mensagemValidacaoForm = function(res) {
-        var messages = res && res.data && res.data.map(function(a) {
-          return {
-            // msg: 'validacoesAPI.' + _.lowerCase(a.root) + '.' + _.camelCase(a.message),
-            msg: a.message,
-            params: {
-              CAMPO: a.path
-            }
-          };
-        });
+      // $scope.mensagemValidacaoForm = function(res) {
+      //   var messages = res && res.data && res.data.map(function(a) {
+      //     return {
+      //       // msg: 'validacoesAPI.' + _.lowerCase(a.root) + '.' + _.camelCase(a.message),
+      //       msg: a.message,
+      //       params: {
+      //         CAMPO: a.path
+      //       }
+      //     };
+      //   });
 
-        $scope.validacoes.alerts = messages;
-      };
+      //   $scope.validacoes.alerts = messages;
+      // };
 
       $scope.criaAneis = function(controlador) {
         controlador.aneis = _.orderBy(controlador.aneis, ['posicao'], ['asc']).map(function(anel, key) {
@@ -317,4 +319,14 @@ angular.module('influuntApp')
           }
         });
       };
+
+      $scope.builValidationMessages = function(errors) {
+        $scope.errors = {};
+        if (angular.isArray(errors)) {
+          errors.forEach(function(err) {
+            $scope.errors[err.path] = err.message;
+          });
+        }
+      };
+
     }]);
