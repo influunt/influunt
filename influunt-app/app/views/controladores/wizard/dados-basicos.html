@@ -20,14 +20,14 @@
                 <select name="area" class="form-control"
                   data-ng-options="area.id as area.descricao for area in helpers.cidade.areas"
                   data-ng-model="objeto.area.id"></select>
-                <p class="help-block error-msg">{{ errors.area }}</p>
+                <p class="help-block error-msg" data-ng-repeat="error in errors.area">{{ error }}</p>
               </div>
 
               <div class="form-group" data-ng-class="{'has-error': errors.localizacao}">
                 <label class="col-sm-12 no-padding control-label">{{ 'controladores.localizacao' | translate }}:</label>
                 <textarea type="text" name="localizacao" class="form-control"
                   data-ng-model="objeto.localizacao"></textarea>
-                <p class="help-block error-msg">{{ errors.localizacao }}</p>
+                <p class="help-block error-msg" data-ng-repeat="error in errors.localizacao">{{ error }}</p>
               </div>
 
               <div class="form-group">
@@ -102,7 +102,7 @@
                   <label class="col-sm-12 no-padding control-label">{{ 'controladores.latitude' | translate }}:</label>
                   <input type="number" name="latitude" class="form-control"
                     data-ng-model="objeto.latitude">
-                  <p class="help-block error-msg" data-ng-show="errors.latitude">{{ errors.latitude }}</p>
+                  <p class="help-block error-msg" data-ng-repeat="error in errors.latitude">{{ error }}</p>
                 </div>
               </div>
               <div class="col-lg-6 col-sm-6 no-padding-right" data-ng-class="{'has-error': errors.longitude}">
@@ -110,7 +110,7 @@
                   <label class="col-sm-12 no-padding control-label">{{ 'controladores.longitude' | translate }}:</label>
                   <input type="number" name="longitude" class="form-control"
                     data-ng-model="objeto.longitude">
-                  <p class="help-block error-msg" data-ng-show="errors.longitude">{{ errors.longitude }}</p>
+                  <p class="help-block error-msg" data-ng-repeat="error in errors.longitude">{{ error }}</p>
                 </div>
               </div>
             </div>
@@ -129,7 +129,7 @@
                   <select name="modelo" class="form-control"
                     data-ng-options="modelo as modelo.descricao for modelo in helpers.fornecedor.modelos track by modelo.id"
                     data-ng-model="objeto.modelo"></select>
-                  <p class="help-block error-msg" data-ng-show="errors.modelo">{{ errors.modelo }}</p>
+                  <p class="help-block error-msg" data-ng-repeat="error in errors.modelo">{{ error }}</p>
                 </div>
               </div>
 

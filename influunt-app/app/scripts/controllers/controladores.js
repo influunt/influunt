@@ -92,10 +92,10 @@ angular.module('influuntApp')
 
       $scope.inicializaAneis = function() {
         return $scope.inicializaWizard().then(function() {
-          $scope.currentAnelId = 0;
+          $scope.currentAnelIndex = 0;
           $scope.criaAneis($scope.objeto);
           $scope.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
-          $scope.currentAnel = $scope.objeto.aneis[$scope.currentAnelId];
+          $scope.currentAnel = $scope.objeto.aneis[$scope.currentAnelIndex];
         });
       };
 
@@ -160,7 +160,6 @@ angular.module('influuntApp')
       };
 
       $scope.submitForm = function(form, stepResource, nextStep) {
-        $scope.submited = true;
         if (form.$valid) {
           Restangular
             .all('controladores')
@@ -168,7 +167,6 @@ angular.module('influuntApp')
             .post($scope.objeto)
             .then(function(res) {
               $scope.objeto = res;
-              $scope.submited = false;
 
               $state.go(nextStep, {id: $scope.objeto.id});
             })
@@ -181,8 +179,8 @@ angular.module('influuntApp')
       };
 
       $scope.selecionaAnel = function(index) {
-        $scope.currentAnelId = index;
-        $scope.currentAnel = $scope.aneis[$scope.currentAnelId];
+        $scope.currentAnelIndex = index;
+        $scope.currentAnel = $scope.aneis[$scope.currentAnelIndex];
 
         if (angular.isDefined($scope.currentEstagioId)) {
           $scope.selecionaEstagio($scope.currentEstagioId);
@@ -195,8 +193,16 @@ angular.module('influuntApp')
         $scope.atualizaGruposSemaforicosSelecionados();
       };
 
-      $scope.closeAlert = function() {
-        $scope.validacoes.alerts = [];
+      /**
+       * Deleta a lista de mensagens de validações globais exibidas para determinado
+       * anel.
+       *
+       * @param      {<type>}  index   The index
+       */
+      $scope.closeAlertAnel = function(index) {
+        if ($scope.errors && $scope.errors.aneis[index]) {
+          delete $scope.errors.aneis[index].general;
+        }
       };
 
       /**
@@ -321,12 +327,35 @@ angular.module('influuntApp')
       };
 
       $scope.builValidationMessages = function(errors) {
-        $scope.errors = {};
+        $scope.validations = {};
         if (angular.isArray(errors)) {
           errors.forEach(function(err) {
-            $scope.errors[err.path] = err.message;
+            var path = err.path.match(/\d+\]$/) ? err.path + '.general' : err.path;
+            if (!path) {
+              path = 'general';
+            }
+
+            $scope.validations[path] = $scope.validations[path] || [];
+            $scope.validations[path].push(err.message);
+          });
+
+          $scope.errors = {};
+          _.each($scope.validations, function(val, key) {
+            _.update($scope.errors, key, _.constant(val));
           });
         }
+      };
+
+      /**
+       * Deve informar que determinado anel possui erros caso haja uma lista de
+       * erros para determinado anel.
+       *
+       * @param      {<type>}  indice  The indice
+       * @return     {<type>}  { description_of_the_return_value }
+       */
+      $scope.anelTemErro = function(indice) {
+        var errors = _.get($scope.errors, 'aneis[' + indice + ']');
+        return _.isObject(errors) && Object.keys(errors).length > 0;
       };
 
     }]);

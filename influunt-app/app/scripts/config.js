@@ -365,26 +365,6 @@ angular
           }
         })
 
-				// Dados
-        .state('app.dados', {
-          url: '/dados',
-          templateUrl: 'views/dados.html',
-          data: {
-            title: 'Example view'
-          }
-        })
-
-        // Rotas de teste. Podem ser removidas em breve.
-        .state('app.wizard', {
-          url: '/wizard',
-          templateUrl: 'views/controladores/dados.html',
-          controller: 'ControladoresCtrl',
-          controllerAs: 'controladores',
-          data: {
-            title: 'controladores.titulo'
-          }
-        })
-
         .state('index', {
           abstract: true,
           url: '/index',

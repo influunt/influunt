@@ -102,7 +102,7 @@ describe('Controller: ControladoresCtrl', function () {
       });
 
       it('Deve iniciar a tela com o primeiro anel selecionado', function() {
-        expect(scope.currentAnelId).toBe(0);
+        expect(scope.currentAnelIndex).toBe(0);
         expect(scope.currentAnel).toBe(scope.aneis[0]);
       });
 

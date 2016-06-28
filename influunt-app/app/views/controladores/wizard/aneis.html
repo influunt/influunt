@@ -1,5 +1,15 @@
 <fieldset data-ng-init="inicializaAneis()">
   <div class="row">
+
+    <uib-alert type="danger" close="closeAlertAnel(currentAnelIndex)" data-ng-if="errors.aneis[currentAnelIndex].general">
+      <div style="padding-left: 12px;">
+        <ul>
+          <li data-ng-repeat="message in errors.general">{{ message }}</li>
+          <li data-ng-repeat="message in errors.aneis[currentAnelIndex].general">{{ message }}</li>
+        </ul>
+      </div>
+    </uib-alert>
+
     <div class="text-center m-t-md rings pd-lf-rt">
       <div class="col-lg-3 col-sm-3 rings-status bg-border">
         <div class="col-lg-4 col-sm-4"><p class="activ">{{ 'controladores.ativo' | translate | uppercase }}</p></div>
@@ -10,7 +20,7 @@
            <ul>
             <li data-ng-repeat="anel in aneis"
                 data-ng-click="selecionaAnel($index)"
-                data-ng-class="{'anel-selecionado': $index === currentAnelId}" class="row">
+                data-ng-class="{'anel-selecionado': $index === currentAnelIndex}" class="row">
               <div class="col-xs-1">
                 <span class="number">{{ $index + 1 }}</span>
               </div>
@@ -25,7 +35,7 @@
                 <label>{{ anel.idAnel }}</label>
               </div>
               <div class="col-xs-1">
-                <span class="badge badge-danger" ng-show="!anel.valid.form">
+                <span class="badge badge-danger" ng-show="anelTemErro($index)">
                   <i class="fa fa-exclamation"></i>
                 </span>
               </div>
@@ -119,28 +129,21 @@
               </div>
             </div>
 
-            <div class="col-lg-6 col-sm-6 no-padding">
-              <!-- <div class="form-group" data-ng-class="{'has-error': currentAnel && !currentAnel.valid.form && !currentAnel.valid.required.latitude && !currentAnel.latitude}"> -->
+            <div class="col-lg-6 col-sm-6 no-padding" data-ng-class="{'has-error': errors.aneis[currentAnelIndex].latitudeOk}">
               <div class="form-group">
-                <label>{{ 'controladores.latitude' | translate }}:</label>
+                <label class="col-sm-12 no-padding control-label">{{ 'controladores.latitude' | translate }}:</label>
                 <input type="number" placeholder="" name="latitude" class="form-control"
                   data-ng-model="currentAnel.latitude">
-                <!-- <p ng-show="currentAnel && !currentAnel.valid.form && !currentAnel.valid.required.latitude && !currentAnel.latitude"
-                  class="help-block error-msg">
-                    {{ 'geral.campo_obrigatorio' | translate }}
-                </p> -->
+                <p class="help-block error-msg" data-ng-repeat="error in errors.aneis[currentAnelIndex].latitudeOk">{{ error }}</p>
               </div>
             </div>
-            <!-- <div class="col-lg-6 col-sm-6 no-padding-right" data-ng-class="{'has-error': currentAnel && !currentAnel.valid.form && !currentAnel.valid.required.longitude && !currentAnel.longitude}"> -->
-            <div class="col-lg-6 col-sm-6 no-padding-right">
+
+            <div class="col-lg-6 col-sm-6 no-padding-right" data-ng-class="{'has-error': errors.aneis[currentAnelIndex].longitudeOk}">
               <div class="form-group">
-                <label>{{ 'controladores.longitude' | translate }}:</label>
+                <label class="col-sm-12 no-padding control-label">{{ 'controladores.longitude' | translate }}:</label>
                 <input type="number" placeholder="" name="longitude" class="form-control"
                   data-ng-model="currentAnel.longitude">
-                <!-- <p ng-show="currentAnel && !currentAnel.valid.form && !currentAnel.valid.required.longitude && !currentAnel.longitude"
-                  class="help-block error-msg">
-                    {{ 'geral.campo_obrigatorio' | translate }}
-                </p> -->
+                <p class="help-block error-msg" data-ng-repeat="error in errors.aneis[currentAnelIndex].longitudeOk">{{ error }}</p>
               </div>
             </div>
           </div>

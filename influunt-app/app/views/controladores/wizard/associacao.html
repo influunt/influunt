@@ -7,7 +7,7 @@
             <ul>
               <li data-ng-repeat="anel in aneis"
                  data-ng-click="selecionaAnel($index)"
-                 data-ng-class="{'anel-selecionado': $index === currentAnelId}" class="row">
+                 data-ng-class="{'anel-selecionado': $index === currentAnelIndex}" class="row">
                   <label>Anel {{ anel.posicao }}</label>
               </li>
             </ul>
