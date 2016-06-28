@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresCtrl', ['$controller', '$scope', '$state','Restangular', 'validacoesAneis', '$q', 'APP_ROOT',
-    function ($controller, $scope, $state, Restangular, validacoesAneis, $q, APP_ROOT) {
+  .controller('ControladoresCtrl', ['$controller', '$scope', '$state','Restangular', '$q', 'APP_ROOT',
+    function ($controller, $scope, $state, Restangular, $q, APP_ROOT) {
 
       // Herda todo o comportamento do crud basico.
       $controller('CrudCtrl', {$scope: $scope});
@@ -176,19 +176,6 @@ angular.module('influuntApp')
               $scope.mensagemValidacaoForm(res);
             });
         }
-      };
-
-      $scope.submitFormAneis = function(nextStep) {
-        var stepResource = 'aneis';
-        if (validacoesAneis.valida($scope.objeto.aneis, $scope.objeto)) {
-          $scope.submitForm({$valid: true}, stepResource, nextStep);
-        } else {
-          $scope.validacoes.alerts = validacoesAneis.retornaMensagensValidacao($scope.objeto.aneis);
-        }
-      };
-
-      $scope.submitVerdesConflitantes = function() {
-        $scope.submitForm({$valid: true}, 'verdes_conflitantes', 'app.controladores');
       };
 
       $scope.selecionaAnel = function(index) {

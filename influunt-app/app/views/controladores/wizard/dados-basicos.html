@@ -15,34 +15,37 @@
                   data-ng-options="cidade as cidade.nome for cidade in data.cidades track by cidade.id"></select>
               </div>
 
-              <div class="form-group" data-ng-class="{'has-error': formDadosBasicos.area.$invalid && (!formDadosBasicos.area.$pristine || submited)}">
+              <!-- <div class="form-group" data-ng-class="{'has-error': formDadosBasicos.area.$invalid && (!formDadosBasicos.area.$pristine || submited)}"> -->
+              <div class="form-group">
                 <label>{{ 'controladores.area' | translate }}:</label>
                 <select name="area" class="form-control"
                   data-ng-options="area.id as area.descricao for area in helpers.cidade.areas"
-                  data-ng-model="objeto.area.id" required></select>
-                  <p ng-show="formDadosBasicos.area.$invalid && (!formDadosBasicos.area.$pristine || submited)"
+                  data-ng-model="objeto.area.id"></select>
+                  <!-- <p ng-show="formDadosBasicos.area.$invalid && (!formDadosBasicos.area.$pristine || submited)"
                     class="help-block error-msg">
                       {{ 'geral.campo_obrigatorio' | translate }}
-                  </p>
+                  </p> -->
               </div>
 
-              <div class="form-group" data-ng-class="{'has-error': formDadosBasicos.descricao.$invalid && (!formDadosBasicos.descricao.$pristine || submited)}">
+              <!-- <div class="form-group" data-ng-class="{'has-error': formDadosBasicos.descricao.$invalid && (!formDadosBasicos.descricao.$pristine || submited)}"> -->
+              <div class="form-group">
                 <label>{{ 'controladores.descricao' | translate }}:</label>
                 <textarea type="text" name="descricao" class="form-control"
-                  data-ng-model="objeto.descricao" required></textarea>
-                <p ng-show="formDadosBasicos.descricao.$invalid && (!formDadosBasicos.descricao.$pristine || submited)"
+                  data-ng-model="objeto.descricao"></textarea>
+                <!-- <p ng-show="formDadosBasicos.descricao.$invalid && (!formDadosBasicos.descricao.$pristine || submited)"
                   class="help-block error-msg">
                     {{ 'geral.campo_obrigatorio' | translate }}
-                </p>
+                </p> -->
               </div>
-              <div class="form-group" data-ng-class="{'has-error': formDadosBasicos.numeroSMEE.$invalid && (!formDadosBasicos.numeroSMEE.$pristine || submited)}">
+              <!-- <div class="form-group" data-ng-class="{'has-error': formDadosBasicos.numeroSMEE.$invalid && (!formDadosBasicos.numeroSMEE.$pristine || submited)}"> -->
+              <div class="form-group">
                 <label>{{ 'controladores.numeroSMEE' | translate }}:</label>
                 <input type="text" name="numeroSMEE" class="form-control"
-                  data-ng-model="objeto.numeroSMEE" required>
-                <p ng-show="formDadosBasicos.numeroSMEE.$invalid && (!formDadosBasicos.numeroSMEE.$pristine || submited)"
+                  data-ng-model="objeto.numeroSMEE">
+                <!-- <p ng-show="formDadosBasicos.numeroSMEE.$invalid && (!formDadosBasicos.numeroSMEE.$pristine || submited)"
                   class="help-block error-msg">
                     {{ 'geral.campo_obrigatorio' | translate }}
-                </p>
+                </p> -->
               </div>
 
               <div class="form-group">
@@ -77,14 +80,15 @@
                 </div>
               </div>
 
-              <div class="form-group" data-ng-class="{'has-error': formDadosBasicos.firmware.$invalid && (!formDadosBasicos.firmware.$pristine || submited)}">
+              <!-- <div class="form-group" data-ng-class="{'has-error': formDadosBasicos.firmware.$invalid && (!formDadosBasicos.firmware.$pristine || submited)}"> -->
+              <div class="form-group">
                 <label>{{ 'controladores.versaoFirmware' | translate }}:</label>
                 <input type="text" name="firmware" class="form-control"
-                  data-ng-model="objeto.firmware" required>
-                <p ng-show="formDadosBasicos.firmware.$invalid && (!formDadosBasicos.firmware.$pristine || submited)"
+                  data-ng-model="objeto.firmware">
+                <!-- <p ng-show="formDadosBasicos.firmware.$invalid && (!formDadosBasicos.firmware.$pristine || submited)"
                   class="help-block error-msg">
                     {{ 'geral.campo_obrigatorio' | translate }}
-                </p>
+                </p> -->
               </div>
 
               <footer class="form-group">
@@ -111,25 +115,27 @@
               </div>
 
               <div class="col-lg-6 col-sm-6 no-padding">
-                <div class="form-group" data-ng-class="{'has-error': formDadosBasicos.latitude.$invalid && (!formDadosBasicos.latitude.$pristine || submited)}">
+                <!-- <div class="form-group" data-ng-class="{'has-error': formDadosBasicos.latitude.$invalid && (!formDadosBasicos.latitude.$pristine || submited)}"> -->
+                <div class="form-group">
                   <label>{{ 'controladores.latitude' | translate }}:</label>
                   <input type="number" name="latitude" class="form-control"
-                    data-ng-model="objeto.latitude" required>
-                  <p ng-show="formDadosBasicos.latitude.$invalid && (!formDadosBasicos.latitude.$pristine || submited)"
+                    data-ng-model="objeto.latitude">
+                  <!-- <p ng-show="formDadosBasicos.latitude.$invalid && (!formDadosBasicos.latitude.$pristine || submited)"
                     class="help-block error-msg">
                       {{ 'geral.campo_obrigatorio' | translate }}
-                  </p>
+                  </p> -->
                 </div>
               </div>
               <div class="col-lg-6 col-sm-6 no-padding-right">
-                <div class="form-group" data-ng-class="{'has-error': formDadosBasicos.longitude.$invalid && (!formDadosBasicos.longitude.$pristine || submited)}">
+                <!-- <div class="form-group" data-ng-class="{'has-error': formDadosBasicos.longitude.$invalid && (!formDadosBasicos.longitude.$pristine || submited)}"> -->
+                <div class="form-group">
                   <label>{{ 'controladores.longitude' | translate }}:</label>
                   <input type="number" name="longitude" class="form-control"
-                    data-ng-model="objeto.longitude" required>
-                  <p ng-show="formDadosBasicos.longitude.$invalid && (!formDadosBasicos.longitude.$pristine || submited)"
+                    data-ng-model="objeto.longitude">
+                  <!-- <p ng-show="formDadosBasicos.longitude.$invalid && (!formDadosBasicos.longitude.$pristine || submited)"
                     class="help-block error-msg">
                       {{ 'geral.campo_obrigatorio' | translate }}
-                  </p>
+                  </p> -->
                 </div>
               </div>
             </div>
@@ -142,16 +148,17 @@
                     data-ng-model="helpers.fornecedor"></select>
                 </div>
               </div>
-              <div class="form-group"  data-ng-class="{'has-error': formDadosBasicos.modelo.$invalid && (!formDadosBasicos.modelo.$pristine || submited)}">
+              <!-- <div class="form-group"  data-ng-class="{'has-error': formDadosBasicos.modelo.$invalid && (!formDadosBasicos.modelo.$pristine || submited)}"> -->
+              <div class="form-group">
                 <label class="col-sm-12 no-padding control-label">{{ 'controladores.modelo' | translate }}</label>
                 <div class="col-sm-12 no-padding">
                   <select name="modelo" class="form-control"
                     data-ng-options="modelo as modelo.descricao for modelo in helpers.fornecedor.modelos track by modelo.id"
-                    data-ng-model="objeto.modelo" required></select>
-                  <p ng-show="formDadosBasicos.modelo.$invalid && (!formDadosBasicos.modelo.$pristine || submited)"
+                    data-ng-model="objeto.modelo"></select>
+                  <!-- <p ng-show="formDadosBasicos.modelo.$invalid && (!formDadosBasicos.modelo.$pristine || submited)"
                     class="help-block error-msg">
                       {{ 'geral.campo_obrigatorio' | translate }}
-                  </p>
+                  </p> -->
                 </div>
               </div>
 
