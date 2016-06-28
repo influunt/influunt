@@ -42,6 +42,9 @@ public class GrupoSemaforicoDeserializer extends JsonDeserializer<GrupoSemaforic
             }
             grupoSemaforico.setEstagioGrupoSemaforicos(estagioGrupoSemaforicos);
         }
+        if (node.has("descricao")) {
+            grupoSemaforico.setDescricao(node.get("descricao").asText());
+        }
 
         return grupoSemaforico;
     }

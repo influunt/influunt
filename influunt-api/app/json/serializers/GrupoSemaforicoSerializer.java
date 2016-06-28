@@ -31,6 +31,9 @@ public class GrupoSemaforicoSerializer extends JsonSerializer<GrupoSemaforico> {
         if(grupoSemaforico.getPosicao() != null) {
             jgen.writeNumberField("posicao", grupoSemaforico.getPosicao());
         }
+        if (grupoSemaforico.getDescricao() != null) {
+            jgen.writeStringField("descricao", grupoSemaforico.getDescricao());
+        }
 
         jgen.writeArrayFieldStart("estagioGrupoSemaforicos");
         for (EstagioGrupoSemaforico estagio : grupoSemaforico.getEstagioGrupoSemaforicos()) {

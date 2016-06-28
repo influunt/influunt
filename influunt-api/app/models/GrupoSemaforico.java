@@ -38,6 +38,9 @@ public class GrupoSemaforico extends Model {
     @Column
     private TipoGrupoSemaforico tipo;
 
+    @Column
+    private String descricao;
+
     @ManyToOne
     @JoinColumn(name = "anel_id")
     private Anel anel;
@@ -153,6 +156,10 @@ public class GrupoSemaforico extends Model {
         this.dataAtualizacao = dataAtualizacao;
     }
 
+    public String getDescricao() { return descricao; }
+
+    public void setDescricao(String descricao) { this.descricao = descricao; }
+
     @JsonIgnore
     @AssertTrue(groups = ControladorVerdesConflitantesCheck.class, message = "Esse grupo deve ter ao menos um verde conflitante")
     public boolean isAoMenosUmVerdeConflitante() {
@@ -182,5 +189,4 @@ public class GrupoSemaforico extends Model {
             return true;
         }
     }
-
 }
