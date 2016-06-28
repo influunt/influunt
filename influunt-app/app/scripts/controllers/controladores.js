@@ -241,11 +241,11 @@ angular.module('influuntApp')
 
       $scope.toggleEstagioAtivado = function(grupo, estagio) {
         var estagioId = estagio.id;
-        estagio = _.find(grupo.estagioGrupoSemaforicos, {estagio: {id: estagioId}});
+        var estagioGrupoSemaforico = _.find(grupo.estagioGrupoSemaforicos, {estagio: {id: estagioId}});
 
-        if (!!estagio) {
-          estagio.ativo = !estagio.ativo;
-          grupo.estagiosAtivados[estagio.id] = estagio.ativo;
+        if (!!estagioGrupoSemaforico) {
+          estagioGrupoSemaforico.ativo = !estagioGrupoSemaforico.ativo;
+          grupo.estagiosAtivados[estagioId] = estagioGrupoSemaforico.ativo;
           $scope.$apply();
         }
       };
