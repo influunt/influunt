@@ -6,32 +6,33 @@ var world = new worldObj.World();
 
 var LoginPage = function () {
   var LOGIN_URL = 'http://localhost:9000/#/login';
+  var LOGIN_PATH = '/login'
 
   this.acessar = function() {
-    world.visit(LOGIN_URL);
+    return world.visit(LOGIN_PATH);
   };
 
   this.preencherUsuario = function(usuario) {
-    world.setValue({name: 'usuario'}, usuario);
+    world.setValue('[name="usuario"]', usuario);
   };
 
   this.preencherSenha = function(senha) {
-    world.setValue({name: 'senha'}, senha);
+    world.setValue('[name="senha"]', senha);
   };
 
   this.confirmarFormulario = function() {
-    world.setValue({name: 'senha'}, world.webdriver.Key.ENTER);
+    world.setValue('[name="senha"]', world.webdriver.Key.ENTER);
   };
 
   this.campoUsuarioInvalido = function() {
-    return world.getElements({css: '.usuario p.error-msg:not(.ng-hide)'})
+    return world.getElements('.usuario p.error-msg:not(.ng-hide)')
       .then(function(elements) {
         return elements.length === 1;
       });
   };
 
   this.campoSenhaInvalido = function() {
-    return world.getElements({css: '.senha p.error-msg:not(.ng-hide)'})
+    return world.getElements('.senha p.error-msg:not(.ng-hide)')
       .then(function(elements) {
         return elements.length === 1;
       });

@@ -26,6 +26,7 @@ var getDriver = function() {
 var World = function () {
   var defaultTimeout = 20 * 1000;
   var screenshotPath = 'screenshots';
+  var baseUrl = 'http://localhost/#';
 
   this.webdriver = webdriver;
   this.driver = driver;
@@ -37,28 +38,40 @@ var World = function () {
   this.waitFor = function(cssLocator, timeout) {
     var waitTimeout = timeout || defaultTimeout;
     return driver.wait(function() {
-      return driver.isElementPresent({ css: cssLocator });
+      return driver.isElementPresent(webdriver.By.css(cssLocator));
     }, waitTimeout);
   };
 
-  this.visit = function(url) {
-    return driver.get(url);
+  this.visit = function(path) {
+    return driver.get(baseUrl + path)
   };
 
   this.getCurrentUrl = function() {
     return driver.getCurrentUrl();
   };
 
-  this.setValue = function(selector, value) {
-    return driver.findElement(selector).sendKeys(value);
+  this.setValue = function(cssSelector, value) {
+    return driver.findElement(webdriver.By.css(cssSelector)).sendKeys(value);
   };
 
-  this.clickButton = function(selector) {
-    return driver.findElement(selector).sendKeys(webdriver.Key.ENTER);
+  this.clickButton = function(cssSelector) {
+    return driver.findElement(webdriver.By.css(cssSelector)).sendKeys(webdriver.Key.ENTER);
+  };
+
+  this.getElement = function(selector) {
+    return driver.findElement(webdriver.By.css(selector));
   };
 
   this.getElements = function(selector) {
-    return driver.findElements(selector);
+    return driver.findElements(webdriver.By.css(selector));
+  };
+
+  this.getElementsByXpath = function(xpath) {
+    return driver.findElements(webdriver.By.xpath(xpath));
+  };
+
+  this.findLinkByText = function(text) {
+    return driver.findElement(webdriver.By.linkText(text));
   };
 };
 
