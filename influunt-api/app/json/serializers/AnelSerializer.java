@@ -59,17 +59,21 @@ public class AnelSerializer extends JsonSerializer<Anel> {
             jgen.writeStringField("dataAtualizacao", InfluuntDateTimeSerializer.parse(anel.getDataAtualizacao()));
         }
 
-        jgen.writeArrayFieldStart("estagios");
-        for (Estagio estagio : anel.getEstagios()) {
-            jgen.writeObject(estagio);
+        if (anel.getEstagios() != null) {
+            jgen.writeArrayFieldStart("estagios");
+            for (Estagio estagio : anel.getEstagios()) {
+                jgen.writeObject(estagio);
+            }
+            jgen.writeEndArray();
         }
-        jgen.writeEndArray();
 
-        jgen.writeArrayFieldStart("gruposSemaforicos");
-        for (GrupoSemaforico grp : anel.getGruposSemaforicos()) {
-            jgen.writeObject(grp);
+        if (anel.getGruposSemaforicos() != null) {
+            jgen.writeArrayFieldStart("gruposSemaforicos");
+            for (GrupoSemaforico grp : anel.getGruposSemaforicos()) {
+                jgen.writeObject(grp);
+            }
+            jgen.writeEndArray();
         }
-        jgen.writeEndArray();
 
         jgen.writeEndObject();
     }

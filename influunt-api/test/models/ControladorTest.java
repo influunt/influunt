@@ -104,6 +104,32 @@ public abstract class ControladorTest extends WithApplication {
 
     protected Controlador getControladorAssociacao(){
         Controlador controlador = getControladorAneis();
+        controlador.save();
+
+        Anel anelAtivo = controlador.getAneis().stream().filter(anel -> anel.isAtivo()).findFirst().get();
+
+        Estagio estagio1 = anelAtivo.getEstagios().get(0);
+        Estagio estagio2 = anelAtivo.getEstagios().get(1);
+
+        GrupoSemaforico grupoSemaforico1 = anelAtivo.getGruposSemaforicos().get(0);
+        grupoSemaforico1.setTipo(TipoGrupoSemaforico.PEDESTRE);
+        GrupoSemaforico grupoSemaforico2 = anelAtivo.getGruposSemaforicos().get(1);
+        grupoSemaforico2.setTipo(TipoGrupoSemaforico.VEICULAR);
+
+
+        EstagioGrupoSemaforico estagioGrupoSemaforico1 = new EstagioGrupoSemaforico(estagio1, grupoSemaforico1);
+        EstagioGrupoSemaforico estagioGrupoSemaforico2 = new EstagioGrupoSemaforico(estagio2, grupoSemaforico2);
+
+        estagio1.setDemandaPrioritaria(true);
+        estagio1.setTempoMaximoPermanencia(100);
+        estagio1.addEstagioGrupoSemaforico(estagioGrupoSemaforico1);
+        estagio2.setDemandaPrioritaria(false);
+        estagio2.setTempoMaximoPermanencia(200);
+        estagio2.addEstagioGrupoSemaforico(estagioGrupoSemaforico2);
+
+        grupoSemaforico1.addEstagioGrupoSemaforico(estagioGrupoSemaforico1);
+        grupoSemaforico2.addEstagioGrupoSemaforico(estagioGrupoSemaforico2);
+
         return controlador;
     }
 

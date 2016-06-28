@@ -1,5 +1,6 @@
 package models;
 
+import checks.ControladorAssociacaoGruposSemaforicosCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
@@ -12,6 +13,8 @@ import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import javax.validation.constraints.AssertTrue;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -25,7 +28,7 @@ import java.util.UUID;
 @Table(name = "estagios")
 @JsonSerialize(using = EstagioSerializer.class)
 @JsonDeserialize(using = EstagioDeserializer.class)
-public class Estagio extends Model {
+public class Estagio extends Model implements Serializable {
 
     private static final long serialVersionUID = 5984122994022833262L;
 
@@ -65,8 +68,6 @@ public class Estagio extends Model {
     private Controlador controlador;
 
     private Detector detector;
-
-
 
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
@@ -152,11 +153,33 @@ public class Estagio extends Model {
     }
 
 
-//    @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
-//            message = "Este estágio deve ser associado a pelo menos 1 grupo semafórico"
-//    )
-//    public boolean isAoMenosUmEstagioGrupoSemaforico(){
-//        return getEstagiosGruposSemaforicos() != null && !getEstagiosGruposSemaforicos().isEmpty();
-//    }
+    @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
+            message = "Este estágio deve ser associado a pelo menos 1 grupo semafórico")
+    public boolean isAoMenosUmEstagioGrupoSemaforico(){
+        return getEstagiosGruposSemaforicos() != null && !getEstagiosGruposSemaforicos().isEmpty();
+    }
 
+    public Anel getAnel() {
+        return anel;
+    }
+
+    public void setAnel(Anel anel) {
+        this.anel = anel;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Estagio estagio = (Estagio) o;
+
+        return id != null ? id.equals(estagio.id) : estagio.id == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
 }

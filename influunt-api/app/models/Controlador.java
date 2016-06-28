@@ -117,6 +117,7 @@ public class Controlador extends Model {
     public void update(){
         antesDeSalvarOuAtualizar();
         super.update();
+        System.out.println("OLA MUNDO");
     }
 
     private void antesDeSalvarOuAtualizar(){

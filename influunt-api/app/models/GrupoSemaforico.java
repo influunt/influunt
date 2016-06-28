@@ -15,6 +15,7 @@ import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -160,6 +161,13 @@ public class GrupoSemaforico extends Model {
 
     public void setDescricao(String descricao) { this.descricao = descricao; }
 
+    public void addEstagioGrupoSemaforico(EstagioGrupoSemaforico estagioGrupoSemaforico) {
+        if (getEstagioGrupoSemaforicos() == null) {
+            setEstagioGrupoSemaforicos(new ArrayList<EstagioGrupoSemaforico>());
+        }
+        getEstagioGrupoSemaforicos().add(estagioGrupoSemaforico);
+    }
+
     @JsonIgnore
     @AssertTrue(groups = ControladorVerdesConflitantesCheck.class, message = "Esse grupo deve ter ao menos um verde conflitante")
     public boolean isAoMenosUmVerdeConflitante() {
@@ -188,5 +196,17 @@ public class GrupoSemaforico extends Model {
         } else {
             return true;
         }
+    }
+
+    @JsonIgnore
+    @Transient
+    public boolean isPedestre() {
+        return this.getTipo() != null && TipoGrupoSemaforico.PEDESTRE.equals(this.getTipo());
+    }
+
+    @JsonIgnore
+    @Transient
+    public boolean isVeicular() {
+        return this.getTipo() != null && TipoGrupoSemaforico.VEICULAR.equals(this.getTipo());
     }
 }
