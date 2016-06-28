@@ -58,7 +58,7 @@
 </fieldset>
 <div class="col-sm-12 col-lg-12 no-pading bg-border pg-bt m-t-lg">
 <fieldset class="m-t-md">
-  <a ui-sref="app.wizard_controladores.aneis" class="btn btn-default">{{ 'plugins.steps.labels.previous' | translate }}</a>
+  <a data-ng-click="submitForm({$valid: true}, 'verdes_conflitantes', 'app.wizard_controladores.associacao')" class="btn btn-default">{{ 'plugins.steps.labels.previous' | translate }}</a>
   <button class="btn btn-primary" ng-click="submitForm({$valid: true}, 'verdes_conflitantes', 'app.controladores')">{{ 'plugins.steps.labels.finish' | translate }}</button>
 </fieldset>
 </div>

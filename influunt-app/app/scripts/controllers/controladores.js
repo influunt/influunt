@@ -101,6 +101,7 @@ angular.module('influuntApp')
 
       $scope.inicializaAssociacao = function() {
         return $scope.inicializaWizard().then(function() {
+          $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
           $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
           _.each($scope.aneis, function(anel) {
             anel.gruposSemaforicos = _.orderBy(anel.gruposSemaforicos, ['posicao'], ['asc']);
@@ -168,11 +169,14 @@ angular.module('influuntApp')
             .then(function(res) {
               $scope.objeto = res;
 
+              $scope.errors = {};
               $state.go(nextStep, {id: $scope.objeto.id});
             })
             .catch(function(res) {
               if (res.status === 422) {
-                $scope.builValidationMessages(res.data);
+                $scope.buildValidationMessages(res.data);
+              } else {
+                console.error(res);
               }
             });
         }
@@ -197,11 +201,13 @@ angular.module('influuntApp')
        * Deleta a lista de mensagens de validações globais exibidas para determinado
        * anel.
        *
-       * @param      {<type>}  index   The index
+       * @param      {<type>}  index       The index
+       * @param      {<type>}  shownGroup  The shown group
        */
-      $scope.closeAlertAnel = function(index) {
+      $scope.closeAlertAnel = function(index, shownGroup) {
+        shownGroup = shownGroup || 'general';
         if ($scope.errors && $scope.errors.aneis[index]) {
-          delete $scope.errors.aneis[index].general;
+          delete $scope.errors.aneis[index][shownGroup];
         }
       };
 
@@ -268,20 +274,6 @@ angular.module('influuntApp')
         });
       };
 
-      // $scope.mensagemValidacaoForm = function(res) {
-      //   var messages = res && res.data && res.data.map(function(a) {
-      //     return {
-      //       // msg: 'validacoesAPI.' + _.lowerCase(a.root) + '.' + _.camelCase(a.message),
-      //       msg: a.message,
-      //       params: {
-      //         CAMPO: a.path
-      //       }
-      //     };
-      //   });
-
-      //   $scope.validacoes.alerts = messages;
-      // };
-
       $scope.criaAneis = function(controlador) {
         controlador.aneis = _.orderBy(controlador.aneis, ['posicao'], ['asc']).map(function(anel, key) {
           anel.idAnel = controlador.CLC + '-' + (key + 1);
@@ -326,7 +318,7 @@ angular.module('influuntApp')
         });
       };
 
-      $scope.builValidationMessages = function(errors) {
+      $scope.buildValidationMessages = function(errors) {
         $scope.validations = {};
         if (angular.isArray(errors)) {
           errors.forEach(function(err) {
@@ -342,6 +334,13 @@ angular.module('influuntApp')
           $scope.errors = {};
           _.each($scope.validations, function(val, key) {
             _.update($scope.errors, key, _.constant(val));
+          });
+
+          // Específicos para as validações em escopo de anel.
+          _.each($scope.errors.aneis, function(anel) {
+            if (anel) {
+              anel.all = _.chain(anel).values().flatten().uniq().value();
+            }
           });
         }
       };
