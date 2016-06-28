@@ -4,12 +4,10 @@ var expect = require('chai').expect;
 var LoginPage = require('../support/page-objects/login');
 
 module.exports = function() {
-  var LOGIN_URL = 'http://localhost:9000/#/login';
-
   var loginPage = new LoginPage();
 
   this.Given(/^o usuário acessa a tela de login$/, function () {
-    loginPage.acessar();
+    return loginPage.acessar();
   });
 
   this.Given(/^informa somente o nome "([^"]*)" no campo usuário$/, function (usuario) {
@@ -19,7 +17,7 @@ module.exports = function() {
 
   this.Given(/^o usuário não deve conseguir acessar o sistema$/, function () {
     return loginPage.getUrl().then(function(url) {
-      expect(url).to.equal(LOGIN_URL);
+      expect(url).to.match(/\/login/);
     });
   });
 
@@ -59,5 +57,4 @@ module.exports = function() {
     // Write code here that turns the phrase above into concrete actions
     callback(null, 'pending');
   });
-
 };

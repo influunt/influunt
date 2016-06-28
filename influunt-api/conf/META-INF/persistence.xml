@@ -10,12 +10,10 @@
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
             <property name="hibernate.hbm2ddl.auto" value="update" />
             <property name="hibernate.archive.autodetection" value="class, hbm"/>
-            
         </properties>
     </persistence-unit>
 
     <!--Persistence Unit for Testing-->
-
     <persistence-unit name="testPersistenceUnit" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <non-jta-data-source>DefaultDS</non-jta-data-source>
