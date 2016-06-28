@@ -102,13 +102,13 @@ var CidadesPage = function () {
 
   this.cidadeDeveSerExcluida = function() {
     return world.getElements('tbody tr[data-ng-repeat="cidade in lista"]').then(function(elements) {
-      return elements.length == totalCidadesIndex - 1;
+      return elements.length === totalCidadesIndex - 1;
     });
   };
 
   this.nenhumaCidadeDeveSerExcluida = function() {
     return world.getElements('tbody tr[data-ng-repeat="cidade in lista"]').then(function(elements) {
-      return elements.length == totalCidadesIndex;
+      return elements.length === totalCidadesIndex;
     });
   };
 

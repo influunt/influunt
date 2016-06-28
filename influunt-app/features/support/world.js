@@ -43,7 +43,7 @@ var World = function () {
   };
 
   this.visit = function(path) {
-    return driver.get(baseUrl + path)
+    return driver.get(baseUrl + path);
   };
 
   this.getCurrentUrl = function() {

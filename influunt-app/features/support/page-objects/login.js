@@ -6,7 +6,7 @@ var world = new worldObj.World();
 
 var LoginPage = function () {
   var LOGIN_URL = 'http://localhost:9000/#/login';
-  var LOGIN_PATH = '/login'
+  var LOGIN_PATH = '/login';
 
   this.acessar = function() {
     return world.visit(LOGIN_PATH);

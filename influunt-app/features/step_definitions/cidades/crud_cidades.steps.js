@@ -26,7 +26,7 @@ module.exports = function() {
 
   this.Given(/^deve ser exibida uma lista com as cidades já cadastradas no sistema$/, function() {
     return cidadesPage.getItensTabela().then(function(itens) {
-      expect(itens).to.have.length.at.least(3)
+      expect(itens).to.have.length.at.least(3);
     });
   });
 
@@ -37,7 +37,7 @@ module.exports = function() {
 
   this.Given(/^o sistema deverá redirecionar para o formulário de Cadastro de nova Cidades$/, function() {
     return cidadesPage.fieldNomeCidade().then(function(field) {
-      expect(field).to.exist
+      expect(field).to.exist;
     });
   });
 
@@ -56,7 +56,7 @@ module.exports = function() {
 
   this.Given(/^o sistema deverá retornar à tela de listagem de cidades$/, function() {
     return cidadesPage.getPageTitleH2().then(function(title) {
-      expect(title).to.equal("Cidades");
+      expect(title).to.equal('Cidades');
     });
   });
 
