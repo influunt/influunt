@@ -256,7 +256,8 @@ angular.module('influuntApp')
           estagio: estagio
         };
 
-        var index = _.findIndex(grupo.estagioGrupoSemaforicos, obj);
+        var filter = {grupoSemaforico: {id: obj.grupoSemaforico.id}, estagio: {id: obj.estagio.id}};
+        var index = _.findIndex(grupo.estagioGrupoSemaforicos, filter);
         if (index >= 0) {
           grupo.estagioGrupoSemaforicos.splice(index, 1);
         } else {
