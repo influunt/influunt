@@ -37,7 +37,7 @@ module.exports = function() {
 
   this.Given(/^o sistema deverá redirecionar para o formulário de Cadastro de nova Cidades$/, function() {
     return cidadesPage.fieldNomeCidade().then(function(field) {
-      expect(field).to.exist;
+      return expect(field).to.exist;
     });
   });
 
@@ -60,9 +60,8 @@ module.exports = function() {
     });
   });
 
-  this.Given(/^Clica no botão de visualizar cidade$/, function(callback) {
+  this.Given(/^Clica no botão de visualizar cidade$/, function() {
     cidadesPage.clicarLinkComTexto('Visualizar');
-    callback();
   });
 
   this.Given(/^o sistema deverá redirecionar para a tela de visualização de cidades$/, function() {
@@ -71,14 +70,13 @@ module.exports = function() {
     });
   });
 
-  this.Given(/^Clica no botão de editar cidade$/, function(callback) {
+  this.Given(/^Clica no botão de editar cidade$/, function() {
     cidadesPage.clicarLinkComTexto('Editar');
-    callback();
   });
 
   this.Given(/^o sistema deverá redirecionar para o formulário de edição cidades$/, function() {
     return cidadesPage.textoFieldNomeCidade().then(function(fieldValue) {
-      expect(fieldValue).to.not.be.empty;
+      return expect(fieldValue).to.not.be.empty;
     });
   });
 
@@ -87,9 +85,8 @@ module.exports = function() {
     return cidadesPage.clicarLinkComTexto('Editar');
   });
 
-  this.Given(/^clica no botão de excluir uma cidade$/, function(callback) {
+  this.Given(/^clica no botão de excluir uma cidade$/, function() {
     cidadesPage.clicarLinkComTexto('Excluir');
-    callback();
   });
 
   this.Given(/^o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir a cidade$/, function() {
@@ -117,7 +114,7 @@ module.exports = function() {
 
   this.Given(/^nenhuma cidade deve ser excluída$/, function() {
     return cidadesPage.nenhumaCidadeDeveSerExcluida().then(function(res) {
-      expect(res).to.be.true;
+      return expect(res).to.be.true;
     });
   });
 };
