@@ -119,6 +119,7 @@ create table fabricantes (
 create table grupos_semaforicos (
   id                            varchar(40) not null,
   tipo                          varchar(8),
+  descricao                     varchar(255),
   anel_id                       varchar(40),
   controlador_id                varchar(40),
   grupo_conflito_id             varchar(40),
