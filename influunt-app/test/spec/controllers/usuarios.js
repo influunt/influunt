@@ -10,7 +10,7 @@ describe('Controller: UsuariosCtrl', function () {
   var UsuariosCtrl,
     scope,
     httpBackend,
-    listaPapeis;
+    listaPerfis;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope, $httpBackend) {
@@ -21,7 +21,7 @@ describe('Controller: UsuariosCtrl', function () {
 
     httpBackend = $httpBackend;
 
-    listaPapeis = [
+    listaPerfis = [
       {nome: 'cidade 1'},
       {nome: 'cidade 2'}
     ];
@@ -35,10 +35,10 @@ describe('Controller: UsuariosCtrl', function () {
     expect(scope.confirmDelete).toBeDefined();
   });
 
-  it('Deve retornar a lista de papeis', function() {
-    httpBackend.expectGET('/papeis').respond(listaPapeis);
+  it('Deve retornar a lista de perfis', function() {
+    httpBackend.expectGET('/perfis').respond(listaPerfis);
     scope.beforeShow();
     httpBackend.flush();
-    expect(scope.papeis.length).toEqual(listaPapeis.length);
+    expect(scope.perfis.length).toEqual(listaPerfis.length);
   });
 });

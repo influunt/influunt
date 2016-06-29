@@ -18,8 +18,8 @@ angular.module('influuntApp')
        * Recupera a lista de configuracoes que podem ser relacionadas aos modelos.
        */
       $scope.beforeShow = function() {
-        Restangular.all('papeis').getList().then(function(res) {
-          $scope.papeis = res;
+        Restangular.all('perfis').getList().then(function(res) {
+          $scope.perfis = res;
         });
       };
 

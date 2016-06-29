@@ -37,11 +37,11 @@
     </div>
 
     <div class="form-group">
-      <label class="control-label col-sm-2 control-label">{{ 'usuarios.papel' | translate }}</label>
+      <label class="control-label col-sm-2 control-label">{{ 'usuarios.perfil' | translate }}</label>
       <div class="col-sm-9">
-        <select name="usuario_papel" class="form-control"
-          data-ng-options="papel.id as papel.nome for papel in papeis"
-          data-ng-model="objeto.papel.id"></select>
+        <select name="usuario_perfil" class="form-control"
+          data-ng-options="perfil.id as perfil.nome for perfil in perfis"
+          data-ng-model="objeto.perfil.id"></select>
       </div>
     </div>
 

@@ -21,7 +21,7 @@
                 <tr>
                   <th>{{ 'usuarios.nome' | translate }}</th>
                   <th>{{ 'usuarios.email' | translate }}</th>
-                  <th>{{ 'usuarios.papel' | translate }}</th>
+                  <th>{{ 'usuarios.perfil' | translate }}</th>
                   <th>{{ 'geral.crud.opcoes' | translate }}</th>
                 </tr>
               </thead>
@@ -29,7 +29,7 @@
                 <tr data-ng-repeat="usuario in lista">
                   <td>{{ usuario.nome }}</td>
                   <td>{{ usuario.email }}</td>
-                  <td data-ng-bind-html="usuario.papel | resourceToString"></td>
+                  <td data-ng-bind-html="usuario.perfil | resourceToString"></td>
                   <td>
                     <a ui-sref="app.usuarios_show({id: usuario.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
                     <a ui-sref="app.usuarios_edit({id: usuario.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.editar' | translate }}</a>
