@@ -1,13 +1,11 @@
 package models;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import play.Application;
 import play.Mode;
 import play.inject.guice.GuiceApplicationBuilder;
 import play.test.WithApplication;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -88,6 +86,19 @@ public abstract class ControladorTest extends WithApplication {
 
     protected Controlador getControladorAneis(){
         Controlador controlador = getControladorDadosBasicos();
+        controlador.save();
+
+        Anel anel1 = controlador.getAneis().get(0);
+        anel1.setAtivo(true);
+        anel1.setEstagios(Arrays.asList(new Estagio(), new Estagio()));
+
+        anel1.setLatitude(1.0);
+        anel1.setLongitude(1.0);
+        anel1.setQuantidadeGrupoPedestre(1);
+        anel1.setQuantidadeGrupoVeicular(1);
+        anel1.setQuantidadeDetectorPedestre(4);
+        anel1.setQuantidadeDetectorVeicular(8);
+
         return controlador;
     }
 

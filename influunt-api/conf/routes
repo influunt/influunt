@@ -58,6 +58,6 @@ POST        /api/v1/imagens                             controllers.ImagensContr
 GET         /api/v1/imagens/:id                         controllers.ImagensController.findOne(id)
 
 #View Helpers
-GET        /api/v1/helpers/controlador                  controllers.HelpersController.controladorHelper()
+GET         /api/v1/helpers/controlador                  controllers.HelpersController.controladorHelper()
 
-POST       /api/v1/login                                controllers.SecurityController.login
+POST        /api/v1/login                                controllers.SecurityController.login
