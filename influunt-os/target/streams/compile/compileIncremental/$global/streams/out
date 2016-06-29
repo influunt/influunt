@@ -1,0 +1,111 @@
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mInitial source changes: [0m
+[0m[[0mdebug[0m] [0m	removed:Set()[0m
+[0m[[0mdebug[0m] [0m	added: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/protocolo/Mensagem.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/supervisores/Estado.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/com/example/ApplicationMain.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/controladores/Controlador.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/protocolo/EventoControladorSupervisor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/protocolo/TipoEvento.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/com/example/PingActor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/com/example/PongActor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/controladores/ControladorFalso.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/EstadoGrupo.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/supervisores/Supervisor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/EventType.java)[0m
+[0m[[0mdebug[0m] [0m	modified: Set()[0m
+[0m[[0mdebug[0m] [0mRemoved products: Set()[0m
+[0m[[0mdebug[0m] [0mExternal API changes: API Changes: Set()[0m
+[0m[[0mdebug[0m] [0mModified binary dependencies: Set()[0m
+[0m[[0mdebug[0m] [0mInitial directly invalidated sources: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/protocolo/Mensagem.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/supervisores/Estado.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/com/example/ApplicationMain.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/controladores/Controlador.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/protocolo/EventoControladorSupervisor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/protocolo/TipoEvento.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/com/example/PingActor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/com/example/PongActor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/controladores/ControladorFalso.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/EstadoGrupo.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/supervisores/Supervisor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/EventType.java)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mSources indirectly invalidated by:[0m
+[0m[[0mdebug[0m] [0m	product: Set()[0m
+[0m[[0mdebug[0m] [0m	binary dep: Set()[0m
+[0m[[0mdebug[0m] [0m	external source: Set()[0m
+[0m[[0mdebug[0m] [0mAll initially invalidated sources: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/protocolo/Mensagem.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/supervisores/Estado.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/com/example/ApplicationMain.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/controladores/Controlador.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/protocolo/EventoControladorSupervisor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/protocolo/TipoEvento.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/com/example/PingActor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/com/example/PongActor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/controladores/ControladorFalso.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/EstadoGrupo.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/supervisores/Supervisor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/EventType.java)[0m
+[0m[[0mdebug[0m] [0mRecompiling all 12 sources: invalidated sources (12) exceeded 50.0% of all sources[0m
+[0m[[0minfo[0m] [0mCompiling 12 Java sources to /Users/rodrigosol/raro/influunt/influunt-os/target/scala-2.11/classes...[0m
+[0m[[0mdebug[0m] [0mAttempting to call com.sun.tools.javac.api.JavacTool@1594ca6a directly...[0m
+[0m[[0mdebug[0m] [0mJava compilation took 0.814685111 s[0m
+[0m[[0mdebug[0m] [0mJava analysis took 0.032784523 s[0m
+[0m[[0mdebug[0m] [0mJava compile + analysis took 0.854454061 s[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/com/example/PingActor.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/com/example/PingActor.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/com/example/PingActor.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/com/example/PingActor.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/com/example/PingActor.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/supervisores/Supervisor.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/supervisores/Supervisor.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/supervisores/Supervisor.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/supervisores/Supervisor.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/supervisores/Supervisor.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/com/example/PongActor.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/com/example/PongActor.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/com/example/PongActor.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/com/example/PongActor.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/com/example/PongActor.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/supervisores/Estado.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/supervisores/Estado.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/supervisores/Estado.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/supervisores/Estado.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/supervisores/Estado.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/EventType.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/EventType.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/EventType.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/EventType.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/EventType.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/protocolo/TipoEvento.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/protocolo/TipoEvento.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/protocolo/TipoEvento.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/protocolo/TipoEvento.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/protocolo/TipoEvento.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/EstadoGrupo.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/EstadoGrupo.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/EstadoGrupo.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/EstadoGrupo.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/EstadoGrupo.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/controladores/ControladorFalso.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/controladores/ControladorFalso.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/controladores/ControladorFalso.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/controladores/ControladorFalso.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/controladores/ControladorFalso.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/protocolo/EventoControladorSupervisor.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/protocolo/EventoControladorSupervisor.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/protocolo/EventoControladorSupervisor.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/protocolo/EventoControladorSupervisor.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/protocolo/EventoControladorSupervisor.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/protocolo/Mensagem.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/protocolo/Mensagem.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/protocolo/Mensagem.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/protocolo/Mensagem.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/protocolo/Mensagem.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/com/example/ApplicationMain.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/com/example/ApplicationMain.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/com/example/ApplicationMain.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/com/example/ApplicationMain.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/com/example/ApplicationMain.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/controladores/Controlador.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/controladores/Controlador.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/controladores/Controlador.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/controladores/Controlador.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os/cet/driver/controladores/Controlador.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mNew invalidations:[0m
+[0m[[0mdebug[0m] [0m	Set()[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set()[0m
+[0m[[0mdebug[0m] [0mPreviously invalidated, but (transitively) depend on new invalidations:[0m
+[0m[[0mdebug[0m] [0m	Set()[0m
+[0m[[0mdebug[0m] [0mAll newly invalidated sources after taking into account (previously) recompiled sources:Set()[0m
