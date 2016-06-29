@@ -134,7 +134,22 @@
     "hello_world": "Dashboard"
   },
   "menu": {
-    "cadastros": "CADASTROS"
+    "cadastros": "cadastros"
+  },
+  "perfis": {
+    "definir_permissoes": "Definir permissões",
+    "descricao": "Descricao",
+    "nome": "Nome",
+    "titulo": "Perfis",
+    "permissoes": {
+      "criar": "Criar",
+      "descricao": "Descrição",
+      "editar": "Editar",
+      "excluir": "Excluir",
+      "permite": "Permite?",
+      "todos": "Todos",
+      "visualizar": "Visualizar"
+    }
   },
   "usuarios": {
     "confirmacao_senha": "Confirmação senha",

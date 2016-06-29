@@ -345,6 +345,57 @@ angular
           }
         })
 
+        // Crud perfis.
+        .state('app.perfis', {
+          url: '/perfis',
+          templateUrl: 'views/perfis/index.html',
+          controller: 'PerfisCtrl',
+          controllerAs: 'perfis',
+          data: {
+            title: 'perfis.titulo'
+          }
+        })
+
+        .state('app.perfis_new', {
+          url: '/perfis/new',
+          templateUrl: 'views/perfis/new.html',
+          controller: 'PerfisCtrl',
+          controllerAs: 'perfis',
+          data: {
+            title: 'perfis.titulo'
+          }
+        })
+
+        .state('app.perfis_edit', {
+          url: '/perfis/:id/edit',
+          templateUrl: 'views/perfis/edit.html',
+          controller: 'PerfisCtrl',
+          controllerAs: 'perfis',
+          data: {
+            title: 'perfis.titulo'
+          }
+        })
+
+        .state('app.perfis_show', {
+          url: '/perfis/:id',
+          templateUrl: 'views/perfis/show.html',
+          controller: 'PerfisCtrl',
+          controllerAs: 'perfis',
+          data: {
+            title: 'perfis.titulo'
+          }
+        })
+
+        .state('app.perfis_permissoes', {
+          url: '/perfis/:id/permissoes',
+          templateUrl: 'views/perfis/permissoes.html',
+          controller: 'PerfisCtrl',
+          controllerAs: 'perfis',
+          data: {
+            title: 'perfis.titulo'
+          }
+        })
+
         // Crud usuarios.
         .state('app.usuarios', {
           url: '/usuarios',

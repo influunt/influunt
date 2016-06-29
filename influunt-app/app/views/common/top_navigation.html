@@ -1,65 +1,43 @@
+<style type="text/css">
+  .dropdown-submenu{position:relative;}
+  .dropdown-submenu>.dropdown-menu{top:0;left:100%;margin-top:-6px;margin-left:-1px;-webkit-border-radius:0 6px 6px 6px;-moz-border-radius:0 6px 6px 6px;border-radius:0 6px 6px 6px;}
+  .dropdown-submenu:hover>.dropdown-menu{display:block;}
+  .dropdown-submenu>a:after{display:block;content:" ";float:right;width:0;height:0;border-color:transparent;border-style:solid;border-width:5px 0 5px 5px;border-left-color:#cccccc;margin-top:5px;margin-right:-10px;}
+  .dropdown-submenu:hover>a:after{border-left-color:#ffffff;}
+  .dropdown-submenu.pull-left{float:none;}.dropdown-submenu.pull-left>.dropdown-menu{left:-100%;margin-left:10px;-webkit-border-radius:6px 0 6px 6px;-moz-border-radius:6px 0 6px 6px;border-radius:6px 0 6px 6px;}
+</style>
+
+
+
 <div class="row border-bottom white-bg">
-    <nav class="navbar navbar-static-top" role="navigation">
-        <div class="navbar-header">
-            <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
-                <i class="fa fa-reorder"></i>
-            </button>
-            <a href="#" class="navbar-brand">
-              <img src="images/logo-claro-horizontal.png" alt="{{ 'appname' | translate }}" class="img-responsive" style="height:23px;">
-            </a>
-        </div>
-        <div class="navbar-collapse collapse" id="navbar">
-            <ul class="nav navbar-nav">
-                <li uib-dropdown>
-                    <a href uib-dropdown-toggle> {{ 'menu.cadastros' | translate }} <span class="caret"></span></a>
-                    <ul role="menu" uib-dropdown-menu>
-                      <li><a ui-sref="app.cidades">{{ 'cidades.titulo' | translate }}</a></li>
-                      <li><a ui-sref="app.areas">{{ 'areas.titulo' | translate }}</a></li>
-                      <!-- <li><a ui-sref="app.tipos_detectores">{{ 'tipos_detectores.titulo' | translate }}</a></li> -->
-                      <li><a ui-sref="app.fabricantes">{{ 'fabricantes.titulo' | translate }}</a></li>
-                      <li><a ui-sref="app.controladores">{{ 'controladores.titulo' | translate }}</a></li>
-                      <li><a ui-sref="app.configuracoes_controladores">{{ 'configuracoes_controladores.titulo' | translate }}</a></li>
-                      <li><a ui-sref="app.modelos_controladores">{{ 'modelos_controladores.titulo' | translate }}</a></li>
-                    </ul>
-                </li>
-                <!-- <li uib-dropdown>
-                    <a href uib-dropdown-toggle> Menu item <span class="caret"></span></a>
-                    <ul role="menu" uib-dropdown-menu>
-                        <li><a href="#">Menu item</a></li>
-                        <li><a href="#">Menu item</a></li>
-                        <li><a href="#">Menu item</a></li>
-                        <li><a href="#">Menu item</a></li>
-                    </ul>
-                </li>
-                <li uib-dropdown>
-                    <a  href uib-dropdown-toggle> Menu item <span class="caret"></span></a>
-                    <ul role="menu" uib-dropdown-menu>
-                        <li><a href="#">Menu item</a></li>
-                        <li><a href="#">Menu item</a></li>
-                        <li><a href="#">Menu item</a></li>
-                        <li><a href="#">Menu item</a></li>
-                    </ul>
-                </li>
-                <li uib-dropdown>
-                    <a href uib-dropdown-toggle> Menu item <span class="caret"></span></a>
-                    <ul role="menu" uib-dropdown-menu>
-                        <li><a href="#">Menu item</a></li>
-                        <li><a href="#">Menu item</a></li>
-                        <li><a href="#">Menu item</a></li>
-                        <li><a href="#">Menu item</a></li>
-                    </ul>
-                </li>
- -->
-
-
-            </ul>
-            <ul class="nav navbar-top-links navbar-right">
-                <li>
-                    <a href="login.html">
-                        <i class="fa fa-sign-out"></i> Sair
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+  <nav class="navbar navbar-static-top" role="navigation">
+    <div class="navbar-header">
+      <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
+        <i class="fa fa-reorder"></i>
+      </button>
+      <a href="#" class="navbar-brand">
+        <img src="images/logo-claro-horizontal.png" alt="{{ 'appname' | translate }}" class="img-responsive" style="height:23px;">
+      </a>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar">
+      <ul class="nav navbar-nav">
+        <li uib-dropdown data-ng-repeat="menu in menus">
+          <a ui-sref="{{ menu.route }}" data-ng-if="!menu.children">{{ menu.label | translate | uppercase }}</a>
+          <a href uib-dropdown-toggle data-ng-if="menu.children">{{ menu.label | translate | uppercase }}<span class="caret"></span></a>
+          <ul role="menu" uib-dropdown-menu data-ng-if="menu.children">
+            <li data-ng-repeat="submenu in menu.children">
+              <a ui-sref="{{ submenu.route }}">{{ submenu.label | translate }}</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <ul class="nav navbar-top-links navbar-right">
+        <li>
+          <a href="login.html">
+            <i class="fa fa-sign-out"></i> Sair
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
 </div>
