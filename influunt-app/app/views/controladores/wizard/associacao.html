@@ -56,7 +56,7 @@
                     <div class="input-group m-b">
                       <span class="input-group-addon padding-5">
                         <input type="checkbox" ichecks data-ng-model="estagio.tempoMaximoPermanenciaAtivo"
-                          if-unchecked="toggleTempoPermanencia(estagio)">
+                          if-unchecked="limpaTempoPermanencia(estagio)">
                       </span>
                       <input type="number" ng-model="estagio.tempoMaximoPermanencia"
                         data-ng-disabled="!estagio.tempoMaximoPermanenciaAtivo" class="form-control">

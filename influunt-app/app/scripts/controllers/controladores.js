@@ -11,6 +11,9 @@ angular.module('influuntApp')
   .controller('ControladoresCtrl', ['$controller', '$scope', '$state','Restangular', '$q', 'APP_ROOT',
     function ($controller, $scope, $state, Restangular, $q, APP_ROOT) {
 
+      // funcoes privadas.
+      var buildIntervaloAneis, buildMatrizVerdesConflitantes;
+
       // Herda todo o comportamento do crud basico.
       $controller('CrudCtrl', {$scope: $scope});
       $scope.inicializaNovoCrud('controladores');
@@ -135,28 +138,11 @@ angular.module('influuntApp')
       $scope.inicializaVerdesConflitantes = function() {
         return $scope.inicializaWizard().then(function() {
           $scope.grupoIds = _.chain($scope.objeto.gruposSemaforicos).orderBy(['posicao'], ['asc']).map('id').value();
-
           var totalGrupos = $scope.objeto.modelo.configuracao.limiteGrupoSemaforico;
           $scope.grupos = _.times(totalGrupos, function(i) {return 'G' + (i+1);});
 
-          $scope.estagios = _.chain($scope.objeto.aneis).map('estagios').flatten().value();
-
-          var aneis = _.filter($scope.objeto.aneis, {ativo: true});
-          var somador = 0;
-          $scope.intervalosAneis = aneis.map(function(anel) {
-            somador += anel.gruposSemaforicos.length;
-            return somador;
-          });
-          $scope.intervalosAneis.unshift(0);
-          $scope.gruposUtilizados = $scope.intervalosAneis[$scope.intervalosAneis.length - 1];
-
-          $scope.verdesConflitantes = [];
-          for (var i = 0; i < $scope.grupos.length; i++) {
-            for (var j = 0; j < $scope.grupos.length; j++) {
-              $scope.verdesConflitantes[i] = $scope.verdesConflitantes[i] || [];
-              $scope.verdesConflitantes[i][j] = false;
-            }
-          }
+          buildIntervaloAneis();
+          buildMatrizVerdesConflitantes();
         });
       };
 
@@ -217,7 +203,7 @@ angular.module('influuntApp')
        *
        * @param      {<type>}  estagio  The estagio
        */
-      $scope.toggleTempoPermanencia = function(estagio) {
+      $scope.limpaTempoPermanencia = function(estagio) {
         estagio.tempoMaximoPermanencia = null;
       };
 
@@ -356,6 +342,35 @@ angular.module('influuntApp')
       $scope.anelTemErro = function(indice) {
         var errors = _.get($scope.errors, 'aneis[' + indice + ']');
         return _.isObject(errors) && Object.keys(errors).length > 0;
+      };
+
+      /**
+       * Retorna um array com os intervalos de grupos para cada anel. Utilizado
+       * somente para desenhar os limites dos aneis pelos grupos.
+       */
+      buildIntervaloAneis = function() {
+        var aneis = _.filter($scope.objeto.aneis, {ativo: true});
+        var somador = 0;
+        $scope.intervalosAneis = aneis.map(function(anel) {
+          somador += anel.gruposSemaforicos.length;
+          return somador;
+        });
+        $scope.intervalosAneis.unshift(0);
+        $scope.gruposUtilizados = $scope.intervalosAneis[$scope.intervalosAneis.length - 1];
+      };
+
+      /**
+       * Constroi uma matriz quadrada para representação gráfica da tabela de
+       * verdes conflitantes.
+       */
+      buildMatrizVerdesConflitantes = function() {
+        $scope.verdesConflitantes = [];
+        for (var i = 0; i < $scope.grupos.length; i++) {
+          for (var j = 0; j < $scope.grupos.length; j++) {
+            $scope.verdesConflitantes[i] = $scope.verdesConflitantes[i] || [];
+            $scope.verdesConflitantes[i][j] = false;
+          }
+        }
       };
 
     }]);
