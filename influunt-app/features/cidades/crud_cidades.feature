@@ -17,8 +17,8 @@ Funcionalidade: tela de cadastro de cidades
 
   Cenário: Cadastro de cidades
     Quando o usuário acessar a tela de cadastro de novas cidades
-    E preenche os campos corretamente
-    Então o registro deverá ser salvo com sucesso
+    E preenche os campos da cidade corretamente
+    Então o registro da cidade deverá ser salvo com sucesso
     E o sistema deverá retornar à tela de listagem de cidades
 
   Cenário: Acesso à tela de detalhes de cidades
@@ -34,7 +34,7 @@ Funcionalidade: tela de cadastro de cidades
   Cenário: Edição de cidades
     Quando o usuário acessar o formulário de edição de cidades
     E preenche os campos corretamente
-    Então o registro deverá ser salvo com sucesso
+    Então o registro da cidade deverá ser salvo com sucesso
     E o sistema deverá retornar à tela de listagem de cidades
 
   Cenário: Exclusão de cidades com confirmação
