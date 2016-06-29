@@ -31,7 +31,7 @@ public class ControladorDeserializer extends JsonDeserializer<Controlador> {
         if (id != null) {
             controlador.setId(UUID.fromString(id.asText()));
         }
-        controlador.setLocalizacao(node.get("descricao") != null ? node.get("descricao").asText() : null);
+        controlador.setLocalizacao(node.get("localizacao") != null ? node.get("localizacao").asText() : null);
         controlador.setNumeroSMEE(node.get("numeroSMEE") != null ? node.get("numeroSMEE").asText() : null);
         controlador.setNumeroSMEEConjugado1(node.get("numeroSMEEConjugado1") != null ? node.get("numeroSMEEConjugado1").asText() : null);
         controlador.setNumeroSMEEConjugado2(node.get("numeroSMEEConjugado2") != null ? node.get("numeroSMEEConjugado2").asText() : null);

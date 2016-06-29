@@ -22,7 +22,7 @@ public class ControladorSerializer extends JsonSerializer<Controlador> {
             jgen.writeStringField("id", controlador.getId().toString());
         }
         if (controlador.getLocalizacao() != null) {
-            jgen.writeStringField("descricao", controlador.getLocalizacao());
+            jgen.writeStringField("localizacao", controlador.getLocalizacao());
         }
         if (controlador.getNumeroSMEE() != null) {
             jgen.writeStringField("numeroSMEE", controlador.getNumeroSMEE());

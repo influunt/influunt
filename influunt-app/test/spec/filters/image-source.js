@@ -16,7 +16,7 @@ describe('Filter: imageSource', function () {
 
   it('Deve retornar a url completa de um arquivo a partir do id passado ao filter', function() {
     var text = 'my-id';
-    var result = imageSource(text)
+    var result = imageSource(text);
     var expectation = appRoot + '/imagens/' + text;
     expect(result).toBe(expectation);
   });

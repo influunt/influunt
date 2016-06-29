@@ -72,7 +72,7 @@ describe('Controller: ControladoresCtrl', function () {
     var helpers;
 
     beforeEach(function() {
-      helpers = {"cidades":[{},{}],"fabricantes":[{},{},{}]};
+      helpers = {cidades:[{},{}],fabricantes:[{},{},{}]};
       $httpBackend.expectGET('/helpers/controlador').respond(helpers);
       scope.inicializaWizard();
       $httpBackend.flush();
@@ -102,7 +102,7 @@ describe('Controller: ControladoresCtrl', function () {
       });
 
       it('Deve iniciar a tela com o primeiro anel selecionado', function() {
-        expect(scope.currentAnelId).toBe(0);
+        expect(scope.currentAnelIndex).toBe(0);
         expect(scope.currentAnel).toBe(scope.aneis[0]);
       });
 
@@ -178,7 +178,7 @@ describe('Controller: ControladoresCtrl', function () {
     });
   });
 
-  describe('Funcoes auxiliares', function () {
+  describe('Funções auxiliares', function () {
     describe('desativaProximosAneis', function () {
       beforeEach(function() {
         scope.aneis = [{posicao: 1,ativo: true},{posicao: 2,ativo: true},{posicao: 3,ativo: true}];
@@ -192,12 +192,139 @@ describe('Controller: ControladoresCtrl', function () {
       });
     });
 
+    describe('toggleEstagioAtivado', function () {
+      var grupo, estagio;
+
+      beforeEach(function() {
+        estagio = {id: '123'};
+        grupo = {
+          estagioGrupoSemaforicos: [{estagio: {id: '123'}}],
+          estagiosAtivados: {'123': true}
+        };
+      });
+
+      it('Deve desativar o estagio do grupo semaforicos caso este estaja ativo', function () {
+        grupo.estagioGrupoSemaforicos[0].ativo = true;
+        scope.toggleEstagioAtivado(grupo, estagio);
+        expect(grupo.estagioGrupoSemaforicos[0].ativo).not.toBeTruthy();
+      });
+
+      it('Deve ativar o estagio do grupo semaforicos caso este não estaja ativo', function () {
+        grupo.estagioGrupoSemaforicos[0].ativo = true;
+        scope.toggleEstagioAtivado(grupo, estagio);
+        expect(grupo.estagioGrupoSemaforicos[0].ativo).not.toBeTruthy();
+      });
+
+      it('Não deve alterar o status de nenhum estagio caso um estagio inexistente seja apresentado', function () {
+        var grupoOriginal = _.cloneDeep(grupo);
+        scope.toggleEstagioAtivado(grupo, {id: 456});
+        expect(grupoOriginal).toEqual(grupo);
+      });
+    });
+
     describe('relacionaImagemAoEstagio', function () {
       it('Deve atribuir uma imagem ao estagio.', function() {
         var estagio = {};
         var imagem = 'img';
         scope.relacionaImagemAoEstagio(estagio, null, imagem);
         expect(estagio.imagem).toBe(imagem);
+      });
+    });
+
+    describe('limpaTempoPermanencia', function () {
+      it('quando o usuário desmarca o checkbox para "desativação de tempo máximo", ' +
+        'o tempo de permanecia do estágio deverá ser excluido.', function () {
+          var estagio = {tempoMaximoPermanencia: 1};
+          scope.limpaTempoPermanencia(estagio);
+          expect(estagio.tempoMaximoPermanencia).toBeNull();
+        });
+    });
+
+    describe('closeAlertAnel', function () {
+      beforeEach(function() {
+        scope.errors = {
+          aneis: [{
+            general: {},
+            other: {},
+          }]
+        };
+      });
+
+      it('Ao fechar o alert de aneis, deve limpar a lista de general notifications', function() {
+        scope.closeAlertAnel(0);
+        expect(scope.errors.aneis[0].general).toBeUndefined();
+      });
+
+      it('Deve limpar uma lista customizada, se houver um segundo parametro informado', function() {
+        scope.closeAlertAnel(0, 'other');
+        expect(scope.errors.aneis[0].other).toBeUndefined();
+      });
+
+      it('Deve manter o objeto de erros inalterado se um anel incorreto for informado', function() {
+        var originalErrors = _.cloneDeep(scope.errors);
+        scope.closeAlertAnel(1);
+        expect(scope.errors).toEqual(originalErrors);
+      });
+    });
+
+    describe('anelTemErro', function () {
+      beforeEach(function() {
+        scope.errors = {aneis: [{a: 1}]};
+      });
+
+      it('se houver algum erro listado, o objeto deve retornar true', function () {
+        expect(scope.anelTemErro(0)).toBeTruthy();
+      });
+
+      it('se não houver erros listados, o objeto deve retornar false', function () {
+        scope.errors.aneis = [];
+        expect(scope.anelTemErro(0)).not.toBeTruthy();
+      });
+    });
+
+    describe('toggleVerdeConflitante', function () {
+      beforeEach(function() {
+        var objeto = {"id":"ce3ee3dd-7f5e-4357-9663-f47f37c150f8","localizacao":"area 1","numeroSMEE":"area 1","numeroSMEEConjugado1":"12","numeroSMEEConjugado2":"123","numeroSMEEConjugado3":"123","firmware":"321","latitude":-19.9513211,"longitude":-43.921468600000026,"dataCriacao":"28/06/2016 23:31:32","dataAtualizacao":"28/06/2016 23:32:27","CLC":"1.000.0999","area":{"id":"6a2e0afd-616b-40eb-a834-60e33195b009","descricao":1,"dataCriacao":"28/06/2016 19:35:03","dataAtualizacao":"28/06/2016 19:35:03","cidade":{"id":"6db983c9-8b03-42f7-ac8b-f19d9b0b92d1","nome":"Belo Horizonte","dataCriacao":"28/06/2016 19:34:54","dataAtualizacao":"28/06/2016 19:34:54","areas":[{"id":"6a2e0afd-616b-40eb-a834-60e33195b009","descricao":1},{"id":"b9a85f3a-ac49-436b-a121-9af51db9b9a8","descricao":2}]},"limites":[]},"modelo":{"id":"820c1ede-f516-4377-9754-f8339f1f3071","descricao":"fab 1 opa","dataCriacao":"28/06/2016 19:36:07","dataAtualizacao":"28/06/2016 19:36:07","fabricante":{"id":"ecedfd9f-4649-470d-a10a-acaf10350da1","nome":"fab 1","dataCriacao":"28/06/2016 19:36:07","dataAtualizacao":"28/06/2016 19:36:07","modelos":[{"id":"820c1ede-f516-4377-9754-f8339f1f3071","descricao":"fab 1 opa","configuracao":{"id":"eeff04ca-ed6e-4ead-9b6a-0ba84b4adbb0","descricao":"opa","limiteEstagio":8,"limiteGrupoSemaforico":8,"limiteAnel":8,"limiteDetectorPedestre":8,"limiteDetectorVeicular":8,"dataCriacao":"28/06/2016 19:35:52","dataAtualizacao":"28/06/2016 19:35:52"}}]},"configuracao":{"id":"eeff04ca-ed6e-4ead-9b6a-0ba84b4adbb0","descricao":"opa","limiteEstagio":8,"limiteGrupoSemaforico":8,"limiteAnel":8,"limiteDetectorPedestre":8,"limiteDetectorVeicular":8,"dataCriacao":"28/06/2016 19:35:52","dataAtualizacao":"28/06/2016 19:35:52"}},"aneis":[{"id":"16a2cf30-3957-4d99-a6bf-bdec16e5891f","ativo":false,"quantidadeGrupoPedestre":0,"quantidadeGrupoVeicular":0,"quantidadeDetectorPedestre":0,"quantidadeDetectorVeicular":0,"dataCriacao":"28/06/2016 23:32:27","dataAtualizacao":"28/06/2016 23:32:27","estagios":[],"gruposSemaforicos":[]},{"id":"19883586-ff33-4585-a004-311dcb3aada0","ativo":false,"quantidadeGrupoPedestre":0,"quantidadeGrupoVeicular":0,"quantidadeDetectorPedestre":0,"quantidadeDetectorVeicular":0,"dataCriacao":"28/06/2016 23:32:27","dataAtualizacao":"28/06/2016 23:32:27","estagios":[],"gruposSemaforicos":[]},{"id":"41bfb905-3950-414c-9ee6-147b13bc70f8","ativo":false,"quantidadeGrupoPedestre":0,"quantidadeGrupoVeicular":0,"quantidadeDetectorPedestre":0,"quantidadeDetectorVeicular":0,"dataCriacao":"28/06/2016 23:32:27","dataAtualizacao":"28/06/2016 23:32:27","estagios":[],"gruposSemaforicos":[]},{"id":"578ac07c-68ce-4e72-8368-424b8ef506a2","ativo":false,"quantidadeGrupoPedestre":0,"quantidadeGrupoVeicular":0,"quantidadeDetectorPedestre":0,"quantidadeDetectorVeicular":0,"dataCriacao":"28/06/2016 23:32:27","dataAtualizacao":"28/06/2016 23:32:27","estagios":[],"gruposSemaforicos":[]},{"id":"aba2b4c3-de65-4baa-b064-1375199e40b8","ativo":false,"quantidadeGrupoPedestre":0,"quantidadeGrupoVeicular":0,"quantidadeDetectorPedestre":0,"quantidadeDetectorVeicular":0,"dataCriacao":"28/06/2016 23:32:27","dataAtualizacao":"28/06/2016 23:32:27","estagios":[],"gruposSemaforicos":[]},{"id":"d7c5dc59-3f83-4c66-ac05-4dcfb5429de7","ativo":false,"quantidadeGrupoPedestre":0,"quantidadeGrupoVeicular":0,"quantidadeDetectorPedestre":0,"quantidadeDetectorVeicular":0,"dataCriacao":"28/06/2016 23:32:27","dataAtualizacao":"28/06/2016 23:32:27","estagios":[],"gruposSemaforicos":[]},{"id":"efc70dee-08d1-4bf2-b38d-5143dde2a84e","ativo":false,"quantidadeGrupoPedestre":0,"quantidadeGrupoVeicular":0,"quantidadeDetectorPedestre":0,"quantidadeDetectorVeicular":0,"dataCriacao":"28/06/2016 23:32:27","dataAtualizacao":"28/06/2016 23:32:27","estagios":[],"gruposSemaforicos":[]},{"id":"fabea98b-bd33-480b-8b10-48332849fe9b","numeroSMEE":"teste","ativo":true,"posicao":1,"latitude":-19.9513211,"longitude":-43.921468600000026,"quantidadeGrupoPedestre":2,"quantidadeGrupoVeicular":0,"quantidadeDetectorPedestre":0,"quantidadeDetectorVeicular":0,"dataCriacao":"28/06/2016 23:31:32","dataAtualizacao":"28/06/2016 23:32:27","estagios":[{"id":"6b95029b-bba8-4186-9875-fd62b8f0d1de","imagem":{"id":"4b1a186f-df95-4cf0-8bf6-9fe01cb89bfe","filename":"13406967_1003062549749489_543993289383831132_n.jpg","contentType":"image/jpeg","dataCriacao":"28/06/2016 23:31:52","dataAtualizacao":"28/06/2016 23:31:52"},"demandaPrioritaria":false,"dataCriacao":"28/06/2016 23:32:27","dataAtualizacao":"28/06/2016 23:32:27"},{"id":"f6d285ef-83a3-4498-a4da-d8c1d2c6d7ff","imagem":{"id":"8e58963d-2b83-43ec-82eb-8609b2016bfd","filename":"12321359_986438248070903_1173574894423312875_n.jpg","contentType":"image/jpeg","dataCriacao":"28/06/2016 23:31:52","dataAtualizacao":"28/06/2016 23:31:52"},"demandaPrioritaria":false,"dataCriacao":"28/06/2016 23:32:27","dataAtualizacao":"28/06/2016 23:32:27"}],"gruposSemaforicos":[{"id":"5225d0bc-5b41-4b40-8647-73a985e54997","dataCriacao":"28/06/2016 23:31:55","dataAtualizacao":"28/06/2016 23:32:27","tipo":"PEDESTRE","posicao":1,"descricao":"veicular g1","estagioGrupoSemaforicos":[{"id":"3e61befa-e09c-4e2e-8470-f0224f494712","dataCriacao":"28/06/2016 23:32:27","dataAtualizacao":"28/06/2016 23:32:27","ativo":true,"estagio":{"id":"6b95029b-bba8-4186-9875-fd62b8f0d1de","imagem":{"id":"4b1a186f-df95-4cf0-8bf6-9fe01cb89bfe","filename":"13406967_1003062549749489_543993289383831132_n.jpg","contentType":"image/jpeg","dataCriacao":"28/06/2016 23:31:52","dataAtualizacao":"28/06/2016 23:31:52"},"demandaPrioritaria":false,"dataCriacao":"28/06/2016 23:32:27","dataAtualizacao":"28/06/2016 23:32:27"},"grupoSemaforico":{"id":"5225d0bc-5b41-4b40-8647-73a985e54997"}}]},{"id":"82b80f5f-82b8-4905-865e-932e324a9796","dataCriacao":"28/06/2016 23:31:55","dataAtualizacao":"28/06/2016 23:32:27","tipo":"PEDESTRE","posicao":2,"descricao":"veicular g2","estagioGrupoSemaforicos":[{"id":"48030015-0332-4a56-a02b-c9fa54521462","dataCriacao":"28/06/2016 23:32:27","dataAtualizacao":"28/06/2016 23:32:27","ativo":true,"estagio":{"id":"f6d285ef-83a3-4498-a4da-d8c1d2c6d7ff","imagem":{"id":"8e58963d-2b83-43ec-82eb-8609b2016bfd","filename":"12321359_986438248070903_1173574894423312875_n.jpg","contentType":"image/jpeg","dataCriacao":"28/06/2016 23:31:52","dataAtualizacao":"28/06/2016 23:31:52"},"demandaPrioritaria":false,"dataCriacao":"28/06/2016 23:32:27","dataAtualizacao":"28/06/2016 23:32:27"},"grupoSemaforico":{"id":"82b80f5f-82b8-4905-865e-932e324a9796"}}]}]}],"gruposSemaforicos":[{"id":"5225d0bc-5b41-4b40-8647-73a985e54997","dataCriacao":"28/06/2016 23:31:55","dataAtualizacao":"28/06/2016 23:32:27","tipo":"PEDESTRE","posicao":1,"descricao":"veicular g1","estagioGrupoSemaforicos":[{"id":"3e61befa-e09c-4e2e-8470-f0224f494712","dataCriacao":"28/06/2016 23:32:27","dataAtualizacao":"28/06/2016 23:32:27","ativo":true,"estagio":{"id":"6b95029b-bba8-4186-9875-fd62b8f0d1de","imagem":{"id":"4b1a186f-df95-4cf0-8bf6-9fe01cb89bfe","filename":"13406967_1003062549749489_543993289383831132_n.jpg","contentType":"image/jpeg","dataCriacao":"28/06/2016 23:31:52","dataAtualizacao":"28/06/2016 23:31:52"},"demandaPrioritaria":false,"dataCriacao":"28/06/2016 23:32:27","dataAtualizacao":"28/06/2016 23:32:27"},"grupoSemaforico":{"id":"5225d0bc-5b41-4b40-8647-73a985e54997"}}]},{"id":"82b80f5f-82b8-4905-865e-932e324a9796","dataCriacao":"28/06/2016 23:31:55","dataAtualizacao":"28/06/2016 23:32:27","tipo":"PEDESTRE","posicao":2,"descricao":"veicular g2","estagioGrupoSemaforicos":[{"id":"48030015-0332-4a56-a02b-c9fa54521462","dataCriacao":"28/06/2016 23:32:27","dataAtualizacao":"28/06/2016 23:32:27","ativo":true,"estagio":{"id":"f6d285ef-83a3-4498-a4da-d8c1d2c6d7ff","imagem":{"id":"8e58963d-2b83-43ec-82eb-8609b2016bfd","filename":"12321359_986438248070903_1173574894423312875_n.jpg","contentType":"image/jpeg","dataCriacao":"28/06/2016 23:31:52","dataAtualizacao":"28/06/2016 23:31:52"},"demandaPrioritaria":false,"dataCriacao":"28/06/2016 23:32:27","dataAtualizacao":"28/06/2016 23:32:27"},"grupoSemaforico":{"id":"82b80f5f-82b8-4905-865e-932e324a9796"}}]}],"route":"controladores","reqParams":null,"restangularized":true,"fromServer":true,"parentResource":null,"restangularCollection":false};
+        fakeInicializaWizard(scope, $q, objeto, scope.inicializaVerdesConflitantes);
+      });
+
+      it('se a caixa de verde conflitante clicada estiver desabilitada, os verdes conflitantes não serão alterados',
+        function() {
+          scope.toggleVerdeConflitante(0, 0, true);
+          expect(scope.verdesConflitantes[0][0]).not.toBeTruthy();
+        });
+
+      describe('Ativação de um verde conflitante.', function () {
+        it('Deve adicionar o id do grupo "y" nos verdes conflitantes do grupo "x"', function() {
+          var grupo0 = _.find(scope.objeto.gruposSemaforicos, {posicao: 1});
+          var grupo1 = _.find(scope.objeto.gruposSemaforicos, {posicao: 2});
+          scope.toggleVerdeConflitante(0, 1);
+
+          expect(grupo0.verdesConflitantes.length).toBe(1);
+          expect(grupo0.verdesConflitantes[0].id).toBe(grupo1.id);
+        });
+
+        it('A matriz deve marcar a posicao 0x1 como verde conflitante.', function() {
+          scope.toggleVerdeConflitante(0, 1);
+          expect(scope.verdesConflitantes[0][1]).toBeTruthy();
+        });
+      });
+
+      describe('desativação de um verde conflitante.', function () {
+        beforeEach(function() {
+          scope.toggleVerdeConflitante(0, 1);
+        });
+
+        it('O grupo "x" não deve ter verdes conflitantes', function() {
+          var grupo0 = _.find(scope.objeto.gruposSemaforicos, {posicao: 1});
+          scope.toggleVerdeConflitante(0, 1);
+          expect(grupo0.verdesConflitantes.length).toBe(0);
+        });
+
+        it('A matriz deve apontar a posicao 0x0 como um verde não conflitante', function () {
+          scope.toggleVerdeConflitante(0, 1);
+          expect(scope.verdesConflitantes[0][1]).not.toBeTruthy();
+        });
       });
     });
 
@@ -222,21 +349,6 @@ describe('Controller: ControladoresCtrl', function () {
       it('Deve atribuir uma imagem ao estagio.', function() {
         scope.associaImagemAoEstagio(null, {id: 1});
         expect(scope.currentAnel.estagios[0].imagem).toEqual(imagem);
-      });
-    });
-
-    describe('mensagemValidacaoForm', function() {
-      it('Deve construir um objeto contendo uma lista de mensagens de validacao', function() {
-        scope.validacoes = {};
-        var res = {
-          data: [
-            {message: 'mag_1'},
-            {message: 'mag_2'}
-          ]
-        };
-
-        scope.mensagemValidacaoForm(res);
-        expect(scope.validacoes.alerts.length).toBe(2);
       });
     });
   });

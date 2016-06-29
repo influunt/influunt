@@ -11,7 +11,7 @@
  * i18n de forma assincrona).
  */
 angular.module('influuntApp')
-  .directive('influuntDropzone', ['APP_ROOT', function (APP_ROOT) {
+  .directive('influuntDropzone', ['APP_ROOT', '$timeout', function (APP_ROOT, $timeout) {
     return {
       restrict: 'A',
       scope: {
@@ -26,8 +26,10 @@ angular.module('influuntApp')
          * não são deste anel e exibir aqueles que são deles.
          */
         var filterVisiblePreviews = function() {
-          $('.dz-preview[data-anel-id="' + scope.anel.idAnel + '"]').show();
-          $('.dz-preview:not([data-anel-id="' + scope.anel.idAnel + '"])').hide();
+          $timeout(function() {
+            $('.dz-preview[data-anel-id="' + scope.anel.idAnel + '"]').show();
+            $('.dz-preview:not([data-anel-id="' + scope.anel.idAnel + '"])').hide();
+          }, 0);
         };
 
         scope.$watch('anel.idAnel', function(value) {

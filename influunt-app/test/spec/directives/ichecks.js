@@ -12,13 +12,10 @@ describe('Directive: ichecks', function () {
     scope = $rootScope.$new();
   }));
 
-  beforeEach(inject(function ($compile, $timeout) {
+  beforeEach(inject(function ($compile) {
     element = angular.element('<input type="checkbox" ichecks ng-model="test">');
     element = $compile(element)(scope);
     scope.$apply();
-
-    // $timeout.flush();
-    // $timeout.verifyNoPendingTasks();
   }));
 
   it('Deve criar um elemento ichecks sempre que o atributo icheck for adicionado a um checkbox', function() {
@@ -45,10 +42,6 @@ describe('Directive: ichecks', function () {
     $timeout.verifyNoPendingTasks();
 
     expect(element.is(':disabled')).toBe(false);
-  }));
-
-  it('deve executar o callback de unchek', inject(function($compile, $timeout) {
-
   }));
 
   it('Deve trocar o estado da variavel settada em ng-model sempre que o usuário clicar no icheck', function() {
