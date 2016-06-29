@@ -1,9 +1,6 @@
 package controllers;
 
-import checks.ControladorAneisCheck;
-import checks.ControladorAssociacaoGruposSemaforicosCheck;
-import checks.Erro;
-import checks.InfluuntValidator;
+import checks.*;
 import com.google.inject.Inject;
 import models.Controlador;
 import play.data.FormFactory;
@@ -42,7 +39,7 @@ public class ControladoresController extends Controller {
     @Transactional
     public CompletionStage<Result> verdesConflitantes() {
         return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class,
-                ControladorAssociacaoGruposSemaforicosCheck.class);
+                ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class);
     }
 
     @Transactional

@@ -96,6 +96,16 @@ public class AnelDeserializer extends JsonDeserializer<Anel> {
         if (node.has("tipo")) {
             grupoSemaforico.setTipo(TipoGrupoSemaforico.valueOf(node.get("tipo").asText()));
         }
+        if (node.has("descricao")) {
+            grupoSemaforico.setDescricao(node.get("descricao").asText());
+        }
+        if(node.has("verdesConflitantes")) {
+            List<GrupoSemaforico> verdesConflitantes = new ArrayList<GrupoSemaforico>();
+            for (JsonNode verdesConflitantesGSNode : node.get("verdesConflitantes")) {
+                verdesConflitantes.add(getGrupoSemaforico(verdesConflitantesGSNode, anel));
+            }
+            grupoSemaforico.setVerdesConflitantes(verdesConflitantes);
+        }
         if (node.has("estagioGrupoSemaforicos")) {
             List<EstagioGrupoSemaforico> estagioGrupoSemaforicos = new ArrayList<EstagioGrupoSemaforico>();
             for (JsonNode estagioGSNode : node.get("estagioGrupoSemaforicos")) {
@@ -103,7 +113,7 @@ public class AnelDeserializer extends JsonDeserializer<Anel> {
             }
             grupoSemaforico.setEstagioGrupoSemaforicos(estagioGrupoSemaforicos);
         }
-
+        grupoSemaforico.setAnel(anel);
         return grupoSemaforico;
     }
 
