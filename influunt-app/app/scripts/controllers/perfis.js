@@ -25,9 +25,9 @@ angular.module('influuntApp')
       };
 
       $scope.afterShow = function() {
-        $scope.checked = {};
+        $scope.permissoesChecked = {};
         $scope.objeto.permissoes.forEach(function(permissao) {
-          $scope.checked[permissao.id] = true;
+          $scope.permissoesChecked[permissao.id] = true;
         });
       };
 

@@ -24,7 +24,7 @@
                       <tr data-ng-repeat="permissao in permissoes">
                         <td>{{ permissao.nome }}</td>
                         <td width="5%">
-                          <input type="checkbox" ichecks i-changed="atualizaListaPermissoes(permissao)" ng-model="checked[permissao.id]">
+                          <input type="checkbox" ichecks i-changed="atualizaListaPermissoes(permissao)" ng-model="permissoesAtivadas[permissao.id]">
                         </td>
                       </tr>
                     </tbody>
