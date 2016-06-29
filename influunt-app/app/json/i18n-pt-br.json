@@ -136,6 +136,12 @@
   "menu": {
     "cadastros": "CADASTROS"
   },
+  "usuarios": {
+    "email": "Email",
+    "nome": "Nome",
+    "papel": "Papel",
+    "titulo": "Usuários"
+  },
   "plugins": {
     "datatables_cdn": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json",
     "steps": {

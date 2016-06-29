@@ -130,26 +130,6 @@ angular
           }
         })
 
-        // .state('app.controladores_new', {
-        //   url: '/controladores/new',
-        //   templateUrl: 'views/controladores/new.html',
-        //   controller: 'ControladoresCtrl',
-        //   controllerAs: 'controladores',
-        //   data: {
-        //     title: 'controladores.titulo'
-        //   }
-        // })
-
-        // .state('app.controladores_edit', {
-        //   url: '/controladores/:id/edit',
-        //   templateUrl: 'views/controladores/edit.html',
-        //   controller: 'ControladoresCtrl',
-        //   controllerAs: 'controladores',
-        //   data: {
-        //     title: 'controladores.titulo'
-        //   }
-        // })
-
         .state('app.controladores_show', {
           url: '/controladores/:id',
           templateUrl: 'views/controladores/show.html',
@@ -362,6 +342,47 @@ angular
           templateUrl: 'views/controladores/wizard/verdes-conflitantes.html',
           data: {
             title: 'controladores.titulo'
+          }
+        })
+
+        // Crud usuarios.
+        .state('app.usuarios', {
+          url: '/usuarios',
+          templateUrl: 'views/usuarios/index.html',
+          controller: 'UsuariosCtrl',
+          controllerAs: 'usuarios',
+          data: {
+            title: 'usuarios.titulo'
+          }
+        })
+
+        .state('app.usuarios_new', {
+          url: '/usuarios/new',
+          templateUrl: 'views/usuarios/new.html',
+          controller: 'UsuariosCtrl',
+          controllerAs: 'usuarios',
+          data: {
+            title: 'usuarios.titulo'
+          }
+        })
+
+        .state('app.usuarios_edit', {
+          url: '/usuarios/:id/edit',
+          templateUrl: 'views/usuarios/edit.html',
+          controller: 'UsuariosCtrl',
+          controllerAs: 'usuarios',
+          data: {
+            title: 'usuarios.titulo'
+          }
+        })
+
+        .state('app.usuarios_show', {
+          url: '/usuarios/:id',
+          templateUrl: 'views/usuarios/show.html',
+          controller: 'UsuariosCtrl',
+          controllerAs: 'usuarios',
+          data: {
+            title: 'usuarios.titulo'
           }
         })
 
