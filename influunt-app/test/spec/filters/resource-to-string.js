@@ -6,14 +6,25 @@ describe('Filter: resourceToString', function () {
   beforeEach(module('influuntApp'));
 
   // initialize a new instance of the filter before each test
-  var resourceToString;
+  var resourceToString, resource;
   beforeEach(inject(function ($filter) {
     resourceToString = $filter('resourceToString');
+    resource = {
+      nome: 'nome-resource',
+      other: 'other-resource'
+    };
   }));
 
-  it('should return the input prefixed with "resourceToString filter:"', function () {
-    var text = 'angularjs';
-    expect(resourceToString(text)).toBe('resourceToString filter: ' + text);
+  it('Não deve retornar nada caso não haja um resource definido', function() {
+    expect(resourceToString()).not.toBeDefined();
+  });
+
+  it('Deve retornar por padrao o nome do resource', function() {
+    expect(resourceToString(resource)).toBe('nome-resource');
+  });
+
+  it('Deve retornar qualquer outro campo, caso este seja definido.', function() {
+    expect(resourceToString(resource, 'other')).toBe('other-resource');
   });
 
 });

@@ -6,14 +6,45 @@ describe('Filter: resourceListToString', function () {
   beforeEach(module('influuntApp'));
 
   // initialize a new instance of the filter before each test
-  var resourceListToString;
+  var resourceListToString, resources;
   beforeEach(inject(function ($filter) {
     resourceListToString = $filter('resourceListToString');
+    resources = [{
+      descricao: 'descricao-resource1',
+      other: 'other-resource1'
+    },
+    {
+      descricao: 'descricao-resource2',
+      other: 'other-resource2'
+    },
+    {
+      descricao: 'descricao-resource3',
+      other: 'other-resource3'
+    }];
   }));
 
-  it('should return the input prefixed with "resourceListToString filter:"', function () {
-    var text = 'angularjs';
-    expect(resourceListToString(text)).toBe('resourceListToString filter: ' + text);
+  it('Não deve retornar nada caso não haja resource definido', function() {
+    expect(resourceListToString()).not.toBeDefined();
+  });
+
+  it('Deve retornar uma string contendo três elementos de lista HTML', function() {
+    var result = resourceListToString(resources);
+    var resultHTML = $(result);
+
+    expect(result).toBeDefined();
+    expect(resultHTML.length).toBe(3);
+  });
+
+  it('Deve retornar a descrição do resource por padrão', function() {
+    expect(resourceListToString(resources)).toMatch(/descricao-resource1/);
+    expect(resourceListToString(resources)).toMatch(/descricao-resource2/);
+    expect(resourceListToString(resources)).toMatch(/descricao-resource3/);
+  });
+
+  it('Deve retornar o valor de qualquer outro parâmetro, se informado.', function() {
+    expect(resourceListToString(resources, 'other')).toMatch(/other-resource1/);
+    expect(resourceListToString(resources, 'other')).toMatch(/other-resource2/);
+    expect(resourceListToString(resources, 'other')).toMatch(/other-resource3/);
   });
 
 });

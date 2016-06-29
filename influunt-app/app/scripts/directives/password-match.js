@@ -19,5 +19,5 @@ angular.module('influuntApp')
           ctrl.$setValidity('passwordMatch', scope.ngModel === scope.passwordMatch);
         });
       }
-    }
+    };
   }]);

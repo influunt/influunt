@@ -56,6 +56,17 @@ describe('Controller: CrudCtrl', function () {
     expect(scope.objeto).toEqual({});
   });
 
+  it('Não deverá salvar dado algum caso o formulário seja inválido', function() {
+    spyOn(scope, 'create');
+    spyOn(scope, 'update');
+
+    var formValido = false;
+    scope.save(formValido);
+
+    expect(scope.create).not.toHaveBeenCalled();
+    expect(scope.update).not.toHaveBeenCalled();
+  });
+
   it('Deve executar o método de "create" quando se salva um objeto sem id', function() {
     spyOn(scope, 'create').and.callFake(function() {
       var deferred = $q.defer();

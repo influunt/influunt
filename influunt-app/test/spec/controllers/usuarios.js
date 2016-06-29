@@ -3,21 +3,42 @@
 describe('Controller: UsuariosCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('influuntApp'));
+  beforeEach(module('influuntApp', function(RestangularProvider) {
+    RestangularProvider.setBaseUrl('');
+  }));
 
   var UsuariosCtrl,
-    scope;
+    scope,
+    httpBackend,
+    listaPapeis;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope) {
+  beforeEach(inject(function ($controller, $rootScope, $httpBackend) {
     scope = $rootScope.$new();
     UsuariosCtrl = $controller('UsuariosCtrl', {
       $scope: scope
-      // place here mocked dependencies
     });
+
+    httpBackend = $httpBackend;
+
+    listaPapeis = [
+      {nome: 'cidade 1'},
+      {nome: 'cidade 2'}
+    ];
   }));
 
-  xit('should attach a list of awesomeThings to the scope', function () {
-    expect(UsuariosCtrl.awesomeThings.length).toBe(3);
+  it('Deve conter as definições das funções de CRUD', function() {
+    expect(scope.index).toBeDefined();
+    expect(scope.show).toBeDefined();
+    expect(scope.new).toBeDefined();
+    expect(scope.save).toBeDefined();
+    expect(scope.confirmDelete).toBeDefined();
+  });
+
+  it('Deve retornar a lista de papeis', function() {
+    httpBackend.expectGET('/papeis').respond(listaPapeis);
+    scope.beforeShow();
+    httpBackend.flush();
+    expect(scope.papeis.length).toEqual(listaPapeis.length);
   });
 });
