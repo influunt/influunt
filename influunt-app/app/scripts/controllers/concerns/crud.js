@@ -66,12 +66,21 @@ angular.module('influuntApp')
     /**
      * Salva o registro.
      *
-     * @return     {Object}  Promise
+     * @param      {boolean}  formValido  The form valido
+     * @return     {boolean}  { description_of_the_return_value }
      */
-    $scope.save = function() {
+    $scope.save = function(formValido) {
+
+      // Não deve tentar enviar os dados se há informações de formulário invalido.
+      $scope.submited = true;
+      if (angular.isDefined(formValido) && !formValido) {
+        return false;
+      }
+
       var promise = $scope.objeto.id ? $scope.update() : $scope.create();
       return promise
         .then(function() {
+          $scope.submited = false;
           $state.go('app.' + resourceName);
           toast.success($filter('translate')('geral.mensagens.salvo_com_sucesso'));
         })

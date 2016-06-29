@@ -1,0 +1,57 @@
+<div class="ibox-content">
+  <form class="simple_form form-horizontal"
+      method="post"
+      name="formUsuarios"
+      novalidate="novalidate"
+      data-ng-submit="save(formUsuarios.$valid)">
+
+    <div class="form-group">
+      <label class="control-label col-sm-2 control-label">{{ 'usuarios.nome' | translate }}</label>
+      <div class="col-sm-9">
+        <input class="string optional form-control" name="usuario_nome" type="text" data-ng-model="objeto.nome" required="">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-2 control-label">{{ 'usuarios.email' | translate }}</label>
+      <div class="col-sm-9">
+        <input class="string optional form-control" name="usuario_email" type="text" data-ng-model="objeto.email">
+      </div>
+    </div>
+
+    <div class="form-group" data-ng-class="{'has-error': submited && formUsuarios.usuario_confirmacao_senha.$error.passwordMatch}">
+      <label class="control-label col-sm-2 control-label">{{ 'usuarios.senha' | translate }}</label>
+      <div class="col-sm-9">
+        <input class="string optional form-control" name="usuario_senha" type="password" data-ng-model="objeto.senha">
+      </div>
+    </div>
+
+    <div class="form-group" data-ng-class="{'has-error': submited && formUsuarios.usuario_confirmacao_senha.$error.passwordMatch}">
+      <label class="control-label col-sm-2 control-label">{{ 'usuarios.confirmacao_senha' | translate }}</label>
+      <div class="col-sm-9">
+        <input class="string optional form-control" name="usuario_confirmacao_senha"
+          type="password" ng-model="confirmacao_senha"
+          password-match="objeto.senha">
+        <p class="help-block error-msg" data-ng-if="submited && formUsuarios.usuario_confirmacao_senha.$error.passwordMatch">Confirmação de senha incorreta.</p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-2 control-label">{{ 'usuarios.papel' | translate }}</label>
+      <div class="col-sm-9">
+        <select name="usuario_papel" class="form-control"
+          data-ng-options="papel.id as papel.nome for papel in papeis"
+          data-ng-model="objeto.papel.id"></select>
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <div class="col-sm-4 col-sm-offset-2">
+        <input class="btn btn-primary" name="commit" type="submit" value="{{ 'geral.crud.salvar' | translate }}">
+        <a class="btn btn-default" ui-sref="app.usuarios">{{ 'geral.crud.voltar' | translate }}</a>
+      </div>
+    </div>
+
+  </form>
+</div>

@@ -27,7 +27,7 @@
               </thead>
               <tbody>
                 <tr data-ng-repeat="area in lista">
-                  <td>{{ area.cidade | nomeCidade }}</td>
+                  <td>{{ area.cidade | resourceToString }}</td>
                   <td>{{ area.descricao }}</td>
                   <td data-ng-bind-html="area.coordenadas"></td>
                   <td>

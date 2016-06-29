@@ -8,10 +8,19 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('UsuariosCtrl', ['$scope', '$controller',
-    function ($scope, $controller) {
+  .controller('UsuariosCtrl', ['$scope', '$controller', 'Restangular',
+    function ($scope, $controller, Restangular) {
       // Herda todo o comportamento do crud basico.
       $controller('CrudCtrl', {$scope: $scope});
       $scope.inicializaNovoCrud('usuarios');
+
+      /**
+       * Recupera a lista de configuracoes que podem ser relacionadas aos modelos.
+       */
+      $scope.beforeShow = function() {
+        Restangular.all('papeis').getList().then(function(res) {
+          $scope.papeis = res;
+        });
+      };
 
     }]);

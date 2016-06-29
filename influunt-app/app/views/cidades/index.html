@@ -27,7 +27,7 @@
               <tbody>
                 <tr data-ng-repeat="cidade in lista">
                   <td>{{ cidade.nome }}</td>
-                  <td data-ng-bind-html="cidade.areas | nomeAreas"></td>
+                  <td data-ng-bind-html="cidade.areas | resourceListToString"></td>
                   <td>
                     <a ui-sref="app.cidades_show({id: cidade.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
                     <a ui-sref="app.cidades_edit({id: cidade.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.editar' | translate }}</a>

@@ -29,7 +29,7 @@
                 <tr data-ng-repeat="usuario in lista">
                   <td>{{ usuario.nome }}</td>
                   <td>{{ usuario.email }}</td>
-                  <td data-ng-bind-html="usuario.papel | nomePapel"></td>
+                  <td data-ng-bind-html="usuario.papel | resourceToString"></td>
                   <td>
                     <a ui-sref="app.usuarios_show({id: usuario.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
                     <a ui-sref="app.usuarios_edit({id: usuario.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.editar' | translate }}</a>

@@ -137,9 +137,11 @@
     "cadastros": "CADASTROS"
   },
   "usuarios": {
+    "confirmacao_senha": "Confirmação senha",
     "email": "Email",
     "nome": "Nome",
     "papel": "Papel",
+    "senha": "Senha",
     "titulo": "Usuários"
   },
   "plugins": {
