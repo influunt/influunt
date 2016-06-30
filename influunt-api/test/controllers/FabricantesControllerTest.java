@@ -1,6 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.inject.Singleton;
 import models.Fabricante;
 import org.junit.Assert;
 import org.junit.Test;
@@ -12,6 +13,8 @@ import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
 import play.test.WithApplication;
+import security.AllowAllAuthenticator;
+import security.Authenticator;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +24,7 @@ import java.util.UUID;
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static play.inject.Bindings.bind;
 import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.route;
 
@@ -36,7 +40,10 @@ public class FabricantesControllerTest extends WithApplication {
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     private Application getApplication(Map configuration) {
-        return new GuiceApplicationBuilder().configure(configuration).in(Mode.TEST).build();
+        return new GuiceApplicationBuilder().configure(configuration)
+                .overrides(bind(Authenticator.class).to(AllowAllAuthenticator.class).in(Singleton.class))
+                .in(Mode.TEST).build();
+
     }
 
     @Test

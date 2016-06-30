@@ -2,15 +2,10 @@
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
-import formmaters.FormattersProvider;
-import play.data.format.Formatters;
 import security.Authenticator;
-import security.DumbAuthenticator;
+import security.DBAuthenticator;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 /**
  * This class is a Guice module that tells Guice how to bind several different
@@ -28,7 +23,7 @@ public class Module extends AbstractModule {
     @Override
     public void configure() {
 
-        bind(Authenticator.class).to(DumbAuthenticator.class).in(Singleton.class);
+        bind(Authenticator.class).to(DBAuthenticator.class).in(Singleton.class);
     }
 
 

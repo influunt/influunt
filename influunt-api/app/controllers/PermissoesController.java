@@ -2,9 +2,9 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
 import be.objectify.deadbolt.java.actions.Dynamic;
-import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Cidade;
+import models.Perfil;
+import models.Permissao;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -19,48 +19,45 @@ import java.util.concurrent.CompletionStage;
 @DeferredDeadbolt
 @Security.Authenticated(Secured.class)
 @Dynamic("Influunt")
-public class CidadesController extends Controller {
+public class PermissoesController extends Controller {
 
 
     @Transactional
-
     public CompletionStage<Result> create() {
-
         JsonNode json = request().body().asJson();
 
         if (json == null) {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
+        } else {
+            Permissao permissao = Json.fromJson(json, Permissao.class);
+            permissao.save();
+            return CompletableFuture.completedFuture(ok(Json.toJson(permissao)));
         }
-
-        Cidade cidade = Json.fromJson(json, Cidade.class);
-        cidade.save();
-        return CompletableFuture.completedFuture(ok(Json.toJson(cidade)));
     }
 
     @Transactional
     public CompletionStage<Result> findOne(String id) {
-        Cidade cidade = Cidade.find.byId(UUID.fromString(id));
-        if (cidade == null) {
+        Permissao permissao = Permissao.find.byId(UUID.fromString(id));
+        if (permissao == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
-            return CompletableFuture.completedFuture(ok(Json.toJson(cidade)));
+            return CompletableFuture.completedFuture(ok(Json.toJson(permissao)));
         }
     }
 
     @Transactional
     public CompletionStage<Result> findAll() {
-        return CompletableFuture.completedFuture(ok(Json.toJson(Cidade.find.findList())));
+        return CompletableFuture.completedFuture(ok(Json.toJson(Permissao.find.findList())));
     }
 
     @Transactional
     public CompletionStage<Result> delete(String id) {
-        Cidade cidade = Cidade.find.byId(UUID.fromString(id));
-        if (cidade == null) {
+        Permissao permissao = Permissao.find.byId(UUID.fromString(id));
+        if(permissao == null) {
             return CompletableFuture.completedFuture(notFound());
-        } else {
-            cidade.delete();
-            return CompletableFuture.completedFuture(ok());
         }
+        permissao.delete();
+        return CompletableFuture.completedFuture(ok());
     }
 
     @Transactional
@@ -69,17 +66,15 @@ public class CidadesController extends Controller {
         if (json == null) {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         }
-
-        Cidade cidade = Cidade.find.byId(UUID.fromString(id));
-        if (cidade == null) {
+        Permissao permissaoExistente = Permissao.find.byId(UUID.fromString(id));
+        if (permissaoExistente == null) {
             return CompletableFuture.completedFuture(notFound());
-        } else {
-            cidade = Json.fromJson(json, Cidade.class);
-            cidade.setId(UUID.fromString(id));
-            cidade.update();
-            return CompletableFuture.completedFuture(ok(Json.toJson(cidade)));
         }
 
+        Permissao permissao = Json.fromJson(json, Permissao.class);
+        permissao.setId(UUID.fromString(id));
+        permissao.update();
+        return CompletableFuture.completedFuture(ok(Json.toJson(permissao)));
     }
 
 }
