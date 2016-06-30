@@ -31,7 +31,6 @@ public class PerfisController extends Controller {
         } else {
             Perfil perfil = Json.fromJson(json, Perfil.class);
             perfil.save();
-            perfil.refresh();
             return CompletableFuture.completedFuture(ok(Json.toJson(perfil)));
         }
     }

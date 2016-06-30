@@ -31,7 +31,6 @@ public class PermissoesController extends Controller {
         } else {
             Permissao permissao = Json.fromJson(json, Permissao.class);
             permissao.save();
-            permissao.refresh();
             return CompletableFuture.completedFuture(ok(Json.toJson(permissao)));
         }
     }
