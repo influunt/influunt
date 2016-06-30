@@ -10,8 +10,10 @@
 angular.module('influuntApp')
   .controller('DatatablesCtrl', ['$scope', 'DTOptionsBuilder',
     function ($scope, DTOptionsBuilder) {
-      // Parametrizar idioma do datatable.
-      $scope.dtOptions = DTOptionsBuilder
-        .newOptions()
-        .withLanguageSource('//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json');
+      $scope.datatables = {
+        instance: {},
+        options: DTOptionsBuilder
+                  .newOptions()
+                  .withLanguageSource('//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json')
+      };
     }]);
