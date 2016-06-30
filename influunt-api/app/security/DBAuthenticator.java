@@ -1,20 +1,22 @@
 package security;
 
 import be.objectify.deadbolt.java.models.Subject;
+import com.avaje.ebean.Ebean;
+import com.avaje.ebean.SqlUpdate;
 import com.google.inject.Singleton;
 import helpers.HashHelper;
+import models.Sessao;
 import models.Usuario;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 
 @Singleton
 public class DBAuthenticator implements Authenticator {
-
-    private Map<String, UserSession> sessions = new HashMap<String, UserSession>();
 
     @Override
     public Subject getSubjectByCredentials(final String login, final String password) {
@@ -24,36 +26,36 @@ public class DBAuthenticator implements Authenticator {
 
     @Override
     public Subject getSubjectByToken(final String token) {
-        UserSession us = sessions.get(token);
-        return us != null ? us.getSubject() : null;
+        Sessao sessao = Sessao.find.byId(UUID.fromString(token));
+        return sessao != null ? sessao.getSubject() : null;
     }
 
     @Override
     public String createSession(final Subject subject) {
-        UserSession newSession = new UserSession(subject);
-        sessions.put(newSession.getToken(), newSession);
+        Sessao newSession = new Sessao((Usuario)subject);
+        newSession.save();
         return newSession.getToken();
     }
 
     @Override
     public void destroySession(final Subject subject) {
-        sessions.entrySet().removeIf(entry -> entry.getValue().getSubject().equals(subject));
+        SqlUpdate sql = Ebean.createSqlUpdate("DELETE FROM sessoes WHERE usuario_id = '"+ subject.getIdentifier() +"'");
+        sql.execute();
     }
 
     @Override
     public void destroySession(final String token) {
-        sessions.entrySet().removeIf(entry -> entry.getKey().equals(token));
+        Sessao.find.byId(UUID.fromString(token)).delete();
     }
 
     @Override
-    public Collection<UserSession> listSessions() {
-        return sessions.values();
+    public Collection<Sessao> listSessions() {
+        return Sessao.find.findList();
     }
 
     @Override
-    public Collection<UserSession> listSessions(Subject subject) {
-        return sessions.values().stream().filter(entry -> entry.getSubject().equals(subject))
-                .collect(Collectors.toList());
+    public Collection<Sessao> listSessions(Subject subject) {
+        return Sessao.find.where().eq("login",subject.getIdentifier()).findList();
     }
 
 }

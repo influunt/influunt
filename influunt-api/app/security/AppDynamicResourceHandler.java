@@ -35,8 +35,11 @@ public class AppDynamicResourceHandler implements DynamicResourceHandler {
                 return CompletableFuture.completedFuture(Boolean.TRUE);
             } else {
                 String chave = ctx.args.get("ROUTE_VERB").toString() + " " + ctx.args.get("ROUTE_PATTERN").toString();
-                return u.isAllowed(chave) ? CompletableFuture.completedFuture(Boolean.TRUE) :
-                        CompletableFuture.completedFuture(Boolean.FALSE);
+                if (u.isAllowed(chave)){
+                    return CompletableFuture.completedFuture(Boolean.TRUE);
+                }else {
+                    return CompletableFuture.completedFuture(Boolean.FALSE);
+                }
             }
         }
         return CompletableFuture.completedFuture(Boolean.FALSE);
