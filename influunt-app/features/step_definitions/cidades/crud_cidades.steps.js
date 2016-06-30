@@ -45,12 +45,12 @@ module.exports = function() {
     return cidadesPage.newPage();
   });
 
-  this.Given(/^preenche os campos corretamente$/, function(callback) {
+  this.Given(/^preenche os campos da cidade corretamente$/, function(callback) {
     cidadesPage.fillCidadeForm('Teste Cadastro Cidade');
     callback();
   });
 
-  this.Given(/^o registro deverá ser salvo com sucesso$/, function() {
+  this.Given(/^o registro da cidade deverá ser salvo com sucesso$/, function() {
     return cidadesPage.textoExisteNaTabela('Teste Cadastro Cidade');
   });
 

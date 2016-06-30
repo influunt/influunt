@@ -4,13 +4,13 @@ import checks.ControladorAneisCheck;
 import checks.Erro;
 import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
+import controllers.routes;
 import org.hamcrest.Matchers;
 import org.junit.Test;
-import play.test.Helpers;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
-import controllers.routes;
+import play.test.Helpers;
 
 import javax.validation.groups.Default;
 import java.util.Arrays;

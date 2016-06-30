@@ -248,7 +248,7 @@ gulp.task('serve:prod', function() {
   });
 });
 
-gulp.task('pre-test', function(cb) {
+gulp.task('pre-test', function() {
   runSequence(['constants', 'templates']);
 });
 

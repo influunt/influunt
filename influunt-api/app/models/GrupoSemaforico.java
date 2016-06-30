@@ -15,6 +15,7 @@ import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,6 +38,9 @@ public class GrupoSemaforico extends Model {
     @Enumerated(EnumType.STRING)
     @Column
     private TipoGrupoSemaforico tipo;
+
+    @Column
+    private String descricao;
 
     @ManyToOne
     @JoinColumn(name = "anel_id")
@@ -153,10 +157,21 @@ public class GrupoSemaforico extends Model {
         this.dataAtualizacao = dataAtualizacao;
     }
 
+    public String getDescricao() { return descricao; }
+
+    public void setDescricao(String descricao) { this.descricao = descricao; }
+
+    public void addEstagioGrupoSemaforico(EstagioGrupoSemaforico estagioGrupoSemaforico) {
+        if (getEstagioGrupoSemaforicos() == null) {
+            setEstagioGrupoSemaforicos(new ArrayList<EstagioGrupoSemaforico>());
+        }
+        getEstagioGrupoSemaforicos().add(estagioGrupoSemaforico);
+    }
+
     @JsonIgnore
-    @AssertTrue(groups = ControladorVerdesConflitantesCheck.class, message = "Esse grupo deve ter ao menos um verde conflitante")
+    @AssertTrue(groups = ControladorVerdesConflitantesCheck.class, message = "Esse grupo semafórico deve ter ao menos um verde conflitante")
     public boolean isAoMenosUmVerdeConflitante() {
-        if (this.getAnel().isAtivo() && this.getEstagioGrupoSemaforicos() != null && !this.getEstagioGrupoSemaforicos().isEmpty()) {
+        if (this.getAnel() != null && this.getAnel().isAtivo() && this.getEstagioGrupoSemaforicos() != null && !this.getEstagioGrupoSemaforicos().isEmpty()) {
             return this.getVerdesConflitantes() != null && !this.getVerdesConflitantes().isEmpty();
         } else {
             return true;
@@ -174,7 +189,7 @@ public class GrupoSemaforico extends Model {
     }
 
     @JsonIgnore
-    @AssertTrue(groups = ControladorVerdesConflitantesCheck.class, message = "Esse grupo semafórico não pode ter verde conflitante com grupos de outro anel")
+    @AssertTrue(groups = ControladorVerdesConflitantesCheck.class, message = "Esse grupo semafórico não pode ter verde conflitante com grupo semafórico de outro anel")
     public boolean isNaoConflitaComGruposDeOutroAnel() {
         if (this.getVerdesConflitantes() != null && !this.getVerdesConflitantes().isEmpty()) {
             return this.getVerdesConflitantes().stream().filter(grupoSemaforico -> !grupoSemaforico.getAnel().getId().equals(this.getAnel().getId())).count() == 0;
@@ -183,4 +198,15 @@ public class GrupoSemaforico extends Model {
         }
     }
 
+    @JsonIgnore
+    @Transient
+    public boolean isPedestre() {
+        return this.getTipo() != null && TipoGrupoSemaforico.PEDESTRE.equals(this.getTipo());
+    }
+
+    @JsonIgnore
+    @Transient
+    public boolean isVeicular() {
+        return this.getTipo() != null && TipoGrupoSemaforico.VEICULAR.equals(this.getTipo());
+    }
 }

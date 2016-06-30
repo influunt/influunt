@@ -42,14 +42,14 @@ public class Controlador extends Model {
     private UUID id;
 
     @Column
-    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
-    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
 
     @Column
-    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
-    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
 
@@ -108,28 +108,28 @@ public class Controlador extends Model {
 
 
     @Override
-    public void save(){
+    public void save() {
         antesDeSalvarOuAtualizar();
         super.save();
     }
 
     @Override
-    public void update(){
+    public void update() {
         antesDeSalvarOuAtualizar();
         super.update();
     }
 
-    private void antesDeSalvarOuAtualizar(){
+    private void antesDeSalvarOuAtualizar() {
 
-        if(this.getId()==null){
+        if (this.getId() == null) {
             int quantidade = getModelo().getConfiguracao().getLimiteAnel();
             this.aneis = new ArrayList<Anel>(quantidade);
             for (int i = 0; i < quantidade; i++) {
-                this.aneis.add(new Anel(this,i+1));
+                this.aneis.add(new Anel(this, i + 1));
             }
         }
 
-        if(getAneis() != null){
+        if (getAneis() != null) {
             getAneis().stream().forEach(anel -> {
                 anel.criaGruposSemaforicos();
                 anel.criaDetectores();
@@ -165,8 +165,8 @@ public class Controlador extends Model {
     }
 
     public String getCLC() {
-        if(this.id != null && this.area != null){
-           return String.format("%01d.%03d.%04d", this.area.getDescricao(), 0, 999);
+        if (this.id != null && this.area != null) {
+            return String.format("%01d.%03d.%04d", this.area.getDescricao(), 0, 999);
         }
         return "";
     }

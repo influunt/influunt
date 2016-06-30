@@ -28,8 +28,24 @@ public class GrupoSemaforicoSerializer extends JsonSerializer<GrupoSemaforico> {
         if (grupoSemaforico.getTipo() != null) {
             jgen.writeStringField("tipo", grupoSemaforico.getTipo().toString());
         }
-        if(grupoSemaforico.getPosicao() != null) {
+        if (grupoSemaforico.getPosicao() != null) {
             jgen.writeNumberField("posicao", grupoSemaforico.getPosicao());
+        }
+        if (grupoSemaforico.getDescricao() != null) {
+            jgen.writeStringField("descricao", grupoSemaforico.getDescricao());
+        }
+
+        if (grupoSemaforico.getVerdesConflitantes() != null) {
+            jgen.writeArrayFieldStart("verdesConflitantes");
+            for (GrupoSemaforico grupo : grupoSemaforico.getVerdesConflitantes()) {
+                GrupoSemaforico grupoAux = new GrupoSemaforico();
+                grupoAux.setId(grupo.getId());
+                grupoAux.setDescricao(grupo.getDescricao());
+                grupoAux.setTipo(grupo.getTipo());
+                grupoAux.setPosicao(grupo.getPosicao());
+                jgen.writeObject(grupoAux);
+            }
+            jgen.writeEndArray();
         }
 
         jgen.writeArrayFieldStart("estagioGrupoSemaforicos");

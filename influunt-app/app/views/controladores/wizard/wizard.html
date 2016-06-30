@@ -22,13 +22,6 @@
           <div class="content clearfix wizard-body">
             <div class="step-content body">
               <div class="col-lg-12 col-md-12 no-padding">
-                <uib-alert type="danger" close="closeAlert()" ng-if="validacoes.alerts.length > 0">
-                  <div style="padding-left: 12px;">
-                    <ul>
-                      <li ng-repeat="alert in validacoes.alerts" ng-bind-html="alert.msg | translate:alert.params"></li>
-                    </ul>
-                  </div>
-                </uib-alert>
                 <div id="form-views" ui-view></div>
               </div>
             </div>

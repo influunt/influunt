@@ -9,7 +9,7 @@
           <li ng-repeat="controlador in lista">
             <div class="i-checks">
               <label>
-                {{ controlador.descricao }}
+                {{ controlador.localizacao }}
                 <input ichecks type="checkbox" value="" ng-model="filtroLateral[controlador.id]">
               </label>
             </div>
@@ -51,7 +51,7 @@
                 <h5>{{ controlador.CLC }}</h5>
               </div>
               <div class="ibox-content">
-                <p class="title">{{ controlador.descricao }}</p>
+                <p class="title">{{ controlador.localizacao }}</p>
                 <!--
                 <p class="status"><b>Status:</b></p>
                 <p class="status-active"><i class="fa fa-circle text-navy"></i>Ativo</p>
