@@ -212,17 +212,37 @@ angular.module('influuntApp')
           return false;
         }
 
-        var grupo = _.find($scope.objeto.gruposSemaforicos, {id: $scope.grupoIds[x]});
-        grupo.verdesConflitantes = grupo.verdesConflitantes || [];
+        var grupoX = _.find($scope.objeto.gruposSemaforicos, {id: $scope.grupoIds[x]});
+        var grupoY = _.find($scope.objeto.gruposSemaforicos, {id: $scope.grupoIds[y]});
 
         if ($scope.verdesConflitantes[x][y]) {
-          var index = _.findIndex(grupo.verdesConflitantes, {id: $scope.grupoIds[y]});
-          grupo.verdesConflitantes.splice(index, 1);
+          var indexX = _.findIndex(grupoX.verdesConflitantes, {id: $scope.grupoIds[y]});
+          grupoX.verdesConflitantes.splice(indexX, 1);
+
+          var indexY = _.findIndex(grupoY.verdesConflitantes, {id: $scope.grupoIds[x]});
+          grupoY.verdesConflitantes.splice(indexY, 1);
         } else {
-          grupo.verdesConflitantes.push({id: $scope.grupoIds[y]});
+          grupoX.verdesConflitantes.push({id: $scope.grupoIds[y]});
+          grupoY.verdesConflitantes.push({id: $scope.grupoIds[x]});
         }
 
+        // var grupo = _.find($scope.objeto.gruposSemaforicos, {id: $scope.grupoIds[x]});
+        // grupo.verdesConflitantes = grupo.verdesConflitantes || [];
+
+        // if ($scope.verdesConflitantes[x][y]) {
+        //   var index = _.findIndex(grupo.verdesConflitantes, {id: $scope.grupoIds[y]});
+        //   grupo.verdesConflitantes.splice(index, 1);
+        // } else {
+        //   grupo.verdesConflitantes.push({id: $scope.grupoIds[y]});
+        // }
+
+        // Deve marcar/desmarcar os coordenadas (x, y) e (y, x) simultaneamente.
         $scope.verdesConflitantes[x][y] = !$scope.verdesConflitantes[x][y];
+        $scope.verdesConflitantes[y][x] = !$scope.verdesConflitantes[y][x];
+
+        console.log(grupoX);
+        console.log(grupoY);
+        console.log($scope.verdesConflitantes);
       };
 
       $scope.toggleEstagioAtivado = function(grupo, estagio) {
