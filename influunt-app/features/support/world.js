@@ -73,6 +73,19 @@ var World = function () {
   this.findLinkByText = function(text) {
     return driver.findElement(webdriver.By.linkText(text));
   };
+
+  this.selectOption = function(selectSelector, optionText) {
+    return this.getElements(selectSelector + ' option').then(function(options) {
+      for (var i = 0; i < options.length; i++) {
+        var option = options[i];
+        option.getText().then(function(text) {
+          if (text === optionText) {
+            return option.click();
+          }
+        });
+      }
+    });
+  };
 };
 
 switch(platform) {
