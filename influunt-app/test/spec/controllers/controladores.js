@@ -24,9 +24,10 @@ describe('Controller: ControladoresCtrl', function () {
     scope,
     $q,
     Restangular,
-    $httpBackend;
+    $httpBackend,
+    $state;
 
-  beforeEach(inject(function ($controller, $rootScope, _$q_, _$httpBackend_, _Restangular_) {
+  beforeEach(inject(function ($controller, $rootScope, _$q_, _$httpBackend_, _Restangular_, _$state_) {
     scope = $rootScope.$new();
     ControladoresCtrl = $controller('ControladoresCtrl', {
       $scope: scope
@@ -35,6 +36,7 @@ describe('Controller: ControladoresCtrl', function () {
     $q = _$q_;
     Restangular = _Restangular_;
     $httpBackend = _$httpBackend_;
+    $state = _$state_;
   }));
 
 
@@ -126,10 +128,31 @@ describe('Controller: ControladoresCtrl', function () {
         expect(scope.aneis.length).toBe(1);
       });
 
+      it('Não deve acessar a tela de associações caso não haja ao menos um estágio declarado', function () {
+          scope.objeto = {idControlador: '1234567', aneis: [{}], modelo: {configuracao: {limiteAnel: 4}}};
+          scope.inicializaAssociacao();
+          scope.$apply();
+
+          expect($state.current.name).not.toBe('app.wizard_controladores.associacao');
+        });
+
       it('Os grupos semaforicos deverão estar ordenados por posicao', function() {
         expect(scope.aneis[0].gruposSemaforicos[0].posicao).toBe(1);
         expect(scope.aneis[0].gruposSemaforicos[1].posicao).toBe(2);
       });
+    });
+
+    describe('inicializaVerdesConflitantes', function() {
+      beforeEach(function() {
+        scope.objeto = {idControlador: '1234567', aneis: [{}], modelo: {configuracao: {limiteAnel: 4}}};
+        fakeInicializaWizard(scope, $q, scope.objeto, scope.inicializaVerdesConflitantes);
+        scope.$apply();
+      });
+
+      it('Não deve acessar a tela de verdes conflitantes caso não haja ao menos um grupo semaforico declarado',
+        function () {
+          expect($state.current.name).not.toBe('app.wizard_controladores.verdes_conflitantes');
+        });
     });
   });
 
@@ -165,16 +188,25 @@ describe('Controller: ControladoresCtrl', function () {
           deferred.resolve({});
           return deferred.promise;
         });
-
-        scope.objeto = {idControlador: '1234567', aneis: [{}, {}], modelo: {configuracao: {limiteAnel: 4}}};
-        scope.inicializaAneis();
-        scope.$apply();
       });
 
       it('Deve inicializar os campos de idAnel e posicao dos aneis', function() {
+        scope.objeto = {idControlador: '1234567', aneis: [{}, {}], modelo: {configuracao: {limiteAnel: 4}}};
+        scope.inicializaAneis();
+        scope.$apply();
+
         expect(scope.objeto.aneis[0].idAnel).toBeDefined();
         expect(scope.objeto.aneis[0].posicao).toBeDefined();
       });
+
+      it('Não deve acessar a tela de configuracao de aneis se ao menos um anel não for declarado para o controlador',
+        function() {
+          scope.objeto = {idControlador: '1234567', aneis: [], modelo: {configuracao: {limiteAnel: 4}}};
+          scope.inicializaAneis();
+          scope.$apply();
+
+          expect($state.current.name).not.toBe('app.wizard_controladores.aneis');
+        });
     });
   });
 

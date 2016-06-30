@@ -93,74 +93,132 @@ angular.module('influuntApp')
         return defer.promise;
       };
 
+      /**
+       * Pré-condições para acesso à tela de aneis: Somente será possível acessar esta
+       * tela se o objeto já possuir aneis (os aneis são gerados pela API assim que o
+       * usuário informar os dados básicos).
+       *
+       * @return     {boolean}  { description_of_the_return_value }
+       */
+      $scope.assertAneis = function() {
+        var condition = ($scope.objeto.aneis && $scope.objeto.aneis.length > 0);
+        if (!condition) {
+          $state.go('app.wizard_controladores.dados_basicos', {id: $scope.objeto.id});
+          return false;
+        }
+
+        return true;
+      };
+
+      /**
+       * Pré-condições para acesso à tela de associações: Somente será possível acessar esta
+       * tela se o objeto possuir estágios. Os estágios são informados no passo anterior, o
+       * passo de aneis.
+       *
+       * @return     {boolean}  { description_of_the_return_value }
+       */
+      $scope.assertAssociacoes = function() {
+        var condition = $scope.objeto.aneis && $scope.objeto.aneis.length;
+        condition = condition && _.chain($scope.objeto.aneis).map('estagios').flatten().compact().value().length > 0;
+        if (!condition) {
+          $state.go('app.wizard_controladores.aneis', {id: $scope.objeto.id});
+          return false;
+        }
+
+        return true;
+      };
+
+      /**
+       * Pré-condições para acesso à tela de verdes conflitantes: Somente será possível acessar
+       * esta tela se o objeto possuir grupos semafóricos relacionados. Isto é feito no passo anterior,
+       * na tela de associações.
+       *
+       * @return     {boolean}  { description_of_the_return_value }
+       */
+      $scope.assertVerdesConflitantes = function() {
+        var condition = ($scope.objeto.gruposSemaforicos && $scope.objeto.gruposSemaforicos.length > 0);
+        if (!condition) {
+          $state.go('app.wizard_controladores.associacao', {id: $scope.objeto.id});
+          return false;
+        }
+
+        return true;
+      };
+
       $scope.inicializaAneis = function() {
         return $scope.inicializaWizard().then(function() {
-          $scope.currentAnelIndex = 0;
-          $scope.criaAneis($scope.objeto);
-          $scope.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
-          $scope.currentAnel = $scope.objeto.aneis[$scope.currentAnelIndex];
+          if ($scope.assertAneis()) {
+            $scope.currentAnelIndex = 0;
+            $scope.criaAneis($scope.objeto);
+            $scope.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
+            $scope.currentAnel = $scope.objeto.aneis[$scope.currentAnelIndex];
+          }
         });
       };
 
       $scope.inicializaAssociacao = function() {
         return $scope.inicializaWizard().then(function() {
-          $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
-          $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
-          _.each($scope.aneis, function(anel) {
-            anel.gruposSemaforicos = _.orderBy(anel.gruposSemaforicos, ['posicao'], ['asc']);
-            _.each(anel.gruposSemaforicos, function(grupo) {
-              grupo.label = 'G' + (grupo.posicao);
-              grupo.ativo = false;
+          if ($scope.assertAssociacoes()) {
+            $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
+            $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
+            _.each($scope.aneis, function(anel) {
+              anel.gruposSemaforicos = _.orderBy(anel.gruposSemaforicos, ['posicao'], ['asc']);
+              _.each(anel.gruposSemaforicos, function(grupo) {
+                grupo.label = 'G' + (grupo.posicao);
+                grupo.ativo = false;
 
-              // Cria o objeto helper para marcar os grupos ativos em cada estagio da tela.
-              grupo.estagiosRelacionados = {};
-              grupo.estagiosAtivados = {};
-              grupo.estagioGrupoSemaforicos.forEach(function(estagioGrupo) {
-                grupo.estagiosRelacionados[estagioGrupo.estagio.id] = true;
-                grupo.estagiosAtivados[estagioGrupo.estagio.id] = estagioGrupo.ativo;
+                // Cria o objeto helper para marcar os grupos ativos em cada estagio da tela.
+                grupo.estagiosRelacionados = {};
+                grupo.estagiosAtivados = {};
+                grupo.estagioGrupoSemaforicos.forEach(function(estagioGrupo) {
+                  grupo.estagiosRelacionados[estagioGrupo.estagio.id] = true;
+                  grupo.estagiosAtivados[estagioGrupo.estagio.id] = estagioGrupo.ativo;
+                });
               });
+
+              // Inicializa o tempoMaximoPermanenciaAtivo true para os casos onde este
+              // já está preenchido.
+              _.each(anel.estagios, function(estagio) {
+                estagio.tempoMaximoPermanenciaAtivo = !!estagio.tempoMaximoPermanencia;
+              });
+
             });
 
-            // Inicializa o tempoMaximoPermanenciaAtivo true para os casos onde este
-            // já está preenchido.
-            _.each(anel.estagios, function(estagio) {
-              estagio.tempoMaximoPermanenciaAtivo = !!estagio.tempoMaximoPermanencia;
-            });
-
-          });
-
-          $scope.aneis = _.orderBy($scope.aneis, ['posicao'], ['asc']);
-          $scope.selecionaAnel(0);
-          $scope.selecionaEstagio(0);
+            $scope.aneis = _.orderBy($scope.aneis, ['posicao'], ['asc']);
+            $scope.selecionaAnel(0);
+            $scope.selecionaEstagio(0);
+          }
         });
       };
 
       $scope.inicializaVerdesConflitantes = function() {
         return $scope.inicializaWizard().then(function() {
-          $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
+        if ($scope.assertVerdesConflitantes()) {
+            $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
 
-          $scope.objeto.aneis.forEach(function(anel) {
-            anel.gruposSemaforicos.forEach(function(gs) {
-              gs.anel = {
-                id: anel.id
-              };
+            $scope.objeto.aneis.forEach(function(anel) {
+              anel.gruposSemaforicos.forEach(function(gs) {
+                gs.anel = {
+                  id: anel.id
+                };
+              });
             });
-          });
 
-          $scope.grupoIds = _.chain($scope.objeto.gruposSemaforicos).orderBy(['posicao'], ['asc']).map('id').value();
-          var totalGrupos = $scope.objeto.modelo.configuracao.limiteGrupoSemaforico;
-          $scope.grupos = _.times(totalGrupos, function(i) {return 'G' + (i+1);});
+            $scope.grupoIds = _.chain($scope.objeto.gruposSemaforicos).orderBy(['posicao'], ['asc']).map('id').value();
+            var totalGrupos = $scope.objeto.modelo.configuracao.limiteGrupoSemaforico;
+            $scope.grupos = _.times(totalGrupos, function(i) {return 'G' + (i+1);});
 
-          buildIntervaloAneis();
-          buildMatrizVerdesConflitantes();
+            buildIntervaloAneis();
+            buildMatrizVerdesConflitantes();
 
-          return $scope.objeto.gruposSemaforicos && $scope.objeto.gruposSemaforicos.forEach(function(gs) {
-            return gs.verdesConflitantes && gs.verdesConflitantes.forEach(function(vc) {
-              if (!$scope.verdesConflitantes[gs.posicao - 1][vc.posicao - 1]) {
-                $scope.toggleVerdeConflitante(gs.posicao - 1, vc.posicao - 1);
-              }
+            return $scope.objeto.gruposSemaforicos && $scope.objeto.gruposSemaforicos.forEach(function(gs) {
+              return gs.verdesConflitantes && gs.verdesConflitantes.forEach(function(vc) {
+                if (!$scope.verdesConflitantes[gs.posicao - 1][vc.posicao - 1]) {
+                  $scope.toggleVerdeConflitante(gs.posicao - 1, vc.posicao - 1);
+                }
+              });
             });
-          });
+          }
         });
       };
 
