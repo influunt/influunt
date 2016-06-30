@@ -20,8 +20,16 @@
                         <td> {{ objeto.nome }} </td>
                       </tr>
                       <tr>
+                        <th>{{ 'usuarios.login' | translate }}</th>
+                        <td> {{ objeto.login }} </td>
+                      </tr>
+                      <tr>
                         <th>{{ 'usuarios.email' | translate }}</th>
                         <td> {{ objeto.email }} </td>
+                      </tr>
+                      <tr>
+                        <th>{{ 'usuarios.area' | translate }}</th>
+                        <td> {{ objeto.area | resourceToString }} </td>
                       </tr>
                       <tr>
                         <th>{{ 'usuarios.perfil' | translate }}</th>

@@ -6,7 +6,7 @@
           <div class="ibox-title">
             <h5>
               {{ pageTitle | translate }}
-              <small style="margin-left: 2px;">{{ objeto.nome }} - #{{ minid }}</small>
+              <small style="margin-left: 2px;">{{ objeto.descricao }} - #{{ minid }}</small>
             </h5>
           </div>
           <div class="ibox-content">
@@ -16,8 +16,12 @@
                   <table class="table table-bordered table-striped">
                     <tbody>
                       <tr>
-                        <th>{{ 'perfis.nome' | translate }}</th>
-                        <td> {{ objeto.nome }} </td>
+                        <th>{{ 'permissoes.descricao' | translate }}</th>
+                        <td> {{ objeto.descricao }} </td>
+                      </tr>
+                      <tr>
+                        <th>{{ 'permissoes.chave' | translate }}</th>
+                        <td> {{ objeto.chave }} </td>
                       </tr>
                     </tbody>
                   </table>
@@ -25,7 +29,7 @@
               </div>
             </div>
             <hr>
-            <a class="btn btn-default" ui-sref="app.perfis">{{ 'geral.crud.voltar' | translate }}</a>
+            <a class="btn btn-default" ui-sref="app.permissoes">{{ 'geral.crud.voltar' | translate }}</a>
           </div>
         </div>
       </div>

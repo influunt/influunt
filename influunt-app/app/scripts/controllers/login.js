@@ -8,14 +8,25 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('LoginCtrl', ['$scope', function LoginCtrl ($scope) {
-    $scope.credenciais = {};
+  .controller('LoginCtrl', ['$scope', 'Restangular', '$state',
+    function LoginCtrl ($scope, Restangular, $state) {
+      $scope.credenciais = {};
 
-    $scope.submitLogin = function(formValido) {
-      $scope.submited = true;
-      if (!formValido) {
-        return false;
-      }
-    };
+      $scope.submitLogin = function(formValido) {
+        $scope.submited = true;
+        if (!formValido) {
+          return false;
+        }
 
-  }]);
+        Restangular
+          .all('login')
+          .post($scope.credenciais)
+          .then(function(res) {
+            $state.go('app.cidades');
+          })
+          .catch(function(err) {
+            console.log(err);
+          });
+      };
+
+    }]);

@@ -13,7 +13,7 @@ angular
   .config(['$stateProvider', '$urlRouterProvider',
     function ($stateProvider, $urlRouterProvider) {
 
-      $urlRouterProvider.otherwise('/app/main');
+      $urlRouterProvider.otherwise('/login');
 
       $stateProvider
         .state('login', {
@@ -393,6 +393,47 @@ angular
           controllerAs: 'perfis',
           data: {
             title: 'perfis.titulo'
+          }
+        })
+
+        // Crud permissoes.
+        .state('app.permissoes', {
+          url: '/permissoes',
+          templateUrl: 'views/permissoes/index.html',
+          controller: 'PermissoesCtrl',
+          controllerAs: 'permissoes',
+          data: {
+            title: 'permissoes.titulo'
+          }
+        })
+
+        .state('app.permissoes_new', {
+          url: '/permissoes/new',
+          templateUrl: 'views/permissoes/new.html',
+          controller: 'PermissoesCtrl',
+          controllerAs: 'permissoes',
+          data: {
+            title: 'permissoes.titulo'
+          }
+        })
+
+        .state('app.permissoes_edit', {
+          url: '/permissoes/:id/edit',
+          templateUrl: 'views/permissoes/edit.html',
+          controller: 'PermissoesCtrl',
+          controllerAs: 'permissoes',
+          data: {
+            title: 'permissoes.titulo'
+          }
+        })
+
+        .state('app.permissoes_show', {
+          url: '/permissoes/:id',
+          templateUrl: 'views/permissoes/show.html',
+          controller: 'PermissoesCtrl',
+          controllerAs: 'permissoes',
+          data: {
+            title: 'permissoes.titulo'
           }
         })
 

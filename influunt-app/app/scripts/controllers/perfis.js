@@ -25,10 +25,11 @@ angular.module('influuntApp')
       };
 
       $scope.afterShow = function() {
-        $scope.permissoesChecked = {};
-        $scope.objeto.permissoes.forEach(function(permissao) {
-          $scope.permissoesChecked[permissao.id] = true;
-        });
+        $scope.permissoesAtivadas = {};
+        return $scope.objeto.permissoes &&
+          $scope.objeto.permissoes.forEach(function(permissao) {
+            $scope.permissoesAtivadas[permissao.id] = true;
+          });
       };
 
       $scope.atualizaListaPermissoes = function(permissao) {

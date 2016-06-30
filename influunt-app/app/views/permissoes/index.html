@@ -7,9 +7,9 @@
         </div>
         <div class="ibox-content">
 
-          <!-- botão de nova perfil -->
+          <!-- botão de nova permissoes -->
           <div class="pull-right actions">
-            <a class="btn btn-small btn-primary btn-rounded" ui-sref="app.perfis_new">
+            <a class="btn btn-small btn-primary btn-rounded" ui-sref="app.permissoes_new">
               <i class="fa fa-plus"></i>
               {{ 'geral.crud.novo' | translate }}
             </a>
@@ -19,19 +19,19 @@
             <div class="table">
               <thead>
                 <tr>
-                  <th>{{ 'perfis.nome' | translate }}</th>
+                  <th>{{ 'permissoes.descricao' | translate }}</th>
+                  <th>{{ 'permissoes.chave' | translate }}</th>
                   <th>{{ 'geral.crud.opcoes' | translate }}</th>
                 </tr>
               </thead>
               <tbody>
-                <tr data-ng-repeat="perfil in lista">
-                  <td>{{ perfil.nome }}</td>
+                <tr data-ng-repeat="permissao in lista">
+                  <td>{{ permissao.descricao }}</td>
+                  <td>{{ permissao.chave }}</td>
                   <td>
-                    <a ui-sref="app.perfis_permissoes({id: perfil.id})" class="btn btn-primary btn-xs">{{ 'perfis.definir_permissoes' | translate }}</a>
-
-                    <a ui-sref="app.perfis_show({id: perfil.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
-                    <a ui-sref="app.perfis_edit({id: perfil.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.editar' | translate }}</a>
-                    <a data-ng-click="confirmDelete(perfil.id)" class="btn btn-danger btn-xs">{{ 'geral.crud.excluir' | translate }}</a>
+                    <a ui-sref="app.permissoes_show({id: permissao.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
+                    <a ui-sref="app.permissoes_edit({id: permissao.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.editar' | translate }}</a>
+                    <a data-ng-click="confirmDelete(permissao.id)" class="btn btn-danger btn-xs">{{ 'geral.crud.excluir' | translate }}</a>
                   </td>
                 </tr>
               </tbody>

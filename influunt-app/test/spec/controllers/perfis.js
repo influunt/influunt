@@ -45,7 +45,7 @@ describe('Controller: PerfisCtrl', function () {
 
       expect(scope.objeto.permissoes).toEqual(perfil.permissoes);
       expect(scope.permissoes.length).toBe(permissoes.length);
-      expect(scope.permissoesChecked).toEqual({1: true});
+      expect(scope.permissoesAtivadas).toEqual({1: true});
     });
 
   it('Deve remover o item da lista de permissoes, caso este já esteja nela', function() {

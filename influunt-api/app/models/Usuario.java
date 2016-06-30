@@ -42,7 +42,7 @@ public class Usuario extends Model implements Subject {
     @Column
     private Boolean root = false;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Area area;
 
     @ManyToOne
@@ -119,7 +119,7 @@ public class Usuario extends Model implements Subject {
     }
 
     public Area getArea() {
-        return area;
+        return this.area;
     }
 
     public void setArea(Area area) {

@@ -134,7 +134,8 @@
     "hello_world": "Dashboard"
   },
   "menu": {
-    "cadastros": "cadastros"
+    "cadastros": "cadastros",
+    "configuracoes": "Configurações"
   },
   "perfis": {
     "definir_permissoes": "Definir permissões",
@@ -151,9 +152,16 @@
       "visualizar": "Visualizar"
     }
   },
+  "permissoes": {
+    "descricao": "Descrição",
+    "chave": "Chave",
+    "titulo": "Permissões"
+  },
   "usuarios": {
+    "area": "Área",
     "confirmacao_senha": "Confirmação senha",
     "email": "Email",
+    "login": "login",
     "nome": "Nome",
     "perfil": "Perfil",
     "senha": "Senha",

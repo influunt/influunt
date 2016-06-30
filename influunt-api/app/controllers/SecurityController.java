@@ -1,6 +1,7 @@
 package controllers;
 
 import checks.Erro;
+import com.fasterxml.jackson.databind.JsonNode;
 import models.Usuario;
 import play.db.ebean.Transactional;
 import play.libs.Json;
@@ -27,19 +28,13 @@ public class SecurityController extends Controller {
 
     @Transactional
     public CompletionStage<Result> login() {
-        final String authorization = request().getHeader("Authorization");
-        if (authorization != null && authorization.startsWith("Basic")) {
-
-            final String base64Credentials = authorization.substring("Basic".length()).trim();
-            final String credentials = new String(Base64.getDecoder().decode(base64Credentials),
-                    Charset.forName("UTF-8"));
-
-            final String[] values = credentials.split(":", 2);
-            final Usuario usuario = (Usuario) authenticator.getSubjectByCredentials(values[0], values[1]);
-            if (usuario != null) {
-                response().setHeader(AUTH_TOKEN, authenticator.createSession(usuario));
-                return CompletableFuture.completedFuture(ok(Json.toJson(usuario)));
-            }
+        JsonNode json = request().body().asJson();
+        String login = json.get("login").asText();
+        String senha = json.get("senha").asText();
+        final Usuario usuario = (Usuario) authenticator.getSubjectByCredentials(login, senha);
+        if (usuario != null) {
+            response().setHeader(AUTH_TOKEN, authenticator.createSession(usuario));
+            return CompletableFuture.completedFuture(ok(Json.toJson(usuario)));
         }
         return CompletableFuture.completedFuture(unauthorized(Json.toJson(Arrays.asList(new Erro("login","usuário ou senha inválidos","")))));
     }
