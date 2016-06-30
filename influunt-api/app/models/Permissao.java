@@ -35,16 +35,15 @@ public class Permissao extends Model implements Permission {
     @ManyToMany(cascade = CascadeType.REMOVE)
     private List<Perfil> perfis;
 
-
     @Column
-    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
-    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
 
     @Column
-    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
-    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     @NotNull
     private DateTime dataAtualizacao;

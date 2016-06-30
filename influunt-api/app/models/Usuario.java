@@ -23,14 +23,15 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "usuarios")
 @JsonSerialize(using = UsuarioSerializer.class)
-public class Usuario extends Model implements Subject{
+public class Usuario extends Model implements Subject {
 
     public static Model.Finder<String, Usuario> find = new Model.Finder<String, Usuario>(Usuario.class);
 
     @Id
     private String login;
 
-    @Column String senha;
+    @Column
+    String senha;
 
     @Column
     private String email;
@@ -47,16 +48,15 @@ public class Usuario extends Model implements Subject{
     @ManyToOne
     private Perfil perfil;
 
-
     @Column
-    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
-    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
 
     @Column
-    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
-    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     @NotNull
     private DateTime dataAtualizacao;
@@ -133,9 +133,9 @@ public class Usuario extends Model implements Subject{
 
     @Override
     public List<? extends Permission> getPermissions() {
-        if(this.perfil != null){
+        if (this.perfil != null) {
             List<Permissao> permissoes = this.perfil.getPermissoes();
-            if(permissoes != null){
+            if (permissoes != null) {
                 return permissoes;
             }
         }
@@ -156,6 +156,6 @@ public class Usuario extends Model implements Subject{
     }
 
     public boolean isAllowed(String key) {
-        return getPermissions().stream().filter(p -> p.getValue().equals(key)).count() > 0 ;
+        return getPermissions().stream().filter(p -> p.getValue().equals(key)).count() > 0;
     }
 }

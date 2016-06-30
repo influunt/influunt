@@ -27,7 +27,7 @@ public class Perfil extends Model implements Role {
     public static Finder<UUID, Perfil> find = new Finder<UUID, Perfil>(Perfil.class);
 
     @ManyToMany(cascade = CascadeType.REMOVE)
-    @JoinTable(name="perfis_permissoes", joinColumns={@JoinColumn(name="perfil_id")}, inverseJoinColumns={@JoinColumn(name="permissao_id")})
+    @JoinTable(name = "perfis_permissoes", joinColumns = {@JoinColumn(name = "perfil_id")}, inverseJoinColumns = {@JoinColumn(name = "permissao_id")})
     private List<Permissao> permissoes;
 
     @OneToMany(mappedBy = "perfil")
@@ -40,14 +40,14 @@ public class Perfil extends Model implements Role {
     private String nome;
 
     @Column
-    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
-    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
 
     @Column
-    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
-    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     @NotNull
     private DateTime dataAtualizacao;

@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 
-
 @Singleton
 public class DBAuthenticator implements Authenticator {
 
@@ -20,7 +19,7 @@ public class DBAuthenticator implements Authenticator {
     @Override
     public Subject getSubjectByCredentials(final String login, final String password) {
         Usuario usuario = Usuario.find.byId(login);
-        return usuario != null && HashHelper.checkPassword(password,usuario.getSenha()) ? usuario : null;
+        return usuario != null && HashHelper.checkPassword(password, usuario.getSenha()) ? usuario : null;
     }
 
     @Override

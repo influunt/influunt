@@ -39,8 +39,8 @@ public class PermissoesControllerTest extends WithApplication {
     @SuppressWarnings({"unchecked", "rawtypes"})
     private Application getApplication(Map configuration) {
         Application app = new GuiceApplicationBuilder().configure(configuration)
-                  .overrides(bind(Authenticator.class).to(AllowAllAuthenticator.class).in(Singleton.class))
-                  .in(Mode.TEST).build();
+                .overrides(bind(Authenticator.class).to(AllowAllAuthenticator.class).in(Singleton.class))
+                .in(Mode.TEST).build();
         return app;
     }
 
@@ -102,8 +102,8 @@ public class PermissoesControllerTest extends WithApplication {
         Permissao permissaoRetornada = Json.fromJson(json, Permissao.class);
 
         assertNotNull(permissaoRetornada.getId());
-        assertEquals(permissao.getId(),permissaoRetornada.getId());
-        assertEquals("God",permissaoRetornada.getDescricao());
+        assertEquals(permissao.getId(), permissaoRetornada.getId());
+        assertEquals("God", permissaoRetornada.getDescricao());
     }
 
     @Test

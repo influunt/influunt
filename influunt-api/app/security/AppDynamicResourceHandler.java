@@ -27,16 +27,16 @@ public class AppDynamicResourceHandler implements DynamicResourceHandler {
                                               DeadboltHandler deadboltHandler,
                                               Http.Context ctx) {
 
-        if(permissionValue.equals("Influunt")) {
+        if (permissionValue.equals("Influunt")) {
             Usuario u = (Usuario) ctx.args.get("user");
-            if(u == null){
+            if (u == null) {
                 return CompletableFuture.completedFuture(Boolean.FALSE);
-            }else if(u.isRoot()){
+            } else if (u.isRoot()) {
                 return CompletableFuture.completedFuture(Boolean.TRUE);
-            }else {
+            } else {
                 String chave = ctx.args.get("ROUTE_VERB").toString() + " " + ctx.args.get("ROUTE_PATTERN").toString();
                 return u.isAllowed(chave) ? CompletableFuture.completedFuture(Boolean.TRUE) :
-                                            CompletableFuture.completedFuture(Boolean.FALSE);
+                        CompletableFuture.completedFuture(Boolean.FALSE);
             }
         }
         return CompletableFuture.completedFuture(Boolean.FALSE);

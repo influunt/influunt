@@ -42,13 +42,13 @@ public class UsuariosControllerTest extends WithApplication {
     @SuppressWarnings({"unchecked", "rawtypes"})
     private Application getApplication(Map configuration) {
         Application app = new GuiceApplicationBuilder().configure(configuration)
-                  .overrides(bind(Authenticator.class).to(AllowAllAuthenticator.class).in(Singleton.class))
-                  .in(Mode.TEST).build();
+                .overrides(bind(Authenticator.class).to(AllowAllAuthenticator.class).in(Singleton.class))
+                .in(Mode.TEST).build();
         return app;
     }
 
     @Before
-    public void setUp(){
+    public void setUp() {
         cidade = new Cidade();
         cidade.setNome("BH");
         cidade.save();
@@ -103,7 +103,7 @@ public class UsuariosControllerTest extends WithApplication {
         assertFalse(usuarioRetornado.isRoot());
         assertEquals(Integer.valueOf(1), usuario.getArea().getDescricao());
         assertNotNull(usuarioRetornado.getPerfil());
-        assertEquals(1,usuarioRetornado.getPerfil().getPermissoes().size());
+        assertEquals(1, usuarioRetornado.getPerfil().getPermissoes().size());
 
     }
 
@@ -138,7 +138,7 @@ public class UsuariosControllerTest extends WithApplication {
         Usuario usuarioRetornado = Json.fromJson(json, Usuario.class);
 
         assertNotNull(usuarioRetornado.getLogin());
-        assertEquals("Root",usuarioRetornado.getNome());
+        assertEquals("Root", usuarioRetornado.getNome());
     }
 
     @Test

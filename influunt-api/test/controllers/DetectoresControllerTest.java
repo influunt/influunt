@@ -63,7 +63,6 @@ public class DetectoresControllerTest extends WithApplication {
     }
 
 
-
     @Test
     public void testCriarNovoDetector() {
         Detector detector = new Detector();

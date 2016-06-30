@@ -41,13 +41,13 @@ public class PerfisControllerTest extends WithApplication {
     @SuppressWarnings({"unchecked", "rawtypes"})
     private Application getApplication(Map configuration) {
         Application app = new GuiceApplicationBuilder().configure(configuration)
-                  .overrides(bind(Authenticator.class).to(AllowAllAuthenticator.class).in(Singleton.class))
-                  .in(Mode.TEST).build();
+                .overrides(bind(Authenticator.class).to(AllowAllAuthenticator.class).in(Singleton.class))
+                .in(Mode.TEST).build();
         return app;
     }
 
     @Before
-    public void setUp(){
+    public void setUp() {
         permissao = new Permissao();
         permissao.setDescricao("Deus");
         permissao.setChave("*");
@@ -113,9 +113,9 @@ public class PerfisControllerTest extends WithApplication {
         Perfil perfilRetornado = Json.fromJson(json, Perfil.class);
 
         assertNotNull(perfilRetornado.getId());
-        assertEquals(perfil.getId(),perfilRetornado.getId());
-        assertEquals("Admin",perfilRetornado.getNome());
-        assertEquals(0,perfilRetornado.getPermissoes().size());
+        assertEquals(perfil.getId(), perfilRetornado.getId());
+        assertEquals("Admin", perfilRetornado.getNome());
+        assertEquals(0, perfilRetornado.getPermissoes().size());
 
     }
 
@@ -142,9 +142,9 @@ public class PerfisControllerTest extends WithApplication {
         Perfil perfilRetornado = Json.fromJson(json, Perfil.class);
 
         assertNotNull(perfilRetornado.getId());
-        assertEquals(perfil.getId(),perfilRetornado.getId());
-        assertEquals("Admin",perfilRetornado.getNome());
-        assertEquals(2,perfilRetornado.getPermissoes().size());
+        assertEquals(perfil.getId(), perfilRetornado.getId());
+        assertEquals("Admin", perfilRetornado.getNome());
+        assertEquals(2, perfilRetornado.getPermissoes().size());
 
     }
 
