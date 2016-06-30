@@ -103,9 +103,9 @@ public class ControladorAssociacoesTest extends ControladorTest {
         assertControladorAnelAssociacao(controlador, controladorJson);
         assertNotNull(controladorJson.getId());
         assertEquals("Criação de aneis", 4, controladorJson.getAneis().size());
-        assertEquals("Total de aneis ativos", 1, controlador.getAneis().stream().filter(anel -> anel.isAtivo()).count());
-        assertEquals("Criação de grupos semafóricos", 2, controlador.getGruposSemaforicos().size());
-        Anel anelAtivo = controlador.getAneis().stream().filter(anel -> anel.isAtivo()).findFirst().get();
+        assertEquals("Total de aneis ativos", 1, controladorJson.getAneis().stream().filter(anel -> anel.isAtivo()).count());
+        assertEquals("Criação de grupos semafóricos", 2, controladorJson.getGruposSemaforicos().size());
+        Anel anelAtivo = controladorJson.getAneis().stream().filter(anel -> anel.isAtivo()).findFirst().get();
         assertEquals("Total de grupos semaforicos de Pedestre", 1, anelAtivo.getGruposSemaforicos().stream().filter(grupoSemaforico -> grupoSemaforico.isPedestre()).count());
         assertEquals("Total de grupos semaforicos Veiculares", 1, anelAtivo.getGruposSemaforicos().stream().filter(grupoSemaforico -> grupoSemaforico.isVeicular()).count());
 

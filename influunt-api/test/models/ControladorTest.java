@@ -1,14 +1,18 @@
 package models;
 
+import com.google.inject.Singleton;
 import play.Application;
 import play.Mode;
 import play.inject.guice.GuiceApplicationBuilder;
 import play.test.WithApplication;
+import security.AllowAllAuthenticator;
+import security.Authenticator;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import static play.inject.Bindings.bind;
 import static play.test.Helpers.inMemoryDatabase;
 
 /**
@@ -33,6 +37,7 @@ public abstract class ControladorTest extends WithApplication {
     @SuppressWarnings({"unchecked", "rawtypes"})
     private Application getApplication(Map configuration) {
         return new GuiceApplicationBuilder().configure(configuration)
+                .overrides(bind(Authenticator.class).to(AllowAllAuthenticator.class).in(Singleton.class))
                 .in(Mode.TEST).build();
     }
 
@@ -135,6 +140,47 @@ public abstract class ControladorTest extends WithApplication {
 
     protected Controlador getControladorVerdesConflitantes(){
         Controlador controlador = getControladorAssociacao();
+
+        Anel anelAtivo = controlador.getAneis().stream().filter(anel -> !anel.isAtivo()).findFirst().get();
+        anelAtivo.setAtivo(Boolean.TRUE);
+        anelAtivo.setLatitude(1.0);
+        anelAtivo.setLongitude(1.0);
+
+        anelAtivo.setQuantidadeGrupoVeicular(2);
+        anelAtivo.setEstagios(Arrays.asList(new Estagio(), new Estagio()));
+
+        Estagio estagio1 = anelAtivo.getEstagios().get(0);
+        Estagio estagio2 = anelAtivo.getEstagios().get(1);
+
+        controlador.save();
+
+        GrupoSemaforico grupoSemaforico3 = anelAtivo.getGruposSemaforicos().get(0);
+        grupoSemaforico3.setTipo(TipoGrupoSemaforico.VEICULAR);
+        GrupoSemaforico grupoSemaforico4 = anelAtivo.getGruposSemaforicos().get(1);
+        grupoSemaforico4.setTipo(TipoGrupoSemaforico.VEICULAR);
+
+
+        EstagioGrupoSemaforico estagioGrupoSemaforico1 = new EstagioGrupoSemaforico(estagio1, grupoSemaforico3);
+        estagio1.addEstagioGrupoSemaforico(estagioGrupoSemaforico1);
+        EstagioGrupoSemaforico estagioGrupoSemaforico2 = new EstagioGrupoSemaforico(estagio2, grupoSemaforico4);
+        estagio2.addEstagioGrupoSemaforico(estagioGrupoSemaforico2);
+
+        grupoSemaforico3.addEstagioGrupoSemaforico(estagioGrupoSemaforico1);
+        grupoSemaforico4.addEstagioGrupoSemaforico(estagioGrupoSemaforico2);
+
+        GrupoSemaforico grupoSemaforico1 = controlador.getGruposSemaforicos().get(0);
+        GrupoSemaforico grupoSemaforico2 = controlador.getGruposSemaforicos().get(1);
+
+        grupoSemaforico1.setVerdesConflitantes(Arrays.asList(grupoSemaforico2));
+        grupoSemaforico2.setVerdesConflitantes(Arrays.asList(grupoSemaforico1));
+        grupoSemaforico3.setVerdesConflitantes(Arrays.asList(grupoSemaforico4));
+        grupoSemaforico4.setVerdesConflitantes(Arrays.asList(grupoSemaforico3));
+
+        grupoSemaforico1.setDescricao("G1");
+        grupoSemaforico2.setDescricao("G2");
+        grupoSemaforico3.setDescricao("G3");
+        grupoSemaforico4.setDescricao("G4");
+
         return controlador;
     }
 

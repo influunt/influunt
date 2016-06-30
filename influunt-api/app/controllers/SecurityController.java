@@ -1,12 +1,6 @@
 package controllers;
 
-import java.nio.charset.Charset;
-import java.util.Base64;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
-
-import javax.inject.Inject;
-
+import checks.Erro;
 import models.Usuario;
 import play.db.ebean.Transactional;
 import play.libs.Json;
@@ -14,6 +8,13 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import security.Authenticator;
+
+import javax.inject.Inject;
+import java.nio.charset.Charset;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
 
 public class SecurityController extends Controller {
@@ -36,12 +37,11 @@ public class SecurityController extends Controller {
             final String[] values = credentials.split(":", 2);
             final Usuario usuario = (Usuario) authenticator.getSubjectByCredentials(values[0], values[1]);
             if (usuario != null) {
-                response().setCookie(Http.Cookie.builder(AUTH_TOKEN, authenticator.createSession(usuario))
-                        .withSecure(ctx().request().secure()).build());
+                response().setHeader(AUTH_TOKEN, authenticator.createSession(usuario));
                 return CompletableFuture.completedFuture(ok(Json.toJson(usuario)));
             }
         }
-        return CompletableFuture.completedFuture(unauthorized());
+        return CompletableFuture.completedFuture(unauthorized(Json.toJson(Arrays.asList(new Erro("login","usuário ou senha inválidos","")))));
     }
 
 }

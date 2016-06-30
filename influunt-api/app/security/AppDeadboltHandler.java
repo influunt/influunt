@@ -26,8 +26,7 @@ public class AppDeadboltHandler implements DeadboltHandler {
 
     @Override
     public CompletionStage<Optional<? extends Subject>> getSubject(final Context context) {
-        Usuario u = new Usuario();
-        u.setLogin("rodrigosol@gmail.com");
+        Usuario u = (Usuario) context.args.get("user");
         return CompletableFuture.supplyAsync(() -> Optional.ofNullable(u));
 
     }

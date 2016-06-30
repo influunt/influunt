@@ -44,6 +44,15 @@ public class SecurityControllerTest extends WithApplication {
 
     @Test
     public void testAuthorizedLogin() throws InterruptedException, ExecutionException {
+
+        Usuario usuario = new Usuario();
+        usuario.setNome("Admin");
+        usuario.setLogin("admin");
+        usuario.setSenha("1234");
+        usuario.setRoot(true);
+        usuario.setEmail("root@influunt.com.br");
+        usuario.save();
+
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
                 .header("Authorization", "Basic YWRtaW46MTIzNA==").uri(routes.SecurityController.login().url());
         Result postResult = route(postRequest);
@@ -51,9 +60,9 @@ public class SecurityControllerTest extends WithApplication {
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
 
-        Usuario usuario = Json.fromJson(json, Usuario.class);
+        usuario = Json.fromJson(json, Usuario.class);
         assertEquals("admin", usuario.getLogin());
-        assertEquals("Administrator", usuario.getNome());
+        assertEquals("Admin", usuario.getNome());
 
     }
 

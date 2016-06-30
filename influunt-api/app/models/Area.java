@@ -40,6 +40,9 @@ public class Area extends Model {
     @ManyToOne
     private Cidade cidade;
 
+    @OneToMany(mappedBy = "area")
+    private List<Usuario> usuarios;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "area")
     private List<LimiteArea> limitesGeograficos;
 
@@ -116,4 +119,11 @@ public class Area extends Model {
         this.limitesGeograficos = limitesGeograficos;
     }
 
+    public List<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(List<Usuario> usuarios) {
+        this.usuarios = usuarios;
+    }
 }
