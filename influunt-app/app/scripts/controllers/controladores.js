@@ -193,7 +193,7 @@ angular.module('influuntApp')
 
       $scope.inicializaVerdesConflitantes = function() {
         return $scope.inicializaWizard().then(function() {
-        if ($scope.assertVerdesConflitantes()) {
+          if ($scope.assertVerdesConflitantes()) {
             $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
 
             $scope.objeto.aneis.forEach(function(anel) {
