@@ -29,15 +29,14 @@ public class AppDynamicResourceHandler implements DynamicResourceHandler {
 
         if(permissionValue.equals("Influunt")) {
             Usuario u = (Usuario) ctx.args.get("user");
-            if(u.isRoot()){
+            if(u == null){
+                return CompletableFuture.completedFuture(Boolean.FALSE);
+            }else if(u.isRoot()){
                 return CompletableFuture.completedFuture(Boolean.TRUE);
             }else {
                 String chave = ctx.args.get("ROUTE_VERB").toString() + " " + ctx.args.get("ROUTE_PATTERN").toString();
-                if (u == null || !u.isAllowed(chave)) {
-                    return CompletableFuture.completedFuture(Boolean.FALSE);
-                } else {
-                    return CompletableFuture.completedFuture(Boolean.TRUE);
-                }
+                return u.isAllowed(chave) ? CompletableFuture.completedFuture(Boolean.TRUE) :
+                                            CompletableFuture.completedFuture(Boolean.FALSE);
             }
         }
         return CompletableFuture.completedFuture(Boolean.FALSE);
