@@ -23,7 +23,6 @@ public class CidadesController extends Controller {
 
 
     @Transactional
-
     public CompletionStage<Result> create() {
 
         JsonNode json = request().body().asJson();

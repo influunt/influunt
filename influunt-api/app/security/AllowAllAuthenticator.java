@@ -2,7 +2,7 @@ package security;
 
 import be.objectify.deadbolt.java.models.Subject;
 import com.google.inject.Singleton;
-import helpers.HashHelper;
+import models.Sessao;
 import models.Usuario;
 
 import java.util.Collection;
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Singleton
 public class AllowAllAuthenticator implements Authenticator {
 
-    private Map<String, UserSession> sessions = new HashMap<String, UserSession>();
+    private Map<String, Sessao> sessions = new HashMap<String, Sessao>();
 
     @Override
     public Subject getSubjectByCredentials(final String login, final String password) {
@@ -38,7 +38,7 @@ public class AllowAllAuthenticator implements Authenticator {
 
     @Override
     public String createSession(final Subject subject) {
-        UserSession newSession = new UserSession(subject);
+        Sessao newSession = new Sessao((Usuario)subject);
         sessions.put(newSession.getToken(), newSession);
         return newSession.getToken();
     }
@@ -54,12 +54,12 @@ public class AllowAllAuthenticator implements Authenticator {
     }
 
     @Override
-    public Collection<UserSession> listSessions() {
+    public Collection<Sessao> listSessions() {
         return sessions.values();
     }
 
     @Override
-    public Collection<UserSession> listSessions(Subject subject) {
+    public Collection<Sessao> listSessions(Subject subject) {
         return sessions.values().stream().filter(entry -> entry.getSubject().equals(subject))
                 .collect(Collectors.toList());
     }
