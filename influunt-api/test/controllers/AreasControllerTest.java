@@ -1,6 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.inject.Singleton;
 import models.Area;
 import org.junit.Test;
 import play.Application;
@@ -9,8 +10,10 @@ import play.inject.guice.GuiceApplicationBuilder;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
+import play.mvc.Security;
 import play.test.Helpers;
 import play.test.WithApplication;
+import security.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +21,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
+import static play.inject.Bindings.bind;
 import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.route;
 
@@ -32,8 +36,10 @@ public class AreasControllerTest extends WithApplication {
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     private Application getApplication(Map configuration) {
-        return new GuiceApplicationBuilder().configure(configuration)
+        Application app = new GuiceApplicationBuilder().configure(configuration)
+                  .overrides(bind(Authenticator.class).to(AllowAllAuthenticator.class).in(Singleton.class))
                   .in(Mode.TEST).build();
+        return app;
     }
 
     @Test

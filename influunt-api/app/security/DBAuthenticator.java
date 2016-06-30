@@ -1,38 +1,32 @@
 package security;
 
+import be.objectify.deadbolt.java.models.Subject;
+import com.google.inject.Singleton;
+import helpers.HashHelper;
+import models.Usuario;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import be.objectify.deadbolt.java.models.Subject;
-import models.Usuario;
 
-public class DumbAuthenticator implements Authenticator {
+
+@Singleton
+public class DBAuthenticator implements Authenticator {
 
     private Map<String, UserSession> sessions = new HashMap<String, UserSession>();
 
     @Override
-    public Subject getSubjectByCredentials(final String user, final String password) {
-        if ("admin".equals(user) && "1234".equals(password)) {
-            final Usuario u = new Usuario();
-            u.setLogin("admin");
-            u.setNome("Administrator");
-            return u;
-        }
-        return null;
+    public Subject getSubjectByCredentials(final String login, final String password) {
+        Usuario usuario = Usuario.find.byId(login);
+        return usuario != null && HashHelper.checkPassword(password,usuario.getSenha()) ? usuario : null;
     }
 
     @Override
     public Subject getSubjectByToken(final String token) {
-
-        if ("1234".equals(token)) {
-            Usuario u = new Usuario();
-            u.setLogin("admin");
-            u.setNome("Administrator");
-            return u;
-        }
-        return null;
+        UserSession us = sessions.get(token);
+        return us != null ? us.getSubject() : null;
     }
 
     @Override

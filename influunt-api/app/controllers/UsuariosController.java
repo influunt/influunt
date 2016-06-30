@@ -1,10 +1,12 @@
 package controllers;
 
-import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
-import be.objectify.deadbolt.java.actions.Dynamic;
-import be.objectify.deadbolt.java.actions.SubjectPresent;
+import be.objectify.deadbolt.java.actions.*;
+import checks.Erro;
+import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Cidade;
+import models.Controlador;
+import models.Usuario;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -12,18 +14,19 @@ import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
-
 @DeferredDeadbolt
 @Security.Authenticated(Secured.class)
 @Dynamic("Influunt")
-public class CidadesController extends Controller {
+public class UsuariosController extends Controller {
 
 
     @Transactional
-
     public CompletionStage<Result> create() {
 
         JsonNode json = request().body().asJson();
@@ -32,33 +35,38 @@ public class CidadesController extends Controller {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         }
 
-        Cidade cidade = Json.fromJson(json, Cidade.class);
-        cidade.save();
-        return CompletableFuture.completedFuture(ok(Json.toJson(cidade)));
-    }
-
-    @Transactional
-    public CompletionStage<Result> findOne(String id) {
-        Cidade cidade = Cidade.find.byId(UUID.fromString(id));
-        if (cidade == null) {
-            return CompletableFuture.completedFuture(notFound());
-        } else {
-            return CompletableFuture.completedFuture(ok(Json.toJson(cidade)));
+        Usuario usuario = Json.fromJson(json, Usuario.class);
+        if(Usuario.find.byId(usuario.getLogin())!=null){
+            return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(
+                    Arrays.asList(new Erro("usuario","login já utilizado","login"))))
+            );
+        }else {
+            usuario.save();
+            return CompletableFuture.completedFuture(ok(Json.toJson(usuario)));
         }
     }
 
     @Transactional
+    public CompletionStage<Result> findOne(String id) {
+        Usuario usuario = Usuario.find.byId(id);
+        if (usuario == null) {
+            return CompletableFuture.completedFuture(notFound());
+        } else {
+            return CompletableFuture.completedFuture(ok(Json.toJson(usuario)));
+        }
+    }
+
     public CompletionStage<Result> findAll() {
-        return CompletableFuture.completedFuture(ok(Json.toJson(Cidade.find.findList())));
+        return CompletableFuture.completedFuture(ok(Json.toJson(Usuario.find.findList())));
     }
 
     @Transactional
     public CompletionStage<Result> delete(String id) {
-        Cidade cidade = Cidade.find.byId(UUID.fromString(id));
-        if (cidade == null) {
+        Usuario usuario = Usuario.find.byId(id);
+        if (usuario == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
-            cidade.delete();
+            usuario.delete();
             return CompletableFuture.completedFuture(ok());
         }
     }
@@ -70,14 +78,14 @@ public class CidadesController extends Controller {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         }
 
-        Cidade cidade = Cidade.find.byId(UUID.fromString(id));
-        if (cidade == null) {
+        Usuario usuario = Usuario.find.byId(id);
+        if (usuario == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
-            cidade = Json.fromJson(json, Cidade.class);
-            cidade.setId(UUID.fromString(id));
-            cidade.update();
-            return CompletableFuture.completedFuture(ok(Json.toJson(cidade)));
+            usuario = Json.fromJson(json, Usuario.class);
+            usuario.setLogin(id);
+            usuario.update();
+            return CompletableFuture.completedFuture(ok(Json.toJson(usuario)));
         }
 
     }
