@@ -255,6 +255,10 @@ angular.module('influuntApp')
       };
 
       $scope.atualizaGruposSemaforicosSelecionados = function() {
+        if (!$scope.currentEstagio) {
+          return false;
+        }
+
         var estagioId = $scope.currentEstagio.id;
         $scope.gruposSelecionados = $scope.currentAnel.gruposSemaforicos.filter(function(grupo) {
           return !!_.filter(grupo.estagioGrupoSemaforicos, {estagio: {id: estagioId}}).length;
@@ -329,6 +333,8 @@ angular.module('influuntApp')
               anel.all = _.chain(anel).values().flatten().uniq().value();
             }
           });
+
+          console.log($scope.errors);
         }
       };
 
@@ -343,6 +349,11 @@ angular.module('influuntApp')
         var errors = _.get($scope.errors, 'aneis[' + indice + ']');
         return _.isObject(errors) && Object.keys(errors).length > 0;
       };
+
+      $scope.estagioTemErro = function(indiceAnel, indiceEstagio) {
+        var errors = _.get($scope.errors, 'aneis[' + indiceAnel + '].estagios[' + indiceEstagio + ']');
+        return _.isObject(errors) && Object.keys(errors).length > 0;
+      }
 
       /**
        * Retorna um array com os intervalos de grupos para cada anel. Utilizado

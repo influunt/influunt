@@ -17,7 +17,7 @@ import java.util.*;
  */
 public class AnelDeserializer extends JsonDeserializer<Anel> {
 
-    private ArrayList<Estagio> estagios = new ArrayList<Estagio>();
+    private ArrayList<Estagio> estagios;
 
     @Override
     public Anel deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
@@ -38,6 +38,7 @@ public class AnelDeserializer extends JsonDeserializer<Anel> {
                 anel.setDescricao(node.get("descricao").asText());
             }
             if (node.has("estagios")) {
+                estagios  = new ArrayList<Estagio>();
                 Estagio estagio = null;
                 for (JsonNode estagioNode : node.get("estagios")) {
                     estagio =  getEstagio(estagioNode);
