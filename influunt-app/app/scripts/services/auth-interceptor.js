@@ -8,8 +8,8 @@
  * Service in the influuntApp.
  */
 angular.module('influuntApp')
-  .factory('authInterceptor', ['APP_ROOT', 'toast',
-    function(APP_ROOT, toast) {
+  .factory('authInterceptor', ['APP_ROOT', 'toast', '$q',
+    function(APP_ROOT, toast, $q) {
       var LOGIN_PATH = '/login';
 
       return {
@@ -28,7 +28,7 @@ angular.module('influuntApp')
             toast.warn('Ação não autorizada');
           }
 
-          return response;
+          return $q.reject(response);
         },
         response: function(response) {
           if (response.status === 200 && response.config.url.match(LOGIN_PATH) && response.headers('authToken')) {

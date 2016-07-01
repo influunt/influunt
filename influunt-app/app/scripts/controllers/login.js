@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('LoginCtrl', ['$scope', 'Restangular', '$state',
-    function LoginCtrl ($scope, Restangular, $state) {
+  .controller('LoginCtrl', ['$scope', 'Restangular', '$state', 'SweetAlert',
+    function LoginCtrl ($scope, Restangular, $state, SweetAlert) {
       $scope.credenciais = {};
 
       $scope.submitLogin = function(formValido) {
@@ -23,7 +23,20 @@ angular.module('influuntApp')
             $state.go('app.main');
           })
           .catch(function(err) {
-            console.log(err);
+            if (err.status === 401) {
+              err.data.forEach(function(error) {
+                // @todo       por algum motivo o toaster não está funcionando para
+                // respostas do login.
+                // window.alert(error.message);
+                SweetAlert.swal({
+                  type: 'warning',
+                  title: 'Atenção',
+                  text: error.message,
+                  timer: 2000,
+                  showConfirmButton: false
+                });
+              });
+            }
           });
       };
 
