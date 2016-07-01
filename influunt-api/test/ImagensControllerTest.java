@@ -2,6 +2,7 @@ import akka.stream.Materializer;
 import akka.stream.javadsl.FileIO;
 import akka.stream.javadsl.Source;
 import akka.util.ByteString;
+import com.google.inject.Singleton;
 import controllers.routes;
 import org.junit.Test;
 import play.Application;
@@ -13,6 +14,7 @@ import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import play.test.WithApplication;
 import models.Imagem;
+import security.AllowAllAuthenticator;
 import security.Authenticator;
 
 import java.io.File;
@@ -43,7 +45,8 @@ public class ImagensControllerTest extends WithApplication {
     @SuppressWarnings({"unchecked", "rawtypes"})
     private Application getApplication(Map configuration) {
         return new GuiceApplicationBuilder().configure(configuration)
-                .overrides(bind(Authenticator.class).to(TestAuthenticator.class)).in(Mode.TEST).build();
+                .overrides(bind(Authenticator.class).to(AllowAllAuthenticator.class).in(Singleton.class))
+                .in(Mode.TEST).build();
     }
 
 

@@ -54,6 +54,9 @@ angular.module('influuntApp')
           clickable: true,
           paramName: 'imagem',
           maxFiles: 100,
+          headers: {
+            authToken: localStorage.token
+          },
           success: function(upload, imagem) {
             var anel = scope.anel;
 

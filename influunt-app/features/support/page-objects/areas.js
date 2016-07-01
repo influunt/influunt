@@ -49,6 +49,7 @@ var AreasPage = function () {
   this.fillAreaForm = function(descricao) {
     descricao = parseInt(descricao) || lastIndex++;
     world.setValue(inputDescArea, descricao);
+    world.selectOption('select[name="cidade"]', 'Teste Cadastro Cidade');
     world.clickButton(submitButton);
   };
 
@@ -82,6 +83,7 @@ var AreasPage = function () {
 
   this.nenhumaAreaDeveSerExcluida = function() {
     return world.getElements('tbody tr[data-ng-repeat="area in lista"]').then(function(elements) {
+      // console.log('antes: '+totalAreasIndex+' / agora: '+elements.length);
       return elements.length === totalAreasIndex;
     });
   };

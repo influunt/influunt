@@ -1,43 +1,44 @@
 package security;
 
+import be.objectify.deadbolt.java.models.Subject;
+import com.google.inject.Singleton;
+import models.Sessao;
+import models.Usuario;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import be.objectify.deadbolt.java.models.Subject;
-import models.Usuario;
 
-public class DumbAuthenticator implements Authenticator {
+@Singleton
+public class AllowAllAuthenticator implements Authenticator {
 
-    private Map<String, UserSession> sessions = new HashMap<String, UserSession>();
+    private Map<String, Sessao> sessions = new HashMap<String, Sessao>();
 
     @Override
-    public Subject getSubjectByCredentials(final String user, final String password) {
-        if ("admin".equals(user) && "1234".equals(password)) {
-            final Usuario u = new Usuario();
-            u.setLogin("admin");
-            u.setNome("Administrator");
-            return u;
-        }
-        return null;
+    public Subject getSubjectByCredentials(final String login, final String password) {
+
+        return getUsuario();
+    }
+
+    private Subject getUsuario() {
+        Usuario usuario = new Usuario();
+        usuario.setLogin("test");
+        usuario.setNome("Usuario de Teste");
+        usuario.setRoot(true);
+        usuario.setEmail("test@influunt.com.br");
+        return usuario;
     }
 
     @Override
     public Subject getSubjectByToken(final String token) {
-
-        if ("1234".equals(token)) {
-            Usuario u = new Usuario();
-            u.setLogin("admin");
-            u.setNome("Administrator");
-            return u;
-        }
-        return null;
+        return getUsuario();
     }
 
     @Override
     public String createSession(final Subject subject) {
-        UserSession newSession = new UserSession(subject);
+        Sessao newSession = new Sessao((Usuario)subject);
         sessions.put(newSession.getToken(), newSession);
         return newSession.getToken();
     }
@@ -53,12 +54,12 @@ public class DumbAuthenticator implements Authenticator {
     }
 
     @Override
-    public Collection<UserSession> listSessions() {
+    public Collection<Sessao> listSessions() {
         return sessions.values();
     }
 
     @Override
-    public Collection<UserSession> listSessions(Subject subject) {
+    public Collection<Sessao> listSessions(Subject subject) {
         return sessions.values().stream().filter(entry -> entry.getSubject().equals(subject))
                 .collect(Collectors.toList());
     }

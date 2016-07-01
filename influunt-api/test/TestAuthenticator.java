@@ -6,11 +6,11 @@ import java.util.stream.Collectors;
 import be.objectify.deadbolt.java.models.Subject;
 import models.Usuario;
 import security.Authenticator;
-import security.UserSession;
+import models.Sessao;
 
 public class TestAuthenticator implements Authenticator {
 
-    final private Map<String, UserSession> sessions = new HashMap<String, UserSession>();
+    final private Map<String, Sessao> sessions = new HashMap<String, Sessao>();
 
     @Override
     public Subject getSubjectByCredentials(String user, String password) {
@@ -36,7 +36,7 @@ public class TestAuthenticator implements Authenticator {
 
     @Override
     public String createSession(final Subject subject) {
-        UserSession newSession = new UserSession(subject);
+        Sessao newSession = new Sessao((Usuario)subject);
         sessions.put(newSession.getToken(), newSession);
         return newSession.getToken();
     }
@@ -52,12 +52,12 @@ public class TestAuthenticator implements Authenticator {
     }
 
     @Override
-    public Collection<UserSession> listSessions() {
+    public Collection<Sessao> listSessions() {
         return sessions.values();
     }
 
     @Override
-    public Collection<UserSession> listSessions(final Subject subject) {
+    public Collection<Sessao> listSessions(final Subject subject) {
         return sessions.values().stream().filter(entry -> entry.getSubject().equals(subject))
                 .collect(Collectors.toList());
     }

@@ -1,14 +1,18 @@
 package models;
 
+import com.google.inject.Singleton;
 import play.Application;
 import play.Mode;
 import play.inject.guice.GuiceApplicationBuilder;
 import play.test.WithApplication;
+import security.AllowAllAuthenticator;
+import security.Authenticator;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import static play.inject.Bindings.bind;
 import static play.test.Helpers.inMemoryDatabase;
 
 /**
@@ -33,6 +37,7 @@ public abstract class ControladorTest extends WithApplication {
     @SuppressWarnings({"unchecked", "rawtypes"})
     private Application getApplication(Map configuration) {
         return new GuiceApplicationBuilder().configure(configuration)
+                .overrides(bind(Authenticator.class).to(AllowAllAuthenticator.class).in(Singleton.class))
                 .in(Mode.TEST).build();
     }
 

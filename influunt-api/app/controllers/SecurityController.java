@@ -1,12 +1,7 @@
 package controllers;
 
-import java.nio.charset.Charset;
-import java.util.Base64;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
-
-import javax.inject.Inject;
-
+import checks.Erro;
+import com.fasterxml.jackson.databind.JsonNode;
 import models.Usuario;
 import play.db.ebean.Transactional;
 import play.libs.Json;
@@ -14,6 +9,13 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import security.Authenticator;
+
+import javax.inject.Inject;
+import java.nio.charset.Charset;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
 
 public class SecurityController extends Controller {
@@ -26,22 +28,19 @@ public class SecurityController extends Controller {
 
     @Transactional
     public CompletionStage<Result> login() {
-        final String authorization = request().getHeader("Authorization");
-        if (authorization != null && authorization.startsWith("Basic")) {
-
-            final String base64Credentials = authorization.substring("Basic".length()).trim();
-            final String credentials = new String(Base64.getDecoder().decode(base64Credentials),
-                    Charset.forName("UTF-8"));
-
-            final String[] values = credentials.split(":", 2);
-            final Usuario usuario = (Usuario) authenticator.getSubjectByCredentials(values[0], values[1]);
+        JsonNode json = request().body().asJson();
+        if(json != null && json.has("login") && json.has("senha")) {
+            String login = json.get("login").asText();
+            String senha = json.get("senha").asText();
+            final Usuario usuario = (Usuario) authenticator.getSubjectByCredentials(login, senha);
             if (usuario != null) {
-                response().setCookie(Http.Cookie.builder(AUTH_TOKEN, authenticator.createSession(usuario))
-                        .withSecure(ctx().request().secure()).build());
+                response().setHeader(AUTH_TOKEN, authenticator.createSession(usuario));
                 return CompletableFuture.completedFuture(ok(Json.toJson(usuario)));
             }
+            return CompletableFuture.completedFuture(unauthorized(Json.toJson(Arrays.asList(new Erro("login", "usuário ou senha inválidos", "")))));
+        }else{
+            return CompletableFuture.completedFuture(unauthorized(Json.toJson(Arrays.asList(new Erro("login", "usuário ou senha inválidos", "")))));
         }
-        return CompletableFuture.completedFuture(unauthorized());
     }
 
 }

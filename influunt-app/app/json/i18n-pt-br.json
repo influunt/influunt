@@ -112,6 +112,7 @@
     "dashboard": "Dashboard",
     "mensagens": {
       "cancelar": "Cancelar",
+      "confirma_saida": "Confirma a saída",
       "default_erro": "Ocorreu um erro. Tente novamente mais tarde.",
       "nao": "Não",
       "popup_delete": {
@@ -120,6 +121,7 @@
       },
       "removido_com_sucesso": "Removido com sucesso",
       "salvo_com_sucesso": "Salvo com sucesso",
+      "sair": "Sair do sistema?",
       "sim": "Sim"
     },
     "titulo_padrao": "Título não definido."
@@ -134,7 +136,38 @@
     "hello_world": "Dashboard"
   },
   "menu": {
-    "cadastros": "CADASTROS"
+    "cadastros": "cadastros",
+    "configuracoes": "Configurações"
+  },
+  "perfis": {
+    "definir_permissoes": "Definir permissões",
+    "descricao": "Descricao",
+    "nome": "Nome",
+    "titulo": "Perfis",
+    "permissoes": {
+      "criar": "Criar",
+      "descricao": "Descrição",
+      "editar": "Editar",
+      "excluir": "Excluir",
+      "permite": "Permite?",
+      "todos": "Todos",
+      "visualizar": "Visualizar"
+    }
+  },
+  "permissoes": {
+    "descricao": "Descrição",
+    "chave": "Chave",
+    "titulo": "Permissões"
+  },
+  "usuarios": {
+    "area": "Área",
+    "confirmacao_senha": "Confirmação senha",
+    "email": "Email",
+    "login": "login",
+    "nome": "Nome",
+    "perfil": "Perfil",
+    "senha": "Senha",
+    "titulo": "Usuários"
   },
   "plugins": {
     "datatables_cdn": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json",

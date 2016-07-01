@@ -3,6 +3,7 @@ package security;
 import java.util.Collection;
 
 import be.objectify.deadbolt.java.models.Subject;
+import models.Sessao;
 
 public interface Authenticator {
     /**
@@ -45,7 +46,7 @@ public interface Authenticator {
      */
     public void destroySession(String token);
 
-    public Collection<UserSession> listSessions();
+    public Collection<Sessao> listSessions();
 
-    public Collection<UserSession> listSessions(Subject subject);
+    public Collection<Sessao> listSessions(Subject subject);
 }

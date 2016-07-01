@@ -16,6 +16,6 @@ describe('Controller: DatatablesCtrl', function () {
   }));
 
   it('Deve definir as opções dos datatables', function() {
-    expect(scope.dtOptions).toBeDefined();
+    expect(scope.datatables.options).toBeDefined();
   });
 });
