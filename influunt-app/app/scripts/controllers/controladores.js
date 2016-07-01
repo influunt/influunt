@@ -137,6 +137,7 @@ angular.module('influuntApp')
 
       $scope.inicializaVerdesConflitantes = function() {
         return $scope.inicializaWizard().then(function() {
+          $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
           $scope.grupoIds = _.chain($scope.objeto.gruposSemaforicos).orderBy(['posicao'], ['asc']).map('id').value();
           var totalGrupos = $scope.objeto.modelo.configuracao.limiteGrupoSemaforico;
           $scope.grupos = _.times(totalGrupos, function(i) {return 'G' + (i+1);});
@@ -222,27 +223,15 @@ angular.module('influuntApp')
           var indexY = _.findIndex(grupoY.verdesConflitantes, {id: $scope.grupoIds[x]});
           grupoY.verdesConflitantes.splice(indexY, 1);
         } else {
+          grupoX.verdesConflitantes = grupoX.verdesConflitantes || [];
+          grupoY.verdesConflitantes = grupoY.verdesConflitantes || [];
           grupoX.verdesConflitantes.push({id: $scope.grupoIds[y]});
           grupoY.verdesConflitantes.push({id: $scope.grupoIds[x]});
         }
 
-        // var grupo = _.find($scope.objeto.gruposSemaforicos, {id: $scope.grupoIds[x]});
-        // grupo.verdesConflitantes = grupo.verdesConflitantes || [];
-
-        // if ($scope.verdesConflitantes[x][y]) {
-        //   var index = _.findIndex(grupo.verdesConflitantes, {id: $scope.grupoIds[y]});
-        //   grupo.verdesConflitantes.splice(index, 1);
-        // } else {
-        //   grupo.verdesConflitantes.push({id: $scope.grupoIds[y]});
-        // }
-
         // Deve marcar/desmarcar os coordenadas (x, y) e (y, x) simultaneamente.
         $scope.verdesConflitantes[x][y] = !$scope.verdesConflitantes[x][y];
         $scope.verdesConflitantes[y][x] = !$scope.verdesConflitantes[y][x];
-
-        console.log(grupoX);
-        console.log(grupoY);
-        console.log($scope.verdesConflitantes);
       };
 
       $scope.toggleEstagioAtivado = function(grupo, estagio) {
@@ -373,7 +362,7 @@ angular.module('influuntApp')
       $scope.estagioTemErro = function(indiceAnel, indiceEstagio) {
         var errors = _.get($scope.errors, 'aneis[' + indiceAnel + '].estagios[' + indiceEstagio + ']');
         return _.isObject(errors) && Object.keys(errors).length > 0;
-      }
+      };
 
       /**
        * Retorna um array com os intervalos de grupos para cada anel. Utilizado

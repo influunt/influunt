@@ -308,6 +308,24 @@ describe('Controller: ControladoresCtrl', function () {
           scope.toggleVerdeConflitante(0, 1);
           expect(scope.verdesConflitantes[0][1]).toBeTruthy();
         });
+
+        it('se a posicao 0x1 é verde conflitante, a posicao 1x0 também deverá ser.', function() {
+          scope.toggleVerdeConflitante(0, 1);
+          expect(scope.verdesConflitantes[0][1]).toBeTruthy();
+          expect(scope.verdesConflitantes[1][0]).toBeTruthy();
+        });
+
+        it('Dado que o elemento (x, y) foi marcado como verde conflitante, o elemento (y, x) ' +
+          'também deverá ser marcado.', function () {
+          var grupo0 = _.find(scope.objeto.gruposSemaforicos, {posicao: 1});
+          var grupo1 = _.find(scope.objeto.gruposSemaforicos, {posicao: 2});
+          scope.toggleVerdeConflitante(0, 1);
+
+          expect(grupo0.verdesConflitantes.length).toBe(1);
+          expect(grupo0.verdesConflitantes[0].id).toBe(grupo1.id);
+          expect(grupo1.verdesConflitantes.length).toBe(1);
+          expect(grupo1.verdesConflitantes[0].id).toBe(grupo0.id);
+        });
       });
 
       describe('desativação de um verde conflitante.', function () {
