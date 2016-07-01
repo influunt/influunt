@@ -2,6 +2,8 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
 import be.objectify.deadbolt.java.actions.Dynamic;
+import checks.Erro;
+import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Perfil;
 import models.Permissao;
@@ -12,6 +14,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -30,8 +33,15 @@ public class PermissoesController extends Controller {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         } else {
             Permissao permissao = Json.fromJson(json, Permissao.class);
-            permissao.save();
-            return CompletableFuture.completedFuture(ok(Json.toJson(permissao)));
+            List<Erro> erros = new InfluuntValidator<Permissao>().validate(permissao);
+
+            if(erros.isEmpty()) {
+                permissao.save();
+                return CompletableFuture.completedFuture(ok(Json.toJson(permissao)));
+            }else{
+                return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
+            }
+
         }
     }
 
@@ -73,8 +83,14 @@ public class PermissoesController extends Controller {
 
         Permissao permissao = Json.fromJson(json, Permissao.class);
         permissao.setId(UUID.fromString(id));
-        permissao.update();
-        return CompletableFuture.completedFuture(ok(Json.toJson(permissao)));
+        List<Erro> erros = new InfluuntValidator<Permissao>().validate(permissao);
+
+        if(erros.isEmpty()) {
+            permissao.update();
+            return CompletableFuture.completedFuture(ok(Json.toJson(permissao)));
+        }else{
+            return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
+        }
     }
 
 }

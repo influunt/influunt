@@ -3,7 +3,10 @@ package controllers;
 import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
 import be.objectify.deadbolt.java.actions.Dynamic;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
+import checks.Erro;
+import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
+import models.Cidade;
 import models.Fabricante;
 import play.db.ebean.Transactional;
 import play.libs.Json;
@@ -12,6 +15,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -27,9 +31,17 @@ public class FabricantesController extends Controller {
         if (json == null) {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         }
+
         Fabricante fabricante = Json.fromJson(json, Fabricante.class);
-        fabricante.save();
-        return CompletableFuture.completedFuture(ok(Json.toJson(fabricante)));
+        List<Erro> erros = new InfluuntValidator<Fabricante>().validate(fabricante);
+
+        if(erros.isEmpty()) {
+            fabricante.save();
+            return CompletableFuture.completedFuture(ok(Json.toJson(fabricante)));
+        }else{
+            return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
+        }
+
     }
 
 
@@ -50,10 +62,17 @@ public class FabricantesController extends Controller {
         if (fabricante == null) {
             return CompletableFuture.completedFuture(notFound());
         }else{
+
             fabricante = Json.fromJson(json, Fabricante.class);
             fabricante.setId(UUID.fromString(id));
-            fabricante.update();
-            return CompletableFuture.completedFuture(ok(Json.toJson(fabricante)));
+            List<Erro> erros = new InfluuntValidator<Fabricante>().validate(fabricante);
+
+            if(erros.isEmpty()) {
+                fabricante.update();
+                return CompletableFuture.completedFuture(ok(Json.toJson(fabricante)));
+            }else{
+                return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
+            }
         }
 
     }

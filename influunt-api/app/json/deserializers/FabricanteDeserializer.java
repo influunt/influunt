@@ -41,11 +41,13 @@ public class FabricanteDeserializer extends JsonDeserializer<Fabricante> {
             List<ModeloControlador> modelos = new ArrayList<ModeloControlador>();
             for (JsonNode nodeModelo : node.get("modelos")) {
                 ModeloControlador modelo = new ModeloControlador();
+
                 modelo.setDescricao(nodeModelo.get("descricao").asText());
-                if (nodeModelo.get("configuracao") != null) {
+                if (nodeModelo.get("configuracao") != null &&  nodeModelo.get("configuracao").has("id")) {
                     ConfiguracaoControlador configuracao = new ConfiguracaoControlador();
                     configuracao.setId(UUID.fromString(nodeModelo.get("configuracao").get("id").asText()));
                     modelo.setConfiguracao(configuracao);
+                    modelo.setFabricante(fabricante);
                 }
                 modelos.add(modelo);
             }

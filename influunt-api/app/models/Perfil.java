@@ -10,6 +10,7 @@ import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import json.serializers.PerfilSerializer;
 import json.serializers.UsuarioSerializer;
+import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
@@ -37,6 +38,7 @@ public class Perfil extends Model implements Role {
     private UUID id;
 
     @Column
+    @NotBlank(message = "não pode ficar em branco")
     private String nome;
 
     @Column
@@ -49,7 +51,6 @@ public class Perfil extends Model implements Role {
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
-    @NotNull
     private DateTime dataAtualizacao;
 
 

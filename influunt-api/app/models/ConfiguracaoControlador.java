@@ -36,7 +36,7 @@ public class ConfiguracaoControlador extends Model {
     private UUID id;
 
     @Column
-    @NotBlank
+    @NotBlank(message = "não pode ficar em branco")
     private String descricao;
 
     @Column

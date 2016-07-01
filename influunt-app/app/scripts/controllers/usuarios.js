@@ -25,10 +25,14 @@ angular.module('influuntApp')
         Restangular.all('perfis').getList().then(function(res) {
           $scope.perfis = res;
         });
+
+        console.log('before show');
       };
 
       $scope.afterShow = function() {
         $scope.objeto.id = $scope.objeto.login;
+
+        console.log('afger show');
       };
 
     }]);

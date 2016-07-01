@@ -2,9 +2,12 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
 import be.objectify.deadbolt.java.actions.Dynamic;
+import checks.Erro;
+import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Area;
 import models.Perfil;
+import models.Usuario;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -12,6 +15,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -30,8 +34,16 @@ public class PerfisController extends Controller {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         } else {
             Perfil perfil = Json.fromJson(json, Perfil.class);
-            perfil.save();
-            return CompletableFuture.completedFuture(ok(Json.toJson(perfil)));
+
+            List<Erro> erros = new InfluuntValidator<Perfil>().validate(perfil);
+
+            if(erros.isEmpty()) {
+                perfil.save();
+                return CompletableFuture.completedFuture(ok(Json.toJson(perfil)));
+            }else{
+                return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
+            }
+
         }
     }
 
@@ -74,8 +86,14 @@ public class PerfisController extends Controller {
 
         Perfil perfil = Json.fromJson(json, Perfil.class);
         perfil.setId(UUID.fromString(id));
-        perfil.update();
-        return CompletableFuture.completedFuture(ok(Json.toJson(perfil)));
+        List<Erro> erros = new InfluuntValidator<Perfil>().validate(perfil);
+
+        if(erros.isEmpty()) {
+            perfil.update();
+            return CompletableFuture.completedFuture(ok(Json.toJson(perfil)));
+        }else{
+            return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
+        }
     }
 
 }
