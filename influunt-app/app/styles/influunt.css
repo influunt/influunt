@@ -320,7 +320,7 @@ header .nav-secon li a {
   padding: 0;
   margin: 0;
 }
-.wrapper-content .basic-wizard .content .body .stages nav li {
+.wrapper-content .basic-wizard .content .body .stages nav li.ibox {
   border-bottom:1px solid #e5e5e5;
   position:relative;
   background: white;
@@ -746,4 +746,36 @@ header .nav-secon li a {
   .wrapper-content .basic-wizard .content .body .stages .stage-stages {
     width: 30%;
   }
+}
+
+.tooltipster-sidetip.tooltipster-error-tag .tooltipster-box {
+  background: #f2dede;
+  border: 1px solid #ebccd1;
+  border-radius: 6px;
+  box-shadow: 5px 5px 2px 0 rgba(0,0,0,0.4);
+}
+
+.tooltipster-sidetip.tooltipster-error-tag .tooltipster-content {
+  color: #a94442;
+  padding: 8px;
+}
+
+.tooltipster-sidetip.tooltipster-error-tag .tooltipster-arrow-background {
+  display: none
+}
+.tooltipster-sidetip.tooltipster-error-tag.tooltipster-bottom .tooltipster-arrow-border {
+  border-bottom-color: #ebccd1;
+}
+.tooltipster-sidetip.tooltipster-error-tag.tooltipster-left .tooltipster-arrow-border {
+  border-left-color: #ebccd1;
+}
+.tooltipster-sidetip.tooltipster-error-tag.tooltipster-right .tooltipster-arrow-border {
+  border-right-color: #ebccd1;
+}
+.tooltipster-sidetip.tooltipster-error-tag.tooltipster-top .tooltipster-arrow-border {
+  border-top-color: #f2dede;
+}
+
+.badge.badge-danger.badge-notification {
+  font-size: 8px;
 }

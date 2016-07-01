@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import models.Anel;
 import models.EstagioGrupoSemaforico;
 import models.GrupoSemaforico;
 
@@ -34,6 +35,11 @@ public class GrupoSemaforicoSerializer extends JsonSerializer<GrupoSemaforico> {
         if (grupoSemaforico.getDescricao() != null) {
             jgen.writeStringField("descricao", grupoSemaforico.getDescricao());
         }
+        if (grupoSemaforico.getAnel() != null) {
+            Anel anelAux = new Anel();
+            anelAux.setId(grupoSemaforico.getAnel().getId());
+            jgen.writeObjectField("anel", anelAux);
+        }
 
         if (grupoSemaforico.getVerdesConflitantes() != null) {
             jgen.writeArrayFieldStart("verdesConflitantes");
@@ -43,6 +49,8 @@ public class GrupoSemaforicoSerializer extends JsonSerializer<GrupoSemaforico> {
                 grupoAux.setDescricao(grupo.getDescricao());
                 grupoAux.setTipo(grupo.getTipo());
                 grupoAux.setPosicao(grupo.getPosicao());
+                grupoAux.setAnel(grupo.getAnel());
+
                 jgen.writeObject(grupoAux);
             }
             jgen.writeEndArray();

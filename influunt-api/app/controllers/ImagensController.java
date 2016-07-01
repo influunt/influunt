@@ -23,8 +23,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 @DeferredDeadbolt
-@Security.Authenticated(Secured.class)
-@Dynamic("Influunt")
 public class ImagensController extends Controller {
 
     @Inject
@@ -32,6 +30,8 @@ public class ImagensController extends Controller {
 
 
     @Transactional
+    @Security.Authenticated(Secured.class)
+    @Dynamic("Influunt")
     public CompletionStage<Result> create() {
         Http.MultipartFormData<File> body = request().body().asMultipartFormData();
         Http.MultipartFormData.FilePart<File> picture = body.getFile("imagem");

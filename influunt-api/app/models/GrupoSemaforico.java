@@ -191,7 +191,7 @@ public class GrupoSemaforico extends Model {
     @JsonIgnore
     @AssertTrue(groups = ControladorVerdesConflitantesCheck.class, message = "Esse grupo semafórico não pode ter verde conflitante com grupo semafórico de outro anel")
     public boolean isNaoConflitaComGruposDeOutroAnel() {
-        if (this.getVerdesConflitantes() != null && !this.getVerdesConflitantes().isEmpty()) {
+        if (this.getAnel() != null && this.getVerdesConflitantes() != null && !this.getVerdesConflitantes().isEmpty()) {
             return this.getVerdesConflitantes().stream().filter(grupoSemaforico -> !grupoSemaforico.getAnel().getId().equals(this.getAnel().getId())).count() == 0;
         } else {
             return true;

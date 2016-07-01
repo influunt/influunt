@@ -137,12 +137,30 @@ angular.module('influuntApp')
 
       $scope.inicializaVerdesConflitantes = function() {
         return $scope.inicializaWizard().then(function() {
+          $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
+
+          $scope.objeto.aneis.forEach(function(anel) {
+            anel.gruposSemaforicos.forEach(function(gs) {
+              gs.anel = {
+                id: anel.id
+              };
+            });
+          });
+
           $scope.grupoIds = _.chain($scope.objeto.gruposSemaforicos).orderBy(['posicao'], ['asc']).map('id').value();
           var totalGrupos = $scope.objeto.modelo.configuracao.limiteGrupoSemaforico;
           $scope.grupos = _.times(totalGrupos, function(i) {return 'G' + (i+1);});
 
           buildIntervaloAneis();
           buildMatrizVerdesConflitantes();
+
+          return $scope.objeto.gruposSemaforicos && $scope.objeto.gruposSemaforicos.forEach(function(gs) {
+            return gs.verdesConflitantes && gs.verdesConflitantes.forEach(function(vc) {
+              if (!$scope.verdesConflitantes[gs.posicao - 1][vc.posicao - 1]) {
+                $scope.toggleVerdeConflitante(gs.posicao - 1, vc.posicao - 1);
+              }
+            });
+          });
         });
       };
 
@@ -212,17 +230,36 @@ angular.module('influuntApp')
           return false;
         }
 
-        var grupo = _.find($scope.objeto.gruposSemaforicos, {id: $scope.grupoIds[x]});
-        grupo.verdesConflitantes = grupo.verdesConflitantes || [];
+        var gruposAneis = _.chain($scope.objeto.aneis).map('gruposSemaforicos').flatten().value();
+        var grupoX = _.find(gruposAneis, {id: $scope.grupoIds[x]});
+        var grupoY = _.find(gruposAneis, {id: $scope.grupoIds[y]});
 
         if ($scope.verdesConflitantes[x][y]) {
-          var index = _.findIndex(grupo.verdesConflitantes, {id: $scope.grupoIds[y]});
-          grupo.verdesConflitantes.splice(index, 1);
+          var indexX = _.findIndex(grupoX.verdesConflitantes, {id: $scope.grupoIds[y]});
+          grupoX.verdesConflitantes.splice(indexX, 1);
+
+          var indexY = _.findIndex(grupoY.verdesConflitantes, {id: $scope.grupoIds[x]});
+          grupoY.verdesConflitantes.splice(indexY, 1);
         } else {
-          grupo.verdesConflitantes.push({id: $scope.grupoIds[y]});
+          grupoX.verdesConflitantes = grupoX.verdesConflitantes || [];
+          grupoY.verdesConflitantes = grupoY.verdesConflitantes || [];
+          grupoX.verdesConflitantes.push({
+            id: $scope.grupoIds[y],
+            anel: {
+              id: grupoY.anel.id
+            }
+          });
+          grupoY.verdesConflitantes.push({
+            id: $scope.grupoIds[x],
+            anel: {
+              id: grupoX.anel.id
+            }
+          });
         }
 
+        // Deve marcar/desmarcar os coordenadas (x, y) e (y, x) simultaneamente.
         $scope.verdesConflitantes[x][y] = !$scope.verdesConflitantes[x][y];
+        $scope.verdesConflitantes[y][x] = !$scope.verdesConflitantes[y][x];
       };
 
       $scope.toggleEstagioAtivado = function(grupo, estagio) {
@@ -255,6 +292,10 @@ angular.module('influuntApp')
       };
 
       $scope.atualizaGruposSemaforicosSelecionados = function() {
+        if (!$scope.currentEstagio) {
+          return false;
+        }
+
         var estagioId = $scope.currentEstagio.id;
         $scope.gruposSelecionados = $scope.currentAnel.gruposSemaforicos.filter(function(grupo) {
           return !!_.filter(grupo.estagioGrupoSemaforicos, {estagio: {id: estagioId}}).length;
@@ -329,7 +370,29 @@ angular.module('influuntApp')
               anel.all = _.chain(anel).values().flatten().uniq().value();
             }
           });
+
+          $scope.getErrosVerdes();
         }
+      };
+
+      $scope.getErrosVerdes = function() {
+        $scope.messages = [];
+        _.each($scope.errors.aneis, function(anel, anelIndex) {
+          _.each(anel.gruposSemaforicos, function(gs, gsIndex) {
+            var nomeGS = 'G' + $scope.objeto.aneis[anelIndex].gruposSemaforicos[gsIndex].posicao;
+            _.each(gs, function(mgs) {
+              _.map(mgs, function(msg) {
+                $scope.messages.push(nomeGS + ': ' + msg);
+              });
+            });
+          });
+        });
+
+        $scope.messages = _.uniq($scope.messages);
+      };
+
+      $scope.closeMensagensVerdes = function() {
+        $scope.messages = [];
       };
 
       /**
@@ -341,6 +404,11 @@ angular.module('influuntApp')
        */
       $scope.anelTemErro = function(indice) {
         var errors = _.get($scope.errors, 'aneis[' + indice + ']');
+        return _.isObject(errors) && Object.keys(errors).length > 0;
+      };
+
+      $scope.estagioTemErro = function(indiceAnel, indiceEstagio) {
+        var errors = _.get($scope.errors, 'aneis[' + indiceAnel + '].estagios[' + indiceEstagio + ']');
         return _.isObject(errors) && Object.keys(errors).length > 0;
       };
 
