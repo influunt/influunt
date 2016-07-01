@@ -496,6 +496,20 @@ angular
           data: {pageTitle: 'Example view'}
         });
     }])
-    .run(['$rootScope', '$state', function($rootScope, $state) {
-      $rootScope.$state = $state;
-    }]);
+
+    .run(['$rootScope', '$state', '$timeout',
+      function($rootScope, $state, $timeout) {
+
+        $rootScope.isAuthenticated = function() {
+          return !!localStorage.token;
+        };
+
+        $rootScope.$on('$stateChangeStart', function(ev, toState) {
+          $timeout(function() {
+            if (!$rootScope.isAuthenticated() && toState.name !== 'login') {
+                $state.go('login');
+            }
+          });
+        });
+
+      }]);

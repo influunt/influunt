@@ -188,6 +188,14 @@ create table permissoes_perfis (
   constraint pk_permissoes_perfis primary key (permissoes_id,perfis_id)
 );
 
+create table sessoes (
+  id                            varchar(40) not null,
+  usuario_login                 varchar(255),
+  ativa                         tinyint(1) default 0,
+  data_criacao                  datetime(6) not null,
+  constraint pk_sessoes primary key (id)
+);
+
 create table tabela_entre_verdes (
   id                            varchar(40) not null,
   grupo_semaforico_id           varchar(40),
@@ -294,6 +302,9 @@ create index ix_permissoes_perfis_permissoes on permissoes_perfis (permissoes_id
 alter table permissoes_perfis add constraint fk_permissoes_perfis_perfis foreign key (perfis_id) references perfis (id) on delete restrict on update restrict;
 create index ix_permissoes_perfis_perfis on permissoes_perfis (perfis_id);
 
+alter table sessoes add constraint fk_sessoes_usuario_login foreign key (usuario_login) references usuarios (login) on delete restrict on update restrict;
+create index ix_sessoes_usuario_login on sessoes (usuario_login);
+
 alter table tabela_entre_verdes add constraint fk_tabela_entre_verdes_grupo_semaforico_id foreign key (grupo_semaforico_id) references grupos_semaforicos (id) on delete restrict on update restrict;
 create index ix_tabela_entre_verdes_grupo_semaforico_id on tabela_entre_verdes (grupo_semaforico_id);
 
@@ -381,6 +392,9 @@ drop index ix_permissoes_perfis_permissoes on permissoes_perfis;
 alter table permissoes_perfis drop foreign key fk_permissoes_perfis_perfis;
 drop index ix_permissoes_perfis_perfis on permissoes_perfis;
 
+alter table sessoes drop foreign key fk_sessoes_usuario_login;
+drop index ix_sessoes_usuario_login on sessoes;
+
 alter table tabela_entre_verdes drop foreign key fk_tabela_entre_verdes_grupo_semaforico_id;
 drop index ix_tabela_entre_verdes_grupo_semaforico_id on tabela_entre_verdes;
 
@@ -436,6 +450,8 @@ drop table if exists perfis_permissoes;
 drop table if exists permissoes;
 
 drop table if exists permissoes_perfis;
+
+drop table if exists sessoes;
 
 drop table if exists tabela_entre_verdes;
 

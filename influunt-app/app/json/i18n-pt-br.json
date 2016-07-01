@@ -112,6 +112,7 @@
     "dashboard": "Dashboard",
     "mensagens": {
       "cancelar": "Cancelar",
+      "confirma_saida": "Confirma a saída",
       "default_erro": "Ocorreu um erro. Tente novamente mais tarde.",
       "nao": "Não",
       "popup_delete": {
@@ -120,6 +121,7 @@
       },
       "removido_com_sucesso": "Removido com sucesso",
       "salvo_com_sucesso": "Salvo com sucesso",
+      "sair": "Sair do sistema?",
       "sim": "Sim"
     },
     "titulo_padrao": "Título não definido."

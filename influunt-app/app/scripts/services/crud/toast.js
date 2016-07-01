@@ -19,6 +19,15 @@ angular.module('influuntApp')
       });
     };
 
+    var warn = function(text) {
+      toaster.pop({
+        type: 'warning',
+        body: text,
+        showCloseButton: true,
+        timeout: 6000
+      });
+    };
+
     var error = function(text) {
       toaster.pop({
         type: 'error',
@@ -30,6 +39,7 @@ angular.module('influuntApp')
 
     return {
       success: success,
-      error: error
+      error: error,
+      warn: warn
     };
   }]);
