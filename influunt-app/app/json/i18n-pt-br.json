@@ -51,7 +51,7 @@
     "adicionar_coordenada": "adicionar coordenadas",
     "cidade": "CIDADE",
     "coordenadas": "COORDENADAS",
-    "descricao": "DESCRIÇÃO",
+    "descricao": "NÚMERO CTA",
     "novo": "Nova Área",
     "titulo": "Áreas"
   },
@@ -116,7 +116,7 @@
       "default_erro": "Ocorreu um erro. Tente novamente mais tarde.",
       "nao": "Não",
       "popup_delete": {
-        "mensagem": "quer mesmo apagar este registro?",
+        "mensagem": "Quer mesmo apagar este registro?",
         "titulo": "Confirma?"
       },
       "removido_com_sucesso": "Removido com sucesso",
@@ -136,7 +136,7 @@
     "hello_world": "Dashboard"
   },
   "menu": {
-    "cadastros": "cadastros",
+    "cadastros": "Cadastros",
     "configuracoes": "Configurações"
   },
   "perfis": {
@@ -162,8 +162,8 @@
   "usuarios": {
     "area": "Área",
     "confirmacao_senha": "Confirmação senha",
-    "email": "Email",
-    "login": "login",
+    "email": "e-mail",
+    "login": "Login",
     "nome": "Nome",
     "perfil": "Perfil",
     "senha": "Senha",
@@ -173,13 +173,13 @@
     "datatables_cdn": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json",
     "steps": {
       "labels": {
-        "cancel": "cancelar",
-        "current": "atual",
-        "pagination": "paginação",
-        "finish": "finalizar",
-        "next": "próximo",
+        "cancel": "Cancelar",
+        "current": "Atual",
+        "pagination": "Paginação",
+        "finish": "Finalizar",
+        "next": "Próximo",
         "previous": "Anterior",
-        "loading": "carregando"
+        "loading": "Carregando"
       }
     }
   }

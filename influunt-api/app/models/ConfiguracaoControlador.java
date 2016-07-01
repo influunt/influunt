@@ -5,6 +5,7 @@ import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
@@ -13,6 +14,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 /**
@@ -33,21 +36,32 @@ public class ConfiguracaoControlador extends Model {
     private UUID id;
 
     @Column
+    @NotBlank
     private String descricao;
 
     @Column
+    @Min(value=1, message = "Deve ser maior que zero")
+    @NotNull
     private Integer limiteEstagio = 16;
 
     @Column
+    @Min(value=1, message = "Deve ser maior que zero")
+    @NotNull
     private Integer limiteGrupoSemaforico = 16;
 
     @Column
+    @Min(value=1, message = "Deve ser maior que zero")
+    @NotNull
     private Integer limiteAnel = 4;
 
     @Column
+    @Min(value=1, message = "Deve ser maior que zero")
+    @NotNull
     private Integer limiteDetectorPedestre = 4;
 
     @Column
+    @Min(value=1, message = "Deve ser maior que zero")
+    @NotNull
     private Integer limiteDetectorVeicular = 8;
 
     @Column

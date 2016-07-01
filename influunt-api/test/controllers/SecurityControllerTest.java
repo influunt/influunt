@@ -52,7 +52,7 @@ public class SecurityControllerTest extends WithApplication {
         usuario.setRoot(true);
         usuario.setEmail("root@influunt.com.br");
         usuario.save();
-        JsonNode jsonUsuario = Json.parse("{\"login\":\"admin\",\"senha\":\"1234\"}");
+        JsonNode jsonUsuario = Json.parse("{\"usuario\":\"admin\",\"senha\":\"1234\"}");
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
                 .uri(routes.SecurityController.login().url()).bodyJson(jsonUsuario);
