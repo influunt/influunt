@@ -41,11 +41,11 @@ create table cidades (
 create table configuracao_controladores (
   id                            uuid not null,
   descricao                     varchar(255),
-  limite_estagio                integer,
-  limite_grupo_semaforico       integer,
-  limite_anel                   integer,
-  limite_detector_pedestre      integer,
-  limite_detector_veicular      integer,
+  limite_estagio                integer not null,
+  limite_grupo_semaforico       integer not null,
+  limite_anel                   integer not null,
+  limite_detector_pedestre      integer not null,
+  limite_detector_veicular      integer not null,
   data_criacao                  timestamp not null,
   data_atualizacao              timestamp not null,
   constraint pk_configuracao_controladores primary key (id)
@@ -151,8 +151,8 @@ create table limite_area (
 
 create table modelo_controladores (
   id                            uuid not null,
-  fabricante_id                 uuid,
-  configuracao_id               uuid,
+  fabricante_id                 uuid not null,
+  configuracao_id               uuid not null,
   descricao                     varchar(255),
   data_criacao                  timestamp not null,
   data_atualizacao              timestamp not null,

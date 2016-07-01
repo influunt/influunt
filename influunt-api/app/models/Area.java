@@ -13,6 +13,7 @@ import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,6 +36,7 @@ public class Area extends Model {
     private UUID id;
 
     @Column
+    @Min(value = 1)
     private Integer descricao;
 
     @ManyToOne
