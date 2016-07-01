@@ -87,7 +87,7 @@ public class AnelDeserializer extends JsonDeserializer<Anel> {
 
     public GrupoSemaforico getGrupoSemaforico(JsonNode node, Anel anel) {
         GrupoSemaforico grupoSemaforico = new GrupoSemaforico();
-
+        grupoSemaforico.setAnel(anel);
         if (node.has("id")) {
             grupoSemaforico.setId(UUID.fromString(node.get("id").asText()));
         }
@@ -103,10 +103,13 @@ public class AnelDeserializer extends JsonDeserializer<Anel> {
         if(node.has("verdesConflitantes")) {
             List<GrupoSemaforico> verdesConflitantes = new ArrayList<GrupoSemaforico>();
             for (JsonNode verdesConflitantesGSNode : node.get("verdesConflitantes")) {
-                verdesConflitantes.add(getGrupoSemaforico(verdesConflitantesGSNode, anel));
+                Anel anelAux = new Anel();
+                anelAux.setId(UUID.fromString(verdesConflitantesGSNode.get("anel").get("id").asText()));
+                verdesConflitantes.add(getGrupoSemaforico(verdesConflitantesGSNode, anelAux));
             }
             grupoSemaforico.setVerdesConflitantes(verdesConflitantes);
         }
+
         if (node.has("estagioGrupoSemaforicos")) {
             List<EstagioGrupoSemaforico> estagioGrupoSemaforicos = new ArrayList<EstagioGrupoSemaforico>();
             for (JsonNode estagioGSNode : node.get("estagioGrupoSemaforicos")) {
@@ -114,7 +117,8 @@ public class AnelDeserializer extends JsonDeserializer<Anel> {
             }
             grupoSemaforico.setEstagioGrupoSemaforicos(estagioGrupoSemaforicos);
         }
-        grupoSemaforico.setAnel(anel);
+
+
         return grupoSemaforico;
     }
 

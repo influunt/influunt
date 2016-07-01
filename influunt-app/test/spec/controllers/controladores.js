@@ -296,8 +296,10 @@ describe('Controller: ControladoresCtrl', function () {
 
       describe('Ativação de um verde conflitante.', function () {
         it('Deve adicionar o id do grupo "y" nos verdes conflitantes do grupo "x"', function() {
-          var grupo0 = _.find(scope.objeto.gruposSemaforicos, {posicao: 1});
-          var grupo1 = _.find(scope.objeto.gruposSemaforicos, {posicao: 2});
+
+          var gruposAneis = _.chain(scope.objeto.aneis).map('gruposSemaforicos').flatten().value();
+          var grupo0 = _.find(gruposAneis, {posicao: 1});
+          var grupo1 = _.find(gruposAneis, {posicao: 2});
           scope.toggleVerdeConflitante(0, 1);
 
           expect(grupo0.verdesConflitantes.length).toBe(1);
@@ -317,8 +319,9 @@ describe('Controller: ControladoresCtrl', function () {
 
         it('Dado que o elemento (x, y) foi marcado como verde conflitante, o elemento (y, x) ' +
           'também deverá ser marcado.', function () {
-          var grupo0 = _.find(scope.objeto.gruposSemaforicos, {posicao: 1});
-          var grupo1 = _.find(scope.objeto.gruposSemaforicos, {posicao: 2});
+          var gruposAneis = _.chain(scope.objeto.aneis).map('gruposSemaforicos').flatten().value();
+          var grupo0 = _.find(gruposAneis, {posicao: 1});
+          var grupo1 = _.find(gruposAneis, {posicao: 2});
           scope.toggleVerdeConflitante(0, 1);
 
           expect(grupo0.verdesConflitantes.length).toBe(1);
@@ -334,7 +337,8 @@ describe('Controller: ControladoresCtrl', function () {
         });
 
         it('O grupo "x" não deve ter verdes conflitantes', function() {
-          var grupo0 = _.find(scope.objeto.gruposSemaforicos, {posicao: 1});
+          var gruposAneis = _.chain(scope.objeto.aneis).map('gruposSemaforicos').flatten().value();
+          var grupo0 = _.find(gruposAneis, {posicao: 1});
           scope.toggleVerdeConflitante(0, 1);
           expect(grupo0.verdesConflitantes.length).toBe(0);
         });

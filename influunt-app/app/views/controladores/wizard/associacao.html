@@ -1,6 +1,6 @@
 <fieldset data-ng-init="inicializaAssociacao()">
   <div class="row">
-    <uib-alert type="danger" close="closeAlertAnel(currentAnelIndex, 'all')" data-ng-if="errors.aneis[currentAnelIndex].all">
+    <uib-alert type="danger" close="closeAlertAnel(currentAnelIndex, 'all')" data-ng-if="errors.general || errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosDePedestre || errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosVeiculares">
       <div style="padding-left: 12px;">
         <ul>
           <li data-ng-repeat="message in errors.general">{{ message }}</li>
@@ -97,10 +97,10 @@
                 <hgroup>
                   <label class="checkbox-inline i-checks">
                     <p class="label-name">{{ grupoSelecionado.label }}</p>
-                    <input type="checkbox" ichecks i-changed="toggleEstagioAtivado(grupoSelecionado, currentEstagio)"
-                      data-ng-model="grupoSelecionado.estagiosAtivados[currentEstagio.id]">
+                    <!-- <input type="checkbox" ichecks i-changed="toggleEstagioAtivado(grupoSelecionado, currentEstagio)"
+                      data-ng-model="grupoSelecionado.estagiosAtivados[currentEstagio.id]"> -->
                   </label>
-                  <p class="label-status">Ativado</p>
+                  <!-- <p class="label-status">Ativado</p> -->
                 </hgroup>
                 <div class="form-group select right">
                   <div class="col-lg-12 col-sm-12">

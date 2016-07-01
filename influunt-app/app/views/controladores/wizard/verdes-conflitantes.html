@@ -15,6 +15,15 @@
       </div>
     </div>
      <div class="col-lg-12 col-sm-12 tableless no-padding">
+
+      <uib-alert type="danger" close="closeMensagensVerdes()" data-ng-if="messages.length > 0">
+        <div style="padding-left: 12px;">
+          <ul>
+            <li data-ng-repeat="message in messages" style="text-align: left;">{{ message }}</li>
+          </ul>
+        </div>
+      </uib-alert>
+
       <table class="tg" border="1" cellpadding="1" width="100%">
         <thead>
           <tr>

@@ -138,12 +138,29 @@ angular.module('influuntApp')
       $scope.inicializaVerdesConflitantes = function() {
         return $scope.inicializaWizard().then(function() {
           $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
+
+          $scope.objeto.aneis.forEach(function(anel) {
+            anel.gruposSemaforicos.forEach(function(gs) {
+              gs.anel = {
+                id: anel.id
+              };
+            });
+          });
+
           $scope.grupoIds = _.chain($scope.objeto.gruposSemaforicos).orderBy(['posicao'], ['asc']).map('id').value();
           var totalGrupos = $scope.objeto.modelo.configuracao.limiteGrupoSemaforico;
           $scope.grupos = _.times(totalGrupos, function(i) {return 'G' + (i+1);});
 
           buildIntervaloAneis();
           buildMatrizVerdesConflitantes();
+
+          return $scope.objeto.gruposSemaforicos && $scope.objeto.gruposSemaforicos.forEach(function(gs) {
+            return gs.verdesConflitantes && gs.verdesConflitantes.forEach(function(vc) {
+              if (!$scope.verdesConflitantes[gs.posicao - 1][vc.posicao - 1]) {
+                $scope.toggleVerdeConflitante(gs.posicao - 1, vc.posicao - 1);
+              }
+            });
+          });
         });
       };
 
@@ -213,8 +230,9 @@ angular.module('influuntApp')
           return false;
         }
 
-        var grupoX = _.find($scope.objeto.gruposSemaforicos, {id: $scope.grupoIds[x]});
-        var grupoY = _.find($scope.objeto.gruposSemaforicos, {id: $scope.grupoIds[y]});
+        var gruposAneis = _.chain($scope.objeto.aneis).map('gruposSemaforicos').flatten().value();
+        var grupoX = _.find(gruposAneis, {id: $scope.grupoIds[x]});
+        var grupoY = _.find(gruposAneis, {id: $scope.grupoIds[y]});
 
         if ($scope.verdesConflitantes[x][y]) {
           var indexX = _.findIndex(grupoX.verdesConflitantes, {id: $scope.grupoIds[y]});
@@ -225,8 +243,18 @@ angular.module('influuntApp')
         } else {
           grupoX.verdesConflitantes = grupoX.verdesConflitantes || [];
           grupoY.verdesConflitantes = grupoY.verdesConflitantes || [];
-          grupoX.verdesConflitantes.push({id: $scope.grupoIds[y]});
-          grupoY.verdesConflitantes.push({id: $scope.grupoIds[x]});
+          grupoX.verdesConflitantes.push({
+            id: $scope.grupoIds[y],
+            anel: {
+              id: grupoY.anel.id
+            }
+          });
+          grupoY.verdesConflitantes.push({
+            id: $scope.grupoIds[x],
+            anel: {
+              id: grupoX.anel.id
+            }
+          });
         }
 
         // Deve marcar/desmarcar os coordenadas (x, y) e (y, x) simultaneamente.
@@ -343,8 +371,28 @@ angular.module('influuntApp')
             }
           });
 
-          console.log($scope.errors);
+          $scope.getErrosVerdes();
         }
+      };
+
+      $scope.getErrosVerdes = function() {
+        $scope.messages = [];
+        _.each($scope.errors.aneis, function(anel, anelIndex) {
+          _.each(anel.gruposSemaforicos, function(gs, gsIndex) {
+            var nomeGS = 'G' + $scope.objeto.aneis[anelIndex].gruposSemaforicos[gsIndex].posicao;
+            _.each(gs, function(mgs) {
+              _.map(mgs, function(msg) {
+                $scope.messages.push(nomeGS + ': ' + msg);
+              });
+            });
+          });
+        });
+
+        $scope.messages = _.uniq($scope.messages);
+      };
+
+      $scope.closeMensagensVerdes = function() {
+        $scope.messages = [];
       };
 
       /**
