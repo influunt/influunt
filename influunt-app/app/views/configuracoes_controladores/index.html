@@ -27,9 +27,9 @@
               </thead>
               <tbody>
                 <tr data-ng-repeat="configuracao in lista">
-                  <th>{{ configuracao.descricao }}</th>
-									<th>{{ configuracao.limiteAnel }}</th>
-                  <th>{{ configuracao.limiteGrupoSemaforico }}</th>
+                  <td>{{ configuracao.descricao }}</td>
+									<td>{{ configuracao.limiteAnel }}</td>
+                  <td>{{ configuracao.limiteGrupoSemaforico }}</td>
                   <td>
                     <a ui-sref="app.configuracoes_controladores_show({id: configuracao.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
                     <a ui-sref="app.configuracoes_controladores_edit({id: configuracao.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.editar' | translate }}</a>
