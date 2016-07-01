@@ -11,7 +11,6 @@ angular.module('influuntApp')
   .controller('CrudCtrl', ['$scope', '$state', '$filter', 'Restangular', 'toast', 'SweetAlert', 'handleValidations',
     function ($scope, $state, $filter, Restangular, toast, SweetAlert, handleValidations) {
     var resourceName = null;
-    var buildValidationMessages;
 
     /**
      * Inicializa novo crud.
