@@ -29,14 +29,18 @@ public class SecurityController extends Controller {
     @Transactional
     public CompletionStage<Result> login() {
         JsonNode json = request().body().asJson();
-        String login = json.get("login").asText();
-        String senha = json.get("senha").asText();
-        final Usuario usuario = (Usuario) authenticator.getSubjectByCredentials(login, senha);
-        if (usuario != null) {
-            response().setHeader(AUTH_TOKEN, authenticator.createSession(usuario));
-            return CompletableFuture.completedFuture(ok(Json.toJson(usuario)));
+        if(json != null && json.has("login") && json.has("senha")) {
+            String login = json.get("login").asText();
+            String senha = json.get("senha").asText();
+            final Usuario usuario = (Usuario) authenticator.getSubjectByCredentials(login, senha);
+            if (usuario != null) {
+                response().setHeader(AUTH_TOKEN, authenticator.createSession(usuario));
+                return CompletableFuture.completedFuture(ok(Json.toJson(usuario)));
+            }
+            return CompletableFuture.completedFuture(unauthorized(Json.toJson(Arrays.asList(new Erro("login", "usuário ou senha inválidos", "")))));
+        }else{
+            return CompletableFuture.completedFuture(unauthorized(Json.toJson(Arrays.asList(new Erro("login", "usuário ou senha inválidos", "")))));
         }
-        return CompletableFuture.completedFuture(unauthorized(Json.toJson(Arrays.asList(new Erro("login","usuário ou senha inválidos","")))));
     }
 
 }
