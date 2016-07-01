@@ -29,8 +29,8 @@ public class SecurityController extends Controller {
     @Transactional
     public CompletionStage<Result> login() {
         JsonNode json = request().body().asJson();
-        if(json != null && json.has("login") && json.has("senha")) {
-            String login = json.get("login").asText();
+        if(json != null && json.has("usuario") && json.has("senha")) {
+            String login = json.get("usuario").asText();
             String senha = json.get("senha").asText();
             final Usuario usuario = (Usuario) authenticator.getSubjectByCredentials(login, senha);
             if (usuario != null) {

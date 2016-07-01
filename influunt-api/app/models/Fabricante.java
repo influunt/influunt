@@ -9,6 +9,7 @@ import json.deserializers.FabricanteDeserializer;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.FabricanteSerializer;
 import json.serializers.InfluuntDateTimeSerializer;
+import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
@@ -35,6 +36,7 @@ public class Fabricante extends Model {
     private UUID id;
 
     @Column
+    @NotBlank
     private String nome;
 
     @OneToMany(mappedBy = "fabricante", cascade = CascadeType.ALL)
