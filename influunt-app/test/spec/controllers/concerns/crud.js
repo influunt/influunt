@@ -51,6 +51,13 @@ describe('Controller: CrudCtrl', function () {
     expect(typeof scope.objeto).toBe('object');
   });
 
+  it('Quando o show é executado mas não retorna nada, o objeto não deve ser definido', function() {
+    httpBackend.expectGET('/resource/id').respond(null);
+    scope.show();
+    httpBackend.flush();
+    expect(scope.objeto).not.toBeDefined();
+  });
+
   it('Deve criar um objeto vazio ao executar a rota de new', function() {
     scope.new();
     expect(scope.objeto).toEqual({});

@@ -18,11 +18,9 @@ angular.module('influuntApp')
           return false;
         }
 
-        Restangular
-          .all('login')
-          .post($scope.credenciais)
-          .then(function(res) {
-            $state.go('app.cidades');
+        Restangular.all('login').post($scope.credenciais)
+          .then(function() {
+            $state.go('app.main');
           })
           .catch(function(err) {
             console.log(err);

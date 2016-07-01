@@ -20,7 +20,10 @@ angular
           url: '/login',
           templateUrl: 'views/login/signin.html',
           controller: 'LoginCtrl',
-          controllerAs: 'login'
+          controllerAs: 'login',
+          data: {
+            title: 'geral.dashboard',
+          }
         })
         .state('app', {
           abstract: true,
@@ -477,24 +480,7 @@ angular
             title: 'usuarios.titulo'
           }
         })
-
-        .state('index', {
-          abstract: true,
-          url: '/index',
-          templateUrl: 'views/common/content.html',
-          controller: 'MainCtrl',
-          controllerAs: 'main'
-        })
-        .state('index.main', {
-          url: '/main',
-          templateUrl: 'views/main.html',
-          data: {pageTitle: 'Example view'}
-        })
-        .state('index.minor', {
-          url: '/minor',
-          templateUrl: 'views/minor.html',
-          data: {pageTitle: 'Example view'}
-        });
+      ;
     }])
 
     .run(['$rootScope', '$state', '$timeout',

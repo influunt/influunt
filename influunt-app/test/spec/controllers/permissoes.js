@@ -17,7 +17,11 @@ describe('Controller: PermissoesCtrl', function () {
     });
   }));
 
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(PermissoesCtrl.awesomeThings.length).toBe(3);
+  it('Deve conter as definições das funções de CRUD', function() {
+    expect(scope.index).toBeDefined();
+    expect(scope.show).toBeDefined();
+    expect(scope.new).toBeDefined();
+    expect(scope.save).toBeDefined();
+    expect(scope.confirmDelete).toBeDefined();
   });
 });

@@ -3,6 +3,7 @@
 describe('Controller: LoginCtrl', function () {
   var LoginCtrl,
     scope,
+    $httpBackend,
     form;
 
   // load the controller's module
@@ -11,12 +12,13 @@ describe('Controller: LoginCtrl', function () {
    * de traduções de arquivo json
    *  (fonte: https://angular-translate.github.io/docs/#/guide/22_unit-testing-with-angular-translate)
    */
-  beforeEach(module('influuntApp', function ($translateProvider) {
+  beforeEach(module('influuntApp', function ($translateProvider, RestangularProvider) {
     $translateProvider.translations('en', {});
+    RestangularProvider.setBaseUrl('');
   }));
 
   // carrega o template de login.
-  beforeEach(inject(function ($controller, $rootScope, $compile, $templateCache) {
+  beforeEach(inject(function ($controller, $rootScope, $compile, $templateCache, _$httpBackend_) {
     scope = $rootScope.$new();
     LoginCtrl = $controller('LoginCtrl', {
       $scope: scope
@@ -28,6 +30,7 @@ describe('Controller: LoginCtrl', function () {
     form = scope.loginForm;
 
     scope.$apply();
+    $httpBackend = _$httpBackend_;
   }));
 
   it('Deve possuir um objeto de credenciais já registrado', function() {
@@ -52,12 +55,22 @@ describe('Controller: LoginCtrl', function () {
     expect(form.$valid).toBe(false);
   });
 
+  it('caso o login seja executado com sucesso, deve ser redirecionado para tela inicial do sistema',
+    inject(function($state) {
+      $httpBackend.expectPOST('/login').respond({});
+      scope.submitLogin(true);
+      $httpBackend.flush();
+
+      expect($state.current.name).toBe('app.main');
+    }));
+
   it('O formulário é dado como válido se usuário e senha forem preenchidos', function() {
     scope.credenciais.usuario = 'teste';
     scope.credenciais.senha = 'teste';
     scope.$apply();
-    scope.submitLogin(form.$valid);
 
-    expect(form.$valid).toBe(true);
+    setTimeout(function() {
+      expect(form.$valid).toBe(true);
+    });
   });
 });

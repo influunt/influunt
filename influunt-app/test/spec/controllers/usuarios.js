@@ -10,7 +10,8 @@ describe('Controller: UsuariosCtrl', function () {
   var UsuariosCtrl,
     scope,
     httpBackend,
-    listaPerfis;
+    listaPerfis,
+    listaAreas;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope, $httpBackend) {
@@ -21,6 +22,10 @@ describe('Controller: UsuariosCtrl', function () {
 
     httpBackend = $httpBackend;
 
+    listaAreas = [
+      {descricao: 'area 1'},
+      {descricao: 'area 2'}
+    ];
     listaPerfis = [
       {nome: 'cidade 1'},
       {nome: 'cidade 2'}
@@ -36,9 +41,20 @@ describe('Controller: UsuariosCtrl', function () {
   });
 
   it('Deve retornar a lista de perfis', function() {
+    httpBackend.expectGET('/areas').respond(listaAreas);
     httpBackend.expectGET('/perfis').respond(listaPerfis);
     scope.beforeShow();
     httpBackend.flush();
     expect(scope.perfis.length).toEqual(listaPerfis.length);
+  });
+
+  it('Deve copiar o login do usuário para o id', function() {
+    httpBackend.expectGET('/areas').respond([]);
+    httpBackend.expectGET('/perfis').respond([]);
+    httpBackend.expectGET('/usuarios').respond({login: 'abc'});
+    scope.show();
+    httpBackend.flush();
+
+    expect(scope.objeto.id).toEqual('abc');
   });
 });

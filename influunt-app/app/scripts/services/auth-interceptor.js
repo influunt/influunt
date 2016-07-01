@@ -16,7 +16,7 @@ angular.module('influuntApp')
         request: function(request) {
           var token = localStorage.token;
           if (token && request.url.match(APP_ROOT)) {
-            request.headers['authToken'] = token;
+            request.headers.authToken = token;
           }
 
           return request;
@@ -37,5 +37,5 @@ angular.module('influuntApp')
 
           return response;
         }
-      }
+      };
     }]);
