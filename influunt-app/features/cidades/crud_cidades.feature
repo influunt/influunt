@@ -33,7 +33,7 @@ Funcionalidade: tela de cadastro de cidades
 
   Cenário: Edição de cidades
     Quando o usuário acessar o formulário de edição de cidades
-    E preenche os campos corretamente
+    E preenche os campos da cidade corretamente
     Então o registro da cidade deverá ser salvo com sucesso
     E o sistema deverá retornar à tela de listagem de cidades
 

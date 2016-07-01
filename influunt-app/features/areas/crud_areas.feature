@@ -46,7 +46,7 @@ Funcionalidade: tela de cadastro de areas
 
   Cenário: Exclusão de areas sem confirmação do usuário
     Quando o usuário acessar a tela de listagem de areas
-    E clica no botão de excluir uma area
+    E clicar no botão de excluir uma area
     Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir a area
     Quando o usuário responde não
     Então nenhuma área deve ser excluída
