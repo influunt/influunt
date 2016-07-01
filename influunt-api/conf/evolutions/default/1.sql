@@ -188,6 +188,14 @@ create table permissoes_perfis (
   constraint pk_permissoes_perfis primary key (permissoes_id,perfis_id)
 );
 
+create table sessoes (
+  id                            uuid not null,
+  usuario_login                 varchar(255),
+  ativa                         boolean,
+  data_criacao                  timestamp not null,
+  constraint pk_sessoes primary key (id)
+);
+
 create table tabela_entre_verdes (
   id                            uuid not null,
   grupo_semaforico_id           uuid,
@@ -294,6 +302,9 @@ create index ix_permissoes_perfis_permissoes on permissoes_perfis (permissoes_id
 alter table permissoes_perfis add constraint fk_permissoes_perfis_perfis foreign key (perfis_id) references perfis (id) on delete restrict on update restrict;
 create index ix_permissoes_perfis_perfis on permissoes_perfis (perfis_id);
 
+alter table sessoes add constraint fk_sessoes_usuario_login foreign key (usuario_login) references usuarios (login) on delete restrict on update restrict;
+create index ix_sessoes_usuario_login on sessoes (usuario_login);
+
 alter table tabela_entre_verdes add constraint fk_tabela_entre_verdes_grupo_semaforico_id foreign key (grupo_semaforico_id) references grupos_semaforicos (id) on delete restrict on update restrict;
 create index ix_tabela_entre_verdes_grupo_semaforico_id on tabela_entre_verdes (grupo_semaforico_id);
 
@@ -381,6 +392,9 @@ drop index if exists ix_permissoes_perfis_permissoes;
 alter table permissoes_perfis drop constraint if exists fk_permissoes_perfis_perfis;
 drop index if exists ix_permissoes_perfis_perfis;
 
+alter table sessoes drop constraint if exists fk_sessoes_usuario_login;
+drop index if exists ix_sessoes_usuario_login;
+
 alter table tabela_entre_verdes drop constraint if exists fk_tabela_entre_verdes_grupo_semaforico_id;
 drop index if exists ix_tabela_entre_verdes_grupo_semaforico_id;
 
@@ -436,6 +450,8 @@ drop table if exists perfis_permissoes;
 drop table if exists permissoes;
 
 drop table if exists permissoes_perfis;
+
+drop table if exists sessoes;
 
 drop table if exists tabela_entre_verdes;
 

@@ -89,14 +89,17 @@ public class AutorizacaoTest extends WithApplication {
         usuarioSemAcesso.setPerfil(perfilSemAcesso);
         usuarioSemAcesso.save();
 
+        JsonNode jsonUsuarioComAcesso = Json.parse("{\"login\":\"admin\",\"senha\":\"1234\"}");
+        JsonNode jsonUsuarioSemAcesso = Json.parse("{\"login\":\"admin1\",\"senha\":\"1234\"}");
+
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .header("Authorization", "Basic YWRtaW46MTIzNA==").uri(routes.SecurityController.login().url());
+                .uri(routes.SecurityController.login().url()).bodyJson(jsonUsuarioComAcesso);
         Result postResult = route(postRequest);
         assertEquals(OK, postResult.status());
         Optional<String> tokenComAcesso = postResult.header(SecurityController.AUTH_TOKEN);
 
         postRequest = new Http.RequestBuilder().method("POST")
-                .header("Authorization", "Basic YWRtaW4xOjEyMzQ=").uri(routes.SecurityController.login().url());
+                .uri(routes.SecurityController.login().url()).bodyJson(jsonUsuarioSemAcesso);
         postResult = route(postRequest);
         assertEquals(OK, postResult.status());
         Optional<String> tokenSemAcesso = postResult.header(SecurityController.AUTH_TOKEN);

@@ -51,9 +51,27 @@ describe('Controller: CrudCtrl', function () {
     expect(typeof scope.objeto).toBe('object');
   });
 
+  it('Quando o show é executado mas não retorna nada, o objeto não deve ser definido', function() {
+    httpBackend.expectGET('/resource/id').respond(null);
+    scope.show();
+    httpBackend.flush();
+    expect(scope.objeto).not.toBeDefined();
+  });
+
   it('Deve criar um objeto vazio ao executar a rota de new', function() {
     scope.new();
     expect(scope.objeto).toEqual({});
+  });
+
+  it('Não deverá salvar dado algum caso o formulário seja inválido', function() {
+    spyOn(scope, 'create');
+    spyOn(scope, 'update');
+
+    var formValido = false;
+    scope.save(formValido);
+
+    expect(scope.create).not.toHaveBeenCalled();
+    expect(scope.update).not.toHaveBeenCalled();
   });
 
   it('Deve executar o método de "create" quando se salva um objeto sem id', function() {

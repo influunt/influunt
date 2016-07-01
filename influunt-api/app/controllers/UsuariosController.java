@@ -4,6 +4,7 @@ import be.objectify.deadbolt.java.actions.*;
 import checks.Erro;
 import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
+import models.Area;
 import models.Cidade;
 import models.Controlador;
 import models.Usuario;
@@ -41,7 +42,9 @@ public class UsuariosController extends Controller {
                     Arrays.asList(new Erro("usuario","login já utilizado","login"))))
             );
         }else {
+//            @// TODO: 6/30/16 getArea não funciona corretamente (THOR!!!).
             usuario.save();
+            usuario.setArea(Area.find.byId(usuario.getArea().getId()));
             return CompletableFuture.completedFuture(ok(Json.toJson(usuario)));
         }
     }
