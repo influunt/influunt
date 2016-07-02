@@ -136,6 +136,8 @@ public class ModelosControladoresControllerTest extends WithApplication {
         assertNotNull(modeloControladorId);
 
         ModeloControlador novoModeloControlador = new ModeloControlador();
+        novoModeloControlador.setFabricante(fabricante);
+        novoModeloControlador.setConfiguracao(configuracaoControlador);
         novoModeloControlador.setDescricao("Teste atualizar");
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
@@ -147,6 +149,7 @@ public class ModelosControladoresControllerTest extends WithApplication {
 
         assertEquals(200, result.status());
         assertEquals("Teste atualizar", modeloControladorRetornado.getDescricao());
+
         assertNotNull(modeloControladorRetornado.getId());
     }
 

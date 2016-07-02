@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('CrudCtrl', ['$scope', '$state', '$filter', 'Restangular', 'toast', 'SweetAlert',
-    function ($scope, $state, $filter, Restangular, toast, SweetAlert) {
+  .controller('CrudCtrl', ['$scope', '$state', '$filter', 'Restangular', 'toast', 'SweetAlert', 'handleValidations',
+    function ($scope, $state, $filter, Restangular, toast, SweetAlert, handleValidations) {
     var resourceName = null;
 
     /**
@@ -87,8 +87,13 @@ angular.module('influuntApp')
           toast.success($filter('translate')('geral.mensagens.salvo_com_sucesso'));
         })
         .catch(function(err) {
-          toast.error($filter('translate')('geral.mensagens.default_erro'));
-          throw new Error(JSON.stringify(err));
+          if (err.status === 422) {
+            // $scope.errors = err.data;
+            handleValidations.handle(err.data, $scope);
+          } else {
+            toast.error($filter('translate')('geral.mensagens.default_erro'));
+            throw new Error(JSON.stringify(err));
+          }
         });
     };
 

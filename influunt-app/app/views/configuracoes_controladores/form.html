@@ -5,43 +5,49 @@
       novalidate="novalidate"
       data-ng-submit="save()">
 
-    <div class="form-group">
+    <div class="form-group" data-ng-class="{'has-error': errors.descricao}">
       <label class="control-label col-sm-2 control-label">{{ 'configuracoes_controladores.descricao' | translate }}</label>
       <div class="col-sm-9">
         <input class="string optional form-control" name="configuracoes_controladores_descricao" type="text" data-ng-model="objeto.descricao">
+        <p class="help-block error-msg" data-ng-repeat="error in errors.descricao">{{ error }}</p>
       </div>
-    </div>		
-    <div class="form-group">
+    </div>
+    <div class="form-group" data-ng-class="{'has-error': errors.limiteAnel}">
       <label class="control-label col-sm-2 control-label">{{ 'configuracoes_controladores.limiteAnel' | translate }}</label>
       <div class="col-sm-9">
         <input class="string optional form-control" name="configuracoes_controladores_limite_anel" type="text" data-ng-model="objeto.limiteAnel">
+        <p class="help-block error-msg" data-ng-repeat="error in errors.limiteAnel">{{ error }}</p>
       </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" data-ng-class="{'has-error': errors.limiteGrupoSemaforico}">
       <label class="control-label col-sm-2 control-label">{{ 'configuracoes_controladores.limiteGrupoSemaforico' | translate }}</label>
       <div class="col-sm-9">
         <input class="string optional form-control" name="configuracoes_controladores_limite_grupo_semaforico" type="text" data-ng-model="objeto.limiteGrupoSemaforico">
+        <p class="help-block error-msg" data-ng-repeat="error in errors.limiteGrupoSemaforico">{{ error }}</p>
       </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" data-ng-class="{'has-error': errors.limiteEstagio}">
       <label class="control-label col-sm-2 control-label">{{ 'configuracoes_controladores.limiteEstagio' | translate }}</label>
       <div class="col-sm-9">
         <input class="string optional form-control" name="configuracoes_controladores_limite_estagio" type="text" data-ng-model="objeto.limiteEstagio">
+        <p class="help-block error-msg" data-ng-repeat="error in errors.limiteEstagio">{{ error }}</p>
       </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" data-ng-class="{'has-error': errors.limiteDetectorPedestre}">
       <label class="control-label col-sm-2 control-label">{{ 'configuracoes_controladores.limiteDetectorPedestre' | translate }}</label>
       <div class="col-sm-9">
         <input class="string optional form-control" name="configuracoes_controladores_limite_detector_pedestre" type="text" data-ng-model="objeto.limiteDetectorPedestre">
+        <p class="help-block error-msg" data-ng-repeat="error in errors.limiteDetectorPedestre">{{ error }}</p>
       </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" data-ng-class="{'has-error': errors.limiteDetectorVeicular}">
       <label class="control-label col-sm-2 control-label">{{ 'configuracoes_controladores.limiteDetectorVeicular' | translate }}</label>
       <div class="col-sm-9">
         <input class="string optional form-control" name="configuracoes_controladores_limite_detector_veicular" type="text" data-ng-model="objeto.limiteDetectorVeicular">
+        <p class="help-block error-msg" data-ng-repeat="error in errors.limiteDetectorVeicular">{{ error }}</p>
       </div>
     </div>
-		
+
 
     <div class="form-group">
       <div class="col-sm-4 col-sm-offset-2">

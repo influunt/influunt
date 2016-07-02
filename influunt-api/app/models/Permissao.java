@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
+import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
@@ -27,9 +28,11 @@ public class Permissao extends Model implements Permission {
     private UUID id;
 
     @Column
+    @NotBlank(message = "não pode ficar em branco")
     private String descricao;
 
     @Column
+    @NotBlank(message = "não pode ficar em branco")
     private String chave;
 
     @ManyToMany(cascade = CascadeType.REMOVE)
@@ -45,7 +48,6 @@ public class Permissao extends Model implements Permission {
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
-    @NotNull
     private DateTime dataAtualizacao;
 
 

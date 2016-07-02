@@ -44,7 +44,7 @@ public class ModeloControlador extends Model {
     private ConfiguracaoControlador configuracao;
 
     @Column
-    @NotBlank
+    @NotNull(message = "não pode ficar em branco")
     private String descricao;
 
     @Column

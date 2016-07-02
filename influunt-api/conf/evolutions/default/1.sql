@@ -23,8 +23,8 @@ create table aneis (
 
 create table areas (
   id                            varchar(40) not null,
-  descricao                     integer,
-  cidade_id                     varchar(40),
+  descricao                     integer not null,
+  cidade_id                     varchar(40) not null,
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
   constraint pk_areas primary key (id)
@@ -32,7 +32,7 @@ create table areas (
 
 create table cidades (
   id                            varchar(40) not null,
-  nome                          varchar(255) not null,
+  nome                          varchar(255),
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
   constraint pk_cidades primary key (id)
@@ -153,7 +153,7 @@ create table modelo_controladores (
   id                            varchar(40) not null,
   fabricante_id                 varchar(40) not null,
   configuracao_id               varchar(40) not null,
-  descricao                     varchar(255),
+  descricao                     varchar(255) not null,
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
   constraint pk_modelo_controladores primary key (id)

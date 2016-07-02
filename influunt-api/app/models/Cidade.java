@@ -37,8 +37,7 @@ public class Cidade extends Model {
     private UUID id;
 
     @Column
-    @NotNull
-    @NotBlank
+    @NotBlank(message = "não pode ficar em branco")
     private String nome;
 
     @OneToMany(mappedBy = "cidade", cascade = CascadeType.REMOVE)
@@ -54,7 +53,6 @@ public class Cidade extends Model {
     @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using= InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
-    @NotNull
     private DateTime dataAtualizacao;
 
     public UUID getId() {

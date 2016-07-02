@@ -3,8 +3,11 @@ package controllers;
 import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
 import be.objectify.deadbolt.java.actions.Dynamic;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
+import checks.Erro;
+import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Cidade;
+import models.Controlador;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -12,6 +15,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -32,8 +36,14 @@ public class CidadesController extends Controller {
         }
 
         Cidade cidade = Json.fromJson(json, Cidade.class);
-        cidade.save();
-        return CompletableFuture.completedFuture(ok(Json.toJson(cidade)));
+        List<Erro> erros = new InfluuntValidator<Cidade>().validate(cidade);
+
+        if(erros.isEmpty()) {
+            cidade.save();
+            return CompletableFuture.completedFuture(ok(Json.toJson(cidade)));
+        }else{
+            return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
+        }
     }
 
     @Transactional
@@ -75,8 +85,14 @@ public class CidadesController extends Controller {
         } else {
             cidade = Json.fromJson(json, Cidade.class);
             cidade.setId(UUID.fromString(id));
-            cidade.update();
-            return CompletableFuture.completedFuture(ok(Json.toJson(cidade)));
+
+            List<Erro> erros = new InfluuntValidator<Cidade>().validate(cidade);
+            if(erros.isEmpty()) {
+                cidade.update();
+                return CompletableFuture.completedFuture(ok(Json.toJson(cidade)));
+            }else{
+                return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
+            }
         }
 
     }

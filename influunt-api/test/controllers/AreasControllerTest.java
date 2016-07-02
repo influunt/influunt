@@ -3,6 +3,8 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Singleton;
 import models.Area;
+import models.Cidade;
+import org.junit.Before;
 import org.junit.Test;
 import play.Application;
 import play.Mode;
@@ -27,6 +29,8 @@ import static play.test.Helpers.route;
 
 public class AreasControllerTest extends WithApplication {
 
+    private Cidade cidade;
+
     @Override
     protected Application provideApplication() {
         Map<String, String> options = new HashMap<String, String>();
@@ -42,9 +46,17 @@ public class AreasControllerTest extends WithApplication {
         return app;
     }
 
+    @Before
+    public void setUp(){
+        cidade = new Cidade();
+        cidade.setNome("BH");
+        cidade.save();
+    }
+
     @Test
     public void testCriarNovaArea() {
         Area area = new Area();
+        area.setCidade(cidade);
         area.setDescricao(1);
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
@@ -61,6 +73,7 @@ public class AreasControllerTest extends WithApplication {
     @Test
     public void testAtualizarAreaNaoExistente() {
         Area area = new Area();
+        area.setCidade(cidade);
         area.setDescricao(1);
 
         Http.RequestBuilder putRequest = new Http.RequestBuilder().method("PUT")
@@ -74,12 +87,14 @@ public class AreasControllerTest extends WithApplication {
     public void testAtualizarAreaExistente() {
         Area area = new Area();
         area.setDescricao(1);
+        area.setCidade(cidade);
         area.save();
 
         UUID areaId = area.getId();
         assertNotNull(areaId);
 
         Area novaArea = new Area();
+        novaArea.setCidade(cidade);
         novaArea.setDescricao(1);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
@@ -100,6 +115,7 @@ public class AreasControllerTest extends WithApplication {
     public void testApagarAreaExistente() {
         Area area = new Area();
         area.setDescricao(1);
+        area.setCidade(cidade);
         area.save();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("DELETE")
@@ -122,10 +138,12 @@ public class AreasControllerTest extends WithApplication {
     public void testListarAreas() {
         Area area = new Area();
         area.setDescricao(1);
+        area.setCidade(cidade);
         area.save();
 
         Area area1 = new Area();
         area1.setDescricao(1);
+        area1.setCidade(cidade);
         area1.save();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
@@ -142,6 +160,7 @@ public class AreasControllerTest extends WithApplication {
     public void testBuscarDadosArea() {
         Area area = new Area();
         area.setDescricao(1);
+        area.setCidade(cidade);
         area.save();
         UUID areaId = area.getId();
         assertNotNull(areaId);

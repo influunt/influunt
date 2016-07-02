@@ -74,6 +74,7 @@ public class HelpersControllerTest extends WithApplication {
         ModeloControlador m1 = new ModeloControlador();
         m1.setFabricante(raro);
         m1.setConfiguracao(conf);
+        m1.setDescricao("Raro Labs");
         m1.save();
 
         Fabricante labs = new Fabricante();
