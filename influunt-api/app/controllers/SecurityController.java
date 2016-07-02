@@ -6,14 +6,11 @@ import models.Usuario;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
-import play.mvc.Http;
 import play.mvc.Result;
 import security.Authenticator;
 
 import javax.inject.Inject;
-import java.nio.charset.Charset;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
@@ -29,8 +26,8 @@ public class SecurityController extends Controller {
     @Transactional
     public CompletionStage<Result> login() {
         JsonNode json = request().body().asJson();
-        if(json != null && json.has("usuario") && json.has("senha")) {
-            String login = json.get("usuario").asText();
+        if (json != null && json.has("login") && json.has("senha")) {
+            String login = json.get("login").asText();
             String senha = json.get("senha").asText();
             final Usuario usuario = (Usuario) authenticator.getSubjectByCredentials(login, senha);
             if (usuario != null) {
@@ -38,7 +35,7 @@ public class SecurityController extends Controller {
                 return CompletableFuture.completedFuture(ok(Json.toJson(usuario)));
             }
             return CompletableFuture.completedFuture(unauthorized(Json.toJson(Arrays.asList(new Erro("login", "usuário ou senha inválidos", "")))));
-        }else{
+        } else {
             return CompletableFuture.completedFuture(unauthorized(Json.toJson(Arrays.asList(new Erro("login", "usuário ou senha inválidos", "")))));
         }
     }

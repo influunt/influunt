@@ -3,7 +3,6 @@ package seguranca;
 import com.fasterxml.jackson.databind.JsonNode;
 import controllers.SecurityController;
 import controllers.routes;
-import models.Cidade;
 import models.Perfil;
 import models.Permissao;
 import models.Usuario;
@@ -16,7 +15,6 @@ import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.routing.Router;
-import play.test.Helpers;
 import play.test.WithApplication;
 
 import java.util.*;
@@ -89,8 +87,8 @@ public class AutorizacaoTest extends WithApplication {
         usuarioSemAcesso.setPerfil(perfilSemAcesso);
         usuarioSemAcesso.save();
 
-        JsonNode jsonUsuarioComAcesso = Json.parse("{\"usuario\":\"admin\",\"senha\":\"1234\"}");
-        JsonNode jsonUsuarioSemAcesso = Json.parse("{\"usuario\":\"admin1\",\"senha\":\"1234\"}");
+        JsonNode jsonUsuarioComAcesso = Json.parse("{\"login\":\"admin\",\"senha\":\"1234\"}");
+        JsonNode jsonUsuarioSemAcesso = Json.parse("{\"login\":\"admin1\",\"senha\":\"1234\"}");
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
                 .uri(routes.SecurityController.login().url()).bodyJson(jsonUsuarioComAcesso);

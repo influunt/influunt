@@ -1,9 +1,5 @@
 # language: pt
 Funcionalidade: Listagem de dados de controladores
-  Como um usuário logado
-  Com o objetivo de ver a lista de controladores registrados no sistema
-  O usuário deve acessar a tela de controladores
-
   # Cenários de forma de exibição de conteúdo.
   Cenário: Listagem de controladores no modo de visualização de cards
     Dado a lista de controladores registrados

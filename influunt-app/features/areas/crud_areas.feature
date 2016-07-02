@@ -1,9 +1,8 @@
 # language: pt
 @crud @areas @interfaces
 Funcionalidade: tela de cadastro de areas
-  # Contexto:
-  #   Dado que exista o usuário "admin" com senha "12345678"
-  #   E que o usuário "admin" entre no sistema com a senha "12345678"
+  Contexto:
+    Dado que o script de areas foi executado
 
   Cenário: Listagem de areas
     Dado que exista ao menos uma area cadastrada no sistema
