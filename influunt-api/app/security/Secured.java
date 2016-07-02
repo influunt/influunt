@@ -23,6 +23,8 @@ public class Secured extends Security.Authenticator {
         if ((authTokenHeaderValues != null) && (authTokenHeaderValues.length == 1)
                 && (authTokenHeaderValues[0] != null)) {
             usuario = authenticator.getSubjectByToken(authTokenHeaderValues[0]);
+        } else {
+            usuario = authenticator.getSubjectByToken("");
         }
         if (usuario != null) {
             ctx.args.put("user", usuario);

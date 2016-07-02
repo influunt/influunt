@@ -26,7 +26,7 @@ public class SecurityController extends Controller {
     @Transactional
     public CompletionStage<Result> login() {
         JsonNode json = request().body().asJson();
-        if(json != null && json.has("login") && json.has("senha")) {
+        if (json != null && json.has("login") && json.has("senha")) {
             String login = json.get("login").asText();
             String senha = json.get("senha").asText();
             final Usuario usuario = (Usuario) authenticator.getSubjectByCredentials(login, senha);
@@ -35,7 +35,7 @@ public class SecurityController extends Controller {
                 return CompletableFuture.completedFuture(ok(Json.toJson(usuario)));
             }
             return CompletableFuture.completedFuture(unauthorized(Json.toJson(Arrays.asList(new Erro("login", "usuário ou senha inválidos", "")))));
-        }else{
+        } else {
             return CompletableFuture.completedFuture(unauthorized(Json.toJson(Arrays.asList(new Erro("login", "usuário ou senha inválidos", "")))));
         }
     }

@@ -10,16 +10,14 @@ import models.Sessao;
 import models.Usuario;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 
 @Singleton
 public class DBAuthenticator implements Authenticator {
     private static Pattern uuidPattern = Pattern.compile("/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i");
+
     @Override
     public Subject getSubjectByCredentials(final String login, final String password) {
         Usuario usuario = Usuario.find.byId(login);
@@ -28,24 +26,24 @@ public class DBAuthenticator implements Authenticator {
 
     @Override
     public Subject getSubjectByToken(final String token) {
-        if(isUUID(token)){
+        if (isUUID(token)) {
             Sessao sessao = Sessao.find.byId(UUID.fromString(token));
             return sessao != null ? sessao.getSubject() : null;
-        }else{
+        } else {
             return null;
         }
     }
 
     @Override
     public String createSession(final Subject subject) {
-        Sessao newSession = new Sessao((Usuario)subject);
+        Sessao newSession = new Sessao((Usuario) subject);
         newSession.save();
         return newSession.getToken();
     }
 
     @Override
     public void destroySession(final Subject subject) {
-        SqlUpdate sql = Ebean.createSqlUpdate("DELETE FROM sessoes WHERE usuario_id = '"+ subject.getIdentifier() +"'");
+        SqlUpdate sql = Ebean.createSqlUpdate("DELETE FROM sessoes WHERE usuario_id = '" + subject.getIdentifier() + "'");
         sql.execute();
     }
 
@@ -61,7 +59,7 @@ public class DBAuthenticator implements Authenticator {
 
     @Override
     public Collection<Sessao> listSessions(Subject subject) {
-        return Sessao.find.where().eq("login",subject.getIdentifier()).findList();
+        return Sessao.find.where().eq("login", subject.getIdentifier()).findList();
     }
 
     private boolean isUUID(String string) {
