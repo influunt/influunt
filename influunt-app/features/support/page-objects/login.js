@@ -13,15 +13,24 @@ var LoginPage = function () {
   };
 
   this.preencherUsuario = function(usuario) {
-    world.setValue('[name="usuario"]', usuario);
+    return world.setValue('[name="usuario"]', usuario);
   };
 
   this.preencherSenha = function(senha) {
-    world.setValue('[name="senha"]', senha);
+    return world.setValue('[name="senha"]', senha);
   };
 
   this.confirmarFormulario = function() {
-    world.setValue('[name="senha"]', world.webdriver.Key.ENTER);
+    return world.setValue('[name="senha"]', world.webdriver.Key.ENTER);
+  };
+
+  this.preencherFormulario = function(usuario, senha) {
+    var thisPage = this;
+    return this.preencherUsuario(usuario).then(function() {
+      return thisPage.preencherSenha(senha);
+    }).then(function() {
+      return thisPage.confirmarFormulario();
+    });
   };
 
   this.campoUsuarioInvalido = function() {
@@ -38,8 +47,22 @@ var LoginPage = function () {
       });
   };
 
+  this.loginInvalido = function() {
+    return world.waitFor('div[class^="sweet-alert"][class$="visible"]').then(function() {
+      return world.getElement('div[class^="sweet-alert"] p[style="display: block;"]').getText();
+    });
+  };
+
   this.getUrl = function() {
     return world.getCurrentUrl();
+  };
+
+  this.isDashboard = function() {
+    return world.waitFor('h2.ng-binding').then(function(){
+      return world.getElement('h2.ng-binding').getText().then(function(text) {
+        return text === 'Dashboard';
+      });
+    });
   };
 
 };

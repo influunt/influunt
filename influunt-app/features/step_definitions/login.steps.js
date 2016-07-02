@@ -38,23 +38,23 @@ module.exports = function() {
     });
   });
 
-  this.Given(/^informa usuário ou senha incorretos$/, function (callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback(null, 'pending');
+  this.Given(/^informa usuário ou senha incorretos$/, function () {
+    return loginPage.preencherFormulario('incorreto', 'swrodfish');
   });
 
-  this.Given(/^o sistema deve informar "([^"]*)"$/, function (arg1, callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback(null, 'pending');
+  this.Given(/^o sistema deve informar "([^"]*)"$/, function (msgErro) {
+    return loginPage.loginInvalido().then(function(text) {
+      return expect(text).to.equal(msgErro)
+    });
   });
 
-  this.Given(/^informa usuário e senha corretos$/, function (callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback(null, 'pending');
+  this.Given(/^informa usuário e senha corretos$/, function () {
+    return loginPage.preencherFormulario('root', '1234');
   });
 
-  this.Given(/^o usuário deve ser enviado para a tela de dashboard$/, function (callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback(null, 'pending');
+  this.Given(/^o usuário deve ser enviado para a tela de dashboard$/, function () {
+    return loginPage.isDashboard().then(function(resp) {
+      expect(resp).to.be.true
+    });
   });
 };

@@ -1,8 +1,6 @@
 # language: pt
 @crud @areas @interfaces
 Funcionalidade: tela de cadastro de areas
-  Contexto:
-    Dado que o script de areas foi executado
 
   Cenário: Listagem de areas
     Dado que exista ao menos uma area cadastrada no sistema
@@ -36,16 +34,16 @@ Funcionalidade: tela de cadastro de areas
     Então o registro da área deverá ser salvo com sucesso
     E o sistema deverá retornar à tela de listagem de areas
 
-  Cenário: Exclusão de areas com confirmação do usuário
-    Quando o usuário acessar a tela de listagem de areas
-    E clicar no botão de excluir uma area
-    Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir a area
-    Quando o usuário responde sim
-    Então a area deverá ser excluida
-
   Cenário: Exclusão de areas sem confirmação do usuário
     Quando o usuário acessar a tela de listagem de areas
     E clicar no botão de excluir uma area
     Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir a area
     Quando o usuário responde não
     Então nenhuma área deve ser excluída
+
+  Cenário: Exclusão de areas com confirmação do usuário
+    Quando o usuário acessar a tela de listagem de areas
+    E clicar no botão de excluir uma area
+    Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir a area
+    Quando o usuário responde sim
+    Então a area deverá ser excluida

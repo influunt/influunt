@@ -12,7 +12,7 @@ var myHooks = function () {
 
   this.registerHandler('BeforeFeatures', function () {
     return world.execScript('curl localhost:9000').then(function(){
-      return world.execScript('java -cp libs/h2.jar org.h2.tools.RunScript -url "jdbc:h2:tcp://localhost:9092/mem:influunt;DATABASE_TO_UPPER=FALSE" -script features/support/scripts/usuario.sql -user sa');
+      return world.execSqlScript('features/support/scripts/create_usuario.sql');
     }).then(function () {
       return world.visit('/login');
     }).then(function () {

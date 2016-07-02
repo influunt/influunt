@@ -38,7 +38,7 @@ var World = function () {
   }
 
   this.execScript = function(cmd) {
-    console.log('execScript: '+cmd);
+    // console.log('execScript: '+cmd);
     return new Promise(function (resolve, reject) {
       exec(cmd, function(err, stdout, stderr) {
         if (err) {
@@ -48,6 +48,11 @@ var World = function () {
         }
       });
     });
+  };
+
+  this.execSqlScript = function(sqlScriptPath) {
+    var cmd = 'java -cp lib/h2.jar org.h2.tools.RunScript -url "jdbc:h2:tcp://localhost:9092/mem:influunt;DATABASE_TO_UPPER=FALSE" -script '+ sqlScriptPath +' -user sa'
+    return this.execScript(cmd);
   };
 
   this.waitFor = function(cssLocator, timeout) {

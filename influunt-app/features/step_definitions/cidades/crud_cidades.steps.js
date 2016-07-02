@@ -91,7 +91,7 @@ module.exports = function() {
 
   this.Given(/^o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir a cidade$/, function() {
     return cidadesPage.textoConfirmacaoApagarRegistro().then(function(text) {
-      expect(text).to.equal('quer mesmo apagar este registro?');
+      expect(text).to.equal('Quer mesmo apagar este registro?');
     });
   });
 

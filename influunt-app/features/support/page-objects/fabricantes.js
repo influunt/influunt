@@ -114,7 +114,7 @@ var FabricantesPage = function () {
 
   this.fillFabricanteFormFull = function(nomeFabricante) {
     nomeFabricante = nomeFabricante || 'Fabricante '+lastIndex++;
-    console.log(nomeFabricante);
+    // console.log(nomeFabricante);
     world.setValue(inputNomeFabricante, nomeFabricante);
     world.findLinkByText('adicionar modelo controlador').then(function(link){
       return link.click();
