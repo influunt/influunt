@@ -44,7 +44,7 @@ module.exports = function() {
 
   this.Given(/^o sistema deve informar "([^"]*)"$/, function (msgErro) {
     return loginPage.loginInvalido().then(function(text) {
-      return expect(text).to.equal(msgErro)
+      return expect(text).to.equal(msgErro);
     });
   });
 
@@ -54,7 +54,7 @@ module.exports = function() {
 
   this.Given(/^o usuário deve ser enviado para a tela de dashboard$/, function () {
     return loginPage.isDashboard().then(function(resp) {
-      expect(resp).to.be.true
+      return expect(resp).to.be.true;
     });
   });
 };

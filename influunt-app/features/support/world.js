@@ -51,7 +51,7 @@ var World = function () {
   };
 
   this.execSqlScript = function(sqlScriptPath) {
-    var cmd = 'java -cp lib/h2.jar org.h2.tools.RunScript -url "jdbc:h2:tcp://localhost:9092/mem:influunt;DATABASE_TO_UPPER=FALSE" -script '+ sqlScriptPath +' -user sa'
+    var cmd = 'java -cp lib/h2.jar org.h2.tools.RunScript -url "jdbc:h2:tcp://localhost:9092/mem:influunt;DATABASE_TO_UPPER=FALSE" -script '+ sqlScriptPath +' -user sa';
     return this.execScript(cmd);
   };
 
