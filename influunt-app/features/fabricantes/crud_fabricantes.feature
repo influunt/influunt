@@ -2,10 +2,6 @@
 @crud @fabricantes @interfaces
 Funcionalidade: tela de cadastro de fabricantes
 
-  Contexto:
-    Dado que exista o usuário "root" com senha "1234"
-    E que o usuário "root" entre no sistema com a senha "1234"
-
   Cenário: Listagem de fabricantes
     Dado que exista ao menos um fabricante cadastrado no sistema
     Quando o usuário acessar a tela de listagem de fabricantes

@@ -7,13 +7,6 @@ var AreasPage = require('../../support/page-objects/areas');
 module.exports = function() {
   var areasPage = new AreasPage();
 
-  this.Given(/^que o script de areas foi executado$/, function() {
-    if (runScript) {
-      areasPage.world.execScript('java -cp libs/h2.jar org.h2.tools.RunScript -url "jdbc:h2:tcp://localhost:9092/mem:influunt;DATABASE_TO_UPPER=FALSE" -script features/support/scripts/areas.sql -user sa');
-      runScript = false;
-    }
-  });
-
   this.Given(/^que exista ao menos uma area cadastrada no sistema$/, { timeout: 15 * 1000 }, function() {
     return areasPage.existeAoMenosUmaArea();
   });

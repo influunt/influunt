@@ -37,9 +37,7 @@ var CidadesPage = function () {
   };
 
   this.existeAoMenosUmaCidade = function() {
-    this.newPage();
-    this.fillCidadeForm();
-    return world.waitFor('#toast-container div');
+    return world.execSqlScript('features/support/scripts/cidades/create_cidade.sql');
   };
 
   this.toastMessage = function() {

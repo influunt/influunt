@@ -36,9 +36,10 @@ var AreasPage = function () {
   };
 
   this.existeAoMenosUmaArea = function() {
-    this.newPage();
-    this.fillAreaForm();
-    return world.waitFor('#toast-container div');
+    // this.newPage();
+    // this.fillAreaForm();
+    // return world.waitFor('#toast-container div');
+    return world.execSqlScript('features/support/scripts/areas/create_area.sql');
   };
 
   this.newPage = function() {
