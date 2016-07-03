@@ -27,9 +27,9 @@
               </thead>
               <tbody>
                 <tr data-ng-repeat="modelo in lista">
-                  <th>{{ modelo.descricao }}</th>
-									<th>{{ modelo.fabricante.nome }}</th>
-                  <th>{{ modelo.configuracao.descricao }}</th>
+                  <td>{{ modelo.descricao }}</td>
+									<td>{{ modelo.fabricante.nome }}</td>
+                  <td>{{ modelo.configuracao.descricao }}</td>
                   <td>
                     <a ui-sref="app.modelos_controladores_show({id: modelo.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
                     <a ui-sref="app.modelos_controladores_edit({id: modelo.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.editar' | translate }}</a>
