@@ -492,6 +492,7 @@ angular
 
         $rootScope.$on('$stateChangeStart', function(ev, toState) {
           $timeout(function() {
+            console.log(toState.name);
             if (!$rootScope.isAuthenticated() && toState.name !== 'login') {
                 $state.go('login');
             }
