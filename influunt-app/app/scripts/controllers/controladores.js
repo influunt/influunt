@@ -429,6 +429,7 @@ angular.module('influuntApp')
             }
           });
 
+          $scope.errors.aneis = _.compact($scope.errors.aneis);
           $scope.getErrosVerdes();
         }
       };
