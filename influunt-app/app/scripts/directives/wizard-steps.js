@@ -16,8 +16,7 @@ angular.module('influuntApp')
         }, function(val) {
           if (val && val.match(/current/)) {
             var current = $(el).find('li.current');
-            current.addClass('visited');
-            current.nextAll(':not(.visited)').addClass('disabled');
+            current.nextAll().addClass('disabled');
             current.prevAll().andSelf().removeClass('disabled');
           } else {
             $(el).children('li').addClass('disabled');
