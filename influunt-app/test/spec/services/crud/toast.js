@@ -21,6 +21,11 @@ describe('Service: crud/toast', function () {
     expect(toaster.pop).toHaveBeenCalled();
   });
 
+  it('Deve exibir um toaster na tela quando o metodo alerta for chamado.', function () {
+    toast.warn('teste');
+    expect(toaster.pop).toHaveBeenCalled();
+  });
+
   it('Deve exibir um toaster na tela quando o metodo erro for chamado.', function () {
     toast.error('teste');
     expect(toaster.pop).toHaveBeenCalled();

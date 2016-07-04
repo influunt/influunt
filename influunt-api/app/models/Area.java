@@ -10,9 +10,12 @@ import json.deserializers.AreaDeserializer;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.AreaSerializer;
 import json.serializers.InfluuntDateTimeSerializer;
+import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,9 +38,12 @@ public class Area extends Model {
     private UUID id;
 
     @Column
+    @Min(value = 1,message = "deve ser maior que zero")
+    @NotNull(message = "não pode ficar em branco")
     private Integer descricao;
 
     @ManyToOne
+    @NotNull(message = "não pode ficar em branco")
     private Cidade cidade;
 
     @OneToMany(mappedBy = "area")

@@ -36,21 +36,27 @@ var AreasPage = function () {
   };
 
   this.existeAoMenosUmaArea = function() {
-    this.newPage();
-    this.fillAreaForm();
-    return world.waitFor('#toast-container div');
+    // this.newPage();
+    // this.fillAreaForm();
+    // return world.waitFor('#toast-container div');
+    return world.execSqlScript('features/support/scripts/areas/create_area.sql');
   };
 
   this.newPage = function() {
-    world.visit(NEW_PATH);
-    return world.waitFor(formAreas);
+    return world.visit(NEW_PATH).then(function(){
+      return world.waitFor(formAreas);
+    }).catch(function(ex){
+      console.log(" NEW PAGE")
+      console.log(ex)
+    });
   };
 
   this.fillAreaForm = function(descricao) {
     descricao = parseInt(descricao) || lastIndex++;
-    world.setValue(inputDescArea, descricao);
-    world.selectOption('select[name="cidade"]', 'Teste Cadastro Cidade');
-    world.clickButton(submitButton);
+    return world.setValue(inputDescArea, descricao).then(function(){
+      world.selectOption('select[name="cidade"]', 'Teste Cadastro Cidade');
+      return world.clickButton(submitButton);
+    });
   };
 
   this.getItensTabela = function() {
@@ -74,7 +80,9 @@ var AreasPage = function () {
   };
 
   this.textoFieldDescricaoArea = function() {
-    return world.getElement(inputDescArea).getAttribute('value');
+    return world.getElement(inputDescArea).then(function(element) {
+     return element.getAttribute('value');
+    })
   };
 
   this.textoConfirmacaoApagarRegistro = function() {
@@ -87,9 +95,6 @@ var AreasPage = function () {
       return elements.length === totalAreasIndex;
     });
   };
-
-
-
 
 
   this.getPageTitleH2 = function() {

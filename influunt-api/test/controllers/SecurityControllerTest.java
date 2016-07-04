@@ -1,6 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import models.Usuario;
 import org.junit.Test;
 import play.Application;
 import play.Mode;
@@ -10,7 +11,6 @@ import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
 import play.test.WithApplication;
-import models.Usuario;
 
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -52,9 +52,10 @@ public class SecurityControllerTest extends WithApplication {
         usuario.setRoot(true);
         usuario.setEmail("root@influunt.com.br");
         usuario.save();
+        JsonNode jsonUsuario = Json.parse("{\"login\":\"admin\",\"senha\":\"1234\"}");
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .header("Authorization", "Basic YWRtaW46MTIzNA==").uri(routes.SecurityController.login().url());
+                .uri(routes.SecurityController.login().url()).bodyJson(jsonUsuario);
         Result postResult = route(postRequest);
         assertEquals(OK, postResult.status());
 

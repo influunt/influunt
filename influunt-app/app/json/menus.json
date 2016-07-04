@@ -1,0 +1,60 @@
+[
+  {
+    "name": "cadastros",
+    "label": "menu.cadastros",
+    "children": [
+      {
+        "name": "cidades",
+        "label": "cidades.titulo",
+        "route": "app.cidades"
+      },
+      {
+        "name": "areas",
+        "label": "areas.titulo",
+        "route": "app.areas"
+      },
+      {
+        "name": "usuarios",
+        "label": "usuarios.titulo",
+        "route": "app.usuarios"
+      },
+      {
+        "name": "perfis",
+        "label": "perfis.titulo",
+        "route": "app.perfis"
+      },
+      {
+        "name": "permissoes",
+        "label": "permissoes.titulo",
+        "route": "app.permissoes"
+      }
+    ]
+  },
+  {
+    "name": "configuracoes",
+    "label": "menu.configuracoes",
+    "route": "app.controladores",
+    "children": [
+      {
+        "name": "configuracoes_controladores",
+        "label": "configuracoes_controladores.titulo",
+        "route": "app.configuracoes_controladores"
+      },
+      {
+        "name": "fabricantes",
+        "label": "fabricantes.titulo",
+        "route": "app.fabricantes"
+      },
+      {
+        "name": "modelos_controladores",
+        "label": "modelos_controladores.titulo",
+        "route": "app.modelos_controladores"
+      }
+    ]
+  },
+  {
+    "name": "controladores",
+    "label": "controladores.titulo",
+    "route": "app.controladores"
+  }
+]

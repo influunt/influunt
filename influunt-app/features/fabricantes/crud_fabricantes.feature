@@ -48,7 +48,6 @@ Funcionalidade: tela de cadastro de fabricantes
     Quando o usuário responde não
     Então nenhum fabricante deve ser excluído
 
-  @ola
   Cenário: Cadastro de fabricante com um modelo de controlador
     Quando o usuário acessar a tela de cadastro de novos fabricantes
     E preenche todos os campos do formulário

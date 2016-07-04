@@ -20,7 +20,7 @@ angular.module('influuntApp')
       $scope.adicionarModelo = function() {
         $scope.objeto.modelos = $scope.objeto.modelos || [];
         $scope.objeto.modelos.push({
-          descricao: null,
+          descricao: '',
           configuracao: null
         });
       };

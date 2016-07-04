@@ -1,20 +1,11 @@
 'use strict';
 
 var expect = require('chai').expect;
+var runScript = true;
 var AreasPage = require('../../support/page-objects/areas');
 
 module.exports = function() {
   var areasPage = new AreasPage();
-
-  // this.Given(/^que exista o usuário "([^"]*)" com senha "([^"]*)"$/, function(arg1, arg2, callback) {
-  //   // Write code here that turns the phrase above into concrete actions
-  //   callback(null, 'pending');
-  // });
-
-  // this.Given(/^que o usuário "([^"]*)" entre no sistema com a senha "([^"]*)"$/, function(arg1, arg2, callback) {
-  //   // Write code here that turns the phrase above into concrete actions
-  //   callback(null, 'pending');
-  // });
 
   this.Given(/^que exista ao menos uma area cadastrada no sistema$/, { timeout: 15 * 1000 }, function() {
     return areasPage.existeAoMenosUmaArea();
@@ -89,7 +80,7 @@ module.exports = function() {
 
   this.Given(/^o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir a area$/, function() {
     return areasPage.textoConfirmacaoApagarRegistro().then(function(text) {
-      expect(text).to.equal('quer mesmo apagar este registro?');
+      expect(text).to.equal('Quer mesmo apagar este registro?');
     });
   });
 

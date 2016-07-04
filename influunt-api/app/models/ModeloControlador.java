@@ -9,9 +9,11 @@ import json.deserializers.InfluuntDateTimeDeserializer;
 import json.deserializers.ModeloControladorDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import json.serializers.ModeloControladorSerializer;
+import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 /**
@@ -34,12 +36,15 @@ public class ModeloControlador extends Model {
     private UUID id;
 
     @ManyToOne
+    @NotNull(message = "não pode ficar em branco")
     private Fabricante fabricante;
 
     @ManyToOne
+    @NotNull(message = "não pode ficar em branco")
     private ConfiguracaoControlador configuracao;
 
     @Column
+    @NotNull(message = "não pode ficar em branco")
     private String descricao;
 
     @Column

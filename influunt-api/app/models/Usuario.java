@@ -15,6 +15,7 @@ import helpers.HashHelper;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import json.serializers.UsuarioSerializer;
+import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
@@ -28,21 +29,24 @@ public class Usuario extends Model implements Subject {
     public static Model.Finder<String, Usuario> find = new Model.Finder<String, Usuario>(Usuario.class);
 
     @Id
+    @NotBlank(message = "não pode ficar em branco")
     private String login;
 
     @Column
     String senha;
 
     @Column
+    @NotBlank(message = "não pode ficar em branco")
     private String email;
 
     @Column
+    @NotBlank(message = "não pode ficar em branco")
     private String nome;
 
     @Column
     private Boolean root = false;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Area area;
 
     @ManyToOne
@@ -58,7 +62,6 @@ public class Usuario extends Model implements Subject {
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
-    @NotNull
     private DateTime dataAtualizacao;
 
 
@@ -119,7 +122,7 @@ public class Usuario extends Model implements Subject {
     }
 
     public Area getArea() {
-        return area;
+        return this.area;
     }
 
     public void setArea(Area area) {

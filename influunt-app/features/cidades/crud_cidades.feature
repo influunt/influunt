@@ -1,9 +1,6 @@
 # language: pt
 @crud @cidades @interfaces
 Funcionalidade: tela de cadastro de cidades
-  # Contexto:
-  #   Dado que exista o usuário "admin" com senha "12345678"
-  #   E que o usuário "admin" entre no sistema com a senha "12345678"
 
   Cenário: Listagem de cidades
     Dado que exista ao menos uma cidade cadastrada no sistema

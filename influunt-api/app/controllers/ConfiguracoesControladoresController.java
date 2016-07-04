@@ -3,8 +3,11 @@ package controllers;
 import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
 import be.objectify.deadbolt.java.actions.Dynamic;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
+import checks.Erro;
+import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.ConfiguracaoControlador;
+import models.ModeloControlador;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -12,6 +15,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -34,8 +38,14 @@ public class ConfiguracoesControladoresController extends Controller {
         }
 
         ConfiguracaoControlador configuracaoControlador = Json.fromJson(json, ConfiguracaoControlador.class);
-        configuracaoControlador.save();
-        return CompletableFuture.completedFuture(ok(Json.toJson(configuracaoControlador)));
+        List<Erro> erros = new InfluuntValidator<ConfiguracaoControlador>().validate(configuracaoControlador);
+
+        if(erros.isEmpty()) {
+            configuracaoControlador.save();
+            return CompletableFuture.completedFuture(ok(Json.toJson(configuracaoControlador)));
+        }else{
+            return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
+        }
     }
 
     @Transactional
@@ -49,10 +59,18 @@ public class ConfiguracoesControladoresController extends Controller {
         if (configuracaoControlador == null) {
             return CompletableFuture.completedFuture(notFound());
         }else{
+
             configuracaoControlador = Json.fromJson(json, ConfiguracaoControlador.class);
             configuracaoControlador.setId(UUID.fromString(id));
-            configuracaoControlador.update();
-            return CompletableFuture.completedFuture(ok(Json.toJson(configuracaoControlador)));
+            List<Erro> erros = new InfluuntValidator<ConfiguracaoControlador>().validate(configuracaoControlador);
+
+            if(erros.isEmpty()) {
+                configuracaoControlador.update();
+                return CompletableFuture.completedFuture(ok(Json.toJson(configuracaoControlador)));
+            }else{
+                return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
+            }
+
         }
     }
 

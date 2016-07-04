@@ -24,9 +24,10 @@ describe('Controller: ControladoresCtrl', function () {
     scope,
     $q,
     Restangular,
-    $httpBackend;
+    $httpBackend,
+    $state;
 
-  beforeEach(inject(function ($controller, $rootScope, _$q_, _$httpBackend_, _Restangular_) {
+  beforeEach(inject(function ($controller, $rootScope, _$q_, _$httpBackend_, _Restangular_, _$state_) {
     scope = $rootScope.$new();
     ControladoresCtrl = $controller('ControladoresCtrl', {
       $scope: scope
@@ -35,6 +36,7 @@ describe('Controller: ControladoresCtrl', function () {
     $q = _$q_;
     Restangular = _Restangular_;
     $httpBackend = _$httpBackend_;
+    $state = _$state_;
   }));
 
 
@@ -126,10 +128,31 @@ describe('Controller: ControladoresCtrl', function () {
         expect(scope.aneis.length).toBe(1);
       });
 
+      it('Não deve acessar a tela de associações caso não haja ao menos um estágio declarado', function () {
+          scope.objeto = {idControlador: '1234567', aneis: [{}], modelo: {configuracao: {limiteAnel: 4}}};
+          scope.inicializaAssociacao();
+          scope.$apply();
+
+          expect($state.current.name).not.toBe('app.wizard_controladores.associacao');
+        });
+
       it('Os grupos semaforicos deverão estar ordenados por posicao', function() {
         expect(scope.aneis[0].gruposSemaforicos[0].posicao).toBe(1);
         expect(scope.aneis[0].gruposSemaforicos[1].posicao).toBe(2);
       });
+    });
+
+    describe('inicializaVerdesConflitantes', function() {
+      beforeEach(function() {
+        scope.objeto = {idControlador: '1234567', aneis: [{}], modelo: {configuracao: {limiteAnel: 4}}};
+        fakeInicializaWizard(scope, $q, scope.objeto, scope.inicializaVerdesConflitantes);
+        scope.$apply();
+      });
+
+      it('Não deve acessar a tela de verdes conflitantes caso não haja ao menos um grupo semaforico declarado',
+        function () {
+          expect($state.current.name).not.toBe('app.wizard_controladores.verdes_conflitantes');
+        });
     });
   });
 
@@ -165,16 +188,25 @@ describe('Controller: ControladoresCtrl', function () {
           deferred.resolve({});
           return deferred.promise;
         });
-
-        scope.objeto = {idControlador: '1234567', aneis: [{}, {}], modelo: {configuracao: {limiteAnel: 4}}};
-        scope.inicializaAneis();
-        scope.$apply();
       });
 
       it('Deve inicializar os campos de idAnel e posicao dos aneis', function() {
+        scope.objeto = {idControlador: '1234567', aneis: [{}, {}], modelo: {configuracao: {limiteAnel: 4}}};
+        scope.inicializaAneis();
+        scope.$apply();
+
         expect(scope.objeto.aneis[0].idAnel).toBeDefined();
         expect(scope.objeto.aneis[0].posicao).toBeDefined();
       });
+
+      it('Não deve acessar a tela de configuracao de aneis se ao menos um anel não for declarado para o controlador',
+        function() {
+          scope.objeto = {idControlador: '1234567', aneis: [], modelo: {configuracao: {limiteAnel: 4}}};
+          scope.inicializaAneis();
+          scope.$apply();
+
+          expect($state.current.name).not.toBe('app.wizard_controladores.aneis');
+        });
     });
   });
 
@@ -296,8 +328,10 @@ describe('Controller: ControladoresCtrl', function () {
 
       describe('Ativação de um verde conflitante.', function () {
         it('Deve adicionar o id do grupo "y" nos verdes conflitantes do grupo "x"', function() {
-          var grupo0 = _.find(scope.objeto.gruposSemaforicos, {posicao: 1});
-          var grupo1 = _.find(scope.objeto.gruposSemaforicos, {posicao: 2});
+
+          var gruposAneis = _.chain(scope.objeto.aneis).map('gruposSemaforicos').flatten().value();
+          var grupo0 = _.find(gruposAneis, {posicao: 1});
+          var grupo1 = _.find(gruposAneis, {posicao: 2});
           scope.toggleVerdeConflitante(0, 1);
 
           expect(grupo0.verdesConflitantes.length).toBe(1);
@@ -308,6 +342,25 @@ describe('Controller: ControladoresCtrl', function () {
           scope.toggleVerdeConflitante(0, 1);
           expect(scope.verdesConflitantes[0][1]).toBeTruthy();
         });
+
+        it('se a posicao 0x1 é verde conflitante, a posicao 1x0 também deverá ser.', function() {
+          scope.toggleVerdeConflitante(0, 1);
+          expect(scope.verdesConflitantes[0][1]).toBeTruthy();
+          expect(scope.verdesConflitantes[1][0]).toBeTruthy();
+        });
+
+        it('Dado que o elemento (x, y) foi marcado como verde conflitante, o elemento (y, x) ' +
+          'também deverá ser marcado.', function () {
+          var gruposAneis = _.chain(scope.objeto.aneis).map('gruposSemaforicos').flatten().value();
+          var grupo0 = _.find(gruposAneis, {posicao: 1});
+          var grupo1 = _.find(gruposAneis, {posicao: 2});
+          scope.toggleVerdeConflitante(0, 1);
+
+          expect(grupo0.verdesConflitantes.length).toBe(1);
+          expect(grupo0.verdesConflitantes[0].id).toBe(grupo1.id);
+          expect(grupo1.verdesConflitantes.length).toBe(1);
+          expect(grupo1.verdesConflitantes[0].id).toBe(grupo0.id);
+        });
       });
 
       describe('desativação de um verde conflitante.', function () {
@@ -316,7 +369,8 @@ describe('Controller: ControladoresCtrl', function () {
         });
 
         it('O grupo "x" não deve ter verdes conflitantes', function() {
-          var grupo0 = _.find(scope.objeto.gruposSemaforicos, {posicao: 1});
+          var gruposAneis = _.chain(scope.objeto.aneis).map('gruposSemaforicos').flatten().value();
+          var grupo0 = _.find(gruposAneis, {posicao: 1});
           scope.toggleVerdeConflitante(0, 1);
           expect(grupo0.verdesConflitantes.length).toBe(0);
         });

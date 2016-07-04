@@ -15,7 +15,7 @@
             </a>
           </div>
 
-          <table datatable="" dt-options="dtOptions" class="table table-striped table-bordered table-hover">
+          <table datatable="ng" dt-options="datatables.options" dt-instance="datatables.instance" class="table table-striped table-bordered table-hover">
             <div class="table">
               <thead>
                 <tr>
@@ -27,7 +27,7 @@
               <tbody>
                 <tr data-ng-repeat="fabricante in lista">
                   <td>{{ fabricante.nome }}</td>
-                  <td data-ng-bind-html="fabricante.modelos | nomeModelos"></td>
+                  <td data-ng-bind-html="fabricante.modelos | resourceListToString"></td>
                   <td>
                     <a ui-sref="app.fabricantes_show({id: fabricante.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
                     <a ui-sref="app.fabricantes_edit({id: fabricante.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.editar' | translate }}</a>

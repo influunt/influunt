@@ -5,6 +5,8 @@ var webdriver = require('selenium-webdriver');
 var platform = process.env.PLATFORM || 'PHANTOMJS';
 var driver = null;
 
+var exec = require('child_process').exec;
+
 var buildChromeDriver = function() {
   return new webdriver
     .Builder()
@@ -34,6 +36,24 @@ var World = function () {
   if(!fs.existsSync(screenshotPath)) {
     fs.mkdirSync(screenshotPath);
   }
+
+  this.execScript = function(cmd) {
+    // console.log('execScript: '+cmd);
+    return new Promise(function (resolve, reject) {
+      exec(cmd, function(err, stdout, stderr) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve({ stdout: stdout, stderr: stderr });
+        }
+      });
+    });
+  };
+
+  this.execSqlScript = function(sqlScriptPath) {
+    var cmd = 'java -cp lib/h2.jar org.h2.tools.RunScript -url "jdbc:h2:tcp://localhost:9092/mem:influunt;DATABASE_TO_UPPER=FALSE" -script '+ sqlScriptPath +' -user sa';
+    return this.execScript(cmd);
+  };
 
   this.waitFor = function(cssLocator, timeout) {
     var waitTimeout = timeout || defaultTimeout;
