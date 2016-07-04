@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('CrudCtrl', ['$scope', '$state', '$filter', 'Restangular', 'toast', 'SweetAlert',
-    function ($scope, $state, $filter, Restangular, toast, SweetAlert) {
+  .controller('CrudCtrl', ['$scope', '$state', '$filter', 'Restangular', 'toast', 'SweetAlert', 'handleValidations',
+    function ($scope, $state, $filter, Restangular, toast, SweetAlert, handleValidations) {
     var resourceName = null;
 
     /**
@@ -48,9 +48,11 @@ angular.module('influuntApp')
 
       return Restangular.one(resourceName, id).get()
         .then(function(res) {
-          $scope.minid = (typeof res.id === 'string') ? res.id.split('-')[0] : res.id;
-          $scope.objeto = res;
-          $scope.afterShow();
+          if (res) {
+            $scope.minid = (typeof res.id === 'string') ? res.id.split('-')[0] : res.id;
+            $scope.objeto = res;
+            $scope.afterShow();
+          }
         });
     };
 
@@ -66,18 +68,32 @@ angular.module('influuntApp')
     /**
      * Salva o registro.
      *
-     * @return     {Object}  Promise
+     * @param      {boolean}  formValido  The form valido
+     * @return     {boolean}  { description_of_the_return_value }
      */
-    $scope.save = function() {
+    $scope.save = function(formValido) {
+
+      // Não deve tentar enviar os dados se há informações de formulário invalido.
+      $scope.submited = true;
+      if (angular.isDefined(formValido) && !formValido) {
+        return false;
+      }
+
       var promise = $scope.objeto.id ? $scope.update() : $scope.create();
       return promise
         .then(function() {
+          $scope.submited = false;
           $state.go('app.' + resourceName);
           toast.success($filter('translate')('geral.mensagens.salvo_com_sucesso'));
         })
         .catch(function(err) {
-          toast.error($filter('translate')('geral.mensagens.default_erro'));
-          throw new Error(JSON.stringify(err));
+          if (err.status === 422) {
+            // $scope.errors = err.data;
+            handleValidations.handle(err.data, $scope);
+          } else {
+            toast.error($filter('translate')('geral.mensagens.default_erro'));
+            throw new Error(JSON.stringify(err));
+          }
         });
     };
 

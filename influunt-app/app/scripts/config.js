@@ -13,14 +13,17 @@ angular
   .config(['$stateProvider', '$urlRouterProvider',
     function ($stateProvider, $urlRouterProvider) {
 
-      $urlRouterProvider.otherwise('/app/main');
+      $urlRouterProvider.otherwise('/login');
 
       $stateProvider
         .state('login', {
           url: '/login',
           templateUrl: 'views/login/signin.html',
           controller: 'LoginCtrl',
-          controllerAs: 'login'
+          controllerAs: 'login',
+          data: {
+            title: 'geral.dashboard',
+          }
         })
         .state('app', {
           abstract: true,
@@ -129,26 +132,6 @@ angular
             title: 'controladores.titulo'
           }
         })
-
-        // .state('app.controladores_new', {
-        //   url: '/controladores/new',
-        //   templateUrl: 'views/controladores/new.html',
-        //   controller: 'ControladoresCtrl',
-        //   controllerAs: 'controladores',
-        //   data: {
-        //     title: 'controladores.titulo'
-        //   }
-        // })
-
-        // .state('app.controladores_edit', {
-        //   url: '/controladores/:id/edit',
-        //   templateUrl: 'views/controladores/edit.html',
-        //   controller: 'ControladoresCtrl',
-        //   controllerAs: 'controladores',
-        //   data: {
-        //     title: 'controladores.titulo'
-        //   }
-        // })
 
         .state('app.controladores_show', {
           url: '/controladores/:id',
@@ -373,44 +356,154 @@ angular
           }
         })
 
-				// Dados
-        .state('app.dados', {
-          url: '/dados',
-          templateUrl: 'views/dados.html',
+        // Crud perfis.
+        .state('app.perfis', {
+          url: '/perfis',
+          templateUrl: 'views/perfis/index.html',
+          controller: 'PerfisCtrl',
+          controllerAs: 'perfis',
           data: {
-            title: 'Example view'
+            title: 'perfis.titulo'
           }
         })
 
-        // Rotas de teste. Podem ser removidas em breve.
-        .state('app.wizard', {
-          url: '/wizard',
-          templateUrl: 'views/controladores/dados.html',
-          controller: 'ControladoresCtrl',
-          controllerAs: 'controladores',
+        .state('app.perfis_new', {
+          url: '/perfis/new',
+          templateUrl: 'views/perfis/new.html',
+          controller: 'PerfisCtrl',
+          controllerAs: 'perfis',
           data: {
-            title: 'controladores.titulo'
+            title: 'perfis.titulo'
           }
         })
 
-        .state('index', {
-          abstract: true,
-          url: '/index',
-          templateUrl: 'views/common/content.html',
-          controller: 'MainCtrl',
-          controllerAs: 'main'
+        .state('app.perfis_edit', {
+          url: '/perfis/:id/edit',
+          templateUrl: 'views/perfis/edit.html',
+          controller: 'PerfisCtrl',
+          controllerAs: 'perfis',
+          data: {
+            title: 'perfis.titulo'
+          }
         })
-        .state('index.main', {
-          url: '/main',
-          templateUrl: 'views/main.html',
-          data: {pageTitle: 'Example view'}
+
+        .state('app.perfis_show', {
+          url: '/perfis/:id',
+          templateUrl: 'views/perfis/show.html',
+          controller: 'PerfisCtrl',
+          controllerAs: 'perfis',
+          data: {
+            title: 'perfis.titulo'
+          }
         })
-        .state('index.minor', {
-          url: '/minor',
-          templateUrl: 'views/minor.html',
-          data: {pageTitle: 'Example view'}
-        });
+
+        .state('app.perfis_permissoes', {
+          url: '/perfis/:id/permissoes',
+          templateUrl: 'views/perfis/permissoes.html',
+          controller: 'PerfisCtrl',
+          controllerAs: 'perfis',
+          data: {
+            title: 'perfis.titulo'
+          }
+        })
+
+        // Crud permissoes.
+        .state('app.permissoes', {
+          url: '/permissoes',
+          templateUrl: 'views/permissoes/index.html',
+          controller: 'PermissoesCtrl',
+          controllerAs: 'permissoes',
+          data: {
+            title: 'permissoes.titulo'
+          }
+        })
+
+        .state('app.permissoes_new', {
+          url: '/permissoes/new',
+          templateUrl: 'views/permissoes/new.html',
+          controller: 'PermissoesCtrl',
+          controllerAs: 'permissoes',
+          data: {
+            title: 'permissoes.titulo'
+          }
+        })
+
+        .state('app.permissoes_edit', {
+          url: '/permissoes/:id/edit',
+          templateUrl: 'views/permissoes/edit.html',
+          controller: 'PermissoesCtrl',
+          controllerAs: 'permissoes',
+          data: {
+            title: 'permissoes.titulo'
+          }
+        })
+
+        .state('app.permissoes_show', {
+          url: '/permissoes/:id',
+          templateUrl: 'views/permissoes/show.html',
+          controller: 'PermissoesCtrl',
+          controllerAs: 'permissoes',
+          data: {
+            title: 'permissoes.titulo'
+          }
+        })
+
+        // Crud usuarios.
+        .state('app.usuarios', {
+          url: '/usuarios',
+          templateUrl: 'views/usuarios/index.html',
+          controller: 'UsuariosCtrl',
+          controllerAs: 'usuarios',
+          data: {
+            title: 'usuarios.titulo'
+          }
+        })
+
+        .state('app.usuarios_new', {
+          url: '/usuarios/new',
+          templateUrl: 'views/usuarios/new.html',
+          controller: 'UsuariosCtrl',
+          controllerAs: 'usuarios',
+          data: {
+            title: 'usuarios.titulo'
+          }
+        })
+
+        .state('app.usuarios_edit', {
+          url: '/usuarios/:id/edit',
+          templateUrl: 'views/usuarios/edit.html',
+          controller: 'UsuariosCtrl',
+          controllerAs: 'usuarios',
+          data: {
+            title: 'usuarios.titulo'
+          }
+        })
+
+        .state('app.usuarios_show', {
+          url: '/usuarios/:id',
+          templateUrl: 'views/usuarios/show.html',
+          controller: 'UsuariosCtrl',
+          controllerAs: 'usuarios',
+          data: {
+            title: 'usuarios.titulo'
+          }
+        })
+      ;
     }])
-    .run(['$rootScope', '$state', function($rootScope, $state) {
-      $rootScope.$state = $state;
-    }]);
+
+    .run(['$rootScope', '$state', '$timeout',
+      function($rootScope, $state, $timeout) {
+
+        $rootScope.isAuthenticated = function() {
+          return !!localStorage.token;
+        };
+
+        $rootScope.$on('$stateChangeStart', function(ev, toState) {
+          $timeout(function() {
+            if (!$rootScope.isAuthenticated() && toState.name !== 'login') {
+                $state.go('login');
+            }
+          });
+        });
+
+      }]);

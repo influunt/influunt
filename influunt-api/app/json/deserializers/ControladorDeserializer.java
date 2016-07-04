@@ -6,11 +6,8 @@ import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
+import models.*;
 import play.libs.Json;
-import models.Anel;
-import models.Area;
-import models.Controlador;
-import models.ModeloControlador;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,7 +28,7 @@ public class ControladorDeserializer extends JsonDeserializer<Controlador> {
         if (id != null) {
             controlador.setId(UUID.fromString(id.asText()));
         }
-        controlador.setLocalizacao(node.get("descricao") != null ? node.get("descricao").asText() : null);
+        controlador.setLocalizacao(node.get("localizacao") != null ? node.get("localizacao").asText() : null);
         controlador.setNumeroSMEE(node.get("numeroSMEE") != null ? node.get("numeroSMEE").asText() : null);
         controlador.setNumeroSMEEConjugado1(node.get("numeroSMEEConjugado1") != null ? node.get("numeroSMEEConjugado1").asText() : null);
         controlador.setNumeroSMEEConjugado2(node.get("numeroSMEEConjugado2") != null ? node.get("numeroSMEEConjugado2").asText() : null);
@@ -53,6 +50,14 @@ public class ControladorDeserializer extends JsonDeserializer<Controlador> {
                 aneis.add(Json.fromJson(nodeAnel, Anel.class));
             }
             controlador.setAneis(aneis);
+        }
+
+        if (node.has("gruposSemaforicos") ) {
+            List<GrupoSemaforico> grupoSemaforicos = new ArrayList<GrupoSemaforico>();
+            for (JsonNode nodeGrupoSemaforico : node.get("gruposSemaforicos")) {
+                grupoSemaforicos.add(Json.fromJson(nodeGrupoSemaforico, GrupoSemaforico.class));
+            }
+            controlador.setGruposSemaforicos(grupoSemaforicos);
         }
 
         return controlador;

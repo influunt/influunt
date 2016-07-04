@@ -22,7 +22,7 @@ public class ControladorSerializer extends JsonSerializer<Controlador> {
             jgen.writeStringField("id", controlador.getId().toString());
         }
         if (controlador.getLocalizacao() != null) {
-            jgen.writeStringField("descricao", controlador.getLocalizacao());
+            jgen.writeStringField("localizacao", controlador.getLocalizacao());
         }
         if (controlador.getNumeroSMEE() != null) {
             jgen.writeStringField("numeroSMEE", controlador.getNumeroSMEE());
@@ -51,7 +51,7 @@ public class ControladorSerializer extends JsonSerializer<Controlador> {
         if (controlador.getDataAtualizacao() != null) {
             jgen.writeStringField("dataAtualizacao", InfluuntDateTimeSerializer.parse(controlador.getDataAtualizacao()));
         }
-        jgen.writeStringField("idControlador", controlador.getCLC());
+        jgen.writeStringField("CLC", controlador.getCLC());
 
         jgen.writeObjectField("area", controlador.getArea());
         jgen.writeObjectField("modelo", controlador.getModelo());

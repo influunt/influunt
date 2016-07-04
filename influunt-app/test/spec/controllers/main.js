@@ -20,6 +20,13 @@ describe('Controller: MainCtrl', function () {
   });
 
   it('Deve possuir as definições do controller de datatables', function() {
-    expect(scope.dtOptions).toBeDefined();
+    expect(scope.datatables.options).toBeDefined();
   });
+
+  it('deve carregar os menus a partir da lista fornecida', inject(function ($httpBackend) {
+    $httpBackend.expectGET('/json/menus.json').respond({});
+    $httpBackend.flush();
+
+    expect(scope.menus).toBeDefined();
+  }));
 });

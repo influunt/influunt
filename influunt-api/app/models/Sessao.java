@@ -1,0 +1,83 @@
+package models;
+
+import java.util.Date;
+import java.util.UUID;
+
+import be.objectify.deadbolt.java.models.Subject;
+import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.CreatedTimestamp;
+import com.avaje.ebean.annotation.UpdatedTimestamp;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import json.deserializers.InfluuntDateTimeDeserializer;
+import json.serializers.InfluuntDateTimeSerializer;
+import org.joda.time.DateTime;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
+@Entity
+@Table(name = "sessoes")
+public class Sessao extends Model{
+    public static Finder<UUID, Sessao> find = new Finder<UUID, Sessao>(Sessao.class);
+
+    @Id
+    private UUID id;
+
+    @ManyToOne
+    private Usuario usuario;
+
+    @Column
+    private Boolean ativa = true;
+
+    @Column
+    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @CreatedTimestamp
+    private DateTime dataCriacao;
+
+
+    public Sessao(final Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public Boolean getAtiva() {
+        return ativa;
+    }
+
+    public void setAtiva(Boolean ativa) {
+        this.ativa = ativa;
+    }
+
+    public String getToken(){
+        return this.id.toString();
+    }
+
+    public Subject getSubject() {
+        return usuario;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public DateTime getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(DateTime dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+}

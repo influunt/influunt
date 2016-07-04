@@ -1,7 +1,11 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.inject.Singleton;
+import models.ConfiguracaoControlador;
+import models.Fabricante;
 import models.ModeloControlador;
+import org.junit.Before;
 import org.junit.Test;
 import play.Application;
 import play.Mode;
@@ -11,6 +15,8 @@ import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
 import play.test.WithApplication;
+import security.AllowAllAuthenticator;
+import security.Authenticator;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,10 +24,14 @@ import java.util.Map;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
+import static play.inject.Bindings.bind;
 import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.route;
 
 public class ModelosControladoresControllerTest extends WithApplication {
+
+    private Fabricante fabricante;
+    private ConfiguracaoControlador configuracaoControlador;
 
     @Override
     protected Application provideApplication() {
@@ -33,17 +43,39 @@ public class ModelosControladoresControllerTest extends WithApplication {
     @SuppressWarnings({"unchecked", "rawtypes"})
     private Application getApplication(Map configuration) {
         return new GuiceApplicationBuilder().configure(configuration)
-                   .in(Mode.TEST).build();
+                .overrides(bind(Authenticator.class).to(AllowAllAuthenticator.class).in(Singleton.class))
+                .in(Mode.TEST).build();
+    }
+
+    @Before
+    public void setUp(){
+        fabricante = new Fabricante();
+        fabricante.setNome("Raro Labs");
+        fabricante.save();
+
+        configuracaoControlador =  new ConfiguracaoControlador();
+        configuracaoControlador.setDescricao("Teste");
+        configuracaoControlador.setLimiteDetectorPedestre(1);
+        configuracaoControlador.setLimiteAnel(1);
+        configuracaoControlador.setLimiteEstagio(1);
+        configuracaoControlador.setLimiteGrupoSemaforico(1);
+        configuracaoControlador.save();
     }
 
     @Test
     public void testListarModelosControladores() {
         ModeloControlador modeloControlador = new ModeloControlador();
         modeloControlador.setDescricao("CTA-1");
+        modeloControlador.setFabricante(fabricante);
+        modeloControlador.setConfiguracao(configuracaoControlador);
+
         modeloControlador.save();
 
         ModeloControlador modeloControlador1 = new ModeloControlador();
         modeloControlador1.setDescricao("CTA-2");
+        modeloControlador1.setFabricante(fabricante);
+        modeloControlador1.setConfiguracao(configuracaoControlador);
+
         modeloControlador1.save();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
@@ -60,6 +92,9 @@ public class ModelosControladoresControllerTest extends WithApplication {
     public void testCriarNovoModeloControlador() {
         ModeloControlador modeloControlador = new ModeloControlador();
         modeloControlador.setDescricao("CTA 1");
+        modeloControlador.setFabricante(fabricante);
+        modeloControlador.setConfiguracao(configuracaoControlador);
+
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
                 .uri(routes.ModelosControladoresController.create().url()).bodyJson(Json.toJson(modeloControlador));
@@ -76,6 +111,8 @@ public class ModelosControladoresControllerTest extends WithApplication {
     public void testAtualizarModeloControladorNaoExistente() {
         ModeloControlador modeloControlador = new ModeloControlador();
         modeloControlador.setDescricao("CTA 1");
+        modeloControlador.setFabricante(fabricante);
+        modeloControlador.setConfiguracao(configuracaoControlador);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
                 .uri(routes.ModelosControladoresController.update(UUID.randomUUID().toString()).url())
@@ -86,14 +123,21 @@ public class ModelosControladoresControllerTest extends WithApplication {
 
     @Test
     public void testAtualizarModeloControladorExistente() {
+
+
+
         ModeloControlador modeloControlador = new ModeloControlador();
         modeloControlador.setDescricao("CTA 1");
+        modeloControlador.setFabricante(fabricante);
+        modeloControlador.setConfiguracao(configuracaoControlador);
         modeloControlador.save();
 
         UUID modeloControladorId = modeloControlador.getId();
         assertNotNull(modeloControladorId);
 
         ModeloControlador novoModeloControlador = new ModeloControlador();
+        novoModeloControlador.setFabricante(fabricante);
+        novoModeloControlador.setConfiguracao(configuracaoControlador);
         novoModeloControlador.setDescricao("Teste atualizar");
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
@@ -105,6 +149,7 @@ public class ModelosControladoresControllerTest extends WithApplication {
 
         assertEquals(200, result.status());
         assertEquals("Teste atualizar", modeloControladorRetornado.getDescricao());
+
         assertNotNull(modeloControladorRetornado.getId());
     }
 
@@ -112,7 +157,10 @@ public class ModelosControladoresControllerTest extends WithApplication {
     public void testBuscarDadosModeloControlador() {
         ModeloControlador modeloControlador = new ModeloControlador();
         modeloControlador.setDescricao("Teste");
+        modeloControlador.setFabricante(fabricante);
+        modeloControlador.setConfiguracao(configuracaoControlador);
         modeloControlador.save();
+
         UUID modeloControladorId = modeloControlador.getId();
         assertNotNull(modeloControladorId);
 
@@ -130,6 +178,9 @@ public class ModelosControladoresControllerTest extends WithApplication {
     public void testApagarModeloControladorExistente() {
         ModeloControlador modeloControlador = new ModeloControlador();
         modeloControlador.setDescricao("Teste");
+        modeloControlador.setFabricante(fabricante);
+        modeloControlador.setConfiguracao(configuracaoControlador);
+
         modeloControlador.save();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("DELETE")

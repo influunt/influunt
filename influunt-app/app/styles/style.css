@@ -1873,6 +1873,9 @@ div.dt-button-info {
   padding: 6px 12px;
   text-align: center;
 }
+.input-group-addon.padding-5 {
+  padding: 5px;
+}
 .spinner-buttons.input-group-btn .btn-xs {
   line-height: 1.13;
 }

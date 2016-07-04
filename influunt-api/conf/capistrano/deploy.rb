@@ -26,10 +26,10 @@ set :format_options, command_output: true, log_file: 'log/capistrano.log', color
 # set :pty, true
 
 # Default value for :linked_files is []
-# set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml')
+# set :linked_files, fetch(:linked_files, []).push('conf/application.conf')
 
 # Default value for linked_dirs is []
-set :linked_dirs, fetch(:linked_dirs, []).push('imagens')
+set :linked_dirs, fetch(:linked_dirs, []).push('logs', 'imagens')
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -55,7 +55,16 @@ namespace :deploy do
       upload! tarball_path, '/tmp/'
     end
   end
+
+  desc 'Restart the application'
+  task :restart do
+    on roles(:all) do
+      execute "if [[ -f #{shared_path}/influunt.pid ]]; then kill $(cat #{shared_path}/influunt.pid); else echo 'app not running!'; fi"
+      execute "#{release_path}/bin/influunt-api -Dconfig.file=#{shared_path}/conf/application.conf > #{shared_path}/logs/startup.log 2>&1 &"
+    end
+  end
 end
 
-# Attach our upload_tarball task to Capistrano deploy task chain.
 before 'deploy:updating', 'deploy:upload_tarball'
+after 'deploy:published', 'deploy:restart'
+

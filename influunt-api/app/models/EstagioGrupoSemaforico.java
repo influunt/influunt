@@ -57,6 +57,16 @@ public class EstagioGrupoSemaforico extends Model {
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
 
+    public EstagioGrupoSemaforico() {
+        super();
+    }
+
+    public EstagioGrupoSemaforico(Estagio estagio, GrupoSemaforico grupoSemaforico) {
+        super();
+        this.estagio = estagio;
+        this.grupoSemaforico = grupoSemaforico;
+    }
+
     public UUID getId() {
         return id;
     }

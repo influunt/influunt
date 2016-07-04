@@ -1,0 +1,123 @@
+'use strict';
+
+var expect = require('chai').expect;
+var FabricantesPages = require('../../support/page-objects/fabricantes');
+
+module.exports = function() {
+  var fabricantesPage = new FabricantesPages();
+
+  // this.Given(/^que exista o usuário "([^"]*)" com senha "([^"]*)"$/, function(arg1, arg2, callback) {
+  //   // Write code here that turns the phrase above into concrete actions
+  //   callback(null, 'pending');
+  // });
+
+  // this.Given(/^que o usuário "([^"]*)" entre no sistema com a senha "([^"]*)"$/, function(arg1, arg2, callback) {
+  //   // Write code here that turns the phrase above into concrete actions
+  //   callback(null, 'pending');
+  // });
+
+  this.Given(/^que exista ao menos um fabricante cadastrado no sistema$/, { timeout: 15 * 1000 }, function() {
+    return fabricantesPage.existeAoMenosUmFabricante();
+  });
+
+  this.Given(/^o usuário acessar a tela de listagem de fabricantes$/, function() {
+    return fabricantesPage.indexPage();
+  });
+
+  this.Given(/^deve ser exibida uma lista com os fabricantes já cadastrados no sistema$/, function() {
+    return fabricantesPage.getItensTabela().then(function(itens) {
+      expect(itens).to.have.length.at.least(3);
+    });
+  });
+
+  this.Given(/^Clica no botão de Novo Fabricante$/, function(callback) {
+    fabricantesPage.clicarBotaoNovoFabricante();
+    callback();
+  });
+
+  this.Given(/^o sistema deverá redirecionar para o formulário de Cadastro de novo fabricante$/, function() {
+    return fabricantesPage.fieldNomeFabricante().then(function(field) {
+      return expect(field).to.exist;
+    });
+  });
+
+  this.Given(/^o usuário acessar a tela de cadastro de novos fabricantes$/, function() {
+    return fabricantesPage.newPage();
+  });
+
+  this.Given(/^preenche os campos do fabricante corretamente$/, function() {
+    return fabricantesPage.fillFabricanteForm('Teste Cadastro Fabricante');
+    // callback();
+  });
+
+  this.Given(/^o registro do fabricante deverá ser salvo com sucesso$/, function() {
+    return fabricantesPage.textoExisteNaTabela('Teste Cadastro Fabricante');
+  });
+
+  this.Given(/^o sistema deverá retornar à tela de listagem de fabricantes$/, function() {
+    return fabricantesPage.getPageTitleH2().then(function(title) {
+      expect(title).to.equal('Fabricantes');
+    });
+  });
+
+  this.Given(/^Clica no botão de visualizar fabricante$/, function() {
+    fabricantesPage.clicarLinkComTexto('Visualizar');
+  });
+
+  this.Given(/^o sistema deverá redirecionar para a tela de visualização de fabricantes$/, function() {
+    return fabricantesPage.fabricanteIdH5().then(function(fabricanteId) {
+      expect(fabricanteId).to.match(/ - #/);
+    });
+  });
+
+  this.Given(/^Clica no botão de editar fabricante$/, function() {
+    fabricantesPage.clicarLinkComTexto('Editar');
+  });
+
+  this.Given(/^o sistema deverá redirecionar para o formulário de edição fabricantes$/, function() {
+    return fabricantesPage.textoFieldNomeFabricante().then(function(fieldValue) {
+      return expect(fieldValue).to.not.be.empty;
+    });
+  });
+
+  this.Given(/^o usuário acessar o formulário de edição de fabricantes$/, function() {
+    fabricantesPage.indexPage();
+    return fabricantesPage.clicarLinkComTexto('Editar');
+  });
+
+  this.Given(/^clica no botão de excluir um fabricante$/, function() {
+    fabricantesPage.clicarLinkComTexto('Excluir');
+  });
+
+  this.Given(/^o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir o fabricante$/, function() {
+    return fabricantesPage.textoConfirmacaoApagarRegistro().then(function(text) {
+      expect(text).to.equal('Quer mesmo apagar este registro?');
+    });
+  });
+
+  this.Given(/^o fabricante deverá ser excluido$/, function() {
+    // return fabricantesPage.fabricanteDeveSerExcluida().then(function(res) {
+    //   expect(res).to.be.true
+    // });
+    return fabricantesPage.toastMessage().then(function(text) {
+      expect(text).to.match(/Removido com sucesso/);
+    });
+  });
+
+  this.Given(/^nenhum fabricante deve ser excluído$/, function() {
+    return fabricantesPage.nenhumFabricanteDeveSerExcluido().then(function(res) {
+      return expect(res).to.be.true;
+    });
+  });
+
+  this.Given(/^preenche os campos do modelo controlador corretamente$/, function (callback) {
+    fabricantesPage.fillFabricanteFormFull('Teste Cadastro Fabricante');
+    callback(null, 'pending');
+  });
+
+  this.Given(/^preenche todos os campos do formulário$/, function () {
+    return fabricantesPage.fillFabricanteFormFull('Teste Cadastro Fabricante');
+    //callback(null, 'pending');
+  });
+
+};

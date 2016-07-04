@@ -1,5 +1,8 @@
 package controllers;
 
+import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
+import be.objectify.deadbolt.java.actions.Dynamic;
+import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.google.common.io.Files;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -10,6 +13,8 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
+import play.mvc.Security;
+import security.Secured;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +22,7 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
+@DeferredDeadbolt
 public class ImagensController extends Controller {
 
     @Inject
@@ -24,6 +30,8 @@ public class ImagensController extends Controller {
 
 
     @Transactional
+    @Security.Authenticated(Secured.class)
+    @Dynamic("Influunt")
     public CompletionStage<Result> create() {
         Http.MultipartFormData<File> body = request().body().asMultipartFormData();
         Http.MultipartFormData.FilePart<File> picture = body.getFile("imagem");

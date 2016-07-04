@@ -10,7 +10,8 @@
 * Inicializa as configurações do Restangular com os devidos valores (salvos em app/scripts/ngConstants.js)
 */
 angular.module('influuntApp')
-.config(['RestangularProvider', 'APP_ROOT',
-  function(RestangularProvider, APP_ROOT) {
+.config(['RestangularProvider', 'APP_ROOT', '$httpProvider',
+  function(RestangularProvider, APP_ROOT, $httpProvider) {
     RestangularProvider.setBaseUrl(APP_ROOT);
+    $httpProvider.interceptors.push('authInterceptor');
   }]);

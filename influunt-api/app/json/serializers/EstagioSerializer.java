@@ -15,7 +15,9 @@ public class EstagioSerializer extends JsonSerializer<Estagio> {
     @Override
     public void serialize(Estagio estagio, JsonGenerator jgen, SerializerProvider serializers) throws IOException, JsonProcessingException {
         jgen.writeStartObject();
-        jgen.writeStringField("id", estagio.getId().toString());
+        if (estagio.getId() != null) {
+            jgen.writeStringField("id", estagio.getId().toString());
+        }
         if (estagio.getImagem() != null) {
             jgen.writeObjectField("imagem", estagio.getImagem());
         }

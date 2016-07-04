@@ -5,6 +5,7 @@ import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
 import json.deserializers.CidadeDeserializer;
 import json.serializers.CidadeSerializer;
@@ -36,7 +37,7 @@ public class Cidade extends Model {
     private UUID id;
 
     @Column
-    @NotNull
+    @NotBlank(message = "não pode ficar em branco")
     private String nome;
 
     @OneToMany(mappedBy = "cidade", cascade = CascadeType.REMOVE)
@@ -52,7 +53,6 @@ public class Cidade extends Model {
     @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using= InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
-    @NotNull
     private DateTime dataAtualizacao;
 
     public UUID getId() {

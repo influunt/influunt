@@ -416,7 +416,7 @@ header .nav-secon li a {
   max-height: 300px;
   background: white;
   overflow: hidden;
-  width: 100%;  
+  width: 100%;
 }
 
 .wrapper-content .basic-wizard .content .body .early-stage ul li header {
@@ -1189,8 +1189,7 @@ header .nav-secon li a {
   border: 0;
   font-size: 14px;
   color: #555759;
-  padding-left: 10px;;
-  
+  padding-left: 10px;
 }
 .wrapper-content .basic-wizard .content .body .association.alternative nav ul li:hover {
   background:inherit;
@@ -1203,7 +1202,6 @@ header .nav-secon li a {
   height: 34px;
   line-height: 34px;
   padding-left: 10px;
-  
 }
 .wrapper-content .basic-wizard .content .body .association.alternative {
   padding: 0 0 20px 0;
@@ -1294,7 +1292,7 @@ header .nav-secon li a {
   padding: 0;
   margin: 0;
 }
-.wrapper-content .basic-wizard .content .body .stages nav li {
+.wrapper-content .basic-wizard .content .body .stages nav li.ibox {
   border-bottom:1px solid #e5e5e5;
   position:relative;
   background: white;
@@ -1512,7 +1510,7 @@ header .nav-secon li a {
     border-left: 2px solid #e7eaec;
     position: absolute;
     margin: 25px 0 0;
-    height: 95%;    
+    height: 95%;
     right: 0;
 }
 .wrapper-content .basic-wizard .content .body .maps {
@@ -1715,16 +1713,41 @@ header .nav-secon li a {
 }
 @media screen and (max-width: 1280px) {
   .wrapper-content .basic-wizard .content .body .stages .times-stages {
-  width: 44%;
-
+    width: 60%;
   }
   .wrapper-content .basic-wizard .content .body .stages .stage-stages {
-  width: 48%;
-    
+    width: 30%;
   }
 }
 
+.tooltipster-sidetip.tooltipster-error-tag .tooltipster-box {
+  background: #f2dede;
+  border: 1px solid #ebccd1;
+  border-radius: 6px;
+  box-shadow: 5px 5px 2px 0 rgba(0,0,0,0.4);
+}
 
-.container-fluid {
-  width: 100%;
+.tooltipster-sidetip.tooltipster-error-tag .tooltipster-content {
+  color: #a94442;
+  padding: 8px;
+}
+
+.tooltipster-sidetip.tooltipster-error-tag .tooltipster-arrow-background {
+  display: none;
+}
+.tooltipster-sidetip.tooltipster-error-tag.tooltipster-bottom .tooltipster-arrow-border {
+  border-bottom-color: #ebccd1;
+}
+.tooltipster-sidetip.tooltipster-error-tag.tooltipster-left .tooltipster-arrow-border {
+  border-left-color: #ebccd1;
+}
+.tooltipster-sidetip.tooltipster-error-tag.tooltipster-right .tooltipster-arrow-border {
+  border-right-color: #ebccd1;
+}
+.tooltipster-sidetip.tooltipster-error-tag.tooltipster-top .tooltipster-arrow-border {
+  border-top-color: #f2dede;
+}
+
+.badge.badge-danger.badge-notification {
+  font-size: 8px;
 }

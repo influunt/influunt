@@ -1,9 +1,8 @@
 package controllers;
 
-import checks.ControladorAneisCheck;
-import checks.ControladorAssociacaoGruposSemaforicosCheck;
-import checks.Erro;
-import checks.InfluuntValidator;
+import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
+import be.objectify.deadbolt.java.actions.Dynamic;
+import checks.*;
 import com.google.inject.Inject;
 import models.Controlador;
 import play.data.FormFactory;
@@ -11,12 +10,17 @@ import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
+import security.Secured;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
+@DeferredDeadbolt
+@Security.Authenticated(Secured.class)
+@Dynamic("Influunt")
 public class ControladoresController extends Controller {
 
 
@@ -42,7 +46,7 @@ public class ControladoresController extends Controller {
     @Transactional
     public CompletionStage<Result> verdesConflitantes() {
         return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class,
-                ControladorAssociacaoGruposSemaforicosCheck.class);
+                ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class);
     }
 
     @Transactional

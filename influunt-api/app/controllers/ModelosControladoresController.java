@@ -1,16 +1,28 @@
 package controllers;
 
+import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
+import be.objectify.deadbolt.java.actions.Dynamic;
+import be.objectify.deadbolt.java.actions.SubjectPresent;
+import checks.Erro;
+import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
+import models.Fabricante;
 import models.ModeloControlador;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
+import security.Secured;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
+@DeferredDeadbolt
+@Security.Authenticated(Secured.class)
+@Dynamic("Influunt")
 public class ModelosControladoresController extends Controller {
 
     @Transactional
@@ -18,15 +30,23 @@ public class ModelosControladoresController extends Controller {
         return CompletableFuture.completedFuture(ok(Json.toJson(ModeloControlador.find.findList())));
     }
 
+
     @Transactional
     public CompletionStage<Result> create() {
         JsonNode json = request().body().asJson();
         if (json == null) {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         }
+
         ModeloControlador modeloControlador = Json.fromJson(json, ModeloControlador.class);
-        modeloControlador.save();
-        return CompletableFuture.completedFuture(ok(Json.toJson(modeloControlador)));
+        List<Erro> erros = new InfluuntValidator<ModeloControlador>().validate(modeloControlador);
+
+        if(erros.isEmpty()) {
+            modeloControlador.save();
+            return CompletableFuture.completedFuture(ok(Json.toJson(modeloControlador)));
+        }else{
+            return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
+        }
     }
 
 
@@ -44,8 +64,14 @@ public class ModelosControladoresController extends Controller {
 
         modeloControlador = Json.fromJson(json, ModeloControlador.class);
         modeloControlador.setId(UUID.fromString(id));
-        modeloControlador.update();
-        return CompletableFuture.completedFuture(ok(Json.toJson(modeloControlador)));
+        List<Erro> erros = new InfluuntValidator<ModeloControlador>().validate(modeloControlador);
+
+        if(erros.isEmpty()) {
+            modeloControlador.update();
+            return CompletableFuture.completedFuture(ok(Json.toJson(modeloControlador)));
+        }else{
+            return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
+        }
     }
 
     @Transactional

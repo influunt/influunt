@@ -9,27 +9,27 @@
     "cidade": "Cidade",
     "coordenadas": "COORDENADAS",
     "dadosBasicos": "Dados Básicos",
-    "descricao": "Descrição",
+    "localizacao": "Localização",
     "endereco": "Pesquisar por endereço",
     "enviarImagens": "Enviar Imagens",
     "firmware": "FIRMWARE",
-    "fornecedor": "Fornecedor",
-    "gruposPedestres": "Grupos de pedestres",
-    "gruposSinaisVeiculares": "Grupos de sinais veiculares",
-    "idControlador": "ID Controlador",
+    "fornecedor": "Fabricante",
+    "gruposPedestres": "Grupos semafóricos de pedestres",
+    "gruposSinaisVeiculares": "Grupos semafóricos veiculares",
+    "CLC": "CLC",
     "latitude": "Latitude",
     "localizacao": "Localização",
     "longitude": "Longitude",
-    "maxAneis": "No anéis",
-    "maxDetectorPedestre": "No detector pedestre",
-    "maxDetectorVeicular": "No detector veicular",
-    "maxEstagios": "No estágios",
-    "maxGrupoSemaforos": "No grupos de semáforos",
+    "maxAneis": "Número de anéis",
+    "maxDetectorPedestre": "Número de detector pedestre",
+    "maxDetectorVeicular": "Número de detector veicular",
+    "maxEstagios": "Número de estágios",
+    "maxGrupoSemaforos": "Número de grupos semafóricos",
     "modelo": "Modelo",
-    "movimentos": "Movimentos",
+    "estagios": "Estágios",
     "novo": "Novo Controlador",
-    "numeroDetectores": "No detectores",
-    "numeroDetectoresPedestres": "No detectores pedestres",
+    "numeroDetectores": "Número de detectores veiculares",
+    "numeroDetectoresPedestres": "Número de detectores pedestres",
     "numeroSMEE": "Número SMEE",
     "numeroSMEEConjugado1": "Num. SMEE conjugado 1",
     "numeroSMEEConjugado2": "Num. SMEE conjugado 2",
@@ -51,7 +51,7 @@
     "adicionar_coordenada": "adicionar coordenadas",
     "cidade": "CIDADE",
     "coordenadas": "COORDENADAS",
-    "descricao": "DESCRIÇÃO",
+    "descricao": "NÚMERO CTA",
     "novo": "Nova Área",
     "titulo": "Áreas"
   },
@@ -112,14 +112,16 @@
     "dashboard": "Dashboard",
     "mensagens": {
       "cancelar": "Cancelar",
+      "confirma_saida": "Confirma a saída",
       "default_erro": "Ocorreu um erro. Tente novamente mais tarde.",
       "nao": "Não",
       "popup_delete": {
-        "mensagem": "quer mesmo apagar este registro?",
+        "mensagem": "Quer mesmo apagar este registro?",
         "titulo": "Confirma?"
       },
       "removido_com_sucesso": "Removido com sucesso",
       "salvo_com_sucesso": "Salvo com sucesso",
+      "sair": "Sair do sistema?",
       "sim": "Sim"
     },
     "titulo_padrao": "Título não definido."
@@ -134,26 +136,51 @@
     "hello_world": "Dashboard"
   },
   "menu": {
-    "cadastros": "CADASTROS"
+    "cadastros": "Cadastros",
+    "configuracoes": "Configurações"
+  },
+  "perfis": {
+    "definir_permissoes": "Definir permissões",
+    "descricao": "Descricao",
+    "nome": "Nome",
+    "titulo": "Perfis",
+    "permissoes": {
+      "criar": "Criar",
+      "descricao": "Descrição",
+      "editar": "Editar",
+      "excluir": "Excluir",
+      "permite": "Permite?",
+      "todos": "Todos",
+      "visualizar": "Visualizar"
+    }
+  },
+  "permissoes": {
+    "descricao": "Descrição",
+    "chave": "Chave",
+    "titulo": "Permissões"
+  },
+  "usuarios": {
+    "area": "Área",
+    "confirmacao_senha": "Confirmação senha",
+    "email": "e-mail",
+    "login": "Login",
+    "nome": "Nome",
+    "perfil": "Perfil",
+    "senha": "Senha",
+    "titulo": "Usuários"
   },
   "plugins": {
     "datatables_cdn": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json",
     "steps": {
       "labels": {
-        "cancel": "cancelar",
-        "current": "atual",
-        "pagination": "paginação",
-        "finish": "finalizar",
-        "next": "próximo",
+        "cancel": "Cancelar",
+        "current": "Atual",
+        "pagination": "Paginação",
+        "finish": "Finalizar",
+        "next": "Próximo",
         "previous": "Anterior",
-        "loading": "carregando"
+        "loading": "Carregando"
       }
-    }
-  },
-  "validacoesAPI": {
-    "controlador": {
-      "mayNotBeNull": "<strong>{CAMPO}</strong> precisa ser preenchido",
-      "umAnelAtivoDeveTerAoMenosDoisMovimentoENoMaximoOLimiteDoModeloDoControlador": "um anel ativo deve ter ao menos <strong>dois movimento</strong> e no maximo o <strong>limite do modelo do controlador</strong>"
     }
   }
 }

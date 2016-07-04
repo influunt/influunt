@@ -1,16 +1,28 @@
 package controllers;
 
+import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
+import be.objectify.deadbolt.java.actions.Dynamic;
+import be.objectify.deadbolt.java.actions.SubjectPresent;
+import checks.Erro;
+import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Area;
+import models.Cidade;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
+import security.Secured;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
+@DeferredDeadbolt
+@Security.Authenticated(Secured.class)
+@Dynamic("Influunt")
 public class AreasController extends Controller {
 
 
@@ -21,11 +33,18 @@ public class AreasController extends Controller {
         if (json == null) {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         } else {
+
             Area area = Json.fromJson(json, Area.class);
-            area.save();
-            area.refresh();
-            return CompletableFuture.completedFuture(ok(Json.toJson(area)));
-        }
+            List<Erro> erros = new InfluuntValidator<Area>().validate(area);
+
+            if(erros.isEmpty()) {
+                area.save();
+                area.refresh();
+                return CompletableFuture.completedFuture(ok(Json.toJson(area)));
+            }else{
+                return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
+            }
+       }
     }
 
     @Transactional
@@ -66,9 +85,17 @@ public class AreasController extends Controller {
         }
 
         Area area = Json.fromJson(json, Area.class);
-        area.setId(UUID.fromString(id));
-        area.update();
-        return CompletableFuture.completedFuture(ok(Json.toJson(area)));
+        area.setId(areaExistente.getId());
+        List<Erro> erros = new InfluuntValidator<Area>().validate(area);
+
+        if(erros.isEmpty()) {
+            area.update();
+            area.refresh();
+            return CompletableFuture.completedFuture(ok(Json.toJson(area)));
+        }else{
+            return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
+        }
+
     }
 
 }

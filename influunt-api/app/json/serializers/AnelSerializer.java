@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import models.Anel;
+import models.Estagio;
 import models.GrupoSemaforico;
 
 import java.io.IOException;
@@ -58,11 +59,21 @@ public class AnelSerializer extends JsonSerializer<Anel> {
             jgen.writeStringField("dataAtualizacao", InfluuntDateTimeSerializer.parse(anel.getDataAtualizacao()));
         }
 
-        jgen.writeArrayFieldStart("gruposSemaforicos");
-        for (GrupoSemaforico grp : anel.getGruposSemaforicos()) {
-            jgen.writeObject(grp);
+        if (anel.getEstagios() != null) {
+            jgen.writeArrayFieldStart("estagios");
+            for (Estagio estagio : anel.getEstagios()) {
+                jgen.writeObject(estagio);
+            }
+            jgen.writeEndArray();
         }
-        jgen.writeEndArray();
+
+        if (anel.getGruposSemaforicos() != null) {
+            jgen.writeArrayFieldStart("gruposSemaforicos");
+            for (GrupoSemaforico grp : anel.getGruposSemaforicos()) {
+                jgen.writeObject(grp);
+            }
+            jgen.writeEndArray();
+        }
 
         jgen.writeEndObject();
     }

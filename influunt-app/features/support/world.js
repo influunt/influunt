@@ -5,6 +5,8 @@ var webdriver = require('selenium-webdriver');
 var platform = process.env.PLATFORM || 'PHANTOMJS';
 var driver = null;
 
+var exec = require('child_process').exec;
+
 var buildChromeDriver = function() {
   return new webdriver
     .Builder()
@@ -26,6 +28,7 @@ var getDriver = function() {
 var World = function () {
   var defaultTimeout = 20 * 1000;
   var screenshotPath = 'screenshots';
+  var baseUrl = 'http://localhost/#';
 
   this.webdriver = webdriver;
   this.driver = driver;
@@ -34,31 +37,74 @@ var World = function () {
     fs.mkdirSync(screenshotPath);
   }
 
+  this.execScript = function(cmd) {
+    // console.log('execScript: '+cmd);
+    return new Promise(function (resolve, reject) {
+      exec(cmd, function(err, stdout, stderr) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve({ stdout: stdout, stderr: stderr });
+        }
+      });
+    });
+  };
+
+  this.execSqlScript = function(sqlScriptPath) {
+    var cmd = 'java -cp lib/h2.jar org.h2.tools.RunScript -url "jdbc:h2:tcp://localhost:9092/mem:influunt;DATABASE_TO_UPPER=FALSE" -script '+ sqlScriptPath +' -user sa';
+    return this.execScript(cmd);
+  };
+
   this.waitFor = function(cssLocator, timeout) {
     var waitTimeout = timeout || defaultTimeout;
     return driver.wait(function() {
-      return driver.isElementPresent({ css: cssLocator });
+      return driver.isElementPresent(webdriver.By.css(cssLocator));
     }, waitTimeout);
   };
 
-  this.visit = function(url) {
-    return driver.get(url);
+  this.visit = function(path) {
+    return driver.get(baseUrl + path);
   };
 
   this.getCurrentUrl = function() {
     return driver.getCurrentUrl();
   };
 
-  this.setValue = function(selector, value) {
-    return driver.findElement(selector).sendKeys(value);
+  this.setValue = function(cssSelector, value) {
+    return driver.findElement(webdriver.By.css(cssSelector)).sendKeys(value);
   };
 
-  this.clickButton = function(selector) {
-    return driver.findElement(selector).sendKeys(webdriver.Key.ENTER);
+  this.clickButton = function(cssSelector) {
+    return driver.findElement(webdriver.By.css(cssSelector)).sendKeys(webdriver.Key.ENTER);
+  };
+
+  this.getElement = function(selector) {
+    return driver.findElement(webdriver.By.css(selector));
   };
 
   this.getElements = function(selector) {
-    return driver.findElements(selector);
+    return driver.findElements(webdriver.By.css(selector));
+  };
+
+  this.getElementsByXpath = function(xpath) {
+    return driver.findElements(webdriver.By.xpath(xpath));
+  };
+
+  this.findLinkByText = function(text) {
+    return driver.findElement(webdriver.By.linkText(text));
+  };
+
+  this.selectOption = function(selectSelector, optionText) {
+    return this.getElements(selectSelector + ' option').then(function(options) {
+      for (var i = 0; i < options.length; i++) {
+        var option = options[i];
+        option.getText().then(function(text) {
+          if (text === optionText) {
+            return option.click();
+          }
+        });
+      }
+    });
   };
 };
 

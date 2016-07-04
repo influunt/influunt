@@ -1,28 +1,31 @@
 'use strict';
 
-var driver = require('./world.js').getDriver();
+var World = require('./world.js');
+var driver = World.getDriver();
 var fs = require('fs');
 var path = require('path');
 var sanitize = require('sanitize-filename');
 
 var myHooks = function () {
 
-  this.After(function(scenario) {
-    if(scenario.isFailed()) {
-      this.driver.takeScreenshot().then(function(data){
-        var base64Data = data.replace(/^data:image\/png;base64,/,'');
-        fs.writeFile(
-          path.join('screenshots', sanitize(scenario.getName() + '.png').replace(/ /g,'_')),
-          base64Data,
-          'base64',
-          function(err) {
-            if(err) {
-              console.log(err);
-            }
-        });
-      });
-    }
-    return this.driver.manage().deleteAllCookies();
+  var world = new World.World();
+
+  this.registerHandler('BeforeFeatures', function () {
+    return world.execScript('curl localhost:9000').then(function(){
+      return world.execSqlScript('features/support/scripts/create_usuario.sql');
+    }).then(function () {
+      return world.visit('/login');
+    }).then(function () {
+      return world.setValue('input[name="usuario"]', 'root');
+    }).then(function () {
+      return world.setValue('input[name="senha"]', '1234');
+    }).then(function () {
+      return world.clickButton('#acessar');
+    }).then(function () {
+      return world.waitFor('a.navbar-brand');
+    }).catch(function(ex) {
+      console.log(ex)
+    });
   });
 
   this.registerHandler('AfterFeatures', function () {

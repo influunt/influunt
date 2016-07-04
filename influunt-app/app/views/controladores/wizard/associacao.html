@@ -1,5 +1,15 @@
 <fieldset data-ng-init="inicializaAssociacao()">
   <div class="row">
+    <uib-alert type="danger" close="closeAlertAnel(currentAnelIndex, 'all')" data-ng-if="errors.general || errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosDePedestre || errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosVeiculares">
+      <div style="padding-left: 12px;">
+        <ul>
+          <li data-ng-repeat="message in errors.general">{{ message }}</li>
+          <li data-ng-repeat="message in errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosDePedestre">{{ message }}</li>
+          <li data-ng-repeat="message in errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosVeiculares">{{ message }}</li>
+        </ul>
+      </div>
+    </uib-alert>
+
     <div class="text-center m-t-md pd-lf-rt">
       <div class="col-lg-2 col-sm-2 no-padding">
         <div class="col-lg-12 col-sm-12 association">
@@ -7,8 +17,15 @@
             <ul>
               <li data-ng-repeat="anel in aneis"
                  data-ng-click="selecionaAnel($index)"
-                 data-ng-class="{'anel-selecionado': $index === currentAnelId}" class="row">
-                  <label>Anel {{ anel.posicao }}</label>
+                 data-ng-class="{'anel-selecionado': $index === currentAnelIndex}" class="row">
+                  <div class="col-xs-7">
+                    <label>Anel {{ anel.posicao }}</label>
+                  </div>
+                  <div class="col-xs-1">
+                    <span class="badge badge-danger badge-notification" ng-show="anelTemErro($index)">
+                      <i class="fa fa-exclamation"></i>
+                    </span>
+                  </div>
               </li>
             </ul>
           </nav>
@@ -17,63 +34,54 @@
       <div class="col-lg-7 col-sm-7 stages">
         <nav>
           <ul class="handle">
-            <li class="ibox" data-ng-repeat="(indexMovimento, movimento) in currentAnel.movimentos"
-                data-ng-click="selecionaMovimento(indexMovimento)">
-              <div class="title-stages" data-ng-class="{'movimento-selecionado': indexMovimento === currentMovimentoId}">
+            <li class="ibox" data-ng-repeat="(indexEstagio, estagio) in currentAnel.estagios"
+                data-ng-click="selecionaEstagio(indexEstagio)">
+              <div class="title-stages" data-ng-class="{'estagio-selecionado': indexEstagio === currentEstagioId}">
                 <hgroup>
+                  <span class="badge badge-danger badge-notification"
+                    data-ng-show="estagioTemErro(currentAnelIndex, indexEstagio)"
+                    inf-tooltip
+                    messages="errors.aneis[currentAnelIndex].estagios[currentEstagioId]">
+                    <i class="fa fa-exclamation"></i>
+                  </span>
                   <p>E{{ $index + 1 }}</p>
                 </hgroup>
               </div>
               <div class="stage-stages">
                 <div class="exist-figure">
                   <figure>
-                    <img ng-src="{{ movimento.imagem.id | imageSource }}" style="width: 155px;">
-                  </figure>
-                </div>
-                <div class="upload-figure">
-                  <!-- <figure data-ng-style="{ background: url({{ movimento.estagio.imagem.id | imageSource  }}) }"> -->
-                  <figure custom-background="movimento.estagio.imagem.id | imageSource" style="background-size: cover; background-repeat: no-repeat; background-position: center center;">
-                    <form class="dropzone" enctype="multipart/form-data"
-                        influunt-dropzone anel="currentAnel"
-                        on-success="relacionaImagemAoEstagio(movimento, upload, imagem)"
-                        style="min-height: 135px; max-height: 135px; padding: 0;">
-                      <div>
-                        <!-- <img data-ng-if="movimento.estagio.imagem" data-ng-src="{{ movimento.estagio.imagem.id | imageSource  }}"> -->
-                        <hgroup data-ng-if="!movimento.estagio.imagem">
-                          <i class="fa fa-upload" aria-hidden="true"></i>
-                          <label title="Adicione um estágio a este movimento" for="anel-1" class="">
-                            Adicione um Estágioa este Movimento
-                            <img class="attrImg" src="#" alt="" width="250" />
-                          </label>
-                        </hgroup>
-                      </div>
-                      <div class="fallback">
-                        <input name="file" type="file" multiple />
-                      </div>
-                    </form>
+                    <img ng-src="{{ estagio.imagem.id | imageSource }}" style="width: 155px;">
                   </figure>
                 </div>
               </div>
               <div class="times-stages">
-                <div class="col-lg-6 col-sm-6 no-padding left">
-                  <div class="col-lg-6 col-sm-6">
-                    <label class="control-label no-padding">Tempo max. de permanência</label>
+                <div class="col-lg-7 col-sm-7 left no-padding">
+                  <div class="col-lg-5 col-sm-5">
+                    <label class="control-label no-padding">Desativação de tempo máximo</label>
                   </div>
-                  <div class="col-lg-6 col-sm-6 no-padding">
-                    <input type="number" ng-model="movimento.estagio.tempoMaximoPermanencia" class="form-control">
+                  <div class="col-lg-7 col-sm-7 no-padding">
+                    <div class="input-group m-b">
+                      <span class="input-group-addon padding-5">
+                        <input type="checkbox" ichecks data-ng-model="estagio.tempoMaximoPermanenciaAtivo"
+                          if-unchecked="limpaTempoPermanencia(estagio)">
+                      </span>
+                      <input type="number" ng-model="estagio.tempoMaximoPermanencia"
+                        data-ng-disabled="!estagio.tempoMaximoPermanenciaAtivo" class="form-control">
+                      <span class="input-group-addon" style="padding: 6px;">seg.</span>
+                    </div>
                   </div>
                 </div>
-                <div class="col-lg-6 col-sm-6 no-padding left">
-                  <label class="checkbox-inline i-checks right">
-                    <div class="col-lg-10 col-sm-10 left">Demanda prioritária</div>
-                    <input type="checkbox" ichecks data-ng-model="movimento.estagio.demandaPrioritaria">
+                <div class="col-md-offset-1 col-lg-4 col-sm-4 right">
+                  <label class="checkbox-inline i-checks right demanda-prioritaria">
+                    Demanda prioritária
+                    <input type="checkbox" ichecks data-ng-model="estagio.demandaPrioritaria">
                   </label>
                 </div>
                 <div class="clearfix"></div>
                 <div class="col-lg-12 col-sm-12 form-group group-selectons no-padding">
                   <label class="checkbox-inline i-checks" data-ng-repeat="(indexGrupo, grupo) in currentAnel.gruposSemaforicos">
                     <p>{{ grupo.label }}</p>
-                    <input type="checkbox" ichecks data-ng-model="grupo.estagiosRelacionados[movimento.estagio.id]" i-changed="associaEstagiosGrupoSemaforico(grupo, movimento)">
+                    <input type="checkbox" ichecks data-ng-model="grupo.estagiosRelacionados[estagio.id]" i-changed="associaEstagiosGrupoSemaforico(grupo, estagio)">
                   </label>
                 </div>
               </div>
@@ -89,9 +97,10 @@
                 <hgroup>
                   <label class="checkbox-inline i-checks">
                     <p class="label-name">{{ grupoSelecionado.label }}</p>
-                    <input type="checkbox" ichecks i-changed="toggleEstagioAtivado(grupoSelecionado, currentMovimento)" data-ng-model="grupoSelecionado.estagiosAtivados[currentMovimento.estagio.id]">
+                    <!-- <input type="checkbox" ichecks i-changed="toggleEstagioAtivado(grupoSelecionado, currentEstagio)"
+                      data-ng-model="grupoSelecionado.estagiosAtivados[currentEstagio.id]"> -->
                   </label>
-                  <p class="label-status">Ativado</p>
+                  <!-- <p class="label-status">Ativado</p> -->
                 </hgroup>
                 <div class="form-group select right">
                   <div class="col-lg-12 col-sm-12">
@@ -106,8 +115,7 @@
                 </div>
                 <div class="form-group input">
                   <div class="ol-lg-12 col-sm-12">
-                    <input type="text" class="form-control" placeholder="Comentário"
-                      data-ng-model="grupoSelecionado.descricao">
+                    <input type="text" class="form-control" placeholder="Comentário" data-ng-model="grupoSelecionado.descricao">
                   </div>
                 </div>
               </li>

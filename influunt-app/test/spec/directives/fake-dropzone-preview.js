@@ -15,10 +15,10 @@ describe('Directive: fakeDropzonePreview', function () {
   it('Deverá criar um elemento de preview do dropzone com os dados do anel enviado',
     inject(function($compile, $timeout) {
       scope.aneis = [{
-        id_anel: 'id_anel',
+        idAnel: 'idAnel',
         nome: 'nome',
         source: 'source',
-        movimentos: [{id: 'id',imagem: {id: 'id',filename: 'filename'}}]
+        estagios: [{id: 'id',imagem: {id: 'id',filename: 'filename'}}]
       }];
       element = angular.element('<form><fake-dropzone-preview aneis="aneis"><fake-dropzone-preview></form>');
       element = $compile(element)(scope);

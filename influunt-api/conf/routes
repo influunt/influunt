@@ -53,11 +53,34 @@ PUT         /api/v1/detectores/:id                      controllers.DetectoresCo
 GET         /api/v1/detectores/:id                      controllers.DetectoresController.findOne(id)
 DELETE      /api/v1/detectores/:id                      controllers.DetectoresController.delete(id)
 
+# Usuarios
+GET         /api/v1/usuarios                            controllers.UsuariosController.findAll()
+POST        /api/v1/usuarios                            controllers.UsuariosController.create()
+PUT         /api/v1/usuarios/:id                        controllers.UsuariosController.update(id)
+GET         /api/v1/usuarios/:id                        controllers.UsuariosController.findOne(id)
+DELETE      /api/v1/usuarios/:id                        controllers.UsuariosController.delete(id)
+
+# Perfis
+GET         /api/v1/perfis                              controllers.PerfisController.findAll()
+POST        /api/v1/perfis                              controllers.PerfisController.create()
+PUT         /api/v1/perfis/:id                          controllers.PerfisController.update(id)
+GET         /api/v1/perfis/:id                          controllers.PerfisController.findOne(id)
+DELETE      /api/v1/perfis/:id                          controllers.PerfisController.delete(id)
+
+# Permissoes
+GET         /api/v1/permissoes                          controllers.PermissoesController.findAll()
+POST        /api/v1/permissoes                          controllers.PermissoesController.create()
+PUT         /api/v1/permissoes/:id                      controllers.PermissoesController.update(id)
+GET         /api/v1/permissoes/:id                      controllers.PermissoesController.findOne(id)
+DELETE      /api/v1/permissoes/:id                      controllers.PermissoesController.delete(id)
+
+
 # Imagens
 POST        /api/v1/imagens                             controllers.ImagensController.create()
 GET         /api/v1/imagens/:id                         controllers.ImagensController.findOne(id)
 
 #View Helpers
-GET        /api/v1/helpers/controlador                  controllers.HelpersController.controladorHelper()
+GET         /api/v1/helpers/controlador                  controllers.HelpersController.controladorHelper()
 
-POST       /api/v1/login                                controllers.SecurityController.login
+#Login
+POST        /api/v1/login                                controllers.SecurityController.login
