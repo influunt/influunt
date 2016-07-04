@@ -13,8 +13,8 @@ angular.module('influuntApp')
     return function (input, nomeCampo) {
       nomeCampo = nomeCampo || 'descricao';
       if (input) {
-        return input.map(function(area) {
-          return '<li>' + area[nomeCampo] + '</li>';
+        return input.map(function(resource) {
+          return '<li>' + resource[nomeCampo] + '</li>';
         }).join('');
       }
     };
