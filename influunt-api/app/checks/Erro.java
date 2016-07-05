@@ -1,53 +1,10 @@
 package checks;
 
-import com.avaje.ebean.Model;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 public class Erro {
 
     public String root;
     public String message;
     public String path;
-    public String objectId = "";
-    public String position = "";
-
-    public Erro(String root, String message, String path, Object object) {
-        this(root,message,path);
-        try {
-            Method getId = object.getClass().getMethod("getId");
-            if(getId!=null){
-                Object value = getId.invoke(object);
-                if(value != null){
-                    objectId = value.toString();
-                }
-            }
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            Method getPosicao = object.getClass().getMethod("getPosicao");
-            if(getPosicao!=null){
-                Object value = getPosicao.invoke(object);
-                if(value != null){
-                    objectId = value.toString();
-                }
-            }
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-
-    }
 
     public Erro(String root, String message, String path) {
         this.root = root;
@@ -82,8 +39,6 @@ public class Erro {
                 "root='" + root + '\'' +
                 ", message='" + message + '\'' +
                 ", path='" + path + '\'' +
-                ", objectId='" + objectId + '\'' +
-                ", position='" + position + '\'' +
                 '}';
     }
 

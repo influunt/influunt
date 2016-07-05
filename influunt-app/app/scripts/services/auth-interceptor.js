@@ -28,6 +28,12 @@ angular.module('influuntApp')
             toast.warn('Ação não autorizada');
           }
 
+          if (response.status === 401) {
+            location.hash = '#/login';
+            localStorage.removeItem('token');
+            toast.warn('Ação não autorizada');
+          }
+
           return $q.reject(response);
         },
         response: function(response) {

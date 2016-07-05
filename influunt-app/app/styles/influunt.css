@@ -490,8 +490,6 @@ header .nav-secon li a {
 }
 .wrapper-content .basic-wizard .content .body .association.tables-associated {
     padding: 15px 0 0;
-    max-height: 720px;
-    overflow: auto;;
 }
 .wrapper-content .basic-wizard .content .body .association.tables-associated header {
     border-bottom: 1px solid #e5e5e5;
@@ -510,12 +508,12 @@ header .nav-secon li a {
     line-height: initial;
     padding: 20px 0 30px 0;
     border-bottom: 1px solid #e5e5e5; 
-
+        
 }
 .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .group-form {
     padding: 0 25px 0 20px;
     float: left;
-    width: 35%;    
+    width: 25%;    
 }
 .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .time-group {
     width: 17%;
@@ -527,12 +525,12 @@ header .nav-secon li a {
     top: 0;    
 }
 .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .time-group label {
-    margin-top: 35px !important;
+    margin-top: 35px;
 }
 .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .group-form .form-group {
     margin: 0;
     padding: 0;
-
+    
 }
 .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .group-form .form-group label, .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .time-group label {
     margin: 0;
@@ -540,11 +538,11 @@ header .nav-secon li a {
     font-size: 13px;
     line-height: 30px;
     text-transform: capitalize;
-
+    
 }
 .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .group-figures {
     float: left;
-    width: 45%;
+    width: 55%;
 }
 .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .group-figure label {
     font-size: 13px;
@@ -552,17 +550,17 @@ header .nav-secon li a {
     float: left;
     line-height: 13px;
     padding-right: 7px;
-
+    
 }
 .wrapper-content .basic-wizard .content .body .association.tables-associated nav li figure img {
-
+    
 }
 .wrapper-content .basic-wizard .content .body .association.tables-associated nav li figure {
     float: left;
     width: 140px;
     height: 130px;
     background: #e5e5e5;
-
+    
 }
 .wrapper-content .basic-wizard .content .body .association.alternative nav ul li {
     line-height: 34px;

@@ -17,11 +17,15 @@
                     <tbody>
                       <tr>
                         <th>{{ 'areas.cidade' | translate }}</th>
-                        <td> {{ objeto.cidade | nomeCidade }} </td>
+                        <td> {{ objeto.cidade | resourceToString }} </td>
                       </tr>
                       <tr>
                         <th>{{ 'areas.descricao' | translate }}</th>
                         <td> {{ objeto.descricao }} </td>
+                      </tr>
+                      <tr>
+                        <th>{{ 'areas.coordenadas' | translate }}</th>
+                        <td data-ng-bind-html="objeto.limites | limitesListToString"></td>
                       </tr>
                       <tr>
                         <th>{{ 'geral.auditoria.dataCriacao' | translate }}</th>
