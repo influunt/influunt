@@ -14,6 +14,7 @@ angular.module('influuntApp')
         isDisabled: '=',
         ngModel: '=',
         iChanged: '&',
+        ifChecked: '&',
         ifUnchecked: '&'
       },
       link: function postLink(scope, element) {
@@ -35,6 +36,12 @@ angular.module('influuntApp')
             $(element[0]).on('ifUnchecked', function() {
               $timeout(function() {
                 return scope.ifUnchecked && scope.ifUnchecked();
+              });
+            });
+
+            $(element[0]).on('ifChecked', function() {
+              $timeout(function() {
+                return scope.ifChecked && scope.ifChecked();
               });
             });
 
