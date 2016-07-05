@@ -50,7 +50,7 @@
       <label class="control-label col-sm-2 control-label">{{ 'usuarios.area' | translate }}</label>
       <div class="col-sm-9">
         <select name="usuario_area" class="form-control"
-          data-ng-options="area.id as area.descricao for area in areas"
+          data-ng-options="area.id as area.descricao for area in areas | orderBy: nome"
           data-ng-model="objeto.area.id"></select>
         <p class="help-block error-msg" data-ng-repeat="error in errors.area">{{ error }}</p>
       </div>

@@ -1,12 +1,11 @@
 package controllers;
 
-import be.objectify.deadbolt.java.actions.*;
+import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
+import be.objectify.deadbolt.java.actions.Dynamic;
 import checks.Erro;
 import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Area;
-import models.Cidade;
-import models.Controlador;
 import models.Usuario;
 import play.db.ebean.Transactional;
 import play.libs.Json;
@@ -15,10 +14,8 @@ import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 @DeferredDeadbolt
@@ -46,7 +43,9 @@ public class UsuariosController extends Controller {
             }else {
                 usuario.save();
                 //TODO: 6/30/16 getArea não funciona corretamente (THOR!!!).
-                usuario.setArea(Area.find.byId(usuario.getArea().getId()));
+                if (usuario.getArea() != null) {
+                    usuario.setArea(Area.find.byId(usuario.getArea().getId()));
+                }
                 return CompletableFuture.completedFuture(ok(Json.toJson(usuario)));
             }
         }else{
