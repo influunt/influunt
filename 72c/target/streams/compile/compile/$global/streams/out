@@ -1,0 +1,274 @@
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mInitial source changes: [0m
+[0m[[0mdebug[0m] [0m	removed:Set()[0m
+[0m[[0mdebug[0m] [0m	added: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsMessages.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleMain.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsWorker.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/simple/SimpleClusterListener.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/simple/SimpleClusterListener2.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/Extra.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleClient.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleClientMain.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialResult.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationMessages.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialBackendMain.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleOneMasterMain.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/Extra.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsAggregator.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/simple/SimpleClusterApp.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/MetricsListener.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialFrontendMain.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleOneMasterClientMain.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationBackend.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialApp.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsService.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationApp.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationFrontendMain.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialFrontend.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationFrontend.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationBackendMain.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialBackend.java)[0m
+[0m[[0mdebug[0m] [0m	modified: Set()[0m
+[0m[[0mdebug[0m] [0mRemoved products: Set()[0m
+[0m[[0mdebug[0m] [0mExternal API changes: API Changes: Set()[0m
+[0m[[0mdebug[0m] [0mModified binary dependencies: Set()[0m
+[0m[[0mdebug[0m] [0mInitial directly invalidated sources: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsMessages.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleMain.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsWorker.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/simple/SimpleClusterListener.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/simple/SimpleClusterListener2.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/Extra.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleClient.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleClientMain.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialResult.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationMessages.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialBackendMain.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleOneMasterMain.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/Extra.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsAggregator.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/simple/SimpleClusterApp.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/MetricsListener.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialFrontendMain.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleOneMasterClientMain.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationBackend.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialApp.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsService.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationApp.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationFrontendMain.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialFrontend.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationFrontend.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationBackendMain.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialBackend.java)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mSources indirectly invalidated by:[0m
+[0m[[0mdebug[0m] [0m	product: Set()[0m
+[0m[[0mdebug[0m] [0m	binary dep: Set()[0m
+[0m[[0mdebug[0m] [0m	external source: Set()[0m
+[0m[[0mdebug[0m] [0mAll initially invalidated sources: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsMessages.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleMain.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsWorker.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/simple/SimpleClusterListener.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/simple/SimpleClusterListener2.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/Extra.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleClient.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleClientMain.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialResult.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationMessages.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialBackendMain.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleOneMasterMain.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/Extra.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsAggregator.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/simple/SimpleClusterApp.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/MetricsListener.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialFrontendMain.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleOneMasterClientMain.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationBackend.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialApp.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsService.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationApp.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationFrontendMain.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialFrontend.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationFrontend.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationBackendMain.java, /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialBackend.java)[0m
+[0m[[0mdebug[0m] [0mRecompiling all 27 sources: invalidated sources (27) exceeded 50.0% of all sources[0m
+[0m[[0minfo[0m] [0mCompiling 27 Java sources to /Users/rodrigosol/raro/influunt/72c/target/scala-2.11/classes...[0m
+[0m[[0mdebug[0m] [0mAttempting to call javac directly...[0m
+[0m[[0mdebug[0m] [0mcom.sun.tools.javac.Main not found with appropriate method signature; forking javac instead[0m
+[0m[[0mdebug[0m] [0mForking javac: javac @/var/folders/gq/pmrpz7zj6b90xqvnl34syq700000gn/T/sbt_9e2d1f9/argfile[0m
+[0m[[0mdebug[0m] [0mjavac returned exit code: 0[0m
+[0m[[0mdebug[0m] [0mJava compilation took 1.971838984 s[0m
+[0m[[0mdebug[0m] [0mJava analysis took 0.624376592 s[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleOneMasterMain.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleOneMasterMain.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleOneMasterMain.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleOneMasterMain.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleOneMasterMain.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, wait, equals, StatsSampleOneMasterMain, startup, main, notifyAll, <init>, toString, getClass, hashCode.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleOneMasterMain.java[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationApp.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationApp.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationApp.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationApp.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationApp.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, wait, equals, main, notifyAll, <init>, TransformationApp, toString, getClass, hashCode.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationApp.java[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialBackendMain.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialBackendMain.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialBackendMain.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialBackendMain.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialBackendMain.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, wait, equals, main, notifyAll, <init>, FactorialBackendMain, toString, getClass, hashCode.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialApp.java[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialBackendMain.java[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsService.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsService.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsService.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsService.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsService.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, wait, equals, getSender, context, self, onReceive, receive, preRestart, aroundReceive, akka$actor$Actor$_setter_$self_$eq, postRestart, postStop, notifyAll, aroundPostRestart, aroundPreRestart, aroundPostStop, <init>, preStart, unhandled, akka$actor$Actor$_setter_$context_$eq, getContext, sender, toString, workerRouter, StatsService, getClass, getSelf, supervisorStrategy, hashCode, aroundPreStart.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleOneMasterMain.java[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsService.java[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleMain.java[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialFrontendMain.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialFrontendMain.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialFrontendMain.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialFrontendMain.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialFrontendMain.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, wait, FactorialFrontendMain, equals, main, notifyAll, <init>, toString, getClass, hashCode.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialFrontendMain.java[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialApp.java[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialBackend.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialBackend.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialBackend.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialBackend.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialBackend.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, factorial, wait, equals, getSender, context, self, onReceive, receive, preRestart, aroundReceive, akka$actor$Actor$_setter_$self_$eq, postRestart, postStop, notifyAll, aroundPostRestart, aroundPreRestart, aroundPostStop, <init>, FactorialBackend, preStart, unhandled, akka$actor$Actor$_setter_$context_$eq, getContext, sender, toString, getClass, getSelf, supervisorStrategy, hashCode, aroundPreStart.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialBackend.java[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/Extra.java[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialBackendMain.java[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationMessages.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationMessages.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationMessages.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationMessages.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationMessages.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, wait, equals, TransformationMessages$TransformationJob, job, TransformationMessages$TransformationResult, BACKEND_REGISTRATION, text, reason, notifyAll, TransformationMessages$JobFailed, getReason, <init>, TransformationMessages, toString, getClass, getJob, getText, hashCode.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationFrontend.java[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationBackend.java[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationFrontendMain.java[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationMessages.java[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialApp.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialApp.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialApp.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialApp.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialApp.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, wait, equals, main, notifyAll, <init>, toString, getClass, FactorialApp, hashCode.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialApp.java[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsMessages.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsMessages.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsMessages.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsMessages.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsMessages.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, wait, equals, meanWordLength, text, getMeanWordLength, reason, StatsMessages$StatsJob, notifyAll, getReason, <init>, StatsMessages$JobFailed, toString, getClass, StatsMessages$StatsResult, getText, hashCode, StatsMessages.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsAggregator.java[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsService.java[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleClient.java[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsMessages.java[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialResult.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialResult.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialResult.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialResult.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialResult.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, factorial, wait, serialVersionUID, n, equals, notifyAll, <init>, FactorialResult, toString, getClass, hashCode.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialFrontend.java[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialBackend.java[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialResult.java[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationFrontend.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationFrontend.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationFrontend.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationFrontend.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationFrontend.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, jobCounter, wait, equals, backends, getSender, context, self, onReceive, receive, preRestart, aroundReceive, akka$actor$Actor$_setter_$self_$eq, postRestart, postStop, notifyAll, aroundPostRestart, aroundPreRestart, aroundPostStop, <init>, preStart, unhandled, akka$actor$Actor$_setter_$context_$eq, getContext, sender, toString, getClass, getSelf, supervisorStrategy, TransformationFrontend, hashCode, aroundPreStart.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationFrontend.java[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationFrontendMain.java[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleClient.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleClient.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleClient.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleClient.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleClient.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, servicePath, wait, equals, getSender, context, self, onReceive, receive, preRestart, aroundReceive, akka$actor$Actor$_setter_$self_$eq, postRestart, postStop, notifyAll, aroundPostRestart, aroundPreRestart, aroundPostStop, cluster, tickTask, <init>, preStart, unhandled, nodes, akka$actor$Actor$_setter_$context_$eq, getContext, sender, toString, StatsSampleClient, getClass, getSelf, supervisorStrategy, hashCode, aroundPreStart.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleOneMasterClientMain.java[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleClient.java[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleClientMain.java[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/MetricsListener.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/MetricsListener.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/MetricsListener.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/MetricsListener.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/MetricsListener.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, wait, equals, logCpu, getSender, logHeap, context, self, onReceive, receive, preRestart, aroundReceive, akka$actor$Actor$_setter_$self_$eq, postRestart, MetricsListener, postStop, notifyAll, aroundPostRestart, aroundPreRestart, aroundPostStop, cluster, <init>, preStart, unhandled, akka$actor$Actor$_setter_$context_$eq, getContext, sender, toString, getClass, getSelf, supervisorStrategy, log, hashCode, aroundPreStart, extension.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/MetricsListener.java[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialBackendMain.java[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationBackendMain.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationBackendMain.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationBackendMain.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationBackendMain.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationBackendMain.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, wait, equals, TransformationBackendMain, main, notifyAll, <init>, toString, getClass, hashCode.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationApp.java[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationBackendMain.java[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/simple/SimpleClusterApp.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/simple/SimpleClusterApp.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/simple/SimpleClusterApp.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/simple/SimpleClusterApp.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/simple/SimpleClusterApp.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, wait, equals, startup, SimpleClusterApp, main, notifyAll, <init>, toString, getClass, hashCode.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/simple/SimpleClusterApp.java[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationFrontendMain.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationFrontendMain.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationFrontendMain.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationFrontendMain.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationFrontendMain.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, wait, equals, main, TransformationFrontendMain, notifyAll, <init>, toString, getClass, hashCode.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationFrontendMain.java[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationApp.java[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationBackend.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationBackend.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationBackend.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationBackend.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationBackend.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, register, wait, equals, getSender, context, self, onReceive, receive, preRestart, TransformationBackend, aroundReceive, akka$actor$Actor$_setter_$self_$eq, postRestart, postStop, notifyAll, aroundPostRestart, aroundPreRestart, aroundPostStop, cluster, <init>, preStart, unhandled, akka$actor$Actor$_setter_$context_$eq, getContext, sender, toString, getClass, getSelf, supervisorStrategy, hashCode, aroundPreStart.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationBackend.java[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/transformation/TransformationBackendMain.java[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsAggregator.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsAggregator.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsAggregator.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsAggregator.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsAggregator.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, wait, replyTo, equals, getSender, context, self, onReceive, receive, preRestart, aroundReceive, akka$actor$Actor$_setter_$self_$eq, postRestart, postStop, notifyAll, aroundPostRestart, aroundPreRestart, aroundPostStop, <init>, StatsAggregator, results, preStart, unhandled, akka$actor$Actor$_setter_$context_$eq, getContext, sender, toString, getClass, getSelf, supervisorStrategy, expectedResults, hashCode, aroundPreStart.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsAggregator.java[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsService.java[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/Extra.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/Extra.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/Extra.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/Extra.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/Extra.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	useRole, notify, wait, equals, getSender, context, self, onReceive, receive, preRestart, aroundReceive, akka$actor$Actor$_setter_$self_$eq, postRestart, postStop, notifyAll, aroundPostRestart, aroundPreRestart, aroundPostStop, StatsService2, totalInstances, <init>, preStart, unhandled, StatsService3, routeesPaths, akka$actor$Actor$_setter_$context_$eq, getContext, sender, toString, allowLocalRoutees, workerRouter, getClass, getSelf, maxInstancesPerNode, supervisorStrategy, hashCode, aroundPreStart.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/Extra.java[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialFrontend.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialFrontend.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialFrontend.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialFrontend.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialFrontend.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, sendJobs, upToN, wait, FactorialFrontend, equals, getSender, context, self, onReceive, receive, preRestart, aroundReceive, akka$actor$Actor$_setter_$self_$eq, postRestart, postStop, notifyAll, aroundPostRestart, aroundPreRestart, aroundPostStop, <init>, preStart, unhandled, akka$actor$Actor$_setter_$context_$eq, backend, getContext, sender, toString, getClass, repeat, getSelf, supervisorStrategy, log, hashCode, aroundPreStart.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialFrontend.java[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/FactorialFrontendMain.java[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleOneMasterClientMain.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleOneMasterClientMain.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleOneMasterClientMain.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleOneMasterClientMain.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleOneMasterClientMain.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, wait, equals, main, notifyAll, <init>, StatsSampleOneMasterClientMain, toString, getClass, hashCode.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleOneMasterClientMain.java[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleOneMasterMain.java[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsWorker.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsWorker.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsWorker.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsWorker.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsWorker.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, wait, equals, getSender, context, self, onReceive, receive, preRestart, aroundReceive, akka$actor$Actor$_setter_$self_$eq, postRestart, postStop, notifyAll, aroundPostRestart, cache, aroundPreRestart, aroundPostStop, StatsWorker, <init>, preStart, unhandled, akka$actor$Actor$_setter_$context_$eq, getContext, sender, toString, getClass, getSelf, supervisorStrategy, hashCode, aroundPreStart.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/Extra.java[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsService.java[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsWorker.java[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleMain.java[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleMain.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleMain.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleMain.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleMain.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleMain.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, wait, equals, startup, StatsSampleMain, main, notifyAll, <init>, toString, getClass, hashCode.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleMain.java[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/Extra.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/Extra.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/Extra.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/Extra.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/Extra.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	useRole, notify, wait, equals, getSender, context, self, onReceive, receive, preRestart, aroundReceive, akka$actor$Actor$_setter_$self_$eq, postRestart, postStop, notifyAll, aroundPostRestart, aroundPreRestart, aroundPostStop, totalInstances, <init>, preStart, unhandled, FactorialFrontend3, routeesPaths, akka$actor$Actor$_setter_$context_$eq, backend, getContext, sender, toString, allowLocalRoutees, getClass, getSelf, maxInstancesPerNode, FactorialFrontend2, supervisorStrategy, hashCode, aroundPreStart.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/factorial/Extra.java[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleClientMain.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleClientMain.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleClientMain.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleClientMain.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleClientMain.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, StatsSampleClientMain, wait, equals, main, notifyAll, <init>, toString, getClass, hashCode.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleClientMain.java[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/stats/StatsSampleMain.java[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/simple/SimpleClusterListener.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/simple/SimpleClusterListener.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/simple/SimpleClusterListener.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/simple/SimpleClusterListener.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/simple/SimpleClusterListener.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, wait, equals, getSender, context, SimpleClusterListener, self, onReceive, receive, preRestart, aroundReceive, akka$actor$Actor$_setter_$self_$eq, postRestart, postStop, notifyAll, aroundPostRestart, aroundPreRestart, aroundPostStop, cluster, <init>, preStart, unhandled, akka$actor$Actor$_setter_$context_$eq, getContext, sender, toString, getClass, getSelf, supervisorStrategy, log, hashCode, aroundPreStart.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/simple/SimpleClusterListener.java[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/simple/SimpleClusterApp.java[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/simple/SimpleClusterListener2.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/simple/SimpleClusterListener2.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/simple/SimpleClusterListener2.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/simple/SimpleClusterListener2.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/simple/SimpleClusterListener2.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, wait, equals, getSender, context, SimpleClusterListener2, self, onReceive, receive, preRestart, aroundReceive, akka$actor$Actor$_setter_$self_$eq, postRestart, postStop, notifyAll, aroundPostRestart, aroundPreRestart, aroundPostStop, cluster, <init>, preStart, unhandled, akka$actor$Actor$_setter_$context_$eq, getContext, sender, toString, getClass, getSelf, supervisorStrategy, log, hashCode, aroundPreStart.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mName hashing optimization doesn't apply to non-Scala dependency: /Users/rodrigosol/raro/influunt/72c/src/main/java/sample/cluster/simple/SimpleClusterListener2.java[0m
+[0m[[0mdebug[0m] [0mNew invalidations:[0m
+[0m[[0mdebug[0m] [0m	Set()[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set()[0m
+[0m[[0mdebug[0m] [0mPreviously invalidated, but (transitively) depend on new invalidations:[0m
+[0m[[0mdebug[0m] [0m	Set()[0m
+[0m[[0mdebug[0m] [0mAll newly invalidated sources after taking into account (previously) recompiled sources:Set()[0m

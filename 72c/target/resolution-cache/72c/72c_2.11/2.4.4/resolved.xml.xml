@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivy-module version="2.0" xmlns:e="http://ant.apache.org/ivy/extra">
+	<info organisation="72c"
+		module="72c_2.11"
+		revision="2.4.4"
+		status="integration"
+		publication="20160704124157"
+	>
+		<license name="CC0" url="http://creativecommons.org/publicdomain/zero/1.0" />
+		<description>
+		72c
+		</description>
+	</info>
+	<configurations>
+		<conf name="compile" visibility="public" description=""/>
+		<conf name="runtime" visibility="public" description="" extends="compile"/>
+		<conf name="test" visibility="public" description="" extends="runtime"/>
+		<conf name="provided" visibility="public" description=""/>
+		<conf name="optional" visibility="public" description=""/>
+		<conf name="multi-jvm" visibility="public" description="" extends="test"/>
+		<conf name="compile-internal" visibility="private" description="" extends="compile,optional,provided"/>
+		<conf name="runtime-internal" visibility="private" description="" extends="runtime,optional"/>
+		<conf name="test-internal" visibility="private" description="" extends="test,optional,provided"/>
+		<conf name="plugin" visibility="private" description=""/>
+		<conf name="sources" visibility="public" description=""/>
+		<conf name="docs" visibility="public" description=""/>
+		<conf name="pom" visibility="public" description=""/>
+		<conf name="scala-tool" visibility="private" description=""/>
+	</configurations>
+	<publications>
+		<artifact name="72c_2.11" type="pom" ext="pom" conf="pom"/>
+		<artifact name="72c_2.11" type="jar" ext="jar" conf="compile"/>
+		<artifact name="72c_2.11" type="src" ext="jar" conf="sources" e:classifier="sources"/>
+		<artifact name="72c_2.11" type="doc" ext="jar" conf="docs" e:classifier="javadoc"/>
+	</publications>
+	<dependencies>
+		<dependency org="org.scala-lang" name="scala-compiler" rev="2.11.7" conf="scala-tool->default,optional(default)"/>
+		<dependency org="org.scala-lang" name="scala-library" rev="2.11.7" conf="scala-tool->default,optional(default);compile->default(compile)"/>
+		<dependency org="com.typesafe.akka" name="akka-actor_2.11" rev="2.4.4" conf="compile->default(compile)"/>
+		<dependency org="com.typesafe.akka" name="akka-remote_2.11" rev="2.4.4" conf="compile->default(compile)"/>
+		<dependency org="com.typesafe.akka" name="akka-cluster_2.11" rev="2.4.4" conf="compile->default(compile)"/>
+		<dependency org="com.typesafe.akka" name="akka-cluster-metrics_2.11" rev="2.4.4" conf="compile->default(compile)"/>
+		<dependency org="com.typesafe.akka" name="akka-cluster-tools_2.11" rev="2.4.4" conf="compile->default(compile)"/>
+		<dependency org="com.typesafe.akka" name="akka-multi-node-testkit_2.11" rev="2.4.4" conf="compile->default(compile)"/>
+		<dependency org="org.scalatest" name="scalatest_2.11" rev="2.2.1" conf="test->default(compile)"/>
+		<dependency org="io.kamon" name="sigar-loader" rev="1.6.6-rev002" conf="compile->default(compile)"/>
+	</dependencies>
+</ivy-module>

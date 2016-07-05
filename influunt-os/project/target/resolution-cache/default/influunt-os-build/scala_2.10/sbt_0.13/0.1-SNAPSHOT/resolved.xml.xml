@@ -4,7 +4,7 @@
 		module="influunt-os-build"
 		revision="0.1-SNAPSHOT"
 		status="integration"
-		publication="20160628121557"
+		publication="20160704152412"
 		e:sbtVersion="0.13" e:scalaVersion="2.10"
 	>
 		<description>
@@ -36,6 +36,7 @@
 		<dependency org="org.scala-lang" name="scala-compiler" rev="2.10.4" conf="scala-tool->default,optional(default)"/>
 		<dependency org="org.scala-lang" name="scala-library" rev="2.10.4" conf="scala-tool->default,optional(default);provided->default(compile)"/>
 		<dependency org="org.scala-sbt" name="sbt" rev="0.13.8" conf="provided->default(compile)"/>
+		<dependency org="com.typesafe.sbt" name="sbt-native-packager" rev="1.0.0-RC1" conf="compile->default(compile)" e:sbtVersion="0.13" e:scalaVersion="2.10"/>
 		<override org="org.scala-lang" module="scala-library" matcher="exact" rev="2.10.4"/>
 		<override org="org.scala-lang" module="scala-compiler" matcher="exact" rev="2.10.4"/>
 		<override org="org.scala-lang" module="scala-reflect" matcher="exact" rev="2.10.4"/>

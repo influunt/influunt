@@ -1,0 +1,18 @@
+<component name="libraryTable">
+  <library name="SBT: org.scala-lang:scala-library:2.11.7:jar" type="Scala">
+    <properties>
+      <compiler-classpath>
+        <root url="file://$USER_HOME$/Documents/activator-dist-1.3.10/repository/org.scala-lang/scala-compiler/2.11.7/jars/scala-compiler.jar" />
+        <root url="file://$USER_HOME$/Documents/activator-dist-1.3.10/repository/org.scala-lang/scala-library/2.11.7/jars/scala-library.jar" />
+        <root url="file://$USER_HOME$/Documents/activator-dist-1.3.10/repository/org.scala-lang/scala-reflect/2.11.7/jars/scala-reflect.jar" />
+      </compiler-classpath>
+    </properties>
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Documents/activator-dist-1.3.10/repository/org.scala-lang/scala-library/2.11.7/jars/scala-library.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-library/srcs/scala-library-2.11.7-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
