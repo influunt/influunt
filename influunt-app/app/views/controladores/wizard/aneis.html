@@ -28,6 +28,7 @@
                 <input type="checkbox"
                   ichecks
                   if-unchecked="desativaProximosAneis(anel)"
+                  if-checked="selecionaAnel($index)"
                   is-disabled="$first || !aneis[$index - 1].ativo"
                   ng-model="anel.ativo">
               </div>
