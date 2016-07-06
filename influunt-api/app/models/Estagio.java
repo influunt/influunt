@@ -1,6 +1,7 @@
 package models;
 
 import checks.ControladorAssociacaoGruposSemaforicosCheck;
+import checks.ControladorTransicoesProibidasCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
@@ -13,6 +14,7 @@ import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -52,14 +54,15 @@ public class Estagio extends Model implements Serializable {
     @OneToMany(mappedBy = "estagio")
     private List<EstagioGrupoSemaforico> estagiosGruposSemaforicos;
 
-    @OneToMany(mappedBy = "origem")
-    private List<TransicaoProibida> origemDeTransacoesProibidas;
+    @OneToMany(mappedBy = "origem", cascade = CascadeType.ALL)
+    @Valid
+    private List<TransicaoProibida> origemDeTransicoesProibidas;
 
     @OneToMany(mappedBy = "destino")
-    private List<TransicaoProibida> destinoDeTransacoesProibidas;
+    private List<TransicaoProibida> destinoDeTransicoesProibidas;
 
     @OneToMany(mappedBy = "alternativo")
-    private List<TransicaoProibida> alternativaDeTransacoesProibidas;
+    private List<TransicaoProibida> alternativaDeTransicoesProibidas;
 
     @ManyToOne
     private Anel anel;
@@ -152,6 +155,37 @@ public class Estagio extends Model implements Serializable {
         getEstagiosGruposSemaforicos().add(estagioGrupoSemaforico);
     }
 
+    public Anel getAnel() {
+        return anel;
+    }
+
+    public void setAnel(Anel anel) {
+        this.anel = anel;
+    }
+
+    public List<TransicaoProibida> getOrigemDeTransicoesProibidas() {
+        return origemDeTransicoesProibidas;
+    }
+
+    public void setOrigemDeTransicoesProibidas(List<TransicaoProibida> origemDeTransicoesProibidas) {
+        this.origemDeTransicoesProibidas = origemDeTransicoesProibidas;
+    }
+
+    public List<TransicaoProibida> getDestinoDeTransicoesProibidas() {
+        return destinoDeTransicoesProibidas;
+    }
+
+    public void setDestinoDeTransicoesProibidas(List<TransicaoProibida> destinoDeTransicoesProibidas) {
+        this.destinoDeTransicoesProibidas = destinoDeTransicoesProibidas;
+    }
+
+    public List<TransicaoProibida> getAlternativaDeTransicoesProibidas() {
+        return alternativaDeTransicoesProibidas;
+    }
+
+    public void setAlternativaDeTransicoesProibidas(List<TransicaoProibida> alternativaDeTransicoesProibidas) {
+        this.alternativaDeTransicoesProibidas = alternativaDeTransicoesProibidas;
+    }
 
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
             message = "Este estágio deve ser associado a pelo menos 1 grupo semafórico")
@@ -159,12 +193,13 @@ public class Estagio extends Model implements Serializable {
         return getEstagiosGruposSemaforicos() != null && !getEstagiosGruposSemaforicos().isEmpty();
     }
 
-    public Anel getAnel() {
-        return anel;
-    }
-
-    public void setAnel(Anel anel) {
-        this.anel = anel;
+    @AssertTrue(groups = ControladorTransicoesProibidasCheck.class,
+            message = "Esse estágio não pode ter um estágio de destino e alternativo ao mesmo tempo.")
+    public boolean isAoMesmoTempoDestinoEAlternativo(){
+        if(!getDestinoDeTransicoesProibidas().isEmpty() && !getAlternativaDeTransicoesProibidas().isEmpty()) {
+            return  getDestinoDeTransicoesProibidas().stream().filter(estagio -> getAlternativaDeTransicoesProibidas().contains(estagio)).count() == 0;
+        }
+        else return true;
     }
 
     @Override
@@ -182,4 +217,6 @@ public class Estagio extends Model implements Serializable {
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
     }
+
+
 }
