@@ -237,6 +237,9 @@ angular.module('influuntApp')
        * Inicializa a tela de estagios proibidos: Carrega os dados necessários, ordena os aneis e estágios a partir
        * das posições.
        *
+       * @todo Este bloco faz chamado ao inicializaVerdesConflitantes para corrigir os verdes conflitantes que a API
+       *       não está devolvendo.
+       *
        * @return     {<type>}  { description_of_the_return_value }
        */
       $scope.inicializaTransicoesProibidas = function() {
