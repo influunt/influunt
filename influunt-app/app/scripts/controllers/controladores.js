@@ -263,12 +263,12 @@ angular.module('influuntApp')
         estagio2.destinoDeTransicoesProibidas = estagio2.destinoDeTransicoesProibidas || [];
         estagio2.destinoDeTransicoesProibidas.push(transicaoProibida);
 
-        var transicao = 'E' + estagio1.posicao + '-E' + estagio2.posicao
+        var transicao = 'E' + estagio1.posicao + '-E' + estagio2.posicao;
         $scope.currentAnel.transicoesProibidas[transicao] = {origem: estagio1, destino: estagio2};
       };
 
       var desativarTransicaoProibida = function(estagio1, estagio2) {
-        var transicao = 'E' + estagio1.posicao + '-E' + estagio2.posicao
+        var transicao = 'E' + estagio1.posicao + '-E' + estagio2.posicao;
         delete $scope.currentAnel.transicoesProibidas[transicao];
         var idx1 = _.findIndex(estagio1.origemDeTransicoesProibidas, {destino: {id: estagio2.id}});
         var idx2 = _.findIndex(estagio2.destinoDeTransicoesProibidas, {origem: {id: estagio1.id}});
@@ -281,7 +281,7 @@ angular.module('influuntApp')
           return false;
         }
 
-        var transicao = 'E' + estagio1.posicao + '-E' + estagio2.posicao
+        var transicao = 'E' + estagio1.posicao + '-E' + estagio2.posicao;
         if ($scope.currentAnel.transicoesProibidas.hasOwnProperty(transicao)) {
           desativarTransicaoProibida(estagio1, estagio2);
         } else {
