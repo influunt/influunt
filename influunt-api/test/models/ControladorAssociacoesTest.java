@@ -48,6 +48,8 @@ public class ControladorAssociacoesTest extends ControladorTest {
 
         Estagio estagio1 = (Estagio) anelAtivo.getEstagios().toArray()[0];
         Estagio estagio2 = (Estagio) anelAtivo.getEstagios().toArray()[1];
+        Estagio estagio3 = (Estagio) anelAtivo.getEstagios().toArray()[2];
+        Estagio estagio4 = (Estagio) anelAtivo.getEstagios().toArray()[3];
 
         GrupoSemaforico grupoSemaforico1 = anelAtivo.getGruposSemaforicos().get(0);
         grupoSemaforico1.setTipo(TipoGrupoSemaforico.PEDESTRE);
@@ -57,9 +59,13 @@ public class ControladorAssociacoesTest extends ControladorTest {
 
         EstagioGrupoSemaforico estagioGrupoSemaforico1 = new EstagioGrupoSemaforico(estagio1, grupoSemaforico1);
         EstagioGrupoSemaforico estagioGrupoSemaforico2 = new EstagioGrupoSemaforico(estagio2, grupoSemaforico2);
+        EstagioGrupoSemaforico estagioGrupoSemaforico3 = new EstagioGrupoSemaforico(estagio3, grupoSemaforico1);
+        EstagioGrupoSemaforico estagioGrupoSemaforico4 = new EstagioGrupoSemaforico(estagio4, grupoSemaforico2);
 
         estagio1.addEstagioGrupoSemaforico(estagioGrupoSemaforico1);
         estagio2.addEstagioGrupoSemaforico(estagioGrupoSemaforico2);
+        estagio3.addEstagioGrupoSemaforico(estagioGrupoSemaforico3);
+        estagio4.addEstagioGrupoSemaforico(estagioGrupoSemaforico4);
 
         erros = new InfluuntValidator<Controlador>().validate(controlador,
                 Default.class, ControladorAneisCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class);
@@ -143,7 +149,7 @@ public class ControladorAssociacoesTest extends ControladorTest {
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
-        assertEquals(4, json.size());
+        assertEquals(6, json.size());
 
     }
 

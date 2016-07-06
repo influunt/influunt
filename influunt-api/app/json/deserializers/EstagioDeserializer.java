@@ -6,10 +6,7 @@ import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Estagio;
-import models.EstagioGrupoSemaforico;
-import models.GrupoSemaforico;
-import models.Imagem;
+import models.*;
 import play.libs.Json;
 
 import java.io.IOException;
@@ -54,6 +51,29 @@ public class EstagioDeserializer extends JsonDeserializer<Estagio> {
             estagio.setEstagiosGruposSemaforicos(estagioGrupoSemaforicos);
         }
 
+        if (node.has("origemDeTransicoesProibidas")) {
+            List<TransicaoProibida> origens = new ArrayList<TransicaoProibida>();
+            for (JsonNode origemGSNode : node.get("origemDeTransicoesProibidas")) {
+                origens.add(Json.fromJson(origemGSNode, TransicaoProibida.class));
+            }
+            estagio.setOrigemDeTransicoesProibidas(origens);
+        }
+
+        if (node.has("destinoDeTransicoesProibidas")) {
+            List<TransicaoProibida> destinos = new ArrayList<TransicaoProibida>();
+            for (JsonNode destinoGSNode : node.get("destinoDeTransicoesProibidas")) {
+                destinos.add(Json.fromJson(destinoGSNode, TransicaoProibida.class));
+            }
+            estagio.setDestinoDeTransicoesProibidas(destinos);
+        }
+
+        if (node.has("alternativaDeTransicoesProibidas")) {
+            List<TransicaoProibida> alternativos = new ArrayList<TransicaoProibida>();
+            for (JsonNode alternativoGSNode : node.get("destinoDeTransicoesProibidas")) {
+                alternativos.add(Json.fromJson(alternativoGSNode, TransicaoProibida.class));
+            }
+            estagio.setAlternativaDeTransicoesProibidas(alternativos);
+        }
 
         return estagio;
     }

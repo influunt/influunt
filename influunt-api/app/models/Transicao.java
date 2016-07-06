@@ -1,9 +1,6 @@
 package models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.UUID;
 
 /**
@@ -24,9 +21,18 @@ public class Transicao {
     @OneToOne
     private Estagio destino;
 
+    @Column
     private Integer tempoAmarelo;
+
+    @Column
     private Integer tempoVermelhoIntermitente;
+
+    @Column
     private Integer tempoVermelhoLimpeza;
+
+    @Column
     private Integer tempoAtrasoGrupo;
+
+
 
 }

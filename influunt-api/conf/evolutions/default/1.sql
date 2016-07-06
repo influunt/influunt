@@ -216,15 +216,14 @@ create table transicao (
   constraint pk_transicao primary key (id)
 );
 
-create table transicao_proibida (
+create table transicoes_proibidas (
   id                            varchar(40) not null,
-  origem_id                     varchar(40),
-  destino_id                    varchar(40),
-  alternativo_id                varchar(40),
-  constraint uq_transicao_proibida_origem_id unique (origem_id),
-  constraint uq_transicao_proibida_destino_id unique (destino_id),
-  constraint uq_transicao_proibida_alternativo_id unique (alternativo_id),
-  constraint pk_transicao_proibida primary key (id)
+  origem_id                     varchar(40) not null,
+  destino_id                    varchar(40) not null,
+  alternativo_id                varchar(40) not null,
+  data_criacao                  datetime(6) not null,
+  data_atualizacao              datetime(6) not null,
+  constraint pk_transicoes_proibidas primary key (id)
 );
 
 create table usuarios (
@@ -315,11 +314,14 @@ alter table transicao add constraint fk_transicao_origem_id foreign key (origem_
 
 alter table transicao add constraint fk_transicao_destino_id foreign key (destino_id) references estagios (id) on delete restrict on update restrict;
 
-alter table transicao_proibida add constraint fk_transicao_proibida_origem_id foreign key (origem_id) references estagios (id) on delete restrict on update restrict;
+alter table transicoes_proibidas add constraint fk_transicoes_proibidas_origem_id foreign key (origem_id) references estagios (id) on delete restrict on update restrict;
+create index ix_transicoes_proibidas_origem_id on transicoes_proibidas (origem_id);
 
-alter table transicao_proibida add constraint fk_transicao_proibida_destino_id foreign key (destino_id) references estagios (id) on delete restrict on update restrict;
+alter table transicoes_proibidas add constraint fk_transicoes_proibidas_destino_id foreign key (destino_id) references estagios (id) on delete restrict on update restrict;
+create index ix_transicoes_proibidas_destino_id on transicoes_proibidas (destino_id);
 
-alter table transicao_proibida add constraint fk_transicao_proibida_alternativo_id foreign key (alternativo_id) references estagios (id) on delete restrict on update restrict;
+alter table transicoes_proibidas add constraint fk_transicoes_proibidas_alternativo_id foreign key (alternativo_id) references estagios (id) on delete restrict on update restrict;
+create index ix_transicoes_proibidas_alternativo_id on transicoes_proibidas (alternativo_id);
 
 alter table usuarios add constraint fk_usuarios_area_id foreign key (area_id) references areas (id) on delete restrict on update restrict;
 create index ix_usuarios_area_id on usuarios (area_id);
@@ -405,11 +407,14 @@ alter table transicao drop foreign key fk_transicao_origem_id;
 
 alter table transicao drop foreign key fk_transicao_destino_id;
 
-alter table transicao_proibida drop foreign key fk_transicao_proibida_origem_id;
+alter table transicoes_proibidas drop foreign key fk_transicoes_proibidas_origem_id;
+drop index ix_transicoes_proibidas_origem_id on transicoes_proibidas;
 
-alter table transicao_proibida drop foreign key fk_transicao_proibida_destino_id;
+alter table transicoes_proibidas drop foreign key fk_transicoes_proibidas_destino_id;
+drop index ix_transicoes_proibidas_destino_id on transicoes_proibidas;
 
-alter table transicao_proibida drop foreign key fk_transicao_proibida_alternativo_id;
+alter table transicoes_proibidas drop foreign key fk_transicoes_proibidas_alternativo_id;
+drop index ix_transicoes_proibidas_alternativo_id on transicoes_proibidas;
 
 alter table usuarios drop foreign key fk_usuarios_area_id;
 drop index ix_usuarios_area_id on usuarios;
@@ -457,7 +462,7 @@ drop table if exists tabela_entre_verdes;
 
 drop table if exists transicao;
 
-drop table if exists transicao_proibida;
+drop table if exists transicoes_proibidas;
 
 drop table if exists usuarios;
 
