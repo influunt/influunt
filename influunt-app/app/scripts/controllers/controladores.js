@@ -145,6 +145,11 @@ angular.module('influuntApp')
         return true;
       };
 
+      $scope.assertEstagiosProibidos = function() {
+        console.warn('---------------> ASSERT ESTAGIOS PROIBIDOS AINDA NÃO IMPLEMENTADO!!!');
+        return true;
+      };
+
       $scope.inicializaAneis = function() {
         return $scope.inicializaWizard().then(function() {
           if ($scope.assertAneis()) {
@@ -220,6 +225,90 @@ angular.module('influuntApp')
             });
           }
         });
+      };
+
+      /**
+       * Inicializa a tela de estagios proibidos: Carrega os dados necessários, ordena os aneis e estágios a partir
+       * das posições.
+       *
+       * @return     {<type>}  { description_of_the_return_value }
+       */
+      $scope.inicializaEstagiosProibidos = function() {
+        return $scope.inicializaWizard().then(function() {
+          if ($scope.assertEstagiosProibidos()) {
+            $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
+            $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
+            $scope.aneis.forEach(function(anel) {
+              anel.transicoesProibidas =  {};
+              anel.estagios.forEach(function(estagio, index) {
+                estagio.posicao = index + 1;
+              });
+            });
+
+            $scope.selecionaAnel(0);
+            $scope.selecionaEstagio(0);
+          }
+        });
+      };
+
+      var ativarTransicaoProibida = function(estagio1, estagio2) {
+        var transicaoProibida = {
+          origem: {id: estagio1.id},
+          destino: {id: estagio2.id}
+        };
+
+        estagio1.origemDeTransicoesProibidas = estagio1.origemDeTransicoesProibidas || [];
+        estagio1.origemDeTransicoesProibidas.push(transicaoProibida);
+
+        estagio2.destinoDeTransicoesProibidas = estagio2.destinoDeTransicoesProibidas || [];
+        estagio2.destinoDeTransicoesProibidas.push(transicaoProibida);
+
+        var transicao = 'E' + estagio1.posicao + '-E' + estagio2.posicao
+        $scope.currentAnel.transicoesProibidas[transicao] = {origem: estagio1, destino: estagio2};
+      };
+
+      var desativarTransicaoProibida = function(estagio1, estagio2) {
+        var transicao = 'E' + estagio1.posicao + '-E' + estagio2.posicao
+        delete $scope.currentAnel.transicoesProibidas[transicao];
+        var idx1 = _.findIndex(estagio1.origemDeTransicoesProibidas, {destino: {id: estagio2.id}});
+        var idx2 = _.findIndex(estagio2.destinoDeTransicoesProibidas, {origem: {id: estagio1.id}});
+        estagio1.origemDeTransicoesProibidas.splice(idx1, 1);
+        estagio2.destinoDeTransicoesProibidas.splice(idx2, 1);
+      };
+
+      $scope.toggleTransicaoProibida = function(estagio1, estagio2, disabled) {
+        if (disabled) {
+          return false;
+        }
+
+        var transicao = 'E' + estagio1.posicao + '-E' + estagio2.posicao
+        if ($scope.currentAnel.transicoesProibidas.hasOwnProperty(transicao)) {
+          desativarTransicaoProibida(estagio1, estagio2);
+        } else {
+          ativarTransicaoProibida(estagio1, estagio2);
+        }
+      };
+
+      $scope.marcarTransicaoAlternativa = function(transicao) {
+        var t = _.find(transicao.origem.origemDeTransicoesProibidas, {destino: {id: transicao.destino.id}});
+
+        if (transicao.alternativa) {
+          t.alternativa = {id: transicao.alternativa.id};
+          transicao.alternativa.alternativaDeTransicoesProibidas = transicao.alternativa.alternativaDeTransicoesProibidas || [];
+          transicao.alternativa.alternativaDeTransicoesProibidas.push(t);
+        } else {
+          var estagioAlternativa = _.find($scope.currentAnel.estagios, t.alternativa);
+          delete t.alternativa;
+          var query = {origem: {id: transicao.origem.id},destino: {id: transicao.destino.id}};
+          var index = _.findIndex(estagioAlternativa.alternativaDeTransicoesProibidas, query);
+          return index >= 0 && estagioAlternativa.alternativaDeTransicoesProibidas.splice(index, 1);
+        }
+      };
+
+      $scope.filterEstagiosAlternativos = function(origem, destino) {
+        return function(item) {
+          return item.id !== origem.id && item.id !== destino.id;
+        };
       };
 
       $scope.submitForm = function(form, stepResource, nextStep) {
