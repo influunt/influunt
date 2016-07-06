@@ -340,9 +340,9 @@ angular
           }
         })
 
-        .state('app.wizard_controladores.estagios_proibidos', {
-          url: '/estagios-proibidos/:id',
-          templateUrl: 'views/controladores/wizard/estagios-proibidos.html',
+        .state('app.wizard_controladores.transicoes_proibidas', {
+          url: '/transicoes-proibidas/:id',
+          templateUrl: 'views/controladores/wizard/transicoes-proibidas.html',
           data: {
             title: 'controladores.titulo'
           }
