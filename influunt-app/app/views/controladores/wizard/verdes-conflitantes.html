@@ -24,44 +24,7 @@
         </div>
       </uib-alert>
 
-      <table class="tg" border="1" cellpadding="1" width="100%">
-        <thead>
-          <tr>
-            <th colspan="2" class="tg-031e"></th>
-            <th data-ng-repeat="grupo in grupos">{{ grupo }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr data-ng-repeat="(indexTR, tr) in grupos">
-            <!-- Cria a coluna que relaciona a quantidade de grupos a cada anel. -->
-            <td data-ng-repeat="intervalo in intervalosAneis"
-                data-ng-if="intervalo === indexTR && !$last"
-                rowspan="{{ intervalosAneis[$index + 1] - intervalosAneis[$index] }}"
-                class="tg-031e rings-{{ $index + 1 }}">Anel {{ $index + 1 }}</td>
-            <!-- Cria uma coluna indicando os grupos que não deverão ser utilizados por não conter anel. -->
-            <td data-ng-repeat="intervalo in intervalosAneis"
-                data-ng-if="intervalo === indexTR && $last"
-                rowspan="{{ grupos.length - intervalo }}"
-                class="tg-031e">-</td>
-            <!-- Coluna com a label do grupo. -->
-            <td class="tg-yw4l" style="font-size: 15px;">
-              <strong>{{ tr }}</strong>
-            </td>
-
-            <!--
-              Cria as relações de verdes conflitantes. As interseções dos elementos iguals (G1xG1) ou dos grupos
-              que não serão utilizados já aparecem desmarcados.
-             -->
-            <td data-ng-repeat="(indexTD, td) in grupos"
-              class="clickable"
-              data-ng-class="{disabled: tr === td || indexTR >= gruposUtilizados || indexTD >= gruposUtilizados}"
-              data-ng-click="toggleVerdeConflitante(indexTR, indexTD, (tr === td || indexTR >= gruposUtilizados || indexTD >= gruposUtilizados))"
-              data-grupo-id="{{ grupoIds[indexTD] }}">
-              <i class="fa fa-times sinal-verde-conflitante" data-ng-class="{ ativo : verdesConflitantes[indexTR][indexTD]}"></i>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <ng-include src="'views/controladores/wizard/tabela-verdes-conflitantes.html'"></ng-include>
      </div>
   </div>
 </fieldset>

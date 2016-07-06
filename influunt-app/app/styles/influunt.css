@@ -201,6 +201,11 @@
     padding-right: 0;
 }
 
+.no-padding-left {
+    padding-right: 15px!important;
+    padding-left: 0;
+}
+
 .left {
     float: left;
 }
