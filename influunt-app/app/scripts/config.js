@@ -340,6 +340,14 @@ angular
           }
         })
 
+        .state('app.wizard_controladores.verdes_conflitantes', {
+          url: '/verdes-conflitantes/:id',
+          templateUrl: 'views/controladores/wizard/verdes-conflitantes.html',
+          data: {
+            title: 'controladores.titulo'
+          }
+        })
+
         .state('app.wizard_controladores.transicoes_proibidas', {
           url: '/transicoes-proibidas/:id',
           templateUrl: 'views/controladores/wizard/transicoes-proibidas.html',
@@ -351,14 +359,6 @@ angular
         .state('app.wizard_controladores.associacao_detector', {
           url: '/associacao-detector/:id',
           templateUrl: 'views/controladores/wizard/associacao-detector.html',
-          data: {
-            title: 'controladores.titulo'
-          }
-        })
-
-        .state('app.wizard_controladores.verdes_conflitantes', {
-          url: '/verdes-conflitantes/:id',
-          templateUrl: 'views/controladores/wizard/verdes-conflitantes.html',
           data: {
             title: 'controladores.titulo'
           }

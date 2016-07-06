@@ -1,4 +1,4 @@
-<fieldset data-ng-init="inicializaEstagiosProibidos()">
+<fieldset data-ng-init="inicializaTransicoesProibidas()">
   <div class="row">
     <div class="text-center m-t-md pd-lf-rt">
 
@@ -37,12 +37,17 @@
             <p>Alternativa</p>
             <nav>
               <ul>
-                <li data-ng-repeat="(key, value) in currentAnel.transicoesProibidas">
-                  <select ng-model="value.alternativa" class="form-control"
-                    data-ng-options="estagio as ('E' + estagio.posicao) for estagio in currentAnel.estagios | filter:filterEstagiosAlternativos(value.origem, value.destino)"
+                <li data-ng-repeat="(key, value) in currentAnel.transicoesProibidas"
+                  data-ng-class="{'has-error': errors.aneis[currentAnel.posicao - 1].estagios[value.origem.posicao - 1].origemDeTransicoesProibidas[0].alternativo}">
+                  <select ng-model="value.alternativo.id" class="form-control"
+                    data-ng-options="estagio.id as ('E' + estagio.posicao) for estagio in currentAnel.estagios | filter:filterEstagiosAlternativos(value.origem, value.destino)"
                     data-ng-change="marcarTransicaoAlternativa(value)">
                     <option value=""></option>
                   </select>
+                  <p class="help-block error-msg"
+                    data-ng-repeat="error in errors.aneis[currentAnel.posicao - 1].estagios[value.origem.posicao - 1].origemDeTransicoesProibidas[0].alternativo">
+                      {{ error }}
+                  </p>
                 </li>
               </ul>
             </nav>
@@ -70,8 +75,8 @@
       </div>
     <div>
       <div class="col-sm-12 col-lg-12 no-pading bg-border pg-bt m-t-lg">
-        <a data-ng-click="submitForm({$valid: true}, 'associacao_grupos_semaforicos', 'app.wizard_controladores.aneis')" class="btn btn-default left m-r-sm">{{ 'plugins.steps.labels.previous' | translate }}</a>
-        <a data-ng-click="submitForm({$valid: true}, 'associacao_grupos_semaforicos', 'app.wizard_controladores.verdes_conflitantes')" class="btn btn-primary left">{{ 'plugins.steps.labels.next' | translate }}</a>
+        <a data-ng-click="submitForm({$valid: true}, 'transicoes_proibidas', 'app.wizard_controladores.verdes_conflitantes')" class="btn btn-default left m-r-sm">{{ 'plugins.steps.labels.previous' | translate }}</a>
+        <a data-ng-click="submitForm({$valid: true}, 'transicoes_proibidas', 'app.controladores')" class="btn btn-primary left">{{ 'plugins.steps.labels.next' | translate }}</a>
       </div>
     </div>
   </div>

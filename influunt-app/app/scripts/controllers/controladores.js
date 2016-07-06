@@ -145,8 +145,14 @@ angular.module('influuntApp')
         return true;
       };
 
-      $scope.assertEstagiosProibidos = function() {
-        console.warn('---------------> ASSERT ESTAGIOS PROIBIDOS AINDA NÃO IMPLEMENTADO!!!');
+      $scope.assertTransicoesProibidas = function() {
+        var condition = $scope.objeto.aneis && $scope.objeto.aneis.length;
+        condition = condition && _.chain($scope.objeto.aneis).map('estagios').flatten().compact().value().length > 0;
+        if (!condition) {
+          $state.go('app.wizard_controladores.verdes_conflitantes', {id: $scope.objeto.id});
+          return false;
+        }
+
         return true;
       };
 
@@ -233,21 +239,36 @@ angular.module('influuntApp')
        *
        * @return     {<type>}  { description_of_the_return_value }
        */
-      $scope.inicializaEstagiosProibidos = function() {
+      $scope.inicializaTransicoesProibidas = function() {
         return $scope.inicializaWizard().then(function() {
-          if ($scope.assertEstagiosProibidos()) {
-            $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
-            $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
-            $scope.aneis.forEach(function(anel) {
-              anel.transicoesProibidas =  {};
-              anel.estagios.forEach(function(estagio, index) {
-                estagio.posicao = index + 1;
-              });
-            });
+          $scope.inicializaVerdesConflitantes().then(function() {
 
-            $scope.selecionaAnel(0);
-            $scope.selecionaEstagio(0);
-          }
+            if ($scope.assertTransicoesProibidas()) {
+              $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
+              $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
+
+              $scope.aneis.forEach(function(anel) {
+                anel.transicoesProibidas =  {};
+                anel.estagios.forEach(function(estagio, index) {
+                  estagio.posicao = index + 1;
+                });
+
+                anel.estagios.forEach(function(estagio, index) {
+                  return estagio.origemDeTransicoesProibidas &&
+                    estagio.origemDeTransicoesProibidas.forEach(function(transicao) {
+                      var origem = _.find(anel.estagios, transicao.origem);
+                      var destino = _.find(anel.estagios, transicao.destino);
+                      var t = 'E' + origem.posicao + '-E' + destino.posicao;
+                      anel.transicoesProibidas[t] = transicao;
+                    });
+                });
+              });
+
+              $scope.selecionaAnel(0);
+              $scope.selecionaEstagio(0);
+            }
+
+          });
         });
       };
 
@@ -292,13 +313,13 @@ angular.module('influuntApp')
       $scope.marcarTransicaoAlternativa = function(transicao) {
         var t = _.find(transicao.origem.origemDeTransicoesProibidas, {destino: {id: transicao.destino.id}});
 
-        if (transicao.alternativa) {
-          t.alternativa = {id: transicao.alternativa.id};
-          transicao.alternativa.alternativaDeTransicoesProibidas = transicao.alternativa.alternativaDeTransicoesProibidas || [];
-          transicao.alternativa.alternativaDeTransicoesProibidas.push(t);
+        if (transicao.alternativo) {
+          t.alternativo = {id: transicao.alternativo.id};
+          transicao.alternativo.alternativaDeTransicoesProibidas = transicao.alternativo.alternativaDeTransicoesProibidas || [];
+          transicao.alternativo.alternativaDeTransicoesProibidas.push(t);
         } else {
-          var estagioAlternativa = _.find($scope.currentAnel.estagios, t.alternativa);
-          delete t.alternativa;
+          var estagioAlternativa = _.find($scope.currentAnel.estagios, t.alternativo);
+          delete t.alternativo;
           var query = {origem: {id: transicao.origem.id},destino: {id: transicao.destino.id}};
           var index = _.findIndex(estagioAlternativa.alternativaDeTransicoesProibidas, query);
           return index >= 0 && estagioAlternativa.alternativaDeTransicoesProibidas.splice(index, 1);
