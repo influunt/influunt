@@ -24,8 +24,6 @@ import static play.test.Helpers.route;
 
 public class AgrupamentosControllerTest extends WithApplication {
 
-    private Cidade cidade;
-
     @Override
     protected Application provideApplication() {
         Map<String, String> options = new HashMap<String, String>();

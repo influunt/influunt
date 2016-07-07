@@ -21,12 +21,9 @@ public class InfluuntValidator<T> {
         }
     }
 
-    ;
-
     public List<Erro> validate(T model) {
         return parse(validator.validate(model));
     }
-
 
     public List<Erro> validate(T model, Class<?>... groups) {
         return parse(validator.validate(model, groups));
