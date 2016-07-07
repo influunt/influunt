@@ -6,16 +6,6 @@ var FabricantesPages = require('../../support/page-objects/fabricantes');
 module.exports = function() {
   var fabricantesPage = new FabricantesPages();
 
-  // this.Given(/^que exista o usuário "([^"]*)" com senha "([^"]*)"$/, function(arg1, arg2, callback) {
-  //   // Write code here that turns the phrase above into concrete actions
-  //   callback(null, 'pending');
-  // });
-
-  // this.Given(/^que o usuário "([^"]*)" entre no sistema com a senha "([^"]*)"$/, function(arg1, arg2, callback) {
-  //   // Write code here that turns the phrase above into concrete actions
-  //   callback(null, 'pending');
-  // });
-
   this.Given(/^que exista ao menos um fabricante cadastrado no sistema$/, { timeout: 15 * 1000 }, function() {
     return fabricantesPage.existeAoMenosUmFabricante();
   });
@@ -30,9 +20,8 @@ module.exports = function() {
     });
   });
 
-  this.Given(/^Clica no botão de Novo Fabricante$/, function(callback) {
-    fabricantesPage.clicarBotaoNovoFabricante();
-    callback();
+  this.Given(/^clicar no botão de Novo Fabricante$/, function() {
+    return fabricantesPage.clicarBotaoNovoFabricante();
   });
 
   this.Given(/^o sistema deverá redirecionar para o formulário de Cadastro de novo fabricante$/, function() {
@@ -45,13 +34,20 @@ module.exports = function() {
     return fabricantesPage.newPage();
   });
 
-  this.Given(/^preenche os campos do fabricante corretamente$/, function() {
-    return fabricantesPage.fillFabricanteForm('Teste Cadastro Fabricante');
-    // callback();
+  this.Given(/^o registro do fabricante deverá ser salvo com "([^"]*)" igual a "([^"]*)"$/, function (campo, valor) {
+    return fabricantesPage.textoExisteNaTabela(valor);
   });
 
-  this.Given(/^o registro do fabricante deverá ser salvo com sucesso$/, function() {
-    return fabricantesPage.textoExisteNaTabela('Teste Cadastro Fabricante');
+  this.Given(/^clicar no botão de adicionar um novo modelo de controlador$/, function () {
+    return  fabricantesPage.clicarBotaoNovoModelo();
+  });
+
+  this.Given(/^preencher a descrição do modelo com "([^"]*)"$/, function (descModelo) {
+    return fabricantesPage.preencherDescricaoModelo(descModelo);
+  });
+
+  this.Given(/^selecionar a configuração "([^"]*)"$/, function (config) {
+    return fabricantesPage.selecionarConfiguracao(config);
   });
 
   this.Given(/^o sistema deverá retornar à tela de listagem de fabricantes$/, function() {
@@ -60,7 +56,7 @@ module.exports = function() {
     });
   });
 
-  this.Given(/^Clica no botão de visualizar fabricante$/, function() {
+  this.Given(/^clicar no botão de visualizar fabricante$/, function() {
     fabricantesPage.clicarLinkComTexto('Visualizar');
   });
 
@@ -70,7 +66,7 @@ module.exports = function() {
     });
   });
 
-  this.Given(/^Clica no botão de editar fabricante$/, function() {
+  this.Given(/^clicar no botão de editar fabricante$/, function() {
     fabricantesPage.clicarLinkComTexto('Editar');
   });
 
@@ -85,7 +81,7 @@ module.exports = function() {
     return fabricantesPage.clicarLinkComTexto('Editar');
   });
 
-  this.Given(/^clica no botão de excluir um fabricante$/, function() {
+  this.Given(/^clicar no botão de excluir um fabricante$/, function() {
     fabricantesPage.clicarLinkComTexto('Excluir');
   });
 
@@ -96,9 +92,6 @@ module.exports = function() {
   });
 
   this.Given(/^o fabricante deverá ser excluido$/, function() {
-    // return fabricantesPage.fabricanteDeveSerExcluida().then(function(res) {
-    //   expect(res).to.be.true
-    // });
     return fabricantesPage.toastMessage().then(function(text) {
       expect(text).to.match(/Removido com sucesso/);
     });

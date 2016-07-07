@@ -4,11 +4,18 @@ var World = require('./world.js');
 var driver = World.getDriver();
 var fs = require('fs');
 var path = require('path');
-var sanitize = require('sanitize-filename');
+var sanitize = require("sanitize-filename");
 
 var myHooks = function () {
 
   var world = new World.World();
+
+  // Habilita o "modo debug"
+  var debugMode = false;
+  // Imprime na tela o conteúdo do console do navegador após cada cenário
+  var debugConsoleLogs = true;
+  // Tira um screenshot sempre que um cenário falhar
+  var debugScreenshot = true;
 
   this.registerHandler('BeforeFeatures', function () {
     return world.execScript('curl localhost:9000').then(function(){
@@ -23,14 +30,39 @@ var myHooks = function () {
       return world.clickButton('#acessar');
     }).then(function () {
       return world.waitFor('a.navbar-brand');
-    }).catch(function(ex) {
-      console.log(ex)
+    // }).catch(function(ex) {
+    //   console.log(ex);
     });
   });
 
   this.registerHandler('AfterFeatures', function () {
     return driver.quit();
   });
+
+  if (debugMode) {
+    this.After(function(scenario) {
+      if (debugConsoleLogs) {
+        driver.manage().logs().get('browser').then(function(logs) {
+          console.log('------ Console após o último cenário:');
+          console.log(logs);
+          console.log('-------------------------------------');
+        });
+      }
+
+      if (debugScreenshot) {
+        if(scenario.isFailed()) {
+          driver.takeScreenshot().then(function(data) {
+            var base64Data = data.replace(/^data:image\/png;base64,/, '');
+            fs.writeFile(path.join('screenshots', sanitize(scenario.getName() + ".png").replace(/ /g,"_")), base64Data, 'base64', function(err) {
+              if(err) {
+                console.log(err);
+              }
+            });
+          });
+        }
+      }
+    });
+  }
 
 };
 

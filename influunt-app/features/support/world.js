@@ -38,7 +38,6 @@ var World = function () {
   }
 
   this.execScript = function(cmd) {
-    // console.log('execScript: '+cmd);
     return new Promise(function (resolve, reject) {
       exec(cmd, function(err, stdout, stderr) {
         if (err) {
@@ -60,6 +59,36 @@ var World = function () {
     return driver.wait(function() {
       return driver.isElementPresent(webdriver.By.css(cssLocator));
     }, waitTimeout);
+  };
+
+  this.waitForByXpath = function(xpath, timeout) {
+    var waitTimeout = timeout || defaultTimeout;
+    return driver.wait(function() {
+      return driver.isElementPresent(webdriver.By.xpath(xpath));
+    }, waitTimeout);
+  };
+
+  this.waitForAJAX = function(timeout) {
+    timeout = timeout || defaultTimeout;
+    var pollInterval = 500;
+    var maxChecks = Math.ceil(timeout / pollInterval);
+    var numChecks = 0;
+
+    return new Promise(function(resolve, reject) {
+      var interval = setInterval(function() {
+        driver.executeScript('return jQuery.active === 0').then(function(result) {
+          if (result) {
+            clearInterval(interval);
+            resolve(true);
+          } else {
+            numChecks++;
+            if (numChecks >= maxChecks) {
+              reject('Timeout waiting for AJAX calls to finish!');
+            }
+          }
+        });
+      }, pollInterval);
+    });
   };
 
   this.visit = function(path) {
@@ -90,6 +119,10 @@ var World = function () {
     return driver.findElements(webdriver.By.xpath(xpath));
   };
 
+  this.getElementByXpath = function(xpath) {
+    return driver.findElement(webdriver.By.xpath(xpath));
+  };
+
   this.findLinkByText = function(text) {
     return driver.findElement(webdriver.By.linkText(text));
   };
@@ -106,6 +139,35 @@ var World = function () {
       }
     });
   };
+
+  this.execJavascript = function(script) {
+    return driver.executeScript(script);
+  };
+
+  this.checkICheck = function(checkboxSelector) {
+    return this.execJavascript('$('+checkboxSelector+').iCheck("check");');
+  };
+
+  this.uncheckICheck = function(checkboxSelector) {
+    return this.execJavascript('$('+checkboxSelector+').iCheck("uncheck");');
+  };
+
+  this.dropzoneUpload = function(filePath) {
+    var _this = this;
+    var script = "fakeFileInput = $('#fakeFileInput'); if (fakeFileInput.length === 0) fakeFileInput = window.$('<input/>').attr({id: 'fakeFileInput', type:'file'}).appendTo('body');";
+    // Generate a fake input selector
+    return _this.execJavascript(script).then(function() {
+      // Attach the file to the fake input selector
+      return _this.setValue('#fakeFileInput', filePath);
+    }).then(function() {
+      // Add the file to a fileList array
+      return _this.execJavascript("var fileList = [fakeFileInput.get(0).files[0]]");
+    }).then(function() {
+      // Trigger the fake drop event
+      script = "var e = jQuery.Event('drop', { dataTransfer : { files : [fakeFileInput.get(0).files[0]] } }); $('.dropzone')[0].dropzone.listeners[0].events.drop(e);";
+      return _this.execJavascript(script);
+    });
+  };
 };
 
 switch(platform) {
@@ -115,6 +177,8 @@ switch(platform) {
   default:
     driver = buildPhantomDriver();
 }
+
+driver.manage().window().setSize(1024, 768);
 
 module.exports.World = World;
 module.exports.getDriver = getDriver;

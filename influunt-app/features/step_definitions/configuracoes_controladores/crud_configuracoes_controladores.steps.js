@@ -62,12 +62,12 @@ module.exports = function () {
     });
   });
 
-  this.Given(/^o registro do configuração controlador com a descricao "(.+)" deverá ter sido salvo com sucesso$/, function (descricao) {
+  this.Given(/^o registro da configuração controlador deverá ser salvo com descrição "([^"]*)"$/, function (descricao) {
     return configPage.textoExisteNaTabela(descricao);
   });
 
-  this.Given(/^preencher os campos da configuração corretamente com a descricao "(.+)"$/, function (descricao) {
-    return configPage.fillConfiguracaoForm(descricao);
+  this.Given(/^preencher o campo "([^"]*)" com "([^"]*)"$/, function(campo, valor) {
+    return configPage.preencherCampo(campo, valor);
   });
 
   this.Given(/^clicar no botão de excluir um configuração controlador$/, function () {
@@ -86,18 +86,14 @@ module.exports = function () {
     });
   });
 
-  this.Given(/^o registro da configuração deverá ser salvo com sucesso$/, function () {
-    return configPage.textoExisteNaTabela('Descrição Config');
-  });
-
-  this.Given(/^nenhuma configuração controlador deve ser excluído$/, function () {
+  this.Given(/^nenhuma configuração do controlador deve ser excluída$/, function () {
     return configPage.nenhumaConfiguracaoDeveSerExcluida().then(function(res) {
       return expect(res).to.be.true;
     });
   });
 
   this.Given(/^o sistema deverá retornar à tela de listagem de configurações de controladores$/, function () {
-    return configPage.getUrl().then(function (url) {
+    return configPage.getIndexUrl().then(function (url) {
       expect(url).to.match(/\/app\/configuracoes_controladores\/?$/);
     });
   });

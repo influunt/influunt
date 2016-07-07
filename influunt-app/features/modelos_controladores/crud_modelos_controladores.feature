@@ -1,6 +1,6 @@
 # language: pt
 @crud @modelos @interfaces
-Funcionalidade: tela de cadastro de fabricantes
+Funcionalidade: tela de cadastro de modelos de controladores
 
   Cenário: Listagem de modelos de controladores
     Dado que exista ao menos um modelo de controlador cadastrado no sistema
@@ -14,7 +14,10 @@ Funcionalidade: tela de cadastro de fabricantes
 
   Cenário: Cadastro de modelos de controladores
     Quando o usuário acessar a tela de cadastro de novos modelos de controladores
-    E preencher os campos do modelo com descricao "Teste Modelo"
+    E o usuario preencher o campo "Descrição" com "Teste Modelo"
+    E o usuario selecionar o valor "Raro Labs" no campo "Fabricante"
+    E o usuario selecionar o valor "Mínima" no campo "Configuração Controlador"
+    E clicar no botão de salvar
     Então o registro do modelo deverá ser salvo com descricao "Teste Modelo"
     E o sistema deverá retornar à tela de listagem de modelos de controladores
 
@@ -30,7 +33,10 @@ Funcionalidade: tela de cadastro de fabricantes
 
   Cenário: Edição de modelos de controladores
     Quando o usuário acessar o formulário de edição de modelos de controladores
-    E preencher os campos do modelo com descricao "Novo Teste"
+    E o usuario preencher o campo "Descrição" com "Novo Teste"
+    E o usuario selecionar o valor "Raro Labs" no campo "Fabricante"
+    E o usuario selecionar o valor "Mínima" no campo "Configuração Controlador"
+    E clicar no botão de salvar
     Então o registro do modelo deverá ser salvo com descricao "Novo Teste"
     E o sistema deverá retornar à tela de listagem de modelos de controladores
 
