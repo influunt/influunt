@@ -38,16 +38,18 @@
             <nav>
               <ul>
                 <li data-ng-repeat="(key, value) in currentAnel.transicoesProibidas"
-                  data-ng-class="{'has-error': errors.aneis[currentAnel.posicao - 1].estagios[value.origem.posicao - 1].origemDeTransicoesProibidas[0].alternativo}">
+                  data-ng-class="{'has-error': getErrosEstagiosAlternativos(value.origem, value.destino)}">
                   <select ng-model="value.alternativo.id" class="form-control"
                     data-ng-options="estagio.id as ('E' + estagio.posicao) for estagio in currentAnel.estagios | filter:filterEstagiosAlternativos(value.origem, value.destino)"
-                    data-ng-change="marcarTransicaoAlternativa(value)">
-                    <option value=""></option>
+                    data-ng-change="marcarTransicaoAlternativa(value)"
+                    inf-tooltip
+                    messages="getErrosEstagiosAlternativos(value.origem, value.destino)">
                   </select>
-                  <p class="help-block error-msg"
-                    data-ng-repeat="error in errors.aneis[currentAnel.posicao - 1].estagios[value.origem.posicao - 1].origemDeTransicoesProibidas[0].alternativo">
-                      {{ error }}
-                  </p>
+
+                  <span class="badge badge-danger badge-estagio-alternativo pull-right"
+                    data-ng-if="getErrosEstagiosAlternativos(value.origem, value.destino)">
+                    <i class="fa fa-exclamation"></i>
+                  </span>
                 </li>
               </ul>
             </nav>
