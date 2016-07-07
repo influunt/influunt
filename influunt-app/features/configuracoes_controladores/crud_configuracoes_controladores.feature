@@ -1,5 +1,5 @@
 # language: pt
-@crud @configuracoes_controladores @interfaces
+@crud @config @interfaces
 Funcionalidade: tela de cadastro de configurações de controladores
 
   Cenário: Listagem de configurações de controladores
@@ -14,8 +14,14 @@ Funcionalidade: tela de cadastro de configurações de controladores
 
   Cenário: Cadastro de configuração de controlador
     Quando o usuário acessar a tela de cadastro de configurações de controladores
-    E preencher os campos da configuração corretamente com a descricao "Desc Config"
-    Então o registro do configuração controlador com a descricao "Desc Config" deverá ter sido salvo com sucesso
+    E preencher o campo "Descrição" com "Descrição da Configuração"
+    E preencher o campo "Limite Aneis" com "2"
+    E preencher o campo "Limite Grupos Semafóricos" com "2"
+    E preencher o campo "Limite Estágios" com "2"
+    E preencher o campo "Limite Detectores Pedestre" com "1"
+    E preencher o campo "Limite Detectores Veiculares" com "1"
+    E clicar no botão de salvar
+    Então o registro da configuração controlador deverá ser salvo com descrição "Descrição da Configuração"
     E o sistema deverá retornar à tela de listagem de configurações de controladores
 
   Cenário: Acesso à tela de detalhes de configurações de controladores
@@ -30,9 +36,22 @@ Funcionalidade: tela de cadastro de configurações de controladores
 
   Cenário: Edição de configurações de controladores
     Quando o usuário acessar o formulário de edição de configurações de controladores
-    E preencher os campos da configuração corretamente com a descricao "Desc Atualizacao"
-    Então o registro do configuração controlador com a descricao "Desc Atualizacao" deverá ter sido salvo com sucesso
+    E preencher o campo "Descrição" com "Descrição Atualizada"
+    E preencher o campo "Limite Aneis" com "4"
+    E preencher o campo "Limite Grupos Semafóricos" com "4"
+    E preencher o campo "Limite Estágios" com "4"
+    E preencher o campo "Limite Detectores Pedestre" com "2"
+    E preencher o campo "Limite Detectores Veiculares" com "2"
+    E clicar no botão de salvar
+    Então o registro da configuração controlador deverá ser salvo com descrição "Descrição Atualizada"
     E o sistema deverá retornar à tela de listagem de configurações de controladores
+
+  Cenário: Exclusão de configurações de controladores sem confirmação
+    Quando o usuário acessar a tela de listagem de configurações de controladores
+    E clicar no botão de excluir um configuração controlador
+    Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir o configuração controlador
+    Quando o usuário responde não
+    Então nenhuma configuração do controlador deve ser excluída
 
   Cenário: Exclusão de configurações de controladores com confirmação
     Quando o usuário acessar a tela de listagem de configurações de controladores
@@ -40,10 +59,3 @@ Funcionalidade: tela de cadastro de configurações de controladores
     Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir o configuração controlador
     Quando o usuário responde sim
     Então a configuração controlador deverá ser excluido
-
-  Cenário: Exclusão de configurações de controladores sem confirmação
-    Quando o usuário acessar a tela de listagem de configurações de controladores
-    E clicar no botão de excluir um configuração controlador
-    Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir o configuração controlador
-    Quando o usuário responde não
-    Então nenhuma configuração controlador deve ser excluído

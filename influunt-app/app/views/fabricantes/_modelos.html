@@ -4,7 +4,7 @@
     <div class="form-group" data-ng-class="{'has-error': errors.modelos[$index].descricao}">
       <label class="control-label col-md-2">{{ 'modelos_controladores.descricao' | translate }} </label>
       <div class="col-md-7">
-        <input type="text" class="form-control" ng-model="modelo.descricao" placeholder="Descrição"/>
+        <input type="text" name="descricao" class="form-control" ng-model="modelo.descricao" placeholder="Descrição"/>
         <p class="help-block error-msg" data-ng-repeat="error in errors.modelos[$index].descricao">{{ error }}</p>
       </div>
     </div>
