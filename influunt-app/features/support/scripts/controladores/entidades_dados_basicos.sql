@@ -1,3 +1,4 @@
+delete from `transicoes_proibidas`;
 DELETE FROM `estagios_grupos_semaforicos`;
 DELETE FROM `estagios`;
 DELETE FROM `grupos_semaforicos`;

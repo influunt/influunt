@@ -190,6 +190,15 @@ var WizardControladorPage = function () {
     });
   };
 
+  this.isEstagioAlternativoInvalido = function(transicao) {
+    var estagioAlternativo = '#estagio-alternativo-' + transicao;
+    return world.waitFor('.has-error').then(function() {
+      return world.getElements(estagioAlternativo + '.has-error').then(function(res) {
+        return res.length > 0;
+      });
+    });
+  };
+
   this.errorMessagesVerdesConflitantesComConflito = function() {
     return this.getAlertErrorMessages().then(function(text) {
       return new Promise(function(resolve, reject) {
@@ -218,11 +227,14 @@ var WizardControladorPage = function () {
     return world.execSqlScript('features/support/scripts/controladores/entidades_dados_basicos.sql');
   };
 
-  this.adicionarImagensEstagios = function() {
+  this.adicionarImagensEstagios = function(qtde) {
     var filePath = path.join(__dirname, '../resources/ubuntu.jpeg');
-    return world.dropzoneUpload(filePath).then(function() {
-      return world.dropzoneUpload(filePath);
-    }).then(function() {
+    var promises = [];
+    for(var i = 0; i < qtde; i++) {
+      promises.push(world.dropzoneUpload(filePath));
+    }
+
+    return Promise.all(promises).then(function() {
       return world.waitForAJAX();
     });
   };
@@ -230,6 +242,18 @@ var WizardControladorPage = function () {
   this.selecionarEstagio = function(estagio) {
     var estagioSelector = 'li[data-ng-repeat="(indexEstagio, estagio) in currentAnel.estagios"]:nth-child('+estagio.substring(1)+') img';
     return world.getElement(estagioSelector).click();
+  };
+
+  this.selecionaEstagioAlternativoParaTransicaoProibida = function(transicao, estagio) {
+    var transicaoSelector = '#estagio-alternativo-' + transicao + ' select > option';
+    return world.getElements(transicaoSelector).then(function(elements) {
+      for (var i = 0; i < elements.length; i++) {
+        var elemento = elements[i];
+        elemento.getText().then(function(textoOpcao) {
+          return estagio === textoOpcao && elemento.click();
+        })
+      }
+    });
   };
 
   this.associarGrupoSemaforicoEstagio = function(grupo, estagio) {
@@ -262,9 +286,23 @@ var WizardControladorPage = function () {
     });
   };
 
+  this.clearEstagiosAlternativos = function() {
+    return world.getElements('i.transicao-proibida.ativo').then(function(elements) {
+      for (var i = 0; i < elements.length; i++) {
+        elements[i].click();
+      }
+    });
+  }
+
   this.marcarConflito = function(g1, g2) {
     var row = parseInt(g1.substring(1));
     var col = parseInt(g2.substring(1)) + (row % 2 === 0 ? 1 : 2);
+    return world.getElement('tbody tr:nth-child('+row+') td:nth-child('+col+')').click();
+  };
+
+  this.marcarTransicao = function(e1, e2) {
+    var row = parseInt(e2.substring(1));
+    var col = parseInt(e1.substring(1)) + (row === 1 ? 2 : 1);
     return world.getElement('tbody tr:nth-child('+row+') td:nth-child('+col+')').click();
   };
 

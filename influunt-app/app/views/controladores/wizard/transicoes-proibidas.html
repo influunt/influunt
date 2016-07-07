@@ -37,7 +37,7 @@
             <p>Alternativa</p>
             <nav>
               <ul>
-                <li data-ng-repeat="(key, value) in currentAnel.transicoesProibidas"
+                <li data-ng-repeat="(key, value) in currentAnel.transicoesProibidas" id="estagio-alternativo-{{ key }}"
                   data-ng-class="{'has-error': getErrosEstagiosAlternativos(value.origem, value.destino)}">
                   <select ng-model="value.alternativo.id" class="form-control"
                     data-ng-options="estagio.id as ('E' + estagio.posicao) for estagio in currentAnel.estagios | filter:filterEstagiosAlternativos(value.origem, value.destino)"
