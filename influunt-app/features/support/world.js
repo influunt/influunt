@@ -158,17 +158,17 @@ var World = function () {
 
   this.dropzoneUpload = function(filePath) {
     var _this = this;
-    var script = "fakeFileInput = $('#fakeFileInput'); if (fakeFileInput.length === 0) fakeFileInput = window.$('<input/>').attr({id: 'fakeFileInput', type:'file'}).appendTo('body');";
+    var script = 'fakeFileInput = $("#fakeFileInput"); if (fakeFileInput.length === 0) fakeFileInput = window.$("<input/>").attr({id: "fakeFileInput", type:"file"}).appendTo("body");';
     // Generate a fake input selector
     return _this.execJavascript(script).then(function() {
       // Attach the file to the fake input selector
       return _this.setValue('#fakeFileInput', filePath);
     }).then(function() {
       // Add the file to a fileList array
-      return _this.execJavascript("var fileList = [fakeFileInput.get(0).files[0]]");
+      return _this.execJavascript('var fileList = [fakeFileInput.get(0).files[0]]');
     }).then(function() {
       // Trigger the fake drop event
-      script = "var e = jQuery.Event('drop', { dataTransfer : { files : [fakeFileInput.get(0).files[0]] } }); $('.dropzone')[0].dropzone.listeners[0].events.drop(e);";
+      script = 'var e = jQuery.Event("drop", { dataTransfer : { files : [fakeFileInput.get(0).files[0]] } }); $(".dropzone")[0].dropzone.listeners[0].events.drop(e);';
       return _this.execJavascript(script);
     });
   };

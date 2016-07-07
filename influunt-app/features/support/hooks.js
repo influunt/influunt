@@ -4,7 +4,7 @@ var World = require('./world.js');
 var driver = World.getDriver();
 var fs = require('fs');
 var path = require('path');
-var sanitize = require("sanitize-filename");
+var sanitize = require('sanitize-filename');
 
 var myHooks = function () {
 
@@ -53,7 +53,7 @@ var myHooks = function () {
         if(scenario.isFailed()) {
           driver.takeScreenshot().then(function(data) {
             var base64Data = data.replace(/^data:image\/png;base64,/, '');
-            fs.writeFile(path.join('screenshots', sanitize(scenario.getName() + ".png").replace(/ /g,"_")), base64Data, 'base64', function(err) {
+            fs.writeFile(path.join('screenshots', sanitize(scenario.getName() + '.png').replace(/ /g,'_')), base64Data, 'base64', function(err) {
               if(err) {
                 console.log(err);
               }

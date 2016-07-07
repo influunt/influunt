@@ -75,13 +75,13 @@ var WizardControladorPage = function () {
 
   this.errorMessages = function(passo) {
     switch(passo) {
-      case "Dados Básicos":
+      case 'Dados Básicos':
         return this.errorMessagesDadosBasicos();
-      case "Anéis":
+      case 'Anéis':
         return this.errorMessagesAneis();
-      case "Associação":
+      case 'Associação':
         return this.errorMessagesAssociacao();
-      case "Verdes Conflitantes":
+      case 'Verdes Conflitantes':
         return this.errorMessagesVerdesConflitantesSemMarcacao();
       default:
         throw new Error('Passo não encontrado: '+passo);
@@ -108,7 +108,7 @@ var WizardControladorPage = function () {
       return new Promise(function (resolve, reject) {
         for (var i = 0; i < messages.length; i++) {
           if (messages[i].msg !== 'não pode ficar em branco') {
-            reject("expected '"+messages[i].msg+"' to be 'não pode ficar em branco'     (campo: "+messages[i].campo+")");
+            reject('expected \''+messages[i].msg+'\' to be \'não pode ficar em branco\'     (campo: '+messages[i].campo+')');
           }
         }
         resolve(true);
@@ -253,7 +253,7 @@ var WizardControladorPage = function () {
     var estagioSelector = 'li[data-ng-repeat="(indexEstagio, estagio) in currentAnel.estagios"]:nth-child('+estagio.substring(1)+')';
     var inputSelector = 'label > p:contains("'+grupo+'") + div > input';
     return this.selecionarEstagio(estagio).then(function() {
-      return world.checkICheck("'" + estagioSelector + ' ' + inputSelector + "'");
+      return world.checkICheck('\'' + estagioSelector + ' ' + inputSelector + '\'');
     });
   };
 
@@ -285,7 +285,7 @@ var WizardControladorPage = function () {
         elements[i].click();
       }
     });
-  }
+  };
 
   this.marcarConflito = function(g1, g2) {
     var row = parseInt(g1.substring(1));
