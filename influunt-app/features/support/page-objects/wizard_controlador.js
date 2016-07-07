@@ -245,15 +245,8 @@ var WizardControladorPage = function () {
   };
 
   this.selecionaEstagioAlternativoParaTransicaoProibida = function(transicao, estagio) {
-    var transicaoSelector = '#estagio-alternativo-' + transicao + ' select > option';
-    return world.getElements(transicaoSelector).then(function(elements) {
-      for (var i = 0; i < elements.length; i++) {
-        var elemento = elements[i];
-        elemento.getText().then(function(textoOpcao) {
-          return estagio === textoOpcao && elemento.click();
-        })
-      }
-    });
+    var transicaoSelector = '#estagio-alternativo-' + transicao + ' select';
+    return world.selectOption(transicaoSelector, estagio);
   };
 
   this.associarGrupoSemaforicoEstagio = function(grupo, estagio) {

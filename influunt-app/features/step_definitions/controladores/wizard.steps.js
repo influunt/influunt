@@ -44,14 +44,6 @@ module.exports = function() {
     return wizardPage.cadastrarEntidadesDadosBasicos();
   });
 
-  // this.Given(/^o usuario preencher os dados básicos corretamente$/, function () {
-  //   return wizardPage.fillDadosBasicos();
-  // });
-
-  // this.Given(/^o usuario adicionar duas imagens para os estágios do anel corrente$/, function () {
-  //   return wizardPage.adicionarImagensEstagios();
-  // });
-
   this.Given(/^o usuario adicionar (\d+) imagens para os estágios do anel corrente$/, function (qtde) {
     return wizardPage.adicionarImagensEstagios(qtde);
   });
@@ -67,14 +59,6 @@ module.exports = function() {
   this.Given(/^o sistema irá avançar para o passo "([^"]*)"$/, function (passo) {
     return wizardPage.isWizardPasso(passo);
   });
-
-  // this.Given(/^o usuario preencher os dados dos anéis corretamente$/, function () {
-  //   return wizardPage.fillAneis();
-  // });
-
-  // this.Given(/^o usuario preencher os dados da associação corretamente$/, function () {
-  //   return wizardPage.fillAssociacoes();
-  // });
 
   this.Given(/clicar no botão para finalizar$/, function () {
     return wizardPage.clicarBotaoFinalizar();
@@ -107,10 +91,6 @@ module.exports = function() {
 
   this.Given(/^o usuário marcar a transição de "([^"]*)" para "([^"]*)" como proibida$/, function (e1, e2) {
     return wizardPage.marcarTransicao(e1, e2);
-  });
-
-  this.Given(/^preencher a tabela com conflito entre os estágios$/, function () {
-    return wizardPage.fillVerdesConflitantesComConflito();
   });
 
   this.Given(/^o sistema deverá indicar que o campo de estágio alternativo para a transição "([^"]*)" é obrigatório$/, function (transicao) {

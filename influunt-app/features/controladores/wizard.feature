@@ -42,7 +42,6 @@ Funcionalidade: Fluxo de cadastro de controladores
     E o usuario preencher o campo "Número de detectores pedestres" com "0"
     E o usuario preencher o campo "Latitude" com "-19.951047"
     E o usuario preencher o campo "Longitude" com "-43.921569799999986"
-    # E o usuario adicionar duas imagens para os estágios do anel corrente
     E o usuario adicionar 3 imagens para os estágios do anel corrente
     E o usuario marcar o segundo anel como ativo
     E o usuario selecionar o segundo anel
