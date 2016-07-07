@@ -201,6 +201,11 @@
     padding-right: 0;
 }
 
+.no-padding-left {
+    padding-right: 15px!important;
+    padding-left: 0;
+}
+
 .left {
     float: left;
 }
@@ -1079,6 +1084,10 @@ header .nav-secon li a {
 
 .badge.badge-danger.badge-notification {
     font-size: 8px;
+}
+.badge.badge-danger.badge-estagio-alternativo {
+  margin-top: -40px;
+  font-size: 10px;
 }
 .wrapper-content .filters form ul li {
   list-style: none;

@@ -128,10 +128,14 @@ var World = function () {
   };
 
   this.selectOption = function(selectSelector, optionText) {
+    console.log('selector: ', selectSelector + ' option');
     return this.getElements(selectSelector + ' option').then(function(options) {
+      console.log('~----------->< ', options.length);
       for (var i = 0; i < options.length; i++) {
         var option = options[i];
         option.getText().then(function(text) {
+          console.log('------------> ', text);
+          console.log('------------> ', optionText);
           if (text === optionText) {
             return option.click();
           }

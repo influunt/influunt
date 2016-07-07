@@ -42,7 +42,7 @@ Funcionalidade: Fluxo de cadastro de controladores
     E o usuario preencher o campo "Número de detectores pedestres" com "0"
     E o usuario preencher o campo "Latitude" com "-19.951047"
     E o usuario preencher o campo "Longitude" com "-43.921569799999986"
-    E o usuario adicionar duas imagens para os estágios do anel corrente
+    E o usuario adicionar 3 imagens para os estágios do anel corrente
     E o usuario marcar o segundo anel como ativo
     E o usuario selecionar o segundo anel
     E o usuario preencher o campo "Grupos Semafóricos de pedestre" com "1"
@@ -51,7 +51,7 @@ Funcionalidade: Fluxo de cadastro de controladores
     E o usuario preencher o campo "Número de detectores pedestres" com "0"
     E o usuario preencher o campo "Latitude" com "-19.951047"
     E o usuario preencher o campo "Longitude" com "-43.921569799999986"
-    E o usuario adicionar duas imagens para os estágios do anel corrente
+    E o usuario adicionar 2 imagens para os estágios do anel corrente
     E clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Associação"
 
@@ -69,6 +69,8 @@ Funcionalidade: Fluxo de cadastro de controladores
     E o usuário selecionar o estágio "E2"
     E o usuario associar o grupo semafórico "G2" com o estágio "E2"
     E o usuario marcar o grupo semafórico como "Pedestre"
+    E o usuário selecionar o estágio "E3"
+    E o usuario associar o grupo semafórico "G1" com o estágio "E3"
     E o usuario selecionar o segundo anel
     E o usuário selecionar o estágio "E1"
     E o usuario associar o grupo semafórico "G3" com o estágio "E1"
@@ -82,7 +84,7 @@ Funcionalidade: Fluxo de cadastro de controladores
   Cenário: Tentar salvar verdes conflitantes em branco
     Dado que o usuário esteja no wizard no passo "Verdes Conflitantes"
     E que a tabela de conflitos esteja em branco
-    Quando o usuário clicar no botão para finalizar
+    Quando o usuário clicar no botão para ir pro próximo passo
     Então o sistema deverá indicar erro nos campos do passo "Verdes Conflitantes"
     E o sistema irá continuar no passo "Verdes Conflitantes"
 
@@ -91,7 +93,7 @@ Funcionalidade: Fluxo de cadastro de controladores
     E que a tabela de conflitos esteja em branco
     E marcar conflito entre os estágios "G2" e "G3"
     E marcar conflito entre os estágios "G1" e "G4"
-    Quando o usuário clicar no botão para finalizar
+    Quando o usuário clicar no botão para ir pro próximo passo
     Então o sistema deverá indicar conflito
     E o sistema irá continuar no passo "Verdes Conflitantes"
 
@@ -100,6 +102,21 @@ Funcionalidade: Fluxo de cadastro de controladores
     E que a tabela de conflitos esteja em branco
     E marcar conflito entre os estágios "G1" e "G2"
     E marcar conflito entre os estágios "G3" e "G4"
-    E clicar no botão para finalizar
-    Então o sistema irá redirecionar o usuário para a página de listagem de controladores
+    E clicar no botão para ir pro próximo passo
+    Então o sistema irá avançar para o passo "Transições Proibidas"
 
+  Cenário: Tentar salvar uma transição proibida sem informar estágio alternativo
+    Dado que o usuário esteja no wizard no passo "Transições Proibidas"
+    E que a tabela de estágios alternativos esteja em branco
+    Quando o usuário marcar a transição de "E1" para "E2" como proibida
+    E clicar no botão para ir pro próximo passo
+    Então o sistema deverá indicar que o campo de estágio alternativo para a transição "E1-E2" é obrigatório
+    E o sistema irá continuar no passo "Transições Proibidas"
+
+  Cenário: Tentar salvar uma transição proibida informando um estágio alternativo
+    Dado que o usuário esteja no wizard no passo "Transições Proibidas"
+    E que a tabela de estágios alternativos esteja em branco
+    Quando o usuário marcar a transição de "E1" para "E2" como proibida
+    E preencher o campo de alternativa para a transição "E1-E2" com o estágio "E3"
+    E clicar no botão para ir pro próximo passo
+    Então o sistema irá redirecionar o usuário para a página de listagem de controladores
