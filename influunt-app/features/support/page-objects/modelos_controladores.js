@@ -10,7 +10,7 @@ var ModelosControladoresPage = function () {
 
   var submitButton = '[name="commit"]';
   var novoModeloButton = 'a[href*="/modelos_controladores/new"]';
-  var inputDescricaoModelo = '[name="modelos_controladores_descricao"]';
+  var inputDescricaoModelo = '[name="descricao"]';
 
   var totalModelosIndex = 0;
 
@@ -44,23 +44,12 @@ var ModelosControladoresPage = function () {
     });
   };
 
-  this.fillForm = function(descricaoModelo) {
-    descricaoModelo = descricaoModelo || 'Modelo '+lastIndex++;
-    return world.setValue(inputDescricaoModelo, descricaoModelo).then(function() {
-      return world.selectOption('select[name="fabricante"]', 'Raro Labs');
-    }).then(function() {
-      return world.selectOption('select[name="configuracao"]', 'Mínima');
-    }).then(function() {
-      return world.clickButton(submitButton);
-    });
-  };
-
   this.textoExisteNaTabela = function(text) {
     return world.getElementsByXpath('//td[contains(text(), "'+text+'")]');
   };
 
-  this.getUrl = function() {
-    return world.getCurrentUrl();
+  this.isIndex = function() {
+    return world.waitFor('tbody tr[data-ng-repeat="modelo in lista"]');
   };
 
   this.clicarLinkComTexto = function(texto) {

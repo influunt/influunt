@@ -8,7 +8,7 @@ var CidadesPage = function () {
   var INDEX_PATH = '/app/cidades';
   var NEW_PATH = '/app/cidades/new';
 
-  var inputNomeCidade = '[name="cidade_nome"]';
+  var inputNomeCidade = '[name="nome"]';
   var submitButton = '[name="commit"]';
   var novaCidadeButton = 'a[href*="/cidades/new"]';
 
@@ -50,10 +50,8 @@ var CidadesPage = function () {
     return world.getElementsByXpath('//td[contains(text(), "'+text+'")]');
   };
 
-  this.fillCidadeForm = function(nomeCidade) {
-    nomeCidade = nomeCidade || 'Cidade '+lastIndex++;
-    world.setValue(inputNomeCidade, nomeCidade);
-    world.clickButton(submitButton);
+  this.clicarBotaoSalvar = function() {
+    return world.clickButton('input[type="submit"]');
   };
 
   this.fieldNomeCidade = function() {

@@ -15,8 +15,16 @@ var ConfiguracoesPage = function () {
   var inputLimiteDP = '[name="configuracoes_controladores_limite_detector_pedestre"]';
   var inputLimiteDV = '[name="configuracoes_controladores_limite_detector_veicular"]';
   var novaConfiguracaoButton = 'a[href*="/configuracoes_controladores/new"]';
-
   var formConfiguracao = 'form[name="formConfiguracoesControladores"]'
+
+  var campos = {
+    'Descrição': 'configuracoes_controladores_descricao',
+    'Limite Aneis': 'configuracoes_controladores_limite_anel',
+    'Limite Grupos Semafóricos': 'configuracoes_controladores_limite_grupo_semaforico',
+    'Limite Estágios': 'configuracoes_controladores_limite_estagio',
+    'Limite Detectores Pedestre': 'configuracoes_controladores_limite_detector_pedestre',
+    'Limite Detectores Veiculares': 'configuracoes_controladores_limite_detector_veicular',
+  };
 
   this.world = world;
 
@@ -46,25 +54,11 @@ var ConfiguracoesPage = function () {
   };
 
   this.existeAoMenosUmaConfiguracao = function() {
-    this.newPage();
-    this.fillConfiguracaoForm();
-    return world.waitFor('#toast-container div');
+    return world.execSqlScript('features/support/scripts/configuracoes_controladores/create_configuracao_controlador.sql');
   };
 
-  this.fillConfiguracaoForm = function(descricao) {
-    return world.setValue(inputDescConfig, descricao).then(function() {
-      return world.setValue(inputLimitAneis, 1);
-    }).then(function() {
-      return world.setValue(inputLimiteGS, 1);
-    }).then(function() {
-      return world.setValue(inputLimiteEstagio, 1);
-    }).then(function() {
-      return world.setValue(inputLimiteDP, 1);
-    }).then(function() {
-      return world.setValue(inputLimiteDV, 1);
-    }).then(function() {
-      return world.clickButton('input[name="commit"]');
-    })
+  this.preencherCampo = function(campo, valor) {
+    return world.setValue('[name="'+campos[campo]+'"]', valor);
   };
 
   this.textoFieldDescricaoConfiguracao = function() {
@@ -93,8 +87,10 @@ var ConfiguracoesPage = function () {
     return world.getElementsByXpath('//td[contains(text(), "'+text+'")]');
   };
 
-  this.getUrl = function() {
-    return world.getCurrentUrl();
+  this.getIndexUrl = function() {
+    return world.waitFor('tr[data-ng-repeat="configuracao in lista"]').then(function() {
+      return world.getCurrentUrl();
+    });
   };
 
   this.textoConfirmacaoApagarRegistro = function() {

@@ -6,16 +6,6 @@ var CidadesPage = require('../../support/page-objects/cidades');
 module.exports = function() {
   var cidadesPage = new CidadesPage();
 
-  // this.Given(/^que exista o usuário "([^"]*)" com senha "([^"]*)"$/, function(arg1, arg2, callback) {
-  //   // Write code here that turns the phrase above into concrete actions
-  //   callback(null, 'pending');
-  // });
-
-  // this.Given(/^que o usuário "([^"]*)" entre no sistema com a senha "([^"]*)"$/, function(arg1, arg2, callback) {
-  //   // Write code here that turns the phrase above into concrete actions
-  //   callback(null, 'pending');
-  // });
-
   this.Given(/^que exista ao menos uma cidade cadastrada no sistema$/, { timeout: 15 * 1000 }, function() {
     return cidadesPage.existeAoMenosUmaCidade();
   });
@@ -30,12 +20,12 @@ module.exports = function() {
     });
   });
 
-  this.Given(/^Clica no botão de Nova Cidade$/, function(callback) {
+  this.Given(/^clicar no botão de Nova Cidade$/, function(callback) {
     cidadesPage.clicarBotaoNovaCidade();
     callback();
   });
 
-  this.Given(/^o sistema deverá redirecionar para o formulário de Cadastro de nova Cidades$/, function() {
+  this.Given(/^o sistema deverá redirecionar para o formulário de cadastro de novas cidades$/, function() {
     return cidadesPage.fieldNomeCidade().then(function(field) {
       return expect(field).to.exist;
     });
@@ -45,13 +35,12 @@ module.exports = function() {
     return cidadesPage.newPage();
   });
 
-  this.Given(/^preenche os campos da cidade corretamente$/, function(callback) {
-    cidadesPage.fillCidadeForm('Teste Cadastro Cidade');
-    callback();
+  this.Given(/^clicar no botão de salvar$/, function () {
+    return cidadesPage.clicarBotaoSalvar();
   });
 
-  this.Given(/^o registro da cidade deverá ser salvo com sucesso$/, function() {
-    return cidadesPage.textoExisteNaTabela('Teste Cadastro Cidade');
+  this.Given(/^o registro da cidade deverá ser salvo com nome igual a "([^"]*)"$/, function (nome) {
+      return cidadesPage.textoExisteNaTabela(nome);
   });
 
   this.Given(/^o sistema deverá retornar à tela de listagem de cidades$/, function() {
@@ -60,7 +49,7 @@ module.exports = function() {
     });
   });
 
-  this.Given(/^Clica no botão de visualizar cidade$/, function() {
+  this.Given(/^clicar no botão de visualizar cidade$/, function() {
     cidadesPage.clicarLinkComTexto('Visualizar');
   });
 
@@ -70,7 +59,7 @@ module.exports = function() {
     });
   });
 
-  this.Given(/^Clica no botão de editar cidade$/, function() {
+  this.Given(/^clicar no botão de editar cidade$/, function() {
     cidadesPage.clicarLinkComTexto('Editar');
   });
 
@@ -85,7 +74,7 @@ module.exports = function() {
     return cidadesPage.clicarLinkComTexto('Editar');
   });
 
-  this.Given(/^clica no botão de excluir uma cidade$/, function() {
+  this.Given(/^clicar no botão de excluir uma cidade$/, function() {
     cidadesPage.clicarLinkComTexto('Excluir');
   });
 

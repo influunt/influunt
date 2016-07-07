@@ -2,7 +2,6 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
 import be.objectify.deadbolt.java.actions.Dynamic;
-import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.google.common.io.Files;
 import com.google.inject.Inject;
 import com.google.inject.Provider;

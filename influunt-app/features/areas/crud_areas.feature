@@ -9,13 +9,15 @@ Funcionalidade: tela de cadastro de areas
 
   Cenário: Acesso à tela de nova area
     Quando o usuário acessar a tela de listagem de areas
-    E Clica no botão de Nova Area
+    E clicar no botão de Nova Area
     Então o sistema deverá redirecionar para o formulário de Cadastro de novas Areas
 
   Cenário: Cadastro de areas
     Quando o usuário acessar a tela de cadastro de novas areas
-    E preenche os campos da area corretamente
-    Então o registro da área deverá ser salvo com sucesso
+    E o usuario selecionar o valor "São Paulo" no campo "Cidade"
+    E o usuario preencher o campo "Número CTA" com "42"
+    E clicar no botão de salvar
+    Então o registro da área deverá ser salvo com número CTA igual a "42"
     E o sistema deverá retornar à tela de listagem de areas
 
   Cenário: Acesso à tela de detalhes de area
@@ -30,8 +32,10 @@ Funcionalidade: tela de cadastro de areas
 
   Cenário: Edição de areas
     Quando o usuário acessar o formulário de edição de areas
-    E preenche os campos da area corretamente
-    Então o registro da área deverá ser salvo com sucesso
+    E o usuario selecionar o valor "Belo Horizonte" no campo "Cidade"
+    E o usuario preencher o campo "Número CTA" com "99"
+    E clicar no botão de salvar
+    Então o registro da área deverá ser salvo com número CTA igual a "99"
     E o sistema deverá retornar à tela de listagem de areas
 
   Cenário: Exclusão de areas sem confirmação do usuário
