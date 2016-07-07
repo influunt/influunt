@@ -75,13 +75,20 @@ PUT         /api/v1/permissoes/:id                      controllers.PermissoesCo
 GET         /api/v1/permissoes/:id                      controllers.PermissoesController.findOne(id)
 DELETE      /api/v1/permissoes/:id                      controllers.PermissoesController.delete(id)
 
+# Agrupamentops
+GET         /api/v1/agrupamentos                        controllers.AgrupamentosController.findAll()
+POST        /api/v1/agrupamentos                        controllers.AgrupamentosController.create()
+PUT         /api/v1/agrupamentos/:id                    controllers.AgrupamentosController.update(id)
+GET         /api/v1/agrupamentos/:id                    controllers.AgrupamentosController.findOne(id)
+DELETE      /api/v1/agrupamentos/:id                    controllers.AgrupamentosController.delete(id)
+
 
 # Imagens
 POST        /api/v1/imagens                             controllers.ImagensController.create()
 GET         /api/v1/imagens/:id                         controllers.ImagensController.findOne(id)
 
 #View Helpers
-GET         /api/v1/helpers/controlador                  controllers.HelpersController.controladorHelper()
+GET         /api/v1/helpers/controlador                 controllers.HelpersController.controladorHelper()
 
 #Login
-POST        /api/v1/login                                controllers.SecurityController.login
+POST        /api/v1/login                               controllers.SecurityController.login

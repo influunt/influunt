@@ -10,7 +10,6 @@ import json.deserializers.AreaDeserializer;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.AreaSerializer;
 import json.serializers.InfluuntDateTimeSerializer;
-import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
@@ -20,7 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Entidade que representa a {@link Aera} no sistema
+ * Entidade que representa a {@link Area} no sistema
  *
  * @author lesiopinheiro
  *
