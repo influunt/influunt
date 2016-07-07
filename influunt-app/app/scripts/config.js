@@ -340,6 +340,22 @@ angular
           }
         })
 
+        .state('app.wizard_controladores.estagios', {
+          url: '/estagios/:id',
+          templateUrl: 'views/controladores/wizard/estagios.html',
+          data: {
+            title: 'controladores.titulo'
+          }
+        })
+
+        .state('app.wizard_controladores.associacao_detector', {
+          url: '/associacao-detector/:id',
+          templateUrl: 'views/controladores/wizard/associacao-detector.html',
+          data: {
+            title: 'controladores.titulo'
+          }
+        })
+
         .state('app.wizard_controladores.verdes_conflitantes', {
           url: '/verdes-conflitantes/:id',
           templateUrl: 'views/controladores/wizard/verdes-conflitantes.html',

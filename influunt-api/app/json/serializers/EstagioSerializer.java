@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import models.Estagio;
+import models.TransicaoProibida;
 
 import java.io.IOException;
 
@@ -36,6 +37,31 @@ public class EstagioSerializer extends JsonSerializer<Estagio> {
         if (estagio.getDataAtualizacao() != null) {
             jgen.writeStringField("dataAtualizacao", InfluuntDateTimeSerializer.parse(estagio.getDataAtualizacao()));
         }
+
+        if (estagio.getOrigemDeTransicoesProibidas() != null) {
+            jgen.writeArrayFieldStart("origemDeTransicoesProibidas");
+            for (TransicaoProibida transicaoProibida : estagio.getOrigemDeTransicoesProibidas()) {
+                jgen.writeObject(transicaoProibida);
+            }
+            jgen.writeEndArray();
+        }
+
+        if (estagio.getDestinoDeTransicoesProibidas() != null) {
+            jgen.writeArrayFieldStart("destinoDeTransicoesProibidas");
+            for (TransicaoProibida transicaoProibida : estagio.getDestinoDeTransicoesProibidas()) {
+                jgen.writeObject(transicaoProibida);
+            }
+            jgen.writeEndArray();
+        }
+
+        if (estagio.getAlternativaDeTransicoesProibidas() != null) {
+            jgen.writeArrayFieldStart("alternativaDeTransicoesProibidas");
+            for (TransicaoProibida transicaoProibida : estagio.getAlternativaDeTransicoesProibidas()) {
+                jgen.writeObject(transicaoProibida);
+            }
+            jgen.writeEndArray();
+        }
+
 
 //        jgen.writeArrayFieldStart("areas");
 //        for (Area area : estagio.getAreas()) {

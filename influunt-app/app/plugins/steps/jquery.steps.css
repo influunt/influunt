@@ -69,7 +69,8 @@
 
 .wizard > .steps > ul > li
 {
-    width: 25%;
+    position: relative;
+    width: 20%;
 }
 
 .wizard > .steps > ul > li,
@@ -92,8 +93,8 @@
     width: auto;
     margin: 0 0.5em 0.5em;
     padding: 8px;
+    box-shadow: inherit;
     text-decoration: none;
-
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
@@ -112,6 +113,7 @@
 .wizard > .steps .current a:hover,
 .wizard > .steps .current a:active
 {
+    border: 1px solid transparent;
     background: #1AB394;
     color: #fff;
     cursor: default;
