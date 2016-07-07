@@ -30,6 +30,8 @@ var WizardControladorPage = function () {
         return this.isWizardAssociacao();
       case 'Verdes Conflitantes':
         return this.isWizardVerdesConflitantes();
+      case 'Transições Proibidas':
+        return this.isWizardTransicoesProibidas();
       default:
         throw new Error('Passo não encontrado: '+passo);
     }
@@ -49,6 +51,10 @@ var WizardControladorPage = function () {
 
   this.isWizardVerdesConflitantes = function() {
     return world.waitFor('li[class*="wizard-steps"][class*="current"] a[step-id="verdesConflitantes"]');
+  };
+
+  this.isWizardTransicoesProibidas = function() {
+    return world.waitFor('li[class*="wizard-steps"][class*="current"] a[step-id="transicoesProibidas"]');
   };
 
   this.clicarBotaoProximoPasso = function() {

@@ -82,7 +82,7 @@ Funcionalidade: Fluxo de cadastro de controladores
   Cenário: Tentar salvar verdes conflitantes em branco
     Dado que o usuário esteja no wizard no passo "Verdes Conflitantes"
     E que a tabela de conflitos esteja em branco
-    Quando o usuário clicar no botão para finalizar
+    Quando o usuário clicar no botão para ir pro próximo passo
     Então o sistema deverá indicar erro nos campos do passo "Verdes Conflitantes"
     E o sistema irá continuar no passo "Verdes Conflitantes"
 
@@ -91,7 +91,7 @@ Funcionalidade: Fluxo de cadastro de controladores
     E que a tabela de conflitos esteja em branco
     E marcar conflito entre os estágios "G2" e "G3"
     E marcar conflito entre os estágios "G1" e "G4"
-    Quando o usuário clicar no botão para finalizar
+    Quando o usuário clicar no botão para ir pro próximo passo
     Então o sistema deverá indicar conflito
     E o sistema irá continuar no passo "Verdes Conflitantes"
 
@@ -100,6 +100,7 @@ Funcionalidade: Fluxo de cadastro de controladores
     E que a tabela de conflitos esteja em branco
     E marcar conflito entre os estágios "G1" e "G2"
     E marcar conflito entre os estágios "G3" e "G4"
-    E clicar no botão para finalizar
-    Então o sistema irá redirecionar o usuário para a página de listagem de controladores
+    E clicar no botão para ir pro próximo passo
+    Então o sistema irá avançar para o passo "Transições Proibidas"
+    # Então o sistema irá redirecionar o usuário para a página de listagem de controladores
 
