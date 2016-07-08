@@ -152,5 +152,27 @@ describe('Controller: ControladoresCtrl', function () {
         expect(scope.anelTemErro(0)).not.toBeTruthy();
       });
     });
+
+    describe('selecionaAnel', function () {
+      beforeEach(function() {
+        scope.aneis = [{}, {}, {}];
+      });
+
+      it('Deve selecionar um anel da lista de aneis conforme o id passado por parametro', function() {
+        scope.selecionaAnel(1);
+        expect(scope.currentAnel).toBe(scope.aneis[1]);
+        expect(scope.currentAnelIndex).toBe(1);
+      });
+
+      it('Se o houver um currentEstagioId definido, esta funcao deve selecionar o estagio', function() {
+        scope.currentEstagioId = 1;
+        spyOn(scope, 'selecionaEstagio');
+        scope.selecionaAnel(1);
+
+        expect(scope.selecionaEstagio).toHaveBeenCalled();
+      });
+
+    })
+
   });
 });
