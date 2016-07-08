@@ -2,5 +2,17 @@
 <project version="4">
   <component name="ScalaCompilerConfiguration">
     <profile name="SBT 1" modules="influunt-os" />
+    <profile name="SBT 2" modules="akka-sample-cluster-java,os72c">
+      <option name="deprecationWarnings" value="true" />
+      <option name="uncheckedWarnings" value="true" />
+      <option name="featureWarnings" value="true" />
+      <parameters>
+        <parameter value="-encoding" />
+        <parameter value="UTF-8" />
+        <parameter value="-target:jvm-1.8" />
+        <parameter value="-Xlog-reflective-calls" />
+        <parameter value="-Xlint" />
+      </parameters>
+    </profile>
   </component>
 </project>

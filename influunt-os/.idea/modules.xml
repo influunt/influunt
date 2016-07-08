@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/influunt-os.iml" filepath="$PROJECT_DIR$/.idea/modules/influunt-os.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/influunt-os-build.iml" filepath="$PROJECT_DIR$/.idea/modules/influunt-os-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/os72c.iml" filepath="$PROJECT_DIR$/.idea/modules/os72c.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/os72c-build.iml" filepath="$PROJECT_DIR$/.idea/modules/os72c-build.iml" />
     </modules>
   </component>
 </project>

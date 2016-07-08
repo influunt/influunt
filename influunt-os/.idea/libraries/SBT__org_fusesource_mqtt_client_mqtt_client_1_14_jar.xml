@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="SBT: org.fusesource.mqtt-client:mqtt-client:1.14:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.fusesource.mqtt-client/mqtt-client/bundles/mqtt-client-1.14.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.fusesource.mqtt-client/mqtt-client/srcs/mqtt-client-1.14-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

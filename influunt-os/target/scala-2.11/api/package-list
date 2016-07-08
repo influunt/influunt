@@ -1,7 +1,9 @@
 com.example
 os72c
+os72c.central
 os72c.controladores
 os72c.exceptions
 os72c.models
+os72c.mqtt
 os72c.procolos
 os72c.supervisores

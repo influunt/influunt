@@ -1,13 +1,18 @@
 package os72c.supervisores;
 
 import akka.actor.*;
+import akka.cluster.Cluster;
+import akka.cluster.ClusterEvent;
+import akka.cluster.Member;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.japi.Function;
+import com.typesafe.config.ConfigFactory;
 import os72c.Application;
 import com.google.common.collect.ImmutableList;
 import com.typesafe.config.Config;
 import os72c.Constants;
+import os72c.ProxyParent;
 import os72c.controladores.ControladorI2C;
 import os72c.controladores.ControladorSerial;
 import os72c.exceptions.HardwareFailureException;
@@ -24,6 +29,8 @@ import scala.concurrent.duration.Duration;
 public class Supervisor extends UntypedActor {
     private Intervalos intervalos;
     LoggingAdapter log = Logging.getLogger(getContext().system(), this);
+    Cluster cluster = Cluster.get(getContext().system());
+    Long i = 0l;
     private ActorRef controlador;
     private ImmutableList<Troca> trocas;
     private Config conf;
@@ -40,6 +47,8 @@ public class Supervisor extends UntypedActor {
                             }
                         }
                     });
+    private String central = "akka.tcp://InfluuntSystem@10.0.0.9:2551/user/central";
+    private ActorRef proxy;
 
 
     @Override
@@ -49,21 +58,30 @@ public class Supervisor extends UntypedActor {
 
     @Override
     public void preStart() throws Exception {
+        //#subscribe
+        cluster.subscribe(getSelf(), ClusterEvent.initialStateAsEvents(),
+                ClusterEvent.MemberEvent.class, ClusterEvent.UnreachableMember.class,ClusterEvent.MemberUp.class, ClusterEvent.LeaderChanged.class);
+        //#subscribe
 
-        conf = Application.conf72c.getConfig("local.driver");
-        String args[] = new String[6];
-        if(conf.getString("type").equals("serial")){
-            setupSerial(args);
-            controlador = getContext().actorOf(Props.create(ControladorSerial.class), "controlador");
-        }else if(conf.getString("type").equals("i2c")){
-            controlador = getContext().actorOf(Props.create(ControladorI2C.class), "controlador");
-        }else{
-            //Modo de comunicação com o hardware não definido
-            throw new RuntimeException("O tipo de driver não foi especificado");
-        }
-        intervalos = new Intervalos(getContext(),controlador,getSelf());
-        controlador.tell(new EventoControladorSupervisor(TipoEvento.SUPERVISOR_PRONTO,null,args),getSelf());
+//        conf = Application.conf72c.getConfig("local.driver");
+//        String args[] = new String[6];
+//        if(conf.getString("type").equals("serial")){
+//            setupSerial(args);
+//            controlador = getContext().actorOf(Props.create(ControladorSerial.class), "controlador");
+//        }else if(conf.getString("type").equals("i2c")){
+//            controlador = getContext().actorOf(Props.create(ControladorI2C.class), "controlador");
+//        }else{
+//            //Modo de comunicação com o hardware não definido
+//            throw new RuntimeException("O tipo de driver não foi especificado");
+//        }
+//        intervalos = new Intervalos(getContext(),controlador,getSelf());
+//        controlador.tell(new EventoControladorSupervisor(TipoEvento.SUPERVISOR_PRONTO,null,args),getSelf());
 
+    }
+
+    @Override
+    public void postStop() {
+        cluster.unsubscribe(getSelf());
     }
 
     private void setupSerial(String[] args) {
@@ -81,18 +99,55 @@ public class Supervisor extends UntypedActor {
 
     @Override
     public void onReceive(Object message) throws Exception {
-        if(message instanceof EventoControladorSupervisor){
-            final EventoControladorSupervisor eventoControladorSupervisor = (EventoControladorSupervisor) message;
-            System.out.println(eventoControladorSupervisor);
-            log.debug(eventoControladorSupervisor.toString());
-            switch (eventoControladorSupervisor.tipoEvento){
-                case CONTROLADOR_PRONTO:
-                    registraControlador(eventoControladorSupervisor);
-                    break;
-                case PROXIMO_CICLO:
-                    intervalos.proximoCiclo(Integer.valueOf(eventoControladorSupervisor.argumentos[0]));
-                    break;
-            }
+
+        log.info("-----------------------------------------------------------");
+        log.info(message.toString());
+        log.info("-----------------------------------------------------------");
+
+        if(message instanceof Long) {
+            log.info("-----------------------------------------------------------");
+            log.info("----> {}", message);
+            log.info("-----------------------------------------------------------");
+            i+=1;
+            proxy.tell(i,getSelf());
+        }
+
+//        if(message instanceof EventoControladorSupervisor){
+//            final EventoControladorSupervisor eventoControladorSupervisor = (EventoControladorSupervisor) message;
+//            System.out.println(eventoControladorSupervisor);
+//            log.debug(eventoControladorSupervisor.toString());
+//            switch (eventoControladorSupervisor.tipoEvento){
+//                case CONTROLADOR_PRONTO:
+//                    registraControlador(eventoControladorSupervisor);
+//                    break;
+//                case PROXIMO_CICLO:
+//                    intervalos.proximoCiclo(Integer.valueOf(eventoControladorSupervisor.argumentos[0]));
+//                    break;
+//            }
+        else if (message instanceof ClusterEvent.MemberUp) {
+            log.info("-----------------------------------------------------------");
+            log.info("Faco parte!!!!");
+            central = ((ClusterEvent.MemberUp) message).member().address().toString();
+            log.info("Endereco:" + central);
+
+            proxy = getContext().actorOf(Props.create(ProxyParent.class, getContext().actorSelection(central + "/user/central").anchorPath()));
+            proxy.forward("Ola from pi",getContext());
+
+
+//        }else if(message.equals("Obrigado")){
+//            System.out.println("%%%%%%%%%%%%%%%%%%%%" + message);
+//            getSender().tell(Long.valueOf(1l),getSelf());
+//        }else{
+//            System.out.println("DESCONHECIDA" + message);
+//            getContext().actorSelection(central).tell(Long.valueOf(1), getSelf());
+//        }
+        }
+    }
+
+    private void register(Member member) {
+        if (member.hasRole("central")) {
+            getContext().actorSelection(member.address() + "/user/central").tell(
+                    "SupervisorRegistration", getSelf());
         }
     }
 
@@ -112,6 +167,17 @@ public class Supervisor extends UntypedActor {
 
         intervalos.setTrocas(trocas);
         intervalos.start(0);
+
+    }
+
+    public static void main(String args[]){
+        // Create an Akka system
+        ActorSystem system = ActorSystem.create("InfluuntSystem", ConfigFactory.load());
+
+        // Create an actor that handles cluster domain events
+        system.actorOf(Props.create(Supervisor.class),
+                "supervisor");
+        system.awaitTermination();
 
     }
 }

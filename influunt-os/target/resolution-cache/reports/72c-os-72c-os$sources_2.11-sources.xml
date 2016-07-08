@@ -4,10 +4,10 @@
 	<info
 		organisation="72c-os"
 		module="72c-os$sources_2.11"
-		revision="1.0"
+		revision="2.4.4"
 		conf="sources"
-		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom, scala-tool"
-		date="20160704150345"/>
+		confs="compile, runtime, test, provided, optional, multi-jvm, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom, scala-tool"
+		date="20160707161132"/>
 	<dependencies>
 	</dependencies>
 </ivy-report>

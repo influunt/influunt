@@ -45,6 +45,6 @@ public abstract class Controlador extends UntypedActor {
 
     protected abstract void entrarEmModoAmarelhoIntermitente();
 
-    protected abstract void onChange(EstadoGrupo[] estadoDosGrupos, int tempoRestante);
+    protected abstract void onChange(EstadoGrupo[] estadoDosGrupos, int tempoRestante) throws Exception;
 
 }

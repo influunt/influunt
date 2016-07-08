@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="SBT: org.fusesource.hawtbuf:hawtbuf:1.11:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.fusesource.hawtbuf/hawtbuf/bundles/hawtbuf-1.11.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.fusesource.hawtbuf/hawtbuf/srcs/hawtbuf-1.11-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

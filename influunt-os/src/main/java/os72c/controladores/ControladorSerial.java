@@ -24,28 +24,28 @@ public class ControladorSerial extends Controlador {
     @Override
     protected void supervisorPronto(ActorRef supervisor, String[] argumentos) {
 
-        porta      = argumentos[Constants.SERIAL_PORTA];
-        baudrate   = Integer.valueOf(argumentos[Constants.SERIAL_BAUDRATE]);
-        databits   = Integer.valueOf(argumentos[Constants.SERIAL_DATABITS]);
-        stopbits   = Integer.valueOf(argumentos[Constants.SERIAL_STOPBITS]);
-        parity     = Integer.valueOf(argumentos[Constants.SERIAL_PARITY]);
+        porta = argumentos[Constants.SERIAL_PORTA];
+        baudrate = Integer.valueOf(argumentos[Constants.SERIAL_BAUDRATE]);
+        databits = Integer.valueOf(argumentos[Constants.SERIAL_DATABITS]);
+        stopbits = Integer.valueOf(argumentos[Constants.SERIAL_STOPBITS]);
+        parity = Integer.valueOf(argumentos[Constants.SERIAL_PARITY]);
         startDelay = Integer.valueOf(argumentos[Constants.SERIAL_START_DELAY]);
 
         serialPort = new SerialPort(porta);
         try {
             serialPort.openPort();//Open serial port
-            serialPort.setParams(baudrate,databits,stopbits,parity);
+            serialPort.setParams(baudrate, databits, stopbits, parity);
             Thread.sleep(2000);
 
-        } catch (SerialPortException spe){
+        } catch (SerialPortException spe) {
             spe.printStackTrace();
             throw new HardwareFailureException(spe.getMessage());
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        pronto("Raro Labs","Arduino","1.0");
+        pronto("Raro Labs", "Arduino", "1.0");
     }
 
     @Override
@@ -54,9 +54,9 @@ public class ControladorSerial extends Controlador {
     }
 
     @Override
-    protected void onChange(EstadoGrupo[] estadoDosGrupos, int tempoRestante) {
+    protected void onChange(EstadoGrupo[] estadoDosGrupos, int tempoRestante) throws Exception {
         String command = "";
-        for(EstadoGrupo estado: estadoDosGrupos){
+        for (EstadoGrupo estado : estadoDosGrupos) {
             switch (estado) {
                 case VERDE:
                     command += "1,";
@@ -76,15 +76,18 @@ public class ControladorSerial extends Controlador {
             }
 
         }
-            try {
-                command += (String.valueOf(tempoRestante / 1000));
-                System.out.println("*************:" + command);
-                System.out.println(System.currentTimeMillis());
-                serialPort.writeBytes(command.getBytes());
-                System.out.println(System.currentTimeMillis());
-            } catch (Exception e) {
-                e.printStackTrace();
+        command += (String.valueOf(tempoRestante / 1000));
+        System.out.println("*************:" + command);
+        System.out.println(System.currentTimeMillis());
+        if (serialPort.isOpened()) {
+            serialPort.writeBytes(command.getBytes());
+            byte[] retorno = serialPort.readBytes(1,1500);
+            if(retorno[0] != 1){
+                throw new SerialPortException(porta, "onChange", "Não foi possível comunicar pela porta serial");
             }
+        } else {
+            throw new SerialPortException(porta, "onChange", "Não foi possível comunicar pela porta serial");
         }
+    }
 
 }
