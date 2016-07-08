@@ -35,7 +35,7 @@ public class Permissao extends Model implements Permission {
     @NotBlank(message = "não pode ficar em branco")
     private String chave;
 
-    @ManyToMany(cascade = CascadeType.REMOVE)
+    @ManyToMany(mappedBy = "permissoes")
     private List<Perfil> perfis;
 
     @Column

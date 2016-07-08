@@ -28,7 +28,7 @@ public class Perfil extends Model implements Role {
     public static Finder<UUID, Perfil> find = new Finder<UUID, Perfil>(Perfil.class);
 
     @ManyToMany(cascade = CascadeType.REMOVE)
-    @JoinTable(name = "perfis_permissoes", joinColumns = {@JoinColumn(name = "perfil_id")}, inverseJoinColumns = {@JoinColumn(name = "permissao_id")})
+    @JoinTable(name = "permissoes_perfis", joinColumns = {@JoinColumn(name = "perfil_id")}, inverseJoinColumns = {@JoinColumn(name = "permissao_id")})
     private List<Permissao> permissoes;
 
     @OneToMany(mappedBy = "perfil")
