@@ -27,7 +27,7 @@ var paths = {
     yeoman.app + '/scripts/**/*.js'
   ],
   styles: [yeoman.app + '/styles/**/*.scss'],
-  test: ['test/spec/**/*.js'],
+  test: ['test/helpers/**/*.js', 'test/spec/**/*.js'],
   testRequire: [
     // Bower plugins
     'bower_components/jquery/dist/jquery.js',

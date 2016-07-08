@@ -26,7 +26,10 @@
     "expect": true,
     "inject": true,
     "it": true,
-    "spyOn": true
+    "spyOn": true,
+
+    // tests helpers
+    "WizardControladores": true
   }
 }
 

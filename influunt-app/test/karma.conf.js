@@ -64,6 +64,7 @@ module.exports = function(config) {
       'app/plugins/dropzone/dropzone.js',
 
       // tests and scripts.
+      'test/helpers/**/*.js',
       'test/mock/**/*.js',
       'app/scripts/**/*.js',
       'test/spec/**/*.js'

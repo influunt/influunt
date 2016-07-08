@@ -1,7 +1,7 @@
 <fieldset data-ng-init="inicializaAneis()">
   <div class="row">
 
-    <uib-alert type="danger" close="closeAlertAnel(currentAnelIndex)" data-ng-if="errors.aneis[currentAnelIndex].general">
+    <uib-alert type="danger" close="closeAlert(currentAnelIndex)" data-ng-if="errors.aneis[currentAnelIndex].general">
       <div style="padding-left: 12px;">
         <ul>
           <li data-ng-repeat="message in errors.general">{{ message }}</li>
