@@ -1,6 +1,6 @@
 <fieldset data-ng-init="inicializaAssociacao()">
   <div class="row">
-    <uib-alert type="danger" close="closeAlertAnel(currentAnelIndex, 'all')" data-ng-if="errors.general || errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosDePedestre || errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosVeiculares">
+    <uib-alert type="danger" close="closeAlert(currentAnelIndex, 'all')" data-ng-if="errors.general || errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosDePedestre || errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosVeiculares">
       <div style="padding-left: 12px;">
         <ul>
           <li data-ng-repeat="message in errors.general">{{ message }}</li>

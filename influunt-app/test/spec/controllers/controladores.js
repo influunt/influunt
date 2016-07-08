@@ -285,7 +285,7 @@ describe('Controller: ControladoresCtrl', function () {
         });
     });
 
-    describe('closeAlertAnel', function () {
+    describe('closeAlert', function () {
       beforeEach(function() {
         scope.errors = {
           aneis: [{
@@ -296,18 +296,18 @@ describe('Controller: ControladoresCtrl', function () {
       });
 
       it('Ao fechar o alert de aneis, deve limpar a lista de general notifications', function() {
-        scope.closeAlertAnel(0);
+        scope.closeAlert(0);
         expect(scope.errors.aneis[0].general).toBeUndefined();
       });
 
       it('Deve limpar uma lista customizada, se houver um segundo parametro informado', function() {
-        scope.closeAlertAnel(0, 'other');
+        scope.closeAlert(0, 'other');
         expect(scope.errors.aneis[0].other).toBeUndefined();
       });
 
       it('Deve manter o objeto de erros inalterado se um anel incorreto for informado', function() {
         var originalErrors = _.cloneDeep(scope.errors);
-        scope.closeAlertAnel(1);
+        scope.closeAlert(1);
         expect(scope.errors).toEqual(originalErrors);
       });
     });
