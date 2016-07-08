@@ -292,5 +292,4 @@ angular.module('influuntApp')
             alternativoAnterior.alternativaDeTransicoesProibidas.splice(transicaoAnterior, 1);
         }
       };
-
     }]);

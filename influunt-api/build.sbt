@@ -7,6 +7,8 @@ lazy val root = (project in file(".")).enablePlugins(PlayJava,PlayEbean)
 scalaVersion := "2.11.7"
 resolvers += Resolver.jcenterRepo
 javaOptions in Test += "-Dconfig.file=conf/test.conf"
+javaOptions in Test += "-Dtest.timeout=600000"
+
 
 
 libraryDependencies ++= Seq(
