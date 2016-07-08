@@ -17,7 +17,8 @@ angular.module('influuntApp')
       $controller('ControladoresVerdesConflitantesCtrl', {$scope: $scope});
 
       // funcoes privadas.
-      var desativarTransicaoProibida, ativarTransicaoProibida;
+      var desativarTransicaoProibida, ativarTransicaoProibida, removeAlternativoAnterior, setEstagioAlternativo,
+          setEstagioAlternativoEmDestino, setEstagioAlternativoEmOrigem, getEstagioAnterior;
 
       /**
        * Garante que o controlador tem as condições mínimas para acessar a tela de transicoes proibidas.
@@ -111,41 +112,14 @@ angular.module('influuntApp')
        * @param      {<type>}  transicao  The transicao
        */
       $scope.marcarTransicaoAlternativa = function(transicao) {
-        var alternativoAnterior = null;
         var estagioOrigem = _.find($scope.currentAnel.estagios, {id: transicao.origem.id});
-        estagioOrigem.origemDeTransicoesProibidas = estagioOrigem.origemDeTransicoesProibidas || [];
-        var transicaoOrigem = _.findIndex(estagioOrigem.origemDeTransicoesProibidas, {destino: {id: transicao.destino.id}});
-        if (transicaoOrigem >= 0) {
-          alternativoAnterior = estagioOrigem.origemDeTransicoesProibidas[transicaoOrigem].alternativo &&
-                                    estagioOrigem.origemDeTransicoesProibidas[transicaoOrigem].alternativo.id;
-          estagioOrigem.origemDeTransicoesProibidas.splice(transicaoOrigem, 1);
-        }
-        estagioOrigem.origemDeTransicoesProibidas.push(transicao);
-
-
         var estagioDestino = _.find($scope.currentAnel.estagios, {id: transicao.destino.id});
-        estagioDestino.destinoDeTransicoesProibidas = estagioDestino.destinoDeTransicoesProibidas || [];
-        var transicaoDestino = _.findIndex(estagioDestino.destinoDeTransicoesProibidas, {origem: {id: transicao.origem.id}});
-        if (transicaoDestino >= 0) {
-          estagioDestino.destinoDeTransicoesProibidas.splice(transicaoDestino, 1);
-        }
-        estagioDestino.destinoDeTransicoesProibidas.push(transicao);
+        var alternativoAnterior = getEstagioAnterior(estagioOrigem, transicao);
 
-
-        if (transicao.alternativo && transicao.alternativo.id) {
-          var estagioAlternativo = _.find($scope.currentAnel.estagios, {id: transicao.alternativo.id});
-          estagioAlternativo.alternativaDeTransicoesProibidas = estagioAlternativo.alternativaDeTransicoesProibidas || [];
-          estagioAlternativo.alternativaDeTransicoesProibidas.push(transicao);
-        }
-
-        var alternativoId = transicao.alternativo && transicao.alternativo.id;
-        if (alternativoAnterior && alternativoAnterior !== alternativoId) {
-          alternativoAnterior = _.find($scope.currentAnel.estagios, {id: alternativoAnterior});
-          var transicaoAnterior = _.findIndex(estagioDestino.destinoDeTransicoesProibidas, {origem: {id: transicao.origem.id}});
-          if (transicaoAnterior >= 0) {
-            alternativoAnterior.alternativaDeTransicoesProibidas.splice(transicaoAnterior, 1);
-          }
-        }
+        setEstagioAlternativoEmOrigem(transicao, estagioOrigem);
+        setEstagioAlternativoEmDestino(transicao, estagioDestino);
+        setEstagioAlternativo(transicao);
+        removeAlternativoAnterior(transicao, alternativoAnterior, estagioDestino);
       };
 
       /**
@@ -230,6 +204,93 @@ angular.module('influuntApp')
         var idx2 = _.findIndex(estagio2.destinoDeTransicoesProibidas, {origem: {id: estagio1.id}});
         estagio1.origemDeTransicoesProibidas.splice(idx1, 1);
         estagio2.destinoDeTransicoesProibidas.splice(idx2, 1);
+      };
+
+      /**
+       * Retorna o estagio anterior à alteração de transição alternativa.
+       *
+       * @param      {<type>}   estagioOrigem  The estagio origem
+       * @param      {<type>}   transicao      The transicao
+       * @return     {boolean}  The estagio anterior.
+       */
+      getEstagioAnterior = function(estagioOrigem, transicao) {
+        var index = _.findIndex(estagioOrigem.origemDeTransicoesProibidas, {destino: {id: transicao.destino.id}});
+        return index >= 0 &&
+          estagioOrigem.origemDeTransicoesProibidas[index].alternativo &&
+          estagioOrigem.origemDeTransicoesProibidas[index].alternativo.id;
+      };
+
+      /**
+       * Atualiza o objeto de transição em origemDeTransicoesProibidas quando o estágio alternativo é atualizado.
+       *
+       * @param      {<type>}  transicao      The transicao
+       * @param      {<type>}  estagioOrigem  The estagio origem
+       */
+      setEstagioAlternativoEmOrigem = function(transicao, estagioOrigem) {
+        estagioOrigem.origemDeTransicoesProibidas = estagioOrigem.origemDeTransicoesProibidas || [];
+        var transicaoOrigem = _.findIndex(
+          estagioOrigem.origemDeTransicoesProibidas, {destino: {id: transicao.destino.id}}
+        );
+
+        if (transicaoOrigem >= 0) {
+          estagioOrigem.origemDeTransicoesProibidas.splice(transicaoOrigem, 1);
+        }
+
+        estagioOrigem.origemDeTransicoesProibidas.push(transicao);
+      };
+
+      /**
+       * Atualiza o objeto de transição em destinoDeTransicoesProibidas quando o estágio alternativo é atualizado.
+       *
+       * @param      {<type>}  transicao       The transicao
+       * @param      {<type>}  estagioDestino  The estagio destino
+       */
+      setEstagioAlternativoEmDestino = function(transicao, estagioDestino) {
+        estagioDestino.destinoDeTransicoesProibidas = estagioDestino.destinoDeTransicoesProibidas || [];
+        var transicaoDestino = _.findIndex(
+          estagioDestino.destinoDeTransicoesProibidas, {origem: {id: transicao.origem.id}}
+        );
+
+        if (transicaoDestino >= 0) {
+          estagioDestino.destinoDeTransicoesProibidas.splice(transicaoDestino, 1);
+        }
+
+        estagioDestino.destinoDeTransicoesProibidas.push(transicao);
+      };
+
+      /**
+       * Adiciona o objeto de transição à lista de alternativaDeTransicoesProibidas do estágio alternativo.
+       *
+       * @param      {<type>}  transicao  The transicao
+       */
+      setEstagioAlternativo = function(transicao) {
+        if (transicao.alternativo && transicao.alternativo.id) {
+          var estagioAlternativo = _.find($scope.currentAnel.estagios, {id: transicao.alternativo.id});
+          estagioAlternativo.alternativaDeTransicoesProibidas = estagioAlternativo.alternativaDeTransicoesProibidas || [];
+          estagioAlternativo.alternativaDeTransicoesProibidas.push(transicao);
+        }
+      };
+
+      /**
+       * Este método remove o objeto de alternativaDeTransicoesProibidas do estágio
+       * alternativo, quando este é substituido por outro em alguma transição.
+       *
+       * @param      {<type>}   transicao            The transicao
+       * @param      {<type>}   alternativoAnterior  The alternativo anterior
+       * @param      {<type>}   estagioDestino       The estagio destino
+       * @return     {boolean}  { description_of_the_return_value }
+       */
+      removeAlternativoAnterior = function(transicao, alternativoAnterior, estagioDestino) {
+        var alternativoId = transicao.alternativo && transicao.alternativo.id;
+        if (alternativoAnterior && alternativoAnterior !== alternativoId) {
+          alternativoAnterior = _.find($scope.currentAnel.estagios, {id: alternativoAnterior});
+          var transicaoAnterior = _.findIndex(
+            estagioDestino.destinoDeTransicoesProibidas, {origem: {id: transicao.origem.id}}
+          );
+
+          return transicaoAnterior >= 0 &&
+            alternativoAnterior.alternativaDeTransicoesProibidas.splice(transicaoAnterior, 1);
+        }
       };
 
     }]);

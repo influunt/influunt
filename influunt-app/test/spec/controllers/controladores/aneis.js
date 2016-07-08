@@ -64,7 +64,7 @@ describe('Controller: ControladoresAneisCtrl', function () {
       id = 'id';
       $state.params.id = id;
 
-      helpers = {"cidades":[{},{}],"fabricantes":[{},{},{}]};
+      helpers = {cidades:[{},{}],fabricantes:[{},{},{}]};
       objeto = {id: 1, area: {id: 'area', cidade: {id: 'cidade'}}, modelo: {id: 'modelo', fabricante: {id: 'fab1'}}};
       $httpBackend.expectGET('/controladores/' + id).respond(objeto);
       $httpBackend.expectGET('/helpers/controlador').respond(helpers);
