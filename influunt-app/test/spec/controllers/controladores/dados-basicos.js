@@ -16,8 +16,4 @@ describe('Controller: ControladoresDadosBasicosCtrl', function () {
       // place here mocked dependencies
     });
   }));
-
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(ControladoresDadosBasicosCtrl.awesomeThings.length).toBe(3);
-  });
 });
