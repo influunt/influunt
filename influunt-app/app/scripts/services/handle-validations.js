@@ -9,8 +9,10 @@
  */
 angular.module('influuntApp')
   .factory('handleValidations', function () {
-    var handle = function(errors, scope) {
-      scope.validations = {};
+    var handle = function(errors) {
+      var validations = {};
+      var response = {};
+
       if (angular.isArray(errors)) {
         errors.forEach(function(err) {
           var path = err.path.match(/\d+\]$/) ? err.path + '.general' : err.path;
@@ -18,22 +20,23 @@ angular.module('influuntApp')
             path = 'general';
           }
 
-          scope.validations[path] = scope.validations[path] || [];
-          scope.validations[path].push(err.message);
+          validations[path] = validations[path] || [];
+          validations[path].push(err.message);
         });
 
-        scope.errors = {};
-        _.each(scope.validations, function(val, key) {
-          _.update(scope.errors, key, _.constant(val));
+        _.each(validations, function(val, key) {
+          _.update(response, key, _.constant(val));
         });
 
         // Específicos para as validações em escopo de anel.
-        _.each(scope.errors.aneis, function(anel) {
+        _.each(response.aneis, function(anel) {
           if (anel) {
             anel.all = _.chain(anel).values().flatten().uniq().value();
           }
         });
       }
+
+      return response;
     };
 
     return {

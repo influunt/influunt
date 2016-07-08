@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresAneisCtrl', ['$scope', '$state', '$controller',
-    function ($scope, $state, $controller) {
+  .controller('ControladoresAneisCtrl', ['$scope', '$state', '$controller', 'assertControlador',
+    function ($scope, $state, $controller, assertControlador) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
       // Metodos privados.
@@ -23,13 +23,12 @@ angular.module('influuntApp')
        * @return     {boolean}  { description_of_the_return_value }
        */
       $scope.assertAneis = function() {
-        var condition = ($scope.objeto.aneis && $scope.objeto.aneis.length > 0);
-        if (!condition) {
-          $state.go('app.wizard_controladores.dados_basicos', {id: $scope.objeto.id});
-          return false;
+        var valid = assertControlador.hasAneis($scope.objeto);
+        if (!valid) {
+          $state.go('app.wizard_controladores.dados_basicos');
         }
 
-        return true;
+        return valid;
       };
 
       $scope.inicializaAneis = function() {

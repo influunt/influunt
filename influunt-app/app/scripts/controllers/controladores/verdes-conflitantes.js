@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresVerdesConflitantesCtrl', ['$scope', '$state', '$controller',
-    function ($scope, $state, $controller) {
+  .controller('ControladoresVerdesConflitantesCtrl', ['$scope', '$state', '$controller', 'assertControlador',
+    function ($scope, $state, $controller, assertControlador) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
       var buildIntervaloAneis, buildMatrizVerdesConflitantes;
@@ -22,13 +22,12 @@ angular.module('influuntApp')
        * @return     {boolean}  { description_of_the_return_value }
        */
       $scope.assertVerdesConflitantes = function() {
-        var condition = ($scope.objeto.gruposSemaforicos && $scope.objeto.gruposSemaforicos.length > 0);
-        if (!condition) {
+        var valid = assertControlador.hasAneis($scope.objeto) && assertControlador.hasEstagios($scope.objeto);
+        if (!valid) {
           $state.go('app.wizard_controladores.associacao', {id: $scope.objeto.id});
-          return false;
         }
 
-        return true;
+        return valid;
       };
 
       $scope.inicializaVerdesConflitantes = function() {

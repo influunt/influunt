@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresAssociacaoCtrl', ['$scope', '$state', '$controller',
-    function ($scope, $state, $controller) {
+  .controller('ControladoresAssociacaoCtrl', ['$scope', '$state', '$controller', 'assertControlador',
+    function ($scope, $state, $controller, assertControlador) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
       /**
@@ -20,14 +20,12 @@ angular.module('influuntApp')
        * @return     {boolean}  { description_of_the_return_value }
        */
       $scope.assertAssociacoes = function() {
-        var condition = $scope.objeto.aneis && $scope.objeto.aneis.length;
-        condition = condition && _.chain($scope.objeto.aneis).map('estagios').flatten().compact().value().length > 0;
-        if (!condition) {
+        var valid = assertControlador.hasAneis($scope.objeto) && assertControlador.hasEstagios($scope.objeto);
+        if (!valid) {
           $state.go('app.wizard_controladores.aneis', {id: $scope.objeto.id});
-          return false;
         }
 
-        return true;
+        return valid;
       };
 
       $scope.inicializaAssociacao = function() {
@@ -101,7 +99,7 @@ angular.module('influuntApp')
         }
 
         $scope.toggleEstagioAtivado(grupo, estagio);
-        $scope.atualizaGruposSemaforicosSelecionados();
+        return $scope.currentEstagio && $scope.atualizaGruposSemaforicosSelecionados();
       };
 
       $scope.estagioTemErro = function(indiceAnel, indiceEstagio) {
