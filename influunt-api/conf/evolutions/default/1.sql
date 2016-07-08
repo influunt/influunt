@@ -3,6 +3,21 @@
 
 # --- !Ups
 
+create table agrupamentos (
+  id                            varchar(40) not null,
+  tipo                          varchar(8),
+  data_criacao                  datetime(6) not null,
+  data_atualizacao              datetime(6) not null,
+  constraint ck_agrupamentos_tipo check (tipo in ('SUBAREA','ROTA','CORREDOR')),
+  constraint pk_agrupamentos primary key (id)
+);
+
+create table agrupamentos_controladores (
+  agrupamento_id                varchar(40) not null,
+  controlador_id                varchar(40) not null,
+  constraint pk_agrupamentos_controladores primary key (agrupamento_id,controlador_id)
+);
+
 create table aneis (
   id                            varchar(40) not null,
   ativo                         tinyint(1) default 0 not null,
@@ -233,6 +248,12 @@ create table usuarios (
   constraint pk_usuarios primary key (login)
 );
 
+alter table agrupamentos_controladores add constraint fk_agrupamentos_controladores_agrupamentos foreign key (agrupamento_id) references agrupamentos (id) on delete restrict on update restrict;
+create index ix_agrupamentos_controladores_agrupamentos on agrupamentos_controladores (agrupamento_id);
+
+alter table agrupamentos_controladores add constraint fk_agrupamentos_controladores_controladores foreign key (controlador_id) references controladores (id) on delete restrict on update restrict;
+create index ix_agrupamentos_controladores_controladores on agrupamentos_controladores (controlador_id);
+
 alter table aneis add constraint fk_aneis_controlador_id foreign key (controlador_id) references controladores (id) on delete restrict on update restrict;
 create index ix_aneis_controlador_id on aneis (controlador_id);
 
@@ -320,6 +341,12 @@ create index ix_usuarios_perfil_id on usuarios (perfil_id);
 
 # --- !Downs
 
+alter table agrupamentos_controladores drop foreign key fk_agrupamentos_controladores_agrupamentos;
+drop index ix_agrupamentos_controladores_agrupamentos on agrupamentos_controladores;
+
+alter table agrupamentos_controladores drop foreign key fk_agrupamentos_controladores_controladores;
+drop index ix_agrupamentos_controladores_controladores on agrupamentos_controladores;
+
 alter table aneis drop foreign key fk_aneis_controlador_id;
 drop index ix_aneis_controlador_id on aneis;
 
@@ -403,6 +430,10 @@ drop index ix_usuarios_area_id on usuarios;
 
 alter table usuarios drop foreign key fk_usuarios_perfil_id;
 drop index ix_usuarios_perfil_id on usuarios;
+
+drop table if exists agrupamentos;
+
+drop table if exists agrupamentos_controladores;
 
 drop table if exists aneis;
 
