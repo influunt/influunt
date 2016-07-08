@@ -538,6 +538,7 @@ header .nav-secon li a {
     float: left;
 }
 .wrapper-content .basic-wizard .content .body .association.tables-associated .knob .knob-item .meters input {
+    margin-top: 25px !important;
     outline: none;
 }
 .wrapper-content .basic-wizard .content .body .association.tables-associated .knob .knob-item .meters label {
@@ -547,7 +548,7 @@ header .nav-secon li a {
     margin: 0;
     right: 0;
     left: 0;
-    top: 53%;
+    top: 50%;
 }
 .wrapper-content .basic-wizard .content .body .association.tables-associated .knob .knob-item.delay-time {
     background: #e5e5e5;
@@ -634,7 +635,7 @@ header .nav-secon li a {
 }
 .wrapper-content .basic-wizard .content .body .association.tables-associated nav li figure {
     float: left;
-    width: 140px;
+    width: 135px;
     height: 130px;
     overflow:hidden;
     position:relative;
@@ -1246,7 +1247,7 @@ header .nav-secon li a {
     }
     .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .group-figures figure {
         width: 130px;
-        height: 125px;
+        height: 130px;
     }
     .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .group-form {
         width: 28%;
@@ -1279,8 +1280,8 @@ header .nav-secon li a {
         font-size: 11px;        
     }
     .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .group-figures figure {
-        width: 125px;
-        height: 125px;
+        width: 120px;
+        height: 130px;
     }
     .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .group-form {
         width: 28%;
