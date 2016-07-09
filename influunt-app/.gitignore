@@ -6,6 +6,7 @@ app/scripts/ngConstants.js
 app/scripts/templates.js
 log
 dist
+screenshots/
 
 # auto generated file.
 app/scripts/templates.js

@@ -2,16 +2,14 @@
 
 var worldObj = require('../world');
 var world = new worldObj.World();
-var lastIndex = 0;
 
 var AreasPage = function () {
   var INDEX_PATH = '/app/areas';
   var NEW_PATH = '/app/areas/new';
 
   var inputDescArea = '[name="area_descricao"]';
-  var submitButton = '[name="commit"]';
   var novaAreaButton = 'a[href*="/areas/new"]';
-  var formAreas = 'form[name="formAreas"]'
+  var formAreas = 'form[name="formAreas"]';
 
   var totalAreasIndex = 0;
 
@@ -36,26 +34,12 @@ var AreasPage = function () {
   };
 
   this.existeAoMenosUmaArea = function() {
-    // this.newPage();
-    // this.fillAreaForm();
-    // return world.waitFor('#toast-container div');
     return world.execSqlScript('features/support/scripts/areas/create_area.sql');
   };
 
   this.newPage = function() {
     return world.visit(NEW_PATH).then(function(){
       return world.waitFor(formAreas);
-    }).catch(function(ex){
-      console.log(" NEW PAGE")
-      console.log(ex)
-    });
-  };
-
-  this.fillAreaForm = function(descricao) {
-    descricao = parseInt(descricao) || lastIndex++;
-    return world.setValue(inputDescArea, descricao).then(function(){
-      world.selectOption('select[name="cidade"]', 'Teste Cadastro Cidade');
-      return world.clickButton(submitButton);
     });
   };
 
@@ -72,7 +56,9 @@ var AreasPage = function () {
   };
 
   this.textoExisteNaTabela = function(text) {
-    return world.getElementsByXpath('//td[contains(text(), "'+text+'")]');
+    return world.waitForByXpath('//td[contains(text(), "'+text+'")]').then(function() {
+      return world.getElementByXpath('//td[contains(text(), "'+text+'")]');
+    });
   };
 
   this.clicarLinkComTexto = function(texto) {
@@ -80,9 +66,11 @@ var AreasPage = function () {
   };
 
   this.textoFieldDescricaoArea = function() {
-    return world.getElement(inputDescArea).then(function(element) {
+    return world.waitFor(inputDescArea).then(function() {
+      return world.getElement(inputDescArea);
+    }).then(function(element) {
      return element.getAttribute('value');
-    })
+    });
   };
 
   this.textoConfirmacaoApagarRegistro = function() {

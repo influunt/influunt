@@ -311,6 +311,7 @@ angular
           url: '/wizard-controladores',
           templateUrl: 'views/controladores/wizard/wizard.html',
           controller: 'ControladoresCtrl',
+          abstract: true,
           data: {
             title: 'controladores.titulo'
           }
@@ -319,6 +320,7 @@ angular
         .state('app.wizard_controladores.dados_basicos', {
           url: '/dados-basicos/:id',
           templateUrl: 'views/controladores/wizard/dados-basicos.html',
+          controller: 'ControladoresDadosBasicosCtrl',
           data: {
             title: 'controladores.titulo'
           }
@@ -327,6 +329,7 @@ angular
         .state('app.wizard_controladores.aneis', {
           url: '/aneis/:id',
           templateUrl: 'views/controladores/wizard/aneis.html',
+          controller: 'ControladoresAneisCtrl',
           data: {
             title: 'controladores.titulo'
           }
@@ -335,22 +338,25 @@ angular
         .state('app.wizard_controladores.associacao', {
           url: '/associacao/:id',
           templateUrl: 'views/controladores/wizard/associacao.html',
+          controller: 'ControladoresAssociacaoCtrl',
           data: {
             title: 'controladores.titulo'
           }
         })
 
-        .state('app.wizard_controladores.estagios', {
-          url: '/estagios/:id',
-          templateUrl: 'views/controladores/wizard/estagios.html',
+        .state('app.wizard_controladores.verdes_conflitantes', {
+          url: '/verdes-conflitantes/:id',
+          templateUrl: 'views/controladores/wizard/verdes-conflitantes.html',
+          controller: 'ControladoresVerdesConflitantesCtrl',
           data: {
             title: 'controladores.titulo'
           }
         })
 
-        .state('app.wizard_controladores.associacao_detector', {
-          url: '/associacao-detector/:id',
-          templateUrl: 'views/controladores/wizard/associacao-detector.html',
+        .state('app.wizard_controladores.transicoes_proibidas', {
+          url: '/transicoes-proibidas/:id',
+          templateUrl: 'views/controladores/wizard/transicoes-proibidas.html',
+          controller: 'ControladoresTransicoesProibidasCtrl',
           data: {
             title: 'controladores.titulo'
           }
@@ -363,9 +369,9 @@ angular
           }
         })
 
-        .state('app.wizard_controladores.verdes_conflitantes', {
-          url: '/verdes-conflitantes/:id',
-          templateUrl: 'views/controladores/wizard/verdes-conflitantes.html',
+        .state('app.wizard_controladores.associacao_detector', {
+          url: '/associacao-detector/:id',
+          templateUrl: 'views/controladores/wizard/associacao-detector.html',
           data: {
             title: 'controladores.titulo'
           }
@@ -508,6 +514,8 @@ angular
 
     .run(['$rootScope', '$state', '$timeout',
       function($rootScope, $state, $timeout) {
+
+        $rootScope.$state = $state;
 
         $rootScope.isAuthenticated = function() {
           return !!localStorage.token;

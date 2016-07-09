@@ -41,11 +41,11 @@ public abstract class ControladorTest extends WithApplication {
                 .in(Mode.TEST).build();
     }
 
-    protected Controlador getControlador(){
+    protected Controlador getControlador() {
         return new Controlador();
     }
 
-    protected Controlador getControladorDadosBasicos(){
+    protected Controlador getControladorDadosBasicos() {
 
         cidade = new Cidade();
         cidade.setNome("São Paulo");
@@ -89,13 +89,13 @@ public abstract class ControladorTest extends WithApplication {
         return controlador;
     }
 
-    protected Controlador getControladorAneis(){
+    protected Controlador getControladorAneis() {
         Controlador controlador = getControladorDadosBasicos();
         controlador.save();
 
         Anel anel1 = controlador.getAneis().get(0);
         anel1.setAtivo(true);
-        anel1.setEstagios(Arrays.asList(new Estagio(), new Estagio()));
+        anel1.setEstagios(Arrays.asList(new Estagio(), new Estagio(), new Estagio(), new Estagio()));
 
         anel1.setLatitude(1.0);
         anel1.setLongitude(1.0);
@@ -107,7 +107,7 @@ public abstract class ControladorTest extends WithApplication {
         return controlador;
     }
 
-    protected Controlador getControladorAssociacao(){
+    protected Controlador getControladorAssociacao() {
         Controlador controlador = getControladorAneis();
         controlador.save();
 
@@ -115,6 +115,8 @@ public abstract class ControladorTest extends WithApplication {
 
         Estagio estagio1 = anelAtivo.getEstagios().get(0);
         Estagio estagio2 = anelAtivo.getEstagios().get(1);
+        Estagio estagio3 = anelAtivo.getEstagios().get(2);
+        Estagio estagio4 = anelAtivo.getEstagios().get(3);
 
         GrupoSemaforico grupoSemaforico1 = anelAtivo.getGruposSemaforicos().get(0);
         grupoSemaforico1.setTipo(TipoGrupoSemaforico.PEDESTRE);
@@ -124,6 +126,8 @@ public abstract class ControladorTest extends WithApplication {
 
         EstagioGrupoSemaforico estagioGrupoSemaforico1 = new EstagioGrupoSemaforico(estagio1, grupoSemaforico1);
         EstagioGrupoSemaforico estagioGrupoSemaforico2 = new EstagioGrupoSemaforico(estagio2, grupoSemaforico2);
+        EstagioGrupoSemaforico estagioGrupoSemaforico3 = new EstagioGrupoSemaforico(estagio3, grupoSemaforico1);
+        EstagioGrupoSemaforico estagioGrupoSemaforico4 = new EstagioGrupoSemaforico(estagio4, grupoSemaforico2);
 
         estagio1.setDemandaPrioritaria(true);
         estagio1.setTempoMaximoPermanencia(100);
@@ -132,13 +136,18 @@ public abstract class ControladorTest extends WithApplication {
         estagio2.setTempoMaximoPermanencia(200);
         estagio2.addEstagioGrupoSemaforico(estagioGrupoSemaforico2);
 
+        estagio3.addEstagioGrupoSemaforico(estagioGrupoSemaforico3);
+        estagio4.addEstagioGrupoSemaforico(estagioGrupoSemaforico4);
+
         grupoSemaforico1.addEstagioGrupoSemaforico(estagioGrupoSemaforico1);
         grupoSemaforico2.addEstagioGrupoSemaforico(estagioGrupoSemaforico2);
+        grupoSemaforico1.addEstagioGrupoSemaforico(estagioGrupoSemaforico3);
+        grupoSemaforico2.addEstagioGrupoSemaforico(estagioGrupoSemaforico4);
 
         return controlador;
     }
 
-    protected Controlador getControladorVerdesConflitantes(){
+    protected Controlador getControladorVerdesConflitantes() {
         Controlador controlador = getControladorAssociacao();
 
         Anel anelAtivo = controlador.getAneis().stream().filter(anel -> !anel.isAtivo()).findFirst().get();
@@ -184,26 +193,66 @@ public abstract class ControladorTest extends WithApplication {
         return controlador;
     }
 
-    protected Controlador getControladorEstagios(){
+    protected Controlador getControladorTransicoesProibidas() {
+        Controlador controlador = getControladorVerdesConflitantes();
+
+        Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
+
+        Estagio estagio1AnelCom4Estagios = anelCom4Estagios.getEstagios().get(0);
+        estagio1AnelCom4Estagios.setDescricao("estagio1AnelCom4Estagios");
+        Estagio estagio2AnelCom4Estagios = anelCom4Estagios.getEstagios().get(1);
+        estagio2AnelCom4Estagios.setDescricao("estagio2AnelCom4Estagios");
+        Estagio estagio3AnelCom4Estagios = anelCom4Estagios.getEstagios().get(2);
+        estagio3AnelCom4Estagios.setDescricao("estagio3AnelCom4Estagios");
+        Estagio estagio4AnelCom4Estagios = anelCom4Estagios.getEstagios().get(3);
+        estagio4AnelCom4Estagios.setDescricao("estagio4AnelCom4Estagios");
+
+        TransicaoProibida transicaoProibida = new TransicaoProibida();
+        transicaoProibida.setOrigem(estagio1AnelCom4Estagios);
+        transicaoProibida.setDestino(estagio2AnelCom4Estagios);
+        transicaoProibida.setAlternativo(estagio4AnelCom4Estagios);
+
+        TransicaoProibida transicaoProibidaEstagio1ComEstagio3 = new TransicaoProibida();
+        transicaoProibidaEstagio1ComEstagio3.setOrigem(estagio1AnelCom4Estagios);
+        transicaoProibidaEstagio1ComEstagio3.setDestino(estagio3AnelCom4Estagios);
+        transicaoProibidaEstagio1ComEstagio3.setAlternativo(estagio4AnelCom4Estagios);
+
+
+        estagio1AnelCom4Estagios.setOrigemDeTransicoesProibidas(Arrays.asList(transicaoProibida, transicaoProibidaEstagio1ComEstagio3));
+        estagio2AnelCom4Estagios.setDestinoDeTransicoesProibidas(Arrays.asList(transicaoProibida));
+        estagio3AnelCom4Estagios.setDestinoDeTransicoesProibidas(Arrays.asList(transicaoProibidaEstagio1ComEstagio3));
+        estagio4AnelCom4Estagios.setAlternativaDeTransicoesProibidas(Arrays.asList(transicaoProibida, transicaoProibidaEstagio1ComEstagio3));
+
+
+        return controlador;
+    }
+
+
+    protected Controlador getControladorEstagios() {
         Controlador controlador = getControladorVerdesConflitantes();
         return controlador;
     }
 
-    protected Controlador getControladorTabelaDeEntreVerdes(){
+    protected Controlador getControladorTabelaDeEntreVerdes() {
         Controlador controlador = getControladorEstagios();
         return controlador;
     }
 
-    protected Controlador getControladorConfiguracaoGrupoSemafórico(){
+    protected Controlador getControladorConfiguracaoGrupoSemafórico() {
         Controlador controlador = getControladorEstagios();
         return controlador;
     }
 
     public abstract void testVazio();
+
     public abstract void testNoValidationErro();
+
     public abstract void testORM();
+
     public abstract void testJSON();
+
     public abstract void testControllerValidacao();
+
     public abstract void testController();
 
 

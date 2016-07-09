@@ -34,10 +34,11 @@ var LoginPage = function () {
   };
 
   this.campoUsuarioInvalido = function() {
-    return world.getElements('.usuario p.error-msg:not(.ng-hide)')
-      .then(function(elements) {
-        return elements.length === 1;
-      });
+    return world.waitFor('.usuario p.error-msg:not(.ng-hide)').then(function() {
+      return world.getElements('.usuario p.error-msg:not(.ng-hide)');
+    }).then(function(elements) {
+      return elements.length === 1;
+    });
   };
 
   this.campoSenhaInvalido = function() {

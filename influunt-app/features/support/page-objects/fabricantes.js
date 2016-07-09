@@ -2,15 +2,13 @@
 
 var worldObj = require('../world');
 var world = new worldObj.World();
-var lastIndex = 0;
 
 var FabricantesPage = function () {
   var INDEX_PATH = '/app/fabricantes';
   var NEW_PATH = '/app/fabricantes/new';
 
-  var inputNomeFabricante = '[name="fabricante_nome"]';
-  var submitButton = '[name="commit"]';
-  var novaFabricanteButton = 'a[href*="/fabricantes/new"]';
+  var inputNomeFabricante = '[name="nome"]';
+  var novoFabricanteButton = 'a[href*="/fabricantes/new"]';
 
   var totalFabricantesIndex = 0;
 
@@ -21,7 +19,6 @@ var FabricantesPage = function () {
     world.getElements('tbody tr[data-ng-repeat="fabricante in lista"]').then(function(elements) {
       totalFabricantesIndex = elements.length;
     });
-    // console.log('totalFabricantesIndex: '+totalFabricantesIndex);
     return world.waitFor('tbody tr[data-ng-repeat="fabricante in lista"]');
   };
 
@@ -37,9 +34,7 @@ var FabricantesPage = function () {
   };
 
   this.existeAoMenosUmFabricante = function() {
-    this.newPage();
-    this.fillFabricanteForm();
-    return world.waitFor('#toast-container div');
+    return world.execSqlScript('features/support/scripts/fabricantes/create_fabricante.sql');
   };
 
   this.toastMessage = function() {
@@ -52,10 +47,8 @@ var FabricantesPage = function () {
     return world.getElementsByXpath('//td[contains(text(), "'+text+'")]');
   };
 
-  this.fillFabricanteForm = function(nomeFabricante) {
-    nomeFabricante = nomeFabricante || 'Fabricante '+lastIndex++;
-    world.setValue(inputNomeFabricante, nomeFabricante);
-    return world.clickButton(submitButton);
+  this.preencherNome = function(nome) {
+    return world.setValue('[name="fabricante_nome"]', nome);
   };
 
   this.fieldNomeFabricante = function() {
@@ -71,7 +64,7 @@ var FabricantesPage = function () {
   };
 
   this.clicarBotaoNovoFabricante = function() {
-    return world.clickButton(novaFabricanteButton);
+    return world.clickButton(novoFabricanteButton);
   };
 
   this.clicarLinkComTexto = function(texto) {
@@ -112,20 +105,16 @@ var FabricantesPage = function () {
     });
   };
 
-  this.fillFabricanteFormFull = function(nomeFabricante) {
-    nomeFabricante = nomeFabricante || 'Fabricante '+lastIndex++;
-    // console.log(nomeFabricante);
-    world.setValue(inputNomeFabricante, nomeFabricante);
-    world.findLinkByText('adicionar modelo controlador').then(function(link){
-      return link.click();
-    }).then(function(){
-      return world.setValue('input[ng-model="modelo.descricao"]', 'modelo '+lastIndex++);
-    }).then(function() {
-      return world.selectOption('select[name="configuracao"]', 'Descrição Config');
-    }).then(function() {
-      return world.clickButton('input[name="commit"]');
-    })
+  this.clicarBotaoNovoModelo = function() {
+    return world.findLinkByText('adicionar modelo controlador').click();
+  };
 
+  this.preencherDescricaoModelo = function(descricao) {
+    return world.setValue('[name="fabricante_modelo_descricao"]', descricao);
+  };
+
+  this.selecionarConfiguracao = function(config) {
+    return world.selectOption('[name="configuracao"]', config);
   };
 
 };

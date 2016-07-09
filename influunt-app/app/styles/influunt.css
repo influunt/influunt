@@ -8,9 +8,11 @@
 *   version 2.4
 *
 */
-.btn-default:focus, .btn-default.focus {
-}
-.wrapper-content .basic-wizard .steps ul li a:after, .wrapper-content .basic-wizard .steps ul li.current a:after, .wrapper-content .basic-wizard .steps ul li.disabled a:after {
+
+.btn-default:focus,
+.btn-default.focus {} .wrapper-content .basic-wizard .steps ul li a:after,
+.wrapper-content .basic-wizard .steps ul li.current a:after,
+.wrapper-content .basic-wizard .steps ul li.disabled a:after {
     background: url("../images/wizard-steps-after.png") no-repeat;
     transition: all 0.5s ease;
     position: absolute;
@@ -22,13 +24,14 @@
     top: 0;
 }
 .wrapper-content .basic-wizard .steps ul li.disabled a:after {
-    background: url("../images/wizard-steps-after-ds.png") no-repeat; 
+    background: url("../images/wizard-steps-after-ds.png") no-repeat;
 }
-.wrapper-content .basic-wizard .steps ul li.current a:after  {
+.wrapper-content .basic-wizard .steps ul li.current a:after {
     background: url("../images/wizard-steps-after-cr.png") no-repeat;
 }
-
-.wrapper-content .basic-wizard .steps ul li a:before, .wrapper-content .basic-wizard .steps ul li.current a:before, .wrapper-content .basic-wizard .steps ul li.disabled a:before {
+.wrapper-content .basic-wizard .steps ul li a:before,
+.wrapper-content .basic-wizard .steps ul li.current a:before,
+.wrapper-content .basic-wizard .steps ul li.disabled a:before {
     background: url("../images/wizard-steps-before.png") no-repeat;
     transition: all 0.5s ease;
     position: absolute;
@@ -40,7 +43,7 @@
     top: 0;
 }
 .wrapper-content .basic-wizard .steps ul li.disabled a:before {
-    background: url("../images/wizard-steps-before-ds.png") no-repeat; 
+    background: url("../images/wizard-steps-before-ds.png") no-repeat;
 }
 .wrapper-content .basic-wizard .steps ul li.current a:before {
     background: url("../images/wizard-steps-before-cr.png") no-repeat;
@@ -52,11 +55,9 @@
     float: right;
     background: #fff;
 }
-
 .wrapper-content .basic-wizard .content .body .tableless.association-detectors table tbody tr td figure img {
     width: 120%;
 }
-
 .wrapper-content .basic-wizard .content .body .tableless.association-detectors table tbody tr td figure {
     border: 1px solid #898989;
     background: #ebebeb;
@@ -69,38 +70,30 @@
     height: 120px;
     width: 120px;
 }
-
 .wrapper-content .basic-wizard .content .body .tableless.association-detectors table tbody tr td strong {
     font-size: 16px;
 }
-
 .wrapper-content .basic-wizard .content .body .tableless.association-detectors table tbody tr td i {
     transition: all .5s ease;
     font-size: 28px;
     color: #19b4a8;
 }
-
 .wrapper-content .basic-wizard .content .body .tableless.association-detectors table tbody tr td:hover i {
     transition: all .5s ease;
     color: #f7f7f7;
 }
-
 .wrapper-content .basic-wizard .content .body .tableless table tbody tr td.checked {
     background: #e5e5e5;
 }
-
 .wrapper-content .basic-wizard .content .body .tableless table tbody tr td.checked i {
     color: #fff;
 }
-
 .wrapper-content .basic-wizard .content .body .tableless table tbody tr td:hover {
     background: #e5e5e5;
 }
-
 .wrapper-content .basic-wizard .content .body .tableless.tableless-stages {
     margin: 20px 0 0;
 }
-
 .wrapper-content .basic-wizard .content .body .early-stage .early-area {
     min-height: 300px;
     max-height: 300px;
@@ -108,7 +101,6 @@
     overflow: hidden;
     width: 100%;
 }
-
 .wrapper-content .basic-wizard .content .body .early-stage ul li figure {
     display: block;
     width: 180px;
@@ -120,17 +112,14 @@
     overflow: hidden;
     margin: 20px auto 10px;
 }
-
 .wrapper-content .basic-wizard .content .body .early-stage ul li .upload-figure {
     float: left;
     width: 100%;
 }
-
 .wrapper-content .basic-wizard .content .body .early-stage ul li .upload-figure figure img,
 .wrapper-content .basic-wizard .content .body .early-stage ul li .upload-figure figure.change hgroup {
     display: none;
 }
-
 .wrapper-content .basic-wizard .content .body .early-stage ul li .upload-figure figure {
     background: #fff;
     border: 1px dotted #898989;
@@ -140,20 +129,16 @@
     height: 155px;
     margin: 20px auto 10px;
 }
-
 .bg-border,
 .wrapper-content .filters header {
     border-top: 4px solid #e7eaec;
 }
-
 .wrapper-content .basic-wizard .content .body .early-stage ul li .upload-figure figure hgroup {
     margin-top: 40px;
 }
-
 .wrapper-content .basic-wizard .content .body .early-stage ul li .upload-figure figure hgroup i {
     font-size: 25px;
 }
-
 .wrapper-content .basic-wizard .content .body .early-stage ul li .upload-figure figure hgroup label {
     float: left;
     font-size: 12px;
@@ -163,12 +148,10 @@
     margin-top: 7px;
     line-height: 20px;
 }
-
 .wrapper-content .basic-wizard .content .body .early-stage ul li p {
     text-align: left;
     padding-left: 15px;
 }
-
 .wrapper-content .basic-wizard .content .body .early-stage ul li {
     list-style: none;
     border-right: 1px solid #d6d6d6;
@@ -179,7 +162,6 @@
     display: inline-block;
     vertical-align: middle;
 }
-
 .wrapper-content .basic-wizard .content .body .stages nav li {
     border-bottom: 1px solid #e5e5e5;
     position: relative;
@@ -190,34 +172,31 @@
     float: left;
     margin-bottom: 0;
 }
-
 .no-padding {
     padding-right: 0;
     padding-left: 0;
 }
-
 .no-padding-right {
     padding-left: 15px!important;
     padding-right: 0;
 }
-
+.no-padding-left {
+    padding-right: 15px!important;
+    padding-left: 0;
+}
 .left {
     float: left;
 }
-
 .right {
     float: right;
 }
-
 .bg-border {
     background: #fff;
     padding-top: 30px;
 }
-
 .pg-bt {
     padding-bottom: 25px;
 }
-
 .pd-lf-rt {
     padding: 0 10px;
 }
@@ -230,39 +209,32 @@
 .initial-position {
     position: initial;
 }
-
 header .nav-first {
     background: #2f4050;
     height: 70px;
 }
-
 header .nav-secon {
     border-bottom: 1px solid #e7eaec;
     background: #fff;
     height: 62px;
 }
-
 header .nav-secon ul {
     padding: 0;
     margin: 0;
 }
-
 header .nav-secon li {
     list-style: none;
     line-height: 62px;
 }
-
 header .nav-secon li a {
     font-family: 'Open Sans', sans-serif;
     font-weight: 300;
     font-size: 24px;
     color: #999;
 }
-
 .content.clearfix.wizard-body {
     padding: 0;
 }
-
 .wrapper-content .filters header h1 {
     font-size: 14px;
     display: block;
@@ -270,38 +242,31 @@ header .nav-secon li a {
     padding: 0 20px;
     margin: 0;
 }
-
 .wrapper-content .filters form ul {
     padding: 0 20px;
     margin: 0;
 }
-
 .wrapper-content .filters form ul li {
     list-style: none;
     font-size: 13px;
     height: 37px;
     line-height: 37px;
 }
-
 .wrapper-content .filters form ul li .i-checks label {
     width: 100%;
 }
-
 .wrapper-content .filters form ul li .i-checks label div {
     float: right;
     margin: 8px 0 0;
 }
-
 .wrapper-content .filters form ul li .i-checks {
     float: right;
     width: 100%;
 }
-
 .wrapper-content .filters form ul li label {
     font-size: 13px;
     font-weight: 400;
 }
-
 .wrapper-content .filters form {
     border-top: 1px solid #e7eaec;
     padding: 20px 0 0;
@@ -309,60 +274,48 @@ header .nav-secon li a {
     float: left;
     width: 100%;
 }
-
 .wrapper-content .filters {
     background: #fff;
     display: block;
     width: 100%;
 }
-
 .wrapper-content .filters form input[type=checkbox]+label {
     color: #ccc;
     font-style: italic;
 }
-
 .wrapper-content .filters form input[type=checkbox]:checked+label {
     color: red;
     font-style: normal;
 }
-
 .wrapper-content .controller {
     margin: 15px 0 0;
 }
-
 .wrapper-content .controller ul {
     margin: 0;
     padding: 0;
 }
-
 .wrapper-content .controller li {
     width: 20%;
     float: left;
     list-style: none;
     padding-right: 1%;
 }
-
 .wrapper-content .basic-wizard .content .body .tableless table {
     border: 1px solid #e1e1e1;
     transition: all .5s ease;
 }
-
 .wrapper-content .basic-wizard .content .body .tableless table .tg-031e.rings-1 {
     background: #00ac9e;
 }
-
 .wrapper-content .basic-wizard .content .body .tableless table .tg-031e.rings-2 {
     background: #f8d334;
 }
-
 .wrapper-content .basic-wizard .content .body .tableless table .tg-031e.rings-3 {
     background: #a23737;
 }
-
 .wrapper-content .basic-wizard .content .body .tableless table .tg-031e.rings-4 {
     background: #2f4050;
 }
-
 .wrapper-content .basic-wizard .content .body .tableless table .tg-031e {
     background: #e5e5e5;
     text-align: center;
@@ -370,16 +323,13 @@ header .nav-secon li a {
     font-size: 19px;
     color: #fff;
 }
-
 .wrapper-content .basic-wizard .content .body .tableless table .disabled {
     background: #a6a6a6;
 }
-
 .wrapper-content .basic-wizard .content .body .tableless table .tg-yw4l {
     background: #e5e5e5;
     text-align: center;
 }
-
 .wrapper-content .basic-wizard .content .body .tableless table tbody tr td.active::before {
     color: #ed5766;
     font-size: 25px;
@@ -389,14 +339,12 @@ header .nav-secon li a {
     font-weight: 400;
     text-decoration: inherit;
 }
-
 .wrapper-content .basic-wizard .content .body .tableless table tbody tr td {
     height: 60px;
     width: 5%;
     transition: all .5s ease;
     cursor: pointer;
 }
-
 .wrapper-content .basic-wizard .content .body .tableless table thead tr th {
     height: 60px;
     text-align: center;
@@ -406,50 +354,40 @@ header .nav-secon li a {
     width: 5%;
     background: #e5e5e5;
 }
-
 .wrapper-content .basic-wizard .content .body .tableless {
     margin: 50px 0 0;
 }
-
 .wrapper-content .basic-wizard .content .body .figures div.bxslider {
     overflow: scroll;
 }
-
 .wrapper-content .basic-wizard .content .body .figures ul.bxslider {
     width: 7000px;
 }
-
 .wrapper-content .basic-wizard .content .body .figures {
     min-height: 190px;
 }
-
 .wrapper-content .basic-wizard .content .body .figures li {
     margin-right: 20px;
     list-style: none;
     float: left;
     display: list-item;
 }
-
 .wrapper-content .basic-wizard .content .body .figures li figure.rings-1 {
     box-sizing: border-box;
     border: 2px solid #00ac9e;
 }
-
 .wrapper-content .basic-wizard .content .body .figures li figure.rings-2 {
     border: 2px solid #f8d334;
     box-sizing: border-box;
 }
-
 .wrapper-content .basic-wizard .content .body .figures li figure.rings-3 {
     border: 2px solid #a23737;
     box-sizing: border-box;
 }
-
 .wrapper-content .basic-wizard .content .body .figures li figure.rings-4 {
     border: 2px solid #2f4050;
     box-sizing: border-box;
 }
-
 .wrapper-content .basic-wizard .content .body .figures li figure {
     float: left;
     clear: both;
@@ -457,7 +395,6 @@ header .nav-secon li a {
     max-height: 150px;
     overflow: hidden;
 }
-
 .wrapper-content .basic-wizard .content .body .movements button {
     margin: 0 auto;
     display: block;
@@ -466,21 +403,18 @@ header .nav-secon li a {
     bottom: 10px;
     left: 35%;
 }
-
 .wrapper-content .basic-wizard .content .body .movements {
     border-top: 4px solid #e7eaec;
     background: #f2f4f5;
     padding-left: 20px;
     padding-top: 30px;
 }
-
 .wrapper-content .basic-wizard .content .body .movements .dz-default.dz-message span {
     display: block;
     font-size: 13px;
     font-weight: 700;
     line-height: 100px;
 }
-
 .wrapper-content .basic-wizard .content .body .movements label {
     width: 100%;
     text-align: left;
@@ -502,13 +436,13 @@ header .nav-secon li a {
     color: white;
 }
 .wrapper-content .basic-wizard .content .body .association.side-menu li .nav-second-level li a {
-    color:white;
+    color: white;
 }
 .wrapper-content .basic-wizard .content .body .association.side-menu li.active a {
     color: white;
 }
 .wrapper-content .basic-wizard .content .body .association.side-menu li.active {
-    background:#1caf92;
+    background: #1caf92;
     height: auto;
 }
 .wrapper-content .basic-wizard .content .body .association.side-menu li:hover {
@@ -555,7 +489,7 @@ header .nav-secon li a {
     position: absolute;
     padding: 25px 15px;
     width: 20%;
-    right: 0;    
+    right: 0;
     top: 0;
 }
 .wrapper-content .basic-wizard .content .body .association.tables-associated .knob .knob-item p {
@@ -568,11 +502,10 @@ header .nav-secon li a {
 }
 .wrapper-content .basic-wizard .content .body .association.tables-associated header {
     border-bottom: 1px solid #e5e5e5;
-
 }
 .wrapper-content .basic-wizard .content .body .association.tables-associated nav li:hover {
-    background:inherit;
-    color:inherit;
+    background: inherit;
+    color: inherit;
 }
 .wrapper-content .basic-wizard .content .body .association.tables-associated nav li {
     float: left;
@@ -582,13 +515,12 @@ header .nav-secon li a {
     overflow: hidden;
     line-height: initial;
     padding: 20px 0 30px 0;
-    border-bottom: 1px solid #e5e5e5; 
-
+    border-bottom: 1px solid #e5e5e5;
 }
 .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .group-form {
     padding: 0 25px 0 20px;
     float: left;
-    width: 25%;    
+    width: 25%;
 }
 .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .time-group {
     width: 17%;
@@ -597,7 +529,7 @@ header .nav-secon li a {
     right: 0;
     height: 100%;
     padding: 0 15px;
-    top: 0;    
+    top: 0;
 }
 .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .time-group label {
     margin-top: 35px;
@@ -605,15 +537,14 @@ header .nav-secon li a {
 .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .group-form .form-group {
     margin: 0;
     padding: 0;
-
 }
-.wrapper-content .basic-wizard .content .body .association.tables-associated nav li .group-form .form-group label, .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .time-group label {
+.wrapper-content .basic-wizard .content .body .association.tables-associated nav li .group-form .form-group label,
+.wrapper-content .basic-wizard .content .body .association.tables-associated nav li .time-group label {
     margin: 0;
     padding: 0;
     font-size: 13px;
     line-height: 30px;
     text-transform: capitalize;
-
 }
 .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .group-figure label {
     font-size: 13px;
@@ -628,20 +559,19 @@ header .nav-secon li a {
     position: relative;
 }
 .wrapper-content .basic-wizard .content .body .association.tables-associated nav li figure img {
-    position:absolute;
+    position: absolute;
     width: 110%;
-    left:0;
-    top:0;
+    left: 0;
+    top: 0;
 }
 .wrapper-content .basic-wizard .content .body .association.tables-associated nav li figure {
     float: left;
     width: 135px;
     height: 130px;
-    overflow:hidden;
-    position:relative;
+    overflow: hidden;
+    position: relative;
     margin-left: 20px;
     background: #e5e5e5;
-
 }
 .wrapper-content .basic-wizard .content .body .association.alternative nav ul li {
     line-height: 34px;
@@ -649,7 +579,6 @@ header .nav-secon li a {
     background: #ebebeb;
     margin-bottom: 15px;
 }
-
 .wrapper-content .basic-wizard .content .body .association.alternative nav ul li h1 {
     width: 100%;
     line-height: 34px;
@@ -658,12 +587,10 @@ header .nav-secon li a {
     color: #555759;
     padding-left: 10px;
 }
-
 .wrapper-content .basic-wizard .content .body .association.alternative nav ul li:hover {
     background: inherit;
     color: inherit;
 }
-
 .wrapper-content .basic-wizard .content .body .association.alternative nav ul li input {
     width: 100%;
     margin: 0;
@@ -671,17 +598,14 @@ header .nav-secon li a {
     height: 34px;
     line-height: 34px;
 }
-
 .wrapper-content .basic-wizard .content .body .association.alternative {
     padding: 0 0 20px;
 }
-
 .wrapper-content .basic-wizard .content .body .association.alternative p {
     margin: 10px 0;
     min-height: 35px;
     max-height: 35px;
 }
-
 .wrapper-content .basic-wizard .content .body .association.alternative h1 {
     font-size: 16px;
     margin: 0;
@@ -689,28 +613,23 @@ header .nav-secon li a {
     line-height: 55px;
     font-weight: 700;
 }
-
 .wrapper-content .basic-wizard .content .body .association.stages-page {
     min-height: 300px;
     overflow: scroll;
     max-height: 300px;
 }
-
 .wrapper-content .basic-wizard .content .body .association {
     border-top: 4px solid #e7eaec;
     padding: 15px 0 20px;
     background: #fff;
 }
-
 .wrapper-content .basic-wizard .content .body .association nav li:hover {
     background: #19b4a8;
     color: #fff;
 }
-
 .wrapper-content .basic-wizard .content .body .association nav li a:hover {
     color: #fff;
 }
-
 .wrapper-content .basic-wizard .content .body .association nav li a {
     padding: 0 0 0 20px;
     cursor: pointer;
@@ -718,12 +637,10 @@ header .nav-secon li a {
     display: block;
     margin: 0;
 }
-
 .wrapper-content .basic-wizard .content .body .association nav li label {
     padding-left: 15px;
     text-transform: uppercase;
 }
-
 .wrapper-content .basic-wizard .content .body .association.table-entry-green footer {
     position: absolute;
     bottom: 0;
@@ -746,7 +663,6 @@ header .nav-secon li a {
     -moz-border-radius: 5px;
     border-radius: 5px;
 }
-
 .wrapper-content .basic-wizard .content .body .association.table-entry-green nav li {
     line-height: 40px;
     height: 40px;
@@ -755,9 +671,8 @@ header .nav-secon li a {
     padding: 0 0 0 15px;
     line-height: 40px;
     height: 40px;
-    margin:0;
+    margin: 0;
 }
-
 .wrapper-content .basic-wizard .content .body .association nav li {
     line-height: 40px;
     list-style: none;
@@ -767,13 +682,11 @@ header .nav-secon li a {
     padding: 0;
     margin: 0;
 }
-
 .wrapper-content .basic-wizard .content .body .early-stage ul li header {
     width: 100%;
     min-height: 45px;
     background: #e5e5e5;
 }
-
 .wrapper-content .basic-wizard .content .body .early-stage ul li header h1 {
     margin: 0 auto;
     padding: 0;
@@ -782,7 +695,6 @@ header .nav-secon li a {
     font-weight: 700;
     line-height: 45px;
 }
-
 .wrapper-content .basic-wizard .content .body .stages nav li hgroup p::before {
     color: #676a6c;
     font-size: 16px;
@@ -793,7 +705,6 @@ header .nav-secon li a {
     font-family: FontAwesome;
     text-decoration: inherit;
 }
-
 .wrapper-content .basic-wizard .content .body .stages nav li hgroup p {
     line-height: 200px;
     font-size: 16px;
@@ -801,7 +712,6 @@ header .nav-secon li a {
     padding: 0;
     margin: 0;
 }
-
 .wrapper-content .basic-wizard .content .body .stages nav li.ibox {
     border-bottom: 1px solid #e5e5e5;
     position: relative;
@@ -812,52 +722,42 @@ header .nav-secon li a {
     float: left;
     margin-bottom: 0;
 }
-
 .wrapper-content .basic-wizard .content .body .deactivation nav li .select {
     width: 45%;
     float: right;
     margin-bottom: 10px;
 }
-
 .wrapper-content .basic-wizard .content .body .deactivation nav li .input {
     margin-bottom: 20px;
 }
-
 .wrapper-content .basic-wizard .content .body .deactivation nav li hgroup {
     float: left;
     width: 50%;
 }
-
 .wrapper-content .basic-wizard .content .body .deactivation nav li hgroup label {
     float: left;
     width: 45%;
 }
-
 .wrapper-content .basic-wizard .content .body .deactivation nav li hgroup .label-name {
     font-size: 18px;
     font-weight: 700;
     line-height: 20px;
 }
-
 .wrapper-content .basic-wizard .content .body .deactivation nav li hgroup .label-status {
     line-height: 35px;
 }
-
 .wrapper-content .basic-wizard .content .body .deactivation nav li hgroup p {
     float: left;
     margin: 0;
     font-size: 13px;
     font-weight: 400;
 }
-
 .wrapper-content .basic-wizard .content .body .deactivation nav li:last-child {
     border-bottom: 0;
 }
-
 .wrapper-content .basic-wizard .content .body .deactivation nav li:first-child {
     margin-top: 0;
 }
-
 .wrapper-content .basic-wizard .content .body .deactivation nav li {
     list-style: none;
     width: 100%;
@@ -866,13 +766,11 @@ header .nav-secon li a {
     margin-top: 15px;
     margin-bottom: 0;
 }
-
 .wrapper-content .basic-wizard .content .body .deactivation {
     max-height: 550px;
     overflow: scroll;
     padding: 25px;
 }
-
 .wrapper-content .basic-wizard .content .body .stages .title-stages {
     background: #e5e5e5;
     position: relative;
@@ -881,44 +779,36 @@ header .nav-secon li a {
     width: 7%;
     cursor: all-scroll;
 }
-
 .wrapper-content .basic-wizard .content .body .stages .times-stages {
     margin-top: 20px;
     text-align: left;
     float: left;
     width: 56%;
 }
-
 .wrapper-content .basic-wizard .content .body .stages .stage-stages {
     float: left;
     margin-top: 20px;
     margin-right: 1%;
 }
-
 .wrapper-content .basic-wizard .content .body .stages .stage-stages .upload-figure hgroup {
     float: left;
     margin-top: 30px;
 }
-
 .wrapper-content .basic-wizard .content .body .stages .stage-stages .upload-figure {
     float: left;
 }
-
 .wrapper-content .basic-wizard .content .body .stages .stage-stages .upload-figure .img-preview-sm {
     left: -10px;
     top: -10px;
     height: 155px;
     width: 185px;
 }
-
 .wrapper-content .basic-wizard .content .body .stages .stage-stages .upload-figure figure i {
     font-size: 25px;
 }
-
 .wrapper-content .basic-wizard .content .body .stages .stage-stages .upload-figure figure label img {
     display: none;
 }
-
 .wrapper-content .basic-wizard .content .body .stages .stage-stages .upload-figure figure label {
     float: left;
     font-size: 12px;
@@ -927,12 +817,10 @@ header .nav-secon li a {
     cursor: pointer;
     margin-top: 7px;
 }
-
 .wrapper-content .basic-wizard .content .body .stages .stage-stages .exist-figure {
     float: left;
     margin: 0 13px 0 25px;
 }
-
 .wrapper-content .basic-wizard .content .body .stages .stage-stages .exist-figure figure {
     margin: 0 0 5px;
     overflow: hidden;
@@ -945,30 +833,25 @@ header .nav-secon li a {
     background: #ebebeb;
     display: block;
 }
-
 .tooltipster-sidetip.tooltipster-error-tag .tooltipster-arrow-background,
 .wrapper-content .basic-wizard .content .body .stages .upload-figure figure.change hgroup i,
 .wrapper-content .basic-wizard .steps ul li a .number {
     display: none;
 }
-
 .wrapper-content .basic-wizard .content .body .stages .stage-stages .exist-figure figcaption {
     font-size: 13px;
     color: #676a6c;
     text-align: left;
     font-weight: 400;
 }
-
 .wrapper-content .basic-wizard .content .body .stages .times-stages label {
     font-size: 13px;
     font-weight: 700;
     word-wrap: break-word;
 }
-
 .wrapper-content .basic-wizard .content .body .stages .times-stages .group-selectons {
     margin-top: 10px;
 }
-
 .wrapper-content .basic-wizard .content .body .stages .times-stages .group-selectons label p {
     float: left;
     width: 60%;
@@ -976,27 +859,22 @@ header .nav-secon li a {
     overflow: hidden;
     text-align: right;
 }
-
 .wrapper-content .basic-wizard .content .body .stages .times-stages .group-selectons label {
     margin: 0;
     width: 24.7%;
 }
-
 .wrapper-content .basic-wizard .content .body .stages .times-stages .group-selectons label div {
     margin-left: 0;
     float: right;
 }
-
 .wrapper-content .basic-wizard .content .body .rings .rings-status {
     margin-right: 1.2%;
     min-height: 800px;
     width: 23.8%;
 }
-
 .wrapper-content .basic-wizard .content .body .rings .groups {
     min-height: 800px;
 }
-
 .wrapper-content .basic-wizard .content .body .rings .activ {
     text-align: left;
     text-indent: 20%;
@@ -1004,7 +882,6 @@ header .nav-secon li a {
     font-size: 16px;
     font-weight: 700;
 }
-
 .wrapper-content .basic-wizard .content .body .rings li {
     list-style: none;
     float: left;
@@ -1012,23 +889,19 @@ header .nav-secon li a {
     height: 45px;
     line-height: 45px;
 }
-
 .wrapper-content .basic-wizard .content .body .rings li label {
     font-size: 16px;
     width: 100%;
 }
-
 .wrapper-content .basic-wizard .content .body .rings li .number {
     float: left;
     font-size: 16px;
     text-indent: 10px;
     font-weight: 700;
 }
-
 .wrapper-content .basic-wizard .content .body .rings li label div {
     float: left
 }
-
 .wrapper-content .basic-wizard .content .body .divider {
     border-left: 2px solid #e7eaec;
     position: absolute;
@@ -1036,29 +909,23 @@ header .nav-secon li a {
     height: 95%;
     right: 0;
 }
-
 .wrapper-content .basic-wizard .content .body .maps {
     margin: 25px 0 0;
 }
-
 .wrapper-content .basic-wizard .content .body .maps iframe {
     pointer-events: none;
 }
-
 .wrapper-content .basic-wizard .content .body .stages .upload-figure figure.change {
     border: 0;
 }
-
 .wrapper-content .basic-wizard .content .body .stages .upload-figure figure.change hgroup img {
     position: absolute;
     top: 0;
     left: 0;
 }
-
 .wrapper-content .basic-wizard .content .body .stages .upload-figure figure.change hgroup {
     margin: 0;
 }
-
 .wrapper-content .basic-wizard .content .body .stages .upload-figure figure {
     overflow: hidden;
     min-height: 135px;
@@ -1072,26 +939,21 @@ header .nav-secon li a {
     border: 2px dotted #898989;
     box-sizing: border-box;
 }
-
 .wrapper-content .basic-wizard .content .body footer.form-group {
     margin: 60px 0 40px;
 }
-
 .wrapper-content .basic-wizard .content .body footer.form-group p {
     line-height: 10px;
 }
-
 .wrapper-content .basic-wizard .content .body .form-group {
     text-align: left;
 }
-
 .wrapper-content .basic-wizard .content .body {
     width: 100%;
     height: inherit;
     margin: 0;
     padding: 0 20px;
 }
-
 .wrapper-content .basic-wizard .content {
     background: initial;
 }
@@ -1105,6 +967,7 @@ header .nav-secon li a {
     text-indent: 20px;
 }
 /* current */
+
 .wrapper-content .basic-wizard .steps ul li.current a:hover:before {
     background: url("../images/wizard-steps-before-cr.png") no-repeat;
 }
@@ -1112,35 +975,30 @@ header .nav-secon li a {
     background: url("../images/wizard-steps-after-cr.png") no-repeat;
 }
 /* hover */
+
 .wrapper-content .basic-wizard .steps ul li a:hover:before {
     background: url("../images/wizard-steps-before-hr.png") no-repeat;
 }
 .wrapper-content .basic-wizard .steps ul li a:hover:after {
     background: url("../images/wizard-steps-after-hr.png") no-repeat;
 }
-
 .wrapper-content .controller li .ibox-content .status {
     margin: 0 0 5px;
 }
-
 .wrapper-content .controller li .ibox-content .title {
     margin: 0 0 20px;
 }
-
 .wrapper-content .controller li .ibox-content .status-active i,
 .wrapper-content .controller li .ibox-content hgroup button {
     margin-right: 5px;
 }
-
 .wrapper-content .controller li .ibox-content hgroup {
     text-align: right;
 }
-
 .slider {
     width: auto;
     margin: 30px 50px 50px;
 }
-
 .slick-slide {
     background: red;
     color: #fff;
@@ -1149,27 +1007,22 @@ header .nav-secon li a {
     font-family: Arial, Helvetica;
     text-align: center;
 }
-
 .slick-next:before,
 .slick-prev:before {
     color: #000;
 }
-
 .slick-dots {
     bottom: -30px;
 }
-
 .slick-slide:nth-child(odd) {
     background: #000;
 }
-
-@media screen and (max-width:1820px) {
+@media screen and (max-width: 1820px) {
     .wrapper-content .basic-wizard .content .body .stages .times-stages {
         width: 52%;
     }
 }
-
-@media screen and (max-width:1750px) {
+@media screen and (max-width: 1750px) {
     .wrapper-content .basic-wizard .content .body .groups .col-lg-3 label {
         min-height: 46px;
     }
@@ -1177,8 +1030,7 @@ header .nav-secon li a {
         color: #000;
     }
 }
-
-@media screen and (max-width:1620px) {
+@media screen and (max-width: 1620px) {
     .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .group-form {
         width: 30%;
     }
@@ -1195,8 +1047,7 @@ header .nav-secon li a {
         width: 24.5%;
     }
 }
-
-@media screen and (max-width:1450px) {
+@media screen and (max-width: 1450px) {
     .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .group-form {
         width: 29%;
     }
@@ -1240,10 +1091,9 @@ header .nav-secon li a {
         width: 24.5%;
     }
 }
-
-@media screen and (max-width:1340px) {
+@media screen and (max-width: 1340px) {
     .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .group-form .form-group label {
-        font-size: 11px;        
+        font-size: 11px;
     }
     .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .group-figures figure {
         width: 130px;
@@ -1274,10 +1124,9 @@ header .nav-secon li a {
         width: 24.9%;
     }
 }
-
-@media screen and (max-width:1280px) {
+@media screen and (max-width: 1280px) {
     .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .group-form .form-group label {
-        font-size: 11px;        
+        font-size: 11px;
     }
     .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .group-figures figure {
         width: 120px;
@@ -1295,39 +1144,31 @@ header .nav-secon li a {
             width: 30%;
         }
     }
-
     .tooltipster-sidetip.tooltipster-error-tag .tooltipster-box {
         background: #f2dede;
         border: 1px solid #ebccd1;
         border-radius: 6px;
         box-shadow: 5px 5px 2px 0 rgba(0, 0, 0, .4);
     }
-
     .tooltipster-sidetip.tooltipster-error-tag .tooltipster-content {
         color: #a94442;
         padding: 8px;
     }
-
     .tooltipster-sidetip.tooltipster-error-tag.tooltipster-bottom .tooltipster-arrow-border {
         border-bottom-color: #ebccd1;
     }
-
     .tooltipster-sidetip.tooltipster-error-tag.tooltipster-left .tooltipster-arrow-border {
         border-left-color: #ebccd1;
     }
-
     .tooltipster-sidetip.tooltipster-error-tag.tooltipster-right .tooltipster-arrow-border {
         border-right-color: #ebccd1;
     }
-
     .tooltipster-sidetip.tooltipster-error-tag.tooltipster-top .tooltipster-arrow-border {
         border-top-color: #f2dede;
     }
-
     .badge.badge-danger.badge-notification {
         font-size: 8px;
     }
-
     .container-fluid {
         width: 100%;
     }

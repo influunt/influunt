@@ -1,7 +1,6 @@
 'use strict';
 
 var expect = require('chai').expect;
-var runScript = true;
 var AreasPage = require('../../support/page-objects/areas');
 
 module.exports = function() {
@@ -21,7 +20,7 @@ module.exports = function() {
     });
   });
 
-  this.Given(/^Clica no botão de Nova Area$/, function(callback) {
+  this.Given(/^clicar no botão de Nova Area$/, function(callback) {
     areasPage.clicarBotaoNovaArea();
     callback();
   });
@@ -36,13 +35,8 @@ module.exports = function() {
     return areasPage.newPage();
   });
 
-  this.Given(/^preenche os campos da area corretamente$/, function(callback) {
-    areasPage.fillAreaForm(51);
-    callback();
-  });
-
-  this.Given(/^o registro da área deverá ser salvo com sucesso$/, function() {
-    return areasPage.textoExisteNaTabela(51);
+  this.Given(/^o registro da área deverá ser salvo com número CTA igual a "([^"]*)"$/, function(numero) {
+    return areasPage.textoExisteNaTabela(numero);
   });
 
   this.Given(/^o sistema deverá retornar à tela de listagem de areas$/, function() {

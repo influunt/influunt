@@ -106,6 +106,9 @@ public class Controlador extends Model {
     @Valid
     private List<Estagio> estagios;
 
+    @ManyToMany(mappedBy = "controladores")
+    private List<Agrupamento> agrupamentos;
+
 
     @Override
     public void save() {
@@ -120,7 +123,6 @@ public class Controlador extends Model {
     }
 
     private void antesDeSalvarOuAtualizar() {
-
         if (this.getId() == null) {
             int quantidade = getModelo().getConfiguracao().getLimiteAnel();
             this.aneis = new ArrayList<Anel>(quantidade);
@@ -135,8 +137,6 @@ public class Controlador extends Model {
                 anel.criaDetectores();
             });
         }
-
-
     }
 
 
@@ -277,4 +277,11 @@ public class Controlador extends Model {
         this.longitude = longitude;
     }
 
+    public List<Agrupamento> getAgrupamentos() {
+        return agrupamentos;
+    }
+
+    public void setAgrupamentos(List<Agrupamento> agrupamentos) {
+        this.agrupamentos = agrupamentos;
+    }
 }

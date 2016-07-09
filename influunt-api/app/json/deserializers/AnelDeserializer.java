@@ -170,6 +170,30 @@ public class AnelDeserializer extends JsonDeserializer<Anel> {
         if (node.has("demandaPrioritaria")) {
             estagio.setDemandaPrioritaria(node.get("demandaPrioritaria").asBoolean());
         }
+        if (node.has("origemDeTransicoesProibidas")) {
+            List<TransicaoProibida> origens = new ArrayList<TransicaoProibida>();
+            for (JsonNode origemGSNode : node.get("origemDeTransicoesProibidas")) {
+                origens.add(Json.fromJson(origemGSNode, TransicaoProibida.class));
+            }
+            estagio.setOrigemDeTransicoesProibidas(origens);
+        }
+
+        if (node.has("destinoDeTransicoesProibidas")) {
+            List<TransicaoProibida> destinos = new ArrayList<TransicaoProibida>();
+            for (JsonNode destinoGSNode : node.get("destinoDeTransicoesProibidas")) {
+                destinos.add(Json.fromJson(destinoGSNode, TransicaoProibida.class));
+            }
+            estagio.setDestinoDeTransicoesProibidas(destinos);
+        }
+
+        if (node.has("alternativaDeTransicoesProibidas")) {
+            List<TransicaoProibida> alternativos = new ArrayList<TransicaoProibida>();
+            for (JsonNode alternativoGSNode : node.get("alternativaDeTransicoesProibidas")) {
+                alternativos.add(Json.fromJson(alternativoGSNode, TransicaoProibida.class));
+            }
+            estagio.setAlternativaDeTransicoesProibidas(alternativos);
+        }
+
         estagios.add(estagio);
         return estagio;
     }

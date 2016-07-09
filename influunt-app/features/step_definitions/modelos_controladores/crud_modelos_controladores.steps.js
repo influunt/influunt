@@ -34,18 +34,12 @@ module.exports = function() {
     return modelosPage.newPage();
   });
 
-  this.Given(/^preencher os campos do modelo com descricao "([^"]*)"$/, function(descricao) {
-    return modelosPage.fillForm(descricao);
-  });
-
   this.Given(/^o registro do modelo deverá ser salvo com descricao "([^"]*)"$/, function(descricao) {
     return modelosPage.textoExisteNaTabela(descricao);
   });
 
   this.Given(/^o sistema deverá retornar à tela de listagem de modelos de controladores$/, function() {
-    return modelosPage.getUrl().then(function(url) {
-      expect(url).to.match(/\/app\/modelos_controladores$/);
-    });
+    return modelosPage.isIndex();
   });
 
   this.Given(/^clicar no botão de visualizar um modelo de controlador$/, function() {

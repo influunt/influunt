@@ -50,6 +50,12 @@ public class ControladoresController extends Controller {
     }
 
     @Transactional
+    public CompletionStage<Result> transicoesProibidas() {
+        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
+                ControladorVerdesConflitantesCheck.class, ControladorTransicoesProibidasCheck.class);
+    }
+
+    @Transactional
     public CompletionStage<Result> findOne(String id) {
         Controlador controlador = Controlador.find.byId(UUID.fromString(id));
         if (controlador == null) {

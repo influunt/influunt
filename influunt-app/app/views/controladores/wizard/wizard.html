@@ -4,21 +4,22 @@
       <div class="ibox float-e-margins">
         <div class="steps-wrapper wizard clearfix">
           <div class="steps clearfix">
+            {{ $state.current.name }}
             <ul wizard-steps>
-              <li ui-sref-active="current" class="wizard-steps">
+              <li ng-class="{ current: $state.current.name === 'app.wizard_controladores.dados_basicos' }" class="wizard-steps">
                 <a step-id="dadosBasicos" ui-sref=".dados_basicos({id: objeto.id})" class="btn-default">{{ 'controladores.dadosBasicos' | translate }}</a>
               </li>
-              <li ui-sref-active="current" class="wizard-steps">
+              <li ng-class="{ current: $state.current.name === 'app.wizard_controladores.aneis' }" class="wizard-steps">
                 <a step-id="aneis" ui-sref=".aneis({id: objeto.id})" class="btn-default">{{ 'controladores.aneis' | translate }}</a>
               </li>
-              <li ui-sref-active="current" class="wizard-steps">
+              <li ng-class="{ current: $state.current.name === 'app.wizard_controladores.associacao' }" class="wizard-steps">
                 <a step-id="associacao" ui-sref=".associacao({id: objeto.id})" class="btn-default">{{ 'controladores.associacao' | translate }}</a>
               </li>
-              <li ui-sref-active="current" class="wizard-steps">
+              <li ng-class="{ current: $state.current.name === 'app.wizard_controladores.verdes_conflitantes' }" class="wizard-steps">
                 <a step-id="verdesConflitantes" ui-sref=".verdes_conflitantes({id: objeto.id})" class="btn-default">{{ 'controladores.verdes_conflitantes' | translate }}</a>
               </li>
-              <li ui-sref-active="current" class="wizard-steps">
-                <a step-id="estagios" ui-sref=".stagios({id: objeto.id})" class="btn-default">{{ 'controladores.estagios' | translate }}</a>
+              <li ng-class="{ current: $state.current.name === 'app.wizard_controladores.transicoes_proibidas' }" class="wizard-steps">
+                <a step-id="transicoesProibidas" ui-sref=".transicoes_proibidas({id: objeto.id})" class="btn-default">{{ 'controladores.transicoesProibidas' | translate }}</a>
               </li>
             </ul>
           </div>

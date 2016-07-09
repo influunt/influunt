@@ -1,6 +1,6 @@
 <fieldset data-ng-init="inicializaAssociacao()">
   <div class="row">
-    <uib-alert type="danger" close="closeAlertAnel(currentAnelIndex, 'all')" data-ng-if="errors.general || errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosDePedestre || errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosVeiculares">
+    <uib-alert type="danger" close="closeAlert(currentAnelIndex, 'all')" data-ng-if="errors.general || errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosDePedestre || errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosVeiculares">
       <div style="padding-left: 12px;">
         <ul>
           <li data-ng-repeat="message in errors.general">{{ message }}</li>
@@ -105,7 +105,7 @@
                 <div class="form-group select right">
                   <div class="col-lg-12 col-sm-12">
 
-                    <select class="form-control m-b" data-ng-model="grupoSelecionado.tipo">
+                    <select class="form-control m-b" data-ng-model="grupoSelecionado.tipo" name="tipoGrupoSemaforico">
                       <option></option>
                       <option value="VEICULAR">Veicular</option>
                       <option value="PEDESTRE">Pedestre</option>

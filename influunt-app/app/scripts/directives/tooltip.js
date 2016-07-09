@@ -26,7 +26,7 @@ angular.module('influuntApp')
           if (value) {
             var messages = '';
             _.each(value, function(group) {
-              messages += group.map(function(message) {
+              messages += _.map(group, function(message) {
                 return '<li>' + message + '</li>';
               }).join('');
 

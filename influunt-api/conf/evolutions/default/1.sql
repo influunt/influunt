@@ -3,6 +3,21 @@
 
 # --- !Ups
 
+create table agrupamentos (
+  id                            varchar(40) not null,
+  tipo                          varchar(8),
+  data_criacao                  datetime(6) not null,
+  data_atualizacao              datetime(6) not null,
+  constraint ck_agrupamentos_tipo check (tipo in ('SUBAREA','ROTA','CORREDOR')),
+  constraint pk_agrupamentos primary key (id)
+);
+
+create table agrupamentos_controladores (
+  agrupamento_id                varchar(40) not null,
+  controlador_id                varchar(40) not null,
+  constraint pk_agrupamentos_controladores primary key (agrupamento_id,controlador_id)
+);
+
 create table aneis (
   id                            varchar(40) not null,
   ativo                         tinyint(1) default 0 not null,
@@ -167,10 +182,10 @@ create table perfis (
   constraint pk_perfis primary key (id)
 );
 
-create table perfis_permissoes (
+create table permissoes_perfis (
   perfil_id                     varchar(40) not null,
   permissao_id                  varchar(40) not null,
-  constraint pk_perfis_permissoes primary key (perfil_id,permissao_id)
+  constraint pk_permissoes_perfis primary key (perfil_id,permissao_id)
 );
 
 create table permissoes (
@@ -180,12 +195,6 @@ create table permissoes (
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
   constraint pk_permissoes primary key (id)
-);
-
-create table permissoes_perfis (
-  permissoes_id                 varchar(40) not null,
-  perfis_id                     varchar(40) not null,
-  constraint pk_permissoes_perfis primary key (permissoes_id,perfis_id)
 );
 
 create table sessoes (
@@ -216,15 +225,14 @@ create table transicao (
   constraint pk_transicao primary key (id)
 );
 
-create table transicao_proibida (
+create table transicoes_proibidas (
   id                            varchar(40) not null,
-  origem_id                     varchar(40),
-  destino_id                    varchar(40),
-  alternativo_id                varchar(40),
-  constraint uq_transicao_proibida_origem_id unique (origem_id),
-  constraint uq_transicao_proibida_destino_id unique (destino_id),
-  constraint uq_transicao_proibida_alternativo_id unique (alternativo_id),
-  constraint pk_transicao_proibida primary key (id)
+  origem_id                     varchar(40) not null,
+  destino_id                    varchar(40) not null,
+  alternativo_id                varchar(40) not null,
+  data_criacao                  datetime(6) not null,
+  data_atualizacao              datetime(6) not null,
+  constraint pk_transicoes_proibidas primary key (id)
 );
 
 create table usuarios (
@@ -239,6 +247,12 @@ create table usuarios (
   data_atualizacao              datetime(6) not null,
   constraint pk_usuarios primary key (login)
 );
+
+alter table agrupamentos_controladores add constraint fk_agrupamentos_controladores_agrupamentos foreign key (agrupamento_id) references agrupamentos (id) on delete restrict on update restrict;
+create index ix_agrupamentos_controladores_agrupamentos on agrupamentos_controladores (agrupamento_id);
+
+alter table agrupamentos_controladores add constraint fk_agrupamentos_controladores_controladores foreign key (controlador_id) references controladores (id) on delete restrict on update restrict;
+create index ix_agrupamentos_controladores_controladores on agrupamentos_controladores (controlador_id);
 
 alter table aneis add constraint fk_aneis_controlador_id foreign key (controlador_id) references controladores (id) on delete restrict on update restrict;
 create index ix_aneis_controlador_id on aneis (controlador_id);
@@ -290,17 +304,11 @@ create index ix_modelo_controladores_fabricante_id on modelo_controladores (fabr
 alter table modelo_controladores add constraint fk_modelo_controladores_configuracao_id foreign key (configuracao_id) references configuracao_controladores (id) on delete restrict on update restrict;
 create index ix_modelo_controladores_configuracao_id on modelo_controladores (configuracao_id);
 
-alter table perfis_permissoes add constraint fk_perfis_permissoes_perfis foreign key (perfil_id) references perfis (id) on delete restrict on update restrict;
-create index ix_perfis_permissoes_perfis on perfis_permissoes (perfil_id);
+alter table permissoes_perfis add constraint fk_permissoes_perfis_perfis foreign key (perfil_id) references perfis (id) on delete restrict on update restrict;
+create index ix_permissoes_perfis_perfis on permissoes_perfis (perfil_id);
 
-alter table perfis_permissoes add constraint fk_perfis_permissoes_permissoes foreign key (permissao_id) references permissoes (id) on delete restrict on update restrict;
-create index ix_perfis_permissoes_permissoes on perfis_permissoes (permissao_id);
-
-alter table permissoes_perfis add constraint fk_permissoes_perfis_permissoes foreign key (permissoes_id) references permissoes (id) on delete restrict on update restrict;
-create index ix_permissoes_perfis_permissoes on permissoes_perfis (permissoes_id);
-
-alter table permissoes_perfis add constraint fk_permissoes_perfis_perfis foreign key (perfis_id) references perfis (id) on delete restrict on update restrict;
-create index ix_permissoes_perfis_perfis on permissoes_perfis (perfis_id);
+alter table permissoes_perfis add constraint fk_permissoes_perfis_permissoes foreign key (permissao_id) references permissoes (id) on delete restrict on update restrict;
+create index ix_permissoes_perfis_permissoes on permissoes_perfis (permissao_id);
 
 alter table sessoes add constraint fk_sessoes_usuario_login foreign key (usuario_login) references usuarios (login) on delete restrict on update restrict;
 create index ix_sessoes_usuario_login on sessoes (usuario_login);
@@ -315,11 +323,14 @@ alter table transicao add constraint fk_transicao_origem_id foreign key (origem_
 
 alter table transicao add constraint fk_transicao_destino_id foreign key (destino_id) references estagios (id) on delete restrict on update restrict;
 
-alter table transicao_proibida add constraint fk_transicao_proibida_origem_id foreign key (origem_id) references estagios (id) on delete restrict on update restrict;
+alter table transicoes_proibidas add constraint fk_transicoes_proibidas_origem_id foreign key (origem_id) references estagios (id) on delete restrict on update restrict;
+create index ix_transicoes_proibidas_origem_id on transicoes_proibidas (origem_id);
 
-alter table transicao_proibida add constraint fk_transicao_proibida_destino_id foreign key (destino_id) references estagios (id) on delete restrict on update restrict;
+alter table transicoes_proibidas add constraint fk_transicoes_proibidas_destino_id foreign key (destino_id) references estagios (id) on delete restrict on update restrict;
+create index ix_transicoes_proibidas_destino_id on transicoes_proibidas (destino_id);
 
-alter table transicao_proibida add constraint fk_transicao_proibida_alternativo_id foreign key (alternativo_id) references estagios (id) on delete restrict on update restrict;
+alter table transicoes_proibidas add constraint fk_transicoes_proibidas_alternativo_id foreign key (alternativo_id) references estagios (id) on delete restrict on update restrict;
+create index ix_transicoes_proibidas_alternativo_id on transicoes_proibidas (alternativo_id);
 
 alter table usuarios add constraint fk_usuarios_area_id foreign key (area_id) references areas (id) on delete restrict on update restrict;
 create index ix_usuarios_area_id on usuarios (area_id);
@@ -329,6 +340,12 @@ create index ix_usuarios_perfil_id on usuarios (perfil_id);
 
 
 # --- !Downs
+
+alter table agrupamentos_controladores drop foreign key fk_agrupamentos_controladores_agrupamentos;
+drop index ix_agrupamentos_controladores_agrupamentos on agrupamentos_controladores;
+
+alter table agrupamentos_controladores drop foreign key fk_agrupamentos_controladores_controladores;
+drop index ix_agrupamentos_controladores_controladores on agrupamentos_controladores;
 
 alter table aneis drop foreign key fk_aneis_controlador_id;
 drop index ix_aneis_controlador_id on aneis;
@@ -380,17 +397,11 @@ drop index ix_modelo_controladores_fabricante_id on modelo_controladores;
 alter table modelo_controladores drop foreign key fk_modelo_controladores_configuracao_id;
 drop index ix_modelo_controladores_configuracao_id on modelo_controladores;
 
-alter table perfis_permissoes drop foreign key fk_perfis_permissoes_perfis;
-drop index ix_perfis_permissoes_perfis on perfis_permissoes;
-
-alter table perfis_permissoes drop foreign key fk_perfis_permissoes_permissoes;
-drop index ix_perfis_permissoes_permissoes on perfis_permissoes;
+alter table permissoes_perfis drop foreign key fk_permissoes_perfis_perfis;
+drop index ix_permissoes_perfis_perfis on permissoes_perfis;
 
 alter table permissoes_perfis drop foreign key fk_permissoes_perfis_permissoes;
 drop index ix_permissoes_perfis_permissoes on permissoes_perfis;
-
-alter table permissoes_perfis drop foreign key fk_permissoes_perfis_perfis;
-drop index ix_permissoes_perfis_perfis on permissoes_perfis;
 
 alter table sessoes drop foreign key fk_sessoes_usuario_login;
 drop index ix_sessoes_usuario_login on sessoes;
@@ -405,17 +416,24 @@ alter table transicao drop foreign key fk_transicao_origem_id;
 
 alter table transicao drop foreign key fk_transicao_destino_id;
 
-alter table transicao_proibida drop foreign key fk_transicao_proibida_origem_id;
+alter table transicoes_proibidas drop foreign key fk_transicoes_proibidas_origem_id;
+drop index ix_transicoes_proibidas_origem_id on transicoes_proibidas;
 
-alter table transicao_proibida drop foreign key fk_transicao_proibida_destino_id;
+alter table transicoes_proibidas drop foreign key fk_transicoes_proibidas_destino_id;
+drop index ix_transicoes_proibidas_destino_id on transicoes_proibidas;
 
-alter table transicao_proibida drop foreign key fk_transicao_proibida_alternativo_id;
+alter table transicoes_proibidas drop foreign key fk_transicoes_proibidas_alternativo_id;
+drop index ix_transicoes_proibidas_alternativo_id on transicoes_proibidas;
 
 alter table usuarios drop foreign key fk_usuarios_area_id;
 drop index ix_usuarios_area_id on usuarios;
 
 alter table usuarios drop foreign key fk_usuarios_perfil_id;
 drop index ix_usuarios_perfil_id on usuarios;
+
+drop table if exists agrupamentos;
+
+drop table if exists agrupamentos_controladores;
 
 drop table if exists aneis;
 
@@ -445,11 +463,9 @@ drop table if exists modelo_controladores;
 
 drop table if exists perfis;
 
-drop table if exists perfis_permissoes;
+drop table if exists permissoes_perfis;
 
 drop table if exists permissoes;
-
-drop table if exists permissoes_perfis;
 
 drop table if exists sessoes;
 
@@ -457,7 +473,7 @@ drop table if exists tabela_entre_verdes;
 
 drop table if exists transicao;
 
-drop table if exists transicao_proibida;
+drop table if exists transicoes_proibidas;
 
 drop table if exists usuarios;
 
