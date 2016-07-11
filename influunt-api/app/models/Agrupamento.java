@@ -38,7 +38,7 @@ public class Agrupamento extends Model {
     @Enumerated(EnumType.STRING)
     private TipoAgrupamento tipo;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinTable(name = "agrupamentos_controladores", joinColumns = {@JoinColumn(name = "agrupamento_id")}, inverseJoinColumns = {@JoinColumn(name = "controlador_id")})
     @NumeroDeControladores(min = 1, message = "este agrupamento deve ter pelo menos 1 controlador.")
     @PrivateOwned

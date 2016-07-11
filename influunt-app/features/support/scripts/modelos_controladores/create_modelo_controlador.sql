@@ -3,6 +3,8 @@ DELETE FROM `estagios_grupos_semaforicos`;
 DELETE FROM `estagios`;
 DELETE FROM `grupos_semaforicos`;
 DELETE FROM `aneis`;
+DELETE FROM `agrupamentos_controladores`;
+DELETE FROM `agrupamentos`;
 DELETE FROM `controladores`;
 DELETE FROM `modelo_controladores`;
 DELETE FROM `configuracao_controladores`;

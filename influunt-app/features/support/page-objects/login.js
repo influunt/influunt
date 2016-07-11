@@ -42,10 +42,11 @@ var LoginPage = function () {
   };
 
   this.campoSenhaInvalido = function() {
-    return world.getElements('.senha p.error-msg:not(.ng-hide)')
-      .then(function(elements) {
+    return world.waitFor('.senha p.error-msg:not(.ng-hide)').then(function() {
+      return world.getElements('.senha p.error-msg:not(.ng-hide)');
+    }).then(function(elements) {
         return elements.length === 1;
-      });
+    });
   };
 
   this.loginInvalido = function() {
