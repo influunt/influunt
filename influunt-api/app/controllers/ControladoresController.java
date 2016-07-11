@@ -56,6 +56,12 @@ public class ControladoresController extends Controller {
     }
 
     @Transactional
+    public CompletionStage<Result> entreVerdes() {
+        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
+                ControladorVerdesConflitantesCheck.class, ControladorTransicoesProibidasCheck.class, ControladorTabelaEntreVerdesCheck.class);
+    }
+
+    @Transactional
     public CompletionStage<Result> findOne(String id) {
         Controlador controlador = Controlador.find.byId(UUID.fromString(id));
         if (controlador == null) {
@@ -87,6 +93,7 @@ public class ControladoresController extends Controller {
         }
 
         Controlador controlador = Json.fromJson(request().body().asJson(), Controlador.class);
+
         boolean checkIfExists = controlador.getId() != null;
         if (checkIfExists && Controlador.find.byId(controlador.getId()) == null) {
             return CompletableFuture.completedFuture(notFound());

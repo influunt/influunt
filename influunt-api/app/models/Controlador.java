@@ -34,7 +34,7 @@ import java.util.UUID;
 @AoMenosUmAnelAtivo(groups = ControladorAneisCheck.class)
 @JsonDeserialize(using = ControladorDeserializer.class)
 @JsonSerialize(using = ControladorSerializer.class)
-public class Controlador extends Model {
+public class Controlador extends Model implements Cloneable {
     private static final long serialVersionUID = 521560643019927963L;
     public static Finder<UUID, Controlador> find = new Finder<UUID, Controlador>(Controlador.class);
 
@@ -94,11 +94,11 @@ public class Controlador extends Model {
     @Valid
     private List<Anel> aneis;
 
-    @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
-    @Valid
+    @OneToMany(mappedBy = "controlador")
+    //@Valid
     private List<GrupoSemaforico> gruposSemaforicos;
 
-    @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "controlador")
     @Valid
     private List<Detector> detectores;
 
@@ -108,7 +108,6 @@ public class Controlador extends Model {
 
     @ManyToMany(mappedBy = "controladores")
     private List<Agrupamento> agrupamentos;
-
 
     @Override
     public void save() {
@@ -125,9 +124,8 @@ public class Controlador extends Model {
     private void antesDeSalvarOuAtualizar() {
         if (this.getId() == null) {
             int quantidade = getModelo().getConfiguracao().getLimiteAnel();
-            this.aneis = new ArrayList<Anel>(quantidade);
             for (int i = 0; i < quantidade; i++) {
-                this.aneis.add(new Anel(this, i + 1));
+                this.addAnel(new Anel(this, i + 1));
             }
         }
 
@@ -137,6 +135,15 @@ public class Controlador extends Model {
                 anel.criaDetectores();
             });
         }
+        this.criarPossiveisTransicoes();
+    }
+
+    private void addAnel(Anel anel) {
+        if (getAneis() == null) {
+            setAneis(new ArrayList<Anel>());
+        }
+
+        getAneis().add(anel);
     }
 
 
@@ -170,7 +177,6 @@ public class Controlador extends Model {
         }
         return "";
     }
-
 
     public String getNumeroSMEEConjugado1() {
         return numeroSMEEConjugado1;
@@ -277,11 +283,26 @@ public class Controlador extends Model {
         this.longitude = longitude;
     }
 
+
     public List<Agrupamento> getAgrupamentos() {
         return agrupamentos;
     }
 
     public void setAgrupamentos(List<Agrupamento> agrupamentos) {
         this.agrupamentos = agrupamentos;
+    }
+
+    public void criarPossiveisTransicoes() {
+        for (Anel anel : getAneis()) {
+            for (GrupoSemaforico grupoSemaforico : anel.getGruposSemaforicos()) {
+                grupoSemaforico.criarPossiveisTransicoes();
+            }
+        }
+
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

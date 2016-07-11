@@ -100,27 +100,25 @@ public class TransicaoProibida extends Model {
 
     @AssertTrue(groups = ControladorTransicoesProibidasCheck.class,
             message = "O estágio de origem deve ser diferente do estágio de destino.")
-    public boolean isOrigemEDestinoDiferentes(){
-        if(getOrigem() != null && getDestino() != null) {
+    public boolean isOrigemEDestinoDiferentes() {
+        if (getOrigem() != null && getDestino() != null) {
             return (getOrigem() != getDestino());
-        }
-        else return true;
+        } else return true;
     }
 
     @AssertTrue(groups = ControladorTransicoesProibidasCheck.class,
             message = "Esse estágio só pode ser proibido com estágios do mesmo anel.")
-    public boolean isOrigemEDestinoPertencemAoMesmoAnel(){
-        if(getOrigem() != null && getDestino() != null) {
+    public boolean isOrigemEDestinoPertencemAoMesmoAnel() {
+        if (getOrigem() != null && getDestino() != null) {
             return (getOrigem().getAnel() == getDestino().getAnel());
-        }
-        else return true;
+        } else return true;
     }
 
     @AssertTrue(groups = ControladorTransicoesProibidasCheck.class,
             message = "O Estágio alternativo deve ser diferente da origem e do destino.")
-    public boolean isEstagioAlternativoDiferenteOrigemEDestino(){
-        if(getAlternativo() != null && getOrigem() != null && getDestino() != null)
-            return (getAlternativo() != getOrigem() &&  getAlternativo()!= getDestino());
+    public boolean isEstagioAlternativoDiferenteOrigemEDestino() {
+        if (getAlternativo() != null && getOrigem() != null && getDestino() != null)
+            return (getAlternativo() != getOrigem() && getAlternativo() != getDestino());
         else return true;
 
     }

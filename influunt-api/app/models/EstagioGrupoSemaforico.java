@@ -26,7 +26,7 @@ import java.util.UUID;
 @Table(name = "estagios_grupos_semaforicos")
 @JsonSerialize(using = EstagioGrupoSemaforicoSerializer.class)
 @JsonDeserialize(using = EstagioGrupoSemaforicoDeserializer.class)
-public class EstagioGrupoSemaforico extends Model {
+public class EstagioGrupoSemaforico extends Model implements Cloneable{
 
     private static final long serialVersionUID = 5983122994022833262L;
 
@@ -37,7 +37,7 @@ public class EstagioGrupoSemaforico extends Model {
     @NotNull
     private Boolean ativo = false;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @NotNull(groups = ControladorAssociacaoGruposSemaforicosCheck.class)
     private Estagio estagio;
 
@@ -119,9 +119,12 @@ public class EstagioGrupoSemaforico extends Model {
     public boolean isTipoGrupoSemaforicoOk(){
         if(this.grupoSemaforico != null){
             return this.grupoSemaforico.getTipo() != null;
-        }else{
-            return true;
         }
+        return true;
     }
 
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

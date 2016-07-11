@@ -189,17 +189,16 @@ public class Estagio extends Model implements Serializable {
 
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
             message = "Este estágio deve ser associado a pelo menos 1 grupo semafórico")
-    public boolean isAoMenosUmEstagioGrupoSemaforico(){
+    public boolean isAoMenosUmEstagioGrupoSemaforico() {
         return getEstagiosGruposSemaforicos() != null && !getEstagiosGruposSemaforicos().isEmpty();
     }
 
     @AssertTrue(groups = ControladorTransicoesProibidasCheck.class,
             message = "Esse estágio não pode ter um estágio de destino e alternativo ao mesmo tempo.")
-    public boolean isAoMesmoTempoDestinoEAlternativo(){
-        if(!getDestinoDeTransicoesProibidas().isEmpty() && !getAlternativaDeTransicoesProibidas().isEmpty()) {
-            return  getDestinoDeTransicoesProibidas().stream().filter(estagio -> getAlternativaDeTransicoesProibidas().contains(estagio)).count() == 0;
-        }
-        else return true;
+    public boolean isAoMesmoTempoDestinoEAlternativo() {
+        if (!getDestinoDeTransicoesProibidas().isEmpty() && !getAlternativaDeTransicoesProibidas().isEmpty()) {
+            return getDestinoDeTransicoesProibidas().stream().filter(estagio -> getAlternativaDeTransicoesProibidas().contains(estagio)).count() == 0;
+        } else return true;
     }
 
     @Override
@@ -219,4 +218,7 @@ public class Estagio extends Model implements Serializable {
     }
 
 
+    public boolean temTransicaoProibidaComEstagio(Estagio estagio) {
+        return getOrigemDeTransicoesProibidas().stream().filter(transicaoProibida -> transicaoProibida.getDestino().equals(estagio)).count() > 0;
+    }
 }

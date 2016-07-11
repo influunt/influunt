@@ -21,6 +21,7 @@ import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -36,7 +37,7 @@ import java.util.UUID;
 
 @JsonSerialize(using = AnelSerializer.class)
 @JsonDeserialize(using = AnelDeserializer.class)
-public class Anel extends Model {
+public class Anel extends Model implements Cloneable{
 
     private static final long serialVersionUID = 4919501406230732757L;
 
@@ -305,6 +306,7 @@ public class Anel extends Model {
                 grupoSemaforico.setAnel(this);
                 grupoSemaforico.setPosicao(this.getControlador().getGruposSemaforicos().size() + 1);
                 grupoSemaforico.setControlador(this.getControlador());
+                grupoSemaforico.addTabelaEntreVerdes(new TabelaEntreVerdes(grupoSemaforico));
                 getGruposSemaforicos().add(grupoSemaforico);
                 this.getControlador().getGruposSemaforicos().add(grupoSemaforico);
             }
@@ -341,7 +343,7 @@ public class Anel extends Model {
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
                 message = "Quantidade de grupos semáforicos de pedestre diferente do definido no anel")
     public boolean isCheckQuantidadeGruposSemaforicosDePedestre() {
-        if (this.getGruposSemaforicos() != null) {
+        if (Objects.nonNull(this.getGruposSemaforicos())) {
             return this.getGruposSemaforicos().stream()
                     .filter(grupoSemaforico -> grupoSemaforico.getTipo() != null && grupoSemaforico.getTipo().equals(TipoGrupoSemaforico.PEDESTRE)).count() == this.getQuantidadeGrupoPedestre();
         } else {
@@ -353,7 +355,7 @@ public class Anel extends Model {
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
                 message = "Quantidade de grupos semáforicos veiculares diferente do definido no anel")
     public boolean isCheckQuantidadeGruposSemaforicosVeiculares() {
-        if (this.getGruposSemaforicos() != null) {
+        if (Objects.nonNull(this.getGruposSemaforicos())) {
             return this.getGruposSemaforicos().stream()
                     .filter(grupoSemaforico -> grupoSemaforico.getTipo() != null && grupoSemaforico.getTipo().equals(TipoGrupoSemaforico.VEICULAR)).count() == this.getQuantidadeGrupoVeicular();
         } else {
@@ -361,6 +363,40 @@ public class Anel extends Model {
         }
     }
 
+    public GrupoSemaforico findGrupoSemaforicoByDescricao(String descricao) {
+        if(Objects.nonNull(descricao)) {
+            return getGruposSemaforicos().stream().filter(grupoSemaforico -> descricao.equals(grupoSemaforico.getDescricao())).findFirst().orElse(null);
+        }
+        return null;
+    }
 
+    public GrupoSemaforico findGrupoSemaforicoByPosicao(Integer posicao) {
+        if(Objects.nonNull(posicao)) {
+            return getGruposSemaforicos().stream().filter(grupoSemaforico -> posicao.equals(grupoSemaforico.getPosicao())).findFirst().orElse(null);
+        }
+        return null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Anel anel = (Anel) o;
+
+        return id != null ? id.equals(anel.id) : anel.id == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        getDataCriacao();
+        return super.clone();
+    }
 }
 

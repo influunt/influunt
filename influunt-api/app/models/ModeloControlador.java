@@ -9,7 +9,6 @@ import json.deserializers.InfluuntDateTimeDeserializer;
 import json.deserializers.ModeloControladorDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import json.serializers.ModeloControladorSerializer;
-import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
@@ -26,7 +25,7 @@ import java.util.UUID;
 @Table(name = "modelo_controladores")
 @JsonSerialize(using = ModeloControladorSerializer.class)
 @JsonDeserialize(using = ModeloControladorDeserializer.class)
-public class ModeloControlador extends Model {
+public class ModeloControlador extends Model implements Cloneable {
 
     private static final long serialVersionUID = -3153929481907380680L;
 
@@ -107,4 +106,8 @@ public class ModeloControlador extends Model {
         this.dataAtualizacao = dataAtualizacao;
     }
 
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

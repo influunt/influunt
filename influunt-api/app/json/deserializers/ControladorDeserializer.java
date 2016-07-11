@@ -52,14 +52,6 @@ public class ControladorDeserializer extends JsonDeserializer<Controlador> {
             controlador.setAneis(aneis);
         }
 
-        if (node.has("gruposSemaforicos") ) {
-            List<GrupoSemaforico> grupoSemaforicos = new ArrayList<GrupoSemaforico>();
-            for (JsonNode nodeGrupoSemaforico : node.get("gruposSemaforicos")) {
-                grupoSemaforicos.add(Json.fromJson(nodeGrupoSemaforico, GrupoSemaforico.class));
-            }
-            controlador.setGruposSemaforicos(grupoSemaforicos);
-        }
-
         return controlador;
     }
 }

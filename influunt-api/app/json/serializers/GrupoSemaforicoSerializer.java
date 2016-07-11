@@ -4,9 +4,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import models.Anel;
-import models.EstagioGrupoSemaforico;
-import models.GrupoSemaforico;
+import models.*;
 
 import java.io.IOException;
 
@@ -36,31 +34,76 @@ public class GrupoSemaforicoSerializer extends JsonSerializer<GrupoSemaforico> {
             jgen.writeStringField("descricao", grupoSemaforico.getDescricao());
         }
         if (grupoSemaforico.getAnel() != null) {
-            Anel anelAux = new Anel();
-            anelAux.setId(grupoSemaforico.getAnel().getId());
-            jgen.writeObjectField("anel", anelAux);
+            Anel anel = null;
+            try {
+                anel = (Anel) grupoSemaforico.getAnel().clone();
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+            anel.setGruposSemaforicos(null);
+            jgen.writeObjectField("anel", anel);
         }
 
-        if (grupoSemaforico.getVerdesConflitantes() != null) {
-            jgen.writeArrayFieldStart("verdesConflitantes");
-            for (GrupoSemaforico grupo : grupoSemaforico.getVerdesConflitantes()) {
-                GrupoSemaforico grupoAux = new GrupoSemaforico();
-                grupoAux.setId(grupo.getId());
-                grupoAux.setDescricao(grupo.getDescricao());
-                grupoAux.setTipo(grupo.getTipo());
-                grupoAux.setPosicao(grupo.getPosicao());
-                grupoAux.setAnel(grupo.getAnel());
-
-                jgen.writeObject(grupoAux);
+        if (grupoSemaforico.getVerdesConflitantesOrigem() != null) {
+            jgen.writeArrayFieldStart("verdesConflitantesOrigem");
+            for (VerdesConflitantes verdesConflitantes : grupoSemaforico.getVerdesConflitantesOrigem()) {
+                jgen.writeObject(verdesConflitantes);
             }
             jgen.writeEndArray();
         }
 
-        jgen.writeArrayFieldStart("estagioGrupoSemaforicos");
-        for (EstagioGrupoSemaforico estagio : grupoSemaforico.getEstagioGrupoSemaforicos()) {
-            jgen.writeObject(estagio);
+        if (grupoSemaforico.getVerdesConflitantesDestino() != null) {
+            jgen.writeArrayFieldStart("verdesConflitantesDestino");
+            for (VerdesConflitantes verdesConflitantes : grupoSemaforico.getVerdesConflitantesDestino()) {
+                jgen.writeObject(verdesConflitantes);
+            }
+            jgen.writeEndArray();
         }
-        jgen.writeEndArray();
+
+        if (grupoSemaforico.getEstagioGrupoSemaforicos() != null) {
+            jgen.writeArrayFieldStart("estagioGrupoSemaforicos");
+            for (EstagioGrupoSemaforico estagio : grupoSemaforico.getEstagioGrupoSemaforicos()) {
+                EstagioGrupoSemaforico estagioAux = null;
+                try {
+                    estagioAux = (EstagioGrupoSemaforico) estagio.clone();
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
+                estagioAux.setGrupoSemaforico(null);
+                jgen.writeObject(estagioAux);
+            }
+            jgen.writeEndArray();
+        }
+
+        if (grupoSemaforico.getTransicoes() != null) {
+            jgen.writeArrayFieldStart("transicoes");
+            for (Transicao transicao : grupoSemaforico.getTransicoes()) {
+                Transicao transicaoAux = null;
+                try {
+                    transicaoAux = (Transicao) transicao.clone();
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
+                transicaoAux.setGrupoSemaforico(null);
+                jgen.writeObject(transicaoAux);
+            }
+            jgen.writeEndArray();
+        }
+
+        if (grupoSemaforico.getTabelasEntreVerdes() != null) {
+            jgen.writeArrayFieldStart("tabelasEntreVerdes");
+            for (TabelaEntreVerdes tabelaEntreVerdes : grupoSemaforico.getTabelasEntreVerdes()) {
+                TabelaEntreVerdes tabelaEntreVerdesAux = null;
+                try {
+                    tabelaEntreVerdesAux = (TabelaEntreVerdes) tabelaEntreVerdes.clone();
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
+                tabelaEntreVerdesAux.setGrupoSemaforico(null);
+                jgen.writeObject(tabelaEntreVerdesAux);
+            }
+            jgen.writeEndArray();
+        }
 
         jgen.writeEndObject();
     }

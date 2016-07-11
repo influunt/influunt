@@ -1,3 +1,5 @@
+import scala.collection.JavaConverters._
+
 name := """influunt-api"""
 
 version := "0.1.0"
@@ -22,6 +24,7 @@ libraryDependencies ++= Seq(
   "com.fasterxml.jackson.datatype" % "jackson-datatype-joda" % "2.7.5",
   "uk.co.modular-it" % "bean-utils" % "0.9.10",
   "org.hamcrest" % "hamcrest-library" % "1.3",
+  "commons-beanutils" % "commons-beanutils" % "1.9.2",
   "org.mindrot" % "jbcrypt" % "0.3m")
 
 jacoco.settings

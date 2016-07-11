@@ -1,6 +1,5 @@
 package models;
 
-import be.objectify.deadbolt.java.models.Role;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
@@ -8,36 +7,28 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
-import json.serializers.PerfilSerializer;
-import org.hibernate.validator.constraints.NotBlank;
+import json.serializers.VerdesConflitantesSerializer;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.UUID;
 
 /**
- * Created by rodrigosol on 6/29/16.
+ * Created by lesiopinheiro on 7/11/16.
  */
 @Entity
-@Table(name = "perfis")
-@JsonSerialize(using = PerfilSerializer.class)
-public class Perfil extends Model implements Role {
-    public static Finder<UUID, Perfil> find = new Finder<UUID, Perfil>(Perfil.class);
-
-    @ManyToMany(cascade = CascadeType.REMOVE)
-    @JoinTable(name = "permissoes_perfis", joinColumns = {@JoinColumn(name = "perfil_id")}, inverseJoinColumns = {@JoinColumn(name = "permissao_id")})
-    private List<Permissao> permissoes;
-
-    @OneToMany(mappedBy = "perfil")
-    private List<Usuario> usuarios;
+@Table(name = "verdes_conflitantes")
+@JsonSerialize(using = VerdesConflitantesSerializer.class)
+public class VerdesConflitantes extends Model {
 
     @Id
     private UUID id;
 
-    @Column
-    @NotBlank(message = "não pode ficar em branco")
-    private String nome;
+    @ManyToOne
+    private GrupoSemaforico origem;
+
+    @ManyToOne
+    private GrupoSemaforico destino;
 
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
@@ -51,11 +42,16 @@ public class Perfil extends Model implements Role {
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
 
-
-    @Override
-    public String getName() {
-        return nome;
+    public VerdesConflitantes() {
+        super();
     }
+
+    public VerdesConflitantes(GrupoSemaforico origem, GrupoSemaforico destino) {
+        super();
+        this.origem = origem;
+        this.destino = destino;
+    }
+
 
     public UUID getId() {
         return id;
@@ -65,29 +61,22 @@ public class Perfil extends Model implements Role {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public GrupoSemaforico getOrigem() {
+        return origem;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setOrigem(GrupoSemaforico origem) {
+        this.origem = origem;
     }
 
-    public List<Permissao> getPermissoes() {
-        return permissoes;
+    public GrupoSemaforico getDestino() {
+        return destino;
     }
 
-    public void setPermissoes(List<Permissao> permissoes) {
-        this.permissoes = permissoes;
+    public void setDestino(GrupoSemaforico destino) {
+        this.destino = destino;
     }
 
-    public List<Usuario> getUsuarios() {
-        return usuarios;
-    }
-
-    public void setUsuarios(List<Usuario> usuarios) {
-        this.usuarios = usuarios;
-    }
 
     public DateTime getDataCriacao() {
         return dataCriacao;
@@ -104,4 +93,20 @@ public class Perfil extends Model implements Role {
     public void setDataAtualizacao(DateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
     }
+
+    public boolean conflitaComEleMesmo(GrupoSemaforico grupoSemaforico) {
+        return origem.equals(grupoSemaforico) && destino.equals(grupoSemaforico);
+    }
+
+    public boolean conflitaGrupoSemaforicoOutroAnel(GrupoSemaforico grupoSemaforico) {
+        return !getVerdeConflitante(grupoSemaforico).getAnel().equals(grupoSemaforico.getAnel());
+    }
+
+    public GrupoSemaforico getVerdeConflitante(GrupoSemaforico grupoSemaforico) {
+        if (origem.equals(grupoSemaforico)) {
+            return destino;
+        }
+        return origem;
+    }
+
 }

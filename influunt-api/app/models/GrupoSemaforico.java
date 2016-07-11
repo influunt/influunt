@@ -3,6 +3,7 @@ package models;
 import checks.ControladorVerdesConflitantesCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
+import com.avaje.ebean.annotation.PrivateOwned;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -11,9 +12,12 @@ import json.deserializers.GrupoSemaforicoDeserializer;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.GrupoSemaforicoSerializer;
 import json.serializers.InfluuntDateTimeSerializer;
+import org.apache.commons.collections.ListUtils;
 import org.joda.time.DateTime;
+import play.Logger;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +32,7 @@ import java.util.UUID;
 @Table(name = "grupos_semaforicos")
 @JsonSerialize(using = GrupoSemaforicoSerializer.class)
 @JsonDeserialize(using = GrupoSemaforicoDeserializer.class)
-public class GrupoSemaforico extends Model {
+public class GrupoSemaforico extends Model implements Cloneable {
     public static Finder<UUID, GrupoSemaforico> find = new Finder<UUID, GrupoSemaforico>(GrupoSemaforico.class);
     private static final long serialVersionUID = 7439393568357903233L;
 
@@ -46,21 +50,27 @@ public class GrupoSemaforico extends Model {
     @JoinColumn(name = "anel_id")
     private Anel anel;
 
-    @OneToMany(mappedBy = "grupoSemaforico", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "grupoSemaforico", cascade = CascadeType.ALL)
     private List<EstagioGrupoSemaforico> estagioGrupoSemaforicos;
 
     @ManyToOne
     private Controlador controlador;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private GrupoSemaforico grupoConflito;
+    @OneToMany(mappedBy = "origem", cascade = CascadeType.ALL)
+    @Valid
+    private List<VerdesConflitantes> verdesConflitantesOrigem;
 
-    @OneToMany(mappedBy = "grupoConflito", cascade = CascadeType.ALL)
-    private List<GrupoSemaforico> verdesConflitantes;
+    @OneToMany(mappedBy = "destino", cascade = CascadeType.ALL)
+    @Valid
+    private List<VerdesConflitantes> verdesConflitantesDestino;
 
-    @OneToMany
+    @OneToMany(mappedBy = "grupoSemaforico", cascade = CascadeType.ALL)
     private List<TabelaEntreVerdes> tabelasEntreVerdes;
 
+    @OneToMany(mappedBy = "grupoSemaforico", cascade = CascadeType.ALL)
+    @PrivateOwned
+    @Valid
+    private List<Transicao> transicoes;
 
     @Column
     private Integer posicao;
@@ -117,20 +127,20 @@ public class GrupoSemaforico extends Model {
         this.controlador = controlador;
     }
 
-    public GrupoSemaforico getGrupoConflito() {
-        return grupoConflito;
+    public List<VerdesConflitantes> getVerdesConflitantesOrigem() {
+        return verdesConflitantesOrigem;
     }
 
-    public void setGrupoConflito(GrupoSemaforico grupoConflito) {
-        this.grupoConflito = grupoConflito;
+    public void setVerdesConflitantesOrigem(List<VerdesConflitantes> verdesConflitantesOrigem) {
+        this.verdesConflitantesOrigem = verdesConflitantesOrigem;
     }
 
-    public List<GrupoSemaforico> getVerdesConflitantes() {
-        return verdesConflitantes;
+    public List<VerdesConflitantes> getVerdesConflitantesDestino() {
+        return verdesConflitantesDestino;
     }
 
-    public void setVerdesConflitantes(List<GrupoSemaforico> verdesConflitantes) {
-        this.verdesConflitantes = verdesConflitantes;
+    public void setVerdesConflitantesDestino(List<VerdesConflitantes> verdesConflitantesDestino) {
+        this.verdesConflitantesDestino = verdesConflitantesDestino;
     }
 
     public Integer getPosicao() {
@@ -157,15 +167,35 @@ public class GrupoSemaforico extends Model {
         this.dataAtualizacao = dataAtualizacao;
     }
 
-    public String getDescricao() { return descricao; }
+    public String getDescricao() {
+        return descricao;
+    }
 
-    public void setDescricao(String descricao) { this.descricao = descricao; }
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
 
     public void addEstagioGrupoSemaforico(EstagioGrupoSemaforico estagioGrupoSemaforico) {
         if (getEstagioGrupoSemaforicos() == null) {
             setEstagioGrupoSemaforicos(new ArrayList<EstagioGrupoSemaforico>());
         }
         getEstagioGrupoSemaforicos().add(estagioGrupoSemaforico);
+    }
+
+    public List<TabelaEntreVerdes> getTabelasEntreVerdes() {
+        return tabelasEntreVerdes;
+    }
+
+    public void setTabelasEntreVerdes(List<TabelaEntreVerdes> tabelasEntreVerdes) {
+        this.tabelasEntreVerdes = tabelasEntreVerdes;
+    }
+
+    public List<Transicao> getTransicoes() {
+        return transicoes;
+    }
+
+    public void setTransicoes(List<Transicao> transicoes) {
+        this.transicoes = transicoes;
     }
 
     @JsonIgnore
@@ -182,7 +212,9 @@ public class GrupoSemaforico extends Model {
     @AssertTrue(groups = ControladorVerdesConflitantesCheck.class, message = "Esse grupo semafórico não pode ter verde conflitante com ele mesmo")
     public boolean isNaoConflitaComEleMesmo() {
         if (this.getVerdesConflitantes() != null && !this.getVerdesConflitantes().isEmpty()) {
-            return this.getVerdesConflitantes().stream().filter(grupoSemaforico -> grupoSemaforico.getId().equals(this.getId())).count() == 0;
+            boolean a = this.getVerdesConflitantes().stream().anyMatch(grupoSemaforico -> grupoSemaforico.conflitaComEleMesmo(this));
+            Logger.info("******* AAA: " + a);
+            return !a;
         } else {
             return true;
         }
@@ -192,7 +224,9 @@ public class GrupoSemaforico extends Model {
     @AssertTrue(groups = ControladorVerdesConflitantesCheck.class, message = "Esse grupo semafórico não pode ter verde conflitante com grupo semafórico de outro anel")
     public boolean isNaoConflitaComGruposDeOutroAnel() {
         if (this.getAnel() != null && this.getVerdesConflitantes() != null && !this.getVerdesConflitantes().isEmpty()) {
-            return this.getVerdesConflitantes().stream().filter(grupoSemaforico -> !grupoSemaforico.getAnel().getId().equals(this.getAnel().getId())).count() == 0;
+            boolean b = this.getVerdesConflitantes().stream().anyMatch(grupoSemaforico -> grupoSemaforico.conflitaGrupoSemaforicoOutroAnel(this));
+            Logger.info("******* BBB: " + b);
+            return !b;
         } else {
             return true;
         }
@@ -209,4 +243,86 @@ public class GrupoSemaforico extends Model {
     public boolean isVeicular() {
         return this.getTipo() != null && TipoGrupoSemaforico.VEICULAR.equals(this.getTipo());
     }
+
+    public void addTabelaEntreVerdes(TabelaEntreVerdes tabelaEntreVerdes) {
+        if (getTabelasEntreVerdes() == null) {
+            setTabelasEntreVerdes(new ArrayList<>());
+        }
+
+        getTabelasEntreVerdes().add(tabelaEntreVerdes);
+    }
+
+    public void criarPossiveisTransicoes() {
+        getTransicoes().forEach(transicao -> transicao.setDestroy(true));
+//        for (EstagioGrupoSemaforico estagioGrupoSemaforico : estagioGrupoSemaforicos) {
+//            for (Estagio estagio : getAnel().getEstagios()) {
+//                if (!estagio.equals(estagioGrupoSemaforico.getEstagio()) && !estagioGrupoSemaforico.getEstagio().temTransicaoProibidaComEstagio(estagio)) {
+//                    addTransicoes(new Transicao(this, estagioGrupoSemaforico.getEstagio(), estagio));
+//                }
+//            }
+//        }
+
+        getEstagioGrupoSemaforicos().forEach(estagioGrupoSemaforico -> getAnel().getEstagios().stream()
+                .filter(estagio -> !estagio.equals(estagioGrupoSemaforico.getEstagio()) && !estagioGrupoSemaforico.getEstagio().temTransicaoProibidaComEstagio(estagio))
+                .forEach(estagio -> this.addTransicoes(new Transicao(this, estagioGrupoSemaforico.getEstagio(), estagio))));
+
+
+        getTransicoes().removeIf(transicao -> transicao.isDestroy());
+
+    }
+
+    public List<VerdesConflitantes> getVerdesConflitantes() {
+        return ListUtils.union(verdesConflitantesOrigem, verdesConflitantesDestino);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        GrupoSemaforico that = (GrupoSemaforico) o;
+
+        return id != null ? id.equals(that.id) : that.id == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
+
+    private void addTransicoes(Transicao transicao) {
+        if (getTransicoes() == null) {
+            setTransicoes(new ArrayList<Transicao>());
+        }
+        Transicao transicaoAux = getTransicoes().stream().filter(t -> t.getOrigem().equals(transicao.getOrigem()) && t.getDestino().equals(transicao.getDestino())).findFirst().orElse(null);
+        if (transicaoAux != null) {
+            transicaoAux.setDestroy(false);
+        } else {
+            getTransicoes().add(transicao);
+        }
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
+    public void addVerdeConflitante(GrupoSemaforico grupoSemaforico) {
+        VerdesConflitantes verdesConflitantes = new VerdesConflitantes(this, grupoSemaforico);
+        addVerdesConflitantesList(verdesConflitantes);
+
+    }
+
+    public boolean conflitaCom(GrupoSemaforico grupoSemaforico) {
+        return getVerdesConflitantes().stream().anyMatch(verdesConflitantes -> verdesConflitantes.getVerdeConflitante(this).equals(grupoSemaforico));
+    }
+
+    private void addVerdesConflitantesList(VerdesConflitantes verdesConflitantes) {
+        if(getVerdesConflitantesOrigem() == null) {
+            setVerdesConflitantesOrigem(new ArrayList<VerdesConflitantes>());
+        }
+        getVerdesConflitantesOrigem().add(verdesConflitantes);
+    }
+
 }

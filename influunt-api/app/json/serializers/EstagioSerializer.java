@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import models.Estagio;
+import models.EstagioGrupoSemaforico;
 import models.TransicaoProibida;
 
 import java.io.IOException;
@@ -37,7 +38,6 @@ public class EstagioSerializer extends JsonSerializer<Estagio> {
         if (estagio.getDataAtualizacao() != null) {
             jgen.writeStringField("dataAtualizacao", InfluuntDateTimeSerializer.parse(estagio.getDataAtualizacao()));
         }
-
         if (estagio.getOrigemDeTransicoesProibidas() != null) {
             jgen.writeArrayFieldStart("origemDeTransicoesProibidas");
             for (TransicaoProibida transicaoProibida : estagio.getOrigemDeTransicoesProibidas()) {
@@ -45,7 +45,6 @@ public class EstagioSerializer extends JsonSerializer<Estagio> {
             }
             jgen.writeEndArray();
         }
-
         if (estagio.getDestinoDeTransicoesProibidas() != null) {
             jgen.writeArrayFieldStart("destinoDeTransicoesProibidas");
             for (TransicaoProibida transicaoProibida : estagio.getDestinoDeTransicoesProibidas()) {
@@ -53,7 +52,6 @@ public class EstagioSerializer extends JsonSerializer<Estagio> {
             }
             jgen.writeEndArray();
         }
-
         if (estagio.getAlternativaDeTransicoesProibidas() != null) {
             jgen.writeArrayFieldStart("alternativaDeTransicoesProibidas");
             for (TransicaoProibida transicaoProibida : estagio.getAlternativaDeTransicoesProibidas()) {
@@ -61,18 +59,21 @@ public class EstagioSerializer extends JsonSerializer<Estagio> {
             }
             jgen.writeEndArray();
         }
-
-
-//        jgen.writeArrayFieldStart("areas");
-//        for (Area area : estagio.getAreas()) {
-//            jgen.writeStartObject();
-//            jgen.writeStringField("id", area.getId().toString());
-//            jgen.writeNumberField("descricao", area.getLocalizacao());
-//            jgen.writeEndObject();
-//        }
-//        jgen.writeEndArray();
-
-
+        if (estagio.getEstagiosGruposSemaforicos() != null) {
+            jgen.writeArrayFieldStart("estagiosGruposSemaforicos");
+            for (EstagioGrupoSemaforico estagioGrupoSemaforico : estagio.getEstagiosGruposSemaforicos()) {
+                EstagioGrupoSemaforico estagioGrupoSemaforicoAux = null;
+                try {
+                    estagioGrupoSemaforicoAux = (EstagioGrupoSemaforico) estagioGrupoSemaforico.clone();
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
+                estagioGrupoSemaforicoAux.setEstagio(null);
+                estagioGrupoSemaforicoAux.setGrupoSemaforico(null);
+                jgen.writeObject(estagioGrupoSemaforicoAux);
+            }
+            jgen.writeEndArray();
+        }
         jgen.writeEndObject();
     }
 }

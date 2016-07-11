@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import models.Area;
+import models.Cidade;
 import models.LimiteArea;
 
 import java.io.IOException;
@@ -29,16 +30,23 @@ public class AreaSerializer extends JsonSerializer<Area> {
         if (area.getDataAtualizacao() != null) {
             jgen.writeStringField("dataAtualizacao", InfluuntDateTimeSerializer.parse(area.getDataAtualizacao()));
         }
-        jgen.writeObjectField("cidade", area.getCidade());
-        jgen.writeArrayFieldStart("limites");
-        for (LimiteArea limite : area.getLimitesGeograficos()) {
-            jgen.writeStartObject();
-            jgen.writeStringField("id", limite.getId().toString());
-            jgen.writeStringField("latitude", limite.getLatitude().toString());
-            jgen.writeStringField("longitude", limite.getLongitude().toString());
-            jgen.writeEndObject();
+        if (area.getCidade() != null) {
+            Cidade cidade = null;
+            try {
+                cidade = (Cidade) area.getCidade().clone();
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+            cidade.setAreas(null);
+            jgen.writeObjectField("cidade", cidade);
         }
-        jgen.writeEndArray();
+        if (area.getLimitesGeograficos() != null) {
+            jgen.writeArrayFieldStart("limites");
+            for (LimiteArea limite : area.getLimitesGeograficos()) {
+                jgen.writeObject(limite);
+            }
+            jgen.writeEndArray();
+        }
         jgen.writeEndObject();
     }
 }

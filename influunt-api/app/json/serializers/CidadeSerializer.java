@@ -34,10 +34,7 @@ public class CidadeSerializer extends JsonSerializer<Cidade> {
         }
         jgen.writeArrayFieldStart("areas");
         for (Area area : cidade.getAreas()) {
-            jgen.writeStartObject();
-            jgen.writeStringField("id", area.getId().toString());
-            jgen.writeNumberField("descricao", area.getDescricao());
-            jgen.writeEndObject();
+            jgen.writeObject(area);
         }
         jgen.writeEndArray();
         jgen.writeEndObject();

@@ -6,8 +6,8 @@ import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import play.libs.Json;
 import models.*;
+import play.libs.Json;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,62 +35,55 @@ public class GrupoSemaforicoDeserializer extends JsonDeserializer<GrupoSemaforic
         if (node.has("tipo")) {
             grupoSemaforico.setTipo(TipoGrupoSemaforico.valueOf(node.get("tipo").asText()));
         }
-        if (node.has("estagioGrupoSemaforicos")) {
+
+        if (node.has("estagioGrupoSemaforicos") ) {
             List<EstagioGrupoSemaforico> estagioGrupoSemaforicos = new ArrayList<EstagioGrupoSemaforico>();
             for (JsonNode estagioGSNode : node.get("estagioGrupoSemaforicos")) {
-                estagioGrupoSemaforicos.add(getEstagioGrupoSemaforico(estagioGSNode, grupoSemaforico));
+                estagioGrupoSemaforicos.add(Json.fromJson(estagioGSNode, EstagioGrupoSemaforico.class));
             }
             grupoSemaforico.setEstagioGrupoSemaforicos(estagioGrupoSemaforicos);
         }
+
+        if (node.has("verdesConflitantesOrigem") ) {
+            List<VerdesConflitantes> verdesConflitantes = new ArrayList<VerdesConflitantes>();
+            for (JsonNode verdeNode : node.get("verdesConflitantesOrigem")) {
+                verdesConflitantes.add(Json.fromJson(verdeNode, VerdesConflitantes.class));
+            }
+            grupoSemaforico.setVerdesConflitantesOrigem(verdesConflitantes);
+        }
+
+        if (node.has("verdesConflitantesDestino") ) {
+            List<VerdesConflitantes> verdesConflitantes = new ArrayList<VerdesConflitantes>();
+            for (JsonNode verdeNode : node.get("verdesConflitantesDestino")) {
+                verdesConflitantes.add(Json.fromJson(verdeNode, VerdesConflitantes.class));
+            }
+            grupoSemaforico.setVerdesConflitantesDestino(verdesConflitantes);
+        }
+
+        if (node.has("tabelasEntreVerdes") ) {
+            List<TabelaEntreVerdes> tabelasEntreVerdes = new ArrayList<TabelaEntreVerdes>();
+            for (JsonNode tabelasEntreVerdesNode : node.get("tabelasEntreVerdes")) {
+                tabelasEntreVerdes.add(Json.fromJson(tabelasEntreVerdesNode, TabelaEntreVerdes.class));
+            }
+            grupoSemaforico.setTabelasEntreVerdes(tabelasEntreVerdes);
+        }
+
         if (node.has("descricao")) {
             grupoSemaforico.setDescricao(node.get("descricao").asText());
         }
 
-        return grupoSemaforico;
-    }
-
-    private EstagioGrupoSemaforico getEstagioGrupoSemaforico(JsonNode node, GrupoSemaforico grupoSemaforico) {
-        EstagioGrupoSemaforico estagioGrupoSemaforico = new EstagioGrupoSemaforico();
-
-        if (node.has("id")) {
-            estagioGrupoSemaforico.setId(UUID.fromString(node.get("id").asText()));
-        }
-        if (node.has("ativo")) {
-            estagioGrupoSemaforico.setAtivo(node.get("ativo").asBoolean());
-        }
-        if (node.has("grupoSemaforico")) {
-            estagioGrupoSemaforico.setGrupoSemaforico(grupoSemaforico);
-        }
-        if (node.has("estagio")) {
-            estagioGrupoSemaforico.setEstagio(getEstagio(node.get("estagio"), estagioGrupoSemaforico));
+        if (node.has("anel")) {
+            grupoSemaforico.setAnel(Json.fromJson(node.get("anel"), Anel.class));
         }
 
-        return estagioGrupoSemaforico;
-    }
-
-    private Estagio getEstagio(JsonNode node, EstagioGrupoSemaforico estagioGrupoSemaforico) {
-        Estagio estagio = new Estagio();
-        if (node.has("id")) {
-            estagio = Estagio.find.byId(UUID.fromString(node.get("id").asText()));
-            if (estagio == null) {
-                estagio = new Estagio();
+        if (node.has("transicoes") ) {
+            List<Transicao> transicoes = new ArrayList<Transicao>();
+            for (JsonNode nodeTransicao : node.get("transicoes")) {
+                transicoes.add(Json.fromJson(nodeTransicao, Transicao.class));
             }
-        }
-        if (node.has("imagem")) {
-            Imagem imagem = Json.fromJson(node.get("imagem"), Imagem.class);
-            estagio.setImagem(imagem);
-        }
-        if (node.has("descricao")) {
-            estagio.setDescricao(node.get("descricao").asText());
-        }
-        if (node.has("tempoMaximoPermanencia")) {
-            estagio.setTempoMaximoPermanencia(node.get("tempoMaximoPermanencia").asInt());
-        }
-        if (node.has("demandaPrioritaria")) {
-            estagio.setDemandaPrioritaria(node.get("demandaPrioritaria").asBoolean());
+            grupoSemaforico.setTransicoes(transicoes);
         }
 
-        estagio.addEstagioGrupoSemaforico(estagioGrupoSemaforico);
-        return estagio;
+        return grupoSemaforico;
     }
 }

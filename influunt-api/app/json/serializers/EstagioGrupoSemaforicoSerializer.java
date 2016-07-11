@@ -30,13 +30,9 @@ public class EstagioGrupoSemaforicoSerializer extends JsonSerializer<EstagioGrup
         if (estagioGrupo.getEstagio() != null) {
             jgen.writeObjectField("estagio", estagioGrupo.getEstagio());
         }
-
         if (estagioGrupo.getGrupoSemaforico() != null) {
-            jgen.writeObjectFieldStart("grupoSemaforico");
-            jgen.writeStringField("id", estagioGrupo.getGrupoSemaforico().getId().toString());
-            jgen.writeEndObject();
+            jgen.writeObjectField("grupoSemaforico", estagioGrupo.getGrupoSemaforico());
         }
-
         jgen.writeEndObject();
     }
 }
