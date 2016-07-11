@@ -94,6 +94,7 @@ public abstract class ControladorTest extends WithApplication {
         controlador.save();
 
         Anel anel1 = controlador.getAneis().get(0);
+        anel1.setDescricao("Anel 0");
         anel1.setAtivo(true);
         anel1.setEstagios(Arrays.asList(new Estagio(), new Estagio(), new Estagio(), new Estagio()));
 
@@ -151,6 +152,7 @@ public abstract class ControladorTest extends WithApplication {
         Controlador controlador = getControladorAssociacao();
 
         Anel anelAtivo = controlador.getAneis().stream().filter(anel -> !anel.isAtivo()).findFirst().get();
+        anelAtivo.setDescricao("Anel 1");
         anelAtivo.setAtivo(Boolean.TRUE);
         anelAtivo.setLatitude(1.0);
         anelAtivo.setLongitude(1.0);
@@ -163,9 +165,9 @@ public abstract class ControladorTest extends WithApplication {
 
         controlador.save();
 
-        GrupoSemaforico grupoSemaforico3 = anelAtivo.getGruposSemaforicos().get(0);
+        GrupoSemaforico grupoSemaforico3 = anelAtivo.findGrupoSemaforicoByPosicao(3);
         grupoSemaforico3.setTipo(TipoGrupoSemaforico.VEICULAR);
-        GrupoSemaforico grupoSemaforico4 = anelAtivo.getGruposSemaforicos().get(1);
+        GrupoSemaforico grupoSemaforico4 = anelAtivo.findGrupoSemaforicoByPosicao(4);
         grupoSemaforico4.setTipo(TipoGrupoSemaforico.VEICULAR);
 
 
@@ -177,13 +179,14 @@ public abstract class ControladorTest extends WithApplication {
         grupoSemaforico3.addEstagioGrupoSemaforico(estagioGrupoSemaforico1);
         grupoSemaforico4.addEstagioGrupoSemaforico(estagioGrupoSemaforico2);
 
-        GrupoSemaforico grupoSemaforico1 = controlador.getGruposSemaforicos().get(0);
-        GrupoSemaforico grupoSemaforico2 = controlador.getGruposSemaforicos().get(1);
+        Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
+        GrupoSemaforico grupoSemaforico1 = anelCom4Estagios.findGrupoSemaforicoByPosicao(1);
+        GrupoSemaforico grupoSemaforico2 = anelCom4Estagios.findGrupoSemaforicoByPosicao(2);
 
-        grupoSemaforico1.setVerdesConflitantes(Arrays.asList(grupoSemaforico2));
-        grupoSemaforico2.setVerdesConflitantes(Arrays.asList(grupoSemaforico1));
-        grupoSemaforico3.setVerdesConflitantes(Arrays.asList(grupoSemaforico4));
-        grupoSemaforico4.setVerdesConflitantes(Arrays.asList(grupoSemaforico3));
+        grupoSemaforico1.addVerdeConflitante(grupoSemaforico2);
+        grupoSemaforico2.addVerdeConflitante(grupoSemaforico1);
+        grupoSemaforico3.addVerdeConflitante(grupoSemaforico4);
+        grupoSemaforico4.addVerdeConflitante(grupoSemaforico3);
 
         grupoSemaforico1.setDescricao("G1");
         grupoSemaforico2.setDescricao("G2");
@@ -227,19 +230,33 @@ public abstract class ControladorTest extends WithApplication {
         return controlador;
     }
 
-
-    protected Controlador getControladorEstagios() {
-        Controlador controlador = getControladorVerdesConflitantes();
-        return controlador;
-    }
-
     protected Controlador getControladorTabelaDeEntreVerdes() {
-        Controlador controlador = getControladorEstagios();
+        Controlador controlador = getControladorTransicoesProibidas();
+        controlador.save();
+
+        for(Anel anel : controlador.getAneis()) {
+            for(GrupoSemaforico grupoSemaforico : anel.getGruposSemaforicos()) {
+                TabelaEntreVerdes tabelaEntreVerdes = grupoSemaforico.getTabelasEntreVerdes().get(0);
+                for(Transicao transicao : grupoSemaforico.getTransicoes()) {
+                    TabelaEntreVerdesTransicao tabelaEntreVerdesTransicao = new TabelaEntreVerdesTransicao(tabelaEntreVerdes, transicao);
+                    tabelaEntreVerdesTransicao.setTempoAtrasoGrupo(0);
+                    tabelaEntreVerdesTransicao.setTempoVermelhoLimpeza(5);
+                    if(grupoSemaforico.isVeicular()) {
+                        tabelaEntreVerdesTransicao.setTempoAmarelo(4);
+                    } else {
+                        tabelaEntreVerdesTransicao.setTempoVermelhoIntermitente(30);
+                    }
+                    transicao.addTabelaEntreVerdes(tabelaEntreVerdesTransicao);
+                    tabelaEntreVerdes.addTransicao(tabelaEntreVerdesTransicao);
+                }
+            }
+        }
+
         return controlador;
     }
 
     protected Controlador getControladorConfiguracaoGrupoSemafórico() {
-        Controlador controlador = getControladorEstagios();
+        Controlador controlador = getControladorTabelaDeEntreVerdes();
         return controlador;
     }
 

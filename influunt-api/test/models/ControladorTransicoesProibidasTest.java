@@ -29,6 +29,15 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
         Controlador controlador = getControladorVerdesConflitantes();
         controlador.save();
 
+        Anel anelCom2Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
+        Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
+
+        assertEquals("Total de transicoes Anel 2 Estagios - G1", 1, anelCom2Estagios.getGruposSemaforicos().get(0).getTransicoes().size());
+        assertEquals("Total de transicoes Anel 2 Estagios - G2", 1, anelCom2Estagios.getGruposSemaforicos().get(1).getTransicoes().size());
+
+        assertEquals("Total de transicoes Anel 4 Estagios - G1", 6, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoes().size());
+        assertEquals("Total de transicoes Anel 4 Estagios - G2", 6, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoes().size());
+
         List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, ControladorAneisCheck.class,
                 ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class, ControladorTransicoesProibidasCheck.class);
 
@@ -194,17 +203,20 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
         assertNotNull(controladorJson.getId());
         assertEquals("Criação de aneis", 4, controladorJson.getAneis().size());
         assertEquals("Total de aneis ativos", 2, controladorJson.getAneis().stream().filter(anel -> anel.isAtivo()).count());
-        assertEquals("Criação de grupos semafóricos", 4, controladorJson.getGruposSemaforicos().size());
-        assertEquals("Total de grupos semaforicos de Pedestre", 1, controladorJson.getGruposSemaforicos().stream().filter(grupoSemaforico -> grupoSemaforico.isPedestre()).count());
-        assertEquals("Total de grupos semaforicos Veiculares", 3, controladorJson.getGruposSemaforicos().stream().filter(grupoSemaforico -> grupoSemaforico.isVeicular()).count());
 
-        Anel anelCom4EstagiosJson = controladorJson.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
+        Anel anelCom2Estagios = controladorJson.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
+        Anel anelCom4Estagios = controladorJson.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
+        assertEquals("Criação de grupos semafóricos Anel 2 Estagios", 2, anelCom2Estagios.getGruposSemaforicos().size());
+        assertEquals("Criação de grupos semafóricos Anel 4 Estagios", 2, anelCom4Estagios.getGruposSemaforicos().size());
+        assertEquals("Total de grupos semaforicos de Pedestre", 0, anelCom2Estagios.getGruposSemaforicos().stream().filter(grupoSemaforico -> grupoSemaforico.isPedestre()).count());
+        assertEquals("Total de grupos semaforicos de Pedestre", 1, anelCom4Estagios.getGruposSemaforicos().stream().filter(grupoSemaforico -> grupoSemaforico.isPedestre()).count());
+        assertEquals("Total de grupos semaforicos Veiculares", 2, anelCom2Estagios.getGruposSemaforicos().stream().filter(grupoSemaforico -> grupoSemaforico.isVeicular()).count());
+        assertEquals("Total de grupos semaforicos Veiculares", 1, anelCom4Estagios.getGruposSemaforicos().stream().filter(grupoSemaforico -> grupoSemaforico.isVeicular()).count());
 
-
-        Estagio estagio1AnelCom4EstagiosJson = anelCom4EstagiosJson.getEstagios().get(0);
-        Estagio estagio2AnelCom4EstagiosJson = anelCom4EstagiosJson.getEstagios().get(1);
-        Estagio estagio3AnelCom4EstagiosJson = anelCom4EstagiosJson.getEstagios().get(2);
-        Estagio estagio4AnelCom4EstagiosJson = anelCom4EstagiosJson.getEstagios().get(3);
+        Estagio estagio1AnelCom4EstagiosJson = anelCom4Estagios.getEstagios().get(0);
+        Estagio estagio2AnelCom4EstagiosJson = anelCom4Estagios.getEstagios().get(1);
+        Estagio estagio3AnelCom4EstagiosJson = anelCom4Estagios.getEstagios().get(2);
+        Estagio estagio4AnelCom4EstagiosJson = anelCom4Estagios.getEstagios().get(3);
 
         assertEquals("Estagio 1 deve ter 2 origens.", 2, estagio1AnelCom4EstagiosJson.getOrigemDeTransicoesProibidas().size());
         assertEquals("Estagio 2 deve ter 1 destino.", 1, estagio2AnelCom4EstagiosJson.getDestinoDeTransicoesProibidas().size());

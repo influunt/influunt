@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import models.Anel;
 import models.EstagioGrupoSemaforico;
 import models.GrupoSemaforico;
+import models.Transicao;
 
 import java.io.IOException;
 
@@ -38,29 +39,40 @@ public class GrupoSemaforicoSerializer extends JsonSerializer<GrupoSemaforico> {
         if (grupoSemaforico.getAnel() != null) {
             Anel anelAux = new Anel();
             anelAux.setId(grupoSemaforico.getAnel().getId());
+            anelAux.setEstagios(grupoSemaforico.getAnel().getEstagios());
             jgen.writeObjectField("anel", anelAux);
         }
 
-        if (grupoSemaforico.getVerdesConflitantes() != null) {
-            jgen.writeArrayFieldStart("verdesConflitantes");
-            for (GrupoSemaforico grupo : grupoSemaforico.getVerdesConflitantes()) {
-                GrupoSemaforico grupoAux = new GrupoSemaforico();
-                grupoAux.setId(grupo.getId());
-                grupoAux.setDescricao(grupo.getDescricao());
-                grupoAux.setTipo(grupo.getTipo());
-                grupoAux.setPosicao(grupo.getPosicao());
-                grupoAux.setAnel(grupo.getAnel());
+//        if (grupoSemaforico.getVerdesConflitantes() != null) {
+//            jgen.writeArrayFieldStart("verdesConflitantes");
+//            for (GrupoSemaforico grupo : grupoSemaforico.getVerdesConflitantes()) {
+//                GrupoSemaforico grupoAux = new GrupoSemaforico();
+//                grupoAux.setId(grupo.getId());
+//                grupoAux.setDescricao(grupo.getDescricao());
+//                grupoAux.setTipo(grupo.getTipo());
+//                grupoAux.setPosicao(grupo.getPosicao());
+//                grupoAux.setAnel(grupo.getAnel());
+//
+//                jgen.writeObject(grupoAux);
+//            }
+//            jgen.writeEndArray();
+//        }
 
-                jgen.writeObject(grupoAux);
+        if (grupoSemaforico.getEstagioGrupoSemaforicos() != null) {
+            jgen.writeArrayFieldStart("estagioGrupoSemaforicos");
+            for (EstagioGrupoSemaforico estagio : grupoSemaforico.getEstagioGrupoSemaforicos()) {
+                jgen.writeObject(estagio);
             }
             jgen.writeEndArray();
         }
 
-        jgen.writeArrayFieldStart("estagioGrupoSemaforicos");
-        for (EstagioGrupoSemaforico estagio : grupoSemaforico.getEstagioGrupoSemaforicos()) {
-            jgen.writeObject(estagio);
+        if (grupoSemaforico.getTransicoes() != null) {
+            jgen.writeArrayFieldStart("transicoes");
+            for (Transicao transicao : grupoSemaforico.getTransicoes()) {
+                jgen.writeObject(transicao);
+            }
+            jgen.writeEndArray();
         }
-        jgen.writeEndArray();
 
         jgen.writeEndObject();
     }

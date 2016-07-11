@@ -126,8 +126,9 @@ public class ControladorAneisTest extends ControladorTest {
         assertControladorAnel(controlador, controladorJson);
         assertNotNull(controladorJson.getId());
         assertEquals("Criação de aneis", 4, controladorJson.getAneis().size());
-        assertEquals("Total de aneis ativos", 1, controlador.getAneis().stream().filter(anel -> anel.isAtivo()).count());
-        assertEquals("Criação de grupos semafóricos", 2, controlador.getGruposSemaforicos().size());
+        assertEquals("Total de aneis ativos", 1, controladorJson.getAneis().stream().filter(anel -> anel.isAtivo()).count());
+        Anel anelAtivo = controladorJson.getAneis().stream().filter(anel -> anel.isAtivo()).findFirst().get();
+        assertEquals("Criação de grupos semafóricos", 2, anelAtivo.getGruposSemaforicos().size());
 
     }
 

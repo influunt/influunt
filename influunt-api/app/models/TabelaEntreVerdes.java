@@ -1,6 +1,18 @@
 package models;
 
+import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.CreatedTimestamp;
+import com.avaje.ebean.annotation.UpdatedTimestamp;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import json.deserializers2.InfluuntDateTimeDeserializer;
+import json.deserializers2.TabelaEntreVerdesDeserializer;
+import json.serializers2.InfluuntDateTimeSerializer;
+import json.serializers2.TabelaEntreVerdesSerializer;
+import org.joda.time.DateTime;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -8,14 +20,102 @@ import java.util.UUID;
  * Created by rodrigosol on 6/22/16.
  */
 @Entity
-public class TabelaEntreVerdes {
+@JsonSerialize(using = TabelaEntreVerdesSerializer.class)
+@JsonDeserialize(using = TabelaEntreVerdesDeserializer.class)
+public class TabelaEntreVerdes extends Model implements Cloneable {
 
     @Id
     private UUID id;
 
+    @Column
+    private String descricao = "PADRÃO";
+
     @ManyToOne
     private GrupoSemaforico grupoSemaforico;
 
-    @OneToMany
-    private List<Transicao> transicoes;
+    @OneToMany(mappedBy = "tabelaEntreVerdes")
+    private List<TabelaEntreVerdesTransicao> transicoes;
+
+    @Column
+    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @CreatedTimestamp
+    private DateTime dataCriacao;
+
+    @Column
+    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @UpdatedTimestamp
+    private DateTime dataAtualizacao;
+
+
+    public TabelaEntreVerdes(GrupoSemaforico grupoSemaforico) {
+        super();
+        this.grupoSemaforico = grupoSemaforico;
+    }
+
+    public TabelaEntreVerdes() {
+        super();
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public GrupoSemaforico getGrupoSemaforico() {
+        return grupoSemaforico;
+    }
+
+    public void setGrupoSemaforico(GrupoSemaforico grupoSemaforico) {
+        this.grupoSemaforico = grupoSemaforico;
+    }
+
+    public List<TabelaEntreVerdesTransicao> getTransicoes() {
+        return transicoes;
+    }
+
+    public void setTransicoes(List<TabelaEntreVerdesTransicao> transicoes) {
+        this.transicoes = transicoes;
+    }
+
+    public DateTime getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(DateTime dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
+    public DateTime getDataAtualizacao() {
+        return dataAtualizacao;
+    }
+
+    public void setDataAtualizacao(DateTime dataAtualizacao) {
+        this.dataAtualizacao = dataAtualizacao;
+    }
+
+    public void addTransicao(TabelaEntreVerdesTransicao tabelaEntreVerdesTransicao) {
+        if(getTransicoes() == null) {
+            setTransicoes(new ArrayList<TabelaEntreVerdesTransicao>());
+        }
+
+        getTransicoes().add(tabelaEntreVerdesTransicao);
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

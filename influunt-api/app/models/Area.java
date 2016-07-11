@@ -6,11 +6,6 @@ import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import json.deserializers.AreaDeserializer;
-import json.deserializers.InfluuntDateTimeDeserializer;
-import json.serializers.AreaSerializer;
-import json.serializers.InfluuntDateTimeSerializer;
-import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -18,17 +13,20 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
 
+import json.deserializers.AreaDeserializer;
+import json.serializers.AreaSerializer;
+import org.joda.time.DateTime;
+
 /**
  * Entidade que representa a {@link Area} no sistema
  *
  * @author lesiopinheiro
- *
  */
 @JsonSerialize(using = AreaSerializer.class)
 @JsonDeserialize(using = AreaDeserializer.class)
 @Entity
 @Table(name = "areas")
-public class Area extends Model {
+public class Area extends Model implements Cloneable {
 
     private static final long serialVersionUID = 3282755453785165923L;
     public static Finder<UUID, Area> find = new Finder<UUID, Area>(Area.class);
@@ -37,7 +35,7 @@ public class Area extends Model {
     private UUID id;
 
     @Column
-    @Min(value = 1,message = "deve ser maior que zero")
+    @Min(value = 1, message = "deve ser maior que zero")
     @NotNull(message = "não pode ficar em branco")
     private Integer descricao;
 
@@ -57,14 +55,14 @@ public class Area extends Model {
     private List<Controlador> controladores;
 
     @Column
-    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
-    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
 
     @Column
-    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
-    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
 
@@ -130,5 +128,10 @@ public class Area extends Model {
 
     public void setUsuarios(List<Usuario> usuarios) {
         this.usuarios = usuarios;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

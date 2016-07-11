@@ -5,10 +5,10 @@ import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import json.deserializers2.InfluuntDateTimeDeserializer;
+import json.serializers2.InfluuntDateTimeSerializer;
 import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
-import json.deserializers.InfluuntDateTimeDeserializer;
-import json.serializers.InfluuntDateTimeSerializer;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

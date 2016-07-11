@@ -7,10 +7,10 @@ import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import json.deserializers.EstagioDeserializer;
-import json.deserializers.InfluuntDateTimeDeserializer;
-import json.serializers.EstagioSerializer;
-import json.serializers.InfluuntDateTimeSerializer;
+import json.deserializers2.EstagioDeserializer;
+import json.deserializers2.InfluuntDateTimeDeserializer;
+import json.serializers2.EstagioSerializer;
+import json.serializers2.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
@@ -189,17 +189,16 @@ public class Estagio extends Model implements Serializable {
 
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
             message = "Este estágio deve ser associado a pelo menos 1 grupo semafórico")
-    public boolean isAoMenosUmEstagioGrupoSemaforico(){
+    public boolean isAoMenosUmEstagioGrupoSemaforico() {
         return getEstagiosGruposSemaforicos() != null && !getEstagiosGruposSemaforicos().isEmpty();
     }
 
     @AssertTrue(groups = ControladorTransicoesProibidasCheck.class,
             message = "Esse estágio não pode ter um estágio de destino e alternativo ao mesmo tempo.")
-    public boolean isAoMesmoTempoDestinoEAlternativo(){
-        if(!getDestinoDeTransicoesProibidas().isEmpty() && !getAlternativaDeTransicoesProibidas().isEmpty()) {
-            return  getDestinoDeTransicoesProibidas().stream().filter(estagio -> getAlternativaDeTransicoesProibidas().contains(estagio)).count() == 0;
-        }
-        else return true;
+    public boolean isAoMesmoTempoDestinoEAlternativo() {
+        if (!getDestinoDeTransicoesProibidas().isEmpty() && !getAlternativaDeTransicoesProibidas().isEmpty()) {
+            return getDestinoDeTransicoesProibidas().stream().filter(estagio -> getAlternativaDeTransicoesProibidas().contains(estagio)).count() == 0;
+        } else return true;
     }
 
     @Override
@@ -219,4 +218,7 @@ public class Estagio extends Model implements Serializable {
     }
 
 
+    public boolean temTransicaoProibidaComEstagio(Estagio estagio) {
+        return getOrigemDeTransicoesProibidas().stream().filter(transicaoProibida -> transicaoProibida.getDestino().equals(estagio)).count() > 0;
+    }
 }

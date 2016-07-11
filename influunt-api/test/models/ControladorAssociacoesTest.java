@@ -110,8 +110,8 @@ public class ControladorAssociacoesTest extends ControladorTest {
         assertNotNull(controladorJson.getId());
         assertEquals("Criação de aneis", 4, controladorJson.getAneis().size());
         assertEquals("Total de aneis ativos", 1, controladorJson.getAneis().stream().filter(anel -> anel.isAtivo()).count());
-        assertEquals("Criação de grupos semafóricos", 2, controladorJson.getGruposSemaforicos().size());
         Anel anelAtivo = controladorJson.getAneis().stream().filter(anel -> anel.isAtivo()).findFirst().get();
+        assertEquals("Criação de grupos semafóricos", 2, anelAtivo.getGruposSemaforicos().size());
         assertEquals("Total de grupos semaforicos de Pedestre", 1, anelAtivo.getGruposSemaforicos().stream().filter(grupoSemaforico -> grupoSemaforico.isPedestre()).count());
         assertEquals("Total de grupos semaforicos Veiculares", 1, anelAtivo.getGruposSemaforicos().stream().filter(grupoSemaforico -> grupoSemaforico.isVeicular()).count());
 
@@ -162,9 +162,11 @@ public class ControladorAssociacoesTest extends ControladorTest {
                 .uri(routes.ControladoresController.associacaoGruposSemaforicos().url()).bodyJson(Json.toJson(controlador));
         Result postResult = route(postRequest);
 
+        JsonNode json = Json.parse(Helpers.contentAsString(postResult));
+
         assertEquals(OK, postResult.status());
 
-        JsonNode json = Json.parse(Helpers.contentAsString(postResult));
+//        JsonNode json = Json.parse(Helpers.contentAsString(postResult));
         Controlador controladorRetornado = Json.fromJson(json, Controlador.class);
 
         assertControladorAnelAssociacao(controlador, controladorRetornado);

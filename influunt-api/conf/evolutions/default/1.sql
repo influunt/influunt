@@ -207,21 +207,33 @@ create table sessoes (
 
 create table tabela_entre_verdes (
   id                            varchar(40) not null,
+  descricao                     varchar(255),
   grupo_semaforico_id           varchar(40),
+  data_criacao                  datetime(6) not null,
+  data_atualizacao              datetime(6) not null,
   constraint pk_tabela_entre_verdes primary key (id)
+);
+
+create table tabela_entre_verdes_transicao (
+  id                            varchar(40) not null,
+  tabela_entre_verdes_id        varchar(40),
+  transicao_id                  varchar(40),
+  tempo_amarelo                 integer,
+  tempo_vermelho_intermitente   integer,
+  tempo_vermelho_limpeza        integer not null,
+  tempo_atraso_grupo            integer not null,
+  data_criacao                  datetime(6) not null,
+  data_atualizacao              datetime(6) not null,
+  constraint pk_tabela_entre_verdes_transicao primary key (id)
 );
 
 create table transicao (
   id                            varchar(40) not null,
-  tabela_entre_verdes_id        varchar(40),
+  grupo_semaforico_id           varchar(40),
   origem_id                     varchar(40),
   destino_id                    varchar(40),
-  tempo_amarelo                 integer,
-  tempo_vermelho_intermitente   integer,
-  tempo_vermelho_limpeza        integer,
-  tempo_atraso_grupo            integer,
-  constraint uq_transicao_origem_id unique (origem_id),
-  constraint uq_transicao_destino_id unique (destino_id),
+  data_criacao                  datetime(6) not null,
+  data_atualizacao              datetime(6) not null,
   constraint pk_transicao primary key (id)
 );
 
@@ -316,12 +328,20 @@ create index ix_sessoes_usuario_login on sessoes (usuario_login);
 alter table tabela_entre_verdes add constraint fk_tabela_entre_verdes_grupo_semaforico_id foreign key (grupo_semaforico_id) references grupos_semaforicos (id) on delete restrict on update restrict;
 create index ix_tabela_entre_verdes_grupo_semaforico_id on tabela_entre_verdes (grupo_semaforico_id);
 
-alter table transicao add constraint fk_transicao_tabela_entre_verdes_id foreign key (tabela_entre_verdes_id) references tabela_entre_verdes (id) on delete restrict on update restrict;
-create index ix_transicao_tabela_entre_verdes_id on transicao (tabela_entre_verdes_id);
+alter table tabela_entre_verdes_transicao add constraint fk_tabela_entre_verdes_transicao_tabela_entre_verdes_id foreign key (tabela_entre_verdes_id) references tabela_entre_verdes (id) on delete restrict on update restrict;
+create index ix_tabela_entre_verdes_transicao_tabela_entre_verdes_id on tabela_entre_verdes_transicao (tabela_entre_verdes_id);
+
+alter table tabela_entre_verdes_transicao add constraint fk_tabela_entre_verdes_transicao_transicao_id foreign key (transicao_id) references transicao (id) on delete restrict on update restrict;
+create index ix_tabela_entre_verdes_transicao_transicao_id on tabela_entre_verdes_transicao (transicao_id);
+
+alter table transicao add constraint fk_transicao_grupo_semaforico_id foreign key (grupo_semaforico_id) references grupos_semaforicos (id) on delete restrict on update restrict;
+create index ix_transicao_grupo_semaforico_id on transicao (grupo_semaforico_id);
 
 alter table transicao add constraint fk_transicao_origem_id foreign key (origem_id) references estagios (id) on delete restrict on update restrict;
+create index ix_transicao_origem_id on transicao (origem_id);
 
 alter table transicao add constraint fk_transicao_destino_id foreign key (destino_id) references estagios (id) on delete restrict on update restrict;
+create index ix_transicao_destino_id on transicao (destino_id);
 
 alter table transicoes_proibidas add constraint fk_transicoes_proibidas_origem_id foreign key (origem_id) references estagios (id) on delete restrict on update restrict;
 create index ix_transicoes_proibidas_origem_id on transicoes_proibidas (origem_id);
@@ -409,12 +429,20 @@ drop index ix_sessoes_usuario_login on sessoes;
 alter table tabela_entre_verdes drop foreign key fk_tabela_entre_verdes_grupo_semaforico_id;
 drop index ix_tabela_entre_verdes_grupo_semaforico_id on tabela_entre_verdes;
 
-alter table transicao drop foreign key fk_transicao_tabela_entre_verdes_id;
-drop index ix_transicao_tabela_entre_verdes_id on transicao;
+alter table tabela_entre_verdes_transicao drop foreign key fk_tabela_entre_verdes_transicao_tabela_entre_verdes_id;
+drop index ix_tabela_entre_verdes_transicao_tabela_entre_verdes_id on tabela_entre_verdes_transicao;
+
+alter table tabela_entre_verdes_transicao drop foreign key fk_tabela_entre_verdes_transicao_transicao_id;
+drop index ix_tabela_entre_verdes_transicao_transicao_id on tabela_entre_verdes_transicao;
+
+alter table transicao drop foreign key fk_transicao_grupo_semaforico_id;
+drop index ix_transicao_grupo_semaforico_id on transicao;
 
 alter table transicao drop foreign key fk_transicao_origem_id;
+drop index ix_transicao_origem_id on transicao;
 
 alter table transicao drop foreign key fk_transicao_destino_id;
+drop index ix_transicao_destino_id on transicao;
 
 alter table transicoes_proibidas drop foreign key fk_transicoes_proibidas_origem_id;
 drop index ix_transicoes_proibidas_origem_id on transicoes_proibidas;
@@ -470,6 +498,8 @@ drop table if exists permissoes;
 drop table if exists sessoes;
 
 drop table if exists tabela_entre_verdes;
+
+drop table if exists tabela_entre_verdes_transicao;
 
 drop table if exists transicao;
 

@@ -2,12 +2,10 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
 import be.objectify.deadbolt.java.actions.Dynamic;
-import be.objectify.deadbolt.java.actions.SubjectPresent;
 import checks.Erro;
 import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Area;
-import models.Cidade;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -60,7 +58,7 @@ public class AreasController extends Controller {
 
     @Transactional
     public CompletionStage<Result> findAll() {
-        return CompletableFuture.completedFuture(ok(Json.toJson(Area.find.findList())));
+        return CompletableFuture.completedFuture(ok(Json.toJson(Area.find.fetch("cidade").findList())));
     }
 
     @Transactional

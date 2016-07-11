@@ -5,15 +5,14 @@ import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import json.deserializers2.CidadeDeserializer;
+import json.deserializers2.InfluuntDateTimeDeserializer;
+import json.serializers2.CidadeSerializer;
+import json.serializers2.InfluuntDateTimeSerializer;
 import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
-import json.deserializers.CidadeDeserializer;
-import json.serializers.CidadeSerializer;
-import json.deserializers.InfluuntDateTimeDeserializer;
-import json.serializers.InfluuntDateTimeSerializer;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,7 +26,7 @@ import java.util.UUID;
 @Table(name = "cidades")
 @JsonSerialize(using = CidadeSerializer.class)
 @JsonDeserialize(using = CidadeDeserializer.class)
-public class Cidade extends Model {
+public class Cidade extends Model implements  Cloneable {
 
     private static final long serialVersionUID = 6446144066408570296L;
 
@@ -93,6 +92,11 @@ public class Cidade extends Model {
 
     public void setDataAtualizacao(DateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
     @Override

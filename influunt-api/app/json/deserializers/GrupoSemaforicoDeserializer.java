@@ -46,7 +46,73 @@ public class GrupoSemaforicoDeserializer extends JsonDeserializer<GrupoSemaforic
             grupoSemaforico.setDescricao(node.get("descricao").asText());
         }
 
+        if (node.has("anel")) {
+            grupoSemaforico.setAnel(getAnel(node.get("anel"), grupoSemaforico));
+        }
+
+        if (node.has("transicoes") ) {
+            List<Transicao> transicoes = new ArrayList<Transicao>();
+            for (JsonNode nodeTransicao : node.get("transicoes")) {
+                transicoes.add(Json.fromJson(nodeTransicao, Transicao.class));
+            }
+            grupoSemaforico.setTransicoes(transicoes);
+        }
+
         return grupoSemaforico;
+    }
+
+    private Anel getAnel(JsonNode node, GrupoSemaforico grupoSemaforico) {
+        Anel anel = new Anel();
+        anel.setAtivo(node.get("ativo").asBoolean());
+
+        if (anel.isAtivo()) {
+            if (node.has("id")) {
+                anel.setId(UUID.fromString(node.get("id").asText()));
+            }
+            if (node.has("numeroSMEE")) {
+                anel.setNumeroSMEE(node.get("numeroSMEE").asText());
+            }
+            if (node.has("descricao")) {
+                anel.setDescricao(node.get("descricao").asText());
+            }
+            if (node.has("estagios")) {
+                List<Estagio> estagios = new ArrayList<Estagio>();
+                Estagio estagio = null;
+                for (JsonNode estagioNode : node.get("estagios")) {
+                    estagio = Json.fromJson(estagioNode, Estagio.class);
+                    estagio.setAnel(anel);
+                }
+
+                anel.setEstagios(estagios);
+            }
+            if (node.has("ativo")) {
+                anel.setAtivo(node.get("ativo").asBoolean());
+            }
+            if (node.has("posicao")) {
+                anel.setPosicao(node.get("posicao").asInt());
+            }
+            if (node.has("latitude")) {
+                anel.setLatitude(node.get("latitude").asDouble());
+            }
+            if (node.has("longitude")) {
+                anel.setLongitude(node.get("longitude").asDouble());
+            }
+            if (node.has("quantidadeGrupoPedestre")) {
+                anel.setQuantidadeGrupoPedestre(node.get("quantidadeGrupoPedestre").asInt());
+            }
+            if (node.has("quantidadeGrupoVeicular")) {
+                anel.setQuantidadeGrupoVeicular(node.get("quantidadeGrupoVeicular").asInt());
+            }
+            if (node.has("quantidadeDetectorPedestre")) {
+                anel.setQuantidadeDetectorPedestre(node.get("quantidadeDetectorPedestre").asInt());
+            }
+            if (node.has("quantidadeDetectorVeicular")) {
+                anel.setQuantidadeDetectorVeicular(node.get("quantidadeDetectorVeicular").asInt());
+            }
+
+        }
+
+        return anel;
     }
 
     private EstagioGrupoSemaforico getEstagioGrupoSemaforico(JsonNode node, GrupoSemaforico grupoSemaforico) {
