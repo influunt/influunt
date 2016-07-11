@@ -1,4 +1,4 @@
-package json.serializers2;
+package json.serializers;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;

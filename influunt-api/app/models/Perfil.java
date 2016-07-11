@@ -6,9 +6,9 @@ import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import json.deserializers2.InfluuntDateTimeDeserializer;
-import json.serializers2.InfluuntDateTimeSerializer;
-import json.serializers2.PerfilSerializer;
+import json.deserializers.InfluuntDateTimeDeserializer;
+import json.serializers.InfluuntDateTimeSerializer;
+import json.serializers.PerfilSerializer;
 import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
 

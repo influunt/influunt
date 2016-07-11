@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import models.GrupoSemaforico;
 import models.TabelaEntreVerdesTransicao;
 import models.Transicao;
 
@@ -30,28 +31,41 @@ public class TransicaoSerializer extends JsonSerializer<Transicao> {
         if (transicao.getOrigem() != null) {
             jgen.writeObjectFieldStart("origem");
             jgen.writeStringField("id", transicao.getOrigem().getId().toString());
+            jgen.writeStringField("descricao", transicao.getOrigem().getDescricao());
             jgen.writeEndObject();
         }
 
         if (transicao.getDestino() != null) {
             jgen.writeObjectFieldStart("destino");
             jgen.writeStringField("id", transicao.getDestino().getId().toString());
+            jgen.writeStringField("descricao", transicao.getDestino().getDescricao());
+
             jgen.writeEndObject();
         }
 
         if (transicao.getTabelaEntreVerdes() != null) {
             jgen.writeArrayFieldStart("tabelaEntreVerdes");
             for (TabelaEntreVerdesTransicao tabelaEntreVerdes : transicao.getTabelaEntreVerdes()) {
-                jgen.writeObject(tabelaEntreVerdes);
+                TabelaEntreVerdesTransicao tabelaEntreVerdesAux = null;
+                try {
+                    tabelaEntreVerdesAux = (TabelaEntreVerdesTransicao) tabelaEntreVerdes.clone();
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
+                jgen.writeObject(tabelaEntreVerdesAux);
             }
             jgen.writeEndArray();
         }
 
         if (transicao.getGrupoSemaforico() != null) {
-            jgen.writeObjectFieldStart("grupoSemaforico");
-            jgen.writeStringField("id", transicao.getGrupoSemaforico().getId().toString());
-            jgen.writeStringField("tipo", transicao.getGrupoSemaforico().getTipo().toString());
-            jgen.writeEndObject();
+            GrupoSemaforico grupo = null;
+            try {
+                grupo = (GrupoSemaforico) transicao.getGrupoSemaforico().clone();
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+            grupo.setTransicoes(null);
+            jgen.writeObjectField("grupoSemaforico", grupo);
         }
 
         jgen.writeEndObject();

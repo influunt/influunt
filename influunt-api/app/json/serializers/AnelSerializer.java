@@ -51,14 +51,12 @@ public class AnelSerializer extends JsonSerializer<Anel> {
         if (anel.getQuantidadeDetectorVeicular() != null) {
             jgen.writeNumberField("quantidadeDetectorVeicular", anel.getQuantidadeDetectorVeicular());
         }
-
         if (anel.getDataCriacao() != null) {
             jgen.writeStringField("dataCriacao", InfluuntDateTimeSerializer.parse(anel.getDataCriacao()));
         }
         if (anel.getDataAtualizacao() != null) {
             jgen.writeStringField("dataAtualizacao", InfluuntDateTimeSerializer.parse(anel.getDataAtualizacao()));
         }
-
         if (anel.getEstagios() != null) {
             jgen.writeArrayFieldStart("estagios");
             for (Estagio estagio : anel.getEstagios()) {
@@ -66,7 +64,6 @@ public class AnelSerializer extends JsonSerializer<Anel> {
             }
             jgen.writeEndArray();
         }
-
         if (anel.getGruposSemaforicos() != null) {
             jgen.writeArrayFieldStart("gruposSemaforicos");
             for (GrupoSemaforico grp : anel.getGruposSemaforicos()) {
@@ -74,7 +71,6 @@ public class AnelSerializer extends JsonSerializer<Anel> {
             }
             jgen.writeEndArray();
         }
-
         jgen.writeEndObject();
     }
 }

@@ -29,6 +29,10 @@ public class TabelaEntreVerdesSerializer extends JsonSerializer<TabelaEntreVerde
             jgen.writeStringField("descricao", tabelaEntreVerdes.getDescricao());
         }
 
+        if (tabelaEntreVerdes.getGrupoSemaforico() != null) {
+            jgen.writeObjectField("grupoSemaforico", tabelaEntreVerdes.getGrupoSemaforico());
+        }
+
         jgen.writeEndObject();
     }
 }

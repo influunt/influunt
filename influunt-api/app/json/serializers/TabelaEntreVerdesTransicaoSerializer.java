@@ -4,7 +4,10 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import models.GrupoSemaforico;
+import models.TabelaEntreVerdes;
 import models.TabelaEntreVerdesTransicao;
+import models.Transicao;
 
 import java.io.IOException;
 
@@ -37,19 +40,30 @@ public class TabelaEntreVerdesTransicaoSerializer extends JsonSerializer<TabelaE
         if (tabelaEntreVerdesTransicao.getTempoAtrasoGrupo() != null) {
             jgen.writeStringField("tempoAtrasoGrupo", tabelaEntreVerdesTransicao.getTempoAtrasoGrupo().toString());
         }
-        if (tabelaEntreVerdesTransicao.getTransicao() != null) {
-            jgen.writeObjectFieldStart("transicao");
-            jgen.writeStringField("id", tabelaEntreVerdesTransicao.getTransicao().getId().toString());
-            if (tabelaEntreVerdesTransicao.getTransicao().getGrupoSemaforico() != null) {
-                jgen.writeObjectFieldStart("grupoSemaforico");
-                jgen.writeStringField("id", tabelaEntreVerdesTransicao.getTransicao().getGrupoSemaforico().getId().toString());
-                jgen.writeStringField("tipo", tabelaEntreVerdesTransicao.getTransicao().getGrupoSemaforico().getTipo().toString());
-                jgen.writeEndObject();
-            }
-            jgen.writeEndObject();
-        }
         if (tabelaEntreVerdesTransicao.getTabelaEntreVerdes() != null) {
-            jgen.writeObjectField("tabelaEntreVerdes", tabelaEntreVerdesTransicao.getTabelaEntreVerdes());
+            TabelaEntreVerdes tabelaEntreVerdesAux = null;
+            try {
+                tabelaEntreVerdesAux = (TabelaEntreVerdes) tabelaEntreVerdesTransicao.getTabelaEntreVerdes().clone();
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+            tabelaEntreVerdesAux.setTransicoes(null);
+            tabelaEntreVerdesAux.setGrupoSemaforico(null);
+            jgen.writeObjectField("tabelaEntreVerdes", tabelaEntreVerdesAux);
+        }
+        if (tabelaEntreVerdesTransicao.getTransicao() != null) {
+            Transicao transicaoAux = null;
+            GrupoSemaforico grupoSemaforicoAux = new GrupoSemaforico();
+            try {
+                transicaoAux = (Transicao) tabelaEntreVerdesTransicao.getTransicao().clone();
+                grupoSemaforicoAux.setId(transicaoAux.getGrupoSemaforico().getId());
+                grupoSemaforicoAux.setTipo(transicaoAux.getGrupoSemaforico().getTipo());
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+            transicaoAux.setTabelaEntreVerdes(null);
+            transicaoAux.setGrupoSemaforico(grupoSemaforicoAux);
+            jgen.writeObjectField("transicao", transicaoAux);
         }
         jgen.writeEndObject();
     }

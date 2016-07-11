@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import models.Area;
 import models.Cidade;
 import models.LimiteArea;
+import play.libs.Json;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,21 +40,13 @@ public class AreaDeserializer extends JsonDeserializer<Area> {
         }
 
         if (node.has("cidade")) {
-            JsonNode cidadeNode = node.get("cidade");
-            if (cidadeNode.has("id")) {
-                Cidade cidade = new Cidade();
-                cidade.setId(UUID.fromString(cidadeNode.get("id").asText()));
-                area.setCidade(cidade);
-            }
+            area.setCidade(Json.fromJson(node.get("cidade"), Cidade.class));
         }
 
         if (node.has("limites") && node.get("limites") != null) {
             List<LimiteArea> limites = new ArrayList<LimiteArea>();
-            for (JsonNode nodeLimite : node.get("limites")) {
-                LimiteArea limite = new LimiteArea();
-                limite.setLatitude(nodeLimite.get("latitude").asDouble());
-                limite.setLongitude(nodeLimite.get("longitude").asDouble());
-                limites.add(limite);
+            for (JsonNode estagioNode : node.get("limites")) {
+                limites.add(Json.fromJson(estagioNode, LimiteArea.class));
             }
             area.setLimitesGeograficos(limites);
         }

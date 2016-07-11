@@ -43,10 +43,10 @@ public class EstagioDeserializer extends JsonDeserializer<Estagio> {
             estagio.setImagem(img);
         }
 
-        if (node.has("estagioGrupoSemaforicos")) {
+        if (node.has("estagiosGruposSemaforicos")) {
             List<EstagioGrupoSemaforico> estagioGrupoSemaforicos = new ArrayList<EstagioGrupoSemaforico>();
-            for (JsonNode estagioGSNode : node.get("estagioGrupoSemaforicos")) {
-                estagioGrupoSemaforicos.add(getEstagioGrupoSemaforico(estagioGSNode, estagio));
+            for (JsonNode estagioGSNode : node.get("estagiosGruposSemaforicos")) {
+                estagioGrupoSemaforicos.add(Json.fromJson(estagioGSNode, EstagioGrupoSemaforico.class));
             }
             estagio.setEstagiosGruposSemaforicos(estagioGrupoSemaforicos);
         }
@@ -69,7 +69,7 @@ public class EstagioDeserializer extends JsonDeserializer<Estagio> {
 
         if (node.has("alternativaDeTransicoesProibidas")) {
             List<TransicaoProibida> alternativos = new ArrayList<TransicaoProibida>();
-            for (JsonNode alternativoGSNode : node.get("destinoDeTransicoesProibidas")) {
+            for (JsonNode alternativoGSNode : node.get("alternativaDeTransicoesProibidas")) {
                 alternativos.add(Json.fromJson(alternativoGSNode, TransicaoProibida.class));
             }
             estagio.setAlternativaDeTransicoesProibidas(alternativos);
@@ -77,24 +77,4 @@ public class EstagioDeserializer extends JsonDeserializer<Estagio> {
 
         return estagio;
     }
-
-    private EstagioGrupoSemaforico getEstagioGrupoSemaforico(JsonNode node, Estagio estagio) {
-        EstagioGrupoSemaforico estagioGrupoSemaforico = new EstagioGrupoSemaforico();
-
-        if (node.has("id")) {
-            estagioGrupoSemaforico.setId(UUID.fromString(node.get("id").asText()));
-        }
-        if (node.has("ativo")) {
-            estagioGrupoSemaforico.setAtivo(node.get("ativo").asBoolean());
-        }
-        if (node.has("grupoSemaforico")) {
-            estagioGrupoSemaforico.setGrupoSemaforico(Json.fromJson(node.get("grupoSemaforico"), GrupoSemaforico.class));
-        }
-        if (node.has("estagio")) {
-            estagioGrupoSemaforico.setEstagio(estagio);
-        }
-
-        return estagioGrupoSemaforico;
-    }
-
 }

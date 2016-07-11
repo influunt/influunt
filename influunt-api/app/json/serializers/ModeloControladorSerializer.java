@@ -30,8 +30,12 @@ public class ModeloControladorSerializer extends JsonSerializer<ModeloControlado
         if (modeloControlador.getDataCriacao() != null) {
             jgen.writeStringField("dataAtualizacao", InfluuntDateTimeSerializer.parse(modeloControlador.getDataCriacao()));
         }
-        jgen.writeObjectField("fabricante", modeloControlador.getFabricante());
-        jgen.writeObjectField("configuracao", modeloControlador.getConfiguracao());
+        if (modeloControlador.getFabricante() != null) {
+            jgen.writeObjectField("fabricante", modeloControlador.getFabricante());
+        }
+        if (modeloControlador.getConfiguracao() != null) {
+            jgen.writeObjectField("configuracao", modeloControlador.getConfiguracao());
+        }
 
         jgen.writeEndObject();
 

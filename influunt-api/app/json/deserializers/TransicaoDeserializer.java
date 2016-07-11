@@ -34,28 +34,21 @@ public class TransicaoDeserializer extends JsonDeserializer<Transicao> {
         }
 
         if (node.has("origem")) {
-            Estagio estagioAux = new Estagio();
-            estagioAux.setId(UUID.fromString(node.get("origem").get("id").asText()));
-            transicao.setOrigem(estagioAux);
+            transicao.setOrigem(Json.fromJson(node.get("origem"), Estagio.class));
         }
 
         if (node.has("destino")) {
-            Estagio estagioAux = new Estagio();
-            estagioAux.setId(UUID.fromString(node.get("destino").get("id").asText()));
-            transicao.setDestino(estagioAux);
+            transicao.setDestino(Json.fromJson(node.get("destino"), Estagio.class));
         }
 
-        if(node.has("grupoSemaforico")) {
-            GrupoSemaforico grupoSemaforicoAux = new GrupoSemaforico();
-            grupoSemaforicoAux.setId(UUID.fromString(node.get("grupoSemaforico").get("id").asText()));
-            grupoSemaforicoAux.setTipo(TipoGrupoSemaforico.valueOf(node.get("grupoSemaforico").get("tipo").asText()));
-            transicao.setGrupoSemaforico(grupoSemaforicoAux);
+        if (node.has("grupoSemaforico")) {
+            transicao.setGrupoSemaforico(Json.fromJson(node.get("grupoSemaforico"), GrupoSemaforico.class));
         }
 
-        if (node.has("tabelaEntreVerdes") ) {
+        if (node.has("tabelaEntreVerdes")) {
             List<TabelaEntreVerdesTransicao> tabelaEntreVerdes = new ArrayList<TabelaEntreVerdesTransicao>();
-            for (JsonNode nodeTabelaEntreVerdes : node.get("tabelaEntreVerdes")) {
-                tabelaEntreVerdes.add(Json.fromJson(nodeTabelaEntreVerdes, TabelaEntreVerdesTransicao.class));
+            for (JsonNode tabelaEntreVerdesNode : node.get("tabelaEntreVerdes")) {
+                tabelaEntreVerdes.add(Json.fromJson(tabelaEntreVerdesNode, TabelaEntreVerdesTransicao.class));
             }
             transicao.setTabelaEntreVerdes(tabelaEntreVerdes);
         }

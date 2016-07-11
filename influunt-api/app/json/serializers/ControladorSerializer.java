@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import models.Anel;
 import models.Controlador;
-import models.GrupoSemaforico;
 
 import java.io.IOException;
 
@@ -18,7 +17,7 @@ public class ControladorSerializer extends JsonSerializer<Controlador> {
     @Override
     public void serialize(Controlador controlador, JsonGenerator jgen, SerializerProvider serializers) throws IOException, JsonProcessingException {
         jgen.writeStartObject();
-        if(controlador.getId() != null) {
+        if (controlador.getId() != null) {
             jgen.writeStringField("id", controlador.getId().toString());
         }
         if (controlador.getLocalizacao() != null) {
@@ -51,20 +50,18 @@ public class ControladorSerializer extends JsonSerializer<Controlador> {
         if (controlador.getDataAtualizacao() != null) {
             jgen.writeStringField("dataAtualizacao", InfluuntDateTimeSerializer.parse(controlador.getDataAtualizacao()));
         }
-        jgen.writeStringField("CLC", controlador.getCLC());
-
-        jgen.writeObjectField("area", controlador.getArea());
-        jgen.writeObjectField("modelo", controlador.getModelo());
-
+        if (controlador.getCLC() != null) {
+            jgen.writeStringField("CLC", controlador.getCLC());
+        }
+        if (controlador.getArea() != null) {
+            jgen.writeObjectField("area", controlador.getArea());
+        }
+        if (controlador.getModelo() != null) {
+            jgen.writeObjectField("modelo", controlador.getModelo());
+        }
         jgen.writeArrayFieldStart("aneis");
         for (Anel anel : controlador.getAneis()) {
             jgen.writeObject(anel);
-        }
-        jgen.writeEndArray();
-
-        jgen.writeArrayFieldStart("gruposSemaforicos");
-        for (GrupoSemaforico grupoSemaforico : controlador.getGruposSemaforicos()) {
-            jgen.writeObject(grupoSemaforico);
         }
         jgen.writeEndArray();
 

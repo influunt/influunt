@@ -17,6 +17,7 @@ public class FabricanteSerializer extends JsonSerializer<Fabricante> {
     @Override
     public void serialize(Fabricante fabricante, JsonGenerator jgen, SerializerProvider serializers) throws IOException, JsonProcessingException {
         jgen.writeStartObject();
+
         if (fabricante.getId() == null) {
             jgen.writeNullField("id");
         } else {
@@ -28,20 +29,24 @@ public class FabricanteSerializer extends JsonSerializer<Fabricante> {
         if (fabricante.getDataCriacao() != null) {
             jgen.writeStringField("dataCriacao", InfluuntDateTimeSerializer.parse(fabricante.getDataCriacao()));
         }
-
         if (fabricante.getDataAtualizacao() != null) {
             jgen.writeStringField("dataAtualizacao", InfluuntDateTimeSerializer.parse(fabricante.getDataAtualizacao()));
         }
-
-        jgen.writeArrayFieldStart("modelos");
-        for (ModeloControlador modelo : fabricante.getModelos()) {
-            jgen.writeStartObject();
-            jgen.writeStringField("id", modelo.getId().toString());
-            jgen.writeStringField("descricao", modelo.getDescricao());
-            jgen.writeObjectField("configuracao", modelo.getConfiguracao());
-            jgen.writeEndObject();
+        if (fabricante.getModelos() != null) {
+            jgen.writeArrayFieldStart("modelos");
+            for (ModeloControlador modelo : fabricante.getModelos()) {
+                ModeloControlador modeloAux = null;
+                try {
+                    modeloAux = (ModeloControlador) modelo.clone();
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
+                modeloAux.setFabricante(null);
+                jgen.writeObject(modeloAux);
+            }
+            jgen.writeEndArray();
         }
-        jgen.writeEndArray();
+
         jgen.writeEndObject();
 
     }
