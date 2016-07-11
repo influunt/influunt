@@ -5,6 +5,7 @@
 
 create table agrupamentos (
   id                            varchar(40) not null,
+  nome                          varchar(255),
   tipo                          varchar(8),
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,

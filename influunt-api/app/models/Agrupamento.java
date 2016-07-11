@@ -1,12 +1,15 @@
 package models;
 
+import checks.NumeroDeControladores;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
+import com.avaje.ebean.annotation.PrivateOwned;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
+import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
@@ -28,11 +31,17 @@ public class Agrupamento extends Model {
     private UUID id;
 
     @Column
+    @NotBlank(message = "não pode ficar em branco")
+    private String nome;
+
+    @Column
     @Enumerated(EnumType.STRING)
     private TipoAgrupamento tipo;
 
     @ManyToMany
     @JoinTable(name = "agrupamentos_controladores", joinColumns = {@JoinColumn(name = "agrupamento_id")}, inverseJoinColumns = {@JoinColumn(name = "controlador_id")})
+    @NumeroDeControladores(min = 1, message = "este agrupamento deve ter pelo menos 1 controlador.")
+    @PrivateOwned
     private List<Controlador> controladores;
 
     @Column
@@ -85,5 +94,13 @@ public class Agrupamento extends Model {
 
     public void setTipo(TipoAgrupamento tipo) {
         this.tipo = tipo;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 }

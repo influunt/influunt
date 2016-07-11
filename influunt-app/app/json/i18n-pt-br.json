@@ -183,5 +183,11 @@
         "loading": "Carregando"
       }
     }
+  },
+  "agrupamentos": {
+    "titulo": "Agrupamentos",
+    "nome": "Nome",
+    "tipo": "Tipo",
+    "controladores": "Controladores"
   }
 }
