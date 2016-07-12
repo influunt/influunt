@@ -73,4 +73,15 @@ describe('Controller: LoginCtrl', function () {
       expect(form.$valid).toBe(true);
     });
   });
+
+  it('Caso haja uma tentativa de login com usuário ou senha inválidos, o sistema deverá informar a falha',
+    inject(function($state, SweetAlert) {
+      spyOn(SweetAlert, 'swal');
+      $httpBackend.expectPOST('/login').respond(401, [{}]);
+      scope.submitLogin(true);
+      $httpBackend.flush();
+
+      expect(SweetAlert.swal).toHaveBeenCalled();
+    }));
+
 });

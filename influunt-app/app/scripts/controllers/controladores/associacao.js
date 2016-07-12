@@ -87,15 +87,17 @@ angular.module('influuntApp')
       $scope.associaEstagiosGrupoSemaforico = function(grupo, estagio) {
         var obj = {
           grupoSemaforico: { id: grupo.id },
-          estagio: estagio
+          estagio: { id: estagio.id },
         };
 
         var filter = {grupoSemaforico: {id: obj.grupoSemaforico.id}, estagio: {id: obj.estagio.id}};
         var index = _.findIndex(grupo.estagioGrupoSemaforicos, filter);
         if (index >= 0) {
           grupo.estagioGrupoSemaforicos.splice(index, 1);
+          estagio.estagiosGruposSemaforicos.splice(index, 1);
         } else {
           grupo.estagioGrupoSemaforicos.push(obj);
+          estagio.estagiosGruposSemaforicos.push(obj);
         }
 
         $scope.toggleEstagioAtivado(grupo, estagio);

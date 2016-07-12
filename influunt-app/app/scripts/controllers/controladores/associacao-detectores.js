@@ -1,5 +1,6 @@
 'use strict';
 
+
 /**
  * @ngdoc function
  * @name influuntApp.controller:ControladoresAssociacaoDetectoresCtrl
@@ -12,8 +13,7 @@ angular.module('influuntApp')
     function ($scope, $state, $controller, assertControlador) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
-      // métodos privados.
-      var criarDetectores;
+      var setPosicaoDetectores;
 
       /**
        * Pré-condições para acesso à tela de associcao de detectores: Somente será possivel
@@ -40,13 +40,9 @@ angular.module('influuntApp')
           if ($scope.assertAssociacaoDetectores()) {
             $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
             $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
-
             $scope.aneis.forEach(function(anel) {
-              anel.detectores = [];
-              anel.detectores =  criarDetectores(anel.quantidadeDetectorPedestre, 'PEDESTRE');
-              anel.detectores = _.concat(anel.detectores, criarDetectores(anel.quantidadeDetectorVeicular, 'VEICULAR'));
-
-              // @todo CODIGO DUPLICADO!!! ESTE BLOCO DEVERÁ SER REMOVIDO ASSIM QUE A API RETORNAR A POSICAO DOS ESTAGIOS.
+              setPosicaoDetectores(anel.detectores);
+              anel.detectores = _.orderBy(anel.detectores, ['tipo', 'posicao']);
               anel.estagios.forEach(function(estagio, index) {
                 estagio.posicao = index + 1;
               });
@@ -59,17 +55,34 @@ angular.module('influuntApp')
         });
       };
 
-      $scope.associaDetector = function(estagio, detector) {
-        console.log(estagio, detector);
+      /**
+       * Associa/Desassocia um estagio a um detector.
+       *
+       * @param      {<type>}  estagio   The estagio
+       * @param      {<type>}  detector  The detector
+       */
+      $scope.toggleAssociacaoDetector = function(estagio, detector) {
+        if (detector.estagio && detector.estagio.id === estagio.id) {
+          detector.estagio = {};
+        } else {
+          detector.estagio = estagio;
+        }
       };
 
-      criarDetectores = function(qtde, tipo) {
-        return _.times(qtde, Number).map(function(i) {
-          return {
-            posicao: i + 1,
-            tipo: tipo
-          };
+      /**
+       * Cria o valor de posicao para os diversos detectores. Importante notar que as
+       * posições serão criadas por tipo de detector, ou seja, dados que haja o tipo A
+       * e B, haverão os detectores A1, A2, A3..., B1, B2, B3...
+       *
+       * @param      {<type>}  detectores  The detectores
+       * @return     {<type>}  { description_of_the_return_value }
+       */
+      setPosicaoDetectores = function(detectores) {
+        var posicoes = {};
+        return detectores && detectores.forEach(function(detector) {
+          posicoes[detector.tipo] = ++posicoes[detector.tipo] || 1;
+          detector.posicao = posicoes[detector.tipo];
         });
       };
-
     }]);
+
