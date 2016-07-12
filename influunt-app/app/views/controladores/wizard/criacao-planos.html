@@ -128,38 +128,38 @@
               </div> 
             </aside>        
           </div>
-          <section>
+          <section>          
             <div class="col-lg-10 col-sm-10 no-padding table-create-plan overflow">              
               <table class="" border="1" cellpadding="0" cellspacing="0" width="1500">
                 <thead>
-                  <tr>
+                  <tr class="handle">
                     <td></td>
                     <td class="tg-031e">
-                      <label for="">E1</label>
+                      <label class="title-stages">E1</label>
                       <figure><img src="http://wallpapercave.com/wp/FOyu6CV.jpg" alt="" width="150"></figure>
                     </td>
                     <td class="tg-031e">
-                      <label for="">E1</label>
+                      <label class="title-stages">E2</label>
                       <figure></figure>
                     </td>
                     <td class="tg-031e">
-                      <label for="">E1</label>
+                      <label class="title-stages">E3</label>
                       <figure></figure>
                     </td>
                     <td class="tg-031e">
-                      <label for="">E1</label>
+                      <label class="title-stages">E4</label>
                       <figure></figure>
                     </td>
                     <td class="tg-031e">
-                      <label for="">E1</label>
+                      <label class="title-stages">E5</label>
                       <figure><img src="http://wallpapercave.com/wp/FOyu6CV.jpg" alt="" width="150"></figure>
                     </td>
                     <td class="tg-031e">
-                      <label for="">E1</label>
+                      <label class="title-stages">E6</label>
                       <figure></figure>
                     </td>
                     <td class="tg-031e">
-                      <label for="">E1</label>
+                      <label class="title-stages">E7</label>
                       <figure></figure>
                     </td>
                   </tr>
@@ -340,12 +340,6 @@
 
     WinMove();
 
-    //jQuery Knob
-    $(".dial").knob();
-
-    // MetsiMenu
-    $('#side-menu').metisMenu();
-
     function WinMove() {
       var element = ".handle";
       var handle = ".title-stages";
@@ -360,6 +354,12 @@
       })
       .disableSelection();
     };
+
+    //jQuery Knob
+    $(".dial").knob();
+
+    // MetsiMenu
+    $('#side-menu').metisMenu();
 
 
     function readURL() {

@@ -523,6 +523,7 @@ header .nav-secon li a {
 .wrapper-content .basic-wizard .content .body .association.table-creation-plans section .table-create-plan thead tr .tg-031e label {
     text-transform: uppercase;
     margin: 15px 15px 10px;
+    cursor: all-scroll;
     font-weight: bold;
     text-align: left;
     font-size: 16px;
