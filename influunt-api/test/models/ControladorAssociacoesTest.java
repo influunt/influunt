@@ -8,12 +8,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import controllers.routes;
 import org.hamcrest.Matchers;
 import org.junit.Test;
+import play.Logger;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
 
 import javax.validation.groups.Default;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -66,6 +68,46 @@ public class ControladorAssociacoesTest extends ControladorTest {
         estagio2.addEstagioGrupoSemaforico(estagioGrupoSemaforico2);
         estagio3.addEstagioGrupoSemaforico(estagioGrupoSemaforico3);
         estagio4.addEstagioGrupoSemaforico(estagioGrupoSemaforico4);
+
+
+        Anel anel1 = controlador.getAneis().stream().filter(anel -> !anel.isAtivo()).findFirst().get();
+        anel1.setDescricao("Anel 0");
+        anel1.setAtivo(true);
+        anel1.setEstagios(Arrays.asList(new Estagio(), new Estagio()));
+
+        anel1.setLatitude(1.0);
+        anel1.setLongitude(1.0);
+        anel1.setQuantidadeGrupoPedestre(0);
+        anel1.setQuantidadeGrupoVeicular(2);
+        anel1.setQuantidadeDetectorPedestre(0);
+        anel1.setQuantidadeDetectorVeicular(0);
+
+        controlador.save();
+
+        anel1 = controlador.getAneis().stream().filter(anel -> anel.getEstagios().size() == 2).findFirst().get();
+        Estagio estagioNovo = anel1.getEstagios().get(0);
+        Estagio estagioNovo2 = anel1.getEstagios().get(1);
+        estagioNovo.setDemandaPrioritaria(true);
+
+        GrupoSemaforico grupoSemaforicoNovo = anel1.getGruposSemaforicos().get(0);
+        grupoSemaforicoNovo.setTipo(TipoGrupoSemaforico.VEICULAR);
+        GrupoSemaforico grupoSemaforicoNovo2 = anel1.getGruposSemaforicos().get(1);
+        grupoSemaforicoNovo2.setTipo(TipoGrupoSemaforico.VEICULAR);
+
+        EstagioGrupoSemaforico estagioGrupoSemaforicoNovo = new EstagioGrupoSemaforico(estagioNovo, grupoSemaforicoNovo);
+        EstagioGrupoSemaforico estagioGrupoSemaforicoNovo2 = new EstagioGrupoSemaforico(estagioNovo2, grupoSemaforicoNovo2);
+        estagioNovo.addEstagioGrupoSemaforico(estagioGrupoSemaforicoNovo);
+        estagioNovo2.addEstagioGrupoSemaforico(estagioGrupoSemaforicoNovo2);
+
+        erros = new InfluuntValidator<Controlador>().validate(controlador,
+                Default.class, ControladorAneisCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class);
+
+        assertThat(erros, Matchers.hasItems(
+                new Erro("Controlador", "Deve existir detectores cadastrados para estagio de demanda prioritaria", "aneis[1].deveExistirDetectoresCasoExistaEstatigioDemandaPrioritaria")
+        ));
+
+        anel1.setQuantidadeDetectorVeicular(1);
+        controlador.save();
 
         erros = new InfluuntValidator<Controlador>().validate(controlador,
                 Default.class, ControladorAneisCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class);
@@ -163,7 +205,7 @@ public class ControladorAssociacoesTest extends ControladorTest {
         Result postResult = route(postRequest);
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
-
+        Logger.info(json.toString());
         assertEquals(OK, postResult.status());
 
         Controlador controladorRetornado = Json.fromJson(json, Controlador.class);

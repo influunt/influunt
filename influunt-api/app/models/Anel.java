@@ -355,16 +355,16 @@ public class Anel extends Model implements Cloneable {
         }
     }
 
-    // @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
-//             message = "Deve existir detectores")
-//     public boolean isDeveExistirDetectoresCasoExistaEstatigioDemandaPrioritaria() {
-//         if (Objects.nonNull(this.getEstagios())) {
-//             if(this.getEstagios().stream().filter(estagio -> estagio.getDemandaPrioritaria()).count() > 0) {
-//                 return this.getDetectores().size() > 0;
-//             }
-//         }
-//         return true;
-//     }
+     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
+             message = "Deve existir detectores cadastrados para estagio de demanda prioritaria")
+     public boolean isDeveExistirDetectoresCasoExistaEstatigioDemandaPrioritaria() {
+         if (!this.getEstagios().isEmpty()) {
+             if(this.getEstagios().stream().filter(estagio -> estagio.getDemandaPrioritaria()).count() > 0) {
+                 return this.getDetectores().size() > 0;
+             }
+         }
+         return true;
+     }
 
     public GrupoSemaforico findGrupoSemaforicoByDescricao(String descricao) {
         if (Objects.nonNull(descricao)) {
