@@ -6,6 +6,7 @@
 @import url(./../plugins/dropzone/dropzone.css);
 @import url(./../plugins/dropzone/basic.css);
 @import url(./../plugins/iCheck/custom.css);
+@import url(./../../bower_components/select2/dist/css/select2.css);
 @import url(./influunt.css);
 @import url(./animate.css);
 @import url(./style.css);

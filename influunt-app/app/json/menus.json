@@ -14,6 +14,11 @@
         "route": "app.areas"
       },
       {
+        "name": "agrupamentos",
+        "label": "agrupamentos.titulo",
+        "route": "app.agrupamentos"
+      },
+      {
         "name": "usuarios",
         "label": "usuarios.titulo",
         "route": "app.usuarios"

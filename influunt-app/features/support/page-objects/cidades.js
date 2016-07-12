@@ -2,14 +2,12 @@
 
 var worldObj = require('../world');
 var world = new worldObj.World();
-var lastIndex = 0;
 
 var CidadesPage = function () {
   var INDEX_PATH = '/app/cidades';
   var NEW_PATH = '/app/cidades/new';
 
   var inputNomeCidade = '[name="nome"]';
-  var submitButton = '[name="commit"]';
   var novaCidadeButton = 'a[href*="/cidades/new"]';
 
   var totalCidadesIndex = 0;

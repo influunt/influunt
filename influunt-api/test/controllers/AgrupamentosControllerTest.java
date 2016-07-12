@@ -93,6 +93,7 @@ public class AgrupamentosControllerTest extends WithApplication {
         controladores.add(controlador1);
 
         Agrupamento agrupamento = new Agrupamento();
+        agrupamento.setNome("Teste");
         agrupamento.setTipo(TipoAgrupamento.SUBAREA);
         agrupamento.setControladores(controladores);
 
@@ -132,6 +133,7 @@ public class AgrupamentosControllerTest extends WithApplication {
         Agrupamento agrupamento = new Agrupamento();
         agrupamento.setTipo(TipoAgrupamento.CORREDOR);
         agrupamento.setControladores(controladores);
+        agrupamento.setNome("Teste");
         agrupamento.save();
 
         UUID agrupamentoId = agrupamento.getId();
@@ -140,6 +142,8 @@ public class AgrupamentosControllerTest extends WithApplication {
 
         Agrupamento novoAgrupamento = new Agrupamento();
         novoAgrupamento.setTipo(TipoAgrupamento.ROTA);
+        novoAgrupamento.setControladores(controladores);
+        novoAgrupamento.setNome("Teste 2");
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
                 .uri(routes.AgrupamentosController.update(agrupamentoId.toString()).url())
@@ -152,6 +156,7 @@ public class AgrupamentosControllerTest extends WithApplication {
         Agrupamento agrupamentoRetornado = Json.fromJson(json, Agrupamento.class);
 
         assertEquals(TipoAgrupamento.ROTA, agrupamentoRetornado.getTipo());
+        assertEquals("Teste 2", agrupamentoRetornado.getNome());
         assertEquals(agrupamentoRetornado.getId(), agrupamentoId);
     }
 

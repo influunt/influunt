@@ -9,13 +9,8 @@ var ConfiguracoesPage = function () {
   var NEW_PATH = '/app/configuracoes_controladores/new';
 
   var inputDescConfig = '[name="configuracoes_controladores_descricao"]';
-  var inputLimitAneis = '[name="configuracoes_controladores_limite_anel"]';
-  var inputLimiteGS = '[name="configuracoes_controladores_limite_grupo_semaforico"]';
-  var inputLimiteEstagio = '[name="configuracoes_controladores_limite_estagio"]';
-  var inputLimiteDP = '[name="configuracoes_controladores_limite_detector_pedestre"]';
-  var inputLimiteDV = '[name="configuracoes_controladores_limite_detector_veicular"]';
   var novaConfiguracaoButton = 'a[href*="/configuracoes_controladores/new"]';
-  var formConfiguracao = 'form[name="formConfiguracoesControladores"]'
+  var formConfiguracao = 'form[name="formConfiguracoesControladores"]';
 
   var campos = {
     'Descrição': 'configuracoes_controladores_descricao',
@@ -64,7 +59,7 @@ var ConfiguracoesPage = function () {
   this.textoFieldDescricaoConfiguracao = function() {
     return world.getElement(inputDescConfig).then(function(element) {
       return element.getAttribute('value');
-    })
+    });
   };
 
   this.clicarLinkComTexto = function(texto) {

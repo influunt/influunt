@@ -140,6 +140,35 @@ var World = function () {
     });
   };
 
+  this.selectSelect2Option = function(selectSelector, optionText) {
+    var _this = this;
+    return _this.getElement(selectSelector + ' + span[class^="select2 "]').click().then(function() {
+      return _this.waitFor('.select2-results');
+    }).then(function() {
+      return _this.getElements('li[class^="select2-results__option"]');
+    }).then(function(elements) {
+      return new Promise(function(resolve, reject) {
+        var resolved = false;
+        for (var i = 0; i < elements.length; i++) {
+          var element = elements[i];
+          element.getText().then(function(text) {
+            if (text === optionText) {
+              resolved = true;
+              element.click();
+            }
+          });
+        }
+        setTimeout(function() {
+          if (resolved) {
+            resolve(true);
+          } else {
+            reject('Option not found in select2: "'+optionText+'"');
+          }
+        }, 500);
+      });
+    });
+  };
+
   this.execJavascript = function(script) {
     return driver.executeScript(script);
   };

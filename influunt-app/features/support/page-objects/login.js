@@ -5,7 +5,6 @@ var worldObj = require('../world');
 var world = new worldObj.World();
 
 var LoginPage = function () {
-  var LOGIN_URL = 'http://localhost:9000/#/login';
   var LOGIN_PATH = '/login';
 
   this.acessar = function() {
@@ -42,10 +41,11 @@ var LoginPage = function () {
   };
 
   this.campoSenhaInvalido = function() {
-    return world.getElements('.senha p.error-msg:not(.ng-hide)')
-      .then(function(elements) {
+    return world.waitFor('.senha p.error-msg:not(.ng-hide)').then(function() {
+      return world.getElements('.senha p.error-msg:not(.ng-hide)');
+    }).then(function(elements) {
         return elements.length === 1;
-      });
+    });
   };
 
   this.loginInvalido = function() {

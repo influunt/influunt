@@ -2,13 +2,11 @@
 
 var worldObj = require('../world');
 var world = new worldObj.World();
-var lastIndex = 0;
 
 var ModelosControladoresPage = function () {
   var INDEX_PATH = '/app/modelos_controladores';
   var NEW_PATH = '/app/modelos_controladores/new';
 
-  var submitButton = '[name="commit"]';
   var novoModeloButton = 'a[href*="/modelos_controladores/new"]';
   var inputDescricaoModelo = '[name="descricao"]';
 

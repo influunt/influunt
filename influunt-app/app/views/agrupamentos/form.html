@@ -1,0 +1,44 @@
+<div class="ibox-content">
+  <form class="simple_form form-horizontal"
+      method="post"
+      name="formAgrupamentos"
+      novalidate="novalidate"
+      data-ng-submit="save()">
+
+    <div class="form-group" data-ng-class="{ 'has-error': errors.nome }">
+      <label class="control-label col-sm-2 control-label">{{ 'agrupamentos.nome' | translate }}</label>
+      <div class="col-sm-9">
+        <input class="string required form-control" name="nome" type="text" data-ng-model="objeto.nome">
+        <p class="help-block error-msg" data-ng-repeat="error in errors.nome">{{ error }}</p>
+      </div>
+    </div>
+
+    <div class="form-group" data-ng-class="{ 'has-error': errors.tipo }">
+      <label class="control-label col-sm-2 control-label">{{ 'agrupamentos.tipo' | translate }}</label>
+      <div class="col-sm-9">
+        <select class="form-control" data-ng-model="objeto.tipo" name="tipo">
+          <option value="CORREDOR">Corredor</option>
+          <option value="ROTA">Rota</option>
+          <option value="SUBAREA">Subárea</option>
+        </select>
+        <p class="help-block error-msg" data-ng-repeat="error in errors.agrupamento">{{ error }}</p>
+      </div>
+    </div>
+
+    <div class="form-group" data-ng-class="{ 'has-error': errors.controladores }">
+      <label class="control-label col-sm-2 control-label">{{ 'agrupamentos.controladores' | translate }}</label>
+      <div class="col-sm-9">
+        <select select2 name="controladores" class="form-control" data-ng-options="option.name for option in controladores track by option.id" data-ng-model="objeto.controladores" multiple="multiple"></select>
+        <p class="help-block error-msg" data-ng-repeat="error in errors.controladores">{{ error }}</p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-4 col-sm-offset-2">
+        <input class="btn btn-primary" name="commit" type="submit" value="{{ 'geral.crud.salvar' | translate }}">
+        <a class="btn btn-default" ui-sref="app.agrupamentos">{{ 'geral.crud.voltar' | translate }}</a>
+      </div>
+    </div>
+
+  </form>
+</div>

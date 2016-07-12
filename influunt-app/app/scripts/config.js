@@ -509,6 +509,47 @@ angular
             title: 'usuarios.titulo'
           }
         })
+
+        // CRUD Agrupamentos
+        .state('app.agrupamentos', {
+          url: '/agrupamentos',
+          templateUrl: 'views/agrupamentos/index.html',
+          controller: 'AgrupamentosCtrl',
+          controllerAs: 'agrupamentos',
+          data: {
+            title: 'agrupamentos.titulo'
+          }
+        })
+
+        .state('app.agrupamentos_new', {
+          url: '/agrupamentos/new',
+          templateUrl: 'views/agrupamentos/new.html',
+          controller: 'AgrupamentosCtrl',
+          controllerAs: 'agrupamentos',
+          data: {
+            title: 'agrupamentos.titulo'
+          }
+        })
+
+        .state('app.agrupamentos_edit', {
+          url: '/agrupamentos/:id/edit',
+          templateUrl: 'views/agrupamentos/edit.html',
+          controller: 'AgrupamentosCtrl',
+          controllerAs: 'agrupamentos',
+          data: {
+            title: 'agrupamentos.titulo'
+          }
+        })
+
+        .state('app.agrupamentos_show', {
+          url: '/agrupamentos/:id',
+          templateUrl: 'views/agrupamentos/show.html',
+          controller: 'AgrupamentosCtrl',
+          controllerAs: 'agrupamentos',
+          data: {
+            title: 'agrupamentos.titulo'
+          }
+        })
       ;
     }])
 
