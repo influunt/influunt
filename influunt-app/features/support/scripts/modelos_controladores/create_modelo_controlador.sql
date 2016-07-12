@@ -1,6 +1,7 @@
 DELETE FROM `transicoes_proibidas`;
 DELETE FROM `estagios_grupos_semaforicos`;
 DELETE FROM `estagios`;
+DELETE FROM `tabela_entre_verdes`;
 DELETE FROM `grupos_semaforicos`;
 DELETE FROM `aneis`;
 DELETE FROM `agrupamentos_controladores`;

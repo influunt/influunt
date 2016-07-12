@@ -37,8 +37,6 @@ module.exports = function () {
   this.Given(/^o sistema deverá redirecionar para a tela de visualização de configurações de controladores$/, function () {
     return configPage.isShow().then(function (resp) {
       return expect(resp).to.not.be.null;
-    }).catch(function (ex) {
-      console.log(ex)
     });
   });
 
@@ -98,4 +96,4 @@ module.exports = function () {
     });
   });
 
-}
+};
