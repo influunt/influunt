@@ -138,7 +138,6 @@ create table grupos_semaforicos (
   descricao                     varchar(255),
   anel_id                       varchar(40),
   controlador_id                varchar(40),
-  grupo_conflito_id             varchar(40),
   posicao                       integer,
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
@@ -233,6 +232,7 @@ create table transicao (
   grupo_semaforico_id           varchar(40),
   origem_id                     varchar(40),
   destino_id                    varchar(40),
+  destroy                       tinyint(1) default 0,
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
   constraint pk_transicao primary key (id)
@@ -259,6 +259,15 @@ create table usuarios (
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
   constraint pk_usuarios primary key (login)
+);
+
+create table verdes_conflitantes (
+  id                            varchar(40) not null,
+  origem_id                     varchar(40),
+  destino_id                    varchar(40),
+  data_criacao                  datetime(6) not null,
+  data_atualizacao              datetime(6) not null,
+  constraint pk_verdes_conflitantes primary key (id)
 );
 
 alter table agrupamentos_controladores add constraint fk_agrupamentos_controladores_agrupamentos foreign key (agrupamento_id) references agrupamentos (id) on delete restrict on update restrict;
@@ -304,9 +313,6 @@ create index ix_grupos_semaforicos_anel_id on grupos_semaforicos (anel_id);
 
 alter table grupos_semaforicos add constraint fk_grupos_semaforicos_controlador_id foreign key (controlador_id) references controladores (id) on delete restrict on update restrict;
 create index ix_grupos_semaforicos_controlador_id on grupos_semaforicos (controlador_id);
-
-alter table grupos_semaforicos add constraint fk_grupos_semaforicos_grupo_conflito_id foreign key (grupo_conflito_id) references grupos_semaforicos (id) on delete restrict on update restrict;
-create index ix_grupos_semaforicos_grupo_conflito_id on grupos_semaforicos (grupo_conflito_id);
 
 alter table limite_area add constraint fk_limite_area_area_id foreign key (area_id) references areas (id) on delete restrict on update restrict;
 create index ix_limite_area_area_id on limite_area (area_id);
@@ -359,6 +365,12 @@ create index ix_usuarios_area_id on usuarios (area_id);
 alter table usuarios add constraint fk_usuarios_perfil_id foreign key (perfil_id) references perfis (id) on delete restrict on update restrict;
 create index ix_usuarios_perfil_id on usuarios (perfil_id);
 
+alter table verdes_conflitantes add constraint fk_verdes_conflitantes_origem_id foreign key (origem_id) references grupos_semaforicos (id) on delete restrict on update restrict;
+create index ix_verdes_conflitantes_origem_id on verdes_conflitantes (origem_id);
+
+alter table verdes_conflitantes add constraint fk_verdes_conflitantes_destino_id foreign key (destino_id) references grupos_semaforicos (id) on delete restrict on update restrict;
+create index ix_verdes_conflitantes_destino_id on verdes_conflitantes (destino_id);
+
 
 # --- !Downs
 
@@ -405,9 +417,6 @@ drop index ix_grupos_semaforicos_anel_id on grupos_semaforicos;
 
 alter table grupos_semaforicos drop foreign key fk_grupos_semaforicos_controlador_id;
 drop index ix_grupos_semaforicos_controlador_id on grupos_semaforicos;
-
-alter table grupos_semaforicos drop foreign key fk_grupos_semaforicos_grupo_conflito_id;
-drop index ix_grupos_semaforicos_grupo_conflito_id on grupos_semaforicos;
 
 alter table limite_area drop foreign key fk_limite_area_area_id;
 drop index ix_limite_area_area_id on limite_area;
@@ -460,6 +469,12 @@ drop index ix_usuarios_area_id on usuarios;
 alter table usuarios drop foreign key fk_usuarios_perfil_id;
 drop index ix_usuarios_perfil_id on usuarios;
 
+alter table verdes_conflitantes drop foreign key fk_verdes_conflitantes_origem_id;
+drop index ix_verdes_conflitantes_origem_id on verdes_conflitantes;
+
+alter table verdes_conflitantes drop foreign key fk_verdes_conflitantes_destino_id;
+drop index ix_verdes_conflitantes_destino_id on verdes_conflitantes;
+
 drop table if exists agrupamentos;
 
 drop table if exists agrupamentos_controladores;
@@ -507,4 +522,6 @@ drop table if exists transicao;
 drop table if exists transicoes_proibidas;
 
 drop table if exists usuarios;
+
+drop table if exists verdes_conflitantes;
 
