@@ -1,14 +1,13 @@
 package models;
 
-import checks.AoMenosUmGrupoSemaforico;
-import checks.ConformidadeNumeroEstagios;
-import checks.ControladorAssociacaoGruposSemaforicosCheck;
+import checks.*;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.google.common.base.Optional;
 import json.deserializers.AnelDeserializer;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.AnelSerializer;
@@ -34,10 +33,11 @@ import java.util.UUID;
 @Table(name = "aneis")
 @AoMenosUmGrupoSemaforico
 @ConformidadeNumeroEstagios
-
+@ConformidadeNumeroDetectores
+@ConformidadeNumeroDetectoresEstagios
 @JsonSerialize(using = AnelSerializer.class)
 @JsonDeserialize(using = AnelDeserializer.class)
-public class Anel extends Model implements Cloneable{
+public class Anel extends Model implements Cloneable {
 
     private static final long serialVersionUID = 4919501406230732757L;
 
@@ -220,10 +220,7 @@ public class Anel extends Model implements Cloneable{
     }
 
     public Integer getQuantidadeGrupoVeicular() {
-        if (quantidadeGrupoVeicular == null) {
-            return 0;
-        }
-        return quantidadeGrupoVeicular;
+        return Optional.fromNullable(quantidadeGrupoVeicular).or(0);
     }
 
     public void setQuantidadeGrupoVeicular(Integer quantidadeGrupoVeicular) {
@@ -231,10 +228,7 @@ public class Anel extends Model implements Cloneable{
     }
 
     public Integer getQuantidadeDetectorPedestre() {
-        if (quantidadeDetectorPedestre == null) {
-            return 0;
-        }
-        return quantidadeDetectorPedestre;
+        return Optional.fromNullable(quantidadeDetectorPedestre).or(0);
     }
 
     public void setQuantidadeDetectorPedestre(Integer quantidadeDetectorPedestre) {
@@ -242,10 +236,7 @@ public class Anel extends Model implements Cloneable{
     }
 
     public Integer getQuantidadeDetectorVeicular() {
-        if (quantidadeDetectorVeicular == null) {
-            return 0;
-        }
-        return quantidadeDetectorVeicular;
+        return Optional.fromNullable(quantidadeDetectorVeicular).or(0);
     }
 
     public void setQuantidadeDetectorVeicular(Integer quantidadeDetectorVeicular) {
@@ -317,22 +308,23 @@ public class Anel extends Model implements Cloneable{
 
 
     public void criaDetectores() {
-        if (this.id == null && isAtivo()) {
-            this.detectores = new ArrayList<Detector>(this.getQuantidadeDetectorPedestre() + this.getQuantidadeDetectorVeicular());
-
-            for (int i = this.getQuantidadeDetectorPedestre(); i > 0; i--) {
-                Detector detector = new Detector();
-                detector.setTipo(TipoDetector.PEDESTRE);
-                detector.setAnel(this);
-                detector.setControlador(this.getControlador());
-                this.detectores.add(detector);
-            }
-            for (int i = this.getQuantidadeDetectorVeicular(); i > 0; i--) {
-                Detector detector = new Detector();
-                detector.setTipo(TipoDetector.VEICULAR);
-                detector.setAnel(this);
-                detector.setControlador(this.getControlador());
-                this.detectores.add(detector);
+        if (isAtivo()) {
+            if (getDetectores().isEmpty()) {
+                setDetectores(new ArrayList<Detector>());
+                for (int i = this.getQuantidadeDetectorPedestre(); i > 0; i--) {
+                    Detector detector = new Detector();
+                    detector.setTipo(TipoDetector.PEDESTRE);
+                    detector.setAnel(this);
+                    detector.setControlador(this.getControlador());
+                    this.detectores.add(detector);
+                }
+                for (int i = this.getQuantidadeDetectorVeicular(); i > 0; i--) {
+                    Detector detector = new Detector();
+                    detector.setTipo(TipoDetector.VEICULAR);
+                    detector.setAnel(this);
+                    detector.setControlador(this.getControlador());
+                    this.detectores.add(detector);
+                }
             }
         } else {
             //TODO:O que fazer se o cara alterar????
@@ -341,7 +333,7 @@ public class Anel extends Model implements Cloneable{
 
     @JsonIgnore
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
-                message = "Quantidade de grupos semáforicos de pedestre diferente do definido no anel")
+            message = "Quantidade de grupos semáforicos de pedestre diferente do definido no anel")
     public boolean isCheckQuantidadeGruposSemaforicosDePedestre() {
         if (Objects.nonNull(this.getGruposSemaforicos())) {
             return this.getGruposSemaforicos().stream()
@@ -353,7 +345,7 @@ public class Anel extends Model implements Cloneable{
 
     @JsonIgnore
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
-                message = "Quantidade de grupos semáforicos veiculares diferente do definido no anel")
+            message = "Quantidade de grupos semáforicos veiculares diferente do definido no anel")
     public boolean isCheckQuantidadeGruposSemaforicosVeiculares() {
         if (Objects.nonNull(this.getGruposSemaforicos())) {
             return this.getGruposSemaforicos().stream()
@@ -363,16 +355,41 @@ public class Anel extends Model implements Cloneable{
         }
     }
 
+     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
+             message = "Deve existir detectores cadastrados para estagio de demanda prioritaria")
+     public boolean isDeveExistirDetectoresCasoExistaEstatigioDemandaPrioritaria() {
+         if (!this.getEstagios().isEmpty()) {
+             if(this.getEstagios().stream().filter(estagio -> estagio.getDemandaPrioritaria()).count() > 0) {
+                 return this.getDetectores().size() > 0;
+             }
+         }
+         return true;
+     }
+
     public GrupoSemaforico findGrupoSemaforicoByDescricao(String descricao) {
-        if(Objects.nonNull(descricao)) {
+        if (Objects.nonNull(descricao)) {
             return getGruposSemaforicos().stream().filter(grupoSemaforico -> descricao.equals(grupoSemaforico.getDescricao())).findFirst().orElse(null);
         }
         return null;
     }
 
     public GrupoSemaforico findGrupoSemaforicoByPosicao(Integer posicao) {
-        if(Objects.nonNull(posicao)) {
+        if (Objects.nonNull(posicao)) {
             return getGruposSemaforicos().stream().filter(grupoSemaforico -> posicao.equals(grupoSemaforico.getPosicao())).findFirst().orElse(null);
+        }
+        return null;
+    }
+
+    public Estagio findEstagioByDescricao(String descricao) {
+        if (Objects.nonNull(descricao)) {
+            return getEstagios().stream().filter(estagio -> descricao.equals(estagio.getDescricao())).findFirst().orElse(null);
+        }
+        return null;
+    }
+
+    public Detector findDetectorByDescricao(String descricao) {
+        if (Objects.nonNull(descricao)) {
+            return getDetectores().stream().filter(detector -> descricao.equals(detector.getDescricao())).findFirst().orElse(null);
         }
         return null;
     }

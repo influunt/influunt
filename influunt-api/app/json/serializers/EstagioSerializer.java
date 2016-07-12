@@ -4,9 +4,11 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import models.Detector;
 import models.Estagio;
 import models.EstagioGrupoSemaforico;
 import models.TransicaoProibida;
+import play.Logger;
 
 import java.io.IOException;
 
@@ -74,6 +76,20 @@ public class EstagioSerializer extends JsonSerializer<Estagio> {
             }
             jgen.writeEndArray();
         }
+        if (estagio.getDetector() != null) {
+            Detector detector = null;
+            try {
+                detector = (Detector) estagio.getDetector().clone();
+            } catch (CloneNotSupportedException e) {
+                Logger.error("Erro ao serializar o Detector.", e);
+            }
+            detector.setEstagio(null);
+            detector.setAnel(null);
+            detector.setControlador(null);
+            jgen.writeObjectField("detector", detector);
+        }
+
+
         jgen.writeEndObject();
     }
 }

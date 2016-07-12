@@ -41,6 +41,8 @@ public class GrupoSemaforicoSerializer extends JsonSerializer<GrupoSemaforico> {
                 e.printStackTrace();
             }
             anel.setGruposSemaforicos(null);
+            anel.setDetectores(null);
+            anel.setControlador(null);
             jgen.writeObjectField("anel", anel);
         }
 

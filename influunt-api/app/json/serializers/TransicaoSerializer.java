@@ -65,6 +65,7 @@ public class TransicaoSerializer extends JsonSerializer<Transicao> {
                 e.printStackTrace();
             }
             grupo.setTransicoes(null);
+            grupo.setEstagioGrupoSemaforicos(null);
             jgen.writeObjectField("grupoSemaforico", grupo);
         }
 

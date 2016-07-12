@@ -1,5 +1,6 @@
 package models;
 
+import checks.ControladorAssociacaoDetectoresCheck;
 import checks.ControladorAssociacaoGruposSemaforicosCheck;
 import checks.ControladorTransicoesProibidasCheck;
 import com.avaje.ebean.Model;
@@ -19,6 +20,7 @@ import javax.validation.constraints.AssertTrue;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -30,7 +32,7 @@ import java.util.UUID;
 @Table(name = "estagios")
 @JsonSerialize(using = EstagioSerializer.class)
 @JsonDeserialize(using = EstagioDeserializer.class)
-public class Estagio extends Model implements Serializable {
+public class Estagio extends Model implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 5984122994022833262L;
 
@@ -70,6 +72,7 @@ public class Estagio extends Model implements Serializable {
     @ManyToOne
     private Controlador controlador;
 
+    @OneToOne
     private Detector detector;
 
     @Column
@@ -132,6 +135,14 @@ public class Estagio extends Model implements Serializable {
         this.estagiosGruposSemaforicos = estagiosGruposSemaforicos;
     }
 
+    public Detector getDetector() {
+        return detector;
+    }
+
+    public void setDetector(Detector detector) {
+        this.detector = detector;
+    }
+
     public DateTime getDataCriacao() {
         return dataCriacao;
     }
@@ -192,13 +203,22 @@ public class Estagio extends Model implements Serializable {
     public boolean isAoMenosUmEstagioGrupoSemaforico() {
         return getEstagiosGruposSemaforicos() != null && !getEstagiosGruposSemaforicos().isEmpty();
     }
-
+    
     @AssertTrue(groups = ControladorTransicoesProibidasCheck.class,
             message = "Esse estágio não pode ter um estágio de destino e alternativo ao mesmo tempo.")
     public boolean isAoMesmoTempoDestinoEAlternativo() {
         if (!getDestinoDeTransicoesProibidas().isEmpty() && !getAlternativaDeTransicoesProibidas().isEmpty()) {
             return getDestinoDeTransicoesProibidas().stream().filter(estagio -> getAlternativaDeTransicoesProibidas().contains(estagio)).count() == 0;
         } else return true;
+    }
+
+    @AssertTrue(groups = ControladorAssociacaoDetectoresCheck.class,
+            message = "Esse estagio deve estar associado a pelo menos um detector.")
+    public boolean isAssociadoDetectorCasoDemandaPrioritaria() {
+        if (Boolean.TRUE.equals(getDemandaPrioritaria())) {
+            return Objects.nonNull(getDetector());
+        }
+        return true;
     }
 
     @Override
@@ -220,5 +240,11 @@ public class Estagio extends Model implements Serializable {
 
     public boolean temTransicaoProibidaComEstagio(Estagio estagio) {
         return getOrigemDeTransicoesProibidas().stream().filter(transicaoProibida -> transicaoProibida.getDestino().equals(estagio)).count() > 0;
+    }
+
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

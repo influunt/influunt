@@ -64,7 +64,6 @@ public class ControladorAneisTest extends ControladorTest {
         anel1.setQuantidadeDetectorPedestre(5);
         anel1.setQuantidadeDetectorVeicular(9);
 
-
         erros = new InfluuntValidator<Controlador>().validate(controlador,
                 Default.class, ControladorAneisCheck.class);
 
@@ -84,6 +83,52 @@ public class ControladorAneisTest extends ControladorTest {
         anel1.setQuantidadeGrupoVeicular(1);
         anel1.setQuantidadeDetectorPedestre(4);
         anel1.setQuantidadeDetectorVeicular(8);
+
+        controlador.save();
+
+        erros = new InfluuntValidator<Controlador>().validate(controlador,
+                Default.class, ControladorAneisCheck.class);
+
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+                new Erro("Controlador", "A quantidade de detectores não deve ultrapassar a quantidade de estágios definidas no modelo do controlador.", "aneis[0]")
+        ));
+
+        anel1.setEstagios(Arrays.asList(new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio(),
+                new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio()));
+        anel1.setDetectores(null);
+
+        // Cria manualmente quantidade de detectores para validacao de numero de detectores diferente do  somatorio de detectores veicular e pedestre
+        for (int i = 7; i > 0; i--) {
+            Detector detector = new Detector();
+            detector.setTipo(TipoDetector.PEDESTRE);
+            detector.setAnel(anel1);
+            detector.setControlador(anel1.getControlador());
+            anel1.getDetectores().add(detector);
+        }
+        for (int i = 7; i > 0; i--) {
+            Detector detector = new Detector();
+            detector.setTipo(TipoDetector.VEICULAR);
+            detector.setAnel(anel1);
+            detector.setControlador(anel1.getControlador());
+            anel1.getDetectores().add(detector);
+        }
+
+        erros = new InfluuntValidator<Controlador>().validate(controlador,
+                Default.class, ControladorAneisCheck.class);
+
+        assertEquals(1, erros.size());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+                new Erro("Controlador", "Um anel ativo não deve ultrapassar o somatório das quantidades de detectores definidas no modelo do controlador", "aneis[0]")
+        ));
+
+        anel1.setDetectores(null);
+        anel1.setQuantidadeDetectorPedestre(1);
+        anel1.setQuantidadeDetectorVeicular(1);
+
+        controlador.getModelo().getConfiguracao().getLimiteDetectorPedestre();
+        controlador.getModelo().getConfiguracao().getLimiteDetectorVeicular();
+
+        controlador.save();
 
 
         erros = new InfluuntValidator<Controlador>().validate(controlador,
@@ -112,6 +157,8 @@ public class ControladorAneisTest extends ControladorTest {
         assertEquals("Criação de aneis", 4, controlador.getAneis().size());
         assertEquals("Total de aneis ativos", 1, controlador.getAneis().stream().filter(anel -> anel.isAtivo()).count());
         assertEquals("Criação de grupos semafóricos", 2, controlador.getGruposSemaforicos().size());
+        Anel anelAtivo = controlador.getAneis().stream().filter(anel -> anel.isAtivo()).findFirst().get();
+        assertEquals("Detectores", 4, anelAtivo.getDetectores().size());
     }
 
     @Override
@@ -129,6 +176,7 @@ public class ControladorAneisTest extends ControladorTest {
         assertEquals("Total de aneis ativos", 1, controladorJson.getAneis().stream().filter(anel -> anel.isAtivo()).count());
         Anel anelAtivo = controladorJson.getAneis().stream().filter(anel -> anel.isAtivo()).findFirst().get();
         assertEquals("Criação de grupos semafóricos", 2, anelAtivo.getGruposSemaforicos().size());
+        assertEquals("Detectores", 4, anelAtivo.getDetectores().size());
 
     }
 
@@ -160,7 +208,7 @@ public class ControladorAneisTest extends ControladorTest {
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
-        assertEquals(1,json.size());
+        assertEquals(1, json.size());
 
     }
 
@@ -177,7 +225,7 @@ public class ControladorAneisTest extends ControladorTest {
         assertEquals(OK, postResult.status());
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
-        Controlador controladorRetornado = Json.fromJson(json,Controlador.class);
+        Controlador controladorRetornado = Json.fromJson(json, Controlador.class);
 
         assertControladorAnel(controlador, controladorRetornado);
         assertNotNull(controladorRetornado.getId());

@@ -37,15 +37,6 @@ public class TabelaEntreVerdesDeserializer extends JsonDeserializer<TabelaEntreV
             tabelaEntreVerdes.setGrupoSemaforico(Json.fromJson(node.get("grupoSemaforico"), GrupoSemaforico.class));
         }
 
-//        if (node.has("transicoes")) {
-//            List<TabelaEntreVerdesTransicao> transicoes = new ArrayList<TabelaEntreVerdesTransicao>();
-//            for (JsonNode tabelaEntreVerdesNode : node.get("transicoes")) {
-//                transicoes.add(Json.fromJson(tabelaEntreVerdesNode, TabelaEntreVerdesTransicao.class));
-//            }
-//            tabelaEntreVerdes.setTransicoes(transicoes);
-//        }
-
-
         return tabelaEntreVerdes;
     }
 }

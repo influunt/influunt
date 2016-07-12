@@ -24,6 +24,7 @@ POST        /api/v1/controladores/associacao_grupos_semaforicos   controllers.Co
 POST        /api/v1/controladores/verdes_conflitantes         	  controllers.ControladoresController.verdesConflitantes()
 POST        /api/v1/controladores/transicoes_proibidas         	  controllers.ControladoresController.transicoesProibidas()
 POST        /api/v1/controladores/entre_verdes                	  controllers.ControladoresController.entreVerdes()
+POST        /api/v1/controladores/associacao_detectores           controllers.ControladoresController.associacaoDetectores()
 GET         /api/v1/controladores/:id                             controllers.ControladoresController.findOne(id)
 DELETE      /api/v1/controladores/:id                             controllers.ControladoresController.delete(id)
 
