@@ -1,0 +1,386 @@
+<fieldset data-ng-init="inicializaAssociacao()">
+  <div class="row">
+    <uib-alert type="danger" close="closeAlertAnel(currentAnelIndex, 'all')" data-ng-if="errors.general || errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosDePedestre || errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosVeiculares">
+      <div style="padding-left: 12px;">
+        <ul>
+          <li data-ng-repeat="message in errors.general">{{ message }}</li>
+          <li data-ng-repeat="message in errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosDePedestre">{{ message }}</li>
+          <li data-ng-repeat="message in errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosVeiculares">{{ message }}</li>
+        </ul>
+      </div>
+    </uib-alert>
+    <div class="text-center m-t-md pd-lf-rt">
+      <div class="col-lg-2 col-sm-2 no-padding">
+        <div class="col-lg-12 col-sm-12 association min-green plans side-menu">
+          <nav>
+            <ul class="" id="side-menu">
+              <li class="active">
+                <a href="index.html"><span class="nav-label">ANEL 1</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                  <li class="active"><a href="">PLANO 1</a></li>
+                  <li><a href="">PLANO 2</a></li>
+                  <li><a href="">PLANO 3</a></li>
+                  <li><a href="">PLANO 4</a></li>
+                </ul>
+              </li>
+              <li class="">
+                <a href="index.html"><span class="nav-label">ANEL 2</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                  <li class="active"><a href="">PLANO 1</a></li>
+                  <li><a href="">PLANO 2</a></li>
+                  <li><a href="">PLANO 3</a></li>
+                  <li><a href="">PLANO 4</a></li>
+                </ul>
+              </li>
+              <li class="">
+                <a href="index.html"><span class="nav-label">ANEL 3</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                  <li class="active"><a href="">PLANO 1</a></li>
+                  <li><a href="">PLANO 2</a></li>
+                  <li><a href="">PLANO 3</a></li>
+                  <li><a href="">PLANO 4</a></li>
+                </ul>
+              </li>
+              <li class="">
+                <a href="index.html"><span class="nav-label">ANEL 4</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                  <li class="active"><a href="">PLANO 1</a></li>
+                  <li><a href="">PLANO 2</a></li>
+                  <li><a href="">PLANO 3</a></li>
+                  <li><a href="">PLANO 4</a></li>
+                </ul>
+              </li>
+            </ul>
+        </nav>
+      </div>
+    </div>
+    <div class="col-lg-10 col-sm-10">
+      <div class="col-lg-12 col-sm-12 association table-creation-plans min-green">
+        <header>
+          <div class="col-lg-12 col-sm-12 no-padding">
+            <h1>PLANO 2</h1>
+            <nav>
+              <ul>
+                <li>
+                  <p>VERDE</p>
+                  <span class="green"></span>
+                </li>
+                <li>
+                  <p>AMARELO</p>
+                  <span class="yellow"></span>
+                </li>
+                <li>
+                  <p>VERMELHO DE LIMPEZA</p>
+                  <span class="red-cleaning"></span>
+                </li>
+                <li>
+                  <p>VERMELHO INTERMITENTE</p>
+                  <span class="red-flashing"></span>
+                </li>
+                <li>
+                  <p>VERMELHO</p>
+                  <span class="red"></span>
+                </li>
+                <li>
+                  <p>AMARELO INTERMITENTE</p>
+                  <span class="yellow-flashing"></span>
+                </li>
+                <li>
+                  <p>APAGADO</p>
+                  <span class="wiped"></span>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </header>
+        <article>    
+          <div class="col-lg-2 col-sm-2 no-padding">              
+            <aside>            
+              <div class="form-group"><label>MODO DE OPERAÇÃO</label>
+                <select class="form-control" name="">
+                  <option>Isolado</option>
+                  <option>Isolado</option>
+                </select>
+              </div>    
+              <div class="form-group"><label>TABELA DE ENTRE-VERDES</label>
+                <select class="form-control" name="">
+                  <option>Tabela 1</option>
+                  <option>Tabela 2</option>
+                </select>
+              </div>   
+              <div class="knob" style="display: block;">
+                <div class="text-center">    
+                  <div class="knob-item col-lg-12 col-sm-12">
+                    <p>TEMPO DE CICLO</p>           
+                    <div class="inline meters relative">     
+                      <label>SEG</label>               
+                      <input type="text" value="50" class="dial m-r-sm" data-fgColor="#1AB394" data-width="85" data-height="85" />
+                    </div>
+                  </div>
+                  <div class="knob-item col-lg-12 col-sm-12">
+                    <p>DEFASAGEM</p>           
+                    <div class="inline meters relative">     
+                      <label>SEG</label>               
+                      <input type="text" value="45" class="dial m-r-sm" data-fgColor="#1AB394" data-width="85" data-height="85" />
+                    </div>
+                  </div>
+                </div>
+              </div> 
+            </aside>        
+          </div>
+          <section>
+            <div class="col-lg-10 col-sm-10 no-padding table-create-plan overflow">              
+              <table class="" border="1" cellpadding="0" cellspacing="0" width="1500">
+                <thead>
+                  <tr>
+                    <td></td>
+                    <td class="tg-031e">
+                      <label for="">E1</label>
+                      <figure><img src="http://wallpapercave.com/wp/FOyu6CV.jpg" alt="" width="150"></figure>
+                    </td>
+                    <td class="tg-031e">
+                      <label for="">E1</label>
+                      <figure></figure>
+                    </td>
+                    <td class="tg-031e">
+                      <label for="">E1</label>
+                      <figure></figure>
+                    </td>
+                    <td class="tg-031e">
+                      <label for="">E1</label>
+                      <figure></figure>
+                    </td>
+                    <td class="tg-031e">
+                      <label for="">E1</label>
+                      <figure><img src="http://wallpapercave.com/wp/FOyu6CV.jpg" alt="" width="150"></figure>
+                    </td>
+                    <td class="tg-031e">
+                      <label for="">E1</label>
+                      <figure></figure>
+                    </td>
+                    <td class="tg-031e">
+                      <label for="">E1</label>
+                      <figure></figure>
+                    </td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="ty-547j"><div class="i-checks"><label> <input type="checkbox" value=""> <i></i>G1</label></div></td>
+                    <td class="red-flashing"></td>
+                    <td class="green"></td>
+                    <td class="wiped"></td>
+                    <td class="red"></td>
+                    <td class="red"></td>
+                    <td class="wiped"></td>
+                    <td class="yellow-flashing"></td>
+                  </tr>
+                  <tr></tr>
+                  <tr>
+                    <td class="ty-547j"><div class="i-checks"><label> <input type="checkbox" value=""> <i></i>G1</label></div></td>
+                    <td class="green"></td>
+                    <td class="red-cleaning"></td>
+                    <td class="yellow"></td>
+                    <td class="red"></td>
+                    <td class="red"></td>
+                    <td class="wiped"></td>
+                    <td class="green"></td>
+                  </tr>
+                  <tr></tr>
+                  <tr>
+                    <td class="ty-547j"><div class="i-checks"><label> <input type="checkbox" value=""> <i></i>G1</label></div></td>
+                    <td class="yellow-flashing"></td>
+                    <td class="red-cleaning"></td>
+                    <td class="yellow"></td>
+                    <td class="red-cleaning"></td>
+                    <td class="red"></td>
+                    <td class="wiped"></td>
+                    <td class="green"></td>
+                  </tr>
+                  <tr></tr>
+                  <tr>
+                    <td class="ty-547j"><div class="i-checks"><label> <input type="checkbox" value=""> <i></i>G1</label></div></td>
+                    <td class="red-flashing"></td>
+                    <td class="red-cleaning"></td>
+                    <td class="red-flashing"></td>
+                    <td class="red-cleaning"></td>
+                    <td class="red"></td>
+                    <td class="red-flashing"></td>
+                    <td class="green"></td>
+                  </tr>
+                  <tr></tr>
+                  <tr>
+                    <td class="ty-547j"><div class="i-checks"><label> <input type="checkbox" value=""> <i></i>G1</label></div></td>
+                    <td class="green"></td>
+                    <td class="red-cleaning"></td>
+                    <td class="yellow"></td>
+                    <td class="red"></td>
+                    <td class="red"></td>
+                    <td class="wiped"></td>
+                    <td class="green"></td>
+                  </tr>
+                  <tr></tr>
+                  <tr>
+                    <td class="ty-547j"><div class="i-checks"><label> <input type="checkbox" value=""> <i></i>G1</label></div></td>
+                    <td class="green"></td>
+                    <td class="green"></td>
+                    <td class="wiped"></td>
+                    <td class="red"></td>
+                    <td class="red"></td>
+                    <td class="wiped"></td>
+                    <td class="yellow-flashing"></td>
+                  </tr>
+                  <tr></tr>
+                  <tr>
+                    <td class="ty-547j"><div class="i-checks"><label> <input type="checkbox" value=""> <i></i>G1</label></div></td>
+                    <td class="green"></td>
+                    <td class="red-cleaning"></td>
+                    <td class="red-flashing"></td>
+                    <td class="red"></td>
+                    <td class="green"></td>
+                    <td class="wiped"></td>
+                    <td class="yellow-flashing"></td>
+                  </tr>
+                  <tr></tr>
+                  <tr>
+                    <td class="ty-547j"><div class="i-checks"><label> <input type="checkbox" value=""> <i></i>G1</label></div></td>
+                    <td class="green"></td>
+                    <td class="red-cleaning"></td>
+                    <td class="red-flashing"></td>
+                    <td class="red"></td>
+                    <td class="green"></td>
+                    <td class="wiped"></td>
+                    <td class="yellow-flashing"></td>
+                  </tr>
+                  <tr></tr>
+                  <tr>
+                    <td class="ty-547j"><div class="i-checks"><label> <input type="checkbox" value=""> <i></i>G1</label></div></td>
+                    <td class="green"></td>
+                    <td class="red-cleaning"></td>
+                    <td class="red-flashing"></td>
+                    <td class="red"></td>
+                    <td class="green"></td>
+                    <td class="wiped"></td>
+                    <td class="yellow-flashing"></td>
+                  </tr>
+                  <tr></tr>
+                  <tr>
+                    <td class="ty-547j"><div class="i-checks"><label> <input type="checkbox" value=""> <i></i>G1</label></div></td>
+                    <td class="green"></td>
+                    <td class="red-cleaning"></td>
+                    <td class="red-flashing"></td>
+                    <td class="red"></td>
+                    <td class="green"></td>
+                    <td class="wiped"></td>
+                    <td class="yellow-flashing"></td>
+                  </tr>
+                  <tr></tr>
+                  <tr>
+                    <td class="ty-547j"><div class="i-checks"><label> <input type="checkbox" value=""> <i></i>G1</label></div></td>
+                    <td class="green"></td>
+                    <td class="red-cleaning"></td>
+                    <td class="red-flashing"></td>
+                    <td class="red"></td>
+                    <td class="green"></td>
+                    <td class="wiped"></td>
+                    <td class="yellow-flashing"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>                     
+          </section>
+        </article>
+      </div>
+      <div class="col-lg-12 col-sm-12 association stage-time m-t-md">
+        <div class="knob">
+          <div class="text-center">    
+            <div class="knob-item col-lg-2 col-sm-2">
+              <p>TEMPO DE CICLO</p>           
+              <div class="inline meters relative">     
+                <label>SEG</label>               
+                <input type="text" value="50" class="dial m-r-sm" data-fgColor="#1AB394" data-width="85" data-height="85" />
+              </div>
+            </div>
+            <div class="knob-item col-lg-2 col-sm-2">
+              <p>DEFASAGEM</p>           
+              <div class="inline meters relative">     
+                <label>SEG</label>               
+                <input type="text" value="45" class="dial m-r-sm" data-fgColor="#1AB394" data-width="85" data-height="85" />
+              </div>
+            </div>
+            <div class="col-lg-3 col-sm-3">
+              <div class="form-group"><label>TIPO DE ESTÁGIO</label>
+                <select class="form-control" name="">
+                  <option>Isolado</option>
+                  <option>Isolado</option>
+                </select>
+              </div>    
+              <div class="form-group"><label>RECEBE ESTÁGIO DISPENSÁVEL</label>
+                <select class="form-control" name="">
+                  <option>Tabela 1</option>
+                  <option>Tabela 2</option>
+                </select>
+              </div> 
+            </div>
+          </div>
+        </div> 
+      </div>
+    </div>    
+    <div class="col-sm-12 col-lg-12 no-pading bg-border pg-bt m-t-lg">
+      <a data-ng-click="submitForm({$valid: true}, 'associacao_grupos_semaforicos', 'app.wizard_controladores.aneis')" class="btn btn-default left m-r-sm">{{ 'plugins.steps.labels.previous' | translate }}</a>
+      <a data-ng-click="submitForm({$valid: true}, 'associacao_grupos_semaforicos', 'app.wizard_controladores.verdes_conflitantes')" class="btn btn-primary left">{{ 'plugins.steps.labels.next' | translate }}</a>
+    </div>
+  </div>
+</div>
+</fieldset>
+<!-- {{ objeto }} -->
+
+<script>
+  $(document).ready(function(){
+
+    WinMove();
+
+    //jQuery Knob
+    $(".dial").knob();
+
+    // MetsiMenu
+    $('#side-menu').metisMenu();
+
+    function WinMove() {
+      var element = ".handle";
+      var handle = ".title-stages";
+      var connect = ".handle";
+      $(element).sortable(
+      {
+        handle: handle,
+        connectWith: connect,
+        tolerance: 'pointer',
+        forcePlaceholderSize: true,
+        opacity: 0.8
+      })
+      .disableSelection();
+    };
+
+
+    function readURL() {
+      var $input = $(this);
+      if (this.files && this.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          $input.next('.attrImg').attr('src', e.target.result).show();
+        }
+        reader.readAsDataURL(this.files[0]);
+      }
+    }
+
+    $(".imgInp").change(readURL);
+    $(".imgInp").change(function(){
+      $(this).parents().eq(3).addClass('change');
+    });
+
+    $('.i-checks').iCheck({
+        checkboxClass: 'icheckbox_square-green',
+        radioClass: 'iradio_square-green',
+    });
+  });
+</script>

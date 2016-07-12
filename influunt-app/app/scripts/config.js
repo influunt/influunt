@@ -361,9 +361,18 @@ angular
             title: 'controladores.titulo'
           }
         })
+
         .state('app.wizard_controladores.entre_verdes', {
           url: '/entre-verdes/:id',
           templateUrl: 'views/controladores/wizard/entre-verdes.html',
+          data: {
+            title: 'controladores.titulo'
+          }
+        })
+
+        .state('app.wizard_controladores.criacao_planos', {
+          url: '/criacao-planos/:id',
+          templateUrl: 'views/controladores/wizard/criacao-planos.html',
           data: {
             title: 'controladores.titulo'
           }
