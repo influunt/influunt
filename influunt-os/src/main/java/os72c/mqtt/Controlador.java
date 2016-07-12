@@ -8,7 +8,6 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import org.eclipse.paho.client.mqttv3.*;
 import org.fusesource.mqtt.client.MQTTException;
-import os72c.central.CentralActor;
 import scala.concurrent.duration.Duration;
 
 import java.util.HashMap;
@@ -24,7 +23,7 @@ public class Controlador extends UntypedActor {
     private ActorRef mqqtControlador;
 
     private static SupervisorStrategy strategy =
-        new OneForOneStrategy(1000, Duration.Undefined(),
+        new OneForOneStrategy(-1, Duration.Undefined(),
             new Function<Throwable, SupervisorStrategy.Directive>() {
                 @Override
                 public SupervisorStrategy.Directive apply(Throwable t) {

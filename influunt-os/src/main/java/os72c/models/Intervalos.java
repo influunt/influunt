@@ -64,4 +64,12 @@ public class Intervalos {
     public void proximoCiclo(Integer delay) {
         start(delay);
     }
+
+    public void proximoEstagio() {
+
+    }
+
+    public void falha() {
+        trocas.stream().map(troca -> troca.getCancellable().cancel());
+    }
 }

@@ -2,16 +2,17 @@ package os72c.controladores;
 
 import akka.actor.ActorRef;
 import jssc.SerialPort;
+import jssc.SerialPortEvent;
+import jssc.SerialPortEventListener;
 import jssc.SerialPortException;
 import os72c.Constants;
 import os72c.exceptions.HardwareFailureException;
 import os72c.models.EstadoGrupo;
-import scala.Int;
 
 /**
  * Created by rodrigosol on 6/28/16.
  */
-public class ControladorSerial extends Controlador {
+public class ControladorSerial extends Controlador implements SerialPortEventListener {
     private SerialPort serialPort;
     private String porta;
     private Integer baudrate;
@@ -32,8 +33,10 @@ public class ControladorSerial extends Controlador {
         startDelay = Integer.valueOf(argumentos[Constants.SERIAL_START_DELAY]);
 
         serialPort = new SerialPort(porta);
+
         try {
             serialPort.openPort();//Open serial port
+            serialPort.addEventListener(this,SerialPort.MASK_RXCHAR);
             serialPort.setParams(baudrate, databits, stopbits, parity);
             Thread.sleep(2000);
 
@@ -49,7 +52,13 @@ public class ControladorSerial extends Controlador {
     }
 
     @Override
-    protected void entrarEmModoAmarelhoIntermitente() {
+    protected void entrarEmModoAmarelhoIntermitente() throws SerialPortException {
+
+        if (serialPort.isOpened()) {
+            serialPort.writeBytes("5,5,5,5,5,5,0".getBytes());
+        } else {
+            throw new SerialPortException(porta, "onChange", "Não foi possível comunicar pela porta serial");
+        }
 
     }
 
@@ -61,7 +70,7 @@ public class ControladorSerial extends Controlador {
                 case VERDE:
                     command += "1,";
                     break;
-                case AMARELHO:
+                case AMARELO:
                     command += "2,";
                     break;
                 case VERMELHO:
@@ -73,6 +82,9 @@ public class ControladorSerial extends Controlador {
                 case VERMELHO_INTERMITENTE:
                     command += "4,";
                     break;
+                case AMARELHO_INTERMITENTE:
+                    command += "5,";
+
             }
 
         }
@@ -81,13 +93,28 @@ public class ControladorSerial extends Controlador {
         System.out.println(System.currentTimeMillis());
         if (serialPort.isOpened()) {
             serialPort.writeBytes(command.getBytes());
-            byte[] retorno = serialPort.readBytes(1,1500);
-            if(retorno[0] != 1){
-                throw new SerialPortException(porta, "onChange", "Não foi possível comunicar pela porta serial");
-            }
+//            byte[] retorno = serialPort.readBytes(1,1500);
+//            if(retorno[0] != 1){
+//                throw new SerialPortException(porta, "onChange", "Não foi possível comunicar pela porta serial");
+//            }
         } else {
             throw new SerialPortException(porta, "onChange", "Não foi possível comunicar pela porta serial");
         }
     }
 
+    @Override
+    public void serialEvent(SerialPortEvent serialPortEvent) {
+        if(serialPortEvent.isRXCHAR() && serialPortEvent.getEventValue() > 0) {
+            try {
+                String receivedData = serialPort.readString(2);
+                System.out.println("Received response: " + receivedData);
+                if(receivedData.matches("^[P|V|E|M][0-9]$")){
+                    trap(receivedData);
+                }
+            }
+            catch (SerialPortException ex) {
+                System.out.println("Error in receiving string from COM-port: " + ex);
+            }
+        }
+    }
 }

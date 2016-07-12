@@ -42,7 +42,7 @@ public class ControladorArduino extends Controlador {
                 case VERDE:
                     command += "1,";
                     break;
-                case AMARELHO:
+                case AMARELO:
                     command += "2,";
                     break;
                 case VERMELHO:

@@ -1,12 +1,9 @@
 package os72c;
 
-import akka.actor.ActorSystem;
 import akka.actor.ActorRef;
-import akka.actor.Props;
+import akka.actor.ActorSystem;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import os72c.central.CentralActor;
-
 import os72c.supervisores.Supervisor;
 
 public class Application {
@@ -18,9 +15,7 @@ public class Application {
         // Create an Akka system
         ActorSystem system = ActorSystem.create("InfluuntSystem", ConfigFactory.load());
 
-        // Create an actor that handles cluster domain eOvents
-        system.actorOf(Props.create(CentralActor.class),
-                "clusterListener");
+        ActorRef supervidor = system.actorOf(Supervisor.props(), "supervisor");
         system.awaitTermination();
     }
 
