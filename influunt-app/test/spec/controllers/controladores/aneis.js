@@ -102,6 +102,18 @@ describe('Controller: ControladoresAneisCtrl', function () {
   });
 
   describe('Funções auxiliares', function () {
+
+    describe('associaImagemAoEstagio', function () {
+      beforeEach(function() {
+        scope.currentAnel = {};
+      });
+
+      it('Deve adicionar uma nova imagem à lista de estágios', function() {
+        scope.associaImagemAoEstagio({}, {id: 1});
+        expect(scope.currentAnel.estagios.length).toBe(1);
+      });
+    });
+
     describe('desativaProximosAneis', function () {
       beforeEach(function() {
         scope.aneis = [{posicao: 1,ativo: true},{posicao: 2,ativo: true},{posicao: 3,ativo: true}];

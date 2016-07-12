@@ -74,10 +74,7 @@ angular.module('influuntApp')
 
       $scope.associaImagemAoEstagio = function(upload, imagem) {
         var anel = $scope.currentAnel;
-        if (!('estagios' in anel)) {
-          anel.estagios = [];
-        }
-
+        anel.estagios = anel.estagios || [];
         anel.estagios.push({ imagem: { id: imagem.id } });
       };
 

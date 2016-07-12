@@ -4,8 +4,6 @@
       <div style="padding-left: 12px;">
         <ul>
           <li data-ng-repeat="message in errors.general">{{ message }}</li>
-          <li data-ng-repeat="message in errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosDePedestre">{{ message }}</li>
-          <li data-ng-repeat="message in errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosVeiculares">{{ message }}</li>
         </ul>
       </div>
     </uib-alert>
@@ -35,7 +33,9 @@
           </tr>
           <tr data-ng-repeat="detector in currentAnel.detectores">
             <td><strong>{{ detector | nomeDetector }}</strong></td>
-            <td data-ng-repeat="estagio in currentAnel.estagios" data-ng-click="associaDetector(estagio, detector)"></td>
+            <td data-ng-repeat="estagio in currentAnel.estagios" data-ng-click="toggleAssociacaoDetector(estagio, detector)">
+              <i class="fa fa-check" aria-hidden="true" data-ng-if="detector.estagio.id === estagio.id"></i>
+            </td>
           </tr>
         </tbody>
       </table>

@@ -5,6 +5,7 @@
 
 create table agrupamentos (
   id                            uuid not null,
+  nome                          varchar(255),
   tipo                          varchar(8),
   data_criacao                  timestamp not null,
   data_atualizacao              timestamp not null,
@@ -87,19 +88,15 @@ create table detectores (
   id                            uuid not null,
   tipo                          varchar(8),
   anel_id                       uuid,
-  estagio_id                    uuid,
   controlador_id                uuid,
-  posicao                       integer,
-  descricao                     varchar(255),
   monitorado                    boolean,
-  tempo_ausencia_deteccao_minima integer,
-  tempo_ausencia_deteccao_maxima integer,
+  tempo_ausecia_deteccao_minima integer,
+  tempo_ausecia_deteccao_maxima integer,
   tempo_deteccao_permanente_minima integer,
   tempo_deteccao_permanente_maxima integer,
   data_criacao                  timestamp not null,
   data_atualizacao              timestamp not null,
   constraint ck_detectores_tipo check (tipo in ('VEICULAR','PEDESTRE')),
-  constraint uq_detectores_estagio_id unique (estagio_id),
   constraint pk_detectores primary key (id)
 );
 
@@ -111,11 +108,9 @@ create table estagios (
   demanda_prioritaria           boolean,
   anel_id                       uuid,
   controlador_id                uuid,
-  detector_id                   uuid,
   data_criacao                  timestamp not null,
   data_atualizacao              timestamp not null,
   constraint uq_estagios_imagem_id unique (imagem_id),
-  constraint uq_estagios_detector_id unique (detector_id),
   constraint pk_estagios primary key (id)
 );
 
@@ -296,8 +291,6 @@ create index ix_controladores_area_id on controladores (area_id);
 alter table detectores add constraint fk_detectores_anel_id foreign key (anel_id) references aneis (id) on delete restrict on update restrict;
 create index ix_detectores_anel_id on detectores (anel_id);
 
-alter table detectores add constraint fk_detectores_estagio_id foreign key (estagio_id) references estagios (id) on delete restrict on update restrict;
-
 alter table detectores add constraint fk_detectores_controlador_id foreign key (controlador_id) references controladores (id) on delete restrict on update restrict;
 create index ix_detectores_controlador_id on detectores (controlador_id);
 
@@ -308,8 +301,6 @@ create index ix_estagios_anel_id on estagios (anel_id);
 
 alter table estagios add constraint fk_estagios_controlador_id foreign key (controlador_id) references controladores (id) on delete restrict on update restrict;
 create index ix_estagios_controlador_id on estagios (controlador_id);
-
-alter table estagios add constraint fk_estagios_detector_id foreign key (detector_id) references detectores (id) on delete restrict on update restrict;
 
 alter table estagios_grupos_semaforicos add constraint fk_estagios_grupos_semaforicos_estagio_id foreign key (estagio_id) references estagios (id) on delete restrict on update restrict;
 create index ix_estagios_grupos_semaforicos_estagio_id on estagios_grupos_semaforicos (estagio_id);
@@ -404,8 +395,6 @@ drop index if exists ix_controladores_area_id;
 alter table detectores drop constraint if exists fk_detectores_anel_id;
 drop index if exists ix_detectores_anel_id;
 
-alter table detectores drop constraint if exists fk_detectores_estagio_id;
-
 alter table detectores drop constraint if exists fk_detectores_controlador_id;
 drop index if exists ix_detectores_controlador_id;
 
@@ -416,8 +405,6 @@ drop index if exists ix_estagios_anel_id;
 
 alter table estagios drop constraint if exists fk_estagios_controlador_id;
 drop index if exists ix_estagios_controlador_id;
-
-alter table estagios drop constraint if exists fk_estagios_detector_id;
 
 alter table estagios_grupos_semaforicos drop constraint if exists fk_estagios_grupos_semaforicos_estagio_id;
 drop index if exists ix_estagios_grupos_semaforicos_estagio_id;
