@@ -1,0 +1,167 @@
+package models;
+
+import checks.*;
+import com.fasterxml.jackson.databind.JsonNode;
+import controllers.routes;
+import org.hamcrest.Matchers;
+import org.junit.Test;
+import play.libs.Json;
+import play.mvc.Http;
+import play.mvc.Result;
+import play.test.Helpers;
+
+import javax.validation.groups.Default;
+import java.util.List;
+
+import static org.junit.Assert.*;
+import static play.mvc.Http.Status.OK;
+import static play.mvc.Http.Status.UNPROCESSABLE_ENTITY;
+import static play.test.Helpers.route;
+
+/**
+ * Created by lesiopinheiro on 7/11/16.
+ */
+public class ControladorAssociacaoDetectoresTest extends ControladorTest {
+
+    @Override
+    @Test
+    public void testVazio() {
+        Controlador controlador = getControladorTabelaDeEntreVerdes();
+        controlador.save();
+
+        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, ControladorAneisCheck.class,
+                ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class, ControladorTransicoesProibidasCheck.class,
+                ControladorTabelaEntreVerdesCheck.class, ControladorAssociacaoDetectoresCheck.class);
+
+        assertEquals(6, erros.size());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+                new Erro("Controlador", "Esse estagio deve estar associado a pelo menos um detector.", "aneis[0].estagios[0].associadoDetectorCasoDemandaPrioritaria"),
+                new Erro("Controlador", "O detector deve estar associado a pelo menos um estagio.", "aneis[0].detectores[0].associadoAoMenosUmEstagio"),
+                new Erro("Controlador", "O detector deve estar associado a pelo menos um estagio.", "aneis[0].detectores[1].associadoAoMenosUmEstagio"),
+                new Erro("Controlador", "O detector deve estar associado a pelo menos um estagio.", "aneis[0].detectores[2].associadoAoMenosUmEstagio"),
+                new Erro("Controlador", "O detector deve estar associado a pelo menos um estagio.", "aneis[0].detectores[3].associadoAoMenosUmEstagio"),
+                new Erro("Controlador", "O detector deve estar associado a pelo menos um estagio.", "aneis[1].detectores[0].associadoAoMenosUmEstagio")
+        ));
+    }
+
+    @Override
+    @Test
+    public void testNoValidationErro() {
+        Controlador controlador = getControladorAssociacaoDetectores();
+        controlador.save();
+        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, ControladorAneisCheck.class,
+                ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class, ControladorTransicoesProibidasCheck.class,
+                ControladorTabelaEntreVerdesCheck.class, ControladorAssociacaoDetectoresCheck.class);
+        assertThat(erros, Matchers.empty());
+
+    }
+
+    @Override
+    @Test
+    public void testORM() {
+        Controlador controlador = getControladorAssociacaoDetectores();
+        controlador.save();
+
+        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, ControladorAneisCheck.class,
+                ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class, ControladorTransicoesProibidasCheck.class,
+                ControladorTabelaEntreVerdesCheck.class, ControladorAssociacaoDetectoresCheck.class);
+
+        assertNotNull(controlador.getId());
+        assertThat(erros, Matchers.empty());
+
+        Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
+        Estagio estagio1 = anelCom4Estagios.findEstagioByDescricao("E1");
+        Estagio estagio2 = anelCom4Estagios.findEstagioByDescricao("E2");
+        Estagio estagio3 = anelCom4Estagios.findEstagioByDescricao("E3");
+        Estagio estagio4 = anelCom4Estagios.findEstagioByDescricao("E4");
+
+        Detector detector1 = anelCom4Estagios.findDetectorByDescricao("D1");
+        Detector detector2 = anelCom4Estagios.findDetectorByDescricao("D2");
+        Detector detector3 = anelCom4Estagios.findDetectorByDescricao("D3");
+        Detector detector4 = anelCom4Estagios.findDetectorByDescricao("D4");
+
+        assertEquals("Estagio 1 está associado Detector 1", estagio1.getDetector(), detector1);
+        assertEquals("Estagio 2 está associado Detector 2", estagio2.getDetector(), detector2);
+        assertEquals("Estagio 3 está associado Detector 3", estagio3.getDetector(), detector3);
+        assertEquals("Estagio 4 está associado Detector 4", estagio4.getDetector(), detector4);
+
+    }
+
+    @Override
+    @Test
+    public void testJSON() {
+        Controlador controlador = getControladorAssociacaoDetectores();
+        controlador.save();
+
+        Controlador controladorJson = Json.fromJson(Json.toJson(controlador), Controlador.class);
+
+        assertEquals(controlador.getId(), controladorJson.getId());
+        assertNotNull(controladorJson.getId());
+
+        Anel anelCom4Estagios = controladorJson.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
+        Estagio estagio1 = anelCom4Estagios.findEstagioByDescricao("E1");
+        Estagio estagio2 = anelCom4Estagios.findEstagioByDescricao("E2");
+        Estagio estagio3 = anelCom4Estagios.findEstagioByDescricao("E3");
+        Estagio estagio4 = anelCom4Estagios.findEstagioByDescricao("E4");
+
+        Detector detector1 = anelCom4Estagios.findDetectorByDescricao("D1");
+        Detector detector2 = anelCom4Estagios.findDetectorByDescricao("D2");
+        Detector detector3 = anelCom4Estagios.findDetectorByDescricao("D3");
+        Detector detector4 = anelCom4Estagios.findDetectorByDescricao("D4");
+
+        assertEquals("Estagio 1 está associado Detector 1", estagio1.getDetector(), detector1);
+        assertEquals("Estagio 2 está associado Detector 2", estagio2.getDetector(), detector2);
+        assertEquals("Estagio 3 está associado Detector 3", estagio3.getDetector(), detector3);
+        assertEquals("Estagio 4 está associado Detector 4", estagio4.getDetector(), detector4);
+
+    }
+
+    @Override
+    @Test
+    public void testControllerValidacao() {
+        Controlador controlador = getControladorTabelaDeEntreVerdes();
+        controlador.save();
+
+        Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
+                .uri(routes.ControladoresController.associacaoDetectores().url()).bodyJson(Json.toJson(controlador));
+        Result postResult = route(postRequest);
+
+        assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
+
+        JsonNode json = Json.parse(Helpers.contentAsString(postResult));
+        assertEquals(6, json.size());
+    }
+
+    @Override
+    @Test
+    public void testController() {
+        Controlador controlador = getControladorAssociacaoDetectores();
+
+        Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
+                .uri(routes.ControladoresController.associacaoDetectores().url()).bodyJson(Json.toJson(controlador));
+        Result postResult = route(postRequest);
+
+        assertEquals(OK, postResult.status());
+
+        JsonNode json = Json.parse(Helpers.contentAsString(postResult));
+        Controlador controladorRetornado = Json.fromJson(json, Controlador.class);
+
+        assertNotNull(controladorRetornado.getId());
+        Anel anelCom4Estagios = controladorRetornado.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
+        Estagio estagio1 = anelCom4Estagios.findEstagioByDescricao("E1");
+        Estagio estagio2 = anelCom4Estagios.findEstagioByDescricao("E2");
+        Estagio estagio3 = anelCom4Estagios.findEstagioByDescricao("E3");
+        Estagio estagio4 = anelCom4Estagios.findEstagioByDescricao("E4");
+
+        Detector detector1 = anelCom4Estagios.findDetectorByDescricao("D1");
+        Detector detector2 = anelCom4Estagios.findDetectorByDescricao("D2");
+        Detector detector3 = anelCom4Estagios.findDetectorByDescricao("D3");
+        Detector detector4 = anelCom4Estagios.findDetectorByDescricao("D4");
+
+        assertEquals("Estagio 1 está associado Detector 1", estagio1.getDetector(), detector1);
+        assertEquals("Estagio 2 está associado Detector 2", estagio2.getDetector(), detector2);
+        assertEquals("Estagio 3 está associado Detector 3", estagio3.getDetector(), detector3);
+        assertEquals("Estagio 4 está associado Detector 4", estagio4.getDetector(), detector4);
+
+    }
+}

@@ -14,7 +14,6 @@ import json.serializers.GrupoSemaforicoSerializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.apache.commons.collections.ListUtils;
 import org.joda.time.DateTime;
-import play.Logger;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -212,9 +211,7 @@ public class GrupoSemaforico extends Model implements Cloneable {
     @AssertTrue(groups = ControladorVerdesConflitantesCheck.class, message = "Esse grupo semafórico não pode ter verde conflitante com ele mesmo")
     public boolean isNaoConflitaComEleMesmo() {
         if (this.getVerdesConflitantes() != null && !this.getVerdesConflitantes().isEmpty()) {
-            boolean a = this.getVerdesConflitantes().stream().anyMatch(grupoSemaforico -> grupoSemaforico.conflitaComEleMesmo(this));
-            Logger.info("******* AAA: " + a);
-            return !a;
+            return !this.getVerdesConflitantes().stream().anyMatch(grupoSemaforico -> grupoSemaforico.conflitaComEleMesmo(this));
         } else {
             return true;
         }
@@ -224,9 +221,7 @@ public class GrupoSemaforico extends Model implements Cloneable {
     @AssertTrue(groups = ControladorVerdesConflitantesCheck.class, message = "Esse grupo semafórico não pode ter verde conflitante com grupo semafórico de outro anel")
     public boolean isNaoConflitaComGruposDeOutroAnel() {
         if (this.getAnel() != null && this.getVerdesConflitantes() != null && !this.getVerdesConflitantes().isEmpty()) {
-            boolean b = this.getVerdesConflitantes().stream().anyMatch(grupoSemaforico -> grupoSemaforico.conflitaGrupoSemaforicoOutroAnel(this));
-            Logger.info("******* BBB: " + b);
-            return !b;
+            return !this.getVerdesConflitantes().stream().anyMatch(grupoSemaforico -> grupoSemaforico.conflitaGrupoSemaforicoOutroAnel(this));
         } else {
             return true;
         }
@@ -254,13 +249,6 @@ public class GrupoSemaforico extends Model implements Cloneable {
 
     public void criarPossiveisTransicoes() {
         getTransicoes().forEach(transicao -> transicao.setDestroy(true));
-//        for (EstagioGrupoSemaforico estagioGrupoSemaforico : estagioGrupoSemaforicos) {
-//            for (Estagio estagio : getAnel().getEstagios()) {
-//                if (!estagio.equals(estagioGrupoSemaforico.getEstagio()) && !estagioGrupoSemaforico.getEstagio().temTransicaoProibidaComEstagio(estagio)) {
-//                    addTransicoes(new Transicao(this, estagioGrupoSemaforico.getEstagio(), estagio));
-//                }
-//            }
-//        }
 
         getEstagioGrupoSemaforicos().forEach(estagioGrupoSemaforico -> getAnel().getEstagios().stream()
                 .filter(estagio -> !estagio.equals(estagioGrupoSemaforico.getEstagio()) && !estagioGrupoSemaforico.getEstagio().temTransicaoProibidaComEstagio(estagio))
@@ -319,7 +307,7 @@ public class GrupoSemaforico extends Model implements Cloneable {
     }
 
     private void addVerdesConflitantesList(VerdesConflitantes verdesConflitantes) {
-        if(getVerdesConflitantesOrigem() == null) {
+        if (getVerdesConflitantesOrigem() == null) {
             setVerdesConflitantesOrigem(new ArrayList<VerdesConflitantes>());
         }
         getVerdesConflitantesOrigem().add(verdesConflitantes);

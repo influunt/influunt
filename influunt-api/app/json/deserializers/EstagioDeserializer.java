@@ -42,7 +42,9 @@ public class EstagioDeserializer extends JsonDeserializer<Estagio> {
             img.setId(UUID.fromString(node.get("imagem").get("id").asText()));
             estagio.setImagem(img);
         }
-
+        if (node.has("detector")) {
+            estagio.setDetector(Json.fromJson(node.get("detector"), Detector.class));
+        }
         if (node.has("estagiosGruposSemaforicos")) {
             List<EstagioGrupoSemaforico> estagioGrupoSemaforicos = new ArrayList<EstagioGrupoSemaforico>();
             for (JsonNode estagioGSNode : node.get("estagiosGruposSemaforicos")) {

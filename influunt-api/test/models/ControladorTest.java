@@ -102,8 +102,8 @@ public abstract class ControladorTest extends WithApplication {
         anel1.setLongitude(1.0);
         anel1.setQuantidadeGrupoPedestre(1);
         anel1.setQuantidadeGrupoVeicular(1);
-        anel1.setQuantidadeDetectorPedestre(4);
-        anel1.setQuantidadeDetectorVeicular(8);
+        anel1.setQuantidadeDetectorPedestre(3);
+        anel1.setQuantidadeDetectorVeicular(1);
 
         return controlador;
     }
@@ -156,6 +156,7 @@ public abstract class ControladorTest extends WithApplication {
         anelAtivo.setAtivo(Boolean.TRUE);
         anelAtivo.setLatitude(1.0);
         anelAtivo.setLongitude(1.0);
+        anelAtivo.setQuantidadeDetectorPedestre(1);
 
         anelAtivo.setQuantidadeGrupoVeicular(2);
         anelAtivo.setEstagios(Arrays.asList(new Estagio(), new Estagio()));
@@ -251,6 +252,48 @@ public abstract class ControladorTest extends WithApplication {
                 }
             }
         }
+
+        return controlador;
+    }
+
+    protected Controlador getControladorAssociacaoDetectores() {
+        Controlador controlador = getControladorTabelaDeEntreVerdes();
+        controlador.save();
+
+        Anel anelCom2Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
+        Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
+
+        Estagio estagio = anelCom2Estagios.getEstagios().get(0);
+        Detector detector = anelCom2Estagios.getDetectores().get(0);
+        detector.setEstagio(estagio);
+
+        Estagio estagio1 = anelCom4Estagios.getEstagios().get(0);
+        estagio1.setDescricao("E1");
+        Estagio estagio2 = anelCom4Estagios.getEstagios().get(1);
+        estagio2.setDescricao("E2");
+        Estagio estagio3 = anelCom4Estagios.getEstagios().get(2);
+        estagio3.setDescricao("E3");
+        Estagio estagio4 = anelCom4Estagios.getEstagios().get(3);
+        estagio4.setDescricao("E4");
+
+        Detector detector1 = anelCom4Estagios.getDetectores().get(0);
+        detector1.setDescricao("D1");
+        Detector detector2 = anelCom4Estagios.getDetectores().get(1);
+        detector2.setDescricao("D2");
+        Detector detector3 = anelCom4Estagios.getDetectores().get(2);
+        detector3.setDescricao("D3");
+        Detector detector4 = anelCom4Estagios.getDetectores().get(3);
+        detector4.setDescricao("D4");
+
+        detector1.setEstagio(estagio1);
+        detector2.setEstagio(estagio2);
+        detector3.setEstagio(estagio3);
+        detector4.setEstagio(estagio4);
+
+        estagio1.setDetector(detector1);
+        estagio2.setDetector(detector2);
+        estagio3.setDetector(detector3);
+        estagio4.setDetector(detector4);
 
         return controlador;
     }

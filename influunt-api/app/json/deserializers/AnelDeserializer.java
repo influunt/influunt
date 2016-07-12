@@ -6,10 +6,7 @@ import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Anel;
-import models.Controlador;
-import models.Estagio;
-import models.GrupoSemaforico;
+import models.*;
 import play.libs.Json;
 
 import java.io.IOException;
@@ -31,7 +28,6 @@ public class AnelDeserializer extends JsonDeserializer<Anel> {
 
         Anel anel = new Anel();
         anel.setAtivo(node.get("ativo").asBoolean());
-
 
         if (node.has("id")) {
             anel.setId(UUID.fromString(node.get("id").asText()));
@@ -82,6 +78,13 @@ public class AnelDeserializer extends JsonDeserializer<Anel> {
                 grupoSemaforicos.add(Json.fromJson(grupoNode, GrupoSemaforico.class));
             }
             anel.setGruposSemaforicos(grupoSemaforicos);
+        }
+        if (node.has("detectores")) {
+            List<Detector> detectores = new ArrayList<Detector>();
+            for (JsonNode grupoNode : node.get("detectores")) {
+                detectores.add(Json.fromJson(grupoNode, Detector.class));
+            }
+            anel.setDetectores(detectores);
         }
 
         return anel;

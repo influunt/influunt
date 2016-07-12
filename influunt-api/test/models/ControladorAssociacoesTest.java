@@ -166,7 +166,6 @@ public class ControladorAssociacoesTest extends ControladorTest {
 
         assertEquals(OK, postResult.status());
 
-//        JsonNode json = Json.parse(Helpers.contentAsString(postResult));
         Controlador controladorRetornado = Json.fromJson(json, Controlador.class);
 
         assertControladorAnelAssociacao(controlador, controladorRetornado);
