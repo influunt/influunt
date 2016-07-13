@@ -92,6 +92,9 @@
     "configuracao": "CONFIGURAÇÃO CONTROLADOR",
     "titulo": "Modelo de Controladores"
   },
+  "planos": {
+    "titulo": "Planos"
+  },
   "tipos_detectores": {
     "descricao": "DESCRIÇÃO",
     "novo": "Novo Tipo de Detector",
