@@ -1,0 +1,16 @@
+<nav>
+  <ul>
+    <li data-ng-repeat="anel in aneis"
+       data-ng-click="selecionaAnel($index)"
+       data-ng-class="{'anel-selecionado': $index === currentAnelIndex}" class="row">
+        <div class="col-xs-7">
+          <label>Anel {{ anel.posicao }}</label>
+        </div>
+        <div class="col-xs-1">
+          <span class="badge badge-danger badge-notification" ng-show="anelTemErro($index)">
+            <i class="fa fa-exclamation"></i>
+          </span>
+        </div>
+    </li>
+  </ul>
+</nav>

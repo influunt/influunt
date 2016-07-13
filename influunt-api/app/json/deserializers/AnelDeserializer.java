@@ -27,7 +27,10 @@ public class AnelDeserializer extends JsonDeserializer<Anel> {
         JsonNode node = oc.readTree(jp);
 
         Anel anel = new Anel();
-        anel.setAtivo(node.get("ativo").asBoolean());
+
+        if (node.has("ativo")) {
+            anel.setAtivo(node.get("ativo").asBoolean());
+        }
 
         if (node.has("id")) {
             anel.setId(UUID.fromString(node.get("id").asText()));

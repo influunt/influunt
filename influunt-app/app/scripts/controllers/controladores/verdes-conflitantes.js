@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresVerdesConflitantesCtrl', ['$scope', '$state', '$controller',
-    function ($scope, $state, $controller) {
+  .controller('ControladoresVerdesConflitantesCtrl', ['$scope', '$state', '$controller', 'assertControlador',
+    function ($scope, $state, $controller, assertControlador) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
       var buildIntervaloAneis, buildMatrizVerdesConflitantes;
@@ -22,13 +22,12 @@ angular.module('influuntApp')
        * @return     {boolean}  { description_of_the_return_value }
        */
       $scope.assertVerdesConflitantes = function() {
-        var condition = ($scope.objeto.gruposSemaforicos && $scope.objeto.gruposSemaforicos.length > 0);
-        if (!condition) {
+        var valid = assertControlador.hasAneis($scope.objeto) && assertControlador.hasEstagios($scope.objeto);
+        if (!valid) {
           $state.go('app.wizard_controladores.associacao', {id: $scope.objeto.id});
-          return false;
         }
 
-        return true;
+        return valid;
       };
 
       $scope.inicializaVerdesConflitantes = function() {
@@ -44,18 +43,25 @@ angular.module('influuntApp')
               });
             });
 
-            $scope.grupoIds = _.chain($scope.objeto.gruposSemaforicos).orderBy(['posicao'], ['asc']).map('id').value();
+            // Seleciona todos os grupos semaforicos (dentro dos aneis) ordenados pelas posicoes.
+            var gruposSemaforicos = _.chain($scope.objeto.aneis)
+              .map('gruposSemaforicos')
+              .flatten()
+              .uniq()
+              .orderBy(['posicao'], ['asc'])
+              .value();
+
+            $scope.grupoIds = _.chain(gruposSemaforicos).map('id').value();
             var totalGrupos = $scope.objeto.modelo.configuracao.limiteGrupoSemaforico;
             $scope.grupos = _.times(totalGrupos, function(i) {return 'G' + (i+1);});
 
             buildIntervaloAneis();
             buildMatrizVerdesConflitantes();
 
-            return $scope.objeto.gruposSemaforicos && $scope.objeto.gruposSemaforicos.forEach(function(gs) {
-              return gs.verdesConflitantes && gs.verdesConflitantes.forEach(function(vc) {
-                if (!$scope.verdesConflitantes[gs.posicao - 1][vc.posicao - 1]) {
-                  $scope.toggleVerdeConflitante(gs.posicao - 1, vc.posicao - 1);
-                }
+            return gruposSemaforicos && gruposSemaforicos.forEach(function(gs) {
+              return gs.verdesConflitantesOrigem && gs.verdesConflitantesOrigem.forEach(function(vc) {
+                $scope.verdesConflitantes[vc.origem.posicao - 1][vc.destino.posicao - 1] = true;
+                $scope.verdesConflitantes[vc.destino.posicao - 1][vc.origem.posicao - 1] = true;
               });
             });
           }
@@ -70,28 +76,27 @@ angular.module('influuntApp')
         var gruposAneis = _.chain($scope.objeto.aneis).map('gruposSemaforicos').flatten().value();
         var grupoX = _.find(gruposAneis, {id: $scope.grupoIds[x]});
         var grupoY = _.find(gruposAneis, {id: $scope.grupoIds[y]});
+        var verdeConflitante = {
+          origem: {
+            id: grupoX.id,
+            anel: grupoX.anel
+          },
+          destino: {
+            id: grupoY.id,
+            anel: grupoY.anel
+          }
+        };
 
         if ($scope.verdesConflitantes[x][y]) {
-          var indexX = _.findIndex(grupoX.verdesConflitantes, {id: $scope.grupoIds[y]});
-          grupoX.verdesConflitantes.splice(indexX, 1);
-
-          var indexY = _.findIndex(grupoY.verdesConflitantes, {id: $scope.grupoIds[x]});
-          grupoY.verdesConflitantes.splice(indexY, 1);
+          var index = _.findIndex(grupoX.verdesConflitantesOrigem, verdeConflitante);
+          grupoX.verdesConflitantesOrigem.splice(index, 1);
+          grupoY.verdesConflitantesDestino.splice(index, 1);
         } else {
-          grupoX.verdesConflitantes = grupoX.verdesConflitantes || [];
-          grupoY.verdesConflitantes = grupoY.verdesConflitantes || [];
-          grupoX.verdesConflitantes.push({
-            id: $scope.grupoIds[y],
-            anel: {
-              id: grupoY.anel.id
-            }
-          });
-          grupoY.verdesConflitantes.push({
-            id: $scope.grupoIds[x],
-            anel: {
-              id: grupoX.anel.id
-            }
-          });
+          grupoX.verdesConflitantesOrigem = grupoX.verdesConflitantesOrigem || [];
+          grupoX.verdesConflitantesOrigem.push(verdeConflitante);
+
+          grupoY.verdesConflitantesDestino = grupoY.verdesConflitantesDestino || [];
+          grupoY.verdesConflitantesDestino.push(verdeConflitante);
         }
 
         // Deve marcar/desmarcar os coordenadas (x, y) e (y, x) simultaneamente.

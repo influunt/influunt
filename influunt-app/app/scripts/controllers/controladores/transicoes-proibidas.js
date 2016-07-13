@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresTransicoesProibidasCtrl', ['$scope', '$state', '$controller',
-    function ($scope, $state, $controller) {
+  .controller('ControladoresTransicoesProibidasCtrl', ['$scope', '$state', '$controller', 'assertControlador',
+    function ($scope, $state, $controller, assertControlador) {
 
       // $controller('ControladoresCtrl', {$scope: $scope});
       // @todo       Esta linha deverá ser substituida pela linha acima assim que o retorno dos verdes conflitantes
@@ -26,14 +26,12 @@ angular.module('influuntApp')
        * @return     {boolean}  { description_of_the_return_value }
        */
       $scope.assertTransicoesProibidas = function() {
-        var condition = $scope.objeto.aneis && $scope.objeto.aneis.length;
-        condition = condition && _.chain($scope.objeto.aneis).map('estagios').flatten().compact().value().length > 0;
-        if (!condition) {
+        var valid = assertControlador.hasAneis($scope.objeto) && assertControlador.hasEstagios($scope.objeto);
+        if (!valid) {
           $state.go('app.wizard_controladores.verdes_conflitantes', {id: $scope.objeto.id});
-          return false;
         }
 
-        return true;
+        return valid;
       };
 
       /**

@@ -1348,6 +1348,16 @@ header .nav-secon li a {
     }
     .badge.badge-danger.badge-notification {
         font-size: 8px;
+        color: white;
+    }
+
+    tr td span.badge.badge-danger.badge-notification {
+        margin-top: -5px;
+    }
+
+    tr td span.badge.badge-danger.badge-notification i {
+        font-size: 10px !important;
+        color: white !important;
     }
     .container-fluid {
         width: 100%;

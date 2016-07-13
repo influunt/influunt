@@ -138,10 +138,6 @@ angular.module('influuntApp')
       };
 
       $scope.atualizaGruposSemaforicosSelecionados = function() {
-        if (!$scope.currentEstagio) {
-          return false;
-        }
-
         var estagioId = $scope.currentEstagio.id;
         $scope.gruposSelecionados = $scope.currentAnel.gruposSemaforicos.filter(function(grupo) {
           return !!_.filter(grupo.estagioGrupoSemaforicos, {estagio: {id: estagioId}}).length;
@@ -163,7 +159,7 @@ angular.module('influuntApp')
       };
 
       $scope.buildValidationMessages = function(errors) {
-        handleValidations.handle(errors, $scope);
+        $scope.errors = handleValidations.handle(errors);
         $scope.errors.aneis = _.compact($scope.errors.aneis);
         $scope.getErrosVerdes();
       };

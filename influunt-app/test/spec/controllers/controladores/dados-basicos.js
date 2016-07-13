@@ -13,7 +13,11 @@ describe('Controller: ControladoresDadosBasicosCtrl', function () {
     scope = $rootScope.$new();
     ControladoresDadosBasicosCtrl = $controller('ControladoresDadosBasicosCtrl', {
       $scope: scope
-      // place here mocked dependencies
     });
   }));
+
+  it('Deve conter as definições de funções do ControladorCtrl', function() {
+    expect(scope.inicializaWizard).toBeDefined();
+  });
+
 });
