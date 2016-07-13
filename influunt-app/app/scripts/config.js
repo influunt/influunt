@@ -371,9 +371,9 @@ angular
           }
         })
 
-        .state('app.wizard_controladores.criacao_planos', {
-          url: '/criacao-planos/:id',
-          templateUrl: 'views/controladores/wizard/criacao-planos.html',
+        .state('app.wizard_controladores.associacao_detector', {
+          url: '/associacao-detector/:id',
+          templateUrl: 'views/controladores/wizard/associacao-detector.html',
           data: {
             title: 'controladores.titulo'
           }
@@ -385,6 +385,15 @@ angular
           templateUrl: 'views/controladores/wizard/associacao-detectores.html',
           data: {
             title: 'controladores.titulo'
+          }
+        })
+
+        .state('app.planos', {
+          url: '/planos/:id',
+          templateUrl: 'views/planos/criacao-planos.html',
+          controller: 'PlanosCtrl',
+          data: {
+            title: 'planos.titulo'
           }
         })
 
