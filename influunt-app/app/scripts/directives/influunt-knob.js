@@ -49,9 +49,6 @@ angular.module('influuntApp')
           });
 
           dial.val(scope.ngModel || scope.min).trigger('change');
-          scope.possuiErroAmareloOuVermelho = function() {
-            console.log('dentro do knob!')
-          };
         }
       };
     }]);
