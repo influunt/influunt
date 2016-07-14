@@ -26,7 +26,8 @@
     "angular-google-places-autocomplete": "^0.2.7",
     "tooltipster": "^4.0.4",
     "select2": "^4.0.3",
-    "metisMenu": "^2.5.2"
+    "metisMenu": "^2.5.2",
+    "vis": "^4.16.1"
   },
   "devDependencies": {
     "angular-mocks": "^1.4.0"

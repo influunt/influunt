@@ -1,0 +1,57 @@
+<table border="1" cellpadding="0" cellspacing="0" style="width: 100%; margin: 0px 10px;">
+  <thead>
+    <tr class="handle">
+      <td class="tg-031e" data-ng-repeat="estagio in currentAnel.estagios"
+          data-ng-class="{'estagio-ativo': $index === currentEstagioIndex}"
+          data-ng-click="selecionaEstagio($index)">
+        <label class="title-stages">E{{ estagio.posicao }}</label>
+        <figure><img ng-src="{{ estagio.imagem.id | imageSource }}" width="150"></figure>
+      </td>
+    </tr>
+  </thead>
+</table>
+<div vis id="visualization"
+  grupos="currentAnel.gruposSemaforicos" estagios="currentAnel.estagios"
+  style="margin: 10px; margin-top: 0px;"
+  class="white-bg">
+</div>
+<!-- <table border="1" cellpadding="0" cellspacing="0" max-width="1500">
+  <thead>
+    <tr class="handle">
+      <td></td>
+      <td class="tg-031e" data-ng-repeat="estagio in currentAnel.estagios"
+          data-ng-class="{'estagio-ativo': $index === currentEstagioIndex}"
+          data-ng-click="selecionaEstagio($index)">
+        <label class="title-stages">E{{ estagio.posicao }}</label>
+        <figure><img ng-src="{{ estagio.imagem.id | imageSource }}" width="150"></figure>
+      </td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr data-ng-repeat="grupo in currentAnel.gruposSemaforicos">
+      <td class="ty-547j">
+        <div class="i-checks">
+          <label>
+            <input type="checkbox" ichecks>
+            <i></i>G{{ grupo.posicao }}
+          </label>
+        </div>
+      </td>
+      <td class="green"></td>
+      <td class="red-cleaning"></td>
+      <td class="yellow"></td>
+      <td class="red"></td>
+    </tr>
+    <tr style="padding: 10px;"></tr>
+  </tbody>
+</table> -->
+
+<!--
+<td class="green"></td>
+<td class="red-cleaning"></td>
+<td class="yellow"></td>
+<td class="red"></td>
+<td class="red"></td>
+<td class="wiped"></td>
+<td class="green"></td>
+-->

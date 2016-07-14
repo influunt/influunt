@@ -13,11 +13,7 @@ describe('Controller: PlanosCtrl', function () {
     scope = $rootScope.$new();
     PlanosCtrl = $controller('PlanosCtrl', {
       $scope: scope
-      // place here mocked dependencies
     });
   }));
 
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(PlanosCtrl.awesomeThings.length).toBe(3);
-  });
 });

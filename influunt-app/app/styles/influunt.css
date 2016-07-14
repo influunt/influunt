@@ -457,11 +457,14 @@ header .nav-secon li a {
 .wrapper-content .basic-wizard .content .body .association.side-menu li .nav-second-level li {
     background: #308b83;
 }
+.wrapper-content .basic-wizard .content .body .association.side-menu li .nav-second-level li.active {
+    background: #1caf92;
+}
 .wrapper-content .basic-wizard .content .body .association.side-menu li .nav-second-level li:hover {
     background: #1caf92;
 }
 .wrapper-content .basic-wizard .content .body .association.side-menu li .nav-second-level li a:focus {
-    background: #308b83;
+    background: inherit;
 }
 .wrapper-content .basic-wizard .content .body .association.side-menu li .nav-second-level li a:hover {
     background: #1caf92;
@@ -1370,6 +1373,9 @@ header .nav-secon li a {
 .remove-tabela-entre-verdes {
     cursor: pointer;
 }
-/**
-    END CSS 1273 line
-*/
+
+td.estagio-ativo {
+  border-top: 2px solid black;
+  border-left: 2px solid black;
+  border-right: 2px solid black;
+}
