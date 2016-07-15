@@ -1,0 +1,446 @@
+package models;
+
+import checks.*;
+import org.hamcrest.Matchers;
+import org.junit.Test;
+import play.Logger;
+
+import javax.validation.groups.Default;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static play.test.Helpers.inMemoryDatabase;
+
+/**
+ * Created by lesiopinheiro on 7/13/16.
+ */
+public class ControladorPlanoTest extends ControladorTest {
+
+    @Override
+    @Test
+    public void testVazio() {
+        Controlador controlador = getControladorAssociacaoDetectores();
+        controlador.save();
+
+        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, PlanosCheck.class);
+        assertEquals(2, erros.size());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+                new Erro("Controlador", "O anel ativo deve ter pelo menos 1 plano configurado.", "aneis[0].aoMenosUmPlanoConfigurado"),
+                new Erro("Controlador", "O anel ativo deve ter pelo menos 1 plano configurado.", "aneis[1].aoMenosUmPlanoConfigurado")
+        ));
+
+        Anel anelCom2Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
+        Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
+
+        Plano plano1Anel2 = new Plano();
+        plano1Anel2.setAnel(anelCom2Estagios);
+        anelCom2Estagios.setPlanos(Arrays.asList(plano1Anel2));
+
+        Plano plano1Anel4 = new Plano();
+        plano1Anel4.setAnel(anelCom4Estagios);
+        anelCom4Estagios.setPlanos(Arrays.asList(plano1Anel4));
+
+        erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, PlanosCheck.class);
+        assertEquals(10, erros.size());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+                new Erro("Controlador", "não pode ficar em branco.", "aneis[0].planos[0].modoOperacao"),
+                new Erro("Controlador", "não pode ficar em branco.", "aneis[0].planos[0].posicao"),
+                new Erro("Controlador", "não pode ficar em branco.", "aneis[0].planos[0].posicaoTabelaEntreVerde"),
+                new Erro("Controlador", "Todos os estágios devem possuir as suas configurações.", "aneis[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
+                new Erro("Controlador", "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel"),
+                new Erro("Controlador", "não pode ficar em branco.", "aneis[1].planos[0].modoOperacao"),
+                new Erro("Controlador", "não pode ficar em branco.", "aneis[1].planos[0].posicao"),
+                new Erro("Controlador", "não pode ficar em branco.", "aneis[1].planos[0].posicaoTabelaEntreVerde"),
+                new Erro("Controlador", "Todos os estágios devem possuir as suas configurações.", "aneis[1].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
+                new Erro("Controlador", "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[1].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel")
+        ));
+
+        plano1Anel2.setModoOperacao(ModoOperacaoPlano.TEMPO_FIXO_ISOLADO);
+        plano1Anel2.setPosicao(1);
+        plano1Anel2.setPosicaoTabelaEntreVerde(1);
+
+        for (int i = 1; i < anelCom2Estagios.getGruposSemaforicos().size(); i++) {
+            GrupoSemaforico grupoSemaforico = anelCom2Estagios.getGruposSemaforicos().get(i);
+            GrupoSemaforicoPlano grupoPlano = new GrupoSemaforicoPlano();
+            grupoPlano.setAtivado(true);
+            grupoPlano.setPlano(plano1Anel2);
+            grupoPlano.setGrupoSemaforico(grupoSemaforico);
+            plano1Anel2.addGruposSemaforicos(grupoPlano);
+        }
+
+        plano1Anel4.setModoOperacao(ModoOperacaoPlano.ATUADO);
+        plano1Anel4.setPosicao(1);
+        plano1Anel4.setPosicaoTabelaEntreVerde(1);
+
+        criarGrupoSemaforicoPlano(anelCom4Estagios, plano1Anel4);
+
+        GrupoSemaforicoPlano grupoPlano = new GrupoSemaforicoPlano();
+        grupoPlano.setAtivado(true);
+        grupoPlano.setPlano(plano1Anel4);
+        grupoPlano.setGrupoSemaforico(anelCom4Estagios.getGruposSemaforicos().get(0));
+        plano1Anel4.addGruposSemaforicos(grupoPlano);
+
+        erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, PlanosCheck.class);
+        assertEquals(5, erros.size());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+                new Erro("Controlador", "deve estar entre 30 e 255", "aneis[1].planos[0].tempoCiclo"),
+                new Erro("Controlador", "Todos os estágios devem possuir as suas configurações.", "aneis[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
+                new Erro("Controlador", "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel"),
+                new Erro("Controlador", "Todos os estágios devem possuir as suas configurações.", "aneis[1].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
+                new Erro("Controlador", "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[1].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel")
+        ));
+
+        criarGrupoSemaforicoPlano(anelCom2Estagios, plano1Anel2);
+        criarGrupoSemaforicoPlano(anelCom4Estagios, plano1Anel4);
+
+        erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, PlanosCheck.class);
+        assertEquals(3, erros.size());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+                new Erro("Controlador", "deve estar entre 30 e 255", "aneis[1].planos[0].tempoCiclo"),
+                new Erro("Controlador", "Todos os estágios devem possuir as suas configurações.", "aneis[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
+                new Erro("Controlador", "Todos os estágios devem possuir as suas configurações.", "aneis[1].planos[0].quantidadeEstagioIgualQuantidadeAnel")
+        ));
+
+
+        criarEstagioPlano(anelCom2Estagios, plano1Anel2, new int[]{1, 1});
+        criarEstagioPlano(anelCom4Estagios, plano1Anel4, new int[]{1, 1, 1, 1});
+
+        erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, PlanosCheck.class);
+        assertEquals(21, erros.size());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+                new Erro("Controlador", "deve estar entre 1 e 255", "aneis[1].planos[0].estagios[0].tempoVerde"),
+                new Erro("Controlador", "deve estar entre 30 e 255", "aneis[1].planos[0].tempoCiclo"),
+                new Erro("Controlador", "deve estar entre 1 e 255", "aneis[1].planos[0].estagios[1].tempoVerde"),
+                new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagios[0].tempoVerdeMinimo"),
+                new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagios[0].tempoVerdeMaximo"),
+                new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagios[0].tempoVerdeIntermediario"),
+                new Erro("Controlador", "deve estar entre 1 e 10", "aneis[0].planos[0].estagios[0].tempoExtensaoVerde"),
+                new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagios[1].tempoVerdeMinimo"),
+                new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagios[1].tempoVerdeMaximo"),
+                new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagios[1].tempoVerdeIntermediario"),
+                new Erro("Controlador", "deve estar entre 1 e 10", "aneis[0].planos[0].estagios[1].tempoExtensaoVerde"),
+                new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagios[2].tempoVerdeMinimo"),
+                new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagios[2].tempoVerdeMaximo"),
+                new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagios[2].tempoVerdeIntermediario"),
+                new Erro("Controlador", "deve estar entre 1 e 10", "aneis[0].planos[0].estagios[2].tempoExtensaoVerde"),
+                new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagios[3].tempoVerdeMinimo"),
+                new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagios[3].tempoVerdeMaximo"),
+                new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagios[3].tempoVerdeIntermediario"),
+                new Erro("Controlador", "deve estar entre 1 e 10", "aneis[0].planos[0].estagios[3].tempoExtensaoVerde"),
+                new Erro("Controlador", "A sequência de estagio não é válida.", "aneis[0].planos[0].posicaoUnicaEstagio"),
+                new Erro("Controlador", "A sequência de estagio não é válida.", "aneis[1].planos[0].posicaoUnicaEstagio")
+        ));
+
+        EstagioPlano estagioPlano1Anel2 = plano1Anel2.getEstagios().get(0);
+        EstagioPlano estagioPlano2Anel2 = plano1Anel2.getEstagios().get(1);
+
+        EstagioPlano estagioPlano1Anel4 = plano1Anel4.getEstagios().get(0);
+        EstagioPlano estagioPlano2Anel4 = plano1Anel4.getEstagios().get(1);
+        EstagioPlano estagioPlano3Anel4 = plano1Anel4.getEstagios().get(2);
+        EstagioPlano estagioPlano4Anel4 = plano1Anel4.getEstagios().get(3);
+
+        estagioPlano1Anel2.setTempoVerde(300);
+        plano1Anel2.setTempoCiclo(300);
+        estagioPlano2Anel2.setTempoVerde(300);
+
+        estagioPlano1Anel4.setTempoVerdeMinimo(300);
+        estagioPlano1Anel4.setTempoVerdeMaximo(300);
+        estagioPlano1Anel4.setTempoVerdeIntermediario(300);
+        estagioPlano1Anel4.setTempoExtensaoVerde(300.00);
+
+        estagioPlano2Anel4.setTempoVerdeMinimo(300);
+        estagioPlano2Anel4.setTempoVerdeMaximo(300);
+        estagioPlano2Anel4.setTempoVerdeIntermediario(300);
+        estagioPlano2Anel4.setTempoExtensaoVerde(300.00);
+
+        estagioPlano3Anel4.setTempoVerdeMinimo(300);
+        estagioPlano3Anel4.setTempoVerdeMaximo(300);
+        estagioPlano3Anel4.setTempoVerdeIntermediario(300);
+        estagioPlano3Anel4.setTempoExtensaoVerde(300.00);
+
+        estagioPlano4Anel4.setTempoVerdeMinimo(300);
+        estagioPlano4Anel4.setTempoVerdeMaximo(300);
+        estagioPlano4Anel4.setTempoVerdeIntermediario(300);
+        estagioPlano4Anel4.setTempoExtensaoVerde(300.00);
+
+
+        erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, PlanosCheck.class);
+        assertEquals(21, erros.size());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+                new Erro("Controlador", "deve estar entre 1 e 255", "aneis[1].planos[0].estagios[0].tempoVerde"),
+                new Erro("Controlador", "deve estar entre 30 e 255", "aneis[1].planos[0].tempoCiclo"),
+                new Erro("Controlador", "deve estar entre 1 e 255", "aneis[1].planos[0].estagios[1].tempoVerde"),
+                new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagios[0].tempoVerdeMinimo"),
+                new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagios[0].tempoVerdeMaximo"),
+                new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagios[0].tempoVerdeIntermediario"),
+                new Erro("Controlador", "deve estar entre 1 e 10", "aneis[0].planos[0].estagios[0].tempoExtensaoVerde"),
+                new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagios[1].tempoVerdeMinimo"),
+                new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagios[1].tempoVerdeMaximo"),
+                new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagios[1].tempoVerdeIntermediario"),
+                new Erro("Controlador", "deve estar entre 1 e 10", "aneis[0].planos[0].estagios[1].tempoExtensaoVerde"),
+                new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagios[2].tempoVerdeMinimo"),
+                new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagios[2].tempoVerdeMaximo"),
+                new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagios[2].tempoVerdeIntermediario"),
+                new Erro("Controlador", "deve estar entre 1 e 10", "aneis[0].planos[0].estagios[2].tempoExtensaoVerde"),
+                new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagios[3].tempoVerdeMinimo"),
+                new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagios[3].tempoVerdeMaximo"),
+                new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagios[3].tempoVerdeIntermediario"),
+                new Erro("Controlador", "deve estar entre 1 e 10", "aneis[0].planos[0].estagios[3].tempoExtensaoVerde"),
+                new Erro("Controlador", "A sequência de estagio não é válida.", "aneis[0].planos[0].posicaoUnicaEstagio"),
+                new Erro("Controlador", "A sequência de estagio não é válida.", "aneis[1].planos[0].posicaoUnicaEstagio")
+        ));
+
+        estagioPlano1Anel2.setTempoVerde(0);
+        plano1Anel2.setTempoCiclo(0);
+        estagioPlano2Anel2.setTempoVerde(0);
+
+        estagioPlano1Anel4.setTempoVerdeMinimo(0);
+        estagioPlano1Anel4.setTempoVerdeMaximo(0);
+        estagioPlano1Anel4.setTempoVerdeIntermediario(0);
+        estagioPlano1Anel4.setTempoExtensaoVerde(0.0);
+
+        estagioPlano2Anel4.setTempoVerdeMinimo(0);
+        estagioPlano2Anel4.setTempoVerdeMaximo(0);
+        estagioPlano2Anel4.setTempoVerdeIntermediario(0);
+        estagioPlano2Anel4.setTempoExtensaoVerde(0.0);
+
+        estagioPlano3Anel4.setTempoVerdeMinimo(0);
+        estagioPlano3Anel4.setTempoVerdeMaximo(0);
+        estagioPlano3Anel4.setTempoVerdeIntermediario(0);
+        estagioPlano3Anel4.setTempoExtensaoVerde(0.0);
+
+        estagioPlano4Anel4.setTempoVerdeMinimo(0);
+        estagioPlano4Anel4.setTempoVerdeMaximo(0);
+        estagioPlano4Anel4.setTempoVerdeIntermediario(0);
+        estagioPlano4Anel4.setTempoExtensaoVerde(0.0);
+
+
+        erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, PlanosCheck.class);
+        assertEquals(21, erros.size());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+                new Erro("Controlador", "deve estar entre 1 e 255", "aneis[1].planos[0].estagios[0].tempoVerde"),
+                new Erro("Controlador", "deve estar entre 30 e 255", "aneis[1].planos[0].tempoCiclo"),
+                new Erro("Controlador", "deve estar entre 1 e 255", "aneis[1].planos[0].estagios[1].tempoVerde"),
+                new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagios[0].tempoVerdeMinimo"),
+                new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagios[0].tempoVerdeMaximo"),
+                new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagios[0].tempoVerdeIntermediario"),
+                new Erro("Controlador", "deve estar entre 1 e 10", "aneis[0].planos[0].estagios[0].tempoExtensaoVerde"),
+                new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagios[1].tempoVerdeMinimo"),
+                new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagios[1].tempoVerdeMaximo"),
+                new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagios[1].tempoVerdeIntermediario"),
+                new Erro("Controlador", "deve estar entre 1 e 10", "aneis[0].planos[0].estagios[1].tempoExtensaoVerde"),
+                new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagios[2].tempoVerdeMinimo"),
+                new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagios[2].tempoVerdeMaximo"),
+                new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagios[2].tempoVerdeIntermediario"),
+                new Erro("Controlador", "deve estar entre 1 e 10", "aneis[0].planos[0].estagios[2].tempoExtensaoVerde"),
+                new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagios[3].tempoVerdeMinimo"),
+                new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagios[3].tempoVerdeMaximo"),
+                new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagios[3].tempoVerdeIntermediario"),
+                new Erro("Controlador", "deve estar entre 1 e 10", "aneis[0].planos[0].estagios[3].tempoExtensaoVerde"),
+                new Erro("Controlador", "A sequência de estagio não é válida.", "aneis[0].planos[0].posicaoUnicaEstagio"),
+                new Erro("Controlador", "A sequência de estagio não é válida.", "aneis[1].planos[0].posicaoUnicaEstagio")
+        ));
+
+        criarEstagioPlano(anelCom2Estagios, plano1Anel2, new int[]{1, 2});
+
+        estagioPlano1Anel2 = plano1Anel2.getEstagios().get(0);
+        estagioPlano2Anel2 = plano1Anel2.getEstagios().get(1);
+
+        estagioPlano1Anel2.setTempoVerde(70);
+        plano1Anel2.setTempoCiclo(40);
+        estagioPlano2Anel2.setTempoVerde(20);
+
+        estagioPlano1Anel4.setTempoVerdeMinimo(20);
+        estagioPlano1Anel4.setTempoVerdeMaximo(20);
+        estagioPlano1Anel4.setTempoVerdeIntermediario(40);
+        estagioPlano1Anel4.setTempoExtensaoVerde(10.0);
+
+        estagioPlano2Anel4.setTempoVerdeMinimo(20);
+        estagioPlano2Anel4.setTempoVerdeMaximo(20);
+        estagioPlano2Anel4.setTempoVerdeIntermediario(20);
+        estagioPlano2Anel4.setTempoExtensaoVerde(10.0);
+
+        estagioPlano3Anel4.setTempoVerdeMinimo(20);
+        estagioPlano3Anel4.setTempoVerdeMaximo(20);
+        estagioPlano3Anel4.setTempoVerdeIntermediario(20);
+        estagioPlano3Anel4.setTempoExtensaoVerde(10.0);
+
+        estagioPlano4Anel4.setTempoVerdeMinimo(20);
+        estagioPlano4Anel4.setTempoVerdeMaximo(20);
+        estagioPlano4Anel4.setTempoVerdeIntermediario(20);
+        estagioPlano4Anel4.setTempoExtensaoVerde(10.0);
+
+        erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, PlanosCheck.class);
+        assertEquals(4, erros.size());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+                new Erro("Controlador", "O tempo de estagio ultrapassa o tempo maximo de permanencia.", "aneis[1].planos[0].estagios[0].ultrapassaTempoMaximoPermanencia"),
+                new Erro("Controlador", "O tempo de verde intermediaria deve estar entre o valor de verde minimo e verde maximo.", "aneis[0].planos[0].estagios[0].tempoVerdeIntermediarioFieldEntreMinimoMaximo"),
+                new Erro("Controlador", "A soma dos tempos dos estágios ultrapassa o tempo de ciclo.", "aneis[1].planos[0].ultrapassaTempoCiclo"),
+                new Erro("Controlador", "A sequência de estagio não é válida.", "aneis[0].planos[0].posicaoUnicaEstagio")
+        ));
+
+        estagioPlano1Anel2.setTempoVerde(21);
+        plano1Anel2.setTempoCiclo(60);
+        estagioPlano2Anel2.setTempoVerde(21);
+
+        estagioPlano1Anel4.setTempoVerdeIntermediario(20);
+
+        erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, PlanosCheck.class);
+        assertEquals(1, erros.size());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+                new Erro("Controlador", "A sequência de estagio não é válida.", "aneis[0].planos[0].posicaoUnicaEstagio")
+        ));
+
+        criarEstagioPlano(anelCom2Estagios, plano1Anel2, new int[]{1, 2});
+        criarEstagioPlano(anelCom4Estagios, plano1Anel4, new int[]{1, 2, 3, 4});
+
+        estagioPlano1Anel2 = plano1Anel2.getEstagios().get(0);
+        estagioPlano2Anel2 = plano1Anel2.getEstagios().get(1);
+
+        estagioPlano1Anel4 = plano1Anel4.getEstagios().get(0);
+        estagioPlano2Anel4 = plano1Anel4.getEstagios().get(1);
+        estagioPlano3Anel4 = plano1Anel4.getEstagios().get(2);
+        estagioPlano4Anel4 = plano1Anel4.getEstagios().get(3);
+
+        estagioPlano1Anel2.setTempoVerde(21);
+        estagioPlano2Anel2.setTempoVerde(21);
+
+        estagioPlano1Anel4.setTempoVerdeMinimo(20);
+        estagioPlano1Anel4.setTempoVerdeMaximo(20);
+        estagioPlano1Anel4.setTempoVerdeIntermediario(20);
+        estagioPlano1Anel4.setTempoExtensaoVerde(10.0);
+
+        estagioPlano2Anel4.setTempoVerdeMinimo(20);
+        estagioPlano2Anel4.setTempoVerdeMaximo(20);
+        estagioPlano2Anel4.setTempoVerdeIntermediario(20);
+        estagioPlano2Anel4.setTempoExtensaoVerde(10.0);
+
+        estagioPlano3Anel4.setTempoVerdeMinimo(20);
+        estagioPlano3Anel4.setTempoVerdeMaximo(20);
+        estagioPlano3Anel4.setTempoVerdeIntermediario(20);
+        estagioPlano3Anel4.setTempoExtensaoVerde(10.0);
+
+        estagioPlano4Anel4.setTempoVerdeMinimo(20);
+        estagioPlano4Anel4.setTempoVerdeMaximo(20);
+        estagioPlano4Anel4.setTempoVerdeIntermediario(20);
+        estagioPlano4Anel4.setTempoExtensaoVerde(10.0);
+
+        erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, PlanosCheck.class);
+        assertEquals(1, erros.size());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+                new Erro("Controlador", "A sequência de estagio não é válida.", "aneis[0].planos[0].sequenciaInvalida")
+        ));
+
+        criarEstagioPlano(anelCom2Estagios, plano1Anel2, new int[]{2, 1});
+        criarEstagioPlano(anelCom4Estagios, plano1Anel4, new int[]{1, 3, 2, 4});
+
+        estagioPlano1Anel2 = plano1Anel2.getEstagios().get(0);
+        estagioPlano2Anel2 = plano1Anel2.getEstagios().get(1);
+
+        estagioPlano1Anel4 = plano1Anel4.getEstagios().get(0);
+        estagioPlano2Anel4 = plano1Anel4.getEstagios().get(1);
+        estagioPlano3Anel4 = plano1Anel4.getEstagios().get(2);
+        estagioPlano4Anel4 = plano1Anel4.getEstagios().get(3);
+
+        estagioPlano1Anel2.setTempoVerde(21);
+        estagioPlano2Anel2.setTempoVerde(21);
+
+        estagioPlano1Anel4.setTempoVerdeMinimo(20);
+        estagioPlano1Anel4.setTempoVerdeMaximo(20);
+        estagioPlano1Anel4.setTempoVerdeIntermediario(20);
+        estagioPlano1Anel4.setTempoExtensaoVerde(10.0);
+
+        estagioPlano2Anel4.setTempoVerdeMinimo(20);
+        estagioPlano2Anel4.setTempoVerdeMaximo(20);
+        estagioPlano2Anel4.setTempoVerdeIntermediario(20);
+        estagioPlano2Anel4.setTempoExtensaoVerde(10.0);
+
+        estagioPlano3Anel4.setTempoVerdeMinimo(20);
+        estagioPlano3Anel4.setTempoVerdeMaximo(20);
+        estagioPlano3Anel4.setTempoVerdeIntermediario(20);
+        estagioPlano3Anel4.setTempoExtensaoVerde(10.0);
+
+        estagioPlano4Anel4.setTempoVerdeMinimo(20);
+        estagioPlano4Anel4.setTempoVerdeMaximo(20);
+        estagioPlano4Anel4.setTempoVerdeIntermediario(20);
+        estagioPlano4Anel4.setTempoExtensaoVerde(10.0);
+
+        erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, PlanosCheck.class);
+        assertEquals(1, erros.size());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+                new Erro("Controlador", "A sequência de estagio não é válida.", "aneis[0].planos[0].sequenciaInvalida")
+        ));
+
+        criarEstagioPlano(anelCom2Estagios, plano1Anel2, new int[]{2, 1});
+        criarEstagioPlano(anelCom4Estagios, plano1Anel4, new int[]{1, 4, 3, 2});
+
+        estagioPlano1Anel2 = plano1Anel2.getEstagios().get(0);
+        estagioPlano2Anel2 = plano1Anel2.getEstagios().get(1);
+
+        estagioPlano1Anel4 = plano1Anel4.getEstagios().get(0);
+        estagioPlano2Anel4 = plano1Anel4.getEstagios().get(1);
+        estagioPlano3Anel4 = plano1Anel4.getEstagios().get(2);
+        estagioPlano4Anel4 = plano1Anel4.getEstagios().get(3);
+
+        estagioPlano1Anel2.setTempoVerde(21);
+        estagioPlano2Anel2.setTempoVerde(21);
+
+        estagioPlano1Anel4.setTempoVerdeMinimo(20);
+        estagioPlano1Anel4.setTempoVerdeMaximo(20);
+        estagioPlano1Anel4.setTempoVerdeIntermediario(20);
+        estagioPlano1Anel4.setTempoExtensaoVerde(10.0);
+
+        estagioPlano2Anel4.setTempoVerdeMinimo(20);
+        estagioPlano2Anel4.setTempoVerdeMaximo(20);
+        estagioPlano2Anel4.setTempoVerdeIntermediario(20);
+        estagioPlano2Anel4.setTempoExtensaoVerde(10.0);
+
+        estagioPlano3Anel4.setTempoVerdeMinimo(20);
+        estagioPlano3Anel4.setTempoVerdeMaximo(20);
+        estagioPlano3Anel4.setTempoVerdeIntermediario(20);
+        estagioPlano3Anel4.setTempoExtensaoVerde(10.0);
+
+        estagioPlano4Anel4.setTempoVerdeMinimo(20);
+        estagioPlano4Anel4.setTempoVerdeMaximo(20);
+        estagioPlano4Anel4.setTempoVerdeIntermediario(20);
+        estagioPlano4Anel4.setTempoExtensaoVerde(10.0);
+
+        erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, PlanosCheck.class);
+        assertThat(erros, Matchers.empty());
+
+    }
+
+    @Override
+    @Test
+    public void testNoValidationErro() {
+
+        Controlador controlador = getControladorPlanos();
+        controlador.save();
+        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, PlanosCheck.class);
+        assertThat(erros, Matchers.empty());
+
+    }
+
+    @Override
+    public void testORM() {
+
+    }
+
+    @Override
+    public void testJSON() {
+
+    }
+
+    @Override
+    public void testControllerValidacao() {
+
+    }
+
+    @Override
+    public void testController() {
+
+    }
+
+}

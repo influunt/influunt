@@ -151,6 +151,22 @@ public class Transicao extends Model implements Cloneable{
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Transicao transicao = (Transicao) o;
+
+        return id != null ? id.equals(transicao.id) : transicao.id == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
+
+    @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }

@@ -93,6 +93,10 @@ public class Anel extends Model implements Cloneable {
     @Valid
     private List<Estagio> estagios;
 
+    @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL)
+    @Valid
+    private List<Plano> planos;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
@@ -263,6 +267,14 @@ public class Anel extends Model implements Cloneable {
         return String.format("%s-%d", this.controlador.getCLC(), this.posicao);
     }
 
+    public List<Plano> getPlanos() {
+        return planos;
+    }
+
+    public void setPlanos(List<Plano> planos) {
+        this.planos = planos;
+    }
+
     @JsonIgnore
     @AssertTrue(message = "Posição deve ser informada")
     public boolean isPosicaoOk() {
@@ -355,16 +367,25 @@ public class Anel extends Model implements Cloneable {
         }
     }
 
-     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
-             message = "Deve existir detectores cadastrados para estagio de demanda prioritaria")
-     public boolean isDeveExistirDetectoresCasoExistaEstatigioDemandaPrioritaria() {
-         if (!this.getEstagios().isEmpty()) {
-             if(this.getEstagios().stream().filter(estagio -> estagio.getDemandaPrioritaria()).count() > 0) {
-                 return this.getDetectores().size() > 0;
-             }
-         }
-         return true;
-     }
+    @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
+            message = "Deve existir detectores cadastrados para estagio de demanda prioritaria")
+    public boolean isDeveExistirDetectoresCasoExistaEstatigioDemandaPrioritaria() {
+        if (!this.getEstagios().isEmpty()) {
+            if (this.getEstagios().stream().filter(estagio -> estagio.getDemandaPrioritaria()).count() > 0) {
+                return this.getDetectores().size() > 0;
+            }
+        }
+        return true;
+    }
+
+    @AssertTrue(groups = PlanosCheck.class,
+            message = "O anel ativo deve ter pelo menos 1 plano configurado.")
+    public boolean isAoMenosUmPlanoConfigurado() {
+        if(this.isAtivo()) {
+            return !this.getPlanos().isEmpty();
+        }
+        return true;
+    }
 
     public GrupoSemaforico findGrupoSemaforicoByDescricao(String descricao) {
         if (Objects.nonNull(descricao)) {
