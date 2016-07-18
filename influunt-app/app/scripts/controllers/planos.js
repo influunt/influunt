@@ -449,7 +449,7 @@ angular.module('influuntApp')
        */
       var atualizaDiagramaIntervalos = function() {
         if (['INTERMITENTE', 'APAGADO'].indexOf($scope.currentPlano.modoOperacao) < 0) {
-          // $scope.dadosDiagrama = new influunt.components.DiagramaIntervalos().calcula().resultado;
+          $scope.dadosDiagrama = new influunt.components.DiagramaIntervalos().calcula().resultado;
         } else {
           atualizaDiagramaIntervalosEstaticos();
         }
