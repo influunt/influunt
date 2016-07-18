@@ -15,6 +15,7 @@
     "angular": false,
     "$": true,
     "_": true,
+    "influunt": true,
 
     // leaflet lib
     "L": true,

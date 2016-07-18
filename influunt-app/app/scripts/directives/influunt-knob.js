@@ -48,7 +48,10 @@ angular.module('influuntApp')
             }
           });
 
-          dial.val(scope.ngModel || scope.min).trigger('change');
+          scope.$watch('ngModel', function(value) {
+            // dial.val(value).trigger('click');
+            dial.val(angular.isDefined(value) ? value : scope.min).trigger('change');
+          });
         }
       };
     }]);

@@ -1,4 +1,3 @@
-{{ currentPlano }}
 <div class="container-fluid wrapper wrapper-content animated fadeInRight" data-ng-init="init()">
   <section role="complementary" class="basic-wizard">
     <div class="content clearfix wizard-body">
@@ -92,17 +91,21 @@
                     <aside>
                       <div class="form-group">
                         <label>MODO DE OPERAÇÃO</label>
-                        <select class="form-control" name="modoOperacao" data-ng-model="currentPlano.modoOperacao">
+                        <select class="form-control" name="modoOperacao"
+                            data-ng-model="currentPlano.modoOperacao">
                           <option value="ATUADO">Atuado</option>
                           <option value="COORDENADO">Coordenado</option>
-                          <option value="ISOLADO">Isolado</option>
+                          <option value="TEMPO_FIXO_ISOLADO">Isolado</option>
+                          <option value="INTERMITENTE">Intermitente</option>
+                          <option value="APAGADO">Apagado</option>
                         </select>
                       </div>
-                      <div class="form-group">
+                      <div class="form-group" data-ng-if="currentPlano.modoOperacao !== 'INTERMITENTE' && currentPlano.modoOperacao !== 'APAGADO'">
                         <label>TABELA DE ENTRE-VERDES</label>
-                        <select class="form-control" name="current">
-                          <option>Tabela 1</option>
-                          <option>Tabela 2</option>
+                        <select class="form-control" name="tabelaEntreverdes"
+                            data-ng-model="tev"
+                            data-ng-if="tev = tabelaEntreVerdes[0]"
+                            data-ng-options="tabela as tabela.descricao for tabela in tabelaEntreVerdes">
                         </select>
                       </div>
 

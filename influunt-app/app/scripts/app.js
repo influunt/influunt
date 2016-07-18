@@ -16,10 +16,6 @@ angular
     'ui.router',
     'ngSanitize',
     'ngTouch',
-    'ui.bootstrap',
-    'datatables',
-
-    'google.places',
 
     'environment',
 
@@ -29,6 +25,11 @@ angular
     // ui
     'toaster',
     'oitozero.ngSweetAlert',
+    'ui.bootstrap',
+    'ui.sortable',
+    'datatables',
+    'google.places',
+
     // template cache engine.
     'templates',
 
