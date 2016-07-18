@@ -76,7 +76,7 @@ public class AnelSerializer extends JsonSerializer<Anel> {
             }
             jgen.writeEndArray();
         }
-        if (anel.getDetectores() != null) {
+        if (anel.getPlanos() != null) {
             jgen.writeArrayFieldStart("planos");
             for (Plano plano : anel.getPlanos()) {
                 jgen.writeObject(plano);
