@@ -331,12 +331,15 @@ angular.module('influuntApp')
         Restangular.one('controladores', id).get().then(function(res) {
           $scope.objeto = res;
           $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
+          $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
 
-          $scope.objeto.aneis.forEach(function(anel) {
+          $scope.aneis.forEach(function(anel) {
             anel.estagios = _.orderBy(anel.estagios, ['descricao']);
 
             anel.planos = _.orderBy(anel.planos, ['posicao']);
-            anel.planos = anel.planos || [{ posicao: 1, modoOperacao: 'ISOLADO' }];
+            if (!(_.isArray(anel.planos) && anel.planos.length > 0)) {
+              anel.planos =  [{ posicao: 1, modoOperacao: 'ISOLADO' }];
+            }
 
             // @todo temporario. A posicao do estagio deverá vir da API.
             anel.estagios.forEach(function(estagio, index) {
@@ -392,6 +395,8 @@ angular.module('influuntApp')
       $scope.selecionaPlano = function(index) {
         $scope.currentPlanoIndex = index;
         $scope.currentPlano = $scope.currentAnel.planos[index];
+
+        console.log($scope.currentPlano.sequenciaEstagios);
         $scope.currentPlano.sequenciaEstagios = $scope.currentPlano.sequenciaEstagios || $scope.currentPlano.estagios;
       };
 
