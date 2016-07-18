@@ -1,12 +1,10 @@
 package json.deserializers;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Anel;
 import models.GrupoSemaforico;
 import models.TabelaEntreVerdes;
 import models.TabelaEntreVerdesTransicao;
@@ -47,7 +45,7 @@ public class TabelaEntreVerdesDeserializer extends JsonDeserializer<TabelaEntreV
                 tevTransicao.setTabelaEntreVerdes(tabelaEntreVerdes);
                 tabelaEntreVerdesTransicoes.add(tevTransicao);
             }
-            tabelaEntreVerdes.setTransicoes(tabelaEntreVerdesTransicoes);
+            tabelaEntreVerdes.setTabelaEntreVerdesTransicoes(tabelaEntreVerdesTransicoes);
         }
 
         return tabelaEntreVerdes;

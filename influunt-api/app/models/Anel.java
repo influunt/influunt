@@ -441,7 +441,7 @@ public class Anel extends Model implements Cloneable {
         TabelaEntreVerdes tabelaEntreVerdes = new TabelaEntreVerdes(grupoSemaforico, posicao);
         for (Transicao transicao : grupoSemaforico.getTransicoes()) {
             TabelaEntreVerdesTransicao tevTransicao = new TabelaEntreVerdesTransicao(tabelaEntreVerdes, transicao);
-            tabelaEntreVerdes.addTransicao(tevTransicao);
+            tabelaEntreVerdes.addTabelaEntreVerdesTransicao(tevTransicao);
         }
         return tabelaEntreVerdes;
     }

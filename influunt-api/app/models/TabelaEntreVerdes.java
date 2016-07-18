@@ -96,11 +96,11 @@ public class TabelaEntreVerdes extends Model implements Cloneable {
         this.grupoSemaforico = grupoSemaforico;
     }
 
-    public List<TabelaEntreVerdesTransicao> getTransicoes() {
+    public List<TabelaEntreVerdesTransicao> getTabelaEntreVerdesTransicoes() {
         return transicoes;
     }
 
-    public void setTransicoes(List<TabelaEntreVerdesTransicao> transicoes) {
+    public void setTabelaEntreVerdesTransicoes(List<TabelaEntreVerdesTransicao> transicoes) {
         this.transicoes = transicoes;
     }
 
@@ -128,12 +128,12 @@ public class TabelaEntreVerdes extends Model implements Cloneable {
         this.dataAtualizacao = dataAtualizacao;
     }
 
-    public void addTransicao(TabelaEntreVerdesTransicao tabelaEntreVerdesTransicao) {
-        if (getTransicoes() == null) {
-            setTransicoes(new ArrayList<TabelaEntreVerdesTransicao>());
+    public void addTabelaEntreVerdesTransicao(TabelaEntreVerdesTransicao tabelaEntreVerdesTransicao) {
+        if (getTabelaEntreVerdesTransicoes() == null) {
+            setTabelaEntreVerdesTransicoes(new ArrayList<TabelaEntreVerdesTransicao>());
         }
 
-        getTransicoes().add(tabelaEntreVerdesTransicao);
+        getTabelaEntreVerdesTransicoes().add(tabelaEntreVerdesTransicao);
     }
 
     @Override

@@ -43,7 +43,7 @@ public class TabelaEntreVerdesTransicaoSerializer extends JsonSerializer<TabelaE
         }
         if (tabelaEntreVerdesTransicao.getTabelaEntreVerdes() != null) {
             TabelaEntreVerdes tabelaEntreVerdesAux = ObjectUtils.clone(tabelaEntreVerdesTransicao.getTabelaEntreVerdes());
-            tabelaEntreVerdesAux.setTransicoes(null);
+            tabelaEntreVerdesAux.setTabelaEntreVerdesTransicoes(null);
             tabelaEntreVerdesAux.setGrupoSemaforico(null);
             jgen.writeObjectField("tabelaEntreVerdes", tabelaEntreVerdesAux);
         }
