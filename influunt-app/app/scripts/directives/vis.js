@@ -7,92 +7,127 @@
  * # vis
  */
 angular.module('influuntApp')
-  .directive('vis', ['$rootScope', function vis($rootScope) {
-    return {
-      restrict: 'A',
-      scope: {
-        grupos: '=',
-        estagios: '='
-      },
-      link: function postLink(scope) {
-        var container = document.getElementById('visualization');
+  .directive('vis', ['$rootScope', 'modoOperacaoService',
+    function vis($rootScope, modoOperacaoService) {
+      return {
+        restrict: 'A',
+        scope: {
+          grupos: '=',
+          estagios: '='
+        },
+        link: function postLink(scope) {
+          var container = document.getElementById('visualization');
+          var timeline = new window.vis.Timeline(container);
 
-        var setData = function(timeline, grupos, estagios) {
-          var groupsData = [];
-          var itemsData = [];
-          var max = 0;
+          var bindCheckboxEvents = function() {
+            $('.group-checkbox').on('change', function() {
+              console.log(scope.grupos);
+              console.log(scope.estagios);
 
-          grupos.forEach(function(g) {
-            var groupId = 'G' + g.posicao;
-            groupsData.push({
-              content: groupId,
-              id: groupId,
-              value: groupId
+              var checkbox = $(this);
+              var grupo = _.find(scope.grupos, {posicao: checkbox.data('posicao')});
+              grupo.ativo = checkbox.is(':checked');
+              console.log(grupo);
             });
-
-            var initialState = {};
-            estagios.forEach(function(e, i) {
-              initialState[groupId] = initialState[groupId] || 0;
-              var step = 10 * (1 + Math.ceil(Math.random() * 10) % 4);
-
-              itemsData.push({
-                start: initialState[groupId],
-                end: initialState[groupId] + step,
-                group: groupId,
-                className: 'E' + e.posicao,
-                content: step + 's',
-                id: g.posicao + 'i' + (i + 1)
-              });
-
-              initialState[groupId] += step;
-              max = Math.max(max, initialState[groupId]);
-            });
-          });
-
-          var options = {
-            margin: {
-              item: {
-                horizontal: 0
-              },
-              axis: 5
-            },
-            autoResize: true,
-            maxMinorChars: 1,
-            showCurrentTime: false,
-            showMajorLabels: false,
-            showMinorLabels: false,
-            moveable: false,
-            zoomable: false,
-            type: 'range',
-            start: 0,
-            end: max
           };
 
-          timeline.setOptions(options);
-          timeline.setGroups(groupsData);
-          timeline.setItems(itemsData);
-        };
+          var setData = function(grupos, estagios) {
+            var groups = [];
+            var items = [];
+            var max = 0;
 
-        var timeline = new window.vis.Timeline(container);
+            groups.push({id: 'title', content: '&nbsp;'});
+            grupos.forEach(function(grupo) {
+              var groupId = 'G' + grupo.posicao;
+              groups.push({
+                content: '<input type="checkbox" class="group-checkbox" data-posicao="' + grupo.posicao + '" icheks name="' + groupId + '"><strong>' + groupId + '</strong>',
+                id: groupId,
+                value: groupId
+              });
 
-        scope.$watch('grupos', function(value) {
-          if (value) {
-            setData(timeline, scope.grupos, scope.estagios);
-          }
-        }, true);
+              var initialState = 0;
+              grupo.intervalos.forEach(function(intervalo, index) {
+                items.push({
+                  start: initialState,
+                  end: initialState + intervalo.duracao,
+                  group: groupId,
+                  content: intervalo.duracao + 's',
+                  id: groupId + 'i' + index,
+                  className: 'indicacao-' + modoOperacaoService.getCssClass(intervalo.status)
+                });
 
-        timeline.on('click', function(props) {
-          if ('group' in props && 'item' in props) {
-            var g = parseInt(props.group.replace('G', ''));
-            var i = parseInt(props.item.split('i')[1]);
-            $rootScope.$broadcast('item-double-clicked', {
-              group: g,
-              item: i
+                initialState += intervalo.duracao;
+              });
             });
-          }
 
-          props.event.preventDefault();
-        });
-      }
-    };
-  }]);
+            var initialState = 0;
+            estagios.forEach(function(estagio) {
+              // Add o objeto da barra de titulos.
+              items.push({
+                id: 'title-E' + estagio.posicao,
+                content: 'E' + estagio.posicao,
+                start: initialState,
+                end: initialState + estagio.duracao,
+                group: 'title',
+                className: 'vis-title'
+              });
+
+              // Add o objeto de background.
+              items.push({
+                id: 'vis-background-E' + estagio.posicao,
+                content: '<strong>E' + estagio.posicao + '</strong>',
+                start: initialState,
+                end: initialState + estagio.duracao,
+                type: 'background',
+                className: 'vis-background-E' + estagio.posicao
+              });
+
+              initialState += estagio.duracao;
+              max = Math.max(max, initialState);
+            });
+
+            var options = {
+              margin: {
+                item: {
+                  horizontal: 0
+                },
+                axis: 5
+              },
+              autoResize: true,
+              maxMinorChars: 1,
+              showCurrentTime: false,
+              showMajorLabels: false,
+              showMinorLabels: false,
+              moveable: false,
+              zoomable: false,
+              type: 'range',
+              start: 0,
+              end: max
+            };
+
+            timeline.setOptions(options);
+            timeline.setGroups(groups);
+            timeline.setItems(items);
+
+            bindCheckboxEvents();
+          };
+
+          scope.$watch('grupos', function(value) {
+            return value && setData(scope.grupos, scope.estagios);
+          }, true);
+
+          timeline.on('click', function(props) {
+            if ('group' in props && 'item' in props) {
+              var g = parseInt(props.group.replace('G', ''));
+              var i = parseInt(props.item.split('i')[1]);
+              $rootScope.$broadcast('item-double-clicked', {
+                group: g,
+                item: i
+              });
+            }
+
+            props.event.preventDefault();
+          });
+        }
+      };
+    }]);
