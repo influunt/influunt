@@ -22,8 +22,12 @@ angular.module('influuntApp')
         changeTimeout = $timeout(function() {
           value = (value >= scope.min) ? value : scope.min;
           value = (value <= scope.max) ? value : scope.max;
+
+          value = parseInt(value);
+          scope.ngModel = value;
           dial.val(value).trigger('change');
-          scope.ngModel = parseInt(value);
+
+          console.log(scope.ngModel, typeof scope.ngModel);
         }, 200);
       };
 
@@ -66,6 +70,7 @@ angular.module('influuntApp')
           });
 
           scope.$watch('ngModel', function(value) {
+            value = parseInt(value);
             dial.val(angular.isDefined(value) ? value : scope.min).trigger('change');
           });
         }
