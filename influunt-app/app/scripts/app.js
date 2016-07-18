@@ -29,6 +29,7 @@ angular
     // ui
     'toaster',
     'oitozero.ngSweetAlert',
+    'ui.sortable',
     // template cache engine.
     'templates',
 

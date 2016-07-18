@@ -18,7 +18,7 @@
       </div>
       <div class="col-lg-7 col-sm-7 stages">
         <nav>
-          <ul class="handle">
+          <ul class="handle" ui-sortable="sortableOptions" data-ng-model="currentAnel.estagios">
             <li class="ibox" data-ng-repeat="(indexEstagio, estagio) in currentAnel.estagios"
                 data-ng-click="selecionaEstagio(indexEstagio)">
               <div class="title-stages" data-ng-class="{'estagio-selecionado': indexEstagio === currentEstagioId}">
@@ -29,7 +29,7 @@
                     messages="errors.aneis[currentAnelIndex].estagios[currentEstagioId]">
                     <i class="fa fa-exclamation"></i>
                   </span>
-                  <p>E{{ $index + 1 }}</p>
+                  <p>E{{ estagio.posicao }}</p>
                 </hgroup>
               </div>
               <div class="stage-stages">
@@ -120,39 +120,39 @@
 <script>
   $(document).ready(function(){
 
-    WinMove();
+    // WinMove();
 
-    function WinMove() {
-      var element = ".handle";
-      var handle = ".title-stages";
-      var connect = ".handle";
-      $(element).sortable(
-      {
-        handle: handle,
-        connectWith: connect,
-        tolerance: 'pointer',
-        forcePlaceholderSize: true,
-        opacity: 0.8
-      })
-      .disableSelection();
-    };
+    // function WinMove() {
+    //   var element = ".handle";
+    //   var handle = ".title-stages";
+    //   var connect = ".handle";
+    //   $(element).sortable(
+    //   {
+    //     handle: handle,
+    //     connectWith: connect,
+    //     tolerance: 'pointer',
+    //     forcePlaceholderSize: true,
+    //     opacity: 0.8
+    //   })
+    //   .disableSelection();
+    // };
 
 
-    function readURL() {
-      var $input = $(this);
-      if (this.files && this.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function(e) {
-          $input.next('.attrImg').attr('src', e.target.result).show();
-        }
-        reader.readAsDataURL(this.files[0]);
-      }
-    }
+    // function readURL() {
+    //   var $input = $(this);
+    //   if (this.files && this.files[0]) {
+    //     var reader = new FileReader();
+    //     reader.onload = function(e) {
+    //       $input.next('.attrImg').attr('src', e.target.result).show();
+    //     }
+    //     reader.readAsDataURL(this.files[0]);
+    //   }
+    // }
 
-    $(".imgInp").change(readURL);
-    $(".imgInp").change(function(){
-      $(this).parents().eq(3).addClass('change');
-    });
+    // $(".imgInp").change(readURL);
+    // $(".imgInp").change(function(){
+    //   $(this).parents().eq(3).addClass('change');
+    // });
 
     // $('.i-checks').iCheck({
     //     checkboxClass: 'icheckbox_square-green',

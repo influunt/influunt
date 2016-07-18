@@ -48,9 +48,9 @@ angular.module('influuntApp')
                 });
               });
 
-              // Inicializa o tempoMaximoPermanenciaAtivo true para os casos onde este
-              // já está preenchido.
-              _.each(anel.estagios, function(estagio) {
+              // Inicializa o tempoMaximoPermanenciaAtivo true e posicao.
+              _.each(anel.estagios, function(estagio, index) {
+                estagio.posicao = estagio.posicao || (index + 1);
                 estagio.tempoMaximoPermanenciaAtivo = !!estagio.tempoMaximoPermanencia;
               });
 
@@ -107,6 +107,16 @@ angular.module('influuntApp')
       $scope.estagioTemErro = function(indiceAnel, indiceEstagio) {
         var errors = _.get($scope.errors, 'aneis[' + indiceAnel + '].estagios[' + indiceEstagio + ']');
         return _.isObject(errors) && Object.keys(errors).length > 0;
+      };
+
+      $scope.sortableOptions = {
+        stop: function(event, ui) {
+          $scope.currentAnel.estagios.forEach(function(estagio, index) {
+            estagio.posicao = index + 1;
+          });
+
+          $scope.$apply();
+        }
       };
 
     }]);
