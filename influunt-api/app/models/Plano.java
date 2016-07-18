@@ -1,5 +1,6 @@
 package models;
 
+import json.deserializers.PlanoDeserializer;
 import checks.PlanosCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
@@ -9,6 +10,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
+import json.serializers.PlanoSerializer;
 import org.apache.commons.lang3.Range;
 import org.joda.time.DateTime;
 
@@ -16,16 +18,15 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by lesiopinheiro on 7/13/16.
  */
 @Entity
 @Table(name = "planos")
+@JsonSerialize(using = PlanoSerializer.class)
+@JsonDeserialize(using = PlanoDeserializer.class)
 public class Plano extends Model implements Cloneable {
 
     @Id
@@ -49,10 +50,10 @@ public class Plano extends Model implements Cloneable {
 
     @OneToMany(mappedBy = "plano", cascade = CascadeType.ALL)
     @Valid
-    private List<EstagioPlano> estagios;
+    private List<EstagioPlano> estagiosPlanos;
 
     @OneToMany(mappedBy = "plano", cascade = CascadeType.ALL)
-    private List<GrupoSemaforicoPlano> gruposSemaforicos;
+    private List<GrupoSemaforicoPlano> gruposSemaforicosPlanos;
 
     @Column
     @NotNull(message = "não pode ficar em branco.")
@@ -125,20 +126,20 @@ public class Plano extends Model implements Cloneable {
         this.agrupamento = agrupamento;
     }
 
-    public List<EstagioPlano> getEstagios() {
-        return estagios;
+    public List<EstagioPlano> getEstagiosPlanos() {
+        return estagiosPlanos;
     }
 
-    public void setEstagios(List<EstagioPlano> estagios) {
-        this.estagios = estagios;
+    public void setEstagiosPlanos(List<EstagioPlano> estagios) {
+        this.estagiosPlanos = estagios;
     }
 
-    public List<GrupoSemaforicoPlano> getGruposSemaforicos() {
-        return gruposSemaforicos;
+    public List<GrupoSemaforicoPlano> getGruposSemaforicosPlanos() {
+        return gruposSemaforicosPlanos;
     }
 
-    public void setGruposSemaforicos(List<GrupoSemaforicoPlano> gruposSemaforicos) {
-        this.gruposSemaforicos = gruposSemaforicos;
+    public void setGruposSemaforicosPlanos(List<GrupoSemaforicoPlano> gruposSemaforicosPlanos) {
+        this.gruposSemaforicosPlanos = gruposSemaforicosPlanos;
     }
 
     public ModoOperacaoPlano getModoOperacao() {
@@ -207,20 +208,20 @@ public class Plano extends Model implements Cloneable {
     @AssertTrue(groups = PlanosCheck.class,
             message = "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.")
     public boolean isQuantidadeGrupoSemaforicoIgualQuantidadeAnel() {
-        return !(this.getGruposSemaforicos().isEmpty() || this.getAnel().getGruposSemaforicos().size() != this.getGruposSemaforicos().size());
+        return !(this.getGruposSemaforicosPlanos().isEmpty() || this.getAnel().getGruposSemaforicos().size() != this.getGruposSemaforicosPlanos().size());
     }
 
     @AssertTrue(groups = PlanosCheck.class,
             message = "Todos os estágios devem possuir as suas configurações.")
     public boolean isQuantidadeEstagioIgualQuantidadeAnel() {
-        return !(this.getEstagios().isEmpty() || this.getAnel().getEstagios().size() != this.getEstagios().size());
+        return !(this.getEstagiosPlanos().isEmpty() || this.getAnel().getEstagios().size() != this.getEstagiosPlanos().size());
     }
 
     @AssertTrue(groups = PlanosCheck.class,
             message = "A sequência de estagio não é válida.")
     public boolean isPosicaoUnicaEstagio() {
-        if (!this.getEstagios().isEmpty()) {
-            return !(this.getAnel().getEstagios().size() != this.getEstagios().stream().map(estagioPlano -> estagioPlano.getPosicao()).distinct().count());
+        if (!this.getEstagiosPlanos().isEmpty()) {
+            return !(this.getAnel().getEstagios().size() != this.getEstagiosPlanos().stream().map(estagioPlano -> estagioPlano.getPosicao()).distinct().count());
         }
         return true;
     }
@@ -235,8 +236,9 @@ public class Plano extends Model implements Cloneable {
 
     @AssertTrue(groups = PlanosCheck.class, message = "A soma dos tempos dos estágios ultrapassa o tempo de ciclo.")
     public boolean isUltrapassaTempoCiclo() {
-        if (!this.getEstagios().isEmpty() && isPosicaoUnicaEstagio() && (isTempoFixoIsolado() || isTempoFixoCoordenado()) && Range.between(30, 255).contains(getTempoCiclo())) {
-            return getTempoCiclo() == getEstagios().stream().mapToInt(EstagioPlano::getTempoEstagio).sum();
+        if (!this.getEstagiosPlanos().isEmpty() && isPosicaoUnicaEstagio() && (isTempoFixoIsolado() || isTempoFixoCoordenado()) && Range.between(30, 255).contains(getTempoCiclo())) {
+            getEstagiosPlanos().sort((e1, e2) -> e1.getPosicao().compareTo(e2.getPosicao()));
+            return getTempoCiclo() == getEstagiosPlanos().stream().mapToInt(estagioPlano -> getTempoEstagio(estagioPlano)).sum();
         }
         return true;
     }
@@ -244,15 +246,15 @@ public class Plano extends Model implements Cloneable {
     @AssertTrue(groups = PlanosCheck.class,
             message = "A sequência de estagio não é válida.")
     public boolean isSequenciaInvalida() {
-        if (!this.getEstagios().isEmpty() && isPosicaoUnicaEstagio()) {
-            getEstagios().sort((e1, e2) -> e1.getPosicao().compareTo(e2.getPosicao()));
-            for (int i = 0; i < getEstagios().size(); i++) {
-                EstagioPlano origem = getEstagios().get(i);
+        if (!this.getEstagiosPlanos().isEmpty() && isPosicaoUnicaEstagio()) {
+            getEstagiosPlanos().sort((e1, e2) -> e1.getPosicao().compareTo(e2.getPosicao()));
+            for (int i = 0; i < getEstagiosPlanos().size(); i++) {
+                EstagioPlano origem = getEstagiosPlanos().get(i);
                 EstagioPlano destino = null;
-                if ((i + 1) < getEstagios().size()) {
-                    destino = getEstagios().get(i + 1);
+                if ((i + 1) < getEstagiosPlanos().size()) {
+                    destino = getEstagiosPlanos().get(i + 1);
                 } else {
-                    destino = getEstagios().get(0);
+                    destino = getEstagiosPlanos().get(0);
                 }
                 if (origem.getEstagio().temTransicaoProibidaComEstagio(destino.getEstagio())) {
                     return false;
@@ -263,26 +265,54 @@ public class Plano extends Model implements Cloneable {
     }
 
     public void addGruposSemaforicos(GrupoSemaforicoPlano grupoPlano) {
-        if (getGruposSemaforicos() == null) {
-            setGruposSemaforicos(new ArrayList<GrupoSemaforicoPlano>());
+        if (getGruposSemaforicosPlanos() == null) {
+            setGruposSemaforicosPlanos(new ArrayList<GrupoSemaforicoPlano>());
         }
-        getGruposSemaforicos().add(grupoPlano);
+        getGruposSemaforicosPlanos().add(grupoPlano);
     }
 
     public void addEstagios(EstagioPlano estagioPlano) {
-        if (getEstagios() == null) {
-            setEstagios(new ArrayList<EstagioPlano>());
+        if (getEstagiosPlanos() == null) {
+            setEstagiosPlanos(new ArrayList<EstagioPlano>());
         }
-        getEstagios().add(estagioPlano);
+        getEstagiosPlanos().add(estagioPlano);
     }
 
     public Estagio getEstagioAnterior(Estagio estagio) {
-        getEstagios().sort((e1, e2) -> e1.getPosicao().compareTo(e2.getPosicao()));
-        int posicao = getEstagios().stream().filter(estagioPlano -> estagioPlano.getEstagio().equals(estagio)).findFirst().get().getPosicao();
+        int posicao = getEstagiosPlanos().stream().filter(estagioPlano -> estagioPlano.getEstagio().equals(estagio)).findFirst().get().getPosicao();
         if (posicao == 1) {
-            return getEstagios().get(getEstagios().size() - 1).getEstagio();
+            return getEstagiosPlanos().get(getEstagiosPlanos().size() - 1).getEstagio();
         } else {
-            return getEstagios().get(posicao - 2).getEstagio();
+            return getEstagiosPlanos().get(posicao - 2).getEstagio();
         }
+    }
+
+    public Integer getTempoEstagio(EstagioPlano estagioPlano) {
+        Estagio estagioAnterior = getEstagioAnterior(estagioPlano.getEstagio());
+        ArrayList<Integer> totalTempoEntreverdes = new ArrayList<Integer>();
+        for (EstagioGrupoSemaforico estagioGrupoSemaforico : estagioAnterior.getEstagiosGruposSemaforicos()) {
+            TabelaEntreVerdes tabelaEntreVerdes = estagioGrupoSemaforico.getGrupoSemaforico().getTabelasEntreVerdes().stream().filter(tev -> tev.getPosicao().equals(getPosicaoTabelaEntreVerde())).findFirst().orElse(null);
+
+            Transicao transicao = estagioGrupoSemaforico.getGrupoSemaforico().findTransicaoByOrigemDestino(estagioAnterior, estagioPlano.getEstagio());
+
+            if (Objects.nonNull(tabelaEntreVerdes) && Objects.nonNull(transicao)) {
+                TabelaEntreVerdesTransicao tabelaEntreVerdesTransicao = tabelaEntreVerdes.getTransicoes().stream().filter(tvt -> tvt.getTransicao().equals(transicao)).findFirst().orElse(null);
+                if (Objects.nonNull(tabelaEntreVerdesTransicao)) {
+                    totalTempoEntreverdes.add(tabelaEntreVerdesTransicao.getTotalTempoEntreverdes(estagioGrupoSemaforico.getGrupoSemaforico().getTipo()));
+                }
+            }
+        }
+
+        if(isAtuado()) {
+            return Collections.max(totalTempoEntreverdes) + estagioPlano.getTempoVerdeMaximo();
+        }
+
+        return Collections.max(totalTempoEntreverdes) + estagioPlano.getTempoVerde();
+    }
+
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

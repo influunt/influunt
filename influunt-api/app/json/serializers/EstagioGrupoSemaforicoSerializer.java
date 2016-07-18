@@ -4,7 +4,10 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import models.Estagio;
 import models.EstagioGrupoSemaforico;
+import models.GrupoSemaforico;
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.io.IOException;
 
@@ -28,10 +31,18 @@ public class EstagioGrupoSemaforicoSerializer extends JsonSerializer<EstagioGrup
             jgen.writeBooleanField("ativo", estagioGrupo.getAtivo());
         }
         if (estagioGrupo.getEstagio() != null) {
-            jgen.writeObjectField("estagio", estagioGrupo.getEstagio());
+            Estagio estagioAux = ObjectUtils.clone(estagioGrupo.getEstagio());
+            estagioAux.setEstagiosGruposSemaforicos(null);
+            estagioAux.setAnel(null);
+            jgen.writeObjectField("estagio", estagioAux);
         }
         if (estagioGrupo.getGrupoSemaforico() != null) {
-            jgen.writeObjectField("grupoSemaforico", estagioGrupo.getGrupoSemaforico());
+            GrupoSemaforico grupoSemaforicoAux = ObjectUtils.clone(estagioGrupo.getGrupoSemaforico());
+            grupoSemaforicoAux.setEstagioGrupoSemaforicos(null);
+            grupoSemaforicoAux.setAnel(null);
+            grupoSemaforicoAux.setVerdesConflitantesDestino(null);
+            grupoSemaforicoAux.setVerdesConflitantesOrigem(null);
+            jgen.writeObjectField("grupoSemaforico", grupoSemaforicoAux);
         }
         jgen.writeEndObject();
     }

@@ -17,8 +17,8 @@ import java.util.UUID;
  * Created by lesiopinheiro on 7/13/16.
  */
 @Entity
-@Table(name = "estagios_planos")
-public class GrupoSemaforicoPlano extends Model {
+@Table(name = "grupos_semaforicos_planos")
+public class GrupoSemaforicoPlano extends Model implements Cloneable {
 
     @Id
     private UUID id;
@@ -92,5 +92,10 @@ public class GrupoSemaforicoPlano extends Model {
 
     public void setDataAtualizacao(DateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

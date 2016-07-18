@@ -23,7 +23,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "agrupamentos")
-public class Agrupamento extends Model {
+public class Agrupamento extends Model implements Cloneable {
 
     public static Finder<UUID, Agrupamento> find = new Finder<UUID, Agrupamento>(Agrupamento.class);
 
@@ -102,5 +102,10 @@ public class Agrupamento extends Model {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

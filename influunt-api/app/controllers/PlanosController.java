@@ -4,10 +4,10 @@ import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
 import be.objectify.deadbolt.java.actions.Dynamic;
 import checks.Erro;
 import checks.InfluuntValidator;
+import checks.PlanosCheck;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Anel;
-import models.Area;
 import models.Controlador;
+import play.api.libs.iteratee.Cont;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -16,7 +16,6 @@ import play.mvc.Security;
 import security.Secured;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
@@ -36,25 +35,15 @@ public class PlanosController extends Controller {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         } else {
 
-            Anel controlador = Json.fromJson(json, Anel.class);
-            List<Erro> erros = new InfluuntValidator<Anel>().validate(controlador);
+            Controlador controlador = Json.fromJson(json, Controlador.class);
+            List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, PlanosCheck.class);
 
-            if(erros.isEmpty()) {
-                controlador.save();
+            if (erros.isEmpty()) {
+                controlador.update();
                 return CompletableFuture.completedFuture(ok(Json.toJson(controlador)));
-            }else{
+            } else {
                 return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
             }
-        }
-    }
-
-    @Transactional
-    public CompletionStage<Result> findOne(String id) {
-        Controlador controlador = Controlador.find.byId(UUID.fromString(id));
-        if (controlador == null) {
-            return CompletableFuture.completedFuture(notFound());
-        } else {
-            return CompletableFuture.completedFuture(ok(Json.toJson(controlador)));
         }
     }
 }

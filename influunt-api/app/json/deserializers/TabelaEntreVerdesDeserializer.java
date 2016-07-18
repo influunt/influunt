@@ -8,9 +8,12 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.GrupoSemaforico;
 import models.TabelaEntreVerdes;
+import models.TabelaEntreVerdesTransicao;
 import play.libs.Json;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -32,9 +35,19 @@ public class TabelaEntreVerdesDeserializer extends JsonDeserializer<TabelaEntreV
         }
 
         tabelaEntreVerdes.setDescricao(node.get("descricao") != null ? node.get("descricao").asText() : null);
-
+        tabelaEntreVerdes.setPosicao(node.get("posicao") != null ? node.get("posicao").asInt() : null);
         if (node.has("grupoSemaforico")) {
             tabelaEntreVerdes.setGrupoSemaforico(Json.fromJson(node.get("grupoSemaforico"), GrupoSemaforico.class));
+        }
+
+        if (node.has("tabelaEntreVerdesTransicoes")) {
+            List<TabelaEntreVerdesTransicao> tabelaEntreVerdesTransicoes = new ArrayList<TabelaEntreVerdesTransicao>();
+            for (JsonNode nodeTevTransicao : node.get("tabelaEntreVerdesTransicoes")) {
+                TabelaEntreVerdesTransicao tevTransicao = Json.fromJson(nodeTevTransicao, TabelaEntreVerdesTransicao.class);
+                tevTransicao.setTabelaEntreVerdes(tabelaEntreVerdes);
+                tabelaEntreVerdesTransicoes.add(tevTransicao);
+            }
+            tabelaEntreVerdes.setTransicoes(tabelaEntreVerdesTransicoes);
         }
 
         return tabelaEntreVerdes;

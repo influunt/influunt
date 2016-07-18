@@ -4,10 +4,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import models.Anel;
-import models.Detector;
-import models.Estagio;
-import models.GrupoSemaforico;
+import models.*;
 
 import java.io.IOException;
 
@@ -76,6 +73,13 @@ public class AnelSerializer extends JsonSerializer<Anel> {
             jgen.writeArrayFieldStart("detectores");
             for (Detector detector : anel.getDetectores()) {
                 jgen.writeObject(detector);
+            }
+            jgen.writeEndArray();
+        }
+        if (anel.getDetectores() != null) {
+            jgen.writeArrayFieldStart("planos");
+            for (Plano plano : anel.getPlanos()) {
+                jgen.writeObject(plano);
             }
             jgen.writeEndArray();
         }

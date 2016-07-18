@@ -273,12 +273,16 @@ public abstract class ControladorTest extends WithApplication {
 
         Estagio estagio1 = anelCom4Estagios.getEstagios().get(0);
         estagio1.setDescricao("E1");
+        estagio1.setTempoMaximoPermanencia(60);
         Estagio estagio2 = anelCom4Estagios.getEstagios().get(1);
         estagio2.setDescricao("E2");
+        estagio2.setTempoMaximoPermanencia(60);
         Estagio estagio3 = anelCom4Estagios.getEstagios().get(2);
         estagio3.setDescricao("E3");
+        estagio3.setTempoMaximoPermanencia(60);
         Estagio estagio4 = anelCom4Estagios.getEstagios().get(3);
         estagio4.setDescricao("E4");
+        estagio4.setTempoMaximoPermanencia(60);
 
         Detector detector1 = anelCom4Estagios.getDetectores().get(0);
         detector1.setDescricao("D1");
@@ -325,16 +329,19 @@ public abstract class ControladorTest extends WithApplication {
         plano1Anel4.setPosicao(1);
         plano1Anel4.setPosicaoTabelaEntreVerde(1);
 
+        criarGrupoSemaforicoPlano(anelCom2Estagios, plano1Anel2);
+        criarGrupoSemaforicoPlano(anelCom4Estagios, plano1Anel4);
+
         criarEstagioPlano(anelCom2Estagios, plano1Anel2, new int[]{2, 1});
         criarEstagioPlano(anelCom4Estagios, plano1Anel4, new int[]{1, 4, 3, 2});
 
-        EstagioPlano estagioPlano1Anel2 = plano1Anel2.getEstagios().get(0);
-        EstagioPlano estagioPlano2Anel2 = plano1Anel2.getEstagios().get(1);
+        EstagioPlano estagioPlano1Anel2 = plano1Anel2.getEstagiosPlanos().get(0);
+        EstagioPlano estagioPlano2Anel2 = plano1Anel2.getEstagiosPlanos().get(1);
 
-        EstagioPlano estagioPlano1Anel4 = plano1Anel4.getEstagios().get(0);
-        EstagioPlano estagioPlano2Anel4 = plano1Anel4.getEstagios().get(1);
-        EstagioPlano estagioPlano3Anel4 = plano1Anel4.getEstagios().get(2);
-        EstagioPlano estagioPlano4Anel4 = plano1Anel4.getEstagios().get(3);
+        EstagioPlano estagioPlano1Anel4 = plano1Anel4.getEstagiosPlanos().get(0);
+        EstagioPlano estagioPlano2Anel4 = plano1Anel4.getEstagiosPlanos().get(1);
+        EstagioPlano estagioPlano3Anel4 = plano1Anel4.getEstagiosPlanos().get(2);
+        EstagioPlano estagioPlano4Anel4 = plano1Anel4.getEstagiosPlanos().get(3);
 
         estagioPlano1Anel2.setTempoVerde(21);
         plano1Anel2.setTempoCiclo(60);
@@ -367,7 +374,7 @@ public abstract class ControladorTest extends WithApplication {
     // METODOS AUXILIARES
 
     protected void criarGrupoSemaforicoPlano(Anel anel, Plano plano) {
-        plano.setGruposSemaforicos(null);
+        plano.setGruposSemaforicosPlanos(null);
         for (GrupoSemaforico grupoSemaforico : anel.getGruposSemaforicos()) {
             GrupoSemaforicoPlano grupoPlano = new GrupoSemaforicoPlano();
             grupoPlano.setAtivado(true);
@@ -379,7 +386,7 @@ public abstract class ControladorTest extends WithApplication {
 
     protected void criarEstagioPlano(Anel anel, Plano plano, int posicoes[]) {
         int i = 0;
-        plano.setEstagios(null);
+        plano.setEstagiosPlanos(null);
         for (Estagio estagio : anel.getEstagios()) {
             EstagioPlano estagioPlano = new EstagioPlano();
             estagioPlano.setPosicao(posicoes[i]);

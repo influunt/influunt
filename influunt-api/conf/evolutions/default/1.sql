@@ -133,9 +133,15 @@ create table estagios_grupos_semaforicos (
 
 create table estagios_planos (
   id                            varchar(40) not null,
-  grupo_semaforico_id           varchar(40) not null,
+  estagio_id                    varchar(40) not null,
   plano_id                      varchar(40) not null,
-  ativado                       tinyint(1) default 0,
+  posicao                       integer,
+  tempo_verde                   integer,
+  tempo_verde_minimo            integer,
+  tempo_verde_maximo            integer,
+  tempo_verde_intermediario     integer,
+  tempo_extensao_verde          double,
+  dispensavel                   tinyint(1) default 0,
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
   constraint pk_estagios_planos primary key (id)
@@ -160,6 +166,16 @@ create table grupos_semaforicos (
   data_atualizacao              datetime(6) not null,
   constraint ck_grupos_semaforicos_tipo check (tipo in ('PEDESTRE','VEICULAR')),
   constraint pk_grupos_semaforicos primary key (id)
+);
+
+create table grupos_semaforicos_planos (
+  id                            varchar(40) not null,
+  grupo_semaforico_id           varchar(40) not null,
+  plano_id                      varchar(40) not null,
+  ativado                       tinyint(1) default 0,
+  data_criacao                  datetime(6) not null,
+  data_atualizacao              datetime(6) not null,
+  constraint pk_grupos_semaforicos_planos primary key (id)
 );
 
 create table imagens (
@@ -345,8 +361,8 @@ create index ix_estagios_grupos_semaforicos_estagio_id on estagios_grupos_semafo
 alter table estagios_grupos_semaforicos add constraint fk_estagios_grupos_semaforicos_grupo_semaforico_id foreign key (grupo_semaforico_id) references grupos_semaforicos (id) on delete restrict on update restrict;
 create index ix_estagios_grupos_semaforicos_grupo_semaforico_id on estagios_grupos_semaforicos (grupo_semaforico_id);
 
-alter table estagios_planos add constraint fk_estagios_planos_grupo_semaforico_id foreign key (grupo_semaforico_id) references grupos_semaforicos (id) on delete restrict on update restrict;
-create index ix_estagios_planos_grupo_semaforico_id on estagios_planos (grupo_semaforico_id);
+alter table estagios_planos add constraint fk_estagios_planos_estagio_id foreign key (estagio_id) references estagios (id) on delete restrict on update restrict;
+create index ix_estagios_planos_estagio_id on estagios_planos (estagio_id);
 
 alter table estagios_planos add constraint fk_estagios_planos_plano_id foreign key (plano_id) references planos (id) on delete restrict on update restrict;
 create index ix_estagios_planos_plano_id on estagios_planos (plano_id);
@@ -356,6 +372,12 @@ create index ix_grupos_semaforicos_anel_id on grupos_semaforicos (anel_id);
 
 alter table grupos_semaforicos add constraint fk_grupos_semaforicos_controlador_id foreign key (controlador_id) references controladores (id) on delete restrict on update restrict;
 create index ix_grupos_semaforicos_controlador_id on grupos_semaforicos (controlador_id);
+
+alter table grupos_semaforicos_planos add constraint fk_grupos_semaforicos_planos_grupo_semaforico_id foreign key (grupo_semaforico_id) references grupos_semaforicos (id) on delete restrict on update restrict;
+create index ix_grupos_semaforicos_planos_grupo_semaforico_id on grupos_semaforicos_planos (grupo_semaforico_id);
+
+alter table grupos_semaforicos_planos add constraint fk_grupos_semaforicos_planos_plano_id foreign key (plano_id) references planos (id) on delete restrict on update restrict;
+create index ix_grupos_semaforicos_planos_plano_id on grupos_semaforicos_planos (plano_id);
 
 alter table limite_area add constraint fk_limite_area_area_id foreign key (area_id) references areas (id) on delete restrict on update restrict;
 create index ix_limite_area_area_id on limite_area (area_id);
@@ -465,8 +487,8 @@ drop index ix_estagios_grupos_semaforicos_estagio_id on estagios_grupos_semafori
 alter table estagios_grupos_semaforicos drop foreign key fk_estagios_grupos_semaforicos_grupo_semaforico_id;
 drop index ix_estagios_grupos_semaforicos_grupo_semaforico_id on estagios_grupos_semaforicos;
 
-alter table estagios_planos drop foreign key fk_estagios_planos_grupo_semaforico_id;
-drop index ix_estagios_planos_grupo_semaforico_id on estagios_planos;
+alter table estagios_planos drop foreign key fk_estagios_planos_estagio_id;
+drop index ix_estagios_planos_estagio_id on estagios_planos;
 
 alter table estagios_planos drop foreign key fk_estagios_planos_plano_id;
 drop index ix_estagios_planos_plano_id on estagios_planos;
@@ -476,6 +498,12 @@ drop index ix_grupos_semaforicos_anel_id on grupos_semaforicos;
 
 alter table grupos_semaforicos drop foreign key fk_grupos_semaforicos_controlador_id;
 drop index ix_grupos_semaforicos_controlador_id on grupos_semaforicos;
+
+alter table grupos_semaforicos_planos drop foreign key fk_grupos_semaforicos_planos_grupo_semaforico_id;
+drop index ix_grupos_semaforicos_planos_grupo_semaforico_id on grupos_semaforicos_planos;
+
+alter table grupos_semaforicos_planos drop foreign key fk_grupos_semaforicos_planos_plano_id;
+drop index ix_grupos_semaforicos_planos_plano_id on grupos_semaforicos_planos;
 
 alter table limite_area drop foreign key fk_limite_area_area_id;
 drop index ix_limite_area_area_id on limite_area;
@@ -565,6 +593,8 @@ drop table if exists estagios_planos;
 drop table if exists fabricantes;
 
 drop table if exists grupos_semaforicos;
+
+drop table if exists grupos_semaforicos_planos;
 
 drop table if exists imagens;
 

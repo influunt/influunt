@@ -26,7 +26,7 @@ import java.util.UUID;
 @Table(name = "estagios_grupos_semaforicos")
 @JsonSerialize(using = EstagioGrupoSemaforicoSerializer.class)
 @JsonDeserialize(using = EstagioGrupoSemaforicoDeserializer.class)
-public class EstagioGrupoSemaforico extends Model implements Cloneable{
+public class EstagioGrupoSemaforico extends Model implements Cloneable {
 
     private static final long serialVersionUID = 5983122994022833262L;
 
@@ -116,8 +116,8 @@ public class EstagioGrupoSemaforico extends Model implements Cloneable{
     }
 
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class)
-    public boolean isTipoGrupoSemaforicoOk(){
-        if(this.grupoSemaforico != null){
+    public boolean isTipoGrupoSemaforicoOk() {
+        if (this.grupoSemaforico != null) {
             return this.grupoSemaforico.getTipo() != null;
         }
         return true;
