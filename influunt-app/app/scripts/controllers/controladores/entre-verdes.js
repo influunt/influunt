@@ -131,7 +131,7 @@ angular.module('influuntApp')
       };
 
       $scope.errosAmareloOuVermelho = function(grupoSemaforico, transicaoIndex) {
-        var path = 'aneis['+$scope.currentAnelIndex+'].gruposSemaforicos['+$scope.currentGrupoSemaforicoIndex+'].transicoes['+transicaoIndex+'].tabelaEntreVerdes['+$scope.currentTabelaEntreVerdesIndex+'].'+this.amareloOuVermelho(grupoSemaforico, true);
+        var path = 'aneis['+$scope.currentAnelIndex+'].gruposSemaforicos['+$scope.currentGrupoSemaforicoIndex+'].transicoes['+transicaoIndex+'].tabelaEntreVerdesTransicoes['+$scope.currentTabelaEntreVerdesIndex+'].'+this.amareloOuVermelho(grupoSemaforico, true);
         return _.get($scope.errors, path);
       };
 
@@ -141,7 +141,7 @@ angular.module('influuntApp')
       };
 
       $scope.errosVermelhoLimpeza = function(grupoSemaforico, transicaoIndex) {
-        var path = 'aneis['+$scope.currentAnelIndex+'].gruposSemaforicos['+$scope.currentGrupoSemaforicoIndex+'].transicoes['+transicaoIndex+'].tabelaEntreVerdes['+$scope.currentTabelaEntreVerdesIndex+'].';
+        var path = 'aneis['+$scope.currentAnelIndex+'].gruposSemaforicos['+$scope.currentGrupoSemaforicoIndex+'].transicoes['+transicaoIndex+'].tabelaEntreVerdesTransicoes['+$scope.currentTabelaEntreVerdesIndex+'].';
         if (grupoSemaforico.tipo === 'PEDESTRE') {
           path += 'tempoVermelhoLimpezaFieldPedestre';
         } else {
@@ -156,7 +156,7 @@ angular.module('influuntApp')
       };
 
       $scope.errosAtrasoGrupo = function(grupoSemaforico, transicaoIndex) {
-        var path = 'aneis['+$scope.currentAnelIndex+'].gruposSemaforicos['+$scope.currentGrupoSemaforicoIndex+'].transicoes['+transicaoIndex+'].tabelaEntreVerdes['+$scope.currentTabelaEntreVerdesIndex+'].tempoAtrasoGrupo';
+        var path = 'aneis['+$scope.currentAnelIndex+'].gruposSemaforicos['+$scope.currentGrupoSemaforicoIndex+'].transicoes['+transicaoIndex+'].tabelaEntreVerdesTransicoes['+$scope.currentTabelaEntreVerdesIndex+'].tempoAtrasoGrupo';
         return _.get($scope.errors, path);
       };
 

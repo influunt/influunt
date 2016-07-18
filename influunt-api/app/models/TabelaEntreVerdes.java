@@ -41,7 +41,7 @@ public class TabelaEntreVerdes extends Model implements Cloneable {
 
     @OneToMany(mappedBy = "tabelaEntreVerdes", cascade = CascadeType.REMOVE)
     @PrivateOwned
-    private List<TabelaEntreVerdesTransicao> transicoes;
+    private List<TabelaEntreVerdesTransicao> tabelaEntreVerdesTransicoes;
 
     @Valid
     @NotNull(message = "não pode ficar em branco.", groups = ControladorTabelaEntreVerdesCheck.class)
@@ -63,7 +63,6 @@ public class TabelaEntreVerdes extends Model implements Cloneable {
 
     public TabelaEntreVerdes(GrupoSemaforico grupoSemaforico, Integer posicao) {
         super();
-        this.posicao = 1;
         this.grupoSemaforico = grupoSemaforico;
         this.posicao = posicao;
     }
@@ -97,11 +96,11 @@ public class TabelaEntreVerdes extends Model implements Cloneable {
     }
 
     public List<TabelaEntreVerdesTransicao> getTabelaEntreVerdesTransicoes() {
-        return transicoes;
+        return tabelaEntreVerdesTransicoes;
     }
 
     public void setTabelaEntreVerdesTransicoes(List<TabelaEntreVerdesTransicao> transicoes) {
-        this.transicoes = transicoes;
+        this.tabelaEntreVerdesTransicoes = transicoes;
     }
 
     public Integer getPosicao() {

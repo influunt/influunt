@@ -50,7 +50,7 @@ public class TransicaoDeserializer extends JsonDeserializer<Transicao> {
             for (JsonNode tabelaEntreVerdesNode : node.get("tabelaEntreVerdesTransicoes")) {
                 tabelaEntreVerdes.add(Json.fromJson(tabelaEntreVerdesNode, TabelaEntreVerdesTransicao.class));
             }
-            transicao.setTabelaEntreVerdes(tabelaEntreVerdes);
+            transicao.setTabelaEntreVerdesTransicoes(tabelaEntreVerdes);
         }
 
         return transicao;

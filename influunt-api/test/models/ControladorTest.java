@@ -243,8 +243,7 @@ public abstract class ControladorTest extends WithApplication {
         for (Anel anel : controlador.getAneis()) {
             for (GrupoSemaforico grupoSemaforico : anel.getGruposSemaforicos()) {
                 for (Transicao transicao : grupoSemaforico.getTransicoes()) {
-
-                    for (TabelaEntreVerdesTransicao tabelaEntreVerdesTransicao : transicao.getTabelaEntreVerdes()) {
+                    for (TabelaEntreVerdesTransicao tabelaEntreVerdesTransicao : transicao.getTabelaEntreVerdesTransicoes()) {
                         tabelaEntreVerdesTransicao.setTempoAtrasoGrupo(0);
                         tabelaEntreVerdesTransicao.setTempoVermelhoLimpeza(5);
                         if (grupoSemaforico.isVeicular()) {

@@ -309,7 +309,8 @@ public class Anel extends Model implements Cloneable {
                 grupoSemaforico.setAnel(this);
                 grupoSemaforico.setPosicao(this.getControlador().getGruposSemaforicos().size() + 1);
                 grupoSemaforico.setControlador(this.getControlador());
-                grupoSemaforico.addTabelaEntreVerdes(criaTabelaEntreVerdes(grupoSemaforico, 1));
+                TabelaEntreVerdes tabelaEntreVerdes = criaTabelaEntreVerdes(grupoSemaforico, 1);
+                grupoSemaforico.addTabelaEntreVerdes(tabelaEntreVerdes);
                 getGruposSemaforicos().add(grupoSemaforico);
                 this.getControlador().getGruposSemaforicos().add(grupoSemaforico);
             }

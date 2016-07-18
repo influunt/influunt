@@ -52,7 +52,7 @@ public class TabelaEntreVerdesTransicaoSerializer extends JsonSerializer<TabelaE
             GrupoSemaforico grupoSemaforicoAux = new GrupoSemaforico();
             grupoSemaforicoAux.setId(transicaoAux.getGrupoSemaforico().getId());
             grupoSemaforicoAux.setTipo(transicaoAux.getGrupoSemaforico().getTipo());
-            transicaoAux.setTabelaEntreVerdes(null);
+            transicaoAux.setTabelaEntreVerdesTransicoes(null);
             transicaoAux.setGrupoSemaforico(grupoSemaforicoAux);
             jgen.writeObjectField("transicao", transicaoAux);
         }

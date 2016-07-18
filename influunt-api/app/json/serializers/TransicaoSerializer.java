@@ -62,9 +62,9 @@ public class TransicaoSerializer extends JsonSerializer<Transicao> {
             jgen.writeEndObject();
         }
 
-        if (transicao.getTabelaEntreVerdes() != null) {
+        if (transicao.getTabelaEntreVerdesTransicoes() != null) {
             jgen.writeArrayFieldStart("tabelaEntreVerdesTransicoes");
-            for (TabelaEntreVerdesTransicao tabelaEntreVerdes : transicao.getTabelaEntreVerdes()) {
+            for (TabelaEntreVerdesTransicao tabelaEntreVerdes : transicao.getTabelaEntreVerdesTransicoes()) {
                 jgen.writeObject(tabelaEntreVerdes);
             }
             jgen.writeEndArray();
