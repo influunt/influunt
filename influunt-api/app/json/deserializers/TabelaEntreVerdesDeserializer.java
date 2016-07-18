@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
+import models.Anel;
 import models.GrupoSemaforico;
 import models.TabelaEntreVerdes;
 import models.TabelaEntreVerdesTransicao;
@@ -21,7 +22,7 @@ import java.util.UUID;
  */
 public class TabelaEntreVerdesDeserializer extends JsonDeserializer<TabelaEntreVerdes> {
     @Override
-    public TabelaEntreVerdes deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public TabelaEntreVerdes deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
 
         ObjectCodec oc = jp.getCodec();
         JsonNode node = oc.readTree(jp);
@@ -33,7 +34,6 @@ public class TabelaEntreVerdesDeserializer extends JsonDeserializer<TabelaEntreV
                 tabelaEntreVerdes.setId(UUID.fromString(id.asText()));
             }
         }
-
         tabelaEntreVerdes.setDescricao(node.get("descricao") != null ? node.get("descricao").asText() : null);
         tabelaEntreVerdes.setPosicao(node.get("posicao") != null ? node.get("posicao").asInt() : null);
         if (node.has("grupoSemaforico")) {

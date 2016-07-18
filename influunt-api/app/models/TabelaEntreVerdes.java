@@ -3,6 +3,7 @@ package models;
 import checks.ControladorTabelaEntreVerdesCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
+import com.avaje.ebean.annotation.PrivateOwned;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -27,6 +28,8 @@ import java.util.UUID;
 @JsonDeserialize(using = TabelaEntreVerdesDeserializer.class)
 public class TabelaEntreVerdes extends Model implements Cloneable {
 
+    public static Finder<UUID, TabelaEntreVerdes> find = new Finder<UUID, TabelaEntreVerdes>(TabelaEntreVerdes.class);
+
     @Id
     private UUID id;
 
@@ -36,7 +39,8 @@ public class TabelaEntreVerdes extends Model implements Cloneable {
     @ManyToOne
     private GrupoSemaforico grupoSemaforico;
 
-    @OneToMany(mappedBy = "tabelaEntreVerdes")
+    @OneToMany(mappedBy = "tabelaEntreVerdes", cascade = CascadeType.REMOVE)
+    @PrivateOwned
     private List<TabelaEntreVerdesTransicao> transicoes;
 
     @Valid
@@ -45,22 +49,23 @@ public class TabelaEntreVerdes extends Model implements Cloneable {
     private Integer posicao;
 
     @Column
-    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
-    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
 
     @Column
-    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
-    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
 
 
-    public TabelaEntreVerdes(GrupoSemaforico grupoSemaforico) {
+    public TabelaEntreVerdes(GrupoSemaforico grupoSemaforico, Integer posicao) {
         super();
         this.posicao = 1;
         this.grupoSemaforico = grupoSemaforico;
+        this.posicao = posicao;
     }
 
     public TabelaEntreVerdes() {
@@ -124,7 +129,7 @@ public class TabelaEntreVerdes extends Model implements Cloneable {
     }
 
     public void addTransicao(TabelaEntreVerdesTransicao tabelaEntreVerdesTransicao) {
-        if(getTransicoes() == null) {
+        if (getTransicoes() == null) {
             setTransicoes(new ArrayList<TabelaEntreVerdesTransicao>());
         }
 
@@ -135,5 +140,4 @@ public class TabelaEntreVerdes extends Model implements Cloneable {
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
-
 }

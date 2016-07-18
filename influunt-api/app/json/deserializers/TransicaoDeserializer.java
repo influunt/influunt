@@ -45,9 +45,9 @@ public class TransicaoDeserializer extends JsonDeserializer<Transicao> {
             transicao.setGrupoSemaforico(Json.fromJson(node.get("grupoSemaforico"), GrupoSemaforico.class));
         }
 
-        if (node.has("tabelaEntreVerdes")) {
+        if (node.has("tabelaEntreVerdesTransicoes")) {
             List<TabelaEntreVerdesTransicao> tabelaEntreVerdes = new ArrayList<TabelaEntreVerdesTransicao>();
-            for (JsonNode tabelaEntreVerdesNode : node.get("tabelaEntreVerdes")) {
+            for (JsonNode tabelaEntreVerdesNode : node.get("tabelaEntreVerdesTransicoes")) {
                 tabelaEntreVerdes.add(Json.fromJson(tabelaEntreVerdesNode, TabelaEntreVerdesTransicao.class));
             }
             transicao.setTabelaEntreVerdes(tabelaEntreVerdes);

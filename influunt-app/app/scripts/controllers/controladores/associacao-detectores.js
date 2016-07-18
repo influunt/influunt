@@ -1,6 +1,5 @@
 'use strict';
 
-
 /**
  * @ngdoc function
  * @name influuntApp.controller:ControladoresAssociacaoDetectoresCtrl
@@ -85,4 +84,3 @@ angular.module('influuntApp')
         });
       };
     }]);
-

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import models.Area;
 import models.Cidade;
 import models.LimiteArea;
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.io.IOException;
 
@@ -31,12 +32,7 @@ public class AreaSerializer extends JsonSerializer<Area> {
             jgen.writeStringField("dataAtualizacao", InfluuntDateTimeSerializer.parse(area.getDataAtualizacao()));
         }
         if (area.getCidade() != null) {
-            Cidade cidade = null;
-            try {
-                cidade = (Cidade) area.getCidade().clone();
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
-            }
+            Cidade cidade = ObjectUtils.clone(area.getCidade());
             cidade.setAreas(null);
             jgen.writeObjectField("cidade", cidade);
         }

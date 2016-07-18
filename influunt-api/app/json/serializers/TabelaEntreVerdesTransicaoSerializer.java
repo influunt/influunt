@@ -8,6 +8,7 @@ import models.GrupoSemaforico;
 import models.TabelaEntreVerdes;
 import models.TabelaEntreVerdesTransicao;
 import models.Transicao;
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.io.IOException;
 
@@ -41,26 +42,16 @@ public class TabelaEntreVerdesTransicaoSerializer extends JsonSerializer<TabelaE
             jgen.writeStringField("tempoAtrasoGrupo", tabelaEntreVerdesTransicao.getTempoAtrasoGrupo().toString());
         }
         if (tabelaEntreVerdesTransicao.getTabelaEntreVerdes() != null) {
-            TabelaEntreVerdes tabelaEntreVerdesAux = null;
-            try {
-                tabelaEntreVerdesAux = (TabelaEntreVerdes) tabelaEntreVerdesTransicao.getTabelaEntreVerdes().clone();
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
-            }
+            TabelaEntreVerdes tabelaEntreVerdesAux = ObjectUtils.clone(tabelaEntreVerdesTransicao.getTabelaEntreVerdes());
             tabelaEntreVerdesAux.setTransicoes(null);
             tabelaEntreVerdesAux.setGrupoSemaforico(null);
             jgen.writeObjectField("tabelaEntreVerdes", tabelaEntreVerdesAux);
         }
         if (tabelaEntreVerdesTransicao.getTransicao() != null) {
-            Transicao transicaoAux = null;
+            Transicao transicaoAux = ObjectUtils.clone(tabelaEntreVerdesTransicao.getTransicao());
             GrupoSemaforico grupoSemaforicoAux = new GrupoSemaforico();
-            try {
-                transicaoAux = (Transicao) tabelaEntreVerdesTransicao.getTransicao().clone();
-                grupoSemaforicoAux.setId(transicaoAux.getGrupoSemaforico().getId());
-                grupoSemaforicoAux.setTipo(transicaoAux.getGrupoSemaforico().getTipo());
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
-            }
+            grupoSemaforicoAux.setId(transicaoAux.getGrupoSemaforico().getId());
+            grupoSemaforicoAux.setTipo(transicaoAux.getGrupoSemaforico().getTipo());
             transicaoAux.setTabelaEntreVerdes(null);
             transicaoAux.setGrupoSemaforico(grupoSemaforicoAux);
             jgen.writeObjectField("transicao", transicaoAux);

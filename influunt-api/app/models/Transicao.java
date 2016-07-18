@@ -16,6 +16,7 @@ import org.joda.time.DateTime;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -26,7 +27,11 @@ import java.util.UUID;
 @Entity
 @JsonSerialize(using = TransicaoSerializer.class)
 @JsonDeserialize(using = TransicaoDeserializer.class)
-public class Transicao extends Model implements Cloneable{
+public class Transicao extends Model implements Cloneable {
+
+    private static final long serialVersionUID = -6578371832958671414L;
+
+    public static Finder<UUID, Transicao> find = new Finder<UUID, Transicao>(Transicao.class);
 
     @Id
     private UUID id;
@@ -60,7 +65,7 @@ public class Transicao extends Model implements Cloneable{
     @Column
     private boolean destroy;
 
-    public Transicao(){
+    public Transicao() {
         super();
     }
 
@@ -70,6 +75,7 @@ public class Transicao extends Model implements Cloneable{
         this.origem = origem;
         this.destino = destino;
         this.destroy = false;
+        criaTabelaEntreVerdesTransicao();
     }
 
     public UUID getId() {
@@ -143,7 +149,7 @@ public class Transicao extends Model implements Cloneable{
     }
 
     public void addTabelaEntreVerdes(TabelaEntreVerdesTransicao tabelaEntreVerdesTransicao) {
-        if(getTabelaEntreVerdes() == null) {
+        if (getTabelaEntreVerdes() == null) {
             setTabelaEntreVerdes(new ArrayList<TabelaEntreVerdesTransicao>());
         }
 
@@ -169,5 +175,12 @@ public class Transicao extends Model implements Cloneable{
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    private void criaTabelaEntreVerdesTransicao() {
+        GrupoSemaforico grupoSemaforico = getGrupoSemaforico();
+        for (TabelaEntreVerdes tabelaEntreVerdes : grupoSemaforico.getTabelasEntreVerdes()) {
+            addTabelaEntreVerdes(new TabelaEntreVerdesTransicao(tabelaEntreVerdes, this));
+        }
     }
 }

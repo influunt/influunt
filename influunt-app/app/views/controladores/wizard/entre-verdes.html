@@ -1,4 +1,4 @@
-<fieldset data-ng-init="inicializaAssociacao()">
+<fieldset data-ng-init="inicializaEntreVerdes()">
   <div class="row">
     <uib-alert type="danger" close="closeAlertAnel(currentAnelIndex, 'all')" data-ng-if="errors.general || errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosDePedestre || errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosVeiculares">
       <div style="padding-left: 12px;">
@@ -13,358 +13,108 @@
       <div class="col-lg-2 col-sm-2 no-padding">
         <div class="col-lg-12 col-sm-12 association min-green side-menu">
           <nav>
-            <ul class="" id="side-menu">
-              <li class="active">
-                <a href="index.html"><span class="nav-label">ANEL 1</span><span class="fa arrow"></span></a>
+            <ul id="side-menu" influunt-metis>
+              <li data-ng-repeat="anel in aneis" data-ng-class="{ 'active': $index === currentAnelIndex }" data-ng-click="selecionaAnel($index)" data-ng-init="anelIndex = $index">
+                <a href="#"><span class="nav-label">ANEL {{ anel.posicao }}</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
-                  <li class="active"><a href="">G1</a></li>
-                  <li><a href="">G2</a></li>
-                  <li><a href="">G3</a></li>
-                  <li><a href="">G4</a></li>
-                </ul>
-              </li>
-              <li class="">
-                <a href="index.html"><span class="nav-label">ANEL 2</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                  <li class="active"><a href="">G1</a></li>
-                  <li><a href="">G2</a></li>
-                  <li><a href="">G3</a></li>
-                  <li><a href="">G4</a></li>
-                </ul>
-              </li>
-              <li class="">
-                <a href="index.html"><span class="nav-label">ANEL 3</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                  <li class="active"><a href="">G1</a></li>
-                  <li><a href="">G2</a></li>
-                  <li><a href="">G3</a></li>
-                  <li><a href="">G4</a></li>
-                </ul>
-              </li>
-              <li class="">
-                <a href="index.html"><span class="nav-label">ANEL 4</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                  <li class="active"><a href="">G1</a></li>
-                  <li><a href="">G2</a></li>
-                  <li><a href="">G3</a></li>
-                  <li><a href="">G4</a></li>
+                  <li data-ng-repeat="grupoSemaforico in anel.gruposSemaforicos" data-ng-class="{ 'active': ($index === currentGrupoSemaforicoIndex) && (currentGrupoSemaforicoIdentifier == anelIndex.toString() + $index.toString()) }" data-ng-click="selecionaGrupoSemaforico($index)">
+                    <a href="">G{{ grupoSemaforico.posicao }}</a>
+                  </li>
                 </ul>
               </li>
             </ul>
-        </nav>
+          </nav>
+        </div>
       </div>
-    </div>
-    <div class="col-lg-3 col-sm-3">
-      <div class="col-lg-12 col-sm-12 association table-entry-green min-green relative">
-        <nav>
+      <div class="col-lg-3 col-sm-3">
+        <div class="col-lg-12 col-sm-12 association table-entry-green min-green relative tabelas-entre-verdes">
+          <nav>
+            <ul>
+              <li data-ng-repeat="tabelaEntreVerdes in currentGrupoSemaforico.tabelasEntreVerdes" data-ng-class="{ 'active': $index == currentTabelaEntreVerdesIndex }" data-ng-click="selecionaTabelaEntreVerdes($index)">
+                <div class="col-lg-12 col-sm-12">
+                  <label for="">TABELA {{ tabelaEntreVerdes.descricao }}</label><i class="fa fa-times pull-right m-t-sm remove-tabela-entre-verdes" data-ng-if="$index !== 0" data-ng-click="removerTabelaEntreVerdes($index)"></i>
+                </div>
+              </li>
+              <!-- <li><div class="col-lg-12 col-sm-12"><label for="">TABELA VERMELHO</label></div></li>
+              <li><div class="col-lg-12 col-sm-12"><label for="">TABELA AZUL</label></div></li> -->
+            </ul>
+          </nav>
+          <footer>
+            <a target="Nova tabela" data-ng-click="adicionarTabelaEntreVerdes()">Nova tabela</a>
+          </footer>
+        </div>
+      </div>
+      <div class="col-lg-7 col-sm-7 association tables-associated">
+        <header class="col-lg-12 col-sm-12">
+          <div class="form-group">
+            <label>Descrição</label>
+            <input type="text" placeholder="Descrição" class="form-control" ng-model="currentTabelaEntreVerdes.descricao">
+          </div>
+        </header>
+
+        <nav class="association-know" style="display:block;">
           <ul>
-            <li><div class="col-lg-12 col-sm-12"><label for="">TABELA AMARELO</label></div></li> 
-            <li><div class="col-lg-12 col-sm-12"><label for="">TABELA VERMELHO</label></div></li> 
-            <li><div class="col-lg-12 col-sm-12"><label for="">TABELA AZUL</label></div></li>          
+            <li data-ng-repeat="tevTransicao in tabelasEntreVerdesTransicoes">
+
+              <div class="group-figures col-lg-5 col-sm-5 no-padding">
+                <div class="group-figure">
+                  <figure>
+                    <label for="">E{{ tevTransicao.transicao.origem.posicao }}</label>
+                    <img ng-src="{{ tevTransicao.transicao.origem.imagem.id | imageSource }}" width="160" alt="{{ tevTransicao.transicao.origem.descricao }}">
+                  </figure>
+                </div>
+                <div class="group-figure">
+                  <figure>
+                    <label for="">E{{ tevTransicao.transicao.destino.posicao }}</label>
+                    <!-- <img src="" alt=""> -->
+                    <img ng-src="{{ tevTransicao.transicao.destino.imagem.id | imageSource }}" width="160" alt="{{ tevTransicao.transicao.destino.descricao }}">
+                  </figure>
+                </div>
+              </div>
+              <div class="group-figures col-lg-7 col-sm-7 no-padding initial-position">
+                <div class="knob">
+                  <div class="text-center">
+                    <div class="knob-item" data-ng-class="{ 'col-lg-4 col-sm-4': currentTabelaEntreVerdes.posicao === 1, 'col-lg-6 col-sm-6': currentTabelaEntreVerdes.posicao !== 1 }">
+                      <!-- <pre>{{possuiErroAmareloOuVermelho(currentGrupoSemaforico, $index)}}</pre> -->
+                      <span class="badge badge-danger badge-notification"
+                        data-ng-show="possuiErroAmareloOuVermelho(currentGrupoSemaforico, $index)"
+                        inf-tooltip
+                        messages="[errosAmareloOuVermelho(currentGrupoSemaforico, $index)]">
+                        <i class="fa fa-exclamation"></i>
+                      </span>
+                      <influunt-knob title="{{ amareloOuVermelho(currentGrupoSemaforico) }}" label="SEG" min="limites(tevTransicao.transicao.grupoSemaforico)[amareloOuVermelho(currentGrupoSemaforico, true)].min" max="limites(tevTransicao.transicao.grupoSemaforico)[amareloOuVermelho(currentGrupoSemaforico, true)].max" data-ng-model="tevTransicao[amareloOuVermelho(currentGrupoSemaforico, true)]"></influunt-knob>
+                    </div>
+                    <div class="knob-item col-lg-4 col-sm-4">
+                      <span class="badge badge-danger badge-notification"
+                        data-ng-show="possuiErroVermelhoLimpeza(currentGrupoSemaforico, $index)"
+                        inf-tooltip
+                        messages="[errosVermelhoLimpeza(currentGrupoSemaforico, $index)]">
+                        <i class="fa fa-exclamation"></i>
+                      </span>
+                      <influunt-knob title="Vermelho de Limpeza" label="SEG" min="limites(tevTransicao.transicao.grupoSemaforico).tempoVermelhoLimpeza.min" max="limites(tevTransicao.transicao.grupoSemaforico).tempoVermelhoLimpeza.max" data-ng-model="tevTransicao.tempoVermelhoLimpeza"></influunt-knob>
+                    </div>
+                    <div class="knob-item col-lg-4 col-sm-4 delay-time" data-ng-if="currentTabelaEntreVerdes.posicao === 1">
+                      <span class="badge badge-danger badge-notification"
+                        data-ng-show="possuiErroAtrasoGrupo(currentGrupoSemaforico, $index)"
+                        inf-tooltip
+                        messages="[errosAtrasoGrupo(currentGrupoSemaforico, $index)]">
+                        <i class="fa fa-exclamation"></i>
+                      </span>
+                      <influunt-knob title="Atraso de Grupo" label="SEG" min="limites(tevTransicao.transicao.grupoSemaforico).tempoAtrasoGrupo.min" max="limites(tevTransicao.transicao.grupoSemaforico).tempoAtrasoGrupo.max" data-ng-model="tevTransicao.tempoAtrasoGrupo"></influunt-knob>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
           </ul>
         </nav>
-        <footer>
-          <a href="/" target="Nova tabela">Nova tabela</a>
-        </footer>
+      </div>
+      <div class="col-sm-12 col-lg-12 no-pading bg-border pg-bt m-t-lg">
+        <a data-ng-click="submitForm({$valid: true}, 'entre_verdes', 'app.wizard_controladores.transicoes_proibidas')" class="btn btn-default left m-r-sm">{{ 'plugins.steps.labels.previous' | translate }}</a>
+        <a data-ng-click="submitForm({$valid: true}, 'entre_verdes', 'app.wizard_controladores.associacao_detectores')" class="btn btn-primary left">{{ 'plugins.steps.labels.next' | translate }}</a>
       </div>
     </div>
-    <div class="col-lg-7 col-sm-7 association tables-associated">
-      <header class="col-lg-12 col-sm-12">
-        <div class="form-group">
-          <label>Email</label>
-          <input type="email" placeholder="Enter email" class="form-control">
-        </div>
-      </header>
-      <!-- table sem o tempo de atraso de grupo -->
-      <nav class="association-know" style="display:none;">
-        <ul>
-          <li>
-            <div class="group-figures col-lg-5 col-sm-5 no-padding">
-              <div class="group-figure">                
-                <figure>  
-                  <label for="">E1</label>              
-                  <img src="http://bit.ly/29gWJLk" alt="" width="160">
-                </figure>
-              </div>
-              <div class="group-figure">                
-                <figure>   
-                  <label for="">E3</label>             
-                  <img src="" alt="">
-                </figure>
-              </div>
-            </div>
-            <div class="group-figures col-lg-7 col-sm-7 no-padding">
-              <div class="knob">
-                <div class="text-center">    
-                  <div class="knob-item col-lg-6 col-sm-6">
-                    <p>Amarelo</p>           
-                    <div class="inline meters relative">     
-                      <label>SEG</label>               
-                      <input type="text" value="20" class="dial m-r-sm" data-fgColor="#1AB394" data-width="85" data-height="85" />
-                    </div>
-                  </div>
-                  <div class="knob-item col-lg-6 col-sm-6">
-                    <p>Amarelo</p>           
-                    <div class="inline meters relative">     
-                      <label>SEG</label>               
-                      <input type="text" value="90" class="dial m-r-sm" data-fgColor="#1AB394" data-width="85" data-height="85" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </li>    
-          <li>
-            <div class="group-figures col-lg-5 col-sm-5 no-padding">
-              <div class="group-figure">                
-                <figure>  
-                  <label for="">E1</label>              
-                  <img src="http://bit.ly/29gWJLk" alt="" width="160">
-                </figure>
-              </div>
-              <div class="group-figure">                
-                <figure>   
-                  <label for="">E3</label>             
-                  <img src="" alt="">
-                </figure>
-              </div>
-            </div>
-            <div class="group-figures col-lg-7 col-sm-7 no-padding">
-              <div class="knob">
-                <div class="text-center">    
-                  <div class="knob-item col-lg-6 col-sm-6">
-                    <p>Amarelo</p>           
-                    <div class="inline meters relative">     
-                      <label>SEG</label>               
-                      <input type="text" value="5" class="dial m-r-sm" data-fgColor="#1AB394" data-width="85" data-height="85" />
-                    </div>
-                  </div>
-                  <div class="knob-item col-lg-6 col-sm-6">
-                    <p>Amarelo</p>           
-                    <div class="inline meters relative">     
-                      <label>SEG</label>               
-                      <input type="text" value="20" class="dial m-r-sm" data-fgColor="#1AB394" data-width="85" data-height="85" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </li>    
-          <li>
-            <div class="group-figures col-lg-5 col-sm-5 no-padding">
-              <div class="group-figure">                
-                <figure>  
-                  <label for="">E1</label>              
-                  <img src="http://bit.ly/29gWJLk" alt="" width="160">
-                </figure>
-              </div>
-              <div class="group-figure">                
-                <figure>   
-                  <label for="">E3</label>             
-                  <img src="" alt="">
-                </figure>
-              </div>
-            </div>
-            <div class="group-figures col-lg-7 col-sm-7 no-padding">
-              <div class="knob">
-                <div class="text-center">    
-                  <div class="knob-item col-lg-6 col-sm-6">
-                    <p>Amarelo</p>           
-                    <div class="inline meters relative">     
-                      <label>SEG</label>               
-                      <input type="text" value="15" class="dial m-r-sm" data-fgColor="#1AB394" data-width="85" data-height="85" />
-                    </div>
-                  </div>
-                  <div class="knob-item col-lg-6 col-sm-6">
-                    <p>Amarelo</p>           
-                    <div class="inline meters relative">     
-                      <label>SEG</label>               
-                      <input type="text" value="80" class="dial m-r-sm" data-fgColor="#1AB394" data-width="85" data-height="85" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </li>    
-          <li>
-            <div class="group-figures col-lg-5 col-sm-5 no-padding">
-              <div class="group-figure">                
-                <figure>  
-                  <label for="">E1</label>              
-                  <img src="http://bit.ly/29gWJLk" alt="" width="160">
-                </figure>
-              </div>
-              <div class="group-figure">                
-                <figure>   
-                  <label for="">E3</label>             
-                  <img src="" alt="">
-                </figure>
-              </div>
-            </div>
-            <div class="group-figures col-lg-7 col-sm-7 no-padding">
-              <div class="knob">
-                <div class="text-center">    
-                  <div class="knob-item col-lg-6 col-sm-6">
-                    <p>Amarelo</p>           
-                    <div class="inline meters relative">     
-                      <label>SEG</label>               
-                      <input type="text" value="20" class="dial m-r-sm" data-fgColor="#1AB394" data-width="85" data-height="85" />
-                    </div>
-                  </div>
-                  <div class="knob-item col-lg-6 col-sm-6">
-                    <p>Amarelo</p>           
-                    <div class="inline meters relative">     
-                      <label>SEG</label>               
-                      <input type="text" value="75" class="dial m-r-sm" data-fgColor="#1AB394" data-width="85" data-height="85" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </li>            
-        </ul>
-      </nav>
-      <!-- table com a coluna tempo de atraso de grupo -->
-      <nav class="association-know" style="display">
-        <ul>
-          <li>
-            <div class="group-figures col-lg-5 col-sm-5 no-padding">
-              <div class="group-figure">                
-                <figure>  
-                  <label for="">E1</label>              
-                  <img src="http://bit.ly/29gWJLk" alt="" width="160">
-                </figure>
-              </div>
-              <div class="group-figure">                
-                <figure>   
-                  <label for="">E3</label>             
-                  <img src="" alt="">
-                </figure>
-              </div>
-            </div>
-            <div class="group-figures col-lg-7 col-sm-7 no-padding initial-position">
-              <div class="knob">
-                <div class="text-center">    
-                  <div class="knob-item col-lg-4 col-sm-4">
-                    <p>Amarelo</p>           
-                    <div class="inline meters relative">     
-                      <label>SEG</label>               
-                      <input type="text" value="75" class="dial m-r-sm" data-fgColor="#1AB394" data-width="85" data-height="85" />
-                    </div>
-                  </div>
-                  <div class="knob-item col-lg-4 col-sm-4">
-                    <p>Amarelo</p>           
-                    <div class="inline meters relative">     
-                      <label>SEG</label>               
-                      <input type="text" value="75" class="dial m-r-sm" data-fgColor="#1AB394" data-width="85" data-height="85" />
-                    </div>
-                  </div>
-                  <div class="knob-item col-lg-4 col-sm-4 delay-time">
-                    <p>Tempo de atraso de grupo</p>           
-                    <div class="inline meters relative">     
-                      <label>SEG</label>               
-                      <input type="text" value="75" class="dial m-r-sm" data-fgColor="#1AB394" data-width="85" data-height="85" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </li>  
-          <li>
-            <div class="group-figures col-lg-5 col-sm-5 no-padding">
-              <div class="group-figure">                
-                <figure>  
-                  <label for="">E1</label>              
-                  <img src="http://bit.ly/29gWJLk" alt="" width="160">
-                </figure>
-              </div>
-              <div class="group-figure">                
-                <figure>   
-                  <label for="">E3</label>             
-                  <img src="" alt="">
-                </figure>
-              </div>
-            </div>
-            <div class="group-figures col-lg-7 col-sm-7 no-padding initial-position">
-              <div class="knob">
-                <div class="text-center">    
-                  <div class="knob-item col-lg-4 col-sm-4">
-                    <p>Amarelo</p>           
-                    <div class="inline meters relative">     
-                      <label>SEG</label>               
-                      <input type="text" value="50" class="dial m-r-sm" data-fgColor="#1AB394" data-width="85" data-height="85" />
-                    </div>
-                  </div>
-                  <div class="knob-item col-lg-4 col-sm-4">
-                    <p>Amarelo</p>           
-                    <div class="inline meters relative">     
-                      <label>SEG</label>               
-                      <input type="text" value="35" class="dial m-r-sm" data-fgColor="#1AB394" data-width="85" data-height="85" />
-                    </div>
-                  </div>
-                  <div class="knob-item col-lg-4 col-sm-4 delay-time">
-                    <p>Tempo de atraso de grupo</p>           
-                    <div class="inline meters relative">     
-                      <label>SEG</label>               
-                      <input type="text" value="75" class="dial m-r-sm" data-fgColor="#1AB394" data-width="85" data-height="85" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </li>     
-          <li>
-            <div class="group-figures col-lg-5 col-sm-5 no-padding">
-              <div class="group-figure">                
-                <figure>  
-                  <label for="">E1</label>              
-                  <img src="http://bit.ly/29gWJLk" alt="" width="160">
-                </figure>
-              </div>
-              <div class="group-figure">                
-                <figure>   
-                  <label for="">E3</label>             
-                  <img src="" alt="">
-                </figure>
-              </div>
-            </div>
-            <div class="group-figures col-lg-7 col-sm-7 no-padding initial-position">
-              <div class="knob">
-                <div class="text-center">    
-                  <div class="knob-item col-lg-4 col-sm-4">
-                    <p>Amarelo</p>           
-                    <div class="inline meters relative">     
-                      <label>SEG</label>               
-                      <input type="text" value="75" class="dial m-r-sm" data-fgColor="#1AB394" data-width="85" data-height="85" />
-                    </div>
-                  </div>
-                  <div class="knob-item col-lg-4 col-sm-4">
-                    <p>Amarelo</p>           
-                    <div class="inline meters relative">     
-                      <label>SEG</label>               
-                      <input type="text" value="50" class="dial m-r-sm" data-fgColor="#1AB394" data-width="85" data-height="85" />
-                    </div>
-                  </div>
-                  <div class="knob-item col-lg-4 col-sm-4 delay-time">
-                    <p>Tempo de atraso de grupo</p>           
-                    <div class="inline meters relative">     
-                      <label>SEG</label>               
-                      <input type="text" value="20" class="dial m-r-sm" data-fgColor="#1AB394" data-width="85" data-height="85" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </li>           
-        </ul>
-      </nav>
-    </div>
-    <div class="col-sm-12 col-lg-12 no-pading bg-border pg-bt m-t-lg">
-      <a data-ng-click="submitForm({$valid: true}, 'associacao_grupos_semaforicos', 'app.wizard_controladores.aneis')" class="btn btn-default left m-r-sm">{{ 'plugins.steps.labels.previous' | translate }}</a>
-      <a data-ng-click="submitForm({$valid: true}, 'associacao_grupos_semaforicos', 'app.wizard_controladores.verdes_conflitantes')" class="btn btn-primary left">{{ 'plugins.steps.labels.next' | translate }}</a>
-    </div>
   </div>
-</div>
 </fieldset>
 <!-- {{ objeto }} -->
 
@@ -374,10 +124,7 @@
     WinMove();
 
     //jQuery Knob
-    $(".dial").knob();
-
-    // MetsiMenu
-    $('#side-menu').metisMenu();
+    // $(".dial").knob();
 
     function WinMove() {
       var element = ".handle";

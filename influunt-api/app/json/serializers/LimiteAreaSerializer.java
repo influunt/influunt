@@ -26,10 +26,10 @@ public class LimiteAreaSerializer extends JsonSerializer<LimiteArea> {
         if (limiteArea.getDataAtualizacao() != null) {
             jgen.writeStringField("dataAtualizacao", InfluuntDateTimeSerializer.parse(limiteArea.getDataAtualizacao()));
         }
-        if(limiteArea.getLatitude() != null) {
+        if (limiteArea.getLatitude() != null) {
             jgen.writeStringField("latitude", limiteArea.getLatitude().toString());
         }
-        if(limiteArea.getLongitude() != null) {
+        if (limiteArea.getLongitude() != null) {
             jgen.writeStringField("longitude", limiteArea.getLongitude().toString());
         }
 

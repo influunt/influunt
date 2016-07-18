@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import models.Anel;
 import models.Detector;
 import models.Estagio;
+import org.apache.commons.lang3.ObjectUtils;
 import play.Logger;
 
 import java.io.IOException;
@@ -54,12 +55,7 @@ public class DetectorSerializer extends JsonSerializer<Detector> {
             jgen.writeNumberField("tempoDeteccaoPermanenteMaxima", detector.getTempoDeteccaoPermanenteMaxima());
         }
         if (detector.getAnel() != null) {
-            Anel anel = null;
-            try {
-                anel = (Anel) detector.getAnel().clone();
-            } catch (CloneNotSupportedException e) {
-                Logger.error("Erro ao serializar o Anel.", e);
-            }
+            Anel anel = ObjectUtils.clone(detector.getAnel());
             anel.setDetectores(null);
             anel.setGruposSemaforicos(null);
             anel.setControlador(null);
@@ -67,12 +63,7 @@ public class DetectorSerializer extends JsonSerializer<Detector> {
             jgen.writeObjectField("anel", anel);
         }
         if (detector.getEstagio() != null) {
-            Estagio estagio = null;
-            try {
-                estagio = (Estagio) detector.getEstagio().clone();
-            } catch (CloneNotSupportedException e) {
-                Logger.error("Erro ao serializar o Estagio.", e);
-            }
+            Estagio estagio = ObjectUtils.clone(detector.getEstagio());
             estagio.setDetector(null);
             estagio.setEstagiosGruposSemaforicos(null);
             estagio.setOrigemDeTransicoesProibidas(null);

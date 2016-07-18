@@ -309,7 +309,7 @@ public class Anel extends Model implements Cloneable {
                 grupoSemaforico.setAnel(this);
                 grupoSemaforico.setPosicao(this.getControlador().getGruposSemaforicos().size() + 1);
                 grupoSemaforico.setControlador(this.getControlador());
-                grupoSemaforico.addTabelaEntreVerdes(new TabelaEntreVerdes(grupoSemaforico));
+                grupoSemaforico.addTabelaEntreVerdes(criaTabelaEntreVerdes(grupoSemaforico, 1));
                 getGruposSemaforicos().add(grupoSemaforico);
                 this.getControlador().getGruposSemaforicos().add(grupoSemaforico);
             }
@@ -381,7 +381,7 @@ public class Anel extends Model implements Cloneable {
     @AssertTrue(groups = PlanosCheck.class,
             message = "O anel ativo deve ter pelo menos 1 plano configurado.")
     public boolean isAoMenosUmPlanoConfigurado() {
-        if(this.isAtivo()) {
+        if (this.isAtivo()) {
             return !this.getPlanos().isEmpty();
         }
         return true;
@@ -435,6 +435,15 @@ public class Anel extends Model implements Cloneable {
     public Object clone() throws CloneNotSupportedException {
         getDataCriacao();
         return super.clone();
+    }
+
+    private TabelaEntreVerdes criaTabelaEntreVerdes(GrupoSemaforico grupoSemaforico, int posicao) {
+        TabelaEntreVerdes tabelaEntreVerdes = new TabelaEntreVerdes(grupoSemaforico, posicao);
+        for (Transicao transicao : grupoSemaforico.getTransicoes()) {
+            TabelaEntreVerdesTransicao tevTransicao = new TabelaEntreVerdesTransicao(tabelaEntreVerdes, transicao);
+            tabelaEntreVerdes.addTransicao(tevTransicao);
+        }
+        return tabelaEntreVerdes;
     }
 }
 

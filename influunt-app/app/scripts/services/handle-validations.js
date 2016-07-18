@@ -24,8 +24,8 @@ angular.module('influuntApp')
           validations[path].push(err.message);
         });
 
-        _.each(validations, function(val, key) {
-          _.update(response, key, _.constant(val));
+        _.each(validations, function(path, messages) {
+          _.update(response, messages, _.constant(path));
         });
 
         // Específicos para as validações em escopo de anel.

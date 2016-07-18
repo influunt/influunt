@@ -37,6 +37,9 @@ public class EstagioDeserializer extends JsonDeserializer<Estagio> {
         if (node.get("demandaPrioritaria") != null) {
             estagio.setDemandaPrioritaria(node.get("demandaPrioritaria").asBoolean());
         }
+        if (node.get("posicao") != null) {
+            estagio.setPosicao(node.get("posicao").asInt());
+        }
         if (node.has("imagem")) {
             Imagem img = new Imagem();
             img.setId(UUID.fromString(node.get("imagem").get("id").asText()));

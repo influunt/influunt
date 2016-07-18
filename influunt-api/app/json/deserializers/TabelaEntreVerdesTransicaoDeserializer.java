@@ -30,11 +30,18 @@ public class TabelaEntreVerdesTransicaoDeserializer extends JsonDeserializer<Tab
                 tabelaEntreVerdesTransicao.setId(UUID.fromString(id.asText()));
             }
         }
-
-        tabelaEntreVerdesTransicao.setTempoAmarelo(node.get("tempoAmarelo") != null ? node.get("tempoAmarelo").asInt() : null);
-        tabelaEntreVerdesTransicao.setTempoVermelhoIntermitente(node.get("tempoVermelhoIntermitente") != null ? node.get("tempoVermelhoIntermitente").asInt() : null);
-        tabelaEntreVerdesTransicao.setTempoVermelhoLimpeza(node.get("tempoVermelhoLimpeza") != null ? node.get("tempoVermelhoLimpeza").asInt() : null);
-        tabelaEntreVerdesTransicao.setTempoAtrasoGrupo(node.get("tempoAtrasoGrupo") != null ? node.get("tempoAtrasoGrupo").asInt() : null);
+        if (node.get("tempoAmarelo") != null) {
+            tabelaEntreVerdesTransicao.setTempoAmarelo(node.get("tempoAmarelo").asInt());
+        }
+        if (node.get("tempoVermelhoIntermitente") != null) {
+            tabelaEntreVerdesTransicao.setTempoVermelhoIntermitente(node.get("tempoVermelhoIntermitente").asInt());
+        }
+        if (node.get("tempoVermelhoLimpeza") != null) {
+            tabelaEntreVerdesTransicao.setTempoVermelhoLimpeza(node.get("tempoVermelhoLimpeza").asInt());
+        }
+        if (node.get("tempoAtrasoGrupo") != null) {
+            tabelaEntreVerdesTransicao.setTempoAtrasoGrupo(node.get("tempoAtrasoGrupo").asInt());
+        }
 
         if (node.has("transicao")) {
             tabelaEntreVerdesTransicao.setTransicao(Json.fromJson(node.get("transicao"), Transicao.class));

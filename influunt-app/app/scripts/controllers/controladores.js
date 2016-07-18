@@ -91,6 +91,9 @@ angular.module('influuntApp')
       };
 
       $scope.submitForm = function(form, stepResource, nextStep) {
+        if (angular.isFunction($scope.beforeSubmitForm)) {
+          $scope.beforeSubmitForm();
+        }
         if (form.$valid) {
           Restangular
             .all('controladores')
@@ -104,6 +107,9 @@ angular.module('influuntApp')
             })
             .catch(function(res) {
               if (res.status === 422) {
+                if (angular.isFunction($scope.afterSubmitFormOnValidationError)) {
+                  $scope.afterSubmitFormOnValidationError();
+                }
                 $scope.buildValidationMessages(res.data);
               } else {
                 console.error(res);
@@ -145,10 +151,43 @@ angular.module('influuntApp')
       };
 
       /**
+       * Seleciona um grupo semafórico do anel atual atraves do índice.
+       *
+       * @param      {int}  index   The index
+       */
+      $scope.selecionaGrupoSemaforico = function(index) {
+        $scope.currentGrupoSemaforicoIndex = index;
+        $scope.currentGrupoSemaforico = $scope.currentAnel.gruposSemaforicos[index];
+        $scope.currentGrupoSemaforicoIdentifier = $scope.currentAnelIndex.toString() + index.toString();
+
+        if (angular.isDefined($scope.isTabelaEntreVerdes) && $scope.isTabelaEntreVerdes) {
+          $scope.selecionaTabelaEntreVerdes(0);
+        }
+      };
+
+      /**
+       * Seleciona uma tabela entre-verdes do grupo semaforico atual atraves do índice.
+       *
+       * @param      {int}  index   The index
+       */
+      $scope.selecionaTabelaEntreVerdes = function(index) {
+        $scope.currentTabelaEntreVerdesIndex = index;
+        $scope.currentTabelaEntreVerdes = $scope.currentGrupoSemaforico.tabelasEntreVerdes[index];
+        $scope.tabelasEntreVerdesTransicoes = _.chain($scope.currentGrupoSemaforico.transicoes)
+                                     .map(function(transicao) { return transicao.tabelaEntreVerdesTransicoes })
+                                     .flatten()
+                                     .filter(function(tevt) { return tevt.tabelaEntreVerdes.posicao === index + 1 })
+                                     .value();
+        $scope.tabelasEntreVerdesTransicoes.forEach(function(tevTransicoes) {
+          tevTransicoes.tabelaEntreVerdes = $scope.currentTabelaEntreVerdes;
+        });
+      };
+
+      /**
        * Deleta a lista de mensagens de validações globais. Recebe o parametro shownGroup,
        * que deve conter o nome do grupo apresentado nas mensagens.
        *
-       * @param      {<type>}  index       The index
+       * @param      {int}  index       The index
        * @param      {<type>}  shownGroup  The shown group
        */
       $scope.closeAlert = function(index, shownGroup) {
@@ -161,6 +200,7 @@ angular.module('influuntApp')
       $scope.buildValidationMessages = function(errors) {
         $scope.errors = handleValidations.handle(errors);
         $scope.errors.aneis = _.compact($scope.errors.aneis);
+        console.log('$scope.errors: ', $scope.errors);
         $scope.getErrosVerdes();
       };
 

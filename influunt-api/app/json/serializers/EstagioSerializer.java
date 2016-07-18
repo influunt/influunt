@@ -34,6 +34,9 @@ public class EstagioSerializer extends JsonSerializer<Estagio> {
         if (estagio.getDemandaPrioritaria() != null) {
             jgen.writeBooleanField("demandaPrioritaria", estagio.getDemandaPrioritaria());
         }
+        if (estagio.getPosicao() != null) {
+            jgen.writeNumberField("posicao", estagio.getPosicao());
+        }
         if (estagio.getDataCriacao() != null) {
             jgen.writeStringField("dataCriacao", InfluuntDateTimeSerializer.parse(estagio.getDataAtualizacao()));
         }

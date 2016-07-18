@@ -14,13 +14,16 @@ import java.io.IOException;
 /**
  * Created by lesiopinheiro on 6/16/16.
  */
-public class InfluuntDateTimeSerializer extends JodaDateSerializerBase<DateTime>
-{
-    private static final long serialVersionUID = 1L;
+public class InfluuntDateTimeSerializer extends JodaDateSerializerBase<DateTime> {
 
+    private static final long serialVersionUID = -1748376807878305485L;
+    
     private final static DateTimeFormatter DATETIME_FORMAT = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss");
 
-    public InfluuntDateTimeSerializer() { this(new JacksonJodaDateFormat(DATETIME_FORMAT)); }
+    public InfluuntDateTimeSerializer() {
+        this(new JacksonJodaDateFormat(DATETIME_FORMAT));
+    }
+
     public InfluuntDateTimeSerializer(JacksonJodaDateFormat format) {
         // false -> no arrays (numbers)
         super(DateTime.class, format, false,
@@ -38,8 +41,7 @@ public class InfluuntDateTimeSerializer extends JodaDateSerializerBase<DateTime>
     }
 
     @Override
-    public void serialize(DateTime value, JsonGenerator gen, SerializerProvider provider) throws IOException
-    {
+    public void serialize(DateTime value, JsonGenerator gen, SerializerProvider provider) throws IOException {
         gen.writeString(DATETIME_FORMAT.print(value));
     }
 

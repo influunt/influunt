@@ -4,9 +4,11 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import models.Estagio;
 import models.GrupoSemaforico;
 import models.TabelaEntreVerdesTransicao;
 import models.Transicao;
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.io.IOException;
 
@@ -29,41 +31,47 @@ public class TransicaoSerializer extends JsonSerializer<Transicao> {
         }
 
         if (transicao.getOrigem() != null) {
+            Estagio origem = transicao.getOrigem();
             jgen.writeObjectFieldStart("origem");
-            jgen.writeStringField("id", transicao.getOrigem().getId().toString());
-            jgen.writeStringField("descricao", transicao.getOrigem().getDescricao());
+            jgen.writeStringField("id", origem.getId().toString());
+            jgen.writeStringField("descricao", origem.getDescricao());
+            if (origem.getImagem() != null) {
+                jgen.writeObjectFieldStart("imagem");
+                jgen.writeStringField("id", origem.getImagem().getId().toString());
+                jgen.writeEndObject();
+            }
+            if (origem.getPosicao() != null) {
+                jgen.writeNumberField("posicao", origem.getPosicao());
+            }
             jgen.writeEndObject();
         }
 
         if (transicao.getDestino() != null) {
+            Estagio destino = transicao.getDestino();
             jgen.writeObjectFieldStart("destino");
-            jgen.writeStringField("id", transicao.getDestino().getId().toString());
-            jgen.writeStringField("descricao", transicao.getDestino().getDescricao());
-
+            jgen.writeStringField("id", destino.getId().toString());
+            jgen.writeStringField("descricao", destino.getDescricao());
+            if (destino.getImagem() != null) {
+                jgen.writeObjectFieldStart("imagem");
+                jgen.writeStringField("id", destino.getImagem().getId().toString());
+                jgen.writeEndObject();
+            }
+            if (destino.getPosicao() != null) {
+                jgen.writeNumberField("posicao", destino.getPosicao());
+            }
             jgen.writeEndObject();
         }
 
         if (transicao.getTabelaEntreVerdes() != null) {
-            jgen.writeArrayFieldStart("tabelaEntreVerdes");
+            jgen.writeArrayFieldStart("tabelaEntreVerdesTransicoes");
             for (TabelaEntreVerdesTransicao tabelaEntreVerdes : transicao.getTabelaEntreVerdes()) {
-                TabelaEntreVerdesTransicao tabelaEntreVerdesAux = null;
-                try {
-                    tabelaEntreVerdesAux = (TabelaEntreVerdesTransicao) tabelaEntreVerdes.clone();
-                } catch (CloneNotSupportedException e) {
-                    e.printStackTrace();
-                }
-                jgen.writeObject(tabelaEntreVerdesAux);
+                jgen.writeObject(tabelaEntreVerdes);
             }
             jgen.writeEndArray();
         }
 
         if (transicao.getGrupoSemaforico() != null) {
-            GrupoSemaforico grupo = null;
-            try {
-                grupo = (GrupoSemaforico) transicao.getGrupoSemaforico().clone();
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
-            }
+            GrupoSemaforico grupo = ObjectUtils.clone(transicao.getGrupoSemaforico());
             grupo.setTransicoes(null);
             grupo.setEstagioGrupoSemaforicos(null);
             jgen.writeObjectField("grupoSemaforico", grupo);

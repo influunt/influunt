@@ -35,12 +35,7 @@ public class GrupoSemaforicoSerializer extends JsonSerializer<GrupoSemaforico> {
             jgen.writeStringField("descricao", grupoSemaforico.getDescricao());
         }
         if (grupoSemaforico.getAnel() != null) {
-            Anel anel = null;
-            try {
-                anel = (Anel) grupoSemaforico.getAnel().clone();
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
-            }
+            Anel anel = ObjectUtils.clone(grupoSemaforico.getAnel());
             anel.setGruposSemaforicos(null);
             anel.setDetectores(null);
             anel.setControlador(null);

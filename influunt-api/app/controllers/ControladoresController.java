@@ -94,7 +94,7 @@ public class ControladoresController extends Controller {
         }
     }
 
-    private CompletionStage<Result> doStep( Class<?>... validatiosGroups) {
+    private CompletionStage<Result> doStep(Class<?>... validationGroups) {
         if (request().body() == null) {
             return CompletableFuture.completedFuture(badRequest());
         }
@@ -105,7 +105,7 @@ public class ControladoresController extends Controller {
         if (checkIfExists && Controlador.find.byId(controlador.getId()) == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
-            List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, validatiosGroups);
+            List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, validationGroups);
             if (erros.size() > 0) {
                 return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
             } else {
