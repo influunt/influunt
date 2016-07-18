@@ -46,7 +46,7 @@ public class InfluuntRange<T extends Comparable> {
      * @return the maximum value in this range
      */
     public T getMax() {
-        return getMax();
+        return max;
     }
 
     /**
