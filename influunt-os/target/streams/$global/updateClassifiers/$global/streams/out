@@ -10,7 +10,7 @@
 [debug] == resolving dependencies for 72c-os#72c-os$sources_2.11;2.4.4 [compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-actor_2.11;2.4.7 [compile->default(compile)]
 [info] Resolving com.typesafe.akka#akka-actor_2.11;2.4.7 ...
-[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@5a47f632
+[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@3038735c
 [debug] sbt-chain: module revision found in cache: com.typesafe.akka#akka-actor_2.11;2.4.7
 [debug] 	found com.typesafe.akka#akka-actor_2.11;2.4.7 in sbt-chain
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-actor_2.11;2.4.7 [compile->runtime]
@@ -18,7 +18,7 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-actor_2.11;2.4.7 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang#scala-library;2.11.8 [compile->default(compile)]
 [info] Resolving org.scala-lang#scala-library;2.11.8 ...
-[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@3e2937c2
+[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@20d5bc0
 [debug] sbt-chain: module revision found in cache: org.scala-lang#scala-library;2.11.8
 [debug] 	found org.scala-lang#scala-library;2.11.8 in sbt-chain
 [debug] 	[2.11.8] org.scala-lang#scala-library;2.11.8
@@ -27,7 +27,7 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang#scala-library;2.11.8 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe#config;1.3.0 [compile->default(compile)]
 [info] Resolving com.typesafe#config;1.3.0 ...
-[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@41a8ee8b
+[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@2372923e
 [debug] sbt-chain: module revision found in cache: com.typesafe#config;1.3.0
 [debug] 	found com.typesafe#config;1.3.0 in sbt-chain
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe#config;1.3.0 [compile->runtime]
@@ -35,31 +35,47 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe#config;1.3.0 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [compile->default(compile)]
 [info] Resolving org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 ...
-[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@932e129
+[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@4eb794c8
 [debug] sbt-chain: module revision found in cache: org.scala-lang.modules#scala-java8-compat_2.11;0.7.0
 [debug] 	found org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 in sbt-chain
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [compile->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->default(compile)]
-[info] Resolving com.typesafe.akka#akka-remote_2.11;2.4.7 ...
-[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@707e4704
-[debug] sbt-chain: module revision found in cache: com.typesafe.akka#akka-remote_2.11;2.4.7
-[debug] 	found com.typesafe.akka#akka-remote_2.11;2.4.7 in sbt-chain
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->default(compile)]
+[info] Resolving com.typesafe.akka#akka-persistence_2.11;2.4.7 ...
+[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@34427144
+[debug] sbt-chain: module revision found in cache: com.typesafe.akka#akka-persistence_2.11;2.4.7
+[debug] 	found com.typesafe.akka#akka-persistence_2.11;2.4.7 in sbt-chain
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [compile->default(compile)]
 [info] Resolving com.typesafe.akka#akka-protobuf_2.11;2.4.7 ...
-[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@2150465
+[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@2ffc93
 [debug] sbt-chain: module revision found in cache: com.typesafe.akka#akka-protobuf_2.11;2.4.7
 [debug] 	found com.typesafe.akka#akka-protobuf_2.11;2.4.7 in sbt-chain
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [compile->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [compile->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->default(compile)]
+[info] Resolving com.typesafe.akka#akka-contrib_2.11;2.4.7 ...
+[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@1361c658
+[debug] sbt-chain: module revision found in cache: com.typesafe.akka#akka-contrib_2.11;2.4.7
+[debug] 	found com.typesafe.akka#akka-contrib_2.11;2.4.7 in sbt-chain
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->default(compile)]
+[info] Resolving com.typesafe.akka#akka-remote_2.11;2.4.7 ...
+[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@7fb41e82
+[debug] sbt-chain: module revision found in cache: com.typesafe.akka#akka-remote_2.11;2.4.7
+[debug] 	found com.typesafe.akka#akka-remote_2.11;2.4.7 in sbt-chain
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [compile->default(compile)]
 [info] Resolving io.netty#netty;3.10.3.Final ...
-[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@57bd5fcd
+[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@247c3ae9
 [debug] sbt-chain: module revision found in cache: io.netty#netty;3.10.3.Final
 [debug] 	found io.netty#netty;3.10.3.Final in sbt-chain
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [compile->runtime]
@@ -67,7 +83,7 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.uncommons.maths#uncommons-maths;1.2.2a [compile->default(compile)]
 [info] Resolving org.uncommons.maths#uncommons-maths;1.2.2a ...
-[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@65a2c07a
+[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@7eed66a8
 [debug] sbt-chain: module revision found in cache: org.uncommons.maths#uncommons-maths;1.2.2a
 [debug] 	found org.uncommons.maths#uncommons-maths;1.2.2a in sbt-chain
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.uncommons.maths#uncommons-maths;1.2.2a [compile->runtime]
@@ -75,63 +91,23 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.uncommons.maths#uncommons-maths;1.2.2a [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [compile->default(compile)]
 [info] Resolving com.typesafe.akka#akka-cluster_2.11;2.4.7 ...
-[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@469b0235
+[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@115f3c19
 [debug] sbt-chain: module revision found in cache: com.typesafe.akka#akka-cluster_2.11;2.4.7
 [debug] 	found com.typesafe.akka#akka-cluster_2.11;2.4.7 in sbt-chain
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [compile->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [compile->default(compile)]
-[info] Resolving com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 ...
-[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@c50f74b
-[debug] sbt-chain: module revision found in cache: com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7
-[debug] 	found com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 in sbt-chain
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [compile->default(compile)]
 [info] Resolving com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 ...
-[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@423c1489
+[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@34303a65
 [debug] sbt-chain: module revision found in cache: com.typesafe.akka#akka-cluster-tools_2.11;2.4.7
 [debug] 	found com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 in sbt-chain
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [compile->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [compile->default(compile)]
-[info] Resolving com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 ...
-[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@24fc5149
-[debug] sbt-chain: module revision found in cache: com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7
-[debug] 	found com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 in sbt-chain
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [compile->default(compile)]
-[info] Resolving com.typesafe.akka#akka-testkit_2.11;2.4.7 ...
-[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@1b0f6501
-[debug] sbt-chain: module revision found in cache: com.typesafe.akka#akka-testkit_2.11;2.4.7
-[debug] 	found com.typesafe.akka#akka-testkit_2.11;2.4.7 in sbt-chain
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->default(compile)]
-[info] Resolving com.typesafe.akka#akka-persistence_2.11;2.4.7 ...
-[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@1aefe494
-[debug] sbt-chain: module revision found in cache: com.typesafe.akka#akka-persistence_2.11;2.4.7
-[debug] 	found com.typesafe.akka#akka-persistence_2.11;2.4.7 in sbt-chain
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->default(compile)]
-[info] Resolving com.typesafe.akka#akka-contrib_2.11;2.4.7 ...
-[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@6e3e08be
-[debug] sbt-chain: module revision found in cache: com.typesafe.akka#akka-contrib_2.11;2.4.7
-[debug] 	found com.typesafe.akka#akka-contrib_2.11;2.4.7 in sbt-chain
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [compile->default(compile)]
 [info] Resolving org.iq80.leveldb#leveldb;0.7 ...
-[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@2b6db6d6
+[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@775ec31
 [debug] sbt-chain: module revision found in cache: org.iq80.leveldb#leveldb;0.7
 [debug] 	found org.iq80.leveldb#leveldb;0.7 in sbt-chain
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [compile->runtime]
@@ -139,7 +115,7 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb-api;0.7 [compile->default(compile)]
 [info] Resolving org.iq80.leveldb#leveldb-api;0.7 ...
-[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@712de7b2
+[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@7d971f84
 [debug] sbt-chain: module revision found in cache: org.iq80.leveldb#leveldb-api;0.7
 [debug] 	found org.iq80.leveldb#leveldb-api;0.7 in sbt-chain
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb-api;0.7 [compile->runtime]
@@ -147,7 +123,7 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb-api;0.7 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.fusesource.leveldbjni#leveldbjni-all;1.8 [compile->default(compile)]
 [info] Resolving org.fusesource.leveldbjni#leveldbjni-all;1.8 ...
-[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@60a2b59e
+[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@2f22f952
 [debug] sbt-chain: module revision found in cache: org.fusesource.leveldbjni#leveldbjni-all;1.8
 [debug] 	found org.fusesource.leveldbjni#leveldbjni-all;1.8 in sbt-chain
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.fusesource.leveldbjni#leveldbjni-all;1.8 [compile->runtime]
@@ -155,7 +131,7 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.fusesource.leveldbjni#leveldbjni-all;1.8 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scream3r#jssc;2.8.0 [compile->default(compile)]
 [info] Resolving org.scream3r#jssc;2.8.0 ...
-[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@5200d6d2
+[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@2d35645a
 [debug] sbt-chain: module revision found in cache: org.scream3r#jssc;2.8.0
 [debug] 	found org.scream3r#jssc;2.8.0 in sbt-chain
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scream3r#jssc;2.8.0 [compile->runtime]
@@ -163,7 +139,7 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scream3r#jssc;2.8.0 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.eclipse.paho#org.eclipse.paho.client.mqttv3;1.1.0 [compile->default(compile)]
 [info] Resolving org.eclipse.paho#org.eclipse.paho.client.mqttv3;1.1.0 ...
-[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@7afdf914
+[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@66c78348
 [debug] sbt-chain: module revision found in cache: org.eclipse.paho#org.eclipse.paho.client.mqttv3;1.1.0
 [debug] 	found org.eclipse.paho#org.eclipse.paho.client.mqttv3;1.1.0 in sbt-chain
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.eclipse.paho#org.eclipse.paho.client.mqttv3;1.1.0 [compile->runtime]
@@ -171,7 +147,7 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.eclipse.paho#org.eclipse.paho.client.mqttv3;1.1.0 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.fusesource.mqtt-client#mqtt-client;1.14 [compile->default(compile)]
 [info] Resolving org.fusesource.mqtt-client#mqtt-client;1.14 ...
-[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@176c4c30
+[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@5113efc1
 [debug] sbt-chain: module revision found in cache: org.fusesource.mqtt-client#mqtt-client;1.14
 [debug] 	found org.fusesource.mqtt-client#mqtt-client;1.14 in sbt-chain
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.fusesource.mqtt-client#mqtt-client;1.14 [compile->runtime]
@@ -179,7 +155,7 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.fusesource.mqtt-client#mqtt-client;1.14 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.fusesource.hawtdispatch#hawtdispatch-transport;1.22 [compile->default(compile)]
 [info] Resolving org.fusesource.hawtdispatch#hawtdispatch-transport;1.22 ...
-[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@38e9734d
+[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@6da8b63d
 [debug] sbt-chain: module revision found in cache: org.fusesource.hawtdispatch#hawtdispatch-transport;1.22
 [debug] 	found org.fusesource.hawtdispatch#hawtdispatch-transport;1.22 in sbt-chain
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.fusesource.hawtdispatch#hawtdispatch-transport;1.22 [compile->runtime]
@@ -187,7 +163,7 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.fusesource.hawtdispatch#hawtdispatch-transport;1.22 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.fusesource.hawtdispatch#hawtdispatch;1.22 [compile->default(compile)]
 [info] Resolving org.fusesource.hawtdispatch#hawtdispatch;1.22 ...
-[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@7b0f002b
+[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@66fabe54
 [debug] sbt-chain: module revision found in cache: org.fusesource.hawtdispatch#hawtdispatch;1.22
 [debug] 	found org.fusesource.hawtdispatch#hawtdispatch;1.22 in sbt-chain
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.fusesource.hawtdispatch#hawtdispatch;1.22 [compile->runtime]
@@ -195,7 +171,7 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.fusesource.hawtdispatch#hawtdispatch;1.22 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.fusesource.hawtbuf#hawtbuf;1.11 [compile->default(compile)]
 [info] Resolving org.fusesource.hawtbuf#hawtbuf;1.11 ...
-[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@6d76aa39
+[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@45c1b00
 [debug] sbt-chain: module revision found in cache: org.fusesource.hawtbuf#hawtbuf;1.11
 [debug] 	found org.fusesource.hawtbuf#hawtbuf;1.11 in sbt-chain
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.fusesource.hawtbuf#hawtbuf;1.11 [compile->runtime]
@@ -203,7 +179,7 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.fusesource.hawtbuf#hawtbuf;1.11 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.google.guava#guava;19.0 [compile->default(compile)]
 [info] Resolving com.google.guava#guava;19.0 ...
-[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@5ebc9543
+[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@56543a6c
 [debug] sbt-chain: module revision found in cache: com.google.guava#guava;19.0
 [debug] 	found com.google.guava#guava;19.0 in sbt-chain
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.google.guava#guava;19.0 [compile->runtime]
@@ -228,14 +204,22 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [compile->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [compile->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [compile->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [compile->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [compile->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [compile->compile]
@@ -248,30 +232,10 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [compile->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [compile->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [compile->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [compile->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [compile->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [compile->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [compile->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [compile->compile]
@@ -328,14 +292,22 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [runtime->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [runtime->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [runtime->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [runtime->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [runtime->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [runtime->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [runtime->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [runtime->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [runtime->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [runtime->compile]
@@ -348,30 +320,10 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [runtime->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [runtime->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [runtime->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [runtime->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [runtime->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [runtime->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [runtime->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [runtime->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [runtime->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [runtime->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [runtime->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [runtime->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [runtime->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [runtime->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [runtime->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [runtime->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [runtime->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [runtime->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [runtime->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [runtime->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [runtime->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [runtime->compile]
@@ -432,14 +384,22 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [compile->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [compile->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [compile->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [compile->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [compile->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [compile->compile]
@@ -452,30 +412,10 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [compile->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [compile->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [compile->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [compile->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [compile->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [compile->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [compile->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [compile->compile]
@@ -532,14 +472,22 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [runtime->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [runtime->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [runtime->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [runtime->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [runtime->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [runtime->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [runtime->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [runtime->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [runtime->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [runtime->compile]
@@ -552,30 +500,10 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [runtime->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [runtime->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [runtime->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [runtime->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [runtime->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [runtime->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [runtime->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [runtime->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [runtime->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [runtime->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [runtime->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [runtime->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [runtime->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [runtime->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [runtime->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [runtime->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [runtime->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [runtime->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [runtime->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [runtime->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [runtime->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [runtime->compile]
@@ -632,14 +560,22 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [test->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [test->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [test->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [test->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [test->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [test->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [test->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [test->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [test->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [test->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [test->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [test->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [test->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [test->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [test->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [test->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [test->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [test->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [test->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [test->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [test->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [test->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [test->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [test->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [test->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [test->compile]
@@ -652,30 +588,10 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [test->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [test->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [test->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [test->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [test->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [test->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [test->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [test->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [test->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [test->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [test->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [test->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [test->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [test->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [test->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [test->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [test->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [test->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [test->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [test->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [test->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [test->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [test->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [test->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [test->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [test->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [test->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [test->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [test->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [test->compile]
@@ -718,7 +634,7 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.google.guava#guava;19.0 [test->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scalatest#scalatest_2.11;2.2.1 [test->default(compile)]
 [info] Resolving org.scalatest#scalatest_2.11;2.2.1 ...
-[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@11ce059e
+[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@3bbda26b
 [debug] sbt-chain: module revision found in cache: org.scalatest#scalatest_2.11;2.2.1
 [debug] 	found org.scalatest#scalatest_2.11;2.2.1 in sbt-chain
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scalatest#scalatest_2.11;2.2.1 [test->runtime]
@@ -726,7 +642,7 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scalatest#scalatest_2.11;2.2.1 [test->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang#scala-reflect;2.11.2 [test->default(compile)]
 [info] Resolving org.scala-lang#scala-reflect;2.11.2 ...
-[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@5960137
+[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@545420ef
 [debug] sbt-chain: module revision found in cache: org.scala-lang#scala-reflect;2.11.2
 [debug] 	found org.scala-lang#scala-reflect;2.11.2 in sbt-chain
 [debug] 	[2.11.2] org.scala-lang#scala-reflect;2.11.2
@@ -735,7 +651,7 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang#scala-reflect;2.11.2 [test->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-xml_2.11;1.0.2 [test->default(compile)]
 [info] Resolving org.scala-lang.modules#scala-xml_2.11;1.0.2 ...
-[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@21a42acb
+[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@10bc53c4
 [debug] sbt-chain: module revision found in cache: org.scala-lang.modules#scala-xml_2.11;1.0.2
 [debug] 	found org.scala-lang.modules#scala-xml_2.11;1.0.2 in sbt-chain
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-xml_2.11;1.0.2 [test->runtime]
@@ -743,7 +659,7 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-xml_2.11;1.0.2 [test->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.novocode#junit-interface;0.11 [test->default(compile)]
 [info] Resolving com.novocode#junit-interface;0.11 ...
-[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@42f7e99c
+[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@6fd435d0
 [debug] sbt-chain: module revision found in cache: com.novocode#junit-interface;0.11
 [debug] 	found com.novocode#junit-interface;0.11 in sbt-chain
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.novocode#junit-interface;0.11 [test->runtime]
@@ -751,7 +667,7 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.novocode#junit-interface;0.11 [test->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->junit#junit;4.11 [test->default(compile)]
 [info] Resolving junit#junit;4.11 ...
-[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@3bf6f9aa
+[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@7bda3746
 [debug] sbt-chain: module revision found in cache: junit#junit;4.11
 [debug] 	found junit#junit;4.11 in sbt-chain
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->junit#junit;4.11 [test->runtime]
@@ -759,7 +675,7 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->junit#junit;4.11 [test->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.hamcrest#hamcrest-core;1.3 [test->default(compile)]
 [info] Resolving org.hamcrest#hamcrest-core;1.3 ...
-[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@5f7b0376
+[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@3efe079d
 [debug] sbt-chain: module revision found in cache: org.hamcrest#hamcrest-core;1.3
 [debug] 	found org.hamcrest#hamcrest-core;1.3 in sbt-chain
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.hamcrest#hamcrest-core;1.3 [test->runtime]
@@ -767,7 +683,7 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.hamcrest#hamcrest-core;1.3 [test->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-sbt#test-interface;1.0 [test->default(compile)]
 [info] Resolving org.scala-sbt#test-interface;1.0 ...
-[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@4ba303ed
+[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@4e5a38b6
 [debug] sbt-chain: module revision found in cache: org.scala-sbt#test-interface;1.0
 [debug] 	found org.scala-sbt#test-interface;1.0 in sbt-chain
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-sbt#test-interface;1.0 [test->runtime]
@@ -798,14 +714,22 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [compile->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [compile->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [compile->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [compile->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [compile->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [compile->compile]
@@ -818,30 +742,10 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [compile->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [compile->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [compile->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [compile->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [compile->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [compile->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [compile->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [compile->compile]
@@ -898,14 +802,22 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [runtime->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [runtime->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [runtime->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [runtime->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [runtime->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [runtime->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [runtime->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [runtime->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [runtime->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [runtime->compile]
@@ -918,30 +830,10 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [runtime->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [runtime->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [runtime->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [runtime->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [runtime->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [runtime->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [runtime->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [runtime->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [runtime->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [runtime->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [runtime->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [runtime->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [runtime->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [runtime->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [runtime->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [runtime->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [runtime->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [runtime->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [runtime->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [runtime->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [runtime->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [runtime->compile]
@@ -998,14 +890,22 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [test->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [test->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [test->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [test->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [test->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [test->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [test->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [test->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [test->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [test->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [test->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [test->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [test->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [test->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [test->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [test->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [test->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [test->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [test->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [test->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [test->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [test->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [test->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [test->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [test->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [test->compile]
@@ -1018,30 +918,10 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [test->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [test->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [test->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [test->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [test->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [test->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [test->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [test->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [test->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [test->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [test->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [test->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [test->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [test->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [test->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [test->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [test->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [test->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [test->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [test->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [test->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [test->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [test->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [test->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [test->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [test->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [test->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [test->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [test->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [test->compile]
@@ -1126,14 +1006,22 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [multi-jvm->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [multi-jvm->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [multi-jvm->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [multi-jvm->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [multi-jvm->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [multi-jvm->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [multi-jvm->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [multi-jvm->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [multi-jvm->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [multi-jvm->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [multi-jvm->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [multi-jvm->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [multi-jvm->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [multi-jvm->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [multi-jvm->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [multi-jvm->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [multi-jvm->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [multi-jvm->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [multi-jvm->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [multi-jvm->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [multi-jvm->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [multi-jvm->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [multi-jvm->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [multi-jvm->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [multi-jvm->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [multi-jvm->compile]
@@ -1146,30 +1034,10 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [multi-jvm->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [multi-jvm->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [multi-jvm->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [multi-jvm->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [multi-jvm->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [multi-jvm->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [multi-jvm->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [multi-jvm->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [multi-jvm->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [multi-jvm->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [multi-jvm->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [multi-jvm->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [multi-jvm->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [multi-jvm->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [multi-jvm->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [multi-jvm->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [multi-jvm->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [multi-jvm->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [multi-jvm->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [multi-jvm->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [multi-jvm->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [multi-jvm->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [multi-jvm->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [multi-jvm->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [multi-jvm->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [multi-jvm->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [multi-jvm->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [multi-jvm->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [multi-jvm->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [multi-jvm->compile]
@@ -1257,14 +1125,22 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [compile->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [compile->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [compile->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [compile->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [compile->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [compile->compile]
@@ -1277,30 +1153,10 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [compile->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [compile->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [compile->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [compile->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [compile->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [compile->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [compile->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [compile->compile]
@@ -1359,14 +1215,22 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [compile-internal->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [compile-internal->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [compile-internal->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile-internal->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile-internal->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile-internal->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile-internal->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile-internal->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile-internal->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile-internal->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile-internal->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [compile-internal->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [compile-internal->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [compile-internal->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [compile-internal->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile-internal->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile-internal->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile-internal->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile-internal->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile-internal->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile-internal->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile-internal->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile-internal->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [compile-internal->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [compile-internal->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [compile-internal->compile]
@@ -1379,30 +1243,10 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [compile-internal->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [compile-internal->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [compile-internal->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [compile-internal->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [compile-internal->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [compile-internal->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [compile-internal->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [compile-internal->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [compile-internal->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [compile-internal->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [compile-internal->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [compile-internal->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [compile-internal->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [compile-internal->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [compile-internal->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [compile-internal->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [compile-internal->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [compile-internal->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [compile-internal->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile-internal->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile-internal->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile-internal->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile-internal->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile-internal->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile-internal->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile-internal->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile-internal->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [compile-internal->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [compile-internal->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [compile-internal->compile]
@@ -1463,14 +1307,22 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [compile->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [compile->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [compile->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [compile->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [compile->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [compile->compile]
@@ -1483,30 +1335,10 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [compile->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [compile->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [compile->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [compile->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [compile->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [compile->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [compile->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [compile->compile]
@@ -1563,14 +1395,22 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [runtime->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [runtime->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [runtime->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [runtime->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [runtime->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [runtime->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [runtime->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [runtime->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [runtime->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [runtime->compile]
@@ -1583,30 +1423,10 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [runtime->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [runtime->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [runtime->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [runtime->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [runtime->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [runtime->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [runtime->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [runtime->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [runtime->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [runtime->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [runtime->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [runtime->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [runtime->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [runtime->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [runtime->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [runtime->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [runtime->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [runtime->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [runtime->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [runtime->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [runtime->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [runtime->compile]
@@ -1664,14 +1484,22 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [runtime-internal->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [runtime-internal->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [runtime-internal->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime-internal->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime-internal->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime-internal->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime-internal->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime-internal->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime-internal->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime-internal->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime-internal->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [runtime-internal->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [runtime-internal->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [runtime-internal->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [runtime-internal->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime-internal->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime-internal->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime-internal->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime-internal->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime-internal->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime-internal->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime-internal->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime-internal->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [runtime-internal->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [runtime-internal->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [runtime-internal->compile]
@@ -1684,30 +1512,10 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [runtime-internal->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [runtime-internal->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [runtime-internal->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [runtime-internal->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [runtime-internal->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [runtime-internal->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [runtime-internal->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [runtime-internal->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [runtime-internal->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [runtime-internal->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [runtime-internal->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [runtime-internal->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [runtime-internal->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [runtime-internal->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [runtime-internal->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [runtime-internal->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [runtime-internal->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [runtime-internal->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [runtime-internal->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime-internal->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime-internal->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime-internal->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime-internal->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime-internal->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime-internal->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime-internal->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime-internal->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [runtime-internal->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [runtime-internal->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [runtime-internal->compile]
@@ -1769,14 +1577,22 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [compile->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [compile->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [compile->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [compile->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [compile->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [compile->compile]
@@ -1789,30 +1605,10 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [compile->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [compile->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [compile->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [compile->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [compile->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [compile->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [compile->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [compile->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [compile->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [compile->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [compile->compile]
@@ -1869,14 +1665,22 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [runtime->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [runtime->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [runtime->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [runtime->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [runtime->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [runtime->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [runtime->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [runtime->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [runtime->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [runtime->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [runtime->compile]
@@ -1889,30 +1693,10 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [runtime->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [runtime->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [runtime->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [runtime->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [runtime->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [runtime->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [runtime->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [runtime->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [runtime->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [runtime->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [runtime->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [runtime->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [runtime->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [runtime->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [runtime->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [runtime->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [runtime->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [runtime->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [runtime->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [runtime->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [runtime->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [runtime->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [runtime->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [runtime->compile]
@@ -1969,14 +1753,22 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [test->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [test->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [test->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [test->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [test->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [test->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [test->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [test->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [test->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [test->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [test->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [test->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [test->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [test->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [test->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [test->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [test->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [test->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [test->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [test->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [test->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [test->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [test->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [test->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [test->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [test->compile]
@@ -1989,30 +1781,10 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [test->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [test->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [test->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [test->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [test->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [test->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [test->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [test->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [test->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [test->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [test->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [test->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [test->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [test->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [test->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [test->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [test->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [test->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [test->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [test->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [test->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [test->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [test->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [test->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [test->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [test->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [test->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [test->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [test->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [test->compile]
@@ -2099,14 +1871,22 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [test-internal->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [test-internal->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.scala-lang.modules#scala-java8-compat_2.11;0.7.0 [test-internal->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [test-internal->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [test-internal->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [test-internal->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [test-internal->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [test-internal->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [test-internal->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [test-internal->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [test-internal->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [test-internal->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [test-internal->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [test-internal->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-protobuf_2.11;2.4.7 [test-internal->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [test-internal->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [test-internal->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [test-internal->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [test-internal->master]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [test-internal->default(compile)]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [test-internal->runtime]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [test-internal->compile]
+[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-remote_2.11;2.4.7 [test-internal->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [test-internal->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [test-internal->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->io.netty#netty;3.10.3.Final [test-internal->compile]
@@ -2119,30 +1899,10 @@
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [test-internal->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [test-internal->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster_2.11;2.4.7 [test-internal->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [test-internal->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [test-internal->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [test-internal->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7 [test-internal->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [test-internal->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [test-internal->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [test-internal->compile]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-cluster-tools_2.11;2.4.7 [test-internal->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [test-internal->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [test-internal->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [test-internal->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7 [test-internal->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [test-internal->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [test-internal->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [test-internal->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-testkit_2.11;2.4.7 [test-internal->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [test-internal->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [test-internal->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [test-internal->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-persistence_2.11;2.4.7 [test-internal->master]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [test-internal->default(compile)]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [test-internal->runtime]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [test-internal->compile]
-[debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->com.typesafe.akka#akka-contrib_2.11;2.4.7 [test-internal->master]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [test-internal->default(compile)]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [test-internal->runtime]
 [debug] == resolving dependencies 72c-os#72c-os$sources_2.11;2.4.4->org.iq80.leveldb#leveldb;0.7 [test-internal->compile]
@@ -2281,28 +2041,22 @@
 [debug] 	[NOT REQUIRED] com.typesafe#config;1.3.0!config.jar
 [debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-java8-compat_2.11;0.7.0!scala-java8-compat_2.11.jar
 [debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-java8-compat_2.11;0.7.0!scala-java8-compat_2.11.jar(src)
-[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-remote_2.11;2.4.7!akka-remote_2.11.jar(src)
-[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-remote_2.11;2.4.7!akka-remote_2.11.jar
+[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-persistence_2.11;2.4.7!akka-persistence_2.11.jar
+[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-persistence_2.11;2.4.7!akka-persistence_2.11.jar(src)
 [debug] 	[NOT REQUIRED] com.typesafe.akka#akka-protobuf_2.11;2.4.7!akka-protobuf_2.11.jar(src)
 [debug] 	[NOT REQUIRED] com.typesafe.akka#akka-protobuf_2.11;2.4.7!akka-protobuf_2.11.jar
+[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-contrib_2.11;2.4.7!akka-contrib_2.11.jar
+[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-contrib_2.11;2.4.7!akka-contrib_2.11.jar(src)
+[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-remote_2.11;2.4.7!akka-remote_2.11.jar(src)
+[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-remote_2.11;2.4.7!akka-remote_2.11.jar
 [debug] 	[NOT REQUIRED] io.netty#netty;3.10.3.Final!netty.jar
 [debug] 	[NOT REQUIRED] io.netty#netty;3.10.3.Final!netty.jar(src)
 [debug] 	[NOT REQUIRED] org.uncommons.maths#uncommons-maths;1.2.2a!uncommons-maths.jar
 [debug] 	[NOT REQUIRED] org.uncommons.maths#uncommons-maths;1.2.2a!uncommons-maths.jar(src)
 [debug] 	[NOT REQUIRED] com.typesafe.akka#akka-cluster_2.11;2.4.7!akka-cluster_2.11.jar(src)
 [debug] 	[NOT REQUIRED] com.typesafe.akka#akka-cluster_2.11;2.4.7!akka-cluster_2.11.jar
-[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7!akka-cluster-metrics_2.11.jar(src)
-[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-cluster-metrics_2.11;2.4.7!akka-cluster-metrics_2.11.jar
 [debug] 	[NOT REQUIRED] com.typesafe.akka#akka-cluster-tools_2.11;2.4.7!akka-cluster-tools_2.11.jar(src)
 [debug] 	[NOT REQUIRED] com.typesafe.akka#akka-cluster-tools_2.11;2.4.7!akka-cluster-tools_2.11.jar
-[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7!akka-multi-node-testkit_2.11.jar
-[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-multi-node-testkit_2.11;2.4.7!akka-multi-node-testkit_2.11.jar(src)
-[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-testkit_2.11;2.4.7!akka-testkit_2.11.jar(src)
-[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-testkit_2.11;2.4.7!akka-testkit_2.11.jar
-[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-persistence_2.11;2.4.7!akka-persistence_2.11.jar
-[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-persistence_2.11;2.4.7!akka-persistence_2.11.jar(src)
-[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-contrib_2.11;2.4.7!akka-contrib_2.11.jar
-[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-contrib_2.11;2.4.7!akka-contrib_2.11.jar(src)
 [debug] 	[NOT REQUIRED] org.iq80.leveldb#leveldb;0.7!leveldb.jar
 [debug] 	[NOT REQUIRED] org.iq80.leveldb#leveldb;0.7!leveldb.jar(src)
 [debug] 	[NOT REQUIRED] org.iq80.leveldb#leveldb-api;0.7!leveldb-api.jar(src)
@@ -2313,78 +2067,14 @@
 [debug] 	[NOT REQUIRED] org.scream3r#jssc;2.8.0!jssc.jar
 [debug] 	[NOT REQUIRED] org.eclipse.paho#org.eclipse.paho.client.mqttv3;1.1.0!org.eclipse.paho.client.mqttv3.jar(src)
 [debug] 	[NOT REQUIRED] org.eclipse.paho#org.eclipse.paho.client.mqttv3;1.1.0!org.eclipse.paho.client.mqttv3.jar
-[debug] 		tried /Users/rodrigosol/.ivy2/local/org.fusesource.mqtt-client/mqtt-client/1.14/srcs/mqtt-client-sources.jar
-[debug] 		tried /Users/rodrigosol/.ivy2/local/org.fusesource.mqtt-client/mqtt-client/1.14/jars/mqtt-client.jar
-[debug] 		tried /Users/rodrigosol/.activator/repository/org.fusesource.mqtt-client/mqtt-client/1.14/srcs/mqtt-client-sources.jar
-[debug] 		tried /Users/rodrigosol/.activator/repository/org.fusesource.mqtt-client/mqtt-client/1.14/jars/mqtt-client.jar
-[debug] 		tried /Users/rodrigosol/Documents/activator-dist-1.3.10/repository/org.fusesource.mqtt-client/mqtt-client/1.14/srcs/mqtt-client-sources.jar
-[debug] 		tried /Users/rodrigosol/Documents/activator-dist-1.3.10/repository/org.fusesource.mqtt-client/mqtt-client/1.14/jars/mqtt-client.jar
-[debug] 		tried https://repo1.maven.org/maven2/org/fusesource/mqtt-client/mqtt-client/1.14/mqtt-client-1.14-sources.jar
-[info] downloading https://repo1.maven.org/maven2/org/fusesource/mqtt-client/mqtt-client/1.14/mqtt-client-1.14-sources.jar ...
-[debug] 	public: downloading https://repo1.maven.org/maven2/org/fusesource/mqtt-client/mqtt-client/1.14/mqtt-client-1.14-sources.jar
-[debug] 	public: downloading https://repo1.maven.org/maven2/org/fusesource/mqtt-client/mqtt-client/1.14/mqtt-client-1.14-sources.jar.sha1
-[debug] sha1 OK for https://repo1.maven.org/maven2/org/fusesource/mqtt-client/mqtt-client/1.14/mqtt-client-1.14-sources.jar
-[info] 	[SUCCESSFUL ] org.fusesource.mqtt-client#mqtt-client;1.14!mqtt-client.jar(src) (810ms)
-[debug] 		tried https://repo1.maven.org/maven2/org/fusesource/mqtt-client/mqtt-client/1.14/mqtt-client-1.14.jar
-[info] downloading https://repo1.maven.org/maven2/org/fusesource/mqtt-client/mqtt-client/1.14/mqtt-client-1.14.jar ...
-[debug] 	public: downloading https://repo1.maven.org/maven2/org/fusesource/mqtt-client/mqtt-client/1.14/mqtt-client-1.14.jar
-[debug] 	public: downloading https://repo1.maven.org/maven2/org/fusesource/mqtt-client/mqtt-client/1.14/mqtt-client-1.14.jar.sha1
-[debug] sha1 OK for https://repo1.maven.org/maven2/org/fusesource/mqtt-client/mqtt-client/1.14/mqtt-client-1.14.jar
-[info] 	[SUCCESSFUL ] org.fusesource.mqtt-client#mqtt-client;1.14!mqtt-client.jar (660ms)
-[debug] 		tried /Users/rodrigosol/.ivy2/local/org.fusesource.hawtdispatch/hawtdispatch-transport/1.22/jars/hawtdispatch-transport.jar
-[debug] 		tried /Users/rodrigosol/.ivy2/local/org.fusesource.hawtdispatch/hawtdispatch-transport/1.22/srcs/hawtdispatch-transport-sources.jar
-[debug] 		tried /Users/rodrigosol/.activator/repository/org.fusesource.hawtdispatch/hawtdispatch-transport/1.22/jars/hawtdispatch-transport.jar
-[debug] 		tried /Users/rodrigosol/.activator/repository/org.fusesource.hawtdispatch/hawtdispatch-transport/1.22/srcs/hawtdispatch-transport-sources.jar
-[debug] 		tried /Users/rodrigosol/Documents/activator-dist-1.3.10/repository/org.fusesource.hawtdispatch/hawtdispatch-transport/1.22/jars/hawtdispatch-transport.jar
-[debug] 		tried /Users/rodrigosol/Documents/activator-dist-1.3.10/repository/org.fusesource.hawtdispatch/hawtdispatch-transport/1.22/srcs/hawtdispatch-transport-sources.jar
-[debug] 		tried https://repo1.maven.org/maven2/org/fusesource/hawtdispatch/hawtdispatch-transport/1.22/hawtdispatch-transport-1.22.jar
-[info] downloading https://repo1.maven.org/maven2/org/fusesource/hawtdispatch/hawtdispatch-transport/1.22/hawtdispatch-transport-1.22.jar ...
-[debug] 	public: downloading https://repo1.maven.org/maven2/org/fusesource/hawtdispatch/hawtdispatch-transport/1.22/hawtdispatch-transport-1.22.jar
-[debug] 	public: downloading https://repo1.maven.org/maven2/org/fusesource/hawtdispatch/hawtdispatch-transport/1.22/hawtdispatch-transport-1.22.jar.sha1
-[debug] sha1 OK for https://repo1.maven.org/maven2/org/fusesource/hawtdispatch/hawtdispatch-transport/1.22/hawtdispatch-transport-1.22.jar
-[info] 	[SUCCESSFUL ] org.fusesource.hawtdispatch#hawtdispatch-transport;1.22!hawtdispatch-transport.jar (676ms)
-[debug] 		tried https://repo1.maven.org/maven2/org/fusesource/hawtdispatch/hawtdispatch-transport/1.22/hawtdispatch-transport-1.22-sources.jar
-[info] downloading https://repo1.maven.org/maven2/org/fusesource/hawtdispatch/hawtdispatch-transport/1.22/hawtdispatch-transport-1.22-sources.jar ...
-[debug] 	public: downloading https://repo1.maven.org/maven2/org/fusesource/hawtdispatch/hawtdispatch-transport/1.22/hawtdispatch-transport-1.22-sources.jar
-[debug] 	public: downloading https://repo1.maven.org/maven2/org/fusesource/hawtdispatch/hawtdispatch-transport/1.22/hawtdispatch-transport-1.22-sources.jar.sha1
-[debug] sha1 OK for https://repo1.maven.org/maven2/org/fusesource/hawtdispatch/hawtdispatch-transport/1.22/hawtdispatch-transport-1.22-sources.jar
-[info] 	[SUCCESSFUL ] org.fusesource.hawtdispatch#hawtdispatch-transport;1.22!hawtdispatch-transport.jar(src) (789ms)
-[debug] 		tried /Users/rodrigosol/.ivy2/local/org.fusesource.hawtdispatch/hawtdispatch/1.22/jars/hawtdispatch.jar
-[debug] 		tried /Users/rodrigosol/.ivy2/local/org.fusesource.hawtdispatch/hawtdispatch/1.22/srcs/hawtdispatch-sources.jar
-[debug] 		tried /Users/rodrigosol/.activator/repository/org.fusesource.hawtdispatch/hawtdispatch/1.22/jars/hawtdispatch.jar
-[debug] 		tried /Users/rodrigosol/.activator/repository/org.fusesource.hawtdispatch/hawtdispatch/1.22/srcs/hawtdispatch-sources.jar
-[debug] 		tried /Users/rodrigosol/Documents/activator-dist-1.3.10/repository/org.fusesource.hawtdispatch/hawtdispatch/1.22/jars/hawtdispatch.jar
-[debug] 		tried /Users/rodrigosol/Documents/activator-dist-1.3.10/repository/org.fusesource.hawtdispatch/hawtdispatch/1.22/srcs/hawtdispatch-sources.jar
-[debug] 		tried https://repo1.maven.org/maven2/org/fusesource/hawtdispatch/hawtdispatch/1.22/hawtdispatch-1.22.jar
-[info] downloading https://repo1.maven.org/maven2/org/fusesource/hawtdispatch/hawtdispatch/1.22/hawtdispatch-1.22.jar ...
-[debug] 	public: downloading https://repo1.maven.org/maven2/org/fusesource/hawtdispatch/hawtdispatch/1.22/hawtdispatch-1.22.jar
-[debug] 	public: downloading https://repo1.maven.org/maven2/org/fusesource/hawtdispatch/hawtdispatch/1.22/hawtdispatch-1.22.jar.sha1
-[debug] sha1 OK for https://repo1.maven.org/maven2/org/fusesource/hawtdispatch/hawtdispatch/1.22/hawtdispatch-1.22.jar
-[info] 	[SUCCESSFUL ] org.fusesource.hawtdispatch#hawtdispatch;1.22!hawtdispatch.jar (1147ms)
-[debug] 		tried https://repo1.maven.org/maven2/org/fusesource/hawtdispatch/hawtdispatch/1.22/hawtdispatch-1.22-sources.jar
-[info] downloading https://repo1.maven.org/maven2/org/fusesource/hawtdispatch/hawtdispatch/1.22/hawtdispatch-1.22-sources.jar ...
-[debug] 	public: downloading https://repo1.maven.org/maven2/org/fusesource/hawtdispatch/hawtdispatch/1.22/hawtdispatch-1.22-sources.jar
-[debug] 	public: downloading https://repo1.maven.org/maven2/org/fusesource/hawtdispatch/hawtdispatch/1.22/hawtdispatch-1.22-sources.jar.sha1
-[debug] sha1 OK for https://repo1.maven.org/maven2/org/fusesource/hawtdispatch/hawtdispatch/1.22/hawtdispatch-1.22-sources.jar
-[info] 	[SUCCESSFUL ] org.fusesource.hawtdispatch#hawtdispatch;1.22!hawtdispatch.jar(src) (945ms)
-[debug] 		tried /Users/rodrigosol/.ivy2/local/org.fusesource.hawtbuf/hawtbuf/1.11/jars/hawtbuf.jar
-[debug] 		tried /Users/rodrigosol/.ivy2/local/org.fusesource.hawtbuf/hawtbuf/1.11/srcs/hawtbuf-sources.jar
-[debug] 		tried /Users/rodrigosol/.activator/repository/org.fusesource.hawtbuf/hawtbuf/1.11/jars/hawtbuf.jar
-[debug] 		tried /Users/rodrigosol/.activator/repository/org.fusesource.hawtbuf/hawtbuf/1.11/srcs/hawtbuf-sources.jar
-[debug] 		tried /Users/rodrigosol/Documents/activator-dist-1.3.10/repository/org.fusesource.hawtbuf/hawtbuf/1.11/jars/hawtbuf.jar
-[debug] 		tried /Users/rodrigosol/Documents/activator-dist-1.3.10/repository/org.fusesource.hawtbuf/hawtbuf/1.11/srcs/hawtbuf-sources.jar
-[debug] 		tried https://repo1.maven.org/maven2/org/fusesource/hawtbuf/hawtbuf/1.11/hawtbuf-1.11.jar
-[info] downloading https://repo1.maven.org/maven2/org/fusesource/hawtbuf/hawtbuf/1.11/hawtbuf-1.11.jar ...
-[debug] 	public: downloading https://repo1.maven.org/maven2/org/fusesource/hawtbuf/hawtbuf/1.11/hawtbuf-1.11.jar
-[debug] 	public: downloading https://repo1.maven.org/maven2/org/fusesource/hawtbuf/hawtbuf/1.11/hawtbuf-1.11.jar.sha1
-[debug] sha1 OK for https://repo1.maven.org/maven2/org/fusesource/hawtbuf/hawtbuf/1.11/hawtbuf-1.11.jar
-[info] 	[SUCCESSFUL ] org.fusesource.hawtbuf#hawtbuf;1.11!hawtbuf.jar (541ms)
-[debug] 		tried https://repo1.maven.org/maven2/org/fusesource/hawtbuf/hawtbuf/1.11/hawtbuf-1.11-sources.jar
-[info] downloading https://repo1.maven.org/maven2/org/fusesource/hawtbuf/hawtbuf/1.11/hawtbuf-1.11-sources.jar ...
-[debug] 	public: downloading https://repo1.maven.org/maven2/org/fusesource/hawtbuf/hawtbuf/1.11/hawtbuf-1.11-sources.jar
-[debug] 	public: downloading https://repo1.maven.org/maven2/org/fusesource/hawtbuf/hawtbuf/1.11/hawtbuf-1.11-sources.jar.sha1
-[debug] sha1 OK for https://repo1.maven.org/maven2/org/fusesource/hawtbuf/hawtbuf/1.11/hawtbuf-1.11-sources.jar
-[info] 	[SUCCESSFUL ] org.fusesource.hawtbuf#hawtbuf;1.11!hawtbuf.jar(src) (806ms)
+[debug] 	[NOT REQUIRED] org.fusesource.mqtt-client#mqtt-client;1.14!mqtt-client.jar(src)
+[debug] 	[NOT REQUIRED] org.fusesource.mqtt-client#mqtt-client;1.14!mqtt-client.jar
+[debug] 	[NOT REQUIRED] org.fusesource.hawtdispatch#hawtdispatch-transport;1.22!hawtdispatch-transport.jar
+[debug] 	[NOT REQUIRED] org.fusesource.hawtdispatch#hawtdispatch-transport;1.22!hawtdispatch-transport.jar(src)
+[debug] 	[NOT REQUIRED] org.fusesource.hawtdispatch#hawtdispatch;1.22!hawtdispatch.jar
+[debug] 	[NOT REQUIRED] org.fusesource.hawtdispatch#hawtdispatch;1.22!hawtdispatch.jar(src)
+[debug] 	[NOT REQUIRED] org.fusesource.hawtbuf#hawtbuf;1.11!hawtbuf.jar
+[debug] 	[NOT REQUIRED] org.fusesource.hawtbuf#hawtbuf;1.11!hawtbuf.jar(src)
 [debug] 	[NOT REQUIRED] com.google.guava#guava;19.0!guava.jar(src)
 [debug] 	[NOT REQUIRED] com.google.guava#guava;19.0!guava.jar
 [debug] 	[NOT REQUIRED] org.scalatest#scalatest_2.11;2.2.1!scalatest_2.11.jar(src)
@@ -2407,7 +2097,7 @@
 [debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-xml_2.11;1.0.4!scala-xml_2.11.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-parser-combinators_2.11;1.0.4!scala-parser-combinators_2.11.jar(src)
 [debug] 	[NOT REQUIRED] jline#jline;2.12.1!jline.jar(src)
-[debug] :: resolution report :: resolve 871ms :: artifacts dl 6480ms
+[debug] :: resolution report :: resolve 1204ms :: artifacts dl 101ms
 [debug] 	report for 72c-os#72c-os$sources_2.11;2.4.4 compile produced in /Users/rodrigosol/raro/influunt/influunt-os/target/resolution-cache/reports/72c-os-72c-os$sources_2.11-compile.xml
 [debug] 	report for 72c-os#72c-os$sources_2.11;2.4.4 runtime produced in /Users/rodrigosol/raro/influunt/influunt-os/target/resolution-cache/reports/72c-os-72c-os$sources_2.11-runtime.xml
 [debug] 	report for 72c-os#72c-os$sources_2.11;2.4.4 test produced in /Users/rodrigosol/raro/influunt/influunt-os/target/resolution-cache/reports/72c-os-72c-os$sources_2.11-test.xml
@@ -2422,4 +2112,4 @@
 [debug] 	report for 72c-os#72c-os$sources_2.11;2.4.4 docs produced in /Users/rodrigosol/raro/influunt/influunt-os/target/resolution-cache/reports/72c-os-72c-os$sources_2.11-docs.xml
 [debug] 	report for 72c-os#72c-os$sources_2.11;2.4.4 pom produced in /Users/rodrigosol/raro/influunt/influunt-os/target/resolution-cache/reports/72c-os-72c-os$sources_2.11-pom.xml
 [debug] 	report for 72c-os#72c-os$sources_2.11;2.4.4 scala-tool produced in /Users/rodrigosol/raro/influunt/influunt-os/target/resolution-cache/reports/72c-os-72c-os$sources_2.11-scala-tool.xml
-[debug] 	resolve done (871ms resolve - 6480ms download)
+[debug] 	resolve done (1204ms resolve - 101ms download)

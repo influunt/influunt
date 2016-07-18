@@ -4,7 +4,7 @@
 		module="influunt-os-build"
 		revision="0.1-SNAPSHOT"
 		status="integration"
-		publication="20160707211638"
+		publication="20160714150045"
 		e:sbtVersion="0.13" e:scalaVersion="2.10"
 	>
 		<description>

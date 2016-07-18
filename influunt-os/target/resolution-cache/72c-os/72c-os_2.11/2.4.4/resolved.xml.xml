@@ -4,7 +4,7 @@
 		module="72c-os_2.11"
 		revision="2.4.4"
 		status="integration"
-		publication="20160707211642"
+		publication="20160714150049"
 	>
 		<license name="CC0" url="http://creativecommons.org/publicdomain/zero/1.0" />
 		<description>
@@ -37,11 +37,6 @@
 		<dependency org="org.scala-lang" name="scala-compiler" rev="2.11.7" conf="scala-tool->default,optional(default)"/>
 		<dependency org="org.scala-lang" name="scala-library" rev="2.11.7" conf="scala-tool->default,optional(default);compile->default(compile)"/>
 		<dependency org="com.typesafe.akka" name="akka-actor_2.11" rev="2.4.7" conf="compile->default(compile)"/>
-		<dependency org="com.typesafe.akka" name="akka-remote_2.11" rev="2.4.7" conf="compile->default(compile)"/>
-		<dependency org="com.typesafe.akka" name="akka-cluster_2.11" rev="2.4.7" conf="compile->default(compile)"/>
-		<dependency org="com.typesafe.akka" name="akka-cluster-metrics_2.11" rev="2.4.7" conf="compile->default(compile)"/>
-		<dependency org="com.typesafe.akka" name="akka-cluster-tools_2.11" rev="2.4.7" conf="compile->default(compile)"/>
-		<dependency org="com.typesafe.akka" name="akka-multi-node-testkit_2.11" rev="2.4.7" conf="compile->default(compile)"/>
 		<dependency org="com.typesafe.akka" name="akka-persistence_2.11" rev="2.4.7" conf="compile->default(compile)"/>
 		<dependency org="com.typesafe.akka" name="akka-contrib_2.11" rev="2.4.7" conf="compile->default(compile)"/>
 		<dependency org="org.iq80.leveldb" name="leveldb" rev="0.7" conf="compile->default(compile)"/>

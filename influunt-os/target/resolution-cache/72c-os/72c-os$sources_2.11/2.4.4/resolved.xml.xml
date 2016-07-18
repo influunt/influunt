@@ -4,7 +4,7 @@
 		module="72c-os$sources_2.11"
 		revision="2.4.4"
 		status="integration"
-		publication="20160707161132"
+		publication="20160713181334"
 	/>
 	<configurations>
 		<conf name="compile" visibility="public" description=""/>
@@ -37,11 +37,17 @@
 		<dependency org="org.scala-lang.modules" name="scala-java8-compat_2.11" rev="0.7.0" transitive="false" conf="compile->default(compile);runtime->default(compile);test->default(compile);multi-jvm->default(compile);compile-internal->default(compile);runtime-internal->default(compile);test-internal->default(compile)">
 			<artifact name="scala-java8-compat_2.11" type="src" ext="jar" conf="sources" e:classifier="sources"/>
 		</dependency>
-		<dependency org="com.typesafe.akka" name="akka-remote_2.11" rev="2.4.7" transitive="false" conf="compile->default(compile);runtime->default(compile);test->default(compile);multi-jvm->default(compile);compile-internal->default(compile);runtime-internal->default(compile);test-internal->default(compile)">
-			<artifact name="akka-remote_2.11" type="src" ext="jar" conf="sources" e:classifier="sources"/>
+		<dependency org="com.typesafe.akka" name="akka-persistence_2.11" rev="2.4.7" transitive="false" conf="compile->default(compile);runtime->default(compile);test->default(compile);multi-jvm->default(compile);compile-internal->default(compile);runtime-internal->default(compile);test-internal->default(compile)">
+			<artifact name="akka-persistence_2.11" type="src" ext="jar" conf="sources" e:classifier="sources"/>
 		</dependency>
 		<dependency org="com.typesafe.akka" name="akka-protobuf_2.11" rev="2.4.7" transitive="false" conf="compile->default(compile);runtime->default(compile);test->default(compile);multi-jvm->default(compile);compile-internal->default(compile);runtime-internal->default(compile);test-internal->default(compile)">
 			<artifact name="akka-protobuf_2.11" type="src" ext="jar" conf="sources" e:classifier="sources"/>
+		</dependency>
+		<dependency org="com.typesafe.akka" name="akka-contrib_2.11" rev="2.4.7" transitive="false" conf="compile->default(compile);runtime->default(compile);test->default(compile);multi-jvm->default(compile);compile-internal->default(compile);runtime-internal->default(compile);test-internal->default(compile)">
+			<artifact name="akka-contrib_2.11" type="src" ext="jar" conf="sources" e:classifier="sources"/>
+		</dependency>
+		<dependency org="com.typesafe.akka" name="akka-remote_2.11" rev="2.4.7" transitive="false" conf="compile->default(compile);runtime->default(compile);test->default(compile);multi-jvm->default(compile);compile-internal->default(compile);runtime-internal->default(compile);test-internal->default(compile)">
+			<artifact name="akka-remote_2.11" type="src" ext="jar" conf="sources" e:classifier="sources"/>
 		</dependency>
 		<dependency org="io.netty" name="netty" rev="3.10.3.Final" transitive="false" conf="compile->default(compile);runtime->default(compile);test->default(compile);multi-jvm->default(compile);compile-internal->default(compile);runtime-internal->default(compile);test-internal->default(compile)">
 			<artifact name="netty" type="src" ext="jar" conf="sources" e:classifier="sources"/>
@@ -52,23 +58,8 @@
 		<dependency org="com.typesafe.akka" name="akka-cluster_2.11" rev="2.4.7" transitive="false" conf="compile->default(compile);runtime->default(compile);test->default(compile);multi-jvm->default(compile);compile-internal->default(compile);runtime-internal->default(compile);test-internal->default(compile)">
 			<artifact name="akka-cluster_2.11" type="src" ext="jar" conf="sources" e:classifier="sources"/>
 		</dependency>
-		<dependency org="com.typesafe.akka" name="akka-cluster-metrics_2.11" rev="2.4.7" transitive="false" conf="compile->default(compile);runtime->default(compile);test->default(compile);multi-jvm->default(compile);compile-internal->default(compile);runtime-internal->default(compile);test-internal->default(compile)">
-			<artifact name="akka-cluster-metrics_2.11" type="src" ext="jar" conf="sources" e:classifier="sources"/>
-		</dependency>
 		<dependency org="com.typesafe.akka" name="akka-cluster-tools_2.11" rev="2.4.7" transitive="false" conf="compile->default(compile);runtime->default(compile);test->default(compile);multi-jvm->default(compile);compile-internal->default(compile);runtime-internal->default(compile);test-internal->default(compile)">
 			<artifact name="akka-cluster-tools_2.11" type="src" ext="jar" conf="sources" e:classifier="sources"/>
-		</dependency>
-		<dependency org="com.typesafe.akka" name="akka-multi-node-testkit_2.11" rev="2.4.7" transitive="false" conf="compile->default(compile);runtime->default(compile);test->default(compile);multi-jvm->default(compile);compile-internal->default(compile);runtime-internal->default(compile);test-internal->default(compile)">
-			<artifact name="akka-multi-node-testkit_2.11" type="src" ext="jar" conf="sources" e:classifier="sources"/>
-		</dependency>
-		<dependency org="com.typesafe.akka" name="akka-testkit_2.11" rev="2.4.7" transitive="false" conf="compile->default(compile);runtime->default(compile);test->default(compile);multi-jvm->default(compile);compile-internal->default(compile);runtime-internal->default(compile);test-internal->default(compile)">
-			<artifact name="akka-testkit_2.11" type="src" ext="jar" conf="sources" e:classifier="sources"/>
-		</dependency>
-		<dependency org="com.typesafe.akka" name="akka-persistence_2.11" rev="2.4.7" transitive="false" conf="compile->default(compile);runtime->default(compile);test->default(compile);multi-jvm->default(compile);compile-internal->default(compile);runtime-internal->default(compile);test-internal->default(compile)">
-			<artifact name="akka-persistence_2.11" type="src" ext="jar" conf="sources" e:classifier="sources"/>
-		</dependency>
-		<dependency org="com.typesafe.akka" name="akka-contrib_2.11" rev="2.4.7" transitive="false" conf="compile->default(compile);runtime->default(compile);test->default(compile);multi-jvm->default(compile);compile-internal->default(compile);runtime-internal->default(compile);test-internal->default(compile)">
-			<artifact name="akka-contrib_2.11" type="src" ext="jar" conf="sources" e:classifier="sources"/>
 		</dependency>
 		<dependency org="org.iq80.leveldb" name="leveldb" rev="0.7" transitive="false" conf="compile->default(compile);runtime->default(compile);test->default(compile);multi-jvm->default(compile);compile-internal->default(compile);runtime-internal->default(compile);test-internal->default(compile)">
 			<artifact name="leveldb" type="src" ext="jar" conf="sources" e:classifier="sources"/>

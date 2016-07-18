@@ -1,15 +1,362 @@
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/target/scala-2.11/classes/os72c/models/Interrupcao.class: could not find class os72c.models.Interrupcao on the classpath.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/target/scala-2.11/classes/os72c/procolos/MensagemInterrupcao.class: could not find class os72c.procolos.MensagemInterrupcao on the classpath.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/target/scala-2.11/classes/os72c/models/TipoEvento.class: could not find class os72c.models.TipoEvento on the classpath.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/target/scala-2.11/classes/os72c/procolos/MensagemControladorSupervisor.class: could not find class os72c.procolos.MensagemControladorSupervisor on the classpath.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/target/scala-2.11/classes/os72c/models/TipoInterrupcao.class: could not find class os72c.models.TipoInterrupcao on the classpath.[0m
 [0m[[0mdebug[0m] [0m[0m
 [0m[[0mdebug[0m] [0mInitial source changes: [0m
-[0m[[0mdebug[0m] [0m	removed:Set()[0m
-[0m[[0mdebug[0m] [0m	added: Set()[0m
+[0m[[0mdebug[0m] [0m	removed:Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/TipoEvento.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/mqtt/Central.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/ControladorSerial.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/mqtt/MQTTControladorActor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/procolos/MensagemInterrupcao.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/ControladorArduino.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/Application.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/EstadoGrupo.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/Intervalos.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/ControladorI2C.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/Interrupcao.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/supervisores/Supervisor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/mqtt/MQTTCentralActor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/Controlador.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/procolos/Mensagem.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/Constants.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/mqtt/Controlador.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/TipoInterrupcao.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/supervisores/Estado.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/Troca.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/EventType.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/exceptions/HardwareFailureException.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/procolos/MensagemControladorSupervisor.java)[0m
+[0m[[0mdebug[0m] [0m	added: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/procolos/MensagemControladorSupervisor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/server/Server.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/Troca.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/exceptions/HardwareFailureException.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/server/conn/ServerActor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/Intervalos.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/procolos/Mensagem.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/Interrupcao.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/controladores/ControladorSerial.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/procolos/MensagemInterrupcao.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/conn/MQTTClientActor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/server/conn/MQTTServerActor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/EstadoGrupo.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/supervisores/Supervisor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/controladores/ControladorArduino.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/conn/ClientActor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/TipoInterrupcao.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/supervisores/Estado.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/controladores/ControladorI2C.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/controladores/Controlador.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/Client.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/utils/Constants.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/TipoEvento.java)[0m
 [0m[[0mdebug[0m] [0m	modified: Set()[0m
-[0m[[0mdebug[0m] [0mRemoved products: Set()[0m
+[0m[[0mdebug[0m] [0mRemoved products: Set(/Users/rodrigosol/raro/influunt/influunt-os/target/scala-2.11/classes/os72c/controladores/ControladorArduino$1.class, /Users/rodrigosol/raro/influunt/influunt-os/target/scala-2.11/classes/os72c/controladores/Controlador$1.class, /Users/rodrigosol/raro/influunt/influunt-os/target/scala-2.11/classes/os72c/Constants.class, /Users/rodrigosol/raro/influunt/influunt-os/target/scala-2.11/classes/os72c/controladores/Controlador.class, /Users/rodrigosol/raro/influunt/influunt-os/target/scala-2.11/classes/os72c/controladores/ControladorSerial.class, /Users/rodrigosol/raro/influunt/influunt-os/target/scala-2.11/classes/os72c/supervisores/Supervisor.class, /Users/rodrigosol/raro/influunt/influunt-os/target/scala-2.11/classes/os72c/models/Troca.class, /Users/rodrigosol/raro/influunt/influunt-os/target/scala-2.11/classes/os72c/models/EstadoGrupo.class, /Users/rodrigosol/raro/influunt/influunt-os/target/scala-2.11/classes/os72c/models/Intervalos.class, /Users/rodrigosol/raro/influunt/influunt-os/target/scala-2.11/classes/os72c/controladores/ControladorSerial$1.class, /Users/rodrigosol/raro/influunt/influunt-os/target/scala-2.11/classes/os72c/supervisores/Estado.class, /Users/rodrigosol/raro/influunt/influunt-os/target/scala-2.11/classes/os72c/EventType.class, /Users/rodrigosol/raro/influunt/influunt-os/target/scala-2.11/classes/os72c/models/Intervalos$1.class, /Users/rodrigosol/raro/influunt/influunt-os/target/scala-2.11/classes/os72c/controladores/ControladorArduino.class, /Users/rodrigosol/raro/influunt/influunt-os/target/scala-2.11/classes/os72c/Application.class, /Users/rodrigosol/raro/influunt/influunt-os/target/scala-2.11/classes/os72c/procolos/Mensagem.class, /Users/rodrigosol/raro/influunt/influunt-os/target/scala-2.11/classes/os72c/controladores/ControladorI2C.class, /Users/rodrigosol/raro/influunt/influunt-os/target/scala-2.11/classes/os72c/exceptions/HardwareFailureException.class, /Users/rodrigosol/raro/influunt/influunt-os/target/scala-2.11/classes/os72c/supervisores/Supervisor$1.class)[0m
 [0m[[0mdebug[0m] [0mExternal API changes: API Changes: Set()[0m
-[0m[[0mdebug[0m] [0mModified binary dependencies: Set()[0m
-[0m[[0mdebug[0m] [0mInitial directly invalidated sources: Set()[0m
+[0m[[0mdebug[0m] [0mModified binary dependencies: Set(/Users/rodrigosol/raro/influunt/influunt-os/target/scala-2.11/classes/os72c/models/Interrupcao.class, /Users/rodrigosol/raro/influunt/influunt-os/target/scala-2.11/classes/os72c/procolos/MensagemInterrupcao.class, /Users/rodrigosol/raro/influunt/influunt-os/target/scala-2.11/classes/os72c/models/TipoEvento.class, /Users/rodrigosol/raro/influunt/influunt-os/target/scala-2.11/classes/os72c/procolos/MensagemControladorSupervisor.class, /Users/rodrigosol/raro/influunt/influunt-os/target/scala-2.11/classes/os72c/models/TipoInterrupcao.class)[0m
+[0m[[0mdebug[0m] [0mInitial directly invalidated sources: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/TipoEvento.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/procolos/MensagemControladorSupervisor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/server/Server.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/mqtt/Central.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/Troca.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/exceptions/HardwareFailureException.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/server/conn/ServerActor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/Intervalos.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/ControladorSerial.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/procolos/Mensagem.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/Interrupcao.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/mqtt/MQTTControladorActor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/procolos/MensagemInterrupcao.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/ControladorArduino.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/Application.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/controladores/ControladorSerial.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/EstadoGrupo.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/Intervalos.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/procolos/MensagemInterrupcao.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/conn/MQTTClientActor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/server/conn/MQTTServerActor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/EstadoGrupo.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/ControladorI2C.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/supervisores/Supervisor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/Interrupcao.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/supervisores/Supervisor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/mqtt/MQTTCentralActor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/Controlador.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/controladores/ControladorArduino.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/procolos/Mensagem.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/Constants.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/mqtt/Controlador.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/conn/ClientActor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/TipoInterrupcao.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/supervisores/Estado.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/controladores/ControladorI2C.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/TipoInterrupcao.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/supervisores/Estado.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/Troca.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/controladores/Controlador.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/EventType.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/Client.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/exceptions/HardwareFailureException.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/utils/Constants.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/TipoEvento.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/procolos/MensagemControladorSupervisor.java)[0m
 [0m[[0mdebug[0m] [0m[0m
 [0m[[0mdebug[0m] [0mSources indirectly invalidated by:[0m
-[0m[[0mdebug[0m] [0m	product: Set()[0m
-[0m[[0mdebug[0m] [0m	binary dep: Set()[0m
+[0m[[0mdebug[0m] [0m	product: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/ControladorSerial.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/ControladorArduino.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/Application.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/EstadoGrupo.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/Intervalos.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/ControladorI2C.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/supervisores/Supervisor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/Controlador.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/procolos/Mensagem.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/Constants.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/supervisores/Estado.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/Troca.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/EventType.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/exceptions/HardwareFailureException.java)[0m
+[0m[[0mdebug[0m] [0m	binary dep: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/supervisores/Supervisor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/Controlador.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/Intervalos.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/supervisores/Estado.java)[0m
 [0m[[0mdebug[0m] [0m	external source: Set()[0m
-[0m[[0mdebug[0m] [0mAll initially invalidated sources: Set()[0m
+[0m[[0mdebug[0m] [0mAll initially invalidated sources: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/TipoEvento.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/procolos/MensagemControladorSupervisor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/server/Server.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/mqtt/Central.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/Troca.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/exceptions/HardwareFailureException.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/server/conn/ServerActor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/Intervalos.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/ControladorSerial.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/procolos/Mensagem.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/Interrupcao.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/mqtt/MQTTControladorActor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/procolos/MensagemInterrupcao.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/ControladorArduino.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/Application.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/controladores/ControladorSerial.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/EstadoGrupo.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/Intervalos.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/procolos/MensagemInterrupcao.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/conn/MQTTClientActor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/server/conn/MQTTServerActor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/EstadoGrupo.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/ControladorI2C.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/supervisores/Supervisor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/Interrupcao.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/supervisores/Supervisor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/mqtt/MQTTCentralActor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/Controlador.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/controladores/ControladorArduino.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/procolos/Mensagem.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/Constants.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/mqtt/Controlador.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/conn/ClientActor.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/TipoInterrupcao.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/supervisores/Estado.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/controladores/ControladorI2C.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/TipoInterrupcao.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/supervisores/Estado.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/Troca.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/controladores/Controlador.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/EventType.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/Client.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/exceptions/HardwareFailureException.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/utils/Constants.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/TipoEvento.java, /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/procolos/MensagemControladorSupervisor.java)[0m
+[0m[[0mdebug[0m] [0mRecompiling all 23 sources: invalidated sources (46) exceeded 50.0% of all sources[0m
+[0m[[0minfo[0m] [0mCompiling 23 Java sources to /Users/rodrigosol/raro/influunt/influunt-os/target/scala-2.11/classes...[0m
+[0m[[0mdebug[0m] [0mAttempting to call com.sun.tools.javac.api.JavacTool@ff84b6a directly...[0m
+[0m[[33mwarn[0m] [0m/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/Client.java:22: awaitTermination() in akka.actor.ActorSystem has been deprecated[0m
+[0m[[33mwarn[0m] [0msystem.awaitTermination[0m
+[0m[[33mwarn[0m] [0m/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/conn/ClientActor.java:62: awaitTermination() in akka.actor.ActorSystem has been deprecated[0m
+[0m[[33mwarn[0m] [0msystem.awaitTermination[0m
+[0m[[33mwarn[0m] [0m/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/server/Server.java:22: awaitTermination() in akka.actor.ActorSystem has been deprecated[0m
+[0m[[33mwarn[0m] [0msystem.awaitTermination[0m
+[0m[[33mwarn[0m] [0m/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/server/conn/ServerActor.java:62: awaitTermination() in akka.actor.ActorSystem has been deprecated[0m
+[0m[[33mwarn[0m] [0msystem.awaitTermination[0m
+[0m[[0mdebug[0m] [0mJava compilation took 2.740820286 s[0m
+[0m[[0mdebug[0m] [0mJava analysis took 0.105724081 s[0m
+[0m[[0mdebug[0m] [0mJava compile + analysis took 2.864120124 s[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/TipoEvento.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/TipoEvento.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/TipoEvento.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/TipoEvento.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/TipoEvento.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/TipoInterrupcao.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/TipoInterrupcao.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/TipoInterrupcao.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/TipoInterrupcao.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/TipoInterrupcao.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/TipoInterrupcao.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/TipoInterrupcao.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/TipoInterrupcao.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/TipoInterrupcao.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/TipoInterrupcao.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/server/conn/MQTTServerActor.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/server/conn/MQTTServerActor.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/server/conn/MQTTServerActor.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/server/conn/MQTTServerActor.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/server/conn/MQTTServerActor.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/supervisores/Estado.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/supervisores/Estado.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/supervisores/Estado.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/supervisores/Estado.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/supervisores/Estado.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, wait, Estado, timestap, getTimestap, equals, notifyAll, <init>, setTimestap, toString, agendar, getClass, getCancellable, cancellable, hashCode, setCancellable.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/Intervalos.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/Intervalos.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/Intervalos.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/Intervalos.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/Intervalos.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, wait, equals, access$202, access$208, context, controlador, proximoCiclo, trocas, access$200, notifyAll, access$300, pararExecucao, <init>, access$100, status, access$000, setTrocas, supervisor, toString, proximoEstagio, getClass, lambda$pararExecucao$2, start, intervalo, hashCode, Intervalos.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/EstadoGrupo.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/EstadoGrupo.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/EstadoGrupo.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/EstadoGrupo.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/EstadoGrupo.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	AMARELHO_INTERMITENTE, notify, name, VERDE, wait, valueOf, equals, getDeclaringClass, $VALUES, notifyAll, compareTo, EstadoGrupo, <init>, ordinal, status, DESLIGADO, values, toString, getClass, AMARELO, VERMELHO, value, VERMELHO_INTERMITENTE, hashCode.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/controladores/Controlador.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/controladores/Controlador.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/controladores/Controlador.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/controladores/Controlador.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/controladores/Controlador.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/Client.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/Client.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/Client.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/Client.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/Client.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/controladores/ControladorSerial.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/controladores/ControladorSerial.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/controladores/ControladorSerial.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/controladores/ControladorSerial.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/controladores/ControladorSerial.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/procolos/Mensagem.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/procolos/Mensagem.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/procolos/Mensagem.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/procolos/Mensagem.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/procolos/Mensagem.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, wait, timestamp, equals, notifyAll, <init>, id, toString, getClass, Mensagem, hashCode.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/procolos/MensagemInterrupcao.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/procolos/MensagemInterrupcao.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/procolos/MensagemInterrupcao.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/procolos/MensagemInterrupcao.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/procolos/MensagemInterrupcao.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/exceptions/HardwareFailureException.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/exceptions/HardwareFailureException.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/exceptions/HardwareFailureException.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/exceptions/HardwareFailureException.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/exceptions/HardwareFailureException.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, printStackTrace, getLocalizedMessage, wait, equals, fillInStackTrace, initCause, getCause, HardwareFailureException, notifyAll, getStackTrace, <init>, getMessage, setStackTrace, getSuppressed, addSuppressed, toString, getClass, hashCode.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/exceptions/HardwareFailureException.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/exceptions/HardwareFailureException.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/exceptions/HardwareFailureException.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/exceptions/HardwareFailureException.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/exceptions/HardwareFailureException.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/Controlador.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/Controlador.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/Controlador.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/Controlador.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/Controlador.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, wait, pronto, pattern, interruption, equals, getSender, onChange, context, Controlador, self, onReceive, receive, preRestart, aroundReceive, akka$actor$Actor$_setter_$self_$eq, idControlador, postRestart, postStop, notifyAll, aroundPostRestart, aroundPreRestart, aroundPostStop, <init>, preStart, unhandled, entrarEmModoAmarelhoIntermitente, supervisorPronto, akka$actor$Actor$_setter_$context_$eq, getContext, supervisor, sender, toString, getClass, getSelf, supervisorStrategy, hashCode, ID_CONTROLADOR, aroundPreStart.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/EventType.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/EventType.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/EventType.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/EventType.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/EventType.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, name, wait, valueOf, equals, getDeclaringClass, $VALUES, GENERAL_FAILURE, EventType, notifyAll, compareTo, <init>, ordinal, values, toString, getClass, READY, hashCode.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/conn/MQTTClientActor.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/conn/MQTTClientActor.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/conn/MQTTClientActor.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/conn/MQTTClientActor.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/conn/MQTTClientActor.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/supervisores/Estado.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/supervisores/Estado.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/supervisores/Estado.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/supervisores/Estado.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/supervisores/Estado.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/Intervalos.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/Intervalos.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/Intervalos.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/Intervalos.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/Intervalos.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/EstadoGrupo.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/EstadoGrupo.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/EstadoGrupo.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/EstadoGrupo.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/EstadoGrupo.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/conn/ClientActor.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/conn/ClientActor.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/conn/ClientActor.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/conn/ClientActor.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/conn/ClientActor.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/Interrupcao.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/Interrupcao.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/Interrupcao.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/Interrupcao.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/Interrupcao.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/mqtt/MQTTControladorActor.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/mqtt/MQTTControladorActor.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/mqtt/MQTTControladorActor.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/mqtt/MQTTControladorActor.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/mqtt/MQTTControladorActor.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/ControladorI2C.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/ControladorI2C.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/ControladorI2C.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/ControladorI2C.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/ControladorI2C.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, wait, equals, getSender, ControladorI2C, onChange, context, self, onReceive, receive, preRestart, aroundReceive, akka$actor$Actor$_setter_$self_$eq, postRestart, postStop, notifyAll, aroundPostRestart, aroundPreRestart, aroundPostStop, <init>, preStart, unhandled, entrarEmModoAmarelhoIntermitente, supervisorPronto, akka$actor$Actor$_setter_$context_$eq, getContext, sender, toString, getClass, getSelf, supervisorStrategy, hashCode, aroundPreStart.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/controladores/ControladorArduino.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/controladores/ControladorArduino.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/controladores/ControladorArduino.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/controladores/ControladorArduino.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/controladores/ControladorArduino.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/supervisores/Supervisor.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/supervisores/Supervisor.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/supervisores/Supervisor.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/supervisores/Supervisor.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/supervisores/Supervisor.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, tratarInterrupcao, Supervisor, wait, tratarInterrupcaoNormal, equals, getSender, lambda$tratarInterrupcao$8, context, controlador, self, ativo, onReceive, receive, preRestart, aroundReceive, akka$actor$Actor$_setter_$self_$eq, postRestart, setupSerial, postStop, i, notifyAll, conf, aroundPostRestart, aroundPreRestart, aroundPostStop, tratarInterrupcaoDetectorVeicular, <init>, preStart, tratarInterrupcaoOperacaoManual, unhandled, intervalos, akka$actor$Actor$_setter_$context_$eq, getContext, sender, tratarInterrupcaoErro, toString, getClass, props, getSelf, registraControlador, tratarInterrupcaoDetectorPedestre, supervisorStrategy, log, hashCode, aroundPreStart.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/mqtt/Controlador.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/mqtt/Controlador.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/mqtt/Controlador.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/mqtt/Controlador.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/mqtt/Controlador.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/Troca.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/Troca.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/Troca.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/Troca.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/models/Troca.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, wait, grupos, getDuracao, equals, getGrupos, setGrupos, notifyAll, <init>, duracao, toString, getClass, getIndex, getCancellable, cancellable, Troca, setDuracao, index, hashCode, setCancellable.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/TipoEvento.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/TipoEvento.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/TipoEvento.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/TipoEvento.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/TipoEvento.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/mqtt/Central.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/mqtt/Central.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/mqtt/Central.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/mqtt/Central.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/mqtt/Central.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/Constants.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/Constants.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/Constants.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/Constants.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/Constants.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	SERIAL_STOPBITS, notify, wait, equals, Constants, SERIAL_PORTA, notifyAll, <init>, SERIAL_BAUDRATE, SERIAL_START_DELAY, SERIAL_DATABITS, toString, getClass, SERIAL_PARITY, hashCode.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/server/Server.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/server/Server.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/server/Server.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/server/Server.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/server/Server.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/procolos/Mensagem.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/procolos/Mensagem.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/procolos/Mensagem.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/procolos/Mensagem.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/procolos/Mensagem.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/procolos/MensagemControladorSupervisor.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/procolos/MensagemControladorSupervisor.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/procolos/MensagemControladorSupervisor.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/procolos/MensagemControladorSupervisor.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/procolos/MensagemControladorSupervisor.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/server/conn/ServerActor.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/server/conn/ServerActor.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/server/conn/ServerActor.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/server/conn/ServerActor.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/server/conn/ServerActor.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/supervisores/Supervisor.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/supervisores/Supervisor.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/supervisores/Supervisor.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/supervisores/Supervisor.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/supervisores/Supervisor.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/procolos/MensagemControladorSupervisor.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/procolos/MensagemControladorSupervisor.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/procolos/MensagemControladorSupervisor.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/procolos/MensagemControladorSupervisor.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/procolos/MensagemControladorSupervisor.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/ControladorArduino.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/ControladorArduino.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/ControladorArduino.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/ControladorArduino.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/ControladorArduino.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, wait, equals, getSender, onChange, context, self, onReceive, receive, preRestart, aroundReceive, akka$actor$Actor$_setter_$self_$eq, postRestart, postStop, ControladorArduino, notifyAll, aroundPostRestart, aroundPreRestart, aroundPostStop, <init>, preStart, unhandled, entrarEmModoAmarelhoIntermitente, supervisorPronto, serialPort, akka$actor$Actor$_setter_$context_$eq, getContext, sender, toString, getClass, getSelf, supervisorStrategy, hashCode, aroundPreStart.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/controladores/ControladorI2C.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/controladores/ControladorI2C.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/controladores/ControladorI2C.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/controladores/ControladorI2C.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/controladores/ControladorI2C.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/mqtt/MQTTCentralActor.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/mqtt/MQTTCentralActor.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/mqtt/MQTTCentralActor.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/mqtt/MQTTCentralActor.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/mqtt/MQTTCentralActor.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/Interrupcao.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/Interrupcao.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/Interrupcao.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/Interrupcao.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/Interrupcao.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/ControladorSerial.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/ControladorSerial.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/ControladorSerial.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/ControladorSerial.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/controladores/ControladorSerial.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, wait, equals, getSender, onChange, context, self, onReceive, receive, preRestart, serialEvent, aroundReceive, akka$actor$Actor$_setter_$self_$eq, postRestart, databits, postStop, notifyAll, lambda$serialEvent$0, aroundPostRestart, aroundPreRestart, aroundPostStop, startDelay, processMessage, stopbits, <init>, preStart, lambda$processMessage$1, unhandled, entrarEmModoAmarelhoIntermitente, supervisorPronto, serialPort, akka$actor$Actor$_setter_$context_$eq, ack, getContext, sender, message, toString, ControladorSerial, getClass, getSelf, parity, porta, baudrate, supervisorStrategy, hashCode, aroundPreStart.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/procolos/MensagemInterrupcao.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/procolos/MensagemInterrupcao.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/procolos/MensagemInterrupcao.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/procolos/MensagemInterrupcao.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/procolos/MensagemInterrupcao.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/Troca.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/Troca.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/Troca.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/Troca.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/models/Troca.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/Application.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/Application.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/Application.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/Application.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/Application.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, wait, equals, main, notifyAll, <init>, Application, toString, getClass, hashCode, conf72c.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/utils/Constants.java...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/utils/Constants.java...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/utils/Constants.java)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/utils/Constants.java)[0m
+[0m[[0mdebug[0m] [0mThe /Users/rodrigosol/raro/influunt/influunt-os/src/main/java/os72c/client/utils/Constants.java source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mNew invalidations:[0m
+[0m[[0mdebug[0m] [0m	Set()[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set()[0m
+[0m[[0mdebug[0m] [0mPreviously invalidated, but (transitively) depend on new invalidations:[0m
+[0m[[0mdebug[0m] [0m	Set()[0m
+[0m[[0mdebug[0m] [0mAll newly invalidated sources after taking into account (previously) recompiled sources:Set()[0m

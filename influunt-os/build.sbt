@@ -19,11 +19,6 @@ val project = Project(
     javacOptions in doc in Compile := Seq("-source", "1.8", "-Xdoclint:none"),
     libraryDependencies ++= Seq(
       "com.typesafe.akka" %% "akka-actor" % akkaVersion,
-      "com.typesafe.akka" %% "akka-remote" % akkaVersion,
-      "com.typesafe.akka" %% "akka-cluster" % akkaVersion,
-      "com.typesafe.akka" %% "akka-cluster-metrics" % akkaVersion,
-      "com.typesafe.akka" %% "akka-cluster-tools" % akkaVersion,
-      "com.typesafe.akka" %% "akka-multi-node-testkit" % akkaVersion,
       "com.typesafe.akka" %% "akka-persistence" % akkaVersion,
       "com.typesafe.akka" %% "akka-contrib" % akkaVersion,
       "org.iq80.leveldb" % "leveldb" % "0.7",
@@ -39,7 +34,6 @@ val project = Project(
     javaOptions in run ++= Seq(
       "-Xms128m", "-Xmx1024m", "-Djava.library.path=./target/native"),
     Keys.fork in run := true,
-    mainClass in (Compile, run) := Some("os72c.supervisores.Supervisor"),
     // make sure that MultiJvm test are compiled by the default test compilation
     compile in MultiJvm <<= (compile in MultiJvm) triggeredBy (compile in Test),
     // disable parallel tests
@@ -61,7 +55,7 @@ val project = Project(
   )
   .configs (MultiJvm)
 
-mainClass in Compile := Some("os72c.Application")
+mainClass in Compile := Some("os72c.client.Client")
 
 import NativePackagerHelper._
 
@@ -93,7 +87,7 @@ scriptClasspath := Seq("../config/") ++ scriptClasspath.value
 //
 //
 //
-//mainClass in Compile := Some("os72c.Application")
+//mainClass in Compile := Some("os72c.client.Client")
 //
 //import NativePackagerHelper._
 //

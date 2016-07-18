@@ -24,6 +24,7 @@ uint32_t BRANCO = 7;
 uint32_t grupos[24];
 bool change = true;
 bool first = true;
+int quantidadeGrupos = 0;
 int count = 0;
 void display(){
   count--;
@@ -139,47 +140,14 @@ String getValue(String data, char separator, int index)
   return found>index ? data.substring(strIndex[0], strIndex[1]) : "";
 }
 
-void theaterChase(uint32_t c, uint8_t wait) 
+void colorWipe(uint32_t c, uint8_t wait) 
 {
-  for (int j = 0; j < 10; j++) { //do 10 cycles of chasing
-    for (int q = 0; q < 3; q++) {
-      for (int i = 0; i < strip.numPixels(); i = i + 3) {
-        strip.setPixelColor(i + q, c);  //turn every third pixel on
-      }
-      strip.show();
-      delay(wait);
-      for (int i = 0; i < strip.numPixels(); i = i + 3) {
-        strip.setPixelColor(i + q, 0);      //turn every third pixel off
-      }
-    }
-  }
-}
-void rainbow(uint8_t wait) 
-{
-  uint16_t i, j;
-  for (j = 0; j < 256; j++) {
-    for (i = 0; i < strip.numPixels(); i++) {
-      strip.setPixelColor(i, Wheel((i + j) & 255));
-    }
+  for (uint16_t i = 0; i < strip.numPixels(); i++) {
+    strip.setPixelColor(i, c);
     strip.show();
     delay(wait);
   }
 }
-
-uint32_t Wheel(byte WheelPos) 
-{
-  WheelPos = 255 - WheelPos;
-  if (WheelPos < 85) {
-    return strip.Color(255 - WheelPos * 3, 0, WheelPos * 3);
-  }
-  if (WheelPos < 170) {
-    WheelPos -= 85;
-    return strip.Color(0, WheelPos * 3, 255 - WheelPos * 3);
-  }
-  WheelPos -= 170;
-  return strip.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
-}
-
 
 void setup() {
 
@@ -211,7 +179,9 @@ for(int i = 22; i <= 52; i+=2){
 
 void loop() {
   if(first){
-     rainbow(20);
+    colorWipe(strip.Color(0, 255, 0), 10);
+    colorWipe(strip.Color(255, 255, 0), 10);
+    colorWipe(strip.Color(255, 0, 0), 10);
   }
   trap = "";
   
@@ -220,9 +190,11 @@ void loop() {
       if(i >= 22 && i <= 28){
         trap = trap + "P" + ((i/2) - 11);
       }else if(i >= 30 && i <= 44){
-        trap = trap + "V" +  ((i/2) - 15);
-      }else if(i >= 46 && i <= 50){
-      trap = trap + "E" +  ((i/2) - 23);
+        trap = trap +   "V" +  ((i/2) - 15);
+      }else if(i >= 46 && i <= 48){
+        trap = trap + "E" +  ((i/2) - 23);
+      }else if(i == 50){
+        trap = trap + "N0";
       }else if(i == 52){
         trap = trap + "M0";
       }
@@ -230,23 +202,41 @@ void loop() {
   }
 
   if(!trap.equals("")){
-    Serial.println(trap);
+    Serial.println(trap + ";");
+//    String serialData = Serial.readStringUntil(';');
+//    if(!serialData.startsWith("ACK;")){
+//      //Não recebeu o evento!!!! O que fazer?
+//    }
   }
    
   displayThread.check();
   if (Serial.available() > 0 ) {
-    String serialData = Serial.readString();
-    //Serial.write(1);
-    for(int i = 0; i < 6; i++){
-      setGrupo(i,getValue(serialData, ',', i).toInt());
+    String serialData = Serial.readStringUntil(';');
+    if(serialData.startsWith("START")){
+      Serial.println("OK,Raro Labs           ,Simulador Arduino   ,1.A.B      ;"); 
+      first = false;
+      colorWipe(strip.Color(255, 0, 0), 10); 
+    }else if(serialData.startsWith("G")){
+      quantidadeGrupos = getValue(serialData, ',', 0).substring(1).toInt();
+      for(int i = 1; i <= quantidadeGrupos; i++){
+        int modo = getValue(serialData, ',', i).toInt();
+        setGrupo(i-1,modo);
+      }
+      count = getValue(serialData, ',', quantidadeGrupos + 1).toInt();
+      change = true;
+      Serial.println("ACK;"); 
+    }else if(serialData.startsWith("AI")){
+      String serialData = Serial.readStringUntil(';');
+      for(int i = 1; i <= quantidadeGrupos; i++){
+        setGrupo(i-1,5);
+      }
+      change = true;
+      Serial.println("ACK;"); 
     }
-    count = getValue(serialData, ',', 6).toInt();
-    change = true;
-    first = false;
   }
-   if(change){
-      atualizaLeds();
-   }
+  if(change){
+    atualizaLeds();
+  }
    u8g.firstPage();  
    do
    {
