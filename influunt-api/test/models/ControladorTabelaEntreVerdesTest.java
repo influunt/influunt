@@ -38,53 +38,27 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
         assertEquals("Quantidade de transicoes", 1, anelCom2Estagios.getGruposSemaforicos().get(0).getTransicoes().size());
         assertEquals("Quantidade de transicoes", 4, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoes().size());
 
+        Transicao transicao1Anel2EstagiosGS1 = anelCom2Estagios.getGruposSemaforicos().get(0).getTransicoes().get(0);
+        TabelaEntreVerdesTransicao tabelaEntreVerdesTransicao = transicao1Anel2EstagiosGS1.getTabelaEntreVerdesTransicoes().get(0);
+
         List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, ControladorAneisCheck.class,
                 ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class, ControladorTransicoesProibidasCheck.class,
                 ControladorTabelaEntreVerdesCheck.class);
 
         assertEquals(12, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[0].transicoes[0].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[0].transicoes[1].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[0].transicoes[2].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[0].transicoes[3].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[1].transicoes[0].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[1].transicoes[1].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[1].transicoes[2].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[1].transicoes[3].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[1].transicoes[4].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[1].transicoes[5].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[1].gruposSemaforicos[0].transicoes[0].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[1].gruposSemaforicos[1].transicoes[0].aoMenosUmaTabelaEntreVerdesTransicao")
-        ));
-
-        TabelaEntreVerdes tabelaEntreVerdes1Anel2EstagiosGS1 = anelCom2Estagios.getGruposSemaforicos().get(0).getTabelasEntreVerdes().get(0);
-        Transicao transicao1Anel2EstagiosGS1 = anelCom2Estagios.getGruposSemaforicos().get(0).getTransicoes().get(0);
-        TabelaEntreVerdesTransicao tabelaEntreVerdesTransicao = new TabelaEntreVerdesTransicao(tabelaEntreVerdes1Anel2EstagiosGS1, transicao1Anel2EstagiosGS1);
-        transicao1Anel2EstagiosGS1.addTabelaEntreVerdes(tabelaEntreVerdesTransicao);
-        tabelaEntreVerdes1Anel2EstagiosGS1.addTransicao(tabelaEntreVerdesTransicao);
-
-
-        erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, ControladorAneisCheck.class,
-                ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class, ControladorTransicoesProibidasCheck.class,
-                ControladorTabelaEntreVerdesCheck.class);
-
-        assertEquals(14, erros.size());
-        assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[0].transicoes[0].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[0].transicoes[1].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[0].transicoes[2].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[0].transicoes[3].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[1].transicoes[0].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[1].transicoes[1].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[1].transicoes[2].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[1].transicoes[3].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[1].transicoes[4].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[1].transicoes[5].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[1].gruposSemaforicos[1].transicoes[0].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "não pode ficar em branco", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdes[0].tempoAmarelo"),
-                new Erro("Controlador", "não pode ficar em branco", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdes[0].tempoVermelhoLimpeza"),
-                new Erro("Controlador", "não pode ficar em branco", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdes[0].tempoAtrasoGrupo")
+                new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[1].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[2].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[3].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[1].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[2].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[3].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[4].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[5].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[1].gruposSemaforicos[1].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmarelo")
         ));
 
         tabelaEntreVerdesTransicao.setTempoAmarelo(500);
@@ -97,54 +71,25 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
 
         assertEquals(14, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[0].transicoes[0].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[0].transicoes[1].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[0].transicoes[2].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[0].transicoes[3].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[1].transicoes[0].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[1].transicoes[1].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[1].transicoes[2].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[1].transicoes[3].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[1].transicoes[4].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[1].transicoes[5].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[1].gruposSemaforicos[1].transicoes[0].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "deve estar entre 3 e 5", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdes[0].tempoAmarelo"),
-                new Erro("Controlador", "deve estar entre 0 e 7", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdes[0].tempoVermelhoLimpezaFieldVeicular"),
-                new Erro("Controlador", "deve estar entre 0 e 20", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdes[0].tempoAtrasoGrupo")
+                new Erro("Controlador", "deve estar entre 3 e 5", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
+                new Erro("Controlador", "deve estar entre 0 e 20", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAtrasoGrupo"),
+                new Erro("Controlador", "deve estar entre 0 e 7", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoLimpezaFieldVeicular"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[2].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[1].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[3].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[1].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[2].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[3].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[4].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[5].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[1].gruposSemaforicos[1].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmarelo")
         ));
 
         GrupoSemaforico grupoSemaforicoAnel4EstagiosPedestre = anelCom4Estagios.getGruposSemaforicos().stream().filter(grupoSemaforico -> grupoSemaforico.isPedestre()).findFirst().get();
-        TabelaEntreVerdes tabelaEntreVerdes2Anel4EstagiosGS1 = grupoSemaforicoAnel4EstagiosPedestre.getTabelasEntreVerdes().get(0);
         Transicao transicao1Anel4EstagiosGS1 = grupoSemaforicoAnel4EstagiosPedestre.getTransicoes().get(0);
-        tabelaEntreVerdesTransicao = new TabelaEntreVerdesTransicao(tabelaEntreVerdes2Anel4EstagiosGS1, transicao1Anel4EstagiosGS1);
-        transicao1Anel4EstagiosGS1.addTabelaEntreVerdes(tabelaEntreVerdesTransicao);
-        tabelaEntreVerdes2Anel4EstagiosGS1.addTransicao(tabelaEntreVerdesTransicao);
-
-        erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, ControladorAneisCheck.class,
-                ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class, ControladorTransicoesProibidasCheck.class,
-                ControladorTabelaEntreVerdesCheck.class);
-
-        assertEquals(16, erros.size());
-        assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[0].transicoes[1].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[0].transicoes[2].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[0].transicoes[3].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[1].transicoes[0].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[1].transicoes[1].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[1].transicoes[2].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[1].transicoes[3].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[1].transicoes[4].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[1].transicoes[5].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[1].gruposSemaforicos[1].transicoes[0].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "deve estar entre 3 e 5", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdes[0].tempoAmarelo"),
-                new Erro("Controlador", "deve estar entre 0 e 7", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdes[0].tempoVermelhoLimpezaFieldVeicular"),
-                new Erro("Controlador", "deve estar entre 0 e 20", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdes[0].tempoAtrasoGrupo"),
-                new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdes[0].tempoVermelhoLimpeza"),
-                new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdes[0].tempoAtrasoGrupo"),
-                new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdes[0].tempoVermelhoIntermitente")
-        ));
-
-
+        tabelaEntreVerdesTransicao = transicao1Anel4EstagiosGS1.getTabelaEntreVerdesTransicoes().get(0);
         tabelaEntreVerdesTransicao.setTempoVermelhoIntermitente(500);
         tabelaEntreVerdesTransicao.setTempoAtrasoGrupo(500);
         tabelaEntreVerdesTransicao.setTempoVermelhoLimpeza(6); // TEMPO PARA GRUPO SEMAFORICO PEDESTRE
@@ -155,22 +100,22 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
 
         assertEquals(16, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[0].transicoes[1].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[0].transicoes[2].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[0].transicoes[3].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[1].transicoes[0].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[1].transicoes[1].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[1].transicoes[2].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[1].transicoes[3].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[1].transicoes[4].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[0].gruposSemaforicos[1].transicoes[5].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "Essa transição deve ter pelo menos uma tabela de entreverdes.", "aneis[1].gruposSemaforicos[1].transicoes[0].aoMenosUmaTabelaEntreVerdesTransicao"),
-                new Erro("Controlador", "deve estar entre 3 e 5", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdes[0].tempoAmarelo"),
-                new Erro("Controlador", "deve estar entre 0 e 7", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdes[0].tempoVermelhoLimpezaFieldVeicular"),
-                new Erro("Controlador", "deve estar entre 0 e 20", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdes[0].tempoAtrasoGrupo"),
-                new Erro("Controlador", "deve estar entre 0 e 5", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdes[0].tempoVermelhoLimpezaFieldPedestre"),
-                new Erro("Controlador", "deve estar entre 0 e 20", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdes[0].tempoAtrasoGrupo"),
-                new Erro("Controlador", "deve estar entre 3 e 32", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdes[0].tempoVermelhoIntermitente")
+                new Erro("Controlador", "deve estar entre 0 e 20", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAtrasoGrupo"),
+                new Erro("Controlador", "deve estar entre 0 e 7", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoLimpezaFieldVeicular"),
+                new Erro("Controlador", "deve estar entre 3 e 32", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
+                new Erro("Controlador", "deve estar entre 0 e 5", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoLimpezaFieldPedestre"),
+                new Erro("Controlador", "deve estar entre 0 e 20", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAtrasoGrupo"),
+                new Erro("Controlador", "deve estar entre 3 e 5", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[1].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[2].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[3].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[1].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[2].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[3].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[4].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[5].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[1].gruposSemaforicos[1].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmarelo")
         ));
     }
 
@@ -202,20 +147,20 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
         assertEquals("Total de transicoes Anel 4 Estagios - G2", 6, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoes().size());
 
 
-        assertEquals("Total tablea EntreVerdes Anel 2 Estagios - G1", 1, anelCom2Estagios.getGruposSemaforicos().get(0).getTransicoes().get(0).getTabelaEntreVerdes().size());
-        assertEquals("Total tablea EntreVerdes Anel 2 Estagios - G2", 1, anelCom2Estagios.getGruposSemaforicos().get(1).getTransicoes().get(0).getTabelaEntreVerdes().size());
+        assertEquals("Total tabela EntreVerdes Anel 2 Estagios - G1", 1, anelCom2Estagios.getGruposSemaforicos().get(0).getTransicoes().get(0).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 2 Estagios - G2", 1, anelCom2Estagios.getGruposSemaforicos().get(1).getTransicoes().get(0).getTabelaEntreVerdesTransicoes().size());
 
-        assertEquals("Total tablea EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoes().get(0).getTabelaEntreVerdes().size());
-        assertEquals("Total tablea EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoes().get(1).getTabelaEntreVerdes().size());
-        assertEquals("Total tablea EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoes().get(2).getTabelaEntreVerdes().size());
-        assertEquals("Total tablea EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoes().get(3).getTabelaEntreVerdes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoes().get(0).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoes().get(1).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoes().get(2).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoes().get(3).getTabelaEntreVerdesTransicoes().size());
 
-        assertEquals("Total tablea EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoes().get(0).getTabelaEntreVerdes().size());
-        assertEquals("Total tablea EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoes().get(1).getTabelaEntreVerdes().size());
-        assertEquals("Total tablea EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoes().get(2).getTabelaEntreVerdes().size());
-        assertEquals("Total tablea EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoes().get(3).getTabelaEntreVerdes().size());
-        assertEquals("Total tablea EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoes().get(4).getTabelaEntreVerdes().size());
-        assertEquals("Total tablea EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoes().get(5).getTabelaEntreVerdes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoes().get(0).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoes().get(1).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoes().get(2).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoes().get(3).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoes().get(4).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoes().get(5).getTabelaEntreVerdesTransicoes().size());
 
     }
 
@@ -239,20 +184,20 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
         assertEquals("Total de transicoes Anel 4 Estagios - G1", 4, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoes().size());
         assertEquals("Total de transicoes Anel 4 Estagios - G2", 6, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoes().size());
 
-        assertEquals("Total tablea EntreVerdes Anel 2 Estagios - G1", 1, anelCom2Estagios.getGruposSemaforicos().get(0).getTransicoes().get(0).getTabelaEntreVerdes().size());
-        assertEquals("Total tablea EntreVerdes Anel 2 Estagios - G2", 1, anelCom2Estagios.getGruposSemaforicos().get(1).getTransicoes().get(0).getTabelaEntreVerdes().size());
+        assertEquals("Total tabela EntreVerdes Anel 2 Estagios - G1", 1, anelCom2Estagios.getGruposSemaforicos().get(0).getTransicoes().get(0).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 2 Estagios - G2", 1, anelCom2Estagios.getGruposSemaforicos().get(1).getTransicoes().get(0).getTabelaEntreVerdesTransicoes().size());
 
-        assertEquals("Total tablea EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoes().get(0).getTabelaEntreVerdes().size());
-        assertEquals("Total tablea EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoes().get(1).getTabelaEntreVerdes().size());
-        assertEquals("Total tablea EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoes().get(2).getTabelaEntreVerdes().size());
-        assertEquals("Total tablea EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoes().get(3).getTabelaEntreVerdes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoes().get(0).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoes().get(1).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoes().get(2).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoes().get(3).getTabelaEntreVerdesTransicoes().size());
 
-        assertEquals("Total tablea EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoes().get(0).getTabelaEntreVerdes().size());
-        assertEquals("Total tablea EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoes().get(1).getTabelaEntreVerdes().size());
-        assertEquals("Total tablea EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoes().get(2).getTabelaEntreVerdes().size());
-        assertEquals("Total tablea EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoes().get(3).getTabelaEntreVerdes().size());
-        assertEquals("Total tablea EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoes().get(4).getTabelaEntreVerdes().size());
-        assertEquals("Total tablea EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoes().get(5).getTabelaEntreVerdes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoes().get(0).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoes().get(1).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoes().get(2).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoes().get(3).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoes().get(4).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoes().get(5).getTabelaEntreVerdesTransicoes().size());
     }
 
     @Override
@@ -288,7 +233,6 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
         Anel anelCom2Estagios = controladorJson.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
         Anel anelCom4Estagios = controladorJson.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
 
-
         GrupoSemaforico g1 = anelCom4Estagios.findGrupoSemaforicoByDescricao("G1");
         GrupoSemaforico g2 = anelCom4Estagios.findGrupoSemaforicoByDescricao("G2");
         GrupoSemaforico g3 = anelCom2Estagios.findGrupoSemaforicoByDescricao("G3");
@@ -300,20 +244,20 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
         assertEquals("Total de transicoes Anel 4 Estagios - G1", 4, g1.getTransicoes().size());
         assertEquals("Total de transicoes Anel 4 Estagios - G2", 6, g2.getTransicoes().size());
 
-        assertEquals("Total tablea EntreVerdes Anel 2 Estagios - G3", 1, g3.getTransicoes().get(0).getTabelaEntreVerdes().size());
-        assertEquals("Total tablea EntreVerdes Anel 2 Estagios - G4", 1, g4.getTransicoes().get(0).getTabelaEntreVerdes().size());
+        assertEquals("Total tabela EntreVerdes Anel 2 Estagios - G3", 1, g3.getTransicoes().get(0).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 2 Estagios - G4", 1, g4.getTransicoes().get(0).getTabelaEntreVerdesTransicoes().size());
 
-        assertEquals("Total tablea EntreVerdes Anel 4 Estagios - G1", 1, g1.getTransicoes().get(0).getTabelaEntreVerdes().size());
-        assertEquals("Total tablea EntreVerdes Anel 4 Estagios - G1", 1, g1.getTransicoes().get(1).getTabelaEntreVerdes().size());
-        assertEquals("Total tablea EntreVerdes Anel 4 Estagios - G1", 1, g1.getTransicoes().get(2).getTabelaEntreVerdes().size());
-        assertEquals("Total tablea EntreVerdes Anel 4 Estagios - G1", 1, g1.getTransicoes().get(3).getTabelaEntreVerdes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, g1.getTransicoes().get(0).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, g1.getTransicoes().get(1).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, g1.getTransicoes().get(2).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, g1.getTransicoes().get(3).getTabelaEntreVerdesTransicoes().size());
 
-        assertEquals("Total tablea EntreVerdes Anel 4 Estagios - G2", 1, g2.getTransicoes().get(0).getTabelaEntreVerdes().size());
-        assertEquals("Total tablea EntreVerdes Anel 4 Estagios - G2", 1, g2.getTransicoes().get(1).getTabelaEntreVerdes().size());
-        assertEquals("Total tablea EntreVerdes Anel 4 Estagios - G2", 1, g2.getTransicoes().get(2).getTabelaEntreVerdes().size());
-        assertEquals("Total tablea EntreVerdes Anel 4 Estagios - G2", 1, g2.getTransicoes().get(3).getTabelaEntreVerdes().size());
-        assertEquals("Total tablea EntreVerdes Anel 4 Estagios - G2", 1, g2.getTransicoes().get(4).getTabelaEntreVerdes().size());
-        assertEquals("Total tablea EntreVerdes Anel 4 Estagios - G2", 1, g2.getTransicoes().get(5).getTabelaEntreVerdes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, g2.getTransicoes().get(0).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, g2.getTransicoes().get(1).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, g2.getTransicoes().get(2).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, g2.getTransicoes().get(3).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, g2.getTransicoes().get(4).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, g2.getTransicoes().get(5).getTabelaEntreVerdesTransicoes().size());
     }
 
 }

@@ -203,6 +203,7 @@ public abstract class ControladorTest extends WithApplication {
 
     protected Controlador getControladorTransicoesProibidas() {
         Controlador controlador = getControladorVerdesConflitantes();
+        controlador.save();
 
         Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
 
@@ -239,24 +240,21 @@ public abstract class ControladorTest extends WithApplication {
         Controlador controlador = getControladorTransicoesProibidas();
         controlador.save();
 
-        for(Anel anel : controlador.getAneis()) {
-            for(GrupoSemaforico grupoSemaforico : anel.getGruposSemaforicos()) {
-                TabelaEntreVerdes tabelaEntreVerdes = grupoSemaforico.getTabelasEntreVerdes().get(0);
-                for(Transicao transicao : grupoSemaforico.getTransicoes()) {
-                    TabelaEntreVerdesTransicao tabelaEntreVerdesTransicao = new TabelaEntreVerdesTransicao(tabelaEntreVerdes, transicao);
-                    tabelaEntreVerdesTransicao.setTempoAtrasoGrupo(0);
-                    tabelaEntreVerdesTransicao.setTempoVermelhoLimpeza(5);
-                    if(grupoSemaforico.isVeicular()) {
-                        tabelaEntreVerdesTransicao.setTempoAmarelo(4);
-                    } else {
-                        tabelaEntreVerdesTransicao.setTempoVermelhoIntermitente(30);
+        for (Anel anel : controlador.getAneis()) {
+            for (GrupoSemaforico grupoSemaforico : anel.getGruposSemaforicos()) {
+                for (Transicao transicao : grupoSemaforico.getTransicoes()) {
+                    for (TabelaEntreVerdesTransicao tabelaEntreVerdesTransicao : transicao.getTabelaEntreVerdesTransicoes()) {
+                        tabelaEntreVerdesTransicao.setTempoAtrasoGrupo(0);
+                        tabelaEntreVerdesTransicao.setTempoVermelhoLimpeza(5);
+                        if (grupoSemaforico.isVeicular()) {
+                            tabelaEntreVerdesTransicao.setTempoAmarelo(4);
+                        } else {
+                            tabelaEntreVerdesTransicao.setTempoVermelhoIntermitente(30);
+                        }
                     }
-                    transicao.addTabelaEntreVerdes(tabelaEntreVerdesTransicao);
-                    tabelaEntreVerdes.addTransicao(tabelaEntreVerdesTransicao);
                 }
             }
         }
-
         return controlador;
     }
 

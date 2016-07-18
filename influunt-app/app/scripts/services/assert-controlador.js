@@ -13,7 +13,7 @@ angular.module('influuntApp')
     /**
      * Verifica se há aneis no controlador
      *
-     * @param      {<type>}   controlador  The controlador
+     * @param      {Object}   controlador  The controlador
      * @return     {boolean}  True if has aneis, False otherwise.
      */
     var hasAneis = function(controlador) {
@@ -23,7 +23,7 @@ angular.module('influuntApp')
     /**
      * Verifica se o controlador possui ao menos um estágio.
      *
-     * @param      {<type>}   controlador  The controlador
+     * @param      {Object}   controlador  The controlador
      * @return     {boolean}  True if has estagios, False otherwise.
      */
     var hasEstagios = function(controlador) {
@@ -35,8 +35,52 @@ angular.module('influuntApp')
         .length > 0;
     };
 
+    /**
+     * Verifica se o controlador possui ao menos uma transição por grupo semafórico
+     *
+     * @param      {Object}   controlador  The controlador
+     * @return     {boolean}  True if has transições, False otherwise.
+     */
+    var hasTransicoes = function(controlador) {
+      if (hasAneis(controlador)) {
+        var gruposSemaforicos = _.chain(controlador.aneis)
+                                 .map('gruposSemaforicos')
+                                 .value();
+        var transicoes = _.chain(gruposSemaforicos)
+                          .map('transicoes')
+                          .value();
+        return transicoes.length >= gruposSemaforicos.length;
+      }
+    };
+
+    /**
+     * Verifica se o controlador possui ao menos uma tabela entre-verdes por transição
+     *
+     * @param      {Object}   controlador  The controlador
+     * @return     {boolean}  True if has tabela entre-verdes, False otherwise.
+     */
+    var hasTabelasEntreVerdes = function(controlador) {
+      if (hasAneis(controlador) && hasTransicoes(controlador)) {
+        var transicoes = _.chain(controlador.aneis)
+                                 .map('gruposSemaforicos')
+                                 .flatten()
+                                 .map('transicoes')
+                                 .flatten()
+                                 .value();
+        var tabelasEV = _.chain(transicoes)
+                          .map('tabelaEntreVerdesTransicoes')
+                          .flatten()
+                          .value();
+        return tabelasEV.length >= transicoes.length;
+      }
+    };
+
+
+
     return {
       hasAneis: hasAneis,
       hasEstagios: hasEstagios,
+      hasTransicoes: hasTransicoes,
+      hasTabelasEntreVerdes: hasTabelasEntreVerdes
     };
   });

@@ -27,19 +27,19 @@ public class TransicaoProibidaSerializer extends JsonSerializer<TransicaoProibid
             jgen.writeStringField("dataAtualizacao", InfluuntDateTimeSerializer.parse(transicaoProibida.getDataAtualizacao()));
         }
 
-        if(transicaoProibida.getOrigem() != null) {
+        if (transicaoProibida.getOrigem() != null) {
             jgen.writeObjectFieldStart("origem");
             jgen.writeStringField("id", transicaoProibida.getOrigem().getId().toString());
             jgen.writeEndObject();
         }
 
-        if(transicaoProibida.getDestino() != null) {
+        if (transicaoProibida.getDestino() != null) {
             jgen.writeObjectFieldStart("destino");
             jgen.writeStringField("id", transicaoProibida.getDestino().getId().toString());
             jgen.writeEndObject();
         }
 
-        if(transicaoProibida.getAlternativo() != null) {
+        if (transicaoProibida.getAlternativo() != null) {
             jgen.writeObjectFieldStart("alternativo");
             jgen.writeStringField("id", transicaoProibida.getAlternativo().getId().toString());
             jgen.writeEndObject();

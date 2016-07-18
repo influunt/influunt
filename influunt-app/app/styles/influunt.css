@@ -437,7 +437,7 @@ header .nav-secon li a {
     outline: none;
 }
 .wrapper-content .basic-wizard .content .body .association.stage-time .knob .knob-item p {
-    font-size: 11px;    
+    font-size: 11px;
     font-weight: bold;
     text-transform: uppercase;
 }
@@ -448,7 +448,7 @@ header .nav-secon li a {
     margin: 0;
     right: 0;
     top: 50%;
-    left: 0;    
+    left: 0;
 }
 .wrapper-content .basic-wizard .content .body .association.stage-time .knob {}
 .wrapper-content .basic-wizard .content .body .association.stage-time {
@@ -507,7 +507,7 @@ header .nav-secon li a {
     padding: 9px 15px 8px 10px;
     background: #f7f7f7;
     min-width: 80px;
-} 
+}
 .wrapper-content .basic-wizard .content .body .association.table-creation-plans section .table-create-plan tbody .ty-547j label i {
     padding-left: 5px;
 }
@@ -516,7 +516,7 @@ header .nav-secon li a {
     line-height: 16px;
     font-weight: bold;
     margin-bottom: 0;
-} 
+}
 .wrapper-content .basic-wizard .content .body .association.table-creation-plans section .table-create-plan table, th, td {
    border: 1px solid #e7eaec;
 }
@@ -527,13 +527,13 @@ header .nav-secon li a {
     font-weight: bold;
     text-align: left;
     font-size: 16px;
-    color: #676a6c;  
+    color: #676a6c;
     width: 100%;
 }
 .wrapper-content .basic-wizard .content .body .association.table-creation-plans section .table-create-plan thead tr .tg-031e figure {
     border: 1px solid #363636;
     margin: 0 15px 20px 20px;
-    box-sizing: border-box;   
+    box-sizing: border-box;
     background: #b7b7b7;
     position: relative;
     min-height: 85px;
@@ -554,7 +554,7 @@ header .nav-secon li a {
     color: #676a6c;
     font-size: 21px;
     line-height: 70px;
-    margin: 0 0 0 15px;    
+    margin: 0 0 0 15px;
 }
 .wrapper-content .basic-wizard .content .body .association.table-creation-plans header nav {
     margin-right: 15px;
@@ -577,7 +577,7 @@ header .nav-secon li a {
     font-weight: bold;
     text-align: left;
     font-size: 11px;
-    padding: 0;    
+    padding: 0;
 }
 .wrapper-content .basic-wizard .content .body .association.table-creation-plans header nav li span {
     height: 16px;
@@ -586,22 +586,22 @@ header .nav-secon li a {
 }
 .wrapper-content .basic-wizard .content .body .association.table-creation-plans article label {
     font-size: 11px;
-} 
+}
 .wrapper-content .basic-wizard .content .body .association.table-creation-plans article .knob {
     margin-top: 35px;
-} 
+}
 .wrapper-content .basic-wizard .content .body .association.table-creation-plans article .knob .knob-item .meters {
     margin-bottom: 25px;
 }
 .wrapper-content .basic-wizard .content .body .association.table-creation-plans article .knob .knob-item p {
-    font-size: 11px;     
+    font-size: 11px;
     font-weight: bold;
     text-transform: uppercase;
-} 
+}
 .wrapper-content .basic-wizard .content .body .association.table-creation-plans article .knob .knob-item .meters input {
     margin-top: 25px !important;
     outline: none;
-} 
+}
 .wrapper-content .basic-wizard .content .body .association.table-creation-plans article .knob .knob-item .meters label {
     position: absolute;
     font-size: 11px;
@@ -610,35 +610,35 @@ header .nav-secon li a {
     right: 0;
     left: 0;
     top: 50%;
-} 
+}
 .wrapper-content .basic-wizard .content .body .association.table-creation-plans article aside {
     float: left;
-    width: 100%;        
+    width: 100%;
     min-height: 571px;
     padding-bottom: 0;
     padding: 10px 15px;
     border-top: 1px solid #e7eaec;
-    border-right: 1px solid #e7eaec;    
-} 
+    border-right: 1px solid #e7eaec;
+}
 .wrapper-content .basic-wizard .content .body .association.table-creation-plans .green {
     background: #00ad4d;
 }
-.wrapper-content .basic-wizard .content .body .association.table-creation-plans .yellow {  
+.wrapper-content .basic-wizard .content .body .association.table-creation-plans .yellow {
     background: #fffb00;
 }
 .wrapper-content .basic-wizard .content .body .association.table-creation-plans .red-cleaning {
-    background: #a31100;  
+    background: #a31100;
 }
-.wrapper-content .basic-wizard .content .body .association.table-creation-plans .red-flashing {  
+.wrapper-content .basic-wizard .content .body .association.table-creation-plans .red-flashing {
     background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAANUlEQVQYV2NkwAM6Ojr+M+KSB0lWVFQwYlUAkwRpxlCALImhAF0SRQE2SbgCXJJgBfgkQQoAFRkeoKyjcMIAAAAASUVORK5CYII=') #ff1b00;
 }
-.wrapper-content .basic-wizard .content .body .association.table-creation-plans .red {  
+.wrapper-content .basic-wizard .content .body .association.table-creation-plans .red {
     background: #ff1b00;
 }
-.wrapper-content .basic-wizard .content .body .association.table-creation-plans .yellow-flashing {  
+.wrapper-content .basic-wizard .content .body .association.table-creation-plans .yellow-flashing {
     background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAANUlEQVQYV2NkwAM6Ojr+M+KSB0lWVFQwYlUAkwRpxlCALImhAF0SRQE2SbgCXJJgBfgkQQoAFRkeoKyjcMIAAAAASUVORK5CYII=') #fffb00;
 }
-.wrapper-content .basic-wizard .content .body .association.table-creation-plans .wiped {  
+.wrapper-content .basic-wizard .content .body .association.table-creation-plans .wiped {
     background:#3d3d3d;
 }
 .wrapper-content .basic-wizard .content .body .association.tables-associated .association-know {
@@ -804,6 +804,10 @@ header .nav-secon li a {
     background: #fff;
 }
 .wrapper-content .basic-wizard .content .body .association nav li:hover {
+    background: #19b4a8;
+    color: #fff;
+}
+.wrapper-content .basic-wizard .content .body .association nav li.active {
     background: #19b4a8;
     color: #fff;
 }
@@ -1362,6 +1366,9 @@ header .nav-secon li a {
     .container-fluid {
         width: 100%;
     }
+}
+.remove-tabela-entre-verdes {
+    cursor: pointer;
 }
 /**
     END CSS 1273 line

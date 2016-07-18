@@ -20,6 +20,9 @@
               <li ng-class="{ current: $state.current.name === 'app.wizard_controladores.transicoes_proibidas' }" class="wizard-steps">
                 <a step-id="transicoesProibidas" ui-sref=".transicoes_proibidas({id: $state.params.id})" class="btn-default">{{ 'controladores.transicoesProibidas' | translate }}</a>
               </li>
+              <li ng-class="{ current: $state.current.name === 'app.wizard_controladores.entre_verdes' }" class="wizard-steps">
+                <a step-id="entreVerdes" ui-sref=".entre_verdes({id: $state.params.id})" class="btn-default">{{ 'controladores.entreVerdes' | translate }}</a>
+              </li>
               <li ng-class="{ current: $state.current.name === 'app.wizard_controladores.associacao_detectores' }" class="wizard-steps">
                 <a step-id="associacaoDetectores" ui-sref=".associacao-detectores({id: $state.params.id})" class="btn-default">{{ 'controladores.associacaoDetectores' | translate }}</a>
               </li>

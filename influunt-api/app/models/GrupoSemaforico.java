@@ -63,7 +63,7 @@ public class GrupoSemaforico extends Model implements Cloneable {
     @Valid
     private List<VerdesConflitantes> verdesConflitantesDestino;
 
-    @OneToMany(mappedBy = "grupoSemaforico", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "grupoSemaforico", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<TabelaEntreVerdes> tabelasEntreVerdes;
 
     @OneToMany(mappedBy = "grupoSemaforico", cascade = CascadeType.ALL)
@@ -255,7 +255,7 @@ public class GrupoSemaforico extends Model implements Cloneable {
                 .forEach(estagio -> this.addTransicoes(new Transicao(this, estagioGrupoSemaforico.getEstagio(), estagio))));
 
 
-        getTransicoes().removeIf(transicao -> transicao.isDestroy());
+        getTransicoes().removeIf(Transicao::isDestroy);
 
     }
 

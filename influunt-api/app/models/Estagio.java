@@ -56,6 +56,9 @@ public class Estagio extends Model implements Serializable, Cloneable {
     private Boolean tempoMaximoPermanenciaAtivado = true;
 
     @Column
+    private Integer posicao;
+
+    @Column
     private Boolean demandaPrioritaria = false;
 
     @OneToMany(mappedBy = "estagio")
@@ -233,6 +236,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
         }
         return true;
     }
+
     @AssertTrue(groups = PlanosCheck.class, message = "deve estar entre 60 e 255")
     public boolean isTempoVerdeMinimo() {
         if (getTempoMaximoPermanenciaAtivado()) {
@@ -266,5 +270,13 @@ public class Estagio extends Model implements Serializable, Cloneable {
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    public Integer getPosicao() {
+        return posicao;
+    }
+
+    public void setPosicao(Integer posicao) {
+        this.posicao = posicao;
     }
 }

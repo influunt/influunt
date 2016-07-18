@@ -26,7 +26,11 @@ import java.util.UUID;
 @Entity
 @JsonSerialize(using = TransicaoSerializer.class)
 @JsonDeserialize(using = TransicaoDeserializer.class)
-public class Transicao extends Model implements Cloneable{
+public class Transicao extends Model implements Cloneable {
+
+    private static final long serialVersionUID = -6578371832958671414L;
+
+    public static Finder<UUID, Transicao> find = new Finder<UUID, Transicao>(Transicao.class);
 
     @Id
     private UUID id;
@@ -43,7 +47,7 @@ public class Transicao extends Model implements Cloneable{
     @OneToMany(mappedBy = "transicao", cascade = CascadeType.ALL)
     @PrivateOwned
     @Valid
-    private List<TabelaEntreVerdesTransicao> tabelaEntreVerdes;
+    private List<TabelaEntreVerdesTransicao> tabelaEntreVerdesTransicoes;
 
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
@@ -60,7 +64,7 @@ public class Transicao extends Model implements Cloneable{
     @Column
     private boolean destroy;
 
-    public Transicao(){
+    public Transicao() {
         super();
     }
 
@@ -70,6 +74,7 @@ public class Transicao extends Model implements Cloneable{
         this.origem = origem;
         this.destino = destino;
         this.destroy = false;
+        criaTabelaEntreVerdesTransicao();
     }
 
     public UUID getId() {
@@ -104,12 +109,12 @@ public class Transicao extends Model implements Cloneable{
         this.destino = destino;
     }
 
-    public List<TabelaEntreVerdesTransicao> getTabelaEntreVerdes() {
-        return tabelaEntreVerdes;
+    public List<TabelaEntreVerdesTransicao> getTabelaEntreVerdesTransicoes() {
+        return tabelaEntreVerdesTransicoes;
     }
 
-    public void setTabelaEntreVerdes(List<TabelaEntreVerdesTransicao> tabelaEntreVerdes) {
-        this.tabelaEntreVerdes = tabelaEntreVerdes;
+    public void setTabelaEntreVerdesTransicoes(List<TabelaEntreVerdesTransicao> tabelaEntreVerdes) {
+        this.tabelaEntreVerdesTransicoes = tabelaEntreVerdes;
     }
 
     public DateTime getDataCriacao() {
@@ -138,16 +143,16 @@ public class Transicao extends Model implements Cloneable{
 
     @AssertTrue(groups = ControladorTabelaEntreVerdesCheck.class, message = "Essa transição deve ter pelo menos uma tabela de entreverdes.")
     public boolean isAoMenosUmaTabelaEntreVerdesTransicao() {
-        return !getTabelaEntreVerdes().isEmpty();
+        return !getTabelaEntreVerdesTransicoes().isEmpty();
 
     }
 
-    public void addTabelaEntreVerdes(TabelaEntreVerdesTransicao tabelaEntreVerdesTransicao) {
-        if(getTabelaEntreVerdes() == null) {
-            setTabelaEntreVerdes(new ArrayList<TabelaEntreVerdesTransicao>());
+    public void addTabelaEntreVerdesTransicao(TabelaEntreVerdesTransicao tabelaEntreVerdesTransicao) {
+        if (getTabelaEntreVerdesTransicoes() == null) {
+            setTabelaEntreVerdesTransicoes(new ArrayList<TabelaEntreVerdesTransicao>());
         }
 
-        getTabelaEntreVerdes().add(tabelaEntreVerdesTransicao);
+        getTabelaEntreVerdesTransicoes().add(tabelaEntreVerdesTransicao);
     }
 
     @Override
@@ -169,5 +174,14 @@ public class Transicao extends Model implements Cloneable{
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    private void criaTabelaEntreVerdesTransicao() {
+        GrupoSemaforico grupoSemaforico = getGrupoSemaforico();
+        for (TabelaEntreVerdes tabelaEntreVerdes : grupoSemaforico.getTabelasEntreVerdes()) {
+            TabelaEntreVerdesTransicao tevTransicao = new TabelaEntreVerdesTransicao(tabelaEntreVerdes, this);
+            this.addTabelaEntreVerdesTransicao(tevTransicao);
+            tabelaEntreVerdes.addTabelaEntreVerdesTransicao(tevTransicao);
+        }
     }
 }

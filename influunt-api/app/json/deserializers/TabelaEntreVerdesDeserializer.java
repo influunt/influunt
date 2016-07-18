@@ -1,7 +1,6 @@
 package json.deserializers;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
@@ -21,7 +20,7 @@ import java.util.UUID;
  */
 public class TabelaEntreVerdesDeserializer extends JsonDeserializer<TabelaEntreVerdes> {
     @Override
-    public TabelaEntreVerdes deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public TabelaEntreVerdes deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
 
         ObjectCodec oc = jp.getCodec();
         JsonNode node = oc.readTree(jp);
@@ -33,7 +32,6 @@ public class TabelaEntreVerdesDeserializer extends JsonDeserializer<TabelaEntreV
                 tabelaEntreVerdes.setId(UUID.fromString(id.asText()));
             }
         }
-
         tabelaEntreVerdes.setDescricao(node.get("descricao") != null ? node.get("descricao").asText() : null);
         tabelaEntreVerdes.setPosicao(node.get("posicao") != null ? node.get("posicao").asInt() : null);
         if (node.has("grupoSemaforico")) {
@@ -47,7 +45,7 @@ public class TabelaEntreVerdesDeserializer extends JsonDeserializer<TabelaEntreV
                 tevTransicao.setTabelaEntreVerdes(tabelaEntreVerdes);
                 tabelaEntreVerdesTransicoes.add(tevTransicao);
             }
-            tabelaEntreVerdes.setTransicoes(tabelaEntreVerdesTransicoes);
+            tabelaEntreVerdes.setTabelaEntreVerdesTransicoes(tabelaEntreVerdesTransicoes);
         }
 
         return tabelaEntreVerdes;

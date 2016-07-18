@@ -13,10 +13,7 @@ import json.serializers.TabelaEntreVerdesTransicaoSerializer;
 import org.hibernate.validator.constraints.Range;
 import org.joda.time.DateTime;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
@@ -29,10 +26,12 @@ import java.util.UUID;
 @JsonDeserialize(using = TabelaEntreVerdesTransicaoDeserializer.class)
 public class TabelaEntreVerdesTransicao extends Model implements Cloneable {
 
+    public static Finder<UUID, TabelaEntreVerdesTransicao> find = new Finder<UUID, TabelaEntreVerdesTransicao>(TabelaEntreVerdesTransicao.class);
+
     @Id
     private UUID id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private TabelaEntreVerdes tabelaEntreVerdes;
 
     @ManyToOne
@@ -48,12 +47,12 @@ public class TabelaEntreVerdesTransicao extends Model implements Cloneable {
 
     @NotNull(message = "não pode ficar em branco")
     @Column
-    private Integer tempoVermelhoLimpeza;
+    private Integer tempoVermelhoLimpeza = 0;
 
     @Range(min = 0, max = 20, message = "deve estar entre {min} e {max}")
     @NotNull(message = "não pode ficar em branco")
     @Column
-    private Integer tempoAtrasoGrupo;
+    private Integer tempoAtrasoGrupo = 0;
 
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)

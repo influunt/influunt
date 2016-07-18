@@ -34,8 +34,8 @@ public class TabelaEntreVerdesSerializer extends JsonSerializer<TabelaEntreVerde
         if (tabelaEntreVerdes.getGrupoSemaforico() != null) {
             jgen.writeObjectField("grupoSemaforico", tabelaEntreVerdes.getGrupoSemaforico());
         }
-        if (tabelaEntreVerdes.getTransicoes() != null) {
-            jgen.writeObjectField("tabelaEntreVerdesTransicoes", tabelaEntreVerdes.getTransicoes());
+        if (tabelaEntreVerdes.getTabelaEntreVerdesTransicoes() != null) {
+            jgen.writeObjectField("tabelaEntreVerdesTransicoes", tabelaEntreVerdes.getTabelaEntreVerdesTransicoes());
         }
 
         jgen.writeEndObject();

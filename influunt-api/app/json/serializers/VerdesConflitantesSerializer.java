@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import models.GrupoSemaforico;
 import models.VerdesConflitantes;
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.io.IOException;
 
@@ -26,33 +27,19 @@ public class VerdesConflitantesSerializer extends JsonSerializer<VerdesConflitan
         if (verdesConflitantes.getDataAtualizacao() != null) {
             jgen.writeStringField("dataAtualizacao", InfluuntDateTimeSerializer.parse(verdesConflitantes.getDataAtualizacao()));
         }
-
         if (verdesConflitantes.getOrigem() != null) {
-            GrupoSemaforico origemAux = null;
-            try {
-                origemAux = (GrupoSemaforico) verdesConflitantes.getOrigem().clone();
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
-            }
+            GrupoSemaforico origemAux = ObjectUtils.clone(verdesConflitantes.getOrigem());
             origemAux.setVerdesConflitantesOrigem(null);
             origemAux.setVerdesConflitantesDestino(null);
             jgen.writeObjectField("origem", origemAux);
 
         }
-
         if (verdesConflitantes.getDestino() != null) {
-            GrupoSemaforico destinoAux = null;
-            try {
-                destinoAux = (GrupoSemaforico) verdesConflitantes.getDestino().clone();
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
-            }
+            GrupoSemaforico destinoAux = ObjectUtils.clone(verdesConflitantes.getDestino());
             destinoAux.setVerdesConflitantesOrigem(null);
             destinoAux.setVerdesConflitantesDestino(null);
             jgen.writeObjectField("destino", destinoAux);
-
         }
-
         jgen.writeEndObject();
     }
 }
