@@ -48,3 +48,7 @@ i.sinal-verde-conflitante.ativo, i.transicao-proibida.ativo {
   cursor: default;
   background-color: #e6e6e6;
 }
+
+.entre-verdes-anel-error {
+  margin-left: 40px;
+}

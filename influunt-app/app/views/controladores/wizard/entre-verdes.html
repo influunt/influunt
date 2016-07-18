@@ -15,10 +15,20 @@
           <nav>
             <ul id="side-menu" influunt-metis>
               <li data-ng-repeat="anel in aneis" data-ng-class="{ 'active': $index === currentAnelIndex }" data-ng-click="selecionaAnel($index)" data-ng-init="anelIndex = $index">
-                <a href="#"><span class="nav-label">ANEL {{ anel.posicao }}</span><span class="fa arrow"></span></a>
+                <a href="#">
+                  <span class="nav-label">ANEL {{ anel.posicao }}</span>
+                  <span class="badge badge-danger badge-notification entre-verdes-anel-error" ng-show="anelTemErro($index)">
+                    <i class="fa fa-exclamation"></i>
+                  </span>
+                  <span class="fa arrow"></span>
+                </a>
                 <ul class="nav nav-second-level">
                   <li data-ng-repeat="grupoSemaforico in anel.gruposSemaforicos" data-ng-class="{ 'active': ($index === currentGrupoSemaforicoIndex) && (currentGrupoSemaforicoIdentifier == anelIndex.toString() + $index.toString()) }" data-ng-click="selecionaGrupoSemaforico($index)">
-                    <a href="">G{{ grupoSemaforico.posicao }}</a>
+                    <a href="">G{{ grupoSemaforico.posicao }}
+                      <span class="badge badge-danger badge-notification pull-right m-t-sm" ng-show="grupoSemaforicoTemErro(anelIndex, $index)">
+                        <i class="fa fa-exclamation grupo-semaforico-error"></i>
+                      </span>
+                    </a>
                   </li>
                 </ul>
               </li>

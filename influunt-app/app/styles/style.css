@@ -63,7 +63,7 @@ h5 {
 .nav.navbar-top-links > li > a:focus {
   background-color: transparent;
 }
-.nav > li > a i {
+.nav > li > a i:not(.grupo-semaforico-error) {
   margin-right: 6px;
 }
 .navbar {
