@@ -55,6 +55,7 @@ module.exports = function(config) {
       'bower_components/leaflet/dist/leaflet-src.js',
       'bower_components/angular-google-places-autocomplete/src/autocomplete.js',
       'bower_components/angular-google-places-autocomplete/dist/autocomplete.min.js',
+      'bower_components/angular-ui-sortable/sortable.js',
 
       // inspinea scripts.
       'app/plugins/metisMenu/jquery.metisMenu.js',
