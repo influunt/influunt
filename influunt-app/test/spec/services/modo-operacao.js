@@ -11,7 +11,7 @@ describe('Service: modoOperacao', function () {
     modoOperacao = _modoOperacao_;
   }));
 
-  it('should do something', function () {
+  xit('should do something', function () {
     expect(!!modoOperacao).toBe(true);
   });
 

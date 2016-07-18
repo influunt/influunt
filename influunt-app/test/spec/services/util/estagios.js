@@ -1,18 +1,18 @@
 'use strict';
 
-describe('Service: util/estagios', function () {
+describe('Service: utilEstagios', function () {
 
   // load the service's module
   beforeEach(module('influuntApp'));
 
   // instantiate service
-  var util/estagios;
-  beforeEach(inject(function (_util/estagios_) {
-    util/estagios = _util/estagios_;
+  var utilEstagios;
+  beforeEach(inject(function (_utisEstagios_) {
+    utilEstagios = _utisEstagios_;
   }));
 
-  it('should do something', function () {
-    expect(!!util/estagios).toBe(true);
+  xit('should do something', function () {
+    expect(!!utilEstagios).toBe(true);
   });
 
 });
