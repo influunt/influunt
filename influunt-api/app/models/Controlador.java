@@ -35,7 +35,9 @@ import java.util.UUID;
 @JsonDeserialize(using = ControladorDeserializer.class)
 @JsonSerialize(using = ControladorSerializer.class)
 public class Controlador extends Model implements Cloneable {
+
     private static final long serialVersionUID = 521560643019927963L;
+
     public static Finder<UUID, Controlador> find = new Finder<UUID, Controlador>(Controlador.class);
 
     @Id

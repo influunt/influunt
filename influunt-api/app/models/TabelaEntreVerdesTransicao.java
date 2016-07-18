@@ -191,4 +191,12 @@ public class TabelaEntreVerdesTransicao extends Model implements Cloneable {
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
+
+    public Integer getTotalTempoEntreverdes(TipoGrupoSemaforico tipoGrupoSemaforico) {
+        if (TipoGrupoSemaforico.PEDESTRE.equals(tipoGrupoSemaforico)) {
+            return getTempoVermelhoIntermitente() + getTempoVermelhoLimpeza();
+        } else {
+            return getTempoAmarelo() + getTempoVermelhoLimpeza();
+        }
+    }
 }

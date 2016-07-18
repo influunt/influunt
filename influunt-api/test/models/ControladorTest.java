@@ -138,7 +138,9 @@ public abstract class ControladorTest extends WithApplication {
         estagio2.addEstagioGrupoSemaforico(estagioGrupoSemaforico2);
 
         estagio3.addEstagioGrupoSemaforico(estagioGrupoSemaforico3);
+        estagio3.setTempoMaximoPermanenciaAtivado(false);
         estagio4.addEstagioGrupoSemaforico(estagioGrupoSemaforico4);
+        estagio4.setTempoMaximoPermanenciaAtivado(false);
 
         grupoSemaforico1.addEstagioGrupoSemaforico(estagioGrupoSemaforico1);
         grupoSemaforico2.addEstagioGrupoSemaforico(estagioGrupoSemaforico2);
@@ -162,7 +164,9 @@ public abstract class ControladorTest extends WithApplication {
         anelAtivo.setEstagios(Arrays.asList(new Estagio(), new Estagio()));
 
         Estagio estagio1 = anelAtivo.getEstagios().get(0);
+        estagio1.setTempoMaximoPermanencia(60);
         Estagio estagio2 = anelAtivo.getEstagios().get(1);
+        estagio2.setTempoMaximoPermanencia(60);
 
         controlador.save();
 
@@ -269,12 +273,16 @@ public abstract class ControladorTest extends WithApplication {
 
         Estagio estagio1 = anelCom4Estagios.getEstagios().get(0);
         estagio1.setDescricao("E1");
+        estagio1.setTempoMaximoPermanencia(60);
         Estagio estagio2 = anelCom4Estagios.getEstagios().get(1);
         estagio2.setDescricao("E2");
+        estagio2.setTempoMaximoPermanencia(60);
         Estagio estagio3 = anelCom4Estagios.getEstagios().get(2);
         estagio3.setDescricao("E3");
+        estagio3.setTempoMaximoPermanencia(60);
         Estagio estagio4 = anelCom4Estagios.getEstagios().get(3);
         estagio4.setDescricao("E4");
+        estagio4.setTempoMaximoPermanencia(60);
 
         Detector detector1 = anelCom4Estagios.getDetectores().get(0);
         detector1.setDescricao("D1");
@@ -298,9 +306,95 @@ public abstract class ControladorTest extends WithApplication {
         return controlador;
     }
 
-    protected Controlador getControladorConfiguracaoGrupoSemafórico() {
-        Controlador controlador = getControladorTabelaDeEntreVerdes();
-        return controlador;
+    protected Controlador getControladorPlanos() {
+        Controlador controlador = getControladorAssociacaoDetectores();
+        controlador.save();
+
+        Anel anelCom2Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
+        Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
+
+        Plano plano1Anel2 = new Plano();
+        plano1Anel2.setAnel(anelCom2Estagios);
+        anelCom2Estagios.setPlanos(Arrays.asList(plano1Anel2));
+
+        plano1Anel2.setModoOperacao(ModoOperacaoPlano.TEMPO_FIXO_ISOLADO);
+        plano1Anel2.setPosicao(1);
+        plano1Anel2.setPosicaoTabelaEntreVerde(1);
+
+        Plano plano1Anel4 = new Plano();
+        plano1Anel4.setAnel(anelCom4Estagios);
+        anelCom4Estagios.setPlanos(Arrays.asList(plano1Anel4));
+
+        plano1Anel4.setModoOperacao(ModoOperacaoPlano.ATUADO);
+        plano1Anel4.setPosicao(1);
+        plano1Anel4.setPosicaoTabelaEntreVerde(1);
+
+        criarGrupoSemaforicoPlano(anelCom2Estagios, plano1Anel2);
+        criarGrupoSemaforicoPlano(anelCom4Estagios, plano1Anel4);
+
+        criarEstagioPlano(anelCom2Estagios, plano1Anel2, new int[]{2, 1});
+        criarEstagioPlano(anelCom4Estagios, plano1Anel4, new int[]{1, 4, 3, 2});
+
+        EstagioPlano estagioPlano1Anel2 = plano1Anel2.getEstagiosPlanos().get(0);
+        EstagioPlano estagioPlano2Anel2 = plano1Anel2.getEstagiosPlanos().get(1);
+
+        EstagioPlano estagioPlano1Anel4 = plano1Anel4.getEstagiosPlanos().get(0);
+        EstagioPlano estagioPlano2Anel4 = plano1Anel4.getEstagiosPlanos().get(1);
+        EstagioPlano estagioPlano3Anel4 = plano1Anel4.getEstagiosPlanos().get(2);
+        EstagioPlano estagioPlano4Anel4 = plano1Anel4.getEstagiosPlanos().get(3);
+
+        estagioPlano1Anel2.setTempoVerde(21);
+        plano1Anel2.setTempoCiclo(60);
+        estagioPlano2Anel2.setTempoVerde(21);
+
+        estagioPlano1Anel4.setTempoVerdeMinimo(20);
+        estagioPlano1Anel4.setTempoVerdeMaximo(20);
+        estagioPlano1Anel4.setTempoVerdeIntermediario(20);
+        estagioPlano1Anel4.setTempoExtensaoVerde(10.0);
+
+        estagioPlano2Anel4.setTempoVerdeMinimo(20);
+        estagioPlano2Anel4.setTempoVerdeMaximo(20);
+        estagioPlano2Anel4.setTempoVerdeIntermediario(20);
+        estagioPlano2Anel4.setTempoExtensaoVerde(10.0);
+
+        estagioPlano3Anel4.setTempoVerdeMinimo(20);
+        estagioPlano3Anel4.setTempoVerdeMaximo(20);
+        estagioPlano3Anel4.setTempoVerdeIntermediario(20);
+        estagioPlano3Anel4.setTempoExtensaoVerde(10.0);
+
+        estagioPlano4Anel4.setTempoVerdeMinimo(20);
+        estagioPlano4Anel4.setTempoVerdeMaximo(20);
+        estagioPlano4Anel4.setTempoVerdeIntermediario(20);
+        estagioPlano4Anel4.setTempoExtensaoVerde(10.0);
+
+        return  controlador;
+    }
+
+
+    // METODOS AUXILIARES
+
+    protected void criarGrupoSemaforicoPlano(Anel anel, Plano plano) {
+        plano.setGruposSemaforicosPlanos(null);
+        for (GrupoSemaforico grupoSemaforico : anel.getGruposSemaforicos()) {
+            GrupoSemaforicoPlano grupoPlano = new GrupoSemaforicoPlano();
+            grupoPlano.setAtivado(true);
+            grupoPlano.setPlano(plano);
+            grupoPlano.setGrupoSemaforico(grupoSemaforico);
+            plano.addGruposSemaforicos(grupoPlano);
+        }
+    }
+
+    protected void criarEstagioPlano(Anel anel, Plano plano, int posicoes[]) {
+        int i = 0;
+        plano.setEstagiosPlanos(null);
+        for (Estagio estagio : anel.getEstagios()) {
+            EstagioPlano estagioPlano = new EstagioPlano();
+            estagioPlano.setPosicao(posicoes[i]);
+            estagioPlano.setPlano(plano);
+            estagioPlano.setEstagio(estagio);
+            plano.addEstagios(estagioPlano);
+            i++;
+        }
     }
 
     public abstract void testVazio();

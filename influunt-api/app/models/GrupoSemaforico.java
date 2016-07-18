@@ -313,4 +313,7 @@ public class GrupoSemaforico extends Model implements Cloneable {
         getVerdesConflitantesOrigem().add(verdesConflitantes);
     }
 
+    public Transicao findTransicaoByOrigemDestino(Estagio origem, Estagio destino) {
+        return getTransicoes().stream().filter(transicao -> transicao.getOrigem().equals(origem) && transicao.getDestino().equals(destino)).findFirst().orElse(null);
+    }
 }

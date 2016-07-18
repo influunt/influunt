@@ -164,4 +164,5 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
         assertEquals("Estagio 4 está associado Detector 4", estagio4.getDetector(), detector4);
 
     }
+
 }

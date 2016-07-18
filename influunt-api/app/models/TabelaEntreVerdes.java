@@ -1,5 +1,6 @@
 package models;
 
+import checks.ControladorTabelaEntreVerdesCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
@@ -12,6 +13,8 @@ import json.serializers.TabelaEntreVerdesSerializer;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -36,6 +39,11 @@ public class TabelaEntreVerdes extends Model implements Cloneable {
     @OneToMany(mappedBy = "tabelaEntreVerdes")
     private List<TabelaEntreVerdesTransicao> transicoes;
 
+    @Valid
+    @NotNull(message = "não pode ficar em branco.", groups = ControladorTabelaEntreVerdesCheck.class)
+    @Column
+    private Integer posicao;
+
     @Column
     @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using= InfluuntDateTimeSerializer.class)
@@ -51,6 +59,7 @@ public class TabelaEntreVerdes extends Model implements Cloneable {
 
     public TabelaEntreVerdes(GrupoSemaforico grupoSemaforico) {
         super();
+        this.posicao = 1;
         this.grupoSemaforico = grupoSemaforico;
     }
 
@@ -90,6 +99,14 @@ public class TabelaEntreVerdes extends Model implements Cloneable {
         this.transicoes = transicoes;
     }
 
+    public Integer getPosicao() {
+        return posicao;
+    }
+
+    public void setPosicao(Integer posicao) {
+        this.posicao = posicao;
+    }
+
     public DateTime getDataCriacao() {
         return dataCriacao;
     }
@@ -118,4 +135,5 @@ public class TabelaEntreVerdes extends Model implements Cloneable {
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
+
 }

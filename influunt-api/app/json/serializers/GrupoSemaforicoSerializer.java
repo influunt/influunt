@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import models.*;
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.io.IOException;
 
@@ -43,6 +44,7 @@ public class GrupoSemaforicoSerializer extends JsonSerializer<GrupoSemaforico> {
             anel.setGruposSemaforicos(null);
             anel.setDetectores(null);
             anel.setControlador(null);
+            anel.setPlanos(null);
             jgen.writeObjectField("anel", anel);
         }
 
@@ -65,14 +67,7 @@ public class GrupoSemaforicoSerializer extends JsonSerializer<GrupoSemaforico> {
         if (grupoSemaforico.getEstagioGrupoSemaforicos() != null) {
             jgen.writeArrayFieldStart("estagioGrupoSemaforicos");
             for (EstagioGrupoSemaforico estagio : grupoSemaforico.getEstagioGrupoSemaforicos()) {
-                EstagioGrupoSemaforico estagioAux = null;
-                try {
-                    estagioAux = (EstagioGrupoSemaforico) estagio.clone();
-                } catch (CloneNotSupportedException e) {
-                    e.printStackTrace();
-                }
-                estagioAux.setGrupoSemaforico(null);
-                jgen.writeObject(estagioAux);
+                jgen.writeObject(estagio);
             }
             jgen.writeEndArray();
         }
@@ -80,12 +75,7 @@ public class GrupoSemaforicoSerializer extends JsonSerializer<GrupoSemaforico> {
         if (grupoSemaforico.getTransicoes() != null) {
             jgen.writeArrayFieldStart("transicoes");
             for (Transicao transicao : grupoSemaforico.getTransicoes()) {
-                Transicao transicaoAux = null;
-                try {
-                    transicaoAux = (Transicao) transicao.clone();
-                } catch (CloneNotSupportedException e) {
-                    e.printStackTrace();
-                }
+                Transicao transicaoAux = ObjectUtils.clone(transicao);
                 transicaoAux.setGrupoSemaforico(null);
                 jgen.writeObject(transicaoAux);
             }
@@ -95,12 +85,7 @@ public class GrupoSemaforicoSerializer extends JsonSerializer<GrupoSemaforico> {
         if (grupoSemaforico.getTabelasEntreVerdes() != null) {
             jgen.writeArrayFieldStart("tabelasEntreVerdes");
             for (TabelaEntreVerdes tabelaEntreVerdes : grupoSemaforico.getTabelasEntreVerdes()) {
-                TabelaEntreVerdes tabelaEntreVerdesAux = null;
-                try {
-                    tabelaEntreVerdesAux = (TabelaEntreVerdes) tabelaEntreVerdes.clone();
-                } catch (CloneNotSupportedException e) {
-                    e.printStackTrace();
-                }
+                TabelaEntreVerdes tabelaEntreVerdesAux = ObjectUtils.clone(tabelaEntreVerdes);
                 tabelaEntreVerdesAux.setGrupoSemaforico(null);
                 jgen.writeObject(tabelaEntreVerdesAux);
             }

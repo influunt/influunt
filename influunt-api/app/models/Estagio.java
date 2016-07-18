@@ -3,6 +3,7 @@ package models;
 import checks.ControladorAssociacaoDetectoresCheck;
 import checks.ControladorAssociacaoGruposSemaforicosCheck;
 import checks.ControladorTransicoesProibidasCheck;
+import checks.PlanosCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
@@ -12,6 +13,7 @@ import json.deserializers.EstagioDeserializer;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.EstagioSerializer;
 import json.serializers.InfluuntDateTimeSerializer;
+import org.apache.commons.lang3.Range;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
@@ -49,6 +51,9 @@ public class Estagio extends Model implements Serializable, Cloneable {
 
     @Column
     private Integer tempoMaximoPermanencia;
+
+    @Column
+    private Boolean tempoMaximoPermanenciaAtivado = true;
 
     @Column
     private Boolean demandaPrioritaria = false;
@@ -117,6 +122,14 @@ public class Estagio extends Model implements Serializable, Cloneable {
 
     public void setTempoMaximoPermanencia(Integer tempoMaximoPermanencia) {
         this.tempoMaximoPermanencia = tempoMaximoPermanencia;
+    }
+
+    public Boolean getTempoMaximoPermanenciaAtivado() {
+        return tempoMaximoPermanenciaAtivado;
+    }
+
+    public void setTempoMaximoPermanenciaAtivado(Boolean tempoMaximoPermanenciaAtivado) {
+        this.tempoMaximoPermanenciaAtivado = tempoMaximoPermanenciaAtivado;
     }
 
     public Boolean getDemandaPrioritaria() {
@@ -203,7 +216,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
     public boolean isAoMenosUmEstagioGrupoSemaforico() {
         return getEstagiosGruposSemaforicos() != null && !getEstagiosGruposSemaforicos().isEmpty();
     }
-    
+
     @AssertTrue(groups = ControladorTransicoesProibidasCheck.class,
             message = "Esse estágio não pode ter um estágio de destino e alternativo ao mesmo tempo.")
     public boolean isAoMesmoTempoDestinoEAlternativo() {
@@ -217,6 +230,13 @@ public class Estagio extends Model implements Serializable, Cloneable {
     public boolean isAssociadoDetectorCasoDemandaPrioritaria() {
         if (Boolean.TRUE.equals(getDemandaPrioritaria())) {
             return Objects.nonNull(getDetector());
+        }
+        return true;
+    }
+    @AssertTrue(groups = PlanosCheck.class, message = "deve estar entre 60 e 255")
+    public boolean isTempoVerdeMinimo() {
+        if (getTempoMaximoPermanenciaAtivado()) {
+            return !(getTempoMaximoPermanencia() == null || !Range.between(60, 255).contains(getTempoMaximoPermanencia()));
         }
         return true;
     }

@@ -84,10 +84,17 @@ public class AnelDeserializer extends JsonDeserializer<Anel> {
         }
         if (node.has("detectores")) {
             List<Detector> detectores = new ArrayList<Detector>();
-            for (JsonNode grupoNode : node.get("detectores")) {
-                detectores.add(Json.fromJson(grupoNode, Detector.class));
+            for (JsonNode detectorNode : node.get("detectores")) {
+                detectores.add(Json.fromJson(detectorNode, Detector.class));
             }
             anel.setDetectores(detectores);
+        }
+        if (node.has("planos")) {
+            List<Plano> planos = new ArrayList<Plano>();
+            for (JsonNode planoNode : node.get("planos")) {
+                planos.add(Json.fromJson(planoNode, Plano.class));
+            }
+            anel.setPlanos(planos);
         }
 
         return anel;

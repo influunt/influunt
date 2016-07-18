@@ -8,7 +8,7 @@ import models.Detector;
 import models.Estagio;
 import models.EstagioGrupoSemaforico;
 import models.TransicaoProibida;
-import play.Logger;
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.io.IOException;
 
@@ -64,25 +64,14 @@ public class EstagioSerializer extends JsonSerializer<Estagio> {
         if (estagio.getEstagiosGruposSemaforicos() != null) {
             jgen.writeArrayFieldStart("estagiosGruposSemaforicos");
             for (EstagioGrupoSemaforico estagioGrupoSemaforico : estagio.getEstagiosGruposSemaforicos()) {
-                EstagioGrupoSemaforico estagioGrupoSemaforicoAux = null;
-                try {
-                    estagioGrupoSemaforicoAux = (EstagioGrupoSemaforico) estagioGrupoSemaforico.clone();
-                } catch (CloneNotSupportedException e) {
-                    e.printStackTrace();
-                }
+                EstagioGrupoSemaforico estagioGrupoSemaforicoAux = ObjectUtils.clone(estagioGrupoSemaforico);
                 estagioGrupoSemaforicoAux.setEstagio(null);
-                estagioGrupoSemaforicoAux.setGrupoSemaforico(null);
                 jgen.writeObject(estagioGrupoSemaforicoAux);
             }
             jgen.writeEndArray();
         }
         if (estagio.getDetector() != null) {
-            Detector detector = null;
-            try {
-                detector = (Detector) estagio.getDetector().clone();
-            } catch (CloneNotSupportedException e) {
-                Logger.error("Erro ao serializar o Detector.", e);
-            }
+            Detector detector = ObjectUtils.clone(estagio.getDetector());
             detector.setEstagio(null);
             detector.setAnel(null);
             detector.setControlador(null);
