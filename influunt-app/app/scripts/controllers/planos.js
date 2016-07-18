@@ -360,7 +360,6 @@ angular.module('influuntApp')
           });
 
           console.log(JSON.stringify($scope.plano));
-          // $scope.dadosDiagrama = new influunt.components.DiagramaIntervalos().calcula($scope.plano).resultado;
         });
       };
 
@@ -393,9 +392,7 @@ angular.module('influuntApp')
       $scope.selecionaPlano = function(index) {
         $scope.currentPlanoIndex = index;
         $scope.currentPlano = $scope.currentAnel.planos[index];
-
         $scope.currentPlano.sequenciaEstagios = $scope.currentPlano.sequenciaEstagios || $scope.currentPlano.estagios;
-        console.log($scope.currentPlano.sequenciaEstagios);
       };
 
       $scope.selecionaEstagio = function(index) {

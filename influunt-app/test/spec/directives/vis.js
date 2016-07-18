@@ -12,9 +12,9 @@ describe('Directive: vis', function () {
     scope = $rootScope.$new();
   }));
 
-  it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<vis></vis>');
-    element = $compile(element)(scope);
-    expect(element.text()).toBe('this is the vis directive');
-  }));
+  // it('should make hidden element visible', inject(function ($compile) {
+  //   element = angular.element('<vis></vis>');
+  //   element = $compile(element)(scope);
+  //   expect(element.text()).toBe('this is the vis directive');
+  // }));
 });

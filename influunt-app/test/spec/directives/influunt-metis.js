@@ -12,7 +12,7 @@ describe('Directive: influuntMetis', function () {
     scope = $rootScope.$new();
   }));
 
-  it('should make hidden element visible', inject(function ($compile) {
+  xit('should make hidden element visible', inject(function ($compile) {
     element = angular.element('<influunt-metis></influunt-metis>');
     element = $compile(element)(scope);
     expect(element.text()).toBe('this is the influuntMetis directive');

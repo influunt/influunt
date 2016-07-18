@@ -23,7 +23,7 @@ angular.module('influuntApp')
           value = (value >= scope.min) ? value : scope.min;
           value = (value <= scope.max) ? value : scope.max;
           dial.val(value).trigger('change');
-          scope.ngModel = value;
+          scope.ngModel = parseInt(value);
         }, 200);
       };
 
@@ -38,7 +38,7 @@ angular.module('influuntApp')
           ngModel: '='
         },
         link: function postLink(scope, element) {
-          // scope.min = 0;
+          scope.min = scope.min || 0;
 
           var dial = $(element).find('.dial');
           dial.knob({
@@ -48,7 +48,24 @@ angular.module('influuntApp')
             }
           });
 
-          scope.$watch('ngModel', function(value) {
+          dial.on('change', function(ev) {
+            var value = parseInt($(this).val());
+            var $element = $(element);
+            var hidden = $element.find('input.previous-value');
+            if (hidden.length === 0) {
+              hidden = $('<input type="hidden" class="previous-value" />');
+              hidden.val(value);
+              $element.append(hidden);
+              return onChange(dial, value, scope);
+            } else {
+              if (parseInt(hidden.val()) !== parseInt(value)) {
+                hidden.val(value);
+                return onChange(dial, value, scope);
+              }
+            }
+          });
+
+          scope.$watch('ngModel', function(value, oldValue) {
             // dial.val(value).trigger('click');
             dial.val(angular.isDefined(value) ? value : scope.min).trigger('change');
           });
