@@ -265,7 +265,7 @@ public class Plano extends Model implements Cloneable {
     }
 
     @AssertTrue(groups = PlanosCheck.class,
-            message = "Configure um detector veicular para o modulo atuado.")
+            message = "Configure um detector veicular para o modo atuado.")
     public boolean isModoOperacaoValido() {
         if(this.isAtuado()) {
             return getAnel().temDetectorVeicular();
