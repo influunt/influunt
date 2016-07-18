@@ -35,6 +35,9 @@ public class Agrupamento extends Model implements Cloneable {
     private String nome;
 
     @Column
+    private String numero;
+
+    @Column
     @Enumerated(EnumType.STRING)
     private TipoAgrupamento tipo;
 
@@ -102,6 +105,14 @@ public class Agrupamento extends Model implements Cloneable {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
     }
 
     @Override

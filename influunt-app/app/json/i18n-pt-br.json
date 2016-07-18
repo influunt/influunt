@@ -189,6 +189,7 @@
   "agrupamentos": {
     "titulo": "Agrupamentos",
     "nome": "Nome",
+    "numero": "Número",
     "tipo": "Tipo",
     "controladores": "Controladores"
   }
