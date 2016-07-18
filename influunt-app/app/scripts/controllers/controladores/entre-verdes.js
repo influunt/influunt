@@ -51,6 +51,20 @@ angular.module('influuntApp')
           anel.gruposSemaforicos = _.orderBy(anel.gruposSemaforicos, ['posicao'], ['asc']);
           anel.gruposSemaforicos.forEach(function(grupoSemaforico) {
             grupoSemaforico.tabelasEntreVerdes = _.orderBy(grupoSemaforico.tabelasEntreVerdes, ['posicao'], ['asc']);
+
+            grupoSemaforico.transicoes.forEach(function(transicao) {
+              transicao.tabelaEntreVerdesTransicoes.forEach(function(tevTransicao) {
+                if (!_.has(tevTransicao, $scope.amareloOuVermelho(grupoSemaforico, true))) {
+                  tevTransicao[$scope.amareloOuVermelho(grupoSemaforico, true)] = $scope.limites(grupoSemaforico)[$scope.amareloOuVermelho(grupoSemaforico, true)].min;
+                }
+                if (!_.has(tevTransicao, 'tempoVermelhoLimpeza')) {
+                  tevTransicao.tempoVermelhoLimpeza = $scope.limites(grupoSemaforico).tempoVermelhoLimpeza.min;
+                }
+                if (!_.has(tevTransicao, 'tempoAtrasoGrupo') && $scope.currentTabelaEntreVerdesIndex === 1) {
+                  tevTransicao.tempoAtrasoGrupo = $scope.limites(grupoSemaforico).tempoAtrasoGrupo.min;
+                }
+              });
+            });
           });
         });
         $scope.selecionaAnel(0);
@@ -80,12 +94,14 @@ angular.module('influuntApp')
         $scope.currentGrupoSemaforico.transicoes.forEach(function(transicao) {
           var transicaoCopy = angular.copy(transicao);
           transicaoCopy.tabelaEntreVerdesTransicoes = null;
-          transicao.tabelaEntreVerdesTransicoes.push(
-            {
+          var fieldAmareloOuVermelho = $scope.amareloOuVermelho($scope.currentGrupoSemaforico, true);
+          var tevTransicao = {
               transicao: angular.merge(transicaoCopy, { grupoSemaforico: { tipo: $scope.currentGrupoSemaforico.tipo } }),
-              tabelaEntreVerdes: $scope.currentGrupoSemaforico.tabelasEntreVerdes[totalTabelasEntreVerdes]
-            }
-          );
+              tabelaEntreVerdes: $scope.currentGrupoSemaforico.tabelasEntreVerdes[totalTabelasEntreVerdes],
+              tempoVermelhoLimpeza: $scope.limites($scope.currentGrupoSemaforico).tempoVermelhoLimpeza.min
+          }
+          tevTransicao[fieldAmareloOuVermelho] = $scope.limites($scope.currentGrupoSemaforico)[fieldAmareloOuVermelho].min;
+          transicao.tabelaEntreVerdesTransicoes.push(tevTransicao);
         });
         $scope.selecionaTabelaEntreVerdes(totalTabelasEntreVerdes);
       };
