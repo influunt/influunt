@@ -48,7 +48,7 @@ angular.module('influuntApp')
             }
           });
 
-          dial.on('change', function(ev) {
+          dial.on('change', function() {
             var value = parseInt($(this).val());
             var $element = $(element);
             var hidden = $element.find('input.previous-value');
@@ -65,8 +65,7 @@ angular.module('influuntApp')
             }
           });
 
-          scope.$watch('ngModel', function(value, oldValue) {
-            // dial.val(value).trigger('click');
+          scope.$watch('ngModel', function(value) {
             dial.val(angular.isDefined(value) ? value : scope.min).trigger('change');
           });
         }

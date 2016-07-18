@@ -45,8 +45,6 @@ describe('Directive: influuntKnob', function () {
   });
   it('Se não houver valor de ng-model, o valor do componente será igual ao valor minimo.', function() {
     var value = parseInt($(element).find('.dial-input').val());
-    console.log('value', value);
-    console.log('scope.teste.min', scope.teste.min);
     expect(value).toBe(scope.teste.min);
   });
   it('Se houver atualizacao no valor de model, o valor do componente também deverá ser atualizado', function() {
