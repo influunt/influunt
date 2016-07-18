@@ -34,6 +34,9 @@ public class GrupoSemaforicoDeserializer extends JsonDeserializer<GrupoSemaforic
         if (node.has("tipo")) {
             grupoSemaforico.setTipo(TipoGrupoSemaforico.valueOf(node.get("tipo").asText()));
         }
+        if (node.has("faseVermelhaApagadaAmareloIntermitente")) {
+            grupoSemaforico.setFaseVermelhaApagadaAmareloIntermitente(node.get("faseVermelhaApagadaAmareloIntermitente").asBoolean());
+        }
 
         if (node.has("estagioGrupoSemaforicos")) {
             List<EstagioGrupoSemaforico> estagioGrupoSemaforicos = new ArrayList<EstagioGrupoSemaforico>();
