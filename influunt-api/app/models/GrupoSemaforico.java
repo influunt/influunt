@@ -74,6 +74,14 @@ public class GrupoSemaforico extends Model implements Cloneable {
     @Column
     private Integer posicao;
 
+    /**
+     * Campo que define o procedimento quando a fase vermelha está sempre apagada
+     * {@code Boolean.TRUE} - colocar o cruzamento em Amarelo intermitente
+     * {@code Boolean.FALSE} - nada é feito
+     */
+    @Column
+    private Boolean faseVermelhaApagadaAmareloIntermitente = false;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
@@ -148,6 +156,14 @@ public class GrupoSemaforico extends Model implements Cloneable {
 
     public void setPosicao(Integer posicao) {
         this.posicao = posicao;
+    }
+
+    public Boolean getFaseVermelhaApagadaAmareloIntermitente() {
+        return faseVermelhaApagadaAmareloIntermitente;
+    }
+
+    public void setFaseVermelhaApagadaAmareloIntermitente(Boolean faseVermelhaApagadaAmareloIntermitente) {
+        this.faseVermelhaApagadaAmareloIntermitente = faseVermelhaApagadaAmareloIntermitente;
     }
 
     public DateTime getDataCriacao() {

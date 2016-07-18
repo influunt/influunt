@@ -34,6 +34,9 @@ public class GrupoSemaforicoSerializer extends JsonSerializer<GrupoSemaforico> {
         if (grupoSemaforico.getDescricao() != null) {
             jgen.writeStringField("descricao", grupoSemaforico.getDescricao());
         }
+        if (grupoSemaforico.getFaseVermelhaApagadaAmareloIntermitente() != null) {
+            jgen.writeBooleanField("faseVermelhaApagadaAmareloIntermitente", grupoSemaforico.getFaseVermelhaApagadaAmareloIntermitente());
+        }
         if (grupoSemaforico.getAnel() != null) {
             Anel anel = ObjectUtils.clone(grupoSemaforico.getAnel());
             anel.setGruposSemaforicos(null);
