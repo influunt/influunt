@@ -110,7 +110,7 @@ angular.module('influuntApp')
       };
 
       $scope.sortableOptions = {
-        stop: function(event, ui) {
+        stop: function() {
           $scope.currentAnel.estagios.forEach(function(estagio, index) {
             estagio.posicao = index + 1;
           });
