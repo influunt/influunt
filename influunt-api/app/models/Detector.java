@@ -223,4 +223,9 @@ public class Detector extends Model implements Cloneable {
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
+
+    @Transient
+    public boolean isVeicular() {
+        return TipoDetector.VEICULAR.equals(this.getTipo());
+    }
 }
