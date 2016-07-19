@@ -264,6 +264,15 @@ public class Plano extends Model implements Cloneable {
         return true;
     }
 
+    @AssertTrue(groups = PlanosCheck.class,
+            message = "Configure um detector veicular para o modo atuado.")
+    public boolean isModoOperacaoValido() {
+        if(this.isAtuado()) {
+            return getAnel().temDetectorVeicular();
+        }
+        return true;
+    }
+
     public void addGruposSemaforicos(GrupoSemaforicoPlano grupoPlano) {
         if (getGruposSemaforicosPlanos() == null) {
             setGruposSemaforicosPlanos(new ArrayList<GrupoSemaforicoPlano>());

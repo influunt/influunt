@@ -44,7 +44,6 @@ public class PlanoSerializer extends JsonSerializer<Plano> {
         if (plano.getAnel() != null) {
             Anel anel = ObjectUtils.clone(plano.getAnel());
             anel.setPlanos(null);
-            anel.setDetectores(null);
             anel.setControlador(null);
             jgen.writeObjectField("anel", anel);
         }

@@ -416,6 +416,10 @@ public class Anel extends Model implements Cloneable {
         return null;
     }
 
+    public boolean temDetectorVeicular() {
+        return getDetectores().stream().filter(detector -> detector.isVeicular()).count() > 0;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -446,5 +450,6 @@ public class Anel extends Model implements Cloneable {
         }
         return tabelaEntreVerdes;
     }
+
 }
 

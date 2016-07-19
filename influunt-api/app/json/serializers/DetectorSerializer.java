@@ -60,6 +60,7 @@ public class DetectorSerializer extends JsonSerializer<Detector> {
             anel.setGruposSemaforicos(null);
             anel.setControlador(null);
             anel.setEstagios(null);
+            anel.setPlanos(null);
             jgen.writeObjectField("anel", anel);
         }
         if (detector.getEstagio() != null) {
