@@ -34,8 +34,9 @@ angular.module('influuntApp')
         return valid;
       };
 
-      $scope.limites = function(grupoSemaforico) {
-        var maxTempoVermelhoLimpeza = grupoSemaforico.tipo === 'PEDESTRE' ? 5 : 7;
+      $scope.limites = function() {
+      // $scope.limites = function(grupoSemaforico) {
+        // var maxTempoVermelhoLimpeza = grupoSemaforico.tipo === 'PEDESTRE' ? 5 : 7;
         return  {
           tempoVermelhoIntermitente: { min: 5, max: 7 },
           tempoVermelhoLimpeza: { min: 5, max: 7 },
@@ -96,10 +97,11 @@ angular.module('influuntApp')
           transicaoCopy.tabelaEntreVerdesTransicoes = null;
           var fieldAmareloOuVermelho = $scope.amareloOuVermelho($scope.currentGrupoSemaforico, true);
           var tevTransicao = {
-              transicao: angular.merge(transicaoCopy, { grupoSemaforico: { tipo: $scope.currentGrupoSemaforico.tipo } }),
-              tabelaEntreVerdes: $scope.currentGrupoSemaforico.tabelasEntreVerdes[totalTabelasEntreVerdes],
-              tempoVermelhoLimpeza: $scope.limites($scope.currentGrupoSemaforico).tempoVermelhoLimpeza.min
-          }
+            transicao: angular.merge(transicaoCopy, { grupoSemaforico: { tipo: $scope.currentGrupoSemaforico.tipo } }),
+            tabelaEntreVerdes: $scope.currentGrupoSemaforico.tabelasEntreVerdes[totalTabelasEntreVerdes],
+            tempoVermelhoLimpeza: $scope.limites($scope.currentGrupoSemaforico).tempoVermelhoLimpeza.min
+          };
+
           tevTransicao[fieldAmareloOuVermelho] = $scope.limites($scope.currentGrupoSemaforico)[fieldAmareloOuVermelho].min;
           transicao.tabelaEntreVerdesTransicoes.push(tevTransicao);
         });
