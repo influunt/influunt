@@ -72,7 +72,8 @@ var paths = {
     yeoman.app + '/plugins/ui-bootstrap-tpls-1.1.2.min.js',
     yeoman.app + '/plugins/inspinia.js',
     yeoman.app + '/plugins/icheck.min.js',
-    yeoman.app + '/plugins/dropzone/dropzone.js'
+    yeoman.app + '/plugins/dropzone/dropzone.js',
+    yeoman.app + '/plugins/jquery.knob.js'
     // yeoman.app + '/json/**/*.js'
     // 'test/mock/**/*.js'
   ],

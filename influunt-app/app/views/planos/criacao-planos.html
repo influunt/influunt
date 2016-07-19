@@ -1,0 +1,139 @@
+<div class="container-fluid wrapper wrapper-content animated fadeInRight" data-ng-init="init()">
+  <section role="complementary" class="basic-wizard">
+    <div class="content clearfix wizard-body">
+      <div class="step-content body">
+
+        <fieldset>
+          <div class="row">
+            <uib-alert type="danger" close="closeAlertAnel(currentAnelIndex, 'all')" data-ng-if="errors.general || errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosDePedestre || errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosVeiculares">
+              <div style="padding-left: 12px;">
+                <ul>
+                  <li data-ng-repeat="message in errors.general">{{ message }}</li>
+                </ul>
+              </div>
+            </uib-alert>
+            <div class="text-center m-t-md pd-lf-rt">
+
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="pull-right actions" style="padding-bottom: 10px;">
+                  <a class="btn btn-small btn-primary btn-rounded" data-ng-click="adicionaPlano()">
+                    <i class="fa fa-plus"></i>
+                    Plano
+                  </a>
+                </div>
+              </div>
+
+              <div class="col-lg-2 col-sm-2 no-padding">
+                <div class="col-lg-12 col-sm-12 association min-green plans side-menu">
+                  <nav>
+                    <ul class="" id="side-menu" style="padding-left: 0px;" influunt-metis>
+                      <li data-ng-repeat="anel in objeto.aneis"
+                        data-ng-class="{active: $index === currentAnelIndex}">
+                        <a data-ng-click="selecionaAnel($index)">
+                          <span class="nav-label">ANEL {{ anel.posicao }}</span>
+                          <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level">
+                          <li data-ng-repeat="plano in anel.planos"
+                            data-ng-click="selecionaPlano($index)"
+                            data-ng-class="{active: $index === currentPlanoIndex}">
+                            <a href="">
+                              PLANO {{ plano.posicao }}
+                            </a>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </nav>
+              </div>
+            </div>
+            <div class="col-lg-10 col-sm-10">
+              <div class="col-lg-12 col-sm-12 association table-creation-plans min-green">
+                <header>
+                  <div class="col-lg-12 col-sm-12 no-padding">
+                    <h1>PLANO {{ currentPlano.posicao }}</h1>
+                    <nav>
+                      <ul>
+                        <li>
+                          <p>VERDE</p>
+                          <span class="green"></span>
+                        </li>
+                        <li>
+                          <p>AMARELO</p>
+                          <span class="yellow"></span>
+                        </li>
+                        <li>
+                          <p>VERMELHO DE LIMPEZA</p>
+                          <span class="red-cleaning"></span>
+                        </li>
+                        <li>
+                          <p>VERMELHO INTERMITENTE</p>
+                          <span class="red-flashing"></span>
+                        </li>
+                        <li>
+                          <p>VERMELHO</p>
+                          <span class="red"></span>
+                        </li>
+                        <li>
+                          <p>AMARELO INTERMITENTE</p>
+                          <span class="yellow-flashing"></span>
+                        </li>
+                        <li>
+                          <p>APAGADO</p>
+                          <span class="wiped"></span>
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
+                </header>
+                <article>
+                  <div class="col-lg-2 col-sm-2 no-padding">
+                    <aside>
+                      <div class="form-group">
+                        <label>MODO DE OPERAÇÃO</label>
+                        <select class="form-control" name="modoOperacao"
+                            data-ng-model="currentPlano.modoOperacao">
+                          <option value="ATUADO">Atuado</option>
+                          <option value="COORDENADO">Coordenado</option>
+                          <option value="TEMPO_FIXO_ISOLADO">Isolado</option>
+                          <option value="INTERMITENTE">Intermitente</option>
+                          <option value="APAGADO">Apagado</option>
+                        </select>
+                      </div>
+                      <div class="form-group" data-ng-if="currentPlano.modoOperacao !== 'INTERMITENTE' && currentPlano.modoOperacao !== 'APAGADO'">
+                        <label>TABELA DE ENTRE-VERDES</label>
+                        <select class="form-control" name="tabelaEntreverdes"
+                            data-ng-model="currentTabelaEntreVerdes"
+                            data-ng-options="tabela as tabela.descricao for tabela in tabelasEntreVerdes">
+                        </select>
+                      </div>
+
+                      <div class="knob" style="display: block;">
+                        <ng-include src="'views/planos/opcoes-lateral.html'"></ng-include>
+                      </div>
+                    </aside>
+                  </div>
+                  <section>
+                    <div class="col-lg-10 col-sm-10 no-padding table-create-plan overflow">
+                      <ng-include src="'views/planos/tabela-planos.html'"></ng-include>
+                    </div>
+                  </section>
+                </article>
+              </div>
+              <div class="col-lg-12 col-sm-12 association stage-time m-t-md">
+                <div class="knob">
+                  <ng-include src="'views/planos/opcoes-inferior.html'"></ng-include>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-lg-12 no-pading bg-border pg-bt m-t-lg">
+              <a data-ng-click="submitForm({$valid: true}, 'associacao_grupos_semaforicos', 'app.wizard_controladores.aneis')" class="btn btn-default left m-r-sm">{{ 'plugins.steps.labels.previous' | translate }}</a>
+              <a data-ng-click="submitForm({$valid: true}, 'associacao_grupos_semaforicos', 'app.wizard_controladores.verdes_conflitantes')" class="btn btn-primary left">{{ 'plugins.steps.labels.next' | translate }}</a>
+            </div>
+          </div>
+        </div>
+        </fieldset>
+      </div>
+    </div>
+  </section>
+</div>

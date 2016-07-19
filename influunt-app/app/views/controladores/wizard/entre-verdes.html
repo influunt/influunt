@@ -65,7 +65,6 @@
         <nav class="association-know" style="display:block;">
           <ul>
             <li data-ng-repeat="tevTransicao in tabelasEntreVerdesTransicoes">
-
               <div class="group-figures col-lg-5 col-sm-5 no-padding">
                 <div class="group-figure">
                   <figure>
@@ -110,7 +109,13 @@
                         messages="[errosAtrasoGrupo(currentGrupoSemaforico, $index)]">
                         <i class="fa fa-exclamation"></i>
                       </span>
-                      <influunt-knob title="Atraso de Grupo" label="SEG" min="limites(tevTransicao.transicao.grupoSemaforico).tempoAtrasoGrupo.min" max="limites(tevTransicao.transicao.grupoSemaforico).tempoAtrasoGrupo.max" data-ng-model="tevTransicao.tempoAtrasoGrupo"></influunt-knob>
+                      <influunt-knob
+                          title="Atraso de Grupo"
+                          label="SEG"
+                          min="limites(tevTransicao.transicao.grupoSemaforico).tempoAtrasoGrupo.min"
+                          max="limites(tevTransicao.transicao.grupoSemaforico).tempoAtrasoGrupo.max"
+                          data-ng-model="tevTransicao.tempoAtrasoGrupo">
+                      </influunt-knob>
                     </div>
                   </div>
                 </div>
