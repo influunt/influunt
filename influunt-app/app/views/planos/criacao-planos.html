@@ -14,6 +14,7 @@
             </uib-alert>
             <div class="text-center m-t-md pd-lf-rt">
 
+              <!--
               <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="pull-right actions" style="padding-bottom: 10px;">
                   <a class="btn btn-small btn-primary btn-rounded" data-ng-click="adicionaPlano()">
@@ -21,10 +22,11 @@
                     Plano
                   </a>
                 </div>
-              </div>
+              </div> -->
 
               <div class="col-lg-2 col-sm-2 no-padding">
                 <div class="col-lg-12 col-sm-12 association min-green plans side-menu">
+                  <!--              
                   <nav>
                     <ul class="" id="side-menu" style="padding-left: 0px;" influunt-metis>
                       <li data-ng-repeat="anel in objeto.aneis"
@@ -44,11 +46,79 @@
                         </ul>
                       </li>
                     </ul>
+                  </nav> -->
+                  <nav>
+                    <ul class="" id="side-menu">
+                      <li class="active">
+                        <a href="#"><span class="nav-label">ANEL 1</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level collapse">
+                          <li><a href="#">PLANO 1 <i class="fa fa-files-o" aria-hidden="true"></i></a></li>
+                          <li><a href="#">PLANO 2 <i class="fa fa-files-o" aria-hidden="true"></i></a></li>
+                          <li><a href="#">PLANO 3 <i class="fa fa-files-o" aria-hidden="true"></i></a></li>
+                          <li><a href="#">PLANO 4 <i class="fa fa-files-o" aria-hidden="true"></i></a></li>
+                          <li><a href="#"><i class="fa fa-plus-circle" aria-hidden="true"></i>NOVO PLANO</a></li>
+                        </ul>
+                      </li>
+                      <li>
+                        <a href="#"><span class="nav-label">ANEL 2</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level collapse">
+                          <li><a href="#">PLANO 1 <i class="fa fa-files-o" aria-hidden="true"></i></a></li>
+                          <li><a href="#">PLANO 2 <i class="fa fa-files-o" aria-hidden="true"></i></a></li>
+                          <li><a href="#">PLANO 3 <i class="fa fa-files-o" aria-hidden="true"></i></a></li>
+                          <li><a href="#">PLANO 4 <i class="fa fa-files-o" aria-hidden="true"></i></a></li>
+                          <li><a href="#"><i class="fa fa-plus-circle" aria-hidden="true"></i>NOVO PLANO</a></li>
+                        </ul>
+                      </li>
+                    </ul>
                   </nav>
-              </div>
-            </div>
-            <div class="col-lg-10 col-sm-10">
-              <div class="col-lg-12 col-sm-12 association table-creation-plans min-green">
+                </div>
+              </div>            
+              <div class="col-lg-10 col-sm-10">
+                <div class="col-lg-12 col-sm-12 association plans m-b-md">
+                  <header class="developing-plans">
+                    <span>Criação de planos</span>
+                    <h1>Anel 1 - Plano 2</h1>
+                  </header>
+                  <nav class="plans">
+                    <ul>
+                      <li>
+                        <a href="/" title="Legenda">Legenda <i class="fa fa-caret-up" aria-hidden="true"></i></a>
+                        <ul class="subnav">
+                          <li>
+                            <p>VERDE</p>
+                            <span class="green"></span>
+                          </li>
+                          <li>
+                            <p>AMARELO</p>
+                            <span class="yellow"></span>
+                          </li>
+                          <li>
+                            <p>VERMELHO DE LIMPEZA</p>
+                            <span class="red-cleaning"></span>
+                          </li>
+                          <li>
+                            <p>VERMELHO INTERMITENTE</p>
+                            <span class="red-flashing"></span>
+                          </li>
+                          <li>
+                            <p>VERMELHO</p>
+                            <span class="red"></span>
+                          </li>
+                          <li>
+                            <p>AMARELO INTERMITENTE</p>
+                            <span class="yellow-flashing"></span>
+                          </li>
+                          <li>
+                            <p>APAGADO</p>
+                            <span class="wiped"></span>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+              <div class="col-lg-2 col-sm-2 association table-creation-plans min-green">
+              <!--
                 <header>
                   <div class="col-lg-12 col-sm-12 no-padding">
                     <h1>PLANO {{ currentPlano.posicao }}</h1>
@@ -85,9 +155,9 @@
                       </ul>
                     </nav>
                   </div>
-                </header>
+                </header> -->
                 <article>
-                  <div class="col-lg-2 col-sm-2 no-padding">
+                  <div class="col-lg-12 col-sm-12 no-padding">
                     <aside>
                       <div class="form-group">
                         <label>MODO DE OPERAÇÃO</label>
@@ -114,23 +184,28 @@
                       </div>
                     </aside>
                   </div>
+                </article>
+              </div>
+              <div class="col-lg-10 col-sm-10 no-padding-right">
+                <div class="col-lg-12 col-sm-12 association table-creation-plans">
                   <section>
-                    <div class="col-lg-10 col-sm-10 no-padding table-create-plan overflow">
+                    <div class="col-lg-12 col-sm-12 no-padding table-create-plan overflow">
                       <ng-include src="'views/planos/tabela-planos.html'"></ng-include>
                     </div>
                   </section>
-                </article>
-              </div>
-              <div class="col-lg-12 col-sm-12 association stage-time m-t-md">
-                <div class="knob">
-                  <ng-include src="'views/planos/opcoes-inferior.html'"></ng-include>
+                </div>
+                <div class="col-lg-12 col-sm-12 association stage-time m-t-md">
+                  <div class="knob">
+                    <ng-include src="'views/planos/opcoes-inferior.html'"></ng-include>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="col-sm-12 col-lg-12 no-pading bg-border pg-bt m-t-lg">
-              <a data-ng-click="submitForm({$valid: true}, 'associacao_grupos_semaforicos', 'app.wizard_controladores.aneis')" class="btn btn-default left m-r-sm">{{ 'plugins.steps.labels.previous' | translate }}</a>
-              <a data-ng-click="submitForm({$valid: true}, 'associacao_grupos_semaforicos', 'app.wizard_controladores.verdes_conflitantes')" class="btn btn-primary left">{{ 'plugins.steps.labels.next' | translate }}</a>
-            </div>
+            </div>            
+            <!--
+            <div class="col-lg-12 col-sm-12 no-padding-right buttons-wizard">
+            <a data-ng-click="submitForm({$valid: true}, 'associacao_grupos_semaforicos', 'app.wizard_controladores.aneis')" class="btn btn-default left m-r-sm">{{ 'plugins.steps.labels.previous' | translate }}</a>
+            <a data-ng-click="submitForm({$valid: true}, 'associacao_grupos_semaforicos', 'app.wizard_controladores.verdes_conflitantes')" class="btn btn-primary left">{{ 'plugins.steps.labels.next' | translate }}</a>
+            </div> -->
           </div>
         </div>
         </fieldset>
@@ -138,6 +213,16 @@
 
         <script>
           $(document).ready(function(){
+
+            $( "nav.plans li a" ).click(function() {
+              event.preventDefault();
+              $( this ).find('i').toggleClass( "fa-caret-down" );
+              $( this ).find('i').toggleClass( "fa-caret-up" );
+              $( "nav.plans li .subnav" ).toggle();
+            });
+
+            // MetsiMenu
+            $('#side-menu').metisMenu();
 
             WinMove();
 
