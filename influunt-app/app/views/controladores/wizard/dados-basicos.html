@@ -87,15 +87,15 @@
                   <helper-endereco ng-model="endereco" latitude="objeto.latitude" longitude="objeto.longitude"></helper-endereco>
                 </div>
               </div>
-							
+
               <figure>
                 <div influunt-map
                   latitude="objeto.latitude"
                   longitude="objeto.longitude"
                   class="influunt-map">
                 </div>
-              </figure>						
-							
+              </figure>
+
               <div class="col-lg-6 col-sm-6 no-padding" data-ng-class="{'has-error': errors.latitude}">
                 <div class="form-group">
                   <label class="col-sm-12 no-padding control-label">{{ 'controladores.latitude' | translate }}:</label>
@@ -158,7 +158,7 @@
         </div>
       </div>
     </div>
-		
+
 		<div class="row">
 	    <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix">
 	      <a data-ng-click="submitForm(formDadosBasicos, 'dados_basicos', 'app.wizard_controladores.aneis')" class="btn btn-footer btn-primary right">{{ 'plugins.steps.labels.next' | translate }}</a>
