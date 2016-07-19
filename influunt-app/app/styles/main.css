@@ -73,3 +73,19 @@ i.sinal-verde-conflitante.ativo, i.transicao-proibida.ativo {
   max-height: 600px;
   overflow: overlay;
 }
+
+.entre-verdes-fixed-height {
+  max-height: 720px !important;
+  overflow: auto;
+  box-sizing: border-box;
+}
+
+.entre-verdes-fixed-height-small {
+  max-height: 635px !important;
+  overflow: auto;
+  box-sizing: border-box;
+}
+
+.entre-verdes-fixed-height-small.min-green {
+  min-height: 635px !important;
+}
