@@ -83,3 +83,8 @@ i.sinal-verde-conflitante, i.transicao-proibida {
     border: 0;
     background: transparent;
   }
+  
+.dropzone.dz-clickable {
+  max-height: 600px;
+  overflow: overlay;
+}
