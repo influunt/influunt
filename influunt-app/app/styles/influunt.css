@@ -23,14 +23,13 @@
     right: 0;
     top: 0;
 }
-.wrapper-content .basic-wizard .steps ul li.disabled a:after {
-    background: url("../images/wizard-steps-after-ds.png") no-repeat;
-}
+
 .wrapper-content .basic-wizard .steps ul li.current a:after {
     background: url("../images/wizard-steps-after-cr.png") no-repeat;
 }
-.wrapper-content .basic-wizard .steps ul li a:before,
-.wrapper-content .basic-wizard .steps ul li.current a:before,
+
+.wrapper-content .basic-wizard .steps ul li:not(:nth-child(1)) a:before,
+.wrapper-content .basic-wizard .steps ul li.current:not(:nth-child(1)) a:before,
 .wrapper-content .basic-wizard .steps ul li.disabled a:before {
     background: url("../images/wizard-steps-before.png") no-repeat;
     transition: all 0.5s ease;
@@ -42,11 +41,9 @@
     left: 0;
     top: 0;
 }
-.wrapper-content .basic-wizard .steps ul li.disabled a:before {
-    background: url("../images/wizard-steps-before-ds.png") no-repeat;
-}
+
 .wrapper-content .basic-wizard .steps ul li.current a:before {
-    background: url("../images/wizard-steps-before-cr.png") no-repeat;
+    background: url("../images/wizard-steps-before-cr.png") no-repeat !important;
 }
 .wrapper-content .basic-wizard .content .body .tableless.association-detectors {
     margin: 0;
@@ -197,6 +194,15 @@
     background: #fff;
     padding-top: 30px;
 }
+
+.bg-border-footer {
+    padding-top: 25px;
+}
+
+.pg-bt {
+    padding-bottom: 20px;
+}
+
 
 .pg-bt {
     padding-bottom: 25px;
@@ -1054,7 +1060,7 @@ header .nav-secon li a {
 }
 .wrapper-content .basic-wizard .content .body .rings .rings-status {
     margin-right: 1.2%;
-    min-height: 800px;
+    min-height: 884px;
     width: 23.8%;
 }
 .wrapper-content .basic-wizard .content .body .rings .groups {
@@ -1148,9 +1154,19 @@ header .nav-secon li a {
     height: 48px;
     line-height: 48px;
     font-size: 13px;
-    padding: 0;
-    text-indent: 20px;
+    padding: 0px 9px;
+    text-indent: inherit;
 }
+.wrapper-content .basic-wizard .steps ul li:nth-child(1) a {
+    transition: all 0.5s ease;
+    margin: 0 20px 0 0px;
+    height: 48px;
+    line-height: 48px;
+    font-size: 13px;
+    padding: 0px 9px;
+    text-indent: inherit;
+}
+
 /* current */
 
 .wrapper-content .basic-wizard .steps ul li.current a:hover:before {
@@ -1370,6 +1386,23 @@ header .nav-secon li a {
 }
 .remove-tabela-entre-verdes {
     cursor: pointer;
+}
+
+.btn-inverse {
+	background-color: #c2c2c2;
+	color: #fff;
+}
+
+.btn-footer {
+	width: 10%;
+}
+
+.padding-top-30 {
+	padding: 30px 0
+}
+
+.margin-top-25 {
+	margin: 25px 0
 }
 /**
     END CSS 1273 line

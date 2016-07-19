@@ -5,8 +5,7 @@
         <div class="">
           <form name="formDadosBasicos" novalidate>
 
-            <div class="col-lg-5 col-sm-5">
-              <div class="form-group" />
+            <div class="col-lg-5 col-sm-5 margin-top-25">
 
               <div class="form-group">
                 <label>{{ 'controladores.cidade' | translate }}:</label>
@@ -82,6 +81,13 @@
 
             </div>
             <div class="col-lg-4 col-sm-4 maps">
+             <div class="col-lg-12 col-sm-12 no-padding">
+                <div class="form-group">
+                  <label>{{ 'controladores.endereco' | translate }}:</label>
+                  <helper-endereco ng-model="endereco" latitude="objeto.latitude" longitude="objeto.longitude"></helper-endereco>
+                </div>
+              </div>
+
               <figure>
                 <div influunt-map
                   latitude="objeto.latitude"
@@ -89,7 +95,7 @@
                   class="influunt-map">
                 </div>
               </figure>
-							
+
               <div class="col-lg-6 col-sm-6 no-padding" data-ng-class="{'has-error': errors.latitude}">
                 <div class="form-group">
                   <label class="col-sm-12 no-padding control-label">{{ 'controladores.latitude' | translate }}:</label>
@@ -151,9 +157,13 @@
           </form>
         </div>
       </div>
-      <div class="col-sm-12 col-lg-12 m-b-lg">
-        <a data-ng-click="submitForm(formDadosBasicos, 'dados_basicos', 'app.wizard_controladores.aneis')" class="btn btn-primary left">{{ 'plugins.steps.labels.next' | translate }}</a>
-      </div>
     </div>
+
+		<div class="row">
+	    <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix">
+	      <a data-ng-click="submitForm(formDadosBasicos, 'dados_basicos', 'app.wizard_controladores.aneis')" class="btn btn-footer btn-primary right">{{ 'plugins.steps.labels.next' | translate }}</a>
+	    </div>
+	  </div>
+
   </div>
 </fieldset>

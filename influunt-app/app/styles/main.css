@@ -11,7 +11,7 @@
 @import url(./animate.css);
 @import url(./style.css);
 li.anel-selecionado {
-  background-color: #6fd1bd;
+	background-color: rgba(26,179,148, .3);
 }
 
 li.anel-selecionado label {
