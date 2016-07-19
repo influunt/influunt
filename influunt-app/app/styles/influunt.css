@@ -1148,8 +1148,8 @@ header .nav-secon li a {
     height: 48px;
     line-height: 48px;
     font-size: 13px;
-    padding: 0;
-    text-indent: 20px;
+    padding: 0px 9px;
+    text-indent: inherit;
 }
 /* current */
 
