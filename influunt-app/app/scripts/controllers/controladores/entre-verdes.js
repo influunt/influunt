@@ -102,7 +102,7 @@ angular.module('influuntApp')
               transicao: angular.merge(transicaoCopy, { grupoSemaforico: { tipo: $scope.currentGrupoSemaforico.tipo } }),
               tabelaEntreVerdes: $scope.currentGrupoSemaforico.tabelasEntreVerdes[totalTabelasEntreVerdes],
               tempoVermelhoLimpeza: $scope.limites($scope.currentGrupoSemaforico).tempoVermelhoLimpeza.min
-            }
+            };
 
             tevTransicao[fieldAmareloOuVermelho] = $scope.limites($scope.currentGrupoSemaforico)[fieldAmareloOuVermelho].min;
             transicao.tabelaEntreVerdesTransicoes.push(tevTransicao);
