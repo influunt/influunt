@@ -9,6 +9,7 @@ import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
+import utils.RangeUtils;
 
 import java.util.List;
 
@@ -75,6 +76,41 @@ public class ControladorDadosBasicosTest extends ControladorTest {
         assertEquals("Criação de aneis", 4, controladorJson.getAneis().size());
         assertEquals("Todoas aneis inativos", 0, controladorJson.getAneis().stream().filter(anel -> anel.isAtivo()).count());
 
+        assertFaixaValores(controlador);
+
+    }
+
+    private void assertFaixaValores(Controlador controlador) {
+        JsonNode controladorJSON = Json.toJson(controlador);
+
+        assertEquals("verdeMinimoMin", controladorJSON.get("verdeMinimoMin").asText(), RangeUtils.TEMPO_VERDE_MINIMO.getMin().toString());
+        assertEquals("verdeMinimoMax", controladorJSON.get("verdeMinimoMax").asText(), RangeUtils.TEMPO_VERDE_MINIMO.getMax().toString());
+        assertEquals("verdeMaximoMin", controladorJSON.get("verdeMaximoMin").asText(), RangeUtils.TEMPO_VERDE_MAXIMO.getMin().toString());
+        assertEquals("verdeMaximoMax", controladorJSON.get("verdeMaximoMax").asText(), RangeUtils.TEMPO_VERDE_MAXIMO.getMax().toString());
+        assertEquals("extensaVerdeMin", controladorJSON.get("extensaVerdeMin").asText(), RangeUtils.TEMPO_EXTENSAO_VERDE.getMin().toString());
+        assertEquals("extensaVerdeMax", controladorJSON.get("extensaVerdeMax").asText(), RangeUtils.TEMPO_EXTENSAO_VERDE.getMax().toString());
+        assertEquals("verdeIntermediarioMin", controladorJSON.get("verdeIntermediarioMin").asText(), RangeUtils.TEMPO_VERDE_INTERMEDIARIO.getMin().toString());
+        assertEquals("verdeIntermediarioMax", controladorJSON.get("verdeIntermediarioMax").asText(), RangeUtils.TEMPO_VERDE_INTERMEDIARIO.getMax().toString());
+        assertEquals("defasagemMin", controladorJSON.get("defasagemMin").asText(), RangeUtils.TEMPO_DEFASAGEM.getMin().toString());
+        assertEquals("defasagemMax", controladorJSON.get("defasagemMax").asText(), RangeUtils.TEMPO_DEFASAGEM.getMax().toString());
+        assertEquals("amareloMin", controladorJSON.get("amareloMin").asText(), RangeUtils.TEMPO_AMARELO.getMin().toString());
+        assertEquals("amareloMax", controladorJSON.get("amareloMax").asText(), RangeUtils.TEMPO_AMARELO.getMax().toString());
+        assertEquals("vermelhoIntermitenteMin", controladorJSON.get("vermelhoIntermitenteMin").asText(), RangeUtils.TEMPO_VERMELHO_INTERMITENTE.getMin().toString());
+        assertEquals("vermelhoIntermitenteMax", controladorJSON.get("vermelhoIntermitenteMax").asText(), RangeUtils.TEMPO_VERMELHO_INTERMITENTE.getMax().toString());
+        assertEquals("vermelhoLimpezaVeicularMin", controladorJSON.get("vermelhoLimpezaVeicularMin").asText(), RangeUtils.TEMPO_VERMELHO_LIMPEZA_VEICULAR.getMin().toString());
+        assertEquals("vermelhoLimpezaVeicularMax", controladorJSON.get("vermelhoLimpezaVeicularMax").asText(), RangeUtils.TEMPO_VERMELHO_LIMPEZA_VEICULAR.getMax().toString());
+        assertEquals("vermelhoLimpezaPedestreMin", controladorJSON.get("vermelhoLimpezaPedestreMin").asText(), RangeUtils.TEMPO_VERMELHO_LIMPEZA_PEDESTRE.getMin().toString());
+        assertEquals("vermelhoLimpezaPedestreMax", controladorJSON.get("vermelhoLimpezaPedestreMax").asText(), RangeUtils.TEMPO_VERMELHO_LIMPEZA_PEDESTRE.getMax().toString());
+        assertEquals("atrasoGrupoMin", controladorJSON.get("atrasoGrupoMin").asText(), RangeUtils.TEMPO_ATRASO_GRUPO.getMin().toString());
+        assertEquals("atrasoGrupoMax", controladorJSON.get("atrasoGrupoMax").asText(), RangeUtils.TEMPO_ATRASO_GRUPO.getMax().toString());
+        assertEquals("verdeSegurancaVeicularMin", controladorJSON.get("verdeSegurancaVeicularMin").asText(), RangeUtils.TEMPO_VERDE_SEGURANCA_VEICULAR.getMin().toString());
+        assertEquals("verdeSegurancaVeicularMax", controladorJSON.get("verdeSegurancaVeicularMax").asText(), RangeUtils.TEMPO_VERDE_SEGURANCA_VEICULAR.getMax().toString());
+        assertEquals("verdeSegurancaPedestreMin", controladorJSON.get("verdeSegurancaPedestreMin").asText(), RangeUtils.TEMPO_VERDE_SEGURANCA_PEDESTRE.getMin().toString());
+        assertEquals("verdeSegurancaPedestreMax", controladorJSON.get("verdeSegurancaPedestreMax").asText(), RangeUtils.TEMPO_VERDE_SEGURANCA_PEDESTRE.getMax().toString());
+        assertEquals("maximoPermanenciaEstagioMin", controladorJSON.get("maximoPermanenciaEstagioMin").asText(), RangeUtils.TEMPO_MAXIMO_PERMANECIA_ESTAGIO.getMin().toString());
+        assertEquals("maximoPermanenciaEstagioMax", controladorJSON.get("maximoPermanenciaEstagioMax").asText(), RangeUtils.TEMPO_MAXIMO_PERMANECIA_ESTAGIO.getMax().toString());
+        assertEquals("cicloMin", controladorJSON.get("cicloMin").asText(), RangeUtils.TEMPO_CICLO.getMin().toString());
+        assertEquals("cicloMax", controladorJSON.get("cicloMax").asText(), RangeUtils.TEMPO_CICLO.getMax().toString());
     }
 
     private void assertControlador(Controlador controlador, Controlador controladorJson) {
