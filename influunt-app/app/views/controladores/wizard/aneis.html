@@ -46,8 +46,9 @@
         </div>
       </div>
 
-      <div class="col-lg-9 col-sm-9 bg-border">
-        <h2 class="ng-binding">Anel - G2</h2>
+      <div class="col-lg-9 col-sm-9 ibox-title botton-title">
+        <h2>Anel - G2</h2>
+
       </div>
       <div class="col-lg-6 col-sm-6 groups bg-border">
         <div class="col-lg-3 col-sm-3">
@@ -153,7 +154,7 @@
 
       <div class="col-lg-3 col-sm-3 movements">
         <hgroup>
-          <label for=""><p>{{ 'controladores.estagios' | translate }}</p></label>
+          <label for=""><h3>{{ 'controladores.estagios' | translate }}</h3></label>
         </hgroup>
 
         <form class="dropzone" id="my-awesome-dropzone" imagens-url="dados.imagensUrl" enctype="multipart/form-data" influunt-dropzone anel="currentAnel" on-success="associaImagemAoEstagio(upload, imagem)">
@@ -165,9 +166,9 @@
           </div>
         </form>
       </div>
-      <div class="col-sm-12 col-lg-12 no-pading bg-border pg-bt">
-        <a data-ng-click="submitForm({$valid: true}, 'aneis', 'app.wizard_controladores.dados_basicos')" class="btn btn-default left m-r-sm">{{ 'plugins.steps.labels.previous' | translate }}</a>
-        <a data-ng-click="submitForm({$valid: true}, 'aneis', 'app.wizard_controladores.associacao')" class="btn btn-primary left">{{ 'plugins.steps.labels.next' | translate }}</a>
+      <div class="col-sm-12 col-lg-12 no-pading bg-border pg-bt actions clearfix">
+        <a data-ng-click="submitForm({$valid: true}, 'aneis', 'app.wizard_controladores.associacao')" class="btn btn-primary right">{{ 'plugins.steps.labels.next' | translate }}</a>
+        <a data-ng-click="submitForm({$valid: true}, 'aneis', 'app.wizard_controladores.dados_basicos')" class="btn btn-default left m-r-sm right">{{ 'plugins.steps.labels.previous' | translate }}</a>
       </div>
     </div>
   </div>

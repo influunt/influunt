@@ -49,6 +49,62 @@ i.sinal-verde-conflitante.ativo, i.transicao-proibida.ativo {
   background-color: #e6e6e6;
 }
 
-.entre-verdes-anel-error {
-  margin-left: 40px;
+.botton-title {
+  margin-bottom: 20px;
+}
+
+.ibox-title {
+  text-align: left;
+}
+
+.movements h3 {
+  text-transform: uppercase;
+}
+
+.dropzone {
+  position: relative;
+  border: 0;
+  background: transparent;
+}
+
+.dropzone.dz-clickable {
+  padding: 120px 0 0 0;
+  max-height: 600px;
+  overflow: overlay;
+}
+
+.dropzone .dz-preview, .dropzone-previews .dz-preview {
+  margin: 0 15px 15px 0;
+}
+
+.dropzone .dz-preview .dz-details, .dropzone-previews .dz-preview .dz-details {
+  width: 100%;
+}
+
+.dz-filename {
+  width: 100%;
+  text-align: right;
+  margin-top: 150px;
+}
+
+.dropzone .dz-preview .dz-details, .dropzone-previews .dz-preview .dz-details {
+  height: 150px;
+}
+
+.dropzone .dz-preview .dz-details img, .dropzone-previews .dz-preview .dz-details img {
+  width: 100%;
+  height: 150px;
+}
+
+.dropzone .dz-default.dz-message {
+  margin-top: -300px;
+}
+
+.dropzone .dz-preview .dz-progress, .dropzone-previews .dz-preview .dz-progress {
+  top: 150px;
+}
+
+.dz-message span {
+  border: 1px dashed #898989;
+  margin: 0 15px 0 0;
 }
