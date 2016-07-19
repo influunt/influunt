@@ -47,9 +47,9 @@
       </div>
 
       <div class="col-lg-9 col-sm-9 ibox-title botton-title">
-        <h2>Anel - {{ currentAnel.posicao }}</h2>
+        <h2>Anel {{ currentAnel.posicao }}</h2>
       </div>
-			
+
       <div class="col-lg-6 col-sm-6 groups bg-border">
         <div class="col-lg-3 col-sm-3">
           <div class="form-group">
@@ -114,7 +114,7 @@
                 class="influunt-map">
               </div>
             </figure>
-						
+
 		       <div class="col-lg-6 col-sm-6 no-padding" data-ng-class="{'has-error': errors.aneis[currentAnelIndex].latitudeOk}">
 			       <div class="form-group">
 			         <label class="col-sm-12 no-padding control-label">{{ 'controladores.latitude' | translate }}:</label>
@@ -151,7 +151,7 @@
         </form>
       </div>
     </div>
-		
+
 		<div class="row">
 	    <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix">
         <a data-ng-click="submitForm({$valid: true}, 'aneis', 'app.wizard_controladores.associacao')" class="btn btn-primary btn-footer right">{{ 'plugins.steps.labels.next' | translate }}</a>
