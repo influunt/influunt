@@ -8,8 +8,9 @@
       </div>
     </uib-alert>
     <div class="text-center m-t-md pd-lf-rt">
+      <!-- menu aneis -->
       <div class="col-lg-2 col-sm-2 no-padding">
-        <div class="col-lg-12 col-sm-12 association min-green side-menu">
+        <div class="col-lg-12 col-sm-12 association min-green side-menu entre-verdes-fixed-height">
           <nav>
             <ul id="side-menu" influunt-metis>
               <li data-ng-repeat="anel in aneis" data-ng-class="{ 'active': $index === currentAnelIndex }" data-ng-click="selecionaAnel($index)" data-ng-init="anelIndex = $index">
@@ -34,8 +35,17 @@
           </nav>
         </div>
       </div>
+
+      <!-- titulo anel - grupo semaforico -->
+      <div class="col-lg-10 col-sm-10">
+        <div class="ibox-title botton-title">
+          <h2>Anel {{ currentAnel.posicao }} - G{{ currentGrupoSemaforico.posicao }}</h2>
+        </div>
+      </div>
+
+      <!-- menu tabelas entre-verdes -->
       <div class="col-lg-3 col-sm-3">
-        <div class="col-lg-12 col-sm-12 association table-entry-green min-green relative tabelas-entre-verdes">
+        <div class="col-lg-12 col-sm-12 association table-entry-green min-green relative tabelas-entre-verdes entre-verdes-fixed-height-small">
           <nav>
             <ul>
               <li data-ng-repeat="tabelaEntreVerdes in currentGrupoSemaforico.tabelasEntreVerdes" data-ng-class="{ 'active': $index == currentTabelaEntreVerdesIndex }" data-ng-click="selecionaTabelaEntreVerdes($index)">
@@ -50,7 +60,9 @@
           </footer>
         </div>
       </div>
-      <div class="col-lg-7 col-sm-7 association tables-associated">
+
+      <!-- menu transicoes -->
+      <div class="col-lg-7 col-sm-7 association tables-associated entre-verdes-fixed-height-small">
         <header class="col-lg-12 col-sm-12">
           <div class="form-group">
             <label>Descrição</label>
@@ -120,9 +132,11 @@
           </ul>
         </nav>
       </div>
-      <div class="col-sm-12 col-lg-12 no-pading bg-border pg-bt m-t-lg">
-        <a data-ng-click="submitForm({$valid: true}, 'entre_verdes', 'app.wizard_controladores.transicoes_proibidas')" class="btn btn-default left m-r-sm">{{ 'plugins.steps.labels.previous' | translate }}</a>
-        <a data-ng-click="submitForm({$valid: true}, 'entre_verdes', 'app.wizard_controladores.associacao_detectores')" class="btn btn-primary left">{{ 'plugins.steps.labels.next' | translate }}</a>
+
+      <!-- bptão proximo voltar -->
+      <div class="col-sm-12 col-lg-12 no-pading pg-bt m-t-lg">
+        <a data-ng-click="submitForm({$valid: true}, 'entre_verdes', 'app.wizard_controladores.associacao_detectores')" class="btn btn-primary btn-footer right">{{ 'plugins.steps.labels.next' | translate }}</a>
+        <a data-ng-click="submitForm({$valid: true}, 'entre_verdes', 'app.wizard_controladores.transicoes_proibidas')" class="btn btn-inverse btn-footer right m-r-sm right">{{ 'plugins.steps.labels.previous' | translate }}</a>
       </div>
     </div>
   </div>
