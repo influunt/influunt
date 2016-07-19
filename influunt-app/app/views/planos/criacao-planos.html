@@ -26,7 +26,7 @@
 
               <div class="col-lg-2 col-sm-2 no-padding">
                 <div class="col-lg-12 col-sm-12 association min-green plans side-menu">
-                  <!--              
+                  <!--
                   <nav>
                     <ul class="" id="side-menu" style="padding-left: 0px;" influunt-metis>
                       <li data-ng-repeat="anel in objeto.aneis"
@@ -56,7 +56,7 @@
                           <li><a href="#">PLANO 2 <i class="fa fa-files-o" aria-hidden="true"></i></a></li>
                           <li><a href="#">PLANO 3 <i class="fa fa-files-o" aria-hidden="true"></i></a></li>
                           <li><a href="#">PLANO 4 <i class="fa fa-files-o" aria-hidden="true"></i></a></li>
-                          <li><a href="#"><i class="fa fa-plus-circle" aria-hidden="true"></i>NOVO PLANO</a></li>
+                          <!-- <li><a href="#"><i class="fa fa-plus-circle" aria-hidden="true"></i>NOVO PLANO</a></li> -->
                         </ul>
                       </li>
                       <li>
@@ -66,13 +66,13 @@
                           <li><a href="#">PLANO 2 <i class="fa fa-files-o" aria-hidden="true"></i></a></li>
                           <li><a href="#">PLANO 3 <i class="fa fa-files-o" aria-hidden="true"></i></a></li>
                           <li><a href="#">PLANO 4 <i class="fa fa-files-o" aria-hidden="true"></i></a></li>
-                          <li><a href="#"><i class="fa fa-plus-circle" aria-hidden="true"></i>NOVO PLANO</a></li>
+                          <!-- <li><a href="#"><i class="fa fa-plus-circle" aria-hidden="true"></i>NOVO PLANO</a></li> -->
                         </ul>
                       </li>
                     </ul>
                   </nav>
                 </div>
-              </div>            
+              </div>
               <div class="col-lg-10 col-sm-10">
                 <div class="col-lg-12 col-sm-12 association plans m-b-md">
                   <header class="developing-plans">
@@ -114,6 +114,10 @@
                           </li>
                         </ul>
                       </li>
+                      <a class="btn btn-small btn-primary m-l" data-ng-click="adicionaPlano()">
+                        <i class="fa fa-plus"></i>
+                        Plano
+                      </a>
                     </ul>
                   </nav>
                 </div>
@@ -200,7 +204,7 @@
                   </div>
                 </div>
               </div>
-            </div>            
+            </div>
             <div class="row">
               <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix">
                 <a data-ng-click="submitForm({$valid: true}, 'aneis', 'app.wizard_controladores.associacao')" class="btn btn-primary btn-footer right">{{ 'plugins.steps.labels.next' | translate }}</a>
