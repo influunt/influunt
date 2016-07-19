@@ -218,7 +218,7 @@ angular.module('influuntApp')
 
       /**
        * Reenderiza novamente o diagrama de intervalos quando qualquer aspecto do plano for alterado.
-       * Faz um debounce de 200ms, para evitar chamadas excessivas à "calculadora" do diagrama.
+       * Faz um debounce de 500ms, para evitar chamadas excessivas à "calculadora" do diagrama.
        *
        * Caso o modo de operação do plano for "amarelo intermitente" ou "desligado", o diagrama deverá ser gerado
        * de forma estática (todo o diagrama deve assumir um dos modos acima).
