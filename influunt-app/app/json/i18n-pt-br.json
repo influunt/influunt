@@ -29,6 +29,7 @@
     "maxDetectorVeicular": "Número de detector veicular",
     "maxEstagios": "Número de estágios",
     "maxGrupoSemaforos": "Número de grupos semafóricos",
+    "maxTabelasEntreVerdes": "Número de tabelas entre verdes",
     "modelo": "Modelo",
     "novo": "Novo Controlador",
     "numeroDetectores": "Número de detectores veiculares",
@@ -49,7 +50,8 @@
       "totalGruposSemaforicos": "Total de <strong>grupos semafóricos</strong> maior que a quantidade máxima suportada pelo controlador"
     },
     "verdes_conflitantes": "Verdes Conflitantes",
-    "versaoFirmware": "Versão do Firmware"
+    "versaoFirmware": "Versão do Firmware",
+    "numeroTabelasEntreVerdes": "Número de tabelas entre verdes"
   },
   "areas": {
     "adicionar_coordenada": "adicionar coordenadas",
@@ -72,7 +74,8 @@
     "limiteAnel": "LIMITE ANEIS",
     "limiteDetectorPedestre": "LIMITE DETECTORES PEDESTRE",
     "limiteDetectorVeicular": "LIMITE DETECTORES VEICULARES",
-    "titulo": "Configurações de Controladores"
+    "titulo": "Configurações de Controladores",
+    "limiteTabelasEntreVerdes": "LIMITE TABELAS ENTRE-VERDES"
   },
   "coordenadas": {
     "latitude": "LATITUDE",

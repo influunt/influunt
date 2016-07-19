@@ -63,6 +63,7 @@ create table configuracao_controladores (
   limite_anel                   integer not null,
   limite_detector_pedestre      integer not null,
   limite_detector_veicular      integer not null,
+  limite_tabelas_entre_verdes   integer not null,
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
   constraint pk_configuracao_controladores primary key (id)

@@ -34,14 +34,14 @@ angular.module('influuntApp')
         return valid;
       };
 
-      $scope.limites = function() {
-      // $scope.limites = function(grupoSemaforico) {
-        // var maxTempoVermelhoLimpeza = grupoSemaforico.tipo === 'PEDESTRE' ? 5 : 7;
+      $scope.limites = function(grupoSemaforico) {
+        // 'Pedestre' ou 'Veicular'
+        var tipoGS = grupoSemaforico.tipo.charAt(0).toUpperCase() + grupoSemaforico.tipo.substr(1).toLowerCase();
         return  {
-          tempoVermelhoIntermitente: { min: 5, max: 7 },
-          tempoVermelhoLimpeza: { min: 5, max: 7 },
-          tempoAtrasoGrupo: { min: 0, max: 7 },
-          tempoAmarelo: { min: 5, max: 7 }
+          tempoVermelhoIntermitente: { min: $scope.objeto.vermelhoIntermitenteMin, max: $scope.objeto.vermelhoIntermitenteMax },
+          tempoVermelhoLimpeza: { min: $scope.objeto['vermelhoLimpeza'+tipoGS+'Min'], max: $scope.objeto['vermelhoLimpeza'+tipoGS+'Max'] },
+          tempoAtrasoGrupo: { min: $scope.objeto.atrasoGrupoMin, max: $scope.objeto.atrasoGrupoMax },
+          tempoAmarelo: { min: $scope.objeto.amareloMin, max: $scope.objeto.amareloMax }
         };
       };
 
@@ -84,6 +84,7 @@ angular.module('influuntApp')
       $scope.inicializaEntreVerdes = function() {
         return $scope.inicializaWizard().then(function() {
           if ($scope.assertEntreVerdes()) {
+            $scope.limiteTabelasEntreVerdes = $scope.objeto.modelo.configuracao.limiteTabelasEntreVerdes;
             $scope.sortByPosicao();
           }
         });
@@ -91,21 +92,23 @@ angular.module('influuntApp')
 
       $scope.adicionarTabelaEntreVerdes = function() {
         var totalTabelasEntreVerdes = $scope.currentGrupoSemaforico.tabelasEntreVerdes.length;
-        $scope.currentGrupoSemaforico.tabelasEntreVerdes.push({ descricao: "Nova", posicao: totalTabelasEntreVerdes + 1, grupoSemaforico: { id: $scope.currentGrupoSemaforico.id } });
-        $scope.currentGrupoSemaforico.transicoes.forEach(function(transicao) {
-          var transicaoCopy = angular.copy(transicao);
-          transicaoCopy.tabelaEntreVerdesTransicoes = null;
-          var fieldAmareloOuVermelho = $scope.amareloOuVermelho($scope.currentGrupoSemaforico, true);
-          var tevTransicao = {
-            transicao: angular.merge(transicaoCopy, { grupoSemaforico: { tipo: $scope.currentGrupoSemaforico.tipo } }),
-            tabelaEntreVerdes: $scope.currentGrupoSemaforico.tabelasEntreVerdes[totalTabelasEntreVerdes],
-            tempoVermelhoLimpeza: $scope.limites($scope.currentGrupoSemaforico).tempoVermelhoLimpeza.min
-          };
+        if (totalTabelasEntreVerdes < $scope.limiteTabelasEntreVerdes) {
+          $scope.currentGrupoSemaforico.tabelasEntreVerdes.push({ descricao: "Nova", posicao: totalTabelasEntreVerdes + 1, grupoSemaforico: { id: $scope.currentGrupoSemaforico.id } });
+          $scope.currentGrupoSemaforico.transicoes.forEach(function(transicao) {
+            var transicaoCopy = angular.copy(transicao);
+            transicaoCopy.tabelaEntreVerdesTransicoes = null;
+            var fieldAmareloOuVermelho = $scope.amareloOuVermelho($scope.currentGrupoSemaforico, true);
+            var tevTransicao = {
+              transicao: angular.merge(transicaoCopy, { grupoSemaforico: { tipo: $scope.currentGrupoSemaforico.tipo } }),
+              tabelaEntreVerdes: $scope.currentGrupoSemaforico.tabelasEntreVerdes[totalTabelasEntreVerdes],
+              tempoVermelhoLimpeza: $scope.limites($scope.currentGrupoSemaforico).tempoVermelhoLimpeza.min
+            };
 
-          tevTransicao[fieldAmareloOuVermelho] = $scope.limites($scope.currentGrupoSemaforico)[fieldAmareloOuVermelho].min;
-          transicao.tabelaEntreVerdesTransicoes.push(tevTransicao);
-        });
-        $scope.selecionaTabelaEntreVerdes(totalTabelasEntreVerdes);
+            tevTransicao[fieldAmareloOuVermelho] = $scope.limites($scope.currentGrupoSemaforico)[fieldAmareloOuVermelho].min;
+            transicao.tabelaEntreVerdesTransicoes.push(tevTransicao);
+          });
+          $scope.selecionaTabelaEntreVerdes(totalTabelasEntreVerdes);
+        }
       };
 
       $scope.removerTabelaEntreVerdes = function(index) {
@@ -180,6 +183,16 @@ angular.module('influuntApp')
 
       $scope.possuiErroAtrasoGrupo = function(grupoSemaforico, transicaoIndex) {
         var errors = this.errosAtrasoGrupo(grupoSemaforico, transicaoIndex);
+        return _.isArray(errors) && errors.length > 0;
+      };
+
+      $scope.errosNumeroTabelasEntreVerdes = function() {
+        var path = 'aneis['+$scope.currentAnelIndex+'].gruposSemaforicos['+$scope.currentGrupoSemaforicoIndex+'].numeroCorretoTabelasEntreVerdes';
+        return _.get($scope.errors, path);
+      };
+
+      $scope.possuiErrosNumeroTabelasEntreVerdes = function() {
+        var errors = this.errosNumeroTabelasEntreVerdes();
         return _.isArray(errors) && errors.length > 0;
       };
 
