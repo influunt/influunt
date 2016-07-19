@@ -450,6 +450,5 @@ public class Anel extends Model implements Cloneable {
         }
         return tabelaEntreVerdes;
     }
-
 }
 

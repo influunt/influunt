@@ -22,7 +22,6 @@ import java.util.UUID;
  * Entidade que represnta as configurações dos controladores no sistema
  *
  * @author lesiopinheiro
- *
  */
 @Entity
 @Table(name = "configuracao_controladores")
@@ -40,39 +39,44 @@ public class ConfiguracaoControlador extends Model {
     private String descricao;
 
     @Column
-    @Min(value=1, message = "Deve ser maior que zero")
+    @Min(value = 1, message = "Deve ser maior que zero")
     @NotNull
     private Integer limiteEstagio = 16;
 
     @Column
-    @Min(value=1, message = "Deve ser maior que zero")
+    @Min(value = 1, message = "Deve ser maior que zero")
     @NotNull
     private Integer limiteGrupoSemaforico = 16;
 
     @Column
-    @Min(value=1, message = "Deve ser maior que zero")
+    @Min(value = 1, message = "Deve ser maior que zero")
     @NotNull
     private Integer limiteAnel = 4;
 
     @Column
-    @Min(value=1, message = "Deve ser maior que zero")
+    @Min(value = 1, message = "Deve ser maior que zero")
     @NotNull
     private Integer limiteDetectorPedestre = 4;
 
     @Column
-    @Min(value=1, message = "Deve ser maior que zero")
+    @Min(value = 1, message = "Deve ser maior que zero")
     @NotNull
     private Integer limiteDetectorVeicular = 8;
 
     @Column
-    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
-    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @Min(value = 1, message = "Deve ser maior que zero")
+    @NotNull
+    private Integer limiteTabelasEntreVerdes = 2;
+
+    @Column
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
 
     @Column
-    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
-    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
 
@@ -146,5 +150,13 @@ public class ConfiguracaoControlador extends Model {
 
     public void setDataAtualizacao(DateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
+    }
+
+    public Integer getLimiteTabelasEntreVerdes() {
+        return limiteTabelasEntreVerdes;
+    }
+
+    public void setLimiteTabelasEntreVerdes(Integer limiteTabelasEntreVerdes) {
+        this.limiteTabelasEntreVerdes = limiteTabelasEntreVerdes;
     }
 }

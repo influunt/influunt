@@ -31,10 +31,10 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
 
         Anel anelCom2Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
         Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
-        assertEquals("Quantidade de tabela entreverdes", 1, anelCom2Estagios.getGruposSemaforicos().get(0).getTabelasEntreVerdes().size());
-        assertEquals("Quantidade de tabela entreverdes", 1, anelCom2Estagios.getGruposSemaforicos().get(1).getTabelasEntreVerdes().size());
-        assertEquals("Quantidade de tabela entreverdes", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTabelasEntreVerdes().size());
-        assertEquals("Quantidade de tabela entreverdes", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTabelasEntreVerdes().size());
+        assertEquals("Quantidade de tabela entre-verdes", 1, anelCom2Estagios.getGruposSemaforicos().get(0).getTabelasEntreVerdes().size());
+        assertEquals("Quantidade de tabela entre-verdes", 1, anelCom2Estagios.getGruposSemaforicos().get(1).getTabelasEntreVerdes().size());
+        assertEquals("Quantidade de tabela entre-verdes", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTabelasEntreVerdes().size());
+        assertEquals("Quantidade de tabela entre-verdes", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTabelasEntreVerdes().size());
         assertEquals("Quantidade de transicoes", 1, anelCom2Estagios.getGruposSemaforicos().get(0).getTransicoes().size());
         assertEquals("Quantidade de transicoes", 4, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoes().size());
 

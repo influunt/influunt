@@ -1,11 +1,9 @@
 <fieldset data-ng-init="inicializaEntreVerdes()">
   <div class="row">
-    <uib-alert type="danger" close="closeAlertAnel(currentAnelIndex, 'all')" data-ng-if="errors.general || errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosDePedestre || errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosVeiculares">
+    <uib-alert type="danger" data-ng-if="possuiErrosNumeroTabelasEntreVerdes()">
       <div style="padding-left: 12px;">
         <ul>
-          <li data-ng-repeat="message in errors.general">{{ message }}</li>
-          <li data-ng-repeat="message in errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosDePedestre">{{ message }}</li>
-          <li data-ng-repeat="message in errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosVeiculares">{{ message }}</li>
+          <li data-ng-repeat="message in errosNumeroTabelasEntreVerdes()">{{ message }}</li>
         </ul>
       </div>
     </uib-alert>
@@ -45,11 +43,9 @@
                   <label for="">TABELA {{ tabelaEntreVerdes.descricao }}</label><i class="fa fa-times pull-right m-t-sm remove-tabela-entre-verdes" data-ng-if="$index !== 0" data-ng-click="removerTabelaEntreVerdes($index)"></i>
                 </div>
               </li>
-              <!-- <li><div class="col-lg-12 col-sm-12"><label for="">TABELA VERMELHO</label></div></li>
-              <li><div class="col-lg-12 col-sm-12"><label for="">TABELA AZUL</label></div></li> -->
             </ul>
           </nav>
-          <footer>
+          <footer data-ng-show="currentGrupoSemaforico.tabelasEntreVerdes.length < limiteTabelasEntreVerdes">
             <a target="Nova tabela" data-ng-click="adicionarTabelaEntreVerdes()">Nova tabela</a>
           </footer>
         </div>
@@ -138,9 +134,6 @@
 
     WinMove();
 
-    //jQuery Knob
-    // $(".dial").knob();
-
     function WinMove() {
       var element = ".handle";
       var handle = ".title-stages";
@@ -172,10 +165,5 @@
     $(".imgInp").change(function(){
       $(this).parents().eq(3).addClass('change');
     });
-
-    // $('.i-checks').iCheck({
-    //     checkboxClass: 'icheckbox_square-green',
-    //     radioClass: 'iradio_square-green',
-    // });
   });
 </script>
