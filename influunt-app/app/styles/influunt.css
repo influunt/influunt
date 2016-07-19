@@ -27,8 +27,9 @@
 .wrapper-content .basic-wizard .steps ul li.current a:after {
     background: url("../images/wizard-steps-after-cr.png") no-repeat;
 }
-.wrapper-content .basic-wizard .steps ul li a:before,
-.wrapper-content .basic-wizard .steps ul li.current a:before,
+
+.wrapper-content .basic-wizard .steps ul li:not(:nth-child(1)) a:before,
+.wrapper-content .basic-wizard .steps ul li.current:not(:nth-child(1)) a:before,
 .wrapper-content .basic-wizard .steps ul li.disabled a:before {
     background: url("../images/wizard-steps-before.png") no-repeat;
     transition: all 0.5s ease;
@@ -1147,6 +1148,16 @@ header .nav-secon li a {
     padding: 0px 9px;
     text-indent: inherit;
 }
+.wrapper-content .basic-wizard .steps ul li:nth-child(1) a {
+    transition: all 0.5s ease;
+    margin: 0 20px 0 0px;
+    height: 48px;
+    line-height: 48px;
+    font-size: 13px;
+    padding: 0px 9px;
+    text-indent: inherit;
+}
+
 /* current */
 
 .wrapper-content .basic-wizard .steps ul li.current a:hover:before {
