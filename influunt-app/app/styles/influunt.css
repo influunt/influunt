@@ -43,7 +43,7 @@
 }
 
 .wrapper-content .basic-wizard .steps ul li.current a:before {
-    background: url("../images/wizard-steps-before-cr.png") no-repeat;
+    background: url("../images/wizard-steps-before-cr.png") no-repeat !important;
 }
 .wrapper-content .basic-wizard .content .body .tableless.association-detectors {
     margin: 0;
@@ -194,6 +194,15 @@
     background: #fff;
     padding-top: 30px;
 }
+
+.bg-border-footer {
+    padding-top: 25px;
+}
+
+.pg-bt {
+    padding-bottom: 20px;
+}
+
 
 .pg-bt {
     padding-bottom: 25px;
@@ -1051,7 +1060,7 @@ header .nav-secon li a {
 }
 .wrapper-content .basic-wizard .content .body .rings .rings-status {
     margin-right: 1.2%;
-    min-height: 800px;
+    min-height: 884px;
     width: 23.8%;
 }
 .wrapper-content .basic-wizard .content .body .rings .groups {
@@ -1377,6 +1386,23 @@ header .nav-secon li a {
 }
 .remove-tabela-entre-verdes {
     cursor: pointer;
+}
+
+.btn-inverse {
+	background-color: #c2c2c2;
+	color: #fff;
+}
+
+.btn-footer {
+	width: 10%;
+}
+
+.padding-top-30 {
+	padding: 30px 0
+}
+
+.margin-top-25 {
+	margin: 25px 0
 }
 /**
     END CSS 1273 line
