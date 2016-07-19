@@ -6,7 +6,6 @@
 create table agrupamentos (
   id                            varchar(40) not null,
   nome                          varchar(255),
-  numero                        varchar(255),
   tipo                          varchar(8),
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
@@ -110,8 +109,6 @@ create table estagios (
   imagem_id                     varchar(40),
   descricao                     varchar(255),
   tempo_maximo_permanencia      integer,
-  tempo_maximo_permanencia_ativado tinyint(1) default 0,
-  posicao                       integer,
   demanda_prioritaria           tinyint(1) default 0,
   anel_id                       varchar(40),
   controlador_id                varchar(40),
@@ -133,22 +130,6 @@ create table estagios_grupos_semaforicos (
   constraint pk_estagios_grupos_semaforicos primary key (id)
 );
 
-create table estagios_planos (
-  id                            varchar(40) not null,
-  estagio_id                    varchar(40) not null,
-  plano_id                      varchar(40) not null,
-  posicao                       integer,
-  tempo_verde                   integer,
-  tempo_verde_minimo            integer,
-  tempo_verde_maximo            integer,
-  tempo_verde_intermediario     integer,
-  tempo_extensao_verde          double,
-  dispensavel                   tinyint(1) default 0,
-  data_criacao                  datetime(6) not null,
-  data_atualizacao              datetime(6) not null,
-  constraint pk_estagios_planos primary key (id)
-);
-
 create table fabricantes (
   id                            varchar(40) not null,
   nome                          varchar(255),
@@ -168,16 +149,6 @@ create table grupos_semaforicos (
   data_atualizacao              datetime(6) not null,
   constraint ck_grupos_semaforicos_tipo check (tipo in ('PEDESTRE','VEICULAR')),
   constraint pk_grupos_semaforicos primary key (id)
-);
-
-create table grupos_semaforicos_planos (
-  id                            varchar(40) not null,
-  grupo_semaforico_id           varchar(40) not null,
-  plano_id                      varchar(40) not null,
-  ativado                       tinyint(1) default 0,
-  data_criacao                  datetime(6) not null,
-  data_atualizacao              datetime(6) not null,
-  constraint pk_grupos_semaforicos_planos primary key (id)
 );
 
 create table imagens (
@@ -232,21 +203,6 @@ create table permissoes (
   constraint pk_permissoes primary key (id)
 );
 
-create table planos (
-  id                            varchar(40) not null,
-  posicao                       integer not null,
-  tempo_ciclo                   integer,
-  defasagem                     integer,
-  anel_id                       varchar(40),
-  agrupamento_id                varchar(40),
-  modo_operacao                 integer not null,
-  posicao_tabela_entre_verde    integer not null,
-  data_criacao                  datetime(6) not null,
-  data_atualizacao              datetime(6) not null,
-  constraint ck_planos_modo_operacao check (modo_operacao in (0,1,2,3,4)),
-  constraint pk_planos primary key (id)
-);
-
 create table sessoes (
   id                            varchar(40) not null,
   usuario_login                 varchar(255),
@@ -259,7 +215,6 @@ create table tabela_entre_verdes (
   id                            varchar(40) not null,
   descricao                     varchar(255),
   grupo_semaforico_id           varchar(40),
-  posicao                       integer,
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
   constraint pk_tabela_entre_verdes primary key (id)
@@ -363,23 +318,11 @@ create index ix_estagios_grupos_semaforicos_estagio_id on estagios_grupos_semafo
 alter table estagios_grupos_semaforicos add constraint fk_estagios_grupos_semaforicos_grupo_semaforico_id foreign key (grupo_semaforico_id) references grupos_semaforicos (id) on delete restrict on update restrict;
 create index ix_estagios_grupos_semaforicos_grupo_semaforico_id on estagios_grupos_semaforicos (grupo_semaforico_id);
 
-alter table estagios_planos add constraint fk_estagios_planos_estagio_id foreign key (estagio_id) references estagios (id) on delete restrict on update restrict;
-create index ix_estagios_planos_estagio_id on estagios_planos (estagio_id);
-
-alter table estagios_planos add constraint fk_estagios_planos_plano_id foreign key (plano_id) references planos (id) on delete restrict on update restrict;
-create index ix_estagios_planos_plano_id on estagios_planos (plano_id);
-
 alter table grupos_semaforicos add constraint fk_grupos_semaforicos_anel_id foreign key (anel_id) references aneis (id) on delete restrict on update restrict;
 create index ix_grupos_semaforicos_anel_id on grupos_semaforicos (anel_id);
 
 alter table grupos_semaforicos add constraint fk_grupos_semaforicos_controlador_id foreign key (controlador_id) references controladores (id) on delete restrict on update restrict;
 create index ix_grupos_semaforicos_controlador_id on grupos_semaforicos (controlador_id);
-
-alter table grupos_semaforicos_planos add constraint fk_grupos_semaforicos_planos_grupo_semaforico_id foreign key (grupo_semaforico_id) references grupos_semaforicos (id) on delete restrict on update restrict;
-create index ix_grupos_semaforicos_planos_grupo_semaforico_id on grupos_semaforicos_planos (grupo_semaforico_id);
-
-alter table grupos_semaforicos_planos add constraint fk_grupos_semaforicos_planos_plano_id foreign key (plano_id) references planos (id) on delete restrict on update restrict;
-create index ix_grupos_semaforicos_planos_plano_id on grupos_semaforicos_planos (plano_id);
 
 alter table limite_area add constraint fk_limite_area_area_id foreign key (area_id) references areas (id) on delete restrict on update restrict;
 create index ix_limite_area_area_id on limite_area (area_id);
@@ -395,12 +338,6 @@ create index ix_permissoes_perfis_perfis on permissoes_perfis (perfil_id);
 
 alter table permissoes_perfis add constraint fk_permissoes_perfis_permissoes foreign key (permissao_id) references permissoes (id) on delete restrict on update restrict;
 create index ix_permissoes_perfis_permissoes on permissoes_perfis (permissao_id);
-
-alter table planos add constraint fk_planos_anel_id foreign key (anel_id) references aneis (id) on delete restrict on update restrict;
-create index ix_planos_anel_id on planos (anel_id);
-
-alter table planos add constraint fk_planos_agrupamento_id foreign key (agrupamento_id) references agrupamentos (id) on delete restrict on update restrict;
-create index ix_planos_agrupamento_id on planos (agrupamento_id);
 
 alter table sessoes add constraint fk_sessoes_usuario_login foreign key (usuario_login) references usuarios (login) on delete restrict on update restrict;
 create index ix_sessoes_usuario_login on sessoes (usuario_login);
@@ -489,23 +426,11 @@ drop index ix_estagios_grupos_semaforicos_estagio_id on estagios_grupos_semafori
 alter table estagios_grupos_semaforicos drop foreign key fk_estagios_grupos_semaforicos_grupo_semaforico_id;
 drop index ix_estagios_grupos_semaforicos_grupo_semaforico_id on estagios_grupos_semaforicos;
 
-alter table estagios_planos drop foreign key fk_estagios_planos_estagio_id;
-drop index ix_estagios_planos_estagio_id on estagios_planos;
-
-alter table estagios_planos drop foreign key fk_estagios_planos_plano_id;
-drop index ix_estagios_planos_plano_id on estagios_planos;
-
 alter table grupos_semaforicos drop foreign key fk_grupos_semaforicos_anel_id;
 drop index ix_grupos_semaforicos_anel_id on grupos_semaforicos;
 
 alter table grupos_semaforicos drop foreign key fk_grupos_semaforicos_controlador_id;
 drop index ix_grupos_semaforicos_controlador_id on grupos_semaforicos;
-
-alter table grupos_semaforicos_planos drop foreign key fk_grupos_semaforicos_planos_grupo_semaforico_id;
-drop index ix_grupos_semaforicos_planos_grupo_semaforico_id on grupos_semaforicos_planos;
-
-alter table grupos_semaforicos_planos drop foreign key fk_grupos_semaforicos_planos_plano_id;
-drop index ix_grupos_semaforicos_planos_plano_id on grupos_semaforicos_planos;
 
 alter table limite_area drop foreign key fk_limite_area_area_id;
 drop index ix_limite_area_area_id on limite_area;
@@ -521,12 +446,6 @@ drop index ix_permissoes_perfis_perfis on permissoes_perfis;
 
 alter table permissoes_perfis drop foreign key fk_permissoes_perfis_permissoes;
 drop index ix_permissoes_perfis_permissoes on permissoes_perfis;
-
-alter table planos drop foreign key fk_planos_anel_id;
-drop index ix_planos_anel_id on planos;
-
-alter table planos drop foreign key fk_planos_agrupamento_id;
-drop index ix_planos_agrupamento_id on planos;
 
 alter table sessoes drop foreign key fk_sessoes_usuario_login;
 drop index ix_sessoes_usuario_login on sessoes;
@@ -590,13 +509,9 @@ drop table if exists estagios;
 
 drop table if exists estagios_grupos_semaforicos;
 
-drop table if exists estagios_planos;
-
 drop table if exists fabricantes;
 
 drop table if exists grupos_semaforicos;
-
-drop table if exists grupos_semaforicos_planos;
 
 drop table if exists imagens;
 
@@ -609,8 +524,6 @@ drop table if exists perfis;
 drop table if exists permissoes_perfis;
 
 drop table if exists permissoes;
-
-drop table if exists planos;
 
 drop table if exists sessoes;
 

@@ -212,7 +212,7 @@
 .dropzone-previews .dz-preview {
   background: rgba(255,255,255,0.8);
   position: relative;
-  display: inline-block;
+  display: block;
   margin: 17px;
   vertical-align: top;
   border: 1px solid #acacac;

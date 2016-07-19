@@ -49,6 +49,25 @@ i.sinal-verde-conflitante.ativo, i.transicao-proibida.ativo {
   background-color: #e6e6e6;
 }
 
-.entre-verdes-anel-error {
-  margin-left: 40px;
+.botton-title {
+  margin-bottom: 20px;
+}
+
+.ibox-title {
+  text-align: left;
+}
+
+.movements h3 {
+  text-transform: uppercase;
+}
+
+.dropzone {
+  position: relative;
+  border: 0;
+  background: transparent;
+}
+
+.dropzone.dz-clickable {
+  max-height: 600px;
+  overflow: overlay;
 }

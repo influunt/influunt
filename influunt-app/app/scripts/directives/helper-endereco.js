@@ -9,7 +9,7 @@
 angular.module('influuntApp')
   .directive('helperEndereco', function () {
     return {
-      template: '<input type="text" class="form-control" data-ng-model="ngModel" g-places-autocomplete>',
+      template: '<input type="text" placeholder="{{\'controladores.endereco\' | translate }}" class="form-control" data-ng-model="ngModel" g-places-autocomplete>',
       restrict: 'E',
       scope: {
         ngModel: '=',
