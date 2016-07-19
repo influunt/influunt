@@ -13,315 +13,11 @@ angular.module('influuntApp')
     function ($scope, $state, $timeout, Restangular,
               validaTransicao, utilEstagios, toast, modoOperacaoService) {
 
+      var getPlanoParaDiagrama;
+
       var diagramaDebouncer = null;
-      $scope.min = -1;
-      $scope.max = 142;
-
-      $scope._plano = {
-        // posicao: 1,
-        // tempoCiclo: 120,
-        // posicaoTabelaEntreVerdes: 1,
-        // defasagem: 0,
-        // quantidadeGruposSemaforicos: 5,
-        // modoOperacao: 'TEMPO_FIXO_ISOLADO',
-        // sequenciaEstagios: [
-        //   {
-        //     id: 'E1',
-        //     tempoVerde: 30,
-        //     tempoVerdeMinimo: null,
-        //     tempoVerdeMaximo: null,
-        //     tempoVerdeIntermediario: null,
-        //     extensaoVerde: null,
-        //     gruposSemaforicos: [
-        //       {
-        //         id: 'G1',
-        //         tipo: 'VEICULAR',
-        //         posicao: 1,
-        //         tabelaEntreVerdes: [
-        //           {
-        //             id: 'tabela-entre-verdes-1',
-        //             posicao: 1
-        //           },
-        //           {
-        //             id: 'tabela-entre-verdes-1-2',
-        //             posicao: 2
-        //           },
-        //         ],
-        //         transicoes: [
-        //           {
-        //             id: 'transicao-1',
-        //             origem: {id: 'E1'},
-        //             destino: {id: 'E2'},
-        //             tabelaEntreVerdesTransicoes: [
-        //               {
-        //                 tabelaEntreVerdes: {
-        //                   id: 'tabela-entre-verdes-1'
-        //                 },
-        //                 tempoAmarelo: 10,
-        //                 tempoVermelhoLimpeza: 10
-        //               }
-        //             ]
-        //           }
-        //         ]
-        //       },
-        //       {
-        //         id: 'G5',
-        //         tipo: 'PEDESTRE',
-        //         posicao: 5,
-        //         tabelaEntreVerdes: [
-        //           {
-        //             id: 'tabela-entre-verdes-2',
-        //             posicao: 1
-        //           }
-        //         ],
-        //         transicoes: [
-        //           {
-        //             id: 'transicao-3',
-        //             origem: {id: 'E1'},
-        //             destino: {id: 'E2'},
-        //             tabelaEntreVerdesTransicoes: [
-        //               {
-        //                 tabelaEntreVerdes: {
-        //                   id: 'tabela-entre-verdes-2'
-        //                 },
-        //                 tempoVermelhoIntermitente: 10,
-        //                 tempoVermelhoLimpeza: 10
-        //               }
-        //             ]
-        //           },
-        //           {
-        //             id: 'transicao-13',
-        //             origem: {id: 'E2'},
-        //             destino: {id: 'E3'},
-        //             tabelaEntreVerdesTransicoes: [
-        //               {
-        //                 tabelaEntreVerdes: {
-        //                   id: 'tabela-entre-verdes-2'
-        //                 },
-        //                 tempoVermelhoIntermitente: 10,
-        //                 tempoVermelhoLimpeza: 10
-        //               }
-        //             ]
-        //           }
-        //         ]
-        //       },
-        //     ]
-        //   },
-        //   {
-        //     id: 'E2',
-        //     tempoVerde: 10,
-        //     tempoVerdeMinimo: null,
-        //     tempoVerdeMaximo: null,
-        //     tempoVerdeIntermediario: null,
-        //     extensaoVerde: null,
-        //     gruposSemaforicos: [
-        //       {
-        //         id: 'G3',
-        //         tipo: 'PEDESTRE',
-        //         posicao: 3,
-        //         tabelaEntreVerdes: [
-        //           {
-        //             id: 'tabela-entre-verdes-3',
-        //             posicao: 1
-        //           }
-        //         ],
-        //         transicoes: [
-        //           {
-        //             id: 'transicao-4',
-        //             origem: {id: 'E2'},
-        //             destino: {id: 'E3'},
-        //             tabelaEntreVerdesTransicoes: [
-        //               {
-        //                 tabelaEntreVerdes: {
-        //                   id: 'tabela-entre-verdes-3'
-        //                 },
-        //                 tempoVermelhoIntermitente: 10,
-        //                 tempoVermelhoLimpeza: 10
-        //               }
-        //             ]
-        //           },
-        //           {
-        //             id: 'transicao-5',
-        //             origem: {id: 'E1'},
-        //             destino: {id: 'E3'},
-        //             tabelaEntreVerdesTransicoes: [
-        //               {
-        //                 tabelaEntreVerdes: {
-        //                   id: 'tabela-entre-verdes-3'
-        //                 },
-        //                 tempoVermelhoIntermitente: 5,
-        //                 tempoVermelhoLimpeza: 5
-        //               }
-        //             ]
-        //           },
-        //         ]
-        //       },
-        //       {
-        //         id: 'G5',
-        //         tipo: 'PEDESTRE',
-        //         posicao: 5,
-        //         tabelaEntreVerdes: [
-        //           {
-        //             id: 'tabela-entre-verdes-2',
-        //             posicao: 1
-        //           }
-        //         ],
-        //         transicoes: [
-        //           {
-        //             id: 'transicao-3',
-        //             origem: {id: 'E1'},
-        //             destino: {id: 'E2'},
-        //             tabelaEntreVerdesTransicoes: [
-        //               {
-        //                 tabelaEntreVerdes: {
-        //                   id: 'tabela-entre-verdes-2'
-        //                 },
-        //                 tempoVermelhoIntermitente: 10,
-        //                 tempoVermelhoLimpeza: 10
-        //               }
-        //             ]
-        //           },
-        //           {
-        //             id: 'transicao-13',
-        //             origem: {id: 'E2'},
-        //             destino: {id: 'E3'},
-        //             tabelaEntreVerdesTransicoes: [
-        //               {
-        //                 tabelaEntreVerdes: {
-        //                   id: 'tabela-entre-verdes-2'
-        //                 },
-        //                 tempoVermelhoIntermitente: 10,
-        //                 tempoVermelhoLimpeza: 10
-        //               }
-        //             ]
-        //           }
-        //         ]
-        //       },
-        //       {
-        //         id: 'G4',
-        //         tipo: 'PEDESTRE',
-        //         posicao: 4,
-        //         tabelaEntreVerdes: [
-        //           {
-        //             id: 'tabela-entre-verdes-5',
-        //             posicao: 1
-        //           }
-        //         ],
-        //         transicoes: [
-        //           {
-        //             id: 'transicao-6',
-        //             origem: {id: 'E2'},
-        //             destino: {id: 'E3'},
-        //             tabelaEntreVerdesTransicoes: [
-        //               {
-        //                 tabelaEntreVerdes: {
-        //                   id: 'tabela-entre-verdes-5'
-        //                 },
-        //                 tempoVermelhoIntermitente: 5,
-        //                 tempoVermelhoLimpeza: 5
-        //               }
-        //             ]
-        //           },
-        //           {
-        //             id: 'transicao-7',
-        //             origem: {id: 'E3'},
-        //             destino: {id: 'E1'},
-        //             tabelaEntreVerdesTransicoes: [
-        //               {
-        //                 tabelaEntreVerdes: {
-        //                   id: 'tabela-entre-verdes-5'
-        //                 },
-        //                 tempoVermelhoIntermitente: 20,
-        //                 tempoVermelhoLimpeza: 10
-        //               }
-        //             ]
-        //           },
-        //         ]
-        //       }
-        //     ]
-        //   },
-        //   {
-        //     id: 'E3',
-        //     tempoVerde: 10,
-        //     tempoVerdeMinimo: null,
-        //     tempoVerdeMaximo: null,
-        //     tempoVerdeIntermediario: null,
-        //     extensaoVerde: null,
-        //     gruposSemaforicos: [
-        //       {
-        //         id: 'G2',
-        //         tipo: 'VEICULAR',
-        //         posicao: 2,
-        //         tabelaEntreVerdes: [
-        //           {
-        //             id: 'tabela-entre-verdes-6',
-        //             posicao: 1
-        //           }
-        //         ],
-        //         transicoes: [
-        //           {
-        //             id: 'transicao-8',
-        //             origem: {id: 'E3'},
-        //             destino: {id: 'E1'},
-        //             tabelaEntreVerdesTransicoes: [
-        //               {
-        //                 tabelaEntreVerdes: {
-        //                   id: 'tabela-entre-verdes-6'
-        //                 },
-        //                 tempoAmarelo: 10,
-        //                 tempoVermelhoLimpeza: 10,
-        //                 tempoAtrasoGrupo: 10
-        //               }
-        //             ]
-        //           }
-        //         ]
-        //       },
-        //       {
-        //         id: 'G4',
-        //         tipo: 'PEDESTRE',
-        //         posicao: 4,
-        //         tabelaEntreVerdes: [
-        //           {
-        //             id: 'tabela-entre-verdes-5',
-        //             posicao: 1
-        //           }
-        //         ],
-        //         transicoes: [
-        //           {
-        //             id: 'transicao-6',
-        //             origem: {id: 'E2'},
-        //             destino: {id: 'E3'},
-        //             tabelaEntreVerdesTransicoes: [
-        //               {
-        //                 tabelaEntreVerdes: {
-        //                   id: 'tabela-entre-verdes-5'
-        //                 },
-        //                 tempoVermelhoIntermitente: 5,
-        //                 tempoVermelhoLimpeza: 5
-        //               }
-        //             ]
-        //           },
-        //           {
-        //             id: 'transicao-7',
-        //             origem: {id: 'E3'},
-        //             destino: {id: 'E1'},
-        //             tabelaEntreVerdesTransicoes: [
-        //               {
-        //                 tabelaEntreVerdes: {
-        //                   id: 'tabela-entre-verdes-5'
-        //                 },
-        //                 tempoVermelhoIntermitente: 20,
-        //                 tempoVermelhoLimpeza: 10
-        //               }
-        //             ]
-        //           },
-        //         ]
-
-        //       },
-        //     ]
-        //   },
-        // ]
-      };
+      $scope.min = 0;
+      $scope.max = 100;
 
       /**
        * Inicializa a tela de planos. Carrega os dados básicos da tela.
@@ -338,7 +34,7 @@ angular.module('influuntApp')
 
             anel.planos = _.orderBy(anel.planos, ['posicao']);
             if (!(_.isArray(anel.planos) && anel.planos.length > 0)) {
-              anel.planos =  [{ posicao: 1, modoOperacao: 'ISOLADO' }];
+              anel.planos =  [{ posicao: 1, modoOperacao: 'TEMPO_FIXO_ISOLADO' }];
             }
 
             // @todo temporario. A posicao do estagio deverá vir da API.
@@ -349,20 +45,7 @@ angular.module('influuntApp')
 
           $scope.selecionaAnel(0);
           $scope.getTabelasEntreVerdes();
-
-          $scope.plano = _.clone($scope.currentPlano);
-          $scope.plano.quantidadeGruposSemaforicos = $scope.currentAnel.gruposSemaforicos.length;
-          $scope.currentPlano.sequenciaEstagios.forEach(function(estagio) {
-            estagio.estagio.estagiosGruposSemaforicos.forEach(function(egs) {
-              var id = egs.grupoSemaforico && egs.grupoSemaforico.id;
-              if (id) {
-                estagio.gruposSemaforicos = estagio.gruposSemaforicos || [];
-                estagio.gruposSemaforicos.push(_.find($scope.currentAnel.gruposSemaforicos, {id: id}));
-              }
-            });
-          });
-
-          console.log(JSON.stringify($scope.plano));
+          return getPlanoParaDiagrama();
         });
       };
 
@@ -395,9 +78,7 @@ angular.module('influuntApp')
       $scope.selecionaPlano = function(index) {
         $scope.currentPlanoIndex = index;
         $scope.currentPlano = $scope.currentAnel.planos[index];
-
-        console.log($scope.currentPlano.sequenciaEstagios);
-        $scope.currentPlano.sequenciaEstagios = $scope.currentPlano.sequenciaEstagios || $scope.currentPlano.estagios;
+        $scope.currentPlano.sequenciaEstagios = $scope.currentPlano.sequenciaEstagios || $scope.currentAnel.estagios;
       };
 
       $scope.selecionaEstagio = function(index) {
@@ -416,7 +97,8 @@ angular.module('influuntApp')
       };
 
       $scope.getTabelasEntreVerdes = function() {
-        $scope.tabelaEntreVerdes = $scope.currentAnel.gruposSemaforicos[0].tabelasEntreVerdes;
+        $scope.tabelasEntreVerdes = $scope.currentAnel.gruposSemaforicos[0].tabelasEntreVerdes;
+        $scope.currentTabelaEntreVerdes = $scope.tabelasEntreVerdes[0];
       };
 
       /**
@@ -424,7 +106,7 @@ angular.module('influuntApp')
        * todos os grupos deverão assumir o mesmo estágio (entre amarelo-intermitente e desligado). Se não assumir
        * nenhum destes, deverá utilizar o diagrama produzido a partir do plugin de diagrama.
        */
-      var atualizaDiagramaIntervalosEstaticos = function() {
+      var setDiagramaEstatico = function() {
         var modo = modoOperacaoService.getModoIdByName($scope.currentPlano.modoOperacao);
         var grupos = _.times($scope.currentAnel.gruposSemaforicos.length)
           .map(function(i) {
@@ -432,14 +114,14 @@ angular.module('influuntApp')
               posicao: (i + 1),
               intervalos: [{
                 status: modo,
-                duracao: 240
+                duracao: 255
               }]
             };
           });
 
         $scope.dadosDiagrama = {
-          estagios: [{posicao: 1, duracao: 240}],
-          grupos: grupos
+          estagios: [{posicao: 1, duracao: 255}],
+          gruposSemaforicos: grupos
         };
       };
 
@@ -449,10 +131,65 @@ angular.module('influuntApp')
        */
       var atualizaDiagramaIntervalos = function() {
         if (['INTERMITENTE', 'APAGADO'].indexOf($scope.currentPlano.modoOperacao) < 0) {
-          // $scope.dadosDiagrama = new influunt.components.DiagramaIntervalos().calcula().resultado;
+          getPlanoParaDiagrama();
+          var diagramaBuilder = new influunt.components.DiagramaIntervalos($scope.plano);
+          var result = diagramaBuilder.calcula();
+          $scope.dadosDiagrama = result;
         } else {
-          atualizaDiagramaIntervalosEstaticos();
+          setDiagramaEstatico();
         }
+
+        $scope.currentPlano.tempoCiclo = $scope.dadosDiagrama.tempoCiclo;
+      };
+
+      /**
+       * Evita que dados informados para um plano em determinado modo de operação vaze
+       * para o diagrama criado.
+       *
+       * @param      {<type>}  plano   The plano
+       */
+      var limpaDadosPlano = function(plano) {
+        if (plano.modoOperacao === 'ATUADO') {
+          plano.tempoCiclo = null;
+          plano.sequenciaEstagios.forEach(function(estagio) {
+            estagio.tempoVerde = null;
+          });
+        } else {
+          plano.tempoVerdeMinimo = null;
+          plano.tempoVerdeMaximo = null;
+          plano.tempoVerdeIntermediario = null;
+          plano.tempoExtensaoVerde = null;
+        }
+
+        if (plano.modoOperacao !== 'COORDENADO') {
+          plano.defasagem = null;
+        }
+      };
+
+      /**
+       * Retorna uma copia do currentPlano com algumas modificações.
+       * Deverá ser utilizado para produzir o diagrama de intervalos.
+       *
+       * @return     {<type>}  The plano para diagrama.
+       */
+      getPlanoParaDiagrama = function() {
+        $scope.plano = _.cloneDeep($scope.currentPlano);
+        $scope.plano.quantidadeGruposSemaforicos = $scope.currentAnel.gruposSemaforicos.length;
+        $scope.plano.posicaoTabelaEntreVerdes = $scope.currentTabelaEntreVerdes.posicao;
+
+        $scope.plano.sequenciaEstagios.forEach(function(estagio) {
+          estagio.estagiosGruposSemaforicos.forEach(function(egs) {
+            var id = egs.grupoSemaforico && egs.grupoSemaforico.id;
+            if (id) {
+              estagio.gruposSemaforicos = estagio.gruposSemaforicos || [];
+              estagio.gruposSemaforicos.push(_.find($scope.currentAnel.gruposSemaforicos, {id: id}));
+            }
+          });
+        });
+
+
+        limpaDadosPlano($scope.plano);
+        return $scope.plano;
       };
 
       // variavel de controle, utilizada para verificar se o currentAnelId deve ou não ser atualizado.
@@ -489,7 +226,7 @@ angular.module('influuntApp')
       $scope.$watch('currentPlano', function(value) {
         if (value) {
           $timeout.cancel(diagramaDebouncer);
-          diagramaDebouncer = $timeout(atualizaDiagramaIntervalos, 200);
+          diagramaDebouncer = $timeout(atualizaDiagramaIntervalos, 500);
         }
       }, true);
 

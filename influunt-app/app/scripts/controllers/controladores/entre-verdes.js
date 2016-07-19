@@ -37,10 +37,10 @@ angular.module('influuntApp')
       $scope.limites = function(grupoSemaforico) {
         var maxTempoVermelhoLimpeza = grupoSemaforico.tipo === 'PEDESTRE' ? 5 : 7;
         return  {
-          tempoVermelhoIntermitente: { min: 3, max: 32 },
-          tempoVermelhoLimpeza: { min: 0, max: maxTempoVermelhoLimpeza },
-          tempoAtrasoGrupo: { min: 0, max: 20 },
-          tempoAmarelo: { min: 3, max: 5 }
+          tempoVermelhoIntermitente: { min: 5, max: 7 },
+          tempoVermelhoLimpeza: { min: 5, max: 7 },
+          tempoAtrasoGrupo: { min: 0, max: 7 },
+          tempoAmarelo: { min: 5, max: 7 }
         };
       };
 

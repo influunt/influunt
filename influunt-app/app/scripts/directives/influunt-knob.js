@@ -10,6 +10,12 @@ angular.module('influuntApp')
   .directive('influuntKnob', ['$timeout',
     function ($timeout) {
       var changeTimeout = null;
+
+      var getSafeIntegerValue = function(value, min) {
+        value = parseInt(value);
+        return _.isSafeInteger(value) ? parseInt(value) : parseInt(min) || 0;
+      };
+
       /**
        * On change event for knob jquery plugin.
        * It will debounce the ng-model value update.
@@ -20,6 +26,7 @@ angular.module('influuntApp')
       var onChange = function(dial, value, scope) {
         $timeout.cancel(changeTimeout);
         changeTimeout = $timeout(function() {
+          value = getSafeIntegerValue(value, scope.min);
           value = (value >= scope.min) ? value : scope.min;
           value = (value <= scope.max) ? value : scope.max;
 
@@ -27,7 +34,7 @@ angular.module('influuntApp')
           scope.ngModel = value;
           dial.val(value).trigger('change');
 
-          console.log(scope.ngModel, typeof scope.ngModel);
+          scope.ngModel = parseInt(scope.ngModel);
         }, 200);
       };
 
@@ -53,7 +60,8 @@ angular.module('influuntApp')
           });
 
           dial.on('change', function() {
-            var value = parseInt($(this).val());
+            var value = getSafeIntegerValue($(this).val(), scope.min);
+            // var value = parseInt($(this).val());
             var $element = $(element);
             var hidden = $element.find('input.previous-value');
             if (hidden.length === 0) {
@@ -67,11 +75,14 @@ angular.module('influuntApp')
                 return onChange(dial, value, scope);
               }
             }
+
+            scope.ngModel = parseInt(scope.ngModel);
           });
 
           scope.$watch('ngModel', function(value) {
-            value = parseInt(value);
+            value = getSafeIntegerValue(value, scope.min);
             dial.val(angular.isDefined(value) ? value : scope.min).trigger('change');
+            scope.ngModel = parseInt(scope.ngModel);
           });
         }
       };

@@ -80,7 +80,6 @@ $temas-hachurados: "vermelho-intermitente", "intermitente";
   color: #fff;
 }
 
-
 // Definicao das cores de sinais.
 @each $nome-cor, $cor in $cores-de-sinais {
   .indicacao-#{$nome-cor} {
