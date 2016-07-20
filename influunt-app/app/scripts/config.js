@@ -24,7 +24,8 @@ angular
           data: {
             title: 'geral.dashboard',
           }
-        })        
+        })
+        
         .state('app', {
           abstract: true,
           url: '/app',
