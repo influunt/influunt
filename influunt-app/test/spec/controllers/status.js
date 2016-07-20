@@ -17,7 +17,5 @@ describe('Controller: StatusCtrl', function () {
     });
   }));
 
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(StatusCtrl.awesomeThings.length).toBe(3);
-  });
+  
 });
