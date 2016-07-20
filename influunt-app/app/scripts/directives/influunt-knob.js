@@ -12,8 +12,7 @@ angular.module('influuntApp')
       var changeTimeout = null;
 
       var getSafeIntegerValue = function(value, min) {
-        value = parseInt(value);
-        return _.isSafeInteger(value) ? parseInt(value) : parseInt(min) || 0;
+        return parseInt(value) || parseInt(min);
       };
 
       /**

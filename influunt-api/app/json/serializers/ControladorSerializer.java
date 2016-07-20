@@ -68,7 +68,8 @@ public class ControladorSerializer extends JsonSerializer<Controlador> {
 
         // TODO - pensar melhor maneira para pegar faixa de valores
 //        jgen.writeArrayFieldStart("faixaValores");
-
+        jgen.writeStringField("verdeMin", RangeUtils.TEMPO_VERDE.getMin().toString());
+        jgen.writeStringField("verdeMax", RangeUtils.TEMPO_VERDE.getMax().toString());
         jgen.writeStringField("verdeMinimoMin", RangeUtils.TEMPO_VERDE_MINIMO.getMin().toString());
         jgen.writeStringField("verdeMinimoMax", RangeUtils.TEMPO_VERDE_MINIMO.getMax().toString());
         jgen.writeStringField("verdeMaximoMin", RangeUtils.TEMPO_VERDE_MAXIMO.getMin().toString());

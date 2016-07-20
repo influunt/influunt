@@ -18,6 +18,37 @@ angular.module('influuntApp')
       $scope.min = 0;
       $scope.max = 100;
 
+      var parseAllToInt = function() {
+        $scope.objeto.amareloMax = parseInt($scope.objeto.amareloMax);
+        $scope.objeto.amareloMin = parseInt($scope.objeto.amareloMin);
+        $scope.objeto.atrasoGrupoMin = parseInt($scope.objeto.atrasoGrupoMin);
+        $scope.objeto.cicloMax = parseInt($scope.objeto.cicloMax);
+        $scope.objeto.cicloMin = parseInt($scope.objeto.cicloMin);
+        $scope.objeto.defasagemMin = parseInt($scope.objeto.defasagemMin);
+        $scope.objeto.extensaVerdeMax = parseInt($scope.objeto.extensaVerdeMax);
+        $scope.objeto.extensaVerdeMin = parseInt($scope.objeto.extensaVerdeMin);
+        $scope.objeto.maximoPermanenciaEstagioMax = parseInt($scope.objeto.maximoPermanenciaEstagioMax);
+        $scope.objeto.maximoPermanenciaEstagioMin = parseInt($scope.objeto.maximoPermanenciaEstagioMin);
+        $scope.objeto.verdeIntermediarioMax = parseInt($scope.objeto.verdeIntermediarioMax);
+        $scope.objeto.verdeIntermediarioMin = parseInt($scope.objeto.verdeIntermediarioMin);
+        $scope.objeto.verdeMax = parseInt($scope.objeto.verdeMax);
+        $scope.objeto.verdeMaximoMax = parseInt($scope.objeto.verdeMaximoMax);
+        $scope.objeto.verdeMaximoMin = parseInt($scope.objeto.verdeMaximoMin);
+        $scope.objeto.verdeMin = parseInt($scope.objeto.verdeMin);
+        $scope.objeto.verdeMinimoMax = parseInt($scope.objeto.verdeMinimoMax);
+        $scope.objeto.verdeMinimoMin = parseInt($scope.objeto.verdeMinimoMin);
+        $scope.objeto.verdeSegurancaPedestreMax = parseInt($scope.objeto.verdeSegurancaPedestreMax);
+        $scope.objeto.verdeSegurancaPedestreMin = parseInt($scope.objeto.verdeSegurancaPedestreMin);
+        $scope.objeto.verdeSegurancaVeicularMax = parseInt($scope.objeto.verdeSegurancaVeicularMax);
+        $scope.objeto.verdeSegurancaVeicularMin = parseInt($scope.objeto.verdeSegurancaVeicularMin);
+        $scope.objeto.vermelhoIntermitenteMax = parseInt($scope.objeto.vermelhoIntermitenteMax);
+        $scope.objeto.vermelhoIntermitenteMin = parseInt($scope.objeto.vermelhoIntermitenteMin);
+        $scope.objeto.vermelhoLimpezaPedestreMax = parseInt($scope.objeto.vermelhoLimpezaPedestreMax);
+        $scope.objeto.vermelhoLimpezaPedestreMin = parseInt($scope.objeto.vermelhoLimpezaPedestreMin);
+        $scope.objeto.vermelhoLimpezaVeicularMax = parseInt($scope.objeto.vermelhoLimpezaVeicularMax);
+        $scope.objeto.vermelhoLimpezaVeicularMin = parseInt($scope.objeto.vermelhoLimpezaVeicularMin);
+      };
+
       /**
        * Inicializa a tela de planos. Carrega os dados básicos da tela.
        */
@@ -25,6 +56,8 @@ angular.module('influuntApp')
         var id = $state.params.id;
         Restangular.one('controladores', id).get().then(function(res) {
           $scope.objeto = res;
+          parseAllToInt();
+
           $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
           $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
 
