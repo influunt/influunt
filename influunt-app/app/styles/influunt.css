@@ -1078,7 +1078,7 @@ header .nav-secon li a {
     margin-bottom: 0;
 }
 .wrapper-content .basic-wizard .content .body .deactivation {
-    max-height: 550px;
+    /*max-height: 550px;*/
     overflow: auto;
     padding: 25px;
 }
