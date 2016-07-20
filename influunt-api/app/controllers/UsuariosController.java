@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+
 @DeferredDeadbolt
 @Security.Authenticated(Secured.class)
 @Dynamic("Influunt")
@@ -35,12 +36,12 @@ public class UsuariosController extends Controller {
 
         Usuario usuario = Json.fromJson(json, Usuario.class);
         List<Erro> erros = new InfluuntValidator<Usuario>().validate(usuario);
-        if(erros.isEmpty()) {
-            if(Usuario.find.byId(usuario.getLogin())!=null) {
+        if (erros.isEmpty()) {
+            if (Usuario.find.byId(usuario.getLogin()) != null) {
                 return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(
                         Arrays.asList(new Erro("usuario", "login já utilizado", "login"))))
                 );
-            }else {
+            } else {
                 usuario.save();
                 //TODO: 6/30/16 getArea não funciona corretamente (THOR!!!).
                 if (usuario.getArea() != null) {
@@ -48,7 +49,7 @@ public class UsuariosController extends Controller {
                 }
                 return CompletableFuture.completedFuture(ok(Json.toJson(usuario)));
             }
-        }else{
+        } else {
             return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
         }
 
@@ -94,12 +95,15 @@ public class UsuariosController extends Controller {
             usuario.setLogin(id);
             List<Erro> erros = new InfluuntValidator<Usuario>().validate(usuario);
 
-            if(erros.isEmpty()) {
+            if (erros.isEmpty()) {
                 usuario.update();
                 //TODO: 6/30/16 getArea não funciona corretamente (THOR!!!).
-                usuario.setArea(Area.find.byId(usuario.getArea().getId()));
+                //TODO: 7/20/16 adicionei o if para passar no teste do cucumber, necesário revisar o THOR.
+                if (usuario.getArea() != null) {
+                    usuario.setArea(Area.find.byId(usuario.getArea().getId()));
+                }
                 return CompletableFuture.completedFuture(ok(Json.toJson(usuario)));
-            }else{
+            } else {
                 return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
             }
         }

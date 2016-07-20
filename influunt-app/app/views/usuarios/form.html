@@ -8,7 +8,7 @@
     <div class="form-group" data-ng-class="{'has-error': errors.nome}">
       <label class="control-label col-sm-2 control-label">{{ 'usuarios.nome' | translate }}</label>
       <div class="col-sm-9">
-        <input class="string optional form-control" name="usuario_nome" type="text" data-ng-model="objeto.nome">
+        <input class="string optional form-control" name="nome" type="text" data-ng-model="objeto.nome">
         <p class="help-block error-msg" data-ng-repeat="error in errors.nome">{{ error }}</p>
       </div>
     </div>
@@ -16,7 +16,7 @@
     <div class="form-group" data-ng-class="{'has-error': errors.login}">
       <label class="control-label col-sm-2 control-label">{{ 'usuarios.login' | translate }}</label>
       <div class="col-sm-9">
-        <input class="string optional form-control" name="usuario_login" type="text" data-ng-model="objeto.login">
+        <input class="string optional form-control" name="login" type="text" data-ng-model="objeto.login">
         <p class="help-block error-msg" data-ng-repeat="error in errors.login">{{ error }}</p>
       </div>
     </div>
@@ -24,7 +24,7 @@
     <div class="form-group" data-ng-class="{'has-error': errors.email}">
       <label class="control-label col-sm-2 control-label">{{ 'usuarios.email' | translate }}</label>
       <div class="col-sm-9">
-        <input class="string optional form-control" name="usuario_email" type="text" data-ng-model="objeto.email">
+        <input class="string optional form-control" name="email" type="text" data-ng-model="objeto.email">
         <p class="help-block error-msg" data-ng-repeat="error in errors.email">{{ error }}</p>
       </div>
     </div>
@@ -32,14 +32,14 @@
     <div class="form-group" data-ng-class="{'has-error': submited && formUsuarios.usuario_confirmacao_senha.$error.passwordMatch}">
       <label class="control-label col-sm-2 control-label">{{ 'usuarios.senha' | translate }}</label>
       <div class="col-sm-9">
-        <input class="string optional form-control" name="usuario_senha" type="password" data-ng-model="objeto.senha">
+        <input class="string optional form-control" name="senha" type="password" data-ng-model="objeto.senha">
       </div>
     </div>
 
     <div class="form-group" data-ng-class="{'has-error': submited && formUsuarios.usuario_confirmacao_senha.$error.passwordMatch}">
       <label class="control-label col-sm-2 control-label">{{ 'usuarios.confirmacao_senha' | translate }}</label>
       <div class="col-sm-9">
-        <input class="string optional form-control" name="usuario_confirmacao_senha"
+        <input class="string optional form-control" name="confirmacao_senha"
           type="password" ng-model="confirmacao_senha"
           password-match="objeto.senha">
         <p class="help-block error-msg" data-ng-if="submited && formUsuarios.usuario_confirmacao_senha.$error.passwordMatch">Confirmação de senha incorreta.</p>
@@ -49,7 +49,7 @@
     <div class="form-group" data-ng-class="{'has-error': errors.area}">
       <label class="control-label col-sm-2 control-label">{{ 'usuarios.area' | translate }}</label>
       <div class="col-sm-9">
-        <select name="usuario_area" class="form-control"
+        <select name="area" class="form-control"
           data-ng-options="area.id as area.descricao for area in areas | orderBy: nome"
           data-ng-model="objeto.area.id"></select>
         <p class="help-block error-msg" data-ng-repeat="error in errors.area">{{ error }}</p>
@@ -59,7 +59,7 @@
     <div class="form-group" data-ng-class="{'has-error': errors.perfil}">
       <label class="control-label col-sm-2 control-label">{{ 'usuarios.perfil' | translate }}</label>
       <div class="col-sm-9">
-        <select name="usuario_perfil" class="form-control"
+        <select name="perfil" class="form-control"
           data-ng-options="perfil.id as perfil.nome for perfil in perfis"
           data-ng-model="objeto.perfil.id"></select>
         <p class="help-block error-msg" data-ng-repeat="error in errors.perfil">{{ error }}</p>
