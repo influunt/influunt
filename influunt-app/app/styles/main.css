@@ -190,3 +190,12 @@ i.sinal-verde-conflitante.ativo, i.transicao-proibida.ativo {
   -webkit-text-stroke-color: black;
   font-weight: bolder;
 }
+
+.form-group label {
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.wizard-step-title h2, h3 {
+  font-size: 16px;
+}
