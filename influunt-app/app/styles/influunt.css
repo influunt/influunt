@@ -92,8 +92,8 @@
     margin: 20px 0 0;
 }
 .wrapper-content .basic-wizard .content .body .early-stage .early-area {
-    min-height: 300px;
-    max-height: 300px;
+    min-height: 250px;
+    max-height: 250px;
     background: #fff;
     overflow: hidden;
     width: 100%;
@@ -352,22 +352,22 @@ header .nav-secon li a {
     text-decoration: inherit;
 }
 .wrapper-content .basic-wizard .content .body .tableless table tbody tr td {
-    height: 60px;
+    height: 74px;
 /*    width: 5%;*/
-		min-width: 70px;
-		max-width: 70px;
+		min-width: 74px;
+		max-width: 74px;
     transition: all .5s ease;
     cursor: pointer;
 }
 .wrapper-content .basic-wizard .content .body .tableless table thead tr th {
-    height: 60px;
+    height: 74px;
     text-align: center;
     font-size: 15px;
     color: #676a6c;
     border: 1px solid #cacaca;
 /*    width: 5%;*/
-		min-width: 70px;
-		max-width: 70px;
+		min-width: 74px;
+		max-width: 74px;
     background: #e5e5e5;
 }
 .wrapper-content .basic-wizard .content .body .tableless {
@@ -810,9 +810,9 @@ header .nav-secon li a {
     font-weight: 700;
 }
 .wrapper-content .basic-wizard .content .body .association.stages-page {
-    min-height: 300px;
-    overflow: scroll;
-    max-height: 300px;
+	  overflow: scroll;
+    min-height: 250px;
+    max-height: 250px;
 }
 .wrapper-content .basic-wizard .content .body .association {
     border-top: 4px solid #e7eaec;
@@ -1417,4 +1417,23 @@ td.estagio-ativo {
   border-top: 2px solid black;
   border-left: 2px solid black;
   border-right: 2px solid black;
+}
+
+/* TABELA DIAGONAL  TRANSICOES */
+table.table-diagonal:nth-of-type(1) th.diagonal {
+	background-color: #e5e5e5 !important;
+  background-image: linear-gradient(
+    to top right,
+    transparent 48%,
+    rgb(202, 202, 202),
+    transparent 52%
+  ) !important;
+}
+
+.table-wizard {
+	border: none !important;
+	table-layout: fixed !important;
+	display: block !important;
+	width: 100%;
+
 }
