@@ -75,7 +75,7 @@ Funcionalidade: Fluxo de cadastro de controladores
     E o usuário selecionar o estágio "E1"
     E o usuario associar o grupo semafórico "G3" com o estágio "E1"
     E o usuario marcar o grupo semafórico como "Veicular"
-    E o usuário selecionar o estágio "G2"
+    E o usuário selecionar o estágio "E2"
     E o usuario associar o grupo semafórico "G4" com o estágio "E2"
     E o usuario marcar o grupo semafórico como "Pedestre"
     E clicar no botão para ir pro próximo passo
