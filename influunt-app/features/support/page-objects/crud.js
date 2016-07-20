@@ -8,6 +8,7 @@ var CrudPage = function () {
   var campos = {
     'Área':                            'select[name="area"]',
     'Cidade':                          'select[name="cidade"]',
+    'Chave':                           '[name="chave"]',
     'Configuração Controlador':        'select[name="configuracao"]',
     'Configuração':                    'select[name="configuracao"]',
     'Controladores':                   'select[name="controladores"]',
