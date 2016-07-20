@@ -174,12 +174,12 @@ angular.module('influuntApp')
         $scope.currentTabelaEntreVerdesIndex = index;
         $scope.currentTabelaEntreVerdes = $scope.currentGrupoSemaforico.tabelasEntreVerdes[index];
         $scope.tabelasEntreVerdesTransicoes = _.chain($scope.currentGrupoSemaforico.transicoes)
-                                     .map(function(transicao) { return transicao.tabelaEntreVerdesTransicoes })
+                                     .map(function(transicao) { return transicao.tabelaEntreVerdesTransicoes; })
                                      .flatten()
-                                     .filter(function(tevt) { return tevt.tabelaEntreVerdes.posicao === index + 1 })
+                                     .filter(function(tevt) { return tevt.tabelaEntreVerdes.posicao === index + 1; })
                                      .value();
-        $scope.tabelasEntreVerdesTransicoes.forEach(function(tevTransicoes) {
-          tevTransicoes.tabelaEntreVerdes = $scope.currentTabelaEntreVerdes;
+        $scope.tabelasEntreVerdesTransicoes.forEach(function(tevTransicao) {
+          tevTransicao.tabelaEntreVerdes = $scope.currentTabelaEntreVerdes;
         });
       };
 
@@ -229,6 +229,19 @@ angular.module('influuntApp')
        */
       $scope.anelTemErro = function(indice) {
         var errors = _.get($scope.errors, 'aneis[' + indice + ']');
+        return _.isObject(errors) && Object.keys(errors).length > 0;
+      };
+
+      /**
+       * Deve informar que determinado anel possui erros caso haja uma lista de
+       * erros para determinado anel.
+       *
+       * @param      {int}  anelIndex  The indice of the anel
+       * @param      {int}  index  The indice of the grupo semaforico
+       * @return     {boolean}  { true se grupo semaforico tem erro }
+       */
+      $scope.grupoSemaforicoTemErro = function(anelIndex, index) {
+        var errors = _.get($scope.errors, 'aneis[' + anelIndex + '].gruposSemaforicos['+index+']');
         return _.isObject(errors) && Object.keys(errors).length > 0;
       };
 

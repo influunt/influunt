@@ -20,6 +20,7 @@
               <thead>
                 <tr>
                   <th>{{ 'agrupamentos.nome' | translate }}</th>
+									<th>{{ 'agrupamentos.numero' | translate }}</th>
                   <th>{{ 'agrupamentos.tipo' | translate }}</th>
                   <th>{{ 'agrupamentos.controladores' | translate }}</th>
                   <th>{{ 'geral.crud.opcoes' | translate }}</th>
@@ -28,6 +29,7 @@
               <tbody>
                 <tr data-ng-repeat="agrupamento in lista">
                   <td>{{ agrupamento.nome }}</td>
+                  <td>{{ agrupamento.numero }}</td>
                   <td>{{ agrupamento.tipo }}</td>
                   <td data-ng-bind-html="agrupamento.controladores | resourceListToString: 'localizacao' "></td>
                   <td>

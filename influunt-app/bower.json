@@ -27,8 +27,8 @@
     "tooltipster": "^4.0.4",
     "select2": "^4.0.3",
     "metisMenu": "^2.5.2",
-    "vis": "^4.16.1",
-    "angular-ui-sortable": "^0.14.3"
+    "angular-ui-sortable": "^0.14.3",
+    "vis": "^4.16.1"
   },
   "devDependencies": {
     "angular-mocks": "^1.4.0"

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import models.Anel;
 import models.Controlador;
+import utils.RangeUtils;
 
 import java.io.IOException;
 
@@ -64,6 +65,41 @@ public class ControladorSerializer extends JsonSerializer<Controlador> {
             jgen.writeObject(anel);
         }
         jgen.writeEndArray();
+
+        // TODO - pensar melhor maneira para pegar faixa de valores
+//        jgen.writeArrayFieldStart("faixaValores");
+
+        jgen.writeStringField("verdeMinimoMin", RangeUtils.TEMPO_VERDE_MINIMO.getMin().toString());
+        jgen.writeStringField("verdeMinimoMax", RangeUtils.TEMPO_VERDE_MINIMO.getMax().toString());
+        jgen.writeStringField("verdeMaximoMin", RangeUtils.TEMPO_VERDE_MAXIMO.getMin().toString());
+        jgen.writeStringField("verdeMaximoMax", RangeUtils.TEMPO_VERDE_MAXIMO.getMax().toString());
+        jgen.writeStringField("extensaVerdeMin", RangeUtils.TEMPO_EXTENSAO_VERDE.getMin().toString());
+        jgen.writeStringField("extensaVerdeMax", RangeUtils.TEMPO_EXTENSAO_VERDE.getMax().toString());
+        jgen.writeStringField("verdeIntermediarioMin", RangeUtils.TEMPO_VERDE_INTERMEDIARIO.getMin().toString());
+        jgen.writeStringField("verdeIntermediarioMax", RangeUtils.TEMPO_VERDE_INTERMEDIARIO.getMax().toString());
+        jgen.writeStringField("defasagemMin", RangeUtils.TEMPO_DEFASAGEM.getMin().toString());
+        jgen.writeStringField("defasagemMax", RangeUtils.TEMPO_DEFASAGEM.getMax().toString());
+        jgen.writeStringField("amareloMin", RangeUtils.TEMPO_AMARELO.getMin().toString());
+        jgen.writeStringField("amareloMax", RangeUtils.TEMPO_AMARELO.getMax().toString());
+        jgen.writeStringField("vermelhoIntermitenteMin", RangeUtils.TEMPO_VERMELHO_INTERMITENTE.getMin().toString());
+        jgen.writeStringField("vermelhoIntermitenteMax", RangeUtils.TEMPO_VERMELHO_INTERMITENTE.getMax().toString());
+        jgen.writeStringField("vermelhoLimpezaVeicularMin", RangeUtils.TEMPO_VERMELHO_LIMPEZA_VEICULAR.getMin().toString());
+        jgen.writeStringField("vermelhoLimpezaVeicularMax", RangeUtils.TEMPO_VERMELHO_LIMPEZA_VEICULAR.getMax().toString());
+        jgen.writeStringField("vermelhoLimpezaPedestreMin", RangeUtils.TEMPO_VERMELHO_LIMPEZA_PEDESTRE.getMin().toString());
+        jgen.writeStringField("vermelhoLimpezaPedestreMax", RangeUtils.TEMPO_VERMELHO_LIMPEZA_PEDESTRE.getMax().toString());
+        jgen.writeStringField("atrasoGrupoMin", RangeUtils.TEMPO_ATRASO_GRUPO.getMin().toString());
+        jgen.writeStringField("atrasoGrupoMax", RangeUtils.TEMPO_ATRASO_GRUPO.getMax().toString());
+        jgen.writeStringField("verdeSegurancaVeicularMin", RangeUtils.TEMPO_VERDE_SEGURANCA_VEICULAR.getMin().toString());
+        jgen.writeStringField("verdeSegurancaVeicularMax", RangeUtils.TEMPO_VERDE_SEGURANCA_VEICULAR.getMax().toString());
+        jgen.writeStringField("verdeSegurancaPedestreMin", RangeUtils.TEMPO_VERDE_SEGURANCA_PEDESTRE.getMin().toString());
+        jgen.writeStringField("verdeSegurancaPedestreMax", RangeUtils.TEMPO_VERDE_SEGURANCA_PEDESTRE.getMax().toString());
+        jgen.writeStringField("maximoPermanenciaEstagioMin", RangeUtils.TEMPO_MAXIMO_PERMANECIA_ESTAGIO.getMin().toString());
+        jgen.writeStringField("maximoPermanenciaEstagioMax", RangeUtils.TEMPO_MAXIMO_PERMANECIA_ESTAGIO.getMax().toString());
+        jgen.writeStringField("cicloMin", RangeUtils.TEMPO_CICLO.getMin().toString());
+        jgen.writeStringField("cicloMax", RangeUtils.TEMPO_CICLO.getMax().toString());
+
+//        jgen.writeEndArray();
+
 
         jgen.writeEndObject();
     }

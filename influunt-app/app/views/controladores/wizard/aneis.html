@@ -11,16 +11,16 @@
     </uib-alert>
 
     <div class="text-center m-t-md rings pd-lf-rt">
-      <div class="col-lg-3 col-sm-3 rings-status bg-border">
+      <div class="col-lg-3 col-sm-3 rings-status bg-border padding-top-30">
         <div class="col-lg-4 col-sm-4"><p class="activ">{{ 'controladores.ativo' | translate | uppercase }}</p></div>
         <div class="col-lg-4 col-sm-4"><p class="activ">{{ 'controladores.anel' | translate | uppercase }}</p></div>
         <div class="clearfix"></div>
-        <div class="col-lg-12 col-sm-12" style="padding-left:0;">
+        <div class="col-lg-12 col-sm-12 no-padding">
          <nav>
            <ul>
             <li data-ng-repeat="anel in aneis"
                 data-ng-click="selecionaAnel($index)"
-                data-ng-class="{'anel-selecionado': $index === currentAnelIndex}" class="row">
+                data-ng-class="{'anel-selecionado': $index === currentAnelIndex}" class="s">
               <div class="col-xs-1">
                 <span class="number">{{ $index + 1 }}</span>
               </div>
@@ -46,9 +46,12 @@
         </div>
       </div>
 
+      <div class="col-lg-9 col-sm-9 ibox-title botton-title">
+        <h2>Anel {{ currentAnel.posicao }}</h2>
+      </div>
+
       <div class="col-lg-6 col-sm-6 groups bg-border">
         <div class="col-lg-3 col-sm-3">
-          <!-- <div class="form-group" data-ng-class="{'has-error': currentAnel && !currentAnel.valid.form && !currentAnel.valid.required.minGrupos && (!currentAnel.quantidadeGrupoPedestre && ! currentAnel.quantidadeGrupoVeicular) }"> -->
           <div class="form-group">
             <label><p>{{ 'controladores.gruposPedestres' | translate }}</p></label>
             <input type="number" name="quantidadeGrupoPedestre" class="form-control"
@@ -56,7 +59,6 @@
           </div>
         </div>
         <div class="col-lg-3 col-sm-3">
-          <!-- <div class="form-group" data-ng-class="{'has-error': currentAnel && !currentAnel.valid.form && !currentAnel.valid.required.minGrupos && (!currentAnel.quantidadeGrupoPedestre && ! currentAnel.quantidadeGrupoVeicular)}"> -->
           <div class="form-group">
             <label>
               <p>{{ 'controladores.gruposSinaisVeiculares' | translate }}</p>
@@ -85,35 +87,25 @@
           </div>
         </div>
 
-        <!-- Validação combinada dos campos de grupo de pedestres e grupo de sinais veiculares. -->
-        <!--
-        <div class="col-lg-6 col-sm-6" data-ng-class="{'has-error': currentAnel && !currentAnel.valid.form && !currentAnel.valid.required.minGrupos && (!currentAnel.quantidadeGrupoPedestre && ! currentAnel.quantidadeGrupoVeicular)}">
-          <p ng-show="currentAnel && !currentAnel.valid.form && !currentAnel.valid.required.minGrupos && (!currentAnel.quantidadeGrupoPedestre && ! currentAnel.quantidadeGrupoVeicular)"
-            class="help-block error-msg">
-              {{ 'controladores.validacoes.aoMenosUmGrupoSemaforico' | translate }}
-          </p>
-        </div>
-        -->
-
         <div class="col-lg-12 col-sm-12">
-          <!-- <div class="form-group" data-ng-class="{'has-error': currentAnel && !currentAnel.valid.form && !currentAnel.valid.required.descricao && !currentAnel.descricao}"> -->
           <div class="form-group">
             <label>
               <p>{{ 'controladores.localizacao' | translate }}</p>
             </label>
             <textarea type="text" name="localizacao" placeholder="" class="form-control"
               data-ng-model="currentAnel.localizacao"></textarea>
-              <!-- <p ng-show="currentAnel && !currentAnel.valid.form && !currentAnel.valid.required.descricao && !currentAnel.descricao"
-                class="help-block error-msg">
-                  {{ 'geral.campo_obrigatorio' | translate }}
-              </p> -->
           </div>
           <div class="form-group"><label><p>{{ 'controladores.numeroSMEE' | translate }}</p></label>
           <input type="text" name="numeroSMEE" placeholder="" class="form-control"
             data-ng-model="currentAnel.numeroSMEE"></div>
         </div>
         <div class="col-lg-12 col-sm-12">
-          <div class="form-group"><label><p>{{ 'controladores.localizacao' | translate }}</p></label>
+          <div class="col-lg-12 col-sm-12 no-padding">
+            <div class="form-group">
+              <label>{{ 'controladores.localizacao' | translate }}:</label>
+              <helper-endereco ng-model="currentAnel.endereco" latitude="currentAnel.latitude" longitude="currentAnel.longitude"></helper-endereco>
+            </div>
+          </div>
 
             <figure>
               <div influunt-map
@@ -123,37 +115,30 @@
               </div>
             </figure>
 
-            <div class="col-lg-12 col-sm-12 no-padding">
-              <div class="form-group">
-                <label>{{ 'controladores.endereco' | translate }}:</label>
-                <helper-endereco ng-model="currentAnel.endereco" latitude="currentAnel.latitude" longitude="currentAnel.longitude"></helper-endereco>
-              </div>
-            </div>
+		       <div class="col-lg-6 col-sm-6 no-padding" data-ng-class="{'has-error': errors.aneis[currentAnelIndex].latitudeOk}">
+			       <div class="form-group">
+			         <label class="col-sm-12 no-padding control-label">{{ 'controladores.latitude' | translate }}:</label>
+			         <input type="number" placeholder="" name="latitude" class="form-control"
+			           data-ng-model="currentAnel.latitude">
+			         <p class="help-block error-msg" data-ng-repeat="error in errors.aneis[currentAnelIndex].latitudeOk">{{ error }}</p>
+			       </div>
+			     </div>
 
-            <div class="col-lg-6 col-sm-6 no-padding" data-ng-class="{'has-error': errors.aneis[currentAnelIndex].latitudeOk}">
-              <div class="form-group">
-                <label class="col-sm-12 no-padding control-label">{{ 'controladores.latitude' | translate }}:</label>
-                <input type="number" placeholder="" name="latitude" class="form-control"
-                  data-ng-model="currentAnel.latitude">
-                <p class="help-block error-msg" data-ng-repeat="error in errors.aneis[currentAnelIndex].latitudeOk">{{ error }}</p>
-              </div>
-            </div>
+			     <div class="col-lg-6 col-sm-6 no-padding-right" data-ng-class="{'has-error': errors.aneis[currentAnelIndex].longitudeOk}">
+			       <div class="form-group">
+			         <label class="col-sm-12 no-padding control-label">{{ 'controladores.longitude' | translate }}:</label>
+			         <input type="number" placeholder="" name="longitude" class="form-control"
+			           data-ng-model="currentAnel.longitude">
+			         <p class="help-block error-msg" data-ng-repeat="error in errors.aneis[currentAnelIndex].longitudeOk">{{ error }}</p>
+			       </div>
+	         </div>
 
-            <div class="col-lg-6 col-sm-6 no-padding-right" data-ng-class="{'has-error': errors.aneis[currentAnelIndex].longitudeOk}">
-              <div class="form-group">
-                <label class="col-sm-12 no-padding control-label">{{ 'controladores.longitude' | translate }}:</label>
-                <input type="number" placeholder="" name="longitude" class="form-control"
-                  data-ng-model="currentAnel.longitude">
-                <p class="help-block error-msg" data-ng-repeat="error in errors.aneis[currentAnelIndex].longitudeOk">{{ error }}</p>
-              </div>
-            </div>
           </div>
         </div>
-      </div>
 
       <div class="col-lg-3 col-sm-3 movements">
         <hgroup>
-          <label for=""><p>{{ 'controladores.estagios' | translate }}</p></label>
+          <label for=""><h3>{{ 'controladores.estagios' | translate }}</h3></label>
         </hgroup>
 
         <form class="dropzone" id="my-awesome-dropzone" imagens-url="dados.imagensUrl" enctype="multipart/form-data" influunt-dropzone anel="currentAnel" on-success="associaImagemAoEstagio(upload, imagem)">
@@ -165,10 +150,13 @@
           </div>
         </form>
       </div>
-      <div class="col-sm-12 col-lg-12 no-pading bg-border pg-bt">
-        <a data-ng-click="submitForm({$valid: true}, 'aneis', 'app.wizard_controladores.dados_basicos')" class="btn btn-default left m-r-sm">{{ 'plugins.steps.labels.previous' | translate }}</a>
-        <a data-ng-click="submitForm({$valid: true}, 'aneis', 'app.wizard_controladores.associacao')" class="btn btn-primary left">{{ 'plugins.steps.labels.next' | translate }}</a>
-      </div>
     </div>
+
+		<div class="row">
+	    <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix">
+        <a data-ng-click="submitForm({$valid: true}, 'aneis', 'app.wizard_controladores.associacao')" class="btn btn-primary btn-footer right">{{ 'plugins.steps.labels.next' | translate }}</a>
+        <a data-ng-click="submitForm({$valid: true}, 'aneis', 'app.wizard_controladores.dados_basicos')" class="btn btn-inverse btn-footer right m-r-sm right">{{ 'plugins.steps.labels.previous' | translate }}</a>
+	    </div>
+	  </div>
   </div>
 </fieldset>

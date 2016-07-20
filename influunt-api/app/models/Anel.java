@@ -31,10 +31,10 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "aneis")
-@AoMenosUmGrupoSemaforico
-@ConformidadeNumeroEstagios
-@ConformidadeNumeroDetectores
-@ConformidadeNumeroDetectoresEstagios
+@AoMenosUmGrupoSemaforico(groups = ControladorAneisCheck.class)
+@ConformidadeNumeroEstagios(groups = ControladorAneisCheck.class)
+@ConformidadeNumeroDetectores(groups = ControladorAneisCheck.class)
+@ConformidadeNumeroDetectoresEstagios(groups = ControladorAneisCheck.class)
 @JsonSerialize(using = AnelSerializer.class)
 @JsonDeserialize(using = AnelDeserializer.class)
 public class Anel extends Model implements Cloneable {
@@ -414,6 +414,10 @@ public class Anel extends Model implements Cloneable {
             return getDetectores().stream().filter(detector -> descricao.equals(detector.getDescricao())).findFirst().orElse(null);
         }
         return null;
+    }
+
+    public boolean temDetectorVeicular() {
+        return getDetectores().stream().filter(detector -> detector.isVeicular()).count() > 0;
     }
 
     @Override

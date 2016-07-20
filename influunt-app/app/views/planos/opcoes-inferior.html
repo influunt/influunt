@@ -1,27 +1,27 @@
 <div class="text-center" data-ng-if="currentPlano.modoOperacao === 'ATUADO'">
   <div class="knob-item col-lg-2 col-sm-2">
-    <influunt-knob ng-model="currentPlano.estagios[currentEstagioIndex].tempoVerdeMinimo"
+    <influunt-knob ng-model="currentPlano.sequenciaEstagios[currentEstagioIndex].tempoVerdeMinimo"
       min="min" max="max"
       title="TEMPO DE VERDE MIN." label="SEG">
     </influunt-knob>
   </div>
 
   <div class="knob-item col-lg-2 col-sm-2">
-    <influunt-knob ng-model="currentPlano.estagios[currentEstagioIndex].tempoVerdeMaximo"
+    <influunt-knob ng-model="currentPlano.sequenciaEstagios[currentEstagioIndex].tempoVerdeMaximo"
       min="min" max="max"
       title="TEMPO DE VERDE MAX." label="SEG">
     </influunt-knob>
   </div>
 
   <div class="knob-item col-lg-2 col-sm-2">
-    <influunt-knob ng-model="currentPlano.estagios[currentEstagioIndex].tempoVerdeIntermediario"
+    <influunt-knob ng-model="currentPlano.sequenciaEstagios[currentEstagioIndex].tempoVerdeIntermediario"
       min="min" max="max"
       title="TEMPO DE VERDE INTERMEDIÁRIO" label="SEG">
     </influunt-knob>
   </div>
 
   <div class="knob-item col-lg-2 col-sm-2">
-    <influunt-knob ng-model="currentPlano.estagios[currentEstagioIndex].tempoExtensaoVerde"
+    <influunt-knob ng-model="currentPlano.sequenciaEstagios[currentEstagioIndex].tempoExtensaoVerde"
       min="min" max="max"
       title="TEMPO DE EXT. DE VERDE" label="SEG">
     </influunt-knob>
@@ -32,21 +32,15 @@
       <label>ESTÁGIO DISPENSÁVEL</label>
       <p>
         <input type="checkbox" name="dispensavel"
-            data-ng-model="currentPlano.estagios[currentEstagioIndex].dispensavel" ichecks>
+            data-ng-model="currentPlano.sequenciaEstagios[currentEstagioIndex].dispensavel" ichecks>
       </p>
-      <!-- <select class="form-control" name="tipoEstagio"
-          data-ng-model="currentPlano.estagios[currentEstagioIndex].dispensavel"
-          data-ng-init="currentPlano.estagios[currentEstagioIndex].tipoEstagio = 'INDISPENSÁVEL'">
-        <option value="true">Dispensável</option>
-        <option value="false">Indispensável</option>
-      </select> -->
     </div>
   </div>
 </div>
 
 <div class="text-center" data-ng-if="currentPlano.modoOperacao === 'COORDENADO'">
   <div class="knob-item col-lg-2 col-sm-2">
-    <influunt-knob ng-model="currentPlano.estagios[currentEstagioIndex].tempoVerde"
+    <influunt-knob ng-model="currentPlano.sequenciaEstagios[currentEstagioIndex].tempoVerde"
       min="min" max="max"
       title="TEMPO DE VERDE" label="SEG">
     </influunt-knob>
@@ -57,37 +51,41 @@
       <label>ESTÁGIO DISPENSÁVEL</label>
       <p>
         <input type="checkbox" name="dispensavel"
-            data-ng-model="currentPlano.estagios[currentEstagioIndex].dispensavel" ichecks>
+            data-ng-model="currentPlano.sequenciaEstagios[currentEstagioIndex].dispensavel" ichecks>
       </p>
-      <!-- <label>TIPO DE ESTÁGIO</label>
-      <select class="form-control" name="tipoEstagio"
-          data-ng-model="currentPlano.estagios[currentEstagioIndex].tipoEstagio"
-          data-ng-init="currentPlano.estagios[currentEstagioIndex].tipoEstagio = 'INDISPENSAVEL'">
-        <option value="DISPENSAVEL">Dispensável</option>
-        <option value="INDISPENSAVEL">Indispensável</option>
-      </select> -->
     </div>
-    <div class="form-group" data-ng-if="currentPlano.estagios[currentEstagioIndex].dispensavel">
+    <div class="form-group" data-ng-if="currentPlano.sequenciaEstagios[currentEstagioIndex].dispensavel">
       <label>TIPO DE ESTÁGIO DISPENSÁVEL</label>
       <select data-ng-options="estagio as 'E' + estagio.posicao for estagio in opcoesEstagiosDisponiveis"
-        data-ng-model="currentPlano.estagios[currentEstagioIndex].tipoEstagioDispensavel"
+        data-ng-model="currentPlano.sequenciaEstagios[currentEstagioIndex].tipoEstagioDispensavel"
         name="tipoEstagio" class="form-control">
       </select>
     </div>
   </div>
 </div>
 
-<div class="text-center" data-ng-if="currentPlano.modoOperacao === 'ISOLADO'">
+<div class="text-center" data-ng-if="currentPlano.modoOperacao === 'TEMPO_FIXO_ISOLADO'">
   <div class="knob-item col-lg-2 col-sm-2">
-    <influunt-knob ng-model="currentPlano.estagios[currentEstagioIndex].tempoCiclo"
-      min="min" max="max"
-      title="TEMPO DE ESTÁGIO" label="SEG">
-    </influunt-knob>
-  </div>
-  <div class="knob-item col-lg-2 col-sm-2">
-    <influunt-knob ng-model="currentPlano.estagios[currentEstagioIndex].tempoVerde"
+    <influunt-knob ng-model="currentPlano.sequenciaEstagios[currentEstagioIndex].tempoVerde"
       min="min" max="max"
       title="TEMPO DE VERDE" label="SEG">
     </influunt-knob>
+  </div>
+
+  <div class="col-lg-3 col-sm-3">
+    <div class="form-group">
+      <label>ESTÁGIO DISPENSÁVEL</label>
+      <p>
+        <input type="checkbox" name="dispensavel"
+            data-ng-model="currentPlano.sequenciaEstagios[currentEstagioIndex].dispensavel" ichecks>
+      </p>
+    </div>
+    <div class="form-group" data-ng-if="currentPlano.sequenciaEstagios[currentEstagioIndex].dispensavel">
+      <label>TIPO DE ESTÁGIO DISPENSÁVEL</label>
+      <select data-ng-options="estagio as 'E' + estagio.posicao for estagio in opcoesEstagiosDisponiveis"
+        data-ng-model="currentPlano.sequenciaEstagios[currentEstagioIndex].tipoEstagioDispensavel"
+        name="tipoEstagio" class="form-control">
+      </select>
+    </div>
   </div>
 </div>

@@ -2,7 +2,6 @@
   <section role="complementary" class="basic-wizard">
     <div class="content clearfix wizard-body">
       <div class="step-content body">
-
         <fieldset>
           <div class="row">
             <uib-alert type="danger" close="closeAlertAnel(currentAnelIndex, 'all')" data-ng-if="errors.general || errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosDePedestre || errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosVeiculares">
@@ -13,24 +12,12 @@
               </div>
             </uib-alert>
             <div class="text-center m-t-md pd-lf-rt">
-
-              <!--
-              <div class="col-lg-12 col-md-12 col-sm-12">
-                <div class="pull-right actions" style="padding-bottom: 10px;">
-                  <a class="btn btn-small btn-primary btn-rounded" data-ng-click="adicionaPlano()">
-                    <i class="fa fa-plus"></i>
-                    Plano
-                  </a>
-                </div>
-              </div> -->
-
               <div class="col-lg-2 col-sm-2 no-padding">
                 <div class="col-lg-12 col-sm-12 association min-green plans side-menu">
-                  <!--
                   <nav>
-                    <ul class="" id="side-menu" style="padding-left: 0px;" influunt-metis>
-                      <li data-ng-repeat="anel in objeto.aneis"
-                        data-ng-class="{active: $index === currentAnelIndex}">
+                    <ul class="" id="side-menu" influunt-metis>
+                      <li data-ng-repeat="anel in aneis"
+                          data-ng-class="{active: $index === currentAnelIndex}">
                         <a data-ng-click="selecionaAnel($index)">
                           <span class="nav-label">ANEL {{ anel.posicao }}</span>
                           <span class="fa arrow"></span>
@@ -41,32 +28,9 @@
                             data-ng-class="{active: $index === currentPlanoIndex}">
                             <a href="">
                               PLANO {{ plano.posicao }}
+                              <i class="fa fa-files-o" aria-hidden="true"></i>
                             </a>
                           </li>
-                        </ul>
-                      </li>
-                    </ul>
-                  </nav> -->
-                  <nav>
-                    <ul class="" id="side-menu">
-                      <li class="active">
-                        <a href="#"><span class="nav-label">ANEL 1</span><span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level collapse">
-                          <li><a href="#">PLANO 1 <i class="fa fa-files-o" aria-hidden="true"></i></a></li>
-                          <li><a href="#">PLANO 2 <i class="fa fa-files-o" aria-hidden="true"></i></a></li>
-                          <li><a href="#">PLANO 3 <i class="fa fa-files-o" aria-hidden="true"></i></a></li>
-                          <li><a href="#">PLANO 4 <i class="fa fa-files-o" aria-hidden="true"></i></a></li>
-                          <!-- <li><a href="#"><i class="fa fa-plus-circle" aria-hidden="true"></i>NOVO PLANO</a></li> -->
-                        </ul>
-                      </li>
-                      <li>
-                        <a href="#"><span class="nav-label">ANEL 2</span><span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level collapse">
-                          <li><a href="#">PLANO 1 <i class="fa fa-files-o" aria-hidden="true"></i></a></li>
-                          <li><a href="#">PLANO 2 <i class="fa fa-files-o" aria-hidden="true"></i></a></li>
-                          <li><a href="#">PLANO 3 <i class="fa fa-files-o" aria-hidden="true"></i></a></li>
-                          <li><a href="#">PLANO 4 <i class="fa fa-files-o" aria-hidden="true"></i></a></li>
-                          <!-- <li><a href="#"><i class="fa fa-plus-circle" aria-hidden="true"></i>NOVO PLANO</a></li> -->
                         </ul>
                       </li>
                     </ul>
@@ -77,89 +41,11 @@
                 <div class="col-lg-12 col-sm-12 association plans m-b-md">
                   <header class="developing-plans">
                     <span>Criação de planos</span>
-                    <h1>Anel 1 - Plano 2</h1>
+                    <h1>ANEL {{ currentAnel.posicao }} - PLANO {{ currentPlano.posicao }}</h1>
                   </header>
-                  <nav class="plans">
-                    <ul>
-                      <li>
-                        <a href="/" title="Legenda">Legenda <i class="fa fa-caret-up" aria-hidden="true"></i></a>
-                        <ul class="subnav">
-                          <li>
-                            <p>VERDE</p>
-                            <span class="green"></span>
-                          </li>
-                          <li>
-                            <p>AMARELO</p>
-                            <span class="yellow"></span>
-                          </li>
-                          <li>
-                            <p>VERMELHO DE LIMPEZA</p>
-                            <span class="red-cleaning"></span>
-                          </li>
-                          <li>
-                            <p>VERMELHO INTERMITENTE</p>
-                            <span class="red-flashing"></span>
-                          </li>
-                          <li>
-                            <p>VERMELHO</p>
-                            <span class="red"></span>
-                          </li>
-                          <li>
-                            <p>AMARELO INTERMITENTE</p>
-                            <span class="yellow-flashing"></span>
-                          </li>
-                          <li>
-                            <p>APAGADO</p>
-                            <span class="wiped"></span>
-                          </li>
-                        </ul>
-                      </li>
-                      <a class="btn btn-small btn-primary m-l" data-ng-click="adicionaPlano()">
-                        <i class="fa fa-plus"></i>
-                        Plano
-                      </a>
-                    </ul>
-                  </nav>
+                  <ng-include src="'views/planos/header-buttons.html'"></ng-include>
                 </div>
               <div class="col-lg-2 col-sm-2 association table-creation-plans min-green">
-              <!--
-                <header>
-                  <div class="col-lg-12 col-sm-12 no-padding">
-                    <h1>PLANO {{ currentPlano.posicao }}</h1>
-                    <nav>
-                      <ul>
-                        <li>
-                          <p>VERDE</p>
-                          <span class="green"></span>
-                        </li>
-                        <li>
-                          <p>AMARELO</p>
-                          <span class="yellow"></span>
-                        </li>
-                        <li>
-                          <p>VERMELHO DE LIMPEZA</p>
-                          <span class="red-cleaning"></span>
-                        </li>
-                        <li>
-                          <p>VERMELHO INTERMITENTE</p>
-                          <span class="red-flashing"></span>
-                        </li>
-                        <li>
-                          <p>VERMELHO</p>
-                          <span class="red"></span>
-                        </li>
-                        <li>
-                          <p>AMARELO INTERMITENTE</p>
-                          <span class="yellow-flashing"></span>
-                        </li>
-                        <li>
-                          <p>APAGADO</p>
-                          <span class="wiped"></span>
-                        </li>
-                      </ul>
-                    </nav>
-                  </div>
-                </header> -->
                 <article>
                   <div class="col-lg-12 col-sm-12 no-padding">
                     <aside>
@@ -177,9 +63,8 @@
                       <div class="form-group" data-ng-if="currentPlano.modoOperacao !== 'INTERMITENTE' && currentPlano.modoOperacao !== 'APAGADO'">
                         <label>TABELA DE ENTRE-VERDES</label>
                         <select class="form-control" name="tabelaEntreverdes"
-                            data-ng-model="tev"
-                            data-ng-if="tev = tabelaEntreVerdes[0]"
-                            data-ng-options="tabela as tabela.descricao for tabela in tabelaEntreVerdes">
+                            data-ng-model="currentTabelaEntreVerdes"
+                            data-ng-options="tabela as tabela.descricao for tabela in tabelasEntreVerdes">
                         </select>
                       </div>
 
@@ -214,57 +99,13 @@
           </div>
         </div>
         </fieldset>
-        <!-- {{ objeto }} -->
-
         <script>
           $(document).ready(function(){
-
             $( "nav.plans li a" ).click(function() {
               event.preventDefault();
               $( this ).find('i').toggleClass( "fa-caret-down" );
               $( this ).find('i').toggleClass( "fa-caret-up" );
               $( "nav.plans li .subnav" ).toggle();
-            });
-
-            // MetsiMenu
-            $('#side-menu').metisMenu();
-
-            WinMove();
-
-            function WinMove() {
-              var element = ".handle";
-              var handle = ".title-stages";
-              var connect = ".handle";
-              $(element).sortable(
-              {
-                handle: handle,
-                connectWith: connect,
-                tolerance: 'pointer',
-                forcePlaceholderSize: true,
-                opacity: 0.8
-              })
-              .disableSelection();
-            };
-
-            function readURL() {
-              var $input = $(this);
-              if (this.files && this.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                  $input.next('.attrImg').attr('src', e.target.result).show();
-                }
-                reader.readAsDataURL(this.files[0]);
-              }
-            }
-
-            $(".imgInp").change(readURL);
-            $(".imgInp").change(function(){
-              $(this).parents().eq(3).addClass('change');
-            });
-
-            $('.i-checks').iCheck({
-                checkboxClass: 'icheckbox_square-green',
-                radioClass: 'iradio_square-green',
             });
           });
         </script>

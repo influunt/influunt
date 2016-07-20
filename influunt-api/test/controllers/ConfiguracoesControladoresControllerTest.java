@@ -22,6 +22,7 @@ import java.util.UUID;
 
 import static org.junit.Assert.*;
 import static play.inject.Bindings.bind;
+import static play.mvc.Http.Status.UNPROCESSABLE_ENTITY;
 import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.route;
 
@@ -65,9 +66,35 @@ public class ConfiguracoesControladoresControllerTest extends WithApplication {
     }
 
     @Test
+    public void testCriarConfiguracaoInvalida() {
+        ConfiguracaoControlador configuracaoControlador = new ConfiguracaoControlador();
+        configuracaoControlador.setDescricao(DESCRICAO);
+        configuracaoControlador.setLimiteTabelasEntreVerdes(0);
+        configuracaoControlador.setLimiteAnel(0);
+        configuracaoControlador.setLimiteGrupoSemaforico(0);
+        configuracaoControlador.setLimiteDetectorPedestre(0);
+        configuracaoControlador.setLimiteDetectorVeicular(0);
+        configuracaoControlador.setLimiteEstagio(0);
+
+        int totalConfiguracoes = ConfiguracaoControlador.find.findRowCount();
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
+                .uri(routes.ConfiguracoesControladoresController.create().url()).bodyJson(Json.toJson(configuracaoControlador));
+        Result result = route(request);
+        JsonNode json = Json.parse(Helpers.contentAsString(result));
+        List<Map<String, String>> erros = Json.fromJson(json, List.class);
+
+        assertEquals(UNPROCESSABLE_ENTITY, result.status());
+        assertEquals(6, erros.size());
+        assertEquals(totalConfiguracoes, ConfiguracaoControlador.find.findRowCount());
+    }
+
+    @Test
     public void testCriarNovaConfiguracaoControlador() {
         ConfiguracaoControlador configuracaoControlador = new ConfiguracaoControlador();
         configuracaoControlador.setDescricao(DESCRICAO);
+
+        int totalConfiguracoes = ConfiguracaoControlador.find.findRowCount();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
                 .uri(routes.ConfiguracoesControladoresController.create().url()).bodyJson(Json.toJson(configuracaoControlador));
@@ -78,6 +105,7 @@ public class ConfiguracoesControladoresControllerTest extends WithApplication {
         assertEquals(200, result.status());
         assertEquals(DESCRICAO, configuracaoControlador.getDescricao());
         assertNotNull(configuracaoControladorRetornada.getId());
+        assertEquals(totalConfiguracoes+1, ConfiguracaoControlador.find.findRowCount());
     }
 
     @Test

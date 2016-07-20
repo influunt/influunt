@@ -23,14 +23,13 @@
     right: 0;
     top: 0;
 }
-.wrapper-content .basic-wizard .steps ul li.disabled a:after {
-    background: url("../images/wizard-steps-after-ds.png") no-repeat;
-}
+
 .wrapper-content .basic-wizard .steps ul li.current a:after {
     background: url("../images/wizard-steps-after-cr.png") no-repeat;
 }
-.wrapper-content .basic-wizard .steps ul li a:before,
-.wrapper-content .basic-wizard .steps ul li.current a:before,
+
+.wrapper-content .basic-wizard .steps ul li:not(:nth-child(1)) a:before,
+.wrapper-content .basic-wizard .steps ul li.current:not(:nth-child(1)) a:before,
 .wrapper-content .basic-wizard .steps ul li.disabled a:before {
     background: url("../images/wizard-steps-before.png") no-repeat;
     transition: all 0.5s ease;
@@ -42,11 +41,9 @@
     left: 0;
     top: 0;
 }
-.wrapper-content .basic-wizard .steps ul li.disabled a:before {
-    background: url("../images/wizard-steps-before-ds.png") no-repeat;
-}
+
 .wrapper-content .basic-wizard .steps ul li.current a:before {
-    background: url("../images/wizard-steps-before-cr.png") no-repeat;
+    background: url("../images/wizard-steps-before-cr.png") no-repeat !important;
 }
 .wrapper-content .basic-wizard .content .body .tableless.association-detectors {
     margin: 0;
@@ -197,6 +194,16 @@
     background: #fff;
     padding-top: 30px;
 }
+
+.bg-border-footer {
+    padding-top: 25px;
+}
+
+.pg-bt {
+    padding-bottom: 20px;
+}
+
+
 .pg-bt {
     padding-bottom: 25px;
 }
@@ -331,6 +338,8 @@ header .nav-secon li a {
     font-weight: 700;
     font-size: 19px;
     color: #fff;
+		min-width: 112px !important;
+		max-width: 112px !important;
 }
 .wrapper-content .basic-wizard .content .body .tableless table .disabled {
     background: #a6a6a6;
@@ -350,7 +359,9 @@ header .nav-secon li a {
 }
 .wrapper-content .basic-wizard .content .body .tableless table tbody tr td {
     height: 60px;
-    width: 5%;
+/*    width: 5%;*/
+		min-width: 70px;
+		max-width: 70px;
     transition: all .5s ease;
     cursor: pointer;
 }
@@ -360,11 +371,13 @@ header .nav-secon li a {
     font-size: 15px;
     color: #676a6c;
     border: 1px solid #cacaca;
-    width: 5%;
+/*    width: 5%;*/
+		min-width: 70px;
+		max-width: 70px;
     background: #e5e5e5;
 }
 .wrapper-content .basic-wizard .content .body .tableless {
-    margin: 50px 0 0;
+    margin: 30px 0 0;
 }
 .wrapper-content .basic-wizard .content .body .figures div.bxslider {
     overflow: scroll;
@@ -498,8 +511,8 @@ header .nav-secon li a {
     padding-left: 10px;
 }
 .wrapper-content .basic-wizard .content .body .association.plans nav.plans li a {
-    height: 34px;    
-    float: right;    
+    height: 34px;
+    float: right;
     color: white;
     display: block;
     font-size: 14px;
@@ -512,7 +525,7 @@ header .nav-secon li a {
 }
 .wrapper-content .basic-wizard .content .body .association .developing-plans {
     padding: 0;
-    float: left;       
+    float: left;
     text-align: left;
     min-height: 78px;
     padding-left: 20px;
@@ -526,7 +539,7 @@ header .nav-secon li a {
 }
 .wrapper-content .basic-wizard .content .body .association .developing-plans h1 {
     font-weight: lighter;
-    font-size: 24px;   
+    font-size: 24px;
     color:#999;
      margin: 0;
 }
@@ -1160,7 +1173,7 @@ header .nav-secon li a {
 }
 .wrapper-content .basic-wizard .content .body .rings .rings-status {
     margin-right: 1.2%;
-    min-height: 800px;
+    min-height: 884px;
     width: 23.8%;
 }
 .wrapper-content .basic-wizard .content .body .rings .groups {
@@ -1253,10 +1266,20 @@ header .nav-secon li a {
     margin: 0 20px 0 25px;
     height: 48px;
     line-height: 48px;
-    font-size: 18px;
-    padding: 0;
-    text-indent: 20px;
+    font-size: 13px;
+    padding: 0px 9px;
+    text-indent: inherit;
 }
+.wrapper-content .basic-wizard .steps ul li:nth-child(1) a {
+    transition: all 0.5s ease;
+    margin: 0 20px 0 0px;
+    height: 48px;
+    line-height: 48px;
+    font-size: 13px;
+    padding: 0px 9px;
+    text-indent: inherit;
+}
+
 /* current */
 
 .wrapper-content .basic-wizard .steps ul li.current a:hover:before {
@@ -1478,6 +1501,22 @@ header .nav-secon li a {
     cursor: pointer;
 }
 
+.btn-inverse {
+	background-color: #c2c2c2;
+	color: #fff;
+}
+
+.btn-footer {
+	width: 10%;
+}
+
+.padding-top-30 {
+	padding: 30px 0
+}
+
+.margin-top-25 {
+	margin: 25px 0
+}
 td.estagio-ativo {
   border-top: 2px solid black;
   border-left: 2px solid black;

@@ -21,13 +21,9 @@ angular.module('influuntApp')
 
           var bindCheckboxEvents = function() {
             $('.group-checkbox').on('change', function() {
-              console.log(scope.grupos);
-              console.log(scope.estagios);
-
               var checkbox = $(this);
               var grupo = _.find(scope.grupos, {posicao: checkbox.data('posicao')});
               grupo.ativo = checkbox.is(':checked');
-              console.log(grupo);
             });
           };
 

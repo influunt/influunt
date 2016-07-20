@@ -67,3 +67,26 @@ i.sinal-verde-conflitante, i.transicao-proibida {
     }
   }
 }
+
+.botton-title {
+  margin-bottom: 20px;
+}
+
+.ibox-title {
+  text-align: left;
+}
+
+.movements h3 {
+  text-transform: uppercase;
+}
+
+.dropzone {
+    position: relative;
+    border: 0;
+    background: transparent;
+  }
+  
+.dropzone.dz-clickable {
+  max-height: 600px;
+  overflow: overlay;
+}

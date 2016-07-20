@@ -6,6 +6,7 @@
 create table agrupamentos (
   id                            varchar(40) not null,
   nome                          varchar(255),
+  numero                        varchar(255),
   tipo                          varchar(8),
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
@@ -62,6 +63,7 @@ create table configuracao_controladores (
   limite_anel                   integer not null,
   limite_detector_pedestre      integer not null,
   limite_detector_veicular      integer not null,
+  limite_tabelas_entre_verdes   integer not null,
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
   constraint pk_configuracao_controladores primary key (id)
@@ -163,6 +165,7 @@ create table grupos_semaforicos (
   anel_id                       varchar(40),
   controlador_id                varchar(40),
   posicao                       integer,
+  fase_vermelha_apagada_amarelo_intermitente tinyint(1) default 0,
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
   constraint ck_grupos_semaforicos_tipo check (tipo in ('PEDESTRE','VEICULAR')),
