@@ -1573,6 +1573,27 @@ table.table-diagonal:nth-of-type(1) th.diagonal {
 
 }
 
+.alert {
+  width: 99%;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+.alert-danger {
+  color: #fff;
+  background-color: #a94442;
+  border-color: #bc6d6b;
+  font-weight: 700;
+  font-stretch: condensed;
+  font-size: 14px;
+  box-shadow: 0px 0px 15px #a94442;
+}
+
+.alert-danger button.close {
+    padding: 0 20px;
+}
+
+
 .botton-title {
   margin-bottom: 20px;
 }
