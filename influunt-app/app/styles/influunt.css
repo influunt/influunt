@@ -49,6 +49,10 @@
   width: 82%;
   float: right;
 }
+.wrapper-content .basic-wizard .content .body .association-detectors-body .estagio-detalhe {
+  border-right: 1px solid #e7eaec;
+  height: 120px;
+}
 .wrapper-content .basic-wizard .content .body .tableless.association-detectors {
     margin: 0;
     padding: 0;
