@@ -22,19 +22,23 @@ angular.module('influuntApp')
 
               $timeout(function() {
                 $form.children('.dz-preview').detach();
-                scope.aneis && scope.aneis.forEach(function(anel) {
-                  return anel.estagios && anel.estagios.forEach(function(estagio) {
-                    scope.data = {};
+                if (scope.aneis) {
+                  scope.aneis.forEach(function(anel) {
+                    return anel.estagios && anel.estagios.forEach(function(estagio) {
+                      scope.data = {};
 
-                    scope.data.idAnel = anel.idAnel;
-                    scope.data.nome = estagio.imagem.filename;
-                    scope.data.source = estagio.imagem.id;
+                      scope.data.idAnel = anel.idAnel;
+                      scope.data.nome = estagio.imagem.filename;
+                      scope.data.source = estagio.imagem.id;
 
-                    var preview = $interpolate(template)(scope);
-                    $form.append(preview);
+                      var preview = $interpolate(template)(scope);
+                      $form.append(preview);
+                    });
                   });
-                });
-								var hasItems = $('.dz-preview').length > 0;
+                }
+
+
+                var hasItems = $('.dz-preview').length > 0;
                 if (hasItems) {
                   $('.dz-default.dz-message').hide();
                 }

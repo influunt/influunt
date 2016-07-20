@@ -5,17 +5,18 @@
         <ul class="bxslider">
           <div data-ng-repeat="anel in objeto.aneis">
             <li data-ng-repeat="estagio in anel.estagios">
+							<h3 class="text-left no-padding">&nbsp;
+								<span ng-if="$first">ANEL {{anel.posicao}}</span></h3>
               <figure class="rings-{{ anel.posicao }}">
-                <img ng-src="{{ estagio.imagem.id | imageSource }}" style="width: 200px;">
-                <p>{{ estagio.imagem.descricao }}</p>
+                <img ng-src="{{ estagio.imagem.id | imageSource }}" style="width: 200px; height: 150px;">
               </figure>
+							<p class="text-left"><small>E{{estagio.posicao}}</small></p>
             </li>
           </div>
         </ul>
       </div>
     </div>
-     <div class="col-lg-12 col-sm-12 tableless no-padding">
-
+    <div class="col-lg-12 col-sm-12 tableless no-padding">
       <uib-alert type="danger" close="closeMensagensVerdes()" data-ng-if="messages.length > 0">
         <div style="padding-left: 12px;">
           <ul>
@@ -23,14 +24,13 @@
           </ul>
         </div>
       </uib-alert>
-
       <ng-include src="'views/controladores/wizard/tabela-verdes-conflitantes.html'"></ng-include>
      </div>
   </div>
+	<div class="row">
+    <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix">
+		  <a data-ng-click="submitForm({$valid: true}, 'verdes_conflitantes', 'app.wizard_controladores.transicoes_proibidas')" class="btn btn-primary btn-footer right">{{ 'plugins.steps.labels.next' | translate }}</a>
+			<a data-ng-click="submitForm({$valid: true}, 'verdes_conflitantes', 'app.wizard_controladores.associacao')" class="btn btn-inverse btn-footer right m-r-sm">{{ 'plugins.steps.labels.previous' | translate }}</a>
+    </div>
+  </div>
 </fieldset>
-<div class="col-sm-12 col-lg-12 no-pading bg-border pg-bt m-t-lg">
-<fieldset class="m-t-md">
-  <a data-ng-click="submitForm({$valid: true}, 'verdes_conflitantes', 'app.wizard_controladores.associacao')" class="btn btn-default left m-r-sm">{{ 'plugins.steps.labels.previous' | translate }}</a>
-  <a data-ng-click="submitForm({$valid: true}, 'verdes_conflitantes', 'app.wizard_controladores.transicoes_proibidas')" class="btn btn-primary left">{{ 'plugins.steps.labels.next' | translate }}</a>
-</fieldset>
-</div>

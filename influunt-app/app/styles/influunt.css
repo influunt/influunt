@@ -45,11 +45,17 @@
 .wrapper-content .basic-wizard .steps ul li.current a:before {
     background: url("../images/wizard-steps-before-cr.png") no-repeat !important;
 }
+.wrapper-content .basic-wizard .content .body .association-detectors-body {
+  width: 82%;
+  float: right;
+}
+.wrapper-content .basic-wizard .content .body .association-detectors-body .estagio-detalhe {
+  border-right: 1px solid #e7eaec;
+  height: 120px;
+}
 .wrapper-content .basic-wizard .content .body .tableless.association-detectors {
     margin: 0;
     padding: 0;
-    width: 82%;
-    float: right;
     background: #fff;
 }
 .wrapper-content .basic-wizard .content .body .tableless.association-detectors table tbody tr td figure img {
@@ -92,8 +98,8 @@
     margin: 20px 0 0;
 }
 .wrapper-content .basic-wizard .content .body .early-stage .early-area {
-    min-height: 300px;
-    max-height: 300px;
+    min-height: 250px;
+    max-height: 250px;
     background: #fff;
     overflow: hidden;
     width: 100%;
@@ -310,6 +316,12 @@ header .nav-secon li a {
     list-style: none;
     padding-right: 1%;
 }
+.wrapper-content .basic-wizard .content .body .buttons-wizard a {
+    width: 122px;
+}
+.wrapper-content .basic-wizard .content .body .buttons-wizard {
+    min-height: 60px;
+}
 .wrapper-content .basic-wizard .content .body .tableless table {
     border: 1px solid #e1e1e1;
     transition: all .5s ease;
@@ -332,6 +344,8 @@ header .nav-secon li a {
     font-weight: 700;
     font-size: 19px;
     color: #fff;
+		min-width: 112px !important;
+		max-width: 112px !important;
 }
 .wrapper-content .basic-wizard .content .body .tableless table .disabled {
     background: #a6a6a6;
@@ -350,22 +364,26 @@ header .nav-secon li a {
     text-decoration: inherit;
 }
 .wrapper-content .basic-wizard .content .body .tableless table tbody tr td {
-    height: 60px;
-    width: 5%;
+    height: 74px;
+/*    width: 5%;*/
+		min-width: 74px;
+		max-width: 74px;
     transition: all .5s ease;
     cursor: pointer;
 }
 .wrapper-content .basic-wizard .content .body .tableless table thead tr th {
-    height: 60px;
+    height: 74px;
     text-align: center;
     font-size: 15px;
     color: #676a6c;
     border: 1px solid #cacaca;
-    width: 5%;
+/*    width: 5%;*/
+		min-width: 74px;
+		max-width: 74px;
     background: #e5e5e5;
 }
 .wrapper-content .basic-wizard .content .body .tableless {
-    margin: 50px 0 0;
+    margin: 30px 0 0;
 }
 .wrapper-content .basic-wizard .content .body .figures div.bxslider {
     overflow: scroll;
@@ -433,10 +451,103 @@ header .nav-secon li a {
     margin: 0;
 }
 .wrapper-content .basic-wizard .content .body .min-green.plans {
-    min-height: 867px;
+    min-height: 830px;
 }
 .wrapper-content .basic-wizard .content .body .min-green {
-    min-height: 720px;
+    min-height: 730px;
+}
+.wrapper-content .basic-wizard .content .body .association.plans {
+    padding: 0;
+}
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans {
+    float: right;
+    margin: 22px 20px 0;
+}
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans ul {
+    padding: 0;
+    margin: 0;
+}
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans li span {
+    display: block;
+    width: 100%;
+    height: 16px;
+    margin-bottom: 10px;
+}
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans li p {
+    margin:0;
+    padding:0;
+    color:#676a6c;
+    font-size: 12px;
+    line-height: 15px;
+    margin-bottom: 2px;
+    min-height: 30px;
+    display: flex;
+    justify-content:center;
+    align-content:center;
+    flex-direction:column; /* column | row */
+}
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans li {
+    position: relative;
+    float: left;
+    line-height: inherit;
+    height: inherit;
+}
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans li:hover {
+    background: inherit;
+}
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .subnav li {
+    width: 50%;
+    padding: 0 10px;
+}
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .subnav {
+    -webkit-border-radius: 4px;
+    border: 1px solid #e7eaec;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    position: absolute;
+    background: white;
+    min-width: 270px;
+    display: none;
+    z-index: 99;
+    top: 40px;
+    right: 0;
+    padding: 20px 10px;
+}
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans li a i {
+    padding-left: 10px;
+}
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans li a {
+    height: 34px;
+    float: right;
+    color: white;
+    display: block;
+    font-size: 14px;
+    line-height: 34px;
+    background: #cdcdcd;
+    padding: 0 25px 0 30px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+.wrapper-content .basic-wizard .content .body .association .developing-plans {
+    padding: 0;
+    float: left;
+    text-align: left;
+    min-height: 78px;
+    padding-left: 20px;
+}
+.wrapper-content .basic-wizard .content .body .association .developing-plans span {
+    font-weight: bold;
+    font-size: 13px;
+    color: #999;
+    margin: 15px 0 5px;
+    display: block;
+}
+.wrapper-content .basic-wizard .content .body .association .developing-plans h1 {
+    font-weight: lighter;
+    font-size: 24px;
+    color:#999;
+     margin: 0;
 }
 .wrapper-content .basic-wizard .content .body .association.stage-time .knob {}
 .wrapper-content .basic-wizard .content .body .association.stage-time .knob .knob-item .meters input {
@@ -461,14 +572,28 @@ header .nav-secon li a {
 .wrapper-content .basic-wizard .content .body .association.stage-time {
     min-height: 150px;
 }
+.wrapper-content .basic-wizard .content .body .association.side-menu ul {
+    padding: 0;
+    margin: 0;
+}
+.wrapper-content .basic-wizard .content .body .association.side-menu li .nav-second-level li .fa-files-o {
+    float: right;
+    line-height: 40px;
+}
+.wrapper-content .basic-wizard .content .body .association.side-menu li .nav-second-level li .fa-plus-circle {
+    line-height: 40px;
+}
 .wrapper-content .basic-wizard .content .body .association.side-menu li .nav-second-level li {
     background: #308b83;
+}
+.wrapper-content .basic-wizard .content .body .association.side-menu li .nav-second-level li.active {
+    background: #1caf92;
 }
 .wrapper-content .basic-wizard .content .body .association.side-menu li .nav-second-level li:hover {
     background: #1caf92;
 }
 .wrapper-content .basic-wizard .content .body .association.side-menu li .nav-second-level li a:focus {
-    background: #308b83;
+    background: inherit;
 }
 .wrapper-content .basic-wizard .content .body .association.side-menu li .nav-second-level li a:hover {
     background: #1caf92;
@@ -502,10 +627,6 @@ header .nav-secon li a {
 }
 .wrapper-content .basic-wizard .content .body .association.table-creation-plans {
     padding: 15px 0 0;
-    min-height: 660px;
-}
-.wrapper-content .basic-wizard .content .body .association.table-creation-plans section .table-create-plan {
-    max-height: 554px;
 }
 .wrapper-content .basic-wizard .content .body .association.table-creation-plans section .table-create-plan tr {
     height: 20px;
@@ -623,29 +744,27 @@ header .nav-secon li a {
     width: 100%;
     min-height: 571px;
     padding-bottom: 0;
-    padding: 10px 15px;
-    border-top: 1px solid #e7eaec;
-    border-right: 1px solid #e7eaec;
+    padding: 0px 15px;
 }
-.wrapper-content .basic-wizard .content .body .association.table-creation-plans .green {
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .green {
     background: #00ad4d;
 }
-.wrapper-content .basic-wizard .content .body .association.table-creation-plans .yellow {
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .yellow {
     background: #fffb00;
 }
-.wrapper-content .basic-wizard .content .body .association.table-creation-plans .red-cleaning {
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .red-cleaning {
     background: #a31100;
 }
-.wrapper-content .basic-wizard .content .body .association.table-creation-plans .red-flashing {
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .red-flashing {
     background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAANUlEQVQYV2NkwAM6Ojr+M+KSB0lWVFQwYlUAkwRpxlCALImhAF0SRQE2SbgCXJJgBfgkQQoAFRkeoKyjcMIAAAAASUVORK5CYII=') #ff1b00;
 }
-.wrapper-content .basic-wizard .content .body .association.table-creation-plans .red {
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .red {
     background: #ff1b00;
 }
-.wrapper-content .basic-wizard .content .body .association.table-creation-plans .yellow-flashing {
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .yellow-flashing {
     background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAANUlEQVQYV2NkwAM6Ojr+M+KSB0lWVFQwYlUAkwRpxlCALImhAF0SRQE2SbgCXJJgBfgkQQoAFRkeoKyjcMIAAAAASUVORK5CYII=') #fffb00;
 }
-.wrapper-content .basic-wizard .content .body .association.table-creation-plans .wiped {
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .wiped {
     background:#3d3d3d;
 }
 .wrapper-content .basic-wizard .content .body .association.tables-associated .association-know {
@@ -801,9 +920,9 @@ header .nav-secon li a {
     font-weight: 700;
 }
 .wrapper-content .basic-wizard .content .body .association.stages-page {
-    min-height: 300px;
-    overflow: scroll;
-    max-height: 300px;
+	  overflow: scroll;
+    min-height: 250px;
+    max-height: 250px;
 }
 .wrapper-content .basic-wizard .content .body .association {
     border-top: 4px solid #e7eaec;
@@ -1404,6 +1523,27 @@ header .nav-secon li a {
 .margin-top-25 {
 	margin: 25px 0
 }
-/**
-    END CSS 1273 line
-*/
+td.estagio-ativo {
+  border-top: 2px solid black;
+  border-left: 2px solid black;
+  border-right: 2px solid black;
+}
+
+/* TABELA DIAGONAL  TRANSICOES */
+table.table-diagonal:nth-of-type(1) th.diagonal {
+	background-color: #e5e5e5 !important;
+  background-image: linear-gradient(
+    to top right,
+    transparent 48%,
+    rgb(202, 202, 202),
+    transparent 52%
+  ) !important;
+}
+
+.table-wizard {
+	border: none !important;
+	table-layout: fixed !important;
+	display: block !important;
+	width: 100%;
+
+}

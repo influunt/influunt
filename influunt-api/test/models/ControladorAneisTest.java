@@ -73,9 +73,7 @@ public class ControladorAneisTest extends ControladorTest {
                 new Erro("Controlador", "Longitude deve ser informada", "aneis[0].longitudeOk"),
                 new Erro("Controlador", "Numero total de detectores de pedestre informado individualmente nos aneis excede o limite do controlador", ""),
                 new Erro("Controlador", "Numero total de detectores veiculares informado individualmente nos aneis excede o limite do controlador", "")
-
         ));
-
 
         anel1.setLatitude(1.0);
         anel1.setLongitude(1.0);

@@ -15,6 +15,7 @@
     "angular": false,
     "$": true,
     "_": true,
+    "influunt": true,
 
     // leaflet lib
     "L": true,
@@ -27,7 +28,7 @@
     "inject": true,
     "it": true,
     "spyOn": true,
-
+    "Paho": true,
     // tests helpers
     "WizardControladores": true
   }

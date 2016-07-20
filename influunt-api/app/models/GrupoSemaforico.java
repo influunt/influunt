@@ -1,5 +1,6 @@
 package models;
 
+import checks.ControladorTabelaEntreVerdesCheck;
 import checks.ControladorVerdesConflitantesCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
@@ -18,9 +19,7 @@ import org.joda.time.DateTime;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Entidade que representa o {@link GrupoSemaforico} no sistema
@@ -241,6 +240,24 @@ public class GrupoSemaforico extends Model implements Cloneable {
         } else {
             return true;
         }
+    }
+
+    @JsonIgnore
+    @AssertTrue(groups = ControladorTabelaEntreVerdesCheck.class, message = "Esse grupo semafórico deve ter no máximo o número de tabelas entre-verdes definido na configuração do controlador.")
+    public boolean isNumeroCorretoTabelasEntreVerdes() {
+        if (this.getAnel() != null && this.getAnel().isAtivo()) {
+            Set<Integer> posicoes = new HashSet<>();
+            for (Transicao transicao : this.getTransicoes()) {
+                for (TabelaEntreVerdesTransicao tevTransicao : transicao.getTabelaEntreVerdesTransicoes()) {
+                    posicoes.add(tevTransicao.getTabelaEntreVerdes().getPosicao());
+                }
+            }
+            int totalTabelasEntreVerdes = posicoes.size();
+            @SuppressWarnings("ConstantConditions")
+            int limiteTabelasEntreVerdes = Anel.find.byId(this.getAnel().getId()).getControlador().getModelo().getConfiguracao().getLimiteTabelasEntreVerdes();
+            return totalTabelasEntreVerdes <= limiteTabelasEntreVerdes;
+        }
+        return true;
     }
 
     @JsonIgnore
