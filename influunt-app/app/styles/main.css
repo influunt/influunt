@@ -43,73 +43,16 @@ i.sinal-verde-conflitante.ativo, i.transicao-proibida.ativo {
   background-color: #6fd1bd !important;
 }
 
+.padding-top-20 {
+  padding-top: 20px;
+}
+
+.estagio-selecionado-bg {
+  background-color: #effaf8 !important;
+}
+
 .wizard-steps.disabled a {
   pointer-events: none;
   cursor: default;
   background-color: #e6e6e6;
-}
-
-.botton-title {
-  margin-bottom: 20px;
-}
-
-.ibox-title {
-  text-align: left;
-}
-
-.movements h3 {
-  text-transform: uppercase;
-}
-
-.dropzone {
-  position: relative;
-  border: 0;
-  background: transparent;
-}
-
-.dropzone.dz-clickable {
-  max-height: 730px;
-  overflow: auto;
-  padding: 0px;
-}
-
-.dz-default.dz-message span {
-  border: 1px dashed #898989;
-  margin: 0;
-}
-
-.dropzone .dz-preview, .dropzone-previews .dz-preview {
-  width: 100%;
-  height: 250px;
-  margin: 0px 0px 15px 0px;
-}
-
-.dropzone .dz-default.dz-message {
-  position: relative;
-  width: 100%;
-  height: 250px;
-  margin-left: 0;
-  margin-top: 0;
-  top: 0;
-  left: 0;
-}
-
-.dropzone.dz-clickable .dz-message, .dropzone.dz-clickable .dz-message span {
-  cursor: pointer;
-}
-
-.dropzone .dz-preview .dz-details, .dropzone-previews .dz-preview .dz-details {
-  width: 100%;
-  height: 190px;
-  overflow: hidden;
-  display: block;
-}
-
-.dropzone .dz-preview .dz-details img, .dropzone-previews .dz-preview .dz-details img {
-  width: 100%;
-  height: auto;
-}
-
-.dropzone .dz-preview .dz-progress, .dropzone-previews .dz-preview .dz-progress {
-  top: 200px;
 }
