@@ -28,7 +28,7 @@
     "inject": true,
     "it": true,
     "spyOn": true,
-
+    "Paho": true,
     // tests helpers
     "WizardControladores": true
   }
