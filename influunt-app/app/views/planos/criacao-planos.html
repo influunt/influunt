@@ -40,8 +40,10 @@
               <div class="col-lg-10 col-sm-10">
                 <div class="col-lg-12 col-sm-12 association plans m-b-md">
                   <header class="developing-plans">
-                    <span>Criação de planos</span>
-                    <h1>ANEL {{ currentAnel.posicao }} - PLANO {{ currentPlano.posicao }}</h1>
+                    <!-- <span>Criação de planos</span> -->
+                    <nav class="plans">
+                      <h1>ANEL {{ currentAnel.posicao }} - PLANO {{ currentPlano.posicao }}</h1>
+                    </nav>
                   </header>
                   <ng-include src="'views/planos/header-buttons.html'"></ng-include>
                 </div>
@@ -77,6 +79,25 @@
               </div>
               <div class="col-lg-10 col-sm-10 no-padding-right">
                 <div class="col-lg-12 col-sm-12 association table-creation-plans">
+                  <section>
+                    <div class="col-lg-12 col-sm-12 no-padding table-create-plan overflow">
+                      <ul ui-sortable="sortableOptions" data-ng-model="currentPlano.sequenciaEstagios" class="ui-sortable planos">
+                        <li class="ui-state-default card-estagio" data-ng-repeat="estagio in currentPlano.sequenciaEstagios"
+                            data-ng-class="{'estagio-ativo': $index === currentEstagioIndex}"
+                            data-ng-click="selecionaEstagio($index)">
+                          <header class="sortable-header" role="heading">
+                            <p class="ng-binding">E{{ estagio.posicao }}</p>
+                          </header>
+                          <figure>
+                            <img ng-src="{{ estagio.imagem.id | imageSource }}" width="150">
+                          </figure>
+                        </li>
+                      </ul>
+                    </div>
+                  </section>
+                </div>
+
+                <div class="col-lg-12 col-sm-12 association stage-time m-t-md">
                   <section>
                     <div class="col-lg-12 col-sm-12 no-padding table-create-plan overflow">
                       <ng-include src="'views/planos/tabela-planos.html'"></ng-include>
