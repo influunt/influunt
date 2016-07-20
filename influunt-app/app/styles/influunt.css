@@ -1206,11 +1206,11 @@ header .nav-secon li a {
 }
 .wrapper-content .basic-wizard .content .body .rings .rings-status {
     margin-right: 1.2%;
-    min-height: 884px;
+    min-height: 856px;
     width: 23.8%;
 }
 .wrapper-content .basic-wizard .content .body .rings .groups {
-    min-height: 800px;
+    min-height: 780px;
 }
 .wrapper-content .basic-wizard .content .body .rings .activ {
     text-align: left;
@@ -1405,9 +1405,6 @@ header .nav-secon li a {
         line-height: 25px !important;
         font-size: 12px;
     }
-    .wrapper-content .basic-wizard .content .body .conjugate label {
-        min-height: 40px;
-    }
     .wrapper-content .basic-wizard .content .body .stages .stage-stages {
         margin-right: 0;
         width: 44%;
@@ -1550,7 +1547,7 @@ header .nav-secon li a {
 .margin-top-25 {
 	margin: 25px 0
 }
-<<<<<<< HEAD
+
 td.estagio-ativo {
   border-top: 2px solid black;
   border-left: 2px solid black;
@@ -1575,7 +1572,6 @@ table.table-diagonal:nth-of-type(1) th.diagonal {
 	width: 100%;
 
 }
-=======
 
 .botton-title {
   margin-bottom: 20px;
@@ -1646,3 +1642,5 @@ table.table-diagonal:nth-of-type(1) th.diagonal {
     END CSS 1273 line
 */
 >>>>>>> 1c19ecda99f43de8ab2bd78e79854e76bbfde3e0
+=======
+>>>>>>> ajustes titulos e labels

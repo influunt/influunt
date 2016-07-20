@@ -4,7 +4,7 @@
       <div class="bxslider">
         <ul class="bxslider">
           <div data-ng-repeat="anel in objeto.aneis">
-            <li data-ng-repeat="estagio in anel.estagios">
+            <li data-ng-repeat="estagio in anel.estagios" class="wizard-step-title">
 							<h3 class="text-left no-padding">&nbsp;
 								<span ng-if="$first">ANEL {{anel.posicao}}</span></h3>
               <figure class="rings-{{ anel.posicao }}">

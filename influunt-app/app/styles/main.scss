@@ -156,6 +156,7 @@ i.sinal-verde-conflitante, i.transicao-proibida {
 .entre-verdes-fixed-height-small.min-green {
   min-height: 635px !important;
 }
+
 .btn_VERMELHO{
   background-color:#6b0000;
   -webkit-text-fill-color: white; /* Will override color (regardless of order) */
@@ -199,5 +200,13 @@ i.sinal-verde-conflitante, i.transicao-proibida {
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: black;
   font-weight:bolder;
+}
 
+.form-group label {
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.wizard-step-title h2, h3 {
+  font-size: 16px;
 }
