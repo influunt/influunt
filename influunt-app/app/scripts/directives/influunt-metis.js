@@ -13,7 +13,7 @@ angular.module('influuntApp')
       link: function postLink(scope, element) {
         $timeout(function() {
           angular.element(element).metisMenu();
-        });
+        }, 2000);
       }
     };
   }]);

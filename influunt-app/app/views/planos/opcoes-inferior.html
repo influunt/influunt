@@ -1,29 +1,29 @@
 <div class="text-center" data-ng-if="currentPlano.modoOperacao === 'ATUADO'">
   <div class="knob-item col-lg-2 col-sm-2">
     <influunt-knob ng-model="currentPlano.sequenciaEstagios[currentEstagioIndex].tempoVerdeMinimo"
-      min="min" max="max"
+      min="objeto.verdeMinimoMin" max="objeto.verdeMinimoMax"
       title="TEMPO DE VERDE MIN." label="SEG">
     </influunt-knob>
   </div>
 
   <div class="knob-item col-lg-2 col-sm-2">
     <influunt-knob ng-model="currentPlano.sequenciaEstagios[currentEstagioIndex].tempoVerdeMaximo"
-      min="min" max="max"
+      min="objeto.verdeMaximoMin" max="objeto.verdeMaximoMax"
       title="TEMPO DE VERDE MAX." label="SEG">
     </influunt-knob>
   </div>
 
   <div class="knob-item col-lg-2 col-sm-2">
     <influunt-knob ng-model="currentPlano.sequenciaEstagios[currentEstagioIndex].tempoVerdeIntermediario"
-      min="min" max="max"
+      min="objeto.verdeIntermediarioMin" max="objeto.verdeIntermediarioMax"
       title="TEMPO DE VERDE INTERMEDIÁRIO" label="SEG">
     </influunt-knob>
   </div>
 
   <div class="knob-item col-lg-2 col-sm-2">
     <influunt-knob ng-model="currentPlano.sequenciaEstagios[currentEstagioIndex].tempoExtensaoVerde"
-      min="min" max="max"
-      title="TEMPO DE EXTENSAO DE VERDE" label="SEG">
+      min="objeto.extensaVerdeMin" max="objeto.extensaVerdeMax"
+      title="EXTENSÃO DE VERDE" label="SEG">
     </influunt-knob>
   </div>
 
@@ -41,7 +41,7 @@
 <div class="text-center" data-ng-if="currentPlano.modoOperacao === 'COORDENADO'">
   <div class="knob-item col-lg-2 col-sm-2">
     <influunt-knob ng-model="currentPlano.sequenciaEstagios[currentEstagioIndex].tempoVerde"
-      min="min" max="max"
+      min="objeto.verdeMin" max="objeto.verdeMax"
       title="TEMPO DE VERDE" label="SEG">
     </influunt-knob>
   </div>
@@ -54,8 +54,10 @@
             data-ng-model="currentPlano.sequenciaEstagios[currentEstagioIndex].dispensavel" ichecks>
       </p>
     </div>
+  </div>
+  <div class="col-lg-3 col-sm-3">
     <div class="form-group" data-ng-if="currentPlano.sequenciaEstagios[currentEstagioIndex].dispensavel">
-      <label>TIPO DE ESTÁGIO DISPENSÁVEL</label>
+      <label>ESTÁGIO QUE RECEBE TEMPO DO ESTÁGIO DISPENSÁVEL</label>
       <select data-ng-options="estagio as 'E' + estagio.posicao for estagio in opcoesEstagiosDisponiveis"
         data-ng-model="currentPlano.sequenciaEstagios[currentEstagioIndex].tipoEstagioDispensavel"
         name="tipoEstagio" class="form-control">
@@ -67,23 +69,27 @@
 <div class="text-center" data-ng-if="currentPlano.modoOperacao === 'TEMPO_FIXO_ISOLADO'">
   <div class="knob-item col-lg-2 col-sm-2">
     <influunt-knob ng-model="currentPlano.sequenciaEstagios[currentEstagioIndex].tempoVerde"
-      min="min" max="max"
+      min="objeto.verdeMin" max="objeto.verdeMax"
       title="TEMPO DE VERDE" label="SEG">
     </influunt-knob>
   </div>
 
-  <div class="form-group">
-    <label>ESTÁGIO DISPENSÁVEL</label>
-    <p>
-      <input type="checkbox" name="dispensavel"
-          data-ng-model="currentPlano.sequenciaEstagios[currentEstagioIndex].dispensavel" ichecks>
-    </p>
+  <div class="col-lg-3 col-sm-3">
+    <div class="form-group">
+      <label>ESTÁGIO DISPENSÁVEL</label>
+      <p>
+        <input type="checkbox" name="dispensavel"
+            data-ng-model="currentPlano.sequenciaEstagios[currentEstagioIndex].dispensavel" ichecks>
+      </p>
+    </div>
   </div>
-  <div class="form-group" data-ng-if="currentPlano.sequenciaEstagios[currentEstagioIndex].dispensavel">
-    <label>TIPO DE ESTÁGIO DISPENSÁVEL</label>
-    <select data-ng-options="estagio as 'E' + estagio.posicao for estagio in opcoesEstagiosDisponiveis"
-      data-ng-model="currentPlano.sequenciaEstagios[currentEstagioIndex].tipoEstagioDispensavel"
-      name="tipoEstagio" class="form-control">
-    </select>
+  <div class="col-lg-3 col-sm-3">
+    <div class="form-group" data-ng-if="currentPlano.sequenciaEstagios[currentEstagioIndex].dispensavel">
+      <label>ESTÁGIO QUE RECEBE TEMPO DO ESTÁGIO DISPENSÁVEL</label>
+      <select data-ng-options="estagio as 'E' + estagio.posicao for estagio in opcoesEstagiosDisponiveis"
+        data-ng-model="currentPlano.sequenciaEstagios[currentEstagioIndex].tipoEstagioDispensavel"
+        name="tipoEstagio" class="form-control">
+      </select>
+    </div>
   </div>
 </div>
