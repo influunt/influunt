@@ -104,13 +104,17 @@
                     </hgroup>
                   </div>
                   <div class="col-lg-10">
-                    <h3>FASE VERMELHA APAGADA</h3>
+                    <h3 class="text-left">FASE VERMELHA APAGADA</h3>
+                    <select class="form-control m-b" data-ng-model="grupoSelecionado.faseVermelhaApagadaAmareloIntermitente" name="tipoGrupoSemaforico">
+                      <option value="false">Nada</option>
+                      <option value="true">Amarelo Intermitente</option>
+                    </select>
 
+                    <h3 class="text-left">TIPO</h3>
                     <select class="form-control m-b" data-ng-model="grupoSelecionado.tipo" name="tipoGrupoSemaforico">
-                      <option></option>
                       <option value="VEICULAR">Veicular</option>
                       <option value="PEDESTRE">Pedestre</option>
-                      <input type="text" class="form-control" placeholder="Comentário" data-ng-model="grupoSelecionado.descricao">
+                      <input type="text" class="form-control" placeholder="Descrição" data-ng-model="grupoSelecionado.descricao">
                     </select>
 
                   </div>
