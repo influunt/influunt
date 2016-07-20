@@ -4074,6 +4074,9 @@ a.close-canvas-menu:hover {
 .p-t-xs {
   padding-top: 10px !important;
 }
+.p-b-xs {
+  padding-bottom: 10px !important;
+}
 .p-sm {
   padding: 15px;
 }
