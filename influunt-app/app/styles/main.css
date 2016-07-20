@@ -1,5 +1,6 @@
 @import url(./../../bower_components/angular-datatables/dist/css/angular-datatables.css);
 @import url(./../plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css);
+@import url(./../plugins/roundSlider-1.3/roundslider.min.css);
 @import url(./font-awesome.css);
 @import url(./../../bower_components/bootstrap/dist/css/bootstrap.css);
 @import url(./../plugins/steps/jquery.steps.css);

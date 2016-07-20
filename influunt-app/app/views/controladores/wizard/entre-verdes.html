@@ -99,7 +99,53 @@
                         messages="[errosAmareloOuVermelho(currentGrupoSemaforico, $index)]">
                         <i class="fa fa-exclamation"></i>
                       </span>
-                      <influunt-knob title="{{ amareloOuVermelho(currentGrupoSemaforico) }}" label="SEG" min="limites(tevTransicao.transicao.grupoSemaforico)[amareloOuVermelho(currentGrupoSemaforico, true)].min" max="limites(tevTransicao.transicao.grupoSemaforico)[amareloOuVermelho(currentGrupoSemaforico, true)].max" data-ng-model="tevTransicao[amareloOuVermelho(currentGrupoSemaforico, true)]"></influunt-knob>
+                      <!-- <influunt-knob title="{{ amareloOuVermelho(currentGrupoSemaforico) }}" label="SEG" min="limites(tevTransicao.transicao.grupoSemaforico)[amareloOuVermelho(currentGrupoSemaforico, true)].min" max="limites(tevTransicao.transicao.grupoSemaforico)[amareloOuVermelho(currentGrupoSemaforico, true)].max" data-ng-model="tevTransicao[amareloOuVermelho(currentGrupoSemaforico, true)]"></influunt-knob> -->
+                      <div class="teste">
+                        <p>{{ amareloOuVermelho(currentGrupoSemaforico) }}</p>
+                        <div id="shape"></div>
+                      </div>
+                      <style type="text/css">
+                        #shape {
+                          width: 90px !important;
+                          height: 90px !important;
+                        }
+                        #shape .rs-container {
+                          width: 90px !important;
+                          height: 90px !important;
+                          margin-left: auto;
+                          margin-right: auto;
+                        }
+                        #shape .rs-range-color  {
+                            background-color: rgb(26, 179, 148);
+                        }
+                        #shape .rs-path.rs-transition.rs-path-color {
+                          background-color: #eee;
+                        }
+                        #shape .rs-handle:after  {
+                            background-color: #000;
+                        }
+                        #shape .rs-border  {
+                            border-color: #eee;
+                        }
+                      </style>
+                      <script type="text/javascript">
+                        $("#shape").roundSlider({
+                          radius: 90,
+                          min: 0,
+                          max: 120,
+                          sliderType: "min-range",
+                          value: 40,
+                          handleShape: "dot",
+                          // editableTooltip: false,
+                          // showTooltip: true,
+                          tooltipFormat: 'showLabel'
+                        });
+
+                        var showLabel = function(args) {
+                          // return '<p>' + args.value + '</p><strong>SEG</strong>';
+                          return args.value + ' SEG';
+                        };
+                      </script>
                     </div>
                     <div class="knob-item col-lg-4 col-sm-4">
                       <span class="badge badge-danger badge-notification"
