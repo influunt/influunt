@@ -1,20 +1,15 @@
-<table class="tg" border="1" cellpadding="1" width="100%">
+<table class="tg table-diagonal table-wizard" border="1" cellpadding="1">
   <thead>
-    <tr>
-      <th rowspan="2" colspan="2"></th>
-      <th colspan="{{ currentAnel.estagios.length }}">De</th>
-    </tr>
-    <tr>
+		<tr>
+			<th class="diagonal no-padding">
+		    <div class="text-right m-r-xs">De</div>
+		    <div class="text-left m-l-xs">Para</div>
+	    </th>
       <th data-ng-repeat="estagio in currentAnel.estagios">E{{ $index + 1 }}</th>
     </tr>
   </thead>
   <tbody>
     <tr data-ng-repeat="tr in currentAnel.estagios">
-
-      <td rowspan="{{ currentAnel.estagios.length }}" data-ng-if="$first">
-        <strong>Para</strong>
-      </td>
-
       <td class="tg-yw4l" style="font-size: 15px;">
         <strong>E{{ $index + 1 }}</strong>
       </td>
