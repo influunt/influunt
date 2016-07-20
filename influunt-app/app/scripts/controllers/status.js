@@ -15,9 +15,6 @@ angular.module('influuntApp')
       // Once a connection has been made, make a subscription and send a message.
       console.log("onConnect");
       $scope.client.subscribe("#");
-      // message = new Paho.MQTT.Message("Hello");
-      // message.destinationName = "/World";
-      // client.send(message);
     }
     
     
@@ -62,11 +59,6 @@ angular.module('influuntApp')
 
     // connect the client
     $scope.client.connect({onSuccess:onConnect});
-
-
-
-    
-    
     $scope.teste = $scope.client;
     
     $scope.class = function(estado){
