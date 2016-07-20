@@ -45,11 +45,17 @@
 .wrapper-content .basic-wizard .steps ul li.current a:before {
     background: url("../images/wizard-steps-before-cr.png") no-repeat !important;
 }
+.wrapper-content .basic-wizard .content .body .association-detectors-body {
+  width: 82%;
+  float: right;
+}
+.wrapper-content .basic-wizard .content .body .association-detectors-body .estagio-detalhe {
+  border-right: 1px solid #e7eaec;
+  height: 120px;
+}
 .wrapper-content .basic-wizard .content .body .tableless.association-detectors {
     margin: 0;
     padding: 0;
-    width: 82%;
-    float: right;
     background: #fff;
 }
 .wrapper-content .basic-wizard .content .body .tableless.association-detectors table tbody tr td figure img {
