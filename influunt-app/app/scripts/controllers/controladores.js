@@ -91,6 +91,7 @@ angular.module('influuntApp')
       };
 
       $scope.submitForm = function(form, stepResource, nextStep) {
+        $.blockUI({message: '<h1>Aguarde...</h1>'});
         if (angular.isFunction($scope.beforeSubmitForm)) {
           $scope.beforeSubmitForm();
         }
@@ -104,8 +105,10 @@ angular.module('influuntApp')
 
               $scope.errors = {};
               $state.go(nextStep, {id: $scope.objeto.id});
+              $.unblockUI();
             })
             .catch(function(res) {
+              $.unblockUI();
               if (res.status === 422) {
                 if (angular.isFunction($scope.afterSubmitFormOnValidationError)) {
                   $scope.afterSubmitFormOnValidationError();
