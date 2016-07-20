@@ -1,8 +1,13 @@
 package controllers;
 
+import checks.CidadesCheck;
+import checks.ControladorAneisCheck;
+import checks.Erro;
+import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Singleton;
 import models.Cidade;
+import models.Controlador;
 import org.junit.Test;
 import play.Application;
 import play.Mode;
@@ -15,6 +20,7 @@ import play.test.WithApplication;
 import security.AllowAllAuthenticator;
 import security.Authenticator;
 
+import javax.validation.groups.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +28,8 @@ import java.util.UUID;
 
 import static org.junit.Assert.*;
 import static play.inject.Bindings.bind;
+import static play.mvc.Http.Status.OK;
+import static play.mvc.Http.Status.UNPROCESSABLE_ENTITY;
 import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.route;
 
@@ -151,5 +159,53 @@ public class CidadesControllerTest extends WithApplication {
 
         assertEquals(200, result.status());
         assertEquals(cidadeId, cidadeRetornada.getId());
+    }
+
+    @Test
+    public void testCriarCidadeNomeDuplicado() {
+        Cidade cidade = new Cidade();
+        cidade.setNome("Teste");
+        Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
+                .uri(routes.CidadesController.create().url()).bodyJson(Json.toJson(cidade));
+        Result postResult = route(postRequest);
+        JsonNode json = Json.parse(Helpers.contentAsString(postResult));
+        Cidade cidadeRetornada = Json.fromJson(json, Cidade.class);
+
+        assertEquals(OK, postResult.status());
+        assertEquals("Teste", cidadeRetornada.getNome());
+        assertNotNull(cidadeRetornada.getId());
+
+        Cidade cidadeDuplicadaLowerCase = new Cidade();
+        cidadeDuplicadaLowerCase.setNome("teste");
+
+        postRequest = new Http.RequestBuilder().method("POST")
+                .uri(routes.CidadesController.create().url()).bodyJson(Json.toJson(cidadeDuplicadaLowerCase));
+        postResult = route(postRequest);
+        assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
+
+    }
+
+    @Test
+    public void testAtualizarCidadeMemsoNome() {
+        Cidade cidade = new Cidade();
+        cidade.setNome("TESTE");
+        Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
+                .uri(routes.CidadesController.create().url()).bodyJson(Json.toJson(cidade));
+        Result postResult = route(postRequest);
+        JsonNode json = Json.parse(Helpers.contentAsString(postResult));
+        Cidade cidadeRetornada = Json.fromJson(json, Cidade.class);
+
+        assertEquals(OK, postResult.status());
+        assertEquals("TESTE", cidadeRetornada.getNome());
+        assertNotNull(cidadeRetornada.getId());
+
+        cidadeRetornada.setNome("teste");
+
+        postRequest = new Http.RequestBuilder().method("PUT")
+                .uri(routes.CidadesController.update(cidadeRetornada.getId().toString()).url()).bodyJson(Json.toJson(cidadeRetornada));
+        postResult = route(postRequest);
+        assertEquals(OK, postResult.status());
+        assertEquals("teste", cidadeRetornada.getNome());
+
     }
 }

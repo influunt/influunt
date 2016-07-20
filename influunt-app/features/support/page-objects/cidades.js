@@ -106,6 +106,16 @@ var CidadesPage = function () {
     });
   };
 
+  this.existeAoMenosUmaCidadeComNome = function(nome) {
+    return world.execSqlScript('features/support/scripts/cidades/create_cidade_duplicada.sql');
+  };
+
+  this.getErrorMessageFor = function(campo) {
+    return world.waitFor('[name="'+campo+'"] + p[class*="error-msg"]').then(function() {
+      return world.getElement('[name="'+campo+'"] + p[class*="error-msg"]').getText();
+    });
+  };
+
 };
 
 module.exports = CidadesPage;

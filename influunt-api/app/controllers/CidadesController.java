@@ -3,6 +3,7 @@ package controllers;
 import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
 import be.objectify.deadbolt.java.actions.Dynamic;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
+import checks.CidadesCheck;
 import checks.Erro;
 import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -15,6 +16,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
 
+import javax.validation.groups.*;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -36,7 +38,7 @@ public class CidadesController extends Controller {
         }
 
         Cidade cidade = Json.fromJson(json, Cidade.class);
-        List<Erro> erros = new InfluuntValidator<Cidade>().validate(cidade);
+        List<Erro> erros = new InfluuntValidator<Cidade>().validate(cidade, javax.validation.groups.Default.class, CidadesCheck.class);
 
         if(erros.isEmpty()) {
             cidade.save();
@@ -86,7 +88,7 @@ public class CidadesController extends Controller {
             cidade = Json.fromJson(json, Cidade.class);
             cidade.setId(UUID.fromString(id));
 
-            List<Erro> erros = new InfluuntValidator<Cidade>().validate(cidade);
+            List<Erro> erros = new InfluuntValidator<Cidade>().validate(cidade, javax.validation.groups.Default.class, CidadesCheck.class);
             if(erros.isEmpty()) {
                 cidade.update();
                 return CompletableFuture.completedFuture(ok(Json.toJson(cidade)));

@@ -19,6 +19,14 @@ Funcionalidade: tela de cadastro de cidades
     Então o registro da cidade deverá ser salvo com nome igual a "São Paulo"
     E o sistema deverá retornar à tela de listagem de cidades
 
+  Cenário: Cadastro de cidades com mesmo nome
+    Dado que exista uma cidade cadastrada no sistema com o nome "Belo Horizonte"
+    Quando o usuário acessar a tela de cadastro de novas cidades
+    E o usuario preencher o campo "Nome" com "Belo Horizonte"
+    E clicar no botão de salvar
+    Então o sistema deverá indicar erro nos campos nome
+
+
   Cenário: Acesso à tela de detalhes de cidades
     Quando o usuário acessar a tela de listagem de cidades
     E clicar no botão de visualizar cidade
