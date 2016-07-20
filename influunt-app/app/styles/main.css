@@ -75,6 +75,7 @@ i.sinal-verde-conflitante.ativo, i.transicao-proibida.ativo {
   overflow: overlay;
 }
 
+<<<<<<< b831001af7610107c58eb6ef919ba219704c0901
 .entre-verdes-fixed-height {
   max-height: 720px !important;
   overflow: auto;
@@ -89,4 +90,54 @@ i.sinal-verde-conflitante.ativo, i.transicao-proibida.ativo {
 
 .entre-verdes-fixed-height-small.min-green {
   min-height: 635px !important;
+}
+.btn_VERMELHO {
+  background-color: #6b0000;
+  -webkit-text-fill-color: white;
+  /* Will override color (regardless of order) */
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+  font-weight: bolder;
+}
+
+.btn_AMARELO {
+  background-color: #bdbd00;
+  -webkit-text-fill-color: white;
+  /* Will override color (regardless of order) */
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+  font-weight: bolder;
+}
+
+.btn_VERDE {
+  background-color: #006600;
+  -webkit-text-fill-color: white;
+  /* Will override color (regardless of order) */
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+  font-weight: bolder;
+}
+
+.btn_VERMELHO_INTERMITENTE {
+  background-color: white;
+  background-image: -webkit-linear-gradient(0deg, rgba(200, 0, 0, 0.5) 50%, transparent 50%), -webkit-linear-gradient(rgba(200, 0, 0, 0.5) 50%, transparent 50%);
+  background-image: linear-gradient(90deg, rgba(200, 0, 0, 0.5) 50%, transparent 50%), linear-gradient(rgba(200, 0, 0, 0.5) 50%, transparent 50%);
+  background-size: 5px 5px;
+  -webkit-text-fill-color: white;
+  /* Will override color (regardless of order) */
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+  font-weight: bolder;
+}
+
+.btn_AMARELO_INTERMITENTE {
+  background-color: white;
+  background-image: -webkit-linear-gradient(0deg, rgba(200, 200, 0, 0.5) 50%, transparent 50%), -webkit-linear-gradient(rgba(200, 200, 0, 0.5) 50%, transparent 50%);
+  background-image: linear-gradient(90deg, rgba(200, 200, 0, 0.5) 50%, transparent 50%), linear-gradient(rgba(200, 200, 0, 0.5) 50%, transparent 50%);
+  background-size: 5px 5px;
+  -webkit-text-fill-color: white;
+  /* Will override color (regardless of order) */
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+  font-weight: bolder;
 }
