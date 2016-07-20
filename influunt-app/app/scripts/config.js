@@ -24,7 +24,7 @@ angular
           data: {
             title: 'geral.dashboard',
           }
-        })
+        })        
         .state('app', {
           abstract: true,
           url: '/app',
@@ -39,6 +39,16 @@ angular
         .state('app.main', {
           url: '/main',
           templateUrl: 'views/main.html'
+        })
+
+        .state('app.status', {
+          url: '/status',
+          templateUrl: 'views/status/index.html',
+          controller: 'StatusCtrl',
+          controllerAs: 'status',
+          data: {
+            title: 'status.titulo'
+          }
         })
 
         .state('app.cidades', {

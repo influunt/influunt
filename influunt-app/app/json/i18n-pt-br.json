@@ -199,5 +199,8 @@
     "numero": "Número",
     "tipo": "Tipo",
     "controladores": "Controladores"
+  },
+  "status": {
+    "titulo": "Status dos Controladores"
   }
 }
