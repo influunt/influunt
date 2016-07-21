@@ -186,7 +186,7 @@ public class CidadesControllerTest extends WithApplication {
     }
 
     @Test
-    public void testAtualizarCidadeMemsoNome() {
+    public void testAtualizarCidadeMesmoNome() {
         Cidade cidade = new Cidade();
         cidade.setNome("TESTE");
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
