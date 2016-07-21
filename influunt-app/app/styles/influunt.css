@@ -442,6 +442,7 @@ header .nav-secon li a {
     font-size: 13px;
     font-weight: 700;
     line-height: 100px;
+    text-align: center;
 }
 .wrapper-content .basic-wizard .content .body .movements label {
     width: 100%;

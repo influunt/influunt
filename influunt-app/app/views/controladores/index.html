@@ -25,7 +25,7 @@
           <div class="input-group">
             <input type="text" class="form-control" ng-model="filtros.campo_busca">
             <span class="input-group-btn">
-              <button type="button" class="btn btn-primary">
+              <button type="button" data-toggle="tooltip" data-placement="top" title="Pesquisar" class="btn btn-primary">
                 <i class="fa fa-search" aria-hidden="true"></i>
               </button>
             </span>
@@ -40,7 +40,7 @@
       -->
       <div class="clearfix"></div>
       <div class="col-lg-2 no-padding">
-        <button type="button" class="btn btn-primary container-fluid" ui-sref="app.wizard_controladores.dados_basicos">Novo controlador</button>
+        <button type="button" class="btn btn-primary container-fluid" data-toggle="tooltip" data-placement="top" title="Adicionar novo controlador" ui-sref="app.wizard_controladores.dados_basicos">Novo controlador</button>
       </div>
       <div class="clearfix"></div>
       <div class="col-lg-12 controller no-padding">
@@ -57,13 +57,13 @@
                 <p class="status-active"><i class="fa fa-circle text-navy"></i>Ativo</p>
                 -->
                 <hgroup>
-                  <a class="btn btn-primary" type="button" ui-sref="app.wizard_controladores.dados_basicos({id: controlador.id})">
+                  <a class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Editar controlador" type="button" ui-sref="app.wizard_controladores.dados_basicos({id: controlador.id})">
                     <i class="fa fa-pencil"></i>
                   </a>
-                  <a class="btn btn-primary" type="button" ui-sref="app.controladores_show({id: controlador.id})">
+                  <a class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Vizualizar controlador" type="button" ui-sref="app.controladores_show({id: controlador.id})">
                     <i class="fa fa-eye"></i>
                   </a>
-                  <a class="btn btn-primary" type="button" ui-sref="app.planos({id: controlador.id})">
+                  <a class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Vizualizar planos" type="button" ui-sref="app.planos({id: controlador.id})">
                     <i class="fa fa-file-text"></i>
                   </a>
                 </hgroup>

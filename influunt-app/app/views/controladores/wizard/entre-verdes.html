@@ -56,7 +56,7 @@
             </ul>
           </nav>
           <footer data-ng-show="currentGrupoSemaforico.tabelasEntreVerdes.length < limiteTabelasEntreVerdes">
-            <a target="Nova tabela" data-ng-click="adicionarTabelaEntreVerdes()">Nova tabela</a>
+            <a target="Nova tabela" data-ng-click="adicionarTabelaEntreVerdes()" data-toggle="tooltip" data-placement="top" title="Adicionar uma nova tabela padrão">Nova tabela</a>
           </footer>
         </div>
       </div>
@@ -135,8 +135,8 @@
 
       <!-- bptão proximo voltar -->
       <div class="col-sm-12 col-lg-12 no-pading pg-bt m-t-lg">
-        <a data-ng-click="submitForm({$valid: true}, 'entre_verdes', 'app.wizard_controladores.associacao_detectores')" class="btn btn-primary btn-footer right">{{ 'plugins.steps.labels.next' | translate }}</a>
-        <a data-ng-click="submitForm({$valid: true}, 'entre_verdes', 'app.wizard_controladores.transicoes_proibidas')" class="btn btn-inverse btn-footer right m-r-sm right">{{ 'plugins.steps.labels.previous' | translate }}</a>
+        <a data-ng-click="submitForm({$valid: true}, 'entre_verdes', 'app.wizard_controladores.associacao_detectores')" data-toggle="tooltip" data-placement="top" title="Associação de Detectores" class="btn btn-primary btn-footer right">{{ 'plugins.steps.labels.next' | translate }}</a>
+        <a data-ng-click="submitForm({$valid: true}, 'entre_verdes', 'app.wizard_controladores.transicoes_proibidas')" data-toggle="tooltip" data-placement="top" title="Transições Proíbidas" class="btn btn-inverse btn-footer right m-r-sm right">{{ 'plugins.steps.labels.previous' | translate }}</a>
       </div>
     </div>
   </div>
