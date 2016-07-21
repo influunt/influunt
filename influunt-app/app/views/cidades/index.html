@@ -20,14 +20,12 @@
               <thead>
                 <tr>
                   <th>{{ 'cidades.nome' | translate }}</th>
-                  <th>{{ 'cidades.areas' | translate }}</th>
                   <th>{{ 'geral.crud.opcoes' | translate }}</th>
                 </tr>
               </thead>
               <tbody>
                 <tr data-ng-repeat="cidade in lista">
                   <td>{{ cidade.nome }}</td>
-                  <td data-ng-bind-html="cidade.areas | resourceListToString"></td>
                   <td>
                     <a ui-sref="app.cidades_show({id: cidade.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
                     <a ui-sref="app.cidades_edit({id: cidade.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.editar' | translate }}</a>

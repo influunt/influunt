@@ -19,19 +19,19 @@
         "route": "app.agrupamentos"
       },
       {
-        "name": "usuarios",
-        "label": "usuarios.titulo",
-        "route": "app.usuarios"
+        "name": "permissoes",
+        "label": "permissoes.titulo",
+        "route": "app.permissoes"
       },
       {
         "name": "perfis",
         "label": "perfis.titulo",
         "route": "app.perfis"
       },
-      {
-        "name": "permissoes",
-        "label": "permissoes.titulo",
-        "route": "app.permissoes"
+			{
+        "name": "usuarios",
+        "label": "usuarios.titulo",
+        "route": "app.usuarios"
       }
     ]
   },
