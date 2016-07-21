@@ -1,5 +1,7 @@
 package models;
 
+import checks.CidadesCheck;
+import checks.ControladorAssociacaoDetectoresCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
@@ -13,7 +15,9 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import javax.validation.constraints.AssertTrue;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -92,6 +96,17 @@ public class Cidade extends Model implements  Cloneable {
 
     public void setDataAtualizacao(DateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
+    }
+
+    @AssertTrue(groups = CidadesCheck.class,
+            message = "Já existe uma Cidade cadastrada com esse nome.")
+    public boolean isNomeUnique() {
+        if (Objects.nonNull(getNome())) {
+            Cidade cidadeAux = Cidade.find.where().ieq("nome", getNome()).findUnique();
+
+            return cidadeAux == null || (this.getId() != null && cidadeAux.getId().equals(this.getId())) ;
+        }
+        return true;
     }
 
     @Override
