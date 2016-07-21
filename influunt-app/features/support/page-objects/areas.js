@@ -121,6 +121,17 @@ var AreasPage = function () {
     });
   };
 
+  this.getErrorMessageFor = function(campo) {
+    return world.waitFor('[name="'+campo+'"] + p[class*="error-msg"]').then(function() {
+      return world.getElement('[name="'+campo+'"] + p[class*="error-msg"]').getText();
+    });
+  };
+
+  this.selecionarCidade = function(cidade) {
+    var index = cidade === 'São Paulo' ? 2 : 1;
+    return world.getElement('select[name="cidade"] option:nth-child('+index+')').click();
+  };
+
 };
 
 module.exports = AreasPage;

@@ -36,7 +36,7 @@ var myHooks = function () {
   });
 
   this.registerHandler('AfterFeatures', function () {
-    return driver.quit();
+    // return driver.quit();
   });
 
   if (debugMode) {

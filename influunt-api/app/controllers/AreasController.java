@@ -2,6 +2,7 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
 import be.objectify.deadbolt.java.actions.Dynamic;
+import checks.AreasCheck;
 import checks.Erro;
 import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -13,6 +14,8 @@ import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
 
+import javax.validation.groups.*;
+import javax.validation.groups.Default;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -33,7 +36,7 @@ public class AreasController extends Controller {
         } else {
 
             Area area = Json.fromJson(json, Area.class);
-            List<Erro> erros = new InfluuntValidator<Area>().validate(area);
+            List<Erro> erros = new InfluuntValidator<Area>().validate(area, javax.validation.groups.Default.class, AreasCheck.class);
 
             if(erros.isEmpty()) {
                 area.save();
@@ -84,7 +87,7 @@ public class AreasController extends Controller {
 
         Area area = Json.fromJson(json, Area.class);
         area.setId(areaExistente.getId());
-        List<Erro> erros = new InfluuntValidator<Area>().validate(area);
+        List<Erro> erros = new InfluuntValidator<Area>().validate(area, Default.class, AreasCheck.class);
 
         if(erros.isEmpty()) {
             area.update();

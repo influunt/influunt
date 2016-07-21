@@ -16,7 +16,7 @@ module.exports = function() {
 
   this.Given(/^deve ser exibida uma lista com as cidades já cadastradas no sistema$/, function() {
     return cidadesPage.getItensTabela().then(function(itens) {
-      expect(itens).to.have.length.at.least(3);
+      expect(itens).to.have.length.at.least(2);
     });
   });
 
