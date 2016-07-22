@@ -100,4 +100,14 @@ module.exports = function() {
       return expect(res).to.be.true;
     });
   });
+
+	this.Given(/^o sistema deverá indicar erro nos campos "([^"]*)"$/, function (campo) {
+    return areasPage.getErrorMessageFor(campo).then(function(result) {
+      return expect(result).to.exist;
+    });
+	});
+
+	this.Given(/^o usuario marcar a cidade como "([^"]*)"$/, function (cidade) {
+		return areasPage.selecionarCidade(cidade);
+	});
 };

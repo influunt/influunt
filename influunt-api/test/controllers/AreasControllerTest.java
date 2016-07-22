@@ -24,6 +24,8 @@ import java.util.UUID;
 
 import static org.junit.Assert.*;
 import static play.inject.Bindings.bind;
+import static play.mvc.Http.Status.OK;
+import static play.mvc.Http.Status.UNPROCESSABLE_ENTITY;
 import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.route;
 
@@ -173,6 +175,59 @@ public class AreasControllerTest extends WithApplication {
 
         assertEquals(200, result.status());
         assertEquals(areaId, areaRetornada.getId());
+    }
+
+    @Test
+    public void testCriarAreaNomeDuplicado() {
+        Area area = new Area();
+        area.setDescricao(1);
+        area.setCidade(cidade);
+
+        Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
+                .uri(routes.AreasController.create().url()).bodyJson(Json.toJson(area));
+        Result postResult = route(postRequest);
+        JsonNode json = Json.parse(Helpers.contentAsString(postResult));
+        Area areaRetornada = Json.fromJson(json, Area.class);
+
+        assertEquals(OK, postResult.status());
+        assertEquals("1", areaRetornada.getDescricao().toString());
+        assertNotNull(areaRetornada.getId());
+
+        Area areaDuplicada = new Area();
+        areaDuplicada.setCidade(cidade);
+        areaDuplicada.setDescricao(1);
+
+        postRequest = new Http.RequestBuilder().method("POST")
+                .uri(routes.AreasController.create().url()).bodyJson(Json.toJson(areaDuplicada));
+        postResult = route(postRequest);
+        assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
+
+    }
+
+
+    @Test
+    public void testAtualizarAreaMesmoNome() {
+        Area area = new Area();
+        area.setCidade(cidade);
+        area.setDescricao(1);
+        Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
+                .uri(routes.AreasController.create().url()).bodyJson(Json.toJson(area));
+        Result postResult = route(postRequest);
+        JsonNode json = Json.parse(Helpers.contentAsString(postResult));
+        Area areaRetornada = Json.fromJson(json, Area.class);
+
+        assertEquals(OK, postResult.status());
+        assertEquals("1", areaRetornada.getDescricao().toString());
+        assertNotNull(areaRetornada.getId());
+
+        areaRetornada.setDescricao(1);
+
+        postRequest = new Http.RequestBuilder().method("PUT")
+                .uri(routes.AreasController.update(areaRetornada.getId().toString()).url()).bodyJson(Json.toJson(areaRetornada));
+        postResult = route(postRequest);
+        assertEquals(OK, postResult.status());
+        assertEquals("1", areaRetornada.getDescricao().toString());
+
     }
 
 }

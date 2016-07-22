@@ -1,5 +1,7 @@
 package models;
 
+import checks.AreasCheck;
+import checks.CidadesCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
@@ -13,9 +15,11 @@ import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -129,6 +133,17 @@ public class Area extends Model implements Cloneable {
 
     public void setUsuarios(List<Usuario> usuarios) {
         this.usuarios = usuarios;
+    }
+
+    @AssertTrue(groups = AreasCheck.class,
+            message = "Já existe uma Área cadastrada com essa descrição.")
+    public boolean isDescricaoUnique() {
+        if (Objects.nonNull(getDescricao())) {
+            Area areaAux = Area.find.where().eq("cidade_id", getCidade().getId().toString()).ieq("descricao", getDescricao().toString()).findUnique();
+
+            return areaAux == null || (this.getId() != null && areaAux.getId().equals(this.getId())) ;
+        }
+        return true;
     }
 
     @Override
