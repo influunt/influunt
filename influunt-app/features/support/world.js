@@ -129,12 +129,9 @@ var World = function () {
 
   this.selectOption = function(selectSelector, optionText) {
     return this.getElements(selectSelector + ' option').then(function(options) {
-			console.log("SS: " + selectSelector);
-			console.log("T: " + optionText);
       for (var i = 0; i < options.length; i++) {
         var option = options[i];
         option.getText().then(function(text) {
-				  console.log("O: " + text);
           if (text === optionText) {
             return option.click();
           }

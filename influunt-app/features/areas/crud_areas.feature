@@ -20,7 +20,6 @@ Funcionalidade: tela de cadastro de areas
     Então o registro da área deverá ser salvo com número CTA igual a "42"
     E o sistema deverá retornar à tela de listagem de areas
 
-    @tt
   Cenário: Cadastro de areas com mesmo nome
     Dado que exista ao menos uma area cadastrada no sistema
     Quando o usuário acessar a tela de cadastro de novas areas
@@ -28,7 +27,6 @@ Funcionalidade: tela de cadastro de areas
     E o usuario preencher o campo "Área" com "51"
     E clicar no botão de salvar
     Então o sistema deverá indicar erro nos campos "area_descricao"
-
 
   Cenário: Acesso à tela de detalhes de area
     Quando o usuário acessar a tela de listagem de areas
