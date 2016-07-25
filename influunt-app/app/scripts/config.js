@@ -346,6 +346,15 @@ angular
           }
         })
 
+        .state('app.wizard_controladores.configuracao_grupo', {
+          url: '/configuracao-grupo/:id',
+          templateUrl: 'views/controladores/wizard/configuracao-grupo.html',
+          controller: 'ControladoresAssociacaoCtrl',
+          data: {
+            title: 'controladores.titulo'
+          }
+        })
+
         .state('app.wizard_controladores.associacao', {
           url: '/associacao/:id',
           templateUrl: 'views/controladores/wizard/associacao.html',

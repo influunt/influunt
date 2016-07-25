@@ -1056,6 +1056,32 @@ header .nav-secon li a {
     float: left;
     cursor: all-scroll;
 }
+.wrapper-content .basic-wizard .content .body .stages .botton-line-grey {
+    border-bottom: 1px solid #cfcfcf;
+}
+
+.wrapper-content .basic-wizard .content .body .stages .botton-line-white {
+    border-bottom: 1px solid #FFFFFF;
+}
+
+.wrapper-content .basic-wizard .content .body .stages .groups-stages {
+    padding-top: 12px;
+}
+
+.wrapper-content .basic-wizard .content .body .stages .groups-stages-top {
+    background: #e5e5e5;
+    position: relative;
+    float: left;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.wrapper-content .basic-wizard .content .body .stages .groups-stages-null {
+    background: #e5e5e5;
+    padding-top: 11px;
+    padding-bottom: 11px;
+}
+
 .wrapper-content .basic-wizard .content .body .stages .title-stages-top {
     background: #e5e5e5;
     position: relative;
