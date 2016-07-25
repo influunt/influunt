@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresCtrl', ['$controller', '$scope', '$state','Restangular', '$q', 'handleValidations', 'APP_ROOT',
-    function ($controller, $scope, $state, Restangular, $q, handleValidations, APP_ROOT) {
+  .controller('ControladoresCtrl', ['$controller', '$scope', '$state','Restangular', '$q', 'handleValidations', 'APP_ROOT', 'influuntBlockui',
+    function ($controller, $scope, $state, Restangular, $q, handleValidations, APP_ROOT, influuntBlockui) {
 
       // Herda todo o comportamento do crud basico.
       $controller('CrudCtrl', {$scope: $scope});
@@ -74,16 +74,20 @@ angular.module('influuntApp')
        * @return     {<type>}  { description_of_the_return_value }
        */
       $scope.inicializaWizard = function() {
+        influuntBlockui.block();
         var defer = $q.defer();
 
         var id = $state.params.id;
         if (id) {
           Restangular.one('controladores', id).get().then(function(res) {
             loadWizardData(res);
+
+            influuntBlockui.unblock();
             defer.resolve(res);
           });
         } else {
           loadWizardData({});
+          influuntBlockui.unblock();
           defer.resolve({});
         }
 
@@ -91,6 +95,7 @@ angular.module('influuntApp')
       };
 
       $scope.submitForm = function(form, stepResource, nextStep) {
+        $.blockUI({message: '<img src="images/reload.gif">'});
         if (angular.isFunction($scope.beforeSubmitForm)) {
           $scope.beforeSubmitForm();
         }
@@ -104,8 +109,10 @@ angular.module('influuntApp')
 
               $scope.errors = {};
               $state.go(nextStep, {id: $scope.objeto.id});
+              influuntBlockui.unblock();
             })
             .catch(function(res) {
+              influuntBlockui.unblock();
               if (res.status === 422) {
                 if (angular.isFunction($scope.afterSubmitFormOnValidationError)) {
                   $scope.afterSubmitFormOnValidationError();

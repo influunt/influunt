@@ -26,7 +26,6 @@
 // directives
 @import "./directives/influunt-knob.css";
 
-
 li.anel-selecionado {
   background-color: #6fd1bd;
 
@@ -213,4 +212,9 @@ i.sinal-verde-conflitante, i.transicao-proibida {
 
 .wizard-step-title h2, h3 {
   font-size: 16px;
+}
+
+.blockUI.blockMsg.blockPage {
+  border: none !important;
+  background-color: transparent !important;
 }
