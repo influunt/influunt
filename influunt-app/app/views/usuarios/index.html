@@ -29,7 +29,7 @@
               <tbody>
                 <tr data-ng-repeat="usuario in lista">
                   <td>{{ usuario.nome }}</td>
-                  <td>{{ usuario.nome }}</td>
+                  <td>{{ usuario.login }}</td>
                   <td><a href="mailto:{{ usuario.email}}" target="_top">{{ usuario.email }}</a></td>
                   <td data-ng-bind-html="usuario.perfil | resourceToString"></td>
                   <td>
