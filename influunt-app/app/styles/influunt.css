@@ -1625,3 +1625,7 @@ table.table-diagonal:nth-of-type(1) th.diagonal {
     top: 200px;
 
 }
+.blockUI.blockMsg.blockPage {
+  border: none !important;
+  background-color: transparent !important;
+}
