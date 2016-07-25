@@ -65,4 +65,14 @@ public class ImagensController extends Controller {
         File path = imagem.getPath(appRootPath);
         return CompletableFuture.completedFuture(ok(path).as(imagem.getContentType()));
     }
+
+    @Transactional
+    public CompletionStage<Result> delete(String id) {
+        Imagem imagem = Imagem.find.byId(UUID.fromString(id));
+        if (imagem == null) {
+            return CompletableFuture.completedFuture(notFound());
+        }
+        imagem.apagar(provider.get().path());
+        return CompletableFuture.completedFuture(ok());
+    }
 }

@@ -38,6 +38,7 @@ angular.module('influuntApp')
             criaAneis($scope.objeto);
             $scope.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
             $scope.currentAnel = $scope.objeto.aneis[$scope.currentAnelIndex];
+            $scope.$broadcast('influuntWizard.dropzoneOk', { aneis: $scope.aneis });
           }
         });
       };
@@ -75,7 +76,15 @@ angular.module('influuntApp')
       $scope.associaImagemAoEstagio = function(upload, imagem) {
         var anel = $scope.currentAnel;
         anel.estagios = anel.estagios || [];
-        anel.estagios.push({ imagem: { id: imagem.id } });
+        anel.estagios.push({ imagem: { id: imagem.id, filename: imagem.filename } });
       };
 
+      $scope.removeImagemDoEstagio = function(imagem) {
+        var anel = $scope.currentAnel;
+        anel.estagios = anel.estagios || [];
+        var index = _.findIndex(anel.estagios, function(estagio) { return estagio.imagem.id === imagem.id; });
+        if (index > -1) {
+          anel.estagios.splice(index, 1);
+        }
+      };
     }]);

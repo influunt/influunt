@@ -5,15 +5,17 @@ import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.joda.time.DateTime;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
+import org.joda.time.DateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.UUID;
 
 
@@ -35,14 +37,14 @@ public class Imagem extends Model {
     private String contentType;
 
     @Column
-    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
-    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
 
     @Column
-    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
-    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
 
@@ -97,5 +99,16 @@ public class Imagem extends Model {
             folder.mkdirs();
         }
         return new File(rootPath, "imagens/" + this.getId());
+    }
+
+    public boolean apagar(File rootPath) {
+        File imagemPath = getPath(rootPath);
+        if (this.delete()) {
+            try {
+                Files.delete(imagemPath.toPath());
+            } catch (IOException e) { /* ... */ }
+            return true;
+        }
+        return false;
     }
 }

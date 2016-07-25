@@ -1,9 +1,11 @@
+package controllers;
+
 import akka.stream.Materializer;
 import akka.stream.javadsl.FileIO;
 import akka.stream.javadsl.Source;
 import akka.util.ByteString;
 import com.google.inject.Singleton;
-import controllers.routes;
+import models.Imagem;
 import org.junit.Test;
 import play.Application;
 import play.Mode;
@@ -13,7 +15,6 @@ import play.mvc.Http.MultipartFormData.DataPart;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import play.test.WithApplication;
-import models.Imagem;
 import security.AllowAllAuthenticator;
 import security.Authenticator;
 
@@ -21,9 +22,9 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static play.inject.Bindings.bind;
 import static play.mvc.Http.Status.OK;
 import static play.test.Helpers.inMemoryDatabase;
@@ -84,6 +85,29 @@ public class ImagensControllerTest extends WithApplication {
 
         assertEquals(200, result.status());
         assertTrue(result.contentType().toString().contains("image/jpeg"));
+    }
+
+    @Test
+    public void testApagarImagemExistente() {
+        Imagem imagem = new Imagem();
+        imagem.setContentType("image/jpeg");
+        imagem.setFilename("ubuntu.jpeg");
+        imagem.save();
+
+        Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
+                .uri(routes.ImagensController.delete(imagem.getId().toString()).url());
+        Result result = route(deleteRequest);
+
+        assertEquals(200, result.status());
+        assertNull(Imagem.find.byId(imagem.getId()));
+    }
+
+    @Test
+    public void testApagarImagemNaoExistente() {
+        Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
+                .uri(routes.ImagensController.delete(UUID.randomUUID().toString()).url());
+        Result result = route(deleteRequest);
+        assertEquals(404, result.status());
     }
 
 }

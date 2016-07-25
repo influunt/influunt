@@ -444,6 +444,10 @@ header .nav-secon li a {
     line-height: 100px;
     text-align: center;
 }
+.wrapper-content .basic-wizard .content .body .movements .dz-image-preview button.remove-image {
+    margin-left: 150px;
+    cursor: pointer;
+}
 .wrapper-content .basic-wizard .content .body .movements label {
     width: 100%;
     text-align: left;

@@ -11,14 +11,15 @@
  * i18n de forma assincrona).
  */
 angular.module('influuntApp')
-  .directive('influuntDropzone', ['APP_ROOT', '$timeout', function (APP_ROOT, $timeout) {
+  .directive('influuntDropzone', ['APP_ROOT', '$timeout', 'Restangular', 'toast', function (APP_ROOT, $timeout, Restangular, toast) {
     return {
       restrict: 'A',
       scope: {
         url: '@',
         anel: '=',
         imagensUrl: '=',
-        onSuccess: '&'
+        onSuccess: '&',
+        onDelete: '&'
       },
       link: function postLink(scope, element) {
         /**
@@ -32,6 +33,15 @@ angular.module('influuntApp')
           }, 0);
         };
 
+        var deleteImage = function(imagemId, dropzoneFile, dropzone) {
+          return Restangular.one('imagens', imagemId).remove().then(function() {
+            scope.onDelete({ imagem: { id: imagemId } });
+            dropzone.removeFile(dropzoneFile);
+          }).catch(function() {
+            toast.error('Não foi possível apagar a imagem.');
+          });
+        };
+
         scope.$watch('anel.idAnel', function(value) {
           return value && filterVisiblePreviews();
         });
@@ -42,7 +52,7 @@ angular.module('influuntApp')
           return val > 0 && filterVisiblePreviews();
         });
 
-        $(element).dropzone({
+        new Dropzone('#'+element.attr('id'), {
           url: APP_ROOT + '/imagens',
           dictDefaultMessage: 'Arraste imagens para este local',
           dictFallbackMessage: 'Seu navegador não suporta arrastar e soltar upload de arquivos.',
@@ -59,14 +69,24 @@ angular.module('influuntApp')
           },
           success: function(upload, imagem) {
             var anel = scope.anel;
-
             // Adiciona o anel id ao elemento do preview. Este id será utilizado
             // para filtrar as imagens de estagios para os diferentes aneis.
-            $('.dz-preview').filter(function() {
-              return !$(this).attr('data-anel-id');
-            }).attr('data-anel-id', anel.idAnel);
-
+            $(upload.previewElement).attr('data-anel-id', anel.idAnel);
+            $(upload.previewElement).attr('data-imagem-id', imagem.id);
             return scope.onSuccess({upload: upload, imagem: imagem});
+          },
+          init: function() {
+            this.on("addedfile", function(file) {
+              var removeButton = Dropzone.createElement("<button class='remove-image' title='Remover estágio'>&times;</button>");
+              var _this = this;
+              removeButton.addEventListener("click", function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                var imagemId = $(this).parent('.dz-image-preview').attr('data-imagem-id');
+                deleteImage(imagemId, file, _this);
+              });
+              file.previewElement.appendChild(removeButton);
+            });
           }
         });
       }
