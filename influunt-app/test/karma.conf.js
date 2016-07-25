@@ -63,7 +63,7 @@ module.exports = function(config) {
       'app/plugins/inspinia.js',
       'app/plugins/icheck.min.js',
       'app/plugins/dropzone/dropzone.js',
-      'app/plugins/jquery.knob.js',
+      'app/plugins/roundSlider-1.3/roundslider.min.js',
 
       // tests and scripts.
       'test/helpers/**/*.js',

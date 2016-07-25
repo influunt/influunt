@@ -73,7 +73,7 @@ var paths = {
     yeoman.app + '/plugins/inspinia.js',
     yeoman.app + '/plugins/icheck.min.js',
     yeoman.app + '/plugins/dropzone/dropzone.js',
-    yeoman.app + '/plugins/jquery.knob.js'
+    yeoman.app + '/plugins/roundSlider-1.3/roundslider.min.js'
     // yeoman.app + '/json/**/*.js'
     // 'test/mock/**/*.js'
   ],
