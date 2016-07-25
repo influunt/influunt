@@ -25,7 +25,7 @@ angular
             title: 'geral.dashboard',
           }
         })
-        
+
         .state('app', {
           abstract: true,
           url: '/app',
@@ -341,6 +341,15 @@ angular
           url: '/aneis/:id',
           templateUrl: 'views/controladores/wizard/aneis.html',
           controller: 'ControladoresAneisCtrl',
+          data: {
+            title: 'controladores.titulo'
+          }
+        })
+
+        .state('app.wizard_controladores.configuracao_grupo', {
+          url: '/configuracao-grupo/:id',
+          templateUrl: 'views/controladores/wizard/configuracao-grupo.html',
+          controller: 'ControladoresConfiguracaoGrupoCtrl',
           data: {
             title: 'controladores.titulo'
           }
