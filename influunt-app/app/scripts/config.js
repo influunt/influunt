@@ -25,7 +25,7 @@ angular
             title: 'geral.dashboard',
           }
         })
-        
+
         .state('app', {
           abstract: true,
           url: '/app',
