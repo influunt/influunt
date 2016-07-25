@@ -2,6 +2,11 @@
 
 describe('Directive: influuntKnob', function () {
 
+  var getComponentsValue = function(element) {
+    var value = $(element).find('input[type=hidden]').val();
+    return parseInt(value);
+  };
+
   // load the directive's module
   beforeEach(module('influuntApp'));
 
@@ -40,26 +45,21 @@ describe('Directive: influuntKnob', function () {
     element = $compile(element)(scope);
     scope.$apply();
 
-    var value = parseInt($(element).find('.dial-input').val());
+    var value = getComponentsValue(element);
     expect(value).toBe(scope.teste.knob);
   });
   it('Se não houver valor de ng-model, o valor do componente será igual ao valor minimo.', function() {
-    var value = parseInt($(element).find('.dial-input').val());
+    var value = getComponentsValue(element);
     expect(value).toBe(scope.teste.min);
   });
   it('Se houver atualizacao no valor de model, o valor do componente também deverá ser atualizado', function() {
     scope.teste.knob = 42;
     scope.$apply();
-    var value = parseInt($(element).find('.dial-input').val());
+
+    var value = getComponentsValue(element);
     expect(value).toBe(scope.teste.knob);
   });
   it('Se não houver valor de ng-model, ele deverá ser atualizado para o valor mínimo', function() {
     expect(scope.teste.knob).toBe(scope.teste.min);
-  });
-  xit('Se houver atualizacao no componente, o valor de ng-model também deverá ser atualizado', function() {
-    var value = 42;
-    $(element).find('.dial-input').val(value).trigger('change');
-    scope.$apply();
-    expect(value).toBe(parseInt(scope.teste.knob));
   });
 });

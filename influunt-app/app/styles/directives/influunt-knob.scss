@@ -1,0 +1,104 @@
+@import "./../influunt/variables.scss";
+
+.knob-shape {
+  width: 90px !important;
+  height: 90px !important;
+  margin-left: auto;
+  margin-right: auto;
+
+  .rs-container {
+    width: 90px !important;
+    height: 90px !important;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .rs-tooltip.rs-tooltip-text.edit {
+    width: 50px;
+    border: none;
+  }
+
+  .rs-bar.rs-transition.rs-start .rs-seperator.rs-border,
+  .rs-bar.rs-transition.rs-end .rs-seperator.rs-border{
+    border: none;
+  }
+
+  .knob-value {
+    width: 35px;
+
+    height: 28px;
+    position: absolute;
+    vertical-align: middle;
+    margin-top: -19px;
+    border: 0px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: bold;
+    font-stretch: normal;
+    font-size: 21px !important;
+    line-height: normal;
+    font-family: Arial;
+    text-align: center;
+    color: rgb(26, 179, 148);
+    padding: 0px;
+    -webkit-appearance: none;
+    background: none;
+  }
+
+  .knob-label {
+    position: absolute;
+    font-size: 11px !important;
+    padding: 0;
+    margin: 0;
+    right: 0;
+    left: 0px;
+    top: 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+
+  .rs-range-color  {
+    background-color: rgb(26, 179, 148);
+  }
+
+  .rs-path.rs-transition.rs-path-color {
+    background-color: #eee;
+  }
+
+  .rs-handle:after  {
+    background-color: #000;
+  }
+
+  .rs-border, .rs-inner.rs-bg-color.rs-border {
+    border-color: #eee;
+
+    @each $nome-cor, $cor in $cores-de-sinais {
+      &.#{$nome-cor} {
+        border-color: darken($cor, 20);
+      }
+    }
+  }
+}
+
+
+@each $nome-cor, $cor in $cores-de-sinais {
+  .meters.#{$nome-cor} {
+    .knob-shape {
+      .knob-value {
+        color: darken($cor, 10);
+      }
+
+      .rs-range-color {
+        @if index($temas-hachurados, $nome-cor) {
+          background: $bg-hachurado $cor;
+        } @else {
+          background-color: $cor;
+        }
+      }
+
+      .rs-border, .rs-inner.rs-bg-color.rs-border {
+        border-color: darken($cor, 20);
+      }
+    }
+  }
+}

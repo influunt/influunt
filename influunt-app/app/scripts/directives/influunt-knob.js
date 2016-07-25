@@ -7,35 +7,11 @@
  * # influuntKnob
  */
 angular.module('influuntApp')
-  .directive('influuntKnob', ['$timeout',
-    function ($timeout) {
-      var changeTimeout = null;
+  .directive('influuntKnob', [
+    function () {
 
-      var getSafeIntegerValue = function(value, min) {
-        return parseInt(value) || parseInt(min);
-      };
+      var knob;
 
-      /**
-       * On change event for knob jquery plugin.
-       * It will debounce the ng-model value update.
-       *
-       * @param      {<type>}  value   The value
-       * @param      {<type>}  scope   The scope
-       */
-      var onChange = function(dial, value, scope) {
-        $timeout.cancel(changeTimeout);
-        changeTimeout = $timeout(function() {
-          value = getSafeIntegerValue(value, scope.min);
-          value = (value >= scope.min) ? value : scope.min;
-          value = (value <= scope.max) ? value : scope.max;
-
-          value = parseInt(value);
-          scope.ngModel = value;
-          dial.val(value).trigger('change');
-
-          scope.ngModel = parseInt(scope.ngModel);
-        }, 200);
-      };
 
       return {
         templateUrl: 'views/directives/influunt-knob.html',
@@ -43,45 +19,38 @@ angular.module('influuntApp')
         scope: {
           title: '@',
           label: '@',
+          class: '@',
           min: '=',
           max: '=',
           ngModel: '='
         },
-        link: function postLink(scope, element) {
-          scope.min = scope.min || 0;
+        link: function influuntKnob(scope, element) {
+          var showLabel = function(args) {
+            return '<p class="knob-value">' + args.value + '</p><p class="knob-label">' + scope.label + '</p>';
+          };
 
-          var dial = $(element).find('.dial');
-          dial.knob({
-            max: scope.max,
-            change: function(v) {
-              onChange(dial, v, scope);
-            }
+          scope.ngModel = scope.ngModel || scope.min || 0;
+          knob = $(element).find('.knob-shape').roundSlider({
+            radius: 90,
+            min: 0,
+            max: 120,
+            sliderType: 'min-range',
+            value: scope.ngModel,
+            handleShape: 'dot',
+            tooltipFormat: showLabel
           });
 
-          dial.on('change', function() {
-            var value = getSafeIntegerValue($(this).val(), scope.min);
-            // var value = parseInt($(this).val());
-            var $element = $(element);
-            var hidden = $element.find('input.previous-value');
-            if (hidden.length === 0) {
-              hidden = $('<input type="hidden" class="previous-value" />');
-              hidden.val(value);
-              $element.append(hidden);
-              return onChange(dial, value, scope);
-            } else {
-              if (parseInt(hidden.val()) !== parseInt(value)) {
-                hidden.val(value);
-                return onChange(dial, value, scope);
-              }
+          knob.on('change', function(ev) {
+            if (ev.value && ev.value !== ev.preValue) {
+              scope.ngModel = ev.value;
+              scope.$apply();
             }
-
-            scope.ngModel = parseInt(scope.ngModel);
           });
 
           scope.$watch('ngModel', function(value) {
-            value = getSafeIntegerValue(value, scope.min);
-            dial.val(angular.isDefined(value) ? value : scope.min).trigger('change');
-            scope.ngModel = parseInt(scope.ngModel);
+            if (angular.isDefined(value)) {
+              $(element).find('.knob-shape').roundSlider('setValue', value);
+            }
           });
         }
       };
