@@ -65,6 +65,7 @@ angular.module('influuntApp')
           createMarker(DEFAULTS.LATITUDE, DEFAULTS.LONGITUDE);
 
           L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
+          // L.tileLayer('http://cetsp1.cetsp.com.br:10084/geoserver/cetmdc/wms?tiled=true', {
             maxZoom: 20,
             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
               '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +

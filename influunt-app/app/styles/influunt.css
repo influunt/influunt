@@ -551,10 +551,6 @@ header .nav-secon li a {
      margin: 0;
 }
 .wrapper-content .basic-wizard .content .body .association.stage-time .knob {}
-.wrapper-content .basic-wizard .content .body .association.stage-time .knob .knob-item .meters input {
-    margin-top: 25px !important;
-    outline: none;
-}
 .wrapper-content .basic-wizard .content .body .association.stage-time .knob .knob-item p {
     font-size: 11px;
     font-weight: bold;
@@ -719,26 +715,10 @@ header .nav-secon li a {
 .wrapper-content .basic-wizard .content .body .association.table-creation-plans article .knob {
     margin-top: 35px;
 }
-.wrapper-content .basic-wizard .content .body .association.table-creation-plans article .knob .knob-item .meters {
-    margin-bottom: 25px;
-}
 .wrapper-content .basic-wizard .content .body .association.table-creation-plans article .knob .knob-item p {
     font-size: 11px;
     font-weight: bold;
     text-transform: uppercase;
-}
-.wrapper-content .basic-wizard .content .body .association.table-creation-plans article .knob .knob-item .meters input {
-    margin-top: 25px !important;
-    outline: none;
-}
-.wrapper-content .basic-wizard .content .body .association.table-creation-plans article .knob .knob-item .meters label {
-    position: absolute;
-    font-size: 11px;
-    padding: 0;
-    margin: 0;
-    right: 0;
-    left: 0;
-    top: 50%;
 }
 .wrapper-content .basic-wizard .content .body .association.table-creation-plans article aside {
     float: left;
@@ -777,19 +757,6 @@ header .nav-secon li a {
 }
 .wrapper-content .basic-wizard .content .body .association.tables-associated .knob .knob-item {
     float: left;
-}
-.wrapper-content .basic-wizard .content .body .association.tables-associated .knob .knob-item .meters input {
-    margin-top: 25px !important;
-    outline: none;
-}
-.wrapper-content .basic-wizard .content .body .association.tables-associated .knob .knob-item .meters label {
-    position: absolute;
-    font-size: 11px;
-    padding: 0;
-    margin: 0;
-    right: 0;
-    left: 0;
-    top: 50%;
 }
 .wrapper-content .basic-wizard .content .body .association.tables-associated .knob .knob-item.delay-time {
     background: #e5e5e5;

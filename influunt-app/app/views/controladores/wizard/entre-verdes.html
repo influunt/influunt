@@ -92,99 +92,17 @@
                 <div class="knob">
                   <div class="text-center">
                     <div class="knob-item" data-ng-class="{ 'col-lg-4 col-sm-4': currentTabelaEntreVerdes.posicao === 1, 'col-lg-6 col-sm-6': currentTabelaEntreVerdes.posicao !== 1 }">
-                      <!-- <pre>{{possuiErroAmareloOuVermelho(currentGrupoSemaforico, $index)}}</pre> -->
                       <span class="badge badge-danger badge-notification"
                         data-ng-show="possuiErroAmareloOuVermelho(currentGrupoSemaforico, $index)"
                         inf-tooltip
                         messages="[errosAmareloOuVermelho(currentGrupoSemaforico, $index)]">
                         <i class="fa fa-exclamation"></i>
                       </span>
-                      <!-- <influunt-knob title="{{ amareloOuVermelho(currentGrupoSemaforico) }}" label="SEG" min="limites(tevTransicao.transicao.grupoSemaforico)[amareloOuVermelho(currentGrupoSemaforico, true)].min" max="limites(tevTransicao.transicao.grupoSemaforico)[amareloOuVermelho(currentGrupoSemaforico, true)].max" data-ng-model="tevTransicao[amareloOuVermelho(currentGrupoSemaforico, true)]"></influunt-knob> -->
-                      <div class="teste">
-                        <p>{{ amareloOuVermelho(currentGrupoSemaforico) }}</p>
-                        <div class="knob-shape"></div>
-                      </div>
-                      <script type="text/javascript">
-                        $(".knob-shape").roundSlider({
-                          radius: 90,
-                          min: 0,
-                          max: 120,
-                          sliderType: "min-range",
-                          value: 40,
-                          handleShape: "dot",
-                          // editableTooltip: false,
-                          // showTooltip: true,
-                          tooltipFormat: 'showLabel'
-                        });
-
-                        var showLabel = function(args) {
-                          return '<p class="knob-value">' + args.value + '</p><p class="knob-label">SEG</p>';
-                          // return args.value + ' SEG';
-                        };
-                      </script>
-                      <style type="text/css">
-                      .rs-tooltip.rs-tooltip-text.edit {
-                        width: 50px;
-                        border: none;
-                      }
-                      .knob-value {
-                        width: 153px;
-                        height: 28px;
-                        position: absolute;
-                        vertical-align: middle;
-                        margin-top: -19px;
-                        margin-left: -60px;
-                        border: 0px;
-                        font-style: normal;
-                        font-variant: normal;
-                        font-weight: bold;
-                        font-stretch: normal;
-                        font-size: 21px !important;
-                        line-height: normal;
-                        font-family: Arial;
-                        text-align: center;
-                        color: rgb(26, 179, 148);
-                        padding: 0px;
-                        -webkit-appearance: none;
-                        background: none;
-                      }
-
-                      .knob-label {
-                        position: absolute;
-                        font-size: 11px !important;
-                        padding: 0;
-                        margin: 0;
-                        right: 0;
-                        left: 0px;
-                        top: 10px;
-                        text-transform: uppercase;
-                        font-weight: bold;
-                      }
-                        .knob-shape {
-                          width: 90px !important;
-                          height: 90px !important;
-                          margin-left: auto;
-                          margin-right: auto;
-                        }
-                        .knob-shape .rs-container {
-                          width: 90px !important;
-                          height: 90px !important;
-                          margin-left: auto;
-                          margin-right: auto;
-                        }
-                        .knob-shape .rs-range-color  {
-                            background-color: rgb(26, 179, 148);
-                        }
-                        .knob-shape .rs-path.rs-transition.rs-path-color {
-                          background-color: #eee;
-                        }
-                        .knob-shape .rs-handle:after  {
-                            background-color: #000;
-                        }
-                        .knob-shape .rs-border  {
-                            border-color: #eee;
-                        }
-                      </style>
+                      <influunt-knob
+                          title="{{ amareloOuVermelho(currentGrupoSemaforico) }}"
+                          class="vermelho"
+                          label="SEG"
+                          min="limites(tevTransicao.transicao.grupoSemaforico)[amareloOuVermelho(currentGrupoSemaforico, true)].min" max="limites(tevTransicao.transicao.grupoSemaforico)[amareloOuVermelho(currentGrupoSemaforico, true)].max" data-ng-model="tevTransicao[amareloOuVermelho(currentGrupoSemaforico, true)]"></influunt-knob>
                     </div>
                     <div class="knob-item col-lg-4 col-sm-4">
                       <span class="badge badge-danger badge-notification"
@@ -193,7 +111,7 @@
                         messages="[errosVermelhoLimpeza(currentGrupoSemaforico, $index)]">
                         <i class="fa fa-exclamation"></i>
                       </span>
-                      <influunt-knob title="Vermelho de Limpeza" label="SEG" min="limites(tevTransicao.transicao.grupoSemaforico).tempoVermelhoLimpeza.min" max="limites(tevTransicao.transicao.grupoSemaforico).tempoVermelhoLimpeza.max" data-ng-model="tevTransicao.tempoVermelhoLimpeza"></influunt-knob>
+                      <influunt-knob title="Vermelho de Limpeza" class="vermelho-limpeza" label="SEG" min="limites(tevTransicao.transicao.grupoSemaforico).tempoVermelhoLimpeza.min" max="limites(tevTransicao.transicao.grupoSemaforico).tempoVermelhoLimpeza.max" data-ng-model="tevTransicao.tempoVermelhoLimpeza"></influunt-knob>
                     </div>
                     <div class="knob-item col-lg-4 col-sm-4 delay-time" data-ng-if="currentTabelaEntreVerdes.posicao === 1">
                       <span class="badge badge-danger badge-notification"
