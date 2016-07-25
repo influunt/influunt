@@ -92,14 +92,17 @@
                 <div class="knob">
                   <div class="text-center">
                     <div class="knob-item" data-ng-class="{ 'col-lg-4 col-sm-4': currentTabelaEntreVerdes.posicao === 1, 'col-lg-6 col-sm-6': currentTabelaEntreVerdes.posicao !== 1 }">
-                      <!-- <pre>{{possuiErroAmareloOuVermelho(currentGrupoSemaforico, $index)}}</pre> -->
                       <span class="badge badge-danger badge-notification"
                         data-ng-show="possuiErroAmareloOuVermelho(currentGrupoSemaforico, $index)"
                         inf-tooltip
                         messages="[errosAmareloOuVermelho(currentGrupoSemaforico, $index)]">
                         <i class="fa fa-exclamation"></i>
                       </span>
-                      <influunt-knob title="{{ amareloOuVermelho(currentGrupoSemaforico) }}" label="SEG" min="limites(tevTransicao.transicao.grupoSemaforico)[amareloOuVermelho(currentGrupoSemaforico, true)].min" max="limites(tevTransicao.transicao.grupoSemaforico)[amareloOuVermelho(currentGrupoSemaforico, true)].max" data-ng-model="tevTransicao[amareloOuVermelho(currentGrupoSemaforico, true)]"></influunt-knob>
+                      <influunt-knob
+                          title="{{ amareloOuVermelho(currentGrupoSemaforico) }}"
+                          class="vermelho"
+                          label="SEG"
+                          min="limites(tevTransicao.transicao.grupoSemaforico)[amareloOuVermelho(currentGrupoSemaforico, true)].min" max="limites(tevTransicao.transicao.grupoSemaforico)[amareloOuVermelho(currentGrupoSemaforico, true)].max" data-ng-model="tevTransicao[amareloOuVermelho(currentGrupoSemaforico, true)]"></influunt-knob>
                     </div>
                     <div class="knob-item col-lg-4 col-sm-4">
                       <span class="badge badge-danger badge-notification"
@@ -108,7 +111,7 @@
                         messages="[errosVermelhoLimpeza(currentGrupoSemaforico, $index)]">
                         <i class="fa fa-exclamation"></i>
                       </span>
-                      <influunt-knob title="Vermelho de Limpeza" label="SEG" min="limites(tevTransicao.transicao.grupoSemaforico).tempoVermelhoLimpeza.min" max="limites(tevTransicao.transicao.grupoSemaforico).tempoVermelhoLimpeza.max" data-ng-model="tevTransicao.tempoVermelhoLimpeza"></influunt-knob>
+                      <influunt-knob title="Vermelho de Limpeza" class="vermelho-limpeza" label="SEG" min="limites(tevTransicao.transicao.grupoSemaforico).tempoVermelhoLimpeza.min" max="limites(tevTransicao.transicao.grupoSemaforico).tempoVermelhoLimpeza.max" data-ng-model="tevTransicao.tempoVermelhoLimpeza"></influunt-knob>
                     </div>
                     <div class="knob-item col-lg-4 col-sm-4 delay-time" data-ng-if="currentTabelaEntreVerdes.posicao === 1">
                       <span class="badge badge-danger badge-notification"
@@ -141,43 +144,3 @@
     </div>
   </div>
 </fieldset>
-<!-- {{ objeto }} -->
-
-<script>
-  $(document).ready(function(){
-
-    WinMove();
-
-    function WinMove() {
-      var element = ".handle";
-      var handle = ".title-stages";
-      var connect = ".handle";
-      $(element).sortable(
-      {
-        handle: handle,
-        connectWith: connect,
-        tolerance: 'pointer',
-        forcePlaceholderSize: true,
-        opacity: 0.8
-      })
-      .disableSelection();
-    };
-
-
-    function readURL() {
-      var $input = $(this);
-      if (this.files && this.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function(e) {
-          $input.next('.attrImg').attr('src', e.target.result).show();
-        }
-        reader.readAsDataURL(this.files[0]);
-      }
-    }
-
-    $(".imgInp").change(readURL);
-    $(".imgInp").change(function(){
-      $(this).parents().eq(3).addClass('change');
-    });
-  });
-</script>

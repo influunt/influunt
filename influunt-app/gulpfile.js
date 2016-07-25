@@ -66,6 +66,7 @@ var paths = {
     'bower_components/angular-google-places-autocomplete/src/autocomplete.js',
     'bower_components/angular-google-places-autocomplete/dist/autocomplete.min.js',
     'bower_components/angular-ui-sortable/sortable.js',
+    'bower_components/blockUI/jquery.blockUI.js',
 
     // inspinea scripts.
     yeoman.app + '/plugins/metisMenu/jquery.metisMenu.js',
@@ -73,7 +74,7 @@ var paths = {
     yeoman.app + '/plugins/inspinia.js',
     yeoman.app + '/plugins/icheck.min.js',
     yeoman.app + '/plugins/dropzone/dropzone.js',
-    yeoman.app + '/plugins/jquery.knob.js'
+    yeoman.app + '/plugins/roundSlider-1.3/roundslider.min.js'
     // yeoman.app + '/json/**/*.js'
     // 'test/mock/**/*.js'
   ],

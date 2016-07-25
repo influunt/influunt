@@ -45,3 +45,23 @@ angular.module('influuntApp')
         }
       };
     }]);
+
+
+angular.module('influuntApp')
+  .factory('blockuiInterceptor', ['influuntBlockui', '$q',
+    function(influuntBlockui, $q) {
+      return {
+        request: function(request) {
+          influuntBlockui.block();
+          return request;
+        },
+        responseError: function(response) {
+          influuntBlockui.unblock();
+          return $q.reject(response);
+        },
+        response: function(response) {
+          influuntBlockui.unblock();
+          return response;
+        }
+      };
+    }]);

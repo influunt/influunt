@@ -1,0 +1,184 @@
+.knob-shape {
+  width: 90px !important;
+  height: 90px !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.knob-shape .rs-container {
+  width: 90px !important;
+  height: 90px !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.knob-shape .rs-tooltip.rs-tooltip-text.edit {
+  width: 50px;
+  border: none;
+}
+
+.knob-shape .rs-bar.rs-transition.rs-start .rs-seperator.rs-border,
+.knob-shape .rs-bar.rs-transition.rs-end .rs-seperator.rs-border {
+  border: none;
+}
+
+.knob-shape .knob-value {
+  width: 35px;
+  height: 28px;
+  position: absolute;
+  vertical-align: middle;
+  margin-top: -19px;
+  border: 0px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: bold;
+  font-stretch: normal;
+  font-size: 21px !important;
+  line-height: normal;
+  font-family: Arial;
+  text-align: center;
+  color: #1ab394;
+  padding: 0px;
+  -webkit-appearance: none;
+  background: none;
+}
+
+.knob-shape .knob-label {
+  position: absolute;
+  font-size: 11px !important;
+  padding: 0;
+  margin: 0;
+  right: 0;
+  left: 0px;
+  top: 10px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.knob-shape .rs-range-color {
+  background-color: #1ab394;
+}
+
+.knob-shape .rs-path.rs-transition.rs-path-color {
+  background-color: #eee;
+}
+
+.knob-shape .rs-handle:after {
+  background-color: #000;
+}
+
+.knob-shape .rs-border, .knob-shape .rs-inner.rs-bg-color.rs-border {
+  border-color: #eee;
+}
+
+.knob-shape .rs-border.verde, .knob-shape .rs-inner.rs-bg-color.rs-border.verde {
+  border-color: #004720;
+}
+
+.knob-shape .rs-border.amarelo, .knob-shape .rs-inner.rs-bg-color.rs-border.amarelo {
+  border-color: #999700;
+}
+
+.knob-shape .rs-border.intermitente, .knob-shape .rs-inner.rs-bg-color.rs-border.intermitente {
+  border-color: #999700;
+}
+
+.knob-shape .rs-border.vermelho-limpeza, .knob-shape .rs-inner.rs-bg-color.rs-border.vermelho-limpeza {
+  border-color: #3d0600;
+}
+
+.knob-shape .rs-border.vermelho-intermitente, .knob-shape .rs-inner.rs-bg-color.rs-border.vermelho-intermitente {
+  border-color: #991000;
+}
+
+.knob-shape .rs-border.vermelho, .knob-shape .rs-inner.rs-bg-color.rs-border.vermelho {
+  border-color: #991000;
+}
+
+.knob-shape .rs-border.apagado, .knob-shape .rs-inner.rs-bg-color.rs-border.apagado {
+  border-color: #0a0a0a;
+}
+
+.meters.verde .knob-shape .knob-value {
+  color: #007a36;
+}
+
+.meters.verde .knob-shape .rs-range-color {
+  background-color: #00ad4d;
+}
+
+.meters.verde .knob-shape .rs-border, .meters.verde .knob-shape .rs-inner.rs-bg-color.rs-border {
+  border-color: #004720;
+}
+
+.meters.amarelo .knob-shape .knob-value {
+  color: #ccc900;
+}
+
+.meters.amarelo .knob-shape .rs-range-color {
+  background-color: #fffb00;
+}
+
+.meters.amarelo .knob-shape .rs-border, .meters.amarelo .knob-shape .rs-inner.rs-bg-color.rs-border {
+  border-color: #999700;
+}
+
+.meters.intermitente .knob-shape .knob-value {
+  color: #ccc900;
+}
+
+.meters.intermitente .knob-shape .rs-range-color {
+  background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAANUlEQVQYV2NkwAM6Ojr+M+KSB0lWVFQwYlUAkwRpxlCALImhAF0SRQE2SbgCXJJgBfgkQQoAFRkeoKyjcMIAAAAASUVORK5CYII=") #fffb00;
+}
+
+.meters.intermitente .knob-shape .rs-border, .meters.intermitente .knob-shape .rs-inner.rs-bg-color.rs-border {
+  border-color: #999700;
+}
+
+.meters.vermelho-limpeza .knob-shape .knob-value {
+  color: #700c00;
+}
+
+.meters.vermelho-limpeza .knob-shape .rs-range-color {
+  background-color: #a31100;
+}
+
+.meters.vermelho-limpeza .knob-shape .rs-border, .meters.vermelho-limpeza .knob-shape .rs-inner.rs-bg-color.rs-border {
+  border-color: #3d0600;
+}
+
+.meters.vermelho-intermitente .knob-shape .knob-value {
+  color: #cc1600;
+}
+
+.meters.vermelho-intermitente .knob-shape .rs-range-color {
+  background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAANUlEQVQYV2NkwAM6Ojr+M+KSB0lWVFQwYlUAkwRpxlCALImhAF0SRQE2SbgCXJJgBfgkQQoAFRkeoKyjcMIAAAAASUVORK5CYII=") #ff1b00;
+}
+
+.meters.vermelho-intermitente .knob-shape .rs-border, .meters.vermelho-intermitente .knob-shape .rs-inner.rs-bg-color.rs-border {
+  border-color: #991000;
+}
+
+.meters.vermelho .knob-shape .knob-value {
+  color: #cc1600;
+}
+
+.meters.vermelho .knob-shape .rs-range-color {
+  background-color: #ff1b00;
+}
+
+.meters.vermelho .knob-shape .rs-border, .meters.vermelho .knob-shape .rs-inner.rs-bg-color.rs-border {
+  border-color: #991000;
+}
+
+.meters.apagado .knob-shape .knob-value {
+  color: #242424;
+}
+
+.meters.apagado .knob-shape .rs-range-color {
+  background-color: #3d3d3d;
+}
+
+.meters.apagado .knob-shape .rs-border, .meters.apagado .knob-shape .rs-inner.rs-bg-color.rs-border {
+  border-color: #0a0a0a;
+}

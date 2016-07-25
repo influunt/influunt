@@ -14,4 +14,5 @@ angular.module('influuntApp')
   function(RestangularProvider, APP_ROOT, $httpProvider) {
     RestangularProvider.setBaseUrl(APP_ROOT);
     $httpProvider.interceptors.push('authInterceptor');
+    $httpProvider.interceptors.push('blockuiInterceptor');
   }]);
