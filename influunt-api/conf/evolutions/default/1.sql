@@ -251,7 +251,7 @@ create table planos (
 
 create table sessoes (
   id                            varchar(40) not null,
-  usuario_login                 varchar(255),
+  usuario_id                    varchar(40),
   ativa                         tinyint(1) default 0,
   data_criacao                  datetime(6) not null,
   constraint pk_sessoes primary key (id)
@@ -302,7 +302,8 @@ create table transicoes_proibidas (
 );
 
 create table usuarios (
-  login                         varchar(255) not null,
+  id                            varchar(40) not null,
+  login                         varchar(255),
   senha                         varchar(255),
   email                         varchar(255),
   nome                          varchar(255),
@@ -311,7 +312,8 @@ create table usuarios (
   perfil_id                     varchar(40),
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
-  constraint pk_usuarios primary key (login)
+  constraint uq_usuarios_login unique (login),
+  constraint pk_usuarios primary key (id)
 );
 
 create table verdes_conflitantes (
@@ -404,8 +406,8 @@ create index ix_planos_anel_id on planos (anel_id);
 alter table planos add constraint fk_planos_agrupamento_id foreign key (agrupamento_id) references agrupamentos (id) on delete restrict on update restrict;
 create index ix_planos_agrupamento_id on planos (agrupamento_id);
 
-alter table sessoes add constraint fk_sessoes_usuario_login foreign key (usuario_login) references usuarios (login) on delete restrict on update restrict;
-create index ix_sessoes_usuario_login on sessoes (usuario_login);
+alter table sessoes add constraint fk_sessoes_usuario_id foreign key (usuario_id) references usuarios (id) on delete restrict on update restrict;
+create index ix_sessoes_usuario_id on sessoes (usuario_id);
 
 alter table tabela_entre_verdes add constraint fk_tabela_entre_verdes_grupo_semaforico_id foreign key (grupo_semaforico_id) references grupos_semaforicos (id) on delete restrict on update restrict;
 create index ix_tabela_entre_verdes_grupo_semaforico_id on tabela_entre_verdes (grupo_semaforico_id);
@@ -530,8 +532,8 @@ drop index ix_planos_anel_id on planos;
 alter table planos drop foreign key fk_planos_agrupamento_id;
 drop index ix_planos_agrupamento_id on planos;
 
-alter table sessoes drop foreign key fk_sessoes_usuario_login;
-drop index ix_sessoes_usuario_login on sessoes;
+alter table sessoes drop foreign key fk_sessoes_usuario_id;
+drop index ix_sessoes_usuario_id on sessoes;
 
 alter table tabela_entre_verdes drop foreign key fk_tabela_entre_verdes_grupo_semaforico_id;
 drop index ix_tabela_entre_verdes_grupo_semaforico_id on tabela_entre_verdes;

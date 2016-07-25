@@ -2,6 +2,7 @@ package models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import be.objectify.deadbolt.java.models.Permission;
 import be.objectify.deadbolt.java.models.Role;
@@ -13,23 +14,27 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import helpers.HashHelper;
 import json.deserializers.InfluuntDateTimeDeserializer;
+import json.deserializers.UsuarioDeserialiazer;
 import json.serializers.InfluuntDateTimeSerializer;
 import json.serializers.UsuarioSerializer;
 import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "usuarios")
 @JsonSerialize(using = UsuarioSerializer.class)
+@JsonDeserialize(using = UsuarioDeserialiazer.class)
 public class Usuario extends Model implements Subject {
 
-    public static Model.Finder<String, Usuario> find = new Model.Finder<String, Usuario>(Usuario.class);
+    public static Model.Finder<UUID, Usuario> find = new Model.Finder<UUID, Usuario>(Usuario.class);
 
     @Id
+    private UUID id;
+
     @NotBlank(message = "não pode ficar em branco")
+    @Column(unique = true)
     private String login;
 
     @Column
@@ -64,6 +69,13 @@ public class Usuario extends Model implements Subject {
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
 
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
     public String getLogin() {
         return login;

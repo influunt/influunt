@@ -17,6 +17,12 @@ public class UsuarioSerializer extends JsonSerializer<Usuario> {
     @Override
     public void serialize(Usuario usuario, JsonGenerator jgen, SerializerProvider serializers) throws IOException, JsonProcessingException {
         jgen.writeStartObject();
+
+        if (usuario.getId() == null) {
+            jgen.writeStringField("id", null);
+        } else {
+            jgen.writeStringField("id", usuario.getId().toString());
+        }
         if (usuario.getLogin() == null) {
             jgen.writeNullField("login");
         } else {
