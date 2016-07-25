@@ -8,7 +8,7 @@
  * Service in the influuntApp.
  */
 angular.module('influuntApp')
-  .service('influuntBlockui', ['$timeout', function influuntBlockui($timeout) {
+  .service('influuntBlockui', [function influuntBlockui() {
     var block = function() {
       $.blockUI({message: '<img src="images/reload.gif">'});
     };

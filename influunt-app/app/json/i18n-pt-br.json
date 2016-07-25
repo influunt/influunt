@@ -41,7 +41,7 @@
     "numeroSMEEConjugado3": "Num. SMEE conjugado 3",
     "opcoes": "Opções",
     "tipo": "Tipo",
-    "titulo": "Controladores",
+    "titulo": "Programação",
     "transicoesProibidas": "Transições Proibidas",
     "validacoes": {
       "aoMenosUmGrupoSemaforico": "Este anel deve ter mais de 1 grupo semáforico",

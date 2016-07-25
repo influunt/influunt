@@ -1625,7 +1625,12 @@ table.table-diagonal:nth-of-type(1) th.diagonal {
     top: 200px;
 
 }
+
+.blockUI.blockOverlay{
+  z-index: 4000 !important;
+}
 .blockUI.blockMsg.blockPage {
   border: none !important;
   background-color: transparent !important;
+  z-index: 4001 !important;
 }
