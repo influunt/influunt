@@ -21,6 +21,7 @@
                 <tr>
                   <th>{{ 'usuarios.nome' | translate }}</th>
                   <th>{{ 'usuarios.login' | translate }}</th>
+                  <th>{{ 'usuarios.email' | translate }}</th>
                   <th>{{ 'usuarios.perfil' | translate }}</th>
                   <th>{{ 'geral.crud.opcoes' | translate }}</th>
                 </tr>
@@ -28,7 +29,8 @@
               <tbody>
                 <tr data-ng-repeat="usuario in lista">
                   <td>{{ usuario.nome }}</td>
-                  <td>{{ usuario.login }}</td>
+                  <td>{{ usuario.nome }}</td>
+                  <td><a href="mailto:{{ usuario.email}}" target="_top">{{ usuario.email }}</a></td>
                   <td data-ng-bind-html="usuario.perfil | resourceToString"></td>
                   <td>
                     <a ui-sref="app.usuarios_show({id: usuario.login})" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
