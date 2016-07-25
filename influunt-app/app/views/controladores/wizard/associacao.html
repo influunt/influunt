@@ -21,7 +21,7 @@
         <h2>Anel {{ currentAnel.posicao }}</h2>
       </div>
 
-      <div class="col-lg-7 col-sm-7 no-padding-left stages">
+      <div class="col-lg-10 col-sm-10 no-padding stages">
         <div class="col-lg-12 col-sm-12">
           <div class="row">
             <div class="col-lg-1 title-stages-top"><i class="fa fa-arrows-v"></i></div>
@@ -87,44 +87,6 @@
 
       </div>
 
-      <div class="col-lg-3 col-sm-3 deactivation bg-border no-padding" ng-class="{'hide': gruposSelecionados.length==0 }">
-        <form method="get" class="form-horizontal">
-          <nav role="navigation">
-            <ul>
-              <li data-ng-repeat="grupoSelecionado in gruposSelecionados">
-                <div class="col-lg-12 no-padding groups-ass">
-                  <div class="col-lg-2">
-                    <hgroup>
-                      <label class="checkbox-inline i-checks">
-                        <p class="label-name">{{ grupoSelecionado.label }}</p>
-                        <!-- <input type="checkbox" ichecks i-changed="toggleEstagioAtivado(grupoSelecionado, currentEstagio)"
-                          data-ng-model="grupoSelecionado.estagiosAtivados[currentEstagio.id]"> -->
-                      </label>
-                      <!-- <p class="label-status">Ativado</p> -->
-                    </hgroup>
-                  </div>
-                  <div class="col-lg-10">
-                    <h3 class="text-left">FASE VERMELHA APAGADA</h3>
-                    <select class="form-control m-b" data-ng-model="grupoSelecionado.faseVermelhaApagadaAmareloIntermitente" name="tipoGrupoSemaforico">
-                      <option value="false">Nada</option>
-                      <option value="true">Amarelo Intermitente</option>
-                    </select>
-
-                    <h3 class="text-left">TIPO</h3>
-                    <select class="form-control m-b" data-ng-model="grupoSelecionado.tipo" name="tipoGrupoSemaforico">
-                      <option value="VEICULAR">Veicular</option>
-                      <option value="PEDESTRE">Pedestre</option>
-                      <input type="text" class="form-control" placeholder="Descrição" data-ng-model="grupoSelecionado.descricao">
-                    </select>
-
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </nav>
-        </form>
-
-    </div>
 
     <div class="row">
 	    <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix">
