@@ -77,10 +77,6 @@ public class ControladorAssociacoesTest extends ControladorTest {
 
         anel1.setLatitude(1.0);
         anel1.setLongitude(1.0);
-        anel1.setQuantidadeGrupoPedestre(0);
-        anel1.setQuantidadeGrupoVeicular(2);
-        anel1.setQuantidadeDetectorPedestre(0);
-        anel1.setQuantidadeDetectorVeicular(0);
 
         controlador.save();
 
@@ -106,7 +102,6 @@ public class ControladorAssociacoesTest extends ControladorTest {
                 new Erro("Controlador", "Deve existir detectores cadastrados para estagio de demanda prioritaria", "aneis[1].deveExistirDetectoresCasoExistaEstatigioDemandaPrioritaria")
         ));
 
-        anel1.setQuantidadeDetectorVeicular(1);
         controlador.save();
 
         erros = new InfluuntValidator<Controlador>().validate(controlador,
@@ -166,10 +161,8 @@ public class ControladorAssociacoesTest extends ControladorTest {
         assertEquals(anel.getDescricao(), anelJson.getDescricao());
         assertEquals(anel.getLatitude(), anelJson.getLatitude());
         assertEquals(anel.getLongitude(), anelJson.getLongitude());
-        assertEquals(anel.getQuantidadeGrupoPedestre(), anelJson.getQuantidadeGrupoPedestre());
-        assertEquals(anel.getQuantidadeGrupoVeicular(), anelJson.getQuantidadeGrupoVeicular());
-        assertEquals(anel.getQuantidadeDetectorPedestre(), anelJson.getQuantidadeDetectorPedestre());
-        assertEquals(anel.getQuantidadeDetectorVeicular(), anelJson.getQuantidadeDetectorVeicular());
+        assertEquals(anel.getGruposSemaforicos().size(), anelJson.getGruposSemaforicos().size());
+        assertEquals(anel.getDetectores().size(), anelJson.getDetectores().size());
         assertEquals(anel.getNumeroSMEE(), anelJson.getNumeroSMEE());
         assertEquals(anel.getEstagios().size(), anelJson.getEstagios().size());
         Estagio estagioDemanda = anel.getEstagios().stream().filter(anelAux -> anelAux.getDemandaPrioritaria() == Boolean.TRUE).findFirst().get();

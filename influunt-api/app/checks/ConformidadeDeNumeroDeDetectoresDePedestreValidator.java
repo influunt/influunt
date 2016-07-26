@@ -21,10 +21,10 @@ public class ConformidadeDeNumeroDeDetectoresDePedestreValidator implements Cons
             return false;
         }
 
-        Integer total = controlador.getAneis()
+        Long total = controlador.getAneis()
                                    .stream()
                                    .filter(anel -> anel.isAtivo())
-                                   .mapToInt(anel -> anel.getQuantidadeDetectorPedestre())
+                                   .mapToLong(anel -> anel.getDetectores().stream().filter(detector -> detector.isPedestre()).count())
                                    .sum();
 
         return total <= controlador.getModelo().getConfiguracao().getLimiteDetectorPedestre();

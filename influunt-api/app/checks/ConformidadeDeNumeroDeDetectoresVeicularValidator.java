@@ -20,10 +20,10 @@ public class ConformidadeDeNumeroDeDetectoresVeicularValidator implements Constr
         if (controlador.getModelo() == null || controlador.getAneis() == null) {
             return false;
         }
-        Integer total = controlador.getAneis()
+        Long total = controlador.getAneis()
                 .stream()
                 .filter(anel -> anel.isAtivo())
-                .mapToInt(anel -> anel.getQuantidadeDetectorVeicular())
+                .mapToLong(anel -> anel.getDetectores().stream().filter(detector -> detector.isVeicular()).count())
                 .sum();
 
         return total <= controlador.getModelo().getConfiguracao().getLimiteDetectorVeicular();

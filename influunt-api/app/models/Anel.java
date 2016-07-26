@@ -31,7 +31,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "aneis")
-@AoMenosUmGrupoSemaforico(groups = ControladorAneisCheck.class)
+@AoMenosUmGrupoSemaforico(groups = ControladorGruposSemaforicosCheck.class)
 @ConformidadeNumeroEstagios(groups = ControladorAneisCheck.class)
 @ConformidadeNumeroDetectores(groups = ControladorAneisCheck.class)
 @ConformidadeNumeroDetectoresEstagios(groups = ControladorAneisCheck.class)
@@ -65,18 +65,6 @@ public class Anel extends Model implements Cloneable {
 
     @Column
     private Double longitude;
-
-    @Column
-    private Integer quantidadeGrupoPedestre = 0;
-
-    @Column
-    private Integer quantidadeGrupoVeicular = 0;
-
-    @Column
-    private Integer quantidadeDetectorPedestre = 0;
-
-    @Column
-    private Integer quantidadeDetectorVeicular = 0;
 
     @ManyToOne
     private Controlador controlador;
@@ -212,41 +200,6 @@ public class Anel extends Model implements Cloneable {
         this.longitude = longitude;
     }
 
-    public Integer getQuantidadeGrupoPedestre() {
-        if (quantidadeGrupoPedestre == null) {
-            return 0;
-        }
-        return quantidadeGrupoPedestre;
-    }
-
-    public void setQuantidadeGrupoPedestre(Integer quantidadeGrupoPedestre) {
-        this.quantidadeGrupoPedestre = quantidadeGrupoPedestre;
-    }
-
-    public Integer getQuantidadeGrupoVeicular() {
-        return Optional.fromNullable(quantidadeGrupoVeicular).or(0);
-    }
-
-    public void setQuantidadeGrupoVeicular(Integer quantidadeGrupoVeicular) {
-        this.quantidadeGrupoVeicular = quantidadeGrupoVeicular;
-    }
-
-    public Integer getQuantidadeDetectorPedestre() {
-        return Optional.fromNullable(quantidadeDetectorPedestre).or(0);
-    }
-
-    public void setQuantidadeDetectorPedestre(Integer quantidadeDetectorPedestre) {
-        this.quantidadeDetectorPedestre = quantidadeDetectorPedestre;
-    }
-
-    public Integer getQuantidadeDetectorVeicular() {
-        return Optional.fromNullable(quantidadeDetectorVeicular).or(0);
-    }
-
-    public void setQuantidadeDetectorVeicular(Integer quantidadeDetectorVeicular) {
-        this.quantidadeDetectorVeicular = quantidadeDetectorVeicular;
-    }
-
     public List<Estagio> getEstagios() {
         return estagios;
     }
@@ -293,80 +246,6 @@ public class Anel extends Model implements Cloneable {
         return !this.ativo || this.longitude != null;
     }
 
-
-    public int getQuantidadeGrupoSemaforico() {
-        return getQuantidadeGrupoPedestre() + getQuantidadeGrupoVeicular();
-    }
-
-
-    public void criaGruposSemaforicos() {
-        if (isAtivo()) {
-            if (getGruposSemaforicos() == null) {
-                setGruposSemaforicos(new ArrayList<GrupoSemaforico>(this.getQuantidadeGrupoSemaforico()));
-            }
-            for (int i = this.getGruposSemaforicos().size(); i < this.getQuantidadeGrupoSemaforico(); i++) {
-                GrupoSemaforico grupoSemaforico = new GrupoSemaforico();
-                grupoSemaforico.setAnel(this);
-                grupoSemaforico.setPosicao(this.getControlador().getGruposSemaforicos().size() + 1);
-                grupoSemaforico.setControlador(this.getControlador());
-                TabelaEntreVerdes tabelaEntreVerdes = criaTabelaEntreVerdes(grupoSemaforico, 1);
-                grupoSemaforico.addTabelaEntreVerdes(tabelaEntreVerdes);
-                getGruposSemaforicos().add(grupoSemaforico);
-                this.getControlador().getGruposSemaforicos().add(grupoSemaforico);
-            }
-        } else {
-            //TODO:O que fazer se o cara alterar????
-        }
-    }
-
-
-    public void criaDetectores() {
-        if (isAtivo()) {
-            if (getDetectores().isEmpty()) {
-                setDetectores(new ArrayList<Detector>());
-                for (int i = this.getQuantidadeDetectorPedestre(); i > 0; i--) {
-                    Detector detector = new Detector();
-                    detector.setTipo(TipoDetector.PEDESTRE);
-                    detector.setAnel(this);
-                    detector.setControlador(this.getControlador());
-                    this.detectores.add(detector);
-                }
-                for (int i = this.getQuantidadeDetectorVeicular(); i > 0; i--) {
-                    Detector detector = new Detector();
-                    detector.setTipo(TipoDetector.VEICULAR);
-                    detector.setAnel(this);
-                    detector.setControlador(this.getControlador());
-                    this.detectores.add(detector);
-                }
-            }
-        } else {
-            //TODO:O que fazer se o cara alterar????
-        }
-    }
-
-    @JsonIgnore
-    @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
-            message = "Quantidade de grupos semáforicos de pedestre diferente do definido no anel")
-    public boolean isCheckQuantidadeGruposSemaforicosDePedestre() {
-        if (Objects.nonNull(this.getGruposSemaforicos())) {
-            return this.getGruposSemaforicos().stream()
-                    .filter(grupoSemaforico -> grupoSemaforico.getTipo() != null && grupoSemaforico.getTipo().equals(TipoGrupoSemaforico.PEDESTRE)).count() == this.getQuantidadeGrupoPedestre();
-        } else {
-            return true;
-        }
-    }
-
-    @JsonIgnore
-    @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
-            message = "Quantidade de grupos semáforicos veiculares diferente do definido no anel")
-    public boolean isCheckQuantidadeGruposSemaforicosVeiculares() {
-        if (Objects.nonNull(this.getGruposSemaforicos())) {
-            return this.getGruposSemaforicos().stream()
-                    .filter(grupoSemaforico -> grupoSemaforico.getTipo() != null && grupoSemaforico.getTipo().equals(TipoGrupoSemaforico.VEICULAR)).count() == this.getQuantidadeGrupoVeicular();
-        } else {
-            return true;
-        }
-    }
 
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
             message = "Deve existir detectores cadastrados para estagio de demanda prioritaria")

@@ -35,7 +35,6 @@ public class ControladorVerdesConflitantesTest extends ControladorTest {
         anelAtivo.setLatitude(1.0);
         anelAtivo.setLongitude(1.0);
 
-        anelAtivo.setQuantidadeGrupoVeicular(2);
         anelAtivo.setEstagios(Arrays.asList(new Estagio(), new Estagio()));
 
         Estagio estagio1 = anelAtivo.getEstagios().get(0);

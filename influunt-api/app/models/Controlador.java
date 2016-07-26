@@ -131,12 +131,6 @@ public class Controlador extends Model implements Cloneable {
             }
         }
 
-        if (getAneis() != null) {
-            getAneis().stream().forEach(anel -> {
-                anel.criaGruposSemaforicos();
-                anel.criaDetectores();
-            });
-        }
         this.criarPossiveisTransicoes();
     }
 

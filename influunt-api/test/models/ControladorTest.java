@@ -100,10 +100,6 @@ public abstract class ControladorTest extends WithApplication {
 
         anel1.setLatitude(1.0);
         anel1.setLongitude(1.0);
-        anel1.setQuantidadeGrupoPedestre(1);
-        anel1.setQuantidadeGrupoVeicular(1);
-        anel1.setQuantidadeDetectorPedestre(3);
-        anel1.setQuantidadeDetectorVeicular(1);
 
         return controlador;
     }
@@ -158,9 +154,7 @@ public abstract class ControladorTest extends WithApplication {
         anelAtivo.setAtivo(Boolean.TRUE);
         anelAtivo.setLatitude(1.0);
         anelAtivo.setLongitude(1.0);
-        anelAtivo.setQuantidadeDetectorPedestre(1);
 
-        anelAtivo.setQuantidadeGrupoVeicular(2);
         anelAtivo.setEstagios(Arrays.asList(new Estagio(), new Estagio()));
 
         Estagio estagio1 = anelAtivo.getEstagios().get(0);

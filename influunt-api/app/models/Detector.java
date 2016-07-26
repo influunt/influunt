@@ -228,4 +228,9 @@ public class Detector extends Model implements Cloneable {
     public boolean isVeicular() {
         return TipoDetector.VEICULAR.equals(this.getTipo());
     }
+
+    @Transient
+    public boolean isPedestre() {
+        return TipoDetector.PEDESTRE.equals(this.getTipo());
+    }
 }
