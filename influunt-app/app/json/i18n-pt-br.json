@@ -63,12 +63,16 @@
     "limitesGeograficos": "LIMITES GEOGRÁFICOS",
     "descricao": "ÁREA",
     "novo": "Nova Área",
+    "mostrar": "Visualizar Área",
+    "editar": "Editar Área",
     "titulo": "Áreas"
   },
   "cidades": {
     "areas": "ÁREAS",
     "nome": "NOME",
     "novo": "Nova Cidade",
+    "mostrar": "Visualizar Cidade",
+    "editar": "Editar Cidade",
     "titulo": "Cidades"
   },
   "configuracoes_controladores": {
@@ -79,7 +83,10 @@
     "limiteDetectorPedestre": "LIMITE DETECTORES PEDESTRE",
     "limiteDetectorVeicular": "LIMITE DETECTORES VEICULARES",
     "titulo": "Configurações de Controladores",
-    "limiteTabelasEntreVerdes": "LIMITE TABELAS ENTRE-VERDES"
+    "limiteTabelasEntreVerdes": "LIMITE TABELAS ENTRE-VERDES",
+    "novo": "Nova Configuração Controlador",
+    "mostrar": "Visualizar Configuração Controlador",
+    "editar": "Editar Configuração Controlador"
   },
   "coordenadas": {
     "latitude": "LATITUDE",
@@ -91,13 +98,18 @@
     "modelo": "MODELO CONTROLADOR",
     "nome": "NOME",
     "novo": "Novo Fabricante",
+    "editar": "Editar Fabricante",
+    "mostrar": "Visualizar Fabricante",
     "titulo": "Fabricantes"
   },
   "modelos_controladores": {
     "descricao": "DESCRIÇÃO",
     "fabricante": "FABRICANTE",
     "configuracao": "CONFIGURAÇÃO CONTROLADOR",
-    "titulo": "Modelo de Controladores"
+    "titulo": "Modelo de Controladores",
+    "novo": "Novo Modelo de Controlador",
+    "mostrar": "Visualizar Modelo de Controlador",
+    "editar": "Editar Modelo de Controlador"
   },
   "planos": {
     "titulo": "Planos"
@@ -158,6 +170,9 @@
     "descricao": "Descricao",
     "nome": "Nome",
     "titulo": "Perfis",
+    "novo": "Novo Perfil",
+    "editar": "Editar Perfil",
+    "mostrar": "Visualizar Perfil",
     "permissoes": {
       "criar": "Criar",
       "descricao": "Descrição",
@@ -171,7 +186,10 @@
   "permissoes": {
     "descricao": "Descrição",
     "chave": "Chave",
-    "titulo": "Permissões"
+    "titulo": "Permissões",
+    "novo": "Nova Permissão",
+    "editar": "Editar Permissão",
+    "mostrar": "Visualizar Permissão"
   },
   "usuarios": {
     "area": "Área",
@@ -181,7 +199,10 @@
     "nome": "Nome",
     "perfil": "Perfil",
     "senha": "Senha",
-    "titulo": "Usuários"
+    "titulo": "Usuários",
+    "novo": "Novo Usuário",
+    "editar": "Editar Usuário",
+    "mostrar": "Visualizar Usuário"
   },
   "plugins": {
     "datatables_cdn": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json",
@@ -204,6 +225,9 @@
     "nome": "Nome",
     "numero": "Número",
     "tipo": "Tipo",
+    "novo": "Novo Agrupamento",
+    "editar": "Editar Agrupamento",
+    "mostrar": "Visualizar Agrupamento",
     "controladores": "Controladores"
   },
   "status": {
