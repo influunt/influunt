@@ -77,10 +77,10 @@ angular.module('influuntApp')
             return scope.onSuccess({upload: upload, imagem: imagem});
           },
           init: function() {
-            this.on("addedfile", function(file) {
-              var removeButton = Dropzone.createElement("<button class='remove-image' title='Remover estágio'>&times;</button>");
+            this.on('addedfile', function(file) {
+              var removeButton = Dropzone.createElement('<button class="remove-image" title="Remover estágio">&times;</button>');
               var _this = this;
-              removeButton.addEventListener("click", function(e) {
+              removeButton.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
                 var imagemId = $(this).parent('.dz-image-preview').attr('data-imagem-id');

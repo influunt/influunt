@@ -106,7 +106,9 @@ public class Imagem extends Model {
         if (this.delete()) {
             try {
                 Files.delete(imagemPath.toPath());
-            } catch (IOException e) { /* ... */ }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return true;
         }
         return false;
