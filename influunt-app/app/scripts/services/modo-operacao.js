@@ -28,10 +28,8 @@ angular.module('influuntApp')
      * @return     {Array}   The status class.
      */
     var getCssClass = function(status) {
-      return MODOS
-        .map(function(modo) {
-          return modo.replace(/\_/g, '-').toLowerCase();
-        })[status];
+      var modo = MODOS[status];
+      return modo && modo.replace(/\_/g, '-').toLowerCase();
     };
 
     /**

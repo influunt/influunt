@@ -1072,14 +1072,14 @@ header .nav-secon li a {
     background: #e5e5e5;
     position: relative;
     float: left;
-    padding-top: 8px;
-    padding-bottom: 8px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 .wrapper-content .basic-wizard .content .body .stages .groups-stages-null {
     background: #e5e5e5;
-    padding-top: 11px;
-    padding-bottom: 11px;
+    padding-top: 25px;
+    padding-bottom: 15px;
 }
 
 .wrapper-content .basic-wizard .content .body .stages .title-stages-top {
@@ -1292,7 +1292,7 @@ header .nav-secon li a {
     height: 48px;
     line-height: 48px;
     font-size: 13px;
-    padding: 0px 9px;
+    padding: 0px 5px;
     text-indent: inherit;
 }
 .wrapper-content .basic-wizard .steps ul li:nth-child(1) a {

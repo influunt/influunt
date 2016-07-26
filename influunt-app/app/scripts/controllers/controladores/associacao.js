@@ -22,7 +22,7 @@ angular.module('influuntApp')
       $scope.assertAssociacoes = function() {
         var valid = assertControlador.hasAneis($scope.objeto) && assertControlador.hasEstagios($scope.objeto);
         if (!valid) {
-          $state.go('app.wizard_controladores.aneis', {id: $scope.objeto.id});
+          $state.go('app.wizard_controladores.configuracao_grupo', {id: $scope.objeto.id});
         }
 
         return valid;

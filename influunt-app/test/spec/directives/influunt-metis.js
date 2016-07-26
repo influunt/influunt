@@ -12,9 +12,11 @@ describe('Directive: influuntMetis', function () {
     scope = $rootScope.$new();
   }));
 
-  xit('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<influunt-metis></influunt-metis>');
+  it('Deve criar uma instancia de um menu metis', inject(function($compile, $timeout) {
+    element = angular.element('<ul id="side-menu" influunt-metis><li></li><li></li></ul>');
     element = $compile(element)(scope);
-    expect(element.text()).toBe('this is the influuntMetis directive');
+    $timeout.flush();
+    scope.$apply();
+    expect(element).toBeDefined();
   }));
 });

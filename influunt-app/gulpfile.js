@@ -67,6 +67,7 @@ var paths = {
     'bower_components/angular-google-places-autocomplete/dist/autocomplete.min.js',
     'bower_components/angular-ui-sortable/sortable.js',
     'bower_components/blockUI/jquery.blockUI.js',
+    'bower_components/select2/dist/js/select2.js',
 
     // inspinea scripts.
     yeoman.app + '/plugins/metisMenu/jquery.metisMenu.js',

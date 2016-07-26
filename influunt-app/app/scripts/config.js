@@ -349,7 +349,7 @@ angular
         .state('app.wizard_controladores.configuracao_grupo', {
           url: '/configuracao-grupo/:id',
           templateUrl: 'views/controladores/wizard/configuracao-grupo.html',
-          controller: 'ControladoresAssociacaoCtrl',
+          controller: 'ControladoresConfiguracaoGruposCtrl',
           data: {
             title: 'controladores.titulo'
           }
