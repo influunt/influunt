@@ -58,9 +58,9 @@
     "numeroTabelasEntreVerdes": "Número de tabelas entre verdes"
   },
   "areas": {
-    "adicionar_coordenada": "adicionar coordenadas",
+    "adicionar_limites": "adicionar limites geográficos",
     "cidade": "CIDADE",
-    "coordenadas": "COORDENADAS",
+    "limitesGeograficos": "LIMITES GEOGRÁFICOS",
     "descricao": "ÁREA",
     "novo": "Nova Área",
     "titulo": "Áreas"

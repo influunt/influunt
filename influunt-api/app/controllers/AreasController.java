@@ -50,7 +50,7 @@ public class AreasController extends Controller {
 
     @Transactional
     public CompletionStage<Result> findOne(String id) {
-        Area area = Area.find.byId(UUID.fromString(id));
+        Area area = Area.find.fetch("cidade").where().eq("id", UUID.fromString(id)).findUnique();
         if (area == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
