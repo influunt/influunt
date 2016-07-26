@@ -38,7 +38,7 @@ angular.module('influuntApp')
             criaAneis($scope.objeto);
             $scope.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
             $scope.currentAnel = $scope.objeto.aneis[$scope.currentAnelIndex];
-            $scope.$broadcast('influuntWizard.dropzoneOk', { aneis: $scope.aneis });
+            $scope.$broadcast('influuntWizard.dropzoneOk');
           }
         });
       };

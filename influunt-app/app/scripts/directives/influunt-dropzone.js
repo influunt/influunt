@@ -52,7 +52,8 @@ angular.module('influuntApp')
           return val > 0 && filterVisiblePreviews();
         });
 
-        new Dropzone('#'+element.attr('id'), {
+        // new Dropzone('#'+element.attr('id'), {
+        $(element).dropzone({
           url: APP_ROOT + '/imagens',
           dictDefaultMessage: 'Arraste imagens para este local',
           dictFallbackMessage: 'Seu navegador não suporta arrastar e soltar upload de arquivos.',
