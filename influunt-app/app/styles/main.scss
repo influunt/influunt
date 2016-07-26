@@ -10,7 +10,6 @@
 @import "./../plugins/dropzone/basic.css";
 @import "./../plugins/iCheck/custom.css";
 @import "./../plugins/uiTabs/ui.tabs.overflowResize.css";
-@import "./../plugins/uiTabs/chrome.css";
 
 @import "./../../bower_components/angular-datatables/dist/css/angular-datatables.css";
 @import "./../../bower_components/bootstrap/dist/css/bootstrap.css";
@@ -214,4 +213,53 @@ i.sinal-verde-conflitante, i.transicao-proibida {
 
 .wizard-step-title h2, h3 {
   font-size: 16px;
+}
+
+.ui-widget-content {
+    border: 0;
+}
+
+li.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab.ui-tabs-active.ui-state-active.ui-sortable-handle {
+  background: #1AB394;
+  padding: 10px 20px;
+  border-radius: 20px 20px 3px 3px;
+  z-index: 99;
+}
+
+li.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab.ui-tabs-active.ui-state-active {
+  height: 45px;
+  background: #1AB394;
+  padding: 10px 20px 0px 20px;
+  border-radius: 20px 20px 3px 3px;
+  z-index: 99;
+}
+
+li.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab.ui-tabs-active.ui-state-active.ui-sortable-handle a {
+  background: transparent;
+  border: none;
+}
+
+li.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab.ui-sortable-handle {
+  background: #e7eaec;
+  padding: 10px 20px;
+  border-radius: 20px 20px 3px 3px;
+  margin-left: -10px;
+}
+
+li.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab {
+  background: #e7eaec;
+  padding: 10px 20px 0px 20px;
+  border-radius: 20px 20px 3px 3px;
+  margin-left: -10px;
+  height: 45px;
+}
+
+li.addTab.button.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab.ui-sortable-handle {
+  margin-left: 15px;
+  border-radius: 100px;
+  padding: 0px 40px 0px 0px;
+  background: #1AB394;
+  font-size: 16px;
+  margin-top: 8px;
+  height: auto;
 }

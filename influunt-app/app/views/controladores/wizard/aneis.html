@@ -19,196 +19,123 @@
       });
     </script>
 
-    <div class="col-lg-6 m-b-md">
-      <div class="tabs-container">
-          <ul class="nav nav-tabs">
-              <li class="active"><a href="#tab-1"> This is tab</a></li>
-              <li class=""><a href="#tab-2">This is second tab</a></li>
-          </ul>
-          <div class="tab-content">
-              <div id="tab-1" class="tab-pane active">
-                  <div class="panel-body">
-                      <strong>Lorem ipsum dolor sit amet, consectetuer adipiscing</strong>
-
-                      <p>A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of
-                          existence in this spot, which was created for the bliss of souls like mine.</p>
-
-                      <p>I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents. I should be incapable of drawing a single stroke at
-                          the present moment; and yet I feel that I never was a greater artist than now. When.</p>
-                  </div>
-              </div>
-              <div id="tab-2" class="tab-pane">
-                  <div class="panel-body">
-                      <strong>Donec quam felis</strong>
-
-                      <p>Thousand unknown plants are noticed by me: when I hear the buzz of the little world among the stalks, and grow familiar with the countless indescribable forms of the insects
-                          and flies, then I feel the presence of the Almighty, who formed us in his own image, and the breath </p>
-
-                      <p>I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine. I am so happy, my dear friend, so absorbed in the exquisite
-                          sense of mere tranquil existence, that I neglect my talents. I should be incapable of drawing a single stroke at the present moment; and yet.</p>
-                  </div>
-              </div>
-          </div>
-
-
-      </div>
-  </div>
-
-    <div class="col-lg-12 m-b-md no padding tabpanel">
+    <div class="col-lg-12 m-b-md padding tabpanel padding-top-20">
       <div class="tabs-container">
       <ul class="nav nav-tabs">
-        <li><a href="#tabs-1" class="btn btn-primary closable">Nunc tincidunt</a></li>
-        <li><a href="#tabs-2" class="closable">Proin dolor</a></li>
-        <li><a href="#tabs-3" class="closable">Aenean lacinia</a></li>
+        <li class=""><a data-toggle="tab" href="#tabs-1" aria-expanded="false">This is one tab</a></li>
+        <li class=""><a data-toggle="tab" href="#tabs-2" aria-expanded="false">This is second tab</a></li>
+        <li class=""><a data-toggle="tab" href="#tabs-3" aria-expanded="false">This is tree tab</a></li>
       </ul>
-      <div class="ui-layout-content tab-content">
+      <div class="ui-layout-content tab-content padding-top-20">
   	    <div id="tabs-1">
-  	      <p>Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum. Phasellus ipsum. Nunc tristique tempus lectus.</p>
-  	    </div>
+          <div class="col-lg-12 col-sm-12 ibox-title botton-title wizard-step-title">
+            <h2>Anel {{ currentAnel.posicao }}</h2>
+          </div>
+
+          <div class="col-lg-9 col-sm-9 groups bg-border">
+            <div class="col-lg-3 col-sm-3">
+              <div class="form-group">
+                <label class="control-label">{{ 'controladores.gruposPedestres' | translate }}</label>
+                <input type="number" name="quantidadeGrupoPedestre" class="form-control"
+                  ng-model="currentAnel.quantidadeGrupoPedestre" />
+              </div>
+            </div>
+            <div class="col-lg-3 col-sm-3">
+              <div class="form-group">
+                <label class="control-label">{{ 'controladores.gruposSinaisVeiculares' | translate }}</label>
+                <input type="number" name="quantidadeGrupoVeicular" placeholder="" class="form-control"
+                  data-ng-model="currentAnel.quantidadeGrupoVeicular">
+              </div>
+            </div>
+
+            <div class="col-lg-3 col-sm-3">
+              <div class="form-group">
+                <label class="control-label">{{ 'controladores.numeroDetectores' | translate }}</label>
+                <input type="number" name="quantidadeDetectorVeicular" placeholder="" class="form-control"
+                  data-ng-model="currentAnel.quantidadeDetectorVeicular">
+              </div>
+            </div>
+            <div class="col-lg-3 col-sm-3">
+              <div class="form-group">
+                <label class="control-label">{{ 'controladores.numeroDetectoresPedestres' | translate }}</label>
+                <input type="number" name="quantidadeDetectorPedestre" placeholder="" class="form-control"
+                  data-ng-model="currentAnel.quantidadeDetectorPedestre">
+              </div>
+            </div>
+
+            <div class="col-lg-12 col-sm-12">
+              <div class="form-group">
+                <label class="control-label">{{ 'controladores.localizacao' | translate }}</label>
+                <textarea type="text" name="localizacao" placeholder="" class="form-control"
+                  data-ng-model="currentAnel.localizacao"></textarea>
+              </div>
+              <div class="form-group">
+                <label class="control-label">{{ 'controladores.numeroSMEE' | translate }}</label>
+                <input type="text" name="numeroSMEE" placeholder="" class="form-control"
+                  data-ng-model="currentAnel.numeroSMEE">
+              </div>
+              <div class="form-group">
+                <label class="control-label">{{ 'controladores.localizacao' | translate }}</label>
+                <helper-endereco ng-model="currentAnel.endereco" latitude="currentAnel.latitude" longitude="currentAnel.longitude"></helper-endereco>
+              </div>
+              <div class="form-group">
+                <figure>
+                  <div influunt-map
+                    latitude="currentAnel.latitude"
+                    longitude="currentAnel.longitude"
+                    class="influunt-map">
+                  </div>
+                </figure>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-6 col-sm-6" data-ng-class="{'has-error': errors.aneis[currentAnelIndex].latitudeOk}">
+                  <div class="form-group">
+                    <label class="control-label">{{ 'controladores.latitude' | translate }}:</label>
+                    <input type="number" name="latitude" class="form-control" data-ng-model="currentAnel.latitude">
+                    <p class="help-block error-msg" data-ng-repeat="error in errors.aneis[currentAnelIndex].latitudeOk">{{ error }}</p>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-sm-6" data-ng-class="{'has-error': errors.aneis[currentAnelIndex].longitudeOk}">
+                  <div class="form-group">
+                    <label class="control-label">{{ 'controladores.longitude' | translate }}:</label>
+                    <input type="number" name="longitude" class="form-control" data-ng-model="currentAnel.longitude">
+                    <p class="help-block error-msg" data-ng-repeat="error in errors.aneis[currentAnelIndex].longitudeOk">{{ error }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-sm-3 movements">
+            <hgroup>
+              <label for=""><h3>{{ 'controladores.estagios' | translate }}</h3></label>
+            </hgroup>
+
+            <form class="dropzone" id="my-awesome-dropzone" imagens-url="dados.imagensUrl" enctype="multipart/form-data" influunt-dropzone anel="currentAnel" on-success="associaImagemAoEstagio(upload, imagem)">
+              <fake-dropzone-preview aneis="aneis"></fake-dropzone-preview>
+
+              <div class="dropzone-previews"></div>
+              <div class="fallback">
+                <input name="file" type="file" multiple />
+              </div>
+            </form>
+          </div>
+        </div>
+
   	    <div id="tabs-2">
-  	      <p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
+          <div class="col-lg-12 col-sm-12 ibox-title botton-title wizard-step-title">
+            <h2>Anel {{ currentAnel.posicao }}</h2>
+          </div>
   	    </div>
   	    <div id="tabs-3">
-  	      <p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
-  	      <p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>
+          <div class="col-lg-12 col-sm-12 ibox-title botton-title wizard-step-title">
+            <h2>Anel {{ currentAnel.posicao }}</h2>
+          </div>
   	    </div>
       </div>
     </div>
-    </div>
-
-    <div class="text-center m-t-md rings pd-lf-rt">
-      <div class="col-lg-3 col-sm-3 rings-status bg-border padding-top-30">
-        <div class="col-lg-4 col-sm-4"><p class="activ">{{ 'controladores.ativo' | translate | uppercase }}</p></div>
-        <div class="col-lg-4 col-sm-4"><p class="activ">{{ 'controladores.anel' | translate | uppercase }}</p></div>
-        <div class="clearfix"></div>
-        <div class="col-lg-12 col-sm-12 no-padding">
-         <nav>
-           <ul>
-            <li data-ng-repeat="anel in aneis"
-                data-ng-click="selecionaAnel($index)"
-                data-ng-class="{'anel-selecionado': $index === currentAnelIndex}" class="s">
-              <div class="col-xs-1">
-                <span class="number">{{ $index + 1 }}</span>
-              </div>
-              <div class="col-xs-2" style="padding-right:0;">
-                <input type="checkbox"
-                  ichecks
-                  if-unchecked="desativaProximosAneis(anel)"
-                  if-checked="selecionaAnel($index)"
-                  is-disabled="$first || !aneis[$index - 1].ativo"
-                  ng-model="anel.ativo">
-              </div>
-              <div class="col-xs-7">
-                <label>{{ anel.idAnel }}</label>
-              </div>
-              <div class="col-xs-1">
-                <span class="badge badge-danger badge-notification" ng-show="anelTemErro($index)">
-                  <i class="fa fa-exclamation"></i>
-                </span>
-              </div>
-            </li>
-           </ul>
-         </nav>
-        </div>
-      </div>
-
-      <div class="col-lg-9 col-sm-9 ibox-title botton-title wizard-step-title">
-        <h2>Anel {{ currentAnel.posicao }}</h2>
-      </div>
-
-      <div class="col-lg-6 col-sm-6 groups bg-border">
-        <div class="col-lg-3 col-sm-3">
-          <div class="form-group">
-            <label class="control-label">{{ 'controladores.gruposPedestres' | translate }}</label>
-            <input type="number" name="quantidadeGrupoPedestre" class="form-control"
-              ng-model="currentAnel.quantidadeGrupoPedestre" />
-          </div>
-        </div>
-        <div class="col-lg-3 col-sm-3">
-          <div class="form-group">
-            <label class="control-label">{{ 'controladores.gruposSinaisVeiculares' | translate }}</label>
-            <input type="number" name="quantidadeGrupoVeicular" placeholder="" class="form-control"
-              data-ng-model="currentAnel.quantidadeGrupoVeicular">
-          </div>
-        </div>
-
-        <div class="col-lg-3 col-sm-3">
-          <div class="form-group">
-            <label class="control-label">{{ 'controladores.numeroDetectores' | translate }}</label>
-            <input type="number" name="quantidadeDetectorVeicular" placeholder="" class="form-control"
-              data-ng-model="currentAnel.quantidadeDetectorVeicular">
-          </div>
-        </div>
-        <div class="col-lg-3 col-sm-3">
-          <div class="form-group">
-            <label class="control-label">{{ 'controladores.numeroDetectoresPedestres' | translate }}</label>
-            <input type="number" name="quantidadeDetectorPedestre" placeholder="" class="form-control"
-              data-ng-model="currentAnel.quantidadeDetectorPedestre">
-          </div>
-        </div>
-
-        <div class="col-lg-12 col-sm-12">
-          <div class="form-group">
-            <label class="control-label">{{ 'controladores.localizacao' | translate }}</label>
-            <textarea type="text" name="localizacao" placeholder="" class="form-control"
-              data-ng-model="currentAnel.localizacao"></textarea>
-          </div>
-          <div class="form-group">
-            <label class="control-label">{{ 'controladores.numeroSMEE' | translate }}</label>
-            <input type="text" name="numeroSMEE" placeholder="" class="form-control"
-              data-ng-model="currentAnel.numeroSMEE">
-          </div>
-          <div class="form-group">
-            <label class="control-label">{{ 'controladores.localizacao' | translate }}</label>
-            <helper-endereco ng-model="currentAnel.endereco" latitude="currentAnel.latitude" longitude="currentAnel.longitude"></helper-endereco>
-          </div>
-          <div class="form-group">
-            <figure>
-              <div influunt-map
-                latitude="currentAnel.latitude"
-                longitude="currentAnel.longitude"
-                class="influunt-map">
-              </div>
-            </figure>
-          </div>
-
-          <div class="row">
-            <div class="col-lg-6 col-sm-6" data-ng-class="{'has-error': errors.aneis[currentAnelIndex].latitudeOk}">
-              <div class="form-group">
-                <label class="control-label">{{ 'controladores.latitude' | translate }}:</label>
-                <input type="number" name="latitude" class="form-control" data-ng-model="currentAnel.latitude">
-                <p class="help-block error-msg" data-ng-repeat="error in errors.aneis[currentAnelIndex].latitudeOk">{{ error }}</p>
-              </div>
-            </div>
-
-            <div class="col-lg-6 col-sm-6" data-ng-class="{'has-error': errors.aneis[currentAnelIndex].longitudeOk}">
-              <div class="form-group">
-                <label class="control-label">{{ 'controladores.longitude' | translate }}:</label>
-                <input type="number" name="longitude" class="form-control" data-ng-model="currentAnel.longitude">
-                <p class="help-block error-msg" data-ng-repeat="error in errors.aneis[currentAnelIndex].longitudeOk">{{ error }}</p>
-              </div>
-            </div>
-
-          </div>
-
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg-3 col-sm-3 movements">
-        <hgroup>
-          <label for=""><h3>{{ 'controladores.estagios' | translate }}</h3></label>
-        </hgroup>
-
-        <form class="dropzone" id="my-awesome-dropzone" imagens-url="dados.imagensUrl" enctype="multipart/form-data" influunt-dropzone anel="currentAnel" on-success="associaImagemAoEstagio(upload, imagem)" on-delete="removeImagemDoEstagio(imagem)">
-          <fake-dropzone-preview></fake-dropzone-preview>
-
-          <div class="dropzone-previews"></div>
-          <div class="fallback">
-            <input name="file" type="file" multiple />
-          </div>
-        </form>
-      </div>
     </div>
 
 		<div class="row">
