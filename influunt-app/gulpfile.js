@@ -315,11 +315,11 @@ gulp.task('html', function () {
 
 gulp.task('images', function () {
   return gulp.src(yeoman.app + '/images/**/*')
-    .pipe($.cache($.imagemin({
+    .pipe($.imagemin({
       optimizationLevel: 5,
       progressive: true,
       interlaced: true
-    })))
+    }))
     .pipe(gulp.dest(yeoman.dist + '/images'));
 });
 

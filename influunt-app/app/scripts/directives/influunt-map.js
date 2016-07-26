@@ -15,6 +15,7 @@ angular.module('influuntApp')
         longitude: '='
       },
       link: function (scope, element) {
+        L.Icon.Default.imagePath = 'images/leaflet'
         var map = null;
         var marker = null;
 
@@ -32,10 +33,10 @@ angular.module('influuntApp')
         };
 
         /**
-         * Cria um novo marker em determinada posicao.
+         * Cria um novo marker em determinada posição.
          *
-         * @param      {<type>}    latitude   The latitude
-         * @param      {<type>}    longitude  The longitude
+         * @param      {float}    latitude   The latitude
+         * @param      {float}    longitude  The longitude
          * @return     {Function}  { description_of_the_return_value }
          */
         var createMarker = function(latitude, longitude) {
