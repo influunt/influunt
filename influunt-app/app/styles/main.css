@@ -4,6 +4,8 @@
 @import url(./../plugins/dropzone/dropzone.css);
 @import url(./../plugins/dropzone/basic.css);
 @import url(./../plugins/iCheck/custom.css);
+@import url(./../plugins/uiTabs/ui.tabs.overflowResize.css);
+@import url(./../plugins/uiTabs/chrome.css);
 @import url(./../../bower_components/angular-datatables/dist/css/angular-datatables.css);
 @import url(./../../bower_components/bootstrap/dist/css/bootstrap.css);
 @import url(./../../bower_components/select2/dist/css/select2.css);
