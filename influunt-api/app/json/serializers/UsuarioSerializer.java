@@ -19,7 +19,7 @@ public class UsuarioSerializer extends JsonSerializer<Usuario> {
         jgen.writeStartObject();
 
         if (usuario.getId() == null) {
-            jgen.writeStringField("id", null);
+            jgen.writeNullField("id");
         } else {
             jgen.writeStringField("id", usuario.getId().toString());
         }
