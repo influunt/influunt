@@ -187,6 +187,8 @@
     "datatables_cdn": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json",
     "steps": {
       "labels": {
+        "back": "Voltar",
+        "last_screen": "Ver Tela Anterior",
         "cancel": "Cancelar",
         "current": "Atual",
         "pagination": "Paginação",
