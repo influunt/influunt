@@ -41,7 +41,7 @@ set :linked_dirs, fetch(:linked_dirs, []).push('logs', 'imagens')
 set :project_release_id, `git log --pretty=format:'%h' -n 1 staging`
 
 # the same path is used local and remote... just to make things simple for who wrote this.
-set :project_tarball_path, Dir.glob('target/universal/influunt-api-*.zip').first
+set :project_tarball_path, Proc.new { Dir.glob('target/universal/influunt-api-*.zip').first }
 
 set :git_strategy, NoGitStrategy
 
@@ -65,6 +65,24 @@ namespace :deploy do
   end
 end
 
+namespace :app do
+  desc 'Makes the production build'
+  task :build do
+    run_locally do
+      execute "activator dist"
+    end
+  end
+
+  desc 'Removes the tarball file'
+  task :cleanup do
+    run_locally do
+      execute "rm #{fetch(:project_tarball_path)}"
+    end
+  end
+end
+
 before 'deploy:updating', 'deploy:upload_tarball'
+before 'deploy:upload_tarball', 'app:build'
 after 'deploy:published', 'deploy:restart'
+after 'deploy:cleanup', 'app:cleanup'
 

@@ -57,5 +57,26 @@ namespace :deploy do
   end
 end
 
+namespace :app do
+  desc 'Makes the production build'
+  task :build do
+    run_locally do
+      execute "rm -rf dist/"
+      execute "gulp build"
+      execute "tar czf #{fetch(:project_tarball_path)} dist/"
+    end
+  end
+
+  desc 'Removes the tarball file'
+  task :cleanup do
+    run_locally do
+      execute "rm -rf dist/"
+      execute "rm #{fetch(:project_tarball_path)}"
+    end
+  end
+end
+
 # Attach our upload_tarball task to Capistrano deploy task chain.
 before 'deploy:updating', 'deploy:upload_tarball'
+before 'deploy:upload_tarball', 'app:build'
+after 'deploy:cleanup', 'app:cleanup'
