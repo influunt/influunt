@@ -29,6 +29,7 @@
   </div>
 	<div class="row">
     <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix">
+			<a ui-sref="app.wizard_controladores.associacao({id: objeto.id})" target="_blank" data-toggle="tooltip" data-placement="top" class="left btn btn-info btn-footer" title="Ver Tela de Associação">{{ 'plugins.steps.labels.last_screen' | translate }}</a>
 		  <a data-ng-click="submitForm({$valid: true}, 'verdes_conflitantes', 'app.wizard_controladores.transicoes_proibidas')" data-toggle="tooltip" data-placement="top" title="Transições Proíbidas" class="btn btn-primary btn-footer right">{{ 'plugins.steps.labels.next' | translate }}</a>
 			<a data-ng-click="submitForm({$valid: true}, 'verdes_conflitantes', 'app.wizard_controladores.associacao')" data-toggle="tooltip" data-placement="top" title="Associação Grupo Semafórico" class="btn btn-inverse btn-footer right m-r-sm">{{ 'plugins.steps.labels.previous' | translate }}</a>
     </div>

@@ -34,7 +34,7 @@ angular.module('influuntApp')
       var breadcrumbState = state.abstract ? $state.get(state.data.redirectTo) : state;
       breadcrumb.unshift({
         url: breadcrumbState.name,
-        title: breadcrumbState.data.title
+        title: breadcrumbState.data.breadcrumb || breadcrumbState.data.title
       });
 
       // Verifica se a rota já é o estado final. Senão, ele deve rodar esta função
