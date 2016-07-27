@@ -88,6 +88,7 @@ DELETE      /api/v1/agrupamentos/:id                    controllers.Agrupamentos
 # Imagens
 POST        /api/v1/imagens                             controllers.ImagensController.create()
 GET         /api/v1/imagens/:id                         controllers.ImagensController.findOne(id)
+DELETE      /api/v1/imagens/:id                         controllers.ImagensController.delete(id)
 
 #View Helpers
 GET         /api/v1/helpers/controlador                 controllers.HelpersController.controladorHelper()
