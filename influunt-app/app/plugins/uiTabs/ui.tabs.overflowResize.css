@@ -27,3 +27,7 @@ li.button {
 .ui-widget-content {
 	border: 0px;
 }
+
+.ui-widget-content {
+    box-sizing: border-box;
+}
