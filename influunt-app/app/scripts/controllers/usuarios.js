@@ -27,8 +27,4 @@ angular.module('influuntApp')
         });
       };
 
-      $scope.afterShow = function() {
-        $scope.objeto.id = $scope.objeto.login;
-      };
-
     }]);

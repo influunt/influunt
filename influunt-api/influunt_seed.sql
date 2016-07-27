@@ -7,7 +7,7 @@ INSERT INTO `fabricantes` (`id`, `nome`, `data_criacao`, `data_atualizacao`) VAL
 SET @ConfiguracaoId = UUID();
 INSERT INTO `configuracao_controladores` (`id`, `descricao`, `limite_estagio`, `limite_grupo_semaforico`, `limite_anel`, `limite_detector_pedestre`, `limite_detector_veicular`, `limite_tabelas_entre_verdes`, `data_criacao`, `data_atualizacao`) VALUES (@ConfiguracaoId, 'DESC', '16', '16', '16', '16', '16', '2', NOW(), NOW());
 INSERT INTO `modelo_controladores` (`id`, `descricao`, `fabricante_id`, `configuracao_id`, `data_criacao`, `data_atualizacao`) VALUES (UUID(), 'Desc modelo', @FabricanteId, @ConfiguracaoId, NOW(), NOW());
-INSERT INTO `usuarios` (`login`,`senha`, `email`, `nome`, `root`, `data_criacao`, `data_atualizacao`) VALUES ('root', '$2a$10$EzudGIqkxquJjLGawuMrOu9K6S28yc/R/YSAVxsvb5bSryOYWd5eq', 'root@influunt.com.br','Administrador Geral', true, NOW(), NOW());
+INSERT INTO `usuarios` (`id`, `login`,`senha`, `email`, `nome`, `root`, `data_criacao`, `data_atualizacao`) VALUES (UUID(), 'root', '$2a$10$EzudGIqkxquJjLGawuMrOu9K6S28yc/R/YSAVxsvb5bSryOYWd5eq', 'root@influunt.com.br','Administrador Geral', true, NOW(), NOW());
 
 Set @PerfilId = UUID();
 INSERT into `perfis` (`id`,`nome`,`data_criacao`, `data_atualizacao`) VALUE (@PerfilId,'Administrador',NOW(), NOW());
