@@ -1,8 +1,6 @@
 package models;
 
-import checks.Erro;
-import checks.InfluuntValidator;
-import checks.PlanosCheck;
+import checks.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -31,7 +29,7 @@ public class ControladorPlanoTest extends ControladorTest {
         Controlador controlador = getControladorAssociacaoDetectores();
         controlador.save();
 
-        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, PlanosCheck.class);
+        List<Erro> erros = getErros(controlador);
         assertEquals(2, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro("Controlador", "O anel ativo deve ter pelo menos 1 plano configurado.", "aneis[0].aoMenosUmPlanoConfigurado"),
@@ -49,7 +47,7 @@ public class ControladorPlanoTest extends ControladorTest {
         plano1Anel4.setAnel(anelCom4Estagios);
         anelCom4Estagios.setPlanos(Arrays.asList(plano1Anel4));
 
-        erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, PlanosCheck.class);
+        erros = getErros(controlador);
         assertEquals(10, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro("Controlador", "não pode ficar em branco.", "aneis[0].planos[0].modoOperacao"),
@@ -66,7 +64,7 @@ public class ControladorPlanoTest extends ControladorTest {
 
         plano1Anel2.setModoOperacao(ModoOperacaoPlano.ATUADO);
 
-        erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, PlanosCheck.class);
+        erros = getErros(controlador);
         assertEquals(10, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro("Controlador", "Configure um detector veicular para o modo atuado.", "aneis[1].planos[0].modoOperacaoValido"),
@@ -106,7 +104,7 @@ public class ControladorPlanoTest extends ControladorTest {
         grupoPlano.setGrupoSemaforico(anelCom4Estagios.getGruposSemaforicos().get(0));
         plano1Anel4.addGruposSemaforicos(grupoPlano);
 
-        erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, PlanosCheck.class);
+        erros = getErros(controlador);
         assertEquals(5, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro("Controlador", "deve estar entre 30 e 255", "aneis[1].planos[0].tempoCiclo"),
@@ -119,7 +117,7 @@ public class ControladorPlanoTest extends ControladorTest {
         criarGrupoSemaforicoPlano(anelCom2Estagios, plano1Anel2);
         criarGrupoSemaforicoPlano(anelCom4Estagios, plano1Anel4);
 
-        erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, PlanosCheck.class);
+        erros = getErros(controlador);
         assertEquals(3, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro("Controlador", "deve estar entre 30 e 255", "aneis[1].planos[0].tempoCiclo"),
@@ -131,7 +129,7 @@ public class ControladorPlanoTest extends ControladorTest {
         criarEstagioPlano(anelCom2Estagios, plano1Anel2, new int[]{1, 1});
         criarEstagioPlano(anelCom4Estagios, plano1Anel4, new int[]{1, 1, 1, 1});
 
-        erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, PlanosCheck.class);
+        erros = getErros(controlador);
         assertEquals(21, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro("Controlador", "deve estar entre 1 e 255", "aneis[1].planos[0].estagiosPlanos[0].tempoVerde"),
@@ -190,7 +188,7 @@ public class ControladorPlanoTest extends ControladorTest {
         estagioPlano4Anel4.setTempoExtensaoVerde(300.00);
 
 
-        erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, PlanosCheck.class);
+        erros = getErros(controlador);
         assertEquals(21, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro("Controlador", "deve estar entre 1 e 255", "aneis[1].planos[0].estagiosPlanos[0].tempoVerde"),
@@ -241,7 +239,7 @@ public class ControladorPlanoTest extends ControladorTest {
         estagioPlano4Anel4.setTempoExtensaoVerde(0.0);
 
 
-        erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, PlanosCheck.class);
+        erros = getErros(controlador);
         assertEquals(21, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro("Controlador", "deve estar entre 1 e 255", "aneis[1].planos[0].estagiosPlanos[0].tempoVerde"),
@@ -296,7 +294,7 @@ public class ControladorPlanoTest extends ControladorTest {
         estagioPlano4Anel4.setTempoVerdeIntermediario(20);
         estagioPlano4Anel4.setTempoExtensaoVerde(10.0);
 
-        erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, PlanosCheck.class);
+        erros = getErros(controlador);
         assertEquals(4, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro("Controlador", "O tempo de estagio ultrapassa o tempo maximo de permanencia.", "aneis[1].planos[0].estagiosPlanos[0].ultrapassaTempoMaximoPermanencia"),
@@ -311,7 +309,7 @@ public class ControladorPlanoTest extends ControladorTest {
 
         estagioPlano1Anel4.setTempoVerdeIntermediario(20);
 
-        erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, PlanosCheck.class);
+        erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro("Controlador", "A sequência de estagio não é válida.", "aneis[0].planos[0].posicaoUnicaEstagio")
@@ -351,7 +349,7 @@ public class ControladorPlanoTest extends ControladorTest {
         estagioPlano4Anel4.setTempoVerdeIntermediario(20);
         estagioPlano4Anel4.setTempoExtensaoVerde(10.0);
 
-        erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, PlanosCheck.class);
+        erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro("Controlador", "A sequência de estagio não é válida.", "aneis[0].planos[0].sequenciaInvalida")
@@ -391,7 +389,7 @@ public class ControladorPlanoTest extends ControladorTest {
         estagioPlano4Anel4.setTempoVerdeIntermediario(20);
         estagioPlano4Anel4.setTempoExtensaoVerde(10.0);
 
-        erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, PlanosCheck.class);
+        erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro("Controlador", "A sequência de estagio não é válida.", "aneis[0].planos[0].sequenciaInvalida")
@@ -431,7 +429,7 @@ public class ControladorPlanoTest extends ControladorTest {
         estagioPlano4Anel4.setTempoVerdeIntermediario(20);
         estagioPlano4Anel4.setTempoExtensaoVerde(10.0);
 
-        erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, PlanosCheck.class);
+        erros = getErros(controlador);
         assertThat(erros, Matchers.empty());
 
     }
@@ -441,7 +439,7 @@ public class ControladorPlanoTest extends ControladorTest {
     public void testNoValidationErro() {
         Controlador controlador = getControladorPlanos();
         controlador.save();
-        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, PlanosCheck.class);
+        List<Erro> erros = getErros(controlador);
         assertThat(erros, Matchers.empty());
     }
 
@@ -451,7 +449,7 @@ public class ControladorPlanoTest extends ControladorTest {
         Controlador controlador = getControladorPlanos();
         controlador.save();
 
-        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, PlanosCheck.class);
+        List<Erro> erros = getErros(controlador);
 
         assertNotNull(controlador.getId());
         assertThat(erros, Matchers.empty());
@@ -526,6 +524,11 @@ public class ControladorPlanoTest extends ControladorTest {
         assertEquals("Anel 2 estágios possui 1 plano com 2 estagios", 2, anelCom2Estagios.getPlanos().get(0).getEstagiosPlanos().size());
         assertEquals("Anel 4 estágios possui 1 plano", 1, anelCom4Estagios.getPlanos().size());
         assertEquals("Anel 4 estágios possui 1 plano com 4 estagios", 4, anelCom4Estagios.getPlanos().get(0).getEstagiosPlanos().size());
+    }
+
+    @Override
+    public List<Erro> getErros(Controlador controlador) {
+        return new InfluuntValidator<Controlador>().validate(controlador, Default.class, PlanosCheck.class);
     }
 
 }

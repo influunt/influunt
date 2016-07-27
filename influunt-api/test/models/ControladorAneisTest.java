@@ -1,8 +1,6 @@
 package models;
 
-import checks.ControladorAneisCheck;
-import checks.Erro;
-import checks.InfluuntValidator;
+import checks.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import controllers.routes;
 import org.hamcrest.Matchers;
@@ -33,8 +31,7 @@ public class ControladorAneisTest extends ControladorTest {
         Controlador controlador = getControladorDadosBasicos();
         controlador.save();
 
-        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador,
-                Default.class, ControladorAneisCheck.class);
+        List<Erro> erros = getErros(controlador);
 
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro("Controlador", "Ao menos um anel deve estar ativo", "")
@@ -43,8 +40,7 @@ public class ControladorAneisTest extends ControladorTest {
         Anel anel1 = controlador.getAneis().get(0);
         anel1.setAtivo(true);
 
-        erros = new InfluuntValidator<Controlador>().validate(controlador,
-                Default.class, ControladorAneisCheck.class);
+        erros = getErros(controlador);
 
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro("Controlador", "Um anel ativo deve ter ao menos dois estágios e no máximo o limite do modelo do controlador", "aneis[0]")
@@ -52,8 +48,7 @@ public class ControladorAneisTest extends ControladorTest {
 
         anel1.setEstagios(Arrays.asList(new Estagio(), new Estagio()));
 
-        erros = new InfluuntValidator<Controlador>().validate(controlador,
-                Default.class, ControladorAneisCheck.class);
+        erros = getErros(controlador);
 
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro("Controlador", "Latitude deve ser informada", "aneis[0].latitudeOk"),
@@ -66,43 +61,18 @@ public class ControladorAneisTest extends ControladorTest {
         anel1.setEstagios(Arrays.asList(new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio(),
                 new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio()));
 
-        // Cria manualmente quantidade de detectores para validacao de numero de detectores diferente do  somatorio de detectores veicular e pedestre
-//        for (int i = 7; i > 0; i--) {
-//            Detector detector = new Detector();
-//            detector.setTipo(TipoDetector.PEDESTRE);
-//            detector.setAnel(anel1);
-//            detector.setControlador(anel1.getControlador());
-//            anel1.getDetectores().add(detector);
-//        }
-//        for (int i = 7; i > 0; i--) {
-//            Detector detector = new Detector();
-//            detector.setTipo(TipoDetector.VEICULAR);
-//            detector.setAnel(anel1);
-//            detector.setControlador(anel1.getControlador());
-//            anel1.getDetectores().add(detector);
-//        }
-//
-//        erros = new InfluuntValidator<Controlador>().validate(controlador,
-//                Default.class, ControladorAneisCheck.class);
-//
-//        assertEquals(1, erros.size());
-//        assertThat(erros, org.hamcrest.Matchers.hasItems(
-//                new Erro("Controlador", "Um anel ativo não deve ultrapassar o somatório das quantidades de detectores definidas no modelo do controlador", "aneis[0]")
-//        ));
-
-
-        erros = new InfluuntValidator<Controlador>().validate(controlador,
-                Default.class, ControladorAneisCheck.class);
+        erros = getErros(controlador);
 
         assertThat(erros, org.hamcrest.Matchers.empty());
     }
+
 
     @Override
     @Test
     public void testNoValidationErro() {
         Controlador controlador = getControladorAneis();
         controlador.save();
-        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, ControladorAneisCheck.class);
+        List<Erro> erros = getErros(controlador);
         assertThat(erros, Matchers.empty());
     }
 
@@ -188,4 +158,11 @@ public class ControladorAneisTest extends ControladorTest {
         assertEquals("Total de aneis ativos", 1, controladorRetornado.getAneis().stream().filter(anel -> anel.isAtivo()).count());
         assertEquals("Criação de grupos semafóricos", 0, controladorRetornado.getAneis().stream().filter(anelInterno -> anelInterno.isAtivo()).findFirst().get().getGruposSemaforicos().size());
     }
+
+    @Override
+    public List<Erro> getErros(Controlador controlador) {
+        return new InfluuntValidator<Controlador>().validate(controlador,
+                Default.class, ControladorAneisCheck.class);
+    }
+
 }

@@ -40,13 +40,13 @@ public class ControladorVerdesConflitantesTest extends ControladorTest {
         Estagio estagio1 = anelAtivo.getEstagios().get(0);
         Estagio estagio2 = anelAtivo.getEstagios().get(1);
 
+        criarGrupoSemaforico(anelAtivo, TipoGrupoSemaforico.VEICULAR, 3);
+        criarGrupoSemaforico(anelAtivo, TipoGrupoSemaforico.VEICULAR, 4);
+
         controlador.save();
 
         GrupoSemaforico grupoSemaforico3 = anelAtivo.getGruposSemaforicos().get(0);
-        grupoSemaforico3.setTipo(TipoGrupoSemaforico.VEICULAR);
         GrupoSemaforico grupoSemaforico4 = anelAtivo.getGruposSemaforicos().get(1);
-        grupoSemaforico4.setTipo(TipoGrupoSemaforico.VEICULAR);
-
 
         EstagioGrupoSemaforico estagioGrupoSemaforico1 = new EstagioGrupoSemaforico(estagio1, grupoSemaforico3);
         estagio1.addEstagioGrupoSemaforico(estagioGrupoSemaforico1);
@@ -58,7 +58,7 @@ public class ControladorVerdesConflitantesTest extends ControladorTest {
 
         controlador.save();
 
-        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, ControladorAneisCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class);
+        List<Erro> erros = getErros(controlador);
 
         assertEquals(4, erros.size());
         assertThat(erros, Matchers.hasItems(
@@ -77,7 +77,7 @@ public class ControladorVerdesConflitantesTest extends ControladorTest {
         grupoSemaforico4.addVerdeConflitante(grupoSemaforico4);
 
 
-        erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, ControladorAneisCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class);
+        erros = getErros(controlador);
 
         assertEquals(4, erros.size());
         assertThat(erros, Matchers.hasItems(
@@ -101,7 +101,7 @@ public class ControladorVerdesConflitantesTest extends ControladorTest {
         grupoSemaforico2.addVerdeConflitante(grupoSemaforico4);
 
 
-        erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, ControladorAneisCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class);
+        erros = getErros(controlador);
         assertEquals(4, erros.size());
         assertThat(erros, Matchers.hasItems(
                 new Erro("Controlador", "Esse grupo semafórico não pode ter verde conflitante com grupo semafórico de outro anel", "aneis[0].gruposSemaforicos[0].naoConflitaComGruposDeOutroAnel"),
@@ -124,7 +124,7 @@ public class ControladorVerdesConflitantesTest extends ControladorTest {
         grupoSemaforico4.addVerdeConflitante(grupoSemaforico3);
 
 
-        erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, ControladorAneisCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class);
+        erros = getErros(controlador);
 
         assertThat(erros, Matchers.empty());
     }
@@ -134,7 +134,7 @@ public class ControladorVerdesConflitantesTest extends ControladorTest {
     public void testNoValidationErro() {
         Controlador controlador = getControladorVerdesConflitantes();
         controlador.save();
-        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, ControladorAneisCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class);
+        List<Erro> erros = getErros(controlador);
         assertThat(erros, Matchers.empty());
     }
 
@@ -251,5 +251,12 @@ public class ControladorVerdesConflitantesTest extends ControladorTest {
         assertEquals("Total de grupos semaforicos de Pedestre", 1, anelCom4Estagios.getGruposSemaforicos().stream().filter(grupoSemaforico -> grupoSemaforico.isPedestre()).count());
         assertEquals("Total de grupos semaforicos Veiculares", 2, anelCom2Estagios.getGruposSemaforicos().stream().filter(grupoSemaforico -> grupoSemaforico.isVeicular()).count());
         assertEquals("Total de grupos semaforicos Veiculares", 1, anelCom4Estagios.getGruposSemaforicos().stream().filter(grupoSemaforico -> grupoSemaforico.isVeicular()).count());
+    }
+
+    @Override
+    public List<Erro> getErros(Controlador controlador) {
+        return new InfluuntValidator<Controlador>().validate(controlador,
+                Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+                ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class);
     }
 }

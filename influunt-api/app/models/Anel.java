@@ -246,18 +246,6 @@ public class Anel extends Model implements Cloneable {
         return !this.ativo || this.longitude != null;
     }
 
-
-    @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
-            message = "Deve existir detectores cadastrados para estagio de demanda prioritaria")
-    public boolean isDeveExistirDetectoresCasoExistaEstatigioDemandaPrioritaria() {
-        if (!this.getEstagios().isEmpty()) {
-            if (this.getEstagios().stream().filter(estagio -> estagio.getDemandaPrioritaria()).count() > 0) {
-                return this.getDetectores().size() > 0;
-            }
-        }
-        return true;
-    }
-
     @AssertTrue(groups = PlanosCheck.class,
             message = "O anel ativo deve ter pelo menos 1 plano configurado.")
     public boolean isAoMenosUmPlanoConfigurado() {
@@ -321,13 +309,18 @@ public class Anel extends Model implements Cloneable {
         return super.clone();
     }
 
-    private TabelaEntreVerdes criaTabelaEntreVerdes(GrupoSemaforico grupoSemaforico, int posicao) {
-        TabelaEntreVerdes tabelaEntreVerdes = new TabelaEntreVerdes(grupoSemaforico, posicao);
-        for (Transicao transicao : grupoSemaforico.getTransicoes()) {
-            TabelaEntreVerdesTransicao tevTransicao = new TabelaEntreVerdesTransicao(tabelaEntreVerdes, transicao);
-            tabelaEntreVerdes.addTabelaEntreVerdesTransicao(tevTransicao);
+    public void addGruposSemaforicos(GrupoSemaforico grupoSemaforico) {
+        if (getGruposSemaforicos() == null) {
+            setGruposSemaforicos(new ArrayList<GrupoSemaforico>());
         }
-        return tabelaEntreVerdes;
+        getGruposSemaforicos().add(grupoSemaforico);
+    }
+
+    public void addDetectores(Detector detector) {
+        if (getDetectores() == null) {
+            setDetectores(new ArrayList<Detector>());
+        }
+        getDetectores().add(detector);
     }
 }
 

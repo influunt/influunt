@@ -301,4 +301,11 @@ public class Controlador extends Model implements Cloneable {
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
+
+    public void addGruposSemaforicos(GrupoSemaforico grupoSemaforico) {
+        if (getGruposSemaforicos() == null) {
+            setGruposSemaforicos(new ArrayList<GrupoSemaforico>());
+        }
+        getGruposSemaforicos().add(grupoSemaforico);
+    }
 }
