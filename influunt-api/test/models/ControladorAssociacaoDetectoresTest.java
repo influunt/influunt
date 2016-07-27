@@ -29,18 +29,11 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
         Controlador controlador = getControladorTabelaDeEntreVerdes();
         controlador.save();
 
-        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, ControladorAneisCheck.class,
-                ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class, ControladorTransicoesProibidasCheck.class,
-                ControladorTabelaEntreVerdesCheck.class, ControladorAssociacaoDetectoresCheck.class);
+        List<Erro> erros = getErros(controlador);
 
-        assertEquals(6, erros.size());
+        assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro("Controlador", "Esse estagio deve estar associado a pelo menos um detector.", "aneis[0].estagios[0].associadoDetectorCasoDemandaPrioritaria"),
-                new Erro("Controlador", "O detector deve estar associado a pelo menos um estagio.", "aneis[0].detectores[0].associadoAoMenosUmEstagio"),
-                new Erro("Controlador", "O detector deve estar associado a pelo menos um estagio.", "aneis[0].detectores[1].associadoAoMenosUmEstagio"),
-                new Erro("Controlador", "O detector deve estar associado a pelo menos um estagio.", "aneis[0].detectores[2].associadoAoMenosUmEstagio"),
-                new Erro("Controlador", "O detector deve estar associado a pelo menos um estagio.", "aneis[0].detectores[3].associadoAoMenosUmEstagio"),
-                new Erro("Controlador", "O detector deve estar associado a pelo menos um estagio.", "aneis[1].detectores[0].associadoAoMenosUmEstagio")
+                new Erro("Controlador", "Esse estagio deve estar associado a pelo menos um detector.", "aneis[0].estagios[0].associadoDetectorCasoDemandaPrioritaria")
         ));
     }
 
@@ -49,9 +42,7 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
     public void testNoValidationErro() {
         Controlador controlador = getControladorAssociacaoDetectores();
         controlador.save();
-        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, ControladorAneisCheck.class,
-                ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class, ControladorTransicoesProibidasCheck.class,
-                ControladorTabelaEntreVerdesCheck.class, ControladorAssociacaoDetectoresCheck.class);
+        List<Erro> erros = getErros(controlador);
         assertThat(erros, Matchers.empty());
 
     }
@@ -62,9 +53,7 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
         Controlador controlador = getControladorAssociacaoDetectores();
         controlador.save();
 
-        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, ControladorAneisCheck.class,
-                ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class, ControladorTransicoesProibidasCheck.class,
-                ControladorTabelaEntreVerdesCheck.class, ControladorAssociacaoDetectoresCheck.class);
+        List<Erro> erros = getErros(controlador);
 
         assertNotNull(controlador.getId());
         assertThat(erros, Matchers.empty());
@@ -129,7 +118,7 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
-        assertEquals(6, json.size());
+        assertEquals(1, json.size());
     }
 
     @Override
@@ -148,6 +137,9 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
 
         assertNotNull(controladorRetornado.getId());
         Anel anelCom4Estagios = controladorRetornado.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
+
+        assertEquals("Toda de detectores", 4, anelCom4Estagios.getDetectores().size());
+
         Estagio estagio1 = anelCom4Estagios.findEstagioByDescricao("E1");
         Estagio estagio2 = anelCom4Estagios.findEstagioByDescricao("E2");
         Estagio estagio3 = anelCom4Estagios.findEstagioByDescricao("E3");
@@ -158,11 +150,19 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
         Detector detector3 = anelCom4Estagios.findDetectorByDescricao("D3");
         Detector detector4 = anelCom4Estagios.findDetectorByDescricao("D4");
 
-        assertEquals("Estagio 1 está associado Detector 1", estagio1.getDetector(), detector1);
-        assertEquals("Estagio 2 está associado Detector 2", estagio2.getDetector(), detector2);
-        assertEquals("Estagio 3 está associado Detector 3", estagio3.getDetector(), detector3);
-        assertEquals("Estagio 4 está associado Detector 4", estagio4.getDetector(), detector4);
+        assertEquals("Estagio 1 está associado Detector 1", detector1.getEstagio(), estagio1);
+        assertEquals("Estagio 2 está associado Detector 2", detector2.getEstagio(), estagio2);
+        assertEquals("Estagio 3 está associado Detector 3", detector3.getEstagio(), estagio3);
+        assertEquals("Estagio 4 está associado Detector 4", detector4.getEstagio(), estagio4);
+    }
 
+    @Override
+    public List<Erro> getErros(Controlador controlador) {
+        return new InfluuntValidator<Controlador>().validate(controlador,
+                Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+                ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class,
+                ControladorTransicoesProibidasCheck.class, ControladorTabelaEntreVerdesCheck.class,
+                ControladorAssociacaoDetectoresCheck.class);
     }
 
 }

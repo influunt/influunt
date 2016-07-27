@@ -60,18 +60,6 @@ public class AnelDeserializer extends JsonDeserializer<Anel> {
         if (node.has("longitude")) {
             anel.setLongitude(node.get("longitude").asDouble());
         }
-        if (node.has("quantidadeGrupoPedestre")) {
-            anel.setQuantidadeGrupoPedestre(node.get("quantidadeGrupoPedestre").asInt());
-        }
-        if (node.has("quantidadeGrupoVeicular")) {
-            anel.setQuantidadeGrupoVeicular(node.get("quantidadeGrupoVeicular").asInt());
-        }
-        if (node.has("quantidadeDetectorPedestre")) {
-            anel.setQuantidadeDetectorPedestre(node.get("quantidadeDetectorPedestre").asInt());
-        }
-        if (node.has("quantidadeDetectorVeicular")) {
-            anel.setQuantidadeDetectorVeicular(node.get("quantidadeDetectorVeicular").asInt());
-        }
         if (node.has("controlador")) {
             anel.setControlador(Json.fromJson(node.get("controlador"), Controlador.class));
         }

@@ -37,18 +37,6 @@ public class AnelSerializer extends JsonSerializer<Anel> {
         if (anel.getLongitude() != null) {
             jgen.writeNumberField("longitude", anel.getLongitude());
         }
-        if (anel.getQuantidadeGrupoPedestre() != null) {
-            jgen.writeNumberField("quantidadeGrupoPedestre", anel.getQuantidadeGrupoPedestre());
-        }
-        if (anel.getQuantidadeGrupoVeicular() != null) {
-            jgen.writeNumberField("quantidadeGrupoVeicular", anel.getQuantidadeGrupoVeicular());
-        }
-        if (anel.getQuantidadeDetectorPedestre() != null) {
-            jgen.writeNumberField("quantidadeDetectorPedestre", anel.getQuantidadeDetectorPedestre());
-        }
-        if (anel.getQuantidadeDetectorVeicular() != null) {
-            jgen.writeNumberField("quantidadeDetectorVeicular", anel.getQuantidadeDetectorVeicular());
-        }
         if (anel.getDataCriacao() != null) {
             jgen.writeStringField("dataCriacao", InfluuntDateTimeSerializer.parse(anel.getDataCriacao()));
         }

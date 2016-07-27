@@ -1,5 +1,6 @@
 package models;
 
+import checks.*;
 import com.google.inject.Singleton;
 import play.Application;
 import play.Mode;
@@ -8,8 +9,10 @@ import play.test.WithApplication;
 import security.AllowAllAuthenticator;
 import security.Authenticator;
 
+import javax.validation.groups.Default;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static play.inject.Bindings.bind;
@@ -100,16 +103,41 @@ public abstract class ControladorTest extends WithApplication {
 
         anel1.setLatitude(1.0);
         anel1.setLongitude(1.0);
-        anel1.setQuantidadeGrupoPedestre(1);
-        anel1.setQuantidadeGrupoVeicular(1);
-        anel1.setQuantidadeDetectorPedestre(3);
-        anel1.setQuantidadeDetectorVeicular(1);
+
+        return controlador;
+    }
+
+    protected Controlador getControladorGrupoSemaforicos() {
+        Controlador controlador = getControladorAneis();
+        controlador.save();
+
+        Anel anelAtivo = controlador.getAneis().stream().filter(anel -> anel.isAtivo()).findFirst().get();
+
+        GrupoSemaforico grupoSemaforicoVeicular = new GrupoSemaforico();
+        grupoSemaforicoVeicular.setAnel(anelAtivo);
+        grupoSemaforicoVeicular.setControlador(controlador);
+        grupoSemaforicoVeicular.setTipo(TipoGrupoSemaforico.PEDESTRE);
+        grupoSemaforicoVeicular.setDescricao("G1");
+        grupoSemaforicoVeicular.setPosicao(1);
+        grupoSemaforicoVeicular.setFaseVermelhaApagadaAmareloIntermitente(false);
+        anelAtivo.addGruposSemaforicos(grupoSemaforicoVeicular);
+        controlador.addGruposSemaforicos(grupoSemaforicoVeicular);
+
+        GrupoSemaforico grupoSemaforicoPedestre = new GrupoSemaforico();
+        grupoSemaforicoPedestre.setAnel(anelAtivo);
+        grupoSemaforicoPedestre.setControlador(controlador);
+        grupoSemaforicoPedestre.setTipo(TipoGrupoSemaforico.VEICULAR);
+        grupoSemaforicoPedestre.setDescricao("G2");
+        grupoSemaforicoPedestre.setPosicao(2);
+        grupoSemaforicoPedestre.setFaseVermelhaApagadaAmareloIntermitente(true);
+        anelAtivo.addGruposSemaforicos(grupoSemaforicoPedestre);
+        controlador.addGruposSemaforicos(grupoSemaforicoPedestre);
 
         return controlador;
     }
 
     protected Controlador getControladorAssociacao() {
-        Controlador controlador = getControladorAneis();
+        Controlador controlador = getControladorGrupoSemaforicos();
         controlador.save();
 
         Anel anelAtivo = controlador.getAneis().stream().filter(anel -> anel.isAtivo()).findFirst().get();
@@ -120,10 +148,7 @@ public abstract class ControladorTest extends WithApplication {
         Estagio estagio4 = anelAtivo.getEstagios().get(3);
 
         GrupoSemaforico grupoSemaforico1 = anelAtivo.getGruposSemaforicos().get(0);
-        grupoSemaforico1.setTipo(TipoGrupoSemaforico.PEDESTRE);
         GrupoSemaforico grupoSemaforico2 = anelAtivo.getGruposSemaforicos().get(1);
-        grupoSemaforico2.setTipo(TipoGrupoSemaforico.VEICULAR);
-
 
         EstagioGrupoSemaforico estagioGrupoSemaforico1 = new EstagioGrupoSemaforico(estagio1, grupoSemaforico1);
         EstagioGrupoSemaforico estagioGrupoSemaforico2 = new EstagioGrupoSemaforico(estagio2, grupoSemaforico2);
@@ -158,9 +183,7 @@ public abstract class ControladorTest extends WithApplication {
         anelAtivo.setAtivo(Boolean.TRUE);
         anelAtivo.setLatitude(1.0);
         anelAtivo.setLongitude(1.0);
-        anelAtivo.setQuantidadeDetectorPedestre(1);
 
-        anelAtivo.setQuantidadeGrupoVeicular(2);
         anelAtivo.setEstagios(Arrays.asList(new Estagio(), new Estagio()));
 
         Estagio estagio1 = anelAtivo.getEstagios().get(0);
@@ -168,13 +191,13 @@ public abstract class ControladorTest extends WithApplication {
         Estagio estagio2 = anelAtivo.getEstagios().get(1);
         estagio2.setTempoMaximoPermanencia(60);
 
+        criarGrupoSemaforico(anelAtivo, TipoGrupoSemaforico.VEICULAR, 3);
+        criarGrupoSemaforico(anelAtivo, TipoGrupoSemaforico.VEICULAR, 4);
+
         controlador.save();
 
         GrupoSemaforico grupoSemaforico3 = anelAtivo.findGrupoSemaforicoByPosicao(3);
-        grupoSemaforico3.setTipo(TipoGrupoSemaforico.VEICULAR);
         GrupoSemaforico grupoSemaforico4 = anelAtivo.findGrupoSemaforicoByPosicao(4);
-        grupoSemaforico4.setTipo(TipoGrupoSemaforico.VEICULAR);
-
 
         EstagioGrupoSemaforico estagioGrupoSemaforico1 = new EstagioGrupoSemaforico(estagio1, grupoSemaforico3);
         estagio1.addEstagioGrupoSemaforico(estagioGrupoSemaforico1);
@@ -266,8 +289,12 @@ public abstract class ControladorTest extends WithApplication {
         Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
 
         Estagio estagio = anelCom2Estagios.getEstagios().get(0);
+
+        criarDetector(anelCom2Estagios, TipoDetector.PEDESTRE, 1);
+
         Detector detector = anelCom2Estagios.getDetectores().get(0);
         detector.setEstagio(estagio);
+        estagio.setDetector(detector);
 
         Estagio estagio1 = anelCom4Estagios.getEstagios().get(0);
         estagio1.setDescricao("E1");
@@ -281,6 +308,11 @@ public abstract class ControladorTest extends WithApplication {
         Estagio estagio4 = anelCom4Estagios.getEstagios().get(3);
         estagio4.setDescricao("E4");
         estagio4.setTempoMaximoPermanencia(60);
+
+        criarDetector(anelCom4Estagios, TipoDetector.PEDESTRE, 1);
+        criarDetector(anelCom4Estagios, TipoDetector.PEDESTRE, 2);
+        criarDetector(anelCom4Estagios, TipoDetector.VEICULAR, 3);
+        criarDetector(anelCom4Estagios, TipoDetector.VEICULAR, 4);
 
         Detector detector1 = anelCom4Estagios.getDetectores().get(0);
         detector1.setDescricao("D1");
@@ -395,6 +427,25 @@ public abstract class ControladorTest extends WithApplication {
         }
     }
 
+    protected void criarGrupoSemaforico(Anel anel, TipoGrupoSemaforico tipo, Integer posicao) {
+        GrupoSemaforico grupoSemaforico = new GrupoSemaforico();
+        grupoSemaforico.setAnel(anel);
+        grupoSemaforico.setControlador(anel.getControlador());
+        grupoSemaforico.setTipo(tipo);
+        grupoSemaforico.setPosicao(posicao);
+        anel.addGruposSemaforicos(grupoSemaforico);
+        anel.getControlador().addGruposSemaforicos(grupoSemaforico);
+    }
+
+    protected void criarDetector(Anel anel, TipoDetector tipo, Integer posicao) {
+        Detector detector = new Detector();
+        detector.setAnel(anel);
+        detector.setControlador(anel.getControlador());
+        detector.setTipo(tipo);
+        detector.setPosicao(posicao);
+        anel.addDetectores(detector);
+    }
+
     public abstract void testVazio();
 
     public abstract void testNoValidationErro();
@@ -407,5 +458,6 @@ public abstract class ControladorTest extends WithApplication {
 
     public abstract void testController();
 
+    public abstract List<Erro> getErros(Controlador controlador);
 
 }

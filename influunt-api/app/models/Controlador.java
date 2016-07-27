@@ -131,12 +131,6 @@ public class Controlador extends Model implements Cloneable {
             }
         }
 
-        if (getAneis() != null) {
-            getAneis().stream().forEach(anel -> {
-                anel.criaGruposSemaforicos();
-                anel.criaDetectores();
-            });
-        }
         this.criarPossiveisTransicoes();
     }
 
@@ -306,5 +300,12 @@ public class Controlador extends Model implements Cloneable {
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    public void addGruposSemaforicos(GrupoSemaforico grupoSemaforico) {
+        if (getGruposSemaforicos() == null) {
+            setGruposSemaforicos(new ArrayList<GrupoSemaforico>());
+        }
+        getGruposSemaforicos().add(grupoSemaforico);
     }
 }

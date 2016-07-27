@@ -23,7 +23,7 @@ public class ConformidadeDeNumeroDeGruposSemaforicosValidator implements Constra
         Integer total = controlador.getAneis()
                 .stream()
                 .filter(anel -> anel.isAtivo())
-                .mapToInt(anel -> anel.getQuantidadeGrupoPedestre() + anel.getQuantidadeGrupoVeicular())
+                .mapToInt(anel -> anel.getGruposSemaforicos().size())
                 .sum();
 
         return total <= controlador.getModelo().getConfiguracao().getLimiteGrupoSemaforico();

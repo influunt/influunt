@@ -1,9 +1,6 @@
 package models;
 
-import checks.ControladorAneisCheck;
-import checks.ControladorAssociacaoGruposSemaforicosCheck;
-import checks.Erro;
-import checks.InfluuntValidator;
+import checks.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import controllers.routes;
 import org.hamcrest.Matchers;
@@ -32,17 +29,17 @@ public class ControladorAssociacoesTest extends ControladorTest {
     @Test
     public void testVazio() {
 
-        Controlador controlador = getControladorAneis();
+        Controlador controlador = getControladorGrupoSemaforicos();
         controlador.save();
 
-        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador,
-                Default.class, ControladorAneisCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class);
+        List<Erro> erros = getErros(controlador);
 
+        assertEquals(4, erros.size());
         assertThat(erros, Matchers.hasItems(
                 new Erro("Controlador", "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[0].aoMenosUmEstagioGrupoSemaforico"),
                 new Erro("Controlador", "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[1].aoMenosUmEstagioGrupoSemaforico"),
-                new Erro("Controlador", "Quantidade de grupos semáforicos de pedestre diferente do definido no anel", "aneis[0].checkQuantidadeGruposSemaforicosDePedestre"),
-                new Erro("Controlador", "Quantidade de grupos semáforicos veiculares diferente do definido no anel", "aneis[0].checkQuantidadeGruposSemaforicosVeiculares")
+                new Erro("Controlador", "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[2].aoMenosUmEstagioGrupoSemaforico"),
+                new Erro("Controlador", "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[3].aoMenosUmEstagioGrupoSemaforico")
         ));
 
         Anel anelAtivo = controlador.getAneis().stream().filter(anel -> anel.isAtivo()).findFirst().get();
@@ -54,10 +51,7 @@ public class ControladorAssociacoesTest extends ControladorTest {
         Estagio estagio4 = (Estagio) anelAtivo.getEstagios().toArray()[3];
 
         GrupoSemaforico grupoSemaforico1 = anelAtivo.getGruposSemaforicos().get(0);
-        grupoSemaforico1.setTipo(TipoGrupoSemaforico.PEDESTRE);
         GrupoSemaforico grupoSemaforico2 = anelAtivo.getGruposSemaforicos().get(1);
-        grupoSemaforico2.setTipo(TipoGrupoSemaforico.VEICULAR);
-
 
         EstagioGrupoSemaforico estagioGrupoSemaforico1 = new EstagioGrupoSemaforico(estagio1, grupoSemaforico1);
         EstagioGrupoSemaforico estagioGrupoSemaforico2 = new EstagioGrupoSemaforico(estagio2, grupoSemaforico2);
@@ -69,7 +63,6 @@ public class ControladorAssociacoesTest extends ControladorTest {
         estagio3.addEstagioGrupoSemaforico(estagioGrupoSemaforico3);
         estagio4.addEstagioGrupoSemaforico(estagioGrupoSemaforico4);
 
-
         Anel anel1 = controlador.getAneis().stream().filter(anel -> !anel.isAtivo()).findFirst().get();
         anel1.setDescricao("Anel 0");
         anel1.setAtivo(true);
@@ -77,12 +70,9 @@ public class ControladorAssociacoesTest extends ControladorTest {
 
         anel1.setLatitude(1.0);
         anel1.setLongitude(1.0);
-        anel1.setQuantidadeGrupoPedestre(0);
-        anel1.setQuantidadeGrupoVeicular(2);
-        anel1.setQuantidadeDetectorPedestre(0);
-        anel1.setQuantidadeDetectorVeicular(0);
 
-        controlador.save();
+        criarGrupoSemaforico(anel1, TipoGrupoSemaforico.VEICULAR, 3);
+        criarGrupoSemaforico(anel1, TipoGrupoSemaforico.VEICULAR, 4);
 
         anel1 = controlador.getAneis().stream().filter(anel -> anel.getEstagios().size() == 2).findFirst().get();
         Estagio estagioNovo = anel1.getEstagios().get(0);
@@ -90,27 +80,14 @@ public class ControladorAssociacoesTest extends ControladorTest {
         estagioNovo.setDemandaPrioritaria(true);
 
         GrupoSemaforico grupoSemaforicoNovo = anel1.getGruposSemaforicos().get(0);
-        grupoSemaforicoNovo.setTipo(TipoGrupoSemaforico.VEICULAR);
         GrupoSemaforico grupoSemaforicoNovo2 = anel1.getGruposSemaforicos().get(1);
-        grupoSemaforicoNovo2.setTipo(TipoGrupoSemaforico.VEICULAR);
 
         EstagioGrupoSemaforico estagioGrupoSemaforicoNovo = new EstagioGrupoSemaforico(estagioNovo, grupoSemaforicoNovo);
         EstagioGrupoSemaforico estagioGrupoSemaforicoNovo2 = new EstagioGrupoSemaforico(estagioNovo2, grupoSemaforicoNovo2);
         estagioNovo.addEstagioGrupoSemaforico(estagioGrupoSemaforicoNovo);
         estagioNovo2.addEstagioGrupoSemaforico(estagioGrupoSemaforicoNovo2);
 
-        erros = new InfluuntValidator<Controlador>().validate(controlador,
-                Default.class, ControladorAneisCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class);
-
-        assertThat(erros, Matchers.hasItems(
-                new Erro("Controlador", "Deve existir detectores cadastrados para estagio de demanda prioritaria", "aneis[1].deveExistirDetectoresCasoExistaEstatigioDemandaPrioritaria")
-        ));
-
-        anel1.setQuantidadeDetectorVeicular(1);
-        controlador.save();
-
-        erros = new InfluuntValidator<Controlador>().validate(controlador,
-                Default.class, ControladorAneisCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class);
+        erros = getErros(controlador);
 
         assertThat(erros, Matchers.empty());
     }
@@ -120,7 +97,7 @@ public class ControladorAssociacoesTest extends ControladorTest {
     public void testNoValidationErro() {
         Controlador controlador = getControladorAssociacao();
         controlador.save();
-        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, ControladorAneisCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class);
+        List<Erro> erros = getErros(controlador);
         assertThat(erros, Matchers.empty());
     }
 
@@ -166,10 +143,8 @@ public class ControladorAssociacoesTest extends ControladorTest {
         assertEquals(anel.getDescricao(), anelJson.getDescricao());
         assertEquals(anel.getLatitude(), anelJson.getLatitude());
         assertEquals(anel.getLongitude(), anelJson.getLongitude());
-        assertEquals(anel.getQuantidadeGrupoPedestre(), anelJson.getQuantidadeGrupoPedestre());
-        assertEquals(anel.getQuantidadeGrupoVeicular(), anelJson.getQuantidadeGrupoVeicular());
-        assertEquals(anel.getQuantidadeDetectorPedestre(), anelJson.getQuantidadeDetectorPedestre());
-        assertEquals(anel.getQuantidadeDetectorVeicular(), anelJson.getQuantidadeDetectorVeicular());
+        assertEquals(anel.getGruposSemaforicos().size(), anelJson.getGruposSemaforicos().size());
+        assertEquals(anel.getDetectores().size(), anelJson.getDetectores().size());
         assertEquals(anel.getNumeroSMEE(), anelJson.getNumeroSMEE());
         assertEquals(anel.getEstagios().size(), anelJson.getEstagios().size());
         Estagio estagioDemanda = anel.getEstagios().stream().filter(anelAux -> anelAux.getDemandaPrioritaria() == Boolean.TRUE).findFirst().get();
@@ -181,7 +156,7 @@ public class ControladorAssociacoesTest extends ControladorTest {
     @Override
     @Test
     public void testControllerValidacao() {
-        Controlador controlador = getControladorAneis();
+        Controlador controlador = getControladorGrupoSemaforicos();
         controlador.save();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
@@ -191,7 +166,7 @@ public class ControladorAssociacoesTest extends ControladorTest {
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
-        assertEquals(6, json.size());
+        assertEquals(4, json.size());
 
     }
 
@@ -219,4 +194,12 @@ public class ControladorAssociacoesTest extends ControladorTest {
         assertEquals("Total de grupos semaforicos de Pedestre", 1, anelAtivo.getGruposSemaforicos().stream().filter(grupoSemaforico -> grupoSemaforico.isPedestre()).count());
         assertEquals("Total de grupos semaforicos Veiculares", 1, anelAtivo.getGruposSemaforicos().stream().filter(grupoSemaforico -> grupoSemaforico.isVeicular()).count());
     }
+
+    @Override
+    public List<Erro> getErros(Controlador controlador) {
+        return new InfluuntValidator<Controlador>().validate(controlador,
+                Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+                ControladorAssociacaoGruposSemaforicosCheck.class);
+    }
+
 }

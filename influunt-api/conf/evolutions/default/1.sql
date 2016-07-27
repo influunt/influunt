@@ -28,10 +28,6 @@ create table aneis (
   numero_smee                   varchar(255),
   latitude                      double,
   longitude                     double,
-  quantidade_grupo_pedestre     integer,
-  quantidade_grupo_veicular     integer,
-  quantidade_detector_pedestre  integer,
-  quantidade_detector_veicular  integer,
   controlador_id                uuid,
   data_criacao                  timestamp not null,
   data_atualizacao              timestamp not null,
@@ -251,7 +247,7 @@ create table planos (
 
 create table sessoes (
   id                            uuid not null,
-  usuario_id                    uuid,
+  usuario_login                 varchar(255),
   ativa                         boolean,
   data_criacao                  timestamp not null,
   constraint pk_sessoes primary key (id)
@@ -302,8 +298,7 @@ create table transicoes_proibidas (
 );
 
 create table usuarios (
-  id                            uuid not null,
-  login                         varchar(255),
+  login                         varchar(255) not null,
   senha                         varchar(255),
   email                         varchar(255),
   nome                          varchar(255),
@@ -312,8 +307,7 @@ create table usuarios (
   perfil_id                     uuid,
   data_criacao                  timestamp not null,
   data_atualizacao              timestamp not null,
-  constraint uq_usuarios_login unique (login),
-  constraint pk_usuarios primary key (id)
+  constraint pk_usuarios primary key (login)
 );
 
 create table verdes_conflitantes (
@@ -406,8 +400,8 @@ create index ix_planos_anel_id on planos (anel_id);
 alter table planos add constraint fk_planos_agrupamento_id foreign key (agrupamento_id) references agrupamentos (id) on delete restrict on update restrict;
 create index ix_planos_agrupamento_id on planos (agrupamento_id);
 
-alter table sessoes add constraint fk_sessoes_usuario_id foreign key (usuario_id) references usuarios (id) on delete restrict on update restrict;
-create index ix_sessoes_usuario_id on sessoes (usuario_id);
+alter table sessoes add constraint fk_sessoes_usuario_login foreign key (usuario_login) references usuarios (login) on delete restrict on update restrict;
+create index ix_sessoes_usuario_login on sessoes (usuario_login);
 
 alter table tabela_entre_verdes add constraint fk_tabela_entre_verdes_grupo_semaforico_id foreign key (grupo_semaforico_id) references grupos_semaforicos (id) on delete restrict on update restrict;
 create index ix_tabela_entre_verdes_grupo_semaforico_id on tabela_entre_verdes (grupo_semaforico_id);
@@ -532,8 +526,8 @@ drop index if exists ix_planos_anel_id;
 alter table planos drop constraint if exists fk_planos_agrupamento_id;
 drop index if exists ix_planos_agrupamento_id;
 
-alter table sessoes drop constraint if exists fk_sessoes_usuario_id;
-drop index if exists ix_sessoes_usuario_id;
+alter table sessoes drop constraint if exists fk_sessoes_usuario_login;
+drop index if exists ix_sessoes_usuario_login;
 
 alter table tabela_entre_verdes drop constraint if exists fk_tabela_entre_verdes_grupo_semaforico_id;
 drop index if exists ix_tabela_entre_verdes_grupo_semaforico_id;
