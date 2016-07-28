@@ -12,10 +12,10 @@ import play.inject.guice.GuiceApplicationBuilder;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
-import play.mvc.Security;
 import play.test.Helpers;
 import play.test.WithApplication;
-import security.*;
+import security.AllowAllAuthenticator;
+import security.Authenticator;
 
 import java.util.HashMap;
 import java.util.List;
@@ -49,7 +49,7 @@ public class AreasControllerTest extends WithApplication {
     }
 
     @Before
-    public void setUp(){
+    public void setUp() {
         cidade = new Cidade();
         cidade.setNome("BH");
         cidade.save();

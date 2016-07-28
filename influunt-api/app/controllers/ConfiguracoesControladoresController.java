@@ -2,12 +2,10 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
 import be.objectify.deadbolt.java.actions.Dynamic;
-import be.objectify.deadbolt.java.actions.SubjectPresent;
 import checks.Erro;
 import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.ConfiguracaoControlador;
-import models.ModeloControlador;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -40,10 +38,10 @@ public class ConfiguracoesControladoresController extends Controller {
         ConfiguracaoControlador configuracaoControlador = Json.fromJson(json, ConfiguracaoControlador.class);
         List<Erro> erros = new InfluuntValidator<ConfiguracaoControlador>().validate(configuracaoControlador);
 
-        if(erros.isEmpty()) {
+        if (erros.isEmpty()) {
             configuracaoControlador.save();
             return CompletableFuture.completedFuture(ok(Json.toJson(configuracaoControlador)));
-        }else{
+        } else {
             return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
         }
     }
@@ -58,16 +56,16 @@ public class ConfiguracoesControladoresController extends Controller {
         ConfiguracaoControlador configuracaoControlador = ConfiguracaoControlador.find.byId(UUID.fromString(id));
         if (configuracaoControlador == null) {
             return CompletableFuture.completedFuture(notFound());
-        }else{
+        } else {
 
             configuracaoControlador = Json.fromJson(json, ConfiguracaoControlador.class);
             configuracaoControlador.setId(UUID.fromString(id));
             List<Erro> erros = new InfluuntValidator<ConfiguracaoControlador>().validate(configuracaoControlador);
 
-            if(erros.isEmpty()) {
+            if (erros.isEmpty()) {
                 configuracaoControlador.update();
                 return CompletableFuture.completedFuture(ok(Json.toJson(configuracaoControlador)));
-            }else{
+            } else {
                 return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
             }
 

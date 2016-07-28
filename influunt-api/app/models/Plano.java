@@ -1,6 +1,5 @@
 package models;
 
-import json.deserializers.PlanoDeserializer;
 import checks.PlanosCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
@@ -9,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
+import json.deserializers.PlanoDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import json.serializers.PlanoSerializer;
 import org.apache.commons.lang3.Range;
@@ -96,10 +96,6 @@ public class Plano extends Model implements Cloneable {
 
     public Integer getTempoCiclo() {
         return tempoCiclo;
-    }
-
-    public void setTempoCiclo(Integer tempoCiclo) {
-        this.tempoCiclo = tempoCiclo;
     }
 
     public Integer getDefasagem() {
@@ -204,7 +200,6 @@ public class Plano extends Model implements Cloneable {
         return Objects.nonNull(getModoOperacao()) && ModoOperacaoPlano.APAGADO.equals(getModoOperacao());
     }
 
-
     @AssertTrue(groups = PlanosCheck.class,
             message = "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.")
     public boolean isQuantidadeGrupoSemaforicoIgualQuantidadeAnel() {
@@ -232,6 +227,10 @@ public class Plano extends Model implements Cloneable {
             return !(getTempoCiclo() == null || !Range.between(30, 255).contains(getTempoCiclo()));
         }
         return true;
+    }
+
+    public void setTempoCiclo(Integer tempoCiclo) {
+        this.tempoCiclo = tempoCiclo;
     }
 
     @AssertTrue(groups = PlanosCheck.class, message = "A soma dos tempos dos estágios ultrapassa o tempo de ciclo.")
@@ -267,7 +266,7 @@ public class Plano extends Model implements Cloneable {
     @AssertTrue(groups = PlanosCheck.class,
             message = "Configure um detector veicular para o modo atuado.")
     public boolean isModoOperacaoValido() {
-        if(this.isAtuado()) {
+        if (this.isAtuado()) {
             return getAnel().temDetectorVeicular();
         }
         return true;
@@ -312,7 +311,7 @@ public class Plano extends Model implements Cloneable {
             }
         }
 
-        if(isAtuado()) {
+        if (isAtuado()) {
             return Collections.max(totalTempoEntreverdes) + estagioPlano.getTempoVerdeMaximo();
         }
 

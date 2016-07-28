@@ -19,8 +19,7 @@ import java.io.IOException;
 /**
  * Created by lesiopinheiro on 6/16/16.
  */
-public class InfluuntDateTimeDeserializer extends JodaDateDeserializerBase<ReadableInstant>
-{
+public class InfluuntDateTimeDeserializer extends JodaDateDeserializerBase<ReadableInstant> {
     private static final long serialVersionUID = 1L;
 
     private final static DateTimeFormatter DATETIME_FORMAT = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss");
@@ -34,8 +33,7 @@ public class InfluuntDateTimeDeserializer extends JodaDateDeserializerBase<Reada
     }
 
     @SuppressWarnings("unchecked")
-    public static <T extends ReadableInstant> JsonDeserializer<T> forType(Class<T> cls)
-    {
+    public static <T extends ReadableInstant> JsonDeserializer<T> forType(Class<T> cls) {
         return (JsonDeserializer<T>) new InfluuntDateTimeDeserializer(cls,
                 FormatConfig.DEFAULT_DATETIME_PARSER);
     }
@@ -47,8 +45,7 @@ public class InfluuntDateTimeDeserializer extends JodaDateDeserializerBase<Reada
 
     @Override
     public ReadableDateTime deserialize(JsonParser p, DeserializationContext ctxt)
-            throws IOException
-    {
+            throws IOException {
         JsonToken t = p.getCurrentToken();
 
         if (t == JsonToken.VALUE_NUMBER_INT) {
@@ -66,8 +63,8 @@ public class InfluuntDateTimeDeserializer extends JodaDateDeserializerBase<Reada
             if (ix > 0) {
                 int ix2 = str.lastIndexOf(']');
                 String tzId = (ix2 < ix)
-                        ? str.substring(ix+1)
-                        : str.substring(ix+1, ix2);
+                        ? str.substring(ix + 1)
+                        : str.substring(ix + 1, ix2);
                 DateTimeZone tz;
                 try {
                     tz = DateTimeZone.forID(tzId);

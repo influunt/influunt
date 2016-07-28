@@ -43,6 +43,11 @@ public class AnelSerializer extends JsonSerializer<Anel> {
         if (anel.getDataAtualizacao() != null) {
             jgen.writeStringField("dataAtualizacao", InfluuntDateTimeSerializer.parse(anel.getDataAtualizacao()));
         }
+
+        if (anel.getCLA() != null) {
+            jgen.writeStringField("CLA", anel.getCLA());
+        }
+
         if (anel.getEstagios() != null) {
             jgen.writeArrayFieldStart("estagios");
             for (Estagio estagio : anel.getEstagios()) {

@@ -1,13 +1,8 @@
 package controllers;
 
-import checks.CidadesCheck;
-import checks.ControladorAneisCheck;
-import checks.Erro;
-import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Singleton;
 import models.Cidade;
-import models.Controlador;
 import org.junit.Test;
 import play.Application;
 import play.Mode;
@@ -20,7 +15,6 @@ import play.test.WithApplication;
 import security.AllowAllAuthenticator;
 import security.Authenticator;
 
-import javax.validation.groups.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

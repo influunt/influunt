@@ -2,11 +2,9 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
 import be.objectify.deadbolt.java.actions.Dynamic;
-import be.objectify.deadbolt.java.actions.SubjectPresent;
 import checks.Erro;
 import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Fabricante;
 import models.ModeloControlador;
 import play.db.ebean.Transactional;
 import play.libs.Json;
@@ -41,10 +39,10 @@ public class ModelosControladoresController extends Controller {
         ModeloControlador modeloControlador = Json.fromJson(json, ModeloControlador.class);
         List<Erro> erros = new InfluuntValidator<ModeloControlador>().validate(modeloControlador);
 
-        if(erros.isEmpty()) {
+        if (erros.isEmpty()) {
             modeloControlador.save();
             return CompletableFuture.completedFuture(ok(Json.toJson(modeloControlador)));
-        }else{
+        } else {
             return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
         }
     }
@@ -66,10 +64,10 @@ public class ModelosControladoresController extends Controller {
         modeloControlador.setId(UUID.fromString(id));
         List<Erro> erros = new InfluuntValidator<ModeloControlador>().validate(modeloControlador);
 
-        if(erros.isEmpty()) {
+        if (erros.isEmpty()) {
             modeloControlador.update();
             return CompletableFuture.completedFuture(ok(Json.toJson(modeloControlador)));
-        }else{
+        } else {
             return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
         }
     }

@@ -1,7 +1,6 @@
 package models;
 
 import checks.CidadesCheck;
-import checks.ControladorAssociacaoDetectoresCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
@@ -24,13 +23,12 @@ import java.util.UUID;
  * Entidade que representa a {@link Cidade} no sistema
  *
  * @author lesiopinheiro
- *
  */
 @Entity
 @Table(name = "cidades")
 @JsonSerialize(using = CidadeSerializer.class)
 @JsonDeserialize(using = CidadeDeserializer.class)
-public class Cidade extends Model implements  Cloneable {
+public class Cidade extends Model implements Cloneable {
 
     private static final long serialVersionUID = 6446144066408570296L;
 
@@ -47,14 +45,14 @@ public class Cidade extends Model implements  Cloneable {
     private List<Area> areas;
 
     @Column
-    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
-    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
 
     @Column
-    @JsonDeserialize(using= InfluuntDateTimeDeserializer.class)
-    @JsonSerialize(using= InfluuntDateTimeSerializer.class)
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
 
@@ -104,7 +102,7 @@ public class Cidade extends Model implements  Cloneable {
         if (Objects.nonNull(getNome())) {
             Cidade cidadeAux = Cidade.find.where().ieq("nome", getNome()).findUnique();
 
-            return cidadeAux == null || (this.getId() != null && cidadeAux.getId().equals(this.getId())) ;
+            return cidadeAux == null || (this.getId() != null && cidadeAux.getId().equals(this.getId()));
         }
         return true;
     }

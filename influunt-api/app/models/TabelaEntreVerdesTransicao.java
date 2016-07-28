@@ -70,16 +70,16 @@ public class TabelaEntreVerdesTransicao extends Model implements Cloneable {
 
     }
 
-    @Override
-    public void save() {
-        getId();
-        super.save();
-    }
-
     public TabelaEntreVerdesTransicao(TabelaEntreVerdes tabelaEntreVerdes, Transicao transicao) {
         super();
         this.tabelaEntreVerdes = tabelaEntreVerdes;
         this.transicao = transicao;
+    }
+
+    @Override
+    public void save() {
+        getId();
+        super.save();
     }
 
     public UUID getId() {
@@ -110,16 +110,8 @@ public class TabelaEntreVerdesTransicao extends Model implements Cloneable {
         return tempoAmarelo;
     }
 
-    public void setTempoAmarelo(Integer tempoAmarelo) {
-        this.tempoAmarelo = tempoAmarelo;
-    }
-
     public Integer getTempoVermelhoIntermitente() {
         return tempoVermelhoIntermitente;
-    }
-
-    public void setTempoVermelhoIntermitente(Integer tempoVermelhoIntermitente) {
-        this.tempoVermelhoIntermitente = tempoVermelhoIntermitente;
     }
 
     public Integer getTempoVermelhoLimpeza() {
@@ -162,6 +154,10 @@ public class TabelaEntreVerdesTransicao extends Model implements Cloneable {
         return true;
     }
 
+    public void setTempoAmarelo(Integer tempoAmarelo) {
+        this.tempoAmarelo = tempoAmarelo;
+    }
+
     @AssertTrue(groups = ControladorTabelaEntreVerdesCheck.class, message = "deve estar entre 0 e 7")
     public boolean isTempoVermelhoLimpezaFieldVeicular() {
         if (getTransicao().getGrupoSemaforico().isVeicular() && getTempoVermelhoLimpeza() != null) {
@@ -184,6 +180,10 @@ public class TabelaEntreVerdesTransicao extends Model implements Cloneable {
             return getTempoVermelhoIntermitente() != null;
         }
         return true;
+    }
+
+    public void setTempoVermelhoIntermitente(Integer tempoVermelhoIntermitente) {
+        this.tempoVermelhoIntermitente = tempoVermelhoIntermitente;
     }
 
     @Override

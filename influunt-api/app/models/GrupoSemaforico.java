@@ -33,9 +33,8 @@ import java.util.*;
 @JsonSerialize(using = GrupoSemaforicoSerializer.class)
 @JsonDeserialize(using = GrupoSemaforicoDeserializer.class)
 public class GrupoSemaforico extends Model implements Cloneable {
-    public static Finder<UUID, GrupoSemaforico> find = new Finder<UUID, GrupoSemaforico>(GrupoSemaforico.class);
     private static final long serialVersionUID = 7439393568357903233L;
-
+    public static Finder<UUID, GrupoSemaforico> find = new Finder<UUID, GrupoSemaforico>(GrupoSemaforico.class);
     @Id
     private UUID id;
 
@@ -216,7 +215,7 @@ public class GrupoSemaforico extends Model implements Cloneable {
     }
 
     public TabelaEntreVerdes findByTabelaEntreVerdesPadrao() {
-        if(getTabelasEntreVerdes().isEmpty()){
+        if (getTabelasEntreVerdes().isEmpty()) {
             this.addTabelaEntreVerdes(new TabelaEntreVerdes(this, 1));
         }
         return getTabelasEntreVerdes().stream().filter(tabelaEntreVerdes -> tabelaEntreVerdes.getPosicao().equals(1)).findFirst().get();

@@ -8,7 +8,7 @@ import java.lang.annotation.*;
  * Valida se o número de {@link models.Detector} é igual ao somatório das quantidades de detectores definido pelo {@link models.ModeloControlador}
  * Created by lesiopinheiro on 7/11/16.
  */
-@Target({ElementType.TYPE,ElementType.ANNOTATION_TYPE})
+@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {ConformidadeNumeroDetectoresValidator.class})
 @Documented

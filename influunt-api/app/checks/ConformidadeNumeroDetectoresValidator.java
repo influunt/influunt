@@ -4,7 +4,6 @@ import models.Anel;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.Objects;
 
 /**
  * Created by lesiopinheiro on 7/11/16.
@@ -19,7 +18,7 @@ public class ConformidadeNumeroDetectoresValidator implements ConstraintValidato
     @Override
     public boolean isValid(Anel anel, ConstraintValidatorContext context) {
         if (anel.isAtivo() && !anel.getDetectores().isEmpty()) {
-             return anel.getDetectores().size() <= (anel.getDetectores().size());
+            return anel.getDetectores().size() <= (anel.getDetectores().size());
         }
         return true;
     }

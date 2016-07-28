@@ -1,6 +1,8 @@
 package models;
 
-import checks.*;
+import checks.ControladorAneisCheck;
+import checks.Erro;
+import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 import controllers.routes;
 import org.hamcrest.Matchers;
@@ -13,6 +15,7 @@ import play.test.Helpers;
 import javax.validation.groups.Default;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 import static play.mvc.Http.Status.OK;
@@ -163,6 +166,79 @@ public class ControladorAneisTest extends ControladorTest {
     public List<Erro> getErros(Controlador controlador) {
         return new InfluuntValidator<Controlador>().validate(controlador,
                 Default.class, ControladorAneisCheck.class);
+    }
+
+    @Test
+    public void testCLA() {
+        Cidade cidade = new Cidade();
+        cidade.setNome("BH");
+        cidade.save();
+
+        Area area = new Area();
+        area.setCidade(cidade);
+        area.setDescricao(2);
+        area.save();
+
+        Controlador c1A1 = getControladorAneis();
+        Controlador c2A1 = getControladorAneis();
+
+        Controlador c1A2 = getControladorAneis();
+        Area antiga = c1A2.getArea();
+        c1A2.setArea(area);
+        c1A2.save();
+
+        assertNotEquals(antiga.getId(), c1A2.getId());
+
+
+        Controlador c2A2 = getControladorAneis();
+
+        c2A2.setArea(area);
+
+        c1A1.update();
+        c2A1.update();
+
+        c1A2.update();
+        c1A2.refresh();
+
+        c2A2.update();
+        c2A2.refresh();
+
+        assertEquals(c1A1.getArea().getId().toString(), c2A1.getArea().getId().toString());
+        assertEquals(c1A2.getArea().getId().toString(), c2A2.getArea().getId().toString());
+        assertNotEquals(c1A1.getArea().getId().toString(), c1A2.getArea().getId().toString());
+
+        assertEquals("1.000.0001", c1A1.getCLC());
+        assertEquals("1.000.0002", c2A1.getCLC());
+        assertEquals("2.000.0001", c1A2.getCLC());
+        assertEquals("2.000.0002", c2A2.getCLC());
+
+        List<Anel> aneisC1A1 = c1A1.getAneis().stream().sorted((o1, o2) -> o1.getPosicao().compareTo(o2.getPosicao())).collect(Collectors.toList());
+        List<Anel> aneisC2A1 = c2A1.getAneis().stream().sorted((o1, o2) -> o1.getPosicao().compareTo(o2.getPosicao())).collect(Collectors.toList());
+        List<Anel> aneisC1A2 = c1A2.getAneis().stream().sorted((o1, o2) -> o1.getPosicao().compareTo(o2.getPosicao())).collect(Collectors.toList());
+        List<Anel> aneisC2A2 = c2A2.getAneis().stream().sorted((o1, o2) -> o1.getPosicao().compareTo(o2.getPosicao())).collect(Collectors.toList());
+
+
+        assertEquals("1.000.0001.1", aneisC1A1.get(0).getCLA());
+        assertEquals("1.000.0001.2", aneisC1A1.get(1).getCLA());
+        assertEquals("1.000.0001.3", aneisC1A1.get(2).getCLA());
+        assertEquals("1.000.0001.4", aneisC1A1.get(3).getCLA());
+
+        assertEquals("1.000.0002.1", aneisC2A1.get(0).getCLA());
+        assertEquals("1.000.0002.2", aneisC2A1.get(1).getCLA());
+        assertEquals("1.000.0002.3", aneisC2A1.get(2).getCLA());
+        assertEquals("1.000.0002.4", aneisC2A1.get(3).getCLA());
+
+        assertEquals("2.000.0001.1", aneisC1A2.get(0).getCLA());
+        assertEquals("2.000.0001.2", aneisC1A2.get(1).getCLA());
+        assertEquals("2.000.0001.3", aneisC1A2.get(2).getCLA());
+        assertEquals("2.000.0001.4", aneisC1A2.get(3).getCLA());
+
+        assertEquals("2.000.0002.1", aneisC2A2.get(0).getCLA());
+        assertEquals("2.000.0002.2", aneisC2A2.get(1).getCLA());
+        assertEquals("2.000.0002.3", aneisC2A2.get(2).getCLA());
+        assertEquals("2.000.0002.4", aneisC2A2.get(3).getCLA());
+
+
     }
 
 }

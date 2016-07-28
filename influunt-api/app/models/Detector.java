@@ -199,7 +199,7 @@ public class Detector extends Model implements Cloneable {
     @JsonIgnore
     @AssertTrue(groups = ControladorAssociacaoDetectoresCheck.class,
             message = "O detector deve estar associado a pelo menos um estagio.")
-    public boolean isAssociadoAoMenosUmEstagio()  {
+    public boolean isAssociadoAoMenosUmEstagio() {
         return !Objects.isNull(getEstagio());
     }
 

@@ -105,7 +105,7 @@ public class ConfiguracoesControladoresControllerTest extends WithApplication {
         assertEquals(200, result.status());
         assertEquals(DESCRICAO, configuracaoControlador.getDescricao());
         assertNotNull(configuracaoControladorRetornada.getId());
-        assertEquals(totalConfiguracoes+1, ConfiguracaoControlador.find.findRowCount());
+        assertEquals(totalConfiguracoes + 1, ConfiguracaoControlador.find.findRowCount());
     }
 
     @Test

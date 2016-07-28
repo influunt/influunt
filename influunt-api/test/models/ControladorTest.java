@@ -1,7 +1,8 @@
 package models;
 
-import checks.*;
+import checks.Erro;
 import com.google.inject.Singleton;
+import org.junit.Before;
 import play.Application;
 import play.Mode;
 import play.inject.guice.GuiceApplicationBuilder;
@@ -9,7 +10,6 @@ import play.test.WithApplication;
 import security.AllowAllAuthenticator;
 import security.Authenticator;
 
-import javax.validation.groups.Default;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -44,12 +44,8 @@ public abstract class ControladorTest extends WithApplication {
                 .in(Mode.TEST).build();
     }
 
-    protected Controlador getControlador() {
-        return new Controlador();
-    }
-
-    protected Controlador getControladorDadosBasicos() {
-
+    @Before
+    public void setUpModels() {
         cidade = new Cidade();
         cidade.setNome("São Paulo");
         cidade.save();
@@ -76,6 +72,13 @@ public abstract class ControladorTest extends WithApplication {
         modeloControlador.setConfiguracao(configuracaoControlador);
         modeloControlador.setDescricao("Modelo 1");
         modeloControlador.save();
+    }
+
+    protected Controlador getControlador() {
+        return new Controlador();
+    }
+
+    protected Controlador getControladorDadosBasicos() {
 
         Controlador controlador = getControlador();
         controlador.setLocalizacao("Av Paulista com Bela Cintra");
@@ -402,7 +405,7 @@ public abstract class ControladorTest extends WithApplication {
         estagioPlano4Anel4.setTempoVerdeIntermediario(20);
         estagioPlano4Anel4.setTempoExtensaoVerde(10.0);
 
-        return  controlador;
+        return controlador;
     }
 
 

@@ -1,6 +1,8 @@
 package models;
 
-import checks.*;
+import checks.Erro;
+import checks.InfluuntValidator;
+import checks.PlanosCheck;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.hamcrest.Matchers;
 import org.junit.Test;

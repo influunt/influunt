@@ -1,6 +1,7 @@
 package models;
 
-import checks.*;
+import checks.Erro;
+import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 import controllers.routes;
 import org.junit.Test;
@@ -166,4 +167,39 @@ public class ControladorDadosBasicosTest extends ControladorTest {
     public List<Erro> getErros(Controlador controlador) {
         return new InfluuntValidator<Controlador>().validate(controlador);
     }
+
+    @Test
+    public void testCLC() {
+        Cidade cidade = new Cidade();
+        cidade.setNome("BH");
+        cidade.save();
+
+        Area area = new Area();
+        area.setCidade(cidade);
+        area.setDescricao(2);
+        area.save();
+
+        Controlador c1A1 = getControladorDadosBasicos();
+        Controlador c2A1 = getControladorDadosBasicos();
+
+        Controlador c1A2 = getControladorDadosBasicos();
+        c1A2.setArea(area);
+
+        Controlador c2A2 = getControladorDadosBasicos();
+        c2A2.setArea(area);
+
+        c1A1.save();
+        c2A1.save();
+        c1A2.save();
+        c2A2.save();
+
+        assertEquals(c1A1.getArea().getId().toString(), c2A1.getArea().getId().toString());
+        assertEquals(c1A2.getArea().getId().toString(), c2A2.getArea().getId().toString());
+
+        assertEquals("1.000.0001", c1A1.getCLC());
+        assertEquals("1.000.0002", c2A1.getCLC());
+        assertEquals("2.000.0001", c1A2.getCLC());
+        assertEquals("2.000.0002", c2A2.getCLC());
+    }
+
 }

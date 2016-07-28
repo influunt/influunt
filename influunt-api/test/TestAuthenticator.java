@@ -1,12 +1,12 @@
+import be.objectify.deadbolt.java.models.Subject;
+import models.Sessao;
+import models.Usuario;
+import security.Authenticator;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import be.objectify.deadbolt.java.models.Subject;
-import models.Usuario;
-import security.Authenticator;
-import models.Sessao;
 
 public class TestAuthenticator implements Authenticator {
 
@@ -36,7 +36,7 @@ public class TestAuthenticator implements Authenticator {
 
     @Override
     public String createSession(final Subject subject) {
-        Sessao newSession = new Sessao((Usuario)subject);
+        Sessao newSession = new Sessao((Usuario) subject);
         sessions.put(newSession.getToken(), newSession);
         return newSession.getToken();
     }

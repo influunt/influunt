@@ -1,11 +1,10 @@
 package security;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import be.objectify.deadbolt.java.DeadboltHandler;
 import com.google.inject.Singleton;
 
-import be.objectify.deadbolt.java.DeadboltHandler;
+import java.util.HashMap;
+import java.util.Map;
 
 @Singleton
 public class AppHandlerCache implements be.objectify.deadbolt.java.cache.HandlerCache {

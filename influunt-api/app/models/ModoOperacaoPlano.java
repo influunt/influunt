@@ -1,7 +1,5 @@
 package models;
 
-import com.avaje.ebean.Model;
-
 /**
  * Created by lesiopinheiro on 7/13/16.
  */

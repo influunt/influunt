@@ -9,10 +9,9 @@ public class HashHelper {
     /**
      * Create an encrypted password from a clear string.
      *
-     * @param clearString
-     *            the clear string
+     * @param clearString the clear string
      * @return an encrypted password of the clear string
-     *             APP Exception, from NoSuchAlgorithmException
+     * APP Exception, from NoSuchAlgorithmException
      */
     public static String createPassword(String clearString) {
         return BCrypt.hashpw(clearString, BCrypt.gensalt());
@@ -22,10 +21,8 @@ public class HashHelper {
      * Method to check if entered user password is the same as the one that is
      * stored (encrypted) in the database.
      *
-     * @param candidate
-     *            the clear text
-     * @param encryptedPassword
-     *            the encrypted password string to check.
+     * @param candidate         the clear text
+     * @param encryptedPassword the encrypted password string to check.
      * @return true if the candidate matches, false otherwise.
      */
     public static boolean checkPassword(String candidate, String encryptedPassword) {

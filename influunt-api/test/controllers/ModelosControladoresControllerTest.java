@@ -48,12 +48,12 @@ public class ModelosControladoresControllerTest extends WithApplication {
     }
 
     @Before
-    public void setUp(){
+    public void setUp() {
         fabricante = new Fabricante();
         fabricante.setNome("Raro Labs");
         fabricante.save();
 
-        configuracaoControlador =  new ConfiguracaoControlador();
+        configuracaoControlador = new ConfiguracaoControlador();
         configuracaoControlador.setDescricao("Teste");
         configuracaoControlador.setLimiteDetectorPedestre(1);
         configuracaoControlador.setLimiteAnel(1);
@@ -123,7 +123,6 @@ public class ModelosControladoresControllerTest extends WithApplication {
 
     @Test
     public void testAtualizarModeloControladorExistente() {
-
 
 
         ModeloControlador modeloControlador = new ModeloControlador();

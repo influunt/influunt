@@ -1,7 +1,8 @@
 package models;
 
 import checks.*;
-import com.avaje.ebean.Model;
+import com.avaje.ebean.*;
+import com.avaje.ebean.Query;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -58,6 +59,10 @@ public class Controlador extends Model implements Cloneable {
     @Column
     @NotBlank(message = "não pode ficar em branco")
     private String localizacao;
+
+    @Column
+    private Integer sequencia;
+
 
     @Column
     private String numeroSMEE;
@@ -129,9 +134,32 @@ public class Controlador extends Model implements Cloneable {
             for (int i = 0; i < quantidade; i++) {
                 this.addAnel(new Anel(this, i + 1));
             }
+            gerarCLC();
+        }else{
+            List<Controlador> controladores = Controlador.find.select("area").where().eq("id", this.getId().toString()).setMaxRows(1).findList();
+            if(!controladores.isEmpty()) {
+                if (!this.getArea().getId().equals(controladores.get(0).getArea().getId())) {
+                    //Houve alteracao na area, necessario regerar o CLC
+                    gerarCLC();
+                }
+            }
         }
 
         this.criarPossiveisTransicoes();
+    }
+
+    private void gerarCLC() {
+        List<Controlador> controladorList =
+                Controlador.find.query()
+                                .select("sequencia")
+                                .where().eq("area_id",area.getId().toString())
+                                .order("sequencia desc").setMaxRows(1).findList();
+
+        if(controladorList.size() == 0){
+            this.sequencia = 1;
+        }else{
+            this.sequencia = controladorList.get(0).getSequencia() + 1;
+        }
     }
 
     private void addAnel(Anel anel) {
@@ -142,6 +170,13 @@ public class Controlador extends Model implements Cloneable {
         getAneis().add(anel);
     }
 
+    public Integer getSequencia() {
+        return sequencia;
+    }
+
+    public void setSequencia(Integer sequencia) {
+        this.sequencia = sequencia;
+    }
 
     public UUID getId() {
         return id;
@@ -169,7 +204,7 @@ public class Controlador extends Model implements Cloneable {
 
     public String getCLC() {
         if (this.id != null && this.area != null) {
-            return String.format("%01d.%03d.%04d", this.area.getDescricao(), 0, 999);
+            return String.format("%01d.%03d.%04d", this.area.getDescricao(), 0, this.sequencia);
         }
         return "";
     }

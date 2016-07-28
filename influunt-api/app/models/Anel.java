@@ -7,7 +7,6 @@ import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.google.common.base.Optional;
 import json.deserializers.AnelDeserializer;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.AnelSerializer;
@@ -321,6 +320,14 @@ public class Anel extends Model implements Cloneable {
             setDetectores(new ArrayList<Detector>());
         }
         getDetectores().add(detector);
+    }
+
+    public String getCLA() {
+        if(this.controlador != null) {
+            return String.format("%s.%01d", this.controlador.getCLC(), this.posicao);
+        }else{
+            return String.format("%s.%01d", "sem-controlador", this.posicao);
+        }
     }
 }
 
