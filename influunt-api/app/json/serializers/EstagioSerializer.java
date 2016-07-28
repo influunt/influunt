@@ -31,6 +31,9 @@ public class EstagioSerializer extends JsonSerializer<Estagio> {
         if (estagio.getTempoMaximoPermanencia() != null) {
             jgen.writeNumberField("tempoMaximoPermanencia", estagio.getTempoMaximoPermanencia());
         }
+        if (estagio.getTempoMaximoPermanenciaAtivado() != null) {
+            jgen.writeBooleanField("tempoMaximoPermanenciaAtivado", estagio.getTempoMaximoPermanenciaAtivado());
+        }
         if (estagio.getDemandaPrioritaria() != null) {
             jgen.writeBooleanField("demandaPrioritaria", estagio.getDemandaPrioritaria());
         }

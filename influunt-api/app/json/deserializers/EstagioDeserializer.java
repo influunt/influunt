@@ -34,6 +34,9 @@ public class EstagioDeserializer extends JsonDeserializer<Estagio> {
         if (node.get("tempoMaximoPermanencia") != null) {
             estagio.setTempoMaximoPermanencia(node.get("tempoMaximoPermanencia").asInt());
         }
+        if (node.get("tempoMaximoPermanenciaAtivado") != null) {
+            estagio.setTempoMaximoPermanenciaAtivado(node.get("tempoMaximoPermanenciaAtivado").asBoolean());
+        }
         if (node.get("demandaPrioritaria") != null) {
             estagio.setDemandaPrioritaria(node.get("demandaPrioritaria").asBoolean());
         }

@@ -26,7 +26,7 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
     @Override
     @Test
     public void testVazio() {
-        Controlador controlador = getControladorVerdesConflitantes();
+        Controlador controlador = getControladorAssociacao();
         controlador.save();
 
         Anel anelCom2Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
@@ -54,7 +54,7 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
 
     @Test
     public void testWithErrors() {
-        Controlador controlador = getControladorVerdesConflitantes();
+        Controlador controlador = getControladorAssociacao();
 
         Anel anelCom2Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
         Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
@@ -224,7 +224,7 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
     @Override
     @Test
     public void testControllerValidacao() {
-        Controlador controlador = getControladorVerdesConflitantes();
+        Controlador controlador = getControladorAssociacao();
         controlador.save();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
