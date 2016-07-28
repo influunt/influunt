@@ -7,7 +7,6 @@ import checks.InfluuntValidator;
 import checks.PlanosCheck;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Controlador;
-import play.api.libs.iteratee.Cont;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;

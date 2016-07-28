@@ -17,7 +17,7 @@ import java.io.IOException;
 public class InfluuntDateTimeSerializer extends JodaDateSerializerBase<DateTime> {
 
     private static final long serialVersionUID = -1748376807878305485L;
-    
+
     private final static DateTimeFormatter DATETIME_FORMAT = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss");
 
     public InfluuntDateTimeSerializer() {
@@ -28,6 +28,10 @@ public class InfluuntDateTimeSerializer extends JodaDateSerializerBase<DateTime>
         // false -> no arrays (numbers)
         super(DateTime.class, format, false,
                 SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+    }
+
+    public static String parse(DateTime dateTime) {
+        return DATETIME_FORMAT.print(dateTime);
     }
 
     @Override
@@ -43,10 +47,6 @@ public class InfluuntDateTimeSerializer extends JodaDateSerializerBase<DateTime>
     @Override
     public void serialize(DateTime value, JsonGenerator gen, SerializerProvider provider) throws IOException {
         gen.writeString(DATETIME_FORMAT.print(value));
-    }
-
-    public static String parse(DateTime dateTime) {
-        return DATETIME_FORMAT.print(dateTime);
     }
 
 }

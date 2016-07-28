@@ -6,7 +6,10 @@ import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.*;
+import models.Anel;
+import models.Area;
+import models.Controlador;
+import models.ModeloControlador;
 import play.libs.Json;
 
 import java.io.IOException;
@@ -44,7 +47,7 @@ public class ControladorDeserializer extends JsonDeserializer<Controlador> {
             controlador.setModelo(ModeloControlador.find.byId(UUID.fromString(node.get("modelo").get("id").asText())));
         }
 
-        if (node.has("aneis") ) {
+        if (node.has("aneis")) {
             List<Anel> aneis = new ArrayList<Anel>();
             for (JsonNode nodeAnel : node.get("aneis")) {
                 aneis.add(Json.fromJson(nodeAnel, Anel.class));

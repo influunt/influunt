@@ -1,7 +1,6 @@
 package models;
 
 import checks.AreasCheck;
-import checks.CidadesCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
@@ -141,7 +140,7 @@ public class Area extends Model implements Cloneable {
         if (Objects.nonNull(getDescricao())) {
             Area areaAux = Area.find.where().eq("cidade_id", getCidade().getId().toString()).ieq("descricao", getDescricao().toString()).findUnique();
 
-            return areaAux == null || (this.getId() != null && areaAux.getId().equals(this.getId())) ;
+            return areaAux == null || (this.getId() != null && areaAux.getId().equals(this.getId()));
         }
         return true;
     }

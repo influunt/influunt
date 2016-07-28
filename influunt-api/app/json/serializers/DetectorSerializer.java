@@ -8,7 +8,6 @@ import models.Anel;
 import models.Detector;
 import models.Estagio;
 import org.apache.commons.lang3.ObjectUtils;
-import play.Logger;
 
 import java.io.IOException;
 

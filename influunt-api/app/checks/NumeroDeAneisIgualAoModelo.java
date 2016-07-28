@@ -7,7 +7,6 @@ import java.lang.annotation.*;
 /**
  * Verifica se o número de aneis é igual ao número definido na configuração do modelo do controlador
  * Created by rodrigosol on 6/16/16.
- *
  */
 @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
@@ -16,7 +15,9 @@ import java.lang.annotation.*;
 public @interface NumeroDeAneisIgualAoModelo {
 
     String message() default "O numero de aneis deve ser igual ao numero espeficado no modelo do controlador";
-    Class<?>[] groups() default { };
-    Class<? extends Payload>[] payload() default { };
+
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
 
 }

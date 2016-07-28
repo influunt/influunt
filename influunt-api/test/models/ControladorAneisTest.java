@@ -1,6 +1,8 @@
 package models;
 
-import checks.*;
+import checks.ControladorAneisCheck;
+import checks.Erro;
+import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 import controllers.routes;
 import org.hamcrest.Matchers;
@@ -167,7 +169,7 @@ public class ControladorAneisTest extends ControladorTest {
     }
 
     @Test
-    public void testCLA(){
+    public void testCLA() {
         Cidade cidade = new Cidade();
         cidade.setNome("BH");
         cidade.save();
@@ -185,7 +187,7 @@ public class ControladorAneisTest extends ControladorTest {
         c1A2.setArea(area);
         c1A2.save();
 
-        assertNotEquals(antiga.getId(),c1A2.getId());
+        assertNotEquals(antiga.getId(), c1A2.getId());
 
 
         Controlador c2A2 = getControladorAneis();
@@ -201,9 +203,9 @@ public class ControladorAneisTest extends ControladorTest {
         c2A2.update();
         c2A2.refresh();
 
-        assertEquals(c1A1.getArea().getId().toString(),c2A1.getArea().getId().toString());
-        assertEquals(c1A2.getArea().getId().toString(),c2A2.getArea().getId().toString());
-        assertNotEquals(c1A1.getArea().getId().toString(),c1A2.getArea().getId().toString());
+        assertEquals(c1A1.getArea().getId().toString(), c2A1.getArea().getId().toString());
+        assertEquals(c1A2.getArea().getId().toString(), c2A2.getArea().getId().toString());
+        assertNotEquals(c1A1.getArea().getId().toString(), c1A2.getArea().getId().toString());
 
         assertEquals("1.000.0001", c1A1.getCLC());
         assertEquals("1.000.0002", c2A1.getCLC());

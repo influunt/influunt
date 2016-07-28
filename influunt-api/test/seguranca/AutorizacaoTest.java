@@ -49,7 +49,7 @@ public class AutorizacaoTest extends WithApplication {
 
 
         List<Router.RouteDocumentation> myRoutes = app.getWrappedApplication().routes().asJava().documentation();
-        for(Router.RouteDocumentation doc : myRoutes){
+        for (Router.RouteDocumentation doc : myRoutes) {
             String chave = doc.getHttpMethod() + " " + doc.getPathPattern();
             Logger.debug(chave);
             Permissao p = new Permissao();
@@ -104,20 +104,17 @@ public class AutorizacaoTest extends WithApplication {
 
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
-                .uri(routes.CidadesController.findOne(UUID.randomUUID().toString()).url()).header(SecurityController.AUTH_TOKEN,tokenComAcesso.get());
+                .uri(routes.CidadesController.findOne(UUID.randomUUID().toString()).url()).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
         Result result = route(request);
         assertEquals(404, result.status());
 
         request = new Http.RequestBuilder().method("GET")
-                .uri(routes.CidadesController.findAll().url()).header(SecurityController.AUTH_TOKEN,tokenSemAcesso.get());
+                .uri(routes.CidadesController.findAll().url()).header(SecurityController.AUTH_TOKEN, tokenSemAcesso.get());
         result = route(request);
         assertEquals(403, result.status());
 
 
     }
-
-
-
 
 
 }

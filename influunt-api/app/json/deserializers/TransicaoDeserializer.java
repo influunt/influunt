@@ -6,7 +6,10 @@ import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.*;
+import models.Estagio;
+import models.GrupoSemaforico;
+import models.TabelaEntreVerdesTransicao;
+import models.Transicao;
 import play.libs.Json;
 
 import java.io.IOException;

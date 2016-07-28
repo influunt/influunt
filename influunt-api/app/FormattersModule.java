@@ -1,5 +1,4 @@
 import com.google.inject.AbstractModule;
-
 import formmaters.FormattersProvider;
 import play.data.format.Formatters;
 

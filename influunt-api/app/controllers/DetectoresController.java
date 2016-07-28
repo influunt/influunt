@@ -2,7 +2,6 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
 import be.objectify.deadbolt.java.actions.Dynamic;
-import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Detector;
 import play.db.ebean.Transactional;
@@ -49,7 +48,7 @@ public class DetectoresController extends Controller {
         Detector detector = Detector.find.byId(UUID.fromString(id));
         if (detector == null) {
             return CompletableFuture.completedFuture(notFound());
-        }else{
+        } else {
             detector = Json.fromJson(json, Detector.class);
             detector.setId(UUID.fromString(id));
             detector.update();

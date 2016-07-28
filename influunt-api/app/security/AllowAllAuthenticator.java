@@ -38,7 +38,7 @@ public class AllowAllAuthenticator implements Authenticator {
 
     @Override
     public String createSession(final Subject subject) {
-        Sessao newSession = new Sessao((Usuario)subject);
+        Sessao newSession = new Sessao((Usuario) subject);
         sessions.put(newSession.getToken(), newSession);
         return newSession.getToken();
     }

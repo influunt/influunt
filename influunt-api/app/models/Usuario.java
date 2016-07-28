@@ -1,9 +1,5 @@
 package models;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
 import be.objectify.deadbolt.java.models.Permission;
 import be.objectify.deadbolt.java.models.Role;
 import be.objectify.deadbolt.java.models.Subject;
@@ -21,6 +17,9 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "usuarios")
@@ -29,17 +28,13 @@ import javax.persistence.*;
 public class Usuario extends Model implements Subject {
 
     public static Model.Finder<UUID, Usuario> find = new Model.Finder<UUID, Usuario>(Usuario.class);
-
+    @Column
+    String senha;
     @Id
     private UUID id;
-
     @NotBlank(message = "não pode ficar em branco")
     @Column(unique = true)
     private String login;
-
-    @Column
-    String senha;
-
     @Column
     @NotBlank(message = "não pode ficar em branco")
     private String email;

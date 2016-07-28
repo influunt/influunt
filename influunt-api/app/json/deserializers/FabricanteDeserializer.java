@@ -43,7 +43,7 @@ public class FabricanteDeserializer extends JsonDeserializer<Fabricante> {
                 ModeloControlador modelo = new ModeloControlador();
 
                 modelo.setDescricao(nodeModelo.get("descricao").asText());
-                if (nodeModelo.get("configuracao") != null &&  nodeModelo.get("configuracao").has("id")) {
+                if (nodeModelo.get("configuracao") != null && nodeModelo.get("configuracao").has("id")) {
                     ConfiguracaoControlador configuracao = new ConfiguracaoControlador();
                     configuracao.setId(UUID.fromString(nodeModelo.get("configuracao").get("id").asText()));
                     modelo.setConfiguracao(configuracao);

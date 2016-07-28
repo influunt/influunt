@@ -1,6 +1,7 @@
 package models;
 
-import checks.*;
+import checks.Erro;
+import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 import controllers.routes;
 import org.junit.Test;
@@ -168,7 +169,7 @@ public class ControladorDadosBasicosTest extends ControladorTest {
     }
 
     @Test
-    public void testCLC(){
+    public void testCLC() {
         Cidade cidade = new Cidade();
         cidade.setNome("BH");
         cidade.save();
@@ -192,8 +193,8 @@ public class ControladorDadosBasicosTest extends ControladorTest {
         c1A2.save();
         c2A2.save();
 
-        assertEquals(c1A1.getArea().getId().toString(),c2A1.getArea().getId().toString());
-        assertEquals(c1A2.getArea().getId().toString(),c2A2.getArea().getId().toString());
+        assertEquals(c1A1.getArea().getId().toString(), c2A1.getArea().getId().toString());
+        assertEquals(c1A2.getArea().getId().toString(), c2A2.getArea().getId().toString());
 
         assertEquals("1.000.0001", c1A1.getCLC());
         assertEquals("1.000.0002", c2A1.getCLC());

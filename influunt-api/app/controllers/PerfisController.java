@@ -5,9 +5,7 @@ import be.objectify.deadbolt.java.actions.Dynamic;
 import checks.Erro;
 import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Area;
 import models.Perfil;
-import models.Usuario;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -37,10 +35,10 @@ public class PerfisController extends Controller {
 
             List<Erro> erros = new InfluuntValidator<Perfil>().validate(perfil);
 
-            if(erros.isEmpty()) {
+            if (erros.isEmpty()) {
                 perfil.save();
                 return CompletableFuture.completedFuture(ok(Json.toJson(perfil)));
-            }else{
+            } else {
                 return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
             }
 
@@ -66,7 +64,7 @@ public class PerfisController extends Controller {
     @Transactional
     public CompletionStage<Result> delete(String id) {
         Perfil perfil = Perfil.find.byId(UUID.fromString(id));
-        if(perfil == null) {
+        if (perfil == null) {
             return CompletableFuture.completedFuture(notFound());
         }
         perfil.delete();
@@ -88,10 +86,10 @@ public class PerfisController extends Controller {
         perfil.setId(UUID.fromString(id));
         List<Erro> erros = new InfluuntValidator<Perfil>().validate(perfil);
 
-        if(erros.isEmpty()) {
+        if (erros.isEmpty()) {
             perfil.update();
             return CompletableFuture.completedFuture(ok(Json.toJson(perfil)));
-        }else{
+        } else {
             return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
         }
     }

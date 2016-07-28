@@ -5,7 +5,6 @@ import be.objectify.deadbolt.java.actions.Dynamic;
 import checks.Erro;
 import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Perfil;
 import models.Permissao;
 import play.db.ebean.Transactional;
 import play.libs.Json;
@@ -35,10 +34,10 @@ public class PermissoesController extends Controller {
             Permissao permissao = Json.fromJson(json, Permissao.class);
             List<Erro> erros = new InfluuntValidator<Permissao>().validate(permissao);
 
-            if(erros.isEmpty()) {
+            if (erros.isEmpty()) {
                 permissao.save();
                 return CompletableFuture.completedFuture(ok(Json.toJson(permissao)));
-            }else{
+            } else {
                 return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
             }
 
@@ -63,7 +62,7 @@ public class PermissoesController extends Controller {
     @Transactional
     public CompletionStage<Result> delete(String id) {
         Permissao permissao = Permissao.find.byId(UUID.fromString(id));
-        if(permissao == null) {
+        if (permissao == null) {
             return CompletableFuture.completedFuture(notFound());
         }
         permissao.delete();
@@ -85,10 +84,10 @@ public class PermissoesController extends Controller {
         permissao.setId(UUID.fromString(id));
         List<Erro> erros = new InfluuntValidator<Permissao>().validate(permissao);
 
-        if(erros.isEmpty()) {
+        if (erros.isEmpty()) {
             permissao.update();
             return CompletableFuture.completedFuture(ok(Json.toJson(permissao)));
-        }else{
+        } else {
             return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
         }
     }

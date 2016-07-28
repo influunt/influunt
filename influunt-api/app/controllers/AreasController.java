@@ -14,7 +14,6 @@ import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
 
-import javax.validation.groups.*;
 import javax.validation.groups.Default;
 import java.util.List;
 import java.util.UUID;
@@ -38,14 +37,14 @@ public class AreasController extends Controller {
             Area area = Json.fromJson(json, Area.class);
             List<Erro> erros = new InfluuntValidator<Area>().validate(area, javax.validation.groups.Default.class, AreasCheck.class);
 
-            if(erros.isEmpty()) {
+            if (erros.isEmpty()) {
                 area.save();
                 area.refresh();
                 return CompletableFuture.completedFuture(ok(Json.toJson(area)));
-            }else{
+            } else {
                 return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
             }
-       }
+        }
     }
 
     @Transactional
@@ -67,7 +66,7 @@ public class AreasController extends Controller {
     @Transactional
     public CompletionStage<Result> delete(String id) {
         Area area = Area.find.byId(UUID.fromString(id));
-        if(area == null) {
+        if (area == null) {
             return CompletableFuture.completedFuture(notFound());
         }
         area.delete();
@@ -89,11 +88,11 @@ public class AreasController extends Controller {
         area.setId(areaExistente.getId());
         List<Erro> erros = new InfluuntValidator<Area>().validate(area, Default.class, AreasCheck.class);
 
-        if(erros.isEmpty()) {
+        if (erros.isEmpty()) {
             area.update();
             area.refresh();
             return CompletableFuture.completedFuture(ok(Json.toJson(area)));
-        }else{
+        } else {
             return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
         }
 

@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.EstagioPlanoSerializer;
 import json.serializers.InfluuntDateTimeSerializer;
-import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang3.Range;
 import org.joda.time.DateTime;
 import utils.RangeUtils;
@@ -17,7 +16,7 @@ import utils.RangeUtils;
 import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
-import java.util.*;
+import java.util.UUID;
 
 /**
  * Created by lesiopinheiro on 7/13/16.
@@ -108,40 +107,20 @@ public class EstagioPlano extends Model implements Cloneable {
         return tempoVerde;
     }
 
-    public void setTempoVerde(Integer tempoVerde) {
-        this.tempoVerde = tempoVerde;
-    }
-
     public Integer getTempoVerdeMinimo() {
         return tempoVerdeMinimo;
-    }
-
-    public void setTempoVerdeMinimo(Integer tempoVerdeMinimo) {
-        this.tempoVerdeMinimo = tempoVerdeMinimo;
     }
 
     public Integer getTempoVerdeMaximo() {
         return tempoVerdeMaximo;
     }
 
-    public void setTempoVerdeMaximo(Integer tempoVerdeMaximo) {
-        this.tempoVerdeMaximo = tempoVerdeMaximo;
-    }
-
     public Integer getTempoVerdeIntermediario() {
         return tempoVerdeIntermediario;
     }
 
-    public void setTempoVerdeIntermediario(Integer tempoVerdeIntermitente) {
-        this.tempoVerdeIntermediario = tempoVerdeIntermitente;
-    }
-
     public Double getTempoExtensaoVerde() {
         return tempoExtensaoVerde;
-    }
-
-    public void setTempoExtensaoVerde(Double tempoExtensaoVerde) {
-        this.tempoExtensaoVerde = tempoExtensaoVerde;
     }
 
     public boolean isDispensavel() {
@@ -176,12 +155,20 @@ public class EstagioPlano extends Model implements Cloneable {
         return true;
     }
 
+    public void setTempoVerde(Integer tempoVerde) {
+        this.tempoVerde = tempoVerde;
+    }
+
     @AssertTrue(groups = PlanosCheck.class, message = "deve estar entre 10 e 255")
     public boolean isTempoVerdeMinimo() {
         if (getPlano().isAtuado()) {
             return RangeUtils.getInstance().TEMPO_VERDE_MINIMO.contains(getTempoVerdeMinimo());
         }
         return true;
+    }
+
+    public void setTempoVerdeMinimo(Integer tempoVerdeMinimo) {
+        this.tempoVerdeMinimo = tempoVerdeMinimo;
     }
 
     @AssertTrue(groups = PlanosCheck.class, message = "deve estar entre 10 e 255")
@@ -192,6 +179,10 @@ public class EstagioPlano extends Model implements Cloneable {
         return true;
     }
 
+    public void setTempoVerdeMaximo(Integer tempoVerdeMaximo) {
+        this.tempoVerdeMaximo = tempoVerdeMaximo;
+    }
+
     @AssertTrue(groups = PlanosCheck.class, message = "deve estar entre 10 e 255")
     public boolean isTempoVerdeIntermediario() {
         if (getPlano().isAtuado()) {
@@ -200,12 +191,20 @@ public class EstagioPlano extends Model implements Cloneable {
         return true;
     }
 
+    public void setTempoVerdeIntermediario(Integer tempoVerdeIntermitente) {
+        this.tempoVerdeIntermediario = tempoVerdeIntermitente;
+    }
+
     @AssertTrue(groups = PlanosCheck.class, message = "deve estar entre 1 e 10")
     public boolean isTempoExtensaoVerde() {
         if (getPlano().isAtuado()) {
             return RangeUtils.getInstance().TEMPO_EXTENSAO_VERDE.contains(getTempoExtensaoVerde());
         }
         return true;
+    }
+
+    public void setTempoExtensaoVerde(Double tempoExtensaoVerde) {
+        this.tempoExtensaoVerde = tempoExtensaoVerde;
     }
 
     @AssertTrue(groups = PlanosCheck.class, message = "O tempo de verde intermediaria deve estar entre o valor de verde minimo e verde maximo.")

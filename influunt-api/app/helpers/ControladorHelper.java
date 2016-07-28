@@ -13,7 +13,7 @@ public class ControladorHelper {
     private List<Cidade> cidades;
     private List<Fabricante> fabricantes;
 
-    public ControladorHelper(){
+    public ControladorHelper() {
         cidades = Cidade.find.findList();
         fabricantes = Fabricante.find.findList();
     }

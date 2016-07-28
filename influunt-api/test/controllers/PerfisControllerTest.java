@@ -18,7 +18,6 @@ import play.test.Helpers;
 import play.test.WithApplication;
 import security.AllowAllAuthenticator;
 import security.Authenticator;
-import sun.misc.Perf;
 
 import java.util.*;
 

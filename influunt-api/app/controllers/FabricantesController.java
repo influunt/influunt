@@ -2,11 +2,9 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
 import be.objectify.deadbolt.java.actions.Dynamic;
-import be.objectify.deadbolt.java.actions.SubjectPresent;
 import checks.Erro;
 import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Cidade;
 import models.Fabricante;
 import play.db.ebean.Transactional;
 import play.libs.Json;
@@ -35,10 +33,10 @@ public class FabricantesController extends Controller {
         Fabricante fabricante = Json.fromJson(json, Fabricante.class);
         List<Erro> erros = new InfluuntValidator<Fabricante>().validate(fabricante);
 
-        if(erros.isEmpty()) {
+        if (erros.isEmpty()) {
             fabricante.save();
             return CompletableFuture.completedFuture(ok(Json.toJson(fabricante)));
-        }else{
+        } else {
             return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
         }
 
@@ -61,16 +59,16 @@ public class FabricantesController extends Controller {
         Fabricante fabricante = Fabricante.find.byId(UUID.fromString(id));
         if (fabricante == null) {
             return CompletableFuture.completedFuture(notFound());
-        }else{
+        } else {
 
             fabricante = Json.fromJson(json, Fabricante.class);
             fabricante.setId(UUID.fromString(id));
             List<Erro> erros = new InfluuntValidator<Fabricante>().validate(fabricante);
 
-            if(erros.isEmpty()) {
+            if (erros.isEmpty()) {
                 fabricante.update();
                 return CompletableFuture.completedFuture(ok(Json.toJson(fabricante)));
-            }else{
+            } else {
                 return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
             }
         }
