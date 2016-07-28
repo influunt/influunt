@@ -91,42 +91,46 @@ angular.module('influuntApp')
       };
 
       $scope.adicionarTabelaEntreVerdes = function() {
-        var totalTabelasEntreVerdes = $scope.currentGrupoSemaforico.tabelasEntreVerdes.length;
-        if (totalTabelasEntreVerdes < $scope.limiteTabelasEntreVerdes) {
-          $scope.currentGrupoSemaforico.tabelasEntreVerdes.push({ descricao: "Nova", posicao: totalTabelasEntreVerdes + 1, grupoSemaforico: { id: $scope.currentGrupoSemaforico.id } });
-          $scope.currentGrupoSemaforico.transicoes.forEach(function(transicao) {
-            var transicaoCopy = angular.copy(transicao);
-            transicaoCopy.tabelaEntreVerdesTransicoes = null;
-            var fieldAmareloOuVermelho = $scope.amareloOuVermelho($scope.currentGrupoSemaforico, true);
-            var tevTransicao = {
-              transicao: angular.merge(transicaoCopy, { grupoSemaforico: { tipo: $scope.currentGrupoSemaforico.tipo } }),
-              tabelaEntreVerdes: $scope.currentGrupoSemaforico.tabelasEntreVerdes[totalTabelasEntreVerdes],
-              tempoVermelhoLimpeza: $scope.limites($scope.currentGrupoSemaforico).tempoVermelhoLimpeza.min
-            };
+        $scope.currentAnel.gruposSemaforicos.forEach(function(grupoSemaforico) {
+          var totalTabelasEntreVerdes = grupoSemaforico.tabelasEntreVerdes.length;
+          if (totalTabelasEntreVerdes < $scope.limiteTabelasEntreVerdes) {
+            grupoSemaforico.tabelasEntreVerdes.push({ descricao: "Nova", posicao: totalTabelasEntreVerdes + 1, grupoSemaforico: { id: grupoSemaforico.id } });
+            grupoSemaforico.transicoes.forEach(function(transicao) {
+              var transicaoCopy = angular.copy(transicao);
+              transicaoCopy.tabelaEntreVerdesTransicoes = null;
+              var fieldAmareloOuVermelho = $scope.amareloOuVermelho(grupoSemaforico, true);
+              var tevTransicao = {
+                transicao: angular.merge(transicaoCopy, { grupoSemaforico: { tipo: grupoSemaforico.tipo } }),
+                tabelaEntreVerdes: grupoSemaforico.tabelasEntreVerdes[totalTabelasEntreVerdes],
+                tempoVermelhoLimpeza: $scope.limites(grupoSemaforico).tempoVermelhoLimpeza.min
+              };
 
-            tevTransicao[fieldAmareloOuVermelho] = $scope.limites($scope.currentGrupoSemaforico)[fieldAmareloOuVermelho].min;
-            transicao.tabelaEntreVerdesTransicoes.push(tevTransicao);
-          });
-          $scope.selecionaTabelaEntreVerdes(totalTabelasEntreVerdes);
-        }
+              tevTransicao[fieldAmareloOuVermelho] = $scope.limites(grupoSemaforico)[fieldAmareloOuVermelho].min;
+              transicao.tabelaEntreVerdesTransicoes.push(tevTransicao);
+            });
+            $scope.selecionaTabelaEntreVerdes(totalTabelasEntreVerdes);
+          }
+        });
       };
 
       $scope.removerTabelaEntreVerdes = function(index) {
-        var totalTabelasEntreVerdes = $scope.currentGrupoSemaforico.tabelasEntreVerdes.length;
-        $scope.currentGrupoSemaforico.tabelasEntreVerdes.splice(index, 1);
+        $scope.currentAnel.gruposSemaforicos.forEach(function(grupoSemaforico) {
+          var totalTabelasEntreVerdes = grupoSemaforico.tabelasEntreVerdes.length;
+          grupoSemaforico.tabelasEntreVerdes.splice(index, 1);
 
-        if ($scope.currentTabelaEntreVerdesIndex >= index) {
-          if ($scope.currentTabelaEntreVerdesIndex === totalTabelasEntreVerdes - 1) {
-            $scope.selecionaTabelaEntreVerdes($scope.currentTabelaEntreVerdesIndex - 1);
-          } else {
-            $scope.selecionaTabelaEntreVerdes($scope.currentTabelaEntreVerdesIndex);
+          if ($scope.currentTabelaEntreVerdesIndex >= index) {
+            if ($scope.currentTabelaEntreVerdesIndex === totalTabelasEntreVerdes - 1) {
+              $scope.selecionaTabelaEntreVerdes($scope.currentTabelaEntreVerdesIndex - 1);
+            } else {
+              $scope.selecionaTabelaEntreVerdes($scope.currentTabelaEntreVerdesIndex);
+            }
           }
-        }
 
-        for (var i = index; i < totalTabelasEntreVerdes - 1; i++) {
-          var currentPosicao = $scope.currentGrupoSemaforico.tabelasEntreVerdes[i].posicao;
-          $scope.currentGrupoSemaforico.tabelasEntreVerdes[i].posicao = currentPosicao - 1;
-        }
+          for (var i = index; i < totalTabelasEntreVerdes - 1; i++) {
+            var currentPosicao = grupoSemaforico.tabelasEntreVerdes[i].posicao;
+            grupoSemaforico.tabelasEntreVerdes[i].posicao = currentPosicao - 1;
+          }
+        });
       };
 
       $scope.amareloOuVermelho = function(grupoSemaforico, field) {
@@ -135,6 +139,13 @@ angular.module('influuntApp')
           return field ? 'tempoVermelhoIntermitente' : 'Vermelho Intermitente';
         }
         return field ? 'tempoAmarelo' : 'Amarelo';
+      };
+
+      $scope.amareloOuVermelhoColor = function(grupoSemaforico) {
+        if (grupoSemaforico.tipo === 'PEDESTRE') {
+          return 'vermelho-intermitente';
+        }
+        return 'amarelo';
       };
 
       $scope.beforeSubmitForm = function() {

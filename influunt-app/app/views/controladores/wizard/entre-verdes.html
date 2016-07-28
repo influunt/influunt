@@ -83,7 +83,6 @@
                 <div class="group-figure">
                   <figure>
                     <label for="">E{{ tevTransicao.transicao.destino.posicao }}</label>
-                    <!-- <img src="" alt=""> -->
                     <img ng-src="{{ tevTransicao.transicao.destino.imagem.id | imageSource }}" width="160" height="130" alt="{{ tevTransicao.transicao.destino.descricao }}">
                   </figure>
                 </div>
@@ -100,7 +99,7 @@
                       </span>
                       <influunt-knob
                           title="{{ amareloOuVermelho(currentGrupoSemaforico) }}"
-                          class="vermelho"
+                          class="{{ amareloOuVermelhoColor(currentGrupoSemaforico) }}"
                           label="SEG"
                           min="limites(tevTransicao.transicao.grupoSemaforico)[amareloOuVermelho(currentGrupoSemaforico, true)].min" max="limites(tevTransicao.transicao.grupoSemaforico)[amareloOuVermelho(currentGrupoSemaforico, true)].max" data-ng-model="tevTransicao[amareloOuVermelho(currentGrupoSemaforico, true)]"></influunt-knob>
                     </div>
