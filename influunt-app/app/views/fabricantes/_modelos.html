@@ -7,31 +7,6 @@
         <input type="text" name="descricao" class="form-control" ng-model="modelo.descricao" placeholder="Descrição"/>
         <p class="help-block error-msg" data-ng-repeat="error in errors.modelos[$index].descricao">{{ error }}</p>
       </div>
-    </div>
-
-    <!-- <div class="form-group" data-ng-class="{'has-error': errors.modelos[$index].descricao}">
-      <label class="control-label col-md-2">{{ 'modelos_controladores.configuracao' | translate }}</label>
-      <div class="col-md-7">
-        <select name="configuracao" class="form-control"
-          data-ng-options="configuracao.id as configuracao.descricao for configuracao in configuracoes"
-          data-ng-model="modelo.configuracao.id">
-        </select>
-        <p class="help-block error-msg" data-ng-repeat="error in errors.modelos[$index].configuracao">{{ error }}</p>
-      </div>
-      <div class="col-md-2">
-        <a ng-click="removerModelo($index)" class="btn btn-xs btn-danger">X</a>
-      </div>
-    </div> -->
-
-    <div class="form-group" data-ng-class="{'has-error': errors.modelos[$index].descricao}">
-      <label class="control-label col-md-2">{{ 'modelos_controladores.configuracao' | translate }}</label>
-      <div class="col-md-7">
-        <select name="configuracao" class="form-control"
-          data-ng-options="configuracao.id as configuracao.descricao for configuracao in configuracoes"
-          data-ng-model="modelo.configuracao.id">
-        </select>
-        <p class="help-block error-msg" data-ng-repeat="error in errors.modelos[$index].configuracao">{{ error }}</p>
-      </div>
       <div class="col-md-2">
         <a ng-click="removerModelo($index)" class="btn btn-xs btn-danger">Excluir</a>
       </div>

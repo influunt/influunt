@@ -38,6 +38,14 @@ public class ControladorDeserializer extends JsonDeserializer<Controlador> {
         controlador.setLongitude(node.get("longitude") != null ? node.get("longitude").asDouble() : null);
         controlador.setStatusControlador(node.get("statusControlador") != null ? StatusControlador.valueOf(node.get("statusControlador").asText()) : null);
 
+        controlador.setLimiteEstagio(node.get("limiteEstagio") != null ? node.get("limiteEstagio").asInt() : null);
+        controlador.setLimiteGrupoSemaforico(node.get("limiteGrupoSemaforico") != null ? node.get("limiteGrupoSemaforico").asInt() : null);
+        controlador.setLimiteAnel(node.get("limiteAnel") != null ? node.get("limiteAnel").asInt() : null);
+        controlador.setLimiteDetectorPedestre(node.get("limiteDetectorPedestre") != null ? node.get("limiteDetectorPedestre").asInt() : null);
+        controlador.setLimiteDetectorVeicular(node.get("limiteDetectorVeicular") != null ? node.get("limiteDetectorVeicular").asInt() : null);
+        controlador.setLimiteTabelasEntreVerdes(node.get("limiteTabelasEntreVerdes") != null ? node.get("limiteTabelasEntreVerdes").asInt() : null);
+
+
         if (node.has("area") && node.get("area").get("id") != null) {
             controlador.setArea(Area.find.byId(UUID.fromString(node.get("area").get("id").asText())));
         }

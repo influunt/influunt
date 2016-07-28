@@ -19,7 +19,7 @@ public class NumeroDeGruposValidator implements ConstraintValidator<NumeroDeGrup
         if (controlador.getModelo() == null) {
             return true;
         } else {
-            return (controlador.getGruposSemaforicos() != null && controlador.getGruposSemaforicos().size() == controlador.getModelo().getConfiguracao().getLimiteGrupoSemaforico());
+            return (controlador.getGruposSemaforicos() != null && controlador.getGruposSemaforicos().size() == controlador.getLimiteGrupoSemaforico());
         }
 
     }

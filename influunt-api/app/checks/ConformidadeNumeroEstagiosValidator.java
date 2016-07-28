@@ -17,7 +17,7 @@ public class ConformidadeNumeroEstagiosValidator implements ConstraintValidator<
     @Override
     public boolean isValid(Anel anel, ConstraintValidatorContext context) {
         if (anel.getEstagios() != null && anel.isAtivo()) {
-            return anel.getEstagios().size() >= 2 && anel.getEstagios().size() <= anel.getControlador().getModelo().getConfiguracao().getLimiteEstagio();
+            return anel.getEstagios().size() >= 2 && anel.getEstagios().size() <= anel.getControlador().getLimiteEstagio();
         } else {
             return true;
         }

@@ -10,7 +10,5 @@ DELETE FROM `agrupamentos_controladores`;
 DELETE FROM `agrupamentos`;
 DELETE FROM `controladores`;
 DELETE FROM `modelo_controladores`;
-DELETE FROM `configuracao_controladores`;
 DELETE FROM `fabricantes`;
 INSERT INTO `fabricantes` (`id`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (RANDOM_UUID(), 'Raro Labs', NOW(), NOW());
-INSERT INTO `configuracao_controladores` (`id`, `descricao`, `limite_estagio`, `limite_grupo_semaforico`, `limite_anel`, `limite_detector_pedestre`, `limite_detector_veicular`, `limite_tabelas_entre_verdes`, `data_criacao`, `data_atualizacao`) VALUES (RANDOM_UUID(), 'Default', 1, 1, 1, 1, 1, 1, NOW(), NOW());

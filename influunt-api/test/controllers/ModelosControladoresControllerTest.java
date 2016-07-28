@@ -2,7 +2,6 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Singleton;
-import models.ConfiguracaoControlador;
 import models.Fabricante;
 import models.ModeloControlador;
 import org.junit.Before;
@@ -31,7 +30,6 @@ import static play.test.Helpers.route;
 public class ModelosControladoresControllerTest extends WithApplication {
 
     private Fabricante fabricante;
-    private ConfiguracaoControlador configuracaoControlador;
 
     @Override
     protected Application provideApplication() {
@@ -52,14 +50,6 @@ public class ModelosControladoresControllerTest extends WithApplication {
         fabricante = new Fabricante();
         fabricante.setNome("Raro Labs");
         fabricante.save();
-
-        configuracaoControlador = new ConfiguracaoControlador();
-        configuracaoControlador.setDescricao("Teste");
-        configuracaoControlador.setLimiteDetectorPedestre(1);
-        configuracaoControlador.setLimiteAnel(1);
-        configuracaoControlador.setLimiteEstagio(1);
-        configuracaoControlador.setLimiteGrupoSemaforico(1);
-        configuracaoControlador.save();
     }
 
     @Test
@@ -67,14 +57,12 @@ public class ModelosControladoresControllerTest extends WithApplication {
         ModeloControlador modeloControlador = new ModeloControlador();
         modeloControlador.setDescricao("CTA-1");
         modeloControlador.setFabricante(fabricante);
-        modeloControlador.setConfiguracao(configuracaoControlador);
 
         modeloControlador.save();
 
         ModeloControlador modeloControlador1 = new ModeloControlador();
         modeloControlador1.setDescricao("CTA-2");
         modeloControlador1.setFabricante(fabricante);
-        modeloControlador1.setConfiguracao(configuracaoControlador);
 
         modeloControlador1.save();
 
@@ -93,8 +81,6 @@ public class ModelosControladoresControllerTest extends WithApplication {
         ModeloControlador modeloControlador = new ModeloControlador();
         modeloControlador.setDescricao("CTA 1");
         modeloControlador.setFabricante(fabricante);
-        modeloControlador.setConfiguracao(configuracaoControlador);
-
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
                 .uri(routes.ModelosControladoresController.create().url()).bodyJson(Json.toJson(modeloControlador));
@@ -112,7 +98,6 @@ public class ModelosControladoresControllerTest extends WithApplication {
         ModeloControlador modeloControlador = new ModeloControlador();
         modeloControlador.setDescricao("CTA 1");
         modeloControlador.setFabricante(fabricante);
-        modeloControlador.setConfiguracao(configuracaoControlador);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
                 .uri(routes.ModelosControladoresController.update(UUID.randomUUID().toString()).url())
@@ -128,7 +113,6 @@ public class ModelosControladoresControllerTest extends WithApplication {
         ModeloControlador modeloControlador = new ModeloControlador();
         modeloControlador.setDescricao("CTA 1");
         modeloControlador.setFabricante(fabricante);
-        modeloControlador.setConfiguracao(configuracaoControlador);
         modeloControlador.save();
 
         UUID modeloControladorId = modeloControlador.getId();
@@ -136,7 +120,6 @@ public class ModelosControladoresControllerTest extends WithApplication {
 
         ModeloControlador novoModeloControlador = new ModeloControlador();
         novoModeloControlador.setFabricante(fabricante);
-        novoModeloControlador.setConfiguracao(configuracaoControlador);
         novoModeloControlador.setDescricao("Teste atualizar");
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
@@ -157,7 +140,6 @@ public class ModelosControladoresControllerTest extends WithApplication {
         ModeloControlador modeloControlador = new ModeloControlador();
         modeloControlador.setDescricao("Teste");
         modeloControlador.setFabricante(fabricante);
-        modeloControlador.setConfiguracao(configuracaoControlador);
         modeloControlador.save();
 
         UUID modeloControladorId = modeloControlador.getId();
@@ -178,7 +160,6 @@ public class ModelosControladoresControllerTest extends WithApplication {
         ModeloControlador modeloControlador = new ModeloControlador();
         modeloControlador.setDescricao("Teste");
         modeloControlador.setFabricante(fabricante);
-        modeloControlador.setConfiguracao(configuracaoControlador);
 
         modeloControlador.save();
 

@@ -6,9 +6,9 @@ import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.ConfiguracaoControlador;
 import models.Fabricante;
 import models.ModeloControlador;
+import play.libs.Json;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,16 +40,7 @@ public class FabricanteDeserializer extends JsonDeserializer<Fabricante> {
         if (node.get("modelos") != null) {
             List<ModeloControlador> modelos = new ArrayList<ModeloControlador>();
             for (JsonNode nodeModelo : node.get("modelos")) {
-                ModeloControlador modelo = new ModeloControlador();
-
-                modelo.setDescricao(nodeModelo.get("descricao").asText());
-                if (nodeModelo.get("configuracao") != null && nodeModelo.get("configuracao").has("id")) {
-                    ConfiguracaoControlador configuracao = new ConfiguracaoControlador();
-                    configuracao.setId(UUID.fromString(nodeModelo.get("configuracao").get("id").asText()));
-                    modelo.setConfiguracao(configuracao);
-                    modelo.setFabricante(fabricante);
-                }
-                modelos.add(modelo);
+                modelos.add(Json.fromJson(nodeModelo, ModeloControlador.class));
             }
             fabricante.setModelos(modelos);
         }

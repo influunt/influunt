@@ -263,7 +263,7 @@ public class GrupoSemaforico extends Model implements Cloneable {
             }
             int totalTabelasEntreVerdes = posicoes.size();
             @SuppressWarnings("ConstantConditions")
-            int limiteTabelasEntreVerdes = Anel.find.byId(this.getAnel().getId()).getControlador().getModelo().getConfiguracao().getLimiteTabelasEntreVerdes();
+            int limiteTabelasEntreVerdes = Anel.find.byId(this.getAnel().getId()).getControlador().getLimiteTabelasEntreVerdes();
             return totalTabelasEntreVerdes <= limiteTabelasEntreVerdes;
         }
         return true;

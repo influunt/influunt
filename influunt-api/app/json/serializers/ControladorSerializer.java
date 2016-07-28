@@ -45,6 +45,24 @@ public class ControladorSerializer extends JsonSerializer<Controlador> {
         if (controlador.getLongitude() != null) {
             jgen.writeNumberField("longitude", controlador.getLongitude());
         }
+        if (controlador.getLimiteEstagio() != null) {
+            jgen.writeNumberField("limiteEstagio", controlador.getLimiteEstagio());
+        }
+        if (controlador.getLimiteGrupoSemaforico() != null) {
+            jgen.writeNumberField("limiteGrupoSemaforico", controlador.getLimiteGrupoSemaforico());
+        }
+        if (controlador.getLimiteAnel() != null) {
+            jgen.writeNumberField("limiteAnel", controlador.getLimiteAnel());
+        }
+        if (controlador.getLimiteDetectorPedestre() != null) {
+            jgen.writeNumberField("limiteDetectorPedestre", controlador.getLimiteDetectorPedestre());
+        }
+        if (controlador.getLimiteDetectorVeicular() != null) {
+            jgen.writeNumberField("limiteDetectorVeicular", controlador.getLimiteDetectorVeicular());
+        }
+        if (controlador.getLimiteTabelasEntreVerdes() != null) {
+            jgen.writeNumberField("limiteTabelasEntreVerdes", controlador.getLimiteTabelasEntreVerdes());
+        }
         if (controlador.getDataCriacao() != null) {
             jgen.writeStringField("dataCriacao", InfluuntDateTimeSerializer.parse(controlador.getDataCriacao()));
         }

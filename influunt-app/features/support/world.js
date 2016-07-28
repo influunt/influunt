@@ -26,7 +26,7 @@ var getDriver = function() {
 };
 
 var World = function () {
-  var defaultTimeout = 20 * 1000;
+  var defaultTimeout = 3 * 1000;
   var screenshotPath = 'screenshots';
   var baseUrl = 'http://localhost/#';
 
