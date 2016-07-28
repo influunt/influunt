@@ -7,6 +7,15 @@ describe('Directive: influuntKnob', function () {
     return parseInt(value);
   };
 
+  var setComponentsValue = function(element, val) {
+    // $(element).find('.knob-shape').roundSlider('setValue', val).trigger('change', [{value: val}]);
+    $(element).find('.knob-shape').roundSlider('setValue', val).trigger({
+      type: 'change',
+      value: val
+    });
+    scope.$apply();
+  };
+
   // load the directive's module
   beforeEach(module('influuntApp'));
 
@@ -58,6 +67,11 @@ describe('Directive: influuntKnob', function () {
 
     var value = getComponentsValue(element);
     expect(value).toBe(scope.teste.knob);
+  });
+  it('Se houver atualizacao no valor do componente, o valor do model também deverá ser alterado', function() {
+    setComponentsValue(element, 42);
+    setComponentsValue(element, 42);
+    expect(scope.teste.knob).toBe(42);
   });
   it('Se não houver valor de ng-model, ele deverá ser atualizado para o valor mínimo', function() {
     expect(scope.teste.knob).toBe(scope.teste.min);
