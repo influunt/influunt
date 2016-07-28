@@ -501,11 +501,11 @@ header .nav-secon li a {
 .wrapper-content .basic-wizard .content .body .association.plans nav.plans li:hover {
     background: inherit;
 }
-.wrapper-content .basic-wizard .content .body .association.plans nav.plans .subnav li {
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .subnav li {
     width: 50%;
     padding: 0 10px;
 }
-.wrapper-content .basic-wizard .content .body .association.plans nav.plans .subnav {
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .subnav {
     -webkit-border-radius: 4px;
     border: 1px solid #e7eaec;
     -moz-border-radius: 4px;
@@ -1533,7 +1533,7 @@ header .nav-secon li a {
 }
 
 .btn-footer {
-	min-width: 130px;
+	width: 10%;
 }
 
 .padding-top-30 {

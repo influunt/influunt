@@ -604,18 +604,19 @@ header .nav-secon li a {
   background: inherit;
 }
 
-.wrapper-content .basic-wizard .content .body .association.plans nav.plans .subnav li {
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .subnav li {
   width: 50%;
   padding: 0 10px;
 }
 
-.wrapper-content .basic-wizard .content .body .association.plans nav.plans .subnav {
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .subnav {
   -webkit-border-radius: 4px;
   border: 1px solid #e7eaec;
   border-radius: 4px;
   position: absolute;
   background: white;
   min-width: 270px;
+  display: none;
   z-index: 99;
   top: 40px;
   right: 0;
@@ -1786,7 +1787,7 @@ header .nav-secon li a {
 }
 
 .btn-footer {
-  min-width: 130px;
+  width: 10%;
 }
 
 .padding-top-30 {
