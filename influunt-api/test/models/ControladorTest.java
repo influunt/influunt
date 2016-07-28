@@ -2,6 +2,7 @@ package models;
 
 import checks.*;
 import com.google.inject.Singleton;
+import org.junit.Before;
 import play.Application;
 import play.Mode;
 import play.inject.guice.GuiceApplicationBuilder;
@@ -44,12 +45,8 @@ public abstract class ControladorTest extends WithApplication {
                 .in(Mode.TEST).build();
     }
 
-    protected Controlador getControlador() {
-        return new Controlador();
-    }
-
-    protected Controlador getControladorDadosBasicos() {
-
+    @Before
+    public void setUpModels(){
         cidade = new Cidade();
         cidade.setNome("São Paulo");
         cidade.save();
@@ -76,6 +73,13 @@ public abstract class ControladorTest extends WithApplication {
         modeloControlador.setConfiguracao(configuracaoControlador);
         modeloControlador.setDescricao("Modelo 1");
         modeloControlador.save();
+    }
+
+    protected Controlador getControlador() {
+        return new Controlador();
+    }
+
+    protected Controlador getControladorDadosBasicos() {
 
         Controlador controlador = getControlador();
         controlador.setLocalizacao("Av Paulista com Bela Cintra");

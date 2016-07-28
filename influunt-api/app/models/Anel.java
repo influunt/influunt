@@ -322,5 +322,9 @@ public class Anel extends Model implements Cloneable {
         }
         getDetectores().add(detector);
     }
+
+    public String getCLA() {
+        return String.format("%s.%01d", this.controlador.getCLC(), this.posicao);
+    }
 }
 
