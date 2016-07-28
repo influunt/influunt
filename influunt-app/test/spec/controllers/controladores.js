@@ -55,6 +55,7 @@ describe('Controller: ControladoresCtrl', function () {
 
       expect(scope.areas.length).toBe(2);
     });
+    
   });
 
   describe('Wizard para novo controlador', function() {

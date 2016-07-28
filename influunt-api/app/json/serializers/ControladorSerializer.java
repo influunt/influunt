@@ -54,6 +54,10 @@ public class ControladorSerializer extends JsonSerializer<Controlador> {
         if (controlador.getCLC() != null) {
             jgen.writeStringField("CLC", controlador.getCLC());
         }
+        if (controlador.getStatusControlador() != null) {
+            jgen.writeStringField("statusControlador", controlador.getStatusControlador().toString());
+        }
+
         if (controlador.getArea() != null) {
             jgen.writeObjectField("area", controlador.getArea());
         }

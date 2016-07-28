@@ -6,10 +6,7 @@ import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Anel;
-import models.Area;
-import models.Controlador;
-import models.ModeloControlador;
+import models.*;
 import play.libs.Json;
 
 import java.io.IOException;
@@ -39,6 +36,7 @@ public class ControladorDeserializer extends JsonDeserializer<Controlador> {
         controlador.setFirmware(node.get("firmware") != null ? node.get("firmware").asText() : null);
         controlador.setLatitude(node.get("latitude") != null ? node.get("latitude").asDouble() : null);
         controlador.setLongitude(node.get("longitude") != null ? node.get("longitude").asDouble() : null);
+        controlador.setStatusControlador(node.get("statusControlador") != null ? StatusControlador.valueOf(node.get("statusControlador").asText()) : null);
 
         if (node.has("area") && node.get("area").get("id") != null) {
             controlador.setArea(Area.find.byId(UUID.fromString(node.get("area").get("id").asText())));

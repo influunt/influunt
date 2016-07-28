@@ -1,77 +1,83 @@
 <div class="container-fluid wrapper wrapper-content animated fadeInRight" ng-init="inicializaIndex()">
-  <div class="col-lg-2 col-sm-2">
-    <nav role="navigation" class="filters">
-      <header>
-        <h1>FILTROS</h1>
-      </header>
-      <form>
-        <ul>
-          <li ng-repeat="controlador in lista">
-            <div class="i-checks">
-              <label>
-                {{ controlador.localizacao }}
-                <input ichecks type="checkbox" value="" ng-model="filtroLateral[controlador.id]">
-              </label>
+  <div class="col-lg-12 col-sm-12">
+    <section role="complementary" class="">
+      <div class="clearfix"></div>
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>Controladores</h5>
+            <div class="ibox-tools">
+              <button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Adicionar novo controlador" ui-sref="app.wizard_controladores.dados_basicos">Novo controlador</button>
             </div>
-          </li>
-        </ul>
-      </form>
-    </nav>
-  </div>
-  <div class="col-lg-10 col-sm-10">
-  <section role="complementary" class="">
-      <div class="col-lg-4 col-sm-4 no-padding">
-        <form role="form" class="form-group">
-          <div class="input-group">
-            <input type="text" class="form-control" ng-model="filtros.campo_busca">
-            <span class="input-group-btn">
-              <button type="button" data-toggle="tooltip" data-placement="top" title="Pesquisar" class="btn btn-primary">
-                <i class="fa fa-search" aria-hidden="true"></i>
-              </button>
-            </span>
           </div>
-        </form>
-      </div>
-      <!--
-      <div class="col-lg-2 col-sm-2">
-        <button type="button" class="btn btn-primary"><i class="fa fa-th-large" aria-hidden="true"></i></button>
-        <button type="button" class="btn btn-primary"><i class="fa fa-th-list" aria-hidden="true"></i></button>
-      </div>
-      -->
-      <div class="clearfix"></div>
-      <div class="col-lg-2 no-padding">
-        <button type="button" class="btn btn-primary container-fluid" data-toggle="tooltip" data-placement="top" title="Adicionar novo controlador" ui-sref="app.wizard_controladores.dados_basicos">Novo controlador</button>
-      </div>
-      <div class="clearfix"></div>
-      <div class="col-lg-12 controller no-padding">
-        <ul>
-          <li ng-repeat="controlador in lista | filter: filtros.campo_busca | checkboxFilter:filtroLateral">
-            <div class="ibox float-e-margins">
-              <div class="ibox-title">
-                <h5>{{ controlador.CLC }}</h5>
-              </div>
-              <div class="ibox-content">
-                <p class="title">{{ controlador.localizacao }}</p>
-                <!--
-                <p class="status"><b>Status:</b></p>
-                <p class="status-active"><i class="fa fa-circle text-navy"></i>Ativo</p>
-                -->
-                <hgroup>
-                  <a class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Editar controlador" type="button" ui-sref="app.wizard_controladores.dados_basicos({id: controlador.id})">
-                    <i class="fa fa-pencil"></i>
-                  </a>
-                  <a class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Vizualizar controlador" type="button" ui-sref="app.controladores_show({id: controlador.id})">
-                    <i class="fa fa-eye"></i>
-                  </a>
-                  <a class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Vizualizar planos" type="button" ui-sref="app.planos({id: controlador.id})">
-                    <i class="fa fa-file-text"></i>
-                  </a>
-                </hgroup>
+          <div class="ibox-content">
+            <div class="row">
+              <div class="col-sm-3 m-b-xs"><select class="input-sm form-control input-s-sm inline">
+                <option value="">Escolha a Área</option>
+                <option value="0">1</option>
+                <option value="1">2</option>
+                <option value="2">3</option>
+                <option value="3">4</option>
+              </select>
+            </div>
+            <div class="col-sm-6 m-b-xs">
+              <div data-toggle="buttons" class="btn-group">
+                <label class="btn btn-sm btn-white active"> <input type="radio" id="option1" name="options"> Todos </label>
+                <label class="btn btn-sm btn-white"> <input type="radio" id="option2" name="options"> Em Configuração </label>
+                <label class="btn btn-sm btn-white"> <input type="radio" id="option3" name="options"> Configurado </label>
+                <label class="btn btn-sm btn-white"> <input type="radio" id="option3" name="options"> Ativo </label>
               </div>
             </div>
-          </li>
-        </ul>
+            <div class="col-sm-3">
+              <form role="form" class="form-group">
+                <div class="input-group">
+                  <input type="text" class="form-control" ng-model="filtros.campo_busca">
+                  <span class="input-group-btn">
+                    <button type="button" data-toggle="tooltip" data-placement="top" title="Pesquisar" class="btn btn-primary">
+                      <i class="fa fa-search" aria-hidden="true"></i>
+                    </button>
+                  </span>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th>Status</th>
+                  <th>CLC </th>
+                  <th>Localização </th>
+                  <th>Data Atualização</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="controlador in lista | filter: filtros.campo_busca | checkboxFilter:filtroLateral">
+                  <td>{{controlador.statusControlador}}</td>
+                  <td>{{controlador.CLC}}</td>
+                  <td>{{controlador.localizacao}}</td>
+                  <td>{{controlador.dataAtualizacao}}</td>
+                  <td>
+                    <hgroup>
+                      <a class="btn btn-outline btn-primary" data-toggle="tooltip" data-placement="top" title="Editar controlador" type="button" ui-sref="app.wizard_controladores.dados_basicos({id: controlador.id})" ng-show="controlador.statusControlador == 'EM_CONFIGURACAO'">
+                        <i class="fa fa-pencil"></i> Configurar
+                      </a>
+                      <a class="btn btn-outline btn-primary" data-toggle="tooltip" data-placement="top" title="Vizualizar controlador" type="button" ui-sref="app.controladores_show({id: controlador.id})">
+                        <i class="fa fa-eye"></i> Visualizar
+                      </a>
+                      <a class="btn btn-outline btn-primary" data-toggle="tooltip" data-placement="top" title="Vizualizar planos" type="button" ui-sref="app.planos({id: controlador.id})">
+                        <i class="fa fa-file-text"></i> Planos
+                      </a>
+                    </hgroup>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
       </div>
-    </section>
+    </div>
   </div>
 </div>

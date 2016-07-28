@@ -169,6 +169,13 @@ public class ControladorDadosBasicosTest extends ControladorTest {
     }
 
     @Test
+    public void testStatusControlador() {
+        Controlador controlador = getControladorDadosBasicos();
+        controlador.save();
+        assertEquals(StatusControlador.EM_CONFIGURACAO, Controlador.find.byId(controlador.getId()).getStatusControlador());
+    }
+
+    @Test
     public void testCLC() {
         Cidade cidade = new Cidade();
         cidade.setNome("BH");
