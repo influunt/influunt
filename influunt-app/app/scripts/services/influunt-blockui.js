@@ -10,7 +10,7 @@
 angular.module('influuntApp')
   .service('influuntBlockui', [function influuntBlockui() {
     var block = function() {
-      $.blockUI({message: '<img src="images/reload.gif">'});
+      $.blockUI({message: '<img class="influunt-block-ui" src="images/loading.gif">'});
     };
 
     var unblock = function() {

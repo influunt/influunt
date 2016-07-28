@@ -95,7 +95,7 @@ angular.module('influuntApp')
       };
 
       $scope.submitForm = function(form, stepResource, nextStep) {
-        $.blockUI({message: '<img src="images/reload.gif">'});
+        influuntBlockui.block();
         if (angular.isFunction($scope.beforeSubmitForm)) {
           $scope.beforeSubmitForm();
         }
