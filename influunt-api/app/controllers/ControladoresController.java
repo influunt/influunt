@@ -5,6 +5,7 @@ import be.objectify.deadbolt.java.actions.Dynamic;
 import checks.*;
 import com.google.inject.Inject;
 import models.Controlador;
+import models.StatusControlador;
 import play.data.FormFactory;
 import play.db.ebean.Transactional;
 import play.libs.Json;
@@ -29,48 +30,48 @@ public class ControladoresController extends Controller {
 
     @Transactional
     public CompletionStage<Result> dadosBasicos() {
-        return doStep(javax.validation.groups.Default.class);
+        return doStep(false, javax.validation.groups.Default.class);
     }
 
     @Transactional
     public CompletionStage<Result> aneis() {
-        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class);
+        return doStep(false, javax.validation.groups.Default.class, ControladorAneisCheck.class);
     }
 
     @Transactional
     public CompletionStage<Result> gruposSemaforicos() {
-        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class);
+        return doStep(false, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class);
     }
 
     @Transactional
     public CompletionStage<Result> verdesConflitantes() {
-        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+        return doStep(false, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
                 ControladorVerdesConflitantesCheck.class);
     }
 
     @Transactional
     public CompletionStage<Result> associacaoGruposSemaforicos() {
-        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+        return doStep(false, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
                 ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class);
     }
 
     @Transactional
     public CompletionStage<Result> transicoesProibidas() {
-        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+        return doStep(false, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
                 ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
                 ControladorTransicoesProibidasCheck.class);
     }
 
     @Transactional
     public CompletionStage<Result> entreVerdes() {
-        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+        return doStep(false, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
                 ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
                 ControladorTransicoesProibidasCheck.class, ControladorTabelaEntreVerdesCheck.class);
     }
 
     @Transactional
     public CompletionStage<Result> associacaoDetectores() {
-        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+        return doStep(true, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
                 ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
                 ControladorTransicoesProibidasCheck.class, ControladorTabelaEntreVerdesCheck.class,
                 ControladorAssociacaoDetectoresCheck.class);
@@ -102,7 +103,7 @@ public class ControladoresController extends Controller {
         }
     }
 
-    private CompletionStage<Result> doStep(Class<?>... validationGroups) {
+    private CompletionStage<Result> doStep(boolean finalizaConfiguracaoSeSucesso, Class<?>... validationGroups) {
         if (request().body() == null) {
             return CompletableFuture.completedFuture(badRequest());
         }
@@ -118,6 +119,9 @@ public class ControladoresController extends Controller {
                 return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
             } else {
                 if (checkIfExists) {
+                    if (finalizaConfiguracaoSeSucesso) {
+                        controlador.setStatusControlador(StatusControlador.CONFIGURADO);
+                    }
                     controlador.update();
                 } else {
                     controlador.save();

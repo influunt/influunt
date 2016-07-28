@@ -1,8 +1,7 @@
 package models;
 
 import checks.*;
-import com.avaje.ebean.*;
-import com.avaje.ebean.Query;
+import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -55,6 +54,9 @@ public class Controlador extends Model implements Cloneable {
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
+
+    @Column
+    private StatusControlador statusControlador = StatusControlador.EM_CONFIGURACAO;
 
     @Column
     @NotBlank(message = "não pode ficar em branco")
@@ -130,14 +132,15 @@ public class Controlador extends Model implements Cloneable {
 
     private void antesDeSalvarOuAtualizar() {
         if (this.getId() == null) {
+            this.setStatusControlador(StatusControlador.EM_CONFIGURACAO);
             int quantidade = getModelo().getConfiguracao().getLimiteAnel();
             for (int i = 0; i < quantidade; i++) {
                 this.addAnel(new Anel(this, i + 1));
             }
             gerarCLC();
-        }else{
+        } else {
             List<Controlador> controladores = Controlador.find.select("area").where().eq("id", this.getId().toString()).setMaxRows(1).findList();
-            if(!controladores.isEmpty()) {
+            if (!controladores.isEmpty()) {
                 if (!this.getArea().getId().equals(controladores.get(0).getArea().getId())) {
                     //Houve alteracao na area, necessario regerar o CLC
                     gerarCLC();
@@ -151,13 +154,13 @@ public class Controlador extends Model implements Cloneable {
     private void gerarCLC() {
         List<Controlador> controladorList =
                 Controlador.find.query()
-                                .select("sequencia")
-                                .where().eq("area_id",area.getId().toString())
-                                .order("sequencia desc").setMaxRows(1).findList();
+                        .select("sequencia")
+                        .where().eq("area_id", area.getId().toString())
+                        .order("sequencia desc").setMaxRows(1).findList();
 
-        if(controladorList.size() == 0){
+        if (controladorList.size() == 0) {
             this.sequencia = 1;
-        }else{
+        } else {
             this.sequencia = controladorList.get(0).getSequencia() + 1;
         }
     }
@@ -342,5 +345,13 @@ public class Controlador extends Model implements Cloneable {
             setGruposSemaforicos(new ArrayList<GrupoSemaforico>());
         }
         getGruposSemaforicos().add(grupoSemaforico);
+    }
+
+    public StatusControlador getStatusControlador() {
+        return statusControlador;
+    }
+
+    public void setStatusControlador(StatusControlador statusControlador) {
+        this.statusControlador = statusControlador;
     }
 }

@@ -48,6 +48,7 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
 
     }
 
+
     @Override
     @Test
     public void testORM() {
@@ -137,6 +138,7 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
         Controlador controladorRetornado = Json.fromJson(json, Controlador.class);
 
         assertNotNull(controladorRetornado.getId());
+        assertEquals(StatusControlador.CONFIGURADO, controladorRetornado.getStatusControlador());
         Anel anelCom4Estagios = controladorRetornado.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
 
         assertEquals("Toda de detectores", 4, anelCom4Estagios.getDetectores().size());

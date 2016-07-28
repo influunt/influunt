@@ -323,9 +323,9 @@ public class Anel extends Model implements Cloneable {
     }
 
     public String getCLA() {
-        if(this.controlador != null) {
+        if (this.controlador != null) {
             return String.format("%s.%01d", this.controlador.getCLC(), this.posicao);
-        }else{
+        } else {
             return String.format("%s.%01d", "sem-controlador", this.posicao);
         }
     }
