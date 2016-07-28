@@ -41,17 +41,15 @@ angular.module('influuntApp')
           });
 
           knob.on('change', function(ev) {
-            if (ev.value && ev.value !== ev.preValue) {
-              scope.ngModel = ev.value;
-              scope.$apply();
-            }
+            scope.ngModel = ev.value;
+            scope.$apply();
           });
 
           scope.$watch('ngModel', function(value) {
-            if (angular.isDefined(value)) {
-              $(element).find('.knob-shape').roundSlider('setValue', value);
-            }
+            $(element).find('.knob-shape').roundSlider('setValue', value);
           });
+
+          return knob;
         }
       };
     }]);

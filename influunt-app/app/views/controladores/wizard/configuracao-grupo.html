@@ -1,16 +1,16 @@
-<fieldset data-ng-init="inicializaAssociacao()">
+<fieldset data-ng-init="inicializaConfiguracaoGrupos()">
   <div class="row">
+
     <uib-alert type="danger" close="closeAlert(currentAnelIndex, 'all')" data-ng-if="errors.general || errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosDePedestre || errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosVeiculares">
       <div style="padding-left: 12px;">
         <ul>
           <li data-ng-repeat="message in errors.general">{{ message }}</li>
-          <li data-ng-repeat="message in errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosDePedestre">{{ message }}</li>
-          <li data-ng-repeat="message in errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosVeiculares">{{ message }}</li>
-        </ul>
+          </ul>
       </div>
     </uib-alert>
 
     <div class="text-center m-t-md pd-lf-rt">
+
       <div class="col-lg-2 col-sm-2 no-padding-left">
         <div class="col-lg-12 col-sm-12 association">
           <ng-include src="'views/controladores/wizard/common/seleciona-aneis.html'"></ng-include>
@@ -22,71 +22,52 @@
       </div>
 
       <div class="col-lg-10 col-sm-10 no-padding stages bg-border">
+
         <div class="col-lg-12 col-sm-12">
-          <div class="row botton-line-white">
-            <div class="col-lg-1 col-sm-1 groups-stages-null">
-              <hgroup>
-                <label class="checkbox-inline i-checks">
-                  <h3 class="label-name"></h3>
-                </label>
-              </hgroup>
+          <div class="row">
+            <div class="col-lg-1 col-sm-1 groups-stages-null"></div>
+            <div class="col-lg-3 col-sm-3 title-stages-top">
+              <p class="text-left">TIPO</p>
             </div>
-            <div class="col-lg-3 col-sm-3 title-stages-top"><p class="text-left">TIPO</p></div>
-            <div class="col-lg-3 col-sm-3 title-stages-top"><p class="text-left">FASE VERMELHA APAGADA</p></div>
-            <div class="col-lg-5 col-sm-5 title-stages-top"><p class="text-left">COMENTÁRIO</p></div>
+            <div class="col-lg-3 col-sm-3 title-stages-top">
+              <p class="text-left">FASE VERMELHA APAGADA</p>
+            </div>
+            <div class="col-lg-5 col-sm-5 title-stages-top">
+              <p class="text-left">DESCRIÇÃO</p>
+            </div>
           </div>
         </div>
 
         <div class="col-lg-12 col-sm-12">
           <form method="get" class="form-horizontal">
-            <div class="row botton-line-grey">
+
+            <div class="row botton-line-grey" data-ng-repeat="grupo in currentAnel.gruposSemaforicos">
               <div class="col-lg-1 col-sm-1 groups-stages-top">
                 <hgroup>
                   <label class="checkbox-inline i-checks">
-                    <h3 class="label-name">G1</h3>
+                    <h3 class="label-name">G{{ grupo.posicao }}</h3>
                   </label>
                 </hgroup>
               </div>
               <div class="col-lg-3 col-sm-3 groups-stages">
-                <select class="form-control m-b" data-ng-model="grupoSelecionado.tipo" name="tipoGrupoSemaforico">
+                <select class="form-control m-b" data-ng-model="grupo.tipo" name="tipoGrupoSemaforico">
                   <option value="VEICULAR">Veicular</option>
                   <option value="PEDESTRE">Pedestre</option>
                 </select>
               </div>
               <div class="col-lg-3 col-sm-3 groups-stages">
-                <select class="form-control m-b" data-ng-model="grupoSelecionado.faseVermelhaApagadaAmareloIntermitente" name="tipoGrupoSemaforico">
-                  <option value="false">Nada</option>
-                  <option value="true">Amarelo Intermitente</option>
+                <select ng-model="grupo.faseVermelhaApagadaAmareloIntermitente" class="form-control m-b"
+                    ng-options="o.v as o.n for o in [{ n: 'Não colocar em amarelo intermitente', v: false }, { n: 'Colocar em amarelo intermitente', v: true }]">
                 </select>
               </div>
-              <div class="col-lg-5 col-sm-5 groups-stages">
-                <input type="text" class="form-control" placeholder="Comentário" data-ng-model="grupoSelecionado.descricao">
+              <div class="col-lg-4 col-sm-4 groups-stages">
+                <textarea type="text" class="form-control m-b" placeholder="Descrição" data-ng-model="grupo.descricao"></textarea>
+              </div>
+              <div class="col-lg-1 col-sm-1 groups-stages">
+                <a ng-click="removeGrupo($index)" class="btn btn-xs btn-danger">Excluir</a>
               </div>
             </div>
-            <div class="row botton-line-grey">
-              <div class="col-lg-1 col-sm-1 groups-stages-top">
-                <hgroup>
-                  <label class="checkbox-inline i-checks">
-                    <h3 class="label-name">G2</h3>
-                  </label>
-                </hgroup>
-              </div>
-              <div class="col-lg-3 col-sm-3 groups-stages">
-                <select class="form-control m-b" data-ng-model="grupoSelecionado.tipo" name="tipoGrupoSemaforico">
-                  <option value="VEICULAR">Veicular</option>
-                  <option value="PEDESTRE">Pedestre</option>
-                </select>
-              </div>
-              <div class="col-lg-3 col-sm-3 groups-stages">
-                <select class="form-control m-b" data-ng-model="grupoSelecionado.faseVermelhaApagadaAmareloIntermitente" name="tipoGrupoSemaforico">
-                  <option value="false">Nada</option>
-                  <option value="true">Amarelo Intermitente</option>
-                </select>
-              </div>
-              <div class="col-lg-5 col-sm-5 groups-stages">
-                <input type="text" class="form-control" placeholder="Comentário" data-ng-model="grupoSelecionado.descricao">
-              </div>
-            </div>
+
             <div class="row">
               <div class="col-lg-1 col-sm-1 groups-stages-null">
                 <hgroup>
@@ -95,19 +76,26 @@
                   </label>
                 </hgroup>
               </div>
+
               <div class="col-lg-11 col-sm-11 groups-stages">
-                <a data-ng-click="#" data-toggle="tooltip" data-placement="top" title="Adicionar novo grupo" class="btn btn-primary left">{{ 'controladores.adicionarGrupo' | translate }}</a>
+                <a data-toggle="tooltip" data-placement="top" title="Adicionar novo grupo"
+                    class="btn btn-primary left"
+                    data-ng-click="adicionaGrupoSemaforico()">
+                  {{ 'controladores.adicionarGrupo' | translate }}
+                </a>
               </div>
             </div>
           </form>
         </div>
+      </div>
     </div>
 
     <div class="row">
-	    <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix">
-        <a data-ng-click="submitForm({$valid: true}, 'configuracao_grupo', 'app.wizard_controladores.associacao')" data-toggle="tooltip" data-placement="top" title="Associação Grupo Semafórico" class="btn btn-primary btn-footer right">{{ 'plugins.steps.labels.next' | translate }}</a>
-        <a data-ng-click="submitForm({$valid: true}, 'configuracao_grupo', 'app.wizard_controladores.aneis')" data-toggle="tooltip" data-placement="top" title="Anéis" class="btn btn-inverse btn-footer right m-r-sm right">{{ 'plugins.steps.labels.previous' | translate }}</a>
-	    </div>
-	  </div>
+      <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix">
+        <a data-ng-click="submitForm({$valid: true}, 'grupos_semaforicos', 'app.wizard_controladores.associacao')" data-toggle="tooltip" data-placement="top" title="Associação Grupo Semafórico" class="btn btn-primary btn-footer right">{{ 'plugins.steps.labels.next' | translate }}</a>
+        <a data-ng-click="submitForm({$valid: true}, 'grupos_semaforicos', 'app.wizard_controladores.aneis')" data-toggle="tooltip" data-placement="top" title="Anéis" class="btn btn-inverse btn-footer right m-r-sm right">{{ 'plugins.steps.labels.previous' | translate }}</a>
+      </div>
+    </div>
+
   </div>
 </fieldset>

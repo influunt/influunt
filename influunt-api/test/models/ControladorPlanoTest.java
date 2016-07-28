@@ -272,6 +272,8 @@ public class ControladorPlanoTest extends ControladorTest {
         estagioPlano1Anel2 = plano1Anel2.getEstagiosPlanos().get(0);
         estagioPlano2Anel2 = plano1Anel2.getEstagiosPlanos().get(1);
 
+        estagioPlano1Anel2.getEstagio().setTempoMaximoPermanenciaAtivado(true);
+        estagioPlano1Anel2.getEstagio().setTempoMaximoPermanencia(60);
         estagioPlano1Anel2.setTempoVerde(70);
         plano1Anel2.setTempoCiclo(40);
         estagioPlano2Anel2.setTempoVerde(20);

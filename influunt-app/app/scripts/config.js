@@ -289,50 +289,6 @@ angular
           }
         })
 
-        // Crud Modelo Controladores.
-        .state('app.modelos_controladores', {
-          url: '/modelos_controladores',
-          templateUrl: 'views/modelos_controladores/index.html',
-          controller: 'ModelosControladoresCtrl',
-          controllerAs: 'modelos_controladores',
-          data: {
-            title: 'modelos_controladores.titulo'
-          }
-        })
-
-        .state('app.modelos_controladores_new', {
-          url: '/modelos_controladores/new',
-          templateUrl: 'views/modelos_controladores/new.html',
-          controller: 'ModelosControladoresCtrl',
-          controllerAs: 'modelos_controladores',
-          data: {
-            title: 'modelos_controladores.titulo',
-						breadcrumb: 'modelos_controladores.novo'
-          }
-        })
-
-        .state('app.modelos_controladores_edit', {
-          url: '/modelos_controladores/:id/edit',
-          templateUrl: 'views/modelos_controladores/edit.html',
-          controller: 'ModelosControladoresCtrl',
-          controllerAs: 'modelos_controladores',
-          data: {
-            title: 'modelos_controladores.titulo',
-						breadcrumb: 'modelos_controladores.editar'
-          }
-        })
-
-        .state('app.modelos_controladores_show', {
-          url: '/modelos_controladores/:id',
-          templateUrl: 'views/modelos_controladores/show.html',
-          controller: 'ModelosControladoresCtrl',
-          controllerAs: 'modelos_controladores',
-          data: {
-            title: 'modelos_controladores.titulo',
-						breadcrumb: 'modelos_controladores.mostrar'
-          }
-        })
-
         .state('app.wizard_controladores', {
           url: '/wizard-controladores',
           templateUrl: 'views/controladores/wizard/wizard.html',
@@ -365,7 +321,7 @@ angular
         .state('app.wizard_controladores.configuracao_grupo', {
           url: '/configuracao-grupo/:id',
           templateUrl: 'views/controladores/wizard/configuracao-grupo.html',
-          controller: 'ControladoresAssociacaoCtrl',
+          controller: 'ControladoresConfiguracaoGruposCtrl',
           data: {
             title: 'controladores.titulo'
           }

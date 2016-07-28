@@ -140,18 +140,19 @@ public abstract class ControladorTest extends WithApplication {
     }
 
     protected Controlador getControladorAssociacao() {
-        Controlador controlador = getControladorGrupoSemaforicos();
+        Controlador controlador = getControladorVerdesConflitantes();
         controlador.save();
 
-        Anel anelAtivo = controlador.getAneis().stream().filter(anel -> anel.isAtivo()).findFirst().get();
+        Anel anelCom2Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
+        Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
 
-        Estagio estagio1 = anelAtivo.getEstagios().get(0);
-        Estagio estagio2 = anelAtivo.getEstagios().get(1);
-        Estagio estagio3 = anelAtivo.getEstagios().get(2);
-        Estagio estagio4 = anelAtivo.getEstagios().get(3);
+        Estagio estagio1 = anelCom4Estagios.getEstagios().get(0);
+        Estagio estagio2 = anelCom4Estagios.getEstagios().get(1);
+        Estagio estagio3 = anelCom4Estagios.getEstagios().get(2);
+        Estagio estagio4 = anelCom4Estagios.getEstagios().get(3);
 
-        GrupoSemaforico grupoSemaforico1 = anelAtivo.getGruposSemaforicos().get(0);
-        GrupoSemaforico grupoSemaforico2 = anelAtivo.getGruposSemaforicos().get(1);
+        GrupoSemaforico grupoSemaforico1 = anelCom4Estagios.getGruposSemaforicos().get(0);
+        GrupoSemaforico grupoSemaforico2 = anelCom4Estagios.getGruposSemaforicos().get(1);
 
         EstagioGrupoSemaforico estagioGrupoSemaforico1 = new EstagioGrupoSemaforico(estagio1, grupoSemaforico1);
         EstagioGrupoSemaforico estagioGrupoSemaforico2 = new EstagioGrupoSemaforico(estagio2, grupoSemaforico2);
@@ -175,11 +176,28 @@ public abstract class ControladorTest extends WithApplication {
         grupoSemaforico1.addEstagioGrupoSemaforico(estagioGrupoSemaforico3);
         grupoSemaforico2.addEstagioGrupoSemaforico(estagioGrupoSemaforico4);
 
+        Estagio estagioNovo = anelCom2Estagios.getEstagios().get(0);
+        Estagio estagioNovo2 = anelCom2Estagios.getEstagios().get(1);
+        estagioNovo.setDemandaPrioritaria(true);
+        estagioNovo.setTempoMaximoPermanenciaAtivado(false);
+        estagioNovo2.setTempoMaximoPermanenciaAtivado(false);
+
+        GrupoSemaforico grupoSemaforicoNovo = anelCom2Estagios.getGruposSemaforicos().get(0);
+        GrupoSemaforico grupoSemaforicoNovo2 = anelCom2Estagios.getGruposSemaforicos().get(1);
+
+        EstagioGrupoSemaforico estagioGrupoSemaforicoNovo = new EstagioGrupoSemaforico(estagioNovo, grupoSemaforicoNovo);
+        EstagioGrupoSemaforico estagioGrupoSemaforicoNovo2 = new EstagioGrupoSemaforico(estagioNovo2, grupoSemaforicoNovo2);
+        estagioNovo.addEstagioGrupoSemaforico(estagioGrupoSemaforicoNovo);
+        estagioNovo2.addEstagioGrupoSemaforico(estagioGrupoSemaforicoNovo2);
+
+        grupoSemaforicoNovo.addEstagioGrupoSemaforico(estagioGrupoSemaforicoNovo);
+        grupoSemaforicoNovo2.addEstagioGrupoSemaforico(estagioGrupoSemaforicoNovo2);
+
         return controlador;
     }
 
     protected Controlador getControladorVerdesConflitantes() {
-        Controlador controlador = getControladorAssociacao();
+        Controlador controlador = getControladorGrupoSemaforicos();
 
         Anel anelAtivo = controlador.getAneis().stream().filter(anel -> !anel.isAtivo()).findFirst().get();
         anelAtivo.setDescricao("Anel 1");
@@ -189,11 +207,6 @@ public abstract class ControladorTest extends WithApplication {
 
         anelAtivo.setEstagios(Arrays.asList(new Estagio(), new Estagio()));
 
-        Estagio estagio1 = anelAtivo.getEstagios().get(0);
-        estagio1.setTempoMaximoPermanencia(60);
-        Estagio estagio2 = anelAtivo.getEstagios().get(1);
-        estagio2.setTempoMaximoPermanencia(60);
-
         criarGrupoSemaforico(anelAtivo, TipoGrupoSemaforico.VEICULAR, 3);
         criarGrupoSemaforico(anelAtivo, TipoGrupoSemaforico.VEICULAR, 4);
 
@@ -201,14 +214,6 @@ public abstract class ControladorTest extends WithApplication {
 
         GrupoSemaforico grupoSemaforico3 = anelAtivo.findGrupoSemaforicoByPosicao(3);
         GrupoSemaforico grupoSemaforico4 = anelAtivo.findGrupoSemaforicoByPosicao(4);
-
-        EstagioGrupoSemaforico estagioGrupoSemaforico1 = new EstagioGrupoSemaforico(estagio1, grupoSemaforico3);
-        estagio1.addEstagioGrupoSemaforico(estagioGrupoSemaforico1);
-        EstagioGrupoSemaforico estagioGrupoSemaforico2 = new EstagioGrupoSemaforico(estagio2, grupoSemaforico4);
-        estagio2.addEstagioGrupoSemaforico(estagioGrupoSemaforico2);
-
-        grupoSemaforico3.addEstagioGrupoSemaforico(estagioGrupoSemaforico1);
-        grupoSemaforico4.addEstagioGrupoSemaforico(estagioGrupoSemaforico2);
 
         Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
         GrupoSemaforico grupoSemaforico1 = anelCom4Estagios.findGrupoSemaforicoByPosicao(1);
@@ -228,7 +233,7 @@ public abstract class ControladorTest extends WithApplication {
     }
 
     protected Controlador getControladorTransicoesProibidas() {
-        Controlador controlador = getControladorVerdesConflitantes();
+        Controlador controlador = getControladorAssociacao();
         controlador.save();
 
         Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();

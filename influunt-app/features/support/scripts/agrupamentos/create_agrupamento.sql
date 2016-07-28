@@ -24,7 +24,7 @@ SET @AgrupamentoId = RANDOM_UUID();
 INSERT INTO `cidades` (`id`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@CidadeId, 'São Paulo', NOW(), NOW());
 INSERT INTO `areas` (`id`, `descricao`, `cidade_id`, `data_criacao`, `data_atualizacao`) VALUES (@AreaId, 1, @CidadeId, NOW(), NOW());
 INSERT INTO `fabricantes` (`id`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@FabricanteId, 'Raro Labs', NOW(), NOW());
-INSERT INTO `configuracao_controladores` (`id`, `descricao`, `limite_estagio`, `limite_grupo_semaforico`, `limite_anel`, `limite_detector_pedestre`, `limite_detector_veicular`, `data_criacao`, `data_atualizacao`) VALUES (@ConfiguracaoControladorId, 'Mínima', 4, 4, 2, 1, 1, NOW(), NOW());
+INSERT INTO `configuracao_controladores` (`id`, `descricao`, `limite_estagio`, `limite_grupo_semaforico`, `limite_anel`, `limite_detector_pedestre`, `limite_detector_veicular`, `limite_tabelas_entre_verdes`, `data_criacao`, `data_atualizacao`) VALUES (@ConfiguracaoControladorId, 'Mínima', 4, 4, 2, 1, 1, 1, NOW(), NOW());
 INSERT INTO `modelo_controladores` (`id`, `fabricante_id`, `configuracao_id`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES (@ModeloId, @FabricanteId, @ConfiguracaoControladorId, 'Mínima', NOW(), NOW());
 INSERT INTO `controladores` (`id`, `localizacao`, `latitude`, `longitude`, `modelo_id`, `area_id`, `data_criacao`, `data_atualizacao`) VALUES (@ControladorId, 'Esquina rua A com B', '-23.55037588609829', '-46.66511535644531', @ModeloId, @AreaId, NOW(), NOW());
 INSERT INTO `agrupamentos` (`id`, `nome`, `tipo`, `data_criacao`, `data_atualizacao`) VALUES (@AgrupamentoId, 'Corredor da Paulista', 'CORREDOR', NOW(), NOW());

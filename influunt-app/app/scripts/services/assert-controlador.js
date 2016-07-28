@@ -17,7 +17,7 @@ angular.module('influuntApp')
      * @return     {boolean}  True if has aneis, False otherwise.
      */
     var hasAneis = function(controlador) {
-      return controlador.aneis && controlador.aneis.length;
+      return controlador.aneis && controlador.aneis.length > 0;
     };
 
     /**
@@ -42,15 +42,13 @@ angular.module('influuntApp')
      * @return     {boolean}  True if has transições, False otherwise.
      */
     var hasTransicoes = function(controlador) {
-      if (hasAneis(controlador)) {
-        var gruposSemaforicos = _.chain(controlador.aneis)
-                                 .map('gruposSemaforicos')
-                                 .value();
-        var transicoes = _.chain(gruposSemaforicos)
-                          .map('transicoes')
-                          .value();
-        return transicoes.length >= gruposSemaforicos.length;
+      if (!hasAneis(controlador)) {
+        return false;
       }
+
+      var gruposSemaforicos = _.chain(controlador.aneis).map('gruposSemaforicos').value();
+      var transicoes = _.chain(gruposSemaforicos).map('transicoes').value();
+      return transicoes.length >= gruposSemaforicos.length;
     };
 
     /**
@@ -72,6 +70,8 @@ angular.module('influuntApp')
                           .flatten()
                           .value();
         return tabelasEV.length >= transicoes.length;
+      } else {
+        return false;
       }
     };
 
