@@ -30,8 +30,9 @@ var myHooks = function () {
       return world.clickButton('#acessar');
     }).then(function () {
       return world.waitFor('a.navbar-brand');
-    // }).catch(function(ex) {
-    //   console.log(ex);
+    }).catch(function(ex) {
+      console.log("ERRO: ", ex);
+			throw new Error(ex);
     });
   });
 
@@ -51,6 +52,13 @@ var myHooks = function () {
 
       if (debugScreenshot) {
         if(scenario.isFailed()) {
+					driver.getPageSource().then(function(data){
+            fs.writeFile(path.join('screenshots', sanitize(scenario.getName() + '.html').replace(/ /g,'_')), data, 'utf-8', function(err) {
+              if(err) {
+                console.log("PG: ------>>>>", err);
+              }
+            });
+					})
           driver.takeScreenshot().then(function(data) {
             var base64Data = data.replace(/^data:image\/png;base64,/, '');
             fs.writeFile(path.join('screenshots', sanitize(scenario.getName() + '.png').replace(/ /g,'_')), base64Data, 'base64', function(err) {
