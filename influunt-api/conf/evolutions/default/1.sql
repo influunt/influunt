@@ -53,7 +53,9 @@ create table cidades (
 
 create table controladores (
   id                            varchar(40) not null,
+  status_controlador            integer,
   localizacao                   varchar(255),
+  sequencia                     integer,
   numero_smee                   varchar(255),
   numero_smeeconjugado1         varchar(255),
   numero_smeeconjugado2         varchar(255),
@@ -71,6 +73,7 @@ create table controladores (
   limite_tabelas_entre_verdes   integer not null,
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
+  constraint ck_controladores_status_controlador check (status_controlador in (0,1,2)),
   constraint pk_controladores primary key (id)
 );
 
@@ -290,8 +293,8 @@ create table transicoes_proibidas (
 
 create table usuarios (
   id                            varchar(40) not null,
-  login                         varchar(255),
   senha                         varchar(255),
+  login                         varchar(255),
   email                         varchar(255),
   nome                          varchar(255),
   root                          tinyint(1) default 0,

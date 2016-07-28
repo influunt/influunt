@@ -1,4 +1,4 @@
-@import url(./../plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css);
+@import url(./../plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checg kbox.css);
 @import url(./../plugins/roundSlider-1.3/roundslider.min.css);
 @import url(./../plugins/steps/jquery.steps.css);
 @import url(./../plugins/dropzone/dropzone.css);
@@ -8,7 +8,6 @@
 @import url(./../../bower_components/angular-datatables/dist/css/angular-datatables.css);
 @import url(./../../bower_components/bootstrap/dist/css/bootstrap.css);
 @import url(./../../bower_components/select2/dist/css/select2.css);
-@import url(./../../bower_components/jquery-ui/themes/base/all.css);
 @import url(./font-awesome.css);
 @import url(./animate.css);
 @import url(./style.css);
@@ -167,3 +166,38 @@ span.badge.badge-danger.badge-notification {
   padding: 6px 0px 2px 6px;
   border-radius: 0;
 }
+
+.img-preview-sm {
+  height: 300px;
+  width: 100%;
+  overflow: auto;
+  background: #f2f4f5;
+}
+
+.img-preview.img-preview-sm img {
+  width: 100%;
+}
+
+.tabs-container .nav-tabs {
+  background: transparent;
+}
+
+/* .wrapper-content .basic-wizard .content .body .association.side-menu ul {
+    position: absolute;
+    z-index: 999999;
+    width: 100%;
+}
+
+.wrapper-content .basic-wizard .content .body .association.side-menu li {
+    background: #1caf92;
+}
+
+.wrapper-content .basic-wizard .content .body .association.side-menu li span {
+    color: #FFFFFF;
+}
+
+.wrapper-content .basic-wizard .content .body .association.side-menu li.active {
+    background: #1caf92;
+    box-shadow: 1px 11px 21px rgba(0, 0, 0, 0.2);
+<<<<<<< Local Changes
+} */

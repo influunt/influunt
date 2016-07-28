@@ -52,7 +52,8 @@ angular.module('influuntApp')
               .value();
 
             $scope.grupoIds = _.chain(gruposSemaforicos).map('id').value();
-            var totalGrupos = $scope.objeto.modelo.configuracao.limiteGrupoSemaforico;
+            // var totalGrupos = $scope.objeto.modelo.configuracao.limiteGrupoSemaforico;
+            var totalGrupos = 16;
             $scope.grupos = _.times(totalGrupos, function(i) {return 'G' + (i+1);});
 
             buildIntervaloAneis();

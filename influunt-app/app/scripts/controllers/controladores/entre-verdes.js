@@ -84,7 +84,8 @@ angular.module('influuntApp')
       $scope.inicializaEntreVerdes = function() {
         return $scope.inicializaWizard().then(function() {
           if ($scope.assertEntreVerdes()) {
-            $scope.limiteTabelasEntreVerdes = $scope.objeto.modelo.configuracao.limiteTabelasEntreVerdes;
+            // $scope.limiteTabelasEntreVerdes = $scope.objeto.modelo.configuracao.limiteTabelasEntreVerdes;
+            $scope.limiteTabelasEntreVerdes = 2;
             $scope.sortByPosicao();
           }
         });
