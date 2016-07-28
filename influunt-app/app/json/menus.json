@@ -49,11 +49,6 @@
         "name": "fabricantes",
         "label": "fabricantes.titulo",
         "route": "app.fabricantes"
-      },
-      {
-        "name": "modelos_controladores",
-        "label": "modelos_controladores.titulo",
-        "route": "app.modelos_controladores"
       }
     ]
   },
