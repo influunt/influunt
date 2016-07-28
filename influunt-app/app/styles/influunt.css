@@ -1787,7 +1787,7 @@ header .nav-secon li a {
 }
 
 .btn-footer {
-  width: 10%;
+  min-width: 130px;
 }
 
 .padding-top-30 {
