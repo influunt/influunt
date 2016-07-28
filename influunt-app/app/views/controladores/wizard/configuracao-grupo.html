@@ -9,83 +9,108 @@
       </div>
     </uib-alert>
 
-    <div class="text-center m-t-md pd-lf-rt">
+    <script>
+      $(function(){
+        $( ".tabpanel" ).tabs({closable: false, addTab:false}).tabs('overflowResize')
+        .find( ".ui-tabs-nav" ).sortable({
+          distance: 10
+        });
+      });
+    </script>
 
-      <div class="col-lg-2 col-sm-2 no-padding-left">
-        <div class="col-lg-12 col-sm-12 association">
-          <ng-include src="'views/controladores/wizard/common/seleciona-aneis.html'"></ng-include>
-        </div>
-      </div>
+    <div class="m-t-md">
+      <div class="col-lg-12 col-sm-12 bg-border no-padding">
+        <div class="ibox float-e-margins">
+          <div class="tabpanel">
+            <div class="col-lg-12 col-sm-12 padding-top-20 tabs-container">
+              <ul class="nav nav-tabs">
+                <li class=""><a class="" data-toggle="tab" href="#tabs-1" aria-expanded="false">{{ 'controladores.anel' | translate }} {{ currentAnel.posicao }}</a></li>
+                <li class=""><a class="" data-toggle="tab" href="#tabs-2" aria-expanded="false">{{ 'controladores.anel' | translate }} 02</a></li>
+                <li class=""><a class="" data-toggle="tab" href="#tabs-3" aria-expanded="false">{{ 'controladores.anel' | translate }} 03</a></li>
+              </ul>
+              <div class="ui-layout-content tab-content">
+                <div id="tabs-1">
+                  <div class="col-lg-12 col-sm-12 text-left">
+                    <h2>{{ 'controladores.anel' | translate }} {{ currentAnel.posicao }}</h2>
+                  </div>
 
-      <div class="col-lg-10 col-sm-10 ibox-title botton-title">
-        <h2>Anel {{ currentAnel.posicao }}</h2>
-      </div>
+                  <div class="col-lg-12 col-sm-12 no-padding stages ibox-content">
 
-      <div class="col-lg-10 col-sm-10 no-padding stages bg-border">
+                    <div class="col-lg-12 col-sm-12">
+                      <div class="row">
+                        <div class="col-lg-1 col-sm-1 groups-stages-null"></div>
+                        <div class="col-lg-3 col-sm-3 title-stages-top">
+                          <p class="text-left">TIPO</p>
+                        </div>
+                        <div class="col-lg-3 col-sm-3 title-stages-top">
+                          <p class="text-left">FASE VERMELHA APAGADA</p>
+                        </div>
+                        <div class="col-lg-5 col-sm-5 title-stages-top">
+                          <p class="text-left">DESCRIÇÃO</p>
+                        </div>
+                      </div>
+                    </div>
 
-        <div class="col-lg-12 col-sm-12">
-          <div class="row">
-            <div class="col-lg-1 col-sm-1 groups-stages-null"></div>
-            <div class="col-lg-3 col-sm-3 title-stages-top">
-              <p class="text-left">TIPO</p>
-            </div>
-            <div class="col-lg-3 col-sm-3 title-stages-top">
-              <p class="text-left">FASE VERMELHA APAGADA</p>
-            </div>
-            <div class="col-lg-5 col-sm-5 title-stages-top">
-              <p class="text-left">DESCRIÇÃO</p>
+                    <div class="col-lg-12 col-sm-12">
+                      <form method="get" class="form-horizontal">
+
+                        <div class="row botton-line-grey" data-ng-repeat="grupo in currentAnel.gruposSemaforicos">
+                          <div class="col-lg-1 col-sm-1 groups-stages-top">
+                            <hgroup>
+                              <label class="checkbox-inline i-checks">
+                                <h3 class="label-name">G{{ grupo.posicao }}</h3>
+                              </label>
+                            </hgroup>
+                          </div>
+                          <div class="col-lg-3 col-sm-3 groups-stages">
+                            <select class="form-control m-b" data-ng-model="grupo.tipo" name="tipoGrupoSemaforico">
+                              <option value="VEICULAR">Veicular</option>
+                              <option value="PEDESTRE">Pedestre</option>
+                            </select>
+                          </div>
+                          <div class="col-lg-3 col-sm-3 groups-stages">
+                            <select ng-model="grupo.faseVermelhaApagadaAmareloIntermitente" class="form-control m-b"
+                                ng-options="o.v as o.n for o in [{ n: 'Não colocar em amarelo intermitente', v: false }, { n: 'Colocar em amarelo intermitente', v: true }]">
+                            </select>
+                          </div>
+                          <div class="col-lg-4 col-sm-4 groups-stages">
+                            <textarea type="text" class="form-control m-b" placeholder="Descrição" data-ng-model="grupo.descricao"></textarea>
+                          </div>
+                          <div class="col-lg-1 col-sm-1 groups-stages">
+                            <a ng-click="removeGrupo($index)" class="btn btn-xs btn-danger">Excluir</a>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-lg-1 col-sm-1 groups-stages-null">
+                            <hgroup>
+                              <label class="checkbox-inline i-checks">
+                                <h3 class="label-name"></h3>
+                              </label>
+                            </hgroup>
+                          </div>
+
+                          <div class="col-lg-11 col-sm-11 groups-stages">
+                            <a data-toggle="tooltip" data-placement="top" title="Adicionar novo grupo" class="btn btn-primary left" data-ng-click="adicionaGrupoSemaforico()">{{ 'controladores.adicionarGrupo' | translate }}</a>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div id="tabs-2">
+                  <div class="col-lg-12 col-sm-12 text-left">
+                    <h2>{{ 'controladores.anel' | translate }} 02</h2>
+                  </div>
+                </div>
+                <div id="tabs-3">
+                  <div class="col-lg-12 col-sm-12 text-left">
+                    <h2>{{ 'controladores.anel' | translate }} 03</h2>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-
-        <div class="col-lg-12 col-sm-12">
-          <form method="get" class="form-horizontal">
-
-            <div class="row botton-line-grey" data-ng-repeat="grupo in currentAnel.gruposSemaforicos">
-              <div class="col-lg-1 col-sm-1 groups-stages-top">
-                <hgroup>
-                  <label class="checkbox-inline i-checks">
-                    <h3 class="label-name">G{{ grupo.posicao }}</h3>
-                  </label>
-                </hgroup>
-              </div>
-              <div class="col-lg-3 col-sm-3 groups-stages">
-                <select class="form-control m-b" data-ng-model="grupo.tipo" name="tipoGrupoSemaforico">
-                  <option value="VEICULAR">Veicular</option>
-                  <option value="PEDESTRE">Pedestre</option>
-                </select>
-              </div>
-              <div class="col-lg-3 col-sm-3 groups-stages">
-                <select ng-model="grupo.faseVermelhaApagadaAmareloIntermitente" class="form-control m-b"
-                    ng-options="o.v as o.n for o in [{ n: 'Não colocar em amarelo intermitente', v: false }, { n: 'Colocar em amarelo intermitente', v: true }]">
-                </select>
-              </div>
-              <div class="col-lg-4 col-sm-4 groups-stages">
-                <textarea type="text" class="form-control m-b" placeholder="Descrição" data-ng-model="grupo.descricao"></textarea>
-              </div>
-              <div class="col-lg-1 col-sm-1 groups-stages">
-                <a ng-click="removeGrupo($index)" class="btn btn-xs btn-danger">Excluir</a>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-lg-1 col-sm-1 groups-stages-null">
-                <hgroup>
-                  <label class="checkbox-inline i-checks">
-                    <h3 class="label-name"></h3>
-                  </label>
-                </hgroup>
-              </div>
-
-              <div class="col-lg-11 col-sm-11 groups-stages">
-                <a data-toggle="tooltip" data-placement="top" title="Adicionar novo grupo"
-                    class="btn btn-primary left"
-                    data-ng-click="adicionaGrupoSemaforico()">
-                  {{ 'controladores.adicionarGrupo' | translate }}
-                </a>
-              </div>
-            </div>
-          </form>
         </div>
       </div>
     </div>

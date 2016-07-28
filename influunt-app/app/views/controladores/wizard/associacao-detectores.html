@@ -7,76 +7,98 @@
         </ul>
       </div>
     </uib-alert>
+  </div>
 
-    <div class="text-center m-t-md pd-lf-rt">
-      <div class="col-lg-2 col-sm-2 no-padding">
-        <div class="col-lg-12 col-sm-12 association">
-          <ng-include src="'views/controladores/wizard/common/seleciona-aneis.html'"></ng-include>
+  <script>
+    $(function(){
+      $( ".tabpanel" ).tabs({closable: false, addTab:false}).tabs('overflowResize')
+      .find( ".ui-tabs-nav" ).sortable({
+        distance: 10
+      });
+    });
+  </script>
+
+  <div class="m-t-md">
+    <div class="col-lg-12 col-sm-12 bg-border no-padding">
+      <div class="ibox float-e-margins">
+        <div class="tabpanel">
+          <div class="col-lg-12 col-sm-12 padding-top-20 tabs-container">
+            <ul class="nav nav-tabs">
+              <li class=""><a class="" data-toggle="tab" href="#tabs-1" aria-expanded="false">{{ 'controladores.anel' | translate }} {{ currentAnel.posicao }}</a></li>
+              <li class=""><a class="" data-toggle="tab" href="#tabs-2" aria-expanded="false">{{ 'controladores.anel' | translate }} 02</a></li>
+              <li class=""><a class="" data-toggle="tab" href="#tabs-3" aria-expanded="false">{{ 'controladores.anel' | translate }} 03</a></li>
+            </ul>
+            <div class="ui-layout-content tab-content">
+              <div id="tabs-1">
+                <div class="col-lg-12 col-sm-12 text-left">
+                  <h2>{{ 'controladores.anel' | translate }} {{ currentAnel.posicao }}</h2>
+                </div>
+                <div class="col-lg-12 col-sm-12 tableless association-detectors association-detectors-body">
+                  <table class="tg" border="1" cellpadding="1" width="100%">
+                    <thead>
+                      <tr>
+                        <th>DETECTOR</th>
+                        <th data-ng-repeat="estagio in currentAnel.estagios">E{{ estagio.posicao }}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td></td>
+                        <td data-ng-repeat="estagio in currentAnel.estagios" data-ng-cloak>
+                          <figure>
+                            <img ng-src="{{ estagio.imagem.id | imageSource }}" width="120px">
+                          </figure>
+                        </td>
+                      </tr>
+                      <tr data-ng-repeat="detector in currentAnel.detectores">
+                        <td>
+                          <strong>{{ detector | nomeDetector }}</strong>
+                          <span class="badge badge-danger badge-notification"
+                            data-ng-show="errors.aneis[currentAnelIndex].detectores[$index]"
+                            inf-tooltip
+                            messages="errors.aneis[currentAnelIndex].detectores[$index]">
+                            <i class="fa fa-exclamation"></i>
+                          </span>
+                        </td>
+                        <td data-ng-repeat="estagio in currentAnel.estagios" data-ng-click="toggleAssociacaoDetector(estagio, detector)">
+                          <i class="fa fa-check" aria-hidden="true" data-ng-if="detector.estagio.id === estagio.id"></i>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-lg-12 col-sm-12 ibox-title botton-title association-detectors-body m-t-md association tables-associated p-b-xs">
+                  <div class="col-lg-3 col-sm-3 estagio-detalhe">
+                    <h3>DP 1</h3><br/>
+                    <input type="checkbox" ichecks> <strong>MONITORAMENTO DE FALHA</strong>
+                  </div>
+                  <div class="knob">
+                    <div class="col-lg-2 col-sm-2 text-center knob-item">
+                      <influunt-knob title="AUSÊNCIA DE DETECÇÃO MÍNIMA" label="SEG" min="0" max="30" data-ng-model="25"></influunt-knob>
+                    </div>
+                    <div class="col-lg-2 col-sm-2 text-center knob-item">
+                      <influunt-knob title="AUSÊNCIA DE DETECÇÃO MÁXIMA" label="SEG" min="0" max="30" data-ng-model="25"></influunt-knob>
+                    </div>
+                    <div class="col-lg-2 col-sm-2 text-center knob-item">
+                      <influunt-knob title="DETECÇÃO PERMANENTE MÍNIMA" label="SEG" min="0" max="30" data-ng-model="25"></influunt-knob>
+                    </div>
+                    <div class="col-lg-2 col-sm-2 text-center knob-item">
+                      <influunt-knob title="DETECÇÃO PERMANENTE MÁXIMA" label="SEG" min="0" max="30" data-ng-model="25"></influunt-knob>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="col-lg-10 col-sm-10 ibox-title botton-title association-detectors-body">
-        <h2 class="ng-binding">Anel {{ currentAnel.posicao }}</h2>
-      </div>
-      <div class="col-lg-10 col-sm-10 tableless association-detectors association-detectors-body">
-        <table class="tg" border="1" cellpadding="1" width="100%">
-          <thead>
-            <tr>
-              <th>DETECTOR</th>
-              <th data-ng-repeat="estagio in currentAnel.estagios">E{{ estagio.posicao }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td></td>
-              <td data-ng-repeat="estagio in currentAnel.estagios" data-ng-cloak>
-                <figure>
-                  <img ng-src="{{ estagio.imagem.id | imageSource }}" width="120px">
-                </figure>
-              </td>
-            </tr>
-            <tr data-ng-repeat="detector in currentAnel.detectores">
-              <td>
-                <strong>{{ detector | nomeDetector }}</strong>
-                <span class="badge badge-danger badge-notification"
-                  data-ng-show="errors.aneis[currentAnelIndex].detectores[$index]"
-                  inf-tooltip
-                  messages="errors.aneis[currentAnelIndex].detectores[$index]">
-                  <i class="fa fa-exclamation"></i>
-                </span>
-              </td>
-              <td data-ng-repeat="estagio in currentAnel.estagios" data-ng-click="toggleAssociacaoDetector(estagio, detector)">
-                <i class="fa fa-check" aria-hidden="true" data-ng-if="detector.estagio.id === estagio.id"></i>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="col-lg-10 col-sm-10 ibox-title botton-title association-detectors-body m-t-md association tables-associated p-b-xs">
-        <div class="col-lg-3 col-sm-3 estagio-detalhe">
-          <h3>DP 1</h3><br/>
-          <input type="checkbox" ichecks> <strong>MONITORAMENTO DE FALHA</strong>
-        </div>
-        <div class="knob">
-          <div class="col-lg-2 col-sm-2 text-center knob-item">
-            <influunt-knob title="AUSÊNCIA DE DETECÇÃO MÍNIMA" label="SEG" min="0" max="30" data-ng-model="25"></influunt-knob>
-          </div>
-          <div class="col-lg-2 col-sm-2 text-center knob-item">
-            <influunt-knob title="AUSÊNCIA DE DETECÇÃO MÁXIMA" label="SEG" min="0" max="30" data-ng-model="25"></influunt-knob>
-          </div>
-          <div class="col-lg-2 col-sm-2 text-center knob-item">
-            <influunt-knob title="DETECÇÃO PERMANENTE MÍNIMA" label="SEG" min="0" max="30" data-ng-model="25"></influunt-knob>
-          </div>
-          <div class="col-lg-2 col-sm-2 text-center knob-item">
-            <influunt-knob title="DETECÇÃO PERMANENTE MÁXIMA" label="SEG" min="0" max="30" data-ng-model="25"></influunt-knob>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix">
-				<a ui-sref="app.wizard_controladores.entre_verdes({id: objeto.id})" target="_blank" data-toggle="tooltip" data-placement="top" class="left btn btn-info btn-footer" title="Ver Tela de Entre Verdes">{{ 'plugins.steps.labels.last_screen' | translate }}</a>
-        <a data-ng-click="submitForm({$valid: true}, 'associacao_detectores', 'app.controladores')" data-toggle="tooltip" data-placement="top" title="Controladores" class="btn btn-primary btn-footer right">{{ 'plugins.steps.labels.next' | translate }}</a>
-        <a data-ng-click="submitForm({$valid: true}, 'associacao_detectores', 'app.wizard_controladores.entre_verdes')" data-toggle="tooltip" data-placement="top" title="Entre Verdes" class="btn btn-inverse btn-footer right m-r-sm right">{{ 'plugins.steps.labels.previous' | translate }}</a>
       </div>
     </div>
+  </div>
+
+  <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix">
+		<a ui-sref="app.wizard_controladores.entre_verdes({id: objeto.id})" target="_blank" data-toggle="tooltip" data-placement="top" class="left btn btn-info btn-footer" title="Ver Tela de Entre Verdes">{{ 'plugins.steps.labels.last_screen' | translate }}</a>
+    <a data-ng-click="submitForm({$valid: true}, 'associacao_detectores', 'app.controladores')" data-toggle="tooltip" data-placement="top" title="Controladores" class="btn btn-primary btn-footer right">{{ 'plugins.steps.labels.next' | translate }}</a>
+    <a data-ng-click="submitForm({$valid: true}, 'associacao_detectores', 'app.wizard_controladores.entre_verdes')" data-toggle="tooltip" data-placement="top" title="Entre Verdes" class="btn btn-inverse btn-footer right m-r-sm right">{{ 'plugins.steps.labels.previous' | translate }}</a>
   </div>
 </fieldset>
 

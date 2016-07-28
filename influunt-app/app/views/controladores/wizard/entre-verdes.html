@@ -7,141 +7,165 @@
         </ul>
       </div>
     </uib-alert>
-    <div class="text-center m-t-md pd-lf-rt">
-      <!-- menu aneis -->
-      <div class="col-lg-2 col-sm-2 no-padding">
-        <div class="col-lg-12 col-sm-12 association min-green side-menu entre-verdes-fixed-height">
-          <nav>
-            <ul id="side-menu" influunt-metis>
-              <li data-ng-repeat="anel in aneis" data-ng-class="{ 'active': $index === currentAnelIndex }" data-ng-click="selecionaAnel($index)" data-ng-init="anelIndex = $index">
-                <a href="#">
-                  <span class="nav-label">ANEL {{ anel.posicao }}</span>
-                  <span class="badge badge-danger badge-notification entre-verdes-anel-error" ng-show="anelTemErro($index)">
-                    <i class="fa fa-exclamation"></i>
-                  </span>
-                  <span class="fa arrow"></span>
-                </a>
-                <ul class="nav nav-second-level">
-                  <li data-ng-repeat="grupoSemaforico in anel.gruposSemaforicos" data-ng-class="{ 'active': ($index === currentGrupoSemaforicoIndex) && (currentGrupoSemaforicoIdentifier == anelIndex.toString() + $index.toString()) }" data-ng-click="selecionaGrupoSemaforico($index)">
-                    <a href="">G{{ grupoSemaforico.posicao }}
-                      <span class="badge badge-danger badge-notification pull-right m-t-sm" ng-show="grupoSemaforicoTemErro(anelIndex, $index)">
-                        <i class="fa fa-exclamation grupo-semaforico-error"></i>
-                      </span>
-                    </a>
-                  </li>
-                </ul>
-              </li>
+  </div>
+
+  <script>
+    $(function(){
+      $( ".tabpanel" ).tabs({closable: false, addTab:false}).tabs('overflowResize')
+      .find( ".ui-tabs-nav" ).sortable({
+        distance: 10
+      });
+    });
+  </script>
+
+  <div class="m-t-md">
+    <div class="col-lg-12 col-sm-12 bg-border no-padding">
+      <div class="ibox float-e-margins">
+        <div class="tabpanel">
+          <div class="col-lg-12 col-sm-12 padding-top-20 tabs-container">
+            <ul class="nav nav-tabs">
+              <li class=""><a class="" data-toggle="tab" href="#tabs-1" aria-expanded="false">{{ 'controladores.anel' | translate }} {{ currentAnel.posicao }}</a></li>
+              <li class=""><a class="" data-toggle="tab" href="#tabs-2" aria-expanded="false">{{ 'controladores.anel' | translate }} 02</a></li>
+              <li class=""><a class="" data-toggle="tab" href="#tabs-3" aria-expanded="false">{{ 'controladores.anel' | translate }} 03</a></li>
             </ul>
-          </nav>
-        </div>
-      </div>
-
-      <!-- titulo anel - grupo semaforico -->
-      <div class="col-lg-10 col-sm-10">
-        <div class="ibox-title botton-title wizard-step-title">
-          <h2>Anel {{ currentAnel.posicao }} - G{{ currentGrupoSemaforico.posicao }}</h2>
-        </div>
-      </div>
-
-      <!-- menu tabelas entre-verdes -->
-      <div class="col-lg-3 col-sm-3">
-        <div class="col-lg-12 col-sm-12 association table-entry-green min-green relative tabelas-entre-verdes entre-verdes-fixed-height-small">
-          <nav>
-            <ul>
-              <li data-ng-repeat="tabelaEntreVerdes in currentGrupoSemaforico.tabelasEntreVerdes" data-ng-class="{ 'active': $index == currentTabelaEntreVerdesIndex }" data-ng-click="selecionaTabelaEntreVerdes($index)">
-                <div class="col-lg-12 col-sm-12">
-                  <label for="">TABELA {{ tabelaEntreVerdes.descricao }}</label><i class="fa fa-times pull-right m-t-sm remove-tabela-entre-verdes" data-ng-if="$index !== 0" data-ng-click="removerTabelaEntreVerdes($index)"></i>
+            <div class="ui-layout-content tab-content">
+              <div id="tabs-1">
+                <div class="col-lg-12 col-sm-12 no-padding margin-bottom-20">
+                  <div class="col-lg-1 col-sm-1 text-left">
+                    <h2>{{ 'controladores.anel' | translate }} {{ currentAnel.posicao }} - G{{ currentGrupoSemaforico.posicao }}</h2>
+                  </div>
+                  <div class="col-lg-1 col-sm-1 association min-green side-menu">
+                    <nav>
+                      <ul id="side-menu" influunt-metis>
+                        <li data-ng-repeat="anel in aneis" data-ng-click="selecionaAnel($index)" data-ng-init="anelIndex = $index">
+                          <a href="#">
+                            <span class="nav-label">Grupo</span>
+                            <span class="badge badge-danger badge-notification entre-verdes-anel-error" ng-show="anelTemErro($index)">
+                              <i class="fa fa-exclamation"></i>
+                            </span>
+                            <span class="fa arrow"></span>
+                          </a>
+                          <ul class="nav nav-second-level">
+                            <li data-ng-repeat="grupoSemaforico in anel.gruposSemaforicos" data-ng-class="{ 'active': ($index === currentGrupoSemaforicoIndex) && (currentGrupoSemaforicoIdentifier == anelIndex.toString() + $index.toString()) }" data-ng-click="selecionaGrupoSemaforico($index)">
+                              <a href="">G{{ grupoSemaforico.posicao }}
+                                <span class="badge badge-danger badge-notification pull-right m-t-sm" ng-show="grupoSemaforicoTemErro(anelIndex, $index)">
+                                  <i class="fa fa-exclamation grupo-semaforico-error"></i>
+                                </span>
+                              </a>
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
                 </div>
-              </li>
-            </ul>
-          </nav>
-          <footer data-ng-show="currentGrupoSemaforico.tabelasEntreVerdes.length < limiteTabelasEntreVerdes">
-            <a target="Nova tabela" data-ng-click="adicionarTabelaEntreVerdes()" data-toggle="tooltip" data-placement="top" title="Adicionar uma nova tabela padrão">Nova tabela</a>
-          </footer>
-        </div>
-      </div>
 
-      <!-- menu transicoes -->
-      <div class="col-lg-7 col-sm-7 association tables-associated entre-verdes-fixed-height-small">
-        <header class="col-lg-12 col-sm-12">
-          <div class="form-group">
-            <label>Descrição</label>
-            <input type="text" placeholder="Descrição" class="form-control" ng-model="currentTabelaEntreVerdes.descricao">
-          </div>
-        </header>
+                <div class="col-lg-12 col-sm-12 ibox-content no-padding">
+                  <!-- menu tabelas entre-verdes -->
+                  <div class="col-lg-3 col-sm-3 no-padding-left">
+                    <div class="col-lg-12 col-sm-12 association table-entry-green min-green relative tabelas-entre-verdes entre-verdes-fixed-height-small">
+                      <nav>
+                        <ul>
+                          <li data-ng-repeat="tabelaEntreVerdes in currentGrupoSemaforico.tabelasEntreVerdes" data-ng-class="{ 'active': $index == currentTabelaEntreVerdesIndex }" data-ng-click="selecionaTabelaEntreVerdes($index)">
+                            <div class="col-lg-12 col-sm-12">
+                              <label for="">TABELA {{ tabelaEntreVerdes.descricao }}</label><i class="fa fa-times pull-right m-t-sm remove-tabela-entre-verdes" data-ng-if="$index !== 0" data-ng-click="removerTabelaEntreVerdes($index)"></i>
+                            </div>
+                          </li>
+                        </ul>
+                      </nav>
+                      <footer data-ng-show="currentGrupoSemaforico.tabelasEntreVerdes.length < limiteTabelasEntreVerdes">
+                        <a target="Nova tabela" data-ng-click="adicionarTabelaEntreVerdes()" data-toggle="tooltip" data-placement="top" title="Adicionar uma nova tabela padrão">Nova tabela</a>
+                      </footer>
+                    </div>
+                  </div>
 
-        <nav class="association-know" style="display:block;">
-          <ul>
-            <li data-ng-repeat="tevTransicao in tabelasEntreVerdesTransicoes">
-              <div class="group-figures col-lg-5 col-sm-5 no-padding">
-                <div class="group-figure">
-                  <figure>
-                    <label for="">E{{ tevTransicao.transicao.origem.posicao }}</label>
-                    <img ng-src="{{ tevTransicao.transicao.origem.imagem.id | imageSource }}" width="160" height="130" alt="{{ tevTransicao.transicao.origem.descricao }}">
-                  </figure>
-                </div>
-                <div class="group-figure">
-                  <figure>
-                    <label for="">E{{ tevTransicao.transicao.destino.posicao }}</label>
-                    <!-- <img src="" alt=""> -->
-                    <img ng-src="{{ tevTransicao.transicao.destino.imagem.id | imageSource }}" width="160" height="130" alt="{{ tevTransicao.transicao.destino.descricao }}">
-                  </figure>
-                </div>
-              </div>
-              <div class="group-figures col-lg-7 col-sm-7 no-padding initial-position">
-                <div class="knob">
-                  <div class="text-center">
-                    <div class="knob-item" data-ng-class="{ 'col-lg-4 col-sm-4': currentTabelaEntreVerdes.posicao === 1, 'col-lg-6 col-sm-6': currentTabelaEntreVerdes.posicao !== 1 }">
-                      <span class="badge badge-danger badge-notification"
-                        data-ng-show="possuiErroAmareloOuVermelho(currentGrupoSemaforico, $index)"
-                        inf-tooltip
-                        messages="[errosAmareloOuVermelho(currentGrupoSemaforico, $index)]">
-                        <i class="fa fa-exclamation"></i>
-                      </span>
-                      <influunt-knob
-                          title="{{ amareloOuVermelho(currentGrupoSemaforico) }}"
-                          class="vermelho"
-                          label="SEG"
-                          min="limites(tevTransicao.transicao.grupoSemaforico)[amareloOuVermelho(currentGrupoSemaforico, true)].min" max="limites(tevTransicao.transicao.grupoSemaforico)[amareloOuVermelho(currentGrupoSemaforico, true)].max" data-ng-model="tevTransicao[amareloOuVermelho(currentGrupoSemaforico, true)]"></influunt-knob>
-                    </div>
-                    <div class="knob-item col-lg-4 col-sm-4">
-                      <span class="badge badge-danger badge-notification"
-                        data-ng-show="possuiErroVermelhoLimpeza(currentGrupoSemaforico, $index)"
-                        inf-tooltip
-                        messages="[errosVermelhoLimpeza(currentGrupoSemaforico, $index)]">
-                        <i class="fa fa-exclamation"></i>
-                      </span>
-                      <influunt-knob title="Vermelho de Limpeza" class="vermelho-limpeza" label="SEG" min="limites(tevTransicao.transicao.grupoSemaforico).tempoVermelhoLimpeza.min" max="limites(tevTransicao.transicao.grupoSemaforico).tempoVermelhoLimpeza.max" data-ng-model="tevTransicao.tempoVermelhoLimpeza"></influunt-knob>
-                    </div>
-                    <div class="knob-item col-lg-4 col-sm-4 delay-time" data-ng-if="currentTabelaEntreVerdes.posicao === 1">
-                      <span class="badge badge-danger badge-notification"
-                        data-ng-show="possuiErroAtrasoGrupo(currentGrupoSemaforico, $index)"
-                        inf-tooltip
-                        messages="[errosAtrasoGrupo(currentGrupoSemaforico, $index)]">
-                        <i class="fa fa-exclamation"></i>
-                      </span>
-                      <influunt-knob
-                          title="Atraso de Grupo"
-                          label="SEG"
-                          min="limites(tevTransicao.transicao.grupoSemaforico).tempoAtrasoGrupo.min"
-                          max="limites(tevTransicao.transicao.grupoSemaforico).tempoAtrasoGrupo.max"
-                          data-ng-model="tevTransicao.tempoAtrasoGrupo">
-                      </influunt-knob>
-                    </div>
+                  <!-- menu transicoes -->
+                  <div class="col-lg-9 col-sm-9 association tables-associated entre-verdes-fixed-height-small">
+                    <header class="col-lg-12 col-sm-12">
+                      <div class="form-group">
+                        <label>Descrição</label>
+                        <input type="text" placeholder="Descrição" class="form-control" ng-model="currentTabelaEntreVerdes.descricao">
+                      </div>
+                    </header>
+
+                    <nav class="association-know" style="display:block;">
+                      <ul>
+                        <li data-ng-repeat="tevTransicao in tabelasEntreVerdesTransicoes">
+                          <div class="group-figures col-lg-5 col-sm-5 no-padding">
+                            <div class="group-figure">
+                              <figure>
+                                <label for="">E{{ tevTransicao.transicao.origem.posicao }}</label>
+                                <img ng-src="{{ tevTransicao.transicao.origem.imagem.id | imageSource }}" width="160" height="130" alt="{{ tevTransicao.transicao.origem.descricao }}">
+                              </figure>
+                            </div>
+                            <div class="group-figure">
+                              <figure>
+                                <label for="">E{{ tevTransicao.transicao.destino.posicao }}</label>
+                                <!-- <img src="" alt=""> -->
+                                <img ng-src="{{ tevTransicao.transicao.destino.imagem.id | imageSource }}" width="160" height="130" alt="{{ tevTransicao.transicao.destino.descricao }}">
+                              </figure>
+                            </div>
+                          </div>
+                          <div class="group-figures col-lg-7 col-sm-7 no-padding initial-position">
+                            <div class="knob">
+                              <div class="text-center">
+                                <div class="knob-item" data-ng-class="{ 'col-lg-4 col-sm-4': currentTabelaEntreVerdes.posicao === 1, 'col-lg-6 col-sm-6': currentTabelaEntreVerdes.posicao !== 1 }">
+                                  <span class="badge badge-danger badge-notification"
+                                    data-ng-show="possuiErroAmareloOuVermelho(currentGrupoSemaforico, $index)"
+                                    inf-tooltip
+                                    messages="[errosAmareloOuVermelho(currentGrupoSemaforico, $index)]">
+                                    <i class="fa fa-exclamation"></i>
+                                  </span>
+                                  <influunt-knob
+                                      title="{{ amareloOuVermelho(currentGrupoSemaforico) }}"
+                                      class="vermelho"
+                                      label="SEG"
+                                      min="limites(tevTransicao.transicao.grupoSemaforico)[amareloOuVermelho(currentGrupoSemaforico, true)].min" max="limites(tevTransicao.transicao.grupoSemaforico)[amareloOuVermelho(currentGrupoSemaforico, true)].max" data-ng-model="tevTransicao[amareloOuVermelho(currentGrupoSemaforico, true)]"></influunt-knob>
+                                </div>
+                                <div class="knob-item col-lg-4 col-sm-4">
+                                  <span class="badge badge-danger badge-notification"
+                                    data-ng-show="possuiErroVermelhoLimpeza(currentGrupoSemaforico, $index)"
+                                    inf-tooltip
+                                    messages="[errosVermelhoLimpeza(currentGrupoSemaforico, $index)]">
+                                    <i class="fa fa-exclamation"></i>
+                                  </span>
+                                  <influunt-knob title="Vermelho de Limpeza" class="vermelho-limpeza" label="SEG" min="limites(tevTransicao.transicao.grupoSemaforico).tempoVermelhoLimpeza.min" max="limites(tevTransicao.transicao.grupoSemaforico).tempoVermelhoLimpeza.max" data-ng-model="tevTransicao.tempoVermelhoLimpeza"></influunt-knob>
+                                </div>
+                                <div class="knob-item col-lg-4 col-sm-4 delay-time" data-ng-if="currentTabelaEntreVerdes.posicao === 1">
+                                  <span class="badge badge-danger badge-notification"
+                                    data-ng-show="possuiErroAtrasoGrupo(currentGrupoSemaforico, $index)"
+                                    inf-tooltip
+                                    messages="[errosAtrasoGrupo(currentGrupoSemaforico, $index)]">
+                                    <i class="fa fa-exclamation"></i>
+                                  </span>
+                                  <influunt-knob
+                                      title="Atraso de Grupo"
+                                      label="SEG"
+                                      min="limites(tevTransicao.transicao.grupoSemaforico).tempoAtrasoGrupo.min"
+                                      max="limites(tevTransicao.transicao.grupoSemaforico).tempoAtrasoGrupo.max"
+                                      data-ng-model="tevTransicao.tempoAtrasoGrupo">
+                                  </influunt-knob>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </nav>
                   </div>
                 </div>
               </div>
-            </li>
-          </ul>
-        </nav>
-      </div>
-
-      <!-- bptão proximo voltar -->
-      <div class="col-sm-12 col-lg-12 no-pading pg-bt m-t-lg">
-				<a ui-sref="app.wizard_controladores.transicoes_proibidas({id: objeto.id})" target="_blank" data-toggle="tooltip" data-placement="top" class="left btn btn-info btn-footer" title="Ver Tela de Transições Proíbidas">{{ 'plugins.steps.labels.last_screen' | translate }}</a>
-        <a data-ng-click="submitForm({$valid: true}, 'entre_verdes', 'app.wizard_controladores.associacao_detectores')" data-toggle="tooltip" data-placement="top" title="Associação de Detectores" class="btn btn-primary btn-footer right">{{ 'plugins.steps.labels.next' | translate }}</a>
-        <a data-ng-click="submitForm({$valid: true}, 'entre_verdes', 'app.wizard_controladores.transicoes_proibidas')" data-toggle="tooltip" data-placement="top" title="Transições Proíbidas" class="btn btn-inverse btn-footer right m-r-sm right">{{ 'plugins.steps.labels.previous' | translate }}</a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+  </div>
+  <!-- bptão proximo voltar -->
+  <div class="col-sm-12 col-lg-12 no-pading pg-bt m-t-lg">
+		<a ui-sref="app.wizard_controladores.transicoes_proibidas({id: objeto.id})" target="_blank" data-toggle="tooltip" data-placement="top" class="left btn btn-info btn-footer" title="Ver Tela de Transições Proíbidas">{{ 'plugins.steps.labels.last_screen' | translate }}</a>
+    <a data-ng-click="submitForm({$valid: true}, 'entre_verdes', 'app.wizard_controladores.associacao_detectores')" data-toggle="tooltip" data-placement="top" title="Associação de Detectores" class="btn btn-primary btn-footer right">{{ 'plugins.steps.labels.next' | translate }}</a>
+    <a data-ng-click="submitForm({$valid: true}, 'entre_verdes', 'app.wizard_controladores.transicoes_proibidas')" data-toggle="tooltip" data-placement="top" title="Transições Proíbidas" class="btn btn-inverse btn-footer right m-r-sm right">{{ 'plugins.steps.labels.previous' | translate }}</a>
+  </div>
   </div>
 </fieldset>

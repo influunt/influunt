@@ -1,32 +1,71 @@
 <fieldset data-ng-init="inicializaVerdesConflitantes()">
-  <div class="text-center m-t-md">
-    <div class="col-lg-12 col-sm-12 figures no-padding">
-      <div class="bxslider">
-        <ul class="bxslider">
-          <div data-ng-repeat="anel in objeto.aneis">
-            <li data-ng-repeat="estagio in anel.estagios" class="wizard-step-title">
-							<h3 class="text-left no-padding">&nbsp;
-								<span ng-if="$first">ANEL {{anel.posicao}}</span></h3>
-              <figure class="rings-{{ anel.posicao }}">
-                <img ng-src="{{ estagio.imagem.id | imageSource }}" style="width: 200px; height: 150px;">
-              </figure>
-							<p class="text-left"><small>E{{estagio.posicao}}</small></p>
-            </li>
+
+  <script>
+    $(function(){
+      $( ".tabpanel" ).tabs({closable: false, addTab:false}).tabs('overflowResize')
+      .find( ".ui-tabs-nav" ).sortable({
+        distance: 10
+      });
+    });
+  </script>
+
+  <div class="m-t-md">
+    <div class="col-lg-12 col-sm-12 bg-border no-padding">
+      <div class="ibox float-e-margins">
+        <div class="tabpanel">
+          <div class="col-lg-12 col-sm-12 padding-top-20 tabs-container">
+            <ul class="nav nav-tabs">
+              <li class=""><a class="" data-toggle="tab" href="#tabs-1" aria-expanded="false">{{ 'controladores.anel' | translate }} {{ currentAnel.posicao }}</a></li>
+              <li class=""><a class="" data-toggle="tab" href="#tabs-2" aria-expanded="false">{{ 'controladores.anel' | translate }} 02</a></li>
+              <li class=""><a class="" data-toggle="tab" href="#tabs-3" aria-expanded="false">{{ 'controladores.anel' | translate }} 03</a></li>
+            </ul>
+            <div class="ui-layout-content tab-content">
+              <div id="tabs-1">
+                <div class="col-lg-12 col-sm-12 text-left">
+                  <h2>{{ 'controladores.anel' | translate }} {{anel.posicao}}</h2>
+                </div>
+                <div class="col-lg-12 col-sm-12 figures no-padding ibox-content">
+                  <div class="bxslider">
+                    <ul class="bxslider">
+                      <div data-ng-repeat="anel in objeto.aneis">
+                        <li data-ng-repeat="estagio in anel.estagios" class="wizard-step-title">
+                          <figure class="rings-{{ anel.posicao }}">
+                            <img ng-src="{{ estagio.imagem.id | imageSource }}" style="width: 200px; height: 150px;">
+                          </figure>
+            							<p class="text-left"><small>E{{estagio.posicao}}</small></p>
+                        </li>
+                      </div>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-lg-12 col-sm-12 tableless no-padding ibox-content">
+                  <uib-alert type="danger" close="closeMensagensVerdes()" data-ng-if="messages.length > 0">
+                    <div style="padding-left: 12px;">
+                      <ul>
+                        <li data-ng-repeat="message in messages" style="text-align: left;">{{ message }}</li>
+                      </ul>
+                    </div>
+                  </uib-alert>
+                  <ng-include src="'views/controladores/wizard/tabela-verdes-conflitantes.html'"></ng-include>
+                 </div>
+              </div>
+              <div id="tabs-2">
+                <div class="col-lg-12 col-sm-12 text-left">
+                  <h2>{{ 'controladores.anel' | translate }} 02</h2>
+                </div>
+              </div>
+              <div id="tabs-3">
+                <div class="col-lg-12 col-sm-12 text-left">
+                  <h2>{{ 'controladores.anel' | translate }} 03</h2>
+                </div>
+              </div>
+            </div>
           </div>
-        </ul>
+        </div>
       </div>
     </div>
-    <div class="col-lg-12 col-sm-12 tableless no-padding">
-      <uib-alert type="danger" close="closeMensagensVerdes()" data-ng-if="messages.length > 0">
-        <div style="padding-left: 12px;">
-          <ul>
-            <li data-ng-repeat="message in messages" style="text-align: left;">{{ message }}</li>
-          </ul>
-        </div>
-      </uib-alert>
-      <ng-include src="'views/controladores/wizard/tabela-verdes-conflitantes.html'"></ng-include>
-     </div>
   </div>
+
 	<div class="row">
     <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix">
 			<a ui-sref="app.wizard_controladores.associacao({id: objeto.id})" target="_blank" data-toggle="tooltip" data-placement="top" class="left btn btn-info btn-footer" title="Ver Tela de Associação">{{ 'plugins.steps.labels.last_screen' | translate }}</a>
