@@ -17,7 +17,7 @@ public class AoMenosUmGrupoSemaforicoValidator implements ConstraintValidator<Ao
     @Override
     public boolean isValid(Anel anel, ConstraintValidatorContext context) {
         if(anel.isAtivo()) {
-            return (anel.getQuantidadeGrupoVeicular() + anel.getQuantidadeGrupoPedestre()) > 1;
+            return (anel.getGruposSemaforicos().size()) > 1;
         }else {
             return true;
         }

@@ -26,7 +26,7 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
     @Override
     @Test
     public void testVazio() {
-        Controlador controlador = getControladorVerdesConflitantes();
+        Controlador controlador = getControladorAssociacao();
         controlador.save();
 
         Anel anelCom2Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
@@ -38,8 +38,7 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
         assertEquals("Total de transicoes Anel 4 Estagios - G1", 6, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoes().size());
         assertEquals("Total de transicoes Anel 4 Estagios - G2", 6, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoes().size());
 
-        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, ControladorAneisCheck.class,
-                ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class, ControladorTransicoesProibidasCheck.class);
+        List<Erro> erros = getErros(controlador);
 
         assertThat(erros, Matchers.empty());
     }
@@ -49,13 +48,13 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
     public void testNoValidationErro() {
         Controlador controlador = getControladorTransicoesProibidas();
         controlador.save();
-        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, ControladorAneisCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class);
+        List<Erro> erros = getErros(controlador);
         assertThat(erros, Matchers.empty());
     }
 
     @Test
     public void testWithErrors() {
-        Controlador controlador = getControladorVerdesConflitantes();
+        Controlador controlador = getControladorAssociacao();
 
         Anel anelCom2Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
         Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
@@ -82,8 +81,7 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
 
         estagio1AnelCom4Estagios.setOrigemDeTransicoesProibidas(Arrays.asList(transicaoProibida));
 
-        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, ControladorAneisCheck.class,
-                ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class, ControladorTransicoesProibidasCheck.class);
+        List<Erro> erros = getErros(controlador);
 
         assertEquals(2, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
@@ -102,8 +100,7 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
         estagio1AnelCom2Estagios.setAlternativaDeTransicoesProibidas(Arrays.asList(transicaoProibida));
 
 
-        erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, ControladorAneisCheck.class,
-                ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class, ControladorTransicoesProibidasCheck.class);
+        erros = getErros(controlador);
 
         assertEquals(3, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
@@ -123,8 +120,7 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
         estagio1AnelCom4Estagios.setDestinoDeTransicoesProibidas(Arrays.asList(transicaoProibida));
         estagio2AnelCom2Estagios.setAlternativaDeTransicoesProibidas(Arrays.asList(transicaoProibida));
 
-        erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, ControladorAneisCheck.class,
-                ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class, ControladorTransicoesProibidasCheck.class);
+        erros = getErros(controlador);
 
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
@@ -155,8 +151,7 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
         estagio4AnelCom4Estagios.setDestinoDeTransicoesProibidas(Arrays.asList(transicaoProibidaEstagio1ComEstagio4));
         estagio4AnelCom4Estagios.setAlternativaDeTransicoesProibidas(Arrays.asList(transicaoProibida, transicaoProibidaEstagio1ComEstagio3, transicaoProibidaEstagio1ComEstagio4));
 
-        erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, ControladorAneisCheck.class,
-                ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class, ControladorTransicoesProibidasCheck.class);
+        erros = getErros(controlador);
 
         assertEquals(2, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
@@ -229,7 +224,7 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
     @Override
     @Test
     public void testControllerValidacao() {
-        Controlador controlador = getControladorVerdesConflitantes();
+        Controlador controlador = getControladorAssociacao();
         controlador.save();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
@@ -265,5 +260,13 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
         assertEquals("Estagio 2 deve ter 1 destino.", 1, estagio2AnelCom4Estagios.getDestinoDeTransicoesProibidas().size());
         assertEquals("Estagio 3 deve ter 1 destino.", 1, estagio3AnelCom4Estagios.getDestinoDeTransicoesProibidas().size());
         assertEquals("Estagio 4 deve ter 2 alternativos.", 2, estagio4AnelCom4Estagios.getAlternativaDeTransicoesProibidas().size());
+    }
+
+    @Override
+    public List<Erro> getErros(Controlador controlador) {
+        return new InfluuntValidator<Controlador>().validate(controlador,
+                Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+                ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class,
+                ControladorTransicoesProibidasCheck.class);
     }
 }

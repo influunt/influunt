@@ -51,10 +51,11 @@ describe('Controller: UsuariosCtrl', function () {
   it('Deve copiar o login do usuário para o id', function() {
     httpBackend.expectGET('/areas').respond([]);
     httpBackend.expectGET('/perfis').respond([]);
-    httpBackend.expectGET('/usuarios').respond({login: 'abc'});
+    httpBackend.expectGET('/usuarios').respond({id: 1, login: 'abc'});
     scope.show();
     httpBackend.flush();
 
-    expect(scope.objeto.id).toEqual('abc');
+    expect(scope.objeto.id).toEqual(1);
+    expect(scope.objeto.login).toEqual('abc');
   });
 });

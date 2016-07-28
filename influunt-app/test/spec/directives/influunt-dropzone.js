@@ -12,7 +12,7 @@ describe('Directive: influuntDropzone', function () {
   }));
 
   it('Deve criar um dropzone', inject(function($compile) {
-    var element = angular.element('<form class="dropzone" influunt-dropzone>');
+    var element = angular.element('<form class="dropzone" id="my-awesome-dropzone" imagens-url="dados.imagensUrl" enctype="multipart/form-data" influunt-dropzone anel="currentAnel" on-success="associaImagemAoEstagio(upload, imagem)" on-delete="removeImagemDoEstagio(imagem)">');
     element = $compile(element)(scope);
     scope.$apply();
 

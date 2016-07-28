@@ -4,6 +4,7 @@
 @import url(./../plugins/dropzone/dropzone.css);
 @import url(./../plugins/dropzone/basic.css);
 @import url(./../plugins/iCheck/custom.css);
+@import url(./../plugins/uiTabs/ui.tabs.overflowResize.css);
 @import url(./../../bower_components/angular-datatables/dist/css/angular-datatables.css);
 @import url(./../../bower_components/bootstrap/dist/css/bootstrap.css);
 @import url(./../../bower_components/select2/dist/css/select2.css);
@@ -81,7 +82,7 @@ i.sinal-verde-conflitante.ativo, i.transicao-proibida.ativo {
 }
 
 .dropzone.dz-clickable {
-  max-height: 730px;
+  max-height: 660px;
   overflow: auto;
   padding: 0px;
 }
@@ -201,4 +202,114 @@ i.sinal-verde-conflitante.ativo, i.transicao-proibida.ativo {
 
 .wizard-step-title h2, h3 {
   font-size: 16px;
+}
+
+.ui-widget-content {
+  border: 0;
+}
+
+li.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab.ui-tabs-active.ui-state-active.ui-sortable-handle {
+  background: #1AB394;
+  padding: 10px 30px 10px 20px;
+  border-radius: 20px 20px 0 0;
+  z-index: 99;
+  box-shadow: 0px -1px 20px rgba(0, 0, 0, 0.3);
+}
+
+li.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab.ui-tabs-active.ui-state-active {
+  height: 45px;
+  background: #1AB394;
+  padding: 10px 30px 0px 20px;
+  border-radius: 20px 20px 0 0;
+  z-index: 99;
+  box-shadow: 0px -1px 20px rgba(0, 0, 0, 0.3);
+}
+
+li.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab.ui-tabs-active.ui-state-active a {
+  color: #fff;
+}
+
+li.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab.ui-tabs-active.ui-state-active.ui-sortable-handle a {
+  background: transparent;
+  border: none;
+  border: 0;
+}
+
+li.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab.ui-sortable-handle {
+  background: #e7eaec;
+  padding: 10px 30px 10px 20px;
+  border-radius: 20px 20px 0 0;
+}
+
+li.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab.ui-sortable-handle a {
+  color: #c8c8c8;
+}
+
+li.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab {
+  background: #e7eaec;
+  padding: 10px 30px 0px 20px;
+  border-radius: 20px 20px 0 0;
+  height: 45px;
+}
+
+li.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab a {
+  color: #c8c8c8;
+  background: transparent;
+}
+
+li.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab.ui-state-hover {
+  background: #cccccc;
+}
+
+li.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab.ui-state-hover a {
+  color: #fff;
+}
+
+li.addTab.button.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab.ui-sortable-handle {
+  margin-left: 15px;
+  border-radius: 100px;
+  padding: 0px 40px 0px 0px;
+  background: #1AB394;
+  font-size: 16px;
+  margin-top: 8px;
+  height: auto;
+}
+
+li.addTab.button.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab.ui-sortable-handle a {
+  color: #ffffff;
+}
+
+.tabs-container .nav-tabs {
+  border-bottom: 3px solid #1ab394;
+  padding-bottom: 1px;
+}
+
+span.ui-icon.ui-icon-circle-close {
+  position: absolute;
+  top: -24px;
+  right: -25px;
+  font-size: 16px;
+}
+
+span.badge.badge-danger.badge-notification {
+  position: absolute;
+  top: -37px;
+  left: -14px;
+  padding: 6px 0px 2px 6px;
+  border-radius: 0;
+}
+
+.img-preview-sm {
+  height: 300px;
+  width: 100%;
+  overflow: auto;
+  background: #f2f4f5;
+}
+
+.img-preview.img-preview-sm img {
+  width: 100%;
+}
+
+.tabs-container .nav-tabs {
+  background: transparent;
 }

@@ -41,11 +41,8 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
         Transicao transicao1Anel2EstagiosGS1 = anelCom2Estagios.getGruposSemaforicos().get(0).getTransicoes().get(0);
         TabelaEntreVerdesTransicao tabelaEntreVerdesTransicao = transicao1Anel2EstagiosGS1.getTabelaEntreVerdesTransicoes().get(0);
 
-        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, ControladorAneisCheck.class,
-                ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class, ControladorTransicoesProibidasCheck.class,
-                ControladorTabelaEntreVerdesCheck.class);
+        List<Erro> erros = getErros(controlador);
 
-        assertEquals(12, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
                 new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[1].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
@@ -60,14 +57,13 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
                 new Erro("Controlador", "não pode ficar em branco", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
                 new Erro("Controlador", "não pode ficar em branco", "aneis[1].gruposSemaforicos[1].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmarelo")
         ));
+        assertEquals(12, erros.size());
 
         tabelaEntreVerdesTransicao.setTempoAmarelo(500);
         tabelaEntreVerdesTransicao.setTempoAtrasoGrupo(500);
         tabelaEntreVerdesTransicao.setTempoVermelhoLimpeza(500); // TEMPO PARA GRUPO SEMAFORICO VEICULAR
 
-        erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, ControladorAneisCheck.class,
-                ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class, ControladorTransicoesProibidasCheck.class,
-                ControladorTabelaEntreVerdesCheck.class);
+        erros = getErros(controlador);
 
         assertEquals(14, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
@@ -94,9 +90,7 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
         tabelaEntreVerdesTransicao.setTempoAtrasoGrupo(500);
         tabelaEntreVerdesTransicao.setTempoVermelhoLimpeza(6); // TEMPO PARA GRUPO SEMAFORICO PEDESTRE
 
-        erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, ControladorAneisCheck.class,
-                ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class, ControladorTransicoesProibidasCheck.class,
-                ControladorTabelaEntreVerdesCheck.class);
+        erros = getErros(controlador);
 
         assertEquals(16, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
@@ -124,9 +118,7 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
     public void testNoValidationErro() {
         Controlador controlador = getControladorTabelaDeEntreVerdes();
         controlador.save();
-        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, Default.class, ControladorAneisCheck.class,
-                ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class, ControladorTransicoesProibidasCheck.class,
-                ControladorTabelaEntreVerdesCheck.class);
+        List<Erro> erros = getErros(controlador);
         assertThat(erros, Matchers.empty());
     }
 
@@ -258,6 +250,14 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
         assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, g2.getTransicoes().get(3).getTabelaEntreVerdesTransicoes().size());
         assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, g2.getTransicoes().get(4).getTabelaEntreVerdesTransicoes().size());
         assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, g2.getTransicoes().get(5).getTabelaEntreVerdesTransicoes().size());
+    }
+
+    @Override
+    public List<Erro> getErros(Controlador controlador) {
+        return new InfluuntValidator<Controlador>().validate(controlador,
+                Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+                ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class,
+                ControladorTransicoesProibidasCheck.class, ControladorTabelaEntreVerdesCheck.class);
     }
 
 }

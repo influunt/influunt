@@ -1,7 +1,6 @@
 package models;
 
-import checks.Erro;
-import checks.InfluuntValidator;
+import checks.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import controllers.routes;
 import org.junit.Test;
@@ -29,7 +28,7 @@ public class ControladorDadosBasicosTest extends ControladorTest {
     @Test
     public void testVazio() {
 
-        List<Erro> erros = new InfluuntValidator<Controlador>().validate(getControlador());
+        List<Erro> erros = getErros(getControlador());
 
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro("Controlador", "não pode ficar em branco", "modelo"),
@@ -44,7 +43,7 @@ public class ControladorDadosBasicosTest extends ControladorTest {
     @Override
     @Test
     public void testNoValidationErro() {
-        List<Erro> erros = new InfluuntValidator<Controlador>().validate(getControladorDadosBasicos());
+        List<Erro> erros = getErros(getControladorDadosBasicos());
         assertThat(erros, org.hamcrest.Matchers.empty());
     }
 
@@ -161,5 +160,10 @@ public class ControladorDadosBasicosTest extends ControladorTest {
         assertEquals("Criação de aneis", 4, controladorRetornado.getAneis().size());
         assertEquals("Todoas aneis inativos", 0, controladorRetornado.getAneis().stream().filter(anel -> anel.isAtivo()).count());
 
+    }
+
+    @Override
+    public List<Erro> getErros(Controlador controlador) {
+        return new InfluuntValidator<Controlador>().validate(controlador);
     }
 }

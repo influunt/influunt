@@ -76,6 +76,7 @@ public class UsuariosControllerTest extends WithApplication {
     @NotNull
     private Usuario getUsuario() {
         Usuario usuario = new Usuario();
+        usuario.setId(UUID.randomUUID());
         usuario.setLogin("admin");
         usuario.setSenha("1234");
         usuario.setNome("Admin");
@@ -128,7 +129,7 @@ public class UsuariosControllerTest extends WithApplication {
         novoUsuario.setNome("Root");
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
-                .uri(routes.UsuariosController.update(usuario.getLogin()).url())
+                .uri(routes.UsuariosController.update(usuario.getId().toString()).url())
                 .bodyJson(Json.toJson(novoUsuario));
 
         Result result = route(request);
@@ -148,17 +149,17 @@ public class UsuariosControllerTest extends WithApplication {
         usuario.save();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.UsuariosController.delete(usuario.getLogin().toString()).url());
+                .uri(routes.UsuariosController.delete(usuario.getId().toString()).url());
         Result result = route(request);
 
         assertEquals(200, result.status());
-        assertNull(Usuario.find.byId(usuario.getLogin()));
+        assertNull(Usuario.find.byId(usuario.getId()));
     }
 
     @Test
     public void testApagarUsuarioNaoExistente() {
         Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.UsuariosController.delete("noone").url());
+                .uri(routes.UsuariosController.delete(UUID.randomUUID().toString()).url());
         Result result = route(deleteRequest);
         assertEquals(404, result.status());
     }
@@ -188,7 +189,7 @@ public class UsuariosControllerTest extends WithApplication {
         usuario.save();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
-                .uri(routes.UsuariosController.findOne(usuario.getLogin()).url());
+                .uri(routes.UsuariosController.findOne(usuario.getId().toString()).url());
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
         Usuario usuarioRetornado = Json.fromJson(json, Usuario.class);

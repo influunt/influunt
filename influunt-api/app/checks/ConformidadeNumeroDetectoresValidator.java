@@ -19,7 +19,7 @@ public class ConformidadeNumeroDetectoresValidator implements ConstraintValidato
     @Override
     public boolean isValid(Anel anel, ConstraintValidatorContext context) {
         if (anel.isAtivo() && !anel.getDetectores().isEmpty()) {
-             return anel.getDetectores().size() <= (anel.getQuantidadeDetectorPedestre() + anel.getQuantidadeDetectorVeicular());
+             return anel.getDetectores().size() <= (anel.getDetectores().size());
         }
         return true;
     }

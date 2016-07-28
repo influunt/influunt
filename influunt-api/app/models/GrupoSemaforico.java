@@ -1,5 +1,6 @@
 package models;
 
+import checks.ControladorGruposSemaforicosCheck;
 import checks.ControladorTabelaEntreVerdesCheck;
 import checks.ControladorVerdesConflitantesCheck;
 import com.avaje.ebean.Model;
@@ -19,6 +20,7 @@ import org.joda.time.DateTime;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotNull;
 import java.util.*;
 
 /**
@@ -39,6 +41,7 @@ public class GrupoSemaforico extends Model implements Cloneable {
 
     @Enumerated(EnumType.STRING)
     @Column
+    @NotNull(groups = ControladorGruposSemaforicosCheck.class, message = "não pode ficar em branco")
     private TipoGrupoSemaforico tipo;
 
     @Column
@@ -212,10 +215,17 @@ public class GrupoSemaforico extends Model implements Cloneable {
         this.transicoes = transicoes;
     }
 
+    public TabelaEntreVerdes findByTabelaEntreVerdesPadrao() {
+        if(getTabelasEntreVerdes().isEmpty()){
+            this.addTabelaEntreVerdes(new TabelaEntreVerdes(this, 1));
+        }
+        return getTabelasEntreVerdes().stream().filter(tabelaEntreVerdes -> tabelaEntreVerdes.getPosicao().equals(1)).findFirst().get();
+    }
+
     @JsonIgnore
     @AssertTrue(groups = ControladorVerdesConflitantesCheck.class, message = "Esse grupo semafórico deve ter ao menos um verde conflitante")
     public boolean isAoMenosUmVerdeConflitante() {
-        if (this.getAnel() != null && this.getEstagioGrupoSemaforicos() != null && !this.getEstagioGrupoSemaforicos().isEmpty()) {
+        if (this.getAnel() != null) {
             return this.getVerdesConflitantes() != null && !this.getVerdesConflitantes().isEmpty();
         } else {
             return true;
@@ -320,6 +330,10 @@ public class GrupoSemaforico extends Model implements Cloneable {
         if (transicaoAux != null) {
             transicaoAux.setDestroy(false);
         } else {
+            TabelaEntreVerdes tabelaEntreVerdes = this.findByTabelaEntreVerdesPadrao();
+            TabelaEntreVerdesTransicao tevTransicao = new TabelaEntreVerdesTransicao(tabelaEntreVerdes, transicao);
+            tabelaEntreVerdes.addTabelaEntreVerdesTransicao(tevTransicao);
+            transicao.addTabelaEntreVerdesTransicao(tevTransicao);
             getTransicoes().add(transicao);
         }
     }

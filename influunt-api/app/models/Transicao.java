@@ -74,7 +74,6 @@ public class Transicao extends Model implements Cloneable {
         this.origem = origem;
         this.destino = destino;
         this.destroy = false;
-        criaTabelaEntreVerdesTransicao();
     }
 
     public UUID getId() {
@@ -174,14 +173,5 @@ public class Transicao extends Model implements Cloneable {
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
-    }
-
-    private void criaTabelaEntreVerdesTransicao() {
-        GrupoSemaforico grupoSemaforico = getGrupoSemaforico();
-        for (TabelaEntreVerdes tabelaEntreVerdes : grupoSemaforico.getTabelasEntreVerdes()) {
-            TabelaEntreVerdesTransicao tevTransicao = new TabelaEntreVerdesTransicao(tabelaEntreVerdes, this);
-            this.addTabelaEntreVerdesTransicao(tevTransicao);
-            tabelaEntreVerdes.addTabelaEntreVerdesTransicao(tevTransicao);
-        }
     }
 }

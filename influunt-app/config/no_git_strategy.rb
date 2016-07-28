@@ -23,7 +23,7 @@ module NoGitStrategy
     # context.execute "tar -xf /tmp/#{filename} -C #{release_path} && mv #{release_path}/#{dist_name}/* #{release_path} && rm -r #{release_path}/#{dist_name}"
     context.execute "tar xzf /tmp/#{filename} -C /tmp"
     context.execute "mv /tmp/dist/* #{release_path}"
-    context.execute "rm -r /tmp/dist"
+    context.execute "rm -rf /tmp/dist"
   end
 
   def fetch_revision

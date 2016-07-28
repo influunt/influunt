@@ -38,33 +38,41 @@ public class ControladoresController extends Controller {
     }
 
     @Transactional
-    public CompletionStage<Result> associacaoGruposSemaforicos() {
-        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class,
-                ControladorAssociacaoGruposSemaforicosCheck.class);
+    public CompletionStage<Result> gruposSemaforicos() {
+        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class);
     }
 
     @Transactional
     public CompletionStage<Result> verdesConflitantes() {
-        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class,
-                ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class);
+        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+                ControladorVerdesConflitantesCheck.class);
+    }
+
+    @Transactional
+    public CompletionStage<Result> associacaoGruposSemaforicos() {
+        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+                ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class);
     }
 
     @Transactional
     public CompletionStage<Result> transicoesProibidas() {
-        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
-                ControladorVerdesConflitantesCheck.class, ControladorTransicoesProibidasCheck.class);
+        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+                ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
+                ControladorTransicoesProibidasCheck.class);
     }
 
     @Transactional
     public CompletionStage<Result> entreVerdes() {
-        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
-                ControladorVerdesConflitantesCheck.class, ControladorTransicoesProibidasCheck.class, ControladorTabelaEntreVerdesCheck.class);
+        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+                ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
+                ControladorTransicoesProibidasCheck.class, ControladorTabelaEntreVerdesCheck.class);
     }
 
     @Transactional
     public CompletionStage<Result> associacaoDetectores() {
-        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
-                ControladorVerdesConflitantesCheck.class, ControladorTransicoesProibidasCheck.class, ControladorTabelaEntreVerdesCheck.class,
+        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+                ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
+                ControladorTransicoesProibidasCheck.class, ControladorTabelaEntreVerdesCheck.class,
                 ControladorAssociacaoDetectoresCheck.class);
     }
 
