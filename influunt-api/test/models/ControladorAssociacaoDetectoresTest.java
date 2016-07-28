@@ -31,9 +31,10 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
 
         List<Erro> erros = getErros(controlador);
 
-        assertEquals(1, erros.size());
+        assertEquals(2, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro("Controlador", "Esse estagio deve estar associado a pelo menos um detector.", "aneis[0].estagios[0].associadoDetectorCasoDemandaPrioritaria")
+                new Erro("Controlador", "Esse estagio deve estar associado a pelo menos um detector.", "aneis[0].estagios[0].associadoDetectorCasoDemandaPrioritaria"),
+                new Erro("Controlador", "Esse estagio deve estar associado a pelo menos um detector.", "aneis[1].estagios[0].associadoDetectorCasoDemandaPrioritaria")
         ));
     }
 
@@ -118,7 +119,7 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
-        assertEquals(1, json.size());
+        assertEquals(2, json.size());
     }
 
     @Override
