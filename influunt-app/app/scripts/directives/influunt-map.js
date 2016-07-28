@@ -15,7 +15,7 @@ angular.module('influuntApp')
         longitude: '='
       },
       link: function (scope, element) {
-        L.Icon.Default.imagePath = 'images/leaflet'
+        L.Icon.Default.imagePath = 'images/leaflet';
         var map = null;
         var marker = null;
 
