@@ -6,7 +6,6 @@ import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Agrupamento;
 import models.Fabricante;
 import models.ModeloControlador;
 import play.libs.Json;
