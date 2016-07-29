@@ -412,7 +412,7 @@ header .nav-secon li a {
 }
 
 .wrapper-content .basic-wizard .content .body .tableless table .disabled {
-  background: #f2f4f5;
+  background: #a6a6a6;
 }
 
 .wrapper-content .basic-wizard .content .body .tableless table .tg-yw4l {
@@ -616,7 +616,6 @@ header .nav-secon li a {
   position: absolute;
   background: white;
   min-width: 270px;
-  display: none;
   z-index: 99;
   top: 40px;
   right: 0;
@@ -1787,7 +1786,7 @@ header .nav-secon li a {
 }
 
 .btn-footer {
-  width: 10%;
+  min-width: 130px;
 }
 
 .padding-top-30 {
