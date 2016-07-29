@@ -33,10 +33,7 @@ public class ControladorDadosBasicosTest extends ControladorTest {
 
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro("Controlador", "não pode ficar em branco", "modelo"),
-                new Erro("Controlador", "não pode ficar em branco", "localizacao"),
-                new Erro("Controlador", "não pode ficar em branco", "area"),
-                new Erro("Controlador", "não pode ficar em branco", "latitude"),
-                new Erro("Controlador", "não pode ficar em branco", "longitude")
+                new Erro("Controlador", "não pode ficar em branco", "area")
         ));
 
     }
@@ -120,9 +117,16 @@ public class ControladorDadosBasicosTest extends ControladorTest {
         assertEquals(controlador.getNumeroSMEEConjugado1(), controladorJson.getNumeroSMEEConjugado1());
         assertEquals(controlador.getNumeroSMEEConjugado2(), controladorJson.getNumeroSMEEConjugado2());
         assertEquals(controlador.getNumeroSMEEConjugado3(), controladorJson.getNumeroSMEEConjugado3());
-        assertEquals(controlador.getLocalizacao(), controladorJson.getLocalizacao());
-        assertEquals(controlador.getLatitude(), controladorJson.getLatitude());
-        assertEquals(controlador.getLongitude(), controladorJson.getLongitude());
+        Endereco enderecoPaulista = controlador.getEnderecos().stream().filter(endereco -> endereco.getLocalizacao().equals("Av Paulista")).findFirst().get();
+        Endereco enderecoBelaCintra = controlador.getEnderecos().stream().filter(endereco -> endereco.getLocalizacao().equals("Rua Bela Cintra")).findFirst().get();
+        Endereco enderecoPaulistaJson = controladorJson.getEnderecos().stream().filter(endereco -> endereco.getLocalizacao().equals("Av Paulista")).findFirst().get();
+        Endereco enderecoBelaCintraJson = controladorJson.getEnderecos().stream().filter(endereco -> endereco.getLocalizacao().equals("Rua Bela Cintra")).findFirst().get();
+        assertEquals(enderecoPaulista.getLocalizacao(), enderecoPaulistaJson.getLocalizacao());
+        assertEquals(enderecoPaulista.getLatitude(), enderecoPaulistaJson.getLatitude());
+        assertEquals(enderecoPaulista.getLongitude(), enderecoPaulistaJson.getLongitude());
+        assertEquals(enderecoBelaCintra.getLocalizacao(), enderecoBelaCintraJson.getLocalizacao());
+        assertEquals(enderecoBelaCintra.getLatitude(), enderecoBelaCintraJson.getLatitude());
+        assertEquals(enderecoBelaCintra.getLongitude(), enderecoBelaCintraJson.getLongitude());
         assertEquals(controlador.getFirmware(), controladorJson.getFirmware());
     }
 
@@ -138,7 +142,7 @@ public class ControladorDadosBasicosTest extends ControladorTest {
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
-        assertEquals(5, json.size());
+        assertEquals(2, json.size());
 
     }
 

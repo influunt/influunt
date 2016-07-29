@@ -71,9 +71,6 @@ public abstract class ControladorTest extends WithApplication {
     protected Controlador getControladorDadosBasicos() {
 
         Controlador controlador = getControlador();
-        controlador.setLocalizacao("Av Paulista com Bela Cintra");
-        controlador.setLatitude(1.0);
-        controlador.setLongitude(2.0);
         controlador.setArea(this.area);
         controlador.setModelo(this.modeloControlador);
         controlador.setNumeroSMEE("1234");
@@ -86,6 +83,22 @@ public abstract class ControladorTest extends WithApplication {
         controlador.setLimiteDetectorPedestre(4);
         controlador.setLimiteDetectorVeicular(8);
         controlador.setLimiteEstagio(16);
+        controlador.setNomeEndereco("Av Paulista com Bela Cintra");
+
+        Endereco enderecoPaulista = new Endereco();
+        enderecoPaulista.setLocalizacao("Av Paulista");
+        enderecoPaulista.setLatitude(1.0);
+        enderecoPaulista.setLongitude(2.0);
+        enderecoPaulista.setControlador(controlador);
+
+        Endereco enderecoBelaCintra = new Endereco();
+        enderecoBelaCintra.setLocalizacao("Rua Bela Cintra");
+        enderecoBelaCintra.setLatitude(3.0);
+        enderecoBelaCintra.setLongitude(4.0);
+        enderecoBelaCintra.setControlador(controlador);
+
+        controlador.addEndereco(enderecoPaulista);
+        controlador.addEndereco(enderecoBelaCintra);
         controlador.save();
 
         return controlador;

@@ -1,0 +1,12 @@
+[INFO] Running command /usr/local/bin/infer -- analyze
+[INFO] Path to infer script /usr/local/bin/infer (/usr/local/Cellar/infer/0.8.0/libexec/infer/lib/python/infer)
+[INFO] Infer version v0.8.0
+Copyright 2009 - present Facebook. All Rights Reserved.
+
+
+[INFO] Platform: Darwin-15.5.0-x86_64-i386-64bit
+[INFO] PATH=/Users/lesiopinheiro/.rvm/gems/ruby-2.2.3/bin:/Users/lesiopinheiro/.rvm/gems/ruby-2.2.3@global/bin:/Users/lesiopinheiro/.rvm/rubies/ruby-2.2.3/bin:/Users/lesiopinheiro/.rvm/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Users/lesiopinheiro/opt/cassandra/bin:/Users/lesiopinheiro/gradle-2.2.1/bin:/Users/lesiopinheiro/android-sdk-macosx/tools:/Users/lesiopinheiro/android-sdk-macosx/platform-tools:/Users/lesiopinheiro/apache-ant-1.9.4/bin:/Users/lesiopinheiro/activator-1.3.2-minimal:/Users/lesiopinheiro/play-2.2.3:/usr/local/Cellar/rabbitmq/3.5.1/sbin:/Users/lesiopinheiro/bazel/output
+[INFO] SHELL=/bin/bash
+[INFO] PWD=/Users/lesiopinheiro/projetos/influunt/influunt-api
+[INFO] Capture phase was successful
+[INFO] Starting analysis

@@ -45,6 +45,9 @@ public class Controlador extends Model implements Cloneable {
     private UUID id;
 
     @Column
+    private String nomeEndereco;
+
+    @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
@@ -60,12 +63,7 @@ public class Controlador extends Model implements Cloneable {
     private StatusControlador statusControlador = StatusControlador.EM_CONFIGURACAO;
 
     @Column
-    @NotBlank(message = "não pode ficar em branco")
-    private String localizacao;
-
-    @Column
     private Integer sequencia;
-
 
     @Column
     private String numeroSMEE;
@@ -81,14 +79,6 @@ public class Controlador extends Model implements Cloneable {
 
     @Column
     private String firmware;
-
-    @Column
-    @NotNull(message = "não pode ficar em branco")
-    private Double latitude;
-
-    @Column
-    @NotNull(message = "não pode ficar em branco")
-    private Double longitude;
 
     @ManyToOne
     @Valid
@@ -118,6 +108,10 @@ public class Controlador extends Model implements Cloneable {
 
     @ManyToMany(mappedBy = "controladores")
     private List<Agrupamento> agrupamentos;
+
+    @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
+    @Valid
+    private List<Endereco> enderecos;
 
     // CONFIGURACOES CONTROLADORES
 
@@ -222,12 +216,12 @@ public class Controlador extends Model implements Cloneable {
         this.id = id;
     }
 
-    public String getLocalizacao() {
-        return localizacao;
+    public String getNomeEndereco() {
+        return nomeEndereco;
     }
 
-    public void setLocalizacao(String localizacao) {
-        this.localizacao = localizacao;
+    public void setNomeEndereco(String nomeEndereco) {
+        this.nomeEndereco = nomeEndereco;
     }
 
     public String getNumeroSMEE() {
@@ -334,29 +328,20 @@ public class Controlador extends Model implements Cloneable {
         this.dataAtualizacao = dataAtualizacao;
     }
 
-    public Double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
-
-
     public List<Agrupamento> getAgrupamentos() {
         return agrupamentos;
     }
 
     public void setAgrupamentos(List<Agrupamento> agrupamentos) {
         this.agrupamentos = agrupamentos;
+    }
+
+    public List<Endereco> getEnderecos() {
+        return enderecos;
+    }
+
+    public void setEnderecos(List<Endereco> enderecos) {
+        this.enderecos = enderecos;
     }
 
     public Integer getLimiteEstagio() {
@@ -413,7 +398,6 @@ public class Controlador extends Model implements Cloneable {
                 grupoSemaforico.criarPossiveisTransicoes();
             }
         }
-
     }
 
     @Override
@@ -434,5 +418,12 @@ public class Controlador extends Model implements Cloneable {
 
     public void setStatusControlador(StatusControlador statusControlador) {
         this.statusControlador = statusControlador;
+    }
+
+    public void addEndereco(Endereco endereco) {
+        if (getEnderecos() == null) {
+            setEnderecos(new ArrayList<Endereco>());
+        }
+        getEnderecos().add(endereco);
     }
 }
