@@ -39,15 +39,12 @@ public class FabricantesController extends Controller {
         } else {
             return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
         }
-
     }
-
 
     @Transactional
     public CompletionStage<Result> findAll() {
         return CompletableFuture.completedFuture(ok(Json.toJson(Fabricante.find.findList())));
     }
-
 
     @Transactional
     public CompletionStage<Result> update(String id) {
@@ -60,7 +57,6 @@ public class FabricantesController extends Controller {
         if (fabricante == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
-
             fabricante = Json.fromJson(json, Fabricante.class);
             fabricante.setId(UUID.fromString(id));
             List<Erro> erros = new InfluuntValidator<Fabricante>().validate(fabricante);

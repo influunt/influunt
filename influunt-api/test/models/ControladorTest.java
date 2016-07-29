@@ -26,7 +26,6 @@ public abstract class ControladorTest extends WithApplication {
     private static Cidade cidade;
     private static Area area;
     private static Fabricante fabricante;
-    private static ConfiguracaoControlador configuracaoControlador;
     private static ModeloControlador modeloControlador;
 
     @Override
@@ -59,17 +58,8 @@ public abstract class ControladorTest extends WithApplication {
         fabricante.setNome("Tesc");
         fabricante.save();
 
-        configuracaoControlador = new ConfiguracaoControlador();
-        configuracaoControlador.setLimiteAnel(4);
-        configuracaoControlador.setLimiteGrupoSemaforico(16);
-        configuracaoControlador.setLimiteDetectorPedestre(4);
-        configuracaoControlador.setLimiteDetectorVeicular(8);
-        configuracaoControlador.setLimiteEstagio(16);
-        configuracaoControlador.save();
-
         modeloControlador = new ModeloControlador();
         modeloControlador.setFabricante(fabricante);
-        modeloControlador.setConfiguracao(configuracaoControlador);
         modeloControlador.setDescricao("Modelo 1");
         modeloControlador.save();
     }
@@ -91,6 +81,12 @@ public abstract class ControladorTest extends WithApplication {
         controlador.setNumeroSMEEConjugado2("C2");
         controlador.setNumeroSMEEConjugado3("C3");
         controlador.setFirmware("1.0rc");
+        controlador.setLimiteAnel(4);
+        controlador.setLimiteGrupoSemaforico(16);
+        controlador.setLimiteDetectorPedestre(4);
+        controlador.setLimiteDetectorVeicular(8);
+        controlador.setLimiteEstagio(16);
+        controlador.save();
 
         return controlador;
     }

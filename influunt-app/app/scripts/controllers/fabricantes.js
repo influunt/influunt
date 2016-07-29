@@ -20,8 +20,8 @@ angular.module('influuntApp')
       $scope.adicionarModelo = function() {
         $scope.objeto.modelos = $scope.objeto.modelos || [];
         $scope.objeto.modelos.push({
-          descricao: '',
-          configuracao: null
+					fabricante: {id: $scope.objeto.id},
+          descricao: ''
         });
       };
 
@@ -40,9 +40,6 @@ angular.module('influuntApp')
        * Recupera a lista de configuracoes que podem ser relacionadas aos modelos.
        */
       $scope.beforeShow = function() {
-        Restangular.all('configuracoes_controladores').getList().then(function(res) {
-          $scope.configuracoes = res;
-        });
       };
 
     }]);

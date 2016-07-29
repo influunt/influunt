@@ -41,11 +41,6 @@
     "route": "app.controladores",
     "children": [
       {
-        "name": "configuracoes_controladores",
-        "label": "configuracoes_controladores.titulo",
-        "route": "app.configuracoes_controladores"
-      },
-      {
         "name": "fabricantes",
         "label": "fabricantes.titulo",
         "route": "app.fabricantes"

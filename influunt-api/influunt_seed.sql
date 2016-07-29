@@ -4,9 +4,7 @@ INSERT INTO `cidades` (`id`, `nome`, `data_criacao`, `data_atualizacao`) VALUES 
 INSERT INTO `areas` (`id`, `descricao`, `cidade_id`, `data_criacao`, `data_atualizacao`) VALUES (UUID(), 51, @CidadeId, NOW(), NOW());
 SET @FabricanteId = UUID();
 INSERT INTO `fabricantes` (`id`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@FabricanteId, 'Raro Labs', NOW(), NOW());
-SET @ConfiguracaoId = UUID();
-INSERT INTO `configuracao_controladores` (`id`, `descricao`, `limite_estagio`, `limite_grupo_semaforico`, `limite_anel`, `limite_detector_pedestre`, `limite_detector_veicular`, `limite_tabelas_entre_verdes`, `data_criacao`, `data_atualizacao`) VALUES (@ConfiguracaoId, 'DESC', '16', '16', '16', '16', '16', '2', NOW(), NOW());
-INSERT INTO `modelo_controladores` (`id`, `descricao`, `fabricante_id`, `configuracao_id`, `data_criacao`, `data_atualizacao`) VALUES (UUID(), 'Desc modelo', @FabricanteId, @ConfiguracaoId, NOW(), NOW());
+INSERT INTO `modelo_controladores` (`id`, `descricao`, `fabricante_id`, `data_criacao`, `data_atualizacao`) VALUES (UUID(), 'Desc modelo', @FabricanteId, NOW(), NOW());
 INSERT INTO `usuarios` (`id`, `login`,`senha`, `email`, `nome`, `root`, `data_criacao`, `data_atualizacao`) VALUES (UUID(), 'root', '$2a$10$EzudGIqkxquJjLGawuMrOu9K6S28yc/R/YSAVxsvb5bSryOYWd5eq', 'root@influunt.com.br','Administrador Geral', true, NOW(), NOW());
 
 Set @PerfilId = UUID();
@@ -98,26 +96,6 @@ INSERT INTO `permissoes_perfis` (`perfil_id`,`permissao_id`) VALUES (@PerfilId,@
 
 Set @PermissaoId = UUID();
 INSERT INTO `permissoes` (`id`,`chave`,`descricao`,`data_criacao`, `data_atualizacao`) values (@PermissaoId,'DELETE /api/v1/fabricantes/$id<[^/]+>','[Fabricante] - Remover Fabricante',NOW(), NOW());
-INSERT INTO `permissoes_perfis` (`perfil_id`,`permissao_id`) VALUES (@PerfilId,@PermissaoId);
-
-Set @PermissaoId = UUID();
-INSERT INTO `permissoes` (`id`,`chave`,`descricao`,`data_criacao`, `data_atualizacao`) values (@PermissaoId,'GET /api/v1/configuracoes_controladores','[Configuração de Controlador] - Listar Configurações',NOW(), NOW());
-INSERT INTO `permissoes_perfis` (`perfil_id`,`permissao_id`) VALUES (@PerfilId,@PermissaoId);
-
-Set @PermissaoId = UUID();
-INSERT INTO `permissoes` (`id`,`chave`,`descricao`,`data_criacao`, `data_atualizacao`) values (@PermissaoId,'POST /api/v1/configuracoes_controladores','[Configuração de Controlador] - Criar Uma Nova Configuração',NOW(), NOW());
-INSERT INTO `permissoes_perfis` (`perfil_id`,`permissao_id`) VALUES (@PerfilId,@PermissaoId);
-
-Set @PermissaoId = UUID();
-INSERT INTO `permissoes` (`id`,`chave`,`descricao`,`data_criacao`, `data_atualizacao`) values (@PermissaoId,'PUT /api/v1/configuracoes_controladores/$id<[^/]+>','[Configuração de Controlador] - Editar Configuração',NOW(), NOW());
-INSERT INTO `permissoes_perfis` (`perfil_id`,`permissao_id`) VALUES (@PerfilId,@PermissaoId);
-
-Set @PermissaoId = UUID();
-INSERT INTO `permissoes` (`id`,`chave`,`descricao`,`data_criacao`, `data_atualizacao`) values (@PermissaoId,'GET /api/v1/configuracoes_controladores/$id<[^/]+>','[Configuração de Controlador] - Exibir Configuração',NOW(), NOW());
-INSERT INTO `permissoes_perfis` (`perfil_id`,`permissao_id`) VALUES (@PerfilId,@PermissaoId);
-
-Set @PermissaoId = UUID();
-INSERT INTO `permissoes` (`id`,`chave`,`descricao`,`data_criacao`, `data_atualizacao`) values (@PermissaoId,'DELETE /api/v1/configuracoes_controladores/$id<[^/]+>','[Configuração de Controlador] - Remover Configuração',NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`,`permissao_id`) VALUES (@PerfilId,@PermissaoId);
 
 Set @PermissaoId = UUID();

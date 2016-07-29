@@ -51,25 +51,9 @@ create table cidades (
   constraint pk_cidades primary key (id)
 );
 
-create table configuracao_controladores (
-  id                            varchar(40) not null,
-  descricao                     varchar(255),
-  limite_estagio                integer not null,
-  limite_grupo_semaforico       integer not null,
-  limite_anel                   integer not null,
-  limite_detector_pedestre      integer not null,
-  limite_detector_veicular      integer not null,
-  limite_tabelas_entre_verdes   integer not null,
-  data_criacao                  datetime(6) not null,
-  data_atualizacao              datetime(6) not null,
-  constraint pk_configuracao_controladores primary key (id)
-);
-
 create table controladores (
   id                            varchar(40) not null,
-  status_controlador            integer,
   localizacao                   varchar(255),
-  sequencia                     integer,
   numero_smee                   varchar(255),
   numero_smeeconjugado1         varchar(255),
   numero_smeeconjugado2         varchar(255),
@@ -79,9 +63,14 @@ create table controladores (
   longitude                     double not null,
   modelo_id                     varchar(40) not null,
   area_id                       varchar(40) not null,
+  limite_estagio                integer not null,
+  limite_grupo_semaforico       integer not null,
+  limite_anel                   integer not null,
+  limite_detector_pedestre      integer not null,
+  limite_detector_veicular      integer not null,
+  limite_tabelas_entre_verdes   integer not null,
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
-  constraint ck_controladores_status_controlador check (status_controlador in (0,1,2)),
   constraint pk_controladores primary key (id)
 );
 
@@ -203,7 +192,6 @@ create table limite_area (
 create table modelo_controladores (
   id                            varchar(40) not null,
   fabricante_id                 varchar(40) not null,
-  configuracao_id               varchar(40) not null,
   descricao                     varchar(255) not null,
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
@@ -302,8 +290,8 @@ create table transicoes_proibidas (
 
 create table usuarios (
   id                            varchar(40) not null,
-  senha                         varchar(255),
   login                         varchar(255),
+  senha                         varchar(255),
   email                         varchar(255),
   nome                          varchar(255),
   root                          tinyint(1) default 0,
@@ -389,9 +377,6 @@ create index ix_limite_area_area_id on limite_area (area_id);
 
 alter table modelo_controladores add constraint fk_modelo_controladores_fabricante_id foreign key (fabricante_id) references fabricantes (id) on delete restrict on update restrict;
 create index ix_modelo_controladores_fabricante_id on modelo_controladores (fabricante_id);
-
-alter table modelo_controladores add constraint fk_modelo_controladores_configuracao_id foreign key (configuracao_id) references configuracao_controladores (id) on delete restrict on update restrict;
-create index ix_modelo_controladores_configuracao_id on modelo_controladores (configuracao_id);
 
 alter table permissoes_perfis add constraint fk_permissoes_perfis_perfis foreign key (perfil_id) references perfis (id) on delete restrict on update restrict;
 create index ix_permissoes_perfis_perfis on permissoes_perfis (perfil_id);
@@ -516,9 +501,6 @@ drop index ix_limite_area_area_id on limite_area;
 alter table modelo_controladores drop foreign key fk_modelo_controladores_fabricante_id;
 drop index ix_modelo_controladores_fabricante_id on modelo_controladores;
 
-alter table modelo_controladores drop foreign key fk_modelo_controladores_configuracao_id;
-drop index ix_modelo_controladores_configuracao_id on modelo_controladores;
-
 alter table permissoes_perfis drop foreign key fk_permissoes_perfis_perfis;
 drop index ix_permissoes_perfis_perfis on permissoes_perfis;
 
@@ -582,8 +564,6 @@ drop table if exists aneis;
 drop table if exists areas;
 
 drop table if exists cidades;
-
-drop table if exists configuracao_controladores;
 
 drop table if exists controladores;
 

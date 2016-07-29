@@ -26,6 +26,6 @@ public class ConformidadeDeNumeroDeDetectoresVeicularValidator implements Constr
                 .mapToLong(anel -> anel.getDetectores().stream().filter(detector -> detector.isVeicular()).count())
                 .sum();
 
-        return total <= controlador.getModelo().getConfiguracao().getLimiteDetectorVeicular();
+        return total <= controlador.getLimiteDetectorVeicular();
     }
 }
