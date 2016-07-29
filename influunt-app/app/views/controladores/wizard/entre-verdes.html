@@ -1,4 +1,12 @@
 <fieldset data-ng-init="inicializaEntreVerdes()">
+  <script>
+    $(function(){
+      $( ".tabpanel" ).tabs({closable: false, addTab:false}).tabs('overflowResize')
+      .find( ".ui-tabs-nav" ).sortable({
+        distance: 10
+      });
+    });
+  </script>
   <div class="row">
     <uib-alert type="danger" data-ng-if="possuiErrosNumeroTabelasEntreVerdes()">
       <div style="padding-left: 12px;">
@@ -20,13 +28,36 @@
             </ul>
             <div class="ui-layout-content tab-content">
               <div id="tabs-1">
-                <div class="col-lg-12 col-sm-12 no-padding margin-bottom-20">
-                  <div class="col-lg-1 col-sm-1 text-left">
-                    <h2>{{ 'controladores.anel' | translate }} {{ currentAnel.posicao }} - G{{ currentGrupoSemaforico.posicao }}</h2>
-                  </div>
+                <div class="col-lg-12 col-sm-12 text-left">
+                  <h2>{{ 'controladores.anel' | translate }} {{ currentAnel.posicao }} - G{{ currentGrupoSemaforico.posicao }}</h2>
                 </div>
+
                 <div class="col-lg-12 col-sm-12 ibox-content no-padding">
                   <!-- menu tabelas entre-verdes -->
+                  <div class="col-lg-2 col-sm-2 association min-green side-menu">
+                    <nav>
+                      <ul id="side-menu" influunt-metis>
+                        <li data-ng-repeat="anel in aneis" data-ng-class="{ 'active': $index === currentAnelIndex }" data-ng-click="selecionaAnel($index)" data-ng-init="anelIndex = $index">
+                          <a href="#">
+                            <span class="nav-label">Grupo</span>
+                            <span class="badge badge-danger badge-notification entre-verdes-anel-error" ng-show="anelTemErro($index)">
+                              <i class="fa fa-exclamation"></i>
+                            </span>
+                            <span class="fa arrow"></span>
+                          </a>
+                          <ul class="nav nav-second-level">
+                            <li data-ng-repeat="grupoSemaforico in anel.gruposSemaforicos" data-ng-class="{ 'active': ($index === currentGrupoSemaforicoIndex) && (currentGrupoSemaforicoIdentifier == anelIndex.toString() + $index.toString()) }" data-ng-click="selecionaGrupoSemaforico($index)">
+                              <a href="">G{{ grupoSemaforico.posicao }}
+                                <span class="badge badge-danger badge-notification pull-right m-t-sm" ng-show="grupoSemaforicoTemErro(anelIndex, $index)">
+                                  <i class="fa fa-exclamation grupo-semaforico-error"></i>
+                                </span>
+                              </a>
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
                   <div class="col-lg-3 col-sm-3 no-padding-left">
                     <div class="col-lg-12 col-sm-12 association table-entry-green min-green relative tabelas-entre-verdes entre-verdes-fixed-height-small">
                       <nav>
@@ -45,7 +76,7 @@
                   </div>
 
                   <!-- menu transicoes -->
-                  <div class="col-lg-9 col-sm-9 association tables-associated entre-verdes-fixed-height-small">
+                  <div class="col-lg-7 col-sm-7 association tables-associated entre-verdes-fixed-height-small">
                     <header class="col-lg-12 col-sm-12">
                       <div class="form-group">
                         <label>Descrição</label>

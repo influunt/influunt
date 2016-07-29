@@ -181,23 +181,3 @@ span.badge.badge-danger.badge-notification {
 .tabs-container .nav-tabs {
   background: transparent;
 }
-
-/* .wrapper-content .basic-wizard .content .body .association.side-menu ul {
-    position: absolute;
-    z-index: 999999;
-    width: 100%;
-}
-
-.wrapper-content .basic-wizard .content .body .association.side-menu li {
-    background: #1caf92;
-}
-
-.wrapper-content .basic-wizard .content .body .association.side-menu li span {
-    color: #FFFFFF;
-}
-
-.wrapper-content .basic-wizard .content .body .association.side-menu li.active {
-    background: #1caf92;
-    box-shadow: 1px 11px 21px rgba(0, 0, 0, 0.2);
-<<<<<<< Local Changes
-} */
