@@ -126,6 +126,7 @@ public class ControladoresController extends Controller {
                 } else {
                     controlador.save();
                 }
+
                 return CompletableFuture.completedFuture(ok(Json.toJson(Controlador.find.byId(controlador.getId()))));
             }
         }
