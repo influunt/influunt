@@ -116,7 +116,7 @@
   min-height: 250px;
   max-height: 250px;
   background: #fff;
-  overflow: hidden;
+  overflow: auto;
   width: 100%;
 }
 
@@ -183,7 +183,8 @@
   border-right: 1px solid #d6d6d6;
   box-sizing: border-box;
   width: 210px;
-  height: 300px;
+  height: 250px;
+  padding: 15px;
   float: left;
   display: inline-block;
   vertical-align: middle;
@@ -457,7 +458,8 @@ header .nav-secon li a {
 }
 
 .wrapper-content .basic-wizard .content .body .figures div.bxslider {
-  overflow: scroll;
+  overflow: auto;
+  background: #f5f5f5;
 }
 
 .wrapper-content .basic-wizard .content .body .figures ul.bxslider {
@@ -469,7 +471,6 @@ header .nav-secon li a {
 }
 
 .wrapper-content .basic-wizard .content .body .figures li {
-  margin-right: 20px;
   list-style: none;
   float: left;
   display: list-item;
@@ -478,6 +479,7 @@ header .nav-secon li a {
 .wrapper-content .basic-wizard .content .body .figures li figure.rings-1 {
   box-sizing: border-box;
   border: 2px solid #00ac9e;
+  margin: 15px;
 }
 
 .wrapper-content .basic-wizard .content .body .figures li figure.rings-2 {
