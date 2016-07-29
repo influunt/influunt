@@ -86,23 +86,28 @@ angular.module('influuntApp')
        * plano, este deverá ser colocado em edição imediatamente.
        */
       $scope.adicionaPlano = function() {
-        $scope.objeto.aneis.forEach(function(anel) {
-          var posicao = anel.planos.length + 1;
-          var plano = {
-            posicao: posicao,
-            modoOperacao: 'ISOLADO'
-          };
-          anel.planos.push(plano);
-        });
+        var posicao = $scope.currentAnel.planos.length + 1;
+        var plano = {
+          posicao: posicao,
+          modoOperacao: 'TEMPO_FIXO_ISOLADO'
+        };
+        $scope.currentAnel.planos.push(plano);
 
         // Depois de criar um novo conjunto de planos, deve coloca-lo em edição
         // imediatamente.
         $scope.selecionaPlano($scope.currentAnel.planos.length - 1);
       };
+      
+      $scope.removePlano = function(index) {
+        if($scope.currentAnelIndex == index){
+          $scope.selecionaPlano($scope.currentAnelIndex - 1);
+        }
+        $scope.currentAnel.planossplice(index, 1);
+      };
 
       $scope.selecionaAnel = function(index) {
         $scope.currentAnelIndex = index;
-        $scope.currentAnel = $scope.objeto.aneis[index];
+        $scope.currentAnel = $scope.aneis[index];
         $scope.selecionaPlano(0);
         $scope.selecionaEstagio(0);
       };
