@@ -2,7 +2,13 @@ package models;
 
 import checks.*;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import controllers.routes;
+import json.ControladorCustomDeserializer;
+import json.ControladorCustomSerializer;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import play.libs.Json;
@@ -157,6 +163,25 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
         assertEquals("Estagio 2 está associado Detector 2", detector2.getEstagio(), estagio2);
         assertEquals("Estagio 3 está associado Detector 3", detector3.getEstagio(), estagio3);
         assertEquals("Estagio 4 está associado Detector 4", detector4.getEstagio(), estagio4);
+    }
+
+    @Test
+    public void testNewSerialize(){
+        Controlador controlador = getControladorAssociacaoDetectores();
+        JsonNode json = new ControladorCustomSerializer().getControladorJson(controlador);
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        JsonParser jp = new JsonParser();
+        JsonElement je = jp.parse(json.toString());
+        String prettyJsonString = gson.toJson(je);
+        System.out.println(prettyJsonString);
+
+        Controlador controlador1 = new ControladorCustomDeserializer().getControladorFromJson(json);
+        JsonNode json2 = new ControladorCustomSerializer().getControladorJson(controlador1);
+        JsonElement je2 = jp.parse(json2.toString());
+        String prettyJsonString2 = gson.toJson(je2);
+        System.out.println("-----------------------");
+        System.out.println(prettyJsonString2);
     }
 
     @Override

@@ -4,6 +4,8 @@ import checks.Erro;
 import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 import controllers.routes;
+import json.ControladorCustomDeserializer;
+import json.ControladorCustomSerializer;
 import org.junit.Test;
 import play.libs.Json;
 import play.mvc.Http;
@@ -62,13 +64,14 @@ public class ControladorDadosBasicosTest extends ControladorTest {
     @Test
     public void testJSON() {
         Controlador controlador = getControladorDadosBasicos();
-        Controlador controladorJson = Json.fromJson(Json.toJson(controlador), Controlador.class);
+        Controlador controladorJson = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador));
 
         assertEquals(controlador.getId(), controladorJson.getId());
         assertControlador(controlador, controladorJson);
 
         controlador.save();
-        controladorJson = Json.fromJson(Json.toJson(controlador), Controlador.class);
+
+        controladorJson = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador));
 
         assertEquals(controlador.getId(), controladorJson.getId());
         assertControlador(controlador, controladorJson);

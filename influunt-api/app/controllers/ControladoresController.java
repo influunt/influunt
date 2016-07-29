@@ -4,6 +4,8 @@ import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
 import be.objectify.deadbolt.java.actions.Dynamic;
 import checks.*;
 import com.google.inject.Inject;
+import json.ControladorCustomDeserializer;
+import json.ControladorCustomSerializer;
 import models.Controlador;
 import models.StatusControlador;
 import play.data.FormFactory;
@@ -108,7 +110,7 @@ public class ControladoresController extends Controller {
             return CompletableFuture.completedFuture(badRequest());
         }
 
-        Controlador controlador = Json.fromJson(request().body().asJson(), Controlador.class);
+        Controlador controlador = new ControladorCustomDeserializer().getControladorFromJson(request().body().asJson());
 
         boolean checkIfExists = controlador.getId() != null;
         if (checkIfExists && Controlador.find.byId(controlador.getId()) == null) {
@@ -127,7 +129,7 @@ public class ControladoresController extends Controller {
                     controlador.save();
                 }
 
-                return CompletableFuture.completedFuture(ok(Json.toJson(Controlador.find.byId(controlador.getId()))));
+                return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(Controlador.find.byId(controlador.getId()))));
             }
         }
     }
