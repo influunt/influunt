@@ -121,6 +121,7 @@
     "titulo": "Tipos de Detectores"
   },
   "geral": {
+    "atencao": "Atenção",
     "auditoria": {
       "atualizadoPor": "Atualizado Por",
       "dataAtualizacao": "Data de Atualização",

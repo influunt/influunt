@@ -20,6 +20,10 @@
 @import url(./directives/influunt-tabs.css);
 @import url(./directives/influunt-block-ui.css);
 @import url(./directives/dropzone.css);
+tr.detector-selecionado td.titulo {
+  background-color: #6fd1bd;
+}
+
 li.anel-selecionado {
   background-color: #6fd1bd;
 }

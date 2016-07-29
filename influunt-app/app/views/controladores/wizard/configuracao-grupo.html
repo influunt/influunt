@@ -96,7 +96,7 @@
           <i class="fa fa-eye"></i> {{ 'plugins.steps.labels.last_screen' | translate }}
         </a>
         <a data-ng-click="submitForm({$valid: true}, 'grupos_semaforicos', 'app.wizard_controladores.verdes_conflitantes')" data-toggle="tooltip" data-placement="top" title="Verdes Conflitantes" class="btn btn-primary btn-footer right">
-          <i class="fa fa-arrow-right"></i> {{ 'plugins.steps.labels.next' | translate }}
+          {{ 'plugins.steps.labels.next' | translate }} <i class="fa fa-arrow-right"></i>
         </a>
         <a data-ng-click="submitForm({$valid: true}, 'grupos_semaforicos', 'app.wizard_controladores.aneis')" data-toggle="tooltip" data-placement="top" title="Anéis" class="btn btn-inverse btn-footer right m-r-sm right">
           <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.previous' | translate }}

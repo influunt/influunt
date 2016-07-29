@@ -23,6 +23,7 @@
             <tr>
               <th>DETECTOR</th>
               <th data-ng-repeat="estagio in currentAnel.estagios">E{{ estagio.posicao }}</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -33,9 +34,12 @@
                   <img ng-src="{{ estagio.imagem.id | imageSource }}" width="120px">
                 </figure>
               </td>
+              <td></td>
             </tr>
-            <tr data-ng-repeat="detector in currentAnel.detectores">
-              <td>
+            <tr data-ng-repeat="detector in currentAnel.detectores"
+                data-ng-click="selecionaDetector($index)"
+                data-ng-class="{ 'detector-selecionado': $index === currentDetectorIndex }">
+              <td class="titulo">
                 <strong>{{ detector | nomeDetector }}</strong>
                 <span class="badge badge-danger badge-notification"
                   data-ng-show="errors.aneis[currentAnelIndex].detectores[$index]"
@@ -44,33 +48,80 @@
                   <i class="fa fa-exclamation"></i>
                 </span>
               </td>
-              <td data-ng-repeat="estagio in currentAnel.estagios" data-ng-click="toggleAssociacaoDetector(estagio, detector)">
+              <td data-ng-repeat="estagio in currentAnel.estagios"
+                  data-ng-class="{disabled: estagio.temDetector && detector.estagio.id !== estagio.id}"
+                  data-ng-click="toggleAssociacaoDetector(estagio, detector)">
                 <i class="fa fa-check" aria-hidden="true" data-ng-if="detector.estagio.id === estagio.id"></i>
+              </td>
+              <td>
+                <a ng-click="excluirDetector($index)" class="btn btn-xs btn-danger">Excluir</a>
               </td>
             </tr>
           </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="{{ currentAnel.estagios.length + 1 }}">
+                <div class="btn-group dropup left"
+                    style="padding: 12px;">
+                  <button type="button" class="btn btn-primary left"
+                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                      data-ng-disabled="currentAnel.detectores.length >= currentAnel.estagios.length">
+                    Adicionar Detector
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li style="list-style: none;" data-ng-click="adicionaDetector('PEDESTRE')">
+                      <a>Pedestre</a>
+                    </li>
+                    <li style="list-style: none;"  data-ng-click="adicionaDetector('VEICULAR')">
+                      <a>Veicular</a>
+                    </li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+          </tfoot>
         </table>
       </div>
-      <div class="col-lg-10 col-sm-10 ibox-title botton-title association-detectors-body m-t-md association tables-associated p-b-xs">
+
+      <div data-ng-if="currentDetector" class="col-lg-10 col-sm-10 ibox-title botton-title association-detectors-body m-t-md association tables-associated p-b-xs">
         <div class="col-lg-3 col-sm-3 estagio-detalhe">
-          <h3>DP 1</h3><br/>
-          <input type="checkbox" ichecks> <strong>MONITORAMENTO DE FALHA</strong>
+          <h3>{{ currentDetector | nomeDetector }}</h3><br/>
+          <input type="checkbox" ichecks data-ng-model="currentDetector.monitorado">
+          <strong>MONITORAMENTO DE FALHA</strong>
         </div>
         <div class="knob">
           <div class="col-lg-2 col-sm-2 text-center knob-item">
-            <influunt-knob title="AUSÊNCIA DE DETECÇÃO MÍNIMA" label="SEG" min="0" max="30" data-ng-model="25"></influunt-knob>
+            <influunt-knob
+                title="AUSÊNCIA DE DETECÇÃO MÍNIMA" label="SEG"
+                min="0" max="30"
+                data-ng-model="currentDetector.tempoAusenciaDeteccaoMinima">
+            </influunt-knob>
           </div>
           <div class="col-lg-2 col-sm-2 text-center knob-item">
-            <influunt-knob title="AUSÊNCIA DE DETECÇÃO MÁXIMA" label="SEG" min="0" max="30" data-ng-model="25"></influunt-knob>
+            <influunt-knob
+                title="AUSÊNCIA DE DETECÇÃO MÁXIMA" label="SEG"
+                min="0" max="30"
+                data-ng-model="currentDetector.tempoAusenciaDeteccaoMaxima">
+            </influunt-knob>
           </div>
           <div class="col-lg-2 col-sm-2 text-center knob-item">
-            <influunt-knob title="DETECÇÃO PERMANENTE MÍNIMA" label="SEG" min="0" max="30" data-ng-model="25"></influunt-knob>
+            <influunt-knob
+                title="DETECÇÃO PERMANENTE MÍNIMA" label="SEG"
+                min="0" max="30"
+                data-ng-model="currentDetector.tempoDeteccaoPermanenteMinima">
+            </influunt-knob>
           </div>
           <div class="col-lg-2 col-sm-2 text-center knob-item">
-            <influunt-knob title="DETECÇÃO PERMANENTE MÁXIMA" label="SEG" min="0" max="30" data-ng-model="25"></influunt-knob>
+            <influunt-knob
+                title="DETECÇÃO PERMANENTE MÁXIMA" label="SEG"
+                min="0" max="30"
+                data-ng-model="currentDetector.tempoDeteccaoPermanenteMaxima">
+            </influunt-knob>
           </div>
         </div>
       </div>
+
       <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix">
 				<a ui-sref="app.wizard_controladores.entre_verdes({id: objeto.id})" target="_blank" data-toggle="tooltip" data-placement="top" class="left btn btn-info btn-footer" title="Ver Tela de Tabelas de Entre Verdes">
           <i class="fa fa-eye"></i> {{ 'plugins.steps.labels.last_screen' | translate }}
@@ -87,9 +138,9 @@
 </fieldset>
 
 <script>
-  $(document).ready(function(){
-    $( ".td-yp2l" ).click(function() {
-      $( this ).toggleClass( "checked" );
-    });
-  });
+  // $(document).ready(function(){
+  //   $( ".td-yp2l" ).click(function() {
+  //     $( this ).toggleClass( "checked" );
+  //   });
+  // });
 </script>

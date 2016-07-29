@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('CrudCtrl', ['$scope', '$state', '$filter', 'Restangular', 'toast', 'SweetAlert', 'handleValidations',
-    function ($scope, $state, $filter, Restangular, toast, SweetAlert, handleValidations) {
+  .controller('CrudCtrl', ['$scope', '$state', '$filter', 'Restangular', 'toast', 'influuntAlert', 'handleValidations',
+    function ($scope, $state, $filter, Restangular, toast, influuntAlert, handleValidations) {
     var resourceName = null;
 
     /**
@@ -112,26 +112,16 @@ angular.module('influuntApp')
     };
 
     $scope.confirmDelete = function(id) {
-      SweetAlert.swal(
-        {
-          title: $filter('translate')('geral.mensagens.popup_delete.titulo'),
-          text: $filter('translate')('geral.mensagens.popup_delete.mensagem'),
-          showCancelButton: true,
-          confirmButtonColor: '#DD6B55',
-          confirmButtonText: $filter('translate')('geral.mensagens.sim'),
-          cancelButtonText: $filter('translate')('geral.mensagens.cancelar'),
-          closeOnConfirm: true,
-          closeOnCancel: true
-        }, function (confirmado) {
-          return confirmado && Restangular.one(resourceName, id).remove()
-            .then(function() {
-              toast.success($filter('translate')('geral.mensagens.removido_com_sucesso'));
-              return $scope.index();
-            })
-            .catch(function(err) {
-              toast.error($filter('translate')('geral.mensagens.default_erro'));
-              throw new Error(err);
-            });
+      influuntAlert.delete().then(function(confirmado) {
+        return confirmado && Restangular.one(resourceName, id).remove()
+          .then(function() {
+            toast.success($filter('translate')('geral.mensagens.removido_com_sucesso'));
+            return $scope.index();
+          })
+          .catch(function(err) {
+            toast.error($filter('translate')('geral.mensagens.default_erro'));
+            throw new Error(err);
+          });
       });
     };
 
