@@ -10,83 +10,101 @@
       </div>
     </uib-alert>
 
-    <div class="text-center m-t-md pd-lf-rt">
-      <div class="col-lg-2 col-sm-2 no-padding-left">
-        <div class="col-lg-12 col-sm-12 association">
-          <ng-include src="'views/controladores/wizard/common/seleciona-aneis.html'"></ng-include>
-        </div>
-      </div>
+    <script>
+      $(function(){
+        $( ".tabpanel" ).tabs({closable: false, addTab:false}).tabs('overflowResize')
+        .find( ".ui-tabs-nav" ).sortable({
+          distance: 10
+        });
+      });
+    </script>
 
-      <div class="col-lg-10 col-sm-10 ibox-title botton-title">
-        <h2>Anel {{ currentAnel.posicao }}</h2>
-      </div>
-
-      <div class="col-lg-10 col-sm-10 no-padding stages">
-        <div class="col-lg-12 col-sm-12">
-          <div class="row">
-            <div class="col-lg-1 title-stages-top"><i class="fa fa-arrows-v"></i></div>
-            <div class="col-lg-3 title-stages-top"><p class="text-left">{{ 'controladores.estagios' | translate }}</p></div>
-            <div class="col-lg-3 title-stages-top"><p class="text-left">{{ 'controladores.gruposAssociados' | translate }}</p></div>
-            <div class="col-lg-5 title-stages-top"><p class="text-left">{{ 'controladores.opcoes' | translate }}</p></div>
-          </div>
-        </div>
-
-        <nav>
-          <ul class="handle" ui-sortable="sortableOptions" data-ng-model="currentAnel.estagios">
-          <li class="ibox" data-ng-repeat="(indexEstagio, estagio) in currentAnel.estagios" data-ng-click="selecionaEstagio(indexEstagio)">
-            <div class="col-lg-12 col-sm-12" data-ng-class="{'estagio-selecionado-bg': indexEstagio === currentEstagioId}">
-              <div class="row">
-                <div class="col-lg-1 title-stages" data-ng-class="{'estagio-selecionado': indexEstagio === currentEstagioId}">
-                  <hgroup>
-                    <span class="badge badge-danger badge-notification"
-                      data-ng-show="estagioTemErro(currentAnelIndex, indexEstagio)"
-                      inf-tooltip
-                      messages="errors.aneis[currentAnelIndex].estagios[currentEstagioId]">
-                      <i class="fa fa-exclamation"></i>
-                    </span>
-                    <p>E{{ estagio.posicao }}</p>
-                  </hgroup>
-
-                </div>
-                <div class="col-lg-3 padding-top-20">
-                  <div class="exist-figure">
-                    <figure>
-                      <img ng-src="{{ estagio.imagem.id | imageSource }}" style="width: 155px;">
-                    </figure>
+    <div class="m-t-md">
+      <div class="col-lg-12 col-sm-12 bg-border no-padding">
+        <div class="ibox float-e-margins">
+          <div class="tabpanel">
+            <div class="col-lg-12 col-sm-12 padding-top-20 tabs-container">
+              <ul class="nav nav-tabs">
+                <li class=""><a class="" data-toggle="tab" href="#tabs-1" aria-expanded="false">{{ 'controladores.anel' | translate }} {{ currentAnel.posicao }}</a></li>
+                <li class=""><a class="" data-toggle="tab" href="#tabs-2" aria-expanded="false">{{ 'controladores.anel' | translate }} 02</a></li>
+                <li class=""><a class="" data-toggle="tab" href="#tabs-3" aria-expanded="false">{{ 'controladores.anel' | translate }} 03</a></li>
+              </ul>
+              <div class="ui-layout-content tab-content">
+                <div id="tabs-1">
+                  <div class="col-lg-12 col-sm-12 text-left">
+                    <h2>{{ 'controladores.anel' | translate }} {{anel.posicao}}</h2>
                   </div>
-                </div>
-                <div class="col-lg-3 padding-top-20 text-left">
-                  <label class="checkbox-inline i-checks" data-ng-repeat="(indexGrupo, grupo) in currentAnel.gruposSemaforicos">
-                    <p>{{ grupo.label }}</p>
-                    <input type="checkbox" ichecks data-ng-model="grupo.estagiosRelacionados[estagio.id]" i-changed="associaEstagiosGrupoSemaforico(grupo, estagio)">
-                  </label>
-                </div>
-                <div class="col-lg-5 padding-top-20 text-left">
-                  <div class="col-lg-6">
-                    <label class="control-label no-padding text-left">Monitorar tempo máximo</label>
+                  <div class="col-lg-12 col-sm-12 no-padding stages">
+                    <div class="col-lg-12 col-sm-12">
+                      <div class="row">
+                        <div class="col-lg-1 title-stages-top"><i class="fa fa-arrows-v"></i></div>
+                        <div class="col-lg-3 title-stages-top"><p class="text-left">{{ 'controladores.estagios' | translate }}</p></div>
+                        <div class="col-lg-3 title-stages-top"><p class="text-left">{{ 'controladores.gruposAssociados' | translate }}</p></div>
+                        <div class="col-lg-5 title-stages-top"><p class="text-left">{{ 'controladores.opcoes' | translate }}</p></div>
+                      </div>
+                    </div>
 
-                    <div class="input-group m-b">
-                      <span class="input-group-addon padding-5">
-                        <input type="checkbox" ichecks data-ng-model="estagio.tempoMaximoPermanenciaAtivo" if-unchecked="limpaTempoPermanencia(estagio)">
-                      </span>
-                      <input type="number" ng-model="estagio.tempoMaximoPermanencia"data-ng-disabled="!estagio.tempoMaximoPermanenciaAtivo" class="form-control">
-                      <span class="input-group-addon" style="padding: 6px;">seg.</span>
+                    <nav>
+                      <ul class="handle" ui-sortable="sortableOptions" data-ng-model="currentAnel.estagios">
+                      <li class="ibox" data-ng-repeat="(indexEstagio, estagio) in currentAnel.estagios" data-ng-click="selecionaEstagio(indexEstagio)">
+                        <div class="col-lg-12 col-sm-12" data-ng-class="{'estagio-selecionado-bg': indexEstagio === currentEstagioId}">
+                          <div class="row">
+                            <div class="col-lg-1 title-stages" data-ng-class="{'estagio-selecionado': indexEstagio === currentEstagioId}">
+                              <hgroup>
+                                <span class="badge badge-danger badge-notification"
+                                  data-ng-show="estagioTemErro(currentAnelIndex, indexEstagio)"
+                                  inf-tooltip
+                                  messages="errors.aneis[currentAnelIndex].estagios[currentEstagioId]">
+                                  <i class="fa fa-exclamation"></i>
+                                </span>
+                                <p>E{{ estagio.posicao }}</p>
+                              </hgroup>
 
+                            </div>
+                            <div class="col-lg-3 padding-top-20">
+                              <div class="exist-figure">
+                                <figure>
+                                  <img ng-src="{{ estagio.imagem.id | imageSource }}" style="width: 155px;">
+                                </figure>
+                              </div>
+                            </div>
+                            <div class="col-lg-3 padding-top-20 text-left">
+                              <label class="checkbox-inline i-checks" data-ng-repeat="(indexGrupo, grupo) in currentAnel.gruposSemaforicos">
+                                <p>{{ grupo.label }}</p>
+                                <input type="checkbox" ichecks data-ng-model="grupo.estagiosRelacionados[estagio.id]" i-changed="associaEstagiosGrupoSemaforico(grupo, estagio)">
+                              </label>
+                            </div>
+                            <div class="col-lg-5 padding-top-20 text-left">
+                              <div class="col-lg-6">
+                                <label class="control-label no-padding text-left">Monitorar tempo máximo</label>
+
+                                <div class="input-group m-b">
+                                  <span class="input-group-addon padding-5">
+                                    <input type="checkbox" ichecks data-ng-model="estagio.tempoMaximoPermanenciaAtivo" if-unchecked="limpaTempoPermanencia(estagio)">
+                                  </span>
+                                  <input type="number" ng-model="estagio.tempoMaximoPermanencia"data-ng-disabled="!estagio.tempoMaximoPermanenciaAtivo" class="form-control">
+                                  <span class="input-group-addon" style="padding: 6px;">seg.</span>
+
+                                </div>
+                              </div>
+                              <div class="col-lg-6">
+                                <label class="demanda-prioritaria no-padding text-left">Demanda prioritária</label>
+                                <input type="checkbox" ichecks data-ng-model="estagio.demandaPrioritaria">
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </nav>
                     </div>
                   </div>
-                  <div class="col-lg-6">
-                    <label class="demanda-prioritaria no-padding text-left">Demanda prioritária</label>
-                    <input type="checkbox" ichecks data-ng-model="estagio.demandaPrioritaria">
-                  </div>
-
+                </div>
               </div>
             </div>
-          </li>
-        </ul>
-      </nav>
-
+          </div>
+        </div>
       </div>
-
+    </div>
 
     <div class="row">
       <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix">
