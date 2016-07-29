@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresConfiguracaoGruposCtrl', ['$scope', '$controller', '$state', '$filter', 'assertControlador', 'SweetAlert',
-    function ($scope, $controller, $state, $filter, assertControlador, SweetAlert) {
+  .controller('ControladoresConfiguracaoGruposCtrl', ['$scope', '$controller', '$state', '$filter', 'assertControlador', 'influuntAlert',
+    function ($scope, $controller, $state, $filter, assertControlador, influuntAlert) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
       /**
@@ -52,23 +52,13 @@ angular.module('influuntApp')
       };
 
       $scope.removeGrupo = function(index) {
-        SweetAlert.swal(
-          {
-            title: $filter('translate')('geral.mensagens.popup_delete.titulo'),
-            text: $filter('translate')('geral.mensagens.popup_delete.mensagem'),
-            showCancelButton: true,
-            confirmButtonColor: '#DD6B55',
-            confirmButtonText: $filter('translate')('geral.mensagens.sim'),
-            cancelButtonText: $filter('translate')('geral.mensagens.cancelar'),
-            closeOnConfirm: true,
-            closeOnCancel: true
-          }, function (confirmado) {
-            if (confirmado) {
-              $scope.currentAnel.gruposSemaforicos.splice(index, 1);
-              $scope.currentAnel.gruposSemaforicos.forEach(function(grupo, index) {
-                grupo.posicao = index + 1;
-              });
-            }
+        influuntAlert.delete().then(function(confirmado) {
+          if (confirmado) {
+            $scope.currentAnel.gruposSemaforicos.splice(index, 1);
+            $scope.currentAnel.gruposSemaforicos.forEach(function(grupo, index) {
+              grupo.posicao = index + 1;
+            });
+          }
         });
       };
 

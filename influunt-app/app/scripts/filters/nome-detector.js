@@ -9,7 +9,7 @@
  * Filter in the influuntApp.
  */
 angular.module('influuntApp')
-  .filter('nomeDetector', function () {
+  .filter('nomeDetector', function nomeDetector() {
     return function (input) {
       return input && (input.tipo === 'PEDESTRE' ? 'DP' : 'DV') + input.posicao;
     };
