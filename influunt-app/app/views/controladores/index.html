@@ -66,7 +66,7 @@
                       <a class="btn btn-outline btn-primary" data-toggle="tooltip" data-placement="top" title="Vizualizar controlador" type="button" ui-sref="app.controladores_show({id: controlador.id})">
                         <i class="fa fa-eye"></i> Visualizar
                       </a>
-                      <a class="btn btn-outline btn-primary" data-toggle="tooltip" data-placement="top" title="Vizualizar planos" type="button" ui-sref="app.planos({id: controlador.id})">
+                      <a class="btn btn-outline btn-primary" data-toggle="tooltip" data-placement="top" title="Vizualizar planos" type="button" ui-sref="app.planos({id: controlador.id})" ng-show="controlador.statusControlador == 'CONFIGURADO'">
                         <i class="fa fa-file-text"></i> Planos
                       </a>
                     </hgroup>

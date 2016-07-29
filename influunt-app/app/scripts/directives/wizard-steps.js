@@ -14,10 +14,10 @@ angular.module('influuntApp')
         scope.$watch(function() {
           return $(el).html();
         }, function(val) {
-          if (val && val.match(/current/)) {
-            var current = $(el).find('li.current');
-            current.nextAll().addClass('disabled');
-            current.prevAll().andSelf().removeClass('disabled');
+          if (val && val.match(/active/)) {
+            var current = $(el).find('li.active');
+            current.nextAll().attr('class','');
+            current.prevAll().addClass('completed');
           } else {
             $(el).children('li').addClass('disabled');
           }

@@ -29,7 +29,8 @@
     "angular-ui-sortable": "^0.14.3",
     "vis": "^4.16.1",
     "paho-mqtt": "*",
-    "blockUI": "blockui#*"
+    "blockUI": "blockui#*",
+    "css-progress-wizard": "*"
   },
   "devDependencies": {
     "angular-mocks": "^1.4.0"
