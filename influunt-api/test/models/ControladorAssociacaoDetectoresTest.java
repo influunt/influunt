@@ -90,7 +90,7 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
         Controlador controlador = getControladorAssociacaoDetectores();
         controlador.save();
 
-        Controlador controladorJson = Json.fromJson(Json.toJson(controlador), Controlador.class);
+        Controlador controladorJson = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador));
 
         assertEquals(controlador.getId(), controladorJson.getId());
         assertNotNull(controladorJson.getId());
@@ -120,7 +120,7 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
         controlador.save();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.associacaoDetectores().url()).bodyJson(Json.toJson(controlador));
+                .uri(routes.ControladoresController.associacaoDetectores().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
         Result postResult = route(postRequest);
 
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
@@ -135,13 +135,13 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
         Controlador controlador = getControladorAssociacaoDetectores();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.associacaoDetectores().url()).bodyJson(Json.toJson(controlador));
+                .uri(routes.ControladoresController.associacaoDetectores().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
-        Controlador controladorRetornado = Json.fromJson(json, Controlador.class);
+        Controlador controladorRetornado = new ControladorCustomDeserializer().getControladorFromJson(json);
 
         assertNotNull(controladorRetornado.getId());
         assertEquals(StatusControlador.CONFIGURADO, controladorRetornado.getStatusControlador());
@@ -168,20 +168,19 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
     @Test
     public void testNewSerialize(){
         Controlador controlador = getControladorAssociacaoDetectores();
-        JsonNode json = new ControladorCustomSerializer().getControladorJson(controlador);
+        JsonNode jsonControlador = new ControladorCustomSerializer().getControladorJson(controlador);
 
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        JsonParser jp = new JsonParser();
-        JsonElement je = jp.parse(json.toString());
-        String prettyJsonString = gson.toJson(je);
-        System.out.println(prettyJsonString);
+        Controlador controlador1 = new ControladorCustomDeserializer().getControladorFromJson(jsonControlador);
+        JsonNode jsonControlador1 = new ControladorCustomSerializer().getControladorJson(controlador1);
 
-        Controlador controlador1 = new ControladorCustomDeserializer().getControladorFromJson(json);
-        JsonNode json2 = new ControladorCustomSerializer().getControladorJson(controlador1);
-        JsonElement je2 = jp.parse(json2.toString());
-        String prettyJsonString2 = gson.toJson(je2);
-        System.out.println("-----------------------");
-        System.out.println(prettyJsonString2);
+        assertEquals(jsonControlador.toString(),jsonControlador1.toString());
+
+//        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//        JsonParser jp = new JsonParser();
+//        JsonElement je = jp.parse(json.toString());
+//        String prettyJsonString = gson.toJson(je);
+//        System.out.println(prettyJsonString);
+
     }
 
     @Override

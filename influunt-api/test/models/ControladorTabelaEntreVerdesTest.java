@@ -3,6 +3,8 @@ package models;
 import checks.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import controllers.routes;
+import json.ControladorCustomDeserializer;
+import json.ControladorCustomSerializer;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import play.libs.Json;
@@ -162,7 +164,7 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
         Controlador controlador = getControladorTabelaDeEntreVerdes();
         controlador.save();
 
-        Controlador controladorJson = Json.fromJson(Json.toJson(controlador), Controlador.class);
+        Controlador controladorJson = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador));
 
         assertEquals(controlador.getId(), controladorJson.getId());
         assertNotNull(controladorJson.getId());
@@ -199,7 +201,7 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
         controlador.save();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.entreVerdes().url()).bodyJson(Json.toJson(controlador));
+                .uri(routes.ControladoresController.entreVerdes().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
         Result postResult = route(postRequest);
 
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
@@ -214,11 +216,11 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
         Controlador controlador = getControladorTabelaDeEntreVerdes();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.entreVerdes().url()).bodyJson(Json.toJson(controlador));
+                .uri(routes.ControladoresController.entreVerdes().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
         Result postResult = route(postRequest);
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
-        Controlador controladorJson = Json.fromJson(json, Controlador.class);
+        Controlador controladorJson = new ControladorCustomDeserializer().getControladorFromJson(json);
 
         assertEquals(OK, postResult.status());
 

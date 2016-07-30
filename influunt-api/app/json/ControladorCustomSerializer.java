@@ -7,6 +7,7 @@ import json.serializers.InfluuntDateTimeSerializer;
 import models.*;
 import org.apache.commons.lang3.ObjectUtils;
 import play.libs.Json;
+import utils.RangeUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,8 +32,8 @@ public class ControladorCustomSerializer {
     public JsonNode getControladorJson(Controlador controlador){
         ObjectNode root = Json.newObject();
 
-        putControladorPrimitivos(controlador, root);
         putControladorArea(controlador.getArea(), root);
+        putControladorPrimitivos(controlador, root);
         putControladorModelo(controlador.getModelo(),root);
         putControladorAneis(controlador.getAneis(),root);
         putControladorEstagios(root);
@@ -79,21 +80,56 @@ public class ControladorCustomSerializer {
         if (controlador.getLongitude() != null) {
             root.put("longitude", controlador.getLongitude());
         }
-        if (controlador.getDataCriacao() != null) {
-            root.put("dataCriacao", InfluuntDateTimeSerializer.parse(controlador.getDataCriacao()));
+        if (controlador.getSequencia() != null) {
+            root.put("sequencia", controlador.getSequencia());
         }
-        if (controlador.getDataAtualizacao() != null) {
-            root.put("dataAtualizacao", InfluuntDateTimeSerializer.parse(controlador.getDataAtualizacao()));
-        }
-        if (controlador.getCLC() != null) {
-            root.put("CLC", controlador.getCLC());
-        }
+
+        root.put("dataCriacao", InfluuntDateTimeSerializer.parse(controlador.getDataCriacao()));
+
+        root.put("dataAtualizacao", InfluuntDateTimeSerializer.parse(controlador.getDataAtualizacao()));
+
+        root.put("CLC", controlador.getCLC());
+
+        root.put("verdeMin", RangeUtils.TEMPO_VERDE.getMin().toString());
+        root.put("verdeMax", RangeUtils.TEMPO_VERDE.getMax().toString());
+        root.put("verdeMinimoMin", RangeUtils.TEMPO_VERDE_MINIMO.getMin().toString());
+        root.put("verdeMinimoMax", RangeUtils.TEMPO_VERDE_MINIMO.getMax().toString());
+        root.put("verdeMaximoMin", RangeUtils.TEMPO_VERDE_MAXIMO.getMin().toString());
+        root.put("verdeMaximoMax", RangeUtils.TEMPO_VERDE_MAXIMO.getMax().toString());
+        root.put("extensaVerdeMin", RangeUtils.TEMPO_EXTENSAO_VERDE.getMin().toString());
+        root.put("extensaVerdeMax", RangeUtils.TEMPO_EXTENSAO_VERDE.getMax().toString());
+        root.put("verdeIntermediarioMin", RangeUtils.TEMPO_VERDE_INTERMEDIARIO.getMin().toString());
+        root.put("verdeIntermediarioMax", RangeUtils.TEMPO_VERDE_INTERMEDIARIO.getMax().toString());
+        root.put("defasagemMin", RangeUtils.TEMPO_DEFASAGEM.getMin().toString());
+        root.put("defasagemMax", RangeUtils.TEMPO_DEFASAGEM.getMax().toString());
+        root.put("amareloMin", RangeUtils.TEMPO_AMARELO.getMin().toString());
+        root.put("amareloMax", RangeUtils.TEMPO_AMARELO.getMax().toString());
+        root.put("vermelhoIntermitenteMin", RangeUtils.TEMPO_VERMELHO_INTERMITENTE.getMin().toString());
+        root.put("vermelhoIntermitenteMax", RangeUtils.TEMPO_VERMELHO_INTERMITENTE.getMax().toString());
+        root.put("vermelhoLimpezaVeicularMin", RangeUtils.TEMPO_VERMELHO_LIMPEZA_VEICULAR.getMin().toString());
+        root.put("vermelhoLimpezaVeicularMax", RangeUtils.TEMPO_VERMELHO_LIMPEZA_VEICULAR.getMax().toString());
+        root.put("vermelhoLimpezaPedestreMin", RangeUtils.TEMPO_VERMELHO_LIMPEZA_PEDESTRE.getMin().toString());
+        root.put("vermelhoLimpezaPedestreMax", RangeUtils.TEMPO_VERMELHO_LIMPEZA_PEDESTRE.getMax().toString());
+        root.put("atrasoGrupoMin", RangeUtils.TEMPO_ATRASO_GRUPO.getMin().toString());
+        root.put("atrasoGrupoMax", RangeUtils.TEMPO_ATRASO_GRUPO.getMax().toString());
+        root.put("verdeSegurancaVeicularMin", RangeUtils.TEMPO_VERDE_SEGURANCA_VEICULAR.getMin().toString());
+        root.put("verdeSegurancaVeicularMax", RangeUtils.TEMPO_VERDE_SEGURANCA_VEICULAR.getMax().toString());
+        root.put("verdeSegurancaPedestreMin", RangeUtils.TEMPO_VERDE_SEGURANCA_PEDESTRE.getMin().toString());
+        root.put("verdeSegurancaPedestreMax", RangeUtils.TEMPO_VERDE_SEGURANCA_PEDESTRE.getMax().toString());
+        root.put("maximoPermanenciaEstagioMin", RangeUtils.TEMPO_MAXIMO_PERMANECIA_ESTAGIO.getMin().toString());
+        root.put("maximoPermanenciaEstagioMax", RangeUtils.TEMPO_MAXIMO_PERMANECIA_ESTAGIO.getMax().toString());
+        root.put("cicloMin", RangeUtils.TEMPO_CICLO.getMin().toString());
+        root.put("cicloMax", RangeUtils.TEMPO_CICLO.getMax().toString());
+
         if (controlador.getStatusControlador() != null) {
             root.put("statusControlador", controlador.getStatusControlador().toString());
         }
     }
 
     private void putControladorArea(Area area, ObjectNode root) {
+        if(area == null){
+            return;
+        }
         ObjectNode areaJson = Json.newObject();
         if (area.getId() != null) {
             areaJson.put("id", area.getId().toString());
@@ -116,6 +152,9 @@ public class ControladorCustomSerializer {
     }
 
     private void putControladorModelo(ModeloControlador modeloControlador, ObjectNode root) {
+        if(modeloControlador == null){
+            return;
+        }
         ObjectNode modeloJson = Json.newObject();
         if (modeloControlador.getId() == null) {
             modeloJson.putNull("id");
@@ -283,7 +322,7 @@ public class ControladorCustomSerializer {
         }
 
         if (grupoSemaforico.getAnel() != null && grupoSemaforico.getAnel().getId() != null) {
-            grupoSemaforicoJson.putObject("anel").put("id",grupoSemaforico.getAnel().toString());
+            grupoSemaforicoJson.putObject("anel").put("id",grupoSemaforico.getAnel().getId().toString());
         }
 
         refVerdesConflitantes("verdesConflitantesOrigem",grupoSemaforico.getVerdesConflitantesOrigem(),grupoSemaforicoJson);
@@ -567,6 +606,14 @@ public class ControladorCustomSerializer {
         }
         if (anel.getPosicao() != null) {
             anelJson.put("posicao", anel.getPosicao());
+        }
+
+        if (anel.getLatitude() != null) {
+            anelJson.put("latitude", anel.getLatitude());
+        }
+
+        if (anel.getLongitude() != null) {
+            anelJson.put("longitude", anel.getLongitude());
         }
 
         if (anel.getCLA() != null) {

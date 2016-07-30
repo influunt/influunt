@@ -345,7 +345,6 @@ public class GrupoSemaforico extends Model implements Cloneable {
     public void addVerdeConflitante(GrupoSemaforico grupoSemaforico) {
         VerdesConflitantes verdesConflitantes = new VerdesConflitantes(this, grupoSemaforico);
         addVerdesConflitantesList(verdesConflitantes);
-
     }
 
     public boolean conflitaCom(GrupoSemaforico grupoSemaforico) {

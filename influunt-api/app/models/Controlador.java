@@ -111,9 +111,6 @@ public class Controlador extends Model implements Cloneable {
     @Valid
     private List<Detector> detectores;
 
-    @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
-    @Valid
-    private List<Estagio> estagios;
 
     @ManyToMany(mappedBy = "controladores")
     private List<Agrupamento> agrupamentos;
@@ -147,6 +144,22 @@ public class Controlador extends Model implements Cloneable {
                 }
             }
         }
+
+        this.aneis.stream().filter(anel -> anel.isAtivo()).forEach( anel -> {
+            anel.getEstagios().forEach(estagio -> {
+                if(estagio.getId() != null && Estagio.find.byId(estagio.getId()) == null){
+                    estagio.setAnel(anel);
+                    estagio.save();
+                }
+            });
+            anel.getGruposSemaforicos().forEach(grupoSemaforico -> {
+                if(grupoSemaforico.getId() != null && GrupoSemaforico.find.byId(grupoSemaforico.getId()) == null){
+                    grupoSemaforico.setAnel(anel);
+                    grupoSemaforico.save();
+                }
+            });
+
+        });
 
         this.criarPossiveisTransicoes();
     }
