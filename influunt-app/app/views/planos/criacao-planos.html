@@ -32,8 +32,19 @@
                     </ul>
                     <div class="ui-layout-content tab-content">
                       <div id="tabs-1">
+                        <div class="col-lg-12 col-sm-12 text-left">
+                          <h2>{{ 'controladores.anel' | translate }} {{ currentAnel.posicao }}</h2>
+                        </div>
                         <div class="col-lg-12 col-sm-12 ibox-content no-padding">
                           <div class="col-lg-2 col-sm-2 association min-green side-menu">
+                            <div class="ibox-title">
+                              <h5>Planos</h5>
+                              <a class="btn btn-primary btn-xs m-l right" data-toggle="tooltip" data-placement="top" title="Adicionar plano" data-ng-click="adicionaPlano()">
+                                <i class="fa fa-plus"></i>
+                                Plano
+                              </a>
+                          </div>
+
                             <nav>
                               <ul id="side-menu">
                                 <li data-ng-repeat="plano in currentAnel.planos"
@@ -48,15 +59,6 @@
                             </nav>
                           </div>
                           <div class="col-lg-10 col-sm-10">
-                              <div class="col-lg-12 col-sm-12 association plans m-b-md">
-                                <header class="developing-plans">
-                                  <!-- <span>Criação de planos</span> -->
-                                  <nav class="plans">
-                                    <h1>ANEL {{ currentAnel.posicao }}</h1>
-                                  </nav>
-                                </header>
-                                <ng-include src="'views/planos/header-buttons.html'"></ng-include>
-                              </div>
                               <div class="col-lg-2 col-sm-2 association table-creation-plans min-green">
                                 <article>
                                   <div class="col-lg-12 col-sm-12 no-padding">
@@ -96,6 +98,9 @@
                                           <figure>
                                             <img ng-src="{{ estagio.imagem.id | imageSource }}" width="150">
                                           </figure>
+                                          <button type="button" class="btn btn-primary btn-xs m-l center" data-toggle="modal" data-target="#myModal">
+                                              Configurar
+                                          </button>
                                         </li>
                                       </ul>
                                     </div>
@@ -103,16 +108,16 @@
                                 </div>
 
                                 <div class="col-lg-12 col-sm-12 association stage-time m-t-md">
+                                  <div class="ibox-title">
+                                    <h5>Tabela de Planos</h5>
+                                    <ng-include src="'views/planos/header-buttons.html'" class="right"></ng-include>
+                                  </div>
+
                                   <section>
                                     <div class="col-lg-12 col-sm-12 no-padding table-create-plan overflow">
                                       <ng-include src="'views/planos/tabela-planos.html'"></ng-include>
                                     </div>
                                   </section>
-                                </div>
-                                <div class="col-lg-12 col-sm-12 association stage-time m-t-md">
-                                  <div class="knob">
-                                    <ng-include src="'views/planos/opcoes-inferior.html'"></ng-include>
-                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -128,6 +133,23 @@
             <a data-ng-click="submitForm({$valid: true}, 'aneis', 'app.wizard_controladores.associacao')" class="btn btn-primary btn-footer right">{{ 'plugins.steps.labels.next' | translate }}</a>
             <a data-ng-click="submitForm({$valid: true}, 'aneis', 'app.wizard_controladores.dados_basicos')" class="btn btn-inverse btn-footer right m-r-sm right">{{ 'plugins.steps.labels.previous' | translate }}</a>
           </div>
+
+          <!-- MODAL -->
+          <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+              <div class="modal-dialog">
+              <div class="modal-content animated bounceInRight">
+                      <div class="modal-header">
+                          <ng-include src="'views/planos/opcoes-inferior.html'"></ng-include>
+                      </div>
+
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary">Save changes</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
         </fieldset>
       </div>
     </div>

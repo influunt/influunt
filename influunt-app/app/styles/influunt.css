@@ -547,30 +547,31 @@ header .nav-secon li a {
 
 .wrapper-content .basic-wizard .content .body .min-green {
   min-height: 730px;
+  background: #f5f5f5;
 }
 
-.wrapper-content .basic-wizard .content .body .association.plans {
+.plans {
   padding: 0;
 }
 
-.wrapper-content .basic-wizard .content .body .association.plans nav.plans {
+.plans nav.plans {
   float: right;
   margin: 22px 20px 0;
 }
 
-.wrapper-content .basic-wizard .content .body .association.plans nav.plans ul {
+.plans nav.plans ul {
   padding: 0;
   margin: 0;
 }
 
-.wrapper-content .basic-wizard .content .body .association.plans nav.plans li span {
+.plans li span {
   display: block;
   width: 100%;
   height: 16px;
   margin-bottom: 10px;
 }
 
-.wrapper-content .basic-wizard .content .body .association.plans nav.plans li p {
+.plans li p {
   margin: 0;
   padding: 0;
   color: #676a6c;
@@ -593,23 +594,23 @@ header .nav-secon li a {
   /* column | row */
 }
 
-.wrapper-content .basic-wizard .content .body .association.plans nav.plans li {
+.plans li {
   position: relative;
   float: left;
   line-height: inherit;
   height: inherit;
 }
 
-.wrapper-content .basic-wizard .content .body .association.plans nav.plans li:hover {
+.plans li:hover {
   background: inherit;
 }
 
-.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .subnav li {
+.plans li .subnav li {
   width: 50%;
   padding: 0 10px;
 }
 
-.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .subnav {
+.plans li .subnav {
   -webkit-border-radius: 4px;
   border: 1px solid #e7eaec;
   border-radius: 4px;
@@ -622,11 +623,11 @@ header .nav-secon li a {
   padding: 20px 10px;
 }
 
-.wrapper-content .basic-wizard .content .body .association.plans nav.plans li a i {
+.plans li a i {
   padding-left: 10px;
 }
 
-.wrapper-content .basic-wizard .content .body .association.plans nav.plans li a {
+.plans li a {
   height: 34px;
   float: right;
   color: white;
@@ -727,6 +728,8 @@ header .nav-secon li a {
 .wrapper-content .basic-wizard .content .body .association.side-menu li.active {
   background: #1caf92;
   height: auto;
+  padding: 0 20px;
+  border-top: 1px solid #1ab394;
 }
 
 .wrapper-content .basic-wizard .content .body .association.side-menu li:hover {
@@ -873,31 +876,31 @@ header .nav-secon li a {
   padding: 0px 15px;
 }
 
-.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .green {
+.plans li .green {
   background: #00ad4d;
 }
 
-.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .yellow {
+.plans li .yellow {
   background: #fffb00;
 }
 
-.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .red-cleaning {
+.plans li .red-cleaning {
   background: #a31100;
 }
 
-.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .red-flashing {
+.plans li .red-flashing {
   background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAANUlEQVQYV2NkwAM6Ojr+M+KSB0lWVFQwYlUAkwRpxlCALImhAF0SRQE2SbgCXJJgBfgkQQoAFRkeoKyjcMIAAAAASUVORK5CYII=") #ff1b00;
 }
 
-.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .red {
+.plans li .red {
   background: #ff1b00;
 }
 
-.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .yellow-flashing {
+.plans li .yellow-flashing {
   background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAANUlEQVQYV2NkwAM6Ojr+M+KSB0lWVFQwYlUAkwRpxlCALImhAF0SRQE2SbgCXJJgBfgkQQoAFRkeoKyjcMIAAAAASUVORK5CYII=") #fffb00;
 }
 
-.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .wiped {
+.plans li .wiped {
   background: #3d3d3d;
 }
 
@@ -1070,14 +1073,11 @@ header .nav-secon li a {
 }
 
 .wrapper-content .basic-wizard .content .body .association {
-  border-top: 4px solid #e7eaec;
-  padding: 15px 0 20px;
-  background: #fff;
+  padding: 0 0 20px;
 }
 
-.wrapper-content .basic-wizard .content .body .association nav li:hover {
-  background: #19b4a8;
-  color: #fff;
+.wrapper-content .basic-wizard .content .body .association .ibox-title {
+  border: 0px;
 }
 
 .wrapper-content .basic-wizard .content .body .association nav li.active {
@@ -1914,4 +1914,9 @@ table.table-diagonal:nth-of-type(1) th.diagonal {
 
 .padding-top-20 {
   padding-top: 20px;
+}
+
+ul.dropdown-menu.pull-right.subnav {
+    padding: 10px 20px;
+    width: 190px;
 }
