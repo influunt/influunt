@@ -68,6 +68,9 @@ public class Anel extends Model implements Cloneable {
     @ManyToOne
     private Controlador controlador;
 
+    @OneToOne
+    private Imagem croqui;
+
     @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL)
     @Valid
     private List<Detector> detectores;
@@ -328,6 +331,14 @@ public class Anel extends Model implements Cloneable {
         } else {
             return String.format("%s.%01d", "sem-controlador", this.posicao);
         }
+    }
+
+    public Imagem getCroqui() {
+        return croqui;
+    }
+
+    public void setCroqui(Imagem croqui) {
+        this.croqui = croqui;
     }
 }
 

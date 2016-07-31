@@ -13,7 +13,7 @@ angular.module('influuntApp')
       $controller('ControladoresCtrl', {$scope: $scope});
 
       // Metodos privados.
-      var criaAneis;
+      var criaAneis, atualizarAneisAtivos;
 
       /**
        * Pré-condições para acesso à tela de aneis: Somente será possível acessar esta
@@ -31,6 +31,7 @@ angular.module('influuntApp')
         return valid;
       };
 
+
       $scope.inicializaAneis = function() {
         return $scope.inicializaWizard().then(function() {
           if ($scope.assertAneis()) {
@@ -38,6 +39,7 @@ angular.module('influuntApp')
             criaAneis($scope.objeto);
             $scope.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
             $scope.currentAnel = $scope.objeto.aneis[$scope.currentAnelIndex];
+            atualizarAneisAtivos();
             $scope.$broadcast('influuntWizard.dropzoneOk');
           }
         });
@@ -86,5 +88,35 @@ angular.module('influuntApp')
         if (index > -1) {
           anel.estagios.splice(index, 1);
         }
+      };
+
+      $scope.associaImagemAoCurrentAnel = function(imagem) {
+        $scope.currentAnel.croqui = imagem;
+      };
+
+      atualizarAneisAtivos = function() {
+        $scope.aneisAtivos = _.filter($scope.aneis, { ativo: true });
+      };
+
+      $scope.ativarProximoAnel = function() {
+        $scope.$apply(function() {
+          $scope.selecionaAnel(_.findIndex($scope.aneis, { ativo: false }));
+          $scope.currentAnel.ativo = true;
+          atualizarAneisAtivos();
+        });
+      };
+
+      $scope.desativarUltimoAnel = function() {
+        $scope.$apply(function() {
+          var ultimoAnelAtivoIndex = _.findLastIndex($scope.aneis, { ativo: true });
+          $scope.aneis[ultimoAnelAtivoIndex].ativo = false;
+          atualizarAneisAtivos();
+        });
+      };
+
+      $scope.selecionarCurrentAnel = function(index) {
+        $scope.$apply(function() {
+          $scope.selecionaAnel(index);
+        });
       };
     }]);

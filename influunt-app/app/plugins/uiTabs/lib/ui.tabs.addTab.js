@@ -12,16 +12,16 @@ var old_method = $.ui.tabs.prototype._create;
 
 $.extend($.ui.tabs.prototype, {
 	_create: function() {
-	  var self = this;
+	    var self = this;
 
-    // if addTab then add button
-    if (self.options.addTab === true) {
-    		this._getList().append('<li class="addTab button"><a href="#add"><i class="fa fa-plus"></i></a></li>');
-    		var ul = self._getList();
-    		ul.children('.addTab').click(function(){
-    			self.add();
-    		});
-    }
+        // if addTab then add button
+        if (self.options.addTab === true) {
+        		this._getList().append('<li class="addTab button"><a href="#add"><i class="fa fa-plus"></i></a></li>');
+        		var ul = self._getList();
+        		ul.children('.addTab').click(function(){
+        			self.add();
+        		});
+        }
 
 		self.options.beforeActivate = function(e, data) {
 				if(data.newTab.hasClass('button')) {
@@ -30,7 +30,7 @@ $.extend($.ui.tabs.prototype, {
 		};
 
 		old_method.apply(this, arguments);
-  }
+    }
 });
 
 })(jQuery);

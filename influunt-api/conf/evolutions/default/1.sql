@@ -29,8 +29,10 @@ create table aneis (
   latitude                      double,
   longitude                     double,
   controlador_id                varchar(40),
+  croqui_id                     varchar(40),
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
+  constraint uq_aneis_croqui_id unique (croqui_id),
   constraint pk_aneis primary key (id)
 );
 
@@ -324,6 +326,8 @@ create index ix_agrupamentos_controladores_controladores on agrupamentos_control
 alter table aneis add constraint fk_aneis_controlador_id foreign key (controlador_id) references controladores (id) on delete restrict on update restrict;
 create index ix_aneis_controlador_id on aneis (controlador_id);
 
+alter table aneis add constraint fk_aneis_croqui_id foreign key (croqui_id) references imagens (id) on delete restrict on update restrict;
+
 alter table areas add constraint fk_areas_cidade_id foreign key (cidade_id) references cidades (id) on delete restrict on update restrict;
 create index ix_areas_cidade_id on areas (cidade_id);
 
@@ -446,6 +450,8 @@ drop index ix_agrupamentos_controladores_controladores on agrupamentos_controlad
 
 alter table aneis drop foreign key fk_aneis_controlador_id;
 drop index ix_aneis_controlador_id on aneis;
+
+alter table aneis drop foreign key fk_aneis_croqui_id;
 
 alter table areas drop foreign key fk_areas_cidade_id;
 drop index ix_areas_cidade_id on areas;

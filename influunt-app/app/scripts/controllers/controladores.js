@@ -133,7 +133,6 @@ angular.module('influuntApp')
       $scope.selecionaAnel = function(index) {
         $scope.currentAnelIndex = index;
         $scope.currentAnel = $scope.aneis[$scope.currentAnelIndex];
-
         if (angular.isDefined($scope.currentEstagioId)) {
           $scope.selecionaEstagio($scope.currentEstagioId);
         }
@@ -206,8 +205,7 @@ angular.module('influuntApp')
 
       $scope.buildValidationMessages = function(errors) {
         $scope.errors = handleValidations.handle(errors);
-        $scope.errors.aneis = _.compact($scope.errors.aneis);
-        console.log('$scope.errors: ', $scope.errors);
+        // $scope.errors.aneis = _.compact($scope.errors.aneis);
         $scope.getErrosVerdes();
       };
 
