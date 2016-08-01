@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import models.Anel;
 import models.Controlador;
+import models.Endereco;
 import utils.RangeUtils;
 
 import java.io.IOException;
@@ -21,8 +22,8 @@ public class ControladorSerializer extends JsonSerializer<Controlador> {
         if (controlador.getId() != null) {
             jgen.writeStringField("id", controlador.getId().toString());
         }
-        if (controlador.getLocalizacao() != null) {
-            jgen.writeStringField("localizacao", controlador.getLocalizacao());
+        if (controlador.getNomeEndereco() != null) {
+            jgen.writeStringField("nomeEndereco", controlador.getNomeEndereco());
         }
         if (controlador.getNumeroSMEE() != null) {
             jgen.writeStringField("numeroSMEE", controlador.getNumeroSMEE());
@@ -38,12 +39,6 @@ public class ControladorSerializer extends JsonSerializer<Controlador> {
         }
         if (controlador.getFirmware() != null) {
             jgen.writeStringField("firmware", controlador.getFirmware());
-        }
-        if (controlador.getLatitude() != null) {
-            jgen.writeNumberField("latitude", controlador.getLatitude());
-        }
-        if (controlador.getLongitude() != null) {
-            jgen.writeNumberField("longitude", controlador.getLongitude());
         }
         if (controlador.getLimiteEstagio() != null) {
             jgen.writeNumberField("limiteEstagio", controlador.getLimiteEstagio());
@@ -85,6 +80,12 @@ public class ControladorSerializer extends JsonSerializer<Controlador> {
         jgen.writeArrayFieldStart("aneis");
         for (Anel anel : controlador.getAneis()) {
             jgen.writeObject(anel);
+        }
+        jgen.writeEndArray();
+
+        jgen.writeArrayFieldStart("enderecos");
+        for (Endereco endereco : controlador.getEnderecos()) {
+            jgen.writeObject(endereco);
         }
         jgen.writeEndArray();
 
