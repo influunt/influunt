@@ -205,6 +205,11 @@ angular.module('influuntApp')
 
       $scope.buildValidationMessages = function(errors) {
         $scope.errors = handleValidations.handle(errors);
+        for (var i = 0; i < $scope.errors.aneis.length; i++) {
+          if ($scope.errors.aneis[i] === undefined) {
+            $scope.errors.aneis[i] = {};
+          }
+        }
         // $scope.errors.aneis = _.compact($scope.errors.aneis);
         $scope.getErrosVerdes();
       };
