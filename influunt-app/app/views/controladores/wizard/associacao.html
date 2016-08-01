@@ -47,9 +47,9 @@
                     <nav>
                       <ul class="handle" ui-sortable="sortableOptions" data-ng-model="currentAnel.estagios">
                       <li class="ibox" data-ng-repeat="(indexEstagio, estagio) in currentAnel.estagios" data-ng-click="selecionaEstagio(indexEstagio)">
-                        <div class="col-lg-12 col-sm-12" data-ng-class="{'estagio-selecionado-bg': indexEstagio === currentEstagioId}">
+                        <div class="col-lg-12 col-sm-12">
                           <div class="row">
-                            <div class="col-lg-1 title-stages" data-ng-class="{'estagio-selecionado': indexEstagio === currentEstagioId}">
+                            <div class="title-stages small">
                               <hgroup>
                                 <span class="badge badge-danger badge-notification"
                                   data-ng-show="estagioTemErro(currentAnelIndex, indexEstagio)"
@@ -68,28 +68,32 @@
                                 </figure>
                               </div>
                             </div>
-                            <div class="col-lg-3 padding-top-20 text-left">
-                              <label class="checkbox-inline i-checks" data-ng-repeat="(indexGrupo, grupo) in currentAnel.gruposSemaforicos">
-                                <p>{{ grupo.label }}</p>
-                                <input type="checkbox" ichecks data-ng-model="grupo.estagiosRelacionados[estagio.id]" i-changed="associaEstagiosGrupoSemaforico(grupo, estagio)">
-                              </label>
+                            <div class="col-lg-3 padding-top-20 text-left group">
+                              <div class="checkbox" data-ng-repeat="(indexGrupo, grupo) in currentAnel.gruposSemaforicos">
+                                <label class="i-checks">                                                      
+                                  <input type="checkbox" ichecks data-ng-model="grupo.estagiosRelacionados[estagio.id]" i-changed="associaEstagiosGrupoSemaforico(grupo, estagio)">
+                                </label>
+                                <p>{{ grupo.label }}</p>        
+                              </div>
                             </div>
                             <div class="col-lg-5 padding-top-20 text-left">
-                              <div class="col-lg-6">
-                                <label class="control-label no-padding text-left">Monitorar tempo máximo</label>
-
-                                <div class="input-group m-b">
-                                  <span class="input-group-addon padding-5">
-                                    <input type="checkbox" ichecks data-ng-model="estagio.tempoMaximoPermanenciaAtivo" if-unchecked="limpaTempoPermanencia(estagio)">
-                                  </span>
-                                  <input type="number" ng-model="estagio.tempoMaximoPermanencia"data-ng-disabled="!estagio.tempoMaximoPermanenciaAtivo" class="form-control">
-                                  <span class="input-group-addon" style="padding: 6px;">seg.</span>
-
+                              <div class="col-lg-6 priority">
+                                <div>                                    
+                                    <label>
+                                      <input type="checkbox" ichecks data-ng-model="estagio.tempoMaximoPermanenciaAtivado" if-unchecked="limpaTempoPermanencia(estagio)">
+                                      <p class="desc">Ativar monitoramento de tempo máximo de permanencia</p>
+                                    </label>
                                 </div>
+                                <div class="knob-item">
+                                    <influunt-knob
+                                    label="QTD" min="1" max="objeto.limiteEstagio" read-only=!estagio.tempoMaximoPermanenciaAtivado
+                                    data-ng-model="estagio.tempoMaximoPermanencia"></influunt-knob>
+                                  </div>
                               </div>
-                              <div class="col-lg-6">
-                                <label class="demanda-prioritaria no-padding text-left">Demanda prioritária</label>
-                                <input type="checkbox" ichecks data-ng-model="estagio.demandaPrioritaria">
+                              <div class="col-lg-6 priority">
+                                <div>                                    
+                                    <label><input type="checkbox" ichecks data-ng-model="estagio.demandaPrioritaria"><p class="desc">Demanda prioritária</p></label>
+                                </div>
                               </div>
                             </div>
                           </div>
