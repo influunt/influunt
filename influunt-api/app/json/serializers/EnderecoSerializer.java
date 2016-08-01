@@ -32,9 +32,6 @@ public class EnderecoSerializer extends JsonSerializer<Endereco> {
         if (endereco.getLongitude() != null) {
             jgen.writeNumberField("longitude", endereco.getLongitude());
         }
-        if (endereco.getLongitude() != null) {
-            jgen.writeNumberField("longitude", endereco.getLongitude());
-        }
         if (endereco.getControlador() != null) {
             Controlador controlador = ObjectUtils.clone(endereco.getControlador());
             controlador.setAgrupamentos(null);
