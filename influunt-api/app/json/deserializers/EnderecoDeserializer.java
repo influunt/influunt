@@ -28,8 +28,8 @@ public class EnderecoDeserializer extends JsonDeserializer<Endereco> {
             endereco.setId(UUID.fromString(id.asText()));
         }
         endereco.setLocalizacao(node.get("localizacao") != null ? node.get("localizacao").asText() : null);
-        endereco.setLatitude(node.get("latitude") != null ? node.get("latitude").asDouble() : null);
-        endereco.setLongitude(node.get("longitude") != null ? node.get("longitude").asDouble() : null);
+        endereco.setLatitude((node.get("latitude") != null && node.get("latitude").isNumber()) ? node.get("latitude").asDouble() : null);
+        endereco.setLongitude((node.get("longitude") != null && node.get("longitude").isNumber()) ? node.get("longitude").asDouble() : null);
         if (node.has("controlador")) {
             endereco.setControlador(Json.fromJson(node.get("controlador"), Controlador.class));
         }

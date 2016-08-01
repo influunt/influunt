@@ -86,7 +86,8 @@ angular.module('influuntApp')
             defer.resolve(res);
           });
         } else {
-          loadWizardData({limiteEstagio: 16, limiteGrupoSemaforico: 16, limiteAnel: 4, limiteDetectorPedestre: 4, limiteDetectorVeicular: 8, limiteTabelasEntreVerdes: 2});
+          // {localizacao: [], latitude: [], longitude: []}
+          loadWizardData({limiteEstagio: 16, limiteGrupoSemaforico: 16, limiteAnel: 4, limiteDetectorPedestre: 4, limiteDetectorVeicular: 8, limiteTabelasEntreVerdes: 2, enderecos: []});
           influuntBlockui.unblock();
           defer.resolve({});
         }
