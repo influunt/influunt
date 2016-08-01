@@ -7,7 +7,7 @@
  * # influuntImageInput
  */
 angular.module('influuntApp')
-  .directive('influuntImageInput', ['$http', function ($http) {
+  .directive('influuntImageInput', function () {
     return {
       restrict: 'E',
       scope: {
@@ -18,8 +18,22 @@ angular.module('influuntApp')
       templateUrl: 'views/directives/influunt-image-input.html',
       link: function (scope, element) {
 
-        var uploadImage = function(e) {
-          var imagem = element.find('input')[0].files[0]
+        var onSuccess = function(response) {
+          if (angular.isFunction(scope.onUpload)) {
+            scope.$apply(function() {
+              scope.onUpload()(response);
+            });
+          }
+        };
+
+        var onError = function(response) {
+          if (angular.isFunction(scope.onUploadError)) {
+            scope.onUploadError()(response);
+          }
+        };
+
+        var uploadImage = function() {
+          var imagem = element.find('input')[0].files[0];
           var formData = new FormData();
           formData.append('imagem', imagem);
           $.ajax({
@@ -33,24 +47,10 @@ angular.module('influuntApp')
             },
             success: onSuccess,
             error: onError
-          })
+          });
         };
 
-        var onSuccess = function(response) {
-          if (angular.isFunction(scope.onUpload)) {
-            scope.$apply(function() {
-              scope.onUpload()(response);
-            })
-          }
-        };
-
-        var onError = function(response) {
-          if (angular.isFunction(scope.onUploadError)) {
-            scope.onUploadError()(response);
-          }
-        };
-
-        $(element).on('change', uploadImage)
+        $(element).on('change', uploadImage);
       }
     };
-  }]);
+  });

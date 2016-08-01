@@ -29,30 +29,6 @@
               </div>
               <div class="col-lg-9 col-sm-9 groups ibox-content">
                 <div class="col-lg-6 col-sm-6 no-padding-left">
-                  <div class="col-lg-6 col-sm-6">
-                    <div class="form-group">
-                      <label class="control-label">{{ 'controladores.gruposPedestres' | translate }}</label>
-                      <input type="number" name="quantidadeGrupoPedestre" class="form-control" ng-model="currentAnel.quantidadeGrupoPedestre" />
-                    </div>
-                  </div>
-                  <div class="col-lg-6 col-sm-6">
-                    <div class="form-group">
-                      <label class="control-label">{{ 'controladores.gruposSinaisVeiculares' | translate }}</label>
-                      <input type="number" name="quantidadeGrupoVeicular" placeholder="" class="form-control" data-ng-model="currentAnel.quantidadeGrupoVeicular">
-                    </div>
-                  </div>
-                  <div class="col-lg-6 col-sm-6">
-                    <div class="form-group">
-                      <label class="control-label">{{ 'controladores.numeroDetectores' | translate }}</label>
-                      <input type="number" name="quantidadeDetectorVeicular" placeholder="" class="form-control" data-ng-model="currentAnel.quantidadeDetectorVeicular">
-                    </div>
-                  </div>
-                  <div class="col-lg-6 col-sm-6">
-                    <div class="form-group">
-                      <label class="control-label">{{ 'controladores.numeroDetectoresPedestres' | translate }}</label>
-                      <input type="number" name="quantidadeDetectorPedestre" placeholder="" class="form-control" data-ng-model="currentAnel.quantidadeDetectorPedestre">
-                    </div>
-                  </div>
 
                   <div class="col-lg-12 col-sm-12">
                     <div class="form-group">
@@ -69,7 +45,7 @@
                         data-ng-model="currentAnel.CLA" readonly>
                     </div>
                   </div>
-                  <div class="col-lg-12 col-sm-12">
+                  <div class="col-lg-12 col-sm-12 m-t-87">
                     <div class="form-group">
                       <label class="control-label">{{ 'controladores.localizacao' | translate }}</label>
                       <helper-endereco ng-model="currentAnel.endereco" latitude="currentAnel.latitude" longitude="currentAnel.longitude"></helper-endereco>
@@ -81,7 +57,6 @@
                 <div class="col-lg-6 col-sm-6">
                   <h4>CROQUI</h4>
                   <div class="img-preview img-preview-sm">
-                    <!-- <img src="http://lorempixel.com/output/food-q-c-1920-1079-4.jpg"> -->
                     <img ng-if="currentAnel.croqui" ng-src="{{ currentAnel.croqui.id | imageSource }}" alt="{{ currentAnel.croqui.filename }}">
                   </div>
                   <div class="btn-group padding-top-20">
