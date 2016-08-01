@@ -1991,3 +1991,6 @@ img.sample-img-estagios {
   width: 200px;
   height: 150px;
 }
+.ui-widget-header {
+  background: transparent;
+}
