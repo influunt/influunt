@@ -210,10 +210,8 @@ angular.module('influuntApp')
             $scope.errors.aneis[i] = {};
           }
         }
-        // $scope.errors.aneis = _.compact($scope.errors.aneis);
-        $scope.getErrosVerdes();
 
-        console.log($scope.errors);
+        $scope.getErrosVerdes();
       };
 
       $scope.getErrosVerdes = function() {
@@ -229,20 +227,6 @@ angular.module('influuntApp')
             });
           });
         });
-
-        // $scope.messages = [];
-        // _.each($scope.errors.aneis, function(anel, anelIndex) {
-        //   _.each(anel.gruposSemaforicos, function(gs, gsIndex) {
-        //     var nomeGS = 'G' + $scope.objeto.aneis[anelIndex].gruposSemaforicos[gsIndex].posicao;
-        //     _.each(gs, function(mgs) {
-        //       _.map(mgs, function(msg) {
-        //         $scope.messages.push(nomeGS + ': ' + msg);
-        //       });
-        //     });
-        //   });
-        // });
-
-        // $scope.messages = _.uniq($scope.messages);
       };
 
       /**
