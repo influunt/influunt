@@ -208,4 +208,9 @@ angular.module('influuntApp')
         return _.isArray(errors) && errors.length > 0;
       };
 
+      $scope.selecionaAnelEntreVerdes = function(index) {
+        $scope.selecionaAnel(index);
+        $scope.selecionaGrupoSemaforico(0);
+      };
+
     }]);

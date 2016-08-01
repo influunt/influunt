@@ -12,6 +12,8 @@ angular.module('influuntApp')
     function ($scope, $controller, $state, $filter, assertControlador, influuntAlert) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
+      var atualizaPosicaoGrupos;
+
       /**
        * Pré-condições para acesso à tela.
        *
@@ -43,12 +45,9 @@ angular.module('influuntApp')
       };
 
       $scope.adicionaGrupoSemaforico = function() {
-        var obj = {
-          anel: {id: $scope.currentAnel.id},
-          posicao: $scope.currentAnel.gruposSemaforicos.length + 1
-        };
-
+        var obj = {anel: {id: $scope.currentAnel.id}};
         $scope.currentAnel.gruposSemaforicos.push(obj);
+        return atualizaPosicaoGrupos();
       };
 
       $scope.removeGrupo = function(index) {
@@ -58,8 +57,26 @@ angular.module('influuntApp')
             $scope.currentAnel.gruposSemaforicos.forEach(function(grupo, index) {
               grupo.posicao = index + 1;
             });
+
+            atualizaPosicaoGrupos();
           }
         });
+      };
+
+      /**
+       * atualiza as posições dos grupos.
+       *
+       * @return     {<type>}  { description_of_the_return_value }
+       */
+      atualizaPosicaoGrupos = function() {
+        var posicao = 0;
+        return _.chain($scope.aneis)
+          .map('gruposSemaforicos')
+          .flatten()
+          .each(function(g) {
+            g.posicao = ++posicao;
+          })
+          .value();
       };
 
     }]);

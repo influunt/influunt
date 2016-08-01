@@ -712,6 +712,10 @@ header .nav-secon li a {
   margin: 0;
 }
 
+.wrapper-content .basic-wizard .content .body .association.side-menu ul#side-menu {
+  padding-right: 5px;
+}
+
 .wrapper-content .basic-wizard .content .body .association.side-menu li .nav-second-level li .fa-files-o {
   float: right;
   line-height: 40px;
@@ -1964,4 +1968,8 @@ table.table-diagonal:nth-of-type(1) th.diagonal {
 
 .padding-top-20 {
   padding-top: 20px;
+}
+
+ul li span.bubble {
+  cursor: pointer;
 }

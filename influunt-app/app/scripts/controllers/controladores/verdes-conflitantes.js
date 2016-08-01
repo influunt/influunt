@@ -34,8 +34,10 @@ angular.module('influuntApp')
         return $scope.inicializaWizard().then(function() {
           if ($scope.assertVerdesConflitantes()) {
             $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
+            $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
 
-            $scope.objeto.aneis.forEach(function(anel) {
+            $scope.aneis.forEach(function(anel) {
+              anel.gruposSemaforicos = _.orderBy(anel.gruposSemaforicos, ['posicao']);
               anel.gruposSemaforicos.forEach(function(gs) {
                 gs.anel = {
                   id: anel.id
@@ -56,6 +58,7 @@ angular.module('influuntApp')
             var totalGrupos = 16;
             $scope.grupos = _.times(totalGrupos, function(i) {return 'G' + (i+1);});
 
+            $scope.selecionaAnel(0);
             buildIntervaloAneis();
             buildMatrizVerdesConflitantes();
 
@@ -107,6 +110,12 @@ angular.module('influuntApp')
 
       $scope.closeMensagensVerdes = function() {
         $scope.messages = [];
+      };
+
+      $scope.temVerdeConflitante = function(x, y) {
+        var obj = {origem: {id: x.id}, destino: {id: y.id}};
+        console.log('teste');
+        return !!_.find(x.verdesConflitantesOrigem, obj);
       };
 
       /**

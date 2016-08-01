@@ -598,6 +598,10 @@ header .nav-secon li a {
 .wrapper-content .basic-wizard .content .body .association.side-menu ul {
     padding: 0;
     margin: 0;
+    &#side-menu {
+      padding-right: 5px;
+
+    }
 }
 .wrapper-content .basic-wizard .content .body .association.side-menu li .nav-second-level li .fa-files-o {
     float: right;
@@ -1708,4 +1712,13 @@ table.table-diagonal:nth-of-type(1) th.diagonal {
 
 .padding-top-20 {
   padding-top: 20px;
+}
+
+// wizard-steps.
+ul {
+  li {
+    span.bubble {
+      cursor: pointer;
+    }
+  }
 }

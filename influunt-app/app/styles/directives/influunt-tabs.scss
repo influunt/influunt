@@ -74,16 +74,19 @@ li.addTab.button.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab a {
   padding-bottom: 1px;
 }
 
-span.ui-icon.ui-icon-circle-close {
+li.ui-tabs-tab {
+  span.ui-icon.ui-icon-circle-close {
     position: absolute;
     top: -24px;
     right: -25px;
     font-size: 16px;
+  }
+
+  span.badge.badge-danger.badge-notification {
+      position: absolute;
+      top: 0px;
+      left: 6px;
+      border-radius: 0;
+  }
 }
 
-span.badge.badge-danger.badge-notification {
-    position: absolute;
-    top: 0px;
-    left: 6px;
-    border-radius: 0;
-}

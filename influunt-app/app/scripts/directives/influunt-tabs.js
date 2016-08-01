@@ -16,7 +16,8 @@ angular.module('influuntApp')
         onActivate: '&',
         errorCheck: '&',
         aneisAtivos: '=',
-        maxTabs: '='
+        maxTabs: '=',
+        canAddTabs: '='
       },
       template: '<ul class="nav nav-tabs"></ul>',
       link: function (scope, element) {
@@ -25,13 +26,21 @@ angular.module('influuntApp')
         var tabTemplate = $templateCache.get('views/directives/influunt-tabs/_tab.html');
         var initializing = true;
 
+        var hideAddButton = function() {
+          element.find('li[role="tab"].addTab').hide();
+        };
+
+        var showAddButton = function() {
+          element.find('li[role="tab"].addTab').show();
+        };
+
         var checkTabLimit = function() {
           if (scope.maxTabs) {
             var totalTabs = element.find('li[role="tab"]:not(.addTab)').length;
             if (totalTabs >= scope.maxTabs) {
-              element.find('li[role="tab"].addTab').hide();
+              hideAddButton();
             } else {
-              element.find('li[role="tab"].addTab').show();
+              showAddButton();
             }
           }
         };
@@ -55,10 +64,12 @@ angular.module('influuntApp')
         };
 
         var tabActivated = function(event, data) {
-          if (data.newTab.find('a:first').html() !== 'New tab') {
-            var tabIndex = data.newTab.index('li[role="tab"]');
-            scope.onActivate()(tabIndex);
-          }
+          scope.$apply(function() {
+            if (data.newTab.find('a:first').html() !== 'New tab') {
+              var tabIndex = data.newTab.index('li[role="tab"]');
+              scope.onActivate()(tabIndex);
+            }
+          });
         };
 
         var createInitialTabs = function(element) {
@@ -81,7 +92,6 @@ angular.module('influuntApp')
 
         scope.$watch('aneisAtivos', function(value) {
           if (value) {
-
             if (initializing) {
               createInitialTabs(element);
               initializing = false;
@@ -95,6 +105,12 @@ angular.module('influuntApp')
               activate: tabActivated }).tabs('overflowResize');
 
             $compile(element.contents())(scope);
+
+            if (!!scope.canAddTabs) {
+              showAddButton();
+            } else {
+              hideAddButton();
+            }
           }
         });
       }
