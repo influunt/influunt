@@ -52,7 +52,6 @@ angular.module('influuntApp')
           return val > 0 && filterVisiblePreviews();
         });
 
-        // new Dropzone('#'+element.attr('id'), {
         $(element).dropzone({
           url: APP_ROOT + '/imagens',
           dictDefaultMessage: 'Arraste imagens para este local',
@@ -74,7 +73,7 @@ angular.module('influuntApp')
             // para filtrar as imagens de estagios para os diferentes aneis.
             $(upload.previewElement).attr('data-anel-id', anel.idAnel);
             $(upload.previewElement).attr('data-imagem-id', imagem.id);
-            return scope.onSuccess({upload: upload, imagem: imagem});
+            return scope.onSuccess({ upload: upload, imagem: imagem });
           },
           init: function() {
             this.on('addedfile', function(file) {

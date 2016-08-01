@@ -32,11 +32,6 @@ angular.module('influuntApp')
                 });
               });
             }
-
-            var hasItems = $('.dz-preview').length > 0;
-            if (hasItems) {
-              $('.dz-default.dz-message').hide();
-            }
           });
         }
       };
