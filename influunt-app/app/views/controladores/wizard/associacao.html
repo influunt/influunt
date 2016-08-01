@@ -79,17 +79,20 @@
                             <div class="col-lg-5 padding-top-20 text-left">
                               <div class="col-lg-6 priority">
                                 <div>                                    
-                                    <label><input type="checkbox" ichecks><p class="desc">Desativação de tempo máximo</p></label>
+                                    <label>
+                                      <input type="checkbox" ichecks data-ng-model="estagio.tempoMaximoPermanenciaAtivado" if-unchecked="limpaTempoPermanencia(estagio)">
+                                      <p class="desc">Ativar monitoramento de tempo máximo de permanencia</p>
+                                    </label>
                                 </div>
                                 <div class="knob-item">
-                                    <influunt-knob                                   
-                                    label="QTD" min="1" max="50"
-                                    data-ng-model="objeto.limiteEstagio"></influunt-knob>
+                                    <influunt-knob
+                                    label="QTD" min="1" max="objeto.limiteEstagio" read-only=!estagio.tempoMaximoPermanenciaAtivado
+                                    data-ng-model="estagio.tempoMaximoPermanencia"></influunt-knob>
                                   </div>
                               </div>
                               <div class="col-lg-6 priority">
                                 <div>                                    
-                                    <label><input type="checkbox" ichecks><p class="desc">Demanda prioritária</p></label>
+                                    <label><input type="checkbox" ichecks data-ng-model="estagio.demandaPrioritaria"><p class="desc">Demanda prioritária</p></label>
                                 </div>
                               </div>
                             </div>

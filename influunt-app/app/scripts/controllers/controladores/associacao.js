@@ -51,7 +51,6 @@ angular.module('influuntApp')
               // Inicializa o tempoMaximoPermanenciaAtivo true e posicao.
               _.each(anel.estagios, function(estagio, index) {
                 estagio.posicao = estagio.posicao || (index + 1);
-                estagio.tempoMaximoPermanenciaAtivo = !!estagio.tempoMaximoPermanencia;
               });
 
             });
