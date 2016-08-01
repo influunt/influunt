@@ -45,6 +45,7 @@ public class Controlador extends Model implements Cloneable {
     private UUID id;
 
     @Column
+    @NotNull(message = "não pode ficar em branco")
     private String nomeEndereco;
 
     @Column

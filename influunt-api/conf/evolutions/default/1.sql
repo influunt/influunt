@@ -55,7 +55,7 @@ create table cidades (
 
 create table controladores (
   id                            varchar(40) not null,
-  nome_endereco                 varchar(255),
+  nome_endereco                 varchar(255) not null,
   status_controlador            integer,
   sequencia                     integer,
   numero_smee                   varchar(255),
