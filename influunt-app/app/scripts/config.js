@@ -328,6 +328,14 @@ angular
           }
         })
 
+        .state('app.wizard_controladores.revisao', {
+          url: '/revisao/:id',
+          templateUrl: 'views/controladores/wizard/revisao.html',
+          data: {
+            title: 'controladores.revisao'
+          }
+        })
+
         .state('app.planos', {
           url: '/planos/:id',
           templateUrl: 'views/planos/criacao-planos.html',

@@ -1904,7 +1904,6 @@ img.sample-img-estagios {
   width: 200px;
   height: 150px;
 }
-
 .stage-images figure {
   max-width: 150px;
   background: #dddddd;
@@ -1950,4 +1949,7 @@ img.sample-img-estagios {
   height: 150px !important;
   border: 0 !important;
   margin: 0 0 10px 0 !important;
+}
+.ui-widget-header {
+  background: transparent;
 }

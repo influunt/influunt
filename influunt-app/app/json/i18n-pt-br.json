@@ -57,6 +57,7 @@
     "tipo": "Tipo",
     "titulo": "Programação",
     "transicoesProibidas": "Transições Proibidas",
+    "revisao": "Revisão",
     "validacoes": {
       "aoMenosUmGrupoSemaforico": "Este anel deve ter mais de 1 grupo semáforico",
       "latitudeMayNotBeNull": "Campo de Latitude é Obrigatório",
