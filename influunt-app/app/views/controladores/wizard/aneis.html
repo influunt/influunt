@@ -99,10 +99,16 @@
                   <label for=""><h3>{{ 'controladores.estagios' | translate }}</h3></label>
                 </hgroup>
 
-                <form class="dropzone" id="my-awesome-dropzone" imagens-url="dados.imagensUrl" enctype="multipart/form-data" influunt-dropzone anel="currentAnel" on-success="associaImagemAoEstagio(upload, imagem)">
+                <form class="dropzone"
+                      id="my-awesome-dropzone"
+                      imagens-url="dados.imagensUrl"
+                      enctype="multipart/form-data"
+                      influunt-dropzone
+                      anel="currentAnel"
+                      on-success="associaImagemAoEstagio(upload, imagem)"
+                      on-delete="removeImagemDoEstagio(imagem)">
                   <fake-dropzone-preview aneis="aneis"></fake-dropzone-preview>
-
-                  <div class="dropzone-previews"></div>
+                  <div class="dz-default dz-message"><span>Arraste imagens para este local</span></div>
                   <div class="fallback">
                     <input name="file" type="file" multiple />
                   </div>
