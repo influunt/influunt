@@ -63,6 +63,9 @@ public class AnelDeserializer extends JsonDeserializer<Anel> {
         if (node.has("controlador")) {
             anel.setControlador(Json.fromJson(node.get("controlador"), Controlador.class));
         }
+        if (node.has("croqui")) {
+            anel.setCroqui(Json.fromJson(node.get("croqui"), Imagem.class));
+        }
         if (node.has("gruposSemaforicos")) {
             List<GrupoSemaforico> grupoSemaforicos = new ArrayList<GrupoSemaforico>();
             for (JsonNode grupoNode : node.get("gruposSemaforicos")) {

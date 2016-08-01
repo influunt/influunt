@@ -11,148 +11,102 @@
     </uib-alert>
   </div>
 
-  <script>
-    $(function(){
-      $( ".tabpanel" ).tabs({closable: true, addTab:true}).tabs('overflowResize')
-      .find( ".ui-tabs-nav" ).sortable({
-        distance: 10
-      });
-    });
-  </script>
-
   <div class="m-t-md">
     <div class="col-lg-12 col-sm-12 bg-border no-padding">
       <div class="ibox float-e-margins">
-        <div class="tabpanel">
-          <div class="col-lg-12 col-sm-12 padding-top-20 tabs-container">
-            <ul class="nav nav-tabs">
-              <li class=""><a class="" data-toggle="tab" href="#tabs-1" aria-expanded="false">{{ 'controladores.anel' | translate }} {{ currentAnel.posicao }}</a></li>
-              <li class=""><a class="closable" data-toggle="tab" href="#tabs-2" aria-expanded="false">{{ 'controladores.anel' | translate }} 02</a></li>
-              <li class=""><a class="closable" data-toggle="tab" href="#tabs-3" aria-expanded="false">{{ 'controladores.anel' | translate }} 03</a></li>
-            </ul>
-            <div class="ui-layout-content tab-content">
-              <div id="tabs-1">
-                <div class="col-lg-12 col-sm-12 text-left">
-                  <h2>{{ 'controladores.anel' | translate }} {{ currentAnel.posicao }}</h2>
-                </div>
-                <div class="col-lg-9 col-sm-9 groups ibox-content">
-                  <div class="col-lg-6 col-sm-6 no-padding-left">
-                    <div class="col-lg-6 col-sm-6">
-                      <div class="form-group">
-                        <label class="control-label">{{ 'controladores.gruposPedestres' | translate }}</label>
-                        <input type="number" name="quantidadeGrupoPedestre" class="form-control" ng-model="currentAnel.quantidadeGrupoPedestre" />
-                      </div>
-                    </div>
-                    <div class="col-lg-6 col-sm-6">
-                      <div class="form-group">
-                        <label class="control-label">{{ 'controladores.gruposSinaisVeiculares' | translate }}</label>
-                        <input type="number" name="quantidadeGrupoVeicular" placeholder="" class="form-control" data-ng-model="currentAnel.quantidadeGrupoVeicular">
-                      </div>
-                    </div>
-                    <div class="col-lg-6 col-sm-6">
-                      <div class="form-group">
-                        <label class="control-label">{{ 'controladores.numeroDetectores' | translate }}</label>
-                        <input type="number" name="quantidadeDetectorVeicular" placeholder="" class="form-control" data-ng-model="currentAnel.quantidadeDetectorVeicular">
-                      </div>
-                    </div>
-                    <div class="col-lg-6 col-sm-6">
-                      <div class="form-group">
-                        <label class="control-label">{{ 'controladores.numeroDetectoresPedestres' | translate }}</label>
-                        <input type="number" name="quantidadeDetectorPedestre" placeholder="" class="form-control" data-ng-model="currentAnel.quantidadeDetectorPedestre">
-                      </div>
-                    </div>
-
-                    <div class="col-lg-12 col-sm-12">
-                      <div class="form-group">
-                        <label class="control-label">{{ 'controladores.localizacao' | translate }}</label>
-                        <textarea type="text" name="localizacao" placeholder="" class="form-control" data-ng-model="currentAnel.localizacao"></textarea>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label">{{ 'controladores.numeroSMEE' | translate }}</label>
-                        <input type="text" name="numeroSMEE" placeholder="" class="form-control" data-ng-model="currentAnel.numeroSMEE">
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label">{{ 'controladores.CLA' | translate }}</label>
-                        <input type="text" name="CLA" class="form-control"
-                          data-ng-model="currentAnel.CLA" readonly>
-                      </div>
-                    </div>
-                    <div class="col-lg-12 col-sm-12">
-                      <div class="form-group">
-                        <label class="control-label">{{ 'controladores.localizacao' | translate }}</label>
-                        <helper-endereco ng-model="currentAnel.endereco" latitude="currentAnel.latitude" longitude="currentAnel.longitude"></helper-endereco>
-                      </div>
-                    </div>
-                  </div>
-
-
-                  <div class="col-lg-6 col-sm-6">
-                    <h4>CROQUI</h4>
-                    <div class="img-preview img-preview-sm">
-                      <img src="http://lorempixel.com/output/food-q-c-1920-1079-4.jpg">
-                    </div>
-                    <div class="btn-group padding-top-20">
-                      <label title="Upload image file" for="inputImage" class="btn btn-primary">
-                        <input type="file" accept="image/*" name="file" id="inputImage" class="hide"> Enviar imagem
-                      </label>
-                    </div>
-                  </div>
+        <div class="col-lg-12 col-sm-12 padding-top-20 tabs-container">
+          <influunt-tabs class="tabpanel"
+                         data-on-add="ativarProximoAnel"
+                         data-on-remove="desativarUltimoAnel"
+                         data-on-activate="selecionarCurrentAnel"
+                         data-aneis-ativos="aneisAtivos"
+                         data-error-check="anelTemErro"
+                         data-max-tabs="objeto.limiteAnel"></influunt-tabs>
+          <div class="ui-layout-content tab-content">
+            <div id="tabs-1">
+              <div class="col-lg-12 col-sm-12 text-left">
+                <h2>{{ 'controladores.anel' | translate }} {{ currentAnel.posicao }}</h2>
+              </div>
+              <div class="col-lg-9 col-sm-9 groups ibox-content">
+                <div class="col-lg-6 col-sm-6 no-padding-left">
 
                   <div class="col-lg-12 col-sm-12">
                     <div class="form-group">
-                      <figure>
-                        <div influunt-map
-                          latitude="currentAnel.latitude"
-                          longitude="currentAnel.longitude"
-                          class="influunt-map">
-                        </div>
-                      </figure>
+                      <label class="control-label">{{ 'controladores.localizacao' | translate }}</label>
+                      <textarea type="text" name="localizacao" placeholder="" class="form-control" data-ng-model="currentAnel.localizacao"></textarea>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label">{{ 'controladores.numeroSMEE' | translate }}</label>
+                      <input type="text" name="numeroSMEE" placeholder="" class="form-control" data-ng-model="currentAnel.numeroSMEE">
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label">{{ 'controladores.CLA' | translate }}</label>
+                      <input type="text" name="CLA" class="form-control"
+                        data-ng-model="currentAnel.CLA" readonly>
+                    </div>
+                  </div>
+                  <div class="col-lg-12 col-sm-12 m-t-87">
+                    <div class="form-group">
+                      <label class="control-label">{{ 'controladores.localizacao' | translate }}</label>
+                      <helper-endereco ng-model="currentAnel.endereco" latitude="currentAnel.latitude" longitude="currentAnel.longitude"></helper-endereco>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="col-lg-6 col-sm-6">
+                  <h4>CROQUI</h4>
+                  <div class="img-preview img-preview-sm">
+                    <img ng-if="currentAnel.croqui" ng-src="{{ currentAnel.croqui.id | imageSource }}" alt="{{ currentAnel.croqui.filename }}">
+                  </div>
+                  <div class="btn-group padding-top-20">
+                    <influunt-image-input data-upload-url="dados.imagensUrl" data-on-upload="associaImagemAoCurrentAnel"></influunt-image-input>
+                  </div>
+                </div>
+
+                <div class="col-lg-12 col-sm-12">
+                  <div class="form-group">
+                    <figure>
+                      <div influunt-map
+                        latitude="currentAnel.latitude"
+                        longitude="currentAnel.longitude"
+                        class="influunt-map">
+                      </div>
+                    </figure>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-6 col-sm-6" data-ng-class="{'has-error': errors.aneis[currentAnelIndex].latitudeOk}">
+                      <div class="form-group">
+                        <label class="control-label">{{ 'controladores.latitude' | translate }}:</label>
+                        <input type="number" name="latitude" class="form-control" data-ng-model="currentAnel.latitude">
+                        <p class="help-block error-msg" data-ng-repeat="error in errors.aneis[currentAnelIndex].latitudeOk">{{ error }}</p>
+                      </div>
                     </div>
 
-                    <div class="row">
-                      <div class="col-lg-6 col-sm-6" data-ng-class="{'has-error': errors.aneis[currentAnelIndex].latitudeOk}">
-                        <div class="form-group">
-                          <label class="control-label">{{ 'controladores.latitude' | translate }}:</label>
-                          <input type="number" name="latitude" class="form-control" data-ng-model="currentAnel.latitude">
-                          <p class="help-block error-msg" data-ng-repeat="error in errors.aneis[currentAnelIndex].latitudeOk">{{ error }}</p>
-                        </div>
-                      </div>
-
-                      <div class="col-lg-6 col-sm-6" data-ng-class="{'has-error': errors.aneis[currentAnelIndex].longitudeOk}">
-                        <div class="form-group">
-                          <label class="control-label">{{ 'controladores.longitude' | translate }}:</label>
-                          <input type="number" name="longitude" class="form-control" data-ng-model="currentAnel.longitude">
-                          <p class="help-block error-msg" data-ng-repeat="error in errors.aneis[currentAnelIndex].longitudeOk">{{ error }}</p>
-                        </div>
+                    <div class="col-lg-6 col-sm-6" data-ng-class="{'has-error': errors.aneis[currentAnelIndex].longitudeOk}">
+                      <div class="form-group">
+                        <label class="control-label">{{ 'controladores.longitude' | translate }}:</label>
+                        <input type="number" name="longitude" class="form-control" data-ng-model="currentAnel.longitude">
+                        <p class="help-block error-msg" data-ng-repeat="error in errors.aneis[currentAnelIndex].longitudeOk">{{ error }}</p>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-3 col-sm-3 movements">
-                  <hgroup>
-                    <label for=""><h3>{{ 'controladores.estagios' | translate }}</h3></label>
-                  </hgroup>
-
-                  <form class="dropzone" id="my-awesome-dropzone" imagens-url="dados.imagensUrl" enctype="multipart/form-data" influunt-dropzone anel="currentAnel" on-success="associaImagemAoEstagio(upload, imagem)">
-                    <fake-dropzone-preview aneis="aneis"></fake-dropzone-preview>
-
-                    <div class="dropzone-previews"></div>
-                    <div class="fallback">
-                      <input name="file" type="file" multiple />
-                    </div>
-                  </form>
-                </div>
               </div>
+              <div class="col-lg-3 col-sm-3 movements">
+                <hgroup>
+                  <label for=""><h3>{{ 'controladores.estagios' | translate }}</h3></label>
+                </hgroup>
 
-              <div id="tabs-2">
-                <div class="col-lg-12 col-sm-12 text-left">
-                  <h2>{{ 'controladores.anel' | translate }} 02</h2>
-                </div>
-              </div>
-              <div id="tabs-3">
-                <div class="col-lg-12 col-sm-12 text-left">
-                  <h2>{{ 'controladores.anel' | translate }} 03</h2>
-                </div>
+                <form class="dropzone" id="my-awesome-dropzone" imagens-url="dados.imagensUrl" enctype="multipart/form-data" influunt-dropzone anel="currentAnel" on-success="associaImagemAoEstagio(upload, imagem)">
+                  <fake-dropzone-preview aneis="aneis"></fake-dropzone-preview>
+
+                  <div class="dropzone-previews"></div>
+                  <div class="fallback">
+                    <input name="file" type="file" multiple />
+                  </div>
+                </form>
               </div>
             </div>
           </div>

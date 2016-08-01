@@ -27,8 +27,9 @@ $.extend($.ui.tabs.prototype, {
 
 			// append the close button and associated events
             unclosable_lis.has('.closable').each(function() {
+                var index = self.tabs.index(this);
                 $(this)
-                    .append('<a href="#"><span class="badge badge-danger badge-notification" ng-show="anelTemErro($index)"><i class="fa fa-exclamation"></i></span><span class="ui-icon ui-icon-circle-close"><i class="fa fa-times-circle"></i></span></a>')
+                    .append('<span class="badge badge-danger badge-notification" ng-show="tabHasError('+index+')"><i class="fa fa-exclamation"></i></span><a href="#"><span class="ui-icon ui-icon-circle-close"><i class="fa fa-times-circle"></i></span></a>')
                     .find('a:last')
                         .hover(
                             function() {
