@@ -35,6 +35,31 @@ public class Usuario extends Model implements Subject {
 
     @Column
     private String idJson;
+    @NotBlank(message = "não pode ficar em branco")
+    @Column(unique = true)
+    private String login;
+    @Column
+    @NotBlank(message = "não pode ficar em branco")
+    private String email;
+    @Column
+    @NotBlank(message = "não pode ficar em branco")
+    private String nome;
+    @Column
+    private Boolean root = false;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Area area;
+    @ManyToOne
+    private Perfil perfil;
+    @Column
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
+    @CreatedTimestamp
+    private DateTime dataCriacao;
+    @Column
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
+    @UpdatedTimestamp
+    private DateTime dataAtualizacao;
 
     public String getIdJson() {
         return idJson;
@@ -43,38 +68,6 @@ public class Usuario extends Model implements Subject {
     public void setIdJson(String idJson) {
         this.idJson = idJson;
     }
-
-    @NotBlank(message = "não pode ficar em branco")
-    @Column(unique = true)
-    private String login;
-    @Column
-    @NotBlank(message = "não pode ficar em branco")
-    private String email;
-
-    @Column
-    @NotBlank(message = "não pode ficar em branco")
-    private String nome;
-
-    @Column
-    private Boolean root = false;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Area area;
-
-    @ManyToOne
-    private Perfil perfil;
-
-    @Column
-    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
-    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
-    @CreatedTimestamp
-    private DateTime dataCriacao;
-
-    @Column
-    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
-    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
-    @UpdatedTimestamp
-    private DateTime dataAtualizacao;
 
     public UUID getId() {
         return id;

@@ -37,6 +37,19 @@ public class Perfil extends Model implements Role {
 
     @Column
     private String idJson;
+    @Column
+    @NotBlank(message = "não pode ficar em branco")
+    private String nome;
+    @Column
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
+    @CreatedTimestamp
+    private DateTime dataCriacao;
+    @Column
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
+    @UpdatedTimestamp
+    private DateTime dataAtualizacao;
 
     public String getIdJson() {
         return idJson;
@@ -45,23 +58,6 @@ public class Perfil extends Model implements Role {
     public void setIdJson(String idJson) {
         this.idJson = idJson;
     }
-
-    @Column
-    @NotBlank(message = "não pode ficar em branco")
-    private String nome;
-
-    @Column
-    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
-    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
-    @CreatedTimestamp
-    private DateTime dataCriacao;
-
-    @Column
-    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
-    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
-    @UpdatedTimestamp
-    private DateTime dataAtualizacao;
-
 
     @Override
     public String getName() {

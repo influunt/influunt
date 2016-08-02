@@ -10,7 +10,10 @@ import play.test.WithApplication;
 import security.AllowAllAuthenticator;
 import security.Authenticator;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static play.inject.Bindings.bind;
 import static play.test.Helpers.inMemoryDatabase;
@@ -99,7 +102,7 @@ public abstract class ControladorTest extends WithApplication {
         Anel anel1 = controlador.getAneis().get(0);
         anel1.setDescricao("Anel 0");
         anel1.setAtivo(true);
-        List<Estagio> estagios =  Arrays.asList(new Estagio(), new Estagio(), new Estagio(), new Estagio());
+        List<Estagio> estagios = Arrays.asList(new Estagio(), new Estagio(), new Estagio(), new Estagio());
         anel1.setEstagios(estagios);
 
         anel1.setLatitude(1.0);

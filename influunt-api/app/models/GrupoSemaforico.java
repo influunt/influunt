@@ -10,9 +10,7 @@ import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import json.deserializers.GrupoSemaforicoDeserializer;
 import json.deserializers.InfluuntDateTimeDeserializer;
-import json.serializers.GrupoSemaforicoSerializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.apache.commons.collections.ListUtils;
 import org.joda.time.DateTime;
@@ -30,8 +28,7 @@ import java.util.*;
  */
 @Entity
 @Table(name = "grupos_semaforicos")
-@JsonSerialize(using = GrupoSemaforicoSerializer.class)
-@JsonDeserialize(using = GrupoSemaforicoDeserializer.class)
+
 public class GrupoSemaforico extends Model implements Cloneable {
     private static final long serialVersionUID = 7439393568357903233L;
     public static Finder<UUID, GrupoSemaforico> find = new Finder<UUID, GrupoSemaforico>(GrupoSemaforico.class);
@@ -40,52 +37,33 @@ public class GrupoSemaforico extends Model implements Cloneable {
 
     @Column
     private String idJson;
-
-    public String getIdJson() {
-        return idJson;
-    }
-
-    public void setIdJson(String idJson) {
-        this.idJson = idJson;
-    }
-
     @Enumerated(EnumType.STRING)
     @Column
     @NotNull(groups = ControladorGruposSemaforicosCheck.class, message = "não pode ficar em branco")
     private TipoGrupoSemaforico tipo;
-
     @Column
     private String descricao;
-
     @ManyToOne
     @JoinColumn(name = "anel_id")
     private Anel anel;
-
     @OneToMany(mappedBy = "grupoSemaforico", cascade = CascadeType.ALL)
     private List<EstagioGrupoSemaforico> estagioGrupoSemaforicos;
-
     @ManyToOne
     private Controlador controlador;
-
     @OneToMany(mappedBy = "origem", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Valid
     private List<VerdesConflitantes> verdesConflitantesOrigem;
-
     @OneToMany(mappedBy = "destino", cascade = CascadeType.ALL)
     @Valid
     private List<VerdesConflitantes> verdesConflitantesDestino;
-
     @OneToMany(mappedBy = "grupoSemaforico", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<TabelaEntreVerdes> tabelasEntreVerdes;
-
     @OneToMany(mappedBy = "grupoSemaforico", cascade = CascadeType.ALL)
     @PrivateOwned
     @Valid
     private List<Transicao> transicoes;
-
     @Column
     private Integer posicao;
-
     /**
      * Campo que define o procedimento quando a fase vermelha está sempre apagada
      * {@code Boolean.TRUE} - colocar o cruzamento em Amarelo intermitente
@@ -93,13 +71,11 @@ public class GrupoSemaforico extends Model implements Cloneable {
      */
     @Column
     private Boolean faseVermelhaApagadaAmareloIntermitente = false;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
@@ -109,6 +85,14 @@ public class GrupoSemaforico extends Model implements Cloneable {
     public GrupoSemaforico() {
         super();
         this.setIdJson(UUID.randomUUID().toString());
+    }
+
+    public String getIdJson() {
+        return idJson;
+    }
+
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
     }
 
     public UUID getId() {
@@ -308,7 +292,7 @@ public class GrupoSemaforico extends Model implements Cloneable {
     public void criarPossiveisTransicoes() {
         getTransicoes().forEach(transicao -> transicao.setDestroy(true));
 
-        getEstagioGrupoSemaforicos().forEach(estagioGrupoSemaforico -> getAnel().getEstagios().stream()
+        getEstagioGrupoSemaforicos().forEach(estagioGrupoSemaforico -> this.getAnel().getEstagios().stream()
                 .filter(estagio -> !estagio.equals(estagioGrupoSemaforico.getEstagio()) && !estagioGrupoSemaforico.getEstagio().temTransicaoProibidaComEstagio(estagio))
                 .forEach(estagio -> this.addTransicoes(new Transicao(this, estagioGrupoSemaforico.getEstagio(), estagio))));
 

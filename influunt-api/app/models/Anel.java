@@ -7,9 +7,7 @@ import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import json.deserializers.AnelDeserializer;
 import json.deserializers.InfluuntDateTimeDeserializer;
-import json.serializers.AnelSerializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
 
@@ -34,8 +32,7 @@ import java.util.UUID;
 @ConformidadeNumeroEstagios(groups = ControladorAneisCheck.class)
 @ConformidadeNumeroDetectores(groups = ControladorAneisCheck.class)
 @ConformidadeNumeroDetectoresEstagios(groups = ControladorAneisCheck.class)
-@JsonSerialize(using = AnelSerializer.class)
-@JsonDeserialize(using = AnelDeserializer.class)
+
 public class Anel extends Model implements Cloneable {
 
     private static final long serialVersionUID = 4919501406230732757L;
@@ -47,66 +44,43 @@ public class Anel extends Model implements Cloneable {
 
     @Column
     private String idJson;
-
-    public String getIdJson() {
-        return idJson;
-    }
-
-    public void setIdJson(String idJson) {
-        this.idJson = idJson;
-    }
-
     @Column
     @NotNull
     private Boolean ativo = false;
-
     @Column
     private String descricao;
-
-
     @Column
     private Integer posicao;
-
     @Column
     private String numeroSMEE;
-
     @Column
     private Double latitude;
-
     @Column
     private Double longitude;
-
     @ManyToOne
     private Controlador controlador;
-
     @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL)
     @Valid
     private List<Detector> detectores;
-
     @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL)
     @Valid
     private List<GrupoSemaforico> gruposSemaforicos;
-
     @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL)
     @Valid
     private List<Estagio> estagios;
-
     @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL)
     @Valid
     private List<Plano> planos;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
-
 
     public Anel(Controlador controlador, int posicao) {
         super();
@@ -120,8 +94,17 @@ public class Anel extends Model implements Cloneable {
         this.setIdJson(UUID.randomUUID().toString());
     }
 
+
     public Anel(String descricao) {
         this.descricao = descricao;
+    }
+
+    public String getIdJson() {
+        return idJson;
+    }
+
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
     }
 
     public UUID getId() {
@@ -343,5 +326,8 @@ public class Anel extends Model implements Cloneable {
         }
     }
 
+    public UUID getJsonId() {
+        return id;
+    }
 }
 

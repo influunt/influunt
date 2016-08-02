@@ -7,7 +7,6 @@ import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
-import json.serializers.EstagioPlanoSerializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.apache.commons.lang3.Range;
 import org.joda.time.DateTime;
@@ -23,7 +22,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "estagios_planos")
-@JsonSerialize(using = EstagioPlanoSerializer.class)
+
 public class EstagioPlano extends Model implements Cloneable {
 
     @Id
@@ -31,50 +30,31 @@ public class EstagioPlano extends Model implements Cloneable {
 
     @Column
     private String idJson;
-
-    public String getIdJson() {
-        return idJson;
-    }
-
-    public void setIdJson(String idJson) {
-        this.idJson = idJson;
-    }
-
     @ManyToOne
     @NotNull
     private Estagio estagio;
-
     @ManyToOne
     @NotNull
     private Plano plano;
-
     @Column
     private Integer posicao;
-
     @Column
     private Integer tempoVerde;
-
     @Column
     private Integer tempoVerdeMinimo;
-
     @Column
     private Integer tempoVerdeMaximo;
-
     @Column
     private Integer tempoVerdeIntermediario;
-
     @Column
     private Double tempoExtensaoVerde;
-
     @Column
     private boolean dispensavel;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
@@ -84,6 +64,14 @@ public class EstagioPlano extends Model implements Cloneable {
     public EstagioPlano() {
         super();
         this.setIdJson(UUID.randomUUID().toString());
+    }
+
+    public String getIdJson() {
+        return idJson;
+    }
+
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
     }
 
     public UUID getId() {

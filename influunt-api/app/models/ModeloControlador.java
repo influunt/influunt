@@ -36,6 +36,25 @@ public class ModeloControlador extends Model implements Cloneable {
 
     @Column
     private String idJson;
+    @ManyToOne
+    @NotNull(message = "não pode ficar em branco")
+    private Fabricante fabricante;
+    @ManyToOne
+    @NotNull(message = "não pode ficar em branco")
+    private ConfiguracaoControlador configuracao;
+    @Column
+    @NotNull(message = "não pode ficar em branco")
+    private String descricao;
+    @Column
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
+    @CreatedTimestamp
+    private DateTime dataCriacao;
+    @Column
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
+    @UpdatedTimestamp
+    private DateTime dataAtualizacao;
 
     public String getIdJson() {
         return idJson;
@@ -44,30 +63,6 @@ public class ModeloControlador extends Model implements Cloneable {
     public void setIdJson(String idJson) {
         this.idJson = idJson;
     }
-
-    @ManyToOne
-    @NotNull(message = "não pode ficar em branco")
-    private Fabricante fabricante;
-
-    @ManyToOne
-    @NotNull(message = "não pode ficar em branco")
-    private ConfiguracaoControlador configuracao;
-
-    @Column
-    @NotNull(message = "não pode ficar em branco")
-    private String descricao;
-
-    @Column
-    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
-    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
-    @CreatedTimestamp
-    private DateTime dataCriacao;
-
-    @Column
-    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
-    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
-    @UpdatedTimestamp
-    private DateTime dataAtualizacao;
 
     public UUID getId() {
         return id;

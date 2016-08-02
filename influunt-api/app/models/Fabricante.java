@@ -37,6 +37,22 @@ public class Fabricante extends Model {
 
     @Column
     private String idJson;
+    @Column
+    @NotBlank(message = "não pode ficar em branco")
+    private String nome;
+    @OneToMany(mappedBy = "fabricante", cascade = CascadeType.ALL)
+    @Valid
+    private List<ModeloControlador> modelos;
+    @Column
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
+    @CreatedTimestamp
+    private DateTime dataCriacao;
+    @Column
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
+    @UpdatedTimestamp
+    private DateTime dataAtualizacao;
 
     public String getIdJson() {
         return idJson;
@@ -45,26 +61,6 @@ public class Fabricante extends Model {
     public void setIdJson(String idJson) {
         this.idJson = idJson;
     }
-
-    @Column
-    @NotBlank(message = "não pode ficar em branco")
-    private String nome;
-
-    @OneToMany(mappedBy = "fabricante", cascade = CascadeType.ALL)
-    @Valid
-    private List<ModeloControlador> modelos;
-
-    @Column
-    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
-    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
-    @CreatedTimestamp
-    private DateTime dataCriacao;
-
-    @Column
-    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
-    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
-    @UpdatedTimestamp
-    private DateTime dataAtualizacao;
 
     public UUID getId() {
         return id;

@@ -1,26 +1,12 @@
 package json;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import json.serializers.InfluuntDateTimeSerializer;
 import models.*;
-import play.libs.Json;
 
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import java.awt.*;
-import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.*;
-import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Consumer;
-import java.util.function.Function;
-
-import static com.sun.corba.se.impl.util.RepositoryId.cache;
-import static com.sun.tools.doclint.Entity.para;
 
 /**
  * Created by rodrigosol on 7/29/16.
@@ -41,79 +27,78 @@ public class ControladorCustomDeserializer {
     public static final String ESTAGIOS_PLANOS = "estagiosPlanos";
     public static final String IMAGENS = "imagens";
     private Controlador controlador = new Controlador();
-    private Map<String,Map<String,Object>> models;
+    private Map<String, Map<String, Object>> models;
 
-    private Map<String,Anel> aneisCache;
-    private Map<String,Estagio> estagiosCache;
-    private Map<String,GrupoSemaforico> gruposSemaforicosCache;
-    private Map<String,Detector> detectoresCache;
-    private Map<String,TransicaoProibida> transicaoProibidaCache;
-    private Map<String,EstagioGrupoSemaforico> estagioGrupoSemaforicoCache;
-    private Map<String,VerdesConflitantes> verdesConflitantesCache;
-    private Map<String,Transicao> transicaoCache;
-    private Map<String,TabelaEntreVerdes> tabelasEntreVerdesCache;
-    private Map<String,TabelaEntreVerdesTransicao> tabelaEntreVerdesTransicaoCache;
-    private Map<String,Plano> planosCache;
-    private Map<String,GrupoSemaforicoPlano> gruposSemaforicosPlanosCache;
-    private Map<String,EstagioPlano> estagiosPlanosCache;
-    private Map<String,Imagem> imagensCache;
+    private Map<String, Anel> aneisCache;
+    private Map<String, Estagio> estagiosCache;
+    private Map<String, GrupoSemaforico> gruposSemaforicosCache;
+    private Map<String, Detector> detectoresCache;
+    private Map<String, TransicaoProibida> transicaoProibidaCache;
+    private Map<String, EstagioGrupoSemaforico> estagioGrupoSemaforicoCache;
+    private Map<String, VerdesConflitantes> verdesConflitantesCache;
+    private Map<String, Transicao> transicaoCache;
+    private Map<String, TabelaEntreVerdes> tabelasEntreVerdesCache;
+    private Map<String, TabelaEntreVerdesTransicao> tabelaEntreVerdesTransicaoCache;
+    private Map<String, Plano> planosCache;
+    private Map<String, GrupoSemaforicoPlano> gruposSemaforicosPlanosCache;
+    private Map<String, EstagioPlano> estagiosPlanosCache;
+    private Map<String, Imagem> imagensCache;
 
     private ExecutorService executor = Executors.newSingleThreadExecutor();
     private List<Consumer<Map<String, Map>>> consumers = new ArrayList<Consumer<Map<String, Map>>>();
-    private Map<String, Map> caches = new HashMap<String,Map>();
+    private Map<String, Map> caches = new HashMap<String, Map>();
 
 
-    public ControladorCustomDeserializer(){
+    public ControladorCustomDeserializer() {
 
 
-        aneisCache = new HashMap<String,Anel>();
-        caches.put(ANEIS,aneisCache);
+        aneisCache = new HashMap<String, Anel>();
+        caches.put(ANEIS, aneisCache);
 
-        estagiosCache = new HashMap<String,Estagio>();
-        caches.put(ESTAGIOS,estagiosCache);
+        estagiosCache = new HashMap<String, Estagio>();
+        caches.put(ESTAGIOS, estagiosCache);
 
-        gruposSemaforicosCache = new HashMap<String,GrupoSemaforico>();
-        caches.put(GRUPOS_SEMAFORICOS,gruposSemaforicosCache);
+        gruposSemaforicosCache = new HashMap<String, GrupoSemaforico>();
+        caches.put(GRUPOS_SEMAFORICOS, gruposSemaforicosCache);
 
-        detectoresCache = new HashMap<String,Detector>();
-        caches.put(DETECTORES,detectoresCache);
+        detectoresCache = new HashMap<String, Detector>();
+        caches.put(DETECTORES, detectoresCache);
 
-        transicaoProibidaCache = new HashMap<String,TransicaoProibida>();
-        caches.put(TRANSICAO_PROIBIDA,transicaoProibidaCache);
+        transicaoProibidaCache = new HashMap<String, TransicaoProibida>();
+        caches.put(TRANSICAO_PROIBIDA, transicaoProibidaCache);
 
-        estagioGrupoSemaforicoCache = new HashMap<String,EstagioGrupoSemaforico>();
-        caches.put(ESTAGIO_GRUPO_SEMAFORICO,estagioGrupoSemaforicoCache);
+        estagioGrupoSemaforicoCache = new HashMap<String, EstagioGrupoSemaforico>();
+        caches.put(ESTAGIO_GRUPO_SEMAFORICO, estagioGrupoSemaforicoCache);
 
-        verdesConflitantesCache = new HashMap<String,VerdesConflitantes>();
-        caches.put(VERDES_CONFLITANTES,verdesConflitantesCache);
+        verdesConflitantesCache = new HashMap<String, VerdesConflitantes>();
+        caches.put(VERDES_CONFLITANTES, verdesConflitantesCache);
 
-        transicaoCache = new HashMap<String,Transicao>();
-        caches.put(TRANSICAO,transicaoCache);
+        transicaoCache = new HashMap<String, Transicao>();
+        caches.put(TRANSICAO, transicaoCache);
 
-        tabelasEntreVerdesCache = new HashMap<String,TabelaEntreVerdes>();
-        caches.put(TABELAS_ENTRE_VERDES,tabelasEntreVerdesCache);
+        tabelasEntreVerdesCache = new HashMap<String, TabelaEntreVerdes>();
+        caches.put(TABELAS_ENTRE_VERDES, tabelasEntreVerdesCache);
 
-        tabelaEntreVerdesTransicaoCache = new HashMap<String,TabelaEntreVerdesTransicao>();
-        caches.put(TABELA_ENTRE_VERDES_TRANSICAO,tabelaEntreVerdesTransicaoCache);
+        tabelaEntreVerdesTransicaoCache = new HashMap<String, TabelaEntreVerdesTransicao>();
+        caches.put(TABELA_ENTRE_VERDES_TRANSICAO, tabelaEntreVerdesTransicaoCache);
 
-        planosCache = new HashMap<String,Plano>();
-        caches.put(PLANOS,planosCache);
+        planosCache = new HashMap<String, Plano>();
+        caches.put(PLANOS, planosCache);
 
-        gruposSemaforicosPlanosCache = new HashMap<String,GrupoSemaforicoPlano>();
-        caches.put(GRUPOS_SEMAFORICOS_PLANOS,gruposSemaforicosPlanosCache);
+        gruposSemaforicosPlanosCache = new HashMap<String, GrupoSemaforicoPlano>();
+        caches.put(GRUPOS_SEMAFORICOS_PLANOS, gruposSemaforicosPlanosCache);
 
-        estagiosPlanosCache = new HashMap<String,EstagioPlano>();
-        caches.put(ESTAGIOS_PLANOS,estagiosPlanosCache);
+        estagiosPlanosCache = new HashMap<String, EstagioPlano>();
+        caches.put(ESTAGIOS_PLANOS, estagiosPlanosCache);
 
-        imagensCache = new HashMap<String,Imagem>();
-        caches.put(IMAGENS,imagensCache);
+        imagensCache = new HashMap<String, Imagem>();
+        caches.put(IMAGENS, imagensCache);
 
 
     }
 
-    public Controlador getControladorFromJson(JsonNode node){
+    public Controlador getControladorFromJson(JsonNode node) {
 
-        System.out.println(node.toString());
         parseAneis(node);
         parseEstagios(node);
         parseGruposSemaforicos(node);
@@ -129,8 +114,6 @@ public class ControladorCustomDeserializer {
         parseEstagiosPlanos(node);
         parseImagens(node);
         parseDadosBasicos(node);
-
-
 
 
         consumers.stream().forEach(c -> {
@@ -149,7 +132,7 @@ public class ControladorCustomDeserializer {
             List<Anel> aneis = new ArrayList<Anel>();
             for (JsonNode nodeAnel : node.get("aneis")) {
                 Anel anel = parseAnel(nodeAnel);
-                aneisCache.put(anel.getIdJson().toString(),anel);
+                aneisCache.put(anel.getIdJson().toString(), anel);
                 aneis.add(anel);
             }
             controlador.setAneis(aneis);
@@ -160,7 +143,7 @@ public class ControladorCustomDeserializer {
         if (node.has("estagios")) {
             for (JsonNode innerNode : node.get("estagios")) {
                 Estagio estagio = parseEstagio(innerNode);
-                estagiosCache.put(estagio.getIdJson().toString(),estagio);
+                estagiosCache.put(estagio.getIdJson().toString(), estagio);
             }
         }
     }
@@ -170,7 +153,7 @@ public class ControladorCustomDeserializer {
             List<GrupoSemaforico> grupoSemaforicos = new ArrayList<GrupoSemaforico>();
             for (JsonNode nodeGrupoSemaforico : node.get("gruposSemaforicos")) {
                 GrupoSemaforico grupoSemaforico = parseGrupoSemaforico(nodeGrupoSemaforico);
-                gruposSemaforicosCache.put(grupoSemaforico.getIdJson().toString(),grupoSemaforico);
+                gruposSemaforicosCache.put(grupoSemaforico.getIdJson().toString(), grupoSemaforico);
                 grupoSemaforicos.add(grupoSemaforico);
             }
             controlador.setGruposSemaforicos(grupoSemaforicos);
@@ -183,7 +166,7 @@ public class ControladorCustomDeserializer {
 
             for (JsonNode innerNode : node.get("detectores")) {
                 Detector detector = parseDetector(innerNode);
-                detectoresCache.put(detector.getIdJson().toString(),detector);
+                detectoresCache.put(detector.getIdJson().toString(), detector);
                 detectores.add(detector);
             }
 
@@ -195,7 +178,7 @@ public class ControladorCustomDeserializer {
         if (node.has("transicoesProibidas")) {
             for (JsonNode innerNode : node.get("transicoesProibidas")) {
                 TransicaoProibida transicaoProibida = parseTransicaoProibida(innerNode);
-                transicaoProibidaCache.put(transicaoProibida.getIdJson().toString(),transicaoProibida);
+                transicaoProibidaCache.put(transicaoProibida.getIdJson().toString(), transicaoProibida);
             }
         }
     }
@@ -204,7 +187,7 @@ public class ControladorCustomDeserializer {
         if (node.has("estagiosGruposSemaforicos")) {
             for (JsonNode innerNode : node.get("estagiosGruposSemaforicos")) {
                 EstagioGrupoSemaforico estagioGrupoSemaforico = parseEstagioGrupoSemaforico(innerNode);
-                estagioGrupoSemaforicoCache.put(estagioGrupoSemaforico.getIdJson().toString(),estagioGrupoSemaforico);
+                estagioGrupoSemaforicoCache.put(estagioGrupoSemaforico.getIdJson().toString(), estagioGrupoSemaforico);
             }
         }
     }
@@ -213,7 +196,7 @@ public class ControladorCustomDeserializer {
         if (node.has("verdesConflitantes")) {
             for (JsonNode innerNode : node.get("verdesConflitantes")) {
                 VerdesConflitantes verdesConflitantes = parseVerdesConflitante(innerNode);
-                verdesConflitantesCache.put(verdesConflitantes.getIdJson().toString(),verdesConflitantes);
+                verdesConflitantesCache.put(verdesConflitantes.getIdJson().toString(), verdesConflitantes);
             }
         }
     }
@@ -222,7 +205,7 @@ public class ControladorCustomDeserializer {
         if (node.has("tabelasEntreVerdes")) {
             for (JsonNode innerNode : node.get("tabelasEntreVerdes")) {
                 TabelaEntreVerdes tabelaEntreVerdes = parsetTabelaEntreVerdes(innerNode);
-                tabelasEntreVerdesCache.put(tabelaEntreVerdes.getIdJson().toString(),tabelaEntreVerdes);
+                tabelasEntreVerdesCache.put(tabelaEntreVerdes.getIdJson().toString(), tabelaEntreVerdes);
             }
         }
     }
@@ -231,7 +214,7 @@ public class ControladorCustomDeserializer {
         if (node.has("transicoes")) {
             for (JsonNode innerNode : node.get("transicoes")) {
                 Transicao transicao = parseTransicao(innerNode);
-                transicaoCache.put(transicao.getIdJson().toString(),transicao);
+                transicaoCache.put(transicao.getIdJson().toString(), transicao);
             }
         }
     }
@@ -240,7 +223,7 @@ public class ControladorCustomDeserializer {
         if (node.has("tabelasEntreVerdesTransicoes")) {
             for (JsonNode innerNode : node.get("tabelasEntreVerdesTransicoes")) {
                 TabelaEntreVerdesTransicao tabelaEntreVerdesTransicao = parsetTabelaEntreVerdesTransicao(innerNode);
-                tabelaEntreVerdesTransicaoCache.put(tabelaEntreVerdesTransicao.getIdJson().toString(),tabelaEntreVerdesTransicao);
+                tabelaEntreVerdesTransicaoCache.put(tabelaEntreVerdesTransicao.getIdJson().toString(), tabelaEntreVerdesTransicao);
             }
         }
     }
@@ -249,7 +232,7 @@ public class ControladorCustomDeserializer {
         if (node.has("planos")) {
             for (JsonNode nodePlano : node.get("planos")) {
                 Plano plano = parsePlano(nodePlano);
-                planosCache.put(plano.getIdJson().toString(),plano);
+                planosCache.put(plano.getIdJson().toString(), plano);
             }
         }
     }
@@ -258,7 +241,7 @@ public class ControladorCustomDeserializer {
         if (node.has("gruposSemaforicosPlanos")) {
             for (JsonNode nodeGrupoSemaforicoPlano : node.get("gruposSemaforicosPlanos")) {
                 GrupoSemaforicoPlano grupoSemaforicoPlano = parseGruposSemaforicosPlano(nodeGrupoSemaforicoPlano);
-                gruposSemaforicosPlanosCache.put(grupoSemaforicoPlano.getIdJson().toString(),grupoSemaforicoPlano);
+                gruposSemaforicosPlanosCache.put(grupoSemaforicoPlano.getIdJson().toString(), grupoSemaforicoPlano);
             }
         }
     }
@@ -267,7 +250,7 @@ public class ControladorCustomDeserializer {
         if (node.has("estagiosPlanos")) {
             for (JsonNode nodeEstagioPlano : node.get("estagiosPlanos")) {
                 EstagioPlano estagioPlano = parseEstagiosPlano(nodeEstagioPlano);
-                estagiosPlanosCache.put(estagioPlano.getIdJson().toString(),estagioPlano);
+                estagiosPlanosCache.put(estagioPlano.getIdJson().toString(), estagioPlano);
             }
         }
     }
@@ -277,11 +260,10 @@ public class ControladorCustomDeserializer {
         if (node.has("imagens")) {
             for (JsonNode innerNode : node.get("imagens")) {
                 Imagem imagem = parseImagem(innerNode);
-                imagensCache.put(imagem.getIdJson().toString(),imagem);
+                imagensCache.put(imagem.getIdJson().toString(), imagem);
             }
         }
     }
-
 
 
     private Anel parseAnel(JsonNode node) {
@@ -307,7 +289,7 @@ public class ControladorCustomDeserializer {
         }
 
         List<Estagio> estagios = new ArrayList<Estagio>();
-        parseCollection("estagios",node,estagios,ESTAGIOS,ANEIS);
+        parseCollection("estagios", node, estagios, ESTAGIOS, ANEIS);
         anel.setEstagios(estagios);
 
 
@@ -326,15 +308,15 @@ public class ControladorCustomDeserializer {
         anel.setControlador(controlador);
 
         List<GrupoSemaforico> grupoSemaforicos = new ArrayList<GrupoSemaforico>();
-        parseCollection("gruposSemaforicos",node,grupoSemaforicos,GRUPOS_SEMAFORICOS,ANEIS);
+        parseCollection("gruposSemaforicos", node, grupoSemaforicos, GRUPOS_SEMAFORICOS, ANEIS);
         anel.setGruposSemaforicos(grupoSemaforicos);
 
         List<Detector> detectores = new ArrayList<Detector>();
-        parseCollection("detectores",node,detectores,DETECTORES,ANEIS);
+        parseCollection("detectores", node, detectores, DETECTORES, ANEIS);
         anel.setDetectores(detectores);
 
         List<Plano> planos = new ArrayList<Plano>();
-        parseCollection("planos",node,planos,PLANOS,ANEIS);
+        parseCollection("planos", node, planos, PLANOS, ANEIS);
         anel.setPlanos(planos);
 
         return anel;
@@ -344,7 +326,6 @@ public class ControladorCustomDeserializer {
         Estagio estagio = new Estagio();
         JsonNode id = node.get("id");
         if (id != null) {
-            System.out.println(id);
             estagio.setId(UUID.fromString(id.asText()));
         }
         if (node.get("idJson") != null) {
@@ -368,7 +349,7 @@ public class ControladorCustomDeserializer {
 
         if (node.has("imagem")) {
             final String imageId = node.get("imagem").get("idJson").asText();
-            Consumer<Map<String,Map>> c = (caches) -> {
+            Consumer<Map<String, Map>> c = (caches) -> {
                 Map map = caches.get(IMAGENS);
                 estagio.setImagem((Imagem) map.get(imageId));
             };
@@ -378,7 +359,7 @@ public class ControladorCustomDeserializer {
 
         if (node.has("detector")) {
             final String detectorId = node.get("detector").get("idJson").asText();
-            Consumer<Map<String,Map>> c = (caches) -> {
+            Consumer<Map<String, Map>> c = (caches) -> {
                 Map map = caches.get(DETECTORES);
                 estagio.setDetector((Detector) map.get(detectorId));
             };
@@ -387,20 +368,20 @@ public class ControladorCustomDeserializer {
         }
 
         List<EstagioGrupoSemaforico> estagiosGrupoSemaforicos = new ArrayList<>();
-        parseCollection("estagiosGruposSemaforicos",node,estagiosGrupoSemaforicos,ESTAGIO_GRUPO_SEMAFORICO,ESTAGIOS);
+        parseCollection("estagiosGruposSemaforicos", node, estagiosGrupoSemaforicos, ESTAGIO_GRUPO_SEMAFORICO, ESTAGIOS);
         estagio.setEstagiosGruposSemaforicos(estagiosGrupoSemaforicos);
 
 
         List<TransicaoProibida> origens = new ArrayList<>();
-        parseCollection("origemDeTransicoesProibidas",node,origens,TRANSICAO_PROIBIDA,ESTAGIOS);
+        parseCollection("origemDeTransicoesProibidas", node, origens, TRANSICAO_PROIBIDA, ESTAGIOS);
         estagio.setOrigemDeTransicoesProibidas(origens);
 
         List<TransicaoProibida> destinos = new ArrayList<>();
-        parseCollection("destinoDeTransicoesProibidas",node,destinos,TRANSICAO_PROIBIDA,ESTAGIOS);
+        parseCollection("destinoDeTransicoesProibidas", node, destinos, TRANSICAO_PROIBIDA, ESTAGIOS);
         estagio.setDestinoDeTransicoesProibidas(destinos);
 
         List<TransicaoProibida> alternativas = new ArrayList<>();
-        parseCollection("alternativaDeTransicoesProibidas",node,alternativas,TRANSICAO_PROIBIDA,ESTAGIOS);
+        parseCollection("alternativaDeTransicoesProibidas", node, alternativas, TRANSICAO_PROIBIDA, ESTAGIOS);
         estagio.setAlternativaDeTransicoesProibidas(alternativas);
 
         return estagio;
@@ -426,32 +407,32 @@ public class ControladorCustomDeserializer {
         }
 
         List<EstagioGrupoSemaforico> estagiosGrupoSemaforicos = new ArrayList<>();
-        parseCollection("estagiosGruposSemaforicos",node,estagiosGrupoSemaforicos,ESTAGIO_GRUPO_SEMAFORICO,GRUPOS_SEMAFORICOS);
+        parseCollection("estagiosGruposSemaforicos", node, estagiosGrupoSemaforicos, ESTAGIO_GRUPO_SEMAFORICO, GRUPOS_SEMAFORICOS);
         grupoSemaforico.setEstagioGrupoSemaforicos(estagiosGrupoSemaforicos);
 
 
         List<VerdesConflitantes> verdesConflitantes = new ArrayList<>();
-        parseCollection("verdesConflitantesOrigem",node,verdesConflitantes,VERDES_CONFLITANTES,GRUPOS_SEMAFORICOS);
+        parseCollection("verdesConflitantesOrigem", node, verdesConflitantes, VERDES_CONFLITANTES, GRUPOS_SEMAFORICOS);
         grupoSemaforico.setVerdesConflitantesOrigem(verdesConflitantes);
 
 
         List<VerdesConflitantes> verdesConflitantesDestino = new ArrayList<>();
-        parseCollection("verdesConflitantesDestino",node,verdesConflitantesDestino,VERDES_CONFLITANTES,GRUPOS_SEMAFORICOS);
+        parseCollection("verdesConflitantesDestino", node, verdesConflitantesDestino, VERDES_CONFLITANTES, GRUPOS_SEMAFORICOS);
         grupoSemaforico.setVerdesConflitantesDestino(verdesConflitantesDestino);
 
 
         List<TabelaEntreVerdes> tabelasEntreVerdes = new ArrayList<>();
-        parseCollection("tabelasEntreVerdes",node,tabelasEntreVerdes,TABELAS_ENTRE_VERDES,GRUPOS_SEMAFORICOS);
+        parseCollection("tabelasEntreVerdes", node, tabelasEntreVerdes, TABELAS_ENTRE_VERDES, GRUPOS_SEMAFORICOS);
         grupoSemaforico.setTabelasEntreVerdes(tabelasEntreVerdes);
 
 
         List<Transicao> transicoes = new ArrayList<>();
-        parseCollection("transicoes",node,transicoes,TRANSICAO,GRUPOS_SEMAFORICOS);
+        parseCollection("transicoes", node, transicoes, TRANSICAO, GRUPOS_SEMAFORICOS);
         grupoSemaforico.setTransicoes(transicoes);
 
 
         List<EstagioGrupoSemaforico> estagioGrupoSemaforicos = new ArrayList<>();
-        parseCollection("estagioGrupoSemaforicos",node,estagioGrupoSemaforicos,ESTAGIO_GRUPO_SEMAFORICO,GRUPOS_SEMAFORICOS);
+        parseCollection("estagioGrupoSemaforicos", node, estagioGrupoSemaforicos, ESTAGIO_GRUPO_SEMAFORICO, GRUPOS_SEMAFORICOS);
         grupoSemaforico.setEstagioGrupoSemaforicos(estagioGrupoSemaforicos);
 
         if (node.has("descricao")) {
@@ -502,7 +483,7 @@ public class ControladorCustomDeserializer {
 
         if (node.has("anel")) {
             final String anelId = node.get("anel").get("idJson").asText();
-            Consumer<Map<String,Map>> c = (caches) -> {
+            Consumer<Map<String, Map>> c = (caches) -> {
                 Map map = caches.get(ANEIS);
                 detector.setAnel((Anel) map.get(anelId));
             };
@@ -511,7 +492,7 @@ public class ControladorCustomDeserializer {
 
         if (node.has("estagio")) {
             final String estagioId = node.get("estagio").get("idJson").asText();
-            Consumer<Map<String,Map>> c = (caches) -> {
+            Consumer<Map<String, Map>> c = (caches) -> {
                 Map map = caches.get(ESTAGIOS);
                 detector.setEstagio((Estagio) map.get(estagioId));
             };
@@ -537,7 +518,7 @@ public class ControladorCustomDeserializer {
 
         if (node.has("origem")) {
             final String origemId = node.get("origem").get("idJson").asText();
-            Consumer<Map<String,Map>> c = (caches) -> {
+            Consumer<Map<String, Map>> c = (caches) -> {
                 Map map = caches.get(ESTAGIOS);
                 transicaoProibida.setOrigem((Estagio) map.get(origemId));
             };
@@ -546,7 +527,7 @@ public class ControladorCustomDeserializer {
 
         if (node.has("destino")) {
             final String destinoId = node.get("destino").get("idJson").asText();
-            Consumer<Map<String,Map>> c = (caches) -> {
+            Consumer<Map<String, Map>> c = (caches) -> {
                 Map map = caches.get(ESTAGIOS);
                 transicaoProibida.setDestino((Estagio) map.get(destinoId));
             };
@@ -556,7 +537,7 @@ public class ControladorCustomDeserializer {
 
         if (node.has("alternativo")) {
             final String alternativoId = node.get("alternativo").get("idJson").asText();
-            Consumer<Map<String,Map>> c = (caches) -> {
+            Consumer<Map<String, Map>> c = (caches) -> {
                 Map map = caches.get(ESTAGIOS);
                 transicaoProibida.setAlternativo((Estagio) map.get(alternativoId));
             };
@@ -581,7 +562,7 @@ public class ControladorCustomDeserializer {
 
         if (node.has("grupoSemaforico")) {
             final String grupoSemaforicoId = node.get("grupoSemaforico").get("idJson").asText();
-            Consumer<Map<String,Map>> c = (caches) -> {
+            Consumer<Map<String, Map>> c = (caches) -> {
                 Map map = caches.get(GRUPOS_SEMAFORICOS);
                 estagioGrupoSemaforico.setGrupoSemaforico((GrupoSemaforico) map.get(grupoSemaforicoId));
             };
@@ -592,7 +573,7 @@ public class ControladorCustomDeserializer {
         if (node.has("estagio")) {
             final String estagioId = node.get("estagio").get("idJson").asText();
 
-            Consumer<Map<String,Map>> c = (caches) -> {
+            Consumer<Map<String, Map>> c = (caches) -> {
                 Map map = caches.get(ESTAGIOS);
                 estagioGrupoSemaforico.setEstagio((Estagio) map.get(estagioId));
             };
@@ -617,7 +598,7 @@ public class ControladorCustomDeserializer {
         if (node.has("origem")) {
             final String origemId = node.get("origem").get("idJson").asText();
 
-            Consumer<Map<String,Map>> c = (caches) -> {
+            Consumer<Map<String, Map>> c = (caches) -> {
                 Map map = caches.get(GRUPOS_SEMAFORICOS);
                 verdesConflitantes.setOrigem((GrupoSemaforico) map.get(origemId));
             };
@@ -627,7 +608,7 @@ public class ControladorCustomDeserializer {
         if (node.has("destino")) {
             final String destinoId = node.get("destino").get("idJson").asText();
 
-            Consumer<Map<String,Map>> c = (caches) -> {
+            Consumer<Map<String, Map>> c = (caches) -> {
                 Map map = caches.get(GRUPOS_SEMAFORICOS);
                 verdesConflitantes.setDestino((GrupoSemaforico) map.get(destinoId));
             };
@@ -652,7 +633,7 @@ public class ControladorCustomDeserializer {
         if (node.has("origem")) {
             final String origemId = node.get("origem").get("idJson").asText();
 
-            Consumer<Map<String,Map>> c = (caches) -> {
+            Consumer<Map<String, Map>> c = (caches) -> {
                 Map map = caches.get(ESTAGIOS);
                 transicao.setOrigem((Estagio) map.get(origemId));
             };
@@ -663,7 +644,7 @@ public class ControladorCustomDeserializer {
 
         if (node.has("destino")) {
             final String destinoId = node.get("destino").get("idJson").asText();
-            Consumer<Map<String,Map>> c = (caches) -> {
+            Consumer<Map<String, Map>> c = (caches) -> {
                 Map map = caches.get(ESTAGIOS);
                 transicao.setDestino((Estagio) map.get(destinoId));
             };
@@ -673,12 +654,12 @@ public class ControladorCustomDeserializer {
         }
 
         List<TabelaEntreVerdesTransicao> tabelaEntreVerdesTransicoes = new ArrayList<>();
-        parseCollection("tabelaEntreVerdesTransicoes",node,tabelaEntreVerdesTransicoes,TABELA_ENTRE_VERDES_TRANSICAO,TRANSICAO);
+        parseCollection("tabelaEntreVerdesTransicoes", node, tabelaEntreVerdesTransicoes, TABELA_ENTRE_VERDES_TRANSICAO, TRANSICAO);
         transicao.setTabelaEntreVerdesTransicoes(tabelaEntreVerdesTransicoes);
 
         if (node.has("grupoSemaforico")) {
             final String grupoSemaforicoId = node.get("grupoSemaforico").get("idJson").asText();
-            Consumer<Map<String,Map>> c = (caches) -> {
+            Consumer<Map<String, Map>> c = (caches) -> {
                 Map map = caches.get(GRUPOS_SEMAFORICOS);
                 transicao.setGrupoSemaforico((GrupoSemaforico) map.get(grupoSemaforicoId));
             };
@@ -708,7 +689,7 @@ public class ControladorCustomDeserializer {
 
         if (node.has("grupoSemaforico")) {
             final String grupoSemaforicoId = node.get("grupoSemaforico").get("idJson").asText();
-            Consumer<Map<String,Map>> c = (caches) -> {
+            Consumer<Map<String, Map>> c = (caches) -> {
                 Map map = caches.get(GRUPOS_SEMAFORICOS);
                 tabelaEntreVerdes.setGrupoSemaforico((GrupoSemaforico) map.get(grupoSemaforicoId));
             };
@@ -718,7 +699,7 @@ public class ControladorCustomDeserializer {
         }
 
         List<TabelaEntreVerdesTransicao> tabelaEntreVerdesTransicoes = new ArrayList<TabelaEntreVerdesTransicao>();
-        parseCollection("tabelaEntreVerdesTransicoes",node,tabelaEntreVerdesTransicoes,TABELA_ENTRE_VERDES_TRANSICAO,TABELAS_ENTRE_VERDES);
+        parseCollection("tabelaEntreVerdesTransicoes", node, tabelaEntreVerdesTransicoes, TABELA_ENTRE_VERDES_TRANSICAO, TABELAS_ENTRE_VERDES);
         tabelaEntreVerdes.setTabelaEntreVerdesTransicoes(tabelaEntreVerdesTransicoes);
 
 
@@ -753,7 +734,7 @@ public class ControladorCustomDeserializer {
 
         if (node.has("transicao")) {
             final String transicaoId = node.get("transicao").get("idJson").asText();
-            Consumer<Map<String,Map>> c = (caches) -> {
+            Consumer<Map<String, Map>> c = (caches) -> {
                 Map map = caches.get(TRANSICAO);
                 tabelaEntreVerdesTransicao.setTransicao((Transicao) map.get(transicaoId));
             };
@@ -764,7 +745,7 @@ public class ControladorCustomDeserializer {
 
         if (node.has("tabelaEntreVerdes")) {
             final String tabelaEntreVerdesId = node.get("tabelaEntreVerdes").get("idJson").asText();
-            Consumer<Map<String,Map>> c = (caches) -> {
+            Consumer<Map<String, Map>> c = (caches) -> {
                 Map map = caches.get(TABELAS_ENTRE_VERDES);
                 tabelaEntreVerdesTransicao.setTabelaEntreVerdes((TabelaEntreVerdes) map.get(tabelaEntreVerdesId));
             };
@@ -808,7 +789,7 @@ public class ControladorCustomDeserializer {
 
         if (node.has("anel")) {
             final String anelId = node.get("anel").get("idJson").asText();
-            Consumer<Map<String,Map>> c = (caches) -> {
+            Consumer<Map<String, Map>> c = (caches) -> {
                 Map map = caches.get(ANEIS);
                 plano.setAnel((Anel) map.get(anelId));
             };
@@ -817,11 +798,11 @@ public class ControladorCustomDeserializer {
         }
 
         List<GrupoSemaforicoPlano> grupoSemaforicosPlanos = new ArrayList<>();
-        parseCollection("gruposSemaforicosPlanos",node,grupoSemaforicosPlanos,GRUPOS_SEMAFORICOS_PLANOS,PLANOS);
+        parseCollection("gruposSemaforicosPlanos", node, grupoSemaforicosPlanos, GRUPOS_SEMAFORICOS_PLANOS, PLANOS);
         plano.setGruposSemaforicosPlanos(grupoSemaforicosPlanos);
 
         List<EstagioPlano> estagioPlanos = new ArrayList<>();
-        parseCollection("estagiosPlanos",node,estagioPlanos,ESTAGIOS_PLANOS,PLANOS);
+        parseCollection("estagiosPlanos", node, estagioPlanos, ESTAGIOS_PLANOS, PLANOS);
         plano.setEstagiosPlanos(estagioPlanos);
 
         return plano;
@@ -840,7 +821,7 @@ public class ControladorCustomDeserializer {
         }
         if (node.has("plano")) {
             final String planoId = node.get("plano").get("idJson").asText();
-            Consumer<Map<String,Map>> c = (caches) -> {
+            Consumer<Map<String, Map>> c = (caches) -> {
                 Map map = caches.get(PLANOS);
                 grupoSemaforicoPlano.setPlano((Plano) map.get(planoId));
             };
@@ -849,7 +830,7 @@ public class ControladorCustomDeserializer {
         }
         if (node.has("grupoSemaforico")) {
             final String grupoSemaforicoId = node.get("grupoSemaforico").get("idJson").asText();
-            Consumer<Map<String,Map>> c = (caches) -> {
+            Consumer<Map<String, Map>> c = (caches) -> {
                 Map map = caches.get(GRUPOS_SEMAFORICOS);
                 grupoSemaforicoPlano.setGrupoSemaforico((GrupoSemaforico) map.get(grupoSemaforicoId));
             };
@@ -893,7 +874,7 @@ public class ControladorCustomDeserializer {
 
         if (node.has("plano")) {
             final String planoId = node.get("plano").get("idJson").asText();
-            Consumer<Map<String,Map>> c = (caches) -> {
+            Consumer<Map<String, Map>> c = (caches) -> {
                 Map map = caches.get(PLANOS);
                 estagioPlano.setPlano((Plano) map.get(planoId));
             };
@@ -902,7 +883,7 @@ public class ControladorCustomDeserializer {
         }
         if (node.has("estagio")) {
             final String estagioId = node.get("estagio").get("idJson").asText();
-            Consumer<Map<String,Map>> c = (caches) -> {
+            Consumer<Map<String, Map>> c = (caches) -> {
                 Map map = caches.get(ESTAGIOS);
                 estagioPlano.setEstagio((Estagio) map.get(estagioId));
             };
@@ -935,7 +916,6 @@ public class ControladorCustomDeserializer {
     }
 
 
-
     private void parseDadosBasicos(JsonNode node) {
         JsonNode id = node.get("id");
         if (id != null) {
@@ -961,30 +941,21 @@ public class ControladorCustomDeserializer {
         controlador.setSequencia(node.get("sequencia") != null ? node.get("sequencia").asInt() : null);
     }
 
-    private void parseCollection(String collection, JsonNode node,List list, final String cacheContainer, final String callie){
+    private void parseCollection(String collection, JsonNode node, List list, final String cacheContainer, final String callie) {
 
         if (node.has(collection)) {
             for (JsonNode innerNode : node.get(collection)) {
-                if(innerNode.has("idJson")){
+                if (innerNode.has("idJson")) {
                     final String id = innerNode.get("idJson").asText();
-                    System.out.println("Parent jsonID:" + node.get("idJson"));
-                    System.out.println("jsonID:" + innerNode.get("idJson"));
-                    System.out.println("Tipo Pai:" + callie);
-                    System.out.println("Tipo Filho:" + cacheContainer);
-
-                    System.out.println(innerNode.toString());
-                    Consumer<Map<String,Map>> c = (caches) -> {
+                    Consumer<Map<String, Map>> c = (caches) -> {
                         assert cacheContainer != null;
                         Map map = caches.get(cacheContainer);
-                        if(map.containsKey(id)){
-                            list.add(map.get(id));
-                        }else {
-                            System.out.println("erro");
-                        }
+                        assert map.containsKey(id);
+                        list.add(map.get(id));
                     };
 
                     runLater(c);
-                }else{
+                } else {
                     throw new RuntimeException(innerNode.toString() + " - Não contem idJson");
                 }
             }

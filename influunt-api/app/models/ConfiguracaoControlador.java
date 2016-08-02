@@ -36,6 +36,43 @@ public class ConfiguracaoControlador extends Model {
 
     @Column
     private String idJson;
+    @Column
+    @NotBlank(message = "não pode ficar em branco")
+    private String descricao;
+    @Column
+    @Min(value = 1, message = "Deve ser maior que zero")
+    @NotNull
+    private Integer limiteEstagio = 16;
+    @Column
+    @Min(value = 1, message = "Deve ser maior que zero")
+    @NotNull
+    private Integer limiteGrupoSemaforico = 16;
+    @Column
+    @Min(value = 1, message = "Deve ser maior que zero")
+    @NotNull
+    private Integer limiteAnel = 4;
+    @Column
+    @Min(value = 1, message = "Deve ser maior que zero")
+    @NotNull
+    private Integer limiteDetectorPedestre = 4;
+    @Column
+    @Min(value = 1, message = "Deve ser maior que zero")
+    @NotNull
+    private Integer limiteDetectorVeicular = 8;
+    @Column
+    @Min(value = 1, message = "Deve ser maior que zero")
+    @NotNull
+    private Integer limiteTabelasEntreVerdes = 2;
+    @Column
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
+    @CreatedTimestamp
+    private DateTime dataCriacao;
+    @Column
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
+    @UpdatedTimestamp
+    private DateTime dataAtualizacao;
 
     public String getIdJson() {
         return idJson;
@@ -44,52 +81,6 @@ public class ConfiguracaoControlador extends Model {
     public void setIdJson(String idJson) {
         this.idJson = idJson;
     }
-
-    @Column
-    @NotBlank(message = "não pode ficar em branco")
-    private String descricao;
-
-    @Column
-    @Min(value = 1, message = "Deve ser maior que zero")
-    @NotNull
-    private Integer limiteEstagio = 16;
-
-    @Column
-    @Min(value = 1, message = "Deve ser maior que zero")
-    @NotNull
-    private Integer limiteGrupoSemaforico = 16;
-
-    @Column
-    @Min(value = 1, message = "Deve ser maior que zero")
-    @NotNull
-    private Integer limiteAnel = 4;
-
-    @Column
-    @Min(value = 1, message = "Deve ser maior que zero")
-    @NotNull
-    private Integer limiteDetectorPedestre = 4;
-
-    @Column
-    @Min(value = 1, message = "Deve ser maior que zero")
-    @NotNull
-    private Integer limiteDetectorVeicular = 8;
-
-    @Column
-    @Min(value = 1, message = "Deve ser maior que zero")
-    @NotNull
-    private Integer limiteTabelasEntreVerdes = 2;
-
-    @Column
-    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
-    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
-    @CreatedTimestamp
-    private DateTime dataCriacao;
-
-    @Column
-    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
-    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
-    @UpdatedTimestamp
-    private DateTime dataAtualizacao;
 
     public UUID getId() {
         return id;

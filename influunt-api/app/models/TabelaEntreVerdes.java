@@ -8,9 +8,7 @@ import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
-import json.deserializers.TabelaEntreVerdesDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
-import json.serializers.TabelaEntreVerdesSerializer;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
@@ -24,8 +22,7 @@ import java.util.UUID;
  * Created by rodrigosol on 6/22/16.
  */
 @Entity
-@JsonSerialize(using = TabelaEntreVerdesSerializer.class)
-@JsonDeserialize(using = TabelaEntreVerdesDeserializer.class)
+
 public class TabelaEntreVerdes extends Model implements Cloneable {
 
     public static Finder<UUID, TabelaEntreVerdes> find = new Finder<UUID, TabelaEntreVerdes>(TabelaEntreVerdes.class);
@@ -35,42 +32,27 @@ public class TabelaEntreVerdes extends Model implements Cloneable {
 
     @Column
     private String idJson;
-
-    public String getIdJson() {
-        return idJson;
-    }
-
-    public void setIdJson(String idJson) {
-        this.idJson = idJson;
-    }
-
     @Column
     private String descricao = "PADRÃO";
-
     @ManyToOne
     private GrupoSemaforico grupoSemaforico;
-
     @OneToMany(mappedBy = "tabelaEntreVerdes", cascade = CascadeType.REMOVE)
     @PrivateOwned
     private List<TabelaEntreVerdesTransicao> tabelaEntreVerdesTransicoes;
-
     @Valid
     @NotNull(message = "não pode ficar em branco.", groups = ControladorTabelaEntreVerdesCheck.class)
     @Column
     private Integer posicao;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
-
 
     public TabelaEntreVerdes(GrupoSemaforico grupoSemaforico, Integer posicao) {
         super();
@@ -82,6 +64,14 @@ public class TabelaEntreVerdes extends Model implements Cloneable {
     public TabelaEntreVerdes() {
         super();
         this.setIdJson(UUID.randomUUID().toString());
+    }
+
+    public String getIdJson() {
+        return idJson;
+    }
+
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
     }
 
     public UUID getId() {

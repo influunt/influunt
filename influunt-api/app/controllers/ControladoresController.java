@@ -21,8 +21,6 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
-import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
-
 @DeferredDeadbolt
 @Security.Authenticated(Secured.class)
 @Dynamic("Influunt")
@@ -111,7 +109,6 @@ public class ControladoresController extends Controller {
         if (request().body() == null) {
             return CompletableFuture.completedFuture(badRequest());
         }
-        System.out.println(request().body().asJson().toString());
         Controlador controlador = new ControladorCustomDeserializer().getControladorFromJson(request().body().asJson());
 
         boolean checkIfExists = controlador.getId() != null;

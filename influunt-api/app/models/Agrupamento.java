@@ -8,6 +8,7 @@ import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
+import json.serializers.AgrupamentoSerializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
@@ -23,6 +24,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "agrupamentos")
+@JsonSerialize(using = AgrupamentoSerializer.class)
 public class Agrupamento extends Model implements Cloneable {
 
     public static Finder<UUID, Agrupamento> find = new Finder<UUID, Agrupamento>(Agrupamento.class);
@@ -32,6 +34,29 @@ public class Agrupamento extends Model implements Cloneable {
 
     @Column
     private String idJson;
+    @Column
+    @NotBlank(message = "não pode ficar em branco")
+    private String nome;
+    @Column
+    private String numero;
+    @Column
+    @Enumerated(EnumType.STRING)
+    private TipoAgrupamento tipo;
+    @ManyToMany(cascade = CascadeType.REMOVE)
+    @JoinTable(name = "agrupamentos_controladores", joinColumns = {@JoinColumn(name = "agrupamento_id")}, inverseJoinColumns = {@JoinColumn(name = "controlador_id")})
+    @NumeroDeControladores(min = 1, message = "este agrupamento deve ter pelo menos 1 controlador.")
+    @PrivateOwned
+    private List<Controlador> controladores;
+    @Column
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
+    @CreatedTimestamp
+    private DateTime dataCriacao;
+    @Column
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
+    @UpdatedTimestamp
+    private DateTime dataAtualizacao;
 
     public String getIdJson() {
         return idJson;
@@ -40,35 +65,6 @@ public class Agrupamento extends Model implements Cloneable {
     public void setIdJson(String idJson) {
         this.idJson = idJson;
     }
-
-    @Column
-    @NotBlank(message = "não pode ficar em branco")
-    private String nome;
-
-    @Column
-    private String numero;
-
-    @Column
-    @Enumerated(EnumType.STRING)
-    private TipoAgrupamento tipo;
-
-    @ManyToMany(cascade = CascadeType.REMOVE)
-    @JoinTable(name = "agrupamentos_controladores", joinColumns = {@JoinColumn(name = "agrupamento_id")}, inverseJoinColumns = {@JoinColumn(name = "controlador_id")})
-    @NumeroDeControladores(min = 1, message = "este agrupamento deve ter pelo menos 1 controlador.")
-    @PrivateOwned
-    private List<Controlador> controladores;
-
-    @Column
-    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
-    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
-    @CreatedTimestamp
-    private DateTime dataCriacao;
-
-    @Column
-    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
-    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
-    @UpdatedTimestamp
-    private DateTime dataAtualizacao;
 
     public UUID getId() {
         return id;

@@ -18,6 +18,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "grupos_semaforicos_planos")
+
 public class GrupoSemaforicoPlano extends Model implements Cloneable {
 
     @Id
@@ -25,32 +26,19 @@ public class GrupoSemaforicoPlano extends Model implements Cloneable {
 
     @Column
     private String idJson;
-
-    public String getIdJson() {
-        return idJson;
-    }
-
-    public void setIdJson(String idJson) {
-        this.idJson = idJson;
-    }
-
     @ManyToOne
     @NotNull
     private GrupoSemaforico grupoSemaforico;
-
     @ManyToOne
     @NotNull
     private Plano plano;
-
     @Column
     private boolean ativado = true;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
@@ -60,6 +48,14 @@ public class GrupoSemaforicoPlano extends Model implements Cloneable {
     public GrupoSemaforicoPlano() {
         super();
         this.setIdJson(UUID.randomUUID().toString());
+    }
+
+    public String getIdJson() {
+        return idJson;
+    }
+
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
     }
 
     public UUID getId() {

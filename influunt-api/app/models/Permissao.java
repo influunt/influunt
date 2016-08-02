@@ -28,6 +28,24 @@ public class Permissao extends Model implements Permission {
 
     @Column
     private String idJson;
+    @Column
+    @NotBlank(message = "não pode ficar em branco")
+    private String descricao;
+    @Column
+    @NotBlank(message = "não pode ficar em branco")
+    private String chave;
+    @ManyToMany(mappedBy = "permissoes")
+    private List<Perfil> perfis;
+    @Column
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
+    @CreatedTimestamp
+    private DateTime dataCriacao;
+    @Column
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
+    @UpdatedTimestamp
+    private DateTime dataAtualizacao;
 
     public String getIdJson() {
         return idJson;
@@ -36,30 +54,6 @@ public class Permissao extends Model implements Permission {
     public void setIdJson(String idJson) {
         this.idJson = idJson;
     }
-
-    @Column
-    @NotBlank(message = "não pode ficar em branco")
-    private String descricao;
-
-    @Column
-    @NotBlank(message = "não pode ficar em branco")
-    private String chave;
-
-    @ManyToMany(mappedBy = "permissoes")
-    private List<Perfil> perfis;
-
-    @Column
-    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
-    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
-    @CreatedTimestamp
-    private DateTime dataCriacao;
-
-    @Column
-    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
-    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
-    @UpdatedTimestamp
-    private DateTime dataAtualizacao;
-
 
     @Override
     public String getValue() {
