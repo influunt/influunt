@@ -33,6 +33,17 @@ public class Plano extends Model implements Cloneable {
     private UUID id;
 
     @Column
+    private String idJson;
+
+    public String getIdJson() {
+        return idJson;
+    }
+
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
+    }
+
+    @Column
     @NotNull(message = "não pode ficar em branco.")
     private Integer posicao;
 
@@ -77,6 +88,11 @@ public class Plano extends Model implements Cloneable {
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
+
+    public Plano() {
+        super();
+        this.setIdJson(UUID.randomUUID().toString());
+    }
 
     public UUID getId() {
         return id;

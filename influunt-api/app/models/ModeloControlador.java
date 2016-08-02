@@ -34,6 +34,17 @@ public class ModeloControlador extends Model implements Cloneable {
     @Id
     private UUID id;
 
+    @Column
+    private String idJson;
+
+    public String getIdJson() {
+        return idJson;
+    }
+
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
+    }
+
     @ManyToOne
     @NotNull(message = "não pode ficar em branco")
     private Fabricante fabricante;

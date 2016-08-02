@@ -35,6 +35,17 @@ public class Transicao extends Model implements Cloneable {
     @Id
     private UUID id;
 
+    @Column
+    private String idJson;
+
+    public String getIdJson() {
+        return idJson;
+    }
+
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
+    }
+
     @ManyToOne
     private GrupoSemaforico grupoSemaforico;
 
@@ -66,10 +77,12 @@ public class Transicao extends Model implements Cloneable {
 
     public Transicao() {
         super();
+        this.setIdJson(UUID.randomUUID().toString());
     }
 
     public Transicao(GrupoSemaforico grupoSemaforico, Estagio origem, Estagio destino) {
         super();
+        this.setIdJson(UUID.randomUUID().toString());
         this.grupoSemaforico = grupoSemaforico;
         this.origem = origem;
         this.destino = destino;

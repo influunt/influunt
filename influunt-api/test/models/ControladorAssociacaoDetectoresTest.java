@@ -165,24 +165,6 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
         assertEquals("Estagio 4 está associado Detector 4", detector4.getEstagio(), estagio4);
     }
 
-    @Test
-    public void testNewSerialize(){
-        Controlador controlador = getControladorAssociacaoDetectores();
-        JsonNode jsonControlador = new ControladorCustomSerializer().getControladorJson(controlador);
-
-        Controlador controlador1 = new ControladorCustomDeserializer().getControladorFromJson(jsonControlador);
-        JsonNode jsonControlador1 = new ControladorCustomSerializer().getControladorJson(controlador1);
-
-        assertEquals(jsonControlador.toString(),jsonControlador1.toString());
-
-//        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-//        JsonParser jp = new JsonParser();
-//        JsonElement je = jp.parse(json.toString());
-//        String prettyJsonString = gson.toJson(je);
-//        System.out.println(prettyJsonString);
-
-    }
-
     @Override
     public List<Erro> getErros(Controlador controlador) {
         return new InfluuntValidator<Controlador>().validate(controlador,

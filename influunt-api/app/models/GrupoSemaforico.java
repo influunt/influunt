@@ -38,6 +38,17 @@ public class GrupoSemaforico extends Model implements Cloneable {
     @Id
     private UUID id;
 
+    @Column
+    private String idJson;
+
+    public String getIdJson() {
+        return idJson;
+    }
+
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
+    }
+
     @Enumerated(EnumType.STRING)
     @Column
     @NotNull(groups = ControladorGruposSemaforicosCheck.class, message = "não pode ficar em branco")
@@ -56,7 +67,7 @@ public class GrupoSemaforico extends Model implements Cloneable {
     @ManyToOne
     private Controlador controlador;
 
-    @OneToMany(mappedBy = "origem", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "origem", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Valid
     private List<VerdesConflitantes> verdesConflitantesOrigem;
 
@@ -94,6 +105,11 @@ public class GrupoSemaforico extends Model implements Cloneable {
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
+
+    public GrupoSemaforico() {
+        super();
+        this.setIdJson(UUID.randomUUID().toString());
+    }
 
     public UUID getId() {
         return id;

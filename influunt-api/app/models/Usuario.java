@@ -32,6 +32,18 @@ public class Usuario extends Model implements Subject {
     String senha;
     @Id
     private UUID id;
+
+    @Column
+    private String idJson;
+
+    public String getIdJson() {
+        return idJson;
+    }
+
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
+    }
+
     @NotBlank(message = "não pode ficar em branco")
     @Column(unique = true)
     private String login;

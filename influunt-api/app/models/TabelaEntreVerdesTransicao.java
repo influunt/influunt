@@ -31,6 +31,17 @@ public class TabelaEntreVerdesTransicao extends Model implements Cloneable {
     @Id
     private UUID id;
 
+    @Column
+    private String idJson;
+
+    public String getIdJson() {
+        return idJson;
+    }
+
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
+    }
+
     @ManyToOne(cascade = CascadeType.PERSIST)
     private TabelaEntreVerdes tabelaEntreVerdes;
 
@@ -67,11 +78,13 @@ public class TabelaEntreVerdesTransicao extends Model implements Cloneable {
     private DateTime dataAtualizacao;
 
     public TabelaEntreVerdesTransicao() {
-
+        super();
+        this.setIdJson(UUID.randomUUID().toString());
     }
 
     public TabelaEntreVerdesTransicao(TabelaEntreVerdes tabelaEntreVerdes, Transicao transicao) {
         super();
+        this.setIdJson(UUID.randomUUID().toString());
         this.tabelaEntreVerdes = tabelaEntreVerdes;
         this.transicao = transicao;
     }

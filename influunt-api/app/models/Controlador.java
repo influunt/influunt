@@ -44,6 +44,9 @@ public class Controlador extends Model implements Cloneable {
     private UUID id;
 
     @Column
+    private String idJson;
+
+    @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
@@ -145,21 +148,29 @@ public class Controlador extends Model implements Cloneable {
             }
         }
 
-        this.aneis.stream().filter(anel -> anel.isAtivo()).forEach( anel -> {
-            anel.getEstagios().forEach(estagio -> {
-                if(estagio.getId() != null && Estagio.find.byId(estagio.getId()) == null){
-                    estagio.setAnel(anel);
-                    estagio.save();
-                }
-            });
-            anel.getGruposSemaforicos().forEach(grupoSemaforico -> {
-                if(grupoSemaforico.getId() != null && GrupoSemaforico.find.byId(grupoSemaforico.getId()) == null){
-                    grupoSemaforico.setAnel(anel);
-                    grupoSemaforico.save();
-                }
-            });
-
-        });
+//        this.aneis.stream().filter(anel -> anel.isAtivo()).forEach( anel -> {
+//            anel.getEstagios().forEach(estagio -> {
+//                if(estagio.getId() != null && Estagio.find.byId(estagio.getId()) == null){
+//                    estagio.setAnel(anel);
+//                    estagio.save();
+//                }
+//            });
+//            anel.getGruposSemaforicos().forEach(grupoSemaforico -> {
+//                if(grupoSemaforico.getId() != null){
+//                    grupoSemaforico.setAnel(anel);
+//                    grupoSemaforico.getVerdesConflitantesOrigem().stream().forEach(verdesConflitantes -> {
+//                        verdesConflitantes.setOrigem(grupoSemaforico);
+//                        verdesConflitantes.save();
+//                    });
+//                    if(GrupoSemaforico.find.byId(grupoSemaforico.getId()) == null){
+//                        grupoSemaforico.save();
+//                    }else{
+//                        grupoSemaforico.update();;
+//                    }
+//                }
+//            });
+//
+//        });
 
         this.criarPossiveisTransicoes();
     }
@@ -200,6 +211,14 @@ public class Controlador extends Model implements Cloneable {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public String getIdJson() {
+        return idJson;
+    }
+
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
     }
 
     public String getLocalizacao() {

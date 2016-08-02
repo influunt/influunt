@@ -100,10 +100,6 @@ public abstract class ControladorTest extends WithApplication {
         anel1.setDescricao("Anel 0");
         anel1.setAtivo(true);
         List<Estagio> estagios =  Arrays.asList(new Estagio(), new Estagio(), new Estagio(), new Estagio());
-        estagios.stream().forEach(estagio -> {
-            estagio.setId(UUID.randomUUID());
-            estagio.setAnel(anel1);
-        });
         anel1.setEstagios(estagios);
 
         anel1.setLatitude(1.0);
@@ -119,7 +115,6 @@ public abstract class ControladorTest extends WithApplication {
         Anel anelAtivo = controlador.getAneis().stream().filter(anel -> anel.isAtivo()).findFirst().get();
 
         GrupoSemaforico grupoSemaforicoVeicular = new GrupoSemaforico();
-        grupoSemaforicoVeicular.setId(UUID.randomUUID());
         grupoSemaforicoVeicular.setAnel(anelAtivo);
         grupoSemaforicoVeicular.setControlador(controlador);
         grupoSemaforicoVeicular.setTipo(TipoGrupoSemaforico.PEDESTRE);
@@ -131,7 +126,6 @@ public abstract class ControladorTest extends WithApplication {
         controlador.addGruposSemaforicos(grupoSemaforicoVeicular);
 
         GrupoSemaforico grupoSemaforicoPedestre = new GrupoSemaforico();
-        grupoSemaforicoPedestre.setId(UUID.randomUUID());
         grupoSemaforicoPedestre.setAnel(anelAtivo);
         grupoSemaforicoPedestre.setControlador(controlador);
         grupoSemaforicoPedestre.setTipo(TipoGrupoSemaforico.VEICULAR);
@@ -165,10 +159,6 @@ public abstract class ControladorTest extends WithApplication {
         EstagioGrupoSemaforico estagioGrupoSemaforico3 = new EstagioGrupoSemaforico(estagio3, grupoSemaforico1);
         EstagioGrupoSemaforico estagioGrupoSemaforico4 = new EstagioGrupoSemaforico(estagio4, grupoSemaforico2);
 
-        estagioGrupoSemaforico1.setId(UUID.randomUUID());
-        estagioGrupoSemaforico2.setId(UUID.randomUUID());
-        estagioGrupoSemaforico3.setId(UUID.randomUUID());
-        estagioGrupoSemaforico4.setId(UUID.randomUUID());
 
         estagio1.setDemandaPrioritaria(true);
         estagio1.setTempoMaximoPermanencia(100);
@@ -216,8 +206,6 @@ public abstract class ControladorTest extends WithApplication {
         anelAtivo.setLatitude(1.0);
         anelAtivo.setLongitude(1.0);
         List<Estagio> estagios = Arrays.asList(new Estagio(), new Estagio());
-        estagios.stream().forEach(estagio -> estagio.setId(UUID.randomUUID()));
-
         anelAtivo.setEstagios(estagios);
 
         criarGrupoSemaforico(anelAtivo, TipoGrupoSemaforico.VEICULAR, 3);
@@ -450,7 +438,6 @@ public abstract class ControladorTest extends WithApplication {
 
     protected void criarGrupoSemaforico(Anel anel, TipoGrupoSemaforico tipo, Integer posicao) {
         GrupoSemaforico grupoSemaforico = new GrupoSemaforico();
-        grupoSemaforico.setId(UUID.randomUUID());
         grupoSemaforico.setAnel(anel);
         grupoSemaforico.setControlador(anel.getControlador());
         grupoSemaforico.setTipo(tipo);
@@ -461,7 +448,6 @@ public abstract class ControladorTest extends WithApplication {
 
     protected void criarDetector(Anel anel, TipoDetector tipo, Integer posicao) {
         Detector detector = new Detector();
-        detector.setId(UUID.randomUUID());
         detector.setAnel(anel);
         detector.setControlador(anel.getControlador());
         detector.setTipo(tipo);

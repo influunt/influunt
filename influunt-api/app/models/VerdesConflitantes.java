@@ -24,6 +24,17 @@ public class VerdesConflitantes extends Model {
     @Id
     private UUID id;
 
+    @Column
+    private String idJson;
+
+    public String getIdJson() {
+        return idJson;
+    }
+
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
+    }
+
     @ManyToOne
     private GrupoSemaforico origem;
 
@@ -44,10 +55,12 @@ public class VerdesConflitantes extends Model {
 
     public VerdesConflitantes() {
         super();
+        this.setIdJson(UUID.randomUUID().toString());
     }
 
     public VerdesConflitantes(GrupoSemaforico origem, GrupoSemaforico destino) {
         super();
+        this.setIdJson(UUID.randomUUID().toString());
         this.origem = origem;
         this.destino = destino;
     }

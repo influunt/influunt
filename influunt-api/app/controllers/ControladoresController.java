@@ -130,8 +130,9 @@ public class ControladoresController extends Controller {
                 } else {
                     controlador.save();
                 }
+                Controlador controlador1 = Controlador.find.byId(controlador.getId());
 
-                return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(Controlador.find.byId(controlador.getId()))));
+                return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador1)));
             }
         }
     }

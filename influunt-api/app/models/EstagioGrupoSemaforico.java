@@ -34,6 +34,17 @@ public class EstagioGrupoSemaforico extends Model implements Cloneable {
     private UUID id;
 
     @Column
+    private String idJson;
+
+    public String getIdJson() {
+        return idJson;
+    }
+
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
+    }
+
+    @Column
     @NotNull
     private Boolean ativo = false;
 
@@ -59,10 +70,12 @@ public class EstagioGrupoSemaforico extends Model implements Cloneable {
 
     public EstagioGrupoSemaforico() {
         super();
+        this.setIdJson(UUID.randomUUID().toString());
     }
 
     public EstagioGrupoSemaforico(Estagio estagio, GrupoSemaforico grupoSemaforico) {
         super();
+        this.setIdJson(UUID.randomUUID().toString());
         this.estagio = estagio;
         this.grupoSemaforico = grupoSemaforico;
     }

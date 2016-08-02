@@ -35,6 +35,17 @@ public class ConfiguracaoControlador extends Model {
     private UUID id;
 
     @Column
+    private String idJson;
+
+    public String getIdJson() {
+        return idJson;
+    }
+
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
+    }
+
+    @Column
     @NotBlank(message = "não pode ficar em branco")
     private String descricao;
 

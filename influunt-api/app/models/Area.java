@@ -39,6 +39,17 @@ public class Area extends Model implements Cloneable {
     private UUID id;
 
     @Column
+    private String idJson;
+
+    public String getIdJson() {
+        return idJson;
+    }
+
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
+    }
+
+    @Column
     @Min(value = 1, message = "deve ser maior que zero")
     @NotNull(message = "não pode ficar em branco")
     private Integer descricao;

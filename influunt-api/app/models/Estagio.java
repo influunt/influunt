@@ -43,6 +43,17 @@ public class Estagio extends Model implements Serializable, Cloneable {
     @Id
     private UUID id;
 
+    @Column
+    private String idJson;
+
+    public String getIdJson() {
+        return idJson;
+    }
+
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
+    }
+
     @OneToOne
     private Imagem imagem;
 
@@ -94,6 +105,11 @@ public class Estagio extends Model implements Serializable, Cloneable {
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
+
+    public Estagio() {
+        super();
+        this.setIdJson(UUID.randomUUID().toString());
+    }
 
     public UUID getId() {
         return id;
@@ -238,7 +254,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
     }
 
     @AssertTrue(groups = PlanosCheck.class, message = "deve estar entre 60 e 255")
-    public boolean isTempoVerdeMinimo() {
+    public boolean istempoMaximoPermanencia() {
         if (getTempoMaximoPermanenciaAtivado()) {
             return !(getTempoMaximoPermanencia() == null || !Range.between(60, 255).contains(getTempoMaximoPermanencia()));
         }

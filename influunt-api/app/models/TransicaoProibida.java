@@ -26,6 +26,17 @@ public class TransicaoProibida extends Model {
     @Id
     private UUID id;
 
+    @Column
+    private String idJson;
+
+    public String getIdJson() {
+        return idJson;
+    }
+
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
+    }
+
     @NotNull(message = "não pode ficar em branco")
     @ManyToOne
     private Estagio origem;
@@ -49,6 +60,11 @@ public class TransicaoProibida extends Model {
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
+
+    public TransicaoProibida() {
+        super();
+        this.setIdJson(UUID.randomUUID().toString());
+    }
 
     public UUID getId() {
         return id;

@@ -6,6 +6,8 @@ import checks.Erro;
 import checks.InfluuntValidator;
 import checks.PlanosCheck;
 import com.fasterxml.jackson.databind.JsonNode;
+import json.ControladorCustomDeserializer;
+import json.ControladorCustomSerializer;
 import models.Controlador;
 import play.db.ebean.Transactional;
 import play.libs.Json;
@@ -34,12 +36,13 @@ public class PlanosController extends Controller {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         } else {
 
-            Controlador controlador = Json.fromJson(json, Controlador.class);
+            Controlador controlador = new ControladorCustomDeserializer().getControladorFromJson(request().body().asJson());
             List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, PlanosCheck.class);
 
             if (erros.isEmpty()) {
                 controlador.update();
-                return CompletableFuture.completedFuture(ok(Json.toJson(controlador)));
+                Controlador controlador1 = Controlador.find.byId(controlador.getId());
+                return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador1)));
             } else {
                 return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
             }

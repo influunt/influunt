@@ -31,6 +31,17 @@ public class Imagem extends Model {
     private UUID id;
 
     @Column
+    private String idJson;
+
+    public String getIdJson() {
+        return idJson;
+    }
+
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
+    }
+
+    @Column
     private String filename;
 
     @Column

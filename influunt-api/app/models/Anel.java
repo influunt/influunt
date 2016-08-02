@@ -46,6 +46,17 @@ public class Anel extends Model implements Cloneable {
     private UUID id;
 
     @Column
+    private String idJson;
+
+    public String getIdJson() {
+        return idJson;
+    }
+
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
+    }
+
+    @Column
     @NotNull
     private Boolean ativo = false;
 
@@ -99,12 +110,14 @@ public class Anel extends Model implements Cloneable {
 
     public Anel(Controlador controlador, int posicao) {
         super();
+        this.setIdJson(UUID.randomUUID().toString());
         this.controlador = controlador;
         this.posicao = posicao;
     }
 
     public Anel() {
         super();
+        this.setIdJson(UUID.randomUUID().toString());
     }
 
     public Anel(String descricao) {
@@ -329,5 +342,6 @@ public class Anel extends Model implements Cloneable {
             return String.format("%s.%01d", "sem-controlador", this.posicao);
         }
     }
+
 }
 
