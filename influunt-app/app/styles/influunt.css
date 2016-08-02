@@ -1825,6 +1825,9 @@ header .nav-secon li a {
     font-size: 10px !important;
     color: white !important;
   }
+  .badge.badge-danger.badge-estagio-alternativo {
+    margin-top: -40px;
+  }
   .container-fluid {
     width: 100%;
   }
@@ -1972,4 +1975,9 @@ table.table-diagonal:nth-of-type(1) th.diagonal {
 
 ul li span.bubble {
   cursor: pointer;
+}
+
+img.sample-img-estagios {
+  width: 200px;
+  height: 150px;
 }

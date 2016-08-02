@@ -22,7 +22,7 @@
                               <h1>E{{ $index + 1 }}</h1>
                             </header>
                             <figure>
-                              <img ng-src="{{ estagio.imagem.id | imageSource }}" style="width: 200px; height: 155px;">
+                              <img ng-src="{{ estagio.imagem.id | imageSource }}" class="sample-img-estagios">
                             </figure>
                         </li>
                       </ul>
@@ -60,8 +60,7 @@
                             <span class="badge badge-danger badge-estagio-alternativo pull-right"
                               data-ng-if="getErrosEstagiosAlternativos(value.origem, value.destino)"
                               inf-tooltip
-                              messages="getErrosEstagiosAlternativos(value.origem, value.destino)"
-                              style="margin-top: -40px;">
+                              messages="getErrosEstagiosAlternativos(value.origem, value.destino)">
                               <i class="fa fa-exclamation"></i>
                             </span>
                           </li>

@@ -54,8 +54,7 @@ angular.module('influuntApp')
               .value();
 
             $scope.grupoIds = _.chain(gruposSemaforicos).map('id').value();
-            // var totalGrupos = $scope.objeto.modelo.configuracao.limiteGrupoSemaforico;
-            var totalGrupos = 16;
+            var totalGrupos = $scope.objeto.limiteGrupoSemaforico;
             $scope.grupos = _.times(totalGrupos, function(i) {return 'G' + (i+1);});
 
             $scope.selecionaAnel(0);
@@ -114,7 +113,6 @@ angular.module('influuntApp')
 
       $scope.temVerdeConflitante = function(x, y) {
         var obj = {origem: {id: x.id}, destino: {id: y.id}};
-        console.log('teste');
         return !!_.find(x.verdesConflitantesOrigem, obj);
       };
 
