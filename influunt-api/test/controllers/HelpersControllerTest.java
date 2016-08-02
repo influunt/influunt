@@ -2,7 +2,10 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Singleton;
-import models.*;
+import models.Area;
+import models.Cidade;
+import models.Fabricante;
+import models.ModeloControlador;
 import org.junit.Test;
 import play.Application;
 import play.Mode;

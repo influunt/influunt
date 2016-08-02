@@ -26,8 +26,6 @@ create table aneis (
   descricao                     varchar(255),
   posicao                       integer,
   numero_smee                   varchar(255),
-  latitude                      double,
-  longitude                     double,
   controlador_id                varchar(40),
   croqui_id                     varchar(40),
   data_criacao                  datetime(6) not null,
@@ -100,6 +98,7 @@ create table detectores (
 create table enderecos (
   id                            varchar(40) not null,
   controlador_id                varchar(40),
+  anel_id                       varchar(40),
   localizacao                   varchar(255),
   latitude                      double not null,
   longitude                     double not null,
@@ -357,6 +356,9 @@ create index ix_detectores_controlador_id on detectores (controlador_id);
 alter table enderecos add constraint fk_enderecos_controlador_id foreign key (controlador_id) references controladores (id) on delete restrict on update restrict;
 create index ix_enderecos_controlador_id on enderecos (controlador_id);
 
+alter table enderecos add constraint fk_enderecos_anel_id foreign key (anel_id) references aneis (id) on delete restrict on update restrict;
+create index ix_enderecos_anel_id on enderecos (anel_id);
+
 alter table estagios add constraint fk_estagios_imagem_id foreign key (imagem_id) references imagens (id) on delete restrict on update restrict;
 
 alter table estagios add constraint fk_estagios_anel_id foreign key (anel_id) references aneis (id) on delete restrict on update restrict;
@@ -484,6 +486,9 @@ drop index ix_detectores_controlador_id on detectores;
 
 alter table enderecos drop foreign key fk_enderecos_controlador_id;
 drop index ix_enderecos_controlador_id on enderecos;
+
+alter table enderecos drop foreign key fk_enderecos_anel_id;
+drop index ix_enderecos_anel_id on enderecos;
 
 alter table estagios drop foreign key fk_estagios_imagem_id;
 

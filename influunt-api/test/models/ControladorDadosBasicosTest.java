@@ -11,7 +11,9 @@ import play.mvc.Result;
 import play.test.Helpers;
 import utils.RangeUtils;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
@@ -142,8 +144,14 @@ public class ControladorDadosBasicosTest extends ControladorTest {
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
-        assertEquals(2, json.size());
-
+        List<LinkedHashMap<String, String>> errosJson = Json.fromJson(json, List.class);
+        List<Erro> erros = errosJson.stream().map(erro -> new Erro(erro.get("root"), erro.get("message"), erro.get("path"))).collect(Collectors.toList());
+        assertEquals(3, erros.size());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+                new Erro("Controlador", "não pode ficar em branco", "modelo"),
+                new Erro("Controlador", "não pode ficar em branco", "area"),
+                new Erro("Controlador", "não pode ficar em branco", "nomeEndereco")
+        ));
     }
 
     @Override

@@ -12,8 +12,8 @@ angular.module('influuntApp')
     function ($scope, $state, $controller, assertControlador) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
-      // Metodos privados.
-      var criaAneis, atualizarAneisAtivos;
+      // Métodos privados.
+      var criaAneis, atualizarAneisAtivos, registrarWatcherEndereco;
 
       /**
        * Pré-condições para acesso à tela de aneis: Somente será possível acessar esta
@@ -22,7 +22,7 @@ angular.module('influuntApp')
        *
        * @return     {boolean}  { description_of_the_return_value }
        */
-      $scope.assertAneis = function() {
+      $scope.assertAneis = function () {
         var valid = assertControlador.hasAneis($scope.objeto);
         if (!valid) {
           $state.go('app.wizard_controladores.dados_basicos');
@@ -38,12 +38,24 @@ angular.module('influuntApp')
             $scope.currentAnelIndex = 0;
             criaAneis($scope.objeto);
             $scope.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
+            $scope.aneis.forEach(function(anel) { anel.enderecos = [{}, {}]; });
             $scope.currentAnel = $scope.objeto.aneis[$scope.currentAnelIndex];
             atualizarAneisAtivos();
+            registrarWatcherEndereco();
             $scope.$broadcast('influuntWizard.dropzoneOk');
           }
         });
       };
+
+      // Endereços são sempre validados, logo precisam de ser
+      // removidos dos anéis não ativos.
+      $scope.beforeSubmitForm = function() {
+        $scope.aneis.forEach(function(anel) {
+          if (!anel.ativo) {
+            delete anel.enderecos;
+          }
+        });
+      }
 
       /**
        * Desativa todos os aneis após o anel corrente, caso o anel atual seja
@@ -113,4 +125,15 @@ angular.module('influuntApp')
           atualizarAneisAtivos();
         });
       };
+
+      registrarWatcherEndereco = function() {
+        $scope.$watch('currentAnel', function(anel) {
+          if (anel) {
+            if (anel.enderecos[0].localizacao && anel.enderecos[1].localizacao) {
+              anel.localizacao = anel.enderecos[0].localizacao + ' com ' + anel.enderecos[1].localizacao;
+            }
+          }
+        }, true);
+      };
+
     }]);
