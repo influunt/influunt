@@ -218,6 +218,8 @@ public class ControladorCustomSerializer {
             if (fabricante.getNome() != null) {
                 fabricanteJson.put("nome", fabricante.getNome());
             }
+            modeloJson.set("fabricante", fabricanteJson);
+
         }
         root.set("modelo", modeloJson);
     }
@@ -840,6 +842,22 @@ public class ControladorCustomSerializer {
 
         if (anel.getCLA() != null) {
             anelJson.put("CLA", anel.getCLA());
+        }
+
+
+        if (anel.getCroqui() != null) {
+            ObjectNode croquiJson = Json.newObject();
+            Imagem croqui = anel.getCroqui();
+
+            if (croqui.getId() != null) {
+                croquiJson.put("id", croqui.getId().toString());
+            }
+
+            if (croqui.getIdJson() != null) {
+                croquiJson.put("idJson", croqui.getIdJson().toString());
+            }
+            anelJson.set("croqui", croquiJson);
+
         }
 
         refEstagios(anel.getEstagios(), anelJson);

@@ -18,18 +18,27 @@ angular.module('influuntApp')
           scope.$on('influuntWizard.dropzoneOk', function(ev) {
             if (ev.targetScope.aneis) {
               ev.targetScope.aneis.forEach(function(anel) {
-                return anel.estagios && anel.estagios.forEach(function(estagio) {
-                  if (estagio.id) {
-                    scope.data = {
-                      idAnel: anel.idAnel,
-                      nome: estagio.imagem.filename,
-                      source: estagio.imagem.id
-                    };
+                var ids = _.map(ev.targetScope.aneis[0].estagios, 'idJson');
 
-                    var preview = $interpolate(template)(scope);
-                    $form.append(preview);
-                  }
-                });
+                return ids && _
+                  .chain(ev.targetScope.objeto.estagios)
+                  .filter(function(estagio) {
+                    return ids.indexOf(estagio.idJson) >= 0;
+                  })
+                  .each(function(estagio) {
+                    if (estagio.id) {
+                      var imagem = _.find(ev.targetScope.objeto.imagens, {idJson: estagio.imagem.idJson});
+                      scope.data = {
+                        idAnel: anel.idAnel,
+                        nome: imagem.filename,
+                        source: imagem.id
+                      };
+
+                      var preview = $interpolate(template)(scope);
+                      $form.append(preview);
+                    }
+                  })
+                  .value();
               });
             }
           });

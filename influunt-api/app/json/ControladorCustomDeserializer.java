@@ -347,6 +347,10 @@ public class ControladorCustomDeserializer {
         }
         anel.setControlador(controlador);
 
+        if (node.has("croqui") && node.get("croqui").get("id") != null) {
+            anel.setCroqui(Imagem.find.byId(UUID.fromString(node.get("croqui").get("id").asText())));
+        }
+
         List<GrupoSemaforico> grupoSemaforicos = new ArrayList<GrupoSemaforico>();
         parseCollection("gruposSemaforicos", node, grupoSemaforicos, GRUPOS_SEMAFORICOS, ANEIS);
         anel.setGruposSemaforicos(grupoSemaforicos);
@@ -1026,6 +1030,11 @@ public class ControladorCustomDeserializer {
                 imagem.setId(UUID.fromString(id.asText()));
             }
         }
+
+        if (node.has("idJson")) {
+            imagem.setIdJson(node.get("idJson").asText());
+        }
+
         if (node.get("fileName") != null) {
             imagem.setFilename(node.get("fileName").asText());
         }

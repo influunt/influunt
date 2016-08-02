@@ -217,11 +217,11 @@ public class Anel extends Model implements Cloneable {
         return !this.ativo || this.posicao != null;
     }
 
-    @JsonIgnore
-    @AssertTrue(message = "Anel deve ter 2 endereços")
-    public boolean isEnderecosOk() {
-        return !isAtivo() || (getEnderecos() != null && getEnderecos().size() == 2);
-    }
+//    @JsonIgnore
+//    @AssertTrue(message = "Anel deve ter 2 endereços")
+//    public boolean isEnderecosOk() {
+//        return !isAtivo() || (getEnderecos() != null && getEnderecos().size() == 2);
+//    }
 
     @AssertTrue(groups = PlanosCheck.class,
             message = "O anel ativo deve ter pelo menos 1 plano configurado.")

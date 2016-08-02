@@ -41,7 +41,7 @@ angular.module('influuntApp')
             // $scope.aneis.forEach(function(anel) { anel.enderecos = [{}, {}]; });
             $scope.currentAnel = $scope.objeto.aneis[$scope.currentAnelIndex];
             atualizarAneisAtivos();
-            registrarWatcherEndereco();
+            // registrarWatcherEndereco();
             $scope.$broadcast('influuntWizard.dropzoneOk');
           }
         });
@@ -93,13 +93,15 @@ angular.module('influuntApp')
         $scope.objeto.estagios = $scope.objeto.estagios || [];
 
         var uuid = UUID.generate();
+        var _imagem = { id: imagem.id, filename: imagem.filename, idJson: imagem.idJson };
         var estagio = {
-          imagem: { id: imagem.id, filename: imagem.filename },
+          imagem: { idJson: imagem.idJson },
           idJson: uuid
         }
 
         anel.estagios.push({idJson: uuid});
         $scope.objeto.estagios.push(estagio);
+        $scope.objeto.imagens.push(_imagem);
       };
 
       $scope.removeImagemDoEstagio = function(imagem) {
