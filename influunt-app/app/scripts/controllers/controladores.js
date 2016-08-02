@@ -11,6 +11,8 @@ angular.module('influuntApp')
   .controller('ControladoresCtrl', ['$controller', '$scope', '$state','Restangular', '$q', 'handleValidations', 'APP_ROOT', 'influuntBlockui',
     function ($controller, $scope, $state, Restangular, $q, handleValidations, APP_ROOT, influuntBlockui) {
 
+      var buscaReferencias;
+
       // Herda todo o comportamento do crud basico.
       $controller('CrudCtrl', {$scope: $scope});
       $scope.inicializaNovoCrud('controladores');
@@ -43,18 +45,32 @@ angular.module('influuntApp')
        * Carrega os dados de fabricas e cidades, que não estão diretamente relacionados ao contolador.
        */
       var getHelpersControlador = function() {
-        Restangular.one('helpers', 'controlador').get().then(function(res) {
+        return Restangular.one('helpers', 'controlador').get().then(function(res) {
           $scope.data = res;
           $scope.helpers = {};
 
           if ($scope.objeto.area) {
-            $scope.helpers.cidade = $scope.objeto.area.cidade;
+            var idJson = $scope.objeto.area.idJson;
+            var area = _.find($scope.objeto.areas, {idJson: idJson});
+            var cidade = _.find($scope.objeto.cidades, {idJson: area.cidade.idJson});
+
+            cidade.areas = cidade.areas.map(function(area) {
+              return _.find($scope.objeto.areas, {idJson: area.idJson});
+            });
+
+            $scope.helpers.cidade = cidade;
           } else {
             $scope.helpers.cidade = $scope.data.cidades[0];
+            $scope.objeto.cidades = $scope.data.cidades;
+            $scope.objeto.areas = _.chain($scope.data.cidades).map('areas').flatten().value();
           }
 
           if ($scope.objeto.modelo) {
-            $scope.helpers.fornecedor = $scope.objeto.modelo.fabricante;
+            var modelos = _.chain($scope.data.fabricantes).map('modelos').flatten().uniq().value();
+            var modelo = _.find(modelos, {id: $scope.objeto.modelo.id});
+            console.log(modelo);
+            var fabricante = _.find($scope.data.fabricantes, {id: modelo.fabricante.id});
+            $scope.helpers.fornecedor = fabricante;
           }
         });
       };
@@ -86,7 +102,9 @@ angular.module('influuntApp')
             defer.resolve(res);
           });
         } else {
-          loadWizardData({limiteEstagio: 16, limiteGrupoSemaforico: 16, limiteAnel: 4, limiteDetectorPedestre: 4, limiteDetectorVeicular: 8, limiteTabelasEntreVerdes: 2, enderecos: [{localizacao: "", latitude: null, longitude: null}, {localizacao: "", latitude: null, longitude: null}]});
+          var todosEnderecos = [{idJson: UUID.generate(), localizacao: "", latitude: null, longitude: null}, {idJson: UUID.generate(), localizacao: "", latitude: null, longitude: null}];
+          var enderecos = _.map(todosEnderecos, function(i) {return {idJson: i.idJson};});
+          loadWizardData({limiteEstagio: 16, limiteGrupoSemaforico: 16, limiteAnel: 4, limiteDetectorPedestre: 4, limiteDetectorVeicular: 8, limiteTabelasEntreVerdes: 2, todosEnderecos: todosEnderecos, enderecos: enderecos});
           influuntBlockui.unblock();
           defer.resolve({});
         }
@@ -136,6 +154,12 @@ angular.module('influuntApp')
         if (angular.isDefined($scope.currentEstagioId)) {
           $scope.selecionaEstagio($scope.currentEstagioId);
         }
+
+
+      };
+
+      buscaReferencias = function() {
+
       };
 
       /**
@@ -205,7 +229,6 @@ angular.module('influuntApp')
 
       $scope.buildValidationMessages = function(errors) {
         $scope.errors = handleValidations.handle(errors);
-        console.log('$scope.errors: ', $scope.errors)
         for (var i = 0; i < $scope.errors.aneis.length; i++) {
           if ($scope.errors.aneis[i] === undefined) {
             $scope.errors.aneis[i] = {};

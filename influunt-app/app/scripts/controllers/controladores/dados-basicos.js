@@ -12,9 +12,9 @@ angular.module('influuntApp')
     function ($scope, $controller) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
-      $scope.$watchGroup(['objeto.enderecos[0].localizacao', 'objeto.enderecos[1].localizacao'], function(){
-      	if($scope.objeto.enderecos[0].localizacao && $scope.objeto.enderecos[1].localizacao) {
-          $scope.objeto.nomeEndereco = $scope.objeto.enderecos[0].localizacao + ' com ' + $scope.objeto.enderecos[1].localizacao;
+      $scope.$watchGroup(['objeto.todosEnderecos[0].localizacao', 'objeto.todosEnderecos[1].localizacao'], function(){
+      	if($scope.objeto.todosEnderecos[0].localizacao && $scope.objeto.todosEnderecos[1].localizacao) {
+          $scope.objeto.nomeEndereco = $scope.objeto.todosEnderecos[0].localizacao + ' com ' + $scope.objeto.todosEnderecos[1].localizacao;
       	} else {
           $scope.objeto.nomeEndereco = '';
         }

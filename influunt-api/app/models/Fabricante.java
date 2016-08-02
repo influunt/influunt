@@ -54,6 +54,11 @@ public class Fabricante extends Model implements Cloneable {
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
 
+    public Fabricante() {
+        super();
+        this.setIdJson(UUID.randomUUID().toString());
+    }
+
     public String getIdJson() {
         return idJson;
     }

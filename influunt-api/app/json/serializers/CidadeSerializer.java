@@ -23,6 +23,12 @@ public class CidadeSerializer extends JsonSerializer<Cidade> {
         } else {
             jgen.writeStringField("id", cidade.getId().toString());
         }
+
+        if (cidade.getIdJson() == null) {
+            jgen.writeNullField("idJson");
+        } else {
+            jgen.writeStringField("idJson", cidade.getIdJson().toString());
+        }
         if (cidade.getNome() != null) {
             jgen.writeStringField("nome", cidade.getNome());
         }

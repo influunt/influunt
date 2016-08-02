@@ -54,6 +54,11 @@ public class ModeloControlador extends Model implements Cloneable {
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
 
+    public ModeloControlador() {
+        super();
+        this.setIdJson(UUID.randomUUID().toString());
+    }
+
     public String getIdJson() {
         return idJson;
     }

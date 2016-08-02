@@ -47,6 +47,11 @@ public class Imagem extends Model {
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
 
+    public Imagem() {
+        super();
+        this.setIdJson(UUID.randomUUID().toString());
+    }
+
     public String getIdJson() {
         return idJson;
     }

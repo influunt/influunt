@@ -65,6 +65,11 @@ public class Area extends Model implements Cloneable {
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
 
+    public Area() {
+        super();
+        this.setIdJson(UUID.randomUUID().toString());
+    }
+
     public String getIdJson() {
         return idJson;
     }

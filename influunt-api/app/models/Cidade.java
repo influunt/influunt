@@ -55,6 +55,11 @@ public class Cidade extends Model implements Cloneable {
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
 
+    public Cidade() {
+        super();
+        this.setIdJson(UUID.randomUUID().toString());
+    }
+
     public String getIdJson() {
         return idJson;
     }

@@ -31,11 +31,11 @@ public class ControladorCustomSerializer {
     private Map<String, GrupoSemaforicoPlano> grupoSemaforicoPlanoMap = new HashMap<String, GrupoSemaforicoPlano>();
     private Map<String, EstagioPlano> estagioPlanoMap = new HashMap<String, EstagioPlano>();
     private Map<String, Endereco> enderecosMap = new HashMap<String, Endereco>();
+    private Map<String, Area> areasMap = new HashMap<String, Area>();
 
     public JsonNode getControladorJson(Controlador controlador) {
         ObjectNode root = Json.newObject();
 
-        putControladorArea(controlador.getArea(), root);
         putControladorDadosBasicos(controlador, root);
         putControladorModelo(controlador.getModelo(), root);
         putControladorAneis(controlador.getAneis(), root);
@@ -54,6 +54,8 @@ public class ControladorCustomSerializer {
         putControladorGruposSemaforicosPlanos(root);
         putControladorEstagiosPlanos(root);
 
+        putControladorCidades(root);
+        putControladorAreas(root);
         putControladorEnderecos(root);
         putControladorImagens(root);
 
@@ -174,39 +176,12 @@ public class ControladorCustomSerializer {
             root.put("statusControlador", controlador.getStatusControlador().toString());
         }
 
+        if (controlador.getArea() != null && controlador.getArea().getIdJson() != null) {
+            root.putObject("area").put("idJson", controlador.getArea().getIdJson().toString());
+        }
+
         refEnderecos("enderecos", controlador.getEnderecos(), root);
 
-    }
-
-    private void putControladorArea(Area area, ObjectNode root) {
-        if (area == null) {
-            return;
-        }
-        ObjectNode areaJson = Json.newObject();
-        if (area.getId() != null) {
-            areaJson.put("id", area.getId().toString());
-        }
-        if (area.getIdJson() != null) {
-            areaJson.put("idJson", area.getIdJson().toString());
-        }
-        areaJson.put("descricao", area.getDescricao());
-        Cidade cidade = area.getCidade();
-        if (cidade != null) {
-            ObjectNode cidadeJson = Json.newObject();
-            if (cidade.getId() != null) {
-                cidadeJson.put("id", cidade.getId().toString());
-            } else {
-                cidadeJson.putNull("id");
-            }
-            if (cidade.getIdJson() != null) {
-                cidadeJson.put("idJson", cidade.getIdJson().toString());
-            } else {
-                cidadeJson.putNull("idJson");
-            }
-            cidadeJson.put("nome", cidade.getNome());
-            areaJson.set("cidade", cidadeJson);
-        }
-        root.set("area", areaJson);
     }
 
     private void putControladorModelo(ModeloControlador modeloControlador, ObjectNode root) {
@@ -247,12 +222,60 @@ public class ControladorCustomSerializer {
         root.set("modelo", modeloJson);
     }
 
+    private JsonNode getAreaJson(Area area) {
+        ObjectNode areaJson = Json.newObject();
+        if (area.getId() != null) {
+            areaJson.put("id", area.getId().toString());
+        }
+        if (area.getIdJson() != null) {
+            areaJson.put("idJson", area.getIdJson().toString());
+        }
+        areaJson.put("descricao", area.getDescricao());
+        if (area.getCidade() != null && area.getCidade().getIdJson() != null) {
+            areaJson.putObject("cidade").put("idJson", area.getCidade().getIdJson().toString());
+        }
+
+        return areaJson;
+    }
+
+    private JsonNode getCidadeJson(Cidade cidade) {
+        ObjectNode cidadeJson = Json.newObject();
+
+        if (cidade.getId() != null) {
+            cidadeJson.put("id", cidade.getId().toString());
+        }
+        if (cidade.getIdJson() != null) {
+            cidadeJson.put("idJson", cidade.getIdJson().toString());
+        }
+        cidadeJson.put("nome", cidade.getNome());
+
+        refAreas("areas", cidade.getAreas(), cidadeJson);
+
+        return cidadeJson;
+    }
+
     private void putControladorEnderecos(ObjectNode root) {
         ArrayNode enderecosJson = Json.newArray();
         enderecosMap.values().stream().forEach(endereco -> {
             enderecosJson.add(getEnderecoJson(endereco));
         });
         root.set("todosEnderecos", enderecosJson);
+    }
+
+    private void putControladorCidades(ObjectNode root) {
+        ArrayNode cidadesJson = Json.newArray();
+        Cidade.find.all().stream().forEach(cidade -> {
+            cidadesJson.add(getCidadeJson(cidade));
+        });
+        root.set("cidades", cidadesJson);
+    }
+
+    private void putControladorAreas(ObjectNode root) {
+        ArrayNode areasJson = Json.newArray();
+        areasMap.values().stream().forEach(area -> {
+            areasJson.add(getAreaJson(area));
+        });
+        root.set("areas", areasJson);
     }
 
     private void putControladorAneis(List<Anel> aneis, ObjectNode root) {
@@ -1017,6 +1040,20 @@ public class ControladorCustomSerializer {
             }
         }
         parentJson.set(name, grupoSemaforicoPlanosJson);
+
+    }
+
+    private void refAreas(String name, List<Area> areas, ObjectNode parentJson) {
+        ArrayNode areasJson = Json.newArray();
+        for (Area area : areas) {
+            if (area != null && area.getIdJson() != null) {
+                areasMap.put(area.getIdJson().toString(), area);
+                ObjectNode areaJson = Json.newObject();
+                areaJson.put("idJson", area.getIdJson().toString());
+                areasJson.add(areaJson);
+            }
+        }
+        parentJson.set(name, areasJson);
 
     }
 

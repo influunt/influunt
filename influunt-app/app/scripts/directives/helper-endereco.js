@@ -9,14 +9,14 @@
 angular.module('influuntApp')
   .directive('helperEndereco', function () {
     return {
-      template: '<input type="text" placeholder="{{\'controladores.endereco\' | translate }}" class="form-control" data-ng-model="result" g-places-autocomplete>',
+      template: '<input type="text" autocomplete="off" placeholder="{{\'controladores.endereco\' | translate }}" class="form-control" data-ng-model="result" g-places-autocomplete>',
       restrict: 'E',
       scope: {
         latitude: '=',
         longitude: '=',
         localizacao: '='
       },
-      link: function postLink(scope, element) {
+      link: function postLink(scope) {
         scope.$watch('result', function(value) {
           if (value && angular.isObject(value)) {
             if (value.geometry && value.geometry.location) {

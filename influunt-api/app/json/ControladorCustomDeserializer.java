@@ -2,6 +2,7 @@ package json;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
+import play.libs.Json;
 
 import java.util.*;
 import java.util.concurrent.ExecutorService;
@@ -26,6 +27,8 @@ public class ControladorCustomDeserializer {
     public static final String GRUPOS_SEMAFORICOS_PLANOS = "gruposSemaforicosPlanos";
     public static final String ESTAGIOS_PLANOS = "estagiosPlanos";
     public static final String ENDERECOS = "enderecos";
+    public static final String CIDADES = "cidades";
+    public static final String AREAS = "areas";
     public static final String IMAGENS = "imagens";
     private Controlador controlador = new Controlador();
     private Map<String, Map<String, Object>> models;
@@ -44,6 +47,8 @@ public class ControladorCustomDeserializer {
     private Map<String, GrupoSemaforicoPlano> gruposSemaforicosPlanosCache;
     private Map<String, EstagioPlano> estagiosPlanosCache;
     private Map<String, Endereco> enderecosCache;
+    private Map<String, Area> areasCache;
+    private Map<String, Cidade> cidadesCache;
     private Map<String, Imagem> imagensCache;
 
     private ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -93,6 +98,12 @@ public class ControladorCustomDeserializer {
         estagiosPlanosCache = new HashMap<String, EstagioPlano>();
         caches.put(ESTAGIOS_PLANOS, estagiosPlanosCache);
 
+        areasCache = new HashMap<String, Area>();
+        caches.put(AREAS, areasCache);
+
+        cidadesCache = new HashMap<String, Cidade>();
+        caches.put(CIDADES, cidadesCache);
+
         enderecosCache = new HashMap<String, Endereco>();
         caches.put(ENDERECOS, enderecosCache);
 
@@ -120,6 +131,8 @@ public class ControladorCustomDeserializer {
         parseImagens(node);
         parseDadosBasicos(node);
         parseEnderecos(node);
+        parseCidades(node);
+        parseAreas(node);
 
 
         consumers.stream().forEach(c -> {
@@ -267,6 +280,24 @@ public class ControladorCustomDeserializer {
             for (JsonNode innerNode : node.get("todosEnderecos")) {
                 Endereco endereco = parseEndereco(innerNode);
                 enderecosCache.put(endereco.getIdJson().toString(), endereco);
+            }
+        }
+    }
+
+    private void parseAreas(JsonNode node) {
+        if (node.has("areas")) {
+            for (JsonNode innerNode : node.get("areas")) {
+                Area area = parseArea(innerNode);
+                areasCache.put(area.getIdJson().toString(), area);
+            }
+        }
+    }
+
+    private void parseCidades(JsonNode node) {
+        if (node.has("cidades")) {
+            for (JsonNode innerNode : node.get("cidades")) {
+                Cidade cidade = parseCidade(innerNode);
+                cidadesCache.put(cidade.getIdJson().toString(), cidade);
             }
         }
     }
@@ -928,6 +959,63 @@ public class ControladorCustomDeserializer {
         return endereco;
     }
 
+    private Area parseArea(JsonNode node) {
+        Area area = new Area();
+
+        if (node.has("id")) {
+            JsonNode id = node.get("id");
+            if (!id.isNull()) {
+                area.setId(UUID.fromString(id.asText()));
+            }
+        }
+
+        if (node.has("idJson")) {
+            area.setIdJson(node.get("idJson").asText());
+        }
+
+        if (node.has("descricao")) {
+            area.setDescricao(node.get("descricao").asInt());
+        }
+
+        if (node.has("cidade")) {
+            final String cidadeId = node.get("cidade").get("idJson").asText();
+            Consumer<Map<String, Map>> c = (caches) -> {
+                Map map = caches.get(CIDADES);
+                area.setCidade((Cidade) map.get(cidadeId));
+            };
+
+            runLater(c);
+        }
+
+        return area;
+    }
+
+    private Cidade parseCidade(JsonNode node) {
+        Cidade cidade = new Cidade();
+
+        if (node.has("id")) {
+            JsonNode id = node.get("id");
+            if (!id.isNull()) {
+                cidade.setId(UUID.fromString(id.asText()));
+            }
+        }
+
+        if (node.has("idJson")) {
+            cidade.setIdJson(node.get("idJson").asText());
+        }
+
+        if (node.has("nome")) {
+            cidade.setNome(node.get("nome").asText());
+        }
+
+        List<Area> areas = new ArrayList<>();
+        parseCollection("areas", node, areas, AREAS, CIDADES);
+        cidade.setAreas(areas);
+
+
+        return cidade;
+    }
+
     private Imagem parseImagem(JsonNode node) {
 
         Imagem imagem = new Imagem();
@@ -959,6 +1047,16 @@ public class ControladorCustomDeserializer {
         if (node.has("area") && node.get("area").get("id") != null) {
             controlador.setArea(Area.find.byId(UUID.fromString(node.get("area").get("id").asText())));
         }
+
+        if (node.has("area")) {
+            final String areaId = node.get("area").get("idJson").asText();
+            Consumer<Map<String, Map>> c = (caches) -> {
+                Map map = caches.get(AREAS);
+                controlador.setArea((Area) map.get(areaId));
+            };
+            runLater(c);
+        }
+
         if (node.has("modelo") && node.get("modelo").get("id") != null) {
             controlador.setModelo(ModeloControlador.find.byId(UUID.fromString(node.get("modelo").get("id").asText())));
         }
