@@ -54,12 +54,6 @@ public class AnelDeserializer extends JsonDeserializer<Anel> {
         if (node.has("posicao")) {
             anel.setPosicao(node.get("posicao").asInt());
         }
-        if (node.has("latitude")) {
-            anel.setLatitude(node.get("latitude").asDouble());
-        }
-        if (node.has("longitude")) {
-            anel.setLongitude(node.get("longitude").asDouble());
-        }
         if (node.has("controlador")) {
             anel.setControlador(Json.fromJson(node.get("controlador"), Controlador.class));
         }
@@ -86,6 +80,13 @@ public class AnelDeserializer extends JsonDeserializer<Anel> {
                 planos.add(Json.fromJson(planoNode, Plano.class));
             }
             anel.setPlanos(planos);
+        }
+        if (node.has("enderecos")) {
+            List<Endereco> enderecos = new ArrayList<Endereco>();
+            for (JsonNode nodeEndereco : node.get("enderecos")) {
+                enderecos.add(Json.fromJson(nodeEndereco, Endereco.class));
+            }
+            anel.setEnderecos(enderecos);
         }
 
         return anel;

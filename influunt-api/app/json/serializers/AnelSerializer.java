@@ -31,12 +31,6 @@ public class AnelSerializer extends JsonSerializer<Anel> {
         if (anel.getPosicao() != null) {
             jgen.writeNumberField("posicao", anel.getPosicao());
         }
-        if (anel.getLatitude() != null) {
-            jgen.writeNumberField("latitude", anel.getLatitude());
-        }
-        if (anel.getLongitude() != null) {
-            jgen.writeNumberField("longitude", anel.getLongitude());
-        }
         if (anel.getDataCriacao() != null) {
             jgen.writeStringField("dataCriacao", InfluuntDateTimeSerializer.parse(anel.getDataCriacao()));
         }
@@ -74,6 +68,13 @@ public class AnelSerializer extends JsonSerializer<Anel> {
             jgen.writeArrayFieldStart("planos");
             for (Plano plano : anel.getPlanos()) {
                 jgen.writeObject(plano);
+            }
+            jgen.writeEndArray();
+        }
+        if (anel.getEnderecos() != null) {
+            jgen.writeArrayFieldStart("enderecos");
+            for (Endereco endereco : anel.getEnderecos()) {
+                jgen.writeObject(endereco);
             }
             jgen.writeEndArray();
         }

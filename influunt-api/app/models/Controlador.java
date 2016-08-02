@@ -10,7 +10,6 @@ import json.deserializers.ControladorDeserializer;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.ControladorSerializer;
 import json.serializers.InfluuntDateTimeSerializer;
-import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
@@ -45,6 +44,7 @@ public class Controlador extends Model implements Cloneable {
     private UUID id;
 
     @Column
+    @NotNull(message = "não pode ficar em branco")
     private String nomeEndereco;
 
     @Column

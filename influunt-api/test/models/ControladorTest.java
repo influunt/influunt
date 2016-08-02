@@ -113,8 +113,12 @@ public abstract class ControladorTest extends WithApplication {
         anel1.setAtivo(true);
         anel1.setEstagios(Arrays.asList(new Estagio(), new Estagio(), new Estagio(), new Estagio()));
 
-        anel1.setLatitude(1.0);
-        anel1.setLongitude(1.0);
+        Endereco paulista = new Endereco(1.0, 1.0, "Av. Paulista");
+        Endereco belaCintra = new Endereco(2.0, 2.0, "R. Bela Cintra");
+        paulista.setAnel(anel1);
+        belaCintra.setAnel(anel1);
+        anel1.addEndereco(paulista);
+        anel1.addEndereco(belaCintra);
 
         return controlador;
     }
@@ -211,8 +215,13 @@ public abstract class ControladorTest extends WithApplication {
         Anel anelAtivo = controlador.getAneis().stream().filter(anel -> !anel.isAtivo()).findFirst().get();
         anelAtivo.setDescricao("Anel 1");
         anelAtivo.setAtivo(Boolean.TRUE);
-        anelAtivo.setLatitude(1.0);
-        anelAtivo.setLongitude(1.0);
+
+        Endereco paulista = new Endereco(1.0, 1.0, "Av. Paulista");
+        Endereco belaCintra = new Endereco(2.0, 2.0, "R. Bela Cintra");
+        paulista.setAnel(anelAtivo);
+        belaCintra.setAnel(anelAtivo);
+        anelAtivo.addEndereco(paulista);
+        anelAtivo.addEndereco(belaCintra);
 
         anelAtivo.setEstagios(Arrays.asList(new Estagio(), new Estagio()));
 

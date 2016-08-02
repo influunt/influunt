@@ -31,7 +31,7 @@
                   <div class="col-lg-12 col-sm-12">
                     <div class="form-group">
                       <label class="control-label">{{ 'controladores.localizacao' | translate }}</label>
-                      <textarea type="text" name="localizacao" placeholder="" class="form-control" data-ng-model="currentAnel.localizacao"></textarea>
+                      <input type="text" name="localizacao" placeholder="" class="form-control" data-ng-model="currentAnel.localizacao" readonly></textarea>
                     </div>
                     <div class="form-group">
                       <label class="control-label">{{ 'controladores.numeroSMEE' | translate }}</label>
@@ -41,12 +41,6 @@
                       <label class="control-label">{{ 'controladores.CLA' | translate }}</label>
                       <input type="text" name="CLA" class="form-control"
                         data-ng-model="currentAnel.CLA" readonly>
-                    </div>
-                  </div>
-                  <div class="col-lg-12 col-sm-12 m-t-87">
-                    <div class="form-group">
-                      <label class="control-label">{{ 'controladores.localizacao' | translate }}</label>
-                      <helper-endereco ng-model="currentAnel.endereco" latitude="currentAnel.latitude" longitude="currentAnel.longitude"></helper-endereco>
                     </div>
                   </div>
                 </div>
@@ -66,29 +60,45 @@
                   <div class="form-group">
                     <figure>
                       <div influunt-map
-                        latitude="currentAnel.latitude"
-                        longitude="currentAnel.longitude"
+                        latitude="currentAnel.enderecos[0].latitude"
+                        longitude="currentAnel.enderecos[0].longitude"
                         class="influunt-map">
                       </div>
                     </figure>
                   </div>
+                </div>
 
-                  <div class="row">
-                    <div class="col-lg-6 col-sm-6" data-ng-class="{'has-error': errors.aneis[currentAnelIndex].latitudeOk}">
-                      <div class="form-group">
-                        <label class="control-label">{{ 'controladores.latitude' | translate }}:</label>
-                        <input type="number" name="latitude" class="form-control" data-ng-model="currentAnel.latitude">
-                        <p class="help-block error-msg" data-ng-repeat="error in errors.aneis[currentAnelIndex].latitudeOk">{{ error }}</p>
-                      </div>
-                    </div>
+                <div class="col-lg-6">
+                  <div class="form-group" data-ng-class="{ 'has-error': errors.aneis[currentAnelIndex].enderecos[0].localizacao }">
+                    <label class="control-label">{{ 'controladores.localizacao' | translate }} 1:</label>
+                    <helper-endereco localizacao="currentAnel.enderecos[0].localizacao" latitude="currentAnel.enderecos[0].latitude" longitude="currentAnel.enderecos[0].longitude"></helper-endereco>
+                  </div>
+                  <div class="form-group" data-ng-class="{ 'has-error': errors.aneis[currentAnelIndex].enderecos[0].latitude }">
+                    <label class="control-label">{{ 'controladores.latitude' | translate }}:</label>
+                    <input type="number" name="latitude" class="form-control" data-ng-model="currentAnel.enderecos[0].latitude">
+                    <p class="help-block error-msg" data-ng-repeat="error in errors.aneis[currentAnelIndex].enderecos[0].latitude">{{ error }}</p>
+                  </div>
+                  <div class="form-group" data-ng-class="{ 'has-error': errors.aneis[currentAnelIndex].enderecos[0].longitude }">
+                    <label class="control-label">{{ 'controladores.longitude' | translate }}:</label>
+                    <input type="number" name="longitude" class="form-control" data-ng-model="currentAnel.enderecos[0].longitude">
+                    <p class="help-block error-msg" data-ng-repeat="error in errors.aneis[currentAnelIndex].enderecos[0].longitude">{{ error }}</p>
+                  </div>
+                </div>
 
-                    <div class="col-lg-6 col-sm-6" data-ng-class="{'has-error': errors.aneis[currentAnelIndex].longitudeOk}">
-                      <div class="form-group">
-                        <label class="control-label">{{ 'controladores.longitude' | translate }}:</label>
-                        <input type="number" name="longitude" class="form-control" data-ng-model="currentAnel.longitude">
-                        <p class="help-block error-msg" data-ng-repeat="error in errors.aneis[currentAnelIndex].longitudeOk">{{ error }}</p>
-                      </div>
-                    </div>
+                <div class="col-lg-6">
+                  <div class="form-group" data-ng-class="{ 'has-error': errors.aneis[currentAnelIndex].enderecos[1].localizacao }">
+                    <label class="control-label">{{ 'controladores.localizacao' | translate }} 2:</label>
+                    <helper-endereco localizacao="currentAnel.enderecos[1].localizacao" latitude="currentAnel.enderecos[1].latitude" longitude="currentAnel.enderecos[1].longitude"></helper-endereco>
+                  </div>
+                  <div class="form-group" data-ng-class="{ 'has-error': errors.aneis[currentAnelIndex].enderecos[1].latitude }">
+                    <label class="control-label">{{ 'controladores.latitude' | translate }}:</label>
+                    <input type="number" name="latitude" class="form-control" data-ng-model="currentAnel.enderecos[1].latitude">
+                    <p class="help-block error-msg" data-ng-repeat="error in errors.aneis[currentAnelIndex].enderecos[1].latitude">{{ error }}</p>
+                  </div>
+                  <div class="form-group" data-ng-class="{ 'has-error': errors.aneis[currentAnelIndex].enderecos[1].longitude }">
+                    <label class="control-label">{{ 'controladores.longitude' | translate }}:</label>
+                    <input type="number" name="longitude" class="form-control" data-ng-model="currentAnel.enderecos[1].longitude">
+                    <p class="help-block error-msg" data-ng-repeat="error in errors.aneis[currentAnelIndex].enderecos[1].longitude">{{ error }}</p>
                   </div>
                 </div>
               </div>

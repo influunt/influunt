@@ -32,8 +32,12 @@ public class ControladorVerdesConflitantesTest extends ControladorTest {
 
         Anel anelAtivo = controlador.getAneis().stream().filter(anel -> !anel.isAtivo()).findFirst().get();
         anelAtivo.setAtivo(Boolean.TRUE);
-        anelAtivo.setLatitude(1.0);
-        anelAtivo.setLongitude(1.0);
+        Endereco paulista = new Endereco(1.0, 1.0, "Av. Paulista");
+        Endereco belaCintra = new Endereco(2.0, 2.0, "R. Bela Cintra");
+        paulista.setAnel(anelAtivo);
+        belaCintra.setAnel(anelAtivo);
+        anelAtivo.addEndereco(paulista);
+        anelAtivo.addEndereco(belaCintra);
 
         anelAtivo.setEstagios(Arrays.asList(new Estagio(), new Estagio()));
 

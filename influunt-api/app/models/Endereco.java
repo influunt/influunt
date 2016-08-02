@@ -31,6 +31,9 @@ public class Endereco extends Model {
     @ManyToOne
     private Controlador controlador;
 
+    @ManyToOne
+    private Anel anel;
+
     @Column
     @NotBlank(message = "não pode ficar em branco")
     private String localizacao;
@@ -54,6 +57,17 @@ public class Endereco extends Model {
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
+
+    public Endereco() {
+        super();
+    }
+
+    public Endereco(Double latitude, Double longitude, String localizacao) {
+        super();
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.localizacao = localizacao;
+    }
 
     public UUID getId() {
         return id;
@@ -109,5 +123,13 @@ public class Endereco extends Model {
 
     public void setDataAtualizacao(DateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
+    }
+
+    public Anel getAnel() {
+        return anel;
+    }
+
+    public void setAnel(Anel anel) {
+        this.anel = anel;
     }
 }

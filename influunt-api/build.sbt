@@ -1,4 +1,4 @@
-import scala.collection.JavaConverters._
+
 
 name := """influunt-api"""
 
