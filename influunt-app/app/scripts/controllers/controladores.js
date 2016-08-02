@@ -86,7 +86,7 @@ angular.module('influuntApp')
             defer.resolve(res);
           });
         } else {
-          loadWizardData({});
+          loadWizardData({limiteEstagio: 16, limiteGrupoSemaforico: 16, limiteAnel: 4, limiteDetectorPedestre: 4, limiteDetectorVeicular: 8, limiteTabelasEntreVerdes: 2, enderecos: [{localizacao: "", latitude: null, longitude: null}, {localizacao: "", latitude: null, longitude: null}]});
           influuntBlockui.unblock();
           defer.resolve({});
         }
@@ -133,7 +133,6 @@ angular.module('influuntApp')
       $scope.selecionaAnel = function(index) {
         $scope.currentAnelIndex = index;
         $scope.currentAnel = $scope.aneis[$scope.currentAnelIndex];
-
         if (angular.isDefined($scope.currentEstagioId)) {
           $scope.selecionaEstagio($scope.currentEstagioId);
         }
@@ -206,25 +205,29 @@ angular.module('influuntApp')
 
       $scope.buildValidationMessages = function(errors) {
         $scope.errors = handleValidations.handle(errors);
-        $scope.errors.aneis = _.compact($scope.errors.aneis);
-        console.log('$scope.errors: ', $scope.errors);
+        console.log('$scope.errors: ', $scope.errors)
+        for (var i = 0; i < $scope.errors.aneis.length; i++) {
+          if ($scope.errors.aneis[i] === undefined) {
+            $scope.errors.aneis[i] = {};
+          }
+        }
+
         $scope.getErrosVerdes();
       };
 
       $scope.getErrosVerdes = function() {
-        $scope.messages = [];
+        $scope.messages = {aneis: []};
         _.each($scope.errors.aneis, function(anel, anelIndex) {
           _.each(anel.gruposSemaforicos, function(gs, gsIndex) {
             var nomeGS = 'G' + $scope.objeto.aneis[anelIndex].gruposSemaforicos[gsIndex].posicao;
             _.each(gs, function(mgs) {
               _.map(mgs, function(msg) {
-                $scope.messages.push(nomeGS + ': ' + msg);
+                $scope.messages.aneis[anelIndex] = $scope.messages.aneis[anelIndex] || [];
+                $scope.messages.aneis[anelIndex].push(nomeGS + ': ' + msg);
               });
             });
           });
         });
-
-        $scope.messages = _.uniq($scope.messages);
       };
 
       /**

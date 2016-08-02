@@ -39,9 +39,9 @@
   background: rgba(0,0,0,0.04);
 }
 
-.dropzone.dz-started .dz-message {
+/*.dropzone.dz-started .dz-message {
   display: none;
-}
+}*/
 
 .dropzone .dz-preview,
 .dropzone-previews .dz-preview {
@@ -202,9 +202,9 @@
   border-color: rgba(0,0,0,0.15);
   background: rgba(0,0,0,0.04);
 }
-.dropzone.dz-started .dz-message {
+/*.dropzone.dz-started .dz-message {
   display: none;
-}
+}*/
 .dropzone-previews .dz-preview:last-child {
 
 }

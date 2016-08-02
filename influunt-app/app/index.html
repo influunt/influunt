@@ -1,4 +1,4 @@
-<!doctype html>
+  <!doctype html>
 <html>
   <head>
     <meta charset="utf-8">
@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="/bower_components/tooltipster/dist/css/tooltipster.bundle.css" />
     <link rel="stylesheet" href="/bower_components/metisMenu/dist/metisMenu.css" />
     <link rel="stylesheet" href="/bower_components/vis/dist/vis.css" />
+    <link rel="stylesheet" href="/bower_components/css-progress-wizard/css/progress-wizard.min.css" />
     <!-- endbower -->
     <!-- build:css(app) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
@@ -56,9 +57,7 @@
     <script src="/bower_components/angular-resource/angular-resource.js"></script>
     <script src="/bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="/bower_components/angular-touch/angular-touch.js"></script>
-    <script src="/bower_components/jquery-ui/jquery-ui.js"></script>
     <script src="/bower_components/jquery.slimscroll/jquery.slimscroll.js"></script>
-    <script src="/bower_components/jquery.slimscroll/jquery.slimscroll.min.js"></script>
     <script src="/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="/bower_components/angular-translate/angular-translate.js"></script>
     <script src="/bower_components/messageformat/messageformat.js"></script>
@@ -89,6 +88,7 @@
     <script src="/bower_components/tooltipster/dist/js/tooltipster.bundle.js"></script>
     <script src="/bower_components/select2/dist/js/select2.js"></script>
     <script src="/bower_components/metisMenu/dist/metisMenu.js"></script>
+    <script src="/bower_components/jquery-ui/jquery-ui.js"></script>
     <script src="/bower_components/angular-ui-sortable/sortable.js"></script>
     <script src="/bower_components/vis/dist/vis.js"></script>
     <script src="/bower_components/paho-mqtt/src/mqttws31.js"></script>
@@ -97,6 +97,7 @@
     <!-- endbuild -->
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="plugins/jquery-ui-1.12.0/jquery-ui.js"></script>
     <script src="plugins/ui-bootstrap-tpls-1.1.2.min.js"></script>
     <script src="plugins/jquery.steps.min.js"></script>
     <script src="plugins/icheck.min.js"></script>
@@ -133,7 +134,6 @@
     <script src="scripts/controllers/tipos-detectores.js"></script>
     <script src="scripts/services/validacoes/aneis.js"></script>
     <script src="scripts/controllers/fabricantes.js"></script>
-    <script src="scripts/controllers/configuracoes_controladores.js"></script>
     <script src="scripts/filters/image-source.js"></script>
     <script src="scripts/directives/custom-background.js"></script>
     <script src="scripts/directives/wizard-steps.js"></script>
@@ -171,6 +171,9 @@
     <script src="scripts/controllers/status.js"></script>
     <script src="scripts/services/influunt-blockui.js"></script>
     <script src="scripts/controllers/controladores/configuracao-grupos.js"></script>
+    <script src="scripts/services/crud/influunt-alert.js"></script>
+    <script src="scripts/directives/influunt-tabs.js"></script>
+    <script src="scripts/directives/influunt-image-input.js"></script>
     <!-- endbuild -->
 
     <script type="text/javascript">

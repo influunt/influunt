@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import models.Fabricante;
 import models.ModeloControlador;
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.io.IOException;
 
@@ -31,10 +33,9 @@ public class ModeloControladorSerializer extends JsonSerializer<ModeloControlado
             jgen.writeStringField("dataAtualizacao", InfluuntDateTimeSerializer.parse(modeloControlador.getDataCriacao()));
         }
         if (modeloControlador.getFabricante() != null) {
-            jgen.writeObjectField("fabricante", modeloControlador.getFabricante());
-        }
-        if (modeloControlador.getConfiguracao() != null) {
-            jgen.writeObjectField("configuracao", modeloControlador.getConfiguracao());
+            Fabricante fabricanteAux = ObjectUtils.clone(modeloControlador.getFabricante());
+            fabricanteAux.setModelos(null);
+            jgen.writeObjectField("fabricante", fabricanteAux);
         }
 
         jgen.writeEndObject();

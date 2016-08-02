@@ -3,7 +3,7 @@
 
 // Dependencia registrada de forma incorreta no pacote bower. Esta está registrada aqui
 // somente para que o wiredep não o remova da lista de dependencias.
-@import "./../plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css";
+@import "./../plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checg kbox.css";
 @import "./../plugins/roundSlider-1.3/roundslider.min.css";
 @import "./../plugins/steps/jquery.steps.css";
 @import "./../plugins/dropzone/dropzone.css";
@@ -14,7 +14,6 @@
 @import "./../../bower_components/angular-datatables/dist/css/angular-datatables.css";
 @import "./../../bower_components/bootstrap/dist/css/bootstrap.css";
 @import "./../../bower_components/select2/dist/css/select2.css";
-@import "./../../bower_components/jquery-ui/themes/base/all.css";
 
 
 @import "./font-awesome.css";
@@ -23,6 +22,7 @@
 @import "./pace.css";
 @import "./influunt.css";
 @import "./influunt/plano.css";
+@import "./influunt/controlador/associacao-detectores.scss";
 
 // directives
 @import "./directives/influunt-knob.css";
@@ -157,19 +157,4 @@ i.sinal-verde-conflitante, i.transicao-proibida {
 
 .ui-widget-content {
     border: 0;
-}
-
-span.ui-icon.ui-icon-circle-close {
-    position: absolute;
-    top: -24px;
-    right: -25px;
-    font-size: 16px;
-}
-
-span.badge.badge-danger.badge-notification {
-    position: absolute;
-    top: -37px;
-    left: -14px;
-    padding: 6px 0px 2px 6px;
-    border-radius: 0;
 }

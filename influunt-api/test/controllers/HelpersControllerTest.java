@@ -2,7 +2,10 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Singleton;
-import models.*;
+import models.Area;
+import models.Cidade;
+import models.Fabricante;
+import models.ModeloControlador;
 import org.junit.Test;
 import play.Application;
 import play.Mode;
@@ -63,17 +66,12 @@ public class HelpersControllerTest extends WithApplication {
         rio.setNome("Rio de Janeiro");
         rio.save();
 
-
         Fabricante raro = new Fabricante();
         raro.setNome("Raro Labs");
         raro.save();
 
-        ConfiguracaoControlador conf = new ConfiguracaoControlador();
-        conf.save();
-
         ModeloControlador m1 = new ModeloControlador();
         m1.setFabricante(raro);
-        m1.setConfiguracao(conf);
         m1.setDescricao("Raro Labs");
         m1.save();
 
@@ -86,12 +84,10 @@ public class HelpersControllerTest extends WithApplication {
         Result result = route(request);
         assertEquals(OK, result.status());
         JsonNode json = Json.parse(Helpers.contentAsString(result));
-//        Logger.debug(json.toString());
 
         assertEquals(2, json.get("cidades").size());
         assertEquals(2, json.get("cidades").get(0).get("areas").size());
         assertEquals(2, json.get("fabricantes").size());
         assertNotNull(json.get("fabricantes").get(0).get("modelos"));
-        assertNotNull(json.get("fabricantes").get(0).get("modelos").get(0).get("configuracao"));
     }
 }

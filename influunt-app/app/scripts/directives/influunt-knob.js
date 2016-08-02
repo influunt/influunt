@@ -22,6 +22,7 @@ angular.module('influuntApp')
           class: '@',
           min: '=',
           max: '=',
+          readOnly: '=',
           ngModel: '='
         },
         link: function influuntKnob(scope, element) {
@@ -32,8 +33,8 @@ angular.module('influuntApp')
           scope.ngModel = scope.ngModel || scope.min || 0;
           knob = $(element).find('.knob-shape').roundSlider({
             radius: 90,
-            min: 0,
-            max: 120,
+            min: scope.min,
+            max: scope.max,
             sliderType: 'min-range',
             value: scope.ngModel,
             handleShape: 'dot',
@@ -41,12 +42,25 @@ angular.module('influuntApp')
           });
 
           knob.on('change', function(ev) {
-            scope.ngModel = ev.value;
-            scope.$apply();
+            var value = ev.value;
+
+            if (angular.isDefined(value)) {
+              scope.ngModel = ev.value;
+              scope.$apply();
+            }
           });
 
           scope.$watch('ngModel', function(value) {
+            value = value || scope.min;
             $(element).find('.knob-shape').roundSlider('setValue', value);
+          });
+          
+          scope.$watch('readOnly', function(value) {
+            if(value){
+              $(element).find('.knob-shape').roundSlider('disable');
+            }else{
+              $(element).find('.knob-shape').roundSlider('enable');
+            }
           });
 
           return knob;

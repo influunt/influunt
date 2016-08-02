@@ -35,8 +35,6 @@ import java.util.UUID;
 
 public class Anel extends Model implements Cloneable {
 
-    private static final long serialVersionUID = 4919501406230732757L;
-
     public static Finder<UUID, Anel> find = new Finder<UUID, Anel>(Anel.class);
 
     @Id
@@ -49,16 +47,18 @@ public class Anel extends Model implements Cloneable {
     private Boolean ativo = false;
     @Column
     private String descricao;
+
     @Column
     private Integer posicao;
     @Column
     private String numeroSMEE;
-    @Column
-    private Double latitude;
-    @Column
-    private Double longitude;
+
     @ManyToOne
     private Controlador controlador;
+
+    @OneToOne
+    private Imagem croqui;
+
     @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL)
     @Valid
     private List<Detector> detectores;
@@ -71,6 +71,10 @@ public class Anel extends Model implements Cloneable {
     @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL)
     @Valid
     private List<Plano> planos;
+
+    @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL)
+    private List<Endereco> enderecos;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
@@ -179,22 +183,6 @@ public class Anel extends Model implements Cloneable {
         this.gruposSemaforicos = gruposSemaforicos;
     }
 
-    public Double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
-
     public List<Estagio> getEstagios() {
         return estagios;
     }
@@ -230,15 +218,9 @@ public class Anel extends Model implements Cloneable {
     }
 
     @JsonIgnore
-    @AssertTrue(message = "Latitude deve ser informada")
-    public boolean isLatitudeOk() {
-        return !this.ativo || this.latitude != null;
-    }
-
-    @JsonIgnore
-    @AssertTrue(message = "Longitude deve ser informada")
-    public boolean isLongitudeOk() {
-        return !this.ativo || this.longitude != null;
+    @AssertTrue(message = "Anel deve ter 2 endereços")
+    public boolean isEnderecosOk() {
+        return !isAtivo() || (getEnderecos() != null && getEnderecos().size() == 2);
     }
 
     @AssertTrue(groups = PlanosCheck.class,
@@ -328,6 +310,29 @@ public class Anel extends Model implements Cloneable {
 
     public UUID getJsonId() {
         return id;
+    }
+
+    public Imagem getCroqui() {
+        return croqui;
+    }
+
+    public void setCroqui(Imagem croqui) {
+        this.croqui = croqui;
+    }
+
+    public List<Endereco> getEnderecos() {
+        return enderecos;
+    }
+
+    public void setEnderecos(List<Endereco> enderecos) {
+        this.enderecos = enderecos;
+    }
+
+    public void addEndereco(Endereco endereco) {
+        if (getEnderecos() == null) {
+            setEnderecos(new ArrayList<Endereco>());
+        }
+        getEnderecos().add(endereco);
     }
 }
 

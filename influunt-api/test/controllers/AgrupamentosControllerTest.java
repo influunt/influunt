@@ -54,24 +54,12 @@ public class AgrupamentosControllerTest extends WithApplication {
         fabricante.setNome("Tesc");
         fabricante.save();
 
-        ConfiguracaoControlador configuracaoControlador = new ConfiguracaoControlador();
-        configuracaoControlador.setLimiteAnel(4);
-        configuracaoControlador.setLimiteGrupoSemaforico(16);
-        configuracaoControlador.setLimiteDetectorPedestre(4);
-        configuracaoControlador.setLimiteDetectorVeicular(8);
-        configuracaoControlador.setLimiteEstagio(16);
-        configuracaoControlador.save();
-
         ModeloControlador modeloControlador = new ModeloControlador();
         modeloControlador.setFabricante(fabricante);
-        modeloControlador.setConfiguracao(configuracaoControlador);
         modeloControlador.setDescricao("Modelo 1");
         modeloControlador.save();
 
         Controlador controlador = new Controlador();
-        controlador.setLocalizacao("Av Paulista com Bela Cintra");
-        controlador.setLatitude(1.0);
-        controlador.setLongitude(2.0);
         controlador.setArea(area);
         controlador.setModelo(modeloControlador);
         controlador.setNumeroSMEE("1234");
@@ -79,6 +67,27 @@ public class AgrupamentosControllerTest extends WithApplication {
         controlador.setNumeroSMEEConjugado2("C2");
         controlador.setNumeroSMEEConjugado3("C3");
         controlador.setFirmware("1.0rc");
+        controlador.setLimiteAnel(4);
+        controlador.setLimiteGrupoSemaforico(16);
+        controlador.setLimiteDetectorPedestre(4);
+        controlador.setLimiteDetectorVeicular(8);
+        controlador.setLimiteEstagio(16);
+        Endereco enderecoPaulista = new Endereco();
+        enderecoPaulista.setLocalizacao("Av Paulista");
+        enderecoPaulista.setLatitude(1.0);
+        enderecoPaulista.setLongitude(2.0);
+        enderecoPaulista.setControlador(controlador);
+
+        Endereco enderecoBelaCintra = new Endereco();
+        enderecoBelaCintra.setLocalizacao("Rua Bela Cintra");
+        enderecoBelaCintra.setLatitude(3.0);
+        enderecoBelaCintra.setLongitude(4.0);
+        enderecoBelaCintra.setControlador(controlador);
+
+        controlador.addEndereco(enderecoPaulista);
+        controlador.addEndereco(enderecoBelaCintra);
+        controlador.setNomeEndereco("Av. Paulista com Bela Cintra");
+        controlador.save();
 
         return controlador;
     }

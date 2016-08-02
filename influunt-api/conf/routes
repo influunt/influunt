@@ -36,27 +36,6 @@ PUT         /api/v1/fabricantes/:id                     controllers.FabricantesC
 GET         /api/v1/fabricantes/:id                     controllers.FabricantesController.findOne(id)
 DELETE      /api/v1/fabricantes/:id                     controllers.FabricantesController.delete(id)
 
-# ConfiguracoesControladores
-GET         /api/v1/configuracoes_controladores         controllers.ConfiguracoesControladoresController.findAll()
-POST        /api/v1/configuracoes_controladores         controllers.ConfiguracoesControladoresController.create()
-PUT         /api/v1/configuracoes_controladores/:id     controllers.ConfiguracoesControladoresController.update(id)
-GET         /api/v1/configuracoes_controladores/:id     controllers.ConfiguracoesControladoresController.findOne(id)
-DELETE      /api/v1/configuracoes_controladores/:id     controllers.ConfiguracoesControladoresController.delete(id)
-
-# ModeloControlador
-GET         /api/v1/modelos_controladores               controllers.ModelosControladoresController.findAll()
-POST        /api/v1/modelos_controladores               controllers.ModelosControladoresController.create()
-PUT         /api/v1/modelos_controladores/:id           controllers.ModelosControladoresController.update(id)
-GET         /api/v1/modelos_controladores/:id           controllers.ModelosControladoresController.findOne(id)
-DELETE      /api/v1/modelos_controladores/:id           controllers.ModelosControladoresController.delete(id)
-
-# Detectores
-GET         /api/v1/detectores                          controllers.DetectoresController.findAll()
-POST        /api/v1/detectores                          controllers.DetectoresController.create()
-PUT         /api/v1/detectores/:id                      controllers.DetectoresController.update(id)
-GET         /api/v1/detectores/:id                      controllers.DetectoresController.findOne(id)
-DELETE      /api/v1/detectores/:id                      controllers.DetectoresController.delete(id)
-
 # Usuarios
 GET         /api/v1/usuarios                            controllers.UsuariosController.findAll()
 POST        /api/v1/usuarios                            controllers.UsuariosController.create()

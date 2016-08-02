@@ -120,6 +120,17 @@
           </div>
         </div>
         </fieldset>
+        <script>
+          $(document).ready(function(){
+            $( "nav.plans li a" ).click(function() {
+              event.preventDefault();
+              $( this ).find('i').toggleClass( "fa-caret-down" );
+              $( this ).find('i').toggleClass( "fa-caret-up" );
+              $( "nav.plans li .subnav" ).toggle();
+            });
+          });
+        </script>
+
       </div>
     </div>
   </section>

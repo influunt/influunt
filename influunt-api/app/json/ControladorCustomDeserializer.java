@@ -25,6 +25,7 @@ public class ControladorCustomDeserializer {
     public static final String PLANOS = "planos";
     public static final String GRUPOS_SEMAFORICOS_PLANOS = "gruposSemaforicosPlanos";
     public static final String ESTAGIOS_PLANOS = "estagiosPlanos";
+    public static final String ENDERECOS = "enderecos";
     public static final String IMAGENS = "imagens";
     private Controlador controlador = new Controlador();
     private Map<String, Map<String, Object>> models;
@@ -42,6 +43,7 @@ public class ControladorCustomDeserializer {
     private Map<String, Plano> planosCache;
     private Map<String, GrupoSemaforicoPlano> gruposSemaforicosPlanosCache;
     private Map<String, EstagioPlano> estagiosPlanosCache;
+    private Map<String, Endereco> enderecosCache;
     private Map<String, Imagem> imagensCache;
 
     private ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -91,6 +93,9 @@ public class ControladorCustomDeserializer {
         estagiosPlanosCache = new HashMap<String, EstagioPlano>();
         caches.put(ESTAGIOS_PLANOS, estagiosPlanosCache);
 
+        enderecosCache = new HashMap<String, Endereco>();
+        caches.put(ENDERECOS, enderecosCache);
+
         imagensCache = new HashMap<String, Imagem>();
         caches.put(IMAGENS, imagensCache);
 
@@ -114,6 +119,7 @@ public class ControladorCustomDeserializer {
         parseEstagiosPlanos(node);
         parseImagens(node);
         parseDadosBasicos(node);
+        parseEnderecos(node);
 
 
         consumers.stream().forEach(c -> {
@@ -256,6 +262,15 @@ public class ControladorCustomDeserializer {
     }
 
 
+    private void parseEnderecos(JsonNode node) {
+        if (node.has("todosEnderecos")) {
+            for (JsonNode innerNode : node.get("todosEnderecos")) {
+                Endereco endereco = parseEndereco(innerNode);
+                enderecosCache.put(endereco.getIdJson().toString(), endereco);
+            }
+        }
+    }
+
     private void parseImagens(JsonNode node) {
         if (node.has("imagens")) {
             for (JsonNode innerNode : node.get("imagens")) {
@@ -299,12 +314,6 @@ public class ControladorCustomDeserializer {
         if (node.has("posicao")) {
             anel.setPosicao(node.get("posicao").asInt());
         }
-        if (node.has("latitude")) {
-            anel.setLatitude(node.get("latitude").asDouble());
-        }
-        if (node.has("longitude")) {
-            anel.setLongitude(node.get("longitude").asDouble());
-        }
         anel.setControlador(controlador);
 
         List<GrupoSemaforico> grupoSemaforicos = new ArrayList<GrupoSemaforico>();
@@ -318,6 +327,10 @@ public class ControladorCustomDeserializer {
         List<Plano> planos = new ArrayList<Plano>();
         parseCollection("planos", node, planos, PLANOS, ANEIS);
         anel.setPlanos(planos);
+
+        List<Endereco> enderecos = new ArrayList<Endereco>();
+        parseCollection("enderecos", node, enderecos, ENDERECOS, ANEIS);
+        anel.setEnderecos(enderecos);
 
         return anel;
     }
@@ -894,6 +907,27 @@ public class ControladorCustomDeserializer {
         return estagioPlano;
     }
 
+    private Endereco parseEndereco(JsonNode node) {
+        Endereco endereco = new Endereco();
+
+        if (node.has("id")) {
+            JsonNode id = node.get("id");
+            if (!id.isNull()) {
+                endereco.setId(UUID.fromString(id.asText()));
+            }
+        }
+
+        if (node.has("idJson")) {
+            endereco.setIdJson(node.get("idJson").asText());
+        }
+
+        endereco.setLocalizacao(node.get("localizacao") != null ? node.get("localizacao").asText() : null);
+        endereco.setLatitude((node.get("latitude") != null && node.get("latitude").isNumber()) ? node.get("latitude").asDouble() : null);
+        endereco.setLongitude((node.get("longitude") != null && node.get("longitude").isNumber()) ? node.get("longitude").asDouble() : null);
+
+        return endereco;
+    }
+
     private Imagem parseImagem(JsonNode node) {
 
         Imagem imagem = new Imagem();
@@ -929,16 +963,25 @@ public class ControladorCustomDeserializer {
             controlador.setModelo(ModeloControlador.find.byId(UUID.fromString(node.get("modelo").get("id").asText())));
         }
 
-        controlador.setLocalizacao(node.get("localizacao") != null ? node.get("localizacao").asText() : null);
         controlador.setNumeroSMEE(node.get("numeroSMEE") != null ? node.get("numeroSMEE").asText() : null);
         controlador.setNumeroSMEEConjugado1(node.get("numeroSMEEConjugado1") != null ? node.get("numeroSMEEConjugado1").asText() : null);
         controlador.setNumeroSMEEConjugado2(node.get("numeroSMEEConjugado2") != null ? node.get("numeroSMEEConjugado2").asText() : null);
         controlador.setNumeroSMEEConjugado3(node.get("numeroSMEEConjugado3") != null ? node.get("numeroSMEEConjugado3").asText() : null);
         controlador.setFirmware(node.get("firmware") != null ? node.get("firmware").asText() : null);
-        controlador.setLatitude(node.get("latitude") != null ? node.get("latitude").asDouble() : null);
-        controlador.setLongitude(node.get("longitude") != null ? node.get("longitude").asDouble() : null);
         controlador.setStatusControlador(node.get("statusControlador") != null ? StatusControlador.valueOf(node.get("statusControlador").asText()) : null);
         controlador.setSequencia(node.get("sequencia") != null ? node.get("sequencia").asInt() : null);
+
+        controlador.setLimiteEstagio(node.get("limiteEstagio") != null ? node.get("limiteEstagio").asInt() : null);
+        controlador.setLimiteGrupoSemaforico(node.get("limiteGrupoSemaforico") != null ? node.get("limiteGrupoSemaforico").asInt() : null);
+        controlador.setLimiteAnel(node.get("limiteAnel") != null ? node.get("limiteAnel").asInt() : null);
+        controlador.setLimiteDetectorPedestre(node.get("limiteDetectorPedestre") != null ? node.get("limiteDetectorPedestre").asInt() : null);
+        controlador.setLimiteDetectorVeicular(node.get("limiteDetectorVeicular") != null ? node.get("limiteDetectorVeicular").asInt() : null);
+        controlador.setLimiteTabelasEntreVerdes(node.get("limiteTabelasEntreVerdes") != null ? node.get("limiteTabelasEntreVerdes").asInt() : null);
+
+        controlador.setNomeEndereco(node.get("nomeEndereco") != null ? node.get("nomeEndereco").asText() : null);
+        List<Endereco> enderecos = new ArrayList<Endereco>();
+        parseCollection("enderecos", node, enderecos, ENDERECOS, ANEIS);
+        controlador.setEnderecos(enderecos);
     }
 
     private void parseCollection(String collection, JsonNode node, List list, final String cacheContainer, final String callie) {

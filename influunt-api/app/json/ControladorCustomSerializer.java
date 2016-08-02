@@ -30,12 +30,13 @@ public class ControladorCustomSerializer {
     private Map<String, Plano> planosMap = new HashMap<String, Plano>();
     private Map<String, GrupoSemaforicoPlano> grupoSemaforicoPlanoMap = new HashMap<String, GrupoSemaforicoPlano>();
     private Map<String, EstagioPlano> estagioPlanoMap = new HashMap<String, EstagioPlano>();
+    private Map<String, Endereco> enderecosMap = new HashMap<String, Endereco>();
 
     public JsonNode getControladorJson(Controlador controlador) {
         ObjectNode root = Json.newObject();
 
         putControladorArea(controlador.getArea(), root);
-        putControladorPrimitivos(controlador, root);
+        putControladorDadosBasicos(controlador, root);
         putControladorModelo(controlador.getModelo(), root);
         putControladorAneis(controlador.getAneis(), root);
         putControladorEstagios(root);
@@ -53,6 +54,7 @@ public class ControladorCustomSerializer {
         putControladorGruposSemaforicosPlanos(root);
         putControladorEstagiosPlanos(root);
 
+        putControladorEnderecos(root);
         putControladorImagens(root);
 
         return root;
@@ -82,15 +84,12 @@ public class ControladorCustomSerializer {
         root.set("estagiosPlanos", estagiosPlanoJson);
     }
 
-    private void putControladorPrimitivos(Controlador controlador, ObjectNode root) {
+    private void putControladorDadosBasicos(Controlador controlador, ObjectNode root) {
         if (controlador.getId() != null) {
             root.put("id", controlador.getId().toString());
         }
         if (controlador.getIdJson() != null) {
             root.put("idJson", controlador.getIdJson().toString());
-        }
-        if (controlador.getLocalizacao() != null) {
-            root.put("localizacao", controlador.getLocalizacao());
         }
         if (controlador.getNumeroSMEE() != null) {
             root.put("numeroSMEE", controlador.getNumeroSMEE());
@@ -107,15 +106,32 @@ public class ControladorCustomSerializer {
         if (controlador.getFirmware() != null) {
             root.put("firmware", controlador.getFirmware());
         }
-        if (controlador.getLatitude() != null) {
-            root.put("latitude", controlador.getLatitude());
-        }
-        if (controlador.getLongitude() != null) {
-            root.put("longitude", controlador.getLongitude());
-        }
         if (controlador.getSequencia() != null) {
             root.put("sequencia", controlador.getSequencia());
         }
+        if (controlador.getLimiteEstagio() != null) {
+            root.put("limiteEstagio", controlador.getLimiteEstagio());
+        }
+        if (controlador.getLimiteGrupoSemaforico() != null) {
+            root.put("limiteGrupoSemaforico", controlador.getLimiteGrupoSemaforico());
+        }
+        if (controlador.getLimiteAnel() != null) {
+            root.put("limiteAnel", controlador.getLimiteAnel());
+        }
+        if (controlador.getLimiteDetectorPedestre() != null) {
+            root.put("limiteDetectorPedestre", controlador.getLimiteDetectorPedestre());
+        }
+        if (controlador.getLimiteDetectorVeicular() != null) {
+            root.put("limiteDetectorVeicular", controlador.getLimiteDetectorVeicular());
+        }
+        if (controlador.getLimiteTabelasEntreVerdes() != null) {
+            root.put("limiteTabelasEntreVerdes", controlador.getLimiteTabelasEntreVerdes());
+        }
+
+        if (controlador.getNomeEndereco() != null) {
+            root.put("nomeEndereco", controlador.getNomeEndereco());
+        }
+
 
         root.put("dataCriacao", InfluuntDateTimeSerializer.parse(controlador.getDataCriacao()));
 
@@ -157,6 +173,9 @@ public class ControladorCustomSerializer {
         if (controlador.getStatusControlador() != null) {
             root.put("statusControlador", controlador.getStatusControlador().toString());
         }
+
+        refEnderecos("enderecos", controlador.getEnderecos(), root);
+
     }
 
     private void putControladorArea(Area area, ObjectNode root) {
@@ -225,21 +244,15 @@ public class ControladorCustomSerializer {
                 fabricanteJson.put("nome", fabricante.getNome());
             }
         }
-        ConfiguracaoControlador configuracaoControlador = modeloControlador.getConfiguracao();
-        if (configuracaoControlador != null) {
-            ObjectNode configuracaoJson = Json.newObject();
-
-            configuracaoJson.put("descricao", configuracaoControlador.getDescricao());
-            configuracaoJson.put("limiteEstagio", configuracaoControlador.getLimiteEstagio());
-            configuracaoJson.put("limiteGrupoSemaforico", configuracaoControlador.getLimiteGrupoSemaforico());
-            configuracaoJson.put("limiteAnel", configuracaoControlador.getLimiteAnel());
-            configuracaoJson.put("limiteDetectorPedestre", configuracaoControlador.getLimiteDetectorPedestre());
-            configuracaoJson.put("limiteDetectorVeicular", configuracaoControlador.getLimiteDetectorVeicular());
-            configuracaoJson.put("limiteDetectorVeicular", configuracaoControlador.getLimiteDetectorVeicular());
-
-            modeloJson.set("configuracao", configuracaoJson);
-        }
         root.set("modelo", modeloJson);
+    }
+
+    private void putControladorEnderecos(ObjectNode root) {
+        ArrayNode enderecosJson = Json.newArray();
+        enderecosMap.values().stream().forEach(endereco -> {
+            enderecosJson.add(getEnderecoJson(endereco));
+        });
+        root.set("todosEnderecos", enderecosJson);
     }
 
     private void putControladorAneis(List<Anel> aneis, ObjectNode root) {
@@ -758,6 +771,28 @@ public class ControladorCustomSerializer {
         return objectJson;
     }
 
+    private JsonNode getEnderecoJson(Endereco endereco) {
+        ObjectNode enderecoJson = Json.newObject();
+        if (endereco.getId() != null) {
+            enderecoJson.put("id", endereco.getId().toString());
+        }
+
+        if (endereco.getIdJson() != null) {
+            enderecoJson.put("idJson", endereco.getIdJson().toString());
+        }
+
+        if (endereco.getLocalizacao() != null) {
+            enderecoJson.put("localizacao", endereco.getLocalizacao());
+        }
+        if (endereco.getLatitude() != null) {
+            enderecoJson.put("latitude", endereco.getLatitude());
+        }
+        if (endereco.getLongitude() != null) {
+            enderecoJson.put("longitude", endereco.getLongitude());
+        }
+        return enderecoJson;
+    }
+
     private JsonNode putAnel(Anel anel) {
         ObjectNode anelJson = Json.newObject();
         if (anel.getId() != null) {
@@ -779,13 +814,6 @@ public class ControladorCustomSerializer {
             anelJson.put("posicao", anel.getPosicao());
         }
 
-        if (anel.getLatitude() != null) {
-            anelJson.put("latitude", anel.getLatitude());
-        }
-
-        if (anel.getLongitude() != null) {
-            anelJson.put("longitude", anel.getLongitude());
-        }
 
         if (anel.getCLA() != null) {
             anelJson.put("CLA", anel.getCLA());
@@ -795,8 +823,24 @@ public class ControladorCustomSerializer {
         refGruposSemaforicos(anel.getGruposSemaforicos(), anelJson);
         refDetectores(anel.getDetectores(), anelJson);
         refPlanos("planos", anel.getPlanos(), anelJson);
+        refEnderecos("enderecos", anel.getEnderecos(), anelJson);
+
 
         return anelJson;
+    }
+
+    private void refEnderecos(String name, List<Endereco> enderecos, ObjectNode parentJson) {
+        ArrayNode enderecosJson = Json.newArray();
+        for (Endereco endereco : enderecos) {
+            if (endereco != null && endereco.getIdJson() != null) {
+                enderecosMap.put(endereco.getIdJson().toString(), endereco);
+                ObjectNode planoJson = Json.newObject();
+                planoJson.put("idJson", endereco.getIdJson().toString());
+                enderecosJson.add(planoJson);
+            }
+        }
+        parentJson.set(name, enderecosJson);
+
     }
 
     private void refEntreVerdesTransicoes(String name, List<TabelaEntreVerdesTransicao> entreVerdesTransicoes, ObjectNode parentJson) {

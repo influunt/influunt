@@ -16,6 +16,7 @@
     "$": true,
     "_": true,
     "influunt": true,
+    "Dropzone": true,
 
     // leaflet lib
     "L": true,

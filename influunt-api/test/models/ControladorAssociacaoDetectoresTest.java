@@ -56,10 +56,9 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
     public void testORM() {
         Controlador controlador = getControladorAssociacaoDetectores();
         controlador.save();
+        assertNotNull(controlador.getId());
 
         List<Erro> erros = getErros(controlador);
-
-        assertNotNull(controlador.getId());
         assertThat(erros, Matchers.empty());
 
         Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
@@ -77,7 +76,6 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
         assertEquals("Estagio 2 está associado Detector 2", estagio2.getDetector(), detector2);
         assertEquals("Estagio 3 está associado Detector 3", estagio3.getDetector(), detector3);
         assertEquals("Estagio 4 está associado Detector 4", estagio4.getDetector(), detector4);
-
     }
 
     @Override

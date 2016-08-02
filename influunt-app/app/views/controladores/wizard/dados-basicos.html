@@ -4,7 +4,7 @@
       <div class="ibox float-e-margins">
         <div class="">
           <form name="formDadosBasicos" novalidate>
-            <div class="col-lg-5 col-sm-5 margin-top-25">
+            <div class="col-lg-4 col-sm-4 margin-top-25">
               <div class="form-group">
                 <label class="control-label">{{ 'controladores.cidade' | translate }}:</label>
                 <select name="cidade" class="form-control"
@@ -20,11 +20,9 @@
                 <p class="help-block error-msg" data-ng-repeat="error in errors.area">{{ error }}</p>
               </div>
 
-              <div class="form-group" data-ng-class="{'has-error': errors.localizacao}">
-                <label class="col-sm-12 no-padding control-label">{{ 'controladores.localizacao' | translate }}:</label>
-                <textarea type="text" name="localizacao" class="form-control"
-                  data-ng-model="objeto.localizacao"></textarea>
-                <p class="help-block error-msg" data-ng-repeat="error in errors.localizacao">{{ error }}</p>
+              <div class="form-group">
+                <label class="control-label">{{ 'controladores.localizacao' | translate }}:</label>
+                <input type="text" name="nomeEndereco" class="form-control" data-ng-model="objeto.nomeEndereco" readonly>
               </div>
 
               <div class="form-group">
@@ -78,40 +76,72 @@
               </footer>
             </div>
 
+            <!-- MAPS -->
             <div class="col-lg-4 col-sm-4 maps">
-             <div class="col-lg-12 col-sm-12 no-padding">
-                <div class="form-group">
-                  <label class="control-label">{{ 'controladores.endereco' | translate }}:</label>
-                  <helper-endereco ng-model="endereco" latitude="objeto.latitude" longitude="objeto.longitude"></helper-endereco>
-                </div>
-              </div>
-
               <div class="form-group">
                 <figure>
                   <div influunt-map
-                    latitude="objeto.latitude"
-                    longitude="objeto.longitude"
+                    latitude="objeto.enderecos[0].latitude"
+                    longitude="objeto.enderecos[0].longitude"
                     class="influunt-map">
                   </div>
                 </figure>
               </div>
 
-              <div class="col-lg-6 col-sm-6 no-padding" data-ng-class="{'has-error': errors.latitude}">
+              <div class="col-lg-12 col-sm-12 no-padding" data-ng-class="{'has-error': errors.enderecos[0].localizacao}">
+                <div class="form-group" data-ng-class="{'has-error': errors.enderecos[0].localizacao}">
+                  <label class="control-label">{{ 'controladores.localizacao' | translate }} 1:</label>
+                  <helper-endereco latitude="objeto.enderecos[0].latitude" longitude="objeto.enderecos[0].longitude" localizacao="objeto.enderecos[0].localizacao"></helper-endereco>
+                  <p class="help-block error-msg" data-ng-repeat="error in errors.enderecos[0].localizacao">{{ error }}</p>
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-sm-6 no-padding" data-ng-class="{'has-error': errors.enderecos[0].latitude}">
                 <div class="form-group">
                   <label class="control-label">{{ 'controladores.latitude' | translate }}:</label>
-                  <input type="number" name="latitude" class="form-control" data-ng-model="objeto.latitude">
-                  <p class="help-block error-msg" data-ng-repeat="error in errors.latitude">{{ error }}</p>
+                  <input type="number" name="enderecos[0].latitude" class="form-control" data-ng-model="objeto.enderecos[0].latitude">
+                  <p class="help-block error-msg" data-ng-repeat="error in errors.enderecos[0].latitude">{{ error }}</p>
                 </div>
               </div>
-              <div class="col-lg-6 col-sm-6 no-padding-right" data-ng-class="{'has-error': errors.longitude}">
+              <div class="col-lg-6 col-sm-6 no-padding-right" data-ng-class="{'has-error': errors.enderecos[0].longitude}">
                 <div class="form-group">
                   <label class="control-label">{{ 'controladores.longitude' | translate }}:</label>
-                  <input type="number" name="longitude" class="form-control" data-ng-model="objeto.longitude">
-                  <p class="help-block error-msg" data-ng-repeat="error in errors.longitude">{{ error }}</p>
+                  <input type="number" name="enderecos[0].longitude" class="form-control" data-ng-model="objeto.enderecos[0].longitude">
+                  <p class="help-block error-msg" data-ng-repeat="error in errors.enderecos[0].longitude">{{ error }}</p>
                 </div>
               </div>
+
+
+              <div class="col-lg-12 col-sm-12 no-padding" data-ng-class="{'has-error': errors.enderecos[1].localizacao}">
+                <div class="form-group" data-ng-class="{'has-error': errors.enderecos[1].localizacao}">
+                  <label class="control-label">{{ 'controladores.localizacao' | translate }} 2:</label>
+                  <helper-endereco ng-model="objeto.endereco2" latitude="objeto.enderecos[1].latitude" longitude="objeto.enderecos[1].longitude" localizacao="objeto.enderecos[1].localizacao"></helper-endereco>
+                  <p class="help-block error-msg" data-ng-repeat="error in errors.enderecos[1].localizacao">{{ error }}</p>
+                </div>
+              </div>
+
+
+              <div class="col-lg-6 col-sm-6 no-padding" data-ng-class="{'has-error': errors.enderecos[1].latitude}">
+                <div class="form-group">
+                  <label class="control-label">{{ 'controladores.latitude' | translate }}:</label>
+                  <input type="number" name="enderecos[1].latitude" class="form-control" data-ng-model="objeto.enderecos[1].latitude">
+                  <p class="help-block error-msg" data-ng-repeat="error in errors.enderecos[1].latitude">{{ error }}</p>
+                </div>
+              </div>
+              <div class="col-lg-6 col-sm-6 no-padding-right" data-ng-class="{'has-error': errors.enderecos[1].longitude}">
+                <div class="form-group">
+                  <label class="control-label">{{ 'controladores.longitude' | translate }}:</label>
+                  <input type="number" name="enderecos[1].longitude" class="form-control" data-ng-model="objeto.enderecos[1].longitude">
+                  <p class="help-block error-msg" data-ng-repeat="error in errors.enderecos[1].longitude">{{ error }}</p>
+                </div>
+              </div>
+
             </div>
-            <div class="col-lg-3 col-sm-3 divider">
+
+
+            <!-- CONFIG -->
+
+            <div class="col-lg-4 col-sm-4 divider">
               <div class="form-group">
                 <label class="control-label">{{ 'controladores.fornecedor' | translate }}</label>
                 <select name="fabricante" class="form-control"
@@ -126,32 +156,51 @@
                 <p class="help-block error-msg" data-ng-repeat="error in errors.modelo">{{ error }}</p>
               </div>
 
-              <div class="col-lg-4 col-sm-4 no-padding">
-                <h1><b>{{ objeto.modelo.configuracao.limiteEstagio || 0 }}</b></h1>
-                <p>{{ 'controladores.maxEstagios' | translate }}</p>
+              <div class="knob row">
+                <div class="knob-item col-lg-6">
+                  <influunt-knob
+                      title="{{ 'controladores.maxEstagios' | translate }}"
+                      label="QTD" min="1" max="50"
+                      data-ng-model="objeto.limiteEstagio"></influunt-knob>
+                </div>
+                <div class="knob-item col-lg-6">
+                  <influunt-knob
+                      title="{{ 'controladores.maxGrupoSemaforos' | translate }}"
+                      label="QTD" min="1" max="50"
+                      data-ng-model="objeto.limiteGrupoSemaforico"></influunt-knob>
+                </div>
               </div>
-              <div class="col-lg-4 col-sm-4 no-padding-right">
-                <h1><b>{{ objeto.modelo.configuracao.limiteGrupoSemaforico || 0 }}</b></h1>
-                <p>{{ 'controladores.maxGrupoSemaforos' | translate }}</p>
+              <div class="knob row">
+                <div class="knob-item col-lg-6">
+                  <influunt-knob
+                      title="{{ 'controladores.maxAneis' | translate }}"
+                      label="QTD" min="1" max="50"
+                      data-ng-model="objeto.limiteAnel"></influunt-knob>
+                </div>
+                <div class="knob-item col-lg-6">
+                  <influunt-knob
+                      title="{{ 'controladores.maxDetectorVeicular' | translate }}"
+                      label="QTD" min="1" max="16"
+                      data-ng-model="objeto.limiteDetectorVeicular"></influunt-knob>
+                </div>
               </div>
-              <div class="col-lg-4 col-sm-4 no-padding-right">
-                <h1><b>{{ objeto.modelo.configuracao.limiteAnel || 0 }}</b></h1>
-                <p>{{ 'controladores.maxAneis' | translate }}</p>
+              <div class="knob row">
+                <div class="knob-item col-lg-6">
+                  <influunt-knob
+                      title="{{ 'controladores.maxDetectorPedestre' | translate }}"
+                      label="QTD" min="1" max="50"
+                      data-ng-model="objeto.limiteDetectorPedestre"></influunt-knob>
+                </div>
+                <div class="knob-item col-lg-6">
+                  <influunt-knob
+                      title="{{ 'controladores.maxTabelasEntreVerdes' | translate }}"
+                      label="QTD" min="1" max="50"
+                      data-ng-model="objeto.limiteTabelasEntreVerdes"></influunt-knob>
+                </div>
               </div>
-              <div class="clearfix"></div>
-              <div class="col-lg-4 col-sm-4 no-padding">
-                <h1><b>{{ objeto.modelo.configuracao.limiteDetectorVeicular || 0 }}</b></h1>
-                <p>{{ 'controladores.maxDetectorVeicular' | translate }}</p>
-              </div>
-              <div class="col-lg-4 col-sm-4 no-padding-right">
-                <h1><b>{{ objeto.modelo.configuracao.limiteDetectorPedestre || 0 }}</b></h1>
-                <p>{{ 'controladores.maxDetectorPedestre' | translate }}</p>
-              </div>
-              <div class="col-lg-4 col-sm-4 no-padding-right">
-                <h1><b>{{ objeto.modelo.configuracao.limiteTabelasEntreVerdes || 0 }}</b></h1>
-                <p>{{ 'controladores.maxTabelasEntreVerdes' | translate }}</p>
-              </div>
+
             </div>
+
           </form>
         </div>
       </div>
@@ -159,7 +208,10 @@
 
 		<div class="row">
 	    <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix">
-	      <a data-ng-click="submitForm(formDadosBasicos, 'dados_basicos', 'app.wizard_controladores.aneis')" data-toggle="tooltip" data-placement="top" title="Anéis" class="btn btn-footer btn-primary right">{{ 'plugins.steps.labels.next' | translate }}</a>
+	      <a data-ng-click="submitForm(formDadosBasicos, 'dados_basicos', 'app.wizard_controladores.aneis')" data-toggle="tooltip" data-placement="top" title="Anéis" class="btn btn-footer btn-primary right">
+          {{ 'plugins.steps.labels.next' | translate }}
+          <i class="fa fa-arrow-right"></i>
+        </a>
 	    </div>
 	  </div>
 

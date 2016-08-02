@@ -26,7 +26,7 @@ import java.util.UUID;
 @Table(name = "fabricantes")
 @JsonSerialize(using = FabricanteSerializer.class)
 @JsonDeserialize(using = FabricanteDeserializer.class)
-public class Fabricante extends Model {
+public class Fabricante extends Model implements Cloneable {
 
     private static final long serialVersionUID = 7365610316754360728L;
 
@@ -100,5 +100,10 @@ public class Fabricante extends Model {
 
     public void setDataAtualizacao(DateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

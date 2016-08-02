@@ -39,9 +39,7 @@ public class ModeloControlador extends Model implements Cloneable {
     @ManyToOne
     @NotNull(message = "não pode ficar em branco")
     private Fabricante fabricante;
-    @ManyToOne
-    @NotNull(message = "não pode ficar em branco")
-    private ConfiguracaoControlador configuracao;
+
     @Column
     @NotNull(message = "não pode ficar em branco")
     private String descricao;
@@ -78,14 +76,6 @@ public class ModeloControlador extends Model implements Cloneable {
 
     public void setFabricante(Fabricante fabricante) {
         this.fabricante = fabricante;
-    }
-
-    public ConfiguracaoControlador getConfiguracao() {
-        return configuracao;
-    }
-
-    public void setConfiguracao(ConfiguracaoControlador configuracao) {
-        this.configuracao = configuracao;
     }
 
     public String getDescricao() {

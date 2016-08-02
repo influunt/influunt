@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import models.Fabricante;
 import models.ModeloControlador;
-import org.apache.commons.lang3.ObjectUtils;
 
 import java.io.IOException;
 
@@ -36,9 +35,7 @@ public class FabricanteSerializer extends JsonSerializer<Fabricante> {
         if (fabricante.getModelos() != null) {
             jgen.writeArrayFieldStart("modelos");
             for (ModeloControlador modelo : fabricante.getModelos()) {
-                ModeloControlador modeloAux = ObjectUtils.clone(modelo);
-                modeloAux.setFabricante(null);
-                jgen.writeObject(modeloAux);
+                jgen.writeObject(modelo);
             }
             jgen.writeEndArray();
         }

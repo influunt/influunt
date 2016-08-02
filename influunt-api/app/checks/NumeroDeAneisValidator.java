@@ -19,7 +19,7 @@ public class NumeroDeAneisValidator implements ConstraintValidator<NumeroDeAneis
         if (controlador.getModelo() == null) {
             return true;
         } else {
-            return (controlador.getAneis() != null && controlador.getAneis().size() == controlador.getModelo().getConfiguracao().getLimiteAnel());
+            return (controlador.getAneis() != null && controlador.getAneis().size() == controlador.getLimiteAnel());
         }
 
     }

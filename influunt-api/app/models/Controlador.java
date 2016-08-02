@@ -8,11 +8,11 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
-import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +43,9 @@ public class Controlador extends Model implements Cloneable {
     @Column
     private String idJson;
 
+    @NotNull(message = "não pode ficar em branco")
+    private String nomeEndereco;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
@@ -59,12 +62,7 @@ public class Controlador extends Model implements Cloneable {
     private StatusControlador statusControlador = StatusControlador.EM_CONFIGURACAO;
 
     @Column
-    @NotBlank(message = "não pode ficar em branco")
-    private String localizacao;
-
-    @Column
     private Integer sequencia;
-
 
     @Column
     private String numeroSMEE;
@@ -80,14 +78,6 @@ public class Controlador extends Model implements Cloneable {
 
     @Column
     private String firmware;
-
-    @Column
-    @NotNull(message = "não pode ficar em branco")
-    private Double latitude;
-
-    @Column
-    @NotNull(message = "não pode ficar em branco")
-    private Double longitude;
 
     @ManyToOne
     @Valid
@@ -115,6 +105,42 @@ public class Controlador extends Model implements Cloneable {
     @ManyToMany(mappedBy = "controladores")
     private List<Agrupamento> agrupamentos;
 
+    @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
+    @Valid
+    private List<Endereco> enderecos;
+
+    // CONFIGURACOES CONTROLADORES
+
+    @Column
+    @Min(value = 1, message = "Deve ser maior que zero")
+    @NotNull(message = "não pode ficar em branco")
+    private Integer limiteEstagio = 16;
+
+    @Column
+    @Min(value = 1, message = "Deve ser maior que zero")
+    @NotNull(message = "não pode ficar em branco")
+    private Integer limiteGrupoSemaforico = 16;
+
+    @Column
+    @Min(value = 1, message = "Deve ser maior que zero")
+    @NotNull(message = "não pode ficar em branco")
+    private Integer limiteAnel = 4;
+
+    @Column
+    @Min(value = 1, message = "Deve ser maior que zero")
+    @NotNull(message = "não pode ficar em branco")
+    private Integer limiteDetectorPedestre = 4;
+
+    @Column
+    @Min(value = 1, message = "Deve ser maior que zero")
+    @NotNull(message = "não pode ficar em branco")
+    private Integer limiteDetectorVeicular = 8;
+
+    @Column
+    @Min(value = 1, message = "Deve ser maior que zero")
+    @NotNull(message = "não pode ficar em branco")
+    private Integer limiteTabelasEntreVerdes = 2;
+
     @Override
     public void save() {
         antesDeSalvarOuAtualizar();
@@ -130,7 +156,7 @@ public class Controlador extends Model implements Cloneable {
     private void antesDeSalvarOuAtualizar() {
         if (this.getId() == null) {
             this.setStatusControlador(StatusControlador.EM_CONFIGURACAO);
-            int quantidade = getModelo().getConfiguracao().getLimiteAnel();
+            int quantidade = this.getLimiteAnel();
             for (int i = 0; i < quantidade; i++) {
                 this.addAnel(new Anel(this, i + 1));
             }
@@ -144,30 +170,6 @@ public class Controlador extends Model implements Cloneable {
                 }
             }
         }
-
-//        this.aneis.stream().filter(anel -> anel.isAtivo()).forEach( anel -> {
-//            anel.getEstagios().forEach(estagio -> {
-//                if(estagio.getId() != null && Estagio.find.byId(estagio.getId()) == null){
-//                    estagio.setAnel(anel);
-//                    estagio.save();
-//                }
-//            });
-//            anel.getGruposSemaforicos().forEach(grupoSemaforico -> {
-//                if(grupoSemaforico.getId() != null){
-//                    grupoSemaforico.setAnel(anel);
-//                    grupoSemaforico.getVerdesConflitantesOrigem().stream().forEach(verdesConflitantes -> {
-//                        verdesConflitantes.setOrigem(grupoSemaforico);
-//                        verdesConflitantes.save();
-//                    });
-//                    if(GrupoSemaforico.find.byId(grupoSemaforico.getId()) == null){
-//                        grupoSemaforico.save();
-//                    }else{
-//                        grupoSemaforico.update();;
-//                    }
-//                }
-//            });
-//
-//        });
 
         this.criarPossiveisTransicoes();
     }
@@ -218,12 +220,12 @@ public class Controlador extends Model implements Cloneable {
         this.idJson = idJson;
     }
 
-    public String getLocalizacao() {
-        return localizacao;
+    public String getNomeEndereco() {
+        return nomeEndereco;
     }
 
-    public void setLocalizacao(String localizacao) {
-        this.localizacao = localizacao;
+    public void setNomeEndereco(String nomeEndereco) {
+        this.nomeEndereco = nomeEndereco;
     }
 
     public String getNumeroSMEE() {
@@ -330,23 +332,6 @@ public class Controlador extends Model implements Cloneable {
         this.dataAtualizacao = dataAtualizacao;
     }
 
-    public Double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
-
-
     public List<Agrupamento> getAgrupamentos() {
         return agrupamentos;
     }
@@ -355,13 +340,68 @@ public class Controlador extends Model implements Cloneable {
         this.agrupamentos = agrupamentos;
     }
 
+    public List<Endereco> getEnderecos() {
+        return enderecos;
+    }
+
+    public void setEnderecos(List<Endereco> enderecos) {
+        this.enderecos = enderecos;
+    }
+
+    public Integer getLimiteEstagio() {
+        return limiteEstagio;
+    }
+
+    public void setLimiteEstagio(Integer limiteEstagio) {
+        this.limiteEstagio = limiteEstagio;
+    }
+
+    public Integer getLimiteGrupoSemaforico() {
+        return limiteGrupoSemaforico;
+    }
+
+    public void setLimiteGrupoSemaforico(Integer limiteGrupoSemaforico) {
+        this.limiteGrupoSemaforico = limiteGrupoSemaforico;
+    }
+
+    public Integer getLimiteAnel() {
+        return limiteAnel;
+    }
+
+    public void setLimiteAnel(Integer limiteAnel) {
+        this.limiteAnel = limiteAnel;
+    }
+
+    public Integer getLimiteDetectorPedestre() {
+        return limiteDetectorPedestre;
+    }
+
+    public void setLimiteDetectorPedestre(Integer limiteDetectorPedestre) {
+        this.limiteDetectorPedestre = limiteDetectorPedestre;
+    }
+
+    public Integer getLimiteDetectorVeicular() {
+        return limiteDetectorVeicular;
+    }
+
+    public void setLimiteDetectorVeicular(Integer limiteDetectorVeicular) {
+        this.limiteDetectorVeicular = limiteDetectorVeicular;
+    }
+
+    public Integer getLimiteTabelasEntreVerdes() {
+        return limiteTabelasEntreVerdes;
+    }
+
+    public void setLimiteTabelasEntreVerdes(Integer limiteTabelasEntreVerdes) {
+        this.limiteTabelasEntreVerdes = limiteTabelasEntreVerdes;
+    }
+
     public void criarPossiveisTransicoes() {
         for (Anel anel : getAneis()) {
             for (GrupoSemaforico grupoSemaforico : anel.getGruposSemaforicos()) {
                 grupoSemaforico.criarPossiveisTransicoes();
             }
         }
-
     }
 
     @Override
@@ -382,5 +422,12 @@ public class Controlador extends Model implements Cloneable {
 
     public void setStatusControlador(StatusControlador statusControlador) {
         this.statusControlador = statusControlador;
+    }
+
+    public void addEndereco(Endereco endereco) {
+        if (getEnderecos() == null) {
+            setEnderecos(new ArrayList<Endereco>());
+        }
+        getEnderecos().add(endereco);
     }
 }

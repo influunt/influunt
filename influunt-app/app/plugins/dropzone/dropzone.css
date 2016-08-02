@@ -32,9 +32,9 @@
   border-color: rgba(0,0,0,0.15);
   background: rgba(0,0,0,0.04);
 }
-.dropzone.dz-started .dz-message {
+./*dropzone.dz-started .dz-message {
   display: none;
-}
+}*/
 .dropzone .dz-preview:last-child,
 .dropzone-previews .dz-preview:last-child {
   margin-bottom: 50px;
@@ -195,9 +195,9 @@
     background-size: 428px 406px;
   }
 }
-.dropzone .dz-default.dz-message span {
+./*dropzone .dz-default.dz-message span {
   display: none;
-}
+}*/
 .dropzone.dz-square .dz-default.dz-message {
   background-position: 0 -123px;
   width: 268px;
@@ -210,12 +210,12 @@
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=15)";
   filter: alpha(opacity=15);
 }
-.dropzone.dz-started .dz-message {
+/*.dropzone.dz-started .dz-message {
   display: block;
   opacity: 0;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
   filter: alpha(opacity=0);
-}
+}*/
 .dropzone .dz-preview,
 .dropzone-previews .dz-preview {
   -webkit-box-shadow: 1px 1px 4px rgba(0,0,0,0.16);

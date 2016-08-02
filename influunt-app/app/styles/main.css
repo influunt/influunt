@@ -1,4 +1,4 @@
-@import url(./../plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css);
+@import url(./../plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checg kbox.css);
 @import url(./../plugins/roundSlider-1.3/roundslider.min.css);
 @import url(./../plugins/steps/jquery.steps.css);
 @import url(./../plugins/dropzone/dropzone.css);
@@ -8,7 +8,6 @@
 @import url(./../../bower_components/angular-datatables/dist/css/angular-datatables.css);
 @import url(./../../bower_components/bootstrap/dist/css/bootstrap.css);
 @import url(./../../bower_components/select2/dist/css/select2.css);
-@import url(./../../bower_components/jquery-ui/themes/base/all.css);
 @import url(./font-awesome.css);
 @import url(./animate.css);
 @import url(./style.css);
@@ -20,6 +19,10 @@
 @import url(./directives/influunt-tabs.css);
 @import url(./directives/influunt-block-ui.css);
 @import url(./directives/dropzone.css);
+tr.detector-selecionado td.titulo {
+  background-color: #6fd1bd;
+}
+
 li.anel-selecionado {
   background-color: #6fd1bd;
 }
@@ -147,19 +150,4 @@ i.sinal-verde-conflitante.ativo, i.transicao-proibida.ativo {
 
 .ui-widget-content {
   border: 0;
-}
-
-span.ui-icon.ui-icon-circle-close {
-  position: absolute;
-  top: -24px;
-  right: -25px;
-  font-size: 16px;
-}
-
-span.badge.badge-danger.badge-notification {
-  position: absolute;
-  top: -37px;
-  left: -14px;
-  padding: 6px 0px 2px 6px;
-  border-radius: 0;
 }

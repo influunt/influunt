@@ -6,9 +6,9 @@ import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.ConfiguracaoControlador;
 import models.Fabricante;
 import models.ModeloControlador;
+import play.libs.Json;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -35,15 +35,7 @@ public class ModeloControladorDeserializer extends JsonDeserializer<ModeloContro
         }
 
         if (node.has("fabricante") && !node.get("fabricante").isNull()) {
-            Fabricante fabricante = new Fabricante();
-            fabricante.setId(UUID.fromString(node.get("fabricante").get("id").asText()));
-            modeloControlador.setFabricante(fabricante);
-        }
-
-        if (node.has("configuracao") && !node.get("configuracao").isNull()) {
-            ConfiguracaoControlador configuracao = new ConfiguracaoControlador();
-            configuracao.setId(UUID.fromString(node.get("configuracao").get("id").asText()));
-            modeloControlador.setConfiguracao(configuracao);
+            modeloControlador.setFabricante(Json.fromJson(node.get("fabricante"), Fabricante.class));
         }
 
         return modeloControlador;

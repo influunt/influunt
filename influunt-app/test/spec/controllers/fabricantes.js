@@ -50,12 +50,4 @@ describe('Controller: FabricantesCtrl', function () {
     expect(scope.objeto.modelos.length).toBe(0);
   });
 
-  it('Deve carregar a lista de configuracoes antes de exibir dados', inject(function($httpBackend) {
-    var configuracoes = [{nome: 'conf1'}, {nome: 'fab2'}];
-    $httpBackend.expectGET('/configuracoes_controladores').respond(configuracoes);
-    scope.beforeShow();
-    $httpBackend.flush();
-
-    expect(scope.configuracoes.length).toBe(2);
-  }));
 });
