@@ -2,11 +2,11 @@
   <thead>
     <tr>
       <th class="tg-031e"></th>
-      <th data-ng-repeat="grupo in currentAnel.gruposSemaforicos">G{{ grupo.posicao }}</th>
+      <th data-ng-repeat="grupo in currentGruposSemaforicos">G{{ grupo.posicao }}</th>
     </tr>
   </thead>
   <tbody>
-    <tr data-ng-repeat="tr in currentAnel.gruposSemaforicos">
+    <tr data-ng-repeat="tr in currentGruposSemaforicos">
       <!-- Coluna com a label do grupo. -->
       <td class="tg-yw4l" style="font-size: 15px;">
         <strong>G{{ tr.posicao }}</strong>
@@ -16,7 +16,7 @@
         Cria as relações de verdes conflitantes. As interseções dos elementos iguals (G1xG1) ou dos grupos
         que não serão utilizados já aparecem desmarcados.
        -->
-      <td data-ng-repeat="td in currentAnel.gruposSemaforicos"
+      <td data-ng-repeat="td in currentGruposSemaforicos"
         class="clickable"
         data-ng-class="{disabled: tr.posicao === td.posicao}"
         data-ng-click="toggleVerdeConflitante(tr.posicao - 1, td.posicao - 1, (tr.posicao === td.posicao))"

@@ -78,17 +78,17 @@ angular.module('influuntApp')
         $scope.atualizaGruposSemaforicos();
       };
 
-      $scope.atualizaGruposSemaforicos = function() {
-        var ids = _.map($scope.currentAnel.gruposSemaforicos, 'idJson');
-        $scope.currentGruposSemaforicos = _
-          .chain($scope.objeto.gruposSemaforicos)
-          .filter(function(gs) {
-            return ids.indexOf(gs.idJson) >= 0;
-          })
-          .value();
+      // $scope.atualizaGruposSemaforicos = function() {
+      //   var ids = _.map($scope.currentAnel.gruposSemaforicos, 'idJson');
+      //   $scope.currentGruposSemaforicos = _
+      //     .chain($scope.objeto.gruposSemaforicos)
+      //     .filter(function(gs) {
+      //       return ids.indexOf(gs.idJson) >= 0;
+      //     })
+      //     .value();
 
-          return $scope.currentGruposSemaforicos;
-      };
+      //     return $scope.currentGruposSemaforicos;
+      // };
 
       /**
        * atualiza as posições dos grupos.

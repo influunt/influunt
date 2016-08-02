@@ -277,4 +277,16 @@ angular.module('influuntApp')
         return _.isObject(errors) && Object.keys(errors).length > 0;
       };
 
+      $scope.atualizaGruposSemaforicos = function() {
+        var ids = _.map($scope.currentAnel.gruposSemaforicos, 'idJson');
+        $scope.currentGruposSemaforicos = _
+          .chain($scope.objeto.gruposSemaforicos)
+          .filter(function(gs) {
+            return ids.indexOf(gs.idJson) >= 0;
+          })
+          .value();
+
+          return $scope.currentGruposSemaforicos;
+      };
+
     }]);
