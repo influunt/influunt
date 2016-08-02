@@ -96,7 +96,7 @@
   color: #f7f7f7;
 }
 
-.wrapper-content .basic-wizard .content .body .tableless table td i {
+.wrapper-content .basic-wizard .content .body .tableless table td {
   text-align: center;
   font-size: 25px;
 }
@@ -710,6 +710,10 @@ header .nav-secon li a {
 .wrapper-content .basic-wizard .content .body .association.side-menu ul {
   padding: 0;
   margin: 0;
+}
+
+.wrapper-content .basic-wizard .content .body .association.side-menu ul#side-menu {
+  padding-right: 5px;
 }
 
 .wrapper-content .basic-wizard .content .body .association.side-menu li .nav-second-level li .fa-files-o {
@@ -1821,6 +1825,9 @@ header .nav-secon li a {
     font-size: 10px !important;
     color: white !important;
   }
+  .badge.badge-danger.badge-estagio-alternativo {
+    margin-top: -40px;
+  }
   .container-fluid {
     width: 100%;
   }
@@ -1964,4 +1971,13 @@ table.table-diagonal:nth-of-type(1) th.diagonal {
 
 .padding-top-20 {
   padding-top: 20px;
+}
+
+ul li span.bubble {
+  cursor: pointer;
+}
+
+img.sample-img-estagios {
+  width: 200px;
+  height: 150px;
 }

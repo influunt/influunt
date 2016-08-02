@@ -86,7 +86,7 @@
     transition: all .5s ease;
     color: #f7f7f7;
 }
-.wrapper-content .basic-wizard .content .body .tableless table td i {
+.wrapper-content .basic-wizard .content .body .tableless table td {
     text-align: center;
     font-size: 25px;
 }
@@ -170,7 +170,7 @@
     display: inline-block;
     vertical-align: middle;
 }
-.wrapper-content .basic-wizard .content .body .stages nav li .group .checkbox label {    
+.wrapper-content .basic-wizard .content .body .stages nav li .group .checkbox label {
     margin: 0;
     padding: 0;
     float: left;
@@ -598,6 +598,10 @@ header .nav-secon li a {
 .wrapper-content .basic-wizard .content .body .association.side-menu ul {
     padding: 0;
     margin: 0;
+    &#side-menu {
+      padding-right: 5px;
+
+    }
 }
 .wrapper-content .basic-wizard .content .body .association.side-menu li .nav-second-level li .fa-files-o {
     float: right;
@@ -1093,7 +1097,7 @@ header .nav-secon li a {
 }
 .wrapper-content .basic-wizard .content .body .stages .title-stages.small {
     min-width: 44px;
-} 
+}
 .wrapper-content .basic-wizard .content .body .stages .title-stages {
     background: #e5e5e5;
     position: relative;
@@ -1560,6 +1564,11 @@ header .nav-secon li a {
         font-size: 10px !important;
         color: white !important;
     }
+
+    .badge.badge-danger.badge-estagio-alternativo {
+      margin-top: -40px;
+    }
+
     .container-fluid {
         width: 100%;
     }
@@ -1708,4 +1717,18 @@ table.table-diagonal:nth-of-type(1) th.diagonal {
 
 .padding-top-20 {
   padding-top: 20px;
+}
+
+// wizard-steps.
+ul {
+  li {
+    span.bubble {
+      cursor: pointer;
+    }
+  }
+}
+
+img.sample-img-estagios {
+  width: 200px;
+  height: 150px;
 }

@@ -113,10 +113,4 @@ angular.module('influuntApp')
           atualizarAneisAtivos();
         });
       };
-
-      $scope.selecionarCurrentAnel = function(index) {
-        $scope.$apply(function() {
-          $scope.selecionaAnel(index);
-        });
-      };
     }]);

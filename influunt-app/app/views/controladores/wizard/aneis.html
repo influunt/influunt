@@ -18,15 +18,13 @@
           <influunt-tabs class="tabpanel"
                          data-on-add="ativarProximoAnel"
                          data-on-remove="desativarUltimoAnel"
-                         data-on-activate="selecionarCurrentAnel"
+                         data-on-activate="selecionaAnel"
                          data-aneis-ativos="aneisAtivos"
                          data-error-check="anelTemErro"
-                         data-max-tabs="objeto.limiteAnel"></influunt-tabs>
+                         data-max-tabs="objeto.limiteAnel"
+                         data-can-add-tabs="true"></influunt-tabs>
           <div class="ui-layout-content tab-content">
             <div id="tabs-1">
-              <div class="col-lg-12 col-sm-12 text-left">
-                <h2>{{ 'controladores.anel' | translate }} {{ currentAnel.posicao }}</h2>
-              </div>
               <div class="col-lg-9 col-sm-9 groups ibox-content">
                 <div class="col-lg-6 col-sm-6 no-padding-left">
 
