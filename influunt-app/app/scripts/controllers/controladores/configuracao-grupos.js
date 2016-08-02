@@ -33,34 +33,61 @@ angular.module('influuntApp')
           if ($scope.assert()) {
             $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
             $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
+            $scope.objeto.gruposSemaforicos = _.orderBy($scope.objeto.gruposSemaforicos, ['posicao']);
 
-            $scope.aneis.forEach(function(anel) {
-              anel.gruposSemaforicos = anel.gruposSemaforicos || [];
-              anel.gruposSemaforicos = _.orderBy(anel.gruposSemaforicos, ['posicao']);
-            });
-
-            $scope.selecionaAnel(0);
+            $scope.selecionaAnelGruposSemaforicos(0);
           }
         });
       };
 
       $scope.adicionaGrupoSemaforico = function() {
-        var obj = {anel: {id: $scope.currentAnel.id}};
-        $scope.currentAnel.gruposSemaforicos.push(obj);
+        var obj = { anel: {idJson: $scope.currentAnel.idJson}, idJson: UUID.generate() };
+
+        $scope.objeto.gruposSemaforicos = $scope.objeto.gruposSemaforicos || [];
+        $scope.currentAnel.gruposSemaforicos = $scope.currentAnel.gruposSemaforicos || [];
+
+        $scope.objeto.gruposSemaforicos.push(obj);
+        $scope.currentAnel.gruposSemaforicos.push({ idJson: obj.idJson });
+
+        $scope.atualizaGruposSemaforicos();
         return atualizaPosicaoGrupos();
       };
 
       $scope.removeGrupo = function(index) {
         influuntAlert.delete().then(function(confirmado) {
           if (confirmado) {
-            $scope.currentAnel.gruposSemaforicos.splice(index, 1);
-            $scope.currentAnel.gruposSemaforicos.forEach(function(grupo, index) {
-              grupo.posicao = index + 1;
-            });
 
-            atualizaPosicaoGrupos();
+            var jsonId = $scope.currentAnel.gruposSemaforicos[index].idJson;
+            var i = _.findIndex($scope.objeto.gruposSemaforicos, {idJson: jsonId});
+
+            $scope.currentAnel.gruposSemaforicos.splice(index, 1);
+            $scope.objeto.gruposSemaforicos.splice(i, 1);
+
+            // $scope.currentAnel.gruposSemaforicos.forEach(function(grupo, index) {
+            //   grupo.posicao = index + 1;
+            // });
+
+            $scope.atualizaGruposSemaforicos();
+            return atualizaPosicaoGrupos();
           }
         });
+      };
+
+      $scope.selecionaAnelGruposSemaforicos = function(index) {
+        $scope.selecionaAnel(index);
+        $scope.atualizaGruposSemaforicos();
+      };
+
+      $scope.atualizaGruposSemaforicos = function() {
+        var ids = _.map($scope.currentAnel.gruposSemaforicos, 'idJson');
+        $scope.currentGruposSemaforicos = _
+          .chain($scope.objeto.gruposSemaforicos)
+          .filter(function(gs) {
+            return ids.indexOf(gs.idJson) >= 0;
+          })
+          .value();
+
+          return $scope.currentGruposSemaforicos;
       };
 
       /**
@@ -70,13 +97,19 @@ angular.module('influuntApp')
        */
       atualizaPosicaoGrupos = function() {
         var posicao = 0;
-        return _.chain($scope.aneis)
+        _.chain($scope.aneis)
           .map('gruposSemaforicos')
           .flatten()
-          .each(function(g) {
-            g.posicao = ++posicao;
+          .map('idJson')
+          .each(function(idJson) {
+            var obj = _.find($scope.objeto.gruposSemaforicos, {idJson: idJson})
+            obj.posicao = ++posicao;
           })
           .value();
+        // var posicao = 0;
+        // return _.chain($scope.objeto.gruposSemaforicos)
+        //   .each(function(g) { g.posicao = ++posicao; })
+        //   .value();
       };
 
     }]);
