@@ -59,7 +59,11 @@
                     </nav>
                   </div>
                   <div class="col-lg-3 col-sm-3 no-padding-left">
-                    <div class="col-lg-12 col-sm-12 association table-entry-green min-green relative tabelas-entre-verdes entre-verdes-fixed-height-small">
+                    <div class="col-lg-12 col-sm-12 association table-entry-green min-green relative tabelas-entre-verdes">
+                      <div class="ibox-title">
+                        <h5>Tabelas</h5>
+                        <a class="btn btn-primary btn-xs m-l right" target="Nova tabela" data-ng-click="adicionarTabelaEntreVerdes()" data-toggle="tooltip" data-placement="top" title="Adicionar uma nova tabela padrão">Nova tabela <i class="fa fa-plus"></i></a>
+                    </div>
                       <nav>
                         <ul>
                           <li data-ng-repeat="tabelaEntreVerdes in currentGrupoSemaforico.tabelasEntreVerdes" data-ng-class="{ 'active': $index == currentTabelaEntreVerdesIndex }" data-ng-click="selecionaTabelaEntreVerdes($index)">
@@ -69,22 +73,19 @@
                           </li>
                         </ul>
                       </nav>
-                      <footer data-ng-show="currentGrupoSemaforico.tabelasEntreVerdes.length < limiteTabelasEntreVerdes">
-                        <a target="Nova tabela" data-ng-click="adicionarTabelaEntreVerdes()" data-toggle="tooltip" data-placement="top" title="Adicionar uma nova tabela padrão">Nova tabela</a>
-                      </footer>
                     </div>
                   </div>
 
                   <!-- menu transicoes -->
-                  <div class="col-lg-7 col-sm-7 association tables-associated entre-verdes-fixed-height-small">
-                    <header class="col-lg-12 col-sm-12">
+                  <div class="col-lg-7 col-sm-7 association tables-associated white-bg">
+                    <header class="col-lg-12 col-sm-12 no-padding">
                       <div class="form-group">
                         <label>Descrição</label>
                         <input type="text" placeholder="Descrição" class="form-control" ng-model="currentTabelaEntreVerdes.descricao">
                       </div>
                     </header>
 
-                    <nav class="association-know" style="display:block;">
+                    <nav style="display:block;">
                       <ul>
                         <li data-ng-repeat="tevTransicao in tabelasEntreVerdesTransicoes">
                           <div class="group-figures col-lg-5 col-sm-5 no-padding">

@@ -101,7 +101,7 @@
 .wrapper-content .basic-wizard .content .body .early-stage .early-area {
     min-height: 250px;
     max-height: 250px;
-    background: #fff;
+    background: #f5f5f5;
     overflow: hidden;
     width: 100%;
 }
@@ -792,7 +792,7 @@ header .nav-secon li a {
     position: relative;
     overflow: hidden;
     line-height: initial;
-    padding: 20px 0 30px 0;
+    padding: 15px 0 15px 0;
     border-bottom: 1px solid #e5e5e5;
 }
 .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .group-form {
@@ -825,6 +825,7 @@ header .nav-secon li a {
     text-transform: capitalize;
 }
 .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .group-figure label {
+  width: 100%;
     font-size: 13px;
     color: #676a6c;
     float: left;
@@ -833,19 +834,19 @@ header .nav-secon li a {
     padding-right: 0;
     background: #c4c4c4;
     padding: 5px;
-    margin: 8px;
     position: relative;
+    text-align: center;
 }
 .wrapper-content .basic-wizard .content .body .association.tables-associated nav li figure img {
     position: absolute;
     width: 110%;
     left: 0;
-    top: 0;
+    top: 23px;
 }
 .wrapper-content .basic-wizard .content .body .association.tables-associated nav li figure {
     float: left;
-    width: 135px;
-    height: 130px;
+    width: 160px;
+    height: 150px;
     overflow: hidden;
     position: relative;
     margin-left: 20px;
@@ -897,9 +898,8 @@ header .nav-secon li a {
     max-height: 250px;
 }
 .wrapper-content .basic-wizard .content .body .association {
-    border-top: 4px solid #e7eaec;
-    padding: 15px 0 20px;
-    background: #fff;
+    padding: 0;
+    background: #f5f5f5;
 }
 .wrapper-content .basic-wizard .content .body .association nav li:hover {
     background: #19b4a8;
@@ -1566,6 +1566,7 @@ table.table-diagonal:nth-of-type(1) th.diagonal {
 	table-layout: fixed !important;
 	display: block !important;
 	width: 100%;
+  overflow: auto;
 
 }
 
@@ -1667,4 +1668,9 @@ table.table-diagonal:nth-of-type(1) th.diagonal {
 
 .padding-top-20 {
   padding-top: 20px;
+}
+
+.ibox-title {
+  border-top: 0;
+  border-bottom: 1px solid #e5e5e5;
 }

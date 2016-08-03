@@ -115,7 +115,7 @@
 .wrapper-content .basic-wizard .content .body .early-stage .early-area {
   min-height: 250px;
   max-height: 250px;
-  background: #fff;
+  background: #f5f5f5;
   overflow: hidden;
   width: 100%;
 }
@@ -546,32 +546,31 @@ header .nav-secon li a {
 }
 
 .wrapper-content .basic-wizard .content .body .min-green {
-  min-height: 635px;
-  background: #f5f5f5;
+  min-height: 730px;
 }
 
-.plans {
+.wrapper-content .basic-wizard .content .body .association.plans {
   padding: 0;
 }
 
-.plans nav.plans {
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans {
   float: right;
   margin: 22px 20px 0;
 }
 
-.plans nav.plans ul {
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans ul {
   padding: 0;
   margin: 0;
 }
 
-.plans li span {
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans li span {
   display: block;
   width: 100%;
   height: 16px;
   margin-bottom: 10px;
 }
 
-.plans li p {
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans li p {
   margin: 0;
   padding: 0;
   color: #676a6c;
@@ -594,23 +593,23 @@ header .nav-secon li a {
   /* column | row */
 }
 
-.plans li {
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans li {
   position: relative;
   float: left;
   line-height: inherit;
   height: inherit;
 }
 
-.plans li:hover {
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans li:hover {
   background: inherit;
 }
 
-.plans li .subnav li {
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .subnav li {
   width: 50%;
   padding: 0 10px;
 }
 
-.plans li .subnav {
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .subnav {
   -webkit-border-radius: 4px;
   border: 1px solid #e7eaec;
   border-radius: 4px;
@@ -623,11 +622,11 @@ header .nav-secon li a {
   padding: 20px 10px;
 }
 
-.plans li a i {
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans li a i {
   padding-left: 10px;
 }
 
-.plans li a {
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans li a {
   height: 34px;
   float: right;
   color: white;
@@ -728,8 +727,6 @@ header .nav-secon li a {
 .wrapper-content .basic-wizard .content .body .association.side-menu li.active {
   background: #1caf92;
   height: auto;
-  padding: 0 20px;
-  border-top: 1px solid #1ab394;
 }
 
 .wrapper-content .basic-wizard .content .body .association.side-menu li:hover {
@@ -876,31 +873,31 @@ header .nav-secon li a {
   padding: 0px 15px;
 }
 
-.plans li .green {
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .green {
   background: #00ad4d;
 }
 
-.plans li .yellow {
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .yellow {
   background: #fffb00;
 }
 
-.plans li .red-cleaning {
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .red-cleaning {
   background: #a31100;
 }
 
-.plans li .red-flashing {
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .red-flashing {
   background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAANUlEQVQYV2NkwAM6Ojr+M+KSB0lWVFQwYlUAkwRpxlCALImhAF0SRQE2SbgCXJJgBfgkQQoAFRkeoKyjcMIAAAAASUVORK5CYII=") #ff1b00;
 }
 
-.plans li .red {
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .red {
   background: #ff1b00;
 }
 
-.plans li .yellow-flashing {
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .yellow-flashing {
   background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAANUlEQVQYV2NkwAM6Ojr+M+KSB0lWVFQwYlUAkwRpxlCALImhAF0SRQE2SbgCXJJgBfgkQQoAFRkeoKyjcMIAAAAASUVORK5CYII=") #fffb00;
 }
 
-.plans li .wiped {
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .wiped {
   background: #3d3d3d;
 }
 
@@ -951,7 +948,7 @@ header .nav-secon li a {
   position: relative;
   overflow: hidden;
   line-height: initial;
-  padding: 20px 0 30px 0;
+  padding: 15px 0 15px 0;
   border-bottom: 1px solid #e5e5e5;
 }
 
@@ -990,6 +987,7 @@ header .nav-secon li a {
 }
 
 .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .group-figure label {
+  width: 100%;
   font-size: 13px;
   color: #676a6c;
   float: left;
@@ -998,21 +996,21 @@ header .nav-secon li a {
   padding-right: 0;
   background: #c4c4c4;
   padding: 5px;
-  margin: 8px;
   position: relative;
+  text-align: center;
 }
 
 .wrapper-content .basic-wizard .content .body .association.tables-associated nav li figure img {
   position: absolute;
   width: 110%;
   left: 0;
-  top: 0;
+  top: 23px;
 }
 
 .wrapper-content .basic-wizard .content .body .association.tables-associated nav li figure {
   float: left;
-  width: 135px;
-  height: 130px;
+  width: 160px;
+  height: 150px;
   overflow: hidden;
   position: relative;
   margin-left: 20px;
@@ -1073,11 +1071,13 @@ header .nav-secon li a {
 }
 
 .wrapper-content .basic-wizard .content .body .association {
-  padding: 0 0 20px;
+  padding: 0;
+  background: #f5f5f5;
 }
 
-.wrapper-content .basic-wizard .content .body .association .ibox-title {
-  border: 0px;
+.wrapper-content .basic-wizard .content .body .association nav li:hover {
+  background: #19b4a8;
+  color: #fff;
 }
 
 .wrapper-content .basic-wizard .content .body .association nav li.active {
@@ -1815,6 +1815,7 @@ table.table-diagonal:nth-of-type(1) th.diagonal {
   table-layout: fixed !important;
   display: block !important;
   width: 100%;
+  overflow: auto;
 }
 
 .alert {
@@ -1916,7 +1917,7 @@ table.table-diagonal:nth-of-type(1) th.diagonal {
   padding-top: 20px;
 }
 
-ul.dropdown-menu.pull-right.subnav {
-    padding: 10px 20px;
-    width: 190px;
+.ibox-title {
+  border-top: 0;
+  border-bottom: 1px solid #e5e5e5;
 }
