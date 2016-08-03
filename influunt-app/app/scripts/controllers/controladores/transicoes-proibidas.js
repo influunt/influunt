@@ -17,7 +17,7 @@ angular.module('influuntApp')
       $controller('ControladoresVerdesConflitantesCtrl', {$scope: $scope});
 
       // funcoes privadas.
-      var desativarTransicaoProibida, ativarTransicaoProibida, removeAlternativoAnterior, setEstagioAlternativo,
+      var desativarTransicaoProibida, ativarTransicaoProibida, removeAlternativoAnterior, setEstagioAlternativoEmAlternativo,
           setEstagioAlternativoEmDestino, setEstagioAlternativoEmOrigem, getEstagioAnterior;
 
       /**
@@ -53,26 +53,35 @@ angular.module('influuntApp')
 
               $scope.aneis.forEach(function(anel) {
                 anel.transicoesProibidas =  {};
-                anel.estagios.forEach(function(estagio, index) {
-                  estagio.posicao = index + 1;
-                });
+              //   anel.estagios.forEach(function(estagio, index) {
+              //     estagio.posicao = index + 1;
+              //   });
 
-                anel.estagios.forEach(function(estagio) {
+                anel.estagios.forEach(function(e) {
+                  var estagio = _.find($scope.objeto.estagios, {idJson: e.idJson});
                   return estagio.origemDeTransicoesProibidas &&
-                    estagio.origemDeTransicoesProibidas.forEach(function(transicao) {
-                      var origem = _.find(anel.estagios, transicao.origem);
-                      var destino = _.find(anel.estagios, transicao.destino);
+                    estagio.origemDeTransicoesProibidas.forEach(function(res) {
+                      var transicao = _.find($scope.objeto.transicoesProibidas, {idJson: res.idJson});
+                      var origem = _.find($scope.objeto.estagios, transicao.origem);
+                      var destino = _.find($scope.objeto.estagios, transicao.destino);
                       var t = 'E' + origem.posicao + '-E' + destino.posicao;
-
-                      // Campo de posicao utilizado na apresentação das validações da interface.
-                      transicao.origem.posicao = origem.posicao;
-                      transicao.destino.posicao = destino.posicao;
                       anel.transicoesProibidas[t] = _.cloneDeep(transicao);
                     });
+              //     return estagio.origemDeTransicoesProibidas &&
+              //       estagio.origemDeTransicoesProibidas.forEach(function(transicao) {
+              //         var origem = _.find(anel.estagios, transicao.origem);
+              //         var destino = _.find(anel.estagios, transicao.destino);
+              //         var t = 'E' + origem.posicao + '-E' + destino.posicao;
+
+              //         // Campo de posicao utilizado na apresentação das validações da interface.
+              //         transicao.origem.posicao = origem.posicao;
+              //         transicao.destino.posicao = destino.posicao;
+              //         anel.transicoesProibidas[t] = _.cloneDeep(transicao);
+              //       });
                 });
               });
 
-              $scope.selecionaAnel(0);
+              $scope.selecionaAnelTransicoesProibidas(0);
               $scope.selecionaEstagio(0);
             }
 
@@ -94,7 +103,7 @@ angular.module('influuntApp')
         }
 
         var transicao = 'E' + estagio1.posicao + '-E' + estagio2.posicao;
-        if ($scope.currentAnel.transicoesProibidas.hasOwnProperty(transicao)) {
+        if ($scope.currentTransicoesProibidas.hasOwnProperty(transicao)) {
           desativarTransicaoProibida(estagio1, estagio2);
         } else {
           ativarTransicaoProibida(estagio1, estagio2);
@@ -110,14 +119,27 @@ angular.module('influuntApp')
        * @param      {<type>}  transicao  The transicao
        */
       $scope.marcarTransicaoAlternativa = function(transicao) {
-        var estagioOrigem = _.find($scope.currentAnel.estagios, {id: transicao.origem.id});
-        var estagioDestino = _.find($scope.currentAnel.estagios, {id: transicao.destino.id});
+        var estagioOrigem       = _.find($scope.objeto.estagios, {idJson: transicao.origem.idJson});
+        var estagioDestino      = _.find($scope.objeto.estagios, {idJson: transicao.destino.idJson});
+        var estagioAlternativo  = _.find($scope.objeto.estagios, {idJson: transicao.alternativo.idJson});
         var alternativoAnterior = getEstagioAnterior(estagioOrigem, transicao);
 
-        setEstagioAlternativoEmOrigem(transicao, estagioOrigem);
-        setEstagioAlternativoEmDestino(transicao, estagioDestino);
-        setEstagioAlternativo(transicao);
-        removeAlternativoAnterior(transicao, alternativoAnterior, estagioDestino);
+        var query = {
+          origem: { idJson: transicao.origem.idJson },
+          destino: { idJson: transicao.destino.idJson }
+        };
+        var transicaoProibida   = _.find($scope.objeto.transicoesProibidas, query);
+
+        if (angular.isDefined(alternativoAnterior)) {
+          var index = _.findIndex(alternativoAnterior.alternativaDeTransicoesProibidas, {idJson: transicaoProibida.idJson});
+          if (index >= 0) {
+            alternativoAnterior.alternativaDeTransicoesProibidas.splice(index, 1);
+          }
+        }
+
+        transicaoProibida.alternativo = {idJson: transicao.alternativo.idJson};
+        estagioAlternativo.alternativaDeTransicoesProibidas = estagioAlternativo.alternativaDeTransicoesProibidas || [];
+        estagioAlternativo.alternativaDeTransicoesProibidas.push({idJson: transicaoProibida.idJson});
       };
 
       /**
@@ -132,7 +154,8 @@ angular.module('influuntApp')
        */
       $scope.filterEstagiosAlternativos = function(origem, destino) {
         return function(item) {
-          return item.id !== origem.id && item.id !== destino.id;
+          return item.idJson !== destino.idJson;
+          // return item.id !== origem.id && item.id !== destino.id;
         };
       };
 
@@ -148,14 +171,41 @@ angular.module('influuntApp')
           return false;
         }
 
-        var indexOrigem = _.findIndex($scope.currentAnel.estagios, {id: origem.id});
-        var estagioOrigem = $scope.currentAnel.estagios[indexOrigem];
-        var indexDestino = _.findIndex(estagioOrigem.origemDeTransicoesProibidas, {destino: {id: destino.id}});
+        var indexOrigem = _.findIndex($scope.objeto.estagios, {idJson: origem.idJson});
+        var estagioOrigem = $scope.objeto.estagios[indexOrigem];
+
+        var query = {
+          origem: { idJson: origem.idJson },
+          destino: { idJson: destino.idJson }
+        }
+
+        var transicao = _.find($scope.objeto.transicoesProibidas, query);
+        var indexDestino = _.findIndex(estagioOrigem.origemDeTransicoesProibidas, {idJson: transicao.idJson});
 
         return $scope.errors.aneis[$scope.currentAnel.posicao - 1].estagios[indexOrigem] &&
           $scope.errors.aneis[$scope.currentAnel.posicao - 1]
           .estagios[indexOrigem]
           .origemDeTransicoesProibidas[indexDestino];
+      };
+
+      $scope.selecionaAnelTransicoesProibidas = function(index) {
+        $scope.selecionaAnel(index);
+        $scope.atualizaEstagios();
+        $scope.atualizaTransicoesProibidas();
+      };
+
+      $scope.atualizaTransicoesProibidas = function() {
+        $scope.currentAnel.transicoesProibidas = $scope.currentAnel.transicoesProibidas || {};
+        // var ids = _.map($scope.currentAnel.transicoesProibidas, 'idJson');
+
+        // $scope.currentTransicoesProibidas = _
+        //   .chain($scope.objeto.transicoesProibidas)
+        //   .filter(function(e) {
+        //     return ids.indexOf(e.idJson) >= 0;
+        //   })
+        //   .value();
+        $scope.currentTransicoesProibidas = $scope.currentAnel.transicoesProibidas;
+        return $scope.currentTransicoesProibidas;
       };
 
       /**
@@ -166,24 +216,27 @@ angular.module('influuntApp')
        */
       ativarTransicaoProibida = function(estagio1, estagio2) {
         var transicaoProibida = {
-          origem: {id: estagio1.id},
-          destino: {id: estagio2.id}
+          idJson: UUID.generate(),
+          origem: {idJson: estagio1.idJson},
+          destino: {idJson: estagio2.idJson}
         };
 
+        $scope.objeto.transicoesProibidas = $scope.objeto.transicoesProibidas || [];
         estagio1.origemDeTransicoesProibidas = estagio1.origemDeTransicoesProibidas || [];
-        estagio1.origemDeTransicoesProibidas.push(transicaoProibida);
-
         estagio2.destinoDeTransicoesProibidas = estagio2.destinoDeTransicoesProibidas || [];
-        estagio2.destinoDeTransicoesProibidas.push(transicaoProibida);
+
+        $scope.objeto.transicoesProibidas.push(transicaoProibida);
+        estagio1.origemDeTransicoesProibidas.push({idJson: transicaoProibida.idJson});
+        estagio2.destinoDeTransicoesProibidas.push({idJson: transicaoProibida.idJson});
 
         var transicao = 'E' + estagio1.posicao + '-E' + estagio2.posicao;
-        $scope.currentAnel.transicoesProibidas[transicao] = {
+        $scope.currentTransicoesProibidas[transicao] = {
           origem: {
-            id: estagio1.id,
+            idJson: estagio1.idJson,
             posicao: estagio1.posicao
           },
           destino: {
-            id: estagio2.id,
+            idJson: estagio2.idJson,
             posicao: estagio1.posicao
           }
         };
@@ -195,13 +248,34 @@ angular.module('influuntApp')
        * @param      {<type>}  estagio1  The estagio 1
        * @param      {<type>}  estagio2  The estagio 2
        */
-      desativarTransicaoProibida = function(estagio1, estagio2) {
-        var transicao = 'E' + estagio1.posicao + '-E' + estagio2.posicao;
-        delete $scope.currentAnel.transicoesProibidas[transicao];
-        var idx1 = _.findIndex(estagio1.origemDeTransicoesProibidas, {destino: {id: estagio2.id}});
-        var idx2 = _.findIndex(estagio2.destinoDeTransicoesProibidas, {origem: {id: estagio1.id}});
-        estagio1.origemDeTransicoesProibidas.splice(idx1, 1);
-        estagio2.destinoDeTransicoesProibidas.splice(idx2, 1);
+      desativarTransicaoProibida = function(estagioOrigem, estagioDestino) {
+        var t = 'E' + estagioOrigem.posicao + '-E' + estagioDestino.posicao;
+        delete $scope.currentTransicoesProibidas[t];
+
+        var query = {
+          origem: { idJson: estagioOrigem.idJson },
+          destino: { idJson: estagioDestino.idJson }
+        };
+
+        var transicao = _.find($scope.objeto.transicoesProibidas, query);
+
+        var idxTransicao = _.findIndex($scope.objeto.transicoesProibidas, query);
+        var idxOrigem = _.findIndex(estagioOrigem.origemDeTransicoesProibidas, {idJson: transicao.idJson});
+        var idxDestino = _.findIndex(estagioDestino.destinoDeTransicoesProibidas, {idJson: transicao.idJson});
+
+
+        $scope.objeto.transicoesProibidas.splice(idxTransicao, 1);
+        estagioOrigem.origemDeTransicoesProibidas.splice(idxOrigem, 1);
+        estagioDestino.destinoDeTransicoesProibidas.splice(idxDestino, 1);
+
+        var estagioAlternativo = null;
+        if (transicao.alternativo) {
+          estagioAlternativo = _.find($scope.objeto.estagios, {idJson: transicao.alternativo.idJson});
+          var idxAlternativo = _.findIndex(estagioAlternativo.alternativaDeTransicoesProibidas, {idJson: transicao.idJson});
+          if (estagioAlternativo && estagioAlternativo.alternativaDeTransicoesProibidas) {
+            estagioAlternativo.alternativaDeTransicoesProibidas.splice(idxAlternativo, 1);
+          }
+        }
       };
 
       /**
@@ -212,10 +286,13 @@ angular.module('influuntApp')
        * @return     {boolean}  The estagio anterior.
        */
       getEstagioAnterior = function(estagioOrigem, transicao) {
-        var index = _.findIndex(estagioOrigem.origemDeTransicoesProibidas, {destino: {id: transicao.destino.id}});
-        return index >= 0 &&
-          estagioOrigem.origemDeTransicoesProibidas[index].alternativo &&
-          estagioOrigem.origemDeTransicoesProibidas[index].alternativo.id;
+        var query = {
+          origem: { idJson: transicao.origem.idJson },
+          destino: { idJson: transicao.destino.idJson }
+        }
+
+        var t = _.find($scope.objeto.transicoesProibidas, query);
+        return t && t.alternativo && _.find($scope.objeto.estagios, {idJson: t.alternativo.idJson});
       };
 
       /**
@@ -225,16 +302,34 @@ angular.module('influuntApp')
        * @param      {<type>}  estagioOrigem  The estagio origem
        */
       setEstagioAlternativoEmOrigem = function(transicao, estagioOrigem) {
-        estagioOrigem.origemDeTransicoesProibidas = estagioOrigem.origemDeTransicoesProibidas || [];
-        var transicaoOrigem = _.findIndex(
-          estagioOrigem.origemDeTransicoesProibidas, {destino: {id: transicao.destino.id}}
-        );
+        var query = {
+          origem: { idJson: transicao.origem.idJson },
+          destino: { idJson: transicao.destino.idJson }
+        };
 
-        if (transicaoOrigem >= 0) {
-          estagioOrigem.origemDeTransicoesProibidas.splice(transicaoOrigem, 1);
+        var t = _.find($scope.objeto.transicoesProibidas, query);
+        var index = _.findIndex(estagioOrigem.origemDeTransicoesProibidas, {idJson: t.idJson});
+        if (index >= 0) {
+          estagioOrigem.origemDeTransicoesProibidas.splice(index, 1);
+        } else {
+          estagioOrigem.origemDeTransicoesProibidas.push({idJson: t.idJson});
         }
 
-        estagioOrigem.origemDeTransicoesProibidas.push(transicao);
+        // var index = _.findIndex(estagioOrigem.origemDeTransicoesProibidas, {idJson: t.idJson});
+        // if (index >= 0) {
+        //   estagioOrigem.origemDeTransicoesProibidas.splice(index, 1);
+        // }
+
+        // estagioOrigem.origemDeTransicoesProibidas = estagioOrigem.origemDeTransicoesProibidas || [];
+        // var transicaoOrigem = _.findIndex(
+        //   estagioOrigem.origemDeTransicoesProibidas, {destino: {id: transicao.destino.idJson}}
+        // );
+
+        // if (transicaoOrigem >= 0) {
+        //   estagioOrigem.origemDeTransicoesProibidas.splice(transicaoOrigem, 1);
+        // }
+
+        // estagioOrigem.origemDeTransicoesProibidas.push(transicao);
       };
 
       /**
@@ -244,16 +339,32 @@ angular.module('influuntApp')
        * @param      {<type>}  estagioDestino  The estagio destino
        */
       setEstagioAlternativoEmDestino = function(transicao, estagioDestino) {
-        estagioDestino.destinoDeTransicoesProibidas = estagioDestino.destinoDeTransicoesProibidas || [];
-        var transicaoDestino = _.findIndex(
-          estagioDestino.destinoDeTransicoesProibidas, {origem: {id: transicao.origem.id}}
-        );
+        var query = {
+          origem: { idJson: transicao.origem.idJson },
+          destino: { idJson: transicao.destino.idJson }
+        };
 
-        if (transicaoDestino >= 0) {
-          estagioDestino.destinoDeTransicoesProibidas.splice(transicaoDestino, 1);
+        var t = _.find($scope.objeto.transicoesProibidas, query);
+        var index = _.findIndex(estagioDestino.destinoDeTransicoesProibidas, {idJson: t.idJson});
+        if (index >= 0) {
+          estagioDestino.destinoDeTransicoesProibidas.splice(index, 1);
+        } else {
+          estagioDestino.destinoDeTransicoesProibidas.push({idJson: t.idJson});
         }
 
-        estagioDestino.destinoDeTransicoesProibidas.push(transicao);
+        // var index = _.findIndex(estagioDestino.destinoDeTransicoesProibidas, {idJson: t.idJson});
+        // estagioDestino.origemDeTransicoesProibidas.splice(index, 1);
+
+        // estagioDestino.destinoDeTransicoesProibidas = estagioDestino.destinoDeTransicoesProibidas || [];
+        // var transicaoDestino = _.findIndex(
+        //   estagioDestino.destinoDeTransicoesProibidas, {origem: {id: transicao.origem.idJson}}
+        // );
+
+        // if (transicaoDestino >= 0) {
+        //   estagioDestino.destinoDeTransicoesProibidas.splice(transicaoDestino, 1);
+        // }
+
+        // estagioDestino.destinoDeTransicoesProibidas.push(transicao);
       };
 
       /**
@@ -261,12 +372,25 @@ angular.module('influuntApp')
        *
        * @param      {<type>}  transicao  The transicao
        */
-      setEstagioAlternativo = function(transicao) {
-        if (transicao.alternativo && transicao.alternativo.id) {
-          var estagioAlternativo = _.find($scope.currentAnel.estagios, {id: transicao.alternativo.id});
-          estagioAlternativo.alternativaDeTransicoesProibidas = estagioAlternativo.alternativaDeTransicoesProibidas || [];
-          estagioAlternativo.alternativaDeTransicoesProibidas.push(transicao);
+      setEstagioAlternativoEmAlternativo = function(transicao, estagioAlternativo) {
+        var query = {
+          origem: { idJson: transicao.origem.idJson },
+          destino: { idJson: transicao.destino.idJson }
+        };
+
+        var t = _.find($scope.objeto.transicoesProibidas, query);
+        var index = _.findIndex(estagioAlternativo.alternativaDeTransicoesProibidas, {idJson: t.idJson});
+        if (index >= 0) {
+          estagioAlternativo.alternativaDeTransicoesProibidas.splice(index, 1);
+        } else {
+          estagioAlternativo.alternativaDeTransicoesProibidas.push({idJson: t.idJson});
         }
+
+        // if (transicao.alternativo && transicao.alternativo.idJson) {
+        //   var estagioAlternativo = _.find($scope.currentAnel.estagios, {id: transicao.alternativo.idJson});
+        //   estagioAlternativo.alternativaDeTransicoesProibidas = estagioAlternativo.alternativaDeTransicoesProibidas || [];
+        //   estagioAlternativo.alternativaDeTransicoesProibidas.push(transicao);
+        // }
       };
 
       /**
@@ -279,11 +403,11 @@ angular.module('influuntApp')
        * @return     {boolean}  { description_of_the_return_value }
        */
       removeAlternativoAnterior = function(transicao, alternativoAnterior, estagioDestino) {
-        var alternativoId = transicao.alternativo && transicao.alternativo.id;
+        var alternativoId = transicao.alternativo && transicao.alternativo.idJson;
         if (alternativoAnterior && alternativoAnterior !== alternativoId) {
           alternativoAnterior = _.find($scope.currentAnel.estagios, {id: alternativoAnterior});
           var transicaoAnterior = _.findIndex(
-            estagioDestino.destinoDeTransicoesProibidas, {origem: {id: transicao.origem.id}}
+            estagioDestino.destinoDeTransicoesProibidas, {origem: {id: transicao.origem.idJson}}
           );
 
           return transicaoAnterior >= 0 &&

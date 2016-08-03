@@ -40,7 +40,7 @@ angular.module('influuntApp')
             $scope.objeto.estagios = _.orderBy($scope.objeto.estagios, ['posicao']);
             $scope.selecionaAnelAssociacao(0);
 
-            _.each($scope.aneis, function(anel) {
+            // _.each($scope.aneis, function(anel) {
               // anel.gruposSemaforicos = _.orderBy(anel.gruposSemaforicos, ['posicao'], ['asc']);
               _.each($scope.objeto.gruposSemaforicos, function(grupo) {
               // _.each($scope.currentGruposSemaforicos, function(grupo) {
@@ -62,7 +62,7 @@ angular.module('influuntApp')
               // _.each($scope.currentEstagios, function(estagio, index) {
               //   estagio.posicao = estagio.posicao || (index + 1);
               // });
-            });
+            // });
           }
         });
       };
@@ -101,7 +101,7 @@ angular.module('influuntApp')
           index = _.findIndex(grupo.estagiosGruposSemaforicos, {idJson: obj.idJson});
           grupo.estagiosGruposSemaforicos.splice(index, 1);
 
-          index = _.findIndex(estagio.estagiosGruposSemaforicos)
+          index = _.findIndex(estagio.estagiosGruposSemaforicos);
           estagio.estagiosGruposSemaforicos.splice(index, 1);
         } else {
           $scope.objeto.estagiosGruposSemaforicos.push(obj);

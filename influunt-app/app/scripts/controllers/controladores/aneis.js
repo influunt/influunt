@@ -13,7 +13,7 @@ angular.module('influuntApp')
       $controller('ControladoresCtrl', {$scope: $scope});
 
       // Métodos privados.
-      var criaAneis, atualizarAneisAtivos, registrarWatcherEndereco, buscaReferencias;
+      var criaAneis, atualizarAneisAtivos, registrarWatcherEndereco;
 
       /**
        * Pré-condições para acesso à tela de aneis: Somente será possível acessar esta
@@ -97,7 +97,7 @@ angular.module('influuntApp')
         var estagio = {
           imagem: { idJson: imagem.idJson },
           idJson: uuid
-        }
+        };
 
         anel.estagios.push({idJson: uuid});
         $scope.objeto.estagios.push(estagio);

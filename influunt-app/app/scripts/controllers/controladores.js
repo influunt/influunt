@@ -296,6 +296,7 @@ angular.module('influuntApp')
           .filter(function(e) {
             return ids.indexOf(e.idJson) >= 0;
           })
+          .orderBy(['posicao'])
           .value();
 
           return $scope.currentEstagios;
