@@ -78,22 +78,11 @@ module.exports = function() {
     });
   });
 
-  // this.Given(/^o usuário responde sim$/, function() {
-  //   return areasPage.clicarSimConfirmacaoApagarRegistro();
-  // });
-
   this.Given(/^a area deverá ser excluida$/, function() {
-    // return areasPage.cidadeDeveSerExcluida().then(function(res) {
-    //   expect(res).to.be.true
-    // });
     return areasPage.toastMessage().then(function(text) {
       expect(text).to.match(/Removido com sucesso/);
     });
   });
-
-  // this.Given(/^o usuário responde não$/, function() {
-  //   return areasPage.clicarNaoConfirmacaoApagarRegistro();
-  // });
 
   this.Given(/^nenhuma área deve ser excluída$/, function() {
     return areasPage.nenhumaAreaDeveSerExcluida().then(function(res) {

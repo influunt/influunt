@@ -22,7 +22,7 @@ angular.module('influuntApp')
         Restangular.all('controladores').getList().then(function(res) {
           $scope.controladores = [];
           res.forEach(function(controlador) {
-            $scope.controladores.push({ id: controlador.id, name: controlador.localizacao });
+            $scope.controladores.push({ id: controlador.id, name: controlador.nomeEndereco });
           });
         });
       };
