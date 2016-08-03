@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresVerdesConflitantesCtrl', ['$scope', '$state', '$controller', '$filter', 'assertControlador',
-    function ($scope, $state, $controller, $filter, assertControlador) {
+  .controller('ControladoresVerdesConflitantesCtrl', ['$scope', '$state', '$controller', 'assertControlador',
+    function ($scope, $state, $controller, assertControlador) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
       var buildIntervaloAneis, buildMatrizVerdesConflitantes;
@@ -77,11 +77,6 @@ angular.module('influuntApp')
             });
           }
         });
-      };
-
-      $scope.getImagemDeEstagio = function(estagio) {
-        var imagem = _.find($scope.objeto.imagens, {idJson: estagio.imagem.idJson});
-        return imagem && $filter('imageSource')(imagem.id);
       };
 
       $scope.toggleVerdeConflitante = function(x, y, disabled) {
@@ -159,18 +154,6 @@ angular.module('influuntApp')
         $scope.selecionaAnel(index);
         $scope.atualizaGruposSemaforicos();
         $scope.atualizaEstagios();
-      };
-
-      $scope.atualizaEstagios = function() {
-        var ids = _.map($scope.currentAnel.estagios, 'idJson');
-        $scope.currentEstagios = _
-          .chain($scope.objeto.estagios)
-          .filter(function(e) {
-            return ids.indexOf(e.idJson) >= 0;
-          })
-          .value();
-
-          return $scope.currentEstagios;
       };
 
       /**

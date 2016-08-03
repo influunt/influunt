@@ -12,6 +12,8 @@ angular.module('influuntApp')
     function ($scope, $state, $controller, assertControlador) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
+      var atualizaPosicaoEstagios;
+
       /**
        * Pré-condições para acesso à tela de associações: Somente será possível acessar esta
        * tela se o objeto possuir estágios. Os estágios são informados no passo anterior, o
@@ -32,32 +34,35 @@ angular.module('influuntApp')
         return $scope.inicializaWizard().then(function() {
           if ($scope.assertAssociacoes()) {
             $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
+            $scope.objeto.gruposSemaforicos = _.orderBy($scope.objeto.gruposSemaforicos, ['posicao']);
             $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
+            atualizaPosicaoEstagios();
+            $scope.objeto.estagios = _.orderBy($scope.objeto.estagios, ['posicao']);
+            $scope.selecionaAnelAssociacao(0);
+
             _.each($scope.aneis, function(anel) {
-              anel.gruposSemaforicos = _.orderBy(anel.gruposSemaforicos, ['posicao'], ['asc']);
-              _.each(anel.gruposSemaforicos, function(grupo) {
+              // anel.gruposSemaforicos = _.orderBy(anel.gruposSemaforicos, ['posicao'], ['asc']);
+              _.each($scope.objeto.gruposSemaforicos, function(grupo) {
+              // _.each($scope.currentGruposSemaforicos, function(grupo) {
                 grupo.label = 'G' + (grupo.posicao);
                 grupo.ativo = false;
 
                 // Cria o objeto helper para marcar os grupos ativos em cada estagio da tela.
                 grupo.estagiosRelacionados = {};
                 grupo.estagiosAtivados = {};
-                grupo.estagioGrupoSemaforicos.forEach(function(estagioGrupo) {
-                  grupo.estagiosRelacionados[estagioGrupo.estagio.id] = true;
-                  grupo.estagiosAtivados[estagioGrupo.estagio.id] = estagioGrupo.ativo;
+                grupo.estagiosGruposSemaforicos.forEach(function(eg) {
+                  var estagioGrupo = _.find($scope.objeto.estagiosGruposSemaforicos, {idJson: eg.idJson});
+                  var estagio = _.find($scope.objeto.estagios, {idJson: estagioGrupo.estagio.idJson});
+                  grupo.estagiosRelacionados[estagio.id] = true;
+                  // grupo.estagiosAtivados[estagio.id] = estagioGrupo.ativo;
                 });
               });
 
               // Inicializa o tempoMaximoPermanenciaAtivo true e posicao.
-              _.each(anel.estagios, function(estagio, index) {
-                estagio.posicao = estagio.posicao || (index + 1);
-              });
-
+              // _.each($scope.currentEstagios, function(estagio, index) {
+              //   estagio.posicao = estagio.posicao || (index + 1);
+              // });
             });
-
-            $scope.aneis = _.orderBy($scope.aneis, ['posicao'], ['asc']);
-            $scope.selecionaAnel(0);
-            $scope.selecionaEstagio(0);
           }
         });
       };
@@ -74,7 +79,7 @@ angular.module('influuntApp')
 
       $scope.toggleEstagioAtivado = function(grupo, estagio) {
         var estagioId = estagio.id;
-        var estagioGrupoSemaforico = _.find(grupo.estagioGrupoSemaforicos, {estagio: {id: estagioId}});
+        var estagioGrupoSemaforico = _.find(grupo.estagiosGruposSemaforicos, {estagio: {id: estagioId}});
 
         if (!!estagioGrupoSemaforico) {
           estagioGrupoSemaforico.ativo = !estagioGrupoSemaforico.ativo;
@@ -85,18 +90,23 @@ angular.module('influuntApp')
 
       $scope.associaEstagiosGrupoSemaforico = function(grupo, estagio) {
         var obj = {
-          grupoSemaforico: { id: grupo.id },
-          estagio: { id: estagio.id },
+          idJson: UUID.generate(),
+          grupoSemaforico: { idJson: grupo.idJson },
+          estagio: { idJson: estagio.idJson },
         };
 
-        var filter = {grupoSemaforico: {id: obj.grupoSemaforico.id}, estagio: {id: obj.estagio.id}};
-        var index = _.findIndex(grupo.estagioGrupoSemaforicos, filter);
+        var index = _.findIndex($scope.objeto.estagiosGruposSemaforicos, {idJson: obj.idJson});
         if (index >= 0) {
-          grupo.estagioGrupoSemaforicos.splice(index, 1);
+          $scope.objeto.estagiosGruposSemaforicos.splice(index, 1);
+          index = _.findIndex(grupo.estagiosGruposSemaforicos, {idJson: obj.idJson});
+          grupo.estagiosGruposSemaforicos.splice(index, 1);
+
+          index = _.findIndex(estagio.estagiosGruposSemaforicos)
           estagio.estagiosGruposSemaforicos.splice(index, 1);
         } else {
-          grupo.estagioGrupoSemaforicos.push(obj);
-          estagio.estagiosGruposSemaforicos.push(obj);
+          $scope.objeto.estagiosGruposSemaforicos.push(obj);
+          grupo.estagiosGruposSemaforicos.push({idJson: obj.idJson});
+          estagio.estagiosGruposSemaforicos.push({idJson: obj.idJson});
         }
 
         $scope.toggleEstagioAtivado(grupo, estagio);
@@ -108,13 +118,36 @@ angular.module('influuntApp')
         return _.isObject(errors) && Object.keys(errors).length > 0;
       };
 
+      $scope.selecionaAnelAssociacao = function(index) {
+        $scope.selecionaAnel(index);
+        $scope.atualizaGruposSemaforicos();
+        $scope.atualizaEstagios();
+      };
+
+      atualizaPosicaoEstagios = function() {
+        var posicao = {};
+        _.chain($scope.aneis)
+          .map('estagios')
+          .flatten()
+          .map('idJson')
+          .each(function(idJson) {
+            var obj = _.find($scope.objeto.estagios, {idJson: idJson});
+            posicao[obj.anel.idJson] = posicao[obj.anel.idJson] || 0;
+            var p = ++posicao[obj.anel.idJson];
+            obj.posicao = obj.posicao || p;
+          })
+          .value();
+      };
+
       $scope.sortableOptions = {
         stop: function() {
-          $scope.currentAnel.estagios.forEach(function(estagio, index) {
-            estagio.posicao = index + 1;
-          });
+          $scope.$apply(function() {
+            $scope.currentEstagios.forEach(function(estagio, index) {
+              estagio.posicao = index + 1;
+            });
 
-          $scope.$apply();
+            $scope.objeto.estagios = _.orderBy($scope.objeto.estagios, ['posicao']);
+          });
         }
       };
 

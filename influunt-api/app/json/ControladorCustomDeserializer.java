@@ -2,7 +2,6 @@ package json;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
-import play.libs.Json;
 
 import java.util.*;
 import java.util.concurrent.ExecutorService;
@@ -456,7 +455,7 @@ public class ControladorCustomDeserializer {
 
         List<EstagioGrupoSemaforico> estagiosGrupoSemaforicos = new ArrayList<>();
         parseCollection("estagiosGruposSemaforicos", node, estagiosGrupoSemaforicos, ESTAGIO_GRUPO_SEMAFORICO, GRUPOS_SEMAFORICOS);
-        grupoSemaforico.setEstagioGrupoSemaforicos(estagiosGrupoSemaforicos);
+        grupoSemaforico.setEstagiosGruposSemaforicos(estagiosGrupoSemaforicos);
 
 
         List<VerdesConflitantes> verdesConflitantes = new ArrayList<>();
@@ -478,10 +477,6 @@ public class ControladorCustomDeserializer {
         parseCollection("transicoes", node, transicoes, TRANSICAO, GRUPOS_SEMAFORICOS);
         grupoSemaforico.setTransicoes(transicoes);
 
-
-        List<EstagioGrupoSemaforico> estagioGrupoSemaforicos = new ArrayList<>();
-        parseCollection("estagioGrupoSemaforicos", node, estagioGrupoSemaforicos, ESTAGIO_GRUPO_SEMAFORICO, GRUPOS_SEMAFORICOS);
-        grupoSemaforico.setEstagioGrupoSemaforicos(estagioGrupoSemaforicos);
 
         if (node.has("descricao")) {
             grupoSemaforico.setDescricao(node.get("descricao").asText());

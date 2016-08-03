@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresCtrl', ['$controller', '$scope', '$state','Restangular', '$q', 'handleValidations', 'APP_ROOT', 'influuntBlockui',
-    function ($controller, $scope, $state, Restangular, $q, handleValidations, APP_ROOT, influuntBlockui) {
+  .controller('ControladoresCtrl', ['$controller', '$scope', '$state', '$filter', 'Restangular', '$q', 'handleValidations', 'APP_ROOT', 'influuntBlockui',
+    function ($controller, $scope, $state, $filter, Restangular, $q, handleValidations, APP_ROOT, influuntBlockui) {
 
       var buscaReferencias;
 
@@ -287,6 +287,23 @@ angular.module('influuntApp')
           .value();
 
           return $scope.currentGruposSemaforicos;
+      };
+
+      $scope.atualizaEstagios = function() {
+        var ids = _.map($scope.currentAnel.estagios, 'idJson');
+        $scope.currentEstagios = _
+          .chain($scope.objeto.estagios)
+          .filter(function(e) {
+            return ids.indexOf(e.idJson) >= 0;
+          })
+          .value();
+
+          return $scope.currentEstagios;
+      };
+
+      $scope.getImagemDeEstagio = function(estagio) {
+        var imagem = _.find($scope.objeto.imagens, {idJson: estagio.imagem.idJson});
+        return imagem && $filter('imageSource')(imagem.id);
       };
 
     }]);

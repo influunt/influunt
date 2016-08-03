@@ -7,7 +7,7 @@
             <div class="col-lg-12 col-sm-12 padding-top-20 tabs-container">
 
               <influunt-tabs class="tabpanel"
-                             data-on-activate="selecionaAnel"
+                             data-on-activate="selecionaAnelAssociacao"
                              data-aneis-ativos="aneis"
                              data-error-check="anelTemErro">
               </influunt-tabs>
@@ -36,8 +36,9 @@
                     </div>
 
                     <nav>
-                      <ul class="handle" ui-sortable="sortableOptions" data-ng-model="currentAnel.estagios">
-                      <li class="ibox" data-ng-repeat="(indexEstagio, estagio) in currentAnel.estagios" data-ng-click="selecionaEstagio(indexEstagio)">
+                      <ul class="handle" ui-sortable="sortableOptions" data-ng-model="currentEstagios">
+                      <li class="ibox" data-ng-repeat="(indexEstagio, estagio) in currentEstagios">
+                      <!-- <li class="ibox" data-ng-repeat="(indexEstagio, estagio) in currentEstagios" data-ng-click="selecionaEstagio(indexEstagio)"> -->
                         <div class="col-lg-12 col-sm-12">
                           <div class="row">
                             <div class="title-stages small">
@@ -55,21 +56,21 @@
                             <div class="col-lg-3 padding-top-20">
                               <div class="exist-figure">
                                 <figure>
-                                  <img ng-src="{{ estagio.imagem.id | imageSource }}" style="width: 155px;">
+                                  <img ng-src="{{ getImagemDeEstagio(estagio) }}" style="width: 200px;">
                                 </figure>
                               </div>
                             </div>
                             <div class="col-lg-3 padding-top-20 text-left group">
-                              <div class="checkbox" data-ng-repeat="(indexGrupo, grupo) in currentAnel.gruposSemaforicos">
-                                <label class="i-checks">                                                      
+                              <div class="checkbox" data-ng-repeat="(indexGrupo, grupo) in currentGruposSemaforicos">
+                                <label class="i-checks">
                                   <input type="checkbox" ichecks data-ng-model="grupo.estagiosRelacionados[estagio.id]" i-changed="associaEstagiosGrupoSemaforico(grupo, estagio)">
                                 </label>
-                                <p>{{ grupo.label }}</p>        
+                                <p>{{ grupo.label }}</p>
                               </div>
                             </div>
                             <div class="col-lg-5 padding-top-20 text-left">
                               <div class="col-lg-6 priority">
-                                <div>                                    
+                                <div>
                                     <label>
                                       <input type="checkbox" ichecks data-ng-model="estagio.tempoMaximoPermanenciaAtivado" if-unchecked="limpaTempoPermanencia(estagio)">
                                       <p class="desc">Ativar monitoramento de tempo máximo de permanencia</p>
@@ -82,7 +83,7 @@
                                   </div>
                               </div>
                               <div class="col-lg-6 priority">
-                                <div>                                    
+                                <div>
                                     <label><input type="checkbox" ichecks data-ng-model="estagio.demandaPrioritaria"><p class="desc">Demanda prioritária</p></label>
                                 </div>
                               </div>

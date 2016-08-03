@@ -47,7 +47,7 @@ public class GrupoSemaforico extends Model implements Cloneable {
     @JoinColumn(name = "anel_id")
     private Anel anel;
     @OneToMany(mappedBy = "grupoSemaforico", cascade = CascadeType.ALL)
-    private List<EstagioGrupoSemaforico> estagioGrupoSemaforicos;
+    private List<EstagioGrupoSemaforico> estagiosGruposSemaforicos;
     @ManyToOne
     private Controlador controlador;
     @OneToMany(mappedBy = "origem", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -119,12 +119,12 @@ public class GrupoSemaforico extends Model implements Cloneable {
         this.anel = anel;
     }
 
-    public List<EstagioGrupoSemaforico> getEstagioGrupoSemaforicos() {
-        return estagioGrupoSemaforicos;
+    public List<EstagioGrupoSemaforico> getEstagiosGruposSemaforicos() {
+        return estagiosGruposSemaforicos;
     }
 
-    public void setEstagioGrupoSemaforicos(List<EstagioGrupoSemaforico> estagioGrupoSemaforicos) {
-        this.estagioGrupoSemaforicos = estagioGrupoSemaforicos;
+    public void setEstagiosGruposSemaforicos(List<EstagioGrupoSemaforico> estagiosGruposSemaforicos) {
+        this.estagiosGruposSemaforicos = estagiosGruposSemaforicos;
     }
 
     public Controlador getControlador() {
@@ -192,10 +192,10 @@ public class GrupoSemaforico extends Model implements Cloneable {
     }
 
     public void addEstagioGrupoSemaforico(EstagioGrupoSemaforico estagioGrupoSemaforico) {
-        if (getEstagioGrupoSemaforicos() == null) {
-            setEstagioGrupoSemaforicos(new ArrayList<EstagioGrupoSemaforico>());
+        if (getEstagiosGruposSemaforicos() == null) {
+            setEstagiosGruposSemaforicos(new ArrayList<EstagioGrupoSemaforico>());
         }
-        getEstagioGrupoSemaforicos().add(estagioGrupoSemaforico);
+        getEstagiosGruposSemaforicos().add(estagioGrupoSemaforico);
     }
 
     public List<TabelaEntreVerdes> getTabelasEntreVerdes() {
@@ -292,7 +292,7 @@ public class GrupoSemaforico extends Model implements Cloneable {
     public void criarPossiveisTransicoes() {
         getTransicoes().forEach(transicao -> transicao.setDestroy(true));
 
-        getEstagioGrupoSemaforicos().forEach(estagioGrupoSemaforico -> this.getAnel().getEstagios().stream()
+        getEstagiosGruposSemaforicos().forEach(estagioGrupoSemaforico -> this.getAnel().getEstagios().stream()
                 .filter(estagio -> !estagio.equals(estagioGrupoSemaforico.getEstagio()) && !estagioGrupoSemaforico.getEstagio().temTransicaoProibidaComEstagio(estagio))
                 .forEach(estagio -> this.addTransicoes(new Transicao(this, estagioGrupoSemaforico.getEstagio(), estagio))));
 

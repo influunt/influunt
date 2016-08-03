@@ -102,7 +102,7 @@ angular.module('influuntApp')
           .flatten()
           .map('idJson')
           .each(function(idJson) {
-            var obj = _.find($scope.objeto.gruposSemaforicos, {idJson: idJson})
+            var obj = _.find($scope.objeto.gruposSemaforicos, {idJson: idJson});
             obj.posicao = ++posicao;
           })
           .value();

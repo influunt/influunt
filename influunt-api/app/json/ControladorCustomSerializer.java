@@ -517,7 +517,7 @@ public class ControladorCustomSerializer {
 
         refVerdesConflitantes("verdesConflitantesOrigem", grupoSemaforico.getVerdesConflitantesOrigem(), grupoSemaforicoJson);
         refVerdesConflitantes("verdesConflitantesDestino", grupoSemaforico.getVerdesConflitantesDestino(), grupoSemaforicoJson);
-        refEstagiosGruposSemaforicos("estagioGrupoSemaforicos", grupoSemaforico.getEstagioGrupoSemaforicos(), grupoSemaforicoJson);
+        refEstagiosGruposSemaforicos("estagiosGruposSemaforicos", grupoSemaforico.getEstagiosGruposSemaforicos(), grupoSemaforicoJson);
         refTransicoes("transicoes", grupoSemaforico.getTransicoes(), grupoSemaforicoJson);
         refEntreVerdes("tabelasEntreVerdes", grupoSemaforico.getTabelasEntreVerdes(), grupoSemaforicoJson);
 
@@ -549,6 +549,11 @@ public class ControladorCustomSerializer {
         if (estagio.getPosicao() != null) {
             estagioJson.put("posicao", estagio.getPosicao());
         }
+
+        if (estagio.getAnel() != null && estagio.getAnel().getIdJson() != null) {
+            estagioJson.putObject("anel").put("idJson", estagio.getAnel().getIdJson().toString());
+        }
+
         if (estagio.getImagem() != null) {
             estagioJson.putObject("imagem").put("idJson", estagio.getImagem().getIdJson().toString());
             imagensMap.put(estagio.getImagem().getIdJson().toString(), estagio.getImagem());
