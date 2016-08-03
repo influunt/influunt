@@ -46,11 +46,6 @@
   background: url("../images/wizard-steps-before-cr.png") no-repeat !important;
 }
 
-.wrapper-content .basic-wizard .content .body .association-detectors-body {
-  width: 82%;
-  float: right;
-}
-
 .wrapper-content .basic-wizard .content .body .association-detectors-body .estagio-detalhe {
   border-right: 1px solid #e7eaec;
   height: 120px;
@@ -1920,4 +1915,12 @@ table.table-diagonal:nth-of-type(1) th.diagonal {
 .ibox-title {
   border-top: 0;
   border-bottom: 1px solid #e5e5e5;
+}
+
+.associacao-modal {
+  width: 800px;
+}
+
+td.ng-scope {
+  text-align: center;
 }
