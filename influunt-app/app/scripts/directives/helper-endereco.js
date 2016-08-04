@@ -14,7 +14,8 @@ angular.module('influuntApp')
       scope: {
         latitude: '=',
         longitude: '=',
-        localizacao: '='
+        localizacao: '=',
+        ngModel: '='
       },
       link: function postLink(scope) {
         scope.$watch('result', function(value) {
@@ -37,6 +38,14 @@ angular.module('influuntApp')
               }
             }
           }
+        });
+
+        /**
+         * Testa se houve alguma variavel de retorno da API. Caso positivo, deve atualizar o
+         * campo com este valor.
+         */
+        scope.$watch('ngModel', function() {
+          scope.result = scope.ngModel;
         });
       }
     };
