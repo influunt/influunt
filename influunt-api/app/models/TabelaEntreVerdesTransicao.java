@@ -7,9 +7,7 @@ import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
-import json.deserializers.TabelaEntreVerdesTransicaoDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
-import json.serializers.TabelaEntreVerdesTransicaoSerializer;
 import org.hibernate.validator.constraints.Range;
 import org.joda.time.DateTime;
 
@@ -22,8 +20,7 @@ import java.util.UUID;
  * Created by lesiopinheiro on 7/6/16.
  */
 @Entity
-@JsonSerialize(using = TabelaEntreVerdesTransicaoSerializer.class)
-@JsonDeserialize(using = TabelaEntreVerdesTransicaoDeserializer.class)
+
 public class TabelaEntreVerdesTransicao extends Model implements Cloneable {
 
     public static Finder<UUID, TabelaEntreVerdesTransicao> find = new Finder<UUID, TabelaEntreVerdesTransicao>(TabelaEntreVerdesTransicao.class);
@@ -31,35 +28,30 @@ public class TabelaEntreVerdesTransicao extends Model implements Cloneable {
     @Id
     private UUID id;
 
+    @Column
+    private String idJson;
     @ManyToOne(cascade = CascadeType.PERSIST)
     private TabelaEntreVerdes tabelaEntreVerdes;
-
     @ManyToOne
     private Transicao transicao;
-
     @Range(min = 3, max = 5, message = "deve estar entre {min} e {max}")
     @Column
     private Integer tempoAmarelo;
-
     @Range(min = 3, max = 32, message = "deve estar entre {min} e {max}")
     @Column
     private Integer tempoVermelhoIntermitente;
-
     @NotNull(message = "não pode ficar em branco")
     @Column
     private Integer tempoVermelhoLimpeza = 0;
-
     @Range(min = 0, max = 20, message = "deve estar entre {min} e {max}")
     @NotNull(message = "não pode ficar em branco")
     @Column
     private Integer tempoAtrasoGrupo = 0;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
@@ -67,13 +59,23 @@ public class TabelaEntreVerdesTransicao extends Model implements Cloneable {
     private DateTime dataAtualizacao;
 
     public TabelaEntreVerdesTransicao() {
-
+        super();
+        this.setIdJson(UUID.randomUUID().toString());
     }
 
     public TabelaEntreVerdesTransicao(TabelaEntreVerdes tabelaEntreVerdes, Transicao transicao) {
         super();
+        this.setIdJson(UUID.randomUUID().toString());
         this.tabelaEntreVerdes = tabelaEntreVerdes;
         this.transicao = transicao;
+    }
+
+    public String getIdJson() {
+        return idJson;
+    }
+
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
     }
 
     @Override

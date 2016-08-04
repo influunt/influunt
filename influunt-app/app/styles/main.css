@@ -151,33 +151,3 @@ i.sinal-verde-conflitante.ativo, i.transicao-proibida.ativo {
 .ui-widget-content {
   border: 0;
 }
-
-span.ui-icon.ui-icon-circle-close {
-  position: absolute;
-  top: -24px;
-  right: -25px;
-  font-size: 16px;
-}
-
-span.badge.badge-danger.badge-notification {
-  position: absolute;
-  top: -37px;
-  left: -14px;
-  padding: 6px 0px 2px 6px;
-  border-radius: 0;
-}
-
-.img-preview-sm {
-  height: 300px;
-  width: 100%;
-  overflow: auto;
-  background: #f2f4f5;
-}
-
-.img-preview.img-preview-sm img {
-  width: 100%;
-}
-
-.tabs-container .nav-tabs {
-  background: transparent;
-}

@@ -8,9 +8,7 @@ import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
-import json.deserializers.TransicaoDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
-import json.serializers.TransicaoSerializer;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
@@ -24,8 +22,7 @@ import java.util.UUID;
  * Created by rodrigosol on 6/22/16.
  */
 @Entity
-@JsonSerialize(using = TransicaoSerializer.class)
-@JsonDeserialize(using = TransicaoDeserializer.class)
+
 public class Transicao extends Model implements Cloneable {
 
     private static final long serialVersionUID = -6578371832958671414L;
@@ -35,45 +32,51 @@ public class Transicao extends Model implements Cloneable {
     @Id
     private UUID id;
 
+    @Column
+    private String idJson;
     @ManyToOne
     private GrupoSemaforico grupoSemaforico;
-
     @ManyToOne
     private Estagio origem;
-
     @ManyToOne
     private Estagio destino;
-
     @OneToMany(mappedBy = "transicao", cascade = CascadeType.ALL)
     @PrivateOwned
     @Valid
     private List<TabelaEntreVerdesTransicao> tabelaEntreVerdesTransicoes;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
-
     @Column
     private boolean destroy;
 
     public Transicao() {
         super();
+        this.setIdJson(UUID.randomUUID().toString());
     }
 
     public Transicao(GrupoSemaforico grupoSemaforico, Estagio origem, Estagio destino) {
         super();
+        this.setIdJson(UUID.randomUUID().toString());
         this.grupoSemaforico = grupoSemaforico;
         this.origem = origem;
         this.destino = destino;
         this.destroy = false;
+    }
+
+    public String getIdJson() {
+        return idJson;
+    }
+
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
     }
 
     public UUID getId() {

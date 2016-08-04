@@ -16,9 +16,12 @@
     "$": true,
     "_": true,
     "influunt": true,
+    "Dropzone": true,
 
     // leaflet lib
     "L": true,
+
+    "UUID": true,
 
     // karma/jasmine globals
     "afterEach": true,

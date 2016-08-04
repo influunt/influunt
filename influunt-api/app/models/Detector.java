@@ -7,9 +7,7 @@ import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import json.deserializers.DetectorDeserializer;
 import json.deserializers.InfluuntDateTimeDeserializer;
-import json.serializers.DetectorSerializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
 
@@ -25,8 +23,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "detectores")
-@JsonSerialize(using = DetectorSerializer.class)
-@JsonDeserialize(using = DetectorDeserializer.class)
+
 public class Detector extends Model implements Cloneable {
 
     private static final long serialVersionUID = 3752412658492551927L;
@@ -37,51 +34,54 @@ public class Detector extends Model implements Cloneable {
     private UUID id;
 
     @Column
+    private String idJson;
+    @Column
     @Enumerated(EnumType.STRING)
     private TipoDetector tipo;
-
     @ManyToOne
     @JoinColumn(name = "anel_id")
     private Anel anel;
-
     @OneToOne
     private Estagio estagio;
-
     @ManyToOne
     private Controlador controlador;
-
     @Column
     private Integer posicao;
-
     @Column
     private String descricao;
-
     @Column
     private Boolean monitorado = true;
-
     @Column
     private Integer tempoAusenciaDeteccaoMinima;
-
     @Column
     private Integer tempoAusenciaDeteccaoMaxima;
-
     @Column
     private Integer tempoDeteccaoPermanenteMinima;
-
     @Column
     private Integer tempoDeteccaoPermanenteMaxima;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
+
+    public Detector() {
+        super();
+        this.setIdJson(UUID.randomUUID().toString());
+    }
+
+    public String getIdJson() {
+        return idJson;
+    }
+
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
+    }
 
     public UUID getId() {
         return id;

@@ -6,11 +6,8 @@ import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import json.deserializers.ControladorDeserializer;
 import json.deserializers.InfluuntDateTimeDeserializer;
-import json.serializers.ControladorSerializer;
 import json.serializers.InfluuntDateTimeSerializer;
-import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
@@ -33,8 +30,7 @@ import java.util.UUID;
 @ConformidadeDeNumeroDeDetectoresDePedestre(groups = ControladorAneisCheck.class)
 @ConformidadeDeNumeroDeDetectoresVeicular(groups = ControladorAneisCheck.class)
 @AoMenosUmAnelAtivo(groups = ControladorAneisCheck.class)
-@JsonDeserialize(using = ControladorDeserializer.class)
-@JsonSerialize(using = ControladorSerializer.class)
+
 public class Controlador extends Model implements Cloneable {
 
     private static final long serialVersionUID = 521560643019927963L;
@@ -43,6 +39,12 @@ public class Controlador extends Model implements Cloneable {
 
     @Id
     private UUID id;
+
+    @Column
+    private String idJson;
+
+    @NotNull(message = "não pode ficar em branco")
+    private String nomeEndereco;
 
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
@@ -60,12 +62,7 @@ public class Controlador extends Model implements Cloneable {
     private StatusControlador statusControlador = StatusControlador.EM_CONFIGURACAO;
 
     @Column
-    @NotBlank(message = "não pode ficar em branco")
-    private String localizacao;
-
-    @Column
     private Integer sequencia;
-
 
     @Column
     private String numeroSMEE;
@@ -81,14 +78,6 @@ public class Controlador extends Model implements Cloneable {
 
     @Column
     private String firmware;
-
-    @Column
-    @NotNull(message = "não pode ficar em branco")
-    private Double latitude;
-
-    @Column
-    @NotNull(message = "não pode ficar em branco")
-    private Double longitude;
 
     @ManyToOne
     @Valid
@@ -112,43 +101,44 @@ public class Controlador extends Model implements Cloneable {
     @Valid
     private List<Detector> detectores;
 
-    @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
-    @Valid
-    private List<Estagio> estagios;
 
     @ManyToMany(mappedBy = "controladores")
     private List<Agrupamento> agrupamentos;
+
+    @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
+    @Valid
+    private List<Endereco> enderecos;
 
     // CONFIGURACOES CONTROLADORES
 
     @Column
     @Min(value = 1, message = "Deve ser maior que zero")
-    @NotNull
+    @NotNull(message = "não pode ficar em branco")
     private Integer limiteEstagio = 16;
 
     @Column
     @Min(value = 1, message = "Deve ser maior que zero")
-    @NotNull
+    @NotNull(message = "não pode ficar em branco")
     private Integer limiteGrupoSemaforico = 16;
 
     @Column
     @Min(value = 1, message = "Deve ser maior que zero")
-    @NotNull
+    @NotNull(message = "não pode ficar em branco")
     private Integer limiteAnel = 4;
 
     @Column
     @Min(value = 1, message = "Deve ser maior que zero")
-    @NotNull
+    @NotNull(message = "não pode ficar em branco")
     private Integer limiteDetectorPedestre = 4;
 
     @Column
     @Min(value = 1, message = "Deve ser maior que zero")
-    @NotNull
+    @NotNull(message = "não pode ficar em branco")
     private Integer limiteDetectorVeicular = 8;
 
     @Column
     @Min(value = 1, message = "Deve ser maior que zero")
-    @NotNull
+    @NotNull(message = "não pode ficar em branco")
     private Integer limiteTabelasEntreVerdes = 2;
 
     @Override
@@ -222,12 +212,20 @@ public class Controlador extends Model implements Cloneable {
         this.id = id;
     }
 
-    public String getLocalizacao() {
-        return localizacao;
+    public String getIdJson() {
+        return idJson;
     }
 
-    public void setLocalizacao(String localizacao) {
-        this.localizacao = localizacao;
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
+    }
+
+    public String getNomeEndereco() {
+        return nomeEndereco;
+    }
+
+    public void setNomeEndereco(String nomeEndereco) {
+        this.nomeEndereco = nomeEndereco;
     }
 
     public String getNumeroSMEE() {
@@ -334,29 +332,20 @@ public class Controlador extends Model implements Cloneable {
         this.dataAtualizacao = dataAtualizacao;
     }
 
-    public Double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
-
-
     public List<Agrupamento> getAgrupamentos() {
         return agrupamentos;
     }
 
     public void setAgrupamentos(List<Agrupamento> agrupamentos) {
         this.agrupamentos = agrupamentos;
+    }
+
+    public List<Endereco> getEnderecos() {
+        return enderecos;
+    }
+
+    public void setEnderecos(List<Endereco> enderecos) {
+        this.enderecos = enderecos;
     }
 
     public Integer getLimiteEstagio() {
@@ -413,7 +402,6 @@ public class Controlador extends Model implements Cloneable {
                 grupoSemaforico.criarPossiveisTransicoes();
             }
         }
-
     }
 
     @Override
@@ -434,5 +422,12 @@ public class Controlador extends Model implements Cloneable {
 
     public void setStatusControlador(StatusControlador statusControlador) {
         this.statusControlador = statusControlador;
+    }
+
+    public void addEndereco(Endereco endereco) {
+        if (getEnderecos() == null) {
+            setEnderecos(new ArrayList<Endereco>());
+        }
+        getEnderecos().add(endereco);
     }
 }

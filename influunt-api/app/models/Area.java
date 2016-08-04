@@ -26,10 +26,10 @@ import java.util.UUID;
  *
  * @author lesiopinheiro
  */
-@JsonSerialize(using = AreaSerializer.class)
-@JsonDeserialize(using = AreaDeserializer.class)
 @Entity
 @Table(name = "areas")
+@JsonSerialize(using = AreaSerializer.class)
+@JsonDeserialize(using = AreaDeserializer.class)
 public class Area extends Model implements Cloneable {
 
     private static final long serialVersionUID = 3282755453785165923L;
@@ -39,36 +39,44 @@ public class Area extends Model implements Cloneable {
     private UUID id;
 
     @Column
+    private String idJson;
+    @Column
     @Min(value = 1, message = "deve ser maior que zero")
     @NotNull(message = "não pode ficar em branco")
     private Integer descricao;
-
     @ManyToOne
     @NotNull(message = "não pode ficar em branco")
     private Cidade cidade;
-
     @OneToMany(mappedBy = "area")
     private List<Usuario> usuarios;
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "area")
     private List<LimiteArea> limitesGeograficos;
-
-
     @OneToMany(mappedBy = "area")
     @JsonIgnore
     private List<Controlador> controladores;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
+
+    public Area() {
+        super();
+        this.setIdJson(UUID.randomUUID().toString());
+    }
+
+    public String getIdJson() {
+        return idJson;
+    }
+
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
+    }
 
     public UUID getId() {
         return id;

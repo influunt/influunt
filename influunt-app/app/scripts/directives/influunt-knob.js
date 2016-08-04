@@ -22,6 +22,7 @@ angular.module('influuntApp')
           class: '@',
           min: '=',
           max: '=',
+          readOnly: '=',
           ngModel: '='
         },
         link: function influuntKnob(scope, element) {
@@ -52,6 +53,14 @@ angular.module('influuntApp')
           scope.$watch('ngModel', function(value) {
             value = value || scope.min;
             $(element).find('.knob-shape').roundSlider('setValue', value);
+          });
+          
+          scope.$watch('readOnly', function(value) {
+            if(value){
+              $(element).find('.knob-shape').roundSlider('disable');
+            }else{
+              $(element).find('.knob-shape').roundSlider('enable');
+            }
           });
 
           return knob;

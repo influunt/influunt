@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('FabricantesCtrl', ['$controller', '$scope', 'Restangular',
-    function ($controller, $scope, Restangular) {
+  .controller('FabricantesCtrl', ['$controller', '$scope',
+    function ($controller, $scope) {
       // Herda todo o comportamento do crud basico.
       $controller('CrudCtrl', {$scope: $scope});
       $scope.inicializaNovoCrud('fabricantes');

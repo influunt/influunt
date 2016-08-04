@@ -78,7 +78,7 @@ $.extend($.ui.tabs.prototype, {
 
 		function mouseenter() {
 			hover = true;
-			
+
 			if (resizeTimer) clearTimeout(resizeTimer);
 		}
 
@@ -98,7 +98,7 @@ $.extend($.ui.tabs.prototype, {
 			return {
 				tab: tab,
 				panel: panel,
-				index: this.anchors.index( tab )
+				index: this.anchors.index( $(tab).find('a.ui-tabs-anchor') )
 			};
 		};
 
@@ -111,12 +111,12 @@ $.extend($.ui.tabs.prototype, {
 				newTab = true;
 			}
 
-			if (!content)
-				content = '';
+			// if (!content)
+			// 	content = '';
 
-			var id = $( "<div>"+content+"</div>" ).appendTo( this.element.children(':last-child') ).uniqueId().attr('id');
+			// var id = $( "<div>"+content+"</div>" ).appendTo( this.element.children(':last-child') ).uniqueId().attr('id');
 			var ul = self._getList();
-			var li = $( '<li><a href="#'+id+'" class="closable" role="presentation">'+name+'</a></li>' ).insertBefore( $(ul).children('li.addTab') );
+			var li = $( '<li><a href="#tabs-1" class="closable" role="presentation">'+name+'</a></li>' ).insertBefore( $(ul).children('li.addTab') );
 
 			if (iconCls)
 				li.children('a').prepend('<span class="ui-icon '+iconCls+'"></span>');
@@ -153,8 +153,8 @@ $.extend($.ui.tabs.prototype, {
 
 			index = this._getIndex( index );
 			var options = this.options,
-				tab = this.tabs.eq( index ).remove(),
-				panel = this._getPanelForTab( tab ).remove();
+				tab = this.tabs.eq( index ).remove();
+			// var panel = this._getPanelForTab( tab ).remove();
 
 			// If selected tab was removed focus tab to the right or
 			// in case the last tab was removed the tab to the left.

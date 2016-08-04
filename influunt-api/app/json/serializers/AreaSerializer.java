@@ -24,6 +24,11 @@ public class AreaSerializer extends JsonSerializer<Area> {
         } else {
             jgen.writeStringField("id", area.getId().toString());
         }
+        if (area.getIdJson() == null) {
+            jgen.writeStringField("idJson", null);
+        } else {
+            jgen.writeStringField("idJson", area.getIdJson().toString());
+        }
         jgen.writeNumberField("descricao", area.getDescricao());
         if (area.getDataCriacao() != null) {
             jgen.writeStringField("dataCriacao", InfluuntDateTimeSerializer.parse(area.getDataCriacao()));

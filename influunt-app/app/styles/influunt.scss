@@ -82,6 +82,10 @@
     transition: all .5s ease;
     color: #f7f7f7;
 }
+.wrapper-content .basic-wizard .content .body .tableless table td {
+    text-align: center;
+    font-size: 25px;
+}
 .wrapper-content .basic-wizard .content .body .tableless table tbody tr td.checked {
     background: #e5e5e5;
 }
@@ -161,6 +165,24 @@
     float: left;
     display: inline-block;
     vertical-align: middle;
+}
+.wrapper-content .basic-wizard .content .body .stages nav li .group .checkbox label {
+    margin: 0;
+    padding: 0;
+    float: left;
+}
+.wrapper-content .basic-wizard .content .body .stages nav li .group .checkbox p {
+    float: left;
+    font-weight: bold;
+    line-height: 22px;
+    margin-bottom: 0;
+    margin-left: 5px;
+}
+.wrapper-content .basic-wizard .content .body .stages nav li .group .checkbox {
+    float: left;
+    margin: 0;
+    padding: 0 10px;
+    margin-bottom: 15px;
 }
 .wrapper-content .basic-wizard .content .body .stages nav li {
     border-bottom: 1px solid #e5e5e5;
@@ -442,7 +464,7 @@ header .nav-secon li a {
     text-align: center;
 }
 .wrapper-content .basic-wizard .content .body .movements .dz-image-preview button.remove-image {
-    margin-left: 150px;
+    margin-left: 140px;
     cursor: pointer;
 }
 .wrapper-content .basic-wizard .content .body .movements label {
@@ -572,6 +594,10 @@ header .nav-secon li a {
 .wrapper-content .basic-wizard .content .body .association.side-menu ul {
     padding: 0;
     margin: 0;
+    &#side-menu {
+      padding-right: 5px;
+
+    }
 }
 .wrapper-content .basic-wizard .content .body .association.side-menu li .nav-second-level li .fa-files-o {
     float: right;
@@ -973,22 +999,18 @@ header .nav-secon li a {
     font-weight: 700;
     line-height: 45px;
 }
-.wrapper-content .basic-wizard .content .body .stages nav li hgroup p::before {
-    color: #676a6c;
-    font-size: 16px;
-    content: "\f07d";
-    padding-right: 10%;
-    font-style: normal;
-    font-weight: 400;
-    font-family: FontAwesome;
-    text-decoration: inherit;
-}
 .wrapper-content .basic-wizard .content .body .stages nav li hgroup p {
     line-height: 200px;
     font-size: 16px;
     color: #676a6c;
     padding: 0;
     margin: 0;
+}
+.wrapper-content .basic-wizard .content .body .stages .title-stages hgroup p {
+    text-align: center;
+}
+.wrapper-content .basic-wizard .content .body .stages nav li.title-stages {
+    min-width: 50px;
 }
 .wrapper-content .basic-wizard .content .body .stages nav li.ibox {
     border-bottom: 1px solid #e5e5e5;
@@ -1048,6 +1070,29 @@ header .nav-secon li a {
     /*max-height: 550px;*/
     overflow: auto;
     padding: 25px;
+}
+.wrapper-content .basic-wizard .content .body .stages .priority .knob-item {
+    left: 0;
+    right: 0;
+    display: table;
+    margin: 10px auto;
+}
+.wrapper-content .basic-wizard .content .body .stages .priority p.desc {
+    float: right;
+    color: #676a6c;
+    font-size: 12px;
+    line-height: 15px;
+    margin-bottom: 0;
+    padding-left: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    width: 85%;
+}
+.wrapper-content .basic-wizard .content .body .stages .title-stages.small hgroup p {
+    text-align: center;
+}
+.wrapper-content .basic-wizard .content .body .stages .title-stages.small {
+    min-width: 44px;
 }
 .wrapper-content .basic-wizard .content .body .stages .title-stages {
     background: #e5e5e5;
@@ -1515,6 +1560,11 @@ header .nav-secon li a {
         font-size: 10px !important;
         color: white !important;
     }
+
+    .badge.badge-danger.badge-estagio-alternativo {
+      margin-top: -40px;
+    }
+
     .container-fluid {
         width: 100%;
     }
@@ -1676,4 +1726,17 @@ table.table-diagonal:nth-of-type(1) th.diagonal {
 
 td.ng-scope {
     text-align: center;
+}
+// wizard-steps.
+ul {
+  li {
+    span.bubble {
+      cursor: pointer;
+    }
+  }
+}
+
+img.sample-img-estagios {
+  width: 200px;
+  height: 150px;
 }

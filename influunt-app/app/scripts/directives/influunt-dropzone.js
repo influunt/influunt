@@ -28,8 +28,8 @@ angular.module('influuntApp')
          */
         var filterVisiblePreviews = function() {
           $timeout(function() {
-            $('.dz-preview[data-anel-id="' + scope.anel.idAnel + '"]').show();
-            $('.dz-preview:not([data-anel-id="' + scope.anel.idAnel + '"])').hide();
+            $('.dz-preview[data-anel-id="' + scope.anel.idJson + '"]').show();
+            $('.dz-preview:not([data-anel-id="' + scope.anel.idJson + '"])').hide();
           }, 0);
         };
 
@@ -42,7 +42,7 @@ angular.module('influuntApp')
           });
         };
 
-        scope.$watch('anel.idAnel', function(value) {
+        scope.$watch('anel.idJson', function(value) {
           return value && filterVisiblePreviews();
         });
 
@@ -52,7 +52,6 @@ angular.module('influuntApp')
           return val > 0 && filterVisiblePreviews();
         });
 
-        // new Dropzone('#'+element.attr('id'), {
         $(element).dropzone({
           url: APP_ROOT + '/imagens',
           dictDefaultMessage: 'Arraste imagens para este local',
@@ -72,9 +71,9 @@ angular.module('influuntApp')
             var anel = scope.anel;
             // Adiciona o anel id ao elemento do preview. Este id será utilizado
             // para filtrar as imagens de estagios para os diferentes aneis.
-            $(upload.previewElement).attr('data-anel-id', anel.idAnel);
+            $(upload.previewElement).attr('data-anel-id', anel.idJson);
             $(upload.previewElement).attr('data-imagem-id', imagem.id);
-            return scope.onSuccess({upload: upload, imagem: imagem});
+            return scope.onSuccess({ upload: upload, imagem: imagem });
           },
           init: function() {
             this.on('addedfile', function(file) {

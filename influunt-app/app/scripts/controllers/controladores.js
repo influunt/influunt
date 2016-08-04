@@ -8,8 +8,9 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresCtrl', ['$controller', '$scope', '$state','Restangular', '$q', 'handleValidations', 'APP_ROOT', 'influuntBlockui',
-    function ($controller, $scope, $state, Restangular, $q, handleValidations, APP_ROOT, influuntBlockui) {
+  .controller('ControladoresCtrl', ['$controller', '$scope', '$state', '$filter', 'Restangular', '$q', 'handleValidations', 'APP_ROOT', 'influuntBlockui',
+    function ($controller, $scope, $state, $filter, Restangular, $q, handleValidations, APP_ROOT, influuntBlockui) {
+
 
       // Herda todo o comportamento do crud basico.
       $controller('CrudCtrl', {$scope: $scope});
@@ -43,18 +44,31 @@ angular.module('influuntApp')
        * Carrega os dados de fabricas e cidades, que não estão diretamente relacionados ao contolador.
        */
       var getHelpersControlador = function() {
-        Restangular.one('helpers', 'controlador').get().then(function(res) {
+        return Restangular.one('helpers', 'controlador').get().then(function(res) {
           $scope.data = res;
           $scope.helpers = {};
 
           if ($scope.objeto.area) {
-            $scope.helpers.cidade = $scope.objeto.area.cidade;
+            var idJson = $scope.objeto.area.idJson;
+            var area = _.find($scope.objeto.areas, {idJson: idJson});
+            var cidade = _.find($scope.objeto.cidades, {idJson: area.cidade.idJson});
+
+            cidade.areas = cidade.areas.map(function(area) {
+              return _.find($scope.objeto.areas, {idJson: area.idJson});
+            });
+
+            $scope.helpers.cidade = cidade;
           } else {
             $scope.helpers.cidade = $scope.data.cidades[0];
+            $scope.objeto.cidades = $scope.data.cidades;
+            $scope.objeto.areas = _.chain($scope.data.cidades).map('areas').flatten().value();
           }
 
           if ($scope.objeto.modelo) {
-            $scope.helpers.fornecedor = $scope.objeto.modelo.fabricante;
+            var modelos = _.chain($scope.data.fabricantes).map('modelos').flatten().uniq().value();
+            var modelo = _.find(modelos, {id: $scope.objeto.modelo.id});
+            var fabricante = _.find($scope.data.fabricantes, {id: modelo.fabricante.id});
+            $scope.helpers.fornecedor = fabricante;
           }
         });
       };
@@ -86,7 +100,9 @@ angular.module('influuntApp')
             defer.resolve(res);
           });
         } else {
-          loadWizardData({limiteEstagio: 16, limiteGrupoSemaforico: 16, limiteAnel: 4, limiteDetectorPedestre: 4, limiteDetectorVeicular: 8, limiteTabelasEntreVerdes: 2});
+          var todosEnderecos = [{idJson: UUID.generate(), localizacao: "", latitude: null, longitude: null}, {idJson: UUID.generate(), localizacao: "", latitude: null, longitude: null}];
+          var enderecos = _.map(todosEnderecos, function(i) {return {idJson: i.idJson};});
+          loadWizardData({limiteEstagio: 16, limiteGrupoSemaforico: 16, limiteAnel: 4, limiteDetectorPedestre: 4, limiteDetectorVeicular: 8, limiteTabelasEntreVerdes: 2, todosEnderecos: todosEnderecos, enderecos: enderecos});
           influuntBlockui.unblock();
           defer.resolve({});
         }
@@ -133,10 +149,11 @@ angular.module('influuntApp')
       $scope.selecionaAnel = function(index) {
         $scope.currentAnelIndex = index;
         $scope.currentAnel = $scope.aneis[$scope.currentAnelIndex];
-
         if (angular.isDefined($scope.currentEstagioId)) {
           $scope.selecionaEstagio($scope.currentEstagioId);
         }
+
+
       };
 
       /**
@@ -162,14 +179,29 @@ angular.module('influuntApp')
        *
        * @param      {int}  index   The index
        */
-      $scope.selecionaGrupoSemaforico = function(index) {
+      $scope.selecionaGrupoSemaforico = function(gs, index) {
         $scope.currentGrupoSemaforicoIndex = index;
-        $scope.currentGrupoSemaforico = $scope.currentAnel.gruposSemaforicos[index];
+        $scope.currentGrupoSemaforico = gs;
         $scope.currentGrupoSemaforicoIdentifier = $scope.currentAnelIndex.toString() + index.toString();
 
         if (angular.isDefined($scope.isTabelaEntreVerdes) && $scope.isTabelaEntreVerdes) {
-          $scope.selecionaTabelaEntreVerdes(0);
+          $scope.atualizaTabelaEntreVerdes();
+          $scope.selecionaTabelaEntreVerdes($scope.currentTabelasEntreVerdes[0], 0);
         }
+      };
+
+      $scope.atualizaTabelaEntreVerdes = function() {
+        var ids = _.map($scope.currentGrupoSemaforico.tabelasEntreVerdes, 'idJson');
+
+        $scope.currentTabelasEntreVerdes = _
+          .chain($scope.objeto.tabelasEntreVerdes)
+          .filter(function(tev) {
+            return ids.indexOf(tev.idJson) >= 0;
+          })
+          .orderBy(['posicao'])
+          .value();
+
+        return $scope.currentTabelasEntreVerdes;
       };
 
       /**
@@ -177,17 +209,41 @@ angular.module('influuntApp')
        *
        * @param      {int}  index   The index
        */
-      $scope.selecionaTabelaEntreVerdes = function(index) {
+      $scope.selecionaTabelaEntreVerdes = function(tev, index) {
         $scope.currentTabelaEntreVerdesIndex = index;
-        $scope.currentTabelaEntreVerdes = $scope.currentGrupoSemaforico.tabelasEntreVerdes[index];
+        $scope.currentTabelaEntreVerdes = tev;
         $scope.tabelasEntreVerdesTransicoes = _.chain($scope.currentGrupoSemaforico.transicoes)
+                                     .map(function(transicao) { return _.find($scope.objeto.transicoes, {idJson: transicao.idJson}); })
                                      .map(function(transicao) { return transicao.tabelaEntreVerdesTransicoes; })
                                      .flatten()
-                                     .filter(function(tevt) { return tevt.tabelaEntreVerdes.posicao === index + 1; })
+                                     .map(function(tevt) { return _.find($scope.objeto.tabelasEntreVerdesTransicoes, {idJson: tevt.idJson}); })
+                                     .filter(function(tevt) {
+                                        return _.find($scope.objeto.tabelasEntreVerdes, {idJson: tevt.tabelaEntreVerdes.idJson}).posicao === index + 1;
+                                      })
                                      .value();
-        $scope.tabelasEntreVerdesTransicoes.forEach(function(tevTransicao) {
-          tevTransicao.tabelaEntreVerdes = $scope.currentTabelaEntreVerdes;
+
+        $scope.currentTabelaOrigensEDestinos = {};
+        $scope.currentGrupoSemaforico.transicoes.forEach(function(t) {
+          var transicao = _.find($scope.objeto.transicoes, {idJson: t.idJson});
+          $scope.currentTabelaOrigensEDestinos[t.idJson] = {
+            origem: _.find($scope.objeto.estagios, {idJson: transicao.origem.idJson}),
+            destino: _.find($scope.objeto.estagios, {idJson: transicao.destino.idJson}),
+          };
         });
+
+        $scope.atualizaTabelasEntreVerdesTransicoes();
+      };
+
+      $scope.atualizaTabelasEntreVerdesTransicoes = function() {
+        var ids = _.map($scope.currentTabelaEntreVerdes.tabelaEntreVerdesTransicoes, 'idJson');
+
+
+        $scope.currentTabelasEntreVerdesTransicoes = _
+          .chain($scope.objeto.tabelasEntreVerdesTransicoes)
+          .filter(function(tevt) { return ids.indexOf(tevt.idJson) >= 0; })
+          .value();
+
+        return $scope.currentTabelasEntreVerdesTransicoes;
       };
 
       /**
@@ -206,25 +262,31 @@ angular.module('influuntApp')
 
       $scope.buildValidationMessages = function(errors) {
         $scope.errors = handleValidations.handle(errors);
-        $scope.errors.aneis = _.compact($scope.errors.aneis);
-        console.log('$scope.errors: ', $scope.errors);
+        _.each($scope.errors.aneis, function(anel) {
+          if (anel === undefined) {
+            anel = {};
+          }
+        });
+
         $scope.getErrosVerdes();
       };
 
       $scope.getErrosVerdes = function() {
-        $scope.messages = [];
+        $scope.messages = {aneis: []};
         _.each($scope.errors.aneis, function(anel, anelIndex) {
           _.each(anel.gruposSemaforicos, function(gs, gsIndex) {
-            var nomeGS = 'G' + $scope.objeto.aneis[anelIndex].gruposSemaforicos[gsIndex].posicao;
+            var grupoSemaforicoIdJson = $scope.objeto.aneis[anelIndex].gruposSemaforicos[gsIndex].idJson;
+            var grupoSemaforico = _.find($scope.objeto.gruposSemaforicos, {idJson: grupoSemaforicoIdJson});
+            var posicao = grupoSemaforico.posicao;
+            var nomeGS = 'G' + grupoSemaforico.posicao;
             _.each(gs, function(mgs) {
               _.map(mgs, function(msg) {
-                $scope.messages.push(nomeGS + ': ' + msg);
+                $scope.messages.aneis[anelIndex] = $scope.messages.aneis[anelIndex] || [];
+                $scope.messages.aneis[anelIndex].push({posicao: posicao, texto: nomeGS + ': ' + msg});
               });
             });
           });
         });
-
-        $scope.messages = _.uniq($scope.messages);
       };
 
       /**
@@ -250,6 +312,36 @@ angular.module('influuntApp')
       $scope.grupoSemaforicoTemErro = function(anelIndex, index) {
         var errors = _.get($scope.errors, 'aneis[' + anelIndex + '].gruposSemaforicos['+index+']');
         return _.isObject(errors) && Object.keys(errors).length > 0;
+      };
+
+      $scope.atualizaGruposSemaforicos = function() {
+        var ids = _.map($scope.currentAnel.gruposSemaforicos, 'idJson');
+        $scope.currentGruposSemaforicos = _
+          .chain($scope.objeto.gruposSemaforicos)
+          .filter(function(gs) {
+            return ids.indexOf(gs.idJson) >= 0;
+          })
+          .value();
+
+          return $scope.currentGruposSemaforicos;
+      };
+
+      $scope.atualizaEstagios = function() {
+        var ids = _.map($scope.currentAnel.estagios, 'idJson');
+        $scope.currentEstagios = _
+          .chain($scope.objeto.estagios)
+          .filter(function(e) {
+            return ids.indexOf(e.idJson) >= 0;
+          })
+          .orderBy(['posicao'])
+          .value();
+
+          return $scope.currentEstagios;
+      };
+
+      $scope.getImagemDeEstagio = function(estagio) {
+        var imagem = _.find($scope.objeto.imagens, {idJson: estagio.imagem.idJson});
+        return imagem && $filter('imageSource')(imagem.id);
       };
 
     }]);

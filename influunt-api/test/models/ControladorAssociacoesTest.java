@@ -3,6 +3,8 @@ package models;
 import checks.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import controllers.routes;
+import json.ControladorCustomDeserializer;
+import json.ControladorCustomSerializer;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import play.Logger;
@@ -116,7 +118,7 @@ public class ControladorAssociacoesTest extends ControladorTest {
         Controlador controlador = getControladorAssociacao();
         controlador.save();
 
-        Controlador controladorJson = Json.fromJson(Json.toJson(controlador), Controlador.class);
+        Controlador controladorJson = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador));
 
         assertEquals(controlador.getId(), controladorJson.getId());
         assertControladorAnelAssociacao(controlador, controladorJson);
@@ -142,8 +144,10 @@ public class ControladorAssociacoesTest extends ControladorTest {
         Anel anelCom4EstagiosJson = controladorJson.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
 
         assertEquals(anelCom2Estagios.getDescricao(), anelCom2EstagiosJson.getDescricao());
-        assertEquals(anelCom2Estagios.getLatitude(), anelCom2EstagiosJson.getLatitude());
-        assertEquals(anelCom2Estagios.getLongitude(), anelCom2EstagiosJson.getLongitude());
+        assertEquals(anelCom2Estagios.getEnderecos().get(0).getLatitude(), anelCom2EstagiosJson.getEnderecos().get(0).getLatitude());
+        assertEquals(anelCom2Estagios.getEnderecos().get(0).getLongitude(), anelCom2EstagiosJson.getEnderecos().get(0).getLongitude());
+        assertEquals(anelCom2Estagios.getEnderecos().get(1).getLatitude(), anelCom2EstagiosJson.getEnderecos().get(1).getLatitude());
+        assertEquals(anelCom2Estagios.getEnderecos().get(1).getLongitude(), anelCom2EstagiosJson.getEnderecos().get(1).getLongitude());
         assertEquals(anelCom2Estagios.getGruposSemaforicos().size(), anelCom2EstagiosJson.getGruposSemaforicos().size());
         assertEquals(anelCom2Estagios.getDetectores().size(), anelCom2EstagiosJson.getDetectores().size());
         assertEquals(anelCom2Estagios.getNumeroSMEE(), anelCom2EstagiosJson.getNumeroSMEE());
@@ -152,8 +156,12 @@ public class ControladorAssociacoesTest extends ControladorTest {
                 anelCom2EstagiosJson.getEstagios().stream().filter(estagio -> estagio.getTempoMaximoPermanenciaAtivado()).count());
 
         assertEquals(anelCom4Estagios.getDescricao(), anelCom4EstagiosJson.getDescricao());
-        assertEquals(anelCom4Estagios.getLatitude(), anelCom4EstagiosJson.getLatitude());
-        assertEquals(anelCom4Estagios.getLongitude(), anelCom4EstagiosJson.getLongitude());
+
+
+        assertEquals(anelCom4Estagios.getEnderecos().get(0).getLatitude(), anelCom4EstagiosJson.getEnderecos().get(0).getLatitude());
+        assertEquals(anelCom4Estagios.getEnderecos().get(0).getLongitude(), anelCom4EstagiosJson.getEnderecos().get(0).getLongitude());
+        assertEquals(anelCom4Estagios.getEnderecos().get(1).getLatitude(), anelCom4EstagiosJson.getEnderecos().get(1).getLatitude());
+        assertEquals(anelCom4Estagios.getEnderecos().get(1).getLongitude(), anelCom4EstagiosJson.getEnderecos().get(1).getLongitude());
         assertEquals(anelCom4Estagios.getGruposSemaforicos().size(), anelCom4EstagiosJson.getGruposSemaforicos().size());
         assertEquals(anelCom4Estagios.getDetectores().size(), anelCom4EstagiosJson.getDetectores().size());
         assertEquals(anelCom4Estagios.getNumeroSMEE(), anelCom4EstagiosJson.getNumeroSMEE());
@@ -171,7 +179,7 @@ public class ControladorAssociacoesTest extends ControladorTest {
         controlador.save();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.associacaoGruposSemaforicos().url()).bodyJson(Json.toJson(controlador));
+                .uri(routes.ControladoresController.associacaoGruposSemaforicos().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
         Result postResult = route(postRequest);
 
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
@@ -187,14 +195,14 @@ public class ControladorAssociacoesTest extends ControladorTest {
         Controlador controlador = getControladorAssociacao();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.associacaoGruposSemaforicos().url()).bodyJson(Json.toJson(controlador));
+                .uri(routes.ControladoresController.associacaoGruposSemaforicos().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
         Result postResult = route(postRequest);
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
         Logger.info(json.toString());
         assertEquals(OK, postResult.status());
 
-        Controlador controladorRetornado = Json.fromJson(json, Controlador.class);
+        Controlador controladorRetornado = new ControladorCustomDeserializer().getControladorFromJson(json);
 
         assertControladorAnelAssociacao(controlador, controladorRetornado);
         assertNotNull(controladorRetornado.getId());

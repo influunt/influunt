@@ -4,6 +4,8 @@ import checks.Erro;
 import checks.InfluuntValidator;
 import checks.PlanosCheck;
 import com.fasterxml.jackson.databind.JsonNode;
+import json.ControladorCustomDeserializer;
+import json.ControladorCustomSerializer;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import play.libs.Json;
@@ -473,7 +475,7 @@ public class ControladorPlanoTest extends ControladorTest {
         Controlador controlador = getControladorPlanos();
         controlador.save();
 
-        Controlador controladorJson = Json.fromJson(Json.toJson(controlador), Controlador.class);
+        Controlador controladorJson = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador));
         assertEquals(controlador.getId(), controladorJson.getId());
         assertNotNull(controladorJson.getId());
 
@@ -493,7 +495,7 @@ public class ControladorPlanoTest extends ControladorTest {
         controlador.save();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(controllers.routes.PlanosController.create().url()).bodyJson(Json.toJson(controlador));
+                .uri(controllers.routes.PlanosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
         Result postResult = route(postRequest);
 
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
@@ -509,14 +511,14 @@ public class ControladorPlanoTest extends ControladorTest {
         Controlador controlador = getControladorPlanos();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(controllers.routes.PlanosController.create().url()).bodyJson(Json.toJson(controlador));
+                .uri(controllers.routes.PlanosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
         Result postResult = route(postRequest);
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
         assertEquals(OK, postResult.status());
 
 
-        Controlador controladorRetornado = Json.fromJson(json, Controlador.class);
+        Controlador controladorRetornado = new ControladorCustomDeserializer().getControladorFromJson(json);
 
         assertEquals(controlador.getId(), controladorRetornado.getId());
         assertNotNull(controladorRetornado.getId());

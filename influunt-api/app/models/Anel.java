@@ -7,9 +7,7 @@ import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import json.deserializers.AnelDeserializer;
 import json.deserializers.InfluuntDateTimeDeserializer;
-import json.serializers.AnelSerializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
 
@@ -34,11 +32,8 @@ import java.util.UUID;
 @ConformidadeNumeroEstagios(groups = ControladorAneisCheck.class)
 @ConformidadeNumeroDetectores(groups = ControladorAneisCheck.class)
 @ConformidadeNumeroDetectoresEstagios(groups = ControladorAneisCheck.class)
-@JsonSerialize(using = AnelSerializer.class)
-@JsonDeserialize(using = AnelDeserializer.class)
-public class Anel extends Model implements Cloneable {
 
-    private static final long serialVersionUID = 4919501406230732757L;
+public class Anel extends Model implements Cloneable {
 
     public static Finder<UUID, Anel> find = new Finder<UUID, Anel>(Anel.class);
 
@@ -46,69 +41,74 @@ public class Anel extends Model implements Cloneable {
     private UUID id;
 
     @Column
+    private String idJson;
+    @Column
     @NotNull
     private Boolean ativo = false;
-
     @Column
     private String descricao;
 
-
     @Column
     private Integer posicao;
-
     @Column
     private String numeroSMEE;
-
-    @Column
-    private Double latitude;
-
-    @Column
-    private Double longitude;
 
     @ManyToOne
     private Controlador controlador;
 
+    @OneToOne
+    private Imagem croqui;
+
     @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL)
     @Valid
     private List<Detector> detectores;
-
     @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL)
     @Valid
     private List<GrupoSemaforico> gruposSemaforicos;
-
     @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL)
     @Valid
     private List<Estagio> estagios;
-
     @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL)
     @Valid
     private List<Plano> planos;
+
+    @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL)
+    private List<Endereco> enderecos;
 
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
 
-
     public Anel(Controlador controlador, int posicao) {
         super();
+        this.setIdJson(UUID.randomUUID().toString());
         this.controlador = controlador;
         this.posicao = posicao;
     }
 
     public Anel() {
         super();
+        this.setIdJson(UUID.randomUUID().toString());
     }
+
 
     public Anel(String descricao) {
         this.descricao = descricao;
+    }
+
+    public String getIdJson() {
+        return idJson;
+    }
+
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
     }
 
     public UUID getId() {
@@ -183,22 +183,6 @@ public class Anel extends Model implements Cloneable {
         this.gruposSemaforicos = gruposSemaforicos;
     }
 
-    public Double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
-
     public List<Estagio> getEstagios() {
         return estagios;
     }
@@ -234,15 +218,9 @@ public class Anel extends Model implements Cloneable {
     }
 
     @JsonIgnore
-    @AssertTrue(message = "Latitude deve ser informada")
-    public boolean isLatitudeOk() {
-        return !this.ativo || this.latitude != null;
-    }
-
-    @JsonIgnore
-    @AssertTrue(message = "Longitude deve ser informada")
-    public boolean isLongitudeOk() {
-        return !this.ativo || this.longitude != null;
+    @AssertTrue(message = "Anel deve ter 2 endereços")
+    public boolean isEnderecosOk() {
+        return !isAtivo() || (getEnderecos() != null && getEnderecos().size() == 2);
     }
 
     @AssertTrue(groups = PlanosCheck.class,
@@ -328,6 +306,29 @@ public class Anel extends Model implements Cloneable {
         } else {
             return String.format("%s.%01d", "sem-controlador", this.posicao);
         }
+    }
+
+    public Imagem getCroqui() {
+        return croqui;
+    }
+
+    public void setCroqui(Imagem croqui) {
+        this.croqui = croqui;
+    }
+
+    public List<Endereco> getEnderecos() {
+        return enderecos;
+    }
+
+    public void setEnderecos(List<Endereco> enderecos) {
+        this.enderecos = enderecos;
+    }
+
+    public void addEndereco(Endereco endereco) {
+        if (getEnderecos() == null) {
+            setEnderecos(new ArrayList<Endereco>());
+        }
+        getEnderecos().add(endereco);
     }
 }
 

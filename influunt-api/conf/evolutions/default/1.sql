@@ -5,6 +5,7 @@
 
 create table agrupamentos (
   id                            varchar(40) not null,
+  id_json                       varchar(255),
   nome                          varchar(255),
   numero                        varchar(255),
   tipo                          varchar(8),
@@ -22,20 +23,22 @@ create table agrupamentos_controladores (
 
 create table aneis (
   id                            varchar(40) not null,
+  id_json                       varchar(255),
   ativo                         tinyint(1) default 0 not null,
   descricao                     varchar(255),
   posicao                       integer,
   numero_smee                   varchar(255),
-  latitude                      double,
-  longitude                     double,
   controlador_id                varchar(40),
+  croqui_id                     varchar(40),
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
+  constraint uq_aneis_croqui_id unique (croqui_id),
   constraint pk_aneis primary key (id)
 );
 
 create table areas (
   id                            varchar(40) not null,
+  id_json                       varchar(255),
   descricao                     integer not null,
   cidade_id                     varchar(40) not null,
   data_criacao                  datetime(6) not null,
@@ -45,6 +48,7 @@ create table areas (
 
 create table cidades (
   id                            varchar(40) not null,
+  id_json                       varchar(255),
   nome                          varchar(255),
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
@@ -53,16 +57,15 @@ create table cidades (
 
 create table controladores (
   id                            varchar(40) not null,
+  id_json                       varchar(255),
+  nome_endereco                 varchar(255) not null,
   status_controlador            integer,
-  localizacao                   varchar(255),
   sequencia                     integer,
   numero_smee                   varchar(255),
   numero_smeeconjugado1         varchar(255),
   numero_smeeconjugado2         varchar(255),
   numero_smeeconjugado3         varchar(255),
   firmware                      varchar(255),
-  latitude                      double not null,
-  longitude                     double not null,
   modelo_id                     varchar(40) not null,
   area_id                       varchar(40) not null,
   limite_estagio                integer not null,
@@ -79,6 +82,7 @@ create table controladores (
 
 create table detectores (
   id                            varchar(40) not null,
+  id_json                       varchar(255),
   tipo                          varchar(8),
   anel_id                       varchar(40),
   estagio_id                    varchar(40),
@@ -97,8 +101,22 @@ create table detectores (
   constraint pk_detectores primary key (id)
 );
 
+create table enderecos (
+  id                            varchar(40) not null,
+  id_json                       varchar(255),
+  controlador_id                varchar(40),
+  anel_id                       varchar(40),
+  localizacao                   varchar(255),
+  latitude                      double not null,
+  longitude                     double not null,
+  data_criacao                  datetime(6) not null,
+  data_atualizacao              datetime(6) not null,
+  constraint pk_enderecos primary key (id)
+);
+
 create table estagios (
   id                            varchar(40) not null,
+  id_json                       varchar(255),
   imagem_id                     varchar(40),
   descricao                     varchar(255),
   tempo_maximo_permanencia      integer,
@@ -117,6 +135,7 @@ create table estagios (
 
 create table estagios_grupos_semaforicos (
   id                            varchar(40) not null,
+  id_json                       varchar(255),
   ativo                         tinyint(1) default 0 not null,
   estagio_id                    varchar(40) not null,
   grupo_semaforico_id           varchar(40) not null,
@@ -127,6 +146,7 @@ create table estagios_grupos_semaforicos (
 
 create table estagios_planos (
   id                            varchar(40) not null,
+  id_json                       varchar(255),
   estagio_id                    varchar(40) not null,
   plano_id                      varchar(40) not null,
   posicao                       integer,
@@ -143,6 +163,7 @@ create table estagios_planos (
 
 create table fabricantes (
   id                            varchar(40) not null,
+  id_json                       varchar(255),
   nome                          varchar(255),
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
@@ -151,6 +172,7 @@ create table fabricantes (
 
 create table grupos_semaforicos (
   id                            varchar(40) not null,
+  id_json                       varchar(255),
   tipo                          varchar(8),
   descricao                     varchar(255),
   anel_id                       varchar(40),
@@ -165,6 +187,7 @@ create table grupos_semaforicos (
 
 create table grupos_semaforicos_planos (
   id                            varchar(40) not null,
+  id_json                       varchar(255),
   grupo_semaforico_id           varchar(40) not null,
   plano_id                      varchar(40) not null,
   ativado                       tinyint(1) default 0,
@@ -175,6 +198,7 @@ create table grupos_semaforicos_planos (
 
 create table imagens (
   id                            varchar(40) not null,
+  id_json                       varchar(255),
   filename                      varchar(255),
   content_type                  varchar(255),
   data_criacao                  datetime(6) not null,
@@ -184,6 +208,7 @@ create table imagens (
 
 create table limite_area (
   id                            varchar(40) not null,
+  id_json                       varchar(255),
   latitude                      double,
   longitude                     double,
   area_id                       varchar(40),
@@ -194,6 +219,7 @@ create table limite_area (
 
 create table modelo_controladores (
   id                            varchar(40) not null,
+  id_json                       varchar(255),
   fabricante_id                 varchar(40) not null,
   descricao                     varchar(255) not null,
   data_criacao                  datetime(6) not null,
@@ -203,6 +229,7 @@ create table modelo_controladores (
 
 create table perfis (
   id                            varchar(40) not null,
+  id_json                       varchar(255),
   nome                          varchar(255),
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
@@ -217,6 +244,7 @@ create table permissoes_perfis (
 
 create table permissoes (
   id                            varchar(40) not null,
+  id_json                       varchar(255),
   descricao                     varchar(255),
   chave                         varchar(255),
   data_criacao                  datetime(6) not null,
@@ -226,6 +254,7 @@ create table permissoes (
 
 create table planos (
   id                            varchar(40) not null,
+  id_json                       varchar(255),
   posicao                       integer not null,
   tempo_ciclo                   integer,
   defasagem                     integer,
@@ -241,6 +270,7 @@ create table planos (
 
 create table sessoes (
   id                            varchar(40) not null,
+  id_json                       varchar(255),
   usuario_id                    varchar(40),
   ativa                         tinyint(1) default 0,
   data_criacao                  datetime(6) not null,
@@ -249,6 +279,7 @@ create table sessoes (
 
 create table tabela_entre_verdes (
   id                            varchar(40) not null,
+  id_json                       varchar(255),
   descricao                     varchar(255),
   grupo_semaforico_id           varchar(40),
   posicao                       integer,
@@ -259,6 +290,7 @@ create table tabela_entre_verdes (
 
 create table tabela_entre_verdes_transicao (
   id                            varchar(40) not null,
+  id_json                       varchar(255),
   tabela_entre_verdes_id        varchar(40),
   transicao_id                  varchar(40),
   tempo_amarelo                 integer,
@@ -272,6 +304,7 @@ create table tabela_entre_verdes_transicao (
 
 create table transicao (
   id                            varchar(40) not null,
+  id_json                       varchar(255),
   grupo_semaforico_id           varchar(40),
   origem_id                     varchar(40),
   destino_id                    varchar(40),
@@ -283,6 +316,7 @@ create table transicao (
 
 create table transicoes_proibidas (
   id                            varchar(40) not null,
+  id_json                       varchar(255),
   origem_id                     varchar(40) not null,
   destino_id                    varchar(40) not null,
   alternativo_id                varchar(40) not null,
@@ -294,6 +328,7 @@ create table transicoes_proibidas (
 create table usuarios (
   id                            varchar(40) not null,
   senha                         varchar(255),
+  id_json                       varchar(255),
   login                         varchar(255),
   email                         varchar(255),
   nome                          varchar(255),
@@ -308,6 +343,7 @@ create table usuarios (
 
 create table verdes_conflitantes (
   id                            varchar(40) not null,
+  id_json                       varchar(255),
   origem_id                     varchar(40),
   destino_id                    varchar(40),
   data_criacao                  datetime(6) not null,
@@ -323,6 +359,8 @@ create index ix_agrupamentos_controladores_controladores on agrupamentos_control
 
 alter table aneis add constraint fk_aneis_controlador_id foreign key (controlador_id) references controladores (id) on delete restrict on update restrict;
 create index ix_aneis_controlador_id on aneis (controlador_id);
+
+alter table aneis add constraint fk_aneis_croqui_id foreign key (croqui_id) references imagens (id) on delete restrict on update restrict;
 
 alter table areas add constraint fk_areas_cidade_id foreign key (cidade_id) references cidades (id) on delete restrict on update restrict;
 create index ix_areas_cidade_id on areas (cidade_id);
@@ -340,6 +378,12 @@ alter table detectores add constraint fk_detectores_estagio_id foreign key (esta
 
 alter table detectores add constraint fk_detectores_controlador_id foreign key (controlador_id) references controladores (id) on delete restrict on update restrict;
 create index ix_detectores_controlador_id on detectores (controlador_id);
+
+alter table enderecos add constraint fk_enderecos_controlador_id foreign key (controlador_id) references controladores (id) on delete restrict on update restrict;
+create index ix_enderecos_controlador_id on enderecos (controlador_id);
+
+alter table enderecos add constraint fk_enderecos_anel_id foreign key (anel_id) references aneis (id) on delete restrict on update restrict;
+create index ix_enderecos_anel_id on enderecos (anel_id);
 
 alter table estagios add constraint fk_estagios_imagem_id foreign key (imagem_id) references imagens (id) on delete restrict on update restrict;
 
@@ -447,6 +491,8 @@ drop index ix_agrupamentos_controladores_controladores on agrupamentos_controlad
 alter table aneis drop foreign key fk_aneis_controlador_id;
 drop index ix_aneis_controlador_id on aneis;
 
+alter table aneis drop foreign key fk_aneis_croqui_id;
+
 alter table areas drop foreign key fk_areas_cidade_id;
 drop index ix_areas_cidade_id on areas;
 
@@ -463,6 +509,12 @@ alter table detectores drop foreign key fk_detectores_estagio_id;
 
 alter table detectores drop foreign key fk_detectores_controlador_id;
 drop index ix_detectores_controlador_id on detectores;
+
+alter table enderecos drop foreign key fk_enderecos_controlador_id;
+drop index ix_enderecos_controlador_id on enderecos;
+
+alter table enderecos drop foreign key fk_enderecos_anel_id;
+drop index ix_enderecos_anel_id on enderecos;
 
 alter table estagios drop foreign key fk_estagios_imagem_id;
 
@@ -571,6 +623,8 @@ drop table if exists cidades;
 drop table if exists controladores;
 
 drop table if exists detectores;
+
+drop table if exists enderecos;
 
 drop table if exists estagios;
 

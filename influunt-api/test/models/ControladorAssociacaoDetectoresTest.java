@@ -3,6 +3,8 @@ package models;
 import checks.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import controllers.routes;
+import json.ControladorCustomDeserializer;
+import json.ControladorCustomSerializer;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import play.libs.Json;
@@ -54,10 +56,9 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
     public void testORM() {
         Controlador controlador = getControladorAssociacaoDetectores();
         controlador.save();
+        assertNotNull(controlador.getId());
 
         List<Erro> erros = getErros(controlador);
-
-        assertNotNull(controlador.getId());
         assertThat(erros, Matchers.empty());
 
         Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
@@ -75,7 +76,6 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
         assertEquals("Estagio 2 está associado Detector 2", estagio2.getDetector(), detector2);
         assertEquals("Estagio 3 está associado Detector 3", estagio3.getDetector(), detector3);
         assertEquals("Estagio 4 está associado Detector 4", estagio4.getDetector(), detector4);
-
     }
 
     @Override
@@ -84,7 +84,7 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
         Controlador controlador = getControladorAssociacaoDetectores();
         controlador.save();
 
-        Controlador controladorJson = Json.fromJson(Json.toJson(controlador), Controlador.class);
+        Controlador controladorJson = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador));
 
         assertEquals(controlador.getId(), controladorJson.getId());
         assertNotNull(controladorJson.getId());
@@ -114,7 +114,7 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
         controlador.save();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.associacaoDetectores().url()).bodyJson(Json.toJson(controlador));
+                .uri(routes.ControladoresController.associacaoDetectores().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
         Result postResult = route(postRequest);
 
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
@@ -129,13 +129,13 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
         Controlador controlador = getControladorAssociacaoDetectores();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.associacaoDetectores().url()).bodyJson(Json.toJson(controlador));
+                .uri(routes.ControladoresController.associacaoDetectores().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
-        Controlador controladorRetornado = Json.fromJson(json, Controlador.class);
+        Controlador controladorRetornado = new ControladorCustomDeserializer().getControladorFromJson(json);
 
         assertNotNull(controladorRetornado.getId());
         assertEquals(StatusControlador.CONFIGURADO, controladorRetornado.getStatusControlador());
