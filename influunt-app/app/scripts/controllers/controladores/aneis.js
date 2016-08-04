@@ -13,7 +13,7 @@ angular.module('influuntApp')
       $controller('ControladoresCtrl', {$scope: $scope});
 
       // Métodos privados.
-      var criaAneis, atualizarAneisAtivos, registrarWatcherEndereco;
+      var criaAneis, inicializaEnderecos, atualizarAneisAtivos, registrarWatcherEndereco, atualizaCurrentEnderecos;
 
       /**
        * Pré-condições para acesso à tela de aneis: Somente será possível acessar esta
@@ -38,10 +38,12 @@ angular.module('influuntApp')
             $scope.currentAnelIndex = 0;
             criaAneis($scope.objeto);
             $scope.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
-            // $scope.aneis.forEach(function(anel) { anel.enderecos = [{}, {}]; });
             $scope.currentAnel = $scope.objeto.aneis[$scope.currentAnelIndex];
             atualizarAneisAtivos();
-            // registrarWatcherEndereco();
+
+            inicializaEnderecos();
+            registrarWatcherEndereco();
+
             $scope.$broadcast('influuntWizard.dropzoneOk');
           }
         });
@@ -137,14 +139,34 @@ angular.module('influuntApp')
         });
       };
 
+      inicializaEnderecos = function() {
+        _.each($scope.aneis, function(anel) {
+          if (anel.enderecos.length === 0) {
+            var enderecos = [{ idJson: UUID.generate() }, { idJson: UUID.generate() }];
+            anel.enderecos = enderecos;
+            $scope.objeto.todosEnderecos = _.concat($scope.objeto.todosEnderecos, enderecos);
+          }
+        });
+      };
+
       registrarWatcherEndereco = function() {
         $scope.$watch('currentAnel', function(anel) {
-          if (anel) {
-            if (anel.enderecos[0].localizacao && anel.enderecos[1].localizacao) {
-              anel.localizacao = anel.enderecos[0].localizacao + ' com ' + anel.enderecos[1].localizacao;
-            }
+          if (anel && angular.isArray(anel.enderecos) && anel.enderecos[0].localizacao && anel.enderecos[1].localizacao) {
+            anel.localizacao = anel.enderecos[0].localizacao + ' com ' + anel.enderecos[1].localizacao;
           }
+
+          atualizaCurrentEnderecos();
         }, true);
+      };
+
+      atualizaCurrentEnderecos = function() {
+        var ids = _.map($scope.currentAnel.enderecos, 'idJson');
+        $scope.currentEnderecos = _
+          .chain($scope.objeto.todosEnderecos)
+          .filter(function(e) { return ids.indexOf(e.idJson) >= 0; })
+          .value();
+
+        return $scope.currentEnderecos;
       };
 
     }]);

@@ -274,6 +274,7 @@ angular.module('influuntApp')
         }
 
         $scope.getErrosVerdes();
+        console.log($scope.errors);
       };
 
       $scope.getErrosVerdes = function() {
