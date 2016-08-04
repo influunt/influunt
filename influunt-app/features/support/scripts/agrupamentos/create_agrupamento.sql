@@ -11,7 +11,6 @@ DELETE FROM `controladores`;
 DELETE FROM `areas`;
 DELETE FROM `cidades`;
 DELETE FROM `modelo_controladores`;
-DELETE FROM `configuracao_controladores`;
 DELETE FROM `fabricantes`;
 DELETE FROM `agrupamentos`;
 SET @FabricanteId = RANDOM_UUID();
@@ -24,6 +23,6 @@ INSERT INTO `cidades` (`id`, `nome`, `data_criacao`, `data_atualizacao`) VALUES 
 INSERT INTO `areas` (`id`, `descricao`, `cidade_id`, `data_criacao`, `data_atualizacao`) VALUES (@AreaId, 1, @CidadeId, NOW(), NOW());
 INSERT INTO `fabricantes` (`id`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@FabricanteId, 'Raro Labs', NOW(), NOW());
 INSERT INTO `modelo_controladores` (`id`, `fabricante_id`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES (@ModeloId, @FabricanteId, 'Mínima', NOW(), NOW());
-INSERT INTO `controladores` (`id`, `localizacao`, `latitude`, `longitude`, `modelo_id`, `area_id`, `data_criacao`, `data_atualizacao`) VALUES (@ControladorId, 'Esquina rua A com B', '-23.55037588609829', '-46.66511535644531', @ModeloId, @AreaId, NOW(), NOW());
+INSERT INTO `controladores` (`id`, `nome_endereco`, `limite_estagio`, `limite_grupo_semaforico`, `limite_anel`, `limite_detector_pedestre`, `limite_detector_veicular`, `limite_tabelas_entre_verdes`, `modelo_id`, `area_id`, `data_criacao`, `data_atualizacao`) VALUES (@ControladorId, 'Esquina rua A com B', 2, 2, 2, 2, 2, 2, @ModeloId, @AreaId, NOW(), NOW());
 INSERT INTO `agrupamentos` (`id`, `nome`, `tipo`, `data_criacao`, `data_atualizacao`) VALUES (@AgrupamentoId, 'Corredor da Paulista', 'CORREDOR', NOW(), NOW());
 INSERT INTO `agrupamentos_controladores` (`agrupamento_id`, `controlador_id`) VALUES (@AgrupamentoId, @ControladorId);

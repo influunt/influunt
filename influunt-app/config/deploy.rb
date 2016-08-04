@@ -62,7 +62,7 @@ namespace :app do
   task :build do
     run_locally do
       execute "rm -rf dist/"
-      execute "gulp build"
+      execute "ENVIRONMENT=#{fetch(:stage)} gulp build"
       execute "tar czf #{fetch(:project_tarball_path)} dist/"
     end
   end

@@ -5,7 +5,6 @@
 
 create table agrupamentos (
   id                            uuid not null,
-  id_json                       varchar(255),
   nome                          varchar(255),
   numero                        varchar(255),
   tipo                          varchar(8),
@@ -23,7 +22,6 @@ create table agrupamentos_controladores (
 
 create table aneis (
   id                            uuid not null,
-  id_json                       varchar(255),
   ativo                         boolean not null,
   descricao                     varchar(255),
   posicao                       integer,
@@ -38,7 +36,6 @@ create table aneis (
 
 create table areas (
   id                            uuid not null,
-  id_json                       varchar(255),
   descricao                     integer not null,
   cidade_id                     uuid not null,
   data_criacao                  timestamp not null,
@@ -48,7 +45,6 @@ create table areas (
 
 create table cidades (
   id                            uuid not null,
-  id_json                       varchar(255),
   nome                          varchar(255),
   data_criacao                  timestamp not null,
   data_atualizacao              timestamp not null,
@@ -57,7 +53,6 @@ create table cidades (
 
 create table controladores (
   id                            uuid not null,
-  id_json                       varchar(255),
   nome_endereco                 varchar(255) not null,
   status_controlador            integer,
   sequencia                     integer,
@@ -82,7 +77,6 @@ create table controladores (
 
 create table detectores (
   id                            uuid not null,
-  id_json                       varchar(255),
   tipo                          varchar(8),
   anel_id                       uuid,
   estagio_id                    uuid,
@@ -103,7 +97,6 @@ create table detectores (
 
 create table enderecos (
   id                            uuid not null,
-  id_json                       varchar(255),
   controlador_id                uuid,
   anel_id                       uuid,
   localizacao                   varchar(255),
@@ -116,7 +109,6 @@ create table enderecos (
 
 create table estagios (
   id                            uuid not null,
-  id_json                       varchar(255),
   imagem_id                     uuid,
   descricao                     varchar(255),
   tempo_maximo_permanencia      integer,
@@ -135,7 +127,6 @@ create table estagios (
 
 create table estagios_grupos_semaforicos (
   id                            uuid not null,
-  id_json                       varchar(255),
   ativo                         boolean not null,
   estagio_id                    uuid not null,
   grupo_semaforico_id           uuid not null,
@@ -146,7 +137,6 @@ create table estagios_grupos_semaforicos (
 
 create table estagios_planos (
   id                            uuid not null,
-  id_json                       varchar(255),
   estagio_id                    uuid not null,
   plano_id                      uuid not null,
   posicao                       integer,
@@ -163,7 +153,6 @@ create table estagios_planos (
 
 create table fabricantes (
   id                            uuid not null,
-  id_json                       varchar(255),
   nome                          varchar(255),
   data_criacao                  timestamp not null,
   data_atualizacao              timestamp not null,
@@ -172,7 +161,6 @@ create table fabricantes (
 
 create table grupos_semaforicos (
   id                            uuid not null,
-  id_json                       varchar(255),
   tipo                          varchar(8),
   descricao                     varchar(255),
   anel_id                       uuid,
@@ -187,7 +175,6 @@ create table grupos_semaforicos (
 
 create table grupos_semaforicos_planos (
   id                            uuid not null,
-  id_json                       varchar(255),
   grupo_semaforico_id           uuid not null,
   plano_id                      uuid not null,
   ativado                       boolean,
@@ -198,7 +185,6 @@ create table grupos_semaforicos_planos (
 
 create table imagens (
   id                            uuid not null,
-  id_json                       varchar(255),
   filename                      varchar(255),
   content_type                  varchar(255),
   data_criacao                  timestamp not null,
@@ -208,7 +194,6 @@ create table imagens (
 
 create table limite_area (
   id                            uuid not null,
-  id_json                       varchar(255),
   latitude                      double,
   longitude                     double,
   area_id                       uuid,
@@ -219,7 +204,6 @@ create table limite_area (
 
 create table modelo_controladores (
   id                            uuid not null,
-  id_json                       varchar(255),
   fabricante_id                 uuid not null,
   descricao                     varchar(255) not null,
   data_criacao                  timestamp not null,
@@ -229,7 +213,6 @@ create table modelo_controladores (
 
 create table perfis (
   id                            uuid not null,
-  id_json                       varchar(255),
   nome                          varchar(255),
   data_criacao                  timestamp not null,
   data_atualizacao              timestamp not null,
@@ -244,7 +227,6 @@ create table permissoes_perfis (
 
 create table permissoes (
   id                            uuid not null,
-  id_json                       varchar(255),
   descricao                     varchar(255),
   chave                         varchar(255),
   data_criacao                  timestamp not null,
@@ -254,7 +236,6 @@ create table permissoes (
 
 create table planos (
   id                            uuid not null,
-  id_json                       varchar(255),
   posicao                       integer not null,
   tempo_ciclo                   integer,
   defasagem                     integer,
@@ -270,7 +251,6 @@ create table planos (
 
 create table sessoes (
   id                            uuid not null,
-  id_json                       varchar(255),
   usuario_id                    uuid,
   ativa                         boolean,
   data_criacao                  timestamp not null,
@@ -279,7 +259,6 @@ create table sessoes (
 
 create table tabela_entre_verdes (
   id                            uuid not null,
-  id_json                       varchar(255),
   descricao                     varchar(255),
   grupo_semaforico_id           uuid,
   posicao                       integer,
@@ -290,7 +269,6 @@ create table tabela_entre_verdes (
 
 create table tabela_entre_verdes_transicao (
   id                            uuid not null,
-  id_json                       varchar(255),
   tabela_entre_verdes_id        uuid,
   transicao_id                  uuid,
   tempo_amarelo                 integer,
@@ -304,7 +282,6 @@ create table tabela_entre_verdes_transicao (
 
 create table transicao (
   id                            uuid not null,
-  id_json                       varchar(255),
   grupo_semaforico_id           uuid,
   origem_id                     uuid,
   destino_id                    uuid,
@@ -316,7 +293,6 @@ create table transicao (
 
 create table transicoes_proibidas (
   id                            uuid not null,
-  id_json                       varchar(255),
   origem_id                     uuid not null,
   destino_id                    uuid not null,
   alternativo_id                uuid not null,
@@ -328,7 +304,6 @@ create table transicoes_proibidas (
 create table usuarios (
   id                            uuid not null,
   senha                         varchar(255),
-  id_json                       varchar(255),
   login                         varchar(255),
   email                         varchar(255),
   nome                          varchar(255),
@@ -343,7 +318,6 @@ create table usuarios (
 
 create table verdes_conflitantes (
   id                            uuid not null,
-  id_json                       varchar(255),
   origem_id                     uuid,
   destino_id                    uuid,
   data_criacao                  timestamp not null,

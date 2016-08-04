@@ -50,6 +50,10 @@ angular.module('influuntApp')
             }
           });
 
+          scope.percentual = function(){
+            return Math.round(100 - ((scope.max-scope.ngModel)*100)/(scope.max-scope.min));
+          };
+
           scope.$watch('ngModel', function(value) {
             value = value || scope.min;
             $(element).find('.knob-shape').roundSlider('setValue', value);
