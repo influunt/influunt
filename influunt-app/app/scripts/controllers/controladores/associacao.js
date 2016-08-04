@@ -40,10 +40,7 @@ angular.module('influuntApp')
             $scope.objeto.estagios = _.orderBy($scope.objeto.estagios, ['posicao']);
             $scope.selecionaAnelAssociacao(0);
 
-            // _.each($scope.aneis, function(anel) {
-              // anel.gruposSemaforicos = _.orderBy(anel.gruposSemaforicos, ['posicao'], ['asc']);
               _.each($scope.objeto.gruposSemaforicos, function(grupo) {
-              // _.each($scope.currentGruposSemaforicos, function(grupo) {
                 grupo.label = 'G' + (grupo.posicao);
                 grupo.ativo = false;
 
@@ -54,15 +51,9 @@ angular.module('influuntApp')
                   var estagioGrupo = _.find($scope.objeto.estagiosGruposSemaforicos, {idJson: eg.idJson});
                   var estagio = _.find($scope.objeto.estagios, {idJson: estagioGrupo.estagio.idJson});
                   grupo.estagiosRelacionados[estagio.id] = true;
-                  // grupo.estagiosAtivados[estagio.id] = estagioGrupo.ativo;
                 });
               });
 
-              // Inicializa o tempoMaximoPermanenciaAtivo true e posicao.
-              // _.each($scope.currentEstagios, function(estagio, index) {
-              //   estagio.posicao = estagio.posicao || (index + 1);
-              // });
-            // });
           }
         });
       };

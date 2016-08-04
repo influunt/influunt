@@ -309,10 +309,6 @@ public class Anel extends Model implements Cloneable {
         }
     }
 
-    public UUID getJsonId() {
-        return id;
-    }
-
     public Imagem getCroqui() {
         return croqui;
     }

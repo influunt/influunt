@@ -135,11 +135,7 @@ public class ControladorCustomDeserializer {
 
 
         consumers.stream().forEach(c -> {
-            try {
                 c.accept(caches);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         });
 
         return controlador;
@@ -1111,7 +1107,4 @@ public class ControladorCustomDeserializer {
         consumers.add(c);
     }
 
-    public JsonNode getControladorFromJsonFoo(JsonNode jsonControlador) {
-        return jsonControlador;
-    }
 }

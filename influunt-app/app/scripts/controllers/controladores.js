@@ -11,7 +11,6 @@ angular.module('influuntApp')
   .controller('ControladoresCtrl', ['$controller', '$scope', '$state', '$filter', 'Restangular', '$q', 'handleValidations', 'APP_ROOT', 'influuntBlockui',
     function ($controller, $scope, $state, $filter, Restangular, $q, handleValidations, APP_ROOT, influuntBlockui) {
 
-      var buscaReferencias;
 
       // Herda todo o comportamento do crud basico.
       $controller('CrudCtrl', {$scope: $scope});
@@ -154,10 +153,6 @@ angular.module('influuntApp')
           $scope.selecionaEstagio($scope.currentEstagioId);
         }
 
-
-      };
-
-      buscaReferencias = function() {
 
       };
 
