@@ -54,11 +54,28 @@ var World = function () {
     return this.execScript(cmd);
   };
 
+  this.sleep = function(timeout){
+    return driver.sleep(timeout);
+  };
+
   this.waitFor = function(cssLocator, timeout) {
     var waitTimeout = timeout || defaultTimeout;
     return driver.wait(function() {
       return driver.isElementPresent(webdriver.By.css(cssLocator));
     }, waitTimeout);
+  };
+
+  this.waitForInverse = function(cssLocator, timeout) {
+    var waitTimeout = timeout || defaultTimeout;
+    return driver.wait(function() {
+      return driver.isElementPresent(webdriver.By.css(cssLocator)).then(function(isElementPresent) {
+        return !isElementPresent;
+      });
+    }, waitTimeout);
+  };
+
+  this.waitForOverlayDisappear = function() {
+    return this.waitForInverse('div.blockUI');
   };
 
   this.waitForByXpath = function(xpath, timeout) {

@@ -2,6 +2,7 @@
 @crud @agrupamentos @interfaces
 Funcionalidade: tela de cadastro de agrupamentos
 
+  @agrupamentos1
   Cenário: Listagem de agrupamentos
     Dado que exista ao menos um agrupamento cadastrado no sistema
     Quando o usuário acessar a tela de listagem de agrupamentos

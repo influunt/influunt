@@ -62,7 +62,9 @@ var AreasPage = function () {
   };
 
   this.clicarLinkComTexto = function(texto) {
-    return world.findLinkByText(texto).click();
+    return world.waitForOverlayDisappear().then(function (){
+      return world.findLinkByText(texto).click();
+    });
   };
 
   this.textoFieldDescricaoArea = function() {
@@ -92,8 +94,8 @@ var AreasPage = function () {
   };
 
   this.toastMessage = function() {
-    return world.waitFor('#toast-container div').then(function() {
-      return world.getElement('#toast-container div').getText();
+    return world.waitFor('#toast-container div.toast-message').then(function() {
+          return world.getElement('#toast-container div').getText();
     });
   };
 

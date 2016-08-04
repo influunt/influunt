@@ -68,7 +68,9 @@ var FabricantesPage = function () {
   };
 
   this.clicarLinkComTexto = function(texto) {
-    return world.findLinkByText(texto).click();
+    return world.waitForOverlayDisappear().then(function (){
+      return world.findLinkByText(texto).click();
+    });
   };
 
   this.fabricanteIdH5 = function() {

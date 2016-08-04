@@ -7,14 +7,10 @@ var AgrupamentosPage = function () {
   var INDEX_PATH = '/app/agrupamentos';
   var NEW_PATH = '/app/agrupamentos/new';
 
-  // var inputDescArea = '[name="area_descricao"]';
-  // var novaAreaButton = 'a[href*="/areas/new"]';
   var formAgrupamentos = 'form[name="formAgrupamentos"]';
   var inputNomeAgrupamento = '[name="nome"]';
 
   var totalAgrupamentosIndex = 0;
-
-  // this.world = world;
 
   this.existeAoMenosUmAgrupamento = function() {
     return world.execSqlScript('features/support/scripts/agrupamentos/create_agrupamento.sql');
@@ -61,7 +57,9 @@ var AgrupamentosPage = function () {
   };
 
   this.clicarLinkComTexto = function(texto) {
-    return world.findLinkByText(texto).click();
+    return world.waitForOverlayDisappear().then(function (){
+      return world.findLinkByText(texto).click();
+    });
   };
 
   this.isShow = function() {
@@ -88,45 +86,13 @@ var AgrupamentosPage = function () {
     });
   };
 
-  // this.agrupamentoDeveSerExcluido = function() {
-  //   return this.toastMessage().then(function() {
-  //     return world.getElements('tbody tr[data-ng-repeat="agrupamento in lista"]');
-  //   }).then(function(elements) {
-  //     return elements.length === totalAgrupamentosIndex - 1;
-  //   });
-  // };
-
-
-  // this.getPageTitleH2 = function() {
-  //   return world.getElement('h2').then(function(element) {
-  //     return element.getText();
-  //   });
-  // };
-
   this.toastMessage = function() {
-    return world.waitFor('#toast-container div').then(function() {
-      return world.getElement('#toast-container div').getText();
+    return world.sleep(1000).then(function() {
+      return world.waitFor('#toast-container div.toast-message').then(function() {
+        return world.getElement('#toast-container div').getText();
+      });
     });
   };
-
-  // this.cidadeIdH5 = function() {
-  //   return world.getElement('h5 small').then(function(element) {
-  //     return element.getText();
-  //   });
-  // };
-
-  // this.clicarSimConfirmacaoApagarRegistro = function() {
-  //   return world.waitFor('div[class^="sweet-alert"][class$="visible"]').then(function() {
-  //     return world.clickButton('div[class^="sweet-alert"] button.confirm');
-  //   });
-  // };
-
-  // this.clicarNaoConfirmacaoApagarRegistro = function() {
-  //   return world.waitFor('div[class^="sweet-alert"][class$="visible"]').then(function() {
-  //     return world.clickButton('div[class^="sweet-alert"] button.cancel');
-  //   });
-  // };
-
 };
 
 module.exports = AgrupamentosPage;
