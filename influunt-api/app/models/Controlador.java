@@ -94,11 +94,9 @@ public class Controlador extends Model implements Cloneable {
     private List<Anel> aneis;
 
     @OneToMany(mappedBy = "controlador")
-    //@Valid
     private List<GrupoSemaforico> gruposSemaforicos;
 
     @OneToMany(mappedBy = "controlador")
-    @Valid
     private List<Detector> detectores;
 
 
