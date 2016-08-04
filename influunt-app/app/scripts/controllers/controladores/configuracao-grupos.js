@@ -76,6 +76,7 @@ angular.module('influuntApp')
 
       $scope.selecionaAnelGruposSemaforicos = function(index) {
         $scope.selecionaAnel(index);
+        $scope.atualizaEstagios();
         $scope.atualizaGruposSemaforicos();
       };
 
