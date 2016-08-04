@@ -88,10 +88,8 @@
                                   <section>
                                     <div class="col-lg-12 col-sm-12 no-padding table-create-plan overflow">
                                       <ul ui-sortable="sortableOptions" data-ng-model="currentPlano.sequenciaEstagios" class="ui-sortable planos">
-                                        <li class="ui-state-default card-estagio" data-ng-repeat="estagio in currentPlano.sequenciaEstagios" data-ng-class="{'estagio-ativo': $index === currentEstagioIndex}" data-ng-click="selecionaEstagio($index)">
-                                          <header class="sortable-header" role="heading">
-                                            <p class="ng-binding">E{{ estagio.posicao }}</p>
-                                          </header>
+                                        <li class="ui-state-default card-estagio stage-images" data-ng-repeat="estagio in currentPlano.sequenciaEstagios" data-ng-class="{'estagio-ativo': $index === currentEstagioIndex}" data-ng-click="selecionaEstagio($index)">
+                                            <h4 class="ng-binding">E{{ estagio.posicao }}</h4>
                                           <figure>
                                             <img ng-src="{{ getImagemDeEstagio(estagio) }}" width="100%">
                                           </figure>

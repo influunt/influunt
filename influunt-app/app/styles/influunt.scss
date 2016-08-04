@@ -105,17 +105,6 @@
     overflow: hidden;
     width: 100%;
 }
-.wrapper-content .basic-wizard .content .body .early-stage ul li figure {
-    display: block;
-    width: 180px;
-    height: 155px;
-    background: #ebebeb;
-    border: 1px solid #898989;
-    box-sizing: border-box;
-    position: relative;
-    overflow: hidden;
-    margin: 20px auto 10px;
-}
 .wrapper-content .basic-wizard .content .body .early-stage ul li .upload-figure {
     float: left;
     width: 100%;
@@ -155,16 +144,6 @@
 .wrapper-content .basic-wizard .content .body .early-stage ul li p {
     text-align: left;
     padding-left: 15px;
-}
-.wrapper-content .basic-wizard .content .body .early-stage ul li {
-    list-style: none;
-    border-right: 1px solid #d6d6d6;
-    box-sizing: border-box;
-    width: 210px;
-    height: 300px;
-    float: left;
-    display: inline-block;
-    vertical-align: middle;
 }
 .wrapper-content .basic-wizard .content .body .stages nav li .group .ichecks-checkbox label {
     margin: 0;
@@ -401,11 +380,10 @@ header .nav-secon li a {
 		max-width: 74px;
     background: #e5e5e5;
 }
-.wrapper-content .basic-wizard .content .body .tableless {
-    margin: 30px 0 0;
-}
 .wrapper-content .basic-wizard .content .body .figures div.bxslider {
-    overflow: scroll;
+    overflow: auto;
+    background: #f5f5f5;
+    padding: 20px;
 }
 .wrapper-content .basic-wizard .content .body .figures ul.bxslider {
     width: 7000px;
@@ -418,29 +396,6 @@ header .nav-secon li a {
     list-style: none;
     float: left;
     display: list-item;
-}
-.wrapper-content .basic-wizard .content .body .figures li figure.rings-1 {
-    box-sizing: border-box;
-    border: 2px solid #00ac9e;
-}
-.wrapper-content .basic-wizard .content .body .figures li figure.rings-2 {
-    border: 2px solid #f8d334;
-    box-sizing: border-box;
-}
-.wrapper-content .basic-wizard .content .body .figures li figure.rings-3 {
-    border: 2px solid #a23737;
-    box-sizing: border-box;
-}
-.wrapper-content .basic-wizard .content .body .figures li figure.rings-4 {
-    border: 2px solid #2f4050;
-    box-sizing: border-box;
-}
-.wrapper-content .basic-wizard .content .body .figures li figure {
-    float: left;
-    clear: both;
-    max-width: 180px;
-    max-height: 150px;
-    overflow: hidden;
 }
 .wrapper-content .basic-wizard .content .body .movements button {
     margin: 0 auto;
@@ -844,33 +799,9 @@ header .nav-secon li a {
     line-height: 30px;
     text-transform: capitalize;
 }
-.wrapper-content .basic-wizard .content .body .association.tables-associated nav li .group-figure label {
-  width: 100%;
-    font-size: 13px;
-    color: #676a6c;
-    float: left;
-    line-height: 13px;
-    z-index: 999;
-    padding-right: 0;
-    background: #c4c4c4;
-    padding: 5px;
-    position: relative;
-    text-align: center;
-}
-.wrapper-content .basic-wizard .content .body .association.tables-associated nav li figure img {
-    position: absolute;
-    width: 110%;
-    left: 0;
-    top: 23px;
-}
 .wrapper-content .basic-wizard .content .body .association.tables-associated nav li figure {
     float: left;
-    width: 160px;
-    height: 150px;
-    overflow: hidden;
-    position: relative;
     margin-left: 20px;
-    background: #e5e5e5;
 }
 .wrapper-content .basic-wizard .content .body .association.alternative nav ul li {
     line-height: 34px;
@@ -1711,7 +1642,7 @@ table.table-diagonal:nth-of-type(1) th.diagonal {
 }
 
 .padding-top-20 {
-  padding-top: 20px;
+  padding-top: 20px !important;
 }
 
 .ibox-title {
@@ -1737,4 +1668,47 @@ ul {
 img.sample-img-estagios {
   width: 200px;
   height: 150px;
+}
+
+.stage-images figure {
+  max-width: 150px;
+  background: #dddddd;
+}
+.stage-images img {
+  max-width: 150px;
+  max-height: 150px;
+}
+.stage-images h4 {
+  background: #999999;
+  color: #fff;
+  text-align: center;
+  padding: 5px;
+}
+.stage-images label {
+  background: #999999;
+  color: #fff;
+  text-align: center;
+  padding: 5px;
+  display: block !important;
+  margin: 0 !important;
+}
+
+.planos.ui-sortable li.card-estagio.estagio-ativo {
+    background: #FFFFFF !important;
+    border: 0;
+}
+
+.planos.ui-sortable li.card-estagio {
+    height: auto !important;
+}
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    background: transparent;
+    border: 0;
+}
+
+.planos.ui-sortable li.card-estagio figure {
+    width: 150px !important;
+    height: 150px !important;
+    border: 0 !important;
+    margin: 0 0 10px 0 !important;
 }
