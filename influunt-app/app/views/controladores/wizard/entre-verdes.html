@@ -101,6 +101,10 @@
                                 class="{{ amareloOuVermelhoColor(currentGrupoSemaforico) }}"
                                 label="SEG"
                                 min="limites(currentGrupoSemaforico)[amareloOuVermelho(currentGrupoSemaforico, true)].min" max="limites(currentGrupoSemaforico)[amareloOuVermelho(currentGrupoSemaforico, true)].max" data-ng-model="tevTransicao[amareloOuVermelho(currentGrupoSemaforico, true)]"></influunt-knob>
+                                {{tevTransicao.tempoAmarelo}}
+                                {{tevTransicao.idJson == objeto.tabelasEntreVerdesTransicoes[7].idJson}}
+                                {{tevTransicao.idJson}}
+                                {{objeto.tabelasEntreVerdesTransicoes[7].tempoAmarelo}}
                               </div>
                               <div class="knob-item col-lg-4 col-sm-4">
                                 <span class="badge badge-danger badge-notification"

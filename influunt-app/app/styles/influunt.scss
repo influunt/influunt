@@ -1565,14 +1565,14 @@ header .nav-secon li a {
         color: white !important;
     }
 
-    .badge.badge-danger.badge-estagio-alternativo {
-      margin-top: -40px;
-    }
-
     .container-fluid {
         width: 100%;
     }
 }
+.badge.badge-danger.badge-estagio-alternativo {
+  margin-top: -40px;
+}
+
 .remove-tabela-entre-verdes {
     cursor: pointer;
 }

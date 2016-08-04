@@ -167,24 +167,28 @@ angular.module('influuntApp')
        * @return     {boolean}  The erros estagios alternativos.
        */
       $scope.getErrosEstagiosAlternativos = function(origem, destino) {
-        if (!($scope.errors && $scope.errors.aneis)) {
-          return false;
-        }
-
         var indexOrigem = _.findIndex($scope.objeto.estagios, {idJson: origem.idJson});
         var estagioOrigem = $scope.objeto.estagios[indexOrigem];
+        var indexAnel = _.findIndex($scope.objeto.aneis, {idJson: estagioOrigem.anel.idJson});
+        var anel = $scope.objeto.aneis[indexAnel];
+
+        if (!($scope.errors && $scope.errors.aneis[indexAnel])) {
+          return false;
+        }
 
         var query = {
           origem: { idJson: origem.idJson },
           destino: { idJson: destino.idJson }
-        }
+        };
 
         var transicao = _.find($scope.objeto.transicoesProibidas, query);
         var indexDestino = _.findIndex(estagioOrigem.origemDeTransicoesProibidas, {idJson: transicao.idJson});
 
-        return $scope.errors.aneis[$scope.currentAnel.posicao - 1].estagios[indexOrigem] &&
-          $scope.errors.aneis[$scope.currentAnel.posicao - 1]
-          .estagios[indexOrigem]
+        var indexEstagioAnel = _.findIndex(anel.estagios, {idJson: origem.idJson});
+
+        return $scope.errors.aneis[indexAnel].estagios[indexEstagioAnel] &&
+          $scope.errors.aneis[indexAnel]
+          .estagios[indexEstagioAnel]
           .origemDeTransicoesProibidas[indexDestino];
       };
 
@@ -289,7 +293,7 @@ angular.module('influuntApp')
         var query = {
           origem: { idJson: transicao.origem.idJson },
           destino: { idJson: transicao.destino.idJson }
-        }
+        };
 
         var t = _.find($scope.objeto.transicoesProibidas, query);
         return t && t.alternativo && _.find($scope.objeto.estagios, {idJson: t.alternativo.idJson});

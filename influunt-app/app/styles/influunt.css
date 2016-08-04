@@ -1825,12 +1825,13 @@ header .nav-secon li a {
     font-size: 10px !important;
     color: white !important;
   }
-  .badge.badge-danger.badge-estagio-alternativo {
-    margin-top: -40px;
-  }
   .container-fluid {
     width: 100%;
   }
+}
+
+.badge.badge-danger.badge-estagio-alternativo {
+  margin-top: -40px;
 }
 
 .remove-tabela-entre-verdes {
