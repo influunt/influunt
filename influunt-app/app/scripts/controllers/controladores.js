@@ -281,11 +281,14 @@ angular.module('influuntApp')
         $scope.messages = {aneis: []};
         _.each($scope.errors.aneis, function(anel, anelIndex) {
           _.each(anel.gruposSemaforicos, function(gs, gsIndex) {
-            var nomeGS = 'G' + $scope.objeto.aneis[anelIndex].gruposSemaforicos[gsIndex].posicao;
+            var grupoSemaforicoIdJson = $scope.objeto.aneis[anelIndex].gruposSemaforicos[gsIndex].idJson;
+            var grupoSemaforico = _.find($scope.objeto.gruposSemaforicos, {idJson: grupoSemaforicoIdJson});
+            var posicao = grupoSemaforico.posicao;
+            var nomeGS = 'G' + grupoSemaforico.posicao;
             _.each(gs, function(mgs) {
               _.map(mgs, function(msg) {
                 $scope.messages.aneis[anelIndex] = $scope.messages.aneis[anelIndex] || [];
-                $scope.messages.aneis[anelIndex].push(nomeGS + ': ' + msg);
+                $scope.messages.aneis[anelIndex].push({posicao: posicao, texto: nomeGS + ': ' + msg});
               });
             });
           });

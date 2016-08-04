@@ -31,7 +31,7 @@
                   <uib-alert type="danger" close="closeMensagensVerdes()" data-ng-if="messages.aneis[currentAnelIndex].length > 0">
                     <div style="padding-left: 12px;">
                       <ul>
-                        <li data-ng-repeat="message in messages.aneis[currentAnelIndex]" style="text-align: left;">{{ message }}</li>
+                        <li data-ng-repeat="message in messages.aneis[currentAnelIndex] | orderBy:'posicao'" style="text-align: left;">{{ message.texto }}</li>
                       </ul>
                     </div>
                   </uib-alert>
