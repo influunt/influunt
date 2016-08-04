@@ -132,6 +132,7 @@ angular.module('influuntApp')
         $scope.$apply(function() {
           $scope.selecionaAnel(_.findIndex($scope.aneis, { ativo: false }));
           $scope.currentAnel.ativo = true;
+          inicializaEnderecos();
           atualizarAneisAtivos();
         });
       };
@@ -146,7 +147,7 @@ angular.module('influuntApp')
 
       inicializaEnderecos = function() {
         _.each($scope.aneis, function(anel) {
-          if (anel.enderecos.length === 0) {
+          if (!angular.isDefined(anel.enderecos) || anel.enderecos.length === 0) {
             var enderecos = [{ idJson: UUID.generate() }, { idJson: UUID.generate() }];
             anel.enderecos = enderecos;
             $scope.objeto.todosEnderecos = _.concat($scope.objeto.todosEnderecos, enderecos);

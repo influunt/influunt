@@ -4,15 +4,15 @@
       <div class="ibox float-e-margins">
         <div class="steps-wrapper wizard clearfix">
           <div class="steps clearfix">
-            <ul class="progress-indicator" wizard-steps> 
-              <li ui-sref=".dados_basicos({id: $state.params.id})" ng-class="{ active: $state.current.name === 'app.wizard_controladores.dados_basicos' }"> <span class="bubble"></span>{{ 'controladores.dadosBasicos' | translate }}</li> 
+            <ul class="progress-indicator" wizard-steps>
+              <li ui-sref=".dados_basicos({id: $state.params.id})" ng-class="{ active: $state.current.name === 'app.wizard_controladores.dados_basicos' }"> <span class="bubble"></span>{{ 'controladores.dadosBasicos' | translate }}</li>
               <li ui-sref=".aneis({id: $state.params.id})" ng-class="{ active: $state.current.name === 'app.wizard_controladores.aneis' }"> <span class="bubble"></span>{{ 'controladores.aneis' | translate }}</li>
               <li ui-sref=".configuracao_grupo({id: $state.params.id})" ng-class="{ active: $state.current.name === 'app.wizard_controladores.configuracao_grupo' }"> <span class="bubble"></span>{{ 'controladores.configuracao_grupo' | translate }}</li>
-              <li ui-sref=".verdes_conflitantes({id: $state.params.id})" ng-class="{ active: $state.current.name === 'app.wizard_controladores.verdes_conflitantes' }"> <span class="bubble"></span>{{ 'controladores.verdes_conflitantes' | translate }}</li> 
-              <li ui-sref=".associacao({id: $state.params.id})" ng-class="{ active: $state.current.name === 'app.wizard_controladores.associacao' }" > <span class="bubble"></span>{{ 'controladores.associacao' | translate }}</li> 
-              <li ui-sref=".transicoes_proibidas({id: $state.params.id})" class="completed" ng-class="{ active: $state.current.name === 'app.wizard_controladores.transicoes_proibidas' }"> <span class="bubble"></span>{{ 'controladores.transicoesProibidas' | translate }}</li> 
-              <li ui-sref=".entre_verdes({id: $state.params.id})" ng-class="{ active: $state.current.name === 'app.wizard_controladores.entre_verdes' }"> <span class="bubble"></span>{{ 'controladores.entreVerdes' | translate }}</li> 
-              <li ui-sref=".associacao-detectores({id: $state.params.id})" ng-class="{ active: $state.current.name === 'app.wizard_controladores.associacao_detectores' }"> <span class="bubble"></span>{{ 'controladores.associacaoDetectores' | translate }}</li> 
+              <li ui-sref=".verdes_conflitantes({id: $state.params.id})" ng-class="{ active: $state.current.name === 'app.wizard_controladores.verdes_conflitantes' }"> <span class="bubble"></span>{{ 'controladores.verdes_conflitantes' | translate }}</li>
+              <li ui-sref=".associacao({id: $state.params.id})" ng-class="{ active: $state.current.name === 'app.wizard_controladores.associacao' }" > <span class="bubble"></span>{{ 'controladores.associacao' | translate }}</li>
+              <li ui-sref=".transicoes_proibidas({id: $state.params.id})" class="completed" ng-class="{ active: $state.current.name === 'app.wizard_controladores.transicoes_proibidas' }"> <span class="bubble"></span>{{ 'controladores.transicoesProibidas' | translate }}</li>
+              <li ui-sref=".entre_verdes({id: $state.params.id})" ng-class="{ active: $state.current.name === 'app.wizard_controladores.entre_verdes' }"> <span class="bubble"></span>{{ 'controladores.entreVerdes' | translate }}</li>
+              <li ui-sref=".associacao_detectores({id: $state.params.id})" ng-class="{ active: $state.current.name === 'app.wizard_controladores.associacao_detectores' }"> <span class="bubble"></span>{{ 'controladores.associacaoDetectores' | translate }}</li>
             </ul>
           </div>
           <div class="content clearfix wizard-body">
