@@ -41,7 +41,12 @@ angular.module('influuntApp')
       };
 
       $scope.adicionaGrupoSemaforico = function() {
-        var obj = { anel: {idJson: $scope.currentAnel.idJson}, idJson: UUID.generate() };
+        var obj = { 
+          idJson: UUID.generate(),
+          anel: {idJson: $scope.currentAnel.idJson}, 
+          tipo: "VEICULAR",
+          faseVermelhaApagadaAmareloIntermitente: false
+        };
 
         $scope.objeto.gruposSemaforicos = $scope.objeto.gruposSemaforicos || [];
         $scope.currentAnel.gruposSemaforicos = $scope.currentAnel.gruposSemaforicos || [];
@@ -76,6 +81,10 @@ angular.module('influuntApp')
       $scope.selecionaAnelGruposSemaforicos = function(index) {
         $scope.selecionaAnel(index);
         $scope.atualizaGruposSemaforicos();
+      };
+
+      $scope.podeAdicionarGrupoSemaforico = function(){
+        return $scope.objeto.gruposSemaforicos.length < $scope.objeto.limiteGrupoSemaforico;
       };
 
       // $scope.atualizaGruposSemaforicos = function() {
