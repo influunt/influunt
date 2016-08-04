@@ -485,7 +485,6 @@ header .nav-secon li a {
 }
 .wrapper-content .basic-wizard .content .body .association.plans nav.plans {
     float: right;
-    margin: 22px 20px 0;
 }
 .wrapper-content .basic-wizard .content .body .association.plans nav.plans ul {
     padding: 0;
@@ -519,11 +518,11 @@ header .nav-secon li a {
 .wrapper-content .basic-wizard .content .body .association.plans nav.plans li:hover {
     background: inherit;
 }
-.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .subnav li {
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans ul.subnav li {
     width: 50%;
     padding: 0 10px;
 }
-.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .subnav {
+.wrapper-content .basic-wizard .content .body .association.plans nav.plans ul.subnav {
     -webkit-border-radius: 4px;
     border: 1px solid #e7eaec;
     -moz-border-radius: 4px;
@@ -532,7 +531,6 @@ header .nav-secon li a {
     background: white;
     min-width: 270px;
     z-index: 99;
-    top: 40px;
     right: 0;
     padding: 20px 10px;
 }
