@@ -29,7 +29,7 @@
                   <div class="col-lg-2 col-sm-2 association min-green side-menu">
                     <nav>
                       <ul id="side-menu" influunt-metis>
-                        <li data-ng-repeat="grupoSemaforico in currentAnel.gruposSemaforicos" data-ng-class="{ 'active': ($index === currentGrupoSemaforicoIndex) && (currentGrupoSemaforicoIdentifier == currentAnelIndex.toString() + $index.toString()) }" data-ng-click="selecionaGrupoSemaforico($index)">
+                        <li data-ng-repeat="grupoSemaforico in currentGruposSemaforicos" data-ng-class="{ 'active': ($index === currentGrupoSemaforicoIndex) && (currentGrupoSemaforicoIdentifier == currentAnelIndex.toString() + $index.toString()) }" data-ng-click="selecionaGrupoSemaforico(grupoSemaforico, $index)">
                           <a href="">G{{ grupoSemaforico.posicao }}
                             <span class="badge badge-danger badge-notification pull-right m-t-sm" ng-show="grupoSemaforicoTemErro(anelIndex, $index)">
                               <i class="fa fa-exclamation grupo-semaforico-error"></i>
@@ -43,14 +43,15 @@
                     <div class="col-lg-12 col-sm-12 association table-entry-green min-green relative tabelas-entre-verdes entre-verdes-fixed-height-small">
                       <nav>
                         <ul>
-                          <li data-ng-repeat="tabelaEntreVerdes in currentGrupoSemaforico.tabelasEntreVerdes" data-ng-class="{ 'active': $index == currentTabelaEntreVerdesIndex }" data-ng-click="selecionaTabelaEntreVerdes($index)">
+                          <li data-ng-repeat="tabelaEntreVerdes in currentTabelasEntreVerdes" data-ng-class="{ 'active': $index == currentTabelaEntreVerdesIndex }" data-ng-click="selecionaTabelaEntreVerdes(tabelaEntreVerdes, $index)">
                             <div class="col-lg-12 col-sm-12">
-                              <label for="">TABELA {{ tabelaEntreVerdes.descricao }}</label><i class="fa fa-times pull-right m-t-sm remove-tabela-entre-verdes" data-ng-if="$index !== 0" data-ng-click="removerTabelaEntreVerdes($index)"></i>
+                              <label for="">TABELA {{ tabelaEntreVerdes.descricao }} {{ tabelaEntreVerdes.posicao }}</label><i class="fa fa-times pull-right m-t-sm remove-tabela-entre-verdes" data-ng-if="$last && $index !== 0" data-ng-click="removerTabelaEntreVerdes($index)"></i>
                             </div>
                           </li>
                         </ul>
                       </nav>
-                      <footer data-ng-show="currentGrupoSemaforico.tabelasEntreVerdes.length < limiteTabelasEntreVerdes">
+                      <footer>
+                      <footer data-ng-show="currentTabelasEntreVerdes.length < limiteTabelasEntreVerdes">
                         <a target="Nova tabela" data-ng-click="adicionarTabelaEntreVerdes()" data-toggle="tooltip" data-placement="top" title="Adicionar uma nova tabela padrão">Nova tabela</a>
                       </footer>
                     </div>
@@ -67,19 +68,21 @@
 
                     <nav class="association-know" style="display:block;">
                       <ul>
-                        <li data-ng-repeat="tevTransicao in tabelasEntreVerdesTransicoes">
+                        <!-- <li data-ng-repeat="tevTransicao in tabelasEntreVerdesTransicoes"> -->
+                        <li data-ng-repeat="tevTransicao in currentTabelasEntreVerdesTransicoes">
                           <div class="group-figures col-lg-5 col-sm-5 no-padding">
                             <div class="group-figure">
                               <figure>
-                                <label for="">E{{ tevTransicao.transicao.origem.posicao }}</label>
-                                <img ng-src="{{ tevTransicao.transicao.origem.imagem.id | imageSource }}" width="160" height="130" alt="{{ tevTransicao.transicao.origem.descricao }}">
+                                <!-- <label for="">E{{ currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].origem.posicao }}</label> -->
+                                <label for="">E{{ currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].origem.posicao }}</label>
+                                <img ng-src="{{ getImagemDeEstagio(currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].origem) }}" width="160" height="130" alt="{{ currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].origem.descricao }}">
                               </figure>
                             </div>
                             <div class="group-figure">
                               <figure>
-                                <label for="">E{{ tevTransicao.transicao.destino.posicao }}</label>
+                                <label for="">E{{ currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].destino.posicao }}</label>
                                 <!-- <img src="" alt=""> -->
-                                <img ng-src="{{ tevTransicao.transicao.destino.imagem.id | imageSource }}" width="160" height="130" alt="{{ tevTransicao.transicao.destino.descricao }}">
+                                <img ng-src="{{ getImagemDeEstagio(currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].destino) }}" width="160" height="130" alt="{{ currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].destino.descricao }}">
                               </figure>
                             </div>
                           </div>
@@ -97,7 +100,7 @@
                                 title="{{ amareloOuVermelho(currentGrupoSemaforico) }}"
                                 class="{{ amareloOuVermelhoColor(currentGrupoSemaforico) }}"
                                 label="SEG"
-                                min="limites(tevTransicao.transicao.grupoSemaforico)[amareloOuVermelho(currentGrupoSemaforico, true)].min" max="limites(tevTransicao.transicao.grupoSemaforico)[amareloOuVermelho(currentGrupoSemaforico, true)].max" data-ng-model="tevTransicao[amareloOuVermelho(currentGrupoSemaforico, true)]"></influunt-knob>
+                                min="limites(currentGrupoSemaforico)[amareloOuVermelho(currentGrupoSemaforico, true)].min" max="limites(currentGrupoSemaforico)[amareloOuVermelho(currentGrupoSemaforico, true)].max" data-ng-model="tevTransicao[amareloOuVermelho(currentGrupoSemaforico, true)]"></influunt-knob>
                               </div>
                               <div class="knob-item col-lg-4 col-sm-4">
                                 <span class="badge badge-danger badge-notification"
@@ -106,7 +109,7 @@
                                 messages="[errosVermelhoLimpeza(currentGrupoSemaforico, $index)]">
                                 <i class="fa fa-exclamation"></i>
                               </span>
-                              <influunt-knob title="Vermelho de Limpeza" class="vermelho-limpeza" label="SEG" min="limites(tevTransicao.transicao.grupoSemaforico).tempoVermelhoLimpeza.min" max="limites(tevTransicao.transicao.grupoSemaforico).tempoVermelhoLimpeza.max" data-ng-model="tevTransicao.tempoVermelhoLimpeza"></influunt-knob>
+                              <influunt-knob title="Vermelho de Limpeza" class="vermelho-limpeza" label="SEG" min="limites(currentGrupoSemaforico).tempoVermelhoLimpeza.min" max="limites(currentGrupoSemaforico).tempoVermelhoLimpeza.max" data-ng-model="tevTransicao.tempoVermelhoLimpeza"></influunt-knob>
                             </div>
                             <div class="knob-item col-lg-4 col-sm-4 delay-time" data-ng-if="currentTabelaEntreVerdes.posicao === 1">
                               <span class="badge badge-danger badge-notification"
@@ -118,8 +121,8 @@
                             <influunt-knob
                             title="Atraso de Grupo"
                             label="SEG"
-                            min="limites(tevTransicao.transicao.grupoSemaforico).tempoAtrasoGrupo.min"
-                            max="limites(tevTransicao.transicao.grupoSemaforico).tempoAtrasoGrupo.max"
+                            min="limites(currentGrupoSemaforico).tempoAtrasoGrupo.min"
+                            max="limites(currentGrupoSemaforico).tempoAtrasoGrupo.max"
                             data-ng-model="tevTransicao.tempoAtrasoGrupo">
                           </influunt-knob>
                         </div>

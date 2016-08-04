@@ -184,14 +184,29 @@ angular.module('influuntApp')
        *
        * @param      {int}  index   The index
        */
-      $scope.selecionaGrupoSemaforico = function(index) {
+      $scope.selecionaGrupoSemaforico = function(gs, index) {
         $scope.currentGrupoSemaforicoIndex = index;
-        $scope.currentGrupoSemaforico = $scope.currentAnel.gruposSemaforicos[index];
+        $scope.currentGrupoSemaforico = gs;
         $scope.currentGrupoSemaforicoIdentifier = $scope.currentAnelIndex.toString() + index.toString();
 
         if (angular.isDefined($scope.isTabelaEntreVerdes) && $scope.isTabelaEntreVerdes) {
-          $scope.selecionaTabelaEntreVerdes(0);
+          $scope.atualizaTabelaEntreVerdes();
+          $scope.selecionaTabelaEntreVerdes($scope.currentTabelasEntreVerdes[0], 0);
         }
+      };
+
+      $scope.atualizaTabelaEntreVerdes = function() {
+        var ids = _.map($scope.currentGrupoSemaforico.tabelasEntreVerdes, 'idJson');
+
+        $scope.currentTabelasEntreVerdes = _
+          .chain($scope.objeto.tabelasEntreVerdes)
+          .filter(function(tev) {
+            return ids.indexOf(tev.idJson) >= 0;
+          })
+          .orderBy(['posicao'])
+          .value();
+
+        return $scope.currentTabelasEntreVerdes;
       };
 
       /**
@@ -199,17 +214,56 @@ angular.module('influuntApp')
        *
        * @param      {int}  index   The index
        */
-      $scope.selecionaTabelaEntreVerdes = function(index) {
+      $scope.selecionaTabelaEntreVerdes = function(tev, index) {
         $scope.currentTabelaEntreVerdesIndex = index;
-        $scope.currentTabelaEntreVerdes = $scope.currentGrupoSemaforico.tabelasEntreVerdes[index];
+        $scope.currentTabelaEntreVerdes = tev;
         $scope.tabelasEntreVerdesTransicoes = _.chain($scope.currentGrupoSemaforico.transicoes)
+                                     .map(function(transicao) { return _.find($scope.objeto.transicoes, {idJson: transicao.idJson}); })
                                      .map(function(transicao) { return transicao.tabelaEntreVerdesTransicoes; })
                                      .flatten()
-                                     .filter(function(tevt) { return tevt.tabelaEntreVerdes.posicao === index + 1; })
+                                     .map(function(tevt) { return _.find($scope.objeto.tabelasEntreVerdesTransicoes, {idJson: tevt.idJson}); })
+                                     .filter(function(tevt) {
+                                        return _.find($scope.objeto.tabelasEntreVerdes, {idJson: tevt.tabelaEntreVerdes.idJson}).posicao === index + 1;
+                                      })
                                      .value();
-        $scope.tabelasEntreVerdesTransicoes.forEach(function(tevTransicao) {
-          tevTransicao.tabelaEntreVerdes = $scope.currentTabelaEntreVerdes;
+
+        $scope.currentTabelaOrigensEDestinos = {};
+        $scope.currentGrupoSemaforico.transicoes.forEach(function(t) {
+          var transicao = _.find($scope.objeto.transicoes, {idJson: t.idJson});
+          $scope.currentTabelaOrigensEDestinos[t.idJson] = {
+            origem: _.find($scope.objeto.estagios, {idJson: transicao.origem.idJson}),
+            destino: _.find($scope.objeto.estagios, {idJson: transicao.destino.idJson}),
+          };
         });
+
+        // $scope.tabelasEntreVerdesTransicoes.forEach(function(tevTransicao) {
+        //   tevTransicao.tabelasEntreVerdes = $scope.currentTabelasEntreVerdes;
+        // });
+
+        $scope.atualizaTabelasEntreVerdesTransicoes();
+      };
+
+      $scope.atualizaTabelasEntreVerdesTransicoes = function() {
+        var ids = _.map($scope.currentTabelaEntreVerdes.tabelaEntreVerdesTransicoes, 'idJson');
+
+
+        $scope.currentTabelasEntreVerdesTransicoes = _
+          .chain($scope.objeto.tabelasEntreVerdesTransicoes)
+          .filter(function(tevt) { return ids.indexOf(tevt.idJson) >= 0; })
+          .value();
+
+
+        // console.log(
+        //   _.find(
+        //     $scope.objeto.gruposSemaforicos,
+        //     {idJson: $scope.currentTabelaEntreVerdes.grupoSemaforico.idJson}
+        //   )
+        // );
+        // console.log($scope.currentTabelaEntreVerdes);
+        // console.log(ids);
+        // console.log($scope.currentTabelasEntreVerdesTransicoes);
+
+        return $scope.currentTabelasEntreVerdesTransicoes;
       };
 
       /**
