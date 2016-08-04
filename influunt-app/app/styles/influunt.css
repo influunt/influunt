@@ -2018,7 +2018,22 @@ b.white-box {
 
 .showCat {
   position: absolute;
+  display: table;
   top: -40px;
   left: 60px;
   z-index: 999999;
+}
+
+.showCat img {
+  width: 140px;
+  padding: 5px;
+}
+
+.showCat li {
+  display: table-cell !important;
+}
+
+.view-group {
+  color: #1AB394;
+  cursor: default;
 }
