@@ -12,7 +12,7 @@ angular.module('influuntApp')
     function ($scope, $state, $controller, assertControlador, influuntAlert) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
-      var setPosicaoDetectores, atualizaPosicoesDetectores, atualizaEstagiosComDetector;
+      var atualizaPosicoesDetectores, atualizaEstagiosComDetector;
 
       /**
        * Pré-condições para acesso à tela de associcao de detectores: Somente será possivel
@@ -38,20 +38,12 @@ angular.module('influuntApp')
         return $scope.inicializaWizard().then(function() {
           if ($scope.assertAssociacaoDetectores()) {
             $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
+            $scope.objeto.estagios = _.orderBy($scope.objeto.estagios, ['posicao'], ['asc']);
             $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
-            $scope.aneis.forEach(function(anel) {
-              setPosicaoDetectores(anel.detectores);
-              anel.detectores = _.orderBy(anel.detectores, ['tipo', 'posicao']);
-              anel.estagios.forEach(function(estagio, index) {
-                estagio.posicao = index + 1;
-              });
 
-              anel.estagios = _.orderBy(anel.estagios, ['posicao'], ['asc']);
-            });
-
-            $scope.selecionaAnel(0);
+            $scope.selecionaAnelAssociacaoDetectores(0);
             atualizaEstagiosComDetector();
-            return _.isArray($scope.currentAnel.detectores) && $scope.selecionaDetector(0);
+            return _.isArray($scope.currentDetectores) && $scope.selecionaDetector($scope.currentDetectores[0], 0);
           }
         });
       };
@@ -64,14 +56,14 @@ angular.module('influuntApp')
        */
       $scope.toggleAssociacaoDetector = function(estagio, detector) {
         // Não deverá alterar a associação se já existir um detector para o estágio.
-        if (estagio.temDetector && detector.estagio.id !== estagio.id) {
+        if (estagio.temDetector && detector.estagio.idJson !== estagio.idJson) {
           return false;
         }
 
-        if (detector.estagio && detector.estagio.id === estagio.id) {
+        if (detector.estagio && detector.estagio.idJson === estagio.idJson) {
           detector.estagio = {};
         } else {
-          detector.estagio = { id: estagio.id };
+          detector.estagio = { idJson: estagio.idJson };
         }
 
         atualizaEstagiosComDetector();
@@ -81,14 +73,20 @@ angular.module('influuntApp')
        * Adiciona um novo detector à lista de detectores do controlador.
        */
       $scope.adicionaDetector = function(tipo) {
-        $scope.currentAnel.detectores = $scope.currentAnel.detectores || [];
-        $scope.currentAnel.detectores.push({
-          anel: { id: $scope.currentAnel.id },
-          controlador: { id: $scope.objeto.id },
-          posicao: $scope.currentAnel.detectores.length + 1,
+        var posicao = _.filter($scope.currentDetectores, {tipo: tipo}).length + 1;
+        var detector = {
+          idJson: UUID.generate(),
+          anel: { idJson: $scope.currentAnel.idJson },
+          controlador: { idJson: $scope.objeto.idJson },
+          posicao: posicao,
           tipo: tipo
-        });
+        };
 
+        $scope.currentAnel.detectores.push({idJson: detector.idJson});
+        $scope.objeto.detectores = $scope.objeto.detectores || [];
+        $scope.objeto.detectores.push(detector);
+
+        $scope.atualizaDetectores();
         atualizaPosicoesDetectores();
       };
 
@@ -97,32 +95,42 @@ angular.module('influuntApp')
           .delete()
           .then(function(confirmado) {
             if (confirmado) {
-              $scope.currentAnel.detectores.splice(detector, 1);
+              var idJson = detector.idJson;
+              var detectorIndex = _.findIndex($scope.objeto.detectores, {idJson: idJson});
+              $scope.objeto.detectores.splice(detectorIndex, 1);
+
+              detectorIndex = _.findIndex($scope.currentAnel.detectores, {idJson: idJson});
+              $scope.currentAnel.detectores.splice(detectorIndex, 1);
+
+              $scope.atualizaDetectores();
               atualizaPosicoesDetectores();
               atualizaEstagiosComDetector();
             }
           });
       };
 
-      $scope.selecionaDetector = function(index) {
+      $scope.selecionaDetector = function(detector, index) {
         $scope.currentDetectorIndex = index;
-        $scope.currentDetector = $scope.currentAnel.detectores[index];
+        $scope.currentDetector = detector;
       };
 
-      /**
-       * Cria o valor de posicao para os diversos detectores. Importante notar que as
-       * posições serão criadas por tipo de detector, ou seja, dados que haja o tipo A
-       * e B, haverão os detectores A1, A2, A3..., B1, B2, B3...
-       *
-       * @param      {<type>}  detectores  The detectores
-       * @return     {<type>}  { description_of_the_return_value }
-       */
-      setPosicaoDetectores = function(detectores) {
-        var posicoes = {};
-        return detectores && detectores.forEach(function(detector) {
-          posicoes[detector.tipo] = ++posicoes[detector.tipo] || 1;
-          detector.posicao = posicoes[detector.tipo];
-        });
+      $scope.selecionaAnelAssociacaoDetectores = function(index) {
+        $scope.selecionaAnel(index);
+        $scope.atualizaEstagios();
+        $scope.atualizaDetectores();
+      };
+
+      $scope.atualizaDetectores = function() {
+        var ids = _.map($scope.currentAnel.detectores, 'idJson');
+        $scope.currentDetectores = _
+          .chain($scope.objeto.detectores)
+          .filter(function(e) {
+            return ids.indexOf(e.idJson) >= 0;
+          })
+          .orderBy(['tipo', 'posicao'])
+          .value();
+
+          return $scope.currentDetectores;
       };
 
       /**
@@ -131,7 +139,7 @@ angular.module('influuntApp')
        */
       atualizaPosicoesDetectores = function() {
         return ['VEICULAR', 'PEDESTRE'].forEach(function(tipo) {
-          return _.chain($scope.currentAnel.detectores)
+          return _.chain($scope.currentDetectores)
             .filter({tipo: tipo})
             .orderBy(['posicao'])
             .each(function(d, i) {
@@ -145,15 +153,15 @@ angular.module('influuntApp')
        * Anota todos os estagios que possuem detector associado.
        */
       atualizaEstagiosComDetector = function() {
-        _.each($scope.currentAnel.estagios, function(e) {e.temDetector = false;});
-        var estagios = _.chain($scope.currentAnel.detectores)
+        _.each($scope.currentEstagios, function(e) {e.temDetector = false;});
+        var estagios = _.chain($scope.currentDetectores)
           .map('estagio').flatten()
           .filter(function(e) {
-            return !!(e && e.id);
+            return !!(e && e.idJson);
           }).value();
 
         _.each(estagios, function(e) {
-          var estagio = _.find($scope.currentAnel.estagios, {id: e.id});
+          var estagio = _.find($scope.currentEstagios, {idJson: e.idJson});
           estagio.temDetector = true;
         });
       };

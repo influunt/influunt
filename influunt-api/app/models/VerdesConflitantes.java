@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
-import json.serializers.VerdesConflitantesSerializer;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
@@ -18,24 +17,23 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "verdes_conflitantes")
-@JsonSerialize(using = VerdesConflitantesSerializer.class)
+
 public class VerdesConflitantes extends Model {
 
     @Id
     private UUID id;
 
+    @Column
+    private String idJson;
     @ManyToOne
     private GrupoSemaforico origem;
-
     @ManyToOne
     private GrupoSemaforico destino;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
@@ -44,14 +42,23 @@ public class VerdesConflitantes extends Model {
 
     public VerdesConflitantes() {
         super();
+        this.setIdJson(UUID.randomUUID().toString());
     }
 
     public VerdesConflitantes(GrupoSemaforico origem, GrupoSemaforico destino) {
         super();
+        this.setIdJson(UUID.randomUUID().toString());
         this.origem = origem;
         this.destino = destino;
     }
 
+    public String getIdJson() {
+        return idJson;
+    }
+
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
+    }
 
     public UUID getId() {
         return id;

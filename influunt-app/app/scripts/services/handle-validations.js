@@ -8,7 +8,7 @@
  * Service in the influuntApp.
  */
 angular.module('influuntApp')
-  .factory('handleValidations', function () {
+  .factory('handleValidations', function handleValidations() {
     var handle = function(errors) {
       var validations = {};
       var response = {};

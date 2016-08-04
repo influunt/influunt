@@ -15,8 +15,8 @@
               <div class="form-group" data-ng-class="{'has-error': errors.area}">
                 <label class="col-sm-12 no-padding control-label">{{ 'controladores.area' | translate }}:</label>
                 <select name="area" class="form-control"
-                  data-ng-options="area.id as area.descricao for area in helpers.cidade.areas"
-                  data-ng-model="objeto.area.id"></select>
+                  data-ng-options="area.idJson as area.descricao for area in helpers.cidade.areas"
+                  data-ng-model="objeto.area.idJson"></select>
                 <p class="help-block error-msg" data-ng-repeat="error in errors.area">{{ error }}</p>
               </div>
 
@@ -81,8 +81,8 @@
               <div class="form-group">
                 <figure>
                   <div influunt-map
-                    latitude="objeto.enderecos[0].latitude"
-                    longitude="objeto.enderecos[0].longitude"
+                    latitude="objeto.todosEnderecos[0].latitude"
+                    longitude="objeto.todosEnderecos[0].longitude"
                     class="influunt-map">
                   </div>
                 </figure>
@@ -91,7 +91,7 @@
               <div class="col-lg-12 col-sm-12 no-padding" data-ng-class="{'has-error': errors.enderecos[0].localizacao}">
                 <div class="form-group" data-ng-class="{'has-error': errors.enderecos[0].localizacao}">
                   <label class="control-label">{{ 'controladores.localizacao' | translate }} 1:</label>
-                  <helper-endereco latitude="objeto.enderecos[0].latitude" longitude="objeto.enderecos[0].longitude" localizacao="objeto.enderecos[0].localizacao"></helper-endereco>
+                  <helper-endereco ng-model="objeto.todosEnderecos[0].localizacao" latitude="objeto.todosEnderecos[0].latitude" longitude="objeto.todosEnderecos[0].longitude" localizacao="objeto.todosEnderecos[0].localizacao"></helper-endereco>
                   <p class="help-block error-msg" data-ng-repeat="error in errors.enderecos[0].localizacao">{{ error }}</p>
                 </div>
               </div>
@@ -99,14 +99,14 @@
               <div class="col-lg-6 col-sm-6 no-padding" data-ng-class="{'has-error': errors.enderecos[0].latitude}">
                 <div class="form-group">
                   <label class="control-label">{{ 'controladores.latitude' | translate }}:</label>
-                  <input type="number" name="enderecos[0].latitude" class="form-control" data-ng-model="objeto.enderecos[0].latitude">
+                  <input type="number" name="enderecos[0].latitude" class="form-control" data-ng-model="objeto.todosEnderecos[0].latitude">
                   <p class="help-block error-msg" data-ng-repeat="error in errors.enderecos[0].latitude">{{ error }}</p>
                 </div>
               </div>
               <div class="col-lg-6 col-sm-6 no-padding-right" data-ng-class="{'has-error': errors.enderecos[0].longitude}">
                 <div class="form-group">
                   <label class="control-label">{{ 'controladores.longitude' | translate }}:</label>
-                  <input type="number" name="enderecos[0].longitude" class="form-control" data-ng-model="objeto.enderecos[0].longitude">
+                  <input type="number" name="enderecos[0].longitude" class="form-control" data-ng-model="objeto.todosEnderecos[0].longitude">
                   <p class="help-block error-msg" data-ng-repeat="error in errors.enderecos[0].longitude">{{ error }}</p>
                 </div>
               </div>
@@ -115,7 +115,7 @@
               <div class="col-lg-12 col-sm-12 no-padding" data-ng-class="{'has-error': errors.enderecos[1].localizacao}">
                 <div class="form-group" data-ng-class="{'has-error': errors.enderecos[1].localizacao}">
                   <label class="control-label">{{ 'controladores.localizacao' | translate }} 2:</label>
-                  <helper-endereco ng-model="objeto.endereco2" latitude="objeto.enderecos[1].latitude" longitude="objeto.enderecos[1].longitude" localizacao="objeto.enderecos[1].localizacao"></helper-endereco>
+                  <helper-endereco ng-model="objeto.todosEnderecos[1].localizacao" latitude="objeto.todosEnderecos[1].latitude" longitude="objeto.todosEnderecos[1].longitude" localizacao="objeto.todosEnderecos[1].localizacao"></helper-endereco>
                   <p class="help-block error-msg" data-ng-repeat="error in errors.enderecos[1].localizacao">{{ error }}</p>
                 </div>
               </div>
@@ -124,14 +124,14 @@
               <div class="col-lg-6 col-sm-6 no-padding" data-ng-class="{'has-error': errors.enderecos[1].latitude}">
                 <div class="form-group">
                   <label class="control-label">{{ 'controladores.latitude' | translate }}:</label>
-                  <input type="number" name="enderecos[1].latitude" class="form-control" data-ng-model="objeto.enderecos[1].latitude">
+                  <input type="number" name="enderecos[1].latitude" class="form-control" data-ng-model="objeto.todosEnderecos[1].latitude">
                   <p class="help-block error-msg" data-ng-repeat="error in errors.enderecos[1].latitude">{{ error }}</p>
                 </div>
               </div>
               <div class="col-lg-6 col-sm-6 no-padding-right" data-ng-class="{'has-error': errors.enderecos[1].longitude}">
                 <div class="form-group">
                   <label class="control-label">{{ 'controladores.longitude' | translate }}:</label>
-                  <input type="number" name="enderecos[1].longitude" class="form-control" data-ng-model="objeto.enderecos[1].longitude">
+                  <input type="number" name="enderecos[1].longitude" class="form-control" data-ng-model="objeto.todosEnderecos[1].longitude">
                   <p class="help-block error-msg" data-ng-repeat="error in errors.enderecos[1].longitude">{{ error }}</p>
                 </div>
               </div>

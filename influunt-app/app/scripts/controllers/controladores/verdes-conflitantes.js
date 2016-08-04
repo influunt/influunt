@@ -33,38 +33,31 @@ angular.module('influuntApp')
       $scope.inicializaVerdesConflitantes = function() {
         return $scope.inicializaWizard().then(function() {
           if ($scope.assertVerdesConflitantes()) {
-            $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
+            // $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
             $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
 
-            $scope.aneis.forEach(function(anel) {
-              anel.gruposSemaforicos = _.orderBy(anel.gruposSemaforicos, ['posicao']);
-              anel.gruposSemaforicos.forEach(function(gs) {
-                gs.anel = {
-                  id: anel.id
-                };
-              });
-            });
+            $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
+            $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
+            $scope.objeto.gruposSemaforicos = _.orderBy($scope.objeto.gruposSemaforicos, ['posicao']);
 
-            // Seleciona todos os grupos semaforicos (dentro dos aneis) ordenados pelas posicoes.
-            var gruposSemaforicos = _.chain($scope.objeto.aneis)
-              .map('gruposSemaforicos')
-              .flatten()
-              .uniq()
-              .orderBy(['posicao'], ['asc'])
-              .value();
+            var gruposSemaforicos = $scope.objeto.gruposSemaforicos;
 
             $scope.grupoIds = _.chain(gruposSemaforicos).map('id').value();
             var totalGrupos = $scope.objeto.limiteGrupoSemaforico;
             $scope.grupos = _.times(totalGrupos, function(i) {return 'G' + (i+1);});
 
-            $scope.selecionaAnel(0);
-            buildIntervaloAneis();
+            $scope.selecionaAnelVerdesConflitantes(0);
+
             buildMatrizVerdesConflitantes();
 
             return gruposSemaforicos && gruposSemaforicos.forEach(function(gs) {
               return gs.verdesConflitantesOrigem && gs.verdesConflitantesOrigem.forEach(function(vc) {
-                $scope.verdesConflitantes[vc.origem.posicao - 1][vc.destino.posicao - 1] = true;
-                $scope.verdesConflitantes[vc.destino.posicao - 1][vc.origem.posicao - 1] = true;
+                var obj = _.find($scope.objeto.verdesConflitantes, vc);
+                var origem = _.find($scope.objeto.gruposSemaforicos, {idJson: obj.origem.idJson});
+                var destino = _.find($scope.objeto.gruposSemaforicos, {idJson: obj.destino.idJson});
+
+                $scope.verdesConflitantes[origem.posicao - 1][destino.posicao - 1] = true;
+                $scope.verdesConflitantes[destino.posicao - 1][origem.posicao - 1] = true;
               });
             });
           }
@@ -76,30 +69,43 @@ angular.module('influuntApp')
           return false;
         }
 
-        var gruposAneis = _.chain($scope.objeto.aneis).map('gruposSemaforicos').flatten().value();
-        var grupoX = _.find(gruposAneis, {id: $scope.grupoIds[x]});
-        var grupoY = _.find(gruposAneis, {id: $scope.grupoIds[y]});
+        var grupoX = _.find($scope.currentGruposSemaforicos, {id: $scope.grupoIds[x]});
+        var grupoY = _.find($scope.currentGruposSemaforicos, {id: $scope.grupoIds[y]});
         var verdeConflitante = {
+          idJson: UUID.generate(),
           origem: {
-            id: grupoX.id,
-            anel: grupoX.anel
+            idJson: grupoX.idJson
           },
           destino: {
-            id: grupoY.id,
-            anel: grupoY.anel
+            idJson: grupoY.idJson
           }
         };
 
         if ($scope.verdesConflitantes[x][y]) {
-          var index = _.findIndex(grupoX.verdesConflitantesOrigem, verdeConflitante);
-          grupoX.verdesConflitantesOrigem.splice(index, 1);
-          grupoY.verdesConflitantesDestino.splice(index, 1);
+
+          var obj   = _.find(
+            $scope.objeto.verdesConflitantes,
+            {origem: verdeConflitante.origem, destino: verdeConflitante.destino}
+          );
+          var index = _.findIndex($scope.objeto.verdesConflitantes, obj);
+
+          var indexX = _.findIndex(grupoX.verdesConflitantesOrigem, {idJson: obj.idJson});
+          var indexY = _.findIndex(grupoY.verdesConflitantesDestino, {idJson: obj.idJson});
+          grupoX.verdesConflitantesOrigem.splice(indexX, 1);
+          grupoY.verdesConflitantesDestino.splice(indexY, 1);
+
+          $scope.objeto.verdesConflitantes.splice(index, 1);
+
         } else {
           grupoX.verdesConflitantesOrigem = grupoX.verdesConflitantesOrigem || [];
-          grupoX.verdesConflitantesOrigem.push(verdeConflitante);
+          grupoX.verdesConflitantesOrigem.push({idJson: verdeConflitante.idJson});
 
           grupoY.verdesConflitantesDestino = grupoY.verdesConflitantesDestino || [];
-          grupoY.verdesConflitantesDestino.push(verdeConflitante);
+          grupoY.verdesConflitantesDestino.push({idJson: verdeConflitante.idJson});
+
+          $scope.objeto.verdesConflitantes = $scope.objeto.verdesConflitantes || [];
+          $scope.objeto.verdesConflitantes.push(verdeConflitante);
+
         }
 
         // Deve marcar/desmarcar os coordenadas (x, y) e (y, x) simultaneamente.
@@ -114,6 +120,12 @@ angular.module('influuntApp')
       $scope.temVerdeConflitante = function(x, y) {
         var obj = {origem: {id: x.id}, destino: {id: y.id}};
         return !!_.find(x.verdesConflitantesOrigem, obj);
+      };
+
+      $scope.selecionaAnelVerdesConflitantes = function(index) {
+        $scope.selecionaAnel(index);
+        $scope.atualizaGruposSemaforicos();
+        $scope.atualizaEstagios();
       };
 
       /**

@@ -6,9 +6,7 @@ import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import json.deserializers.ControladorDeserializer;
 import json.deserializers.InfluuntDateTimeDeserializer;
-import json.serializers.ControladorSerializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
 
@@ -32,8 +30,7 @@ import java.util.UUID;
 @ConformidadeDeNumeroDeDetectoresDePedestre(groups = ControladorAneisCheck.class)
 @ConformidadeDeNumeroDeDetectoresVeicular(groups = ControladorAneisCheck.class)
 @AoMenosUmAnelAtivo(groups = ControladorAneisCheck.class)
-@JsonDeserialize(using = ControladorDeserializer.class)
-@JsonSerialize(using = ControladorSerializer.class)
+
 public class Controlador extends Model implements Cloneable {
 
     private static final long serialVersionUID = 521560643019927963L;
@@ -44,6 +41,8 @@ public class Controlador extends Model implements Cloneable {
     private UUID id;
 
     @Column
+    private String idJson;
+
     @NotNull(message = "não pode ficar em branco")
     private String nomeEndereco;
 
@@ -102,9 +101,6 @@ public class Controlador extends Model implements Cloneable {
     @Valid
     private List<Detector> detectores;
 
-    @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
-    @Valid
-    private List<Estagio> estagios;
 
     @ManyToMany(mappedBy = "controladores")
     private List<Agrupamento> agrupamentos;
@@ -117,32 +113,32 @@ public class Controlador extends Model implements Cloneable {
 
     @Column
     @Min(value = 1, message = "Deve ser maior que zero")
-    @NotNull
+    @NotNull(message = "não pode ficar em branco")
     private Integer limiteEstagio = 16;
 
     @Column
     @Min(value = 1, message = "Deve ser maior que zero")
-    @NotNull
+    @NotNull(message = "não pode ficar em branco")
     private Integer limiteGrupoSemaforico = 16;
 
     @Column
     @Min(value = 1, message = "Deve ser maior que zero")
-    @NotNull
+    @NotNull(message = "não pode ficar em branco")
     private Integer limiteAnel = 4;
 
     @Column
     @Min(value = 1, message = "Deve ser maior que zero")
-    @NotNull
+    @NotNull(message = "não pode ficar em branco")
     private Integer limiteDetectorPedestre = 4;
 
     @Column
     @Min(value = 1, message = "Deve ser maior que zero")
-    @NotNull
+    @NotNull(message = "não pode ficar em branco")
     private Integer limiteDetectorVeicular = 8;
 
     @Column
     @Min(value = 1, message = "Deve ser maior que zero")
-    @NotNull
+    @NotNull(message = "não pode ficar em branco")
     private Integer limiteTabelasEntreVerdes = 2;
 
     @Override
@@ -214,6 +210,14 @@ public class Controlador extends Model implements Cloneable {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public String getIdJson() {
+        return idJson;
+    }
+
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
     }
 
     public String getNomeEndereco() {

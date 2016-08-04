@@ -8,9 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
-import json.deserializers.PlanoDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
-import json.serializers.PlanoSerializer;
 import org.apache.commons.lang3.Range;
 import org.joda.time.DateTime;
 
@@ -25,58 +23,62 @@ import java.util.*;
  */
 @Entity
 @Table(name = "planos")
-@JsonSerialize(using = PlanoSerializer.class)
-@JsonDeserialize(using = PlanoDeserializer.class)
+
 public class Plano extends Model implements Cloneable {
 
     @Id
     private UUID id;
 
     @Column
+    private String idJson;
+    @Column
     @NotNull(message = "não pode ficar em branco.")
     private Integer posicao;
-
     @Column
     private Integer tempoCiclo;
-
     @Column
     private Integer defasagem = 0;
-
     @ManyToOne
     private Anel anel;
-
     @ManyToOne
     private Agrupamento agrupamento;
-
     @OneToMany(mappedBy = "plano", cascade = CascadeType.ALL)
     @Valid
     private List<EstagioPlano> estagiosPlanos;
-
     @OneToMany(mappedBy = "plano", cascade = CascadeType.ALL)
     private List<GrupoSemaforicoPlano> gruposSemaforicosPlanos;
-
     @Column
     @NotNull(message = "não pode ficar em branco.")
     private ModoOperacaoPlano modoOperacao;
-
     /**
      * Armazena qual {@link TabelaEntreVerdes} deve ser utiliada pelos grupos semafóricos a paritr da posição
      */
     @Column
     @NotNull(message = "não pode ficar em branco.")
     private Integer posicaoTabelaEntreVerde;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
+
+    public Plano() {
+        super();
+        this.setIdJson(UUID.randomUUID().toString());
+    }
+
+    public String getIdJson() {
+        return idJson;
+    }
+
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
+    }
 
     public UUID getId() {
         return id;

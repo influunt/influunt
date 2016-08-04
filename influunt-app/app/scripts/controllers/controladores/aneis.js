@@ -13,7 +13,7 @@ angular.module('influuntApp')
       $controller('ControladoresCtrl', {$scope: $scope});
 
       // Métodos privados.
-      var criaAneis, atualizarAneisAtivos, registrarWatcherEndereco;
+      var criaAneis, inicializaEnderecos, atualizarAneisAtivos, registrarWatcherEndereco, atualizaCurrentEnderecos;
 
       /**
        * Pré-condições para acesso à tela de aneis: Somente será possível acessar esta
@@ -38,9 +38,9 @@ angular.module('influuntApp')
             $scope.currentAnelIndex = 0;
             criaAneis($scope.objeto);
             $scope.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
-            $scope.aneis.forEach(function(anel) { anel.enderecos = [{}, {}]; });
             $scope.currentAnel = $scope.objeto.aneis[$scope.currentAnelIndex];
             atualizarAneisAtivos();
+            inicializaEnderecos();
             registrarWatcherEndereco();
             $scope.$broadcast('influuntWizard.dropzoneOk');
           }
@@ -55,7 +55,7 @@ angular.module('influuntApp')
             delete anel.enderecos;
           }
         });
-      }
+      };
 
       /**
        * Desativa todos os aneis após o anel corrente, caso o anel atual seja
@@ -90,16 +90,34 @@ angular.module('influuntApp')
       $scope.associaImagemAoEstagio = function(upload, imagem) {
         var anel = $scope.currentAnel;
         anel.estagios = anel.estagios || [];
-        anel.estagios.push({ imagem: { id: imagem.id, filename: imagem.filename } });
+        $scope.objeto.estagios = $scope.objeto.estagios || [];
+
+        var uuid = UUID.generate();
+        var _imagem = { id: imagem.id, filename: imagem.filename, idJson: imagem.idJson };
+        var estagio = {
+          imagem: { idJson: imagem.idJson },
+          idJson: uuid
+        };
+
+        anel.estagios.push({idJson: uuid});
+        $scope.objeto.estagios.push(estagio);
+        $scope.objeto.imagens.push(_imagem);
       };
 
-      $scope.removeImagemDoEstagio = function(imagem) {
+      $scope.removeImagemDoEstagio = function(img) {
         var anel = $scope.currentAnel;
-        anel.estagios = anel.estagios || [];
-        var index = _.findIndex(anel.estagios, function(estagio) { return estagio.imagem.id === imagem.id; });
-        if (index > -1) {
-          anel.estagios.splice(index, 1);
-        }
+
+        var imagemIndex = _.findIndex($scope.objeto.imagens, {id: img.id});
+        var imagem = $scope.objeto.imagens[imagemIndex];
+        var estagioIndex = _.findIndex($scope.objeto.estagios, function(estagio) {
+          return estagio.imagem.idJson === imagem.idJson;
+        });
+        var estagio = $scope.objeto.estagios[estagioIndex];
+        var estagioAnelIndex = _.findIndex(anel.estagios, {idJson: estagio.idJson});
+
+        $scope.objeto.imagens.splice(imagemIndex, 1);
+        $scope.objeto.estagios.splice(estagioIndex, 1);
+        anel.estagios.splice(estagioAnelIndex, 1);
       };
 
       $scope.associaImagemAoCurrentAnel = function(imagem) {
@@ -126,14 +144,34 @@ angular.module('influuntApp')
         });
       };
 
+      inicializaEnderecos = function() {
+        _.each($scope.aneis, function(anel) {
+          if (anel.enderecos.length === 0) {
+            var enderecos = [{ idJson: UUID.generate() }, { idJson: UUID.generate() }];
+            anel.enderecos = enderecos;
+            $scope.objeto.todosEnderecos = _.concat($scope.objeto.todosEnderecos, enderecos);
+          }
+        });
+      };
+
       registrarWatcherEndereco = function() {
         $scope.$watch('currentAnel', function(anel) {
-          if (anel) {
-            if (anel.enderecos[0].localizacao && anel.enderecos[1].localizacao) {
-              anel.localizacao = anel.enderecos[0].localizacao + ' com ' + anel.enderecos[1].localizacao;
-            }
+          atualizaCurrentEnderecos();
+          if (angular.isArray($scope.currentEnderecos) && $scope.currentEnderecos[0].localizacao && $scope.currentEnderecos[1].localizacao) {
+            anel.localizacao = $scope.currentEnderecos[0].localizacao + ' com ' + $scope.currentEnderecos[1].localizacao;
           }
+
         }, true);
+      };
+
+      atualizaCurrentEnderecos = function() {
+        var ids = _.map($scope.currentAnel.enderecos, 'idJson');
+        $scope.currentEnderecos = _
+          .chain($scope.objeto.todosEnderecos)
+          .filter(function(e) { return ids.indexOf(e.idJson) >= 0; })
+          .value();
+
+        return $scope.currentEnderecos;
       };
 
     }]);

@@ -5,20 +5,20 @@
 		    <div class="text-right m-r-xs">De</div>
 		    <div class="text-left m-l-xs">Para</div>
 	    </th>
-      <th data-ng-repeat="estagio in currentAnel.estagios">E{{ $index + 1 }}</th>
+      <th data-ng-repeat="estagio in currentEstagios">E{{ estagio.posicao }}</th>
     </tr>
   </thead>
   <tbody>
-    <tr data-ng-repeat="tr in currentAnel.estagios">
+    <tr data-ng-repeat="tr in currentEstagios">
       <td class="tg-yw4l" style="font-size: 15px;">
-        <strong>E{{ $index + 1 }}</strong>
+        <strong>E{{ tr.posicao }}</strong>
       </td>
 
-      <td data-ng-repeat="td in currentAnel.estagios" class="clickable"
+      <td data-ng-repeat="td in currentEstagios" class="clickable"
         data-ng-class="{disabled: tr === td }"
         data-ng-click="toggleTransicaoProibida(td, tr, (tr.id === td.id))">
         <i class="fa fa-times transicao-proibida"
-        data-ng-class="{ ativo : currentAnel.transicoesProibidas['E' + td.posicao + '-E' + tr.posicao] }"></i>
+        data-ng-class="{ ativo : currentTransicoesProibidas['E' + td.posicao + '-E' + tr.posicao] }"></i>
       </td>
     </tr>
   </tbody>

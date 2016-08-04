@@ -6,9 +6,7 @@ import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import json.deserializers.EstagioGrupoSemaforicoDeserializer;
 import json.deserializers.InfluuntDateTimeDeserializer;
-import json.serializers.EstagioGrupoSemaforicoSerializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
 
@@ -24,8 +22,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "estagios_grupos_semaforicos")
-@JsonSerialize(using = EstagioGrupoSemaforicoSerializer.class)
-@JsonDeserialize(using = EstagioGrupoSemaforicoDeserializer.class)
+
 public class EstagioGrupoSemaforico extends Model implements Cloneable {
 
     private static final long serialVersionUID = 5983122994022833262L;
@@ -34,23 +31,21 @@ public class EstagioGrupoSemaforico extends Model implements Cloneable {
     private UUID id;
 
     @Column
+    private String idJson;
+    @Column
     @NotNull
     private Boolean ativo = false;
-
     @ManyToOne
     @NotNull(groups = ControladorAssociacaoGruposSemaforicosCheck.class)
     private Estagio estagio;
-
     @ManyToOne
     @NotNull(groups = ControladorAssociacaoGruposSemaforicosCheck.class)
     private GrupoSemaforico grupoSemaforico;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
@@ -59,12 +54,22 @@ public class EstagioGrupoSemaforico extends Model implements Cloneable {
 
     public EstagioGrupoSemaforico() {
         super();
+        this.setIdJson(UUID.randomUUID().toString());
     }
 
     public EstagioGrupoSemaforico(Estagio estagio, GrupoSemaforico grupoSemaforico) {
         super();
+        this.setIdJson(UUID.randomUUID().toString());
         this.estagio = estagio;
         this.grupoSemaforico = grupoSemaforico;
+    }
+
+    public String getIdJson() {
+        return idJson;
+    }
+
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
     }
 
     public UUID getId() {

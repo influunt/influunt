@@ -8,7 +8,7 @@
             <div class="col-lg-12 col-sm-12 padding-top-20 tabs-container">
 
               <influunt-tabs class="tabpanel"
-                             data-on-activate="selecionaAnel"
+                             data-on-activate="selecionaAnelGruposSemaforicos"
                              data-aneis-ativos="aneis"
                              data-error-check="anelTemErro">
               </influunt-tabs>
@@ -42,8 +42,7 @@
 
                     <div class="col-lg-12 col-sm-12">
                       <form method="get" class="form-horizontal">
-
-                        <div class="row botton-line-grey" data-ng-repeat="grupo in currentAnel.gruposSemaforicos">
+                        <div class="row botton-line-grey" data-ng-repeat="grupo in currentGruposSemaforicos">
                           <div class="col-lg-1 col-sm-1 groups-stages-top">
                             <hgroup>
                               <label class="checkbox-inline i-checks">
@@ -79,7 +78,7 @@
                             </hgroup>
                           </div>
 
-                          <div class="col-lg-11 col-sm-11 groups-stages">
+                          <div class="col-lg-11 col-sm-11 groups-stages" data-ng-if="podeAdicionarGrupoSemaforico()">
                             <a data-toggle="tooltip" data-placement="top" title="Adicionar novo grupo" class="btn btn-primary left" data-ng-click="adicionaGrupoSemaforico()">{{ 'controladores.adicionarGrupo' | translate }}</a>
                           </div>
                         </div>

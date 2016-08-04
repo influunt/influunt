@@ -28,6 +28,9 @@ public class Endereco extends Model {
     @Id
     private UUID id;
 
+    @Column
+    private String idJson;
+
     @ManyToOne
     private Controlador controlador;
 
@@ -60,10 +63,12 @@ public class Endereco extends Model {
 
     public Endereco() {
         super();
+        this.setIdJson(UUID.randomUUID().toString());
     }
 
     public Endereco(Double latitude, Double longitude, String localizacao) {
         super();
+        this.setIdJson(UUID.randomUUID().toString());
         this.latitude = latitude;
         this.longitude = longitude;
         this.localizacao = localizacao;
@@ -75,6 +80,14 @@ public class Endereco extends Model {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public String getIdJson() {
+        return idJson;
+    }
+
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
     }
 
     public Controlador getControlador() {

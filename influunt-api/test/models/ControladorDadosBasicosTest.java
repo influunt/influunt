@@ -4,6 +4,8 @@ import checks.Erro;
 import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 import controllers.routes;
+import json.ControladorCustomDeserializer;
+import json.ControladorCustomSerializer;
 import org.junit.Test;
 import play.libs.Json;
 import play.mvc.Http;
@@ -61,13 +63,14 @@ public class ControladorDadosBasicosTest extends ControladorTest {
     @Test
     public void testJSON() {
         Controlador controlador = getControladorDadosBasicos();
-        Controlador controladorJson = Json.fromJson(Json.toJson(controlador), Controlador.class);
+        Controlador controladorJson = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador));
 
         assertEquals(controlador.getId(), controladorJson.getId());
         assertControlador(controlador, controladorJson);
 
         controlador.save();
-        controladorJson = Json.fromJson(Json.toJson(controlador), Controlador.class);
+
+        controladorJson = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador));
 
         assertEquals(controlador.getId(), controladorJson.getId());
         assertControlador(controlador, controladorJson);
@@ -80,7 +83,7 @@ public class ControladorDadosBasicosTest extends ControladorTest {
     }
 
     private void assertFaixaValores(Controlador controlador) {
-        JsonNode controladorJSON = Json.toJson(controlador);
+        JsonNode controladorJSON = new ControladorCustomSerializer().getControladorJson(controlador);
 
         assertEquals("verdeMinimoMin", controladorJSON.get("verdeMinimoMin").asText(), RangeUtils.TEMPO_VERDE_MINIMO.getMin().toString());
         assertEquals("verdeMinimoMax", controladorJSON.get("verdeMinimoMax").asText(), RangeUtils.TEMPO_VERDE_MINIMO.getMax().toString());
@@ -138,7 +141,7 @@ public class ControladorDadosBasicosTest extends ControladorTest {
         Controlador controlador = getControlador();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.dadosBasicos().url()).bodyJson(Json.toJson(controlador));
+                .uri(routes.ControladoresController.dadosBasicos().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
         Result postResult = route(postRequest);
 
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
@@ -160,13 +163,13 @@ public class ControladorDadosBasicosTest extends ControladorTest {
         Controlador controlador = getControladorDadosBasicos();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.dadosBasicos().url()).bodyJson(Json.toJson(controlador));
+                .uri(routes.ControladoresController.dadosBasicos().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
-        Controlador controladorRetornado = Json.fromJson(json, Controlador.class);
+        Controlador controladorRetornado = new ControladorCustomDeserializer().getControladorFromJson((json));
 
         assertControlador(controlador, controladorRetornado);
         assertNotNull(controladorRetornado.getId());

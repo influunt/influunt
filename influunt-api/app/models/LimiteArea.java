@@ -29,20 +29,18 @@ public class LimiteArea extends Model {
     private UUID id;
 
     @Column
+    private String idJson;
+    @Column
     private Double latitude;
-
     @Column
     private Double longitude;
-
     @ManyToOne
     private Area area;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
@@ -57,6 +55,14 @@ public class LimiteArea extends Model {
         super();
         this.latitude = latitude;
         this.longitude = longitude;
+    }
+
+    public String getIdJson() {
+        return idJson;
+    }
+
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
     }
 
     public UUID getId() {

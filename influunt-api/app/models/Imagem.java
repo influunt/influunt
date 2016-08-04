@@ -31,22 +31,34 @@ public class Imagem extends Model {
     private UUID id;
 
     @Column
+    private String idJson;
+    @Column
     private String filename;
-
     @Column
     private String contentType;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
+
+    public Imagem() {
+        super();
+        this.setIdJson(UUID.randomUUID().toString());
+    }
+
+    public String getIdJson() {
+        return idJson;
+    }
+
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
+    }
 
     public UUID getId() {
         return id;

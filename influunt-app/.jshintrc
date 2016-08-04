@@ -21,6 +21,8 @@
     // leaflet lib
     "L": true,
 
+    "UUID": true,
+
     // karma/jasmine globals
     "afterEach": true,
     "beforeEach": true,

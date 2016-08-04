@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Directive: fakeDropzonePreview', function () {
+xdescribe('Directive: fakeDropzonePreview', function () {
 
   // load the directive's module
   beforeEach(module('influuntApp'));

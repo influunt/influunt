@@ -7,9 +7,7 @@ import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
-import json.deserializers.TransicaoProibidaDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
-import json.serializers.TransicaoProibidaSerializer;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
@@ -19,36 +17,46 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "transicoes_proibidas")
-@JsonSerialize(using = TransicaoProibidaSerializer.class)
-@JsonDeserialize(using = TransicaoProibidaDeserializer.class)
+
 public class TransicaoProibida extends Model {
 
     @Id
     private UUID id;
 
+    @Column
+    private String idJson;
     @NotNull(message = "não pode ficar em branco")
     @ManyToOne
     private Estagio origem;
-
     @NotNull(message = "não pode ficar em branco")
     @ManyToOne
     private Estagio destino;
-
     @NotNull(message = "não pode ficar em branco")
     @ManyToOne
     private Estagio alternativo;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
+
+    public TransicaoProibida() {
+        super();
+        this.setIdJson(UUID.randomUUID().toString());
+    }
+
+    public String getIdJson() {
+        return idJson;
+    }
+
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
+    }
 
     public UUID getId() {
         return id;

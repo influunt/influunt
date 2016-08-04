@@ -7,7 +7,7 @@
           <div class="col-lg-12 col-sm-12 padding-top-20 tabs-container">
 
             <influunt-tabs class="tabpanel"
-                           data-on-activate="selecionaAnel"
+                           data-on-activate="selecionaAnelVerdesConflitantes"
                            data-aneis-ativos="aneis"
                            data-error-check="anelTemErro">
             </influunt-tabs>
@@ -18,9 +18,9 @@
                   <div class="bxslider">
                     <ul class="bxslider">
                       <div>
-                        <li data-ng-repeat="estagio in currentAnel.estagios"  class="wizard-step-title">
+                        <li data-ng-repeat="estagio in currentEstagios"  class="wizard-step-title">
                           <figure class="rings-{{ currentAnel.posicao }}">
-                            <img src="{{ estagio.imagem.id | imageSource }}" class="sample-img-estagios">
+                            <img src="{{ getImagemDeEstagio(estagio) }}">
                           </figure>
                         </li>
                       </div>
@@ -31,7 +31,7 @@
                   <uib-alert type="danger" close="closeMensagensVerdes()" data-ng-if="messages.aneis[currentAnelIndex].length > 0">
                     <div style="padding-left: 12px;">
                       <ul>
-                        <li data-ng-repeat="message in messages.aneis[currentAnelIndex]" style="text-align: left;">{{ message }}</li>
+                        <li data-ng-repeat="message in messages.aneis[currentAnelIndex] | orderBy:'posicao'" style="text-align: left;">{{ message.texto }}</li>
                       </ul>
                     </div>
                   </uib-alert>

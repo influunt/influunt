@@ -1,12 +1,12 @@
 BEGIN;
 
 SET @CidadeId = UUID();
-INSERT INTO `cidades` (`id`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@CidadeId, 'São Paulo', NOW(), NOW());
-INSERT INTO `areas` (`id`, `descricao`, `cidade_id`, `data_criacao`, `data_atualizacao`) VALUES (UUID(), 1, @CidadeId, NOW(), NOW());
+INSERT INTO `cidades` (`id`, `id_json`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@CidadeId, UUID(), 'São Paulo', NOW(), NOW());
+INSERT INTO `areas` (`id`, `id_json`, `descricao`, `cidade_id`, `data_criacao`, `data_atualizacao`) VALUES (UUID(), UUID(), 1, @CidadeId, NOW(), NOW());
 
 SET @FabricanteId = UUID();
-INSERT INTO `fabricantes` (`id`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@FabricanteId, 'Raro Labs', NOW(), NOW());
-INSERT INTO `modelo_controladores` (`id`, `descricao`, `fabricante_id`, `data_criacao`, `data_atualizacao`) VALUES (UUID(), 'Modelo Básico', @FabricanteId, NOW(), NOW());
+INSERT INTO `fabricantes` (`id`, `id_json`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@FabricanteId, UUID(), 'Raro Labs', NOW(), NOW());
+INSERT INTO `modelo_controladores` (`id`, `id_json`, `descricao`, `fabricante_id`, `data_criacao`, `data_atualizacao`) VALUES (UUID(), UUID(),'Modelo Básico', @FabricanteId, NOW(), NOW());
 INSERT INTO `usuarios` (`id`, `login`, `senha`, `email`, `nome`, `root`, `data_criacao`, `data_atualizacao`) VALUES (UUID(), 'root', '$2a$10$EzudGIqkxquJjLGawuMrOu9K6S28yc/R/YSAVxsvb5bSryOYWd5eq', 'root@influunt.com.br', 'Administrador Geral', true, NOW(), NOW());
 
 

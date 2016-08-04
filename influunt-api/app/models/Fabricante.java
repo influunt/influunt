@@ -36,24 +36,36 @@ public class Fabricante extends Model implements Cloneable {
     private UUID id;
 
     @Column
+    private String idJson;
+    @Column
     @NotBlank(message = "não pode ficar em branco")
     private String nome;
-
     @OneToMany(mappedBy = "fabricante", cascade = CascadeType.ALL)
     @Valid
     private List<ModeloControlador> modelos;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
+
+    public Fabricante() {
+        super();
+        this.setIdJson(UUID.randomUUID().toString());
+    }
+
+    public String getIdJson() {
+        return idJson;
+    }
+
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
+    }
 
     public UUID getId() {
         return id;

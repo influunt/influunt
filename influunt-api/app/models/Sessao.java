@@ -20,21 +20,28 @@ public class Sessao extends Model {
     @Id
     private UUID id;
 
+    @Column
+    private String idJson;
     @ManyToOne
     private Usuario usuario;
-
     @Column
     private Boolean ativa = true;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
 
-
     public Sessao(final Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public String getIdJson() {
+        return idJson;
+    }
+
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
     }
 
     public UUID getId() {

@@ -30,6 +30,7 @@
     "paho-mqtt": "*",
     "blockUI": "blockui#*",
     "css-progress-wizard": "*",
+    "uuid.js": "^3.3.0",
     "bowser": "~1.4.3"
   },
   "devDependencies": {

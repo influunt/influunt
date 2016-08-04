@@ -4,6 +4,8 @@ import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
 import be.objectify.deadbolt.java.actions.Dynamic;
 import checks.*;
 import com.google.inject.Inject;
+import json.ControladorCustomDeserializer;
+import json.ControladorCustomSerializer;
 import models.Controlador;
 import models.StatusControlador;
 import play.data.FormFactory;
@@ -83,7 +85,7 @@ public class ControladoresController extends Controller {
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
-            return CompletableFuture.completedFuture(ok(Json.toJson(controlador)));
+            return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador)));
         }
     }
 
@@ -107,8 +109,7 @@ public class ControladoresController extends Controller {
         if (request().body() == null) {
             return CompletableFuture.completedFuture(badRequest());
         }
-
-        Controlador controlador = Json.fromJson(request().body().asJson(), Controlador.class);
+        Controlador controlador = new ControladorCustomDeserializer().getControladorFromJson(request().body().asJson());
 
         boolean checkIfExists = controlador.getId() != null;
         if (checkIfExists && Controlador.find.byId(controlador.getId()) == null) {
@@ -126,8 +127,9 @@ public class ControladoresController extends Controller {
                 } else {
                     controlador.save();
                 }
+                Controlador controlador1 = Controlador.find.byId(controlador.getId());
 
-                return CompletableFuture.completedFuture(ok(Json.toJson(Controlador.find.byId(controlador.getId()))));
+                return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador1)));
             }
         }
     }

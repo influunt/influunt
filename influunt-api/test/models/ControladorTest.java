@@ -111,7 +111,8 @@ public abstract class ControladorTest extends WithApplication {
         Anel anel1 = controlador.getAneis().get(0);
         anel1.setDescricao("Anel 0");
         anel1.setAtivo(true);
-        anel1.setEstagios(Arrays.asList(new Estagio(), new Estagio(), new Estagio(), new Estagio()));
+        List<Estagio> estagios = Arrays.asList(new Estagio(), new Estagio(), new Estagio(), new Estagio());
+        anel1.setEstagios(estagios);
 
         Endereco paulista = new Endereco(1.0, 1.0, "Av. Paulista");
         Endereco belaCintra = new Endereco(2.0, 2.0, "R. Bela Cintra");
@@ -137,6 +138,7 @@ public abstract class ControladorTest extends WithApplication {
         grupoSemaforicoVeicular.setPosicao(1);
         grupoSemaforicoVeicular.setFaseVermelhaApagadaAmareloIntermitente(false);
         anelAtivo.addGruposSemaforicos(grupoSemaforicoVeicular);
+        grupoSemaforicoVeicular.setAnel(anelAtivo);
         controlador.addGruposSemaforicos(grupoSemaforicoVeicular);
 
         GrupoSemaforico grupoSemaforicoPedestre = new GrupoSemaforico();
@@ -147,6 +149,7 @@ public abstract class ControladorTest extends WithApplication {
         grupoSemaforicoPedestre.setPosicao(2);
         grupoSemaforicoPedestre.setFaseVermelhaApagadaAmareloIntermitente(true);
         anelAtivo.addGruposSemaforicos(grupoSemaforicoPedestre);
+        grupoSemaforicoPedestre.setAnel(anelAtivo);
         controlador.addGruposSemaforicos(grupoSemaforicoPedestre);
 
         return controlador;
@@ -171,6 +174,7 @@ public abstract class ControladorTest extends WithApplication {
         EstagioGrupoSemaforico estagioGrupoSemaforico2 = new EstagioGrupoSemaforico(estagio2, grupoSemaforico2);
         EstagioGrupoSemaforico estagioGrupoSemaforico3 = new EstagioGrupoSemaforico(estagio3, grupoSemaforico1);
         EstagioGrupoSemaforico estagioGrupoSemaforico4 = new EstagioGrupoSemaforico(estagio4, grupoSemaforico2);
+
 
         estagio1.setDemandaPrioritaria(true);
         estagio1.setTempoMaximoPermanencia(100);
@@ -215,7 +219,6 @@ public abstract class ControladorTest extends WithApplication {
         Anel anelAtivo = controlador.getAneis().stream().filter(anel -> !anel.isAtivo()).findFirst().get();
         anelAtivo.setDescricao("Anel 1");
         anelAtivo.setAtivo(Boolean.TRUE);
-
         Endereco paulista = new Endereco(1.0, 1.0, "Av. Paulista");
         Endereco belaCintra = new Endereco(2.0, 2.0, "R. Bela Cintra");
         paulista.setAnel(anelAtivo);
