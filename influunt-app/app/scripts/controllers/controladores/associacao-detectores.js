@@ -80,7 +80,7 @@ angular.module('influuntApp')
           controlador: { idJson: $scope.objeto.idJson },
           posicao: posicao,
           tipo: tipo
-        }
+        };
 
         $scope.currentAnel.detectores.push({idJson: detector.idJson});
         $scope.objeto.detectores = $scope.objeto.detectores || [];
@@ -90,7 +90,7 @@ angular.module('influuntApp')
         atualizaPosicoesDetectores();
       };
 
-      $scope.excluirDetector = function(detector, index) {
+      $scope.excluirDetector = function(detector) {
         return influuntAlert
           .delete()
           .then(function(confirmado) {

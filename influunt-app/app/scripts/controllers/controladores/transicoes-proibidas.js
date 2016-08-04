@@ -120,7 +120,6 @@ angular.module('influuntApp')
        */
       $scope.marcarTransicaoAlternativa = function(transicao) {
         var estagioOrigem       = _.find($scope.objeto.estagios, {idJson: transicao.origem.idJson});
-        var estagioDestino      = _.find($scope.objeto.estagios, {idJson: transicao.destino.idJson});
         var estagioAlternativo  = _.find($scope.objeto.estagios, {idJson: transicao.alternativo.idJson});
         var alternativoAnterior = getEstagioAnterior(estagioOrigem, transicao);
 
@@ -177,7 +176,7 @@ angular.module('influuntApp')
         var query = {
           origem: { idJson: origem.idJson },
           destino: { idJson: destino.idJson }
-        }
+        };
 
         var transicao = _.find($scope.objeto.transicoesProibidas, query);
         var indexDestino = _.findIndex(estagioOrigem.origemDeTransicoesProibidas, {idJson: transicao.idJson});
@@ -289,7 +288,7 @@ angular.module('influuntApp')
         var query = {
           origem: { idJson: transicao.origem.idJson },
           destino: { idJson: transicao.destino.idJson }
-        }
+        };
 
         var t = _.find($scope.objeto.transicoesProibidas, query);
         return t && t.alternativo && _.find($scope.objeto.estagios, {idJson: t.alternativo.idJson});

@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Controller: ControladoresConfiguracaoGruposCtrl', function () {
+xdescribe('Controller: ControladoresConfiguracaoGruposCtrl', function () {
 
   // load the controller's module
   beforeEach(module('influuntApp', function(RestangularProvider) {

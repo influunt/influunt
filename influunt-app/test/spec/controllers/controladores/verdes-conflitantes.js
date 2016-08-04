@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Controller: ControladoresVerdesConflitantesCtrl', function () {
+xdescribe('Controller: ControladoresVerdesConflitantesCtrl', function () {
 
   // load the controller's module
   beforeEach(module('influuntApp', function(RestangularProvider) {

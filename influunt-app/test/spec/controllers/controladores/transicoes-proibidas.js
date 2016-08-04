@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
+xdescribe('Controller: ControladoresTransicoesProibidasCtrl', function () {
 
   // load the controller's module
   beforeEach(module('influuntApp', function(RestangularProvider) {
