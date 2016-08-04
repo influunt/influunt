@@ -72,18 +72,18 @@
                         <!-- <li data-ng-repeat="tevTransicao in tabelasEntreVerdesTransicoes"> -->
                         <li data-ng-repeat="tevTransicao in currentTabelasEntreVerdesTransicoes">
                           <div class="group-figures col-lg-5 col-sm-5 no-padding">
-                            <div class="group-figure">
+                            <div class="group-figure stage-images">
                               <figure>
                                 <!-- <label for="">E{{ currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].origem.posicao }}</label> -->
                                 <label for="">E{{ currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].origem.posicao }}</label>
-                                <img ng-src="{{ getImagemDeEstagio(currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].origem) }}" width="160" height="130" alt="{{ currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].origem.descricao }}">
+                                <img ng-src="{{ getImagemDeEstagio(currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].origem) }}" alt="{{ currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].origem.descricao }}">
                               </figure>
                             </div>
-                            <div class="group-figure">
+                            <div class="group-figure stage-images">
                               <figure>
                                 <label for="">E{{ currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].destino.posicao }}</label>
                                 <!-- <img src="" alt=""> -->
-                                <img ng-src="{{ getImagemDeEstagio(currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].destino) }}" width="160" height="130" alt="{{ currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].destino.descricao }}">
+                                <img ng-src="{{ getImagemDeEstagio(currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].destino) }}" alt="{{ currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].destino.descricao }}">
                               </figure>
                             </div>
                           </div>
