@@ -73,6 +73,7 @@ public class Anel extends Model implements Cloneable {
     private List<Plano> planos;
 
     @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL)
+    @Valid
     private List<Endereco> enderecos;
 
     @Column
@@ -217,11 +218,11 @@ public class Anel extends Model implements Cloneable {
         return !this.ativo || this.posicao != null;
     }
 
-//    @JsonIgnore
-//    @AssertTrue(message = "Anel deve ter 2 endereços")
-//    public boolean isEnderecosOk() {
-//        return !isAtivo() || (getEnderecos() != null && getEnderecos().size() == 2);
-//    }
+    @JsonIgnore
+    @AssertTrue(message = "Anel deve ter 2 endereços")
+    public boolean isEnderecosOk() {
+        return !isAtivo() || (getEnderecos() != null && getEnderecos().size() == 2);
+    }
 
     @AssertTrue(groups = PlanosCheck.class,
             message = "O anel ativo deve ter pelo menos 1 plano configurado.")
@@ -306,10 +307,6 @@ public class Anel extends Model implements Cloneable {
         } else {
             return String.format("%s.%01d", "sem-controlador", this.posicao);
         }
-    }
-
-    public UUID getJsonId() {
-        return id;
     }
 
     public Imagem getCroqui() {

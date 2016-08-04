@@ -156,15 +156,6 @@ angular.module('influuntApp')
             .value();
 
           $scope.atualizaTabelaEntreVerdes();
-          // for (var i = index; i < totalTabelasEntreVerdes - 1; i++) {
-          //   var tabelasEntreVerdes = _.find(
-          //     $scope.objeto.tabelasEntreVerdes,
-          //     {idJson: grupoSemaforico.tabelasEntreVerdes[i].idJson}
-          //   );
-
-          //   var currentPosicao = tabelasEntreVerdes.posicao;
-          //   tabelasEntreVerdes.posicao = currentPosicao - 1;
-          // }
 
           if ($scope.currentTabelaEntreVerdesIndex >= index) {
             if ($scope.currentTabelaEntreVerdesIndex === totalTabelasEntreVerdes - 1) {

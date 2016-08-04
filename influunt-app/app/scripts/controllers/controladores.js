@@ -11,7 +11,6 @@ angular.module('influuntApp')
   .controller('ControladoresCtrl', ['$controller', '$scope', '$state', '$filter', 'Restangular', '$q', 'handleValidations', 'APP_ROOT', 'influuntBlockui',
     function ($controller, $scope, $state, $filter, Restangular, $q, handleValidations, APP_ROOT, influuntBlockui) {
 
-      var buscaReferencias;
 
       // Herda todo o comportamento do crud basico.
       $controller('CrudCtrl', {$scope: $scope});
@@ -157,10 +156,6 @@ angular.module('influuntApp')
 
       };
 
-      buscaReferencias = function() {
-
-      };
-
       /**
        * Seleciona um estágio do anel atual atraves do indice.
        *
@@ -267,14 +262,14 @@ angular.module('influuntApp')
 
       $scope.buildValidationMessages = function(errors) {
         $scope.errors = handleValidations.handle(errors);
-        for (var i = 0; i < $scope.errors.aneis.length; i++) {
-          if ($scope.errors.aneis[i] === undefined) {
-            $scope.errors.aneis[i] = {};
+
+        if ($scope.errors && angular.isArray($scope.errors.aneis)) {
+          for (var i = 0; i < $scope.errors.aneis.length; i++) {
+            $scope.errors.aneis[i] = $scope.errors.aneis[i] || {};
           }
         }
 
         $scope.getErrosVerdes();
-        console.log($scope.errors);
       };
 
       $scope.getErrosVerdes = function() {

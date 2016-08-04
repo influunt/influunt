@@ -53,9 +53,6 @@ angular.module('influuntApp')
 
               $scope.aneis.forEach(function(anel) {
                 anel.transicoesProibidas =  {};
-              //   anel.estagios.forEach(function(estagio, index) {
-              //     estagio.posicao = index + 1;
-              //   });
 
                 anel.estagios.forEach(function(e) {
                   var estagio = _.find($scope.objeto.estagios, {idJson: e.idJson});
@@ -67,17 +64,6 @@ angular.module('influuntApp')
                       var t = 'E' + origem.posicao + '-E' + destino.posicao;
                       anel.transicoesProibidas[t] = _.cloneDeep(transicao);
                     });
-              //     return estagio.origemDeTransicoesProibidas &&
-              //       estagio.origemDeTransicoesProibidas.forEach(function(transicao) {
-              //         var origem = _.find(anel.estagios, transicao.origem);
-              //         var destino = _.find(anel.estagios, transicao.destino);
-              //         var t = 'E' + origem.posicao + '-E' + destino.posicao;
-
-              //         // Campo de posicao utilizado na apresentação das validações da interface.
-              //         transicao.origem.posicao = origem.posicao;
-              //         transicao.destino.posicao = destino.posicao;
-              //         anel.transicoesProibidas[t] = _.cloneDeep(transicao);
-              //       });
                 });
               });
 
@@ -120,7 +106,6 @@ angular.module('influuntApp')
        */
       $scope.marcarTransicaoAlternativa = function(transicao) {
         var estagioOrigem       = _.find($scope.objeto.estagios, {idJson: transicao.origem.idJson});
-        var estagioDestino      = _.find($scope.objeto.estagios, {idJson: transicao.destino.idJson});
         var estagioAlternativo  = _.find($scope.objeto.estagios, {idJson: transicao.alternativo.idJson});
         var alternativoAnterior = getEstagioAnterior(estagioOrigem, transicao);
 
@@ -200,14 +185,6 @@ angular.module('influuntApp')
 
       $scope.atualizaTransicoesProibidas = function() {
         $scope.currentAnel.transicoesProibidas = $scope.currentAnel.transicoesProibidas || {};
-        // var ids = _.map($scope.currentAnel.transicoesProibidas, 'idJson');
-
-        // $scope.currentTransicoesProibidas = _
-        //   .chain($scope.objeto.transicoesProibidas)
-        //   .filter(function(e) {
-        //     return ids.indexOf(e.idJson) >= 0;
-        //   })
-        //   .value();
         $scope.currentTransicoesProibidas = $scope.currentAnel.transicoesProibidas;
         return $scope.currentTransicoesProibidas;
       };
@@ -319,21 +296,6 @@ angular.module('influuntApp')
           estagioOrigem.origemDeTransicoesProibidas.push({idJson: t.idJson});
         }
 
-        // var index = _.findIndex(estagioOrigem.origemDeTransicoesProibidas, {idJson: t.idJson});
-        // if (index >= 0) {
-        //   estagioOrigem.origemDeTransicoesProibidas.splice(index, 1);
-        // }
-
-        // estagioOrigem.origemDeTransicoesProibidas = estagioOrigem.origemDeTransicoesProibidas || [];
-        // var transicaoOrigem = _.findIndex(
-        //   estagioOrigem.origemDeTransicoesProibidas, {destino: {id: transicao.destino.idJson}}
-        // );
-
-        // if (transicaoOrigem >= 0) {
-        //   estagioOrigem.origemDeTransicoesProibidas.splice(transicaoOrigem, 1);
-        // }
-
-        // estagioOrigem.origemDeTransicoesProibidas.push(transicao);
       };
 
       /**
@@ -356,19 +318,6 @@ angular.module('influuntApp')
           estagioDestino.destinoDeTransicoesProibidas.push({idJson: t.idJson});
         }
 
-        // var index = _.findIndex(estagioDestino.destinoDeTransicoesProibidas, {idJson: t.idJson});
-        // estagioDestino.origemDeTransicoesProibidas.splice(index, 1);
-
-        // estagioDestino.destinoDeTransicoesProibidas = estagioDestino.destinoDeTransicoesProibidas || [];
-        // var transicaoDestino = _.findIndex(
-        //   estagioDestino.destinoDeTransicoesProibidas, {origem: {id: transicao.origem.idJson}}
-        // );
-
-        // if (transicaoDestino >= 0) {
-        //   estagioDestino.destinoDeTransicoesProibidas.splice(transicaoDestino, 1);
-        // }
-
-        // estagioDestino.destinoDeTransicoesProibidas.push(transicao);
       };
 
       /**
@@ -390,11 +339,6 @@ angular.module('influuntApp')
           estagioAlternativo.alternativaDeTransicoesProibidas.push({idJson: t.idJson});
         }
 
-        // if (transicao.alternativo && transicao.alternativo.idJson) {
-        //   var estagioAlternativo = _.find($scope.currentAnel.estagios, {id: transicao.alternativo.idJson});
-        //   estagioAlternativo.alternativaDeTransicoesProibidas = estagioAlternativo.alternativaDeTransicoesProibidas || [];
-        //   estagioAlternativo.alternativaDeTransicoesProibidas.push(transicao);
-        // }
       };
 
       /**

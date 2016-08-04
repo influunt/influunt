@@ -29,7 +29,7 @@ angular.module('influuntApp')
 
             _.each(value, function(group) {
               messages.push(
-                _.map(group, function(message) { return '<li>' + message + '</li>' })
+                _.map(group, function(message) { return '<li>' + message + '</li>'; })
               );
             });
 

@@ -1,16 +1,4 @@
 <fieldset data-ng-init="inicializaAneis()">
-  <div class="row">
-
-    <uib-alert type="danger" close="closeAlert(currentAnelIndex)" data-ng-if="errors.aneis[currentAnelIndex].general">
-      <div style="padding-left: 12px;">
-        <ul>
-          <li data-ng-repeat="message in errors.general">{{ message }}</li>
-          <li data-ng-repeat="message in errors.aneis[currentAnelIndex].general">{{ message }}</li>
-        </ul>
-      </div>
-    </uib-alert>
-  </div>
-
   <div class="m-t-md">
     <div class="col-lg-12 col-sm-12 bg-border no-padding">
       <div class="ibox float-e-margins">
@@ -25,9 +13,19 @@
                          data-can-add-tabs="true"></influunt-tabs>
           <div class="ui-layout-content tab-content">
             <div id="tabs-1">
+              <div class="row col-lg-12 col-sm-12">
+                <uib-alert type="danger" close="closeAlert(currentAnelIndex)" data-ng-if="errors.aneis[currentAnelIndex].general">
+                  <div style="padding-left: 12px;">
+                    <ul>
+                      <li data-ng-repeat="message in errors.general">{{ message }}</li>
+                      <li data-ng-repeat="message in errors.aneis[currentAnelIndex].general">{{ message }}</li>
+                    </ul>
+                  </div>
+                </uib-alert>
+              </div>
+
               <div class="col-lg-9 col-sm-9 groups ibox-content">
                 <div class="col-lg-6 col-sm-6 no-padding-left">
-
                   <div class="col-lg-12 col-sm-12">
                     <div class="form-group">
                       <label class="control-label">{{ 'controladores.localizacao' | translate }}</label>
