@@ -1967,7 +1967,7 @@ table.table-diagonal:nth-of-type(1) th.diagonal {
 }
 
 .padding-top-20 {
-  padding-top: 20px;
+  padding-top: 20px !important;
 }
 
 .ibox-title {
@@ -1990,4 +1990,50 @@ ul li span.bubble {
 img.sample-img-estagios {
   width: 200px;
   height: 150px;
+}
+.ui-widget-header {
+  background: transparent;
+}
+
+.review-page > img {
+  float: left;
+  margin-right: 10px;
+}
+
+b.gray-box {
+  background: #f5f5f5;
+  border: 1px solid #e1e1e1;
+  padding: 5px 20px;
+}
+
+b.white-box {
+  background: #FFFFFF;
+  border: 1px solid #e1e1e1;
+  padding: 5px 20px;
+}
+
+.col-lg-6 .review-page {
+  margin-bottom: 20px;
+}
+
+.showCat {
+  position: absolute;
+  display: table;
+  top: -40px;
+  left: 60px;
+  z-index: 999999;
+}
+
+.showCat img {
+  width: 140px;
+  padding: 5px;
+}
+
+.showCat li {
+  display: table-cell !important;
+}
+
+.view-group {
+  color: #1AB394;
+  cursor: default;
 }
