@@ -73,6 +73,7 @@ public class Anel extends Model implements Cloneable {
     private List<Plano> planos;
 
     @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL)
+    @Valid
     private List<Endereco> enderecos;
 
     @Column
