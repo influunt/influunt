@@ -106,13 +106,20 @@ angular.module('influuntApp')
         $scope.objeto.imagens.push(_imagem);
       };
 
-      $scope.removeImagemDoEstagio = function(imagem) {
+      $scope.removeImagemDoEstagio = function(img) {
         var anel = $scope.currentAnel;
-        anel.estagios = anel.estagios || [];
-        var index = _.findIndex(anel.estagios, function(estagio) { return estagio.imagem.id === imagem.id; });
-        if (index > -1) {
-          anel.estagios.splice(index, 1);
-        }
+
+        var imagemIndex = _.findIndex($scope.objeto.imagens, {id: img.id});
+        var imagem = $scope.objeto.imagens[imagemIndex];
+        var estagioIndex = _.findIndex($scope.objeto.estagios, function(estagio) { 
+          return estagio.imagem.idJson === imagem.idJson; 
+        });
+        var estagio = $scope.objeto.estagios[estagioIndex];
+        var estagioAnelIndex = _.findIndex(anel.estagios, {idJson: estagio.idJson});
+
+        $scope.objeto.imagens.splice(imagemIndex, 1);
+        $scope.objeto.estagios.splice(estagioIndex, 1);
+        anel.estagios.splice(estagioAnelIndex, 1);
       };
 
       $scope.associaImagemAoCurrentAnel = function(imagem) {
