@@ -40,10 +40,8 @@ angular.module('influuntApp')
             $scope.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
             $scope.currentAnel = $scope.objeto.aneis[$scope.currentAnelIndex];
             atualizarAneisAtivos();
-
             inicializaEnderecos();
             registrarWatcherEndereco();
-
             $scope.$broadcast('influuntWizard.dropzoneOk');
           }
         });
@@ -111,8 +109,8 @@ angular.module('influuntApp')
 
         var imagemIndex = _.findIndex($scope.objeto.imagens, {id: img.id});
         var imagem = $scope.objeto.imagens[imagemIndex];
-        var estagioIndex = _.findIndex($scope.objeto.estagios, function(estagio) { 
-          return estagio.imagem.idJson === imagem.idJson; 
+        var estagioIndex = _.findIndex($scope.objeto.estagios, function(estagio) {
+          return estagio.imagem.idJson === imagem.idJson;
         });
         var estagio = $scope.objeto.estagios[estagioIndex];
         var estagioAnelIndex = _.findIndex(anel.estagios, {idJson: estagio.idJson});
@@ -158,11 +156,11 @@ angular.module('influuntApp')
 
       registrarWatcherEndereco = function() {
         $scope.$watch('currentAnel', function(anel) {
-          if (anel && angular.isArray(anel.enderecos) && anel.enderecos[0].localizacao && anel.enderecos[1].localizacao) {
-            anel.localizacao = anel.enderecos[0].localizacao + ' com ' + anel.enderecos[1].localizacao;
+          atualizaCurrentEnderecos();
+          if (angular.isArray($scope.currentEnderecos) && $scope.currentEnderecos[0].localizacao && $scope.currentEnderecos[1].localizacao) {
+            anel.localizacao = $scope.currentEnderecos[0].localizacao + ' com ' + $scope.currentEnderecos[1].localizacao;
           }
 
-          atualizaCurrentEnderecos();
         }, true);
       };
 
