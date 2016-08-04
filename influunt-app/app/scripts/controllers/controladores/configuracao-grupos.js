@@ -84,6 +84,9 @@ angular.module('influuntApp')
       };
 
       $scope.podeAdicionarGrupoSemaforico = function(){
+        if(!$scope.objeto){
+          return true;
+        }
         return $scope.objeto.gruposSemaforicos.length < $scope.objeto.limiteGrupoSemaforico;
       };
 
