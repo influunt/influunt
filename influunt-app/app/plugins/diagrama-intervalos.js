@@ -37,12 +37,9 @@ var influunt;
           var estagioAnterior = this.estagioAnterior(plano.sequenciaEstagios,i);
           for(var j = 0; j < estagioAnterior.gruposSemaforicos.length; j++){
             var grupo = estagioAnterior.gruposSemaforicos[j];
-            // @todo nesta linha, o campo tabelaEntreVerdes foi alterado para tabelasEntreVerdes, conforme retornado
-            // pela API. Verificar se os testes ainda funcionam com esta modificação.
-            // var tabelaEntreVerde = _.find(grupo.tabelaEntreVerdes, {"posicao": plano.posicao});
-            var tabelaEntreVerde = _.find(grupo.tabelasEntreVerdes, {"posicao": plano.posicao});
-            var transicao = _.find(grupo.transicoes, {"origem": {"id": estagioAnterior.id}, "destino": {"id": estagioAtual.id}})
-            var tabelaEntreVerdesTransicao = _.find(transicao.tabelaEntreVerdesTransicoes, {"tabelaEntreVerdes": {"id": tabelaEntreVerde.id}})
+            var tabelaEntreVerde = _.find(grupo.tabelasEntreVerdes, {"posicao": plano.posicaoTabelaEntreVerdes});
+            var transicao = _.find(grupo.transicoes, {"origem": {"idJson": estagioAnterior.idJson}, "destino": {"idJson": estagioAtual.idJson}})
+            var tabelaEntreVerdesTransicao = _.find(transicao.tabelaEntreVerdesTransicoes, {"tabelaEntreVerdes": {"idJson": tabelaEntreVerde.idJson}})
 
             var tempoAmarelo = !_.isUndefined(tabelaEntreVerdesTransicao.tempoAmarelo) ? parseInt(tabelaEntreVerdesTransicao.tempoAmarelo) : 0;
             var tempoVermelhoIntermitente = !_.isUndefined(tabelaEntreVerdesTransicao.tempoVermelhoIntermitente) ? parseInt(tabelaEntreVerdesTransicao.tempoVermelhoIntermitente) : 0;

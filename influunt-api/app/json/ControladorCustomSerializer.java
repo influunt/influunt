@@ -6,8 +6,10 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import json.serializers.InfluuntDateTimeSerializer;
 import models.*;
 import play.libs.Json;
+import scala.util.parsing.json.JSONArray;
 import utils.RangeUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,6 +62,17 @@ public class ControladorCustomSerializer {
         putControladorImagens(root);
 
         return root;
+    }
+
+    public JsonNode getControladoresJson(List<Controlador> controladores) {
+        ArrayList<JsonNode> jsonControladores = new ArrayList<JsonNode>();
+
+        ArrayNode controladoresJson = Json.newArray();
+        for(Controlador controlador : controladores) {
+            controladoresJson.add(getControladorJson(controlador));
+        }
+
+        return controladoresJson;
     }
 
     private void putControladorPlano(ObjectNode root) {

@@ -36,7 +36,7 @@ public class TabelaEntreVerdes extends Model implements Cloneable {
     private String descricao = "PADRÃO";
     @ManyToOne
     private GrupoSemaforico grupoSemaforico;
-    @OneToMany(mappedBy = "tabelaEntreVerdes", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "tabelaEntreVerdes", cascade = CascadeType.ALL)
     @PrivateOwned
     private List<TabelaEntreVerdesTransicao> tabelaEntreVerdesTransicoes;
     @Valid
