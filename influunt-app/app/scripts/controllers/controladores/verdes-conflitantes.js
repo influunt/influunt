@@ -39,22 +39,7 @@ angular.module('influuntApp')
             $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
             $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
             $scope.objeto.gruposSemaforicos = _.orderBy($scope.objeto.gruposSemaforicos, ['posicao']);
-            // $scope.aneis.forEach(function(anel) {
-            //   anel.gruposSemaforicos = _.orderBy(anel.gruposSemaforicos, ['posicao']);
-            //   anel.gruposSemaforicos.forEach(function(gs) {
-            //     gs.anel = {
-            //       id: anel.id
-            //     };
-            //   });
-            // });
 
-            // Seleciona todos os grupos semaforicos (dentro dos aneis) ordenados pelas posicoes.
-            // var gruposSemaforicos = _.chain($scope.objeto.aneis)
-            //   .map('gruposSemaforicos')
-            //   .flatten()
-            //   .uniq()
-            //   .orderBy(['posicao'], ['asc'])
-            //   .value();
             var gruposSemaforicos = $scope.objeto.gruposSemaforicos;
 
             $scope.grupoIds = _.chain(gruposSemaforicos).map('id').value();
@@ -62,7 +47,7 @@ angular.module('influuntApp')
             $scope.grupos = _.times(totalGrupos, function(i) {return 'G' + (i+1);});
 
             $scope.selecionaAnelVerdesConflitantes(0);
-            // buildIntervaloAneis();
+
             buildMatrizVerdesConflitantes();
 
             return gruposSemaforicos && gruposSemaforicos.forEach(function(gs) {
@@ -84,20 +69,15 @@ angular.module('influuntApp')
           return false;
         }
 
-        // var gruposAneis = _.chain($scope.objeto.aneis).map('gruposSemaforicos').flatten().value();
         var grupoX = _.find($scope.currentGruposSemaforicos, {id: $scope.grupoIds[x]});
         var grupoY = _.find($scope.currentGruposSemaforicos, {id: $scope.grupoIds[y]});
         var verdeConflitante = {
           idJson: UUID.generate(),
           origem: {
             idJson: grupoX.idJson
-            // id: grupoX.id,
-            // anel: grupoX.anel
           },
           destino: {
             idJson: grupoY.idJson
-            // id: grupoY.id,
-            // anel: grupoY.anel
           }
         };
 
@@ -116,9 +96,6 @@ angular.module('influuntApp')
 
           $scope.objeto.verdesConflitantes.splice(index, 1);
 
-          // var index = _.findIndex(grupoX.verdesConflitantesOrigem, verdeConflitante);
-          // grupoX.verdesConflitantesOrigem.splice(index, 1);
-          // grupoY.verdesConflitantesDestino.splice(index, 1);
         } else {
           grupoX.verdesConflitantesOrigem = grupoX.verdesConflitantesOrigem || [];
           grupoX.verdesConflitantesOrigem.push({idJson: verdeConflitante.idJson});
@@ -129,11 +106,6 @@ angular.module('influuntApp')
           $scope.objeto.verdesConflitantes = $scope.objeto.verdesConflitantes || [];
           $scope.objeto.verdesConflitantes.push(verdeConflitante);
 
-          // grupoX.verdesConflitantesOrigem = grupoX.verdesConflitantesOrigem || [];
-          // grupoX.verdesConflitantesOrigem.push(verdeConflitante);
-
-          // grupoY.verdesConflitantesDestino = grupoY.verdesConflitantesDestino || [];
-          // grupoY.verdesConflitantesDestino.push(verdeConflitante);
         }
 
         // Deve marcar/desmarcar os coordenadas (x, y) e (y, x) simultaneamente.
