@@ -3,14 +3,11 @@
     <div class="content clearfix wizard-body">
       <div class="step-content body">
         <fieldset>
-          <script>
-            $(function(){
-              $( ".tabpanel" ).tabs({closable: false, addTab:false}).tabs('overflowResize')
-              .find( ".ui-tabs-nav" ).sortable({
-                distance: 10
-              });
-            });
-          </script>
+          <influunt-tabs class="tabpanel"
+                         data-on-activate="selecionaAnelPlanos"
+                         data-aneis-ativos="aneis"
+                         data-error-check="anelTemErro">
+          </influunt-tabs>
           <div class="row">
             <uib-alert type="danger" close="closeAlertAnel(currentAnelIndex, 'all')" data-ng-if="errors.general || errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosDePedestre || errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosVeiculares">
               <div style="padding-left: 12px;">
@@ -96,7 +93,7 @@
                                             <p class="ng-binding">E{{ estagio.posicao }}</p>
                                           </header>
                                           <figure>
-                                            <img ng-src="{{ estagio.imagem.id | imageSource }}" width="100%">
+                                            <img ng-src="{{ getImagemDeEstagio(estagio) }}" width="100%">
                                           </figure>
                                           <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">
                                               Configurar

@@ -152,8 +152,6 @@ angular.module('influuntApp')
         if (angular.isDefined($scope.currentEstagioId)) {
           $scope.selecionaEstagio($scope.currentEstagioId);
         }
-
-
       };
 
       /**
