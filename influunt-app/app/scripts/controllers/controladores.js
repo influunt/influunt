@@ -236,10 +236,6 @@ angular.module('influuntApp')
           };
         });
 
-        // $scope.tabelasEntreVerdesTransicoes.forEach(function(tevTransicao) {
-        //   tevTransicao.tabelasEntreVerdes = $scope.currentTabelasEntreVerdes;
-        // });
-
         $scope.atualizaTabelasEntreVerdesTransicoes();
       };
 
@@ -251,17 +247,6 @@ angular.module('influuntApp')
           .chain($scope.objeto.tabelasEntreVerdesTransicoes)
           .filter(function(tevt) { return ids.indexOf(tevt.idJson) >= 0; })
           .value();
-
-
-        // console.log(
-        //   _.find(
-        //     $scope.objeto.gruposSemaforicos,
-        //     {idJson: $scope.currentTabelaEntreVerdes.grupoSemaforico.idJson}
-        //   )
-        // );
-        // console.log($scope.currentTabelaEntreVerdes);
-        // console.log(ids);
-        // console.log($scope.currentTabelasEntreVerdesTransicoes);
 
         return $scope.currentTabelasEntreVerdesTransicoes;
       };

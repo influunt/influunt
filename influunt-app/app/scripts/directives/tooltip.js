@@ -24,14 +24,15 @@ angular.module('influuntApp')
 
         scope.$watch('messages', function(value) {
           if (value) {
-            var messages = '';
-            _.each(value, function(group) {
-              messages += _.map(group, function(message) {
-                return '<li>' + message + '</li>';
-              }).join('');
+            var messages = [];
 
+            _.each(value, function(group) {
+              messages.push(
+                _.map(group, function(message) { return '<li>' + message + '</li>' })
+              );
             });
 
+            messages = _.chain(messages).flatten().uniq().value().join('');
             messages = '<ul style="margin: 0px;">' + messages + '</ul>';
             $(element[0]).tooltipster('content', messages);
           }
