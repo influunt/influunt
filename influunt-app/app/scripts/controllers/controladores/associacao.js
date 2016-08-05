@@ -80,21 +80,26 @@ angular.module('influuntApp')
       };
 
       $scope.associaEstagiosGrupoSemaforico = function(grupo, estagio) {
-        var obj = {
-          idJson: UUID.generate(),
-          grupoSemaforico: { idJson: grupo.idJson },
-          estagio: { idJson: estagio.idJson },
-        };
-
-        var index = _.findIndex($scope.objeto.estagiosGruposSemaforicos, {idJson: obj.idJson});
+        var busca = {
+          grupoSemaforico: {idJson: grupo.idJson},
+          estagio: {idJson: estagio.idJson}
+        }
+        var index = _.findIndex($scope.objeto.estagiosGruposSemaforicos, busca);
         if (index >= 0) {
+          var estagioGrupoSemaforico = $scope.objeto.estagiosGruposSemaforicos[index];
           $scope.objeto.estagiosGruposSemaforicos.splice(index, 1);
-          index = _.findIndex(grupo.estagiosGruposSemaforicos, {idJson: obj.idJson});
+          index = _.findIndex(grupo.estagiosGruposSemaforicos, {idJson: estagioGrupoSemaforico.idJson});
           grupo.estagiosGruposSemaforicos.splice(index, 1);
 
-          index = _.findIndex(estagio.estagiosGruposSemaforicos);
+          index = _.findIndex(estagio.estagiosGruposSemaforicos, {idJson: estagioGrupoSemaforico.idJson});
           estagio.estagiosGruposSemaforicos.splice(index, 1);
         } else {
+          var obj = {
+            idJson: UUID.generate(),
+            grupoSemaforico: { idJson: grupo.idJson },
+            estagio: { idJson: estagio.idJson },
+          };
+          
           $scope.objeto.estagiosGruposSemaforicos.push(obj);
           grupo.estagiosGruposSemaforicos.push({idJson: obj.idJson});
           estagio.estagiosGruposSemaforicos.push({idJson: obj.idJson});
