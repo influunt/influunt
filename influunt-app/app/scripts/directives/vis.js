@@ -13,12 +13,12 @@ angular.module('influuntApp')
         restrict: 'A',
         scope: {
           grupos: '=',
-          estagios: '='
+          estagios: '=',
+          tempoCiclo: '='
         },
         link: function postLink(scope) {
           var container = document.getElementById('visualization');
           var timeline = new window.vis.Timeline(container);
-
           var bindCheckboxEvents = function() {
             $('.group-checkbox').on('change', function() {
               var checkbox = $(this);
@@ -30,7 +30,6 @@ angular.module('influuntApp')
           var setData = function(grupos, estagios) {
             var groups = [];
             var items = [];
-            var max = 0;
 
             groups.push({id: 'title', content: '&nbsp;'});
             grupos.forEach(function(grupo) {
@@ -49,7 +48,8 @@ angular.module('influuntApp')
                   group: groupId,
                   content: intervalo.duracao + 's',
                   id: groupId + 'i' + index,
-                  className: 'indicacao-' + modoOperacaoService.getCssClass(intervalo.status)
+                  className: 'indicacao-' + modoOperacaoService.getCssClass(intervalo.status),
+                  type: 'range'
                 });
 
                 initialState += intervalo.duracao;
@@ -79,7 +79,6 @@ angular.module('influuntApp')
               });
 
               initialState += estagio.duracao;
-              max = Math.max(max, initialState);
             });
 
             var options = {
@@ -89,7 +88,7 @@ angular.module('influuntApp')
                 },
                 axis: 5
               },
-              autoResize: true,
+              autoResize: false,
               maxMinorChars: 1,
               showCurrentTime: false,
               showMajorLabels: false,
@@ -97,14 +96,13 @@ angular.module('influuntApp')
               moveable: false,
               zoomable: false,
               type: 'range',
-              start: 0,
-              end: max
+              start: 1,
+              end: parseInt(scope.tempoCiclo)
             };
-
             timeline.setOptions(options);
             timeline.setGroups(groups);
             timeline.setItems(items);
-
+            timeline.redraw();
             bindCheckboxEvents();
           };
 
