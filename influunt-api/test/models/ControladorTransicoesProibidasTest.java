@@ -108,7 +108,7 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro("Controlador", "O estágio de origem deve ser diferente do estágio de destino.", "aneis[1].estagios[0].origemDeTransicoesProibidas[0].origemEDestinoDiferentes"),
                 new Erro("Controlador", "Esse estágio não pode ter um estágio de destino e alternativo ao mesmo tempo.", "aneis[1].estagios[0].aoMesmoTempoDestinoEAlternativo"),
-                new Erro("Controlador", "O Estágio alternativo deve ser diferente da origem e do destino.", "aneis[1].estagios[0].origemDeTransicoesProibidas[0].estagioAlternativoDiferenteOrigemEDestino")
+                new Erro("Controlador", "O Estágio alternativo deve ser diferente do destino.", "aneis[1].estagios[0].origemDeTransicoesProibidas[0].estagioAlternativoDiferenteOrigemEDestino")
         ));
 
         estagio1AnelCom2Estagios.setDestinoDeTransicoesProibidas(null);
@@ -158,7 +158,7 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
         assertEquals(2, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro("Controlador", "Esse estágio não pode ter um estágio de destino e alternativo ao mesmo tempo.", "aneis[0].estagios[3].aoMesmoTempoDestinoEAlternativo"),
-                new Erro("Controlador", "O Estágio alternativo deve ser diferente da origem e do destino.", "aneis[0].estagios[0].origemDeTransicoesProibidas[2].estagioAlternativoDiferenteOrigemEDestino")
+                new Erro("Controlador", "O Estágio alternativo deve ser diferente do destino.", "aneis[0].estagios[0].origemDeTransicoesProibidas[2].estagioAlternativoDiferenteOrigemEDestino")
         ));
 
     }

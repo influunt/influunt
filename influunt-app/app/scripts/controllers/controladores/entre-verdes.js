@@ -245,6 +245,7 @@ angular.module('influuntApp')
         $scope.selecionaAnel(index);
         $scope.atualizaGruposSemaforicos();
         $scope.selecionaGrupoSemaforico($scope.currentGruposSemaforicos[0], 0);
+        $scope.atualizaTabelaEntreVerdes();
       };
 
     }]);

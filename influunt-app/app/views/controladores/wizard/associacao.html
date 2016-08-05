@@ -42,14 +42,14 @@
 
                             </div>
                             <div class="col-lg-3 padding-top-20">
-                              <div class="exist-figure">
+                              <div class="exist-figure stage-images">
                                 <figure>
-                                  <img ng-src="{{ getImagemDeEstagio(estagio) }}" style="width: 200px;">
+                                  <img ng-src="{{ getImagemDeEstagio(estagio) }}">
                                 </figure>
                               </div>
                             </div>
                             <div class="col-lg-3 padding-top-20 text-left group">
-                              <div class="checkbox" data-ng-repeat="(indexGrupo, grupo) in currentGruposSemaforicos">
+                              <div class="ichecks-checkbox" data-ng-repeat="(indexGrupo, grupo) in currentGruposSemaforicos">
                                 <label class="i-checks">
                                   <input type="checkbox" ichecks data-ng-model="grupo.estagiosRelacionados[estagio.id]" i-changed="associaEstagiosGrupoSemaforico(grupo, estagio)">
                                 </label>
@@ -64,7 +64,7 @@
                                       <p class="desc">Ativar monitoramento de tempo máximo de permanencia</p>
                                     </label>
                                 </div>
-                                <div class="knob-item">
+                                <div class="knob-item text-center">
                                     <influunt-knob
                                     label="QTD" min="1" max="objeto.limiteEstagio" read-only=!estagio.tempoMaximoPermanenciaAtivado
                                     data-ng-model="estagio.tempoMaximoPermanencia"></influunt-knob>
@@ -96,7 +96,7 @@
           <i class="fa fa-eye"></i> {{ 'plugins.steps.labels.last_screen' | translate }}
         </a>
         <a data-ng-click="submitForm({$valid: true}, 'associacao_grupos_semaforicos', 'app.wizard_controladores.transicoes_proibidas')" data-toggle="tooltip" data-placement="top" title="Transições Proíbidas" class="btn btn-primary btn-footer right">
-          <i class="fa fa-arrow-right"></i> {{ 'plugins.steps.labels.next' | translate }}
+          {{ 'plugins.steps.labels.next' | translate }} <i class="fa fa-arrow-right"></i>
         </a>
         <a data-ng-click="submitForm({$valid: true}, 'associacao_grupos_semaforicos', 'app.wizard_controladores.verdes_conflitantes')" data-toggle="tooltip" data-placement="top" title="Verdes Conflitantes" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
           <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.previous' | translate }}

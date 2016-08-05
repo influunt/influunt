@@ -123,10 +123,10 @@ public class TransicaoProibida extends Model {
     }
 
     @AssertTrue(groups = ControladorTransicoesProibidasCheck.class,
-            message = "O Estágio alternativo deve ser diferente da origem e do destino.")
+            message = "O Estágio alternativo deve ser diferente do destino.")
     public boolean isEstagioAlternativoDiferenteOrigemEDestino() {
         if (getAlternativo() != null && getOrigem() != null && getDestino() != null)
-            return (getAlternativo() != getOrigem() && getAlternativo() != getDestino());
+            return (getAlternativo() != getDestino());
         else return true;
 
     }

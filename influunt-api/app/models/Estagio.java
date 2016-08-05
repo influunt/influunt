@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * Entidade que representa o {@link Estagio} no sistema
@@ -54,7 +55,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
     private Integer posicao;
     @Column
     private Boolean demandaPrioritaria = false;
-    @OneToMany(mappedBy = "estagio")
+    @OneToMany(mappedBy = "estagio", cascade = CascadeType.ALL)
     private List<EstagioGrupoSemaforico> estagiosGruposSemaforicos;
     @OneToMany(mappedBy = "origem", cascade = CascadeType.ALL)
     @Valid
@@ -212,11 +213,25 @@ public class Estagio extends Model implements Serializable, Cloneable {
         this.alternativaDeTransicoesProibidas = alternativaDeTransicoesProibidas;
     }
 
+    private List<GrupoSemaforico> getGruposSemaforicos() {
+        return getEstagiosGruposSemaforicos().stream().map(estagioGrupoSemaforico -> estagioGrupoSemaforico.getGrupoSemaforico()).collect(Collectors.toList());
+    }
+
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
             message = "Este estágio deve ser associado a pelo menos 1 grupo semafórico")
     public boolean isAoMenosUmEstagioGrupoSemaforico() {
         return getEstagiosGruposSemaforicos() != null && !getEstagiosGruposSemaforicos().isEmpty();
     }
+
+    @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
+            message = "Existem grupos semafóricos conflitantes associados a esse estágio.")
+    public boolean isNaoDevePossuirGruposSemaforicosConflitantes() {
+        if(getEstagiosGruposSemaforicos() != null && !getEstagiosGruposSemaforicos().isEmpty()){
+            return !getEstagiosGruposSemaforicos().stream().anyMatch(estagioGrupoSemaforico -> estagioGrupoSemaforico.getGrupoSemaforico().conflitaCom(this.getGruposSemaforicos()));
+        }
+        return true;
+    }
+
 
     @AssertTrue(groups = ControladorTransicoesProibidasCheck.class,
             message = "Esse estágio não pode ter um estágio de destino e alternativo ao mesmo tempo.")

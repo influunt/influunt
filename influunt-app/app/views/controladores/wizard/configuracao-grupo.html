@@ -18,13 +18,28 @@
                   <div style="padding-left: 12px;">
                     <ul>
                       <li data-ng-repeat="message in errors.aneis[currentAnelIndex].general">{{ message }}</li>
-                      </ul>
+                    </ul>
                   </div>
                 </uib-alert>
 
                 <div id="tabs-1">
-                  <div class="col-lg-12 col-sm-12 no-padding stages ibox-content">
-
+                  <div class="col-lg-12 col-sm-12 padding-top-20">
+                    <h3>{{ 'controladores.estagios' | translate }}</h3>
+                  </div>
+                  <div class="col-lg-12 col-sm-12 no-padding figures ibox-content">
+                    <div class="bxslider">
+                      <ul class="bxslider">
+                        <div>
+                          <li data-ng-repeat="estagio in currentEstagios"  class="stage-images">
+                            <figure class="rings-{{ currentAnel.posicao }}">
+                              <img src="{{ getImagemDeEstagio(estagio) }}">
+                            </figure>
+                          </li>
+                        </div>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="col-lg-12 col-sm-12 no-padding padding-top-20 stages ibox-content">
                     <div class="col-lg-12 col-sm-12">
                       <div class="row">
                         <div class="col-lg-1 col-sm-1 groups-stages-null"></div>

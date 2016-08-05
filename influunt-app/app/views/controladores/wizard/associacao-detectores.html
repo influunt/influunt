@@ -20,7 +20,7 @@
                 </uib-alert>
               </div>
               <div id="tabs-1">
-                <div class="col-lg-12 col-sm-12 tableless association-detectors association-detectors-body">
+                <div class="col-lg-12 col-sm-12 padding-top-20 tableless association-detectors association-detectors-body">
                   <table class="tg" border="1" cellpadding="1" width="100%">
                     <thead>
                       <tr>
@@ -32,27 +32,27 @@
                     <tbody>
                       <tr>
                         <td></td>
-                        <td data-ng-repeat="estagio in currentEstagios" data-ng-cloak>
+                        <td class="stage-images" data-ng-repeat="estagio in currentEstagios" data-ng-cloak>
                           <figure>
-                            <img ng-src="{{ getImagemDeEstagio(estagio) }}" width="120px">
+                            <img ng-src="{{ getImagemDeEstagio(estagio) }}">
                           </figure>
-                          <button type="button" class="btn btn-primary btn-xs center" data-toggle="modal" data-target="#Config">
-                              Configurar
-                          </button>
                         </td>
                         <td></td>
                       </tr>
                       <tr data-ng-repeat="detector in currentDetectores"
-                          data-ng-click="selecionaDetector(detector, $index)"
-                          data-ng-class="{ 'detector-selecionado': $index === currentDetectorIndex }">
+                          data-ng-click="selecionaDetector(detector, $index)">
                         <td class="titulo">
                           <strong>{{ detector | nomeDetector }}</strong>
                           <span class="badge badge-danger badge-notification"
                             data-ng-show="errors.detectores[$index] || errors.aneis[currentAnelIndex].detectores[$index]"
                             inf-tooltip
                             messages="[errors.detectores[$index], errors.aneis[currentAnelIndex].detectores[$index]]">
-                            <i class="fa fa-exclamation"></i>
+                            <i class="fa fa-exclamation" style="font-size: inherit;"></i>
                           </span>
+                          <br/>
+                          <button type="button" class="btn btn-primary btn-xs center" data-toggle="modal" data-target="#Config">
+                              Configurar
+                          </button>
                         </td>
                         <td data-ng-repeat="estagio in currentEstagios"
                             data-ng-class="{disabled: estagio.temDetector && detector.estagio.idJson !== estagio.idJson}"
@@ -89,7 +89,6 @@
                     </tfoot>
                   </table>
                 </div>
-
               </div>
             </div>
           </div>
@@ -143,16 +142,21 @@
               </div>
 
               <div class="modal-footer">
-                  <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save changes</button>
+                  <button type="button" class="btn btn-white" data-dismiss="modal">Fechar</button>
               </div>
           </div>
       </div>
   </div>
 
   <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix">
-		<a ui-sref="app.wizard_controladores.entre_verdes({id: objeto.id})" target="_blank" data-toggle="tooltip" data-placement="top" class="left btn btn-info btn-footer" title="Ver Tela de Entre Verdes">{{ 'plugins.steps.labels.last_screen' | translate }}</a>
-    <a data-ng-click="submitForm({$valid: true}, 'associacao_detectores', 'app.controladores')" data-toggle="tooltip" data-placement="top" title="Controladores" class="btn btn-primary btn-footer right">{{ 'plugins.steps.labels.next' | translate }}</a>
-    <a data-ng-click="submitForm({$valid: true}, 'associacao_detectores', 'app.wizard_controladores.entre_verdes')" data-toggle="tooltip" data-placement="top" title="Entre Verdes" class="btn btn-outline btn-primary btn-footer right m-r-sm right">{{ 'plugins.steps.labels.previous' | translate }}</a>
+		<a ui-sref="app.wizard_controladores.entre_verdes({id: objeto.id})" target="_blank" data-toggle="tooltip" data-placement="top" class="left btn btn-info btn-footer" title="Ver Tela de Entre Verdes">
+      <i class="fa fa-eye"></i> {{ 'plugins.steps.labels.last_screen' | translate }}
+    </a>
+    <a data-ng-click="submitForm({$valid: true}, 'associacao_detectores', 'app.controladores')" data-toggle="tooltip" data-placement="top" title="Controladores" class="btn btn-primary btn-footer right">
+      {{ 'plugins.steps.labels.next' | translate }} <i class="fa fa-arrow-right"></i>
+    </a>
+    <a data-ng-click="submitForm({$valid: true}, 'associacao_detectores', 'app.wizard_controladores.entre_verdes')" data-toggle="tooltip" data-placement="top" title="Entre Verdes" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
+      <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.previous' | translate }}
+    </a>
   </div>
 </fieldset>

@@ -20,6 +20,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Entidade que representa o {@link GrupoSemaforico} no sistema
@@ -297,8 +298,10 @@ public class GrupoSemaforico extends Model implements Cloneable {
                 .forEach(estagio -> this.addTransicoes(new Transicao(this, estagioGrupoSemaforico.getEstagio(), estagio))));
 
 
+        getTransicoes().forEach(transicao -> {if(transicao.isDestroy()) transicao.delete();});
         getTransicoes().removeIf(Transicao::isDestroy);
 
+        getTransicoes();
     }
 
     public List<VerdesConflitantes> getVerdesConflitantes() {
@@ -351,6 +354,10 @@ public class GrupoSemaforico extends Model implements Cloneable {
         return getVerdesConflitantes().stream().anyMatch(verdesConflitantes -> verdesConflitantes.getVerdeConflitante(this).equals(grupoSemaforico));
     }
 
+    public boolean conflitaCom(List<GrupoSemaforico> gruposSemaforicos) {
+        return getVerdesConflitantesOrigem().stream().anyMatch(verdesConflitantes -> gruposSemaforicos.contains(verdesConflitantes.getDestino()));
+    }
+
     private void addVerdesConflitantesList(VerdesConflitantes verdesConflitantes) {
         if (getVerdesConflitantesOrigem() == null) {
             setVerdesConflitantesOrigem(new ArrayList<VerdesConflitantes>());
@@ -362,3 +369,4 @@ public class GrupoSemaforico extends Model implements Cloneable {
         return getTransicoes().stream().filter(transicao -> transicao.getOrigem().equals(origem) && transicao.getDestino().equals(destino)).findFirst().orElse(null);
     }
 }
+

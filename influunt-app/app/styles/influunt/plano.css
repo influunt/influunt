@@ -45,13 +45,7 @@
   border-color: #c4c4c4;
 }
 
-.planos.ui-sortable li.card-estagio header.sortable-header {
-  max-height: 20px !important;
-  min-height: 20px !important;
-  height: 20px;
-}
-
-.planos.ui-sortable li.card-estagio header.sortable-header .opcoes-plano-estagio {
+.planos.ui-sortable li.card-estagio .opcoes-plano-estagio {
   margin-top: 0px;
   cursor: pointer;
 }

@@ -41,15 +41,9 @@
       border-color: darken(#DDDDDD, 10);
     }
 
-    header.sortable-header {
-      max-height: 20px !important;
-      min-height: 20px !important;
-      height: 20px;
-
-      .opcoes-plano-estagio {
-        margin-top: 0px;
-        cursor: pointer;
-      }
+    .opcoes-plano-estagio {
+      margin-top: 0px;
+      cursor: pointer;
     }
 
     figure {

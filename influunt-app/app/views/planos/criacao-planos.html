@@ -89,17 +89,17 @@
 
                                         <!-- elementos da sequencia. -->
                                         <div ui-sortable="sortableOptions" data-ng-model="currentPlano.sequenciaEstagios" class="sortable-list">
-                                          <li class="ui-state-default card-estagio sortable-card" data-ng-repeat="planoEstagio in currentPlano.sequenciaEstagios"
+                                          <li class="ui-state-default stage-images card-estagio sortable-card" data-ng-repeat="planoEstagio in currentPlano.sequenciaEstagios"
                                               data-ng-class="{'estagio-ativo': $index === currentPlanoEstagioIndex}"
                                               data-ng-click="selecionaPlanoEstagio(planoEstagio, $index)">
                                             <div class="sortable">
-                                              <header class="sortable-header" role="heading">
-                                                <p class="ng-binding">
+                                              <!-- <header class="sortable-header" role="heading"> -->
+                                                <h4 class="ng-binding">
                                                   E{{ getEstagio(planoEstagio).posicao }}
-                                                  <i class="fa fa-trash pull-right m-t-sm opcoes-plano-estagio" data-ng-click="removerSequencia(planoEstagio, $index)" data-ng-if="currentPlano.sequenciaEstagios.length > 2"></i>
-                                                  <i class="fa fa-files-o pull-right m-t-sm opcoes-plano-estagio" data-ng-click="duplicarSequencia(planoEstagio, $index)" aria-hidden="true"></i>
-                                                </p>
-                                              </header>
+                                                  <i class="fa fa-trash pull-right opcoes-plano-estagio" data-ng-click="removerSequencia(planoEstagio, $index)" data-ng-if="currentPlano.sequenciaEstagios.length > 2"></i>
+                                                  <i class="fa fa-files-o pull-right opcoes-plano-estagio" data-ng-click="duplicarSequencia(planoEstagio, $index)" aria-hidden="true"></i>
+                                                </h4>
+                                              <!-- </header> -->
                                               <figure>
                                                 <img ng-src="{{ getImagemDeEstagio(planoEstagio) }}" width="100%">
                                               </figure>
@@ -115,7 +115,7 @@
                                   </section>
                                 </div>
 
-                                <div class="col-lg-12 col-sm-12 association stage-time m-t-md">
+                                <div class="col-lg-12 col-sm-12 association plans stage-time m-t-md">
                                   <div class="ibox-title">
                                     <h5>Tabela de Planos</h5>
                                     <ng-include src="'views/planos/header-buttons.html'" class="right"></ng-include>

@@ -59,9 +59,31 @@ public class ControladorAssociacoesTest extends ControladorTest {
         GrupoSemaforico grupoSemaforico2 = anelCom4Estagios.getGruposSemaforicos().get(1);
 
         EstagioGrupoSemaforico estagioGrupoSemaforico1 = new EstagioGrupoSemaforico(estagio1, grupoSemaforico1);
-        EstagioGrupoSemaforico estagioGrupoSemaforico2 = new EstagioGrupoSemaforico(estagio2, grupoSemaforico2);
-        EstagioGrupoSemaforico estagioGrupoSemaforico3 = new EstagioGrupoSemaforico(estagio3, grupoSemaforico1);
-        EstagioGrupoSemaforico estagioGrupoSemaforico4 = new EstagioGrupoSemaforico(estagio4, grupoSemaforico2);
+        EstagioGrupoSemaforico estagioGrupoSemaforico2 = new EstagioGrupoSemaforico(estagio1, grupoSemaforico2);
+
+        estagio1.addEstagioGrupoSemaforico(estagioGrupoSemaforico1);
+        estagio1.addEstagioGrupoSemaforico(estagioGrupoSemaforico2);
+
+        erros = getErros(controlador);
+        assertEquals(6, erros.size());
+        assertThat(erros, Matchers.hasItems(
+                new Erro("Controlador", "Existem grupos semafóricos conflitantes associados a esse estágio.", "aneis[0].estagios[0].naoDevePossuirGruposSemaforicosConflitantes"),
+                new Erro("Controlador", "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[1].aoMenosUmEstagioGrupoSemaforico"),
+                new Erro("Controlador", "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[2].aoMenosUmEstagioGrupoSemaforico"),
+                new Erro("Controlador", "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[3].aoMenosUmEstagioGrupoSemaforico"),
+                new Erro("Controlador", "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[1].estagios[0].aoMenosUmEstagioGrupoSemaforico"),
+                new Erro("Controlador", "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[1].estagios[1].aoMenosUmEstagioGrupoSemaforico")
+        ));
+
+        estagioGrupoSemaforico1 = new EstagioGrupoSemaforico(estagio1, grupoSemaforico1);
+        estagioGrupoSemaforico2 = new EstagioGrupoSemaforico(estagio2, grupoSemaforico2);
+        EstagioGrupoSemaforico estagioGrupoSemaforico3 = new EstagioGrupoSemaforico(estagio2, grupoSemaforico1);
+        EstagioGrupoSemaforico estagioGrupoSemaforico4 = new EstagioGrupoSemaforico(estagio2, grupoSemaforico2);
+
+        estagio1.setEstagiosGruposSemaforicos(null);
+        estagio2.setEstagiosGruposSemaforicos(null);
+        estagio3.setEstagiosGruposSemaforicos(null);
+        estagio4.setEstagiosGruposSemaforicos(null);
 
         estagio1.addEstagioGrupoSemaforico(estagioGrupoSemaforico1);
         estagio2.addEstagioGrupoSemaforico(estagioGrupoSemaforico2);

@@ -25,6 +25,7 @@ libraryDependencies ++= Seq(
   "uk.co.modular-it" % "bean-utils" % "0.9.10",
   "org.hamcrest" % "hamcrest-library" % "1.3",
   "commons-beanutils" % "commons-beanutils" % "1.9.2",
+  "net.coobird" % "thumbnailator" % "0.4.8",
   "org.mindrot" % "jbcrypt" % "0.3m")
 
 jacoco.settings
