@@ -342,13 +342,7 @@ angular.module('influuntApp')
       $scope.sortableOptions = {
         handle: '> .sortable',
         update: function(event, ui) {
-
-          var ids = _.map($scope.currentSequenciaEstagios, 'estagio.idJson');
-          var estagios = _.map(ids, function(id) {
-            return _.find($scope.objeto.estagios, {idJson: id});
-          });
-
-          var msg = validaTransicao.valida(ui, estagios);
+          var msg = validaTransicao.valida(ui, $scope.currentSequenciaEstagios, $scope.objeto);
           if (msg) {
             toast.warn(msg);
             ui.item.sortable.cancel();

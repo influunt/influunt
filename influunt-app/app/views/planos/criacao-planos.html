@@ -33,7 +33,6 @@
                                 Plano
                               </a>
                           </div>
-
                             <nav>
                               <ul id="side-menu">
                                 <li data-ng-repeat="plano in currentPlanos track by plano.idJson"
@@ -81,7 +80,7 @@
                                       <ul class="ui-sortable planos">
                                         <!-- elementos para adicionar novos estágios à sequencia -->
                                         <li class="ui-state-default card-estagio add-card-estagio"
-                                            data-ng-repeat="estagio in currentEstagios"
+                                            data-ng-repeat="estagio in currentEstagios | estagioForaSequencia:currentPlano.sequenciaEstagios"
                                             data-ng-click="adicionarSequencia(estagio)">
                                           <div class="add-card-container">
                                             <p>+E{{ estagio.posicao }}</p>
