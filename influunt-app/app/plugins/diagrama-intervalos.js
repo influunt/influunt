@@ -103,10 +103,12 @@ var influunt;
           intervalos = resultado.gruposSemaforicos[i].intervalos;
           var status = diagrama[i][0];
           var duracao = 1;
+
+          if(diagrama[i].length > tempoCiclo){
+            return {erros: ["Tempo de Ciclo é menor que os tempos dos estágios."]};
+          }
+
           for(var j = 0; j < diagrama[i].length; j++){
-            if(diagrama[i].length > tempoCiclo){
-              return {erros: ["Tempo de Ciclo é menor que os tempos dos estágios."]};
-            }
             if(j+1 >= diagrama[i].length){
               intervalos.push({status: status == null ? 3 : status ,duracao:duracao });
             }else if(diagrama[i][j] != diagrama[i][j+1]){

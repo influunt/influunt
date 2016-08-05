@@ -107,6 +107,7 @@ angular.module('influuntApp')
             $scope.currentAnel.planos.splice(planoIndex, 1);
 
             plano = _.find($scope.objeto.planos, {idJson: $scope.currentAnel.planos[index - 1].idJson});
+            $scope.selecionaPlano(plano, index - 1);
           }
 
           atualizaPlanos();
