@@ -252,7 +252,13 @@ angular.module('influuntApp')
         for(var i = 0; i < $scope.plano.sequenciaEstagios.length; i++) {
           var ep = _.find($scope.objeto.estagiosPlanos, {idJson: $scope.plano.sequenciaEstagios[i].idJson});
           var estagio = _.find($scope.objeto.estagios, {idJson: ep.estagio.idJson});
-          $scope.plano.sequenciaEstagios[i] = estagio;
+
+          var campos = [
+            'tempoVerdeMinimo', 'tempoVerdeMaximo', 'tempoVerdeIntermediario',
+            'tempoExtensaoVerde', 'dispensavel', 'tempoVerde', 'tipoEstagioDispensavel'
+          ];
+          var dados = _.pick($scope.plano.sequenciaEstagios[i], campos);
+          $scope.plano.sequenciaEstagios[i] = _.merge(dados, estagio);
 
           $scope.plano.sequenciaEstagios[i].estagiosGruposSemaforicos.forEach(function(egs) {
             var estagioGrupoSemaforico = _.find($scope.objeto.estagiosGruposSemaforicos, {idJson: egs.idJson});
@@ -431,7 +437,6 @@ angular.module('influuntApp')
 
       $scope.duplicarSequencia = function(planoEstagio, index) {
         var estagio = _.find($scope.objeto.estagios, {idJson: planoEstagio.estagio.idJson});
-        console.log(estagio);
         $scope.adicionarSequencia(estagio, index + 1);
       };
 
