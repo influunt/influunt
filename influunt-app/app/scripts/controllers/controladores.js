@@ -340,7 +340,7 @@ angular.module('influuntApp')
 
       $scope.getImagemDeEstagio = function(estagio) {
         var imagem = _.find($scope.objeto.imagens, {idJson: estagio.imagem.idJson});
-        return imagem && $filter('imageSource')(imagem.id);
+        return imagem && $filter('imageSource')(imagem.id,'thumb');
       };
 
     }]);
