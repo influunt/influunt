@@ -22,7 +22,7 @@ angular.module('influuntApp')
           var timeline = new window.vis.Timeline(container);
 
           var initCheckboxValues = function() {
-            scope.grupos.forEach(function(grupo, index) {
+            scope.grupos.forEach(function(grupo) {
               var selector = '.group-checkbox[data-posicao=' + grupo.posicao + ']';
               $(selector).prop('checked', grupo.ativo);
             });
@@ -63,7 +63,7 @@ angular.module('influuntApp')
                   id: groupId + 'i' + index,
                   className: 'indicacao-' + modoOperacaoService.getCssClass(0),
                   type: 'range'
-                })
+                });
               } else {
                 grupo.intervalos.forEach(function(intervalo, index) {
                   items.push({

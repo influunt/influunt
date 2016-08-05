@@ -10,6 +10,9 @@
 angular.module('influuntApp')
   .factory('validaTransicao', ['utilEstagios',
     function validaTransicao(utilEstagios) {
+
+      var getEstagios;
+
       /**
        * Cria um objeto com os dados ordenados de acordo com o formato esperado caso
        * as transições criadas sejam válidas.
@@ -30,7 +33,7 @@ angular.module('influuntApp')
         return mock;
       };
 
-      var getEstagios = function(objeto, estagios) {
+      getEstagios = function(objeto, estagios) {
         var ids = _.map(estagios, 'estagio.idJson');
         return _.map(ids, function(id) {
           return _.find(objeto.estagios, {idJson: id});

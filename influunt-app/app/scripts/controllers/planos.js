@@ -186,20 +186,23 @@ angular.module('influuntApp')
        */
       setDiagramaEstatico = function() {
         var modo = modoOperacaoService.getModoIdByName($scope.currentPlano.modoOperacao);
-        var grupos = _.times($scope.currentAnel.gruposSemaforicos.length)
-          .map(function(i) {
-            return {
-              posicao: (i + 1),
-              intervalos: [{
-                status: modo,
-                duracao: 255
-              }]
-            };
-          });
+        var modoApagado = modoOperacaoService.getModoIdByName('APAGADO');
+        var grupos = _.map($scope.currentAnel.gruposSemaforicos, function(g, i) {
+          var grupo = _.find($scope.objeto.gruposSemaforicos, {idJson: g.idJson});
+          return {
+            ativo: true,
+            posicao: (i + 1),
+            intervalos: [{
+              status: grupo.tipo === 'VEICULAR' ? modo : modoApagado,
+              duracao: 255
+            }]
+          };
+        });
 
         $scope.dadosDiagrama = {
           estagios: [{posicao: 1, duracao: 255}],
           gruposSemaforicos: grupos,
+          erros: [],
           tempoCiclo: 255
         };
       };
@@ -426,7 +429,7 @@ angular.module('influuntApp')
       };
 
       $scope.adicionarSequencia = function(estagio, posicao) {
-        var posicao = posicao || $scope.currentPlano.sequenciaEstagios.length + 1;
+        posicao = posicao || $scope.currentPlano.sequenciaEstagios.length + 1;
         adicionaEstagioASequencia(estagio, posicao);
         atualizaSequenciaEstagios();
         atualizaDiagramaIntervalos();
