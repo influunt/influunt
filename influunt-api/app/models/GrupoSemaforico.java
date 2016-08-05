@@ -20,6 +20,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Entidade que representa o {@link GrupoSemaforico} no sistema
@@ -297,8 +298,10 @@ public class GrupoSemaforico extends Model implements Cloneable {
                 .forEach(estagio -> this.addTransicoes(new Transicao(this, estagioGrupoSemaforico.getEstagio(), estagio))));
 
 
+        getTransicoes().forEach(transicao -> {if(transicao.isDestroy()) transicao.delete();});
         getTransicoes().removeIf(Transicao::isDestroy);
 
+        getTransicoes();
     }
 
     public List<VerdesConflitantes> getVerdesConflitantes() {

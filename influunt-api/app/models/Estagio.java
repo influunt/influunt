@@ -55,7 +55,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
     private Integer posicao;
     @Column
     private Boolean demandaPrioritaria = false;
-    @OneToMany(mappedBy = "estagio")
+    @OneToMany(mappedBy = "estagio", cascade = CascadeType.ALL)
     private List<EstagioGrupoSemaforico> estagiosGruposSemaforicos;
     @OneToMany(mappedBy = "origem", cascade = CascadeType.ALL)
     @Valid
