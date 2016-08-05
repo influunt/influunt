@@ -351,6 +351,10 @@ public class GrupoSemaforico extends Model implements Cloneable {
         return getVerdesConflitantes().stream().anyMatch(verdesConflitantes -> verdesConflitantes.getVerdeConflitante(this).equals(grupoSemaforico));
     }
 
+    public boolean conflitaCom(List<GrupoSemaforico> gruposSemaforicos) {
+        return getVerdesConflitantesOrigem().stream().anyMatch(verdesConflitantes -> gruposSemaforicos.contains(verdesConflitantes.getDestino()));
+    }
+
     private void addVerdesConflitantesList(VerdesConflitantes verdesConflitantes) {
         if (getVerdesConflitantesOrigem() == null) {
             setVerdesConflitantesOrigem(new ArrayList<VerdesConflitantes>());
@@ -362,3 +366,4 @@ public class GrupoSemaforico extends Model implements Cloneable {
         return getTransicoes().stream().filter(transicao -> transicao.getOrigem().equals(origem) && transicao.getDestino().equals(destino)).findFirst().orElse(null);
     }
 }
+
