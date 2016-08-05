@@ -14,7 +14,8 @@ angular.module('influuntApp')
         scope: {
           grupos: '=',
           estagios: '=',
-          onChangeCheckbox: '&'
+          onChangeCheckbox: '&',
+          tempoCiclo: '='
         },
         link: function postLink(scope) {
           var container = document.getElementById('visualization');
@@ -42,7 +43,6 @@ angular.module('influuntApp')
           var setData = function(grupos, estagios) {
             var groups = [];
             var items = [];
-            var max = 0;
 
             groups.push({id: 'title', content: '&nbsp;'});
             grupos.forEach(function(grupo, index) {
@@ -61,7 +61,8 @@ angular.module('influuntApp')
                   group: groupId,
                   content: '255s',
                   id: groupId + 'i' + index,
-                  className: 'indicacao-' + modoOperacaoService.getCssClass(0)
+                  className: 'indicacao-' + modoOperacaoService.getCssClass(0),
+                  type: 'range'
                 })
               } else {
                 grupo.intervalos.forEach(function(intervalo, index) {
@@ -71,7 +72,8 @@ angular.module('influuntApp')
                     group: groupId,
                     content: intervalo.duracao + 's',
                     id: groupId + 'i' + index,
-                    className: 'indicacao-' + modoOperacaoService.getCssClass(intervalo.status)
+                    className: 'indicacao-' + modoOperacaoService.getCssClass(intervalo.status),
+                    type: 'range'
                   });
 
                   initialState += intervalo.duracao;
@@ -102,7 +104,6 @@ angular.module('influuntApp')
               });
 
               initialState += estagio.duracao;
-              max = Math.max(max, initialState);
             });
 
             var options = {
@@ -112,7 +113,7 @@ angular.module('influuntApp')
                 },
                 axis: 5
               },
-              autoResize: true,
+              autoResize: false,
               maxMinorChars: 1,
               showCurrentTime: false,
               showMajorLabels: false,
@@ -120,34 +121,21 @@ angular.module('influuntApp')
               moveable: false,
               zoomable: false,
               type: 'range',
-              start: 0,
-              end: max
+              start: 1,
+              end: parseInt(scope.tempoCiclo)
             };
-
             timeline.setOptions(options);
             timeline.setGroups(groups);
             timeline.setItems(items);
 
             initCheckboxValues();
             bindCheckboxEvents();
+            timeline.redraw();
           };
 
           scope.$watch('grupos', function(value) {
             return value && setData(scope.grupos, scope.estagios);
           }, true);
-
-          // timeline.on('click', function(props) {
-          //   if ('group' in props && 'item' in props) {
-          //     var g = parseInt(props.group.replace('G', ''));
-          //     var i = parseInt(props.item.split('i')[1]);
-          //     $rootScope.$broadcast('item-double-clicked', {
-          //       group: g,
-          //       item: i
-          //     });
-          //   }
-
-          //   props.event.preventDefault();
-          // });
         }
       };
     }]);

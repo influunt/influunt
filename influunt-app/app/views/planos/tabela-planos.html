@@ -2,6 +2,15 @@
   grupos="dadosDiagrama.gruposSemaforicos"
   estagios="dadosDiagrama.estagios"
   on-change-checkbox="onChangeCheckboxGrupo(grupo, isAtivo)"
+  tempo-ciclo="currentPlano.tempoCiclo"
   style="margin: 10px; margin-top: 0px;"
-  class="white-bg">
+  class="white-bg"
+  data-ng-if="dadosDiagrama.erros.length === 0">
 </div>
+<uib-alert type="danger" data-ng-if="dadosDiagrama.erros.length > 0">
+<div style="padding-left: 12px;">
+  <ul>
+    <li data-ng-repeat="message in dadosDiagrama.erros">{{ message }}</li>
+  </ul>
+</div>
+</uib-alert>

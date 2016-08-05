@@ -18,7 +18,7 @@ angular.module('influuntApp')
       var parseAllToInt, selecionaAnel, atualizaEstagios, atualizaPlanos, atualizaTabelaEntreVerdes,
           setDiagramaEstatico, atualizaDiagramaIntervalos, limpaDadosPlano, adicionaPlano, getPlanoParaDiagrama,
           criaSequenciaEstagios, atualizaSequenciaEstagios,
-          adicionaEstagioASequencia;
+          adicionaEstagioASequencia, montaTabelaValoresMinimos;
       var diagramaDebouncer = null;
 
       /**
@@ -29,6 +29,7 @@ angular.module('influuntApp')
         Restangular.one('controladores', id).get().then(function(res) {
           $scope.objeto = res;
           parseAllToInt();
+          montaTabelaValoresMinimos();
 
           $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
           $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
@@ -198,7 +199,8 @@ angular.module('influuntApp')
 
         $scope.dadosDiagrama = {
           estagios: [{posicao: 1, duracao: 255}],
-          gruposSemaforicos: grupos
+          gruposSemaforicos: grupos,
+          tempoCiclo: 255
         };
       };
 
@@ -209,7 +211,7 @@ angular.module('influuntApp')
       atualizaDiagramaIntervalos = function() {
         if (['INTERMITENTE', 'APAGADO'].indexOf($scope.currentPlano.modoOperacao) < 0) {
           getPlanoParaDiagrama();
-          var diagramaBuilder = new influunt.components.DiagramaIntervalos($scope.plano);
+          var diagramaBuilder = new influunt.components.DiagramaIntervalos($scope.plano, $scope.valoresMinimos);
           var result = diagramaBuilder.calcula();
 
           result.gruposSemaforicos.forEach(function(g) {
@@ -514,6 +516,14 @@ angular.module('influuntApp')
           .value();
 
         return $scope.currentTabelasEntreVerdes;
+      };
+
+      montaTabelaValoresMinimos = function() {
+        $scope.valoresMinimos = {
+          verdeMin: $scope.objeto.verdeMin,
+          verdeMinimoMin: $scope.objeto.verdeMinimoMin
+        };
+        return $scope.valoresMinimos;
       };
 
       parseAllToInt = function() {

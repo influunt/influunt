@@ -93,6 +93,7 @@
     $color: nth($bg-colors, $i);
     &.vis-background-E#{$i} {
       background-color: $color;
+      opacity: 0.5;
     }
   }
 }

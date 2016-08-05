@@ -17,11 +17,13 @@ var influunt;
   var components;
   (function (components) {
     var DiagramaIntervalos = (function () {
-      function DiagramaIntervalos(plano) {
+      function DiagramaIntervalos(plano, valoresMinimos) {
         this.plano = plano;
+        this.valoresMinimos = valoresMinimos;
       }
       DiagramaIntervalos.prototype.calcula = function () {
         var plano = this.plano;
+        var valoresMinimos = this.valoresMinimos;
         var diagrama = createArray(plano.quantidadeGruposSemaforicos, plano.tempoCiclo || 0);
         var estagios = [];
         for(var i = 0; i < diagrama.length; i++){
@@ -33,7 +35,7 @@ var influunt;
         var instante = 0;
         for(var i = 0; i < plano.sequenciaEstagios.length; i++){
           var estagioAtual = plano.sequenciaEstagios[i];
-          var tempoVerde = plano.modoOperacao === 'ATUADO' ? estagioAtual.tempoVerdeMinimo : estagioAtual.tempoVerde;
+          var tempoVerde = plano.modoOperacao === 'ATUADO' ? estagioAtual.tempoVerdeMinimo || valoresMinimos.verdeMinimoMin : estagioAtual.tempoVerde || valoresMinimos.verdeMin;
           var estagioAnterior = this.estagioAnterior(plano.sequenciaEstagios,i);
           if(estagioAtual.idJson !== estagioAnterior.idJson){
             for(var j = 0; j < estagioAnterior.gruposSemaforicos.length; j++){
@@ -41,7 +43,6 @@ var influunt;
               var tabelaEntreVerde = _.find(grupo.tabelasEntreVerdes, {"posicao": plano.posicaoTabelaEntreVerdes});
               var transicao = _.find(grupo.transicoes, {"origem": {"idJson": estagioAnterior.idJson}, "destino": {"idJson": estagioAtual.idJson}})
               var tabelaEntreVerdesTransicao = _.find(transicao.tabelaEntreVerdesTransicoes, {"tabelaEntreVerdes": {"idJson": tabelaEntreVerde.idJson}})
-
               var tempoAmarelo = !_.isUndefined(tabelaEntreVerdesTransicao.tempoAmarelo) ? parseInt(tabelaEntreVerdesTransicao.tempoAmarelo) : 0;
               var tempoVermelhoIntermitente = !_.isUndefined(tabelaEntreVerdesTransicao.tempoVermelhoIntermitente) ? parseInt(tabelaEntreVerdesTransicao.tempoVermelhoIntermitente) : 0;
               var tempoAtrasoGrupo = !_.isUndefined(tabelaEntreVerdesTransicao.tempoAtrasoGrupo) ? parseInt(tabelaEntreVerdesTransicao.tempoAtrasoGrupo) : 0;
@@ -63,7 +64,7 @@ var influunt;
                   diagrama[posicao][t] = 6;
                 }
               }else {
-                for(var t = tempoCiclo; t < tempoCiclo + tempoEntreVerde + (tempoVerde || 0); t++){
+                for(var t = tempoCiclo; t < tempoCiclo + tempoEntreVerde + tempoVerde; t++){
                   diagrama[posicao][t] = 1;
                 }
               }
@@ -72,18 +73,18 @@ var influunt;
           }
           for(var j = 0; j < estagioAtual.gruposSemaforicos.length; j++){
              var grupo = estagioAtual.gruposSemaforicos[j];
-             for(var t = instante + tempoCiclo; t < tempoCiclo + instante + (tempoVerde || 0); t++){
+             for(var t = instante + tempoCiclo; t < tempoCiclo + instante + tempoVerde; t++){
                diagrama[grupo.posicao - 1][t] = 1;
              }
           }
           tempoCiclo += instante + (tempoVerde || 0);
 
-          estagios.push({id: UUID.generate(), posicao: estagioAtual.posicao, duracao: instante + (tempoVerde || 0)})
+          estagios.push({id: UUID.generate(), posicao: estagioAtual.posicao, duracao: instante + tempoVerde})
           instante = 0
         }
-        return this.gerarDiagramaIntervalo(diagrama, estagios);
+        return this.gerarDiagramaIntervalo(diagrama, estagios, plano.tempoCiclo);
       };
-      DiagramaIntervalos.prototype.gerarDiagramaIntervalo = function (diagrama, estagios) {
+      DiagramaIntervalos.prototype.gerarDiagramaIntervalo = function (diagrama, estagios, tempoCiclo) {
         // setta modo "vermelho" para o restante tempo dos grupos em relação ao grupo de maior tempo
         // para o modo atuado.
         // if (this.plano.modoOperacao === 'ATUADO') {
@@ -94,7 +95,6 @@ var influunt;
               grupo[i] = 3;
             }
           });
-
         var resultado = {gruposSemaforicos: [], estagios: estagios, erros: []};
         for(var i = 0; i < diagrama.length; i++){
           resultado.gruposSemaforicos[i] = resultado.gruposSemaforicos[i] || {};
@@ -104,6 +104,9 @@ var influunt;
           var status = diagrama[i][0];
           var duracao = 1;
           for(var j = 0; j < diagrama[i].length; j++){
+            if(diagrama[i].length > tempoCiclo){
+              return {erros: ["Tempo de Ciclo é menor que os tempos dos estágios."]};
+            }
             if(j+1 >= diagrama[i].length){
               intervalos.push({status: status == null ? 3 : status ,duracao:duracao });
             }else if(diagrama[i][j] != diagrama[i][j+1]){
