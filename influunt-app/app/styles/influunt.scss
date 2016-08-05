@@ -578,12 +578,23 @@ header .nav-secon li a {
 .wrapper-content .basic-wizard .content .body .association.side-menu li .nav-second-level li a {
     color: white;
 }
-.wrapper-content .basic-wizard .content .body .association.side-menu li.active a {
-    color: white;
-}
-.wrapper-content .basic-wizard .content .body .association.side-menu li.active {
+.wrapper-content .basic-wizard .content .body .association.side-menu li {
+
+  padding: 0px 10px;
+  cursor: default;
+
+  i {
+    cursor: pointer;
+  }
+
+  &.active {
     background: #1caf92;
     height: auto;
+
+    a {
+      color: white;
+    }
+  }
 }
 .wrapper-content .basic-wizard .content .body .association.side-menu li:hover {
     background: #1caf92;
