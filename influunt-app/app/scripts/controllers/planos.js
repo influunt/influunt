@@ -17,7 +17,8 @@ angular.module('influuntApp')
 
       var parseAllToInt, selecionaAnel, atualizaEstagios, atualizaPlanos, atualizaTabelaEntreVerdes,
           setDiagramaEstatico, atualizaDiagramaIntervalos, limpaDadosPlano, adicionaPlano, getPlanoParaDiagrama,
-          criaSequenciaEstagios, atualizaSequenciaEstagios;
+          criaSequenciaEstagios, atualizaSequenciaEstagios,
+          adicionaEstagioASequencia;
       var diagramaDebouncer = null;
       $scope.min = 0;
       $scope.max = 100;
@@ -156,22 +157,24 @@ angular.module('influuntApp')
       criaSequenciaEstagios = function() {
         $scope.objeto.estagiosPlanos = $scope.objeto.estagiosPlanos || [];
         $scope.currentPlano.sequenciaEstagios = $scope.currentPlano.sequenciaEstagios || [];
-
         $scope.currentEstagios.forEach(function(estagio, index) {
-          var estagioPlano = {
-            idJson: UUID.generate(),
-            estagio: { idJson: estagio.idJson },
-            plano: { idJson: $scope.currentPlano.idJson },
-            posicao: index + 1
-          };
-
-          $scope.currentPlano.sequenciaEstagios.push({idJson: estagioPlano.idJson});
-          $scope.objeto.estagiosPlanos.push(estagioPlano);
-
-          return $scope.currentPlano.sequenciaEstagios;
+          adicionaEstagioASequencia(estagio, index + 1);
         });
 
+        return $scope.currentPlano.sequenciaEstagios;
+      };
 
+      adicionaEstagioASequencia = function(estagio, posicao) {
+        var estagioPlano = {
+          idJson: UUID.generate(),
+          estagio: { idJson: estagio.idJson },
+          plano: { idJson: $scope.currentPlano.idJson },
+          posicao: posicao - 1
+        };
+
+        // Adiciona o estagio diretamente na posicao onde este deverá ficar.
+        $scope.currentPlano.sequenciaEstagios.splice(posicao, 0, estagioPlano);
+        $scope.objeto.estagiosPlanos.push(estagioPlano);
       };
 
       /**
@@ -343,7 +346,13 @@ angular.module('influuntApp')
       $scope.sortableOptions = {
         handle: '> .sortable',
         update: function(event, ui) {
-          var msg = validaTransicao.valida(ui, $scope.currentPlano.sequenciaEstagios);
+
+          var ids = _.map($scope.currentSequenciaEstagios, 'estagio.idJson');
+          var estagios = _.map(ids, function(id) {
+            return _.find($scope.objeto.estagios, {idJson: id});
+          });
+
+          var msg = validaTransicao.valida(ui, estagios);
           if (msg) {
             toast.warn(msg);
             ui.item.sortable.cancel();
@@ -402,6 +411,38 @@ angular.module('influuntApp')
         var estagio = _.find($scope.objeto.estagios, {idJson: ep.estagio.idJson});
         var imagem = _.find($scope.objeto.imagens, {idJson: estagio.imagem.idJson});
         return imagem && $filter('imageSource')(imagem.id);
+      };
+
+      $scope.getEstagio = function(estagioPlano) {
+        var ep = _.find($scope.objeto.estagiosPlanos, {idJson: estagioPlano.idJson});
+        var estagio = _.find($scope.objeto.estagios, {idJson: ep.estagio.idJson});
+        return estagio;
+      };
+
+      $scope.adicionarSequencia = function(estagio, posicao) {
+        var posicao = posicao || $scope.currentPlano.sequenciaEstagios.length + 1;
+        adicionaEstagioASequencia(estagio, posicao);
+        atualizaSequenciaEstagios();
+        atualizaDiagramaIntervalos();
+      };
+
+      $scope.removerSequencia = function(planoEstagio, index) {
+        influuntAlert.delete().then(function(confirmado) {
+          if (confirmado) {
+            var obj = $scope.currentPlano.sequenciaEstagios[index];
+            $scope.currentPlano.sequenciaEstagios.splice(index, 1);
+
+            index = _.findIndex($scope.objeto.estagiosPlanos, {idJson: obj.idJson});
+            $scope.objeto.estagiosPlanos.splice(index, 1);
+            atualizaSequenciaEstagios();
+          }
+        });
+      };
+
+      $scope.duplicarSequencia = function(planoEstagio, index) {
+        var estagio = _.find($scope.objeto.estagios, {idJson: planoEstagio.estagio.idJson});
+        console.log(estagio);
+        $scope.adicionarSequencia(estagio, index + 1);
       };
 
       selecionaAnel = function(index) {
@@ -501,12 +542,6 @@ angular.module('influuntApp')
         $scope.objeto.vermelhoLimpezaPedestreMin = parseInt($scope.objeto.vermelhoLimpezaPedestreMin);
         $scope.objeto.vermelhoLimpezaVeicularMax = parseInt($scope.objeto.vermelhoLimpezaVeicularMax);
         $scope.objeto.vermelhoLimpezaVeicularMin = parseInt($scope.objeto.vermelhoLimpezaVeicularMin);
-      };
-
-      $scope.getEstagio = function(estagioPlano) {
-        var ep = _.find($scope.objeto.estagiosPlanos, {idJson: estagioPlano.idJson});
-        var estagio = _.find($scope.objeto.estagios, {idJson: ep.estagio.idJson});
-        return estagio;
       };
 
     }]);

@@ -80,35 +80,37 @@
                                     <div class="col-lg-12 col-sm-12 no-padding table-create-plan overflow">
                                       <ul class="ui-sortable planos">
                                         <!-- elementos para adicionar novos estágios à sequencia -->
-                                        <li class="ui-state-default card-estagio add-card-estagio" data-ng-repeat="estagio in currentEstagios">
+                                        <li class="ui-state-default card-estagio add-card-estagio"
+                                            data-ng-repeat="estagio in currentEstagios"
+                                            data-ng-click="adicionarSequencia(estagio)">
                                           <div class="add-card-container">
                                             <p>+E{{ estagio.posicao }}</p>
                                           </div>
                                         </li>
-                                      </ul>
 
-                                      <ul ui-sortable="sortableOptions" data-ng-model="currentPlano.sequenciaEstagios" class="ui-sortable planos">
                                         <!-- elementos da sequencia. -->
-                                        <li class="ui-state-default card-estagio sortable-card" data-ng-repeat="planoEstagio in currentPlano.sequenciaEstagios"
-                                            data-ng-class="{'estagio-ativo': $index === currentPlanoEstagioIndex}"
-                                            data-ng-click="selecionaPlanoEstagio(planoEstagio, $index)">
-                                          <div class="sortable">
-                                            <header class="sortable-header" role="heading">
-                                              <p class="ng-binding">
-                                                E{{ getEstagio(planoEstagio).posicao }}
-                                                <i class="fa fa-trash pull-right m-t-sm opcoes-plano-estagio" data-ng-click="removePlanoEstagio(planoEstagio, $index)"></i>
-                                                <i class="fa fa-files-o pull-right m-t-sm opcoes-plano-estagio" data-ng-click="duplicaPlanoEstagio(planoEstagio, $index)" aria-hidden="true"></i>
-                                              </p>
-                                            </header>
-                                            <figure>
-                                              <img ng-src="{{ getImagemDeEstagio(planoEstagio) }}" width="100%">
-                                            </figure>
-                                            <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">
-                                              <i class="fa fa-cog" />
-                                              Configurar
-                                            </button>
-                                          </div>
-                                        </li>
+                                        <div ui-sortable="sortableOptions" data-ng-model="currentPlano.sequenciaEstagios" class="sortable-list">
+                                          <li class="ui-state-default card-estagio sortable-card" data-ng-repeat="planoEstagio in currentPlano.sequenciaEstagios"
+                                              data-ng-class="{'estagio-ativo': $index === currentPlanoEstagioIndex}"
+                                              data-ng-click="selecionaPlanoEstagio(planoEstagio, $index)">
+                                            <div class="sortable">
+                                              <header class="sortable-header" role="heading">
+                                                <p class="ng-binding">
+                                                  E{{ getEstagio(planoEstagio).posicao }}
+                                                  <i class="fa fa-trash pull-right m-t-sm opcoes-plano-estagio" data-ng-click="removerSequencia(planoEstagio, $index)" data-ng-if="currentPlano.sequenciaEstagios.length > 2"></i>
+                                                  <i class="fa fa-files-o pull-right m-t-sm opcoes-plano-estagio" data-ng-click="duplicarSequencia(planoEstagio, $index)" aria-hidden="true"></i>
+                                                </p>
+                                              </header>
+                                              <figure>
+                                                <img ng-src="{{ getImagemDeEstagio(planoEstagio) }}" width="100%">
+                                              </figure>
+                                              <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">
+                                                <i class="fa fa-cog" />
+                                                Configurar
+                                              </button>
+                                            </div>
+                                          </li>
+                                        </div>
                                       </ul>
                                     </div>
                                   </section>

@@ -10,6 +10,13 @@
   display: flex;
 }
 
+.planos.ui-sortable .sortable-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 0px;
+}
+
 .planos.ui-sortable li.card-estagio {
   margin: 0 3px 3px 3px;
   padding: 10px;

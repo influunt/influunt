@@ -9,8 +9,12 @@
   width: 100%;
   display: flex;
 
-  li.card-estagio {
+  .sortable-list {
+    display: flex;
+    padding: 0px;
+  }
 
+  li.card-estagio {
     &.add-card-estagio {
       cursor: pointer;
       border-style: dashed;
