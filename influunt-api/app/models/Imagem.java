@@ -112,6 +112,13 @@ public class Imagem extends Model {
         }
         return new File(rootPath, "imagens/" + this.getId());
     }
+    public File getPath(File rootPath,String version) {
+        File folder = new File(rootPath, "imagens");
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
+        return new File(rootPath, "imagens/" + this.getId().toString().concat(".").concat(version));
+    }
 
     public boolean apagar(File rootPath) {
         File imagemPath = getPath(rootPath);
