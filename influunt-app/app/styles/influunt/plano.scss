@@ -10,12 +10,27 @@
   display: flex;
 
   li.card-estagio {
+
+    &.add-card-estagio {
+      cursor: pointer;
+      border-style: dashed;
+
+      .add-card-container {
+        height: 250px;
+        display: table-cell;
+        vertical-align: middle;
+      }
+    }
+
+    .sortable {
+      cursor: all-scroll;
+    }
+
     margin: 0 3px 3px 3px;
     padding: 10px;
     font-size: 1.4em;
     height: 250px;
     float: left;
-    cursor: all-scroll;
 
     &.estagio-ativo {
       background: darken(#F9F9F9, 10);
@@ -26,6 +41,11 @@
       max-height: 20px !important;
       min-height: 20px !important;
       height: 20px;
+
+      .opcoes-plano-estagio {
+        margin-top: 0px;
+        cursor: pointer;
+      }
     }
 
     figure {

@@ -10,44 +10,17 @@
 angular.module('influuntApp')
   .controller('PlanosCtrl', ['$scope', '$state', '$timeout', 'Restangular', '$filter',
                              'validaTransicao', 'utilEstagios', 'toast', 'modoOperacaoService',
+                             'influuntAlert',
     function ($scope, $state, $timeout, Restangular, $filter,
-              validaTransicao, utilEstagios, toast, modoOperacaoService) {
+              validaTransicao, utilEstagios, toast, modoOperacaoService,
+              influuntAlert) {
 
-      var getPlanoParaDiagrama;
+      var parseAllToInt, selecionaAnel, atualizaEstagios, atualizaPlanos, atualizaTabelaEntreVerdes,
+          setDiagramaEstatico, atualizaDiagramaIntervalos, limpaDadosPlano, adicionaPlano, getPlanoParaDiagrama,
+          criaSequenciaEstagios, atualizaSequenciaEstagios;
       var diagramaDebouncer = null;
       $scope.min = 0;
       $scope.max = 100;
-
-      var parseAllToInt = function() {
-        $scope.objeto.amareloMax = parseInt($scope.objeto.amareloMax);
-        $scope.objeto.amareloMin = parseInt($scope.objeto.amareloMin);
-        $scope.objeto.atrasoGrupoMin = parseInt($scope.objeto.atrasoGrupoMin);
-        $scope.objeto.cicloMax = parseInt($scope.objeto.cicloMax);
-        $scope.objeto.cicloMin = parseInt($scope.objeto.cicloMin);
-        $scope.objeto.defasagemMin = parseInt($scope.objeto.defasagemMin);
-        $scope.objeto.extensaVerdeMax = parseInt($scope.objeto.extensaVerdeMax);
-        $scope.objeto.extensaVerdeMin = parseInt($scope.objeto.extensaVerdeMin);
-        $scope.objeto.maximoPermanenciaEstagioMax = parseInt($scope.objeto.maximoPermanenciaEstagioMax);
-        $scope.objeto.maximoPermanenciaEstagioMin = parseInt($scope.objeto.maximoPermanenciaEstagioMin);
-        $scope.objeto.verdeIntermediarioMax = parseInt($scope.objeto.verdeIntermediarioMax);
-        $scope.objeto.verdeIntermediarioMin = parseInt($scope.objeto.verdeIntermediarioMin);
-        $scope.objeto.verdeMax = parseInt($scope.objeto.verdeMax);
-        $scope.objeto.verdeMaximoMax = parseInt($scope.objeto.verdeMaximoMax);
-        $scope.objeto.verdeMaximoMin = parseInt($scope.objeto.verdeMaximoMin);
-        $scope.objeto.verdeMin = parseInt($scope.objeto.verdeMin);
-        $scope.objeto.verdeMinimoMax = parseInt($scope.objeto.verdeMinimoMax);
-        $scope.objeto.verdeMinimoMin = parseInt($scope.objeto.verdeMinimoMin);
-        $scope.objeto.verdeSegurancaPedestreMax = parseInt($scope.objeto.verdeSegurancaPedestreMax);
-        $scope.objeto.verdeSegurancaPedestreMin = parseInt($scope.objeto.verdeSegurancaPedestreMin);
-        $scope.objeto.verdeSegurancaVeicularMax = parseInt($scope.objeto.verdeSegurancaVeicularMax);
-        $scope.objeto.verdeSegurancaVeicularMin = parseInt($scope.objeto.verdeSegurancaVeicularMin);
-        $scope.objeto.vermelhoIntermitenteMax = parseInt($scope.objeto.vermelhoIntermitenteMax);
-        $scope.objeto.vermelhoIntermitenteMin = parseInt($scope.objeto.vermelhoIntermitenteMin);
-        $scope.objeto.vermelhoLimpezaPedestreMax = parseInt($scope.objeto.vermelhoLimpezaPedestreMax);
-        $scope.objeto.vermelhoLimpezaPedestreMin = parseInt($scope.objeto.vermelhoLimpezaPedestreMin);
-        $scope.objeto.vermelhoLimpezaVeicularMax = parseInt($scope.objeto.vermelhoLimpezaVeicularMax);
-        $scope.objeto.vermelhoLimpezaVeicularMin = parseInt($scope.objeto.vermelhoLimpezaVeicularMin);
-      };
 
       /**
        * Inicializa a tela de planos. Carrega os dados básicos da tela.
@@ -60,31 +33,23 @@ angular.module('influuntApp')
 
           $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
           $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
-
           $scope.aneis.forEach(function(anel) {
-
             // seleciona estagios.
-            var ids = _.map(anel.estagios, 'idJson');
-            anel.estagios = _
-              .chain($scope.objeto.estagios)
-              .filter(function(e) {
-                return ids.indexOf(e.idJson) >= 0;
-              })
-              .orderBy(['posicao'])
-              .value();
+            // var ids = _.map(anel.estagios, 'idJson');
+            // anel.estagios = _
+            //   .chain($scope.objeto.estagios)
+            //   .filter(function(e) { return ids.indexOf(e.idJson) >= 0; })
+            //   .orderBy(['posicao'])
+            //   .value();
 
-            anel.planos = _.orderBy(anel.planos, ['posicao']);
-            if (!(_.isArray(anel.planos) && anel.planos.length > 0)) {
-              anel.planos =  [{idJson: UUID.generate(), posicao: 1, modoOperacao: 'TEMPO_FIXO_ISOLADO' }];
+            if (_.isArray(anel.planos) && anel.planos.length > 0) {
+              anel.planos = _.orderBy(anel.planos, ['posicao']);
+            } else {
+              adicionaPlano(anel);
             }
-
-            // @todo temporario. A posicao do estagio deverá vir da API.
-            // anel.estagios.forEach(function(estagio, index) {
-            //   estagio.posicao = index + 1;
-            // });
           });
 
-          $scope.selecionaAnel(0);
+          $scope.selecionaAnelPlanos(0);
           $scope.getTabelasEntreVerdes();
           return getPlanoParaDiagrama();
         });
@@ -94,60 +59,119 @@ angular.module('influuntApp')
        * Adiciona um novo plano à lista de planos dos aneis. Após a criação do novo
        * plano, este deverá ser colocado em edição imediatamente.
        */
-      $scope.adicionaPlano = function() {
+      $scope.adicionarPlano = function() {
+        adicionaPlano($scope.currentAnel);
+
+        var plano = $scope.objeto.planos[$scope.objeto.planos.length - 1];
+        $scope.selecionaPlano(plano, $scope.currentAnel.planos.length - 1);
+      };
+
+      $scope.duplicarPlano = function(plano) {
         var posicao = $scope.currentAnel.planos.length + 1;
+        var idJson = UUID.generate();
+
+        var novoPlano = _.cloneDeep(plano);
+        novoPlano.idJson = idJson;
+        novoPlano.posicao = posicao;
+
+        $scope.objeto.planos.push(novoPlano);
+        $scope.currentAnel.planos.push({idJson: novoPlano.idJson});
+        atualizaPlanos();
+      };
+
+      /**
+       * Adiciona um novo plano ao controlador.
+       *
+       * @param      {<type>}  anel    The anel
+       */
+      adicionaPlano = function(anel) {
+        anel = anel || $scope.currentAnel;
+        var posicao = anel.planos.length + 1;
         var plano = {
+          idJson: UUID.generate(),
+          anel: { idJson: anel.idJson },
           posicao: posicao,
           modoOperacao: 'TEMPO_FIXO_ISOLADO'
         };
-        $scope.currentAnel.planos.push(plano);
 
-        // Depois de criar um novo conjunto de planos, deve coloca-lo em edição
-        // imediatamente.
-        $scope.selecionaPlano($scope.currentAnel.planos.length - 1);
+        $scope.objeto.planos = $scope.objeto.planos || [];
+        $scope.objeto.planos.push(plano);
+        anel.planos.push({idJson: plano.idJson});
       };
 
-      $scope.removePlano = function(index) {
-        if($scope.currentAnelIndex == index){
-          $scope.selecionaPlano($scope.currentAnelIndex - 1);
-        }
-        $scope.currentAnel.planossplice(index, 1);
+      /**
+       * Remove index.
+       *
+       * @param      {<type>}  plano   The plano
+       * @param      {number}  index   The index
+       */
+      $scope.removerPlano = function(plano, index) {
+        influuntAlert.delete().then(function(confirmado) {
+          if (confirmado) {
+            var planoIndex = _.findIndex($scope.objeto.planos, {idJson: plano.idJson});
+            $scope.objeto.planos.splice(planoIndex, 1);
+
+            planoIndex = _.findIndex($scope.currentAnel.planos, {idJson: plano.idJson});
+            $scope.currentAnel.planos.splice(planoIndex, 1);
+
+            plano = _.find($scope.objeto.planos, {idJson: $scope.currentAnel.planos[index - 1].idJson});
+          }
+
+          atualizaPlanos();
+        });
       };
 
-      $scope.selecionaAnel = function(index) {
-        $scope.currentAnelIndex = index;
-        $scope.currentAnel = $scope.aneis[index];
-        $scope.selecionaPlano(0);
-        $scope.selecionaEstagio(0);
-      };
-
-      $scope.selecionaPlano = function(index) {
+      $scope.selecionaPlano = function(plano, index) {
         $scope.currentPlanoIndex = index;
-        $scope.currentPlano = $scope.currentAnel.planos[index];
-        $scope.currentPlano.sequenciaEstagios = $scope.currentPlano.sequenciaEstagios || $scope.currentAnel.estagios;
+        $scope.currentPlano = plano;
+        atualizaPlanos();
+        atualizaSequenciaEstagios();
       };
 
-      $scope.selecionaEstagio = function(index) {
-        $scope.currentEstagioIndex = index;
-        $scope.currentEstagio = $scope.currentAnel.estagios[index];
+      $scope.selecionaPlanoEstagio = function(estagio, index) {
+        $scope.currentPlanoEstagioIndex = index;
+        $scope.currentPlanoEstagio = estagio;
         $scope.getOpcoesEstagiosDisponiveis();
       };
 
       $scope.getOpcoesEstagiosDisponiveis = function() {
+        var sequenciaEstagios = _.map($scope.currentSequenciaEstagios, function(se) {
+          return _.find($scope.objeto.estagios, { idJson: se.estagio.idJson });
+        });
+
         $scope.opcoesEstagiosDisponiveis = [
-          utilEstagios.getEstagioAnterior($scope.currentPlano.sequenciaEstagios, $scope.currentEstagioIndex),
-          utilEstagios.getProximoEstagio($scope.currentPlano.sequenciaEstagios, $scope.currentEstagioIndex)
+          utilEstagios.getEstagioAnterior(sequenciaEstagios, $scope.currentPlanoEstagioIndex),
+          utilEstagios.getProximoEstagio(sequenciaEstagios, $scope.currentPlanoEstagioIndex)
         ];
 
         return $scope.opcoesEstagiosDisponiveis;
       };
 
       $scope.getTabelasEntreVerdes = function() {
-        // .gruposSemaforicos[0].tabelasEntreVerdes;
         var grupoSemaforico = _.find($scope.objeto.gruposSemaforicos, {idJson: $scope.currentAnel.gruposSemaforicos[0].idJson});
-        // $scope.tabelasEntreVerdes = _.find($scope.objeto.tabelasEntreVerdes, {idJson: grupoSemaforico.tabelaEntreVerdes.idJson});
         $scope.tabelasEntreVerdes = atualizaTabelaEntreVerdes(grupoSemaforico);
         $scope.currentTabelaEntreVerdes = $scope.tabelasEntreVerdes[0];
+      };
+
+      criaSequenciaEstagios = function() {
+        $scope.objeto.estagiosPlanos = $scope.objeto.estagiosPlanos || [];
+        $scope.currentPlano.sequenciaEstagios = $scope.currentPlano.sequenciaEstagios || [];
+
+        $scope.currentEstagios.forEach(function(estagio, index) {
+          var estagioPlano = {
+            idJson: UUID.generate(),
+            estagio: { idJson: estagio.idJson },
+            plano: { idJson: $scope.currentPlano.idJson },
+            posicao: index + 1
+          };
+
+          $scope.currentPlano.sequenciaEstagios.push({idJson: estagioPlano.idJson});
+          $scope.objeto.estagiosPlanos.push(estagioPlano);
+
+          return $scope.currentPlano.sequenciaEstagios;
+        });
+
+
       };
 
       /**
@@ -155,7 +179,7 @@ angular.module('influuntApp')
        * todos os grupos deverão assumir o mesmo estágio (entre amarelo-intermitente e desligado). Se não assumir
        * nenhum destes, deverá utilizar o diagrama produzido a partir do plugin de diagrama.
        */
-      var setDiagramaEstatico = function() {
+      setDiagramaEstatico = function() {
         var modo = modoOperacaoService.getModoIdByName($scope.currentPlano.modoOperacao);
         var grupos = _.times($scope.currentAnel.gruposSemaforicos.length)
           .map(function(i) {
@@ -178,7 +202,7 @@ angular.module('influuntApp')
        * Caso o modo de operação seja intermitente ou apagado, ele deverá renderizar um diagrama estágio, contendo
        * somente estes modos. Caso contrário, deverá executar o metodo de geração do diagrama a partir do plugin.
        */
-      var atualizaDiagramaIntervalos = function() {
+      atualizaDiagramaIntervalos = function() {
         if (['INTERMITENTE', 'APAGADO'].indexOf($scope.currentPlano.modoOperacao) < 0) {
           getPlanoParaDiagrama();
           var diagramaBuilder = new influunt.components.DiagramaIntervalos($scope.plano);
@@ -197,7 +221,7 @@ angular.module('influuntApp')
        *
        * @param      {<type>}  plano   The plano
        */
-      var limpaDadosPlano = function(plano) {
+      limpaDadosPlano = function(plano) {
         if (plano.modoOperacao === 'ATUADO') {
           plano.tempoCiclo = null;
           plano.sequenciaEstagios.forEach(function(estagio) {
@@ -226,9 +250,13 @@ angular.module('influuntApp')
         $scope.plano.quantidadeGruposSemaforicos = $scope.currentAnel.gruposSemaforicos.length;
         $scope.plano.posicaoTabelaEntreVerdes = $scope.currentTabelaEntreVerdes.posicao;
 
-        $scope.plano.sequenciaEstagios.forEach(function(estagio) {
-          estagio.estagiosGruposSemaforicos.forEach(function(egs) {
-            var estagioGrupoSemaforico = _.find($scope.objeto.estagiosGruposSemaforicos, {idJson: egs.idJson})
+        for(var i = 0; i < $scope.plano.sequenciaEstagios.length; i++) {
+          var ep = _.find($scope.objeto.estagiosPlanos, {idJson: $scope.plano.sequenciaEstagios[i].idJson});
+          var estagio = _.find($scope.objeto.estagios, {idJson: ep.estagio.idJson});
+          $scope.plano.sequenciaEstagios[i] = estagio;
+
+          $scope.plano.sequenciaEstagios[i].estagiosGruposSemaforicos.forEach(function(egs) {
+            var estagioGrupoSemaforico = _.find($scope.objeto.estagiosGruposSemaforicos, {idJson: egs.idJson});
             var id = estagioGrupoSemaforico.grupoSemaforico && estagioGrupoSemaforico.grupoSemaforico.idJson;
             if (id) {
               estagio.gruposSemaforicos = estagio.gruposSemaforicos || [];
@@ -261,7 +289,47 @@ angular.module('influuntApp')
               estagio.gruposSemaforicos.push(grupoSemaforico);
             }
           });
-        });
+        }
+
+        // $scope.plano.sequenciaEstagios.forEach(function(se) {
+        //   var ep = _.find($scope.objeto.estagiosPlanos, {idJson: se.idJson});
+        //   var estagio = _.find($scope.objeto.estagios, {idJson: ep.estagio.idJson});
+
+        //   estagio.estagiosGruposSemaforicos.forEach(function(egs) {
+        //     var estagioGrupoSemaforico = _.find($scope.objeto.estagiosGruposSemaforicos, {idJson: egs.idJson});
+        //     var id = estagioGrupoSemaforico.grupoSemaforico && estagioGrupoSemaforico.grupoSemaforico.idJson;
+        //     if (id) {
+        //       estagio.gruposSemaforicos = estagio.gruposSemaforicos || [];
+        //       var grupoSemaforico = _.find($scope.objeto.gruposSemaforicos, {idJson: id});
+
+        //       var tevs = [];
+        //       _.each(grupoSemaforico.tabelasEntreVerdes, function(t) {
+        //         var tev = _.find($scope.objeto.tabelasEntreVerdes, {idJson: t.idJson});
+        //         tevs.push(tev);
+        //       });
+        //       grupoSemaforico.tabelasEntreVerdes = tevs;
+
+
+        //       var transicoes = [];
+        //       _.each(grupoSemaforico.transicoes, function(t) {
+        //         var transicao = _.find($scope.objeto.transicoes, {idJson: t.idJson});
+
+        //         var tevts = [];
+        //         _.each(transicao.tabelaEntreVerdesTransicoes, function(tevt) {
+        //           var x = _.find($scope.objeto.tabelasEntreVerdesTransicoes, {idJson: tevt.idJson});
+        //           tevts.push(x);
+        //         });
+        //         transicao.tabelaEntreVerdesTransicoes = tevts;
+
+        //         transicoes.push(transicao);
+        //       });
+
+        //       grupoSemaforico.transicoes = transicoes;
+
+        //       estagio.gruposSemaforicos.push(grupoSemaforico);
+        //     }
+        //   });
+        // });
 
 
         limpaDadosPlano($scope.plano);
@@ -273,6 +341,7 @@ angular.module('influuntApp')
       // posicao 2, o currentEstagioId deve ser 2; caso contrário, permanece em 1).
       var transicaoAprovada = false;
       $scope.sortableOptions = {
+        handle: '> .sortable',
         update: function(event, ui) {
           var msg = validaTransicao.valida(ui, $scope.currentPlano.sequenciaEstagios);
           if (msg) {
@@ -286,7 +355,7 @@ angular.module('influuntApp')
         stop: function(event, ui) {
           if (transicaoAprovada) {
             transicaoAprovada = false;
-            $scope.currentEstagioIndex = ui.item.sortable.dropindex;
+            $scope.currentPlanoEstagioIndex = ui.item.sortable.dropindex;
             return $scope.getOpcoesEstagiosDisponiveis();
           }
         }
@@ -309,42 +378,12 @@ angular.module('influuntApp')
       $scope.selecionaAnelPlanos = function(index) {
         selecionaAnel(index);
         atualizaEstagios();
-        atualizaTabelaEntreVerdes();
-      };
 
-      var selecionaAnel = function(index) {
-        $scope.currentAnelIndex = index;
-        $scope.currentAnel = $scope.aneis[$scope.currentAnelIndex];
-        if (angular.isDefined($scope.currentEstagioId)) {
-          $scope.selecionaEstagio($scope.currentEstagioId);
-        }
-      };
-
-      var atualizaEstagios = function() {
-        var ids = _.map($scope.currentAnel.estagios, 'idJson');
-        $scope.currentEstagios = _
-          .chain($scope.objeto.estagios)
-          .filter(function(e) {
-            return ids.indexOf(e.idJson) >= 0;
-          })
-          .orderBy(['posicao'])
-          .value();
-
-          return $scope.currentEstagios;
-      };
-
-      var atualizaTabelaEntreVerdes = function(grupoSemaforico) {
-        var ids = _.map(grupoSemaforico.tabelasEntreVerdes, 'idJson');
-
-        $scope.currentTabelasEntreVerdes = _
-          .chain($scope.objeto.tabelasEntreVerdes)
-          .filter(function(tev) {
-            return ids.indexOf(tev.idJson) >= 0;
-          })
-          .orderBy(['posicao'])
-          .value();
-
-        return $scope.currentTabelasEntreVerdes;
+        var grupoSemaforico = _.find(
+          $scope.objeto.gruposSemaforicos,
+          {idJson: $scope.currentAnel.gruposSemaforicos[0].idJson}
+        );
+        atualizaTabelaEntreVerdes(grupoSemaforico);
       };
 
       /**
@@ -358,9 +397,116 @@ angular.module('influuntApp')
         $scope.currentGrupoSemaforicoIdentifier = $scope.currentAnelIndex.toString() + index.toString();
       };
 
-      $scope.getImagemDeEstagio = function(estagio) {
+      $scope.getImagemDeEstagio = function(estagioPlano) {
+        var ep = _.find($scope.objeto.estagiosPlanos, {idJson: estagioPlano.idJson});
+        var estagio = _.find($scope.objeto.estagios, {idJson: ep.estagio.idJson});
         var imagem = _.find($scope.objeto.imagens, {idJson: estagio.imagem.idJson});
         return imagem && $filter('imageSource')(imagem.id);
+      };
+
+      selecionaAnel = function(index) {
+        $scope.currentAnelIndex = index;
+        $scope.currentAnel = $scope.aneis[$scope.currentAnelIndex];
+        atualizaEstagios();
+
+        var plano = _.find($scope.objeto.planos, {idJson: $scope.currentAnel.planos[0].idJson});
+        $scope.selecionaPlano(plano, 0);
+        if (angular.isDefined($scope.currentEstagioId)) {
+          $scope.selecionaPlanoEstagio($scope.currentEstagioId);
+        }
+      };
+
+      atualizaEstagios = function() {
+        var ids = _.map($scope.currentAnel.estagios, 'idJson');
+        $scope.currentEstagios = _
+          .chain($scope.objeto.estagios)
+          .filter(function(e) {
+            return ids.indexOf(e.idJson) >= 0;
+          })
+          .orderBy(['posicao'])
+          .value();
+
+          return $scope.currentEstagios;
+      };
+
+      atualizaPlanos = function() {
+        var ids = _.map($scope.currentAnel.planos, 'idJson');
+        $scope.currentPlanos = _
+          .chain($scope.objeto.planos)
+          .filter(function(p) { return ids.indexOf(p.idJson) >= 0; })
+          .orderBy(['posicao'])
+          .each(function(p, index) { p.posicao = index + 1; })
+          .value();
+
+        return $scope.currentPlanos;
+      };
+
+      atualizaSequenciaEstagios = function() {
+        if (_.size($scope.currentPlano.sequenciaEstagios) === 0) {
+          criaSequenciaEstagios();
+        }
+
+        var ids = _.map($scope.currentPlano.sequenciaEstagios, 'idJson');
+        $scope.currentSequenciaEstagios = _
+          .chain($scope.objeto.estagiosPlanos)
+          .filter(function(ep) {
+            return ids.indexOf(ep.idJson) >= 0;
+          })
+          .orderBy(['posicao'])
+          .value();
+
+          return $scope.currentSequenciaEstagios;
+      };
+
+      atualizaTabelaEntreVerdes = function(grupoSemaforico) {
+        var ids = _.map(grupoSemaforico.tabelasEntreVerdes, 'idJson');
+
+        $scope.currentTabelasEntreVerdes = _
+          .chain($scope.objeto.tabelasEntreVerdes)
+          .filter(function(tev) {
+            return ids.indexOf(tev.idJson) >= 0;
+          })
+          .orderBy(['posicao'])
+          .value();
+
+        return $scope.currentTabelasEntreVerdes;
+      };
+
+      parseAllToInt = function() {
+        $scope.objeto.amareloMax = parseInt($scope.objeto.amareloMax);
+        $scope.objeto.amareloMin = parseInt($scope.objeto.amareloMin);
+        $scope.objeto.atrasoGrupoMin = parseInt($scope.objeto.atrasoGrupoMin);
+        $scope.objeto.cicloMax = parseInt($scope.objeto.cicloMax);
+        $scope.objeto.cicloMin = parseInt($scope.objeto.cicloMin);
+        $scope.objeto.defasagemMin = parseInt($scope.objeto.defasagemMin);
+        $scope.objeto.extensaVerdeMax = parseInt($scope.objeto.extensaVerdeMax);
+        $scope.objeto.extensaVerdeMin = parseInt($scope.objeto.extensaVerdeMin);
+        $scope.objeto.maximoPermanenciaEstagioMax = parseInt($scope.objeto.maximoPermanenciaEstagioMax);
+        $scope.objeto.maximoPermanenciaEstagioMin = parseInt($scope.objeto.maximoPermanenciaEstagioMin);
+        $scope.objeto.verdeIntermediarioMax = parseInt($scope.objeto.verdeIntermediarioMax);
+        $scope.objeto.verdeIntermediarioMin = parseInt($scope.objeto.verdeIntermediarioMin);
+        $scope.objeto.verdeMax = parseInt($scope.objeto.verdeMax);
+        $scope.objeto.verdeMaximoMax = parseInt($scope.objeto.verdeMaximoMax);
+        $scope.objeto.verdeMaximoMin = parseInt($scope.objeto.verdeMaximoMin);
+        $scope.objeto.verdeMin = parseInt($scope.objeto.verdeMin);
+        $scope.objeto.verdeMinimoMax = parseInt($scope.objeto.verdeMinimoMax);
+        $scope.objeto.verdeMinimoMin = parseInt($scope.objeto.verdeMinimoMin);
+        $scope.objeto.verdeSegurancaPedestreMax = parseInt($scope.objeto.verdeSegurancaPedestreMax);
+        $scope.objeto.verdeSegurancaPedestreMin = parseInt($scope.objeto.verdeSegurancaPedestreMin);
+        $scope.objeto.verdeSegurancaVeicularMax = parseInt($scope.objeto.verdeSegurancaVeicularMax);
+        $scope.objeto.verdeSegurancaVeicularMin = parseInt($scope.objeto.verdeSegurancaVeicularMin);
+        $scope.objeto.vermelhoIntermitenteMax = parseInt($scope.objeto.vermelhoIntermitenteMax);
+        $scope.objeto.vermelhoIntermitenteMin = parseInt($scope.objeto.vermelhoIntermitenteMin);
+        $scope.objeto.vermelhoLimpezaPedestreMax = parseInt($scope.objeto.vermelhoLimpezaPedestreMax);
+        $scope.objeto.vermelhoLimpezaPedestreMin = parseInt($scope.objeto.vermelhoLimpezaPedestreMin);
+        $scope.objeto.vermelhoLimpezaVeicularMax = parseInt($scope.objeto.vermelhoLimpezaVeicularMax);
+        $scope.objeto.vermelhoLimpezaVeicularMin = parseInt($scope.objeto.vermelhoLimpezaVeicularMin);
+      };
+
+      $scope.getEstagio = function(estagioPlano) {
+        var ep = _.find($scope.objeto.estagiosPlanos, {idJson: estagioPlano.idJson});
+        var estagio = _.find($scope.objeto.estagios, {idJson: ep.estagio.idJson});
+        return estagio;
       };
 
     }]);

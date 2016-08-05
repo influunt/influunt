@@ -16,6 +16,20 @@
   font-size: 1.4em;
   height: 250px;
   float: left;
+}
+
+.planos.ui-sortable li.card-estagio.add-card-estagio {
+  cursor: pointer;
+  border-style: dashed;
+}
+
+.planos.ui-sortable li.card-estagio.add-card-estagio .add-card-container {
+  height: 250px;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.planos.ui-sortable li.card-estagio .sortable {
   cursor: all-scroll;
 }
 
@@ -28,6 +42,11 @@
   max-height: 20px !important;
   min-height: 20px !important;
   height: 20px;
+}
+
+.planos.ui-sortable li.card-estagio header.sortable-header .opcoes-plano-estagio {
+  margin-top: 0px;
+  cursor: pointer;
 }
 
 .planos.ui-sortable li.card-estagio figure {

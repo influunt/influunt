@@ -745,13 +745,22 @@ header .nav-secon li a {
   color: white;
 }
 
-.wrapper-content .basic-wizard .content .body .association.side-menu li.active a {
-  color: white;
+.wrapper-content .basic-wizard .content .body .association.side-menu li {
+  padding: 0px 10px;
+  cursor: default;
+}
+
+.wrapper-content .basic-wizard .content .body .association.side-menu li i {
+  cursor: pointer;
 }
 
 .wrapper-content .basic-wizard .content .body .association.side-menu li.active {
   background: #1caf92;
   height: auto;
+}
+
+.wrapper-content .basic-wizard .content .body .association.side-menu li.active a {
+  color: white;
 }
 
 .wrapper-content .basic-wizard .content .body .association.side-menu li:hover {
