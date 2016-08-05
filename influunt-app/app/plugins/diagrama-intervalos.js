@@ -22,7 +22,7 @@ var influunt;
       }
       DiagramaIntervalos.prototype.calcula = function () {
         var plano = this.plano;
-        var diagrama = createArray(plano.quantidadeGruposSemaforicos, 0);
+        var diagrama = createArray(plano.quantidadeGruposSemaforicos, plano.tempoCiclo || 0);
         var estagios = [];
         for(var i = 0; i < diagrama.length; i++){
           for(var j = 0; j < diagrama[i].length; j++){
@@ -35,38 +35,40 @@ var influunt;
           var estagioAtual = plano.sequenciaEstagios[i];
           var tempoVerde = plano.modoOperacao === 'ATUADO' ? estagioAtual.tempoVerdeMinimo : estagioAtual.tempoVerde;
           var estagioAnterior = this.estagioAnterior(plano.sequenciaEstagios,i);
-          for(var j = 0; j < estagioAnterior.gruposSemaforicos.length; j++){
-            var grupo = estagioAnterior.gruposSemaforicos[j];
-            var tabelaEntreVerde = _.find(grupo.tabelasEntreVerdes, {"posicao": plano.posicaoTabelaEntreVerdes});
-            var transicao = _.find(grupo.transicoes, {"origem": {"idJson": estagioAnterior.idJson}, "destino": {"idJson": estagioAtual.idJson}})
-            var tabelaEntreVerdesTransicao = _.find(transicao.tabelaEntreVerdesTransicoes, {"tabelaEntreVerdes": {"idJson": tabelaEntreVerde.idJson}})
+          if(estagioAtual.idJson !== estagioAnterior.idJson){
+            for(var j = 0; j < estagioAnterior.gruposSemaforicos.length; j++){
+              var grupo = estagioAnterior.gruposSemaforicos[j];
+              var tabelaEntreVerde = _.find(grupo.tabelasEntreVerdes, {"posicao": plano.posicaoTabelaEntreVerdes});
+              var transicao = _.find(grupo.transicoes, {"origem": {"idJson": estagioAnterior.idJson}, "destino": {"idJson": estagioAtual.idJson}})
+              var tabelaEntreVerdesTransicao = _.find(transicao.tabelaEntreVerdesTransicoes, {"tabelaEntreVerdes": {"idJson": tabelaEntreVerde.idJson}})
 
-            var tempoAmarelo = !_.isUndefined(tabelaEntreVerdesTransicao.tempoAmarelo) ? parseInt(tabelaEntreVerdesTransicao.tempoAmarelo) : 0;
-            var tempoVermelhoIntermitente = !_.isUndefined(tabelaEntreVerdesTransicao.tempoVermelhoIntermitente) ? parseInt(tabelaEntreVerdesTransicao.tempoVermelhoIntermitente) : 0;
-            var tempoAtrasoGrupo = !_.isUndefined(tabelaEntreVerdesTransicao.tempoAtrasoGrupo) ? parseInt(tabelaEntreVerdesTransicao.tempoAtrasoGrupo) : 0;
-            var tempoVermelhoLimpeza = !_.isUndefined(tabelaEntreVerdesTransicao.tempoVermelhoLimpeza) ? parseInt(tabelaEntreVerdesTransicao.tempoVermelhoLimpeza) : 0;
+              var tempoAmarelo = !_.isUndefined(tabelaEntreVerdesTransicao.tempoAmarelo) ? parseInt(tabelaEntreVerdesTransicao.tempoAmarelo) : 0;
+              var tempoVermelhoIntermitente = !_.isUndefined(tabelaEntreVerdesTransicao.tempoVermelhoIntermitente) ? parseInt(tabelaEntreVerdesTransicao.tempoVermelhoIntermitente) : 0;
+              var tempoAtrasoGrupo = !_.isUndefined(tabelaEntreVerdesTransicao.tempoAtrasoGrupo) ? parseInt(tabelaEntreVerdesTransicao.tempoAtrasoGrupo) : 0;
+              var tempoVermelhoLimpeza = !_.isUndefined(tabelaEntreVerdesTransicao.tempoVermelhoLimpeza) ? parseInt(tabelaEntreVerdesTransicao.tempoVermelhoLimpeza) : 0;
 
-            var tempoAmareloOuVermelhoIntermitente = grupo.tipo == 'VEICULAR' ? tempoAmarelo : tempoVermelhoIntermitente;
-            var tempoEntreVerde = tempoAmareloOuVermelhoIntermitente + tempoVermelhoLimpeza;
-            var posicao = grupo.posicao - 1;
-            if(!_.find(estagioAtual.gruposSemaforicos, {"id": grupo.id})){
-              if(tempoAtrasoGrupo > 0){
-                for(var t = tempoCiclo; t < tempoCiclo + tempoAtrasoGrupo; t++){
+              var tempoAmareloOuVermelhoIntermitente = grupo.tipo == 'VEICULAR' ? tempoAmarelo : tempoVermelhoIntermitente;
+              var tempoEntreVerde = tempoAmareloOuVermelhoIntermitente + tempoVermelhoLimpeza;
+              var posicao = grupo.posicao - 1;
+              if(!_.find(estagioAtual.gruposSemaforicos, {"id": grupo.id})){
+                if(tempoAtrasoGrupo > 0){
+                  for(var t = tempoCiclo; t < tempoCiclo + tempoAtrasoGrupo; t++){
+                    diagrama[posicao][t] = 1;
+                  }
+                }
+                for(var t = tempoCiclo + tempoAtrasoGrupo; t < tempoCiclo + tempoAmareloOuVermelhoIntermitente + tempoAtrasoGrupo; t++){
+                  diagrama[posicao][t] = grupo.tipo == 'VEICULAR' ? 2 : 4;
+                }
+                for(var t = tempoCiclo + tempoAmareloOuVermelhoIntermitente + tempoAtrasoGrupo; t < tempoCiclo + tempoEntreVerde + tempoAtrasoGrupo; t++){
+                  diagrama[posicao][t] = 6;
+                }
+              }else {
+                for(var t = tempoCiclo; t < tempoCiclo + tempoEntreVerde + (tempoVerde || 0); t++){
                   diagrama[posicao][t] = 1;
                 }
               }
-              for(var t = tempoCiclo + tempoAtrasoGrupo; t < tempoCiclo + tempoAmareloOuVermelhoIntermitente + tempoAtrasoGrupo; t++){
-                diagrama[posicao][t] = grupo.tipo == 'VEICULAR' ? 2 : 4;
-              }
-              for(var t = tempoCiclo + tempoAmareloOuVermelhoIntermitente + tempoAtrasoGrupo; t < tempoCiclo + tempoEntreVerde + tempoAtrasoGrupo; t++){
-                diagrama[posicao][t] = 6;
-              }
-            }else {
-              for(var t = tempoCiclo; t < tempoCiclo + tempoEntreVerde + (tempoVerde || 0); t++){
-                diagrama[posicao][t] = 1;
-              }
+              instante = Math.max(instante, tempoEntreVerde);
             }
-            instante = Math.max(instante, tempoEntreVerde);
           }
           for(var j = 0; j < estagioAtual.gruposSemaforicos.length; j++){
              var grupo = estagioAtual.gruposSemaforicos[j];
@@ -76,7 +78,7 @@ var influunt;
           }
           tempoCiclo += instante + (tempoVerde || 0);
 
-          estagios.push({posicao: estagioAtual.posicao, duracao: instante + (tempoVerde || 0)})
+          estagios.push({id: UUID.generate(), posicao: estagioAtual.posicao, duracao: instante + (tempoVerde || 0)})
           instante = 0
         }
         return this.gerarDiagramaIntervalo(diagrama, estagios);
@@ -93,7 +95,7 @@ var influunt;
             }
           });
 
-        var resultado = {gruposSemaforicos: [], estagios: estagios, tempoCiclo: size, erros: []};
+        var resultado = {gruposSemaforicos: [], estagios: estagios, erros: []};
         for(var i = 0; i < diagrama.length; i++){
           resultado.gruposSemaforicos[i] = resultado.gruposSemaforicos[i] || {};
           resultado.gruposSemaforicos[i].posicao = (i + 1);

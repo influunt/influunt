@@ -60,7 +60,7 @@ angular.module('influuntApp')
             estagios.forEach(function(estagio) {
               // Add o objeto da barra de titulos.
               items.push({
-                id: 'title-E' + estagio.posicao,
+                id: 'title-id-' + estagio.id,
                 content: 'E' + estagio.posicao,
                 start: initialState,
                 end: initialState + estagio.duracao,
@@ -70,7 +70,7 @@ angular.module('influuntApp')
 
               // Add o objeto de background.
               items.push({
-                id: 'vis-background-E' + estagio.posicao,
+                id: 'vis-background-id-' + estagio.id,
                 content: '<strong>E' + estagio.posicao + '</strong>',
                 start: initialState,
                 end: initialState + estagio.duracao,

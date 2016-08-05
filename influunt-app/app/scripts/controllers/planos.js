@@ -20,8 +20,6 @@ angular.module('influuntApp')
           criaSequenciaEstagios, atualizaSequenciaEstagios,
           adicionaEstagioASequencia;
       var diagramaDebouncer = null;
-      $scope.min = 0;
-      $scope.max = 100;
 
       /**
        * Inicializa a tela de planos. Carrega os dados básicos da tela.
@@ -214,8 +212,6 @@ angular.module('influuntApp')
         } else {
           setDiagramaEstatico();
         }
-
-        $scope.currentPlano.tempoCiclo = $scope.dadosDiagrama.tempoCiclo;
       };
 
       /**

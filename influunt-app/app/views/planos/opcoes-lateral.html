@@ -1,7 +1,7 @@
 <div class="text-center" data-ng-if="currentPlano.modoOperacao === 'COORDENADO'">
   <div class="knob-item col-lg-12 col-sm-12">
     <influunt-knob ng-model="currentPlano.tempoCiclo"
-      min="min" max="max"
+      min="objeto.cicloMin" max="objeto.cicloMax"
       title="TEMPO DE CICLO" label="SEG">
     </influunt-knob>
   </div>
@@ -16,7 +16,7 @@
 <div class="text-center" data-ng-if="currentPlano.modoOperacao === 'TEMPO_FIXO_ISOLADO'">
   <div class="knob-item col-lg-12 col-sm-12">
     <influunt-knob ng-model="currentPlano.tempoCiclo"
-      min="min" max="max"
+      min="objeto.cicloMin" max="objeto.cicloMax"
       title="TEMPO DE CICLO" label="SEG">
     </influunt-knob>
   </div>
