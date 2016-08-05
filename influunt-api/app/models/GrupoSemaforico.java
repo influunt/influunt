@@ -298,7 +298,7 @@ public class GrupoSemaforico extends Model implements Cloneable {
                 .forEach(estagio -> this.addTransicoes(new Transicao(this, estagioGrupoSemaforico.getEstagio(), estagio))));
 
 
-        getTransicoes().stream().filter(transicao -> transicao.isDestroy()).forEach(transicao -> transicao.delete());
+        getTransicoes().forEach(transicao -> {if(transicao.isDestroy()) transicao.delete();});
         getTransicoes().removeIf(Transicao::isDestroy);
 
         getTransicoes();

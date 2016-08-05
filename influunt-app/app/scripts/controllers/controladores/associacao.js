@@ -83,7 +83,7 @@ angular.module('influuntApp')
         var busca = {
           grupoSemaforico: {idJson: grupo.idJson},
           estagio: {idJson: estagio.idJson}
-        }
+        };
         var index = _.findIndex($scope.objeto.estagiosGruposSemaforicos, busca);
         if (index >= 0) {
           var estagioGrupoSemaforico = $scope.objeto.estagiosGruposSemaforicos[index];
