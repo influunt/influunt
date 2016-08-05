@@ -13,18 +13,30 @@ angular.module('influuntApp')
         restrict: 'A',
         scope: {
           grupos: '=',
-          estagios: '='
+          estagios: '=',
+          onChangeCheckbox: '&'
         },
         link: function postLink(scope) {
           var container = document.getElementById('visualization');
           var timeline = new window.vis.Timeline(container);
+
+          var initCheckboxValues = function() {
+            scope.grupos.forEach(function(grupo, index) {
+              var selector = '.group-checkbox[data-posicao=' + grupo.posicao + ']';
+              $(selector).prop('checked', grupo.ativo);
+            });
+          };
 
           var bindCheckboxEvents = function() {
             $('.group-checkbox').on('change', function() {
               var checkbox = $(this);
               var grupo = _.find(scope.grupos, {posicao: checkbox.data('posicao')});
               grupo.ativo = checkbox.is(':checked');
+
+              scope.onChangeCheckbox({grupo: grupo, isAtivo: grupo.ativo});
+              scope.$apply();
             });
+
           };
 
           var setData = function(grupos, estagios) {
@@ -33,27 +45,38 @@ angular.module('influuntApp')
             var max = 0;
 
             groups.push({id: 'title', content: '&nbsp;'});
-            grupos.forEach(function(grupo) {
+            grupos.forEach(function(grupo, index) {
               var groupId = 'G' + grupo.posicao;
               groups.push({
-                content: '<input type="checkbox" class="group-checkbox" data-posicao="' + grupo.posicao + '" icheks name="' + groupId + '"><strong>' + groupId + '</strong>',
+                content: '<input type="checkbox" class="group-checkbox" data-posicao="' + grupo.posicao + '" name="' + groupId + '"><strong>' + groupId + '</strong>',
                 id: groupId,
                 value: groupId
               });
 
               var initialState = 0;
-              grupo.intervalos.forEach(function(intervalo, index) {
+              if (grupo.intervalos[0].status === 0) {
                 items.push({
-                  start: initialState,
-                  end: initialState + intervalo.duracao,
+                  start: 0,
+                  end: 255,
                   group: groupId,
-                  content: intervalo.duracao + 's',
+                  content: '255s',
                   id: groupId + 'i' + index,
-                  className: 'indicacao-' + modoOperacaoService.getCssClass(intervalo.status)
-                });
+                  className: 'indicacao-' + modoOperacaoService.getCssClass(0)
+                })
+              } else {
+                grupo.intervalos.forEach(function(intervalo, index) {
+                  items.push({
+                    start: initialState,
+                    end: initialState + intervalo.duracao,
+                    group: groupId,
+                    content: intervalo.duracao + 's',
+                    id: groupId + 'i' + index,
+                    className: 'indicacao-' + modoOperacaoService.getCssClass(intervalo.status)
+                  });
 
-                initialState += intervalo.duracao;
-              });
+                  initialState += intervalo.duracao;
+                });
+              }
             });
 
             var initialState = 0;
@@ -105,6 +128,7 @@ angular.module('influuntApp')
             timeline.setGroups(groups);
             timeline.setItems(items);
 
+            initCheckboxValues();
             bindCheckboxEvents();
           };
 
@@ -112,18 +136,18 @@ angular.module('influuntApp')
             return value && setData(scope.grupos, scope.estagios);
           }, true);
 
-          timeline.on('click', function(props) {
-            if ('group' in props && 'item' in props) {
-              var g = parseInt(props.group.replace('G', ''));
-              var i = parseInt(props.item.split('i')[1]);
-              $rootScope.$broadcast('item-double-clicked', {
-                group: g,
-                item: i
-              });
-            }
+          // timeline.on('click', function(props) {
+          //   if ('group' in props && 'item' in props) {
+          //     var g = parseInt(props.group.replace('G', ''));
+          //     var i = parseInt(props.item.split('i')[1]);
+          //     $rootScope.$broadcast('item-double-clicked', {
+          //       group: g,
+          //       item: i
+          //     });
+          //   }
 
-            props.event.preventDefault();
-          });
+          //   props.event.preventDefault();
+          // });
         }
       };
     }]);

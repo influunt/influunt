@@ -33,14 +33,6 @@ angular.module('influuntApp')
           $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
           $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
           $scope.aneis.forEach(function(anel) {
-            // seleciona estagios.
-            // var ids = _.map(anel.estagios, 'idJson');
-            // anel.estagios = _
-            //   .chain($scope.objeto.estagios)
-            //   .filter(function(e) { return ids.indexOf(e.idJson) >= 0; })
-            //   .orderBy(['posicao'])
-            //   .value();
-
             if (_.isArray(anel.planos) && anel.planos.length > 0) {
               anel.planos = _.orderBy(anel.planos, ['posicao']);
             } else {
@@ -175,6 +167,17 @@ angular.module('influuntApp')
         $scope.objeto.estagiosPlanos.push(estagioPlano);
       };
 
+      $scope.onChangeCheckboxGrupo = function(grupo, isAtivo) {
+        if (!isAtivo) {
+          grupo.intervalos.unshift({
+            status: modoOperacaoService.getModoIdByName('APAGADO'),
+            duracao: 255
+          });
+        } else {
+          grupo.intervalos.shift();
+        }
+      };
+
       /**
        * Atualiza o diagrama de intervalos para os casos de modo de operação intermitente e desligado, onde
        * todos os grupos deverão assumir o mesmo estágio (entre amarelo-intermitente e desligado). Se não assumir
@@ -208,6 +211,11 @@ angular.module('influuntApp')
           getPlanoParaDiagrama();
           var diagramaBuilder = new influunt.components.DiagramaIntervalos($scope.plano);
           var result = diagramaBuilder.calcula();
+
+          result.gruposSemaforicos.forEach(function(g) {
+            g.ativo = true;
+          });
+
           $scope.dadosDiagrama = result;
         } else {
           setDiagramaEstatico();
