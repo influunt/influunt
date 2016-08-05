@@ -11,9 +11,10 @@
 angular.module('influuntApp')
   .filter('imageSource', ['APP_ROOT',
     function (APP_ROOT) {
-      return function (input) {
+      return function (input, version) {
         if (input) {
-          return APP_ROOT + '/imagens/' + input;
+          var parts = [APP_ROOT, 'imagens', input, version];
+          return _.compact(parts).join('/');
         }
       };
     }]);

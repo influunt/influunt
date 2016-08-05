@@ -6,6 +6,11 @@ import com.google.common.io.Files;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import models.Imagem;
+import net.coobird.thumbnailator.ThumbnailParameter;
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.filters.Canvas;
+import net.coobird.thumbnailator.geometry.Positions;
+import net.coobird.thumbnailator.name.Rename;
 import play.Application;
 import play.db.ebean.Transactional;
 import play.libs.Json;
@@ -42,8 +47,16 @@ public class ImagensController extends Controller {
 
             File tmpFile = picture.getFile();
             try {
+
                 File appRootPath = provider.get().path();
                 Files.copy(tmpFile, imagem.getPath(appRootPath));
+
+                //Create thumbnail
+                Thumbnails.of(tmpFile)
+                        .forceSize(150, 150)
+                        .outputFormat("jpg")
+                        .toFile(imagem.getPath(appRootPath,"thumb"));
+
             } catch (IOException e) {
                 imagem.delete();
                 e.printStackTrace();
@@ -62,7 +75,18 @@ public class ImagensController extends Controller {
             return CompletableFuture.completedFuture(notFound());
         }
         File appRootPath = provider.get().path();
-        File path = imagem.getPath(appRootPath);
+        File path = path = imagem.getPath(appRootPath);
+        return CompletableFuture.completedFuture(ok(path).as(imagem.getContentType()));
+    }
+
+    @Transactional
+    public CompletionStage<Result> findOneVersion(String id,String version) {
+        Imagem imagem = Imagem.find.byId(UUID.fromString(id));
+        if (imagem == null) {
+            return CompletableFuture.completedFuture(notFound());
+        }
+        File appRootPath = provider.get().path();
+        File path = imagem.getPath(appRootPath,version.concat(".jpg"));
         return CompletableFuture.completedFuture(ok(path).as(imagem.getContentType()));
     }
 
