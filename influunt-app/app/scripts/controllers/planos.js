@@ -309,47 +309,6 @@ angular.module('influuntApp')
           });
         }
 
-        // $scope.plano.sequenciaEstagios.forEach(function(se) {
-        //   var ep = _.find($scope.objeto.estagiosPlanos, {idJson: se.idJson});
-        //   var estagio = _.find($scope.objeto.estagios, {idJson: ep.estagio.idJson});
-
-        //   estagio.estagiosGruposSemaforicos.forEach(function(egs) {
-        //     var estagioGrupoSemaforico = _.find($scope.objeto.estagiosGruposSemaforicos, {idJson: egs.idJson});
-        //     var id = estagioGrupoSemaforico.grupoSemaforico && estagioGrupoSemaforico.grupoSemaforico.idJson;
-        //     if (id) {
-        //       estagio.gruposSemaforicos = estagio.gruposSemaforicos || [];
-        //       var grupoSemaforico = _.find($scope.objeto.gruposSemaforicos, {idJson: id});
-
-        //       var tevs = [];
-        //       _.each(grupoSemaforico.tabelasEntreVerdes, function(t) {
-        //         var tev = _.find($scope.objeto.tabelasEntreVerdes, {idJson: t.idJson});
-        //         tevs.push(tev);
-        //       });
-        //       grupoSemaforico.tabelasEntreVerdes = tevs;
-
-
-        //       var transicoes = [];
-        //       _.each(grupoSemaforico.transicoes, function(t) {
-        //         var transicao = _.find($scope.objeto.transicoes, {idJson: t.idJson});
-
-        //         var tevts = [];
-        //         _.each(transicao.tabelaEntreVerdesTransicoes, function(tevt) {
-        //           var x = _.find($scope.objeto.tabelasEntreVerdesTransicoes, {idJson: tevt.idJson});
-        //           tevts.push(x);
-        //         });
-        //         transicao.tabelaEntreVerdesTransicoes = tevts;
-
-        //         transicoes.push(transicao);
-        //       });
-
-        //       grupoSemaforico.transicoes = transicoes;
-
-        //       estagio.gruposSemaforicos.push(grupoSemaforico);
-        //     }
-        //   });
-        // });
-
-
         limpaDadosPlano($scope.plano);
         return $scope.plano;
       };
