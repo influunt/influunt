@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Filter: estagioForaSequencia', function () {
+xdescribe('Filter: estagioForaSequencia', function () {
 
   // load the filter's module
   beforeEach(module('influuntApp'));

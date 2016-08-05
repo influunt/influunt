@@ -2,7 +2,7 @@
   grupos="dadosDiagrama.gruposSemaforicos"
   estagios="dadosDiagrama.estagios"
   on-change-checkbox="onChangeCheckboxGrupo(grupo, isAtivo)"
-  tempo-ciclo="currentPlano.tempoCiclo"
+  tempo-ciclo="currentPlano.tempoCiclo || objeto.cicloMin"
   style="margin: 10px; margin-top: 0px;"
   class="white-bg"
   data-ng-if="dadosDiagrama.erros.length === 0">

@@ -1,7 +1,6 @@
 'use strict';
 
-describe('Service: validaTransicao', function () {
-
+xdescribe('Service: validaTransicao', function () {
   // load the service's module
   beforeEach(module('influuntApp'));
 
