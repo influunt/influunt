@@ -27,7 +27,6 @@ angular.module('influuntApp')
      * @return     {boolean}  True if has estagios, False otherwise.
      */
     var hasEstagios = function(controlador) {
-      console.log(controlador);
       return hasAneis(controlador) && _.chain(controlador.aneis)
         .map('estagios')
         .flatten()

@@ -20,10 +20,6 @@
               </uib-alert>
 
               <div id="tabs-1">
-                <div class="col-lg-12 col-sm-12 text-left">
-                  <h2>G{{ currentGrupoSemaforico.posicao }}</h2>
-                </div>
-
                 <div class="col-lg-12 col-sm-12 ibox-content no-padding">
                   <!-- menu tabelas entre-verdes -->
                   <div class="col-lg-2 col-sm-2 association min-green side-menu">
@@ -40,7 +36,7 @@
                     </nav>
 
                   </div>
-                  <div class="col-lg-3 col-sm-3 no-padding-left">
+                  <div class="col-lg-3 col-sm-3">
                     <div class="col-lg-12 col-sm-12 association table-entry-green min-green relative tabelas-entre-verdes">
                       <div class="ibox-title">
                         <h5>Tabelas</h5>
@@ -50,7 +46,7 @@
                         <ul>
                           <li data-ng-repeat="tabelaEntreVerdes in currentTabelasEntreVerdes" data-ng-class="{ 'active': $index == currentTabelaEntreVerdesIndex }" data-ng-click="selecionaTabelaEntreVerdes(tabelaEntreVerdes, $index)">
                             <div class="col-lg-12 col-sm-12">
-                              <label for="">TABELA {{ tabelaEntreVerdes.descricao }} {{ tabelaEntreVerdes.posicao }}</label><i class="fa fa-times pull-right m-t-sm remove-tabela-entre-verdes" data-ng-if="$last && $index !== 0" data-ng-click="removerTabelaEntreVerdes($index)"></i>
+                              <label for="">TABELA {{ tabelaEntreVerdes.descricao }}</label><i class="fa fa-times pull-right m-t-sm remove-tabela-entre-verdes" data-ng-if="$last && $index !== 0" data-ng-click="removerTabelaEntreVerdes($index)"></i>
                             </div>
                           </li>
                         </ul>
@@ -72,18 +68,18 @@
                         <!-- <li data-ng-repeat="tevTransicao in tabelasEntreVerdesTransicoes"> -->
                         <li data-ng-repeat="tevTransicao in currentTabelasEntreVerdesTransicoes">
                           <div class="group-figures col-lg-5 col-sm-5 no-padding">
-                            <div class="group-figure">
+                            <div class="group-figure stage-images">
                               <figure>
                                 <!-- <label for="">E{{ currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].origem.posicao }}</label> -->
                                 <label for="">E{{ currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].origem.posicao }}</label>
-                                <img ng-src="{{ getImagemDeEstagio(currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].origem) }}" width="160" height="130" alt="{{ currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].origem.descricao }}">
+                                <img ng-src="{{ getImagemDeEstagio(currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].origem) }}" alt="{{ currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].origem.descricao }}">
                               </figure>
                             </div>
-                            <div class="group-figure">
+                            <div class="group-figure stage-images">
                               <figure>
                                 <label for="">E{{ currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].destino.posicao }}</label>
                                 <!-- <img src="" alt=""> -->
-                                <img ng-src="{{ getImagemDeEstagio(currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].destino) }}" width="160" height="130" alt="{{ currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].destino.descricao }}">
+                                <img ng-src="{{ getImagemDeEstagio(currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].destino) }}" alt="{{ currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].destino.descricao }}">
                               </figure>
                             </div>
                           </div>

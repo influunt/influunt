@@ -12,24 +12,25 @@
             </influunt-tabs>
             <div class="ui-layout-content tab-content">
               <div id="tabs-1">
-
+                <div class="col-lg-12 col-sm-12 padding-top-20">
+                  <h3>{{ 'controladores.estagios' | translate }}</h3>
+                </div>
                 <div class="col-lg-12 col-sm-12 early-stage no-padding">
                   <div class="col-lg-12 col-sm-12 figures no-padding ibox-content">
                     <div class="bxslider">
                       <ul class="bxslider">
-                        <li data-ng-repeat="estagio in currentEstagios">
-                            <header role="heading">
-                              <h1>E{{ estagio.posicao }}</h1>
-                            </header>
-                            <figure>
-                              <img ng-src="{{ getImagemDeEstagio(estagio) }}" class="sample-img-estagios">
-                            </figure>
+                        <li data-ng-repeat="estagio in currentEstagios" class="stage-images">
+                          <h4>E{{ estagio.posicao }}</h4>
+                          <figure>
+                            <img ng-src="{{ getImagemDeEstagio(estagio) }}">
+                          </figure>
                         </li>
                       </ul>
                     </div>
                   </div>
+                </div>
 
-                <div class="col-lg-2 col-sm-2 no-padding-left">
+                <div class="col-lg-2 col-sm-2 no-padding padding-top-20">
                   <div class="col-lg-12 col-sm-12 association alternative m-t-md">
                     <div class="col-lg-12"><h1>Estágios alternativos</h1></div>
                     <div class="col-lg-6">
