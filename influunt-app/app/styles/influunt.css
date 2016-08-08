@@ -1951,3 +1951,33 @@ img.sample-img-estagios {
   border: 0 !important;
   margin: 0 0 10px 0 !important;
 }
+
+.ui-widget-header {
+  background: transparent;
+}
+
+.review-page > img {
+  float: left;
+  margin-right: 10px;
+}
+
+b.gray-box {
+  background: #f5f5f5;
+  border: 1px solid #e1e1e1;
+  padding: 5px 20px;
+}
+
+b.white-box {
+  background: #FFFFFF;
+  border: 1px solid #e1e1e1;
+  padding: 5px 20px;
+}
+
+.col-lg-6 .review-page {
+  margin-bottom: 20px;
+}
+
+.view-group {
+  color: #1AB394;
+  cursor: default;
+}
