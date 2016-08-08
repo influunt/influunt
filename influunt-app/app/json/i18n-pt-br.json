@@ -1,12 +1,23 @@
 {
   "appname": "Influunt",
   "controladores": {
+    "detector": "Detector",
+    "geral": {
+      "prefixoEstagio": "E",
+      "prefixoGrupo": "G",
+      "verTelaAnterior": "Ver Tela Anterior"
+    },
+    "associacaoDetectores": {
+      "adicionarDetector": "Adicionar Detector",
+      "detector": "detector",
+      "titulo": "Detectores",
+      "verTabelaEntreVerdes": "Ver Tela de Entre Verdes"
+    },
     "aneis": "Configuração de Aneis",
     "anel": "Anel",
     "area": "Área",
     "adicionarGrupo": "Adicionar Grupo",
     "associacao": "Associação Estágio x Grupo Semafórico",
-    "associacaoDetectores": "Detectores",
     "entreVerdes": "Tabela de Entre Verdes",
     "ativo": "Ativo",
     "cidade": "Cidade",
@@ -128,8 +139,10 @@
       "dataCriacao": "Data de Criação"
     },
     "crud": {
+      "configurar": "Configurar",
       "editar": "Editar",
       "excluir": "Excluir",
+      "fechar": "Fechar",
       "novo": "Novo",
       "opcoes": "Opções",
       "salvar": "Salvar",
