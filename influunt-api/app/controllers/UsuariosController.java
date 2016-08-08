@@ -44,10 +44,6 @@ public class UsuariosController extends Controller {
                 );
             } else {
                 usuario.save();
-                //TODO: 6/30/16 getArea não funciona corretamente (THOR!!!).
-                if (usuario.getArea() != null) {
-                    usuario.setArea(Area.find.byId(usuario.getArea().getId()));
-                }
                 return CompletableFuture.completedFuture(ok(Json.toJson(usuario)));
             }
         } else {
@@ -67,7 +63,7 @@ public class UsuariosController extends Controller {
     }
 
     public CompletionStage<Result> findAll() {
-        return CompletableFuture.completedFuture(ok(Json.toJson(Usuario.find.findList())));
+        return CompletableFuture.completedFuture(ok(Json.toJson(Usuario.find.fetch("area").findList())));
     }
 
     @Transactional
@@ -88,7 +84,7 @@ public class UsuariosController extends Controller {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         }
 
-        Usuario usuario = Usuario.find.byId(UUID.fromString(id));
+        Usuario usuario = Usuario.find.fetch("area").where().eq("id", id).findUnique();
         if (usuario == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
@@ -98,8 +94,6 @@ public class UsuariosController extends Controller {
 
             if (erros.isEmpty()) {
                 usuario.update();
-                //TODO: 6/30/16 getArea não funciona corretamente (THOR!!!).
-                usuario.setArea(Area.find.byId(usuario.getArea().getId()));
                 return CompletableFuture.completedFuture(ok(Json.toJson(usuario)));
             } else {
                 return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));

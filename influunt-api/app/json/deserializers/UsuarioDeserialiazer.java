@@ -38,6 +38,10 @@ public class UsuarioDeserialiazer extends JsonDeserializer<Usuario> {
             usuario.setLogin(node.get("login").asText());
         }
 
+        if (node.has("senha")) {
+            usuario.setSenha(node.get("senha").asText());
+        }
+
         if (node.has("email")) {
             usuario.setEmail(node.get("email").asText());
         }

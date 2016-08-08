@@ -42,6 +42,7 @@ public class UsuarioSerializer extends JsonSerializer<Usuario> {
             jgen.writeStringField("dataAtualizacao", InfluuntDateTimeSerializer.parse(usuario.getDataAtualizacao()));
         }
         if (usuario.getArea() != null) {
+            usuario.getArea().getId();
             jgen.writeObjectField("area", usuario.getArea());
         }
         if (usuario.getPerfil() != null) {
