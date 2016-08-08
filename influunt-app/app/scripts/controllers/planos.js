@@ -263,7 +263,7 @@ angular.module('influuntApp')
         $scope.plano.quantidadeGruposSemaforicos = $scope.currentAnel.gruposSemaforicos.length;
         $scope.plano.posicaoTabelaEntreVerdes = $scope.currentTabelaEntreVerdes.posicao;
 
-        for(var i = 0; i < $scope.plano.sequenciaEstagios.length; i++) {
+        $scope.plano.sequenciaEstagios.forEach(function(estagioPosicao, i) {
           var ep = _.find($scope.objeto.estagiosPlanos, {idJson: $scope.plano.sequenciaEstagios[i].idJson});
           var estagio = _.find($scope.objeto.estagios, {idJson: ep.estagio.idJson});
 
@@ -308,7 +308,7 @@ angular.module('influuntApp')
               estagio.gruposSemaforicos.push(grupoSemaforico);
             }
           });
-        }
+        });
 
         limpaDadosPlano($scope.plano);
         return $scope.plano;
