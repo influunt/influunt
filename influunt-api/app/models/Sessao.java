@@ -10,11 +10,15 @@ import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
 @Table(name = "sessoes")
-public class Sessao extends Model {
+public class Sessao extends Model implements Serializable {
+
+    private static final long serialVersionUID = -1684155418845418381L;
+
     public static Finder<UUID, Sessao> find = new Finder<UUID, Sessao>(Sessao.class);
 
     @Id

@@ -15,6 +15,7 @@ import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -28,7 +29,7 @@ import java.util.UUID;
 @Table(name = "cidades")
 @JsonSerialize(using = CidadeSerializer.class)
 @JsonDeserialize(using = CidadeDeserializer.class)
-public class Cidade extends Model implements Cloneable {
+public class Cidade extends Model implements Cloneable, Serializable {
 
     private static final long serialVersionUID = 6446144066408570296L;
 

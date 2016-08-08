@@ -17,6 +17,7 @@ import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -30,9 +31,10 @@ import java.util.UUID;
 @Table(name = "areas")
 @JsonSerialize(using = AreaSerializer.class)
 @JsonDeserialize(using = AreaDeserializer.class)
-public class Area extends Model implements Cloneable {
+public class Area extends Model implements Cloneable, Serializable {
 
     private static final long serialVersionUID = 3282755453785165923L;
+
     public static Finder<UUID, Area> find = new Finder<UUID, Area>(Area.class);
 
     @Id

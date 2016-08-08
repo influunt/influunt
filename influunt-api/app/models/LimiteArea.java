@@ -13,6 +13,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
@@ -21,7 +22,7 @@ import java.util.UUID;
  * @author lesiopinheiro
  */
 @Entity
-public class LimiteArea extends Model {
+public class LimiteArea extends Model implements Serializable {
 
     private static final long serialVersionUID = -2938220305527197172L;
 

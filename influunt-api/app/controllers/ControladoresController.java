@@ -3,12 +3,15 @@ package controllers;
 import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
 import be.objectify.deadbolt.java.actions.Dynamic;
 import checks.*;
+import com.avaje.ebean.Ebean;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
+import helpers.ControladorUtil;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import models.Controlador;
 import models.StatusControlador;
-import play.data.FormFactory;
+import play.Application;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -28,7 +31,8 @@ public class ControladoresController extends Controller {
 
 
     @Inject
-    FormFactory formFactory;
+    Provider<Application> provider;
+
 
     @Transactional
     public CompletionStage<Result> dadosBasicos() {
@@ -93,6 +97,19 @@ public class ControladoresController extends Controller {
             return CompletableFuture.completedFuture(notFound());
         } else {
             return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador)));
+        }
+    }
+
+
+    @Transactional
+    public CompletionStage<Result> copiar(String id) {
+        Controlador controlador = Controlador.find.byId(UUID.fromString(id));
+        Controlador controladorClone = new ControladorUtil().provider(provider).deepClone(controlador);
+        if (controladorClone == null) {
+            return CompletableFuture.completedFuture(notFound());
+        } else {
+            Ebean.update(controladorClone);
+            return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controladorClone)));
         }
     }
 

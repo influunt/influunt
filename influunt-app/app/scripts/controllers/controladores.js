@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresCtrl', ['$controller', '$scope', '$state', '$filter', 'Restangular', '$q', 'handleValidations', 'APP_ROOT', 'influuntBlockui',
-    function ($controller, $scope, $state, $filter, Restangular, $q, handleValidations, APP_ROOT, influuntBlockui) {
+  .controller('ControladoresCtrl', ['$controller', '$scope', '$state', '$filter', 'Restangular', '$q', 'handleValidations', 'APP_ROOT', 'influuntBlockui', 'toast',
+    function ($controller, $scope, $state, $filter, Restangular, $q, handleValidations, APP_ROOT, influuntBlockui, toast) {
 
 
       // Herda todo o comportamento do crud basico.
@@ -355,6 +355,18 @@ angular.module('influuntApp')
       $scope.getImagemDeEstagio = function(estagio) {
         var imagem = _.find($scope.objeto.imagens, {idJson: estagio.imagem.idJson});
         return imagem && $filter('imageSource')(imagem.id,'thumb');
+      };
+
+      $scope.copiar = function(controladorId) {
+        console.log("******* ID: ", controladorId);
+        return Restangular.one('controladores', controladorId).all("copiar").customPUT()
+          .then(function(res) {
+            console.log("RETORNOU: ", JSON.stringify(res));
+          })
+          .catch(function(err) {
+            toast.error($filter('translate')('geral.mensagens.default_erro'));
+            throw new Error(JSON.stringify(err));
+          });
       };
 
     }]);

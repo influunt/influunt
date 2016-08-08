@@ -15,6 +15,7 @@ import utils.RangeUtils;
 import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
@@ -22,7 +23,9 @@ import java.util.UUID;
  */
 @Entity
 
-public class TabelaEntreVerdesTransicao extends Model implements Cloneable {
+public class TabelaEntreVerdesTransicao extends Model implements Cloneable, Serializable {
+
+    private static final long serialVersionUID = -4972858598924929065L;
 
     public static Finder<UUID, TabelaEntreVerdesTransicao> find = new Finder<UUID, TabelaEntreVerdesTransicao>(TabelaEntreVerdesTransicao.class);
 

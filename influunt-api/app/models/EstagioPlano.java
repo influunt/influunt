@@ -15,6 +15,7 @@ import utils.RangeUtils;
 import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,7 +25,9 @@ import java.util.UUID;
 @Entity
 @Table(name = "estagios_planos")
 
-public class EstagioPlano extends Model implements Cloneable {
+public class EstagioPlano extends Model implements Cloneable, Serializable {
+
+    private static final long serialVersionUID = -7948479324460591011L;
 
     @Id
     private UUID id;

@@ -15,13 +15,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.util.UUID;
 
 
 @Entity
 @Table(name = "imagens")
-public class Imagem extends Model {
+public class Imagem extends Model implements Serializable {
 
     private static final long serialVersionUID = 238472872642410060L;
 
@@ -32,15 +33,19 @@ public class Imagem extends Model {
 
     @Column
     private String idJson;
+
     @Column
     private String filename;
+
     @Column
     private String contentType;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)

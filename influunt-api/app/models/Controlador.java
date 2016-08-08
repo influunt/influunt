@@ -14,6 +14,7 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -31,7 +32,7 @@ import java.util.UUID;
 @ConformidadeDeNumeroDeDetectoresVeicular(groups = ControladorAneisCheck.class)
 @AoMenosUmAnelAtivo(groups = ControladorAneisCheck.class)
 
-public class Controlador extends Model implements Cloneable {
+public class Controlador extends Model implements Cloneable, Serializable {
 
     private static final long serialVersionUID = 521560643019927963L;
 

@@ -10,6 +10,7 @@ import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
@@ -18,22 +19,26 @@ import java.util.UUID;
 @Entity
 @Table(name = "verdes_conflitantes")
 
-public class VerdesConflitantes extends Model {
+public class VerdesConflitantes extends Model implements Serializable {
 
     @Id
     private UUID id;
 
     @Column
     private String idJson;
+
     @ManyToOne
     private GrupoSemaforico origem;
+
     @ManyToOne
     private GrupoSemaforico destino;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)

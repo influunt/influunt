@@ -14,6 +14,7 @@ import org.joda.time.DateTime;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -23,7 +24,9 @@ import java.util.UUID;
  */
 @Entity
 
-public class TabelaEntreVerdes extends Model implements Cloneable {
+public class TabelaEntreVerdes extends Model implements Cloneable, Serializable {
+
+    private static final long serialVersionUID = -5424393072628559818L;
 
     public static Finder<UUID, TabelaEntreVerdes> find = new Finder<UUID, TabelaEntreVerdes>(TabelaEntreVerdes.class);
 

@@ -13,6 +13,7 @@ import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
@@ -25,7 +26,7 @@ import java.util.UUID;
 @Table(name = "modelo_controladores")
 @JsonSerialize(using = ModeloControladorSerializer.class)
 @JsonDeserialize(using = ModeloControladorDeserializer.class)
-public class ModeloControlador extends Model implements Cloneable {
+public class ModeloControlador extends Model implements Cloneable, Serializable {
 
     private static final long serialVersionUID = -3153929481907380680L;
 
