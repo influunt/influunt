@@ -59,8 +59,8 @@ angular.module('influuntApp')
           autoProcessQueue: true,
           uploadMultiple: false,
           parallelUploads: 100,
-          thumbnailHeight: 100,
-          thumbnailWidth: 100,
+          thumbnailHeight: 150,
+          thumbnailWidth: 150,
           clickable: true,
           paramName: 'imagem',
           maxFiles: 100,
@@ -77,7 +77,7 @@ angular.module('influuntApp')
           },
           init: function() {
             this.on('addedfile', function(file) {
-              var removeButton = Dropzone.createElement('<button class="remove-image" title="Remover estágio">&times;</button>');
+              var removeButton = Dropzone.createElement('<a class="dz-remove" title="Remover estágio">Remover estágio</a>');
               var _this = this;
               removeButton.addEventListener('click', function(e) {
                 e.preventDefault();
