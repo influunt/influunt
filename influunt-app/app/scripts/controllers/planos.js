@@ -52,13 +52,13 @@ angular.module('influuntApp')
       // };
       //
       //
-      
+
       $scope.selecionaEstagioPlano = function(estagioPlano, index) {
         $scope.currentEstagioPlanoIndex = index;
         $scope.currentEstagioPlano = estagioPlano;
         getOpcoesEstagiosDisponiveis();
       };
-      
+
       getOpcoesEstagiosDisponiveis = function() {
         var estagiosPlanos = _.map($scope.currentEstagiosPlanos, function(ep) {
           return _.find($scope.objeto.estagios, { idJson: ep.estagio.idJson });
@@ -102,7 +102,7 @@ angular.module('influuntApp')
         $scope.currentAnel.planos.push({idJson: novoPlano.idJson});
         atualizaPlanos();
       };
-      
+
       /**
        * Adiciona um novo plano ao controlador.
        *
@@ -120,7 +120,7 @@ angular.module('influuntApp')
           gruposSemaforicosPlanos: [],
           estagiosPlanos: []
         };
-        
+
         $scope.objeto.gruposSemaforicosPlanos = $scope.objeto.gruposSemaforicosPlanos || [];
         anel.gruposSemaforicos.forEach(function (g){
           var grupo =  _.find($scope.objeto.gruposSemaforicos, {idJson: g.idJson});
@@ -392,14 +392,14 @@ angular.module('influuntApp')
         selecionaAnel(index);
         $scope.selecionaPlano($scope.currentPlanos[0], 0);
       };
-      
+
       selecionaAnel = function(index) {
         $scope.currentAnelIndex = index;
         $scope.currentAnel = $scope.aneis[$scope.currentAnelIndex];
         atualizaEstagios($scope.currentAnel);
         atualizaTabelaEntreVerdes($scope.currentAnel);
         atualizaPlanos();
-        
+
 
         // var plano = _.find($scope.objeto.planos, {idJson: $scope.currentAnel.planos[0].idJson});
         // $scope.selecionaPlano(plano, 0);
@@ -407,7 +407,7 @@ angular.module('influuntApp')
         //   $scope.selecionaPlanoEstagio($scope.currentEstagioId);
         // }
       };
-      
+
       atualizaEstagios = function(anel) {
         var ids = _.map(anel.estagios, 'idJson');
         $scope.currentEstagios = _
@@ -420,7 +420,7 @@ angular.module('influuntApp')
 
           return $scope.currentEstagios;
       };
-      
+
       atualizaTabelaEntreVerdes = function(anel) {
         var grupoSemaforico = _.find($scope.objeto.gruposSemaforicos, {idJson: anel.gruposSemaforicos[0].idJson});
         var ids = _.map(grupoSemaforico.tabelasEntreVerdes, 'idJson');
@@ -435,7 +435,7 @@ angular.module('influuntApp')
 
         return $scope.currentTabelasEntreVerdes;
       };
-      
+
 
       atualizaPlanos = function() {
         var ids = _.map($scope.currentAnel.planos, 'idJson');
@@ -449,7 +449,7 @@ angular.module('influuntApp')
 
           return $scope.currentPlanos;
       };
-      
+
       $scope.selecionaPlano = function(plano, index) {
         $scope.currentPlanoIndex = index;
         $scope.currentPlano = plano;
@@ -470,16 +470,16 @@ angular.module('influuntApp')
 
           return atualizaPosicaoEstagiosPlanos();
       };
-      
+
       $scope.getImagemDeEstagio = function(estagioPlano) {
         var ep = _.find($scope.objeto.estagiosPlanos, {idJson: estagioPlano.idJson});
         var estagio = _.find($scope.objeto.estagios, {idJson: ep.estagio.idJson});
         var imagem = _.find($scope.objeto.imagens, {idJson: estagio.imagem.idJson});
         return imagem && $filter('imageSource')(imagem.id);
       };
-      
-      
-      
+
+
+
       //
       // /**
       //  * Seleciona um grupo semafórico do anel atual atraves do índice.
@@ -506,15 +506,15 @@ angular.module('influuntApp')
         atualizaEstagiosPlanos();
         // atualizaDiagramaIntervalos();
       };
-      
+
       $scope.adicionarEstagio = function(estagio) {
         var posicao = $scope.currentPlano.estagiosPlanos.length + 1;
         adicionaEstagioASequencia(estagio.idJson, $scope.currentPlano.idJson, posicao);
         atualizaEstagiosPlanos();
         // atualizaDiagramaIntervalos();
       };
-      
-      
+
+
       adicionaEstagioASequencia = function(estagioIdJson, planoIdJson, posicao) {
         var novoEstagioPlano = {
           idJson: UUID.generate(),
@@ -526,11 +526,11 @@ angular.module('influuntApp')
           },
           posicao: posicao
         }
-        
+
         $scope.objeto.estagiosPlanos.push(novoEstagioPlano);
         $scope.currentPlano.estagiosPlanos.push({idJson: novoEstagioPlano.idJson});
       };
-      
+
 
       $scope.removerEstagioPlano = function(estagioPlano, index) {
         influuntAlert.delete().then(function(confirmado) {
@@ -567,7 +567,7 @@ angular.module('influuntApp')
       //
       //
       //
-      
+
       $scope.submitForm = function() {
         Restangular
         .all('planos')
@@ -588,19 +588,19 @@ angular.module('influuntApp')
           }
         });
       }
-      
+
       atualizaPosicaoEstagiosPlanos = function(){
         $scope.currentEstagiosPlanos.forEach(function (estagioPlano, index){
           estagioPlano.posicao = index + 1;
         });
       }
-      
+
       atualizaPosicaoPlanos = function(){
         $scope.currentPlanos.forEach(function (plano, index){
           plano.posicao = index + 1;
         });
       }
-      
+
       montaTabelaValoresMinimos = function() {
         $scope.valoresMinimos = {
           verdeMin: $scope.objeto.verdeMin,

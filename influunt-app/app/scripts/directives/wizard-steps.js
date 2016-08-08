@@ -15,8 +15,9 @@ angular.module('influuntApp')
           return $(el).html();
         }, function(val) {
           if (val && val.match(/active/)) {
+            console.log('match!!');
             var current = $(el).find('li.active');
-            current.nextAll().attr('class','');
+            current.nextAll().attr('class','disabled');
             current.prevAll().addClass('completed');
           } else {
             $(el).children('li').addClass('disabled');
