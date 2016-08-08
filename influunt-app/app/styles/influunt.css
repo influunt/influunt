@@ -55,6 +55,7 @@
   margin: 0;
   padding: 0;
   background: #fff;
+  overflow-x: auto;
 }
 
 .wrapper-content .basic-wizard .content .body .tableless.association-detectors table thead tr td figure img {
@@ -965,11 +966,6 @@ header .nav-secon li a {
   text-transform: capitalize;
 }
 
-.wrapper-content .basic-wizard .content .body .association.tables-associated nav li figure {
-  float: left;
-  margin-left: 20px;
-}
-
 .wrapper-content .basic-wizard .content .body .association.alternative nav ul li {
   line-height: 34px;
   height: 34px;
@@ -1666,8 +1662,7 @@ header .nav-secon li a {
     font-size: 11px;
   }
   .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .group-figures figure {
-    width: 130px;
-    height: 130px;
+    width: 100%;
   }
   .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .group-form {
     width: 28%;
@@ -1700,8 +1695,7 @@ header .nav-secon li a {
     font-size: 11px;
   }
   .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .group-figures figure {
-    width: 120px;
-    height: 130px;
+    width: 100%;
   }
   .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .group-form {
     width: 28%;
@@ -1750,6 +1744,10 @@ header .nav-secon li a {
   }
   .container-fluid {
     width: 100%;
+  }
+  .knob-shape {
+    width: 80px !important;
+    height: 80px !important;
   }
 }
 
@@ -1913,7 +1911,7 @@ img.sample-img-estagios {
 }
 
 .stage-images img {
-  max-width: 150px;
+  max-width: 100%;
   max-height: 150px;
 }
 

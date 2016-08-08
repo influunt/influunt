@@ -1,6 +1,6 @@
 li.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab.ui-tabs-active.ui-state-active {
   background: #1AB394;
-  padding: 10px 30px 10px 20px;
+  padding: 0px;
   border-radius: 20px 20px 0 0;
   z-index: 99;
   box-shadow: 0px -1px 20px rgba(0, 0, 0, 0.3);
@@ -9,25 +9,23 @@ li.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab.ui-tabs-active.ui-state-act
 li.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab.ui-tabs-active.ui-state-active {
   height: 45px;
   background: #1AB394;
-  padding: 10px 30px 0px 20px;
+  padding: 0px;
   border-radius: 20px 20px 0 0;
   z-index: 99;
   box-shadow: 0px -1px 20px rgba(0, 0, 0, 0.3);
 }
 
 li.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab.ui-tabs-active.ui-state-active a {
-  color: #fff;
-}
-
-li.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab.ui-tabs-active.ui-state-active a {
+  padding: 15px 30px 15px 20px;
   background: transparent;
+  color: #fff;
   border: none;
   border: 0;
 }
 
 li.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab {
   background: #e7eaec;
-  padding: 10px 30px 10px 20px;
+  padding: 0px;
   border-radius: 20px 20px 0 0;
 }
 
@@ -37,7 +35,7 @@ li.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab a {
 
 li.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab {
   background: #e7eaec;
-  padding: 10px 30px 0px 20px;
+  padding: 0px;
   border-radius: 20px 20px 0 0;
   height: 45px;
 }
@@ -67,6 +65,7 @@ li.addTab.button.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab {
 
 li.addTab.button.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab a {
   color: #ffffff;
+  padding: 5px 15px 5px 13px;
 }
 
 .tabs-container .nav-tabs {
@@ -76,8 +75,8 @@ li.addTab.button.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab a {
 
 li.ui-tabs-tab span.ui-icon.ui-icon-circle-close {
   position: absolute;
-  top: -24px;
-  right: -25px;
+  top: -34px;
+  right: 0px;
   font-size: 16px;
 }
 
