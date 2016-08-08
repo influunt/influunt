@@ -319,20 +319,12 @@ angular
           }
         })
 
-        .state('app.wizard_controladores.associacao_detector', {
-          url: '/associacao-detector/:id',
-          templateUrl: 'views/controladores/wizard/associacao-detector.html',
-          data: {
-            title: 'controladores.associacaoDetectores'
-          }
-        })
-
         .state('app.wizard_controladores.associacao_detectores', {
           url: '/associacao-detectores/:id',
           controller: 'ControladoresAssociacaoDetectoresCtrl',
           templateUrl: 'views/controladores/wizard/associacao-detectores.html',
           data: {
-            title: 'controladores.associacaoDetectores'
+            title: 'controladores.associacaoDetectores.titulo'
           }
         })
 
