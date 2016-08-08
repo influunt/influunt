@@ -10,12 +10,33 @@
   display: flex;
 }
 
+.planos.ui-sortable .sortable-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 0px;
+}
+
 .planos.ui-sortable li.card-estagio {
   margin: 0 3px 3px 3px;
   padding: 10px;
   font-size: 1.4em;
   height: 250px;
   float: left;
+}
+
+.planos.ui-sortable li.card-estagio.add-card-estagio {
+  cursor: pointer;
+  border-style: dashed;
+}
+
+.planos.ui-sortable li.card-estagio.add-card-estagio .add-card-container {
+  height: 250px;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.planos.ui-sortable li.card-estagio .sortable {
   cursor: all-scroll;
 }
 
@@ -24,10 +45,9 @@
   border-color: #c4c4c4;
 }
 
-.planos.ui-sortable li.card-estagio header.sortable-header {
-  max-height: 20px !important;
-  min-height: 20px !important;
-  height: 20px;
+.planos.ui-sortable li.card-estagio .opcoes-plano-estagio {
+  margin-top: 0px;
+  cursor: pointer;
 }
 
 .planos.ui-sortable li.card-estagio figure {
@@ -66,66 +86,82 @@
 
 .vis-item.vis-background.vis-background-E1 {
   background-color: #FFF9C4;
+  opacity: 0.5;
 }
 
 .vis-item.vis-background.vis-background-E2 {
   background-color: #F0F4C3;
+  opacity: 0.5;
 }
 
 .vis-item.vis-background.vis-background-E3 {
   background-color: #DCEDC8;
+  opacity: 0.5;
 }
 
 .vis-item.vis-background.vis-background-E4 {
   background-color: #C8E6C9;
+  opacity: 0.5;
 }
 
 .vis-item.vis-background.vis-background-E5 {
   background-color: #B2DFDB;
+  opacity: 0.5;
 }
 
 .vis-item.vis-background.vis-background-E6 {
   background-color: #B2EBF2;
+  opacity: 0.5;
 }
 
 .vis-item.vis-background.vis-background-E7 {
   background-color: #B3E5FC;
+  opacity: 0.5;
 }
 
 .vis-item.vis-background.vis-background-E8 {
   background-color: #82B1FF;
+  opacity: 0.5;
 }
 
 .vis-item.vis-background.vis-background-E9 {
   background-color: #8C9EFF;
+  opacity: 0.5;
 }
 
 .vis-item.vis-background.vis-background-E10 {
   background-color: #B388FF;
+  opacity: 0.5;
 }
 
 .vis-item.vis-background.vis-background-E11 {
   background-color: #BBDEFB;
+  opacity: 0.5;
 }
 
 .vis-item.vis-background.vis-background-E12 {
   background-color: #C5CAE9;
+  opacity: 0.5;
 }
 
 .vis-item.vis-background.vis-background-E13 {
   background-color: #D1C4E9;
+  opacity: 0.5;
 }
 
 .vis-item.vis-background.vis-background-E14 {
   background-color: #E1BEE7;
+  opacity: 0.5;
 }
 
 .vis-item.vis-background.vis-background-E15 {
   background-color: #F8BBD0;
+  opacity: 0.5;
 }
 
 .vis-item.vis-background.vis-background-E16 {
   background-color: #FFCDD2;
+  opacity: 0.5;
 }
 
 .indicacao-apagado {

@@ -51,7 +51,10 @@ angular.module('influuntApp')
           });
 
           scope.percentual = function(){
-            return Math.round(100 - ((scope.max-scope.ngModel)*100)/(scope.max-scope.min));
+            if(!!scope.ngModel && scope.ngModel >= scope.min){
+              return Math.round(100 - ((scope.max-scope.ngModel)*100)/(scope.max-scope.min)) || 0;
+            }
+            return 0;
           };
 
           scope.$watch('ngModel', function(value) {

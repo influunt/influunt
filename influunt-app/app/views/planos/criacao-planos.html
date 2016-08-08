@@ -22,35 +22,25 @@
               <div class="ibox float-e-margins">
                 <div class="tabpanel">
                   <div class="col-lg-12 col-sm-12 padding-top-20 tabs-container">
-                    <ul class="nav nav-tabs">
-                      <li class=""><a class="" data-toggle="tab" href="#tabs-1" aria-expanded="false">{{ 'controladores.anel' | translate }} {{ currentAnel.posicao }}</a></li>
-                      <li class=""><a class="" data-toggle="tab" href="#tabs-2" aria-expanded="false">{{ 'controladores.anel' | translate }} 02</a></li>
-                      <li class=""><a class="" data-toggle="tab" href="#tabs-3" aria-expanded="false">{{ 'controladores.anel' | translate }} 03</a></li>
-                    </ul>
                     <div class="ui-layout-content tab-content">
                       <div id="tabs-1">
-                        <div class="col-lg-12 col-sm-12 text-left">
-                          <h2>{{ 'controladores.anel' | translate }} {{ currentAnel.posicao }}</h2>
-                        </div>
                         <div class="col-lg-12 col-sm-12 ibox-content no-padding">
                           <div class="col-lg-2 col-sm-2 association min-green side-menu">
                             <div class="ibox-title">
                               <h5>Planos</h5>
-                              <a class="btn btn-primary btn-xs m-l right" data-toggle="tooltip" data-placement="top" title="Adicionar plano" data-ng-click="adicionaPlano()">
+                              <a class="btn btn-primary btn-xs m-l right" data-toggle="tooltip" data-placement="top" title="Adicionar plano" data-ng-click="adicionarPlano()">
                                 <i class="fa fa-plus"></i>
                                 Plano
                               </a>
                           </div>
-
                             <nav>
                               <ul id="side-menu">
-                                <li data-ng-repeat="plano in currentAnel.planos"
-                                  data-ng-click="selecionaPlano($index)"
-                                  data-ng-class="{active: $index === currentPlanoIndex}"
-                                  data-ng-init="currentPlanoIndex = $index">
+                                <li data-ng-repeat="plano in currentPlanos track by plano.idJson"
+                                  data-ng-click="selecionaPlano(plano, $index)"
+                                  data-ng-class="{active: $index === currentPlanoIndex}">
                                     PLANO {{ plano.posicao }}
-                                    <i class="fa fa-files-o" aria-hidden="true"></i>
-                                    <i class="fa fa-times pull-right m-t-sm remove-tabela-entre-verdes" data-ng-if="$index !== 0" data-ng-click="removerPlano($index)"></i>
+                                    <i class="fa fa-times pull-right m-t-sm remove-tabela-entre-verdes" data-ng-if="$index !== 0" data-ng-click="removerPlano(plano, $index)"></i>
+                                    <i class="fa fa-files-o pull-right m-t-sm" data-ng-click="duplicarPlano(plano, $index)" aria-hidden="true"></i>
                                 </li>
                               </ul>
                             </nav>
@@ -87,16 +77,39 @@
                                 <div class="col-lg-12 col-sm-12 association table-creation-plans">
                                   <section>
                                     <div class="col-lg-12 col-sm-12 no-padding table-create-plan overflow">
-                                      <ul ui-sortable="sortableOptions" data-ng-model="currentPlano.sequenciaEstagios" class="ui-sortable planos">
-                                        <li class="ui-state-default card-estagio stage-images" data-ng-repeat="estagio in currentPlano.sequenciaEstagios" data-ng-class="{'estagio-ativo': $index === currentEstagioIndex}" data-ng-click="selecionaEstagio($index)">
-                                            <h4 class="ng-binding">E{{ estagio.posicao }}</h4>
-                                          <figure>
-                                            <img ng-src="{{ getImagemDeEstagio(estagio) }}" width="100%">
-                                          </figure>
-                                          <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">
-                                              Configurar
-                                          </button>
+                                      <ul class="ui-sortable planos">
+                                        <!-- elementos para adicionar novos estágios à sequencia -->
+                                        <li class="ui-state-default card-estagio add-card-estagio"
+                                            data-ng-repeat="estagio in currentEstagios | estagioForaSequencia:currentPlano.sequenciaEstagios"
+                                            data-ng-click="adicionarSequencia(estagio)">
+                                          <div class="add-card-container">
+                                            <p>+E{{ estagio.posicao }}</p>
+                                          </div>
                                         </li>
+
+                                        <!-- elementos da sequencia. -->
+                                        <div ui-sortable="sortableOptions" data-ng-model="currentPlano.sequenciaEstagios" class="sortable-list">
+                                          <li class="ui-state-default stage-images card-estagio sortable-card" data-ng-repeat="planoEstagio in currentPlano.sequenciaEstagios"
+                                              data-ng-class="{'estagio-ativo': $index === currentPlanoEstagioIndex}"
+                                              data-ng-click="selecionaPlanoEstagio(planoEstagio, $index)">
+                                            <div class="sortable">
+                                              <!-- <header class="sortable-header" role="heading"> -->
+                                                <h4 class="ng-binding">
+                                                  E{{ getEstagio(planoEstagio).posicao }}
+                                                  <i class="fa fa-trash pull-right opcoes-plano-estagio" data-ng-click="removerSequencia(planoEstagio, $index)" data-ng-if="currentPlano.sequenciaEstagios.length > 2"></i>
+                                                  <i class="fa fa-files-o pull-right opcoes-plano-estagio" data-ng-click="duplicarSequencia(planoEstagio, $index)" aria-hidden="true"></i>
+                                                </h4>
+                                              <!-- </header> -->
+                                              <figure>
+                                                <img ng-src="{{ getImagemDeEstagio(planoEstagio) }}" width="100%">
+                                              </figure>
+                                              <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">
+                                                <i class="fa fa-cog" />
+                                                Configurar
+                                              </button>
+                                            </div>
+                                          </li>
+                                        </div>
                                       </ul>
                                     </div>
                                   </section>
@@ -131,18 +144,17 @@
 
           <!-- MODAL -->
           <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
-              <div class="modal-dialog">
+            <div class="modal-dialog">
               <div class="modal-content animated bounceInRight">
-                      <div class="modal-header">
-                          <ng-include src="'views/planos/opcoes-inferior.html'"></ng-include>
-                      </div>
+                <div class="modal-header">
+                  <ng-include src="'views/planos/opcoes-inferior.html'"></ng-include>
+                </div>
 
-                      <div class="modal-footer">
-                          <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                          <button type="button" class="btn btn-primary">Save changes</button>
-                      </div>
-                  </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">Fechar</button>
+                </div>
               </div>
+            </div>
           </div>
 
         </fieldset>
