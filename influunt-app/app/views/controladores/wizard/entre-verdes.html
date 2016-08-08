@@ -68,14 +68,14 @@
                         <!-- <li data-ng-repeat="tevTransicao in tabelasEntreVerdesTransicoes"> -->
                         <li data-ng-repeat="tevTransicao in currentTabelasEntreVerdesTransicoes">
                           <div class="group-figures col-lg-5 col-sm-5 no-padding">
-                            <div class="group-figure stage-images">
+                            <div class="col-lg-6 col-sm-6 group-figure stage-images">
                               <figure>
                                 <!-- <label for="">E{{ currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].origem.posicao }}</label> -->
                                 <label for="">E{{ currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].origem.posicao }}</label>
                                 <img ng-src="{{ getImagemDeEstagio(currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].origem) }}" alt="{{ currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].origem.descricao }}">
                               </figure>
                             </div>
-                            <div class="group-figure stage-images">
+                            <div class="col-lg-6 col-sm-6 group-figure stage-images">
                               <figure>
                                 <label for="">E{{ currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].destino.posicao }}</label>
                                 <!-- <img src="" alt=""> -->

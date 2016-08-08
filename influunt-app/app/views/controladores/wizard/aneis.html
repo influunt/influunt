@@ -66,7 +66,7 @@
                   </div>
                 </div>
 
-                <div class="col-lg-6">
+                <div class="col-lg-6 col-sm-6">
                   <div class="form-group" data-ng-class="{ 'has-error': errors.aneis[currentAnelIndex].enderecos[0].localizacao }">
                     <label class="control-label">{{ 'controladores.localizacao' | translate }} 1:</label>
                     <helper-endereco ng-model="currentEnderecos[0].localizacao" localizacao="currentEnderecos[0].localizacao" latitude="currentEnderecos[0].latitude" longitude="currentEnderecos[0].longitude"></helper-endereco>
@@ -83,7 +83,7 @@
                   </div>
                 </div>
 
-                <div class="col-lg-6">
+                <div class="col-lg-6 col-sm-6">
                   <div class="form-group" data-ng-class="{ 'has-error': errors.aneis[currentAnelIndex].enderecos[1].localizacao }">
                     <label class="control-label">{{ 'controladores.localizacao' | translate }} 2:</label>
                     <helper-endereco ng-model="currentEnderecos[1].localizacao" localizacao="currentEnderecos[1].localizacao" latitude="currentEnderecos[1].latitude" longitude="currentEnderecos[1].longitude"></helper-endereco>
@@ -128,7 +128,7 @@
   </div>
 
 	<div class="row">
-    <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix">
+    <div class="col-lg-12 col-sm-12 bg-border-footer pg-bt-footer actions clearfix">
       <a ui-sref="app.wizard_controladores.dados_basicos({id: objeto.id})" target="_blank" data-toggle="tooltip" data-placement="top" class="left btn btn-info btn-footer" title="Ver Tela Dados Básicos">
         <i class="fa fa-eye"></i> {{ 'plugins.steps.labels.last_screen' | translate }}
       </a>
