@@ -57,11 +57,11 @@
   background: #fff;
 }
 
-.wrapper-content .basic-wizard .content .body .tableless.association-detectors table tbody tr td figure img {
+.wrapper-content .basic-wizard .content .body .tableless.association-detectors table thead tr td figure img {
   width: 120%;
 }
 
-.wrapper-content .basic-wizard .content .body .tableless.association-detectors table tbody tr td figure {
+.wrapper-content .basic-wizard .content .body .tableless.association-detectors table thead tr td figure {
   border: 1px solid #898989;
   background: #ebebeb;
   display: block;
@@ -1678,7 +1678,7 @@ header .nav-secon li a {
   .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .time-group label {
     line-height: 25px !important;
   }
-  .wrapper-content .basic-wizard .content .body .tableless.association-detectors table tbody tr td figure {
+  .wrapper-content .basic-wizard .content .body .tableless.association-detectors table thead tr td figure {
     height: 100px;
     width: 100px;
     max-height: 100px;

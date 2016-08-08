@@ -24,21 +24,23 @@
                   <table class="tg" border="1" cellpadding="1" width="100%">
                     <thead>
                       <tr>
-                        <th>DETECTOR</th>
-                        <th data-ng-repeat="estagio in currentEstagios">E{{ estagio.posicao }}</th>
+                        <th>{{ 'controladores.associacaoDetectores.detector' | translate | uppercase }}</th>
+                        <th data-ng-repeat="estagio in currentEstagios track by $index">
+                          {{ 'controladores.geral.prefixoEstagio' | translate | uppercase }}{{ estagio.posicao }}
+                        </th>
                         <th></th>
                       </tr>
-                    </thead>
-                    <tbody>
                       <tr>
                         <td></td>
-                        <td class="stage-images" data-ng-repeat="estagio in currentEstagios" data-ng-cloak>
+                        <td class="stage-images" data-ng-repeat="estagio in currentEstagios track by $index">
                           <figure>
                             <img ng-src="{{ getImagemDeEstagio(estagio) }}">
                           </figure>
                         </td>
                         <td></td>
                       </tr>
+                    </thead>
+                    <tbody>
                       <tr data-ng-repeat="detector in currentDetectores"
                           data-ng-click="selecionaDetector(detector, $index)">
                         <td class="titulo">
@@ -51,16 +53,16 @@
                           </span>
                           <br/>
                           <button type="button" class="btn btn-primary btn-xs center" data-toggle="modal" data-target="#Config">
-                              Configurar
+                            {{ 'geral.crud.configurar' | translate }}
                           </button>
                         </td>
-                        <td data-ng-repeat="estagio in currentEstagios"
+                        <td data-ng-repeat="estagio in currentEstagios track by $index"
                             data-ng-class="{disabled: estagio.temDetector && detector.estagio.idJson !== estagio.idJson}"
                             data-ng-click="toggleAssociacaoDetector(estagio, detector)">
                           <i class="fa fa-check" aria-hidden="true" data-ng-if="detector.estagio.idJson === estagio.idJson"></i>
                         </td>
                         <td>
-                          <a ng-click="excluirDetector(detector, $index)" class="btn btn-xs btn-danger">Excluir</a>
+                          <a ng-click="excluirDetector(detector, $index)" class="btn btn-xs btn-danger">{{ 'geral.crud.excluir' | translate }}</a>
                         </td>
                       </tr>
                     </tbody>
@@ -72,7 +74,7 @@
                             <button type="button" class="btn btn-primary left"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                                 data-ng-disabled="currentDetectores.length >= currentEstagios.length">
-                              Adicionar Detector
+                              {{ 'controladores.associacaoDetectores.adicionarDetector' | translate }}
                               <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
@@ -142,14 +144,14 @@
               </div>
 
               <div class="modal-footer">
-                  <button type="button" class="btn btn-white" data-dismiss="modal">Fechar</button>
+                  <button type="button" class="btn btn-white" data-dismiss="modal">{{ 'geral.crud.fechar' | translate }}</button>
               </div>
           </div>
       </div>
   </div>
 
   <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix">
-		<a ui-sref="app.wizard_controladores.entre_verdes({id: objeto.id})" target="_blank" data-toggle="tooltip" data-placement="top" class="left btn btn-info btn-footer" title="Ver Tela de Entre Verdes">
+    <a ui-sref="app.wizard_controladores.entre_verdes({id: objeto.id})" target="_blank" data-toggle="tooltip" data-placement="top" class="left btn btn-info btn-footer" title="Ver Tela de Entre Verdes">
       <i class="fa fa-eye"></i> {{ 'plugins.steps.labels.last_screen' | translate }}
     </a>
     <a data-ng-click="submitForm({$valid: true}, 'associacao_detectores', 'app.controladores')" data-toggle="tooltip" data-placement="top" title="Controladores" class="btn btn-primary btn-footer right">
