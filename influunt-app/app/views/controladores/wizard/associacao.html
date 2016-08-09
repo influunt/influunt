@@ -17,10 +17,10 @@
                   <div class="col-lg-12 col-sm-12 no-padding stages">
                     <div class="col-lg-12 col-sm-12">
                       <div class="row">
-                        <div class="col-lg-1 title-stages-top"><i class="fa fa-arrows-v"></i></div>
-                        <div class="col-lg-3 title-stages-top"><p class="text-left">{{ 'controladores.estagios' | translate }}</p></div>
-                        <div class="col-lg-3 title-stages-top"><p class="text-left">{{ 'controladores.gruposAssociados' | translate }}</p></div>
-                        <div class="col-lg-5 title-stages-top"><p class="text-left">{{ 'controladores.opcoes' | translate }}</p></div>
+                        <div class="col-lg-1 col-sm-1 title-stages-top"><i class="fa fa-arrows-v"></i></div>
+                        <div class="col-lg-3 col-sm-3 title-stages-top"><p class="text-left">{{ 'controladores.estagios' | translate }}</p></div>
+                        <div class="col-lg-3 col-sm-3 title-stages-top"><p class="text-left">{{ 'controladores.gruposAssociados' | translate }}</p></div>
+                        <div class="col-lg-5 col-sm-5 title-stages-top"><p class="text-left">{{ 'controladores.opcoes' | translate }}</p></div>
                       </div>
                     </div>
 
@@ -41,14 +41,14 @@
                               </hgroup>
 
                             </div>
-                            <div class="col-lg-3 padding-top-20">
+                            <div class="col-lg-3 col-sm-3 padding-top-20">
                               <div class="exist-figure stage-images">
                                 <figure>
                                   <img ng-src="{{ getImagemDeEstagio(estagio) }}">
                                 </figure>
                               </div>
                             </div>
-                            <div class="col-lg-3 padding-top-20 text-left group">
+                            <div class="col-lg-3 col-sm-3 padding-top-20 text-left group">
                               <div class="ichecks-checkbox" data-ng-repeat="(indexGrupo, grupo) in currentGruposSemaforicos">
                                 <label class="i-checks">
                                   <input type="checkbox" ichecks data-ng-model="grupo.estagiosRelacionados[estagio.id]" i-changed="associaEstagiosGrupoSemaforico(grupo, estagio)">
@@ -56,24 +56,20 @@
                                 <p>{{ grupo.label }}</p>
                               </div>
                             </div>
-                            <div class="col-lg-5 padding-top-20 text-left">
-                              <div class="col-lg-6 priority">
-                                <div>
-                                    <label>
-                                      <input type="checkbox" ichecks data-ng-model="estagio.tempoMaximoPermanenciaAtivado" if-unchecked="limpaTempoPermanencia(estagio)">
-                                      <p class="desc">Ativar monitoramento de tempo máximo de permanencia</p>
-                                    </label>
-                                </div>
+                            <div class="col-lg-5 col-sm-5 padding-top-20 text-left">
+                              <div class="col-lg-4 col-sm-4 priority">
                                 <div class="knob-item text-center">
-                                    <influunt-knob
-                                    label="SEG" min="objeto.maximoPermanenciaEstagioMin" max="objeto.maximoPermanenciaEstagioMax" read-only=!estagio.tempoMaximoPermanenciaAtivado
-                                    data-ng-model="estagio.tempoMaximoPermanencia"></influunt-knob>
-                                  </div>
-                              </div>
-                              <div class="col-lg-6 priority">
-                                <div>
-                                    <label><input type="checkbox" ichecks data-ng-model="estagio.demandaPrioritaria"><p class="desc">Demanda prioritária</p></label>
+                                  <influunt-knob
+                                  label="SEG" min="objeto.maximoPermanenciaEstagioMin" max="objeto.maximoPermanenciaEstagioMax" read-only=!estagio.tempoMaximoPermanenciaAtivado
+                                  data-ng-model="estagio.tempoMaximoPermanencia"></influunt-knob>
                                 </div>
+                              </div>
+                              <div class="col-lg-8 col-sm-8 priority">
+                                  <label>
+                                    <input type="checkbox" ichecks data-ng-model="estagio.tempoMaximoPermanenciaAtivado" if-unchecked="limpaTempoPermanencia(estagio)">
+                                    <p class="desc">Ativar monitoramento de tempo máximo de permanencia</p>
+                                  </label>
+                                  <label><input type="checkbox" ichecks data-ng-model="estagio.demandaPrioritaria"><p class="desc">Demanda prioritária</p></label>
                               </div>
                             </div>
                           </div>
@@ -95,10 +91,10 @@
         <a ui-sref="app.wizard_controladores.verdes_conflitantes({id: objeto.id})" target="_blank" data-toggle="tooltip" data-placement="top" class="left btn btn-info btn-footer" title="Ver Tela de Verdes Conflitantes">
           <i class="fa fa-eye"></i> {{ 'plugins.steps.labels.last_screen' | translate }}
         </a>
-        <a data-ng-click="submitForm({$valid: true}, 'associacao_grupos_semaforicos', 'app.wizard_controladores.transicoes_proibidas')" data-toggle="tooltip" data-placement="top" title="Transições Proíbidas" class="btn btn-primary btn-footer right">
+        <a goToTop data-ng-click="submitForm({$valid: true}, 'associacao_grupos_semaforicos', 'app.wizard_controladores.transicoes_proibidas')" data-toggle="tooltip" data-placement="top" title="Transições Proíbidas" class="goToTop btn btn-primary btn-footer right">
           {{ 'plugins.steps.labels.next' | translate }} <i class="fa fa-arrow-right"></i>
         </a>
-        <a data-ng-click="submitForm({$valid: true}, 'associacao_grupos_semaforicos', 'app.wizard_controladores.verdes_conflitantes')" data-toggle="tooltip" data-placement="top" title="Verdes Conflitantes" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
+        <a goToTop data-ng-click="submitForm({$valid: true}, 'associacao_grupos_semaforicos', 'app.wizard_controladores.verdes_conflitantes')" data-toggle="tooltip" data-placement="top" title="Verdes Conflitantes" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
           <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.previous' | translate }}
         </a>
       </div>

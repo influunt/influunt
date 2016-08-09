@@ -54,11 +54,12 @@
     margin: 0;
     padding: 0;
     background: #fff;
+    overflow-x: auto;
 }
-.wrapper-content .basic-wizard .content .body .tableless.association-detectors table tbody tr td figure img {
+.wrapper-content .basic-wizard .content .body .tableless.association-detectors table thead tr td figure img {
     width: 120%;
 }
-.wrapper-content .basic-wizard .content .body .tableless.association-detectors table tbody tr td figure {
+.wrapper-content .basic-wizard .content .body .tableless.association-detectors table thead tr td figure {
     border: 1px solid #898989;
     background: #ebebeb;
     display: block;
@@ -409,7 +410,7 @@ header .nav-secon li a {
     background: #f2f4f5;
     padding-left: 20px;
     padding-top: 30px;
-    min-height: 760px;
+    min-height: 910px;
 }
 .wrapper-content .basic-wizard .content .body .movements .dz-default.dz-message span {
     display: block;
@@ -809,10 +810,6 @@ header .nav-secon li a {
     font-size: 13px;
     line-height: 30px;
     text-transform: capitalize;
-}
-.wrapper-content .basic-wizard .content .body .association.tables-associated nav li figure {
-    float: left;
-    margin-left: 20px;
 }
 .wrapper-content .basic-wizard .content .body .association.alternative nav ul li {
     line-height: 34px;
@@ -1417,8 +1414,7 @@ header .nav-secon li a {
         font-size: 11px;
     }
     .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .group-figures figure {
-        width: 130px;
-        height: 130px;
+        width: 100%;
     }
     .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .group-form {
         width: 28%;
@@ -1429,7 +1425,7 @@ header .nav-secon li a {
     .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .time-group label {
         line-height: 25px !important;
     }
-    .wrapper-content .basic-wizard .content .body .tableless.association-detectors table tbody tr td figure {
+    .wrapper-content .basic-wizard .content .body .tableless.association-detectors table thead tr td figure {
         height: 100px;
         width: 100px;
         max-height: 100px;
@@ -1450,8 +1446,7 @@ header .nav-secon li a {
         font-size: 11px;
     }
     .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .group-figures figure {
-        width: 120px;
-        height: 130px;
+        width: 100%;
     }
     .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .group-form {
         width: 28%;
@@ -1504,6 +1499,11 @@ header .nav-secon li a {
     .container-fluid {
         width: 100%;
     }
+
+    .knob-shape {
+    width: 80px !important;
+    height: 80px !important;
+}
 }
 .badge.badge-danger.badge-estagio-alternativo {
   margin-top: -40px;
@@ -1596,7 +1596,7 @@ table.table-diagonal:nth-of-type(1) th.diagonal {
   }
 
 .dropzone.dz-clickable {
-  max-height: 730px;
+  max-height: 810px;
   overflow: auto;
   padding: 0px;
 }
@@ -1604,12 +1604,6 @@ table.table-diagonal:nth-of-type(1) th.diagonal {
 .dz-default.dz-message span {
     border: 1px dashed #898989;
     margin: 0;
-}
-
-.dropzone .dz-preview, .dropzone-previews .dz-preview {
-    width: 100%;
-    height: 250px;
-    margin: 0px 0px 15px 0px;
 }
 
 .dropzone .dz-default.dz-message {
@@ -1624,13 +1618,6 @@ table.table-diagonal:nth-of-type(1) th.diagonal {
 
 .dropzone.dz-clickable .dz-message, .dropzone.dz-clickable .dz-message span {
     cursor: pointer;
-}
-
-.dropzone .dz-preview .dz-details, .dropzone-previews .dz-preview .dz-details {
-    width: 100%;
-    height: 190px;
-    overflow: hidden;
-    display: block;
 }
 
 .dropzone .dz-preview .dz-details img, .dropzone-previews .dz-preview .dz-details img {
@@ -1686,7 +1673,7 @@ img.sample-img-estagios {
   background: #dddddd;
 }
 .stage-images img {
-  max-width: 150px;
+  max-width: 100%;
   max-height: 150px;
 }
 .stage-images h4 {
@@ -1722,4 +1709,31 @@ img.sample-img-estagios {
     height: 150px !important;
     border: 0 !important;
     margin: 0 0 10px 0 !important;
+}
+.ui-widget-header {
+  background: transparent;
+}
+.review-page > img {
+  float: left;
+  margin-right: 10px;
+}
+
+b.gray-box {
+  background: #f5f5f5;
+  border: 1px solid #e1e1e1;
+  padding: 5px 20px;
+}
+
+b.white-box {
+  background: #FFFFFF;
+  border: 1px solid #e1e1e1;
+  padding: 5px 20px;
+}
+
+.col-lg-6 .review-page {
+  margin-bottom: 20px;
+}
+.view-group {
+  color: #1AB394;
+  cursor: default;
 }
