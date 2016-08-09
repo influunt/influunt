@@ -29,8 +29,10 @@ var FabricantesPage = function () {
   };
 
   this.newPage = function() {
-    world.visit(NEW_PATH);
-    return world.waitFor(inputNomeFabricante);
+    world.visit(NEW_PATH)
+    return world.waitFor(inputNomeFabricante).then(function() {
+      return world.waitForOverlayDisappear();
+    });
   };
 
   this.existeAoMenosUmFabricante = function() {
@@ -38,8 +40,10 @@ var FabricantesPage = function () {
   };
 
   this.toastMessage = function() {
-    return world.waitFor('#toast-container div').then(function() {
-      return world.getElement('#toast-container div').getText();
+    return world.waitFor('#toast-container div.toast-message').then(function() {
+      return world.sleep(500);
+    }).then(function() {
+      return world.getElement('#toast-container div.toast-message').getText();
     });
   };
 

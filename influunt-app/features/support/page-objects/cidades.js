@@ -39,8 +39,10 @@ var CidadesPage = function () {
   };
 
   this.toastMessage = function() {
-    return world.waitFor('#toast-container div').then(function() {
-      return world.getElement('#toast-container div').getText();
+    return world.waitFor('#toast-container div.toast-message').then(function() {
+      return world.sleep(500);
+    }).then(function() {
+      return world.getElement('#toast-container div.toast-message').getText();
     });
   };
 

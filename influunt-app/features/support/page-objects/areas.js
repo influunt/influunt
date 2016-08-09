@@ -7,7 +7,7 @@ var AreasPage = function () {
   var INDEX_PATH = '/app/areas';
   var NEW_PATH = '/app/areas/new';
 
-  var inputDescArea = '[name="area_descricao"]';
+  var inputDescArea = '[name="area"]';
   var novaAreaButton = 'a[href*="/areas/new"]';
   var formAreas = 'form[name="formAreas"]';
 
@@ -95,7 +95,9 @@ var AreasPage = function () {
 
   this.toastMessage = function() {
     return world.waitFor('#toast-container div.toast-message').then(function() {
-          return world.getElement('#toast-container div').getText();
+      return world.sleep(500);
+    }).then(function() {
+      return world.getElement('#toast-container div.toast-message').getText();
     });
   };
 

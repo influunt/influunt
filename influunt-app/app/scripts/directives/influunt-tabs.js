@@ -99,18 +99,12 @@ angular.module('influuntApp')
 
             tabs = $(element).tabs({
               closable: true,
-              addTab: true,
+              addTab: !!scope.canAddTabs,
               add: tabAdded,
               remove: tabRemoved,
               activate: tabActivated }).tabs('overflowResize');
 
             $compile(element.contents())(scope);
-
-            if (!!scope.canAddTabs) {
-              showAddButton();
-            } else {
-              hideAddButton();
-            }
           }
         });
       }

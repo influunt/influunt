@@ -24,7 +24,6 @@ Funcionalidade: tela de cadastro de fabricantes
     E o usuario preencher o campo "Nome" com "MobiLab"
     E clicar no botão de adicionar um novo modelo de controlador
     E o usuario preencher o campo "Descrição" com "Novo Modelo"
-    E o usuario selecionar o valor "Default" no campo "Configuração"
     E clicar no botão de salvar
     Então o registro do fabricante deverá ser salvo com "nome" igual a "MobiLab"
     E o registro do fabricante deverá ser salvo com "modelo" igual a "Default"
