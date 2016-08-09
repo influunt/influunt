@@ -1,18 +1,535 @@
 <div class="wrapper wrapper-content animated fadeInRight" data-ng-init="index()">
-  <div class="m-t-md">
-    <div class="col-lg-12 col-sm-12 bg-border no-padding">
-      <div class="ibox float-e-margins">
-        <div class="tabpanel">
-          <ul>
-            <li><a href="#tabs-1" class="closable">Nunc tincidunt</a></li>
-            <li><a href="#tabs-2" class="closable">Proin dolor</a></li>
-            <li><a href="#tabs-3" class="closable">Aenean lacinia</a></li>
-          </ul>
-          <div class="col-lg-12 col-sm-12 padding-top-20 tabs-container">
-            <div class="ui-layout-content tab-content">
-              <div id="tabs-1">
-                <div class="col-lg-12 col-sm-12 ibox-content no-padding">
-                  <h5>{{ horarios.titulo | translate }}</h5>
+  <script>
+    $(function(){
+      $( ".tabpanel" ).tabs({closable: false, addTab:false}).tabs('overflowResize')
+      .find( ".ui-tabs-nav" ).sortable({
+        distance: 10
+      });
+    });
+  </script>
+
+  <div class="row">
+    <div class="m-t-md">
+      <div class="col-lg-12 col-sm-12 bg-border">
+        <div class="ibox float-e-margins">
+          <div class="tabpanel">
+            <div class="col-lg-12 col-sm-12 tabs-container">
+              <ul class="nav nav-tabs">
+                <li class="initialTab"><a class="" data-toggle="tab" href="#tabs-1" aria-expanded="false">Tabela de Horários</a></li>
+                <li class=""><a class="" data-toggle="tab" href="#tabs-2" aria-expanded="false">Feriado</a></li>
+                <li class=""><a class="" data-toggle="tab" href="#tabs-3" aria-expanded="false">7 Setembro</a></li>
+              </ul>
+              <div class="ui-layout-content tab-content">
+                <div id="tabs-1">
+                  <div class="col-lg-12 col-sm-12 text-left">
+                    <h2><!-- {{ 'horarios.titulo' | translate }} --> Tabela de Horários</h2>
+                  </div>
+                  <div class="col-lg-12 col-sm-12">
+                    <div class="col-lg-7 col-sm-7 no-padding-left">
+                      <table class="table table-hover text-center">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th><!-- {{ 'horarios.dias' | translate }} --> Dias</th>
+                            <th colspan="2"><!-- {{ 'horarios.horario' | translate }} --> Horário</th>
+                            <th colspan="3"><!-- {{ 'horarios.plano' | translate }} --> Plano</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="horario10px horarioColor1"></td>
+                            <td>
+                              <select class="form-control" name="" data-ng-model="">
+                                <option value="dom">Domingo</option>
+                                <option value="seg">Segunda</option>
+                                <option value="ter">Terça</option>
+                                <option value="qua">Quarta</option>
+                                <option value="qui">Quinta</option>
+                                <option value="sex">Sexta</option>
+                                <option value="sab">Sábado</option>
+                              </select>
+                            </td>
+                            <td>
+                              <select class="form-control" name="" data-ng-model="">
+                                <option value="0">00</option>
+                                <option value="1">01</option>
+                                <option value="2">02</option>
+                                <option value="3">03</option>
+                                <option value="4">04</option>
+                                <option value="5">05</option>
+                                <option value="6">06</option>
+                              </select>
+                            </td>
+                            <td>
+                              <select class="form-control" name="" data-ng-model="">
+                                <option value="0">00</option>
+                                <option value="1">01</option>
+                                <option value="2">02</option>
+                                <option value="3">03</option>
+                                <option value="4">04</option>
+                                <option value="5">05</option>
+                                <option value="6">06</option>
+                              </select>
+                            </td>
+                            <td>
+                              <select class="form-control" name="" data-ng-model="">
+                                <option value="plan">Plano 1</option>
+                                <option value="plan">Plano 2</option>
+                                <option value="plan">Plano 3</option>
+                                <option value="plan">Plano 4</option>
+                                <option value="plan">Plano 5</option>
+                              </select>
+                            </td>
+                            <td>
+                              <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                                <a class="dropdown-toggle">
+                                    <i class="fa fa-files-o"></i>
+                                </a>
+                                <a class="close-link">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="horario10px horarioColor2"></td>
+                            <td>
+                              <select class="form-control" name="" data-ng-model="">
+                                <option value="dom">Domingo</option>
+                                <option value="seg">Segunda</option>
+                                <option value="ter">Terça</option>
+                                <option value="qua">Quarta</option>
+                                <option value="qui">Quinta</option>
+                                <option value="sex">Sexta</option>
+                                <option value="sab">Sábado</option>
+                              </select>
+                            </td>
+                            <td>
+                              <select class="form-control" name="" data-ng-model="">
+                                <option value="0">00</option>
+                                <option value="1">01</option>
+                                <option value="2">02</option>
+                                <option value="3">03</option>
+                                <option value="4">04</option>
+                                <option value="5">05</option>
+                                <option value="6">06</option>
+                              </select>
+                            </td>
+                            <td>
+                              <select class="form-control" name="" data-ng-model="">
+                                <option value="0">00</option>
+                                <option value="1">01</option>
+                                <option value="2">02</option>
+                                <option value="3">03</option>
+                                <option value="4">04</option>
+                                <option value="5">05</option>
+                                <option value="6">06</option>
+                              </select>
+                            </td>
+                            <td>
+                              <select class="form-control" name="" data-ng-model="">
+                                <option value="plan">Plano 1</option>
+                                <option value="plan">Plano 2</option>
+                                <option value="plan">Plano 3</option>
+                                <option value="plan">Plano 4</option>
+                                <option value="plan">Plano 5</option>
+                              </select>
+                            </td>
+                            <td>
+                              <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                                <a class="dropdown-toggle">
+                                    <i class="fa fa-files-o"></i>
+                                </a>
+                                <a class="close-link">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="horario10px horarioColor3"></td>
+                            <td>
+                              <select class="form-control" name="" data-ng-model="">
+                                <option value="dom">Domingo</option>
+                                <option value="seg">Segunda</option>
+                                <option value="ter">Terça</option>
+                                <option value="qua">Quarta</option>
+                                <option value="qui">Quinta</option>
+                                <option value="sex">Sexta</option>
+                                <option value="sab">Sábado</option>
+                              </select>
+                            </td>
+                            <td>
+                              <select class="form-control" name="" data-ng-model="">
+                                <option value="0">00</option>
+                                <option value="1">01</option>
+                                <option value="2">02</option>
+                                <option value="3">03</option>
+                                <option value="4">04</option>
+                                <option value="5">05</option>
+                                <option value="6">06</option>
+                              </select>
+                            </td>
+                            <td>
+                              <select class="form-control" name="" data-ng-model="">
+                                <option value="0">00</option>
+                                <option value="1">01</option>
+                                <option value="2">02</option>
+                                <option value="3">03</option>
+                                <option value="4">04</option>
+                                <option value="5">05</option>
+                                <option value="6">06</option>
+                              </select>
+                            </td>
+                            <td>
+                              <select class="form-control" name="" data-ng-model="">
+                                <option value="plan">Plano 1</option>
+                                <option value="plan">Plano 2</option>
+                                <option value="plan">Plano 3</option>
+                                <option value="plan">Plano 4</option>
+                                <option value="plan">Plano 5</option>
+                              </select>
+                            </td>
+                            <td>
+                              <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                                <a class="dropdown-toggle">
+                                    <i class="fa fa-files-o"></i>
+                                </a>
+                                <a class="close-link">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="horario10px horarioColor1"></td>
+                            <td>
+                              <select class="form-control" name="" data-ng-model="">
+                                <option value="dom">Domingo</option>
+                                <option value="seg">Segunda</option>
+                                <option value="ter">Terça</option>
+                                <option value="qua">Quarta</option>
+                                <option value="qui">Quinta</option>
+                                <option value="sex">Sexta</option>
+                                <option value="sab">Sábado</option>
+                              </select>
+                            </td>
+                            <td>
+                              <select class="form-control" name="" data-ng-model="">
+                                <option value="0">00</option>
+                                <option value="1">01</option>
+                                <option value="2">02</option>
+                                <option value="3">03</option>
+                                <option value="4">04</option>
+                                <option value="5">05</option>
+                                <option value="6">06</option>
+                              </select>
+                            </td>
+                            <td>
+                              <select class="form-control" name="" data-ng-model="">
+                                <option value="0">00</option>
+                                <option value="1">01</option>
+                                <option value="2">02</option>
+                                <option value="3">03</option>
+                                <option value="4">04</option>
+                                <option value="5">05</option>
+                                <option value="6">06</option>
+                              </select>
+                            </td>
+                            <td>
+                              <select class="form-control" name="" data-ng-model="">
+                                <option value="plan">Plano 1</option>
+                                <option value="plan">Plano 2</option>
+                                <option value="plan">Plano 3</option>
+                                <option value="plan">Plano 4</option>
+                                <option value="plan">Plano 5</option>
+                              </select>
+                            </td>
+                            <td>
+                              <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                                <a class="dropdown-toggle">
+                                    <i class="fa fa-files-o"></i>
+                                </a>
+                                <a class="close-link">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                  </div>
+
+                  <div class="col-lg-5 col-sm-5 no-padding-right">
+                    <table class="table table-hover">
+                      <thead>
+                      <tr>
+                          <th>HR</th>
+                          <th>DOM</th>
+                          <th>SEG</th>
+                          <th>TER</th>
+                          <th>QUA</th>
+                          <th>QUI</th>
+                          <th>SEX</th>
+                          <th>SAB</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>00</td>
+                          <td class="horarioColor1"></td>
+                          <td class="horarioColor1"></td>
+                          <td class="horarioColor1"></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td>01</td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td class="horarioColor2"></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td>02</td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td>03</td>
+                          <td class="horarioColor1"></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td>04</td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td>05</td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td>06</td>
+                          <td class="horarioColor1"></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td>07</td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td>08</td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td>09</td>
+                          <td class="horarioColor1"></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td>10</td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td>11</td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td>12</td>
+                          <td class="horarioColor1"></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td>13</td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td>14</td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td>15</td>
+                          <td class="horarioColor1"></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td>16</td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td>17</td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td>18</td>
+                          <td class="horarioColor1"></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td>19</td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td>20</td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td>21</td>
+                          <td class="horarioColor1"></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td>22</td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td>23</td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
@@ -21,4 +538,5 @@
       </div>
     </div>
   </div>
+</div>
 </div>
