@@ -85,8 +85,8 @@ public class Controlador extends Model implements Cloneable {
     private ModeloControlador modelo;
 
     @ManyToOne
-//    @Valid
-//    @NotNull(message = "não pode ficar em branco")
+   @Valid
+   @NotNull(message = "não pode ficar em branco")
     private Area area;
 
     @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)

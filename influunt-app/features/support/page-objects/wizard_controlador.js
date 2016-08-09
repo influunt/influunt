@@ -119,10 +119,10 @@ var WizardControladorPage = function () {
   this.errorMessagesDadosBasicos = function() {
     var thisWizardPage = this;
     var messages = [];
-    // return thisWizardPage.getErrorMessageFor('[name="area"]').then(function(msg) {
-    //   messages.push({campo: 'area', msg: msg});
+    return thisWizardPage.getErrorMessageFor('[name="area"]').then(function(msg) {
+      messages.push({campo: 'area', msg: msg});
       return thisWizardPage.getErrorMessageFor('helper-endereco[latitude="objeto.todosEnderecos[0].latitude"]')
-    .then(function(msg) {
+    }).then(function(msg) {
       messages.push({campo: 'localizacao1', msg: msg});
       return thisWizardPage.getErrorMessageFor('[name="enderecos[0].latitude"]');
     }).then(function(msg) {
@@ -193,13 +193,10 @@ var WizardControladorPage = function () {
         });
       });
     }).catch(function(e) {
-      console.log('erro aneis errors: ', e)
-    })
+      console.log('error on errorMessagesAneis():', e);
+      throw new Error(e);
+    });
   };
-
-  // this.errorMessagesGruposSemaforicos = function() {
-  //   var _this = this;
-  // };
 
   this.errorMessagesGruposSemaforicosAneis = function() {
     return this.getAlertErrorMessages().then(function(text) {
@@ -222,7 +219,7 @@ var WizardControladorPage = function () {
           reject('Expected an error badge for estágio "'+estagio+'" in Anel '+anel);
         }
       });
-    })
+    });
   };
 
   this.errorMessagesAssociacao = function() {
@@ -258,7 +255,7 @@ var WizardControladorPage = function () {
       ]);
     }).then(function() {
       return Promise.resolve(true);
-    })
+    });
   };
 
   this.errorMessageDetector = function(detector) {
@@ -270,7 +267,7 @@ var WizardControladorPage = function () {
           reject('Badge de erro não encontrada para o detector '+detector);
         }
       });
-    })
+    });
   };
 
   this.errorMessagesDetectores = function() {
@@ -280,7 +277,7 @@ var WizardControladorPage = function () {
       this.errorMessageDetector('DV2')
     ]).then(function() {
       return Promise.resolve(true);
-    })
+    });
   };
 
 
@@ -292,30 +289,6 @@ var WizardControladorPage = function () {
       });
     });
   };
-
-  // this.errorMessagesVerdesConflitantesComConflito = function() {
-  //   return this.getAlertErrorMessages().then(function(text) {
-  //     return new Promise(function(resolve, reject) {
-  //       if (text.match(/G1: Esse grupo semafórico não pode ter verde conflitante com grupo semafórico de outro anel/) !== null) {
-  //         if (text.match(/G2: Esse grupo semafórico não pode ter verde conflitante com grupo semafórico de outro anel/) !== null) {
-  //           if (text.match(/G3: Esse grupo semafórico não pode ter verde conflitante com grupo semafórico de outro anel/) !== null) {
-  //             if (text.match(/G4: Esse grupo semafórico não pode ter verde conflitante com grupo semafórico de outro anel/) !== null) {
-  //               resolve(true);
-  //             } else {
-  //               reject('required error message not found: "G4: Esse grupo semafórico não pode ter verde conflitante com grupo semafórico de outro anel"');
-  //             }
-  //           } else {
-  //             reject('required error message not found: "G3: Esse grupo semafórico não pode ter verde conflitante com grupo semafórico de outro anel"');
-  //           }
-  //         } else {
-  //           reject('required error message not found: "G2: Esse grupo semafórico não pode ter verde conflitante com grupo semafórico de outro anel"');
-  //         }
-  //       } else {
-  //         reject('required error message not found: "G1: Esse grupo semafórico não pode ter verde conflitante com grupo semafórico de outro anel"');
-  //       }
-  //     });
-  //   });
-  // };
 
   this.errorMessagesVerdesConflitantesGrupo = function(grupo) {
     return this.getAlertErrorMessages().then(function(text) {
@@ -345,19 +318,12 @@ var WizardControladorPage = function () {
     });
   };
 
-  // this.selecionarEstagio = function(estagio) {
-  //   var estagioSelector = 'li[data-ng-repeat="(indexEstagio, estagio) in currentAnel.estagios"]:nth-child('+estagio.substring(1)+') img';
-  //   return world.getElement(estagioSelector).click();
-  // };
-
   this.selecionaEstagioAlternativoParaTransicaoProibida = function(transicao, estagio) {
     var transicaoSelector = '#estagio-alternativo-' + transicao + ' select';
     return world.selectOption(transicaoSelector, estagio);
   };
 
   this.associarGrupoSemaforicoEstagio = function(grupo, estagio) {
-    // var estagioSelector = 'li[data-ng-repeat="(indexEstagio, estagio) in currentEstagios"]:nth-child('+estagio.substring(1)+')';
-    // var inputSelector = 'label > p:contains("'+grupo+'") + div > input';
     var selector = '"li[data-ng-repeat=\'(indexEstagio, estagio) in currentEstagios\']:nth-child('+estagio.substring(1)+') p:contains(\''+grupo+'\')").parent().find("input"';
     return world.checkICheck(selector);
   };
@@ -424,9 +390,9 @@ var WizardControladorPage = function () {
   };
 
   this.adicionarGruposSemaforicosAoAnel = function(numGrupos) {
-    var promises = []
+    var promises = [];
     for (var i = 0; i < numGrupos; i++) {
-      promises.push(function() { return world.getElement('a[data-ng-click="adicionaGrupoSemaforico()"]').click() });
+      promises.push(function() { return world.getElement('a[data-ng-click="adicionaGrupoSemaforico()"]').click(); });
     }
 
     return promises.reduce(function(previous, current) {
@@ -448,7 +414,7 @@ var WizardControladorPage = function () {
     var indexTipo = tipoDetector === 'Pedestre' ? 1 : 2;
     return world.getElement('div.dropup button').click().then(function() {
       return world.getElement('div.dropup ul li:nth-child('+indexTipo+')').click();
-    })
+    });
   };
 
   this.associarDetectorEstagio = function(detector, estagio) {
@@ -456,7 +422,7 @@ var WizardControladorPage = function () {
       return world.getElementByXpath('//td//strong[text() = "'+detector+'"]/../../td['+col+']').click();
     }).then(function() {
       return world.waitForOverlayDisappear();
-    })
+    });
   };
 };
 

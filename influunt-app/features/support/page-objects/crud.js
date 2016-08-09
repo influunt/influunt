@@ -39,14 +39,18 @@ var CrudPage = function () {
     return world.setValueAsHuman('div[data-ng-class$=".enderecos['+(numEndereco - 1)+'].localizacao }"] helper-endereco > input', query).then(function() {
       return world.waitFor('div[g-places-autocomplete-drawer] > div.pac-container');
     }).then(function() {
-      return world.getElements('div[g-places-autocomplete-drawer] > div.pac-container div:first-child')
+      return world.getElements('div[g-places-autocomplete-drawer] > div.pac-container div:first-child');
     }).then(function(elements) {
       return new Promise(function(resolve, reject) {
         setTimeout(function() {
-          return elements[0].click().then(resolve);
+          if (elements.length > 0) {
+            return elements[0].click().then(resolve);
+          } else {
+            reject('No results found for address "'+query+'"');
+          }
         }, 500);
-      })
-    })
+      });
+    });
   };
 
 };

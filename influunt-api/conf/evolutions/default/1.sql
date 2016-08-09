@@ -67,7 +67,7 @@ create table controladores (
   numero_smeeconjugado3         varchar(255),
   firmware                      varchar(255),
   modelo_id                     uuid not null,
-  area_id                       uuid,
+  area_id                       uuid not null,
   limite_estagio                integer not null,
   limite_grupo_semaforico       integer not null,
   limite_anel                   integer not null,

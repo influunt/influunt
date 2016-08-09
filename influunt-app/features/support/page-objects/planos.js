@@ -20,18 +20,12 @@ var PlanosPage = function () {
     return world.waitFor('a[data-ng-click="adicionarPlano()"]');
   };
 
-  // this.clicarBotaSalvar = fucntion() {
-  //
-  // };
-
   this.selecionarModoOperacao = function(modoOperacao) {
     var modos = ['Atuado', 'Coordenado', 'Isolado', 'Intermitente', 'Apagado'];
     var index = modos.indexOf(modoOperacao) + 1;
-    return world.getElement('[name="modoOperacao"] option:nth-child('+index+')').click()
-    // return world.selectOption('[name="modoOperacao"]', modoOperacao)
-    .then(function() {
+    return world.getElement('[name="modoOperacao"] option:nth-child('+index+')').click().then(function() {
       return world.sleep(500);
-    })
+    });
   };
 
   this.isDiagramaModo = function(grupo, modoOperacao) {
@@ -64,8 +58,6 @@ var PlanosPage = function () {
       return world.waitFor('div#visualization div.vis-foreground div.vis-group:nth-child('+indexGrupo+') div.indicacao-verde');
     });
   }
-
-
 
   this.isTabelaEntreVerdesHidden = function() {
     return world.waitForInverse('select[name="tabelaEntreverdes"]').then(true);
@@ -116,8 +108,6 @@ var PlanosPage = function () {
     return world.getElement('a[data-ng-click="adicionarPlano()"]').click();
   };
 
-
-
   this.trocarEstagiosDeLugar = function(estagio1, estagio2) {
     var elementFrom, elementTo, locationFrom, locationTo;
     return world.getElementByXpath('//ul[contains(@class, "planos")]//h4[contains(text(), "'+estagio1+'")]/..').then(function(element) {
@@ -137,72 +127,6 @@ var PlanosPage = function () {
     });
   };
 
-
-
-
-
-
-
-  // var LOGIN_PATH = '/login';
-
-  // this.acessar = function() {
-  //   return world.visit(LOGIN_PATH);
-  // };
-
-  // this.preencherUsuario = function(usuario) {
-  //   return world.setValue('[name="usuario"]', usuario);
-  // };
-
-  // this.preencherSenha = function(senha) {
-  //   return world.setValue('[name="senha"]', senha);
-  // };
-
-  // this.confirmarFormulario = function() {
-  //   return world.setValue('[name="senha"]', world.webdriver.Key.ENTER);
-  // };
-
-  // this.preencherFormulario = function(usuario, senha) {
-  //   var thisPage = this;
-  //   return this.preencherUsuario(usuario).then(function() {
-  //     return thisPage.preencherSenha(senha);
-  //   }).then(function() {
-  //     return thisPage.confirmarFormulario();
-  //   });
-  // };
-
-  // this.campoUsuarioInvalido = function() {
-  //   return world.waitFor('.usuario p.error-msg:not(.ng-hide)').then(function() {
-  //     return world.getElements('.usuario p.error-msg:not(.ng-hide)');
-  //   }).then(function(elements) {
-  //     return elements.length === 1;
-  //   });
-  // };
-
-  // this.campoSenhaInvalido = function() {
-  //   return world.waitFor('.senha p.error-msg:not(.ng-hide)').then(function() {
-  //     return world.getElements('.senha p.error-msg:not(.ng-hide)');
-  //   }).then(function(elements) {
-  //       return elements.length === 1;
-  //   });
-  // };
-
-  // this.loginInvalido = function() {
-  //   return world.waitFor('div[class^="sweet-alert"][class$="visible"]').then(function() {
-  //     return world.getElement('div[class^="sweet-alert"] p[style="display: block;"]').getText();
-  //   });
-  // };
-
-  // this.getUrl = function() {
-  //   return world.getCurrentUrl();
-  // };
-
-  // this.isDashboard = function() {
-  //   return world.waitFor('h2.ng-binding').then(function(){
-  //     return world.getElement('h2.ng-binding').getText().then(function(text) {
-  //       return text === 'Dashboard';
-  //     });
-  //   });
-  // };
 };
 
 module.exports = PlanosPage;

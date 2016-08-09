@@ -65,8 +65,6 @@ Funcionalidade: Fluxo de cadastro de controladores
     E clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Verdes Conflitantes"
 
-# ##
-
   Cenário: Tentar salvar verdes conflitantes em branco
     Dado que o usuário esteja no wizard no passo "Verdes Conflitantes"
     E que a tabela de conflitos esteja em branco
