@@ -55,10 +55,10 @@
       <a ui-sref="app.wizard_controladores.configuracao_grupo({id: objeto.id})" target="_blank" data-toggle="tooltip" data-placement="top" class="left btn btn-info btn-footer" title="Ver Tela de Configuração de Grupos Semafóricos">
         <i class="fa fa-eye"></i> {{ 'plugins.steps.labels.last_screen' | translate }}
       </a>
-      <a data-ng-click="submitForm({$valid: true}, 'verdes_conflitantes', 'app.wizard_controladores.associacao')" data-toggle="tooltip" data-placement="top" title="Associação de Estágios x Grupos Semafóricos" class="goToTop btn btn-primary btn-footer right">
+      <a goToTop data-ng-click="submitForm({$valid: true}, 'verdes_conflitantes', 'app.wizard_controladores.associacao')" data-toggle="tooltip" data-placement="top" title="Associação de Estágios x Grupos Semafóricos" class="goToTop btn btn-primary btn-footer right">
         {{ 'plugins.steps.labels.next' | translate }} <i class="fa fa-arrow-right"></i>
       </a>
-      <a data-ng-click="submitForm({$valid: true}, 'verdes_conflitantes', 'app.wizard_controladores.configuracao_grupo')" data-toggle="tooltip" data-placement="top" title="Configuração de Grupos Semafóricos" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
+      <a goToTop data-ng-click="submitForm({$valid: true}, 'verdes_conflitantes', 'app.wizard_controladores.configuracao_grupo')" data-toggle="tooltip" data-placement="top" title="Configuração de Grupos Semafóricos" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
         <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.previous' | translate }}
       </a>
     </div>
