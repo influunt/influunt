@@ -88,6 +88,9 @@
     "editar": "Editar Cidade",
     "titulo": "Cidades"
   },
+  "horarios": {
+    "titulo": "Tabela de Horarios"
+  },
   "configuracoes_controladores": {
     "descricao": "DESCRIÇÃO",
     "limiteEstagio": "LIMITE ESTÁGIOS",
