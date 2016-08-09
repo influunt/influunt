@@ -486,6 +486,10 @@ public class ControladorCustomSerializer {
         }
         estagioPlanoJson.put("dispensavel", estagioPlano.isDispensavel());
 
+        if (estagioPlano.getEstagioQueRecebeEstagioDispensavel() != null && estagioPlano.getEstagioQueRecebeEstagioDispensavel().getIdJson() != null) {
+            estagioPlanoJson.putObject("estagioQueRecebeEstagioDispensavel").put("idJson", estagioPlano.getEstagioQueRecebeEstagioDispensavel().getIdJson().toString());
+        }
+
         if (estagioPlano.getPlano() != null && estagioPlano.getPlano().getIdJson() != null) {
             estagioPlanoJson.putObject("plano").put("idJson", estagioPlano.getPlano().getIdJson().toString());
         }

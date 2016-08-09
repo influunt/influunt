@@ -28,7 +28,7 @@
                           <div class="col-lg-2 col-sm-2 association min-green side-menu">
                             <div class="ibox-title">
                               <h5>Planos</h5>
-                              <a class="btn btn-primary btn-xs m-l right" data-toggle="tooltip" data-placement="top" title="Adicionar plano" data-ng-click="adicionarPlano()">
+                              <a class="btn btn-primary btn-xs m-l right" data-toggle="tooltip" data-placement="top" title="Adicionar plano" data-ng-click="adicionarNovoPlano()">
                                 <i class="fa fa-plus"></i>
                                 Plano
                               </a>
@@ -40,7 +40,7 @@
                                   data-ng-class="{active: $index === currentPlanoIndex}">
                                     PLANO {{ plano.posicao }}
                                     <i class="fa fa-times pull-right m-t-sm remove-tabela-entre-verdes" data-ng-if="$index !== 0" data-ng-click="removerPlano(plano, $index)"></i>
-                                    <i class="fa fa-files-o pull-right m-t-sm" data-ng-click="duplicarPlano(plano, $index)" aria-hidden="true"></i>
+                                    <i class="fa fa-files-o pull-right m-t-sm" data-ng-click="duplicarPlano(plano)" aria-hidden="true"></i>
                                 </li>
                               </ul>
                             </nav>
@@ -62,7 +62,7 @@
                                       </div>
                                       <div class="form-group" data-ng-if="currentPlano.modoOperacao !== 'INTERMITENTE' && currentPlano.modoOperacao !== 'APAGADO'">
                                         <label>TABELA DE ENTRE-VERDES</label>
-                                        <select class="form-control" name="tabelaEntreverdes" data-ng-model="currentTabelaEntreVerdes" data-ng-options="tabela as tabela.descricao for tabela in tabelasEntreVerdes">
+                                        <select class="form-control" name="tabelaEntreverdes" data-ng-model="currentPlano.posicaoTabelaEntreVerde" data-ng-options="tabela.posicao as tabela.descricao for tabela in currentTabelasEntreVerdes">
                                         </select>
                                       </div>
 
@@ -80,28 +80,26 @@
                                       <ul class="ui-sortable planos">
                                         <!-- elementos para adicionar novos estágios à sequencia -->
                                         <li class="ui-state-default card-estagio add-card-estagio"
-                                            data-ng-repeat="estagio in currentEstagios | estagioForaSequencia:currentPlano.sequenciaEstagios"
-                                            data-ng-click="adicionarSequencia(estagio)">
+                                            data-ng-repeat="estagio in currentEstagios | estagioForaSequencia:currentEstagiosPlanos"
+                                            data-ng-click="adicionarEstagio(estagio)">
                                           <div class="add-card-container">
                                             <p>+E{{ estagio.posicao }}</p>
                                           </div>
                                         </li>
 
                                         <!-- elementos da sequencia. -->
-                                        <div ui-sortable="sortableOptions" data-ng-model="currentPlano.sequenciaEstagios" class="sortable-list">
-                                          <li class="ui-state-default stage-images card-estagio sortable-card" data-ng-repeat="planoEstagio in currentPlano.sequenciaEstagios"
-                                              data-ng-class="{'estagio-ativo': $index === currentPlanoEstagioIndex}"
-                                              data-ng-click="selecionaPlanoEstagio(planoEstagio, $index)">
+                                        <div ui-sortable="sortableOptions" data-ng-model="currentEstagiosPlanos" class="sortable-list">
+                                          <li class="ui-state-default stage-images card-estagio sortable-card estagio-ativo" 
+                                              data-ng-repeat="estagioPlano in currentEstagiosPlanos"
+                                              data-ng-click="selecionaEstagioPlano(estagioPlano, $index)">
                                             <div class="sortable">
-                                              <!-- <header class="sortable-header" role="heading"> -->
                                                 <h4 class="ng-binding">
-                                                  E{{ getEstagio(planoEstagio).posicao }}
-                                                  <i class="fa fa-trash pull-right opcoes-plano-estagio" data-ng-click="removerSequencia(planoEstagio, $index)" data-ng-if="currentPlano.sequenciaEstagios.length > 2"></i>
-                                                  <i class="fa fa-files-o pull-right opcoes-plano-estagio" data-ng-click="duplicarSequencia(planoEstagio, $index)" aria-hidden="true"></i>
+                                                  E{{ getEstagio(estagioPlano).posicao }}
+                                                  <i class="fa fa-trash pull-right opcoes-plano-estagio" data-ng-click="removerEstagioPlano(estagioPlano, $index)" data-ng-if="currentEstagiosPlanos.length > 2"></i>
+                                                  <i class="fa fa-files-o pull-right opcoes-plano-estagio" data-ng-click="adicionarEstagioPlano(estagioPlano)" aria-hidden="true"></i>
                                                 </h4>
-                                              <!-- </header> -->
                                               <figure>
-                                                <img ng-src="{{ getImagemDeEstagio(planoEstagio) }}" width="100%">
+                                                <img ng-src="{{ getImagemDeEstagio(estagioPlano) }}" width="100%">
                                               </figure>
                                               <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">
                                                 <i class="fa fa-cog" />
@@ -138,8 +136,7 @@
             </div>
           </div>
           <div class="col-sm-12 col-lg-12 no-pading pg-bt m-t-lg">
-            <a data-ng-click="submitForm({$valid: true}, 'aneis', 'app.wizard_controladores.associacao')" class="btn btn-primary btn-footer right">{{ 'plugins.steps.labels.next' | translate }}</a>
-            <a data-ng-click="submitForm({$valid: true}, 'aneis', 'app.wizard_controladores.dados_basicos')" class="btn btn-inverse btn-footer right m-r-sm right">{{ 'plugins.steps.labels.previous' | translate }}</a>
+            <a data-ng-click="submitForm()" class="btn btn-primary btn-footer right m-r-sm right">{{ 'geral.crud.salvar' | translate }}</a>
           </div>
 
           <!-- MODAL -->

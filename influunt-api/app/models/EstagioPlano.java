@@ -50,6 +50,9 @@ public class EstagioPlano extends Model implements Cloneable {
     private Double tempoExtensaoVerde;
     @Column
     private boolean dispensavel;
+    @ManyToOne
+    @Column
+    private Estagio estagioQueRecebeEstagioDispensavel;
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
@@ -124,6 +127,14 @@ public class EstagioPlano extends Model implements Cloneable {
 
     public Double getTempoExtensaoVerde() {
         return tempoExtensaoVerde;
+    }
+
+    public Estagio getEstagioQueRecebeEstagioDispensavel() {
+        return estagioQueRecebeEstagioDispensavel;
+    }
+
+    public void setEstagioQueRecebeEstagioDispensavel(Estagio estagioQueRecebeEstagioDispensavel) {
+        this.estagioQueRecebeEstagioDispensavel = estagioQueRecebeEstagioDispensavel;
     }
 
     public boolean isDispensavel() {
