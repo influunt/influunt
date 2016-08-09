@@ -178,18 +178,14 @@ create table estagios_planos (
 create table eventos (
   id                            varchar(40) not null,
   id_json                       varchar(255),
-  posicao                       integer not null,
-  dia_da_semana                 varchar(16),
+  numero                        varchar(255) not null,
+  dia_da_semana                 varchar(16) not null,
   horario                       time not null,
-  data                          datetime(6),
-  nome                          varchar(255),
-  tipo                          varchar(8) not null,
   tabela_horario_id             varchar(40) not null,
   plano_id                      varchar(40) not null,
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
   constraint ck_eventos_dia_da_semana check (dia_da_semana in ('SEGUNDA_A_SEXTA','SEGUNDA_A_SABADO','SABADO_A_DOMINGO','TODOS_OS_DIAS','SEGUNDA','TERCA','QUARTA','QUINTA','SEXTA','SABADO','DOMINGO')),
-  constraint ck_eventos_tipo check (tipo in ('NORMAL','ESPECIAL')),
   constraint pk_eventos primary key (id)
 );
 
@@ -457,15 +453,18 @@ create index ix_estagios_planos_estagio_id on estagios_planos (estagio_id);
 alter table estagios_planos add constraint fk_estagios_planos_plano_id foreign key (plano_id) references planos (id) on delete restrict on update restrict;
 create index ix_estagios_planos_plano_id on estagios_planos (plano_id);
 
-alter table estagios_planos add constraint fk_estagios_planos_estagio_que_recebe_estagio_dispensavel_3 foreign key (estagio_que_recebe_estagio_dispensavel_id) references estagios_planos (id) on delete restrict on update restrict;
+alter table estagios_planos add constraint fk_estagios_planos_estagio_que_recebe_estagio_dispensavel_3 foreign key (estagio_que_recebe_estagio_dispensavel_id) references estagios (id) on delete restrict on update restrict;
 create index ix_estagios_planos_estagio_que_recebe_estagio_dispensavel_3 on estagios_planos (estagio_que_recebe_estagio_dispensavel_id);
 
+<<<<<<< 63e8cbed03a713646daade27e9bf711e7c4bee83
 alter table eventos add constraint fk_eventos_tabela_horario_id foreign key (tabela_horario_id) references tabela_horarios (id) on delete restrict on update restrict;
 create index ix_eventos_tabela_horario_id on eventos (tabela_horario_id);
 
 alter table eventos add constraint fk_eventos_plano_id foreign key (plano_id) references planos (id) on delete restrict on update restrict;
 create index ix_eventos_plano_id on eventos (plano_id);
 
+=======
+>>>>>>> clonar planos
 alter table grupos_semaforicos add constraint fk_grupos_semaforicos_anel_id foreign key (anel_id) references aneis (id) on delete restrict on update restrict;
 create index ix_grupos_semaforicos_anel_id on grupos_semaforicos (anel_id);
 
@@ -606,12 +605,15 @@ drop index ix_estagios_planos_plano_id on estagios_planos;
 alter table estagios_planos drop foreign key fk_estagios_planos_estagio_que_recebe_estagio_dispensavel_3;
 drop index ix_estagios_planos_estagio_que_recebe_estagio_dispensavel_3 on estagios_planos;
 
+<<<<<<< 63e8cbed03a713646daade27e9bf711e7c4bee83
 alter table eventos drop foreign key fk_eventos_tabela_horario_id;
 drop index ix_eventos_tabela_horario_id on eventos;
 
 alter table eventos drop foreign key fk_eventos_plano_id;
 drop index ix_eventos_plano_id on eventos;
 
+=======
+>>>>>>> clonar planos
 alter table grupos_semaforicos drop foreign key fk_grupos_semaforicos_anel_id;
 drop index ix_grupos_semaforicos_anel_id on grupos_semaforicos;
 

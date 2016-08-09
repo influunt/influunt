@@ -63,6 +63,7 @@ public class Plano extends Model implements Cloneable, Serializable {
     @Column
     @NotNull(message = "não pode ficar em branco.")
     private ModoOperacaoPlano modoOperacao;
+
     /**
      * Armazena qual {@link TabelaEntreVerdes} deve ser utiliada pelos grupos semafóricos a paritr da posição
      */
@@ -375,4 +376,6 @@ public class Plano extends Model implements Cloneable, Serializable {
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
+
+
 }

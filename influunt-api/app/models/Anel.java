@@ -370,5 +370,12 @@ public class Anel extends Model implements Cloneable, Serializable {
         }
         getEstagios().add(estagio);
     }
+
+    public void addPlano(Plano plano) {
+        if(getPlanos() == null) {
+            setPlanos(new ArrayList<Plano>());
+        }
+        getPlanos().add(plano);
+    }
 }
 

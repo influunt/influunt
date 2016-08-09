@@ -108,7 +108,6 @@ public class ControladoresController extends Controller {
         if (controladorClone == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
-            Ebean.update(controladorClone);
             return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controladorClone)));
         }
     }

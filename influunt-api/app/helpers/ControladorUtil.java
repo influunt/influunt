@@ -14,7 +14,10 @@ import java.lang.reflect.Modifier;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Created by lesiopinheiro on 8/3/16.
@@ -201,10 +204,64 @@ public class ControladorUtil {
             });
         });
 
+        // FIM CLONE CONTROLADOR
+        Ebean.update(controladorClone);
+
         long elapsed = System.nanoTime() - startTime;
-        Logger.info(String.format("[CONTROLADOR] - DeepCloneJson: Elapsed time: %d ns (%f seconds)%n", elapsed, elapsed / Math.pow(10, 9)));
+        Logger.info(String.format("[CONTROLADOR] - DeepClone: Elapsed time: %d ns (%f seconds)%n", elapsed, elapsed / Math.pow(10, 9)));
+
+        deepClonePlanos(controlador, controladorClone);
 
         return controladorClone;
+    }
+
+    private void deepClonePlanos(Controlador origem, Controlador destino) {
+        long startTime = System.nanoTime();
+
+        Map<String, Anel> aneis = destino.getAneis().stream().collect(Collectors.toMap(Anel::getIdJson, Function.identity()));
+        Map<String, GrupoSemaforico> grupos = new HashMap<String, GrupoSemaforico>();
+        Map<String, Estagio> estagios = new HashMap<String, Estagio>();
+        destino.getAneis().stream().forEach(anel -> {
+            anel.getGruposSemaforicos().stream().forEach(grupoSemaforico -> {
+                grupos.put(grupoSemaforico.getIdJson(), grupoSemaforico);
+            });
+            anel.getEstagios().stream().forEach(estagio -> {
+                estagios.put(estagio.getIdJson(), estagio);
+            });
+        });
+
+        origem.getAneis().forEach(anel -> {
+            anel.getPlanos().forEach(plano -> {
+                Plano planoAux = copyPrimitveFields(plano);
+                Anel anelAux = aneis.get(anel.getIdJson());
+                planoAux.setAnel(anelAux);
+                planoAux.setAgrupamento(plano.getAgrupamento());
+
+                plano.getGruposSemaforicosPlanos().forEach(grupoSemaforicoPlano -> {
+                    GrupoSemaforicoPlano gspAux = copyPrimitveFields(grupoSemaforicoPlano);
+                    gspAux.setGrupoSemaforico(grupos.get(grupoSemaforicoPlano.getGrupoSemaforico().getIdJson()));
+                    gspAux.setPlano(planoAux);
+                    planoAux.addGruposSemaforicos(gspAux);
+                });
+
+                plano.getEstagiosPlanos().forEach(estagioPlano -> {
+                    EstagioPlano estagioPlanoAux = copyPrimitveFields(estagioPlano);
+                    estagioPlanoAux.setEstagio(estagios.get(estagioPlano.getEstagio().getIdJson()));
+                    estagioPlanoAux.setPlano(planoAux);
+                    if (estagioPlano.getEstagioQueRecebeEstagioDispensavel() != null)
+                        estagioPlanoAux.setEstagioQueRecebeEstagioDispensavel(estagios.get(estagioPlano.getEstagioQueRecebeEstagioDispensavel().getIdJson()));
+                    planoAux.addEstagios(estagioPlanoAux);
+                });
+
+                anelAux.addPlano(planoAux);
+            });
+        });
+
+        // FIM CLONE PLANO
+        Ebean.update(destino);
+
+        long elapsed = System.nanoTime() - startTime;
+        Logger.info(String.format("[PLANO] - DeepClone: Elapsed time: %d ns (%f seconds)%n", elapsed, elapsed / Math.pow(10, 9)));
     }
 
     private Imagem getImagem(Imagem imagem) {
@@ -226,7 +283,7 @@ public class ControladorUtil {
     }
 
 
-    public static <T> T copyPrimitveFields(T obj) {
+    private <T> T copyPrimitveFields(T obj) {
 
         try {
             T clone = (T) obj.getClass().newInstance();

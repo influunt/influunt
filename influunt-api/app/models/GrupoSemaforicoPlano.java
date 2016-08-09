@@ -29,19 +29,24 @@ public class GrupoSemaforicoPlano extends Model implements Cloneable, Serializab
 
     @Column
     private String idJson;
+
     @ManyToOne
     @NotNull
     private GrupoSemaforico grupoSemaforico;
+
     @ManyToOne
     @NotNull
     private Plano plano;
+
     @Column
     private boolean ativado = true;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
