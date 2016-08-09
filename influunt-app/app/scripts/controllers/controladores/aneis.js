@@ -13,7 +13,7 @@ angular.module('influuntApp')
       $controller('ControladoresCtrl', {$scope: $scope});
 
       // Métodos privados.
-      var criaAneis, inicializaEnderecos, atualizarAneisAtivos, registrarWatcherEndereco, atualizaCurrentEnderecos;
+      var ativaPrimeiroAnel, inicializaEnderecos, atualizarAneisAtivos, registrarWatcherEndereco, atualizaCurrentEnderecos;
 
       /**
        * Pré-condições para acesso à tela de aneis: Somente será possível acessar esta
@@ -36,9 +36,11 @@ angular.module('influuntApp')
         return $scope.inicializaWizard().then(function() {
           if ($scope.assertAneis()) {
             $scope.currentAnelIndex = 0;
-            criaAneis($scope.objeto);
+            $scope.currentAnel = $scope.objeto.aneis[0];
+
             $scope.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
-            $scope.currentAnel = $scope.objeto.aneis[$scope.currentAnelIndex];
+            ativaPrimeiroAnel($scope.objeto);
+
             atualizarAneisAtivos();
             inicializaEnderecos();
             registrarWatcherEndereco();
@@ -47,50 +49,11 @@ angular.module('influuntApp')
         });
       };
 
-      // Endereços são sempre validados, logo precisam de ser
-      // removidos dos anéis não ativos.
-      $scope.beforeSubmitForm = function() {
-        $scope.aneis.forEach(function(anel) {
-          if (!anel.ativo) {
-            delete anel.enderecos;
-          }
-        });
-      };
-
-      /**
-       * Desativa todos os aneis após o anel corrente, caso o anel atual seja
-       * desativado.
-       *
-       * @param      {<type>}  currentAnel  The current anel
-       */
-      $scope.desativaProximosAneis = function(currentAnel) {
-        $scope.aneis.forEach(function(anel) {
-          if (anel.posicao > currentAnel.posicao) {
-            anel.ativo = false;
-          }
-        });
-      };
-
-      criaAneis = function(controlador) {
-        controlador.aneis = _.orderBy(controlador.aneis, ['posicao'], ['asc']).map(function(anel, key) {
-          anel.idAnel = controlador.CLC + '-' + (key + 1);
-          anel.posicao = anel.posicao || (key + 1);
-          anel.valid = {
-            form: true
-          };
-
-          return anel;
-        });
-
-        // Garantia de que o primeiro anel será sempre null.
-        controlador.aneis[0].ativo = true;
-        return controlador.aneis;
-      };
-
-      $scope.associaImagemAoEstagio = function(upload, imagem) {
+      $scope.adicionarEstagio = function(upload, imagem) {
         var anel = $scope.currentAnel;
         anel.estagios = anel.estagios || [];
         $scope.objeto.estagios = $scope.objeto.estagios || [];
+        $scope.objeto.imagens = $scope.objeto.imagens || [];
 
         var uuid = UUID.generate();
         var _imagem = { id: imagem.id, filename: imagem.filename, idJson: imagem.idJson };
@@ -104,10 +67,10 @@ angular.module('influuntApp')
         $scope.objeto.imagens.push(_imagem);
       };
 
-      $scope.removeImagemDoEstagio = function(img) {
+      $scope.removerEstagio = function(img) {
         var anel = $scope.currentAnel;
 
-        var imagemIndex = _.findIndex($scope.objeto.imagens, {id: img.id});
+        var imagemIndex = _.findIndex($scope.objeto.imagens, {idJson: img.idJson});
         var imagem = $scope.objeto.imagens[imagemIndex];
         var estagioIndex = _.findIndex($scope.objeto.estagios, function(estagio) {
           return estagio.imagem.idJson === imagem.idJson;
@@ -120,12 +83,8 @@ angular.module('influuntApp')
         anel.estagios.splice(estagioAnelIndex, 1);
       };
 
-      $scope.associaImagemAoCurrentAnel = function(imagem) {
+      $scope.adicionarCroqui = function(imagem) {
         $scope.currentAnel.croqui = imagem;
-      };
-
-      atualizarAneisAtivos = function() {
-        $scope.aneisAtivos = _.filter($scope.aneis, { ativo: true });
       };
 
       $scope.ativarProximoAnel = function() {
@@ -140,9 +99,33 @@ angular.module('influuntApp')
       $scope.desativarUltimoAnel = function() {
         $scope.$apply(function() {
           var ultimoAnelAtivoIndex = _.findLastIndex($scope.aneis, { ativo: true });
+          if (ultimoAnelAtivoIndex === 0) {
+            return false;
+          }
+
           $scope.aneis[ultimoAnelAtivoIndex].ativo = false;
+          delete $scope.aneis[ultimoAnelAtivoIndex].enderecos;
           atualizarAneisAtivos();
         });
+      };
+
+      /**
+       * Ao iniciar um novo controlador, este método garante que ao menos o primeiro
+       * anel esteja ativo.
+       *
+       * Este método inicializa também a validação local dos aneis.
+       *
+       * @param      {<type>}  controlador  The controlador
+       * @return     {<type>}  { description_of_the_return_value }
+       */
+      ativaPrimeiroAnel = function(controlador) {
+        controlador.aneis.forEach(function(anel) { anel.valid = {form: true}; });
+        controlador.aneis[0].ativo = true;
+        return controlador.aneis;
+      };
+
+      atualizarAneisAtivos = function() {
+        $scope.aneisAtivos = _.filter($scope.aneis, { ativo: true });
       };
 
       inicializaEnderecos = function() {
@@ -150,6 +133,7 @@ angular.module('influuntApp')
           if (!angular.isDefined(anel.enderecos) || anel.enderecos.length === 0) {
             var enderecos = [{ idJson: UUID.generate() }, { idJson: UUID.generate() }];
             anel.enderecos = enderecos;
+            $scope.objeto.todosEnderecos = $scope.objeto.todosEnderecos || [];
             $scope.objeto.todosEnderecos = _.concat($scope.objeto.todosEnderecos, enderecos);
           }
         });
@@ -160,6 +144,8 @@ angular.module('influuntApp')
           atualizaCurrentEnderecos();
           if (angular.isArray($scope.currentEnderecos) && $scope.currentEnderecos[0].localizacao && $scope.currentEnderecos[1].localizacao) {
             anel.localizacao = $scope.currentEnderecos[0].localizacao + ' com ' + $scope.currentEnderecos[1].localizacao;
+          } else {
+            anel.localizacao = '';
           }
 
         }, true);

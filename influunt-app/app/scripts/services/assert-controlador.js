@@ -27,12 +27,10 @@ angular.module('influuntApp')
      * @return     {boolean}  True if has estagios, False otherwise.
      */
     var hasEstagios = function(controlador) {
-      return hasAneis(controlador) && _.chain(controlador.aneis)
-        .map('estagios')
-        .flatten()
-        .compact()
-        .value()
-        .length > 0;
+      var countRefEstagios = _.chain(controlador.aneis).map('estagios').flatten().compact().value().length;
+      var countEstagios = controlador.estagios.length;
+
+      return hasAneis(controlador) && countRefEstagios > 0 && countEstagios >= countRefEstagios;
     };
 
     /**

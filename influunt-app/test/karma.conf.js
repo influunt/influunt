@@ -58,6 +58,8 @@ module.exports = function(config) {
       'bower_components/angular-ui-sortable/sortable.js',
       'bower_components/blockUI/jquery.blockUI.js',
       'bower_components/select2/dist/js/select2.js',
+      'bower_components/uuid.js/src/uuid.js',
+      'bower_components/bowser/src/bowser.js',
 
       // inspinea scripts.
       'app/plugins/metisMenu/jquery.metisMenu.js',
