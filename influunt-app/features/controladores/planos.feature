@@ -76,11 +76,6 @@ Funcionalidade: Fluxo de cadastro de planos
     E que o usuário clique no botão de fechar a caixa de configuração
     # Então o Tempo de Ciclo deverá mudar para "34" segundos
 
-  # Cenário: Alterar Posição dos Estágios
-  #   Dado que o usuário esteja na página de planos
-  #   E que o usuário troque de lugar os estágios "E1" e "E2"
-  #   Então a ordem da tabela de planos deverá ser "E2" "E1" "E3"
-
   Cenário: Configurar Novo Plano no modo Coordenado
     Dado que o usuário esteja na página de planos
     E que o usuário clique no botão de adicionar um novo plano

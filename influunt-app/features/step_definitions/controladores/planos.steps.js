@@ -1,6 +1,5 @@
 'use strict';
 
-var expect = require('chai').expect;
 var PlanosPage = require('../../support/page-objects/planos');
 
 module.exports = function() {
@@ -22,17 +21,9 @@ module.exports = function() {
     return planosPage.isPlanos();
   });
 
-  // this.Given(/^o usuário clicar no botão de Salvar$/, function () {
-  //   return planosPage.clicarBotaSalvar();
-  // });
-
   this.Given(/^que o usuário selecione o modo de operação "([^"]*)"$/, function (modoOperacao) {
     return planosPage.selecionarModoOperacao(modoOperacao);
   });
-
-  // this.Given(/^o diagrama de planos deverá marcar o ciclo inteiro como "([^"]*)"$/, function (modoCiclo) {
-  //   return planosPage.isDiagramaModo(modoCiclo);
-  // });
 
   this.Given(/^o diagrama de ciclos deverá marcar o grupo semafórico "([^"]*)" como "([^"]*)"$/, function (grupo, modoOperacao) {
     return planosPage.isDiagramaModo(grupo, modoOperacao);

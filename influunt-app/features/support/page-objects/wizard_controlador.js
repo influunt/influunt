@@ -121,7 +121,7 @@ var WizardControladorPage = function () {
     var messages = [];
     return thisWizardPage.getErrorMessageFor('[name="area"]').then(function(msg) {
       messages.push({campo: 'area', msg: msg});
-      return thisWizardPage.getErrorMessageFor('helper-endereco[latitude="objeto.todosEnderecos[0].latitude"]')
+      return thisWizardPage.getErrorMessageFor('helper-endereco[latitude="objeto.todosEnderecos[0].latitude"]');
     }).then(function(msg) {
       messages.push({campo: 'localizacao1', msg: msg});
       return thisWizardPage.getErrorMessageFor('[name="enderecos[0].latitude"]');
@@ -243,15 +243,15 @@ var WizardControladorPage = function () {
   this.errorMessagesVerdesConflitantesSemMarcacao = function() {
     var _this = this;
     return Promise.all([
-      _this.errorMessagesVerdesConflitantesGrupo("G1"),
-      _this.errorMessagesVerdesConflitantesGrupo("G2"),
-      _this.errorMessagesVerdesConflitantesGrupo("G3")
+      _this.errorMessagesVerdesConflitantesGrupo('G1'),
+      _this.errorMessagesVerdesConflitantesGrupo('G2'),
+      _this.errorMessagesVerdesConflitantesGrupo('G3')
     ]).then(function() {
       return _this.selecionarAnel(2);
     }).then(function() {
       return Promise.all([
-        _this.errorMessagesVerdesConflitantesGrupo("G4"),
-        _this.errorMessagesVerdesConflitantesGrupo("G5")
+        _this.errorMessagesVerdesConflitantesGrupo('G4'),
+        _this.errorMessagesVerdesConflitantesGrupo('G5')
       ]);
     }).then(function() {
       return Promise.resolve(true);

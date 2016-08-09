@@ -37,7 +37,7 @@ var myHooks = function () {
     }).then(function () {
       return world.waitFor('a.navbar-brand');
     }).catch(function(ex) {
-      console.log("ERRO: ", ex);
+      console.log('ERRO: ', ex);
       throw new Error(ex);
     });
   });
@@ -51,7 +51,7 @@ var myHooks = function () {
   if (trackMouseMovement) {
     this.registerHandler('BeforeFeatures', function () {
       var script = function() {
-        var seleniumFollowerImg = document.createElement("img");
+        var seleniumFollowerImg = document.createElement('img');
         seleniumFollowerImg.setAttribute('src', 'data:image/png;base64,' +
           'iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAQAAACGG/bgAAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAA' +
           'HsYAAB7GAZEt8iwAAAAHdElNRQfgAwgMIwdxU/i7AAABZklEQVQ4y43TsU4UURSH8W+XmYwkS2I0' +
@@ -70,7 +70,7 @@ var myHooks = function () {
         jQuery(document).mousemove(function(e){
           window.cursorX = e.pageX;
           window.cursorY = e.pageY;
-          jQuery("#selenium_mouse_follower").stop().animate({ left: window.cursorX, top: window.cursorY });
+          jQuery('#selenium_mouse_follower').stop().animate({ left: window.cursorX, top: window.cursorY });
         });
       };
 
@@ -93,7 +93,7 @@ var myHooks = function () {
 					driver.getPageSource().then(function(data){
             fs.writeFile(path.join('screenshots', sanitize(scenario.getName() + '.html').replace(/ /g,'_')), data, 'utf-8', function(err) {
               if(err) {
-                console.log("PG: ------>>>>", err);
+                console.log('PG: ------>>>>', err);
               }
             });
 					});

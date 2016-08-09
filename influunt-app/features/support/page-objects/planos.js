@@ -12,7 +12,7 @@ var PlanosPage = function () {
 
   this.clicarBotaoPlanos = function() {
     return world.waitForOverlayDisappear().then(function() {
-      return world.findLinkByText("Planos").click();
+      return world.findLinkByText('Planos').click();
     });
   };
 
@@ -57,7 +57,7 @@ var PlanosPage = function () {
     return world.waitFor('div#visualization div.vis-foreground div.vis-group:nth-child('+indexGrupo+') div.indicacao-vermelho').then(function() {
       return world.waitFor('div#visualization div.vis-foreground div.vis-group:nth-child('+indexGrupo+') div.indicacao-verde');
     });
-  }
+  };
 
   this.isTabelaEntreVerdesHidden = function() {
     return world.waitForInverse('select[name="tabelaEntreverdes"]').then(true);
@@ -112,7 +112,7 @@ var PlanosPage = function () {
     var elementFrom, elementTo, locationFrom, locationTo;
     return world.getElementByXpath('//ul[contains(@class, "planos")]//h4[contains(text(), "'+estagio1+'")]/..').then(function(element) {
       elementFrom = element;
-      return world.getElementByXpath('//ul[contains(@class, "planos")]//h4[contains(text(), "'+estagio2+'")]/..')
+      return world.getElementByXpath('//ul[contains(@class, "planos")]//h4[contains(text(), "'+estagio2+'")]/..');
     }).then(function(element) {
       elementTo = element;
       return elementFrom.getLocation();
@@ -122,7 +122,6 @@ var PlanosPage = function () {
     }).then(function(loc) {
       locationTo = loc;
       var diffX = (locationTo.x - locationFrom.x) * 1.5;
-      console.log('diffX: ', diffX)
       return world.dragAndDrop(elementFrom, { x: diffX, y: 0 });
     });
   };

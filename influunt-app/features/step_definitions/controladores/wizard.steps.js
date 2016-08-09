@@ -58,15 +58,9 @@ module.exports = function() {
     return wizardPage.marcarSegundoAnelComoAtivo();
   });
 
-  // this.Given(/^o usuario selecionar o segundo anel$/, function () {
-  //   return wizardPage.selecionarSegundoAnel();
-  // });
-
   this.Given(/^o usuário selecionar o anel (\d+)$/, function (numAnel) {
     return wizardPage.selecionarAnel(numAnel);
   });
-
-
 
   this.Given(/^o sistema irá avançar para o passo "([^"]*)"$/, function (passo) {
     return wizardPage.isWizardPasso(passo);
@@ -88,15 +82,9 @@ module.exports = function() {
     return wizardPage.selecionarEstagio(estagio);
   });
 
-  // this.Given(/^o usuario marcar o grupo semafórico como "([^"]*)"$/, function (tipoGrupoSemaforico) {
-  //   return wizardPage.selecionarTipoGrupoSemaforico(tipoGrupoSemaforico);
-  // });
-
   this.Given(/^o usuario marcar o grupo semafórico "([^"]*)" como "([^"]*)"$/, function (grupo, tipoGrupo) {
     return wizardPage.selecionarTipoGrupoSemaforico(grupo, tipoGrupo);
   });
-
-
 
   this.Given(/^que a tabela de conflitos esteja em branco$/, function () {
     return wizardPage.clearVerdesConflitantes();
@@ -119,12 +107,6 @@ module.exports = function() {
       return expect(res).to.be.true;
     });
   });
-
-  // this.Given(/^o sistema deverá indicar conflito$/, function () {
-  //   return wizardPage.errorMessagesVerdesConflitantesComConflito().then(function(result) {
-  //     return expect(result).to.be.true;
-  //   });
-  // });
 
   this.Given(/^preencher o campo de alternativa para a transição "([^"]*)" com o estágio "([^"]*)"$/, function (transicao, estagio) {
     return wizardPage.selecionaEstagioAlternativoParaTransicaoProibida(transicao, estagio);
