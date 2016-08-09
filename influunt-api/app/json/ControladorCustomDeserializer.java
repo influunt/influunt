@@ -907,10 +907,18 @@ public class ControladorCustomDeserializer {
         if (node.has("tempoExtensaoVerde")) {
             estagioPlano.setTempoExtensaoVerde(node.get("tempoExtensaoVerde").asDouble());
         }
-        if (node.has("ativado")) {
+        if (node.has("dispensavel")) {
             estagioPlano.setDispensavel(node.get("dispensavel").asBoolean());
         }
+        if (node.has("estagioQueRecebeEstagioDispensavel")) {
+            final String estagioId = node.get("estagioQueRecebeEstagioDispensavel").get("idJson").asText();
+            Consumer<Map<String, Map>> c = (caches) -> {
+                Map map = caches.get(ESTAGIOS);
+                estagioPlano.setEstagioQueRecebeEstagioDispensavel((Estagio) map.get(estagioId));
+            };
 
+            runLater(c);
+        }
         if (node.has("plano")) {
             final String planoId = node.get("plano").get("idJson").asText();
             Consumer<Map<String, Map>> c = (caches) -> {
