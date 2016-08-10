@@ -52,9 +52,9 @@
                                     <aside>
                                       <div class="form-group">
                                         <label>MODO DE OPERAÇÃO</label>
-                                        <select class="form-control" name="modoOperacao" data-ng-model="currentPlano.modoOperacao">
+                                        <select class="form-control" name="modoOperacao" data-ng-model="currentPlano.modoOperacao" data-ng-change="limpaDadosPlano()">
                                           <option value="ATUADO">Atuado</option>
-                                          <option value="COORDENADO">Coordenado</option>
+                                          <option value="TEMPO_FIXO_COORDENADO">Coordenado</option>
                                           <option value="TEMPO_FIXO_ISOLADO">Isolado</option>
                                           <option value="INTERMITENTE">Intermitente</option>
                                           <option value="APAGADO">Apagado</option>
@@ -89,12 +89,12 @@
 
                                         <!-- elementos da sequencia. -->
                                         <div ui-sortable="sortableOptions" data-ng-model="currentEstagiosPlanos" class="sortable-list">
-                                          <li class="ui-state-default stage-images card-estagio sortable-card estagio-ativo" 
+                                          <li class="ui-state-default stage-images card-estagio sortable-card" 
                                               data-ng-repeat="estagioPlano in currentEstagiosPlanos"
                                               data-ng-click="selecionaEstagioPlano(estagioPlano, $index)">
                                             <div class="sortable">
                                                 <h4 class="ng-binding">
-                                                  E{{ getEstagio(estagioPlano).posicao }}
+                                                  E{{ getEstagio(estagioPlano).posicao }} -- {{estagioPlano.posicao}}
                                                   <i class="fa fa-trash pull-right opcoes-plano-estagio" data-ng-click="removerEstagioPlano(estagioPlano, $index)" data-ng-if="currentEstagiosPlanos.length > 2"></i>
                                                   <i class="fa fa-files-o pull-right opcoes-plano-estagio" data-ng-click="adicionarEstagioPlano(estagioPlano)" aria-hidden="true"></i>
                                                 </h4>

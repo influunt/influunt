@@ -1949,13 +1949,10 @@ img.sample-img-estagios {
   margin: 0 !important;
 }
 
-.planos.ui-sortable li.card-estagio.estagio-ativo {
-  background: #FFFFFF !important;
-  border: 0;
-}
-
 .planos.ui-sortable li.card-estagio {
   height: auto !important;
+  background: #FFFFFF !important;
+  border: 0;
 }
 
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
