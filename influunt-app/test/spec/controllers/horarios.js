@@ -17,7 +17,4 @@ describe('Controller: HorariosCtrl', function () {
     });
   }));
 
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(HorariosCtrl.awesomeThings.length).toBe(3);
-  });
 });
