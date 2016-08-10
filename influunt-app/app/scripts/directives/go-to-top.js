@@ -11,16 +11,7 @@ angular.module('influuntApp')
     return {
       restrict: 'AC',
       link: function postLink(scope, element, attrs) {
-        $(window).scroll(function () {
-          if ($(this).scrollTop() > 100) {
-            $(element).fadeIn();
-          } else {
-            $(element).fadeOut();
-          }
-        });
-
         $(element).click(function () {
-          console.log('gototop!!!!!!!!');
           $("html, body").animate({ scrollTop: 0 }, 500);
           return false;
         });

@@ -66,7 +66,7 @@
                     <nav style="display:block;">
                       <ul>
                         <!-- <li data-ng-repeat="tevTransicao in tabelasEntreVerdesTransicoes"> -->
-                        <li data-ng-repeat="tevTransicao in currentTabelasEntreVerdesTransicoes">
+                        <li data-ng-repeat="tevTransicao in currentTabelasEntreVerdesTransicoes" data-origem="E{{ currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].origem.posicao }}" data-destino="E{{ currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].destino.posicao }}">
                           <div class="group-figures col-lg-5 col-sm-5 no-padding">
                             <div class="col-lg-6 col-sm-6 group-figure stage-images">
                               <figure>

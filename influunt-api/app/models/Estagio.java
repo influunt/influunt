@@ -226,7 +226,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
             message = "Existem grupos semafóricos conflitantes associados a esse estágio.")
     public boolean isNaoDevePossuirGruposSemaforicosConflitantes() {
-        if(getEstagiosGruposSemaforicos() != null && !getEstagiosGruposSemaforicos().isEmpty()){
+        if (getEstagiosGruposSemaforicos() != null && !getEstagiosGruposSemaforicos().isEmpty()) {
             return !getEstagiosGruposSemaforicos().stream().anyMatch(estagioGrupoSemaforico -> estagioGrupoSemaforico.getGrupoSemaforico().conflitaCom(this.getGruposSemaforicos()));
         }
         return true;

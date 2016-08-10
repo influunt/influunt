@@ -55,7 +55,7 @@ public class ImagensController extends Controller {
                 Thumbnails.of(tmpFile)
                         .forceSize(150, 150)
                         .outputFormat("jpg")
-                        .toFile(imagem.getPath(appRootPath,"thumb"));
+                        .toFile(imagem.getPath(appRootPath, "thumb"));
 
             } catch (IOException e) {
                 imagem.delete();
@@ -80,13 +80,13 @@ public class ImagensController extends Controller {
     }
 
     @Transactional
-    public CompletionStage<Result> findOneVersion(String id,String version) {
+    public CompletionStage<Result> findOneVersion(String id, String version) {
         Imagem imagem = Imagem.find.byId(UUID.fromString(id));
         if (imagem == null) {
             return CompletableFuture.completedFuture(notFound());
         }
         File appRootPath = provider.get().path();
-        File path = imagem.getPath(appRootPath,version.concat(".jpg"));
+        File path = imagem.getPath(appRootPath, version.concat(".jpg"));
         return CompletableFuture.completedFuture(ok(path).as(imagem.getContentType()));
     }
 

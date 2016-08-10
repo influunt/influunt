@@ -156,6 +156,7 @@ create table estagios_planos (
   tempo_verde_intermediario     integer,
   tempo_extensao_verde          double,
   dispensavel                   tinyint(1) default 0,
+  estagio_que_recebe_estagio_dispensavel_id varchar(40),
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
   constraint pk_estagios_planos primary key (id)
@@ -407,6 +408,9 @@ create index ix_estagios_planos_estagio_id on estagios_planos (estagio_id);
 alter table estagios_planos add constraint fk_estagios_planos_plano_id foreign key (plano_id) references planos (id) on delete restrict on update restrict;
 create index ix_estagios_planos_plano_id on estagios_planos (plano_id);
 
+alter table estagios_planos add constraint fk_estagios_planos_estagio_que_recebe_estagio_dispensavel_3 foreign key (estagio_que_recebe_estagio_dispensavel_id) references estagios (id) on delete restrict on update restrict;
+create index ix_estagios_planos_estagio_que_recebe_estagio_dispensavel_3 on estagios_planos (estagio_que_recebe_estagio_dispensavel_id);
+
 alter table grupos_semaforicos add constraint fk_grupos_semaforicos_anel_id foreign key (anel_id) references aneis (id) on delete restrict on update restrict;
 create index ix_grupos_semaforicos_anel_id on grupos_semaforicos (anel_id);
 
@@ -537,6 +541,9 @@ drop index ix_estagios_planos_estagio_id on estagios_planos;
 
 alter table estagios_planos drop foreign key fk_estagios_planos_plano_id;
 drop index ix_estagios_planos_plano_id on estagios_planos;
+
+alter table estagios_planos drop foreign key fk_estagios_planos_estagio_que_recebe_estagio_dispensavel_3;
+drop index ix_estagios_planos_estagio_que_recebe_estagio_dispensavel_3 on estagios_planos;
 
 alter table grupos_semaforicos drop foreign key fk_grupos_semaforicos_anel_id;
 drop index ix_grupos_semaforicos_anel_id on grupos_semaforicos;

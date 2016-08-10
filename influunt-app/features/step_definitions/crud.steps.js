@@ -13,4 +13,8 @@ module.exports = function() {
     return crudPage.selecionarValor(campo, valor);
   });
 
+  this.Given(/^o usuario buscar o endereço "([^"]*)" para o endereço (\d+)$/, function (query, numEndereco) {
+    return crudPage.buscarEndereco(query, numEndereco);
+  });
+
 };

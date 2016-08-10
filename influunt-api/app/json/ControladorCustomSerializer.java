@@ -68,7 +68,7 @@ public class ControladorCustomSerializer {
         ArrayList<JsonNode> jsonControladores = new ArrayList<JsonNode>();
 
         ArrayNode controladoresJson = Json.newArray();
-        for(Controlador controlador : controladores) {
+        for (Controlador controlador : controladores) {
             controladoresJson.add(getControladorJson(controlador));
         }
 
