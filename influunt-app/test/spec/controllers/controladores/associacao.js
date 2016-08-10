@@ -100,5 +100,4 @@ xdescribe('Controller: ControladoresAssociacaoCtrl', function () {
         });
     });
   });
-
 });

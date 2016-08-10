@@ -1,8 +1,6 @@
 'use strict';
 
-xdescribe('Controller: ControladoresCtrl', function () {
-
-  // load the controller's module
+describe('Controller: ControladoresCtrl', function () {
   beforeEach(module('influuntApp', function(RestangularProvider) {
     RestangularProvider.setBaseUrl('');
   }));
@@ -12,7 +10,8 @@ xdescribe('Controller: ControladoresCtrl', function () {
     $q,
     Restangular,
     $httpBackend,
-    $state;
+    $state,
+    helpers;
 
   beforeEach(inject(function ($controller, $rootScope, _$q_, _$httpBackend_, _Restangular_, _$state_) {
     scope = $rootScope.$new();
@@ -26,8 +25,7 @@ xdescribe('Controller: ControladoresCtrl', function () {
     $state = _$state_;
   }));
 
-
-  describe('CRUD de contrladores', function() {
+  describe('CRUD de contrladores', function () {
     it('Deve conter as definições das funções de CRUD', function() {
       expect(scope.index).toBeDefined();
       expect(scope.show).toBeDefined();
@@ -55,125 +53,154 @@ xdescribe('Controller: ControladoresCtrl', function () {
 
       expect(scope.areas.length).toBe(2);
     });
-
   });
 
-  describe('Wizard para novo controlador', function() {
-    var helpers;
-
+  describe('inicializaWizard', function () {
     beforeEach(function() {
-      helpers = {cidades:[{},{}],fabricantes:[{},{},{}]};
+      helpers = {
+        cidades:[{idJson: 'c1'},{idJson: 'c2'}],
+        fabricantes:[{idJson: 'f1'},{idJson: 'f2'},{idJson: 'f3'}]
+      };
       $httpBackend.expectGET('/helpers/controlador').respond(helpers);
       scope.inicializaWizard();
       $httpBackend.flush();
     });
 
-    describe('inicializaWizard', function() {
-      it('Deve retornar o objeto vazio.', function() {
-        expect(scope.objeto).toEqual({limiteEstagio: 16, limiteGrupoSemaforico: 16, limiteAnel: 4, limiteDetectorPedestre: 4, limiteDetectorVeicular: 8, limiteTabelasEntreVerdes: 2, enderecos: [{localizacao: "", latitude: null, longitude: null}, {localizacao: "", latitude: null, longitude: null}]});
+    describe('novo controlador', function () {
+      it('Deve iniciar um objeto com a configuração padrão', function() {
+        expect(scope.objeto.limiteEstagio).toBe(16);
+        expect(scope.objeto.limiteGrupoSemaforico).toBe(16);
+        expect(scope.objeto.limiteAnel).toBe(4);
+        expect(scope.objeto.limiteDetectorPedestre).toBe(4);
+        expect(scope.objeto.limiteDetectorVeicular).toBe(8);
+        expect(scope.objeto.limiteTabelasEntreVerdes).toBe(2);
+        expect(scope.objeto.todosEnderecos.length).toBe(2);
+        expect(scope.objeto.enderecos.length).toBe(2);
       });
 
-      it('Deve inicializar o objeto de dados acessórios', function() {
-        expect(scope.data.fabricantes).toEqual(helpers.fabricantes);
-        expect(scope.data.cidades).toEqual(helpers.cidades);
+      it('Deve inicializar os objetos de helpers', function() {
+        expect(scope.helpers).toBeDefined();
+        expect(scope.objeto.cidades).toBeDefined();
+        expect(scope.objeto.areas).toBeDefined();
       });
-
-      it('Deve inicializar a cidade com a primeira cidade da lista de cidades, do dados acessórios',
-        function() {
-          expect(scope.helpers.cidade).toEqual(scope.data.cidades[0]);
-        });
-    });
-  });
-
-  describe('Wizard para edição de contrladores', function () {
-    var helpers, id, objeto;
-    beforeEach(inject(function($state) {
-      id = 'id';
-      $state.params.id = id;
-
-      helpers = {"cidades":[{},{}],"fabricantes":[{},{},{}]};
-      objeto = {id: 1, area: {id: 'area', cidade: {id: 'cidade'}}, modelo: {id: 'modelo', fabricante: {id: 'fab1'}}};
-      $httpBackend.expectGET('/controladores/' + id).respond(objeto);
-      $httpBackend.expectGET('/helpers/controlador').respond(helpers);
-      scope.inicializaWizard();
-      $httpBackend.flush();
-    }));
-
-    it('Inicializa Wizard: Deve inicializar o objeto conforme retornado pela api', function() {
-      expect(scope.objeto.id).toEqual(objeto.id);
-      expect(scope.objeto.area).toEqual(objeto.area);
-      expect(scope.objeto.modelo).toEqual(objeto.modelo);
     });
 
-    it('Inicializa Wizard: Deve atualizar os helpers com os dados do objeto', function() {
-      expect(scope.helpers.cidade).toEqual(objeto.area.cidade);
-      expect(scope.helpers.fornecedor).toEqual(objeto.modelo.fabricante);
-    });
-  });
+    describe('controaldor em edição', function () {
+      var helpers, id, objeto;
+      beforeEach(inject(function($state) {
+        id = 'id';
+        $state.params.id = id;
 
-  describe('Funções auxiliares', function () {
-    describe('closeAlert', function () {
-      beforeEach(function() {
-        scope.errors = {
-          aneis: [{
-            general: {},
-            other: {},
-          }]
+        helpers = {
+          cidades: [{idJson: 'c1',areas: [{idJson: 'a1',cidade: {idJson: 'c1'}}]}],
+          fabricantes: [{id: 'f1',modelos: [{id: 'm1',fabricante: {id: 'f1'}}]}]
         };
-      });
 
-      it('Ao fechar o alert de aneis, deve limpar a lista de general notifications', function() {
-        scope.closeAlert(0);
-        expect(scope.errors.aneis[0].general).toBeUndefined();
-      });
+        objeto = {
+          area: {
+            idJson: 'a1',
+          },
+          areas: [{idJson: 'a1', cidade: { idJson: 'c1'}}],
+          cidades: [
+            {
+              idJson: 'c1',
+              areas: [{idJson: 'a1'}],
+              nome: 'Cidade 1'
+            }
+          ],
+          modelo: {
+            id: 'm1',
+            fabricante: {
+              id: 'f1'
+            }
+          }
+        };
 
-      it('Deve limpar uma lista customizada, se houver um segundo parametro informado', function() {
-        scope.closeAlert(0, 'other');
-        expect(scope.errors.aneis[0].other).toBeUndefined();
-      });
+        $httpBackend.expectGET('/controladores/' + id).respond(objeto);
+        $httpBackend.expectGET('/helpers/controlador').respond(helpers);
+        scope.inicializaWizard();
+        $httpBackend.flush();
+      }));
 
-      it('Deve manter o objeto de erros inalterado se um anel incorreto for informado', function() {
-        var originalErrors = _.cloneDeep(scope.errors);
-        scope.closeAlert(1);
-        expect(scope.errors).toEqual(originalErrors);
+      it('Inicializa Wizard: Deve inicializar o objeto conforme retornado pela api', function() {
+        expect(scope.objeto.id).toEqual(objeto.id);
+        expect(scope.objeto.area).toEqual(objeto.area);
+        expect(scope.objeto.modelo).toEqual(objeto.modelo);
       });
     });
-
-    describe('anelTemErro', function () {
-      beforeEach(function() {
-        scope.errors = {aneis: [{a: 1}]};
-      });
-
-      it('se houver algum erro listado, o objeto deve retornar true', function () {
-        expect(scope.anelTemErro(0)).toBeTruthy();
-      });
-
-      it('se não houver erros listados, o objeto deve retornar false', function () {
-        scope.errors.aneis = [];
-        expect(scope.anelTemErro(0)).not.toBeTruthy();
-      });
-    });
-
-    describe('selecionaAnel', function () {
-      beforeEach(function() {
-        scope.aneis = [{}, {}, {}];
-      });
-
-      it('Deve selecionar um anel da lista de aneis conforme o id passado por parametro', function() {
-        scope.selecionaAnel(1);
-        expect(scope.currentAnel).toBe(scope.aneis[1]);
-        expect(scope.currentAnelIndex).toBe(1);
-      });
-
-      it('Se o houver um currentEstagioId definido, esta funcao deve selecionar o estagio', function() {
-        scope.currentEstagioId = 1;
-        spyOn(scope, 'selecionaEstagio');
-        scope.selecionaAnel(1);
-
-        expect(scope.selecionaEstagio).toHaveBeenCalled();
-      });
-
-    })
-
   });
+
+  describe('selecionaAnel', function () {
+    beforeEach(function() {
+      scope.objeto = {
+        aneis: [{idJson: 1, ativo: true}, {idJson: 2, ativo: true}]
+      };
+      scope.aneis = scope.objeto.aneis;
+      scope.selecionaAnel(0);
+    });
+
+    it('Deve inicializar o objeto currentAnel com o indice de parametro', function() {
+      expect(scope.currentAnel).toBe(scope.objeto.aneis[0]);
+    });
+  });
+
+  describe('selecionaGrupoSemaforico', function () {
+    beforeEach(function() {
+      scope.objeto = {
+        aneis: [
+          {idJson: 1, ativo: true, gruposSemaforicos: [{idJson: 'gs1'}]},
+          {idJson: 2, ativo: true}
+        ],
+        gruposSemaforicos: [{idJson: 'gs1'}, {idJson: 'gs2'}]
+      };
+      scope.aneis = scope.objeto.aneis;
+      scope.selecionaAnel(0);
+      scope.selecionaGrupoSemaforico(scope.currentAnel.gruposSemaforicos[0], 0);
+    });
+
+    it('Inicializa as variaveis de controle do grupo semaforico selecionado.', function() {
+      expect(scope.currentGrupoSemaforicoIndex).toBe(0);
+      expect(scope.currentGrupoSemaforico).toEqual(scope.objeto.gruposSemaforicos[0]);
+      expect(scope.currentGrupoSemaforicoIdentifier).toBe('00');
+    });
+  });
+
+  describe('closeAlert', function () {
+    beforeEach(function() {
+      scope.errors = {
+        aneis: [{
+          general: {},
+          other: {},
+        }]
+      };
+    });
+
+    it('Ao fechar o alert de aneis, deve limpar a lista de general notifications', function() {
+      scope.closeAlert(0);
+      expect(scope.errors.aneis[0].general).toBeUndefined();
+    });
+
+    it('Deve limpar uma lista customizada, se houver um segundo parametro informado', function() {
+      scope.closeAlert(0, 'other');
+      expect(scope.errors.aneis[0].other).toBeUndefined();
+    });
+
+    it('Deve manter o objeto de erros inalterado se um anel incorreto for informado', function() {
+      var originalErrors = _.cloneDeep(scope.errors);
+      scope.closeAlert(1);
+      expect(scope.errors).toEqual(originalErrors);
+    });
+  });
+
+  describe('anelTemErro', function () {
+    beforeEach(function() {
+      scope.errors = {aneis: [{a: 1}]};
+    });
+
+    it('se houver algum erro listado, deve retornar true', function() {
+      expect(scope.anelTemErro(0)).toBeTruthy();
+    });
+  });
+
+
 });

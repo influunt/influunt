@@ -67,6 +67,7 @@ angular.module('influuntApp')
           if ($scope.objeto.modelo) {
             var modelos = _.chain($scope.data.fabricantes).map('modelos').flatten().uniq().value();
             var modelo = _.find(modelos, {id: $scope.objeto.modelo.id});
+
             var fabricante = _.find($scope.data.fabricantes, {id: modelo.fabricante.id});
             $scope.helpers.fornecedor = fabricante;
           }
@@ -102,7 +103,17 @@ angular.module('influuntApp')
         } else {
           var todosEnderecos = [{idJson: UUID.generate(), localizacao: '', latitude: null, longitude: null}, {idJson: UUID.generate(), localizacao: '', latitude: null, longitude: null}];
           var enderecos = _.map(todosEnderecos, function(i) {return {idJson: i.idJson};});
-          loadWizardData({limiteEstagio: 16, limiteGrupoSemaforico: 16, limiteAnel: 4, limiteDetectorPedestre: 4, limiteDetectorVeicular: 8, limiteTabelasEntreVerdes: 2, todosEnderecos: todosEnderecos, enderecos: enderecos});
+          loadWizardData({
+            limiteEstagio: 16,
+            limiteGrupoSemaforico: 16,
+            limiteAnel: 4,
+            limiteDetectorPedestre: 4,
+            limiteDetectorVeicular: 8,
+            limiteTabelasEntreVerdes: 2,
+            todosEnderecos: todosEnderecos,
+            enderecos: enderecos
+          });
+
           influuntBlockui.unblock();
           defer.resolve({});
         }
@@ -149,28 +160,30 @@ angular.module('influuntApp')
       $scope.selecionaAnel = function(index) {
         $scope.currentAnelIndex = index;
         $scope.currentAnel = $scope.aneis[$scope.currentAnelIndex];
-        if (angular.isDefined($scope.currentEstagioId)) {
-          $scope.selecionaEstagio($scope.currentEstagioId);
-        }
       };
 
       /**
        * Seleciona um estágio do anel atual atraves do indice.
        *
        * @param      {<type>}  index   The index
+       *
+       * @todo verificar se este metodo continua sendo utilizado para algo.
        */
-      $scope.selecionaEstagio = function(index) {
-        $scope.currentEstagioId = index;
-        $scope.currentEstagio = $scope.currentAnel.estagios[index];
-        $scope.atualizaGruposSemaforicosSelecionados();
-      };
+      // $scope.selecionaEstagio = function(index) {
+      //   $scope.currentEstagioId = index;
+      //   $scope.currentEstagio = $scope.currentAnel.estagios[index];
+      //   $scope.atualizaGruposSemaforicosSelecionados();
+      // };
 
-      $scope.atualizaGruposSemaforicosSelecionados = function() {
-        var estagioId = $scope.currentEstagio.id;
-        $scope.gruposSelecionados = $scope.currentAnel.gruposSemaforicos.filter(function(grupo) {
-          return !!_.filter(grupo.estagioGrupoSemaforicos, {estagio: {id: estagioId}}).length;
-        });
-      };
+      // /**
+      //  * @todo verificar se este metodo continua sendo utilizado de forma efetiva.
+      //  */
+      // $scope.atualizaGruposSemaforicosSelecionados = function() {
+      //   var estagioId = $scope.currentEstagio.id;
+      //   $scope.gruposSelecionados = $scope.currentAnel.gruposSemaforicos.filter(function(grupo) {
+      //     return !!_.filter(grupo.estagioGrupoSemaforicos, {estagio: {id: estagioId}}).length;
+      //   });
+      // };
 
       /**
        * Seleciona um grupo semafórico do anel atual atraves do índice.

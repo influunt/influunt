@@ -68,7 +68,6 @@ angular.module('influuntApp')
               });
 
               $scope.selecionaAnelTransicoesProibidas(0);
-              $scope.selecionaEstagio(0);
             }
 
           });

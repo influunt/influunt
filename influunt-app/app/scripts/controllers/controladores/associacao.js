@@ -99,14 +99,15 @@ angular.module('influuntApp')
             grupoSemaforico: { idJson: grupo.idJson },
             estagio: { idJson: estagio.idJson },
           };
-          
+
           $scope.objeto.estagiosGruposSemaforicos.push(obj);
           grupo.estagiosGruposSemaforicos.push({idJson: obj.idJson});
           estagio.estagiosGruposSemaforicos.push({idJson: obj.idJson});
         }
 
         $scope.toggleEstagioAtivado(grupo, estagio);
-        return $scope.currentEstagio && $scope.atualizaGruposSemaforicosSelecionados();
+        // @todo verificar se "atualizaGruposSemaforicosSelecionados" tem funcao efetiva.
+        // return $scope.currentEstagio && $scope.atualizaGruposSemaforicosSelecionados();
       };
 
       $scope.estagioTemErro = function(indiceAnel, indiceEstagio) {
