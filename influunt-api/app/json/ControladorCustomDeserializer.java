@@ -2,6 +2,8 @@ package json;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
+import org.joda.time.LocalTime;
+import play.libs.Json;
 
 import java.util.*;
 import java.util.concurrent.ExecutorService;
@@ -25,6 +27,8 @@ public class ControladorCustomDeserializer {
     public static final String PLANOS = "planos";
     public static final String GRUPOS_SEMAFORICOS_PLANOS = "gruposSemaforicosPlanos";
     public static final String ESTAGIOS_PLANOS = "estagiosPlanos";
+    public static final String TABELAS_HORARIOS = "tabelasHorarios";
+    public static final String EVENTOS = "eventos";
     public static final String ENDERECOS = "enderecos";
     public static final String CIDADES = "cidades";
     public static final String AREAS = "areas";
@@ -45,6 +49,8 @@ public class ControladorCustomDeserializer {
     private Map<String, Plano> planosCache;
     private Map<String, GrupoSemaforicoPlano> gruposSemaforicosPlanosCache;
     private Map<String, EstagioPlano> estagiosPlanosCache;
+    private Map<String, TabelaHorario> tabelasHorariosCache;
+    private Map<String, Evento> eventosCache;
     private Map<String, Endereco> enderecosCache;
     private Map<String, Area> areasCache;
     private Map<String, Cidade> cidadesCache;
@@ -97,6 +103,12 @@ public class ControladorCustomDeserializer {
         estagiosPlanosCache = new HashMap<String, EstagioPlano>();
         caches.put(ESTAGIOS_PLANOS, estagiosPlanosCache);
 
+        tabelasHorariosCache = new HashMap<String, TabelaHorario>();
+        caches.put(TABELAS_HORARIOS, tabelasHorariosCache);
+
+        eventosCache = new HashMap<String, Evento>();
+        caches.put(EVENTOS, eventosCache);
+
         areasCache = new HashMap<String, Area>();
         caches.put(AREAS, areasCache);
 
@@ -127,6 +139,8 @@ public class ControladorCustomDeserializer {
         parsePlanos(node);
         parseGruposSemaforicosPlanos(node);
         parseEstagiosPlanos(node);
+        parseTabelasHorarios(node);
+        parseEventos(node);
         parseImagens(node);
         parseDadosBasicos(node);
         parseEnderecos(node);
@@ -269,6 +283,24 @@ public class ControladorCustomDeserializer {
         }
     }
 
+    private void parseTabelasHorarios(JsonNode node) {
+        if (node.has("tabelasHorarios")) {
+            for (JsonNode nodeTabelaHorario : node.get("tabelasHorarios")) {
+                TabelaHorario tabelaHorario = parseTabelaHorario(nodeTabelaHorario);
+                tabelasHorariosCache.put(tabelaHorario.getIdJson().toString(), tabelaHorario);
+            }
+        }
+    }
+
+    private void parseEventos(JsonNode node) {
+        if (node.has("eventos")) {
+            for (JsonNode nodeEvento : node.get("eventos")) {
+                Evento evento = parseEvento(nodeEvento);
+                eventosCache.put(evento.getIdJson().toString(), evento);
+            }
+        }
+    }
+
 
     private void parseEnderecos(JsonNode node) {
         if (node.has("todosEnderecos")) {
@@ -357,6 +389,15 @@ public class ControladorCustomDeserializer {
         List<Plano> planos = new ArrayList<Plano>();
         parseCollection("planos", node, planos, PLANOS, ANEIS);
         anel.setPlanos(planos);
+
+        if (node.has("tabelaHorario")) {
+            final String tabelaHorarioId = node.get("tabelaHorario").get("idJson").asText();
+            Consumer<Map<String, Map>> c = (caches) -> {
+                Map map = caches.get(TABELAS_HORARIOS);
+                anel.setTabelaHorario((TabelaHorario) map.get(tabelaHorarioId));
+            };
+            runLater(c);
+        }
 
         List<Endereco> enderecos = new ArrayList<Endereco>();
         parseCollection("enderecos", node, enderecos, ENDERECOS, ANEIS);
@@ -939,6 +980,85 @@ public class ControladorCustomDeserializer {
         }
 
         return estagioPlano;
+    }
+
+    private TabelaHorario parseTabelaHorario(JsonNode node) {
+        TabelaHorario  tabelaHorario = new TabelaHorario();
+        if (node.has("id")) {
+            JsonNode id = node.get("id");
+            if (!id.isNull()) {
+                tabelaHorario.setId(UUID.fromString(id.asText()));
+            }
+        }
+
+        if (node.has("idJson")) {
+            tabelaHorario.setIdJson(node.get("idJson").asText());
+        }
+
+        if (node.has("anel")) {
+            final String anelId = node.get("anel").get("idJson").asText();
+            Consumer<Map<String, Map>> c = (caches) -> {
+                Map map = caches.get(ANEIS);
+                tabelaHorario.setAnel((Anel) map.get(anelId));
+            };
+
+            runLater(c);
+        }
+
+        List<Evento> eventos = new ArrayList<>();
+        parseCollection("eventos", node, eventos, EVENTOS, TABELAS_HORARIOS);
+        tabelaHorario.setEventos(eventos);
+
+        return tabelaHorario;
+    }
+
+    private Evento parseEvento(JsonNode node) {
+        Evento  evento = new Evento();
+
+        if (node.has("id")) {
+            JsonNode id = node.get("id");
+            if (!id.isNull()) {
+                evento.setId(UUID.fromString(id.asText()));
+            }
+        }
+
+        if (node.has("idJson")) {
+            evento.setIdJson(node.get("idJson").asText());
+        }
+
+        if (node.has("numero")) {
+            evento.setNumero(node.get("numero").asText());
+        }
+
+        if (node.has("diaDaSemana")) {
+            evento.setDiaDaSemana(DiaDaSemana.get(node.get("diaDaSemana").asText()));
+        }
+
+        if (node.has("horario")) {
+            evento.setHorario(LocalTime.parse(node.get("horario").asText()));
+        }
+
+        if (node.has("plano")) {
+            final String planoId = node.get("plano").get("idJson").asText();
+            Consumer<Map<String, Map>> c = (caches) -> {
+                Map map = caches.get(PLANOS);
+                evento.setPlano((Plano) map.get(planoId));
+            };
+
+            runLater(c);
+        }
+
+        if (node.has("tabelaHorario")) {
+            final String tabelaHorarioId = node.get("tabelaHorario").get("idJson").asText();
+            Consumer<Map<String, Map>> c = (caches) -> {
+                Map map = caches.get(TABELAS_HORARIOS);
+                evento.setTabelaHorario((TabelaHorario) map.get(tabelaHorarioId));
+            };
+
+            runLater(c);
+        }
+
+        return evento;
     }
 
     private Endereco parseEndereco(JsonNode node) {

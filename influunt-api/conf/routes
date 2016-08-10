@@ -77,6 +77,8 @@ GET         /api/v1/helpers/controlador                 controllers.HelpersContr
 #Login
 POST        /api/v1/login                               controllers.SecurityController.login
 
-
 # Planos
 POST        /api/v1/planos                              controllers.PlanosController.create()
+
+# Tabela Horario
+POST        /api/v1/tabela_horarios                     controllers.TabelaHorariosController.create()
