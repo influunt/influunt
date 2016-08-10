@@ -48,7 +48,7 @@ public class TabelaHorario extends Model implements Cloneable, Serializable {
     private String idJson;
 
     @OneToOne
-    private Controlador controlador;
+    private Anel anel;
 
     @OneToMany(cascade = CascadeType.ALL)
     @Valid
@@ -66,6 +66,11 @@ public class TabelaHorario extends Model implements Cloneable, Serializable {
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
 
+    public TabelaHorario() {
+        super();
+        this.setIdJson(UUID.randomUUID().toString());
+    }
+
     public UUID getId() {
         return id;
     }
@@ -82,12 +87,12 @@ public class TabelaHorario extends Model implements Cloneable, Serializable {
         this.idJson = idJson;
     }
 
-    public Controlador getControlador() {
-        return controlador;
+    public Anel getAnel() {
+        return anel;
     }
 
-    public void setControlador(Controlador controlador) {
-        this.controlador = controlador;
+    public void setAnel(Anel anel) {
+        this.anel = anel;
     }
 
     public List<Evento> getEventos() {
@@ -114,6 +119,19 @@ public class TabelaHorario extends Model implements Cloneable, Serializable {
         this.dataAtualizacao = dataAtualizacao;
     }
 
+    @AssertTrue(groups = TabelaHorariosCheck.class,
+            message = "A tabela horário deve ter pelo menos 1 evento configurado.")
+    public boolean isAoMenosUmEvento() {
+        return !this.getEventos().isEmpty();
+    }
+
+    public void addEventos(Evento evento) {
+        if (getEventos() == null) {
+            setEventos(new ArrayList<Evento>());
+        }
+        getEventos().add(evento);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -134,5 +152,6 @@ public class TabelaHorario extends Model implements Cloneable, Serializable {
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
+
 }
 

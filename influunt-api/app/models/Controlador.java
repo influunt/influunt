@@ -107,9 +107,6 @@ public class Controlador extends Model implements Cloneable {
     @Valid
     private List<Endereco> enderecos;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private TabelaHorario tabelaHorario;
-
     // CONFIGURACOES CONTROLADORES
 
     @Column
@@ -347,14 +344,6 @@ public class Controlador extends Model implements Cloneable {
 
     public void setEnderecos(List<Endereco> enderecos) {
         this.enderecos = enderecos;
-    }
-
-    public TabelaHorario getTabelaHorario() {
-        return tabelaHorario;
-    }
-
-    public void setTabelaHorario(TabelaHorario tabelaHorario) {
-        this.tabelaHorario = tabelaHorario;
     }
 
     public Integer getLimiteEstagio() {

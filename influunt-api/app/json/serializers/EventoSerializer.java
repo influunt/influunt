@@ -17,7 +17,7 @@ public class EventoSerializer extends JsonSerializer<Evento> {
     @Override
     public void serialize(Evento evento, JsonGenerator jgen, SerializerProvider serializers) throws IOException, JsonProcessingException {
         jgen.writeStartObject();
-        if (evento.getId() != null){
+        if (evento.getId() != null) {
             jgen.writeStringField("id", evento.getId().toString());
         }
         if (evento.getIdJson() != null) {

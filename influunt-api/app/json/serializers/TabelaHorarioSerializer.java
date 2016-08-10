@@ -17,7 +17,7 @@ public class TabelaHorarioSerializer extends JsonSerializer<TabelaHorario> {
     @Override
     public void serialize(TabelaHorario tabelaHorario, JsonGenerator jgen, SerializerProvider serializers) throws IOException, JsonProcessingException {
         jgen.writeStartObject();
-        if (tabelaHorario.getId() != null){
+        if (tabelaHorario.getId() != null) {
             jgen.writeStringField("id", tabelaHorario.getId().toString());
         }
         if (tabelaHorario.getIdJson() != null) {

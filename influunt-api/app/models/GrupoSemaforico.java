@@ -38,12 +38,15 @@ public class GrupoSemaforico extends Model implements Cloneable {
 
     @Column
     private String idJson;
+
     @Enumerated(EnumType.STRING)
     @Column
     @NotNull(groups = ControladorGruposSemaforicosCheck.class, message = "não pode ficar em branco")
     private TipoGrupoSemaforico tipo;
+
     @Column
     private String descricao;
+
     @ManyToOne
     @JoinColumn(name = "anel_id")
     private Anel anel;

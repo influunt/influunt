@@ -32,6 +32,8 @@ public class ControladorCustomSerializer {
     private Map<String, Plano> planosMap = new HashMap<String, Plano>();
     private Map<String, GrupoSemaforicoPlano> grupoSemaforicoPlanoMap = new HashMap<String, GrupoSemaforicoPlano>();
     private Map<String, EstagioPlano> estagioPlanoMap = new HashMap<String, EstagioPlano>();
+    private Map<String, TabelaHorario> tabelasHorariosMap = new HashMap<String, TabelaHorario>();
+    private Map<String, Evento> eventosMap = new HashMap<String, Evento>();
     private Map<String, Endereco> enderecosMap = new HashMap<String, Endereco>();
     private Map<String, Area> areasMap = new HashMap<String, Area>();
 
@@ -55,6 +57,9 @@ public class ControladorCustomSerializer {
         putControladorPlano(root);
         putControladorGruposSemaforicosPlanos(root);
         putControladorEstagiosPlanos(root);
+
+        putControladorTabelasHorarios(root);
+        putControladorEventos(root);
 
         putControladorCidades(root);
         putControladorAreas(root);
@@ -97,6 +102,22 @@ public class ControladorCustomSerializer {
             estagiosPlanoJson.add(getEstagioPlanoJson(estagioPlano));
         });
         root.set("estagiosPlanos", estagiosPlanoJson);
+    }
+
+    private void putControladorTabelasHorarios(ObjectNode root) {
+        ArrayNode tabelaHorarioJson = Json.newArray();
+        tabelasHorariosMap.values().stream().forEach(tabelaHorario -> {
+            tabelaHorarioJson.add(getTabelaHorarioJson(tabelaHorario));
+        });
+        root.set("tabelasHorarios", tabelaHorarioJson);
+    }
+
+    private void putControladorEventos(ObjectNode root) {
+        ArrayNode eventoJson = Json.newArray();
+        eventosMap.values().stream().forEach(evento -> {
+            eventoJson.add(getEventoJson(evento));
+        });
+        root.set("eventos", eventoJson);
     }
 
     private void putControladorDadosBasicos(Controlador controlador, ObjectNode root) {
@@ -501,6 +522,48 @@ public class ControladorCustomSerializer {
         return estagioPlanoJson;
     }
 
+    private JsonNode getTabelaHorarioJson(TabelaHorario tabelaHorario) {
+        ObjectNode tabelaHorarioJson = Json.newObject();
+        if (tabelaHorario.getId() != null) {
+            tabelaHorarioJson.put("id", tabelaHorario.getId().toString());
+        }
+        if (tabelaHorario.getIdJson() != null) {
+            tabelaHorarioJson.put("idJson", tabelaHorario.getIdJson().toString());
+        }
+        if (tabelaHorario.getAnel() != null && tabelaHorario.getAnel().getIdJson() != null) {
+            tabelaHorarioJson.putObject("anel").put("idJson", tabelaHorario.getAnel().getIdJson().toString());
+        }
+        refEventos("eventos", tabelaHorario.getEventos(), tabelaHorarioJson);
+        return tabelaHorarioJson;
+    }
+
+    private JsonNode getEventoJson(Evento evento) {
+        ObjectNode eventoJson = Json.newObject();
+        if (evento.getId() != null) {
+            eventoJson.put("id", evento.getId().toString());
+        }
+        if (evento.getIdJson() != null) {
+            eventoJson.put("idJson", evento.getIdJson().toString());
+        }
+        if (evento.getNumero() != null) {
+            eventoJson.put("numero", evento.getNumero().toString());
+        }
+        if (evento.getDiaDaSemana() != null) {
+            eventoJson.put("diaDaSemana", evento.getDiaDaSemana().toString());
+        }
+        if (evento.getHorario() != null) {
+            eventoJson.put("horario", evento.getHorario().toString());
+        }
+        if (evento.getPlano() != null && evento.getPlano().getIdJson() != null) {
+            eventoJson.putObject("plano").put("idJson", evento.getPlano().getIdJson().toString());
+        }
+        if (evento.getTabelaHorario() != null && evento.getTabelaHorario().getIdJson() != null) {
+            eventoJson.putObject("tabelaHorario").put("idJson", evento.getTabelaHorario().getIdJson().toString());
+        }
+
+        return eventoJson;
+    }
+
     private JsonNode getGrupoSemaforicoJson(GrupoSemaforico grupoSemaforico) {
         ObjectNode grupoSemaforicoJson = Json.newObject();
 
@@ -879,7 +942,11 @@ public class ControladorCustomSerializer {
                 croquiJson.put("idJson", croqui.getIdJson().toString());
             }
             anelJson.set("croqui", croquiJson);
+        }
 
+        if (anel.getTabelaHorario() != null && anel.getTabelaHorario().getIdJson() != null) {
+            tabelasHorariosMap.put(anel.getTabelaHorario().getIdJson().toString(), anel.getTabelaHorario());
+            anelJson.putObject("tabelaHorario").put("idJson", anel.getTabelaHorario().getIdJson().toString());
         }
 
         refEstagios(anel.getEstagios(), anelJson);
@@ -1027,6 +1094,8 @@ public class ControladorCustomSerializer {
 
     }
 
+
+
     private void refEstagios(List<Estagio> estagios, ObjectNode parentJson) {
         ArrayNode estagiosJson = Json.newArray();
         for (Estagio estagio : estagios) {
@@ -1066,7 +1135,6 @@ public class ControladorCustomSerializer {
             }
         }
         parentJson.set(name, estagioPlanosJson);
-
     }
 
     private void refGruposSemaforicosPlanos(String name, List<GrupoSemaforicoPlano> grupoSemaforicoPlanos, ObjectNode parentJson) {
@@ -1080,7 +1148,19 @@ public class ControladorCustomSerializer {
             }
         }
         parentJson.set(name, grupoSemaforicoPlanosJson);
+    }
 
+    private void refEventos(String name, List<Evento> eventos, ObjectNode parentJson) {
+        ArrayNode eventosJson = Json.newArray();
+        for (Evento evento : eventos) {
+            if (evento != null && evento.getIdJson() != null) {
+                eventosMap.put(evento.getIdJson().toString(), evento);
+                ObjectNode eventoJson = Json.newObject();
+                eventoJson.put("idJson", evento.getIdJson().toString());
+                eventosJson.add(eventoJson);
+            }
+        }
+        parentJson.set(name, eventosJson);
     }
 
     private void refAreas(String name, List<Area> areas, ObjectNode parentJson) {

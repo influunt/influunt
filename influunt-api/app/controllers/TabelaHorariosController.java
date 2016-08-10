@@ -37,26 +37,16 @@ public class TabelaHorariosController extends Controller {
         if (json == null) {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         } else {
-            TabelaHorario tabelaHorario = Json.fromJson(json, TabelaHorario.class);
-            List<Erro> erros = new InfluuntValidator<TabelaHorario>().validate(tabelaHorario, javax.validation.groups.Default.class, TabelaHorariosCheck.class);
+
+            Controlador controlador = new ControladorCustomDeserializer().getControladorFromJson(request().body().asJson());
+            List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, TabelaHorariosCheck.class);
 
             if (erros.isEmpty()) {
-                tabelaHorario.save();
-                TabelaHorario tabelaHorarioAux = TabelaHorario.find.where().eq("id", tabelaHorario.getId()).findUnique();
-                return CompletableFuture.completedFuture(ok(Json.toJson(tabelaHorarioAux)));
+                controlador.update();
+                return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(Controlador.find.byId(controlador.getId()))));
             } else {
                 return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
             }
-        }
-    }
-
-    @Transactional
-    public CompletionStage<Result> findOne(String id) {
-        TabelaHorario tabelaHorario = TabelaHorario.find.where().eq("id", UUID.fromString(id)).findUnique();
-        if (tabelaHorario == null) {
-            return CompletableFuture.completedFuture(notFound());
-        } else {
-            return CompletableFuture.completedFuture(ok(Json.toJson(tabelaHorario)));
         }
     }
 }

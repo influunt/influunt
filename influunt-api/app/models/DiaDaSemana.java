@@ -1,5 +1,7 @@
 package models;
 
+import java.util.Arrays;
+
 /**
  * Created by pedropires on 7/7/16.
  */
@@ -21,5 +23,9 @@ public enum DiaDaSemana {
     @Override
     public String toString() {
         return name;
+    }
+
+    public static DiaDaSemana get(String name){
+        return Arrays.stream(DiaDaSemana.values()).filter(diaDaSemana -> diaDaSemana.equalsName(name)).findFirst().orElse(null);
     }
 }

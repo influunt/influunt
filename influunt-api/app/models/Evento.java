@@ -1,6 +1,7 @@
 package models;
 
 import checks.NumeroDeControladores;
+import checks.TabelaHorariosCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.PrivateOwned;
@@ -17,6 +18,8 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 
 import javax.persistence.*;
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
@@ -43,19 +46,24 @@ public class Evento extends Model implements Cloneable, Serializable {
     private String idJson;
 
     @Column
+    @NotNull(message = "não pode ficar em branco")
     private String numero;
 
     @Column
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "não pode ficar em branco")
     private DiaDaSemana diaDaSemana;
 
     @Column
+    @NotNull(message = "não pode ficar em branco")
     private LocalTime horario;
 
     @ManyToOne
+    @NotNull(message = "não pode ficar em branco")
     private TabelaHorario tabelaHorario;
 
     @ManyToOne
+    @NotNull(message = "não pode ficar em branco")
     private Plano plano;
 
     @Column
@@ -69,6 +77,11 @@ public class Evento extends Model implements Cloneable, Serializable {
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
+
+    public Evento() {
+        super();
+        this.setIdJson(UUID.randomUUID().toString());
+    }
 
     public UUID getId() {
         return id;
@@ -118,6 +131,14 @@ public class Evento extends Model implements Cloneable, Serializable {
         this.tabelaHorario = tabelaHorario;
     }
 
+    public Plano getPlano() {
+        return plano;
+    }
+
+    public void setPlano(Plano plano) {
+        this.plano = plano;
+    }
+
     public DateTime getDataCriacao() {
         return dataCriacao;
     }
@@ -132,6 +153,25 @@ public class Evento extends Model implements Cloneable, Serializable {
 
     public void setDataAtualizacao(DateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
+    }
+
+    @AssertTrue(groups = TabelaHorariosCheck.class,
+            message = "Existem eventos configurados no mesmo dia e horário.")
+    public boolean isEventosMesmoDiaEHora() {
+        if(!this.getTabelaHorario().getEventos().isEmpty() && this.getHorario() != null && this.getDiaDaSemana() != null){
+            return !(this.getTabelaHorario().getEventos().stream().filter(
+                    evento -> this.getDiaDaSemana().equals(evento.getDiaDaSemana()) && this.getHorario().equals(evento.getHorario())).count() > 1);
+        }
+        return true;
+    }
+
+    @AssertTrue(groups = TabelaHorariosCheck.class,
+            message = "O Plano deve pertencer ao mesmo anel da tabela horário.")
+    public boolean isPlanoDoMesmoAnel() {
+        if(this.getPlano() != null && this.getTabelaHorario() != null){
+            return this.getPlano().getAnel().equals(this.getTabelaHorario().getAnel());
+        }
+        return true;
     }
 
     @Override
