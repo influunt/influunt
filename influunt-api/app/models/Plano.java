@@ -11,6 +11,7 @@ import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.apache.commons.lang3.Range;
 import org.joda.time.DateTime;
+import utils.RangeUtils;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -98,6 +99,10 @@ public class Plano extends Model implements Cloneable {
 
     public Integer getTempoCiclo() {
         return tempoCiclo;
+    }
+
+    public void setTempoCiclo(Integer tempoCiclo) {
+        this.tempoCiclo = tempoCiclo;
     }
 
     public Integer getDefasagem() {
@@ -226,13 +231,17 @@ public class Plano extends Model implements Cloneable {
     @AssertTrue(groups = PlanosCheck.class, message = "deve estar entre 30 e 255")
     public boolean isTempoCiclo() {
         if (isTempoFixoIsolado() || isTempoFixoCoordenado()) {
-            return !(getTempoCiclo() == null || !Range.between(30, 255).contains(getTempoCiclo()));
+            return !(getTempoCiclo() == null || !RangeUtils.getInstance().TEMPO_CICLO.contains(getTempoCiclo()));
         }
         return true;
     }
 
-    public void setTempoCiclo(Integer tempoCiclo) {
-        this.tempoCiclo = tempoCiclo;
+    @AssertTrue(groups = PlanosCheck.class, message = "deve estar entre 0 e o tempo de ciclo")
+    public boolean isDefasagem() {
+        if (isTempoFixoCoordenado() && getTempoCiclo() != null) {
+            return !(getDefasagem() == null || !RangeUtils.getInstance().TEMPO_DEFASAGEM.contains(getDefasagem()) || !Range.between(0, getTempoCiclo()).contains(getDefasagem()));
+        }
+        return true;
     }
 
     @AssertTrue(groups = PlanosCheck.class, message = "A soma dos tempos dos estágios ultrapassa o tempo de ciclo.")

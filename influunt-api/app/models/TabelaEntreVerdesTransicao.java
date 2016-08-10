@@ -10,6 +10,7 @@ import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.hibernate.validator.constraints.Range;
 import org.joda.time.DateTime;
+import utils.RangeUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
@@ -163,7 +164,7 @@ public class TabelaEntreVerdesTransicao extends Model implements Cloneable {
     @AssertTrue(groups = ControladorTabelaEntreVerdesCheck.class, message = "deve estar entre 0 e 7")
     public boolean isTempoVermelhoLimpezaFieldVeicular() {
         if (getTransicao().getGrupoSemaforico().isVeicular() && getTempoVermelhoLimpeza() != null) {
-            return org.apache.commons.lang3.Range.between(0, 7).contains(getTempoVermelhoLimpeza());
+            return RangeUtils.getInstance().TEMPO_VERMELHO_LIMPEZA_VEICULAR.contains(getTempoVermelhoLimpeza());
         }
         return true;
     }
@@ -171,7 +172,7 @@ public class TabelaEntreVerdesTransicao extends Model implements Cloneable {
     @AssertTrue(groups = ControladorTabelaEntreVerdesCheck.class, message = "deve estar entre 0 e 5")
     public boolean isTempoVermelhoLimpezaFieldPedestre() {
         if (getTransicao().getGrupoSemaforico().isPedestre() && getTempoVermelhoLimpeza() != null) {
-            return org.apache.commons.lang3.Range.between(0, 5).contains(getTempoVermelhoLimpeza());
+            return RangeUtils.getInstance().TEMPO_VERMELHO_LIMPEZA_PEDESTRE.contains(getTempoVermelhoLimpeza());
         }
         return true;
     }

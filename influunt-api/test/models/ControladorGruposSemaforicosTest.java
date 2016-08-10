@@ -43,6 +43,24 @@ public class ControladorGruposSemaforicosTest extends ControladorTest {
         ));
 
         Anel anelAtivo = controlador.getAneis().stream().filter(anel -> anel.isAtivo()).findFirst().get();
+
+        for(int i = 0; i < 17; i++){
+            GrupoSemaforico grupo = new GrupoSemaforico();
+            grupo.setAnel(anelAtivo);
+            grupo.setTipo(TipoGrupoSemaforico.VEICULAR);
+            anelAtivo.addGruposSemaforicos(grupo);
+        }
+
+        erros = getErros(controlador);
+
+        assertEquals(17, anelAtivo.getGruposSemaforicos().size());
+        assertEquals(1, erros.size());
+        assertThat(erros, Matchers.hasItems(
+                new Erro("Controlador", "Numero total de grupos semáforicos informado individualmente nos aneis excede o limite do controlador", "")
+        ));
+
+        anelAtivo.setGruposSemaforicos(null);
+
         GrupoSemaforico grupoSemaforicoVeicular = new GrupoSemaforico();
         grupoSemaforicoVeicular.setAnel(anelAtivo);
         grupoSemaforicoVeicular.setTipo(TipoGrupoSemaforico.VEICULAR);

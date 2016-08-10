@@ -20,7 +20,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Entidade que representa o {@link GrupoSemaforico} no sistema
@@ -265,10 +264,7 @@ public class GrupoSemaforico extends Model implements Cloneable {
                     posicoes.add(tevTransicao.getTabelaEntreVerdes().getPosicao());
                 }
             }
-            int totalTabelasEntreVerdes = posicoes.size();
-            @SuppressWarnings("ConstantConditions")
-            int limiteTabelasEntreVerdes = Anel.find.byId(this.getAnel().getId()).getControlador().getLimiteTabelasEntreVerdes();
-            return totalTabelasEntreVerdes <= limiteTabelasEntreVerdes;
+            return !(getTabelasEntreVerdes().size() > getAnel().getControlador().getLimiteTabelasEntreVerdes());
         }
         return true;
     }

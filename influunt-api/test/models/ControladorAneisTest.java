@@ -66,7 +66,19 @@ public class ControladorAneisTest extends ControladorTest {
         anel1.addEndereco(belaCintra);
 
         anel1.setEstagios(Arrays.asList(new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio(),
-                new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio()));
+                new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio(),
+                new Estagio(), new Estagio()));
+
+        erros = getErros(controlador);
+
+        assertEquals(1, erros.size());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+                new Erro("Controlador", "Um anel ativo deve ter ao menos dois estágios e no máximo o limite do modelo do controlador", "aneis[0]")
+        ));
+
+        anel1.setEstagios(Arrays.asList(new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio(),
+                new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio(),
+                new Estagio()));
 
         erros = getErros(controlador);
 
