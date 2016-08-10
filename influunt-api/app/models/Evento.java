@@ -1,19 +1,13 @@
 package models;
 
-import checks.NumeroDeControladores;
 import checks.TabelaHorariosCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
-import com.avaje.ebean.annotation.PrivateOwned;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
-import json.deserializers.TabelaHorarioDeserialiazer;
-import json.serializers.AgrupamentoSerializer;
 import json.serializers.InfluuntDateTimeSerializer;
-import json.serializers.TabelaHorarioSerializer;
-import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 
@@ -21,7 +15,6 @@ import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -31,8 +24,6 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "eventos")
-@JsonSerialize(using = TabelaHorarioSerializer.class)
-@JsonDeserialize(using = TabelaHorarioDeserialiazer.class)
 public class Evento extends Model implements Cloneable, Serializable {
 
     private static final long serialVersionUID = -8164198987601502461L;
