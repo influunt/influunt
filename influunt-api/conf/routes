@@ -81,5 +81,4 @@ POST        /api/v1/login                               controllers.SecurityCont
 POST        /api/v1/planos                              controllers.PlanosController.create()
 
 # Tabela Horario
-GET         /api/v1/tabela_horarios/:id                 controllers.TabelaHorariosController.findOne(id)
 POST        /api/v1/tabela_horarios                     controllers.TabelaHorariosController.create()
