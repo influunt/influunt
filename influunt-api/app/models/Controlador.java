@@ -162,10 +162,10 @@ public class Controlador extends Model implements Cloneable {
         } else {
             List<Controlador> controladores = Controlador.find.select("area").where().eq("id", this.getId().toString()).setMaxRows(1).findList();
             if (!controladores.isEmpty()) {
-//                if (!this.getArea().getId().equals(controladores.get(0).getArea().getId())) {
-//                    //Houve alteracao na area, necessario regerar o CLC
-//                    gerarCLC();
-//                }
+                if (!this.getArea().getId().equals(controladores.get(0).getArea().getId())) {
+                    // Houve alteracao na área, necessario regerar o CLC
+                    gerarCLC();
+                }
             }
         }
 

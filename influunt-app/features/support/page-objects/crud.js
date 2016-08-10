@@ -20,7 +20,6 @@ var CrudPage = function () {
     'Longitude':                       '[name="longitude"]',
     'Modelo':                          'select[name="modelo"]',
     'Nome':                            '[name="nome"]',
-    // 'Área':                            '[name="area_descricao"]',
     'Número de detectores pedestres':  '[name="quantidadeDetectorPedestre"]',
     'Número de detectores veiculares': '[name="quantidadeDetectorVeicular"]',
     'Tipo Grupo Semafórico':           'select[name="tipoGrupoSemaforico"]',
