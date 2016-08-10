@@ -153,7 +153,7 @@ angular.module('influuntApp')
       registrarWatcherEndereco = function() {
         $scope.$watch('currentAnel', function(anel) {
           atualizaCurrentEnderecos();
-          if (angular.isArray($scope.currentEnderecos) && $scope.currentEnderecos[0].localizacao && $scope.currentEnderecos[1].localizacao) {
+          if (_.isArray($scope.currentEnderecos) && $scope.currentEnderecos[0].localizacao && $scope.currentEnderecos[1].localizacao) {
             anel.localizacao = $scope.currentEnderecos[0].localizacao + ' com ' + $scope.currentEnderecos[1].localizacao;
           } else {
             anel.localizacao = '';

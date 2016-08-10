@@ -229,5 +229,5 @@ describe('Controller: ControladoresConfiguracaoGruposCtrl', function () {
       scope.objeto.limiteGrupoSemaforico = 10;
       expect(scope.podeAdicionarGrupoSemaforico()).toBeTruthy();
     });
-  })
+  });
 });

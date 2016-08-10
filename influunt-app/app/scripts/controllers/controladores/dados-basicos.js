@@ -13,7 +13,7 @@ angular.module('influuntApp')
       $controller('ControladoresCtrl', {$scope: $scope});
 
       $scope.$watchGroup(['objeto.todosEnderecos[0].localizacao', 'objeto.todosEnderecos[1].localizacao'], function(){
-        var compeletaEndereco = angular.isArray($scope.objeto.todosEnderecos) &&
+        var compeletaEndereco = _.isArray($scope.objeto.todosEnderecos) &&
           $scope.objeto.todosEnderecos[0].localizacao &&
           $scope.objeto.todosEnderecos[1].localizacao;
 
