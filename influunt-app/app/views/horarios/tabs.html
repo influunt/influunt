@@ -1,0 +1,36 @@
+<div class="col-lg-12 col-sm-12 no-padding ibox white-bg">
+  <div class="ibox float-e-margins">
+    <div class="tabpanel">
+      <div class="col-lg-12 col-sm-12 tabs-container m-t-md">
+        <ul class="nav nav-tabs">
+          <li class="initialTab"><a class="" data-toggle="tab" href="#horarios" aria-expanded="false">Tabela de Horários</a></li>
+          <li class=""><a class="" data-toggle="tab" href="#horarios-1" aria-expanded="false">Feriado</a></li>
+          <li class=""><a class="" data-toggle="tab" href="#horarios-2" aria-expanded="false">7 Setembro</a></li>
+        </ul>
+        <div class="ui-layout-content tab-content">
+          <div id="horarios">
+            <div class="col-lg-12 col-sm-12 no-padding gray-bg">
+              <ng-include src="'views/horarios/tabelas.html'">
+            </div>
+          </div>
+          <div id="horarios-1">
+            <div class="col-lg-12 col-sm-12 no-padding gray-bg">
+              <div class="col-lg-12 col-sm-12 ibox-title">
+                <p>{{ 'horarios.tabelaEspecial' | translate }} 15  de setembro <i class="fa fa-calendar"></i> e 20 de setembro <i class="fa fa-calendar"></i></p>
+              </div>
+              <ng-include src="'views/horarios/tabelas.html'">
+            </div>
+          </div>
+          <div id="horarios-2">
+            <div class="col-lg-12 col-sm-12 no-padding gray-bg">
+              <div class="col-lg-12 col-sm-12 ibox-title">
+                <p>{{ 'horarios.tabelaEspecial' | translate }} 15  de setembro <i class="fa fa-calendar"></i> e 20 de setembro <i class="fa fa-calendar"></i></p>
+              </div>
+              <ng-include src="'views/horarios/tabelas.html'">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

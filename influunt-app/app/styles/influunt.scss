@@ -199,6 +199,26 @@
     background: #fff;
     padding-top: 30px;
 }
+.lightgray-bg {
+  background: #e7eaec;
+}
+
+.lightgray-bg > .table > tbody > tr > td {
+  border-top: 1px solid #f5f5f5;
+  border-right: 1px solid #f5f5f5;
+}
+
+.gray-bg > div > .table > tbody > tr:hover {
+  background: #f9f9f9;
+}
+
+.gray-bg .ibox-title {
+  background: transparent;
+}
+
+.ibox-title i {
+  color: #1ab394;
+}
 
 .bg-border-footer {
     padding-top: 25px;
@@ -1742,15 +1762,33 @@ li.initialTab {
   width: 10px;
   height: 100%;
 }
+.horaStripes {
+  background: url(../images/stripe-white.png) repeat;
+}
 .horario10px {
   width: 10px;
 }
 .horarioColor1 {
-  background: lightcoral;
+  background-color: lightcoral;
 }
 .horarioColor2 {
-  background: lightblue;
+  background-color: lightblue;
 }
 .horarioColor3 {
-  background: lightgreen;
+  background-color: lightgreen;
+}
+.horarioColor4 {
+  background-color: lightsalmon;
+}
+.horarioColor5 {
+  background-color: lightpink;
+}
+.horarioColor6 {
+  background-color: lightsteelblue;
+}
+.horarioColor7 {
+  background-color: lightseagreen;
+}
+.ibox-tools a {
+    color: #1ab394;
 }

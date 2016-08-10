@@ -89,7 +89,19 @@
     "titulo": "Cidades"
   },
   "horarios": {
-    "titulo": "Tabela de Horarios"
+    "titulo": "Tabela de Horarios",
+    "dias": "Dias",
+    "horario": "Horario",
+    "plano": "Plano",
+    "tabelaEspecial": "Tabela de horários especial ativa entre",
+    "hr": "HR",
+    "seg": "SEG",
+    "ter": "TER",
+    "qua": "QUA",
+    "qui": "QUI",
+    "sex": "SEX",
+    "sab": "SAB",
+    "dom": "DOM"
   },
   "configuracoes_controladores": {
     "descricao": "DESCRIÇÃO",
