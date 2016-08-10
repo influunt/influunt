@@ -56,6 +56,10 @@ public class Anel extends Model implements Cloneable {
     @ManyToOne
     private Controlador controlador;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @Valid
+    private TabelaHorario tabelaHorario;
+
     @OneToOne
     private Imagem croqui;
 
@@ -168,6 +172,14 @@ public class Anel extends Model implements Cloneable {
         this.controlador = controlador;
     }
 
+    public TabelaHorario getTabelaHorario() {
+        return tabelaHorario;
+    }
+
+    public void setTabelaHorario(TabelaHorario tabelaHorario) {
+        this.tabelaHorario = tabelaHorario;
+    }
+
     public List<Detector> getDetectores() {
         return detectores;
     }
@@ -232,6 +244,16 @@ public class Anel extends Model implements Cloneable {
         }
         return true;
     }
+
+    @AssertTrue(groups = TabelaHorariosCheck.class,
+            message = "O anel ativo deve ter tabela horário configurada.")
+    public boolean isPossuiTabelaHorario() {
+        if (this.isAtivo()) {
+            return this.getTabelaHorario() != null;
+        }
+        return true;
+    }
+
 
     public GrupoSemaforico findGrupoSemaforicoByDescricao(String descricao) {
         if (Objects.nonNull(descricao)) {
