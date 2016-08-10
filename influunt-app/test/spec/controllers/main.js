@@ -40,15 +40,15 @@ describe('Controller: MainCtrl', function () {
     }));
 
     it('Se o usuário confirmar a saída, sua credencial removida', function() {
-      deferred.resolve(true);
       scope.sair();
+      deferred.resolve(true);
       scope.$apply();
       expect(localStorage.token).not.toBeDefined();
     });
 
     it('Se o usuário cancelar, sua credencial permanecerá válida', function() {
-      deferred.resolve(false);
       scope.sair();
+      deferred.resolve(false);
       scope.$apply();
       expect(localStorage.token).toBeDefined();
     });

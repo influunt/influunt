@@ -28,7 +28,6 @@ describe('Controller: ControladoresAneisCtrl', function () {
     $httpBackend.flush();
   }));
 
-
   it('Deve conter as definições de funções do ControladorCtrl', function() {
     expect(scope.inicializaWizard).toBeDefined();
   });
@@ -141,7 +140,6 @@ describe('Controller: ControladoresAneisCtrl', function () {
 
     it('O array de aneis ativos de ser atualizado.', function() {
       expect(scope.aneisAtivos.length).toBe(2);
-      console.log(JSON.stringify(scope.objeto));
     });
   });
 

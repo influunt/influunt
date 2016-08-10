@@ -49,6 +49,17 @@ angular.module('influuntApp')
         });
       };
 
+      /**
+       * Endereços são sempre validados, logo precisam de ser removidos dos anéis não ativos.
+       */
+      $scope.beforeSubmitForm = function() {
+        $scope.aneis.forEach(function(anel) {
+          if (!anel.ativo) {
+            delete anel.enderecos;
+          }
+        });
+      };
+
       $scope.adicionarEstagio = function(upload, imagem) {
         var anel = $scope.currentAnel;
         anel.estagios = anel.estagios || [];
