@@ -60,6 +60,7 @@ describe('Controller: ControladoresConfiguracaoGruposCtrl', function () {
           aneis: [{idJson: 1, ativo: true, estagios: [{idJson: 'e1'}]}],
           estagios: [{idJson: 'e1'}, {idJson: 'e2'}]
         };
+
         WizardControladores.fakeInicializaWizard(scope, $q, objeto, scope.inicializaConfiguracaoGrupos);
       });
 
