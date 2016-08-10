@@ -19,9 +19,8 @@ Funcionalidade: Fluxo de cadastro de controladores
     Dado que o usuário esteja no wizard no passo "Dados Básicos"
     E o usuario selecionar o valor "São Paulo" no campo "Cidade"
     E o usuario selecionar o valor "1" no campo "Área"
-    E o usuario preencher o campo "Localização" com "Localização do Controlador"
-    E o usuario preencher o campo "Latitude" com "-19.951047"
-    E o usuario preencher o campo "Longitude" com "-43.921569799999986"
+    E o usuario buscar o endereço "Av Paulista" para o endereço 1
+    E o usuario buscar o endereço "Rua Bela Cintra" para o endereço 2
     E o usuario selecionar o valor "Raro Labs" no campo "Fabricante"
     E o usuario selecionar o valor "Mínima" no campo "Modelo"
     E clicar no botão para ir pro próximo passo
@@ -36,22 +35,63 @@ Funcionalidade: Fluxo de cadastro de controladores
 
   Cenário: Salvar anéis do controlador
     Dado que o usuário esteja no wizard no passo "Anéis"
-    E o usuario preencher o campo "Grupos Semafóricos de pedestre" com "1"
-    E o usuario preencher o campo "Grupos Semafóricos veiculares" com "1"
-    E o usuario preencher o campo "Número de detectores veiculares" com "0"
-    E o usuario preencher o campo "Número de detectores pedestres" com "0"
-    E o usuario preencher o campo "Latitude" com "-19.951047"
-    E o usuario preencher o campo "Longitude" com "-43.921569799999986"
+    E o usuario buscar o endereço "Av Paulista" para o endereço 1
+    E o usuario buscar o endereço "Rua Bela Cintra" para o endereço 2
     E o usuario adicionar 3 imagens para os estágios do anel corrente
-    E o usuario marcar o segundo anel como ativo
-    E o usuario selecionar o segundo anel
-    E o usuario preencher o campo "Grupos Semafóricos de pedestre" com "1"
-    E o usuario preencher o campo "Grupos Semafóricos veiculares" com "1"
-    E o usuario preencher o campo "Número de detectores veiculares" com "0"
-    E o usuario preencher o campo "Número de detectores pedestres" com "0"
-    E o usuario preencher o campo "Latitude" com "-19.951047"
-    E o usuario preencher o campo "Longitude" com "-43.921569799999986"
+    E o usuário adicionar um novo anel ativo
+    E o usuario buscar o endereço "Av Paulista" para o endereço 1
+    E o usuario buscar o endereço "Rua Augusta" para o endereço 2
     E o usuario adicionar 2 imagens para os estágios do anel corrente
+    E clicar no botão para ir pro próximo passo
+    Então o sistema irá avançar para o passo "Grupos Semafóricos"
+
+  Cenário: Tentar salvar grupos semafóricos em branco
+    Dado que o usuário esteja no wizard no passo "Grupos Semafóricos"
+    E que o usuário deixe os campos em branco
+    Quando o usuário clicar no botão para ir pro próximo passo
+    Então o sistema deverá indicar erro nas quantidades de grupos semaforicos dos anéis
+    E o sistema irá continuar no passo "Grupos Semafóricos"
+
+  Cenário: Salvar grupos semafóricos do controlador
+    Dado que o usuário esteja no wizard no passo "Grupos Semafóricos"
+    E que o usuario adicione 3 grupos semafóricos ao anel
+    Quando o usuario marcar o grupo semafórico "G1" como "Veicular"
+    E o usuario marcar o grupo semafórico "G2" como "Veicular"
+    E o usuario marcar o grupo semafórico "G3" como "Pedestre"
+    E o usuário selecionar o anel 2
+    E que o usuario adicione 2 grupos semafóricos ao anel
+    Quando o usuario marcar o grupo semafórico "G4" como "Veicular"
+    E o usuario marcar o grupo semafórico "G5" como "Pedestre"
+    E clicar no botão para ir pro próximo passo
+    Então o sistema irá avançar para o passo "Verdes Conflitantes"
+
+  Cenário: Tentar salvar verdes conflitantes em branco
+    Dado que o usuário esteja no wizard no passo "Verdes Conflitantes"
+    E que a tabela de conflitos esteja em branco
+    Quando o usuário clicar no botão para ir pro próximo passo
+    Então o sistema deverá indicar erro nos campos do passo "Verdes Conflitantes"
+    E o sistema irá continuar no passo "Verdes Conflitantes"
+
+  Cenário: Tentar salvar verdes conflitantes incompleto
+    Dado que o usuário esteja no wizard no passo "Verdes Conflitantes"
+    E o usuário selecionar o anel 1
+    E que a tabela de conflitos esteja em branco
+    Quando marcar conflito entre os grupos "G2" e "G3"
+    E o usuário clicar no botão para ir pro próximo passo
+    Então o sistema deverá indicar tabela incompleta para o grupo "G1"
+    Quando o usuário selecionar o anel 2
+    Então o sistema deverá indicar tabela incompleta para o grupo "G4"
+    E o sistema deverá indicar tabela incompleta para o grupo "G5"
+    E o sistema irá continuar no passo "Verdes Conflitantes"
+
+  Cenário: Salvar verdes conflitantes do controlador
+    Dado que o usuário esteja no wizard no passo "Verdes Conflitantes"
+    E o usuário selecionar o anel 1
+    E que a tabela de conflitos esteja em branco
+    Quando marcar conflito entre os grupos "G1" e "G2"
+    E marcar conflito entre os grupos "G2" e "G3"
+    E o usuário selecionar o anel 2
+    E marcar conflito entre os grupos "G4" e "G5"
     E clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Associação"
 
@@ -64,44 +104,13 @@ Funcionalidade: Fluxo de cadastro de controladores
 
   Cenário: Salvar associação do controlador
     Dado que o usuário esteja no wizard no passo "Associação"
+    E o usuário selecionar o anel 1
     E o usuario associar o grupo semafórico "G1" com o estágio "E1"
-    E o usuario marcar o grupo semafórico como "Veicular"
-    E o usuário selecionar o estágio "E2"
     E o usuario associar o grupo semafórico "G2" com o estágio "E2"
-    E o usuario marcar o grupo semafórico como "Pedestre"
-    E o usuário selecionar o estágio "E3"
-    E o usuario associar o grupo semafórico "G1" com o estágio "E3"
-    E o usuario selecionar o segundo anel
-    E o usuário selecionar o estágio "E1"
-    E o usuario associar o grupo semafórico "G3" com o estágio "E1"
-    E o usuario marcar o grupo semafórico como "Veicular"
-    E o usuário selecionar o estágio "G2"
-    E o usuario associar o grupo semafórico "G4" com o estágio "E2"
-    E o usuario marcar o grupo semafórico como "Pedestre"
-    E clicar no botão para ir pro próximo passo
-    Então o sistema irá avançar para o passo "Verdes Conflitantes"
-
-  Cenário: Tentar salvar verdes conflitantes em branco
-    Dado que o usuário esteja no wizard no passo "Verdes Conflitantes"
-    E que a tabela de conflitos esteja em branco
-    Quando o usuário clicar no botão para ir pro próximo passo
-    Então o sistema deverá indicar erro nos campos do passo "Verdes Conflitantes"
-    E o sistema irá continuar no passo "Verdes Conflitantes"
-
-  Cenário: Tentar salvar verdes conflitantes com conflito
-    Dado que o usuário esteja no wizard no passo "Verdes Conflitantes"
-    E que a tabela de conflitos esteja em branco
-    E marcar conflito entre os estágios "G2" e "G3"
-    E marcar conflito entre os estágios "G1" e "G4"
-    Quando o usuário clicar no botão para ir pro próximo passo
-    Então o sistema deverá indicar conflito
-    E o sistema irá continuar no passo "Verdes Conflitantes"
-
-  Cenário: Salvar verdes conflitantes do controlador
-    Dado que o usuário esteja no wizard no passo "Verdes Conflitantes"
-    E que a tabela de conflitos esteja em branco
-    E marcar conflito entre os estágios "G1" e "G2"
-    E marcar conflito entre os estágios "G3" e "G4"
+    E o usuario associar o grupo semafórico "G3" com o estágio "E3"
+    E o usuário selecionar o anel 2
+    E o usuario associar o grupo semafórico "G4" com o estágio "E1"
+    E o usuario associar o grupo semafórico "G5" com o estágio "E2"
     E clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Transições Proibidas"
 
@@ -116,7 +125,30 @@ Funcionalidade: Fluxo de cadastro de controladores
   Cenário: Tentar salvar uma transição proibida informando um estágio alternativo
     Dado que o usuário esteja no wizard no passo "Transições Proibidas"
     E que a tabela de estágios alternativos esteja em branco
-    Quando o usuário marcar a transição de "E1" para "E2" como proibida
-    E preencher o campo de alternativa para a transição "E1-E2" com o estágio "E3"
-    E clicar no botão para ir pro próximo passo
+    Quando clicar no botão para ir pro próximo passo
+    Então o sistema irá avançar para o passo "Tabela Entre Verdes"
+
+  Cenário: Salvar tabela entre verdes
+    Dado que o usuário esteja no wizard no passo "Tabela Entre Verdes"
+    E que o usuário marque 4 no tempo "Amarelo" da transição "E1-E3"
+    E que o usuário marque 2 no tempo "Vermelho de Limpeza" da transição "E1-E3"
+    E que o usuário marque 15 no tempo "Atraso de Grupo" da transição "E1-E3"
+    Quando o usuário clicar no botão para ir pro próximo passo
+    Então o sistema irá avançar para o passo "Detectores"
+
+  Cenário: Tentar salvar detectores sem configurar
+    Dado que o usuário esteja no wizard no passo "Detectores"
+    E que o usuário adicione um detector do tipo "Veicular"
+    E que o usuário adicione um detector do tipo "Pedestre"
+    E que o usuário adicione um detector do tipo "Veicular"
+    Quando o usuário clicar no botão para ir pro próximo passo
+    Então o sistema deverá indicar erro nos campos do passo "Detectores"
+    E o sistema irá continuar no passo "Detectores"
+
+  Cenário: Salvar detectores
+    Dado que o usuário esteja no wizard no passo "Detectores"
+    E que o usuário associe o detector "DP1" com o estágio "E1"
+    E que o usuário associe o detector "DV1" com o estágio "E2"
+    E que o usuário associe o detector "DV2" com o estágio "E3"
+    Quando o usuário clicar no botão para ir pro próximo passo
     Então o sistema irá redirecionar o usuário para a página de listagem de controladores

@@ -90,13 +90,13 @@ module.exports = function() {
     });
   });
 
-	this.Given(/^o sistema deverá indicar erro nos campos "([^"]*)"$/, function (campo) {
+  this.Given(/^o sistema deverá indicar erro no campo "([^"]*)"$/, function (campo) {
     return areasPage.getErrorMessageFor(campo).then(function(result) {
       return expect(result).to.exist;
     });
-	});
+  });
 
-	this.Given(/^o usuario marcar a cidade como "([^"]*)"$/, function (cidade) {
-		return areasPage.selecionarCidade(cidade);
-	});
+  this.Given(/^o usuario marcar a cidade como "([^"]*)"$/, function (cidade) {
+    return areasPage.selecionarCidade(cidade);
+  });
 };

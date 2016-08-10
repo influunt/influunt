@@ -36,6 +36,12 @@ module.exports = function() {
     });
   });
 
+  this.Given(/^o sistema deverá indicar erro nas quantidades de grupos semaforicos dos anéis$/, function () {
+    return wizardPage.errorMessagesGruposSemaforicosAneis().then(function(result) {
+      return expect(result).to.be.true;
+    });
+  });
+
   this.Given(/^o sistema irá continuar no passo "([^"]*)"$/, function (passo) {
     return wizardPage.isWizardPasso(passo);
   });
@@ -48,12 +54,12 @@ module.exports = function() {
     return wizardPage.adicionarImagensEstagios(qtde);
   });
 
-  this.Given(/^o usuario marcar o segundo anel como ativo$/, function () {
+  this.Given(/^o usuário adicionar um novo anel ativo$/, function () {
     return wizardPage.marcarSegundoAnelComoAtivo();
   });
 
-  this.Given(/^o usuario selecionar o segundo anel$/, function () {
-    return wizardPage.selecionarSegundoAnel();
+  this.Given(/^o usuário selecionar o anel (\d+)$/, function (numAnel) {
+    return wizardPage.selecionarAnel(numAnel);
   });
 
   this.Given(/^o sistema irá avançar para o passo "([^"]*)"$/, function (passo) {
@@ -64,6 +70,10 @@ module.exports = function() {
     return wizardPage.clicarBotaoFinalizar();
   });
 
+  this.Given(/^que o usuario adicione (\d+) grupos semafóricos ao anel$/, function (numGrupos) {
+    return wizardPage.adicionarGruposSemaforicosAoAnel(numGrupos);
+  });
+
   this.Given(/^o usuario associar o grupo semafórico "([^"]*)" com o estágio "([^"]*)"$/, function (grupo, estagio) {
     return wizardPage.associarGrupoSemaforicoEstagio(grupo, estagio);
   });
@@ -72,10 +82,9 @@ module.exports = function() {
     return wizardPage.selecionarEstagio(estagio);
   });
 
-  this.Given(/^o usuario marcar o grupo semafórico como "([^"]*)"$/, function (tipoGrupoSemaforico) {
-    return wizardPage.selecionarTipoGrupoSemaforico(tipoGrupoSemaforico);
+  this.Given(/^o usuario marcar o grupo semafórico "([^"]*)" como "([^"]*)"$/, function (grupo, tipoGrupo) {
+    return wizardPage.selecionarTipoGrupoSemaforico(grupo, tipoGrupo);
   });
-
 
   this.Given(/^que a tabela de conflitos esteja em branco$/, function () {
     return wizardPage.clearVerdesConflitantes();
@@ -85,7 +94,7 @@ module.exports = function() {
     return wizardPage.clearEstagiosAlternativos();
   });
 
-  this.Given(/^marcar conflito entre os estágios "([^"]*)" e "([^"]*)"$/, function (g1, g2) {
+  this.Given(/^marcar conflito entre os grupos "([^"]*)" e "([^"]*)"$/, function (g1, g2) {
     return wizardPage.marcarConflito(g1, g2);
   });
 
@@ -99,12 +108,6 @@ module.exports = function() {
     });
   });
 
-  this.Given(/^o sistema deverá indicar conflito$/, function () {
-    return wizardPage.errorMessagesVerdesConflitantesComConflito().then(function(result) {
-      return expect(result).to.be.true;
-    });
-  });
-
   this.Given(/^preencher o campo de alternativa para a transição "([^"]*)" com o estágio "([^"]*)"$/, function (transicao, estagio) {
     return wizardPage.selecionaEstagioAlternativoParaTransicaoProibida(transicao, estagio);
   });
@@ -114,7 +117,23 @@ module.exports = function() {
   });
 
   this.Given(/^o sistema irá redirecionar o usuário para a página de listagem de controladores$/, function () {
-    return wizardPage.isIndex();
+    // return wizardPage.isIndex();
+    return wizardPage.indexPage();
   });
 
+  this.Given(/^o sistema deverá indicar tabela incompleta para o grupo "([^"]*)"$/, function (grupo) {
+    return wizardPage.errorMessagesVerdesConflitantesGrupo(grupo);
+  });
+
+  this.Given(/^que o usuário marque (\d+) no tempo "([^"]*)" da transição "([^"]*)"$/, function (value, field, transicao) {
+    return wizardPage.marcarTempoEntreVerdes(value, field, transicao);
+  });
+
+  this.Given(/^que o usuário adicione um detector do tipo "([^"]*)"$/, function (tipoDetector) {
+    return wizardPage.adicionarDetector(tipoDetector);
+  });
+
+  this.Given(/^que o usuário associe o detector "([^"]*)" com o estágio "([^"]*)"$/, function (detector, estagio) {
+    return wizardPage.associarDetectorEstagio(detector, estagio);
+  });
 };

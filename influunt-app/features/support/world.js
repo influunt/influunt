@@ -94,13 +94,36 @@ var World = function () {
     return new Promise(function(resolve, reject) {
       var interval = setInterval(function() {
         driver.executeScript('return jQuery.active === 0').then(function(result) {
-          if (result) {
+          if (!!result) {
             clearInterval(interval);
             resolve(true);
           } else {
             numChecks++;
             if (numChecks >= maxChecks) {
               reject('Timeout waiting for AJAX calls to finish!');
+            }
+          }
+        });
+      }, pollInterval);
+    });
+  };
+
+  this.waitForAnimationFinishes = function(animatedElementSelector, timeout) {
+    timeout = timeout || defaultTimeout;
+    var pollInterval = 500;
+    var maxChecks = Math.ceil(timeout / pollInterval);
+    var numChecks = 0;
+
+    return new Promise(function(resolve, reject) {
+      var interval = setInterval(function() {
+        driver.executeScript('return $("'+animatedElementSelector+'").is(":animated")').then(function(result) {
+          if (!result) {
+            clearInterval(interval);
+            resolve(true);
+          } else {
+            numChecks++;
+            if (numChecks >= maxChecks) {
+              reject('Timeout waiting for animation to finish!');
             }
           }
         });
@@ -118,6 +141,23 @@ var World = function () {
 
   this.setValue = function(cssSelector, value) {
     return driver.findElement(webdriver.By.css(cssSelector)).sendKeys(value);
+  };
+
+  this.resetValue = function(cssSelector, value) {
+    return driver.findElement(webdriver.By.css(cssSelector)).sendKeys(webdriver.Key.BACK_SPACE, webdriver.Key.BACK_SPACE, webdriver.Key.BACK_SPACE, value, webdriver.Key.ENTER);
+  };
+
+  this.setValueAsHuman = function(cssSelector, value) {
+    var _this = this;
+    var promises = [];
+    value.split('').forEach(function(chr) {
+      promises.push(function() { return _this.setValue(cssSelector, chr); });
+      promises.push(function() { return _this.sleep(50); });
+    });
+
+    return promises.reduce(function(previous, current) {
+      return previous.then(current);
+    }, Promise.resolve());
   };
 
   this.clickButton = function(cssSelector) {
@@ -146,14 +186,25 @@ var World = function () {
 
   this.selectOption = function(selectSelector, optionText) {
     return this.getElements(selectSelector + ' option').then(function(options) {
-      for (var i = 0; i < options.length; i++) {
-        var option = options[i];
-        option.getText().then(function(text) {
-          if (text === optionText) {
-            return option.click();
+      return new Promise(function(resolve, reject) {
+        var resolved = false;
+        for (var i = 0; i < options.length; i++) {
+          var option = options[i];
+          option.getText().then(function(text) {
+            if (text === optionText) {
+              resolved = true;
+              option.click();
+            }
+          });
+        }
+        setTimeout(function() {
+          if (resolved) {
+            resolve(true);
+          } else {
+            reject('Option not found in select: "'+optionText+'"');
           }
-        });
-      }
+        }, 500);
+      });
     });
   };
 
@@ -191,7 +242,8 @@ var World = function () {
   };
 
   this.checkICheck = function(checkboxSelector) {
-    return this.execJavascript('$('+checkboxSelector+').iCheck("check");');
+    var jQuerySelector = '$('+checkboxSelector+')';
+    return this.execJavascript(jQuerySelector + '.iCheck("check");');
   };
 
   this.uncheckICheck = function(checkboxSelector) {
@@ -214,6 +266,32 @@ var World = function () {
       return _this.execJavascript(script);
     });
   };
+
+  // Relativo à posição atual do mouse
+  this.moveMouseToLocation = function(x, y) {
+    return driver.actions().mouseMove({ x: x, y: y }).perform();
+  };
+
+  this.moveMouseToElement = function(element) {
+    return driver.actions().mouseMove(element).perform();
+  };
+
+  // Relativo à posição atual do mouse
+  this.clickAtLocation = function(x, y) {
+    return driver.actions().mouseMove({ x: x, y: y }).click().perform();
+  };
+
+  this.clickAtElement = function(element) {
+    return driver.actions().mouseMove(element).click().perform();
+  };
+
+  this.sleep = function(ms) {
+    return driver.sleep(ms);
+  };
+
+  this.dragAndDrop = function(element, location) {
+    return driver.actions().dragAndDrop(element, location);
+  };
 };
 
 switch(platform) {
@@ -225,6 +303,7 @@ switch(platform) {
 }
 
 driver.manage().window().setSize(1024, 768);
+// driver.manage().window().setSize(1480, 768);
 
 module.exports.World = World;
 module.exports.getDriver = getDriver;

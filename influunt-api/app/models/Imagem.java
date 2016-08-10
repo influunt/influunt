@@ -112,7 +112,8 @@ public class Imagem extends Model {
         }
         return new File(rootPath, "imagens/" + this.getId());
     }
-    public File getPath(File rootPath,String version) {
+
+    public File getPath(File rootPath, String version) {
         File folder = new File(rootPath, "imagens");
         if (!folder.exists()) {
             folder.mkdirs();

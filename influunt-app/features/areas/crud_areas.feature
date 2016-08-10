@@ -26,7 +26,7 @@ Funcionalidade: tela de cadastro de areas
     E o usuario marcar a cidade como "São Paulo"
     E o usuario preencher o campo "Área" com "51"
     E clicar no botão de salvar
-    Então o sistema deverá indicar erro nos campos "area_descricao"
+    Então o sistema deverá indicar erro no campo "area"
 
   Cenário: Acesso à tela de detalhes de area
     Quando o usuário acessar a tela de listagem de areas

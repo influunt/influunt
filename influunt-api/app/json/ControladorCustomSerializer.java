@@ -68,7 +68,7 @@ public class ControladorCustomSerializer {
         ArrayList<JsonNode> jsonControladores = new ArrayList<JsonNode>();
 
         ArrayNode controladoresJson = Json.newArray();
-        for(Controlador controlador : controladores) {
+        for (Controlador controlador : controladores) {
             controladoresJson.add(getControladorJson(controlador));
         }
 
@@ -485,6 +485,10 @@ public class ControladorCustomSerializer {
             estagioPlanoJson.put("tempoExtensaoVerde", estagioPlano.getTempoExtensaoVerde());
         }
         estagioPlanoJson.put("dispensavel", estagioPlano.isDispensavel());
+
+        if (estagioPlano.getEstagioQueRecebeEstagioDispensavel() != null && estagioPlano.getEstagioQueRecebeEstagioDispensavel().getIdJson() != null) {
+            estagioPlanoJson.putObject("estagioQueRecebeEstagioDispensavel").put("idJson", estagioPlano.getEstagioQueRecebeEstagioDispensavel().getIdJson().toString());
+        }
 
         if (estagioPlano.getPlano() != null && estagioPlano.getPlano().getIdJson() != null) {
             estagioPlanoJson.putObject("plano").put("idJson", estagioPlano.getPlano().getIdJson().toString());
