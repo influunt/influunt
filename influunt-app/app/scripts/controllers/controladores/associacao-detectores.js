@@ -37,8 +37,8 @@ angular.module('influuntApp')
       $scope.inicializaAssociacaoDetectores = function() {
         return $scope.inicializaWizard().then(function() {
           if ($scope.assertAssociacaoDetectores()) {
-            $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
-            $scope.objeto.estagios = _.orderBy($scope.objeto.estagios, ['posicao'], ['asc']);
+            $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
+            $scope.objeto.estagios = _.orderBy($scope.objeto.estagios, ['posicao']);
             $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
 
             $scope.selecionaAnelAssociacaoDetectores(0);
@@ -55,8 +55,8 @@ angular.module('influuntApp')
        * @param      {<type>}  detector  The detector
        */
       $scope.toggleAssociacaoDetector = function(estagio, detector) {
-        // Não deverá alterar a associação se já existir um detector para o estágio.
-        if (estagio.temDetector && detector.estagio.idJson !== estagio.idJson) {
+        // Não deverá permitir a associação de dois detectores para um mesmo estágio.
+        if (estagio.temDetector && (!detector.estagio || detector.estagio.idJson !== estagio.idJson)) {
           return false;
         }
 
@@ -82,8 +82,9 @@ angular.module('influuntApp')
           tipo: tipo
         };
 
-        $scope.currentAnel.detectores.push({idJson: detector.idJson});
         $scope.objeto.detectores = $scope.objeto.detectores || [];
+        $scope.currentAnel.detectores = $scope.currentAnel.detectores || [];
+        $scope.currentAnel.detectores.push({idJson: detector.idJson});
         $scope.objeto.detectores.push(detector);
 
         $scope.atualizaDetectores();
@@ -124,8 +125,8 @@ angular.module('influuntApp')
         var ids = _.map($scope.currentAnel.detectores, 'idJson');
         $scope.currentDetectores = _
           .chain($scope.objeto.detectores)
-          .filter(function(e) {
-            return ids.indexOf(e.idJson) >= 0;
+          .filter(function(d) {
+            return ids.indexOf(d.idJson) >= 0;
           })
           .orderBy(['tipo', 'posicao'])
           .value();

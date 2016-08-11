@@ -13,7 +13,7 @@ angular.module('influuntApp')
       var validations = {};
       var response = {};
 
-      if (angular.isArray(errors)) {
+      if (_.isArray(errors)) {
         errors.forEach(function(err) {
           var path = err.path.match(/\d+\]$/) ? err.path + '.general' : err.path;
           if (!path) {

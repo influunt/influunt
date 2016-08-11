@@ -41,9 +41,9 @@ angular.module('influuntApp')
       };
 
       $scope.adicionaGrupoSemaforico = function() {
-        var obj = { 
+        var obj = {
           idJson: UUID.generate(),
-          anel: {idJson: $scope.currentAnel.idJson}, 
+          anel: {idJson: $scope.currentAnel.idJson},
           tipo: 'VEICULAR',
           faseVermelhaApagadaAmareloIntermitente: false,
           tempoVerdeSeguranca: $scope.objeto.verdeSegurancaVeicularMin
@@ -62,7 +62,6 @@ angular.module('influuntApp')
       $scope.removeGrupo = function(index) {
         influuntAlert.delete().then(function(confirmado) {
           if (confirmado) {
-
             var jsonId = $scope.currentAnel.gruposSemaforicos[index].idJson;
             var i = _.findIndex($scope.objeto.gruposSemaforicos, {idJson: jsonId});
 
@@ -82,10 +81,7 @@ angular.module('influuntApp')
       };
 
       $scope.podeAdicionarGrupoSemaforico = function(){
-        if(!$scope.objeto){
-          return true;
-        }
-        return $scope.objeto.gruposSemaforicos.length < $scope.objeto.limiteGrupoSemaforico;
+        return $scope.objeto && $scope.objeto.gruposSemaforicos.length < $scope.objeto.limiteGrupoSemaforico;
       };
 
       $scope.atualizaTempoVerdeSeguranca = function(grupo){
@@ -103,6 +99,7 @@ angular.module('influuntApp')
           .map('gruposSemaforicos')
           .flatten()
           .map('idJson')
+          .compact()
           .each(function(idJson) {
             var obj = _.find($scope.objeto.gruposSemaforicos, {idJson: idJson});
             obj.posicao = ++posicao;

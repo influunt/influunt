@@ -50,7 +50,7 @@
                     <img ng-if="currentAnel.croqui" ng-src="{{ currentAnel.croqui.id | imageSource }}" alt="{{ currentAnel.croqui.filename }}">
                   </div>
                   <div class="btn-group padding-top-20">
-                    <influunt-image-input data-upload-url="dados.imagensUrl" data-on-upload="associaImagemAoCurrentAnel"></influunt-image-input>
+                    <influunt-image-input data-upload-url="dados.imagensUrl" data-on-upload="adicionarCroqui"></influunt-image-input>
                   </div>
                 </div>
 
@@ -113,8 +113,8 @@
                       enctype="multipart/form-data"
                       influunt-dropzone
                       anel="currentAnel"
-                      on-success="associaImagemAoEstagio(upload, imagem)"
-                      on-delete="removeImagemDoEstagio(imagem)">
+                      on-success="adicionarEstagio(upload, imagem)"
+                      on-delete="removerEstagio(imagem)">
                   <fake-dropzone-preview aneis="aneis"></fake-dropzone-preview>
                   <div class="dz-default dz-message"><span>Arraste imagens para este local</span></div>
                   <div class="fallback">

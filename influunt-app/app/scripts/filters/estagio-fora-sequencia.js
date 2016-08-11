@@ -13,7 +13,6 @@ angular.module('influuntApp')
     return function (estagios, sequencia) {
       if (estagios && sequencia) {
         var ids = _.map(sequencia, 'estagio.idJson');
-
         return _.filter(estagios, function(e) {
           return ids.indexOf(e.idJson) < 0;
         });

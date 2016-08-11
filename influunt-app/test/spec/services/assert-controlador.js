@@ -16,8 +16,9 @@ describe('Service: assertControlador', function () {
             tabelaEntreVerdesTransicoes: [{}]
           }]
         }],
-        estagios: [{}]
-      }]
+        estagios: [{idJson: 1}]
+      }],
+      estagios: [{idJson: 1}]
     };
   }));
 
@@ -29,10 +30,23 @@ describe('Service: assertControlador', function () {
   });
 
   describe('hasEstagios', function() {
-    it('Verifica se o controlador passado por parametro possui ao menos um estagio entre os aneis', function() {
+    it('o controlador é invalido se não houver estagios relacionados nos aneis.', function() {
+      controlador.aneis[0].estagios = null;
       var result = assertControlador.hasEstagios(controlador);
-      expect(result).toBeTruthy();
+      expect(result).not.toBeTruthy();
     });
+
+    it('O controlador será inválido se não houver dados dos estagios na raiz do objeto', function() {
+      controlador.estagios = [];
+      var result = assertControlador.hasEstagios(controlador);
+      expect(result).not.toBeTruthy();
+    });
+
+    it('O controlador deve ter ao menos um estagio em aneis, e este estagio deve existir no controlador', function() {
+        var result = assertControlador.hasEstagios(controlador);
+        expect(result).toBeTruthy();
+      }
+    );
   });
 
   describe('hasTransicoes', function() {

@@ -24,7 +24,7 @@ angular.module('influuntApp')
               scope.latitude = value.geometry.location.lat();
               scope.longitude = value.geometry.location.lng();
             }
-            if (value.address_components && angular.isArray(value.address_components)) {
+            if (value.address_components && _.isArray(value.address_components)) {
               var foundName = false;
               for (var i = 0; i < value.address_components.length && !foundName; i++) {
                 if (value.address_components[i].types) {
