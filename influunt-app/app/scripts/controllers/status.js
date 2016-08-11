@@ -13,8 +13,8 @@ angular.module('influuntApp')
     // called when the client connects
     function onConnect() {
       // Once a connection has been made, make a subscription and send a message.
-      console.log("onConnect");
-      $scope.client.subscribe("#");
+      console.log('onConnect');
+      $scope.client.subscribe('#');
     }
     
     
@@ -36,21 +36,21 @@ angular.module('influuntApp')
     };
     
     // Create a client instance
-    $scope.client = new Paho.MQTT.Client("mosquitto.rarolabs.com.br", 9001, "central");
+    $scope.client = new Paho.MQTT.Client('mosquitto.rarolabs.com.br', 9001, 'central');
 
     // set callback handlers
     $scope.client.onConnectionLost = function(responseObject) {
       if (responseObject.errorCode !== 0) {
-        console.log("onConnectionLost:"+responseObject.errorMessage);
+        console.log('onConnectionLost:'+responseObject.errorMessage);
       }
     };
     
     $scope.client.onMessageArrived = function(message) {
       console.log(message.destinationName);
-      if(message.destinationName.startsWith("central/status")){
+      if(message.destinationName.startsWith('central/status')){
         status(message);
-      }else if(message.destinationName.startsWith("central/desconectar")){
-        var id = message.destinationName.split("/")[2];
+      }else if(message.destinationName.startsWith('central/desconectar')){
+        var id = message.destinationName.split('/')[2];
         $scope.controladores[id].ativo = false;
         $scope.controladores[id].status = {};
         $scope.$apply();
@@ -62,7 +62,7 @@ angular.module('influuntApp')
     $scope.teste = $scope.client;
     
     $scope.class = function(estado){
-      return "btn_" + estado;
+      return 'btn_' + estado;
     };
       
   }]);

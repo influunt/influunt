@@ -100,7 +100,7 @@ angular.module('influuntApp')
             defer.resolve(res);
           });
         } else {
-          var todosEnderecos = [{idJson: UUID.generate(), localizacao: "", latitude: null, longitude: null}, {idJson: UUID.generate(), localizacao: "", latitude: null, longitude: null}];
+          var todosEnderecos = [{idJson: UUID.generate(), localizacao: '', latitude: null, longitude: null}, {idJson: UUID.generate(), localizacao: '', latitude: null, longitude: null}];
           var enderecos = _.map(todosEnderecos, function(i) {return {idJson: i.idJson};});
           loadWizardData({limiteEstagio: 16, limiteGrupoSemaforico: 16, limiteAnel: 4, limiteDetectorPedestre: 4, limiteDetectorVeicular: 8, limiteTabelasEntreVerdes: 2, todosEnderecos: todosEnderecos, enderecos: enderecos});
           influuntBlockui.unblock();

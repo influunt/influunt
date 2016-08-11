@@ -22,8 +22,6 @@ public class RangeUtils {
     public static InfluuntRange TEMPO_EXTENSAO_VERDE = new InfluuntRange(1d, 10d);
     public static InfluuntRange TEMPO_VERDE = new InfluuntRange(1, 255);
 
-
-
     protected RangeUtils() {
     }
 
