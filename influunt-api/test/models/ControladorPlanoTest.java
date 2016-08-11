@@ -449,6 +449,8 @@ public class ControladorPlanoTest extends ControladorTest {
         estagioPlano4Anel4.setTempoVerdeIntermediario(20);
         estagioPlano4Anel4.setTempoExtensaoVerde(10.0);
 
+        estagioPlano1Anel2.setDispensavel(true);
+
         erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
@@ -492,6 +494,48 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertThat(erros, Matchers.empty());
 
+        criarEstagioPlano(anelCom4Estagios, plano1Anel4, new int[]{1, 4, 3, 2});
+        estagioPlano1Anel4 = plano1Anel4.getEstagiosPlanos().stream().filter(estagioPlano -> estagioPlano.getPosicao().equals(1)).findAny().get();
+        estagioPlano2Anel4 = plano1Anel4.getEstagiosPlanos().stream().filter(estagioPlano -> estagioPlano.getPosicao().equals(2)).findAny().get();
+        estagioPlano3Anel4 = plano1Anel4.getEstagiosPlanos().stream().filter(estagioPlano -> estagioPlano.getPosicao().equals(3)).findAny().get();
+        estagioPlano4Anel4 = plano1Anel4.getEstagiosPlanos().stream().filter(estagioPlano -> estagioPlano.getPosicao().equals(4)).findAny().get();
+
+        plano1Anel4.setModoOperacao(ModoOperacaoPlano.TEMPO_FIXO_COORDENADO);
+        plano1Anel4.setTempoCiclo(128);
+        plano1Anel4.setDefasagem(10);
+        estagioPlano1Anel4.setTempoVerde(10);
+        estagioPlano2Anel4.setTempoVerde(10);
+        estagioPlano3Anel4.setTempoVerde(10);
+        estagioPlano4Anel4.setTempoVerde(10);
+        estagioPlano1Anel4.setDispensavel(true);
+
+        erros = getErros(controlador);
+        assertEquals(1, erros.size());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+                new Erro("Controlador", "não pode ficar em branco.", "aneis[0].planos[0].estagiosPlanos[0].estagioQueRecebeEstagioDispensavel")
+        ));
+
+        estagioPlano1Anel4.setEstagioQueRecebeEstagioDispensavel(estagioPlano1Anel4);
+        erros = getErros(controlador);
+        assertEquals(1, erros.size());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+                new Erro("Controlador", "deve ser o estágio anterior ou posterior ao estágio dispensável.", "aneis[0].planos[0].estagiosPlanos[0].estagioQueRecebeEstagioDispensavelFieldEstagioQueRecebeValido")
+        ));
+
+        estagioPlano1Anel4.setEstagioQueRecebeEstagioDispensavel(estagioPlano2Anel4);
+        erros = getErros(controlador);
+        assertThat(erros, Matchers.empty());
+
+        estagioPlano1Anel4.setEstagioQueRecebeEstagioDispensavel(estagioPlano3Anel4);
+        erros = getErros(controlador);
+        assertEquals(1, erros.size());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+                new Erro("Controlador", "deve ser o estágio anterior ou posterior ao estágio dispensável.", "aneis[0].planos[0].estagiosPlanos[0].estagioQueRecebeEstagioDispensavelFieldEstagioQueRecebeValido")
+        ));
+
+        estagioPlano1Anel4.setEstagioQueRecebeEstagioDispensavel(estagioPlano4Anel4);
+        erros = getErros(controlador);
+        assertThat(erros, Matchers.empty());
     }
 
     @Override

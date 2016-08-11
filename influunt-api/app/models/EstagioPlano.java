@@ -15,6 +15,7 @@ import utils.RangeUtils;
 import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -30,34 +31,46 @@ public class EstagioPlano extends Model implements Cloneable {
 
     @Column
     private String idJson;
+
     @ManyToOne
     @NotNull
     private Estagio estagio;
+
     @ManyToOne
     @NotNull
     private Plano plano;
+
     @Column
     private Integer posicao;
+
     @Column
     private Integer tempoVerde;
+
     @Column
     private Integer tempoVerdeMinimo;
+
     @Column
     private Integer tempoVerdeMaximo;
+
     @Column
     private Integer tempoVerdeIntermediario;
+
     @Column
     private Double tempoExtensaoVerde;
+
     @Column
     private boolean dispensavel;
+
     @ManyToOne
     @Column
-    private Estagio estagioQueRecebeEstagioDispensavel;
+    private EstagioPlano estagioQueRecebeEstagioDispensavel;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
@@ -129,11 +142,11 @@ public class EstagioPlano extends Model implements Cloneable {
         return tempoExtensaoVerde;
     }
 
-    public Estagio getEstagioQueRecebeEstagioDispensavel() {
+    public EstagioPlano getEstagioQueRecebeEstagioDispensavel() {
         return estagioQueRecebeEstagioDispensavel;
     }
 
-    public void setEstagioQueRecebeEstagioDispensavel(Estagio estagioQueRecebeEstagioDispensavel) {
+    public void setEstagioQueRecebeEstagioDispensavel(EstagioPlano estagioQueRecebeEstagioDispensavel) {
         this.estagioQueRecebeEstagioDispensavel = estagioQueRecebeEstagioDispensavel;
     }
 
@@ -241,6 +254,22 @@ public class EstagioPlano extends Model implements Cloneable {
         return true;
     }
 
+    @AssertTrue(groups = PlanosCheck.class, message = "não pode ficar em branco.")
+    public boolean isEstagioQueRecebeEstagioDispensavel() {
+        if (getPlano().isTempoFixoCoordenado() && isDispensavel()) {
+            return getEstagioQueRecebeEstagioDispensavel() != null;
+        }
+        return true;
+    }
+
+    @AssertTrue(groups = PlanosCheck.class, message = "deve ser o estágio anterior ou posterior ao estágio dispensável.")
+    public boolean isEstagioQueRecebeEstagioDispensavelFieldEstagioQueRecebeValido() {
+        if (getEstagioQueRecebeEstagioDispensavel() != null) {
+            return getEstagioQueRecebeEstagioDispensavel().getIdJson().equals(getEstagioPlanoAnterior().getIdJson()) || getEstagioQueRecebeEstagioDispensavel().getIdJson().equals(getEstagioPlanoProximo().getIdJson());
+        }
+        return true;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -260,5 +289,29 @@ public class EstagioPlano extends Model implements Cloneable {
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    public EstagioPlano getEstagioPlanoAnterior(){
+        List<EstagioPlano> listaEstagioPlanos = ordenarEstagiosPorPosicao();
+        Integer index = listaEstagioPlanos.indexOf(this);
+        if(index == 0){
+            return listaEstagioPlanos.get(listaEstagioPlanos.size() - 1);
+        }
+        return listaEstagioPlanos.get(index - 1);
+    }
+
+    public EstagioPlano getEstagioPlanoProximo(){
+        List<EstagioPlano> listaEstagioPlanos = ordenarEstagiosPorPosicao();
+        Integer index = listaEstagioPlanos.indexOf(this);
+        if(index == listaEstagioPlanos.size() - 1){
+            return listaEstagioPlanos.get(0);
+        }
+        return listaEstagioPlanos.get(index + 1);
+    }
+
+    private List<EstagioPlano> ordenarEstagiosPorPosicao(){
+        List<EstagioPlano> listaEstagioPlanos = this.getPlano().getEstagiosPlanos();
+        listaEstagioPlanos.sort((anterior, proximo) -> anterior.getPosicao().compareTo(proximo.getPosicao()));
+        return listaEstagioPlanos;
     }
 }
