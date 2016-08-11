@@ -23,6 +23,10 @@
     "cidade": "Cidade",
     "CLC": "CLC",
     "CLA": "CLA",
+    "configuracaoGrupo": {
+      "tipo": "TIPO",
+      "verdeSeguro": "VERDE SEGURANÇA",
+    },
     "configuracao_grupo": "Grupos Semafóricos",
     "coordenadas": "COORDENADAS",
     "dadosBasicos": "Dados Básicos",
@@ -58,6 +62,9 @@
     "titulo": "Programação",
     "transicoesProibidas": "Transições Proibidas",
     "revisao": "Revisão",
+    "croqui": "CROQUI",
+    "arrasteAqui": "Arraste imagens para este local",
+    "verDados": "Ver Tela Dados Básicos",
     "validacoes": {
       "aoMenosUmGrupoSemaforico": "Este anel deve ter mais de 1 grupo semáforico",
       "latitudeMayNotBeNull": "Campo de Latitude é Obrigatório",
