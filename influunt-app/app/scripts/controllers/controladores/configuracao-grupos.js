@@ -45,7 +45,8 @@ angular.module('influuntApp')
           idJson: UUID.generate(),
           anel: {idJson: $scope.currentAnel.idJson}, 
           tipo: 'VEICULAR',
-          faseVermelhaApagadaAmareloIntermitente: false
+          faseVermelhaApagadaAmareloIntermitente: false,
+          // tempoVerdeSeguranca: $scope.objeto.
         };
 
         $scope.objeto.gruposSemaforicos = $scope.objeto.gruposSemaforicos || [];
@@ -85,6 +86,10 @@ angular.module('influuntApp')
           return true;
         }
         return $scope.objeto.gruposSemaforicos.length < $scope.objeto.limiteGrupoSemaforico;
+      };
+
+      $scope.atualizaTempoVerdeSeguranca = function(grupo){
+        grupo.tempoVerdeSeguranca = grupo.tipo === 'VEICULAR' ? $scope.objeto.verdeSegurancaVeicularMin : $scope.objeto.verdeSegurancaPedestreMin;
       };
 
       /**

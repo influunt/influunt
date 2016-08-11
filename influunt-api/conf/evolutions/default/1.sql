@@ -196,6 +196,7 @@ create table grupos_semaforicos (
   controlador_id                varchar(40),
   posicao                       integer,
   fase_vermelha_apagada_amarelo_intermitente tinyint(1) default 0,
+  tempo_verde_seguranca         integer,
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
   constraint ck_grupos_semaforicos_tipo check (tipo in ('PEDESTRE','VEICULAR')),
