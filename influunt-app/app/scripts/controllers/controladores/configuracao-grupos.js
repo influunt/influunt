@@ -46,7 +46,7 @@ angular.module('influuntApp')
           anel: {idJson: $scope.currentAnel.idJson}, 
           tipo: 'VEICULAR',
           faseVermelhaApagadaAmareloIntermitente: false,
-          // tempoVerdeSeguranca: $scope.objeto.
+          tempoVerdeSeguranca: $scope.objeto.verdeSegurancaVeicularMin
         };
 
         $scope.objeto.gruposSemaforicos = $scope.objeto.gruposSemaforicos || [];

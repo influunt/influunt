@@ -25,7 +25,7 @@ public enum DiaDaSemana {
         return name;
     }
 
-    public static DiaDaSemana get(String name){
+    public static DiaDaSemana get(String name) {
         return Arrays.stream(DiaDaSemana.values()).filter(diaDaSemana -> diaDaSemana.equalsName(name)).findFirst().orElse(null);
     }
 }

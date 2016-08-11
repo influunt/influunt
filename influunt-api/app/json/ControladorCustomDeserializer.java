@@ -3,7 +3,6 @@ package json;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
 import org.joda.time.LocalTime;
-import play.libs.Json;
 
 import java.util.*;
 import java.util.concurrent.ExecutorService;
@@ -986,7 +985,7 @@ public class ControladorCustomDeserializer {
     }
 
     private TabelaHorario parseTabelaHorario(JsonNode node) {
-        TabelaHorario  tabelaHorario = new TabelaHorario();
+        TabelaHorario tabelaHorario = new TabelaHorario();
         if (node.has("id")) {
             JsonNode id = node.get("id");
             if (!id.isNull()) {
@@ -1016,7 +1015,7 @@ public class ControladorCustomDeserializer {
     }
 
     private Evento parseEvento(JsonNode node) {
-        Evento  evento = new Evento();
+        Evento evento = new Evento();
 
         if (node.has("id")) {
             JsonNode id = node.get("id");

@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import json.serializers.InfluuntDateTimeSerializer;
 import models.*;
 import play.libs.Json;
-import scala.util.parsing.json.JSONArray;
 import utils.RangeUtils;
 
 import java.util.ArrayList;
@@ -1097,7 +1096,6 @@ public class ControladorCustomSerializer {
         parentJson.set("gruposSemaforicos", gruposSemaforicosJson);
 
     }
-
 
 
     private void refEstagios(List<Estagio> estagios, ObjectNode parentJson) {

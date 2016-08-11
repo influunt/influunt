@@ -3,7 +3,6 @@ package models;
 import checks.ControladorGruposSemaforicosCheck;
 import checks.ControladorTabelaEntreVerdesCheck;
 import checks.ControladorVerdesConflitantesCheck;
-import checks.PlanosCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.PrivateOwned;
