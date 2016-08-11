@@ -13,20 +13,45 @@
       "titulo": "Detectores",
       "verTabelaEntreVerdes": "Ver Tela de Entre Verdes"
     },
+    "configuracaoGrupo": {
+      "tipo": "TIPO",
+      "faseVermelha": "FASE VERMELHA APAGADA",
+      "descricao": "DESCRIÇÃO",
+      "veicular": "Veicular",
+      "pedestre": "Pedestre",
+      "naoAmarelo": "Não colocar em amarelo intermitente",
+      "simAmarelo": "Colocar em amarelo intermitente",
+      "addGrupo": "Adicionar novo grupo",
+      "verAneis": "Ver Tela Anéis",
+      "faseVermelha": "FASE VERMELHA APAGADA",
+      "verdeSeguro": "VERDE SEGURANÇA"
+    },
+    "associacaoEstagio": {
+      "ativarMonitoramento": "Ativar monitoramento de tempo máximo de permanencia",
+      "demanda": "Demanda prioritária",
+      "verVerdes": "Ver Tela de Verdes Conflitantes"
+    },
     "aneis": "Configuração de Aneis",
     "anel": "Anel",
     "area": "Área",
     "adicionarGrupo": "Adicionar Grupo",
     "associacao": "Associação Estágio x Grupo Semafórico",
-    "entreVerdes": "Tabela de Entre Verdes",
+    "entreVerdes": {
+      "titulo": "Tabela de Entre Verdes",
+      "tabela": "Tabela",
+      "tabelas": "Tabelas",
+      "novaTabela": "Nova tabela",
+      "addTabela": "Adicionar uma nova tabela padrão",
+      "descricao": "Descrição",
+      "verTransicoes": "Ver Tela de Transições Proíbidas",
+      "novaTabela": "Nova tabela",
+      "novaTabela": "Nova tabela"
+    },
+
     "ativo": "Ativo",
     "cidade": "Cidade",
     "CLC": "CLC",
     "CLA": "CLA",
-    "configuracaoGrupo": {
-      "tipo": "TIPO",
-      "verdeSeguro": "VERDE SEGURANÇA",
-    },
     "configuracao_grupo": "Grupos Semafóricos",
     "coordenadas": "COORDENADAS",
     "dadosBasicos": "Dados Básicos",
@@ -60,7 +85,16 @@
     "opcoes": "Opções",
     "tipo": "Tipo",
     "titulo": "Programação",
-    "transicoesProibidas": "Transições Proibidas",
+    "transicoesProibidas": {
+      "titulo": "Transições Proibidas",
+      "estagiosAlt": "Transições Alternativos",
+      "transicaoProibida": "Transição proibida",
+      "alternativa": "Alternativa",
+      "verAssociacao": "Ver Tela de Associação de Estágios x Grupos Semafórios",
+      "de": "De",
+      "para": "Para",
+      "tabelaVerdes": "Tabelas de Entre Verdes"
+    },
     "revisao": "Revisão",
     "croqui": "CROQUI",
     "arrasteAqui": "Arraste imagens para este local",
@@ -74,6 +108,11 @@
       "totalGruposSemaforicos": "Total de <strong>grupos semafóricos</strong> maior que a quantidade máxima suportada pelo controlador"
     },
     "verdes_conflitantes": "Verdes Conflitantes",
+    "verdesConflitantes": {
+      "verConfiguracao": "Ver Tela de Configuração de Grupos Semafóricos",
+      "associacaoXgrupo": "Associação de Estágios x Grupos Semafóricos",
+      "configuracaoSemaforicos": "Configuração de Grupos Semafóricos"
+    },
     "versaoFirmware": "Versão do Firmware",
     "numeroTabelasEntreVerdes": "Número de tabelas entre verdes"
   },

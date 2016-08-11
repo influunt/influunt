@@ -67,9 +67,9 @@
                               <div class="col-lg-8 col-sm-8 priority">
                                   <label>
                                     <input type="checkbox" ichecks data-ng-model="estagio.tempoMaximoPermanenciaAtivado" if-unchecked="limpaTempoPermanencia(estagio)">
-                                    <p class="desc">Ativar monitoramento de tempo máximo de permanencia</p>
+                                    <p class="desc">{{ 'controladores.associacaoEstagio.ativarMonitoramento' | translate }}</p>
                                   </label>
-                                  <label><input type="checkbox" ichecks data-ng-model="estagio.demandaPrioritaria"><p class="desc">Demanda prioritária</p></label>
+                                  <label><input type="checkbox" ichecks data-ng-model="estagio.demandaPrioritaria"><p class="desc">{{ 'controladores.associacaoEstagio.demanda' | translate }}</p></label>
                               </div>
                             </div>
                           </div>
@@ -88,13 +88,13 @@
 
     <div class="row">
       <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix">
-        <a ui-sref="app.wizard_controladores.verdes_conflitantes({id: objeto.id})" target="_blank" data-toggle="tooltip" data-placement="top" class="left btn btn-info btn-footer" title="Ver Tela de Verdes Conflitantes">
+        <a ui-sref="app.wizard_controladores.verdes_conflitantes({id: objeto.id})" target="_blank" data-toggle="tooltip" data-placement="top" class="left btn btn-info btn-footer" title="{{ 'controladores.associacaoEstagio.verVerdes' | translate }}">
           <i class="fa fa-eye"></i> {{ 'plugins.steps.labels.last_screen' | translate }}
         </a>
-        <a goToTop data-ng-click="submitForm({$valid: true}, 'associacao_grupos_semaforicos', 'app.wizard_controladores.transicoes_proibidas')" data-toggle="tooltip" data-placement="top" title="Transições Proíbidas" class="goToTop btn btn-primary btn-footer right">
+        <a goToTop data-ng-click="submitForm({$valid: true}, 'associacao_grupos_semaforicos', 'app.wizard_controladores.transicoes_proibidas')" data-toggle="tooltip" data-placement="top" title="{{ 'controladores.transicoesProibidas' | translate }}" class="goToTop btn btn-primary btn-footer right">
           {{ 'plugins.steps.labels.next' | translate }} <i class="fa fa-arrow-right"></i>
         </a>
-        <a goToTop data-ng-click="submitForm({$valid: true}, 'associacao_grupos_semaforicos', 'app.wizard_controladores.verdes_conflitantes')" data-toggle="tooltip" data-placement="top" title="Verdes Conflitantes" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
+        <a goToTop data-ng-click="submitForm({$valid: true}, 'associacao_grupos_semaforicos', 'app.wizard_controladores.verdes_conflitantes')" data-toggle="tooltip" data-placement="top" title="{{ 'controladores.verdes_conflitantes' | translate }}" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
           <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.previous' | translate }}
         </a>
       </div>
