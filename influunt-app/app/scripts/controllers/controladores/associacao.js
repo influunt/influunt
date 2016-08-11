@@ -127,17 +127,6 @@ angular.module('influuntApp')
           .value();
       };
 
-      // toggleEstagioAtivado = function(grupo, estagio) {
-      //   var estagioId = estagio.id;
-      //   var estagioGrupoSemaforico = _.find(grupo.estagiosGruposSemaforicos, {estagio: {id: estagioId}});
-
-      //   if (!!estagioGrupoSemaforico) {
-      //     estagioGrupoSemaforico.ativo = !estagioGrupoSemaforico.ativo;
-      //     grupo.estagiosAtivados[estagioId] = estagioGrupoSemaforico.ativo;
-      //     $scope.$apply();
-      //   }
-      // };
-
       $scope.sortableOptions = {
         handle: '.title-stages',
         stop: function() {
@@ -150,5 +139,4 @@ angular.module('influuntApp')
           });
         }
       };
-
     }]);
