@@ -1740,12 +1740,14 @@ b.gray-box {
   background: #f5f5f5;
   border: 1px solid #e1e1e1;
   padding: 5px 20px;
+  display: inline-block;
 }
 
 b.white-box {
   background: #FFFFFF;
   border: 1px solid #e1e1e1;
   padding: 5px 20px;
+  display: inline-block;
 }
 
 .col-lg-6 .review-page {
@@ -1795,4 +1797,50 @@ li.initialTab {
 }
 .ui-widget-content {
     box-sizing: border-box;
+}
+
+.changeRed {
+  background: #f49ba6;
+  color: #a8515b;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.changeRed b.gray-box {
+  background: #ea919c;
+  border-color: #ea919c;
+  color: #9c4450;
+}
+.changeRed b.white-box {
+  background: #f49ba6;
+  border-color: #ea919c;
+  color: #9c4450;
+}
+.changeRed i {
+  color: #796878;
+}
+.changeRed img {
+  opacity: 0.7;
+}
+
+.changeGreen {
+  background: #90e4ab;
+  color: #3f9259;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.changeGreen b.gray-box {
+  background: #86daa1;
+  border-color: #86daa1;
+  color: #3a8d54;
+}
+.changeGreen b.white-box {
+  background: #90e4ab;
+  border-color: #86daa1;
+  color: #3a8d54;
+}
+.changeGreen i {
+  color: #20bb7a;
+}
+.changeGreen img {
+  opacity: 0.7;
 }
