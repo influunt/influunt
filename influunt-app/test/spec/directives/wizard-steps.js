@@ -15,12 +15,12 @@ describe('Directive: wizardSteps', function () {
   }));
 
   it('Os passos anteriores ao "active" devem estar "completed"', function() {
-    var res = $(element).children('li:nth-child(1)').hasClass('completed')
+    var res = $(element).children('li:nth-child(1)').hasClass('completed');
     expect(res).toBeTruthy();
   });
 
   it('Os passos depois de "active" devem estar "disabled"', function() {
-    var res = $(element).children('li:nth-child(3)').hasClass('disabled')
+    var res = $(element).children('li:nth-child(3)').hasClass('disabled');
     expect(res).toBeTruthy();
   });
 

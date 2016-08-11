@@ -146,12 +146,12 @@ describe('Controller: ControladoresAneisCtrl', function () {
   describe('desativarUltimoAnel', function () {
     beforeEach(function() {
       scope.objeto = {
-        "aneis": [
-          {"idJson": "anel-1","ativo": true,"enderecos": [{"idJson": "e1"},{"idJson": "e2"}]},
-          {"idJson": "anel-2","ativo": true,"enderecos": [{"idJson": "e3"},{"idJson": "e4"}]},
-          {"idJson": "anel-3","ativo": false}
+        aneis: [
+          {idJson: 'anel-1',ativo: true, enderecos: [{idJson: 'e1'},{idJson: 'e2'}]},
+          {idJson: 'anel-2',ativo: true, enderecos: [{idJson: 'e3'},{idJson: 'e4'}]},
+          {idJson: 'anel-3',ativo: false}
         ],
-        "todosEnderecos": [{"idJson": "e1"},{"idJson": "e2"},{"idJson": "e3"},{"idJson": "e4"}]
+        todosEnderecos: [{idJson: 'e1'},{idJson: 'e2'},{idJson: 'e3'},{idJson: 'e4'}]
       };
       scope.aneis = scope.objeto.aneis;
       scope.desativarUltimoAnel();

@@ -10,7 +10,7 @@ describe('Filter: estagioForaSequencia', function () {
   beforeEach(inject(function ($filter) {
     estagioForaSequencia = $filter('estagioForaSequencia');
     estagios = [{idJson: 1}, {idJson: 2}, {idJson: 3}];
-    sequencia = [{estagio: {"idJson": 2}},{estagio: {"idJson": 3}}];
+    sequencia = [{estagio: {idJson: 2}},{estagio: {idJson: 3}}];
   }));
 
   it('Deve retornar somente os estágios com idJson não presentes na sequencia de estagios informada', function() {
