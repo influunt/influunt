@@ -40,13 +40,12 @@
   </div>
 </div>
 
-<div class="row">
-  <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix">
-    <a  data-toggle="tooltip" data-placement="top" title="Descartar" class="goToTop btn btn-primary btn-footer right">
-      {{ 'plugins.steps.labels.next' | translate }} <i class="fa fa-arrow-right"></i>
-    </a>
-    <a goToTop data-ng-click="submitForm({$valid: true}, 'transicoes_proibidas', 'app.wizard_controladores.associacao')" data-toggle="tooltip" data-placement="top" title="Associação de Estágios x Grupos Semafórios" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
-      <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.previous' | translate }}
-    </a>
-  </div>
+<div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix">
+  <a  data-toggle="tooltip" data-placement="top" title="Salvar" class="btn btn-primary btn-footer right">
+    {{ 'geral.crud.salvar' | translate }}
+  </a>
+  <a goToTop data-toggle="tooltip" data-placement="top" title="Descartar" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
+    {{ 'horarios.descartar' | translate }}
+  </a>
 </div>
+<div class="row"></div>
