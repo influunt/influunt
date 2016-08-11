@@ -163,29 +163,6 @@ angular.module('influuntApp')
       };
 
       /**
-       * Seleciona um estágio do anel atual atraves do indice.
-       *
-       * @param      {<type>}  index   The index
-       *
-       * @todo verificar se este metodo continua sendo utilizado para algo.
-       */
-      // $scope.selecionaEstagio = function(index) {
-      //   $scope.currentEstagioId = index;
-      //   $scope.currentEstagio = $scope.currentAnel.estagios[index];
-      //   $scope.atualizaGruposSemaforicosSelecionados();
-      // };
-
-      // /**
-      //  * @todo verificar se este metodo continua sendo utilizado de forma efetiva.
-      //  */
-      // $scope.atualizaGruposSemaforicosSelecionados = function() {
-      //   var estagioId = $scope.currentEstagio.id;
-      //   $scope.gruposSelecionados = $scope.currentAnel.gruposSemaforicos.filter(function(grupo) {
-      //     return !!_.filter(grupo.estagioGrupoSemaforicos, {estagio: {id: estagioId}}).length;
-      //   });
-      // };
-
-      /**
        * Seleciona um grupo semafórico do anel atual atraves do índice.
        *
        * @param      {int}  index   The index

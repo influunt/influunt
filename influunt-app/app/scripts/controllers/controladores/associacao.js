@@ -78,7 +78,6 @@ angular.module('influuntApp')
         grupo.estagiosGruposSemaforicos = grupo.estagiosGruposSemaforicos || [];
         estagio.estagiosGruposSemaforicos = estagio.estagiosGruposSemaforicos || [];
 
-
         var index = _.findIndex($scope.objeto.estagiosGruposSemaforicos, busca);
         if (index >= 0) {
           var estagioGrupoSemaforico = $scope.objeto.estagiosGruposSemaforicos[index];
@@ -99,10 +98,6 @@ angular.module('influuntApp')
           grupo.estagiosGruposSemaforicos.push({idJson: obj.idJson});
           estagio.estagiosGruposSemaforicos.push({idJson: obj.idJson});
         }
-
-        // @todo verificar os codigos abaixo tem alguma funcao efetiva.
-        // toggleEstagioAtivado(grupo, estagio);
-        // return $scope.currentEstagio && $scope.atualizaGruposSemaforicosSelecionados();
       };
 
       $scope.estagioTemErro = function(indiceAnel, indiceEstagio) {
