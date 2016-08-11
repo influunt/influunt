@@ -66,8 +66,8 @@ describe('Controller: ControladoresAssociacaoCtrl', function () {
               estagios: [{idJson: 'e1'}, {idJson: 'e2'}]}
           ],
           estagios: [
-            {idJson: 'e1', anel: {idJson: 1}},
-            {idJson: 'e2', anel: {idJson: 1}}
+            {idJson: 'e1', id: 'e1', anel: {idJson: 1}},
+            {idJson: 'e2', id: 'e2', anel: {idJson: 1}}
           ],
           gruposSemaforicos: [
             {idJson: 'gs1', estagiosGruposSemaforicos: [{idJson: 'egs1'}]},

@@ -51,7 +51,7 @@ angular.module('influuntApp')
                 grupo.estagiosGruposSemaforicos.forEach(function(eg) {
                   var estagioGrupo = _.find($scope.objeto.estagiosGruposSemaforicos, {idJson: eg.idJson});
                   var estagio = _.find($scope.objeto.estagios, {idJson: estagioGrupo.estagio.idJson});
-                  grupo.estagiosRelacionados[estagio.idJson] = true;
+                  grupo.estagiosRelacionados[estagio.id] = true;
                 });
             });
           }
