@@ -144,7 +144,7 @@ angular.module('influuntApp')
       // };
 
       $scope.sortableOptions = {
-        handle: ".title-stages",
+        handle: '.title-stages',
         stop: function() {
           $scope.$apply(function() {
             $scope.currentEstagios.forEach(function(estagio, index) {
