@@ -10,9 +10,9 @@ angular.module('influuntApp')
   .directive('goToTop', function () {
     return {
       restrict: 'AC',
-      link: function postLink(scope, element, attrs) {
+      link: function postLink(scope, element) {
         $(element).click(function () {
-          $("html, body").animate({ scrollTop: 0 }, 500);
+          $('html, body').animate({ scrollTop: 0 }, 500);
           return false;
         });
       }

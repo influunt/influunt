@@ -92,7 +92,7 @@ angular.module('influuntApp')
 
             var tabelaEntreVerde =  {
               idJson: UUID.generate(),
-              descricao: "Nova",
+              descricao: 'Nova',
               posicao: totalTabelasEntreVerdes + 1,
               grupoSemaforico: {
                 idJson: grupoSemaforico.idJson

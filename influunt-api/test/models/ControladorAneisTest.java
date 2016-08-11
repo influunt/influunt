@@ -15,9 +15,11 @@ import play.mvc.Result;
 import play.test.Helpers;
 
 import javax.validation.groups.Default;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.junit.Assert.*;
 import static play.mvc.Http.Status.OK;
@@ -51,7 +53,9 @@ public class ControladorAneisTest extends ControladorTest {
                 new Erro("Controlador", "Um anel ativo deve ter ao menos dois estágios e no máximo o limite do modelo do controlador", "aneis[0]")
         ));
 
-        anel1.setEstagios(Arrays.asList(new Estagio(), new Estagio()));
+        ArrayList<Estagio> estagios = new ArrayList<Estagio>();
+        IntStream.rangeClosed(1, 2).forEach(i -> estagios.add(new Estagio()));
+        anel1.setEstagios(estagios);
 
         erros = getErros(controlador);
 
@@ -65,8 +69,21 @@ public class ControladorAneisTest extends ControladorTest {
         anel1.addEndereco(paulista);
         anel1.addEndereco(belaCintra);
 
-        anel1.setEstagios(Arrays.asList(new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio(),
-                new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio(), new Estagio()));
+        estagios.clear();
+        IntStream.rangeClosed(1, 17).forEach(i -> estagios.add(new Estagio()));
+        anel1.setEstagios(estagios);
+
+
+        erros = getErros(controlador);
+
+        assertEquals(1, erros.size());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+                new Erro("Controlador", "Um anel ativo deve ter ao menos dois estágios e no máximo o limite do modelo do controlador", "aneis[0]")
+        ));
+
+        estagios.clear();
+        IntStream.rangeClosed(1, 16).forEach(i -> estagios.add(new Estagio()));
+        anel1.setEstagios(estagios);
 
         erros = getErros(controlador);
 

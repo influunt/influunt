@@ -44,7 +44,7 @@ angular.module('influuntApp')
         var obj = { 
           idJson: UUID.generate(),
           anel: {idJson: $scope.currentAnel.idJson}, 
-          tipo: "VEICULAR",
+          tipo: 'VEICULAR',
           faseVermelhaApagadaAmareloIntermitente: false
         };
 
