@@ -28,6 +28,11 @@ public class ControladorUtil {
     private Provider<Application> provider;
 
     public Controlador deepClone(Controlador controlador) {
+
+        if (controlador.getStatusControlador() != StatusControlador.ATIVO) {
+            throw new IllegalStateException();
+        }
+
         long startTime = System.nanoTime();
 
         Controlador controladorClone = copyPrimitveFields(controlador);
@@ -83,7 +88,7 @@ public class ControladorUtil {
             // Rodando novamente para montar a tabela de verdesconfilatnates
             anel.getGruposSemaforicos().forEach(grupoSemaforico -> {
                 ArrayList<VerdesConflitantes> verdesOrigem = new ArrayList<VerdesConflitantes>();
-                ArrayList<VerdesConflitantes> verdesDestino = new ArrayList<VerdesConflitantes>();
+
                 grupoSemaforico.getVerdesConflitantesOrigem().forEach(verdesConflitantes -> {
                     VerdesConflitantes verdesAux = copyPrimitveFields(verdesConflitantes);
                     if (verdesConflitantes.getOrigem() != null) {
@@ -94,20 +99,9 @@ public class ControladorUtil {
                     }
                     verdesOrigem.add(verdesAux);
                 });
-                grupoSemaforico.getVerdesConflitantesDestino().forEach(verdesConflitantes -> {
-                    VerdesConflitantes verdesAux = copyPrimitveFields(verdesConflitantes);
-                    if (verdesConflitantes.getOrigem() != null) {
-                        verdesAux.setOrigem(gruposSemaforicos.get(verdesConflitantes.getOrigem().getId()));
-                    }
-                    if (verdesConflitantes.getDestino() != null) {
-                        verdesAux.setDestino(gruposSemaforicos.get(verdesConflitantes.getDestino().getId()));
-                    }
-                    verdesDestino.add(verdesAux);
-                });
 
                 GrupoSemaforico gsAux = gruposSemaforicos.get(grupoSemaforico.getId());
                 gsAux.setVerdesConflitantesOrigem(verdesOrigem);
-                gsAux.setVerdesConflitantesDestino(verdesDestino);
             });
 
         });
@@ -162,7 +156,7 @@ public class ControladorUtil {
 
             anel.getGruposSemaforicos().forEach(grupoSemaforico -> {
 
-                HashMap<UUID, TabelaEntreVerdes> teAux = new HashMap<UUID, TabelaEntreVerdes>();
+                HashMap<UUID, TabelaEntreVerdes> teAux  = new HashMap<UUID, TabelaEntreVerdes>();
                 grupoSemaforico.getTabelasEntreVerdes().forEach(tabelaEntreVerdes -> {
                     TabelaEntreVerdes tabelaEntreVerdesAux = copyPrimitveFields(tabelaEntreVerdes);
                     GrupoSemaforico grupoSemaforicoClone = gruposClone.get(tabelaEntreVerdes.getGrupoSemaforico().getIdJson());
@@ -177,6 +171,7 @@ public class ControladorUtil {
                     transicaoAux.setOrigem(estagiosClone.get(transicao.getOrigem().getIdJson()));
                     transicaoAux.setDestino(estagiosClone.get(transicao.getDestino().getIdJson()));
                     transicaoAux.setGrupoSemaforico(grupoSemaforicoAux);
+
                     transicao.getTabelaEntreVerdesTransicoes().forEach(tabelaEntreVerdesTransicao -> {
                         TabelaEntreVerdesTransicao tvt = copyPrimitveFields(tabelaEntreVerdesTransicao);
                         TabelaEntreVerdes te = teAux.get(tabelaEntreVerdesTransicao.getTabelaEntreVerdes().getId());
@@ -185,7 +180,6 @@ public class ControladorUtil {
 
                         transicaoAux.addTabelaEntreVerdesTransicao(tvt);
                         te.addTabelaEntreVerdesTransicao(tvt);
-
                     });
                     grupoSemaforicoAux.addTransicao(transicaoAux);
                 });
@@ -221,6 +215,7 @@ public class ControladorUtil {
         Map<String, Anel> aneis = destino.getAneis().stream().collect(Collectors.toMap(Anel::getIdJson, Function.identity()));
         Map<String, GrupoSemaforico> grupos = new HashMap<String, GrupoSemaforico>();
         Map<String, Estagio> estagios = new HashMap<String, Estagio>();
+
         destino.getAneis().stream().forEach(anel -> {
             anel.getGruposSemaforicos().stream().forEach(grupoSemaforico -> {
                 grupos.put(grupoSemaforico.getIdJson(), grupoSemaforico);

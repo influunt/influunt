@@ -3,7 +3,6 @@ package controllers;
 import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
 import be.objectify.deadbolt.java.actions.Dynamic;
 import checks.*;
-import com.avaje.ebean.Ebean;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import helpers.ControladorUtil;
@@ -11,6 +10,8 @@ import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import models.Controlador;
 import models.StatusControlador;
+import models.Usuario;
+import models.VersaoControlador;
 import play.Application;
 import play.db.ebean.Transactional;
 import play.libs.Json;
@@ -19,6 +20,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -32,7 +34,6 @@ public class ControladoresController extends Controller {
 
     @Inject
     Provider<Application> provider;
-
 
     @Transactional
     public CompletionStage<Result> dadosBasicos() {
@@ -102,13 +103,30 @@ public class ControladoresController extends Controller {
 
 
     @Transactional
-    public CompletionStage<Result> copiar(String id) {
+    public CompletionStage<Result> edit(String id) {
+        if (getUsuario() == null) {
+            return CompletableFuture.completedFuture(unauthorized(Json.toJson(Arrays.asList(new Erro("clonar", "usuário não econtrado", "")))));
+        }
+
         Controlador controlador = Controlador.find.byId(UUID.fromString(id));
-        Controlador controladorClone = new ControladorUtil().provider(provider).deepClone(controlador);
-        if (controladorClone == null) {
+
+
+        if (controlador.getStatusControlador() != StatusControlador.ATIVO && controlador.getStatusControlador() != StatusControlador.EM_CONFIGURACAO) {
+            return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Arrays.asList(new Erro("clonar", "não é possível editar controlador", "")))));
+        }
+
+        if(controlador.getStatusControlador() == StatusControlador.ATIVO) {
+            Controlador controladorEdicao = new ControladorUtil().provider(provider).deepClone(controlador);
+            VersaoControlador novaVersao = new VersaoControlador(controlador, controladorEdicao, getUsuario());
+            novaVersao.save();
+
+            return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controladorEdicao)));
+        }
+
+        if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
-            return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controladorClone)));
+            return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador)));
         }
     }
 
@@ -132,6 +150,11 @@ public class ControladoresController extends Controller {
         if (request().body() == null) {
             return CompletableFuture.completedFuture(badRequest());
         }
+
+        if (getUsuario() == null) {
+            return CompletableFuture.completedFuture(unauthorized(Json.toJson(Arrays.asList(new Erro("criar", "usuário não econtrado", "")))));
+        }
+
         Controlador controlador = new ControladorCustomDeserializer().getControladorFromJson(request().body().asJson());
 
         boolean checkIfExists = controlador.getId() != null;
@@ -149,6 +172,8 @@ public class ControladoresController extends Controller {
                     controlador.update();
                 } else {
                     controlador.save();
+                    VersaoControlador versaoControlador = new VersaoControlador(controlador, null, getUsuario());
+                    versaoControlador.save();
                 }
                 Controlador controlador1 = Controlador.find.byId(controlador.getId());
 
@@ -156,4 +181,9 @@ public class ControladoresController extends Controller {
             }
         }
     }
+
+    private Usuario getUsuario() {
+        return (Usuario) ctx().args.get("user");
+    }
+
 }

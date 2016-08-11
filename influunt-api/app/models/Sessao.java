@@ -26,10 +26,13 @@ public class Sessao extends Model implements Serializable {
 
     @Column
     private String idJson;
+
     @ManyToOne
     private Usuario usuario;
+
     @Column
     private Boolean ativa = true;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)

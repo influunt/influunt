@@ -37,6 +37,7 @@ public class ModeloControlador extends Model implements Cloneable, Serializable 
 
     @Column
     private String idJson;
+
     @ManyToOne
     @NotNull(message = "não pode ficar em branco")
     private Fabricante fabricante;
@@ -44,11 +45,13 @@ public class ModeloControlador extends Model implements Cloneable, Serializable 
     @Column
     @NotNull(message = "não pode ficar em branco")
     private String descricao;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
@@ -111,5 +114,21 @@ public class ModeloControlador extends Model implements Cloneable, Serializable 
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ModeloControlador that = (ModeloControlador) o;
+
+        return id != null ? id.equals(that.id) : that.id == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 }

@@ -359,7 +359,7 @@ angular.module('influuntApp')
 
       $scope.copiar = function(controladorId) {
         console.log("******* ID: ", controladorId);
-        return Restangular.one('controladores', controladorId).all("copiar").customPUT()
+        return Restangular.one('controladores', controladorId).all("edit").customGET()
           .then(function(res) {
             console.log("RETORNOU: ", JSON.stringify(res));
           })
