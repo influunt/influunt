@@ -48,6 +48,7 @@ public class ControladorGruposSemaforicosTest extends ControladorTest {
             GrupoSemaforico grupo = new GrupoSemaforico();
             grupo.setAnel(anelAtivo);
             grupo.setTipo(TipoGrupoSemaforico.VEICULAR);
+            grupo.setTempoVerdeSeguranca(30);
             anelAtivo.addGruposSemaforicos(grupo);
         }
 
@@ -72,12 +73,45 @@ public class ControladorGruposSemaforicosTest extends ControladorTest {
 
         erros = getErros(controlador);
 
-        assertEquals(1, erros.size());
+        assertEquals(3, erros.size());
         assertThat(erros, Matchers.hasItems(
+                new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].tempoVerdeSeguranca"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].tempoVerdeSeguranca"),
                 new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].tipo")
         ));
 
         grupoSemaforicoPedestre.setTipo(TipoGrupoSemaforico.PEDESTRE);
+
+        erros = getErros(controlador);
+        assertEquals(2, erros.size());
+        assertThat(erros, Matchers.hasItems(
+                new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].tempoVerdeSeguranca"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].tempoVerdeSeguranca")
+        ));
+
+        grupoSemaforicoVeicular.setTempoVerdeSeguranca(9);
+        grupoSemaforicoPedestre.setTempoVerdeSeguranca(1);
+
+        erros = getErros(controlador);
+        assertEquals(2, erros.size());
+        assertThat(erros, Matchers.hasItems(
+                new Erro("Controlador", "deve estar entre 10 e 30", "aneis[0].gruposSemaforicos[0].tempoVerdeSegurancaFieldVeicular"),
+                new Erro("Controlador", "deve estar entre 4 e 10", "aneis[0].gruposSemaforicos[1].tempoVerdeSegurancaFieldPedestre")
+        ));
+
+        grupoSemaforicoVeicular.setTempoVerdeSeguranca(31);
+        grupoSemaforicoPedestre.setTempoVerdeSeguranca(11);
+
+        erros = getErros(controlador);
+        assertEquals(2, erros.size());
+        assertThat(erros, Matchers.hasItems(
+                new Erro("Controlador", "deve estar entre 10 e 30", "aneis[0].gruposSemaforicos[0].tempoVerdeSegurancaFieldVeicular"),
+                new Erro("Controlador", "deve estar entre 4 e 10", "aneis[0].gruposSemaforicos[1].tempoVerdeSegurancaFieldPedestre")
+        ));
+
+        grupoSemaforicoVeicular.setTempoVerdeSeguranca(30);
+        grupoSemaforicoPedestre.setTempoVerdeSeguranca(4);
+
 
         erros = getErros(controlador);
 

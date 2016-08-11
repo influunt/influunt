@@ -591,6 +591,10 @@ public class ControladorCustomSerializer {
             grupoSemaforicoJson.put("faseVermelhaApagadaAmareloIntermitente", grupoSemaforico.getFaseVermelhaApagadaAmareloIntermitente());
         }
 
+        if (grupoSemaforico.getTempoVerdeSeguranca() != null) {
+            grupoSemaforicoJson.put("tempoVerdeSeguranca", grupoSemaforico.getTempoVerdeSeguranca());
+        }
+
         if (grupoSemaforico.getAnel() != null && grupoSemaforico.getAnel().getIdJson() != null) {
             grupoSemaforicoJson.putObject("anel").put("idJson", grupoSemaforico.getAnel().getIdJson().toString());
         }

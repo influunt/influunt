@@ -489,6 +489,9 @@ public class ControladorCustomDeserializer {
         if (node.has("faseVermelhaApagadaAmareloIntermitente")) {
             grupoSemaforico.setFaseVermelhaApagadaAmareloIntermitente(node.get("faseVermelhaApagadaAmareloIntermitente").asBoolean());
         }
+        if (node.has("tempoVerdeSeguranca")) {
+            grupoSemaforico.setTempoVerdeSeguranca(node.get("tempoVerdeSeguranca").asInt());
+        }
 
         List<EstagioGrupoSemaforico> estagiosGrupoSemaforicos = new ArrayList<>();
         parseCollection("estagiosGruposSemaforicos", node, estagiosGrupoSemaforicos, ESTAGIO_GRUPO_SEMAFORICO, GRUPOS_SEMAFORICOS);
