@@ -35,12 +35,12 @@ angular.module('influuntApp')
       $scope.inicializaAneis = function() {
         return $scope.inicializaWizard().then(function() {
           if ($scope.assertAneis()) {
+            $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
+            $scope.aneis = $scope.objeto.aneis;
             $scope.currentAnelIndex = 0;
-            $scope.currentAnel = $scope.objeto.aneis[0];
+            $scope.currentAnel = $scope.aneis[0];
 
-            $scope.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
             ativaPrimeiroAnel($scope.objeto);
-
             atualizarAneisAtivos();
             inicializaEnderecos();
             registrarWatcherEndereco();

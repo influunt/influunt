@@ -10,15 +10,10 @@
 angular.module('influuntApp')
   .controller('ControladoresTransicoesProibidasCtrl', ['$scope', '$state', '$controller', 'assertControlador',
     function ($scope, $state, $controller, assertControlador) {
-
-      // $controller('ControladoresCtrl', {$scope: $scope});
-      // @todo       Esta linha deverá ser substituida pela linha acima assim que o retorno dos verdes conflitantes
-      //             em grupos semaforicos for corrigido.
-      $controller('ControladoresVerdesConflitantesCtrl', {$scope: $scope});
+      $controller('ControladoresCtrl', {$scope: $scope});
 
       // funcoes privadas.
-      var desativarTransicaoProibida, ativarTransicaoProibida, removeAlternativoAnterior, setEstagioAlternativoEmAlternativo,
-          setEstagioAlternativoEmDestino, setEstagioAlternativoEmOrigem, getEstagioAnterior;
+      var desativarTransicaoProibida, ativarTransicaoProibida, getEstagioAnterior;
 
       /**
        * Garante que o controlador tem as condições mínimas para acessar a tela de transicoes proibidas.
@@ -37,40 +32,30 @@ angular.module('influuntApp')
       /**
        * Inicializa a tela de estagios proibidos: Carrega os dados necessários, ordena os aneis e estágios a partir
        * das posições.
-       *
-       * @todo Este bloco faz chamado ao inicializaVerdesConflitantes para corrigir os verdes conflitantes que a API
-       *       não está devolvendo.
-       *
-       * @return     {<type>}  { description_of_the_return_value }
        */
       $scope.inicializaTransicoesProibidas = function() {
         return $scope.inicializaWizard().then(function() {
-          $scope.inicializaVerdesConflitantes().then(function() {
+          if ($scope.assertTransicoesProibidas()) {
+            $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
+            $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
 
-            if ($scope.assertTransicoesProibidas()) {
-              $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
-              $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
-
-              $scope.aneis.forEach(function(anel) {
-                anel.transicoesProibidas =  {};
-
-                anel.estagios.forEach(function(e) {
-                  var estagio = _.find($scope.objeto.estagios, {idJson: e.idJson});
-                  return estagio.origemDeTransicoesProibidas &&
-                    estagio.origemDeTransicoesProibidas.forEach(function(res) {
-                      var transicao = _.find($scope.objeto.transicoesProibidas, {idJson: res.idJson});
-                      var origem = _.find($scope.objeto.estagios, transicao.origem);
-                      var destino = _.find($scope.objeto.estagios, transicao.destino);
-                      var t = 'E' + origem.posicao + '-E' + destino.posicao;
-                      anel.transicoesProibidas[t] = _.cloneDeep(transicao);
-                    });
-                });
+            $scope.aneis.forEach(function(anel) {
+              anel.transicoesProibidas =  {};
+              anel.estagios.forEach(function(e) {
+                var estagio = _.find($scope.objeto.estagios, {idJson: e.idJson});
+                return estagio.origemDeTransicoesProibidas &&
+                  estagio.origemDeTransicoesProibidas.forEach(function(res) {
+                    var transicao = _.find($scope.objeto.transicoesProibidas, {idJson: res.idJson});
+                    var origem = _.find($scope.objeto.estagios, transicao.origem);
+                    var destino = _.find($scope.objeto.estagios, transicao.destino);
+                    var t = 'E' + origem.posicao + '-E' + destino.posicao;
+                    anel.transicoesProibidas[t] = _.cloneDeep(transicao);
+                  });
               });
+            });
 
-              $scope.selecionaAnelTransicoesProibidas(0);
-            }
-
-          });
+            $scope.selecionaAnelTransicoesProibidas(0);
+          }
         });
       };
 
@@ -83,7 +68,7 @@ angular.module('influuntApp')
        * @return     {boolean}  { description_of_the_return_value }
        */
       $scope.toggleTransicaoProibida = function(estagio1, estagio2, disabled) {
-        if (disabled) {
+        if (disabled || estagio1.idJson === estagio2.idJson) {
           return false;
         }
 
@@ -116,9 +101,7 @@ angular.module('influuntApp')
 
         if (angular.isDefined(alternativoAnterior)) {
           var index = _.findIndex(alternativoAnterior.alternativaDeTransicoesProibidas, {idJson: transicaoProibida.idJson});
-          if (index >= 0) {
-            alternativoAnterior.alternativaDeTransicoesProibidas.splice(index, 1);
-          }
+          alternativoAnterior.alternativaDeTransicoesProibidas.splice(index, 1);
         }
 
         transicaoProibida.alternativo = {idJson: transicao.alternativo.idJson};
@@ -183,7 +166,6 @@ angular.module('influuntApp')
       };
 
       $scope.atualizaTransicoesProibidas = function() {
-        $scope.currentAnel.transicoesProibidas = $scope.currentAnel.transicoesProibidas || {};
         $scope.currentTransicoesProibidas = $scope.currentAnel.transicoesProibidas;
         return $scope.currentTransicoesProibidas;
       };
@@ -252,9 +234,7 @@ angular.module('influuntApp')
         if (transicao.alternativo) {
           estagioAlternativo = _.find($scope.objeto.estagios, {idJson: transicao.alternativo.idJson});
           var idxAlternativo = _.findIndex(estagioAlternativo.alternativaDeTransicoesProibidas, {idJson: transicao.idJson});
-          if (estagioAlternativo && estagioAlternativo.alternativaDeTransicoesProibidas) {
-            estagioAlternativo.alternativaDeTransicoesProibidas.splice(idxAlternativo, 1);
-          }
+          estagioAlternativo.alternativaDeTransicoesProibidas.splice(idxAlternativo, 1);
         }
       };
 
@@ -273,92 +253,5 @@ angular.module('influuntApp')
 
         var t = _.find($scope.objeto.transicoesProibidas, query);
         return t && t.alternativo && _.find($scope.objeto.estagios, {idJson: t.alternativo.idJson});
-      };
-
-      /**
-       * Atualiza o objeto de transição em origemDeTransicoesProibidas quando o estágio alternativo é atualizado.
-       *
-       * @param      {<type>}  transicao      The transicao
-       * @param      {<type>}  estagioOrigem  The estagio origem
-       */
-      setEstagioAlternativoEmOrigem = function(transicao, estagioOrigem) {
-        var query = {
-          origem: { idJson: transicao.origem.idJson },
-          destino: { idJson: transicao.destino.idJson }
-        };
-
-        var t = _.find($scope.objeto.transicoesProibidas, query);
-        var index = _.findIndex(estagioOrigem.origemDeTransicoesProibidas, {idJson: t.idJson});
-        if (index >= 0) {
-          estagioOrigem.origemDeTransicoesProibidas.splice(index, 1);
-        } else {
-          estagioOrigem.origemDeTransicoesProibidas.push({idJson: t.idJson});
-        }
-
-      };
-
-      /**
-       * Atualiza o objeto de transição em destinoDeTransicoesProibidas quando o estágio alternativo é atualizado.
-       *
-       * @param      {<type>}  transicao       The transicao
-       * @param      {<type>}  estagioDestino  The estagio destino
-       */
-      setEstagioAlternativoEmDestino = function(transicao, estagioDestino) {
-        var query = {
-          origem: { idJson: transicao.origem.idJson },
-          destino: { idJson: transicao.destino.idJson }
-        };
-
-        var t = _.find($scope.objeto.transicoesProibidas, query);
-        var index = _.findIndex(estagioDestino.destinoDeTransicoesProibidas, {idJson: t.idJson});
-        if (index >= 0) {
-          estagioDestino.destinoDeTransicoesProibidas.splice(index, 1);
-        } else {
-          estagioDestino.destinoDeTransicoesProibidas.push({idJson: t.idJson});
-        }
-
-      };
-
-      /**
-       * Adiciona o objeto de transição à lista de alternativaDeTransicoesProibidas do estágio alternativo.
-       *
-       * @param      {<type>}  transicao  The transicao
-       */
-      setEstagioAlternativoEmAlternativo = function(transicao, estagioAlternativo) {
-        var query = {
-          origem: { idJson: transicao.origem.idJson },
-          destino: { idJson: transicao.destino.idJson }
-        };
-
-        var t = _.find($scope.objeto.transicoesProibidas, query);
-        var index = _.findIndex(estagioAlternativo.alternativaDeTransicoesProibidas, {idJson: t.idJson});
-        if (index >= 0) {
-          estagioAlternativo.alternativaDeTransicoesProibidas.splice(index, 1);
-        } else {
-          estagioAlternativo.alternativaDeTransicoesProibidas.push({idJson: t.idJson});
-        }
-
-      };
-
-      /**
-       * Este método remove o objeto de alternativaDeTransicoesProibidas do estágio
-       * alternativo, quando este é substituido por outro em alguma transição.
-       *
-       * @param      {<type>}   transicao            The transicao
-       * @param      {<type>}   alternativoAnterior  The alternativo anterior
-       * @param      {<type>}   estagioDestino       The estagio destino
-       * @return     {boolean}  { description_of_the_return_value }
-       */
-      removeAlternativoAnterior = function(transicao, alternativoAnterior, estagioDestino) {
-        var alternativoId = transicao.alternativo && transicao.alternativo.idJson;
-        if (alternativoAnterior && alternativoAnterior !== alternativoId) {
-          alternativoAnterior = _.find($scope.currentAnel.estagios, {id: alternativoAnterior});
-          var transicaoAnterior = _.findIndex(
-            estagioDestino.destinoDeTransicoesProibidas, {origem: {id: transicao.origem.idJson}}
-          );
-
-          return transicaoAnterior >= 0 &&
-            alternativoAnterior.alternativaDeTransicoesProibidas.splice(transicaoAnterior, 1);
-        }
       };
     }]);
