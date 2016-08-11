@@ -201,6 +201,4 @@ describe('Controller: ControladoresCtrl', function () {
       expect(scope.anelTemErro(0)).toBeTruthy();
     });
   });
-
-
 });
