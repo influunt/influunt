@@ -2,14 +2,13 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
 import be.objectify.deadbolt.java.actions.Dynamic;
-import checks.*;
+import checks.Erro;
+import checks.InfluuntValidator;
+import checks.TabelaHorariosCheck;
 import com.fasterxml.jackson.databind.JsonNode;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
-import models.Area;
 import models.Controlador;
-import models.TabelaHorario;
-import models.Usuario;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -18,7 +17,6 @@ import play.mvc.Security;
 import security.Secured;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 

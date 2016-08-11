@@ -149,7 +149,7 @@ public class Evento extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = TabelaHorariosCheck.class,
             message = "Existem eventos configurados no mesmo dia e horário.")
     public boolean isEventosMesmoDiaEHora() {
-        if(!this.getTabelaHorario().getEventos().isEmpty() && this.getHorario() != null && this.getDiaDaSemana() != null){
+        if (!this.getTabelaHorario().getEventos().isEmpty() && this.getHorario() != null && this.getDiaDaSemana() != null) {
             return !(this.getTabelaHorario().getEventos().stream().filter(
                     evento -> this.getDiaDaSemana().equals(evento.getDiaDaSemana()) && this.getHorario().equals(evento.getHorario())).count() > 1);
         }
@@ -159,7 +159,7 @@ public class Evento extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = TabelaHorariosCheck.class,
             message = "O Plano deve pertencer ao mesmo anel da tabela horário.")
     public boolean isPlanoDoMesmoAnel() {
-        if(this.getPlano() != null && this.getTabelaHorario() != null){
+        if (this.getPlano() != null && this.getTabelaHorario() != null) {
             return this.getPlano().getAnel().equals(this.getTabelaHorario().getAnel());
         }
         return true;

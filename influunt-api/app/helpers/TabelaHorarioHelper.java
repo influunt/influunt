@@ -1,10 +1,7 @@
 package helpers;
 
-import models.Cidade;
 import models.Controlador;
-import models.Fabricante;
 import models.Plano;
-import org.h2.table.Plan;
 
 import java.util.List;
 import java.util.UUID;

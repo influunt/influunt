@@ -131,27 +131,29 @@ public abstract class ControladorTest extends WithApplication {
 
         Anel anelAtivo = controlador.getAneis().stream().filter(anel -> anel.isAtivo()).findFirst().get();
 
-        GrupoSemaforico grupoSemaforicoVeicular = new GrupoSemaforico();
-        grupoSemaforicoVeicular.setAnel(anelAtivo);
-        grupoSemaforicoVeicular.setControlador(controlador);
-        grupoSemaforicoVeicular.setTipo(TipoGrupoSemaforico.PEDESTRE);
-        grupoSemaforicoVeicular.setDescricao("G1");
-        grupoSemaforicoVeicular.setPosicao(1);
-        grupoSemaforicoVeicular.setFaseVermelhaApagadaAmareloIntermitente(false);
-        anelAtivo.addGruposSemaforicos(grupoSemaforicoVeicular);
-        grupoSemaforicoVeicular.setAnel(anelAtivo);
-        controlador.addGruposSemaforicos(grupoSemaforicoVeicular);
-
         GrupoSemaforico grupoSemaforicoPedestre = new GrupoSemaforico();
         grupoSemaforicoPedestre.setAnel(anelAtivo);
         grupoSemaforicoPedestre.setControlador(controlador);
-        grupoSemaforicoPedestre.setTipo(TipoGrupoSemaforico.VEICULAR);
-        grupoSemaforicoPedestre.setDescricao("G2");
-        grupoSemaforicoPedestre.setPosicao(2);
-        grupoSemaforicoPedestre.setFaseVermelhaApagadaAmareloIntermitente(true);
+        grupoSemaforicoPedestre.setTipo(TipoGrupoSemaforico.PEDESTRE);
+        grupoSemaforicoPedestre.setDescricao("G1");
+        grupoSemaforicoPedestre.setPosicao(1);
+        grupoSemaforicoPedestre.setTempoVerdeSeguranca(10);
+        grupoSemaforicoPedestre.setFaseVermelhaApagadaAmareloIntermitente(false);
         anelAtivo.addGruposSemaforicos(grupoSemaforicoPedestre);
         grupoSemaforicoPedestre.setAnel(anelAtivo);
         controlador.addGruposSemaforicos(grupoSemaforicoPedestre);
+
+        GrupoSemaforico grupoSemaforicoVeicular = new GrupoSemaforico();
+        grupoSemaforicoVeicular.setAnel(anelAtivo);
+        grupoSemaforicoVeicular.setControlador(controlador);
+        grupoSemaforicoVeicular.setTipo(TipoGrupoSemaforico.VEICULAR);
+        grupoSemaforicoVeicular.setTempoVerdeSeguranca(10);
+        grupoSemaforicoVeicular.setDescricao("G2");
+        grupoSemaforicoVeicular.setPosicao(2);
+        grupoSemaforicoVeicular.setFaseVermelhaApagadaAmareloIntermitente(true);
+        anelAtivo.addGruposSemaforicos(grupoSemaforicoVeicular);
+        grupoSemaforicoVeicular.setAnel(anelAtivo);
+        controlador.addGruposSemaforicos(grupoSemaforicoVeicular);
 
         return controlador;
     }
@@ -508,6 +510,7 @@ public abstract class ControladorTest extends WithApplication {
         grupoSemaforico.setControlador(anel.getControlador());
         grupoSemaforico.setTipo(tipo);
         grupoSemaforico.setPosicao(posicao);
+        grupoSemaforico.setTempoVerdeSeguranca(10);
         anel.addGruposSemaforicos(grupoSemaforico);
         anel.getControlador().addGruposSemaforicos(grupoSemaforico);
     }
