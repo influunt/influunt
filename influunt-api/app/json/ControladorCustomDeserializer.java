@@ -954,10 +954,10 @@ public class ControladorCustomDeserializer {
             estagioPlano.setDispensavel(node.get("dispensavel").asBoolean());
         }
         if (node.has("estagioQueRecebeEstagioDispensavel")) {
-            final String estagioId = node.get("estagioQueRecebeEstagioDispensavel").get("idJson").asText();
+            final String estagioPlanoId = node.get("estagioQueRecebeEstagioDispensavel").get("idJson").asText();
             Consumer<Map<String, Map>> c = (caches) -> {
-                Map map = caches.get(ESTAGIOS);
-                estagioPlano.setEstagioQueRecebeEstagioDispensavel((Estagio) map.get(estagioId));
+                Map map = caches.get(ESTAGIOS_PLANOS);
+                estagioPlano.setEstagioQueRecebeEstagioDispensavel((EstagioPlano) map.get(estagioPlanoId));
             };
 
             runLater(c);
