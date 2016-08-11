@@ -10,11 +10,7 @@
 angular.module('influuntApp')
   .controller('ControladoresEntreVerdesCtrl', ['$scope', '$state', '$controller', 'assertControlador',
     function ($scope, $state, $controller, assertControlador) {
-
-      // $controller('ControladoresCtrl', {$scope: $scope});
-      // @todo       Esta linha deverá ser substituida pela linha acima assim que o retorno dos verdes conflitantes
-      //             em grupos semaforicos for corrigido.
-      $controller('ControladoresTransicoesProibidasCtrl', {$scope: $scope});
+      $controller('ControladoresCtrl', {$scope: $scope});
 
       $scope.isTabelaEntreVerdes = true;
       var aneisBkp;
@@ -69,9 +65,6 @@ angular.module('influuntApp')
       /**
        * Inicializa a tela de estagios proibidos: Carrega os dados necessários, ordena os aneis e estágios a partir
        * das posições.
-       *
-       * @todo Este bloco faz chamado ao inicializaVerdesConflitantes para corrigir os verdes conflitantes que a API
-       *       não está devolvendo.
        *
        * @return     {<type>}  { description_of_the_return_value }
        */

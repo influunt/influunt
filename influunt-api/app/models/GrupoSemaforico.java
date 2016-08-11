@@ -14,6 +14,7 @@ import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.apache.commons.collections.ListUtils;
 import org.joda.time.DateTime;
+import utils.RangeUtils;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -49,22 +50,29 @@ public class GrupoSemaforico extends Model implements Cloneable {
     @ManyToOne
     @JoinColumn(name = "anel_id")
     private Anel anel;
+
     @OneToMany(mappedBy = "grupoSemaforico", cascade = CascadeType.ALL)
     private List<EstagioGrupoSemaforico> estagiosGruposSemaforicos;
+
     @ManyToOne
     private Controlador controlador;
+
     @OneToMany(mappedBy = "origem", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Valid
     private List<VerdesConflitantes> verdesConflitantesOrigem;
+
     @OneToMany(mappedBy = "destino", cascade = CascadeType.ALL)
     @Valid
     private List<VerdesConflitantes> verdesConflitantesDestino;
+
     @OneToMany(mappedBy = "grupoSemaforico", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<TabelaEntreVerdes> tabelasEntreVerdes;
+
     @OneToMany(mappedBy = "grupoSemaforico", cascade = CascadeType.ALL)
     @PrivateOwned
     @Valid
     private List<Transicao> transicoes;
+
     @Column
     private Integer posicao;
     /**
@@ -74,11 +82,17 @@ public class GrupoSemaforico extends Model implements Cloneable {
      */
     @Column
     private Boolean faseVermelhaApagadaAmareloIntermitente = false;
+
+    @Column
+    @NotNull(groups = ControladorGruposSemaforicosCheck.class, message = "não pode ficar em branco")
+    private Integer tempoVerdeSeguranca;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
@@ -168,6 +182,14 @@ public class GrupoSemaforico extends Model implements Cloneable {
 
     public void setFaseVermelhaApagadaAmareloIntermitente(Boolean faseVermelhaApagadaAmareloIntermitente) {
         this.faseVermelhaApagadaAmareloIntermitente = faseVermelhaApagadaAmareloIntermitente;
+    }
+
+    public Integer getTempoVerdeSeguranca() {
+        return tempoVerdeSeguranca;
+    }
+
+    public void setTempoVerdeSeguranca(Integer tempoVerdeSeguranca) {
+        this.tempoVerdeSeguranca = tempoVerdeSeguranca;
     }
 
     public DateTime getDataCriacao() {
@@ -279,6 +301,22 @@ public class GrupoSemaforico extends Model implements Cloneable {
     @Transient
     public boolean isVeicular() {
         return this.getTipo() != null && TipoGrupoSemaforico.VEICULAR.equals(this.getTipo());
+    }
+
+    @AssertTrue(groups = ControladorGruposSemaforicosCheck.class, message = "deve estar entre 10 e 30")
+    public boolean isTempoVerdeSegurancaFieldVeicular() {
+        if (this.getTempoVerdeSeguranca() != null && this.getTipo().equals(TipoGrupoSemaforico.VEICULAR)) {
+            return RangeUtils.getInstance().TEMPO_VERDE_SEGURANCA_VEICULAR.contains(getTempoVerdeSeguranca());
+        }
+        return true;
+    }
+
+    @AssertTrue(groups = ControladorGruposSemaforicosCheck.class, message = "deve estar entre 4 e 10")
+    public boolean isTempoVerdeSegurancaFieldPedestre() {
+        if (this.getTempoVerdeSeguranca() != null && this.getTipo().equals(TipoGrupoSemaforico.PEDESTRE)) {
+            return RangeUtils.getInstance().TEMPO_VERDE_SEGURANCA_PEDESTRE.contains(getTempoVerdeSeguranca());
+        }
+        return true;
     }
 
     public void addTabelaEntreVerdes(TabelaEntreVerdes tabelaEntreVerdes) {

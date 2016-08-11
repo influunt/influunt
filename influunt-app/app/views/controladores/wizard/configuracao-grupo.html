@@ -43,13 +43,16 @@
                     <div class="col-lg-12 col-sm-12">
                       <div class="row">
                         <div class="col-lg-1 col-sm-1 groups-stages-null"></div>
-                        <div class="col-lg-3 col-sm-3 title-stages-top">
+                        <div class="col-lg-2 col-sm-2 title-stages-top">
                           <p class="text-left">TIPO</p>
+                        </div>
+                        <div class="col-lg-2 col-sm-2 title-stages-top">
+                          <p class="text-left">VERDE SEGURANÇA</p>
                         </div>
                         <div class="col-lg-3 col-sm-3 title-stages-top">
                           <p class="text-left">FASE VERMELHA APAGADA</p>
                         </div>
-                        <div class="col-lg-5 col-sm-5 title-stages-top">
+                        <div class="col-lg-4 col-sm-4 title-stages-top">
                           <p class="text-left">DESCRIÇÃO</p>
                         </div>
                       </div>
@@ -65,19 +68,31 @@
                               </label>
                             </hgroup>
                           </div>
-                          <div class="col-lg-3 col-sm-3 groups-stages">
-                            <select class="form-control m-b" data-ng-model="grupo.tipo" name="tipoGrupoSemaforico">
+                          <div class="col-lg-2 col-sm-2 groups-stages">
+                            <select class="form-control m-b" data-ng-model="grupo.tipo" data-ng-change="atualizaTempoVerdeSeguranca(grupo)" name="tipoGrupoSemaforico">
                               <option value="VEICULAR">Veicular</option>
                               <option value="PEDESTRE">Pedestre</option>
                             </select>
+                          </div>
+                          <div class="col-lg-2 col-sm-2 priority">
+                            <div class="knob-item text-center" data-ng-if="grupo.tipo === 'VEICULAR'">
+                              <influunt-knob
+                              label="SEG" min="objeto.verdeSegurancaVeicularMin" max="objeto.verdeSegurancaVeicularMax"
+                              data-ng-model="grupo.tempoVerdeSeguranca"></influunt-knob>
+                            </div>
+                            <div class="knob-item text-center" data-ng-if="grupo.tipo === 'PEDESTRE'">
+                              <influunt-knob
+                              label="SEG" min="objeto.verdeSegurancaPedestreMin" max="objeto.verdeSegurancaPedestreMax"
+                              data-ng-model="grupo.tempoVerdeSeguranca"></influunt-knob>
+                            </div>
                           </div>
                           <div class="col-lg-3 col-sm-3 groups-stages">
                             <select ng-model="grupo.faseVermelhaApagadaAmareloIntermitente" class="form-control m-b"
                                 ng-options="o.v as o.n for o in [{ n: 'Não colocar em amarelo intermitente', v: false }, { n: 'Colocar em amarelo intermitente', v: true }]">
                             </select>
                           </div>
-                          <div class="col-lg-4 col-sm-4 groups-stages">
-                            <textarea type="text" class="form-control m-b" placeholder="Descrição" data-ng-model="grupo.descricao"></textarea>
+                          <div class="col-lg-3 col-sm-3 groups-stages">
+                            <textarea type="text" rows="4" class="form-control m-b" placeholder="Descrição" data-ng-model="grupo.descricao"></textarea>
                           </div>
                           <div class="col-lg-1 col-sm-1 groups-stages">
                             <a ng-click="removeGrupo($index)" class="btn btn-xs btn-danger">Excluir</a>
