@@ -62,6 +62,16 @@ angular
           }
         })
 
+        .state('app.horarios', {
+          url: '/horarios',
+          templateUrl: 'views/horarios/index.html',
+          controller: 'HorariosCtrl',
+          controllerAs: 'horarios',
+          data: {
+            title: 'horarios.titulo'
+          }
+        })
+
         .state('app.cidades_new', {
           url: '/cidades/new',
           templateUrl: 'views/cidades/new.html',
