@@ -437,7 +437,7 @@ create index ix_estagios_planos_estagio_id on estagios_planos (estagio_id);
 alter table estagios_planos add constraint fk_estagios_planos_plano_id foreign key (plano_id) references planos (id) on delete restrict on update restrict;
 create index ix_estagios_planos_plano_id on estagios_planos (plano_id);
 
-alter table estagios_planos add constraint fk_estagios_planos_estagio_que_recebe_estagio_dispensavel_3 foreign key (estagio_que_recebe_estagio_dispensavel_id) references estagios (id) on delete restrict on update restrict;
+alter table estagios_planos add constraint fk_estagios_planos_estagio_que_recebe_estagio_dispensavel_3 foreign key (estagio_que_recebe_estagio_dispensavel_id) references estagios_planos (id) on delete restrict on update restrict;
 create index ix_estagios_planos_estagio_que_recebe_estagio_dispensavel_3 on estagios_planos (estagio_que_recebe_estagio_dispensavel_id);
 
 alter table eventos add constraint fk_eventos_tabela_horario_id foreign key (tabela_horario_id) references tabela_horarios (id) on delete restrict on update restrict;

@@ -11,6 +11,13 @@
       "adicionarDetector": "Adicionar Detector",
       "detector": "detector",
       "titulo": "Detectores",
+      "pedestre": "Pedestre",
+      "veicular": "Veicular",
+      "monitoramentoFalha": "MONITORAMENTO DE FALHA",
+      "ausenciaMinima": "AUSÊNCIA DE DETECÇÃO MÍNIMA",
+      "ausenciaMaxima": "AUSÊNCIA DE DETECÇÃO MÁXIMA",
+      "deteccaoMinima": "DETECÇÃO PERMANENTE MÍNIMA",
+      "deteccaoMaxima": "DETECÇÃO PERMANENTE MÁXIMA",
       "verTabelaEntreVerdes": "Ver Tela de Entre Verdes"
     },
     "configuracaoGrupo": {
@@ -43,9 +50,7 @@
       "novaTabela": "Nova tabela",
       "addTabela": "Adicionar uma nova tabela padrão",
       "descricao": "Descrição",
-      "verTransicoes": "Ver Tela de Transições Proíbidas",
-      "novaTabela": "Nova tabela",
-      "novaTabela": "Nova tabela"
+      "verTransicoes": "Ver Tela de Transições Proíbidas"
     },
 
     "ativo": "Ativo",
