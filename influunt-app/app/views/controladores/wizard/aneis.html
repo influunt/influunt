@@ -131,15 +131,21 @@
 
 	<div class="row">
     <div class="col-lg-12 col-sm-12 bg-border-footer pg-bt-footer actions clearfix">
-      <a goToTop ui-sref="app.wizard_controladores.dados_basicos({id: objeto.id})" target="_blank" data-toggle="tooltip" data-placement="top" class="left btn btn-info btn-footer" title="{{ 'controladores.verDados' | translate }}">
-        <i class="fa fa-eye"></i> {{ 'plugins.steps.labels.last_screen' | translate }}
-      </a>
-      <a goToTop data-ng-click="submitForm({$valid: true}, 'aneis', 'app.wizard_controladores.configuracao_grupo')" data-toggle="tooltip" data-placement="top" title="{{ 'controladores.configuracao_grupo' | translate }}" class="goToTop btn btn-primary btn-footer right">
+      <div class="left">
+        <a goToTop ui-sref="app.wizard_controladores.dados_basicos({id: objeto.id})" target="_blank" class="btn btn-info btn-footer" tooltips tooltip-template="{{ 'controladores.verDados' | translate }}">
+          <i class="fa fa-eye"></i> {{ 'plugins.steps.labels.last_screen' | translate }}
+        </a>
+      </div>
+      <div class="right">
+        <a goToTop data-ng-click="submitForm({$valid: true}, 'aneis', 'app.wizard_controladores.configuracao_grupo')" tooltips tooltip-template="{{ 'controladores.configuracao_grupo' | translate }}" class="goToTop btn btn-primary btn-footer">
         {{ 'plugins.steps.labels.next' | translate }} <i class="fa fa-arrow-right"></i>
-      </a>
-      <a data-ng-click="submitForm({$valid: true}, 'aneis', 'app.wizard_controladores.dados_basicos')" data-toggle="tooltip" data-placement="top" title="{{ 'controladores.dadosBasicos' | translate }}" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
-        <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.previous' | translate }}
-      </a>
+        </a>
+      </div>
+      <div class="right">
+        <a data-ng-click="submitForm({$valid: true}, 'aneis', 'app.wizard_controladores.dados_basicos')" tooltips tooltip-template="{{ 'controladores.dadosBasicos' | translate }}" class="btn btn-outline btn-primary btn-footer m-r-sm">
+          <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.previous' | translate }}
+        </a>
+      </div>
     </div>
   </div>
 </fieldset>

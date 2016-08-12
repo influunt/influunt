@@ -7,7 +7,7 @@
           <div class="ibox-title">
             <h5>Controladores</h5>
             <div class="ibox-tools">
-              <button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Adicionar novo controlador" ui-sref="app.wizard_controladores.dados_basicos">Novo controlador</button>
+              <button type="button" class="btn btn-primary" tooltips tooltip-template="Adicionar novo controlador" ui-sref="app.wizard_controladores.dados_basicos">Novo controlador</button>
             </div>
           </div>
           <div class="ibox-content">
@@ -33,7 +33,7 @@
                 <div class="input-group">
                   <input type="text" class="form-control" ng-model="filtros.campo_busca">
                   <span class="input-group-btn">
-                    <button type="button" data-toggle="tooltip" data-placement="top" title="Pesquisar" class="btn btn-primary">
+                    <button type="button" tooltips tooltip-template="Pesquisar" class="btn btn-primary">
                       <i class="fa fa-search" aria-hidden="true"></i>
                     </button>
                   </span>
@@ -60,13 +60,13 @@
                   <td>{{controlador.dataAtualizacao}}</td>
                   <td>
                     <hgroup>
-                      <a class="btn btn-outline btn-primary" data-toggle="tooltip" data-placement="top" title="Editar controlador" type="button" ui-sref="app.wizard_controladores.dados_basicos({id: controlador.id})" ng-show="controlador.statusControlador == 'EM_CONFIGURACAO'">
+                      <a class="btn btn-outline btn-primary" tooltips tooltip-template="Editar controlador" type="button" ui-sref="app.wizard_controladores.dados_basicos({id: controlador.id})" ng-show="controlador.statusControlador == 'EM_CONFIGURACAO'">
                         <i class="fa fa-pencil"></i> Configurar
                       </a>
-                      <a class="btn btn-outline btn-primary" data-toggle="tooltip" data-placement="top" title="Visualizar controlador" type="button" ui-sref="app.controladores_show({id: controlador.id})">
+                      <a class="btn btn-outline btn-primary" tooltips tooltip-template="Visualizar controlador" type="button" ui-sref="app.controladores_show({id: controlador.id})">
                         <i class="fa fa-eye"></i> Visualizar
                       </a>
-                      <a class="btn btn-outline btn-primary" data-toggle="tooltip" data-placement="top" title="Visualizar planos" type="button" ui-sref="app.planos({id: controlador.id})" ng-show="controlador.statusControlador == 'CONFIGURADO'">
+                      <a class="btn btn-outline btn-primary" tooltips tooltip-template="Visualizar planos" type="button" ui-sref="app.planos({id: controlador.id})" ng-show="controlador.statusControlador == 'CONFIGURADO'">
                         <i class="fa fa-file-text"></i> Planos
                       </a>
                     </hgroup>

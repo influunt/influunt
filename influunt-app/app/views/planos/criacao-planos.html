@@ -28,7 +28,7 @@
                           <div class="col-lg-2 col-sm-2 association min-green side-menu">
                             <div class="ibox-title">
                               <h5>Planos</h5>
-                              <a class="btn btn-primary btn-xs m-l right" data-toggle="tooltip" data-placement="top" title="Adicionar plano" data-ng-click="adicionarNovoPlano()">
+                              <a class="btn btn-primary btn-xs m-l right" tooltips tooltip-template="Adicionar plano" data-ng-click="adicionarNovoPlano()">
                                 <i class="fa fa-plus white"></i>
                                 Plano
                               </a>
@@ -137,7 +137,7 @@
             </div>
           </div>
           <div class="col-sm-12 col-lg-12 no-pading pg-bt m-t-lg">
-            <a class="btn btn-primary btn-footer right m-r-sm right" disabled="disabled" data-toggle="tooltip" data-placement="top" title="É necessário resolver todos os problemas antes de salvar" data-ng-show="dadosDiagrama.erros.length > 0">{{ 'geral.crud.salvar' | translate }}</a>
+            <a class="btn btn-primary btn-footer right m-r-sm right" disabled="disabled" tooltips tooltip-template="É necessário resolver todos os problemas antes de salvar" data-ng-show="dadosDiagrama.erros.length > 0">{{ 'geral.crud.salvar' | translate }}</a>
             <a data-ng-click="submitForm()" class="btn btn-primary btn-footer right m-r-sm right" data-ng-if="dadosDiagrama.erros.length === 0">{{ 'geral.crud.salvar' | translate }}</a>
           </div>
 

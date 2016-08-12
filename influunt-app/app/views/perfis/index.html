@@ -9,7 +9,7 @@
 
           <!-- botão de nova perfil -->
           <div class="pull-right actions">
-            <a class="btn btn-small btn-primary btn-rounded" data-toggle="tooltip" data-placement="top" title="Adicionar novo perfil" ui-sref="app.perfis_new">
+            <a class="btn btn-small btn-primary btn-rounded" tooltips tooltip-template="Adicionar novo perfil" ui-sref="app.perfis_new">
               <i class="fa fa-plus"></i>
               {{ 'geral.crud.novo' | translate }}
             </a>
@@ -28,7 +28,6 @@
                   <td>{{ perfil.nome }}</td>
                   <td>
                     <a ui-sref="app.perfis_permissoes({id: perfil.id})" class="btn btn-primary btn-xs">{{ 'perfis.definir_permissoes' | translate }}</a>
-
                     <a ui-sref="app.perfis_show({id: perfil.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
                     <a ui-sref="app.perfis_edit({id: perfil.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.editar' | translate }}</a>
                     <a data-ng-click="confirmDelete(perfil.id)" class="btn btn-danger btn-xs">{{ 'geral.crud.excluir' | translate }}</a>

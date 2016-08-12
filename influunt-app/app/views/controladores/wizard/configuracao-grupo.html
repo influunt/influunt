@@ -109,7 +109,7 @@
                           </div>
 
                           <div class="col-lg-11 col-sm-11 groups-stages" data-ng-if="podeAdicionarGrupoSemaforico()">
-                            <a data-toggle="tooltip" data-placement="top" title="{{ 'controladores.configuracaoGrupo.addGrupo' | translate }}" class="btn btn-primary left" data-ng-click="adicionaGrupoSemaforico()">{{ 'controladores.adicionarGrupo' | translate }}</a>
+                            <a tooltips tooltip-template="{{ 'controladores.configuracaoGrupo.addGrupo' | translate }}" class="btn btn-primary left" data-ng-click="adicionaGrupoSemaforico()">{{ 'controladores.adicionarGrupo' | translate }}</a>
                           </div>
                         </div>
                       </form>
@@ -125,15 +125,21 @@
 
     <div class="row">
       <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix">
-        <a ui-sref="app.wizard_controladores.aneis({id: objeto.id})" target="_blank" data-toggle="tooltip" data-placement="top" class="left btn btn-info btn-footer" title="{{ 'controladores.configuracaoGrupo.verAneis' | translate }}">
-          <i class="fa fa-eye"></i> {{ 'plugins.steps.labels.last_screen' | translate }}
-        </a>
-        <a goToTop data-ng-click="submitForm({$valid: true}, 'grupos_semaforicos', 'app.wizard_controladores.verdes_conflitantes')" data-toggle="tooltip" data-placement="top" title="{{ 'controladores.verdes_conflitantes' | translate }}" class="goToTop btn btn-primary btn-footer right">
+        <div class="left">
+          <a ui-sref="app.wizard_controladores.aneis({id: objeto.id})" target="_blank" class="btn btn-info btn-footer" tooltips tooltip-template="{{ 'controladores.configuracaoGrupo.verAneis' | translate }}">
+            <i class="fa fa-eye"></i> {{ 'plugins.steps.labels.last_screen' | translate }}
+          </a>
+        </div>
+        <div class="right">
+          <a goToTop data-ng-click="submitForm({$valid: true}, 'grupos_semaforicos', 'app.wizard_controladores.verdes_conflitantes')" tooltips tooltip-template="{{ 'controladores.verdes_conflitantes' | translate }}" class="goToTop btn btn-primary btn-footer">
           {{ 'plugins.steps.labels.next' | translate }} <i class="fa fa-arrow-right"></i>
-        </a>
-        <a goToTop data-ng-click="submitForm({$valid: true}, 'grupos_semaforicos', 'app.wizard_controladores.aneis')" data-toggle="tooltip" data-placement="top" title="{{ 'controladores.aneis' | translate }}" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
-          <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.previous' | translate }}
-        </a>
+          </a>
+        </div>
+        <div class="right">
+          <a goToTop data-ng-click="submitForm({$valid: true}, 'grupos_semaforicos', 'app.wizard_controladores.aneis')" tooltips tooltip-template="{{ 'controladores.aneis' | translate }}" class="btn btn-outline btn-primary btn-footer m-r-sm">
+            <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.previous' | translate }}
+          </a>
+        </div>
       </div>
     </div>
 

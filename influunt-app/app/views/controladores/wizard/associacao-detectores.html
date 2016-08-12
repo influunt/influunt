@@ -151,8 +151,14 @@
   </div>
 
   <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix">
-		<a ui-sref="app.wizard_controladores.entre_verdes({id: objeto.id})" target="_blank" data-toggle="tooltip" data-placement="top" class="left btn btn-info btn-footer" title="{{ 'controladores.associacaoDetectores.verTabelaEntreVerdes' | translate }}">{{ 'plugins.steps.labels.last_screen' | translate }}</a>
-    <a goToTop data-ng-click="submitForm({$valid: true}, 'associacao_detectores', 'app.wizard_controladores.revisao')" data-toggle="tooltip" data-placement="top" title="{{ 'controladores.revisao' | translate }}" class="goToTop  btn btn-primary btn-footer right">{{ 'plugins.steps.labels.next' | translate }}</a>
-    <a goToTop data-ng-click="submitForm({$valid: true}, 'associacao_detectores', 'app.wizard_controladores.entre_verdes')" data-toggle="tooltip" data-placement="top" title="{{ 'controladores.entreVerdes' | translate }}Entre Verdes" class="btn btn-outline btn-primary btn-footer right m-r-sm right">{{ 'plugins.steps.labels.previous' | translate }}</a>
+    <div class="left">
+      <a ui-sref="app.wizard_controladores.entre_verdes({id: objeto.id})" target="_blank" class="btn btn-info btn-footer" tooltips tooltip-template="{{ 'controladores.associacaoDetectores.verTabelaEntreVerdes' | translate }}">{{ 'plugins.steps.labels.last_screen' | translate }}</a>
+    </div>
+    <div class="right">
+      <a goToTop data-ng-click="submitForm({$valid: true}, 'associacao_detectores', 'app.wizard_controladores.revisao')" tooltips tooltip-template="{{ 'controladores.revisao.titulo' | translate }}" class="goToTop  btn btn-primary btn-footer">{{ 'plugins.steps.labels.next' | translate }}</a>
+    </div>
+    <div class="right">
+      <a goToTop data-ng-click="submitForm({$valid: true}, 'associacao_detectores', 'app.wizard_controladores.entre_verdes')" tooltips tooltip-template="{{ 'controladores.entreVerdes.titulo' | translate }}Entre Verdes" class="btn btn-outline btn-primary btn-footer m-r-sm">{{ 'plugins.steps.labels.previous' | translate }}</a>
+    </div>
   </div>
 </fieldset>

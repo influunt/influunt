@@ -2,12 +2,12 @@
 
   <div ng-repeat="area in objeto.areas">
     <div class="form-group">
-      <label class="control-label col-md-2">Descrição </label>
+      <label class="control-label col-md-2">{{ 'geral.crud.descricao' | translate }}</label>
       <div class="col-md-3">
         <input type="text" class="form-control" ng-model="area.descricao" placeholder="Descrição"/>
       </div>
       <div class="col-md-2">
-        <a ng-click="removeAddress($index, user)" class="btn btn-xs btn-danger">Excluir</a>
+        <a ng-click="removeAddress($index, user)" class="btn btn-xs btn-danger">{{ 'geral.crud.descricao' | excluir }}</a>
       </div>
     </div>
     <hr/>
@@ -15,8 +15,7 @@
 
   <div class="form-group">
     <div class="col-md-offset-6">
-      <a ng-click="addArea()" class="btn btn-success btn-xs">+ Add area</a>
+      <a ng-click="addArea()" class="btn btn-success btn-xs">+ {{ 'geral.crud.addArea' | translate }}</a>
     </div>
   </div>
 </div>
-

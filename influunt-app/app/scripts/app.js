@@ -29,6 +29,7 @@ angular
     'ui.sortable',
     'datatables',
     'google.places',
+    '720kb.tooltips',
 
     // template cache engine.
     'templates',

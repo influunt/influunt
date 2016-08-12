@@ -8,9 +8,9 @@
       "verTelaAnterior": "Ver Tela Anterior"
     },
     "associacaoDetectores": {
+      "titulo": "Associação Detectores",
       "adicionarDetector": "Adicionar Detector",
       "detector": "detector",
-      "titulo": "Detectores",
       "pedestre": "Pedestre",
       "veicular": "Veicular",
       "monitoramentoFalha": "MONITORAMENTO DE FALHA",
@@ -30,8 +30,41 @@
       "simAmarelo": "Colocar em amarelo intermitente",
       "addGrupo": "Adicionar novo grupo",
       "verAneis": "Ver Tela Anéis",
-      "faseVermelha": "FASE VERMELHA APAGADA",
       "verdeSeguro": "VERDE SEGURANÇA"
+    },
+    "revisao": {
+      "titulo": "Revisão",
+      "fabricante": "Fabricante",
+      "numMaxEstagios": "Nº máximo Estágios",
+      "numMaxGrupos": "Nº máximo Grupos Estágios",
+      "numMaxAneis": "Nº máximo Anéis",
+      "limiteVeicular": "Limite detector veicular",
+      "limitePedestre": "Limite detector pedestre",
+      "local": "Local",
+      "codigo": "Código",
+      "nSMEE": "Nº SMEE",
+      "gruposPedestres": "Grupos Semafóricos de pedestres",
+      "gruposVeiculares": "Grupos Semafóricos de Veiculares",
+      "numPedestres": "Nº detectores Pedestres",
+      "numVeiculares": "Nº detectores Veiculares",
+      "grupo": "Grupo",
+      "grupos": "Grupos",
+      "tipo": "Tipo",
+      "nada": "nada",
+      "faseVermelha": "Fase Vermelha",
+      "estagio": "Estágio",
+      "estagios": "Estágios",
+      "alternativa": "Alternativa",
+      "amarelo": "Amarelo",
+      "tabAmarelo": "Tabela Amarelo",
+      "vermelho": "Vermelho",
+      "tabVermelho": "Tabela Vermelho",
+      "vermelhoLimpo": "Vermelho Limpeza",
+      "tempoAtraso": "Tempo de atraso",
+      "verdesConflitantes": "Verdes Conflitantes",
+      "transicoesProibidas": "Transicoes Proibidas",
+      "transicaoProibida": "Transicao Proibida",
+      "entreVerdes": "Entre Verdes"
     },
     "associacaoEstagio": {
       "ativarMonitoramento": "Ativar monitoramento de tempo máximo de permanencia",
@@ -52,7 +85,6 @@
       "descricao": "Descrição",
       "verTransicoes": "Ver Tela de Transições Proíbidas"
     },
-
     "ativo": "Ativo",
     "cidade": "Cidade",
     "CLC": "CLC",
@@ -70,7 +102,6 @@
     "gruposPedestres": "Grupos semafóricos de pedestres",
     "gruposSinaisVeiculares": "Grupos semafóricos veiculares",
     "latitude": "Latitude",
-    "localizacao": "Localização",
     "localizacao": "Localização",
     "longitude": "Longitude",
     "maxAneis": "Número de anéis",
@@ -100,7 +131,6 @@
       "para": "Para",
       "tabelaVerdes": "Tabelas de Entre Verdes"
     },
-    "revisao": "Revisão",
     "croqui": "CROQUI",
     "arrasteAqui": "Arraste imagens para este local",
     "verDados": "Ver Tela Dados Básicos",
@@ -204,7 +234,9 @@
     "auditoria": {
       "atualizadoPor": "Atualizado Por",
       "dataAtualizacao": "Data de Atualização",
-      "dataCriacao": "Data de Criação"
+      "dataCriacao": "Data de Criação",
+      "descricao": "Descrição",
+      "addArea": "Adicionar area"
     },
     "crud": {
       "configurar": "Configurar",

@@ -2117,3 +2117,7 @@ li.initialTab {
 .changeGreen img {
   opacity: 0.7;
 }
+
+tooltip {
+  float: right;
+}
