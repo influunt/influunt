@@ -167,19 +167,6 @@ angular.module('influuntApp')
         return imagem && $filter('imageSource')(imagem.id);
       };
 
-      //
-      // /**
-      //  * Seleciona um grupo semafórico do anel atual atraves do índice.
-      //  *
-      //  * @param      {int}  index   The index
-      //  */
-      // $scope.selecionaGrupoSemaforico = function(gs, index) {
-      //   $scope.currentGrupoSemaforicoIndex = index;
-      //   $scope.currentGrupoSemaforico = gs;
-      //   $scope.currentGrupoSemaforicoIdentifier = $scope.currentAnelIndex.toString() + index.toString();
-      // };
-      //
-      //
       $scope.getEstagio = function(estagioPlano) {
         var ep = _.find($scope.objeto.estagiosPlanos, {idJson: estagioPlano.idJson});
         var estagio = _.find($scope.objeto.estagios, {idJson: ep.estagio.idJson});
@@ -190,14 +177,12 @@ angular.module('influuntApp')
         var posicao = $scope.currentPlano.estagiosPlanos.length + 1;
         adicionaEstagioASequencia(estagioPlano.estagio.idJson, estagioPlano.plano.idJson, posicao);
         atualizaEstagiosPlanos();
-        // atualizaDiagramaIntervalos();
       };
 
       $scope.adicionarEstagio = function(estagio) {
         var posicao = $scope.currentPlano.estagiosPlanos.length + 1;
         adicionaEstagioASequencia(estagio.idJson, $scope.currentPlano.idJson, posicao);
         atualizaEstagiosPlanos();
-        // atualizaDiagramaIntervalos();
       };
 
       $scope.removerEstagioPlano = function(estagioPlano, index) {
