@@ -2,10 +2,8 @@ package models;
 
 import checks.Erro;
 import checks.InfluuntValidator;
-import checks.PlanosCheck;
 import checks.TabelaHorariosCheck;
 import com.fasterxml.jackson.databind.JsonNode;
-import controllers.routes;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import org.hamcrest.Matchers;
@@ -17,7 +15,6 @@ import play.mvc.Result;
 import play.test.Helpers;
 
 import javax.validation.groups.Default;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -69,14 +66,14 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         assertEquals(5, erros.size());
         assertThat(erros, Matchers.hasItems(
                 new Erro("Controlador", "A tabela horário deve ter pelo menos 1 evento configurado.", "aneis[0].tabelaHorario.aoMenosUmEvento"),
-                new Erro("Controlador", "não pode ficar em branco", "aneis[1].tabelaHorario.eventos[0].numero"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[1].tabelaHorario.eventos[0].posicao"),
                 new Erro("Controlador", "não pode ficar em branco", "aneis[1].tabelaHorario.eventos[0].diaDaSemana"),
                 new Erro("Controlador", "não pode ficar em branco", "aneis[1].tabelaHorario.eventos[0].horario"),
                 new Erro("Controlador", "não pode ficar em branco", "aneis[1].tabelaHorario.eventos[0].plano")
         ));
 
         Plano plano1Anel2Estagios = anelCom2Estagios.getPlanos().stream().filter(plano -> plano.getModoOperacao().equals(ModoOperacaoPlano.TEMPO_FIXO_ISOLADO)).findFirst().get();
-        evento.setNumero("1");
+        evento.setPosicao(1);
         evento.setDiaDaSemana(DiaDaSemana.DOMINGO);
         evento.setHorario(LocalTime.parse("08:00:00"));
         evento.setPlano(plano1Anel2Estagios);
@@ -84,7 +81,7 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         Evento evento2 = new Evento();
         evento2.setTabelaHorario(tabelaHorarioAnel2Estagios);
         tabelaHorarioAnel2Estagios.addEventos(evento2);
-        evento2.setNumero("2");
+        evento2.setPosicao(2);
         evento2.setDiaDaSemana(DiaDaSemana.DOMINGO);
         evento2.setHorario(LocalTime.parse("08:00:00"));
         evento2.setPlano(plano1Anel2Estagios);
@@ -103,7 +100,7 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         Evento evento3 = new Evento();
         evento3.setTabelaHorario(tabelaHorarioAnel4Estagios);
         tabelaHorarioAnel4Estagios.addEventos(evento3);
-        evento3.setNumero("1");
+        evento3.setPosicao(1);
         evento3.setDiaDaSemana(DiaDaSemana.DOMINGO);
         evento3.setHorario(LocalTime.parse("08:00:00"));
         evento3.setPlano(plano1Anel2Estagios);

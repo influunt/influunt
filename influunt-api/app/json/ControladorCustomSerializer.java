@@ -544,8 +544,8 @@ public class ControladorCustomSerializer {
         if (evento.getIdJson() != null) {
             eventoJson.put("idJson", evento.getIdJson().toString());
         }
-        if (evento.getNumero() != null) {
-            eventoJson.put("numero", evento.getNumero().toString());
+        if (evento.getPosicao() != null) {
+            eventoJson.put("posicao", evento.getPosicao().toString());
         }
         if (evento.getDiaDaSemana() != null) {
             eventoJson.put("diaDaSemana", evento.getDiaDaSemana().toString());

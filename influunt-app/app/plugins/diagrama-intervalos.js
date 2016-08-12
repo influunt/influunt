@@ -51,7 +51,7 @@ var influunt;
 
               var tempoAmareloOuVermelhoIntermitente = grupo.tipo == 'VEICULAR' ? tempoAmarelo : tempoVermelhoIntermitente;
               var tempoEntreVerde = tempoAmareloOuVermelhoIntermitente + tempoVermelhoLimpeza;
-              var posicao = grupo.posicao - 1;
+              var posicao = plano.posicaoGruposSemaforicos['G'+grupo.posicao];
               if(!_.find(estagioAtual.gruposSemaforicos, {"id": grupo.id})){
                 if(tempoAtrasoGrupo > 0){
                   for(var t = tempoCiclo; t < tempoCiclo + tempoAtrasoGrupo; t++){
@@ -75,7 +75,7 @@ var influunt;
           for(var j = 0; j < estagioAtual.gruposSemaforicos.length; j++){
              var grupo = estagioAtual.gruposSemaforicos[j];
              for(var t = instante + tempoCiclo; t < tempoCiclo + instante + tempoVerde; t++){
-               diagrama[grupo.posicao - 1][t] = 1;
+               diagrama[plano.posicaoGruposSemaforicos['G'+grupo.posicao]][t] = 1;
              }
           }
           tempoCiclo += instante + (tempoVerde || 0);

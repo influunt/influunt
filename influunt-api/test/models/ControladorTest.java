@@ -451,7 +451,7 @@ public abstract class ControladorTest extends WithApplication {
         Evento evento = new Evento();
         evento.setTabelaHorario(tabelaHorarioAnel2Estagios);
         tabelaHorarioAnel2Estagios.addEventos(evento);
-        evento.setNumero("1");
+        evento.setPosicao(1);
         evento.setDiaDaSemana(DiaDaSemana.DOMINGO);
         evento.setHorario(LocalTime.parse("10:00:00"));
         evento.setPlano(plano1Anel2Estagios);
@@ -459,7 +459,7 @@ public abstract class ControladorTest extends WithApplication {
         Evento evento2 = new Evento();
         evento2.setTabelaHorario(tabelaHorarioAnel2Estagios);
         tabelaHorarioAnel2Estagios.addEventos(evento2);
-        evento2.setNumero("2");
+        evento2.setPosicao(2);
         evento2.setDiaDaSemana(DiaDaSemana.SEGUNDA_A_SABADO);
         evento2.setHorario(LocalTime.parse("18:00:00"));
         evento2.setPlano(plano1Anel2Estagios);
@@ -468,7 +468,7 @@ public abstract class ControladorTest extends WithApplication {
         Evento evento3 = new Evento();
         evento3.setTabelaHorario(tabelaHorarioAnel4Estagios);
         tabelaHorarioAnel4Estagios.addEventos(evento3);
-        evento3.setNumero("1");
+        evento3.setPosicao(1);
         evento3.setDiaDaSemana(DiaDaSemana.DOMINGO);
         evento3.setHorario(LocalTime.parse("08:00:00"));
         evento3.setPlano(plano1Anel4Estagios);

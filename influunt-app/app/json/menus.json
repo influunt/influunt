@@ -14,11 +14,6 @@
         "route": "app.areas"
       },
       {
-        "name": "horarios",
-        "label": "horarios.titulo",
-        "route": "app.horarios"
-      },
-      {
         "name": "agrupamentos",
         "label": "agrupamentos.titulo",
         "route": "app.agrupamentos"

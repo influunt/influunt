@@ -15,10 +15,10 @@ angular.module('influuntApp')
               validaTransicao, utilEstagios, toast, modoOperacaoService,
               influuntAlert, influuntBlockui) {
 
-      var adicionaPlano, selecionaAnel, atualizaTabelaEntreVerdes, atualizaEstagios, atualizaPlanos,
+      var adicionaPlano, selecionaAnel, atualizaTabelaEntreVerdes, atualizaEstagios, atualizaGruposSemaforicos, atualizaPlanos,
           atualizaEstagiosPlanos, adicionaEstagioASequencia, atualizaPosicaoPlanos, atualizaPosicaoEstagiosPlanos,
-          carregaDadosPlano, getOpcoesEstagiosDisponiveis, montaTabelaValoresMinimos, parseAllToInt,
-          setDiagramaEstatico, atualizaDiagramaIntervalos, getPlanoParaDiagrama, atualizaTransicoesProibidas;
+          carregaDadosPlano, getOpcoesEstagiosDisponiveis, montaTabelaValoresMinimos, parseAllToInt, setDiagramaEstatico, 
+          atualizaDiagramaIntervalos, getPlanoParaDiagrama, atualizaTransicoesProibidas;
       var diagramaDebouncer = null;
 
       /**
@@ -293,6 +293,7 @@ angular.module('influuntApp')
         $scope.currentAnelIndex = index;
         $scope.currentAnel = $scope.aneis[$scope.currentAnelIndex];
         atualizaEstagios($scope.currentAnel);
+        atualizaGruposSemaforicos();
         atualizaTabelaEntreVerdes($scope.currentAnel);
         atualizaPlanos();
       };
@@ -308,6 +309,19 @@ angular.module('influuntApp')
           .value();
 
           return $scope.currentEstagios;
+      };
+      
+      atualizaGruposSemaforicos = function() {
+        var ids = _.map($scope.currentAnel.gruposSemaforicos, 'idJson');
+        $scope.currentGruposSemaforicos = _
+          .chain($scope.objeto.gruposSemaforicos)
+          .filter(function(ep) {
+            return ids.indexOf(ep.idJson) >= 0;
+          })
+          .orderBy(['posicao'])
+          .value();
+
+          return $scope.currentGruposSemaforicos;
       };
 
       atualizaTabelaEntreVerdes = function(anel) {
@@ -540,6 +554,11 @@ angular.module('influuntApp')
         $scope.plano.estagiosPlanos = [];
         $scope.plano.gruposSemaforicosPlanos = [];
         $scope.plano.quantidadeGruposSemaforicos = $scope.currentAnel.gruposSemaforicos.length;
+        $scope.plano.posicaoGruposSemaforicos = {}
+
+        $scope.currentGruposSemaforicos.forEach(function (grupo, index){
+          $scope.plano.posicaoGruposSemaforicos['G'+grupo.posicao] = index;
+        });
 
         $scope.currentPlano.estagiosPlanos.forEach(function(ep){
           var estagioPlano = _.cloneDeep(_.find($scope.objeto.estagiosPlanos, {idJson: ep.idJson}));

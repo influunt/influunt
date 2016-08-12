@@ -1,0 +1,54 @@
+<div class="col-lg-7 col-sm-7 no-padding-left">
+  <table class="table table-hover text-center">
+    <thead>
+    <tr>
+        <th></th>
+        <th>{{ 'tabelaHorarios.dias' | translate }}</th>
+        <th colspan="2">{{ 'tabelaHorarios.horario' | translate }}</th>
+        <th colspan="3">{{ 'tabelaHorarios.plano' | translate }}</th>
+    </tr>
+    </thead>
+    <tbody>
+      <tr data-ng-repeat="evento in currentEventos">
+        <!-- <td class="horario10px horarioColor6 horaStripes"></td> -->
+        <td class="horario10px horarioColor{{evento.posicao}}"></td>
+        <td>
+          <select name="eventoDiaDaSemana" data-ng-model="evento.diaDaSemana" class="form-control" data-ng-change="verificaAtualizacaoDeEventos(evento)">
+            <option data-ng-repeat="dia in dias" value="{{dia.value}}">{{dia.label}}</option>
+          </select>
+        </td>
+        <td>
+          <select name="eventoHora" data-ng-model="evento.hora" class="form-control" data-ng-change="verificaAtualizacaoDeEventos(evento)">
+            <option data-ng-repeat="hora in horarios track by $index" value="{{$index}}">{{$index}}</option>
+          </select>
+        </td>
+        <td>
+          <select name="eventoMinuto" data-ng-model="evento.minuto" class="form-control" data-ng-change="verificaAtualizacaoDeEventos(evento)">
+            <option data-ng-repeat="minuto in [0,15,30,45]" value="{{minuto}}">{{minuto}}</option>
+          </select>
+        </td>
+        <td>
+          <select name="eventoPlano" data-ng-model="evento.plano.idJson" class="form-control" data-ng-change="verificaAtualizacaoDeEventos(evento)">
+            <option data-ng-repeat="plano in currentPlanos" value="{{plano.idJson}}">Plano {{plano.posicao}}</option>
+          </select>
+        </td>
+        <td>
+          <div class="ibox-tools">
+            <a class="collapse-link">
+                <i class="fa fa-eye"></i>
+            </a>
+            <a class="dropdown-toggle">
+                <i class="fa fa-files-o"></i>
+            </a>
+            <a class="close-link">
+                <i class="fa fa-trash"></i>
+            </a>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="col-lg-5 col-sm-5 no-padding-right lightgray-bg">
+  <ng-include src="'views/tabela_horarios/quadro-horarios.html'">
+</div>

@@ -88,10 +88,10 @@
     "editar": "Editar Cidade",
     "titulo": "Cidades"
   },
-  "horarios": {
-    "titulo": "Tabela de Horarios",
+  "tabelaHorarios": {
+    "titulo": "Tabela de Horários",
     "dias": "Dias",
-    "horario": "Horario",
+    "horario": "Horário",
     "plano": "Plano",
     "descartar": "Descartar",
     "tabelaEspecial": "Tabela de horários especial ativa entre",

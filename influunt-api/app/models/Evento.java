@@ -38,7 +38,7 @@ public class Evento extends Model implements Cloneable, Serializable {
 
     @Column
     @NotNull(message = "não pode ficar em branco")
-    private String numero;
+    private Integer posicao;
 
     @Column
     @Enumerated(EnumType.STRING)
@@ -90,12 +90,12 @@ public class Evento extends Model implements Cloneable, Serializable {
         this.idJson = idJson;
     }
 
-    public String getNumero() {
-        return numero;
+    public Integer getPosicao() {
+        return posicao;
     }
 
-    public void setNumero(String numero) {
-        this.numero = numero;
+    public void setPosicao(Integer posicao) {
+        this.posicao = posicao;
     }
 
     public DiaDaSemana getDiaDaSemana() {

@@ -1028,8 +1028,8 @@ public class ControladorCustomDeserializer {
             evento.setIdJson(node.get("idJson").asText());
         }
 
-        if (node.has("numero")) {
-            evento.setNumero(node.get("numero").asText());
+        if (node.has("posicao")) {
+            evento.setPosicao(node.get("posicao").asInt());
         }
 
         if (node.has("diaDaSemana")) {
