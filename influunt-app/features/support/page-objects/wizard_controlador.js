@@ -396,7 +396,9 @@ var WizardControladorPage = function () {
     }
 
     return promises.reduce(function(previous, current) {
-      return previous.then(current);
+      return previous
+      .then(world.waitForOverlayDisappear)
+      .then(current);
     }, Promise.resolve());
   };
 
