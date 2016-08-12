@@ -24,7 +24,6 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "estagios_planos")
-
 public class EstagioPlano extends Model implements Cloneable, Serializable {
 
     private static final long serialVersionUID = -7948479324460591011L;

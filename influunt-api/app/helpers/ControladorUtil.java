@@ -245,8 +245,6 @@ public class ControladorUtil {
                     EstagioPlano estagioPlanoAux = copyPrimitveFields(estagioPlano);
                     estagioPlanoAux.setEstagio(estagios.get(estagioPlano.getEstagio().getIdJson()));
                     estagioPlanoAux.setPlano(planoAux);
-                    if (estagioPlano.getEstagioQueRecebeEstagioDispensavel() != null)
-                        estagioPlanoAux.setEstagioQueRecebeEstagioDispensavel(estagios.get(estagioPlano.getEstagioQueRecebeEstagioDispensavel().getIdJson()));
                     planoAux.addEstagios(estagioPlanoAux);
                 });
 
@@ -256,6 +254,20 @@ public class ControladorUtil {
 
         // FIM CLONE PLANO
         Ebean.update(destino);
+
+        origem.getAneis().forEach(anel -> {
+            anel.getPlanos().forEach(plano -> {
+                plano.getEstagiosPlanos().forEach(estagioPlano -> {
+                    if (estagioPlano.getEstagioQueRecebeEstagioDispensavel() != null) {
+                        Anel anelAux = destino.getAneis().stream().filter(aux -> aux.getIdJson().equals(anel.getIdJson())).findFirst().orElse(null);
+                        Plano planoAux = anelAux.getPlanos().stream().filter(aux -> aux.getIdJson().equals(plano.getIdJson())).findFirst().orElse(null);
+                        EstagioPlano estagioPlanoAux = planoAux.getEstagiosPlanos().stream().filter(aux -> aux.getIdJson().equals(estagioPlano.getIdJson())).findFirst().orElse(null);
+                        estagioPlanoAux.setEstagioQueRecebeEstagioDispensavel(planoAux.getEstagiosPlanos().stream().filter(aux -> aux.getIdJson().equals(estagioPlano.getEstagioQueRecebeEstagioDispensavel().getIdJson())).findFirst().orElse(null));
+                        Ebean.update(estagioPlanoAux);
+                    }
+                });
+            });
+        });
 
         long elapsed = System.nanoTime() - startTime;
         Logger.info(String.format("[PLANO] - DeepClone: Elapsed time: %d ns (%f seconds)%n", elapsed, elapsed / Math.pow(10, 9)));
@@ -271,8 +283,6 @@ public class ControladorUtil {
                 TabelaHorario tabelaHorarioAux = copyPrimitveFields(anel.getTabelaHorario());
                 tabelaHorarioAux.setAnel(anelClonado);
                 anelClonado.setTabelaHorario(tabelaHorarioAux);
-                Logger.warn("OLD2: " + anel.getTabelaHorario().getIdJson());
-                Logger.warn("NEW: " + tabelaHorarioAux.getIdJson());
 
                 anel.getTabelaHorario().getEventos().forEach(evento -> {
                     Plano planoClonado = anelClonado.getPlanos().stream().filter(anelAux -> anelAux.getIdJson().equals(evento.getPlano().getIdJson())).findFirst().orElse(null);
