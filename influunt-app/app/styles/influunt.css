@@ -1609,6 +1609,55 @@ header .nav-secon li a {
   background: #000;
 }
 
+.ibox-content #vertical-timeline::before {
+  left: 29px;
+}
+
+.ibox-content .vertical-timeline-icon i {
+  font-size: 20px;
+  margin-top: -11px;
+  margin-left: -11px;
+}
+
+.ibox-content .vertical-timeline-icon {
+  width: 60px;
+  height: 60px;
+}
+
+.ibox-content .vertical-timeline-content p {
+  margin: 0;
+  width: 83%;
+  float: right;
+}
+
+.ibox-content .vertical-timeline-content {
+  margin-left: 80px;
+}
+
+.ibox-content .vertical-timeline-content hgroup {
+  float: left;
+  min-width: 140px;
+  margin-right: 20px;
+  margin-left: 10px;
+}
+
+.ibox-content .vertical-timeline-content hgroup .btn {
+  text-transform: uppercase;
+  margin-bottom: 5px;
+  font-size: 12px;
+  width: 100%;
+}
+
+.ibox-content .vertical-timeline-content hgroup .vertical-date {
+  font-size: 14px;
+  font-weight: lighter;
+}
+
+.ibox-content .vertical-timeline-content hgroup .vertical-date small {
+  font-size: 12px;
+  font-weight: lighter;
+}
+
 @media screen and (max-width: 1820px) {
   .wrapper-content .basic-wizard .content .body .stages .times-stages {
     width: 52%;
@@ -1685,6 +1734,9 @@ header .nav-secon li a {
 }
 
 @media screen and (max-width: 1340px) {
+  .ibox-content .vertical-timeline-content p {
+    width: 80%;
+  }
   .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .group-form .form-group label {
     font-size: 11px;
   }
@@ -1718,6 +1770,9 @@ header .nav-secon li a {
 }
 
 @media screen and (max-width: 1280px) {
+  .ibox-content .vertical-timeline-content p {
+    width: 75%;
+  }
   .wrapper-content .basic-wizard .content .body .association.tables-associated nav li .group-form .form-group label {
     font-size: 11px;
   }

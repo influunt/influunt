@@ -354,7 +354,16 @@ angular
             title: 'planos.titulo'
           }
         })
-
+        //Timeline
+        .state('app.timeline', {
+          url: '/timeline',
+          templateUrl: 'views/timeline/index.html',
+          controller: 'PerfisCtrl',
+          controllerAs: 'timeline',
+          data: {
+            title: 'timeline.titulo'
+          }
+        })
         // Crud perfis.
         .state('app.perfis', {
           url: '/perfis',
