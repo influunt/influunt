@@ -252,6 +252,10 @@
   color: #1ab394;
 }
 
+.ibox-title i.white {
+  color: #fff;
+}
+
 .bg-border-footer {
   padding-top: 10px;
   padding-bottom: 60px;
@@ -756,25 +760,9 @@ header .nav-secon li a {
   padding: 15px 0 0;
 }
 
-.wrapper-content .basic-wizard .content .body .association.table-creation-plans section .table-create-plan tr {
-  height: 20px;
-}
-
-.wrapper-content .basic-wizard .content .body .association.table-creation-plans section .table-create-plan tbody .ty-547j {
-  padding: 9px 15px 8px 10px;
-  background: #f7f7f7;
-  min-width: 80px;
-}
-
-.wrapper-content .basic-wizard .content .body .association.table-creation-plans section .table-create-plan tbody .ty-547j label i {
-  padding-left: 5px;
-}
-
-.wrapper-content .basic-wizard .content .body .association.table-creation-plans section .table-create-plan tbody .ty-547j label {
-  font-size: 16px;
-  line-height: 16px;
-  font-weight: bold;
-  margin-bottom: 0;
+.wrapper-content .basic-wizard .content .body .association.table-creation-plans section .table-create-plan li.origem-transicao-proibida, .wrapper-content .basic-wizard .content .body .association.table-creation-plans section .table-create-plan li.destino-transicao-proibida {
+  border: 1px solid #d54343;
+  background-color: #de6d6d;
 }
 
 .wrapper-content .basic-wizard .content .body .association.table-creation-plans section .table-create-plan thead tr .tg-031e label {
@@ -792,7 +780,7 @@ header .nav-secon li a {
   border: 1px solid #363636;
   margin: 0 15px 20px 20px;
   box-sizing: border-box;
-  background: #b7b7b7;
+  background-color: #b7b7b7;
   position: relative;
   min-height: 85px;
   max-height: 85px;
@@ -800,6 +788,27 @@ header .nav-secon li a {
   min-width: 85px;
   max-width: 85px;
   float: left;
+}
+
+.wrapper-content .basic-wizard .content .body .association.table-creation-plans section .table-create-plan tbody .ty-547j {
+  padding: 9px 15px 8px 10px;
+  background-color: #f7f7f7;
+  min-width: 80px;
+}
+
+.wrapper-content .basic-wizard .content .body .association.table-creation-plans section .table-create-plan tbody .ty-547j label {
+  font-size: 16px;
+  line-height: 16px;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+.wrapper-content .basic-wizard .content .body .association.table-creation-plans section .table-create-plan tbody .ty-547j label i {
+  padding-left: 5px;
+}
+
+.wrapper-content .basic-wizard .content .body .association.table-creation-plans section .table-create-plan tr {
+  height: 20px;
 }
 
 .wrapper-content .basic-wizard .content .body .association.table-creation-plans header {

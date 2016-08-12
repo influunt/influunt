@@ -101,6 +101,7 @@ public class Controlador extends Model implements Cloneable {
 
 
     @ManyToMany(mappedBy = "controladores")
+    @JoinTable(name = "agrupamentos_controladores", joinColumns = {@JoinColumn(name = "controlador_id")}, inverseJoinColumns = {@JoinColumn(name = "agrupamento_id")})
     private List<Agrupamento> agrupamentos;
 
     @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
@@ -427,5 +428,12 @@ public class Controlador extends Model implements Cloneable {
             setEnderecos(new ArrayList<Endereco>());
         }
         getEnderecos().add(endereco);
+    }
+
+    public void addAgrupamento(Agrupamento agrupamento) {
+        if (getAgrupamentos() == null) {
+            setAgrupamentos(new ArrayList<Agrupamento>());
+        }
+        getAgrupamentos().add(agrupamento);
     }
 }
