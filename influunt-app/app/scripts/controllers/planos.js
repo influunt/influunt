@@ -15,7 +15,10 @@ angular.module('influuntApp')
               validaTransicao, utilEstagios, toast, modoOperacaoService,
               influuntAlert, influuntBlockui) {
 
-      var adicionaPlano, selecionaAnel, atualizaTabelaEntreVerdes, atualizaEstagios, atualizaPlanos, atualizaEstagiosPlanos, adicionaEstagioASequencia, atualizaPosicaoPlanos, atualizaPosicaoEstagiosPlanos, carregaDadosPlano, getOpcoesEstagiosDisponiveis, montaTabelaValoresMinimos, parseAllToInt, setDiagramaEstatico, atualizaDiagramaIntervalos, getPlanoParaDiagrama;
+      var adicionaPlano, selecionaAnel, atualizaTabelaEntreVerdes, atualizaEstagios, atualizaPlanos,
+          atualizaEstagiosPlanos, adicionaEstagioASequencia, atualizaPosicaoPlanos, atualizaPosicaoEstagiosPlanos,
+          carregaDadosPlano, getOpcoesEstagiosDisponiveis, montaTabelaValoresMinimos, parseAllToInt,
+          setDiagramaEstatico, atualizaDiagramaIntervalos, getPlanoParaDiagrama, atualizaTransicoesProibidas;
       var diagramaDebouncer = null;
 
       /**
@@ -113,38 +116,14 @@ angular.module('influuntApp')
           grupo.intervalos.shift();
         }
       };
-      //
-      //
-      //
-      //
-      // /**
-      //  * Retorna uma copia do currentPlano com algumas modificações.
-      //  * Deverá ser utilizado para produzir o diagrama de intervalos.
-      //  *
-      //  * @return     {<type>}  The plano para diagrama.
-      //  */
-      //
-      // // variavel de controle, utilizada para verificar se o currentAnelId deve ou não ser atualizado.
-      // // Isto deve ser feito somente se a transição existir (ex.: E1, na posicao 1, caso seja arrastado para a
-      // // posicao 2, o currentEstagioId deve ser 2; caso contrário, permanece em 1).
-      // var transicaoAprovada = false;
+
       $scope.sortableOptions = {
         handle: '> .sortable',
-        // update: function(event, ui) {
-        //   var msg = validaTransicao.valida(ui, $scope.currentSequenciaEstagios, $scope.objeto);
-        //   if (msg) {
-        //     toast.warn(msg);
-        //     ui.item.sortable.cancel();
-        //     return false;
-        //   }
-        //
-        //   transicaoAprovada = true;
-        // },
-        stop: function(event, ui) {
+        stop: function() {
           atualizaPosicaoEstagiosPlanos();
         }
       };
-      //
+
       /**
        * Reenderiza novamente o diagrama de intervalos quando qualquer aspecto do plano for alterado.
        * Faz um debounce de 500ms, para evitar chamadas excessivas à "calculadora" do diagrama.
@@ -164,7 +143,9 @@ angular.module('influuntApp')
 
       $scope.$watch('currentEstagiosPlanos', function() {
         $timeout.cancel(diagramaDebouncer);
-        diagramaDebouncer = $timeout(atualizaDiagramaIntervalos, 500);
+        diagramaDebouncer = $timeout(function() {
+          atualizaDiagramaIntervalos();
+        }, 500);
       }, true);
 
       $scope.selecionaAnelPlanos = function(index) {
@@ -172,12 +153,10 @@ angular.module('influuntApp')
         $scope.selecionaPlano($scope.currentPlanos[0], 0);
       };
 
-
       $scope.selecionaPlano = function(plano, index) {
         $scope.currentPlanoIndex = index;
         $scope.currentPlano = plano;
         atualizaEstagiosPlanos();
-        // getPlanoParaDiagrama();
         return atualizaPosicaoPlanos();
       };
 
@@ -187,8 +166,6 @@ angular.module('influuntApp')
         var imagem = _.find($scope.objeto.imagens, {idJson: estagio.imagem.idJson});
         return imagem && $filter('imageSource')(imagem.id);
       };
-
-
 
       //
       // /**
@@ -541,12 +518,22 @@ angular.module('influuntApp')
         };
       };
 
-
       /**
        * Caso o modo de operação seja intermitente ou apagado, ele deverá renderizar um diagrama estágio, contendo
        * somente estes modos. Caso contrário, deverá executar o metodo de geração do diagrama a partir do plugin.
        */
       atualizaDiagramaIntervalos = function() {
+        var transicoesProibidas = atualizaTransicoesProibidas();
+
+        // Não deverá fazer o diagrama de intervalos enquanto houver transicoes proibidas
+        if (transicoesProibidas.length > 0) {
+          $scope.dadosDiagrama = {
+            erros: _.chain(transicoesProibidas).map('mensagem').uniq().value()
+          };
+
+          return false;
+        }
+
         if (['INTERMITENTE', 'APAGADO'].indexOf($scope.currentPlano.modoOperacao) < 0) {
           getPlanoParaDiagrama();
           var diagramaBuilder = new influunt.components.DiagramaIntervalos($scope.plano, $scope.valoresMinimos);
@@ -608,4 +595,23 @@ angular.module('influuntApp')
 
         return $scope.plano;
       };
+
+      atualizaTransicoesProibidas = function() {
+        var transicoesProibidas = validaTransicao.valida($scope.currentEstagiosPlanos, $scope.objeto);
+
+        // limpa as transicoes proibidas dos objetos.
+        _.each($scope.currentEstagiosPlanos, function(ep) {
+          ep.origemTransicaoProibida = false;
+          ep.destinoTransicaoProibida = false;
+        });
+
+        // marca as transicoes proibidas nos objetos.
+        _.each(transicoesProibidas, function(t) {
+          $scope.currentEstagiosPlanos[t.origem].origemTransicaoProibida = true;
+          $scope.currentEstagiosPlanos[t.destino].destinoTransicaoProibida = true;
+        });
+
+        return transicoesProibidas;
+      };
+
     }]);

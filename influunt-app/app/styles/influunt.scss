@@ -1,3 +1,4 @@
+@import "./influunt/variables.scss";
 /*
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700");
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,300,500,700");
@@ -637,45 +638,56 @@ header .nav-secon li a {
 .wrapper-content .basic-wizard .content .body .association.table-creation-plans {
     padding: 15px 0 0;
 }
-.wrapper-content .basic-wizard .content .body .association.table-creation-plans section .table-create-plan tr {
-    height: 20px;
-}
-.wrapper-content .basic-wizard .content .body .association.table-creation-plans section .table-create-plan tbody .ty-547j {
+.wrapper-content .basic-wizard .content .body .association.table-creation-plans section .table-create-plan {
+  li.origem-transicao-proibida, li.destino-transicao-proibida {
+    border: 1px solid darken($error-background, 30);
+    background-color: darken($error-background, 20);
+  }
+
+  thead tr .tg-031e {
+    label {
+      text-transform: uppercase;
+      margin: 15px 15px 10px;
+      cursor: all-scroll;
+      font-weight: bold;
+      text-align: left;
+      font-size: 16px;
+      color: #676a6c;
+      width: 100%;
+    }
+
+    figure {
+      border: 1px solid #363636;
+      margin: 0 15px 20px 20px;
+      box-sizing: border-box;
+      background-color: #b7b7b7;
+      position: relative;
+      min-height: 85px;
+      max-height: 85px;
+      overflow: hidden;
+      min-width: 85px;
+      max-width: 85px;
+      float: left;
+    }
+  }
+
+  tbody .ty-547j {
     padding: 9px 15px 8px 10px;
-    background: #f7f7f7;
+    background-color: #f7f7f7;
     min-width: 80px;
-}
-.wrapper-content .basic-wizard .content .body .association.table-creation-plans section .table-create-plan tbody .ty-547j label i {
-    padding-left: 5px;
-}
-.wrapper-content .basic-wizard .content .body .association.table-creation-plans section .table-create-plan tbody .ty-547j label {
-    font-size: 16px;
-    line-height: 16px;
-    font-weight: bold;
-    margin-bottom: 0;
-}
-.wrapper-content .basic-wizard .content .body .association.table-creation-plans section .table-create-plan thead tr .tg-031e label {
-    text-transform: uppercase;
-    margin: 15px 15px 10px;
-    cursor: all-scroll;
-    font-weight: bold;
-    text-align: left;
-    font-size: 16px;
-    color: #676a6c;
-    width: 100%;
-}
-.wrapper-content .basic-wizard .content .body .association.table-creation-plans section .table-create-plan thead tr .tg-031e figure {
-    border: 1px solid #363636;
-    margin: 0 15px 20px 20px;
-    box-sizing: border-box;
-    background: #b7b7b7;
-    position: relative;
-    min-height: 85px;
-    max-height: 85px;
-    overflow: hidden;
-    min-width: 85px;
-    max-width: 85px;
-    float: left;
+
+    label {
+      font-size: 16px;
+      line-height: 16px;
+      font-weight: bold;
+      margin-bottom: 0;
+      i {padding-left: 5px;}
+    }
+  }
+
+  tr {
+    height: 20px;
+  }
 }
 .wrapper-content .basic-wizard .content .body .association.table-creation-plans header {
 

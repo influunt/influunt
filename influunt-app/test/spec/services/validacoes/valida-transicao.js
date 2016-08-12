@@ -12,31 +12,50 @@ describe('Service: validaTransicao', function () {
 
     objeto = {
       estagios: [{posicao: 1, idJson: 1}, {posicao: 2, idJson: 2}, {posicao: 3, idJson: 3}],
+      estagiosPlanos: [{estagio: {idJson: 1}},{estagio: {idJson: 2}},{estagio: {idJson: 3}}],
       transicoesProibidas: [ { origem: {idJson: 1}, destino: {idJson: 3} } ]
     };
   }));
 
+  it('Retorna uma lista vazia quando não houver erros', function() {
+    var response = validaTransicao.valida();
+    expect(response).toEqual([]);
+  });
+
   it('E1 não pode ficar na segunda posicao, pois E1-E3 é proibido', function() {
-    var ui = { item: { sortable: { index: 0, dropindex: 1 } }};
-    var response = validaTransicao.valida(ui, estagios, objeto);
-    var expectation = 'transição proibida de E1 para E3';
-    expect(response).toBe(expectation);
+    var obj = objeto.estagiosPlanos;
+    obj = [obj[1], obj[0], obj[2]];
+
+    var response = validaTransicao.valida(obj, objeto);
+    var expectation = [
+      {mensagem: 'transição proibida de E1 para E3',origem: 1,destino: 2},
+      {mensagem: 'transição proibida de E1 para E3',origem: 1,destino: 2}
+    ];
+
+    expect(response).toEqual(expectation);
   });
 
   it('E1 pode ficar na terceira posição, pois E3-E1 é uma transição válida, assim como E2-E3', function() {
-    var ui = { item: { sortable: { index: 0, dropindex: 2 } }};
-    var response = validaTransicao.valida(ui, estagios, objeto);
-    expect(response).toBe(null);
+    var obj = objeto.estagiosPlanos;
+    obj = [obj[1], obj[2], obj[0]];
+
+    var response = validaTransicao.valida(obj, objeto);
+    var expectation = [];
+
+    expect(response).toEqual(expectation);
   });
 
   it('A sequencia E3, E2, E1 é proibida, pois esta cria uma transição inválida entre E1-E3 pela lista circular',
     function() {
-      // reordenando para o estado antes da troca.
-      estagios = [estagios[1], estagios[0], estagios[2]];
-      var ui = { item: { sortable: { index: 0, dropindex: 2 } }};
-      var response = validaTransicao.valida(ui, estagios, objeto);
+      var obj = objeto.estagiosPlanos;
+      obj = [obj[2], obj[1], obj[0]];
 
-      var expectation = 'transição proibida de E1 para E3';
-      expect(response).toBe(expectation);
+      var response = validaTransicao.valida(obj, objeto);
+      var expectation = [
+        {mensagem: 'transição proibida de E1 para E3', origem: 2, destino: 0},
+        {mensagem: 'transição proibida de E1 para E3', origem: 2, destino: 0}
+      ];
+
+      expect(response).toEqual(expectation);
     });
 });
