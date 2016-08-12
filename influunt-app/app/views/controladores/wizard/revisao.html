@@ -6,28 +6,27 @@
       </div>
       <div class="col-lg-12 col-sm-12 ibox-content no-padding-left no-padding-right padding-top-20">
         <div class="col-lg-4 col-sm-3">
-          <p><b>{{ 'controladores.cidade' | translate }}:</b> São Paulo</p>
-          <p><b>{{ 'controladores.area' | translate }}:</b> Norte</p></br>
-          <p><b>{{ 'controladores.numeroSMEE' | translate }}:</b> 446469</p>
-          <p><b>{{ 'controladores.CLC' | translate }}:</b> 364654</p></br>
-          <p><b>{{ 'controladores.numeroSMEEConjugado1' | translate }}:</b> 646878</p>
-          <p><b>{{ 'controladores.numeroSMEEConjugado2' | translate }}:</b> 646878</p>
-          <p><b>{{ 'controladores.numeroSMEEConjugado3' | translate }}:</b> 646878</p>
+          <p><b>{{ 'controladores.cidade' | translate }}:</b> {{cidade}}</p>
+          <p><b>{{ 'controladores.area' | translate }}:</b> {{area}}</p></br>
+          <p><b>{{ 'controladores.numeroSMEE' | translate }}:</b> {{objeto.numeroSMEE}}</p>
+          <p><b>{{ 'controladores.CLC' | translate }}:</b> {{objeto.CLC}}</p></br>
+          <p><b>{{ 'controladores.numeroSMEEConjugado1' | translate }}:</b> {{objeto.numeroSMEEConjugado1}}</p>
+          <p><b>{{ 'controladores.numeroSMEEConjugado2' | translate }}:</b> {{objeto.numeroSMEEConjugado2}}</p>
+          <p><b>{{ 'controladores.numeroSMEEConjugado3' | translate }}:</b> {{objeto.numeroSMEEConjugado3}}</p>
         </div>
         <div class="col-lg-4 col-sm-3">
-          <p><b>{{ 'controladores.Fabricante' | translate }}:</b> Nome do Fabricante</p>
-          <p><b>{{ 'controladores.modelo' | translate }}:</b> 65465454654</p></br>
-          <p><b>{{ 'controladores.estagios' | translate }}:</b> 16</p>
-          <p><b>{{ 'controladores.estagios' | translate }}:</b> 12</p>
-          <p><b>{{ 'controladores.aneis' | translate }}:</b> 5</p>
-          <p><b>{{ 'controladores.maxDetectorVeicular' | translate }}:</b> 8</p>
-          <p><b>{{ 'controladores.maxDetectorPedestre' | translate }}:</b> 6</p>
+          <p><b>{{ 'controladores.Fabricante' | translate }}:</b> {{fabricante}}</p>
+          <p><b>{{ 'controladores.modelo' | translate }}:</b> {{modelo}}</p></br>
+          <p><b>{{ 'controladores.estagios' | translate }}:</b> {{objeto.estagios.length}}</p>
+          <p><b>{{ 'controladores.aneis' | translate }}:</b> {{qtdeAneisAtivos}}</p>
+          <p><b>{{ 'controladores.maxDetectorVeicular' | translate }}:</b> {{qtdeDetectoresVeiculares}}</p>
+          <p><b>{{ 'controladores.maxDetectorPedestre' | translate }}:</b> {{qtdeDetectoresPedestres}}</p>
         </div>
         <div class="col-lg-4 col-sm-6">
-          <p><b>{{ 'controladores.localizacao' | translate }}:</b> Av. Paulista 632</p>
+          <p><b>{{ 'controladores.localizacao' | translate }}:</b> {{objeto.nomeEndereco}}</p>
           <figure>
             <div influunt-map
-              latitude="objeto.enderecos[0].latitude"
+              latitude="objeto.todosEnderecos[0].latitude"
               longitude="objeto.enderecos[0].longitude"
               class="influunt-map">
             </div>
@@ -46,33 +45,32 @@
     });
   </script>
 
+<!-- Abas de aneis -->
   <div class="m-t-md">
     <div class="col-lg-12 col-sm-12 bg-border no-padding">
       <div class="ibox float-e-margins">
         <div class="tabpanel">
           <div class="col-lg-12 col-sm-12 padding-top-20 tabs-container">
-            <ul class="nav nav-tabs">
-              <li class=""><a class="" data-toggle="tab" href="#tabs-1" aria-expanded="false">{{ 'controladores.anel' | translate }} {{ currentAnel.posicao }}</a></li>
-              <li class=""><a class="" data-toggle="tab" href="#tabs-2" aria-expanded="false">{{ 'controladores.anel' | translate }} 02</a></li>
-              <li class=""><a class="" data-toggle="tab" href="#tabs-3" aria-expanded="false">{{ 'controladores.anel' | translate }} 03</a></li>
-            </ul>
+            <influunt-tabs data-on-activate="selecionaAnel" data-aneis-ativos="aneis"></influunt-tabs>
             <div class="ui-layout-content tab-content">
               <div id="tabs-1">
                 <div class="col-lg-12 col-sm-12 no-padding-left padding-top-20 text-left">
+
                   <div class="col-lg-3 col-sm-3 no-padding-left">
-                    <p><b>{{ 'controladores.codigo' | translate }}:</b> São Paulo</p>
-                    <p><b>{{ 'controladores.local' | translate }}:</b> Norte</p>
-                    <p><b>{{ 'controladores.SMEE' | translate }}:</b> 446469</p>
+                    <p><b>{{ 'controladores.CLA' | translate }}:</b> {{codigoCLA}}</p>
+                    <p><b>{{ 'controladores.localizacao' | translate }}:</b> {{localizacao}}</p>
+                    <p><b>{{ 'controladores.numeroSMEE' | translate }}:</b> {{numeroSMEE}}</p>
                   </div>
                   <div class="col-lg-3 col-sm-3 no-padding-left">
-                    <p><b>{{ 'controladores.gruposPedestres' | translate }}:</b> São Paulo</p>
-                    <p><b>{{ 'controladores.gruposSinaisVeiculares' | translate }}:</b> Norte</p>
+                    <p><b>{{ 'controladores.gruposPedestres' | translate }}:</b> {{semaforicoPedestres}}</p>
+                    <p><b>{{ 'controladores.gruposSinaisVeiculares' | translate }}:</b> {{objeto.gruposSinaisVeiculares}}</p>
                   </div>
                   <div class="col-lg-3 col-sm-3 no-padding-left">
-                    <p><b>{{ 'controladores.detectores' | translate }}:</b> São Paulo</p>
-                    <p><b>{{ 'controladores.detectores' | translate }}:</b> Norte</p>
+                    <p><b>{{ 'controladores.numeroDetectoresPedestres' | translate }}:</b> São Paulo</p>
+                    <p><b>{{ 'controladores.numeroDetectores' | translate }}:</b> Norte</p>
                   </div>
                 </div>
+<!-- End Abas de aneis -->
 
                 <div class="col-lg-12 col-sm-12 no-padding">
                   <div class="col-lg-6 col-sm-6 no-padding-left text-left">
