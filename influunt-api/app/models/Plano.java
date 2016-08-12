@@ -11,6 +11,7 @@ import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.apache.commons.lang3.Range;
 import org.joda.time.DateTime;
+import utils.InfluuntUtils;
 import utils.RangeUtils;
 
 import javax.persistence.*;
@@ -32,22 +33,30 @@ public class Plano extends Model implements Cloneable {
 
     @Column
     private String idJson;
+
     @Column
     @NotNull(message = "não pode ficar em branco.")
     private Integer posicao;
+
     @Column
     private Integer tempoCiclo;
+
     @Column
     private Integer defasagem = 0;
+
     @ManyToOne
     private Anel anel;
+
     @ManyToOne
     private Agrupamento agrupamento;
+
     @OneToMany(mappedBy = "plano", cascade = CascadeType.ALL)
     @Valid
     private List<EstagioPlano> estagiosPlanos;
+
     @OneToMany(mappedBy = "plano", cascade = CascadeType.ALL)
     private List<GrupoSemaforicoPlano> gruposSemaforicosPlanos;
+
     @Column
     @NotNull(message = "não pode ficar em branco.")
     private ModoOperacaoPlano modoOperacao;
@@ -57,11 +66,13 @@ public class Plano extends Model implements Cloneable {
     @Column
     @NotNull(message = "não pode ficar em branco.")
     private Integer posicaoTabelaEntreVerde;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
@@ -283,6 +294,20 @@ public class Plano extends Model implements Cloneable {
         return true;
     }
 
+    @AssertTrue(groups = PlanosCheck.class, message = "O Plano só poderá pertencer a um agrupamento se estiver em modo Coordenado.")
+    public boolean isAgrupamento() {
+        return !(!this.isTempoFixoCoordenado() && this.getAgrupamento() != null);
+    }
+
+
+    @AssertTrue(groups = PlanosCheck.class, message = "O Tempo de ciclo deve ser simétrico ou assimétrico ao tempo de ciclo dos controladores.")
+    public boolean isTempoCicloIgualOuMultiploDeTodoAgrupamento() {
+        if (this.getAgrupamento() != null && this.getTempoCiclo() != null) {
+            return InfluuntUtils.getInstance().multiplo(this.getTempoCicloAgrupamento(), this.getTempoCiclo());
+        }
+        return true;
+    }
+
     public void addGruposSemaforicos(GrupoSemaforicoPlano grupoPlano) {
         if (getGruposSemaforicosPlanos() == null) {
             setGruposSemaforicosPlanos(new ArrayList<GrupoSemaforicoPlano>());
@@ -327,6 +352,19 @@ public class Plano extends Model implements Cloneable {
         }
 
         return Collections.max(totalTempoEntreverdes) + estagioPlano.getTempoVerde();
+    }
+
+    public Integer getTempoCicloAgrupamento() {
+        Plano plano = this.getAgrupamento().getPlanos()
+                .stream()
+                .filter(planoAux ->
+                        planoAux.getPosicao().equals(this.getPosicao()) && !planoAux.getIdJson().equals(this.getIdJson()))
+                .findFirst()
+                .orElse(null);
+        if (plano != null) {
+            return plano.getTempoCiclo();
+        }
+        return 1;
     }
 
 
