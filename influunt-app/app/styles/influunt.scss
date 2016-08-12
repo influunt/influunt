@@ -219,6 +219,9 @@
 
 .ibox-title i {
   color: #1ab394;
+  &.white {
+    color: #fff;
+  }
 }
 
 .bg-border-footer {

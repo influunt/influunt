@@ -252,6 +252,10 @@
   color: #1ab394;
 }
 
+.ibox-title i.white {
+  color: #fff;
+}
+
 .bg-border-footer {
   padding-top: 10px;
   padding-bottom: 60px;
