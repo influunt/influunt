@@ -358,8 +358,7 @@ public class Plano extends Model implements Cloneable {
         Plano plano = this.getAgrupamento().getPlanos()
                 .stream()
                 .filter(planoAux ->
-                        planoAux.getPosicao().equals(this.getPosicao()) &&
-                                !planoAux.getIdJson().equals(this.getIdJson()))
+                        planoAux.getPosicao().equals(this.getPosicao()) && !planoAux.getIdJson().equals(this.getIdJson()))
                 .findFirst()
                 .orElse(null);
         if (plano != null) {
