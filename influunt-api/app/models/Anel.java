@@ -62,7 +62,7 @@ public class Anel extends Model implements Cloneable, Serializable {
     @ManyToOne
     private Controlador controlador;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "anel", cascade = CascadeType.ALL)
     @Valid
     private TabelaHorario tabelaHorario;
 

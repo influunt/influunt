@@ -93,7 +93,7 @@ public class ControladoresControllerTest extends WithApplication {
 
     @Test
     public void deveriaClonar() {
-        Controlador controlador = controladorTestUtils.getControladorPlanos();
+        Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
         controlador.setStatusControlador(StatusControlador.ATIVO);
         controlador.save();
 
@@ -252,6 +252,14 @@ public class ControladoresControllerTest extends WithApplication {
                     assertFields(grupoSemaforicoPlano, grupoSemaforicoPlanoClonado);
                 });
             });
+
+            if(anel.getTabelaHorario() != null) {
+                assertFields(anel.getTabelaHorario(), anelClonado.getTabelaHorario());
+                anel.getTabelaHorario().getEventos().forEach(evento -> {
+                    Evento eventoClonado = anelClonado.getTabelaHorario().getEventos().stream().filter(aux -> aux.getIdJson().equals(evento.getIdJson())).findFirst().orElse(null);
+                    assertFields(evento, eventoClonado);
+                });
+            }
         });
     }
 
@@ -267,7 +275,7 @@ public class ControladoresControllerTest extends WithApplication {
                     if (field.getType().isPrimitive() || field.getType().isEnum() ||
                             field.getType().equals(String.class) || field.getType().equals(Integer.class)) {
 
-                        Logger.info("[" + origem.getClass().getName().toString() + "] - CAMPO: " + field.getName().toString());
+                        Logger.debug("[" + origem.getClass().getName().toString() + "] - CAMPO: " + field.getName().toString());
                         assertEquals("Teste de " + field.getName().toString(), field.get(origem), field.get(destino));
                     }
                 }
