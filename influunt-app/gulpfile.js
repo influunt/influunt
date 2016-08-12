@@ -84,7 +84,6 @@ var paths = {
   cucumberFeatures: ['features/**/*.feature'],
   cucumberStepDefinitions: ['features/step_definitions/**/*.steps.js'],
   cucumberSupportScripts: ['features/support/**/*.js'],
-  // karma: 'karma.conf.js',
   karma: 'test/karma.conf.js',
   views: {
     main: yeoman.app + '/index.html',
