@@ -7,94 +7,104 @@
  * # influuntMap
  */
 angular.module('influuntApp')
-  .directive('influuntMap', ['$timeout', function ($timeout) {
+  .directive('influuntMap', [function() {
     return {
       restrict: 'A',
       scope: {
-        latitude: '=',
-        longitude: '='
+        markers: '=',
+        areas: '='
       },
-      link: function (scope, element) {
-        L.Icon.Default.imagePath = 'images/leaflet';
-        var map = null;
-        var marker = null;
+      link: function(scope, element) {
+        var map, markersLayer, areasLayer;
+        var TILE_LAYER = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw';
+        var DEFAULTS = {LATITUDE: -23.550382, LONGITUDE: -46.663956, ZOOM: 15};
+        var DEFAULT_MARKER_OPTINS = {draggable: true};
 
-        /**
-         * Defaults:
-         *  posicao: marco zero de São Paulo;
-         *  zoom: 15
-         *
-         * @type       {<type>}
-         */
-        var DEFAULTS = {
-          LATITUDE: -23.550382,
-          LONGITUDE: -46.663956,
-          ZOOM: 15
+        // private methods.
+        var initializeMap, createMarker, addMarkers, addAreas, createArea;
+
+        initializeMap = function() {
+          var options = {scrollWheelZoom: false};
+          map = L.map(element[0], options).setView([DEFAULTS.LATITUDE, DEFAULTS.LONGITUDE], DEFAULTS.ZOOM);
+          L.tileLayer(TILE_LAYER, {maxZoom: 20, id: 'mapbox.streets'}).addTo(map);
         };
 
-        /**
-         * Cria um novo marker em determinada posição.
-         *
-         * @param      {float}    latitude   The latitude
-         * @param      {float}    longitude  The longitude
-         * @return     {Function}  { description_of_the_return_value }
-         */
-        var createMarker = function(latitude, longitude) {
-          var options = {
-            draggable: true
-          };
+        createMarker = function(obj) {
+          if (obj.options && _.isString(obj.options.icon)) {
+            obj.options.icon = L.icon({
+              iconUrl: obj.options.icon
+            });
+          }
 
-          marker = L.marker([latitude, longitude], options)
-            .addTo(map)
+          var options = _.merge(DEFAULT_MARKER_OPTINS, obj.options);
+          obj.latitude = obj.latitude || DEFAULTS.LATITUDE;
+          obj.longitude = obj.longitude || DEFAULTS.LONGITUDE;
+          var marker = L
+            .marker([obj.latitude, obj.longitude], options)
             .on('dragend', function(ev) {
-              $timeout(function() {
+              scope.$apply(function() {
                 var coordinates = ev.target._latlng;
-                scope.latitude = coordinates.lat;
-                scope.longitude = coordinates.lng;
+                obj.latitude = coordinates.lat;
+                obj.longitude = coordinates.lng;
               });
             });
 
+          if (obj.popupText) {
+            marker.bindPopup(obj.popupText);
+          }
+
+          map.setView([obj.latitude, obj.longitude]);
           return marker;
         };
 
-        /**
-         * Inicializa o componente de mapa. Este deverá ser criado com a primeira view apontando para o
-         * ponto default declarado nas constantes acima.
-         */
-        var initializeMap = function() {
-          map = L
-            .map(element[0], {scrollWheelZoom: false})
-            .setView([DEFAULTS.LATITUDE, DEFAULTS.LONGITUDE], DEFAULTS.ZOOM);
-
-          createMarker(DEFAULTS.LATITUDE, DEFAULTS.LONGITUDE);
-
-          L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
-          // L.tileLayer('http://cetsp1.cetsp.com.br:10084/geoserver/cetmdc/wms?tiled=true', {
-            maxZoom: 20,
-            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-              '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-              'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-            id: 'mapbox.streets'
-          }).addTo(map);
+        createArea = function(obj) {
+          var points = obj.points.map(function(p) { return [p.latitude, p.longitude];});
+          var area = L.polygon(points, obj.options);
+          return area;
         };
 
-        /**
-         * Atualiza as coordenadas do mapa.
-         */
-        var updateCoordinates = function() {
-          if (marker) {
-            map.removeLayer(marker);
+        addAreas = function(areas) {
+          if (_.isObject(areasLayer)) {
+            map.removeLayer(areasLayer);
           }
 
-          var latitude = scope.latitude || DEFAULTS.LATITUDE;
-          var longitude = scope.longitude || DEFAULTS.LONGITUDE;
+          areasLayer = new L.FeatureGroup();
+          areas.forEach(function(area) {
+            var a = createArea(area);
+            areasLayer.addLayer(a);
+          });
 
-          map.setView([latitude, longitude]);
-          createMarker(latitude, longitude);
+          map.addLayer(areasLayer);
         };
 
-        scope.$watchGroup(['latitude', 'longitude'], function(value) {
-          return value && map && updateCoordinates();
+        addMarkers = function(markers) {
+          if (_.isObject(markersLayer)) {
+            map.removeLayer(markersLayer);
+          }
+
+          markersLayer = new L.FeatureGroup();
+          markers.forEach(function(marker) {
+            var m = createMarker(marker);
+            markersLayer.addLayer(m);
+          });
+
+          map.addLayer(markersLayer);
+        };
+
+        scope.$watch('markers', function(markers) {
+          if (_.isObject(markers) && angular.isDefined(map)) {
+            addMarkers([markers]);
+          }
+
+          if (_.isArray(markers) && angular.isDefined(map)) {
+            addMarkers(markers);
+          }
+        });
+
+        scope.$watch('areas', function(areas) {
+          if (_.isArray(areas) && angular.isDefined(map)) {
+            addAreas(areas);
+          }
         });
 
         $(document).ready(initializeMap);

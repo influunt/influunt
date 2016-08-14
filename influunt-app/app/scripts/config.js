@@ -346,6 +346,15 @@ angular
           }
         })
 
+        .state('app.mapa_controladores', {
+          url: '/mapa-controladores',
+          templateUrl: 'views/controladores/mapa.html',
+          controller: 'ControladoresMapaCtrl',
+          data: {
+            title: 'controladores.mapa'
+          }
+        })
+
         .state('app.planos', {
           url: '/planos/:id',
           templateUrl: 'views/planos/criacao-planos.html',
