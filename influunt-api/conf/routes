@@ -30,6 +30,7 @@ POST        /api/v1/controladores/associacao_detectores           controllers.Co
 GET         /api/v1/controladores/:id                             controllers.ControladoresController.findOne(id)
 DELETE      /api/v1/controladores/:id                             controllers.ControladoresController.delete(id)
 GET         /api/v1/controladores/:id/edit                        controllers.ControladoresController.edit(id)
+GET         /api/v1/controladores/:id/timeline                    controllers.ControladoresController.timeline(id)
 
 # Fabricantes
 GET         /api/v1/fabricantes                         controllers.FabricantesController.findAll()

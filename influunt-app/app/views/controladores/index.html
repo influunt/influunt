@@ -61,7 +61,10 @@
                   <td>{{controlador.dataAtualizacao}}</td>
                   <td>
                     <hgroup>
-                      <a class="btn btn-outline btn-primary" data-toggle="tooltip" data-placement="top" title="Copiar controlador" type="button" ng-click="copiar(controlador.id)" ng-show="controlador.statusControlador == 'CONFIGURADO'">
+                      <a class="btn btn-outline btn-primary" data-toggle="tooltip" data-placement="top" title="Copiar controlador" type="button" ui-sref="app.controladores_timeline({id: controlador.id})">
+                        <i class="fa fa-tree"></i> Timeline
+                      </a>
+                      <a class="btn btn-outline btn-primary" data-toggle="tooltip" data-placement="top" title="Copiar controlador" type="button" ng-click="copiar(controlador.id)" ng-show="controlador.statusControlador == 'ATIVO'">
                         <i class="fa fa-copy"></i> Copiar
                       </a>
                       <a class="btn btn-outline btn-primary" data-toggle="tooltip" data-placement="top" title="Editar controlador" type="button" ui-sref="app.wizard_controladores.dados_basicos({id: controlador.id})" ng-show="controlador.statusControlador == 'EM_CONFIGURACAO'">

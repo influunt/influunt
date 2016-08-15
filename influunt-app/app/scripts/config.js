@@ -170,6 +170,17 @@ angular
           }
         })
 
+        //Timeline
+        .state('app.controladores_timeline', {
+          url: '/controladores/:id/timeline',
+          templateUrl: 'views/controladores/timeline.html',
+          controller: 'ControladoresCtrl',
+          controllerAs: 'controladores',
+          data: {
+            title: 'timeline.titulo'
+          }
+        })
+
         // Crud tipos detectores.
         .state('app.tipos_detectores', {
           url: '/tipos_detectores',
@@ -370,26 +381,6 @@ angular
           controller: 'PlanosCtrl',
           data: {
             title: 'planos.titulo'
-          }
-        })
-        
-        //Timeline
-        .state('app.timeline', {
-          url: '/timeline',
-          templateUrl: 'views/timeline/index.html',
-          controller: 'PerfisCtrl',
-          controllerAs: 'timeline',
-          data: {
-            title: 'timeline.titulo'
-          }
-        })
-
-        .state('app.tabela_horarios', {
-          url: '/tabela_horarios/:id',
-          templateUrl: 'views/tabela_horarios/configuracao.html',
-          controller: 'TabelaHorariosCtrl',
-          data: {
-            title: 'tabelaHorarios.titulo'
           }
         })
 

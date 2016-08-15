@@ -152,6 +152,17 @@ public class ControladoresController extends Controller {
         }
     }
 
+    @Transactional
+    public CompletionStage<Result> timeline(String id) {
+        Controlador controlador = Controlador.find.byId(UUID.fromString(id));
+        if (controlador == null) {
+            return CompletableFuture.completedFuture(notFound());
+        } else {
+            List<VersaoControlador> versoes = VersaoControlador.versoes(controlador);
+            return CompletableFuture.completedFuture(ok(Json.toJson(versoes)));
+        }
+    }
+
     private CompletionStage<Result> doStep(boolean finalizaConfiguracaoSeSucesso, Class<?>... validationGroups) {
         if (request().body() == null) {
             return CompletableFuture.completedFuture(badRequest());

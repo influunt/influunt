@@ -358,10 +358,22 @@ angular.module('influuntApp')
       };
 
       $scope.copiar = function(controladorId) {
-        console.log("******* ID: ", controladorId);
         return Restangular.one('controladores', controladorId).all("edit").customGET()
           .then(function(res) {
-            console.log("RETORNOU: ", JSON.stringify(res));
+            $state.go('app.controladores');
+          })
+          .catch(function(err) {
+            toast.error($filter('translate')('geral.mensagens.default_erro'));
+            throw new Error(JSON.stringify(err));
+          });
+      };
+
+      $scope.timeline = function() {
+        var id = $state.params.id;
+        console.log("OLA MUNDO: ", id);
+        return Restangular.one('controladores', id).all("timeline").customGET()
+          .then(function(res) {
+            $scope.versoes = res;
           })
           .catch(function(err) {
             toast.error($filter('translate')('geral.mensagens.default_erro'));

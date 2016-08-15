@@ -2,6 +2,7 @@ package models;
 
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
@@ -30,9 +31,11 @@ public class VersaoControlador extends Model implements Serializable {
     @Id
     private UUID id;
 
+    @JsonIgnore
     @ManyToOne
     private Controlador controladorOrigem;
 
+    @JsonIgnore
     @ManyToOne
     private Controlador controladorEdicao;
 
@@ -144,15 +147,15 @@ public class VersaoControlador extends Model implements Serializable {
      * @return
      */
     public static List<VersaoControlador> versoes(Controlador controlador) {
-        LinkedList<VersaoControlador> versoes = new LinkedList<VersaoControlador>();
+        ArrayList<VersaoControlador> versoes = new ArrayList<VersaoControlador>();
         getElement(versoes, controlador);
         return versoes;
     }
 
-    static void getElement(LinkedList<VersaoControlador> versoes, Controlador controlador) {
+    static void getElement(ArrayList<VersaoControlador> versoes, Controlador controlador) {
         VersaoControlador versao = VersaoControlador.find.where().eq("controlador_edicao_id", controlador.getId()).findUnique();
         if (versao != null) {
-            versoes.push(versao);
+            versoes.add(versao);
             if (versao.getControladorOrigem() != null) {
                 getElement(versoes, versao.getControladorOrigem());
             }
