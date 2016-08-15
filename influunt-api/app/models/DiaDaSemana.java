@@ -26,6 +26,10 @@ public enum DiaDaSemana {
     }
 
     public static DiaDaSemana get(String name) {
-        return Arrays.stream(DiaDaSemana.values()).filter(diaDaSemana -> diaDaSemana.equalsName(name)).findFirst().orElse(null);
+        DiaDaSemana value = Arrays.stream(DiaDaSemana.values()).filter(diaDaSemana -> diaDaSemana.equalsName(name)).findFirst().orElse(null);
+        if(value == null){
+            value = DiaDaSemana.valueOf(name);
+        }
+        return value;
     }
 }

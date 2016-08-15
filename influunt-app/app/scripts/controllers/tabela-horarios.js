@@ -141,7 +141,6 @@ angular.module('influuntApp')
 
       $scope.verificaAtualizacaoDeEventos = function(evento){
         //Adiciona novo evento caso todos os dados estejam preenchidos
-        console.log(evento);
         if(evento.hora && evento.minuto){
           evento.horario = evento.hora + ':' + evento.minuto;
         }

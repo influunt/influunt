@@ -1040,7 +1040,7 @@ public class ControladorCustomDeserializer {
         }
 
         if (node.has("diaDaSemana")) {
-            evento.setDiaDaSemana(DiaDaSemana.valueOf(node.get("diaDaSemana").asText()));
+            evento.setDiaDaSemana(DiaDaSemana.get(node.get("diaDaSemana").asText()));
         }
 
         if (node.has("nome")) {
