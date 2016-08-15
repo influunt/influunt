@@ -80,13 +80,13 @@ angular.module('influuntApp')
             },
 
             {
-              label: 'Segunda a Sexta',
+              label: 'Segunda à Sexta',
               value: 'SEGUNDA_A_SEXTA',
               dias: ['seg','ter','qua','qui','sex'],
               prioridade:9
             },
             {
-              label: 'Segunda a Sábado',
+              label: 'Segunda à Sábado',
               value: 'SEGUNDA_A_SABADO',
               dias: ['seg','ter','qua','qui','sex','sab'],
               prioridade:10

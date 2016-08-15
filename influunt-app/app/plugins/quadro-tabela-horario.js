@@ -8,20 +8,24 @@ var influunt;
         this.agenda = {};
         this.dias = dias;
         this.eventos = eventos;
+        this.intervaloHora = 4;
+        this.intervaloDia = 96;
+        this.horaDia = 24;
       }
       QuadroTabelaHorario.prototype.calcula = function () {
         this.agenda = this.inicializa();
         var eventos = this.eventos;
-        var programas = []
+        var programas = [];
         var index = 0;
         eventos.forEach(function(evento){
           var programa = _.cloneDeep(evento);
           if(programa.diaDaSemana && programa.horario){
             programa.hora = programa.horario.split(':')[0];
-            programa.minuto = programa.minuto.split(':')[0];
+            programa.minuto = programa.horario.split(':')[1];
             programa.dia = programa.diaDaSemana;
             programa.class = 'horarioColor' + (index+1);
-            programa.index = index++;
+            programa.index = index;
+            index++;
             programas.push(programa);
           }
         });
@@ -35,13 +39,15 @@ var influunt;
       QuadroTabelaHorario.prototype.inicializa = function () {
         var agenda = this.agenda;
         var diasDaSemana = this.diasDaSemana;
-        for(var minuto = 0; minuto < 4; minuto++){
-          for(var hora = 0; hora < 24; hora++ ){
+        var intervaloHora = this.intervaloHora;
+        var horaDia = this.horaDia;
+        for(var minuto = 0; minuto < intervaloHora; minuto++){
+          for(var hora = 0; hora < horaDia; hora++ ){
             diasDaSemana.forEach(function(dia){
-              if(agenda[dia] == undefined){
-                agenda[dia] =  new Array(24);
-                for(var i = 0; i < 24; i++){
-                  agenda[dia][i] = new Array(4);
+              if(typeof agenda[dia] === 'undefined'){
+                agenda[dia] =  new Array(horaDia);
+                for(var i = 0; i < horaDia; i++){
+                  agenda[dia][i] = new Array(intervaloHora);
                 }
               }
               agenda[dia][hora][minuto] = {state: 'unset'};
@@ -75,11 +81,13 @@ var influunt;
       QuadroTabelaHorario.prototype.passada = function (trocas, ultimo) {
         var agenda = this.agenda;
         var diasDaSemana = this.diasDaSemana;
+        var intervaloHora = this.intervaloHora;
+        var intervaloDia = this.intervaloDia;
         if(Object.keys(trocas).length > 0){
           diasDaSemana.forEach(function(dia){
-            for(var i = 0; i < 96; i++){
-              var hora = Math.floor(i / 4);
-              var minuto = i % 4;
+            for(var i = 0; i < intervaloDia; i++){
+              var hora = Math.floor(i / intervaloHora);
+              var minuto = i % intervaloHora;
               var slot = agenda[dia][hora][minuto];
         
               if(slot.state == 'unset'){
@@ -100,6 +108,8 @@ var influunt;
         var intervalo = {};
         var agenda = this.agenda;
         var diasDaSemana = this.diasDaSemana;
+        var intervaloDia = this.intervaloDia;
+        var intervaloHora = this.intervaloHora;
       
         if(agenda['dom'][0][0].state == 'unset'){
           return;
@@ -108,9 +118,9 @@ var influunt;
         var currentIndex = undefined;
       
         diasDaSemana.forEach(function(dia){
-          for(var i = 0; i < 96; i++){
-            var hora = Math.floor(i / 4);
-            var minuto = i % 4;
+          for(var i = 0; i < intervaloDia; i++){
+            var hora = Math.floor(i / intervaloHora);
+            var minuto = i % intervaloHora;
             var slotIndex = agenda[dia][hora][minuto].index;
             if(slotIndex == undefined){
               slotIndex = currentIndex;
