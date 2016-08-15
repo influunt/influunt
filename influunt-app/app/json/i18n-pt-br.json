@@ -197,6 +197,9 @@
     "cadastros": "Cadastros",
     "configuracoes": "Configurações"
   },
+  "timeline": {
+    "titulo": "Histórico de alterações"
+  },
   "perfis": {
     "definir_permissoes": "Definir permissões",
     "descricao": "Descricao",
