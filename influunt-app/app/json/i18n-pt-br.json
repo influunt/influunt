@@ -91,10 +91,12 @@
   "tabelaHorarios": {
     "titulo": "Tabela de Horários",
     "dias": "Dias",
+    "nome": "Nome",
+    "data": "Data",
     "horario": "Horário",
     "plano": "Plano",
     "descartar": "Descartar",
-    "tabelaEspecial": "Tabela de horários especial ativa entre",
+    "tabelaEspecial": "Tabela de horários especial ativa na semanda entre os dias",
     "hr": "HR",
     "seg": "SEG",
     "ter": "TER",

@@ -168,13 +168,17 @@ create table eventos (
   id                            varchar(40) not null,
   id_json                       varchar(255),
   posicao                       integer not null,
-  dia_da_semana                 varchar(16) not null,
+  dia_da_semana                 varchar(16),
   horario                       time not null,
+  data                          datetime(6),
+  nome                          varchar(255),
+  tipo                          varchar(8) not null,
   tabela_horario_id             varchar(40) not null,
   plano_id                      varchar(40) not null,
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
   constraint ck_eventos_dia_da_semana check (dia_da_semana in ('SEGUNDA_A_SEXTA','SEGUNDA_A_SABADO','SABADO_A_DOMINGO','TODOS_OS_DIAS','SEGUNDA','TERCA','QUARTA','QUINTA','SEXTA','SABADO','DOMINGO')),
+  constraint ck_eventos_tipo check (tipo in ('NORMAL','ESPECIAL')),
   constraint pk_eventos primary key (id)
 );
 

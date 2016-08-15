@@ -27,7 +27,7 @@ td.programacao-first{
   <tbody>
     <tr data-ng-repeat="i in getTimes(96) track by $index" style="line-height:1px;height:1px">
       <td data-ng-if="$index % 4 == 0" rowspan="4" style="font-size:11px;padding:1px 5px">{{$index/4}}</td>
-      <td data-ng-repeat="(k,v) in agenda" data-ng-class="getTableCell(v,$parent.$index)" class="programacao">
+      <td data-ng-repeat="(k,v) in agenda" data-ng-class="getTableCell(v,$parent.$index)" ng-mouseover="highlightEvento(v,$parent.$index)" ng-mouseleave="leaveHighlightEvento(v,$parent.$index)" class="programacao">
       </td>
     </tr>
   </tbody>

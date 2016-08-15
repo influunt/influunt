@@ -4,6 +4,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
 import org.joda.time.LocalTime;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -1032,8 +1035,25 @@ public class ControladorCustomDeserializer {
             evento.setPosicao(node.get("posicao").asInt());
         }
 
+        if (node.has("tipo")) {
+            evento.setTipo(TipoEvento.valueOf(node.get("tipo").asText()));
+        }
+
         if (node.has("diaDaSemana")) {
-            evento.setDiaDaSemana(DiaDaSemana.get(node.get("diaDaSemana").asText()));
+            evento.setDiaDaSemana(DiaDaSemana.valueOf(node.get("diaDaSemana").asText()));
+        }
+
+        if (node.has("nome")) {
+            evento.setNome(node.get("nome").asText());
+        }
+
+        if (node.has("data")) {
+            DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+            try {
+                evento.setData(formatter.parse((node.get("data").asText())));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
 
         if (node.has("horario")) {

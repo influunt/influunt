@@ -67,6 +67,30 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         assertThat(erros, Matchers.hasItems(
                 new Erro("Controlador", "A tabela horário deve ter pelo menos 1 evento configurado.", "aneis[0].tabelaHorario.aoMenosUmEvento"),
                 new Erro("Controlador", "não pode ficar em branco", "aneis[1].tabelaHorario.eventos[0].posicao"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[1].tabelaHorario.eventos[0].tipo"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[1].tabelaHorario.eventos[0].horario"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[1].tabelaHorario.eventos[0].plano")
+        ));
+
+        evento.setTipo(TipoEvento.ESPECIAL);
+
+        erros = getErros(controlador);
+        assertEquals(5, erros.size());
+        assertThat(erros, Matchers.hasItems(
+                new Erro("Controlador", "A tabela horário deve ter pelo menos 1 evento configurado.", "aneis[0].tabelaHorario.aoMenosUmEvento"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[1].tabelaHorario.eventos[0].posicao"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[1].tabelaHorario.eventos[0].data"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[1].tabelaHorario.eventos[0].horario"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[1].tabelaHorario.eventos[0].plano")
+        ));
+
+        evento.setTipo(TipoEvento.NORMAL);
+
+        erros = getErros(controlador);
+        assertEquals(5, erros.size());
+        assertThat(erros, Matchers.hasItems(
+                new Erro("Controlador", "A tabela horário deve ter pelo menos 1 evento configurado.", "aneis[0].tabelaHorario.aoMenosUmEvento"),
+                new Erro("Controlador", "não pode ficar em branco", "aneis[1].tabelaHorario.eventos[0].posicao"),
                 new Erro("Controlador", "não pode ficar em branco", "aneis[1].tabelaHorario.eventos[0].diaDaSemana"),
                 new Erro("Controlador", "não pode ficar em branco", "aneis[1].tabelaHorario.eventos[0].horario"),
                 new Erro("Controlador", "não pode ficar em branco", "aneis[1].tabelaHorario.eventos[0].plano")
@@ -81,6 +105,7 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         Evento evento2 = new Evento();
         evento2.setTabelaHorario(tabelaHorarioAnel2Estagios);
         tabelaHorarioAnel2Estagios.addEventos(evento2);
+        evento2.setTipo(TipoEvento.NORMAL);
         evento2.setPosicao(2);
         evento2.setDiaDaSemana(DiaDaSemana.DOMINGO);
         evento2.setHorario(LocalTime.parse("08:00:00"));
@@ -100,6 +125,7 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         Evento evento3 = new Evento();
         evento3.setTabelaHorario(tabelaHorarioAnel4Estagios);
         tabelaHorarioAnel4Estagios.addEventos(evento3);
+        evento3.setTipo(TipoEvento.NORMAL);
         evento3.setPosicao(1);
         evento3.setDiaDaSemana(DiaDaSemana.DOMINGO);
         evento3.setHorario(LocalTime.parse("08:00:00"));
