@@ -12,7 +12,10 @@ public enum StatusControlador {
     CONFIGURADO,
 
     //Quando o primeiro plano é transmitido a um controlador
-    ATIVO;
+    ATIVO,
+
+    // Quando o controladro for clonado e está sendo editado
+    EM_EDICAO;
 
 
 }

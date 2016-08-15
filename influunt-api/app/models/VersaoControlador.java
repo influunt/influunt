@@ -7,9 +7,13 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
+import play.api.libs.iteratee.Cont;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -124,6 +128,35 @@ public class VersaoControlador extends Model implements Serializable {
     @Override
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
+    }
+
+    public static boolean usuarioPodeEditarControlador(Controlador controlador, Usuario usuario) {
+        VersaoControlador versao = VersaoControlador.find.where().eq("controlador_edicao_id", controlador.getId()).findUnique();
+        if (versao != null) {
+            return usuario.equals(versao.getUsuario());
+        }
+        return false;
+    }
+
+    /**
+     * Retorna a {@link List<VersaoControlador>}
+     * @param controlador
+     * @return
+     */
+    public static List<VersaoControlador> versoes(Controlador controlador) {
+        LinkedList<VersaoControlador> versoes = new LinkedList<VersaoControlador>();
+        getElement(versoes, controlador);
+        return versoes;
+    }
+
+    static void getElement(LinkedList<VersaoControlador> versoes, Controlador controlador) {
+        VersaoControlador versao = VersaoControlador.find.where().eq("controlador_edicao_id", controlador.getId()).findUnique();
+        if (versao != null) {
+            versoes.push(versao);
+            if (versao.getControladorOrigem() != null) {
+                getElement(versoes, versao.getControladorOrigem());
+            }
+        }
     }
 }
 

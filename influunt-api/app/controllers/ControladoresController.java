@@ -26,6 +26,8 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
+import static models.VersaoControlador.*;
+
 @DeferredDeadbolt
 @Security.Authenticated(Secured.class)
 @Dynamic("Influunt")
@@ -111,8 +113,12 @@ public class ControladoresController extends Controller {
         Controlador controlador = Controlador.find.byId(UUID.fromString(id));
 
 
-        if (controlador.getStatusControlador() != StatusControlador.ATIVO && controlador.getStatusControlador() != StatusControlador.EM_CONFIGURACAO) {
+        if (controlador.getStatusControlador() != StatusControlador.ATIVO && controlador.getStatusControlador() != StatusControlador.EM_CONFIGURACAO && controlador.getStatusControlador() != StatusControlador.EM_EDICAO) {
             return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Arrays.asList(new Erro("clonar", "não é possível editar controlador", "")))));
+        }
+
+        if (controlador.getStatusControlador().equals(StatusControlador.EM_EDICAO) && !usuarioPodeEditarControlador(controlador, getUsuario())) {
+            return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Arrays.asList(new Erro("editar", "usuário diferente do que está editando controlador!", "")))));
         }
 
         if(controlador.getStatusControlador() == StatusControlador.ATIVO) {
@@ -171,8 +177,8 @@ public class ControladoresController extends Controller {
                     }
                     controlador.update();
                 } else {
+                    VersaoControlador versaoControlador = new VersaoControlador(null, controlador, getUsuario());
                     controlador.save();
-                    VersaoControlador versaoControlador = new VersaoControlador(controlador, null, getUsuario());
                     versaoControlador.save();
                 }
                 Controlador controlador1 = Controlador.find.byId(controlador.getId());

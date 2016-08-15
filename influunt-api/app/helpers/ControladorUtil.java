@@ -40,6 +40,7 @@ public class ControladorUtil {
         /*
          * DADOS BASICOS
          */
+        controladorClone.setStatusControlador(StatusControlador.EM_EDICAO);
         controladorClone.setArea(controlador.getArea());
         controladorClone.setModelo(controlador.getModelo());
         controlador.getEnderecos().forEach(endereco -> {

@@ -100,7 +100,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
     @OneToMany(mappedBy = "controlador")
     private List<Detector> detectores;
 
-
     @ManyToMany(mappedBy = "controladores")
     @JoinTable(name = "agrupamentos_controladores", joinColumns = {@JoinColumn(name = "controlador_id")}, inverseJoinColumns = {@JoinColumn(name = "agrupamento_id")})
     private List<Agrupamento> agrupamentos;

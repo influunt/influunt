@@ -92,10 +92,57 @@ public class ControladoresControllerTest extends WithApplication {
     }
 
     @Test
+    public void naoDeveriaEditarControladorComOutroUsuario() {
+        Usuario usuario = new Usuario();
+        usuario.setLogin("abc");
+        usuario.setNome("Usuario ABC");
+        usuario.setRoot(false);
+        usuario.setEmail("abc@influunt.com.br");
+        usuario.save();
+
+        Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
+        controlador.setStatusControlador(StatusControlador.ATIVO);
+        VersaoControlador novaVersao = new VersaoControlador(controlador, null, usuario);
+        novaVersao.save();
+
+        Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
+                .uri(routes.TabelaHorariosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+        Result postResult = route(postRequest);
+
+        JsonNode json = Json.parse(Helpers.contentAsString(postResult));
+        controlador = new ControladorCustomDeserializer().getControladorFromJson(json);
+
+
+        postRequest = new Http.RequestBuilder().method("GET")
+                .uri(routes.ControladoresController.edit(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+        postResult = route(postRequest);
+        json = Json.parse(Helpers.contentAsString(postResult));
+        Controlador controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
+
+        VersaoControlador versao = VersaoControlador.find.where().eq("controlador_edicao_id", controladorClonado.getId()).findUnique();
+        assertNotNull(versao);
+
+        versao.setUsuario(usuario);
+        versao.update();
+
+        postRequest = new Http.RequestBuilder().method("GET")
+                .uri(routes.ControladoresController.edit(controladorClonado.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
+        postResult = route(postRequest);
+
+        assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
+
+        json = Json.parse(Helpers.contentAsString(postResult));
+        assertEquals(1, json.size());
+    }
+
+    @Test
     public void deveriaClonar() {
         Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
         controlador.setStatusControlador(StatusControlador.ATIVO);
+
+        VersaoControlador novaVersao = new VersaoControlador(null, controlador, null);
         controlador.save();
+        novaVersao.save();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
                 .uri(routes.ControladoresController.edit(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
@@ -111,6 +158,7 @@ public class ControladoresControllerTest extends WithApplication {
         assertEquals("Teste de Agrupamentos", controlador.getAgrupamentos().size(), controladorClonado.getAgrupamentos().size());
         assertEquals("Teste de Area", controlador.getArea(), controladorClonado.getArea());
         assertEquals("Teste de Modelo", controlador.getModelo(), controladorClonado.getModelo());
+        assertEquals("Total de Versoes", 2, VersaoControlador.versoes(controladorClonado).size());
         assertFields(controlador, controladorClonado);
 
         controlador.getAneis().forEach(anel -> {
@@ -268,7 +316,9 @@ public class ControladoresControllerTest extends WithApplication {
         for (Field field : origem.getClass().getDeclaredFields()) {
             field.setAccessible(true);
             try {
-                if (field.get(origem) == null || Modifier.isFinal(field.getModifiers()) || field.getType().equals(UUID.class) || field.getType().equals(DateTime.class) || field.getType().equals(Fabricante.class) || field.getType().equals(Cidade.class)) {
+                if (field.get(origem) == null || Modifier.isFinal(field.getModifiers()) || field.getType().equals(UUID.class)
+                        || field.getType().equals(DateTime.class) || field.getType().equals(Fabricante.class) || field.getType().equals(Cidade.class)
+                        || field.getType().equals(StatusControlador.class)) {
                     continue;
                 }
                 if (Modifier.isPrivate(field.getModifiers()) && !Modifier.isStatic(field.getModifiers())) {
