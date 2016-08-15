@@ -95,7 +95,7 @@ var influunt;
                   slot.state = trocas[dia][hora][minuto].class;
                   slot.index = trocas[dia][hora][minuto].index;
                   ultimo = slot.state;
-                }else if(ultimo!=undefined){
+                }else if(typeof ultimo !== 'undefined'){
                   slot.state = ultimo;
                 }
               }
@@ -111,7 +111,7 @@ var influunt;
         var intervaloDia = this.intervaloDia;
         var intervaloHora = this.intervaloHora;
       
-        if(agenda['dom'][0][0].state == 'unset'){
+        if(agenda['dom'][0][0].state === 'unset'){
           return;
         }
       
@@ -122,16 +122,16 @@ var influunt;
             var hora = Math.floor(i / intervaloHora);
             var minuto = i % intervaloHora;
             var slotIndex = agenda[dia][hora][minuto].index;
-            if(slotIndex == undefined){
+            if(typeof slotIndex === 'undefined'){
               slotIndex = currentIndex;
             }
 
-            if(currentIndex==undefined){
+            if(typeof currentIndex === 'undefined'){
               currentIndex = slotIndex;
               intervalo[currentIndex] = intervalo[currentIndex] || [];
               intervalo[currentIndex].push([[dia,hora,minuto],[dia,hora,minuto]])
             }else{
-              if(currentIndex != slotIndex){
+              if(currentIndex !== slotIndex){
                 currentIndex = slotIndex;
                 intervalo[currentIndex] = intervalo[currentIndex] || [];
                 intervalo[currentIndex].push([[dia,hora,minuto],[dia,hora,minuto]])
@@ -157,17 +157,17 @@ var influunt;
         if (pa < pb ) {
           return -1;
         }else if(pa > pb){
-          return 0;
+          return 1;
         }else{
           if(ha < hb){
             return -1;
-          }else if(ha < hb){
+          }else if(ha > hb){
             return 1
           }else{
             if(ma < mb){
               return -1;
             }else if(ma > mb){
-              return -1;
+              return 1;
             }
           }
         }
