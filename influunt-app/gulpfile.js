@@ -70,6 +70,7 @@ var paths = {
     'bower_components/select2/dist/js/select2.js',
     'bower_components/uuid.js/src/uuid.js',
     'bower_components/bowser/src/bowser.js',
+    'bower_components/angular-tooltips/dist/angular-tooltips.min.js',
 
     // inspinea scripts.
     yeoman.app + '/plugins/metisMenu/jquery.metisMenu.js',

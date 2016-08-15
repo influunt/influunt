@@ -27,10 +27,10 @@
                         <div class="col-lg-12 col-sm-12 ibox-content no-padding">
                           <div class="col-lg-2 col-sm-2 association min-green side-menu">
                             <div class="ibox-title">
-                              <h5>Planos</h5>
-                              <a class="btn btn-primary btn-xs m-l right" data-toggle="tooltip" data-placement="top" title="Adicionar plano" data-ng-click="adicionarNovoPlano()">
+                              <h5>{{ 'planos.titulo' | translate }}</h5>
+                              <a class="btn btn-primary btn-xs m-l right" tooltips tooltip-template="{{ 'planos.addPlano' | translate }}" data-ng-click="adicionarNovoPlano()">
                                 <i class="fa fa-plus white"></i>
-                                Plano
+                                {{ 'planos.plano' | translate }}
                               </a>
                           </div>
                             <nav>
@@ -38,7 +38,7 @@
                                 <li data-ng-repeat="plano in currentPlanos track by plano.idJson"
                                   data-ng-click="selecionaPlano(plano, $index)"
                                   data-ng-class="{active: $index === currentPlanoIndex}">
-                                    PLANO {{ plano.posicao }}
+                                    {{ 'planos.plano' | translate }} {{ plano.posicao }}
                                     <i class="fa fa-times pull-right m-t-sm remove-tabela-entre-verdes" data-ng-if="$index !== 0" data-ng-click="removerPlano(plano, $index)"></i>
                                     <i class="fa fa-files-o pull-right m-t-sm" data-ng-click="duplicarPlano(plano)" aria-hidden="true"></i>
                                 </li>
@@ -51,17 +51,17 @@
                                   <div class="col-lg-12 col-sm-12 no-padding">
                                     <aside>
                                       <div class="form-group">
-                                        <label>MODO DE OPERAÇÃO</label>
+                                        <label>{{ 'planos.modoOperacao' | translate }}</label>
                                         <select class="form-control" name="modoOperacao" data-ng-model="currentPlano.modoOperacao" data-ng-change="limpaDadosPlano()">
-                                          <option value="ATUADO">Atuado</option>
-                                          <option value="TEMPO_FIXO_COORDENADO">Coordenado</option>
-                                          <option value="TEMPO_FIXO_ISOLADO">Isolado</option>
-                                          <option value="INTERMITENTE">Intermitente</option>
-                                          <option value="APAGADO">Apagado</option>
+                                          <option value="ATUADO">{{ 'planos.atuado' | translate }}</option>
+                                          <option value="TEMPO_FIXO_COORDENADO">{{ 'planos.coordenado' | translate }}</option>
+                                          <option value="TEMPO_FIXO_ISOLADO">{{ 'planos.isolado' | translate }}</option>
+                                          <option value="INTERMITENTE">{{ 'planos.intermitente' | translate }}</option>
+                                          <option value="APAGADO">{{ 'planos.apagado' | translate }}</option>
                                         </select>
                                       </div>
                                       <div class="form-group" data-ng-if="currentPlano.modoOperacao !== 'INTERMITENTE' && currentPlano.modoOperacao !== 'APAGADO'">
-                                        <label>TABELA DE ENTRE-VERDES</label>
+                                        <label>{{ 'planos.tabEntreVerdes' | translate }}</label>
                                         <select class="form-control" name="tabelaEntreverdes" data-ng-model="currentPlano.posicaoTabelaEntreVerde" data-ng-options="tabela.posicao as tabela.descricao for tabela in currentTabelasEntreVerdes">
                                         </select>
                                       </div>
@@ -104,7 +104,7 @@
                                               </figure>
                                               <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">
                                                 <i class="fa fa-cog" />
-                                                Configurar
+                                                {{ 'geral.crud.configurar' | translate }}
                                               </button>
                                             </div>
                                           </li>
@@ -116,7 +116,7 @@
 
                                 <div class="col-lg-12 col-sm-12 association plans stage-time m-t-md">
                                   <div class="ibox-title">
-                                    <h5>Tabela de Planos</h5>
+                                    <h5>{{ 'planos.tabPlanos' | translate }}</h5>
                                     <ng-include src="'views/planos/header-buttons.html'" class="right"></ng-include>
                                   </div>
 
@@ -137,7 +137,7 @@
             </div>
           </div>
           <div class="col-sm-12 col-lg-12 no-pading pg-bt m-t-lg">
-            <a class="btn btn-primary btn-footer right m-r-sm right" disabled="disabled" data-toggle="tooltip" data-placement="top" title="É necessário resolver todos os problemas antes de salvar" data-ng-show="dadosDiagrama.erros.length > 0">{{ 'geral.crud.salvar' | translate }}</a>
+            <a class="btn btn-primary btn-footer right m-r-sm right" disabled="disabled" tooltips tooltip-template="{{ 'planos.resolverTodos' | translate }}" data-ng-show="dadosDiagrama.erros.length > 0">{{ 'geral.crud.salvar' | translate }}</a>
             <a data-ng-click="submitForm()" class="btn btn-primary btn-footer right m-r-sm right" data-ng-if="dadosDiagrama.erros.length === 0">{{ 'geral.crud.salvar' | translate }}</a>
           </div>
 
@@ -150,7 +150,7 @@
                 </div>
 
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-primary" data-dismiss="modal">Fechar</button>
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">{{ 'geral.crud.fechar' | translate }}</button>
                 </div>
               </div>
             </div>

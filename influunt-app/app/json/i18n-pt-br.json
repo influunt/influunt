@@ -1,42 +1,32 @@
 {
   "appname": "Influunt",
   "controladores": {
+    "titulo": "Controladores",
     "detector": "Detector",
-    "geral": {
-      "prefixoEstagio": "E",
-      "prefixoGrupo": "G",
-      "verTelaAnterior": "Ver Tela Anterior"
-    },
-    "associacaoDetectores": {
-      "adicionarDetector": "Adicionar Detector",
-      "detector": "detector",
-      "titulo": "Detectores",
-      "verTabelaEntreVerdes": "Ver Tela de Entre Verdes"
-    },
-    "aneis": "Configuração de Aneis",
-    "anel": "Anel",
-    "area": "Área",
-    "adicionarGrupo": "Adicionar Grupo",
-    "associacao": "Associação Estágio x Grupo Semafórico",
-    "entreVerdes": "Tabela de Entre Verdes",
+    "acoes": "Ações",
     "ativo": "Ativo",
+    "addControlador": "Adicionar novo controlador",
     "cidade": "Cidade",
     "CLC": "CLC",
     "CLA": "CLA",
     "configuracao_grupo": "Grupos Semafóricos",
+    "configControl": "Configuração do Controlador",
+    "configurado": "Configurado",
     "coordenadas": "COORDENADAS",
+    "dataAtual": "Data de Atualização",
     "dadosBasicos": "Dados Básicos",
+    "emConfig": "Em Configuração",
     "endereco": "Pesquisar por endereço",
     "enviarImagens": "Enviar Imagens",
     "entreverdes": "Entre-Verdes",
     "estagios": "Estágios",
+    "escolhaArea": "Escolha a Área",
     "firmware": "FIRMWARE",
     "fornecedor": "Fabricante",
     "gruposAssociados": "Grupos Associados",
     "gruposPedestres": "Grupos semafóricos de pedestres",
     "gruposSinaisVeiculares": "Grupos semafóricos veiculares",
     "latitude": "Latitude",
-    "localizacao": "Localização",
     "localizacao": "Localização",
     "longitude": "Longitude",
     "maxAneis": "Número de anéis",
@@ -55,9 +45,106 @@
     "numeroSMEEConjugado3": "Num. SMEE conjugado 3",
     "opcoes": "Opções",
     "tipo": "Tipo",
-    "titulo": "Programação",
-    "transicoesProibidas": "Transições Proibidas",
-    "revisao": "Revisão",
+    "todos": "Todos",
+    "status": "Status",
+    "verControl": "Ver controlador",
+    "verPlanos": "Ver planos",
+    "geral": {
+      "prefixoEstagio": "E",
+      "prefixoGrupo": "G",
+      "verTelaAnterior": "Ver Tela Anterior"
+    },
+    "associacaoDetectores": {
+      "titulo": "Associação Detectores",
+      "adicionarDetector": "Adicionar Detector",
+      "detector": "detector",
+      "pedestre": "Pedestre",
+      "veicular": "Veicular",
+      "monitoramentoFalha": "MONITORAMENTO DE FALHA",
+      "ausenciaMinima": "AUSÊNCIA DE DETECÇÃO MÍNIMA",
+      "ausenciaMaxima": "AUSÊNCIA DE DETECÇÃO MÁXIMA",
+      "deteccaoMinima": "DETECÇÃO PERMANENTE MÍNIMA",
+      "deteccaoMaxima": "DETECÇÃO PERMANENTE MÁXIMA",
+      "verTabelaEntreVerdes": "Ver Tela de Entre Verdes"
+    },
+    "configuracaoGrupo": {
+      "tipo": "TIPO",
+      "faseVermelha": "FASE VERMELHA APAGADA",
+      "descricao": "DESCRIÇÃO",
+      "veicular": "Veicular",
+      "pedestre": "Pedestre",
+      "naoAmarelo": "Não colocar em amarelo intermitente",
+      "simAmarelo": "Colocar em amarelo intermitente",
+      "addGrupo": "Adicionar novo grupo",
+      "verAneis": "Ver Tela Anéis",
+      "verdeSeguro": "VERDE SEGURANÇA"
+    },
+    "revisao": {
+      "titulo": "Revisão",
+      "fabricante": "Fabricante",
+      "numMaxEstagios": "Nº máximo Estágios",
+      "numMaxGrupos": "Nº máximo Grupos Estágios",
+      "numMaxAneis": "Nº máximo Anéis",
+      "limiteVeicular": "Limite detector veicular",
+      "limitePedestre": "Limite detector pedestre",
+      "local": "Local",
+      "codigo": "Código",
+      "nSMEE": "Nº SMEE",
+      "gruposPedestres": "Grupos Semafóricos de pedestres",
+      "gruposVeiculares": "Grupos Semafóricos de Veiculares",
+      "numPedestres": "Nº detectores Pedestres",
+      "numVeiculares": "Nº detectores Veiculares",
+      "grupo": "Grupo",
+      "grupos": "Grupos",
+      "tipo": "Tipo",
+      "nada": "nada",
+      "faseVermelha": "Fase Vermelha",
+      "estagio": "Estágio",
+      "estagios": "Estágios",
+      "alternativa": "Alternativa",
+      "amarelo": "Amarelo",
+      "tabAmarelo": "Tabela Amarelo",
+      "vermelho": "Vermelho",
+      "tabVermelho": "Tabela Vermelho",
+      "vermelhoLimpo": "Vermelho Limpeza",
+      "tempoAtraso": "Tempo de atraso",
+      "verdesConflitantes": "Verdes Conflitantes",
+      "transicoesProibidas": "Transicoes Proibidas",
+      "transicaoProibida": "Transicao Proibida",
+      "entreVerdes": "Entre Verdes"
+    },
+    "associacaoEstagio": {
+      "ativarMonitoramento": "Ativar monitoramento de tempo máximo de permanencia",
+      "demanda": "Demanda prioritária",
+      "verVerdes": "Ver Tela de Verdes Conflitantes"
+    },
+    "aneis": "Configuração de Aneis",
+    "anel": "Anel",
+    "area": "Área",
+    "adicionarGrupo": "Adicionar Grupo",
+    "associacao": "Associação Estágio x Grupo Semafórico",
+    "entreVerdes": {
+      "titulo": "Tabela de Entre Verdes",
+      "tabela": "Tabela",
+      "tabelas": "Tabelas",
+      "novaTabela": "Nova tabela",
+      "addTabela": "Adicionar uma nova tabela padrão",
+      "descricao": "Descrição",
+      "verTransicoes": "Ver Tela de Transições Proíbidas"
+    },
+    "transicoesProibidas": {
+      "titulo": "Transições Proibidas",
+      "estagiosAlt": "Transições Alternativos",
+      "transicaoProibida": "Transição proibida",
+      "alternativa": "Alternativa",
+      "verAssociacao": "Ver Tela de Associação de Estágios x Grupos Semafórios",
+      "de": "De",
+      "para": "Para",
+      "tabelaVerdes": "Tabelas de Entre Verdes"
+    },
+    "croqui": "CROQUI",
+    "arrasteAqui": "Arraste imagens para este local",
+    "verDados": "Ver Tela Dados Básicos",
     "validacoes": {
       "aoMenosUmGrupoSemaforico": "Este anel deve ter mais de 1 grupo semáforico",
       "latitudeMayNotBeNull": "Campo de Latitude é Obrigatório",
@@ -67,6 +154,11 @@
       "totalGruposSemaforicos": "Total de <strong>grupos semafóricos</strong> maior que a quantidade máxima suportada pelo controlador"
     },
     "verdes_conflitantes": "Verdes Conflitantes",
+    "verdesConflitantes": {
+      "verConfiguracao": "Ver Tela de Configuração de Grupos Semafóricos",
+      "associacaoXgrupo": "Associação de Estágios x Grupos Semafóricos",
+      "configuracaoSemaforicos": "Configuração de Grupos Semafóricos"
+    },
     "versaoFirmware": "Versão do Firmware",
     "numeroTabelasEntreVerdes": "Número de tabelas entre verdes"
   },
@@ -76,6 +168,7 @@
     "limitesGeograficos": "LIMITES GEOGRÁFICOS",
     "descricao": "ÁREA",
     "novo": "Nova Área",
+    "addNovo": "Adicionar nova área",
     "mostrar": "Visualizar Área",
     "editar": "Editar Área",
     "titulo": "Áreas"
@@ -84,6 +177,7 @@
     "areas": "ÁREAS",
     "nome": "NOME",
     "novo": "Nova Cidade",
+    "addNovo": "Adicionar nova cidade",
     "mostrar": "Visualizar Cidade",
     "editar": "Editar Cidade",
     "titulo": "Cidades"
@@ -129,6 +223,7 @@
     "novo": "Novo Fabricante",
     "editar": "Editar Fabricante",
     "mostrar": "Visualizar Fabricante",
+    "addFabricante": "Adicionar novo fabricante",
     "titulo": "Fabricantes"
   },
   "modelos_controladores": {
@@ -141,9 +236,21 @@
     "editar": "Editar Modelo de Controlador"
   },
   "planos": {
-    "titulo": "Planos"
+    "titulo": "Planos",
+    "plano": "plano",
+    "modoOperacao": "MODO DE OPERAÇÃO",
+    "atuado": "Atuado",
+    "coordenado": "Coordenado",
+    "isolado": "Isolado",
+    "intermitente": "Interminente",
+    "tabEntreVerdes": "Tabela Entre Verdes",
+    "tabPlanos": "Tabela de Planos",
+    "resolverTodos": "É necessário resolver todos os problemas antes de salvar",
+    "addPlano": "Adiciona Plano",
+    "criarPlanos": "Planos"
   },
   "tipos_detectores": {
+    "addDetector": "Adicionar novo detector",
     "descricao": "DESCRIÇÃO",
     "novo": "Novo Tipo de Detector",
     "titulo": "Tipos de Detectores"
@@ -153,7 +260,9 @@
     "auditoria": {
       "atualizadoPor": "Atualizado Por",
       "dataAtualizacao": "Data de Atualização",
-      "dataCriacao": "Data de Criação"
+      "dataCriacao": "Data de Criação",
+      "descricao": "Descrição",
+      "addArea": "Adicionar area"
     },
     "crud": {
       "configurar": "Configurar",
@@ -161,6 +270,7 @@
       "excluir": "Excluir",
       "fechar": "Fechar",
       "novo": "Novo",
+      "pesquisar": "Opções",
       "opcoes": "Opções",
       "salvar": "Salvar",
       "visualizar": "Visualizar",
@@ -201,6 +311,7 @@
     "titulo": "Histórico de alterações"
   },
   "perfis": {
+    "addPerfil": "Adicionar novo perfil",
     "definir_permissoes": "Definir permissões",
     "descricao": "Descricao",
     "nome": "Nome",
@@ -219,6 +330,7 @@
     }
   },
   "permissoes": {
+    "addPermissao": "Adicionar nova permissão",
     "descricao": "Descrição",
     "chave": "Chave",
     "titulo": "Permissões",
@@ -227,6 +339,7 @@
     "mostrar": "Visualizar Permissão"
   },
   "usuarios": {
+    "addUsuario": "Adicionar novo usuário",
     "area": "Área",
     "confirmacao_senha": "Confirmação senha",
     "email": "e-mail",
@@ -261,6 +374,7 @@
     "numero": "Número",
     "tipo": "Tipo",
     "novo": "Novo Agrupamento",
+    "addNovo": "Adicionar novo Agrupamento",
     "editar": "Editar Agrupamento",
     "mostrar": "Visualizar Agrupamento",
     "controladores": "Controladores"

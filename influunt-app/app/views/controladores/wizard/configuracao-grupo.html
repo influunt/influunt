@@ -44,16 +44,16 @@
                       <div class="row">
                         <div class="col-lg-1 col-sm-1 groups-stages-null"></div>
                         <div class="col-lg-2 col-sm-2 title-stages-top">
-                          <p class="text-left">TIPO</p>
+                          <p class="text-left">{{ 'controladores.configuracaoGrupo.tipo' | translate }}</p>
                         </div>
                         <div class="col-lg-2 col-sm-2 title-stages-top">
-                          <p class="text-left">VERDE SEGURANÇA</p>
+                          <p class="text-left">{{ 'controladores.configuracaoGrupo.verdeSeguro' | translate }}</p>
                         </div>
                         <div class="col-lg-3 col-sm-3 title-stages-top">
-                          <p class="text-left">FASE VERMELHA APAGADA</p>
+                          <p class="text-left">{{ 'controladores.configuracaoGrupo.faseVermelha' | translate }}</p>
                         </div>
                         <div class="col-lg-4 col-sm-4 title-stages-top">
-                          <p class="text-left">DESCRIÇÃO</p>
+                          <p class="text-left">{{ 'controladores.configuracaoGrupo.descricao' | translate }}</p>
                         </div>
                       </div>
                     </div>
@@ -70,8 +70,8 @@
                           </div>
                           <div class="col-lg-2 col-sm-2 groups-stages">
                             <select class="form-control m-b" data-ng-model="grupo.tipo" data-ng-change="atualizaTempoVerdeSeguranca(grupo)" name="tipoGrupoSemaforico">
-                              <option value="VEICULAR">Veicular</option>
-                              <option value="PEDESTRE">Pedestre</option>
+                              <option value="VEICULAR">{{ 'controladores.configuracaoGrupo.veicular' | translate }}</option>
+                              <option value="PEDESTRE">{{ 'controladores.configuracaoGrupo.pedestre' | translate }}</option>
                             </select>
                           </div>
                           <div class="col-lg-2 col-sm-2 priority">
@@ -88,14 +88,14 @@
                           </div>
                           <div class="col-lg-3 col-sm-3 groups-stages">
                             <select ng-model="grupo.faseVermelhaApagadaAmareloIntermitente" class="form-control m-b"
-                                ng-options="o.v as o.n for o in [{ n: 'Não colocar em amarelo intermitente', v: false }, { n: 'Colocar em amarelo intermitente', v: true }]">
+                                ng-options="o.v as o.n for o in [{ n: '{{ 'controladores.configuracaoGrupo.naoAmarelo' | translate }}', v: false }, { n: '{{ 'controladores.configuracaoGrupo.simAmarelo' | translate }}', v: true }]">
                             </select>
                           </div>
                           <div class="col-lg-3 col-sm-3 groups-stages">
-                            <textarea type="text" rows="4" class="form-control m-b" placeholder="Descrição" data-ng-model="grupo.descricao"></textarea>
+                            <textarea type="text" rows="4" class="form-control m-b" placeholder="{{ 'controladores.configuracaoGrupo.descricao' | translate }}" data-ng-model="grupo.descricao"></textarea>
                           </div>
                           <div class="col-lg-1 col-sm-1 groups-stages">
-                            <a ng-click="removeGrupo($index)" class="btn btn-xs btn-danger">Excluir</a>
+                            <a ng-click="removeGrupo($index)" class="btn btn-xs btn-danger">{{ 'geral.crud.excluir' | translate }}</a>
                           </div>
                         </div>
 
@@ -109,7 +109,7 @@
                           </div>
 
                           <div class="col-lg-11 col-sm-11 groups-stages" data-ng-if="podeAdicionarGrupoSemaforico()">
-                            <a data-toggle="tooltip" data-placement="top" title="Adicionar novo grupo" class="btn btn-primary left" data-ng-click="adicionaGrupoSemaforico()">{{ 'controladores.adicionarGrupo' | translate }}</a>
+                            <a tooltips tooltip-template="{{ 'controladores.configuracaoGrupo.addGrupo' | translate }}" class="btn btn-primary left" data-ng-click="adicionaGrupoSemaforico()">{{ 'controladores.adicionarGrupo' | translate }}</a>
                           </div>
                         </div>
                       </form>
@@ -125,15 +125,21 @@
 
     <div class="row">
       <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix">
-        <a ui-sref="app.wizard_controladores.aneis({id: objeto.id})" target="_blank" data-toggle="tooltip" data-placement="top" class="left btn btn-info btn-footer" title="Ver Tela Anéis">
-          <i class="fa fa-eye"></i> {{ 'plugins.steps.labels.last_screen' | translate }}
-        </a>
-        <a goToTop data-ng-click="submitForm({$valid: true}, 'grupos_semaforicos', 'app.wizard_controladores.verdes_conflitantes')" data-toggle="tooltip" data-placement="top" title="Verdes Conflitantes" class="goToTop btn btn-primary btn-footer right">
+        <div class="left">
+          <a ui-sref="app.wizard_controladores.aneis({id: objeto.id})" target="_blank" class="btn btn-info btn-footer" tooltips tooltip-template="{{ 'controladores.configuracaoGrupo.verAneis' | translate }}">
+            <i class="fa fa-eye"></i> {{ 'plugins.steps.labels.last_screen' | translate }}
+          </a>
+        </div>
+        <div class="right">
+          <a goToTop data-ng-click="submitForm({$valid: true}, 'grupos_semaforicos', 'app.wizard_controladores.verdes_conflitantes')" tooltips tooltip-template="{{ 'controladores.verdes_conflitantes' | translate }}" class="goToTop btn btn-primary btn-footer">
           {{ 'plugins.steps.labels.next' | translate }} <i class="fa fa-arrow-right"></i>
-        </a>
-        <a goToTop data-ng-click="submitForm({$valid: true}, 'grupos_semaforicos', 'app.wizard_controladores.aneis')" data-toggle="tooltip" data-placement="top" title="Anéis" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
-          <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.previous' | translate }}
-        </a>
+          </a>
+        </div>
+        <div class="right">
+          <a goToTop data-ng-click="submitForm({$valid: true}, 'grupos_semaforicos', 'app.wizard_controladores.aneis')" tooltips tooltip-template="{{ 'controladores.aneis' | translate }}" class="btn btn-outline btn-primary btn-footer m-r-sm">
+            <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.previous' | translate }}
+          </a>
+        </div>
       </div>
     </div>
 
