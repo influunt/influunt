@@ -12,7 +12,6 @@ angular.module('influuntApp')
     function ($scope, $state, $controller, assertControlador) {
 
       $scope.isAtrasoDeGrupo = true;
-      // var getOrigemDestinoForTransicao, constroiTabelaOrigensEDestinos;
       var inicializaTransicoes;
 
       $controller('ControladoresCtrl', {$scope: $scope});

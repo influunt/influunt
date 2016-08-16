@@ -10,15 +10,6 @@
                            data-error-check="anelTemErro">
             </influunt-tabs>
             <div class="ui-layout-content tab-content">
-
-              <!-- <uib-alert type="danger" data-ng-if="possuiErrosNumeroTabelasEntreVerdes()">
-                <div style="padding-left: 12px;">
-                  <ul>
-                    <li data-ng-repeat="message in errosNumeroTabelasEntreVerdes()">{{ message }}</li>
-                  </ul>
-                </div>
-              </uib-alert> -->
-
               <div id="tabs-1">
                 <div class="col-lg-12 col-sm-12 ibox-content no-padding">
                   <div class="row">
@@ -45,12 +36,10 @@
 
                           <nav>
                             <ul>
-                              <!-- <li data-ng-repeat="tevTransicao in tabelasEntreVerdesTransicoes"> -->
                               <li data-ng-repeat="transicao in currentTransicoes">
                                 <div class="group-figures col-lg-5 col-sm-5 no-padding">
                                   <div class="col-lg-6 col-sm-6 group-figure stage-images">
                                     <figure>
-                                      <!-- <label for="">E{{ currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].origem.posicao }}</label> -->
                                       <label for="">E{{ currentTabelaOrigensEDestinos[transicao.idJson].origem.posicao }}</label>
                                       <img ng-src="{{ getImagemDeEstagio(currentTabelaOrigensEDestinos[transicao.idJson].origem) }}" alt="{{ currentTabelaOrigensEDestinos[transicao.idJson].origem.descricao }}">
                                     </figure>
@@ -58,7 +47,6 @@
                                   <div class="col-lg-6 col-sm-6 group-figure stage-images">
                                     <figure>
                                       <label for="">E{{ currentTabelaOrigensEDestinos[transicao.idJson].destino.posicao }}</label>
-                                      <!-- <img src="" alt=""> -->
                                       <img ng-src="{{ getImagemDeEstagio(currentTabelaOrigensEDestinos[transicao.idJson].destino) }}" alt="{{ currentTabelaOrigensEDestinos[transicao.idJson].destino.descricao }}">
                                     </figure>
                                   </div>
@@ -101,7 +89,6 @@
                                 <div class="group-figures col-lg-5 col-sm-5 no-padding">
                                   <div class="col-lg-6 col-sm-6 group-figure stage-images">
                                     <figure>
-                                      <!-- <label for="">E{{ currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].origem.posicao }}</label> -->
                                       <label for="">E{{ currentTabelaOrigensEDestinos[transicao.idJson].origem.posicao }}</label>
                                       <img ng-src="{{ getImagemDeEstagio(currentTabelaOrigensEDestinos[transicao.idJson].origem) }}" alt="{{ currentTabelaOrigensEDestinos[transicao.idJson].origem.descricao }}">
                                     </figure>
@@ -109,7 +96,6 @@
                                   <div class="col-lg-6 col-sm-6 group-figure stage-images">
                                     <figure>
                                       <label for="">E{{ currentTabelaOrigensEDestinos[transicao.idJson].destino.posicao }}</label>
-                                      <!-- <img src="" alt=""> -->
                                       <img ng-src="{{ getImagemDeEstagio(currentTabelaOrigensEDestinos[transicao.idJson].destino) }}" alt="{{ currentTabelaOrigensEDestinos[transicao.idJson].destino.descricao }}">
                                     </figure>
                                   </div>

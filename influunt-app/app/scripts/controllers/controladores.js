@@ -199,22 +199,6 @@ angular.module('influuntApp')
         });
       };
 
-      // $scope.atualizaAtrasosDeGrupo = function() {
-      //   $scope.currentGrupoSemaforico.transicoes.forEach(function(transicao) {
-      //     if (!transicao.atrasoDeGrupo) {
-      //       var mainTransicao = _.find($scope.objeto.transicoes, { idJson: transicao.idJson });
-      //       transicao.atrasoDeGrupo = mainTransicao.atrasoDeGrupo;
-      //     }
-      //   });
-
-      //   $scope.currentGrupoSemaforico.transicoesComPerdaDePassagem.forEach(function(transicao) {
-      //     if (!transicao.atrasoDeGrupo) {
-      //       var mainTransicao = _.find($scope.objeto.transicoesComPerdaDePassagem, { idJson: transicao.idJson });
-      //       transicao.atrasoDeGrupo = mainTransicao.atrasoDeGrupo = { idJson: UUID.generate() };
-      //     }
-      //   });
-      // }
-
       $scope.atualizaTabelaEntreVerdes = function() {
         var ids = _.map($scope.currentGrupoSemaforico.tabelasEntreVerdes, 'idJson');
 

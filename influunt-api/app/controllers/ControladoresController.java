@@ -99,7 +99,6 @@ public class ControladoresController extends Controller {
     @Transactional
     public CompletionStage<Result> findAll() {
         return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladoresJson(Controlador.find.findList())));
-//        return CompletableFuture.completedFuture(ok(Json.toJson(Controlador.find.findList())));
     }
 
     @Transactional
@@ -141,6 +140,4 @@ public class ControladoresController extends Controller {
             }
         }
     }
-
-
 }
