@@ -12,17 +12,34 @@ angular.module('influuntApp')
     function ($scope, $controller, $filter, Restangular) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
-      var filtraControladores, getMarkersControladores, getMarkersAneis, getAreas;
+      var filtraDados, filtraControladores, getMarkersControladores, getMarkersAneis, getAreas, getDadosFiltros;
 
       $scope.inicializaMapa = function() {
         return $scope.index().then(function() {
-          $scope.getDadosFiltros().then(function() {
-            $scope.filtraDados();
+          getDadosFiltros().then(function() {
+            filtraDados();
           });
         });
       };
 
-      $scope.getDadosFiltros = function() {
+      $scope.$watch('filtro', function(value) {
+        return value && filtraDados();
+      }, true);
+
+      filtraDados = function() {
+        $scope.markers = [];
+        $scope.areas = [];
+        var controladores = filtraControladores($scope.lista, $scope.filtro);
+        angular.forEach(controladores, function(controlador) {
+          $scope.markers = _.concat($scope.markers, getMarkersAneis(controlador));
+          $scope.markers = _.concat($scope.markers, getMarkersControladores(controlador));
+          $scope.areas = _.concat($scope.areas, getAreas(controlador));
+        });
+
+        $scope.areas = _.uniqBy($scope.areas, 'popupText');
+      };
+
+      getDadosFiltros = function() {
         return Restangular.all('agrupamentos').getList()
           .then(function(agrupamentos) {
             $scope.filtro = {
@@ -38,23 +55,6 @@ angular.module('influuntApp')
             return $scope.filtro;
           });
       };
-
-      $scope.filtraDados = function() {
-        $scope.markers = [];
-        $scope.areas = [];
-        var controladores = filtraControladores($scope.lista, $scope.filtro);
-        angular.forEach(controladores, function(controlador) {
-          $scope.markers = _.concat($scope.markers, getMarkersAneis(controlador));
-          $scope.markers = _.concat($scope.markers, getMarkersControladores(controlador));
-          $scope.areas = _.concat($scope.areas, getAreas(controlador));
-        });
-
-        $scope.markers = $scope.markers;
-      };
-
-      $scope.$watch('filtro', function(value) {
-        return value && $scope.filtraDados();
-      }, true);
 
       filtraControladores = function(controladores, filtro) {
         var areasIds = _.map(filtro.areasSelecionadas, 'idJson');

@@ -11,13 +11,8 @@ describe('Controller: ControladoresMapaCtrl', function () {
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    ControladoresMapaCtrl = $controller('ControladoresMapaCtrl', {
-      $scope: scope
-      // place here mocked dependencies
-    });
-  }));
+    ControladoresMapaCtrl = $controller('ControladoresMapaCtrl', {$scope: scope});
 
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(ControladoresMapaCtrl.awesomeThings.length).toBe(3);
-  });
+    scope.objeto = {todosEnderecos: [{}, {}]};
+  }));
 });

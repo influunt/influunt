@@ -18,7 +18,7 @@ angular.module('influuntApp')
         });
 
         var veiculares = _.filter(detectores, {tipo: 'VEICULAR'}).length;
-        var pedestres = _.filter(detectores, {tipo: 'pedestre'}).length;
+        var pedestres = _.filter(detectores, {tipo: 'PEDESTRE'}).length;
 
         var titulo = '<strong>' + anel.CLA + '</strong>';
         var listaDetectores = $('<ul></ul>');
@@ -30,7 +30,9 @@ angular.module('influuntApp')
           listaDetectores.append('<li>' + pedestres + ' detector(es) de pedestres</li>');
         }
 
-        return titulo + listaDetectores.html();
+        var container = $('<div class="marker-popup-container"></div>');
+        container.append(titulo + listaDetectores.prop('outerHTML'));
+        return container.prop('outerHTML');
       }
     };
   });
