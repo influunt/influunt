@@ -335,11 +335,11 @@ public class ControladorCustomSerializer {
     }
 
     private void putControladorLimites(ObjectNode root) {
-        ArrayNode LimitesJson = Json.newArray();
+        ArrayNode limitesJson = Json.newArray();
         limitesMap.values().stream().forEach(limite -> {
-            LimitesJson.add(getLimiteJson(limite));
+            limitesJson.add(getLimiteJson(limite));
         });
-        root.set("limites", LimitesJson);
+        root.set("limites", limitesJson);
     }
 
     private void putControladorAneis(List<Anel> aneis, ObjectNode root) {

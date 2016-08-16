@@ -116,7 +116,7 @@ angular.module('influuntApp')
               popupText: $filter('markersAneisPopup')(anel, controlador),
               options: {
                 draggable: false,
-                icon: 'images/leaflet/influunt-icons/veicular.svg',
+                icon: 'images/leaflet/influunt-icons/anel.svg',
                 iconSize: [32, 37],
                 iconAnchor:   [16, 36],
                 popupAnchor: [0, -30]
