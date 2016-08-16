@@ -33,14 +33,15 @@ var influunt;
         }
         var tempoCiclo = 0;
         var instante = 0;
-        for(var i = 0; i < plano.sequenciaEstagios.length; i++){
-          var estagioAtual = plano.sequenciaEstagios[i];
-          var tempoVerde = plano.modoOperacao === 'ATUADO' ? estagioAtual.tempoVerdeMinimo || valoresMinimos.verdeMinimoMin : estagioAtual.tempoVerde || valoresMinimos.verdeMin;
-          var estagioAnterior = this.estagioAnterior(plano.sequenciaEstagios,i);
+        for(var i = 0; i < plano.estagiosPlanos.length; i++){
+          var estagioPlanoAtual = plano.estagiosPlanos[i];
+          var estagioAtual = estagioPlanoAtual.estagio;
+          var tempoVerde = plano.modoOperacao === 'ATUADO' ? estagioPlanoAtual.tempoVerdeMinimo || valoresMinimos.verdeMinimoMin : estagioPlanoAtual.tempoVerde || valoresMinimos.verdeMin;
+          var estagioAnterior = this.estagioAnterior(plano.estagiosPlanos,i).estagio;
           if(estagioAtual.idJson !== estagioAnterior.idJson){
             for(var j = 0; j < estagioAnterior.gruposSemaforicos.length; j++){
               var grupo = estagioAnterior.gruposSemaforicos[j];
-              var tabelaEntreVerde = _.find(grupo.tabelasEntreVerdes, {"posicao": plano.posicaoTabelaEntreVerdes});
+              var tabelaEntreVerde = _.find(grupo.tabelasEntreVerdes, {"posicao": plano.posicaoTabelaEntreVerde});
               var transicao = _.find(grupo.transicoes, {"origem": {"idJson": estagioAnterior.idJson}, "destino": {"idJson": estagioAtual.idJson}})
               var tabelaEntreVerdesTransicao = _.find(transicao.tabelaEntreVerdesTransicoes, {"tabelaEntreVerdes": {"idJson": tabelaEntreVerde.idJson}})
               var tempoAmarelo = !_.isUndefined(tabelaEntreVerdesTransicao.tempoAmarelo) ? parseInt(tabelaEntreVerdesTransicao.tempoAmarelo) : 0;

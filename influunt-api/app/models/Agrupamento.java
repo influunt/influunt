@@ -14,6 +14,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,24 +35,33 @@ public class Agrupamento extends Model implements Cloneable {
 
     @Column
     private String idJson;
+
     @Column
     @NotBlank(message = "não pode ficar em branco")
     private String nome;
+
     @Column
     private String numero;
+
     @Column
     @Enumerated(EnumType.STRING)
     private TipoAgrupamento tipo;
+
     @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinTable(name = "agrupamentos_controladores", joinColumns = {@JoinColumn(name = "agrupamento_id")}, inverseJoinColumns = {@JoinColumn(name = "controlador_id")})
     @NumeroDeControladores(min = 1, message = "este agrupamento deve ter pelo menos 1 controlador.")
     @PrivateOwned
     private List<Controlador> controladores;
+
+    @OneToMany(mappedBy = "agrupamento")
+    private List<Plano> planos;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
@@ -80,6 +90,14 @@ public class Agrupamento extends Model implements Cloneable {
 
     public void setControladores(List<Controlador> controladores) {
         this.controladores = controladores;
+    }
+
+    public List<Plano> getPlanos() {
+        return planos;
+    }
+
+    public void setPlanos(List<Plano> planos) {
+        this.planos = planos;
     }
 
     public DateTime getDataCriacao() {
@@ -120,6 +138,20 @@ public class Agrupamento extends Model implements Cloneable {
 
     public void setNumero(String numero) {
         this.numero = numero;
+    }
+
+    public void addControlador(Controlador controlador) {
+        if (this.getControladores() == null) {
+            this.setControladores(new ArrayList<Controlador>());
+        }
+        this.getControladores().add(controlador);
+    }
+
+    public void addPlano(Plano plano) {
+        if (this.getPlanos() == null) {
+            this.setPlanos(new ArrayList<Plano>());
+        }
+        this.getPlanos().add(plano);
     }
 
     @Override

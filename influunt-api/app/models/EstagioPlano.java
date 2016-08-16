@@ -291,25 +291,25 @@ public class EstagioPlano extends Model implements Cloneable {
         return super.clone();
     }
 
-    public EstagioPlano getEstagioPlanoAnterior(){
+    public EstagioPlano getEstagioPlanoAnterior() {
         List<EstagioPlano> listaEstagioPlanos = ordenarEstagiosPorPosicao();
         Integer index = listaEstagioPlanos.indexOf(this);
-        if(index == 0){
+        if (index == 0) {
             return listaEstagioPlanos.get(listaEstagioPlanos.size() - 1);
         }
         return listaEstagioPlanos.get(index - 1);
     }
 
-    public EstagioPlano getEstagioPlanoProximo(){
+    public EstagioPlano getEstagioPlanoProximo() {
         List<EstagioPlano> listaEstagioPlanos = ordenarEstagiosPorPosicao();
         Integer index = listaEstagioPlanos.indexOf(this);
-        if(index == listaEstagioPlanos.size() - 1){
+        if (index == listaEstagioPlanos.size() - 1) {
             return listaEstagioPlanos.get(0);
         }
         return listaEstagioPlanos.get(index + 1);
     }
 
-    private List<EstagioPlano> ordenarEstagiosPorPosicao(){
+    private List<EstagioPlano> ordenarEstagiosPorPosicao() {
         List<EstagioPlano> listaEstagioPlanos = this.getPlano().getEstagiosPlanos();
         listaEstagioPlanos.sort((anterior, proximo) -> anterior.getPosicao().compareTo(proximo.getPosicao()));
         return listaEstagioPlanos;
