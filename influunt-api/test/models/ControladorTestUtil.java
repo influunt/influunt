@@ -257,7 +257,7 @@ public class ControladorTestUtil {
             for (GrupoSemaforico grupoSemaforico : anel.getGruposSemaforicos()) {
                 for (Transicao transicao : grupoSemaforico.getTransicoes()) {
                     AtrasoDeGrupo atrasoDeGrupo = new AtrasoDeGrupo(2);
-                    atrasoDeGrupo.setIdJson(tyrex.services.UUID.create());
+                    atrasoDeGrupo.setIdJson(UUID.randomUUID().toString());
                     atrasoDeGrupo.setTransicao(transicao);
                     transicao.setAtrasoDeGrupo(atrasoDeGrupo);
                 }

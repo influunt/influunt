@@ -175,6 +175,12 @@ public class ControladorUtil {
                     transicaoAux.setDestino(estagiosClone.get(transicao.getDestino().getIdJson()));
                     transicaoAux.setGrupoSemaforico(grupoSemaforicoAux);
 
+                    // TODO - O IDJSON do atraso de grupo nao esta sendo carregado via JSON Serializable/Deserializable
+                    transicao.getAtrasoDeGrupo().getIdJson();
+                    AtrasoDeGrupo atrasoDeGrupoAux = copyPrimitveFields(transicao.getAtrasoDeGrupo());
+                    atrasoDeGrupoAux.setTransicao(transicaoAux);
+                    transicaoAux.setAtrasoDeGrupo(atrasoDeGrupoAux);
+
                     transicao.getTabelaEntreVerdesTransicoes().forEach(tabelaEntreVerdesTransicao -> {
                         TabelaEntreVerdesTransicao tvt = copyPrimitveFields(tabelaEntreVerdesTransicao);
                         TabelaEntreVerdes te = teAux.get(tabelaEntreVerdesTransicao.getTabelaEntreVerdes().getId());

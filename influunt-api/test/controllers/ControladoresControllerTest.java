@@ -222,6 +222,8 @@ public class ControladoresControllerTest extends WithApplication {
                 assertEquals("Teste Anel | Grupo Semaforico | Verdes Conflitantes", origem.getVerdesConflitantes().size(), destino.getVerdesConflitantes().size());
                 assertEquals("Teste Anel | Grupo Semaforico | Verdes Conflitantes Origem", origem.getVerdesConflitantesOrigem().size(), destino.getVerdesConflitantesOrigem().size());
                 assertEquals("Teste Anel | Grupo Semaforico | Verdes Conflitantes Destino", origem.getVerdesConflitantesDestino().size(), destino.getVerdesConflitantesDestino().size());
+                assertEquals("Teste Anel | Grupo Semaforico | Transicao Ganho Passagem", origem.getTransicoesComGanhoDePassagem().size(), destino.getTransicoesComGanhoDePassagem().size());
+                assertEquals("Teste Anel | Grupo Semaforico | Transicao Perda Passagem", origem.getTransicoesComPerdaDePassagem().size(), destino.getTransicoesComPerdaDePassagem().size());
                 assertFields(origem, destino);
 
                 origem.getEstagiosGruposSemaforicos().forEach(estagioGrupoSemaforico -> {
@@ -264,6 +266,7 @@ public class ControladoresControllerTest extends WithApplication {
                     assertEquals("Teste Anel | Grupo Smaforico | Transicoes |  Grupo Semaforico: ", transicao.getGrupoSemaforico().getIdJson(), transicaoClonada.getGrupoSemaforico().getIdJson());
                     assertEquals("Teste Anel | Grupo Smaforico | Transicoes |  Estagio Origem: ", transicao.getOrigem().getIdJson(), transicaoClonada.getOrigem().getIdJson());
                     assertEquals("Teste Anel | Grupo Smaforico | Transicoes |  Estagio Destino: ", transicao.getDestino().getIdJson(), transicaoClonada.getDestino().getIdJson());
+                    assertEquals("Teste Anel | Grupo Smaforico | Transicoes |  Atraso de Grupo: ", transicao.getAtrasoDeGrupo().getIdJson(), transicaoClonada.getAtrasoDeGrupo().getIdJson());
                     assertFields(transicao, transicaoClonada);
 
                     transicao.getTabelaEntreVerdesTransicoes().forEach(tvt -> {
