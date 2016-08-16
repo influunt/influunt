@@ -1,8 +1,85 @@
-<button data-ng-click="randomPlaces(1)">random places</button>
-<pre>{{ markers | json }}</pre>
-<div influunt-map data-ng-init="inicializaMapa()"
-  markers="markers"
-  areas="areas"
-  class="influunt-map">
+<div class="container-fluid wrapper wrapper-content animated fadeInRight" ng-init="inicializaIndex()">
+  <div class="col-lg-12 col-sm-12">
+    <section role="complementary" class="">
+      <div class="clearfix"></div>
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>Mapa de controladores</h5>
+          </div>
+          <div class="ibox-content">
 
+            <div class="row">
+              <div class="col-lg-10">
+                <div influunt-map data-ng-init="inicializaMapa()"
+                  markers="markers"
+                  areas="areas"
+                  options="{scrollWheelZoom: true}"
+                  class="influunt-map large">
+                </div>
+              </div>
+              <div class="col-lg-2">
+                <div class="row">
+                  <h1>Exibir</h1>
 
+                  <div class="feed-element col-sm-12">
+                    <input type="checkbox" ichecks data-ng-model="filtro.exibirAreas">
+                    <strong>Áreas</strong>
+                  </div>
+
+                  <div class="feed-element col-sm-12">
+                    <input type="checkbox" ichecks data-ng-model="filtro.exibirControladores">
+                    <strong>Controladores</strong>
+                  </div>
+
+                  <div class="feed-element col-sm-12">
+                    <input type="checkbox" ichecks data-ng-model="filtro.exibirAneis">
+                    <strong>Aneis</strong>
+                  </div>
+                </div>
+
+                <hr />
+
+                <div class="row">
+                  <h1>filtros</h1>
+                  <div class="form-group">
+                    <label class="control-label col-sm-2 control-label">areas</label>
+                    <div class="col-sm-12">
+                      <select select2 name="areas" class="form-control"
+                          data-ng-options="option.descricao for option in filtro.areas track by option.id"
+                          data-ng-model="filtro.areasSelecionadas"
+                          multiple="multiple">
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="control-label col-sm-2 control-label">controladores</label>
+                    <div class="col-sm-12">
+                      <select select2 name="controladores" class="form-control"
+                          data-ng-options="option.CLC for option in filtro.controladores track by option.id"
+                          data-ng-model="filtro.controladoresSelecionados"
+                          multiple="multiple">
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="control-label col-sm-2 control-label">agrupamentos</label>
+                    <div class="col-sm-12">
+                      <select select2 name="agrupamentos" class="form-control"
+                          data-ng-options="option.nome for option in filtro.agrupamentos track by option.id"
+                          data-ng-model="filtro.agrupamentosSelecionados"
+                          multiple="multiple">
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

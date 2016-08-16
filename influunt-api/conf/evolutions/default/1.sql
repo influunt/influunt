@@ -229,6 +229,7 @@ create table limite_area (
   id_json                       varchar(255),
   latitude                      double,
   longitude                     double,
+  posicao                       integer,
   area_id                       varchar(40),
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
