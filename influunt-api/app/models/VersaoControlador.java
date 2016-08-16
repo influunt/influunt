@@ -29,7 +29,7 @@ public class VersaoControlador extends Model implements Serializable {
     public static Finder<UUID, VersaoControlador> find = new Finder<UUID, VersaoControlador>(VersaoControlador.class);
 
     @Id
-    private UUID id;
+    private Long id;
 
     @JsonIgnore
     @ManyToOne
@@ -153,13 +153,17 @@ public class VersaoControlador extends Model implements Serializable {
     }
 
     static void getElement(ArrayList<VersaoControlador> versoes, Controlador controlador) {
-        VersaoControlador versao = VersaoControlador.find.where().eq("controlador_edicao_id", controlador.getId()).findUnique();
+        VersaoControlador versao = findByControlador(controlador);
         if (versao != null) {
             versoes.add(versao);
             if (versao.getControladorOrigem() != null) {
                 getElement(versoes, versao.getControladorOrigem());
             }
         }
+    }
+
+    public static VersaoControlador findByControlador(Controlador controlador) {
+        return VersaoControlador.find.where().eq("controlador_edicao_id", controlador.getId()).findUnique();
     }
 }
 

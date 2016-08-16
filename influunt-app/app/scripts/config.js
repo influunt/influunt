@@ -384,6 +384,15 @@ angular
           }
         })
 
+        .state('app.tabela_horarios', {
+          url: '/tabela_horarios/:id',
+          templateUrl: 'views/tabela_horarios/configuracao.html',
+          controller: 'TabelaHorariosCtrl',
+          data: {
+            title: 'tabelaHorarios.titulo'
+          }
+        })
+
         // Crud perfis.
         .state('app.perfis', {
           url: '/perfis',

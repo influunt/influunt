@@ -113,7 +113,10 @@ public class ControladoresController extends Controller {
         Controlador controlador = Controlador.find.byId(UUID.fromString(id));
 
 
-        if (controlador.getStatusControlador() != StatusControlador.ATIVO && controlador.getStatusControlador() != StatusControlador.EM_CONFIGURACAO && controlador.getStatusControlador() != StatusControlador.EM_EDICAO) {
+        if (controlador.getStatusControlador() != StatusControlador.ATIVO
+                && controlador.getStatusControlador() != StatusControlador.EM_CONFIGURACAO
+                && controlador.getStatusControlador() != StatusControlador.EM_EDICAO) {
+
             return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Arrays.asList(new Erro("clonar", "não é possível editar controlador", "")))));
         }
 
@@ -121,9 +124,10 @@ public class ControladoresController extends Controller {
             return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Arrays.asList(new Erro("editar", "usuário diferente do que está editando controlador!", "")))));
         }
 
-        if(controlador.getStatusControlador() == StatusControlador.ATIVO) {
+        if (controlador.getStatusControlador() == StatusControlador.ATIVO) {
             Controlador controladorEdicao = new ControladorUtil().provider(provider).deepClone(controlador);
             VersaoControlador novaVersao = new VersaoControlador(controlador, controladorEdicao, getUsuario());
+            novaVersao.setDescricao("Controlador clonado pelo usuário: " + getUsuario().getNome());
             novaVersao.save();
 
             return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controladorEdicao)));
@@ -163,6 +167,22 @@ public class ControladoresController extends Controller {
         }
     }
 
+    @Transactional
+    public CompletionStage<Result> podeEditar(String id) {
+        Controlador controlador = Controlador.find.byId(UUID.fromString(id));
+        if (controlador == null) {
+            return CompletableFuture.completedFuture(notFound());
+        } else {
+            VersaoControlador versaoControlador = VersaoControlador.findByControlador(controlador);
+            if (versaoControlador != null && getUsuario().equals(versaoControlador.getUsuario())) {
+                return CompletableFuture.completedFuture(ok());
+            } else {
+                return CompletableFuture.completedFuture(forbidden(Json.toJson(
+                        Arrays.asList(new Erro("controlador", "Controlador em edição com o usuário: " + versaoControlador.getUsuario().getNome() + "", "")))));
+            }
+        }
+    }
+
     private CompletionStage<Result> doStep(boolean finalizaConfiguracaoSeSucesso, Class<?>... validationGroups) {
         if (request().body() == null) {
             return CompletableFuture.completedFuture(badRequest());
@@ -189,6 +209,7 @@ public class ControladoresController extends Controller {
                     controlador.update();
                 } else {
                     VersaoControlador versaoControlador = new VersaoControlador(null, controlador, getUsuario());
+                    versaoControlador.setDescricao("Controlador criado pelo usuário: " + getUsuario().getNome());
                     controlador.save();
                     versaoControlador.save();
                 }

@@ -17,8 +17,7 @@ angular.module('influuntApp')
           type: 'warning',
           title: title,
           text: text,
-          timer: 2000,
-          showConfirmButton: false
+          showConfirmButton: true
         });
       };
 

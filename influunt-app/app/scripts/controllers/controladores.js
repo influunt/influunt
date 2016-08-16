@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresCtrl', ['$controller', '$scope', '$state', '$filter', 'Restangular', '$q', 'handleValidations', 'APP_ROOT', 'influuntBlockui', 'toast',
-    function ($controller, $scope, $state, $filter, Restangular, $q, handleValidations, APP_ROOT, influuntBlockui, toast) {
+  .controller('ControladoresCtrl', ['$controller', '$scope', '$state', '$filter', 'Restangular', '$q', 'handleValidations', 'APP_ROOT', 'influuntBlockui', 'toast', 'influuntAlert',
+    function ($controller, $scope, $state, $filter, Restangular, $q, handleValidations, APP_ROOT, influuntBlockui, toast, influuntAlert) {
 
 
       // Herda todo o comportamento do crud basico.
@@ -370,7 +370,6 @@ angular.module('influuntApp')
 
       $scope.timeline = function() {
         var id = $state.params.id;
-        console.log("OLA MUNDO: ", id);
         return Restangular.one('controladores', id).all("timeline").customGET()
           .then(function(res) {
             $scope.versoes = res;
@@ -380,5 +379,16 @@ angular.module('influuntApp')
             throw new Error(JSON.stringify(err));
           });
       };
+
+      $scope.configurar = function(controladorId) {
+        return Restangular.one('controladores', controladorId).all("pode_editar").customGET()
+          .then(function(res) {
+            $state.go('app.wizard_controladores.dados_basicos',{id: controladorId});
+          })
+          .catch(function(err) {
+            toast.clear();
+            influuntAlert.alert('Controlador', err.data[0].message);
+          });
+      }
 
     }]);
