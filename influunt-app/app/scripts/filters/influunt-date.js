@@ -11,16 +11,16 @@
 angular.module('influuntApp')
   .filter('influuntDate', function () {
     return function (input, format) {
-      format = format || 'dd/mm/yyyy';
+      format = format || 'DD/MM/YYYY HH:mm:ss';
       if(input) {
         if(_.isString(input)) {
-          input = moment(input, "dd/MM/yyyy HH:mm:ss");
+          input = moment(input, "DD/MM/YYYY HH:mm:ss");
         }
         if(format === 'fromNow') {
-          return moment(input).fromNow();
+          return input.fromNow();
         }
 
-        return moment(input).format(format);
+        return input.format(format);
       }
     };
   });

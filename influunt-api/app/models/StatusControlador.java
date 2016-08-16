@@ -15,7 +15,9 @@ public enum StatusControlador {
     ATIVO,
 
     // Quando o controladro for clonado e está sendo editado
-    EM_EDICAO;
+    EM_EDICAO,
+    // TODO - Refactor VersaoControlador
+    CLONADO;
 
 
 }

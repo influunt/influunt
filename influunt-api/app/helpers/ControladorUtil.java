@@ -3,6 +3,7 @@ package helpers;
 import com.avaje.ebean.Ebean;
 import com.google.inject.Provider;
 import models.*;
+import net.coobird.thumbnailator.Thumbnails;
 import play.Application;
 import play.Logger;
 
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -317,6 +319,14 @@ public class ControladorUtil {
         try {
             File appRootPath = provider.get().path();
             Files.copy(imagem.getPath(appRootPath).toPath(), imagemAux.getPath(appRootPath).toPath());
+
+            //Create thumbnail
+            Thumbnails.of(imagemAux.getPath(appRootPath))
+                    .forceSize(150, 150)
+                    .outputFormat("jpg")
+                    .toFile(imagemAux.getPath(appRootPath, "thumb"));
+
+
         } catch (IOException e) {
             imagemAux.delete();
             Logger.error(e.getMessage(), e);

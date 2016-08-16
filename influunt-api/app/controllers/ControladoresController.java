@@ -3,6 +3,7 @@ package controllers;
 import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
 import be.objectify.deadbolt.java.actions.Dynamic;
 import checks.*;
+import com.avaje.ebean.Expr;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import helpers.ControladorUtil;
@@ -20,6 +21,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -130,6 +132,9 @@ public class ControladoresController extends Controller {
             novaVersao.setDescricao("Controlador clonado pelo usuário: " + getUsuario().getNome());
             novaVersao.save();
 
+            controlador.setStatusControlador(StatusControlador.CLONADO);
+            controlador.save();
+
             return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controladorEdicao)));
         }
 
@@ -142,7 +147,7 @@ public class ControladoresController extends Controller {
 
     @Transactional
     public CompletionStage<Result> findAll() {
-        return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladoresJson(Controlador.find.findList())));
+        return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladoresJson(Controlador.find.where().ne("status_controlador",StatusControlador.CLONADO).findList())));
     }
 
     @Transactional
@@ -180,6 +185,18 @@ public class ControladoresController extends Controller {
                 return CompletableFuture.completedFuture(forbidden(Json.toJson(
                         Arrays.asList(new Erro("controlador", "Controlador em edição com o usuário: " + versaoControlador.getUsuario().getNome() + "", "")))));
             }
+        }
+    }
+
+    @Transactional
+    public CompletionStage<Result> ativar(String id) {
+        Controlador controlador = Controlador.find.byId(UUID.fromString(id));
+        if (controlador == null) {
+            return CompletableFuture.completedFuture(notFound());
+        } else {
+            controlador.setStatusControlador(StatusControlador.ATIVO);
+            controlador.save();
+            return CompletableFuture.completedFuture(ok());
         }
     }
 

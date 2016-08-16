@@ -76,7 +76,7 @@ create table controladores (
   limite_tabelas_entre_verdes   integer not null,
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
-  constraint ck_controladores_status_controlador check (status_controlador in (0,1,2,3)),
+  constraint ck_controladores_status_controlador check (status_controlador in (0,1,2,3,4)),
   constraint pk_controladores primary key (id)
 );
 
