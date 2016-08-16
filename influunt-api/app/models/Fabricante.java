@@ -14,6 +14,7 @@ import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import javax.validation.Valid;
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,7 +27,7 @@ import java.util.UUID;
 @Table(name = "fabricantes")
 @JsonSerialize(using = FabricanteSerializer.class)
 @JsonDeserialize(using = FabricanteDeserializer.class)
-public class Fabricante extends Model implements Cloneable {
+public class Fabricante extends Model implements Cloneable, Serializable {
 
     private static final long serialVersionUID = 7365610316754360728L;
 

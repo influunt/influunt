@@ -469,6 +469,16 @@ public class ControladorCustomDeserializer {
 
         }
 
+        if (node.has("anel")) {
+            final String anelId = node.get("anel").get("idJson").asText();
+            Consumer<Map<String, Map>> c = (caches) -> {
+                Map map = caches.get(ANEIS);
+                estagio.setAnel((Anel) map.get(anelId));
+            };
+            runLater(c);
+
+        }
+
         List<EstagioGrupoSemaforico> estagiosGrupoSemaforicos = new ArrayList<>();
         parseCollection("estagiosGruposSemaforicos", node, estagiosGrupoSemaforicos, ESTAGIO_GRUPO_SEMAFORICO, ESTAGIOS);
         estagio.setEstagiosGruposSemaforicos(estagiosGrupoSemaforicos);

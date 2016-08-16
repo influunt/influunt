@@ -20,6 +20,7 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -30,8 +31,7 @@ import java.util.stream.Collectors;
  */
 @Entity
 @Table(name = "grupos_semaforicos")
-
-public class GrupoSemaforico extends Model implements Cloneable {
+public class GrupoSemaforico extends Model implements Cloneable, Serializable {
 
     public static Finder<UUID, GrupoSemaforico> find = new Finder<UUID, GrupoSemaforico>(GrupoSemaforico.class);
 
@@ -348,24 +348,29 @@ public class GrupoSemaforico extends Model implements Cloneable {
                         .filter(estagio ->
                                 !estagio.equals(estagioGrupoSemaforico.getEstagio()) && !estagioGrupoSemaforico.getEstagio().temTransicaoProibidaParaEstagio(estagio))
                         .forEach(estagio ->
-                                this.addTransicao(new Transicao(this, estagioGrupoSemaforico.getEstagio(), estagio, TipoTransicao.GANHO_DE_PASSAGEM))));
+                                this.addTransicaoSeNecessario(new Transicao(this, estagioGrupoSemaforico.getEstagio(), estagio, TipoTransicao.GANHO_DE_PASSAGEM))));
 
         getEstagiosGruposSemaforicos().forEach(estagioGrupoSemaforico ->
                 this.getAnel().getEstagios().stream()
                         .filter(estagio ->
                                 !estagio.equals(estagioGrupoSemaforico.getEstagio()) && !estagio.temTransicaoProibidaParaEstagio(estagioGrupoSemaforico.getEstagio()))
                         .forEach(estagio ->
-                                this.addTransicao(new Transicao(this, estagio, estagioGrupoSemaforico.getEstagio(), TipoTransicao.PERDA_DE_PASSAGEM))));
+                                this.addTransicaoSeNecessario(new Transicao(this, estagio, estagioGrupoSemaforico.getEstagio(), TipoTransicao.PERDA_DE_PASSAGEM))));
 
         getTransicoes().forEach(transicao -> {
-            if (transicao.isDestroy()) transicao.delete();
+            if(transicao.isDestroy()){
+                transicao.getTabelaEntreVerdesTransicoes().forEach(tabelaEntreVerdesTransicao -> {
+                    tabelaEntreVerdesTransicao.getTabelaEntreVerdes().getTabelaEntreVerdesTransicoes().removeIf(tvt -> tvt.getIdJson().equals(tabelaEntreVerdesTransicao.getIdJson()));
+                });
+                transicao.delete();
+            }
         });
         getTransicoes().removeIf(Transicao::isDestroy);
 
         getTransicoes();
     }
 
-    private void addTransicao(Transicao transicao) {
+    private void addTransicaoSeNecessario(Transicao transicao) {
         if (getTransicoes() == null) {
             setTransicoes(new ArrayList<Transicao>());
         }
@@ -438,5 +443,14 @@ public class GrupoSemaforico extends Model implements Cloneable {
     public Transicao findTransicaoByOrigemDestino(Estagio origem, Estagio destino) {
         return getTransicoes().stream().filter(transicao -> transicao.getOrigem().equals(origem) && transicao.getDestino().equals(destino)).findFirst().orElse(null);
     }
+
+    public void addTransicao(Transicao transicao) {
+        if (getTransicoes() == null) {
+            setTransicoes(new ArrayList<Transicao>());
+        }
+        getTransicoes().add(transicao);
+    }
+
+
 }
 

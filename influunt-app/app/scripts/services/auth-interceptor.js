@@ -24,7 +24,6 @@ angular.module('influuntApp')
         responseError: function(response) {
           // Recurso não permitido (usuário não tem acesso à determinada tela.).
           if (response.status === 403) {
-            history.back();
             toast.warn('Ação não autorizada');
           }
 

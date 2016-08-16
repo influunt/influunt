@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresCtrl', ['$controller', '$scope', '$state', '$filter', 'Restangular', '$q', 'handleValidations', 'APP_ROOT', 'influuntBlockui',
-    function ($controller, $scope, $state, $filter, Restangular, $q, handleValidations, APP_ROOT, influuntBlockui) {
+  .controller('ControladoresCtrl', ['$controller', '$scope', '$state', '$filter', 'Restangular', '$q', 'handleValidations', 'APP_ROOT', 'influuntBlockui', 'toast', 'influuntAlert',
+    function ($controller, $scope, $state, $filter, Restangular, $q, handleValidations, APP_ROOT, influuntBlockui, toast, influuntAlert) {
 
 
       // Herda todo o comportamento do crud basico.
@@ -356,5 +356,50 @@ angular.module('influuntApp')
         var imagem = _.find($scope.objeto.imagens, {idJson: estagio.imagem.idJson});
         return imagem && $filter('imageSource')(imagem.id,'thumb');
       };
+
+      $scope.copiar = function(controladorId) {
+        return Restangular.one('controladores', controladorId).all("edit").customGET()
+          .then(function(res) {
+            $scope.index();
+          })
+          .catch(function(err) {
+            toast.error($filter('translate')('geral.mensagens.default_erro'));
+            throw new Error(JSON.stringify(err));
+          });
+      };
+
+      $scope.timeline = function() {
+        var id = $state.params.id;
+        return Restangular.one('controladores', id).all("timeline").customGET()
+          .then(function(res) {
+            $scope.versoes = res;
+          })
+          .catch(function(err) {
+            toast.error($filter('translate')('geral.mensagens.default_erro'));
+            throw new Error(JSON.stringify(err));
+          });
+      };
+
+      $scope.configurar = function(controladorId) {
+        return Restangular.one('controladores', controladorId).all("pode_editar").customGET()
+          .then(function(res) {
+            $state.go('app.wizard_controladores.dados_basicos',{id: controladorId});
+          })
+          .catch(function(err) {
+            toast.clear();
+            influuntAlert.alert('Controlador', err.data[0].message);
+          });
+      };
+
+      $scope.ativar = function(controladorId) {
+        return Restangular.one('controladores', controladorId).all("ativar").customPOST()
+          .then(function(res) {
+            $scope.index();
+          })
+          .catch(function(err) {
+            toast.clear();
+            influuntAlert.alert('Controlador', err.data[0].message);
+          });
+      }
 
     }]);

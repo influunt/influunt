@@ -13,6 +13,7 @@ import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
@@ -25,7 +26,7 @@ import java.util.UUID;
 @Table(name = "modelo_controladores")
 @JsonSerialize(using = ModeloControladorSerializer.class)
 @JsonDeserialize(using = ModeloControladorDeserializer.class)
-public class ModeloControlador extends Model implements Cloneable {
+public class ModeloControlador extends Model implements Cloneable, Serializable {
 
     private static final long serialVersionUID = -3153929481907380680L;
 
@@ -36,6 +37,7 @@ public class ModeloControlador extends Model implements Cloneable {
 
     @Column
     private String idJson;
+
     @ManyToOne
     @NotNull(message = "não pode ficar em branco")
     private Fabricante fabricante;
@@ -43,11 +45,13 @@ public class ModeloControlador extends Model implements Cloneable {
     @Column
     @NotNull(message = "não pode ficar em branco")
     private String descricao;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
@@ -110,5 +114,21 @@ public class ModeloControlador extends Model implements Cloneable {
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ModeloControlador that = (ModeloControlador) o;
+
+        return id != null ? id.equals(that.id) : that.id == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 }

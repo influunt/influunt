@@ -8,6 +8,7 @@ import com.google.inject.Provider;
 import models.Imagem;
 import net.coobird.thumbnailator.Thumbnails;
 import play.Application;
+import play.Logger;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -55,7 +56,7 @@ public class ImagensController extends Controller {
 
             } catch (IOException e) {
                 imagem.delete();
-                e.printStackTrace();
+                Logger.error(e.getMessage(), e);
                 return CompletableFuture.completedFuture(internalServerError());
             }
             return CompletableFuture.completedFuture(ok(Json.toJson(imagem)));

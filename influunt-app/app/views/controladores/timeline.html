@@ -1,0 +1,32 @@
+<div class="wrapper wrapper-content animated fadeInRight" data-ng-init="timeline()">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>{{ pageTitle | translate }}</h5>
+        </div>
+
+        <div class="ibox-content" id="ibox-content">
+          <div id="vertical-timeline" class="vertical-container dark-timeline">
+
+            <div class="vertical-timeline-block" ng-repeat="versao in versoes">
+              <div class="vertical-timeline-icon" ng-class="$first ? 'navy-bg' : 'yellow-bg'">
+                <i class="fa fa-file-o"></i>
+              </div>
+              <div class="vertical-timeline-content">
+                <hgroup>
+                  <a href="#" class="btn btn-sm btn-primary"> Visualizar</a>
+                  <div class="clearfix"></div>
+                  <span class="vertical-date">{{versao.dataCriacao | influuntDate: 'fromNow'}} <br/><small>{{versao.dataCriacao | influuntDate: 'LL'}}</small></span>
+                </hgroup>
+                <p>{{versao.descricao}}</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

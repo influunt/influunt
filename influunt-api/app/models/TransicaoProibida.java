@@ -13,12 +13,15 @@ import org.joda.time.DateTime;
 import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
 @Table(name = "transicoes_proibidas")
 
-public class TransicaoProibida extends Model {
+public class TransicaoProibida extends Model implements Serializable {
+
+    private static final long serialVersionUID = -3825474482773695751L;
 
     @Id
     private UUID id;

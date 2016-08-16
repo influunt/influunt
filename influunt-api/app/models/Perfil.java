@@ -13,6 +13,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,7 +23,10 @@ import java.util.UUID;
 @Entity
 @Table(name = "perfis")
 @JsonSerialize(using = PerfilSerializer.class)
-public class Perfil extends Model implements Role {
+public class Perfil extends Model implements Role, Serializable {
+
+    private static final long serialVersionUID = -4815523520090761198L;
+
     public static Finder<UUID, Perfil> find = new Finder<UUID, Perfil>(Perfil.class);
 
     @ManyToMany(cascade = CascadeType.REMOVE)

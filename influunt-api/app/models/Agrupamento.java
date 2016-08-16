@@ -14,6 +14,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -26,7 +27,9 @@ import java.util.UUID;
 @Entity
 @Table(name = "agrupamentos")
 @JsonSerialize(using = AgrupamentoSerializer.class)
-public class Agrupamento extends Model implements Cloneable {
+public class Agrupamento extends Model implements Cloneable, Serializable {
+
+    private static final long serialVersionUID = -7310183724485834593L;
 
     public static Finder<UUID, Agrupamento> find = new Finder<UUID, Agrupamento>(Agrupamento.class);
 

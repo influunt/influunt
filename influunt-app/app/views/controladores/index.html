@@ -57,11 +57,17 @@
                 <tr ng-repeat="controlador in lista | filter: filtros.campo_busca | checkboxFilter:filtroLateral">
                   <td>{{controlador.statusControlador}}</td>
                   <td>{{controlador.CLC}}</td>
-                  <td>{{controlador.localizacao}}</td>
+                  <td>{{controlador.nomeEndereco}}</td>
                   <td>{{controlador.dataAtualizacao}}</td>
                   <td>
                     <hgroup>
-                      <a class="btn btn-outline btn-primary" data-toggle="tooltip" data-placement="top" title="Editar controlador" type="button" ui-sref="app.wizard_controladores.dados_basicos({id: controlador.id})" ng-show="controlador.statusControlador == 'EM_CONFIGURACAO'">
+                      <a class="btn btn-outline btn-primary" data-toggle="tooltip" data-placement="top" title="Copiar controlador" type="button" ui-sref="app.controladores_timeline({id: controlador.id})">
+                        <i class="fa fa-code-fork"></i> Histórico
+                      </a>
+                      <a class="btn btn-outline btn-primary" data-toggle="tooltip" data-placement="top" title="Copiar controlador" type="button" ng-click="copiar(controlador.id)" ng-show="controlador.statusControlador == 'ATIVO'">
+                        <i class="fa fa-copy"></i> Copiar
+                      </a>
+                      <a class="btn btn-outline btn-primary" data-toggle="tooltip" data-placement="top" title="Editar controlador" type="button" ng-click="configurar(controlador.id)" ng-show="controlador.statusControlador == 'EM_CONFIGURACAO' || controlador.statusControlador == 'EM_EDICAO'">
                         <i class="fa fa-pencil"></i> Configurar
                       </a>
                       <a class="btn btn-outline btn-primary" data-toggle="tooltip" data-placement="top" title="Visualizar controlador" type="button" ui-sref="app.controladores_show({id: controlador.id})">
@@ -72,6 +78,9 @@
                       </a>
                       <a class="btn btn-outline btn-primary" data-toggle="tooltip" data-placement="top" title="Visualizar planos" type="button" ui-sref="app.tabela_horarios({id: controlador.id})" ng-show="controlador.statusControlador == 'CONFIGURADO'">
                         <i class="fa fa-calendar"></i> Tabela Horário
+                      </a>
+                      <a class="btn btn-outline btn-primary" data-toggle="tooltip" data-placement="top" title="Visualizar planos" type="button" ng-click="ativar(controlador.id)" ng-show="controlador.statusControlador == 'CONFIGURADO'">
+                        <i class="fa fa-check"></i> Ativar
                       </a>
                     </hgroup>
                   </td>

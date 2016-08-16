@@ -12,6 +12,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,7 +21,10 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "permissoes")
-public class Permissao extends Model implements Permission {
+public class Permissao extends Model implements Permission, Serializable {
+
+    private static final long serialVersionUID = -1771456494137102241L;
+
     public static Finder<UUID, Permissao> find = new Finder<UUID, Permissao>(Permissao.class);
 
     @Id

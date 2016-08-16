@@ -17,6 +17,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -25,36 +26,48 @@ import java.util.UUID;
 @Table(name = "usuarios")
 @JsonSerialize(using = UsuarioSerializer.class)
 @JsonDeserialize(using = UsuarioDeserialiazer.class)
-public class Usuario extends Model implements Subject {
+public class Usuario extends Model implements Subject, Serializable {
+
+    private static final long serialVersionUID = 5650038782769149539L;
 
     public static Model.Finder<UUID, Usuario> find = new Model.Finder<UUID, Usuario>(Usuario.class);
+
     @Column
     String senha;
+
     @Id
     private UUID id;
 
     @Column
     private String idJson;
+
     @NotBlank(message = "não pode ficar em branco")
     @Column(unique = true)
     private String login;
+
     @Column
     @NotBlank(message = "não pode ficar em branco")
     private String email;
+
     @Column
     @NotBlank(message = "não pode ficar em branco")
     private String nome;
+
     @Column
     private Boolean root = false;
+
     @ManyToOne(fetch = FetchType.EAGER)
     private Area area;
+
     @ManyToOne
     private Perfil perfil;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
@@ -172,5 +185,22 @@ public class Usuario extends Model implements Subject {
 
     public boolean isAllowed(String key) {
         return getPermissions().stream().filter(p -> p.getValue().equals(key)).count() > 0;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Usuario usuario = (Usuario) o;
+
+        return id != null ? id.equals(usuario.id) : usuario.id == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 }

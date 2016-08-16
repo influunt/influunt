@@ -11,6 +11,7 @@ import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
@@ -19,26 +20,33 @@ import java.util.UUID;
 @Entity
 @Table(name = "grupos_semaforicos_planos")
 
-public class GrupoSemaforicoPlano extends Model implements Cloneable {
+public class GrupoSemaforicoPlano extends Model implements Cloneable, Serializable {
+
+    private static final long serialVersionUID = -8086882310576023685L;
 
     @Id
     private UUID id;
 
     @Column
     private String idJson;
+
     @ManyToOne
     @NotNull
     private GrupoSemaforico grupoSemaforico;
+
     @ManyToOne
     @NotNull
     private Plano plano;
+
     @Column
     private boolean ativado = true;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
