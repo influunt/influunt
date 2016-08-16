@@ -24,6 +24,7 @@ public class ControladorCustomDeserializer {
     public static final String ESTAGIO_GRUPO_SEMAFORICO = "estagioGrupoSemaforico";
     public static final String VERDES_CONFLITANTES = "verdesConflitantes";
     public static final String TRANSICAO = "transicao";
+    public static final String ATRASO_DE_GRUPO = "atrasoDeGrupo";
     public static final String TABELAS_ENTRE_VERDES = "tabelasEntreVerdes";
     public static final String TABELA_ENTRE_VERDES_TRANSICAO = "tabelaEntreVerdesTransicao";
     public static final String PLANOS = "planos";
@@ -46,6 +47,7 @@ public class ControladorCustomDeserializer {
     private Map<String, EstagioGrupoSemaforico> estagioGrupoSemaforicoCache;
     private Map<String, VerdesConflitantes> verdesConflitantesCache;
     private Map<String, Transicao> transicaoCache;
+    private Map<String, AtrasoDeGrupo> atrasoDeGrupoCache;
     private Map<String, TabelaEntreVerdes> tabelasEntreVerdesCache;
     private Map<String, TabelaEntreVerdesTransicao> tabelaEntreVerdesTransicaoCache;
     private Map<String, Plano> planosCache;
@@ -64,8 +66,6 @@ public class ControladorCustomDeserializer {
 
 
     public ControladorCustomDeserializer() {
-
-
         aneisCache = new HashMap<String, Anel>();
         caches.put(ANEIS, aneisCache);
 
@@ -123,11 +123,11 @@ public class ControladorCustomDeserializer {
         imagensCache = new HashMap<String, Imagem>();
         caches.put(IMAGENS, imagensCache);
 
-
+        atrasoDeGrupoCache = new HashMap<String, AtrasoDeGrupo>();
+        caches.put(ATRASO_DE_GRUPO, atrasoDeGrupoCache);
     }
 
     public Controlador getControladorFromJson(JsonNode node) {
-
         parseAneis(node);
         parseEstagios(node);
         parseGruposSemaforicos(node);
@@ -148,7 +148,7 @@ public class ControladorCustomDeserializer {
         parseEnderecos(node);
         parseCidades(node);
         parseAreas(node);
-
+        parseAtrasosDeGrupo(node);
 
         consumers.stream().forEach(c -> {
             c.accept(caches);
@@ -247,6 +247,13 @@ public class ControladorCustomDeserializer {
                 transicaoCache.put(transicao.getIdJson().toString(), transicao);
             }
         }
+
+        if (node.has("transicoesComPerdaDePassagem")) {
+            for (JsonNode innerNode : node.get("transicoesComPerdaDePassagem")) {
+                Transicao transicao = parseTransicao(innerNode);
+                transicaoCache.put(transicao.getIdJson().toString(), transicao);
+            }
+        }
     }
 
     private void parseTabelasEntreVerdesTransicoes(JsonNode node) {
@@ -336,6 +343,15 @@ public class ControladorCustomDeserializer {
             for (JsonNode innerNode : node.get("imagens")) {
                 Imagem imagem = parseImagem(innerNode);
                 imagensCache.put(imagem.getIdJson().toString(), imagem);
+            }
+        }
+    }
+
+    private void parseAtrasosDeGrupo(JsonNode node) {
+        if (node.has("atrasosDeGrupo")) {
+            for (JsonNode innerNode : node.get("atrasosDeGrupo")) {
+                AtrasoDeGrupo atrasoDeGrupo = parseAtrasoDeGrupo(innerNode);
+                atrasoDeGrupoCache.put(atrasoDeGrupo.getIdJson().toString(), atrasoDeGrupo);
             }
         }
     }
@@ -517,6 +533,7 @@ public class ControladorCustomDeserializer {
 
         List<Transicao> transicoes = new ArrayList<>();
         parseCollection("transicoes", node, transicoes, TRANSICAO, GRUPOS_SEMAFORICOS);
+        parseCollection("transicoesComPerdaDePassagem", node, transicoes, TRANSICAO, GRUPOS_SEMAFORICOS);
         grupoSemaforico.setTransicoes(transicoes);
 
 
@@ -715,6 +732,10 @@ public class ControladorCustomDeserializer {
             transicao.setIdJson(node.get("idJson").asText());
         }
 
+        if (node.has("tipo")) {
+            transicao.setTipo(TipoTransicao.valueOf(node.get("tipo").asText()));
+        }
+
         if (node.has("origem")) {
             final String origemId = node.get("origem").get("idJson").asText();
 
@@ -751,6 +772,17 @@ public class ControladorCustomDeserializer {
 
             runLater(c);
 
+        }
+
+        if (node.has("atrasoDeGrupo")) {
+            final String atrasoDeGrupoId = node.get("atrasoDeGrupo").get("idJson").asText();
+            Consumer<Map<String, Map>> c = (caches) -> {
+                Map map = caches.get(ATRASO_DE_GRUPO);
+                AtrasoDeGrupo atrasoDeGrupo = (AtrasoDeGrupo) map.get(atrasoDeGrupoId);
+                atrasoDeGrupo.setTransicao(transicao);
+                transicao.setAtrasoDeGrupo(atrasoDeGrupo);
+            };
+            runLater(c);
         }
 
         return transicao;
@@ -1187,6 +1219,23 @@ public class ControladorCustomDeserializer {
         return imagem;
     }
 
+    private AtrasoDeGrupo parseAtrasoDeGrupo(JsonNode node) {
+        AtrasoDeGrupo atrasoDeGrupo = new AtrasoDeGrupo();
+
+        if (node.get("id") != null) {
+            atrasoDeGrupo.setId(UUID.fromString(node.get("id").asText()));
+        }
+
+        if (node.get("idJson") != null) {
+            atrasoDeGrupo.setIdJson(node.get("idJson").asText());
+        }
+
+        if (node.get("atrasoDeGrupo") != null) {
+            atrasoDeGrupo.setAtrasoDeGrupo(node.get("atrasoDeGrupo").asInt());
+        }
+
+        return atrasoDeGrupo;
+    }
 
     private void parseDadosBasicos(JsonNode node) {
         JsonNode id = node.get("id");

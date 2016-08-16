@@ -26,7 +26,7 @@ angular.module('influuntApp')
         plano.estagiosPlanos = [];
         plano.gruposSemaforicosPlanos = [];
         plano.quantidadeGruposSemaforicos = anel.gruposSemaforicos.length;
-        plano.posicaoGruposSemaforicos = {}
+        plano.posicaoGruposSemaforicos = {};
 
         gruposSemaforicos.forEach(function (grupo, index){
           plano.posicaoGruposSemaforicos['G'+grupo.posicao] = index;

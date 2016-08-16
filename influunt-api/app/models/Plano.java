@@ -277,7 +277,7 @@ public class Plano extends Model implements Cloneable {
                 } else {
                     destino = getEstagiosPlanos().get(0);
                 }
-                if (origem.getEstagio().temTransicaoProibidaComEstagio(destino.getEstagio())) {
+                if (origem.getEstagio().temTransicaoProibidaParaEstagio(destino.getEstagio())) {
                     return false;
                 }
             }

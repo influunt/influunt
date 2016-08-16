@@ -32,22 +32,28 @@ public class TabelaEntreVerdes extends Model implements Cloneable {
 
     @Column
     private String idJson;
+
     @Column
     private String descricao = "PADRÃO";
+
     @ManyToOne
     private GrupoSemaforico grupoSemaforico;
+
     @OneToMany(mappedBy = "tabelaEntreVerdes", cascade = CascadeType.ALL)
     @PrivateOwned
     private List<TabelaEntreVerdesTransicao> tabelaEntreVerdesTransicoes;
+
     @Valid
     @NotNull(message = "não pode ficar em branco.", groups = ControladorTabelaEntreVerdesCheck.class)
     @Column
     private Integer posicao;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)

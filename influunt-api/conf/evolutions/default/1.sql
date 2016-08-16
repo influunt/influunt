@@ -48,6 +48,17 @@ create table areas (
   constraint pk_areas primary key (id)
 );
 
+create table atrasos_de_grupos (
+  id                            varchar(40) not null,
+  id_json                       varchar(255),
+  transicao_id                  varchar(40),
+  atraso_de_grupo               integer not null,
+  data_criacao                  datetime(6) not null,
+  data_atualizacao              datetime(6) not null,
+  constraint uq_atrasos_de_grupos_transicao_id unique (transicao_id),
+  constraint pk_atrasos_de_grupos primary key (id)
+);
+
 create table cidades (
   id                            varchar(40) not null,
   id_json                       varchar(255),
@@ -167,14 +178,18 @@ create table estagios_planos (
 create table eventos (
   id                            varchar(40) not null,
   id_json                       varchar(255),
-  numero                        varchar(255) not null,
-  dia_da_semana                 varchar(16) not null,
+  posicao                       integer not null,
+  dia_da_semana                 varchar(16),
   horario                       time not null,
+  data                          datetime(6),
+  nome                          varchar(255),
+  tipo                          varchar(8) not null,
   tabela_horario_id             varchar(40) not null,
   plano_id                      varchar(40) not null,
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
   constraint ck_eventos_dia_da_semana check (dia_da_semana in ('SEGUNDA_A_SEXTA','SEGUNDA_A_SABADO','SABADO_A_DOMINGO','TODOS_OS_DIAS','SEGUNDA','TERCA','QUARTA','QUINTA','SEXTA','SABADO','DOMINGO')),
+  constraint ck_eventos_tipo check (tipo in ('NORMAL','ESPECIAL')),
   constraint pk_eventos primary key (id)
 );
 
@@ -331,16 +346,18 @@ create table tabela_horarios (
   constraint pk_tabela_horarios primary key (id)
 );
 
-create table transicao (
+create table transicoes (
   id                            varchar(40) not null,
   id_json                       varchar(255),
+  tipo                          varchar(17) not null,
   grupo_semaforico_id           varchar(40),
   origem_id                     varchar(40),
   destino_id                    varchar(40),
   destroy                       tinyint(1) default 0,
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
-  constraint pk_transicao primary key (id)
+  constraint ck_transicoes_tipo check (tipo in ('PERDA_DE_PASSAGEM','GANHO_DE_PASSAGEM')),
+  constraint pk_transicoes primary key (id)
 );
 
 create table transicoes_proibidas (
@@ -395,6 +412,8 @@ alter table aneis add constraint fk_aneis_croqui_id foreign key (croqui_id) refe
 
 alter table areas add constraint fk_areas_cidade_id foreign key (cidade_id) references cidades (id) on delete restrict on update restrict;
 create index ix_areas_cidade_id on areas (cidade_id);
+
+alter table atrasos_de_grupos add constraint fk_atrasos_de_grupos_transicao_id foreign key (transicao_id) references transicoes (id) on delete restrict on update restrict;
 
 alter table controladores add constraint fk_controladores_modelo_id foreign key (modelo_id) references modelo_controladores (id) on delete restrict on update restrict;
 create index ix_controladores_modelo_id on controladores (modelo_id);
@@ -486,19 +505,19 @@ create index ix_tabela_entre_verdes_grupo_semaforico_id on tabela_entre_verdes (
 alter table tabela_entre_verdes_transicao add constraint fk_tabela_entre_verdes_transicao_tabela_entre_verdes_id foreign key (tabela_entre_verdes_id) references tabela_entre_verdes (id) on delete restrict on update restrict;
 create index ix_tabela_entre_verdes_transicao_tabela_entre_verdes_id on tabela_entre_verdes_transicao (tabela_entre_verdes_id);
 
-alter table tabela_entre_verdes_transicao add constraint fk_tabela_entre_verdes_transicao_transicao_id foreign key (transicao_id) references transicao (id) on delete restrict on update restrict;
+alter table tabela_entre_verdes_transicao add constraint fk_tabela_entre_verdes_transicao_transicao_id foreign key (transicao_id) references transicoes (id) on delete restrict on update restrict;
 create index ix_tabela_entre_verdes_transicao_transicao_id on tabela_entre_verdes_transicao (transicao_id);
 
 alter table tabela_horarios add constraint fk_tabela_horarios_anel_id foreign key (anel_id) references aneis (id) on delete restrict on update restrict;
 
-alter table transicao add constraint fk_transicao_grupo_semaforico_id foreign key (grupo_semaforico_id) references grupos_semaforicos (id) on delete restrict on update restrict;
-create index ix_transicao_grupo_semaforico_id on transicao (grupo_semaforico_id);
+alter table transicoes add constraint fk_transicoes_grupo_semaforico_id foreign key (grupo_semaforico_id) references grupos_semaforicos (id) on delete restrict on update restrict;
+create index ix_transicoes_grupo_semaforico_id on transicoes (grupo_semaforico_id);
 
-alter table transicao add constraint fk_transicao_origem_id foreign key (origem_id) references estagios (id) on delete restrict on update restrict;
-create index ix_transicao_origem_id on transicao (origem_id);
+alter table transicoes add constraint fk_transicoes_origem_id foreign key (origem_id) references estagios (id) on delete restrict on update restrict;
+create index ix_transicoes_origem_id on transicoes (origem_id);
 
-alter table transicao add constraint fk_transicao_destino_id foreign key (destino_id) references estagios (id) on delete restrict on update restrict;
-create index ix_transicao_destino_id on transicao (destino_id);
+alter table transicoes add constraint fk_transicoes_destino_id foreign key (destino_id) references estagios (id) on delete restrict on update restrict;
+create index ix_transicoes_destino_id on transicoes (destino_id);
 
 alter table transicoes_proibidas add constraint fk_transicoes_proibidas_origem_id foreign key (origem_id) references estagios (id) on delete restrict on update restrict;
 create index ix_transicoes_proibidas_origem_id on transicoes_proibidas (origem_id);
@@ -539,6 +558,8 @@ alter table aneis drop foreign key fk_aneis_croqui_id;
 
 alter table areas drop foreign key fk_areas_cidade_id;
 drop index ix_areas_cidade_id on areas;
+
+alter table atrasos_de_grupos drop foreign key fk_atrasos_de_grupos_transicao_id;
 
 alter table controladores drop foreign key fk_controladores_modelo_id;
 drop index ix_controladores_modelo_id on controladores;
@@ -635,14 +656,14 @@ drop index ix_tabela_entre_verdes_transicao_transicao_id on tabela_entre_verdes_
 
 alter table tabela_horarios drop foreign key fk_tabela_horarios_anel_id;
 
-alter table transicao drop foreign key fk_transicao_grupo_semaforico_id;
-drop index ix_transicao_grupo_semaforico_id on transicao;
+alter table transicoes drop foreign key fk_transicoes_grupo_semaforico_id;
+drop index ix_transicoes_grupo_semaforico_id on transicoes;
 
-alter table transicao drop foreign key fk_transicao_origem_id;
-drop index ix_transicao_origem_id on transicao;
+alter table transicoes drop foreign key fk_transicoes_origem_id;
+drop index ix_transicoes_origem_id on transicoes;
 
-alter table transicao drop foreign key fk_transicao_destino_id;
-drop index ix_transicao_destino_id on transicao;
+alter table transicoes drop foreign key fk_transicoes_destino_id;
+drop index ix_transicoes_destino_id on transicoes;
 
 alter table transicoes_proibidas drop foreign key fk_transicoes_proibidas_origem_id;
 drop index ix_transicoes_proibidas_origem_id on transicoes_proibidas;
@@ -672,6 +693,8 @@ drop table if exists agrupamentos_controladores;
 drop table if exists aneis;
 
 drop table if exists areas;
+
+drop table if exists atrasos_de_grupos;
 
 drop table if exists cidades;
 
@@ -717,7 +740,7 @@ drop table if exists tabela_entre_verdes_transicao;
 
 drop table if exists tabela_horarios;
 
-drop table if exists transicao;
+drop table if exists transicoes;
 
 drop table if exists transicoes_proibidas;
 

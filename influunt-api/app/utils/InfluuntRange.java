@@ -59,5 +59,4 @@ public class InfluuntRange<T extends Comparable> {
         }
         return min.compareTo(value) <= 0 && max.compareTo(value) >= 0;
     }
-
 }
