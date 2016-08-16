@@ -28,69 +28,126 @@ angular.module('influuntApp')
         return valid;
       };
 
-      var getCidade = function() {
-        var area = _.find($scope.objeto.areas, {idJson:$scope.objeto.area.idJson});
-        var cidade = _.find($scope.objeto.cidades, {idJson: area.cidade.idJson});
-        $scope.cidade = cidade.nome;
-        $scope.area = area.descricao;
-        //return cidade;
+      var getVerdesConfitantesOrigemDestino = function() {
+          return $scope.objeto.gruposSemaforicos &&
+            $scope.objeto.gruposSemaforicos.forEach(function(gs) {
+                gs.verdesConflitantesOrigem.forEach(function(vec) {
+                  var obj = _.find($scope.objeto.verdesConflitantes, vec);
+                  var origem = _.find($scope.objeto.gruposSemaforicos, {idJson: obj.origem.idJson});
+                  var destino = _.find($scope.objeto.gruposSemaforicos, {idJson: obj.destino.idJson});
+                  //
+                  $scope.verdesConflitantes[origem.posicao][destino.posicao] = true;
+                  $scope.verdesConflitantes[destino.posicao][origem.posicao] = true;
+
+                  console.log(JSON.stringify(gs));
+
+              });
+            });
       };
 
-      var getAneisAtivos = function() {
-        $scope.AneisAtivos = _.filter($scope.objeto.aneis, { ativo: true });
-        $scope.codigoCLA = $scope.AneisAtivos[0].CLA;
-        $scope.qtdeAneisAtivos = $scope.AneisAtivos.length;
-        $scope.numeroSMEE = $scope.AneisAtivos[0].numeroSMEE;
 
-        //semaforicos
-        var semaforico = '';
-        $scope.AneisAtivos[0].gruposSemaforicos.forEach(function(e) {
-          semaforico = _.find($scope.objeto.gruposSemaforicos, {idJson: e.idJson});
-          //console.log(semaforico);
-        });
+      var getDetectoresAnel = function() {
+        var ids = _.map($scope.currentAnel.detectores, 'idJson');
+        $scope.detectoresAnel = _
+          .chain($scope.objeto.detectores)
+          .filter(function(d) {
+            return ids.indexOf(d.idJson) >= 0;
+          })
+          .orderBy(['tipo', 'posicao'])
+          .value();
 
-        $scope.semaforicoPedestres = _.filter(semaforico, {tipo : 'PEDESTRE'});
-        $scope.semaforicoVeiculares= _.filter(semaforico, {tipo : 'VEICULAR'});
+          $scope.DetectoresAnelPedestres = _.filter($scope.detectoresAnel, {tipo : 'PEDESTRE'}).length;
+          $scope.DetectoresAnelVeiculos =  _.filter($scope.detectoresAnel, {tipo : 'VEICULAR'}).length;
+          //console.log(JSON.stringify($scope.detectoresAnel));
+        };
 
-        //enderecos
-        var local = [];
-        $scope.AneisAtivos[0].enderecos.forEach(function(e) {
-          local = _.find($scope.objeto.todosEnderecos[0], {idJson: e.idJson});
-          console.log(local);
-        });
-        //$scope.localizacao = local.localizacao;
+      var getLocalizacaoAnel = function() {
+        var end1 = _.filter( $scope.objeto.todosEnderecos , {idJson: $scope.currentAnel.enderecos[0].idJson});
+        var end2 = _.filter( $scope.objeto.todosEnderecos , {idJson: $scope.currentAnel.enderecos[1].idJson});
+        return end2[0].localizacao + " com " + end1[0].localizacao;
+      };
 
-        //detectores
-        $scope.AneisAtivos[0].detectores.forEach(function(e) {
-          var detector = _.find($scope.objeto.detectores, {idJson: e.idJson});
-           console.log(JSON.stringify(detector));
-           $scope.detectoresPedestre = _.filter(detector, {tipo : 'PEDESTRE'});
-           $scope.detectoresVeiculares = _.filter(detector, {tipo : 'PEDESTRE'});
-        });
+      var getEstagiosAnel = function() {
+        var ids = _.map($scope.currentAnel.estagios, 'idJson');
+        $scope.currentEstagios = _
+          .chain($scope.objeto.estagios)
+          .filter(function(d) {
+            return ids.indexOf(d.idJson) >= 0;
+          })
+          .orderBy(['posicao'])
+          .value();
+      };
+
+      var getGruposSemaforicosAnel = function() {
+        var ids = _.map($scope.currentAnel.gruposSemaforicos, 'idJson');
+        $scope.currentGruposSemaforicos = _
+          .chain($scope.objeto.gruposSemaforicos)
+          .filter(function(d) {
+            return ids.indexOf(d.idJson) >= 0;
+          })
+          .orderBy(['posicao', 'tipo'])
+          .value();
+      };
+
+      var getAneisAtivos = function () {
+        $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
+        var aneisAtivos = _.filter($scope.objeto.aneis, {ativo : true});
+        $scope.qdteAneisAtivos = aneisAtivos.length;
+
+        // Dados do 1 anel
+        $scope.anelOne = aneisAtivos[0];
+        $scope.currentAnel = aneisAtivos[0];
+        //$scope.anelTo = aneisAtivos[1];
+        //console.log(JSON.stringify($scope.anelOne));
+
+        $scope.numeroSMEE = $scope.anelOne.numeroSMEE;
+        $scope.CLA = $scope.anelOne.CLA;
+        $scope.localizacao = getLocalizacaoAnel();
+        $scope.detectoresAnel = getDetectoresAnel();
+        getEstagiosAnel();
+        getGruposSemaforicosAnel();
+
+        //transicoesProibidas
+        $scope.currentTransicoesProibidas = $scope.objeto.transicoesProibidas;
+        //console.log(JSON.stringify($scope.currentTransicoesProibidas));
+
       };
 
 
 
       $scope.inicializaRevisao = function() {
         return $scope.inicializaWizard().then(function() {
+            getAneisAtivos();
 
-          $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
-          $scope.aneis = _.filter($scope.objeto.aneis, 'ativo');
+            var area = _.find($scope.objeto.areas, {idJson: $scope.objeto.area.idJson});
+            var cidade = _.find($scope.objeto.cidades, {idJson: area.cidade.idJson});
+            $scope.cidadeNome = cidade.nome;
+            $scope.area = area.descricao;
 
-          getCidade();
-          $scope.qtdeDetectoresVeiculares = _.filter($scope.objeto.detectores, {tipo : 'VEICULAR'});
-          $scope.qtdeDetectoresVeiculares = $scope.qtdeDetectoresVeiculares.length;
-          $scope.qtdeDetectoresPedestres = _.filter($scope.objeto.detectores, {tipo : 'PEDESTRE'});
-          $scope.qtdeDetectoresPedestres = $scope.qtdeDetectoresPedestres.length;
-          $scope.fabricante = $scope.objeto.modelo.fabricante.nome;
-          //$scope.modelo = $scope.objeto.modelo.descricao;
+            $scope.fabricante = $scope.objeto.modelo.fabricante.nome;
+            $scope.modelo = $scope.objeto.modelo.descricao;
+            $scope.qtdeEstagios = $scope.objeto.estagios.length;
 
-          getAneisAtivos();
-          $scope.selecionaAnel(0);
+            // Detectores - todos
+            $scope.detectoresVeicular = _.filter($scope.objeto.detectores, {tipo : 'VEICULAR'});
+            $scope.detectoresVeicular = $scope.detectoresVeicular.length;
+            $scope.detectoresPedestre = _.filter($scope.objeto.detectores, {tipo : 'PEDESTRE'});
+            $scope.detectoresPedestre = $scope.detectoresPedestre.length;
 
-      });
-    };
+            // Grupos Semaforicos
+            $scope.semaforicosVeicular = _.filter($scope.objeto.gruposSemaforicos, {tipo : 'VEICULAR'});
+            $scope.semaforicosVeicular = $scope.semaforicosVeicular.length;
+            $scope.semaforicosPedestre = _.filter($scope.objeto.gruposSemaforicos, {tipo : 'PEDESTRE'});
+            $scope.semaforicosPedestre = $scope.semaforicosPedestre.length;
 
-   //console.log(JSON.stringify(anel))
+            // Verdes conflitantes
+            getVerdesConfitantesOrigemDestino();
 
-    }]);
+            // estagios
+
+
+
+        });
+      };
+
+}]);

@@ -6,7 +6,7 @@
       </div>
       <div class="col-lg-12 col-sm-12 ibox-content no-padding-left no-padding-right padding-top-20">
         <div class="col-lg-4 col-sm-3">
-          <p><b>{{ 'controladores.cidade' | translate }}:</b> {{cidade}}</p>
+          <p><b>{{ 'controladores.cidade' | translate }}:</b> {{cidadeNome}}</p>
           <p><b>{{ 'controladores.area' | translate }}:</b> {{area}}</p></br>
           <p><b>{{ 'controladores.numeroSMEE' | translate }}:</b> {{objeto.numeroSMEE}}</p>
           <p><b>{{ 'controladores.CLC' | translate }}:</b> {{objeto.CLC}}</p></br>
@@ -17,10 +17,10 @@
         <div class="col-lg-4 col-sm-3">
           <p><b>{{ 'controladores.Fabricante' | translate }}:</b> {{fabricante}}</p>
           <p><b>{{ 'controladores.modelo' | translate }}:</b> {{modelo}}</p></br>
-          <p><b>{{ 'controladores.estagios' | translate }}:</b> {{objeto.estagios.length}}</p>
-          <p><b>{{ 'controladores.aneis' | translate }}:</b> {{qtdeAneisAtivos}}</p>
-          <p><b>{{ 'controladores.maxDetectorVeicular' | translate }}:</b> {{qtdeDetectoresVeiculares}}</p>
-          <p><b>{{ 'controladores.maxDetectorPedestre' | translate }}:</b> {{qtdeDetectoresPedestres}}</p>
+          <p><b>{{ 'controladores.estagios' | translate }}:</b> {{qtdeEstagios}}</p>
+          <p><b>{{ 'controladores.aneis' | translate }}:</b> {{qdteAneisAtivos}}</p>
+          <p><b>{{ 'controladores.maxDetectorVeicular' | translate }}:</b> {{detectoresVeicular}}</p>
+          <p><b>{{ 'controladores.maxDetectorPedestre' | translate }}:</b> {{detectoresPedestre}}</p>
         </div>
         <div class="col-lg-4 col-sm-6">
           <p><b>{{ 'controladores.localizacao' | translate }}:</b> {{objeto.nomeEndereco}}</p>
@@ -51,23 +51,26 @@
       <div class="ibox float-e-margins">
         <div class="tabpanel">
           <div class="col-lg-12 col-sm-12 padding-top-20 tabs-container">
-            <influunt-tabs data-on-activate="selecionaAnel" data-aneis-ativos="aneis"></influunt-tabs>
+            <influunt-tabs class="tabpanel"
+                           data-on-activate="selecionaAnel"
+                           data-aneis-ativos="aneis">
+            </influunt-tabs>
             <div class="ui-layout-content tab-content">
               <div id="tabs-1">
                 <div class="col-lg-12 col-sm-12 no-padding-left padding-top-20 text-left">
 
                   <div class="col-lg-3 col-sm-3 no-padding-left">
-                    <p><b>{{ 'controladores.CLA' | translate }}:</b> {{codigoCLA}}</p>
+                    <p><b>{{ 'controladores.CLA' | translate }}:</b> {{CLA}}</p>
                     <p><b>{{ 'controladores.localizacao' | translate }}:</b> {{localizacao}}</p>
                     <p><b>{{ 'controladores.numeroSMEE' | translate }}:</b> {{numeroSMEE}}</p>
                   </div>
                   <div class="col-lg-3 col-sm-3 no-padding-left">
-                    <p><b>{{ 'controladores.gruposPedestres' | translate }}:</b> {{semaforicoPedestres}}</p>
-                    <p><b>{{ 'controladores.gruposSinaisVeiculares' | translate }}:</b> {{objeto.gruposSinaisVeiculares}}</p>
+                    <p><b>{{ 'controladores.gruposPedestres' | translate }}:</b> {{semaforicosVeicular}}</p>
+                    <p><b>{{ 'controladores.gruposSinaisVeiculares' | translate }}:</b> {{semaforicosPedestre}}</p>
                   </div>
                   <div class="col-lg-3 col-sm-3 no-padding-left">
-                    <p><b>{{ 'controladores.numeroDetectoresPedestres' | translate }}:</b> São Paulo</p>
-                    <p><b>{{ 'controladores.numeroDetectores' | translate }}:</b> Norte</p>
+                    <p><b>{{ 'controladores.numeroDetectoresPedestres' | translate }}:</b> {{DetectoresAnelPedestres}}</p>
+                    <p><b>{{ 'controladores.numeroDetectores' | translate }}:</b> {{DetectoresAnelVeiculos}}</p>
                   </div>
                 </div>
 <!-- End Abas de aneis -->
@@ -78,91 +81,41 @@
                       <h2>Grupos</h2>
                     </div>
                     <div class="col-lg-12 col-sm-12 no-padding padding-top-20 ibox-content">
-                      <div class="col-lg-4 col-sm-4">
-                        <h3>Grupo 1</h3>
-                        <p>Lorem ipsun</p>
-                        <p><b>Tipo:</b> 13665</p>
-                        <p><b>Fase Vermelha:</b> Nada</p>
+                      <div class="col-lg-4 col-sm-4" data-ng-repeat="(indexGrupo, grupo) in currentGruposSemaforicos">
+                        <h3>{{grupo.posicao}}</h3>
+                        <p><b>Tipo:</b> {{grupo.tipo | lowercase}}</p>
+                        <p><b>Fase Vermelha:</b> {{grupo.faseVermelhaApagadaAmareloIntermitente && "true" ? "Colocar em amarelo intermitente" : "Não colocar em amarelo intermitente"}}</p>
                       </div>
-                      <div class="col-lg-4 col-sm-4 changeRed">
-                        <h3>Grupo 2</h3>
-                        <p><b>Tipo:</b> 13665</p>
-                        <p><b>Fase Vermelha:</b> Nada</p>
-                      </div>
-                      <div class="col-lg-4 col-sm-4 changeGreen">
-                        <h3>Grupo 3</h3>
-                        <p>Lorem ipsun</p>
-                        <p><b>Tipo:</b> 13665</p>
-                        <p><b>Fase Vermelha:</b> Nada</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-12 col-sm-12 no-padding padding-top-20">
-                      <div class="col-lg-4 col-sm-4">
-                        <h3>Grupo 4</h3>
-                        <p>Lorem ipsun</p>
-                        <p><b>Tipo:</b> 13665</p>
-                        <p><b>Fase Vermelha:</b> Nada</p>
-                      </div>
-                      <div class="col-lg-4 col-sm-4">
-                        <h3>Grupo 5</h3>
-                        <p>Lorem ipsun</p>
-                        <p><b>Tipo:</b> 13665</p>
-                        <p><b>Fase Vermelha:</b> Nada</p>
-                      </div>
-                      <div class="col-lg-4 col-sm-4">
-                        <h3>Grupo 6</h3>
-                        <p>Lorem ipsun</p>
-                        <p><b>Tipo:</b> 13665</p>
-                        <p><b>Fase Vermelha:</b> Nada</p>
-                      </div>
-                    </div>
                   </div>
 
                   <div class="col-lg-6 col-sm-6 no-padding-left text-left">
                     <div class="col-lg-12 col-sm-12 no-padding">
-                      <h2>Estágios</h2>
+                      <h2>{{ 'controladores.estagios' | translate }}</h2>
                     </div>
-                    <div class="col-lg-12 col-sm-12 no-padding padding-top-20 ibox-content">
-                      <div class="col-lg-6 col-sm-6 review-page">
-                        <img src="https://s3.amazonaws.com/uifaces/faces/twitter/iannnnn/128.jpg">
-                        <h3>Grupo 3</h3>
-                        <p>Lorem ipsun</p>
-                        <p><b>Tipo:</b> 13665</p>
-                        <p><b>Fase Vermelha:</b> Nada</p>
-                      </div>
-                      <div class="col-lg-6 col-sm-6 review-page">
-                        <img src="https://s3.amazonaws.com/uifaces/faces/twitter/iannnnn/128.jpg">
-                        <h3>Grupo 3</h3>
-                        <p>Lorem ipsun</p>
-                        <p><b>Tipo:</b> 13665</p>
-                        <p><b>Fase Vermelha:</b> Nada</p>
-                      </div>
-                      <div class="col-lg-6 col-sm-6 review-page changeRed">
-                        <img src="https://s3.amazonaws.com/uifaces/faces/twitter/iannnnn/128.jpg">
-                        <h3>Grupo 3</h3>
-                        <p>Lorem ipsun</p>
-                        <p><b>Tipo:</b> 13665</p>
-                        <p><b>Fase Vermelha:</b> Nada</p>
-                      </div>
-                      <div class="col-lg-6 col-sm-6 review-page changeGreen">
-                        <img src="https://s3.amazonaws.com/uifaces/faces/twitter/iannnnn/128.jpg">
-                        <h3>Grupo 3</h3>
-                        <p>Lorem ipsun</p>
-                        <p><b>Tipo:</b> 13665</p>
-                        <p><b>Fase Vermelha:</b> Nada</p>
+                      <div class="col-lg-12 col-sm-12 no-padding padding-top-20 ibox-content" >
+                        <!--div class="col-lg-6 col-sm-6 review-page">
+                          <h4>E{{ estagio.posicao }}</h4>
+                          <img src="{{ getImagemDeEstagio(estagio) }}">
+                        </div -->
+                            <div data-ng-repeat="estagio in currentEstagios" class="stage-images">
+                              <h4>E{{ estagio.posicao }}</h4>
+                              <figure>
+                                <img ng-src="{{ getImagemDeEstagio(estagio) }}">
+                              </figure>
+                            </div>
                       </div>
                     </div>
                   </div>
                 </div>
-
+<!-- End Estagios -->
                 <div class="col-lg-12 col-sm-12 no-padding">
                   <div class="col-lg-6 col-sm-6 no-padding-left padding-top-20 text-left">
                     <div class="col-lg-12 col-sm-12 no-padding">
                       <h2>Verdes Conflitantes</h2>
                     </div>
                     <div class="col-lg-12 col-sm-12 no-padding padding-top-20 ibox-content">
-                      <div class="col-lg-2 col-sm-2 no-padding-left">
-                        <p class="view-group"><b>E1-G2 <i class="fa fa-eye"></i></b></p>
+                      <div class="col-lg-2 col-sm-2 no-padding-left" data-ng-repeat="gs in currentGruposSemaforicos">
+                        <p class="view-group" ><b>E1-G2 <i class="fa fa-eye"></i></b></p>
                       </div>
                     </div>
                   </div>
@@ -187,8 +140,9 @@
                       </div>
                       <div class="col-lg-12 col-sm-12 no-padding">
                         <div class="col-lg-6 col-sm-6 changeRed">
-                          <div class="col-lg-6 col-sm-6 no-padding">
-                            <b class="gray-box">E1-G2</b> <i class="fa fa-eye view-group"></i>
+                          <div class="col-lg-6 col-sm-6 no-padding" data-ng-repeat="(key, value) in currentTransicoesProibidas">
+                              <b class="gray-box">{{key}}</b> <i class="fa fa-eye view-group"></i>
+                            </li>
                           </div>
                           <div class="col-lg-6 col-sm-6 no-padding">
                             <b class="white-box">E1-G2</b> <i class="fa fa-eye view-group"></i>

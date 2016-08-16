@@ -1,1 +1,14 @@
 .DS_Store
+log
+logs
+log
+target
+/.idea
+/.idea_modules
+/.classpath
+/.project
+/.settings
+/RUNNING_PID
+imagens/*
+/bin/
+1.sql
