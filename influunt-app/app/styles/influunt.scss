@@ -1780,6 +1780,10 @@ img.sample-img-estagios {
 .planos.ui-sortable li.card-estagio {
     height: auto !important;
 }
+.planos.ui-sortable li.card-estagio:hover {
+    background: #dddddd;
+}
+
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
     background: transparent;
     border: 0;

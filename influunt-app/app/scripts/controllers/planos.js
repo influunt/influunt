@@ -120,6 +120,29 @@ angular.module('influuntApp')
         }
       };
 
+      $scope.leftEstagio = function(posicaoAtual) {
+        var estagioAtual = $scope.currentEstagiosPlanos[posicaoAtual];
+        var estagioAnterior = utilEstagios.getEstagioAnterior($scope.currentEstagiosPlanos, posicaoAtual);
+        var indexAnterior = _.findIndex($scope.currentEstagiosPlanos, estagioAnterior);
+
+        $scope.currentEstagiosPlanos.splice(indexAnterior, 1);
+        var indexAtual = _.findIndex($scope.currentEstagiosPlanos, estagioAtual);
+        $scope.currentEstagiosPlanos.splice(indexAtual+1, 0, estagioAnterior);
+
+        atualizaPosicaoEstagiosPlanos();
+      };
+
+      $scope.rightEstagio = function(posicaoAtual) {
+        var estagioAtual = $scope.currentEstagiosPlanos[posicaoAtual];
+        var proximoEstagio = utilEstagios.getProximoEstagio($scope.currentEstagiosPlanos, posicaoAtual);
+
+        $scope.currentEstagiosPlanos.splice(posicaoAtual, 1);
+        var posicaoProximoEstagio = _.findIndex($scope.currentEstagiosPlanos, proximoEstagio);
+        $scope.currentEstagiosPlanos.splice(posicaoProximoEstagio + 1, 0, estagioAtual);
+
+        atualizaPosicaoEstagiosPlanos();
+      };
+
       $scope.sortableOptions = {
         handle: '> .sortable',
         stop: function() {
