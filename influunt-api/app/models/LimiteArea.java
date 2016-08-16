@@ -34,6 +34,8 @@ public class LimiteArea extends Model {
     private Double latitude;
     @Column
     private Double longitude;
+    @Column
+    private Integer posicao;
     @ManyToOne
     private Area area;
     @Column
@@ -105,4 +107,11 @@ public class LimiteArea extends Model {
         this.dataAtualizacao = dataAtualizacao;
     }
 
+    public Integer getPosicao() {
+        return posicao;
+    }
+
+    public void setPosicao(Integer posicao) {
+        this.posicao = posicao;
+    }
 }

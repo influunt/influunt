@@ -38,6 +38,7 @@ public class ControladorCustomSerializer {
     private Map<String, Evento> eventosMap = new HashMap<String, Evento>();
     private Map<String, Endereco> enderecosMap = new HashMap<String, Endereco>();
     private Map<String, Area> areasMap = new HashMap<String, Area>();
+    private Map<String, LimiteArea> limitesMap = new HashMap<String, LimiteArea>();
 
     public JsonNode getControladorJson(Controlador controlador) {
         ObjectNode root = Json.newObject();
@@ -65,6 +66,7 @@ public class ControladorCustomSerializer {
 
         putControladorCidades(root);
         putControladorAreas(root);
+        putControladorLimites(root);
         putControladorEnderecos(root);
         putControladorImagens(root);
 
@@ -127,7 +129,7 @@ public class ControladorCustomSerializer {
             root.put("id", controlador.getId().toString());
         }
         if (controlador.getIdJson() != null) {
-            root.put("idJson", controlador.getIdJson().toString());
+            root.put("idJson", controlador.getIdJson());
         }
         if (controlador.getNumeroSMEE() != null) {
             root.put("numeroSMEE", controlador.getNumeroSMEE());
@@ -213,7 +215,7 @@ public class ControladorCustomSerializer {
         }
 
         if (controlador.getArea() != null && controlador.getArea().getIdJson() != null) {
-            root.putObject("area").put("idJson", controlador.getArea().getIdJson().toString());
+            root.putObject("area").put("idJson", controlador.getArea().getIdJson());
         }
 
         refEnderecos("enderecos", controlador.getEnderecos(), root);
@@ -266,14 +268,30 @@ public class ControladorCustomSerializer {
             areaJson.put("id", area.getId().toString());
         }
         if (area.getIdJson() != null) {
-            areaJson.put("idJson", area.getIdJson().toString());
+            areaJson.put("idJson", area.getIdJson());
         }
         areaJson.put("descricao", area.getDescricao());
         if (area.getCidade() != null && area.getCidade().getIdJson() != null) {
-            areaJson.putObject("cidade").put("idJson", area.getCidade().getIdJson().toString());
+            areaJson.putObject("cidade").put("idJson", area.getCidade().getIdJson());
         }
 
+        refLimites("limites", area.getLimitesGeograficos(), areaJson);
         return areaJson;
+    }
+
+    private JsonNode getLimiteJson(LimiteArea limite) {
+        ObjectNode limiteJson = Json.newObject();
+        if (limite.getId() != null) {
+            limiteJson.put("id", limite.getId().toString());
+        }
+        if (limite.getIdJson() != null) {
+            limiteJson.put("idJson", limite.getIdJson());
+        }
+        limiteJson.put("latitude", limite.getLatitude());
+        limiteJson.put("longitude", limite.getLongitude());
+        limiteJson.put("posicao", limite.getPosicao());
+
+        return limiteJson;
     }
 
     private JsonNode getCidadeJson(Cidade cidade) {
@@ -283,7 +301,7 @@ public class ControladorCustomSerializer {
             cidadeJson.put("id", cidade.getId().toString());
         }
         if (cidade.getIdJson() != null) {
-            cidadeJson.put("idJson", cidade.getIdJson().toString());
+            cidadeJson.put("idJson", cidade.getIdJson());
         }
         cidadeJson.put("nome", cidade.getNome());
 
@@ -314,6 +332,14 @@ public class ControladorCustomSerializer {
             areasJson.add(getAreaJson(area));
         });
         root.set("areas", areasJson);
+    }
+
+    private void putControladorLimites(ObjectNode root) {
+        ArrayNode limitesJson = Json.newArray();
+        limitesMap.values().stream().forEach(limite -> {
+            limitesJson.add(getLimiteJson(limite));
+        });
+        root.set("limites", limitesJson);
     }
 
     private void putControladorAneis(List<Anel> aneis, ObjectNode root) {
@@ -414,7 +440,6 @@ public class ControladorCustomSerializer {
 
     }
 
-
     private JsonNode getPlanoJson(Plano plano) {
         ObjectNode planoJson = Json.newObject();
 
@@ -422,7 +447,7 @@ public class ControladorCustomSerializer {
             planoJson.put("id", plano.getId().toString());
         }
         if (plano.getIdJson() != null) {
-            planoJson.put("idJson", plano.getIdJson().toString());
+            planoJson.put("idJson", plano.getIdJson());
         }
         if (plano.getPosicao() != null) {
             planoJson.put("posicao", plano.getPosicao());
@@ -1190,6 +1215,20 @@ public class ControladorCustomSerializer {
         }
         parentJson.set(name, areasJson);
 
+    }
+
+    private void refLimites(String name, List<LimiteArea> limites, ObjectNode parentJson) {
+        ArrayNode limitesJson = Json.newArray();
+        for (LimiteArea limite: limites) {
+            if (limite != null && limite.getIdJson() != null) {
+                limitesMap.put(limite.getIdJson(), limite);
+                ObjectNode limiteJson = Json.newObject();
+                limiteJson.put("idJson", limite.getIdJson());
+                limitesJson.add(limiteJson);
+            }
+        }
+
+        parentJson.set(name, limitesJson);
     }
 
 

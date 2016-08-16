@@ -2,7 +2,10 @@
   "appname": "Influunt",
   "controladores": {
     "detector": "Detector",
+    "mapa": "Mapa dos controladores",
     "geral": {
+      "novo": "Novo Controlador",
+      "verMapa": "Ver no mapa",
       "prefixoEstagio": "E",
       "prefixoGrupo": "G",
       "verTelaAnterior": "Ver Tela Anterior"

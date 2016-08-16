@@ -19,7 +19,10 @@ angular.module('influuntApp')
        */
       $scope.adicionarCoordenadas = function() {
         $scope.objeto.limites = $scope.objeto.limites || [];
+        var posicao = $scope.objeto.limites.length + 1;
         $scope.objeto.limites.push({
+          idJson: UUID.generate(),
+          posicao: posicao,
           latitude: null,
           longitude: null
         });

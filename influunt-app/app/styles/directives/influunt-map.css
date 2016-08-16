@@ -3,3 +3,11 @@
   width: 100%;
   height: 280px;
 }
+
+.influunt-map.large {
+  height: 450px;
+}
+
+.influunt-map .leaflet-marker-icon.disabled {
+  opacity: 0.3;
+}
