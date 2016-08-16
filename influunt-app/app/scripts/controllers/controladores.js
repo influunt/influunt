@@ -197,7 +197,7 @@ angular.module('influuntApp')
        *
        * @param      {int}  index   The index
        */
-      $scope.selecionaTabelaEntreVerdes = function(tev, index) {
+      $scope.selecionaTabelaEntreVerdes = function(tev, index) { 
         $scope.currentTabelaEntreVerdesIndex = index;
         $scope.currentTabelaEntreVerdes = tev;
         $scope.tabelasEntreVerdesTransicoes = _.chain($scope.currentGrupoSemaforico.transicoes)

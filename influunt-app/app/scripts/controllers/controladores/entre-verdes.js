@@ -23,7 +23,7 @@ angular.module('influuntApp')
       $scope.assertEntreVerdes = function() {
         var valid = assertControlador.hasTransicoes($scope.objeto) && assertControlador.hasTabelasEntreVerdes($scope.objeto);
         if (!valid) {
-          $state.go('app.wizard_controladores.transicoes_proibidas', {id: $scope.objeto.id});
+          $state.go('app.wizard_controladores.entre_verdes', {id: $scope.objeto.id});
         }
 
         return valid;

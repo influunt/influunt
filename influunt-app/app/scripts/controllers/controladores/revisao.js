@@ -2,6 +2,7 @@
 
 /**
  * @ngdoc function
+<<<<<<< HEAD
  * @name influuntApp.controller:ControladoresAssociacaoCtrl
  * @description
  * # ControladoresAssociacaoCtrl
@@ -12,6 +13,19 @@ angular.module('influuntApp')
     function ($scope, $state, $controller, assertControlador) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
+=======
+ * @name influuntApp.controller:ControladoresRevisaoCtrl
+ * @description
+ * # ControladoresRevisaoCtrl
+ * Controller of the influuntApp
+ */
+angular.module('influuntApp')
+ .controller('ControladoresRevisaoCtrl', ['$scope', '$state', '$controller', 'assertControlador',
+    function ($scope, $state, $controller, assertControlador) {
+      $controller('ControladoresCtrl', {$scope: $scope});
+
+
+      //controladores.dadosBasicos
       /**
        * Pré-condições para acesso à tela de revisao: Somente será possível acessar esta
        * tela se o objeto possuir estágios. Os estágios são informados no passo anterior, o
@@ -24,6 +38,7 @@ angular.module('influuntApp')
         if (!valid) {
           $state.go('app.wizard_controladores.revisao', {id: $scope.objeto.id});
         }
+
 
         return valid;
       };
