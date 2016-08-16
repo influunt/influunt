@@ -43,38 +43,53 @@ public class Estagio extends Model implements Serializable, Cloneable {
 
     @Column
     private String idJson;
+
     @OneToOne
     private Imagem imagem;
+
     @Column
     private String descricao;
+
     @Column
     private Integer tempoMaximoPermanencia;
+
     @Column
     private Boolean tempoMaximoPermanenciaAtivado = true;
+
     @Column
     private Integer posicao;
+
     @Column
     private Boolean demandaPrioritaria = false;
+
     @OneToMany(mappedBy = "estagio", cascade = CascadeType.ALL)
     private List<EstagioGrupoSemaforico> estagiosGruposSemaforicos;
+
     @OneToMany(mappedBy = "origem", cascade = CascadeType.ALL)
     @Valid
     private List<TransicaoProibida> origemDeTransicoesProibidas;
+
     @OneToMany(mappedBy = "destino")
     private List<TransicaoProibida> destinoDeTransicoesProibidas;
+
     @OneToMany(mappedBy = "alternativo")
     private List<TransicaoProibida> alternativaDeTransicoesProibidas;
+
     @ManyToOne
     private Anel anel;
+
     @ManyToOne
     private Controlador controlador;
+
     @OneToOne
     private Detector detector;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
@@ -275,7 +290,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
     }
 
 
-    public boolean temTransicaoProibidaComEstagio(Estagio estagio) {
+    public boolean temTransicaoProibidaParaEstagio(Estagio estagio) {
         return getOrigemDeTransicoesProibidas().stream().filter(transicaoProibida -> transicaoProibida.getDestino().equals(estagio)).count() > 0;
     }
 

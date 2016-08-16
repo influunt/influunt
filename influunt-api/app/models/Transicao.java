@@ -1,5 +1,6 @@
 package models;
 
+import checks.ControladorAtrasoDeGrupoCheck;
 import checks.ControladorTabelaEntreVerdesCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
@@ -14,6 +15,8 @@ import org.joda.time.DateTime;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -23,7 +26,8 @@ import java.util.UUID;
  */
 @Entity
 
-public class Transicao extends Model implements Cloneable {
+@Table(name = "transicoes")
+public class Transicao extends Model implements Cloneable, Serializable {
 
     private static final long serialVersionUID = -6578371832958671414L;
 
@@ -34,26 +38,41 @@ public class Transicao extends Model implements Cloneable {
 
     @Column
     private String idJson;
+
+    @Enumerated(EnumType.STRING)
+    @Column
+    @NotNull(message = "não pode ficar em branco")
+    private TipoTransicao tipo;
+
     @ManyToOne
     private GrupoSemaforico grupoSemaforico;
+
     @ManyToOne
     private Estagio origem;
+
     @ManyToOne
     private Estagio destino;
+
     @OneToMany(mappedBy = "transicao", cascade = CascadeType.ALL)
     @PrivateOwned
     @Valid
     private List<TabelaEntreVerdesTransicao> tabelaEntreVerdesTransicoes;
+
+    @OneToOne(mappedBy = "transicao", cascade = CascadeType.ALL)
+    private AtrasoDeGrupo atrasoDeGrupo;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
+
     @Column
     private boolean destroy;
 
@@ -62,13 +81,14 @@ public class Transicao extends Model implements Cloneable {
         this.setIdJson(UUID.randomUUID().toString());
     }
 
-    public Transicao(GrupoSemaforico grupoSemaforico, Estagio origem, Estagio destino) {
+    public Transicao(GrupoSemaforico grupoSemaforico, Estagio origem, Estagio destino, TipoTransicao tipo) {
         super();
         this.setIdJson(UUID.randomUUID().toString());
         this.grupoSemaforico = grupoSemaforico;
         this.origem = origem;
         this.destino = destino;
         this.destroy = false;
+        this.tipo = tipo;
     }
 
     public String getIdJson() {
@@ -143,10 +163,22 @@ public class Transicao extends Model implements Cloneable {
         this.destroy = destroy;
     }
 
+    public TipoTransicao getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoTransicao tipo) {
+        this.tipo = tipo;
+    }
+
     @AssertTrue(groups = ControladorTabelaEntreVerdesCheck.class, message = "Essa transição deve ter pelo menos uma tabela de entreverdes.")
     public boolean isAoMenosUmaTabelaEntreVerdesTransicao() {
-        return !getTabelaEntreVerdesTransicoes().isEmpty();
+        return isPerdaDePassagem() || !getTabelaEntreVerdesTransicoes().isEmpty();
+    }
 
+    @AssertTrue(groups = ControladorAtrasoDeGrupoCheck.class, message = "Essa transição deve ter um atraso de grupo.")
+    public boolean isAtrasoDeGrupoPresent() {
+        return getAtrasoDeGrupo() != null;
     }
 
     public void addTabelaEntreVerdesTransicao(TabelaEntreVerdesTransicao tabelaEntreVerdesTransicao) {
@@ -176,5 +208,21 @@ public class Transicao extends Model implements Cloneable {
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    public AtrasoDeGrupo getAtrasoDeGrupo() {
+        return atrasoDeGrupo;
+    }
+
+    public void setAtrasoDeGrupo(AtrasoDeGrupo atrasoDeGrupo) {
+        this.atrasoDeGrupo = atrasoDeGrupo;
+    }
+
+    public boolean isGanhoDePassagem() {
+        return getTipo() == TipoTransicao.GANHO_DE_PASSAGEM;
+    }
+
+    public boolean isPerdaDePassagem() {
+        return getTipo() == TipoTransicao.PERDA_DE_PASSAGEM;
     }
 }

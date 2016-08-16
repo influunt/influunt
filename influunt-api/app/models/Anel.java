@@ -42,14 +42,17 @@ public class Anel extends Model implements Cloneable {
 
     @Column
     private String idJson;
+
     @Column
     @NotNull
     private Boolean ativo = false;
+
     @Column
     private String descricao;
 
     @Column
     private Integer posicao;
+
     @Column
     private String numeroSMEE;
 
@@ -66,12 +69,15 @@ public class Anel extends Model implements Cloneable {
     @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL)
     @Valid
     private List<Detector> detectores;
+
     @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL)
     @Valid
     private List<GrupoSemaforico> gruposSemaforicos;
+
     @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL)
     @Valid
     private List<Estagio> estagios;
+
     @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL)
     @Valid
     private List<Plano> planos;
@@ -85,6 +91,7 @@ public class Anel extends Model implements Cloneable {
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)

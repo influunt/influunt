@@ -71,7 +71,8 @@
     },
     "verdes_conflitantes": "Verdes Conflitantes",
     "versaoFirmware": "Versão do Firmware",
-    "numeroTabelasEntreVerdes": "Número de tabelas entre verdes"
+    "numeroTabelasEntreVerdes": "Número de tabelas entre verdes",
+    "atrasoDeGrupo": "Atraso de Grupo"
   },
   "areas": {
     "adicionar_limites": "adicionar limites geográficos",

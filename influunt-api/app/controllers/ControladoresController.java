@@ -65,17 +65,24 @@ public class ControladoresController extends Controller {
     }
 
     @Transactional
+    public CompletionStage<Result> atrasoDeGrupo() {
+        return doStep(false, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+                ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
+                ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class);
+    }
+
+    @Transactional
     public CompletionStage<Result> entreVerdes() {
         return doStep(false, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
                 ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
-                ControladorTransicoesProibidasCheck.class, ControladorTabelaEntreVerdesCheck.class);
+                ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class);
     }
 
     @Transactional
     public CompletionStage<Result> associacaoDetectores() {
         return doStep(true, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
                 ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
-                ControladorTransicoesProibidasCheck.class, ControladorTabelaEntreVerdesCheck.class,
+                ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
                 ControladorAssociacaoDetectoresCheck.class);
     }
 
@@ -92,7 +99,6 @@ public class ControladoresController extends Controller {
     @Transactional
     public CompletionStage<Result> findAll() {
         return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladoresJson(Controlador.find.findList())));
-//        return CompletableFuture.completedFuture(ok(Json.toJson(Controlador.find.findList())));
     }
 
     @Transactional
@@ -134,6 +140,4 @@ public class ControladoresController extends Controller {
             }
         }
     }
-
-
 }
