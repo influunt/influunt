@@ -5,7 +5,6 @@ package utils;
  */
 public class RangeUtils {
 
-    private static final RangeUtils instance = new RangeUtils();
     public static InfluuntRange TEMPO_DEFASAGEM = new InfluuntRange(0, 255);
     public static InfluuntRange TEMPO_AMARELO = new InfluuntRange(3, 5);
     public static InfluuntRange TEMPO_VERMELHO_INTERMITENTE = new InfluuntRange(3, 32);
@@ -21,6 +20,7 @@ public class RangeUtils {
     public static InfluuntRange TEMPO_VERDE_INTERMEDIARIO = new InfluuntRange(10, 255);
     public static InfluuntRange TEMPO_EXTENSAO_VERDE = new InfluuntRange(1d, 10d);
     public static InfluuntRange TEMPO_VERDE = new InfluuntRange(1, 255);
+    private static final RangeUtils instance = new RangeUtils();
 
     protected RangeUtils() {
     }

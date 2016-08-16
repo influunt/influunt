@@ -15,7 +15,7 @@ public class InfluuntUtils {
     }
 
     public boolean multiplo(Integer x, Integer y) {
-        if(x == null || y == null || x == 0 || y == 0){
+        if (x == null || y == null || x == 0 || y == 0) {
             return false;
         }
         if (x.compareTo(y) == 1) {

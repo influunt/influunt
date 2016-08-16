@@ -10,6 +10,7 @@ import play.inject.guice.GuiceApplicationBuilder;
 import play.test.WithApplication;
 import security.AllowAllAuthenticator;
 import security.Authenticator;
+import tyrex.services.UUID;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -291,13 +292,30 @@ public abstract class ControladorTest extends WithApplication {
         return controlador;
     }
 
-    protected Controlador getControladorTabelaDeEntreVerdes() {
+    protected Controlador getControladorAtrasoDeGrupo() {
         Controlador controlador = getControladorTransicoesProibidas();
         controlador.save();
 
         for (Anel anel : controlador.getAneis()) {
             for (GrupoSemaforico grupoSemaforico : anel.getGruposSemaforicos()) {
                 for (Transicao transicao : grupoSemaforico.getTransicoes()) {
+                    AtrasoDeGrupo atrasoDeGrupo = new AtrasoDeGrupo(2);
+                    atrasoDeGrupo.setIdJson(UUID.create());
+                    atrasoDeGrupo.setTransicao(transicao);
+                    transicao.setAtrasoDeGrupo(atrasoDeGrupo);
+                }
+            }
+        }
+        return controlador;
+    }
+
+    protected Controlador getControladorTabelaDeEntreVerdes() {
+        Controlador controlador = getControladorAtrasoDeGrupo();
+        controlador.save();
+
+        for (Anel anel : controlador.getAneis()) {
+            for (GrupoSemaforico grupoSemaforico : anel.getGruposSemaforicos()) {
+                for (Transicao transicao : grupoSemaforico.getTransicoesComGanhoDePassagem()) {
                     for (TabelaEntreVerdesTransicao tabelaEntreVerdesTransicao : transicao.getTabelaEntreVerdesTransicoes()) {
                         tabelaEntreVerdesTransicao.setTempoAtrasoGrupo(0);
                         tabelaEntreVerdesTransicao.setTempoVermelhoLimpeza(5);
