@@ -10,8 +10,9 @@
 angular.module('influuntApp')
   .controller('TabelaHorariosCtrl', ['$scope', '$state', '$timeout', 'Restangular', '$filter', 'toast',
                            'influuntAlert', 'influuntBlockui', 'geraDadosDiagramaIntervalo',
+                           'handleValidations',
     function ($scope, $state, $timeout, Restangular, $filter, toast,
-              influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo) {
+              influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo, handleValidations) {
 
       var adicionaTabelaHorario, adicionaEvento, selecionaAnel, atualizaPlanos, atualizaGruposSemaforicos, atualizaEventos, atualizaPosicaoEventos;
       /**
@@ -119,35 +120,34 @@ angular.module('influuntApp')
           $scope.selecionaAnelTabelaHorarios(0);
         });
       };
-      
+
       $scope.selecionaAnelTabelaHorarios = function(index) {
         selecionaAnel(index);
         $scope.currentTabelaHorario = _.find($scope.objeto.tabelasHorarios, {idJson: $scope.currentAnel.tabelaHorario.idJson});
         atualizaEventos();
       };
-      
+
       $scope.selecionaTipoEvento = function(index) {
         $scope.currentTipoEvento = index === 0 ? 'NORMAL' : 'ESPECIAL';
         atualizaEventos();
       };
-      
+
       $scope.selecionaEvento = function(evento){
         $scope.currentEvento = evento;
       };
-      
+
       $scope.getTimes = function(quantidade){
         return new Array(quantidade);
       };
 
-      $scope.verificaAtualizacaoDeEventos = function(evento){
-        //Adiciona novo evento caso todos os dados estejam preenchidos
-        if(evento.hora && evento.minuto){
-          evento.horario = evento.hora + ':' + evento.minuto;
-        }
-        if(evento.dataMoment){
+      $scope.verificaAtualizacaoDeEventos = function(evento) {
+        if(evento.dataMoment) {
           evento.data = evento.dataMoment.format("DD-MM-YYYY");
         }
-        if(evento.horario && evento.plano){
+
+        if(evento.hora && evento.minuto && evento.plano){
+          evento.horario = evento.hora + ':' + evento.minuto;
+
           if(($scope.currentTipoEvento === 'ESPECIAL' && evento.data && evento.nome) || ($scope.currentTipoEvento !== 'ESPECIAL' && evento.diaDaSemana) && !evento.posicao){
             //Salva Evento
             $scope.objeto.eventos = $scope.objeto.eventos || [];
@@ -156,6 +156,7 @@ angular.module('influuntApp')
             $scope.currentTabelaHorario.eventos.push({idJson: evento.idJson});
             adicionaEvento($scope.currentTabelaHorario);
           }
+
           atualizaEventos();
         }
       };
@@ -189,7 +190,7 @@ angular.module('influuntApp')
         };
         $scope.objeto.tabelasHorarios = $scope.objeto.tabelasHorarios || [];
         $scope.objeto.tabelasHorarios.push(tabelaHorario);
-        
+
         anel.tabelaHorario = anel.tabelaHorario || {};
         anel.tabelaHorario.idJson = tabelaHorario.idJson;
         return tabelaHorario;
@@ -198,7 +199,6 @@ angular.module('influuntApp')
       adicionaEvento = function(tabelaHorario, tipo){
         tipo = tipo || $scope.currentTipoEvento;
         $scope.currentEventos = $scope.currentEventos || [];
-        var posicao = $scope.currentEventos.length + 1;
         var eventoIndex = null;
         if($scope.novosEventos){
           eventoIndex = _.findIndex($scope.novosEventos, {tabelaHorario: {idJson: tabelaHorario.idJson}, tipo: tipo});
@@ -217,14 +217,14 @@ angular.module('influuntApp')
         }
         return evento;
       };
-        
+
       selecionaAnel = function(index) {
         $scope.currentAnelIndex = index;
         $scope.currentAnel = $scope.aneis[$scope.currentAnelIndex];
         atualizaGruposSemaforicos();
         atualizaPlanos();
       };
-      
+
       atualizaPlanos = function() {
         var ids = _.map($scope.currentAnel.planos, 'idJson');
         $scope.currentPlanos = _
@@ -258,7 +258,7 @@ angular.module('influuntApp')
             return ids.indexOf(e.idJson) >= 0;
           })
           .value();
-        
+
         $scope.currentEventos = _
           .chain($scope.currentEventosAnel)
           .filter(function(e){
@@ -278,7 +278,7 @@ angular.module('influuntApp')
       };
 
       $scope.submitForm = function() {
-        
+
         Restangular
         .all('tabela_horarios')
         .post($scope.objeto)
@@ -287,17 +287,49 @@ angular.module('influuntApp')
 
           $scope.errors = {};
           influuntBlockui.unblock();
+          $state.go('app.controladores');
         })
         .catch(function(res) {
           influuntBlockui.unblock();
           if (res.status === 422) {
-            // $scope.buildValidationMessages(res.data);
+            $scope.errors = handleValidations.buildValidationMessages(res.data);
           } else {
             console.error(res);
           }
         });
       };
 
+      $scope.anelTemErro = function(indice) {
+        return handleValidations.anelTemErro($scope.errors, indice);
+      };
+
+      $scope.tipoEventoTemErro = function(indice) {
+        var hasError = false;
+        if ($scope.errors) {
+          var errorsAnel = $scope.errors.aneis[$scope.currentAnelIndex];
+          if (_.keys(errorsAnel).length > 0) {
+            _.each(errorsAnel.tabelaHorario.eventos, function (eventoError, eventoIndex) {
+              var anel = $scope.aneis[$scope.currentAnelIndex];
+              var tabelaHorario = _.find($scope.objeto.tabelasHorarios, {idJson: anel.tabelaHorario.idJson});
+              var evento = _.find($scope.objeto.eventos, {idJson: tabelaHorario.eventos[eventoIndex].idJson});
+
+              hasError = hasError || ((evento.tipo === 'NORMAL' && indice === 0) || (evento.tipo === 'ESPECIAL' && indice === 1));
+            });
+          }
+        }
+
+        return hasError;
+      };
+
+      $scope.getErrosTabelaHorarios = function(listaErros) {
+        if (listaErros && listaErros.tabelaHorario) {
+          return _.chain(listaErros.tabelaHorario.aoMenosUmEvento).map().flatten().value();
+        } else {
+          return [];
+        }
+      };
+
+      //Métodos para colorir tabela
       $scope.getTableCell = function(v,i){
         return v[Math.floor(i / 4)][i % 4].state;
       };

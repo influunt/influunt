@@ -39,8 +39,27 @@ angular.module('influuntApp')
       return response;
     };
 
+    var buildValidationMessages = function(errors) {
+      var validationMessages = handle(errors);
+
+      if (validationMessages && _.isArray(validationMessages.aneis)) {
+        for (var i = 0; i < validationMessages.aneis.length; i++) {
+          validationMessages.aneis[i] = validationMessages.aneis[i] || {};
+        }
+      }
+
+      return validationMessages;
+    };
+
+    var anelTemErro = function(errors, indice) {
+      errors = _.get(errors, 'aneis[' + indice + ']');
+      return _.isObject(errors) && Object.keys(errors).length > 0;
+    };
+
     return {
-      handle: handle
+      handle: handle,
+      buildValidationMessages: buildValidationMessages,
+      anelTemErro: anelTemErro
     };
 
   });

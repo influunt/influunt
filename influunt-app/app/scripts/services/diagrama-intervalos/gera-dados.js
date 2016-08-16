@@ -28,8 +28,8 @@ angular.module('influuntApp')
         plano.quantidadeGruposSemaforicos = anel.gruposSemaforicos.length;
         plano.posicaoGruposSemaforicos = {};
 
-        gruposSemaforicos.forEach(function (grupo, index){
-          plano.posicaoGruposSemaforicos['G'+grupo.posicao] = index;
+        gruposSemaforicos.forEach(function (grupo, index) {
+          plano.posicaoGruposSemaforicos['G' + grupo.posicao] = index;
         });
 
         currentPlano.estagiosPlanos.forEach(function(ep){
