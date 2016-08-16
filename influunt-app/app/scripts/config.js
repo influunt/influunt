@@ -320,6 +320,15 @@ angular
           }
         })
 
+        .state('app.wizard_controladores.atraso_de_grupo', {
+          url: '/atraso-de-grupo/:id',
+          templateUrl: 'views/controladores/wizard/atraso-de-grupo.html',
+          controller: 'ControladoresAtrasoDeGrupoCtrl',
+          data: {
+            title: 'controladores.atrasoDeGrupo'
+          }
+        })
+
         .state('app.wizard_controladores.entre_verdes', {
           url: '/entre-verdes/:id',
           templateUrl: 'views/controladores/wizard/entre-verdes.html',

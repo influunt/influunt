@@ -34,11 +34,11 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
         Anel anelCom2Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
         Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
 
-        assertEquals("Total de transicoes Anel 2 Estagios - G1", 1, anelCom2Estagios.getGruposSemaforicos().get(0).getTransicoes().size());
-        assertEquals("Total de transicoes Anel 2 Estagios - G2", 1, anelCom2Estagios.getGruposSemaforicos().get(1).getTransicoes().size());
+        assertEquals("Total de transicoes Anel 2 Estagios - G1", 1, anelCom2Estagios.getGruposSemaforicos().get(0).getTransicoesComGanhoDePassagem().size());
+        assertEquals("Total de transicoes Anel 2 Estagios - G2", 1, anelCom2Estagios.getGruposSemaforicos().get(1).getTransicoesComGanhoDePassagem().size());
 
-        assertEquals("Total de transicoes Anel 4 Estagios - G1", 6, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoes().size());
-        assertEquals("Total de transicoes Anel 4 Estagios - G2", 6, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoes().size());
+        assertEquals("Total de transicoes Anel 4 Estagios - G1", 6, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComGanhoDePassagem().size());
+        assertEquals("Total de transicoes Anel 4 Estagios - G2", 6, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComGanhoDePassagem().size());
 
         List<Erro> erros = getErros(controlador);
 
