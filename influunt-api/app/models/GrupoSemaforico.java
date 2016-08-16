@@ -21,6 +21,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Entidade que representa o {@link GrupoSemaforico} no sistema
@@ -31,8 +32,11 @@ import java.util.*;
 @Table(name = "grupos_semaforicos")
 
 public class GrupoSemaforico extends Model implements Cloneable {
+
     private static final long serialVersionUID = 7439393568357903233L;
+
     public static Finder<UUID, GrupoSemaforico> find = new Finder<UUID, GrupoSemaforico>(GrupoSemaforico.class);
+
     @Id
     private UUID id;
 
@@ -75,6 +79,7 @@ public class GrupoSemaforico extends Model implements Cloneable {
 
     @Column
     private Integer posicao;
+
     /**
      * Campo que define o procedimento quando a fase vermelha está sempre apagada
      * {@code Boolean.TRUE} - colocar o cruzamento em Amarelo intermitente
@@ -235,6 +240,14 @@ public class GrupoSemaforico extends Model implements Cloneable {
         return transicoes;
     }
 
+    public List<Transicao> getTransicoesComGanhoDePassagem() {
+        return transicoes.stream().filter(Transicao::isGanhoDePassagem).collect(Collectors.toList());
+    }
+
+    public List<Transicao> getTransicoesComPerdaDePassagem() {
+        return transicoes.stream().filter(Transicao::isPerdaDePassagem).collect(Collectors.toList());
+    }
+
     public void setTransicoes(List<Transicao> transicoes) {
         this.transicoes = transicoes;
     }
@@ -330,10 +343,19 @@ public class GrupoSemaforico extends Model implements Cloneable {
     public void criarPossiveisTransicoes() {
         getTransicoes().forEach(transicao -> transicao.setDestroy(true));
 
-        getEstagiosGruposSemaforicos().forEach(estagioGrupoSemaforico -> this.getAnel().getEstagios().stream()
-                .filter(estagio -> !estagio.equals(estagioGrupoSemaforico.getEstagio()) && !estagioGrupoSemaforico.getEstagio().temTransicaoProibidaComEstagio(estagio))
-                .forEach(estagio -> this.addTransicoes(new Transicao(this, estagioGrupoSemaforico.getEstagio(), estagio))));
+        getEstagiosGruposSemaforicos().forEach(estagioGrupoSemaforico ->
+                this.getAnel().getEstagios().stream()
+                        .filter(estagio ->
+                                !estagio.equals(estagioGrupoSemaforico.getEstagio()) && !estagioGrupoSemaforico.getEstagio().temTransicaoProibidaParaEstagio(estagio))
+                        .forEach(estagio ->
+                                this.addTransicao(new Transicao(this, estagioGrupoSemaforico.getEstagio(), estagio, TipoTransicao.GANHO_DE_PASSAGEM))));
 
+        getEstagiosGruposSemaforicos().forEach(estagioGrupoSemaforico ->
+                this.getAnel().getEstagios().stream()
+                        .filter(estagio ->
+                                !estagio.equals(estagioGrupoSemaforico.getEstagio()) && !estagio.temTransicaoProibidaParaEstagio(estagioGrupoSemaforico.getEstagio()))
+                        .forEach(estagio ->
+                                this.addTransicao(new Transicao(this, estagio, estagioGrupoSemaforico.getEstagio(), TipoTransicao.PERDA_DE_PASSAGEM))));
 
         getTransicoes().forEach(transicao -> {
             if (transicao.isDestroy()) transicao.delete();
@@ -341,6 +363,31 @@ public class GrupoSemaforico extends Model implements Cloneable {
         getTransicoes().removeIf(Transicao::isDestroy);
 
         getTransicoes();
+    }
+
+    private void addTransicao(Transicao transicao) {
+        if (getTransicoes() == null) {
+            setTransicoes(new ArrayList<Transicao>());
+        }
+        Transicao transicaoAux = getTransicoes().stream()
+            .filter(t ->
+                t.getOrigem().equals(transicao.getOrigem()) &&
+                t.getDestino().equals(transicao.getDestino()) &&
+                    ((t.isGanhoDePassagem() && transicao.isGanhoDePassagem()) ||
+                    (t.isPerdaDePassagem() && transicao.isPerdaDePassagem())))
+            .findFirst().orElse(null);
+
+        if (transicaoAux != null) {
+            transicaoAux.setDestroy(false);
+        } else {
+            if (transicao.isGanhoDePassagem()) {
+                TabelaEntreVerdes tabelaEntreVerdes = this.findByTabelaEntreVerdesPadrao();
+                TabelaEntreVerdesTransicao tevTransicao = new TabelaEntreVerdesTransicao(tabelaEntreVerdes, transicao);
+                tabelaEntreVerdes.addTabelaEntreVerdesTransicao(tevTransicao);
+                transicao.addTabelaEntreVerdesTransicao(tevTransicao);
+            }
+            getTransicoes().add(transicao);
+        }
     }
 
     public List<VerdesConflitantes> getVerdesConflitantes() {
@@ -361,22 +408,6 @@ public class GrupoSemaforico extends Model implements Cloneable {
     @Override
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
-    }
-
-    private void addTransicoes(Transicao transicao) {
-        if (getTransicoes() == null) {
-            setTransicoes(new ArrayList<Transicao>());
-        }
-        Transicao transicaoAux = getTransicoes().stream().filter(t -> t.getOrigem().equals(transicao.getOrigem()) && t.getDestino().equals(transicao.getDestino())).findFirst().orElse(null);
-        if (transicaoAux != null) {
-            transicaoAux.setDestroy(false);
-        } else {
-            TabelaEntreVerdes tabelaEntreVerdes = this.findByTabelaEntreVerdesPadrao();
-            TabelaEntreVerdesTransicao tevTransicao = new TabelaEntreVerdesTransicao(tabelaEntreVerdes, transicao);
-            tabelaEntreVerdes.addTabelaEntreVerdesTransicao(tevTransicao);
-            transicao.addTabelaEntreVerdesTransicao(tevTransicao);
-            getTransicoes().add(transicao);
-        }
     }
 
     @Override

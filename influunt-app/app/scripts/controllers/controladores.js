@@ -176,7 +176,44 @@ angular.module('influuntApp')
           $scope.atualizaTabelaEntreVerdes();
           $scope.selecionaTabelaEntreVerdes($scope.currentTabelasEntreVerdes[0], 0);
         }
+
+        if (angular.isDefined($scope.isAtrasoDeGrupo) && $scope.isAtrasoDeGrupo) {
+          var allTransicoesGrupo = _.union($scope.currentGrupoSemaforico.transicoes, $scope.currentGrupoSemaforico.transicoesComPerdaDePassagem);
+          var allTransicoes = _.union($scope.objeto.transicoes, $scope.objeto.transicoesComPerdaDePassagem);
+          $scope.constroiTabelaOrigensEDestinos(allTransicoesGrupo, allTransicoes);
+          $scope.atualizaTransicoes();
+        }
       };
+
+      $scope.atualizaTransicoes = function() {
+        $scope.currentTransicoes = [];
+        _.forEach($scope.currentGrupoSemaforico.transicoes, function(t) {
+          var transicao = _.find($scope.objeto.transicoes, { idJson: t.idJson });
+          $scope.currentTransicoes.push(transicao);
+        });
+
+        $scope.currentTransicoesComPerdaDePassagem = [];
+        _.forEach($scope.currentGrupoSemaforico.transicoesComPerdaDePassagem, function(t) {
+          var transicao = _.find($scope.objeto.transicoesComPerdaDePassagem, { idJson: t.idJson });
+          $scope.currentTransicoesComPerdaDePassagem.push(transicao);
+        });
+      };
+
+      // $scope.atualizaAtrasosDeGrupo = function() {
+      //   $scope.currentGrupoSemaforico.transicoes.forEach(function(transicao) {
+      //     if (!transicao.atrasoDeGrupo) {
+      //       var mainTransicao = _.find($scope.objeto.transicoes, { idJson: transicao.idJson });
+      //       transicao.atrasoDeGrupo = mainTransicao.atrasoDeGrupo;
+      //     }
+      //   });
+
+      //   $scope.currentGrupoSemaforico.transicoesComPerdaDePassagem.forEach(function(transicao) {
+      //     if (!transicao.atrasoDeGrupo) {
+      //       var mainTransicao = _.find($scope.objeto.transicoesComPerdaDePassagem, { idJson: transicao.idJson });
+      //       transicao.atrasoDeGrupo = mainTransicao.atrasoDeGrupo = { idJson: UUID.generate() };
+      //     }
+      //   });
+      // }
 
       $scope.atualizaTabelaEntreVerdes = function() {
         var ids = _.map($scope.currentGrupoSemaforico.tabelasEntreVerdes, 'idJson');
@@ -220,6 +257,17 @@ angular.module('influuntApp')
         });
 
         $scope.atualizaTabelasEntreVerdesTransicoes();
+      };
+
+      $scope.constroiTabelaOrigensEDestinos = function(transicoesToSearchFor, transicoesToFindIn) {
+        $scope.currentTabelaOrigensEDestinos = {};
+        transicoesToSearchFor.forEach(function(t) {
+          var transicao = _.find(transicoesToFindIn, { idJson: t.idJson });
+          $scope.currentTabelaOrigensEDestinos[t.idJson] = {
+            origem: _.find($scope.objeto.estagios, { idJson: transicao.origem.idJson }),
+            destino: _.find($scope.objeto.estagios, { idJson: transicao.destino.idJson }),
+          };
+        });
       };
 
       $scope.atualizaTabelasEntreVerdesTransicoes = function() {

@@ -25,20 +25,25 @@ public class TransicaoProibida extends Model {
 
     @Column
     private String idJson;
+
     @NotNull(message = "não pode ficar em branco")
     @ManyToOne
     private Estagio origem;
+
     @NotNull(message = "não pode ficar em branco")
     @ManyToOne
     private Estagio destino;
+
     @NotNull(message = "não pode ficar em branco")
     @ManyToOne
     private Estagio alternativo;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)

@@ -53,41 +53,41 @@ angular.module('influuntApp')
 
         var grupoX = _.find($scope.currentGruposSemaforicos, {idJson: $scope.grupoIds[x]});
         var grupoY = _.find($scope.currentGruposSemaforicos, {idJson: $scope.grupoIds[y]});
+        // grupos são ordenados pela posição para garantir que ao marcar a
+        // posição (G1, G3), seja possível desmarcar clicando no (G3, G1).
+        var grupos = _.orderBy([grupoX, grupoY], ['posicao']);
         var verdeConflitante = {
           idJson: UUID.generate(),
           origem: {
-            idJson: grupoX.idJson
+            idJson: grupos[0].idJson
           },
           destino: {
-            idJson: grupoY.idJson
+            idJson: grupos[1].idJson
           }
         };
 
         if ($scope.verdesConflitantes[x][y]) {
-
           var obj   = _.find(
             $scope.objeto.verdesConflitantes,
             {origem: verdeConflitante.origem, destino: verdeConflitante.destino}
           );
           var index = _.findIndex($scope.objeto.verdesConflitantes, obj);
 
-          var indexX = _.findIndex(grupoX.verdesConflitantesOrigem, {idJson: obj.idJson});
-          var indexY = _.findIndex(grupoY.verdesConflitantesDestino, {idJson: obj.idJson});
-          grupoX.verdesConflitantesOrigem.splice(indexX, 1);
-          grupoY.verdesConflitantesDestino.splice(indexY, 1);
+          var indexX = _.findIndex(grupos[0].verdesConflitantesOrigem, {idJson: obj.idJson});
+          var indexY = _.findIndex(grupos[1].verdesConflitantesDestino, {idJson: obj.idJson});
+          grupos[0].verdesConflitantesOrigem.splice(indexX, 1);
+          grupos[1].verdesConflitantesDestino.splice(indexY, 1);
 
           $scope.objeto.verdesConflitantes.splice(index, 1);
-
         } else {
-          grupoX.verdesConflitantesOrigem = grupoX.verdesConflitantesOrigem || [];
-          grupoX.verdesConflitantesOrigem.push({idJson: verdeConflitante.idJson});
+          grupos[0].verdesConflitantesOrigem = grupos[0].verdesConflitantesOrigem || [];
+          grupos[0].verdesConflitantesOrigem.push({idJson: verdeConflitante.idJson});
 
-          grupoY.verdesConflitantesDestino = grupoY.verdesConflitantesDestino || [];
-          grupoY.verdesConflitantesDestino.push({idJson: verdeConflitante.idJson});
+          grupos[1].verdesConflitantesDestino = grupos[1].verdesConflitantesDestino || [];
+          grupos[1].verdesConflitantesDestino.push({idJson: verdeConflitante.idJson});
 
           $scope.objeto.verdesConflitantes = $scope.objeto.verdesConflitantes || [];
           $scope.objeto.verdesConflitantes.push(verdeConflitante);
-
         }
 
         // Deve marcar/desmarcar os coordenadas (x, y) e (y, x) simultaneamente.
