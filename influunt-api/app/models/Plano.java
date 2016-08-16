@@ -225,9 +225,9 @@ public class Plano extends Model implements Cloneable {
     }
 
     @AssertTrue(groups = PlanosCheck.class,
-            message = "Todos os estágios devem possuir as suas configurações.")
+            message = "Deve possuir pelo menos 2 estágios configurados.")
     public boolean isQuantidadeEstagioIgualQuantidadeAnel() {
-        return !(this.getEstagiosPlanos().isEmpty() || this.getAnel().getEstagios().size() != this.getEstagiosPlanos().size());
+        return !(this.getEstagiosPlanos().isEmpty() || this.getEstagiosPlanos().size() < 2);
     }
 
     @AssertTrue(groups = PlanosCheck.class,

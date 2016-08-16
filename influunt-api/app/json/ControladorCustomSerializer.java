@@ -8,6 +8,9 @@ import models.*;
 import play.libs.Json;
 import utils.RangeUtils;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -544,11 +547,21 @@ public class ControladorCustomSerializer {
         if (evento.getIdJson() != null) {
             eventoJson.put("idJson", evento.getIdJson().toString());
         }
-        if (evento.getNumero() != null) {
-            eventoJson.put("numero", evento.getNumero().toString());
+        if (evento.getPosicao() != null) {
+            eventoJson.put("posicao", evento.getPosicao().toString());
+        }
+        if (evento.getTipo() != null) {
+            eventoJson.put("tipo", evento.getTipo().toString());
         }
         if (evento.getDiaDaSemana() != null) {
             eventoJson.put("diaDaSemana", evento.getDiaDaSemana().toString());
+        }
+        if (evento.getNome() != null) {
+            eventoJson.put("nome", evento.getNome().toString());
+        }
+        if (evento.getData() != null) {
+            DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+            eventoJson.put("data", formatter.format(evento.getData()));
         }
         if (evento.getHorario() != null) {
             eventoJson.put("horario", evento.getHorario().toString());

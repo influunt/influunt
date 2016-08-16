@@ -15,11 +15,13 @@ angular.module('influuntApp')
           grupos: '=',
           estagios: '=',
           onChangeCheckbox: '&',
-          tempoCiclo: '='
+          tempoCiclo: '=',
+          comCheckBoxGrupo: '='
         },
         link: function postLink(scope) {
           var container = document.getElementById('visualization');
           var timeline = new window.vis.Timeline(container);
+          scope.comCheckBoxGrupo = angular.isDefined(scope.comCheckBoxGrupo) ? scope.comCheckBoxGrupo : true;
 
           var initCheckboxValues = function() {
             scope.grupos.forEach(function(grupo) {
@@ -47,11 +49,18 @@ angular.module('influuntApp')
             groups.push({id: 'title', content: '&nbsp;'});
             grupos.forEach(function(grupo, index) {
               var groupId = 'G' + grupo.posicao;
-              groups.push({
-                content: '<input type="checkbox" class="group-checkbox" data-posicao="' + grupo.posicao + '" name="' + groupId + '"><strong>' + groupId + '</strong>',
-                id: groupId,
-                value: groupId
-              });
+              if(scope.comCheckBoxGrupo){
+                groups.push({
+                  content: '<input type="checkbox" class="group-checkbox" data-posicao="' + grupo.posicao + '" name="' + groupId + '"><strong>' + groupId + '</strong>',
+                  id: groupId,
+                  value: groupId
+                });
+              }else{
+                groups.push({
+                  id: groupId,
+                  value: groupId
+                });
+              }
 
               var initialState = 0;
               if (grupo.intervalos[0].status === 0) {
@@ -128,8 +137,10 @@ angular.module('influuntApp')
             timeline.setGroups(groups);
             timeline.setItems(items);
 
-            initCheckboxValues();
-            bindCheckboxEvents();
+            if(scope.comCheckBoxGrupo){
+              initCheckboxValues();
+              bindCheckboxEvents();
+            }
             timeline.redraw();
           };
 

@@ -1,0 +1,37 @@
+<td class="horario10px horarioColor{{evento.posicao}}" data-ng-class="{'horaStripes': evento.tipo === 'ESPECIAL'}"></td>
+<td data-ng-if="evento.tipo !== 'ESPECIAL'">
+  <select name="eventoDiaDaSemana" data-ng-model="evento.diaDaSemana" class="form-control" data-ng-change="verificaAtualizacao()">
+    <option data-ng-repeat="dia in dias" value="{{dia.value}}">{{dia.label}}</option>
+  </select>
+</td>
+<td data-ng-if="evento.tipo === 'ESPECIAL'">
+  <input class="form-control" data-ng-model="evento.nome" data-ng-blur="verificaAtualizacao()"></input>
+</td>
+<td data-ng-if="evento.tipo === 'ESPECIAL'">
+  <input type="datetime" class="form-control" date-time data-ng-model="evento.dataMoment" view="month" auto-close="true" min-view="date" format="DD-MM-YYYY" data-ng-blur="verificaAtualizacao()">
+</td>
+<td>
+  <select name="eventoHora" data-ng-model="evento.hora" class="form-control" data-ng-change="verificaAtualizacao()">
+    <option data-ng-repeat="hora in horarios track by $index" value="{{$index}}">{{$index}}</option>
+  </select>
+</td>
+<td>
+  <select name="eventoMinuto" data-ng-model="evento.minuto" class="form-control" data-ng-change="verificaAtualizacao()">
+    <option data-ng-repeat="minuto in [0,15,30,45]" value="{{minuto}}">{{minuto}}</option>
+  </select>
+</td>
+<td>
+  <select name="eventoPlano" data-ng-model="evento.plano.idJson" class="form-control" data-ng-change="verificaAtualizacao()">
+    <option data-ng-repeat="plano in planos" value="{{plano.idJson}}">Plano {{plano.posicao}}</option>
+  </select>
+</td>
+<td>
+  <div class="ibox-tools">
+    <a class="close-link" data-ng-click="abrirPlano()" data-ng-show="!!evento.plano" data-toggle="tooltip" data-placement="top" title="Visualizar o diagrama de intervalos do plano selecionado">
+      <i class="fa fa-eye fa-2x"></i>
+    </a>
+    <a class="close-link" data-ng-click="removeEvento()" data-ng-if="podeRemover">
+      <i class="fa fa-trash fa-2x text-danger"></i>
+    </a>
+  </div>
+</td>

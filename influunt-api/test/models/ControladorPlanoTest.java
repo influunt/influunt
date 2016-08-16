@@ -57,12 +57,12 @@ public class ControladorPlanoTest extends ControladorTest {
                 new Erro("Controlador", "não pode ficar em branco.", "aneis[0].planos[0].modoOperacao"),
                 new Erro("Controlador", "não pode ficar em branco.", "aneis[0].planos[0].posicao"),
                 new Erro("Controlador", "não pode ficar em branco.", "aneis[0].planos[0].posicaoTabelaEntreVerde"),
-                new Erro("Controlador", "Todos os estágios devem possuir as suas configurações.", "aneis[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
+                new Erro("Controlador", "Deve possuir pelo menos 2 estágios configurados.", "aneis[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
                 new Erro("Controlador", "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel"),
                 new Erro("Controlador", "não pode ficar em branco.", "aneis[1].planos[0].modoOperacao"),
                 new Erro("Controlador", "não pode ficar em branco.", "aneis[1].planos[0].posicao"),
                 new Erro("Controlador", "não pode ficar em branco.", "aneis[1].planos[0].posicaoTabelaEntreVerde"),
-                new Erro("Controlador", "Todos os estágios devem possuir as suas configurações.", "aneis[1].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
+                new Erro("Controlador", "Deve possuir pelo menos 2 estágios configurados.", "aneis[1].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
                 new Erro("Controlador", "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[1].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel")
         ));
 
@@ -74,12 +74,12 @@ public class ControladorPlanoTest extends ControladorTest {
                 new Erro("Controlador", "Configure um detector veicular para o modo atuado.", "aneis[1].planos[0].modoOperacaoValido"),
                 new Erro("Controlador", "não pode ficar em branco.", "aneis[0].planos[0].posicao"),
                 new Erro("Controlador", "não pode ficar em branco.", "aneis[0].planos[0].posicaoTabelaEntreVerde"),
-                new Erro("Controlador", "Todos os estágios devem possuir as suas configurações.", "aneis[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
+                new Erro("Controlador", "Deve possuir pelo menos 2 estágios configurados.", "aneis[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
                 new Erro("Controlador", "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel"),
                 new Erro("Controlador", "não pode ficar em branco.", "aneis[0].planos[0].modoOperacao"),
                 new Erro("Controlador", "não pode ficar em branco.", "aneis[1].planos[0].posicao"),
                 new Erro("Controlador", "não pode ficar em branco.", "aneis[1].planos[0].posicaoTabelaEntreVerde"),
-                new Erro("Controlador", "Todos os estágios devem possuir as suas configurações.", "aneis[1].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
+                new Erro("Controlador", "Deve possuir pelo menos 2 estágios configurados.", "aneis[1].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
                 new Erro("Controlador", "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[1].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel")
         ));
 
@@ -90,12 +90,12 @@ public class ControladorPlanoTest extends ControladorTest {
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro("Controlador", "não pode ficar em branco.", "aneis[0].planos[0].posicao"),
                 new Erro("Controlador", "não pode ficar em branco.", "aneis[0].planos[0].posicaoTabelaEntreVerde"),
-                new Erro("Controlador", "Todos os estágios devem possuir as suas configurações.", "aneis[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
+                new Erro("Controlador", "Deve possuir pelo menos 2 estágios configurados.", "aneis[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
                 new Erro("Controlador", "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel"),
                 new Erro("Controlador", "não pode ficar em branco.", "aneis[0].planos[0].modoOperacao"),
                 new Erro("Controlador", "não pode ficar em branco.", "aneis[1].planos[0].posicao"),
                 new Erro("Controlador", "não pode ficar em branco.", "aneis[1].planos[0].posicaoTabelaEntreVerde"),
-                new Erro("Controlador", "Todos os estágios devem possuir as suas configurações.", "aneis[1].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
+                new Erro("Controlador", "Deve possuir pelo menos 2 estágios configurados.", "aneis[1].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
                 new Erro("Controlador", "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[1].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel")
         ));
 
@@ -107,12 +107,12 @@ public class ControladorPlanoTest extends ControladorTest {
                 new Erro("Controlador", "deve estar entre 30 e 255", "aneis[1].planos[0].tempoCiclo"),
                 new Erro("Controlador", "não pode ficar em branco.", "aneis[0].planos[0].posicao"),
                 new Erro("Controlador", "não pode ficar em branco.", "aneis[0].planos[0].posicaoTabelaEntreVerde"),
-                new Erro("Controlador", "Todos os estágios devem possuir as suas configurações.", "aneis[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
+                new Erro("Controlador", "Deve possuir pelo menos 2 estágios configurados.", "aneis[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
                 new Erro("Controlador", "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel"),
                 new Erro("Controlador", "não pode ficar em branco.", "aneis[0].planos[0].modoOperacao"),
                 new Erro("Controlador", "não pode ficar em branco.", "aneis[1].planos[0].posicao"),
                 new Erro("Controlador", "não pode ficar em branco.", "aneis[1].planos[0].posicaoTabelaEntreVerde"),
-                new Erro("Controlador", "Todos os estágios devem possuir as suas configurações.", "aneis[1].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
+                new Erro("Controlador", "Deve possuir pelo menos 2 estágios configurados.", "aneis[1].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
                 new Erro("Controlador", "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[1].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel")
         ));
 
@@ -125,12 +125,12 @@ public class ControladorPlanoTest extends ControladorTest {
                 new Erro("Controlador", "deve estar entre 0 e o tempo de ciclo", "aneis[1].planos[0].defasagem"),
                 new Erro("Controlador", "não pode ficar em branco.", "aneis[0].planos[0].posicao"),
                 new Erro("Controlador", "não pode ficar em branco.", "aneis[0].planos[0].posicaoTabelaEntreVerde"),
-                new Erro("Controlador", "Todos os estágios devem possuir as suas configurações.", "aneis[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
+                new Erro("Controlador", "Deve possuir pelo menos 2 estágios configurados.", "aneis[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
                 new Erro("Controlador", "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel"),
                 new Erro("Controlador", "não pode ficar em branco.", "aneis[0].planos[0].modoOperacao"),
                 new Erro("Controlador", "não pode ficar em branco.", "aneis[1].planos[0].posicao"),
                 new Erro("Controlador", "não pode ficar em branco.", "aneis[1].planos[0].posicaoTabelaEntreVerde"),
-                new Erro("Controlador", "Todos os estágios devem possuir as suas configurações.", "aneis[1].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
+                new Erro("Controlador", "Deve possuir pelo menos 2 estágios configurados.", "aneis[1].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
                 new Erro("Controlador", "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[1].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel")
         ));
 
@@ -166,9 +166,9 @@ public class ControladorPlanoTest extends ControladorTest {
         assertEquals(5, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro("Controlador", "deve estar entre 30 e 255", "aneis[1].planos[0].tempoCiclo"),
-                new Erro("Controlador", "Todos os estágios devem possuir as suas configurações.", "aneis[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
+                new Erro("Controlador", "Deve possuir pelo menos 2 estágios configurados.", "aneis[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
                 new Erro("Controlador", "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel"),
-                new Erro("Controlador", "Todos os estágios devem possuir as suas configurações.", "aneis[1].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
+                new Erro("Controlador", "Deve possuir pelo menos 2 estágios configurados.", "aneis[1].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
                 new Erro("Controlador", "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[1].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel")
         ));
 
@@ -179,8 +179,8 @@ public class ControladorPlanoTest extends ControladorTest {
         assertEquals(3, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro("Controlador", "deve estar entre 30 e 255", "aneis[1].planos[0].tempoCiclo"),
-                new Erro("Controlador", "Todos os estágios devem possuir as suas configurações.", "aneis[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
-                new Erro("Controlador", "Todos os estágios devem possuir as suas configurações.", "aneis[1].planos[0].quantidadeEstagioIgualQuantidadeAnel")
+                new Erro("Controlador", "Deve possuir pelo menos 2 estágios configurados.", "aneis[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
+                new Erro("Controlador", "Deve possuir pelo menos 2 estágios configurados.", "aneis[1].planos[0].quantidadeEstagioIgualQuantidadeAnel")
         ));
 
 

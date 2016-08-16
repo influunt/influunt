@@ -29,6 +29,7 @@ var World = function () {
   var defaultTimeout = 20 * 1000;
   var screenshotPath = 'screenshots';
   var baseUrl = 'http://localhost/#';
+  var self = this;
 
   this.webdriver = webdriver;
   this.driver = driver;
@@ -75,7 +76,7 @@ var World = function () {
   };
 
   this.waitForOverlayDisappear = function() {
-    return this.waitForInverse('div.blockUI');
+    return self.waitForInverse('div.blockUI');
   };
 
   this.waitForByXpath = function(xpath, timeout) {
