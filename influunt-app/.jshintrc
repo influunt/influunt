@@ -17,6 +17,7 @@
     "_": true,
     "influunt": true,
     "Dropzone": true,
+    "moment": true,
 
     // leaflet lib
     "L": true,

@@ -281,14 +281,7 @@ angular.module('influuntApp')
       };
 
       $scope.buildValidationMessages = function(errors) {
-        $scope.errors = handleValidations.handle(errors);
-
-        if ($scope.errors && _.isArray($scope.errors.aneis)) {
-          for (var i = 0; i < $scope.errors.aneis.length; i++) {
-            $scope.errors.aneis[i] = $scope.errors.aneis[i] || {};
-          }
-        }
-
+        $scope.errors = handleValidations.buildValidationMessages(errors);
         $scope.getErrosVerdes();
       };
 
@@ -318,8 +311,7 @@ angular.module('influuntApp')
        * @return     {<type>}  { description_of_the_return_value }
        */
       $scope.anelTemErro = function(indice) {
-        var errors = _.get($scope.errors, 'aneis[' + indice + ']');
-        return _.isObject(errors) && Object.keys(errors).length > 0;
+        return handleValidations.anelTemErro($scope.errors, indice);
       };
 
       /**

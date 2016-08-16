@@ -21,9 +21,13 @@
   </select>
 </td>
 <td>
-  <select name="eventoPlano" data-ng-model="evento.plano.idJson" class="form-control" data-ng-change="verificaAtualizacao()">
+  <select name="eventoPlano" data-ng-model="evento.plano.idJson" class="form-control" data-ng-change="verificaAtualizacao()"
+      inf-tooltip
+      messages="erros">
     <option data-ng-repeat="plano in planos" value="{{plano.idJson}}">Plano {{plano.posicao}}</option>
   </select>
+  <span class="badge badge-danger badge-estagio-alternativo pull-right" data-ng-if="erros" inf-tooltip messages="erros"> <i class="fa fa-exclamation"></i>
+  </span>
 </td>
 <td>
   <div class="ibox-tools">

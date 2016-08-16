@@ -59,6 +59,7 @@ var influunt;
       QuadroTabelaHorario.prototype.getTrocas = function (programas) {
         var hash = {};
         var dias = this.dias;
+        var _this = this;
         programas.forEach(function(programa){
           var hora = parseInt(programa.hora);
           var minuto = parseInt(programa.minuto / 15);
@@ -67,13 +68,13 @@ var influunt;
             hash[dia] = hash[dia] || {}
             hash[dia][hora] = hash[dia][hora] || {}
             if(hash[dia][hora][minuto]){
-              if(comparePrograma(programa,hash[dia][hora][minuto]) < 0){
+              if(_this.comparePrograma(programa,hash[dia][hora][minuto]) < 0){
                 hash[dia][hora][minuto] = programa
               }
             }else{
               hash[dia][hora][minuto] = programa
             }
-          
+
           })
         });
         return hash;
@@ -89,7 +90,7 @@ var influunt;
               var hora = Math.floor(i / intervaloHora);
               var minuto = i % intervaloHora;
               var slot = agenda[dia][hora][minuto];
-        
+
               if(slot.state == 'unset'){
                 if(trocas[dia] && trocas[dia][hora] && trocas[dia][hora][minuto]){
                   slot.state = trocas[dia][hora][minuto].class;
@@ -110,13 +111,13 @@ var influunt;
         var diasDaSemana = this.diasDaSemana;
         var intervaloDia = this.intervaloDia;
         var intervaloHora = this.intervaloHora;
-      
+
         if(agenda['dom'][0][0].state === 'unset'){
           return;
         }
-      
+
         var currentIndex = undefined;
-      
+
         diasDaSemana.forEach(function(dia){
           for(var i = 0; i < intervaloDia; i++){
             var hora = Math.floor(i / intervaloHora);
@@ -139,7 +140,7 @@ var influunt;
                 var last = intervalo[currentIndex][intervalo[currentIndex].length - 1];
                 last[1][0]= dia;
                 last[1][1]= hora;
-                last[1][2]= minuto; 
+                last[1][2]= minuto;
               }
             }
           }
@@ -147,13 +148,14 @@ var influunt;
         return intervalo;
       };
       QuadroTabelaHorario.prototype.comparePrograma = function (a, b) {
-        var pa = JSON.parse(a.dia).prioridade;
-        var pb = JSON.parse(b.dia).prioridade;
+        var dias = this.dias;
+        var pa = _.find(dias, {value: a.dia}).prioridade;
+        var pb = _.find(dias, {value: b.dia}).prioridade;
         var ha = parseInt(a.hora);
         var hb = parseInt(b.hora);
         var ma = parseInt(a.minuto);
         var mb = parseInt(b.minuto);
-  
+
         if (pa < pb ) {
           return -1;
         }else if(pa > pb){

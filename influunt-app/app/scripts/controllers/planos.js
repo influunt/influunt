@@ -11,9 +11,11 @@ angular.module('influuntApp')
   .controller('PlanosCtrl', ['$scope', '$state', '$timeout', 'Restangular', '$filter',
                              'validaTransicao', 'utilEstagios', 'toast', 'modoOperacaoService',
                              'influuntAlert', 'influuntBlockui', 'geraDadosDiagramaIntervalo',
+                             'handleValidations',
     function ($scope, $state, $timeout, Restangular, $filter,
               validaTransicao, utilEstagios, toast, modoOperacaoService,
-              influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo) {
+              influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo,
+              handleValidations) {
 
       var adicionaPlano, selecionaAnel, atualizaTabelaEntreVerdes, atualizaEstagios, atualizaGruposSemaforicos, atualizaPlanos,
           atualizaEstagiosPlanos, adicionaEstagioASequencia, atualizaPosicaoPlanos, atualizaPosicaoEstagiosPlanos,
@@ -223,6 +225,10 @@ angular.module('influuntApp')
         });
       };
 
+      $scope.getErrosPlanos = function(listaErros) {
+        return _.chain(listaErros).map().flatten().map().flatten().value();
+      };
+
       /**
        * Adiciona um novo plano ao controlador.
        *
@@ -238,7 +244,8 @@ angular.module('influuntApp')
           modoOperacao: 'TEMPO_FIXO_ISOLADO',
           posicaoTabelaEntreVerde: 1,
           gruposSemaforicosPlanos: [],
-          estagiosPlanos: []
+          estagiosPlanos: [],
+          tempoCiclo: $scope.objeto.cicloMin
         };
 
         $scope.objeto.gruposSemaforicosPlanos = $scope.objeto.gruposSemaforicosPlanos || [];
@@ -501,15 +508,27 @@ angular.module('influuntApp')
 
           $scope.errors = {};
           influuntBlockui.unblock();
+          $state.go('app.controladores');
         })
         .catch(function(res) {
           influuntBlockui.unblock();
           if (res.status === 422) {
-            // $scope.buildValidationMessages(res.data);
+            $scope.errors = handleValidations.buildValidationMessages(res.data);
           } else {
             console.error(res);
           }
         });
+      };
+
+      /**
+       * Deve informar que determinado anel possui erros caso haja uma lista de
+       * erros para determinado anel.
+       *
+       * @param      {<type>}  indice  The indice
+       * @return     {<type>}  { description_of_the_return_value }
+       */
+      $scope.anelTemErro = function(indice) {
+        return handleValidations.anelTemErro($scope.errors, indice);
       };
 
       //Funções para Diagrama de Planos
