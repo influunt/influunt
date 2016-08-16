@@ -3,7 +3,6 @@ package controllers;
 import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
 import be.objectify.deadbolt.java.actions.Dynamic;
 import checks.*;
-import com.avaje.ebean.Expr;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import helpers.ControladorUtil;
@@ -21,14 +20,13 @@ import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
-import static models.VersaoControlador.*;
+import static models.VersaoControlador.usuarioPodeEditarControlador;
 
 @DeferredDeadbolt
 @Security.Authenticated(Secured.class)
@@ -113,34 +111,33 @@ public class ControladoresController extends Controller {
         }
 
         Controlador controlador = Controlador.find.byId(UUID.fromString(id));
-
-
-        if (controlador.getStatusControlador() != StatusControlador.ATIVO
-                && controlador.getStatusControlador() != StatusControlador.EM_CONFIGURACAO
-                && controlador.getStatusControlador() != StatusControlador.EM_EDICAO) {
-
-            return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Arrays.asList(new Erro("clonar", "não é possível editar controlador", "")))));
-        }
-
-        if (controlador.getStatusControlador().equals(StatusControlador.EM_EDICAO) && !usuarioPodeEditarControlador(controlador, getUsuario())) {
-            return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Arrays.asList(new Erro("editar", "usuário diferente do que está editando controlador!", "")))));
-        }
-
-        if (controlador.getStatusControlador() == StatusControlador.ATIVO) {
-            Controlador controladorEdicao = new ControladorUtil().provider(provider).deepClone(controlador);
-            VersaoControlador novaVersao = new VersaoControlador(controlador, controladorEdicao, getUsuario());
-            novaVersao.setDescricao("Controlador clonado pelo usuário: " + getUsuario().getNome());
-            novaVersao.save();
-
-            controlador.setStatusControlador(StatusControlador.CLONADO);
-            controlador.save();
-
-            return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controladorEdicao)));
-        }
-
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
+
+            if (controlador.getStatusControlador() != StatusControlador.ATIVO
+                    && controlador.getStatusControlador() != StatusControlador.EM_CONFIGURACAO
+                    && controlador.getStatusControlador() != StatusControlador.EM_EDICAO) {
+
+                return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Arrays.asList(new Erro("clonar", "não é possível editar controlador", "")))));
+            }
+
+            if (controlador.getStatusControlador().equals(StatusControlador.EM_EDICAO) && !usuarioPodeEditarControlador(controlador, getUsuario())) {
+                return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Arrays.asList(new Erro("editar", "usuário diferente do que está editando controlador!", "")))));
+            }
+
+            if (controlador.getStatusControlador() == StatusControlador.ATIVO) {
+                Controlador controladorEdicao = new ControladorUtil().provider(provider).deepClone(controlador);
+                VersaoControlador novaVersao = new VersaoControlador(controlador, controladorEdicao, getUsuario());
+                novaVersao.setDescricao("Controlador clonado pelo usuário: " + getUsuario().getNome());
+                novaVersao.save();
+
+                controlador.setStatusControlador(StatusControlador.CLONADO);
+                controlador.save();
+
+                return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controladorEdicao)));
+            }
+
             return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador)));
         }
     }

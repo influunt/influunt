@@ -321,7 +321,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
         getDestinoDeTransicoesProibidas().add(transicaoProibida);
     }
 
-    public void addTransicaoProibidaAlterantivo(TransicaoProibida transicaoProibida) {
+    public void addTransicaoProibidaAlternativa(TransicaoProibida transicaoProibida) {
         if(getAlternativaDeTransicoesProibidas() == null) {
             setAlternativaDeTransicoesProibidas(new ArrayList<TransicaoProibida>());
         }

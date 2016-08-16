@@ -14,8 +14,9 @@ public enum StatusControlador {
     //Quando o primeiro plano é transmitido a um controlador
     ATIVO,
 
-    // Quando o controladro for clonado e está sendo editado
+    // Quando o controlador for clonado e está sendo editado
     EM_EDICAO,
+
     // TODO - Refactor VersaoControlador
     CLONADO;
 

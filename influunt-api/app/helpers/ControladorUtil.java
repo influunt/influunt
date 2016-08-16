@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -153,7 +152,7 @@ public class ControladorUtil {
                     estagioDestinoClone.addTransicaoProibidaDestino(transicaoProibidaAux);
                     Estagio estagioAlternativoClone = estagiosClone.get(transicaoProibida.getAlternativo().getIdJson());
                     transicaoProibidaAux.setAlternativo(estagioAlternativoClone);
-                    estagioAlternativoClone.addTransicaoProibidaAlterantivo(transicaoProibidaAux);
+                    estagioAlternativoClone.addTransicaoProibidaAlternativa(transicaoProibidaAux);
                 });
             });
 
@@ -362,7 +361,7 @@ public class ControladorUtil {
 
             return (T) clone;
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.error(e.getMessage(), e);
             return null;
         }
     }
