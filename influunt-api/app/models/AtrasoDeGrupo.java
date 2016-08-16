@@ -24,9 +24,9 @@ import java.util.UUID;
 @Table(name = "atrasos_de_grupos")
 public class AtrasoDeGrupo extends Model implements Cloneable, Serializable {
 
-    private static final long serialVersionUID = -7392788716344603379L;
-
     public static Finder<UUID, AtrasoDeGrupo> find = new Finder<UUID, AtrasoDeGrupo>(AtrasoDeGrupo.class);
+
+    private static final long serialVersionUID = -7392788716344603379L;
 
     @Id
     private UUID id;

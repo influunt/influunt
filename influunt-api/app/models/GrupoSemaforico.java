@@ -370,12 +370,12 @@ public class GrupoSemaforico extends Model implements Cloneable {
             setTransicoes(new ArrayList<Transicao>());
         }
         Transicao transicaoAux = getTransicoes().stream()
-            .filter(t ->
-                t.getOrigem().equals(transicao.getOrigem()) &&
-                t.getDestino().equals(transicao.getDestino()) &&
-                    ((t.isGanhoDePassagem() && transicao.isGanhoDePassagem()) ||
-                    (t.isPerdaDePassagem() && transicao.isPerdaDePassagem())))
-            .findFirst().orElse(null);
+                .filter(t ->
+                        t.getOrigem().equals(transicao.getOrigem()) &&
+                                t.getDestino().equals(transicao.getDestino()) &&
+                                ((t.isGanhoDePassagem() && transicao.isGanhoDePassagem()) ||
+                                        (t.isPerdaDePassagem() && transicao.isPerdaDePassagem())))
+                .findFirst().orElse(null);
 
         if (transicaoAux != null) {
             transicaoAux.setDestroy(false);

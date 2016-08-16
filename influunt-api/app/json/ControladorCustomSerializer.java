@@ -990,8 +990,6 @@ public class ControladorCustomSerializer {
     }
 
 
-
-
     private JsonNode putAnel(Anel anel) {
         ObjectNode anelJson = Json.newObject();
         if (anel.getId() != null) {
@@ -1289,7 +1287,7 @@ public class ControladorCustomSerializer {
 
     private void refLimites(String name, List<LimiteArea> limites, ObjectNode parentJson) {
         ArrayNode limitesJson = Json.newArray();
-        for (LimiteArea limite: limites) {
+        for (LimiteArea limite : limites) {
             if (limite != null && limite.getIdJson() != null) {
                 limitesMap.put(limite.getIdJson(), limite);
                 ObjectNode limiteJson = Json.newObject();
