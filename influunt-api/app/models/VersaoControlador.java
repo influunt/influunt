@@ -29,7 +29,7 @@ public class VersaoControlador extends Model implements Serializable {
     public static Finder<UUID, VersaoControlador> find = new Finder<UUID, VersaoControlador>(VersaoControlador.class);
 
     @Id
-    private Long id;
+    private UUID id;
 
     @JsonIgnore
     @ManyToOne
