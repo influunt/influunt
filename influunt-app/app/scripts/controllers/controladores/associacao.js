@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresAssociacaoCtrl', ['$scope', '$state', '$controller', 'assertControlador',
-    function ($scope, $state, $controller, assertControlador) {
+  .controller('ControladoresAssociacaoCtrl', ['$scope', '$state', '$controller', 'assertControlador', 'utilEstagios',
+    function ($scope, $state, $controller, assertControlador, utilEstagios) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
       var atualizaPosicaoEstagios;

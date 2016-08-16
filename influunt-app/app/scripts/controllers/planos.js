@@ -17,7 +17,7 @@ angular.module('influuntApp')
 
       var adicionaPlano, selecionaAnel, atualizaTabelaEntreVerdes, atualizaEstagios, atualizaGruposSemaforicos, atualizaPlanos,
           atualizaEstagiosPlanos, adicionaEstagioASequencia, atualizaPosicaoPlanos, atualizaPosicaoEstagiosPlanos,
-          carregaDadosPlano, getOpcoesEstagiosDisponiveis, montaTabelaValoresMinimos, parseAllToInt, setDiagramaEstatico, 
+          carregaDadosPlano, getOpcoesEstagiosDisponiveis, montaTabelaValoresMinimos, parseAllToInt, setDiagramaEstatico,
           atualizaDiagramaIntervalos, getPlanoParaDiagrama, atualizaTransicoesProibidas;
       var diagramaDebouncer = null;
 
@@ -116,6 +116,29 @@ angular.module('influuntApp')
         } else {
           grupo.intervalos.shift();
         }
+      };
+
+      $scope.leftEstagio = function(posicaoAtual) {
+        var estagioAtual = $scope.currentEstagiosPlanos[posicaoAtual];
+        var estagioAnterior = utilEstagios.getEstagioAnterior($scope.currentEstagiosPlanos, posicaoAtual);
+        var indexAnterior = _.findIndex($scope.currentEstagiosPlanos, estagioAnterior);
+
+        $scope.currentEstagiosPlanos.splice(indexAnterior, 1);
+        var indexAtual = _.findIndex($scope.currentEstagiosPlanos, estagioAtual);
+        $scope.currentEstagiosPlanos.splice(indexAtual+1, 0, estagioAnterior);
+
+        atualizaPosicaoEstagiosPlanos();
+      };
+
+      $scope.rightEstagio = function(posicaoAtual) {
+        var estagioAtual = $scope.currentEstagiosPlanos[posicaoAtual];
+        var proximoEstagio = utilEstagios.getProximoEstagio($scope.currentEstagiosPlanos, posicaoAtual);
+
+        $scope.currentEstagiosPlanos.splice(posicaoAtual, 1);
+        var posicaoProximoEstagio = _.findIndex($scope.currentEstagiosPlanos, proximoEstagio);
+        $scope.currentEstagiosPlanos.splice(posicaoProximoEstagio + 1, 0, estagioAtual);
+
+        atualizaPosicaoEstagiosPlanos();
       };
 
       $scope.sortableOptions = {
@@ -311,7 +334,7 @@ angular.module('influuntApp')
 
           return $scope.currentEstagios;
       };
-      
+
       atualizaGruposSemaforicos = function() {
         var ids = _.map($scope.currentAnel.gruposSemaforicos, 'idJson');
         $scope.currentGruposSemaforicos = _
