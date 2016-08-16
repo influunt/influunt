@@ -11,20 +11,21 @@
     </tr>
     </thead>
     <tbody>
-      <tr data-ng-repeat="evento in currentEventos" influunt-evento 
-        data-evento="evento" 
-        data-planos="currentPlanos" 
-        data-dias="dias" 
+      <tr data-ng-repeat="evento in currentEventos" influunt-evento
+        data-evento="evento"
+        data-planos="currentPlanos"
+        data-dias="dias"
         data-horarios="horarios"
         pode-remover="true"
         on-verifica-atualizacao-de-eventos="verificaAtualizacaoDeEventos"
         on-visualizar-plano="visualizarPlano"
-        on-remover-evento="removerEvento">
+        on-remover-evento="removerEvento"
+        erros="errors.aneis[currentAnelIndex].tabelaHorario.eventos">
       </tr>
       <tr influunt-evento="visualizarPlano"
-        data-evento="currentNovoEvento" 
+        data-evento="currentNovoEvento"
         data-planos="currentPlanos"
-        data-dias="dias" 
+        data-dias="dias"
         data-horarios="horarios"
         pode-remover="false"
         on-verifica-atualizacao-de-eventos="verificaAtualizacaoDeEventos"
