@@ -20,6 +20,9 @@ public class LimiteAreaSerializer extends JsonSerializer<LimiteArea> {
         } else {
             jgen.writeStringField("id", limiteArea.getId().toString());
         }
+        if (limiteArea.getIdJson() != null) {
+            jgen.writeStringField("id", limiteArea.getId().toString());
+        }
         if (limiteArea.getDataCriacao() != null) {
             jgen.writeStringField("dataCriacao", InfluuntDateTimeSerializer.parse(limiteArea.getDataCriacao()));
         }
@@ -31,6 +34,9 @@ public class LimiteAreaSerializer extends JsonSerializer<LimiteArea> {
         }
         if (limiteArea.getLongitude() != null) {
             jgen.writeStringField("longitude", limiteArea.getLongitude().toString());
+        }
+        if (limiteArea.getPosicao() != null) {
+            jgen.writeStringField("posicao", limiteArea.getPosicao().toString());
         }
 
         jgen.writeEndObject();

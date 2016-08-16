@@ -7,7 +7,7 @@
  * # influuntTabs
  */
 angular.module('influuntApp')
-  .directive('influuntTabs', ['$templateCache', '$interpolate', '$compile', function ($templateCache, $interpolate, $compile) {
+  .directive('influuntTabs', ['$templateCache', '$interpolate', '$compile', '$filter', function ($templateCache, $interpolate, $compile, $filter) {
     return {
       restrict: 'E',
       scope: {
@@ -17,11 +17,13 @@ angular.module('influuntApp')
         errorCheck: '&',
         aneisAtivos: '=',
         maxTabs: '=',
-        canAddTabs: '='
+        canAddTabs: '=',
+        nameTabs: '@'
       },
       template: '<ul class="nav nav-tabs"></ul>',
       link: function (scope, element) {
-
+        //TODO: Verificar I18n
+        scope.nameTabs = scope.nameTabs || 'Anel';
         var tabs;
         var tabTemplate = $templateCache.get('views/directives/influunt-tabs/_tab.html');
         var initializing = true;
@@ -54,7 +56,7 @@ angular.module('influuntApp')
           checkTabLimit();
           scope.onAdd()(data);
           toggleCloseButton();
-          $(data.tab).find('a.closable').html('Anel ' + (data.index + 1));
+          $(data.tab).find('a.closable').html(scope.nameTabs + ' ' + (data.index + 1));
         };
 
         var tabRemoved = function(event, data) {
@@ -66,7 +68,8 @@ angular.module('influuntApp')
         var tabActivated = function(event, data) {
           scope.$apply(function() {
             if (data.newTab.find('a:first').html() !== 'New tab') {
-              var tabIndex = data.newTab.index('li[role="tab"]');
+              var elements = $(event.target).find('li[role="tab"]');
+              var tabIndex = elements.index(data.newTab);
               scope.onActivate()(tabIndex);
             }
           });

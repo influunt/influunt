@@ -8,6 +8,8 @@ import models.*;
 import play.libs.Json;
 import utils.RangeUtils;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +28,7 @@ public class ControladorCustomSerializer {
     private Map<String, EstagioGrupoSemaforico> estagiosGruposSemaforicosMap = new HashMap<String, EstagioGrupoSemaforico>();
     private Map<String, VerdesConflitantes> verdesConflitantesMap = new HashMap<String, VerdesConflitantes>();
     private Map<String, Transicao> transicoesMap = new HashMap<String, Transicao>();
+    private Map<String, Transicao> transicoesComPerdaDePassagemMap = new HashMap<String, Transicao>();
     private Map<String, TabelaEntreVerdes> entreVerdesMap = new HashMap<String, TabelaEntreVerdes>();
     private Map<String, TabelaEntreVerdesTransicao> entreVerdesTransicoesMap = new HashMap<String, TabelaEntreVerdesTransicao>();
     private Map<String, Plano> planosMap = new HashMap<String, Plano>();
@@ -35,6 +38,8 @@ public class ControladorCustomSerializer {
     private Map<String, Evento> eventosMap = new HashMap<String, Evento>();
     private Map<String, Endereco> enderecosMap = new HashMap<String, Endereco>();
     private Map<String, Area> areasMap = new HashMap<String, Area>();
+    private Map<String, LimiteArea> limitesMap = new HashMap<String, LimiteArea>();
+    private Map<String, AtrasoDeGrupo> atrasosDeGrupoMap = new HashMap<String, AtrasoDeGrupo>();
 
     public JsonNode getControladorJson(Controlador controlador) {
         ObjectNode root = Json.newObject();
@@ -50,6 +55,7 @@ public class ControladorCustomSerializer {
         putControladorEstagiosGruposSemaforicos(root);
         putControladorVerdesConflitantes(root);
         putControladorTransicoes(root);
+        putControladorTransicoesComPerdaDePassagem(root);
         putControladorTabelaEntreVerdes(root);
         putControladorTabelaEntreVerdesTransicoes(root);
 
@@ -62,8 +68,10 @@ public class ControladorCustomSerializer {
 
         putControladorCidades(root);
         putControladorAreas(root);
+        putControladorLimites(root);
         putControladorEnderecos(root);
         putControladorImagens(root);
+        putControladorAtrasosDeGrupo(root);
 
         return root;
     }
@@ -124,7 +132,7 @@ public class ControladorCustomSerializer {
             root.put("id", controlador.getId().toString());
         }
         if (controlador.getIdJson() != null) {
-            root.put("idJson", controlador.getIdJson().toString());
+            root.put("idJson", controlador.getIdJson());
         }
         if (controlador.getNumeroSMEE() != null) {
             root.put("numeroSMEE", controlador.getNumeroSMEE());
@@ -210,7 +218,7 @@ public class ControladorCustomSerializer {
         }
 
         if (controlador.getArea() != null && controlador.getArea().getIdJson() != null) {
-            root.putObject("area").put("idJson", controlador.getArea().getIdJson().toString());
+            root.putObject("area").put("idJson", controlador.getArea().getIdJson());
         }
 
         refEnderecos("enderecos", controlador.getEnderecos(), root);
@@ -263,14 +271,30 @@ public class ControladorCustomSerializer {
             areaJson.put("id", area.getId().toString());
         }
         if (area.getIdJson() != null) {
-            areaJson.put("idJson", area.getIdJson().toString());
+            areaJson.put("idJson", area.getIdJson());
         }
         areaJson.put("descricao", area.getDescricao());
         if (area.getCidade() != null && area.getCidade().getIdJson() != null) {
-            areaJson.putObject("cidade").put("idJson", area.getCidade().getIdJson().toString());
+            areaJson.putObject("cidade").put("idJson", area.getCidade().getIdJson());
         }
 
+        refLimites("limites", area.getLimitesGeograficos(), areaJson);
         return areaJson;
+    }
+
+    private JsonNode getLimiteJson(LimiteArea limite) {
+        ObjectNode limiteJson = Json.newObject();
+        if (limite.getId() != null) {
+            limiteJson.put("id", limite.getId().toString());
+        }
+        if (limite.getIdJson() != null) {
+            limiteJson.put("idJson", limite.getIdJson());
+        }
+        limiteJson.put("latitude", limite.getLatitude());
+        limiteJson.put("longitude", limite.getLongitude());
+        limiteJson.put("posicao", limite.getPosicao());
+
+        return limiteJson;
     }
 
     private JsonNode getCidadeJson(Cidade cidade) {
@@ -280,7 +304,7 @@ public class ControladorCustomSerializer {
             cidadeJson.put("id", cidade.getId().toString());
         }
         if (cidade.getIdJson() != null) {
-            cidadeJson.put("idJson", cidade.getIdJson().toString());
+            cidadeJson.put("idJson", cidade.getIdJson());
         }
         cidadeJson.put("nome", cidade.getNome());
 
@@ -311,6 +335,14 @@ public class ControladorCustomSerializer {
             areasJson.add(getAreaJson(area));
         });
         root.set("areas", areasJson);
+    }
+
+    private void putControladorLimites(ObjectNode root) {
+        ArrayNode limitesJson = Json.newArray();
+        limitesMap.values().stream().forEach(limite -> {
+            limitesJson.add(getLimiteJson(limite));
+        });
+        root.set("limites", limitesJson);
     }
 
     private void putControladorAneis(List<Anel> aneis, ObjectNode root) {
@@ -384,6 +416,14 @@ public class ControladorCustomSerializer {
 
     }
 
+    private void putControladorTransicoesComPerdaDePassagem(ObjectNode root) {
+        ArrayNode arrayJson = Json.newArray();
+        transicoesComPerdaDePassagemMap.values().stream().forEach(transicao -> {
+            arrayJson.add(getTransicao(transicao));
+        });
+        root.set("transicoesComPerdaDePassagem", arrayJson);
+    }
+
     private void putControladorImagens(ObjectNode root) {
         ArrayNode imagensJson = Json.newArray();
         imagensMap.values().stream().forEach(imagem -> {
@@ -411,6 +451,14 @@ public class ControladorCustomSerializer {
 
     }
 
+    private void putControladorAtrasosDeGrupo(ObjectNode root) {
+        ArrayNode atrasosDeGrupoJson = Json.newArray();
+        atrasosDeGrupoMap.values().stream().forEach(atrasoDeGrupo -> {
+            atrasosDeGrupoJson.add(getAtrasoDeGrupoJson(atrasoDeGrupo));
+        });
+        root.set("atrasosDeGrupo", atrasosDeGrupoJson);
+    }
+
 
     private JsonNode getPlanoJson(Plano plano) {
         ObjectNode planoJson = Json.newObject();
@@ -419,7 +467,7 @@ public class ControladorCustomSerializer {
             planoJson.put("id", plano.getId().toString());
         }
         if (plano.getIdJson() != null) {
-            planoJson.put("idJson", plano.getIdJson().toString());
+            planoJson.put("idJson", plano.getIdJson());
         }
         if (plano.getPosicao() != null) {
             planoJson.put("posicao", plano.getPosicao());
@@ -544,11 +592,21 @@ public class ControladorCustomSerializer {
         if (evento.getIdJson() != null) {
             eventoJson.put("idJson", evento.getIdJson().toString());
         }
-        if (evento.getNumero() != null) {
-            eventoJson.put("numero", evento.getNumero().toString());
+        if (evento.getPosicao() != null) {
+            eventoJson.put("posicao", evento.getPosicao().toString());
+        }
+        if (evento.getTipo() != null) {
+            eventoJson.put("tipo", evento.getTipo().toString());
         }
         if (evento.getDiaDaSemana() != null) {
             eventoJson.put("diaDaSemana", evento.getDiaDaSemana().toString());
+        }
+        if (evento.getNome() != null) {
+            eventoJson.put("nome", evento.getNome().toString());
+        }
+        if (evento.getData() != null) {
+            DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+            eventoJson.put("data", formatter.format(evento.getData()));
         }
         if (evento.getHorario() != null) {
             eventoJson.put("horario", evento.getHorario().toString());
@@ -601,7 +659,8 @@ public class ControladorCustomSerializer {
         refVerdesConflitantes("verdesConflitantesOrigem", grupoSemaforico.getVerdesConflitantesOrigem(), grupoSemaforicoJson);
         refVerdesConflitantes("verdesConflitantesDestino", grupoSemaforico.getVerdesConflitantesDestino(), grupoSemaforicoJson);
         refEstagiosGruposSemaforicos("estagiosGruposSemaforicos", grupoSemaforico.getEstagiosGruposSemaforicos(), grupoSemaforicoJson);
-        refTransicoes("transicoes", grupoSemaforico.getTransicoes(), grupoSemaforicoJson);
+        refTransicoes("transicoes", grupoSemaforico.getTransicoesComGanhoDePassagem(), grupoSemaforicoJson);
+        refTransicoesComPerdaDePassagem("transicoesComPerdaDePassagem", grupoSemaforico.getTransicoesComPerdaDePassagem(), grupoSemaforicoJson);
         refEntreVerdes("tabelasEntreVerdes", grupoSemaforico.getTabelasEntreVerdes(), grupoSemaforicoJson);
 
         return grupoSemaforicoJson;
@@ -795,30 +854,38 @@ public class ControladorCustomSerializer {
     }
 
     private JsonNode getTransicao(Transicao transicao) {
-        ObjectNode objectJson = Json.newObject();
+        ObjectNode transicaoJson = Json.newObject();
 
         if (transicao.getId() != null) {
-            objectJson.put("id", transicao.getId().toString());
+            transicaoJson.put("id", transicao.getId().toString());
         }
 
         if (transicao.getIdJson() != null) {
-            objectJson.put("idJson", transicao.getIdJson().toString());
+            transicaoJson.put("idJson", transicao.getIdJson().toString());
         }
 
         if (transicao.getOrigem() != null && transicao.getOrigem().getIdJson() != null) {
-            objectJson.putObject("origem").put("idJson", transicao.getOrigem().getIdJson().toString());
+            transicaoJson.putObject("origem").put("idJson", transicao.getOrigem().getIdJson().toString());
         }
 
         if (transicao.getDestino() != null && transicao.getDestino().getIdJson() != null) {
-            objectJson.putObject("destino").put("idJson", transicao.getDestino().getIdJson().toString());
+            transicaoJson.putObject("destino").put("idJson", transicao.getDestino().getIdJson().toString());
         }
-        refEntreVerdesTransicoes("tabelaEntreVerdesTransicoes", transicao.getTabelaEntreVerdesTransicoes(), objectJson);
+        refEntreVerdesTransicoes("tabelaEntreVerdesTransicoes", transicao.getTabelaEntreVerdesTransicoes(), transicaoJson);
 
         if (transicao.getGrupoSemaforico() != null && transicao.getGrupoSemaforico().getIdJson() != null) {
-            objectJson.putObject("grupoSemaforico").put("idJson", transicao.getGrupoSemaforico().getIdJson().toString());
+            transicaoJson.putObject("grupoSemaforico").put("idJson", transicao.getGrupoSemaforico().getIdJson().toString());
         }
 
-        return objectJson;
+        if (transicao.getTipo() != null) {
+            transicaoJson.put("tipo", transicao.getTipo().toString());
+        }
+
+        if (transicao.getAtrasoDeGrupo() != null) {
+            refAtrasoDeGrupo("atrasoDeGrupo", transicao.getAtrasoDeGrupo(), transicaoJson);
+        }
+
+        return transicaoJson;
     }
 
     private JsonNode getTabelaEntreVerde(TabelaEntreVerdes tabelaEntreVerdes) {
@@ -905,6 +972,23 @@ public class ControladorCustomSerializer {
         }
         return enderecoJson;
     }
+
+    private JsonNode getAtrasoDeGrupoJson(AtrasoDeGrupo atrasoDeGrupo) {
+        ObjectNode atrasoDeGrupoJson = Json.newObject();
+        if (atrasoDeGrupo.getId() != null) {
+            atrasoDeGrupoJson.put("id", atrasoDeGrupo.getId().toString());
+        }
+
+        if (atrasoDeGrupo.getIdJson() != null) {
+            atrasoDeGrupoJson.put("idJson", atrasoDeGrupo.getIdJson().toString());
+        }
+
+        if (atrasoDeGrupo.getAtrasoDeGrupo() != null) {
+            atrasoDeGrupoJson.put("atrasoDeGrupo", atrasoDeGrupo.getAtrasoDeGrupo());
+        }
+        return atrasoDeGrupoJson;
+    }
+
 
     private JsonNode putAnel(Anel anel) {
         ObjectNode anelJson = Json.newObject();
@@ -1013,6 +1097,28 @@ public class ControladorCustomSerializer {
             }
         }
         parentJson.set(name, transicoesJson);
+    }
+
+    private void refTransicoesComPerdaDePassagem(String name, List<Transicao> transicoes, ObjectNode parentJson) {
+        ArrayNode transicoesJson = Json.newArray();
+        for (Transicao transicao : transicoes) {
+            if (transicao.getIdJson() != null) {
+                transicoesComPerdaDePassagemMap.put(transicao.getIdJson().toString(), transicao);
+                ObjectNode transicaoJson = Json.newObject();
+                transicaoJson.put("idJson", transicao.getIdJson());
+                transicoesJson.add(transicaoJson);
+            }
+        }
+        parentJson.set(name, transicoesJson);
+    }
+
+    private void refAtrasoDeGrupo(String name, AtrasoDeGrupo atrasoDeGrupo, ObjectNode parentJson) {
+        if (atrasoDeGrupo.getIdJson() != null) {
+            atrasosDeGrupoMap.put(atrasoDeGrupo.getIdJson().toString(), atrasoDeGrupo);
+            ObjectNode atrasoDeGrupoJson = Json.newObject();
+            atrasoDeGrupoJson.put("idJson", atrasoDeGrupo.getIdJson());
+            parentJson.set(name, atrasoDeGrupoJson);
+        }
     }
 
 
@@ -1177,6 +1283,20 @@ public class ControladorCustomSerializer {
         }
         parentJson.set(name, areasJson);
 
+    }
+
+    private void refLimites(String name, List<LimiteArea> limites, ObjectNode parentJson) {
+        ArrayNode limitesJson = Json.newArray();
+        for (LimiteArea limite : limites) {
+            if (limite != null && limite.getIdJson() != null) {
+                limitesMap.put(limite.getIdJson(), limite);
+                ObjectNode limiteJson = Json.newObject();
+                limiteJson.put("idJson", limite.getIdJson());
+                limitesJson.add(limiteJson);
+            }
+        }
+
+        parentJson.set(name, limitesJson);
     }
 
 

@@ -1,0 +1,12 @@
+SET @ControladorId = '9e0adb3d-76c1-4e0d-88d3-29cd013e7af9';
+DELETE FROM enderecos WHERE controlador_id = @ControladorId OR anel_id IN (SELECT id FROM aneis WHERE controlador_id = @ControladorId);
+DELETE FROM estagios_grupos_semaforicos WHERE estagio_id IN (SELECT id FROM estagios WHERE anel_id IN (SELECT id FROM aneis where controlador_id = @ControladorId));
+DELETE FROM tabela_entre_verdes_transicao WHERE transicao_id IN (SELECT id FROM transicao WHERE grupo_semaforico_id IN (SELECT id FROM grupos_semaforicos WHERE anel_id IN (SELECT id from aneis WHERE controlador_id = @ControladorId)));
+DELETE FROM transicao WHERE grupo_semaforico_id IN (SELECT id FROM grupos_semaforicos WHERE anel_id IN (SELECT id from aneis WHERE controlador_id = @ControladorId));
+DELETE FROM tabela_entre_verdes WHERE grupo_semaforico_id IN (SELECT id FROM grupos_semaforicos WHERE anel_id IN (SELECT id from aneis WHERE controlador_id = @ControladorId));
+DELETE FROM verdes_conflitantes WHERE origem_id IN (SELECT id FROM grupos_semaforicos WHERE anel_id IN (SELECT id from aneis WHERE controlador_id = @ControladorId)) OR destino_id IN (SELECT id FROM grupos_semaforicos WHERE anel_id IN (SELECT id from aneis WHERE controlador_id = @ControladorId));
+DELETE FROM grupos_semaforicos WHERE anel_id IN (SELECT id from aneis WHERE controlador_id = @ControladorId);
+DELETE FROM transicoes_proibidas WHERE origem_id IN (SELECT id FROM estagios WHERE anel_id IN (SELECT id from aneis WHERE controlador_id = @ControladorId)) OR destino_id IN (SELECT id FROM estagios WHERE anel_id IN (SELECT id from aneis WHERE controlador_id = @ControladorId)) OR alternativo_id IN (SELECT id FROM estagios WHERE anel_id IN (SELECT id from aneis WHERE controlador_id = @ControladorId));
+DELETE FROM estagios WHERE anel_id IN (SELECT id from aneis WHERE controlador_id = @ControladorId);
+DELETE FROM aneis WHERE controlador_id = @ControladorId;
+DELETE FROM controladores WHERE id = @ControladorId;

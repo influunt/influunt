@@ -2,7 +2,10 @@
   "appname": "Influunt",
   "controladores": {
     "detector": "Detector",
+    "mapa": "Mapa dos controladores",
     "geral": {
+      "novo": "Novo Controlador",
+      "verMapa": "Ver no mapa",
       "prefixoEstagio": "E",
       "prefixoGrupo": "G",
       "verTelaAnterior": "Ver Tela Anterior"
@@ -67,7 +70,8 @@
     },
     "verdes_conflitantes": "Verdes Conflitantes",
     "versaoFirmware": "Versão do Firmware",
-    "numeroTabelasEntreVerdes": "Número de tabelas entre verdes"
+    "numeroTabelasEntreVerdes": "Número de tabelas entre verdes",
+    "atrasoDeGrupo": "Atraso de Grupo"
   },
   "areas": {
     "adicionar_limites": "adicionar limites geográficos",
@@ -87,13 +91,15 @@
     "editar": "Editar Cidade",
     "titulo": "Cidades"
   },
-  "horarios": {
-    "titulo": "Tabela de Horarios",
+  "tabelaHorarios": {
+    "titulo": "Tabela de Horários",
     "dias": "Dias",
-    "horario": "Horario",
+    "nome": "Nome",
+    "data": "Data",
+    "horario": "Horário",
     "plano": "Plano",
     "descartar": "Descartar",
-    "tabelaEspecial": "Tabela de horários especial ativa entre",
+    "tabelaEspecial": "Tabela de horários especial ativa na semana entre os dias",
     "hr": "HR",
     "seg": "SEG",
     "ter": "TER",

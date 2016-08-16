@@ -35,5 +35,8 @@ angular
 
     // i18n modules.
     'pascalprecht.translate',
-    'tmh.dynamicLocale'
+    'tmh.dynamicLocale',
+    
+    //DatePicker
+    'datePicker'
   ]);

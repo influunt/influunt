@@ -10,15 +10,15 @@
 angular.module('influuntApp')
   .controller('PlanosCtrl', ['$scope', '$state', '$timeout', 'Restangular', '$filter',
                              'validaTransicao', 'utilEstagios', 'toast', 'modoOperacaoService',
-                             'influuntAlert', 'influuntBlockui',
+                             'influuntAlert', 'influuntBlockui', 'geraDadosDiagramaIntervalo',
     function ($scope, $state, $timeout, Restangular, $filter,
               validaTransicao, utilEstagios, toast, modoOperacaoService,
-              influuntAlert, influuntBlockui) {
+              influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo) {
 
-      var adicionaPlano, selecionaAnel, atualizaTabelaEntreVerdes, atualizaEstagios, atualizaPlanos,
+      var adicionaPlano, selecionaAnel, atualizaTabelaEntreVerdes, atualizaEstagios, atualizaGruposSemaforicos, atualizaPlanos,
           atualizaEstagiosPlanos, adicionaEstagioASequencia, atualizaPosicaoPlanos, atualizaPosicaoEstagiosPlanos,
-          carregaDadosPlano, getOpcoesEstagiosDisponiveis, montaTabelaValoresMinimos, parseAllToInt,
-          setDiagramaEstatico, atualizaDiagramaIntervalos, getPlanoParaDiagrama, atualizaTransicoesProibidas;
+          carregaDadosPlano, getOpcoesEstagiosDisponiveis, montaTabelaValoresMinimos, parseAllToInt, setDiagramaEstatico, 
+          atualizaDiagramaIntervalos, getPlanoParaDiagrama, atualizaTransicoesProibidas;
       var diagramaDebouncer = null;
 
       /**
@@ -28,6 +28,7 @@ angular.module('influuntApp')
         var id = $state.params.id;
         Restangular.one('controladores', id).get().then(function(res) {
           $scope.objeto = res;
+          $scope.comCheckBoxGrupo = true;
           parseAllToInt();
           montaTabelaValoresMinimos();
 
@@ -293,6 +294,7 @@ angular.module('influuntApp')
         $scope.currentAnelIndex = index;
         $scope.currentAnel = $scope.aneis[$scope.currentAnelIndex];
         atualizaEstagios($scope.currentAnel);
+        atualizaGruposSemaforicos();
         atualizaTabelaEntreVerdes($scope.currentAnel);
         atualizaPlanos();
       };
@@ -308,6 +310,19 @@ angular.module('influuntApp')
           .value();
 
           return $scope.currentEstagios;
+      };
+      
+      atualizaGruposSemaforicos = function() {
+        var ids = _.map($scope.currentAnel.gruposSemaforicos, 'idJson');
+        $scope.currentGruposSemaforicos = _
+          .chain($scope.objeto.gruposSemaforicos)
+          .filter(function(ep) {
+            return ids.indexOf(ep.idJson) >= 0;
+          })
+          .orderBy(['posicao'])
+          .value();
+
+          return $scope.currentGruposSemaforicos;
       };
 
       atualizaTabelaEntreVerdes = function(anel) {
@@ -535,50 +550,7 @@ angular.module('influuntApp')
       };
 
       getPlanoParaDiagrama = function() {
-        $scope.plano = _.cloneDeep($scope.currentPlano);
-
-        $scope.plano.estagiosPlanos = [];
-        $scope.plano.gruposSemaforicosPlanos = [];
-        $scope.plano.quantidadeGruposSemaforicos = $scope.currentAnel.gruposSemaforicos.length;
-
-        $scope.currentPlano.estagiosPlanos.forEach(function(ep){
-          var estagioPlano = _.cloneDeep(_.find($scope.objeto.estagiosPlanos, {idJson: ep.idJson}));
-          var estagio = _.find($scope.objeto.estagios, {idJson: estagioPlano.estagio.idJson});
-          var novoEstagio = _.cloneDeep(estagio);
-
-          novoEstagio.gruposSemaforicos = [];
-          estagio.estagiosGruposSemaforicos.forEach(function(egs){
-            var estagioGrupoSemaforico = _.find($scope.objeto.estagiosGruposSemaforicos, {idJson: egs.idJson});
-            var grupoSemaforico = _.find($scope.objeto.gruposSemaforicos, {idJson: estagioGrupoSemaforico.grupoSemaforico.idJson});
-            var novoGrupoSemaforico = _.cloneDeep(grupoSemaforico);
-
-            novoGrupoSemaforico.tabelasEntreVerdes = [];
-            grupoSemaforico.tabelasEntreVerdes.forEach(function(tev){
-              var tabelaEntreVerde = _.cloneDeep(_.find($scope.objeto.tabelasEntreVerdes, {idJson: tev.idJson}));
-              novoGrupoSemaforico.tabelasEntreVerdes.push(tabelaEntreVerde);
-            });
-
-            novoGrupoSemaforico.transicoes = [];
-            grupoSemaforico.transicoes.forEach(function(t){
-              var transicao = _.find($scope.objeto.transicoes, {idJson: t.idJson});
-              var novaTransicao = _.cloneDeep(transicao);
-              novaTransicao.tabelaEntreVerdesTransicoes = [];
-              transicao.tabelaEntreVerdesTransicoes.forEach(function(tevt){
-                var tabelaEntreVerdeTransicao = _.cloneDeep(_.find($scope.objeto.tabelasEntreVerdesTransicoes, {idJson: tevt.idJson}));
-                novaTransicao.tabelaEntreVerdesTransicoes.push(tabelaEntreVerdeTransicao);
-              });
-              novoGrupoSemaforico.transicoes.push(novaTransicao);
-            });
-
-            novoEstagio.gruposSemaforicos.push(novoGrupoSemaforico);
-          });
-
-          estagioPlano.estagio = novoEstagio;
-          $scope.plano.estagiosPlanos.push(estagioPlano);
-        });
-        $scope.plano.estagiosPlanos = _.orderBy($scope.plano.estagiosPlanos, ['posicao']);
-
-        return $scope.plano;
+        $scope.plano = geraDadosDiagramaIntervalo.gerar($scope.currentPlano, $scope.currentAnel, $scope.currentGruposSemaforicos, $scope.objeto);
       };
 
       atualizaTransicoesProibidas = function() {

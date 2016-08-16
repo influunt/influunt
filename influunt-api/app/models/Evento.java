@@ -15,6 +15,7 @@ import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -38,16 +39,26 @@ public class Evento extends Model implements Cloneable, Serializable {
 
     @Column
     @NotNull(message = "não pode ficar em branco")
-    private String numero;
+    private Integer posicao;
 
     @Column
     @Enumerated(EnumType.STRING)
-    @NotNull(message = "não pode ficar em branco")
     private DiaDaSemana diaDaSemana;
 
     @Column
     @NotNull(message = "não pode ficar em branco")
     private LocalTime horario;
+
+    @Column
+    private Date data;
+
+    @Column
+    private String nome;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    @NotNull(message = "não pode ficar em branco")
+    private TipoEvento tipo;
 
     @ManyToOne
     @NotNull(message = "não pode ficar em branco")
@@ -90,12 +101,12 @@ public class Evento extends Model implements Cloneable, Serializable {
         this.idJson = idJson;
     }
 
-    public String getNumero() {
-        return numero;
+    public Integer getPosicao() {
+        return posicao;
     }
 
-    public void setNumero(String numero) {
-        this.numero = numero;
+    public void setPosicao(Integer posicao) {
+        this.posicao = posicao;
     }
 
     public DiaDaSemana getDiaDaSemana() {
@@ -112,6 +123,31 @@ public class Evento extends Model implements Cloneable, Serializable {
 
     public void setHorario(LocalTime horario) {
         this.horario = horario;
+    }
+
+    public Date getData() {
+        return data;
+    }
+
+    public Date setData(Date data) {
+        this.data = data;
+        return data;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public TipoEvento getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoEvento tipo) {
+        this.tipo = tipo;
     }
 
     public TabelaHorario getTabelaHorario() {
@@ -146,6 +182,14 @@ public class Evento extends Model implements Cloneable, Serializable {
         this.dataAtualizacao = dataAtualizacao;
     }
 
+    private boolean isEspecial() {
+        return this.getTipo() != null && this.getTipo().equals(TipoEvento.ESPECIAL);
+    }
+
+    private boolean isNormal() {
+        return this.getTipo() != null && this.getTipo().equals(TipoEvento.NORMAL);
+    }
+
     @AssertTrue(groups = TabelaHorariosCheck.class,
             message = "Existem eventos configurados no mesmo dia e horário.")
     public boolean isEventosMesmoDiaEHora() {
@@ -161,6 +205,24 @@ public class Evento extends Model implements Cloneable, Serializable {
     public boolean isPlanoDoMesmoAnel() {
         if (this.getPlano() != null && this.getTabelaHorario() != null) {
             return this.getPlano().getAnel().equals(this.getTabelaHorario().getAnel());
+        }
+        return true;
+    }
+
+    @AssertTrue(groups = TabelaHorariosCheck.class,
+            message = "não pode ficar em branco")
+    public boolean isDiaDaSemana() {
+        if (this.isNormal()) {
+            return this.getDiaDaSemana() != null;
+        }
+        return true;
+    }
+
+    @AssertTrue(groups = TabelaHorariosCheck.class,
+            message = "não pode ficar em branco")
+    public boolean isData() {
+        if (this.isEspecial()) {
+            return this.getData() != null;
         }
         return true;
     }

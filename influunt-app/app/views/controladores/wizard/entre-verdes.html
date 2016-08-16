@@ -10,7 +10,6 @@
                            data-error-check="anelTemErro">
             </influunt-tabs>
             <div class="ui-layout-content tab-content">
-
               <uib-alert type="danger" data-ng-if="possuiErrosNumeroTabelasEntreVerdes()">
                 <div style="padding-left: 12px;">
                   <ul>
@@ -34,19 +33,21 @@
                         </li>
                       </ul>
                     </nav>
-
                   </div>
                   <div class="col-lg-3 col-sm-3">
                     <div class="col-lg-12 col-sm-12 association table-entry-green min-green relative tabelas-entre-verdes">
                       <div class="ibox-title">
                         <h5>Tabelas</h5>
-                        <a data-ng-show="currentTabelasEntreVerdes.length < limiteTabelasEntreVerdes" class="btn btn-primary btn-xs m-l right" target="Nova tabela" data-ng-click="adicionarTabelaEntreVerdes()" data-toggle="tooltip" data-placement="top" title="Adicionar uma nova tabela padrão">Nova tabela <i class="fa fa-plus"></i></a>
-                    </div>
+                        <a data-ng-show="currentTabelasEntreVerdes.length < limiteTabelasEntreVerdes" class="btn btn-primary btn-xs m-l right" target="Nova tabela" data-ng-click="adicionarTabelaEntreVerdes()" data-toggle="tooltip" data-placement="top" title="Adicionar uma nova tabela padrão">
+                          Nova tabela <i class="fa fa-plus"></i>
+                        </a>
+                      </div>
                       <nav>
                         <ul>
                           <li data-ng-repeat="tabelaEntreVerdes in currentTabelasEntreVerdes" data-ng-class="{ 'active': $index == currentTabelaEntreVerdesIndex }" data-ng-click="selecionaTabelaEntreVerdes(tabelaEntreVerdes, $index)">
                             <div class="col-lg-12 col-sm-12">
-                              <label for="">TABELA {{ tabelaEntreVerdes.descricao }}</label><i class="fa fa-times pull-right m-t-sm remove-tabela-entre-verdes" data-ng-if="$last && $index !== 0" data-ng-click="removerTabelaEntreVerdes($index)"></i>
+                              <label for="">TABELA {{ tabelaEntreVerdes.descricao }}</label>
+                              <i class="fa fa-times pull-right m-t-sm remove-tabela-entre-verdes" data-ng-if="$last && $index !== 0" data-ng-click="removerTabelaEntreVerdes($index)"></i>
                             </div>
                           </li>
                         </ul>
@@ -65,12 +66,10 @@
 
                     <nav style="display:block;">
                       <ul>
-                        <!-- <li data-ng-repeat="tevTransicao in tabelasEntreVerdesTransicoes"> -->
                         <li data-ng-repeat="tevTransicao in currentTabelasEntreVerdesTransicoes" data-origem="E{{ currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].origem.posicao }}" data-destino="E{{ currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].destino.posicao }}">
                           <div class="group-figures col-lg-5 col-sm-5 no-padding">
                             <div class="col-lg-6 col-sm-6 group-figure stage-images">
                               <figure>
-                                <!-- <label for="">E{{ currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].origem.posicao }}</label> -->
                                 <label for="">E{{ currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].origem.posicao }}</label>
                                 <img ng-src="{{ getImagemDeEstagio(currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].origem) }}" alt="{{ currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].origem.descricao }}">
                               </figure>
@@ -83,48 +82,47 @@
                               </figure>
                             </div>
                           </div>
-                          <div class="group-figures col-lg-7 col-sm-7 no-padding initial-position">
+                          <div class="group-figures col-sm-7 no-padding initial-position">
                             <div class="knob">
-                              <div class="text-center">
-                                <div class="knob-item" data-ng-class="{ 'col-lg-4 col-sm-4': currentTabelaEntreVerdes.posicao === 1, 'col-lg-6 col-sm-6': currentTabelaEntreVerdes.posicao !== 1 }">
+                              <div class="text-center row">
+                                <div class="knob-item col-sm-6">
                                   <span class="badge badge-danger badge-notification"
-                                  data-ng-show="possuiErroAmareloOuVermelho(currentGrupoSemaforico, $index)"
-                                  inf-tooltip
-                                  messages="[errosAmareloOuVermelho(currentGrupoSemaforico, $index)]">
-                                  <i class="fa fa-exclamation"></i>
-                                </span>
-                                <influunt-knob
-                                title="{{ amareloOuVermelho(currentGrupoSemaforico) }}"
-                                class="{{ amareloOuVermelhoColor(currentGrupoSemaforico) }}"
-                                label="SEG"
-                                min="limites(currentGrupoSemaforico)[amareloOuVermelho(currentGrupoSemaforico, true)].min" max="limites(currentGrupoSemaforico)[amareloOuVermelho(currentGrupoSemaforico, true)].max" data-ng-model="tevTransicao[amareloOuVermelho(currentGrupoSemaforico, true)]"></influunt-knob>
+                                    data-ng-show="possuiErroAmareloOuVermelho(currentGrupoSemaforico, $index)"
+                                    inf-tooltip
+                                    messages="[errosAmareloOuVermelho(currentGrupoSemaforico, $index)]">
+                                    <i class="fa fa-exclamation"></i>
+                                  </span>
+                                  <influunt-knob
+                                    title="{{ amareloOuVermelho(currentGrupoSemaforico) }}"
+                                    class="{{ amareloOuVermelhoColor(currentGrupoSemaforico) }}"
+                                    label="SEG"
+                                    min="limites(currentGrupoSemaforico)[amareloOuVermelho(currentGrupoSemaforico, true)].min"
+                                    max="limites(currentGrupoSemaforico)[amareloOuVermelho(currentGrupoSemaforico, true)].max"
+                                    data-ng-model="tevTransicao[amareloOuVermelho(currentGrupoSemaforico, true)]">
+                                  </influunt-knob>
+                                </div>
+                                <div class="knob-item col-sm-6">
+                                  <span class="badge badge-danger badge-notification"
+                                    data-ng-show="possuiErroVermelhoLimpeza(currentGrupoSemaforico, $index)"
+                                    inf-tooltip
+                                    messages="[errosVermelhoLimpeza(currentGrupoSemaforico, $index)]">
+                                    <i class="fa fa-exclamation"></i>
+                                  </span>
+                                  <influunt-knob
+                                    title="Vermelho de Limpeza"
+                                    class="vermelho-limpeza"
+                                    label="SEG"
+                                    min="limites(currentGrupoSemaforico).tempoVermelhoLimpeza.min"
+                                    max="limites(currentGrupoSemaforico).tempoVermelhoLimpeza.max"
+                                    data-ng-model="tevTransicao.tempoVermelhoLimpeza">
+                                  </influunt-knob>
+                                </div>
                               </div>
-                              <div class="knob-item col-lg-4 col-sm-4">
-                                <span class="badge badge-danger badge-notification"
-                                data-ng-show="possuiErroVermelhoLimpeza(currentGrupoSemaforico, $index)"
-                                inf-tooltip
-                                messages="[errosVermelhoLimpeza(currentGrupoSemaforico, $index)]">
-                                <i class="fa fa-exclamation"></i>
-                              </span>
-                              <influunt-knob title="Vermelho de Limpeza" class="vermelho-limpeza" label="SEG" min="limites(currentGrupoSemaforico).tempoVermelhoLimpeza.min" max="limites(currentGrupoSemaforico).tempoVermelhoLimpeza.max" data-ng-model="tevTransicao.tempoVermelhoLimpeza"></influunt-knob>
                             </div>
-                            <div class="knob-item col-lg-4 col-sm-4 delay-time" data-ng-if="currentTabelaEntreVerdes.posicao === 1">
-                              <span class="badge badge-danger badge-notification"
-                              data-ng-show="possuiErroAtrasoGrupo(currentGrupoSemaforico, $index)"
-                              inf-tooltip
-                              messages="[errosAtrasoGrupo(currentGrupoSemaforico, $index)]">
-                              <i class="fa fa-exclamation"></i>
-                            </span>
-                            <influunt-knob
-                            title="Atraso de Grupo"
-                            label="SEG"
-                            min="limites(currentGrupoSemaforico).tempoAtrasoGrupo.min"
-                            max="limites(currentGrupoSemaforico).tempoAtrasoGrupo.max"
-                            data-ng-model="tevTransicao.tempoAtrasoGrupo">
-                          </influunt-knob>
-                        </div>
-                      </div>
-                    </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </nav>
                   </div>
                 </div>
               </div>
@@ -134,15 +132,16 @@
       </div>
     </div>
   </div>
+
   <!-- bptão proximo voltar -->
   <div class="col-sm-12 col-lg-12 no-pading pg-bt m-t-lg">
-    <a ui-sref="app.wizard_controladores.transicoes_proibidas({id: objeto.id})" target="_blank" data-toggle="tooltip" data-placement="top" class="left btn btn-info btn-footer" title="Ver Tela de Transições Proíbidas">
+    <a ui-sref="app.wizard_controladores.atraso_de_grupo({id: objeto.id})" target="_blank" data-toggle="tooltip" data-placement="top" class="left btn btn-info btn-footer" title="Ver Tela de Tempos de Atraso de Grupo">
       <i class="fa fa-eye"></i> {{ 'plugins.steps.labels.last_screen' | translate }}
     </a>
     <a goToTop data-ng-click="submitForm({$valid: true}, 'entre_verdes', 'app.wizard_controladores.associacao_detectores')" data-toggle="tooltip" data-placement="top" title="Associação de Detectores" class="goToTop btn btn-primary btn-footer right">
       {{ 'plugins.steps.labels.next' | translate }} <i class="fa fa-arrow-right"></i>
     </a>
-    <a goToTop data-ng-click="submitForm({$valid: true}, 'entre_verdes', 'app.wizard_controladores.transicoes_proibidas')" data-toggle="tooltip" data-placement="top" title="Transições Proíbidas" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
+    <a goToTop data-ng-click="submitForm({$valid: true}, 'entre_verdes', 'app.wizard_controladores.atraso_de_grupo')" data-toggle="tooltip" data-placement="top" title="Atraso de Grupo" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
       <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.previous' | translate }}
     </a>
   </div>

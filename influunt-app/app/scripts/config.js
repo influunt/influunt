@@ -320,6 +320,15 @@ angular
           }
         })
 
+        .state('app.wizard_controladores.atraso_de_grupo', {
+          url: '/atraso-de-grupo/:id',
+          templateUrl: 'views/controladores/wizard/atraso-de-grupo.html',
+          controller: 'ControladoresAtrasoDeGrupoCtrl',
+          data: {
+            title: 'controladores.atrasoDeGrupo'
+          }
+        })
+
         .state('app.wizard_controladores.entre_verdes', {
           url: '/entre-verdes/:id',
           templateUrl: 'views/controladores/wizard/entre-verdes.html',
@@ -347,6 +356,15 @@ angular
           }
         })
 
+        .state('app.mapa_controladores', {
+          url: '/mapa-controladores',
+          templateUrl: 'views/controladores/mapa.html',
+          controller: 'ControladoresMapaCtrl',
+          data: {
+            title: 'controladores.mapa'
+          }
+        })
+
         .state('app.planos', {
           url: '/planos/:id',
           templateUrl: 'views/planos/criacao-planos.html',
@@ -355,6 +373,7 @@ angular
             title: 'planos.titulo'
           }
         })
+        
         //Timeline
         .state('app.timeline', {
           url: '/timeline',
@@ -365,6 +384,16 @@ angular
             title: 'timeline.titulo'
           }
         })
+
+        .state('app.tabela_horarios', {
+          url: '/tabela_horarios/:id',
+          templateUrl: 'views/tabela_horarios/configuracao.html',
+          controller: 'TabelaHorariosCtrl',
+          data: {
+            title: 'tabelaHorarios.titulo'
+          }
+        })
+
         // Crud perfis.
         .state('app.perfis', {
           url: '/perfis',

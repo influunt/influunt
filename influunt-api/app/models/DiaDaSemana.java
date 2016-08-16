@@ -6,7 +6,7 @@ import java.util.Arrays;
  * Created by pedropires on 7/7/16.
  */
 public enum DiaDaSemana {
-    SEGUNDA_A_SEXTA("Segunda a sexta"), SEGUNDA_A_SABADO("Segunda a sábado"), SABADO_A_DOMINGO("Sábado e domingo"),
+    SEGUNDA_A_SEXTA("Segunda à Sexta"), SEGUNDA_A_SABADO("Segunda à Sábado"), SABADO_A_DOMINGO("Sábado e Domingo"),
     TODOS_OS_DIAS("Todos os dias da semana"), SEGUNDA("Segunda-feira"), TERCA("Terça-feira"),
     QUARTA("Quarta-feira"), QUINTA("Quinta-feira"), SEXTA("Sexta-feira"), SABADO("Sábado"), DOMINGO("Domingo");
 
@@ -26,6 +26,10 @@ public enum DiaDaSemana {
     }
 
     public static DiaDaSemana get(String name) {
-        return Arrays.stream(DiaDaSemana.values()).filter(diaDaSemana -> diaDaSemana.equalsName(name)).findFirst().orElse(null);
+        DiaDaSemana value = Arrays.stream(DiaDaSemana.values()).filter(diaDaSemana -> diaDaSemana.equalsName(name)).findFirst().orElse(null);
+        if (value == null) {
+            value = DiaDaSemana.valueOf(name);
+        }
+        return value;
     }
 }

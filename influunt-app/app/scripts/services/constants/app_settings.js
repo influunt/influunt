@@ -14,6 +14,6 @@
 angular.module('influuntApp')
   .constant('APP_SETTINGS',
     {
-      'defaultLocale': 'pt-br'
+      defaultLocale: 'pt-br'
     }
   );
