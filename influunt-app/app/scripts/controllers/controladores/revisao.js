@@ -34,9 +34,6 @@ angular.module('influuntApp')
 
       $scope.inicializaRevisao = function() {
         return $scope.inicializaWizard().then(function() {
-
-          console.log('objeto: ', $scope.objeto)
-
           setDadosBasicosControlador();
           $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
           $scope.aneis = _.filter($scope.objeto.aneis, { ativo: true });
