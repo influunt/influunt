@@ -2,18 +2,6 @@
 
 /**
  * @ngdoc function
-<<<<<<< HEAD
- * @name influuntApp.controller:ControladoresAssociacaoCtrl
- * @description
- * # ControladoresAssociacaoCtrl
- * Controller of the influuntApp
- */
-angular.module('influuntApp')
-  .controller('ControladoresRevisaoCtrl', ['$scope', '$state', '$controller', 'assertControlador',
-    function ($scope, $state, $controller, assertControlador) {
-      $controller('ControladoresCtrl', {$scope: $scope});
-
-=======
  * @name influuntApp.controller:ControladoresRevisaoCtrl
  * @description
  * # ControladoresRevisaoCtrl
@@ -24,8 +12,11 @@ angular.module('influuntApp')
     function ($scope, $state, $controller, assertControlador) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
+      var setDadosBasicosControlador, setDadosCurrentAnel, getLocalizacaoAnel, getNumGruposSemaforicosAnel,
+          getNumDetectoresAnel, setDadosCurrentGruposSemaforicos, setDadosCurrentEstagios,
+          setDadosCurrentVerdesConflitantes, setDadosCurrentTransicoesProibidas, setDadosCurrentTabelasEntreVerdes,
+          setDadosCurrentDetectores;
 
-      //controladores.dadosBasicos
       /**
        * Pré-condições para acesso à tela de revisao: Somente será possível acessar esta
        * tela se o objeto possuir estágios. Os estágios são informados no passo anterior, o
@@ -38,131 +29,256 @@ angular.module('influuntApp')
         if (!valid) {
           $state.go('app.wizard_controladores.revisao', {id: $scope.objeto.id});
         }
-
-
         return valid;
       };
 
-      var getVerdesConfitantesOrigemDestino = function() {
-          return $scope.objeto.gruposSemaforicos &&
-            $scope.objeto.gruposSemaforicos.forEach(function(gs) {
-                gs.verdesConflitantesOrigem.forEach(function(vec) {
-                  var obj = _.find($scope.objeto.verdesConflitantes, vec);
-                  var origem = _.find($scope.objeto.gruposSemaforicos, {idJson: obj.origem.idJson});
-                  var destino = _.find($scope.objeto.gruposSemaforicos, {idJson: obj.destino.idJson});
-                  //
-                  $scope.verdesConflitantes[origem.posicao][destino.posicao] = true;
-                  $scope.verdesConflitantes[destino.posicao][origem.posicao] = true;
-
-                  console.log(JSON.stringify(gs));
-
-              });
-            });
-      };
-
-
-      var getDetectoresAnel = function() {
-        var ids = _.map($scope.currentAnel.detectores, 'idJson');
-        $scope.detectoresAnel = _
-          .chain($scope.objeto.detectores)
-          .filter(function(d) {
-            return ids.indexOf(d.idJson) >= 0;
-          })
-          .orderBy(['tipo', 'posicao'])
-          .value();
-
-          $scope.DetectoresAnelPedestres = _.filter($scope.detectoresAnel, {tipo : 'PEDESTRE'}).length;
-          $scope.DetectoresAnelVeiculos =  _.filter($scope.detectoresAnel, {tipo : 'VEICULAR'}).length;
-          //console.log(JSON.stringify($scope.detectoresAnel));
-        };
-
-      var getLocalizacaoAnel = function() {
-        var end1 = _.filter( $scope.objeto.todosEnderecos , {idJson: $scope.currentAnel.enderecos[0].idJson});
-        var end2 = _.filter( $scope.objeto.todosEnderecos , {idJson: $scope.currentAnel.enderecos[1].idJson});
-        return end2[0].localizacao + " com " + end1[0].localizacao;
-      };
-
-      var getEstagiosAnel = function() {
-        var ids = _.map($scope.currentAnel.estagios, 'idJson');
-        $scope.currentEstagios = _
-          .chain($scope.objeto.estagios)
-          .filter(function(d) {
-            return ids.indexOf(d.idJson) >= 0;
-          })
-          .orderBy(['posicao'])
-          .value();
-      };
-
-      var getGruposSemaforicosAnel = function() {
-        var ids = _.map($scope.currentAnel.gruposSemaforicos, 'idJson');
-        $scope.currentGruposSemaforicos = _
-          .chain($scope.objeto.gruposSemaforicos)
-          .filter(function(d) {
-            return ids.indexOf(d.idJson) >= 0;
-          })
-          .orderBy(['posicao', 'tipo'])
-          .value();
-      };
-
-      var getAneisAtivos = function () {
-        $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
-        var aneisAtivos = _.filter($scope.objeto.aneis, {ativo : true});
-        $scope.qdteAneisAtivos = aneisAtivos.length;
-
-        // Dados do 1 anel
-        $scope.anelOne = aneisAtivos[0];
-        $scope.currentAnel = aneisAtivos[0];
-        //$scope.anelTo = aneisAtivos[1];
-        //console.log(JSON.stringify($scope.anelOne));
-
-        $scope.numeroSMEE = $scope.anelOne.numeroSMEE;
-        $scope.CLA = $scope.anelOne.CLA;
-        $scope.localizacao = getLocalizacaoAnel();
-        $scope.detectoresAnel = getDetectoresAnel();
-        getEstagiosAnel();
-        getGruposSemaforicosAnel();
-
-        //transicoesProibidas
-        $scope.currentTransicoesProibidas = $scope.objeto.transicoesProibidas;
-        //console.log(JSON.stringify($scope.currentTransicoesProibidas));
-
-      };
-
-
-
       $scope.inicializaRevisao = function() {
         return $scope.inicializaWizard().then(function() {
-            getAneisAtivos();
 
-            var area = _.find($scope.objeto.areas, {idJson: $scope.objeto.area.idJson});
-            var cidade = _.find($scope.objeto.cidades, {idJson: area.cidade.idJson});
-            $scope.cidadeNome = cidade.nome;
-            $scope.area = area.descricao;
+          console.log('objeto: ', $scope.objeto)
 
-            $scope.fabricante = $scope.objeto.modelo.fabricante.nome;
-            $scope.modelo = $scope.objeto.modelo.descricao;
-            $scope.qtdeEstagios = $scope.objeto.estagios.length;
-
-            // Detectores - todos
-            $scope.detectoresVeicular = _.filter($scope.objeto.detectores, {tipo : 'VEICULAR'});
-            $scope.detectoresVeicular = $scope.detectoresVeicular.length;
-            $scope.detectoresPedestre = _.filter($scope.objeto.detectores, {tipo : 'PEDESTRE'});
-            $scope.detectoresPedestre = $scope.detectoresPedestre.length;
-
-            // Grupos Semaforicos
-            $scope.semaforicosVeicular = _.filter($scope.objeto.gruposSemaforicos, {tipo : 'VEICULAR'});
-            $scope.semaforicosVeicular = $scope.semaforicosVeicular.length;
-            $scope.semaforicosPedestre = _.filter($scope.objeto.gruposSemaforicos, {tipo : 'PEDESTRE'});
-            $scope.semaforicosPedestre = $scope.semaforicosPedestre.length;
-
-            // Verdes conflitantes
-            getVerdesConfitantesOrigemDestino();
-
-            // estagios
-
-
-
+          setDadosBasicosControlador();
+          $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
+          $scope.aneis = _.filter($scope.objeto.aneis, { ativo: true });
+          $scope.selecionaAnelRevisao(0);
         });
       };
 
-}]);
+      $scope.selecionaAnelRevisao = function(index) {
+        $scope.selecionaAnel(index);
+        $scope.atualizaGruposSemaforicos();
+        $scope.atualizaEstagios();
+        setDadosCurrentAnel();
+        setDadosCurrentGruposSemaforicos();
+        setDadosCurrentEstagios();
+        setDadosCurrentVerdesConflitantes();
+        setDadosCurrentTransicoesProibidas();
+        setDadosCurrentTabelasEntreVerdes();
+        setDadosCurrentDetectores();
+      };
+
+      setDadosBasicosControlador = function() {
+        var area = _.find($scope.objeto.areas, {idJson: $scope.objeto.area.idJson});
+        $scope.dadosBasicos = {
+          area: area,
+          cidade: _.find($scope.objeto.cidades, { idJson: area.cidade.idJson }),
+          numeroSMEE: $scope.objeto.numeroSMEE || '-',
+          numeroSMEEConjugado1: $scope.objeto.numeroSMEEConjugado1 || '-',
+          numeroSMEEConjugado2: $scope.objeto.numeroSMEEConjugado2 || '-',
+          numeroSMEEConjugado3: $scope.objeto.numeroSMEEConjugado3 || '-',
+          CLC: $scope.objeto.CLC,
+          modelo: $scope.objeto.modelo,
+          fabricante: $scope.objeto.modelo.fabricante,
+          numEstagios: $scope.objeto.estagios.length,
+          numAneisAtivos: _.filter($scope.objeto.aneis, { ativo: true }).length,
+          numDetectoresVeicular: _.filter($scope.objeto.detectores, {tipo : 'VEICULAR'}).length,
+          numDetectoresPedestre: _.filter($scope.objeto.detectores, {tipo : 'PEDESTRE'}).length,
+          endereco: $scope.objeto.nomeEndereco
+        }
+      };
+
+      setDadosCurrentAnel = function() {
+        var gruposSemaforicosCount = getNumGruposSemaforicosAnel($scope.currentAnel);
+        var detectoresCount = getNumDetectoresAnel($scope.currentAnel);
+        $scope.dadosCurrentAnel = {
+          CLA: $scope.currentAnel.CLA,
+          localizacao: getLocalizacaoAnel($scope.currentAnel),
+          numeroSMEE: $scope.currentAnel.numeroSMEE || '-',
+          numGruposPedestre: gruposSemaforicosCount.totalPedestre,
+          numGruposVeicular: gruposSemaforicosCount.totalVeicular,
+          numDetectoresPedestre: detectoresCount.totalPedestre,
+          numDetectoresVeicular: detectoresCount.totalVeicular
+        }
+      };
+
+      getLocalizacaoAnel = function(anel) {
+        var endereco1 = _.find($scope.objeto.todosEnderecos, { idJson: anel.enderecos[0].idJson });
+        var endereco2 = _.find($scope.objeto.todosEnderecos, { idJson: anel.enderecos[1].idJson });
+        return endereco1.localizacao + ' com ' + endereco2.localizacao
+      };
+
+      getNumGruposSemaforicosAnel = function(anel) {
+        var result = { totalVeicular: 0, totalPedestre: 0 }
+        _.forEach(anel.gruposSemaforicos, function(gs) {
+          var grupoSemaforico = _.find($scope.objeto.gruposSemaforicos, { idJson: gs.idJson });
+          if (grupoSemaforico.tipo === 'VEICULAR') {
+            result.totalVeicular += 1;
+          } else {
+            result.totalPedestre += 1;
+          }
+        });
+
+        return result;
+      };
+
+      getNumDetectoresAnel = function(anel) {
+        var result = { totalVeicular: 0, totalPedestre: 0 }
+        _.forEach(anel.detectores, function(d) {
+          var detector = _.find($scope.objeto.detectores, { idJson: d.idJson });
+          if (detector.tipo === 'VEICULAR') {
+            result.totalVeicular += 1;
+          } else {
+            result.totalPedestre += 1;
+          }
+        });
+
+        return result;
+      };
+
+      setDadosCurrentGruposSemaforicos = function() {
+        $scope.dadosCurrentGruposSemaforicos = [];
+        var grupos = [];
+        _.forEach($scope.currentGruposSemaforicos, function(grupoSemaforico, index) {
+          if (index > 0 && index % 3 === 0) {
+            $scope.dadosCurrentGruposSemaforicos.push(grupos);
+            grupos = [];
+          }
+
+          var dadosGrupo = {
+            posicao: grupoSemaforico.posicao,
+            descricao: grupoSemaforico.descricao,
+            tipo: grupoSemaforico.tipo,
+            faseVermelha: grupoSemaforico.faseVermelhaApagadaAmareloIntermitente ? 'Colocar em amarelo intermitente' : 'Não colocar em amarelo intermitente'
+          };
+
+          grupos.push(dadosGrupo);
+
+          if (index === $scope.currentGruposSemaforicos.length - 1) {
+            $scope.dadosCurrentGruposSemaforicos.push(grupos);
+          }
+        });
+      };
+
+      setDadosCurrentEstagios = function() {
+        $scope.dadosCurrentEstagios = [];
+        _.forEach($scope.currentEstagios, function(estagio) {
+          var ids = _.map(estagio.estagiosGruposSemaforicos, 'idJson');
+          var estagioGrupos = _.chain($scope.objeto.estagiosGruposSemaforicos)
+            .filter(function(e) {
+              return ids.indexOf(e.idJson) >= 0;
+            })
+            .value();
+
+          ids = _.map(estagioGrupos, function(egs) { return egs.grupoSemaforico.idJson; });
+          var gruposStr = _.chain($scope.objeto.gruposSemaforicos)
+            .filter(function(e) {
+              return ids.indexOf(e.idJson) >= 0;
+            })
+            .orderBy(['posicao'])
+            .map(function(grupoSemaforico) { return 'G' + grupoSemaforico.posicao; })
+            .join(', ')
+            .value();
+
+          var dadosEstagio = {
+            posicao: estagio.posicao,
+            gruposSemaforicosStr: gruposStr,
+            demandaPrioritaria: estagio.demandaPrioritaria,
+            tempoMaximoPermanenciaAtivado: estagio.tempoMaximoPermanenciaAtivado,
+            tempoMaximoPermanencia: estagio.tempoMaximoPermanencia,
+            imagem: $scope.getImagemDeEstagio(estagio)
+          }
+
+          $scope.dadosCurrentEstagios.push(dadosEstagio);
+        });
+      };
+
+      setDadosCurrentVerdesConflitantes = function() {
+        $scope.dadosCurrentVerdesConflitantes = [];
+        var ids = _.map($scope.currentGruposSemaforicos, 'idJson');
+        var verdesConflitantes = _.filter($scope.objeto.verdesConflitantes, function(vc) {
+          return ids.indexOf(vc.origem.idJson) >= 0 || ids.indexOf(vc.destino.idJson) >= 0;
+        });
+
+        _.forEach(verdesConflitantes, function(verdeConflitante) {
+          $scope.dadosCurrentVerdesConflitantes.push({
+            origem: _.find($scope.objeto.gruposSemaforicos, { idJson: verdeConflitante.origem.idJson }),
+            destino: _.find($scope.objeto.gruposSemaforicos, { idJson: verdeConflitante.destino.idJson })
+          });
+        });
+
+        $scope.dadosCurrentVerdesConflitantes = _.orderBy($scope.dadosCurrentVerdesConflitantes, ['origem.posicao', 'destino.posicao']);
+      };
+
+      setDadosCurrentTransicoesProibidas = function() {
+        var dadosCurrentTransicoesProibidas = [];
+        var ids = _.map($scope.currentEstagios, 'idJson');
+        var transicoesProibidas = _.filter($scope.objeto.transicoesProibidas, function(tp) {
+          return ids.indexOf(tp.origem.idJson) >= 0 || ids.indexOf(tp.destino.idJson) >= 0 || ids.indexOf(tp.alternativo.idJson) >= 0;
+        });
+
+        _.forEach(transicoesProibidas, function(transicaoProibida) {
+          dadosCurrentTransicoesProibidas.push({
+            origem: _.find($scope.objeto.estagios, { idJson: transicaoProibida.origem.idJson }),
+            destino: _.find($scope.objeto.estagios, { idJson: transicaoProibida.destino.idJson }),
+            alternativo: _.find($scope.objeto.estagios, { idJson: transicaoProibida.alternativo.idJson })
+          });
+        });
+
+        dadosCurrentTransicoesProibidas = _.orderBy(dadosCurrentTransicoesProibidas, ['origem.posicao', 'destino.posicao', 'alternativo.posicao']);
+        $scope.dadosCurrentTRansicoesProibidas1 = [];
+        $scope.dadosCurrentTRansicoesProibidas2 = [];
+
+        _.forEach(dadosCurrentTransicoesProibidas, function(transicaoProibida, index) {
+          if (index % 2 === 0) {
+            $scope.dadosCurrentTRansicoesProibidas1.push(transicaoProibida);
+          } else {
+            $scope.dadosCurrentTRansicoesProibidas2.push(transicaoProibida)
+          }
+        });
+      };
+
+      setDadosCurrentTabelasEntreVerdes = function() {
+        $scope.dadosCurrentTabelasentreVerdesPadrao = [];
+        $scope.dadosCurrentTabelasentreVerdesOutra = [];
+        var ids = _.map($scope.currentEstagios, 'idJson');
+        var transicoes = _.filter($scope.objeto.transicoes, function(t) {
+          return ids.indexOf(t.origem.idJson) >= 0 || ids.indexOf(t.destino.idJson) >= 0;
+        });
+
+        _.forEach(transicoes, function(transicao) {
+          var tevtPadrao = _.find($scope.objeto.tabelasEntreVerdesTransicoes, { idJson: transicao.tabelaEntreVerdesTransicoes[0].idJson });
+          var tevPadrao = _.find($scope.tabelasEntreVerdes, { idJson: tevtPadrao.tabelaEntreVerdes.idJson });
+          $scope.dadosCurrentTabelasentreVerdesPadrao.push({
+            origem: _.find($scope.objeto.estagios, { idJson: transicao.origem.idJson }),
+            destino: _.find($scope.objeto.estagios, { idJson: transicao.destino.idJson }),
+            tempoAmarelo: tevtPadrao.tempoAmarelo,
+            tempoVermelhoLimpeza: tevtPadrao.tempoVermelhoLimpeza,
+            tempoVermelhoIntermitente: tevtPadrao.tempoVermelhoIntermitente
+          });
+
+          var tevtOutra = _.get(transicao, 'tabelaEntreVerdesTransicoes[1]');
+          if (typeof tevtOutra !== 'undefined') {
+            tevtOutra = _.find($scope.objeto.tabelasEntreVerdesTransicoes, { idJson: tevtOutra.idJson });
+            var tevOutra = _.find($scope.tabelasEntreVerdes, { idJson: tevtOutra.tabelaEntreVerdes.idJson });
+            console.log('tevOutra')
+            $scope.dadosCurrentTabelasentreVerdesOutra.push({
+              origem: _.find($scope.objeto.estagios, { idJson: transicao.origem.idJson }),
+              destino: _.find($scope.objeto.estagios, { idJson: transicao.destino.idJson }),
+              tempoAmarelo: tevtOutra.tempoAmarelo,
+              tempoVermelhoLimpeza: tevtOutra.tempoVermelhoLimpeza,
+              tempoVermelhoIntermitente: tevtOutra.tempoVermelhoIntermitente,
+              nome: _.get(tevOutra, 'descricao') || 'NOVA'
+            });
+          }
+        });
+      };
+
+      setDadosCurrentDetectores = function() {
+        $scope.dadosCurrentDetectores = [];
+        var ids = _.map($scope.currentEstagios, 'idJson');
+        var detectores = _.filter($scope.objeto.detectores, function(detector) {
+          return ids.indexOf(detector.estagio.idJson) >= 0;
+        });
+
+        _.forEach(detectores, function(detector) {
+          $scope.dadosCurrentDetectores.push({
+            nome: detector.tipo === 'PEDESTRE' ? 'DP'+detector.posicao : 'DV'+detector.posicao,
+            estagio: _.find($scope.objeto.estagios, { idJson: detector.estagio.idJson }),
+            tempoAusenciaDeteccaoMinima: detector.tempoAusenciaDeteccaoMinima || 0,
+            tempoAusenciaDeteccaoMaxima: detector.tempoAusenciaDeteccaoMaxima || 0,
+            tempoDeteccaoPermanenteMinima: detector.tempoDeteccaoPermanenteMinima || 0,
+            tempoDeteccaoPermanenteMaxima: detector.tempoDeteccaoPermanenteMaxima || 0
+          });
+        });
+      };
+    }]);

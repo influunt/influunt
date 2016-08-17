@@ -218,7 +218,7 @@ angular.module('influuntApp')
        *
        * @param      {int}  index   The index
        */
-      $scope.selecionaTabelaEntreVerdes = function(tev, index) { 
+      $scope.selecionaTabelaEntreVerdes = function(tev, index) {
         $scope.currentTabelaEntreVerdesIndex = index;
         $scope.currentTabelaEntreVerdes = tev;
         $scope.tabelasEntreVerdesTransicoes = _.chain($scope.currentGrupoSemaforico.transicoes)
@@ -342,6 +342,7 @@ angular.module('influuntApp')
           .filter(function(gs) {
             return ids.indexOf(gs.idJson) >= 0;
           })
+          .orderBy(['posicao'])
           .value();
 
           return $scope.currentGruposSemaforicos;
@@ -362,7 +363,7 @@ angular.module('influuntApp')
 
       $scope.getImagemDeEstagio = function(estagio) {
         var imagem = _.find($scope.objeto.imagens, {idJson: estagio.imagem.idJson});
-        return imagem && $filter('imageSource')(imagem.id,'thumb');
+        return imagem && $filter('imageSource')(imagem.id, 'thumb');
       };
 
     }]);
