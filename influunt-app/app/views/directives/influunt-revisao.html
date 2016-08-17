@@ -274,12 +274,19 @@
   </div>
 
   <div class="row links-revisao">
-    <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix">
+    <!-- Mostrar se estiver em edicao-->
+    <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix" ng-show="objeto.statusControlador == 'EM_CONFIGURACAO'">
       <a ui-sref="app.controladores" data-toggle="tooltip" data-placement="top" title="Salvar" class="btn btn-primary btn-footer right">
-        <i class="fa fa-arrow-right"></i> {{ 'geral.crud.salvar' | translate }}
+         {{ 'geral.crud.salvar' | translate }} <i class="fa fa-arrow-right"></i>
       </a>
       <a ui-sref="app.wizard_controladores.associacao_detectores({id: $state.params.id})" data-toggle="tooltip" data-placement="top" title="Associação de Detectores" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
         <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.previous' | translate }}
+      </a>
+    </div>
+
+    <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix" ng-show="objeto.statusControlador == 'CONFIGURADO'">
+      <a ui-sref="app.controladores" data-toggle="tooltip" data-placement="top" title="Volter" class="btn btn-primary btn-footer right">
+         {{ 'geral.crud.voltar' | translate }}
       </a>
     </div>
   </div>
