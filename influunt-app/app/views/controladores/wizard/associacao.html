@@ -27,7 +27,7 @@
                     <nav>
                       <ul class="handle" ui-sortable="sortableOptions" data-ng-model="currentEstagios">
                       <li class="ibox" data-ng-repeat="(indexEstagio, estagio) in currentEstagios">
-                        <div class="col-lg-12 col-sm-12">
+                        <div class="col-lg-12 col-sm-12 table-hover">
                           <div class="row">
                             <div class="title-stages small">
                               <hgroup>
@@ -38,6 +38,12 @@
                                   <i class="fa fa-exclamation"></i>
                                 </span>
                                 <p>E{{ estagio.posicao }}</p>
+                                <button type="button" class="btn btn-primary btn-xs" data-ng-click="leftEstagio($index)" ng-disabled="$first">
+                                  <i class="fa fa-arrow-up" />
+                                </button>
+                                <button type="button" class="btn btn-primary btn-xs" data-ng-click="rightEstagio($index)"  ng-disabled="$last">
+                                  <i class="fa fa-arrow-down" />
+                                </button>
                               </hgroup>
 
                             </div>
