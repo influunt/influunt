@@ -1,24 +1,14 @@
 <div class="container-fluid wrapper wrapper-content animated fadeInRight" data-ng-init="init()">
   <section role="complementary" class="basic-wizard">
     <div class="content clearfix wizard-body">
-      <div class="step-content body">
+      <div class="step-content tabs-container body">
         <fieldset>
           <influunt-tabs class="tabpanel"
                          data-on-activate="selecionaAnelPlanos"
                          data-aneis-ativos="aneis"
                          data-error-check="anelTemErro">
           </influunt-tabs>
-          <div class="row">
-            <uib-alert type="danger" close="closeAlertAnel(currentAnelIndex, 'all')" data-ng-if="errors.general || errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosDePedestre || errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosVeiculares">
-              <div style="padding-left: 12px;">
-                <ul>
-                  <li data-ng-repeat="message in errors.general">{{ message }}</li>
-                </ul>
-              </div>
-            </uib-alert>
-          </div>
-          <div class="m-t-md">
-            <div class="col-lg-12 col-sm-12 bg-border no-padding">
+            <div class="col-lg-12 col-sm-12 ibox white-bg no-padding">
               <div class="ibox float-e-margins">
                 <div class="tabpanel">
                   <div class="col-lg-12 col-sm-12 padding-top-20 tabs-container">
@@ -39,6 +29,11 @@
                                   data-ng-click="selecionaPlano(plano, $index)"
                                   data-ng-class="{active: $index === currentPlanoIndex}">
                                     PLANO {{ plano.posicao }}
+                                    <span class="badge badge-danger badge-notification pull-right m-t-sm"
+                                        data-ng-if="errors.aneis[currentAnelIndex].planos[$index]"
+                                        style="margin-left: .3em;">
+                                      <i class="fa fa-exclamation"></i>
+                                    </span>
                                     <i class="fa fa-times pull-right m-t-sm remove-tabela-entre-verdes" data-ng-if="$index !== 0" data-ng-click="removerPlano(plano, $index)"></i>
                                     <i class="fa fa-files-o pull-right m-t-sm" data-ng-click="duplicarPlano(plano)" aria-hidden="true"></i>
                                 </li>
@@ -76,7 +71,17 @@
                               <div class="col-lg-10 col-sm-10 no-padding-right">
                                 <div class="col-lg-12 col-sm-12 association table-creation-plans">
                                   <section>
+
+
                                     <div class="col-lg-12 col-sm-12 no-padding table-create-plan overflow panel-estagios">
+                                      <uib-alert type="danger" data-ng-if="errors.aneis[currentAnelIndex].planos[currentPlanoIndex]">
+                                        <div style="padding-left: 12px;">
+                                          <ul>
+                                            <li data-ng-repeat="message in getErrosPlanos(errors.aneis[currentAnelIndex].planos[currentPlanoIndex])">{{ message }}</li>
+                                          </ul>
+                                        </div>
+                                      </uib-alert>
+
                                       <ul class="ui-sortable planos">
                                         <!-- elementos para adicionar novos estágios à sequencia -->
                                         <li class="ui-state-default card-estagio add-card-estagio"
@@ -105,6 +110,12 @@
                                               <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">
                                                 <i class="fa fa-cog" />
                                                 Configurar
+                                              </button>
+                                              <button type="button" class="btn btn-primary btn-xs" data-ng-click="leftEstagio($index)" ng-disabled="$first">
+                                                <i class="fa fa-arrow-left" />
+                                              </button>
+                                              <button type="button" class="btn btn-primary btn-xs" data-ng-click="rightEstagio($index)"  ng-disabled="$last">
+                                                <i class="fa fa-arrow-right" />
                                               </button>
                                             </div>
                                           </li>
@@ -135,7 +146,6 @@
                 </div>
               </div>
             </div>
-          </div>
           <div class="col-sm-12 col-lg-12 no-pading pg-bt m-t-lg">
             <a class="btn btn-primary btn-footer right m-r-sm right" disabled="disabled" data-toggle="tooltip" data-placement="top" title="É necessário resolver todos os problemas antes de salvar" data-ng-show="dadosDiagrama.erros.length > 0">{{ 'geral.crud.salvar' | translate }}</a>
             <a data-ng-click="submitForm()" class="btn btn-primary btn-footer right m-r-sm right" data-ng-if="dadosDiagrama.erros.length === 0">{{ 'geral.crud.salvar' | translate }}</a>

@@ -11,13 +11,15 @@ angular.module('influuntApp')
   .controller('PlanosCtrl', ['$scope', '$state', '$timeout', 'Restangular', '$filter',
                              'validaTransicao', 'utilEstagios', 'toast', 'modoOperacaoService',
                              'influuntAlert', 'influuntBlockui', 'geraDadosDiagramaIntervalo',
+                             'handleValidations',
     function ($scope, $state, $timeout, Restangular, $filter,
               validaTransicao, utilEstagios, toast, modoOperacaoService,
-              influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo) {
+              influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo,
+              handleValidations) {
 
       var adicionaPlano, selecionaAnel, atualizaTabelaEntreVerdes, atualizaEstagios, atualizaGruposSemaforicos, atualizaPlanos,
           atualizaEstagiosPlanos, adicionaEstagioASequencia, atualizaPosicaoPlanos, atualizaPosicaoEstagiosPlanos,
-          carregaDadosPlano, getOpcoesEstagiosDisponiveis, montaTabelaValoresMinimos, parseAllToInt, setDiagramaEstatico, 
+          carregaDadosPlano, getOpcoesEstagiosDisponiveis, montaTabelaValoresMinimos, parseAllToInt, setDiagramaEstatico,
           atualizaDiagramaIntervalos, getPlanoParaDiagrama, atualizaTransicoesProibidas;
       var diagramaDebouncer = null;
 
@@ -118,6 +120,29 @@ angular.module('influuntApp')
         }
       };
 
+      $scope.leftEstagio = function(posicaoAtual) {
+        var estagioAtual = $scope.currentEstagiosPlanos[posicaoAtual];
+        var estagioAnterior = utilEstagios.getEstagioAnterior($scope.currentEstagiosPlanos, posicaoAtual);
+        var indexAnterior = _.findIndex($scope.currentEstagiosPlanos, estagioAnterior);
+
+        $scope.currentEstagiosPlanos.splice(indexAnterior, 1);
+        var indexAtual = _.findIndex($scope.currentEstagiosPlanos, estagioAtual);
+        $scope.currentEstagiosPlanos.splice(indexAtual+1, 0, estagioAnterior);
+
+        atualizaPosicaoEstagiosPlanos();
+      };
+
+      $scope.rightEstagio = function(posicaoAtual) {
+        var estagioAtual = $scope.currentEstagiosPlanos[posicaoAtual];
+        var proximoEstagio = utilEstagios.getProximoEstagio($scope.currentEstagiosPlanos, posicaoAtual);
+
+        $scope.currentEstagiosPlanos.splice(posicaoAtual, 1);
+        var posicaoProximoEstagio = _.findIndex($scope.currentEstagiosPlanos, proximoEstagio);
+        $scope.currentEstagiosPlanos.splice(posicaoProximoEstagio + 1, 0, estagioAtual);
+
+        atualizaPosicaoEstagiosPlanos();
+      };
+
       $scope.sortableOptions = {
         handle: '> .sortable',
         stop: function() {
@@ -200,6 +225,10 @@ angular.module('influuntApp')
         });
       };
 
+      $scope.getErrosPlanos = function(listaErros) {
+        return _.chain(listaErros).map().flatten().map().flatten().value();
+      };
+
       /**
        * Adiciona um novo plano ao controlador.
        *
@@ -215,7 +244,8 @@ angular.module('influuntApp')
           modoOperacao: 'TEMPO_FIXO_ISOLADO',
           posicaoTabelaEntreVerde: 1,
           gruposSemaforicosPlanos: [],
-          estagiosPlanos: []
+          estagiosPlanos: [],
+          tempoCiclo: $scope.objeto.cicloMin
         };
 
         $scope.objeto.gruposSemaforicosPlanos = $scope.objeto.gruposSemaforicosPlanos || [];
@@ -311,7 +341,7 @@ angular.module('influuntApp')
 
           return $scope.currentEstagios;
       };
-      
+
       atualizaGruposSemaforicos = function() {
         var ids = _.map($scope.currentAnel.gruposSemaforicos, 'idJson');
         $scope.currentGruposSemaforicos = _
@@ -478,15 +508,27 @@ angular.module('influuntApp')
 
           $scope.errors = {};
           influuntBlockui.unblock();
+          $state.go('app.controladores');
         })
         .catch(function(res) {
           influuntBlockui.unblock();
           if (res.status === 422) {
-            // $scope.buildValidationMessages(res.data);
+            $scope.errors = handleValidations.buildValidationMessages(res.data);
           } else {
             console.error(res);
           }
         });
+      };
+
+      /**
+       * Deve informar que determinado anel possui erros caso haja uma lista de
+       * erros para determinado anel.
+       *
+       * @param      {<type>}  indice  The indice
+       * @return     {<type>}  { description_of_the_return_value }
+       */
+      $scope.anelTemErro = function(indice) {
+        return handleValidations.anelTemErro($scope.errors, indice);
       };
 
       //Funções para Diagrama de Planos

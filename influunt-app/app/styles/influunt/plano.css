@@ -37,7 +37,7 @@
 }
 
 .planos.ui-sortable li.card-estagio .sortable {
-  cursor: all-scroll;
+  cursor: -webkit-grab;
 }
 
 .planos.ui-sortable li.card-estagio.estagio-ativo {

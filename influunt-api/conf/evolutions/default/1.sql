@@ -29,11 +29,9 @@ create table aneis (
   posicao                       integer,
   numero_smee                   varchar(255),
   controlador_id                uuid,
-  tabela_horario_id             uuid,
   croqui_id                     uuid,
   data_criacao                  timestamp not null,
   data_atualizacao              timestamp not null,
-  constraint uq_aneis_tabela_horario_id unique (tabela_horario_id),
   constraint uq_aneis_croqui_id unique (croqui_id),
   constraint pk_aneis primary key (id)
 );
@@ -89,7 +87,7 @@ create table controladores (
   limite_tabelas_entre_verdes   integer not null,
   data_criacao                  timestamp not null,
   data_atualizacao              timestamp not null,
-  constraint ck_controladores_status_controlador check (status_controlador in (0,1,2)),
+  constraint ck_controladores_status_controlador check (status_controlador in (0,1,2,3,4)),
   constraint pk_controladores primary key (id)
 );
 
@@ -397,6 +395,16 @@ create table verdes_conflitantes (
   constraint pk_verdes_conflitantes primary key (id)
 );
 
+create table versoes_controladores (
+  id                            uuid not null,
+  controlador_origem_id         uuid,
+  controlador_edicao_id         uuid,
+  usuario_id                    uuid,
+  descricao                     varchar(255),
+  data_criacao                  timestamp not null,
+  constraint pk_versoes_controladores primary key (id)
+);
+
 alter table agrupamentos_controladores add constraint fk_agrupamentos_controladores_agrupamentos foreign key (agrupamento_id) references agrupamentos (id) on delete restrict on update restrict;
 create index ix_agrupamentos_controladores_agrupamentos on agrupamentos_controladores (agrupamento_id);
 
@@ -405,8 +413,6 @@ create index ix_agrupamentos_controladores_controladores on agrupamentos_control
 
 alter table aneis add constraint fk_aneis_controlador_id foreign key (controlador_id) references controladores (id) on delete restrict on update restrict;
 create index ix_aneis_controlador_id on aneis (controlador_id);
-
-alter table aneis add constraint fk_aneis_tabela_horario_id foreign key (tabela_horario_id) references tabela_horarios (id) on delete restrict on update restrict;
 
 alter table aneis add constraint fk_aneis_croqui_id foreign key (croqui_id) references imagens (id) on delete restrict on update restrict;
 
@@ -540,6 +546,15 @@ create index ix_verdes_conflitantes_origem_id on verdes_conflitantes (origem_id)
 alter table verdes_conflitantes add constraint fk_verdes_conflitantes_destino_id foreign key (destino_id) references grupos_semaforicos (id) on delete restrict on update restrict;
 create index ix_verdes_conflitantes_destino_id on verdes_conflitantes (destino_id);
 
+alter table versoes_controladores add constraint fk_versoes_controladores_controlador_origem_id foreign key (controlador_origem_id) references controladores (id) on delete restrict on update restrict;
+create index ix_versoes_controladores_controlador_origem_id on versoes_controladores (controlador_origem_id);
+
+alter table versoes_controladores add constraint fk_versoes_controladores_controlador_edicao_id foreign key (controlador_edicao_id) references controladores (id) on delete restrict on update restrict;
+create index ix_versoes_controladores_controlador_edicao_id on versoes_controladores (controlador_edicao_id);
+
+alter table versoes_controladores add constraint fk_versoes_controladores_usuario_id foreign key (usuario_id) references usuarios (id) on delete restrict on update restrict;
+create index ix_versoes_controladores_usuario_id on versoes_controladores (usuario_id);
+
 
 # --- !Downs
 
@@ -551,8 +566,6 @@ drop index if exists ix_agrupamentos_controladores_controladores;
 
 alter table aneis drop constraint if exists fk_aneis_controlador_id;
 drop index if exists ix_aneis_controlador_id;
-
-alter table aneis drop constraint if exists fk_aneis_tabela_horario_id;
 
 alter table aneis drop constraint if exists fk_aneis_croqui_id;
 
@@ -686,6 +699,15 @@ drop index if exists ix_verdes_conflitantes_origem_id;
 alter table verdes_conflitantes drop constraint if exists fk_verdes_conflitantes_destino_id;
 drop index if exists ix_verdes_conflitantes_destino_id;
 
+alter table versoes_controladores drop constraint if exists fk_versoes_controladores_controlador_origem_id;
+drop index if exists ix_versoes_controladores_controlador_origem_id;
+
+alter table versoes_controladores drop constraint if exists fk_versoes_controladores_controlador_edicao_id;
+drop index if exists ix_versoes_controladores_controlador_edicao_id;
+
+alter table versoes_controladores drop constraint if exists fk_versoes_controladores_usuario_id;
+drop index if exists ix_versoes_controladores_usuario_id;
+
 drop table if exists agrupamentos;
 
 drop table if exists agrupamentos_controladores;
@@ -747,4 +769,6 @@ drop table if exists transicoes_proibidas;
 drop table if exists usuarios;
 
 drop table if exists verdes_conflitantes;
+
+drop table if exists versoes_controladores;
 

@@ -25,7 +25,6 @@ import java.util.UUID;
  * Created by rodrigosol on 6/22/16.
  */
 @Entity
-
 @Table(name = "transicoes")
 public class Transicao extends Model implements Cloneable, Serializable {
 

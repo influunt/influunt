@@ -8,7 +8,7 @@
                          data-aneis-ativos="aneis"
                          data-error-check="anelTemErro">
           </influunt-tabs>
-        
+
           <div class="row">
             <uib-alert type="danger" close="closeAlertAnel(currentAnelIndex, 'all')" data-ng-if="errors.general || errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosDePedestre || errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosVeiculares">
               <div style="padding-left: 12px;">
@@ -22,7 +22,14 @@
             <div class="col-lg-12 col-sm-12 bg-border no-padding">
               <div class="ibox float-e-margins">
                 <div class="tabpanel">
-                  <div class="col-lg-12 col-sm-12 tabs-container">
+                  <uib-alert type="danger" data-ng-if="getErrosTabelaHorarios(errors.aneis[currentAnelIndex]).length > 0">
+                    <div style="padding-left: 12px;">
+                      <ul>
+                        <li data-ng-repeat="message in getErrosTabelaHorarios(errors.aneis[currentAnelIndex])">{{ message }}</li>
+                      </ul>
+                    </div>
+                  </uib-alert>
+                  <div class="col-lg-12 col-sm-12 tabs-container no-padding">
                     <div class="ui-layout-content tab-content">
                       <div id="tabs-1">
                         <ng-include src="'views/tabela_horarios/tabs-eventos.html'">

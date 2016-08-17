@@ -7,7 +7,7 @@
  * # influuntTabs
  */
 angular.module('influuntApp')
-  .directive('influuntTabs', ['$templateCache', '$interpolate', '$compile', '$filter', function ($templateCache, $interpolate, $compile, $filter) {
+  .directive('influuntTabs', ['$templateCache', '$interpolate', '$compile', function ($templateCache, $interpolate, $compile) {
     return {
       restrict: 'E',
       scope: {
@@ -77,8 +77,9 @@ angular.module('influuntApp')
 
         var createInitialTabs = function(element) {
           var ul = element.find('ul');
-          scope.aneisAtivos.forEach(function(anel) {
+          scope.aneisAtivos.forEach(function(anel, index) {
             scope.anel = anel;
+            scope.__index = index;
             var template = $interpolate(tabTemplate)(scope);
             ul.append(template);
           });

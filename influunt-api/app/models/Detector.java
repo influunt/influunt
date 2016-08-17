@@ -13,6 +13,7 @@ import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -24,7 +25,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "detectores")
 
-public class Detector extends Model implements Cloneable {
+public class Detector extends Model implements Cloneable, Serializable {
 
     private static final long serialVersionUID = 3752412658492551927L;
 
@@ -35,35 +36,48 @@ public class Detector extends Model implements Cloneable {
 
     @Column
     private String idJson;
+
     @Column
     @Enumerated(EnumType.STRING)
     private TipoDetector tipo;
+
     @ManyToOne
     @JoinColumn(name = "anel_id")
     private Anel anel;
+
     @OneToOne
     private Estagio estagio;
+
     @ManyToOne
     private Controlador controlador;
+
     @Column
     private Integer posicao;
+
     @Column
     private String descricao;
+
     @Column
     private Boolean monitorado = true;
+
     @Column
     private Integer tempoAusenciaDeteccaoMinima;
+
     @Column
     private Integer tempoAusenciaDeteccaoMaxima;
+
     @Column
     private Integer tempoDeteccaoPermanenteMinima;
+
     @Column
     private Integer tempoDeteccaoPermanenteMaxima;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)

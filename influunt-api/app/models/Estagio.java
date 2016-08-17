@@ -31,7 +31,6 @@ import java.util.stream.Collectors;
  */
 @Entity
 @Table(name = "estagios")
-
 public class Estagio extends Model implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 5984122994022833262L;
@@ -306,5 +305,26 @@ public class Estagio extends Model implements Serializable, Cloneable {
 
     public void setPosicao(Integer posicao) {
         this.posicao = posicao;
+    }
+
+    public void addTransicaoProibidaOrigem(TransicaoProibida transicaoProibida) {
+        if(getOrigemDeTransicoesProibidas() == null) {
+            setOrigemDeTransicoesProibidas(new ArrayList<TransicaoProibida>());
+        }
+        getOrigemDeTransicoesProibidas().add(transicaoProibida);
+    }
+
+    public void addTransicaoProibidaDestino(TransicaoProibida transicaoProibida) {
+        if(getDestinoDeTransicoesProibidas() == null) {
+            setDestinoDeTransicoesProibidas(new ArrayList<TransicaoProibida>());
+        }
+        getDestinoDeTransicoesProibidas().add(transicaoProibida);
+    }
+
+    public void addTransicaoProibidaAlternativa(TransicaoProibida transicaoProibida) {
+        if(getAlternativaDeTransicoesProibidas() == null) {
+            setAlternativaDeTransicoesProibidas(new ArrayList<TransicaoProibida>());
+        }
+        getAlternativaDeTransicoesProibidas().add(transicaoProibida);
     }
 }

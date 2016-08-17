@@ -15,6 +15,7 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -33,7 +34,9 @@ import java.util.UUID;
 @ConformidadeNumeroDetectores(groups = ControladorAneisCheck.class)
 @ConformidadeNumeroDetectoresEstagios(groups = ControladorAneisCheck.class)
 
-public class Anel extends Model implements Cloneable {
+public class Anel extends Model implements Cloneable, Serializable {
+
+    private static final long serialVersionUID = -6992146830358479832L;
 
     public static Finder<UUID, Anel> find = new Finder<UUID, Anel>(Anel.class);
 
@@ -59,7 +62,7 @@ public class Anel extends Model implements Cloneable {
     @ManyToOne
     private Controlador controlador;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "anel", cascade = CascadeType.ALL)
     @Valid
     private TabelaHorario tabelaHorario;
 
@@ -359,6 +362,20 @@ public class Anel extends Model implements Cloneable {
             setEnderecos(new ArrayList<Endereco>());
         }
         getEnderecos().add(endereco);
+    }
+
+    public void addEstagio(Estagio estagio) {
+        if (getEstagios() == null) {
+            setEstagios(new ArrayList<Estagio>());
+        }
+        getEstagios().add(estagio);
+    }
+
+    public void addPlano(Plano plano) {
+        if(getPlanos() == null) {
+            setPlanos(new ArrayList<Plano>());
+        }
+        getPlanos().add(plano);
     }
 }
 

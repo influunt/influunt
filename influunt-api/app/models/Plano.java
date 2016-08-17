@@ -18,6 +18,7 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -26,7 +27,9 @@ import java.util.*;
 @Entity
 @Table(name = "planos")
 
-public class Plano extends Model implements Cloneable {
+public class Plano extends Model implements Cloneable, Serializable {
+
+    private static final long serialVersionUID = -2879768190025745634L;
 
     @Id
     private UUID id;
@@ -60,6 +63,7 @@ public class Plano extends Model implements Cloneable {
     @Column
     @NotNull(message = "não pode ficar em branco.")
     private ModoOperacaoPlano modoOperacao;
+
     /**
      * Armazena qual {@link TabelaEntreVerdes} deve ser utiliada pelos grupos semafóricos a paritr da posição
      */
@@ -372,4 +376,6 @@ public class Plano extends Model implements Cloneable {
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
+
+
 }

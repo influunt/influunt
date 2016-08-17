@@ -37,9 +37,14 @@ angular.module('influuntApp')
       });
     };
 
+    var clear = function() {
+      toaster.clear();
+    };
+
     return {
       success: success,
       error: error,
-      warn: warn
+      warn: warn,
+      clear: clear
     };
   }]);
