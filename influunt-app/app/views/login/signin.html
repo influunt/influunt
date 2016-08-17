@@ -3,7 +3,7 @@
     <div>
       <img src="images/logo-escura.png" alt="Influunt" style="width: 256px; height: auto">
     </div>
-    <h3>SEMÁFOROS DE TEMPO FIXO</h3>
+    <h3>CENTRAL DE SEMÁFOROS EM TEMPO FIXO</h3>
     <form class="m-t" name="loginForm" data-ng-submit="submitLogin(loginForm.$valid)" novalidate>
       <div class="form-group login usuario" data-ng-class="{'has-error': loginForm.usuario.$invalid && (!loginForm.usuario.$pristine || submited)}">
         <input type="text" class="form-control" name="usuario" placeholder="{{ 'login.usuario' | translate }}" data-ng-model="credenciais.login" required>
@@ -13,20 +13,20 @@
         <input type="password" class="form-control" name="senha" placeholder="{{ 'login.senha' | translate }}" data-ng-model="credenciais.senha" required>
         <p ng-show="loginForm.senha.$invalid && (!loginForm.senha.$pristine || submited)" class="help-block error-msg">{{ 'geral.campo_obrigatorio' | translate }}</p>
       </div>
-      
+
       <div class="widget red-bg p-xl" id="alert" style="display:none">
 
         <h2>
           Atenção
         </h2>
         <br>
-        <p>Você está utilizado o navegador <strong id="nav">internet explorer</strong>. 
+        <p>Você está utilizado o navegador <strong id="nav">internet explorer</strong>.
           Esse sistema não foi projetado para ser utilizado nesse navegador.</p>
-            
-        <p>Comportamentos não esperados podem acontecer durante a utilização. 
+
+        <p>Comportamentos não esperados podem acontecer durante a utilização.
           Recomenda-se a utilização do navegador Google Chrome, versão 51 ou superior.</p>
       </div>
-                          
+
       <button type="submit" class="btn btn-primary block full-width m-b" id="acessar" >{{ 'login.acessar' | translate }}</button>
 
       <a data-ng-click="forgotPassword()"><small>{{ 'login.esqueceu_sua_senha' | translate }}</small></a>
