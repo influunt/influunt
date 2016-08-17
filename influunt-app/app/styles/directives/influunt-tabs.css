@@ -87,13 +87,3 @@ li.ui-tabs-tab span.badge.badge-danger.badge-notification {
 li.ui-state-active span.ui-icon.ui-icon-circle-close {
   top: -34px;
 }
-
-.icheckbox_square-green {
-  float: left;
-}
-
-label span {
-    padding-left: 10px;
-    display: table;
-    text-transform: uppercase;;
-}

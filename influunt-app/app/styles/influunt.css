@@ -2174,6 +2174,16 @@ li.initialTab {
   opacity: 0.7;
 }
 
+.wrapper-content .basic-wizard .content .body .stages .priority .associacao-label span {
+  padding-left: 10px;
+  display: table;
+  text-transform: uppercase;
+}
+
+.wrapper-content .basic-wizard .content .body .stages .priority .associacao-label div {
+  float: left;
+}
+
 #myModal .links-revisao {
   display: none !important;
 }
