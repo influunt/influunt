@@ -365,7 +365,7 @@ angular.module('influuntApp')
 
       $scope.copiar = function(controladorId) {
         return Restangular.one('controladores', controladorId).all("edit").customGET()
-          .then(function(res) {
+          .then(function() {
             $scope.index();
           })
           .catch(function(err) {
@@ -388,7 +388,7 @@ angular.module('influuntApp')
 
       $scope.configurar = function(controladorId) {
         return Restangular.one('controladores', controladorId).all("pode_editar").customGET()
-          .then(function(res) {
+          .then(function() {
             $state.go('app.wizard_controladores.dados_basicos',{id: controladorId});
           })
           .catch(function(err) {
@@ -399,13 +399,13 @@ angular.module('influuntApp')
 
       $scope.ativar = function(controladorId) {
         return Restangular.one('controladores', controladorId).all("ativar").customPOST()
-          .then(function(res) {
+          .then(function() {
             $scope.index();
           })
           .catch(function(err) {
             toast.clear();
             influuntAlert.alert('Controlador', err.data[0].message);
           });
-      }
+      };
 
     }]);

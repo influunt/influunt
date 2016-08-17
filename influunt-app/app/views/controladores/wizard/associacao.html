@@ -27,7 +27,7 @@
                     <nav>
                       <ul class="handle" ui-sortable="sortableOptions" data-ng-model="currentEstagios">
                       <li class="ibox" data-ng-repeat="(indexEstagio, estagio) in currentEstagios">
-                        <div class="col-lg-12 col-sm-12">
+                        <div class="col-lg-12 col-sm-12 table-hover">
                           <div class="row">
                             <div class="title-stages small">
                               <hgroup>
@@ -38,6 +38,12 @@
                                   <i class="fa fa-exclamation"></i>
                                 </span>
                                 <p>E{{ estagio.posicao }}</p>
+                                <button type="button" class="btn btn-primary btn-xs" data-ng-click="leftEstagio($index)" ng-disabled="$first">
+                                  <i class="fa fa-arrow-up" />
+                                </button>
+                                <button type="button" class="btn btn-primary btn-xs" data-ng-click="rightEstagio($index)"  ng-disabled="$last">
+                                  <i class="fa fa-arrow-down" />
+                                </button>
                               </hgroup>
 
                             </div>
@@ -94,10 +100,10 @@
         <a data-toggle="modal" data-target="#myModal" data-placement="top" class="left btn btn-info btn-footer" title="Ver Resumo">
           <i class="fa fa-eye"></i> {{ 'plugins.steps.labels.last_screen' | translate }}
         </a>
-        <a goToTop data-ng-click="submitForm({$valid: true}, 'associacao_grupos_semaforicos', 'app.wizard_controladores.transicoes_proibidas')" data-toggle="tooltip" data-placement="top" title="Transições Proíbidas" class="goToTop btn btn-primary btn-footer right">
+        <a go-to-top data-ng-click="submitForm({$valid: true}, 'associacao_grupos_semaforicos', 'app.wizard_controladores.transicoes_proibidas')" data-toggle="tooltip" data-placement="top" title="Transições Proíbidas" class="go-to-top btn btn-primary btn-footer right">
           {{ 'plugins.steps.labels.next' | translate }} <i class="fa fa-arrow-right"></i>
         </a>
-        <a goToTop data-ng-click="submitForm({$valid: true}, 'associacao_grupos_semaforicos', 'app.wizard_controladores.verdes_conflitantes')" data-toggle="tooltip" data-placement="top" title="Verdes Conflitantes" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
+        <a go-to-top data-ng-click="submitForm({$valid: true}, 'associacao_grupos_semaforicos', 'app.wizard_controladores.verdes_conflitantes')" data-toggle="tooltip" data-placement="top" title="Verdes Conflitantes" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
           <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.previous' | translate }}
         </a>
       </div>
