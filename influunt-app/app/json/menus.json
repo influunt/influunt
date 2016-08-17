@@ -4,6 +4,11 @@
     "label": "menu.cadastros",
     "children": [
       {
+        "name": "fabricantes",
+        "label": "fabricantes.titulo",
+        "route": "app.fabricantes"
+      },
+      {
         "name": "cidades",
         "label": "cidades.titulo",
         "route": "app.cidades"
@@ -32,18 +37,6 @@
         "name": "usuarios",
         "label": "usuarios.titulo",
         "route": "app.usuarios"
-      }
-    ]
-  },
-  {
-    "name": "configuracoes",
-    "label": "menu.configuracoes",
-    "route": "app.controladores",
-    "children": [
-      {
-        "name": "fabricantes",
-        "label": "fabricantes.titulo",
-        "route": "app.fabricantes"
       }
     ]
   },
