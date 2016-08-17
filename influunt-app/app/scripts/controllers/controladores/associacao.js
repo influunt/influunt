@@ -12,7 +12,7 @@ angular.module('influuntApp')
     function ($scope, $state, $controller, assertControlador) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
-      var atualizaPosicaoEstagios;
+      var atualizaPosicaoEstagios, onSortableStop;
 
       /**
        * Pré-condições para acesso à tela de associações: Somente será possível acessar esta
@@ -127,16 +127,43 @@ angular.module('influuntApp')
           .value();
       };
 
+      $scope.leftEstagio = function(posicaoAtual) {
+        var estagioAtual = $scope.currentEstagios[posicaoAtual];
+        var estagioAnterior = utilEstagios.getEstagioAnterior($scope.currentEstagios, posicaoAtual);
+        var indexAnterior = _.findIndex($scope.currentEstagios, estagioAnterior);
+
+        $scope.currentEstagios.splice(indexAnterior, 1);
+        var indexAtual = _.findIndex($scope.currentEstagios, estagioAtual);
+        $scope.currentEstagios.splice(indexAtual+1, 0, estagioAnterior);
+
+        atualizaPosicaoEstagios();
+        onSortableStop();
+      };
+
+      $scope.rightEstagio = function(posicaoAtual) {
+        var estagioAtual = $scope.currentEstagios[posicaoAtual];
+        var proximoEstagio = utilEstagios.getProximoEstagio($scope.currentEstagios, posicaoAtual);
+
+        $scope.currentEstagios.splice(posicaoAtual, 1);
+        var posicaoProximoEstagio = _.findIndex($scope.currentEstagios, proximoEstagio);
+        $scope.currentEstagios.splice(posicaoProximoEstagio + 1, 0, estagioAtual);
+
+        atualizaPosicaoEstagios();
+        onSortableStop();
+      };
+
+      onSortableStop = function() {
+        $scope.currentEstagios.forEach(function(estagio, index) {
+          estagio.posicao = index + 1;
+        });
+
+        $scope.objeto.estagios = _.orderBy($scope.objeto.estagios, ['posicao']);
+      };
+
       $scope.sortableOptions = {
         handle: '.title-stages',
         stop: function() {
-          $scope.$apply(function() {
-            $scope.currentEstagios.forEach(function(estagio, index) {
-              estagio.posicao = index + 1;
-            });
-
-            $scope.objeto.estagios = _.orderBy($scope.objeto.estagios, ['posicao']);
-          });
+          $scope.$apply(onSortableStop);
         }
       };
     }]);
