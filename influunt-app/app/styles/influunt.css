@@ -2173,3 +2173,7 @@ li.initialTab {
 .changeGreen img {
   opacity: 0.7;
 }
+
+#myModal .links-revisao {
+  display: none !important;
+}

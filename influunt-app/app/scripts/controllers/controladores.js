@@ -328,27 +328,32 @@ angular.module('influuntApp')
       };
 
       $scope.atualizaGruposSemaforicos = function() {
-        var ids = _.map($scope.currentAnel.gruposSemaforicos, 'idJson');
-        $scope.currentGruposSemaforicos = _
-          .chain($scope.objeto.gruposSemaforicos)
-          .filter(function(gs) {
-            return ids.indexOf(gs.idJson) >= 0;
-          })
-          .orderBy(['posicao'])
-          .value();
+        $scope.currentGruposSemaforicos = undefined;
+        if ($scope.currentAnel) {
+          var ids = _.map($scope.currentAnel.gruposSemaforicos, 'idJson');
+          $scope.currentGruposSemaforicos = _
+            .chain($scope.objeto.gruposSemaforicos)
+            .filter(function(gs) {
+              return ids.indexOf(gs.idJson) >= 0;
+            })
+            .orderBy(['posicao'])
+            .value();
 
-          return $scope.currentGruposSemaforicos;
+        }
+        return $scope.currentGruposSemaforicos;
       };
 
       $scope.atualizaEstagios = function() {
-        var ids = _.map($scope.currentAnel.estagios, 'idJson');
-        $scope.currentEstagios = _
-          .chain($scope.objeto.estagios)
-          .filter(function(e) {
-            return ids.indexOf(e.idJson) >= 0;
-          })
-          .orderBy(['posicao'])
-          .value();
+        if ($scope.currentAnel) {
+          var ids = _.map($scope.currentAnel.estagios, 'idJson');
+          $scope.currentEstagios = _
+            .chain($scope.objeto.estagios)
+            .filter(function(e) {
+              return ids.indexOf(e.idJson) >= 0;
+            })
+            .orderBy(['posicao'])
+            .value();
+        }
 
           return $scope.currentEstagios;
       };
