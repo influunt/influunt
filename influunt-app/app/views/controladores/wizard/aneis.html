@@ -130,7 +130,7 @@
 
 	<div class="row">
     <div class="col-lg-12 col-sm-12 bg-border-footer pg-bt-footer actions clearfix">
-      <a goToTop ui-sref="app.wizard_controladores.dados_basicos({id: objeto.id})" target="_blank" data-toggle="tooltip" data-placement="top" class="left btn btn-info btn-footer" title="Ver Tela Dados Básicos">
+      <a data-toggle="modal" data-target="#myModal" data-placement="top" class="left btn btn-info btn-footer" title="Ver Resumo">
         <i class="fa fa-eye"></i> {{ 'plugins.steps.labels.last_screen' | translate }}
       </a>
       <a goToTop data-ng-click="submitForm({$valid: true}, 'aneis', 'app.wizard_controladores.configuracao_grupo')" data-toggle="tooltip" data-placement="top" title="Configuração de Grupo" class="goToTop btn btn-primary btn-footer right">
@@ -142,3 +142,17 @@
     </div>
   </div>
 </fieldset>
+
+<div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" style="width: 95%;">
+    <div class="modal-content animated bounceInRight">
+      <div class="modal-header">
+        <influunt-revisao objeto="objeto" data-ng-controller="ControladoresRevisaoCtrl" data-show-footer="false"></influunt-revisao>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>

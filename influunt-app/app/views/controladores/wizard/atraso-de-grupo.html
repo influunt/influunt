@@ -138,7 +138,7 @@
 
   <!-- bptão proximo voltar -->
   <div class="col-sm-12 col-lg-12 no-pading pg-bt m-t-lg">
-    <a ui-sref="app.wizard_controladores.transicoes_proibidas({id: objeto.id})" target="_blank" data-toggle="tooltip" data-placement="top" class="left btn btn-info btn-footer" title="Ver Tela de Transições Proibidas">
+    <a data-toggle="modal" data-target="#myModal" data-placement="top" class="left btn btn-info btn-footer" title="Ver Resumo">
       <i class="fa fa-eye"></i> {{ 'plugins.steps.labels.last_screen' | translate }}
     </a>
     <a goToTop data-ng-click="submitForm({$valid: true}, 'atraso_de_grupo', 'app.wizard_controladores.entre_verdes')" data-toggle="tooltip" data-placement="top" title="Tabelas de Entre Verdes" class="goToTop btn btn-primary btn-footer right">
@@ -149,3 +149,17 @@
     </a>
   </div>
 </fieldset>
+
+<div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" style="width: 95%;">
+    <div class="modal-content animated bounceInRight">
+      <div class="modal-header">
+        <influunt-revisao objeto="objeto" data-ng-controller="ControladoresRevisaoCtrl" data-show-footer="false"></influunt-revisao>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>

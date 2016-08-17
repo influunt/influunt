@@ -8,7 +8,7 @@
       "verMapa": "Ver no mapa",
       "prefixoEstagio": "E",
       "prefixoGrupo": "G",
-      "verTelaAnterior": "Ver Tela Anterior"
+      "verTelaAnterior": "Ver Resumo"
     },
     "associacaoDetectores": {
       "adicionarDetector": "Adicionar Detector",
@@ -249,7 +249,7 @@
     "steps": {
       "labels": {
         "back": "Voltar",
-        "last_screen": "Ver Tela Anterior",
+        "last_screen": "Ver Resumo",
         "cancel": "Cancelar",
         "current": "Atual",
         "pagination": "Paginação",
