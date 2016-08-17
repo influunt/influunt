@@ -2174,13 +2174,13 @@ li.initialTab {
   opacity: 0.7;
 }
 
-.wrapper-content .basic-wizard .content .body .stages .priority .associacao-label span {
+.wrapper-content .basic-wizard .content .body .stages .priority label span {
   padding-left: 10px;
   display: table;
   text-transform: uppercase;
 }
 
-.wrapper-content .basic-wizard .content .body .stages .priority .associacao-label div {
+.wrapper-content .basic-wizard .content .body .stages .priority label div {
   float: left;
 }
 
