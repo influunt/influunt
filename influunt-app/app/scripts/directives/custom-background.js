@@ -25,5 +25,3 @@ angular.module('influuntApp')
       }
     };
   }]);
-
-

@@ -52,7 +52,10 @@ angular.module('influuntApp')
 
         var tabAdded = function(event, data) {
           checkTabLimit();
-          scope.onAdd()(data);
+          if (angular.isFunction(scope.onAdd())) {
+            scope.onAdd()(data);
+          }
+
           toggleCloseButton();
           $(data.tab).find('a.closable').html('Anel ' + (data.index + 1));
         };

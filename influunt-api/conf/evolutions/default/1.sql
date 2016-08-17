@@ -29,9 +29,11 @@ create table aneis (
   posicao                       integer,
   numero_smee                   varchar(255),
   controlador_id                varchar(40),
+  tabela_horario_id             varchar(40),
   croqui_id                     varchar(40),
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
+  constraint uq_aneis_tabela_horario_id unique (tabela_horario_id),
   constraint uq_aneis_croqui_id unique (croqui_id),
   constraint pk_aneis primary key (id)
 );
@@ -162,6 +164,20 @@ create table estagios_planos (
   constraint pk_estagios_planos primary key (id)
 );
 
+create table eventos (
+  id                            varchar(40) not null,
+  id_json                       varchar(255),
+  numero                        varchar(255) not null,
+  dia_da_semana                 varchar(16) not null,
+  horario                       time not null,
+  tabela_horario_id             varchar(40) not null,
+  plano_id                      varchar(40) not null,
+  data_criacao                  datetime(6) not null,
+  data_atualizacao              datetime(6) not null,
+  constraint ck_eventos_dia_da_semana check (dia_da_semana in ('SEGUNDA_A_SEXTA','SEGUNDA_A_SABADO','SABADO_A_DOMINGO','TODOS_OS_DIAS','SEGUNDA','TERCA','QUARTA','QUINTA','SEXTA','SABADO','DOMINGO')),
+  constraint pk_eventos primary key (id)
+);
+
 create table fabricantes (
   id                            varchar(40) not null,
   id_json                       varchar(255),
@@ -180,6 +196,7 @@ create table grupos_semaforicos (
   controlador_id                varchar(40),
   posicao                       integer,
   fase_vermelha_apagada_amarelo_intermitente tinyint(1) default 0,
+  tempo_verde_seguranca         integer,
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
   constraint ck_grupos_semaforicos_tipo check (tipo in ('PEDESTRE','VEICULAR')),
@@ -303,6 +320,16 @@ create table tabela_entre_verdes_transicao (
   constraint pk_tabela_entre_verdes_transicao primary key (id)
 );
 
+create table tabela_horarios (
+  id                            varchar(40) not null,
+  id_json                       varchar(255),
+  anel_id                       varchar(40),
+  data_criacao                  datetime(6) not null,
+  data_atualizacao              datetime(6) not null,
+  constraint uq_tabela_horarios_anel_id unique (anel_id),
+  constraint pk_tabela_horarios primary key (id)
+);
+
 create table transicao (
   id                            varchar(40) not null,
   id_json                       varchar(255),
@@ -361,6 +388,8 @@ create index ix_agrupamentos_controladores_controladores on agrupamentos_control
 alter table aneis add constraint fk_aneis_controlador_id foreign key (controlador_id) references controladores (id) on delete restrict on update restrict;
 create index ix_aneis_controlador_id on aneis (controlador_id);
 
+alter table aneis add constraint fk_aneis_tabela_horario_id foreign key (tabela_horario_id) references tabela_horarios (id) on delete restrict on update restrict;
+
 alter table aneis add constraint fk_aneis_croqui_id foreign key (croqui_id) references imagens (id) on delete restrict on update restrict;
 
 alter table areas add constraint fk_areas_cidade_id foreign key (cidade_id) references cidades (id) on delete restrict on update restrict;
@@ -408,8 +437,14 @@ create index ix_estagios_planos_estagio_id on estagios_planos (estagio_id);
 alter table estagios_planos add constraint fk_estagios_planos_plano_id foreign key (plano_id) references planos (id) on delete restrict on update restrict;
 create index ix_estagios_planos_plano_id on estagios_planos (plano_id);
 
-alter table estagios_planos add constraint fk_estagios_planos_estagio_que_recebe_estagio_dispensavel_3 foreign key (estagio_que_recebe_estagio_dispensavel_id) references estagios (id) on delete restrict on update restrict;
+alter table estagios_planos add constraint fk_estagios_planos_estagio_que_recebe_estagio_dispensavel_3 foreign key (estagio_que_recebe_estagio_dispensavel_id) references estagios_planos (id) on delete restrict on update restrict;
 create index ix_estagios_planos_estagio_que_recebe_estagio_dispensavel_3 on estagios_planos (estagio_que_recebe_estagio_dispensavel_id);
+
+alter table eventos add constraint fk_eventos_tabela_horario_id foreign key (tabela_horario_id) references tabela_horarios (id) on delete restrict on update restrict;
+create index ix_eventos_tabela_horario_id on eventos (tabela_horario_id);
+
+alter table eventos add constraint fk_eventos_plano_id foreign key (plano_id) references planos (id) on delete restrict on update restrict;
+create index ix_eventos_plano_id on eventos (plano_id);
 
 alter table grupos_semaforicos add constraint fk_grupos_semaforicos_anel_id foreign key (anel_id) references aneis (id) on delete restrict on update restrict;
 create index ix_grupos_semaforicos_anel_id on grupos_semaforicos (anel_id);
@@ -453,6 +488,8 @@ create index ix_tabela_entre_verdes_transicao_tabela_entre_verdes_id on tabela_e
 alter table tabela_entre_verdes_transicao add constraint fk_tabela_entre_verdes_transicao_transicao_id foreign key (transicao_id) references transicao (id) on delete restrict on update restrict;
 create index ix_tabela_entre_verdes_transicao_transicao_id on tabela_entre_verdes_transicao (transicao_id);
 
+alter table tabela_horarios add constraint fk_tabela_horarios_anel_id foreign key (anel_id) references aneis (id) on delete restrict on update restrict;
+
 alter table transicao add constraint fk_transicao_grupo_semaforico_id foreign key (grupo_semaforico_id) references grupos_semaforicos (id) on delete restrict on update restrict;
 create index ix_transicao_grupo_semaforico_id on transicao (grupo_semaforico_id);
 
@@ -494,6 +531,8 @@ drop index ix_agrupamentos_controladores_controladores on agrupamentos_controlad
 
 alter table aneis drop foreign key fk_aneis_controlador_id;
 drop index ix_aneis_controlador_id on aneis;
+
+alter table aneis drop foreign key fk_aneis_tabela_horario_id;
 
 alter table aneis drop foreign key fk_aneis_croqui_id;
 
@@ -545,6 +584,12 @@ drop index ix_estagios_planos_plano_id on estagios_planos;
 alter table estagios_planos drop foreign key fk_estagios_planos_estagio_que_recebe_estagio_dispensavel_3;
 drop index ix_estagios_planos_estagio_que_recebe_estagio_dispensavel_3 on estagios_planos;
 
+alter table eventos drop foreign key fk_eventos_tabela_horario_id;
+drop index ix_eventos_tabela_horario_id on eventos;
+
+alter table eventos drop foreign key fk_eventos_plano_id;
+drop index ix_eventos_plano_id on eventos;
+
 alter table grupos_semaforicos drop foreign key fk_grupos_semaforicos_anel_id;
 drop index ix_grupos_semaforicos_anel_id on grupos_semaforicos;
 
@@ -586,6 +631,8 @@ drop index ix_tabela_entre_verdes_transicao_tabela_entre_verdes_id on tabela_ent
 
 alter table tabela_entre_verdes_transicao drop foreign key fk_tabela_entre_verdes_transicao_transicao_id;
 drop index ix_tabela_entre_verdes_transicao_transicao_id on tabela_entre_verdes_transicao;
+
+alter table tabela_horarios drop foreign key fk_tabela_horarios_anel_id;
 
 alter table transicao drop foreign key fk_transicao_grupo_semaforico_id;
 drop index ix_transicao_grupo_semaforico_id on transicao;
@@ -639,6 +686,8 @@ drop table if exists estagios_grupos_semaforicos;
 
 drop table if exists estagios_planos;
 
+drop table if exists eventos;
+
 drop table if exists fabricantes;
 
 drop table if exists grupos_semaforicos;
@@ -664,6 +713,8 @@ drop table if exists sessoes;
 drop table if exists tabela_entre_verdes;
 
 drop table if exists tabela_entre_verdes_transicao;
+
+drop table if exists tabela_horarios;
 
 drop table if exists transicao;
 

@@ -62,12 +62,17 @@ module.exports = function(config) {
       'bower_components/bowser/src/bowser.js',
 
       // inspinea scripts.
+      'app/plugins/jquery-ui-1.12.0/jquery-ui.js',
       'app/plugins/metisMenu/jquery.metisMenu.js',
       'app/plugins/ui-bootstrap-tpls-1.1.2.min.js',
       'app/plugins/inspinia.js',
       'app/plugins/icheck.min.js',
       'app/plugins/dropzone/dropzone.js',
       'app/plugins/roundSlider-1.3/roundslider.min.js',
+
+      'app/plugins/uiTabs/ui.tabs.overflowResize.js',
+      'app/plugins/uiTabs/lib/ui.tabs.addTab.js',
+      'app/plugins/uiTabs/lib/ui.tabs.closable.js',
 
       // tests and scripts.
       'test/helpers/**/*.js',

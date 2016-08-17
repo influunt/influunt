@@ -1,5 +1,5 @@
-<li>
-  <a data-toggle="tab" href="#tabs-1" aria-expanded="false">{{ 'controladores.anel' | translate }} {{ anel.posicao }}</a>
+<li class="content-tabs">
+  <a data-toggle="tab" href="#tabs-{{ anel.posicao }}}" aria-expanded="false">{{ 'controladores.anel' | translate }} {{ anel.posicao }}</a>
   <span class="badge badge-danger badge-notification absolute" ng-show="tabHasError({{ anel.posicao - 1}})">
     <i class="fa fa-exclamation"></i>
   </span>
