@@ -360,6 +360,7 @@ angular
 
         .state('app.wizard_controladores.revisao', {
           url: '/revisao/:id',
+          controller: 'ControladoresRevisaoCtrl',
           templateUrl: 'views/controladores/wizard/revisao.html',
           data: {
             title: 'controladores.revisao'
