@@ -125,6 +125,10 @@ module.exports = function() {
     return wizardPage.errorMessagesVerdesConflitantesGrupo(grupo);
   });
 
+  this.Given(/^que o usuário marque (\d+) no tempo "([^"]*)"$/, function (value, field) {
+    return wizardPage.marcarTempoAtrasoGrupo(value, field);
+  });
+
   this.Given(/^que o usuário marque (\d+) no tempo "([^"]*)" da transição "([^"]*)"$/, function (value, field, transicao) {
     return wizardPage.marcarTempoEntreVerdes(value, field, transicao);
   });

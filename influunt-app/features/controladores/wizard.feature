@@ -130,7 +130,7 @@ Funcionalidade: Fluxo de cadastro de controladores
 
   Cenário: Tentar salvar um atraso de grupo
     Dado que o usuário esteja no wizard no passo "Atraso de Grupo"
-    E que a tabela de estágios alternativos esteja em branco
+    E que o usuário marque 15 no tempo "Atraso de Grupo"
     Quando clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Tabela Entre Verdes"
 

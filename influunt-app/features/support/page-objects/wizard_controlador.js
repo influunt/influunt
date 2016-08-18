@@ -396,6 +396,13 @@ var WizardControladorPage = function () {
     }, Promise.resolve());
   };
 
+  this.marcarTempoAtrasoGrupo = function(value, field) {
+    var baseSelector = 'influunt-knob[title="'+field+'"]';
+    return world.getElement(baseSelector + ' p.knob-value').click().then(function() {
+      return world.resetValue(baseSelector + ' input.rs-input', value);
+    }).then(world.waitForAnimationFinishes);
+  };
+
   this.marcarTempoEntreVerdes = function(value, field, transicao) {
     transicao = transicao.split('-');
     var origem = transicao[0];
