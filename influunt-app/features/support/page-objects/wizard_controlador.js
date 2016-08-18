@@ -36,6 +36,8 @@ var WizardControladorPage = function () {
           return _this.isWizardAssociacao();
         case 'Transições Proibidas':
           return _this.isWizardTransicoesProibidas();
+        case 'Atraso de Grupo':
+          return _this.isWizardAtrasoDeGrupo();
         case 'Tabela Entre Verdes':
           return _this.isWizardTabelaEntreVerdes();
         case 'Detectores':
@@ -68,6 +70,10 @@ var WizardControladorPage = function () {
 
   this.isWizardTransicoesProibidas = function() {
     return world.waitFor('li[ui-sref^=".transicoes_proibidas"].active');
+  };
+
+  this.isWizardAtrasoDeGrupo = function() {
+    return world.waitFor('li[ui-sref^=".atraso_de_grupo"].active');
   };
 
   this.isWizardTabelaEntreVerdes = function() {

@@ -126,6 +126,12 @@ Funcionalidade: Fluxo de cadastro de controladores
     Dado que o usuário esteja no wizard no passo "Transições Proibidas"
     E que a tabela de estágios alternativos esteja em branco
     Quando clicar no botão para ir pro próximo passo
+    Então o sistema irá avançar para o passo "Atraso de Grupo"
+
+  Cenário: Tentar salvar um atraso de grupo
+    Dado que o usuário esteja no wizard no passo "Atraso de Grupo"
+    E que a tabela de estágios alternativos esteja em branco
+    Quando clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Tabela Entre Verdes"
 
   Cenário: Salvar tabela entre verdes
