@@ -1833,6 +1833,13 @@ header .nav-secon li a {
   }
 }
 
+@media screen and (max-width: 996px) {
+  .wrapper-content .basic-wizard .content .body .movements .dz-default.dz-message span {
+    line-height: 20px;
+    padding: 30px;
+  }
+}
+
 .badge.badge-danger.badge-estagio-alternativo {
   margin-top: -40px;
 }
