@@ -29,10 +29,6 @@ li.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab {
   border-radius: 20px 20px 0 0;
 }
 
-li.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab a {
-  color: #c8c8c8;
-}
-
 li.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab {
   background: #e7eaec;
   padding: 0px;
@@ -43,6 +39,7 @@ li.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab {
 li.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab a {
   color: #c8c8c8;
   background: transparent;
+  padding: 15px 30px 15px 20px;
 }
 
 li.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab.ui-state-hover {
@@ -75,7 +72,7 @@ li.addTab.button.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab a {
 
 li.ui-tabs-tab span.ui-icon.ui-icon-circle-close {
   position: absolute;
-  top: -34px;
+  top: -37px;
   right: 0px;
   font-size: 16px;
 }
@@ -85,4 +82,8 @@ li.ui-tabs-tab span.badge.badge-danger.badge-notification {
   top: 0px;
   left: 6px;
   border-radius: 0;
+}
+
+li.ui-state-active span.ui-icon.ui-icon-circle-close {
+  top: -34px;
 }

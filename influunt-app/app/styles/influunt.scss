@@ -218,7 +218,6 @@
 }
 
 .ibox-title i {
-  color: #1ab394;
   &.white {
     color: #fff;
   }
@@ -1056,7 +1055,6 @@ header .nav-secon li a {
     padding-left: 10px;
     font-weight: bold;
     text-transform: uppercase;
-    width: 85%;
 }
 .wrapper-content .basic-wizard .content .body .stages .title-stages.small hgroup p {
     text-align: center;
@@ -1911,6 +1909,17 @@ li.initialTab {
 }
 .changeGreen img {
   opacity: 0.7;
+}
+
+.wrapper-content .basic-wizard .content .body .stages .priority label {
+  span  {
+    padding-left: 10px;
+    display: table;
+    text-transform: uppercase;
+  }
+  div {
+    float: left;
+  }
 }
 
 #myModal .links-revisao {
