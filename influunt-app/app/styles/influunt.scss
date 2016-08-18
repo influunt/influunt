@@ -1584,6 +1584,27 @@ header .nav-secon li a {
     height: 80px !important;
 }
 }
+@media screen and (max-width: 996px) {
+  .wrapper-content .basic-wizard .content .body .association.tables-associated .ng-scope .group-figures .stage-images {
+      padding-left: 5px;
+      padding-right: 5px;
+  }
+  .wrapper-content .basic-wizard .content .body .association.table-entry-green nav li label {
+      padding: 0 0 0 7px;
+      line-height: 20px;
+      height: 20px;
+      margin: 0;
+      font-size: 13px;
+  }
+  .wrapper-content .basic-wizard .content .body .association.table-entry-green .ibox-title {
+    .m-l {
+        margin-left: 0px;
+    }
+    .right {
+        float: none;
+    }
+  }
+}
 .badge.badge-danger.badge-estagio-alternativo {
   margin-top: -40px;
 }
