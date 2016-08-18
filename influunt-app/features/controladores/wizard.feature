@@ -138,7 +138,6 @@ Funcionalidade: Fluxo de cadastro de controladores
     Dado que o usuário esteja no wizard no passo "Tabela Entre Verdes"
     E que o usuário marque 4 no tempo "Amarelo" da transição "E1-E3"
     E que o usuário marque 2 no tempo "Vermelho de Limpeza" da transição "E1-E3"
-    E que o usuário marque 15 no tempo "Atraso de Grupo" da transição "E1-E3"
     Quando o usuário clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Detectores"
 
