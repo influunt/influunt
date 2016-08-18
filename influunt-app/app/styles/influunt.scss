@@ -423,6 +423,12 @@ header .nav-secon li a {
     float: left;
     display: list-item;
 }
+.wrapper-content .basic-wizard .content .body .movements {
+    background: #f2f4f5;
+    height: 180px;
+    overflow: auto;
+}
+
 .wrapper-content .basic-wizard .content .body .movements button {
     margin: 0 auto;
     display: block;
@@ -431,18 +437,15 @@ header .nav-secon li a {
     bottom: 10px;
     left: 35%;
 }
-.wrapper-content .basic-wizard .content .body .movements {
-    background: #f2f4f5;
-    padding-left: 20px;
-    padding-top: 30px;
-    min-height: 910px;
-}
 .wrapper-content .basic-wizard .content .body .movements .dz-default.dz-message span {
     display: block;
     font-size: 13px;
     font-weight: 700;
-    line-height: 100px;
     text-align: center;
+    width: 150px;
+    height: 150px;
+    padding: 50px 20px;
+    margin: 10px 0;
 }
 .wrapper-content .basic-wizard .content .body .movements .dz-image-preview button.remove-image {
     margin-left: 140px;
@@ -1681,12 +1684,6 @@ table.table-diagonal:nth-of-type(1) th.diagonal {
     border: 0;
     background: transparent;
   }
-
-.dropzone.dz-clickable {
-  max-height: 810px;
-  overflow: auto;
-  padding: 0px;
-}
 
 .dz-default.dz-message span {
     border: 1px dashed #898989;

@@ -5,9 +5,9 @@
 }
 
 .dropzone.dz-clickable {
-  max-height: 810px;
-  overflow: auto;
+  max-height: 150px;
   padding: 0px;
+  padding-left: 150px;
 }
 
 .dz-default.dz-message span {
@@ -18,12 +18,12 @@
 .dropzone .dz-preview, .dropzone-previews .dz-preview {
   width: 150px;
   height: 150px;
-  margin: 15px;
+  margin: 10px;
   float: left;
 }
 
 .dropzone .dz-default.dz-message {
-  position: relative;
+  position: absolute;
   width: 100%;
   height: 100px;
   margin-left: 0;

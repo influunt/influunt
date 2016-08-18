@@ -14,6 +14,9 @@
           <div class="ui-layout-content tab-content">
             <div id="tabs-1">
               <div class="row col-lg-12 col-sm-12">
+                <div class="row col-lg-12 col-sm-12 padding-top-20">
+                  <h3>{{ 'controladores.estagios' | translate }}</h3>
+                </div>
                 <uib-alert type="danger" close="closeAlert(currentAnelIndex)" data-ng-if="errors.aneis[currentAnelIndex].general">
                   <div style="padding-left: 12px;">
                     <ul>
@@ -24,7 +27,25 @@
                 </uib-alert>
               </div>
 
-              <div class="col-lg-8 col-sm-8 groups ibox-content no-padding padding-top-20">
+              <div class="col-lg-12 col-sm-12 movements">
+                <form class="dropzone"
+                      id="my-awesome-dropzone"
+                      imagens-url="dados.imagensUrl"
+                      enctype="multipart/form-data"
+                      influunt-dropzone
+                      anel="currentAnel"
+                      on-success="adicionarEstagio(upload, imagem)"
+                      on-delete="removerEstagio(imagem)">
+                  <fake-dropzone-preview aneis="aneis"></fake-dropzone-preview>
+                  <div class="dz-default dz-message"><span>Arraste imagens para este local</span></div>
+                  <div class="fallback">
+                    <input name="file" type="file" multiple />
+                  </div>
+                </form>
+              </div>
+
+
+              <div class="col-lg-12 col-sm-12 groups ibox-content no-padding padding-top-20">
                 <div class="col-lg-6 col-sm-6 no-padding-left">
                   <div class="col-lg-12 col-sm-12">
                     <div class="form-group">
@@ -100,26 +121,6 @@
                     <p class="help-block error-msg" data-ng-repeat="error in errors.aneis[currentAnelIndex].enderecos[1].longitude">{{ error }}</p>
                   </div>
                 </div>
-              </div>
-              <div class="col-lg-4 col-sm-4 movements">
-                <hgroup>
-                  <label for=""><h3>{{ 'controladores.estagios' | translate }}</h3></label>
-                </hgroup>
-
-                <form class="dropzone"
-                      id="my-awesome-dropzone"
-                      imagens-url="dados.imagensUrl"
-                      enctype="multipart/form-data"
-                      influunt-dropzone
-                      anel="currentAnel"
-                      on-success="adicionarEstagio(upload, imagem)"
-                      on-delete="removerEstagio(imagem)">
-                  <fake-dropzone-preview aneis="aneis"></fake-dropzone-preview>
-                  <div class="dz-default dz-message"><span>Arraste imagens para este local</span></div>
-                  <div class="fallback">
-                    <input name="file" type="file" multiple />
-                  </div>
-                </form>
               </div>
             </div>
           </div>
