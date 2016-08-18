@@ -123,12 +123,6 @@ var WizardControladorPage = function () {
       messages.push({campo: 'area', msg: msg});
       return thisWizardPage.getErrorMessageFor('helper-endereco[latitude="objeto.todosEnderecos[0].latitude"]');
     }).then(function(msg) {
-      messages.push({campo: 'localizacao1', msg: msg});
-      return thisWizardPage.getErrorMessageFor('[name="enderecos[0].latitude"]');
-    }).then(function(msg) {
-      messages.push({campo: 'localizacao1.latitude', msg: msg});
-      return thisWizardPage.getErrorMessageFor('[name="enderecos[0].longitude"]');
-    }).then(function(msg) {
       messages.push({campo: 'localizacao1.longitude', msg: msg});
       return thisWizardPage.getErrorMessageFor('helper-endereco[latitude="objeto.todosEnderecos[1].latitude"]');
     }).then(function(msg) {
@@ -159,12 +153,6 @@ var WizardControladorPage = function () {
     var messages = [];
     return thisWizardPage.getErrorMessageFor('helper-endereco[latitude="currentEnderecos[0].latitude"]').then(function(msg) {
       messages.push({campo: 'localizacao1', msg: msg});
-      return thisWizardPage.getErrorMessageFor('[name="enderecos[0].latitude"]');
-    }).then(function(msg) {
-      messages.push({campo: 'localizacao1.latitude', msg: msg});
-      return thisWizardPage.getErrorMessageFor('[name="enderecos[0].longitude"]');
-    }).then(function(msg) {
-      messages.push({campo: 'localizacao1.longitude', msg: msg});
       return thisWizardPage.getErrorMessageFor('helper-endereco[latitude="currentEnderecos[1].latitude"]');
     }).then(function(msg) {
       messages.push({campo: 'localizacao2', msg: msg});
