@@ -1947,8 +1947,19 @@ table.table-diagonal:nth-of-type(1) th.diagonal {
   height: auto;
 }
 
+.dropzone .dz-preview, .dropzone-previews .dz-preview {
+  border: 0;
+  padding: 0;
+}
+
 .dropzone .dz-preview .dz-progress, .dropzone-previews .dz-preview .dz-progress {
-  top: 200px;
+  left: 0;
+  right: 0;
+  height: 5px;
+}
+
+.dropzone .dz-preview .dz-details, .dropzone-previews .dz-preview .dz-details {
+  margin-bottom: 5px;
 }
 
 .blockUI.blockOverlay {
