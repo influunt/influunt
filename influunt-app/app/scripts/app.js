@@ -29,6 +29,7 @@ angular
     'ui.sortable',
     'datatables',
     'google.places',
+    '720kb.tooltips',
 
     // template cache engine.
     'templates',
@@ -36,7 +37,7 @@ angular
     // i18n modules.
     'pascalprecht.translate',
     'tmh.dynamicLocale',
-    
+
     //DatePicker
     'datePicker'
   ]);
