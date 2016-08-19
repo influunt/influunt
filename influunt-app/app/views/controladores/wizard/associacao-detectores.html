@@ -11,10 +11,10 @@
             </influunt-tabs>
             <div class="ui-layout-content tab-content">
               <div class="row">
-                <uib-alert type="danger" close="closeAlert(currentAnelIndex, 'all')" data-ng-if="errors.general || errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosDePedestre || errors.aneis[currentAnelIndex].checkQuantidadeGruposSemaforicosVeiculares">
+                <uib-alert type="danger" close="closeAlert(currentAnelIndex, 'all')" data-ng-if="errors.aneis[currentAnelIndex].general">
                   <div style="padding-left: 12px;">
                     <ul>
-                      <li data-ng-repeat="message in errors.general">{{ message }}</li>
+                      <li data-ng-repeat="message in errors.aneis[currentAnelIndex].general">{{ message }}</li>
                     </ul>
                   </div>
                 </uib-alert>
@@ -27,6 +27,12 @@
                         <th>{{ 'controladores.associacaoDetectores.detector' | translate | uppercase }}</th>
                         <th data-ng-repeat="estagio in currentEstagios track by $index">
                           {{ 'controladores.geral.prefixoEstagio' | translate | uppercase }}{{ estagio.posicao }}
+                          <span class="badge badge-danger badge-notification"
+                            data-ng-show="errors.aneis[currentAnelIndex].estagios[$index]"
+                            inf-tooltip
+                            messages="errors.aneis[currentAnelIndex].estagios[$index]">
+                            <i class="fa fa-exclamation" style="font-size: inherit;"></i>
+                          </span>
                         </th>
                         <th></th>
                       </tr>
