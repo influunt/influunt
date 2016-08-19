@@ -368,8 +368,10 @@ var WizardControladorPage = function () {
   };
 
   this.marcarConflito = function(g1, g2) {
-    return world.execJavascript('return $(\'th:contains("'+g2+'")\').index() + 1').then(function(col) {
-      return world.getElementByXpath('//td//strong[text() = "'+g1+'"]/../../td['+col+']').click();
+    return world.sleep(600).then(function(){
+      return world.execJavascript('return $(\'th:contains("'+g2+'")\').index() + 1').then(function(col) {
+        return world.getElementByXpath('//td//strong[text() = "'+g1+'"]/../../td['+col+']').click();
+      });
     });
   };
 
@@ -379,11 +381,13 @@ var WizardControladorPage = function () {
     return world.getElement('tbody tr:nth-child('+row+') td:nth-child('+col+')').click();
   };
 
-  this.clicarBotaoFinalizar = function() {
-    return world.findLinkByText('Finalizar').then(function(link) {
-      return link.click();
-    }).then(function() {
-      return world.waitForAJAX();
+  this.clicarBotao = function(text) {
+    return world.sleep(600).then(function(){
+      return world.findLinkByText(text).then(function(link) {
+        return link.click();
+      }).then(function() {
+        return world.waitForAJAX();
+      });
     });
   };
 
