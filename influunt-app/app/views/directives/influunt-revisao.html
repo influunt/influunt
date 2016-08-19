@@ -277,12 +277,12 @@
     <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix">
       <div class="right">
         <a ui-sref="app.controladores" tooltips tooltip-template="Salvar" class="btn btn-primary btn-footer">
-          <i class="fa fa-arrow-right"></i> {{ 'geral.crud.salvar' | translate }}
+          {{ 'plugins.steps.labels.saveNext' | translate }} <i class="fa fa-arrow-right"></i>
         </a>
       </div>
       <div class="right">
         <a ui-sref="app.wizard_controladores.associacao_detectores({id: $state.params.id})" tooltips tooltip-template="Associação de Detectores" class="btn btn-outline btn-primary btn-footer right m-r-sm">
-          <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.previous' | translate }}
+          <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.back' | translate }}
         </a>
       </div>
     </div>

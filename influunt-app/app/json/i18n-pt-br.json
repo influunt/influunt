@@ -170,6 +170,7 @@
       "salvar": "Salvar",
       "visualizar": "Visualizar",
       "voltar": "Voltar"
+
     },
     "campo_obrigatorio": "Campo Obrigatório",
     "dashboard": "Dashboard",
@@ -256,7 +257,9 @@
         "finish": "Finalizar",
         "next": "Próximo",
         "previous": "Anterior",
-        "loading": "Carregando"
+        "loading": "Carregando",
+        "saveBack": "Salvar e Voltar",
+        "saveNext": "Salvar e Avançar"
       }
     }
   },

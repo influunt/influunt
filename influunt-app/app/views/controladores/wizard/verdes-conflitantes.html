@@ -57,12 +57,17 @@
       </a>
       <div class="right">
         <a go-to-top data-ng-click="submitForm({$valid: true}, 'verdes_conflitantes', 'app.wizard_controladores.associacao')" tooltips tooltip-template="Associação de Estágios x Grupos Semafóricos" class="go-to-top btn btn-primary btn-footer right">
-          {{ 'plugins.steps.labels.next' | translate }} <i class="fa fa-arrow-right"></i>
+          {{ 'plugins.steps.labels.saveNext' | translate }} <i class="fa fa-arrow-right"></i>
         </a>
       </div>
       <div class="right">
         <a go-to-top data-ng-click="submitForm({$valid: true}, 'verdes_conflitantes', 'app.wizard_controladores.configuracao_grupo')" tooltips tooltip-template="Configuração de Grupos Semafóricos" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
-          <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.previous' | translate }}
+          <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.saveBack' | translate }}
+        </a>
+      </div>
+      <div class="right">
+        <a go-to-top data-ng-click="submitForm({$valid: true}, 'verdes_conflitantes', 'app.wizard_controladores.configuracao_grupo')" tooltips tooltip-template="Configuração de Grupos Semafóricos" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
+          <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.back' | translate }}
         </a>
       </div>
     </div>

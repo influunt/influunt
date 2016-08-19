@@ -87,12 +87,17 @@
       </a>
       <div class="right">
         <a go-to-top data-ng-click="submitForm({$valid: true}, 'transicoes_proibidas', 'app.wizard_controladores.atraso_de_grupo')" tooltips tooltip-template="Tempos de Atraso de Grupo" class="go-to-top btn btn-primary btn-footer right">
-          {{ 'plugins.steps.labels.next' | translate }} <i class="fa fa-arrow-right"></i>
+          {{ 'plugins.steps.labels.saveNext' | translate }} <i class="fa fa-arrow-right"></i>
         </a>
       </div>
       <div class="right">
         <a go-to-top data-ng-click="submitForm({$valid: true}, 'transicoes_proibidas', 'app.wizard_controladores.associacao')" tooltips tooltip-template="Associação de Estágios x Grupos Semafórios" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
-          <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.previous' | translate }}
+          <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.saveBack' | translate }}
+        </a>
+      </div>
+      <div class="right">
+        <a go-to-top data-ng-click="submitForm({$valid: true}, 'transicoes_proibidas', 'app.wizard_controladores.associacao')" tooltips tooltip-template="Associação de Estágios x Grupos Semafórios" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
+          <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.back' | translate }}
         </a>
       </div>
     </div>
