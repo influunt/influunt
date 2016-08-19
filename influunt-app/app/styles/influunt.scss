@@ -425,8 +425,9 @@ header .nav-secon li a {
 }
 .wrapper-content .basic-wizard .content .body .movements {
     background: #f2f4f5;
-    height: 200px;
-    overflow: auto;
+    height: 220px;
+    overflow-x: scroll;
+    overflow-y: hidden;
 }
 
 .wrapper-content .basic-wizard .content .body .movements button {
@@ -444,8 +445,8 @@ header .nav-secon li a {
     text-align: center;
     width: 150px;
     height: 150px;
-    padding: 50px 20px;
-    margin: 10px 0;
+    padding: 55px 20px 0 20px;
+    margin: 20px 0;
 }
 .wrapper-content .basic-wizard .content .body .movements .dz-image-preview button.remove-image {
     margin-left: 140px;
@@ -1591,8 +1592,8 @@ header .nav-secon li a {
 }
 @media screen and (max-width: 996px) {
     .wrapper-content .basic-wizard .content .body .movements .dz-default.dz-message span {
-    line-height: 20px;
-    padding: 30px;
+      line-height: 15px;
+      padding: 60px 20px;
   }
 }
 .badge.badge-danger.badge-estagio-alternativo {
@@ -1715,13 +1716,19 @@ table.table-diagonal:nth-of-type(1) th.diagonal {
 }
 
 .dropzone .dz-preview .dz-progress, .dropzone-previews .dz-preview .dz-progress {
-    left: 0;
-    right: 0;
+    left: 7px;
+    right: 7px;
     height: 5px;
 }
 
 .dropzone .dz-preview .dz-details, .dropzone-previews .dz-preview .dz-details {
     margin-bottom: 5px;
+}
+
+.dropzone .dz-preview, .dropzone-previews .dz-preview {
+    background: transparent;
+    -webkit-box-shadow: none;
+    box-shadow: none;
 }
 
 .blockUI.blockOverlay{

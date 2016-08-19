@@ -1,13 +1,15 @@
 .dropzone {
-  position: relative;
+  position: absolute;
   border: 0;
   background: transparent;
 }
 
 .dropzone.dz-clickable {
-  max-height: 150px;
-  padding: 0px;
+  max-height: none;
+  padding-right: 20px;
   padding-left: 150px;
+  width: 100%;
+  height: auto;
 }
 
 .dz-default.dz-message span {
@@ -18,8 +20,9 @@
 .dropzone .dz-preview, .dropzone-previews .dz-preview {
   width: 150px;
   height: 150px;
-  margin: 10px;
-  float: left;
+  margin: 7px 10px;
+  display: table-cell;
+  padding: 7px;
 }
 
 .dropzone .dz-default.dz-message {
@@ -58,7 +61,7 @@
 }
 
 .dropzone .dz-preview .dz-progress, .dropzone-previews .dz-preview .dz-progress {
-  top: 145px;
+  top: 152px;
 }
 
 .img-preview-sm {
