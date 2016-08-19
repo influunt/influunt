@@ -66,8 +66,8 @@ module.exports = function() {
     return wizardPage.isWizardPasso(passo);
   });
 
-  this.Given(/clicar no botão para finalizar$/, function () {
-    return wizardPage.clicarBotaoFinalizar();
+  this.Given(/^o usuário clicar no botão "([^"]*)"$/, function (text) {
+    return wizardPage.clicarBotao(text);
   });
 
   this.Given(/^que o usuario adicione (\d+) grupos semafóricos ao anel$/, function (numGrupos) {

@@ -42,10 +42,16 @@ var WizardControladorPage = function () {
           return _this.isWizardTabelaEntreVerdes();
         case 'Detectores':
           return _this.isWizardDetectores();
+        case 'Revisão':
+          return _this.isWizardRevisao();
         default:
           throw new Error('Passo não encontrado: '+passo);
       }
     });
+  };
+
+  this.isWizardRevisao = function() {
+    return world.waitFor('li[ui-sref^=".revisao"].active');
   };
 
   this.isWizardDadosBasicos = function() {

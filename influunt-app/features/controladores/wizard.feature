@@ -156,4 +156,10 @@ Funcionalidade: Fluxo de cadastro de controladores
     E que o usuário associe o detector "DV1" com o estágio "E2"
     E que o usuário associe o detector "DV2" com o estágio "E3"
     Quando o usuário clicar no botão para ir pro próximo passo
+    Então o sistema irá avançar para o passo "Revisão"
+
+  Cenário: Salvar revisão
+    Dado que o usuário esteja no wizard no passo "Revisão"
+    Quando o usuário clicar no botão "Salvar"
     Então o sistema irá redirecionar o usuário para a página de listagem de controladores
+
