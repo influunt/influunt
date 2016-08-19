@@ -85,8 +85,10 @@ var WizardControladorPage = function () {
   };
 
   this.clicarBotaoProximoPasso = function() {
-    return world.findLinkByText('Próximo').click().then(function() {
-      return world.sleep(500);
+    return world.scrollToDown().then(function() {
+      return world.findLinkByText('Próximo').click().then(function(){
+        return world.sleep(100);
+      });
     });
   };
 
@@ -386,8 +388,12 @@ var WizardControladorPage = function () {
   this.adicionarGruposSemaforicosAoAnel = function(numGrupos) {
     var promises = [];
     for (var i = 0; i < numGrupos; i++) {
-      promises.push(function() { return world.getElement('a[data-ng-click="adicionaGrupoSemaforico()"]').click(); });
-    }
+      promises.push(function() {
+        return world.scrollToDown().then(function() {
+          return world.getElement('a[data-ng-click="adicionaGrupoSemaforico()"]').click();
+        });
+      });
+    };
 
     return promises.reduce(function(previous, current) {
       return previous

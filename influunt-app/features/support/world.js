@@ -290,6 +290,12 @@ var World = function () {
     return driver.sleep(ms);
   };
 
+  this.scrollToDown = function() {
+    return driver.executeScript('window.scrollTo(0, 1000);').then(function() {
+      return driver.sleep(500);
+    });
+  };
+
   this.dragAndDrop = function(element, location) {
     return driver.actions().dragAndDrop(element, location);
   };
@@ -303,7 +309,7 @@ switch(platform) {
     driver = buildPhantomDriver();
 }
 
-driver.manage().window().setSize(1024, 768);
+driver.manage().window().setSize(1480, 940);
 // driver.manage().window().setSize(1480, 768);
 
 module.exports.World = World;
