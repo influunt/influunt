@@ -1,6 +1,6 @@
 DELETE FROM `verdes_conflitantes`;
 DELETE FROM `tabela_entre_verdes_transicao`;
-DELETE FROM `transicao`;
+DELETE FROM `transicoes`;
 DELETE FROM `transicoes_proibidas`;
 DELETE FROM `detectores`;
 DELETE FROM `estagios_grupos_semaforicos`;
