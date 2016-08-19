@@ -22,14 +22,15 @@ td.programacao-first{
       <th>{{ 'tabelaHorarios.qui' | translate }}</th>
       <th>{{ 'tabelaHorarios.sex' | translate }}</th>
       <th>{{ 'tabelaHorarios.sab' | translate }}</th>
+      <th>{{ 'tabelaHorarios.hr' | translate }}</th>
     </tr>
   </thead>
   <tbody>
     <tr data-ng-repeat="i in getTimes(96) track by $index" style="line-height:1px;height:1px">
       <td data-ng-if="$index % 4 == 0" rowspan="4" style="font-size:11px;padding:1px 5px">{{$index/4}}</td>
       <td data-ng-repeat="(k,v) in agenda" data-ng-class="getTableCell(v,$parent.$index)" ng-mouseover="highlightEvento(v,$parent.$index)" ng-mouseleave="leaveHighlightEvento(v,$parent.$index)" class="programacao">
+        <td data-ng-if="$index % 4 == 0" rowspan="4" style="font-size:11px;padding:1px 5px">{{$index/4}}</td>
       </td>
     </tr>
   </tbody>
 </table>
-
