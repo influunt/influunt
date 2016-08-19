@@ -248,10 +248,6 @@
   background: transparent;
 }
 
-.ibox-title i {
-  color: #1ab394;
-}
-
 .ibox-title i.white {
   color: #fff;
 }
@@ -1243,7 +1239,6 @@ header .nav-secon li a {
   padding-left: 10px;
   font-weight: bold;
   text-transform: uppercase;
-  width: 85%;
 }
 
 .wrapper-content .basic-wizard .content .body .stages .title-stages.small hgroup p {
@@ -1837,9 +1832,28 @@ header .nav-secon li a {
 }
 
 @media screen and (max-width: 996px) {
+<<<<<<< HEAD
   .wrapper-content .basic-wizard .content .body .movements .dz-default.dz-message span {
     line-height: 15px;
     padding: 60px 20px;
+=======
+  .wrapper-content .basic-wizard .content .body .association.tables-associated .ng-scope .group-figures .stage-images {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+  .wrapper-content .basic-wizard .content .body .association.table-entry-green nav li label {
+    padding: 0 0 0 7px;
+    line-height: 20px;
+    height: 20px;
+    margin: 0;
+    font-size: 13px;
+  }
+  .wrapper-content .basic-wizard .content .body .association.table-entry-green .ibox-title .m-l {
+    margin-left: 0px;
+  }
+  .wrapper-content .basic-wizard .content .body .association.table-entry-green .ibox-title .right {
+    float: none;
+>>>>>>> a585e47e158b7a033b098f69042ea6cf37466733
   }
 }
 
@@ -2197,6 +2211,16 @@ li.initialTab {
 
 .changeGreen img {
   opacity: 0.7;
+}
+
+.wrapper-content .basic-wizard .content .body .stages .priority label span {
+  padding-left: 10px;
+  display: table;
+  text-transform: uppercase;
+}
+
+.wrapper-content .basic-wizard .content .body .stages .priority label div {
+  float: left;
 }
 
 #myModal .links-revisao {
