@@ -139,19 +139,9 @@
           </a>
         </div>
         <div class="right">
-          <a onclick="VoltarSemSalvar()" tooltips tooltip-template="Entre Verdes" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
+          <a data-ng-click="voltarSemSalvar(app.wizard_controladores.aneis)" tooltips tooltip-template="Entre Verdes" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
             <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.back' | translate }}
           </a>
-          <script>
-          VoltarSemSalvar = function() {
-              var x;
-              if (confirm("Ao voltar os dados não serão salvos") == true) {
-                  x = window.history.back();
-                } else {
-                    x = null;
-                  }
-              }
-          </script>
         </div>
       </div>
     </div>

@@ -408,4 +408,10 @@ angular.module('influuntApp')
           });
       };
 
+      $scope.voltarSemSalvar = function(passo) {
+        if (confirm("Ao voltar os dados não serão salvos") == true) {
+          $state.go(passo, {id: $scope.objeto.id});
+        }
+      }
+
     }]);
