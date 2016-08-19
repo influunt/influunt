@@ -1969,10 +1969,11 @@ tooltip tip {
   min-width: 160px;
 }
 
-tip-tip b {
-  color: #1ab394;
-}
-
-tip-tip span {
-  color: #de2424;
+tip-tip {
+  b {
+    color: #1ab394;
+  }
+  span {
+    color: #de2424;
+  }
 }
