@@ -117,7 +117,6 @@ module.exports = function() {
   });
 
   this.Given(/^o sistema irá redirecionar o usuário para a página de listagem de controladores$/, function () {
-    // return wizardPage.isIndex();
     return wizardPage.indexPage();
   });
 
