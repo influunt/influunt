@@ -66,7 +66,7 @@
         </a>
       </div>
       <div class="right">
-        <a go-to-top data-ng-click="submitForm({$valid: true}, 'verdes_conflitantes', 'app.wizard_controladores.configuracao_grupo')" tooltips tooltip-template="Configuração de Grupos Semafóricos" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
+        <a ui-sref="app.wizard_controladores.configuracao_grupo({id: $state.params.id})" tooltips tooltip-template="Configuração de Grupos Semafóricos" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
           <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.back' | translate }}
         </a>
       </div>

@@ -111,7 +111,7 @@
           </a>
         </div>
         <div class="right">
-          <a go-to-top data-ng-click="submitForm({$valid: true}, 'associacao_grupos_semaforicos', 'app.wizard_controladores.verdes_conflitantes')" tooltips tooltip-template="Verdes Conflitantes" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
+          <a ui-sref="app.wizard_controladores.verdes_conflitantes({id: $state.params.id})" tooltips tooltip-template="Verdes Conflitantes" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
             <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.back' | translate }}
           </a>
         </div>

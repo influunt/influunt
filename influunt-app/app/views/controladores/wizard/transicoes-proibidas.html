@@ -96,7 +96,7 @@
         </a>
       </div>
       <div class="right">
-        <a go-to-top data-ng-click="submitForm({$valid: true}, 'transicoes_proibidas', 'app.wizard_controladores.associacao')" tooltips tooltip-template="Associação de Estágios x Grupos Semafórios" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
+        <a ui-sref="app.wizard_controladores.associacao({id: $state.params.id})" tooltips tooltip-template="Associação de Estágios x Grupos Semafórios" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
           <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.back' | translate }}
         </a>
       </div>

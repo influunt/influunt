@@ -139,7 +139,7 @@
           </a>
         </div>
         <div class="right">
-          <a go-to-top data-ng-click="submitForm({$valid: true}, 'grupos_semaforicos', 'app.wizard_controladores.aneis')" tooltips tooltip-template="Anéis" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
+          <a ui-sref="app.wizard_controladores.aneis({id: $state.params.id})" tooltips tooltip-template="Anéis" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
             <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.back' | translate }}
           </a>
         </div>

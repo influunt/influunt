@@ -145,13 +145,14 @@
         </a>
       </div>
       <div class="right">
-        <a data-ng-click="submitForm({$valid: false}, 'aneis', 'app.wizard_controladores.dados_basicos')" tooltips tooltip-template="Dados Básicos" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
+        <a ui-sref="app.wizard_controladores.dados_basicos({id: $state.params.id})" ng-confirm-click="Would you like to say hi?" tooltips tooltip-template="Dados Básicos" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
           <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.back' | translate }}
         </a>
       </div>
     </div>
   </div>
 </fieldset>
+
 
 <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog" style="width: 95%;">
