@@ -126,13 +126,18 @@ Funcionalidade: Fluxo de cadastro de controladores
     Dado que o usuário esteja no wizard no passo "Transições Proibidas"
     E que a tabela de estágios alternativos esteja em branco
     Quando clicar no botão para ir pro próximo passo
+    Então o sistema irá avançar para o passo "Atraso de Grupo"
+
+  Cenário: Tentar salvar um atraso de grupo
+    Dado que o usuário esteja no wizard no passo "Atraso de Grupo"
+    E que o usuário marque 15 no tempo "Atraso de Grupo"
+    Quando clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Tabela Entre Verdes"
 
   Cenário: Salvar tabela entre verdes
     Dado que o usuário esteja no wizard no passo "Tabela Entre Verdes"
     E que o usuário marque 4 no tempo "Amarelo" da transição "E1-E3"
     E que o usuário marque 2 no tempo "Vermelho de Limpeza" da transição "E1-E3"
-    E que o usuário marque 15 no tempo "Atraso de Grupo" da transição "E1-E3"
     Quando o usuário clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Detectores"
 
@@ -151,4 +156,10 @@ Funcionalidade: Fluxo de cadastro de controladores
     E que o usuário associe o detector "DV1" com o estágio "E2"
     E que o usuário associe o detector "DV2" com o estágio "E3"
     Quando o usuário clicar no botão para ir pro próximo passo
+    Então o sistema irá avançar para o passo "Revisão"
+
+  Cenário: Salvar revisão
+    Dado que o usuário esteja no wizard no passo "Revisão"
+    Quando o usuário clicar no botão "Salvar"
     Então o sistema irá redirecionar o usuário para a página de listagem de controladores
+

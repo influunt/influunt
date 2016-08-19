@@ -36,14 +36,22 @@ var WizardControladorPage = function () {
           return _this.isWizardAssociacao();
         case 'Transições Proibidas':
           return _this.isWizardTransicoesProibidas();
+        case 'Atraso de Grupo':
+          return _this.isWizardAtrasoDeGrupo();
         case 'Tabela Entre Verdes':
           return _this.isWizardTabelaEntreVerdes();
         case 'Detectores':
           return _this.isWizardDetectores();
+        case 'Revisão':
+          return _this.isWizardRevisao();
         default:
           throw new Error('Passo não encontrado: '+passo);
       }
     });
+  };
+
+  this.isWizardRevisao = function() {
+    return world.waitFor('li[ui-sref^=".revisao"].active');
   };
 
   this.isWizardDadosBasicos = function() {
@@ -70,6 +78,10 @@ var WizardControladorPage = function () {
     return world.waitFor('li[ui-sref^=".transicoes_proibidas"].active');
   };
 
+  this.isWizardAtrasoDeGrupo = function() {
+    return world.waitFor('li[ui-sref^=".atraso_de_grupo"].active');
+  };
+
   this.isWizardTabelaEntreVerdes = function() {
     return world.waitFor('li[ui-sref^=".entre_verdes"].active');
   };
@@ -79,8 +91,10 @@ var WizardControladorPage = function () {
   };
 
   this.clicarBotaoProximoPasso = function() {
-    return world.findLinkByText('Próximo').click().then(function() {
-      return world.sleep(500);
+    return world.scrollToDown().then(function() {
+      return world.findLinkByText('Próximo').click().then(function(){
+        return world.sleep(100);
+      });
     });
   };
 
@@ -123,12 +137,6 @@ var WizardControladorPage = function () {
       messages.push({campo: 'area', msg: msg});
       return thisWizardPage.getErrorMessageFor('helper-endereco[latitude="objeto.todosEnderecos[0].latitude"]');
     }).then(function(msg) {
-      messages.push({campo: 'localizacao1', msg: msg});
-      return thisWizardPage.getErrorMessageFor('[name="enderecos[0].latitude"]');
-    }).then(function(msg) {
-      messages.push({campo: 'localizacao1.latitude', msg: msg});
-      return thisWizardPage.getErrorMessageFor('[name="enderecos[0].longitude"]');
-    }).then(function(msg) {
       messages.push({campo: 'localizacao1.longitude', msg: msg});
       return thisWizardPage.getErrorMessageFor('helper-endereco[latitude="objeto.todosEnderecos[1].latitude"]');
     }).then(function(msg) {
@@ -159,12 +167,6 @@ var WizardControladorPage = function () {
     var messages = [];
     return thisWizardPage.getErrorMessageFor('helper-endereco[latitude="currentEnderecos[0].latitude"]').then(function(msg) {
       messages.push({campo: 'localizacao1', msg: msg});
-      return thisWizardPage.getErrorMessageFor('[name="enderecos[0].latitude"]');
-    }).then(function(msg) {
-      messages.push({campo: 'localizacao1.latitude', msg: msg});
-      return thisWizardPage.getErrorMessageFor('[name="enderecos[0].longitude"]');
-    }).then(function(msg) {
-      messages.push({campo: 'localizacao1.longitude', msg: msg});
       return thisWizardPage.getErrorMessageFor('helper-endereco[latitude="currentEnderecos[1].latitude"]');
     }).then(function(msg) {
       messages.push({campo: 'localizacao2', msg: msg});
@@ -366,8 +368,10 @@ var WizardControladorPage = function () {
   };
 
   this.marcarConflito = function(g1, g2) {
-    return world.execJavascript('return $(\'th:contains("'+g2+'")\').index() + 1').then(function(col) {
-      return world.getElementByXpath('//td//strong[text() = "'+g1+'"]/../../td['+col+']').click();
+    return world.sleep(600).then(function(){
+      return world.execJavascript('return $(\'th:contains("'+g2+'")\').index() + 1').then(function(col) {
+        return world.getElementByXpath('//td//strong[text() = "'+g1+'"]/../../td['+col+']').click();
+      });
     });
   };
 
@@ -377,11 +381,13 @@ var WizardControladorPage = function () {
     return world.getElement('tbody tr:nth-child('+row+') td:nth-child('+col+')').click();
   };
 
-  this.clicarBotaoFinalizar = function() {
-    return world.findLinkByText('Finalizar').then(function(link) {
-      return link.click();
-    }).then(function() {
-      return world.waitForAJAX();
+  this.clicarBotao = function(text) {
+    return world.sleep(600).then(function(){
+      return world.findLinkByText(text).then(function(link) {
+        return link.click();
+      }).then(function() {
+        return world.waitForAJAX();
+      });
     });
   };
 
@@ -392,14 +398,25 @@ var WizardControladorPage = function () {
   this.adicionarGruposSemaforicosAoAnel = function(numGrupos) {
     var promises = [];
     for (var i = 0; i < numGrupos; i++) {
-      promises.push(function() { return world.getElement('a[data-ng-click="adicionaGrupoSemaforico()"]').click(); });
-    }
+      promises.push(function() {
+        return world.scrollToDown().then(function() {
+          return world.getElement('a[data-ng-click="adicionaGrupoSemaforico()"]').click();
+        });
+      });
+    };
 
     return promises.reduce(function(previous, current) {
       return previous
       .then(world.waitForOverlayDisappear)
       .then(current);
     }, Promise.resolve());
+  };
+
+  this.marcarTempoAtrasoGrupo = function(value, field) {
+    var baseSelector = 'influunt-knob[title="'+field+'"]';
+    return world.getElement(baseSelector + ' p.knob-value').click().then(function() {
+      return world.resetValue(baseSelector + ' input.rs-input', value);
+    }).then(world.waitForAnimationFinishes);
   };
 
   this.marcarTempoEntreVerdes = function(value, field, transicao) {

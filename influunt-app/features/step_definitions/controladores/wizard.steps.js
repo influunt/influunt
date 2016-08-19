@@ -66,8 +66,8 @@ module.exports = function() {
     return wizardPage.isWizardPasso(passo);
   });
 
-  this.Given(/clicar no botão para finalizar$/, function () {
-    return wizardPage.clicarBotaoFinalizar();
+  this.Given(/^o usuário clicar no botão "([^"]*)"$/, function (text) {
+    return wizardPage.clicarBotao(text);
   });
 
   this.Given(/^que o usuario adicione (\d+) grupos semafóricos ao anel$/, function (numGrupos) {
@@ -117,12 +117,15 @@ module.exports = function() {
   });
 
   this.Given(/^o sistema irá redirecionar o usuário para a página de listagem de controladores$/, function () {
-    // return wizardPage.isIndex();
     return wizardPage.indexPage();
   });
 
   this.Given(/^o sistema deverá indicar tabela incompleta para o grupo "([^"]*)"$/, function (grupo) {
     return wizardPage.errorMessagesVerdesConflitantesGrupo(grupo);
+  });
+
+  this.Given(/^que o usuário marque (\d+) no tempo "([^"]*)"$/, function (value, field) {
+    return wizardPage.marcarTempoAtrasoGrupo(value, field);
   });
 
   this.Given(/^que o usuário marque (\d+) no tempo "([^"]*)" da transição "([^"]*)"$/, function (value, field, transicao) {
