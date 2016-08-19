@@ -1,13 +1,15 @@
 .dropzone {
-  position: relative;
+  position: absolute;
   border: 0;
   background: transparent;
 }
 
 .dropzone.dz-clickable {
-  max-height: 810px;
-  overflow: auto;
-  padding: 0px;
+  max-height: none;
+  padding-right: 20px;
+  padding-left: 150px;
+  width: 100%;
+  height: auto;
 }
 
 .dz-default.dz-message span {
@@ -16,13 +18,15 @@
 }
 
 .dropzone .dz-preview, .dropzone-previews .dz-preview {
-  width: 100%;
-  height: auto;
-  margin: 0px 0px 15px 0px;
+  width: 150px;
+  height: 150px;
+  margin: 7px 10px;
+  display: table-cell;
+  padding: 7px;
 }
 
 .dropzone .dz-default.dz-message {
-  position: relative;
+  position: absolute;
   width: 100%;
   height: 100px;
   margin-left: 0;
@@ -37,15 +41,15 @@
 }
 
 .dropzone .dz-preview .dz-details, .dropzone-previews .dz-preview .dz-details {
-  width: 100%;
-  height: 190px;
+  width: 150px;
+  height: 150px;
   overflow: hidden;
   display: block;
 }
 
 .dropzone .dz-preview .dz-details img, .dropzone-previews .dz-preview .dz-details img {
-  width: 100%;
-  height: 190px !important;
+  width: 150px;
+  height: 150px !important;
 }
 
 .dropzone .dz-filename span {
@@ -57,7 +61,7 @@
 }
 
 .dropzone .dz-preview .dz-progress, .dropzone-previews .dz-preview .dz-progress {
-  top: 200px;
+  top: 152px;
 }
 
 .img-preview-sm {
