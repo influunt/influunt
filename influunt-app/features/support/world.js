@@ -309,8 +309,7 @@ switch(platform) {
     driver = buildPhantomDriver();
 }
 
-driver.manage().window().setSize(1480, 940);
-// driver.manage().window().setSize(1480, 768);
+driver.manage().window().setSize(1024, 768);
 
 module.exports.World = World;
 module.exports.getDriver = getDriver;
