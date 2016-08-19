@@ -16,19 +16,42 @@
       "titulo": "Detectores",
       "verTabelaEntreVerdes": "Ver Tela de Entre Verdes"
     },
-    "aneis": "Configuração de Aneis",
+    "dadosBasicos": {
+      "titulo": "Dados Básicos"
+    },
+    "gruposSemaforicos": {
+    "titulo": "Grupos Semafóricos"
+    },
+    "transicoesProibidas": {
+    "titulo": "Transições Proibidas"
+    },
+    "verdesConflitantes": {
+    "titulo": "Verdes Conflitantes"
+    },
+    "associacao": {
+    "titulo": "Associação Estágio x Grupo Semafórico"
+    },
+    "entreVerdes": {
+    "titulo": "Tabela de Entre Verdes"
+    },
+    "atrasoDeGrupo": {
+    "titulo": "Atraso de Grupo"
+    },
+    "revisao": {
+    "titulo": "Revisão"
+    },
+    "aneis": {
+    "titulo": "Configuração de Aneis"
+    },
     "anel": "Anel",
     "area": "Área",
     "adicionarGrupo": "Adicionar Grupo",
-    "associacao": "Associação Estágio x Grupo Semafórico",
-    "entreVerdes": "Tabela de Entre Verdes",
     "ativo": "Ativo",
     "cidade": "Cidade",
     "CLC": "CLC",
     "CLA": "CLA",
     "configuracao_grupo": "Grupos Semafóricos",
     "coordenadas": "COORDENADAS",
-    "dadosBasicos": "Dados Básicos",
     "endereco": "Pesquisar por endereço",
     "enviarImagens": "Enviar Imagens",
     "entreverdes": "Entre-Verdes",
@@ -58,8 +81,6 @@
     "opcoes": "Opções",
     "tipo": "Tipo",
     "titulo": "Programação",
-    "transicoesProibidas": "Transições Proibidas",
-    "revisao": "Revisão",
     "validacoes": {
       "aoMenosUmGrupoSemaforico": "Este anel deve ter mais de 1 grupo semáforico",
       "latitudeMayNotBeNull": "Campo de Latitude é Obrigatório",
@@ -68,10 +89,8 @@
       "totalDetectorVeicular": "Total de <strong>detectores veicular</strong> maior que a quantidade máxima suportada pelo controlador",
       "totalGruposSemaforicos": "Total de <strong>grupos semafóricos</strong> maior que a quantidade máxima suportada pelo controlador"
     },
-    "verdes_conflitantes": "Verdes Conflitantes",
     "versaoFirmware": "Versão do Firmware",
-    "numeroTabelasEntreVerdes": "Número de tabelas entre verdes",
-    "atrasoDeGrupo": "Atraso de Grupo"
+    "numeroTabelasEntreVerdes": "Número de tabelas entre verdes"
   },
   "areas": {
     "adicionar_limites": "adicionar limites geográficos",
@@ -172,6 +191,13 @@
       "voltar": "Voltar"
 
     },
+    "tooltip": {
+      "salvar": "Salvar",
+      "voltarPara": "Voltar para",
+      "salvarVoltarPara": "Salvar e voltar para",
+      "voltarSemPara": "Voltar sem salvar para",
+      "salvarAvancarPara": "Salvar e avançar para"
+    },
     "campo_obrigatorio": "Campo Obrigatório",
     "dashboard": "Dashboard",
     "mensagens": {
@@ -258,6 +284,7 @@
         "next": "Próximo",
         "previous": "Anterior",
         "loading": "Carregando",
+        "save": "Salvar",
         "saveBack": "Salvar e Voltar",
         "saveNext": "Salvar e Avançar"
       }

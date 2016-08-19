@@ -135,17 +135,17 @@
         <i class="fa fa-eye"></i> {{ 'plugins.steps.labels.last_screen' | translate }}
       </a>
       <div class="right">
-        <a go-to-top data-ng-click="submitForm({$valid: true}, 'aneis', 'app.wizard_controladores.configuracao_grupo')" tooltips tooltip-template="Configuração de Grupo" class="go-to-top btn btn-primary btn-footer right">
+        <a go-to-top data-ng-click="submitForm({$valid: true}, 'aneis', 'app.wizard_controladores.configuracao_grupo')" tooltips tooltip-template="<b>{{ 'geral.tooltip.salvarAvancarPara' | translate }}</b> {{ 'controladores.gruposSemaforicos.titulo' | translate }}" class="go-to-top btn btn-primary btn-footer right">
           {{ 'plugins.steps.labels.saveNext' | translate }} <i class="fa fa-arrow-right"></i>
         </a>
       </div>
       <div class="right">
-        <a data-ng-click="submitForm({$valid: true}, 'aneis', 'app.wizard_controladores.dados_basicos')" tooltips tooltip-template="Dados Básicos" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
+        <a data-ng-click="submitForm({$valid: true}, 'aneis', 'app.wizard_controladores.dados_basicos')" tooltips tooltip-template="<b>{{ 'geral.tooltip.salvarVoltarPara' | translate }}</b> {{ 'controladores.dadosBasicos.titulo' | translate }}" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
           <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.saveBack' | translate }}
         </a>
       </div>
       <div class="right">
-        <a data-ng-click="voltarSemSalvar(app.wizard_controladores.dados_basicos)" tooltips tooltip-template="Entre Verdes" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
+        <a ng-click="voltarSemSalvar('app.wizard_controladores.dados_basicos')" tooltips tooltip-template="<b><span>{{ 'geral.tooltip.voltarSemPara' | translate }}</span></b> {{ 'controladores.dadosBasicos.titulo' | translate }}" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
           <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.back' | translate }}
         </a>
       </div>
