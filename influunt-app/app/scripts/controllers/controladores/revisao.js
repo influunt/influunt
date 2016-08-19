@@ -87,7 +87,7 @@ angular.module('influuntApp')
             numGruposVeicular: gruposSemaforicosCount.totalVeicular,
             numDetectoresPedestre: detectoresCount.totalPedestre,
             numDetectoresVeicular: detectoresCount.totalVeicular
-          }
+          };
         }
       };
 
@@ -179,7 +179,7 @@ angular.module('influuntApp')
               tempoMaximoPermanenciaAtivado: estagio.tempoMaximoPermanenciaAtivado,
               tempoMaximoPermanencia: estagio.tempoMaximoPermanencia,
               imagem: $scope.getImagemDeEstagio(estagio)
-            }
+            };
 
             $scope.dadosCurrentEstagios.push(dadosEstagio);
           });
@@ -229,7 +229,7 @@ angular.module('influuntApp')
             if (index % 2 === 0) {
               $scope.dadosCurrentTRansicoesProibidas1.push(transicaoProibida);
             } else {
-              $scope.dadosCurrentTRansicoesProibidas2.push(transicaoProibida)
+              $scope.dadosCurrentTRansicoesProibidas2.push(transicaoProibida);
             }
           });
         }
@@ -246,7 +246,6 @@ angular.module('influuntApp')
 
           _.forEach(transicoes, function(transicao) {
             var tevtPadrao = _.find($scope.objeto.tabelasEntreVerdesTransicoes, { idJson: transicao.tabelaEntreVerdesTransicoes[0].idJson });
-            var tevPadrao = _.find($scope.tabelasEntreVerdes, { idJson: tevtPadrao.tabelaEntreVerdes.idJson });
             $scope.dadosCurrentTabelasentreVerdesPadrao.push({
               origem: _.find($scope.objeto.estagios, { idJson: transicao.origem.idJson }),
               destino: _.find($scope.objeto.estagios, { idJson: transicao.destino.idJson }),
@@ -259,7 +258,6 @@ angular.module('influuntApp')
             if (typeof tevtOutra !== 'undefined') {
               tevtOutra = _.find($scope.objeto.tabelasEntreVerdesTransicoes, { idJson: tevtOutra.idJson });
               var tevOutra = _.find($scope.tabelasEntreVerdes, { idJson: tevtOutra.tabelaEntreVerdes.idJson });
-              console.log('tevOutra')
               $scope.dadosCurrentTabelasentreVerdesOutra.push({
                 origem: _.find($scope.objeto.estagios, { idJson: transicao.origem.idJson }),
                 destino: _.find($scope.objeto.estagios, { idJson: transicao.destino.idJson }),
