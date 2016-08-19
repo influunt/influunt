@@ -1589,9 +1589,10 @@ header .nav-secon li a {
 }
 }
 @media screen and (max-width: 996px) {
-    .wrapper-content .basic-wizard .content .body .movements .dz-default.dz-message span {
-      line-height: 15px;
-      padding: 60px 20px;
+  .wrapper-content .basic-wizard .content .body .movements .dz-default.dz-message span {
+    line-height: 15px;
+    padding: 60px 20px;
+  }
   .wrapper-content .basic-wizard .content .body .association.tables-associated .ng-scope .group-figures .stage-images {
       padding-left: 5px;
       padding-right: 5px;
@@ -1961,5 +1962,5 @@ li.initialTab {
 }
 
 #myModal .links-revisao {
-    display: none !important;
+  display: none !important;
 }
