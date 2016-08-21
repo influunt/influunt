@@ -39,7 +39,7 @@ angular.module('influuntApp')
             $scope.aneis = $scope.objeto.aneis;
             $scope.currentAnelIndex = 0;
             $scope.currentAnel = $scope.aneis[0];
-
+            $scope.numeroSMEE = $scope.objeto.numeroSMEE;
             ativaPrimeiroAnel($scope.objeto);
             atualizarAneisAtivos();
             inicializaEnderecos();
@@ -132,6 +132,11 @@ angular.module('influuntApp')
       ativaPrimeiroAnel = function(controlador) {
         controlador.aneis.forEach(function(anel) { anel.valid = {form: true}; });
         controlador.aneis[0].ativo = true;
+
+        // //1.000.0001.1
+        // $scope.primeiroAnel =  _.filter($scope.aneis, {CLA : '1.000.0001.1'});
+        // console.log("---- primeiro anel --- ");
+        // console.log(JSON.stringify($scope.primeiroAnel));
         return controlador.aneis;
       };
 
@@ -155,19 +160,28 @@ angular.module('influuntApp')
           atualizaCurrentEnderecos();
           if (_.isArray($scope.currentEnderecos) && $scope.currentEnderecos[0].localizacao && $scope.currentEnderecos[1].localizacao) {
             anel.localizacao = $scope.currentEnderecos[0].localizacao + ' com ' + $scope.currentEnderecos[1].localizacao;
+            anel.latitude = $scope.currentEnderecos[0].latitude;
+            anel.longitude = $scope.currentEnderecos[0].longitude;
           } else {
             anel.localizacao = '';
           }
-
         }, true);
       };
 
       atualizaCurrentEnderecos = function() {
-        var ids = _.map($scope.currentAnel.enderecos, 'idJson');
-        $scope.currentEnderecos = _
-          .chain($scope.objeto.todosEnderecos)
-          .filter(function(e) { return ids.indexOf(e.idJson) >= 0; })
-          .value();
+        $scope.currentEnderecos = [];
+        if ($scope.currentAnel.CLA=="1.000.0001.1") {
+          _.forEach($scope.objeto.todosEnderecos, function(e) {
+              var enderecos = _.find($scope.objeto.todosEnderecos, { idJson: e.idJson });
+              $scope.currentEnderecos.push(enderecos);
+            });
+        } else {
+          var ids = _.map($scope.currentAnel.enderecos, 'idJson');
+           $scope.currentEnderecos = _
+             .chain($scope.objeto.todosEnderecos)
+             .filter(function(e) { return ids.indexOf(e.idJson) >= 0; })
+             .value();
+        }
 
         return $scope.currentEnderecos;
       };

@@ -15,7 +15,7 @@ angular.module('influuntApp')
       showFooter: '=',
       link: function postLink(scope, element) {
 
-        console.log('show footer: ', scope.showFooter)
+        //console.log('show footer: ', scope.showFooter)
 
       }
     }
