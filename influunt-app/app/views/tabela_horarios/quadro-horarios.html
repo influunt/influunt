@@ -1,17 +1,4 @@
-<style type="text/css" media="screen">
-td.programacao{
-  line-height:1px !important;
-  height:4px !important;
-  padding:0px !important;
-  border-top:0 !important;
-  border-left:1px solid #e7eaec !important;
-}
-
-td.programacao-first{
-  border-top:1px solid #e7eaec !important;
-}
-</style>
-<table class="table table-hover table-border">
+<table class="table table-hover table-border horarios">
   <thead>
     <tr>
       <th>{{ 'tabelaHorarios.hr' | translate }}</th>
@@ -22,14 +9,15 @@ td.programacao-first{
       <th>{{ 'tabelaHorarios.qui' | translate }}</th>
       <th>{{ 'tabelaHorarios.sex' | translate }}</th>
       <th>{{ 'tabelaHorarios.sab' | translate }}</th>
+      <th>{{ 'tabelaHorarios.hr' | translate }}</th>
     </tr>
   </thead>
   <tbody>
     <tr data-ng-repeat="i in getTimes(96) track by $index" style="line-height:1px;height:1px">
       <td data-ng-if="$index % 4 == 0" rowspan="4" style="font-size:11px;padding:1px 5px">{{$index/4}}</td>
       <td data-ng-repeat="(k,v) in agenda" data-ng-class="getTableCell(v,$parent.$index)" ng-mouseover="highlightEvento(v,$parent.$index)" ng-mouseleave="leaveHighlightEvento(v,$parent.$index)" class="programacao">
+        <td data-ng-if="$index % 4 == 0" rowspan="4" style="font-size:11px;padding:1px 5px">{{$index/4}}</td>
       </td>
     </tr>
   </tbody>
 </table>
-
