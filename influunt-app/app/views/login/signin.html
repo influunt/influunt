@@ -3,7 +3,7 @@
     <div>
       <img src="images/logo-escura.png" alt="Influunt" style="width: 256px; height: auto">
     </div>
-    <h3>CENTRAL DE SEMÁFOROS EM TEMPO FIXO</h3>
+    <h3>{{gera.titulo_padrao}}</h3>
     <form class="m-t" name="loginForm" data-ng-submit="submitLogin(loginForm.$valid)" novalidate>
       <div class="form-group login usuario" data-ng-class="{'has-error': loginForm.usuario.$invalid && (!loginForm.usuario.$pristine || submited)}">
         <input type="text" class="form-control" name="usuario" placeholder="{{ 'login.usuario' | translate }}" data-ng-model="credenciais.login" required>

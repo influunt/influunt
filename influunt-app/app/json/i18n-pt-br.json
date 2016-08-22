@@ -1,5 +1,6 @@
 {
     "appname": "Influunt",
+    "titulo_padrao": "CENTRAL DE SEMÁFOROS EM TEMPO FIXO",
     "controladores": {
         "titulo": "Programação",
         "detector": "Detector",
@@ -305,7 +306,32 @@
             "todos": "Todos",
             "visualizar": "Visualizar"
         }
-    },
+    }
+  },
+  "login": {
+    "acessar": "Acessar",
+    "esqueceu_sua_senha": "Esqueceu sua senha?",
+    "senha": "Senha",
+    "usuario": "Usuário"
+  },
+  "main": {
+    "hello_world": "Dashboard"
+  },
+  "menu": {
+    "cadastros": "Cadastros",
+    "configuracoes": "Configurações"
+  },
+  "timeline": {
+    "titulo": "Histórico de alterações"
+  },
+  "perfis": {
+    "definir_permissoes": "Definir permissões",
+    "descricao": "Descricao",
+    "nome": "Nome",
+    "titulo": "Perfis",
+    "novo": "Novo Perfil",
+    "editar": "Editar Perfil",
+    "mostrar": "Visualizar Perfil",
     "permissoes": {
         "descricao": "Descrição",
         "chave": "Chave",
