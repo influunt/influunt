@@ -1,308 +1,307 @@
 {
-  "appname": "Influunt",
-  "controladores": {
-    "titulo": "Programação",
-    "detector": "Detector",
-    "mapa": "Mapa dos controladores",
-    "anel": "Anel",
-    "area": "Área",
-    "adicionarGrupo": "Adicionar Grupo",
-    "ativo": "Ativo",
-    "cidade": "Cidade",
-    "CLC": "CLC",
-    "CLA": "CLA",
-    "configuracao_grupo": "Grupos Semafóricos",
-    "coordenadas": "COORDENADAS",
-    "endereco": "Pesquisar por endereço",
-    "enviarImagens": "Enviar Imagens",
-    "entreverdes": "Entre-Verdes",
-    "estagios": "Estágios",
-    "firmware": "FIRMWARE",
-    "fornecedor": "Fabricante",
-    "gruposAssociados": "Grupos Associados",
-    "gruposPedestres": "Grupos semafóricos de pedestres",
-    "gruposSinaisVeiculares": "Grupos semafóricos veiculares",
-    "latitude": "Latitude",
-    "localizacao": "Localização",
-    "longitude": "Longitude",
-    "maxAneis": "Número de anéis",
-    "maxDetectorPedestre": "Número de detector pedestre",
-    "maxDetectorVeicular": "Número de detector veicular",
-    "maxEstagios": "Número de estágios",
-    "maxGrupoSemaforos": "Número de grupos semafóricos",
-    "maxTabelasEntreVerdes": "Número de tabelas entre verdes",
-    "modelo": "Modelo",
-    "novo": "Novo Controlador",
-    "numeroDetectores": "Número de detectores veiculares",
-    "numeroDetectoresPedestres": "Número de detectores pedestres",
-    "numeroSMEE": "Número SMEE",
-    "numeroSMEEConjugado1": "Num. SMEE conjugado 1",
-    "numeroSMEEConjugado2": "Num. SMEE conjugado 2",
-    "numeroSMEEConjugado3": "Num. SMEE conjugado 3",
-    "opcoes": "Opções",
-    "tipo": "Tipo",
-    "versaoFirmware": "Versão do Firmware",
-    "numeroTabelasEntreVerdes": "Número de tabelas entre verdes",
+    "appname": "Influunt",
+    "controladores": {
+        "titulo": "Programação",
+        "detector": "Detector",
+        "mapa": "Mapa dos controladores",
+        "anel": "Anel",
+        "area": "Área",
+        "adicionarGrupo": "Adicionar Grupo",
+        "ativo": "Ativo",
+        "cidade": "Cidade",
+        "CLC": "CLC",
+        "CLA": "CLA",
+        "configuracao_grupo": "Grupos Semafóricos",
+        "coordenadas": "COORDENADAS",
+        "endereco": "Pesquisar por endereço",
+        "enviarImagens": "Enviar Imagens",
+        "entreverdes": "Entre-Verdes",
+        "estagios": "Estágios",
+        "firmware": "FIRMWARE",
+        "fornecedor": "Fabricante",
+        "gruposAssociados": "Grupos Associados",
+        "gruposPedestres": "Grupos semafóricos de pedestres",
+        "gruposSinaisVeiculares": "Grupos semafóricos veiculares",
+        "latitude": "Latitude",
+        "localizacao": "Localização",
+        "longitude": "Longitude",
+        "maxAneis": "Número de anéis",
+        "maxDetectorPedestre": "Número de detector pedestre",
+        "maxDetectorVeicular": "Número de detector veicular",
+        "maxEstagios": "Número de estágios",
+        "maxGrupoSemaforos": "Número de grupos semafóricos",
+        "maxTabelasEntreVerdes": "Número de tabelas entre verdes",
+        "modelo": "Modelo",
+        "novo": "Novo Controlador",
+        "numeroDetectores": "Número de detectores veiculares",
+        "numeroDetectoresPedestres": "Número de detectores pedestres",
+        "numeroSMEE": "Número SMEE",
+        "numeroSMEEConjugado1": "Num. SMEE conjugado 1",
+        "numeroSMEEConjugado2": "Num. SMEE conjugado 2",
+        "numeroSMEEConjugado3": "Num. SMEE conjugado 3",
+        "opcoes": "Opções",
+        "tipo": "Tipo",
+        "versaoFirmware": "Versão do Firmware",
+        "numeroTabelasEntreVerdes": "Número de tabelas entre verdes",
+        "geral": {
+            "novo": "Novo Controlador",
+            "verMapa": "Ver no mapa",
+            "prefixoEstagio": "E",
+            "prefixoGrupo": "G",
+            "verTelaAnterior": "Ver Resumo"
+        },
+        "associacaoDetectores": {
+            "adicionarDetector": "Adicionar Detector",
+            "detector": "detector",
+            "titulo": "Detectores",
+            "verTabelaEntreVerdes": "Ver Tela de Entre Verdes"
+        },
+        "dadosBasicos": {
+            "titulo": "Dados Básicos"
+        },
+        "gruposSemaforicos": {
+            "titulo": "Grupos Semafóricos"
+        },
+        "transicoesProibidas": {
+            "titulo": "Transições Proibidas"
+        },
+        "verdesConflitantes": {
+            "titulo": "Verdes Conflitantes"
+        },
+        "associacao": {
+            "titulo": "Associação Estágio x Grupo Semafórico"
+        },
+        "entreVerdes": {
+            "titulo": "Tabela de Entre Verdes"
+        },
+        "atrasoDeGrupo": {
+            "titulo": "Atraso de Grupo"
+        },
+        "revisao": {
+            "titulo": "Revisão"
+        },
+        "aneis": {
+            "titulo": "Configuração de Aneis"
+        },
+        "validacoes": {
+            "aoMenosUmGrupoSemaforico": "Este anel deve ter mais de 1 grupo semáforico",
+            "latitudeMayNotBeNull": "Campo de Latitude é Obrigatório",
+            "longitudeMayNotBeNull": "Campo de Longitude é Obrigatório",
+            "totalDetectorPedestres": "Total de <strong>detectores de pedestres</strong> maior que a quantidade máxima suportada pelo controlador",
+            "totalDetectorVeicular": "Total de <strong>detectores veicular</strong> maior que a quantidade máxima suportada pelo controlador",
+            "totalGruposSemaforicos": "Total de <strong>grupos semafóricos</strong> maior que a quantidade máxima suportada pelo controlador"
+        }
+    },
+    "areas": {
+        "adicionar_limites": "adicionar limites geográficos",
+        "cidade": "CIDADE",
+        "limitesGeograficos": "LIMITES GEOGRÁFICOS",
+        "descricao": "ÁREA",
+        "novo": "Nova Área",
+        "mostrar": "Visualizar Área",
+        "editar": "Editar Área",
+        "titulo": "Áreas"
+    },
+    "cidades": {
+        "areas": "ÁREAS",
+        "nome": "NOME",
+        "novo": "Nova Cidade",
+        "mostrar": "Visualizar Cidade",
+        "editar": "Editar Cidade",
+        "titulo": "Cidades"
+    },
+    "tabelaHorarios": {
+        "titulo": "Tabela de Horários",
+        "dias": "Dias",
+        "nome": "Nome",
+        "data": "Data",
+        "horario": "Horário",
+        "plano": "Plano",
+        "descartar": "Descartar",
+        "tabelaEspecial": "Tabela de horários especial ativa na semana entre os dias",
+        "hr": "HR",
+        "seg": "SEG",
+        "ter": "TER",
+        "qua": "QUA",
+        "qui": "QUI",
+        "sex": "SEX",
+        "sab": "SAB",
+        "dom": "DOM"
+    },
+    "configuracoes_controladores": {
+        "descricao": "DESCRIÇÃO",
+        "limiteEstagio": "LIMITE ESTÁGIOS",
+        "limiteGrupoSemaforico": "LIMITE GRUPOS SEMAFÓRICOS",
+        "limiteAnel": "LIMITE ANEIS",
+        "limiteDetectorPedestre": "LIMITE DETECTORES PEDESTRE",
+        "limiteDetectorVeicular": "LIMITE DETECTORES VEICULARES",
+        "titulo": "Configurações de Controladores",
+        "limiteTabelasEntreVerdes": "LIMITE TABELAS ENTRE-VERDES",
+        "novo": "Nova Configuração Controlador",
+        "mostrar": "Visualizar Configuração Controlador",
+        "editar": "Editar Configuração Controlador"
+    },
+    "coordenadas": {
+        "latitude": "LATITUDE",
+        "longitude": "LONGITUDE"
+    },
+    "fabricantes": {
+        "adicionar_modelo_controlador": "adicionar modelo controlador",
+        "fabricante": "FABRICANTE",
+        "modelo": "MODELO CONTROLADOR",
+        "nome": "NOME",
+        "novo": "Novo Fabricante",
+        "editar": "Editar Fabricante",
+        "mostrar": "Visualizar Fabricante",
+        "titulo": "Fabricantes"
+    },
+    "modelos_controladores": {
+        "descricao": "DESCRIÇÃO",
+        "fabricante": "FABRICANTE",
+        "configuracao": "CONFIGURAÇÃO CONTROLADOR",
+        "titulo": "Modelo de Controladores",
+        "novo": "Novo Modelo de Controlador",
+        "mostrar": "Visualizar Modelo de Controlador",
+        "editar": "Editar Modelo de Controlador"
+    },
+    "planos": {
+        "titulo": "Planos"
+    },
+    "tipos_detectores": {
+        "descricao": "DESCRIÇÃO",
+        "novo": "Novo Tipo de Detector",
+        "titulo": "Tipos de Detectores"
+    },
     "geral": {
-      "novo": "Novo Controlador",
-      "verMapa": "Ver no mapa",
-      "prefixoEstagio": "E",
-      "prefixoGrupo": "G",
-      "verTelaAnterior": "Ver Resumo"
+        "atencao": "Atenção",
+        "auditoria": {
+            "atualizadoPor": "Atualizado Por",
+            "dataAtualizacao": "Data de Atualização",
+            "dataCriacao": "Data de Criação"
+        },
+        "crud": {
+            "configurar": "Configurar",
+            "editar": "Editar",
+            "excluir": "Excluir",
+            "fechar": "Fechar",
+            "novo": "Novo",
+            "opcoes": "Opções",
+            "salvar": "Salvar",
+            "visualizar": "Visualizar",
+            "voltar": "Voltar"
+        },
+        "tooltip": {
+            "salvar": "Salvar",
+            "voltarPara": "Voltar para",
+            "salvarVoltarPara": "Salvar e voltar para",
+            "voltarSemPara": "Voltar sem salvar para",
+            "salvarAvancarPara": "Salvar e avançar para"
+        },
+        "campo_obrigatorio": "Campo Obrigatório",
+        "dashboard": "Dashboard",
+        "mensagens": {
+            "cancelar": "Cancelar",
+            "confirma_saida": "Confirma a saída",
+            "voltarSemSalvar": "Voltar sem salvar?",
+            "mensagemSemSalvar": "Ao confirmar, você perderá as alterações realizadas.",
+            "default_erro": "Ocorreu um erro. Tente novamente mais tarde.",
+            "nao": "Não",
+            "popup_delete": {
+                "mensagem": "Quer mesmo apagar este registro?",
+                "titulo": "Confirma?"
+            },
+            "removido_com_sucesso": "Removido com sucesso",
+            "salvo_com_sucesso": "Salvo com sucesso",
+            "sair": "Sair do sistema?",
+            "sim": "Sim"
+        },
+        "titulo_padrao": "Título não definido."
     },
-    "associacaoDetectores": {
-      "adicionarDetector": "Adicionar Detector",
-      "detector": "detector",
-      "titulo": "Detectores",
-      "verTabelaEntreVerdes": "Ver Tela de Entre Verdes"
+    "login": {
+        "acessar": "Acessar",
+        "esqueceu_sua_senha": "Esqueceu sua senha?",
+        "senha": "Senha",
+        "usuario": "Usuário"
     },
-    "dadosBasicos": {
-      "titulo": "Dados Básicos"
+    "main": {
+        "hello_world": "Dashboard"
     },
-    "gruposSemaforicos": {
-    "titulo": "Grupos Semafóricos"
+    "menu": {
+        "cadastros": "Cadastros",
+        "configuracoes": "Configurações"
     },
-    "transicoesProibidas": {
-    "titulo": "Transições Proibidas"
+    "timeline": {
+        "titulo": "Histórico de alterações"
     },
-    "verdesConflitantes": {
-    "titulo": "Verdes Conflitantes"
+    "perfis": {
+        "definir_permissoes": "Definir permissões",
+        "descricao": "Descricao",
+        "nome": "Nome",
+        "titulo": "Perfis",
+        "novo": "Novo Perfil",
+        "editar": "Editar Perfil",
+        "mostrar": "Visualizar Perfil",
+        "permissoes": {
+            "criar": "Criar",
+            "descricao": "Descrição",
+            "editar": "Editar",
+            "excluir": "Excluir",
+            "permite": "Permite?",
+            "todos": "Todos",
+            "visualizar": "Visualizar"
+        }
     },
-    "associacao": {
-    "titulo": "Associação Estágio x Grupo Semafórico"
-    },
-    "entreVerdes": {
-    "titulo": "Tabela de Entre Verdes"
-    },
-    "atrasoDeGrupo": {
-    "titulo": "Atraso de Grupo"
-    },
-    "revisao": {
-    "titulo": "Revisão"
-    },
-    "aneis": {
-    "titulo": "Configuração de Aneis"
-    },
-    "validacoes": {
-      "aoMenosUmGrupoSemaforico": "Este anel deve ter mais de 1 grupo semáforico",
-      "latitudeMayNotBeNull": "Campo de Latitude é Obrigatório",
-      "longitudeMayNotBeNull": "Campo de Longitude é Obrigatório",
-      "totalDetectorPedestres": "Total de <strong>detectores de pedestres</strong> maior que a quantidade máxima suportada pelo controlador",
-      "totalDetectorVeicular": "Total de <strong>detectores veicular</strong> maior que a quantidade máxima suportada pelo controlador",
-      "totalGruposSemaforicos": "Total de <strong>grupos semafóricos</strong> maior que a quantidade máxima suportada pelo controlador"
-    }
-  },
-  "areas": {
-    "adicionar_limites": "adicionar limites geográficos",
-    "cidade": "CIDADE",
-    "limitesGeograficos": "LIMITES GEOGRÁFICOS",
-    "descricao": "ÁREA",
-    "novo": "Nova Área",
-    "mostrar": "Visualizar Área",
-    "editar": "Editar Área",
-    "titulo": "Áreas"
-  },
-  "cidades": {
-    "areas": "ÁREAS",
-    "nome": "NOME",
-    "novo": "Nova Cidade",
-    "mostrar": "Visualizar Cidade",
-    "editar": "Editar Cidade",
-    "titulo": "Cidades"
-  },
-  "tabelaHorarios": {
-    "titulo": "Tabela de Horários",
-    "dias": "Dias",
-    "nome": "Nome",
-    "data": "Data",
-    "horario": "Horário",
-    "plano": "Plano",
-    "descartar": "Descartar",
-    "tabelaEspecial": "Tabela de horários especial ativa na semana entre os dias",
-    "hr": "HR",
-    "seg": "SEG",
-    "ter": "TER",
-    "qua": "QUA",
-    "qui": "QUI",
-    "sex": "SEX",
-    "sab": "SAB",
-    "dom": "DOM"
-  },
-  "configuracoes_controladores": {
-    "descricao": "DESCRIÇÃO",
-    "limiteEstagio": "LIMITE ESTÁGIOS",
-    "limiteGrupoSemaforico": "LIMITE GRUPOS SEMAFÓRICOS",
-    "limiteAnel": "LIMITE ANEIS",
-    "limiteDetectorPedestre": "LIMITE DETECTORES PEDESTRE",
-    "limiteDetectorVeicular": "LIMITE DETECTORES VEICULARES",
-    "titulo": "Configurações de Controladores",
-    "limiteTabelasEntreVerdes": "LIMITE TABELAS ENTRE-VERDES",
-    "novo": "Nova Configuração Controlador",
-    "mostrar": "Visualizar Configuração Controlador",
-    "editar": "Editar Configuração Controlador"
-  },
-  "coordenadas": {
-    "latitude": "LATITUDE",
-    "longitude": "LONGITUDE"
-  },
-  "fabricantes": {
-    "adicionar_modelo_controlador": "adicionar modelo controlador",
-    "fabricante": "FABRICANTE",
-    "modelo": "MODELO CONTROLADOR",
-    "nome": "NOME",
-    "novo": "Novo Fabricante",
-    "editar": "Editar Fabricante",
-    "mostrar": "Visualizar Fabricante",
-    "titulo": "Fabricantes"
-  },
-  "modelos_controladores": {
-    "descricao": "DESCRIÇÃO",
-    "fabricante": "FABRICANTE",
-    "configuracao": "CONFIGURAÇÃO CONTROLADOR",
-    "titulo": "Modelo de Controladores",
-    "novo": "Novo Modelo de Controlador",
-    "mostrar": "Visualizar Modelo de Controlador",
-    "editar": "Editar Modelo de Controlador"
-  },
-  "planos": {
-    "titulo": "Planos"
-  },
-  "tipos_detectores": {
-    "descricao": "DESCRIÇÃO",
-    "novo": "Novo Tipo de Detector",
-    "titulo": "Tipos de Detectores"
-  },
-  "geral": {
-    "atencao": "Atenção",
-    "auditoria": {
-      "atualizadoPor": "Atualizado Por",
-      "dataAtualizacao": "Data de Atualização",
-      "dataCriacao": "Data de Criação"
-    },
-    "crud": {
-      "configurar": "Configurar",
-      "editar": "Editar",
-      "excluir": "Excluir",
-      "fechar": "Fechar",
-      "novo": "Novo",
-      "opcoes": "Opções",
-      "salvar": "Salvar",
-      "visualizar": "Visualizar",
-      "voltar": "Voltar"
-
-    },
-    "tooltip": {
-      "salvar": "Salvar",
-      "voltarPara": "Voltar para",
-      "salvarVoltarPara": "Salvar e voltar para",
-      "voltarSemPara": "Voltar sem salvar para",
-      "salvarAvancarPara": "Salvar e avançar para"
-    },
-    "campo_obrigatorio": "Campo Obrigatório",
-    "dashboard": "Dashboard",
-    "mensagens": {
-      "cancelar": "Cancelar",
-      "confirma_saida": "Confirma a saída",
-      "voltarSemSalvar": "Voltar sem salvar?",
-      "mensagemSemSalvar": "Ao confirmar, você perderá as alterações realizadas.",
-      "default_erro": "Ocorreu um erro. Tente novamente mais tarde.",
-      "nao": "Não",
-      "popup_delete": {
-        "mensagem": "Quer mesmo apagar este registro?",
-        "titulo": "Confirma?"
-      },
-      "removido_com_sucesso": "Removido com sucesso",
-      "salvo_com_sucesso": "Salvo com sucesso",
-      "sair": "Sair do sistema?",
-      "sim": "Sim"
-    },
-    "titulo_padrao": "Título não definido."
-  },
-  "login": {
-    "acessar": "Acessar",
-    "esqueceu_sua_senha": "Esqueceu sua senha?",
-    "senha": "Senha",
-    "usuario": "Usuário"
-  },
-  "main": {
-    "hello_world": "Dashboard"
-  },
-  "menu": {
-    "cadastros": "Cadastros",
-    "configuracoes": "Configurações"
-  },
-  "timeline": {
-    "titulo": "Histórico de alterações"
-  },
-  "perfis": {
-    "definir_permissoes": "Definir permissões",
-    "descricao": "Descricao",
-    "nome": "Nome",
-    "titulo": "Perfis",
-    "novo": "Novo Perfil",
-    "editar": "Editar Perfil",
-    "mostrar": "Visualizar Perfil",
     "permissoes": {
-      "criar": "Criar",
-      "descricao": "Descrição",
-      "editar": "Editar",
-      "excluir": "Excluir",
-      "permite": "Permite?",
-      "todos": "Todos",
-      "visualizar": "Visualizar"
+        "descricao": "Descrição",
+        "chave": "Chave",
+        "titulo": "Permissões",
+        "novo": "Nova Permissão",
+        "editar": "Editar Permissão",
+        "mostrar": "Visualizar Permissão"
+    },
+    "usuarios": {
+        "area": "Área",
+        "confirmacao_senha": "Confirmação senha",
+        "email": "e-mail",
+        "login": "Login",
+        "nome": "Nome",
+        "perfil": "Perfil",
+        "senha": "Senha",
+        "titulo": "Usuários",
+        "novo": "Novo Usuário",
+        "editar": "Editar Usuário",
+        "mostrar": "Visualizar Usuário"
+    },
+    "plugins": {
+        "datatables_cdn": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json",
+        "steps": {
+            "labels": {
+                "back": "Voltar",
+                "last_screen": "Ver Resumo",
+                "cancel": "Cancelar",
+                "current": "Atual",
+                "pagination": "Paginação",
+                "finish": "Finalizar",
+                "next": "Próximo",
+                "previous": "Anterior",
+                "loading": "Carregando",
+                "save": "Salvar",
+                "saveBack": "Salvar e Voltar",
+                "saveNext": "Salvar e Avançar"
+            }
+        }
+    },
+    "agrupamentos": {
+        "titulo": "Agrupamentos",
+        "nome": "Nome",
+        "numero": "Número",
+        "tipo": "Tipo",
+        "novo": "Novo Agrupamento",
+        "editar": "Editar Agrupamento",
+        "mostrar": "Visualizar Agrupamento",
+        "controladores": "Controladores"
+    },
+    "status": {
+        "titulo": "Status dos Controladores"
     }
-  },
-  "permissoes": {
-    "descricao": "Descrição",
-    "chave": "Chave",
-    "titulo": "Permissões",
-    "novo": "Nova Permissão",
-    "editar": "Editar Permissão",
-    "mostrar": "Visualizar Permissão"
-  },
-  "usuarios": {
-    "area": "Área",
-    "confirmacao_senha": "Confirmação senha",
-    "email": "e-mail",
-    "login": "Login",
-    "nome": "Nome",
-    "perfil": "Perfil",
-    "senha": "Senha",
-    "titulo": "Usuários",
-    "novo": "Novo Usuário",
-    "editar": "Editar Usuário",
-    "mostrar": "Visualizar Usuário"
-  },
-  "plugins": {
-    "datatables_cdn": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json",
-    "steps": {
-      "labels": {
-        "back": "Voltar",
-        "last_screen": "Ver Resumo",
-        "cancel": "Cancelar",
-        "current": "Atual",
-        "pagination": "Paginação",
-        "finish": "Finalizar",
-        "next": "Próximo",
-        "previous": "Anterior",
-        "loading": "Carregando",
-        "save": "Salvar",
-        "saveBack": "Salvar e Voltar",
-        "saveNext": "Salvar e Avançar"
-      }
-    }
-  },
-  "agrupamentos": {
-    "titulo": "Agrupamentos",
-    "nome": "Nome",
-    "numero": "Número",
-    "tipo": "Tipo",
-    "novo": "Novo Agrupamento",
-    "editar": "Editar Agrupamento",
-    "mostrar": "Visualizar Agrupamento",
-    "controladores": "Controladores"
-  },
-  "status": {
-    "titulo": "Status dos Controladores"
-  }
 }
