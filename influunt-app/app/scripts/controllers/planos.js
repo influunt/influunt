@@ -225,10 +225,6 @@ angular.module('influuntApp')
         });
       };
 
-      $scope.getErrosPlanos = function(listaErros) {
-        return _.chain(listaErros).map().flatten().map().flatten().value();
-      };
-
       /**
        * Adiciona um novo plano ao controlador.
        *
@@ -529,6 +525,22 @@ angular.module('influuntApp')
        */
       $scope.anelTemErro = function(indice) {
         return handleValidations.anelTemErro($scope.errors, indice);
+      };
+
+      $scope.getErrosPlanos = function(listaErros) {
+        return _
+        .chain(listaErros)
+        .filter(function(e) {
+          return _.isString(e[0]);
+        })
+        .map()
+        .flatten()
+        .value();
+      };
+
+      $scope.getErrosEstagiosPlanos = function(index) {
+        var erros = _.get($scope.errors, 'aneis[' + $scope.currentAnelIndex + '].planos[' + $scope.currentPlanoIndex + '].estagiosPlanos[' + index + ']');
+        return erros;
       };
 
       //Funções para Diagrama de Planos
