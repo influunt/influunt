@@ -2221,6 +2221,26 @@ li.initialTab {
   float: left;
 }
 
+.wrapper-content .basic-wizard .horarios thead tr th {
+  text-align: center;
+}
+
+.wrapper-content .basic-wizard .horarios tbody td {
+  width: 85px;
+}
+
+.wrapper-content .basic-wizard .horarios td.programacao {
+  line-height: 1px !important;
+  height: 4px !important;
+  padding: 0px !important;
+  border-top: 0 !important;
+  border-left: 1px solid #e7eaec !important;
+}
+
+.wrapper-content .basic-wizard .horarios td.programacao-first {
+  border-top: 1px solid #e7eaec !important;
+}
+
 #myModal .links-revisao {
   display: none !important;
 }
