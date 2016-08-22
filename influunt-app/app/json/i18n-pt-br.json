@@ -1,6 +1,10 @@
 {
     "appname": "Influunt",
     "titulo_padrao": "CENTRAL DE SEMÁFOROS EM TEMPO FIXO",
+    "navegador": {
+        "aviso": "Você está utilizado o navegador <strong id='nav'>internet explorer</strong>. Esse sistema não foi projetado para ser utilizado nesse navegador.",
+        "recomendacao": "Comportamentos não esperados podem acontecer durante a utilização. Recomenda-se a utilização do navegador Google Chrome, versão 51 ou superior."
+    },
     "controladores": {
         "titulo": "Programação",
         "detector": "Detector",
@@ -205,6 +209,17 @@
         "editar": "Editar Fabricante",
         "mostrar": "Visualizar Fabricante",
         "titulo": "Fabricantes"
+    },
+    "crud": {
+      "configurar": "Configurar",
+      "editar": "Editar",
+      "excluir": "Excluir",
+      "fechar": "Fechar",
+      "novo": "Novo",
+      "opcoes": "Opções",
+      "salvar": "Salvar",
+      "visualizar": "Visualizar",
+      "voltar": "Voltar"
     },
     "modelos_controladores": {
         "descricao": "DESCRIÇÃO",

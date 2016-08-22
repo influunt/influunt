@@ -17,14 +17,12 @@
       <div class="widget red-bg p-xl" id="alert" style="display:none">
 
         <h2>
-          Atenção
+          {{geral.atencao}}
         </h2>
         <br>
-        <p>Você está utilizado o navegador <strong id="nav">internet explorer</strong>.
-          Esse sistema não foi projetado para ser utilizado nesse navegador.</p>
+        <p>{{gera.navegador.aviso}}</p>
 
-        <p>Comportamentos não esperados podem acontecer durante a utilização.
-          Recomenda-se a utilização do navegador Google Chrome, versão 51 ou superior.</p>
+        <p>{{geral.navegador.recomendacao}}</p>
       </div>
 
       <button type="submit" class="btn btn-primary block full-width m-b" id="acessar" >{{ 'login.acessar' | translate }}</button>
