@@ -754,26 +754,42 @@ header .nav-secon li a {
     padding-bottom: 0;
     padding: 0px 15px;
 }
-.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .green {
+.wrapper-content .basic-wizard .content .body .association.plans {
+   nav.plans li .green {
     background: #00ad4d;
-}
-.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .yellow {
-    background: #fffb00;
-}
-.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .red-cleaning {
-    background: #a31100;
-}
-.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .red-flashing {
-    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAANUlEQVQYV2NkwAM6Ojr+M+KSB0lWVFQwYlUAkwRpxlCALImhAF0SRQE2SbgCXJJgBfgkQQoAFRkeoKyjcMIAAAAASUVORK5CYII=') #ff1b00;
-}
-.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .red {
-    background: #ff1b00;
-}
-.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .yellow-flashing {
-    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAANUlEQVQYV2NkwAM6Ojr+M+KSB0lWVFQwYlUAkwRpxlCALImhAF0SRQE2SbgCXJJgBfgkQQoAFRkeoKyjcMIAAAAASUVORK5CYII=') #fffb00;
-}
-.wrapper-content .basic-wizard .content .body .association.plans nav.plans li .wiped {
-    background:#3d3d3d;
+  }
+  nav.plans li .yellow {
+      background: #fffb00;
+  }
+  nav.plans li .red-flashing {
+      background: url('../images/lines.png') #ff1b00;
+  }
+  nav.plans li .red-cleaning {
+      background: #a31100;
+  }
+  nav.plans li .red {
+      background: #ff1b00;
+  }
+  nav.plans li .yellow-flashing {
+      background: url('../images/lines.png') #fffb00;
+  }
+  nav.plans li .wiped {
+      background:#3d3d3d;
+  }
+  .indicacao-vermelho-intermitente {
+      background: url('../images/lines.png') #ff1b00;
+      .vis-item-content {
+          background: rgba(255,255,255,0.8);
+          font-weight: 700;
+      }
+  }
+  .indicacao-intermitente {
+      background: url('../images/lines.png') #fffb00;
+      .vis-item-content {
+          background: rgba(255,255,255,0.8);
+          font-weight: 700;
+      }
+  }
 }
 .wrapper-content .basic-wizard .content .body .association.tables-associated .association-know {
     max-height: 626px;
