@@ -27,7 +27,7 @@
     </influunt-knob>
   </div>
 </div>
-<div class="text-center" data-ng-if="currentPlano.modoOperacao === 'COORDENADO' || currentPlano.modoOperacao === 'TEMPO_FIXO_ISOLADO'">
+<div class="text-center" data-ng-if="currentPlano.modoOperacao === 'TEMPO_FIXO_COORDENADO' || currentPlano.modoOperacao === 'TEMPO_FIXO_ISOLADO'">
   <div class="knob-item col-lg-3 col-sm-3">
     <influunt-knob ng-model="currentEstagiosPlanos[currentEstagioPlanoIndex].tempoVerde"
       min="objeto.verdeMin" max="objeto.verdeMax"
@@ -36,7 +36,7 @@
   </div>
 </div>
 
-<div class="text-center" data-ng-if="currentPlano.modoOperacao === 'COORDENADO' || currentPlano.modoOperacao === 'TEMPO_FIXO_ISOLADO' || currentPlano.modoOperacao === 'ATUADO'">
+<div class="text-center" data-ng-if="currentPlano.modoOperacao === 'TEMPO_FIXO_COORDENADO' || currentPlano.modoOperacao === 'TEMPO_FIXO_ISOLADO' || currentPlano.modoOperacao === 'ATUADO'">
   <div class="col-lg-3 col-sm-3">
     <div class="form-group">
       <label>ESTÁGIO DISPENSÁVEL</label>
@@ -46,7 +46,7 @@
       </p>
     </div>
   </div>
-  <div class="col-lg-6 col-sm-6" data-ng-if="currentPlano.modoOperacao === 'COORDENADO'">
+  <div class="col-lg-6 col-sm-6" data-ng-if="currentPlano.modoOperacao === 'TEMPO_FIXO_COORDENADO'">
     <div class="form-group" data-ng-if="currentEstagioPlano.dispensavel">
       <label>ESTÁGIO QUE RECEBE TEMPO DO ESTÁGIO DISPENSÁVEL</label>
       <select data-ng-options="estagio.idJson as 'E' + estagio.posicao for estagio in opcoesEstagiosDisponiveis"
