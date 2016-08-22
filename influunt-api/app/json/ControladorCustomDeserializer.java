@@ -459,7 +459,7 @@ public class ControladorCustomDeserializer {
 
         }
 
-        if (node.has("detector")) {
+        if (node.has("detector") && node.get("detector").has("idJson")) {
             final String detectorId = node.get("detector").get("idJson").asText();
             Consumer<Map<String, Map>> c = (caches) -> {
                 Map map = caches.get(DETECTORES);
@@ -580,6 +580,9 @@ public class ControladorCustomDeserializer {
         if (node.has("descricao")) {
             detector.setDescricao(node.get("descricao").asText());
         }
+        if (node.has("monitorado")) {
+            detector.setMonitorado(node.get("monitorado").asBoolean());
+        }
         if (node.has("tempoAusenciaDeteccaoMinima")) {
             detector.setTempoAusenciaDeteccaoMinima(node.get("tempoAusenciaDeteccaoMinima").asInt());
         }
@@ -602,7 +605,7 @@ public class ControladorCustomDeserializer {
             runLater(c);
         }
 
-        if (node.has("estagio")) {
+        if (node.has("estagio") && node.get("estagio").has("idJson")) {
             final String estagioId = node.get("estagio").get("idJson").asText();
             Consumer<Map<String, Map>> c = (caches) -> {
                 Map map = caches.get(ESTAGIOS);

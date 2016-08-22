@@ -62,8 +62,10 @@ angular.module('influuntApp')
 
         if (detector.estagio && detector.estagio.idJson === estagio.idJson) {
           detector.estagio = {};
+          estagio.detector = {};
         } else {
           detector.estagio = { idJson: estagio.idJson };
+          estagio.detector = { idJson: detector.idJson };
         }
 
         atualizaEstagiosComDetector();

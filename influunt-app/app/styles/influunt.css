@@ -2236,3 +2236,8 @@ tip-tip b {
 tip-tip span {
   color: #de2424;
 }
+
+.table-responsive tooltip tip-tip {
+  display: block;
+  padding-bottom: 20px;
+}

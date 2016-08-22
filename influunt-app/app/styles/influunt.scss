@@ -1977,3 +1977,8 @@ tip-tip {
     color: #de2424;
   }
 }
+
+.table-responsive tooltip tip-tip {
+    display: block;
+    padding-bottom: 20px;
+}
