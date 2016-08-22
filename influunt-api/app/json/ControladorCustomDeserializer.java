@@ -580,6 +580,9 @@ public class ControladorCustomDeserializer {
         if (node.has("descricao")) {
             detector.setDescricao(node.get("descricao").asText());
         }
+        if (node.has("monitorado")) {
+            detector.setMonitorado(node.get("monitorado").asBoolean());
+        }
         if (node.has("tempoAusenciaDeteccaoMinima")) {
             detector.setTempoAusenciaDeteccaoMinima(node.get("tempoAusenciaDeteccaoMinima").asInt());
         }
