@@ -17,7 +17,7 @@ var PlanosPage = function () {
   };
 
   this.isPlanos = function() {
-    return world.waitFor('a[data-ng-click="adicionarPlano()"]');
+    return world.waitFor('a[data-ng-click="adicionarNovoPlano()"]');
   };
 
   this.selecionarModoOperacao = function(modoOperacao) {
@@ -105,7 +105,7 @@ var PlanosPage = function () {
   };
 
   this.clicarBotaoAdicionarNovoPlano = function() {
-    return world.getElement('a[data-ng-click="adicionarPlano()"]').click();
+    return world.getElement('a[data-ng-click="adicionarNovoPlano()"]').click();
   };
 
   this.trocarEstagiosDeLugar = function(estagio1, estagio2) {
