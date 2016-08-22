@@ -125,17 +125,22 @@
 
     <div class="row">
       <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix">
-        <a data-toggle="modal" data-target="#myModal" class="left btn btn-info btn-footer" tooltips tooltip-template="Ver Resumo">
+        <a data-toggle="modal" data-target="#myModal" class="left btn btn-info btn-footer" tooltips tooltip-template="{{ 'plugins.steps.labels.last_screen' | translate }}">
           <i class="fa fa-eye"></i> {{ 'plugins.steps.labels.last_screen' | translate }}
         </a>
         <div class="right">
-          <a go-to-top data-ng-click="submitForm({$valid: true}, 'grupos_semaforicos', 'app.wizard_controladores.verdes_conflitantes')" tooltips tooltip-template="Verdes Conflitantes" class="go-to-top btn btn-primary btn-footer right">
-            {{ 'plugins.steps.labels.next' | translate }} <i class="fa fa-arrow-right"></i>
+          <a go-to-top data-ng-click="submitForm({$valid: true}, 'grupos_semaforicos', 'app.wizard_controladores.verdes_conflitantes')" tooltips tooltip-template="<b>{{ 'geral.tooltip.salvarAvancarPara' | translate }}</b> {{ 'controladores.verdesConflitantes.titulo' | translate }}" class="go-to-top btn btn-primary btn-footer right">
+            {{ 'plugins.steps.labels.saveNext' | translate }} <i class="fa fa-arrow-right"></i>
           </a>
         </div>
         <div class="right">
-          <a go-to-top data-ng-click="submitForm({$valid: true}, 'grupos_semaforicos', 'app.wizard_controladores.aneis')" tooltips tooltip-template="Anéis" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
-            <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.previous' | translate }}
+          <a go-to-top data-ng-click="submitForm({$valid: true}, 'grupos_semaforicos', 'app.wizard_controladores.aneis')" tooltips tooltip-template="<b>{{ 'geral.tooltip.salvarVoltarPara' | translate }}</b> {{ 'controladores.aneis.titulo' | translate }}" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
+            <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.saveBack' | translate }}
+          </a>
+        </div>
+        <div class="right">
+          <a data-ng-click="voltarSemSalvar('app.wizard_controladores.aneis')" tooltips tooltip-template="<b><span>{{ 'geral.tooltip.voltarSemPara' | translate }}</span></b> {{ 'controladores.aneis.titulo' | translate }}" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
+            <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.back' | translate }}
           </a>
         </div>
       </div>

@@ -408,4 +408,17 @@ angular.module('influuntApp')
           });
       };
 
+      $scope.voltarSemSalvar = function(destino) {
+        influuntAlert
+          .confirm(
+            $filter('translate')('geral.mensagens.voltarSemSalvar'),
+            $filter('translate')('geral.mensagens.mensagemSemSalvar')
+          )
+          .then(function(confirmado) {
+            if (confirmado) {
+              $state.go(destino, {id: $scope.objeto.id});
+            }
+          });
+      };
+
     }]);

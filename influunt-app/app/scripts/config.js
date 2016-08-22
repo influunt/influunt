@@ -282,7 +282,7 @@ angular
           templateUrl: 'views/controladores/wizard/dados-basicos.html',
           controller: 'ControladoresDadosBasicosCtrl',
           data: {
-            title: 'controladores.dadosBasicos'
+            title: 'controladores.dadosBasicos.titulo'
           }
         })
 
@@ -291,7 +291,7 @@ angular
           templateUrl: 'views/controladores/wizard/aneis.html',
           controller: 'ControladoresAneisCtrl',
           data: {
-            title: 'controladores.aneis'
+            title: 'controladores.aneis.titulo'
           }
         })
 
@@ -300,7 +300,7 @@ angular
           templateUrl: 'views/controladores/wizard/configuracao-grupo.html',
           controller: 'ControladoresConfiguracaoGruposCtrl',
           data: {
-            title: 'controladores.titulo'
+            title: 'controladores.gruposSemaforicos.titulo'
           }
         })
 
@@ -309,7 +309,7 @@ angular
           templateUrl: 'views/controladores/wizard/associacao.html',
           controller: 'ControladoresAssociacaoCtrl',
           data: {
-            title: 'controladores.associacao'
+            title: 'controladores.associacao.titulo'
           }
         })
 
@@ -318,7 +318,7 @@ angular
           templateUrl: 'views/controladores/wizard/verdes-conflitantes.html',
           controller: 'ControladoresVerdesConflitantesCtrl',
           data: {
-            title: 'controladores.verdes_conflitantes'
+            title: 'controladores.verdesConflitantes.titulo'
           }
         })
 
@@ -327,7 +327,7 @@ angular
           templateUrl: 'views/controladores/wizard/transicoes-proibidas.html',
           controller: 'ControladoresTransicoesProibidasCtrl',
           data: {
-            title: 'controladores.transicoesProibidas'
+            title: 'controladores.transicoesProibidas.titulo'
           }
         })
 
@@ -336,7 +336,7 @@ angular
           templateUrl: 'views/controladores/wizard/atraso-de-grupo.html',
           controller: 'ControladoresAtrasoDeGrupoCtrl',
           data: {
-            title: 'controladores.atrasoDeGrupo'
+            title: 'controladores.atrasoDeGrupo.titulo'
           }
         })
 
@@ -345,7 +345,7 @@ angular
           templateUrl: 'views/controladores/wizard/entre-verdes.html',
           controller: 'ControladoresEntreVerdesCtrl',
           data: {
-            title: 'controladores.entreverdes'
+            title: 'controladores.entreVerdes.titulo'
           }
         })
 
@@ -363,7 +363,7 @@ angular
           controller: 'ControladoresRevisaoCtrl',
           templateUrl: 'views/controladores/wizard/revisao.html',
           data: {
-            title: 'controladores.revisao'
+            title: 'controladores.revisao.titulo'
           }
         })
 

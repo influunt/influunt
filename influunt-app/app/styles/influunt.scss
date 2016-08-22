@@ -1965,7 +1965,20 @@ li.initialTab {
   display: none !important;
 }
 
-tooltip tip-tip {
+tooltip tip {
+  min-width: 160px;
+}
+
+tip-tip {
+  b {
+    color: #1ab394;
+  }
+  span {
+    color: #de2424;
+  }
+}
+
+.table-responsive tooltip tip-tip {
     display: block;
     padding-bottom: 20px;
 }
