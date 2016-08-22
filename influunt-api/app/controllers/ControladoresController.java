@@ -3,28 +3,33 @@ package controllers;
 import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
 import be.objectify.deadbolt.java.actions.Dynamic;
 import checks.*;
+import com.avaje.ebean.Ebean;
+import com.avaje.ebean.Expr;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import helpers.ControladorUtil;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
-import models.Controlador;
-import models.StatusControlador;
-import models.Usuario;
-import models.VersaoControlador;
+import models.*;
+import org.jetbrains.annotations.NotNull;
 import play.Application;
+import play.Logger;
+import play.api.libs.iteratee.Cont;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
+import services.ControladorService;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+import java.util.stream.Collectors;
 
 import static models.VersaoControlador.usuarioPodeEditarControlador;
 
@@ -33,9 +38,8 @@ import static models.VersaoControlador.usuarioPodeEditarControlador;
 @Dynamic("Influunt")
 public class ControladoresController extends Controller {
 
-
     @Inject
-    Provider<Application> provider;
+    private ControladorService controladorService;
 
     @Transactional
     public CompletionStage<Result> dadosBasicos() {
@@ -104,8 +108,8 @@ public class ControladoresController extends Controller {
     }
 
 
-    @Transactional
     public CompletionStage<Result> edit(String id) {
+
         if (getUsuario() == null) {
             return CompletableFuture.completedFuture(unauthorized(Json.toJson(Arrays.asList(new Erro("clonar", "usuário não econtrado", "")))));
         }
@@ -127,14 +131,7 @@ public class ControladoresController extends Controller {
             }
 
             if (controlador.getStatusControlador() == StatusControlador.ATIVO) {
-                Controlador controladorEdicao = new ControladorUtil().provider(provider).deepClone(controlador);
-                VersaoControlador novaVersao = new VersaoControlador(controlador, controladorEdicao, getUsuario());
-                novaVersao.setDescricao("Controlador clonado pelo usuário: " + getUsuario().getNome());
-                novaVersao.save();
-
-                controlador.setStatusControlador(StatusControlador.CLONADO);
-                controlador.save();
-
+                Controlador controladorEdicao = controladorService.criarCloneControlador(controlador, getUsuario());
                 return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controladorEdicao)));
             }
 
@@ -144,7 +141,10 @@ public class ControladoresController extends Controller {
 
     @Transactional
     public CompletionStage<Result> findAll() {
-        return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladoresJson(Controlador.find.where().ne("status_controlador",StatusControlador.CLONADO).findList())));
+        List<ControladorFisico> controladoresFisicos = ControladorFisico.find.fetch("versoes").findList();
+        List<Controlador> controladores = new ArrayList<Controlador>();
+        controladoresFisicos.stream().forEach(controladorFisico -> controladores.add(controladorFisico.getControladorAtivoOuEditando()));
+        return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladoresJson(controladores)));
     }
 
     @Transactional
@@ -191,8 +191,7 @@ public class ControladoresController extends Controller {
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
-            controlador.setStatusControlador(StatusControlador.ATIVO);
-            controlador.save();
+            controlador.ativar();
             return CompletableFuture.completedFuture(ok());
         }
     }
@@ -222,10 +221,12 @@ public class ControladoresController extends Controller {
                     }
                     controlador.update();
                 } else {
-                    VersaoControlador versaoControlador = new VersaoControlador(null, controlador, getUsuario());
-                    versaoControlador.setDescricao("Controlador criado pelo usuário: " + getUsuario().getNome());
+                    // Criar a prmieira versao e o controlador fisico
+                    ControladorFisico controladorFisico = new ControladorFisico();
+                    VersaoControlador versaoControlador = new VersaoControlador(controlador, controladorFisico, getUsuario());
+                    controladorFisico.addVersaoControlador(versaoControlador);
                     controlador.save();
-                    versaoControlador.save();
+                    controladorFisico.save();
                 }
                 Controlador controlador1 = Controlador.find.byId(controlador.getId());
 
