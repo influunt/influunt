@@ -203,6 +203,8 @@
     "mensagens": {
       "cancelar": "Cancelar",
       "confirma_saida": "Confirma a saída",
+      "voltarSemSalvar": "Voltar sem salvar?",
+      "mensagemSemSalvar": "Ao confirmar, você perderá as alterações realizadas.",
       "default_erro": "Ocorreu um erro. Tente novamente mais tarde.",
       "nao": "Não",
       "popup_delete": {
