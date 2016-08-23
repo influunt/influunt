@@ -92,7 +92,7 @@ var WizardControladorPage = function () {
 
   this.clicarBotaoProximoPasso = function() {
     return world.scrollToDown().then(function() {
-      return world.findLinkByText('Próximo').click().then(function(){
+      return world.findLinkByText('Salvar e Avançar').click().then(function(){
         return world.sleep(100);
       });
     });
@@ -354,7 +354,9 @@ var WizardControladorPage = function () {
     return world.getElements('i.sinal-verde-conflitante.ativo').then(function(elements) {
       var limit = elements.length / 2;
       for (var i = 0; i < limit; i++) {
-        elements[i].click();
+        return world.scrollToDown().then(function() {
+          elements[i].click();
+        });
       }
     });
   };
@@ -362,7 +364,9 @@ var WizardControladorPage = function () {
   this.clearEstagiosAlternativos = function() {
     return world.getElements('i.transicao-proibida.ativo').then(function(elements) {
       for (var i = 0; i < elements.length; i++) {
-        elements[i].click();
+        return world.scrollToDown().then(function() {
+          elements[i].click();
+        });
       }
     });
   };
@@ -438,7 +442,9 @@ var WizardControladorPage = function () {
 
   this.associarDetectorEstagio = function(detector, estagio) {
     return world.execJavascript('return $(\'th:contains("'+estagio+'")\').index() + 1').then(function(col) {
-      return world.getElementByXpath('//td//strong[text() = "'+detector+'"]/../../td['+col+']').click();
+      return world.scrollToDown().then(function() {
+        return world.getElementByXpath('//td//strong[text() = "'+detector+'"]/../../td['+col+']').click();
+      });
     }).then(function() {
       return world.waitForOverlayDisappear();
     });

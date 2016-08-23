@@ -28,7 +28,7 @@ var influunt;
         var estagios = [];
         for(var i = 0; i < diagrama.length; i++){
           for(var j = 0; j < diagrama[i].length; j++){
-            diagrama[i][j] = 3;
+            diagrama[i][j] = -1;
           }
         }
         var tempoCiclo = 0;
@@ -41,9 +41,9 @@ var influunt;
           if(estagioAtual.idJson !== estagioAnterior.idJson){
             for(var j = 0; j < estagioAnterior.gruposSemaforicos.length; j++){
               var grupo = estagioAnterior.gruposSemaforicos[j];
-              var tabelaEntreVerde = _.find(grupo.tabelasEntreVerdes, {"posicao": plano.posicaoTabelaEntreVerde});
-              var transicao = _.find(grupo.transicoes, {"origem": {"idJson": estagioAnterior.idJson}, "destino": {"idJson": estagioAtual.idJson}})
-              var tabelaEntreVerdesTransicao = _.find(transicao.tabelaEntreVerdesTransicoes, {"tabelaEntreVerdes": {"idJson": tabelaEntreVerde.idJson}})
+              var tabelaEntreVerde = _.find(grupo.tabelasEntreVerdes, {'posicao': plano.posicaoTabelaEntreVerde});
+              var transicao = _.find(grupo.transicoes, {'origem': {'idJson': estagioAnterior.idJson}, 'destino': {'idJson': estagioAtual.idJson}})
+              var tabelaEntreVerdesTransicao = _.find(transicao.tabelaEntreVerdesTransicoes, {'tabelaEntreVerdes': {'idJson': tabelaEntreVerde.idJson}})
               var tempoAmarelo = !_.isUndefined(tabelaEntreVerdesTransicao.tempoAmarelo) ? parseInt(tabelaEntreVerdesTransicao.tempoAmarelo) : 0;
               var tempoVermelhoIntermitente = !_.isUndefined(tabelaEntreVerdesTransicao.tempoVermelhoIntermitente) ? parseInt(tabelaEntreVerdesTransicao.tempoVermelhoIntermitente) : 0;
               var tempoAtrasoGrupo = !_.isUndefined(tabelaEntreVerdesTransicao.tempoAtrasoGrupo) ? parseInt(tabelaEntreVerdesTransicao.tempoAtrasoGrupo) : 0;
@@ -51,8 +51,8 @@ var influunt;
 
               var tempoAmareloOuVermelhoIntermitente = grupo.tipo == 'VEICULAR' ? tempoAmarelo : tempoVermelhoIntermitente;
               var tempoEntreVerde = tempoAmareloOuVermelhoIntermitente + tempoVermelhoLimpeza;
-              var posicao = plano.posicaoGruposSemaforicos['G'+grupo.posicao];
-              if(!_.find(estagioAtual.gruposSemaforicos, {"id": grupo.id})){
+              var posicao = plano.posicaoGruposSemaforicos['G' + grupo.posicao];
+              if(!_.find(estagioAtual.gruposSemaforicos, {'id': grupo.id})){
                 if(tempoAtrasoGrupo > 0){
                   for(var t = tempoCiclo; t < tempoCiclo + tempoAtrasoGrupo; t++){
                     diagrama[posicao][t] = 1;
@@ -75,13 +75,21 @@ var influunt;
           for(var j = 0; j < estagioAtual.gruposSemaforicos.length; j++){
              var grupo = estagioAtual.gruposSemaforicos[j];
              for(var t = instante + tempoCiclo; t < tempoCiclo + instante + tempoVerde; t++){
-               diagrama[plano.posicaoGruposSemaforicos['G'+grupo.posicao]][t] = 1;
+               diagrama[plano.posicaoGruposSemaforicos['G' + grupo.posicao]][t] = 1;
              }
           }
           tempoCiclo += instante + (tempoVerde || 0);
 
           estagios.push({id: UUID.generate(), posicao: estagioAtual.posicao, duracao: instante + tempoVerde})
           instante = 0
+        }
+        //Inserindo o vermelho
+        for(var i = 0; i < diagrama.length; i++){
+          for(var j = 0; j < tempoCiclo; j++){
+            if(diagrama[i][j] === -1){
+              diagrama[i][j] = 3;
+            }
+          }
         }
         return this.gerarDiagramaIntervalo(diagrama, estagios, plano.tempoCiclo);
       };
@@ -106,7 +114,7 @@ var influunt;
           var duracao = 1;
 
           if(diagrama[i].length > tempoCiclo){
-            return {erros: ["Tempo de Ciclo é menor que os tempos dos estágios."]};
+            return {erros: ['Tempo de Ciclo é menor que os tempos dos estágios.']};
           }
 
           for(var j = 0; j < diagrama[i].length; j++){
