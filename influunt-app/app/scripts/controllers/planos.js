@@ -17,6 +17,8 @@ angular.module('influuntApp')
               influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo,
               handleValidations) {
 
+      var LIMITE_PLANOS = 16;
+
       var adicionaPlano, selecionaAnel, atualizaTabelaEntreVerdes, atualizaEstagios, atualizaGruposSemaforicos, atualizaPlanos,
           atualizaEstagiosPlanos, adicionaEstagioASequencia, atualizaPosicaoPlanos, atualizaPosicaoEstagiosPlanos,
           carregaDadosPlano, getOpcoesEstagiosDisponiveis, montaTabelaValoresMinimos, parseAllToInt, setDiagramaEstatico,
@@ -37,7 +39,8 @@ angular.module('influuntApp')
           $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
           $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
           $scope.aneis.forEach(function(anel) {
-            if(!(_.isArray(anel.planos) && anel.planos.length > 0)) {
+            anel.planos = anel.planos || [];
+            for (var i = anel.planos.length; i < LIMITE_PLANOS; i++) {
               adicionaPlano(anel);
             }
           });
@@ -51,11 +54,6 @@ angular.module('influuntApp')
         $scope.currentEstagioPlanoIndex = index;
         $scope.currentEstagioPlano = estagioPlano;
         getOpcoesEstagiosDisponiveis();
-      };
-
-      $scope.adicionarNovoPlano = function(){
-        adicionaPlano($scope.currentAnel);
-        atualizaPlanos();
       };
 
       $scope.duplicarPlano = function(plano) {
@@ -257,6 +255,7 @@ angular.module('influuntApp')
               idJson: plano.idJson
             }
           };
+
           $scope.objeto.gruposSemaforicosPlanos.push(grupoPlano);
           plano.gruposSemaforicosPlanos.push({idJson: grupoPlano.idJson});
         });
@@ -544,7 +543,7 @@ angular.module('influuntApp')
         var erros = _.get($scope.errors, 'aneis[' + $scope.currentAnelIndex + '].planos[' + $scope.currentPlanoIndex + '].estagiosPlanos[' + index + ']');
         return erros;
       };
-      
+
       getErrosGruposSemaforicosPlanos = function(listaErros){
         var erros = [];
         if(listaErros){
