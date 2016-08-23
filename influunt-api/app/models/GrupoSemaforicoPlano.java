@@ -1,5 +1,6 @@
 package models;
 
+import checks.PlanosCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
@@ -10,8 +11,10 @@ import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -112,6 +115,18 @@ public class GrupoSemaforicoPlano extends Model implements Cloneable, Serializab
 
     public void setDataAtualizacao(DateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
+    }
+
+    @AssertTrue(groups = PlanosCheck.class, message = "O tempo de verde está menor que o tempo de segurança configurado.")
+    public boolean isRespeitaVerdesDeSeguranca() {
+        if(isAtivado() && this.getGrupoSemaforico().getTempoVerdeSeguranca() != null){
+            List<EstagioPlano> listaEstagioPlanos = getPlano().ordenarEstagiosPorPosicao();
+            return !this.getPlano().getEstagiosPlanos().stream()
+                    .filter(estagioPlano -> estagioPlano.getEstagio().getGruposSemaforicos()
+                            .contains(this.getGrupoSemaforico()) && estagioPlano.getTempoVerdeEstagio() != null)
+                    .anyMatch(estagioPlano -> estagioPlano.getTempoVerdeDoGrupoSemaforico(listaEstagioPlanos, this.getGrupoSemaforico()) < this.getGrupoSemaforico().getTempoVerdeSeguranca());
+        }
+        return true;
     }
 
     @Override

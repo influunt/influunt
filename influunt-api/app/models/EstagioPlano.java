@@ -267,7 +267,8 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = PlanosCheck.class, message = "deve ser o estágio anterior ou posterior ao estágio dispensável.")
     public boolean isEstagioQueRecebeEstagioDispensavelFieldEstagioQueRecebeValido() {
         if (getEstagioQueRecebeEstagioDispensavel() != null) {
-            return getEstagioQueRecebeEstagioDispensavel().getIdJson().equals(getEstagioPlanoAnterior().getIdJson()) || getEstagioQueRecebeEstagioDispensavel().getIdJson().equals(getEstagioPlanoProximo().getIdJson());
+            List<EstagioPlano> listaEstagioPlanos = getPlano().ordenarEstagiosPorPosicao();
+            return getEstagioQueRecebeEstagioDispensavel().getIdJson().equals(getEstagioPlanoAnterior(listaEstagioPlanos).getIdJson()) || getEstagioQueRecebeEstagioDispensavel().getIdJson().equals(getEstagioPlanoProximo(listaEstagioPlanos).getIdJson());
         }
         return true;
     }
@@ -279,7 +280,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
 
         EstagioPlano that = (EstagioPlano) o;
 
-        return id != null ? id.equals(that.id) : that.id == null;
+        return id != null ? id.equals(that.id) : idJson != null ? idJson.equals(that.idJson) : that.id == null;
 
     }
 
@@ -293,8 +294,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         return super.clone();
     }
 
-    public EstagioPlano getEstagioPlanoAnterior() {
-        List<EstagioPlano> listaEstagioPlanos = ordenarEstagiosPorPosicao();
+    public EstagioPlano getEstagioPlanoAnterior(List<EstagioPlano> listaEstagioPlanos) {
         Integer index = listaEstagioPlanos.indexOf(this);
         if (index == 0) {
             return listaEstagioPlanos.get(listaEstagioPlanos.size() - 1);
@@ -302,8 +302,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         return listaEstagioPlanos.get(index - 1);
     }
 
-    public EstagioPlano getEstagioPlanoProximo() {
-        List<EstagioPlano> listaEstagioPlanos = ordenarEstagiosPorPosicao();
+    public EstagioPlano getEstagioPlanoProximo(List<EstagioPlano> listaEstagioPlanos) {
         Integer index = listaEstagioPlanos.indexOf(this);
         if (index == listaEstagioPlanos.size() - 1) {
             return listaEstagioPlanos.get(0);
@@ -311,9 +310,27 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         return listaEstagioPlanos.get(index + 1);
     }
 
-    private List<EstagioPlano> ordenarEstagiosPorPosicao() {
-        List<EstagioPlano> listaEstagioPlanos = this.getPlano().getEstagiosPlanos();
-        listaEstagioPlanos.sort((anterior, proximo) -> anterior.getPosicao().compareTo(proximo.getPosicao()));
-        return listaEstagioPlanos;
+    public Integer getTempoVerdeDoGrupoSemaforico(List<EstagioPlano> listaEstagioPlanos, GrupoSemaforico grupoSemaforico) {
+        Integer tempoVerde = 0;
+        EstagioPlano estagioPlanoAnterior = getEstagioPlanoAnterior(listaEstagioPlanos);
+        while (!this.equals(estagioPlanoAnterior) &&  estagioPlanoAnterior.getEstagio().getGruposSemaforicos().contains(grupoSemaforico)) {
+            tempoVerde += estagioPlanoAnterior.getTempoVerdeEstagio();
+            estagioPlanoAnterior = estagioPlanoAnterior.getEstagioPlanoAnterior(listaEstagioPlanos);
+        }
+        EstagioPlano estagioPlanoProximo = this.getEstagioPlanoProximo(listaEstagioPlanos);
+        while (!this.equals(estagioPlanoProximo) && estagioPlanoProximo.getEstagio().getGruposSemaforicos().contains(grupoSemaforico)) {
+            tempoVerde += estagioPlanoProximo.getTempoVerdeEstagio();
+            estagioPlanoProximo = estagioPlanoProximo.getEstagioPlanoProximo(listaEstagioPlanos);
+        }
+        tempoVerde += this.getTempoVerdeEstagio();
+        return tempoVerde;
     }
+
+    public Integer getTempoVerdeEstagio() {
+        if (this.getPlano().isAtuado()){
+            return this.getTempoVerdeMinimo();
+        }
+        return this.getTempoVerde();
+    }
+
 }

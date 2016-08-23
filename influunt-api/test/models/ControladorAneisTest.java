@@ -69,7 +69,7 @@ public class ControladorAneisTest extends ControladorTest {
         anel1.addEndereco(belaCintra);
 
         estagios.clear();
-        IntStream.rangeClosed(1, 17).forEach(i -> estagios.add(new Estagio()));
+        IntStream.rangeClosed(1, 17).forEach(i -> estagios.add(new Estagio(i)));
         anel1.setEstagios(estagios);
 
 
@@ -81,7 +81,7 @@ public class ControladorAneisTest extends ControladorTest {
         ));
 
         estagios.clear();
-        IntStream.rangeClosed(1, 16).forEach(i -> estagios.add(new Estagio()));
+        IntStream.rangeClosed(1, 16).forEach(i -> estagios.add(new Estagio(i)));
         anel1.setEstagios(estagios);
 
         erros = getErros(controlador);

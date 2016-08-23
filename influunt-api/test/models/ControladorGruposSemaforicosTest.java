@@ -112,7 +112,6 @@ public class ControladorGruposSemaforicosTest extends ControladorTest {
         grupoSemaforicoVeicular.setTempoVerdeSeguranca(30);
         grupoSemaforicoPedestre.setTempoVerdeSeguranca(4);
 
-
         erros = getErros(controlador);
 
         assertThat(erros, Matchers.empty());

@@ -377,5 +377,11 @@ public class Anel extends Model implements Cloneable, Serializable {
         }
         getPlanos().add(plano);
     }
+
+    public List<Estagio> ordenarEstagiosPorPosicao() {
+        List<Estagio> listaEstagio = this.getEstagios();
+        listaEstagio.sort((anterior, proximo) -> anterior.getPosicao().compareTo(proximo.getPosicao()));
+        return listaEstagio;
+    }
 }
 

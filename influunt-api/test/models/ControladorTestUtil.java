@@ -70,7 +70,7 @@ public class ControladorTestUtil {
         Anel anel1 = controlador.getAneis().get(0);
         anel1.setDescricao("Anel 0");
         anel1.setAtivo(true);
-        List<Estagio> estagios = Arrays.asList(new Estagio(), new Estagio(), new Estagio(), new Estagio());
+        List<Estagio> estagios = Arrays.asList(new Estagio(1), new Estagio(2), new Estagio(3), new Estagio(4));
         anel1.setEstagios(estagios);
 
         Endereco paulista = new Endereco(1.0, 1.0, "Av. Paulista");
@@ -187,7 +187,7 @@ public class ControladorTestUtil {
         anelAtivo.addEndereco(paulista);
         anelAtivo.addEndereco(belaCintra);
 
-        anelAtivo.setEstagios(Arrays.asList(new Estagio(), new Estagio()));
+        anelAtivo.setEstagios(Arrays.asList(new Estagio(1), new Estagio(2)));
 
         criarGrupoSemaforico(anelAtivo, TipoGrupoSemaforico.VEICULAR, 3);
         criarGrupoSemaforico(anelAtivo, TipoGrupoSemaforico.VEICULAR, 4);
@@ -220,13 +220,13 @@ public class ControladorTestUtil {
 
         Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
 
-        Estagio estagio1AnelCom4Estagios = anelCom4Estagios.getEstagios().get(0);
+        Estagio estagio1AnelCom4Estagios = anelCom4Estagios.getEstagios().stream().filter(estagio -> estagio.getPosicao().equals(1)).findAny().get();
         estagio1AnelCom4Estagios.setDescricao("estagio1AnelCom4Estagios");
-        Estagio estagio2AnelCom4Estagios = anelCom4Estagios.getEstagios().get(1);
+        Estagio estagio2AnelCom4Estagios = anelCom4Estagios.getEstagios().stream().filter(estagio -> estagio.getPosicao().equals(2)).findAny().get();
         estagio2AnelCom4Estagios.setDescricao("estagio2AnelCom4Estagios");
-        Estagio estagio3AnelCom4Estagios = anelCom4Estagios.getEstagios().get(2);
+        Estagio estagio3AnelCom4Estagios = anelCom4Estagios.getEstagios().stream().filter(estagio -> estagio.getPosicao().equals(3)).findAny().get();
         estagio3AnelCom4Estagios.setDescricao("estagio3AnelCom4Estagios");
-        Estagio estagio4AnelCom4Estagios = anelCom4Estagios.getEstagios().get(3);
+        Estagio estagio4AnelCom4Estagios = anelCom4Estagios.getEstagios().stream().filter(estagio -> estagio.getPosicao().equals(4)).findAny().get();
         estagio4AnelCom4Estagios.setDescricao("estagio4AnelCom4Estagios");
 
         TransicaoProibida transicaoProibida = new TransicaoProibida();
@@ -473,7 +473,7 @@ public class ControladorTestUtil {
     protected void criarEstagioPlano(Anel anel, Plano plano, int posicoes[]) {
         int i = 0;
         plano.setEstagiosPlanos(null);
-        for (Estagio estagio : anel.getEstagios()) {
+        for (Estagio estagio : anel.ordenarEstagiosPorPosicao()) {
             EstagioPlano estagioPlano = new EstagioPlano();
             estagioPlano.setPosicao(posicoes[i]);
             estagioPlano.setPlano(plano);

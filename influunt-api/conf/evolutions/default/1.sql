@@ -132,7 +132,7 @@ create table estagios (
   descricao                     varchar(255),
   tempo_maximo_permanencia      integer,
   tempo_maximo_permanencia_ativado tinyint(1) default 0,
-  posicao                       integer,
+  posicao                       integer not null,
   demanda_prioritaria           tinyint(1) default 0,
   anel_id                       varchar(40),
   controlador_id                varchar(40),
