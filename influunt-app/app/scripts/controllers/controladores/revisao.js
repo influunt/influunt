@@ -72,7 +72,7 @@ angular.module('influuntApp')
           numDetectoresVeicular: _.filter($scope.objeto.detectores, {tipo : 'VEICULAR'}).length,
           numDetectoresPedestre: _.filter($scope.objeto.detectores, {tipo : 'PEDESTRE'}).length,
           endereco: $scope.objeto.nomeEndereco
-        }
+        };
       };
 
       setDadosCurrentAnel = function() {
@@ -94,11 +94,11 @@ angular.module('influuntApp')
       getLocalizacaoAnel = function(anel) {
         var endereco1 = _.find($scope.objeto.todosEnderecos, { idJson: anel.enderecos[0].idJson });
         var endereco2 = _.find($scope.objeto.todosEnderecos, { idJson: anel.enderecos[1].idJson });
-        return endereco1.localizacao + ' com ' + endereco2.localizacao
+        return endereco1.localizacao + ' com ' + endereco2.localizacao;
       };
 
       getNumGruposSemaforicosAnel = function(anel) {
-        var result = { totalVeicular: 0, totalPedestre: 0 }
+        var result = { totalVeicular: 0, totalPedestre: 0 };
         _.forEach(anel.gruposSemaforicos, function(gs) {
           var grupoSemaforico = _.find($scope.objeto.gruposSemaforicos, { idJson: gs.idJson });
           if (grupoSemaforico.tipo === 'VEICULAR') {
@@ -112,7 +112,7 @@ angular.module('influuntApp')
       };
 
       getNumDetectoresAnel = function(anel) {
-        var result = { totalVeicular: 0, totalPedestre: 0 }
+        var result = { totalVeicular: 0, totalPedestre: 0 };
         _.forEach(anel.detectores, function(d) {
           var detector = _.find($scope.objeto.detectores, { idJson: d.idJson });
           if (detector.tipo === 'VEICULAR') {

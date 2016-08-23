@@ -255,14 +255,15 @@ angular.module('influuntApp')
       };
 
       $scope.atualizaTabelasEntreVerdesTransicoes = function() {
-        var ids = _.map($scope.currentTabelaEntreVerdes.tabelaEntreVerdesTransicoes, 'idJson');
+         if ($scope.currentTabelaEntreVerdes) {
+            var tev = $scope.currentTabelaEntreVerdes.tabelaEntreVerdesTransicoes;
+            var ids = _.map($scope.currentTabelaEntreVerdes.tabelaEntreVerdesTransicoes, 'idJson');
 
-
-        $scope.currentTabelasEntreVerdesTransicoes = _
-          .chain($scope.objeto.tabelasEntreVerdesTransicoes)
-          .filter(function(tevt) { return ids.indexOf(tevt.idJson) >= 0; })
-          .value();
-
+            $scope.currentTabelasEntreVerdesTransicoes = _
+              .chain($scope.objeto.tabelasEntreVerdesTransicoes)
+              .filter(function(tev) { return ids.indexOf(tev.idJson) >= 0; })
+              .value();
+        }
         return $scope.currentTabelasEntreVerdesTransicoes;
       };
 
@@ -365,7 +366,7 @@ angular.module('influuntApp')
 
       $scope.copiar = function(controladorId) {
         return Restangular.one('controladores', controladorId).all("edit").customGET()
-          .then(function(res) {
+          .then(function() {
             $scope.index();
           })
           .catch(function(err) {
@@ -388,7 +389,7 @@ angular.module('influuntApp')
 
       $scope.configurar = function(controladorId) {
         return Restangular.one('controladores', controladorId).all("pode_editar").customGET()
-          .then(function(res) {
+          .then(function() {
             $state.go('app.wizard_controladores.dados_basicos',{id: controladorId});
           })
           .catch(function(err) {
@@ -399,13 +400,13 @@ angular.module('influuntApp')
 
       $scope.ativar = function(controladorId) {
         return Restangular.one('controladores', controladorId).all("ativar").customPOST()
-          .then(function(res) {
+          .then(function() {
             $scope.index();
           })
           .catch(function(err) {
             toast.clear();
             influuntAlert.alert('Controlador', err.data[0].message);
           });
-      }
+      };
 
     }]);
