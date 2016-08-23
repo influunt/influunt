@@ -92,14 +92,14 @@
     "titulo": "Cidades"
   },
   "tabelaHorarios": {
-    "titulo": "Tabela de Horários",
+    "titulo": "Tabela horária",
     "dias": "Dias",
     "nome": "Nome",
     "data": "Data",
     "horario": "Horário",
     "plano": "Plano",
     "descartar": "Descartar",
-    "tabelaEspecial": "Tabela de horários especial ativa na semana entre os dias",
+    "tabelaEspecial": "Tabela horária especial ativa na semana entre os dias",
     "hr": "HR",
     "seg": "SEG",
     "ter": "TER",
