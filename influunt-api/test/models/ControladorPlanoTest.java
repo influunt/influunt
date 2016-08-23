@@ -298,7 +298,7 @@ public class ControladorPlanoTest extends ControladorTest {
 
 
         erros = getErros(controlador);
-        assertEquals(21, erros.size());
+        assertEquals(25, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro("Controlador", "deve estar entre 1 e 255", "aneis[1].planos[0].estagiosPlanos[0].tempoVerde"),
                 new Erro("Controlador", "deve estar entre 30 e 255", "aneis[1].planos[0].tempoCiclo"),
@@ -320,7 +320,11 @@ public class ControladorPlanoTest extends ControladorTest {
                 new Erro("Controlador", "deve estar entre 10 e 255", "aneis[0].planos[0].estagiosPlanos[3].tempoVerdeIntermediario"),
                 new Erro("Controlador", "deve estar entre 1 e 10", "aneis[0].planos[0].estagiosPlanos[3].tempoExtensaoVerde"),
                 new Erro("Controlador", "A sequência de estagio não é válida.", "aneis[0].planos[0].posicaoUnicaEstagio"),
-                new Erro("Controlador", "A sequência de estagio não é válida.", "aneis[1].planos[0].posicaoUnicaEstagio")
+                new Erro("Controlador", "A sequência de estagio não é válida.", "aneis[1].planos[0].posicaoUnicaEstagio"),
+                new Erro("Controlador", "O tempo de verde está menor que o tempo de segurança configurado.", "aneis[0].planos[0].gruposSemaforicosPlanos[0].respeitaVerdesDeSeguranca"),
+                new Erro("Controlador", "O tempo de verde está menor que o tempo de segurança configurado.", "aneis[0].planos[0].gruposSemaforicosPlanos[1].respeitaVerdesDeSeguranca"),
+                new Erro("Controlador", "O tempo de verde está menor que o tempo de segurança configurado.", "aneis[1].planos[0].gruposSemaforicosPlanos[0].respeitaVerdesDeSeguranca"),
+                new Erro("Controlador", "O tempo de verde está menor que o tempo de segurança configurado.", "aneis[1].planos[0].gruposSemaforicosPlanos[1].respeitaVerdesDeSeguranca")
         ));
 
         criarEstagioPlano(anelCom2Estagios, plano1Anel2, new int[]{1, 2});
@@ -701,10 +705,10 @@ public class ControladorPlanoTest extends ControladorTest {
                 new Erro("Controlador", "O Tempo de ciclo deve ser simétrico ou assimétrico ao tempo de ciclo dos controladores.", "aneis[1].planos[0].tempoCicloIgualOuMultiploDeTodoAgrupamento")
         ));
 
-        planoAnel2.setTempoCiclo(120);
-        estagio1Anel2.setTempoVerde(8);
-        estagio2Anel2.setTempoVerde(8);
-        estagio3Anel2.setTempoVerde(6);
+        planoAnel2.setTempoCiclo(140);
+        estagio1Anel2.setTempoVerde(12);
+        estagio2Anel2.setTempoVerde(17);
+        estagio3Anel2.setTempoVerde(13);
         estagio4Anel2.setTempoVerde(10);
 
         erros = getErros(controlador);
@@ -714,13 +718,87 @@ public class ControladorPlanoTest extends ControladorTest {
                 new Erro("Controlador", "O Tempo de ciclo deve ser simétrico ou assimétrico ao tempo de ciclo dos controladores.", "aneis[1].planos[0].tempoCicloIgualOuMultiploDeTodoAgrupamento")
         ));
 
-        planoAnel1.setTempoCiclo(60);
-        estagio1Anel1.setTempoVerde(21);
-        estagio2Anel1.setTempoVerde(21);
+        planoAnel1.setTempoCiclo(70);
+        estagio1Anel1.setTempoVerde(26);
+        estagio2Anel1.setTempoVerde(26);
+
+        erros = getErros(controlador);
+        assertThat(erros, Matchers.empty());
+    }
+
+    @Test
+    public void testVerdeSeguranca() {
+        Controlador controlador = getControladorPlanos();
+        Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
+
+        Plano plano = new Plano();
+        plano.setAnel(anelCom4Estagios);
+        anelCom4Estagios.setPlanos(Arrays.asList(plano));
+
+        plano.setModoOperacao(ModoOperacaoPlano.TEMPO_FIXO_ISOLADO);
+        plano.setPosicao(3);
+        plano.setPosicaoTabelaEntreVerde(1);
+        plano.setTempoCiclo(110);
+
+        criarGrupoSemaforicoPlano(anelCom4Estagios, plano);
+
+        criarEstagioPlano(anelCom4Estagios, plano, new int[]{1, 2, 3, 4});
+
+        EstagioPlano estagioPlano1 = plano.getEstagiosPlanos().stream().filter(estagioPlano -> estagioPlano.getPosicao().equals(1)).findAny().get();
+        EstagioPlano estagioPlano2 = plano.getEstagiosPlanos().stream().filter(estagioPlano -> estagioPlano.getPosicao().equals(2)).findAny().get();
+        EstagioPlano estagioPlano3 = plano.getEstagiosPlanos().stream().filter(estagioPlano -> estagioPlano.getPosicao().equals(3)).findAny().get();
+        EstagioPlano estagioPlano4 = plano.getEstagiosPlanos().stream().filter(estagioPlano -> estagioPlano.getPosicao().equals(4)).findAny().get();
+
+        //List<Erro> erros = getErros(controlador);
+
+        //1 - 4 - 3 - 2
+        estagioPlano1.setPosicao(1);
+        estagioPlano2.setPosicao(4);
+        estagioPlano3.setPosicao(3);
+        estagioPlano4.setPosicao(2);
+
+        estagioPlano1.setTempoVerde(5);
+        estagioPlano2.setTempoVerde(6);
+        estagioPlano3.setTempoVerde(5);
+        estagioPlano4.setTempoVerde(6);
+
+        List<Erro> erros = getErros(controlador);
+        assertEquals(2, erros.size());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+                new Erro("Controlador", "O tempo de verde está menor que o tempo de segurança configurado.", "aneis[0].planos[0].gruposSemaforicosPlanos[0].respeitaVerdesDeSeguranca"),
+                new Erro("Controlador", "O tempo de verde está menor que o tempo de segurança configurado.", "aneis[0].planos[0].gruposSemaforicosPlanos[1].respeitaVerdesDeSeguranca")
+        ));
+
+        //3 - 1 - 4 - 2
+        estagioPlano1.setPosicao(2);
+        estagioPlano2.setPosicao(4);
+        estagioPlano3.setPosicao(1);
+        estagioPlano4.setPosicao(3);
 
         erros = getErros(controlador);
         assertThat(erros, Matchers.empty());
 
+        //3 - 2 - 1 - 4
+        estagioPlano1.setPosicao(3);
+        estagioPlano2.setPosicao(2);
+        estagioPlano3.setPosicao(1);
+        estagioPlano4.setPosicao(4);
+
+        erros = getErros(controlador);
+        assertEquals(2, erros.size());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+                new Erro("Controlador", "O tempo de verde está menor que o tempo de segurança configurado.", "aneis[0].planos[0].gruposSemaforicosPlanos[0].respeitaVerdesDeSeguranca"),
+                new Erro("Controlador", "O tempo de verde está menor que o tempo de segurança configurado.", "aneis[0].planos[0].gruposSemaforicosPlanos[1].respeitaVerdesDeSeguranca")
+        ));
+
+        //2 - 3 - 1 - 4
+        estagioPlano1.setPosicao(3);
+        estagioPlano2.setPosicao(1);
+        estagioPlano3.setPosicao(2);
+        estagioPlano4.setPosicao(4);
+
+        erros = getErros(controlador);
+        assertThat(erros, Matchers.empty());
     }
 
     @Override

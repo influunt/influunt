@@ -58,6 +58,7 @@ public class Plano extends Model implements Cloneable, Serializable {
     private List<EstagioPlano> estagiosPlanos;
 
     @OneToMany(mappedBy = "plano", cascade = CascadeType.ALL)
+    @Valid
     private List<GrupoSemaforicoPlano> gruposSemaforicosPlanos;
 
     @Column
@@ -376,6 +377,11 @@ public class Plano extends Model implements Cloneable, Serializable {
         return 1;
     }
 
+    public List<EstagioPlano> ordenarEstagiosPorPosicao() {
+        List<EstagioPlano> listaEstagioPlanos = this.getEstagiosPlanos();
+        listaEstagioPlanos.sort((anterior, proximo) -> anterior.getPosicao().compareTo(proximo.getPosicao()));
+        return listaEstagioPlanos;
+    }
 
     @Override
     public Object clone() throws CloneNotSupportedException {

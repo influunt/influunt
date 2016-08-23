@@ -41,7 +41,7 @@ public class ControladorVerdesConflitantesTest extends ControladorTest {
         anelAtivo.addEndereco(paulista);
         anelAtivo.addEndereco(belaCintra);
 
-        anelAtivo.setEstagios(Arrays.asList(new Estagio(), new Estagio()));
+        anelAtivo.setEstagios(Arrays.asList(new Estagio(1), new Estagio(2)));
 
         criarGrupoSemaforico(anelAtivo, TipoGrupoSemaforico.VEICULAR, 3);
         criarGrupoSemaforico(anelAtivo, TipoGrupoSemaforico.VEICULAR, 4);

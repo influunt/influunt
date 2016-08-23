@@ -20,7 +20,7 @@ angular.module('influuntApp')
       var adicionaPlano, selecionaAnel, atualizaTabelaEntreVerdes, atualizaEstagios, atualizaGruposSemaforicos, atualizaPlanos,
           atualizaEstagiosPlanos, adicionaEstagioASequencia, atualizaPosicaoPlanos, atualizaPosicaoEstagiosPlanos,
           carregaDadosPlano, getOpcoesEstagiosDisponiveis, montaTabelaValoresMinimos, parseAllToInt, setDiagramaEstatico,
-          atualizaDiagramaIntervalos, getPlanoParaDiagrama, atualizaTransicoesProibidas;
+          atualizaDiagramaIntervalos, getPlanoParaDiagrama, atualizaTransicoesProibidas, getErrosGruposSemaforicosPlanos;
       var diagramaDebouncer = null;
 
       /**
@@ -528,7 +528,7 @@ angular.module('influuntApp')
       };
 
       $scope.getErrosPlanos = function(listaErros) {
-        return _
+        var erros = _
         .chain(listaErros)
         .filter(function(e) {
           return _.isString(e[0]);
@@ -536,10 +536,28 @@ angular.module('influuntApp')
         .map()
         .flatten()
         .value();
+        erros.push(getErrosGruposSemaforicosPlanos(listaErros));
+        return _.chain(erros).flatten().value();
       };
 
       $scope.getErrosEstagiosPlanos = function(index) {
         var erros = _.get($scope.errors, 'aneis[' + $scope.currentAnelIndex + '].planos[' + $scope.currentPlanoIndex + '].estagiosPlanos[' + index + ']');
+        return erros;
+      };
+      
+      getErrosGruposSemaforicosPlanos = function(listaErros){
+        var erros = [];
+        if(listaErros){
+          _.each(listaErros.gruposSemaforicosPlanos, function (erro, index){
+            if(erro) {
+              var grupoSemaforicoPlanoIdJson = $scope.currentPlano.gruposSemaforicosPlanos[index].idJson;
+              var grupoSemaforicoPlano = _.find($scope.objeto.gruposSemaforicosPlanos, {idJson: grupoSemaforicoPlanoIdJson});
+              var grupoSemaforico = _.find($scope.objeto.gruposSemaforicos, {idJson: grupoSemaforicoPlano.grupoSemaforico.idJson});
+              var texto = 'G' + grupoSemaforico.posicao + ' - ' + erro.respeitaVerdesDeSeguranca[0];
+              erros.push(texto);
+            }
+          });
+        }
         return erros;
       };
 

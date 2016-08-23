@@ -17,6 +17,7 @@ import org.joda.time.DateTime;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +57,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
     private Boolean tempoMaximoPermanenciaAtivado = true;
 
     @Column
+    @NotNull(message = "não pode ficar em branco", groups = ControladorAssociacaoGruposSemaforicosCheck.class)
     private Integer posicao;
 
     @Column
@@ -97,6 +99,12 @@ public class Estagio extends Model implements Serializable, Cloneable {
 
     public Estagio() {
         super();
+        this.setIdJson(UUID.randomUUID().toString());
+    }
+
+    public Estagio(Integer posicao) {
+        super();
+        this.posicao = posicao;
         this.setIdJson(UUID.randomUUID().toString());
     }
 
@@ -227,7 +235,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
         this.alternativaDeTransicoesProibidas = alternativaDeTransicoesProibidas;
     }
 
-    private List<GrupoSemaforico> getGruposSemaforicos() {
+    public List<GrupoSemaforico> getGruposSemaforicos() {
         return getEstagiosGruposSemaforicos().stream().map(estagioGrupoSemaforico -> estagioGrupoSemaforico.getGrupoSemaforico()).collect(Collectors.toList());
     }
 
