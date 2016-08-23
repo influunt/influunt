@@ -275,6 +275,7 @@
     "plugins": {
         "datatables_cdn": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json",
         "steps": {
+          "confirmation": "Confirmo que não há configurações a serem feitas aqui.",
             "labels": {
                 "back": "Voltar",
                 "last_screen": "Ver Resumo",
