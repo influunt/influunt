@@ -57,7 +57,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
     private Boolean tempoMaximoPermanenciaAtivado = true;
 
     @Column
-    @NotNull
+    @NotNull(message = "não pode ficar em branco", groups = ControladorAssociacaoGruposSemaforicosCheck.class)
     private Integer posicao;
 
     @Column

@@ -51,7 +51,7 @@ angular.module('influuntApp')
               var groupId = 'G' + grupo.posicao;
               if(scope.comCheckBoxGrupo){
                 groups.push({
-                  content: '<input type="checkbox" class="group-checkbox" data-posicao="' + grupo.posicao + '" name="' + groupId + '"><strong>' + groupId + '</strong>',
+                  content: '<input type="checkbox" class="group-checkbox" data-posicao="' + grupo.posicao + '" name="' + groupId + '"><strong class="m-l-sm">' + groupId + '</strong>',
                   id: groupId,
                   value: groupId
                 });
