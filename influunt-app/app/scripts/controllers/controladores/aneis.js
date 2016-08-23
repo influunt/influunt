@@ -13,7 +13,7 @@ angular.module('influuntApp')
       $controller('ControladoresCtrl', {$scope: $scope});
 
       // Métodos privados.
-      var ativaPrimeiroAnel, inicializaEnderecos, atualizarAneisAtivos, registrarWatcherEndereco, atualizaCurrentEnderecos;
+      var ativaPrimeiroAnel, inicializaEnderecos, atualizarAneisAtivos, registrarWatcherEndereco, atualizaCurrentEnderecos, setDadosBasicos;
 
       /**
        * Pré-condições para acesso à tela de aneis: Somente será possível acessar esta
@@ -44,6 +44,7 @@ angular.module('influuntApp')
             atualizarAneisAtivos();
             inicializaEnderecos();
             registrarWatcherEndereco();
+            setDadosBasicos();
             $scope.$broadcast('influuntWizard.dropzoneOk');
           }
         });
@@ -118,6 +119,18 @@ angular.module('influuntApp')
           delete $scope.aneis[ultimoAnelAtivoIndex].enderecos;
           atualizarAneisAtivos();
         });
+      };
+
+      setDadosBasicos = function() {
+        $scope.$watch(function() {
+          atualizaCurrentEnderecos();
+        });
+
+        $scope.dadosBasicos = {
+          numeroSMEE: $scope.objeto.numeroSMEE || '-',
+          endereco1:  $scope.objeto.todosEnderecos[0].localizacao,
+          endereco2:  $scope.objeto.enderecos[1]
+        };
       };
 
       /**

@@ -33,6 +33,10 @@ Funcionalidade: Fluxo de cadastro de controladores
     Então o sistema deverá indicar erro nos campos do passo "Anéis"
     E o sistema irá continuar no passo "Anéis"
 
+  Cenário: Primeiro anel dever conter preenchido o endereço e SMEE
+    Dado que o usuário esteja no wizard no passo "Dados Básicos"
+    Então os sistema deverá possuir o número SMEE
+
   Cenário: Salvar anéis do controlador
     Dado que o usuário esteja no wizard no passo "Anéis"
     E o usuario buscar o endereço "Av Paulista" para o endereço 1
