@@ -139,4 +139,8 @@ module.exports = function() {
   this.Given(/^que o usuário associe o detector "([^"]*)" com o estágio "([^"]*)"$/, function (detector, estagio) {
     return wizardPage.associarDetectorEstagio(detector, estagio);
   });
+
+  this.Given(/^o sistema deve limpar os erros da tela$/, function() {
+    return wizardPage.limparTelaComReload();
+  });
 };

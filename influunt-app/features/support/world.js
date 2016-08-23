@@ -296,6 +296,10 @@ var World = function () {
     });
   };
 
+  this.reloadPage = function() {
+    return driver.navigate().refresh();
+  };
+
   this.dragAndDrop = function(element, location) {
     return driver.actions().dragAndDrop(element, location);
   };

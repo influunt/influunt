@@ -440,6 +440,11 @@ var WizardControladorPage = function () {
     });
   };
 
+  this.limparTelaComReload = function() {
+    return world.reloadPage();
+  };
+
+
   this.associarDetectorEstagio = function(detector, estagio) {
     return world.execJavascript('return $(\'th:contains("'+estagio+'")\').index() + 1').then(function(col) {
       return world.scrollToDown().then(function() {
