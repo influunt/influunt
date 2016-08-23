@@ -92,7 +92,7 @@ var WizardControladorPage = function () {
 
   this.clicarBotaoProximoPasso = function() {
     return world.scrollToDown().then(function() {
-      return world.findLinkByText('Próximo').click().then(function(){
+      return world.findLinkByText('Salvar e Avançar').click().then(function(){
         return world.sleep(100);
       });
     });
