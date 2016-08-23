@@ -1,8 +1,8 @@
 <fieldset data-ng-init="inicializaRevisao()">
   <div class="m-t-md">
-    <div class="col-lg-12 col-sm-12 bg-border no-padding margin-botton ibox">
+    <div class="col-lg-12 col-sm-12 bg-border no-padding margin-botton ibox revisao">
       <div class="col-lg-12 col-sm-12 text-left">
-        <h2>{{ 'controladores.dadosBasicos' | translate }}</h2>
+        <h2>{{ 'controladores.dadosBasicos.titulo' | translate }}</h2>
       </div>
       <div class="col-lg-12 col-sm-12 ibox-content no-padding-left no-padding-right padding-top-20">
         <div class="col-lg-4 col-sm-3">
@@ -37,7 +37,7 @@
 
 <!-- Abas de aneis -->
   <div class="m-t-md">
-    <div class="col-lg-12 col-sm-12 bg-border no-padding">
+    <div class="col-lg-12 col-sm-12 bg-border no-padding revisao">
       <div class="ibox float-e-margins">
         <div class="tabpanel">
           <div class="col-lg-12 col-sm-12 padding-top-20 tabs-container">
@@ -66,29 +66,29 @@
                 <div class="col-lg-12 col-sm-12 no-padding">
                   <div class="col-lg-6 col-sm-6 no-padding-left text-left">
                     <div class="col-lg-12 col-sm-12 no-padding">
-                      <h2>Grupos</h2>
+                      <h2>{{ 'controladores.gruposSemaforicos.titulo' | translate }}</h2>
                     </div>
                     <div class="col-lg-12 col-sm-12 no-padding padding-top-20" data-ng-repeat="gruposSemaforicos in dadosCurrentGruposSemaforicos" data-ng-class="{ 'ibox-content': $index === 0 }">
                       <div class="col-lg-4 col-sm-4 no-padding-left" data-ng-repeat="grupoSemaforico in gruposSemaforicos">
-                        <h3>Grupo {{ grupoSemaforico.posicao }}</h3>
+                        <h3>{{ 'controladores.revisao.grupo' | translate }} {{ grupoSemaforico.posicao }}</h3>
                         <p>{{ grupoSemaforico.descricao }}</p>
-                        <p><strong>Tipo:</strong> {{ grupoSemaforico.tipo }}</p>
-                        <p><strong>Fase Vermelha:</strong> {{ grupoSemaforico.faseVermelha }}</p>
+                        <p><strong>{{ 'controladores.revisao.tipo' | translate }}:</strong> {{ grupoSemaforico.tipo }}</p>
+                        <p><strong>{{ 'controladores.revisao.faseVermelha' | translate }}:</strong> {{ grupoSemaforico.faseVermelha }}</p>
                       </div>
                     </div>
                   </div>
 
                   <div class="col-lg-6 col-sm-6 no-padding-left text-left">
                     <div class="col-lg-12 col-sm-12 no-padding">
-                      <h2>Estágios</h2>
+                      <h2>{{ 'controladores.estagios' | translate }}</h2>
                     </div>
                     <div class="col-lg-12 col-sm-12 no-padding padding-top-20 ibox-content">
                       <div class="col-sm-6 no-padding-left review-page" data-ng-repeat="estagio in dadosCurrentEstagios">
                         <img data-ng-src="{{ estagio.imagem }}">
                         <h3>E{{ estagio.posicao }}</h3>
                         <div>{{ estagio.gruposSemaforicosStr }}</div>
-                        <div class="m-t-xs" data-ng-if="estagio.tempoMaximoPermanenciaAtivado">Desativ. Tempo max: {{ estagio.tempoMaximoPermanencia }}s</div>
-                        <div class="m-t-xs" data-ng-if="estagio.demandaPrioritaria">Demanda prioritária</div>
+                        <div class="m-t-xs" data-ng-if="estagio.tempoMaximoPermanenciaAtivado">{{ 'controladores.revisao.desativacaoTempoMax' | translate }}: {{ estagio.tempoMaximoPermanencia }}s</div>
+                        <div class="m-t-xs" data-ng-if="estagio.demandaPrioritaria">{{ 'controladores.revisao.demandaPrioritaria' | translate }}</div>
                       </div>
                     </div>
                   </div>
@@ -97,12 +97,12 @@
                 <div class="col-sm-12 no-padding">
                   <div class="col-sm-6 no-padding-left padding-top-20 text-left">
                     <div class="col-sm-12 no-padding">
-                      <h2>Verdes Conflitantes</h2>
+                      <h2>{{ 'controladores.verdesConflitantes.titulo' | translate }}</h2>
                     </div>
                     <div class="col-sm-12 no-padding padding-top-20 ibox-content">
 
                       <div class="col-sm-2 no-padding-left" data-ng-repeat="verdeConflitante in dadosCurrentVerdesConflitantes">
-                        <p class="view-group"><strong>G{{ verdeConflitante.origem.posicao }}-G{{ verdeConflitante.destino.posicao }} <i class="fa fa-eye"></i></strong></p>
+                        <p class="view-group"><strong>G{{ verdeConflitante.origem.posicao }}-G{{ verdeConflitante.destino.posicao }}</strong></p>
                       </div>
 
                     </div>
@@ -111,24 +111,24 @@
 
                   <div class="col-sm-6 no-padding-left padding-top-20 text-left">
                     <div class="col-sm-12 no-padding">
-                      <h2>Transicoes Proibidas</h2>
+                      <h2>{{ 'controladores.transicoesProibidas.titulo' | translate }}</h2>
                     </div>
                     <div class="col-sm-12 no-padding padding-top-20 ibox-content">
                       <div class="col-sm-6 no-padding-left review-page">
                         <div class="row">
                           <div class="col-sm-6 no-padding text-center">
-                            <p><strong>TRANSIÇÃO PROIBIDA</strong></p>
+                            <p><strong>{{ 'controladores.revisao.transicaoProibida' | translate }}</strong></p>
                           </div>
                           <div class="col-sm-6 no-padding text-center">
-                            <p><strong>ALTERNATIVA</strong></p>
+                            <p><strong>{{ 'controladores.revisao.alternativa' | translate }}</strong></p>
                           </div>
                         </div>
                         <div class="row text-center">
                           <div class="col-sm-6 no-padding" data-ng-repeat-start="transicaoProibida in dadosCurrentTRansicoesProibidas1">
-                            <p><b class="gray-box">E{{ transicaoProibida.origem.posicao }}-E{{ transicaoProibida.destino.posicao }}</b> <i class="fa fa-eye view-group"></i></p>
+                            <p><b class="gray-box">E{{ transicaoProibida.origem.posicao }}-E{{ transicaoProibida.destino.posicao }}</b></i></p>
                           </div>
                           <div class="col-sm-6 no-padding" data-ng-repeat-end>
-                            <p><b class="white-box">E{{ transicaoProibida.alternativo.posicao }}</b> <i class="fa fa-eye view-group"></i></p>
+                            <p><b class="white-box">E{{ transicaoProibida.alternativo.posicao }}</b></i></p>
                           </div>
                         </div>
                       </div>
@@ -136,49 +136,62 @@
                       <div class="col-sm-6 no-padding-left review-page">
                         <div class="row">
                           <div class="col-sm-6 no-padding text-center">
-                            <p><strong>TRANSIÇÃO PROIBIDA</strong></p>
+                            <p><strong>{{ 'controladores.revisao.transicaoProibida' | translate }}</strong></p>
                           </div>
                           <div class="col-sm-6 no-padding text-center">
-                            <p><strong>ALTERNATIVA</strong></p>
+                            <p><strong>{{ 'controladores.revisao.alternativa' | translate }}</strong></p>
                           </div>
                         </div>
                         <div class="row text-center">
                           <div class="col-sm-6 no-padding" data-ng-repeat-start="transicaoProibida in dadosCurrentTRansicoesProibidas2">
-                            <p><b class="gray-box">E{{ transicaoProibida.origem.posicao }}-E{{ transicaoProibida.destino.posicao }}</b> <i class="fa fa-eye view-group"></i></p>
+                            <p><b class="gray-box">E{{ transicaoProibida.origem.posicao }}-E{{ transicaoProibida.destino.posicao }}</b></i></p>
                           </div>
                           <div class="col-sm-6 no-padding" data-ng-repeat-end>
-                            <p><b class="white-box">E{{ transicaoProibida.alternativo.posicao }}</b> <i class="fa fa-eye view-group"></i></p>
+                            <p><b class="white-box">E{{ transicaoProibida.alternativo.posicao }}</b></i></p>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
 
-
+                  <div class="col-sm-6 no-padding-left padding-top-20 text-left">
+                    <div class="col-sm-12 no-padding">
+                      <h2>Exemplo tela vazia</h2>
+                    </div>
+                    <div class="col-sm-12 no-padding padding-top-20 ibox-content text-center">
+                      <i class="fa fa-exclamation-circle"></i>
+                      <p>{{ 'controladores.revisao.semTransicao' | translate }}</p>
+                    </div>
+                  </div>
 
                   <div class="col-sm-12 no-padding">
                     <div class="col-sm-6 no-padding-left padding-top-20 text-left">
                       <div class="col-sm-12 no-padding">
-                        <h2>Entre-Verdes</h2>
+                        <h2>{{ 'controladores.entreVerdes.titulo' | translate }}</h2>
                       </div>
-
+                      <div class="col-lg-12 col-sm-12 no-padding padding-top-20 ibox-content">
+                        <select class="form-control m-b">
+                          <option value="VEICULAR">Exemplo 1</option>
+                          <option value="PEDESTRE">Exemplo 2</option>
+                        </select>
+                      </div>
                       <div class="col-sm-6 no-padding">
-                        <div class="col-sm-12 no-padding padding-top-20 ibox-content">
+                        <div class="col-sm-12 no-padding padding-top-20">
                           <div class="col-sm-12 no-padding-left">
-                            <h3><strong>TABELA PADRÃO</strong></h3>
+                            <h3><strong>{{ 'controladores.revisao.tabelaPadrao' | translate }}</strong></h3>
                           </div>
                           <div class="col-sm-4 no-padding-left">
                           </div>
                           <div class="col-sm-4 no-padding-left">
-                            <p>AMARELO</p>
+                            <p>{{ 'controladores.revisao.amarelo' | translate }}</p>
                           </div>
                           <div class="col-sm-4 no-padding-left">
-                            <p>VERMELHO DE LIMPEZA</p>
+                            <p>{{ 'controladores.revisao.vermelhoLimpeza' | translate }}</p>
                           </div>
                         </div>
                         <div class="col-sm-12 no-padding">
                           <div class="col-sm-4" data-ng-repeat-start="tabelaPadrao in dadosCurrentTabelasentreVerdesPadrao">
-                            <p class="view-group"><strong>E{{ tabelaPadrao.origem.posicao }}-E{{ tabelaPadrao.destino.posicao }} <i class="fa fa-eye"></i></strong></p>
+                            <p class="view-group"><strong>E{{ tabelaPadrao.origem.posicao }}-E{{ tabelaPadrao.destino.posicao }}</strong></p>
                           </div>
                           <div class="col-sm-4">
                             <p>{{ tabelaPadrao.tempoAmarelo || tabelaPadrao.tempoVermelhoIntermitente }}s</p>
@@ -190,22 +203,22 @@
                       </div>
 
                       <div class="col-sm-6 no-padding">
-                        <div class="col-sm-12 no-padding padding-top-20 ibox-content">
+                        <div class="col-sm-12 no-padding padding-top-20">
                           <div class="col-sm-12 no-padding-left" data-ng-if="dadosCurrentTabelasentreVerdesOutra[0]">
                             <h3><strong>{{ dadosCurrentTabelasentreVerdesOutra[0].nome }}</strong></h3>
                           </div>
                           <div class="col-sm-4 no-padding-left" data-ng-if="dadosCurrentTabelasentreVerdesOutra[0]">
                           </div>
                           <div class="col-sm-4 no-padding-left" data-ng-if="dadosCurrentTabelasentreVerdesOutra[0]">
-                            <p>AMARELO</p>
+                            <p>{{ 'controladores.revisao.amarelo' | translate }}</p>
                           </div>
                           <div class="col-sm-4 no-padding-left" data-ng-if="dadosCurrentTabelasentreVerdesOutra[0]">
-                            <p>VERMELHO DE LIMPEZA</p>
+                            <p>{{ 'controladores.revisao.vermelhoLimpeza' | translate }}</p>
                           </div>
                         </div>
                         <div class="col-sm-12 no-padding">
                           <div class="col-sm-4" data-ng-repeat-start="tabelaOutra in dadosCurrentTabelasentreVerdesOutra">
-                            <p class="view-group"><strong>E{{ tabelaOutra.origem.posicao }}-E{{ tabelaOutra.destino.posicao }} <i class="fa fa-eye"></i></strong></p>
+                            <p class="view-group"><strong>E{{ tabelaOutra.origem.posicao }}-E{{ tabelaOutra.destino.posicao }}</strong></p>
                           </div>
                           <div class="col-sm-4">
                             <p>{{ tabelaOutra.tempoAmarelo || tabelaOutra.tempoVermelhoIntermitente }}s</p>
@@ -221,25 +234,25 @@
 
                     <div class="col-lg-6 col-sm-6 no-padding-left padding-top-20 text-left">
                       <div class="col-lg-12 col-sm-12 no-padding">
-                        <h2>Associacão detectores</h2>
+                        <h2>{{ 'controladores.associacao.titulo' | translate }}</h2>
                       </div>
                       <div class="col-lg-12 col-sm-12 no-padding padding-top-20 ibox-content">
                         <div class="col-lg-2 col-sm-2">
                         </div>
                         <div class="col-lg-2 col-sm-2">
-                          <p><strong>ESTÁGIO</strong></p>
+                          <p><strong>{{ 'controladores.revisao.estagio' | translate }}</strong></p>
                         </div>
                         <div class="col-lg-2 col-sm-2">
-                            <p><strong>AUSÊNCIA DE DETECÇÃO MÍNIMA</strong></p>
+                            <p><strong>{{ 'controladores.revisao.ausenciaMinima' | translate }}</strong></p>
                         </div>
                         <div class="col-lg-2 col-sm-2">
-                          <p><strong>AUSÊNCIA DE DETECÇÃO MÁXIMA</strong></p>
+                          <p><strong>{{ 'controladores.revisao.ausenciaMaxima' | translate }}</strong></p>
                         </div>
                         <div class="col-lg-2 col-sm-2">
-                          <p><strong>DETECÇÃO PERMANENTE MÍNIMA</strong></p>
+                          <p><strong>{{ 'controladores.revisao.deteccaoMinima' | translate }}</strong></p>
                         </div>
                         <div class="col-lg-2 col-sm-2">
-                          <p><strong>DETECÇÃO PERMANENTE MÁXIMA</strong></p>
+                          <p><strong>{{ 'controladores.revisao.deteccaoMaxima' | translate }}</strong></p>
                         </div>
                       </div>
                       <div class="col-sm-12 no-padding" data-ng-repeat="detector in dadosCurrentDetectores">
@@ -247,7 +260,7 @@
                           <p><strong>{{ detector.nome }}</strong></p>
                         </div>
                         <div class="col-lg-2 col-sm-2">
-                          <p class="view-group"><strong>E{{ detector.estagio.posicao }} <i class="fa fa-eye"></i></strong></p>
+                          <p class="view-group"><strong>E{{ detector.estagio.posicao }}</strong></p>
                         </div>
                         <div class="col-lg-2 col-sm-2">
                           <p>{{ detector.tempoAusenciaDeteccaoMinima }}s</p>
