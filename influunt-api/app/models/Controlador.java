@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
+import utils.DBUtils;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -31,7 +32,6 @@ import java.util.UUID;
 @ConformidadeDeNumeroDeDetectoresDePedestre(groups = ControladorAneisCheck.class)
 @ConformidadeDeNumeroDeDetectoresVeicular(groups = ControladorAneisCheck.class)
 @AoMenosUmAnelAtivo(groups = ControladorAneisCheck.class)
-
 public class Controlador extends Model implements Cloneable, Serializable {
 
     private static final long serialVersionUID = 521560643019927963L;
@@ -107,6 +107,9 @@ public class Controlador extends Model implements Cloneable, Serializable {
     @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
     @Valid
     private List<Endereco> enderecos;
+
+    @OneToOne(mappedBy = "controlador")
+    private VersaoControlador versaoControlador;
 
     // CONFIGURACOES CONTROLADORES
 
@@ -395,6 +398,14 @@ public class Controlador extends Model implements Cloneable, Serializable {
         this.limiteTabelasEntreVerdes = limiteTabelasEntreVerdes;
     }
 
+    public VersaoControlador getVersaoControlador() {
+        return versaoControlador;
+    }
+
+    public void setVersaoControlador(VersaoControlador versaoControlador) {
+        this.versaoControlador = versaoControlador;
+    }
+
     public void criarPossiveisTransicoes() {
         for (Anel anel : getAneis()) {
             for (GrupoSemaforico grupoSemaforico : anel.getGruposSemaforicos()) {
@@ -435,5 +446,18 @@ public class Controlador extends Model implements Cloneable, Serializable {
             setAgrupamentos(new ArrayList<Agrupamento>());
         }
         getAgrupamentos().add(agrupamento);
+    }
+
+    public void ativar() {
+        DBUtils.executeWithTransaction(() -> {
+            VersaoControlador versao = this.getVersaoControlador();
+            versao.ativar();
+            versao.update();
+
+            this.setStatusControlador(StatusControlador.ATIVO);
+            this.update();
+        });
+
+
     }
 }

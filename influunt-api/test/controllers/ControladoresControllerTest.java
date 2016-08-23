@@ -102,8 +102,7 @@ public class ControladoresControllerTest extends WithApplication {
 
         Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
         controlador.setStatusControlador(StatusControlador.ATIVO);
-        VersaoControlador novaVersao = new VersaoControlador(controlador, null, usuario);
-        novaVersao.save();
+        controlador.update();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
                 .uri(routes.TabelaHorariosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
@@ -119,7 +118,7 @@ public class ControladoresControllerTest extends WithApplication {
         json = Json.parse(Helpers.contentAsString(postResult));
         Controlador controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
 
-        VersaoControlador versao = VersaoControlador.find.where().eq("controlador_edicao_id", controladorClonado.getId()).findUnique();
+        VersaoControlador versao = VersaoControlador.findByControlador(controladorClonado);
         assertNotNull(versao);
 
         versao.setUsuario(usuario);
@@ -140,9 +139,9 @@ public class ControladoresControllerTest extends WithApplication {
         Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
         controlador.setStatusControlador(StatusControlador.ATIVO);
 
-        VersaoControlador novaVersao = new VersaoControlador(null, controlador, null);
+//        VersaoControlador novaVersao = new VersaoControlador(null, controlador, null);
         controlador.save();
-        novaVersao.save();
+//        novaVersao.save();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
                 .uri(routes.ControladoresController.edit(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
@@ -153,12 +152,13 @@ public class ControladoresControllerTest extends WithApplication {
 
         assertEquals(200, postResult.status());
         assertNotNull("ID Controldor Clonado", controladorClonado.getId());
-        assertNotEquals("Teste de Id", controlador.getId(), controladorClonado.getId());
+        assertNotEquals("Teste de Id Diferentes", controlador.getId(), controladorClonado.getId());
         assertEquals("Teste de Aneis", controlador.getAneis().size(), controladorClonado.getAneis().size());
         assertEquals("Teste de Agrupamentos", controlador.getAgrupamentos().size(), controladorClonado.getAgrupamentos().size());
         assertEquals("Teste de Area", controlador.getArea(), controladorClonado.getArea());
         assertEquals("Teste de Modelo", controlador.getModelo(), controladorClonado.getModelo());
-        assertEquals("Total de Versoes", 2, VersaoControlador.versoes(controladorClonado).size());
+        assertEquals("Teste de Controlador Fisico", controlador.getVersaoControlador().getControladorFisico(), controladorClonado.getVersaoControlador().getControladorFisico());
+        assertEquals("Total de Versoes", 2, controladorClonado.getVersaoControlador().getControladorFisico().getVersoes().size());
         assertFields(controlador, controladorClonado);
 
         controlador.getAneis().forEach(anel -> {

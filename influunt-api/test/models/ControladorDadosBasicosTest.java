@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import controllers.routes;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
+import org.junit.Assert;
 import org.junit.Test;
 import play.libs.Json;
 import play.mvc.Http;
@@ -173,8 +174,10 @@ public class ControladorDadosBasicosTest extends ControladorTest {
 
         assertControlador(controlador, controladorRetornado);
         assertNotNull(controladorRetornado.getId());
+        assertNotNull("Versao Controlador", controladorRetornado.getVersaoControlador());
         assertEquals("Criação de aneis", 4, controladorRetornado.getAneis().size());
         assertEquals("Todoas aneis inativos", 0, controladorRetornado.getAneis().stream().filter(anel -> anel.isAtivo()).count());
+        assertEquals("Versao Controlador", controlador.getVersaoControlador().getIdJson(), controladorRetornado.getVersaoControlador().getIdJson());
 
     }
 

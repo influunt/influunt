@@ -73,6 +73,8 @@ public class ControladorCustomSerializer {
         putControladorImagens(root);
         putControladorAtrasosDeGrupo(root);
 
+        putControladorVersao(controlador.getVersaoControlador(), root);
+
         return root;
     }
 
@@ -263,6 +265,77 @@ public class ControladorCustomSerializer {
 
         }
         root.set("modelo", modeloJson);
+    }
+
+    private void putControladorVersao(VersaoControlador versaoControlador, ObjectNode root) {
+        if (versaoControlador == null) {
+            return;
+        }
+        ObjectNode versaoJson = Json.newObject();
+        if (versaoControlador.getId() == null) {
+            versaoJson.putNull("id");
+        } else {
+            versaoJson.put("id", versaoControlador.getId().toString());
+        }
+
+        if (versaoControlador.getIdJson() == null) {
+            versaoJson.putNull("idJson");
+        } else {
+            versaoJson.put("idJson", versaoControlador.getIdJson().toString());
+        }
+        if (versaoControlador.getDescricao() != null) {
+            versaoJson.put("descricao", versaoControlador.getDescricao());
+        }
+
+        if (versaoControlador.getStatusVersaoControlador() != null) {
+            root.put("statusVersaoControlador", versaoControlador.getStatusVersaoControlador().toString());
+        }
+
+        if (versaoControlador.getControladorOrigem() != null && versaoControlador.getControladorOrigem().getIdJson() != null) {
+            versaoJson.putObject("controladorOrigem").put("idJson", versaoControlador.getControladorOrigem().getIdJson().toString());
+        }
+
+        if (versaoControlador.getControlador() != null && versaoControlador.getControlador().getIdJson() != null) {
+            versaoJson.putObject("controlador").put("idJson", versaoControlador.getControlador().getIdJson().toString());
+        }
+
+        if (versaoControlador.getControladorFisico() != null && versaoControlador.getControladorFisico().getIdJson() != null) {
+            versaoJson.putObject("controladorFisico").put("idJson", versaoControlador.getControladorFisico().getIdJson().toString());
+        }
+
+        if (versaoControlador.getUsuario() != null) {
+
+            ObjectNode usuarioJson = Json.newObject();
+            Usuario usuario = versaoControlador.getUsuario();
+
+            if (usuario.getId() == null) {
+                usuarioJson.putNull("id");
+            } else {
+                usuarioJson.put("id", usuario.getId().toString());
+            }
+
+            if (usuario.getNome() != null) {
+                usuarioJson.put("nome", usuario.getNome());
+            }
+
+            if (usuario.getLogin() != null) {
+                usuarioJson.put("login", usuario.getLogin());
+            }
+
+            if (usuario.getEmail() != null) {
+                usuarioJson.put("email", usuario.getEmail());
+            }
+
+            if (usuario.getArea() != null && usuario.getArea().getIdJson() != null) {
+                usuarioJson.putObject("area").put("idJson", usuario.getArea().getIdJson().toString());
+            }
+
+
+            versaoJson.set("usuario", usuarioJson);
+        }
+
+
+        root.set("versaoControlador", versaoJson);
     }
 
     private JsonNode getAreaJson(Area area) {

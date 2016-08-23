@@ -1,5 +1,6 @@
 package models;
 
+import helpers.ControladorUtil;
 import org.joda.time.LocalTime;
 
 import java.util.Arrays;
@@ -58,7 +59,13 @@ public class ControladorTestUtil {
 
         controlador.addEndereco(enderecoPaulista);
         controlador.addEndereco(enderecoBelaCintra);
+
+        ControladorFisico controladorFisico = new ControladorFisico();
+        VersaoControlador versaoControlador = new VersaoControlador(controlador, controladorFisico, getUsuario());
+        controladorFisico.addVersaoControlador(versaoControlador);
+        controlador.setVersaoControlador(versaoControlador);
         controlador.save();
+        controladorFisico.save();
 
         return controlador;
     }
@@ -504,4 +511,19 @@ public class ControladorTestUtil {
     }
 
 
+    public Usuario getUsuario() {
+        Usuario usuario = Usuario.find.where().eq("login", "admin").findUnique();
+        if (usuario == null) {
+            usuario = new Usuario();
+            usuario.setNome("Admin");
+            usuario.setLogin("admin");
+            usuario.setSenha("1234");
+            usuario.setRoot(false);
+            usuario.setEmail("root@influunt.com.br");
+
+            usuario.save();
+        }
+
+        return usuario;
+    }
 }
