@@ -39,7 +39,7 @@ angular.module('influuntApp')
             $scope.aneis = $scope.objeto.aneis;
             $scope.currentAnelIndex = 0;
             $scope.currentAnel = $scope.aneis[0];
-            $scope.numeroSMEE = $scope.objeto.numeroSMEE;
+            $scope.currentAnel.numeroSMEE = $scope.objeto.numeroSMEE;
             ativaPrimeiroAnel($scope.objeto);
             atualizarAneisAtivos();
             inicializaEnderecos();
@@ -102,7 +102,8 @@ angular.module('influuntApp')
         $scope.$apply(function() {
           $scope.selecionaAnel(_.findIndex($scope.aneis, { ativo: false }));
           $scope.currentAnel.ativo = true;
-          inicializaEnderecos();
+          //inicializaEnderecos();
+          registrarWatcherEndereco();
           atualizarAneisAtivos();
         });
       };
@@ -130,13 +131,8 @@ angular.module('influuntApp')
        * @return     {<type>}  { description_of_the_return_value }
        */
       ativaPrimeiroAnel = function(controlador) {
-        controlador.aneis.forEach(function(anel) { anel.valid = {form: true}; });
+        // controlador.aneis.forEach(function(anel) { anel.valid = {form: true}; });
         controlador.aneis[0].ativo = true;
-
-        // //1.000.0001.1
-        // $scope.primeiroAnel =  _.filter($scope.aneis, {CLA : '1.000.0001.1'});
-        // console.log("---- primeiro anel --- ");
-        // console.log(JSON.stringify($scope.primeiroAnel));
         return controlador.aneis;
       };
 
@@ -145,12 +141,19 @@ angular.module('influuntApp')
       };
 
       inicializaEnderecos = function() {
-        _.each($scope.aneis, function(anel) {
-          if (!angular.isDefined(anel.enderecos) || anel.enderecos.length === 0) {
+        $scope.objeto.todosEnderecos = $scope.objeto.todosEnderecos || [];
+
+        _.each($scope.aneis, function(anel,index) {
+
+          if (!angular.isDefined(anel.enderecos) || anel.enderecos.length === 0 && anel.posicao !== 1) {
             var enderecos = [{ idJson: UUID.generate() }, { idJson: UUID.generate() }];
             anel.enderecos = enderecos;
-            $scope.objeto.todosEnderecos = $scope.objeto.todosEnderecos || [];
             $scope.objeto.todosEnderecos = _.concat($scope.objeto.todosEnderecos, enderecos);
+          } else {
+             _.forEach($scope.objeto.todosEnderecos, function(e) {
+                  var enderecos = _.find($scope.objeto.todosEnderecos, { idJson: e.idJson });
+                  anel.enderecos.push(enderecos);
+                });
           }
         });
       };
@@ -169,20 +172,11 @@ angular.module('influuntApp')
       };
 
       atualizaCurrentEnderecos = function() {
-        $scope.currentEnderecos = [];
-        if ($scope.currentAnel.CLA=="1.000.0001.1") {
-          _.forEach($scope.objeto.todosEnderecos, function(e) {
-              var enderecos = _.find($scope.objeto.todosEnderecos, { idJson: e.idJson });
-              $scope.currentEnderecos.push(enderecos);
-            });
-        } else {
           var ids = _.map($scope.currentAnel.enderecos, 'idJson');
            $scope.currentEnderecos = _
              .chain($scope.objeto.todosEnderecos)
              .filter(function(e) { return ids.indexOf(e.idJson) >= 0; })
              .value();
-        }
-
         return $scope.currentEnderecos;
       };
 
