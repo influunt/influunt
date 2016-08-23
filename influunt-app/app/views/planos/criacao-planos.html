@@ -74,7 +74,7 @@
 
 
                                     <div class="col-lg-12 col-sm-12 no-padding table-create-plan overflow panel-estagios">
-                                      <uib-alert type="danger" data-ng-if="errors.aneis[currentAnelIndex].planos[currentPlanoIndex]">
+                                      <uib-alert type="danger" data-ng-if="getErrosPlanos(errors.aneis[currentAnelIndex].planos[currentPlanoIndex]).length > 0">
                                         <div style="padding-left: 12px;">
                                           <ul>
                                             <li data-ng-repeat="message in getErrosPlanos(errors.aneis[currentAnelIndex].planos[currentPlanoIndex])">{{ message }}</li>
@@ -100,6 +100,12 @@
                                               data-ng-class="{'origem-transicao-proibida': estagioPlano.origemTransicaoProibida, 'destino-transicao-proibida': estagioPlano.destinoTransicaoProibida}">
                                             <div class="sortable">
                                                 <h4 class="ng-binding">
+                                                  <span class="badge badge-danger"
+                                                    data-ng-if="getErrosEstagiosPlanos($index)"
+                                                    inf-tooltip
+                                                    messages="getErrosEstagiosPlanos($index)">
+                                                    <i class="fa fa-exclamation"></i>
+                                                  </span>
                                                   E{{ getEstagio(estagioPlano).posicao }}
                                                   <i class="fa fa-trash pull-right opcoes-plano-estagio" data-ng-click="removerEstagioPlano(estagioPlano, $index)" data-ng-if="currentEstagiosPlanos.length > 2"></i>
                                                   <i class="fa fa-files-o pull-right opcoes-plano-estagio" data-ng-click="adicionarEstagioPlano(estagioPlano)" aria-hidden="true"></i>
