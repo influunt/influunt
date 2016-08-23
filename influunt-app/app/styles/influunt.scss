@@ -2012,3 +2012,15 @@ tip-tip {
     padding: 5px;
     cursor: help;
 }
+
+.rs-tooltip.hover, .rs-tooltip.edit:hover {
+    border: 1px solid #1ab394;
+}
+
+.rs-tooltip .rs-input {
+    background: #fff;
+    padding: 0px;
+    height: 20px !important;
+    color: #1ab394;
+    font-weight: 600;
+}
