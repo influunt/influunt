@@ -18,6 +18,7 @@ angular.module('influuntApp')
         url: '@',
         anel: '=',
         imagensUrl: '=',
+        options: '=',
         onSuccess: '&',
         onDelete: '&'
       },
@@ -52,7 +53,7 @@ angular.module('influuntApp')
           return val > 0 && filterVisiblePreviews();
         });
 
-        $(element).dropzone({
+        var defaults = {
           url: APP_ROOT + '/imagens',
           dictDefaultMessage: 'Arraste imagens para este local',
           dictFallbackMessage: 'Seu navegador não suporta arrastar e soltar upload de arquivos.',
@@ -88,7 +89,10 @@ angular.module('influuntApp')
               file.previewElement.appendChild(removeButton);
             });
           }
-        });
+        };
+
+        var options = _.merge(defaults, scope.options);
+        $(element).dropzone(options);
       }
     };
   }]);
