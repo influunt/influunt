@@ -100,7 +100,25 @@
             "titulo": "Atraso de Grupo"
         },
         "revisao": {
-            "titulo": "Revisão"
+            "titulo": "Revisão",
+            "alternativa": "Alternativa",
+            "grupo": "Grupo",
+            "tipo": "Tipo",
+            "faseVermelha": "Fase Vermelha",
+            "demandaPrioritaria": "Demanda Prioritaria",
+            "desativacaoTempoMax": "Desativ. Tempo max",
+            "semTransicao": "Este controlador ainda não possui transições cadastradas",
+            "tabelaPadrao": "Tabela Padrão",
+            "amarelo": "Amarelo",
+            "vermelhoLimpeza": "Vermelho Limpeza",
+            "semTransicao": "Este controlador ainda não possui transições cadastradas",
+            "tabelaPadrao": "Tabela Padrão",
+            "estagio": "Amarelo",
+            "ausenciaMinima": "Ausência de Detecção Mínima",
+            "ausenciaMaxima": "Ausência de Detecção Máxima",
+            "deteccaoMinima": "Detecção Permanente Mínima",
+            "deteccaoMaxima": "Detecção Permanente Máxima",
+            "transicaoProibida": "Transição Proíbida"
         },
         "aneis": {
             "titulo": "Configuração de Aneis"
