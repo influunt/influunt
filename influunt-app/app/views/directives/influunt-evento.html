@@ -1,14 +1,16 @@
 <td class="horario10px horarioColor{{evento.posicao}}" data-ng-class="{'horaStripes': evento.tipo === 'ESPECIAL'}"></td>
-<td data-ng-if="evento.tipo !== 'ESPECIAL'">
+<td data-ng-if="TabelaHorariaService.isCurrentTipoEventoNormal()">
   <select name="eventoDiaDaSemana" data-ng-model="evento.diaDaSemana" class="form-control" data-ng-change="verificaAtualizacao()">
     <option data-ng-repeat="dia in dias" value="{{dia.value}}">{{dia.label}}</option>
   </select>
 </td>
-<td data-ng-if="evento.tipo === 'ESPECIAL'">
+<td data-ng-if="TabelaHorariaService.isCurrentTipoEventoEspecial() || TabelaHorariaService.isCurrentTipoEventoNaoRecorrente()">
   <input class="form-control" data-ng-model="evento.nome" data-ng-blur="verificaAtualizacao()"></input>
 </td>
-<td data-ng-if="evento.tipo === 'ESPECIAL'">
-  <input type="datetime" class="form-control" date-time data-ng-model="evento.dataMoment" view="month" auto-close="true" min-view="date" format="DD-MM-YYYY" data-ng-blur="verificaAtualizacao()">
+<td data-ng-if="TabelaHorariaService.isCurrentTipoEventoEspecial() || TabelaHorariaService.isCurrentTipoEventoNaoRecorrente()">
+  <input ng-if="TabelaHorariaService.isCurrentTipoEventoEspecial()" type="datetime" class="form-control" date-time data-ng-model="evento.dataMoment" view="month" auto-close="true" min-view="date" format="DD/MM/YYYY" data-ng-blur="verificaAtualizacao()">
+
+  <input ng-if="TabelaHorariaService.isCurrentTipoEventoNaoRecorrente()" type="datetime" class="form-control" date-time data-ng-model="evento.dataMoment" view="month" auto-close="true" min-view="date" max-view="month" min-date="{{minDate}}" max-date={{maxDate}} default-view="date" format="DD/MM" data-ng-blur="verificaAtualizacao()">
 </td>
 <td>
   <select name="eventoHora" data-ng-model="evento.hora" class="form-control" data-ng-change="verificaAtualizacao()">

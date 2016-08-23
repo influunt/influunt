@@ -3,9 +3,10 @@
     <thead>
     <tr>
         <th></th>
-        <th data-ng-if="currentTipoEvento !== 'ESPECIAL'">{{ 'tabelaHorarios.dias' | translate }}</th>
-        <th data-ng-if="currentTipoEvento === 'ESPECIAL'">{{ 'tabelaHorarios.nome' | translate }}</th>
-        <th data-ng-if="currentTipoEvento === 'ESPECIAL'">{{ 'tabelaHorarios.data' | translate }}</th>
+        <th data-ng-if="TabelaHorariaService.isCurrentTipoEventoNormal()">{{ 'tabelaHorarios.dias' | translate }}</th>
+        <th data-ng-if="TabelaHorariaService.isCurrentTipoEventoEspecial() || TabelaHorariaService.isCurrentTipoEventoNaoRecorrente()">{{ 'tabelaHorarios.nome' | translate }}</th>
+        <th data-ng-if="TabelaHorariaService.isCurrentTipoEventoEspecial()">{{ 'tabelaHorarios.data' | translate }}</th>
+        <th data-ng-if="TabelaHorariaService.isCurrentTipoEventoNaoRecorrente()">{{ 'tabelaHorarios.mesAno' | translate }}</th>
         <th colspan="2">{{ 'tabelaHorarios.horario' | translate }}</th>
         <th colspan="3">{{ 'tabelaHorarios.plano' | translate }}</th>
     </tr>
@@ -35,7 +36,7 @@
     </tbody>
   </table>
 </div>
-<div class="col-lg-5 col-sm-5 no-padding-right lightgray-bg">
+<div class="col-lg-5 col-sm-5 no-padding-right lightgray-bg" ng-show="!TabelaHorariaService.isCurrentTipoEventoNaoRecorrente()">
   <ng-include src="'views/tabela_horarios/quadro-horarios.html'">
 </div>
 <!-- MODAL -->

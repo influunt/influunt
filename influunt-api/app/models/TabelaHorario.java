@@ -41,7 +41,7 @@ public class TabelaHorario extends Model implements Cloneable, Serializable {
     @OneToOne
     private Anel anel;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "tabelaHorario", cascade = CascadeType.ALL)
     @Valid
     private List<Evento> eventos;
 
