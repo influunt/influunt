@@ -553,7 +553,7 @@ angular.module('influuntApp')
               var grupoSemaforicoPlanoIdJson = $scope.currentPlano.gruposSemaforicosPlanos[index].idJson;
               var grupoSemaforicoPlano = _.find($scope.objeto.gruposSemaforicosPlanos, {idJson: grupoSemaforicoPlanoIdJson});
               var grupoSemaforico = _.find($scope.objeto.gruposSemaforicos, {idJson: grupoSemaforicoPlano.grupoSemaforico.idJson});
-              var texto = "G"+grupoSemaforico.posicao+" - "+erro.respeitaVerdesDeSeguranca[0];
+              var texto = 'G' + grupoSemaforico.posicao + ' - ' + erro.respeitaVerdesDeSeguranca[0];
               erros.push(texto);
             }
           });
