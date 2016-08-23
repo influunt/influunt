@@ -313,7 +313,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
     public Integer getTempoVerdeDoGrupoSemaforico(List<EstagioPlano> listaEstagioPlanos, GrupoSemaforico grupoSemaforico) {
         Integer tempoVerde = 0;
         EstagioPlano estagioPlanoAnterior = getEstagioPlanoAnterior(listaEstagioPlanos);
-        while (!this.equals(estagioPlanoAnterior) &&  estagioPlanoAnterior.getEstagio().getGruposSemaforicos().contains(grupoSemaforico)) {
+        while (!this.equals(estagioPlanoAnterior) && estagioPlanoAnterior.getEstagio().getGruposSemaforicos().contains(grupoSemaforico)) {
             tempoVerde += estagioPlanoAnterior.getTempoVerdeEstagio();
             estagioPlanoAnterior = estagioPlanoAnterior.getEstagioPlanoAnterior(listaEstagioPlanos);
         }
@@ -327,7 +327,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
     }
 
     public Integer getTempoVerdeEstagio() {
-        if (this.getPlano().isAtuado()){
+        if (this.getPlano().isAtuado()) {
             return this.getTempoVerdeMinimo();
         }
         return this.getTempoVerde();

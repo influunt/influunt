@@ -16,6 +16,13 @@ PUT         /api/v1/areas/:id                           controllers.AreasControl
 GET         /api/v1/areas/:id                           controllers.AreasController.findOne(id)
 DELETE      /api/v1/areas/:id                           controllers.AreasController.delete(id)
 
+# Subareas
+GET         /api/v1/subareas                               controllers.SubareasController.findAll()
+POST        /api/v1/subareas                               controllers.SubareasController.create()
+PUT         /api/v1/subareas/:id                           controllers.SubareasController.update(id)
+GET         /api/v1/subareas/:id                           controllers.SubareasController.findOne(id)
+DELETE      /api/v1/subareas/:id                           controllers.SubareasController.delete(id)
+
 # Controladores
 GET         /api/v1/controladores                                 controllers.ControladoresController.findAll()
 POST        /api/v1/controladores/dados_basicos                   controllers.ControladoresController.dadosBasicos()

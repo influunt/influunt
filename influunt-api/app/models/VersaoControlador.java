@@ -141,6 +141,7 @@ public class VersaoControlador extends Model implements Serializable {
 
     /**
      * Retorna a {@link List<VersaoControlador>}
+     *
      * @param controlador
      * @return
      */

@@ -17,12 +17,14 @@ import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
 import play.test.WithApplication;
-import scala.collection.script.End;
 import security.AllowAllAuthenticator;
 import security.Authenticator;
 
-import java.lang.reflect.*;
-import java.util.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 import static play.inject.Bindings.bind;
@@ -304,7 +306,7 @@ public class ControladoresControllerTest extends WithApplication {
                 });
             });
 
-            if(anel.getTabelaHorario() != null) {
+            if (anel.getTabelaHorario() != null) {
                 assertFields(anel.getTabelaHorario(), anelClonado.getTabelaHorario());
                 anel.getTabelaHorario().getEventos().forEach(evento -> {
                     Evento eventoClonado = anelClonado.getTabelaHorario().getEventos().stream().filter(aux -> aux.getIdJson().equals(evento.getIdJson())).findFirst().orElse(null);

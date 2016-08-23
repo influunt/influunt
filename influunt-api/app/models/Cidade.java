@@ -40,16 +40,20 @@ public class Cidade extends Model implements Cloneable, Serializable {
 
     @Column
     private String idJson;
+
     @Column
     @NotBlank(message = "não pode ficar em branco")
     private String nome;
+
     @OneToMany(mappedBy = "cidade", cascade = CascadeType.REMOVE)
     private List<Area> areas;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)

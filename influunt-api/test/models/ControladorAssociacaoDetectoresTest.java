@@ -41,8 +41,8 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
 
         Anel anelCom2Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
 
-        for(int i = 0; i < 5; i++){
-            criarDetector(anelCom2Estagios, TipoDetector.PEDESTRE, i+1);
+        for (int i = 0; i < 5; i++) {
+            criarDetector(anelCom2Estagios, TipoDetector.PEDESTRE, i + 1);
         }
 
         erros = getErros(controlador);
@@ -62,8 +62,8 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
 
         anelCom2Estagios.setDetectores(null);
 
-        for(int i = 0; i < 8; i++){
-            criarDetector(anelCom2Estagios, TipoDetector.VEICULAR, i+1);
+        for (int i = 0; i < 8; i++) {
+            criarDetector(anelCom2Estagios, TipoDetector.VEICULAR, i + 1);
         }
 
         anelCom2Estagios.setDetectores(null);
