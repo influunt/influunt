@@ -2002,3 +2002,13 @@ tip-tip {
     display: block;
     padding-bottom: 20px;
 }
+
+.wrapper-content .basic-wizard .content .body span.badge.badge-danger.badge-notification.tooltipstered {
+    display: block;
+    border-radius: 0;
+    font-size: 15px;
+    position: absolute;
+    width: 100%;
+    padding: 5px;
+    cursor: help;
+}

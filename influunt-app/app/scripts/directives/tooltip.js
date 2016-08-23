@@ -17,7 +17,7 @@ angular.module('influuntApp')
         $(document).ready(function() {
           $(element[0]).tooltipster({
             contentAsHTML: true,
-            trigger: 'click',
+            trigger: 'hover',
             side: 'right',
             theme: 'tooltipster-error-tag'
           });
