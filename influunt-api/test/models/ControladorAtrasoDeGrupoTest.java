@@ -25,6 +25,8 @@ import static play.test.Helpers.route;
  */
 public class ControladorAtrasoDeGrupoTest extends ControladorTest {
 
+    private String CONTROLADOR = "Controlador";
+
     @Override
     @Test
     public void testVazio() {
@@ -48,30 +50,30 @@ public class ControladorAtrasoDeGrupoTest extends ControladorTest {
 
         List<Erro> erros = getErros(controlador);
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro("Controlador", "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[0].atrasoDeGrupoPresent"),
-                new Erro("Controlador", "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[1].atrasoDeGrupoPresent"),
-                new Erro("Controlador", "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[2].atrasoDeGrupoPresent"),
-                new Erro("Controlador", "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[3].atrasoDeGrupoPresent"),
-                new Erro("Controlador", "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[4].atrasoDeGrupoPresent"),
-                new Erro("Controlador", "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[5].atrasoDeGrupoPresent"),
-                new Erro("Controlador", "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[6].atrasoDeGrupoPresent"),
-                new Erro("Controlador", "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[7].atrasoDeGrupoPresent"),
-                new Erro("Controlador", "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[8].atrasoDeGrupoPresent"),
-                new Erro("Controlador", "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[0].atrasoDeGrupoPresent"),
-                new Erro("Controlador", "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[1].atrasoDeGrupoPresent"),
-                new Erro("Controlador", "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[2].atrasoDeGrupoPresent"),
-                new Erro("Controlador", "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[3].atrasoDeGrupoPresent"),
-                new Erro("Controlador", "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[4].atrasoDeGrupoPresent"),
-                new Erro("Controlador", "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[5].atrasoDeGrupoPresent"),
-                new Erro("Controlador", "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[6].atrasoDeGrupoPresent"),
-                new Erro("Controlador", "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[7].atrasoDeGrupoPresent"),
-                new Erro("Controlador", "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[8].atrasoDeGrupoPresent"),
-                new Erro("Controlador", "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[9].atrasoDeGrupoPresent"),
-                new Erro("Controlador", "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[10].atrasoDeGrupoPresent"),
-                new Erro("Controlador", "Essa transição deve ter um atraso de grupo.", "aneis[1].gruposSemaforicos[0].transicoes[0].atrasoDeGrupoPresent"),
-                new Erro("Controlador", "Essa transição deve ter um atraso de grupo.", "aneis[1].gruposSemaforicos[0].transicoes[1].atrasoDeGrupoPresent"),
-                new Erro("Controlador", "Essa transição deve ter um atraso de grupo.", "aneis[1].gruposSemaforicos[1].transicoes[0].atrasoDeGrupoPresent"),
-                new Erro("Controlador", "Essa transição deve ter um atraso de grupo.", "aneis[1].gruposSemaforicos[1].transicoes[1].atrasoDeGrupoPresent")
+                new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[0].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[1].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[2].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[3].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[4].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[5].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[6].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[7].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[8].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[0].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[1].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[2].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[3].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[4].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[5].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[6].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[7].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[8].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[9].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[10].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[1].gruposSemaforicos[0].transicoes[0].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[1].gruposSemaforicos[0].transicoes[1].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[1].gruposSemaforicos[1].transicoes[0].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[1].gruposSemaforicos[1].transicoes[1].atrasoDeGrupoPresent")
         ));
         assertEquals(24, erros.size());
     }

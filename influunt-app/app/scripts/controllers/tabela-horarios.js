@@ -289,7 +289,7 @@ angular.module('influuntApp')
           index++;
         });
         _.filter($scope.objeto.eventos, {tipo: 'ESPECIAL_NAO_RECORRENTE'}).forEach(function (evento){
-          evento.posicao = index + 1;
+          evento.posicao = index;
           index++;
         });
       };

@@ -307,7 +307,7 @@ public class ControladoresControllerTest extends WithApplication {
             });
         }); // FIM ANEIS
 
-        if(controlador.getTabelaHoraria() != null) {
+        if (controlador.getTabelaHoraria() != null) {
             assertFields(controlador.getTabelaHoraria(), controladorClonado.getTabelaHoraria());
             controlador.getTabelaHoraria().getEventos().forEach(evento -> {
                 Evento eventoClonado = controladorClonado.getTabelaHoraria().getEventos().stream().filter(aux -> aux.getIdJson().equals(evento.getIdJson())).findFirst().orElse(null);

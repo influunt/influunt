@@ -182,18 +182,6 @@ public class Evento extends Model implements Cloneable, Serializable {
         this.dataAtualizacao = dataAtualizacao;
     }
 
-    private boolean isEspecialRecorrente() {
-        return this.getTipo() != null && this.getTipo().equals(TipoEvento.ESPECIAL_RECORRENTE);
-    }
-
-    private boolean isEspecialNaoRecorrente() {
-        return this.getTipo() != null && this.getTipo().equals(TipoEvento.ESPECIAL_NAO_RECORRENTE);
-    }
-
-    private boolean isNormal() {
-        return this.getTipo() != null && this.getTipo().equals(TipoEvento.NORMAL);
-    }
-
     @AssertTrue(groups = TabelaHorariosCheck.class,
             message = "Existem eventos configurados no mesmo dia e horário.")
     public boolean isEventosMesmoDiaEHora() {
@@ -207,7 +195,7 @@ public class Evento extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = TabelaHorariosCheck.class,
             message = "não pode ficar em branco")
     public boolean isDiaDaSemana() {
-        if (this.isNormal()) {
+        if (this.isEventoNormal()) {
             return this.getDiaDaSemana() != null;
         }
         return true;
@@ -216,7 +204,7 @@ public class Evento extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = TabelaHorariosCheck.class,
             message = "não pode ficar em branco")
     public boolean isData() {
-        if (this.isEspecialRecorrente() || this.isEventoEspecialNaoRecorrente()) {
+        if (this.isEventoEspecialRecorrente() || this.isEventoEspecialNaoRecorrente()) {
             return this.getData() != null;
         }
         return true;

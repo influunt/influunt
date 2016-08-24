@@ -9,7 +9,6 @@ import json.ControladorCustomSerializer;
 import org.hamcrest.Matchers;
 import org.joda.time.LocalTime;
 import org.junit.Test;
-import play.Logger;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -28,6 +27,8 @@ import static play.test.Helpers.route;
  */
 public class ControladorTabelaHorarioTest extends ControladorTest {
 
+    private String CONTROLADOR = "Controlador";
+
     @Override
     @Test
     public void testVazio() {
@@ -37,7 +38,7 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         List<Erro> erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro("Controlador", "O controlador deve ter tabela horária configurada.", "possuiTabelaHoraria")
+                new Erro(CONTROLADOR, "O controlador deve ter tabela horária configurada.", "possuiTabelaHoraria")
         ));
 
         TabelaHorario tabelaHoraria = new TabelaHorario();
@@ -47,7 +48,7 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro("Controlador", "A tabela horária deve ter pelo menos 1 evento configurado.", "tabelaHoraria.aoMenosUmEvento")
+                new Erro(CONTROLADOR, "A tabela horária deve ter pelo menos 1 evento configurado.", "tabelaHoraria.aoMenosUmEvento")
         ));
 
         Evento evento = new Evento();
@@ -57,10 +58,10 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(4, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro("Controlador", "não pode ficar em branco", "tabelaHoraria.eventos[0].posicao"),
-                new Erro("Controlador", "não pode ficar em branco", "tabelaHoraria.eventos[0].tipo"),
-                new Erro("Controlador", "não pode ficar em branco", "tabelaHoraria.eventos[0].horario"),
-                new Erro("Controlador", "não pode ficar em branco", "tabelaHoraria.eventos[0].posicaoPlano")
+                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].posicao"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].tipo"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].horario"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].posicaoPlano")
         ));
 
         evento.setTipo(TipoEvento.ESPECIAL_RECORRENTE);
@@ -68,10 +69,10 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(4, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro("Controlador", "não pode ficar em branco", "tabelaHoraria.eventos[0].posicao"),
-                new Erro("Controlador", "não pode ficar em branco", "tabelaHoraria.eventos[0].data"),
-                new Erro("Controlador", "não pode ficar em branco", "tabelaHoraria.eventos[0].horario"),
-                new Erro("Controlador", "não pode ficar em branco", "tabelaHoraria.eventos[0].posicaoPlano")
+                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].posicao"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].data"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].horario"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].posicaoPlano")
         ));
 
         evento.setTipo(TipoEvento.ESPECIAL_NAO_RECORRENTE);
@@ -79,10 +80,10 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(4, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro("Controlador", "não pode ficar em branco", "tabelaHoraria.eventos[0].posicao"),
-                new Erro("Controlador", "não pode ficar em branco", "tabelaHoraria.eventos[0].data"),
-                new Erro("Controlador", "não pode ficar em branco", "tabelaHoraria.eventos[0].horario"),
-                new Erro("Controlador", "não pode ficar em branco", "tabelaHoraria.eventos[0].posicaoPlano")
+                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].posicao"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].data"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].horario"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].posicaoPlano")
         ));
 
         evento.setTipo(TipoEvento.NORMAL);
@@ -90,10 +91,10 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(4, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro("Controlador", "não pode ficar em branco", "tabelaHoraria.eventos[0].posicao"),
-                new Erro("Controlador", "não pode ficar em branco", "tabelaHoraria.eventos[0].diaDaSemana"),
-                new Erro("Controlador", "não pode ficar em branco", "tabelaHoraria.eventos[0].horario"),
-                new Erro("Controlador", "não pode ficar em branco", "tabelaHoraria.eventos[0].posicaoPlano")
+                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].posicao"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].diaDaSemana"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].horario"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].posicaoPlano")
         ));
 
         evento.setPosicao(1);
@@ -113,8 +114,8 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(2, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro("Controlador", "Existem eventos configurados no mesmo dia e horário.", "tabelaHoraria.eventos[0].eventosMesmoDiaEHora"),
-                new Erro("Controlador", "Existem eventos configurados no mesmo dia e horário.", "tabelaHoraria.eventos[1].eventosMesmoDiaEHora")
+                new Erro(CONTROLADOR, "Existem eventos configurados no mesmo dia e horário.", "tabelaHoraria.eventos[0].eventosMesmoDiaEHora"),
+                new Erro(CONTROLADOR, "Existem eventos configurados no mesmo dia e horário.", "tabelaHoraria.eventos[1].eventosMesmoDiaEHora")
         ));
 
         evento2.setHorario(LocalTime.parse("00:00:00"));
@@ -147,12 +148,12 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         assertNotNull("Controlador possui tabela horário", controlador.getTabelaHoraria());
 
         assertEquals("A tabela horário possui 3 eventos", 3, controlador.getTabelaHoraria().getEventos().size());
-        assertEquals("A tabela horário possui 1 evento NORMAL", 1, controlador.getTabelaHoraria().getEventos().stream().filter(evento -> evento
-        .isEventoNormal()).count());
-        assertEquals("A tabela horário possui 1 evento RECORRENTE", 1, controlador.getTabelaHoraria().getEventos().stream().filter(evento -> evento
-                .isEventoEspecialRecorrente()).count());
-        assertEquals("A tabela horário possui 1 evento NAO RECORRENTE", 1, controlador.getTabelaHoraria().getEventos().stream().filter(evento -> evento
-                .isEventoEspecialNaoRecorrente()).count());
+        assertEquals("A tabela horário possui 1 evento NORMAL", 1, controlador.getTabelaHoraria().getEventos().stream()
+                .filter(evento -> evento.isEventoNormal()).count());
+        assertEquals("A tabela horário possui 1 evento RECORRENTE", 1, controlador.getTabelaHoraria().getEventos().stream()
+                .filter(evento -> evento.isEventoEspecialRecorrente()).count());
+        assertEquals("A tabela horário possui 1 evento NAO RECORRENTE", 1, controlador.getTabelaHoraria().getEventos().stream()
+                .filter(evento -> evento.isEventoEspecialNaoRecorrente()).count());
     }
 
     @Override
@@ -166,12 +167,12 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         assertNotNull(controladorJson.getId());
 
         assertEquals("A tabela horário possui 3 eventos", 3, controladorJson.getTabelaHoraria().getEventos().size());
-        assertEquals("A tabela horário possui 1 evento NORMAL", 1, controladorJson.getTabelaHoraria().getEventos().stream().filter(evento -> evento
-                .isEventoNormal()).count());
-        assertEquals("A tabela horário possui 1 evento RECORRENTE", 1, controladorJson.getTabelaHoraria().getEventos().stream().filter(evento -> evento
-                .isEventoEspecialRecorrente()).count());
-        assertEquals("A tabela horário possui 1 evento NAO RECORRENTE", 1, controladorJson.getTabelaHoraria().getEventos().stream().filter(evento -> evento
-                .isEventoEspecialNaoRecorrente()).count());
+        assertEquals("A tabela horário possui 1 evento NORMAL", 1, controladorJson.getTabelaHoraria().getEventos().stream()
+                .filter(evento -> evento.isEventoNormal()).count());
+        assertEquals("A tabela horário possui 1 evento RECORRENTE", 1, controladorJson.getTabelaHoraria().getEventos().stream()
+                .filter(evento -> evento.isEventoEspecialRecorrente()).count());
+        assertEquals("A tabela horário possui 1 evento NAO RECORRENTE", 1, controladorJson.getTabelaHoraria().getEventos().stream()
+                .filter(evento -> evento.isEventoEspecialNaoRecorrente()).count());
     }
 
     @Override
@@ -210,12 +211,12 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         assertNotNull(controladorRetornado.getId());
 
         assertEquals("A tabela horário possui 3 eventos", 3, controladorRetornado.getTabelaHoraria().getEventos().size());
-        assertEquals("A tabela horário possui 1 evento NORMAL", 1, controladorRetornado.getTabelaHoraria().getEventos().stream().filter(evento -> evento
-                .isEventoNormal()).count());
-        assertEquals("A tabela horário possui 1 evento RECORRENTE", 1, controladorRetornado.getTabelaHoraria().getEventos().stream().filter(evento -> evento
-                .isEventoEspecialRecorrente()).count());
-        assertEquals("A tabela horário possui 1 evento NAO RECORRENTE", 1, controladorRetornado.getTabelaHoraria().getEventos().stream().filter(evento -> evento
-                .isEventoEspecialNaoRecorrente()).count());
+        assertEquals("A tabela horário possui 1 evento NORMAL", 1, controladorRetornado.getTabelaHoraria().getEventos().stream()
+                .filter(evento -> evento.isEventoNormal()).count());
+        assertEquals("A tabela horário possui 1 evento RECORRENTE", 1, controladorRetornado.getTabelaHoraria().getEventos().stream()
+                .filter(evento -> evento.isEventoEspecialRecorrente()).count());
+        assertEquals("A tabela horário possui 1 evento NAO RECORRENTE", 1, controladorRetornado.getTabelaHoraria().getEventos().stream()
+                .filter(evento -> evento.isEventoEspecialNaoRecorrente()).count());
     }
 
     @Override

@@ -1,10 +1,8 @@
 package json;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import javafx.scene.control.Tab;
 import models.*;
 import org.joda.time.LocalTime;
-import play.libs.Json;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -1007,7 +1005,7 @@ public class ControladorCustomDeserializer {
     }
 
     private void parseTabelaHoraria(JsonNode nodeRoot) {
-        if(nodeRoot.has("tabelaHoraria")) {
+        if (nodeRoot.has("tabelaHoraria")) {
             JsonNode node = nodeRoot.get("tabelaHoraria");
             TabelaHorario tabelaHoraria = new TabelaHorario();
 

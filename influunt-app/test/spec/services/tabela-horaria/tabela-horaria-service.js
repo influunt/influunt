@@ -12,21 +12,21 @@ describe('Service: TabelaHorariaService', function () {
   }));
 
   it('tipo evento corrente deveria ser NORMAL', function () {
-    TabelaHorariaService.initialize("NORMAL");
+    TabelaHorariaService.initialize('NORMAL');
     expect(TabelaHorariaService.isCurrentTipoEventoNormal()).toBe(true);
     expect(TabelaHorariaService.isCurrentTipoEventoEspecial()).not.toBe(true);
     expect(TabelaHorariaService.isCurrentTipoEventoNaoRecorrente()).not.toBe(true);
   });
 
   it('tipo evento corrente deveria ser ESPECIAL', function () {
-    TabelaHorariaService.initialize("ESPECIAL");
+    TabelaHorariaService.initialize('ESPECIAL_RECORRENTE');
     expect(TabelaHorariaService.isCurrentTipoEventoNormal()).not.toBe(true);
     expect(TabelaHorariaService.isCurrentTipoEventoEspecial()).toBe(true);
     expect(TabelaHorariaService.isCurrentTipoEventoNaoRecorrente()).not.toBe(true);
   });
 
   it('tipo evento corrente deveria ser NAO RECORRENTE', function () {
-    TabelaHorariaService.initialize("NAO_RECORRENTE");
+    TabelaHorariaService.initialize('ESPECIAL_NAO_RECORRENTE');
     expect(TabelaHorariaService.isCurrentTipoEventoNormal()).not.toBe(true);
     expect(TabelaHorariaService.isCurrentTipoEventoEspecial()).not.toBe(true);
     expect(TabelaHorariaService.isCurrentTipoEventoNaoRecorrente()).toBe(true);

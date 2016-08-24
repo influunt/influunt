@@ -1,6 +1,5 @@
 package models;
 
-import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 
 import java.util.Arrays;
