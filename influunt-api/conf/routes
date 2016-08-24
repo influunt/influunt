@@ -48,6 +48,13 @@ PUT         /api/v1/fabricantes/:id                     controllers.FabricantesC
 GET         /api/v1/fabricantes/:id                     controllers.FabricantesController.findOne(id)
 DELETE      /api/v1/fabricantes/:id                     controllers.FabricantesController.delete(id)
 
+# Modelos controladores
+GET         /api/v1/modelos                             controllers.ModelosControladoresController.findAll()
+POST        /api/v1/modelos                             controllers.ModelosControladoresController.create()
+PUT         /api/v1/modelos/:id                         controllers.ModelosControladoresController.update(id)
+GET         /api/v1/modelos/:id                         controllers.ModelosControladoresController.findOne(id)
+DELETE      /api/v1/modelos/:id                         controllers.ModelosControladoresController.delete(id)
+
 # Usuarios
 GET         /api/v1/usuarios                            controllers.UsuariosController.findAll()
 POST        /api/v1/usuarios                            controllers.UsuariosController.create()

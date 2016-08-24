@@ -299,7 +299,7 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
                     posicoes.add(tevTransicao.getTabelaEntreVerdes().getPosicao());
                 }
             }
-            return !(getTabelasEntreVerdes().size() > getAnel().getControlador().getLimiteTabelasEntreVerdes());
+            return !(getTabelasEntreVerdes().size() > getAnel().getControlador().getModelo().getLimiteTabelasEntreVerdes());
         }
         return true;
     }

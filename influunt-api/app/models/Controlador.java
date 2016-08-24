@@ -114,36 +114,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
 
     // CONFIGURACOES CONTROLADORES
 
-    @Column
-    @Min(value = 1, message = "Deve ser maior que zero")
-    @NotNull(message = "não pode ficar em branco")
-    private Integer limiteEstagio = 16;
-
-    @Column
-    @Min(value = 1, message = "Deve ser maior que zero")
-    @NotNull(message = "não pode ficar em branco")
-    private Integer limiteGrupoSemaforico = 16;
-
-    @Column
-    @Min(value = 1, message = "Deve ser maior que zero")
-    @NotNull(message = "não pode ficar em branco")
-    private Integer limiteAnel = 4;
-
-    @Column
-    @Min(value = 1, message = "Deve ser maior que zero")
-    @NotNull(message = "não pode ficar em branco")
-    private Integer limiteDetectorPedestre = 4;
-
-    @Column
-    @Min(value = 1, message = "Deve ser maior que zero")
-    @NotNull(message = "não pode ficar em branco")
-    private Integer limiteDetectorVeicular = 8;
-
-    @Column
-    @Min(value = 1, message = "Deve ser maior que zero")
-    @NotNull(message = "não pode ficar em branco")
-    private Integer limiteTabelasEntreVerdes = 2;
-
     @Override
     public void save() {
         antesDeSalvarOuAtualizar();
@@ -159,7 +129,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
     private void antesDeSalvarOuAtualizar() {
         if (this.getId() == null) {
             this.setStatusControlador(StatusControlador.EM_CONFIGURACAO);
-            int quantidade = this.getLimiteAnel();
+            int quantidade = this.getModelo().getLimiteAnel();
             for (int i = 0; i < quantidade; i++) {
                 this.addAnel(new Anel(this, i + 1));
             }
@@ -362,55 +332,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
         this.enderecos = enderecos;
     }
 
-    public Integer getLimiteEstagio() {
-        return limiteEstagio;
-    }
-
-    public void setLimiteEstagio(Integer limiteEstagio) {
-        this.limiteEstagio = limiteEstagio;
-    }
-
-    public Integer getLimiteGrupoSemaforico() {
-        return limiteGrupoSemaforico;
-    }
-
-    public void setLimiteGrupoSemaforico(Integer limiteGrupoSemaforico) {
-        this.limiteGrupoSemaforico = limiteGrupoSemaforico;
-    }
-
-    public Integer getLimiteAnel() {
-        return limiteAnel;
-    }
-
-    public void setLimiteAnel(Integer limiteAnel) {
-        this.limiteAnel = limiteAnel;
-    }
-
-    public Integer getLimiteDetectorPedestre() {
-        return limiteDetectorPedestre;
-    }
-
-    public void setLimiteDetectorPedestre(Integer limiteDetectorPedestre) {
-        this.limiteDetectorPedestre = limiteDetectorPedestre;
-    }
-
-    public Integer getLimiteDetectorVeicular() {
-        return limiteDetectorVeicular;
-    }
-
-    public void setLimiteDetectorVeicular(Integer limiteDetectorVeicular) {
-        this.limiteDetectorVeicular = limiteDetectorVeicular;
-    }
-
-    public Integer getLimiteTabelasEntreVerdes() {
-        return limiteTabelasEntreVerdes;
-    }
-
-    public void setLimiteTabelasEntreVerdes(Integer limiteTabelasEntreVerdes) {
-        this.limiteTabelasEntreVerdes = limiteTabelasEntreVerdes;
-    }
-
-    public void criarPossiveisTransicoes() {
+    private void criarPossiveisTransicoes() {
         for (Anel anel : getAneis()) {
             for (GrupoSemaforico grupoSemaforico : anel.getGruposSemaforicos()) {
                 grupoSemaforico.criarPossiveisTransicoes();

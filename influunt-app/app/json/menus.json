@@ -9,6 +9,11 @@
         "route": "app.fabricantes"
       },
       {
+        "name": "modelos",
+        "label": "modelos.titulo",
+        "route": "app.modelos"
+      },
+      {
         "name": "cidades",
         "label": "cidades.titulo",
         "route": "app.cidades"

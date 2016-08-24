@@ -1,0 +1,24 @@
+<div class="form-group col-md-9">
+  <div ng-repeat="modelo in objeto.modelos">
+
+    <div class="form-group" data-ng-class="{'has-error': errors.modelos[$index].descricao}">
+      <label class="control-label col-md-2">{{ 'modelos_controladores.descricao' | translate }} </label>
+      <div class="col-md-7">
+        <input type="text" name="descricao" class="form-control" ng-model="modelo.descricao" placeholder="Descrição"/>
+        <p class="help-block error-msg" data-ng-repeat="error in errors.modelos[$index].descricao">{{ error }}</p>
+      </div>
+      <div class="col-md-2">
+        <a ng-click="removerModelo($index)" class="btn btn-xs btn-danger">Excluir</a>
+      </div>
+    </div>
+
+    <hr/>
+  </div>
+
+  <div class="form-group">
+    <div class="col-md-offset-6">
+      <a ng-click="adicionarModelo()" class="btn btn-success btn-xs right">{{'fabricantes.adicionar_modelo_controlador' | translate}}</a>
+    </div>
+  </div>
+</div>
+

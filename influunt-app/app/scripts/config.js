@@ -78,7 +78,7 @@ angular
           controller: 'CidadesCtrl',
           controllerAs: 'cidades',
           data: {
-						title: 'cidades.titulo',
+            title: 'cidades.titulo',
             breadcrumb: 'cidades.novo'
           }
         })
@@ -89,7 +89,7 @@ angular
           controller: 'CidadesCtrl',
           controllerAs: 'cidades',
           data: {
-						title: 'cidades.titulo',
+            title: 'cidades.titulo',
             breadcrumb: 'cidades.editar'
           }
         })
@@ -100,7 +100,7 @@ angular
           controller: 'CidadesCtrl',
           controllerAs: 'cidades',
           data: {
-						title: 'cidades.titulo',
+            title: 'cidades.titulo',
             breadcrumb: 'cidades.mostrar'
           }
         })
@@ -284,7 +284,7 @@ angular
           controllerAs: 'fabricantes',
           data: {
             title: 'fabricantes.titulo',
-						breadcrumb: 'fabricantes.novo'
+            breadcrumb: 'fabricantes.novo'
           }
         })
 
@@ -295,7 +295,7 @@ angular
           controllerAs: 'fabricantes',
           data: {
             title: 'fabricantes.titulo',
-						breadcrumb: 'fabricantes.editar'
+            breadcrumb: 'fabricantes.editar'
           }
         })
 
@@ -306,9 +306,56 @@ angular
           controllerAs: 'fabricantes',
           data: {
             title: 'fabricantes.titulo',
-						breadcrumb: 'fabricantes.mostrar'
+            breadcrumb: 'fabricantes.mostrar'
           }
         })
+
+
+        // Crud Modelos Contolador.
+        .state('app.modelos', {
+          url: '/modelos',
+          templateUrl: 'views/modelos/index.html',
+          controller: 'ModelosCtrl',
+          controllerAs: 'modelos',
+          data: {
+            title: 'modelos.titulo'
+          }
+        })
+
+        .state('app.modelos_new', {
+          url: '/modelos/new',
+          templateUrl: 'views/modelos/new.html',
+          controller: 'ModelosCtrl',
+          controllerAs: 'modelos',
+          data: {
+            title: 'modelos.titulo',
+            breadcrumb: 'modelos.novo'
+          }
+        })
+
+        .state('app.modelos_edit', {
+          url: '/modelos/:id/edit',
+          templateUrl: 'views/modelos/edit.html',
+          controller: 'ModelosCtrl',
+          controllerAs: 'modelos',
+          data: {
+            title: 'modelos.titulo',
+            breadcrumb: 'modelos.editar'
+          }
+        })
+
+        .state('app.modelos_show', {
+          url: '/modelos/:id',
+          templateUrl: 'views/modelos/show.html',
+          controller: 'ModelosCtrl',
+          controllerAs: 'modelos',
+          data: {
+            title: 'modelos.titulo',
+            breadcrumb: 'modelos.mostrar'
+          }
+        })
+
+
 
         .state('app.wizard_controladores', {
           url: '/wizard-controladores',
@@ -317,7 +364,7 @@ angular
           abstract: true,
           data: {
             title: 'controladores.titulo',
-						redirectTo: 'app.controladores'
+            redirectTo: 'app.controladores'
           }
         })
 
@@ -455,7 +502,7 @@ angular
           controller: 'PerfisCtrl',
           controllerAs: 'perfis',
           data: {
-						title: 'perfis.titulo',
+            title: 'perfis.titulo',
             breadcrumb: 'perfis.novo'
           }
         })
@@ -466,7 +513,7 @@ angular
           controller: 'PerfisCtrl',
           controllerAs: 'perfis',
           data: {
-						title: 'perfis.titulo',
+            title: 'perfis.titulo',
             breadcrumb: 'perfis.editar'
           }
         })
@@ -477,7 +524,7 @@ angular
           controller: 'PerfisCtrl',
           controllerAs: 'perfis',
           data: {
-						title: 'perfis.titulo',
+            title: 'perfis.titulo',
             breadcrumb: 'perfis.mostrar'
           }
         })
@@ -510,7 +557,7 @@ angular
           controller: 'PermissoesCtrl',
           controllerAs: 'permissoes',
           data: {
-						title: 'permissoes.titulo',
+            title: 'permissoes.titulo',
             breadcrumb: 'permissoes.novo'
           }
         })
@@ -521,7 +568,7 @@ angular
           controller: 'PermissoesCtrl',
           controllerAs: 'permissoes',
           data: {
-						title: 'permissoes.titulo',
+            title: 'permissoes.titulo',
             breadcrumb: 'permissoes.editar'
           }
         })
@@ -532,7 +579,7 @@ angular
           controller: 'PermissoesCtrl',
           controllerAs: 'permissoes',
           data: {
-						title: 'permissoes.titulo',
+            title: 'permissoes.titulo',
             breadcrumb: 'permissoes.mostrar'
           }
         })
@@ -554,7 +601,7 @@ angular
           controller: 'UsuariosCtrl',
           controllerAs: 'usuarios',
           data: {
-						title: 'usuarios.titulo',
+            title: 'usuarios.titulo',
             breadcrumb: 'usuarios.novo'
           }
         })
@@ -565,7 +612,7 @@ angular
           controller: 'UsuariosCtrl',
           controllerAs: 'usuarios',
           data: {
-						title: 'usuarios.titulo',
+            title: 'usuarios.titulo',
             breadcrumb: 'usuarios.editar'
           }
         })
@@ -576,7 +623,7 @@ angular
           controller: 'UsuariosCtrl',
           controllerAs: 'usuarios',
           data: {
-						title: 'usuarios.titulo',
+            title: 'usuarios.titulo',
             breadcrumb: 'usuarios.mostrar'
           }
         })
@@ -598,7 +645,7 @@ angular
           controller: 'AgrupamentosCtrl',
           controllerAs: 'agrupamentos',
           data: {
-						title: 'agrupamentos.titulo',
+            title: 'agrupamentos.titulo',
             breadcrumb: 'agrupamentos.novo'
           }
         })
@@ -609,7 +656,7 @@ angular
           controller: 'AgrupamentosCtrl',
           controllerAs: 'agrupamentos',
           data: {
-						title: 'agrupamentos.titulo',
+            title: 'agrupamentos.titulo',
             breadcrumb: 'agrupamentos.editar'
           }
         })
@@ -620,7 +667,7 @@ angular
           controller: 'AgrupamentosCtrl',
           controllerAs: 'agrupamentos',
           data: {
-						title: 'agrupamentos.titulo',
+            title: 'agrupamentos.titulo',
             breadcrumb: 'agrupamentos.mostrar'
           }
         })

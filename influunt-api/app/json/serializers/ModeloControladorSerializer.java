@@ -26,6 +26,24 @@ public class ModeloControladorSerializer extends JsonSerializer<ModeloControlado
         if (modeloControlador.getDescricao() != null) {
             jgen.writeStringField("descricao", modeloControlador.getDescricao());
         }
+        if (modeloControlador.getLimiteEstagio() != null) {
+            jgen.writeNumberField("limiteEstagio", modeloControlador.getLimiteEstagio());
+        }
+        if (modeloControlador.getLimiteGrupoSemaforico() != null) {
+            jgen.writeNumberField("limiteGrupoSemaforico", modeloControlador.getLimiteGrupoSemaforico());
+        }
+        if (modeloControlador.getLimiteAnel() != null) {
+            jgen.writeNumberField("limiteAnel", modeloControlador.getLimiteAnel());
+        }
+        if (modeloControlador.getLimiteDetectorPedestre() != null) {
+            jgen.writeNumberField("limiteDetectorPedestre", modeloControlador.getLimiteDetectorPedestre());
+        }
+        if (modeloControlador.getLimiteDetectorVeicular() != null) {
+            jgen.writeNumberField("limiteDetectorVeicular", modeloControlador.getLimiteDetectorVeicular());
+        }
+        if (modeloControlador.getLimiteTabelasEntreVerdes() != null) {
+            jgen.writeNumberField("limiteTabelasEntreVerdes", modeloControlador.getLimiteTabelasEntreVerdes());
+        }
         if (modeloControlador.getDataCriacao() != null) {
             jgen.writeStringField("dataCriacao", InfluuntDateTimeSerializer.parse(modeloControlador.getDataCriacao()));
         }
@@ -33,7 +51,10 @@ public class ModeloControladorSerializer extends JsonSerializer<ModeloControlado
             jgen.writeStringField("dataAtualizacao", InfluuntDateTimeSerializer.parse(modeloControlador.getDataCriacao()));
         }
         if (modeloControlador.getFabricante() != null) {
-            Fabricante fabricanteAux = ObjectUtils.clone(modeloControlador.getFabricante());
+            // TODO: Remover THOR! Nome do fabricante só foi retornado do BD depois de um findList()!
+            Fabricante.find.findList();
+            Fabricante fabricanteAux = ObjectUtils.clone(Fabricante.find.byId(modeloControlador.getFabricante().getId()));
+
             fabricanteAux.setModelos(null);
             jgen.writeObjectField("fabricante", fabricanteAux);
         }

@@ -200,7 +200,7 @@
     "fabricantes": {
         "adicionar_modelo_controlador": "adicionar modelo controlador",
         "fabricante": "FABRICANTE",
-        "modelo": "MODELO CONTROLADOR",
+        "modelo": "MODELOS",
         "nome": "NOME",
         "novo": "Novo Fabricante",
         "editar": "Editar Fabricante",
@@ -218,10 +218,16 @@
         "visualizar": "Visualizar",
         "voltar": "Voltar"
     },
-    "modelos_controladores": {
+    "modelos": {
         "descricao": "DESCRIÇÃO",
         "fabricante": "FABRICANTE",
-        "configuracao": "CONFIGURAÇÃO CONTROLADOR",
+        "limiteEstagio": "LIMITE ESTÁGIOS",
+        "limiteGrupoSemaforico": "LIMITE GRUPOS SEMAFÓRICOS",
+        "limiteAnel": "LIMITE ANEIS",
+        "limiteDetectorPedestre": "LIMITE DETECTORES PEDESTRE",
+        "limiteDetectorVeicular": "LIMITE DETECTORES VEICULARES",
+        "limiteTabelasEntreVerdes": "LIMITE TABELAS ENTRE-VERDES",
+        "limites": "LIMITES",
         "titulo": "Modelo de Controladores",
         "novo": "Novo Modelo de Controlador",
         "mostrar": "Visualizar Modelo de Controlador",
