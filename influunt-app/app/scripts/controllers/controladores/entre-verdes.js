@@ -83,7 +83,6 @@ angular.module('influuntApp')
           var grupoSemaforico = _.find($scope.objeto.gruposSemaforicos, {idJson: gs.idJson});
           var totalTabelasEntreVerdes = grupoSemaforico.tabelasEntreVerdes.length;
           if (totalTabelasEntreVerdes < $scope.limiteTabelasEntreVerdes) {
-
             var tabelaEntreVerde =  {
               idJson: UUID.generate(),
               descricao: 'Nova',
@@ -115,11 +114,11 @@ angular.module('influuntApp')
               transicao.tabelaEntreVerdesTransicoes.push({ idJson: tevTransicao.idJson });
               tabelaEntreVerde.tabelaEntreVerdesTransicoes.push({ idJson: tevTransicao.idJson });
             });
-
-            $scope.atualizaTabelaEntreVerdes();
-            $scope.selecionaTabelaEntreVerdes($scope.currentTabelasEntreVerdes[totalTabelasEntreVerdes], totalTabelasEntreVerdes);
           }
         });
+        $scope.atualizaTabelaEntreVerdes();
+        var index = $scope.currentGrupoSemaforico.tabelasEntreVerdes.length - 1;
+        $scope.selecionaTabelaEntreVerdes($scope.currentTabelasEntreVerdes[index], index);
       };
 
       $scope.removerTabelaEntreVerdes = function(index) {
@@ -230,6 +229,7 @@ angular.module('influuntApp')
         $scope.atualizaGruposSemaforicos();
         $scope.selecionaGrupoSemaforico($scope.currentGruposSemaforicos[0], 0);
         $scope.atualizaTabelaEntreVerdes();
+        $scope.selecionaTabelaEntreVerdes($scope.currentTabelasEntreVerdes[0], 0);
       };
 
     }]);
