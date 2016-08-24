@@ -2286,7 +2286,56 @@ tip-tip {
     font-weight: 600;
 }
 
-.revisao strong {
+.wrapper-content .basic-wizard .content .body .movements #croqui.dropzone {
+  padding: 0;
+  .dz-preview, .dropzone-previews .dz-preview {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      display: block;
+      padding: 0;
+  }
+  .dz-preview .dz-details, .dropzone-previews .dz-preview .dz-details {
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      display: table;
+      top: 45px;
+  }
+  .dz-preview .dz-details img, .dropzone-previews .dz-preview .dz-details img {
+      width: 100%;
+      height: auto !important;
+  }
+  .dz-preview .dz-progress, .dropzone-previews .dz-preview .dz-progress {
+      top: 6px;
+  }
+  .dz-preview .dz-details .dz-size, .dropzone-previews .dz-preview .dz-details .dz-size {
+      display: none;
+  }
+  .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
+      margin-top: 0;
+      position: relative;
+  }
+
+}
+
+.wrapper-content .basic-wizard .content .body .movements #croqui .dz-default.dz-message span {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+    width: 100%;
+    height: 250px;
+    padding: 120px 20px 0 20px;
+    margin: 20px 0;
+}
+.wrapper-content .basic-wizard .content .body .croqui.movements {
+  height: auto !important;
+  min-height: 680px;
+  overflow: auto !important;
+}
+
+.wrapper-content .basic-wizard .content .body .revisao strong {
   text-transform: uppercase;
 }
 
@@ -2309,12 +2358,15 @@ tip-tip {
     width: 100%;
     height: auto !important;
 }
+
 #croqui {
     padding: 0;
 }
+
 #croqui.dropzone .dz-preview .dz-progress, .dropzone-previews .dz-preview .dz-progress {
     top: 6px;
 }
+
 #croqui.dropzone .dz-preview .dz-details .dz-size, .dropzone-previews .dz-preview .dz-details .dz-size {
     display: none;
 }
@@ -2322,21 +2374,5 @@ tip-tip {
 #croqui.dropzone .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
     margin-top: 0;
     position: relative;
-}
-
-.wrapper-content .basic-wizard .content .body .movements #croqui .dz-default.dz-message span {
-    display: block;
-    font-size: 13px;
-    font-weight: 700;
-    text-align: center;
-    width: 100%;
-    height: 250px;
-    padding: 120px 20px 0 20px;
-    margin: 20px 0;
-}
-.col-lg-12.col-sm-12.croqui.movements {
-  height: auto !important;
-  min-height: 680px;
-  overflow: auto !important;
 }
 
