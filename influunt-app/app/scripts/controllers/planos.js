@@ -133,7 +133,11 @@ angular.module('influuntApp')
       };
 
       $scope.renomearPlano = function(plano) {
-        influuntAlert.prompt('Renomear plano', 'Digite no campo abaixo um nome para este plan')
+        influuntAlert
+          .prompt(
+            $filter('translate')('planos.renomearPlano.tituloAlert'),
+            $filter('translate')('planos.renomearPlano.mensagemAlert')
+          )
           .then(function(res) {
             if (!res) {
               return false;
