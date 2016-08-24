@@ -7,14 +7,14 @@
  * # influuntMetis
  */
 angular.module('influuntApp')
-  .directive('influuntRevisao', ['$timeout', function ($timeout) {
+  .directive('influuntRevisao', ['$timeout', function () {
     return {
       restrict: 'E',
       templateUrl: 'views/directives/influunt-revisao.html',
       objeto: '=',
       showFooter: '=',
-      link: function postLink(scope, element) {
+      link: function postLink() {
 
       }
-    }
+    };
   }]);

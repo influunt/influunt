@@ -1,9 +1,9 @@
-<div class="middle-box text-center loginscreen  animated fadeInDown">
+<div class="middle-box text-center  animated fadeInDown">
   <div>
     <div>
       <img src="images/logo-escura.png" alt="Influunt" style="width: 256px; height: auto">
     </div>
-    <h3>{{gera.titulo_padrao}}</h3>
+    <h3>{{'titulo_padrao' | translate}}</h3>
     <form class="m-t" name="loginForm" data-ng-submit="submitLogin(loginForm.$valid)" novalidate>
       <div class="form-group login usuario" data-ng-class="{'has-error': loginForm.usuario.$invalid && (!loginForm.usuario.$pristine || submited)}">
         <input type="text" class="form-control" name="usuario" placeholder="{{ 'login.usuario' | translate }}" data-ng-model="credenciais.login" required>
@@ -17,12 +17,11 @@
       <div class="widget red-bg p-xl" id="alert" style="display:none">
 
         <h2>
-          {{geral.atencao}}
+          {{'geral.atencao' | translate}}
         </h2>
         <br>
-        <p>{{gera.navegador.aviso}}</p>
-
-        <p>{{geral.navegador.recomendacao}}</p>
+        <p data-ng-bind-html="'navegador.aviso' | translate"></p>
+        <p data-ng-bind-html="'navegador.recomendacao' | translate"></p>
       </div>
 
       <button type="submit" class="btn btn-primary block full-width m-b" id="acessar" >{{ 'login.acessar' | translate }}</button>
