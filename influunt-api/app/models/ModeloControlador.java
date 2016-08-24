@@ -15,6 +15,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -93,6 +94,15 @@ public class ModeloControlador extends Model implements Cloneable, Serializable 
         super();
         this.idJson = UUID.randomUUID().toString();
     }
+
+    public static ModeloControlador findById(UUID id) {
+        return find.fetch("fabricante").where().eq("id", id).findUnique();
+    }
+
+    public static List<ModeloControlador> findAll() {
+        return find.fetch("fabricante").findList();
+    }
+
 
     public String getIdJson() {
         return idJson;
@@ -189,7 +199,6 @@ public class ModeloControlador extends Model implements Cloneable, Serializable 
     public void setDataAtualizacao(DateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
     }
-
 
 
     @Override

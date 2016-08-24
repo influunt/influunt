@@ -51,10 +51,7 @@ public class ModeloControladorSerializer extends JsonSerializer<ModeloControlado
             jgen.writeStringField("dataAtualizacao", InfluuntDateTimeSerializer.parse(modeloControlador.getDataCriacao()));
         }
         if (modeloControlador.getFabricante() != null) {
-            // TODO: Remover THOR! Nome do fabricante só foi retornado do BD depois de um findList()!
-            Fabricante.find.findList();
-            Fabricante fabricanteAux = ObjectUtils.clone(Fabricante.find.byId(modeloControlador.getFabricante().getId()));
-
+            Fabricante fabricanteAux = ObjectUtils.clone(modeloControlador.getFabricante());
             fabricanteAux.setModelos(null);
             jgen.writeObjectField("fabricante", fabricanteAux);
         }

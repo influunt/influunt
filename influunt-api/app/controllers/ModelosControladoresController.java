@@ -15,7 +15,7 @@ public class ModelosControladoresController extends Controller {
 
     @Transactional
     public CompletionStage<Result> findAll() {
-        return CompletableFuture.completedFuture(ok(Json.toJson(ModeloControlador.find.findList())));
+        return CompletableFuture.completedFuture(ok(Json.toJson(ModeloControlador.findAll())));
     }
 
     @Transactional
@@ -37,7 +37,7 @@ public class ModelosControladoresController extends Controller {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         }
 
-        ModeloControlador modeloControlador = ModeloControlador.find.byId(UUID.fromString(id));
+        ModeloControlador modeloControlador = ModeloControlador.findById(UUID.fromString(id));
         if (modeloControlador == null) {
             return CompletableFuture.completedFuture(notFound());
         }
@@ -50,7 +50,7 @@ public class ModelosControladoresController extends Controller {
 
     @Transactional
     public CompletionStage<Result> findOne(String id) {
-        ModeloControlador modeloControlador = ModeloControlador.find.byId(UUID.fromString(id));
+        ModeloControlador modeloControlador = ModeloControlador.findById(UUID.fromString(id));
         if (modeloControlador == null) {
             return CompletableFuture.completedFuture(notFound());
         }
