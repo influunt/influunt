@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import models.Controlador;
+import play.Logger;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -40,6 +41,7 @@ public class TabelaHorariosController extends Controller {
             List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, TabelaHorariosCheck.class);
 
             if (erros.isEmpty()) {
+                Logger.error(controlador.getTabelaHoraria().toString());
                 controlador.update();
                 return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(Controlador.find.byId(controlador.getId()))));
             } else {

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import javafx.scene.control.Tab;
 import models.*;
 import org.joda.time.LocalTime;
+import play.libs.Json;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -846,9 +847,7 @@ public class ControladorCustomDeserializer {
                 Map map = caches.get(TRANSICAO);
                 tabelaEntreVerdesTransicao.setTransicao((Transicao) map.get(transicaoId));
             };
-
             runLater(c);
-
         }
 
         if (node.has("tabelaEntreVerdes")) {
@@ -857,11 +856,8 @@ public class ControladorCustomDeserializer {
                 Map map = caches.get(TABELAS_ENTRE_VERDES);
                 tabelaEntreVerdesTransicao.setTabelaEntreVerdes((TabelaEntreVerdes) map.get(tabelaEntreVerdesId));
             };
-
             runLater(c);
-
         }
-
 
         return tabelaEntreVerdesTransicao;
     }
@@ -1010,29 +1006,29 @@ public class ControladorCustomDeserializer {
         return estagioPlano;
     }
 
-    private void parseTabelaHoraria(JsonNode node) {
-        TabelaHorario tabelaHoraria = new TabelaHorario();
+    private void parseTabelaHoraria(JsonNode nodeRoot) {
+        if(nodeRoot.has("tabelaHoraria")) {
+            JsonNode node = nodeRoot.get("tabelaHoraria");
+            TabelaHorario tabelaHoraria = new TabelaHorario();
 
-        if (node.has("id")) {
-            JsonNode id = node.get("id");
-            if (!id.isNull()) {
-                tabelaHoraria.setId(UUID.fromString(id.asText()));
+            if (node.has("id")) {
+                JsonNode id = node.get("id");
+                if (!id.isNull()) {
+                    tabelaHoraria.setId(UUID.fromString(id.asText()));
+                }
             }
+
+            if (node.has("idJson")) {
+                tabelaHoraria.setIdJson(node.get("idJson").asText());
+            }
+
+            tabelaHoraria.setControlador(controlador);
+            controlador.setTabelaHoraria(tabelaHoraria);
+
+            List<Evento> eventos = new ArrayList<>();
+            parseCollection("eventos", node, eventos, EVENTOS, null);
+            tabelaHoraria.setEventos(eventos);
         }
-
-        if (node.has("idJson")) {
-            tabelaHoraria.setIdJson(node.get("idJson").asText());
-        }
-
-        tabelaHoraria.setControlador(controlador);
-
-        List<Evento> eventos = new ArrayList<>();
-        parseCollection("eventos", node, eventos, EVENTOS, null);
-        tabelaHoraria.setEventos(eventos);
-
-        controlador.setTabelaHoraria(tabelaHoraria);
-
-
     }
 
     private Evento parseEvento(JsonNode node) {
@@ -1082,7 +1078,7 @@ public class ControladorCustomDeserializer {
             evento.setPosicaoPlano(node.get("posicaoPlano").asInt());
         }
 
-        if (node.has("tabelaHorario")) {
+        if (node.has("tabelaHoraria")) {
             evento.setTabelaHorario(controlador.getTabelaHoraria());
         }
 

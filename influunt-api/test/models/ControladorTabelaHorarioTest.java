@@ -187,7 +187,7 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
-        assertEquals(2, json.size());
+        assertEquals(1, json.size());
 
     }
 

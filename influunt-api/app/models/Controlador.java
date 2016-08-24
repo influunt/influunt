@@ -113,7 +113,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
     @Valid
     private List<Endereco> enderecos;
 
-    @OneToOne(mappedBy = "controlador")
+    @OneToOne(mappedBy = "controlador", cascade = CascadeType.ALL)
     @Valid
     private TabelaHorario tabelaHoraria;
 

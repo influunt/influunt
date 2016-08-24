@@ -144,5 +144,16 @@ public class TabelaHorario extends Model implements Cloneable, Serializable {
         return super.clone();
     }
 
+    @Override
+    public String toString() {
+        return "TabelaHorario{" +
+                "id=" + id +
+                ", idJson='" + idJson + '\'' +
+                ", controlador=" + controlador +
+                ", eventos=" + eventos +
+                ", dataCriacao=" + dataCriacao +
+                ", dataAtualizacao=" + dataAtualizacao +
+                '}';
+    }
 }
 

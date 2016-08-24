@@ -647,7 +647,7 @@ public class ControladorCustomSerializer {
             eventoJson.put("posicaoPlano", evento.getPosicaoPlano().toString());
         }
         if (evento.getTabelaHorario() != null && evento.getTabelaHorario().getIdJson() != null) {
-            eventoJson.putObject("tabelaHorario").put("idJson", evento.getTabelaHorario().getIdJson().toString());
+            eventoJson.putObject("tabelaHoraria").put("idJson", evento.getTabelaHorario().getIdJson().toString());
         }
 
         return eventoJson;
