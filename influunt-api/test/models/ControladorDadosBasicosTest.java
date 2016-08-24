@@ -29,6 +29,8 @@ import static play.test.Helpers.route;
  */
 public class ControladorDadosBasicosTest extends ControladorTest {
 
+    private String CONTROLADOR = "Controlador";
+
     @Override
     @Test
     public void testVazio() {
@@ -36,8 +38,8 @@ public class ControladorDadosBasicosTest extends ControladorTest {
         List<Erro> erros = getErros(getControlador());
 
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro("Controlador", "não pode ficar em branco", "modelo"),
-                new Erro("Controlador", "não pode ficar em branco", "area")
+                new Erro(CONTROLADOR, "não pode ficar em branco", "modelo"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "area")
         ));
 
     }

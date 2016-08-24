@@ -168,6 +168,7 @@
         "nome": "Nome",
         "data": "Data",
         "horario": "Horário",
+        "diaMes": "Data (Dia/Mês)",
         "plano": "Plano",
         "descartar": "Descartar",
         "tabelaEspecial": "Tabela de horários especial ativa na semana entre os dias",

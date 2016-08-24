@@ -56,6 +56,10 @@ public class Evento extends Model implements Cloneable, Serializable {
     private String nome;
 
     @Column
+    @NotNull(message = "não pode ficar em branco")
+    private Integer posicaoPlano;
+
+    @Column
     @Enumerated(EnumType.STRING)
     @NotNull(message = "não pode ficar em branco")
     private TipoEvento tipo;
@@ -63,10 +67,6 @@ public class Evento extends Model implements Cloneable, Serializable {
     @ManyToOne
     @NotNull(message = "não pode ficar em branco")
     private TabelaHorario tabelaHorario;
-
-    @ManyToOne
-    @NotNull(message = "não pode ficar em branco")
-    private Plano plano;
 
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
@@ -158,12 +158,12 @@ public class Evento extends Model implements Cloneable, Serializable {
         this.tabelaHorario = tabelaHorario;
     }
 
-    public Plano getPlano() {
-        return plano;
+    public Integer getPosicaoPlano() {
+        return posicaoPlano;
     }
 
-    public void setPlano(Plano plano) {
-        this.plano = plano;
+    public void setPosicaoPlano(Integer posicaoPlano) {
+        this.posicaoPlano = posicaoPlano;
     }
 
     public DateTime getDataCriacao() {
@@ -182,14 +182,6 @@ public class Evento extends Model implements Cloneable, Serializable {
         this.dataAtualizacao = dataAtualizacao;
     }
 
-    private boolean isEspecial() {
-        return this.getTipo() != null && this.getTipo().equals(TipoEvento.ESPECIAL);
-    }
-
-    private boolean isNormal() {
-        return this.getTipo() != null && this.getTipo().equals(TipoEvento.NORMAL);
-    }
-
     @AssertTrue(groups = TabelaHorariosCheck.class,
             message = "Existem eventos configurados no mesmo dia e horário.")
     public boolean isEventosMesmoDiaEHora() {
@@ -201,18 +193,9 @@ public class Evento extends Model implements Cloneable, Serializable {
     }
 
     @AssertTrue(groups = TabelaHorariosCheck.class,
-            message = "O Plano deve pertencer ao mesmo anel da tabela horário.")
-    public boolean isPlanoDoMesmoAnel() {
-        if (this.getPlano() != null && this.getTabelaHorario() != null) {
-            return this.getPlano().getAnel().equals(this.getTabelaHorario().getAnel());
-        }
-        return true;
-    }
-
-    @AssertTrue(groups = TabelaHorariosCheck.class,
             message = "não pode ficar em branco")
     public boolean isDiaDaSemana() {
-        if (this.isNormal()) {
+        if (this.isEventoNormal()) {
             return this.getDiaDaSemana() != null;
         }
         return true;
@@ -221,7 +204,7 @@ public class Evento extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = TabelaHorariosCheck.class,
             message = "não pode ficar em branco")
     public boolean isData() {
-        if (this.isEspecial()) {
+        if (this.isEventoEspecialRecorrente() || this.isEventoEspecialNaoRecorrente()) {
             return this.getData() != null;
         }
         return true;
@@ -246,5 +229,17 @@ public class Evento extends Model implements Cloneable, Serializable {
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    public boolean isEventoNormal() {
+        return TipoEvento.NORMAL.equals(this.getTipo());
+    }
+
+    public boolean isEventoEspecialRecorrente() {
+        return TipoEvento.ESPECIAL_RECORRENTE.equals(this.getTipo());
+    }
+
+    public boolean isEventoEspecialNaoRecorrente() {
+        return TipoEvento.ESPECIAL_NAO_RECORRENTE.equals(this.getTipo());
     }
 }

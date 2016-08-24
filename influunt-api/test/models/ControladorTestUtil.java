@@ -3,6 +3,7 @@ package models;
 import org.joda.time.LocalTime;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -412,50 +413,41 @@ public class ControladorTestUtil {
         Controlador controlador = getControladorPlanos();
         controlador.save();
 
-        Anel anelCom2Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
-        Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
+        TabelaHorario tabelaHoraria = new TabelaHorario();
+        tabelaHoraria.setControlador(controlador);
+        controlador.setTabelaHoraria(tabelaHoraria);
 
-        TabelaHorario tabelaHorarioAnel2Estagios = new TabelaHorario();
-        tabelaHorarioAnel2Estagios.setAnel(anelCom2Estagios);
-        anelCom2Estagios.setTabelaHorario(tabelaHorarioAnel2Estagios);
-
-        TabelaHorario tabelaHorarioAnel4Estagios = new TabelaHorario();
-        tabelaHorarioAnel4Estagios.setAnel(anelCom4Estagios);
-        anelCom4Estagios.setTabelaHorario(tabelaHorarioAnel4Estagios);
-
-        Plano plano1Anel2Estagios = anelCom2Estagios.getPlanos().stream().filter(plano -> plano.getModoOperacao().equals(ModoOperacaoPlano.TEMPO_FIXO_ISOLADO)).findFirst().get();
         Evento evento = new Evento();
-        evento.setTabelaHorario(tabelaHorarioAnel2Estagios);
-        tabelaHorarioAnel2Estagios.addEventos(evento);
+        evento.setTabelaHorario(tabelaHoraria);
+        tabelaHoraria.addEventos(evento);
         evento.setTipo(TipoEvento.NORMAL);
         evento.setPosicao(1);
         evento.setDiaDaSemana(DiaDaSemana.DOMINGO);
         evento.setHorario(LocalTime.parse("10:00:00"));
-        evento.setPlano(plano1Anel2Estagios);
+        evento.setPosicaoPlano(1);
 
         Evento evento2 = new Evento();
-        evento2.setTabelaHorario(tabelaHorarioAnel2Estagios);
-        tabelaHorarioAnel2Estagios.addEventos(evento2);
-        evento2.setTipo(TipoEvento.NORMAL);
+        evento2.setTabelaHorario(tabelaHoraria);
+        tabelaHoraria.addEventos(evento2);
+        evento2.setTipo(TipoEvento.ESPECIAL_RECORRENTE);
         evento2.setPosicao(2);
+        evento2.setData(new Date());
         evento2.setDiaDaSemana(DiaDaSemana.SEGUNDA_A_SABADO);
         evento2.setHorario(LocalTime.parse("18:00:00"));
-        evento2.setPlano(plano1Anel2Estagios);
+        evento2.setPosicaoPlano(1);
 
-        Plano plano1Anel4Estagios = anelCom4Estagios.getPlanos().stream().filter(plano -> plano.getModoOperacao().equals(ModoOperacaoPlano.ATUADO)).findFirst().get();
         Evento evento3 = new Evento();
-        evento3.setTabelaHorario(tabelaHorarioAnel4Estagios);
-        tabelaHorarioAnel4Estagios.addEventos(evento3);
-        evento3.setTipo(TipoEvento.NORMAL);
+        evento3.setTabelaHorario(tabelaHoraria);
+        tabelaHoraria.addEventos(evento3);
+        evento3.setTipo(TipoEvento.ESPECIAL_NAO_RECORRENTE);
         evento3.setPosicao(1);
+        evento3.setData(new Date());
         evento3.setDiaDaSemana(DiaDaSemana.DOMINGO);
         evento3.setHorario(LocalTime.parse("08:00:00"));
-        evento3.setPlano(plano1Anel4Estagios);
-
+        evento3.setPosicaoPlano(1);
 
         return controlador;
     }
-
 
     // METODOS AUXILIARES
 

@@ -3,30 +3,35 @@
     <thead>
     <tr>
         <th></th>
-        <th data-ng-if="currentTipoEvento !== 'ESPECIAL'">{{ 'tabelaHorarios.dias' | translate }}</th>
-        <th data-ng-if="currentTipoEvento === 'ESPECIAL'">{{ 'tabelaHorarios.nome' | translate }}</th>
-        <th data-ng-if="currentTipoEvento === 'ESPECIAL'">{{ 'tabelaHorarios.data' | translate }}</th>
-        <th colspan="2">{{ 'tabelaHorarios.horario' | translate }}</th>
+        <th data-ng-if="tabelaHorariaService.isCurrentTipoEventoNormal()">{{ 'tabelaHorarios.dias' | translate }}</th>
+        <th data-ng-if="tabelaHorariaService.isCurrentTipoEventoEspecial() || tabelaHorariaService.isCurrentTipoEventoNaoRecorrente()">{{ 'tabelaHorarios.nome' | translate }}</th>
+        <th data-ng-if="tabelaHorariaService.isCurrentTipoEventoEspecial()">{{ 'tabelaHorarios.data' | translate }}</th>
+        <th data-ng-if="tabelaHorariaService.isCurrentTipoEventoNaoRecorrente()">{{ 'tabelaHorarios.diaMes' | translate }}</th>
+        <th colspan="3">{{ 'tabelaHorarios.horario' | translate }}</th>
         <th colspan="3">{{ 'tabelaHorarios.plano' | translate }}</th>
     </tr>
     </thead>
     <tbody>
       <tr data-ng-repeat="evento in currentEventos" influunt-evento
         data-evento="evento"
-        data-planos="currentPlanos"
+        data-planos="planos"
         data-dias="dias"
         data-horarios="horarios"
+        data-minutos="minutos"
+        data-segundos="segundos"
         pode-remover="true"
         on-verifica-atualizacao-de-eventos="verificaAtualizacaoDeEventos"
         on-visualizar-plano="visualizarPlano"
         on-remover-evento="removerEvento"
-        erros="errors.aneis[currentAnelIndex].tabelaHorario.eventos">
+        erros="errors.tabelaHoraria.eventos">
       </tr>
       <tr influunt-evento="visualizarPlano"
         data-evento="currentNovoEvento"
-        data-planos="currentPlanos"
+        data-planos="planos"
         data-dias="dias"
         data-horarios="horarios"
+        data-minutos="minutos"
+        data-segundos="segundos"
         pode-remover="false"
         on-verifica-atualizacao-de-eventos="verificaAtualizacaoDeEventos"
         on-visualizar-plano="visualizarPlano"
@@ -39,11 +44,33 @@
   <ng-include src="'views/tabela_horarios/quadro-horarios.html'">
 </div>
 <!-- MODAL -->
-<div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal inmodal" id="modalDiagramaIntervalos" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content animated bounceInRight">
-      <div class="modal-header">
-        <ng-include src="'views/planos/tabela-planos.html'"></ng-include>
+      <div class="modal-body">
+        <fieldset>
+          <influunt-tabs class="tabpanel"
+                         data-on-activate="selecionaAnel"
+                         data-aneis-ativos="aneis"
+                         data-error-check="anelTemErro">
+          </influunt-tabs>
+          <div class="col-lg-12 col-sm-12 ibox white-bg no-padding">
+            <div class="ibox float-e-margins">
+              <div class="tabpanel">
+                <div class="col-lg-12 col-sm-12 padding-top-20 tabs-container">
+                  <div class="ui-layout-content tab-content">
+                    <div id="tabs-1">
+                      <div class="col-lg-12 col-sm-12">
+                        <h5>Plano</h5>
+                        <ng-include src="'views/planos/tabela-planos.html'"></ng-include>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-dismiss="modal">Fechar</button>

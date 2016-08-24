@@ -305,15 +305,15 @@ public class ControladoresControllerTest extends WithApplication {
                     assertFields(grupoSemaforicoPlano, grupoSemaforicoPlanoClonado);
                 });
             });
+        }); // FIM ANEIS
 
-            if (anel.getTabelaHorario() != null) {
-                assertFields(anel.getTabelaHorario(), anelClonado.getTabelaHorario());
-                anel.getTabelaHorario().getEventos().forEach(evento -> {
-                    Evento eventoClonado = anelClonado.getTabelaHorario().getEventos().stream().filter(aux -> aux.getIdJson().equals(evento.getIdJson())).findFirst().orElse(null);
-                    assertFields(evento, eventoClonado);
-                });
-            }
-        });
+        if (controlador.getTabelaHoraria() != null) {
+            assertFields(controlador.getTabelaHoraria(), controladorClonado.getTabelaHoraria());
+            controlador.getTabelaHoraria().getEventos().forEach(evento -> {
+                Evento eventoClonado = controladorClonado.getTabelaHoraria().getEventos().stream().filter(aux -> aux.getIdJson().equals(evento.getIdJson())).findFirst().orElse(null);
+                assertFields(evento, eventoClonado);
+            });
+        }
     }
 
 

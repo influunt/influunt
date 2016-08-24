@@ -31,6 +31,8 @@ public class Plano extends Model implements Cloneable, Serializable {
 
     private static final long serialVersionUID = -2879768190025745634L;
 
+    public static Finder<UUID, Plano> find = new Finder<UUID, Plano>(Plano.class);
+
     @Id
     private UUID id;
 

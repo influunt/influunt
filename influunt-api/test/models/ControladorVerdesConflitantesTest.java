@@ -26,6 +26,8 @@ import static play.test.Helpers.route;
  */
 public class ControladorVerdesConflitantesTest extends ControladorTest {
 
+    private String CONTROLADOR = "Controlador";
+
     @Override
     @Test
     public void testVazio() {
@@ -55,10 +57,10 @@ public class ControladorVerdesConflitantesTest extends ControladorTest {
 
         assertEquals(4, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro("Controlador", "Esse grupo semafórico deve ter ao menos um verde conflitante", "aneis[0].gruposSemaforicos[0].aoMenosUmVerdeConflitante"),
-                new Erro("Controlador", "Esse grupo semafórico deve ter ao menos um verde conflitante", "aneis[0].gruposSemaforicos[1].aoMenosUmVerdeConflitante"),
-                new Erro("Controlador", "Esse grupo semafórico deve ter ao menos um verde conflitante", "aneis[1].gruposSemaforicos[0].aoMenosUmVerdeConflitante"),
-                new Erro("Controlador", "Esse grupo semafórico deve ter ao menos um verde conflitante", "aneis[1].gruposSemaforicos[1].aoMenosUmVerdeConflitante")
+                new Erro(CONTROLADOR, "Esse grupo semafórico deve ter ao menos um verde conflitante", "aneis[0].gruposSemaforicos[0].aoMenosUmVerdeConflitante"),
+                new Erro(CONTROLADOR, "Esse grupo semafórico deve ter ao menos um verde conflitante", "aneis[0].gruposSemaforicos[1].aoMenosUmVerdeConflitante"),
+                new Erro(CONTROLADOR, "Esse grupo semafórico deve ter ao menos um verde conflitante", "aneis[1].gruposSemaforicos[0].aoMenosUmVerdeConflitante"),
+                new Erro(CONTROLADOR, "Esse grupo semafórico deve ter ao menos um verde conflitante", "aneis[1].gruposSemaforicos[1].aoMenosUmVerdeConflitante")
         ));
 
         GrupoSemaforico grupoSemaforico1 = controlador.getGruposSemaforicos().get(0);
@@ -74,10 +76,10 @@ public class ControladorVerdesConflitantesTest extends ControladorTest {
 
         assertEquals(4, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro("Controlador", "Esse grupo semafórico não pode ter verde conflitante com ele mesmo", "aneis[0].gruposSemaforicos[0].naoConflitaComEleMesmo"),
-                new Erro("Controlador", "Esse grupo semafórico não pode ter verde conflitante com ele mesmo", "aneis[0].gruposSemaforicos[1].naoConflitaComEleMesmo"),
-                new Erro("Controlador", "Esse grupo semafórico não pode ter verde conflitante com ele mesmo", "aneis[1].gruposSemaforicos[0].naoConflitaComEleMesmo"),
-                new Erro("Controlador", "Esse grupo semafórico não pode ter verde conflitante com ele mesmo", "aneis[1].gruposSemaforicos[1].naoConflitaComEleMesmo")
+                new Erro(CONTROLADOR, "Esse grupo semafórico não pode ter verde conflitante com ele mesmo", "aneis[0].gruposSemaforicos[0].naoConflitaComEleMesmo"),
+                new Erro(CONTROLADOR, "Esse grupo semafórico não pode ter verde conflitante com ele mesmo", "aneis[0].gruposSemaforicos[1].naoConflitaComEleMesmo"),
+                new Erro(CONTROLADOR, "Esse grupo semafórico não pode ter verde conflitante com ele mesmo", "aneis[1].gruposSemaforicos[0].naoConflitaComEleMesmo"),
+                new Erro(CONTROLADOR, "Esse grupo semafórico não pode ter verde conflitante com ele mesmo", "aneis[1].gruposSemaforicos[1].naoConflitaComEleMesmo")
         ));
 
         grupoSemaforico1.setVerdesConflitantesOrigem(null);
@@ -97,10 +99,10 @@ public class ControladorVerdesConflitantesTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(4, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro("Controlador", "Esse grupo semafórico não pode ter verde conflitante com grupo semafórico de outro anel", "aneis[0].gruposSemaforicos[0].naoConflitaComGruposDeOutroAnel"),
-                new Erro("Controlador", "Esse grupo semafórico não pode ter verde conflitante com grupo semafórico de outro anel", "aneis[0].gruposSemaforicos[1].naoConflitaComGruposDeOutroAnel"),
-                new Erro("Controlador", "Esse grupo semafórico não pode ter verde conflitante com grupo semafórico de outro anel", "aneis[1].gruposSemaforicos[0].naoConflitaComGruposDeOutroAnel"),
-                new Erro("Controlador", "Esse grupo semafórico não pode ter verde conflitante com grupo semafórico de outro anel", "aneis[1].gruposSemaforicos[1].naoConflitaComGruposDeOutroAnel")
+                new Erro(CONTROLADOR, "Esse grupo semafórico não pode ter verde conflitante com grupo semafórico de outro anel", "aneis[0].gruposSemaforicos[0].naoConflitaComGruposDeOutroAnel"),
+                new Erro(CONTROLADOR, "Esse grupo semafórico não pode ter verde conflitante com grupo semafórico de outro anel", "aneis[0].gruposSemaforicos[1].naoConflitaComGruposDeOutroAnel"),
+                new Erro(CONTROLADOR, "Esse grupo semafórico não pode ter verde conflitante com grupo semafórico de outro anel", "aneis[1].gruposSemaforicos[0].naoConflitaComGruposDeOutroAnel"),
+                new Erro(CONTROLADOR, "Esse grupo semafórico não pode ter verde conflitante com grupo semafórico de outro anel", "aneis[1].gruposSemaforicos[1].naoConflitaComGruposDeOutroAnel")
         ));
 
         grupoSemaforico1.setVerdesConflitantesOrigem(null);

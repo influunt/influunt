@@ -7,8 +7,8 @@
  * # influuntEvento
  */
 angular.module('influuntApp')
-  .directive('influuntEvento', ['influuntAlert',
-    function (influuntAlert) {
+  .directive('influuntEvento', ['influuntAlert', 'TabelaHorariaService',
+    function (influuntAlert, TabelaHorariaService) {
       return {
         templateUrl: 'views/directives/influunt-evento.html',
         restrict: 'A',
@@ -16,6 +16,8 @@ angular.module('influuntApp')
           evento: '=',
           planos: '=',
           horarios: '=',
+          minutos: '=',
+          segundos: '=',
           dias: '=',
           podeRemover: '=',
           erros: '=',
@@ -37,6 +39,16 @@ angular.module('influuntApp')
           scope.verificaAtualizacao = function(){
             scope.onVerificaAtualizacaoDeEventos()(scope.evento);
           };
+
+          scope.minDate = moment().startOf('year').toDate();
+          scope.maxDate = moment().endOf('year').toDate();
+
+          scope.$watch('evento', function(evento){
+            if(evento) {
+              TabelaHorariaService.initialize(evento.tipo);
+              scope.TabelaHorariaService = TabelaHorariaService;
+            }
+          });
 
           return true;
         }

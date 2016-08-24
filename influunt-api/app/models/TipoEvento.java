@@ -5,5 +5,6 @@ package models;
  */
 public enum TipoEvento {
     NORMAL,
-    ESPECIAL
+    ESPECIAL_RECORRENTE,
+    ESPECIAL_NAO_RECORRENTE
 }

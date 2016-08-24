@@ -30,7 +30,6 @@ public class ControladorCustomDeserializer {
     public static final String PLANOS = "planos";
     public static final String GRUPOS_SEMAFORICOS_PLANOS = "gruposSemaforicosPlanos";
     public static final String ESTAGIOS_PLANOS = "estagiosPlanos";
-    public static final String TABELAS_HORARIOS = "tabelasHorarios";
     public static final String EVENTOS = "eventos";
     public static final String ENDERECOS = "enderecos";
     public static final String CIDADES = "cidades";
@@ -53,7 +52,6 @@ public class ControladorCustomDeserializer {
     private Map<String, Plano> planosCache;
     private Map<String, GrupoSemaforicoPlano> gruposSemaforicosPlanosCache;
     private Map<String, EstagioPlano> estagiosPlanosCache;
-    private Map<String, TabelaHorario> tabelasHorariosCache;
     private Map<String, Evento> eventosCache;
     private Map<String, Endereco> enderecosCache;
     private Map<String, Area> areasCache;
@@ -105,9 +103,6 @@ public class ControladorCustomDeserializer {
         estagiosPlanosCache = new HashMap<String, EstagioPlano>();
         caches.put(ESTAGIOS_PLANOS, estagiosPlanosCache);
 
-        tabelasHorariosCache = new HashMap<String, TabelaHorario>();
-        caches.put(TABELAS_HORARIOS, tabelasHorariosCache);
-
         eventosCache = new HashMap<String, Evento>();
         caches.put(EVENTOS, eventosCache);
 
@@ -141,7 +136,7 @@ public class ControladorCustomDeserializer {
         parsePlanos(node);
         parseGruposSemaforicosPlanos(node);
         parseEstagiosPlanos(node);
-        parseTabelasHorarios(node);
+        parseTabelaHoraria(node);
         parseEventos(node);
         parseImagens(node);
         parseDadosBasicos(node);
@@ -292,15 +287,6 @@ public class ControladorCustomDeserializer {
         }
     }
 
-    private void parseTabelasHorarios(JsonNode node) {
-        if (node.has("tabelasHorarios")) {
-            for (JsonNode nodeTabelaHorario : node.get("tabelasHorarios")) {
-                TabelaHorario tabelaHorario = parseTabelaHorario(nodeTabelaHorario);
-                tabelasHorariosCache.put(tabelaHorario.getIdJson().toString(), tabelaHorario);
-            }
-        }
-    }
-
     private void parseEventos(JsonNode node) {
         if (node.has("eventos")) {
             for (JsonNode nodeEvento : node.get("eventos")) {
@@ -407,15 +393,6 @@ public class ControladorCustomDeserializer {
         List<Plano> planos = new ArrayList<Plano>();
         parseCollection("planos", node, planos, PLANOS, ANEIS);
         anel.setPlanos(planos);
-
-        if (node.has("tabelaHorario")) {
-            final String tabelaHorarioId = node.get("tabelaHorario").get("idJson").asText();
-            Consumer<Map<String, Map>> c = (caches) -> {
-                Map map = caches.get(TABELAS_HORARIOS);
-                anel.setTabelaHorario((TabelaHorario) map.get(tabelaHorarioId));
-            };
-            runLater(c);
-        }
 
         List<Endereco> enderecos = new ArrayList<Endereco>();
         parseCollection("enderecos", node, enderecos, ENDERECOS, ANEIS);
@@ -868,9 +845,7 @@ public class ControladorCustomDeserializer {
                 Map map = caches.get(TRANSICAO);
                 tabelaEntreVerdesTransicao.setTransicao((Transicao) map.get(transicaoId));
             };
-
             runLater(c);
-
         }
 
         if (node.has("tabelaEntreVerdes")) {
@@ -879,11 +854,8 @@ public class ControladorCustomDeserializer {
                 Map map = caches.get(TABELAS_ENTRE_VERDES);
                 tabelaEntreVerdesTransicao.setTabelaEntreVerdes((TabelaEntreVerdes) map.get(tabelaEntreVerdesId));
             };
-
             runLater(c);
-
         }
-
 
         return tabelaEntreVerdesTransicao;
     }
@@ -1032,34 +1004,29 @@ public class ControladorCustomDeserializer {
         return estagioPlano;
     }
 
-    private TabelaHorario parseTabelaHorario(JsonNode node) {
-        TabelaHorario tabelaHorario = new TabelaHorario();
-        if (node.has("id")) {
-            JsonNode id = node.get("id");
-            if (!id.isNull()) {
-                tabelaHorario.setId(UUID.fromString(id.asText()));
+    private void parseTabelaHoraria(JsonNode nodeRoot) {
+        if (nodeRoot.has("tabelaHoraria")) {
+            JsonNode node = nodeRoot.get("tabelaHoraria");
+            TabelaHorario tabelaHoraria = new TabelaHorario();
+
+            if (node.has("id")) {
+                JsonNode id = node.get("id");
+                if (!id.isNull()) {
+                    tabelaHoraria.setId(UUID.fromString(id.asText()));
+                }
             }
+
+            if (node.has("idJson")) {
+                tabelaHoraria.setIdJson(node.get("idJson").asText());
+            }
+
+            tabelaHoraria.setControlador(controlador);
+            controlador.setTabelaHoraria(tabelaHoraria);
+
+            List<Evento> eventos = new ArrayList<>();
+            parseCollection("eventos", node, eventos, EVENTOS, null);
+            tabelaHoraria.setEventos(eventos);
         }
-
-        if (node.has("idJson")) {
-            tabelaHorario.setIdJson(node.get("idJson").asText());
-        }
-
-        if (node.has("anel")) {
-            final String anelId = node.get("anel").get("idJson").asText();
-            Consumer<Map<String, Map>> c = (caches) -> {
-                Map map = caches.get(ANEIS);
-                tabelaHorario.setAnel((Anel) map.get(anelId));
-            };
-
-            runLater(c);
-        }
-
-        List<Evento> eventos = new ArrayList<>();
-        parseCollection("eventos", node, eventos, EVENTOS, TABELAS_HORARIOS);
-        tabelaHorario.setEventos(eventos);
-
-        return tabelaHorario;
     }
 
     private Evento parseEvento(JsonNode node) {
@@ -1105,24 +1072,12 @@ public class ControladorCustomDeserializer {
             evento.setHorario(LocalTime.parse(node.get("horario").asText()));
         }
 
-        if (node.has("plano")) {
-            final String planoId = node.get("plano").get("idJson").asText();
-            Consumer<Map<String, Map>> c = (caches) -> {
-                Map map = caches.get(PLANOS);
-                evento.setPlano((Plano) map.get(planoId));
-            };
-
-            runLater(c);
+        if (node.has("posicaoPlano")) {
+            evento.setPosicaoPlano(node.get("posicaoPlano").asInt());
         }
 
-        if (node.has("tabelaHorario")) {
-            final String tabelaHorarioId = node.get("tabelaHorario").get("idJson").asText();
-            Consumer<Map<String, Map>> c = (caches) -> {
-                Map map = caches.get(TABELAS_HORARIOS);
-                evento.setTabelaHorario((TabelaHorario) map.get(tabelaHorarioId));
-            };
-
-            runLater(c);
+        if (node.has("tabelaHoraria")) {
+            evento.setTabelaHorario(controlador.getTabelaHoraria());
         }
 
         return evento;

@@ -196,12 +196,15 @@
 .right {
     float: right;
 }
+.uppercase {
+    text-transform: uppercase;
+}
 .bg-border {
     background: #fff;
     padding-top: 30px;
 }
 .lightgray-bg {
-  background: #e7eaec;
+  background: #d9d9d9;
 }
 
 .lightgray-bg > .table > tbody > tr > td {
@@ -1893,25 +1896,272 @@ li.initialTab {
   width: 10px;
 }
 .horarioColor1 {
-  background-color: lightcoral;
+  background-color: #ED0A3F;
 }
 .horarioColor2 {
-  background-color: lightblue;
+  background-color: #03BB85;
 }
 .horarioColor3 {
-  background-color: lightgreen;
+  background-color: #b81b6c;
 }
 .horarioColor4 {
-  background-color: lightsalmon;
+  background-color: #3b17a0;
 }
 .horarioColor5 {
-  background-color: lightpink;
+  background-color: #f26522;
 }
 .horarioColor6 {
-  background-color: lightsteelblue;
+  background-color: #534741;
 }
 .horarioColor7 {
-  background-color: lightseagreen;
+  background-color: #00a651;
+}
++.horarioColor8 {
+  background-color: #A78B00;
+}
+
+.horarioColor9 {
+  background-color: #FFC1CC;
+}
+
+.horarioColor10 {
+  background-color: #9966CC;
+}
+
+.horarioColor11 {
+  background-color: #FF3F34;
+}
+
+.horarioColor12 {
+  background-color: #FFDF00;
+}
+
+.horarioColor13 {
+  background-color: #788193;
+}
+
+.horarioColor14 {
+  background-color: #006A93;
+}
+
+.horarioColor15 {
+  background-color: #6E7F80;
+}
+
+.horarioColor16 {
+  background-color: #FF861F;
+}
+
+.horarioColor17 {
+  background-color: #8B8680;
+}
+
+.horarioColor18 {
+  background-color: #514E49;
+}
+
+.horarioColor19 {
+  background-color: #867200;
+}
+
+.horarioColor20 {
+  background-color: #0070FF;
+}
+
+.horarioColor21 {
+  background-color: #FBE870;
+}
+
+.horarioColor22 {
+  background-color: #0A6B0D;
+}
+
+.horarioColor23 {
+  background-color: #0095B6;
+}
+
+.horarioColor24 {
+  background-color: #E2B631;
+}
+
+.horarioColor25 {
+  background-color: #21ABCD;
+}
+
+.horarioColor26 {
+  background-color: #C5E17A;
+}
+
+.horarioColor27 {
+  background-color: #8FD8D8;
+}
+
+.horarioColor28 {
+  background-color: #F4FA9F;
+}
+
+.horarioColor29 {
+  background-color: #6EEB6E;
+}
+
+.horarioColor30 {
+  background-color: #85BB65;
+}
+
+.horarioColor31 {
+  background-color: #01A368;
+}
+
+.horarioColor32 {
+  background-color: #F653A6;
+}
+
+.horarioColor33 {
+  background-color: #FED8B1;
+}
+
+.horarioColor34 {
+  background-color: #FFC800;
+}
+
+.horarioColor35 {
+  background-color: #32CD32;
+}
+
+.horarioColor36 {
+  background-color: #76D7EA;
+}
+
+.horarioColor37 {
+  background-color: #CA3435;
+}
+
+.horarioColor38 {
+  background-color: #C32148;
+}
+
+.horarioColor39 {
+  background-color: #CC99BA;
+}
+
+.horarioColor40 {
+  background-color: #00FF7F;
+}
+
+.horarioColor41 {
+  background-color: #0066FF;
+}
+
+.horarioColor42 {
+  background-color: #FFCBA4;
+}
+
+.horarioColor43 {
+  background-color: #01796F;
+}
+
+.horarioColor44 {
+  background-color: #00003B;
+}
+
+.horarioColor45 {
+  background-color: #E5B73B;
+}
+
+.horarioColor46 {
+  background-color: #8359A3;
+}
+
+.horarioColor47 {
+  background-color: #CD919E;
+}
+
+.horarioColor48 {
+  background-color: #E96792;
+}
+
+.horarioColor49 {
+  background-color: #BC6CAC;
+}
+
+.horarioColor50 {
+  background-color: #E2E3E4;
+}
+
+.horarioColor51 {
+  background-color: #996398;
+}
+
+.horarioColor52 {
+  background-color: #FA9D5A;
+}
+
+.horarioColor53 {
+  background-color: #FF91A4;
+}
+
+.horarioColor54 {
+  background-color: #DCCCD7;
+}
+
+.horarioColor55 {
+  background-color: #FF007F;
+}
+
+.horarioColor56 {
+  background-color: #AF593E;
+}
+
+.horarioColor57 {
+  background-color: #A36F40;
+}
+
+.horarioColor58 {
+  background-color: #404E5A;
+}
+
+.horarioColor59 {
+  background-color: #EBE1C2;
+}
+
+.horarioColor60 {
+  background-color: #ECD540;
+}
+
+.horarioColor61 {
+  background-color: #000000;
+}
+
+.horarioColor62 {
+  background-color: #FFAE42;
+}
+
+.horarioColor63 {
+  background-color: #6CDAE7;
+}
+
+.horarioColor64 {
+  background-color: #A6AAAE;
+}
+
+.horarioColor65 {
+  background-color: #0FC0FC;
+}
+
+.horarioColor66 {
+  background-color: #B99685;
+}
+
+.horarioColor67 {
+  background-color: #746CC0;
+}
+
+.horarioColor68 {
+  background-color: #0086A7;
+}
+
+.horarioColor69 {
+  background-color: #3CD070;
 }
 .ibox-tools a {
     color: #1ab394;

@@ -30,6 +30,8 @@ import static play.test.Helpers.route;
  */
 public class ControladorAneisTest extends ControladorTest {
 
+    private String CONTROLADOR = "Controlador";
+
     @Override
     @Test
     public void testVazio() {
@@ -40,7 +42,7 @@ public class ControladorAneisTest extends ControladorTest {
         List<Erro> erros = getErros(controlador);
 
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro("Controlador", "Ao menos um anel deve estar ativo", "")
+                new Erro(CONTROLADOR, "Ao menos um anel deve estar ativo", "")
         ));
 
         Anel anel1 = controlador.getAneis().get(0);
@@ -49,7 +51,7 @@ public class ControladorAneisTest extends ControladorTest {
         erros = getErros(controlador);
 
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro("Controlador", "Um anel ativo deve ter ao menos dois estágios e no máximo o limite do modelo do controlador", "aneis[0]")
+                new Erro(CONTROLADOR, "Um anel ativo deve ter ao menos dois estágios e no máximo o limite do modelo do controlador", "aneis[0]")
         ));
 
         ArrayList<Estagio> estagios = new ArrayList<Estagio>();
@@ -59,7 +61,7 @@ public class ControladorAneisTest extends ControladorTest {
         erros = getErros(controlador);
 
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro("Controlador", "Anel deve ter 2 endereços", "aneis[0].enderecosOk")
+                new Erro(CONTROLADOR, "Anel deve ter 2 endereços", "aneis[0].enderecosOk")
         ));
         Endereco paulista = new Endereco(1.0, 1.0, "Av. Paulista");
         Endereco belaCintra = new Endereco(2.0, 2.0, "R. Bela Cintra");
@@ -77,7 +79,7 @@ public class ControladorAneisTest extends ControladorTest {
 
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro("Controlador", "Um anel ativo deve ter ao menos dois estágios e no máximo o limite do modelo do controlador", "aneis[0]")
+                new Erro(CONTROLADOR, "Um anel ativo deve ter ao menos dois estágios e no máximo o limite do modelo do controlador", "aneis[0]")
         ));
 
         estagios.clear();

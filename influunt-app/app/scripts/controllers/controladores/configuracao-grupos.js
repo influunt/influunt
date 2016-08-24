@@ -89,12 +89,11 @@ angular.module('influuntApp')
           grupo.disableSelectFase = false;
           grupo.tempoVerdeSeguranca = $scope.objeto.verdeSegurancaVeicularMin;
           grupo.faseVermelhaApagadaAmareloIntermitente = true;
-
         } else {
           grupo.tempoVerdeSeguranca = $scope.objeto.verdeSegurancaPedestreMin;
           grupo.faseVermelhaApagadaAmareloIntermitente = false;
           grupo.disableSelectFase = true;
-        };
+        }
       };
 
       /**

@@ -27,6 +27,8 @@ import static play.test.Helpers.route;
  */
 public class ControladorTabelaHorarioTest extends ControladorTest {
 
+    private String CONTROLADOR = "Controlador";
+
     @Override
     @Test
     public void testVazio() {
@@ -34,110 +36,90 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         controlador.save();
 
         List<Erro> erros = getErros(controlador);
-        assertEquals(2, erros.size());
+        assertEquals(1, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro("Controlador", "O anel ativo deve ter tabela horário configurada.", "aneis[0].possuiTabelaHorario"),
-                new Erro("Controlador", "O anel ativo deve ter tabela horário configurada.", "aneis[1].possuiTabelaHorario")
+                new Erro(CONTROLADOR, "O controlador deve ter tabela horária configurada.", "possuiTabelaHoraria")
         ));
 
-        Anel anelCom2Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
-        Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
-
-        TabelaHorario tabelaHorarioAnel2Estagios = new TabelaHorario();
-        tabelaHorarioAnel2Estagios.setAnel(anelCom2Estagios);
-        anelCom2Estagios.setTabelaHorario(tabelaHorarioAnel2Estagios);
-
-        TabelaHorario tabelaHorarioAnel4Estagios = new TabelaHorario();
-        tabelaHorarioAnel4Estagios.setAnel(anelCom4Estagios);
-        anelCom4Estagios.setTabelaHorario(tabelaHorarioAnel4Estagios);
+        TabelaHorario tabelaHoraria = new TabelaHorario();
+        tabelaHoraria.setControlador(controlador);
+        controlador.setTabelaHoraria(tabelaHoraria);
 
         erros = getErros(controlador);
-        assertEquals(2, erros.size());
+        assertEquals(1, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro("Controlador", "A tabela horário deve ter pelo menos 1 evento configurado.", "aneis[0].tabelaHorario.aoMenosUmEvento"),
-                new Erro("Controlador", "A tabela horário deve ter pelo menos 1 evento configurado.", "aneis[1].tabelaHorario.aoMenosUmEvento")
+                new Erro(CONTROLADOR, "A tabela horária deve ter pelo menos 1 evento configurado.", "tabelaHoraria.aoMenosUmEvento")
         ));
 
         Evento evento = new Evento();
-        evento.setTabelaHorario(tabelaHorarioAnel2Estagios);
-        tabelaHorarioAnel2Estagios.addEventos(evento);
+        evento.setTabelaHorario(tabelaHoraria);
+        tabelaHoraria.addEventos(evento);
 
         erros = getErros(controlador);
-        assertEquals(5, erros.size());
+        assertEquals(4, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro("Controlador", "A tabela horário deve ter pelo menos 1 evento configurado.", "aneis[0].tabelaHorario.aoMenosUmEvento"),
-                new Erro("Controlador", "não pode ficar em branco", "aneis[1].tabelaHorario.eventos[0].posicao"),
-                new Erro("Controlador", "não pode ficar em branco", "aneis[1].tabelaHorario.eventos[0].tipo"),
-                new Erro("Controlador", "não pode ficar em branco", "aneis[1].tabelaHorario.eventos[0].horario"),
-                new Erro("Controlador", "não pode ficar em branco", "aneis[1].tabelaHorario.eventos[0].plano")
+                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].posicao"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].tipo"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].horario"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].posicaoPlano")
         ));
 
-        evento.setTipo(TipoEvento.ESPECIAL);
+        evento.setTipo(TipoEvento.ESPECIAL_RECORRENTE);
 
         erros = getErros(controlador);
-        assertEquals(5, erros.size());
+        assertEquals(4, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro("Controlador", "A tabela horário deve ter pelo menos 1 evento configurado.", "aneis[0].tabelaHorario.aoMenosUmEvento"),
-                new Erro("Controlador", "não pode ficar em branco", "aneis[1].tabelaHorario.eventos[0].posicao"),
-                new Erro("Controlador", "não pode ficar em branco", "aneis[1].tabelaHorario.eventos[0].data"),
-                new Erro("Controlador", "não pode ficar em branco", "aneis[1].tabelaHorario.eventos[0].horario"),
-                new Erro("Controlador", "não pode ficar em branco", "aneis[1].tabelaHorario.eventos[0].plano")
+                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].posicao"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].data"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].horario"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].posicaoPlano")
+        ));
+
+        evento.setTipo(TipoEvento.ESPECIAL_NAO_RECORRENTE);
+
+        erros = getErros(controlador);
+        assertEquals(4, erros.size());
+        assertThat(erros, Matchers.hasItems(
+                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].posicao"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].data"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].horario"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].posicaoPlano")
         ));
 
         evento.setTipo(TipoEvento.NORMAL);
 
         erros = getErros(controlador);
-        assertEquals(5, erros.size());
+        assertEquals(4, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro("Controlador", "A tabela horário deve ter pelo menos 1 evento configurado.", "aneis[0].tabelaHorario.aoMenosUmEvento"),
-                new Erro("Controlador", "não pode ficar em branco", "aneis[1].tabelaHorario.eventos[0].posicao"),
-                new Erro("Controlador", "não pode ficar em branco", "aneis[1].tabelaHorario.eventos[0].diaDaSemana"),
-                new Erro("Controlador", "não pode ficar em branco", "aneis[1].tabelaHorario.eventos[0].horario"),
-                new Erro("Controlador", "não pode ficar em branco", "aneis[1].tabelaHorario.eventos[0].plano")
+                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].posicao"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].diaDaSemana"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].horario"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].posicaoPlano")
         ));
 
-        Plano plano1Anel2Estagios = anelCom2Estagios.getPlanos().stream().filter(plano -> plano.getModoOperacao().equals(ModoOperacaoPlano.TEMPO_FIXO_ISOLADO)).findFirst().get();
         evento.setPosicao(1);
         evento.setDiaDaSemana(DiaDaSemana.DOMINGO);
         evento.setHorario(LocalTime.parse("08:00:00"));
-        evento.setPlano(plano1Anel2Estagios);
+        evento.setPosicaoPlano(1);
 
         Evento evento2 = new Evento();
-        evento2.setTabelaHorario(tabelaHorarioAnel2Estagios);
-        tabelaHorarioAnel2Estagios.addEventos(evento2);
+        evento2.setTabelaHorario(tabelaHoraria);
+        tabelaHoraria.addEventos(evento2);
         evento2.setTipo(TipoEvento.NORMAL);
         evento2.setPosicao(2);
         evento2.setDiaDaSemana(DiaDaSemana.DOMINGO);
         evento2.setHorario(LocalTime.parse("08:00:00"));
-        evento2.setPlano(plano1Anel2Estagios);
+        evento2.setPosicaoPlano(2);
 
         erros = getErros(controlador);
-        assertEquals(3, erros.size());
+        assertEquals(2, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro("Controlador", "A tabela horário deve ter pelo menos 1 evento configurado.", "aneis[0].tabelaHorario.aoMenosUmEvento"),
-                new Erro("Controlador", "Existem eventos configurados no mesmo dia e horário.", "aneis[1].tabelaHorario.eventos[0].eventosMesmoDiaEHora"),
-                new Erro("Controlador", "Existem eventos configurados no mesmo dia e horário.", "aneis[1].tabelaHorario.eventos[1].eventosMesmoDiaEHora")
+                new Erro(CONTROLADOR, "Existem eventos configurados no mesmo dia e horário.", "tabelaHoraria.eventos[0].eventosMesmoDiaEHora"),
+                new Erro(CONTROLADOR, "Existem eventos configurados no mesmo dia e horário.", "tabelaHoraria.eventos[1].eventosMesmoDiaEHora")
         ));
 
         evento2.setHorario(LocalTime.parse("00:00:00"));
 
-        Plano plano1Anel4Estagios = anelCom4Estagios.getPlanos().stream().filter(plano -> plano.getModoOperacao().equals(ModoOperacaoPlano.ATUADO)).findFirst().get();
-        Evento evento3 = new Evento();
-        evento3.setTabelaHorario(tabelaHorarioAnel4Estagios);
-        tabelaHorarioAnel4Estagios.addEventos(evento3);
-        evento3.setTipo(TipoEvento.NORMAL);
-        evento3.setPosicao(1);
-        evento3.setDiaDaSemana(DiaDaSemana.DOMINGO);
-        evento3.setHorario(LocalTime.parse("08:00:00"));
-        evento3.setPlano(plano1Anel2Estagios);
-
-        erros = getErros(controlador);
-        assertEquals(1, erros.size());
-        assertThat(erros, Matchers.hasItems(
-                new Erro("Controlador", "O Plano deve pertencer ao mesmo anel da tabela horário.", "aneis[0].tabelaHorario.eventos[0].planoDoMesmoAnel")
-        ));
-
-        evento3.setPlano(plano1Anel4Estagios);
         erros = getErros(controlador);
         assertTrue(erros.isEmpty());
     }
@@ -162,14 +144,16 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         assertNotNull(controlador.getId());
         assertThat(erros, Matchers.empty());
 
-        Anel anelCom2Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
-        Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
 
-        assertNotNull("Anel 2 estágios possui tabela horário", anelCom2Estagios.getTabelaHorario());
-        assertNotNull("Anel 4 estágios possui tabela horário", anelCom4Estagios.getTabelaHorario());
+        assertNotNull("Controlador possui tabela horário", controlador.getTabelaHoraria());
 
-        assertEquals("A tabela horário do anel 2 estágios possui 2 eventos", 2, anelCom2Estagios.getTabelaHorario().getEventos().size());
-        assertEquals("A tabela horário do anel 4 estágios possui 1 eventos", 1, anelCom4Estagios.getTabelaHorario().getEventos().size());
+        assertEquals("A tabela horário possui 3 eventos", 3, controlador.getTabelaHoraria().getEventos().size());
+        assertEquals("A tabela horário possui 1 evento NORMAL", 1, controlador.getTabelaHoraria().getEventos().stream()
+                .filter(evento -> evento.isEventoNormal()).count());
+        assertEquals("A tabela horário possui 1 evento RECORRENTE", 1, controlador.getTabelaHoraria().getEventos().stream()
+                .filter(evento -> evento.isEventoEspecialRecorrente()).count());
+        assertEquals("A tabela horário possui 1 evento NAO RECORRENTE", 1, controlador.getTabelaHoraria().getEventos().stream()
+                .filter(evento -> evento.isEventoEspecialNaoRecorrente()).count());
     }
 
     @Override
@@ -182,14 +166,13 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         assertEquals(controlador.getId(), controladorJson.getId());
         assertNotNull(controladorJson.getId());
 
-        Anel anelCom2Estagios = controladorJson.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
-        Anel anelCom4Estagios = controladorJson.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
-
-        assertNotNull("Anel 2 estágios possui tabela horário", anelCom2Estagios.getTabelaHorario());
-        assertNotNull("Anel 4 estágios possui tabela horário", anelCom4Estagios.getTabelaHorario());
-
-        assertEquals("A tabela horário do anel 2 estágios possui 2 eventos", 2, anelCom2Estagios.getTabelaHorario().getEventos().size());
-        assertEquals("A tabela horário do anel 4 estágios possui 1 eventos", 1, anelCom4Estagios.getTabelaHorario().getEventos().size());
+        assertEquals("A tabela horário possui 3 eventos", 3, controladorJson.getTabelaHoraria().getEventos().size());
+        assertEquals("A tabela horário possui 1 evento NORMAL", 1, controladorJson.getTabelaHoraria().getEventos().stream()
+                .filter(evento -> evento.isEventoNormal()).count());
+        assertEquals("A tabela horário possui 1 evento RECORRENTE", 1, controladorJson.getTabelaHoraria().getEventos().stream()
+                .filter(evento -> evento.isEventoEspecialRecorrente()).count());
+        assertEquals("A tabela horário possui 1 evento NAO RECORRENTE", 1, controladorJson.getTabelaHoraria().getEventos().stream()
+                .filter(evento -> evento.isEventoEspecialNaoRecorrente()).count());
     }
 
     @Override
@@ -205,7 +188,7 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
-        assertEquals(2, json.size());
+        assertEquals(1, json.size());
 
     }
 
@@ -227,14 +210,13 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         assertEquals(controlador.getId(), controladorRetornado.getId());
         assertNotNull(controladorRetornado.getId());
 
-        Anel anelCom2Estagios = controladorRetornado.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
-        Anel anelCom4Estagios = controladorRetornado.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
-
-        assertNotNull("Anel 2 estágios possui tabela horário", anelCom2Estagios.getTabelaHorario());
-        assertNotNull("Anel 4 estágios possui tabela horário", anelCom4Estagios.getTabelaHorario());
-
-        assertEquals("A tabela horário do anel 2 estágios possui 2 eventos", 2, anelCom2Estagios.getTabelaHorario().getEventos().size());
-        assertEquals("A tabela horário do anel 4 estágios possui 1 eventos", 1, anelCom4Estagios.getTabelaHorario().getEventos().size());
+        assertEquals("A tabela horário possui 3 eventos", 3, controladorRetornado.getTabelaHoraria().getEventos().size());
+        assertEquals("A tabela horário possui 1 evento NORMAL", 1, controladorRetornado.getTabelaHoraria().getEventos().stream()
+                .filter(evento -> evento.isEventoNormal()).count());
+        assertEquals("A tabela horário possui 1 evento RECORRENTE", 1, controladorRetornado.getTabelaHoraria().getEventos().stream()
+                .filter(evento -> evento.isEventoEspecialRecorrente()).count());
+        assertEquals("A tabela horário possui 1 evento NAO RECORRENTE", 1, controladorRetornado.getTabelaHoraria().getEventos().stream()
+                .filter(evento -> evento.isEventoEspecialNaoRecorrente()).count());
     }
 
     @Override
