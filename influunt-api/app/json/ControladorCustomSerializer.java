@@ -153,25 +153,26 @@ public class ControladorCustomSerializer {
         if (controlador.getSequencia() != null) {
             root.put("sequencia", controlador.getSequencia());
         }
-        if (controlador.getLimiteEstagio() != null) {
-            root.put("limiteEstagio", controlador.getLimiteEstagio());
+        if (controlador.getModelo() != null) {
+            if (controlador.getModelo().getLimiteEstagio() != null) {
+                root.put("limiteEstagio", controlador.getModelo().getLimiteEstagio());
+            }
+            if (controlador.getModelo().getLimiteGrupoSemaforico() != null) {
+                root.put("limiteGrupoSemaforico", controlador.getModelo().getLimiteGrupoSemaforico());
+            }
+            if (controlador.getModelo().getLimiteAnel() != null) {
+                root.put("limiteAnel", controlador.getModelo().getLimiteAnel());
+            }
+            if (controlador.getModelo().getLimiteDetectorPedestre() != null) {
+                root.put("limiteDetectorPedestre", controlador.getModelo().getLimiteDetectorPedestre());
+            }
+            if (controlador.getModelo().getLimiteDetectorVeicular() != null) {
+                root.put("limiteDetectorVeicular", controlador.getModelo().getLimiteDetectorVeicular());
+            }
+            if (controlador.getModelo().getLimiteTabelasEntreVerdes() != null) {
+                root.put("limiteTabelasEntreVerdes", controlador.getModelo().getLimiteTabelasEntreVerdes());
+            }
         }
-        if (controlador.getLimiteGrupoSemaforico() != null) {
-            root.put("limiteGrupoSemaforico", controlador.getLimiteGrupoSemaforico());
-        }
-        if (controlador.getLimiteAnel() != null) {
-            root.put("limiteAnel", controlador.getLimiteAnel());
-        }
-        if (controlador.getLimiteDetectorPedestre() != null) {
-            root.put("limiteDetectorPedestre", controlador.getLimiteDetectorPedestre());
-        }
-        if (controlador.getLimiteDetectorVeicular() != null) {
-            root.put("limiteDetectorVeicular", controlador.getLimiteDetectorVeicular());
-        }
-        if (controlador.getLimiteTabelasEntreVerdes() != null) {
-            root.put("limiteTabelasEntreVerdes", controlador.getLimiteTabelasEntreVerdes());
-        }
-
         if (controlador.getNomeEndereco() != null) {
             root.put("nomeEndereco", controlador.getNomeEndereco());
         }

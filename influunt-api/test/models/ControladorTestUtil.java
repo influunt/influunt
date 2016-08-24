@@ -37,11 +37,11 @@ public class ControladorTestUtil {
         controlador.setNumeroSMEEConjugado2("C2");
         controlador.setNumeroSMEEConjugado3("C3");
         controlador.setFirmware("1.0rc");
-        controlador.setLimiteAnel(4);
-        controlador.setLimiteGrupoSemaforico(16);
-        controlador.setLimiteDetectorPedestre(4);
-        controlador.setLimiteDetectorVeicular(8);
-        controlador.setLimiteEstagio(16);
+        controlador.getModelo().setLimiteAnel(4);
+        controlador.getModelo().setLimiteGrupoSemaforico(16);
+        controlador.getModelo().setLimiteDetectorPedestre(4);
+        controlador.getModelo().setLimiteDetectorVeicular(8);
+        controlador.getModelo().setLimiteEstagio(16);
         controlador.setNomeEndereco("Av Paulista com Bela Cintra");
 
         Endereco enderecoPaulista = new Endereco();

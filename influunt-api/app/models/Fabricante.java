@@ -9,12 +9,13 @@ import json.deserializers.FabricanteDeserializer;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.FabricanteSerializer;
 import json.serializers.InfluuntDateTimeSerializer;
-import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -40,7 +41,7 @@ public class Fabricante extends Model implements Cloneable, Serializable {
     private String idJson;
 
     @Column
-    @NotBlank(message = "não pode ficar em branco")
+    @NotNull(message = "não pode ficar em branco")
     private String nome;
 
     @OneToMany(mappedBy = "fabricante", cascade = CascadeType.ALL)
@@ -94,6 +95,13 @@ public class Fabricante extends Model implements Cloneable, Serializable {
 
     public void setModelos(List<ModeloControlador> modelos) {
         this.modelos = modelos;
+    }
+
+    public void addModelo(ModeloControlador modelo) {
+        if (getModelos() == null) {
+            setModelos(new ArrayList<ModeloControlador>());
+        }
+        getModelos().add(modelo);
     }
 
     public DateTime getDataCriacao() {

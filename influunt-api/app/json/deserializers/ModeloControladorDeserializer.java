@@ -38,6 +38,25 @@ public class ModeloControladorDeserializer extends JsonDeserializer<ModeloContro
             modeloControlador.setFabricante(Json.fromJson(node.get("fabricante"), Fabricante.class));
         }
 
+        if (node.has("limiteEstagio")) {
+            modeloControlador.setLimiteEstagio(node.get("limiteEstagio").asInt());
+        }
+        if (node.has("limiteGrupoSemaforico")) {
+            modeloControlador.setLimiteGrupoSemaforico(node.get("limiteGrupoSemaforico").asInt());
+        }
+        if (node.has("limiteAnel")) {
+            modeloControlador.setLimiteAnel(node.get("limiteAnel").asInt());
+        }
+        if (node.has("limiteDetectorPedestre")) {
+            modeloControlador.setLimiteDetectorPedestre(node.get("limiteDetectorPedestre").asInt());
+        }
+        if (node.has("limiteDetectorVeicular")) {
+            modeloControlador.setLimiteDetectorVeicular(node.get("limiteDetectorVeicular").asInt());
+        }
+        if (node.has("limiteTabelasEntreVerdes")) {
+            modeloControlador.setLimiteTabelasEntreVerdes(node.get("limiteTabelasEntreVerdes").asInt());
+        }
+
         return modeloControlador;
     }
 }

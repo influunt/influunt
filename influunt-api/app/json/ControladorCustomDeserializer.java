@@ -1285,13 +1285,6 @@ public class ControladorCustomDeserializer {
         controlador.setStatusControlador(node.get("statusControlador") != null ? StatusControlador.valueOf(node.get("statusControlador").asText()) : null);
         controlador.setSequencia(node.get("sequencia") != null ? node.get("sequencia").asInt() : null);
 
-        controlador.setLimiteEstagio(node.get("limiteEstagio") != null ? node.get("limiteEstagio").asInt() : null);
-        controlador.setLimiteGrupoSemaforico(node.get("limiteGrupoSemaforico") != null ? node.get("limiteGrupoSemaforico").asInt() : null);
-        controlador.setLimiteAnel(node.get("limiteAnel") != null ? node.get("limiteAnel").asInt() : null);
-        controlador.setLimiteDetectorPedestre(node.get("limiteDetectorPedestre") != null ? node.get("limiteDetectorPedestre").asInt() : null);
-        controlador.setLimiteDetectorVeicular(node.get("limiteDetectorVeicular") != null ? node.get("limiteDetectorVeicular").asInt() : null);
-        controlador.setLimiteTabelasEntreVerdes(node.get("limiteTabelasEntreVerdes") != null ? node.get("limiteTabelasEntreVerdes").asInt() : null);
-
         controlador.setNomeEndereco(node.get("nomeEndereco") != null ? node.get("nomeEndereco").asText() : null);
         List<Endereco> enderecos = new ArrayList<Endereco>();
         parseCollection("enderecos", node, enderecos, ENDERECOS, ANEIS);

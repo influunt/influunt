@@ -163,47 +163,30 @@
                 <p class="help-block error-msg" data-ng-repeat="error in errors.modelo">{{ error }}</p>
               </div>
 
-              <div class="knob row">
-                <div class="knob-item col-lg-6 col-sm-6 col-sm-6">
-                  <influunt-knob
-                      title="{{ 'controladores.maxEstagios' | translate }}"
-                      label="QTD" min="1" max="50"
-                      data-ng-model="objeto.limiteEstagio"></influunt-knob>
-                </div>
-                <div class="knob-item col-lg-6 col-sm-6">
-                  <influunt-knob
-                      title="{{ 'controladores.maxGrupoSemaforos' | translate }}"
-                      label="QTD" min="1" max="50"
-                      data-ng-model="objeto.limiteGrupoSemaforico"></influunt-knob>
-                </div>
+              <div class="col-sm-4 no-padding">
+                <h1><strong>{{ objeto.modelo.limiteEstagio || 0 }}</strong></h1>
+                <p>{{ 'controladores.maxEstagios' | translate }}</p>
               </div>
-              <div class="knob row">
-                <div class="knob-item col-lg-6 col-sm-6">
-                  <influunt-knob
-                      title="{{ 'controladores.maxAneis' | translate }}"
-                      label="QTD" min="1" max="50"
-                      data-ng-model="objeto.limiteAnel"></influunt-knob>
-                </div>
-                <div class="knob-item col-lg-6 col-sm-6">
-                  <influunt-knob
-                      title="{{ 'controladores.maxDetectorVeicular' | translate }}"
-                      label="QTD" min="1" max="16"
-                      data-ng-model="objeto.limiteDetectorVeicular"></influunt-knob>
-                </div>
+              <div class="col-sm-4 no-padding-right">
+                <h1><strong>{{ objeto.modelo.limiteGrupoSemaforico || 0 }}</strong></h1>
+                <p>{{ 'controladores.maxGrupoSemaforos' | translate }}</p>
               </div>
-              <div class="knob row">
-                <div class="knob-item col-lg-6 col-sm-6">
-                  <influunt-knob
-                      title="{{ 'controladores.maxDetectorPedestre' | translate }}"
-                      label="QTD" min="1" max="50"
-                      data-ng-model="objeto.limiteDetectorPedestre"></influunt-knob>
-                </div>
-                <div class="knob-item col-lg-6 col-sm-6">
-                  <influunt-knob
-                      title="{{ 'controladores.maxTabelasEntreVerdes' | translate }}"
-                      label="QTD" min="1" max="50"
-                      data-ng-model="objeto.limiteTabelasEntreVerdes"></influunt-knob>
-                </div>
+              <div class="col-sm-4 no-padding-right">
+                <h1><strong>{{ objeto.modelo.limiteAnel || 0 }}</strong></h1>
+                <p>{{ 'controladores.maxAneis' | translate }}</p>
+              </div>
+              <div class="clearfix"></div>
+              <div class="col-sm-4 no-padding">
+                <h1><strong>{{ objeto.modelo.limiteDetectorVeicular || 0 }}</strong></h1>
+                <p>{{ 'controladores.maxDetectorVeicular' | translate }}</p>
+              </div>
+              <div class="col-sm-4 no-padding-right">
+                <h1><strong>{{ objeto.modelo.limiteDetectorPedestre || 0 }}</strong></h1>
+                <p>{{ 'controladores.maxDetectorPedestre' | translate }}</p>
+              </div>
+              <div class="col-sm-4 no-padding-right">
+                <h1><strong>{{ objeto.modelo.limiteTabelasEntreVerdes || 0 }}</strong></h1>
+                <p>{{ 'controladores.maxTabelasEntreVerdes' | translate }}</p>
               </div>
 
             </div>
@@ -216,7 +199,7 @@
 		<div class="row">
 	    <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix">
         <div class="right">
-          <a go-to-top data-ng-click="submitForm(formDadosBasicos, 'dados_basicos', 'app.wizard_controladores.aneis')" tooltips tooltip-template="<b>{{ 'geral.tooltip.salvarAvancarPara' | translate }}</b> {{ 'controladores.aneis.titulo' | translate }}" class="btn btn-footer btn-primary right">
+          <a go-to-top data-ng-click="submitForm(formDadosBasicos, 'dados_basicos', 'app.wizard_controladores.aneis')" tooltips tooltip-template="<strong>{{ 'geral.tooltip.salvarAvancarPara' | translate }}</strong> {{ 'controladores.aneis.titulo' | translate }}" class="btn btn-footer btn-primary right">
             {{ 'plugins.steps.labels.saveNext' | translate }}
             <i class="fa fa-arrow-right"></i>
           </a>

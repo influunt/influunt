@@ -26,6 +26,24 @@ public class ModeloControladorSerializer extends JsonSerializer<ModeloControlado
         if (modeloControlador.getDescricao() != null) {
             jgen.writeStringField("descricao", modeloControlador.getDescricao());
         }
+        if (modeloControlador.getLimiteEstagio() != null) {
+            jgen.writeNumberField("limiteEstagio", modeloControlador.getLimiteEstagio());
+        }
+        if (modeloControlador.getLimiteGrupoSemaforico() != null) {
+            jgen.writeNumberField("limiteGrupoSemaforico", modeloControlador.getLimiteGrupoSemaforico());
+        }
+        if (modeloControlador.getLimiteAnel() != null) {
+            jgen.writeNumberField("limiteAnel", modeloControlador.getLimiteAnel());
+        }
+        if (modeloControlador.getLimiteDetectorPedestre() != null) {
+            jgen.writeNumberField("limiteDetectorPedestre", modeloControlador.getLimiteDetectorPedestre());
+        }
+        if (modeloControlador.getLimiteDetectorVeicular() != null) {
+            jgen.writeNumberField("limiteDetectorVeicular", modeloControlador.getLimiteDetectorVeicular());
+        }
+        if (modeloControlador.getLimiteTabelasEntreVerdes() != null) {
+            jgen.writeNumberField("limiteTabelasEntreVerdes", modeloControlador.getLimiteTabelasEntreVerdes());
+        }
         if (modeloControlador.getDataCriacao() != null) {
             jgen.writeStringField("dataCriacao", InfluuntDateTimeSerializer.parse(modeloControlador.getDataCriacao()));
         }

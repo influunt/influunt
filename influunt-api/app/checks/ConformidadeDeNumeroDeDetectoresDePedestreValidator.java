@@ -27,6 +27,6 @@ public class ConformidadeDeNumeroDeDetectoresDePedestreValidator implements Cons
                 .mapToLong(anel -> anel.getDetectores().stream().filter(detector -> detector.isPedestre()).count())
                 .sum();
 
-        return total <= controlador.getLimiteDetectorPedestre();
+        return total <= controlador.getModelo().getLimiteDetectorPedestre();
     }
 }

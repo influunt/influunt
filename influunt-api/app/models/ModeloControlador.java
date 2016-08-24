@@ -12,8 +12,10 @@ import json.serializers.ModeloControladorSerializer;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -47,6 +49,36 @@ public class ModeloControlador extends Model implements Cloneable, Serializable 
     private String descricao;
 
     @Column
+    @Min(value = 1, message = "Deve ser maior que zero")
+    @NotNull(message = "não pode ficar em branco")
+    private Integer limiteEstagio = 16;
+
+    @Column
+    @Min(value = 1, message = "Deve ser maior que zero")
+    @NotNull(message = "não pode ficar em branco")
+    private Integer limiteGrupoSemaforico = 16;
+
+    @Column
+    @Min(value = 1, message = "Deve ser maior que zero")
+    @NotNull(message = "não pode ficar em branco")
+    private Integer limiteAnel = 4;
+
+    @Column
+    @Min(value = 1, message = "Deve ser maior que zero")
+    @NotNull(message = "não pode ficar em branco")
+    private Integer limiteDetectorPedestre = 4;
+
+    @Column
+    @Min(value = 1, message = "Deve ser maior que zero")
+    @NotNull(message = "não pode ficar em branco")
+    private Integer limiteDetectorVeicular = 8;
+
+    @Column
+    @Min(value = 1, message = "Deve ser maior que zero")
+    @NotNull(message = "não pode ficar em branco")
+    private Integer limiteTabelasEntreVerdes = 2;
+
+    @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
@@ -62,6 +94,15 @@ public class ModeloControlador extends Model implements Cloneable, Serializable 
         super();
         this.idJson = UUID.randomUUID().toString();
     }
+
+    public static ModeloControlador findById(UUID id) {
+        return find.fetch("fabricante").where().eq("id", id).findUnique();
+    }
+
+    public static List<ModeloControlador> findAll() {
+        return find.fetch("fabricante").findList();
+    }
+
 
     public String getIdJson() {
         return idJson;
@@ -91,6 +132,54 @@ public class ModeloControlador extends Model implements Cloneable, Serializable 
         return descricao;
     }
 
+    public Integer getLimiteEstagio() {
+        return limiteEstagio;
+    }
+
+    public void setLimiteEstagio(Integer limiteEstagio) {
+        this.limiteEstagio = limiteEstagio;
+    }
+
+    public Integer getLimiteGrupoSemaforico() {
+        return limiteGrupoSemaforico;
+    }
+
+    public void setLimiteGrupoSemaforico(Integer limiteGrupoSemaforico) {
+        this.limiteGrupoSemaforico = limiteGrupoSemaforico;
+    }
+
+    public Integer getLimiteAnel() {
+        return limiteAnel;
+    }
+
+    public void setLimiteAnel(Integer limiteAnel) {
+        this.limiteAnel = limiteAnel;
+    }
+
+    public Integer getLimiteDetectorPedestre() {
+        return limiteDetectorPedestre;
+    }
+
+    public void setLimiteDetectorPedestre(Integer limiteDetectorPedestre) {
+        this.limiteDetectorPedestre = limiteDetectorPedestre;
+    }
+
+    public Integer getLimiteDetectorVeicular() {
+        return limiteDetectorVeicular;
+    }
+
+    public void setLimiteDetectorVeicular(Integer limiteDetectorVeicular) {
+        this.limiteDetectorVeicular = limiteDetectorVeicular;
+    }
+
+    public Integer getLimiteTabelasEntreVerdes() {
+        return limiteTabelasEntreVerdes;
+    }
+
+    public void setLimiteTabelasEntreVerdes(Integer limiteTabelasEntreVerdes) {
+        this.limiteTabelasEntreVerdes = limiteTabelasEntreVerdes;
+    }
+
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
@@ -110,6 +199,7 @@ public class ModeloControlador extends Model implements Cloneable, Serializable 
     public void setDataAtualizacao(DateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
     }
+
 
     @Override
     public Object clone() throws CloneNotSupportedException {

@@ -57,6 +57,11 @@ public class AgrupamentosControllerTest extends WithApplication {
         ModeloControlador modeloControlador = new ModeloControlador();
         modeloControlador.setFabricante(fabricante);
         modeloControlador.setDescricao("Modelo 1");
+        modeloControlador.setLimiteAnel(4);
+        modeloControlador.setLimiteGrupoSemaforico(16);
+        modeloControlador.setLimiteDetectorPedestre(4);
+        modeloControlador.setLimiteDetectorVeicular(8);
+        modeloControlador.setLimiteEstagio(16);
         modeloControlador.save();
 
         Controlador controlador = new Controlador();
@@ -67,11 +72,6 @@ public class AgrupamentosControllerTest extends WithApplication {
         controlador.setNumeroSMEEConjugado2("C2");
         controlador.setNumeroSMEEConjugado3("C3");
         controlador.setFirmware("1.0rc");
-        controlador.setLimiteAnel(4);
-        controlador.setLimiteGrupoSemaforico(16);
-        controlador.setLimiteDetectorPedestre(4);
-        controlador.setLimiteDetectorVeicular(8);
-        controlador.setLimiteEstagio(16);
         Endereco enderecoPaulista = new Endereco();
         enderecoPaulista.setLocalizacao("Av Paulista");
         enderecoPaulista.setLatitude(1.0);

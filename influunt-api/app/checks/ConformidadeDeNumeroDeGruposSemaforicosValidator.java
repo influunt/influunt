@@ -26,6 +26,6 @@ public class ConformidadeDeNumeroDeGruposSemaforicosValidator implements Constra
                 .mapToInt(anel -> anel.getGruposSemaforicos().size())
                 .sum();
 
-        return total <= controlador.getLimiteGrupoSemaforico();
+        return total <= controlador.getModelo().getLimiteGrupoSemaforico();
     }
 }
