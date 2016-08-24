@@ -519,6 +519,9 @@ public class ControladorCustomSerializer {
         if (plano.getPosicao() != null) {
             planoJson.put("posicao", plano.getPosicao());
         }
+        if (plano.getDescricao() != null) {
+            planoJson.put("descricao", plano.getDescricao());
+        }
         if (plano.getTempoCiclo() != null) {
             planoJson.put("tempoCiclo", plano.getTempoCiclo());
         }

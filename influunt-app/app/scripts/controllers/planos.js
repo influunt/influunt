@@ -41,8 +41,8 @@ angular.module('influuntApp')
           $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
           $scope.aneis.forEach(function(anel) {
             anel.planos = anel.planos || [];
-            for (var i = anel.planos.length; i < LIMITE_PLANOS; i++) {
-              adicionaPlano(anel);
+            for (var i = 0; i < LIMITE_PLANOS; i++) {
+              adicionaPlano(anel, i + 1);
             }
           });
 
@@ -128,6 +128,8 @@ angular.module('influuntApp')
               plano = _.find($scope.objeto.planos, {idJson: $scope.currentPlanos[index].idJson});
               plano.id = idPlano;
               $scope.selecionaPlano(plano, index);
+            }else{
+              plano.configurado = true;
             }
           });
       };
@@ -294,61 +296,63 @@ angular.module('influuntApp')
        * @param      {<type>}  anel    The anel
        */
       adicionaPlano = function(anel, posicao) {
-        // anel = anel;
-        posicao = posicao || anel.planos.length + 1;
-        var plano = {
-          idJson: UUID.generate(),
-          anel: { idJson: anel.idJson },
-          descricao: 'PLANO ' + posicao,
-          posicao: posicao,
-          modoOperacao: 'TEMPO_FIXO_ISOLADO',
-          posicaoTabelaEntreVerde: 1,
-          gruposSemaforicosPlanos: [],
-          estagiosPlanos: [],
-          tempoCiclo: $scope.objeto.cicloMin,
-          configurado: false
-        };
-
-        $scope.objeto.gruposSemaforicosPlanos = $scope.objeto.gruposSemaforicosPlanos || [];
-        anel.gruposSemaforicos.forEach(function (g){
-          var grupo =  _.find($scope.objeto.gruposSemaforicos, {idJson: g.idJson});
-          var grupoPlano = {
+        var plano = _.find($scope.objeto.planos, {posicao: posicao, anel: {idJson: anel.idJson}});
+        if (plano) {
+          plano.configurado = true;
+        }else {
+          plano = {
             idJson: UUID.generate(),
-            ativado: true,
-            grupoSemaforico: {
-              idJson: grupo.idJson
-            },
-            plano: {
-              idJson: plano.idJson
-            }
+            anel: { idJson: anel.idJson },
+            descricao: 'PLANO ' + posicao,
+            posicao: posicao,
+            modoOperacao: 'TEMPO_FIXO_ISOLADO',
+            posicaoTabelaEntreVerde: 1,
+            gruposSemaforicosPlanos: [],
+            estagiosPlanos: [],
+            tempoCiclo: $scope.objeto.cicloMin,
+            configurado: posicao === 1 ? true : false
           };
+          
+          $scope.objeto.gruposSemaforicosPlanos = $scope.objeto.gruposSemaforicosPlanos || [];
+          anel.gruposSemaforicos.forEach(function (g){
+            var grupo =  _.find($scope.objeto.gruposSemaforicos, {idJson: g.idJson});
+            var grupoPlano = {
+              idJson: UUID.generate(),
+              ativado: true,
+              grupoSemaforico: {
+                idJson: grupo.idJson
+              },
+              plano: {
+                idJson: plano.idJson
+              }
+            };
 
-          $scope.objeto.gruposSemaforicosPlanos.push(grupoPlano);
-          plano.gruposSemaforicosPlanos.push({idJson: grupoPlano.idJson});
-        });
+            $scope.objeto.gruposSemaforicosPlanos.push(grupoPlano);
+            plano.gruposSemaforicosPlanos.push({idJson: grupoPlano.idJson});
+          });
 
-        anel.estagios.forEach(function (e){
-          var estagio =  _.find($scope.objeto.estagios, {idJson: e.idJson});
-          var estagioPlano = {
-            idJson: UUID.generate(),
-            estagio: {
-              idJson: estagio.idJson
-            },
-            plano: {
-              idJson: plano.idJson
-            },
-            posicao: estagio.posicao,
-            tempoVerde: $scope.objeto.verdeMin,
-            dispensavel: false
-          };
-          $scope.objeto.estagiosPlanos.push(estagioPlano);
-          plano.estagiosPlanos.push({idJson: estagioPlano.idJson});
-        });
+          anel.estagios.forEach(function (e){
+            var estagio =  _.find($scope.objeto.estagios, {idJson: e.idJson});
+            var estagioPlano = {
+              idJson: UUID.generate(),
+              estagio: {
+                idJson: estagio.idJson
+              },
+              plano: {
+                idJson: plano.idJson
+              },
+              posicao: estagio.posicao,
+              tempoVerde: $scope.objeto.verdeMin,
+              dispensavel: false
+            };
+            $scope.objeto.estagiosPlanos.push(estagioPlano);
+            plano.estagiosPlanos.push({idJson: estagioPlano.idJson});
+          });
 
-
-        $scope.objeto.planos = $scope.objeto.planos || [];
-        $scope.objeto.planos.push(plano);
-        anel.planos.push({idJson: plano.idJson});
+          $scope.objeto.planos = $scope.objeto.planos || [];
+          $scope.objeto.planos.push(plano);
+          anel.planos.push({idJson: plano.idJson});
+        }
       };
 
       getOpcoesEstagiosDisponiveis = function() {
@@ -446,7 +450,7 @@ angular.module('influuntApp')
         $scope.currentAnel.planos = _.map($scope.currentPlanos, function(p) {
           return {
             idJson: p.idJson
-          }
+          };
         });
 
           return $scope.currentPlanos;

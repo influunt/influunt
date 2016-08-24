@@ -13,7 +13,7 @@ angular.module('influuntApp')
       scope: {
         isDisabled: '=',
         ngModel: '=',
-        iChanged: '&',
+        ifChanged: '&',
         ifChecked: '&',
         ifUnchecked: '&'
       },
@@ -29,7 +29,7 @@ angular.module('influuntApp')
             $(element[0]).on('ifChanged', function(ev) {
               $timeout(function() {
                 scope.ngModel = ev.target.checked;
-                return scope.iChanged && scope.iChanged();
+                return scope.ifChanged && scope.ifChanged();
               });
             });
 

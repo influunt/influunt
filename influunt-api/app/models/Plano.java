@@ -44,6 +44,10 @@ public class Plano extends Model implements Cloneable, Serializable {
     private Integer posicao;
 
     @Column
+    @NotNull(message = "não pode ficar em branco.")
+    private String descricao;
+
+    @Column
     private Integer tempoCiclo;
 
     @Column
@@ -113,6 +117,14 @@ public class Plano extends Model implements Cloneable, Serializable {
 
     public void setPosicao(Integer posicao) {
         this.posicao = posicao;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public Integer getTempoCiclo() {

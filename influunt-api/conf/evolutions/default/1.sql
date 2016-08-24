@@ -289,6 +289,7 @@ create table planos (
   id                            varchar(40) not null,
   id_json                       varchar(255),
   posicao                       integer not null,
+  descricao                     varchar(255) not null,
   tempo_ciclo                   integer,
   defasagem                     integer,
   anel_id                       varchar(40),

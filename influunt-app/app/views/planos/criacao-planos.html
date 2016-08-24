@@ -16,15 +16,13 @@
                       <div id="tabs-1">
                         <div class="col-lg-12 col-sm-12 ibox-content no-padding">
                           <div class="col-lg-2 col-sm-2 association min-green side-menu">
-                            <div class="ibox-title">
-                              <h5>Planos</h5>
-                            </div>
                             <nav>
                               <ul id="side-menu" class="menu-planos">
                                 <li data-ng-repeat="plano in currentPlanos track by plano.idJson"
                                   data-ng-click="selecionaPlano(plano, $index)"
                                   data-ng-class="{active: $index === currentPlanoIndex}"
                                   class="item-menu">
+                                    <input type="checkbox" ichecks data-ng-model="plano.configurado" data-if-unchecked="resetarPlano(plano, $index)" data-is-disabled="$first" data-if-changed="selecionaPlano(plano, $index)">
                                     <span class="nome-plano" data-ng-class="{configurado: plano.configurado}">
                                       {{ plano.descricao }}
                                     </span>
@@ -33,12 +31,6 @@
                                         style="margin-left: .3em;">
                                       <i class="fa fa-exclamation"></i>
                                     </span>
-
-                                    <!-- resetar plano. -->
-                                    <i class="fa fa-times pull-right m-t-sm remove-tabela-entre-verdes"
-                                        data-ng-if="plano.configurado"
-                                        data-ng-click="resetarPlano(plano, $index)">
-                                    </i>
 
                                     <!-- copiar plano. -->
                                     <i class="fa fa-files-o pull-right m-t-sm"
@@ -58,15 +50,14 @@
                               </ul>
                             </nav>
                           </div>
-                          <div class="col-lg-10 col-sm-10">
+                          <div class="col-lg-10 col-sm-10" data-ng-if="currentPlano.configurado">
+                            <div class="col-l-12 col-sm-12 border-bottom p-sm">
+                              <h1>{{'tabelaHorarios.plano' | translate}} {{currentPlano.posicao}} - {{ plano.descricao }}</h1>
+                            </div>
                             <div class="col-lg-2 col-sm-2">
                               <article>
                                 <div class="col-lg-12 col-sm-12 no-padding">
                                   <aside>
-                                    <div class="form-group">
-                                      <label>PLANO CONFIGURADO</label>
-                                      <input type="checkbox" ichecks data-ng-model="currentPlano.configurado">
-                                    </div>
                                     <div class="form-group">
                                       <label>MODO DE OPERAÇÃO</label>
                                       <select class="form-control" name="modoOperacao" data-ng-model="currentPlano.modoOperacao" data-ng-change="limpaDadosPlano()">

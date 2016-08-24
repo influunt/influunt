@@ -358,6 +358,7 @@ public class ControladorTestUtil {
 
         plano1Anel2.setModoOperacao(ModoOperacaoPlano.TEMPO_FIXO_ISOLADO);
         plano1Anel2.setPosicao(1);
+        plano1Anel2.setDescricao("Principal");
         plano1Anel2.setPosicaoTabelaEntreVerde(1);
 
         Plano plano1Anel4 = new Plano();
@@ -366,6 +367,7 @@ public class ControladorTestUtil {
 
         plano1Anel4.setModoOperacao(ModoOperacaoPlano.ATUADO);
         plano1Anel4.setPosicao(1);
+        plano1Anel4.setDescricao("Principal");
         plano1Anel4.setPosicaoTabelaEntreVerde(1);
 
         criarGrupoSemaforicoPlano(anelCom2Estagios, plano1Anel2);
