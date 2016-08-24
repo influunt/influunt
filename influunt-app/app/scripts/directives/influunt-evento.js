@@ -16,6 +16,8 @@ angular.module('influuntApp')
           evento: '=',
           planos: '=',
           horarios: '=',
+          minutos: '=',
+          segundos: '=',
           dias: '=',
           podeRemover: '=',
           erros: '=',

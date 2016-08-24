@@ -176,13 +176,13 @@ create table eventos (
   horario                       time not null,
   data                          datetime(6),
   nome                          varchar(255),
-  tipo                          varchar(8) not null,
+  posicao_plano                 integer not null,
+  tipo                          varchar(23) not null,
   tabela_horario_id             varchar(40) not null,
-  plano_id                      varchar(40) not null,
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
   constraint ck_eventos_dia_da_semana check (dia_da_semana in ('SEGUNDA_A_SEXTA','SEGUNDA_A_SABADO','SABADO_A_DOMINGO','TODOS_OS_DIAS','SEGUNDA','TERCA','QUARTA','QUINTA','SEXTA','SABADO','DOMINGO')),
-  constraint ck_eventos_tipo check (tipo in ('NORMAL','ESPECIAL')),
+  constraint ck_eventos_tipo check (tipo in ('NORMAL','ESPECIAL_RECORRENTE','ESPECIAL_NAO_RECORRENTE')),
   constraint pk_eventos primary key (id)
 );
 
@@ -349,10 +349,10 @@ create table tabela_entre_verdes_transicao (
 create table tabela_horarios (
   id                            varchar(40) not null,
   id_json                       varchar(255),
-  anel_id                       varchar(40),
+  controlador_id                varchar(40),
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
-  constraint uq_tabela_horarios_anel_id unique (anel_id),
+  constraint uq_tabela_horarios_controlador_id unique (controlador_id),
   constraint pk_tabela_horarios primary key (id)
 );
 
@@ -484,9 +484,6 @@ create index ix_estagios_planos_estagio_que_recebe_estagio_dispensavel_3 on esta
 alter table eventos add constraint fk_eventos_tabela_horario_id foreign key (tabela_horario_id) references tabela_horarios (id) on delete restrict on update restrict;
 create index ix_eventos_tabela_horario_id on eventos (tabela_horario_id);
 
-alter table eventos add constraint fk_eventos_plano_id foreign key (plano_id) references planos (id) on delete restrict on update restrict;
-create index ix_eventos_plano_id on eventos (plano_id);
-
 alter table grupos_semaforicos add constraint fk_grupos_semaforicos_anel_id foreign key (anel_id) references aneis (id) on delete restrict on update restrict;
 create index ix_grupos_semaforicos_anel_id on grupos_semaforicos (anel_id);
 
@@ -532,7 +529,7 @@ create index ix_tabela_entre_verdes_transicao_tabela_entre_verdes_id on tabela_e
 alter table tabela_entre_verdes_transicao add constraint fk_tabela_entre_verdes_transicao_transicao_id foreign key (transicao_id) references transicoes (id) on delete restrict on update restrict;
 create index ix_tabela_entre_verdes_transicao_transicao_id on tabela_entre_verdes_transicao (transicao_id);
 
-alter table tabela_horarios add constraint fk_tabela_horarios_anel_id foreign key (anel_id) references aneis (id) on delete restrict on update restrict;
+alter table tabela_horarios add constraint fk_tabela_horarios_controlador_id foreign key (controlador_id) references controladores (id) on delete restrict on update restrict;
 
 alter table transicoes add constraint fk_transicoes_grupo_semaforico_id foreign key (grupo_semaforico_id) references grupos_semaforicos (id) on delete restrict on update restrict;
 create index ix_transicoes_grupo_semaforico_id on transicoes (grupo_semaforico_id);
@@ -643,9 +640,6 @@ drop index ix_estagios_planos_estagio_que_recebe_estagio_dispensavel_3 on estagi
 alter table eventos drop foreign key fk_eventos_tabela_horario_id;
 drop index ix_eventos_tabela_horario_id on eventos;
 
-alter table eventos drop foreign key fk_eventos_plano_id;
-drop index ix_eventos_plano_id on eventos;
-
 alter table grupos_semaforicos drop foreign key fk_grupos_semaforicos_anel_id;
 drop index ix_grupos_semaforicos_anel_id on grupos_semaforicos;
 
@@ -691,7 +685,7 @@ drop index ix_tabela_entre_verdes_transicao_tabela_entre_verdes_id on tabela_ent
 alter table tabela_entre_verdes_transicao drop foreign key fk_tabela_entre_verdes_transicao_transicao_id;
 drop index ix_tabela_entre_verdes_transicao_transicao_id on tabela_entre_verdes_transicao;
 
-alter table tabela_horarios drop foreign key fk_tabela_horarios_anel_id;
+alter table tabela_horarios drop foreign key fk_tabela_horarios_controlador_id;
 
 alter table transicoes drop foreign key fk_transicoes_grupo_semaforico_id;
 drop index ix_transicoes_grupo_semaforico_id on transicoes;

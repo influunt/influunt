@@ -17,11 +17,11 @@ angular.module('influuntApp')
     };
 
     var isCurrentTipoEventoNaoRecorrente = function() {
-      return tipoEvento === 'NAO_RECORRENTE';
+      return tipoEvento === 'ESPECIAL_NAO_RECORRENTE';
     };
 
     var isCurrentTipoEventoEspecial = function() {
-      return tipoEvento === 'ESPECIAL';
+      return tipoEvento === 'ESPECIAL_RECORRENTE';
     };
 
     var isCurrentTipoEventoNormal = function() {
