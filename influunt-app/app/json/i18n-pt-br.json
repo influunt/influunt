@@ -81,6 +81,7 @@
             "adicionarDetector": "Adicionar Detector",
             "detector": "detector",
             "titulo": "Detectores",
+            "mensagemMaxDetectores": "Você poderá adicionar até",
             "verTabelaEntreVerdes": "Ver Tela de Entre Verdes"
         },
         "dadosBasicos": {

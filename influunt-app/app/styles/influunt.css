@@ -92,9 +92,13 @@
   color: #f7f7f7;
 }
 
-.wrapper-content .basic-wizard .content .body .tableless table td {
+.wrapper-content .basic-wizard .content .body .tableless table > td {
   text-align: center;
   font-size: 25px;
+}
+
+.wrapper-content .basic-wizard .content .body .tableless table td p {
+  clear: both;
 }
 
 .wrapper-content .basic-wizard .content .body .tableless table tbody tr td.checked {
