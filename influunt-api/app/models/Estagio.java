@@ -99,13 +99,13 @@ public class Estagio extends Model implements Serializable, Cloneable {
 
     public Estagio() {
         super();
-        this.setIdJson(UUID.randomUUID().toString());
+        this.idJson = UUID.randomUUID().toString();
     }
 
     public Estagio(Integer posicao) {
         super();
+        this.idJson = UUID.randomUUID().toString();
         this.posicao = posicao;
-        this.setIdJson(UUID.randomUUID().toString());
     }
 
     public String getIdJson() {
@@ -316,21 +316,21 @@ public class Estagio extends Model implements Serializable, Cloneable {
     }
 
     public void addTransicaoProibidaOrigem(TransicaoProibida transicaoProibida) {
-        if(getOrigemDeTransicoesProibidas() == null) {
+        if (getOrigemDeTransicoesProibidas() == null) {
             setOrigemDeTransicoesProibidas(new ArrayList<TransicaoProibida>());
         }
         getOrigemDeTransicoesProibidas().add(transicaoProibida);
     }
 
     public void addTransicaoProibidaDestino(TransicaoProibida transicaoProibida) {
-        if(getDestinoDeTransicoesProibidas() == null) {
+        if (getDestinoDeTransicoesProibidas() == null) {
             setDestinoDeTransicoesProibidas(new ArrayList<TransicaoProibida>());
         }
         getDestinoDeTransicoesProibidas().add(transicaoProibida);
     }
 
     public void addTransicaoProibidaAlternativa(TransicaoProibida transicaoProibida) {
-        if(getAlternativaDeTransicoesProibidas() == null) {
+        if (getAlternativaDeTransicoesProibidas() == null) {
             setAlternativaDeTransicoesProibidas(new ArrayList<TransicaoProibida>());
         }
         getAlternativaDeTransicoesProibidas().add(transicaoProibida);

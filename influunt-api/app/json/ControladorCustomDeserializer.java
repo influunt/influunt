@@ -1269,6 +1269,10 @@ public class ControladorCustomDeserializer {
             runLater(c);
         }
 
+        if (node.has("subarea") && node.get("subarea").get("id") != null) {
+            controlador.setSubarea(Subarea.find.byId(UUID.fromString(node.get("subarea").get("id").asText())));
+        }
+
         if (node.has("modelo") && node.get("modelo").get("id") != null) {
             controlador.setModelo(ModeloControlador.find.byId(UUID.fromString(node.get("modelo").get("id").asText())));
         }

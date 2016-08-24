@@ -90,6 +90,10 @@ public class Controlador extends Model implements Cloneable, Serializable {
     @NotNull(message = "não pode ficar em branco")
     private Area area;
 
+    @ManyToOne
+    @Valid
+    private Subarea subarea;
+
     @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
     @Valid
     private List<Anel> aneis;
@@ -237,6 +241,9 @@ public class Controlador extends Model implements Cloneable, Serializable {
 
     public String getCLC() {
         if (this.id != null && this.area != null) {
+            if (this.subarea != null) {
+                return String.format("%01d.%03d.%04d", this.area.getDescricao(), this.subarea.getNumero(), this.sequencia);
+            }
             return String.format("%01d.%03d.%04d", this.area.getDescricao(), 0, this.sequencia);
         }
         return "";
@@ -288,6 +295,14 @@ public class Controlador extends Model implements Cloneable, Serializable {
 
     public void setArea(Area area) {
         this.area = area;
+    }
+
+    public Subarea getSubarea() {
+        return subarea;
+    }
+
+    public void setSubarea(Subarea subarea) {
+        this.subarea = subarea;
     }
 
     public List<Anel> getAneis() {

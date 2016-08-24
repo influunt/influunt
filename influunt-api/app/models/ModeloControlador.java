@@ -60,7 +60,7 @@ public class ModeloControlador extends Model implements Cloneable, Serializable 
 
     public ModeloControlador() {
         super();
-        this.setIdJson(UUID.randomUUID().toString());
+        this.idJson = UUID.randomUUID().toString();
     }
 
     public String getIdJson() {

@@ -65,14 +65,14 @@ public class TabelaEntreVerdes extends Model implements Cloneable, Serializable 
 
     public TabelaEntreVerdes(GrupoSemaforico grupoSemaforico, Integer posicao) {
         super();
-        this.setIdJson(UUID.randomUUID().toString());
+        this.idJson = UUID.randomUUID().toString();
         this.grupoSemaforico = grupoSemaforico;
         this.posicao = posicao;
     }
 
     public TabelaEntreVerdes() {
         super();
-        this.setIdJson(UUID.randomUUID().toString());
+        this.idJson = UUID.randomUUID().toString();
     }
 
     public String getIdJson() {

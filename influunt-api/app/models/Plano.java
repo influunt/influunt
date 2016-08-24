@@ -86,7 +86,7 @@ public class Plano extends Model implements Cloneable, Serializable {
 
     public Plano() {
         super();
-        this.setIdJson(UUID.randomUUID().toString());
+        this.idJson = UUID.randomUUID().toString();
     }
 
     public String getIdJson() {
@@ -341,7 +341,7 @@ public class Plano extends Model implements Cloneable, Serializable {
         Estagio estagioAnterior = getEstagioAnterior(estagioPlano.getEstagio());
         ArrayList<Integer> totalTempoEntreverdes = new ArrayList<Integer>();
         Integer tempoEntreVerdes = 0;
-        if(!estagio.equals(estagioAnterior)){
+        if (!estagio.equals(estagioAnterior)) {
             for (EstagioGrupoSemaforico estagioGrupoSemaforico : estagioAnterior.getEstagiosGruposSemaforicos()) {
                 TabelaEntreVerdes tabelaEntreVerdes = estagioGrupoSemaforico.getGrupoSemaforico().getTabelasEntreVerdes().stream().filter(tev -> tev.getPosicao().equals(getPosicaoTabelaEntreVerde())).findFirst().orElse(null);
 

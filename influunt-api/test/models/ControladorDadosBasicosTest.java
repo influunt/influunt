@@ -222,6 +222,18 @@ public class ControladorDadosBasicosTest extends ControladorTest {
         assertEquals("1.000.0002", c2A1.getCLC());
         assertEquals("2.000.0001", c1A2.getCLC());
         assertEquals("2.000.0002", c2A2.getCLC());
+
+        Subarea subarea = new Subarea();
+        subarea.setArea(area);
+        subarea.setNumero(234);
+        subarea.save();
+
+        c1A2.setSubarea(subarea);
+
+        assertEquals("1.000.0001", c1A1.getCLC());
+        assertEquals("1.000.0002", c2A1.getCLC());
+        assertEquals("2.234.0001", c1A2.getCLC());
+        assertEquals("2.000.0002", c2A2.getCLC());
     }
 
 }

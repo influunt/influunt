@@ -114,8 +114,8 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
                 new Erro("Controlador", "não pode ficar em branco", "aneis[1].gruposSemaforicos[1].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmarelo")
         ));
 
-        for(int i = 0; i < 2; i++){
-            TabelaEntreVerdes tabelaEntreVerdes = new TabelaEntreVerdes(grupoSemaforicoAnel4EstagiosPedestre, i+2);
+        for (int i = 0; i < 2; i++) {
+            TabelaEntreVerdes tabelaEntreVerdes = new TabelaEntreVerdes(grupoSemaforicoAnel4EstagiosPedestre, i + 2);
             grupoSemaforicoAnel4EstagiosPedestre.addTabelaEntreVerdes(tabelaEntreVerdes);
         }
 

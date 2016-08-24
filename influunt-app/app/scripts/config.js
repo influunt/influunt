@@ -122,7 +122,7 @@ angular
           controller: 'AreasCtrl',
           controllerAs: 'areas',
           data: {
-						title: 'areas.titulo',
+            title: 'areas.titulo',
             breadcrumb: 'areas.novo'
           }
         })
@@ -133,7 +133,7 @@ angular
           controller: 'AreasCtrl',
           controllerAs: 'areas',
           data: {
-						title: 'areas.titulo',
+            title: 'areas.titulo',
             breadcrumb: 'areas.editar'
           }
         })
@@ -144,8 +144,52 @@ angular
           controller: 'AreasCtrl',
           controllerAs: 'areas',
           data: {
-						title: 'areas.titulo',
+            title: 'areas.titulo',
             breadcrumb: 'areas.mostrar'
+          }
+        })
+
+        // Crud subareas.
+        .state('app.subareas', {
+          url: '/subareas',
+          templateUrl: 'views/subareas/index.html',
+          controller: 'SubAreasCtrl',
+          controllerAs: 'subareas',
+          data: {
+            title: 'subareas.titulo'
+          }
+        })
+
+        .state('app.subareas_new', {
+          url: '/subareas/new',
+          templateUrl: 'views/subareas/new.html',
+          controller: 'SubAreasCtrl',
+          controllerAs: 'subareas',
+          data: {
+            title: 'subareas.titulo',
+            breadcrumb: 'subareas.novo'
+          }
+        })
+
+        .state('app.subareas_edit', {
+          url: '/subareas/:id/edit',
+          templateUrl: 'views/subareas/edit.html',
+          controller: 'SubAreasCtrl',
+          controllerAs: 'subareas',
+          data: {
+            title: 'subareas.titulo',
+            breadcrumb: 'subareas.editar'
+          }
+        })
+
+        .state('app.subareas_show', {
+          url: '/subareas/:id',
+          templateUrl: 'views/subareas/show.html',
+          controller: 'SubAreasCtrl',
+          controllerAs: 'subareas',
+          data: {
+            title: 'subareas.titulo',
+            breadcrumb: 'subareas.mostrar'
           }
         })
 

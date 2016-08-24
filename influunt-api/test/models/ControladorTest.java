@@ -2,7 +2,6 @@ package models;
 
 import checks.Erro;
 import com.google.inject.Singleton;
-import org.joda.time.LocalTime;
 import org.junit.Before;
 import play.Application;
 import play.Mode;
@@ -10,9 +9,7 @@ import play.inject.guice.GuiceApplicationBuilder;
 import play.test.WithApplication;
 import security.AllowAllAuthenticator;
 import security.Authenticator;
-import tyrex.services.UUID;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

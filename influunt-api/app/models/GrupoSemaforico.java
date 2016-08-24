@@ -106,7 +106,7 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
 
     public GrupoSemaforico() {
         super();
-        this.setIdJson(UUID.randomUUID().toString());
+        this.idJson = UUID.randomUUID().toString();
     }
 
     public String getIdJson() {
@@ -358,7 +358,7 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
                                 this.addTransicaoSeNecessario(new Transicao(this, estagio, estagioGrupoSemaforico.getEstagio(), TipoTransicao.PERDA_DE_PASSAGEM))));
 
         getTransicoes().forEach(transicao -> {
-            if(transicao.isDestroy()){
+            if (transicao.isDestroy()) {
                 transicao.getTabelaEntreVerdesTransicoes().forEach(tabelaEntreVerdesTransicao -> {
                     tabelaEntreVerdesTransicao.getTabelaEntreVerdes().getTabelaEntreVerdesTransicoes().removeIf(tvt -> tvt.getIdJson().equals(tabelaEntreVerdesTransicao.getIdJson()));
                 });

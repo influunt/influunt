@@ -55,7 +55,7 @@ public class TransicaoProibida extends Model implements Serializable {
 
     public TransicaoProibida() {
         super();
-        this.setIdJson(UUID.randomUUID().toString());
+        this.idJson = UUID.randomUUID().toString();
     }
 
     public String getIdJson() {

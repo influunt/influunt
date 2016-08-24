@@ -52,10 +52,12 @@ public class LimiteArea extends Model implements Serializable {
 
     public LimiteArea() {
         super();
+        this.idJson = UUID.randomUUID().toString();
     }
 
     public LimiteArea(Double latitude, Double longitude) {
         super();
+        this.idJson = UUID.randomUUID().toString();
         this.latitude = latitude;
         this.longitude = longitude;
     }

@@ -103,14 +103,14 @@ public class Anel extends Model implements Cloneable, Serializable {
 
     public Anel(Controlador controlador, int posicao) {
         super();
-        this.setIdJson(UUID.randomUUID().toString());
+        this.idJson = UUID.randomUUID().toString();
         this.controlador = controlador;
         this.posicao = posicao;
     }
 
     public Anel() {
         super();
-        this.setIdJson(UUID.randomUUID().toString());
+        this.idJson = UUID.randomUUID().toString();
     }
 
 
@@ -372,7 +372,7 @@ public class Anel extends Model implements Cloneable, Serializable {
     }
 
     public void addPlano(Plano plano) {
-        if(getPlanos() == null) {
+        if (getPlanos() == null) {
             setPlanos(new ArrayList<Plano>());
         }
         getPlanos().add(plano);

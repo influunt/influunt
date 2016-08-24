@@ -44,7 +44,7 @@ public class ControladorGruposSemaforicosTest extends ControladorTest {
 
         Anel anelAtivo = controlador.getAneis().stream().filter(anel -> anel.isAtivo()).findFirst().get();
 
-        for(int i = 0; i < 17; i++){
+        for (int i = 0; i < 17; i++) {
             GrupoSemaforico grupo = new GrupoSemaforico();
             grupo.setAnel(anelAtivo);
             grupo.setTipo(TipoGrupoSemaforico.VEICULAR);

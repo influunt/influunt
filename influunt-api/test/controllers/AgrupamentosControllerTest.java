@@ -103,7 +103,7 @@ public class AgrupamentosControllerTest extends WithApplication {
 
         Agrupamento agrupamento = new Agrupamento();
         agrupamento.setNome("Teste");
-        agrupamento.setTipo(TipoAgrupamento.SUBAREA);
+        agrupamento.setTipo(TipoAgrupamento.ROTA);
         agrupamento.setControladores(controladores);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
@@ -113,7 +113,7 @@ public class AgrupamentosControllerTest extends WithApplication {
         Agrupamento agrupamentoRetornado = Json.fromJson(json, Agrupamento.class);
 
         assertEquals(200, result.status());
-        assertEquals(TipoAgrupamento.SUBAREA, agrupamentoRetornado.getTipo());
+        assertEquals(TipoAgrupamento.ROTA, agrupamentoRetornado.getTipo());
         assertEquals(1, agrupamentoRetornado.getControladores().size());
         assertNotNull(agrupamentoRetornado.getControladores().get(0).getId());
         assertNotNull(agrupamentoRetornado.getId());
@@ -195,7 +195,7 @@ public class AgrupamentosControllerTest extends WithApplication {
     @Test
     public void testListarAgrupamentos() {
         Agrupamento agrupamento = new Agrupamento();
-        agrupamento.setTipo(TipoAgrupamento.SUBAREA);
+        agrupamento.setTipo(TipoAgrupamento.CORREDOR);
         agrupamento.save();
 
         Agrupamento agrupamento1 = new Agrupamento();
@@ -215,7 +215,7 @@ public class AgrupamentosControllerTest extends WithApplication {
     @Test
     public void testBuscarDadosAgrupamento() {
         Agrupamento agrupamento = new Agrupamento();
-        agrupamento.setTipo(TipoAgrupamento.SUBAREA);
+        agrupamento.setTipo(TipoAgrupamento.ROTA);
         agrupamento.save();
         UUID agrupamentoId = agrupamento.getId();
         assertNotNull(agrupamentoId);
@@ -228,7 +228,7 @@ public class AgrupamentosControllerTest extends WithApplication {
 
         assertEquals(200, result.status());
         assertEquals(agrupamentoId, agrupamentoRetornado.getId());
-        assertEquals(TipoAgrupamento.SUBAREA, agrupamentoRetornado.getTipo());
+        assertEquals(TipoAgrupamento.ROTA, agrupamentoRetornado.getTipo());
     }
 
 }

@@ -86,7 +86,7 @@ public class Detector extends Model implements Cloneable, Serializable {
 
     public Detector() {
         super();
-        this.setIdJson(UUID.randomUUID().toString());
+        this.idJson = UUID.randomUUID().toString();
     }
 
     public String getIdJson() {

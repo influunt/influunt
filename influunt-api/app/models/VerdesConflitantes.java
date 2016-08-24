@@ -47,12 +47,12 @@ public class VerdesConflitantes extends Model implements Serializable {
 
     public VerdesConflitantes() {
         super();
-        this.setIdJson(UUID.randomUUID().toString());
+        this.idJson = UUID.randomUUID().toString();
     }
 
     public VerdesConflitantes(GrupoSemaforico origem, GrupoSemaforico destino) {
         super();
-        this.setIdJson(UUID.randomUUID().toString());
+        this.idJson = UUID.randomUUID().toString();
         this.origem = origem;
         this.destino = destino;
     }

@@ -66,12 +66,12 @@ public class Endereco extends Model implements Serializable {
 
     public Endereco() {
         super();
-        this.setIdJson(UUID.randomUUID().toString());
+        this.idJson = UUID.randomUUID().toString();
     }
 
     public Endereco(Double latitude, Double longitude, String localizacao) {
         super();
-        this.setIdJson(UUID.randomUUID().toString());
+        this.idJson = UUID.randomUUID().toString();
         this.latitude = latitude;
         this.longitude = longitude;
         this.localizacao = localizacao;

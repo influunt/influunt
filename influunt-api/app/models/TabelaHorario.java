@@ -59,7 +59,7 @@ public class TabelaHorario extends Model implements Cloneable, Serializable {
 
     public TabelaHorario() {
         super();
-        this.setIdJson(UUID.randomUUID().toString());
+        this.idJson = UUID.randomUUID().toString();
     }
 
     public UUID getId() {

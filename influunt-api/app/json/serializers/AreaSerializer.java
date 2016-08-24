@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import models.Area;
 import models.Cidade;
 import models.LimiteArea;
+import models.Subarea;
 import org.apache.commons.lang3.ObjectUtils;
 
 import java.io.IOException;
@@ -47,6 +48,13 @@ public class AreaSerializer extends JsonSerializer<Area> {
             jgen.writeArrayFieldStart("limites");
             for (LimiteArea limite : area.getLimitesGeograficos()) {
                 jgen.writeObject(limite);
+            }
+            jgen.writeEndArray();
+        }
+        if (area.getSubareas() != null) {
+            jgen.writeArrayFieldStart("subareas");
+            for (Subarea subarea : area.getSubareas()) {
+                jgen.writeObject(subarea);
             }
             jgen.writeEndArray();
         }

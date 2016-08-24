@@ -23,5 +23,13 @@ angular.module('influuntApp')
           $scope.objeto.nomeEndereco = '';
         }
       });
-
+      
+      $scope.$watchGroup(['objeto.area.idJson', 'helpers.cidade.areas'], function (){
+        $scope.currentSubareas = [];
+        if ($scope.objeto && $scope.helpers && $scope.objeto.area && $scope.objeto.area.idJson){
+          var area = _.find($scope.helpers.cidade.areas, {idJson: $scope.objeto.area.idJson});
+          $scope.currentSubareas = area.subareas;
+        }
+        return $scope.currentSubareas;
+      }, true);
     }]);
