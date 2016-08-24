@@ -147,10 +147,10 @@
         "area": "Área",
         "nome": "Nome",
         "numero": "Número",
-        "novo": "Nova SubArea",
-        "mostrar": "Visualizar SubArea",
-        "editar": "Editar SubArea",
-        "titulo": "SubAreas"
+        "novo": "Nova Subárea",
+        "mostrar": "Visualizar Subárea",
+        "editar": "Editar Subárea",
+        "titulo": "Subáreas"
     },
     "cidades": {
         "areas": "ÁREAS",
