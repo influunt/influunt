@@ -11,7 +11,7 @@ create table agrupamentos (
   tipo                          varchar(8),
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
-  constraint ck_agrupamentos_tipo check (tipo in ('SUBAREA','ROTA','CORREDOR')),
+  constraint ck_agrupamentos_tipo check (tipo in ('ROTA','CORREDOR')),
   constraint pk_agrupamentos primary key (id)
 );
 

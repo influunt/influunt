@@ -1,5 +1,10 @@
 {
     "appname": "Influunt",
+    "titulo_padrao": "CENTRAL DE SEMÁFOROS EM TEMPO FIXO",
+    "navegador": {
+        "aviso": "Você está utilizado o navegador <strong id='nav'>Internet Explorer</strong>. Esse sistema não foi projetado para ser utilizado nesse navegador.",
+        "recomendacao": "Comportamentos não esperados podem acontecer durante a utilização. Recomenda-se a utilização do navegador Google Chrome, versão 51 ou superior."
+    },
     "controladores": {
         "titulo": "Programação",
         "detector": "Detector",
@@ -49,14 +54,13 @@
         "ganhoDePassagem": "Transições com ganho de direito de passagem",
         "perdaDePassagem": "Transições com perda de direito de passagem",
         "geral": {
-            "novo": "Novo Controlador",
+            "novo": "Novo",
             "historico": "Histórico",
             "copiar": "Copiar",
             "configurar": "Configurar",
             "configurado": "Configurado",
             "visualizar": "Visualizar",
             "planos": "Planos",
-            "novo": "Novo",
             "tabelaHorario": "Tabela Horário",
             "ativar": "Ativar",
             "verMapa": "Ver no mapa",
@@ -112,8 +116,6 @@
             "tabelaPadrao": "Tabela Padrão",
             "amarelo": "Amarelo",
             "vermelhoLimpeza": "Vermelho Limpeza",
-            "semTransicao": "Este controlador ainda não possui transições cadastradas",
-            "tabelaPadrao": "Tabela Padrão",
             "estagio": "Amarelo",
             "ausenciaMinima": "Ausência de Detecção Mínima",
             "ausenciaMaxima": "Ausência de Detecção Máxima",
@@ -205,6 +207,17 @@
         "mostrar": "Visualizar Fabricante",
         "titulo": "Fabricantes"
     },
+    "crud": {
+        "configurar": "Configurar",
+        "editar": "Editar",
+        "excluir": "Excluir",
+        "fechar": "Fechar",
+        "novo": "Novo",
+        "opcoes": "Opções",
+        "salvar": "Salvar",
+        "visualizar": "Visualizar",
+        "voltar": "Voltar"
+    },
     "modelos_controladores": {
         "descricao": "DESCRIÇÃO",
         "fabricante": "FABRICANTE",
@@ -269,8 +282,7 @@
             "salvo_com_sucesso": "Salvo com sucesso",
             "sair": "Sair do sistema?",
             "sim": "Sim"
-        },
-        "titulo_padrao": "Título não definido."
+        }
     },
     "login": {
         "acessar": "Acessar",
@@ -330,7 +342,7 @@
     "plugins": {
         "datatables_cdn": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json",
         "steps": {
-          "confirmation": "Confirmo que não há configurações a serem feitas aqui.",
+            "confirmation": "Confirmo que não há configurações a serem feitas aqui.",
             "labels": {
                 "back": "Voltar",
                 "last_screen": "Ver Resumo",
