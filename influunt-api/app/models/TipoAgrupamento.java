@@ -4,7 +4,7 @@ package models;
  * Created by pedropires on 7/7/16.
  */
 public enum TipoAgrupamento {
-    SUBAREA("Subárea"), ROTA("Rota"), CORREDOR("Corredor");
+    ROTA("Rota"), CORREDOR("Corredor");
 
     private String name;
 

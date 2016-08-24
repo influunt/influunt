@@ -71,6 +71,11 @@ public class Subarea extends Model implements Cloneable, Serializable {
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
 
+    public Subarea() {
+        super();
+        this.setIdJson(UUID.randomUUID().toString());
+    }
+
     public String getIdJson() {
         return idJson;
     }

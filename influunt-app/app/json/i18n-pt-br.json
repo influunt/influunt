@@ -6,6 +6,7 @@
         "mapa": "Mapa dos controladores",
         "anel": "Anel",
         "area": "Área",
+        "subarea": "SubArea",
         "adicionarGrupo": "Adicionar Grupo",
         "ativo": "Ativo",
         "cidade": "Cidade",
@@ -141,6 +142,15 @@
         "mostrar": "Visualizar Área",
         "editar": "Editar Área",
         "titulo": "Áreas"
+    },
+    "subareas": {
+        "area": "Área",
+        "nome": "Nome",
+        "numero": "Número",
+        "novo": "Nova SubArea",
+        "mostrar": "Visualizar SubArea",
+        "editar": "Editar SubArea",
+        "titulo": "SubAreas"
     },
     "cidades": {
         "areas": "ÁREAS",

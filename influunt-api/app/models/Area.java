@@ -52,11 +52,11 @@ public class Area extends Model implements Cloneable, Serializable {
     @NotNull(message = "não pode ficar em branco")
     private Cidade cidade;
 
-    @OneToMany(mappedBy = "area", cascade = CascadeType.REMOVE)
-    private List<Subarea> subareas;
-
     @OneToMany(mappedBy = "area")
     private List<Usuario> usuarios;
+
+    @OneToMany(mappedBy = "area")
+    private List<Subarea> subareas;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "area")
     private List<LimiteArea> limitesGeograficos;

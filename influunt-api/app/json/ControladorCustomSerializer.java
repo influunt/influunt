@@ -46,6 +46,7 @@ public class ControladorCustomSerializer {
 
         putControladorDadosBasicos(controlador, root);
         putControladorModelo(controlador.getModelo(), root);
+        putControladorSubarea(controlador.getSubarea(), root);
         putControladorAneis(controlador.getAneis(), root);
         putControladorEstagios(root);
         putControladorGruposSemaforicos(root);
@@ -265,6 +266,34 @@ public class ControladorCustomSerializer {
         root.set("modelo", modeloJson);
     }
 
+    private void putControladorSubarea(Subarea subarea, ObjectNode root) {
+        if (subarea == null) {
+            return;
+        }
+        ObjectNode subareaJson = Json.newObject();
+        if (subarea.getId() == null) {
+            subareaJson.putNull("id");
+        } else {
+            subareaJson.put("id", subarea.getId().toString());
+        }
+
+        if (subarea.getIdJson() == null) {
+            subareaJson.putNull("idJson");
+        } else {
+            subareaJson.put("idJson", subarea.getIdJson().toString());
+        }
+
+        if (subarea.getNome() != null) {
+            subareaJson.put("nome", subarea.getNome());
+        }
+
+        if (subarea.getNumero() != null) {
+            subareaJson.put("numero", subarea.getNumero());
+        }
+
+        root.set("subarea", subareaJson);
+    }
+
     private JsonNode getAreaJson(Area area) {
         ObjectNode areaJson = Json.newObject();
         if (area.getId() != null) {
@@ -279,6 +308,7 @@ public class ControladorCustomSerializer {
         }
 
         refLimites("limites", area.getLimitesGeograficos(), areaJson);
+        refSubareas("subareas", area.getSubareas(), areaJson);
         return areaJson;
     }
 
@@ -1299,5 +1329,19 @@ public class ControladorCustomSerializer {
         parentJson.set(name, limitesJson);
     }
 
+    private void refSubareas(String name, List<Subarea> subareas, ObjectNode parentJson) {
+        ArrayNode subareasJson = Json.newArray();
+        for (Subarea subarea : subareas) {
+            if (subarea != null && subarea.getIdJson() != null) {
+                ObjectNode subareaJson = Json.newObject();
+                subareaJson.put("id", subarea.getId().toString());
+                subareaJson.put("idJson", subarea.getIdJson());
+                subareaJson.put("nome", subarea.getNome());
+                subareaJson.put("numero", subarea.getNumero().toString());
+                subareasJson.add(subareaJson);
+            }
+        }
 
+        parentJson.set(name, subareasJson);
+    }
 }

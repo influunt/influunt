@@ -58,7 +58,7 @@ public class SubareasController extends Controller {
 
     @Transactional
     public CompletionStage<Result> findAll() {
-        return CompletableFuture.completedFuture(ok(Json.toJson(Subarea.find.fetch("area").findList())));
+        return CompletableFuture.completedFuture(ok(Json.toJson(Subarea.find.fetch("area").fetch("area.cidade").findList())));
     }
 
     @Transactional
