@@ -14,7 +14,7 @@ angular.module('influuntApp')
     function ($scope, $state, $timeout, Restangular, $filter, toast,
               influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo, handleValidations, TabelaHorariaService) {
 
-      var adicionaTabelaHorario, adicionaEvento, selecionaAnel, atualizaPlanos, atualizaGruposSemaforicos, atualizaEventos, atualizaPosicaoEventos;
+      var adicionaTabelaHorario, adicionaEvento, atualizaPlanos, atualizaGruposSemaforicos, atualizaEventos, atualizaPosicaoEventos;
       /**
        * Inicializa a tela de tabela horario.
        */
@@ -108,17 +108,30 @@ angular.module('influuntApp')
             }
           });
 
-          $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
-          $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
-          $scope.aneis.forEach(function(anel) {
-            if(!anel.tabelaHorario) {
-              adicionaTabelaHorario(anel);
-            }
-            adicionaEvento(anel.tabelaHorario, 'NORMAL');
-            adicionaEvento(anel.tabelaHorario, 'ESPECIAL');
-            adicionaEvento(anel.tabelaHorario, 'NAO_RECORRENTE');
-          });
-          $scope.selecionaAnelTabelaHorarios(0);
+
+          if(!$scope.objeto.tabelaHorario) {
+            adicionaTabelaHorario($scope.objeto);
+          }
+          adicionaEvento($scope.objeto.tabelaHorario, 'NORMAL');
+          adicionaEvento($scope.objeto.tabelaHorario, 'ESPECIAL');
+          adicionaEvento($scope.objeto.tabelaHorario, 'NAO_RECORRENTE');
+          atualizaEventos();
+          atualizaGruposSemaforicos();
+          atualizaPlanos();
+
+          // TODO - remover bloco de codigo
+          // $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
+          // $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
+          // $scope.aneis.forEach(function(anel) {
+          //   if(!anel.tabelaHorario) {
+          //     adicionaTabelaHorario(anel);
+          //   }
+          //   adicionaEvento(anel.tabelaHorario, 'NORMAL');
+          //   adicionaEvento(anel.tabelaHorario, 'ESPECIAL');
+          //   adicionaEvento(anel.tabelaHorario, 'NAO_RECORRENTE');
+          // });
+          // $scope.selecionaAnelTabelaHorarios(0);
+
         });
       };
 
@@ -200,17 +213,15 @@ angular.module('influuntApp')
         return $scope.dadosDiagrama;
       };
 
-      adicionaTabelaHorario = function(anel) {
+      adicionaTabelaHorario = function(controlador) {
         var tabelaHorario = {
           idJson: UUID.generate(),
-          anel: { idJson: anel.idJson },
+          controlador: { idJson: controlador.idJson },
           eventos: []
         };
-        $scope.objeto.tabelasHorarios = $scope.objeto.tabelasHorarios || [];
-        $scope.objeto.tabelasHorarios.push(tabelaHorario);
 
-        anel.tabelaHorario = anel.tabelaHorario || {};
-        anel.tabelaHorario.idJson = tabelaHorario.idJson;
+        controlador.tabelaHorario = controlador.tabelaHorario || {};
+        controlador.tabelaHorario.idJson = tabelaHorario.idJson;
         return tabelaHorario;
       };
 
@@ -236,12 +247,6 @@ angular.module('influuntApp')
         return evento;
       };
 
-      selecionaAnel = function(index) {
-        $scope.currentAnelIndex = index;
-        $scope.currentAnel = $scope.aneis[$scope.currentAnelIndex];
-        atualizaGruposSemaforicos();
-        atualizaPlanos();
-      };
 
       atualizaPlanos = function() {
         var ids = _.map($scope.currentAnel.planos, 'idJson');

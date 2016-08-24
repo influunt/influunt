@@ -33,7 +33,6 @@ import java.util.UUID;
 @ConformidadeNumeroEstagios(groups = ControladorAneisCheck.class)
 @ConformidadeNumeroDetectores(groups = ControladorAneisCheck.class)
 @ConformidadeNumeroDetectoresEstagios(groups = ControladorAneisCheck.class)
-
 public class Anel extends Model implements Cloneable, Serializable {
 
     private static final long serialVersionUID = -6992146830358479832L;
@@ -61,10 +60,6 @@ public class Anel extends Model implements Cloneable, Serializable {
 
     @ManyToOne
     private Controlador controlador;
-
-    @OneToOne(mappedBy = "anel", cascade = CascadeType.ALL)
-    @Valid
-    private TabelaHorario tabelaHorario;
 
     @OneToOne
     private Imagem croqui;
@@ -182,14 +177,6 @@ public class Anel extends Model implements Cloneable, Serializable {
         this.controlador = controlador;
     }
 
-    public TabelaHorario getTabelaHorario() {
-        return tabelaHorario;
-    }
-
-    public void setTabelaHorario(TabelaHorario tabelaHorario) {
-        this.tabelaHorario = tabelaHorario;
-    }
-
     public List<Detector> getDetectores() {
         return detectores;
     }
@@ -251,15 +238,6 @@ public class Anel extends Model implements Cloneable, Serializable {
     public boolean isAoMenosUmPlanoConfigurado() {
         if (this.isAtivo()) {
             return !this.getPlanos().isEmpty();
-        }
-        return true;
-    }
-
-    @AssertTrue(groups = TabelaHorariosCheck.class,
-            message = "O anel ativo deve ter tabela horário configurada.")
-    public boolean isPossuiTabelaHorario() {
-        if (this.isAtivo()) {
-            return this.getTabelaHorario() != null;
         }
         return true;
     }

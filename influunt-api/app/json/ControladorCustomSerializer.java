@@ -34,7 +34,6 @@ public class ControladorCustomSerializer {
     private Map<String, Plano> planosMap = new HashMap<String, Plano>();
     private Map<String, GrupoSemaforicoPlano> grupoSemaforicoPlanoMap = new HashMap<String, GrupoSemaforicoPlano>();
     private Map<String, EstagioPlano> estagioPlanoMap = new HashMap<String, EstagioPlano>();
-    private Map<String, TabelaHorario> tabelasHorariosMap = new HashMap<String, TabelaHorario>();
     private Map<String, Evento> eventosMap = new HashMap<String, Evento>();
     private Map<String, Endereco> enderecosMap = new HashMap<String, Endereco>();
     private Map<String, Area> areasMap = new HashMap<String, Area>();
@@ -64,7 +63,7 @@ public class ControladorCustomSerializer {
         putControladorGruposSemaforicosPlanos(root);
         putControladorEstagiosPlanos(root);
 
-        putControladorTabelasHorarios(root);
+        putControladorTabelaHoraria(controlador.getTabelaHoraria(), root);
         putControladorEventos(root);
 
         putControladorCidades(root);
@@ -112,12 +111,29 @@ public class ControladorCustomSerializer {
         root.set("estagiosPlanos", estagiosPlanoJson);
     }
 
-    private void putControladorTabelasHorarios(ObjectNode root) {
-        ArrayNode tabelaHorarioJson = Json.newArray();
-        tabelasHorariosMap.values().stream().forEach(tabelaHorario -> {
-            tabelaHorarioJson.add(getTabelaHorarioJson(tabelaHorario));
-        });
-        root.set("tabelasHorarios", tabelaHorarioJson);
+    private void putControladorTabelaHoraria(TabelaHorario tabelaHoraria, ObjectNode root) {
+        if (tabelaHoraria == null) {
+            return;
+        }
+        ObjectNode tabelaHorariaJson = Json.newObject();
+        if (tabelaHoraria.getId() == null) {
+            tabelaHorariaJson.putNull("id");
+        } else {
+            tabelaHorariaJson.put("id", tabelaHoraria.getId().toString());
+        }
+
+        if (tabelaHoraria.getIdJson() == null) {
+            tabelaHorariaJson.putNull("idJson");
+        } else {
+            tabelaHorariaJson.put("idJson", tabelaHoraria.getIdJson().toString());
+        }
+
+        if (tabelaHoraria.getControlador() != null && tabelaHoraria.getControlador().getIdJson() != null) {
+            tabelaHorariaJson.putObject("controlador").put("idJson", tabelaHoraria.getControlador().getIdJson().toString());
+        }
+
+        refEventos("eventos", tabelaHoraria.getEventos(), tabelaHorariaJson);
+        root.set("tabelaHoraria", tabelaHorariaJson);
     }
 
     private void putControladorEventos(ObjectNode root) {
@@ -600,21 +616,6 @@ public class ControladorCustomSerializer {
         return estagioPlanoJson;
     }
 
-    private JsonNode getTabelaHorarioJson(TabelaHorario tabelaHorario) {
-        ObjectNode tabelaHorarioJson = Json.newObject();
-        if (tabelaHorario.getId() != null) {
-            tabelaHorarioJson.put("id", tabelaHorario.getId().toString());
-        }
-        if (tabelaHorario.getIdJson() != null) {
-            tabelaHorarioJson.put("idJson", tabelaHorario.getIdJson().toString());
-        }
-        if (tabelaHorario.getAnel() != null && tabelaHorario.getAnel().getIdJson() != null) {
-            tabelaHorarioJson.putObject("anel").put("idJson", tabelaHorario.getAnel().getIdJson().toString());
-        }
-        refEventos("eventos", tabelaHorario.getEventos(), tabelaHorarioJson);
-        return tabelaHorarioJson;
-    }
-
     private JsonNode getEventoJson(Evento evento) {
         ObjectNode eventoJson = Json.newObject();
         if (evento.getId() != null) {
@@ -642,8 +643,8 @@ public class ControladorCustomSerializer {
         if (evento.getHorario() != null) {
             eventoJson.put("horario", evento.getHorario().toString());
         }
-        if (evento.getPlano() != null && evento.getPlano().getIdJson() != null) {
-            eventoJson.putObject("plano").put("idJson", evento.getPlano().getIdJson().toString());
+        if (evento.getPosicaoPlano() != null) {
+            eventoJson.put("posicaoPlano", evento.getPosicaoPlano().toString());
         }
         if (evento.getTabelaHorario() != null && evento.getTabelaHorario().getIdJson() != null) {
             eventoJson.putObject("tabelaHorario").put("idJson", evento.getTabelaHorario().getIdJson().toString());
@@ -1062,17 +1063,11 @@ public class ControladorCustomSerializer {
             anelJson.set("croqui", croquiJson);
         }
 
-        if (anel.getTabelaHorario() != null && anel.getTabelaHorario().getIdJson() != null) {
-            tabelasHorariosMap.put(anel.getTabelaHorario().getIdJson().toString(), anel.getTabelaHorario());
-            anelJson.putObject("tabelaHorario").put("idJson", anel.getTabelaHorario().getIdJson().toString());
-        }
-
         refEstagios(anel.getEstagios(), anelJson);
         refGruposSemaforicos(anel.getGruposSemaforicos(), anelJson);
         refDetectores(anel.getDetectores(), anelJson);
         refPlanos("planos", anel.getPlanos(), anelJson);
         refEnderecos("enderecos", anel.getEnderecos(), anelJson);
-
 
         return anelJson;
     }

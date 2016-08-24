@@ -12,6 +12,8 @@ import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import javax.validation.Valid;
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -110,6 +112,10 @@ public class Controlador extends Model implements Cloneable, Serializable {
     @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
     @Valid
     private List<Endereco> enderecos;
+
+    @OneToOne(mappedBy = "controlador")
+    @Valid
+    private TabelaHorario tabelaHoraria;
 
     // CONFIGURACOES CONTROLADORES
 
@@ -331,12 +337,26 @@ public class Controlador extends Model implements Cloneable, Serializable {
         this.enderecos = enderecos;
     }
 
-    private void criarPossiveisTransicoes() {
+    public TabelaHorario getTabelaHoraria() {
+        return tabelaHoraria;
+    }
+
+    public void setTabelaHoraria(TabelaHorario tabelaHoraria) {
+        this.tabelaHoraria = tabelaHoraria;
+    }
+
+    public void criarPossiveisTransicoes() {
         for (Anel anel : getAneis()) {
             for (GrupoSemaforico grupoSemaforico : anel.getGruposSemaforicos()) {
                 grupoSemaforico.criarPossiveisTransicoes();
             }
         }
+    }
+
+    @AssertTrue(groups = TabelaHorariosCheck.class,
+            message = "O controlador deve ter tabela horária configurada.")
+    public boolean isPossuiTabelaHoraria() {
+        return this.getTabelaHoraria() != null;
     }
 
     @Override

@@ -1,4 +1,4 @@
-<td class="horario10px horarioColor{{evento.posicao}}" data-ng-class="{'horaStripes': evento.tipo === 'ESPECIAL'}"></td>
+<td class="horario10px horarioColor{{evento.posicao}}" data-ng-class="{'horaStripes': TabelaHorariaService.isCurrentTipoEventoEspecial()}"></td>
 <td data-ng-if="TabelaHorariaService.isCurrentTipoEventoNormal()">
   <select name="eventoDiaDaSemana" data-ng-model="evento.diaDaSemana" class="form-control" data-ng-change="verificaAtualizacao()">
     <option data-ng-repeat="dia in dias" value="{{dia.value}}">{{dia.label}}</option>

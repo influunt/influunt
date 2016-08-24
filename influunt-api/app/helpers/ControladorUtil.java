@@ -285,29 +285,23 @@ public class ControladorUtil {
     private void deepCloneTabelaHorario(Controlador origem, Controlador destino) {
         long startTime = System.nanoTime();
 
-        origem.getAneis().forEach(anel -> {
-            if (anel.getTabelaHorario() != null && anel.getTabelaHorario().getIdJson() != null) {
-                Anel anelClonado = destino.getAneis().stream().filter(anelAux -> anelAux.getIdJson().equals(anel.getIdJson())).findFirst().orElse(null);
-                TabelaHorario tabelaHorarioAux = copyPrimitveFields(anel.getTabelaHorario());
-                tabelaHorarioAux.setAnel(anelClonado);
-                anelClonado.setTabelaHorario(tabelaHorarioAux);
+        if (origem.getTabelaHoraria() != null && origem.getTabelaHoraria().getIdJson() != null) {
+            TabelaHorario tabelaHorarioAux = copyPrimitveFields(origem.getTabelaHoraria());
+            tabelaHorarioAux.setControlador(destino);
+            destino.setTabelaHoraria(tabelaHorarioAux);
 
-                anel.getTabelaHorario().getEventos().forEach(evento -> {
-                    Plano planoClonado = anelClonado.getPlanos().stream().filter(anelAux -> anelAux.getIdJson().equals(evento.getPlano().getIdJson())).findFirst().orElse(null);
-                    Evento eventoAux = copyPrimitveFields(evento);
-                    eventoAux.setTabelaHorario(tabelaHorarioAux);
-                    eventoAux.setDiaDaSemana(evento.getDiaDaSemana());
-                    eventoAux.setHorario(evento.getHorario());
-                    eventoAux.setPlano(planoClonado);
-                    tabelaHorarioAux.addEventos(eventoAux);
-                });
+            origem.getTabelaHoraria().getEventos().forEach(evento -> {
+                Evento eventoAux = copyPrimitveFields(evento);
+                eventoAux.setTabelaHorario(tabelaHorarioAux);
+                eventoAux.setDiaDaSemana(evento.getDiaDaSemana());
+                eventoAux.setHorario(evento.getHorario());
+                eventoAux.setPosicaoPlano(evento.getPosicaoPlano());
+                tabelaHorarioAux.addEventos(eventoAux);
+            });
 
-
-            }
-        });
-
-        // FIM CLONE PLANO
-        Ebean.update(destino);
+            // FIM CLONE TABELA HORARIA
+            Ebean.update(destino);
+        }
 
         long elapsed = System.nanoTime() - startTime;
         Logger.info(String.format("[TABELA HORARIO] - DeepClone: Elapsed time: %d ns (%f seconds)%n", elapsed, elapsed / Math.pow(10, 9)));

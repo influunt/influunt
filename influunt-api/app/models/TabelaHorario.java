@@ -39,7 +39,7 @@ public class TabelaHorario extends Model implements Cloneable, Serializable {
     private String idJson;
 
     @OneToOne
-    private Anel anel;
+    private Controlador controlador;
 
     @OneToMany(mappedBy = "tabelaHorario", cascade = CascadeType.ALL)
     @Valid
@@ -78,12 +78,12 @@ public class TabelaHorario extends Model implements Cloneable, Serializable {
         this.idJson = idJson;
     }
 
-    public Anel getAnel() {
-        return anel;
+    public Controlador getControlador() {
+        return controlador;
     }
 
-    public void setAnel(Anel anel) {
-        this.anel = anel;
+    public void setControlador(Controlador controlador) {
+        this.controlador = controlador;
     }
 
     public List<Evento> getEventos() {
@@ -111,7 +111,7 @@ public class TabelaHorario extends Model implements Cloneable, Serializable {
     }
 
     @AssertTrue(groups = TabelaHorariosCheck.class,
-            message = "A tabela horário deve ter pelo menos 1 evento configurado.")
+            message = "A tabela horária deve ter pelo menos 1 evento configurado.")
     public boolean isAoMenosUmEvento() {
         return !this.getEventos().isEmpty();
     }
