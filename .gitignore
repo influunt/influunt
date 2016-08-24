@@ -12,3 +12,4 @@ target
 imagens/*
 /bin/
 1.sql
+npm-debug.log

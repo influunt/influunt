@@ -7,7 +7,7 @@
  * # influuntMetis
  */
 angular.module('influuntApp')
-  .directive('influuntRevisao', ['$timeout', function () {
+  .directive('influuntRevisao', function () {
     return {
       restrict: 'E',
       templateUrl: 'views/directives/influunt-revisao.html',
@@ -17,4 +17,4 @@ angular.module('influuntApp')
 
       }
     };
-  }]);
+  });
