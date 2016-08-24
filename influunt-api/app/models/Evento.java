@@ -82,7 +82,7 @@ public class Evento extends Model implements Cloneable, Serializable {
 
     public Evento() {
         super();
-        this.setIdJson(UUID.randomUUID().toString());
+        this.idJson = UUID.randomUUID().toString();
     }
 
     public UUID getId() {

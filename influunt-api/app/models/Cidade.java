@@ -62,7 +62,7 @@ public class Cidade extends Model implements Cloneable, Serializable {
 
     public Cidade() {
         super();
-        this.setIdJson(UUID.randomUUID().toString());
+        this.idJson = UUID.randomUUID().toString();
     }
 
     public String getIdJson() {

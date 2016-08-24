@@ -34,7 +34,7 @@ import java.util.UUID;
 @JsonDeserialize(using = SubareaDeserializer.class)
 public class Subarea extends Model implements Cloneable, Serializable {
 
-    private static final long serialVersionUID = -7310183724485834593L;
+    private static final long serialVersionUID = 6277647699877361644L;
 
     public static Finder<UUID, Subarea> find = new Finder<UUID, Subarea>(Subarea.class);
 
@@ -73,7 +73,7 @@ public class Subarea extends Model implements Cloneable, Serializable {
 
     public Subarea() {
         super();
-        this.setIdJson(UUID.randomUUID().toString());
+        this.idJson = UUID.randomUUID().toString();
     }
 
     public String getIdJson() {

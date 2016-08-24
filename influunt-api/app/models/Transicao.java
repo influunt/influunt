@@ -77,12 +77,12 @@ public class Transicao extends Model implements Cloneable, Serializable {
 
     public Transicao() {
         super();
-        this.setIdJson(UUID.randomUUID().toString());
+        this.idJson = UUID.randomUUID().toString();
     }
 
     public Transicao(GrupoSemaforico grupoSemaforico, Estagio origem, Estagio destino, TipoTransicao tipo) {
         super();
-        this.setIdJson(UUID.randomUUID().toString());
+        this.idJson = UUID.randomUUID().toString();
         this.grupoSemaforico = grupoSemaforico;
         this.origem = origem;
         this.destino = destino;

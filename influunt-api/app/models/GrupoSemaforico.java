@@ -106,7 +106,7 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
 
     public GrupoSemaforico() {
         super();
-        this.setIdJson(UUID.randomUUID().toString());
+        this.idJson = UUID.randomUUID().toString();
     }
 
     public String getIdJson() {

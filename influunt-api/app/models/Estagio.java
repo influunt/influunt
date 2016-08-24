@@ -99,13 +99,13 @@ public class Estagio extends Model implements Serializable, Cloneable {
 
     public Estagio() {
         super();
-        this.setIdJson(UUID.randomUUID().toString());
+        this.idJson = UUID.randomUUID().toString();
     }
 
     public Estagio(Integer posicao) {
         super();
+        this.idJson = UUID.randomUUID().toString();
         this.posicao = posicao;
-        this.setIdJson(UUID.randomUUID().toString());
     }
 
     public String getIdJson() {

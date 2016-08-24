@@ -86,7 +86,7 @@ public class Plano extends Model implements Cloneable, Serializable {
 
     public Plano() {
         super();
-        this.setIdJson(UUID.randomUUID().toString());
+        this.idJson = UUID.randomUUID().toString();
     }
 
     public String getIdJson() {

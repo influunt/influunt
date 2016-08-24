@@ -54,7 +54,7 @@ public class Imagem extends Model implements Serializable {
 
     public Imagem() {
         super();
-        this.setIdJson(UUID.randomUUID().toString());
+        this.idJson = UUID.randomUUID().toString();
     }
 
     public String getIdJson() {

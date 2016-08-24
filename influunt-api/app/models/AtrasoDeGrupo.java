@@ -57,10 +57,12 @@ public class AtrasoDeGrupo extends Model implements Cloneable, Serializable {
 
     public AtrasoDeGrupo() {
         super();
+        this.idJson = UUID.randomUUID().toString();
     }
 
     public AtrasoDeGrupo(Integer atrasoDeGrupo) {
         super();
+        this.idJson = UUID.randomUUID().toString();
         this.atrasoDeGrupo = atrasoDeGrupo;
     }
 

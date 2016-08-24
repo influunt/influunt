@@ -72,12 +72,12 @@ public class TabelaEntreVerdesTransicao extends Model implements Cloneable, Seri
 
     public TabelaEntreVerdesTransicao() {
         super();
-        this.setIdJson(UUID.randomUUID().toString());
+        this.idJson = UUID.randomUUID().toString();
     }
 
     public TabelaEntreVerdesTransicao(TabelaEntreVerdes tabelaEntreVerdes, Transicao transicao) {
         super();
-        this.setIdJson(UUID.randomUUID().toString());
+        this.idJson = UUID.randomUUID().toString();
         this.tabelaEntreVerdes = tabelaEntreVerdes;
         this.transicao = transicao;
     }

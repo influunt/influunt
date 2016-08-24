@@ -59,12 +59,12 @@ public class EstagioGrupoSemaforico extends Model implements Cloneable, Serializ
 
     public EstagioGrupoSemaforico() {
         super();
-        this.setIdJson(UUID.randomUUID().toString());
+        this.idJson = UUID.randomUUID().toString();
     }
 
     public EstagioGrupoSemaforico(Estagio estagio, GrupoSemaforico grupoSemaforico) {
         super();
-        this.setIdJson(UUID.randomUUID().toString());
+        this.idJson = UUID.randomUUID().toString();
         this.estagio = estagio;
         this.grupoSemaforico = grupoSemaforico;
     }

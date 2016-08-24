@@ -58,7 +58,7 @@ public class GrupoSemaforicoPlano extends Model implements Cloneable, Serializab
 
     public GrupoSemaforicoPlano() {
         super();
-        this.setIdJson(UUID.randomUUID().toString());
+        this.idJson = UUID.randomUUID().toString();
     }
 
     public String getIdJson() {

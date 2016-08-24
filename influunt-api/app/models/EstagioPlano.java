@@ -81,7 +81,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
 
     public EstagioPlano() {
         super();
-        this.setIdJson(UUID.randomUUID().toString());
+        this.idJson = UUID.randomUUID().toString();
     }
 
     public String getIdJson() {

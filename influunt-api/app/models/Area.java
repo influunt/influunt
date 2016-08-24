@@ -79,7 +79,7 @@ public class Area extends Model implements Cloneable, Serializable {
 
     public Area() {
         super();
-        this.setIdJson(UUID.randomUUID().toString());
+        this.idJson = UUID.randomUUID().toString();
     }
 
     public String getIdJson() {

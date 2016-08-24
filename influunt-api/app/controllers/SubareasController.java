@@ -48,7 +48,7 @@ public class SubareasController extends Controller {
 
     @Transactional
     public CompletionStage<Result> findOne(String id) {
-        Subarea subarea = Subarea.find.fetch("area").where().eq("id", UUID.fromString(id)).findUnique();
+        Subarea subarea = Subarea.find.fetch("area").where().eq("id", id).findUnique();
         if (subarea == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
