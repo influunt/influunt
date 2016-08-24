@@ -1,5 +1,21 @@
 @import "./variables.scss";
 
+.select2-container.select2-container--default.select2-container--open {
+  z-index: 99999;
+}
+
+ul.menu-planos {
+  li.item-menu {
+    span.nome-plano {
+      opacity: 0.4;
+
+      &.configurado {
+        opacity: 1;
+      }
+    }
+  }
+}
+
 .planos.ui-sortable {
   list-style-type: none;
   margin: 0;
