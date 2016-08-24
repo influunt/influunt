@@ -1293,16 +1293,16 @@ header .nav-secon li a {
 
 .wrapper-content .basic-wizard .content .body .stages .groups-stages-top {
   background: #e5e5e5;
-  position: relative;
-  float: left;
   padding-top: 45px;
   padding-bottom: 45px;
+  width: 50px;
 }
 
 .wrapper-content .basic-wizard .content .body .stages .groups-stages-null {
   background: #e5e5e5;
   padding-top: 25px;
   padding-bottom: 15px;
+  width: 50px;
 }
 
 .wrapper-content .basic-wizard .content .body .stages .title-stages-top {
