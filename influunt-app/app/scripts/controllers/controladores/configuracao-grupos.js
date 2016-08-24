@@ -45,7 +45,7 @@ angular.module('influuntApp')
           idJson: UUID.generate(),
           anel: {idJson: $scope.currentAnel.idJson},
           tipo: 'VEICULAR',
-          faseVermelhaApagadaAmareloIntermitente: false,
+          faseVermelhaApagadaAmareloIntermitente: true,
           tempoVerdeSeguranca: $scope.objeto.verdeSegurancaVeicularMin
         };
 
@@ -85,7 +85,16 @@ angular.module('influuntApp')
       };
 
       $scope.atualizaTempoVerdeSeguranca = function(grupo){
-        grupo.tempoVerdeSeguranca = grupo.tipo === 'VEICULAR' ? $scope.objeto.verdeSegurancaVeicularMin : $scope.objeto.verdeSegurancaPedestreMin;
+        if (grupo.tipo === 'VEICULAR'){
+          grupo.disableSelectFase = false;
+          grupo.tempoVerdeSeguranca = $scope.objeto.verdeSegurancaVeicularMin;
+          grupo.faseVermelhaApagadaAmareloIntermitente = true;
+
+        } else {
+          grupo.tempoVerdeSeguranca = $scope.objeto.verdeSegurancaPedestreMin;
+          grupo.faseVermelhaApagadaAmareloIntermitente = false;
+          grupo.disableSelectFase = true;
+        };
       };
 
       /**
