@@ -47,6 +47,13 @@
                                         data-toggle="modal" data-target="#modal-copiar-plano"
                                         aria-hidden="true">
                                     </i>
+
+                                    <!-- renomear plano. -->
+                                    <i class="fa fa-pencil pull-right m-t-sm"
+                                        data-ng-click="renomearPlano(plano)"
+                                        data-ng-if="plano.configurado"
+                                        aria-hidden="true">
+                                    </i>
                                 </li>
                               </ul>
                             </nav>

@@ -132,6 +132,17 @@ angular.module('influuntApp')
           });
       };
 
+      $scope.renomearPlano = function(plano) {
+        influuntAlert.prompt('Renomear plano', 'Digite no campo abaixo um nome para este plan')
+          .then(function(res) {
+            if (!res) {
+              return false;
+            }
+
+            plano.descricao = res;
+          });
+      };
+
       /**
        * Remove index.
        *
