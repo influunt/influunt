@@ -181,8 +181,8 @@ angular.module('influuntApp')
 
       setandoEnderecoByAnel = function (anel) {
         var enderecoDadosBasicos = [$scope.objeto.enderecos[0], $scope.objeto.enderecos[1]];
-        var enderecoGenerateIdJson = [{ idJson: UUID.generate() }, { idJson: UUID.generate() }]
-        var enderecos = anel.posicao === 1 ? enderecoDadosBasicos : enderecoGenerateIdJson
+        var enderecoGenerateIdJson = [{ idJson: UUID.generate() }, { idJson: UUID.generate() }];
+        var enderecos = anel.posicao === 1 ? enderecoDadosBasicos : enderecoGenerateIdJson;
         anel.enderecos = enderecos;
         $scope.objeto.todosEnderecos = $scope.objeto.todosEnderecos || [];
         if (anel.posicao === 1 ) {

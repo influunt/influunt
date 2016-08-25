@@ -36,7 +36,7 @@ var CrudPage = function () {
   };
 
   this.limparEndereco = function(numEndereco) {
-    var cssSelector = 'div[data-ng-class$=".enderecos['+(numEndereco - 1)+'].localizacao }"] helper-endereco > input'
+    var cssSelector = 'div[data-ng-class$=".enderecos['+(numEndereco - 1)+'].localizacao }"] helper-endereco > input';
     return world.clearField(cssSelector);
   };
 
