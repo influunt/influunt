@@ -143,6 +143,11 @@ module.exports = function() {
   this.Given(/^o sistema deve limpar os erros da tela$/, function() {
     return wizardPage.limparTelaComReload();
   });
+
+  this.Given(/^o usuario limpar os campos$/, function() {
+    return wizardPage.limparCampos();
+  });
+
   this.Given(/^o usuario preencher o campo NÚMERO SMEE com 123$/, function () {
     return wizardPage.preencherCampoSMEECom123();
   });

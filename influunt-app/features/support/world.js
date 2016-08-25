@@ -303,6 +303,10 @@ var World = function () {
   this.dragAndDrop = function(element, location) {
     return driver.actions().dragAndDrop(element, location);
   };
+
+  this.clearField = function(cssSelector) {
+    return driver.findElement(webdriver.By.css(cssSelector)).clear();
+  };
 };
 
 switch(platform) {

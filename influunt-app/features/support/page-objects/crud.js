@@ -35,6 +35,11 @@ var CrudPage = function () {
     return world.selectOption(campos[campo], valor);
   };
 
+  this.limparEndereco = function(numEndereco) {
+    var cssSelector = 'div[data-ng-class$=".enderecos['+(numEndereco - 1)+'].localizacao }"] helper-endereco > input'
+    return world.clearField(cssSelector);
+  };
+
   this.buscarEndereco = function(query, numEndereco) {
     return world.setValueAsHuman('div[data-ng-class$=".enderecos['+(numEndereco - 1)+'].localizacao }"] helper-endereco > input', query).then(function() {
       return world.waitFor('div[g-places-autocomplete-drawer] > div.pac-container');
