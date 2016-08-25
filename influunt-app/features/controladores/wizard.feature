@@ -19,6 +19,7 @@ Funcionalidade: Fluxo de cadastro de controladores
     Dado que o usuário esteja no wizard no passo "Dados Básicos"
     E o usuario selecionar o valor "São Paulo" no campo "Cidade"
     E o usuario selecionar o valor "1" no campo "Área"
+    E o usuario preencher o campo NÚMERO SMEE com 123
     E o usuario buscar o endereço "Av Paulista" para o endereço 1
     E o usuario buscar o endereço "Rua Bela Cintra" para o endereço 2
     E o usuario selecionar o valor "Raro Labs" no campo "Fabricante"

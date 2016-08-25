@@ -23,7 +23,8 @@ var CrudPage = function () {
     'Número de detectores pedestres':  '[name="quantidadeDetectorPedestre"]',
     'Número de detectores veiculares': '[name="quantidadeDetectorVeicular"]',
     'Tipo Grupo Semafórico':           'select[name="tipoGrupoSemaforico"]',
-    'Tipo':                            '[name="tipo"]'
+    'Tipo':                            '[name="tipo"]',
+    'Número SMEE':                     '[name="numeroSMEE"]'
   };
 
   this.preencherCampo = function(campo, valor) {
