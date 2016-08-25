@@ -13,7 +13,9 @@ angular.module('influuntApp')
       $controller('ControladoresCtrl', {$scope: $scope});
 
       // Métodos privados.
-      var ativaPrimeiroAnel, inicializaEnderecos, atualizarAneisAtivos, registrarWatcherEndereco, atualizaCurrentEnderecos, setDadosBasicos;
+      var ativaPrimeiroAnel, inicializaEnderecos, atualizarAneisAtivos,
+          registrarWatcherEndereco, atualizaCurrentEnderecos,
+          setDadosBasicos, setandoEnderecoByAnel;
 
       /**
        * Pré-condições para acesso à tela de aneis: Somente será possível acessar esta
@@ -122,14 +124,8 @@ angular.module('influuntApp')
       };
 
       setDadosBasicos = function() {
-        $scope.$watch(function() {
-          atualizaCurrentEnderecos();
-        });
-
         $scope.dadosBasicos = {
           numeroSMEE: $scope.objeto.numeroSMEE || '-',
-          endereco1:  $scope.objeto.todosEnderecos[0].localizacao,
-          endereco2:  $scope.objeto.enderecos[1]
         };
       };
 
@@ -155,10 +151,7 @@ angular.module('influuntApp')
       inicializaEnderecos = function() {
         _.each($scope.aneis, function(anel) {
           if (!angular.isDefined(anel.enderecos) || anel.enderecos.length === 0) {
-            var enderecos = [{ idJson: UUID.generate() }, { idJson: UUID.generate() }];
-            anel.enderecos = enderecos;
-            $scope.objeto.todosEnderecos = $scope.objeto.todosEnderecos || [];
-            $scope.objeto.todosEnderecos = _.concat($scope.objeto.todosEnderecos, enderecos);
+            setandoEnderecoByAnel(anel);
           }
         });
       };
@@ -168,6 +161,8 @@ angular.module('influuntApp')
           atualizaCurrentEnderecos();
           if (_.isArray($scope.currentEnderecos) && $scope.currentEnderecos[0].localizacao && $scope.currentEnderecos[1].localizacao) {
             anel.localizacao = $scope.currentEnderecos[0].localizacao + ' com ' + $scope.currentEnderecos[1].localizacao;
+            anel.latitude = $scope.currentEnderecos[0].latitude;
+            anel.longitude = $scope.currentEnderecos[0].longitude;
           } else {
             anel.localizacao = '';
           }
@@ -176,13 +171,24 @@ angular.module('influuntApp')
       };
 
       atualizaCurrentEnderecos = function() {
-        var ids = _.map($scope.currentAnel.enderecos, 'idJson');
+       var ids = _.map($scope.currentAnel.enderecos, 'idJson');
         $scope.currentEnderecos = _
           .chain($scope.objeto.todosEnderecos)
           .filter(function(e) { return ids.indexOf(e.idJson) >= 0; })
           .value();
-
         return $scope.currentEnderecos;
       };
 
-    }]);
+      setandoEnderecoByAnel = function (anel) {
+        var enderecoDadosBasicos = [$scope.objeto.enderecos[0], $scope.objeto.enderecos[1]];
+        var enderecoGenerateIdJson = [{ idJson: UUID.generate() }, { idJson: UUID.generate() }]
+        var enderecos = anel.posicao === 1 ? enderecoDadosBasicos : enderecoGenerateIdJson
+        anel.enderecos = enderecos;
+        $scope.objeto.todosEnderecos = $scope.objeto.todosEnderecos || [];
+        if (anel.posicao === 1 ) {
+          $scope.objeto.todosEnderecos.push(enderecos);
+        } else {
+          $scope.objeto.todosEnderecos = _.concat($scope.objeto.todosEnderecos, enderecos);
+        }
+      };
+  }]);
