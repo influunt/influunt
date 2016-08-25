@@ -26,17 +26,6 @@ Funcionalidade: Fluxo de cadastro de controladores
     E clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Anéis"
 
-  Cenário: Tentar salvar anéis em branco
-    Dado que o usuário esteja no wizard no passo "Anéis"
-    E que o usuário deixe os campos em branco
-    Quando o usuário clicar no botão para ir pro próximo passo
-    Então o sistema deverá indicar erro nos campos do passo "Anéis"
-    E o sistema irá continuar no passo "Anéis"
-
-  Cenário: Primeiro anel dever conter preenchido o endereço e SMEE
-    Dado que o usuário esteja no wizard no passo "Dados Básicos"
-    Então os sistema deverá possuir o número SMEE
-
   Cenário: Salvar anéis do controlador
     Dado que o usuário esteja no wizard no passo "Anéis"
     E o usuario buscar o endereço "Av Paulista" para o endereço 1
