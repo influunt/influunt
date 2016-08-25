@@ -237,6 +237,12 @@ public class Plano extends Model implements Cloneable, Serializable {
         return Objects.nonNull(getModoOperacao()) && ModoOperacaoPlano.APAGADO.equals(getModoOperacao());
     }
 
+    @JsonIgnore
+    @Transient
+    public boolean isModoOperacaoVerde() {
+        return Objects.nonNull(getModoOperacao()) && !ModoOperacaoPlano.APAGADO.equals(getModoOperacao()) && !ModoOperacaoPlano.INTERMITENTE.equals(getModoOperacao());
+    }
+
     @AssertTrue(groups = PlanosCheck.class,
             message = "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.")
     public boolean isQuantidadeGrupoSemaforicoIgualQuantidadeAnel() {

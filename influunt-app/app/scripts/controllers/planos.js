@@ -70,6 +70,8 @@ angular.module('influuntApp')
 
           var plano = _.find($scope.objeto.planos, {idJson: $scope.planoCopiado.idJson});
           var novoPlano = duplicarPlano(plano);
+          novoPlano.id = p.id;
+          
           var index = _.findIndex($scope.objeto.planos, {idJson: p.idJson});
           $scope.objeto.planos.splice(index, 1);
 
@@ -81,18 +83,20 @@ angular.module('influuntApp')
           $scope.objeto.planos.push(novoPlano);
           $scope.currentAnel.planos.splice(index, 1, {idJson: novoPlano.idJson});
         });
-
         atualizaPlanos();
       };
 
       duplicarPlano = function(plano) {
         var novoPlano = _.cloneDeep(plano);
 
+        novoPlano.idJson = UUID.generate();
         novoPlano.gruposSemaforicosPlanos.forEach(function (gp) {
           var grupoSemaforicoPlano = _.find($scope.objeto.gruposSemaforicosPlanos, {idJson: gp.idJson});
           var novoGrupoSemaforicoPlano = _.cloneDeep(grupoSemaforicoPlano);
           gp.idJson = UUID.generate();
           novoGrupoSemaforicoPlano.idJson = gp.idJson;
+          novoGrupoSemaforicoPlano.plano.idJson = novoPlano.idJson;
+          delete novoGrupoSemaforicoPlano.id;
           $scope.objeto.gruposSemaforicosPlanos.push(novoGrupoSemaforicoPlano);
         });
 
@@ -101,10 +105,10 @@ angular.module('influuntApp')
           var novoEstagioPlano = _.cloneDeep(estagioPlano);
           ep.idJson = UUID.generate();
           novoEstagioPlano.idJson = ep.idJson;
+          novoEstagioPlano.plano.idJson = novoPlano.idJson;
+          delete novoEstagioPlano.id;
           $scope.objeto.estagiosPlanos.push(novoEstagioPlano);
         });
-
-        novoPlano.idJson = UUID.generate();
 
         return novoPlano;
       };
@@ -650,7 +654,7 @@ angular.module('influuntApp')
         var grupos = _.map($scope.currentAnel.gruposSemaforicos, function(g) {
           var grupo = _.find($scope.objeto.gruposSemaforicos, {idJson: g.idJson});
           return {
-            ativo: true,
+            ativado: grupo.tipo === 'VEICULAR',
             posicao: grupo.posicao,
             intervalos: [{
               status: grupo.tipo === 'VEICULAR' ? modo : modoApagado,
@@ -689,7 +693,15 @@ angular.module('influuntApp')
           var result = diagramaBuilder.calcula();
 
           _.each(result.gruposSemaforicos, function(g) {
-            g.ativo = true;
+            var grupo = _.find($scope.objeto.gruposSemaforicos, {posicao: g.posicao, anel: {idJson: $scope.plano.anel.idJson}});
+            var grupoPlano = _.find($scope.plano.gruposSemaforicosPlanos, {grupoSemaforico: {idJson: grupo.idJson}, plano: {idJson: $scope.plano.idJson}});
+            g.ativado = grupoPlano.ativado;
+            if(!g.ativado){
+              g.intervalos.unshift({
+                status: modoOperacaoService.getModoIdByName('APAGADO'),
+                duracao: 255
+              });
+            }
           });
 
           $scope.dadosDiagrama = result;
