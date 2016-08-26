@@ -355,6 +355,10 @@ public class ControladorTestUtil {
         plano1Anel4.setAnel(anelCom4Estagios);
         anelCom4Estagios.setPlanos(Arrays.asList(plano1Anel4));
 
+        Estagio estagio = anelCom4Estagios.getEstagios().stream().filter(estagio1 -> estagio1.getPosicao().equals(2)).findFirst().get();
+        Detector detector = estagio.getDetector();
+        detector.setTipo(TipoDetector.VEICULAR);
+
         plano1Anel4.setModoOperacao(ModoOperacaoPlano.ATUADO);
         plano1Anel4.setPosicao(1);
         plano1Anel4.setDescricao("Principal");

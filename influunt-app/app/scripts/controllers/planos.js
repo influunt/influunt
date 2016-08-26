@@ -685,7 +685,7 @@ angular.module('influuntApp')
           return false;
         }
 
-        if (['INTERMITENTE', 'APAGADO'].indexOf($scope.currentPlano.modoOperacao) < 0) {
+        if (['INTERMITENTE', 'APAGADO', 'ATUADO'].indexOf($scope.currentPlano.modoOperacao) < 0) {
           getPlanoParaDiagrama();
           var diagramaBuilder = new influunt.components.DiagramaIntervalos($scope.plano, $scope.valoresMinimos);
           var result = diagramaBuilder.calcula();
