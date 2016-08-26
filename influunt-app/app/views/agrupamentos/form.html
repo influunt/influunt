@@ -24,7 +24,13 @@
       </div>
 
       <div class="form-group" data-ng-class="{ 'has-error': errors.controladores }">
-        <label class="control-label control-label">{{ 'agrupamentos.controladores' | translate }}</label>
+        <label class="control-label control-label">{{ 'agrupamentos.subArea' | translate }}</label>
+        <input name="subArea" class="form-control" data-ng-model="objeto.subArea">
+        <p class="help-block error-msg" data-ng-repeat="error in errors.subArea">{{ error }}</p>
+      </div>
+
+      <div class="form-group" data-ng-class="{ 'has-error': errors.controladores }">
+        <label class="control-label control-label">{{ 'agrupamentos.controladoresAvulso' | translate }}</label>
         <select select2 name="controladores" class="form-control" data-ng-options="option.name for option in controladores track by option.id" data-ng-model="objeto.controladores" multiple="multiple"></select>
         <p class="help-block error-msg" data-ng-repeat="error in errors.controladores">{{ error }}</p>
       </div>
