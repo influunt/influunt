@@ -16,9 +16,9 @@
       <div class="form-group" data-ng-class="{ 'has-error': errors.tipo }">
         <label class="control-label control-label">{{ 'agrupamentos.tipo' | translate }}</label>
         <select class="form-control" data-ng-model="objeto.tipo" name="tipo">
-          <option value="CORREDOR">Corredor</option>
-          <option value="ROTA">Rota</option>
-          <option value="SUBAREA">Subárea</option>
+          <option value="CORREDOR">{{ 'agrupamentos.options.corredor' | translate }}</option>
+          <option value="ROTA">{{ 'agrupamentos.options.rota' | translate }}</option>
+          <option value="SUBAREA">{{ 'agrupamentos.options.subArea' | translate }}</option>
         </select>
         <p class="help-block error-msg" data-ng-repeat="error in errors.agrupamento">{{ error }}</p>
       </div>
