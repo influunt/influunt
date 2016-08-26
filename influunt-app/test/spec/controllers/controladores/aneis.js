@@ -58,32 +58,33 @@ describe('Controller: ControladoresAneisCtrl', function () {
 
     describe('Configuração válida', function () {
       beforeEach(function() {
-        var endereco1       = [{localizacao: 'Av Bandeirantes'}];
-        var endereco2       = [{localizacao: 'Av Afonsopena'}];
-        var enderecoVazio   = [{localizacao: ''}];
+        var endereco1       = {localizacao: 'Av Bandeirantes', localizacao2: 'Av Afonso Penna'};
+        var enderecoVazio   = {localizacao: ''};
 
         var objeto = {
-          aneis: [{idJson: 1, enderecos: [endereco1, endereco2], posicao: 1}, {idJson: 2, enderecos: [enderecoVazio, enderecoVazio]}],
+          aneis: [{idJson: 1, endereco: endereco1, posicao: 1}, {idJson: 2, endereco: enderecoVazio}],
           estagios: [],
-          todosEnderecos: [{localizacao: 'Av Bandeirantes'}, {localizacao: 'Av Afonsopena'}]
+          todosEnderecos: [endereco1, enderecoVazio]
         };
         WizardControladores.fakeInicializaWizard(scope, $q, objeto, scope.inicializaAneis);
       });
 
       it('Deve iniciar a tela com o primeiro anel selecionado', function() {
-        scope.currentEnderecos = [ {localizacao: 'Av Bandeirantes'}, {localizacao: 'Av Afonsopena'} ];
+        scope.currentEndereco = {localizacao: 'Av Bandeirantes', localizacao2: 'Av Afonso Penna'};
         scope.$apply();
         expect(scope.currentAnelIndex).toBe(0);
         expect(scope.currentAnel).toBe(scope.aneis[0]);
       });
 
-      it('Cada anel ativo do controlador deverá ter ao menos dois enderecos', function() {
-        expect(scope.aneis[0].enderecos.length).toBe(2);
+      it('Cada anel ativo do controlador deverá ter um endereco', function() {
+        expect(scope.aneis[0].endereco).toBeDefined();
       });
 
-      it('Deve criar o texto em "nomeEndereco" associando os nomes do "Av Bandeirantes" "com" "Av Afonsopena"', function() {
+      it('Deve criar o texto em "nomeEndereco" associando os nomes do "Av Bandeirantes" "com" "Av Afonso Penna"', function() {
         var anel = scope.objeto.aneis[0];
-        expect(anel.localizacao).toBe('Av Bandeirantes com Av Afonsopena');
+        console.log(anel);
+        // expect(anel.nomeEndereco).toBe('Av Bandeirantes com Av Afonso Penna');
+        expect(anel.localizacao).toBe('Av Bandeirantes com Av Afonso Penna');
       });
 
       it('no segundo anel o "nomeEndereco" deve ser vazio', function() {

@@ -74,8 +74,8 @@ describe('Controller: ControladoresCtrl', function () {
         expect(scope.objeto.limiteDetectorPedestre).toBe(4);
         expect(scope.objeto.limiteDetectorVeicular).toBe(8);
         expect(scope.objeto.limiteTabelasEntreVerdes).toBe(2);
-        expect(scope.objeto.todosEnderecos.length).toBe(2);
-        expect(scope.objeto.enderecos.length).toBe(2);
+        expect(scope.objeto.todosEnderecos.length).toBe(1);
+        expect(scope.objeto.endereco).toBeDefined();
       });
 
       it('Deve inicializar os objetos de helpers', function() {
