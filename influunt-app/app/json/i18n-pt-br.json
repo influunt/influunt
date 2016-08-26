@@ -126,7 +126,9 @@
       "transicaoProibida": "Transição Proíbida"
     },
     "aneis": {
-      "titulo": "Configuração de Aneis"
+      "titulo": "Configuração de Aneis",
+      "titulo_msg_apagar_anel": "Deseja mesmo apagar este anel?",
+      "corpo_msg_apagar_anel": "Ao apagar esse anel todos os relacionamentos previamente cadastrados serão apagados."
     },
     "validacoes": {
       "aoMenosUmGrupoSemaforico": "Este anel deve ter mais de 1 grupo semáforico",

@@ -7,7 +7,7 @@
  * # influuntTabs
  */
 angular.module('influuntApp')
-  .directive('influuntTabs', ['$templateCache', '$interpolate', '$compile', '$timeout', function ($templateCache, $interpolate, $compile, $timeout) {
+  .directive('influuntTabs', ['$templateCache', '$interpolate', '$compile', '$timeout', '$filter', function ($templateCache, $interpolate, $compile, $timeout, $filter) {
     return {
       restrict: 'E',
       scope: {
@@ -24,10 +24,7 @@ angular.module('influuntApp')
       },
       template: '<ul class="nav nav-tabs"></ul>',
       link: function (scope, element) {
-        //TODO: Verificar I18n
         scope.nameTabs = scope.nameTabs || 'Anel';
-        var tabs;
-        var tabTemplate = $templateCache.get('views/directives/influunt-tabs/_tab.html');
         var initializing = true;
 
         var hideAddButton = function() {
