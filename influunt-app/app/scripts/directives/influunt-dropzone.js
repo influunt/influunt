@@ -29,9 +29,11 @@ angular.module('influuntApp')
          */
         var filterVisiblePreviews = function() {
           $timeout(function() {
-            $('.dz-preview[data-anel-id="' + scope.anel.idJson + '"]').show();
-            $('.dz-preview:not([data-anel-id="' + scope.anel.idJson + '"])').hide();
-          }, 0);
+            if (scope.anel) {
+              $('.dz-preview[data-anel-id="' + scope.anel.idJson + '"]').show();
+              $('.dz-preview:not([data-anel-id="' + scope.anel.idJson + '"])').hide();
+            }
+          });
         };
 
         var deleteImage = function(imagemId, dropzoneFile, dropzone) {

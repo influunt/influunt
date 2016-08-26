@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresAneisCtrl', ['$scope', '$state', '$controller', '$q', 'assertControlador', 'influuntAlert',
-    function ($scope, $state, $controller, $q, assertControlador, influuntAlert) {
+  .controller('ControladoresAneisCtrl', ['$scope', '$state', '$controller', '$q', '$filter', 'assertControlador', 'influuntAlert',
+    function ($scope, $state, $controller, $q, $filter, assertControlador, influuntAlert) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
       // Métodos privados.
@@ -124,15 +124,14 @@ angular.module('influuntApp')
         if (tabWasAdded) {
           return $q.resolve(true);
         } else {
-          var title = 'Deseja mesmo apagar este anel?',
-              text = 'Ao apagar esse anel todos os relacionamentos previamente cadastrados serão apagados.';
+          var title = $filter('translate')('controladores.aneis.titulo_msg_apagar_anel'),
+              text = $filter('translate')('controladores.aneis.corpo_msg_apagar_anel');
           return influuntAlert.confirm(title, text).then(function(deveApagarAnel) {
-            console.log('deve apagar anel? '+deveApagarAnel)
             if (deveApagarAnel) {
               var ultimoAnelAtivoIndex = _.findLastIndex($scope.aneis, { ativo: true });
               $scope.aneis[ultimoAnelAtivoIndex].ativo = false;
               $scope.aneis[ultimoAnelAtivoIndex]['_destroy'] = true;
-              $scope.submitForm({$valid: true}, 'aneis', 'app.wizard_controladores.aneis')
+              $scope.submitForm({$valid: true}, 'aneis', 'app.wizard_controladores.aneis');
             }
             return deveApagarAnel;
           });
@@ -175,7 +174,7 @@ angular.module('influuntApp')
       registrarWatcherEndereco = function() {
         $scope.$watch('currentAnel', function(anel) {
           atualizaCurrentEnderecos();
-          if (_.isArray($scope.currentEnderecos) && $scope.currentEnderecos[0].localizacao && $scope.currentEnderecos[1].localizacao) {
+          if (_.isArray($scope.currentEnderecos) && $scope.currentEnderecos.length >= 2 && $scope.currentEnderecos[0].localizacao && $scope.currentEnderecos[1].localizacao) {
             anel.localizacao = $scope.currentEnderecos[0].localizacao + ' com ' + $scope.currentEnderecos[1].localizacao;
             anel.latitude = $scope.currentEnderecos[0].latitude;
             anel.longitude = $scope.currentEnderecos[0].longitude;
