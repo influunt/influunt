@@ -45,7 +45,7 @@ public class ControladorUtil {
         controladorClone.setArea(controlador.getArea());
         controladorClone.setModelo(controlador.getModelo());
 
-        if(controlador.getEndereco() != null && controlador.getEndereco().getIdJson() != null) {
+        if (controlador.getEndereco() != null && controlador.getEndereco().getIdJson() != null) {
             Endereco enderecoAux = copyPrimitveFields(controlador.getEndereco());
             enderecoAux.setControlador(controladorClone);
             controladorClone.setEndereco(enderecoAux);
@@ -61,7 +61,7 @@ public class ControladorUtil {
 
             anelAux.setCroqui(getImagem(anel.getCroqui()));
 
-            if(anel.getEndereco() != null && anel.getEndereco().getIdJson() != null){
+            if (anel.getEndereco() != null && anel.getEndereco().getIdJson() != null) {
                 Endereco enderecoAux = copyPrimitveFields(anel.getEndereco());
                 enderecoAux.setAnel(anelAux);
                 anelAux.setEndereco(enderecoAux);

@@ -1,6 +1,5 @@
 package models;
 
-import checks.TabelaHorariosCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;

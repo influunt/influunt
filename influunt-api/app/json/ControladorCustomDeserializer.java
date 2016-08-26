@@ -265,7 +265,7 @@ public class ControladorCustomDeserializer {
     private void parsePlanos(JsonNode node) {
         if (node.has("planos")) {
             for (JsonNode nodePlano : node.get("planos")) {
-                if((nodePlano.has("configurado") && nodePlano.get("configurado").asBoolean()) || !nodePlano.has("configurado")){
+                if ((nodePlano.has("configurado") && nodePlano.get("configurado").asBoolean()) || !nodePlano.has("configurado")) {
                     Plano plano = parsePlano(nodePlano);
                     planosCache.put(plano.getIdJson().toString(), plano);
                 }
@@ -393,7 +393,7 @@ public class ControladorCustomDeserializer {
         parseCollection("planos", node, planos, PLANOS, ANEIS);
         anel.setPlanos(planos);
 
-        if(anel.isAtivo()){
+        if (anel.isAtivo()) {
             if (node.has("endereco")) {
                 final String enderecoId = node.get("endereco").get("idJson").asText();
                 Consumer<Map<String, Map>> c = (caches) -> {
