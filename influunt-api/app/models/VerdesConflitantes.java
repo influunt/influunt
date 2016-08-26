@@ -21,6 +21,10 @@ import java.util.UUID;
 
 public class VerdesConflitantes extends Model implements Serializable {
 
+    private static final long serialVersionUID = -8511536395210764600L;
+
+    public static Finder<UUID, VerdesConflitantes> find = new Finder<UUID, VerdesConflitantes>(VerdesConflitantes.class);
+
     @Id
     private UUID id;
 

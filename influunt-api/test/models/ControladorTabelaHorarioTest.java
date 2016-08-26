@@ -15,7 +15,10 @@ import play.mvc.Result;
 import play.test.Helpers;
 
 import javax.validation.groups.Default;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.junit.Assert.*;
 import static play.mvc.Http.Status.OK;
@@ -222,6 +225,67 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
     @Override
     public List<Erro> getErros(Controlador controlador) {
         return new InfluuntValidator<Controlador>().validate(controlador, Default.class, TabelaHorariosCheck.class);
+    }
+
+    @Test
+    public void testControllerDestroy() {
+        Controlador controlador = getControladorTabelaHorario();
+        controlador.save();
+
+        List<Erro> erros = getErros(controlador);
+        assertEquals("Total de Erros", 0, erros.size());
+
+        controlador = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador));
+        Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
+
+        int totalEstagios = Estagio.find.findRowCount();
+        int totalEstagiosAnel = anelCom4Estagios.getEstagios().size();
+        int totalDetectores = Detector.find.findRowCount();
+        int totalDetectoresAnel = anelCom4Estagios.getDetectores().size();
+        int totalGruposSemaforicos = GrupoSemaforico.find.findRowCount();
+        int totalGruposSemaforicosAnel = anelCom4Estagios.getGruposSemaforicos().size();
+        int totalPlanos = Plano.find.findRowCount();
+        int totalPlanosAnel = anelCom4Estagios.getPlanos().size();
+        int totalEnderecos = Endereco.find.findRowCount();
+        int totalEnderecosAnel = anelCom4Estagios.getEnderecos().size();
+        int totalTransicoes = Transicao.find.findRowCount();
+        int totalTransicoesAnel = ((int) anelCom4Estagios.getGruposSemaforicos().stream().map(GrupoSemaforico::getTransicoes).flatMap(Collection::stream).count());
+        int totalTransicoesProibidas = TransicaoProibida.find.findRowCount();
+        int totalTransicoesProibidasAnel = Stream.of(
+                anelCom4Estagios.getEstagios().stream().map(Estagio::getOrigemDeTransicoesProibidas).collect(Collectors.toSet()),
+                anelCom4Estagios.getEstagios().stream().map(Estagio::getDestinoDeTransicoesProibidas).collect(Collectors.toSet()),
+                anelCom4Estagios.getEstagios().stream().map(Estagio::getAlternativaDeTransicoesProibidas).collect(Collectors.toSet()))
+                .flatMap(Collection::stream)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toSet()).size();
+        int totalVerdesConflitantes = VerdesConflitantes.find.findRowCount();
+        int totalVerdesConflitantesAnel = anelCom4Estagios.getGruposSemaforicos().stream()
+                .map(GrupoSemaforico::getVerdesConflitantes)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toSet()).size();
+        int totalTabelaEntreVerdes = TabelaEntreVerdes.find.findRowCount();
+        int totalTabelaEntreVerdesAnel = anelCom4Estagios.getGruposSemaforicos().stream()
+                .map(GrupoSemaforico::getTabelasEntreVerdes)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toSet()).size();
+
+
+        anelCom4Estagios.setDestroy(true);
+        controlador.deleteAnelSeNecessario();
+        controlador.update();
+        erros = getErros(controlador);
+
+        assertEquals("Total de Erros", 0, erros.size());
+        assertEquals("Quantidade de Aneis", 4, controlador.getAneis().size());
+        assertEquals("Quantidade de estagios", totalEstagios - totalEstagiosAnel, Estagio.find.findRowCount());
+        assertEquals("Quantidade de grupos semafóricos", totalGruposSemaforicos - totalGruposSemaforicosAnel, GrupoSemaforico.find.findRowCount());
+        assertEquals("Quantidade de detectores", totalDetectores - totalDetectoresAnel, Detector.find.findRowCount());
+        assertEquals("Quantidade de planos", totalPlanos - totalPlanosAnel, Plano.find.findRowCount());
+        assertEquals("Quantidade de endereços", totalEnderecos - totalEnderecosAnel, Endereco.find.findRowCount());
+        assertEquals("Quantidade de transições", totalTransicoes - totalTransicoesAnel, Transicao.find.findRowCount());
+        assertEquals("Quantidade de transições proibidas", totalTransicoesProibidas - totalTransicoesProibidasAnel, TransicaoProibida.find.findRowCount());
+        assertEquals("Quantidade de verdes conflitantes", totalVerdesConflitantes - totalVerdesConflitantesAnel, VerdesConflitantes.find.findRowCount());
+        assertEquals("Quantidade de tabelas entre verdes", totalTabelaEntreVerdes - totalTabelaEntreVerdesAnel, TabelaEntreVerdes.find.findRowCount());
     }
 
 }

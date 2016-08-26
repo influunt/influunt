@@ -407,6 +407,4 @@ public class Plano extends Model implements Cloneable, Serializable {
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
-
-
 }

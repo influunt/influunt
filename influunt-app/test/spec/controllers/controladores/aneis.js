@@ -113,11 +113,11 @@ describe('Controller: ControladoresAneisCtrl', function () {
     beforeEach(function() {
       scope.objeto = {
         aneis: [{idJson: 'anel-1', estagios: [{idJson: 'estagio-1'}]}],
-        estagios: [{idJson: 'estagio-1', imagem: {idJson: 'imagem-1'}}],
-        imagens: [{idJson: 'imagem-1'}],
+        estagios: [{idJson: 'estagio-1', imagem: {id: 'imagem-1', idJson: 'imagem-1'}}],
+        imagens: [{id: 'imagem-1', idJson: 'imagem-1'}],
       };
       scope.currentAnel = scope.objeto.aneis[0];
-      scope.removerEstagio({idJson: 'imagem-1'});
+      scope.removerEstagio({id: 'imagem-1'});
       scope.$apply();
     });
 

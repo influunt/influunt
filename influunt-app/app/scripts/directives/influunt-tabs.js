@@ -7,17 +7,19 @@
  * # influuntTabs
  */
 angular.module('influuntApp')
-  .directive('influuntTabs', ['$templateCache', '$interpolate', '$compile', function ($templateCache, $interpolate, $compile) {
+  .directive('influuntTabs', ['$templateCache', '$interpolate', '$compile', '$timeout', function ($templateCache, $interpolate, $compile, $timeout) {
     return {
       restrict: 'E',
       scope: {
         onAdd: '&',
         onRemove: '&',
         onActivate: '&',
+        beforeRemove: '&', // deve retornar uma Promise
         errorCheck: '&',
         aneisAtivos: '=',
         maxTabs: '=',
         canAddTabs: '=',
+        canRemoveTabs: '=',
         nameTabs: '@'
       },
       template: '<ul class="nav nav-tabs"></ul>',
@@ -48,65 +50,89 @@ angular.module('influuntApp')
         };
 
         var toggleCloseButton = function() {
-          $(element).find('span.ui-icon-circle-close').hide();
-          $(element).find('span.ui-icon-circle-close:last').show();
+          if (!!scope.canRemoveTabs) {
+            $(element).find('span.ui-icon-circle-close').hide();
+            $(element).find('span.ui-icon-circle-close:not(:first):last').show();
+          }
         };
 
         var tabAdded = function(event, data) {
-          checkTabLimit();
-          scope.onAdd()(data);
-          toggleCloseButton();
-          $(data.tab).find('a.closable').html(scope.nameTabs + ' ' + (data.index + 1));
+          if (!initializing) {
+            scope.$apply(function() {
+              checkTabLimit();
+              toggleCloseButton();
+              $(data.tab).find('a.closable').html(scope.nameTabs + ' ' + (data.index + 1));
+              if (angular.isFunction(scope.onAdd())) {
+                scope.onAdd()(data);
+              }
+            });
+          }
+        };
+
+        var _beforeRemove = function(event, data) {
+          if (angular.isFunction(scope.beforeRemove())) {
+            scope.beforeRemove()(data).then(function(result) {
+              if (result) {
+                var tabs = $(element).tabs('instance');
+                tabs.remove(data.index, true);
+              }
+            });
+            return false;
+          }
+          return true;
         };
 
         var tabRemoved = function(event, data) {
-          checkTabLimit();
-          scope.onRemove()(data);
-          toggleCloseButton();
+          $timeout(function() {
+            checkTabLimit();
+            toggleCloseButton();
+            scope.onRemove()(data);
+          });
         };
 
         var tabActivated = function(event, data) {
-          scope.$apply(function() {
-            if (data.newTab.find('a:first').html() !== 'New tab') {
-              var elements = $(event.target).find('li[role="tab"]');
-              var tabIndex = elements.index(data.newTab);
-              scope.onActivate()(tabIndex);
-            }
-          });
+          if (!initializing) {
+            $timeout(function() {
+              if (data.newTab.find('a:first').html() !== 'New tab') {
+                var elements = $(event.target).find('li[role="tab"]');
+                var tabIndex = elements.index(data.newTab);
+                scope.onActivate()(tabIndex);
+              }
+            });
+          }
         };
 
-        var createInitialTabs = function(element) {
-          var ul = element.find('ul');
-          scope.aneisAtivos.forEach(function(anel, index) {
-            scope.anel = anel;
-            scope.__index = index;
-            var template = $interpolate(tabTemplate)(scope);
-            ul.append(template);
+        var createInitialTabs = function() {
+          var tabs = $(element).tabs('instance');
+          _.forEach(scope.aneisAtivos, function(anel, index) {
+            tabs.add(scope.nameTabs + ' ' + (index+1), !!scope.canAddTabs);
           });
-          delete scope.anel;
+          tabs.activate(0);
+          toggleCloseButton();
         };
 
         scope.tabHasError = function(tabIndex) {
           if (angular.isFunction(scope.errorCheck())) {
             return scope.errorCheck()(tabIndex);
-          } else {
-            return false;
           }
+          return false;
         };
 
         scope.$watch('aneisAtivos', function(value) {
           if (value) {
-            if (initializing) {
-              createInitialTabs(element);
-              initializing = false;
-            }
 
-            tabs = $(element).tabs({
-              closable: true,
+            $(element).tabs({
+              closable: !!scope.canRemoveTabs,
               addTab: !!scope.canAddTabs,
               add: tabAdded,
               remove: tabRemoved,
+              beforeRemove: _beforeRemove,
               activate: tabActivated }).tabs('overflowResize');
+
+            if (initializing) {
+              createInitialTabs();
+              initializing = false;
+            }
 
             $compile(element.contents())(scope);
           }
