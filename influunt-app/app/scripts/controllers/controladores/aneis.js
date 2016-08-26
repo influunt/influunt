@@ -115,7 +115,7 @@ angular.module('influuntApp')
         }
 
         $scope.aneis[ultimoAnelAtivoIndex].ativo = false;
-        // delete $scope.aneis[ultimoAnelAtivoIndex].enderecos;
+        delete $scope.aneis[ultimoAnelAtivoIndex].enderecos;
         atualizarAneisAtivos();
       };
 
