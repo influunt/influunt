@@ -168,10 +168,8 @@ public class ControladorAssociacoesTest extends ControladorTest {
         Anel anelCom4EstagiosJson = controladorJson.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
 
         assertEquals(anelCom2Estagios.getDescricao(), anelCom2EstagiosJson.getDescricao());
-        assertEquals(anelCom2Estagios.getEnderecos().get(0).getLatitude(), anelCom2EstagiosJson.getEnderecos().get(0).getLatitude());
-        assertEquals(anelCom2Estagios.getEnderecos().get(0).getLongitude(), anelCom2EstagiosJson.getEnderecos().get(0).getLongitude());
-        assertEquals(anelCom2Estagios.getEnderecos().get(1).getLatitude(), anelCom2EstagiosJson.getEnderecos().get(1).getLatitude());
-        assertEquals(anelCom2Estagios.getEnderecos().get(1).getLongitude(), anelCom2EstagiosJson.getEnderecos().get(1).getLongitude());
+        assertEquals(anelCom2Estagios.getEndereco().getLatitude(), anelCom2EstagiosJson.getEndereco().getLatitude());
+        assertEquals(anelCom2Estagios.getEndereco().getLongitude(), anelCom2EstagiosJson.getEndereco().getLongitude());
         assertEquals(anelCom2Estagios.getGruposSemaforicos().size(), anelCom2EstagiosJson.getGruposSemaforicos().size());
         assertEquals(anelCom2Estagios.getDetectores().size(), anelCom2EstagiosJson.getDetectores().size());
         assertEquals(anelCom2Estagios.getNumeroSMEE(), anelCom2EstagiosJson.getNumeroSMEE());
@@ -182,10 +180,8 @@ public class ControladorAssociacoesTest extends ControladorTest {
         assertEquals(anelCom4Estagios.getDescricao(), anelCom4EstagiosJson.getDescricao());
 
 
-        assertEquals(anelCom4Estagios.getEnderecos().get(0).getLatitude(), anelCom4EstagiosJson.getEnderecos().get(0).getLatitude());
-        assertEquals(anelCom4Estagios.getEnderecos().get(0).getLongitude(), anelCom4EstagiosJson.getEnderecos().get(0).getLongitude());
-        assertEquals(anelCom4Estagios.getEnderecos().get(1).getLatitude(), anelCom4EstagiosJson.getEnderecos().get(1).getLatitude());
-        assertEquals(anelCom4Estagios.getEnderecos().get(1).getLongitude(), anelCom4EstagiosJson.getEnderecos().get(1).getLongitude());
+        assertEquals(anelCom4Estagios.getEndereco().getLatitude(), anelCom4EstagiosJson.getEndereco().getLatitude());
+        assertEquals(anelCom4Estagios.getEndereco().getLongitude(), anelCom4EstagiosJson.getEndereco().getLongitude());
         assertEquals(anelCom4Estagios.getGruposSemaforicos().size(), anelCom4EstagiosJson.getGruposSemaforicos().size());
         assertEquals(anelCom4Estagios.getDetectores().size(), anelCom4EstagiosJson.getDetectores().size());
         assertEquals(anelCom4Estagios.getNumeroSMEE(), anelCom4EstagiosJson.getNumeroSMEE());

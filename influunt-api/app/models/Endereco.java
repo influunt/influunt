@@ -1,5 +1,6 @@
 package models;
 
+import checks.TabelaHorariosCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
@@ -13,6 +14,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.UUID;
@@ -36,10 +38,10 @@ public class Endereco extends Model implements Serializable {
     @Column
     private String idJson;
 
-    @ManyToOne
+    @OneToOne
     private Controlador controlador;
 
-    @ManyToOne
+    @OneToOne
     private Anel anel;
 
     @Column
@@ -53,6 +55,15 @@ public class Endereco extends Model implements Serializable {
     @Column
     @NotNull(message = "não pode ficar em branco")
     private Double longitude;
+
+    @Column
+    private String localizacao2;
+
+    @Column
+    private Integer alturaNumerica;
+
+    @Column
+    private String referencia;
 
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
@@ -127,6 +138,30 @@ public class Endereco extends Model implements Serializable {
         this.longitude = longitude;
     }
 
+    public String getLocalizacao2() {
+        return localizacao2;
+    }
+
+    public void setLocalizacao2(String localizacao2) {
+        this.localizacao2 = localizacao2;
+    }
+
+    public Integer getAlturaNumerica() {
+        return alturaNumerica;
+    }
+
+    public void setAlturaNumerica(Integer alturaNumerica) {
+        this.alturaNumerica = alturaNumerica;
+    }
+
+    public String getReferencia() {
+        return referencia;
+    }
+
+    public void setReferencia(String referencia) {
+        this.referencia = referencia;
+    }
+
     public DateTime getDataCriacao() {
         return dataCriacao;
     }
@@ -149,5 +184,10 @@ public class Endereco extends Model implements Serializable {
 
     public void setAnel(Anel anel) {
         this.anel = anel;
+    }
+
+    @AssertTrue(message = "não pode ficar em branco, caso não seja preenchido a altura numérica.")
+    public boolean isLocalizacao2() {
+        return !(this.getLocalizacao2() == null && this.getAlturaNumerica() == null);
     }
 }

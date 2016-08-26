@@ -111,9 +111,9 @@ public class Controlador extends Model implements Cloneable, Serializable {
     @JoinTable(name = "agrupamentos_controladores", joinColumns = {@JoinColumn(name = "controlador_id")}, inverseJoinColumns = {@JoinColumn(name = "agrupamento_id")})
     private List<Agrupamento> agrupamentos;
 
-    @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "controlador", cascade = CascadeType.ALL)
     @Valid
-    private List<Endereco> enderecos;
+    private Endereco endereco;
 
     @OneToOne(mappedBy = "controlador", cascade = CascadeType.ALL)
     @Valid
@@ -331,12 +331,12 @@ public class Controlador extends Model implements Cloneable, Serializable {
         this.agrupamentos = agrupamentos;
     }
 
-    public List<Endereco> getEnderecos() {
-        return enderecos;
+    public Endereco getEndereco() {
+        return endereco;
     }
 
-    public void setEnderecos(List<Endereco> enderecos) {
-        this.enderecos = enderecos;
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
 
     public TabelaHorario getTabelaHoraria() {
@@ -379,13 +379,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
 
     public void setStatusControlador(StatusControlador statusControlador) {
         this.statusControlador = statusControlador;
-    }
-
-    public void addEndereco(Endereco endereco) {
-        if (getEnderecos() == null) {
-            setEnderecos(new ArrayList<Endereco>());
-        }
-        getEnderecos().add(endereco);
     }
 
     public void addAgrupamento(Agrupamento agrupamento) {

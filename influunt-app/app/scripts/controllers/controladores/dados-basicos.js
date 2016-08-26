@@ -12,17 +12,21 @@ angular.module('influuntApp')
     function ($scope, $controller) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
-      $scope.$watchGroup(['objeto.todosEnderecos[0].localizacao', 'objeto.todosEnderecos[1].localizacao'], function(){
-        var compeletaEndereco = _.isArray($scope.objeto.todosEnderecos) &&
-          $scope.objeto.todosEnderecos[0].localizacao &&
-          $scope.objeto.todosEnderecos[1].localizacao;
+      $scope.$watch('objeto.todosEnderecos', function(){
+        if(_.isArray($scope.objeto.todosEnderecos)){
+          var completaEndereco = $scope.objeto.todosEnderecos[0].localizacao && ($scope.objeto.todosEnderecos[0].localizacao2 || $scope.objeto.todosEnderecos[0].alturaNumerica);
 
-        if(compeletaEndereco) {
-          $scope.objeto.nomeEndereco = $scope.objeto.todosEnderecos[0].localizacao + ' com ' + $scope.objeto.todosEnderecos[1].localizacao;
-        } else {
-          $scope.objeto.nomeEndereco = '';
+          if(completaEndereco) {
+            if($scope.objeto.todosEnderecos[0].localizacao2){
+              $scope.objeto.nomeEndereco = $scope.objeto.todosEnderecos[0].localizacao + ' com ' + $scope.objeto.todosEnderecos[0].localizacao2;
+            }else{
+              $scope.objeto.nomeEndereco = $scope.objeto.todosEnderecos[0].localizacao + ', nº ' + $scope.objeto.todosEnderecos[0].alturaNumerica;
+            }
+          } else {
+            $scope.objeto.nomeEndereco = '';
+          }
         }
-      });
+      }, true);
       
       $scope.$watchGroup(['objeto.area.idJson', 'helpers.cidade.areas'], function (){
         $scope.currentSubareas = [];

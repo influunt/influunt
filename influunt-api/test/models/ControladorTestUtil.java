@@ -47,18 +47,12 @@ public class ControladorTestUtil {
 
         Endereco enderecoPaulista = new Endereco();
         enderecoPaulista.setLocalizacao("Av Paulista");
+        enderecoPaulista.setLocalizacao2("Rua Bela Cintra");
         enderecoPaulista.setLatitude(1.0);
         enderecoPaulista.setLongitude(2.0);
         enderecoPaulista.setControlador(controlador);
 
-        Endereco enderecoBelaCintra = new Endereco();
-        enderecoBelaCintra.setLocalizacao("Rua Bela Cintra");
-        enderecoBelaCintra.setLatitude(3.0);
-        enderecoBelaCintra.setLongitude(4.0);
-        enderecoBelaCintra.setControlador(controlador);
-
-        controlador.addEndereco(enderecoPaulista);
-        controlador.addEndereco(enderecoBelaCintra);
+        controlador.setEndereco(enderecoPaulista);
         controlador.save();
 
         return controlador;
@@ -75,11 +69,9 @@ public class ControladorTestUtil {
         anel1.setEstagios(estagios);
 
         Endereco paulista = new Endereco(1.0, 1.0, "Av. Paulista");
-        Endereco belaCintra = new Endereco(2.0, 2.0, "R. Bela Cintra");
         paulista.setAnel(anel1);
-        belaCintra.setAnel(anel1);
-        anel1.addEndereco(paulista);
-        anel1.addEndereco(belaCintra);
+        paulista.setAlturaNumerica(145);
+        anel1.setEndereco(paulista);
 
         return controlador;
     }
@@ -182,11 +174,9 @@ public class ControladorTestUtil {
         anelAtivo.setDescricao("Anel 1");
         anelAtivo.setAtivo(Boolean.TRUE);
         Endereco paulista = new Endereco(1.0, 1.0, "Av. Paulista");
-        Endereco belaCintra = new Endereco(2.0, 2.0, "R. Bela Cintra");
         paulista.setAnel(anelAtivo);
-        belaCintra.setAnel(anelAtivo);
-        anelAtivo.addEndereco(paulista);
-        anelAtivo.addEndereco(belaCintra);
+        paulista.setLocalizacao2("R. Bela Cintra");
+        anelAtivo.setEndereco(paulista);
 
         anelAtivo.setEstagios(Arrays.asList(new Estagio(1), new Estagio(2)));
 

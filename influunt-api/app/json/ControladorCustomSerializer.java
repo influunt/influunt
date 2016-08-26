@@ -241,9 +241,7 @@ public class ControladorCustomSerializer {
         if (controlador.getArea() != null && controlador.getArea().getIdJson() != null) {
             root.putObject("area").put("idJson", controlador.getArea().getIdJson());
         }
-
-        refEnderecos("enderecos", controlador.getEnderecos(), root);
-
+        refEndereco("endereco", controlador.getEndereco(), root);
     }
 
     private void putControladorModelo(ModeloControlador modeloControlador, ObjectNode root) {
@@ -1008,6 +1006,16 @@ public class ControladorCustomSerializer {
         if (endereco.getLongitude() != null) {
             enderecoJson.put("longitude", endereco.getLongitude());
         }
+        if (endereco.getLocalizacao2() != null) {
+            enderecoJson.put("localizacao2", endereco.getLocalizacao2());
+        }
+        if (endereco.getAlturaNumerica() != null) {
+            enderecoJson.put("alturaNumerica", endereco.getAlturaNumerica());
+        }
+        if (endereco.getReferencia() != null) {
+            enderecoJson.put("referencia", endereco.getReferencia());
+        }
+
         return enderecoJson;
     }
 
@@ -1073,23 +1081,19 @@ public class ControladorCustomSerializer {
         refGruposSemaforicos(anel.getGruposSemaforicos(), anelJson);
         refDetectores(anel.getDetectores(), anelJson);
         refPlanos("planos", anel.getPlanos(), anelJson);
-        refEnderecos("enderecos", anel.getEnderecos(), anelJson);
+
+        refEndereco("endereco", anel.getEndereco(), anelJson);
 
         return anelJson;
     }
 
-    private void refEnderecos(String name, List<Endereco> enderecos, ObjectNode parentJson) {
-        ArrayNode enderecosJson = Json.newArray();
-        for (Endereco endereco : enderecos) {
-            if (endereco != null && endereco.getIdJson() != null) {
-                enderecosMap.put(endereco.getIdJson().toString(), endereco);
-                ObjectNode planoJson = Json.newObject();
-                planoJson.put("idJson", endereco.getIdJson().toString());
-                enderecosJson.add(planoJson);
-            }
+    private void refEndereco(String name, Endereco endereco, ObjectNode parentJson) {
+        if (endereco != null && endereco.getIdJson() != null) {
+            enderecosMap.put(endereco.getIdJson().toString(), endereco);
+            ObjectNode enderecoJson = Json.newObject();
+            enderecoJson.put("idJson", endereco.getIdJson().toString());
+            parentJson.set(name, enderecoJson);
         }
-        parentJson.set(name, enderecosJson);
-
     }
 
     private void refEntreVerdesTransicoes(String name, List<TabelaEntreVerdesTransicao> entreVerdesTransicoes, ObjectNode parentJson) {

@@ -80,9 +80,9 @@ public class Anel extends Model implements Cloneable, Serializable {
     @Valid
     private List<Plano> planos;
 
-    @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "anel", cascade = CascadeType.ALL)
     @Valid
-    private List<Endereco> enderecos;
+    private Endereco endereco;
 
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
@@ -231,9 +231,9 @@ public class Anel extends Model implements Cloneable, Serializable {
     }
 
     @JsonIgnore
-    @AssertTrue(message = "Anel deve ter 2 endereços")
+    @AssertTrue(message = "Anel deve ter endereço")
     public boolean isEnderecosOk() {
-        return !isAtivo() || (getEnderecos() != null && getEnderecos().size() == 2);
+        return !isAtivo() || getEndereco() != null;
     }
 
     @AssertTrue(groups = PlanosCheck.class,
@@ -330,19 +330,12 @@ public class Anel extends Model implements Cloneable, Serializable {
         this.croqui = croqui;
     }
 
-    public List<Endereco> getEnderecos() {
-        return enderecos;
+    public Endereco getEndereco() {
+        return endereco;
     }
 
-    public void setEnderecos(List<Endereco> enderecos) {
-        this.enderecos = enderecos;
-    }
-
-    public void addEndereco(Endereco endereco) {
-        if (getEnderecos() == null) {
-            setEnderecos(new ArrayList<Endereco>());
-        }
-        getEnderecos().add(endereco);
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
 
     public void addEstagio(Estagio estagio) {

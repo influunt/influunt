@@ -84,8 +84,7 @@ public class AgrupamentosControllerTest extends WithApplication {
         enderecoBelaCintra.setLongitude(4.0);
         enderecoBelaCintra.setControlador(controlador);
 
-        controlador.addEndereco(enderecoPaulista);
-        controlador.addEndereco(enderecoBelaCintra);
+        controlador.setEndereco(enderecoPaulista);
         controlador.setNomeEndereco("Av. Paulista com Bela Cintra");
         controlador.save();
 

@@ -12,7 +12,7 @@ angular.module('influuntApp')
     function ($scope, $state, $controller, assertControlador) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
-      var setDadosBasicosControlador, setDadosCurrentAnel, getLocalizacaoAnel, getNumGruposSemaforicosAnel,
+      var setDadosBasicosControlador, setDadosCurrentAnel, getNumGruposSemaforicosAnel,
           getNumDetectoresAnel, setDadosCurrentGruposSemaforicos, setDadosCurrentEstagios,
           setDadosCurrentVerdesConflitantes, setDadosCurrentTransicoesProibidas, setDadosCurrentTabelasEntreVerdes,
           setDadosCurrentDetectores;
@@ -81,7 +81,7 @@ angular.module('influuntApp')
           var detectoresCount = getNumDetectoresAnel($scope.currentAnel);
           $scope.dadosCurrentAnel = {
             CLA: $scope.currentAnel.CLA,
-            localizacao: getLocalizacaoAnel($scope.currentAnel),
+            localizacao: $scope.currentAnel.localizacao,
             numeroSMEE: $scope.currentAnel.numeroSMEE || '-',
             numGruposPedestre: gruposSemaforicosCount.totalPedestre,
             numGruposVeicular: gruposSemaforicosCount.totalVeicular,
@@ -89,12 +89,6 @@ angular.module('influuntApp')
             numDetectoresVeicular: detectoresCount.totalVeicular
           };
         }
-      };
-
-      getLocalizacaoAnel = function(anel) {
-        var endereco1 = _.find($scope.objeto.todosEnderecos, { idJson: anel.enderecos[0].idJson });
-        var endereco2 = _.find($scope.objeto.todosEnderecos, { idJson: anel.enderecos[1].idJson });
-        return endereco1.localizacao + ' com ' + endereco2.localizacao;
       };
 
       getNumGruposSemaforicosAnel = function(anel) {

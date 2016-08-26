@@ -166,16 +166,14 @@ public class ControladoresControllerTest extends WithApplication {
         controlador.getAneis().forEach(anel -> {
             Anel anelClonado = controladorClonado.getAneis().stream().filter(anelAux -> anelAux.getIdJson().equals(anel.getIdJson())).findFirst().orElse(null);
             assertFields(anel, anelClonado);
-            assertEquals("Teste Anel | Endereços", anel.getEnderecos().size(), anelClonado.getEnderecos().size());
             assertEquals("Teste Anel | Estagio", anel.getEstagios().size(), anelClonado.getEstagios().size());
             assertEquals("Teste Anel | Detectores", anel.getDetectores().size(), anelClonado.getDetectores().size());
             assertEquals("Teste Anel | Grupo Semaforicos", anel.getGruposSemaforicos().size(), anelClonado.getGruposSemaforicos().size());
             assertEquals("Teste Anel | Plano", anel.getPlanos().size(), anelClonado.getPlanos().size());
 
-            anel.getEnderecos().forEach(origem -> {
-                Endereco destino = anelClonado.getEnderecos().stream().filter(aux -> aux.getIdJson().equals(origem.getIdJson())).findFirst().orElse(null);
-                assertFields(origem, destino);
-            });
+            if (anel.getEndereco() != null) {
+                assertFields(anel.getEndereco(), anelClonado.getEndereco());
+            }
 
             anel.getEstagios().forEach(origem -> {
                 Estagio destino = anelClonado.getEstagios().stream().filter(aux -> aux.getIdJson().equals(origem.getIdJson())).findFirst().orElse(null);

@@ -31,8 +31,11 @@
     "gruposPedestres": "Grupos semafóricos de pedestres",
     "gruposSinaisVeiculares": "Grupos semafóricos veiculares",
     "latitude": "Latitude",
-    "localizacao": "Localização",
+    "localizacao": "Logradouro",
     "longitude": "Longitude",
+    "localizacao2": "Logradouro 2",
+    "alturaNumerica": "Altura Numérica",
+    "referencia": "Referência",
     "maxAneis": "Número de anéis",
     "maxDetectorPedestre": "Número de detector pedestre",
     "maxDetectorVeicular": "Número de detector veicular",
@@ -318,6 +321,10 @@
       "salvo_com_sucesso": "Salvo com sucesso",
       "sair": "Sair do sistema?",
       "sim": "Sim"
+    },
+    "croqui": "CROQUI",
+    "dropzone": {
+      "mensagem": "Clique ou Arraste imagens para este local"
     }
   },
   "login": {
