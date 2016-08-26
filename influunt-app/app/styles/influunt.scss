@@ -92,13 +92,13 @@
     clear: both;
 }
 .wrapper-content .basic-wizard .content .body .tableless table tbody tr td.checked {
-    background: #e5e5e5;
+    background-color: #e5e5e5;
 }
 .wrapper-content .basic-wizard .content .body .tableless table tbody tr td.checked i {
     color: #fff;
 }
 .wrapper-content .basic-wizard .content .body .tableless table tbody tr td:hover {
-    background: #e5e5e5;
+    background: #19b4a8 url(../images/check.png) no-repeat center center;
 }
 .wrapper-content .basic-wizard .content .body .tableless.tableless-stages {
     margin: 20px 0 0;
@@ -378,6 +378,7 @@ header .nav-secon li a {
 }
 .wrapper-content .basic-wizard .content .body .tableless table .disabled {
     background: #a6a6a6;
+    cursor: not-allowed;
 }
 .wrapper-content .basic-wizard .content .body .tableless table .tg-yw4l {
     background: #e5e5e5;
@@ -399,6 +400,10 @@ header .nav-secon li a {
 		max-width: 74px;
     transition: all .5s ease;
     cursor: pointer;
+    background: url(../images/check.png) no-repeat center center;
+}
+.wrapper-content .basic-wizard .content .body .tableless table tbody tr td.text-center {
+    background: #ffffff;
 }
 .wrapper-content .basic-wizard .content .body .tableless table thead tr th {
     height: 74px;
@@ -2378,4 +2383,3 @@ tip-tip {
     margin-top: 0;
     position: relative;
 }
-

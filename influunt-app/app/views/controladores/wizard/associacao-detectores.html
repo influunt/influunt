@@ -49,7 +49,7 @@
                     <tbody>
                       <tr data-ng-repeat="detector in currentDetectores"
                           data-ng-click="selecionaDetector(detector, $index)">
-                        <td class="titulo">
+                        <td class="titulo text-center">
                           <strong>{{ detector | nomeDetector }}</strong>
                           <span class="badge badge-danger badge-notification"
                             data-ng-show="errors.detectores[$index] || errors.aneis[currentAnelIndex].detectores[$index]"
@@ -65,9 +65,9 @@
                         <td data-ng-repeat="estagio in currentEstagios track by $index"
                             data-ng-class="{disabled: estagio.temDetector && detector.estagio.idJson !== estagio.idJson}"
                             data-ng-click="toggleAssociacaoDetector(estagio, detector)">
-                          <i class="fa fa-check" aria-hidden="true" data-ng-if="detector.estagio.idJson === estagio.idJson"></i>
+                            <i tooltips tooltip-template="<b><span>{{ 'geral.tooltip.voltarSemPara' | translate }}</span></b> {{ 'controladores.entreVerdes.titulo' | translate }}" class="fa fa-check" aria-hidden="true" data-ng-if="detector.estagio.idJson === estagio.idJson"></i>
                         </td>
-                        <td>
+                        <td class="text-center">
                           <a ng-click="excluirDetector(detector, $index)" class="btn btn-xs btn-danger">{{ 'geral.crud.excluir' | translate }}</a>
                         </td>
                       </tr>
