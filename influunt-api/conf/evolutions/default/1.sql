@@ -255,6 +255,7 @@ create table modelo_controladores (
   limite_detector_pedestre      integer not null,
   limite_detector_veicular      integer not null,
   limite_tabelas_entre_verdes   integer not null,
+  limite_planos                 integer not null,
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
   constraint pk_modelo_controladores primary key (id)
@@ -289,6 +290,7 @@ create table planos (
   id                            varchar(40) not null,
   id_json                       varchar(255),
   posicao                       integer not null,
+  descricao                     varchar(255) not null,
   tempo_ciclo                   integer,
   defasagem                     integer,
   anel_id                       varchar(40),

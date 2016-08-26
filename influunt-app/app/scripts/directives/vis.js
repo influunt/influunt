@@ -26,7 +26,7 @@ angular.module('influuntApp')
           var initCheckboxValues = function() {
             scope.grupos.forEach(function(grupo) {
               var selector = '.group-checkbox[data-posicao=' + grupo.posicao + ']';
-              $(selector).prop('checked', grupo.ativo);
+              $(selector).prop('checked', grupo.ativado);
             });
           };
 
@@ -34,9 +34,9 @@ angular.module('influuntApp')
             $('.group-checkbox').on('change', function() {
               var checkbox = $(this);
               var grupo = _.find(scope.grupos, {posicao: checkbox.data('posicao')});
-              grupo.ativo = checkbox.is(':checked');
+              grupo.ativado = checkbox.is(':checked');
 
-              scope.onChangeCheckbox({grupo: grupo, isAtivo: grupo.ativo});
+              scope.onChangeCheckbox({grupo: grupo, isAtivo: grupo.ativado});
               scope.$apply();
             });
 

@@ -263,8 +263,10 @@ public class ControladorCustomDeserializer {
     private void parsePlanos(JsonNode node) {
         if (node.has("planos")) {
             for (JsonNode nodePlano : node.get("planos")) {
-                Plano plano = parsePlano(nodePlano);
-                planosCache.put(plano.getIdJson().toString(), plano);
+                if((nodePlano.has("configurado") && nodePlano.get("configurado").asBoolean()) || !nodePlano.has("configurado")){
+                    Plano plano = parsePlano(nodePlano);
+                    planosCache.put(plano.getIdJson().toString(), plano);
+                }
             }
         }
     }
@@ -871,6 +873,9 @@ public class ControladorCustomDeserializer {
         }
         if (node.has("posicao")) {
             plano.setPosicao(node.get("posicao").asInt());
+        }
+        if (node.has("descricao")) {
+            plano.setDescricao(node.get("descricao").asText());
         }
         if (node.has("tempoCiclo")) {
             plano.setTempoCiclo(node.get("tempoCiclo").asInt());

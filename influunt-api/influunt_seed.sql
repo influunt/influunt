@@ -6,7 +6,7 @@ INSERT INTO `areas` (`id`, `id_json`, `descricao`, `cidade_id`, `data_criacao`, 
 
 SET @FabricanteId = UUID();
 INSERT INTO `fabricantes` (`id`, `id_json`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@FabricanteId, UUID(), 'Raro Labs', NOW(), NOW());
-INSERT INTO `modelo_controladores` (`id`, `id_json`, `descricao`, `fabricante_id`, `limite_estagio`, `limite_grupo_semaforico`, `limite_anel`, `limite_detector_pedestre`, `limite_detector_veicular`, `limite_tabelas_entre_verdes`, `data_criacao`, `data_atualizacao`) VALUES (UUID(), UUID(), 'Modelo Básico', @FabricanteId, 16, 16, 4, 4, 8, 2, NOW(), NOW());
+INSERT INTO `modelo_controladores` (`id`, `id_json`, `descricao`, `fabricante_id`, `limite_estagio`, `limite_grupo_semaforico`, `limite_anel`, `limite_detector_pedestre`, `limite_detector_veicular`, `limite_tabelas_entre_verdes`, `limite_planos`, `data_criacao`, `data_atualizacao`) VALUES (UUID(), UUID(), 'Modelo Básico', @FabricanteId, 16, 16, 4, 4, 8, 2, 16, NOW(), NOW());
 INSERT INTO `usuarios` (`id`, `login`, `senha`, `email`, `nome`, `root`, `data_criacao`, `data_atualizacao`) VALUES (UUID(), 'root', '$2a$10$EzudGIqkxquJjLGawuMrOu9K6S28yc/R/YSAVxsvb5bSryOYWd5eq', 'root@influunt.com.br', 'Administrador Geral', true, NOW(), NOW());
 
 

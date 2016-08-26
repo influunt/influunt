@@ -13,8 +13,6 @@ angular.module('influuntApp')
       templateUrl: 'views/directives/influunt-revisao.html',
       objeto: '=',
       showFooter: '=',
-      link: function postLink() {
-
-      }
+      link: function postLink() {}
     };
   });

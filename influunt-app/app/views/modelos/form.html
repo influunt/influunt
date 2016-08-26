@@ -71,6 +71,14 @@
       </div>
     </div>
 
+    <div class="form-group" data-ng-class="{'has-error': errors.limitePlanos}">
+      <label class="col-sm-2 control-label">{{ 'modelos.limitePlanos' | translate }}</label>
+      <div class="col-sm-9">
+        <input class="string optional form-control" name="limitePlanos" type="text" data-ng-model="objeto.limitePlanos">
+        <p class="help-block error-msg" data-ng-repeat="error in errors.limitePlanos">{{ error }}</p>
+      </div>
+    </div>
+
     <div class="form-group">
       <div class="col-sm-4 col-sm-offset-2">
         <input class="btn btn-primary" name="commit" type="submit" value="{{ 'geral.crud.salvar' | translate }}">

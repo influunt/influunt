@@ -31,6 +31,11 @@ angular.module('influuntApp')
         gruposSemaforicos.forEach(function (grupo, index) {
           plano.posicaoGruposSemaforicos['G' + grupo.posicao] = index;
         });
+        
+        currentPlano.gruposSemaforicosPlanos.forEach(function (gp){
+          var grupoPlano = _.cloneDeep(_.find(controlador.gruposSemaforicosPlanos, {idJson: gp.idJson}));
+          plano.gruposSemaforicosPlanos.push(grupoPlano);
+        });
 
         currentPlano.estagiosPlanos.forEach(function(ep){
           var estagioPlano = _.cloneDeep(_.find(controlador.estagiosPlanos, {idJson: ep.idJson}));
@@ -68,7 +73,6 @@ angular.module('influuntApp')
           plano.estagiosPlanos.push(estagioPlano);
         });
         plano.estagiosPlanos = _.orderBy(plano.estagiosPlanos, ['posicao']);
-
         return plano;
       }
     };

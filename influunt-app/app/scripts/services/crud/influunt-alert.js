@@ -46,6 +46,26 @@ angular.module('influuntApp')
         return defer.promise;
       };
 
+      var promptPopup = function(title, text) {
+        var defer = $q.defer();
+        SweetAlert.swal(
+          {
+            title: title,
+            text: text,
+            type: 'input',
+            showCancelButton: true,
+            confirmButtonColor: '#DD6B55',
+            confirmButtonText: $filter('translate')('geral.mensagens.sim'),
+            cancelButtonText: $filter('translate')('geral.mensagens.cancelar'),
+            closeOnConfirm: true,
+            closeOnCancel: true
+          }, function (inputvalue) {
+            defer.resolve(inputvalue);
+        });
+
+        return defer.promise;
+      };
+
       /**
        * Alert padrão para exibição de alerts antes de deletar algo.
        */
@@ -58,7 +78,8 @@ angular.module('influuntApp')
       return  {
         alert: alertPopup,
         confirm: confirmPopup,
-        delete: deleteAlert
+        delete: deleteAlert,
+        prompt: promptPopup
       };
 
     }]);
