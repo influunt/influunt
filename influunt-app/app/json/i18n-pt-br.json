@@ -401,7 +401,15 @@
     "novo": "Novo Agrupamento",
     "editar": "Editar Agrupamento",
     "mostrar": "Visualizar Agrupamento",
-    "controladores": "Controladores"
+    "ativo": "Ativo",
+    "subArea": "Sub-Áreas",
+    "controladoresAvulso": "Controladores avulso",
+    "controladores": "Controladores",
+    "options": {
+      "corredor": "Corredor",
+      "rota": "Rota",
+      "subArea": "Subarea"
+    }
   },
   "status": {
     "titulo": "Status dos Controladores"
