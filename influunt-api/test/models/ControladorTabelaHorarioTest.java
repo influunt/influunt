@@ -224,4 +224,43 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         return new InfluuntValidator<Controlador>().validate(controlador, Default.class, TabelaHorariosCheck.class);
     }
 
+    @Test
+    public void testControllerDestroy() {
+        Controlador controlador = getControladorTabelaHorario();
+        controlador.save();
+
+        List<Erro> erros = getErros(controlador);
+        assertEquals("Total de Erros", 0, erros.size());
+
+        controlador = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador));
+
+        Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
+        int totalEstagios = Estagio.find.findRowCount();
+        int totalEstagiosAnel = anelCom4Estagios.getEstagios().size();
+        int totalDetectores = Detector.find.findRowCount();
+        int totalDetectoresAnel = anelCom4Estagios.getDetectores().size();
+        int totalGruposSemaforicos = GrupoSemaforico.find.findRowCount();
+        int totalGruposSemaforicosAnel = anelCom4Estagios.getGruposSemaforicos().size();
+        int totalPlanos = Plano.find.findRowCount();
+        int totalPlanosAnel = anelCom4Estagios.getPlanos().size();
+        int totalEnderecos = Endereco.find.findRowCount();
+        int totalEnderecosAnel = anelCom4Estagios.getEnderecos().size();
+
+
+        anelCom4Estagios.setControlador(null);
+        int index = controlador.getAneis().indexOf(anelCom4Estagios);
+        controlador.getAneis().remove(index);
+        controlador.getAneis().add(new Anel(controlador, anelCom4Estagios.getPosicao()));
+
+
+        controlador.update();
+
+        assertEquals("Quantidade de Aneis", 4, controlador.getAneis().size());
+        assertEquals("Quantidade de estagios", totalEstagios - totalEstagiosAnel, Estagio.find.findRowCount());
+        assertEquals("Quantidade de grupos semafóricos", totalGruposSemaforicos - totalGruposSemaforicosAnel, GrupoSemaforico.find.findRowCount());
+        assertEquals("Quantidade de detectores", totalDetectores - totalDetectoresAnel, Detector.find.findRowCount());
+        assertEquals("Quantidade de planos", totalPlanos - totalPlanosAnel, Plano.find.findRowCount());
+        assertEquals("Quantidade de endereços", totalEnderecos - totalEnderecosAnel, Endereco.find.findRowCount());
+    }
+
 }

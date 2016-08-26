@@ -2,14 +2,19 @@
   <div class="m-t-md">
     <div class="col-lg-12 col-sm-12 bg-border no-padding">
       <div class="ibox float-e-margins">
+
+      <pre>{{ aneis | json }}</pre>
+
         <div class="col-lg-12 col-sm-12 padding-top-20 tabs-container">
           <influunt-tabs class="tabpanel"
                          data-on-add="ativarProximoAnel"
                          data-on-remove="desativarUltimoAnel"
+                         data-before-remove="deletarUltimoAnelAtivo"
                          data-on-activate="selecionaAnel"
                          data-aneis-ativos="aneisAtivos"
                          data-error-check="anelTemErro"
                          data-can-add-tabs="true"
+                         data-can-remove-tabs="true"
                          data-max-tabs="objeto.limiteAnel"></influunt-tabs>
           <div class="ui-layout-content tab-content">
             <div id="tabs-1">
@@ -27,6 +32,7 @@
                 </uib-alert>
               </div>
 
+
               <div class="col-lg-12 col-sm-12 movements">
                 <form class="dropzone"
                       id="estagios"
@@ -37,7 +43,7 @@
                       on-success="adicionarEstagio(upload, imagem)"
                       on-delete="removerEstagio(imagem)">
                   <fake-dropzone-preview aneis="aneis"></fake-dropzone-preview>
-                  <div class="dz-default dz-message"><span>Clique ou Arraste imagens para este local</span></div>
+                  <div class="dz-default dz-message"><span>Clique aqui ou Arraste imagens para este local</span></div>
                   <div class="fallback">
                     <input name="file" type="file" multiple />
                   </div>

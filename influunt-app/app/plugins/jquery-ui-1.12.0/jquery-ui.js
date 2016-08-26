@@ -17574,7 +17574,7 @@ $.widget( "ui.tabs", {
 		return hash ? hash.replace( /[!"$%&'()*+,.\/:;<=>?@\[\]\^`{|}~]/g, "\\$&" ) : "";
 	},
 
-	refresh: function() {
+	refresh: function(removing) {
 		var options = this.options,
 			lis = this.tablist.children( ":has(a[href])" );
 
@@ -17601,7 +17601,7 @@ $.widget( "ui.tabs", {
 
 			// activate previous tab
 			} else {
-				this._activate( this._findNextTab( Math.max( 0, options.active - 1 ), false ) );
+				this._activate( this._findNextTab( Math.max( 0, options.active - 1 ), false ), !!removing );
 			}
 
 		// was active, active tab still exists
@@ -17860,7 +17860,8 @@ $.widget( "ui.tabs", {
 				oldTab: active,
 				oldPanel: toHide,
 				newTab: collapsing ? $() : tab,
-				newPanel: toShow
+				newPanel: toShow,
+				removing: !!event.removing
 			};
 
 		event.preventDefault();
@@ -17890,7 +17891,7 @@ $.widget( "ui.tabs", {
 
 		if ( !toHide.length && !toShow.length ) {
 			// Influunt não utiliza o plugin de tabs completamente, somente
-			// uma parte. Esse erro não se aplicaao projeto, e a linha foi comentada
+			// uma parte. Esse erro não se aplica ao projeto, e a linha foi comentada
 			// $.error( "jQuery UI Tabs: Mismatching fragment identifier." );
 		}
 
@@ -17964,7 +17965,7 @@ $.widget( "ui.tabs", {
 		} );
 	},
 
-	_activate: function( index ) {
+	_activate: function( index, removing ) {
 		var anchor,
 			active = this._findActive( index );
 
@@ -17982,7 +17983,8 @@ $.widget( "ui.tabs", {
 		this._eventHandler( {
 			target: anchor,
 			currentTarget: anchor,
-			preventDefault: $.noop
+			preventDefault: $.noop,
+			removing: removing
 		} );
 	},
 

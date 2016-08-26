@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresAneisCtrl', ['$scope', '$state', '$controller', 'assertControlador',
-    function ($scope, $state, $controller, assertControlador) {
+  .controller('ControladoresAneisCtrl', ['$scope', '$state', '$controller', '$q', 'assertControlador', 'influuntAlert',
+    function ($scope, $state, $controller, $q, assertControlador, influuntAlert) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
       // Métodos privados.
@@ -84,7 +84,7 @@ angular.module('influuntApp')
       $scope.removerEstagio = function(img) {
         var anel = $scope.currentAnel;
 
-        var imagemIndex = _.findIndex($scope.objeto.imagens, {idJson: img.idJson});
+        var imagemIndex = _.findIndex($scope.objeto.imagens, { id: img.id });
         var imagem = $scope.objeto.imagens[imagemIndex];
         var estagioIndex = _.findIndex($scope.objeto.estagios, function(estagio) {
           return estagio.imagem.idJson === imagem.idJson;
@@ -102,25 +102,41 @@ angular.module('influuntApp')
       };
 
       $scope.ativarProximoAnel = function() {
-        $scope.$apply(function() {
-          $scope.selecionaAnel(_.findIndex($scope.aneis, { ativo: false }));
-          $scope.currentAnel.ativo = true;
-          inicializaEnderecos();
-          atualizarAneisAtivos();
-        });
+        $scope.selecionaAnel(_.findIndex($scope.aneis, { ativo: false }));
+        $scope.currentAnel.ativo = true;
+        inicializaEnderecos();
+        atualizarAneisAtivos();
       };
 
       $scope.desativarUltimoAnel = function() {
-        $scope.$apply(function() {
-          var ultimoAnelAtivoIndex = _.findLastIndex($scope.aneis, { ativo: true });
-          if (ultimoAnelAtivoIndex === 0) {
-            return false;
-          }
+        var ultimoAnelAtivoIndex = _.findLastIndex($scope.aneis, { ativo: true });
+        if (ultimoAnelAtivoIndex === 0) {
+          return false;
+        }
 
-          $scope.aneis[ultimoAnelAtivoIndex].ativo = false;
-          delete $scope.aneis[ultimoAnelAtivoIndex].enderecos;
-          atualizarAneisAtivos();
-        });
+        $scope.aneis[ultimoAnelAtivoIndex].ativo = false;
+        // delete $scope.aneis[ultimoAnelAtivoIndex].enderecos;
+        atualizarAneisAtivos();
+      };
+
+      $scope.deletarUltimoAnelAtivo = function(data) {
+        var tabWasAdded = !!$(data.tab).data('newtab');
+        if (tabWasAdded) {
+          return $q.resolve(true);
+        } else {
+          var title = 'Deseja mesmo apagar este anel?',
+              text = 'Ao apagar esse anel todos os relacionamentos previamente cadastrados serão apagados.';
+          return influuntAlert.confirm(title, text).then(function(deveApagarAnel) {
+            console.log('deve apagar anel? '+deveApagarAnel)
+            if (deveApagarAnel) {
+              var ultimoAnelAtivoIndex = _.findLastIndex($scope.aneis, { ativo: true });
+              $scope.aneis[ultimoAnelAtivoIndex].ativo = false;
+              $scope.aneis[ultimoAnelAtivoIndex]['_destroy'] = true;
+              $scope.submitForm({$valid: true}, 'aneis', 'app.wizard_controladores.aneis')
+            }
+            return deveApagarAnel;
+          });
+        }
       };
 
       setDadosBasicos = function() {

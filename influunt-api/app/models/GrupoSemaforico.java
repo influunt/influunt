@@ -92,6 +92,9 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
     @NotNull(groups = ControladorGruposSemaforicosCheck.class, message = "não pode ficar em branco")
     private Integer tempoVerdeSeguranca;
 
+    @OneToMany(mappedBy = "grupoSemaforico", cascade = CascadeType.ALL)
+    private List<GrupoSemaforicoPlano> gruposSemaforicosPlanos;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)

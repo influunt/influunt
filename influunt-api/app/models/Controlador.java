@@ -3,6 +3,7 @@ package models;
 import checks.*;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
+import com.avaje.ebean.annotation.PrivateOwned;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -17,6 +18,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.UUID;
 
 /**
@@ -96,6 +98,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
 
     @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
     @Valid
+    @PrivateOwned
     private List<Anel> aneis;
 
     @OneToMany(mappedBy = "controlador")
@@ -390,5 +393,17 @@ public class Controlador extends Model implements Cloneable, Serializable {
             setAgrupamentos(new ArrayList<Agrupamento>());
         }
         getAgrupamentos().add(agrupamento);
+    }
+
+    public void deleteAnelSeNecessario() {
+        ListIterator<Anel> it = getAneis().listIterator();
+        while (it.hasNext()) {
+            Anel anel = it.next();
+            if (anel.isDestroy()) {
+                anel.setControlador(null);
+                it.remove();
+                it.add(new Anel(this, anel.getPosicao()));
+            }
+        }
     }
 }

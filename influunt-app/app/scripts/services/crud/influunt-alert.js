@@ -28,19 +28,20 @@ angular.module('influuntApp')
        * @param      {<type>}  text    The text
        */
       var confirmPopup = function(title, text) {
-        var defer = $q.defer();
-        SweetAlert.swal(
-          {
-            title: title,
-            text: text,
-            showCancelButton: true,
-            confirmButtonColor: '#DD6B55',
-            confirmButtonText: $filter('translate')('geral.mensagens.sim'),
-            cancelButtonText: $filter('translate')('geral.mensagens.cancelar'),
-            closeOnConfirm: true,
-            closeOnCancel: true
-          }, function (confirmado) {
-            defer.resolve(confirmado);
+        var defer = $q.defer(),
+            options = {
+              title: title,
+              text: text,
+              showCancelButton: true,
+              confirmButtonColor: '#DD6B55',
+              confirmButtonText: $filter('translate')('geral.mensagens.sim'),
+              cancelButtonText: $filter('translate')('geral.mensagens.cancelar'),
+              closeOnConfirm: true,
+              closeOnCancel: true
+            };
+
+        SweetAlert.swal(options, function (confirmado) {
+          defer.resolve(confirmado);
         });
 
         return defer.promise;
