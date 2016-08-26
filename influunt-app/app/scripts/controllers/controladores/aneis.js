@@ -173,9 +173,9 @@ angular.module('influuntApp')
       registrarWatcherEndereco = function() {
         $scope.$watch('currentAnel', function(anel) {
           $scope.currentEndereco = _.find($scope.objeto.todosEnderecos, {idJson: $scope.currentAnel.endereco.idJson});
-          if (_.isArray($scope.currentEndereco) && $scope.currentEndereco.localizacao && ($scope.currentEndereco.localizacao2 || $scope.currentEndereco.alturaNumerica)) {
+          if ($scope.currentEndereco && $scope.currentEndereco.localizacao && ($scope.currentEndereco.localizacao2 || $scope.currentEndereco.alturaNumerica)) {
             if($scope.objeto.todosEnderecos[0].localizacao2){
-              anel.localizacao = $scope.currentEndereco.localizacao + ' com ' + $scope.currentEndereco.localizacao;
+              anel.localizacao = $scope.currentEndereco.localizacao + ' com ' + $scope.currentEndereco.localizacao2;
             }else{
               anel.localizacao = $scope.currentEndereco.localizacao + ', nº ' + $scope.currentEndereco.alturaNumerica;
             }

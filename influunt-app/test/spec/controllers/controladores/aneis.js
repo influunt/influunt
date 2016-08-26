@@ -58,8 +58,8 @@ describe('Controller: ControladoresAneisCtrl', function () {
 
     describe('Configuração válida', function () {
       beforeEach(function() {
-        var endereco1       = {localizacao: 'Av Bandeirantes', localizacao2: 'Av Afonso Penna'};
-        var enderecoVazio   = {localizacao: ''};
+        var endereco1       = {idJson: 1, localizacao: 'Av Bandeirantes', localizacao2: 'Av Afonso Penna'};
+        var enderecoVazio   = {idJson: 2, localizacao: ''};
 
         var objeto = {
           aneis: [{idJson: 1, endereco: endereco1, posicao: 1}, {idJson: 2, endereco: enderecoVazio}],
@@ -82,16 +82,14 @@ describe('Controller: ControladoresAneisCtrl', function () {
 
       it('Deve criar o texto em "nomeEndereco" associando os nomes do "Av Bandeirantes" "com" "Av Afonso Penna"', function() {
         var anel = scope.objeto.aneis[0];
-        console.log(anel);
-        // expect(anel.nomeEndereco).toBe('Av Bandeirantes com Av Afonso Penna');
         expect(anel.localizacao).toBe('Av Bandeirantes com Av Afonso Penna');
       });
 
       it('no segundo anel o "nomeEndereco" deve ser vazio', function() {
         var anel = scope.objeto.aneis[1];
         anel.localizacao = '';
-        anel.enderecos[0].localizacao = 'endereco 1';
-        anel.enderecos[1].localizacao = 'endereco 2';
+        anel.endereco.localizacao = 'endereco 1';
+        anel.endereco.localizacao2 = 'endereco 2';
         expect(anel.localizacao).toBe('');
       });
     });
@@ -130,7 +128,7 @@ describe('Controller: ControladoresAneisCtrl', function () {
   describe('ativarProximoAnel', function () {
     beforeEach(function() {
       scope.objeto = {
-        enderecos: ['Av Bandeirantes', 'Av Afonsopena'],
+        todosEnderecos: [{idJson: 1, localizacao: 'Av Bandeirantes', localizacao2: 'Av Afonsopena'}],
         aneis: [{idJson: 'anel-1', ativo: true, posicao: 1},
                 {idJson: 'anel-2', ativo: false},
                 {idJson: 'anel-3', ativo: false}]
@@ -146,7 +144,7 @@ describe('Controller: ControladoresAneisCtrl', function () {
     });
 
     it('Os dados de endereco do novo anel devem ser inicializados', function() {
-      expect(scope.objeto.aneis[2].enderecos.length).toBe(2);
+      expect(scope.objeto.aneis[2].endereco).toBeDefined();
     });
 
     it('O array de aneis ativos de ser atualizado.', function() {
