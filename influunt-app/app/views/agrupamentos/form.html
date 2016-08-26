@@ -1,29 +1,20 @@
-<div class="ibox-content">
-  <form class="simple_form form-horizontal"
-      method="post"
-      name="formAgrupamentos"
-      novalidate="novalidate"
-      data-ng-submit="save()">
-
-    <div class="form-group" data-ng-class="{ 'has-error': errors.nome }">
-      <label class="control-label col-sm-2 control-label">{{ 'agrupamentos.nome' | translate }}</label>
-      <div class="col-sm-9">
+<div class="col-lg-12 col-sm-12 ibox-content">
+  <form class="simple_form form-horizontal" method="post" name="formAgrupamentos" novalidate="novalidate" data-ng-submit="save()">
+    <div class="col-lg-3 col-sm-3">
+      <div class="form-group" data-ng-class="{ 'has-error': errors.nome }">
+        <label class="control-label">{{ 'agrupamentos.nome' | translate }}</label>
         <input class="string required form-control" name="nome" type="text" data-ng-model="objeto.nome">
         <p class="help-block error-msg" data-ng-repeat="error in errors.nome">{{ error }}</p>
       </div>
-    </div>
-		
-    <div class="form-group" data-ng-class="{ 'has-error': errors.numero }">
-      <label class="control-label col-sm-2 control-label">{{ 'agrupamentos.numero' | translate }}</label>
-      <div class="col-sm-9">
+
+      <div class="form-group" data-ng-class="{ 'has-error': errors.numero }">
+        <label class="control-label control-label">{{ 'agrupamentos.numero' | translate }}</label>
         <input class="string required form-control" name="numero" type="text" data-ng-model="objeto.numero">
         <p class="help-block error-msg" data-ng-repeat="error in errors.numero">{{ error }}</p>
       </div>
-    </div>
 
-    <div class="form-group" data-ng-class="{ 'has-error': errors.tipo }">
-      <label class="control-label col-sm-2 control-label">{{ 'agrupamentos.tipo' | translate }}</label>
-      <div class="col-sm-9">
+      <div class="form-group" data-ng-class="{ 'has-error': errors.tipo }">
+        <label class="control-label control-label">{{ 'agrupamentos.tipo' | translate }}</label>
         <select class="form-control" data-ng-model="objeto.tipo" name="tipo">
           <option value="CORREDOR">Corredor</option>
           <option value="ROTA">Rota</option>
@@ -31,22 +22,70 @@
         </select>
         <p class="help-block error-msg" data-ng-repeat="error in errors.agrupamento">{{ error }}</p>
       </div>
-    </div>
 
-    <div class="form-group" data-ng-class="{ 'has-error': errors.controladores }">
-      <label class="control-label col-sm-2 control-label">{{ 'agrupamentos.controladores' | translate }}</label>
-      <div class="col-sm-9">
+      <div class="form-group" data-ng-class="{ 'has-error': errors.controladores }">
+        <label class="control-label control-label">{{ 'agrupamentos.controladores' | translate }}</label>
         <select select2 name="controladores" class="form-control" data-ng-options="option.name for option in controladores track by option.id" data-ng-model="objeto.controladores" multiple="multiple"></select>
         <p class="help-block error-msg" data-ng-repeat="error in errors.controladores">{{ error }}</p>
       </div>
     </div>
-
-    <div class="form-group">
-      <div class="col-sm-4 col-sm-offset-2">
-        <input class="btn btn-primary" name="commit" type="submit" value="{{ 'geral.crud.salvar' | translate }}">
-        <a class="btn btn-default" ui-sref="app.agrupamentos">{{ 'geral.crud.voltar' | translate }}</a>
+    <div class="col-lg-9 col-sm-9">
+      <div class="col-lg-12 col-sm-12">
+        <h3>Controladores</h3>
+        <hr />
+      </div>
+      <div class="col-lg-12 col-sm-12 ibox">
+        <div class="col-lg-4 col-sm-4">
+          <div class="control-box">
+            <span class="right"><i class="fa fa-circle text-navy"></i>Ativo</span>
+            <p><input type="checkbox" ichecks data-ng-model="dummyNgModel" if-unchecked=""> <b>01 23 956</b></p>
+            <p class="padding-left-20">Av Amazonas</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-4">
+          <div class="control-box">
+            <span class="right"><i class="fa fa-circle text-navy"></i>Ativo</span>
+            <p><input type="checkbox" ichecks data-ng-model="dummyNgModel" if-unchecked=""> <b>01 23 956</b></p>
+            <p class="padding-left-20">Av Amazonas</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-4">
+          <div class="control-box">
+            <span class="right"><i class="fa fa-circle text-navy"></i>Ativo</span>
+            <p><input type="checkbox" ichecks data-ng-model="dummyNgModel" if-unchecked=""> <b>01 23 956</b></p>
+            <p class="padding-left-20">Av Amazonas</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12 col-sm-12 ibox">
+        <div class="col-lg-4 col-sm-4">
+          <div class="control-box">
+            <span class="right"><i class="fa fa-circle text-navy"></i>Ativo</span>
+            <p><input type="checkbox" ichecks data-ng-model="dummyNgModel" if-unchecked=""> <b>01 23 956</b></p>
+            <p class="padding-left-20">Av Amazonas</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-4">
+          <div class="control-box">
+            <span class="right"><i class="fa fa-circle text-navy"></i>Ativo</span>
+            <p><input type="checkbox" ichecks data-ng-model="dummyNgModel" if-unchecked=""> <b>01 23 956</b></p>
+            <p class="padding-left-20">Av Amazonas</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-4">
+          <div class="control-box">
+            <span class="right"><i class="fa fa-circle text-navy"></i>Ativo</span>
+            <p><input type="checkbox" ichecks data-ng-model="dummyNgModel" if-unchecked=""> <b>01 23 956</b></p>
+            <p class="padding-left-20">Av Amazonas</p>
+          </div>
+        </div>
       </div>
     </div>
-
-  </form>
 </div>
+
+  <div class="col-sm-12 bg-border-footer">
+    <input class="btn btn-primary btn-footer right m-r-sm" name="commit" type="submit" value="{{ 'geral.crud.salvar' | translate }}">
+    <a class="btn btn-primary btn-outline btn-footer right m-r-sm" ui-sref="app.agrupamentos">{{ 'geral.crud.voltar' | translate }}</a>
+  </div>
+
+</form>
