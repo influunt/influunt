@@ -59,17 +59,27 @@
                                 <div class="col-lg-12 col-sm-12 no-padding">
                                   <aside>
                                     <div class="form-group">
-                                      <label>MODO DE OPERAÇÃO</label>
+                                      <label>{{'planos.modoOperacao' | translate}}</label>
                                       <select class="form-control" name="modoOperacao" data-ng-model="currentPlano.modoOperacao" data-ng-change="limpaDadosPlano()">
-                                        <option value="ATUADO">Atuado</option>
-                                        <option value="TEMPO_FIXO_COORDENADO">Coordenado</option>
-                                        <option value="TEMPO_FIXO_ISOLADO">Isolado</option>
-                                        <option value="INTERMITENTE">Intermitente</option>
-                                        <option value="APAGADO">Apagado</option>
+                                        <option value="ATUADO">
+                                          {{'planos.modosOperacao.atuado' | translate}}
+                                        </option>
+                                        <option value="TEMPO_FIXO_COORDENADO">
+                                          {{'planos.modosOperacao.tempoFixoCoordenado' | translate}}
+                                        </option>
+                                        <option value="TEMPO_FIXO_ISOLADO">
+                                          {{'planos.modosOperacao.tempoFixoIsolado' | translate}}
+                                        </option>
+                                        <option value="INTERMITENTE">
+                                          {{'planos.modosOperacao.intermitente' | translate}}
+                                        </option>
+                                        <option value="APAGADO">
+                                          {{'planos.modosOperacao.apagado' | translate}}
+                                        </option>
                                       </select>
                                     </div>
                                     <div class="form-group" data-ng-if="currentPlano.modoOperacao !== 'INTERMITENTE' && currentPlano.modoOperacao !== 'APAGADO'">
-                                      <label>TABELA DE ENTRE-VERDES</label>
+                                      <label>{{'controladores.entreVerdes.titulo' | translate}}</label>
                                       <select class="form-control" name="tabelaEntreverdes" data-ng-model="currentPlano.posicaoTabelaEntreVerde" data-ng-options="tabela.posicao as tabela.descricao for tabela in currentTabelasEntreVerdes">
                                       </select>
                                     </div>
@@ -128,7 +138,7 @@
                                             </figure>
                                             <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#modal-configuracao-estagio">
                                               <i class="fa fa-cog" />
-                                              Configurar
+                                              {{'crud.configurar' | translate}}
                                             </button>
                                             <button type="button" class="btn btn-primary btn-xs" data-ng-click="leftEstagio($index)" ng-disabled="$first">
                                               <i class="fa fa-arrow-left" />
@@ -146,7 +156,7 @@
 
                               <div class="col-lg-12 col-sm-12 association plans stage-time m-t-md">
                                 <div class="ibox-title">
-                                  <h5>Tabela de Planos</h5>
+                                  <h5>{{ 'diagramaIntervalos.titulo' | translate }}</h5>
                                   <ng-include src="'views/planos/header-buttons.html'" class="right"></ng-include>
                                 </div>
 
@@ -176,7 +186,7 @@
             <div class="modal-dialog">
               <div class="modal-content animated bounceInRight">
                 <div class="modal-header">
-                  <h3>selecione os planos que deverão copiar as configurações de <strong>{{ planoCopiado.descricao }}</strong></h3>
+                  <h3>{{ 'planos.copiarPlano.mensagem' | translate }}<strong>{{ planoCopiado.descricao }}</strong></h3>
                   <div class="form-group">
                     <div class="col-sm-12 form-group">
                       <select select2
@@ -191,7 +201,9 @@
                 </div>
 
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-primary" data-dismiss="modal" data-ng-click="confirmacaoCopiarPlano()">Copiar</button>
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" data-ng-click="confirmacaoCopiarPlano()">
+                    {{ 'geral.crud.copiar' | translate }}
+                  </button>
                 </div>
               </div>
             </div>
@@ -206,7 +218,9 @@
                 </div>
 
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-primary" data-dismiss="modal">Fechar</button>
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">
+                    {{ 'geral.crud.fechar' | translate }}
+                  </button>
                 </div>
               </div>
             </div>

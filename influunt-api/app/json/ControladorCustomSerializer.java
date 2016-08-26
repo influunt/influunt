@@ -188,6 +188,9 @@ public class ControladorCustomSerializer {
             if (controlador.getModelo().getLimiteTabelasEntreVerdes() != null) {
                 root.put("limiteTabelasEntreVerdes", controlador.getModelo().getLimiteTabelasEntreVerdes());
             }
+            if (controlador.getModelo().getLimitePlanos() != null) {
+                root.put("limitePlanos", controlador.getModelo().getLimitePlanos());
+            }
         }
         if (controlador.getNomeEndereco() != null) {
             root.put("nomeEndereco", controlador.getNomeEndereco());

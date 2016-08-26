@@ -39,6 +39,7 @@
     "maxEstagios": "Número de estágios",
     "maxGrupoSemaforos": "Número de grupos semafóricos",
     "maxTabelasEntreVerdes": "Número de tabelas entre verdes",
+    "maxPlanos": "Número de planos",
     "modelo": "Modelo",
     "novo": "Novo Controlador",
     "numeroDetectores": "Número de detectores veiculares",
@@ -191,6 +192,7 @@
     "limiteDetectorVeicular": "LIMITE DETECTORES VEICULARES",
     "titulo": "Configurações de Controladores",
     "limiteTabelasEntreVerdes": "LIMITE TABELAS ENTRE-VERDES",
+    "limitePlanos": "LIMITE PLANOS",
     "novo": "Nova Configuração Controlador",
     "mostrar": "Visualizar Configuração Controlador",
     "editar": "Editar Configuração Controlador"
@@ -229,6 +231,7 @@
     "limiteDetectorPedestre": "LIMITE DETECTORES PEDESTRE",
     "limiteDetectorVeicular": "LIMITE DETECTORES VEICULARES",
     "limiteTabelasEntreVerdes": "LIMITE TABELAS ENTRE-VERDES",
+    "limitePlanos": "LIMITE Planos",
     "limites": "LIMITES",
     "titulo": "Modelo de Controladores",
     "novo": "Novo Modelo de Controlador",
@@ -244,7 +247,21 @@
     "renomearPlano": {
       "tituloAlert": "renomear plano",
       "mensagemAlert": "Digite no campo abaixo um nome para este plano"
+    },
+    "copiarPlano": {
+      "mensagem": "selecione os planos que deverão copiar as configurações de "
+    },
+    "modoOperacao": "MODO DE OPERAÇÃO",
+    "modosOperacao": {
+      "atuado": "Atuado",
+      "tempoFixoCoordenado": "Coordenado",
+      "tempoFixoIsolado": "Isolado",
+      "intermitente": "Intermitente",
+      "apagado": "Apagado"
     }
+  },
+  "diagramaIntervalos": {
+    "titulo": "Diagrama de Intervalos"
   },
   "tipos_detectores": {
     "descricao": "DESCRIÇÃO",
@@ -260,6 +277,7 @@
     },
     "crud": {
       "configurar": "Configurar",
+      "copiar": "Copiar",
       "editar": "Editar",
       "excluir": "Excluir",
       "fechar": "Fechar",

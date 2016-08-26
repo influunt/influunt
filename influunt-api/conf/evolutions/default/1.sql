@@ -255,6 +255,7 @@ create table modelo_controladores (
   limite_detector_pedestre      integer not null,
   limite_detector_veicular      integer not null,
   limite_tabelas_entre_verdes   integer not null,
+  limite_planos                 integer not null,
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
   constraint pk_modelo_controladores primary key (id)

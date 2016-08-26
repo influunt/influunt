@@ -17,8 +17,6 @@ angular.module('influuntApp')
               influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo,
               handleValidations) {
 
-      var LIMITE_PLANOS = 16;
-
       var adicionaPlano, selecionaAnel, atualizaTabelaEntreVerdes, atualizaEstagios, atualizaGruposSemaforicos, atualizaPlanos,
           atualizaEstagiosPlanos, adicionaEstagioASequencia, atualizaPosicaoPlanos, atualizaPosicaoEstagiosPlanos,
           carregaDadosPlano, getOpcoesEstagiosDisponiveis, montaTabelaValoresMinimos, parseAllToInt, setDiagramaEstatico,
@@ -41,7 +39,7 @@ angular.module('influuntApp')
           $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
           $scope.aneis.forEach(function(anel) {
             anel.planos = anel.planos || [];
-            for (var i = 0; i < LIMITE_PLANOS; i++) {
+            for (var i = 0; i < $scope.objeto.limitePlanos; i++) {
               adicionaPlano(anel, i + 1);
             }
           });

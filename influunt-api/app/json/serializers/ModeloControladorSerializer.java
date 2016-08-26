@@ -44,6 +44,9 @@ public class ModeloControladorSerializer extends JsonSerializer<ModeloControlado
         if (modeloControlador.getLimiteTabelasEntreVerdes() != null) {
             jgen.writeNumberField("limiteTabelasEntreVerdes", modeloControlador.getLimiteTabelasEntreVerdes());
         }
+        if (modeloControlador.getLimitePlanos() != null) {
+            jgen.writeNumberField("limitePlanos", modeloControlador.getLimitePlanos());
+        }
         if (modeloControlador.getDataCriacao() != null) {
             jgen.writeStringField("dataCriacao", InfluuntDateTimeSerializer.parse(modeloControlador.getDataCriacao()));
         }
