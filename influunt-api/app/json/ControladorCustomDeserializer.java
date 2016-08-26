@@ -265,7 +265,7 @@ public class ControladorCustomDeserializer {
     private void parsePlanos(JsonNode node) {
         if (node.has("planos")) {
             for (JsonNode nodePlano : node.get("planos")) {
-                if((nodePlano.has("configurado") && nodePlano.get("configurado").asBoolean()) || !nodePlano.has("configurado")){
+                if ((nodePlano.has("configurado") && nodePlano.get("configurado").asBoolean()) || !nodePlano.has("configurado")) {
                     Plano plano = parsePlano(nodePlano);
                     planosCache.put(plano.getIdJson().toString(), plano);
                 }
@@ -393,9 +393,16 @@ public class ControladorCustomDeserializer {
         parseCollection("planos", node, planos, PLANOS, ANEIS);
         anel.setPlanos(planos);
 
-        List<Endereco> enderecos = new ArrayList<Endereco>();
-        parseCollection("enderecos", node, enderecos, ENDERECOS, ANEIS);
-        anel.setEnderecos(enderecos);
+        if (anel.isAtivo()) {
+            if (node.has("endereco")) {
+                final String enderecoId = node.get("endereco").get("idJson").asText();
+                Consumer<Map<String, Map>> c = (caches) -> {
+                    Map map = caches.get(ENDERECOS);
+                    anel.setEndereco((Endereco) map.get(enderecoId));
+                };
+                runLater(c);
+            }
+        }
 
         if (node.has("_destroy")) {
             anel.setDestroy(node.get("_destroy").asBoolean());
@@ -1107,6 +1114,16 @@ public class ControladorCustomDeserializer {
         endereco.setLatitude((node.get("latitude") != null && node.get("latitude").isNumber()) ? node.get("latitude").asDouble() : null);
         endereco.setLongitude((node.get("longitude") != null && node.get("longitude").isNumber()) ? node.get("longitude").asDouble() : null);
 
+        if (node.has("localizacao2")) {
+            endereco.setLocalizacao2(node.get("localizacao2").asText());
+        }
+        if (node.has("alturaNumerica")) {
+            endereco.setAlturaNumerica(node.get("alturaNumerica").asInt());
+        }
+        if (node.has("referencia")) {
+            endereco.setReferencia(node.get("referencia").asText());
+        }
+
         return endereco;
     }
 
@@ -1247,9 +1264,14 @@ public class ControladorCustomDeserializer {
         controlador.setSequencia(node.get("sequencia") != null ? node.get("sequencia").asInt() : null);
 
         controlador.setNomeEndereco(node.get("nomeEndereco") != null ? node.get("nomeEndereco").asText() : null);
-        List<Endereco> enderecos = new ArrayList<Endereco>();
-        parseCollection("enderecos", node, enderecos, ENDERECOS, ANEIS);
-        controlador.setEnderecos(enderecos);
+        if (node.has("endereco")) {
+            final String enderecoId = node.get("endereco").get("idJson").asText();
+            Consumer<Map<String, Map>> c = (caches) -> {
+                Map map = caches.get(ENDERECOS);
+                controlador.setEndereco((Endereco) map.get(enderecoId));
+            };
+            runLater(c);
+        }
     }
 
     private void parseCollection(String collection, JsonNode node, List list, final String cacheContainer, final String callie) {

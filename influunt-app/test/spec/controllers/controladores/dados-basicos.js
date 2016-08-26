@@ -24,13 +24,13 @@ describe('Controller: ControladoresDadosBasicosCtrl', function () {
 
   it('Deve criar o texto em "nomeEndereco" associando os nomes do "endereco 1" "com" "endereco 2"', function() {
     scope.objeto.todosEnderecos[0].localizacao = 'endereco 1';
-    scope.objeto.todosEnderecos[1].localizacao = 'endereco 2';
+    scope.objeto.todosEnderecos[0].localizacao2 = 'endereco 2';
     scope.$apply();
     expect(scope.objeto.nomeEndereco).toBe('endereco 1 com endereco 2');
   });
 
   it('"nomeEndereco" deve ser vazio se não houver "endereco 1" ou "endereco 2"', function() {
-    scope.objeto.todosEnderecos[1].localizacao = 'endereco 2';
+    scope.objeto.todosEnderecos[0].localizacao = 'endereco 2';
     scope.$apply();
     expect(scope.objeto.nomeEndereco).toBe('');
   });

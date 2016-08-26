@@ -36,7 +36,7 @@ public class EnderecoSerializer extends JsonSerializer<Endereco> {
             controlador.setAgrupamentos(null);
             controlador.setAneis(null);
             controlador.setDetectores(null);
-            controlador.setEnderecos(null);
+            controlador.setEndereco(null);
             controlador.setGruposSemaforicos(null);
             jgen.writeObjectField("controlador", controlador);
         }

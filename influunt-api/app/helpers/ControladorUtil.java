@@ -44,11 +44,12 @@ public class ControladorUtil {
         controladorClone.setStatusControlador(StatusControlador.EM_EDICAO);
         controladorClone.setArea(controlador.getArea());
         controladorClone.setModelo(controlador.getModelo());
-        controlador.getEnderecos().forEach(endereco -> {
-            Endereco enderecoAux = copyPrimitveFields(endereco);
+
+        if (controlador.getEndereco() != null && controlador.getEndereco().getIdJson() != null) {
+            Endereco enderecoAux = copyPrimitveFields(controlador.getEndereco());
             enderecoAux.setControlador(controladorClone);
-            controladorClone.addEndereco(enderecoAux);
-        });
+            controladorClone.setEndereco(enderecoAux);
+        }
 
         /*
          * ANEIS
@@ -59,12 +60,12 @@ public class ControladorUtil {
             anelAux.setControlador(controladorClone);
 
             anelAux.setCroqui(getImagem(anel.getCroqui()));
-            anel.getEnderecos().stream().forEach(endereco -> {
-                Endereco enderecoAux = copyPrimitveFields(endereco);
-                enderecoAux.setAnel(anelAux);
-                anelAux.addEndereco(enderecoAux);
-            });
 
+            if (anel.getEndereco() != null && anel.getEndereco().getIdJson() != null) {
+                Endereco enderecoAux = copyPrimitveFields(anel.getEndereco());
+                enderecoAux.setAnel(anelAux);
+                anelAux.setEndereco(enderecoAux);
+            }
 
             HashMap<UUID, Estagio> estagios = new HashMap<UUID, Estagio>();
             anel.getEstagios().forEach(estagio -> {
