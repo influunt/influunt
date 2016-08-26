@@ -2553,19 +2553,11 @@ tip-tip span {
   font-weight: 600;
 }
 
-<<<<<<< 38460cb860fe0f76f32bcbaae578b71e597349e5
-<<<<<<< 549e4fbb48822ffb653d6645e3be3076d78c3a21
-.revisao strong {
-  text-transform: uppercase;
-=======
-#croqui.dropzone .dz-preview, .dropzone-previews .dz-preview {
-=======
 .wrapper-content .basic-wizard .content .body .movements #croqui.dropzone {
   padding: 0;
 }
 
 .wrapper-content .basic-wizard .content .body .movements #croqui.dropzone .dz-preview, .wrapper-content .basic-wizard .content .body .movements #croqui.dropzone .dropzone-previews .dz-preview {
->>>>>>> ajustes merge scss
   width: 100%;
   height: 100%;
   margin: 0;
@@ -2614,12 +2606,46 @@ tip-tip span {
   height: auto !important;
   min-height: 680px;
   overflow: auto !important;
-<<<<<<< 38460cb860fe0f76f32bcbaae578b71e597349e5
->>>>>>> dropzone croqui
-=======
 }
 
 .wrapper-content .basic-wizard .content .body .revisao strong {
   text-transform: uppercase;
->>>>>>> ajustes merge scss
+}
+
+#croqui.dropzone .dz-preview, .dropzone-previews .dz-preview {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  display: block;
+  padding: 0;
+}
+
+#croqui.dropzone .dz-preview .dz-details, .dropzone-previews .dz-preview .dz-details {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  display: table;
+  top: 45px;
+}
+
+#croqui.dropzone .dz-preview .dz-details img, .dropzone-previews .dz-preview .dz-details img {
+  width: 100%;
+  height: auto !important;
+}
+
+#croqui {
+  padding: 0;
+}
+
+#croqui.dropzone .dz-preview .dz-progress, .dropzone-previews .dz-preview .dz-progress {
+  top: 6px;
+}
+
+#croqui.dropzone .dz-preview .dz-details .dz-size, .dropzone-previews .dz-preview .dz-details .dz-size {
+  display: none;
+}
+
+#croqui.dropzone .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
+  margin-top: 0;
+  position: relative;
 }
