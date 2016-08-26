@@ -22,4 +22,4 @@ SET @CidadeId = RANDOM_UUID();
 INSERT INTO `cidades` (`id`, `id_json`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@CidadeId, RANDOM_UUID(), 'São Paulo', NOW(), NOW());
 INSERT INTO `areas` (`id`, `id_json`, `descricao`, `cidade_id`, `data_criacao`, `data_atualizacao`) VALUES (RANDOM_UUID(), RANDOM_UUID(), 1, @CidadeId, NOW(), NOW());
 INSERT INTO `fabricantes` (`id`, `id_json`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@FabricanteId, RANDOM_UUID(), 'Raro Labs', NOW(), NOW());
-INSERT INTO `modelo_controladores` (`id`, `id_json`, `fabricante_id`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES (RANDOM_UUID(), RANDOM_UUID(), @FabricanteId, 'Mínima', NOW(), NOW());
+INSERT INTO `modelo_controladores` (`id`, `id_json`, `fabricante_id`, `descricao`, `data_criacao`, `data_atualizacao`, `limite_estagio`, `limite_grupo_semaforico`, `limite_anel`, `limite_detector_pedestre`, `limite_detector_veicular`, `limite_tabelas_entre_verdes`, `limite_planos`) VALUES (RANDOM_UUID(), RANDOM_UUID(), @FabricanteId, 'Mínima', NOW(), NOW(), 12, 12, 12, 12, 12, 12, 12);
