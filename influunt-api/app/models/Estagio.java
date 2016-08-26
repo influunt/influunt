@@ -346,4 +346,12 @@ public class Estagio extends Model implements Serializable, Cloneable {
     public void setEstagiosPlanos(List<EstagioPlano> estagiosPlanos) {
         this.estagiosPlanos = estagiosPlanos;
     }
+
+    public boolean temDetectorVeicular() {
+        return this.getDetector() != null && getDetector().isVeicular();
+    }
+
+    public boolean isAssociadoAGrupoSemaforicoVeicular() {
+        return this.getGruposSemaforicos().stream().anyMatch(grupoSemaforico -> grupoSemaforico.isVeicular());
+    }
 }
