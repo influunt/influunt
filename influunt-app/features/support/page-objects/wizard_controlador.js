@@ -444,6 +444,9 @@ var WizardControladorPage = function () {
     return world.reloadPage();
   };
 
+  this.preencherCampoSMEECom123 = function() {
+    return world.setValue('[name="numeroSMEE"]', '123');
+  };
 
   this.associarDetectorEstagio = function(detector, estagio) {
     return world.execJavascript('return $(\'th:contains("'+estagio+'")\').index() + 1').then(function(col) {

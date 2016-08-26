@@ -19,10 +19,10 @@
                   data-ng-model="objeto.area.idJson"></select>
                 <p class="help-block error-msg" data-ng-repeat="error in errors.area">{{ error }}</p>
               </div>
-              
+
               <div class="form-group" data-ng-class="{'has-error': errors.subarea}">
                 <label class="col-sm-12 no-padding control-label">{{ 'controladores.subarea' | translate }}:</label>
-                <select name="area" class="form-control"
+                <select name="subarea" class="form-control"
                   data-ng-options="subarea.id as subarea.numero + ' - ' + subarea.nome for subarea in currentSubareas"
                   data-ng-model="objeto.subarea.id"></select>
                 <p class="help-block error-msg" data-ng-repeat="error in errors.subarea">{{ error }}</p>
@@ -188,7 +188,10 @@
                 <h1><strong>{{ objeto.modelo.limiteTabelasEntreVerdes || 0 }}</strong></h1>
                 <p>{{ 'controladores.maxTabelasEntreVerdes' | translate }}</p>
               </div>
-
+              <div class="col-sm-4 no-padding-right">
+                <h1><strong>{{ objeto.modelo.limitePlanos || 0 }}</strong></h1>
+                <p>{{ 'controladores.maxPlanos' | translate }}</p>
+              </div>
             </div>
 
           </form>

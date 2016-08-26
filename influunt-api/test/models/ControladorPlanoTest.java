@@ -54,15 +54,17 @@ public class ControladorPlanoTest extends ControladorTest {
         anelCom4Estagios.setPlanos(Arrays.asList(plano1Anel4));
 
         erros = getErros(controlador);
-        assertEquals(10, erros.size());
+        assertEquals(12, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].planos[0].modoOperacao"),
                 new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].planos[0].posicao"),
+                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].planos[0].descricao"),
                 new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].planos[0].posicaoTabelaEntreVerde"),
                 new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
                 new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel"),
                 new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].planos[0].modoOperacao"),
                 new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].planos[0].posicao"),
+                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].planos[0].descricao"),
                 new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].planos[0].posicaoTabelaEntreVerde"),
                 new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[1].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
                 new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[1].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel")
@@ -71,15 +73,17 @@ public class ControladorPlanoTest extends ControladorTest {
         plano1Anel2.setModoOperacao(ModoOperacaoPlano.ATUADO);
 
         erros = getErros(controlador);
-        assertEquals(10, erros.size());
+        assertEquals(12, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro(CONTROLADOR, "Configure um detector veicular para o modo atuado.", "aneis[1].planos[0].modoOperacaoValido"),
                 new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].planos[0].posicao"),
+                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].planos[0].descricao"),
                 new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].planos[0].posicaoTabelaEntreVerde"),
                 new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
                 new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel"),
                 new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].planos[0].modoOperacao"),
                 new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].planos[0].posicao"),
+                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].planos[0].descricao"),
                 new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].planos[0].posicaoTabelaEntreVerde"),
                 new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[1].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
                 new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[1].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel")
@@ -88,14 +92,16 @@ public class ControladorPlanoTest extends ControladorTest {
         plano1Anel2.setModoOperacao(ModoOperacaoPlano.APAGADO);
 
         erros = getErros(controlador);
-        assertEquals(9, erros.size());
+        assertEquals(11, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].planos[0].posicao"),
+                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].planos[0].descricao"),
                 new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].planos[0].posicaoTabelaEntreVerde"),
                 new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
                 new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel"),
                 new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].planos[0].modoOperacao"),
                 new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].planos[0].posicao"),
+                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].planos[0].descricao"),
                 new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].planos[0].posicaoTabelaEntreVerde"),
                 new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[1].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
                 new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[1].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel")
@@ -104,15 +110,17 @@ public class ControladorPlanoTest extends ControladorTest {
         plano1Anel2.setModoOperacao(ModoOperacaoPlano.TEMPO_FIXO_COORDENADO);
 
         erros = getErros(controlador);
-        assertEquals(10, erros.size());
+        assertEquals(12, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro(CONTROLADOR, "deve estar entre 30 e 255", "aneis[1].planos[0].tempoCiclo"),
                 new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].planos[0].posicao"),
+                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].planos[0].descricao"),
                 new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].planos[0].posicaoTabelaEntreVerde"),
                 new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
                 new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel"),
                 new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].planos[0].modoOperacao"),
                 new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].planos[0].posicao"),
+                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].planos[0].descricao"),
                 new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].planos[0].posicaoTabelaEntreVerde"),
                 new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[1].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
                 new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[1].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel")
@@ -122,15 +130,17 @@ public class ControladorPlanoTest extends ControladorTest {
         plano1Anel2.setDefasagem(100);
 
         erros = getErros(controlador);
-        assertEquals(10, erros.size());
+        assertEquals(12, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro(CONTROLADOR, "deve estar entre 0 e o tempo de ciclo", "aneis[1].planos[0].defasagem"),
                 new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].planos[0].posicao"),
+                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].planos[0].descricao"),
                 new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].planos[0].posicaoTabelaEntreVerde"),
                 new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
                 new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel"),
                 new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].planos[0].modoOperacao"),
                 new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].planos[0].posicao"),
+                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].planos[0].descricao"),
                 new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].planos[0].posicaoTabelaEntreVerde"),
                 new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[1].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
                 new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[1].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel")
@@ -141,6 +151,7 @@ public class ControladorPlanoTest extends ControladorTest {
 
         plano1Anel2.setModoOperacao(ModoOperacaoPlano.TEMPO_FIXO_ISOLADO);
         plano1Anel2.setPosicao(1);
+        plano1Anel2.setDescricao("Principal");
         plano1Anel2.setPosicaoTabelaEntreVerde(1);
 
         for (int i = 1; i < anelCom2Estagios.getGruposSemaforicos().size(); i++) {
@@ -154,6 +165,7 @@ public class ControladorPlanoTest extends ControladorTest {
 
         plano1Anel4.setModoOperacao(ModoOperacaoPlano.ATUADO);
         plano1Anel4.setPosicao(1);
+        plano1Anel4.setDescricao("Principal");
         plano1Anel4.setPosicaoTabelaEntreVerde(1);
 
         criarGrupoSemaforicoPlano(anelCom4Estagios, plano1Anel4);
@@ -739,6 +751,7 @@ public class ControladorPlanoTest extends ControladorTest {
 
         plano.setModoOperacao(ModoOperacaoPlano.TEMPO_FIXO_ISOLADO);
         plano.setPosicao(3);
+        plano.setDescricao("Principal");
         plano.setPosicaoTabelaEntreVerde(1);
         plano.setTempoCiclo(110);
 

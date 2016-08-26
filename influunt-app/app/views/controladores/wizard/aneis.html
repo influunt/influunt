@@ -54,7 +54,7 @@
                     </div>
                     <div class="form-group">
                       <label class="control-label">{{ 'controladores.numeroSMEE' | translate }}</label>
-                      <input type="text" name="numeroSMEE" placeholder="" class="form-control" data-ng-model="currentAnel.numeroSMEE">
+                      <input type="text" name="numeroSMEE" placeholder="" class="form-control" ng-value="dadosBasicos.numeroSMEE" data-ng-model="currentAnel.numeroSMEE">
                     </div>
                     <div class="form-group">
                       <label class="control-label">{{ 'controladores.CLA' | translate }}</label>
@@ -107,9 +107,7 @@
                       <label class="control-label">{{ 'controladores.longitude' | translate }}:</label>
                       <input type="number" name="enderecos[1].longitude" class="form-control" data-ng-model="currentEnderecos[1].longitude">
                       <p class="help-block error-msg" data-ng-repeat="error in errors.aneis[currentAnelIndex].enderecos[1].longitude">{{ error }}</p>
-                    </div>
                   </div>
-                </div>
 
                 <div class="col-lg-6 col-sm-6">
                   <h4>CROQUI</h4>

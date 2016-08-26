@@ -31,7 +31,9 @@
   <div class="knob-item col-lg-3 col-sm-3">
     <influunt-knob ng-model="currentEstagiosPlanos[currentEstagioPlanoIndex].tempoVerde"
       min="objeto.verdeMin" max="objeto.verdeMax"
-      title="TEMPO DE VERDE" label="SEG">
+      title="TEMPO DE VERDE" label="SEG"
+      mostrar-percentual="true"
+      max-percentual="currentPlano.tempoCiclo">
     </influunt-knob>
   </div>
 </div>

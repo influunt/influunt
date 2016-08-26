@@ -188,6 +188,9 @@ public class ControladorCustomSerializer {
             if (controlador.getModelo().getLimiteTabelasEntreVerdes() != null) {
                 root.put("limiteTabelasEntreVerdes", controlador.getModelo().getLimiteTabelasEntreVerdes());
             }
+            if (controlador.getModelo().getLimitePlanos() != null) {
+                root.put("limitePlanos", controlador.getModelo().getLimitePlanos());
+            }
         }
         if (controlador.getNomeEndereco() != null) {
             root.put("nomeEndereco", controlador.getNomeEndereco());
@@ -518,6 +521,9 @@ public class ControladorCustomSerializer {
         }
         if (plano.getPosicao() != null) {
             planoJson.put("posicao", plano.getPosicao());
+        }
+        if (plano.getDescricao() != null) {
+            planoJson.put("descricao", plano.getDescricao());
         }
         if (plano.getTempoCiclo() != null) {
             planoJson.put("tempoCiclo", plano.getTempoCiclo());

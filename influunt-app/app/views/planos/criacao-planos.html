@@ -16,135 +16,158 @@
                       <div id="tabs-1">
                         <div class="col-lg-12 col-sm-12 ibox-content no-padding">
                           <div class="col-lg-2 col-sm-2 association min-green side-menu">
-                            <div class="ibox-title">
-                              <h5>Planos</h5>
-                              <a class="btn btn-primary btn-xs m-l right" tooltips tooltip-template="Adicionar plano" data-ng-click="adicionarNovoPlano()">
-                                <i class="fa fa-plus white"></i>
-                                Plano
-                              </a>
-                          </div>
                             <nav>
-                              <ul id="side-menu">
+                              <ul id="side-menu" class="menu-planos">
                                 <li data-ng-repeat="plano in currentPlanos track by plano.idJson"
                                   data-ng-click="selecionaPlano(plano, $index)"
-                                  data-ng-class="{active: $index === currentPlanoIndex}">
-                                    PLANO {{ plano.posicao }}
+                                  data-ng-class="{active: $index === currentPlanoIndex}"
+                                  class="item-menu">
+                                    <input type="checkbox" ichecks data-ng-model="plano.configurado" data-if-unchecked="resetarPlano(plano, $index)" data-is-disabled="$first" data-if-changed="selecionaPlano(plano, $index)">
+                                    <span class="nome-plano" data-ng-class="{configurado: plano.configurado}">
+                                      {{ plano.descricao }}
+                                    </span>
                                     <span class="badge badge-danger badge-notification pull-right m-t-sm"
                                         data-ng-if="errors.aneis[currentAnelIndex].planos[$index]"
                                         style="margin-left: .3em;">
                                       <i class="fa fa-exclamation"></i>
                                     </span>
-                                    <i class="fa fa-times pull-right m-t-sm remove-tabela-entre-verdes" data-ng-if="$index !== 0" data-ng-click="removerPlano(plano, $index)"></i>
-                                    <i class="fa fa-files-o pull-right m-t-sm" data-ng-click="duplicarPlano(plano)" aria-hidden="true"></i>
+
+                                    <!-- copiar plano. -->
+                                    <i class="fa fa-files-o pull-right m-t-sm"
+                                        data-ng-click="copiarPlano(plano)"
+                                        data-ng-if="plano.configurado"
+                                        data-toggle="modal" data-target="#modal-copiar-plano"
+                                        aria-hidden="true">
+                                    </i>
+
+                                    <!-- renomear plano. -->
+                                    <i class="fa fa-pencil pull-right m-t-sm"
+                                        data-ng-click="renomearPlano(plano)"
+                                        data-ng-if="plano.configurado"
+                                        aria-hidden="true">
+                                    </i>
                                 </li>
                               </ul>
                             </nav>
                           </div>
-                          <div class="col-lg-10 col-sm-10">
-                              <div class="col-lg-2 col-sm-2 association table-creation-plans min-green">
-                                <article>
-                                  <div class="col-lg-12 col-sm-12 no-padding">
-                                    <aside>
-                                      <div class="form-group">
-                                        <label>MODO DE OPERAÇÃO</label>
-                                        <select class="form-control" name="modoOperacao" data-ng-model="currentPlano.modoOperacao" data-ng-change="limpaDadosPlano()">
-                                          <option value="ATUADO">Atuado</option>
-                                          <option value="TEMPO_FIXO_COORDENADO">Coordenado</option>
-                                          <option value="TEMPO_FIXO_ISOLADO">Isolado</option>
-                                          <option value="INTERMITENTE">Intermitente</option>
-                                          <option value="APAGADO">Apagado</option>
-                                        </select>
-                                      </div>
-                                      <div class="form-group" data-ng-if="currentPlano.modoOperacao !== 'INTERMITENTE' && currentPlano.modoOperacao !== 'APAGADO'">
-                                        <label>TABELA DE ENTRE-VERDES</label>
-                                        <select class="form-control" name="tabelaEntreverdes" data-ng-model="currentPlano.posicaoTabelaEntreVerde" data-ng-options="tabela.posicao as tabela.descricao for tabela in currentTabelasEntreVerdes">
-                                        </select>
-                                      </div>
+                          <div class="col-lg-10 col-sm-10" data-ng-if="currentPlano.configurado">
+                            <div class="col-l-12 col-sm-12 border-bottom p-sm">
+                              <h1>{{'tabelaHorarios.plano' | translate}} {{currentPlano.posicao}} - {{ plano.descricao }}</h1>
+                            </div>
+                            <div class="col-lg-2 col-sm-2">
+                              <article>
+                                <div class="col-lg-12 col-sm-12 no-padding">
+                                  <aside>
+                                    <div class="form-group">
+                                      <label>{{'planos.modoOperacao' | translate}}</label>
+                                      <select class="form-control" name="modoOperacao" data-ng-model="currentPlano.modoOperacao" data-ng-change="limpaDadosPlano()">
+                                        <option value="ATUADO">
+                                          {{'planos.modosOperacao.atuado' | translate}}
+                                        </option>
+                                        <option value="TEMPO_FIXO_COORDENADO">
+                                          {{'planos.modosOperacao.tempoFixoCoordenado' | translate}}
+                                        </option>
+                                        <option value="TEMPO_FIXO_ISOLADO">
+                                          {{'planos.modosOperacao.tempoFixoIsolado' | translate}}
+                                        </option>
+                                        <option value="INTERMITENTE">
+                                          {{'planos.modosOperacao.intermitente' | translate}}
+                                        </option>
+                                        <option value="APAGADO">
+                                          {{'planos.modosOperacao.apagado' | translate}}
+                                        </option>
+                                      </select>
+                                    </div>
+                                    <div class="form-group" data-ng-if="currentPlano.modoOperacao !== 'INTERMITENTE' && currentPlano.modoOperacao !== 'APAGADO'">
+                                      <label>{{'controladores.entreVerdes.titulo' | translate}}</label>
+                                      <select class="form-control" name="tabelaEntreverdes" data-ng-model="currentPlano.posicaoTabelaEntreVerde" data-ng-options="tabela.posicao as tabela.descricao for tabela in currentTabelasEntreVerdes">
+                                      </select>
+                                    </div>
 
-                                      <div class="knob" style="display: block;">
-                                        <ng-include src="'views/planos/opcoes-lateral.html'"></ng-include>
+                                    <div class="knob" style="display: block;">
+                                      <ng-include src="'views/planos/opcoes-lateral.html'"></ng-include>
+                                    </div>
+                                  </aside>
+                                </div>
+                              </article>
+                            </div>
+                            <div class="col-lg-10 col-sm-10 no-padding-right">
+                              <div class="col-lg-12 col-sm-12 association table-creation-plans">
+                                <section>
+
+
+                                  <div class="col-lg-12 col-sm-12 no-padding table-create-plan overflow panel-estagios">
+                                    <uib-alert type="danger" data-ng-if="getErrosPlanos(errors.aneis[currentAnelIndex].planos[currentPlanoIndex]).length > 0">
+                                      <div style="padding-left: 12px;">
+                                        <ul>
+                                          <li data-ng-repeat="message in getErrosPlanos(errors.aneis[currentAnelIndex].planos[currentPlanoIndex])">{{ message }}</li>
+                                        </ul>
                                       </div>
-                                    </aside>
-                                  </div>
-                                </article>
-                              </div>
-                              <div class="col-lg-10 col-sm-10 no-padding-right">
-                                <div class="col-lg-12 col-sm-12 association table-creation-plans">
-                                  <section>
+                                    </uib-alert>
 
-
-                                    <div class="col-lg-12 col-sm-12 no-padding table-create-plan overflow panel-estagios">
-                                      <uib-alert type="danger" data-ng-if="getErrosPlanos(errors.aneis[currentAnelIndex].planos[currentPlanoIndex]).length > 0">
-                                        <div style="padding-left: 12px;">
-                                          <ul>
-                                            <li data-ng-repeat="message in getErrosPlanos(errors.aneis[currentAnelIndex].planos[currentPlanoIndex])">{{ message }}</li>
-                                          </ul>
+                                    <ul class="ui-sortable planos">
+                                      <!-- elementos para adicionar novos estágios à sequencia -->
+                                      <li class="ui-state-default card-estagio add-card-estagio"
+                                          data-ng-repeat="estagio in currentEstagios | estagioForaSequencia:currentEstagiosPlanos"
+                                          data-ng-click="adicionarEstagio(estagio)">
+                                        <div class="add-card-container">
+                                          <p>+E{{ estagio.posicao }}</p>
                                         </div>
-                                      </uib-alert>
+                                      </li>
 
-                                      <ul class="ui-sortable planos">
-                                        <!-- elementos para adicionar novos estágios à sequencia -->
-                                        <li class="ui-state-default card-estagio add-card-estagio"
-                                            data-ng-repeat="estagio in currentEstagios | estagioForaSequencia:currentEstagiosPlanos"
-                                            data-ng-click="adicionarEstagio(estagio)">
-                                          <div class="add-card-container">
-                                            <p>+E{{ estagio.posicao }}</p>
+                                      <!-- elementos da sequencia. -->
+                                      <div ui-sortable="sortableOptions" data-ng-model="currentEstagiosPlanos" class="sortable-list">
+                                        <li class="ui-state-default stage-images card-estagio sortable-card"
+                                            data-ng-repeat="estagioPlano in currentEstagiosPlanos"
+                                            data-ng-click="selecionaEstagioPlano(estagioPlano, $index)"
+                                            data-ng-class="{'origem-transicao-proibida': estagioPlano.origemTransicaoProibida, 'destino-transicao-proibida': estagioPlano.destinoTransicaoProibida}">
+                                          <div class="sortable">
+                                              <h4 class="ng-binding">
+                                                <span class="badge badge-danger"
+                                                  data-ng-if="getErrosEstagiosPlanos($index)"
+                                                  inf-tooltip
+                                                  messages="getErrosEstagiosPlanos($index)">
+                                                  <i class="fa fa-exclamation"></i>
+                                                </span>
+                                                E{{ getEstagio(estagioPlano).posicao }}
+                                                <i class="fa fa-trash pull-right opcoes-plano-estagio" data-ng-click="removerEstagioPlano(estagioPlano, $index)" data-ng-if="currentEstagiosPlanos.length > 2"></i>
+                                                <i class="fa fa-files-o pull-right opcoes-plano-estagio" data-ng-click="adicionarEstagioPlano(estagioPlano)" aria-hidden="true"></i>
+                                              </h4>
+                                            <figure>
+                                              <img ng-src="{{ getImagemDeEstagio(estagioPlano) }}" width="100%">
+                                            </figure>
+                                            <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#modal-configuracao-estagio">
+                                              <i class="fa fa-cog" />
+                                              {{'crud.configurar' | translate}}
+                                            </button>
+                                            <button type="button" class="btn btn-primary btn-xs" data-ng-click="leftEstagio($index)" ng-disabled="$first">
+                                              <i class="fa fa-arrow-left" />
+                                            </button>
+                                            <button type="button" class="btn btn-primary btn-xs" data-ng-click="rightEstagio($index)"  ng-disabled="$last">
+                                              <i class="fa fa-arrow-right" />
+                                            </button>
                                           </div>
                                         </li>
-
-                                        <!-- elementos da sequencia. -->
-                                        <div ui-sortable="sortableOptions" data-ng-model="currentEstagiosPlanos" class="sortable-list">
-                                          <li class="ui-state-default stage-images card-estagio sortable-card"
-                                              data-ng-repeat="estagioPlano in currentEstagiosPlanos"
-                                              data-ng-click="selecionaEstagioPlano(estagioPlano, $index)"
-                                              data-ng-class="{'origem-transicao-proibida': estagioPlano.origemTransicaoProibida, 'destino-transicao-proibida': estagioPlano.destinoTransicaoProibida}">
-                                            <div class="sortable">
-                                                <h4 class="ng-binding">
-                                                  <span class="badge badge-danger"
-                                                    data-ng-if="getErrosEstagiosPlanos($index)"
-                                                    inf-tooltip
-                                                    messages="getErrosEstagiosPlanos($index)">
-                                                    <i class="fa fa-exclamation"></i>
-                                                  </span>
-                                                  E{{ getEstagio(estagioPlano).posicao }}
-                                                  <i class="fa fa-trash pull-right opcoes-plano-estagio" data-ng-click="removerEstagioPlano(estagioPlano, $index)" data-ng-if="currentEstagiosPlanos.length > 2"></i>
-                                                  <i class="fa fa-files-o pull-right opcoes-plano-estagio" data-ng-click="adicionarEstagioPlano(estagioPlano)" aria-hidden="true"></i>
-                                                </h4>
-                                              <figure>
-                                                <img ng-src="{{ getImagemDeEstagio(estagioPlano) }}" width="100%">
-                                              </figure>
-                                              <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">
-                                                <i class="fa fa-cog" />
-                                                Configurar
-                                              </button>
-                                              <button type="button" class="btn btn-primary btn-xs" data-ng-click="leftEstagio($index)" ng-disabled="$first">
-                                                <i class="fa fa-arrow-left" />
-                                              </button>
-                                              <button type="button" class="btn btn-primary btn-xs" data-ng-click="rightEstagio($index)"  ng-disabled="$last">
-                                                <i class="fa fa-arrow-right" />
-                                              </button>
-                                            </div>
-                                          </li>
-                                        </div>
-                                      </ul>
-                                    </div>
-                                  </section>
-                                </div>
-
-                                <div class="col-lg-12 col-sm-12 association plans stage-time m-t-md">
-                                  <div class="ibox-title">
-                                    <h5>Tabela de Planos</h5>
-                                    <ng-include src="'views/planos/header-buttons.html'" class="right"></ng-include>
+                                      </div>
+                                    </ul>
                                   </div>
+                                </section>
+                              </div>
 
-                                  <section>
-                                    <div class="col-lg-12 col-sm-12 no-padding table-create-plan overflow">
-                                      <ng-include src="'views/planos/tabela-planos.html'"></ng-include>
-                                    </div>
-                                  </section>
+                              <div class="col-lg-12 col-sm-12 association plans stage-time m-t-md">
+                                <div class="ibox-title">
+                                  <h5>{{ 'diagramaIntervalos.titulo' | translate }}</h5>
+                                  <ng-include src="'views/planos/header-buttons.html'" class="right"></ng-include>
                                 </div>
+
+                                <section>
+                                  <div class="col-lg-12 col-sm-12 no-padding table-create-plan overflow">
+                                    <ng-include src="'views/planos/tabela-planos.html'"></ng-include>
+                                  </div>
+                                </section>
                               </div>
                             </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -157,8 +180,37 @@
             <a data-ng-click="submitForm()" go-to-top class="btn btn-primary btn-footer right m-r-sm right" data-ng-if="dadosDiagrama.erros.length === 0">{{ 'geral.crud.salvar' | translate }}</a>
           </div>
 
-          <!-- MODAL -->
-          <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+          <!-- MODAIS -->
+          <!-- copia de planos. -->
+          <div class="modal inmodal" id="modal-copiar-plano" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content animated bounceInRight">
+                <div class="modal-header">
+                  <h3>{{ 'planos.copiarPlano.mensagem' | translate }}<strong>{{ planoCopiado.descricao }}</strong></h3>
+                  <div class="form-group">
+                    <div class="col-sm-12 form-group">
+                      <select select2
+                          name="controladores" class="form-control"
+                          data-ng-options="option as option.descricao for option in currentPlanos track by option.idJson"
+                          data-ng-model="planosDestino"
+                          multiple="multiple"
+                          style="width: 100%;">
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" data-ng-click="confirmacaoCopiarPlano()">
+                    {{ 'geral.crud.copiar' | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- configuracao de estagios -->
+          <div class="modal inmodal" id="modal-configuracao-estagio" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content animated bounceInRight">
                 <div class="modal-header">
@@ -166,11 +218,14 @@
                 </div>
 
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-primary" data-dismiss="modal">Fechar</button>
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">
+                    {{ 'geral.crud.fechar' | translate }}
+                  </button>
                 </div>
               </div>
             </div>
           </div>
+          <!-- /MODAIS -->
 
         </fieldset>
       </div>

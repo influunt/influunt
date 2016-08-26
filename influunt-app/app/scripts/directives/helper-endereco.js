@@ -18,12 +18,17 @@ angular.module('influuntApp')
         ngModel: '='
       },
       link: function postLink(scope) {
+        var updateGeometryData = function(value) {
+          if (value.geometry && value.geometry.location) {
+            scope.latitude = value.geometry.location.lat();
+            scope.longitude = value.geometry.location.lng();
+          }
+        };
+
         scope.$watch('result', function(value) {
-          if (value && angular.isObject(value)) {
-            if (value.geometry && value.geometry.location) {
-              scope.latitude = value.geometry.location.lat();
-              scope.longitude = value.geometry.location.lng();
-            }
+          if (angular.isObject(value)) {
+            updateGeometryData(value);
+
             if (value.address_components && _.isArray(value.address_components)) {
               var foundName = false;
               for (var i = 0; i < value.address_components.length && !foundName; i++) {

@@ -79,6 +79,11 @@ public class ModeloControlador extends Model implements Cloneable, Serializable 
     private Integer limiteTabelasEntreVerdes = 2;
 
     @Column
+    @Min(value = 1, message = "Deve ser maior que zero")
+    @NotNull(message = "não pode ficar em branco")
+    private Integer limitePlanos = 16;
+
+    @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
@@ -178,6 +183,14 @@ public class ModeloControlador extends Model implements Cloneable, Serializable 
 
     public void setLimiteTabelasEntreVerdes(Integer limiteTabelasEntreVerdes) {
         this.limiteTabelasEntreVerdes = limiteTabelasEntreVerdes;
+    }
+
+    public Integer getLimitePlanos() {
+        return limitePlanos;
+    }
+
+    public void setLimitePlanos(Integer limitePlanos) {
+        this.limitePlanos = limitePlanos;
     }
 
     public void setDescricao(String descricao) {
