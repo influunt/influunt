@@ -273,7 +273,9 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         anelCom4Estagios.setDestroy(true);
         controlador.deleteAnelSeNecessario();
         controlador.update();
+        erros = getErros(controlador);
 
+        assertEquals("Total de Erros", 0, erros.size());
         assertEquals("Quantidade de Aneis", 4, controlador.getAneis().size());
         assertEquals("Quantidade de estagios", totalEstagios - totalEstagiosAnel, Estagio.find.findRowCount());
         assertEquals("Quantidade de grupos semafóricos", totalGruposSemaforicos - totalGruposSemaforicosAnel, GrupoSemaforico.find.findRowCount());
