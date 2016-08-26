@@ -45,6 +45,7 @@ public class Detector extends Model implements Cloneable, Serializable {
     @JoinColumn(name = "anel_id")
     private Anel anel;
 
+    @Column
     @OneToOne
     private Estagio estagio;
 

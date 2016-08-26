@@ -23,6 +23,8 @@ public class TransicaoProibida extends Model implements Serializable {
 
     private static final long serialVersionUID = -3825474482773695751L;
 
+    public static Finder<UUID, TransicaoProibida> find = new Finder<UUID, TransicaoProibida>(TransicaoProibida.class);
+
     @Id
     private UUID id;
 

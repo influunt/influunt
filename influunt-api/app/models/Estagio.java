@@ -66,6 +66,9 @@ public class Estagio extends Model implements Serializable, Cloneable {
     @OneToMany(mappedBy = "estagio", cascade = CascadeType.ALL)
     private List<EstagioGrupoSemaforico> estagiosGruposSemaforicos;
 
+    @OneToMany(mappedBy = "estagio", cascade = CascadeType.REMOVE)
+    private List<EstagioPlano> estagiosPlanos;
+
     @OneToMany(mappedBy = "origem", cascade = CascadeType.ALL)
     @Valid
     private List<TransicaoProibida> origemDeTransicoesProibidas;
@@ -82,7 +85,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
     @ManyToOne
     private Controlador controlador;
 
-    @OneToOne
+    @OneToOne(mappedBy = "estagio")
     private Detector detector;
 
     @Column
@@ -334,5 +337,13 @@ public class Estagio extends Model implements Serializable, Cloneable {
             setAlternativaDeTransicoesProibidas(new ArrayList<TransicaoProibida>());
         }
         getAlternativaDeTransicoesProibidas().add(transicaoProibida);
+    }
+
+    public List<EstagioPlano> getEstagiosPlanos() {
+        return estagiosPlanos;
+    }
+
+    public void setEstagiosPlanos(List<EstagioPlano> estagiosPlanos) {
+        this.estagiosPlanos = estagiosPlanos;
     }
 }

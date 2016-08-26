@@ -28,6 +28,8 @@ public class Endereco extends Model implements Serializable {
 
     private static final long serialVersionUID = -3456679290170824322L;
 
+    public static Finder<UUID, Endereco> find = new Finder<UUID, Endereco>(Endereco.class);
+
     @Id
     private UUID id;
 

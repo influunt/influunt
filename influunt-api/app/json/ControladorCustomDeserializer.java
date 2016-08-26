@@ -149,6 +149,8 @@ public class ControladorCustomDeserializer {
             c.accept(caches);
         });
 
+        controlador.deleteAnelSeNecessario();
+
         return controlador;
     }
 
@@ -347,19 +349,17 @@ public class ControladorCustomDeserializer {
 
     private Anel parseAnel(JsonNode node) {
         Anel anel = new Anel();
-
-        if (node.has("ativo")) {
-            anel.setAtivo(node.get("ativo").asBoolean());
-        }
+        anel.setControlador(controlador);
 
         if (node.has("id")) {
             anel.setId(UUID.fromString(node.get("id").asText()));
         }
-
+        if (node.has("ativo")) {
+            anel.setAtivo(node.get("ativo").asBoolean());
+        }
         if (node.has("idJson")) {
             anel.setIdJson(node.get("idJson").asText());
         }
-
         if (node.has("numeroSMEE")) {
             anel.setNumeroSMEE(node.get("numeroSMEE").asText());
         }
@@ -371,15 +371,12 @@ public class ControladorCustomDeserializer {
         parseCollection("estagios", node, estagios, ESTAGIOS, ANEIS);
         anel.setEstagios(estagios);
 
-
         if (node.has("ativo")) {
             anel.setAtivo(node.get("ativo").asBoolean());
         }
         if (node.has("posicao")) {
             anel.setPosicao(node.get("posicao").asInt());
         }
-        anel.setControlador(controlador);
-
         if (node.has("croqui") && node.get("croqui").get("id") != null) {
             anel.setCroqui(Imagem.find.byId(UUID.fromString(node.get("croqui").get("id").asText())));
         }
@@ -399,6 +396,10 @@ public class ControladorCustomDeserializer {
         List<Endereco> enderecos = new ArrayList<Endereco>();
         parseCollection("enderecos", node, enderecos, ENDERECOS, ANEIS);
         anel.setEnderecos(enderecos);
+
+        if (node.has("_destroy")) {
+            anel.setDestroy(node.get("_destroy").asBoolean());
+        }
 
         return anel;
     }

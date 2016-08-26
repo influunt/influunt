@@ -367,6 +367,7 @@
 .dropzone a.dz-remove:hover,
 .dropzone-previews a.dz-remove:hover {
   color: #666;
+  cursor: pointer;
 }
 @-moz-keyframes loading {
   0% {

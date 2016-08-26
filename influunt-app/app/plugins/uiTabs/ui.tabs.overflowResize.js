@@ -103,7 +103,7 @@ $.extend($.ui.tabs.prototype, {
 		};
 
 		// temporarily remove overflow buttons before adding a tab
-		self.add = function(name, content, iconCls) {
+		self.add = function(name, canAddTabs) {
 			var newTab = false;
 
 			if (!name) {
@@ -111,15 +111,15 @@ $.extend($.ui.tabs.prototype, {
 				newTab = true;
 			}
 
-			// if (!content)
-			// 	content = '';
-
-			// var id = $( "<div>"+content+"</div>" ).appendTo( this.element.children(':last-child') ).uniqueId().attr('id');
 			var ul = self._getList();
-			var li = $( '<li><a href="#tabs-1" class="closable" role="presentation">'+name+'</a></li>' ).insertBefore( $(ul).children('li.addTab') );
+			var tabIndex = ul.children('li:not(.addTab)').size();
+			var li = $( '<li><a href="#tabs-1" class="closable" role="presentation">'+name+'</a><span class="badge badge-danger badge-notification absolute" ng-show="tabHasError('+tabIndex+')"><i class="fa fa-exclamation"></i></span></li>' )
 
-			if (iconCls)
-				li.children('a').prepend('<span class="ui-icon '+iconCls+'"></span>');
+			if (canAddTabs) {
+				li = li.insertBefore( $(ul).children('li.addTab') );
+			} else {
+				ul.append(li);
+			}
 
 			li.uniqueId();
 
@@ -132,12 +132,12 @@ $.extend($.ui.tabs.prototype, {
 			doResize(true);
 
 			//middle click close
-			li.on('mouseup', function(e){
-				if(e.which === 2) {
-					var li = $( this ).closest( "li" );
-					self.remove(li.index());
-				}
-			});
+			// li.on('mouseup', function(e){
+			// 	if(e.which === 2) {
+			// 		var li = $( this ).closest( "li" );
+			// 		self.remove(li.index());
+			// 	}
+			// });
 
 			this.option( "active", index );
 			this._trigger( "add", null, this._ui( this.tabs[ index ], this.panels[ index ] ) );
@@ -145,11 +145,13 @@ $.extend($.ui.tabs.prototype, {
 			return li;
 		};
 
-		self.remove = function(index) {
-			var result = this._trigger( "beforeRemove", null, this._ui( this.tabs[ index ], this.panels[ index ] ) );
+		self.remove = function(index, preventCallback) {
+			if (!preventCallback) {
+				var result = this._trigger( "beforeRemove", null, this._ui( this.tabs[ index ], this.panels[ index ] ) );
 
-			if(result===false)
-				return;
+				if(result === false)
+					return;
+			}
 
 			index = this._getIndex( index );
 			var options = this.options,
@@ -162,10 +164,11 @@ $.extend($.ui.tabs.prototype, {
 			// then when we remove this tab, there will only be one tab left
 			// so we don't need to detect which tab to activate.
 			if ( tab.hasClass( "ui-tabs-active" ) && this.anchors.length > 2 ) {
-				this._activate( index + ( index + 1 < this.anchors.length ? 1 : -1 ) );
+				var isRemovingTab = true;
+				this._activate( index + ( index + 1 < this.anchors.length ? 1 : -1 ), isRemovingTab );
 			}
 
-			this.refresh(this);
+			this.refresh(isRemovingTab);
 
 			if(!hover)
 				doResize();
@@ -173,6 +176,10 @@ $.extend($.ui.tabs.prototype, {
 			this._trigger( "remove", null, this._ui( this.tabs[ index ], this.panels[ index ] ) );
 
 			return this;
+		};
+
+		self.activate = function(index) {
+			this.option( "active", index );
 		};
 
 		self.getPanelForTab = function( tab ) {

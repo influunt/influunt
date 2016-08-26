@@ -96,6 +96,9 @@ public class Anel extends Model implements Cloneable, Serializable {
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
 
+    @Transient
+    private boolean isDestroy = false;
+
     public Anel(Controlador controlador, int posicao) {
         super();
         this.idJson = UUID.randomUUID().toString();
@@ -360,6 +363,14 @@ public class Anel extends Model implements Cloneable, Serializable {
         List<Estagio> listaEstagio = this.getEstagios();
         listaEstagio.sort((anterior, proximo) -> anterior.getPosicao().compareTo(proximo.getPosicao()));
         return listaEstagio;
+    }
+
+    public boolean isDestroy() {
+        return isDestroy;
+    }
+
+    public void setDestroy(boolean destroy) {
+        isDestroy = destroy;
     }
 }
 

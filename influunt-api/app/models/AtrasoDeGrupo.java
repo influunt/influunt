@@ -34,7 +34,6 @@ public class AtrasoDeGrupo extends Model implements Cloneable, Serializable {
     @Column
     private String idJson;
 
-    @Column
     @OneToOne
     private Transicao transicao;
 
