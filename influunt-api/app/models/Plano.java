@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.Range;
 import org.joda.time.DateTime;
 import utils.InfluuntUtils;
@@ -311,10 +312,10 @@ public class Plano extends Model implements Cloneable, Serializable {
     }
 
     @AssertTrue(groups = PlanosCheck.class,
-            message = "Configure um detector veicular para o modo atuado.")
+            message = "Configure um detector veicular para cada estágio no modo atuado.")
     public boolean isModoOperacaoValido() {
         if (this.isAtuado()) {
-            return getAnel().temDetectorVeicular();
+            return !CollectionUtils.isEmpty(this.getEstagiosPlanos()) && this.getEstagiosPlanos().stream().filter(estagioPlano -> estagioPlano.getEstagio().isAssociadoAGrupoSemaforicoVeicular()).allMatch(estagioPlano -> estagioPlano.getEstagio().temDetectorVeicular());
         }
         return true;
     }

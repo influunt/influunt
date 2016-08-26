@@ -75,7 +75,7 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(12, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "Configure um detector veicular para o modo atuado.", "aneis[1].planos[0].modoOperacaoValido"),
+                new Erro(CONTROLADOR, "Configure um detector veicular para cada estágio no modo atuado.", "aneis[1].planos[0].modoOperacaoValido"),
                 new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].planos[0].posicao"),
                 new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].planos[0].descricao"),
                 new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].planos[0].posicaoTabelaEntreVerde"),
@@ -177,8 +177,9 @@ public class ControladorPlanoTest extends ControladorTest {
         plano1Anel4.addGruposSemaforicos(grupoPlano);
 
         erros = getErros(controlador);
-        assertEquals(5, erros.size());
+        assertEquals(6, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
+                new Erro(CONTROLADOR, "Configure um detector veicular para cada estágio no modo atuado.", "aneis[0].planos[0].modoOperacaoValido"),
                 new Erro(CONTROLADOR, "deve estar entre 30 e 255", "aneis[1].planos[0].tempoCiclo"),
                 new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
                 new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel"),
@@ -190,16 +191,47 @@ public class ControladorPlanoTest extends ControladorTest {
         criarGrupoSemaforicoPlano(anelCom4Estagios, plano1Anel4);
 
         erros = getErros(controlador);
-        assertEquals(3, erros.size());
+        assertEquals(4, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
+                new Erro(CONTROLADOR, "Configure um detector veicular para cada estágio no modo atuado.", "aneis[0].planos[0].modoOperacaoValido"),
                 new Erro(CONTROLADOR, "deve estar entre 30 e 255", "aneis[1].planos[0].tempoCiclo"),
                 new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
                 new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[1].planos[0].quantidadeEstagioIgualQuantidadeAnel")
         ));
 
-
         criarEstagioPlano(anelCom2Estagios, plano1Anel2, new int[]{1, 1});
         criarEstagioPlano(anelCom4Estagios, plano1Anel4, new int[]{1, 1, 1, 1});
+
+        erros = getErros(controlador);
+        assertEquals(22, erros.size());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+                new Erro(CONTROLADOR, "Configure um detector veicular para cada estágio no modo atuado.", "aneis[0].planos[0].modoOperacaoValido"),
+                new Erro(CONTROLADOR, "deve estar entre 1 e 255", "aneis[1].planos[0].estagiosPlanos[0].tempoVerde"),
+                new Erro(CONTROLADOR, "deve estar entre 30 e 255", "aneis[1].planos[0].tempoCiclo"),
+                new Erro(CONTROLADOR, "deve estar entre 1 e 255", "aneis[1].planos[0].estagiosPlanos[1].tempoVerde"),
+                new Erro(CONTROLADOR, "deve estar entre 10 e 255", "aneis[0].planos[0].estagiosPlanos[0].tempoVerdeMinimo"),
+                new Erro(CONTROLADOR, "deve estar entre 10 e 255", "aneis[0].planos[0].estagiosPlanos[0].tempoVerdeMaximo"),
+                new Erro(CONTROLADOR, "deve estar entre 10 e 255", "aneis[0].planos[0].estagiosPlanos[0].tempoVerdeIntermediario"),
+                new Erro(CONTROLADOR, "deve estar entre 1 e 10", "aneis[0].planos[0].estagiosPlanos[0].tempoExtensaoVerde"),
+                new Erro(CONTROLADOR, "deve estar entre 10 e 255", "aneis[0].planos[0].estagiosPlanos[1].tempoVerdeMinimo"),
+                new Erro(CONTROLADOR, "deve estar entre 10 e 255", "aneis[0].planos[0].estagiosPlanos[1].tempoVerdeMaximo"),
+                new Erro(CONTROLADOR, "deve estar entre 10 e 255", "aneis[0].planos[0].estagiosPlanos[1].tempoVerdeIntermediario"),
+                new Erro(CONTROLADOR, "deve estar entre 1 e 10", "aneis[0].planos[0].estagiosPlanos[1].tempoExtensaoVerde"),
+                new Erro(CONTROLADOR, "deve estar entre 10 e 255", "aneis[0].planos[0].estagiosPlanos[2].tempoVerdeMinimo"),
+                new Erro(CONTROLADOR, "deve estar entre 10 e 255", "aneis[0].planos[0].estagiosPlanos[2].tempoVerdeMaximo"),
+                new Erro(CONTROLADOR, "deve estar entre 10 e 255", "aneis[0].planos[0].estagiosPlanos[2].tempoVerdeIntermediario"),
+                new Erro(CONTROLADOR, "deve estar entre 1 e 10", "aneis[0].planos[0].estagiosPlanos[2].tempoExtensaoVerde"),
+                new Erro(CONTROLADOR, "deve estar entre 10 e 255", "aneis[0].planos[0].estagiosPlanos[3].tempoVerdeMinimo"),
+                new Erro(CONTROLADOR, "deve estar entre 10 e 255", "aneis[0].planos[0].estagiosPlanos[3].tempoVerdeMaximo"),
+                new Erro(CONTROLADOR, "deve estar entre 10 e 255", "aneis[0].planos[0].estagiosPlanos[3].tempoVerdeIntermediario"),
+                new Erro(CONTROLADOR, "deve estar entre 1 e 10", "aneis[0].planos[0].estagiosPlanos[3].tempoExtensaoVerde"),
+                new Erro(CONTROLADOR, "A sequência de estagio não é válida.", "aneis[0].planos[0].posicaoUnicaEstagio"),
+                new Erro(CONTROLADOR, "A sequência de estagio não é válida.", "aneis[1].planos[0].posicaoUnicaEstagio")
+        ));
+
+        Estagio estagio = anelCom4Estagios.getEstagios().stream().filter(estagio1 -> estagio1.getPosicao().equals(2)).findFirst().get();
+        Detector detector = estagio.getDetector();
+        detector.setTipo(TipoDetector.VEICULAR);
 
         erros = getErros(controlador);
         assertEquals(21, erros.size());

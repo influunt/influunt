@@ -115,6 +115,7 @@ $.extend($.ui.tabs.prototype, {
 			var tabIndex = ul.children('li:not(.addTab)').size();
 			var li = $( '<li><a href="#tabs-1" class="closable" role="presentation">'+name+'</a><span class="badge badge-danger badge-notification absolute" ng-show="tabHasError('+tabIndex+')"><i class="fa fa-exclamation"></i></span></li>' )
 
+			var canAddTabs = $(ul).children('li.addTab').size() > 0;
 			if (canAddTabs) {
 				li = li.insertBefore( $(ul).children('li.addTab') );
 			} else {
@@ -131,14 +132,6 @@ $.extend($.ui.tabs.prototype, {
 			this.refresh(this);
 			doResize(true);
 
-			//middle click close
-			// li.on('mouseup', function(e){
-			// 	if(e.which === 2) {
-			// 		var li = $( this ).closest( "li" );
-			// 		self.remove(li.index());
-			// 	}
-			// });
-
 			this.option( "active", index );
 			this._trigger( "add", null, this._ui( this.tabs[ index ], this.panels[ index ] ) );
 
@@ -149,8 +142,9 @@ $.extend($.ui.tabs.prototype, {
 			if (!preventCallback) {
 				var result = this._trigger( "beforeRemove", null, this._ui( this.tabs[ index ], this.panels[ index ] ) );
 
-				if(result === false)
+				if(result === false) {
 					return;
+				}
 			}
 
 			index = this._getIndex( index );

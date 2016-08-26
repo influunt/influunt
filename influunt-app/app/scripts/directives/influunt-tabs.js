@@ -24,10 +24,7 @@ angular.module('influuntApp')
       },
       template: '<ul class="nav nav-tabs"></ul>',
       link: function (scope, element) {
-        //TODO: Verificar I18n
         scope.nameTabs = scope.nameTabs || 'Anel';
-        var tabs;
-        var tabTemplate = $templateCache.get('views/directives/influunt-tabs/_tab.html');
         var initializing = true;
 
         var hideAddButton = function() {

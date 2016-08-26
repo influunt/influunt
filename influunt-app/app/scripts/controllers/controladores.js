@@ -101,8 +101,10 @@ angular.module('influuntApp')
             defer.resolve(res);
           });
         } else {
-          var todosEnderecos = [{idJson: UUID.generate(), localizacao: '', latitude: null, longitude: null}, {idJson: UUID.generate(), localizacao: '', latitude: null, longitude: null}];
-          var enderecos = _.map(todosEnderecos, function(i) {return {idJson: i.idJson};});
+          var endereco = {
+            idJson: UUID.generate()
+          };
+            
           loadWizardData({
             limiteEstagio: 16,
             limiteGrupoSemaforico: 16,
@@ -110,8 +112,10 @@ angular.module('influuntApp')
             limiteDetectorPedestre: 4,
             limiteDetectorVeicular: 8,
             limiteTabelasEntreVerdes: 2,
-            todosEnderecos: todosEnderecos,
-            enderecos: enderecos
+            todosEnderecos: [endereco],
+            endereco: {
+              idJson: endereco.idJson
+            }
           });
 
           influuntBlockui.unblock();

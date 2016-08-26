@@ -246,8 +246,6 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         int totalGruposSemaforicosAnel = anelCom4Estagios.getGruposSemaforicos().size();
         int totalPlanos = Plano.find.findRowCount();
         int totalPlanosAnel = anelCom4Estagios.getPlanos().size();
-        int totalEnderecos = Endereco.find.findRowCount();
-        int totalEnderecosAnel = anelCom4Estagios.getEnderecos().size();
         int totalTransicoes = Transicao.find.findRowCount();
         int totalTransicoesAnel = ((int) anelCom4Estagios.getGruposSemaforicos().stream().map(GrupoSemaforico::getTransicoes).flatMap(Collection::stream).count());
         int totalTransicoesProibidas = TransicaoProibida.find.findRowCount();
@@ -281,7 +279,6 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         assertEquals("Quantidade de grupos semafóricos", totalGruposSemaforicos - totalGruposSemaforicosAnel, GrupoSemaforico.find.findRowCount());
         assertEquals("Quantidade de detectores", totalDetectores - totalDetectoresAnel, Detector.find.findRowCount());
         assertEquals("Quantidade de planos", totalPlanos - totalPlanosAnel, Plano.find.findRowCount());
-        assertEquals("Quantidade de endereços", totalEnderecos - totalEnderecosAnel, Endereco.find.findRowCount());
         assertEquals("Quantidade de transições", totalTransicoes - totalTransicoesAnel, Transicao.find.findRowCount());
         assertEquals("Quantidade de transições proibidas", totalTransicoesProibidas - totalTransicoesProibidasAnel, TransicaoProibida.find.findRowCount());
         assertEquals("Quantidade de verdes conflitantes", totalVerdesConflitantes - totalVerdesConflitantesAnel, VerdesConflitantes.find.findRowCount());

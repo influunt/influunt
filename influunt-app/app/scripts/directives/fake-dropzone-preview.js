@@ -16,8 +16,8 @@ angular.module('influuntApp')
           var template = '<div class="dz-preview dz-processing dz-image-preview" data-anel-id="{{ data.idJsonAnel }}" data-imagem-id="{{ data.source }}" data-estagio-id="{{ data.idJsonEstagio }}"><div class="dz-details"><div class="dz-size" data-dz-size=""><strong>9.4</strong> KiB</div> <img data-dz-thumbnail="" alt="{{ data.nome }}" src="{{ data.source | imageSource }}"> </div><div class="dz-filename"><span data-dz-name="">{{ data.nome }}</span></div><div class="dz-success-mark"><span>✔</span></div><div class="dz-error-mark"><span>✘</span></div><div class="dz-error-message"><span data-dz-error-message=""></span></div><a class="dz-remove" title="Remover estágio" ng-click="removerImagem(\'{{ data.idJsonEstagio }}\')">Remover estágio</a></div>';
 
           scope.removerImagem = function(estagioIdJson) {
-            console.log('removendo estagio '+estagioIdJson)
-          }
+            console.log('removendo estagio '+estagioIdJson);
+          };
 
           var criarImagensFake = function(aneis, objeto) {
             _.forEach(aneis, function(anel) {
@@ -43,7 +43,7 @@ angular.module('influuntApp')
                 })
                 .value();
             });
-          }
+          };
 
           scope.$on('influuntWizard.dropzoneOk', function(ev) {
             if (ev.targetScope.aneis) {

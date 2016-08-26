@@ -8,14 +8,13 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresAneisCtrl', ['$scope', '$state', '$controller', '$q', 'assertControlador', 'influuntAlert',
-    function ($scope, $state, $controller, $q, assertControlador, influuntAlert) {
+  .controller('ControladoresAneisCtrl', ['$scope', '$state', '$controller', '$q', '$filter', 'assertControlador', 'influuntAlert',
+    function ($scope, $state, $controller, $q, $filter, assertControlador, influuntAlert) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
       // Métodos privados.
       var ativaPrimeiroAnel, inicializaEnderecos, atualizarAneisAtivos,
-          registrarWatcherEndereco, atualizaCurrentEnderecos,
-          setDadosBasicos, setandoEnderecoByAnel;
+      registrarWatcherEndereco, setDadosBasicos, setandoEnderecoByAnel;
 
       /**
        * Pré-condições para acesso à tela de aneis: Somente será possível acessar esta
@@ -124,15 +123,14 @@ angular.module('influuntApp')
         if (tabWasAdded) {
           return $q.resolve(true);
         } else {
-          var title = 'Deseja mesmo apagar este anel?',
-              text = 'Ao apagar esse anel todos os relacionamentos previamente cadastrados serão apagados.';
+          var title = $filter('translate')('controladores.aneis.titulo_msg_apagar_anel'),
+              text = $filter('translate')('controladores.aneis.corpo_msg_apagar_anel');
           return influuntAlert.confirm(title, text).then(function(deveApagarAnel) {
-            console.log('deve apagar anel? '+deveApagarAnel)
             if (deveApagarAnel) {
               var ultimoAnelAtivoIndex = _.findLastIndex($scope.aneis, { ativo: true });
               $scope.aneis[ultimoAnelAtivoIndex].ativo = false;
               $scope.aneis[ultimoAnelAtivoIndex]['_destroy'] = true;
-              $scope.submitForm({$valid: true}, 'aneis', 'app.wizard_controladores.aneis')
+              $scope.submitForm({$valid: true}, 'aneis', 'app.wizard_controladores.aneis');
             }
             return deveApagarAnel;
           });
@@ -166,7 +164,7 @@ angular.module('influuntApp')
 
       inicializaEnderecos = function() {
         _.each($scope.aneis, function(anel) {
-          if (!angular.isDefined(anel.enderecos) || anel.enderecos.length === 0) {
+          if (!anel.endereco) {
             setandoEnderecoByAnel(anel);
           }
         });
@@ -174,37 +172,33 @@ angular.module('influuntApp')
 
       registrarWatcherEndereco = function() {
         $scope.$watch('currentAnel', function(anel) {
-          atualizaCurrentEnderecos();
-          if (_.isArray($scope.currentEnderecos) && $scope.currentEnderecos[0].localizacao && $scope.currentEnderecos[1].localizacao) {
-            anel.localizacao = $scope.currentEnderecos[0].localizacao + ' com ' + $scope.currentEnderecos[1].localizacao;
-            anel.latitude = $scope.currentEnderecos[0].latitude;
-            anel.longitude = $scope.currentEnderecos[0].longitude;
+          $scope.currentEndereco = _.find($scope.objeto.todosEnderecos, {idJson: $scope.currentAnel.endereco.idJson});
+          if ($scope.currentEndereco && $scope.currentEndereco.localizacao && ($scope.currentEndereco.localizacao2 || $scope.currentEndereco.alturaNumerica)) {
+            if($scope.objeto.todosEnderecos[0].localizacao2){
+              anel.localizacao = $scope.currentEndereco.localizacao + ' com ' + $scope.currentEndereco.localizacao2;
+            }else{
+              anel.localizacao = $scope.currentEndereco.localizacao + ', nº ' + $scope.currentEndereco.alturaNumerica;
+            }
+            anel.latitude = $scope.currentEndereco.latitude;
+            anel.longitude = $scope.currentEndereco.longitude;
           } else {
             anel.localizacao = '';
           }
-
         }, true);
       };
 
-      atualizaCurrentEnderecos = function() {
-       var ids = _.map($scope.currentAnel.enderecos, 'idJson');
-        $scope.currentEnderecos = _
-          .chain($scope.objeto.todosEnderecos)
-          .filter(function(e) { return ids.indexOf(e.idJson) >= 0; })
-          .value();
-        return $scope.currentEnderecos;
-      };
-
       setandoEnderecoByAnel = function (anel) {
-        var enderecoDadosBasicos = [$scope.objeto.enderecos[0], $scope.objeto.enderecos[1]];
-        var enderecoGenerateIdJson = [{ idJson: UUID.generate() }, { idJson: UUID.generate() }];
-        var enderecos = anel.posicao === 1 ? enderecoDadosBasicos : enderecoGenerateIdJson;
-        anel.enderecos = enderecos;
-        $scope.objeto.todosEnderecos = $scope.objeto.todosEnderecos || [];
-        if (anel.posicao === 1 ) {
-          $scope.objeto.todosEnderecos.push(enderecos);
-        } else {
-          $scope.objeto.todosEnderecos = _.concat($scope.objeto.todosEnderecos, enderecos);
+        var endereco;
+        if(anel.posicao === 1){
+          endereco = _.cloneDeep($scope.objeto.todosEnderecos[0]);
+          delete endereco.id;
+          endereco.idJson = UUID.generate();
+        }else{
+          endereco = { idJson: UUID.generate() };
         }
+
+        anel.endereco = endereco;
+        $scope.objeto.todosEnderecos = $scope.objeto.todosEnderecos || [];
+        $scope.objeto.todosEnderecos.push(endereco);
       };
   }]);

@@ -124,16 +124,15 @@ public class ControladorDadosBasicosTest extends ControladorTest {
         assertEquals(controlador.getNumeroSMEEConjugado1(), controladorJson.getNumeroSMEEConjugado1());
         assertEquals(controlador.getNumeroSMEEConjugado2(), controladorJson.getNumeroSMEEConjugado2());
         assertEquals(controlador.getNumeroSMEEConjugado3(), controladorJson.getNumeroSMEEConjugado3());
-        Endereco enderecoPaulista = controlador.getEnderecos().stream().filter(endereco -> endereco.getLocalizacao().equals("Av Paulista")).findFirst().get();
-        Endereco enderecoBelaCintra = controlador.getEnderecos().stream().filter(endereco -> endereco.getLocalizacao().equals("Rua Bela Cintra")).findFirst().get();
-        Endereco enderecoPaulistaJson = controladorJson.getEnderecos().stream().filter(endereco -> endereco.getLocalizacao().equals("Av Paulista")).findFirst().get();
-        Endereco enderecoBelaCintraJson = controladorJson.getEnderecos().stream().filter(endereco -> endereco.getLocalizacao().equals("Rua Bela Cintra")).findFirst().get();
+        Endereco enderecoPaulista = controlador.getEndereco();
+        Endereco enderecoPaulistaJson = controladorJson.getEndereco();
+
         assertEquals(enderecoPaulista.getLocalizacao(), enderecoPaulistaJson.getLocalizacao());
         assertEquals(enderecoPaulista.getLatitude(), enderecoPaulistaJson.getLatitude());
         assertEquals(enderecoPaulista.getLongitude(), enderecoPaulistaJson.getLongitude());
-        assertEquals(enderecoBelaCintra.getLocalizacao(), enderecoBelaCintraJson.getLocalizacao());
-        assertEquals(enderecoBelaCintra.getLatitude(), enderecoBelaCintraJson.getLatitude());
-        assertEquals(enderecoBelaCintra.getLongitude(), enderecoBelaCintraJson.getLongitude());
+        assertEquals(enderecoPaulista.getLocalizacao2(), enderecoPaulistaJson.getLocalizacao2());
+        assertEquals(enderecoPaulista.getAlturaNumerica(), enderecoPaulistaJson.getAlturaNumerica());
+        assertEquals(enderecoPaulista.getReferencia(), enderecoPaulistaJson.getReferencia());
         assertEquals(controlador.getFirmware(), controladorJson.getFirmware());
     }
 

@@ -31,8 +31,11 @@
     "gruposPedestres": "Grupos semafóricos de pedestres",
     "gruposSinaisVeiculares": "Grupos semafóricos veiculares",
     "latitude": "Latitude",
-    "localizacao": "Localização",
+    "localizacao": "Logradouro",
     "longitude": "Longitude",
+    "localizacao2": "Logradouro 2",
+    "alturaNumerica": "Altura Numérica",
+    "referencia": "Referência",
     "maxAneis": "Número de anéis",
     "maxDetectorPedestre": "Número de detector pedestre",
     "maxDetectorVeicular": "Número de detector veicular",
@@ -133,7 +136,9 @@
       "transicaoProibida": "Transição Proíbida"
     },
     "aneis": {
-      "titulo": "Configuração de Aneis"
+      "titulo": "Configuração de Aneis",
+      "titulo_msg_apagar_anel": "Deseja mesmo apagar este anel?",
+      "corpo_msg_apagar_anel": "Ao apagar esse anel todos os relacionamentos previamente cadastrados serão apagados."
     },
     "validacoes": {
       "aoMenosUmGrupoSemaforico": "Este anel deve ter mais de 1 grupo semáforico",
@@ -323,6 +328,10 @@
       "salvo_com_sucesso": "Salvo com sucesso",
       "sair": "Sair do sistema?",
       "sim": "Sim"
+    },
+    "croqui": "CROQUI",
+    "dropzone": {
+      "mensagem": "Clique ou Arraste imagens para este local"
     }
   },
   "login": {
@@ -408,7 +417,15 @@
     "novo": "Novo Agrupamento",
     "editar": "Editar Agrupamento",
     "mostrar": "Visualizar Agrupamento",
-    "controladores": "Controladores"
+    "ativo": "Ativo",
+    "subArea": "Sub-Áreas",
+    "controladoresAvulso": "Controladores avulso",
+    "controladores": "Controladores",
+    "options": {
+      "corredor": "Corredor",
+      "rota": "Rota",
+      "subArea": "Subarea"
+    }
   },
   "status": {
     "titulo": "Status dos Controladores"

@@ -61,14 +61,17 @@ public class ControladorAneisTest extends ControladorTest {
         erros = getErros(controlador);
 
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "Anel deve ter 2 endereços", "aneis[0].enderecosOk")
+                new Erro(CONTROLADOR, "Anel deve ter endereço", "aneis[0].enderecosOk")
         ));
         Endereco paulista = new Endereco(1.0, 1.0, "Av. Paulista");
-        Endereco belaCintra = new Endereco(2.0, 2.0, "R. Bela Cintra");
         paulista.setAnel(anel1);
-        belaCintra.setAnel(anel1);
-        anel1.addEndereco(paulista);
-        anel1.addEndereco(belaCintra);
+        anel1.setEndereco(paulista);
+
+        erros = getErros(controlador);
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+                new Erro(CONTROLADOR, "não pode ficar em branco, caso não seja preenchido a altura numérica.", "aneis[0].endereco.localizacao2")
+        ));
+        paulista.setAlturaNumerica(15);
 
         estagios.clear();
         IntStream.rangeClosed(1, 17).forEach(i -> estagios.add(new Estagio(i)));
@@ -137,10 +140,10 @@ public class ControladorAneisTest extends ControladorTest {
         Anel anelJson = controladorJson.getAneis().stream().filter(anelInterno -> anelInterno.isAtivo()).findFirst().get();
 
         assertEquals(anel.getDescricao(), anelJson.getDescricao());
-        assertEquals(anel.getEnderecos().get(0).getLatitude(), anelJson.getEnderecos().get(0).getLatitude());
-        assertEquals(anel.getEnderecos().get(0).getLongitude(), anelJson.getEnderecos().get(0).getLongitude());
-        assertEquals(anel.getEnderecos().get(1).getLatitude(), anelJson.getEnderecos().get(1).getLatitude());
-        assertEquals(anel.getEnderecos().get(1).getLongitude(), anelJson.getEnderecos().get(1).getLongitude());
+        assertEquals(anel.getEndereco().getLatitude(), anelJson.getEndereco().getLatitude());
+        assertEquals(anel.getEndereco().getLongitude(), anelJson.getEndereco().getLongitude());
+        assertEquals(anel.getEndereco().getLatitude(), anelJson.getEndereco().getLatitude());
+        assertEquals(anel.getEndereco().getLongitude(), anelJson.getEndereco().getLongitude());
         assertEquals(anel.getGruposSemaforicos().size(), anelJson.getGruposSemaforicos().size());
         assertEquals(anel.getDetectores().size(), anelJson.getDetectores().size());
         assertEquals(anel.getNumeroSMEE(), anelJson.getNumeroSMEE());

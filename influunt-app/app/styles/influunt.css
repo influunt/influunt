@@ -230,6 +230,10 @@
   float: right;
 }
 
+.both {
+  clear: both;
+}
+
 .uppercase {
   text-transform: uppercase;
 }
@@ -2029,6 +2033,10 @@ table.table-diagonal:nth-of-type(1) th.diagonal {
   padding-top: 20px !important;
 }
 
+.padding-left-20 {
+  padding-left: 20px !important;
+}
+
 .ibox-title {
   border-top: 0;
   border-bottom: 1px solid #e5e5e5;
@@ -2654,4 +2662,13 @@ tip-tip span {
 #croqui.dropzone .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
   margin-top: 0;
   position: relative;
+}
+
+.control-box {
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+.control-box i {
+  margin-right: 5px;
 }
