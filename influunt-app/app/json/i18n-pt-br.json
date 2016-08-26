@@ -79,9 +79,16 @@
       "verTelaAnterior": "Ver Resumo"
     },
     "associacaoDetectores": {
+      "titulo": "Detectores",
       "adicionarDetector": "Adicionar Detector",
       "detector": "detector",
-      "titulo": "Detectores",
+      "pedestre": "Pedestre",
+      "veicular": "Veícular",
+      "ausenciaMinima": "Ausência de Detecção Mínima",
+      "ausenciaMaxima": "Ausência de Detecção Máxima",
+      "deteccaoMinima": "Detecção Permanente Mínima",
+      "deteccaoMaxima": "Detecção Permanente Máxima",
+      "monitoramentoFalha": "Monitoramento de Falha",
       "mensagemMaxDetectores": "Você poderá adicionar até",
       "verTabelaEntreVerdes": "Ver Tela de Entre Verdes"
     },
