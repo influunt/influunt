@@ -75,7 +75,7 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(12, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "Configure detector veicular para todos os estagios no modo atuado.", "aneis[1].planos[0].modoOperacaoValido"),
+                new Erro(CONTROLADOR, "Configure um detector veicular para cada estágio no modo atuado.", "aneis[1].planos[0].modoOperacaoValido"),
                 new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].planos[0].posicao"),
                 new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].planos[0].descricao"),
                 new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].planos[0].posicaoTabelaEntreVerde"),
@@ -179,7 +179,7 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(6, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "Configure detector veicular para todos os estagios no modo atuado.", "aneis[0].planos[0].modoOperacaoValido"),
+                new Erro(CONTROLADOR, "Configure um detector veicular para cada estágio no modo atuado.", "aneis[0].planos[0].modoOperacaoValido"),
                 new Erro(CONTROLADOR, "deve estar entre 30 e 255", "aneis[1].planos[0].tempoCiclo"),
                 new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
                 new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel"),
@@ -193,7 +193,7 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(4, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "Configure detector veicular para todos os estagios no modo atuado.", "aneis[0].planos[0].modoOperacaoValido"),
+                new Erro(CONTROLADOR, "Configure um detector veicular para cada estágio no modo atuado.", "aneis[0].planos[0].modoOperacaoValido"),
                 new Erro(CONTROLADOR, "deve estar entre 30 e 255", "aneis[1].planos[0].tempoCiclo"),
                 new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
                 new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[1].planos[0].quantidadeEstagioIgualQuantidadeAnel")
@@ -205,7 +205,7 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(22, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "Configure detector veicular para todos os estagios no modo atuado.", "aneis[0].planos[0].modoOperacaoValido"),
+                new Erro(CONTROLADOR, "Configure um detector veicular para cada estágio no modo atuado.", "aneis[0].planos[0].modoOperacaoValido"),
                 new Erro(CONTROLADOR, "deve estar entre 1 e 255", "aneis[1].planos[0].estagiosPlanos[0].tempoVerde"),
                 new Erro(CONTROLADOR, "deve estar entre 30 e 255", "aneis[1].planos[0].tempoCiclo"),
                 new Erro(CONTROLADOR, "deve estar entre 1 e 255", "aneis[1].planos[0].estagiosPlanos[1].tempoVerde"),
