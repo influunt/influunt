@@ -19,6 +19,7 @@ Funcionalidade: Fluxo de cadastro de controladores
     Dado que o usuário esteja no wizard no passo "Dados Básicos"
     E o usuario selecionar o valor "São Paulo" no campo "Cidade"
     E o usuario selecionar o valor "1" no campo "Área"
+    E o usuario preencher o campo NÚMERO SMEE com 123
     E o usuario buscar o endereço "Av Paulista" para o endereço 1
     E o usuario buscar o endereço "Rua Bela Cintra" para o endereço 2
     E o usuario selecionar o valor "Raro Labs" no campo "Fabricante"
@@ -26,16 +27,11 @@ Funcionalidade: Fluxo de cadastro de controladores
     E clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Anéis"
 
-  Cenário: Tentar salvar anéis em branco
-    Dado que o usuário esteja no wizard no passo "Anéis"
-    E que o usuário deixe os campos em branco
-    Quando o usuário clicar no botão para ir pro próximo passo
-    Então o sistema deverá indicar erro nos campos do passo "Anéis"
-    E o sistema irá continuar no passo "Anéis"
-
   Cenário: Salvar anéis do controlador
     Dado que o usuário esteja no wizard no passo "Anéis"
+    E o usuario limpar o campor endereço 1
     E o usuario buscar o endereço "Av Paulista" para o endereço 1
+    E o usuario limpar o campor endereço 2
     E o usuario buscar o endereço "Rua Bela Cintra" para o endereço 2
     E o usuario adicionar 3 imagens para os estágios do anel corrente
     E o usuário adicionar um novo anel ativo

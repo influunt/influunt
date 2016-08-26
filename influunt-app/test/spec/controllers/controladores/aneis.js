@@ -26,6 +26,7 @@ describe('Controller: ControladoresAneisCtrl', function () {
     $httpBackend.expectGET('/helpers/controlador').respond(helpers);
     scope.inicializaWizard();
     $httpBackend.flush();
+
   }));
 
   it('Deve conter as definições de funções do ControladorCtrl', function() {
@@ -57,14 +58,21 @@ describe('Controller: ControladoresAneisCtrl', function () {
 
     describe('Configuração válida', function () {
       beforeEach(function() {
+        var endereco1       = [{localizacao: 'Av Bandeirantes'}];
+        var endereco2       = [{localizacao: 'Av Afonsopena'}];
+        var enderecoVazio   = [{localizacao: ''}];
+
         var objeto = {
-          aneis: [{idJson: 1, enderecos: []}],
-          estagios: []
+          aneis: [{idJson: 1, enderecos: [endereco1, endereco2], posicao: 1}, {idJson: 2, enderecos: [enderecoVazio, enderecoVazio]}],
+          estagios: [],
+          todosEnderecos: [{localizacao: 'Av Bandeirantes'}, {localizacao: 'Av Afonsopena'}]
         };
         WizardControladores.fakeInicializaWizard(scope, $q, objeto, scope.inicializaAneis);
       });
 
       it('Deve iniciar a tela com o primeiro anel selecionado', function() {
+        scope.currentEnderecos = [ {localizacao: 'Av Bandeirantes'}, {localizacao: 'Av Afonsopena'} ];
+        scope.$apply();
         expect(scope.currentAnelIndex).toBe(0);
         expect(scope.currentAnel).toBe(scope.aneis[0]);
       });
@@ -73,17 +81,16 @@ describe('Controller: ControladoresAneisCtrl', function () {
         expect(scope.aneis[0].enderecos.length).toBe(2);
       });
 
-      it('Deve criar o texto em "nomeEndereco" associando os nomes do "endereco 1" "com" "endereco 2"', function() {
+      it('Deve criar o texto em "nomeEndereco" associando os nomes do "Av Bandeirantes" "com" "Av Afonsopena"', function() {
         var anel = scope.objeto.aneis[0];
-        anel.enderecos[0].localizacao = 'endereco 1';
-        anel.enderecos[1].localizacao = 'endereco 2';
-        scope.$apply();
-        expect(anel.localizacao).toBe('endereco 1 com endereco 2');
+        expect(anel.localizacao).toBe('Av Bandeirantes com Av Afonsopena');
       });
 
-      it('"nomeEndereco" deve ser vazio se não houver "endereco 1" ou "endereco 2"', function() {
-        var anel = scope.objeto.aneis[0];
+      it('no segundo anel o "nomeEndereco" deve ser vazio', function() {
+        var anel = scope.objeto.aneis[1];
+        anel.localizacao = '';
         anel.enderecos[0].localizacao = 'endereco 1';
+        anel.enderecos[1].localizacao = 'endereco 2';
         expect(anel.localizacao).toBe('');
       });
     });
@@ -122,7 +129,10 @@ describe('Controller: ControladoresAneisCtrl', function () {
   describe('ativarProximoAnel', function () {
     beforeEach(function() {
       scope.objeto = {
-        aneis: [{idJson: 'anel-1', ativo: true}, {idJson: 'anel-2', ativo: false}, {idJson: 'anel-3', ativo: false}]
+        enderecos: ['Av Bandeirantes', 'Av Afonsopena'],
+        aneis: [{idJson: 'anel-1', ativo: true, posicao: 1},
+                {idJson: 'anel-2', ativo: false},
+                {idJson: 'anel-3', ativo: false}]
       };
       scope.aneis = scope.objeto.aneis;
       scope.ativarProximoAnel();
@@ -147,7 +157,7 @@ describe('Controller: ControladoresAneisCtrl', function () {
     beforeEach(function() {
       scope.objeto = {
         aneis: [
-          {idJson: 'anel-1',ativo: true, enderecos: [{idJson: 'e1'},{idJson: 'e2'}]},
+          {idJson: 'anel-1',ativo: true, posicao: 1, enderecos: [{idJson: 'e1'},{idJson: 'e2'}]},
           {idJson: 'anel-2',ativo: true, enderecos: [{idJson: 'e3'},{idJson: 'e4'}]},
           {idJson: 'anel-3',ativo: false}
         ],
