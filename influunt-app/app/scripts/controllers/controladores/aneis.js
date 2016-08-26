@@ -14,8 +14,7 @@ angular.module('influuntApp')
 
       // Métodos privados.
       var ativaPrimeiroAnel, inicializaEnderecos, atualizarAneisAtivos,
-          registrarWatcherEndereco, atualizaCurrentEnderecos,
-          setDadosBasicos, setandoEnderecoByAnel;
+      registrarWatcherEndereco, setDadosBasicos, setandoEnderecoByAnel;
 
       /**
        * Pré-condições para acesso à tela de aneis: Somente será possível acessar esta
