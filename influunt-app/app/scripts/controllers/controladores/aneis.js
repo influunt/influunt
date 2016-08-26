@@ -188,15 +188,17 @@ angular.module('influuntApp')
       };
 
       setandoEnderecoByAnel = function (anel) {
-        var enderecoDadosBasico = $scope.objeto.todosEnderecos[0];
-        var enderecoGenerateIdJson = { idJson: UUID.generate() };
-        var endereco = anel.posicao === 1 ? enderecoDadosBasico : enderecoGenerateIdJson;
+        var endereco;
+        if(anel.posicao === 1){
+          endereco = _.cloneDeep($scope.objeto.todosEnderecos[0]);
+          delete endereco.id;
+          endereco.idJson = UUID.generate();
+        }else{
+          endereco = { idJson: UUID.generate() };
+        }
+
         anel.endereco = endereco;
         $scope.objeto.todosEnderecos = $scope.objeto.todosEnderecos || [];
-        if (anel.posicao === 1 ) {
-          $scope.objeto.todosEnderecos.push(endereco);
-        } else {
-          $scope.objeto.todosEnderecos = _.concat($scope.objeto.todosEnderecos, endereco);
-        }
+        $scope.objeto.todosEnderecos.push(endereco);
       };
   }]);

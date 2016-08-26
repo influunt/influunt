@@ -7,7 +7,7 @@
  * # influuntTabs
  */
 angular.module('influuntApp')
-  .directive('influuntTabs', ['$templateCache', '$interpolate', '$compile', '$timeout', '$filter', function ($templateCache, $interpolate, $compile, $timeout, $filter) {
+  .directive('influuntTabs', ['$templateCache', '$interpolate', '$compile', '$timeout', function ($templateCache, $interpolate, $compile, $timeout) {
     return {
       restrict: 'E',
       scope: {
