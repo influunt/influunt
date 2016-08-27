@@ -13,8 +13,8 @@ angular.module('influuntApp')
       $controller('ControladoresCtrl', {$scope: $scope});
 
       // Métodos privados.
-      var ativaPrimeiroAnel, inicializaEnderecos, atualizarAneisAtivos,
-      registrarWatcherEndereco, setDadosBasicos, setandoEnderecoByAnel;
+      var ativaPrimeiroAnel, inicializaEnderecos, atualizarAneisAtivos, registrarWatcherCurrentAnel, setDadosBasicos,
+      setandoEnderecoByAnel, watcherEndereco, watcherImagensEstagios;
 
       /**
        * Pré-condições para acesso à tela de aneis: Somente será possível acessar esta
@@ -44,7 +44,7 @@ angular.module('influuntApp')
             ativaPrimeiroAnel($scope.objeto);
             atualizarAneisAtivos();
             inicializaEnderecos();
-            registrarWatcherEndereco();
+            registrarWatcherCurrentAnel();
             setDadosBasicos();
             $scope.$broadcast('influuntWizard.dropzoneOk');
           }
@@ -174,17 +174,36 @@ angular.module('influuntApp')
         });
       };
 
-      registrarWatcherEndereco = function() {
+      registrarWatcherCurrentAnel = function() {
         $scope.$watch('currentAnel', function(anel) {
-          $scope.currentEndereco = _.find($scope.objeto.todosEnderecos, {idJson: $scope.currentAnel.endereco.idJson});
-          if ($scope.currentEndereco && $scope.currentEndereco.localizacao && ($scope.currentEndereco.localizacao2 || $scope.currentEndereco.alturaNumerica)) {
-            anel.localizacao = $filter('nomeEndereco')($scope.currentEndereco);
-            anel.latitude = $scope.currentEndereco.latitude;
-            anel.longitude = $scope.currentEndereco.longitude;
-          } else {
-            anel.localizacao = '';
-          }
+          watcherEndereco(anel);
+          watcherImagensEstagios(anel);
         });
+      };
+
+      watcherEndereco = function(anel) {
+        $scope.currentEndereco = _.find($scope.objeto.todosEnderecos, {idJson: $scope.currentAnel.endereco.idJson});
+        if ($scope.currentEndereco && $scope.currentEndereco.localizacao && ($scope.currentEndereco.localizacao2 || $scope.currentEndereco.alturaNumerica)) {
+          anel.localizacao = $filter('nomeEndereco')($scope.currentEndereco);
+          anel.latitude = $scope.currentEndereco.latitude;
+          anel.longitude = $scope.currentEndereco.longitude;
+        } else {
+          anel.localizacao = '';
+        }
+      };
+
+      watcherImagensEstagios = function(anel) {
+        var estagios = anel.estagios;
+        if (!_.isArray(estagios)) {
+          return false;
+        }
+
+        $scope.imagensDeEstagios = _
+          .chain(estagios)
+          .map(function(e) {return _.find($scope.objeto.estagios, {idJson: e.idJson})})
+          .map('imagem')
+          .map(function(i) {return _.find($scope.objeto.imagens, {idJson: i.idJson})})
+          .value();
       };
 
       setandoEnderecoByAnel = function (anel) {
