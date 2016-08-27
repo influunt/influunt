@@ -71,7 +71,7 @@
                     <div class="form-group">
                       <figure>
                         <div influunt-map
-                          markers="currentEnderecos[0]"
+                          markers="currentEndereco"
                           class="influunt-map">
                         </div>
                       </figure>
@@ -109,7 +109,7 @@
                     </div>
                     <div class="form-group" data-ng-class="{ 'has-error': errors.aneis[currentAnelIndex].endereco.referencia }">
                       <label class="control-label">{{ 'controladores.referencia' | translate }}:</label>
-                      <input type="number" name="endereco.referencia" class="form-control" data-ng-model="currentEndereco.referencia">
+                      <input type="text" name="endereco.referencia" class="form-control" data-ng-model="currentEndereco.referencia">
                       <p class="help-block error-msg" data-ng-repeat="error in errors.aneis[currentAnelIndex].endereco.referencia">{{ error }}</p>
                     </div>
                   </div>
@@ -135,7 +135,6 @@
                       </form>
                   </div>
                 </div>
-
 
               </div>
             </div>

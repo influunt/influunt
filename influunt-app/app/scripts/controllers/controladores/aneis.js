@@ -96,8 +96,12 @@ angular.module('influuntApp')
         anel.estagios.splice(estagioAnelIndex, 1);
       };
 
-      $scope.adicionarCroqui = function(imagem) {
-        $scope.currentAnel.croqui = imagem;
+      $scope.adicionarCroqui = function(upload, imagem) {
+        var _imagem = { id: imagem.id, filename: imagem.filename, idJson: imagem.idJson };
+
+        $scope.currentAnel.croqui = {id: _imagem.id};
+        $scope.objeto.imagens = $scope.objeto.imagens || [];
+        $scope.objeto.imagens.push(_imagem);
       };
 
       $scope.ativarProximoAnel = function() {
@@ -129,7 +133,7 @@ angular.module('influuntApp')
             if (deveApagarAnel) {
               var ultimoAnelAtivoIndex = _.findLastIndex($scope.aneis, { ativo: true });
               $scope.aneis[ultimoAnelAtivoIndex].ativo = false;
-              $scope.aneis[ultimoAnelAtivoIndex]['_destroy'] = true;
+              $scope.aneis[ultimoAnelAtivoIndex]._destroy = true;
               $scope.submitForm({$valid: true}, 'aneis', 'app.wizard_controladores.aneis');
             }
             return deveApagarAnel;
@@ -174,17 +178,13 @@ angular.module('influuntApp')
         $scope.$watch('currentAnel', function(anel) {
           $scope.currentEndereco = _.find($scope.objeto.todosEnderecos, {idJson: $scope.currentAnel.endereco.idJson});
           if ($scope.currentEndereco && $scope.currentEndereco.localizacao && ($scope.currentEndereco.localizacao2 || $scope.currentEndereco.alturaNumerica)) {
-            if($scope.objeto.todosEnderecos[0].localizacao2){
-              anel.localizacao = $scope.currentEndereco.localizacao + ' com ' + $scope.currentEndereco.localizacao2;
-            }else{
-              anel.localizacao = $scope.currentEndereco.localizacao + ', nº ' + $scope.currentEndereco.alturaNumerica;
-            }
+            anel.localizacao = $filter('nomeEndereco')($scope.currentEndereco);
             anel.latitude = $scope.currentEndereco.latitude;
             anel.longitude = $scope.currentEndereco.longitude;
           } else {
             anel.localizacao = '';
           }
-        }, true);
+        });
       };
 
       setandoEnderecoByAnel = function (anel) {

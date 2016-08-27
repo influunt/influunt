@@ -67,6 +67,7 @@ angular.module('influuntApp')
           if ($scope.objeto.modelo) {
             var modelos = _.chain($scope.data.fabricantes).map('modelos').flatten().uniq().value();
             var modelo = _.find(modelos, {id: $scope.objeto.modelo.id});
+            $scope.modeloControlador = modelo;
 
             var fabricante = _.find($scope.data.fabricantes, {id: modelo.fabricante.id});
             $scope.helpers.fornecedor = fabricante;
@@ -104,7 +105,7 @@ angular.module('influuntApp')
           var endereco = {
             idJson: UUID.generate()
           };
-            
+
           loadWizardData({
             limiteEstagio: 16,
             limiteGrupoSemaforico: 16,
