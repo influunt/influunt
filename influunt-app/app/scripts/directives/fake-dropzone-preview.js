@@ -14,11 +14,12 @@ angular.module('influuntApp')
         scope: {
           imagens: '=',
           controlador: '=',
-          anel: '='
+          anel: '=',
+          removeButtonText: '@'
         },
         link: function postLink(scope, element) {
           var $form = $(element[0]).parent();
-          var template = '<div class="dz-preview dz-processing dz-image-preview" data-anel-id="{{ anel.idJson }}" data-imagem-id="{{ data.source }}"><div class="dz-details"><img data-dz-thumbnail="" alt="{{ data.nome }}" src="{{ data.source | imageSource }}"></div><div class="dz-filename"><span data-dz-name="">{{ data.nome }}</span></div><a class="dz-remove" title="Remover estágio" ng-click="removerImagem(\'{{ data.source }}\')">Remover estágio</a></div>';
+          var template = '<div class="dz-preview dz-processing dz-image-preview" data-anel-id="{{ anel.idJson }}" data-imagem-id="{{ data.source }}"><div class="dz-details"><img data-dz-thumbnail="" alt="{{ data.nome }}" src="{{ data.source | imageSource }}"></div><div class="dz-filename"><span data-dz-name="">{{ data.nome }}</span></div><a class="dz-remove" title="{{ removeButtonText }}" ng-click="removerImagem(\'{{ data.source }}\')">{{ removeButtonText }}</a></div>';
 
           scope.removerImagem = function(objIdjson) {
             console.log('removendo estagio ' + objIdjson);

@@ -138,7 +138,9 @@
     "aneis": {
       "titulo": "Configuração de Aneis",
       "titulo_msg_apagar_anel": "Deseja mesmo apagar este anel?",
-      "corpo_msg_apagar_anel": "Ao apagar esse anel todos os relacionamentos previamente cadastrados serão apagados."
+      "corpo_msg_apagar_anel": "Ao apagar esse anel todos os relacionamentos previamente cadastrados serão apagados.",
+      "remover_estagio": "Remover Estágio",
+      "remover_croqui": "Remover Croqui"
     },
     "validacoes": {
       "aoMenosUmGrupoSemaforico": "Este anel deve ter mais de 1 grupo semáforico",
