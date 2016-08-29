@@ -46,10 +46,14 @@ angular.module('influuntApp')
             inicializaEnderecos();
             registrarWatcherCurrentAnel();
             setDadosBasicos();
-            inicializaObjetoCroqui();
-            $scope.$broadcast('influuntWizard.dropzoneOk');
+            $scope.selecionaAnelLocal($scope.currentAnelIndex);
           }
         });
+      };
+
+      $scope.selecionaAnelLocal = function(index) {
+        $scope.selecionaAnel(index);
+        inicializaObjetoCroqui();
       };
 
       /**
@@ -106,7 +110,7 @@ angular.module('influuntApp')
       };
 
       $scope.ativarProximoAnel = function() {
-        $scope.selecionaAnel(_.findIndex($scope.aneis, { ativo: false }));
+        $scope.selecionaAnelLocal(_.findIndex($scope.aneis, { ativo: false }));
         $scope.currentAnel.ativo = true;
         inicializaEnderecos();
         atualizarAneisAtivos();
@@ -213,8 +217,6 @@ angular.module('influuntApp')
             return obj;
           })
           .value();
-
-          console.log($scope.imagensDeEstagios)
       };
 
       setandoEnderecoByAnel = function (anel) {

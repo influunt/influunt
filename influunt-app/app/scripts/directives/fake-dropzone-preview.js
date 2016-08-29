@@ -43,7 +43,6 @@ angular.module('influuntApp')
           };
 
           scope.$watch('imagens', function(imagens) {
-            console.log(imagens);
             if (!_.isArray(imagens) && _.isObject(imagens)) {
               imagens = [imagens];
             }
