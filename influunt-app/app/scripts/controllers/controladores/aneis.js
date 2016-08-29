@@ -14,7 +14,7 @@ angular.module('influuntApp')
 
       // Métodos privados.
       var ativaPrimeiroAnel, inicializaEnderecos, atualizarAneisAtivos, registrarWatcherCurrentAnel, setDadosBasicos,
-      setandoEnderecoByAnel, watcherEndereco, watcherImagensEstagios, inicializaObjetoCroqui;
+      setandoEnderecoByAnel, watcherEndereco, setarImagensEstagios, inicializaObjetoCroqui;
 
       /**
        * Pré-condições para acesso à tela de aneis: Somente será possível acessar esta
@@ -110,8 +110,8 @@ angular.module('influuntApp')
       };
 
       $scope.deletarEstagio = function(estagioIdJson) {
-        var title = $filter('translate')('controladores.estagios.titulo_msg_apagar_anel'),
-            text = $filter('translate')('controladores.estagios.corpo_msg_apagar_anel');
+        var title = $filter('translate')('controladores.estagios.titulo_msg_apagar_estagio'),
+            text = $filter('translate')('controladores.estagios.corpo_msg_apagar_estagio');
         influuntAlert.confirm(title, text).then(function(deveApagarEstagio) {
           if (deveApagarEstagio) {
             var estagio = _.find($scope.objeto.estagios, { idJson: estagioIdJson });
@@ -119,10 +119,10 @@ angular.module('influuntApp')
               .then(function() {
 
                 $scope.inicializaWizard().then(function() {
-                  $('div.dz-preview[data-estagio-id-json="'+estagioIdJson+'"]').remove();
                   $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
                   $scope.aneis = $scope.objeto.aneis;
                   $scope.currentAnel = $scope.aneis[$scope.currentAnelIndex];
+                  setarImagensEstagios($scope.currentAnel);
                 });
 
               }).catch(function() {
@@ -206,7 +206,7 @@ angular.module('influuntApp')
       registrarWatcherCurrentAnel = function() {
         $scope.$watch('currentAnel', function(anel) {
           watcherEndereco(anel);
-          watcherImagensEstagios(anel);
+          setarImagensEstagios(anel);
         });
       };
 
@@ -221,7 +221,7 @@ angular.module('influuntApp')
         }
       };
 
-      watcherImagensEstagios = function(anel) {
+      setarImagensEstagios = function(anel) {
         var estagios = anel.estagios;
         if (!_.isArray(estagios)) {
           return false;

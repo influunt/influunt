@@ -44,7 +44,8 @@
                       controlador="objeto"
                       anel="currentAnel"
                       imagens="imagensDeEstagios"
-                      remove-button-text="{{ 'controladores.aneis.remover_estagio' | translate }}">
+                      remove-button-text="{{ 'controladores.aneis.remover_estagio' | translate }}"
+                      on-delete="deletarEstagio(estagioIdJson)">
                   </fake-dropzone-preview>
                   <div class="dz-default dz-message"><span>{{ 'geral.dropzone.mensagem' | translate }}</span></div>
                   <div class="fallback">
