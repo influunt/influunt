@@ -98,7 +98,16 @@
     color: #fff;
 }
 .wrapper-content .basic-wizard .content .body .tableless table tbody tr td:hover {
-    background: #19b4a8 url(../images/check.png) no-repeat center center;
+    background: #19b4a8;
+}
+.wrapper-content .basic-wizard .content .body .association-detectors table tbody tr td:hover {
+    background: #19b4a8 url(../images/check.png) no-repeat center;
+}
+.wrapper-content .basic-wizard .content .body .association-detectors table tbody tr td i.fake-checkbox {
+    background: url(../images/checked.png) no-repeat center;
+    width: 30px;
+    height: 30px;
+    margin-top: 1px;
 }
 .wrapper-content .basic-wizard .content .body .tableless.tableless-stages {
     margin: 20px 0 0;
@@ -403,7 +412,10 @@ header .nav-secon li a {
 		max-width: 74px;
     transition: all .5s ease;
     cursor: pointer;
-    background: url(../images/check.png) no-repeat center center;
+    background: #ffffff;
+}
+.wrapper-content .basic-wizard .content .body .association-detectors table tbody tr td {
+    background: #ffffff url(../images/check.png) no-repeat center center;
 }
 .wrapper-content .basic-wizard .content .body .tableless table tbody tr td.text-center {
     background: #ffffff;
