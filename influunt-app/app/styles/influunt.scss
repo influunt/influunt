@@ -98,6 +98,9 @@
     color: #fff;
 }
 .wrapper-content .basic-wizard .content .body .tableless table tbody tr td:hover {
+    background: #19b4a8;
+}
+.wrapper-content .basic-wizard .content .body .association-detectors table tbody tr td:hover {
     background: #19b4a8 url(../images/check.png) no-repeat center center;
 }
 .wrapper-content .basic-wizard .content .body .tableless.tableless-stages {
@@ -403,7 +406,7 @@ header .nav-secon li a {
 		max-width: 74px;
     transition: all .5s ease;
     cursor: pointer;
-    background: url(../images/check.png) no-repeat center center;
+    background: #ffffff;
 }
 .wrapper-content .basic-wizard .content .body .tableless table tbody tr td.text-center {
     background: #ffffff;
