@@ -82,6 +82,9 @@
                       <a class="btn btn-outline btn-primary" tooltips tooltip-side="left" tooltip-template="{{ 'geral.tooltip.ativar' | translate }} {{ 'controladores.controlador' | translate }}"  type="button" ng-click="ativar(controlador.id)" ng-show="controlador.statusControlador == 'CONFIGURADO'">
                         <i class="fa fa-check"></i> {{ 'controladores.geral.ativar' | translate }}
                       </a>
+                      <a class="btn btn-outline btn-danger" tooltips tooltip-side="left" tooltip-template="{{ 'geral.tooltip.cancelarEdicao' | translate }} {{ 'controladores.controlador' | translate }}"  type="button" ng-if="controlador && controlador.versaoControlador && getUsuario().id === controlador.versaoControlador.usuario.id" ng-click="cancelarEdicao(controlador.id)" ng-show="controlador.statusControlador == 'EM_EDICAO'">
+                        <i class="fa fa-trash"></i> {{ 'controladores.geral.cancelarEdicao' | translate }}
+                      </a>
                     </hgroup>
                   </td>
                 </tr>

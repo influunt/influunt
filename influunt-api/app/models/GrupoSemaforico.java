@@ -79,6 +79,9 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
     @Valid
     private List<Transicao> transicoes;
 
+    @OneToMany(mappedBy = "grupoSemaforico", cascade = CascadeType.REMOVE)
+    private List<GrupoSemaforicoPlano> gruposSemaforicosPlanos;
+
     @Column
     private Integer posicao;
 
@@ -93,9 +96,6 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
     @Column
     @NotNull(groups = ControladorGruposSemaforicosCheck.class, message = "não pode ficar em branco")
     private Integer tempoVerdeSeguranca;
-
-    @OneToMany(mappedBy = "grupoSemaforico", cascade = CascadeType.ALL)
-    private List<GrupoSemaforicoPlano> gruposSemaforicosPlanos;
 
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
@@ -179,6 +179,14 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
 
     public void setVerdesConflitantesDestino(List<VerdesConflitantes> verdesConflitantesDestino) {
         this.verdesConflitantesDestino = verdesConflitantesDestino;
+    }
+
+    public List<GrupoSemaforicoPlano> getGruposSemaforicosPlanos() {
+        return gruposSemaforicosPlanos;
+    }
+
+    public void setGruposSemaforicosPlanos(List<GrupoSemaforicoPlano> gruposSemaforicosPlanos) {
+        this.gruposSemaforicosPlanos = gruposSemaforicosPlanos;
     }
 
     public Integer getPosicao() {

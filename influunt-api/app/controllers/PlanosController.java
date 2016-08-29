@@ -36,7 +36,7 @@ public class PlanosController extends Controller {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         } else {
 
-            Controlador controlador = new ControladorCustomDeserializer().getControladorFromJson(request().body().asJson());
+            Controlador controlador = new ControladorCustomDeserializer().getControladorFromJson(json);
             List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, PlanosCheck.class);
 
             if (erros.isEmpty()) {

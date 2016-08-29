@@ -10,10 +10,7 @@ import utils.RangeUtils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by rodrigosol on 7/29/16.
@@ -31,9 +28,12 @@ public class ControladorCustomSerializer {
     private Map<String, Transicao> transicoesComPerdaDePassagemMap = new HashMap<String, Transicao>();
     private Map<String, TabelaEntreVerdes> entreVerdesMap = new HashMap<String, TabelaEntreVerdes>();
     private Map<String, TabelaEntreVerdesTransicao> entreVerdesTransicoesMap = new HashMap<String, TabelaEntreVerdesTransicao>();
+    private Map<String, VersaoPlano> versoesPlanosMap = new HashMap<String, VersaoPlano>();
     private Map<String, Plano> planosMap = new HashMap<String, Plano>();
     private Map<String, GrupoSemaforicoPlano> grupoSemaforicoPlanoMap = new HashMap<String, GrupoSemaforicoPlano>();
     private Map<String, EstagioPlano> estagioPlanoMap = new HashMap<String, EstagioPlano>();
+    private Map<String, VersaoTabelaHoraria> versoesTabelasHorariasMap = new HashMap<String, VersaoTabelaHoraria>();
+    private Map<String, TabelaHorario> tabelasHorariasMap = new HashMap<String, TabelaHorario>();
     private Map<String, Evento> eventosMap = new HashMap<String, Evento>();
     private Map<String, Endereco> enderecosMap = new HashMap<String, Endereco>();
     private Map<String, Area> areasMap = new HashMap<String, Area>();
@@ -63,15 +63,18 @@ public class ControladorCustomSerializer {
         putControladorGruposSemaforicosPlanos(root);
         putControladorEstagiosPlanos(root);
 
-        putControladorTabelaHoraria(controlador.getTabelaHoraria(), root);
-        putControladorEventos(root);
-
         putControladorCidades(root);
         putControladorAreas(root);
         putControladorLimites(root);
         putControladorEnderecos(root);
         putControladorImagens(root);
         putControladorAtrasosDeGrupo(root);
+
+        putControladorVersao(controlador.getVersaoControlador(), root);
+        putControladorVersoesPlanos(root);
+        putControladorVersoesTabelasHorarias(root);
+        putControladorTabelasHorarias(root);
+        putControladorEventos(root);
 
         return root;
     }
@@ -85,6 +88,22 @@ public class ControladorCustomSerializer {
         }
 
         return controladoresJson;
+    }
+
+    private void putControladorVersoesPlanos(ObjectNode root) {
+        ArrayNode versaoPlanoJson = Json.newArray();
+        versoesPlanosMap.values().stream().forEach(versaoPlano -> {
+            versaoPlanoJson.add(getVersaoPlanoJson(versaoPlano));
+        });
+        root.set("versoesPlanos", versaoPlanoJson);
+    }
+
+    private void putControladorVersoesTabelasHorarias(ObjectNode root) {
+        ArrayNode versaoTabelaHorariaJson = Json.newArray();
+        versoesTabelasHorariasMap.values().stream().forEach(versaoTabelaHoraria -> {
+            versaoTabelaHorariaJson.add(getVersaoTabelaHorariaJson(versaoTabelaHoraria));
+        });
+        root.set("versoesTabelasHorarias", versaoTabelaHorariaJson);
     }
 
     private void putControladorPlano(ObjectNode root) {
@@ -111,29 +130,39 @@ public class ControladorCustomSerializer {
         root.set("estagiosPlanos", estagiosPlanoJson);
     }
 
-    private void putControladorTabelaHoraria(TabelaHorario tabelaHoraria, ObjectNode root) {
-        if (tabelaHoraria == null) {
-            return;
+    private JsonNode getVersaoTabelaHorariaJson(VersaoTabelaHoraria versaoTabelaHoraria) {
+        ObjectNode versaoTabelaHorariaJson = Json.newObject();
+
+        if (versaoTabelaHoraria.getId() != null) {
+            versaoTabelaHorariaJson.put("id", versaoTabelaHoraria.getId().toString());
         }
-        ObjectNode tabelaHorariaJson = Json.newObject();
-        if (tabelaHoraria.getId() == null) {
-            tabelaHorariaJson.putNull("id");
-        } else {
-            tabelaHorariaJson.put("id", tabelaHoraria.getId().toString());
+        if (versaoTabelaHoraria.getIdJson() != null) {
+            versaoTabelaHorariaJson.put("idJson", versaoTabelaHoraria.getIdJson().toString());
+        }
+        if (versaoTabelaHoraria.getStatusVersao() != null) {
+            versaoTabelaHorariaJson.put("statusVersao", versaoTabelaHoraria.getStatusVersao().toString());
+        }
+        if (versaoTabelaHoraria.getControlador() != null && versaoTabelaHoraria.getControlador().getIdJson() != null) {
+            versaoTabelaHorariaJson.putObject("controlador").put("idJson", versaoTabelaHoraria.getControlador().getIdJson().toString());
+        }
+        if (versaoTabelaHoraria.getTabelaHorariaOrigem() != null && versaoTabelaHoraria.getTabelaHorariaOrigem().getIdJson() != null) {
+            versaoTabelaHorariaJson.putObject("tabelaHorariaOrigem").put("idJson", versaoTabelaHoraria.getTabelaHorariaOrigem().getIdJson().toString());
+            tabelasHorariasMap.put(versaoTabelaHoraria.getTabelaHorariaOrigem().getIdJson().toString(), versaoTabelaHoraria.getTabelaHorariaOrigem());
+        }
+        if (versaoTabelaHoraria.getTabelaHoraria() != null && versaoTabelaHoraria.getTabelaHoraria().getIdJson() != null) {
+            versaoTabelaHorariaJson.putObject("tabelaHoraria").put("idJson", versaoTabelaHoraria.getTabelaHoraria().getIdJson().toString());
+            tabelasHorariasMap.put(versaoTabelaHoraria.getTabelaHoraria().getIdJson().toString(), versaoTabelaHoraria.getTabelaHoraria());
         }
 
-        if (tabelaHoraria.getIdJson() == null) {
-            tabelaHorariaJson.putNull("idJson");
-        } else {
-            tabelaHorariaJson.put("idJson", tabelaHoraria.getIdJson().toString());
-        }
+        return versaoTabelaHorariaJson;
+    }
 
-        if (tabelaHoraria.getControlador() != null && tabelaHoraria.getControlador().getIdJson() != null) {
-            tabelaHorariaJson.putObject("controlador").put("idJson", tabelaHoraria.getControlador().getIdJson().toString());
-        }
-
-        refEventos("eventos", tabelaHoraria.getEventos(), tabelaHorariaJson);
-        root.set("tabelaHoraria", tabelaHorariaJson);
+    private void putControladorTabelasHorarias(ObjectNode root) {
+        ArrayNode tabelaHorariaJson = Json.newArray();
+        tabelasHorariasMap.values().stream().forEach(tabelaHoraria -> {
+            tabelaHorariaJson.add(getTabelaHorariaJson(tabelaHoraria));
+        });
+        root.set("tabelasHorarias", tabelaHorariaJson);
     }
 
     private void putControladorEventos(ObjectNode root) {
@@ -147,6 +176,7 @@ public class ControladorCustomSerializer {
     private void putControladorDadosBasicos(Controlador controlador, ObjectNode root) {
         if (controlador.getId() != null) {
             root.put("id", controlador.getId().toString());
+            refVersoesTabelasHorarias("versoesTabelasHorarias", controlador.getVersaoTabelaHoraria(), root);
         }
         if (controlador.getIdJson() != null) {
             root.put("idJson", controlador.getIdJson());
@@ -246,6 +276,7 @@ public class ControladorCustomSerializer {
         if (controlador.getArea() != null && controlador.getArea().getIdJson() != null) {
             root.putObject("area").put("idJson", controlador.getArea().getIdJson());
         }
+
         refEndereco("endereco", controlador.getEndereco(), root);
     }
 
@@ -315,6 +346,75 @@ public class ControladorCustomSerializer {
         }
 
         root.set("subarea", subareaJson);
+    }
+
+    private void putControladorVersao(VersaoControlador versaoControlador, ObjectNode root) {
+        if (versaoControlador == null) {
+            return;
+        }
+        ObjectNode versaoJson = Json.newObject();
+        if (versaoControlador.getId() == null) {
+            versaoJson.putNull("id");
+        } else {
+            versaoJson.put("id", versaoControlador.getId().toString());
+        }
+
+        if (versaoControlador.getIdJson() == null) {
+            versaoJson.putNull("idJson");
+        } else {
+            versaoJson.put("idJson", versaoControlador.getIdJson().toString());
+        }
+        if (versaoControlador.getDescricao() != null) {
+            versaoJson.put("descricao", versaoControlador.getDescricao());
+        }
+
+        if (versaoControlador.getStatusVersao() != null) {
+            root.put("statusVersao", versaoControlador.getStatusVersao().toString());
+        }
+
+        if (versaoControlador.getControladorOrigem() != null && versaoControlador.getControladorOrigem().getIdJson() != null) {
+            versaoJson.putObject("controladorOrigem").put("idJson", versaoControlador.getControladorOrigem().getIdJson().toString());
+        }
+
+        if (versaoControlador.getControlador() != null && versaoControlador.getControlador().getIdJson() != null) {
+            versaoJson.putObject("controlador").put("idJson", versaoControlador.getControlador().getIdJson().toString());
+        }
+
+        if (versaoControlador.getControladorFisico() != null && versaoControlador.getControladorFisico().getIdJson() != null) {
+            versaoJson.putObject("controladorFisico").put("idJson", versaoControlador.getControladorFisico().getIdJson().toString());
+        }
+
+        if (versaoControlador.getUsuario() != null) {
+
+            ObjectNode usuarioJson = Json.newObject();
+            Usuario usuario = versaoControlador.getUsuario();
+
+            if (usuario.getId() == null) {
+                usuarioJson.putNull("id");
+            } else {
+                usuarioJson.put("id", usuario.getId().toString());
+            }
+
+            if (usuario.getNome() != null) {
+                usuarioJson.put("nome", usuario.getNome());
+            }
+
+            if (usuario.getLogin() != null) {
+                usuarioJson.put("login", usuario.getLogin());
+            }
+
+            if (usuario.getEmail() != null) {
+                usuarioJson.put("email", usuario.getEmail());
+            }
+
+            if (usuario.getArea() != null && usuario.getArea().getIdJson() != null) {
+                usuarioJson.putObject("area").put("idJson", usuario.getArea().getIdJson().toString());
+            }
+
+            versaoJson.set("usuario", usuarioJson);
+        }
+
+        root.set("versaoControlador", versaoJson);
     }
 
     private JsonNode getAreaJson(Area area) {
@@ -513,6 +613,29 @@ public class ControladorCustomSerializer {
     }
 
 
+    private JsonNode getVersaoPlanoJson(VersaoPlano versaoPlano) {
+        ObjectNode versaoPlanoJson = Json.newObject();
+
+        if (versaoPlano.getId() != null) {
+            versaoPlanoJson.put("id", versaoPlano.getId().toString());
+        }
+
+        if (versaoPlano.getIdJson() != null) {
+            versaoPlanoJson.put("idJson", versaoPlano.getIdJson().toString());
+        }
+
+        if (versaoPlano.getStatusVersao() != null) {
+            versaoPlanoJson.put("statusVersao", versaoPlano.getStatusVersao().toString());
+        }
+
+        if (versaoPlano.getAnel() != null && versaoPlano.getAnel().getIdJson() != null) {
+            versaoPlanoJson.putObject("anel").put("idJson", versaoPlano.getAnel().getIdJson().toString());
+        }
+
+        refPlanos("planos", versaoPlano.getPlanos(), versaoPlanoJson);
+        return versaoPlanoJson;
+    }
+
     private JsonNode getPlanoJson(Plano plano) {
         ObjectNode planoJson = Json.newObject();
 
@@ -552,6 +675,8 @@ public class ControladorCustomSerializer {
         if (plano.getAgrupamento() != null && plano.getAgrupamento().getIdJson() != null) {
             planoJson.putObject("agrupamento").put("idJson", plano.getAgrupamento().getIdJson().toString());
         }
+
+        refVersoesPlanos("versaoPlano", plano.getVersaoPlano(), planoJson);
         refEstagiosPlanos("estagiosPlanos", plano.getEstagiosPlanos(), planoJson);
         refGruposSemaforicosPlanos("gruposSemaforicosPlanos", plano.getGruposSemaforicosPlanos(), planoJson);
 
@@ -623,6 +748,28 @@ public class ControladorCustomSerializer {
         }
 
         return estagioPlanoJson;
+    }
+
+    private JsonNode getTabelaHorariaJson(TabelaHorario tabelaHoraria) {
+        ObjectNode tabelaHorariaJson = Json.newObject();
+        if (tabelaHoraria.getId() == null) {
+            tabelaHorariaJson.putNull("id");
+        } else {
+            tabelaHorariaJson.put("id", tabelaHoraria.getId().toString());
+        }
+
+        if (tabelaHoraria.getIdJson() == null) {
+            tabelaHorariaJson.putNull("idJson");
+        } else {
+            tabelaHorariaJson.put("idJson", tabelaHoraria.getIdJson().toString());
+        }
+
+        if (tabelaHoraria.getVersaoTabelaHoraria() != null && tabelaHoraria.getVersaoTabelaHoraria().getIdJson() != null) {
+            tabelaHorariaJson.putObject("versaoTabelaHoraria").put("idJson", tabelaHoraria.getVersaoTabelaHoraria().getIdJson().toString());
+        }
+
+        refEventos("eventos", tabelaHoraria.getEventos(), tabelaHorariaJson);
+        return tabelaHorariaJson;
     }
 
     private JsonNode getEventoJson(Evento evento) {
@@ -1050,7 +1197,6 @@ public class ControladorCustomSerializer {
             anelJson.put("posicao", anel.getPosicao());
         }
 
-
         if (anel.getCLA() != null) {
             anelJson.put("CLA", anel.getCLA());
         }
@@ -1072,6 +1218,7 @@ public class ControladorCustomSerializer {
             imagensMap.put(croqui.getIdJson(), croqui);
         }
 
+        refVersoesPlanos("versaoPlano", anel.getVersaoPlanoAtivo(), anelJson);
         refEstagios(anel.getEstagios(), anelJson);
         refGruposSemaforicos(anel.getGruposSemaforicos(), anelJson);
         refDetectores(anel.getDetectores(), anelJson);
@@ -1247,6 +1394,24 @@ public class ControladorCustomSerializer {
         }
         parentJson.set("estagios", estagiosJson);
 
+    }
+
+    private void refVersoesTabelasHorarias(String name, VersaoTabelaHoraria versaoTabelaHoraria, ObjectNode parentJson) {
+        if (versaoTabelaHoraria != null && versaoTabelaHoraria.getIdJson() != null) {
+            versoesTabelasHorariasMap.put(versaoTabelaHoraria.getIdJson().toString(), versaoTabelaHoraria);
+            ObjectNode versaoTabelaHorariaJson = Json.newObject();
+            versaoTabelaHorariaJson.put("idJson", versaoTabelaHoraria.getIdJson().toString());
+            parentJson.set(name, versaoTabelaHorariaJson);
+        }
+    }
+
+    private void refVersoesPlanos(String name, VersaoPlano versaoPlano, ObjectNode parentJson) {
+        if (versaoPlano != null && versaoPlano.getIdJson() != null) {
+            versoesPlanosMap.put(versaoPlano.getIdJson().toString(), versaoPlano);
+            ObjectNode versaoPlanoJson = Json.newObject();
+            versaoPlanoJson.put("idJson", versaoPlano.getIdJson().toString());
+            parentJson.set(name, versaoPlanoJson);
+        }
     }
 
     private void refPlanos(String name, List<Plano> planos, ObjectNode parentJson) {

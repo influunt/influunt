@@ -41,7 +41,9 @@ public class TabelaHorariosController extends Controller {
 
             if (erros.isEmpty()) {
                 controlador.update();
-                return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(Controlador.find.byId(controlador.getId()))));
+                Controlador controlador1 = Controlador.find.byId(controlador.getId());
+                controlador1.getVersoesTabelasHorarias();
+                return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador1)));
             } else {
                 return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
             }

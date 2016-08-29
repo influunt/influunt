@@ -47,13 +47,14 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         ));
 
         TabelaHorario tabelaHoraria = new TabelaHorario();
-        tabelaHoraria.setControlador(controlador);
-        controlador.setTabelaHoraria(tabelaHoraria);
+        VersaoTabelaHoraria versaoTabelaHoraria = new VersaoTabelaHoraria(controlador, null, tabelaHoraria, usuario);
+        tabelaHoraria.setVersaoTabelaHoraria(versaoTabelaHoraria);
+        controlador.addVersaoTabelaHoraria(versaoTabelaHoraria);
 
         erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro(CONTROLADOR, "A tabela horária deve ter pelo menos 1 evento configurado.", "tabelaHoraria.aoMenosUmEvento")
+                new Erro(CONTROLADOR, "A tabela horária deve ter pelo menos 1 evento configurado.", "versoesTabelasHorarias[0].tabelaHoraria.aoMenosUmEvento")
         ));
 
         Evento evento = new Evento();
@@ -63,10 +64,10 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(4, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].posicao"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].tipo"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].horario"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].posicaoPlano")
+                new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].posicao"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].tipo"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].horario"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].posicaoPlano")
         ));
 
         evento.setTipo(TipoEvento.ESPECIAL_RECORRENTE);
@@ -74,10 +75,10 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(4, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].posicao"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].data"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].horario"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].posicaoPlano")
+                new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].posicao"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].data"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].horario"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].posicaoPlano")
         ));
 
         evento.setTipo(TipoEvento.ESPECIAL_NAO_RECORRENTE);
@@ -85,10 +86,10 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(4, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].posicao"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].data"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].horario"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].posicaoPlano")
+                new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].posicao"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].data"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].horario"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].posicaoPlano")
         ));
 
         evento.setTipo(TipoEvento.NORMAL);
@@ -96,10 +97,10 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(4, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].posicao"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].diaDaSemana"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].horario"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "tabelaHoraria.eventos[0].posicaoPlano")
+                new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].posicao"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].diaDaSemana"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].horario"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].posicaoPlano")
         ));
 
         evento.setPosicao(1);
@@ -119,8 +120,8 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(2, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro(CONTROLADOR, "Existem eventos configurados no mesmo dia e horário.", "tabelaHoraria.eventos[0].eventosMesmoDiaEHora"),
-                new Erro(CONTROLADOR, "Existem eventos configurados no mesmo dia e horário.", "tabelaHoraria.eventos[1].eventosMesmoDiaEHora")
+                new Erro(CONTROLADOR, "Existem eventos configurados no mesmo dia e horário.", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].eventosMesmoDiaEHora"),
+                new Erro(CONTROLADOR, "Existem eventos configurados no mesmo dia e horário.", "versoesTabelasHorarias[0].tabelaHoraria.eventos[1].eventosMesmoDiaEHora")
         ));
 
         evento2.setHorario(LocalTime.parse("00:00:00"));
@@ -148,7 +149,6 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
 
         assertNotNull(controlador.getId());
         assertThat(erros, Matchers.empty());
-
 
         assertNotNull("Controlador possui tabela horário", controlador.getTabelaHoraria());
 

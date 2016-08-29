@@ -9,6 +9,7 @@ import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import org.hamcrest.Matchers;
 import org.junit.Test;
+import play.Logger;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;

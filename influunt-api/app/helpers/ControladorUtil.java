@@ -213,21 +213,16 @@ public class ControladorUtil {
         long elapsed = System.nanoTime() - startTime;
         Logger.info(String.format("[CONTROLADOR] - DeepClone: Elapsed time: %d ns (%f seconds)%n", elapsed, elapsed / Math.pow(10, 9)));
 
-        deepClonePlanos(controlador, controladorClone);
-
-        deepCloneTabelaHorario(controlador, controladorClone);
-
         return controladorClone;
     }
 
-    private void deepClonePlanos(Controlador origem, Controlador destino) {
+    public void deepClonePlanos(Controlador controlador, Usuario usuario) {
         long startTime = System.nanoTime();
 
-        Map<String, Anel> aneis = destino.getAneis().stream().collect(Collectors.toMap(Anel::getIdJson, Function.identity()));
         Map<String, GrupoSemaforico> grupos = new HashMap<String, GrupoSemaforico>();
         Map<String, Estagio> estagios = new HashMap<String, Estagio>();
 
-        destino.getAneis().stream().forEach(anel -> {
+        controlador.getAneis().stream().forEach(anel -> {
             anel.getGruposSemaforicos().stream().forEach(grupoSemaforico -> {
                 grupos.put(grupoSemaforico.getIdJson(), grupoSemaforico);
             });
@@ -236,42 +231,50 @@ public class ControladorUtil {
             });
         });
 
-        origem.getAneis().forEach(anel -> {
-            anel.getPlanos().forEach(plano -> {
-                Plano planoAux = copyPrimitveFields(plano);
-                Anel anelAux = aneis.get(anel.getIdJson());
-                planoAux.setAnel(anelAux);
-                planoAux.setAgrupamento(plano.getAgrupamento());
+        controlador.getAneis().forEach(anel -> {
+            VersaoPlano versaoPlanoOrigem = anel.getVersaoPlanoAtivo();
+            if(versaoPlanoOrigem != null) {
+                versaoPlanoOrigem.setStatusVersao(StatusVersao.ARQUIVADO);
 
-                plano.getGruposSemaforicosPlanos().forEach(grupoSemaforicoPlano -> {
-                    GrupoSemaforicoPlano gspAux = copyPrimitveFields(grupoSemaforicoPlano);
-                    gspAux.setGrupoSemaforico(grupos.get(grupoSemaforicoPlano.getGrupoSemaforico().getIdJson()));
-                    gspAux.setPlano(planoAux);
-                    planoAux.addGruposSemaforicos(gspAux);
+                VersaoPlano versaoPlano = new VersaoPlano(anel, usuario);
+                versaoPlano.setVersaoAnterior(versaoPlanoOrigem);
+
+                anel.getPlanos().forEach(plano -> {
+                    Plano planoAux = copyPrimitveFields(plano);
+                    plano.setVersaoPlano(versaoPlano);
+                    planoAux.setAgrupamento(plano.getAgrupamento());
+
+                    plano.getGruposSemaforicosPlanos().forEach(grupoSemaforicoPlano -> {
+                        GrupoSemaforicoPlano gspAux = copyPrimitveFields(grupoSemaforicoPlano);
+                        gspAux.setGrupoSemaforico(grupos.get(grupoSemaforicoPlano.getGrupoSemaforico().getIdJson()));
+                        gspAux.setPlano(planoAux);
+                        planoAux.addGruposSemaforicos(gspAux);
+                    });
+
+                    plano.getEstagiosPlanos().forEach(estagioPlano -> {
+                        EstagioPlano estagioPlanoAux = copyPrimitveFields(estagioPlano);
+                        estagioPlanoAux.setEstagio(estagios.get(estagioPlano.getEstagio().getIdJson()));
+                        estagioPlanoAux.setPlano(planoAux);
+                        planoAux.addEstagios(estagioPlanoAux);
+                    });
+
+                    versaoPlano.addPlano(planoAux);
                 });
+                versaoPlanoOrigem.update();
 
-                plano.getEstagiosPlanos().forEach(estagioPlano -> {
-                    EstagioPlano estagioPlanoAux = copyPrimitveFields(estagioPlano);
-                    estagioPlanoAux.setEstagio(estagios.get(estagioPlano.getEstagio().getIdJson()));
-                    estagioPlanoAux.setPlano(planoAux);
-                    planoAux.addEstagios(estagioPlanoAux);
-                });
+                anel.addVersaoPlano(versaoPlano);
 
-                anelAux.addPlano(planoAux);
-            });
+                // FIM CLONE PLANO
+                Ebean.update(anel);
+            }
         });
 
-        // FIM CLONE PLANO
-        Ebean.update(destino);
-
-        origem.getAneis().forEach(anel -> {
+        controlador.getAneis().forEach(anel -> {
             anel.getPlanos().forEach(plano -> {
                 plano.getEstagiosPlanos().forEach(estagioPlano -> {
                     if (estagioPlano.getEstagioQueRecebeEstagioDispensavel() != null) {
-                        Anel anelAux = destino.getAneis().stream().filter(aux -> aux.getIdJson().equals(anel.getIdJson())).findFirst().orElse(null);
-                        Plano planoAux = anelAux.getPlanos().stream().filter(aux -> aux.getIdJson().equals(plano.getIdJson())).findFirst().orElse(null);
-                        EstagioPlano estagioPlanoAux = planoAux.getEstagiosPlanos().stream().filter(aux -> aux.getIdJson().equals(estagioPlano.getIdJson())).findFirst().orElse(null);
-                        estagioPlanoAux.setEstagioQueRecebeEstagioDispensavel(planoAux.getEstagiosPlanos().stream().filter(aux -> aux.getIdJson().equals(estagioPlano.getEstagioQueRecebeEstagioDispensavel().getIdJson())).findFirst().orElse(null));
+                        EstagioPlano estagioPlanoAux = plano.getEstagiosPlanos().stream().filter(aux -> aux.getIdJson().equals(estagioPlano.getIdJson())).findFirst().orElse(null);
+                        estagioPlanoAux.setEstagioQueRecebeEstagioDispensavel(plano.getEstagiosPlanos().stream().filter(aux -> aux.getIdJson().equals(estagioPlano.getEstagioQueRecebeEstagioDispensavel().getIdJson())).findFirst().orElse(null));
                         Ebean.update(estagioPlanoAux);
                     }
                 });
@@ -283,16 +286,21 @@ public class ControladorUtil {
     }
 
 
-    private void deepCloneTabelaHorario(Controlador origem, Controlador destino) {
+    public void deepCloneTabelaHoraria(Controlador controlador, Usuario usuario) {
         long startTime = System.nanoTime();
 
-        if (origem.getTabelaHoraria() != null && origem.getTabelaHoraria().getIdJson() != null) {
-            TabelaHorario tabelaHorarioAux = copyPrimitveFields(origem.getTabelaHoraria());
-            tabelaHorarioAux.setControlador(destino);
-            destino.setTabelaHoraria(tabelaHorarioAux);
+        VersaoTabelaHoraria versaoTabelaHorariaOrigem = controlador.getVersaoTabelaHoraria();
+        if(versaoTabelaHorariaOrigem.getTabelaHoraria() != null) {
+            Logger.error("IDJSON TH: " + versaoTabelaHorariaOrigem.getTabelaHoraria().getIdJson());
+            TabelaHorario tabelaHorarioAux = copyPrimitveFields(versaoTabelaHorariaOrigem.getTabelaHoraria());
+            Logger.error("IDJSON TH: " + versaoTabelaHorariaOrigem.getTabelaHoraria().getIdJson() + "\tNEW: " + tabelaHorarioAux.getIdJson());
+            Logger.error("IDJSON TH: " + versaoTabelaHorariaOrigem.getTabelaHoraria().getIdJson() + "\tNEW: " + tabelaHorarioAux.getIdJson());
+            VersaoTabelaHoraria versaoTabelaHoraria = new VersaoTabelaHoraria(controlador, versaoTabelaHorariaOrigem.getTabelaHoraria(), tabelaHorarioAux, usuario);
+            tabelaHorarioAux.setVersaoTabelaHoraria(versaoTabelaHoraria);
 
-            origem.getTabelaHoraria().getEventos().forEach(evento -> {
+            versaoTabelaHorariaOrigem.getTabelaHoraria().getEventos().forEach(evento -> {
                 Evento eventoAux = copyPrimitveFields(evento);
+                Logger.error("IDJSON EVENTO: " + evento.getIdJson() + "\tNEW: " + eventoAux.getIdJson());
                 eventoAux.setTabelaHorario(tabelaHorarioAux);
                 eventoAux.setDiaDaSemana(evento.getDiaDaSemana());
                 eventoAux.setHorario(evento.getHorario());
@@ -300,8 +308,11 @@ public class ControladorUtil {
                 tabelaHorarioAux.addEventos(eventoAux);
             });
 
+            versaoTabelaHorariaOrigem.setStatusVersao(StatusVersao.ARQUIVADO);
+            controlador.addVersaoTabelaHoraria(versaoTabelaHoraria);
+
             // FIM CLONE TABELA HORARIA
-            Ebean.update(destino);
+            Ebean.update(controlador);
         }
 
         long elapsed = System.nanoTime() - startTime;

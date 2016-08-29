@@ -1,15 +1,18 @@
 package models;
 
 import checks.*;
+import com.avaje.ebean.Expr;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.PrivateOwned;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
+import utils.DBUtils;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -17,6 +20,7 @@ import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.UUID;
@@ -33,7 +37,6 @@ import java.util.UUID;
 @ConformidadeDeNumeroDeDetectoresDePedestre(groups = ControladorAneisCheck.class)
 @ConformidadeDeNumeroDeDetectoresVeicular(groups = ControladorAneisCheck.class)
 @AoMenosUmAnelAtivo(groups = ControladorAneisCheck.class)
-
 public class Controlador extends Model implements Cloneable, Serializable {
 
     private static final long serialVersionUID = 521560643019927963L;
@@ -115,11 +118,20 @@ public class Controlador extends Model implements Cloneable, Serializable {
     @Valid
     private Endereco endereco;
 
-    @OneToOne(mappedBy = "controlador", cascade = CascadeType.ALL)
-    @Valid
-    private TabelaHorario tabelaHoraria;
+    @OneToOne(mappedBy = "controlador", cascade = CascadeType.REMOVE)
+    private VersaoControlador versaoControlador;
 
-    // CONFIGURACOES CONTROLADORES
+    @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
+    @Valid
+    private List<VersaoTabelaHoraria> versoesTabelasHorarias;
+
+    @JsonIgnore
+    @Transient
+    private VersaoTabelaHoraria versaoTabelaHorariaAtiva;
+
+    @JsonIgnore
+    @Transient
+    private VersaoTabelaHoraria versaoTabelaHorariaEmEdicao;
 
     @Override
     public void save() {
@@ -427,11 +439,65 @@ public class Controlador extends Model implements Cloneable, Serializable {
     }
 
     public TabelaHorario getTabelaHoraria() {
-        return tabelaHoraria;
+        if (getVersaoTabelaHorariaEmEdicao() != null) {
+            return getVersaoTabelaHorariaEmEdicao().getTabelaHoraria();
+        }
+        return getVersaoTabelaHorariaAtiva() != null ? getVersaoTabelaHorariaAtiva().getTabelaHoraria() : null;
     }
 
-    public void setTabelaHoraria(TabelaHorario tabelaHoraria) {
-        this.tabelaHoraria = tabelaHoraria;
+    @Transient
+    public VersaoTabelaHoraria getVersaoTabelaHorariaAtiva() {
+        if (versaoTabelaHorariaAtiva == null) {
+            if (getVersoesTabelasHorarias().isEmpty() || getVersoesTabelasHorarias() == null) {
+                VersaoTabelaHoraria versaoTabelaHoraria = VersaoTabelaHoraria.find.fetch("tabelaHoraria").where()
+                        .and(Expr.eq("controlador_id", this.id.toString()), Expr.eq("status_versao", StatusVersao.ATIVO)).findUnique();
+                this.versaoTabelaHorariaAtiva = versaoTabelaHoraria;
+            } else {
+                this.versaoTabelaHorariaAtiva = getVersoesTabelasHorarias().stream().filter(versaoTabelaHoraria -> versaoTabelaHoraria.isAtivo()).findFirst().orElse(null);
+            }
+        }
+        return versaoTabelaHorariaAtiva;
+    }
+
+    @Transient
+    public VersaoTabelaHoraria getVersaoTabelaHorariaEmEdicao() {
+        if (versaoTabelaHorariaEmEdicao == null) {
+            if (getVersoesTabelasHorarias().isEmpty() || getVersoesTabelasHorarias() == null) {
+                VersaoTabelaHoraria versaoTabelaHoraria = VersaoTabelaHoraria.find.fetch("tabelaHoraria").where()
+                        .and(Expr.eq("controlador_id", this.id.toString()), Expr.eq("status_versao", StatusVersao.EDITANDO)).findUnique();
+                this.versaoTabelaHorariaEmEdicao = versaoTabelaHoraria;
+            } else {
+                this.versaoTabelaHorariaEmEdicao = getVersoesTabelasHorarias().stream().filter(versaoTabelaHoraria -> versaoTabelaHoraria.isEditando()).findFirst().orElse(null);
+            }
+        }
+        return versaoTabelaHorariaEmEdicao;
+    }
+
+    @Transient
+    public VersaoTabelaHoraria getVersaoTabelaHoraria() {
+        if (getVersaoTabelaHorariaEmEdicao() != null) {
+            return getVersaoTabelaHorariaEmEdicao();
+        } else if (getVersaoTabelaHorariaAtiva() != null) {
+            return getVersaoTabelaHorariaAtiva();
+        }
+        return null;
+    }
+
+
+    public VersaoControlador getVersaoControlador() {
+        return versaoControlador;
+    }
+
+    public void setVersaoControlador(VersaoControlador versaoControlador) {
+        this.versaoControlador = versaoControlador;
+    }
+
+    public List<VersaoTabelaHoraria> getVersoesTabelasHorarias() {
+        return versoesTabelasHorarias;
+    }
+
+    public void setVersoesTabelasHorarias(List<VersaoTabelaHoraria> versoesTabelasHorarias) {
+        this.versoesTabelasHorarias = versoesTabelasHorarias;
     }
 
     public void criarPossiveisTransicoes() {
@@ -485,5 +551,23 @@ public class Controlador extends Model implements Cloneable, Serializable {
                 it.add(new Anel(this, anel.getPosicao()));
             }
         }
+    }
+
+    public void addVersaoTabelaHoraria(VersaoTabelaHoraria versaoTabelaHoraria) {
+        if (getVersoesTabelasHorarias() == null) {
+            setVersoesTabelasHorarias(new ArrayList<VersaoTabelaHoraria>());
+        }
+        getVersoesTabelasHorarias().add(versaoTabelaHoraria);
+    }
+
+    public void ativar() {
+        DBUtils.executeWithTransaction(() -> {
+            VersaoControlador versao = this.getVersaoControlador();
+            versao.ativar();
+            versao.update();
+
+            this.setStatusControlador(StatusControlador.ATIVO);
+            this.update();
+        });
     }
 }

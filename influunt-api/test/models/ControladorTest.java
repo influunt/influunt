@@ -39,6 +39,8 @@ public abstract class ControladorTest extends WithApplication {
                 .in(Mode.TEST).build();
     }
 
+    protected Usuario usuario;
+
     @Before
     public void setUpModels() {
         Cidade cidade = new Cidade();
@@ -58,6 +60,13 @@ public abstract class ControladorTest extends WithApplication {
         modeloControlador.setFabricante(fabricante);
         modeloControlador.setDescricao("Modelo 1");
         modeloControlador.save();
+
+        usuario = new Usuario();
+        usuario.setLogin("abc");
+        usuario.setNome("Usuario ABC");
+        usuario.setRoot(false);
+        usuario.setEmail("abc@influunt.com.br");
+        usuario.save();
 
         controladorTestUtils = new ControladorTestUtil(cidade, area, fabricante, modeloControlador);
     }

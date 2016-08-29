@@ -54,8 +54,13 @@ public class Plano extends Model implements Cloneable, Serializable {
     @Column
     private Integer defasagem = 0;
 
-    @ManyToOne
+    @JsonIgnore
+    @Transient
     private Anel anel;
+
+    @ManyToOne
+    @NotNull(message = "nao pode ser vazio")
+    private VersaoPlano versaoPlano;
 
     @ManyToOne
     private Agrupamento agrupamento;
@@ -145,11 +150,15 @@ public class Plano extends Model implements Cloneable, Serializable {
     }
 
     public Anel getAnel() {
-        return anel;
+        return getVersaoPlano().getAnel();
+    }
+    
+    public VersaoPlano getVersaoPlano() {
+        return versaoPlano;
     }
 
-    public void setAnel(Anel anel) {
-        this.anel = anel;
+    public void setVersaoPlano(VersaoPlano versaoPlano) {
+        this.versaoPlano = versaoPlano;
     }
 
     public Agrupamento getAgrupamento() {
@@ -407,5 +416,20 @@ public class Plano extends Model implements Cloneable, Serializable {
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    @Override
+    public String toString() {
+        return "Plano{" +
+                "id=" + id +
+                ", idJson='" + idJson + '\'' +
+                ", posicao=" + posicao +
+                ", tempoCiclo=" + tempoCiclo +
+                ", defasagem=" + defasagem +
+                ", versaoPlano=" + versaoPlano +
+                ", posicaoTabelaEntreVerde=" + posicaoTabelaEntreVerde +
+                ", dataCriacao=" + dataCriacao +
+                ", dataAtualizacao=" + dataAtualizacao +
+                '}';
     }
 }

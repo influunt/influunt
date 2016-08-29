@@ -1,5 +1,6 @@
 package models;
 
+import helpers.ControladorUtil;
 import org.joda.time.LocalTime;
 
 import java.util.Arrays;
@@ -16,6 +17,7 @@ public class ControladorTestUtil {
     private Area area;
     private Fabricante fabricante;
     private ModeloControlador modeloControlador;
+    private Usuario usuario;
 
     public ControladorTestUtil(Cidade cidade, Area area, Fabricante fabricante, ModeloControlador modeloControlador) {
         this.cidade = cidade;
@@ -53,7 +55,12 @@ public class ControladorTestUtil {
         enderecoPaulista.setControlador(controlador);
 
         controlador.setEndereco(enderecoPaulista);
+        ControladorFisico controladorFisico = new ControladorFisico();
+        VersaoControlador versaoControlador = new VersaoControlador(controlador, controladorFisico, getUsuario());
+        controladorFisico.addVersaoControlador(versaoControlador);
+        controlador.setVersaoControlador(versaoControlador);
         controlador.save();
+        controladorFisico.save();
 
         return controlador;
     }
@@ -342,9 +349,19 @@ public class ControladorTestUtil {
         Anel anelCom2Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
         Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
 
+        VersaoPlano versaoPlanoAnel2Estagios = new VersaoPlano(anelCom2Estagios, getUsuario());
+        versaoPlanoAnel2Estagios.setStatusVersao(StatusVersao.ATIVO);
+        anelCom2Estagios.addVersaoPlano(versaoPlanoAnel2Estagios);
+        versaoPlanoAnel2Estagios.save();
+
+        VersaoPlano versaoPlanoAnel4Estagios = new VersaoPlano(anelCom4Estagios, getUsuario());
+        versaoPlanoAnel4Estagios.setStatusVersao(StatusVersao.ATIVO);
+        anelCom4Estagios.addVersaoPlano(versaoPlanoAnel4Estagios);
+        versaoPlanoAnel4Estagios.save();
+
         Plano plano1Anel2 = new Plano();
-        plano1Anel2.setAnel(anelCom2Estagios);
-        anelCom2Estagios.setPlanos(Arrays.asList(plano1Anel2));
+        versaoPlanoAnel2Estagios.addPlano(plano1Anel2);
+        plano1Anel2.setVersaoPlano(versaoPlanoAnel2Estagios);
 
         plano1Anel2.setModoOperacao(ModoOperacaoPlano.TEMPO_FIXO_ISOLADO);
         plano1Anel2.setPosicao(1);
@@ -352,8 +369,8 @@ public class ControladorTestUtil {
         plano1Anel2.setPosicaoTabelaEntreVerde(1);
 
         Plano plano1Anel4 = new Plano();
-        plano1Anel4.setAnel(anelCom4Estagios);
-        anelCom4Estagios.setPlanos(Arrays.asList(plano1Anel4));
+        versaoPlanoAnel4Estagios.addPlano(plano1Anel4);
+        plano1Anel4.setVersaoPlano(versaoPlanoAnel4Estagios);
 
         Estagio estagio = anelCom4Estagios.getEstagios().stream().filter(estagio1 -> estagio1.getPosicao().equals(4)).findFirst().get();
         criarDetector(anelCom4Estagios, TipoDetector.VEICULAR, 4, false);
@@ -413,8 +430,10 @@ public class ControladorTestUtil {
         controlador.save();
 
         TabelaHorario tabelaHoraria = new TabelaHorario();
-        tabelaHoraria.setControlador(controlador);
-        controlador.setTabelaHoraria(tabelaHoraria);
+        VersaoTabelaHoraria versaoTabelaHoraria = new VersaoTabelaHoraria(controlador, null, tabelaHoraria, getUsuario());
+        versaoTabelaHoraria.setStatusVersao(StatusVersao.ATIVO);
+        tabelaHoraria.setVersaoTabelaHoraria(versaoTabelaHoraria);
+        controlador.addVersaoTabelaHoraria(versaoTabelaHoraria);
 
         Evento evento = new Evento();
         evento.setTabelaHorario(tabelaHoraria);
@@ -496,4 +515,19 @@ public class ControladorTestUtil {
     }
 
 
+    public Usuario getUsuario() {
+        Usuario usuario = Usuario.find.where().eq("login", "admin").findUnique();
+        if (usuario == null) {
+            usuario = new Usuario();
+            usuario.setNome("Admin");
+            usuario.setLogin("admin");
+            usuario.setSenha("1234");
+            usuario.setRoot(false);
+            usuario.setEmail("root@influunt.com.br");
+
+            usuario.save();
+        }
+
+        return usuario;
+    }
 }

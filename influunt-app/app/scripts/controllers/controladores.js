@@ -401,7 +401,18 @@ angular.module('influuntApp')
       };
 
       $scope.ativar = function(controladorId) {
-        return Restangular.one('controladores', controladorId).all("ativar").customPOST()
+        return Restangular.one('controladores', controladorId).all("ativar").customPUT()
+          .then(function() {
+            $scope.index();
+          })
+          .catch(function(err) {
+            toast.clear();
+            influuntAlert.alert('Controlador', err.data[0].message);
+          });
+      };
+
+      $scope.cancelarEdicao = function(controladorId) {
+        return Restangular.one('controladores', controladorId).all("cancelar_edicao").customDELETE()
           .then(function() {
             $scope.index();
           })

@@ -82,8 +82,16 @@ create table controladores (
   subarea_id                    uuid,
   data_criacao                  timestamp not null,
   data_atualizacao              timestamp not null,
-  constraint ck_controladores_status_controlador check (status_controlador in (0,1,2,3,4)),
+  constraint ck_controladores_status_controlador check (status_controlador in (0,1,2,3)),
   constraint pk_controladores primary key (id)
+);
+
+create table controladores_fisicos (
+  id                            uuid not null,
+  id_json                       varchar(255),
+  data_criacao                  timestamp not null,
+  data_atualizacao              timestamp not null,
+  constraint pk_controladores_fisicos primary key (id)
 );
 
 create table detectores (
@@ -143,6 +151,7 @@ create table estagios (
 create table estagios_grupos_semaforicos (
   id                            uuid not null,
   id_json                       varchar(255),
+  ativo                         boolean not null,
   estagio_id                    uuid not null,
   grupo_semaforico_id           uuid not null,
   data_criacao                  timestamp not null,
@@ -293,7 +302,7 @@ create table planos (
   descricao                     varchar(255) not null,
   tempo_ciclo                   integer,
   defasagem                     integer,
-  anel_id                       uuid,
+  versao_plano_id               uuid not null,
   agrupamento_id                uuid,
   modo_operacao                 integer not null,
   posicao_tabela_entre_verde    integer not null,
@@ -351,10 +360,10 @@ create table tabela_entre_verdes_transicao (
 create table tabela_horarios (
   id                            uuid not null,
   id_json                       varchar(255),
-  controlador_id                uuid,
+  versao_tabela_horaria_id      uuid not null,
   data_criacao                  timestamp not null,
   data_atualizacao              timestamp not null,
-  constraint uq_tabela_horarios_controlador_id unique (controlador_id),
+  constraint uq_tabela_horarios_versao_tabela_horaria_id unique (versao_tabela_horaria_id),
   constraint pk_tabela_horarios primary key (id)
 );
 
@@ -411,12 +420,46 @@ create table verdes_conflitantes (
 
 create table versoes_controladores (
   id                            uuid not null,
+  id_json                       varchar(255),
   controlador_origem_id         uuid,
-  controlador_edicao_id         uuid,
+  controlador_id                uuid,
+  controlador_fisico_id         uuid,
   usuario_id                    uuid,
   descricao                     varchar(255),
+  status_versao                 integer,
   data_criacao                  timestamp not null,
+  constraint ck_versoes_controladores_status_versao check (status_versao in (0,1,2)),
+  constraint uq_versoes_controladores_controlador_origem_id unique (controlador_origem_id),
+  constraint uq_versoes_controladores_controlador_id unique (controlador_id),
   constraint pk_versoes_controladores primary key (id)
+);
+
+create table versoes_planos (
+  id                            uuid not null,
+  id_json                       varchar(255),
+  versao_anterior_id            uuid,
+  anel_id                       uuid,
+  usuario_id                    uuid,
+  descricao                     varchar(255),
+  status_versao                 integer,
+  data_criacao                  timestamp not null,
+  constraint ck_versoes_planos_status_versao check (status_versao in (0,1,2)),
+  constraint uq_versoes_planos_versao_anterior_id unique (versao_anterior_id),
+  constraint pk_versoes_planos primary key (id)
+);
+
+create table versoes_tabelas_horarias (
+  id                            uuid not null,
+  id_json                       varchar(255),
+  controlador_id                uuid,
+  tabela_horaria_origem_id      uuid,
+  usuario_id                    uuid,
+  descricao                     varchar(255),
+  status_versao                 integer,
+  data_criacao                  timestamp not null,
+  constraint ck_versoes_tabelas_horarias_status_versao check (status_versao in (0,1,2)),
+  constraint uq_versoes_tabelas_horarias_tabela_horaria_origem_id unique (tabela_horaria_origem_id),
+  constraint pk_versoes_tabelas_horarias primary key (id)
 );
 
 alter table agrupamentos_controladores add constraint fk_agrupamentos_controladores_agrupamentos foreign key (agrupamento_id) references agrupamentos (id) on delete restrict on update restrict;
@@ -506,8 +549,8 @@ create index ix_permissoes_perfis_perfis on permissoes_perfis (perfil_id);
 alter table permissoes_perfis add constraint fk_permissoes_perfis_permissoes foreign key (permissao_id) references permissoes (id) on delete restrict on update restrict;
 create index ix_permissoes_perfis_permissoes on permissoes_perfis (permissao_id);
 
-alter table planos add constraint fk_planos_anel_id foreign key (anel_id) references aneis (id) on delete restrict on update restrict;
-create index ix_planos_anel_id on planos (anel_id);
+alter table planos add constraint fk_planos_versao_plano_id foreign key (versao_plano_id) references versoes_planos (id) on delete restrict on update restrict;
+create index ix_planos_versao_plano_id on planos (versao_plano_id);
 
 alter table planos add constraint fk_planos_agrupamento_id foreign key (agrupamento_id) references agrupamentos (id) on delete restrict on update restrict;
 create index ix_planos_agrupamento_id on planos (agrupamento_id);
@@ -527,7 +570,7 @@ create index ix_tabela_entre_verdes_transicao_tabela_entre_verdes_id on tabela_e
 alter table tabela_entre_verdes_transicao add constraint fk_tabela_entre_verdes_transicao_transicao_id foreign key (transicao_id) references transicoes (id) on delete restrict on update restrict;
 create index ix_tabela_entre_verdes_transicao_transicao_id on tabela_entre_verdes_transicao (transicao_id);
 
-alter table tabela_horarios add constraint fk_tabela_horarios_controlador_id foreign key (controlador_id) references controladores (id) on delete restrict on update restrict;
+alter table tabela_horarios add constraint fk_tabela_horarios_versao_tabela_horaria_id foreign key (versao_tabela_horaria_id) references versoes_tabelas_horarias (id) on delete restrict on update restrict;
 
 alter table transicoes add constraint fk_transicoes_grupo_semaforico_id foreign key (grupo_semaforico_id) references grupos_semaforicos (id) on delete restrict on update restrict;
 create index ix_transicoes_grupo_semaforico_id on transicoes (grupo_semaforico_id);
@@ -560,13 +603,30 @@ alter table verdes_conflitantes add constraint fk_verdes_conflitantes_destino_id
 create index ix_verdes_conflitantes_destino_id on verdes_conflitantes (destino_id);
 
 alter table versoes_controladores add constraint fk_versoes_controladores_controlador_origem_id foreign key (controlador_origem_id) references controladores (id) on delete restrict on update restrict;
-create index ix_versoes_controladores_controlador_origem_id on versoes_controladores (controlador_origem_id);
 
-alter table versoes_controladores add constraint fk_versoes_controladores_controlador_edicao_id foreign key (controlador_edicao_id) references controladores (id) on delete restrict on update restrict;
-create index ix_versoes_controladores_controlador_edicao_id on versoes_controladores (controlador_edicao_id);
+alter table versoes_controladores add constraint fk_versoes_controladores_controlador_id foreign key (controlador_id) references controladores (id) on delete restrict on update restrict;
+
+alter table versoes_controladores add constraint fk_versoes_controladores_controlador_fisico_id foreign key (controlador_fisico_id) references controladores_fisicos (id) on delete restrict on update restrict;
+create index ix_versoes_controladores_controlador_fisico_id on versoes_controladores (controlador_fisico_id);
 
 alter table versoes_controladores add constraint fk_versoes_controladores_usuario_id foreign key (usuario_id) references usuarios (id) on delete restrict on update restrict;
 create index ix_versoes_controladores_usuario_id on versoes_controladores (usuario_id);
+
+alter table versoes_planos add constraint fk_versoes_planos_versao_anterior_id foreign key (versao_anterior_id) references versoes_planos (id) on delete restrict on update restrict;
+
+alter table versoes_planos add constraint fk_versoes_planos_anel_id foreign key (anel_id) references aneis (id) on delete restrict on update restrict;
+create index ix_versoes_planos_anel_id on versoes_planos (anel_id);
+
+alter table versoes_planos add constraint fk_versoes_planos_usuario_id foreign key (usuario_id) references usuarios (id) on delete restrict on update restrict;
+create index ix_versoes_planos_usuario_id on versoes_planos (usuario_id);
+
+alter table versoes_tabelas_horarias add constraint fk_versoes_tabelas_horarias_controlador_id foreign key (controlador_id) references controladores (id) on delete restrict on update restrict;
+create index ix_versoes_tabelas_horarias_controlador_id on versoes_tabelas_horarias (controlador_id);
+
+alter table versoes_tabelas_horarias add constraint fk_versoes_tabelas_horarias_tabela_horaria_origem_id foreign key (tabela_horaria_origem_id) references tabela_horarios (id) on delete restrict on update restrict;
+
+alter table versoes_tabelas_horarias add constraint fk_versoes_tabelas_horarias_usuario_id foreign key (usuario_id) references usuarios (id) on delete restrict on update restrict;
+create index ix_versoes_tabelas_horarias_usuario_id on versoes_tabelas_horarias (usuario_id);
 
 
 # --- !Downs
@@ -658,8 +718,8 @@ drop index if exists ix_permissoes_perfis_perfis;
 alter table permissoes_perfis drop constraint if exists fk_permissoes_perfis_permissoes;
 drop index if exists ix_permissoes_perfis_permissoes;
 
-alter table planos drop constraint if exists fk_planos_anel_id;
-drop index if exists ix_planos_anel_id;
+alter table planos drop constraint if exists fk_planos_versao_plano_id;
+drop index if exists ix_planos_versao_plano_id;
 
 alter table planos drop constraint if exists fk_planos_agrupamento_id;
 drop index if exists ix_planos_agrupamento_id;
@@ -679,7 +739,7 @@ drop index if exists ix_tabela_entre_verdes_transicao_tabela_entre_verdes_id;
 alter table tabela_entre_verdes_transicao drop constraint if exists fk_tabela_entre_verdes_transicao_transicao_id;
 drop index if exists ix_tabela_entre_verdes_transicao_transicao_id;
 
-alter table tabela_horarios drop constraint if exists fk_tabela_horarios_controlador_id;
+alter table tabela_horarios drop constraint if exists fk_tabela_horarios_versao_tabela_horaria_id;
 
 alter table transicoes drop constraint if exists fk_transicoes_grupo_semaforico_id;
 drop index if exists ix_transicoes_grupo_semaforico_id;
@@ -712,13 +772,30 @@ alter table verdes_conflitantes drop constraint if exists fk_verdes_conflitantes
 drop index if exists ix_verdes_conflitantes_destino_id;
 
 alter table versoes_controladores drop constraint if exists fk_versoes_controladores_controlador_origem_id;
-drop index if exists ix_versoes_controladores_controlador_origem_id;
 
-alter table versoes_controladores drop constraint if exists fk_versoes_controladores_controlador_edicao_id;
-drop index if exists ix_versoes_controladores_controlador_edicao_id;
+alter table versoes_controladores drop constraint if exists fk_versoes_controladores_controlador_id;
+
+alter table versoes_controladores drop constraint if exists fk_versoes_controladores_controlador_fisico_id;
+drop index if exists ix_versoes_controladores_controlador_fisico_id;
 
 alter table versoes_controladores drop constraint if exists fk_versoes_controladores_usuario_id;
 drop index if exists ix_versoes_controladores_usuario_id;
+
+alter table versoes_planos drop constraint if exists fk_versoes_planos_versao_anterior_id;
+
+alter table versoes_planos drop constraint if exists fk_versoes_planos_anel_id;
+drop index if exists ix_versoes_planos_anel_id;
+
+alter table versoes_planos drop constraint if exists fk_versoes_planos_usuario_id;
+drop index if exists ix_versoes_planos_usuario_id;
+
+alter table versoes_tabelas_horarias drop constraint if exists fk_versoes_tabelas_horarias_controlador_id;
+drop index if exists ix_versoes_tabelas_horarias_controlador_id;
+
+alter table versoes_tabelas_horarias drop constraint if exists fk_versoes_tabelas_horarias_tabela_horaria_origem_id;
+
+alter table versoes_tabelas_horarias drop constraint if exists fk_versoes_tabelas_horarias_usuario_id;
+drop index if exists ix_versoes_tabelas_horarias_usuario_id;
 
 drop table if exists agrupamentos;
 
@@ -733,6 +810,8 @@ drop table if exists atrasos_de_grupos;
 drop table if exists cidades;
 
 drop table if exists controladores;
+
+drop table if exists controladores_fisicos;
 
 drop table if exists detectores;
 
@@ -785,4 +864,8 @@ drop table if exists usuarios;
 drop table if exists verdes_conflitantes;
 
 drop table if exists versoes_controladores;
+
+drop table if exists versoes_planos;
+
+drop table if exists versoes_tabelas_horarias;
 

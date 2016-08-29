@@ -1,6 +1,7 @@
 package models;
 
 import checks.*;
+import com.avaje.ebean.Expr;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.PrivateOwned;
@@ -25,7 +26,6 @@ import java.util.UUID;
 /**
  * Entidade que representa o {@link Anel} no sistema
  *
- * @author lesiopinheiro
  * @author lesiopinheiro
  */
 @Entity
@@ -78,9 +78,18 @@ public class Anel extends Model implements Cloneable, Serializable {
     @Valid
     private List<Estagio> estagios;
 
+    @JsonIgnore
+    @Transient
+    private VersaoPlano versaoPlanoAtivo;
+
+    @JsonIgnore
+    @Transient
+    private VersaoPlano versaoPlanoEdicao;
+
     @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL)
     @Valid
-    private List<Plano> planos;
+    private List<VersaoPlano> versoesPlanos;
+
 
     @OneToOne(mappedBy = "anel", cascade = CascadeType.ALL)
     @Valid
@@ -106,6 +115,7 @@ public class Anel extends Model implements Cloneable, Serializable {
         this.idJson = UUID.randomUUID().toString();
         this.controlador = controlador;
         this.posicao = posicao;
+        this.versoesPlanos = new ArrayList<VersaoPlano>();
     }
 
     public Anel() {
@@ -218,12 +228,51 @@ public class Anel extends Model implements Cloneable, Serializable {
         return String.format("%s-%d", this.controlador.getCLC(), this.posicao);
     }
 
-    public List<Plano> getPlanos() {
-        return planos;
+
+    public List<VersaoPlano> getVersoesPlanos() {
+        return versoesPlanos;
     }
 
-    public void setPlanos(List<Plano> planos) {
-        this.planos = planos;
+    public void setVersoesPlanos(List<VersaoPlano> versoesPlanos) {
+        this.versoesPlanos = versoesPlanos;
+    }
+
+
+    @Transient
+    public VersaoPlano getVersaoPlanoAtivo() {
+        if (versaoPlanoAtivo == null) {
+            if(getVersoesPlanos().isEmpty() || getVersoesPlanos() == null) {
+                VersaoPlano versaoPlano = VersaoPlano.find.fetch("planos").where()
+                        .and(Expr.eq("anel_id", this.id.toString()), Expr.eq("status_versao", StatusVersao.ATIVO)).findUnique();
+                this.versaoPlanoAtivo = versaoPlano;
+            } else {
+                this.versaoPlanoAtivo = getVersoesPlanos().stream().filter(versaoPlano -> versaoPlano.isAtivo()).findFirst().orElse(null);
+            }
+        }
+        return versaoPlanoAtivo;
+    }
+
+    @Transient
+    public VersaoPlano getVersaoPlanoEmEdicao() {
+        if (versaoPlanoEdicao == null) {
+            if(getVersoesPlanos().isEmpty() || getVersoesPlanos() == null) {
+                VersaoPlano versaoPlano = VersaoPlano.find.fetch("planos").where()
+                        .and(Expr.eq("anel_id", this.id.toString()), Expr.eq("status_versao", StatusVersao.EDITANDO)).findUnique();
+                this.versaoPlanoEdicao = versaoPlano;
+            } else {
+                this.versaoPlanoEdicao = getVersoesPlanos().stream().filter(versaoPlano -> versaoPlano.isEditando()).findFirst().orElse(null);
+            }
+        }
+        return versaoPlanoEdicao;
+    }
+
+
+    @Transient
+    public List<Plano> getPlanos() {
+        if(getVersaoPlanoEmEdicao() != null) {
+            return getVersaoPlanoEmEdicao().getPlanos();
+        }
+        return getVersaoPlanoAtivo() != null ? getVersaoPlanoAtivo().getPlanos() : Arrays.asList();
     }
 
     @JsonIgnore
@@ -348,10 +397,7 @@ public class Anel extends Model implements Cloneable, Serializable {
     }
 
     public void addPlano(Plano plano) {
-        if (getPlanos() == null) {
-            setPlanos(new ArrayList<Plano>());
-        }
-        getPlanos().add(plano);
+        getVersaoPlanoAtivo().addPlano(plano);
     }
 
     public List<Estagio> ordenarEstagiosPorPosicao() {
@@ -360,12 +406,21 @@ public class Anel extends Model implements Cloneable, Serializable {
         return listaEstagio;
     }
 
+
     public boolean isDestroy() {
         return isDestroy;
     }
 
     public void setDestroy(boolean destroy) {
         isDestroy = destroy;
+    }
+
+    public void addVersaoPlano(VersaoPlano versaoPlano) {
+        if (getVersoesPlanos() == null) {
+            setVersoesPlanos(new ArrayList<VersaoPlano>());
+        }
+
+        getVersoesPlanos().add(versaoPlano);
     }
 }
 
