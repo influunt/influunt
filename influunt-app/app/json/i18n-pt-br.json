@@ -87,10 +87,8 @@
       "detector": "detector",
       "pedestre": "Pedestre",
       "veicular": "Veícular",
-      "ausenciaMinima": "Ausência de Detecção Mínima",
-      "ausenciaMaxima": "Ausência de Detecção Máxima",
-      "deteccaoMinima": "Detecção Permanente Mínima",
-      "deteccaoMaxima": "Detecção Permanente Máxima",
+      "ausencia": "Ausência de Detecção",
+      "deteccao": "Detecção Permanente",
       "monitoramentoFalha": "Monitoramento de Falha",
       "mensagemMaxDetectores": "Você poderá adicionar até",
       "verTabelaEntreVerdes": "Ver Tela de Entre Verdes"

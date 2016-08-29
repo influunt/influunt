@@ -80,6 +80,7 @@ angular.module('influuntApp')
           idJson: UUID.generate(),
           anel: { idJson: $scope.currentAnel.idJson },
           controlador: { idJson: $scope.objeto.idJson },
+          monitorado: true,
           posicao: posicao,
           tipo: tipo
         };
@@ -134,6 +135,20 @@ angular.module('influuntApp')
           .value();
 
           return $scope.currentDetectores;
+      };
+
+      $scope.podeDetectorPedestre = function() {
+        if($scope.objeto){
+          return _.filter($scope.objeto.gruposSemaforicos, {tipo: 'PEDESTRE'}).length > 0;
+        }
+        return true;
+      };
+      
+      $scope.podeDetectorVeicular = function() {
+        if($scope.objeto){
+          return _.filter($scope.objeto.gruposSemaforicos, {tipo: 'VEICULAR'}).length > 0;
+        }
+        return true;
       };
 
       /**

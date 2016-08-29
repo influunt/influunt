@@ -289,7 +289,7 @@ public class ControladorTestUtil {
 
         Estagio estagio = anelCom2Estagios.getEstagios().get(0);
 
-        criarDetector(anelCom2Estagios, TipoDetector.PEDESTRE, 1);
+        criarDetector(anelCom2Estagios, TipoDetector.VEICULAR, 1, false);
 
         Detector detector = anelCom2Estagios.getDetectores().get(0);
         detector.setEstagio(estagio);
@@ -308,10 +308,9 @@ public class ControladorTestUtil {
         estagio4.setDescricao("E4");
         estagio4.setTempoMaximoPermanencia(60);
 
-        criarDetector(anelCom4Estagios, TipoDetector.PEDESTRE, 1);
-        criarDetector(anelCom4Estagios, TipoDetector.PEDESTRE, 2);
-        criarDetector(anelCom4Estagios, TipoDetector.VEICULAR, 3);
-        criarDetector(anelCom4Estagios, TipoDetector.VEICULAR, 4);
+        criarDetector(anelCom4Estagios, TipoDetector.PEDESTRE, 1, false);
+        criarDetector(anelCom4Estagios, TipoDetector.PEDESTRE, 2, false);
+        criarDetector(anelCom4Estagios, TipoDetector.VEICULAR, 3, false);
 
         Detector detector1 = anelCom4Estagios.getDetectores().get(0);
         detector1.setDescricao("D1");
@@ -319,18 +318,15 @@ public class ControladorTestUtil {
         detector2.setDescricao("D2");
         Detector detector3 = anelCom4Estagios.getDetectores().get(2);
         detector3.setDescricao("D3");
-        Detector detector4 = anelCom4Estagios.getDetectores().get(3);
-        detector4.setDescricao("D4");
 
         detector1.setEstagio(estagio1);
-        detector2.setEstagio(estagio2);
-        detector3.setEstagio(estagio3);
-        detector4.setEstagio(estagio4);
-
         estagio1.setDetector(detector1);
-        estagio2.setDetector(detector2);
-        estagio3.setDetector(detector3);
-        estagio4.setDetector(detector4);
+
+        detector2.setEstagio(estagio3);
+        estagio3.setDetector(detector2);
+
+        detector3.setEstagio(estagio2);
+        estagio2.setDetector(detector3);
 
         return controlador;
     }
@@ -355,9 +351,12 @@ public class ControladorTestUtil {
         plano1Anel4.setAnel(anelCom4Estagios);
         anelCom4Estagios.setPlanos(Arrays.asList(plano1Anel4));
 
-        Estagio estagio = anelCom4Estagios.getEstagios().stream().filter(estagio1 -> estagio1.getPosicao().equals(2)).findFirst().get();
-        Detector detector = estagio.getDetector();
-        detector.setTipo(TipoDetector.VEICULAR);
+        Estagio estagio = anelCom4Estagios.getEstagios().stream().filter(estagio1 -> estagio1.getPosicao().equals(4)).findFirst().get();
+        criarDetector(anelCom4Estagios, TipoDetector.VEICULAR, 4, false);
+        Detector detector = anelCom4Estagios.getDetectores().get(3);
+        detector.setDescricao("D4");
+        detector.setEstagio(estagio);
+        estagio.setDetector(detector);
 
         plano1Anel4.setModoOperacao(ModoOperacaoPlano.ATUADO);
         plano1Anel4.setPosicao(1);
@@ -482,12 +481,13 @@ public class ControladorTestUtil {
         anel.getControlador().addGruposSemaforicos(grupoSemaforico);
     }
 
-    protected void criarDetector(Anel anel, TipoDetector tipo, Integer posicao) {
+    protected void criarDetector(Anel anel, TipoDetector tipo, Integer posicao, Boolean monitorado) {
         Detector detector = new Detector();
         detector.setAnel(anel);
         detector.setControlador(anel.getControlador());
         detector.setTipo(tipo);
         detector.setPosicao(posicao);
+        detector.setMonitorado(monitorado);
         anel.addDetectores(detector);
     }
 

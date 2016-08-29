@@ -581,17 +581,11 @@ public class ControladorCustomDeserializer {
         if (node.has("monitorado")) {
             detector.setMonitorado(node.get("monitorado").asBoolean());
         }
-        if (node.has("tempoAusenciaDeteccaoMinima")) {
-            detector.setTempoAusenciaDeteccaoMinima(node.get("tempoAusenciaDeteccaoMinima").asInt());
+        if (node.has("tempoAusenciaDeteccao")) {
+            detector.setTempoAusenciaDeteccao(node.get("tempoAusenciaDeteccao").asInt());
         }
-        if (node.has("tempoAusenciaDeteccaoMaxima")) {
-            detector.setTempoAusenciaDeteccaoMaxima(node.get("tempoAusenciaDeteccaoMaxima").asInt());
-        }
-        if (node.has("tempoDeteccaoPermanenteMinima")) {
-            detector.setTempoDeteccaoPermanenteMinima(node.get("tempoDeteccaoPermanenteMinima").asInt());
-        }
-        if (node.has("tempoDeteccaoPermanenteMaxima")) {
-            detector.setTempoDeteccaoPermanenteMaxima(node.get("tempoDeteccaoPermanenteMaxima").asInt());
+        if (node.has("tempoDeteccaoPermanente")) {
+            detector.setTempoDeteccaoPermanente(node.get("tempoDeteccaoPermanente").asInt());
         }
 
         if (node.has("anel")) {

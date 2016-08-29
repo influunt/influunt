@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
+import utils.RangeUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
@@ -62,16 +63,10 @@ public class Detector extends Model implements Cloneable, Serializable {
     private Boolean monitorado = true;
 
     @Column
-    private Integer tempoAusenciaDeteccaoMinima;
+    private Integer tempoAusenciaDeteccao;
 
     @Column
-    private Integer tempoAusenciaDeteccaoMaxima;
-
-    @Column
-    private Integer tempoDeteccaoPermanenteMinima;
-
-    @Column
-    private Integer tempoDeteccaoPermanenteMaxima;
+    private Integer tempoDeteccaoPermanente;
 
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
@@ -154,7 +149,7 @@ public class Detector extends Model implements Cloneable, Serializable {
         this.estagio = estagio;
     }
 
-    public Boolean getMonitorado() {
+    public Boolean isMonitorado() {
         return monitorado;
     }
 
@@ -162,36 +157,20 @@ public class Detector extends Model implements Cloneable, Serializable {
         this.monitorado = monitorado;
     }
 
-    public Integer getTempoAusenciaDeteccaoMinima() {
-        return tempoAusenciaDeteccaoMinima;
+    public Integer getTempoAusenciaDeteccao() {
+        return tempoAusenciaDeteccao;
     }
 
-    public void setTempoAusenciaDeteccaoMinima(Integer tempoAusenciaDeteccaoMinima) {
-        this.tempoAusenciaDeteccaoMinima = tempoAusenciaDeteccaoMinima;
+    public void setTempoAusenciaDeteccao(Integer tempoAusenciaDeteccao) {
+        this.tempoAusenciaDeteccao = tempoAusenciaDeteccao;
     }
 
-    public Integer getTempoAusenciaDeteccaoMaxima() {
-        return tempoAusenciaDeteccaoMaxima;
+    public Integer getTempoDeteccaoPermanente() {
+        return tempoDeteccaoPermanente;
     }
 
-    public void setTempoAusenciaDeteccaoMaxima(Integer tempoAusenciaDeteccaoMaxima) {
-        this.tempoAusenciaDeteccaoMaxima = tempoAusenciaDeteccaoMaxima;
-    }
-
-    public Integer getTempoDeteccaoPermanenteMinima() {
-        return tempoDeteccaoPermanenteMinima;
-    }
-
-    public void setTempoDeteccaoPermanenteMinima(Integer tempoDeteccaoPermanenteMinima) {
-        this.tempoDeteccaoPermanenteMinima = tempoDeteccaoPermanenteMinima;
-    }
-
-    public Integer getTempoDeteccaoPermanenteMaxima() {
-        return tempoDeteccaoPermanenteMaxima;
-    }
-
-    public void setTempoDeteccaoPermanenteMaxima(Integer tempoDeteccaoPermanenteMaxima) {
-        this.tempoDeteccaoPermanenteMaxima = tempoDeteccaoPermanenteMaxima;
+    public void setTempoDeteccaoPermanente(Integer tempoDeteccaoPermanente) {
+        this.tempoDeteccaoPermanente = tempoDeteccaoPermanente;
     }
 
     public DateTime getDataCriacao() {
@@ -210,6 +189,46 @@ public class Detector extends Model implements Cloneable, Serializable {
         this.dataAtualizacao = dataAtualizacao;
     }
 
+
+    @JsonIgnore
+    @AssertTrue(groups = ControladorAssociacaoDetectoresCheck.class,
+            message = "O tempo de ausência de detecção deve estar entre 0 e 1440.")
+    public boolean isTempoAusenciaDeteccaoEstaDentroDaFaixa() {
+        if(isMonitorado()){
+            return getTempoAusenciaDeteccao() != null && RangeUtils.getInstance().TEMPO_AUSENCIA_DETECCAO.contains(getTempoAusenciaDeteccao());
+        }
+        return true;
+    }
+
+    @JsonIgnore
+    @AssertTrue(groups = ControladorAssociacaoDetectoresCheck.class,
+            message = "O tempo de detecção permanente deve estar entre 0 e 1440.")
+    public boolean isTempoDeteccaoPermanenteEstaDentroDaFaixa() {
+        if(isMonitorado()){
+            return getTempoDeteccaoPermanente() != null && RangeUtils.getInstance().TEMPO_DETECCAO_PERMANENTE.contains(getTempoDeteccaoPermanente());
+        }
+        return true;
+    }
+
+    @JsonIgnore
+    @AssertTrue(groups = ControladorAssociacaoDetectoresCheck.class,
+            message = "O detector veicular deve estar associado a um estagio com grupo semafórico veicular.")
+    public boolean isAssociadoAoMenosUmEstagioVeicular() {
+        if(this.isAssociadoAoMenosUmEstagio() && this.isVeicular()){
+            return getEstagio().getGruposSemaforicos().stream().anyMatch(grupoSemaforico -> grupoSemaforico.isVeicular());
+        }
+        return true;
+    }
+
+    @JsonIgnore
+    @AssertTrue(groups = ControladorAssociacaoDetectoresCheck.class,
+            message = "O detector de pedestre deve estar associado a um estagio com grupo semafórico de pedestre.")
+    public boolean isAssociadoAoMenosUmEstagioPedestre() {
+        if(this.isAssociadoAoMenosUmEstagio() && this.isPedestre()){
+            return getEstagio().getGruposSemaforicos().stream().anyMatch(grupoSemaforico -> grupoSemaforico.isPedestre());
+        }
+        return true;
+    }
 
     @JsonIgnore
     @AssertTrue(groups = ControladorAssociacaoDetectoresCheck.class,

@@ -27,7 +27,7 @@
                         <th>{{ 'controladores.associacaoDetectores.detector' | translate | uppercase }}</th>
                         <th data-ng-repeat="estagio in currentEstagios track by $index">
                           {{ 'controladores.geral.prefixoEstagio' | translate | uppercase }}{{ estagio.posicao }}
-                          <span class="badge badge-danger badge-notification"
+                          <span class="badge badge-danger badge-notification badge-detector"
                             data-ng-show="errors.aneis[currentAnelIndex].estagios[$index]"
                             inf-tooltip
                             messages="errors.aneis[currentAnelIndex].estagios[$index]">
@@ -51,7 +51,7 @@
                           data-ng-click="selecionaDetector(detector, $index)">
                         <td class="titulo text-center">
                           <strong>{{ detector | nomeDetector }}</strong>
-                          <span class="badge badge-danger badge-notification"
+                          <span class="badge badge-danger badge-notification badge-detector"
                             data-ng-show="errors.detectores[$index] || errors.aneis[currentAnelIndex].detectores[$index]"
                             inf-tooltip
                             messages="[errors.detectores[$index], errors.aneis[currentAnelIndex].detectores[$index]]">
@@ -74,7 +74,7 @@
                     </tbody>
                     <tfoot>
                       <tr>
-                        <td colspan="{{ currentEstagios.length + 1 }}">
+                        <td colspan="{{ currentEstagios.length + 2 }}">
                           <div class="btn-group dropup left"
                               style="padding: 12px;">
                             <button type="button" class="btn btn-primary left"
@@ -84,10 +84,10 @@
                               <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
-                              <li style="list-style: none;" data-ng-click="adicionaDetector('PEDESTRE')">
+                              <li style="list-style: none;" data-ng-click="adicionaDetector('PEDESTRE')" data-ng-if="podeDetectorPedestre()">
                                 <a>{{ 'controladores.associacaoDetectores.pedestre' | translate }}</a>
                               </li>
-                              <li style="list-style: none;"  data-ng-click="adicionaDetector('VEICULAR')">
+                              <li style="list-style: none;"  data-ng-click="adicionaDetector('VEICULAR')" data-ng-if="podeDetectorVeicular()">
                                 <a>{{ 'controladores.associacaoDetectores.veicular' | translate }}</a>
                               </li>
                             </ul>
@@ -108,53 +108,41 @@
 
   <!-- MODAL -->
   <div class="modal inmodal" id="Config" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog associacao-modal">
+    <div class="modal-dialog associacao-modal">
       <div class="modal-content animated bounceInRight">
-              <div class="modal-header">
-                <div data-ng-if="currentDetector" class="col-lg-12 col-sm-12 ibox-title botton-title association-detectors-body m-t-md association tables-associated p-b-xs">
-                  <div class="col-lg-3 col-sm-3 estagio-detalhe">
-                    <h3>{{ currentDetector | nomeDetector }}</h3><br/>
-                    <input type="checkbox" ichecks data-ng-model="currentDetector.monitorado">
-                    <strong>{{ 'controladores.associacaoDetectores.monitoramentoFalha' | translate }}</strong>
-                  </div>
-                  <div class="knob">
-                    <div class="col-lg-2 col-sm-2 text-center knob-item">
-                      <influunt-knob
-                          title="{{ 'controladores.associacaoDetectores.ausenciaMinima' | translate }}" label="SEG"
-                          min="0" max="30"
-                          data-ng-model="currentDetector.tempoAusenciaDeteccaoMinima">
-                      </influunt-knob>
-                    </div>
-                    <div class="col-lg-2 col-sm-2 text-center knob-item">
-                      <influunt-knob
-                          title="{{ 'controladores.associacaoDetectores.ausenciaMaxima' | translate }}" label="SEG"
-                          min="0" max="30"
-                          data-ng-model="currentDetector.tempoAusenciaDeteccaoMaxima">
-                      </influunt-knob>
-                    </div>
-                    <div class="col-lg-2 col-sm-2 text-center knob-item">
-                      <influunt-knob
-                          title="{{ 'controladores.associacaoDetectores.deteccaoMinima' | translate }}" label="SEG"
-                          min="0" max="30"
-                          data-ng-model="currentDetector.tempoDeteccaoPermanenteMinima">
-                      </influunt-knob>
-                    </div>
-                    <div class="col-lg-2 col-sm-2 text-center knob-item">
-                      <influunt-knob
-                          title="{{ 'controladores.associacaoDetectores.deteccaoMaxima' | translate }}" label="SEG"
-                          min="0" max="30"
-                          data-ng-model="currentDetector.tempoDeteccaoPermanenteMaxima">
-                      </influunt-knob>
-                    </div>
-                  </div>
+        <div class="modal-body">
+          <div class="row">
+            <div data-ng-if="currentDetector" class="col-lg-12 col-sm-12">
+              <div class="col-lg-4 col-sm-4 estagio-detalhe">
+                <h3>{{ currentDetector | nomeDetector }}</h3><br/>
+                <input type="checkbox" ichecks data-ng-model="currentDetector.monitorado">
+                <strong>{{ 'controladores.associacaoDetectores.monitoramentoFalha' | translate }}</strong>
+              </div>
+              <div class="knob">
+                <div class="col-lg-4 col-sm-4 text-center knob-item">
+                  <influunt-knob
+                      title="{{ 'controladores.associacaoDetectores.ausencia' | translate }}" label="MIN"
+                      min="objeto.ausenciaDeteccaoMin" max="objeto.ausenciaDeteccaoMax"
+                      data-ng-model="currentDetector.tempoAusenciaDeteccao">
+                  </influunt-knob>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center knob-item">
+                  <influunt-knob
+                      title="{{ 'controladores.associacaoDetectores.deteccao' | translate }}" label="MIN"
+                      min="objeto.deteccaoPermanenteMin" max="objeto.deteccaoPermanenteMax"
+                      data-ng-model="currentDetector.tempoDeteccaoPermanente">
+                  </influunt-knob>
                 </div>
               </div>
-
-              <div class="modal-footer">
-                  <button type="button" class="btn btn-white" data-dismiss="modal">{{ 'geral.crud.fechar' | translate }}</button>
-              </div>
+            </div>
           </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-white" data-dismiss="modal">{{ 'geral.crud.fechar' | translate }}</button>
+        </div>
       </div>
+    </div>
   </div>
 
   <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix">
