@@ -87,10 +87,8 @@
       "detector": "detector",
       "pedestre": "Pedestre",
       "veicular": "Veícular",
-      "ausenciaMinima": "Ausência de Detecção Mínima",
-      "ausenciaMaxima": "Ausência de Detecção Máxima",
-      "deteccaoMinima": "Detecção Permanente Mínima",
-      "deteccaoMaxima": "Detecção Permanente Máxima",
+      "ausencia": "Ausência de Detecção",
+      "deteccao": "Detecção Permanente",
       "monitoramentoFalha": "Monitoramento de Falha",
       "mensagemMaxDetectores": "Você poderá adicionar até",
       "verTabelaEntreVerdes": "Ver Tela de Entre Verdes"
@@ -138,7 +136,9 @@
     "aneis": {
       "titulo": "Configuração de Aneis",
       "titulo_msg_apagar_anel": "Deseja mesmo apagar este anel?",
-      "corpo_msg_apagar_anel": "Ao apagar esse anel todos os relacionamentos previamente cadastrados serão apagados."
+      "corpo_msg_apagar_anel": "Ao apagar esse anel todos os relacionamentos previamente cadastrados serão apagados.",
+      "remover_estagio": "Remover Estágio",
+      "remover_croqui": "Remover Croqui"
     },
     "validacoes": {
       "aoMenosUmGrupoSemaforico": "Este anel deve ter mais de 1 grupo semáforico",

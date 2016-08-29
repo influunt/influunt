@@ -229,9 +229,12 @@ public class ControladorPlanoTest extends ControladorTest {
                 new Erro(CONTROLADOR, "A sequência de estagio não é válida.", "aneis[1].planos[0].posicaoUnicaEstagio")
         ));
 
-        Estagio estagio = anelCom4Estagios.getEstagios().stream().filter(estagio1 -> estagio1.getPosicao().equals(2)).findFirst().get();
-        Detector detector = estagio.getDetector();
-        detector.setTipo(TipoDetector.VEICULAR);
+        Estagio estagio = anelCom4Estagios.getEstagios().stream().filter(estagio1 -> estagio1.getPosicao().equals(4)).findFirst().get();
+        criarDetector(anelCom4Estagios, TipoDetector.VEICULAR, 4, false);
+        Detector detector = anelCom4Estagios.getDetectores().get(3);
+        detector.setDescricao("D4");
+        detector.setEstagio(estagio);
+        estagio.setDetector(detector);
 
         erros = getErros(controlador);
         assertEquals(21, erros.size());

@@ -147,16 +147,41 @@ describe('Controller: ControladoresConfiguracaoGruposCtrl', function () {
       scope.removeGrupo(0);
     }));
 
-    it('Deve remover o objeto da lista de "gruposSemaforicos" do objeto', function() {
-      deferred.resolve(true);
-      scope.$apply();
-      expect(scope.objeto.gruposSemaforicos.length).toBe(1);
+    describe('Remover um grupo ainda não enviado à API', function () {
+      it('Deve remover o objeto da lista de "gruposSemaforicos" do objeto', function() {
+        deferred.resolve(true);
+        scope.$apply();
+        expect(scope.objeto.gruposSemaforicos.length).toBe(1);
+      });
+
+      it('Deve remover a referencia do objeto do anel corrente', function() {
+        deferred.resolve(true);
+        scope.$apply();
+        expect(scope.currentAnel.gruposSemaforicos.length).toBe(0);
+      });
     });
 
-    it('Deve remover a referencia do objeto do anel corrente', function() {
-      deferred.resolve(true);
-      scope.$apply();
-      expect(scope.currentAnel.gruposSemaforicos.length).toBe(0);
+    describe('Remover um grupo semafórico enviado à API', function () {
+      beforeEach(function() {
+        scope.objeto.gruposSemaforicos.forEach(function(gs, index) {
+          gs.id = 'gs' + (index + 1);
+        });
+      });
+
+      it('O objeto da lista de grupos semafóricos deverá permanecer na lista, com "_destroy" = true', function() {
+        deferred.resolve(true);
+        scope.$apply();
+        expect(scope.objeto.gruposSemaforicos.length).toBe(2);
+
+        var grupo = _.find(scope.objeto.gruposSemaforicos, {idJson: scope.currentAnel.gruposSemaforicos[0].idJson});
+        expect(grupo._destroy).toBeTruthy();
+      });
+
+      it('A referencia ao objeto deletado deverá ser mantida', function() {
+        deferred.resolve(true);
+        scope.$apply();
+        expect(scope.currentAnel.gruposSemaforicos.length).toBe(1);
+      });
     });
 
     it('A lista de currentGruposSemaforicos deve ser atualizada', function() {

@@ -95,7 +95,9 @@
                             <textarea type="text" rows="4" class="form-control m-b" placeholder="Descrição" data-ng-model="grupo.descricao"></textarea>
                           </div>
                           <div class="col-lg-1 col-sm-1 groups-stages">
-                            <a ng-click="removeGrupo($index)" class="btn btn-xs btn-danger">Excluir</a>
+                            <button ng-click="removeGrupo($index)"
+                              data-ng-disabled="currentGruposSemaforicos.length <= 2"
+                              class="btn btn-xs btn-danger">{{ 'crud.excluir' | translate }}</button>
                           </div>
                         </div>
 

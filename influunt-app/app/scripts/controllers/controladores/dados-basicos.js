@@ -8,26 +8,15 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresDadosBasicosCtrl', ['$scope', '$controller',
-    function ($scope, $controller) {
+  .controller('ControladoresDadosBasicosCtrl', ['$scope', '$controller', '$filter',
+    function ($scope, $controller, $filter) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
-      $scope.$watch('objeto.todosEnderecos', function(){
-        if(_.isArray($scope.objeto.todosEnderecos)){
-          var completaEndereco = $scope.objeto.todosEnderecos[0].localizacao && ($scope.objeto.todosEnderecos[0].localizacao2 || $scope.objeto.todosEnderecos[0].alturaNumerica);
-
-          if(completaEndereco) {
-            if($scope.objeto.todosEnderecos[0].localizacao2){
-              $scope.objeto.nomeEndereco = $scope.objeto.todosEnderecos[0].localizacao + ' com ' + $scope.objeto.todosEnderecos[0].localizacao2;
-            }else{
-              $scope.objeto.nomeEndereco = $scope.objeto.todosEnderecos[0].localizacao + ', nº ' + $scope.objeto.todosEnderecos[0].alturaNumerica;
-            }
-          } else {
-            $scope.objeto.nomeEndereco = '';
-          }
-        }
+      $scope.$watch('objeto.todosEnderecos', function(todosEnderecos) {
+        if (!_.isArray(todosEnderecos)) { return false; }
+        $scope.objeto.nomeEndereco = $filter('nomeEndereco')(todosEnderecos[0]);
       }, true);
-      
+
       $scope.$watchGroup(['objeto.area.idJson', 'helpers.cidade.areas'], function (){
         $scope.currentSubareas = [];
         if ($scope.objeto && $scope.helpers && $scope.objeto.area && $scope.objeto.area.idJson){
@@ -36,4 +25,9 @@ angular.module('influuntApp')
         }
         return $scope.currentSubareas;
       }, true);
+
+      $scope.$watch('objeto.modelo', function(modelo) {
+        $scope.modeloControlador = modelo;
+      });
+
     }]);

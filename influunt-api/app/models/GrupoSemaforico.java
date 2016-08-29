@@ -107,6 +107,9 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
 
+    @Transient
+    private boolean isDestroy = false;
+
     public GrupoSemaforico() {
         super();
         this.idJson = UUID.randomUUID().toString();
@@ -454,6 +457,13 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
         getTransicoes().add(transicao);
     }
 
+    public boolean isDestroy() {
+        return isDestroy;
+    }
+
+    public void setDestroy(boolean destroy) {
+        isDestroy = destroy;
+    }
 
 }
 

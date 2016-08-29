@@ -2570,6 +2570,19 @@ tip-tip span {
   cursor: help;
 }
 
+.wrapper-content .basic-wizard .content .body span.badge.badge-danger.badge-notification.badge-detector.tooltipstered {
+  display: inline;
+  font-size: 20px;
+  padding: 10px;
+  position: relative;
+  float: left;
+  width: inherit;
+}
+
+.wrapper-content .basic-wizard .content .body span.badge.badge-danger.badge-notification.badge-detector.tooltipstered i {
+  color: #fff;
+}
+
 .rs-tooltip.hover, .rs-tooltip.edit:hover {
   border: 1px solid #1ab394;
 }

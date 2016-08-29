@@ -13,8 +13,8 @@ angular.module('influuntApp')
       $controller('ControladoresCtrl', {$scope: $scope});
 
       // Métodos privados.
-      var ativaPrimeiroAnel, inicializaEnderecos, atualizarAneisAtivos,
-      registrarWatcherEndereco, setDadosBasicos, setandoEnderecoByAnel;
+      var ativaPrimeiroAnel, inicializaEnderecos, atualizarAneisAtivos, registrarWatcherCurrentAnel, setDadosBasicos,
+      setandoEnderecoByAnel, watcherEndereco, watcherImagensEstagios, inicializaObjetoCroqui;
 
       /**
        * Pré-condições para acesso à tela de aneis: Somente será possível acessar esta
@@ -44,11 +44,16 @@ angular.module('influuntApp')
             ativaPrimeiroAnel($scope.objeto);
             atualizarAneisAtivos();
             inicializaEnderecos();
-            registrarWatcherEndereco();
+            registrarWatcherCurrentAnel();
             setDadosBasicos();
-            $scope.$broadcast('influuntWizard.dropzoneOk');
+            $scope.selecionaAnelLocal($scope.currentAnelIndex);
           }
         });
+      };
+
+      $scope.selecionaAnelLocal = function(index) {
+        $scope.selecionaAnel(index);
+        inicializaObjetoCroqui();
       };
 
       /**
@@ -96,12 +101,16 @@ angular.module('influuntApp')
         anel.estagios.splice(estagioAnelIndex, 1);
       };
 
-      $scope.adicionarCroqui = function(imagem) {
-        $scope.currentAnel.croqui = imagem;
+      $scope.adicionarCroqui = function(upload, imagem) {
+        var _imagem = { id: imagem.id, filename: imagem.filename, idJson: imagem.idJson };
+
+        $scope.currentAnel.croqui = {id: _imagem.id};
+        $scope.objeto.imagens = $scope.objeto.imagens || [];
+        $scope.objeto.imagens.push(_imagem);
       };
 
       $scope.ativarProximoAnel = function() {
-        $scope.selecionaAnel(_.findIndex($scope.aneis, { ativo: false }));
+        $scope.selecionaAnelLocal(_.findIndex($scope.aneis, { ativo: false }));
         $scope.currentAnel.ativo = true;
         inicializaEnderecos();
         atualizarAneisAtivos();
@@ -129,7 +138,7 @@ angular.module('influuntApp')
             if (deveApagarAnel) {
               var ultimoAnelAtivoIndex = _.findLastIndex($scope.aneis, { ativo: true });
               $scope.aneis[ultimoAnelAtivoIndex].ativo = false;
-              $scope.aneis[ultimoAnelAtivoIndex]['_destroy'] = true;
+              $scope.aneis[ultimoAnelAtivoIndex]._destroy = true;
               $scope.submitForm({$valid: true}, 'aneis', 'app.wizard_controladores.aneis');
             }
             return deveApagarAnel;
@@ -170,21 +179,44 @@ angular.module('influuntApp')
         });
       };
 
-      registrarWatcherEndereco = function() {
+      registrarWatcherCurrentAnel = function() {
         $scope.$watch('currentAnel', function(anel) {
-          $scope.currentEndereco = _.find($scope.objeto.todosEnderecos, {idJson: $scope.currentAnel.endereco.idJson});
-          if ($scope.currentEndereco && $scope.currentEndereco.localizacao && ($scope.currentEndereco.localizacao2 || $scope.currentEndereco.alturaNumerica)) {
-            if($scope.objeto.todosEnderecos[0].localizacao2){
-              anel.localizacao = $scope.currentEndereco.localizacao + ' com ' + $scope.currentEndereco.localizacao2;
-            }else{
-              anel.localizacao = $scope.currentEndereco.localizacao + ', nº ' + $scope.currentEndereco.alturaNumerica;
-            }
-            anel.latitude = $scope.currentEndereco.latitude;
-            anel.longitude = $scope.currentEndereco.longitude;
-          } else {
-            anel.localizacao = '';
-          }
-        }, true);
+          watcherEndereco(anel);
+          watcherImagensEstagios(anel);
+        });
+      };
+
+      watcherEndereco = function(anel) {
+        $scope.currentEndereco = _.find($scope.objeto.todosEnderecos, {idJson: $scope.currentAnel.endereco.idJson});
+        if ($scope.currentEndereco && $scope.currentEndereco.localizacao && ($scope.currentEndereco.localizacao2 || $scope.currentEndereco.alturaNumerica)) {
+          anel.localizacao = $filter('nomeEndereco')($scope.currentEndereco);
+          anel.latitude = $scope.currentEndereco.latitude;
+          anel.longitude = $scope.currentEndereco.longitude;
+        } else {
+          anel.localizacao = '';
+        }
+      };
+
+      watcherImagensEstagios = function(anel) {
+        var estagios = anel.estagios;
+        if (!_.isArray(estagios)) {
+          return false;
+        }
+
+        $scope.imagensDeEstagios = _
+          .chain(estagios)
+          .map(function(e) {
+            var estagio = _.find($scope.objeto.estagios, {idJson: e.idJson});
+            var imagem = _.find($scope.objeto.imagens, {idJson: estagio.imagem.idJson});
+            var obj = {
+              idJson: estagio.idJson,
+              url: $filter('imageSource')(imagem.id),
+              nomeImagem: imagem.filename
+            };
+
+            return obj;
+          })
+          .value();
       };
 
       setandoEnderecoByAnel = function (anel) {
@@ -200,5 +232,16 @@ angular.module('influuntApp')
         anel.endereco = endereco;
         $scope.objeto.todosEnderecos = $scope.objeto.todosEnderecos || [];
         $scope.objeto.todosEnderecos.push(endereco);
+      };
+
+      inicializaObjetoCroqui = function() {
+        var croqui = $scope.currentAnel.croqui;
+        if (!!croqui) {
+          $scope.imagemCroqui = {
+            idJson: $scope.currentAnel.croqui.idJson,
+            url: $filter('imageSource')(croqui.id),
+            nomeImagem: croqui.filename
+          };
+        }
       };
   }]);

@@ -43,6 +43,9 @@ angular.module('influuntApp')
 
             $scope.selecionaAnelAssociacaoDetectores(0);
             atualizaEstagiosComDetector();
+
+            $scope.podeDetectorPedestre = _.filter($scope.objeto.gruposSemaforicos, {tipo: 'PEDESTRE'}).length > 0;
+            $scope.podeDetectorVeicular = _.filter($scope.objeto.gruposSemaforicos, {tipo: 'VEICULAR'}).length > 0;
             return _.isArray($scope.currentDetectores) && $scope.selecionaDetector($scope.currentDetectores[0], 0);
           }
         });
@@ -80,6 +83,7 @@ angular.module('influuntApp')
           idJson: UUID.generate(),
           anel: { idJson: $scope.currentAnel.idJson },
           controlador: { idJson: $scope.objeto.idJson },
+          monitorado: true,
           posicao: posicao,
           tipo: tipo
         };
