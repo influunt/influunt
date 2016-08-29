@@ -150,8 +150,17 @@ public class ControladorCustomDeserializer {
         });
 
         controlador.deleteAnelSeNecessario();
+        deleteGruposSemaforicos(controlador);
 
         return controlador;
+    }
+
+    private void deleteGruposSemaforicos(Controlador controlador) {
+        for (GrupoSemaforico grupoSemaforico : controlador.getGruposSemaforicos()) {
+            if (grupoSemaforico.isDestroy()) {
+                grupoSemaforico.delete();
+            }
+        }
     }
 
     private void parseAneis(JsonNode node) {
@@ -159,7 +168,7 @@ public class ControladorCustomDeserializer {
             List<Anel> aneis = new ArrayList<Anel>();
             for (JsonNode nodeAnel : node.get("aneis")) {
                 Anel anel = parseAnel(nodeAnel);
-                aneisCache.put(anel.getIdJson().toString(), anel);
+                aneisCache.put(anel.getIdJson(), anel);
                 aneis.add(anel);
             }
             controlador.setAneis(aneis);
@@ -371,9 +380,6 @@ public class ControladorCustomDeserializer {
         parseCollection("estagios", node, estagios, ESTAGIOS, ANEIS);
         anel.setEstagios(estagios);
 
-        if (node.has("ativo")) {
-            anel.setAtivo(node.get("ativo").asBoolean());
-        }
         if (node.has("posicao")) {
             anel.setPosicao(node.get("posicao").asInt());
         }
@@ -546,6 +552,11 @@ public class ControladorCustomDeserializer {
             };
             runLater(c);
         }
+
+        if (node.has("_destroy")) {
+            grupoSemaforico.setDestroy(node.get("_destroy").asBoolean());
+        }
+
         return grupoSemaforico;
     }
 

@@ -1074,7 +1074,9 @@ public class ControladorCustomSerializer {
             if (croqui.getIdJson() != null) {
                 croquiJson.put("idJson", croqui.getIdJson().toString());
             }
+
             anelJson.set("croqui", croquiJson);
+            imagensMap.put(croqui.getIdJson(), croqui);
         }
 
         refEstagios(anel.getEstagios(), anelJson);

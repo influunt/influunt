@@ -138,7 +138,7 @@
               <div class="col-lg-12 col-sm-12 no-padding" data-ng-class="{ 'has-error': errors.endereco.referencia }">
                 <div class="form-group">
                   <label class="control-label">{{ 'controladores.referencia' | translate }}:</label>
-                  <input type="number" name="objeto.todosEnderecos[0].referencia" class="form-control" data-ng-model="objeto.todosEnderecos[0].referencia">
+                  <input type="text" name="objeto.todosEnderecos[0].referencia" class="form-control" data-ng-model="objeto.todosEnderecos[0].referencia">
                   <p class="help-block error-msg" data-ng-repeat="error in errors.endereco.referencia">{{ error }}</p>
                 </div>
               </div>
@@ -164,32 +164,32 @@
               </div>
 
               <div class="col-sm-4 no-padding">
-                <h1><strong>{{ objeto.modelo.limiteEstagio || 0 }}</strong></h1>
+                <h1><strong>{{ modeloControlador.limiteEstagio || 0 }}</strong></h1>
                 <p>{{ 'controladores.maxEstagios' | translate }}</p>
               </div>
               <div class="col-sm-4 no-padding-right">
-                <h1><strong>{{ objeto.modelo.limiteGrupoSemaforico || 0 }}</strong></h1>
+                <h1><strong>{{ modeloControlador.limiteGrupoSemaforico || 0 }}</strong></h1>
                 <p>{{ 'controladores.maxGrupoSemaforos' | translate }}</p>
               </div>
               <div class="col-sm-4 no-padding-right">
-                <h1><strong>{{ objeto.modelo.limiteAnel || 0 }}</strong></h1>
+                <h1><strong>{{ modeloControlador.limiteAnel || 0 }}</strong></h1>
                 <p>{{ 'controladores.maxAneis' | translate }}</p>
               </div>
               <div class="clearfix"></div>
               <div class="col-sm-4 no-padding">
-                <h1><strong>{{ objeto.modelo.limiteDetectorVeicular || 0 }}</strong></h1>
+                <h1><strong>{{ modeloControlador.limiteDetectorVeicular || 0 }}</strong></h1>
                 <p>{{ 'controladores.maxDetectorVeicular' | translate }}</p>
               </div>
               <div class="col-sm-4 no-padding-right">
-                <h1><strong>{{ objeto.modelo.limiteDetectorPedestre || 0 }}</strong></h1>
+                <h1><strong>{{ modeloControlador.limiteDetectorPedestre || 0 }}</strong></h1>
                 <p>{{ 'controladores.maxDetectorPedestre' | translate }}</p>
               </div>
               <div class="col-sm-4 no-padding-right">
-                <h1><strong>{{ objeto.modelo.limiteTabelasEntreVerdes || 0 }}</strong></h1>
+                <h1><strong>{{ modeloControlador.limiteTabelasEntreVerdes || 0 }}</strong></h1>
                 <p>{{ 'controladores.maxTabelasEntreVerdes' | translate }}</p>
               </div>
               <div class="col-sm-4 no-padding-right">
-                <h1><strong>{{ objeto.modelo.limitePlanos || 0 }}</strong></h1>
+                <h1><strong>{{ modeloControlador.limitePlanos || 0 }}</strong></h1>
                 <p>{{ 'controladores.maxPlanos' | translate }}</p>
               </div>
             </div>

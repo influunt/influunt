@@ -8,7 +8,7 @@
                          data-on-add="ativarProximoAnel"
                          data-on-remove="desativarUltimoAnel"
                          data-before-remove="deletarUltimoAnelAtivo"
-                         data-on-activate="selecionaAnel"
+                         data-on-activate="selecionaAnelLocal"
                          data-aneis-ativos="aneisAtivos"
                          data-error-check="anelTemErro"
                          data-can-add-tabs="true"
@@ -40,7 +40,12 @@
                       anel="currentAnel"
                       on-success="adicionarEstagio(upload, imagem)"
                       on-delete="removerEstagio(imagem)">
-                  <fake-dropzone-preview aneis="aneis"></fake-dropzone-preview>
+                  <fake-dropzone-preview
+                      controlador="objeto"
+                      anel="currentAnel"
+                      imagens="imagensDeEstagios"
+                      remove-button-text="{{ 'controladores.aneis.remover_estagio' | translate }}">
+                  </fake-dropzone-preview>
                   <div class="dz-default dz-message"><span>{{ 'geral.dropzone.mensagem' | translate }}</span></div>
                   <div class="fallback">
                     <input name="file" type="file" multiple />
@@ -71,7 +76,7 @@
                     <div class="form-group">
                       <figure>
                         <div influunt-map
-                          markers="currentEnderecos[0]"
+                          markers="currentEndereco"
                           class="influunt-map">
                         </div>
                       </figure>
@@ -109,7 +114,7 @@
                     </div>
                     <div class="form-group" data-ng-class="{ 'has-error': errors.aneis[currentAnelIndex].endereco.referencia }">
                       <label class="control-label">{{ 'controladores.referencia' | translate }}:</label>
-                      <input type="number" name="endereco.referencia" class="form-control" data-ng-model="currentEndereco.referencia">
+                      <input type="text" name="endereco.referencia" class="form-control" data-ng-model="currentEndereco.referencia">
                       <p class="help-block error-msg" data-ng-repeat="error in errors.aneis[currentAnelIndex].endereco.referencia">{{ error }}</p>
                     </div>
                   </div>
@@ -123,11 +128,16 @@
                           imagens-url="dados.imagensUrl"
                           enctype="multipart/form-data"
                           influunt-dropzone
-                          anel="currentAnel.croqui"
+                          anel="currentAnel"
                           options="{thumbnailWidth: 2000, thumbnailHeight: 2000, maxFiles: 1,}"
                           on-success="adicionarCroqui(upload, imagem)"
                           on-delete="removerCroqui(imagem)">
-                      <fake-dropzone-preview aneis="aneis"></fake-dropzone-preview>
+                      <fake-dropzone-preview
+                          controlador="objeto"
+                          anel="currentAnel"
+                          imagens="imagemCroqui"
+                          remove-button-text="{{ 'controladores.aneis.remover_croqui' | translate }}">
+                      </fake-dropzone-preview>
                       <div class="dz-default dz-message"><span>{{ 'geral.dropzone.mensagem' | translate }}</span></div>
                       <div class="fallback">
                         <input name="file" type="file" multiple />
@@ -135,7 +145,6 @@
                       </form>
                   </div>
                 </div>
-
 
               </div>
             </div>
