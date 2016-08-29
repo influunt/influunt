@@ -65,7 +65,7 @@
                         <td data-ng-repeat="estagio in currentEstagios track by $index"
                             data-ng-class="{disabled: estagio.temDetector && detector.estagio.idJson !== estagio.idJson}"
                             data-ng-click="toggleAssociacaoDetector(estagio, detector)">
-                          <span style="border: 1px solid #d3cfc8;">
+                          <span>
                            <i class="fa fa-check" aria-hidden="true" data-ng-if="detector.estagio.idJson === estagio.idJson"></i>
                           </span>
                         </td>
