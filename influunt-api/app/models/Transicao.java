@@ -88,6 +88,8 @@ public class Transicao extends Model implements Cloneable, Serializable {
         this.destino = destino;
         this.destroy = false;
         this.tipo = tipo;
+        origem.addOrigemDeTransicoes(this);
+        destino.addDestinoDeTransicoes(this);
     }
 
     public String getIdJson() {

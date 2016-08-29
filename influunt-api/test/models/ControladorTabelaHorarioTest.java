@@ -3,6 +3,7 @@ package models;
 import checks.Erro;
 import checks.InfluuntValidator;
 import checks.TabelaHorariosCheck;
+import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
@@ -15,6 +16,7 @@ import play.mvc.Result;
 import play.test.Helpers;
 
 import javax.validation.groups.Default;
+import java.io.File;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -228,7 +230,7 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
     }
 
     @Test
-    public void testControllerDestroy() {
+    public void testControllerDestroyAnel() {
         Controlador controlador = getControladorTabelaHorario();
         controlador.save();
 
@@ -283,6 +285,40 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         assertEquals("Quantidade de transições proibidas", totalTransicoesProibidas - totalTransicoesProibidasAnel, TransicaoProibida.find.findRowCount());
         assertEquals("Quantidade de verdes conflitantes", totalVerdesConflitantes - totalVerdesConflitantesAnel, VerdesConflitantes.find.findRowCount());
         assertEquals("Quantidade de tabelas entre verdes", totalTabelaEntreVerdes - totalTabelaEntreVerdesAnel, TabelaEntreVerdes.find.findRowCount());
+    }
+
+    @Test
+    public void testControllerDestroyEstagio() {
+        Controlador controlador = getControladorTabelaHorario();
+        controlador.save();
+
+        List<Erro> erros = getErros(controlador);
+        assertEquals("Total de Erros", 0, erros.size());
+
+        controlador = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador));
+        Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
+        Estagio estagio1AnelCom4Estagios = anelCom4Estagios.getEstagios().get(0);
+
+        int totalEstagios = Estagio.find.findRowCount();
+        int totalDetectores = Detector.find.findRowCount();
+        int totalDetectoresEstagio = estagio1AnelCom4Estagios.getDetector() != null ? 1 : 0;
+        int totalEstagioGrupoSemaforicos = Ebean.find(EstagioGrupoSemaforico.class).findRowCount();
+        int totalEstagioGrupoSemaforicosEstagio = Ebean.find(EstagioGrupoSemaforico.class).where().eq("estagio_id", estagio1AnelCom4Estagios.getId()).findRowCount();
+        int totalTransicoesProibidas = TransicaoProibida.find.findRowCount();
+        int totalTransicoesProibidasEstagio = Stream.of(
+                estagio1AnelCom4Estagios.getOrigemDeTransicoesProibidas(),
+                estagio1AnelCom4Estagios.getDestinoDeTransicoesProibidas(),
+                estagio1AnelCom4Estagios.getAlternativaDeTransicoesProibidas())
+                .flatMap(Collection::stream)
+                .collect(Collectors.toSet()).size();
+
+        File appRootPath = app.path();
+        estagio1AnelCom4Estagios.delete(appRootPath);
+
+        assertEquals("Quantidade de estágios", totalEstagios - 1, Estagio.find.findRowCount());
+        assertEquals("Quantidade de associações estágios x grupos semafóricos", totalEstagioGrupoSemaforicos - totalEstagioGrupoSemaforicosEstagio, Ebean.find(EstagioGrupoSemaforico.class).findRowCount());
+        assertEquals("Quantidade de transições proibidas", totalTransicoesProibidas - totalTransicoesProibidasEstagio, TransicaoProibida.find.findRowCount());
+        assertEquals("Quantidade de detectores", totalDetectores - totalDetectoresEstagio, Detector.find.findRowCount());
     }
 
 }

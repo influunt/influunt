@@ -140,6 +140,11 @@
       "remover_estagio": "Remover Estágio",
       "remover_croqui": "Remover Croqui"
     },
+    "estagios": {
+      "titulo_msg_apagar_estagio": "Deseja mesmo apagar este estágio?",
+      "corpo_msg_apagar_estagio": "Ao apagar esse estágio todos os relacionamentos previamente cadastrados serão apagados.",
+      "msg_erro_apagar_estagio": "Não foi possível apagar o estágio."
+    },
     "validacoes": {
       "aoMenosUmGrupoSemaforico": "Este anel deve ter mais de 1 grupo semáforico",
       "latitudeMayNotBeNull": "Campo de Latitude é Obrigatório",

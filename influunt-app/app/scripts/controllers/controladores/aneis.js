@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresAneisCtrl', ['$scope', '$state', '$controller', '$q', '$filter', 'assertControlador', 'influuntAlert',
-    function ($scope, $state, $controller, $q, $filter, assertControlador, influuntAlert) {
+  .controller('ControladoresAneisCtrl', ['$scope', '$state', '$controller', '$q', '$filter', 'assertControlador', 'influuntAlert', 'Restangular', 'toast',
+    function ($scope, $state, $controller, $q, $filter, assertControlador, influuntAlert, Restangular, toast) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
       // Métodos privados.
@@ -107,6 +107,30 @@ angular.module('influuntApp')
         $scope.currentAnel.croqui = {id: _imagem.id};
         $scope.objeto.imagens = $scope.objeto.imagens || [];
         $scope.objeto.imagens.push(_imagem);
+      };
+
+      $scope.deletarEstagio = function(estagioIdJson) {
+        var title = $filter('translate')('controladores.estagios.titulo_msg_apagar_anel'),
+            text = $filter('translate')('controladores.estagios.corpo_msg_apagar_anel');
+        influuntAlert.confirm(title, text).then(function(deveApagarEstagio) {
+          if (deveApagarEstagio) {
+            var estagio = _.find($scope.objeto.estagios, { idJson: estagioIdJson });
+            Restangular.one('estagios', estagio.id).remove()
+              .then(function() {
+
+                $scope.inicializaWizard().then(function() {
+                  $('div.dz-preview[data-estagio-id-json="'+estagioIdJson+'"]').remove();
+                  $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
+                  $scope.aneis = $scope.objeto.aneis;
+                  $scope.currentAnel = $scope.aneis[$scope.currentAnelIndex];
+                });
+
+              }).catch(function() {
+                toast.error($filter('translate')('controladores.estagios.msg_erro_apagar_estagio'));
+              });
+          }
+          return deveApagarEstagio;
+        });
       };
 
       $scope.ativarProximoAnel = function() {

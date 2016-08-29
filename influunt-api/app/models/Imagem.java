@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
+import play.Logger;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -132,7 +133,7 @@ public class Imagem extends Model implements Serializable {
             try {
                 Files.delete(imagemPath.toPath());
             } catch (IOException e) {
-                e.printStackTrace();
+                Logger.error(e.getMessage(), e);
             }
             return true;
         }

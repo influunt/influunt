@@ -116,14 +116,13 @@ angular.module('influuntApp')
         _.chain($scope.aneis)
           .map('estagios')
           .flatten()
-          .map('idJson')
-          .each(function(idJson) {
-            var obj = _.find($scope.objeto.estagios, {idJson: idJson});
-            posicao[obj.anel.idJson] = posicao[obj.anel.idJson] || 0;
-            var p = ++posicao[obj.anel.idJson];
-            obj.posicao = obj.posicao || p;
-          })
+          .map(function(estagio) { return _.find($scope.objeto.estagios, { idJson: estagio.idJson }); })
           .orderBy(['posicao'])
+          .each(function(estagio) {
+            posicao[estagio.anel.idJson] = posicao[estagio.anel.idJson] || 0;
+            var p = ++posicao[estagio.anel.idJson];
+            estagio.posicao = estagio.posicao || p;
+          })
           .value();
       };
 

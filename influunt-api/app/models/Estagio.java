@@ -13,11 +13,13 @@ import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.apache.commons.lang3.Range;
 import org.joda.time.DateTime;
+import utils.DBUtils;
 
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,14 +71,20 @@ public class Estagio extends Model implements Serializable, Cloneable {
     @OneToMany(mappedBy = "estagio", cascade = CascadeType.REMOVE)
     private List<EstagioPlano> estagiosPlanos;
 
+    @OneToMany(mappedBy = "origem", cascade = CascadeType.REMOVE)
+    private List<Transicao> origemDeTransicoes;
+
+    @OneToMany(mappedBy = "destino", cascade = CascadeType.REMOVE)
+    private List<Transicao> destinoDeTransicoes;
+
     @OneToMany(mappedBy = "origem", cascade = CascadeType.ALL)
     @Valid
     private List<TransicaoProibida> origemDeTransicoesProibidas;
 
-    @OneToMany(mappedBy = "destino")
+    @OneToMany(mappedBy = "destino", cascade = CascadeType.REMOVE)
     private List<TransicaoProibida> destinoDeTransicoesProibidas;
 
-    @OneToMany(mappedBy = "alternativo")
+    @OneToMany(mappedBy = "alternativo", cascade = CascadeType.REMOVE)
     private List<TransicaoProibida> alternativaDeTransicoesProibidas;
 
     @ManyToOne
@@ -85,8 +93,11 @@ public class Estagio extends Model implements Serializable, Cloneable {
     @ManyToOne
     private Controlador controlador;
 
-    @OneToOne(mappedBy = "estagio")
+    @OneToOne(mappedBy = "estagio", cascade = CascadeType.REMOVE)
     private Detector detector;
+
+    @Transient
+    private boolean destroy = false;
 
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
@@ -109,6 +120,32 @@ public class Estagio extends Model implements Serializable, Cloneable {
         super();
         this.idJson = UUID.randomUUID().toString();
         this.posicao = posicao;
+    }
+
+    public boolean delete(File rootPath) {
+        return DBUtils.executeWithTransaction(() -> {
+            this.setDestroy(true);
+            Anel anel = this.getAnel();
+            List<Estagio> estagios = anel.getEstagios();
+            estagios.sort((anterior, proximo) -> {
+                if (anterior.getPosicao() != null && proximo.getPosicao() != null) {
+                    return anterior.getPosicao().compareTo(proximo.getPosicao());
+                }
+                return anterior.getPosicao() == null ? 1 : -1;
+            });
+            int posicao = 1;
+            for (Estagio e : estagios) {
+                if (!e.isDestroy()) {
+                    e.setPosicao(posicao++);
+                    e.update();
+                }
+            }
+
+            Imagem imagem = getImagem();
+            if (this.delete() && imagem != null) {
+                imagem.apagar(rootPath);
+            }
+        });
     }
 
     public String getIdJson() {
@@ -353,5 +390,43 @@ public class Estagio extends Model implements Serializable, Cloneable {
 
     public boolean isAssociadoAGrupoSemaforicoVeicular() {
         return this.getGruposSemaforicos().stream().anyMatch(grupoSemaforico -> grupoSemaforico.isVeicular());
+    }
+
+    public List<Transicao> getOrigemDeTransicoes() {
+        return origemDeTransicoes;
+    }
+
+    public void setOrigemDeTransicoes(List<Transicao> origemDeTransicoes) {
+        this.origemDeTransicoes = origemDeTransicoes;
+    }
+
+    public void addOrigemDeTransicoes(Transicao transicao) {
+        if (getOrigemDeTransicoes() == null) {
+            setOrigemDeTransicoes(new ArrayList<Transicao>());
+        }
+        getOrigemDeTransicoes().add(transicao);
+    }
+
+    public List<Transicao> getDestinoDeTransicoes() {
+        return destinoDeTransicoes;
+    }
+
+    public void setDestinoDeTransicoes(List<Transicao> destinoDeTransicoes) {
+        this.destinoDeTransicoes = destinoDeTransicoes;
+    }
+
+    public void addDestinoDeTransicoes(Transicao transicao) {
+        if (getDestinoDeTransicoes() == null) {
+            setDestinoDeTransicoes(new ArrayList<Transicao>());
+        }
+        getDestinoDeTransicoes().add(transicao);
+    }
+
+    public boolean isDestroy() {
+        return destroy;
+    }
+
+    public void setDestroy(boolean destroy) {
+        this.destroy = destroy;
     }
 }
