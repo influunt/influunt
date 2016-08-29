@@ -101,7 +101,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
     @PrivateOwned
     private List<Anel> aneis;
 
-    @OneToMany(mappedBy = "controlador")
+    @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
     private List<GrupoSemaforico> gruposSemaforicos;
 
     @OneToMany(mappedBy = "controlador")

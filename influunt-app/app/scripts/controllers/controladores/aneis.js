@@ -200,9 +200,9 @@ angular.module('influuntApp')
 
         $scope.imagensDeEstagios = _
           .chain(estagios)
-          .map(function(e) {return _.find($scope.objeto.estagios, {idJson: e.idJson})})
+          .map(function(e) {return _.find($scope.objeto.estagios, {idJson: e.idJson});})
           .map('imagem')
-          .map(function(i) {return _.find($scope.objeto.imagens, {idJson: i.idJson})})
+          .map(function(i) {return _.find($scope.objeto.imagens, {idJson: i.idJson});})
           .value();
       };
 

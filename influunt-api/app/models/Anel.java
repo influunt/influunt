@@ -3,6 +3,7 @@ package models;
 import checks.*;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
+import com.avaje.ebean.annotation.PrivateOwned;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -16,10 +17,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Entidade que representa o {@link Anel} no sistema
@@ -70,6 +68,7 @@ public class Anel extends Model implements Cloneable, Serializable {
 
     @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL)
     @Valid
+    @PrivateOwned
     private List<GrupoSemaforico> gruposSemaforicos;
 
     @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL)

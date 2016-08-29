@@ -333,9 +333,9 @@ angular.module('influuntApp')
             .filter(function(gs) {
               return ids.indexOf(gs.idJson) >= 0;
             })
+            .reject('_destroy')
             .orderBy(['posicao'])
             .value();
-
         }
         return $scope.currentGruposSemaforicos;
       };

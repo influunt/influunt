@@ -12,7 +12,7 @@ angular.module('influuntApp')
     function ($scope, $controller, $state, $filter, assertControlador, influuntAlert) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
-      var atualizaPosicaoGrupos;
+      var atualizaPosicaoGrupos, removeGrupoSalvo, removeGrupoLocal;
 
       /**
        * Pré-condições para acesso à tela.
@@ -64,14 +64,39 @@ angular.module('influuntApp')
           if (confirmado) {
             var jsonId = $scope.currentAnel.gruposSemaforicos[index].idJson;
             var i = _.findIndex($scope.objeto.gruposSemaforicos, {idJson: jsonId});
+            var grupo = $scope.objeto.gruposSemaforicos[i];
 
-            $scope.currentAnel.gruposSemaforicos.splice(index, 1);
-            $scope.objeto.gruposSemaforicos.splice(i, 1);
+            if (grupo.id) {
+              removeGrupoSalvo(grupo);
+            } else {
+              removeGrupoLocal(index, i);
+            }
 
             $scope.atualizaGruposSemaforicos();
             return atualizaPosicaoGrupos();
           }
         });
+      };
+
+      /**
+       * Remove grupos que já foram enviados à API.
+       *
+       * @param      {<type>}  grupo   The grupo
+       */
+      removeGrupoSalvo = function(grupo) {
+        grupo._destroy = true;
+        grupo.posicao = Infinity;
+      };
+
+      /**
+       * Remove grupos que ainda não foram enviados à API.
+       *
+       * @param      {<type>}  index   The index
+       * @param      {<type>}  i       { parameter_description }
+       */
+      removeGrupoLocal = function(index, i) {
+        $scope.currentAnel.gruposSemaforicos.splice(index, 1);
+        $scope.objeto.gruposSemaforicos.splice(i, 1);
       };
 
       $scope.selecionaAnelGruposSemaforicos = function(index) {
@@ -110,7 +135,10 @@ angular.module('influuntApp')
           .compact()
           .each(function(idJson) {
             var obj = _.find($scope.objeto.gruposSemaforicos, {idJson: idJson});
-            obj.posicao = ++posicao;
+
+            if (!obj._destroy) {
+              obj.posicao = ++posicao;
+            }
           })
           .value();
       };
