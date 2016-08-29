@@ -117,7 +117,7 @@
   background: #19b4a8 url(../images/check.png) no-repeat center;
 }
 
-.wrapper-content .basic-wizard .content .body .association-detectors table tbody tr td i {
+.wrapper-content .basic-wizard .content .body .association-detectors table tbody tr td i.fake-checkbox {
   background: url(../images/checked.png) no-repeat center;
   width: 30px;
   height: 30px;
