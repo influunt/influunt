@@ -84,10 +84,10 @@
                               <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
-                              <li style="list-style: none;" data-ng-click="adicionaDetector('PEDESTRE')" data-ng-if="podeDetectorPedestre()">
+                              <li style="list-style: none;" data-ng-click="adicionaDetector('PEDESTRE')" data-ng-if="podeDetectorPedestre">
                                 <a>{{ 'controladores.associacaoDetectores.pedestre' | translate }}</a>
                               </li>
-                              <li style="list-style: none;"  data-ng-click="adicionaDetector('VEICULAR')" data-ng-if="podeDetectorVeicular()">
+                              <li style="list-style: none;"  data-ng-click="adicionaDetector('VEICULAR')" data-ng-if="podeDetectorVeicular">
                                 <a>{{ 'controladores.associacaoDetectores.veicular' | translate }}</a>
                               </li>
                             </ul>
