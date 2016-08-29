@@ -8,13 +8,13 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresAneisCtrl', ['$scope', '$state', '$controller', '$q', '$filter', 'assertControlador', 'influuntAlert',
-    function ($scope, $state, $controller, $q, $filter, assertControlador, influuntAlert) {
+  .controller('ControladoresAneisCtrl', ['$scope', '$state', '$controller', '$q', '$filter', 'assertControlador', 'influuntAlert', 'Restangular', 'toast',
+    function ($scope, $state, $controller, $q, $filter, assertControlador, influuntAlert, Restangular, toast) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
       // Métodos privados.
       var ativaPrimeiroAnel, inicializaEnderecos, atualizarAneisAtivos, registrarWatcherCurrentAnel, setDadosBasicos,
-      setandoEnderecoByAnel, watcherEndereco, watcherImagensEstagios, inicializaObjetoCroqui;
+      setandoEnderecoByAnel, watcherEndereco, setarImagensEstagios, inicializaObjetoCroqui;
 
       /**
        * Pré-condições para acesso à tela de aneis: Somente será possível acessar esta
@@ -109,6 +109,30 @@ angular.module('influuntApp')
         $scope.objeto.imagens.push(_imagem);
       };
 
+      $scope.deletarEstagio = function(estagioIdJson) {
+        var title = $filter('translate')('controladores.estagios.titulo_msg_apagar_estagio'),
+            text = $filter('translate')('controladores.estagios.corpo_msg_apagar_estagio');
+        influuntAlert.confirm(title, text).then(function(deveApagarEstagio) {
+          if (deveApagarEstagio) {
+            var estagio = _.find($scope.objeto.estagios, { idJson: estagioIdJson });
+            Restangular.one('estagios', estagio.id).remove()
+              .then(function() {
+
+                $scope.inicializaWizard().then(function() {
+                  $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
+                  $scope.aneis = $scope.objeto.aneis;
+                  $scope.currentAnel = $scope.aneis[$scope.currentAnelIndex];
+                  setarImagensEstagios($scope.currentAnel);
+                });
+
+              }).catch(function() {
+                toast.error($filter('translate')('controladores.estagios.msg_erro_apagar_estagio'));
+              });
+          }
+          return deveApagarEstagio;
+        });
+      };
+
       $scope.ativarProximoAnel = function() {
         $scope.selecionaAnelLocal(_.findIndex($scope.aneis, { ativo: false }));
         $scope.currentAnel.ativo = true;
@@ -182,7 +206,7 @@ angular.module('influuntApp')
       registrarWatcherCurrentAnel = function() {
         $scope.$watch('currentAnel', function(anel) {
           watcherEndereco(anel);
-          watcherImagensEstagios(anel);
+          setarImagensEstagios(anel);
         });
       };
 
@@ -197,7 +221,7 @@ angular.module('influuntApp')
         }
       };
 
-      watcherImagensEstagios = function(anel) {
+      setarImagensEstagios = function(anel) {
         var estagios = anel.estagios;
         if (!_.isArray(estagios)) {
           return false;

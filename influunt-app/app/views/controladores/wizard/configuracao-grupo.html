@@ -32,7 +32,7 @@
                         <div>
                           <li data-ng-repeat="estagio in currentEstagios"  class="stage-images">
                             <figure class="rings-{{ currentAnel.posicao }}">
-                              <img src="{{ getImagemDeEstagio(estagio) }}">
+                              <img ng-src="{{ getImagemDeEstagio(estagio) }}">
                             </figure>
                           </li>
                         </div>
