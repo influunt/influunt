@@ -15,6 +15,7 @@ angular.module('influuntApp')
       // funcoes privadas.
       var desativarTransicaoProibida, ativarTransicaoProibida, getEstagioAnterior;
 
+      var confirmacaoNadaHaPreencher;
       /**
        * Garante que o controlador tem as condições mínimas para acessar a tela de transicoes proibidas.
        *
@@ -59,6 +60,20 @@ angular.module('influuntApp')
         });
       };
 
+      $scope.confirmacaoNadaHaPreencher = function(){
+        confirmacaoNadaHaPreencher = !confirmacaoNadaHaPreencher;
+      };
+
+      $scope.podeSalvar = function() {
+        if($scope.objeto && !!$scope.objeto.transicoesProibidas){
+          if($scope.objeto.transicoesProibidas.length > 0){
+            confirmacaoNadaHaPreencher = false;
+            return true;
+          }
+          return confirmacaoNadaHaPreencher;
+        }
+        return false;
+      };
       /**
        * Ativa/desativa uma transição proibida da tabela de transições proibidas.
        *

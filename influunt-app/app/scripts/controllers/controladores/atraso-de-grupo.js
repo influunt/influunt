@@ -13,6 +13,7 @@ angular.module('influuntApp')
 
       $scope.isAtrasoDeGrupo = true;
       var inicializaTransicoes;
+      var confirmacaoNadaHaPreencher;
 
       $controller('ControladoresCtrl', {$scope: $scope});
       /**
@@ -68,6 +69,23 @@ angular.module('influuntApp')
         $scope.selecionaAnel(index);
         $scope.atualizaGruposSemaforicos();
         $scope.selecionaGrupoSemaforico($scope.currentGruposSemaforicos[0], 0);
+      };
+      
+      $scope.confirmacaoNadaHaPreencher = function(){
+        confirmacaoNadaHaPreencher = !confirmacaoNadaHaPreencher;
+      };
+
+      $scope.podeSalvar = function() {
+        if($scope.objeto && !!$scope.objeto.atrasosDeGrupo){
+          $scope.totalNaoPreenchido = _.filter($scope.objeto.atrasosDeGrupo, {atrasoDeGrupo: '0'}).length;
+          $scope.totalNaoPreenchido = $scope.totalNaoPreenchido + _.filter($scope.objeto.atrasosDeGrupo, {atrasoDeGrupo: 0}).length;
+          if($scope.totalNaoPreenchido < $scope.objeto.atrasosDeGrupo.length){
+            confirmacaoNadaHaPreencher = false;
+            return true;
+          }
+          return confirmacaoNadaHaPreencher;
+        }
+        return false;
       };
 
     }]);

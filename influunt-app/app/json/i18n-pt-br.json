@@ -305,6 +305,7 @@
       "salvarVoltarPara": "Salvar e voltar para",
       "voltarSemPara": "Voltar sem salvar para",
       "salvarAvancarPara": "Salvar e avançar para",
+      "naoPodeSalvarSemConfirmacao": "É necessário preencher os dados ou confirmar que não há nada a ser feito",
       "ver": "Vizualizar",
       "verEditar": "Ver ou editar",
       "copiar": "Copiar",
