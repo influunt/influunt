@@ -19,18 +19,18 @@ angular.module('influuntApp')
         },
         link: function postLink(scope, element) {
           var $form = $(element[0]).parent();
-          var template = '<div class="dz-preview dz-processing dz-image-preview" data-anel-id="{{ anel.idJson }}" data-imagem-id="{{ data.source }}"><div class="dz-details"><img data-dz-thumbnail="" alt="{{ data.nome }}" src="{{ data.source | imageSource }}"></div><div class="dz-filename"><span data-dz-name="">{{ data.nome }}</span></div><a class="dz-remove" title="{{ removeButtonText }}" ng-click="removerImagem(\'{{ data.source }}\')">{{ removeButtonText }}</a></div>';
+          var template = '<div class="dz-preview dz-processing dz-image-preview" data-anel-id="{{ anel.idJson }}" data-imagem-id="{{ data.source }}"><div class="dz-details"><img data-dz-thumbnail="" alt="{{ data.nome }}" src="{{ data.source }}"></div><div class="dz-filename"><span data-dz-name="">{{ data.nome }}</span></div><a class="dz-remove" title="{{ removeButtonText }}" ng-click="removerImagem(\'{{ data.source }}\')">{{ removeButtonText }}</a></div>';
 
           scope.removerImagem = function(objIdjson) {
             console.log('removendo estagio ' + objIdjson);
           };
 
           var criarImagensFake = function(imagens) {
-            _.each(imagens, function(i) {
-              var imagem = _.find(scope.controlador.imagens, { idJson: i.idJson });
+            _.each(imagens, function(imagem) {
               scope.data = {
-                'nome': imagem.filename,
-                'source': imagem.id
+                nome: imagem.nomeImagem,
+                source: imagem.url,
+                url: imagem.url
               };
 
               var preview = $interpolate(template)(scope);
@@ -43,6 +43,7 @@ angular.module('influuntApp')
           };
 
           scope.$watch('imagens', function(imagens) {
+            console.log(imagens);
             if (!_.isArray(imagens) && _.isObject(imagens)) {
               imagens = [imagens];
             }

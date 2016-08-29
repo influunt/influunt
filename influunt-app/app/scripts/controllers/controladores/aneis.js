@@ -14,7 +14,7 @@ angular.module('influuntApp')
 
       // Métodos privados.
       var ativaPrimeiroAnel, inicializaEnderecos, atualizarAneisAtivos, registrarWatcherCurrentAnel, setDadosBasicos,
-      setandoEnderecoByAnel, watcherEndereco, watcherImagensEstagios;
+      setandoEnderecoByAnel, watcherEndereco, watcherImagensEstagios, inicializaObjetoCroqui;
 
       /**
        * Pré-condições para acesso à tela de aneis: Somente será possível acessar esta
@@ -46,6 +46,7 @@ angular.module('influuntApp')
             inicializaEnderecos();
             registrarWatcherCurrentAnel();
             setDadosBasicos();
+            inicializaObjetoCroqui();
             $scope.$broadcast('influuntWizard.dropzoneOk');
           }
         });
@@ -200,10 +201,20 @@ angular.module('influuntApp')
 
         $scope.imagensDeEstagios = _
           .chain(estagios)
-          .map(function(e) {return _.find($scope.objeto.estagios, {idJson: e.idJson});})
-          .map('imagem')
-          .map(function(i) {return _.find($scope.objeto.imagens, {idJson: i.idJson});})
+          .map(function(e) {
+            var estagio = _.find($scope.objeto.estagios, {idJson: e.idJson});
+            var imagem = _.find($scope.objeto.imagens, {idJson: estagio.imagem.idJson});
+            var obj = {
+              idJson: estagio.idJson,
+              url: $filter('imageSource')(imagem.id),
+              nomeImagem: imagem.filename
+            };
+
+            return obj;
+          })
           .value();
+
+          console.log($scope.imagensDeEstagios)
       };
 
       setandoEnderecoByAnel = function (anel) {
@@ -219,5 +230,16 @@ angular.module('influuntApp')
         anel.endereco = endereco;
         $scope.objeto.todosEnderecos = $scope.objeto.todosEnderecos || [];
         $scope.objeto.todosEnderecos.push(endereco);
+      };
+
+      inicializaObjetoCroqui = function() {
+        var croqui = $scope.currentAnel.croqui;
+        if (!!croqui) {
+          $scope.imagemCroqui = {
+            idJson: $scope.currentAnel.croqui.idJson,
+            url: $filter('imageSource')(croqui.id),
+            nomeImagem: croqui.filename
+          };
+        }
       };
   }]);
