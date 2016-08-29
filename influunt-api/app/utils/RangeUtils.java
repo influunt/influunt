@@ -20,6 +20,9 @@ public class RangeUtils {
     public static InfluuntRange TEMPO_VERDE_INTERMEDIARIO = new InfluuntRange(10, 255);
     public static InfluuntRange TEMPO_EXTENSAO_VERDE = new InfluuntRange(1d, 10d);
     public static InfluuntRange TEMPO_VERDE = new InfluuntRange(1, 255);
+    public static InfluuntRange TEMPO_AUSENCIA_DETECCAO = new InfluuntRange(0, 1440);
+    public static InfluuntRange TEMPO_DETECCAO_PERMANENTE = new InfluuntRange(0, 1440);
+
     private static final RangeUtils instance = new RangeUtils();
 
     protected RangeUtils() {

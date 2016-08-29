@@ -267,7 +267,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
     }
 
     @AssertTrue(groups = ControladorAssociacaoDetectoresCheck.class,
-            message = "Esse estagio deve estar associado a pelo menos um detector.")
+            message = "Esse estágio deve estar associado a pelo menos um detector.")
     public boolean isAssociadoDetectorCasoDemandaPrioritaria() {
         if (Boolean.TRUE.equals(getDemandaPrioritaria())) {
             return Objects.nonNull(getDetector());

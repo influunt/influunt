@@ -125,8 +125,8 @@ public abstract class ControladorTest extends WithApplication {
         controladorTestUtils.criarGrupoSemaforico(anel, tipo, posicao);
     }
 
-    protected void criarDetector(Anel anel, TipoDetector tipo, Integer posicao) {
-        controladorTestUtils.criarDetector(anel, tipo, posicao);
+    protected void criarDetector(Anel anel, TipoDetector tipo, Integer posicao, Boolean monitorado) {
+        controladorTestUtils.criarDetector(anel, tipo, posicao, monitorado);
     }
 
     public abstract void testVazio();

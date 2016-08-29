@@ -233,6 +233,11 @@ public class ControladorCustomSerializer {
         root.put("maximoPermanenciaEstagioMax", RangeUtils.TEMPO_MAXIMO_PERMANECIA_ESTAGIO.getMax().toString());
         root.put("cicloMin", RangeUtils.TEMPO_CICLO.getMin().toString());
         root.put("cicloMax", RangeUtils.TEMPO_CICLO.getMax().toString());
+        root.put("ausenciaDeteccaoMin", RangeUtils.TEMPO_AUSENCIA_DETECCAO.getMin().toString());
+        root.put("ausenciaDeteccaoMax", RangeUtils.TEMPO_AUSENCIA_DETECCAO.getMax().toString());
+        root.put("deteccaoPermanenteMin", RangeUtils.TEMPO_DETECCAO_PERMANENTE.getMin().toString());
+        root.put("deteccaoPermanenteMax", RangeUtils.TEMPO_DETECCAO_PERMANENTE.getMax().toString());
+
 
         if (controlador.getStatusControlador() != null) {
             root.put("statusControlador", controlador.getStatusControlador().toString());
@@ -768,26 +773,18 @@ public class ControladorCustomSerializer {
         if (detector.getDescricao() != null) {
             detectorJson.put("descricao", detector.getDescricao());
         }
-        if (detector.getMonitorado() != null) {
-            detectorJson.put("monitorado", detector.getMonitorado());
-        }
-        if (detector.getTempoAusenciaDeteccaoMinima() != null) {
-            detectorJson.put("tempoAusenciaDeteccaoMinima", detector.getTempoAusenciaDeteccaoMinima());
-        }
-        if (detector.getTempoAusenciaDeteccaoMaxima() != null) {
-            detectorJson.put("tempoAusenciaDeteccaoMaxima", detector.getTempoAusenciaDeteccaoMaxima());
-        }
-        if (detector.getTempoDeteccaoPermanenteMinima() != null) {
-            detectorJson.put("tempoDeteccaoPermanenteMinima", detector.getTempoDeteccaoPermanenteMinima());
-        }
-        if (detector.getTempoDeteccaoPermanenteMaxima() != null) {
-            detectorJson.put("tempoDeteccaoPermanenteMaxima", detector.getTempoDeteccaoPermanenteMaxima());
-        }
 
+        detectorJson.put("monitorado", detector.isMonitorado());
+
+        if (detector.getTempoAusenciaDeteccao() != null) {
+            detectorJson.put("tempoAusenciaDeteccao", detector.getTempoAusenciaDeteccao());
+        }
+        if (detector.getTempoDeteccaoPermanente() != null) {
+            detectorJson.put("tempoDeteccaoPermanente", detector.getTempoDeteccaoPermanente());
+        }
         if (detector.getAnel() != null && detector.getAnel().getIdJson() != null) {
             detectorJson.putObject("anel").put("idJson", detector.getAnel().getIdJson().toString());
         }
-
         if (detector.getEstagio() != null && detector.getEstagio().getIdJson() != null) {
             detectorJson.putObject("estagio").put("idJson", detector.getEstagio().getIdJson().toString());
         }
