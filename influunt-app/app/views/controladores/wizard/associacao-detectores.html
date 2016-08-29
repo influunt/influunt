@@ -62,8 +62,12 @@
                             {{ 'geral.crud.configurar' | translate }}
                           </button>
                         </td>
-                        <td data-ng-repeat="estagio in currentEstagios track by $index">
-                          <input type="checkbox" ichecks>
+                        <td data-ng-repeat="estagio in currentEstagios track by $index"
+                            data-ng-class="{disabled: estagio.temDetector && detector.estagio.idJson !== estagio.idJson}"
+                            data-ng-click="toggleAssociacaoDetector(estagio, detector)">
+                          <span style="border: 1px solid #d3cfc8;">
+                           <i class="fa fa-check" aria-hidden="true" data-ng-if="detector.estagio.idJson === estagio.idJson"></i>
+                          </span>
                         </td>
                         <td class="text-center">
                           <a ng-click="excluirDetector(detector, $index)" class="btn btn-xs btn-danger">{{ 'geral.crud.excluir' | translate }}</a>
