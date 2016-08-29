@@ -37,8 +37,8 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
 
         assertEquals(2, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "Esse estagio deve estar associado a pelo menos um detector.", "aneis[0].estagios[0].associadoDetectorCasoDemandaPrioritaria"),
-                new Erro(CONTROLADOR, "Esse estagio deve estar associado a pelo menos um detector.", "aneis[1].estagios[0].associadoDetectorCasoDemandaPrioritaria")
+                new Erro(CONTROLADOR, "Esse estágio deve estar associado a pelo menos um detector.", "aneis[0].estagios[0].associadoDetectorCasoDemandaPrioritaria"),
+                new Erro(CONTROLADOR, "Esse estágio deve estar associado a pelo menos um detector.", "aneis[1].estagios[0].associadoDetectorCasoDemandaPrioritaria")
         ));
 
         Anel anelCom2Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
@@ -54,13 +54,13 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro(CONTROLADOR, "A quantidade de detectores não deve ultrapassar a quantidade de estágios definidas no modelo do controlador.", "aneis[1]"),
                 new Erro(CONTROLADOR, "Numero total de detectores de pedestre informado individualmente nos aneis excede o limite do controlador", ""),
-                new Erro(CONTROLADOR, "O detector deve estar associado a pelo menos um estagio.", "aneis[1].detectores[0].associadoAoMenosUmEstagio"),
-                new Erro(CONTROLADOR, "O detector deve estar associado a pelo menos um estagio.", "aneis[1].detectores[1].associadoAoMenosUmEstagio"),
-                new Erro(CONTROLADOR, "O detector deve estar associado a pelo menos um estagio.", "aneis[1].detectores[2].associadoAoMenosUmEstagio"),
-                new Erro(CONTROLADOR, "O detector deve estar associado a pelo menos um estagio.", "aneis[1].detectores[3].associadoAoMenosUmEstagio"),
-                new Erro(CONTROLADOR, "O detector deve estar associado a pelo menos um estagio.", "aneis[1].detectores[4].associadoAoMenosUmEstagio"),
-                new Erro(CONTROLADOR, "Esse estagio deve estar associado a pelo menos um detector.", "aneis[0].estagios[0].associadoDetectorCasoDemandaPrioritaria"),
-                new Erro(CONTROLADOR, "Esse estagio deve estar associado a pelo menos um detector.", "aneis[1].estagios[0].associadoDetectorCasoDemandaPrioritaria")
+                new Erro(CONTROLADOR, "O detector deve estar associado a pelo menos um estágio.", "aneis[1].detectores[0].associadoAoMenosUmEstagio"),
+                new Erro(CONTROLADOR, "O detector deve estar associado a pelo menos um estágio.", "aneis[1].detectores[1].associadoAoMenosUmEstagio"),
+                new Erro(CONTROLADOR, "O detector deve estar associado a pelo menos um estágio.", "aneis[1].detectores[2].associadoAoMenosUmEstagio"),
+                new Erro(CONTROLADOR, "O detector deve estar associado a pelo menos um estágio.", "aneis[1].detectores[3].associadoAoMenosUmEstagio"),
+                new Erro(CONTROLADOR, "O detector deve estar associado a pelo menos um estágio.", "aneis[1].detectores[4].associadoAoMenosUmEstagio"),
+                new Erro(CONTROLADOR, "Esse estágio deve estar associado a pelo menos um detector.", "aneis[0].estagios[0].associadoDetectorCasoDemandaPrioritaria"),
+                new Erro(CONTROLADOR, "Esse estágio deve estar associado a pelo menos um detector.", "aneis[1].estagios[0].associadoDetectorCasoDemandaPrioritaria")
         ));
 
         anelCom2Estagios.setDetectores(null);
@@ -69,8 +69,8 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
 
         assertEquals(2, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "Esse estagio deve estar associado a pelo menos um detector.", "aneis[0].estagios[0].associadoDetectorCasoDemandaPrioritaria"),
-                new Erro(CONTROLADOR, "Esse estagio deve estar associado a pelo menos um detector.", "aneis[1].estagios[0].associadoDetectorCasoDemandaPrioritaria")
+                new Erro(CONTROLADOR, "Esse estágio deve estar associado a pelo menos um detector.", "aneis[0].estagios[0].associadoDetectorCasoDemandaPrioritaria"),
+                new Erro(CONTROLADOR, "Esse estágio deve estar associado a pelo menos um detector.", "aneis[1].estagios[0].associadoDetectorCasoDemandaPrioritaria")
         ));
 
         criarDetector(anelCom2Estagios, TipoDetector.PEDESTRE, 1, false);
@@ -89,8 +89,8 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(4, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "O detector de pedestre deve estar associado a um estagio com grupo semafórico de pedestre.", "aneis[1].detectores[0].associadoAoMenosUmEstagioPedestre"),
-                new Erro(CONTROLADOR, "O detector veicular deve estar associado a um estagio com grupo semafórico veicular.", "aneis[0].detectores[0].associadoAoMenosUmEstagioVeicular"),
+                new Erro(CONTROLADOR, "O detector de pedestre deve estar associado a um estágio com grupo semafórico de pedestre.", "aneis[1].detectores[0].associadoAoMenosUmEstagioPedestre"),
+                new Erro(CONTROLADOR, "O detector veicular deve estar associado a um estágio com grupo semafórico veicular.", "aneis[0].detectores[0].associadoAoMenosUmEstagioVeicular"),
                 new Erro(CONTROLADOR, "O tempo de ausência de detecção deve estar entre 0 e 1440.", "aneis[0].detectores[0].tempoAusenciaDeteccaoEstaDentroDaFaixa"),
                 new Erro(CONTROLADOR, "O tempo de detecção permanente deve estar entre 0 e 1440.", "aneis[0].detectores[0].tempoDeteccaoPermanenteEstaDentroDaFaixa")
         ));
@@ -213,7 +213,7 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
         assertEquals(StatusControlador.CONFIGURADO, controladorRetornado.getStatusControlador());
         Anel anelCom4Estagios = controladorRetornado.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
 
-        assertEquals("Toda de detectores", 3, anelCom4Estagios.getDetectores().size());
+        assertEquals("Total de detectores", 3, anelCom4Estagios.getDetectores().size());
 
         Estagio estagio1 = anelCom4Estagios.findEstagioByDescricao("E1");
         Estagio estagio2 = anelCom4Estagios.findEstagioByDescricao("E2");
