@@ -157,8 +157,6 @@ angular.module('influuntApp')
         });
 
         $scope.objeto.estagios = _.orderBy($scope.objeto.estagios, ['posicao']);
-
-
         $scope.currentAnel.estagios = _.map($scope.currentEstagios, function(estagio) {
           return {idJson: estagio.idJson};
         });
