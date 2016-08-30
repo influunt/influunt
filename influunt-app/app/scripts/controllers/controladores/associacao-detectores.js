@@ -85,7 +85,9 @@ angular.module('influuntApp')
           controlador: { idJson: $scope.objeto.idJson },
           monitorado: true,
           posicao: posicao,
-          tipo: tipo
+          tipo: tipo,
+          tempoAusenciaDeteccao: 0,
+          tempoDeteccaoPermanente: 0
         };
 
         $scope.objeto.detectores = $scope.objeto.detectores || [];
@@ -137,7 +139,7 @@ angular.module('influuntApp')
           .orderBy(['tipo', 'posicao'])
           .value();
 
-          return $scope.currentDetectores;
+        return $scope.currentDetectores;
       };
 
       /**
