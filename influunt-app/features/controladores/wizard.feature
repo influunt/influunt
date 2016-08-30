@@ -120,7 +120,8 @@ Funcionalidade: Fluxo de cadastro de controladores
 
   Cenário: Tentar salvar uma transição proibida informando um estágio alternativo
     Dado que o usuário esteja no wizard no passo "Transições Proibidas"
-    E que a tabela de estágios alternativos esteja em branco
+    E o usuario selecionar o valor "E1" no campo "Alternativa"
+    # E que o usuário clicar Confirmo que não há configurações a serem feitas aqui
     Quando clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Atraso de Grupo"
 
