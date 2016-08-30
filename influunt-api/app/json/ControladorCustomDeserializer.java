@@ -1,10 +1,8 @@
 package json;
 
-import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
-import org.apache.commons.collections.ListUtils;
 import org.joda.time.LocalTime;
 
 import java.text.DateFormat;
@@ -14,9 +12,6 @@ import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Created by rodrigosol on 7/29/16.
@@ -160,14 +155,28 @@ public class ControladorCustomDeserializer {
         deleteVerdesConflitantes(controlador);
         deleteEstagiosGruposSemaforicos(controlador);
         deleteTransicoesProibidas(controlador);
+        deleteTabelasEntreVerdes(controlador);
 
         return controlador;
     }
 
+    private void deleteTabelasEntreVerdes(Controlador c) {
+        if (c.getId() != null) {
+            Controlador controladorAux = Controlador.find.byId(c.getId());
+            if (controladorAux != null) {
+                controladorAux.getAneis().forEach(anel -> {
+                    anel.getGruposSemaforicos().forEach(grupo -> {
+                        grupo.getTabelasEntreVerdes().forEach(Model::delete);
+                    });
+                });
+            }
+        }
+    }
+
     private void deleteVerdesConflitantes(Controlador c) {
         if (c.getId() != null) {
-            Controlador controlador = Controlador.find.byId(c.getId());
-            controlador.getAneis().forEach(anel -> {
+            Controlador controladorAux = Controlador.find.byId(c.getId());
+            controladorAux.getAneis().forEach(anel -> {
                 anel.getGruposSemaforicos().forEach(grupoSemaforico -> {
                     grupoSemaforico.getVerdesConflitantes().forEach(verdesConflitantes -> verdesConflitantes.delete());
                 });
@@ -308,7 +317,9 @@ public class ControladorCustomDeserializer {
         if (node.has("tabelasEntreVerdes")) {
             for (JsonNode innerNode : node.get("tabelasEntreVerdes")) {
                 TabelaEntreVerdes tabelaEntreVerdes = parsetTabelaEntreVerdes(innerNode);
-                tabelasEntreVerdesCache.put(tabelaEntreVerdes.getIdJson().toString(), tabelaEntreVerdes);
+                if (!tabelaEntreVerdes.isDestroy()) {
+                    tabelasEntreVerdesCache.put(tabelaEntreVerdes.getIdJson(), tabelaEntreVerdes);
+                }
             }
         }
     }
@@ -866,12 +877,11 @@ public class ControladorCustomDeserializer {
     private TabelaEntreVerdes parsetTabelaEntreVerdes(JsonNode node) {
         TabelaEntreVerdes tabelaEntreVerdes = new TabelaEntreVerdes();
 
-        if (node.has("id")) {
-            JsonNode id = node.get("id");
-            if (!id.isNull()) {
-                tabelaEntreVerdes.setId(UUID.fromString(id.asText()));
-            }
+        if (node.has("_destroy")) {
+            tabelaEntreVerdes.setDestroy(node.get("_destroy").booleanValue());
         }
+
+        tabelaEntreVerdes.setId(null);
 
         if (node.has("idJson")) {
             tabelaEntreVerdes.setIdJson(node.get("idJson").asText());
@@ -1350,7 +1360,6 @@ public class ControladorCustomDeserializer {
     }
 
     private void parseCollection(String collection, JsonNode node, List list, final String cacheContainer, final String callie) {
-
         if (node.has(collection)) {
             for (JsonNode innerNode : node.get(collection)) {
                 if (innerNode.has("idJson")) {
