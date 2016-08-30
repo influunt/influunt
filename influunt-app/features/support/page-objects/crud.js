@@ -25,7 +25,15 @@ var CrudPage = function () {
     'Tipo Grupo Semafórico':           'select[name="tipoGrupoSemaforico"]',
     'Tipo':                            '[name="tipo"]',
     'Número SMEE':                     '[name="numeroSMEE"]',
-    'Alternativa':                     'select[name="alternativos"]'
+    'Alternativa':                     'select[name="alternativos"]',
+    'Descrição':                       '[name="descricao"]',
+    'Limite Estágios':                 '[name="limiteEstagio"]',
+    'Limite Grupos Semafóricos':       '[name="limiteGrupoSemaforico"]',
+    'Limite Aneies':                   '[name="limiteAnel"]',
+    'Limite Detectores Pedestre':      '[name="limiteDetectorPedestre"]',
+    'Limite Detectores Veicular':      '[name="limiteDetectorVeicular"]',
+    'Limite Tabelas Entre Verdes':     '[name="limiteTabelasEntreVerdes"]',
+    'Limite Planos':                   '[name="limitePlanos"]',
   };
 
   this.preencherCampo = function(campo, valor) {
