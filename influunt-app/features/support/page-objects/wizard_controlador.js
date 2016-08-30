@@ -134,22 +134,6 @@ var WizardControladorPage = function () {
     var thisWizardPage = this;
     var messages = [];
     return thisWizardPage.getErrorMessageFor('[name="area"]').then(function(msg) {
-    //   messages.push({campo: 'area', msg: msg});
-    //   return thisWizardPage.getErrorMessageFor('helper-endereco[latitude="objeto.todosEnderecos[0].latitude"]');
-    // }).then(function(msg) {
-    //   messages.push({campo: 'localizacao1.longitude', msg: msg});
-    //   return thisWizardPage.getErrorMessageFor('helper-endereco[latitude="objeto.todosEnderecos[1].latitude"]');
-    // }).then(function(msg) {
-    //   messages.push({campo: 'localizacao2', msg: msg});
-    //   return thisWizardPage.getErrorMessageFor('[name="enderecos[1].latitude"]');
-    // }).then(function(msg) {
-    //   messages.push({campo: 'localizacao2.latitude', msg: msg});
-    //   return thisWizardPage.getErrorMessageFor('[name="enderecos[1].longitude"]');
-    // }).then(function(msg) {
-    //   messages.push({campo: 'localizacao2.longitude', msg: msg});
-    //   return thisWizardPage.getErrorMessageFor('[name="modelo"]');
-    // }).then(function(msg) {
-    //   messages.push({campo: 'modelo', msg: msg});
 
       return new Promise(function (resolve, reject) {
         for (var i = 0; i < messages.length; i++) {
