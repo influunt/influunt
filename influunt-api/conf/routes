@@ -104,3 +104,6 @@ POST        /api/v1/tabela_horarios                     controllers.TabelaHorari
 
 # Estágios
 DELETE      /api/v1/estagios/:id                        controllers.EstagiosController.delete(id)
+
+# Detectores
+DELETE      /api/v1/detectores/:id                        controllers.DetectoresController.delete(id)

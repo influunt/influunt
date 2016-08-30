@@ -145,6 +145,9 @@
       "corpo_msg_apagar_estagio": "Ao apagar esse estágio todos os relacionamentos previamente cadastrados serão apagados.",
       "msg_erro_apagar_estagio": "Não foi possível apagar o estágio."
     },
+    "detectores": {
+      "msg_erro_apagar_detector": "Não foi possível apagar o detector."
+    },
     "validacoes": {
       "aoMenosUmGrupoSemaforico": "Este anel deve ter mais de 1 grupo semáforico",
       "latitudeMayNotBeNull": "Campo de Latitude é Obrigatório",
