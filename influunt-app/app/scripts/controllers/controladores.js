@@ -352,7 +352,7 @@ angular.module('influuntApp')
             .value();
         }
 
-          return $scope.currentEstagios;
+        return $scope.currentEstagios;
       };
 
       $scope.getImagemDeEstagio = function(estagio) {
