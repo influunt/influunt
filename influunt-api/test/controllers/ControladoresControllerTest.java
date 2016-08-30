@@ -408,6 +408,8 @@ public class ControladoresControllerTest extends WithApplication {
                 .uri(routes.ControladoresController.editarPlanos(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
 
         Result postResult = route(postRequest);
+        assertEquals(OK, postResult.status());
+
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
         Controlador controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
         controladorClonado.refresh();
@@ -470,6 +472,8 @@ public class ControladoresControllerTest extends WithApplication {
                 .uri(routes.ControladoresController.editarTabelaHoraria(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
 
         Result postResult = route(postRequest);
+        assertEquals(OK, postResult.status());
+
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
         Controlador controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
 
@@ -495,6 +499,42 @@ public class ControladoresControllerTest extends WithApplication {
 
     }
 
+    @Test
+    public void deveriaClonarPlanosAnelCom2EstagiosEAtualizarPlano() {
+        int totalEstagiosPlanos = 6;
+        int totalPlanos = 2;
+        int totalGruposSemaforicosPlanos = 4;
+
+        Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
+        controlador.setStatusControlador(StatusControlador.ATIVO);
+        controlador.update();
+
+        Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
+                .uri(routes.ControladoresController.editarPlanos(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+
+        Result postResult = route(postRequest);
+        assertEquals(OK, postResult.status());
+
+        JsonNode json = Json.parse(Helpers.contentAsString(postResult));
+        Controlador controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
+
+        Anel anelCom2Estagios = controladorClonado.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
+
+        Plano plano = anelCom2Estagios.getVersaoPlano().getPlanos().get(0);
+        plano.setDescricao("Nova Descricao");
+
+        postRequest = new Http.RequestBuilder().method("POST")
+                .uri(routes.PlanosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
+
+
+        postResult = route(postRequest);
+        assertEquals(OK, postResult.status());
+
+        assertEquals("Total de Estagios Planos", totalEstagiosPlanos * 2, Ebean.find(EstagioPlano.class).findRowCount());
+        assertEquals("Total de Planos", totalPlanos * 2, Plano.find.findRowCount());
+        assertEquals("Total de GrupoSemaforicoPlano", totalGruposSemaforicosPlanos * 2, Ebean.find(GrupoSemaforicoPlano.class).findRowCount());
+
+    }
 
     private <T> void assertFields(T origem, T destino) {
         for (Field field : origem.getClass().getDeclaredFields()) {
