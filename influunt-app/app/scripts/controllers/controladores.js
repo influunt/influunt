@@ -369,7 +369,7 @@ angular.module('influuntApp')
       $scope.copiar = function(controladorId) {
         return Restangular.one('controladores', controladorId).all("edit").customGET()
           .then(function() {
-            $scope.index();
+            $state.go('app.controladores');
           })
           .catch(function(err) {
             toast.error($filter('translate')('geral.mensagens.default_erro'));
@@ -412,14 +412,17 @@ angular.module('influuntApp')
       };
 
       $scope.cancelarEdicao = function(controladorId) {
-        return Restangular.one('controladores', controladorId).all("cancelar_edicao").customDELETE()
-          .then(function() {
-            $scope.index();
-          })
-          .catch(function(err) {
-            toast.clear();
-            influuntAlert.alert('Controlador', err.data[0].message);
-          });
+        influuntAlert.delete().then(function(confirmado) {
+          return confirmado && Restangular.one('controladores', controladorId).all("cancelar_edicao").customDELETE()
+            .then(function() {
+              toast.success($filter('translate')('geral.mensagens.removido_com_sucesso'));
+              $state.go('app.controladores');
+            })
+            .catch(function(err) {
+              toast.error($filter('translate')('geral.mensagens.default_erro'));
+              throw new Error(err);
+            });
+        });
       };
 
       $scope.voltarSemSalvar = function(destino) {

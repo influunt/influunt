@@ -1218,7 +1218,7 @@ public class ControladorCustomSerializer {
             imagensMap.put(croqui.getIdJson(), croqui);
         }
 
-        refVersoesPlanos("versaoPlano", anel.getVersaoPlanoAtivo(), anelJson);
+        refVersoesPlanos("versaoPlano", anel.getVersaoPlano(), anelJson);
         refEstagios(anel.getEstagios(), anelJson);
         refGruposSemaforicos(anel.getGruposSemaforicos(), anelJson);
         refDetectores(anel.getDetectores(), anelJson);

@@ -422,5 +422,15 @@ public class Anel extends Model implements Cloneable, Serializable {
 
         getVersoesPlanos().add(versaoPlano);
     }
+
+    @Transient
+    public VersaoPlano getVersaoPlano() {
+        if (getVersaoPlanoEmEdicao() != null) {
+            return getVersaoPlanoEmEdicao();
+        } else if (getVersaoPlanoAtivo() != null) {
+            return getVersaoPlanoAtivo();
+        }
+        return null;
+    }
 }
 

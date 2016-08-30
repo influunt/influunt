@@ -31,6 +31,7 @@ libraryDependencies ++= Seq(
 jacoco.settings
 parallelExecution in jacoco.Config := false
 jacoco.reportFormats in jacoco.Config := Seq(
+  de.johoop.jacoco4sbt.ScalaHTMLReport(encoding = "utf-8", withBranchCoverage = true),
   de.johoop.jacoco4sbt.XMLReport(encoding = "utf-8"))
 
 

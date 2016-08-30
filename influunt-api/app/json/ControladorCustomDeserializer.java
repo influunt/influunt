@@ -1126,7 +1126,8 @@ public class ControladorCustomDeserializer {
         if (node.has("tabelaHoraria") && node.get("tabelaHoraria").has("idJson")) {
             final String tabelaHorariaId = node.get("tabelaHoraria").get("idJson").asText();
             Consumer<Map<String, Map>> c = (caches) -> {
-                versaoTabelaHoraria.setTabelaHoraria((TabelaHorario) caches.get(TABELAS_HORARIAS).get(tabelaHorariaId));
+                Map map = caches.get(TABELAS_HORARIAS);
+                versaoTabelaHoraria.setTabelaHoraria((TabelaHorario) map.get(tabelaHorariaId));
             };
             runLater(c);
         }
@@ -1157,6 +1158,8 @@ public class ControladorCustomDeserializer {
                 tabelaHoraria.setVersaoTabelaHoraria((VersaoTabelaHoraria) map.get(versaoTabelaHorariaId));
             };
             runLater(c);
+        } else {
+//            versaoTabelaHoraria
         }
 
         List<Evento> eventos = new ArrayList<>();

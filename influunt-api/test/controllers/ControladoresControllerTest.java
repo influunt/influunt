@@ -162,6 +162,7 @@ public class ControladoresControllerTest extends WithApplication {
         assertEquals("Teste de Modelo", controlador.getModelo(), controladorClonado.getModelo());
         assertEquals("Teste de Controlador Fisico", controlador.getVersaoControlador().getControladorFisico(), controladorClonado.getVersaoControlador().getControladorFisico());
         assertEquals("Total de Versoes", 2, controladorClonado.getVersaoControlador().getControladorFisico().getVersoes().size());
+        assertTrue("Versao Tabela Horaria", controladorClonado.getVersoesTabelasHorarias().isEmpty());
         assertFields(controlador, controladorClonado);
 
         controlador.getAneis().forEach(anel -> {

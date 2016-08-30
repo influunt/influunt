@@ -60,6 +60,7 @@ public class VersaoTabelaHoraria extends Model implements Serializable {
     public VersaoTabelaHoraria() {
         super();
         this.idJson = UUID.randomUUID().toString();
+        this.statusVersao = StatusVersao.EDITANDO;
     }
 
     public VersaoTabelaHoraria(Controlador controlador, TabelaHorario tabelaHorariaOrigem, TabelaHorario tabelaHoraria, Usuario usuario) {
@@ -69,7 +70,9 @@ public class VersaoTabelaHoraria extends Model implements Serializable {
         this.tabelaHorariaOrigem = tabelaHorariaOrigem;
         this.tabelaHoraria = tabelaHoraria;
         this.usuario = usuario;
-        this.descricao = "Tabela Horaria criado pelo usuário:".concat(usuario.getNome());
+        if(usuario != null && usuario.getNome() != null) {
+            this.descricao = "Tabela Horaria criado pelo usuário:".concat(usuario.getNome());
+        }
         this.statusVersao = StatusVersao.EDITANDO;
     }
 
@@ -152,6 +155,10 @@ public class VersaoTabelaHoraria extends Model implements Serializable {
 
     public boolean isEditando() {
         return StatusVersao.EDITANDO.equals(this.getStatusVersao());
+    }
+
+    public void ativar() {
+        setStatusVersao(StatusVersao.ATIVO);
     }
 
     @Override

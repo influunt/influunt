@@ -23,7 +23,8 @@ angular.module('influuntApp')
           erros: '=',
           onVerificaAtualizacaoDeEventos: '&',
           onVisualizarPlano: '&',
-          onRemoverEvento: '&'
+          onRemoverEvento: '&',
+          readOnly: '=?'
         },
         link: function influuntEvento(scope) {
           scope.removeEvento = function(){

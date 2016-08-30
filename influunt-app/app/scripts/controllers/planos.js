@@ -24,6 +24,8 @@ angular.module('influuntApp')
           duplicarPlano;
       var diagramaDebouncer = null;
 
+      $scope.somenteVisualizacao = $state.current.data.somenteVisualizacao;
+
       /**
        * Inicializa a tela de planos. Carrega os dados básicos da tela.
        */
@@ -31,14 +33,20 @@ angular.module('influuntApp')
         var id = $state.params.id;
         Restangular.one('controladores', id).get().then(function(res) {
           $scope.objeto = res;
-          $scope.comCheckBoxGrupo = true;
+          $scope.comCheckBoxGrupo = !$scope.somenteVisualizacao;
           parseAllToInt();
           montaTabelaValoresMinimos();
 
           $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
           $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
+
           $scope.aneis.forEach(function(anel) {
-            anel.planos = anel.planos || [];
+            if (!(_.isArray(anel.planos) && anel.planos.length > 0)) {
+              anel.planos = anel.planos || [];
+              var versaoPlano = {idJson: UUID.generate(), anel:{idJson: anel.idJson}};
+              $scope.objeto.versoesPlanos.push(versaoPlano);
+              anel.versaoPlano = {idJson: versaoPlano.idJson};
+            }
             for (var i = 0; i < $scope.objeto.limitePlanos; i++) {
               adicionaPlano(anel, i + 1);
             }
@@ -47,6 +55,17 @@ angular.module('influuntApp')
           $scope.selecionaAnelPlanos(0);
           return atualizaDiagramaIntervalos();
         });
+      };
+
+      $scope.clonarPlanos = function(controladorId) {
+        return Restangular.one('controladores', controladorId).all("editar_planos").customGET()
+          .then(function() {
+            $state.go('app.controladores');
+          })
+          .catch(function(err) {
+            toast.error($filter('translate')('geral.mensagens.default_erro'));
+            throw new Error(JSON.stringify(err));
+          });
       };
 
       $scope.selecionaEstagioPlano = function(estagioPlano, index) {
@@ -69,7 +88,7 @@ angular.module('influuntApp')
           var plano = _.find($scope.objeto.planos, {idJson: $scope.planoCopiado.idJson});
           var novoPlano = duplicarPlano(plano);
           novoPlano.id = p.id;
-          
+
           var index = _.findIndex($scope.objeto.planos, {idJson: p.idJson});
           $scope.objeto.planos.splice(index, 1);
 
@@ -211,6 +230,7 @@ angular.module('influuntApp')
       };
 
       $scope.sortableOptions = {
+        disabled: $scope.somenteVisualizacao,
         handle: '> .sortable',
         stop: function() {
           atualizaPosicaoEstagiosPlanos();
@@ -249,6 +269,7 @@ angular.module('influuntApp')
       $scope.selecionaPlano = function(plano, index) {
         $scope.currentPlanoIndex = index;
         $scope.currentPlano = plano;
+        $scope.currentVersaoPlano = _.find($scope.objeto.versoesPlanos, {anel: {idJson: $scope.currentAnel.idJson}});
         atualizaEstagiosPlanos();
         return atualizaPosicaoPlanos();
       };
@@ -312,9 +333,15 @@ angular.module('influuntApp')
             gruposSemaforicosPlanos: [],
             estagiosPlanos: [],
             tempoCiclo: $scope.objeto.cicloMin,
-            configurado: posicao === 1 ? true : false
+            configurado: posicao === 1 ? true : false,
+            versaoPlano: {idJson: anel.versaoPlano.idJson}
           };
-          
+
+          var versaoPlano = _.find($scope.objeto.versoesPlanos, {idJson: anel.versaoPlano.idJson});
+          versaoPlano.planos = versaoPlano.planos || [];
+          versaoPlano.planos.push({idJson: plano.idJson});
+
+
           $scope.objeto.gruposSemaforicosPlanos = $scope.objeto.gruposSemaforicosPlanos || [];
           anel.gruposSemaforicos.forEach(function (g){
             var grupo =  _.find($scope.objeto.gruposSemaforicos, {idJson: g.idJson});
@@ -395,6 +422,7 @@ angular.module('influuntApp')
         atualizaGruposSemaforicos();
         atualizaTabelaEntreVerdes($scope.currentAnel);
         atualizaPlanos();
+        $scope.timeline();
       };
 
       atualizaEstagios = function(anel) {
@@ -481,6 +509,19 @@ angular.module('influuntApp')
         $scope.currentPlanos.forEach(function (plano, index){
           plano.posicao = index + 1;
         });
+      };
+
+      $scope.timeline = function() {
+        if($scope.currentAnel) {
+          return Restangular.one('planos', $scope.currentAnel.id).all("timeline").customGET()
+            .then(function(res) {
+              $scope.versoes = res;
+            })
+            .catch(function(err) {
+              toast.error($filter('translate')('geral.mensagens.default_erro'));
+              throw new Error(JSON.stringify(err));
+            });
+        }
       };
 
       /**

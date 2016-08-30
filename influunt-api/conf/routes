@@ -102,9 +102,11 @@ POST        /api/v1/login                               controllers.SecurityCont
 
 # Planos
 POST        /api/v1/planos                              controllers.PlanosController.create()
+GET         /api/v1/planos/:id/timeline                 controllers.PlanosController.timeline(id)
 
 # Tabela Horario
 POST        /api/v1/tabela_horarios                     controllers.TabelaHorariosController.create()
+GET         /api/v1/tabela_horarios/:id/timeline        controllers.TabelaHorariosController.timeline(id)
 
 # Estágios
 DELETE      /api/v1/estagios/:id                        controllers.EstagiosController.delete(id)

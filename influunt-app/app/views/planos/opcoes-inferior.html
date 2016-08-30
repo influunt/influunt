@@ -2,28 +2,28 @@
   <div class="knob-item col-lg-3 col-sm-3">
     <influunt-knob ng-model="currentEstagioPlano.tempoVerdeMinimo"
       min="objeto.verdeMinimoMin" max="objeto.verdeMinimoMax"
-      title="TEMPO DE VERDE MIN." label="SEG">
+      title="TEMPO DE VERDE MIN." label="SEG" read-only="somenteVisualizacao">
     </influunt-knob>
   </div>
 
   <div class="knob-item col-lg-3 col-sm-3">
     <influunt-knob ng-model="currentEstagioPlano.tempoVerdeMaximo"
       min="objeto.verdeMaximoMin" max="objeto.verdeMaximoMax"
-      title="TEMPO DE VERDE MAX." label="SEG">
+      title="TEMPO DE VERDE MAX." label="SEG" read-only="somenteVisualizacao">
     </influunt-knob>
   </div>
 
   <div class="knob-item col-lg-3 col-sm-3">
     <influunt-knob ng-model="currentEstagioPlano.tempoVerdeIntermediario"
       min="objeto.verdeIntermediarioMin" max="objeto.verdeIntermediarioMax"
-      title="TEMPO DE VERDE INTERMEDIÁRIO" label="SEG">
+      title="TEMPO DE VERDE INTERMEDIÁRIO" label="SEG" read-only="somenteVisualizacao">
     </influunt-knob>
   </div>
 
   <div class="knob-item col-lg-3 col-sm-3">
     <influunt-knob ng-model="currentEstagioPlano.tempoExtensaoVerde"
       min="objeto.extensaVerdeMin" max="objeto.extensaVerdeMax"
-      title="EXTENSÃO DE VERDE" label="SEG">
+      title="EXTENSÃO DE VERDE" label="SEG" read-only="somenteVisualizacao">
     </influunt-knob>
   </div>
 </div>
@@ -31,7 +31,7 @@
   <div class="knob-item col-lg-3 col-sm-3">
     <influunt-knob ng-model="currentEstagiosPlanos[currentEstagioPlanoIndex].tempoVerde"
       min="objeto.verdeMin" max="objeto.verdeMax"
-      title="TEMPO DE VERDE" label="SEG"
+      title="TEMPO DE VERDE" label="SEG" read-only="somenteVisualizacao"
       mostrar-percentual="true"
       max-percentual="currentPlano.tempoCiclo">
     </influunt-knob>
@@ -43,7 +43,7 @@
     <div class="form-group">
       <label>ESTÁGIO DISPENSÁVEL</label>
       <p>
-        <input type="checkbox" name="dispensavel"
+        <input type="checkbox" name="dispensavel" is-disabled="somenteVisualizacao"
             data-ng-model="currentEstagioPlano.dispensavel" ichecks>
       </p>
     </div>
@@ -53,7 +53,7 @@
       <label>ESTÁGIO QUE RECEBE TEMPO DO ESTÁGIO DISPENSÁVEL</label>
       <select data-ng-options="estagio.idJson as 'E' + estagio.posicao for estagio in opcoesEstagiosDisponiveis"
         data-ng-model="currentEstagioPlano.estagioQueRecebeEstagioDispensavel.idJson"
-        name="tipoEstagio" class="form-control">
+        name="tipoEstagio" class="form-control" ng-disabled="somenteVisualizacao">
       </select>
     </div>
   </div>
