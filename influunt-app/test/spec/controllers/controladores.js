@@ -191,15 +191,4 @@ describe('Controller: ControladoresCtrl', function () {
       expect(scope.errors).toEqual(originalErrors);
     });
   });
-
-  // @todo verificar porque os testes quebram no gulp quando se alcanca uma determinada quantidade de it's.
-  xdescribe('anelTemErro', function () {
-    beforeEach(function() {
-      scope.errors = {aneis: [{a: 1}]};
-    });
-
-    it('se houver algum erro listado, deve retornar true', function() {
-      expect(scope.anelTemErro(0)).toBeTruthy();
-    });
-  });
 });

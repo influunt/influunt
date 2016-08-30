@@ -278,6 +278,12 @@ gulp.task('test', ['start:server:test'], function() {
     }));
 });
 
+gulp.task('single-test', function() {
+  var testToFiles = paths.testRequire.concat(paths.scripts, paths.test);
+  return gulp.src(testToFiles)
+    .pipe($.karma({configFile: paths.karma}));
+});
+
 gulp.task('test:cucumber', runCucumber);
 
 // inject bower components

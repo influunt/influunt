@@ -168,7 +168,6 @@ describe('Controller: ControladoresVerdesConflitantesCtrl', function () {
       });
 
       it('O verde conflitante origem "G1", destino "G2" deve permanecer na lista de verdes conflitantes', function() {
-        console.log(scope.objeto);
         expect(scope.objeto.verdesConflitantes.length).toBe(1);
       });
 

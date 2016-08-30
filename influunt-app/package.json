@@ -48,7 +48,7 @@
     "wiredep": "^2.2.2"
   },
   "scripts": {
-    "test": "./node_modules/.bin/gulp pre-test && ./node_modules/.bin/karma start ./test/karma.conf.js  --single-run --browsers PhantomJS"
+    "test": "./node_modules/.bin/gulp pre-test && ./node_modules/.bin/gulp single-test"
   },
   "engines": {
     "node": ">=0.10.0"

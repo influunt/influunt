@@ -11,9 +11,9 @@ describe('Filter: influuntDate', function () {
     influuntDate = $filter('influuntDate');
   }));
 
-  xit('should return the input prefixed with "influuntDate filter:"', function () {
-    var text = 'angularjs';
-    expect(influuntDate(text)).toBe('influuntDate filter: ' + text);
-  });
+  // xit('should return the input prefixed with "influuntDate filter:"', function () {
+  //   var text = 'angularjs';
+  //   expect(influuntDate(text)).toBe('influuntDate filter: ' + text);
+  // });
 
 });

@@ -22,22 +22,22 @@ describe('Directive: helperEndereco', function () {
     scope = $rootScope.$new();
   }));
 
-  xit('Deve atualizar os campos de latitude e longitude', inject(function($compile) {
-    scope.data = {
-      endereco: null,
-      latitude: null,
-      longitude: null
-    };
+  // xit('Deve atualizar os campos de latitude e longitude', inject(function($compile) {
+  //   scope.data = {
+  //     endereco: null,
+  //     latitude: null,
+  //     longitude: null
+  //   };
 
-    element = angular.element(
-      '<helper-endereco ng-model="data.endereco" latitude="data.latitude" longitude="data.longitude"></helper-endereco>'
-    );
-    element = $compile(element)(scope);
-    scope.apply();
-    scope.data.endereco.force_update = 1;
+  //   element = angular.element(
+  //     '<helper-endereco ng-model="data.endereco" latitude="data.latitude" longitude="data.longitude"></helper-endereco>'
+  //   );
+  //   element = $compile(element)(scope);
+  //   scope.apply();
+  //   scope.data.endereco.force_update = 1;
 
-    expect(scope.data.latitude).toBe(1);
-    expect(scope.data.longitude).toBe(1);
+  //   expect(scope.data.latitude).toBe(1);
+  //   expect(scope.data.longitude).toBe(1);
 
-  }));
+  // }));
 });

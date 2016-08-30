@@ -50,7 +50,7 @@ public class VerdesConflitantes extends Model implements Serializable {
     private DateTime dataAtualizacao;
 
     @Transient
-    private boolean isDestroy;
+    private boolean destroy;
 
     public VerdesConflitantes() {
         super();
@@ -129,10 +129,10 @@ public class VerdesConflitantes extends Model implements Serializable {
     }
 
     public boolean isDestroy() {
-        return isDestroy;
+        return destroy;
     }
 
     public void setDestroy(boolean destroy) {
-        isDestroy = destroy;
+        this.destroy = destroy;
     }
 }

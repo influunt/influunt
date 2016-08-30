@@ -147,7 +147,7 @@ describe('Controller: ControladoresConfiguracaoGruposCtrl', function () {
       scope.removeGrupo(0);
     }));
 
-    describe('Remover um grupo ainda não enviado à API', function () {
+    describe('Remover um grupo semafórico enviado à API', function () {
       it('Deve remover o objeto da lista de "gruposSemaforicos" do objeto', function() {
         deferred.resolve(true);
         scope.$apply();
@@ -161,7 +161,7 @@ describe('Controller: ControladoresConfiguracaoGruposCtrl', function () {
       });
     });
 
-    describe('Remover um grupo semafórico enviado à API', function () {
+    describe('Remover um grupo ainda não enviado à API', function () {
       beforeEach(function() {
         scope.objeto.gruposSemaforicos.forEach(function(gs, index) {
           gs.id = 'gs' + (index + 1);
