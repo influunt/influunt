@@ -458,7 +458,7 @@ public class ControladorTestUtil {
         evento3.setTabelaHorario(tabelaHoraria);
         tabelaHoraria.addEventos(evento3);
         evento3.setTipo(TipoEvento.ESPECIAL_NAO_RECORRENTE);
-        evento3.setPosicao(1);
+        evento3.setPosicao(3);
         evento3.setData(new Date());
         evento3.setDiaDaSemana(DiaDaSemana.DOMINGO);
         evento3.setHorario(LocalTime.parse("08:00:00"));

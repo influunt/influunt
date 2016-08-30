@@ -31,6 +31,7 @@ import java.util.UUID;
 
 import static org.junit.Assert.*;
 import static play.inject.Bindings.bind;
+import static play.mvc.Http.Status.OK;
 import static play.mvc.Http.Status.UNPROCESSABLE_ENTITY;
 import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.route;
@@ -478,10 +479,19 @@ public class ControladoresControllerTest extends WithApplication {
         if (controlador.getTabelaHoraria() != null) {
             assertFields(controlador.getTabelaHoraria(), controladorClonado.getTabelaHoraria());
             controlador.getTabelaHoraria().getEventos().forEach(evento -> {
-                Evento eventoClonado = controladorClonado.getTabelaHoraria().getEventos().stream().filter(aux -> aux.getIdJson().equals(evento.getIdJson())).findFirst().orElse(null);
+                Evento eventoClonado = controladorClonado.getTabelaHoraria().getEventos().stream().filter(aux -> aux.getPosicao().equals(evento.getPosicao())).findFirst().orElse(null);
                 assertFields(evento, eventoClonado);
             });
         }
+
+        controladorClonado.update();
+
+        postRequest = new Http.RequestBuilder().method("POST")
+                .uri(routes.TabelaHorariosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
+
+        postResult = route(postRequest);
+        json = Json.parse(Helpers.contentAsString(postResult));
+        assertEquals(OK, postResult.status());
 
     }
 
@@ -492,12 +502,12 @@ public class ControladoresControllerTest extends WithApplication {
             try {
                 if (field.get(origem) == null || Modifier.isFinal(field.getModifiers()) || field.getType().equals(UUID.class)
                         || field.getType().equals(DateTime.class) || field.getType().equals(Fabricante.class) || field.getType().equals(Cidade.class)
-                        || field.getType().equals(StatusControlador.class)) {
+                        || field.getType().equals(StatusControlador.class) || field.getType().equals(DiaDaSemana.class) || "idJson".equals(field.getName())) {
                     continue;
                 }
                 if (Modifier.isPrivate(field.getModifiers()) && !Modifier.isStatic(field.getModifiers())) {
                     if (field.getType().isPrimitive() || field.getType().isEnum() ||
-                            field.getType().equals(String.class) || field.getType().equals(Integer.class)) {
+                            field.getType().equals(String.class)) {
 
                         Logger.debug("[" + origem.getClass().getName().toString() + "] - CAMPO: " + field.getName().toString());
                         assertEquals("Teste de " + field.getName().toString(), field.get(origem), field.get(destino));

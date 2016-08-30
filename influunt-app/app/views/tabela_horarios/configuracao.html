@@ -5,10 +5,10 @@
         <a class="btn btn-outline btn-primary" tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.ver' | translate }} {{ 'controladores.geral.historico' | translate }}" type="button" ui-sref="app.controladores_timeline({id: objeto.id})">
           <i class="fa fa-code-fork"></i> {{ 'controladores.geral.historico' | translate }}
         </a>
-        <a class="btn btn-outline btn-primary" tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.geral.tabelaHorario' | translate }}"  type="button" ui-sref="app.tabela_horarios_edit({id: objeto.id})" ng-show="objeto.statusControlador == 'EM_CONFIGURACAO' || objeto.statusControlador == 'EM_EDICAO' || objeto.statusControlador == 'CONFIGURADO'">
+        <a class="btn btn-outline btn-primary" tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.geral.tabelaHorario' | translate }}"  type="button" ui-sref="app.tabela_horarios_edit({id: objeto.id})" ng-show="currentVersaoTabelaHoraria.statusVersao === 'EDITANDO' || currentVersaoTabelaHoraria.statusVersao === undefined">
           <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }} - kkk
         </a>
-        <a class="btn btn-outline btn-primary " tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.copiar' | translate }} {{ 'controladores.controlador' | translate }}"  type="button" ng-click="clonarTabelaHoraria(objeto.id)" ng-show="objeto.statusControlador == 'ATIVO'">
+        <a class="btn btn-outline btn-primary " tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.copiar' | translate }} {{ 'controladores.controlador' | translate }}"  type="button" ng-click="clonarTabelaHoraria(objeto.id)" ng-show="currentVersaoTabelaHoraria.statusVersao === 'ATIVO'">
           <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }} - xxx
         </a>
       </div>

@@ -291,20 +291,20 @@ public class ControladorUtil {
 
         VersaoTabelaHoraria versaoTabelaHorariaOrigem = controlador.getVersaoTabelaHoraria();
         if(versaoTabelaHorariaOrigem.getTabelaHoraria() != null) {
-            Logger.error("IDJSON TH: " + versaoTabelaHorariaOrigem.getTabelaHoraria().getIdJson());
             TabelaHorario tabelaHorarioAux = copyPrimitveFields(versaoTabelaHorariaOrigem.getTabelaHoraria());
-            Logger.error("IDJSON TH: " + versaoTabelaHorariaOrigem.getTabelaHoraria().getIdJson() + "\tNEW: " + tabelaHorarioAux.getIdJson());
-            Logger.error("IDJSON TH: " + versaoTabelaHorariaOrigem.getTabelaHoraria().getIdJson() + "\tNEW: " + tabelaHorarioAux.getIdJson());
+            tabelaHorarioAux.setIdJson(UUID.randomUUID().toString());
             VersaoTabelaHoraria versaoTabelaHoraria = new VersaoTabelaHoraria(controlador, versaoTabelaHorariaOrigem.getTabelaHoraria(), tabelaHorarioAux, usuario);
             tabelaHorarioAux.setVersaoTabelaHoraria(versaoTabelaHoraria);
 
             versaoTabelaHorariaOrigem.getTabelaHoraria().getEventos().forEach(evento -> {
                 Evento eventoAux = copyPrimitveFields(evento);
-                Logger.error("IDJSON EVENTO: " + evento.getIdJson() + "\tNEW: " + eventoAux.getIdJson());
+                eventoAux.setIdJson(UUID.randomUUID().toString());
                 eventoAux.setTabelaHorario(tabelaHorarioAux);
                 eventoAux.setDiaDaSemana(evento.getDiaDaSemana());
+                eventoAux.setTipo(evento.getTipo());
                 eventoAux.setHorario(evento.getHorario());
                 eventoAux.setPosicaoPlano(evento.getPosicaoPlano());
+                eventoAux.setData(evento.getData());
                 tabelaHorarioAux.addEventos(eventoAux);
             });
 

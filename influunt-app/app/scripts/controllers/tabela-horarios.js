@@ -129,6 +129,7 @@ angular.module('influuntApp')
           }
           $scope.objeto.tabelaHoraria = $scope.objeto.tabelasHorarias[0];
           $scope.currentTabelaHoraria = $scope.objeto.tabelasHorarias[0];
+          $scope.currentVersaoTabelaHoraria = _.find($scope.objeto.versoesTabelasHorarias, {tabelaHoraria: {idJson: $scope.currentTabelaHoraria.idJson}});
 
           adicionaEvento($scope.currentTabelaHoraria, 'NORMAL');
           adicionaEvento($scope.currentTabelaHoraria, 'ESPECIAL_RECORRENTE');
@@ -306,7 +307,7 @@ angular.module('influuntApp')
         $scope.currentEventos = _
           .chain($scope.objeto.eventos)
           .filter(function(e){
-            return e.tipo === $scope.currentTipoEvento;
+            return e.tipo === $scope.currentTipoEvento && e.tabelaHoraria.idJson === $scope.currentTabelaHoraria.idJson;
           })
           .orderBy(['posicao'])
           .value();
