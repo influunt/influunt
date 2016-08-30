@@ -1,8 +1,10 @@
 package json;
 
 import com.avaje.ebean.Ebean;
+import com.avaje.ebean.Model;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
+import org.apache.commons.collections.ListUtils;
 import org.joda.time.LocalTime;
 
 import java.text.DateFormat;
@@ -14,6 +16,7 @@ import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Created by rodrigosol on 7/29/16.
@@ -156,6 +159,7 @@ public class ControladorCustomDeserializer {
         deleteGruposSemaforicos(controlador);
         deleteVerdesConflitantes(controlador);
         deleteEstagiosGruposSemaforicos(controlador);
+        deleteTransicoesProibidas(controlador);
 
         return controlador;
     }
@@ -196,6 +200,31 @@ public class ControladorCustomDeserializer {
                         .map(GrupoSemaforico::getEstagiosGruposSemaforicos)
                         .flatMap(Collection::stream)
                         .forEach(estagioGrupoSemaforico -> estagioGrupoSemaforico.setId(null));
+            }
+        }
+    }
+    private void deleteTransicoesProibidas(Controlador controlador) {
+        if (controlador.getId() != null) {
+            Controlador controladorAux = Controlador.find.byId(controlador.getId());
+            if (controladorAux != null) {
+
+                controladorAux.getAneis().stream()
+                        .map(Anel::getEstagios)
+                        .flatMap(Collection::stream)
+                        .forEach(estagio -> {
+                            estagio.getOrigemDeTransicoesProibidas().forEach(TransicaoProibida::delete);
+                            estagio.getDestinoDeTransicoesProibidas().forEach(TransicaoProibida::delete);
+                            estagio.getAlternativaDeTransicoesProibidas().forEach(TransicaoProibida::delete);
+                        });
+
+                controlador.getAneis().stream()
+                        .map(Anel::getEstagios)
+                        .flatMap(Collection::stream)
+                        .forEach(estagio -> {
+                            estagio.getOrigemDeTransicoesProibidas().forEach(transicaoProibida -> transicaoProibida.setId(null));
+                            estagio.getDestinoDeTransicoesProibidas().forEach(transicaoProibida -> transicaoProibida.setId(null));
+                            estagio.getAlternativaDeTransicoesProibidas().forEach(transicaoProibida -> transicaoProibida.setId(null));
+                        });
             }
         }
     }
