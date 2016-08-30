@@ -212,7 +212,12 @@ angular.module('influuntApp')
           .filter(function(tev) {
             return ids.indexOf(tev.idJson) >= 0;
           })
+          .reject('_destroy')
           .orderBy(['posicao'])
+          .map(function(tabela, i) {
+            tabela.posicao = (i + 1);
+            return tabela;
+          })
           .value();
 
         return $scope.currentTabelasEntreVerdes;
@@ -231,6 +236,7 @@ angular.module('influuntApp')
                                      .map(function(transicao) { return transicao.tabelaEntreVerdesTransicoes; })
                                      .flatten()
                                      .map(function(tevt) { return _.find($scope.objeto.tabelasEntreVerdesTransicoes, {idJson: tevt.idJson}); })
+                                     .compact()
                                      .filter(function(tevt) {
                                         return _.find($scope.objeto.tabelasEntreVerdes, {idJson: tevt.tabelaEntreVerdes.idJson}).posicao === index + 1;
                                       })
@@ -253,7 +259,6 @@ angular.module('influuntApp')
 
       $scope.atualizaTabelasEntreVerdesTransicoes = function() {
         var ids = _.map($scope.currentTabelaEntreVerdes.tabelaEntreVerdesTransicoes, 'idJson');
-
 
         $scope.currentTabelasEntreVerdesTransicoes = _
           .chain($scope.objeto.tabelasEntreVerdesTransicoes)

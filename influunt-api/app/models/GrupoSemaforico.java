@@ -302,7 +302,9 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
             Set<Integer> posicoes = new HashSet<>();
             for (Transicao transicao : this.getTransicoes()) {
                 for (TabelaEntreVerdesTransicao tevTransicao : transicao.getTabelaEntreVerdesTransicoes()) {
-                    posicoes.add(tevTransicao.getTabelaEntreVerdes().getPosicao());
+                    if (tevTransicao.getTabelaEntreVerdes() != null) {
+                        posicoes.add(tevTransicao.getTabelaEntreVerdes().getPosicao());
+                    }
                 }
             }
             return !(getTabelasEntreVerdes().size() > getAnel().getControlador().getModelo().getLimiteTabelasEntreVerdes());

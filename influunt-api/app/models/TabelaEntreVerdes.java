@@ -63,6 +63,9 @@ public class TabelaEntreVerdes extends Model implements Cloneable, Serializable 
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
 
+    @Transient
+    private boolean destroy;
+
     public TabelaEntreVerdes(GrupoSemaforico grupoSemaforico, Integer posicao) {
         super();
         this.idJson = UUID.randomUUID().toString();
@@ -150,5 +153,13 @@ public class TabelaEntreVerdes extends Model implements Cloneable, Serializable 
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    public boolean isDestroy() {
+        return destroy;
+    }
+
+    public void setDestroy(boolean destroy) {
+        this.destroy = destroy;
     }
 }
