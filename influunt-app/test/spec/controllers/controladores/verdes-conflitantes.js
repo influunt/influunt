@@ -160,7 +160,29 @@ describe('Controller: ControladoresVerdesConflitantesCtrl', function () {
       });
     });
 
-    describe('desativação de um verde conflitante.', function () {
+    describe('desativação de um verde conflitante enviado à API', function () {
+      beforeEach(function() {
+        scope.toggleVerdeConflitante(0, 1);
+        scope.objeto.verdesConflitantes[0].id = 1;
+        scope.toggleVerdeConflitante(0, 1);
+      });
+
+      it('O verde conflitante origem "G1", destino "G2" deve permanecer na lista de verdes conflitantes', function() {
+        console.log(scope.objeto);
+        expect(scope.objeto.verdesConflitantes.length).toBe(1);
+      });
+
+      it('O verde conflitante origem "G1", destino "G2" deve conter "_destroy" === true', function() {
+        expect(scope.objeto.verdesConflitantes[0]._destroy).toBeTruthy();
+      });
+
+      it('O grupo semafórico "G1" deve manter a referencia ao verde conflitante removido na lista de origens',
+        function() {
+          expect(scope.objeto.gruposSemaforicos[0].verdesConflitantesOrigem.length).toBe(1);
+        });
+    });
+
+    describe('desativação de um verde conflitante local.', function () {
       beforeEach(function() {
         scope.toggleVerdeConflitante(0, 1);
       });

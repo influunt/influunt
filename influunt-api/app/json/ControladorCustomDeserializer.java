@@ -151,8 +151,20 @@ public class ControladorCustomDeserializer {
 
         controlador.deleteAnelSeNecessario();
         deleteGruposSemaforicos(controlador);
+        deleteVerdesConflitantes(controlador);
 
         return controlador;
+    }
+
+    private void deleteVerdesConflitantes(Controlador c) {
+        if (c.getId() != null) {
+            Controlador controlador = Controlador.find.byId(c.getId());
+            controlador.getAneis().forEach(anel -> {
+                anel.getGruposSemaforicos().forEach(grupoSemaforico -> {
+                    grupoSemaforico.getVerdesConflitantes().forEach(verdesConflitantes -> verdesConflitantes.delete());
+                });
+            });
+        }
     }
 
     private void deleteGruposSemaforicos(Controlador controlador) {
@@ -232,7 +244,9 @@ public class ControladorCustomDeserializer {
         if (node.has("verdesConflitantes")) {
             for (JsonNode innerNode : node.get("verdesConflitantes")) {
                 VerdesConflitantes verdesConflitantes = parseVerdesConflitante(innerNode);
-                verdesConflitantesCache.put(verdesConflitantes.getIdJson().toString(), verdesConflitantes);
+                if (!verdesConflitantes.isDestroy()) {
+                    verdesConflitantesCache.put(verdesConflitantes.getIdJson(), verdesConflitantes);
+                }
             }
         }
     }
@@ -694,8 +708,14 @@ public class ControladorCustomDeserializer {
     private VerdesConflitantes parseVerdesConflitante(JsonNode node) {
         VerdesConflitantes verdesConflitantes = new VerdesConflitantes();
 
-        if (node.has("id")) {
-            verdesConflitantes.setId(UUID.fromString(node.get("id").asText()));
+        verdesConflitantes.setId(null);
+
+        if (node.has("_destroy")) {
+            verdesConflitantes.setDestroy(node.get("_destroy").asBoolean());
+        }
+
+        if (verdesConflitantes.isDestroy()) {
+            return verdesConflitantes;
         }
 
         if (node.has("idJson")) {

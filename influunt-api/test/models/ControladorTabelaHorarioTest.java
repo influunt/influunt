@@ -240,6 +240,8 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         controlador = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador));
         Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
 
+        controlador.update();
+
         int totalEstagios = Estagio.find.findRowCount();
         int totalEstagiosAnel = anelCom4Estagios.getEstagios().size();
         int totalDetectores = Detector.find.findRowCount();
@@ -268,7 +270,6 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
                 .map(GrupoSemaforico::getTabelasEntreVerdes)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toSet()).size();
-
 
         anelCom4Estagios.setDestroy(true);
         controlador.deleteAnelSeNecessario();
