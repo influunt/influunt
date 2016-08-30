@@ -335,9 +335,8 @@ var WizardControladorPage = function () {
   };
 
    this.selecionarSemConfi = function() {
-    var selector = '"input[type="checkbox"]"'
+    var selector = '"input[type="checkbox"]"';
     return world.checkICheck(selector);
-     // return world.getElement('input[type="checkbox"').click();
   };
 
   this.marcarSegundoAnelComoAtivo = function() {

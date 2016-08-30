@@ -74,7 +74,6 @@ var ModelosPage = function () {
 
   this.nenhumModeloDeveSerExcluido = function() {
     return world.getElements('tbody tr[data-ng-repeat="modelo in lista"]').then(function(elements) {
-      console.log(elements.length)
       return elements.length === totalModelosIndex;
     });
   };
