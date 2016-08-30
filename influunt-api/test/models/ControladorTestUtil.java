@@ -133,14 +133,18 @@ public class ControladorTestUtil {
         estagio1.setDemandaPrioritaria(true);
         estagio1.setTempoMaximoPermanencia(100);
         estagio1.addEstagioGrupoSemaforico(estagioGrupoSemaforico1);
+        estagio1.setDescricao("estagio1");
         estagio2.setDemandaPrioritaria(false);
         estagio2.setTempoMaximoPermanencia(200);
         estagio2.addEstagioGrupoSemaforico(estagioGrupoSemaforico2);
+        estagio2.setDescricao("estagio2");
 
         estagio3.addEstagioGrupoSemaforico(estagioGrupoSemaforico3);
         estagio3.setTempoMaximoPermanenciaAtivado(false);
+        estagio3.setDescricao("estagio3");
         estagio4.addEstagioGrupoSemaforico(estagioGrupoSemaforico4);
         estagio4.setTempoMaximoPermanenciaAtivado(false);
+        estagio4.setDescricao("estagio4");
 
         grupoSemaforico1.addEstagioGrupoSemaforico(estagioGrupoSemaforico1);
         grupoSemaforico2.addEstagioGrupoSemaforico(estagioGrupoSemaforico2);

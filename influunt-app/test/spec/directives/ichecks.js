@@ -29,8 +29,9 @@ describe('Directive: ichecks', function () {
 
     $timeout.flush();
     $timeout.verifyNoPendingTasks();
-
-    expect(element.is(':disabled')).toBe(true);
+    $timeout(function() {
+      expect(element.is(':disabled')).toBe(true);
+    }, 1000)
   }));
 
   it('Deve criar um checkbox enabled se isDisabled for false', inject(function($compile, $timeout) {

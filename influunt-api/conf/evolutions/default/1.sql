@@ -143,7 +143,6 @@ create table estagios (
 create table estagios_grupos_semaforicos (
   id                            varchar(40) not null,
   id_json                       varchar(255),
-  ativo                         tinyint(1) default 0 not null,
   estagio_id                    varchar(40) not null,
   grupo_semaforico_id           varchar(40) not null,
   data_criacao                  datetime(6) not null,

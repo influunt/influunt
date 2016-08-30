@@ -33,10 +33,6 @@ public class EstagioGrupoSemaforico extends Model implements Cloneable, Serializ
     @Column
     private String idJson;
 
-    @Column
-    @NotNull
-    private Boolean ativo = false;
-
     @ManyToOne
     @NotNull(groups = ControladorAssociacaoGruposSemaforicosCheck.class)
     private Estagio estagio;
@@ -83,14 +79,6 @@ public class EstagioGrupoSemaforico extends Model implements Cloneable, Serializ
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public Boolean getAtivo() {
-        return ativo;
-    }
-
-    public void setAtivo(Boolean ativo) {
-        this.ativo = ativo;
     }
 
     public Estagio getEstagio() {

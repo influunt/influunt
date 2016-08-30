@@ -849,10 +849,6 @@ public class ControladorCustomSerializer {
             objectJson.put("idJson", estagioGrupo.getIdJson().toString());
         }
 
-        if (estagioGrupo.getAtivo() != null) {
-            objectJson.put("ativo", estagioGrupo.getAtivo());
-        }
-
         if (estagioGrupo.getEstagio() != null && estagioGrupo.getEstagio().getIdJson() != null) {
             objectJson.putObject("estagio").put("idJson", estagioGrupo.getEstagio().getIdJson().toString());
         }
