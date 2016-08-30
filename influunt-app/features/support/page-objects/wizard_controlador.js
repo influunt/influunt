@@ -396,7 +396,9 @@ var WizardControladorPage = function () {
   this.marcarTransicao = function(e1, e2) {
     var row = parseInt(e2.substring(1));
     var col = parseInt(e1.substring(1)) + (row === 1 ? 2 : 1);
-    return world.getElement('tbody tr:nth-child('+row+') td:nth-child('+col+')').click();
+    return world.scrollToDown().then(function() {
+      return world.getElement('tbody tr:nth-child('+row+') td:nth-child('+col+')').click();
+    });
   };
 
   this.clicarBotao = function(text) {
