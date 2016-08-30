@@ -49,6 +49,9 @@ public class VerdesConflitantes extends Model implements Serializable {
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
 
+    @Transient
+    private boolean destroy;
+
     public VerdesConflitantes() {
         super();
         this.idJson = UUID.randomUUID().toString();
@@ -125,4 +128,11 @@ public class VerdesConflitantes extends Model implements Serializable {
         return origem;
     }
 
+    public boolean isDestroy() {
+        return destroy;
+    }
+
+    public void setDestroy(boolean destroy) {
+        this.destroy = destroy;
+    }
 }

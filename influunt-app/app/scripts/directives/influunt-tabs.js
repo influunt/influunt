@@ -20,12 +20,30 @@ angular.module('influuntApp')
         maxTabs: '=',
         canAddTabs: '=',
         canRemoveTabs: '=',
-        nameTabs: '@'
+        nameTabs: '=?'
       },
       template: '<ul class="nav nav-tabs"></ul>',
       link: function (scope, element) {
-        scope.nameTabs = scope.nameTabs || 'Anel';
+
         var initializing = true;
+
+        var inicializaNameTabs = function() {
+          if (_.isArray(scope.nameTabs) &&
+              _.isArray(scope.aneisAtivos) &&
+              scope.nameTabs.length !== scope.aneisAtivos.length) {
+            throw new Error('A lista de nomes das tabs deve ter a mesma quantidade de itens das tabs ativas.');
+          }
+        };
+
+        scope.$watch('nameTabs', inicializaNameTabs);
+
+        var getNomeTabs = function(index) {
+          if (_.isArray(scope.nameTabs)) {
+            return scope.nameTabs[index];
+          } else {
+            return (scope.nameTabs || 'Anel') + ' ' + (index + 1);
+          }
+        };
 
         var hideAddButton = function() {
           element.find('li[role="tab"].addTab').hide();
@@ -58,7 +76,7 @@ angular.module('influuntApp')
             scope.$apply(function() {
               checkTabLimit();
               toggleCloseButton();
-              $(data.tab).find('a.closable').html(scope.nameTabs + ' ' + (data.index + 1));
+              $(data.tab).find('a.closable').html(getNomeTabs(data.index));
               if (angular.isFunction(scope.onAdd())) {
                 scope.onAdd()(data);
               }
@@ -102,7 +120,8 @@ angular.module('influuntApp')
         var createInitialTabs = function() {
           var tabs = $(element).tabs('instance');
           _.forEach(scope.aneisAtivos, function(anel, index) {
-            tabs.add(scope.nameTabs + ' ' + (index+1), !!scope.canAddTabs);
+            // tabs.add(scope.nameTabs + ' ' + (index+1), !!scope.canAddTabs);
+            tabs.add(getNomeTabs(index), !!scope.canAddTabs);
           });
           tabs.activate(0);
           toggleCloseButton();

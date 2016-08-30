@@ -29,10 +29,4 @@ describe('Controller: ControladoresDadosBasicosCtrl', function () {
     expect(scope.objeto.nomeEndereco).toBe('endereco 1 com endereco 2');
   });
 
-  xit('"nomeEndereco" deve ser vazio se não houver "endereco 1" ou "endereco 2"', function() {
-    scope.objeto.todosEnderecos[0].localizacao = 'endereco 2';
-    scope.$apply();
-    expect(scope.objeto.nomeEndereco).toBe('');
-  });
-
 });

@@ -75,10 +75,14 @@ angular.module('influuntApp')
 
           var indexX = _.findIndex(grupos[0].verdesConflitantesOrigem, {idJson: obj.idJson});
           var indexY = _.findIndex(grupos[1].verdesConflitantesDestino, {idJson: obj.idJson});
-          grupos[0].verdesConflitantesOrigem.splice(indexX, 1);
-          grupos[1].verdesConflitantesDestino.splice(indexY, 1);
 
-          $scope.objeto.verdesConflitantes.splice(index, 1);
+          if (angular.isDefined($scope.objeto.verdesConflitantes[index].id)) {
+            $scope.objeto.verdesConflitantes[index]._destroy = true;
+          } else {
+            grupos[0].verdesConflitantesOrigem.splice(indexX, 1);
+            grupos[1].verdesConflitantesDestino.splice(indexY, 1);
+            $scope.objeto.verdesConflitantes.splice(index, 1);
+          }
         } else {
           grupos[0].verdesConflitantesOrigem = grupos[0].verdesConflitantesOrigem || [];
           grupos[0].verdesConflitantesOrigem.push({idJson: verdeConflitante.idJson});

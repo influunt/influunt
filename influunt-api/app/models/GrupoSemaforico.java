@@ -269,7 +269,7 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = ControladorVerdesConflitantesCheck.class, message = "Esse grupo semafórico deve ter ao menos um verde conflitante")
     public boolean isAoMenosUmVerdeConflitante() {
         if (this.getAnel() != null) {
-            return this.getVerdesConflitantes() != null && !this.getVerdesConflitantes().isEmpty();
+            return this.getVerdesConflitantes() != null && this.getVerdesConflitantes().stream().anyMatch(grupoSemaforico -> grupoSemaforico != null);
         } else {
             return true;
         }
@@ -279,7 +279,7 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = ControladorVerdesConflitantesCheck.class, message = "Esse grupo semafórico não pode ter verde conflitante com ele mesmo")
     public boolean isNaoConflitaComEleMesmo() {
         if (this.getVerdesConflitantes() != null && !this.getVerdesConflitantes().isEmpty()) {
-            return !this.getVerdesConflitantes().stream().anyMatch(grupoSemaforico -> grupoSemaforico.conflitaComEleMesmo(this));
+            return !this.getVerdesConflitantes().stream().anyMatch(grupoSemaforico -> grupoSemaforico != null && grupoSemaforico.conflitaComEleMesmo(this));
         } else {
             return true;
         }
@@ -289,7 +289,7 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = ControladorVerdesConflitantesCheck.class, message = "Esse grupo semafórico não pode ter verde conflitante com grupo semafórico de outro anel")
     public boolean isNaoConflitaComGruposDeOutroAnel() {
         if (this.getAnel() != null && this.getVerdesConflitantes() != null && !this.getVerdesConflitantes().isEmpty()) {
-            return !this.getVerdesConflitantes().stream().anyMatch(grupoSemaforico -> grupoSemaforico.conflitaGrupoSemaforicoOutroAnel(this));
+            return !this.getVerdesConflitantes().stream().anyMatch(grupoSemaforico -> grupoSemaforico != null && grupoSemaforico.conflitaGrupoSemaforicoOutroAnel(this));
         } else {
             return true;
         }

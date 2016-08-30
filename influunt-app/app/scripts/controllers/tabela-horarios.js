@@ -99,6 +99,12 @@ angular.module('influuntApp')
           $scope.planos = $scope.getTimes(16);
 
           $scope.tipoEventos = [{posicao: ''}, {posicao: 'Especiais Recorrentes'}, {posicao: 'Especiais Não Recorrentes'}];
+          $scope.nomesTabs = [
+            $filter('translate')('tabelaHorarios.eventos'),
+            $filter('translate')('tabelaHorarios.eventosRecorrentes'),
+            $filter('translate')('tabelaHorarios.eventosNaoRecorrentes')
+          ];
+
           $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
           $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
 
@@ -144,7 +150,7 @@ angular.module('influuntApp')
         $scope.tabelaHorariaService = TabelaHorariaService;
         atualizaEventos();
       };
-      
+
       $scope.selecionaAnel = function (index){
         $scope.currentAnelIndex = index;
         $scope.currentAnel = $scope.aneis[$scope.currentAnelIndex];
