@@ -1,5 +1,6 @@
 package json;
 
+import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
 import org.joda.time.LocalTime;
@@ -11,6 +12,8 @@ import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * Created by rodrigosol on 7/29/16.
@@ -152,6 +155,7 @@ public class ControladorCustomDeserializer {
         controlador.deleteAnelSeNecessario();
         deleteGruposSemaforicos(controlador);
         deleteVerdesConflitantes(controlador);
+        deleteEstagiosGruposSemaforicos(controlador);
 
         return controlador;
     }
@@ -171,6 +175,27 @@ public class ControladorCustomDeserializer {
         for (GrupoSemaforico grupoSemaforico : controlador.getGruposSemaforicos()) {
             if (grupoSemaforico.isDestroy()) {
                 grupoSemaforico.delete();
+            }
+        }
+    }
+
+    private void deleteEstagiosGruposSemaforicos(Controlador controlador) {
+        if (controlador.getId() != null) {
+            Controlador controladorAux = Controlador.find.byId(controlador.getId());
+            if (controladorAux != null) {
+                controladorAux.getAneis().stream()
+                        .map(Anel::getGruposSemaforicos)
+                        .flatMap(Collection::stream)
+                        .map(GrupoSemaforico::getEstagiosGruposSemaforicos)
+                        .flatMap(Collection::stream)
+                        .forEach(EstagioGrupoSemaforico::delete);
+
+                controlador.getAneis().stream()
+                        .map(Anel::getGruposSemaforicos)
+                        .flatMap(Collection::stream)
+                        .map(GrupoSemaforico::getEstagiosGruposSemaforicos)
+                        .flatMap(Collection::stream)
+                        .forEach(estagioGrupoSemaforico -> estagioGrupoSemaforico.setId(null));
             }
         }
     }
@@ -195,7 +220,6 @@ public class ControladorCustomDeserializer {
             }
         }
     }
-
     private void parseGruposSemaforicos(JsonNode node) {
         if (node.has("gruposSemaforicos")) {
             List<GrupoSemaforico> grupoSemaforicos = new ArrayList<GrupoSemaforico>();
@@ -676,9 +700,6 @@ public class ControladorCustomDeserializer {
         }
         if (node.has("idJson")) {
             estagioGrupoSemaforico.setIdJson(node.get("idJson").asText());
-        }
-        if (node.has("ativo")) {
-            estagioGrupoSemaforico.setAtivo(node.get("ativo").asBoolean());
         }
 
         if (node.has("grupoSemaforico")) {

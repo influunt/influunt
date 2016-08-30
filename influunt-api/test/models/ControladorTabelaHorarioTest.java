@@ -296,7 +296,6 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         List<Erro> erros = getErros(controlador);
         assertEquals("Total de Erros", 0, erros.size());
 
-        controlador = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador));
         Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
         Estagio estagio1AnelCom4Estagios = anelCom4Estagios.getEstagios().get(0);
 
