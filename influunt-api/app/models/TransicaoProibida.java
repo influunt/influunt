@@ -140,5 +140,4 @@ public class TransicaoProibida extends Model implements Serializable {
         else return true;
 
     }
-
 }
