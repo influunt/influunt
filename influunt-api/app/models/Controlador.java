@@ -16,10 +16,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Entidade que representa o {@link Controlador} no sistema
@@ -134,6 +131,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
     }
 
     private void antesDeSalvarOuAtualizar() {
+        System.out.println("salvando controlador");
         if (this.getId() == null) {
             this.setStatusControlador(StatusControlador.EM_CONFIGURACAO);
             int quantidade = this.getModelo().getLimiteAnel();
@@ -151,8 +149,85 @@ public class Controlador extends Model implements Cloneable, Serializable {
             }
         }
 
+        this.deleteAnelSeNecessario();
+//        deleteGruposSemaforicos(this);
+        deleteVerdesConflitantes(this);
+//        deleteEstagiosGruposSemaforicos(this);
+//        deleteTransicoesProibidas(this);
+
         this.criarPossiveisTransicoes();
     }
+
+
+    private void deleteVerdesConflitantes(Controlador c) {
+        if (c.getId() != null) {
+            c.getAneis().forEach(anel -> {
+                anel.getGruposSemaforicos().forEach(grupoSemaforico ->
+                        grupoSemaforico.getVerdesConflitantes().forEach(verdeConflitante -> {
+                            if (verdeConflitante.isDestroy()) {
+                                verdeConflitante.delete();
+                            }
+                        }));
+            });
+        }
+    }
+
+    private void deleteGruposSemaforicos(Controlador controlador) {
+        for (GrupoSemaforico grupoSemaforico : controlador.getGruposSemaforicos()) {
+            if (grupoSemaforico.isDestroy()) {
+                grupoSemaforico.delete();
+            }
+        }
+    }
+
+    private void deleteEstagiosGruposSemaforicos(Controlador controlador) {
+        if (controlador.getId() != null) {
+            Controlador controladorAux = Controlador.find.byId(controlador.getId());
+            if (controladorAux != null) {
+                controladorAux.getAneis().stream()
+                        .map(Anel::getGruposSemaforicos)
+                        .flatMap(Collection::stream)
+                        .map(GrupoSemaforico::getEstagiosGruposSemaforicos)
+                        .flatMap(Collection::stream)
+                        .forEach(EstagioGrupoSemaforico::delete);
+
+                controlador.getAneis().stream()
+                        .map(Anel::getGruposSemaforicos)
+                        .flatMap(Collection::stream)
+                        .map(GrupoSemaforico::getEstagiosGruposSemaforicos)
+                        .flatMap(Collection::stream)
+                        .forEach(estagioGrupoSemaforico -> estagioGrupoSemaforico.setId(null));
+            }
+        }
+    }
+
+    private void deleteTransicoesProibidas(Controlador controlador) {
+        if (controlador.getId() != null) {
+            Controlador controladorAux = Controlador.find.byId(controlador.getId());
+            if (controladorAux != null) {
+
+                controladorAux.getAneis().stream()
+                        .map(Anel::getEstagios)
+                        .flatMap(Collection::stream)
+                        .forEach(estagio -> {
+                            estagio.getOrigemDeTransicoesProibidas().forEach(TransicaoProibida::delete);
+                            estagio.getDestinoDeTransicoesProibidas().forEach(TransicaoProibida::delete);
+                            estagio.getAlternativaDeTransicoesProibidas().forEach(TransicaoProibida::delete);
+                        });
+
+                controlador.getAneis().stream()
+                        .map(Anel::getEstagios)
+                        .flatMap(Collection::stream)
+                        .forEach(estagio -> {
+                            estagio.getOrigemDeTransicoesProibidas().forEach(transicaoProibida -> transicaoProibida.setId(null));
+                            estagio.getDestinoDeTransicoesProibidas().forEach(transicaoProibida -> transicaoProibida.setId(null));
+                            estagio.getAlternativaDeTransicoesProibidas().forEach(transicaoProibida -> transicaoProibida.setId(null));
+                        });
+            }
+        }
+    }
+
+
 
     private void gerarCLC() {
         List<Controlador> controladorList =

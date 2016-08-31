@@ -151,82 +151,9 @@ public class ControladorCustomDeserializer {
         parseAreas(node);
         parseAtrasosDeGrupo(node);
 
-        consumers.stream().forEach(c -> {
-            c.accept(caches);
-        });
-
-        controlador.deleteAnelSeNecessario();
-        deleteGruposSemaforicos(controlador);
-        deleteVerdesConflitantes(controlador);
-        deleteEstagiosGruposSemaforicos(controlador);
-        deleteTransicoesProibidas(controlador);
+        consumers.stream().forEach(c -> c.accept(caches));
 
         return controlador;
-    }
-
-    private void deleteVerdesConflitantes(Controlador c) {
-        if (c.getId() != null) {
-            Controlador controlador = Controlador.find.byId(c.getId());
-            controlador.getAneis().forEach(anel -> {
-                anel.getGruposSemaforicos().forEach(grupoSemaforico -> {
-                    grupoSemaforico.getVerdesConflitantes().forEach(verdesConflitantes -> verdesConflitantes.delete());
-                });
-            });
-        }
-    }
-
-    private void deleteGruposSemaforicos(Controlador controlador) {
-        for (GrupoSemaforico grupoSemaforico : controlador.getGruposSemaforicos()) {
-            if (grupoSemaforico.isDestroy()) {
-                grupoSemaforico.delete();
-            }
-        }
-    }
-
-    private void deleteEstagiosGruposSemaforicos(Controlador controlador) {
-        if (controlador.getId() != null) {
-            Controlador controladorAux = Controlador.find.byId(controlador.getId());
-            if (controladorAux != null) {
-                controladorAux.getAneis().stream()
-                        .map(Anel::getGruposSemaforicos)
-                        .flatMap(Collection::stream)
-                        .map(GrupoSemaforico::getEstagiosGruposSemaforicos)
-                        .flatMap(Collection::stream)
-                        .forEach(EstagioGrupoSemaforico::delete);
-
-                controlador.getAneis().stream()
-                        .map(Anel::getGruposSemaforicos)
-                        .flatMap(Collection::stream)
-                        .map(GrupoSemaforico::getEstagiosGruposSemaforicos)
-                        .flatMap(Collection::stream)
-                        .forEach(estagioGrupoSemaforico -> estagioGrupoSemaforico.setId(null));
-            }
-        }
-    }
-    private void deleteTransicoesProibidas(Controlador controlador) {
-        if (controlador.getId() != null) {
-            Controlador controladorAux = Controlador.find.byId(controlador.getId());
-            if (controladorAux != null) {
-
-                controladorAux.getAneis().stream()
-                        .map(Anel::getEstagios)
-                        .flatMap(Collection::stream)
-                        .forEach(estagio -> {
-                            estagio.getOrigemDeTransicoesProibidas().forEach(TransicaoProibida::delete);
-                            estagio.getDestinoDeTransicoesProibidas().forEach(TransicaoProibida::delete);
-                            estagio.getAlternativaDeTransicoesProibidas().forEach(TransicaoProibida::delete);
-                        });
-
-                controlador.getAneis().stream()
-                        .map(Anel::getEstagios)
-                        .flatMap(Collection::stream)
-                        .forEach(estagio -> {
-                            estagio.getOrigemDeTransicoesProibidas().forEach(transicaoProibida -> transicaoProibida.setId(null));
-                            estagio.getDestinoDeTransicoesProibidas().forEach(transicaoProibida -> transicaoProibida.setId(null));
-                            estagio.getAlternativaDeTransicoesProibidas().forEach(transicaoProibida -> transicaoProibida.setId(null));
-                        });
-            }
-        }
     }
 
     private void parseAneis(JsonNode node) {
@@ -297,9 +224,7 @@ public class ControladorCustomDeserializer {
         if (node.has("verdesConflitantes")) {
             for (JsonNode innerNode : node.get("verdesConflitantes")) {
                 VerdesConflitantes verdesConflitantes = parseVerdesConflitante(innerNode);
-                if (!verdesConflitantes.isDestroy()) {
-                    verdesConflitantesCache.put(verdesConflitantes.getIdJson(), verdesConflitantes);
-                }
+                verdesConflitantesCache.put(verdesConflitantes.getIdJson(), verdesConflitantes);
             }
         }
     }
@@ -758,14 +683,12 @@ public class ControladorCustomDeserializer {
     private VerdesConflitantes parseVerdesConflitante(JsonNode node) {
         VerdesConflitantes verdesConflitantes = new VerdesConflitantes();
 
-        verdesConflitantes.setId(null);
+        if (node.has("id") && node.get("id") != null) {
+            verdesConflitantes.setId(UUID.fromString(node.get("id").asText()));
+        }
 
         if (node.has("_destroy")) {
             verdesConflitantes.setDestroy(node.get("_destroy").asBoolean());
-        }
-
-        if (verdesConflitantes.isDestroy()) {
-            return verdesConflitantes;
         }
 
         if (node.has("idJson")) {

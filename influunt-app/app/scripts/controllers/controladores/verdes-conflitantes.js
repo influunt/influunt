@@ -66,11 +66,16 @@ angular.module('influuntApp')
           }
         };
 
+        // var obj = _
+        //   .chain($scope.objeto.verdesConflitantes)
+        //   .reject('_destroy')
+        //   .find({ origem: { idJson: verdeConflitante.origem.idJson }, destino: { idJson: verdeConflitante.destino.idJson } })
+        //   .value();
+        var obj = _.find(
+          $scope.objeto.verdesConflitantes,
+          { origem: { idJson: verdeConflitante.origem.idJson }, destino: { idJson: verdeConflitante.destino.idJson } }
+        );
         if ($scope.verdesConflitantes[x][y]) {
-          var obj   = _.find(
-            $scope.objeto.verdesConflitantes,
-            {origem: verdeConflitante.origem, destino: verdeConflitante.destino}
-          );
           var index = _.findIndex($scope.objeto.verdesConflitantes, obj);
 
           var indexX = _.findIndex(grupos[0].verdesConflitantesOrigem, {idJson: obj.idJson});
@@ -84,14 +89,18 @@ angular.module('influuntApp')
             $scope.objeto.verdesConflitantes.splice(index, 1);
           }
         } else {
-          grupos[0].verdesConflitantesOrigem = grupos[0].verdesConflitantesOrigem || [];
-          grupos[0].verdesConflitantesOrigem.push({idJson: verdeConflitante.idJson});
+          if (obj) {
+            delete obj._destroy;
+          } else {
+            grupos[0].verdesConflitantesOrigem = grupos[0].verdesConflitantesOrigem || [];
+            grupos[0].verdesConflitantesOrigem.push({idJson: verdeConflitante.idJson});
 
-          grupos[1].verdesConflitantesDestino = grupos[1].verdesConflitantesDestino || [];
-          grupos[1].verdesConflitantesDestino.push({idJson: verdeConflitante.idJson});
+            grupos[1].verdesConflitantesDestino = grupos[1].verdesConflitantesDestino || [];
+            grupos[1].verdesConflitantesDestino.push({idJson: verdeConflitante.idJson});
 
-          $scope.objeto.verdesConflitantes = $scope.objeto.verdesConflitantes || [];
-          $scope.objeto.verdesConflitantes.push(verdeConflitante);
+            $scope.objeto.verdesConflitantes = $scope.objeto.verdesConflitantes || [];
+            $scope.objeto.verdesConflitantes.push(verdeConflitante);
+          }
         }
 
         // Deve marcar/desmarcar os coordenadas (x, y) e (y, x) simultaneamente.

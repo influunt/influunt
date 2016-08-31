@@ -269,7 +269,7 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = ControladorVerdesConflitantesCheck.class, message = "Esse grupo semafórico deve ter ao menos um verde conflitante")
     public boolean isAoMenosUmVerdeConflitante() {
         if (this.getAnel() != null) {
-            return this.getVerdesConflitantes() != null && this.getVerdesConflitantes().stream().anyMatch(grupoSemaforico -> grupoSemaforico != null);
+            return this.getVerdesConflitantes() != null && this.getVerdesConflitantes().stream().filter(verdeConflitante -> !verdeConflitante.isDestroy()).anyMatch(grupoSemaforico -> grupoSemaforico != null);
         } else {
             return true;
         }

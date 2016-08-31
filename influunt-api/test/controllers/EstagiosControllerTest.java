@@ -1,11 +1,15 @@
 package controllers;
 
+import com.avaje.ebean.Ebean;
 import com.google.inject.Singleton;
 import models.Anel;
+import models.Cidade;
 import models.Estagio;
 import org.junit.Test;
 import play.Application;
+import play.Logger;
 import play.Mode;
+import play.libs.Json;
 import play.inject.guice.GuiceApplicationBuilder;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -18,6 +22,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static play.inject.Bindings.bind;
 import static play.test.Helpers.inMemoryDatabase;
@@ -63,6 +68,38 @@ public class EstagiosControllerTest extends WithApplication {
                 .uri(routes.EstagiosController.delete(UUID.randomUUID().toString()).url());
         Result result = route(deleteRequest);
         assertEquals(404, result.status());
+    }
+
+    @Test
+    public void testSave() {
+        Cidade c = new Cidade();
+
+        Ebean.beginTransaction();
+        try {
+            c.setNome("opa");
+            c.save();
+            Logger.error("1 - :" + Cidade.find.findRowCount());
+            assertNotNull(c.getId());
+            Ebean.commitTransaction();
+        }finally {
+            Ebean.endTransaction();
+        }
+
+
+
+        Ebean.beginTransaction();
+        try {
+//        c = Json.fromJson(Json.toJson(c), Cidade.class);
+            Logger.warn("ID: " + c.getId());
+            Cidade c1 = Cidade.find.byId(c.getId());
+            c1.setId(null);
+            c1.save();
+            Logger.error("2 - :" + Cidade.find.findRowCount());
+            assertEquals(2, Cidade.find.findRowCount());
+            Ebean.commitTransaction();
+        } finally {
+            Ebean.endTransaction();
+        }
     }
 
 }
