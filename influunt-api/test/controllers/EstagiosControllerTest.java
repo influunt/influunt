@@ -1,15 +1,11 @@
 package controllers;
 
-import com.avaje.ebean.Ebean;
 import com.google.inject.Singleton;
 import models.Anel;
-import models.Cidade;
 import models.Estagio;
 import org.junit.Test;
 import play.Application;
-import play.Logger;
 import play.Mode;
-import play.libs.Json;
 import play.inject.guice.GuiceApplicationBuilder;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -22,7 +18,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static play.inject.Bindings.bind;
 import static play.test.Helpers.inMemoryDatabase;

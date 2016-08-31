@@ -14,7 +14,7 @@ angular.module('influuntApp')
     function ($scope, $state, $timeout, Restangular, $filter, toast,
               influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo, handleValidations, TabelaHorariaService) {
 
-      var adicionaTabelaHorario, adicionaEvento, atualizaPlanos, atualizaGruposSemaforicos, atualizaEventos, atualizaPosicaoEventos;
+      var adicionaTabelaHorario, adicionaEvento, atualizaPlanos, atualizaGruposSemaforicos, atualizaEventos, atualizaPosicaoEventos, removerEventoNoCliente;
 
       $scope.somenteVisualizacao = $state.current.data.somenteVisualizacao;
       /**
@@ -214,13 +214,26 @@ angular.module('influuntApp')
         }
       };
 
-      $scope.removerEvento = function(evento) {
+      removerEventoNoCliente = function(evento) {
         var eventoObjetoIndex = _.findIndex($scope.objeto.eventos, {idJson: evento.idJson});
         var eventoIndex = _.findIndex($scope.currentTabelaHoraria.eventos, {idJson: evento.idJson});
 
         $scope.objeto.eventos.splice(eventoObjetoIndex, 1);
         $scope.currentTabelaHoraria.eventos.splice(eventoIndex, 1);
         atualizaEventos();
+      };
+
+      $scope.removerEvento = function(evento) {
+        if (angular.isUndefined(evento.id)) {
+          removerEventoNoCliente(evento);
+        } else {
+          Restangular.one('eventos', evento.id).remove()
+            .then(function() {
+              removerEventoNoCliente(evento);
+            }).catch(function() {
+              toast.error($filter('translate')('controladores.eventos.msg_erro_apagar_evento'));
+            });
+        }
       };
 
       $scope.visualizarPlano = function(evento){
