@@ -10,9 +10,7 @@ angular.module('influuntApp')
   .directive('influuntRevisao', function () {
     return {
       restrict: 'E',
-      templateUrl: 'views/directives/influunt-revisao.html',
-      objeto: '=',
-      showFooter: '=',
-      link: function postLink() {}
+      templateUrl: 'views/directives/influunt-revisao/main.html',
+      objeto: '='
     };
   });

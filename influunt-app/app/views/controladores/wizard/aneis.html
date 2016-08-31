@@ -183,16 +183,4 @@
 </fieldset>
 
 
-<div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog" style="width: 95%;">
-    <div class="modal-content animated bounceInRight">
-      <div class="modal-header">
-        <influunt-revisao objeto="objeto" data-ng-controller="ControladoresRevisaoCtrl" data-show-footer="false"></influunt-revisao>
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">{{ 'crud.fechar' | translate }}</button>
-      </div>
-    </div>
-  </div>
-</div>
+<ng-include src="'views/controladores/wizard/common/popup-revisao.html'">

@@ -17,7 +17,6 @@ angular.module('influuntApp')
           setDadosCurrentVerdesConflitantes, setDadosCurrentTransicoesProibidas, setDadosCurrentTabelasEntreVerdes,
           setDadosCurrentDetectores;
 
-
       /**
        * Pré-condições para acesso à tela de revisao: Somente será possível acessar esta
        * tela se o objeto possuir estágios. Os estágios são informados no passo anterior, o
@@ -37,8 +36,11 @@ angular.module('influuntApp')
         return $scope.inicializaWizard().then(function() {
           setDadosBasicosControlador();
           $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
-          $scope.aneis = _.filter($scope.objeto.aneis, { ativo: true });
+          $scope.aneis = _.filter($scope.objeto.aneis, 'ativo');
           $scope.selecionaAnelRevisao(0);
+
+          $scope.markerEnderecoControlador = _.clone($scope.objeto.todosEnderecos[0]);
+          $scope.markerEnderecoControlador.options = {draggable: false};
         });
       };
 
@@ -148,7 +150,7 @@ angular.module('influuntApp')
       setDadosCurrentEstagios = function() {
         $scope.dadosCurrentEstagios = [];
         if ($scope.currentEstagios) {
-          _.forEach($scope.currentEstagios, function(estagio) {
+          _.forEach($scope.currentEstagios, function(estagio, index) {
             var ids = _.map(estagio.estagiosGruposSemaforicos, 'idJson');
             var estagioGrupos = _.chain($scope.objeto.estagiosGruposSemaforicos)
               .filter(function(e) {
@@ -157,7 +159,8 @@ angular.module('influuntApp')
               .value();
 
             ids = _.map(estagioGrupos, function(egs) { return egs.grupoSemaforico.idJson; });
-            var gruposStr = _.chain($scope.objeto.gruposSemaforicos)
+            var gruposStr = _
+              .chain($scope.objeto.gruposSemaforicos)
               .filter(function(e) {
                 return ids.indexOf(e.idJson) >= 0;
               })
@@ -167,7 +170,7 @@ angular.module('influuntApp')
               .value();
 
             var dadosEstagio = {
-              posicao: estagio.posicao,
+              posicao: estagio.posicao || (index + 1),
               gruposSemaforicosStr: gruposStr,
               demandaPrioritaria: estagio.demandaPrioritaria,
               tempoMaximoPermanenciaAtivado: estagio.tempoMaximoPermanenciaAtivado,
@@ -230,6 +233,40 @@ angular.module('influuntApp')
       };
 
       setDadosCurrentTabelasEntreVerdes = function() {
+        if ($scope.currentGruposSemaforicos) {
+          var gs = _.map($scope.currentGruposSemaforicos, 'idJson');
+          $scope.dadosCurrentTabelaEntreVerdes = _
+            .chain($scope.objeto.tabelasEntreVerdes)
+            .filter(function(tev) {return gs.indexOf(tev.grupoSemaforico.idJson) >= 0;})
+            .map(function(tev) {
+              var obj = {
+                descricao: tev.descricao,
+                posicao: tev.posicao,
+                grupoSemaforicoIdJson: tev.grupoSemaforico.idJson
+              };
+
+              obj.transicoes = _.map(tev.tabelaEntreVerdesTransicoes, function(el) {
+                var tevt = _.find($scope.objeto.tabelasEntreVerdesTransicoes, {idJson: el.idJson});
+                var transicao = _.find($scope.objeto.transicoes, {idJson: tevt.transicao.idJson});
+                var origem = _.find($scope.objeto.estagios, {idJson: transicao.origem.idJson});
+                var destino = _.find($scope.objeto.estagios, {idJson: transicao.destino.idJson});
+
+                return {
+                  tempoAmarelo: tevt.tempoAmarelo,
+                  tempoVermelhoIntermitente: tevt.tempoVermelhoIntermitente,
+                  tempoAtrasoGrupo: tevt.tempoAtrasoGrupo,
+                  tempoVermelhoLimpeza: tevt.tempoVermelhoLimpeza,
+                  tipo: transicao.tipo,
+                  label: 'E' + origem.posicao + '-' + 'E' + destino.posicao
+                }
+              });
+
+              return obj;
+            })
+            .orderBy(['posicao'])
+            .value();
+        }
+
         $scope.dadosCurrentTabelasentreVerdesPadrao = [];
         $scope.dadosCurrentTabelasentreVerdesOutra = [];
         if ($scope.currentEstagios) {
