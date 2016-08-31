@@ -5,6 +5,7 @@ import be.objectify.deadbolt.java.actions.Dynamic;
 import com.google.common.io.Files;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import models.Anel;
 import models.Imagem;
 import net.coobird.thumbnailator.Thumbnails;
 import play.Application;
@@ -94,6 +95,21 @@ public class ImagensController extends Controller {
             return CompletableFuture.completedFuture(notFound());
         }
         imagem.apagar(provider.get().path());
+        return CompletableFuture.completedFuture(ok());
+    }
+
+    @Transactional
+    public CompletionStage<Result> deleteCroqui(String id) {
+        Imagem imagem = Imagem.find.byId(UUID.fromString(id));
+        if (imagem == null) {
+            return CompletableFuture.completedFuture(notFound());
+        }
+        Anel anel = Anel.find.where().eq("croqui_id", imagem.getId()).findUnique();
+        if (anel != null) {
+            anel.setCroqui(null);
+            anel.update();
+            imagem.apagar(provider.get().path());
+        }
         return CompletableFuture.completedFuture(ok());
     }
 }
