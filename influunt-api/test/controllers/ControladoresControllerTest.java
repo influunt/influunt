@@ -369,7 +369,7 @@ public class ControladoresControllerTest  extends AbstractInfluuntControladorTes
                 VersaoPlano versaoAnterior = versaoEdicao.getVersaoAnterior();
 
                 versaoAnterior.getPlanos().forEach(origem -> {
-                    Plano destino = versaoEdicao.getPlanos().stream().filter(aux -> aux.getIdJson().equals(origem.getIdJson())).findFirst().orElse(null);
+                    Plano destino = versaoEdicao.getPlanos().stream().filter(aux -> aux.getPosicao().equals(origem.getPosicao())).findFirst().orElse(null);
                     assertEquals("Teste Anel | Plano | Anel: ", origem.getAnel().getIdJson(), destino.getAnel().getIdJson());
                     if (origem.getAgrupamento() != null) {
                         assertEquals("Teste Anel | Plano | Agrupamento: ", origem.getAgrupamento().getIdJson(), destino.getAgrupamento().getIdJson());
@@ -377,9 +377,9 @@ public class ControladoresControllerTest  extends AbstractInfluuntControladorTes
                     assertFields(origem, destino);
 
                     origem.getEstagiosPlanos().forEach(estagioPlano -> {
-                        EstagioPlano estagioPlanoClonado = destino.getEstagiosPlanos().stream().filter(aux -> aux.getIdJson().equals(estagioPlano.getIdJson())).findFirst().orElse(null);
+                        EstagioPlano estagioPlanoClonado = destino.getEstagiosPlanos().stream().filter(aux -> aux.getPosicao().equals(estagioPlano.getPosicao())).findFirst().orElse(null);
                         assertEquals("Teste Anel | Plano | Estagio Plano |  Estagio: ", estagioPlano.getEstagio().getIdJson(), estagioPlanoClonado.getEstagio().getIdJson());
-                        assertEquals("Teste Anel | Plano | Estagio Plano |  Plano: ", estagioPlano.getPlano().getIdJson(), estagioPlanoClonado.getPlano().getIdJson());
+                        assertNotEquals("Teste Anel | Plano | Estagio Plano |  Plano: ", estagioPlano.getPlano().getIdJson(), estagioPlanoClonado.getPlano().getIdJson());
                         if (estagioPlano.getEstagioQueRecebeEstagioDispensavel() != null) {
                             assertEquals("Teste Anel | Plano | Estagio Plano |  Estagio Dispensavel: ", estagioPlano.getEstagioQueRecebeEstagioDispensavel().getIdJson(), estagioPlanoClonado.getEstagioQueRecebeEstagioDispensavel().getIdJson());
                         }
@@ -387,9 +387,9 @@ public class ControladoresControllerTest  extends AbstractInfluuntControladorTes
                     });
 
                     origem.getGruposSemaforicosPlanos().forEach(grupoSemaforicoPlano -> {
-                        GrupoSemaforicoPlano grupoSemaforicoPlanoClonado = destino.getGruposSemaforicosPlanos().stream().filter(aux -> aux.getIdJson().equals(grupoSemaforicoPlano.getIdJson())).findFirst().orElse(null);
+                        GrupoSemaforicoPlano grupoSemaforicoPlanoClonado = destino.getGruposSemaforicosPlanos().stream().filter(aux -> aux.getGrupoSemaforico().getPosicao().equals(grupoSemaforicoPlano.getGrupoSemaforico().getPosicao())).findFirst().orElse(null);
                         assertEquals("Teste Anel | Plano | Grupo Semaforico Plano |  Grupo Semaforico Plano: ", grupoSemaforicoPlano.getGrupoSemaforico().getIdJson(), grupoSemaforicoPlanoClonado.getGrupoSemaforico().getIdJson());
-                        assertEquals("Teste Anel | Plano | Grupo Semaforico Plano |  Plano: ", grupoSemaforicoPlano.getPlano().getIdJson(), grupoSemaforicoPlanoClonado.getPlano().getIdJson());
+                        assertNotEquals("Teste Anel | Plano | Grupo Semaforico Plano |  Plano: ", grupoSemaforicoPlano.getPlano().getIdJson(), grupoSemaforicoPlanoClonado.getPlano().getIdJson());
                         assertFields(grupoSemaforicoPlano, grupoSemaforicoPlanoClonado);
                     });
                 });

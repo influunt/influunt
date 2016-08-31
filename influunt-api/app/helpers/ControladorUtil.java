@@ -205,6 +205,26 @@ public class ControladorUtil {
             });
         });
 
+        //Atualizando IDJson de Planos
+        controlador.getAneis().forEach(anel -> {
+            anel.getDetectores().forEach(detector -> detector.setIdJson(UUID.randomUUID().toString()));
+            anel.getGruposSemaforicos().forEach(grupoSemaforico -> {
+                grupoSemaforico.getVerdesConflitantesOrigem().forEach(verdesConflitantes -> verdesConflitantes.setIdJson(UUID.randomUUID().toString()));
+                grupoSemaforico.getEstagiosGruposSemaforicos().forEach(estagioGrupoSemaforico -> estagioGrupoSemaforico.setIdJson(UUID.randomUUID().toString()));
+                grupoSemaforico.getTabelasEntreVerdes().forEach(tabelaEntreVerdes -> tabelaEntreVerdes.setIdJson(UUID.randomUUID().toString()));
+                grupoSemaforico.getTransicoes().forEach(transicao -> {
+                    transicao.getTabelaEntreVerdesTransicoes().forEach(tabelaEntreVerdesTransicao -> tabelaEntreVerdesTransicao.setIdJson(UUID.randomUUID().toString()));
+                    transicao.getAtrasoDeGrupo().setIdJson(UUID.randomUUID().toString());
+                    transicao.setIdJson(UUID.randomUUID().toString());
+                });
+                grupoSemaforico.setIdJson(UUID.randomUUID().toString());
+            });
+            anel.getEstagios().forEach(estagio -> {
+                estagio.getOrigemDeTransicoesProibidas().forEach(transicaoProibida -> transicaoProibida.setIdJson(UUID.randomUUID().toString()));
+                estagio.setIdJson(UUID.randomUUID().toString());
+            });
+        });
+
         // FIM CLONE CONTROLADOR
         Ebean.update(controladorClone);
 
@@ -278,6 +298,16 @@ public class ControladorUtil {
                 });
             });
         });
+
+        //Atualizando IDJson de Planos
+        controlador.getAneis().forEach(anel -> {
+            anel.getPlanos().forEach(plano -> {
+                plano.getEstagiosPlanos().forEach(estagioPlano -> estagioPlano.setIdJson(UUID.randomUUID().toString()));
+                plano.getGruposSemaforicosPlanos().forEach(grupoSemaforicoPlano -> grupoSemaforicoPlano.setIdJson(UUID.randomUUID().toString()));
+                plano.setIdJson(UUID.randomUUID().toString());
+            });
+        });
+        Ebean.update(controlador);
 
         long elapsed = System.nanoTime() - startTime;
         Logger.info(String.format("[PLANO] - DeepClone: Elapsed time: %d ns (%f seconds)%n", elapsed, elapsed / Math.pow(10, 9)));
