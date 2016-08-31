@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static play.inject.Bindings.bind;
 import static play.test.Helpers.inMemoryDatabase;
@@ -44,10 +45,18 @@ public class DetectoresControllerTest extends WithApplication {
 
     @Test
     public void testApagarDetectorExistente() {
-        Anel anel = new Anel();
         Detector detector = new Detector();
+
+        Anel anel = new Anel();
+        detector.setAnel(anel);
         anel.addDetectores(detector);
+
+        Estagio estagio = new Estagio();
+        detector.setEstagio(estagio);
+        estagio.setDetector(detector);
+
         anel.save();
+        estagio.save();
         detector.save();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("DELETE")
@@ -56,6 +65,8 @@ public class DetectoresControllerTest extends WithApplication {
 
         assertEquals(200, result.status());
         assertNull(Detector.find.byId(detector.getId()));
+        assertNotNull("Anel não deve ser deletado", Anel.find.byId(anel.getId()));
+        assertNotNull("Estágio não deve ser deletado", Estagio.find.byId(estagio.getId()));
     }
 
     @Test
