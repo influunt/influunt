@@ -165,11 +165,11 @@ public class Controlador extends Model implements Cloneable, Serializable {
         if (controlador.getId() != null) {
             controlador.getAneis().forEach(anel -> {
                 anel.getGruposSemaforicos().forEach(grupoSemaforico ->
-                    grupoSemaforico.getTabelasEntreVerdes().forEach(tabelaEntreVerdes -> {
-                        if (tabelaEntreVerdes.isDestroy()) {
-                            tabelaEntreVerdes.delete();
-                        }
-                    }));
+                        grupoSemaforico.getTabelasEntreVerdes().forEach(tabelaEntreVerdes -> {
+                            if (tabelaEntreVerdes.isDestroy()) {
+                                tabelaEntreVerdes.delete();
+                            }
+                        }));
             });
         }
     }
@@ -179,11 +179,11 @@ public class Controlador extends Model implements Cloneable, Serializable {
         if (c.getId() != null) {
             c.getAneis().forEach(anel -> {
                 anel.getGruposSemaforicos().forEach(grupoSemaforico ->
-                    grupoSemaforico.getVerdesConflitantes().forEach(verdeConflitante -> {
-                        if (verdeConflitante.isDestroy()) {
-                            verdeConflitante.delete();
-                        }
-                    }));
+                        grupoSemaforico.getVerdesConflitantes().forEach(verdeConflitante -> {
+                            if (verdeConflitante.isDestroy()) {
+                                verdeConflitante.delete();
+                            }
+                        }));
             });
         }
     }
@@ -239,7 +239,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
             });
         }
     }
-
 
 
     private void gerarCLC() {

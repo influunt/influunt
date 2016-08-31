@@ -282,11 +282,11 @@ public class Estagio extends Model implements Serializable, Cloneable {
     }
 
     private boolean isEstagiosGrupoSemaforicosNotEmpty() {
-        return getEstagiosGruposSemaforicos() != null &&
-                !getEstagiosGruposSemaforicos().isEmpty() &&
-                !getEstagiosGruposSemaforicos().stream()
-                        .filter(estagioGrupoSemaforico -> !estagioGrupoSemaforico.isDestroy())
-                        .collect(Collectors.toList()).isEmpty();
+        return getEstagiosGruposSemaforicos() != null
+                && !getEstagiosGruposSemaforicos().isEmpty()
+                && !getEstagiosGruposSemaforicos().stream()
+                    .filter(estagioGrupoSemaforico -> !estagioGrupoSemaforico.isDestroy())
+                    .collect(Collectors.toList()).isEmpty();
     }
 
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,

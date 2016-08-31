@@ -203,8 +203,7 @@ angular.module('influuntApp')
         estagio1.origemDeTransicoesProibidas = estagio1.origemDeTransicoesProibidas || [];
         estagio2.destinoDeTransicoesProibidas = estagio2.destinoDeTransicoesProibidas || [];
 
-        var tp = _.find($scope.objeto.transicoesProibidas, _.pick(transicaoProibida, ['origem', 'destino']))
-        var tpToAdd;
+        var tp = _.find($scope.objeto.transicoesProibidas, _.pick(transicaoProibida, ['origem', 'destino']));
         if (tp && tp._destroy) {
           delete tp._destroy;
           transicaoProibida = tp;
