@@ -149,6 +149,9 @@
     "detectores": {
       "msg_erro_apagar_detector": "Não foi possível apagar o detector."
     },
+    "eventos": {
+      "msg_erro_apagar_evento": "Não foi possível apagar o evento."
+    },
     "validacoes": {
       "aoMenosUmGrupoSemaforico": "Este anel deve ter mais de 1 grupo semáforico",
       "latitudeMayNotBeNull": "Campo de Latitude é Obrigatório",

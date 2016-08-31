@@ -63,4 +63,5 @@ public class TabelaHorariosController extends Controller {
             return CompletableFuture.completedFuture(ok(Json.toJson(versoes)));
         }
     }
+
 }

@@ -112,4 +112,7 @@ GET         /api/v1/tabela_horarios/:id/timeline        controllers.TabelaHorari
 DELETE      /api/v1/estagios/:id                        controllers.EstagiosController.delete(id)
 
 # Detectores
-DELETE      /api/v1/detectores/:id                        controllers.DetectoresController.delete(id)
+DELETE      /api/v1/detectores/:id                      controllers.DetectoresController.delete(id)
+
+# Detectores
+DELETE      /api/v1/eventos/:id                         controllers.EventosController.delete(id)

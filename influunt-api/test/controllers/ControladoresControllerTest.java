@@ -1,86 +1,35 @@
 package controllers;
 
+import checks.Erro;
 import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.inject.Singleton;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import models.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.DateTime;
-import org.junit.Before;
 import org.junit.Test;
-import play.Application;
 import play.Logger;
-import play.Mode;
-import play.inject.guice.GuiceApplicationBuilder;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
-import play.test.WithApplication;
-import security.AllowAllAuthenticator;
-import security.Authenticator;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
-import static play.inject.Bindings.bind;
 import static play.mvc.Http.Status.OK;
 import static play.mvc.Http.Status.UNPROCESSABLE_ENTITY;
-import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.route;
 
 /**
  * Created by lesiopinheiro on 8/10/16.
  */
-public class ControladoresControllerTest extends WithApplication {
-
-    private static ControladorTestUtil controladorTestUtils;
-
-    @Override
-    protected Application provideApplication() {
-        Map<String, String> options = new HashMap<String, String>();
-        options.put("DATABASE_TO_UPPER", "FALSE");
-        return getApplication(inMemoryDatabase("default", options));
-    }
-
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    private Application getApplication(Map configuration) {
-        return new GuiceApplicationBuilder().configure(configuration)
-                .overrides(bind(Authenticator.class).to(AllowAllAuthenticator.class).in(Singleton.class))
-                .in(Mode.TEST).build();
-    }
-
-
-    @Before
-    public void setUpModels() {
-        Cidade cidade = new Cidade();
-        cidade.setNome("São Paulo");
-        cidade.save();
-
-        Area area = new Area();
-        area.setCidade(cidade);
-        area.setDescricao(1);
-        area.save();
-
-        Fabricante fabricante = new Fabricante();
-        fabricante.setNome("Tesc");
-        fabricante.save();
-
-        ModeloControlador modeloControlador = new ModeloControlador();
-        modeloControlador.setFabricante(fabricante);
-        modeloControlador.setDescricao("Modelo 1");
-        modeloControlador.save();
-
-        controladorTestUtils = new ControladorTestUtil(cidade, area, fabricante, modeloControlador);
-    }
-
+public class ControladoresControllerTest  extends AbstractInfluuntControladorTest {
     @Test
     public void naoDeveriaClonarControladorComStatusConfigurado() {
         Controlador controlador = controladorTestUtils.getControladorDadosBasicos();
@@ -637,4 +586,8 @@ public class ControladoresControllerTest extends WithApplication {
         }
     }
 
+    @Override
+    public List<Erro> getErros(Controlador controlador) {
+        return null;
+    }
 }
