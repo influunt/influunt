@@ -152,7 +152,7 @@ public class Plano extends Model implements Cloneable, Serializable {
     public Anel getAnel() {
         return getVersaoPlano().getAnel();
     }
-    
+
     public VersaoPlano getVersaoPlano() {
         return versaoPlano;
     }
@@ -420,16 +420,16 @@ public class Plano extends Model implements Cloneable, Serializable {
 
     @Override
     public String toString() {
-        return "Plano{" +
-                "id=" + id +
-                ", idJson='" + idJson + '\'' +
-                ", posicao=" + posicao +
-                ", tempoCiclo=" + tempoCiclo +
-                ", defasagem=" + defasagem +
-                ", versaoPlano=" + versaoPlano +
-                ", posicaoTabelaEntreVerde=" + posicaoTabelaEntreVerde +
-                ", dataCriacao=" + dataCriacao +
-                ", dataAtualizacao=" + dataAtualizacao +
-                '}';
+        return "Plano{"
+                + "id=" + id
+                + ", idJson='" + idJson + '\''
+                + ", posicao=" + posicao
+                + ", tempoCiclo=" + tempoCiclo
+                + ", defasagem=" + defasagem
+                + ", versaoPlano=" + versaoPlano
+                + ", posicaoTabelaEntreVerde=" + posicaoTabelaEntreVerde
+                + ", dataCriacao=" + dataCriacao
+                + ", dataAtualizacao=" + dataAtualizacao
+                + '}';
     }
 }

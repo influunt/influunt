@@ -182,7 +182,7 @@ public class VersaoPlano extends Model implements Serializable {
     }
 
     static void getElement(ArrayList<VersaoPlano> versoes, VersaoPlano versaoPlano) {
-        if(versaoPlano != null) {
+        if (versaoPlano != null) {
             VersaoPlano versao = findByVersaoAnterior(versaoPlano);
             if (versao != null) {
                 versoes.add(versao);
@@ -199,13 +199,13 @@ public class VersaoPlano extends Model implements Serializable {
 
     @Override
     public String toString() {
-        return "VersaoPlano{" +
-                "id=" + id +
-                ", idJson='" + idJson + '\'' +
-                ", versaoAnterior=" + versaoAnterior +
-                ", descricao='" + descricao + '\'' +
-                ", statusVersao=" + statusVersao +
-                ", dataCriacao=" + dataCriacao +
-                '}';
+        return "VersaoPlano{"
+                + "id=" + id
+                + ", idJson='" + idJson + '\''
+                + ", versaoAnterior=" + versaoAnterior
+                + ", descricao='" + descricao + '\''
+                + ", statusVersao=" + statusVersao
+                + ", dataCriacao=" + dataCriacao
+                + '}';
     }
 }

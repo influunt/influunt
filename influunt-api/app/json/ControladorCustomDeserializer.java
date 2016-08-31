@@ -1158,8 +1158,6 @@ public class ControladorCustomDeserializer {
                 tabelaHoraria.setVersaoTabelaHoraria((VersaoTabelaHoraria) map.get(versaoTabelaHorariaId));
             };
             runLater(c);
-        } else {
-//            versaoTabelaHoraria
         }
 
         List<Evento> eventos = new ArrayList<>();

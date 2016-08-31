@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import models.Controlador;
-import models.VersaoControlador;
 import models.VersaoTabelaHoraria;
 import play.db.ebean.Transactional;
 import play.libs.Json;

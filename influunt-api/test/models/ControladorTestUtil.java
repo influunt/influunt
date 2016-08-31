@@ -1,6 +1,5 @@
 package models;
 
-import helpers.ControladorUtil;
 import org.joda.time.LocalTime;
 
 import java.util.Arrays;

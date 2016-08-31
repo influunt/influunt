@@ -99,6 +99,7 @@ public class ControladoresController extends Controller {
     }
 
 
+    @Transactional
     public CompletionStage<Result> edit(String id) {
 
         if (getUsuario() == null) {
@@ -130,6 +131,7 @@ public class ControladoresController extends Controller {
         }
     }
 
+    @Transactional
     public CompletionStage<Result> editarPlanos(String id) {
 
         if (getUsuario() == null) {
@@ -162,6 +164,7 @@ public class ControladoresController extends Controller {
         }
     }
 
+    @Transactional
     public CompletionStage<Result> editarTabelaHoraria(String id) {
 
         if (getUsuario() == null) {

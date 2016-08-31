@@ -32,7 +32,7 @@ public class VersaoTabelaHoraria extends Model implements Serializable {
     private String idJson;
 
     @JsonIgnore
-    @ManyToOne()
+    @ManyToOne
     private Controlador controlador;
 
     @JsonIgnore
@@ -73,7 +73,7 @@ public class VersaoTabelaHoraria extends Model implements Serializable {
         this.tabelaHorariaOrigem = tabelaHorariaOrigem;
         this.tabelaHoraria = tabelaHoraria;
         this.usuario = usuario;
-        if(usuario != null && usuario.getNome() != null) {
+        if (usuario != null && usuario.getNome() != null) {
             this.descricao = "Tabela Horaria criado pelo usuário:".concat(usuario.getNome());
         }
         this.statusVersao = StatusVersao.EDITANDO;
@@ -166,12 +166,12 @@ public class VersaoTabelaHoraria extends Model implements Serializable {
 
     @Override
     public String toString() {
-        return "VersaoTabelaHoraria{" +
-                "id=" + id +
-                ", idJson='" + idJson + '\'' +
-                ", descricao='" + descricao + '\'' +
-                ", statusVersao=" + statusVersao +
-                ", dataCriacao=" + dataCriacao +
-                '}';
+        return "VersaoTabelaHoraria{"
+                + "id=" + id
+                + ", idJson='" + idJson + '\''
+                + ", descricao='" + descricao + '\''
+                + ", statusVersao=" + statusVersao
+                + ", dataCriacao=" + dataCriacao
+                + '}';
     }
 }

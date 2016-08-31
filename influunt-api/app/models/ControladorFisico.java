@@ -24,6 +24,8 @@ import java.util.UUID;
 @Table(name = "controladores_fisicos")
 public class ControladorFisico extends Model implements Serializable {
 
+    private static final long serialVersionUID = -1589359465988312426L;
+    
     public static Finder<UUID, ControladorFisico> find = new Finder<UUID, ControladorFisico>(ControladorFisico.class);
 
     @Id

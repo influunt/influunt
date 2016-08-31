@@ -58,7 +58,7 @@ angular.module('influuntApp')
       };
 
       $scope.clonarPlanos = function(controladorId) {
-        return Restangular.one('controladores', controladorId).all("editar_planos").customGET()
+        return Restangular.one('controladores', controladorId).all('editar_planos).customGET()
           .then(function() {
             $state.go('app.controladores');
           })
@@ -513,7 +513,7 @@ angular.module('influuntApp')
 
       $scope.timeline = function() {
         if($scope.currentAnel) {
-          return Restangular.one('planos', $scope.currentAnel.id).all("timeline").customGET()
+          return Restangular.one('planos', $scope.currentAnel.id).all('timeline').customGET()
             .then(function(res) {
               $scope.versoes = res;
             })
