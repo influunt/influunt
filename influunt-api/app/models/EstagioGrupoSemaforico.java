@@ -41,6 +41,9 @@ public class EstagioGrupoSemaforico extends Model implements Cloneable, Serializ
     @NotNull(groups = ControladorAssociacaoGruposSemaforicosCheck.class)
     private GrupoSemaforico grupoSemaforico;
 
+    @Transient
+    private boolean destroy;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
@@ -124,5 +127,13 @@ public class EstagioGrupoSemaforico extends Model implements Cloneable, Serializ
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    public boolean isDestroy() {
+        return destroy;
+    }
+
+    public void setDestroy(boolean destroy) {
+        this.destroy = destroy;
     }
 }

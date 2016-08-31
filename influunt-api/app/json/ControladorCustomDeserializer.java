@@ -655,6 +655,9 @@ public class ControladorCustomDeserializer {
         if (node.has("idJson")) {
             estagioGrupoSemaforico.setIdJson(node.get("idJson").asText());
         }
+        if (node.has("_destroy")) {
+            estagioGrupoSemaforico.setDestroy(node.get("_destroy").asBoolean());
+        }
 
         if (node.has("grupoSemaforico")) {
             final String grupoSemaforicoId = node.get("grupoSemaforico").get("idJson").asText();

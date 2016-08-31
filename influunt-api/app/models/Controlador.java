@@ -152,7 +152,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
         this.deleteAnelSeNecessario();
         deleteGruposSemaforicos(this);
         deleteVerdesConflitantes(this);
-//        deleteEstagiosGruposSemaforicos(this);
+        deleteEstagiosGruposSemaforicos(this);
 //        deleteTransicoesProibidas(this);
 
         this.criarPossiveisTransicoes();
@@ -186,22 +186,15 @@ public class Controlador extends Model implements Cloneable, Serializable {
 
     private void deleteEstagiosGruposSemaforicos(Controlador controlador) {
         if (controlador.getId() != null) {
-            Controlador controladorAux = Controlador.find.byId(controlador.getId());
-            if (controladorAux != null) {
-                controladorAux.getAneis().stream()
-                        .map(Anel::getGruposSemaforicos)
-                        .flatMap(Collection::stream)
-                        .map(GrupoSemaforico::getEstagiosGruposSemaforicos)
-                        .flatMap(Collection::stream)
-                        .forEach(EstagioGrupoSemaforico::delete);
-
-                controlador.getAneis().stream()
-                        .map(Anel::getGruposSemaforicos)
-                        .flatMap(Collection::stream)
-                        .map(GrupoSemaforico::getEstagiosGruposSemaforicos)
-                        .flatMap(Collection::stream)
-                        .forEach(estagioGrupoSemaforico -> estagioGrupoSemaforico.setId(null));
-            }
+            controlador.getAneis().forEach(anel -> {
+                anel.getGruposSemaforicos().forEach(grupoSemaforico -> {
+                    grupoSemaforico.getEstagiosGruposSemaforicos().forEach(estagioGrupoSemaforico -> {
+                        if (estagioGrupoSemaforico.isDestroy()) {
+                            estagioGrupoSemaforico.delete();
+                        }
+                    });
+                });
+            });
         }
     }
 

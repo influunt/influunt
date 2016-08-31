@@ -276,20 +276,30 @@ public class Estagio extends Model implements Serializable, Cloneable {
     }
 
     public List<GrupoSemaforico> getGruposSemaforicos() {
-        return getEstagiosGruposSemaforicos().stream().map(estagioGrupoSemaforico -> estagioGrupoSemaforico.getGrupoSemaforico()).collect(Collectors.toList());
+        return getEstagiosGruposSemaforicos().stream()
+                .filter(estagioGrupoSemaforico -> !estagioGrupoSemaforico.isDestroy())
+                .map(EstagioGrupoSemaforico::getGrupoSemaforico).collect(Collectors.toList());
+    }
+
+    private boolean isEstagiosGrupoSemaforicosNotEmpty() {
+        return getEstagiosGruposSemaforicos() != null &&
+                !getEstagiosGruposSemaforicos().isEmpty() &&
+                !getEstagiosGruposSemaforicos().stream()
+                        .filter(estagioGrupoSemaforico -> !estagioGrupoSemaforico.isDestroy())
+                        .collect(Collectors.toList()).isEmpty();
     }
 
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
             message = "Este estágio deve ser associado a pelo menos 1 grupo semafórico")
     public boolean isAoMenosUmEstagioGrupoSemaforico() {
-        return getEstagiosGruposSemaforicos() != null && !getEstagiosGruposSemaforicos().isEmpty();
+        return isEstagiosGrupoSemaforicosNotEmpty();
     }
 
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
             message = "Existem grupos semafóricos conflitantes associados a esse estágio.")
     public boolean isNaoDevePossuirGruposSemaforicosConflitantes() {
-        if (getEstagiosGruposSemaforicos() != null && !getEstagiosGruposSemaforicos().isEmpty()) {
-            return !getEstagiosGruposSemaforicos().stream().anyMatch(estagioGrupoSemaforico -> estagioGrupoSemaforico.getGrupoSemaforico().conflitaCom(this.getGruposSemaforicos()));
+        if (isEstagiosGrupoSemaforicosNotEmpty()) {
+            return !getEstagiosGruposSemaforicos().stream().anyMatch(estagioGrupoSemaforico -> !estagioGrupoSemaforico.isDestroy() && estagioGrupoSemaforico.getGrupoSemaforico().conflitaCom(this.getGruposSemaforicos()));
         }
         return true;
     }
