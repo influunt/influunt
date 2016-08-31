@@ -13,7 +13,7 @@ module.exports = function() {
     return planosPage.clicarBotaoPlanos();
   });
 
-  this.Given(/^o sistema deverá redirecionar para a tela de cadastro de planos$/, function () {
+  this.Given(/^o sistema deverá redirecionar para a tela de planos$/, function () {
     return planosPage.isPlanos();
   });
 

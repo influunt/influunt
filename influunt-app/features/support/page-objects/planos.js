@@ -17,7 +17,7 @@ var PlanosPage = function () {
   };
 
   this.isPlanos = function() {
-    return world.waitFor('a[data-ng-click="adicionarPlano()"]');
+    return world.waitFor('ul[class="menu-planos"]');
   };
 
   this.selecionarModoOperacao = function(modoOperacao) {

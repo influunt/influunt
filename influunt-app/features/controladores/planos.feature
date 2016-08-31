@@ -6,7 +6,7 @@ Funcionalidade: Fluxo de cadastro de planos
     Dado que o sistema possui ao menos um controlador configurado
     E que o usuário acesse a página de listagem de controladores
     Quando o usuário clicar no botão Planos do controlador
-    # Então o sistema deverá redirecionar para a tela de cadastro de planos
+    Então o sistema deverá redirecionar para a tela de planos
 
   # Cenário: Tentar salvar planos em branco
   #   Dado que o usuário esteja na página de planos
