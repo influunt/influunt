@@ -20,7 +20,8 @@ angular.module('influuntApp')
         imagensUrl: '=',
         options: '=',
         onSuccess: '&',
-        onDelete: '&'
+        onDelete: '&',
+        removeButtonText: '@'
       },
       link: function postLink(scope, element) {
         /**
@@ -83,7 +84,7 @@ angular.module('influuntApp')
           },
           init: function() {
             this.on('addedfile', function(file) {
-              var removeButton = Dropzone.createElement('<a class="dz-remove" title="Remover estágio">Remover estágio</a>');
+              var removeButton = Dropzone.createElement('<a class="dz-remove" title="'+scope.removeButtonText+'">'+scope.removeButtonText+'</a>');
               var _this = this;
               removeButton.addEventListener('click', function(e) {
                 e.preventDefault();

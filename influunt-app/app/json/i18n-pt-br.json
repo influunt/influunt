@@ -342,6 +342,7 @@
       "sim": "Sim"
     },
     "croqui": "CROQUI",
+    "erro_deletar_croqui": "Não foi possível apagar o Croqui.",
     "dropzone": {
       "mensagem": "Clique ou Arraste imagens para este local"
     }

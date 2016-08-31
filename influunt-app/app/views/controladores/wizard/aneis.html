@@ -39,13 +39,14 @@
                       influunt-dropzone
                       anel="currentAnel"
                       on-success="adicionarEstagio(upload, imagem)"
-                      on-delete="removerEstagio(imagem)">
+                      on-delete="removerEstagio(imagem)"
+                      remove-button-text="{{ 'controladores.aneis.remover_estagio' | translate }}">
                   <fake-dropzone-preview
                       controlador="objeto"
                       anel="currentAnel"
                       imagens="imagensDeEstagios"
                       remove-button-text="{{ 'controladores.aneis.remover_estagio' | translate }}"
-                      on-delete="deletarEstagio(estagioIdJson)">
+                      on-delete="deletarEstagio">
                   </fake-dropzone-preview>
                   <div class="dz-default dz-message"><span>{{ 'geral.dropzone.mensagem' | translate }}</span></div>
                   <div class="fallback">
@@ -132,11 +133,13 @@
                           anel="currentAnel"
                           options="{thumbnailWidth: 2000, thumbnailHeight: 2000, maxFiles: 1,}"
                           on-success="adicionarCroqui(upload, imagem)"
-                          on-delete="removerCroqui(imagem)">
+                          on-delete="removerCroquiLocal(imagem)"
+                          remove-button-text="{{ 'controladores.aneis.remover_croqui' | translate }}">
                       <fake-dropzone-preview
                           controlador="objeto"
                           anel="currentAnel"
                           imagens="imagemCroqui"
+                          on-delete="removerCroqui"
                           remove-button-text="{{ 'controladores.aneis.remover_croqui' | translate }}">
                       </fake-dropzone-preview>
                       <div class="dz-default dz-message"><span>{{ 'geral.dropzone.mensagem' | translate }}</span></div>

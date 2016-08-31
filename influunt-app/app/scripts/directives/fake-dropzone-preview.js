@@ -20,13 +20,20 @@ angular.module('influuntApp')
         },
         link: function postLink(scope, element) {
           var $form = $(element[0]).parent();
-          var template = '<div class="dz-preview dz-processing dz-image-preview" data-anel-id="{{ anel.idJson }}" data-imagem-id="{{ data.source }}"><div class="dz-details"><img data-dz-thumbnail="" alt="{{ data.nome }}" ng-src="{{ data.source }}"></div><div class="dz-filename"><span data-dz-name="">{{ data.nome }}</span></div><a class="dz-remove" title="{{ removeButtonText }}" ng-click="removerImagem(\'{{ data.objIdJson }}\')">{{ removeButtonText }}</a></div>';
+          var template = '<div class="dz-preview dz-processing dz-image-preview" data-anel-id="{{ anel.idJson }}" data-imagem-id="{{ data.objIdJson }}"><div class="dz-details"><img data-dz-thumbnail="" alt="{{ data.nome }}" ng-src="{{ data.source }}"></div><div class="dz-filename"><span data-dz-name="">{{ data.nome }}</span></div><a class="dz-remove" title="{{ removeButtonText }}" ng-click="removerImagem(\'{{ data.objIdJson }}\')">{{ removeButtonText }}</a></div>';
+          var destroiFakePreviews, destroySingleFakePreview, criarImagensFake;
 
           scope.removerImagem = function(objIdjson) {
-            scope.onDelete({ estagioIdJson: objIdjson });
+            if (angular.isFunction(scope.onDelete())) {
+              scope.onDelete()(objIdjson).then(function(deveRemover) {
+                if (deveRemover) {
+                  destroySingleFakePreview(objIdjson);
+                }
+              });
+            }
           };
 
-          var criarImagensFake = function(imagens) {
+          criarImagensFake = function(imagens) {
             _.each(imagens, function(imagem) {
               scope.data = {
                 nome: imagem.nomeImagem,
@@ -39,8 +46,12 @@ angular.module('influuntApp')
             });
           };
 
-          var destroiFakePreviews = function() {
+          destroiFakePreviews = function() {
             $form.find('.dz-preview').detach();
+          };
+
+          destroySingleFakePreview = function(imagemIdJson) {
+            $form.find('.dz-preview[data-imagem-id="'+imagemIdJson+'"]').detach();
           };
 
           scope.$watch('imagens', function(imagens) {

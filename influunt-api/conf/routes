@@ -89,6 +89,7 @@ POST        /api/v1/imagens                             controllers.ImagensContr
 GET         /api/v1/imagens/:id                         controllers.ImagensController.findOne(id)
 GET         /api/v1/imagens/:id/:version                controllers.ImagensController.findOneVersion(id,version)
 DELETE      /api/v1/imagens/:id                         controllers.ImagensController.delete(id)
+DELETE      /api/v1/imagens/:id/croqui                  controllers.ImagensController.deleteCroqui(id)
 
 #View Helpers
 GET         /api/v1/helpers/controlador                 controllers.HelpersController.controladorHelper()
