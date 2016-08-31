@@ -95,6 +95,14 @@ var PlanosPage = function () {
     });
   };
 
+  this.clicarBotaoApagarEstagio = function(estagio) {
+     return world.getElement('ul.planos div.sortable-list li.ui-state-default div.sortable h4.ng-binding i.fa-trash').click().then(function() {
+      return world.waitFor('div#modal-configuracao-estagio');
+    }).then(function() {
+      return world.waitForAnimationFinishes('div.modal-content');
+    });
+  };
+
   this.marcarValorConfig = function(field, value) {
     var baseSelector = 'influunt-knob[title="'+field.toUpperCase()+'"]';
     return world.getElement(baseSelector + ' p.knob-value').click().then(function() {
@@ -106,10 +114,6 @@ var PlanosPage = function () {
 
   this.fecharCaixaConfiguracao = function() {
     return world.getElement('div#modal-configuracao-estagio div.modal-footer button').click();
-  };
-
-  this.clicarBotaoAdicionarNovoPlano = function() {
-    return world.getElement('a[data-ng-click="adicionarPlano()"]').click();
   };
 
   this.trocarEstagiosDeLugar = function(estagio1, estagio2) {
@@ -130,6 +134,15 @@ var PlanosPage = function () {
     });
   };
 
+  this.estagioEscluido = function(numeroEstagios) {
+    return world.getElements('div.sortable-list').then(function(elements) {
+      return elements.length === numeroEstagios;
+    });
+  };
+
+  this.clicarBotaoAddPlano = function(estagio) {
+    return world.getElementByXpath('//div[contains(@class, "add-card-container")]//p[contains(text(), "'+estagio+'")]').click();
+  };
 };
 
 module.exports = PlanosPage;

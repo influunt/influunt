@@ -75,6 +75,17 @@ module.exports = function() {
 
   this.Given(/^o diagrama de intervalos não deverá aparecer$/, function(){
     return planosPage.hiddenDiagramaIntervalo();
+  });
 
+  this.Given(/^que o usuário clique no botão apagar o estagio "([^"]*)"$/, function (estagio) {
+    return planosPage.clicarBotaoApagarEstagio(estagio);
+  });
+
+  this.Given(/^a quantidade de estagios na lista deverá ser (\d+)$/, function (numeroEstagios) {
+    return planosPage.estagioEscluido(numeroEstagios);
+  });
+
+  this.Given(/^o usuário decide adicionar o estágio removido "([^"]*)"$/, function (estagio) {
+    return planosPage.clicarBotaoAddPlano(estagio);
   });
 };

@@ -62,5 +62,18 @@ Funcionalidade: Fluxo de cadastro de planos
     E que o usuário clique no botão de configurar o estágio "E2"
     E que o usuário marque 15 segundos para o "Tempo de Verde"
     E que o usuário clique no botão de fechar a caixa de configuração
-    # Então o Tempo de Ciclo deverá mudar para "34" segundos
+    # Então o Tempo de Ciclo deverá mudar para "15" segundos
 
+  Cenário: Remover estágio do intervalo em operação Isolado
+    Dado que o usuário esteja na página de planos
+    E que o usuário selecione o modo de operação "Isolado"
+    E que o usuário clique no botão apagar o estagio "E1"
+    Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
+    Quando o usuário responde sim
+    Então a quantidade de estagios na lista deverá ser 2
+
+  Cenário: Adicionar estágio novamente para o plano
+    Dado que o usuário esteja na página de planos
+    E que o usuário selecione o modo de operação "Isolado"
+    E o usuário decide adicionar o estágio removido "E1"
+    Então a quantidade de estagios na lista deverá ser 3
