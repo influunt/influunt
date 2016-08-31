@@ -150,6 +150,7 @@ public class ControladorDadosBasicosTest extends ControladorTest {
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
         List<LinkedHashMap<String, String>> errosJson = Json.fromJson(json, List.class);
         List<Erro> erros = errosJson.stream().map(erro -> new Erro(erro.get("root"), erro.get("message"), erro.get("path"))).collect(Collectors.toList());
+
         assertEquals(3, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro("Controlador", "não pode ficar em branco", "modelo"),
@@ -174,8 +175,10 @@ public class ControladorDadosBasicosTest extends ControladorTest {
 
         assertControlador(controlador, controladorRetornado);
         assertNotNull(controladorRetornado.getId());
+        assertNotNull("Versao Controlador", controladorRetornado.getVersaoControlador());
         assertEquals("Criação de aneis", 4, controladorRetornado.getAneis().size());
         assertEquals("Todoas aneis inativos", 0, controladorRetornado.getAneis().stream().filter(anel -> anel.isAtivo()).count());
+        assertEquals("Versao Controlador", controlador.getVersaoControlador().getIdJson(), controladorRetornado.getVersaoControlador().getIdJson());
 
     }
 

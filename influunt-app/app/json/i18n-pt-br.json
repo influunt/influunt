@@ -59,6 +59,7 @@
     "geral": {
       "novo": "Novo",
       "historico": "Histórico",
+      "cancelarEdicao": "Cancelar Edição",
       "copiar": "Copiar",
       "configurar": "Configurar",
       "configurado": "Configurado",
@@ -125,7 +126,7 @@
       "tabelaPadrao": "Tabela Padrão",
       "amarelo": "Amarelo",
       "vermelhoLimpeza": "Vermelho Limpeza",
-      "estagio": "Amarelo",
+      "estagio": "Estágio",
       "ausenciaMinima": "Ausência de Detecção Mínima",
       "ausenciaMaxima": "Ausência de Detecção Máxima",
       "deteccaoMinima": "Detecção Permanente Mínima",

@@ -1,4 +1,19 @@
 <div class="container-fluid wrapper wrapper-content animated fadeInRight" data-ng-init="init()">
+  <div class="row margin-bottom-10" ng-if="somenteVisualizacao">
+    <div class="col-sm-12 col-lg-12 actions clearfix padding-right-30">
+      <div class="right">
+        <a class="btn btn-outline btn-primary" tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.ver' | translate }} {{ 'controladores.geral.historico' | translate }}" type="button" data-target="#modal-timeline" data-toggle="modal">
+          <i class="fa fa-code-fork"></i> {{ 'controladores.geral.historico' | translate }}
+        </a>
+        <a class="btn btn-outline btn-primary" tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.geral.tabelaHorario' | translate }}"  type="button" ui-sref="app.tabela_horarios_edit({id: objeto.id})" ng-show="currentVersaoTabelaHoraria.statusVersao === 'EDITANDO' || currentVersaoTabelaHoraria.statusVersao === undefined">
+          <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
+        </a>
+        <a class="btn btn-outline btn-primary " tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.copiar' | translate }} {{ 'controladores.controlador' | translate }}"  type="button" ng-click="clonarTabelaHoraria(objeto.id)" ng-show="currentVersaoTabelaHoraria.statusVersao === 'ATIVO'">
+          <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
+        </a>
+      </div>
+    </div>
+  </div>
   <section role="complementary" class="basic-wizard">
     <div class="content clearfix wizard-body">
       <div class="step-content body">
@@ -23,17 +38,23 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix">
-          <a data-ng-click="submitForm()" go-to-top tooltips tooltip-template="Salvar" class="btn btn-primary btn-footer right">
-            {{ 'geral.crud.salvar' | translate }}
-          </a>
-          <a go-to-top tooltips tooltip-template="Descartar" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
-            {{ 'tabelaHorarios.descartar' | translate }}
-          </a>
-        </div>
-      </fieldset>
+          <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix" ng-if="!somenteVisualizacao">
+            <div class="right">
+              <a tooltips tooltip-template="Descartar" ui-sref="app.controladores" class="btn btn-outline btn-info btn-footer right m-r-sm right">
+                {{ 'tabelaHorarios.descartar' | translate }}
+              </a>
+              <a data-ng-click="submitForm()" go-to-top tooltips tooltip-template="Salvar" class="btn btn-primary btn-footer right">
+                {{ 'geral.crud.salvar' | translate }}
+              </a>
+            </div>
+          </div>
+
+          <!-- timeline -->
+          <influunt-modal-timeline></influunt-modal-timeline>
+          <!-- /MODAIS -->
+
+        </fieldset>
+      </div>
     </div>
-  </div>
   </section>
 </div>

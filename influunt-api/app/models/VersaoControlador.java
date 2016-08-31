@@ -29,19 +29,29 @@ public class VersaoControlador extends Model implements Serializable {
     @Id
     private UUID id;
 
+    @Column
+    private String idJson;
+
     @JsonIgnore
-    @ManyToOne
+    @OneToOne
     private Controlador controladorOrigem;
 
     @JsonIgnore
+    @OneToOne
+    private Controlador controlador;
+
+    @JsonIgnore
     @ManyToOne
-    private Controlador controladorEdicao;
+    private ControladorFisico controladorFisico;
 
     @ManyToOne
     private Usuario usuario;
 
     @Column
     private String descricao;
+
+    @Column
+    private StatusVersao statusVersao;
 
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
@@ -56,15 +66,27 @@ public class VersaoControlador extends Model implements Serializable {
     /**
      * Criar uma {@link VersaoControlador} para registro histórico
      *
-     * @param controlador       - {@link Controlador} de origem
-     * @param controladorEdicao - {@link Controlador} de destino
+     * @param controladorOrigem - {@link Controlador} de origem
+     * @param controlador       - {@link Controlador} de destino
      * @param usuario           - {@link Usuario} que realizou a operação
      */
-    public VersaoControlador(Controlador controlador, Controlador controladorEdicao, Usuario usuario) {
+    public VersaoControlador(Controlador controladorOrigem, Controlador controlador, Usuario usuario) {
         super();
-        this.controladorOrigem = controlador;
-        this.controladorEdicao = controladorEdicao;
+        this.controladorOrigem = controladorOrigem;
+        this.controlador = controlador;
         this.usuario = usuario;
+        this.statusVersao = StatusVersao.EDITANDO;
+
+    }
+
+    public VersaoControlador(Controlador controlador, ControladorFisico controladorFisico, Usuario usuario) {
+        super();
+        this.controlador = controlador;
+        this.controladorFisico = controladorFisico;
+        this.usuario = usuario;
+        this.descricao = "Controlador criado pelo usuário: ".concat(usuario.getNome());
+        this.statusVersao = StatusVersao.EDITANDO;
+
     }
 
     public UUID getId() {
@@ -75,6 +97,14 @@ public class VersaoControlador extends Model implements Serializable {
         this.id = id;
     }
 
+    public String getIdJson() {
+        return idJson;
+    }
+
+    public void setIdJson(String idJson) {
+        this.idJson = idJson;
+    }
+
     public Controlador getControladorOrigem() {
         return controladorOrigem;
     }
@@ -83,12 +113,12 @@ public class VersaoControlador extends Model implements Serializable {
         this.controladorOrigem = controladorOrigem;
     }
 
-    public Controlador getControladorEdicao() {
-        return controladorEdicao;
+    public Controlador getControlador() {
+        return controlador;
     }
 
-    public void setControladorEdicao(Controlador controladorEdicao) {
-        this.controladorEdicao = controladorEdicao;
+    public void setControlador(Controlador controladorEdicao) {
+        this.controlador = controladorEdicao;
     }
 
     public Usuario getUsuario() {
@@ -115,6 +145,22 @@ public class VersaoControlador extends Model implements Serializable {
         this.dataCriacao = dataCriacao;
     }
 
+    public StatusVersao getStatusVersao() {
+        return statusVersao;
+    }
+
+    public void setStatusVersao(StatusVersao statusVersao) {
+        this.statusVersao = statusVersao;
+    }
+
+    public ControladorFisico getControladorFisico() {
+        return controladorFisico;
+    }
+
+    public void setControladorFisico(ControladorFisico controladorFisico) {
+        this.controladorFisico = controladorFisico;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -132,7 +178,7 @@ public class VersaoControlador extends Model implements Serializable {
     }
 
     public static boolean usuarioPodeEditarControlador(Controlador controlador, Usuario usuario) {
-        VersaoControlador versao = VersaoControlador.find.where().eq("controlador_edicao_id", controlador.getId()).findUnique();
+        VersaoControlador versao = findByControlador(controlador);
         if (versao != null) {
             return usuario.equals(versao.getUsuario());
         }
@@ -162,7 +208,11 @@ public class VersaoControlador extends Model implements Serializable {
     }
 
     public static VersaoControlador findByControlador(Controlador controlador) {
-        return VersaoControlador.find.where().eq("controlador_edicao_id", controlador.getId()).findUnique();
+        return VersaoControlador.find.where().eq("controlador_id", controlador.getId()).findUnique();
+    }
+
+    public void ativar() {
+        setStatusVersao(StatusVersao.ATIVO);
     }
 }
 

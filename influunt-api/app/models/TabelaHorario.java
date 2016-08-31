@@ -4,6 +4,7 @@ import checks.TabelaHorariosCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
@@ -13,6 +14,7 @@ import org.joda.time.DateTime;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +40,13 @@ public class TabelaHorario extends Model implements Cloneable, Serializable {
     @Column
     private String idJson;
 
-    @OneToOne
+    @JsonIgnore
+    @Transient
     private Controlador controlador;
+
+    @OneToOne
+    @NotNull(message = "nao pode ser vazio")
+    private VersaoTabelaHoraria versaoTabelaHoraria;
 
     @OneToMany(mappedBy = "tabelaHorario", cascade = CascadeType.ALL)
     @Valid
@@ -78,12 +85,16 @@ public class TabelaHorario extends Model implements Cloneable, Serializable {
         this.idJson = idJson;
     }
 
-    public Controlador getControlador() {
-        return controlador;
+    public VersaoTabelaHoraria getVersaoTabelaHoraria() {
+        return versaoTabelaHoraria;
     }
 
-    public void setControlador(Controlador controlador) {
-        this.controlador = controlador;
+    public void setVersaoTabelaHoraria(VersaoTabelaHoraria versaoTabelaHoraria) {
+        this.versaoTabelaHoraria = versaoTabelaHoraria;
+    }
+
+    public Controlador getControlador() {
+        return getVersaoTabelaHoraria().getControlador();
     }
 
     public List<Evento> getEventos() {

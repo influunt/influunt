@@ -15,6 +15,8 @@ angular.module('influuntApp')
               influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo, handleValidations, TabelaHorariaService) {
 
       var adicionaTabelaHorario, adicionaEvento, atualizaPlanos, atualizaGruposSemaforicos, atualizaEventos, atualizaPosicaoEventos;
+
+      $scope.somenteVisualizacao = $state.current.data.somenteVisualizacao;
       /**
        * Inicializa a tela de tabela horario.
        */
@@ -121,16 +123,41 @@ angular.module('influuntApp')
           });
 
 
-          if(!$scope.objeto.tabelaHoraria) {
+          if($scope.objeto.tabelasHorarias.length === 0) {
+            $scope.objeto.versoesTabelasHorarias = ($scope.objeto.versoesTabelasHorarias.length > 0) ? $scope.objeto.versoesTabelasHorarias : [{idJson: UUID.generate()}];
             adicionaTabelaHorario($scope.objeto);
           }
-          $scope.currentTabelaHoraria = $scope.objeto.tabelaHoraria;
+          $scope.objeto.tabelaHoraria = $scope.objeto.tabelasHorarias[0];
+          $scope.currentTabelaHoraria = $scope.objeto.tabelasHorarias[0];
+          $scope.currentVersaoTabelaHoraria = _.find($scope.objeto.versoesTabelasHorarias, {tabelaHoraria: {idJson: $scope.currentTabelaHoraria.idJson}});
 
           adicionaEvento($scope.currentTabelaHoraria, 'NORMAL');
           adicionaEvento($scope.currentTabelaHoraria, 'ESPECIAL_RECORRENTE');
           adicionaEvento($scope.currentTabelaHoraria, 'ESPECIAL_NAO_RECORRENTE');
           $scope.selecionaTipoEvento(0);
         });
+      };
+
+      $scope.clonarTabelaHoraria = function(controladorId) {
+        return Restangular.one('controladores', controladorId).all('editar_tabela_horaria').customGET()
+          .then(function() {
+            $state.go('app.controladores');
+          })
+          .catch(function(err) {
+            toast.error($filter('translate')('geral.mensagens.default_erro'));
+            throw new Error(JSON.stringify(err));
+          });
+      };
+
+      $scope.timeline = function() {
+        return Restangular.one('tabela_horarios', $state.params.id).all('timeline').customGET()
+          .then(function(res) {
+            $scope.versoes = res;
+          })
+          .catch(function(err) {
+            toast.error($filter('translate')('geral.mensagens.default_erro'));
+            throw new Error(JSON.stringify(err));
+          });
       };
 
       $scope.selecionaTipoEvento = function(index) {
@@ -214,11 +241,14 @@ angular.module('influuntApp')
         var tabelaHoraria = {
           idJson: UUID.generate(),
           controlador: { idJson: controlador.idJson },
+          versaoTabelaHoraria: {idJson: controlador.versoesTabelasHorarias[0].idJson},
           eventos: []
         };
+        controlador.tabelasHorarias = controlador.tabelasHorarias || [];
+        controlador.tabelasHorarias.push(tabelaHoraria);
+        controlador.tabelaHoraria = controlador.tabelasHorarias[0];
+        controlador.versoesTabelasHorarias[0].tabelaHoraria = {idJson: tabelaHoraria.idJson};
 
-        controlador.tabelaHoraria = controlador.tabelaHoraria || {};
-        controlador.tabelaHoraria.idJson = tabelaHoraria.idJson;
         return tabelaHoraria;
       };
 
@@ -275,7 +305,7 @@ angular.module('influuntApp')
         $scope.currentEventos = _
           .chain($scope.objeto.eventos)
           .filter(function(e){
-            return e.tipo === $scope.currentTipoEvento;
+            return e.tipo === $scope.currentTipoEvento && e.tabelaHoraria.idJson === $scope.currentTabelaHoraria.idJson;
           })
           .orderBy(['posicao'])
           .value();
