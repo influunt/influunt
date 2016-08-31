@@ -1,10 +1,12 @@
 package controllers;
 
+import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Singleton;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import models.*;
+import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,8 +28,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import static play.inject.Bindings.bind;
+import static play.mvc.Http.Status.OK;
 import static play.mvc.Http.Status.UNPROCESSABLE_ENTITY;
 import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.route;
@@ -104,8 +108,7 @@ public class ControladoresControllerTest extends WithApplication {
 
         Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
         controlador.setStatusControlador(StatusControlador.ATIVO);
-        VersaoControlador novaVersao = new VersaoControlador(controlador, null, usuario);
-        novaVersao.save();
+        controlador.update();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
                 .uri(routes.TabelaHorariosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
@@ -121,7 +124,7 @@ public class ControladoresControllerTest extends WithApplication {
         json = Json.parse(Helpers.contentAsString(postResult));
         Controlador controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
 
-        VersaoControlador versao = VersaoControlador.find.where().eq("controlador_edicao_id", controladorClonado.getId()).findUnique();
+        VersaoControlador versao = VersaoControlador.findByControlador(controladorClonado);
         assertNotNull(versao);
 
         versao.setUsuario(usuario);
@@ -141,10 +144,7 @@ public class ControladoresControllerTest extends WithApplication {
     public void deveriaClonar() {
         Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
         controlador.setStatusControlador(StatusControlador.ATIVO);
-
-        VersaoControlador novaVersao = new VersaoControlador(null, controlador, null);
-        controlador.save();
-        novaVersao.save();
+        controlador.update();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
                 .uri(routes.ControladoresController.edit(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
@@ -155,12 +155,14 @@ public class ControladoresControllerTest extends WithApplication {
 
         assertEquals(200, postResult.status());
         assertNotNull("ID Controldor Clonado", controladorClonado.getId());
-        assertNotEquals("Teste de Id", controlador.getId(), controladorClonado.getId());
+        assertNotEquals("Teste de Id Diferentes", controlador.getId(), controladorClonado.getId());
         assertEquals("Teste de Aneis", controlador.getAneis().size(), controladorClonado.getAneis().size());
         assertEquals("Teste de Agrupamentos", controlador.getAgrupamentos().size(), controladorClonado.getAgrupamentos().size());
         assertEquals("Teste de Area", controlador.getArea(), controladorClonado.getArea());
         assertEquals("Teste de Modelo", controlador.getModelo(), controladorClonado.getModelo());
-        assertEquals("Total de Versoes", 2, VersaoControlador.versoes(controladorClonado).size());
+        assertEquals("Teste de Controlador Fisico", controlador.getVersaoControlador().getControladorFisico(), controladorClonado.getVersaoControlador().getControladorFisico());
+        assertEquals("Total de Versoes", 2, controladorClonado.getVersaoControlador().getControladorFisico().getVersoes().size());
+        assertTrue("Versao Tabela Horaria", controladorClonado.getVersoesTabelasHorarias().isEmpty());
         assertFields(controlador, controladorClonado);
 
         controlador.getAneis().forEach(anel -> {
@@ -169,7 +171,7 @@ public class ControladoresControllerTest extends WithApplication {
             assertEquals("Teste Anel | Estagio", anel.getEstagios().size(), anelClonado.getEstagios().size());
             assertEquals("Teste Anel | Detectores", anel.getDetectores().size(), anelClonado.getDetectores().size());
             assertEquals("Teste Anel | Grupo Semaforicos", anel.getGruposSemaforicos().size(), anelClonado.getGruposSemaforicos().size());
-            assertEquals("Teste Anel | Plano", anel.getPlanos().size(), anelClonado.getPlanos().size());
+            assertThat("Teste Anel | Plano", anelClonado.getPlanos().isEmpty(), is(true));
 
             if (anel.getEndereco() != null) {
                 assertFields(anel.getEndereco(), anelClonado.getEndereco());
@@ -277,43 +279,340 @@ public class ControladoresControllerTest extends WithApplication {
                     });
                 });
             });
-
-            anel.getPlanos().forEach(origem -> {
-                Plano destino = anelClonado.getPlanos().stream().filter(aux -> aux.getIdJson().equals(origem.getIdJson())).findFirst().orElse(null);
-                assertEquals("Teste Anel | Plano | Anel: ", origem.getAnel().getIdJson(), destino.getAnel().getIdJson());
-                if (origem.getAgrupamento() != null) {
-                    assertEquals("Teste Anel | Plano | Agrupamento: ", origem.getAgrupamento().getIdJson(), destino.getAgrupamento().getIdJson());
-                }
-                assertFields(origem, destino);
-
-                origem.getEstagiosPlanos().forEach(estagioPlano -> {
-                    EstagioPlano estagioPlanoClonado = destino.getEstagiosPlanos().stream().filter(aux -> aux.getIdJson().equals(estagioPlano.getIdJson())).findFirst().orElse(null);
-                    assertEquals("Teste Anel | Plano | Estagio Plano |  Estagio: ", estagioPlano.getEstagio().getIdJson(), estagioPlanoClonado.getEstagio().getIdJson());
-                    assertEquals("Teste Anel | Plano | Estagio Plano |  Plano: ", estagioPlano.getPlano().getIdJson(), estagioPlanoClonado.getPlano().getIdJson());
-                    if (estagioPlano.getEstagioQueRecebeEstagioDispensavel() != null) {
-                        assertEquals("Teste Anel | Plano | Estagio Plano |  Estagio Dispensavel: ", estagioPlano.getEstagioQueRecebeEstagioDispensavel().getIdJson(), estagioPlanoClonado.getEstagioQueRecebeEstagioDispensavel().getIdJson());
-                    }
-                    assertFields(estagioPlano, estagioPlanoClonado);
-                });
-
-                origem.getGruposSemaforicosPlanos().forEach(grupoSemaforicoPlano -> {
-                    GrupoSemaforicoPlano grupoSemaforicoPlanoClonado = destino.getGruposSemaforicosPlanos().stream().filter(aux -> aux.getIdJson().equals(grupoSemaforicoPlano.getIdJson())).findFirst().orElse(null);
-                    assertEquals("Teste Anel | Plano | Grupo Semaforico Plano |  Grupo Semaforico Plano: ", grupoSemaforicoPlano.getGrupoSemaforico().getIdJson(), grupoSemaforicoPlanoClonado.getGrupoSemaforico().getIdJson());
-                    assertEquals("Teste Anel | Plano | Grupo Semaforico Plano |  Plano: ", grupoSemaforicoPlano.getPlano().getIdJson(), grupoSemaforicoPlanoClonado.getPlano().getIdJson());
-                    assertFields(grupoSemaforicoPlano, grupoSemaforicoPlanoClonado);
-                });
-            });
         }); // FIM ANEIS
+
+    }
+
+    @Test
+    public void deveriaAtivarControlador() {
+        Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
+
+        Http.RequestBuilder postRequest = new Http.RequestBuilder().method("PUT")
+                .uri(routes.ControladoresController.ativar(controlador.getId().toString()).url());
+
+        Result postResult = route(postRequest);
+
+        Controlador controladorRetornado = Controlador.find.byId(controlador.getId());
+
+        assertEquals(200, postResult.status());
+        assertNotNull("ID Controldor Clonado", controladorRetornado.getId());
+        assertEquals("Status Controlador", controladorRetornado.getStatusControlador(), StatusControlador.ATIVO);
+        assertFields(controlador, controladorRetornado);
+    }
+
+    @Test
+    public void deveriaCancelarControladorClonadoEVoltarStatusControladorOrigemParaAtivo() {
+        Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
+        controlador.ativar();
+
+        int totalControlador = 1;
+        int totalAneis = 4;
+        int totalAgrupamentos = 0;
+        int totalEnderecos = 3;
+        int totalGruposSemaforicos = 4;
+        int totalVersaoControlador = 1;
+        int totalEstagios = 6;
+        int totalTransicoesProibidas = 2;
+        int totalEstagiosPlanos = 6;
+        int totalPlanos = 2;
+        int totalGruposSemaforicosPlanos = 4;
+        int totalEstagioGruposSemaforicos = 6;
+        int totalVerdesConflitantes = 4;
+        int totalTabelaEntreVerdes = 4;
+        int totalTabelaEntreVerdesTransicao = 12;
+        int totalTransicoes = 24;
+        int totalAtrasoDeGrupo = 24;
+        int totalImagens = 0;
+
+        Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
+                .uri(routes.ControladoresController.edit(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+
+        Result postResult = route(postRequest);
+        JsonNode json = Json.parse(Helpers.contentAsString(postResult));
+        Controlador controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
+
+        controlador.refresh();
+        assertEquals("Status do Controlador", controlador.getStatusControlador(), StatusControlador.ATIVO);
+        assertEquals("Status da Versao Controlador", controlador.getVersaoControlador().getStatusVersao(), StatusVersao.ARQUIVADO);
+
+        assertEquals(200, postResult.status());
+        assertNotNull("ID Controldor Clonado", controladorClonado.getId());
+        assertNotEquals("Teste de Id Diferentes", controlador.getId(), controladorClonado.getId());
+        assertEquals("Teste de Aneis", controlador.getAneis().size(), controladorClonado.getAneis().size());
+        assertEquals("Teste de Agrupamentos", controlador.getAgrupamentos().size(), controladorClonado.getAgrupamentos().size());
+        assertEquals("Teste de Area", controlador.getArea(), controladorClonado.getArea());
+        assertEquals("Teste de Modelo", controlador.getModelo(), controladorClonado.getModelo());
+        assertEquals("Teste de Controlador Fisico", controlador.getVersaoControlador().getControladorFisico(), controladorClonado.getVersaoControlador().getControladorFisico());
+        assertEquals("Total de Versoes", 2, controladorClonado.getVersaoControlador().getControladorFisico().getVersoes().size());
+        assertFields(controlador, controladorClonado);
+
+        assertEquals("Total de Controladores", totalControlador * 2, Controlador.find.findRowCount());
+        assertEquals("Total de Aneis", totalAneis * 2, Anel.find.findRowCount());
+        assertEquals("Total de Agrupamentos", totalAgrupamentos * 2, Agrupamento.find.findRowCount());
+        assertEquals("Total de Enderecos", totalEnderecos * 2, Endereco.find.findRowCount());
+        assertEquals("Total de Grupos Semaforicos", totalGruposSemaforicos * 2, GrupoSemaforico.find.findRowCount());
+        assertEquals("Total de Versões Controladores", totalVersaoControlador * 2, VersaoControlador.find.findRowCount());
+        assertEquals("Total de Estagios", totalEstagios * 2, Estagio.find.findRowCount());
+        assertEquals("Total de Transicoes Proibidas", totalTransicoesProibidas * 2, Ebean.find(TransicaoProibida.class).findRowCount());
+        assertEquals("Total de Estagio Grupos Semaforicos", totalEstagioGruposSemaforicos * 2, Ebean.find(EstagioGrupoSemaforico.class).findRowCount());
+        assertEquals("Total de Verdes Conflitantes", totalVerdesConflitantes * 2, Ebean.find(VerdesConflitantes.class).findRowCount());
+        assertEquals("Total de Tabela EntreVerdes", totalTabelaEntreVerdes * 2, TabelaEntreVerdes.find.findRowCount());
+        assertEquals("Total de Tabela EntreVerdes Transicao", totalTabelaEntreVerdesTransicao * 2, TabelaEntreVerdesTransicao.find.findRowCount());
+        assertEquals("Total de Transicoes", totalTransicoes * 2, Transicao.find.findRowCount());
+        assertEquals("Total de Atraso de Grupo", totalAtrasoDeGrupo * 2, AtrasoDeGrupo.find.findRowCount());
+        assertEquals("Total de Imagens", totalImagens * 2, Imagem.find.findRowCount());
+
+
+        Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
+                .uri(routes.ControladoresController.cancelarEdicao(controladorClonado.getId().toString()).url());
+        Result deleteResult = route(deleteRequest);
+        assertEquals(200, deleteResult.status());
+
+        assertEquals("Total de Controladores", totalControlador, Controlador.find.findRowCount());
+        assertEquals("Total de Aneis", totalAneis, Anel.find.findRowCount());
+        assertEquals("Total de Agrupamentos", totalAgrupamentos, Agrupamento.find.findRowCount());
+        assertEquals("Total de Enderecos", totalEnderecos, Endereco.find.findRowCount());
+        assertEquals("Total de Grupos Semaforicos", totalGruposSemaforicos, GrupoSemaforico.find.findRowCount());
+        assertEquals("Total de Versões Controladores", totalVersaoControlador, VersaoControlador.find.findRowCount());
+        assertEquals("Total de Estagios", totalEstagios, Estagio.find.findRowCount());
+        assertEquals("Total de Transicoes Proibidas", totalTransicoesProibidas, Ebean.find(TransicaoProibida.class).findRowCount());
+        assertEquals("Total de Estagios Planos", totalEstagiosPlanos, Ebean.find(EstagioPlano.class).findRowCount());
+        assertEquals("Total de Planos", totalPlanos, Plano.find.findRowCount());
+        assertEquals("Total de Estagio Grupos Semaforicos", totalEstagioGruposSemaforicos, Ebean.find(EstagioGrupoSemaforico.class).findRowCount());
+        assertEquals("Total de Verdes Conflitantes", totalVerdesConflitantes, Ebean.find(VerdesConflitantes.class).findRowCount());
+        assertEquals("Total de Tabela EntreVerdes", totalTabelaEntreVerdes, TabelaEntreVerdes.find.findRowCount());
+        assertEquals("Total de Tabela EntreVerdes Transicao", totalTabelaEntreVerdesTransicao, TabelaEntreVerdesTransicao.find.findRowCount());
+        assertEquals("Total de Transicoes", totalTransicoes, Transicao.find.findRowCount());
+        assertEquals("Total de Atraso de Grupo", totalAtrasoDeGrupo, AtrasoDeGrupo.find.findRowCount());
+        assertEquals("Total de GrupoSemaforicoPlano", totalGruposSemaforicosPlanos, Ebean.find(GrupoSemaforicoPlano.class).findRowCount());
+        assertEquals("Total de Imagens", totalImagens, Imagem.find.findRowCount());
+
+        controlador.refresh();
+        assertEquals("Status do Controlador", controlador.getStatusControlador(), StatusControlador.ATIVO);
+        assertEquals("Status da Versao Controlador", controlador.getVersaoControlador().getStatusVersao(), StatusVersao.ATIVO);
+
+    }
+
+    @Test
+    public void deveriaClonarPlanosAnelCom2Estagios() {
+        int totalEstagiosPlanos = 6;
+        int totalPlanos = 2;
+        int totalGruposSemaforicosPlanos = 4;
+
+        Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
+        controlador.setStatusControlador(StatusControlador.ATIVO);
+        controlador.update();
+
+        Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
+                .uri(routes.ControladoresController.editarPlanos(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+
+        Result postResult = route(postRequest);
+        assertEquals(OK, postResult.status());
+
+        JsonNode json = Json.parse(Helpers.contentAsString(postResult));
+        Controlador controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
+        controladorClonado.refresh();
+
+        controladorClonado.getAneis().forEach(anel -> {
+
+            if (!CollectionUtils.isEmpty(anel.getVersoesPlanos())) {
+                VersaoPlano versaoEdicao = anel.getVersaoPlanoEmEdicao();
+                VersaoPlano versaoAnterior = versaoEdicao.getVersaoAnterior();
+
+                versaoAnterior.getPlanos().forEach(origem -> {
+                    Plano destino = versaoEdicao.getPlanos().stream().filter(aux -> aux.getIdJson().equals(origem.getIdJson())).findFirst().orElse(null);
+                    assertEquals("Teste Anel | Plano | Anel: ", origem.getAnel().getIdJson(), destino.getAnel().getIdJson());
+                    if (origem.getAgrupamento() != null) {
+                        assertEquals("Teste Anel | Plano | Agrupamento: ", origem.getAgrupamento().getIdJson(), destino.getAgrupamento().getIdJson());
+                    }
+                    assertFields(origem, destino);
+
+                    origem.getEstagiosPlanos().forEach(estagioPlano -> {
+                        EstagioPlano estagioPlanoClonado = destino.getEstagiosPlanos().stream().filter(aux -> aux.getIdJson().equals(estagioPlano.getIdJson())).findFirst().orElse(null);
+                        assertEquals("Teste Anel | Plano | Estagio Plano |  Estagio: ", estagioPlano.getEstagio().getIdJson(), estagioPlanoClonado.getEstagio().getIdJson());
+                        assertEquals("Teste Anel | Plano | Estagio Plano |  Plano: ", estagioPlano.getPlano().getIdJson(), estagioPlanoClonado.getPlano().getIdJson());
+                        if (estagioPlano.getEstagioQueRecebeEstagioDispensavel() != null) {
+                            assertEquals("Teste Anel | Plano | Estagio Plano |  Estagio Dispensavel: ", estagioPlano.getEstagioQueRecebeEstagioDispensavel().getIdJson(), estagioPlanoClonado.getEstagioQueRecebeEstagioDispensavel().getIdJson());
+                        }
+                        assertFields(estagioPlano, estagioPlanoClonado);
+                    });
+
+                    origem.getGruposSemaforicosPlanos().forEach(grupoSemaforicoPlano -> {
+                        GrupoSemaforicoPlano grupoSemaforicoPlanoClonado = destino.getGruposSemaforicosPlanos().stream().filter(aux -> aux.getIdJson().equals(grupoSemaforicoPlano.getIdJson())).findFirst().orElse(null);
+                        assertEquals("Teste Anel | Plano | Grupo Semaforico Plano |  Grupo Semaforico Plano: ", grupoSemaforicoPlano.getGrupoSemaforico().getIdJson(), grupoSemaforicoPlanoClonado.getGrupoSemaforico().getIdJson());
+                        assertEquals("Teste Anel | Plano | Grupo Semaforico Plano |  Plano: ", grupoSemaforicoPlano.getPlano().getIdJson(), grupoSemaforicoPlanoClonado.getPlano().getIdJson());
+                        assertFields(grupoSemaforicoPlano, grupoSemaforicoPlanoClonado);
+                    });
+                });
+            }
+        });
+
+
+        assertEquals("Total de Estagios Planos", totalEstagiosPlanos * 2, Ebean.find(EstagioPlano.class).findRowCount());
+        assertEquals("Total de Planos", totalPlanos * 2, Plano.find.findRowCount());
+        assertEquals("Total de GrupoSemaforicoPlano", totalGruposSemaforicosPlanos * 2, Ebean.find(GrupoSemaforicoPlano.class).findRowCount());
+
+    }
+
+    @Test
+    public void deveriaClonar5VersoesPlano() {
+        Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
+        controlador.setStatusControlador(StatusControlador.ATIVO);
+        controlador.update();
+
+        int totalVersoes = 2;
+
+        assertEquals("Total de Versão Plano", totalVersoes, VersaoPlano.find.findRowCount());
+
+        for (int i = 2; i < 7; i++) {
+            Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
+                    .uri(routes.ControladoresController.editarPlanos(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+
+
+            Result postResult = route(postRequest);
+            JsonNode json = Json.parse(Helpers.contentAsString(postResult));
+            Controlador controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
+
+            assertEquals("Total de Versão Plano", totalVersoes * i, VersaoPlano.find.findRowCount());
+
+            postRequest = new Http.RequestBuilder().method("POST")
+                    .uri(routes.PlanosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
+
+            postResult = route(postRequest);
+            json = Json.parse(Helpers.contentAsString(postResult));
+            assertEquals(OK, postResult.status());
+            controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
+
+            assertEquals("Total de Versão Plano", totalVersoes * i, VersaoPlano.find.findRowCount());
+
+            controladorClonado.ativar();
+        }
+
+    }
+
+    @Test
+    public void deveriaClonarTabelaHorariaEditarTabelaHoraria() {
+        Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
+        controlador.setStatusControlador(StatusControlador.ATIVO);
+        controlador.update();
+
+
+        int totalTabelaHoraria = 1;
+        int totalEventos = 3;
+
+        assertEquals("Total de Tabelas Horarias", totalTabelaHoraria, TabelaHorario.find.findRowCount());
+        assertEquals("Total de Eventos", totalEventos, Evento.find.findRowCount());
+
+        Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
+                .uri(routes.ControladoresController.editarTabelaHoraria(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+
+        Result postResult = route(postRequest);
+        assertEquals(OK, postResult.status());
+
+        JsonNode json = Json.parse(Helpers.contentAsString(postResult));
+        Controlador controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
+
+        assertEquals("Total de Tabelas Horarias", totalTabelaHoraria * 2, TabelaHorario.find.findRowCount());
+        assertEquals("Total de Versão Tabelas Horarias", totalTabelaHoraria * 2, VersaoTabelaHoraria.find.findRowCount());
+        assertEquals("Total de Eventos", totalEventos * 2, Evento.find.findRowCount());
 
         if (controlador.getTabelaHoraria() != null) {
             assertFields(controlador.getTabelaHoraria(), controladorClonado.getTabelaHoraria());
             controlador.getTabelaHoraria().getEventos().forEach(evento -> {
-                Evento eventoClonado = controladorClonado.getTabelaHoraria().getEventos().stream().filter(aux -> aux.getIdJson().equals(evento.getIdJson())).findFirst().orElse(null);
+                Evento eventoClonado = controladorClonado.getTabelaHoraria().getEventos().stream().filter(aux -> aux.getPosicao().equals(evento.getPosicao())).findFirst().orElse(null);
                 assertFields(evento, eventoClonado);
             });
         }
+
+        controladorClonado.update();
+
+        assertEquals("Total de Versão Tabelas Horarias", totalTabelaHoraria * 2, VersaoTabelaHoraria.find.findRowCount());
+        assertEquals("Total de Tabelas Horarias", totalTabelaHoraria * 2, TabelaHorario.find.findRowCount());
+
+
+        postRequest = new Http.RequestBuilder().method("POST")
+                .uri(routes.TabelaHorariosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
+
+        postResult = route(postRequest);
+        json = Json.parse(Helpers.contentAsString(postResult));
+        assertEquals(OK, postResult.status());
     }
 
+    @Test
+    public void deveriaClonar5VersoesTabelaHoraria() {
+        Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
+        controlador.setStatusControlador(StatusControlador.ATIVO);
+        controlador.update();
+
+        int totalTabelaHoraria = 1;
+        int totalEventos = 3;
+
+        assertEquals("Total de Tabelas Horarias", totalTabelaHoraria, TabelaHorario.find.findRowCount());
+        assertEquals("Total de Eventos", totalEventos, Evento.find.findRowCount());
+
+        for (int i = 2; i < 7; i++) {
+            Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
+                    .uri(routes.ControladoresController.editarTabelaHoraria(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+
+            Result postResult = route(postRequest);
+            JsonNode json = Json.parse(Helpers.contentAsString(postResult));
+            Controlador controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
+
+            assertEquals("Total de Tabelas Horarias", totalTabelaHoraria * i, TabelaHorario.find.findRowCount());
+            assertEquals("Total de Versão Tabelas Horarias", totalTabelaHoraria * i, VersaoTabelaHoraria.find.findRowCount());
+            assertEquals("Total de Eventos", totalEventos * i, Evento.find.findRowCount());
+
+            postRequest = new Http.RequestBuilder().method("POST")
+                    .uri(routes.TabelaHorariosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
+
+            postResult = route(postRequest);
+            json = Json.parse(Helpers.contentAsString(postResult));
+            assertEquals(OK, postResult.status());
+            controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
+
+            assertEquals("Total de Versão Tabelas Horarias", totalTabelaHoraria * i, VersaoTabelaHoraria.find.findRowCount());
+            assertEquals("Total de Tabelas Horarias", totalTabelaHoraria * i, TabelaHorario.find.findRowCount());
+
+            controladorClonado.ativar();
+        }
+    }
+
+    @Test
+    public void deveriaClonarPlanosAnelCom2EstagiosEAtualizarPlano() {
+        int totalEstagiosPlanos = 6;
+        int totalPlanos = 2;
+        int totalGruposSemaforicosPlanos = 4;
+
+        Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
+        controlador.setStatusControlador(StatusControlador.ATIVO);
+        controlador.update();
+
+        Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
+                .uri(routes.ControladoresController.editarPlanos(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+
+        Result postResult = route(postRequest);
+        assertEquals(OK, postResult.status());
+
+        JsonNode json = Json.parse(Helpers.contentAsString(postResult));
+        Controlador controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
+
+        Anel anelCom2Estagios = controladorClonado.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
+
+        Plano plano = anelCom2Estagios.getVersaoPlano().getPlanos().get(0);
+        plano.setDescricao("Nova Descricao");
+
+        postRequest = new Http.RequestBuilder().method("POST")
+                .uri(routes.PlanosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
+
+
+        postResult = route(postRequest);
+        assertEquals(OK, postResult.status());
+
+        assertEquals("Total de Estagios Planos", totalEstagiosPlanos * 2, Ebean.find(EstagioPlano.class).findRowCount());
+        assertEquals("Total de Planos", totalPlanos * 2, Plano.find.findRowCount());
+        assertEquals("Total de GrupoSemaforicoPlano", totalGruposSemaforicosPlanos * 2, Ebean.find(GrupoSemaforicoPlano.class).findRowCount());
+
+    }
 
     private <T> void assertFields(T origem, T destino) {
         for (Field field : origem.getClass().getDeclaredFields()) {
@@ -321,12 +620,12 @@ public class ControladoresControllerTest extends WithApplication {
             try {
                 if (field.get(origem) == null || Modifier.isFinal(field.getModifiers()) || field.getType().equals(UUID.class)
                         || field.getType().equals(DateTime.class) || field.getType().equals(Fabricante.class) || field.getType().equals(Cidade.class)
-                        || field.getType().equals(StatusControlador.class)) {
+                        || field.getType().equals(StatusControlador.class) || field.getType().equals(DiaDaSemana.class) || "idJson".equals(field.getName())) {
                     continue;
                 }
                 if (Modifier.isPrivate(field.getModifiers()) && !Modifier.isStatic(field.getModifiers())) {
                     if (field.getType().isPrimitive() || field.getType().isEnum() ||
-                            field.getType().equals(String.class) || field.getType().equals(Integer.class)) {
+                            field.getType().equals(String.class)) {
 
                         Logger.debug("[" + origem.getClass().getName().toString() + "] - CAMPO: " + field.getName().toString());
                         assertEquals("Teste de " + field.getName().toString(), field.get(origem), field.get(destino));

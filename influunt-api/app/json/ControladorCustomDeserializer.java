@@ -19,6 +19,8 @@ public class ControladorCustomDeserializer {
     public static final String ANEIS = "aneis";
     public static final String ESTAGIOS = "estagios";
     public static final String GRUPOS_SEMAFORICOS = "gruposSemaforicos";
+    public static final String VERSOES_PLANOS = "versoesPlanos";
+    public static final String VERSOES_TABELAS_HORARIAS = "versoesTabelasHorarias";
     public static final String DETECTORES = "detectores";
     public static final String TRANSICAO_PROIBIDA = "transicaoProibida";
     public static final String ESTAGIO_GRUPO_SEMAFORICO = "estagioGrupoSemaforico";
@@ -30,6 +32,7 @@ public class ControladorCustomDeserializer {
     public static final String PLANOS = "planos";
     public static final String GRUPOS_SEMAFORICOS_PLANOS = "gruposSemaforicosPlanos";
     public static final String ESTAGIOS_PLANOS = "estagiosPlanos";
+    public static final String TABELAS_HORARIAS = "tabelasHorarias";
     public static final String EVENTOS = "eventos";
     public static final String ENDERECOS = "enderecos";
     public static final String CIDADES = "cidades";
@@ -50,8 +53,11 @@ public class ControladorCustomDeserializer {
     private Map<String, TabelaEntreVerdes> tabelasEntreVerdesCache;
     private Map<String, TabelaEntreVerdesTransicao> tabelaEntreVerdesTransicaoCache;
     private Map<String, Plano> planosCache;
+    private Map<String, VersaoPlano> versoesPlanosCache;
+    private Map<String, VersaoTabelaHoraria> versoesTabelasHorariasCache;
     private Map<String, GrupoSemaforicoPlano> gruposSemaforicosPlanosCache;
     private Map<String, EstagioPlano> estagiosPlanosCache;
+    private Map<String, TabelaHorario> tabelasHorariasCache;
     private Map<String, Evento> eventosCache;
     private Map<String, Endereco> enderecosCache;
     private Map<String, Area> areasCache;
@@ -94,6 +100,12 @@ public class ControladorCustomDeserializer {
         tabelaEntreVerdesTransicaoCache = new HashMap<String, TabelaEntreVerdesTransicao>();
         caches.put(TABELA_ENTRE_VERDES_TRANSICAO, tabelaEntreVerdesTransicaoCache);
 
+        versoesPlanosCache = new HashMap<String, VersaoPlano>();
+        caches.put(VERSOES_PLANOS, versoesPlanosCache);
+
+        versoesTabelasHorariasCache = new HashMap<String, VersaoTabelaHoraria>();
+        caches.put(VERSOES_TABELAS_HORARIAS, versoesTabelasHorariasCache);
+
         planosCache = new HashMap<String, Plano>();
         caches.put(PLANOS, planosCache);
 
@@ -102,6 +114,9 @@ public class ControladorCustomDeserializer {
 
         estagiosPlanosCache = new HashMap<String, EstagioPlano>();
         caches.put(ESTAGIOS_PLANOS, estagiosPlanosCache);
+
+        tabelasHorariasCache = new HashMap<String, TabelaHorario>();
+        caches.put(TABELAS_HORARIAS, tabelasHorariasCache);
 
         eventosCache = new HashMap<String, Evento>();
         caches.put(EVENTOS, eventosCache);
@@ -136,7 +151,7 @@ public class ControladorCustomDeserializer {
         parsePlanos(node);
         parseGruposSemaforicosPlanos(node);
         parseEstagiosPlanos(node);
-        parseTabelaHoraria(node);
+        parseTabelasHorarias(node);
         parseEventos(node);
         parseImagens(node);
         parseDadosBasicos(node);
@@ -144,6 +159,8 @@ public class ControladorCustomDeserializer {
         parseCidades(node);
         parseAreas(node);
         parseAtrasosDeGrupo(node);
+        parseVersoesPlanos(node);
+        parseVersoesTabelasHorarias(node);
 
         consumers.stream().forEach(c -> c.accept(caches));
 
@@ -194,6 +211,18 @@ public class ControladorCustomDeserializer {
             }
 
             controlador.setDetectores(detectores);
+        }
+    }
+
+    private void parseVersoesTabelasHorarias(JsonNode node) {
+        if (node.has("versoesTabelasHorarias")) {
+            List<VersaoTabelaHoraria> versoesTabelaHorarias = new ArrayList<VersaoTabelaHoraria>();
+            for (JsonNode nodeVersaoTabelaHoraria : node.get("versoesTabelasHorarias")) {
+                VersaoTabelaHoraria versaoTabelaHoraria = parseVersaoTabelaHoraria(nodeVersaoTabelaHoraria);
+                versoesTabelasHorariasCache.put(versaoTabelaHoraria.getIdJson().toString(), versaoTabelaHoraria);
+                versoesTabelaHorarias.add(versaoTabelaHoraria);
+            }
+            controlador.setVersoesTabelasHorarias(versoesTabelaHorarias);
         }
     }
 
@@ -258,6 +287,15 @@ public class ControladorCustomDeserializer {
         }
     }
 
+    private void parseVersoesPlanos(JsonNode node) {
+        if (node.has("versoesPlanos")) {
+            for (JsonNode innerNode : node.get("versoesPlanos")) {
+                VersaoPlano versaoPlano = parseVersaoPlano(innerNode);
+                versoesPlanosCache.put(versaoPlano.getIdJson().toString(), versaoPlano);
+            }
+        }
+    }
+
     private void parsePlanos(JsonNode node) {
         if (node.has("planos")) {
             for (JsonNode nodePlano : node.get("planos")) {
@@ -296,6 +334,14 @@ public class ControladorCustomDeserializer {
         }
     }
 
+    private void parseTabelasHorarias(JsonNode node) {
+        if (node.has("tabelasHorarias")) {
+            for (JsonNode nodeTabelaHoraria : node.get("tabelasHorarias")) {
+                TabelaHorario tabelaHoraria = parseTabelaHoraria(nodeTabelaHoraria);
+                tabelasHorariasCache.put(tabelaHoraria.getIdJson().toString(), tabelaHoraria);
+            }
+        }
+    }
 
     private void parseEnderecos(JsonNode node) {
         if (node.has("todosEnderecos")) {
@@ -374,6 +420,15 @@ public class ControladorCustomDeserializer {
             anel.setCroqui(Imagem.find.byId(UUID.fromString(node.get("croqui").get("id").asText())));
         }
 
+        if (node.has("versaoPlano") && node.get("versaoPlano").has("idJson")) {
+            final String versaoPlanoId = node.get("versaoPlano").get("idJson").asText();
+            Consumer<Map<String, Map>> c = (caches) -> {
+                Map map = caches.get(VERSOES_PLANOS);
+                anel.addVersaoPlano((VersaoPlano) map.get(versaoPlanoId));
+            };
+            runLater(c);
+        }
+
         List<GrupoSemaforico> grupoSemaforicos = new ArrayList<GrupoSemaforico>();
         parseCollection("gruposSemaforicos", node, grupoSemaforicos, GRUPOS_SEMAFORICOS, ANEIS);
         anel.setGruposSemaforicos(grupoSemaforicos);
@@ -381,10 +436,6 @@ public class ControladorCustomDeserializer {
         List<Detector> detectores = new ArrayList<Detector>();
         parseCollection("detectores", node, detectores, DETECTORES, ANEIS);
         anel.setDetectores(detectores);
-
-        List<Plano> planos = new ArrayList<Plano>();
-        parseCollection("planos", node, planos, PLANOS, ANEIS);
-        anel.setPlanos(planos);
 
         if (anel.isAtivo()) {
             if (node.has("endereco")) {
@@ -872,6 +923,38 @@ public class ControladorCustomDeserializer {
         return tabelaEntreVerdesTransicao;
     }
 
+    private VersaoPlano parseVersaoPlano(JsonNode node) {
+        VersaoPlano versaoPlano = new VersaoPlano();
+
+        if (node.has("id")) {
+            versaoPlano.setId(UUID.fromString(node.get("id").asText()));
+        }
+        if (node.has("idJson")) {
+            versaoPlano.setIdJson(node.get("idJson").asText());
+        }
+        if (node.has("descricao")) {
+            versaoPlano.setDescricao(node.get("descricao").asText());
+        }
+        if (node.has("statusVersao")) {
+            versaoPlano.setStatusVersao(StatusVersao.valueOf(node.get("statusVersao").asText()));
+        }
+        if (node.has("anel")) {
+            final String anelId = node.get("anel").get("idJson").asText();
+            Consumer<Map<String, Map>> c = (caches) -> {
+                Map map = caches.get(ANEIS);
+                versaoPlano.setAnel((Anel) map.get(anelId));
+            };
+
+            runLater(c);
+        }
+
+        List<Plano> planos = new ArrayList<Plano>();
+        parseCollection("planos", node, planos, PLANOS, VERSOES_PLANOS);
+        versaoPlano.setPlanos(planos);
+
+        return versaoPlano;
+    }
+
     private Plano parsePlano(JsonNode node) {
         Plano plano = new Plano();
 
@@ -904,13 +987,12 @@ public class ControladorCustomDeserializer {
             plano.setAgrupamento(Agrupamento.find.byId(UUID.fromString(node.get("agrupamento").get("id").asText())));
         }
 
-        if (node.has("anel")) {
-            final String anelId = node.get("anel").get("idJson").asText();
+        if (node.has("versaoPlano") && node.get("versaoPlano").has("idJson")) {
+            final String versaoPlanoId = node.get("versaoPlano").get("idJson").asText();
             Consumer<Map<String, Map>> c = (caches) -> {
-                Map map = caches.get(ANEIS);
-                plano.setAnel((Anel) map.get(anelId));
+                Map map = caches.get(VERSOES_PLANOS);
+                plano.setVersaoPlano((VersaoPlano) map.get(versaoPlanoId));
             };
-
             runLater(c);
         }
 
@@ -1019,29 +1101,70 @@ public class ControladorCustomDeserializer {
         return estagioPlano;
     }
 
-    private void parseTabelaHoraria(JsonNode nodeRoot) {
-        if (nodeRoot.has("tabelaHoraria")) {
-            JsonNode node = nodeRoot.get("tabelaHoraria");
-            TabelaHorario tabelaHoraria = new TabelaHorario();
+    private VersaoTabelaHoraria parseVersaoTabelaHoraria(JsonNode node) {
+        VersaoTabelaHoraria versaoTabelaHoraria = new VersaoTabelaHoraria();
 
-            if (node.has("id")) {
-                JsonNode id = node.get("id");
-                if (!id.isNull()) {
-                    tabelaHoraria.setId(UUID.fromString(id.asText()));
-                }
-            }
-
-            if (node.has("idJson")) {
-                tabelaHoraria.setIdJson(node.get("idJson").asText());
-            }
-
-            tabelaHoraria.setControlador(controlador);
-            controlador.setTabelaHoraria(tabelaHoraria);
-
-            List<Evento> eventos = new ArrayList<>();
-            parseCollection("eventos", node, eventos, EVENTOS, null);
-            tabelaHoraria.setEventos(eventos);
+        if (node.has("id")) {
+            versaoTabelaHoraria.setId(UUID.fromString(node.get("id").asText()));
         }
+        if (node.has("idJson")) {
+            versaoTabelaHoraria.setIdJson(node.get("idJson").asText());
+        }
+        if (node.has("descricao")) {
+            versaoTabelaHoraria.setDescricao(node.get("descricao").asText());
+        }
+        if (node.has("statusVersao")) {
+            versaoTabelaHoraria.setStatusVersao(StatusVersao.valueOf(node.get("statusVersao").asText()));
+        }
+        if (node.has("tabelaHorariaOrigem") && node.get("tabelaHorariaOrigem").has("idJson")) {
+            final String tabelaHorariaOrigemId = node.get("tabelaHorariaOrigem").get("idJson").asText();
+            Consumer<Map<String, Map>> c = (caches) -> {
+                versaoTabelaHoraria.setTabelaHorariaOrigem((TabelaHorario) caches.get(TABELAS_HORARIAS).get(tabelaHorariaOrigemId));
+            };
+            runLater(c);
+        }
+        if (node.has("tabelaHoraria") && node.get("tabelaHoraria").has("idJson")) {
+            final String tabelaHorariaId = node.get("tabelaHoraria").get("idJson").asText();
+            Consumer<Map<String, Map>> c = (caches) -> {
+                Map map = caches.get(TABELAS_HORARIAS);
+                versaoTabelaHoraria.setTabelaHoraria((TabelaHorario) map.get(tabelaHorariaId));
+            };
+            runLater(c);
+        }
+
+        versaoTabelaHoraria.setControlador(controlador);
+
+        return versaoTabelaHoraria;
+    }
+
+    private TabelaHorario parseTabelaHoraria(JsonNode node) {
+        TabelaHorario tabelaHoraria = new TabelaHorario();
+
+        if (node.has("id")) {
+            JsonNode id = node.get("id");
+            if (!id.isNull()) {
+                tabelaHoraria.setId(UUID.fromString(id.asText()));
+            }
+        }
+
+        if (node.has("idJson")) {
+            tabelaHoraria.setIdJson(node.get("idJson").asText());
+        }
+
+        if (node.has("versaoTabelaHoraria") && node.get("versaoTabelaHoraria").has("idJson")) {
+            final String versaoTabelaHorariaId = node.get("versaoTabelaHoraria").get("idJson").asText();
+            Consumer<Map<String, Map>> c = (caches) -> {
+                Map map = caches.get(VERSOES_TABELAS_HORARIAS);
+                tabelaHoraria.setVersaoTabelaHoraria((VersaoTabelaHoraria) map.get(versaoTabelaHorariaId));
+            };
+            runLater(c);
+        }
+
+        List<Evento> eventos = new ArrayList<>();
+        parseCollection("eventos", node, eventos, EVENTOS, null);
+        tabelaHoraria.setEventos(eventos);
+
+        return tabelaHoraria;
     }
 
     private Evento parseEvento(JsonNode node) {
@@ -1091,8 +1214,13 @@ public class ControladorCustomDeserializer {
             evento.setPosicaoPlano(node.get("posicaoPlano").asInt());
         }
 
-        if (node.has("tabelaHoraria")) {
-            evento.setTabelaHorario(controlador.getTabelaHoraria());
+        if (node.has("tabelaHoraria") && node.get("tabelaHoraria").has("idJson")) {
+            final String tabelaHorarioId = node.get("tabelaHoraria").get("idJson").asText();
+            Consumer<Map<String, Map>> c = (caches) -> {
+                Map map = caches.get(TABELAS_HORARIAS);
+                evento.setTabelaHorario((TabelaHorario) map.get(tabelaHorarioId));
+            };
+            runLater(c);
         }
 
         return evento;
@@ -1255,6 +1383,10 @@ public class ControladorCustomDeserializer {
 
         if (node.has("modelo") && node.get("modelo").get("id") != null) {
             controlador.setModelo(ModeloControlador.find.byId(UUID.fromString(node.get("modelo").get("id").asText())));
+        }
+
+        if (node.has("versaoControlador") && node.get("versaoControlador").get("id") != null) {
+            controlador.setVersaoControlador(VersaoControlador.find.byId(UUID.fromString(node.get("versaoControlador").get("id").asText())));
         }
 
         controlador.setNumeroSMEE(node.get("numeroSMEE") != null ? node.get("numeroSMEE").asText() : null);

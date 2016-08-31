@@ -14,6 +14,7 @@ public class DBUtils {
      * do banco de dados
      *
      * @param function - Runnable com o trecho de código a ser executado
+     * @return <code> True </code>
      */
     public static boolean executeWithTransaction(Runnable function) {
         Ebean.beginTransaction();

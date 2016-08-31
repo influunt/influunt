@@ -61,22 +61,13 @@
                   <td>{{controlador.dataAtualizacao}}</td>
                   <td>
                     <hgroup>
-                      <a class="btn btn-outline btn-primary" tooltips tooltip-side="left" tooltip-template="{{ 'geral.tooltip.ver' | translate }} {{ 'controladores.geral.historico' | translate }}" type="button" ui-sref="app.controladores_timeline({id: controlador.id})">
-                        <i class="fa fa-code-fork"></i> {{ 'controladores.geral.historico' | translate }}
-                      </a>
-                      <a class="btn btn-outline btn-primary" tooltips tooltip-side="left" tooltip-template="{{ 'geral.tooltip.copiar' | translate }} {{ 'controladores.controlador' | translate }}"  type="button" ng-click="copiar(controlador.id)" ng-show="controlador.statusControlador == 'ATIVO'">
-                        <i class="fa fa-copy"></i> {{ 'controladores.geral.copiar' | translate }}
-                      </a>
-                      <a class="btn btn-outline btn-primary" tooltips tooltip-side="left" tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.controlador' | translate }}"  type="button" ng-click="configurar(controlador.id)" ng-show="controlador.statusControlador == 'EM_CONFIGURACAO' || controlador.statusControlador == 'EM_EDICAO'">
-                        <i class="fa fa-pencil"></i> {{ 'controladores.geral.configurar' | translate }}
-                      </a>
-                      <a class="btn btn-outline btn-primary" tooltips tooltip-side="left" tooltip-template="{{ 'geral.tooltip.ver' | translate }} {{ 'controladores.controlador' | translate }}"  type="button" ui-sref="app.wizard_controladores.revisao({id: controlador.id})">
+                      <a class="btn btn-outline btn-primary" tooltips tooltip-side="left" tooltip-template="{{ 'geral.tooltip.ver' | translate }} {{ 'controladores.controlador' | translate }}"  type="button" ui-sref="app.controladores_show({id: controlador.id})">
                         <i class="fa fa-eye"></i> {{ 'controladores.geral.visualizar' | translate }}
                       </a>
-                      <a class="btn btn-outline btn-primary" tooltips tooltip-side="left" tooltip-template="{{ 'geral.tooltip.verEditar' | translate }} {{ 'controladores.geral.planos' | translate }}" ui-sref="app.planos({id: controlador.id})" ng-show="controlador.statusControlador == 'CONFIGURADO'">
+                      <a class="btn btn-outline btn-primary" tooltips tooltip-side="left" tooltip-template="{{ 'geral.tooltip.verEditar' | translate }} {{ 'controladores.geral.planos' | translate }}" ui-sref="app.planos({id: controlador.id})">
                         <i class="fa fa-file-text"></i> {{ 'controladores.geral.planos' | translate }}
                       </a>
-                      <a class="btn btn-outline btn-primary" tooltips tooltip-side="left" tooltip-template="{{ 'geral.tooltip.verEditar' | translate }} {{ 'controladores.geral.tabelaHorario' | translate }}"  type="button" ui-sref="app.tabela_horarios({id: controlador.id})" ng-show="controlador.statusControlador == 'CONFIGURADO'">
+                      <a class="btn btn-outline btn-primary" tooltips tooltip-side="left" tooltip-template="{{ 'geral.tooltip.verEditar' | translate }} {{ 'controladores.geral.tabelaHorario' | translate }}"  type="button" ui-sref="app.tabela_horarios({id: controlador.id})">
                         <i class="fa fa-calendar"></i> {{ 'controladores.geral.tabelaHorario' | translate }}
                       </a>
                       <a class="btn btn-outline btn-primary" tooltips tooltip-side="left" tooltip-template="{{ 'geral.tooltip.ativar' | translate }} {{ 'controladores.controlador' | translate }}"  type="button" ng-click="ativar(controlador.id)" ng-show="controlador.statusControlador == 'CONFIGURADO'">

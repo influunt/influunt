@@ -28,6 +28,10 @@ angular.module('influuntApp')
           });
       };
 
+      $scope.getUsuario = function() {
+        return JSON.parse(localStorage.usuario);
+      };
+
       $http.get('/json/menus.json').then(function(res) {
         $scope.menus = res.data;
       });

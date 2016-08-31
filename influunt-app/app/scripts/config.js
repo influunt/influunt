@@ -207,7 +207,7 @@ angular
         .state('app.controladores_show', {
           url: '/controladores/:id',
           templateUrl: 'views/controladores/show.html',
-          controller: 'ControladoresCtrl',
+          controller: 'ControladoresRevisaoCtrl',
           controllerAs: 'controladores',
           data: {
             title: 'controladores.titulo'
@@ -472,7 +472,18 @@ angular
           templateUrl: 'views/planos/criacao-planos.html',
           controller: 'PlanosCtrl',
           data: {
-            title: 'planos.titulo'
+            title: 'planos.titulo',
+            somenteVisualizacao: true
+          }
+        })
+
+        .state('app.planos_edit', {
+          url: '/planos/:id/edit',
+          templateUrl: 'views/planos/criacao-planos.html',
+          controller: 'PlanosCtrl',
+          data: {
+            title: 'planos.titulo',
+            somenteVisualizacao: false
           }
         })
 
@@ -481,7 +492,18 @@ angular
           templateUrl: 'views/tabela_horarios/configuracao.html',
           controller: 'TabelaHorariosCtrl',
           data: {
-            title: 'tabelaHorarios.titulo'
+            title: 'tabelaHorarios.titulo',
+            somenteVisualizacao: true
+          }
+        })
+
+        .state('app.tabela_horarios_edit', {
+          url: '/tabela_horarios/:id/edit',
+          templateUrl: 'views/tabela_horarios/configuracao.html',
+          controller: 'TabelaHorariosCtrl',
+          data: {
+            title: 'tabelaHorarios.titulo',
+            somenteVisualizacao: false
           }
         })
 
