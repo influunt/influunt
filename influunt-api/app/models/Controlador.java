@@ -150,7 +150,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
         }
 
         this.deleteAnelSeNecessario();
-//        deleteGruposSemaforicos(this);
+        deleteGruposSemaforicos(this);
         deleteVerdesConflitantes(this);
 //        deleteEstagiosGruposSemaforicos(this);
 //        deleteTransicoesProibidas(this);
@@ -173,10 +173,14 @@ public class Controlador extends Model implements Cloneable, Serializable {
     }
 
     private void deleteGruposSemaforicos(Controlador controlador) {
-        for (GrupoSemaforico grupoSemaforico : controlador.getGruposSemaforicos()) {
-            if (grupoSemaforico.isDestroy()) {
-                grupoSemaforico.delete();
-            }
+        if (controlador.getId() != null) {
+            controlador.getAneis().forEach(anel -> {
+                anel.getGruposSemaforicos().forEach(grupoSemaforico -> {
+                    if (grupoSemaforico.isDestroy()) {
+                        grupoSemaforico.delete();
+                    }
+                });
+            });
         }
     }
 

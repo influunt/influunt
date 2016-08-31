@@ -70,36 +70,4 @@ public class EstagiosControllerTest extends WithApplication {
         assertEquals(404, result.status());
     }
 
-    @Test
-    public void testSave() {
-        Cidade c = new Cidade();
-
-        Ebean.beginTransaction();
-        try {
-            c.setNome("opa");
-            c.save();
-            Logger.error("1 - :" + Cidade.find.findRowCount());
-            assertNotNull(c.getId());
-            Ebean.commitTransaction();
-        }finally {
-            Ebean.endTransaction();
-        }
-
-
-
-        Ebean.beginTransaction();
-        try {
-//        c = Json.fromJson(Json.toJson(c), Cidade.class);
-            Logger.warn("ID: " + c.getId());
-            Cidade c1 = Cidade.find.byId(c.getId());
-            c1.setId(null);
-            c1.save();
-            Logger.error("2 - :" + Cidade.find.findRowCount());
-            assertEquals(2, Cidade.find.findRowCount());
-            Ebean.commitTransaction();
-        } finally {
-            Ebean.endTransaction();
-        }
-    }
-
 }
