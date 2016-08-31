@@ -2,14 +2,14 @@
   <div class="row margin-bottom-10" ng-if="somenteVisualizacao">
     <div class="col-sm-12 col-lg-12 actions clearfix padding-right-30">
       <div class="right">
-        <a class="btn btn-outline btn-primary" tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.ver' | translate }} {{ 'controladores.geral.historico' | translate }}" type="button" ui-sref="app.controladores_timeline({id: objeto.id})">
+        <a class="btn btn-outline btn-primary" tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.ver' | translate }} {{ 'controladores.geral.historico' | translate }}" type="button" data-target="#modal-timeline" data-toggle="modal">
           <i class="fa fa-code-fork"></i> {{ 'controladores.geral.historico' | translate }}
         </a>
         <a class="btn btn-outline btn-primary" tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.geral.tabelaHorario' | translate }}"  type="button" ui-sref="app.tabela_horarios_edit({id: objeto.id})" ng-show="currentVersaoTabelaHoraria.statusVersao === 'EDITANDO' || currentVersaoTabelaHoraria.statusVersao === undefined">
-          <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }} - kkk
+          <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
         </a>
         <a class="btn btn-outline btn-primary " tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.copiar' | translate }} {{ 'controladores.controlador' | translate }}"  type="button" ng-click="clonarTabelaHoraria(objeto.id)" ng-show="currentVersaoTabelaHoraria.statusVersao === 'ATIVO'">
-          <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }} - xxx
+          <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
         </a>
       </div>
     </div>
@@ -48,6 +48,11 @@
               </a>
             </div>
           </div>
+
+          <!-- timeline -->
+          <influunt-modal-timeline></influunt-modal-timeline>
+          <!-- /MODAIS -->
+
         </fieldset>
       </div>
     </div>

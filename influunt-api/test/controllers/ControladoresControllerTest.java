@@ -488,7 +488,6 @@ public class ControladoresControllerTest extends WithApplication {
             controladorClonado.ativar();
         }
 
-
     }
 
     @Test

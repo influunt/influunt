@@ -139,7 +139,7 @@ angular.module('influuntApp')
       };
 
       $scope.clonarTabelaHoraria = function(controladorId) {
-        return Restangular.one('controladores', controladorId).all("editar_tabela_horaria").customGET()
+        return Restangular.one('controladores', controladorId).all('editar_tabela_horaria').customGET()
           .then(function() {
             $state.go('app.controladores');
           })
@@ -150,16 +150,14 @@ angular.module('influuntApp')
       };
 
       $scope.timeline = function() {
-        if($scope.currentAnel) {
-          return Restangular.one('tabelasHorarias', $scope.currentAnel.id).all("timeline").customGET()
-            .then(function(res) {
-              $scope.versoes = res;
-            })
-            .catch(function(err) {
-              toast.error($filter('translate')('geral.mensagens.default_erro'));
-              throw new Error(JSON.stringify(err));
-            });
-        }
+        return Restangular.one('tabela_horarios', $state.params.id).all('timeline').customGET()
+          .then(function(res) {
+            $scope.versoes = res;
+          })
+          .catch(function(err) {
+            toast.error($filter('translate')('geral.mensagens.default_erro'));
+            throw new Error(JSON.stringify(err));
+          });
       };
 
       $scope.selecionaTipoEvento = function(index) {

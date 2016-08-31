@@ -35,9 +35,11 @@ public class VersaoTabelaHoraria extends Model implements Serializable {
     @ManyToOne()
     private Controlador controlador;
 
+    @JsonIgnore
     @OneToOne
     private TabelaHorario tabelaHorariaOrigem;
 
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "versaoTabelaHoraria")
     @Valid
     private TabelaHorario tabelaHoraria;

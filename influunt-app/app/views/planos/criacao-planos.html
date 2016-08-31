@@ -10,10 +10,10 @@
                   <i class="fa fa-code-fork"></i> {{ 'controladores.geral.historico' | translate }}
                 </a>
                 <a class="btn btn-outline btn-primary" tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.geral.planos' | translate }}"  type="button" ui-sref="app.planos_edit({id: objeto.id})" data-ng-if="currentVersaoPlano.statusVersao === 'EDITANDO' || currentVersaoPlano.statusVersao === undefined">
-                  <i class="fa fa-pencil"></i> {{ 'crud.editar' | translate }} - kkk
+                  <i class="fa fa-pencil"></i> {{ 'crud.editar' | translate }}
                 </a>
                 <a class="btn btn-outline btn-primary " tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.geral.planos' | translate }}"  type="button" ng-click="clonarPlanos(objeto.id)" data-ng-if="currentVersaoPlano.statusVersao === 'ATIVO'">
-                  <i class="fa fa-copy"></i> {{ 'crud.editar' | translate }} - xxx
+                  <i class="fa fa-copy"></i> {{ 'crud.editar' | translate }}
                 </a>
               </div>
             </div>
@@ -246,7 +246,6 @@
           <!-- timeline -->
           <influunt-modal-timeline></influunt-modal-timeline>
           <!-- /MODAIS -->
-
 
         </fieldset>
       </div>

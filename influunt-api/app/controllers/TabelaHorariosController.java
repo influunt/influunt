@@ -10,6 +10,7 @@ import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import models.Controlador;
 import models.VersaoControlador;
+import models.VersaoTabelaHoraria;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -59,7 +60,7 @@ public class TabelaHorariosController extends Controller {
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
-            List<VersaoControlador> versoes = VersaoControlador.versoes(controlador);
+            List<VersaoTabelaHoraria> versoes = controlador.getVersoesTabelasHorarias();
             return CompletableFuture.completedFuture(ok(Json.toJson(versoes)));
         }
     }
