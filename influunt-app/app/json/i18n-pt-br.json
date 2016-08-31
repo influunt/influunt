@@ -269,7 +269,8 @@
     "titulo": "Planos",
     "resetarPlano": {
       "tituloAlert": "Limpar plano",
-      "mensagemAlert": "Quer mesmo limpar as configurações deste plano?"
+      "mensagemAlert": "Quer mesmo limpar as configurações deste plano?",
+      "erroAoDeletar": "Ocorreu um erro ao apagar o plano."
     },
     "renomearPlano": {
       "tituloAlert": "renomear plano",

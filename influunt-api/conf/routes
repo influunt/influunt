@@ -26,13 +26,13 @@ DELETE      /api/v1/subareas/:id                        controllers.SubareasCont
 # Controladores
 GET         /api/v1/controladores                                 controllers.ControladoresController.findAll()
 POST        /api/v1/controladores/dados_basicos                   controllers.ControladoresController.dadosBasicos()
-POST        /api/v1/controladores/aneis        	                  controllers.ControladoresController.aneis()
-POST        /api/v1/controladores/grupos_semaforicos        	  controllers.ControladoresController.gruposSemaforicos()
+POST        /api/v1/controladores/aneis                           controllers.ControladoresController.aneis()
+POST        /api/v1/controladores/grupos_semaforicos              controllers.ControladoresController.gruposSemaforicos()
 POST        /api/v1/controladores/associacao_grupos_semaforicos   controllers.ControladoresController.associacaoGruposSemaforicos()
-POST        /api/v1/controladores/verdes_conflitantes         	  controllers.ControladoresController.verdesConflitantes()
-POST        /api/v1/controladores/transicoes_proibidas         	  controllers.ControladoresController.transicoesProibidas()
-POST        /api/v1/controladores/atraso_de_grupo              	  controllers.ControladoresController.atrasoDeGrupo()
-POST        /api/v1/controladores/entre_verdes                	  controllers.ControladoresController.entreVerdes()
+POST        /api/v1/controladores/verdes_conflitantes             controllers.ControladoresController.verdesConflitantes()
+POST        /api/v1/controladores/transicoes_proibidas            controllers.ControladoresController.transicoesProibidas()
+POST        /api/v1/controladores/atraso_de_grupo                 controllers.ControladoresController.atrasoDeGrupo()
+POST        /api/v1/controladores/entre_verdes                    controllers.ControladoresController.entreVerdes()
 POST        /api/v1/controladores/associacao_detectores           controllers.ControladoresController.associacaoDetectores()
 GET         /api/v1/controladores/:id                             controllers.ControladoresController.findOne(id)
 DELETE      /api/v1/controladores/:id                             controllers.ControladoresController.delete(id)
@@ -103,6 +103,7 @@ POST        /api/v1/login                               controllers.SecurityCont
 # Planos
 POST        /api/v1/planos                              controllers.PlanosController.create()
 GET         /api/v1/planos/:id/timeline                 controllers.PlanosController.timeline(id)
+DELETE      /api/v1/planos/:id                          controllers.PlanosController.delete(id)
 
 # Tabela Horario
 POST        /api/v1/tabela_horarios                     controllers.TabelaHorariosController.create()
@@ -114,5 +115,5 @@ DELETE      /api/v1/estagios/:id                        controllers.EstagiosCont
 # Detectores
 DELETE      /api/v1/detectores/:id                      controllers.DetectoresController.delete(id)
 
-# Detectores
+# Eventos
 DELETE      /api/v1/eventos/:id                         controllers.EventosController.delete(id)
