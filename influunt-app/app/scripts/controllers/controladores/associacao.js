@@ -78,7 +78,6 @@ angular.module('influuntApp')
         grupo.estagiosGruposSemaforicos = grupo.estagiosGruposSemaforicos || [];
         estagio.estagiosGruposSemaforicos = estagio.estagiosGruposSemaforicos || [];
 
-        // var index = _.findIndex($scope.objeto.estagiosGruposSemaforicos, busca);
         var estagioGrupoSemaforico = _.find($scope.objeto.estagiosGruposSemaforicos, busca);
         if (typeof estagioGrupoSemaforico === 'undefined') {
           var obj = {

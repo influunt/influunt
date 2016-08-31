@@ -134,7 +134,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
     }
 
     private void antesDeSalvarOuAtualizar() {
-        System.out.println("salvando controlador");
         if (this.getId() == null) {
             this.setStatusControlador(StatusControlador.EM_CONFIGURACAO);
             int quantidade = this.getModelo().getLimiteAnel();
@@ -216,29 +215,22 @@ public class Controlador extends Model implements Cloneable, Serializable {
     }
 
     private void deleteTransicoesProibidas(Controlador controlador) {
-        System.out.println("deleteTransicoesProibidas()");
         if (controlador.getId() != null) {
-            System.out.println("id is not null");
             controlador.getAneis().forEach(anel -> {
-                System.out.println("dentro de anel");
                 anel.getEstagios().forEach(estagio -> {
-                    System.out.println("dentro de estagio");
                     estagio.getOrigemDeTransicoesProibidas().forEach(transicaoProibida -> {
-                        System.out.println("dentro de origem transicoes proibidas");
                         if (transicaoProibida.isDestroy()) {
                             transicaoProibida.delete();
                         }
                     });
 
                     estagio.getDestinoDeTransicoesProibidas().forEach(transicaoProibida -> {
-                        System.out.println("dentro de destino transicoes proibidas");
                         if (transicaoProibida.isDestroy()) {
                             transicaoProibida.delete();
                         }
                     });
 
                     estagio.getAlternativaDeTransicoesProibidas().forEach(transicaoProibida -> {
-                        System.out.println("dentro de alternativo transicoes proibidas");
                         if (transicaoProibida.isDestroy()) {
                             transicaoProibida.delete();
                         }

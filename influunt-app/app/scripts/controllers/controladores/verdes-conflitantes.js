@@ -66,11 +66,6 @@ angular.module('influuntApp')
           }
         };
 
-        // var obj = _
-        //   .chain($scope.objeto.verdesConflitantes)
-        //   .reject('_destroy')
-        //   .find({ origem: { idJson: verdeConflitante.origem.idJson }, destino: { idJson: verdeConflitante.destino.idJson } })
-        //   .value();
         var obj = _.find(
           $scope.objeto.verdesConflitantes,
           { origem: { idJson: verdeConflitante.origem.idJson }, destino: { idJson: verdeConflitante.destino.idJson } }

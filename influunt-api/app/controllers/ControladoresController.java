@@ -195,7 +195,6 @@ public class ControladoresController extends Controller {
     }
 
     private CompletionStage<Result> doStep(boolean finalizaConfiguracaoSeSucesso, Class<?>... validationGroups) {
-//        GrupoSemaforico.find.byId(UUID.fromString("c566cab1-328c-4537-8637-238aba9eb4eb")).delete();
         if (request().body() == null) {
             return CompletableFuture.completedFuture(badRequest());
         }

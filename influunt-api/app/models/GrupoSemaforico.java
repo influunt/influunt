@@ -300,12 +300,6 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = ControladorTabelaEntreVerdesCheck.class, message = "Esse grupo semafórico deve ter no máximo o número de tabelas entre-verdes definido na configuração do controlador.")
     public boolean isNumeroCorretoTabelasEntreVerdes() {
         if (this.getAnel() != null && this.getAnel().isAtivo()) {
-//            Set<Integer> posicoes = new HashSet<>();
-//            for (Transicao transicao : this.getTransicoes()) {
-//                for (TabelaEntreVerdesTransicao tevTransicao : transicao.getTabelaEntreVerdesTransicoes()) {
-//                    posicoes.add(tevTransicao.getTabelaEntreVerdes().getPosicao());
-//                }
-//            }
             int totalTabelasEntreVerdes = getTabelasEntreVerdes().stream().filter(tabelaEntreVerdes -> !tabelaEntreVerdes.isDestroy()).collect(Collectors.toList()).size();
             int limiteTabelasEntreVerdes = getAnel().getControlador().getModelo().getLimiteTabelasEntreVerdes();
             return totalTabelasEntreVerdes <= limiteTabelasEntreVerdes;
