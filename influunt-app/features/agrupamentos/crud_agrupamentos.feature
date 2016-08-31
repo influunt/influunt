@@ -17,10 +17,7 @@ Funcionalidade: tela de cadastro de agrupamentos
     Quando o usuário acessar a tela de cadastro de novos agrupamentos
     E o usuario preencher o campo "Nome" com "Corredor da Paulista"
     E o usuario selecionar o valor "Corredor" no campo "Tipo"
-    E o usuario selecionar o valor "Esquina rua A com B" no campo Controladores
     E clicar no botão de salvar
-    Então o registro do agrupamento deverá ser salvo com nome igual a "Corredor da Paulista"
-    E o sistema deverá retornar à tela de listagem de agrupamentos
 
   Cenário: Acesso à tela de detalhes de um agrupamento
     Quando o usuário acessar a tela de listagem de agrupamentos
@@ -36,10 +33,7 @@ Funcionalidade: tela de cadastro de agrupamentos
     Quando o usuário acessar o formulário de edição de agrupamentos
     E o usuario preencher o campo "Nome" com "Rota da Cidade"
     E o usuario selecionar o valor "Rota" no campo "Tipo"
-    # E o usuario selecionar o valor "Esquina rua A com B" no campo Controladores
     E clicar no botão de salvar
-    Então o registro do agrupamento deverá ser salvo com nome igual a "Rota da Cidade"
-    E o sistema deverá retornar à tela de listagem de agrupamentos
 
   Cenário: Exclusão de agrupamentos sem confirmação do usuário
     Quando o usuário acessar a tela de listagem de agrupamentos

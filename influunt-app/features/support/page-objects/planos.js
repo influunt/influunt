@@ -84,10 +84,10 @@ var PlanosPage = function () {
   };
 
   this.clicarBotaoConfigurarEstagio = function(estagio) {
-    return world.getElementByXpath('//ul[contains(@class, "planos")]//h4[contains(text(), "'+estagio+'")]/../button').click().then(function() {
-      return world.waitFor('div#myModal.in');
+     return world.getElement('ul.planos div.sortable-list li.ui-state-default div.sortable button.btn-primary').click().then(function() {
+      return world.waitFor('div#modal-configuracao-estagio');
     }).then(function() {
-      return world.waitForAnimationFinishes('div#myModal');
+      return world.waitForAnimationFinishes('div.modal-content');
     });
   };
 
@@ -101,7 +101,7 @@ var PlanosPage = function () {
   };
 
   this.fecharCaixaConfiguracao = function() {
-    return world.getElement('div#myModal div.modal-footer button').click();
+    return world.getElement('div#modal-configuracao-estagio div.modal-footer button').click();
   };
 
   this.clicarBotaoAdicionarNovoPlano = function() {

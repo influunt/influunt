@@ -120,7 +120,7 @@ Funcionalidade: Fluxo de cadastro de controladores
 
   Cenário: Tentar salvar uma transição proibida informando um estágio alternativo
     Dado que o usuário esteja no wizard no passo "Transições Proibidas"
-    E que a tabela de estágios alternativos esteja em branco
+    E o usuario selecionar o valor "E1" no campo "Alternativa"
     Quando clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Atraso de Grupo"
 
@@ -140,21 +140,17 @@ Funcionalidade: Fluxo de cadastro de controladores
   Cenário: Tentar salvar detectores sem configurar
     Dado que o usuário esteja no wizard no passo "Detectores"
     E que o usuário adicione um detector do tipo "Veicular"
-    E que o usuário adicione um detector do tipo "Pedestre"
     E que o usuário adicione um detector do tipo "Veicular"
+    E que o usuário adicione um detector do tipo "Pedestre"
     Quando o usuário clicar no botão para ir pro próximo passo
     Então o sistema deverá indicar erro nos campos do passo "Detectores"
     E o sistema irá continuar no passo "Detectores"
-    E o sistema deve limpar os erros da tela
 
   Cenário: Salvar detectores
     Dado que o usuário esteja no wizard no passo "Detectores"
-    E que o usuário adicione um detector do tipo "Veicular"
-    E que o usuário adicione um detector do tipo "Pedestre"
-    E que o usuário adicione um detector do tipo "Veicular"
-    E que o usuário associe o detector "DP1" com o estágio "E1"
-    E que o usuário associe o detector "DV1" com o estágio "E2"
-    E que o usuário associe o detector "DV2" com o estágio "E3"
+    E que o usuário associe o detector "DP1" com o estágio "E3"
+    E que o usuário associe o detector "DV1" com o estágio "E1"
+    E que o usuário associe o detector "DV2" com o estágio "E2"
     Quando o usuário clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Revisão"
 

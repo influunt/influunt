@@ -53,7 +53,8 @@
                               data-ng-options="estagio.idJson as ('E' + estagio.posicao) for estagio in currentEstagios | filter:filterEstagiosAlternativos(value.origem, value.destino)"
                               data-ng-change="marcarTransicaoAlternativa(value)"
                               inf-tooltip
-                              messages="getErrosEstagiosAlternativos(value.origem, value.destino)">
+                              messages="getErrosEstagiosAlternativos(value.origem, value.destino)"
+                              name="alternativos">
                             </select>
 
                             <span class="badge badge-danger badge-estagio-alternativo pull-right"

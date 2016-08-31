@@ -24,7 +24,16 @@ var CrudPage = function () {
     'Número de detectores veiculares': '[name="quantidadeDetectorVeicular"]',
     'Tipo Grupo Semafórico':           'select[name="tipoGrupoSemaforico"]',
     'Tipo':                            '[name="tipo"]',
-    'Número SMEE':                     '[name="numeroSMEE"]'
+    'Número SMEE':                     '[name="numeroSMEE"]',
+    'Alternativa':                     'select[name="alternativos"]',
+    'Descrição':                       '[name="descricao"]',
+    'Limite Estágios':                 '[name="limiteEstagio"]',
+    'Limite Grupos Semafóricos':       '[name="limiteGrupoSemaforico"]',
+    'Limite Aneies':                   '[name="limiteAnel"]',
+    'Limite Detectores Pedestre':      '[name="limiteDetectorPedestre"]',
+    'Limite Detectores Veicular':      '[name="limiteDetectorVeicular"]',
+    'Limite Tabelas Entre Verdes':     '[name="limiteTabelasEntreVerdes"]',
+    'Limite Planos':                   '[name="limitePlanos"]',
   };
 
   this.preencherCampo = function(campo, valor) {
@@ -36,12 +45,12 @@ var CrudPage = function () {
   };
 
   this.limparEndereco = function(numEndereco) {
-    var cssSelector = 'div[data-ng-class$=".enderecos['+(numEndereco - 1)+'].localizacao }"] helper-endereco > input';
+    var cssSelector = 'div[data-ng-class$=".endereco.localizacao'+(numEndereco)+' }"] helper-endereco > input';
     return world.clearField(cssSelector);
   };
 
   this.buscarEndereco = function(query, numEndereco) {
-    return world.setValueAsHuman('div[data-ng-class$=".enderecos['+(numEndereco - 1)+'].localizacao }"] helper-endereco > input', query).then(function() {
+    return world.setValueAsHuman('div[data-ng-class$=".endereco.localizacao'+(numEndereco)+' }"] helper-endereco > input', query).then(function() {
       return world.waitFor('div[g-places-autocomplete-drawer] > div.pac-container');
     }).then(function() {
       return world.getElements('div[g-places-autocomplete-drawer] > div.pac-container div:first-child');

@@ -59,8 +59,8 @@ var LoginPage = function () {
   };
 
   this.isDashboard = function() {
-    return world.waitFor('h2.ng-binding').then(function(){
-      return world.getElement('h2.ng-binding').getText().then(function(text) {
+    return world.waitFor('strong.ng-binding').then(function(){
+      return world.getElement('strong.ng-binding').getText().then(function(text) {
         return text === 'Dashboard';
       });
     });

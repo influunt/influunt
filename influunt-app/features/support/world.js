@@ -185,6 +185,10 @@ var World = function () {
     return driver.findElement(webdriver.By.linkText(text));
   };
 
+   this.findByText = function(text) {
+    return driver.findElement(webdriver.By.text(text));
+  };
+
   this.selectOption = function(selectSelector, optionText) {
     return this.getElements(selectSelector + ' option').then(function(options) {
       return new Promise(function(resolve, reject) {

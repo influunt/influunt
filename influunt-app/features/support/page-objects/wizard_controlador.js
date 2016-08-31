@@ -134,22 +134,6 @@ var WizardControladorPage = function () {
     var thisWizardPage = this;
     var messages = [];
     return thisWizardPage.getErrorMessageFor('[name="area"]').then(function(msg) {
-      messages.push({campo: 'area', msg: msg});
-      return thisWizardPage.getErrorMessageFor('helper-endereco[latitude="objeto.todosEnderecos[0].latitude"]');
-    }).then(function(msg) {
-      messages.push({campo: 'localizacao1.longitude', msg: msg});
-      return thisWizardPage.getErrorMessageFor('helper-endereco[latitude="objeto.todosEnderecos[1].latitude"]');
-    }).then(function(msg) {
-      messages.push({campo: 'localizacao2', msg: msg});
-      return thisWizardPage.getErrorMessageFor('[name="enderecos[1].latitude"]');
-    }).then(function(msg) {
-      messages.push({campo: 'localizacao2.latitude', msg: msg});
-      return thisWizardPage.getErrorMessageFor('[name="enderecos[1].longitude"]');
-    }).then(function(msg) {
-      messages.push({campo: 'localizacao2.longitude', msg: msg});
-      return thisWizardPage.getErrorMessageFor('[name="modelo"]');
-    }).then(function(msg) {
-      messages.push({campo: 'modelo', msg: msg});
 
       return new Promise(function (resolve, reject) {
         for (var i = 0; i < messages.length; i++) {
@@ -327,7 +311,11 @@ var WizardControladorPage = function () {
 
   this.associarGrupoSemaforicoEstagio = function(grupo, estagio) {
     var selector = '"li[data-ng-repeat=\'(indexEstagio, estagio) in currentEstagios\']:nth-child('+estagio.substring(1)+') p:contains(\''+grupo+'\')").parent().find("input"';
-    return world.checkICheck(selector);
+    return world.sleep(600).then(function(){
+      return world.checkICheck(selector).then(function(){
+        return world.sleep(100);
+      });
+    });
   };
 
   this.marcarSegundoAnelComoAtivo = function() {
@@ -347,7 +335,11 @@ var WizardControladorPage = function () {
   this.selecionarTipoGrupoSemaforico = function(grupoSemaforico, tipo) {
     var index = tipo === 'Pedestre' ? 2 : 1;
     var xpathSelector = '//h3[text() = "'+grupoSemaforico+'"]/../../../..//select[@name="tipoGrupoSemaforico"]/option['+index+']';
-    return world.getElementByXpath(xpathSelector).click();
+    return world.sleep(600).then(function(){
+      return world.getElementByXpath(xpathSelector).click().then(function(){
+        return world.sleep(100);
+      });
+    });
   };
 
   this.clearVerdesConflitantes = function() {
@@ -382,7 +374,9 @@ var WizardControladorPage = function () {
   this.marcarTransicao = function(e1, e2) {
     var row = parseInt(e2.substring(1));
     var col = parseInt(e1.substring(1)) + (row === 1 ? 2 : 1);
-    return world.getElement('tbody tr:nth-child('+row+') td:nth-child('+col+')').click();
+    return world.scrollToDown().then(function() {
+      return world.getElement('tbody tr:nth-child('+row+') td:nth-child('+col+')').click();
+    });
   };
 
   this.clicarBotao = function(text) {

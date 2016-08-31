@@ -151,4 +151,8 @@ module.exports = function() {
   this.Given(/^o usuario preencher o campo NÚMERO SMEE com 123$/, function () {
     return wizardPage.preencherCampoSMEECom123();
   });
+
+  this.Given(/^que o usuário clicar Confirmo que não há configurações a serem feitas aqui$/, function(){
+    return wizardPage.selecionarValor();
+  });
 };
