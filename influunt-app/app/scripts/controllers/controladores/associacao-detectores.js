@@ -12,7 +12,7 @@ angular.module('influuntApp')
     function ($scope, $state, $controller, $filter, assertControlador, influuntAlert, Restangular, toast) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
-      var atualizaPosicoesDetectores, atualizaEstagiosComDetector, excluirDetectorNoServidor, excluirDetectorNoCliente;
+      var atualizaPosicoesDetectores, atualizaEstagiosComDetector, excluirDetectorNoCliente;
 
       /**
        * Pré-condições para acesso à tela de associcao de detectores: Somente será possivel
@@ -151,6 +151,10 @@ angular.module('influuntApp')
           })
           .orderBy(['tipo', 'posicao'])
           .value();
+
+        $scope.currentAnel.detectores = _.map($scope.currentDetectores, function(d) {
+          return {idJson: d.idJson};
+        });
 
         return $scope.currentDetectores;
       };

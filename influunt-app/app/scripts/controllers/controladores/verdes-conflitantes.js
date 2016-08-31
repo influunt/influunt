@@ -12,7 +12,7 @@ angular.module('influuntApp')
     function ($scope, $state, $controller, assertControlador) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
-      var buildMatrizVerdesConflitantes, inicializaMatrizVerdesConflitantes;
+      var buildMatrizVerdesConflitantes, inicializaMatrizVerdesConflitantes, adicionaVerdeConflitante, removeVerdeConflitante;
 
       /**
        * Pré-condições para acesso à tela de verdes conflitantes: Somente será possível acessar
@@ -56,51 +56,64 @@ angular.module('influuntApp')
         // grupos são ordenados pela posição para garantir que ao marcar a
         // posição (G1, G3), seja possível desmarcar clicando no (G3, G1).
         var grupos = _.orderBy([grupoX, grupoY], ['posicao']);
-        var verdeConflitante = {
-          idJson: UUID.generate(),
-          origem: {
-            idJson: grupos[0].idJson
-          },
-          destino: {
-            idJson: grupos[1].idJson
-          }
-        };
 
         var obj = _.find(
           $scope.objeto.verdesConflitantes,
-          { origem: { idJson: verdeConflitante.origem.idJson }, destino: { idJson: verdeConflitante.destino.idJson } }
+          {
+            origem: { idJson: grupos[0].idJson },
+            destino: { idJson: grupos[1].idJson }
+          }
         );
+
         if ($scope.verdesConflitantes[x][y]) {
-          var index = _.findIndex($scope.objeto.verdesConflitantes, obj);
-
-          var indexX = _.findIndex(grupos[0].verdesConflitantesOrigem, {idJson: obj.idJson});
-          var indexY = _.findIndex(grupos[1].verdesConflitantesDestino, {idJson: obj.idJson});
-
-          if (angular.isDefined($scope.objeto.verdesConflitantes[index].id)) {
-            $scope.objeto.verdesConflitantes[index]._destroy = true;
-          } else {
-            grupos[0].verdesConflitantesOrigem.splice(indexX, 1);
-            grupos[1].verdesConflitantesDestino.splice(indexY, 1);
-            $scope.objeto.verdesConflitantes.splice(index, 1);
-          }
+          removeVerdeConflitante(obj, grupos);
         } else {
-          if (obj) {
-            delete obj._destroy;
-          } else {
-            grupos[0].verdesConflitantesOrigem = grupos[0].verdesConflitantesOrigem || [];
-            grupos[0].verdesConflitantesOrigem.push({idJson: verdeConflitante.idJson});
-
-            grupos[1].verdesConflitantesDestino = grupos[1].verdesConflitantesDestino || [];
-            grupos[1].verdesConflitantesDestino.push({idJson: verdeConflitante.idJson});
-
-            $scope.objeto.verdesConflitantes = $scope.objeto.verdesConflitantes || [];
-            $scope.objeto.verdesConflitantes.push(verdeConflitante);
-          }
+          adicionaVerdeConflitante(obj, grupos);
         }
 
         // Deve marcar/desmarcar os coordenadas (x, y) e (y, x) simultaneamente.
         $scope.verdesConflitantes[x][y] = !$scope.verdesConflitantes[x][y];
         $scope.verdesConflitantes[y][x] = !$scope.verdesConflitantes[y][x];
+      };
+
+      adicionaVerdeConflitante = function(verdeConflitante, grupos) {
+        if (verdeConflitante) {
+          delete verdeConflitante._destroy;
+        } else {
+          var novoVerdeConflitante = {
+            idJson: UUID.generate(),
+            origem: {
+              idJson: grupos[0].idJson
+            },
+            destino: {
+              idJson: grupos[1].idJson
+            }
+          };
+
+          grupos[0].verdesConflitantesOrigem = grupos[0].verdesConflitantesOrigem || [];
+          grupos[0].verdesConflitantesOrigem.push({idJson: novoVerdeConflitante.idJson});
+
+          grupos[1].verdesConflitantesDestino = grupos[1].verdesConflitantesDestino || [];
+          grupos[1].verdesConflitantesDestino.push({idJson: novoVerdeConflitante.idJson});
+
+          $scope.objeto.verdesConflitantes = $scope.objeto.verdesConflitantes || [];
+          $scope.objeto.verdesConflitantes.push(novoVerdeConflitante);
+        }
+      };
+
+      removeVerdeConflitante = function(verdeConflitante, grupos) {
+        var index = _.findIndex($scope.objeto.verdesConflitantes, verdeConflitante);
+
+        var indexX = _.findIndex(grupos[0].verdesConflitantesOrigem, {idJson: verdeConflitante.idJson});
+        var indexY = _.findIndex(grupos[1].verdesConflitantesDestino, {idJson: verdeConflitante.idJson});
+
+        if (angular.isDefined($scope.objeto.verdesConflitantes[index].id)) {
+          $scope.objeto.verdesConflitantes[index]._destroy = true;
+        } else {
+          grupos[0].verdesConflitantesOrigem.splice(indexX, 1);
+          grupos[1].verdesConflitantesDestino.splice(indexY, 1);
+          $scope.objeto.verdesConflitantes.splice(index, 1);
+        }
       };
 
       $scope.closeMensagensVerdes = function() {

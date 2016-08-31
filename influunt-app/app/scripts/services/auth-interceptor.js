@@ -47,19 +47,26 @@ angular.module('influuntApp')
 
 
 angular.module('influuntApp')
-  .factory('blockuiInterceptor', ['influuntBlockui', '$q',
-    function(influuntBlockui, $q) {
+  .factory('blockuiInterceptor', ['influuntBlockui', '$q', '$timeout',
+    function(influuntBlockui, $q, $timeout) {
+      var loadingUnblockTimeout = null;
       return {
         request: function(request) {
-          influuntBlockui.block();
+            influuntBlockui.block();
           return request;
         },
         responseError: function(response) {
-          influuntBlockui.unblock();
+          $timeout.cancel(loadingUnblockTimeout);
+          loadingUnblockTimeout = $timeout(function() {
+            influuntBlockui.unblock();
+          }, 500);
           return $q.reject(response);
         },
         response: function(response) {
-          influuntBlockui.unblock();
+          $timeout.cancel(loadingUnblockTimeout);
+          loadingUnblockTimeout = $timeout(function() {
+            influuntBlockui.unblock();
+          }, 500);
           return response;
         }
       };
