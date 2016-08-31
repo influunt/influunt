@@ -358,7 +358,7 @@ public class ControladorUtil {
                 if (field.getType().isEnum()) {
                     field.set(clone, Enum.valueOf((Class<Enum>) field.getType(), field.get(obj).toString()));
                 }
-                if (field.getType().isPrimitive() || field.gegtType().equals(String.class)
+                if (field.getType().isPrimitive() || field.getType().equals(String.class)
                         || (field.getType().getSuperclass() != null && field.getType().getSuperclass().equals(Number.class))
                         || field.getType().equals(Boolean.class)) {
                     field.set(clone, field.get(obj));
