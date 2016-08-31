@@ -94,8 +94,6 @@ angular.module('influuntApp')
         } else {
           ativarTransicaoProibida(estagio1, estagio2);
         }
-        console.log('TP: ', $scope.currentTransicoesProibidas)
-        console.log('objeto.TP: ', $scope.objeto.transicoesProibidas)
       };
 
       /**
