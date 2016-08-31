@@ -12,7 +12,7 @@ import utils.DBUtils;
 
 /**
  * Serviço do {@link Controlador}
- *
+ * <p>
  * Created by lesiopinheiro on 8/19/16.
  */
 public class ControladorService {
@@ -57,12 +57,10 @@ public class ControladorService {
     }
 
 
-
     @NotNull
     public void cancelar(Controlador controlador) {
-        Ebean.beginTransaction();
 
-        try {
+        DBUtils.executeWithTransaction(() -> {
             VersaoControlador versaoControlador = controlador.getVersaoControlador();
             Controlador controladorOrigem = versaoControlador.getControladorOrigem();
             controladorOrigem.setStatusControlador(StatusControlador.ATIVO);
@@ -72,16 +70,7 @@ public class ControladorService {
             controladorOrigem.update();
 
             controlador.delete();
-
-            Ebean.commitTransaction();
-        } catch (Exception e) {
-            Ebean.rollbackTransaction();
-            Logger.error(e.getMessage(), e);
-
-        } finally {
-            Ebean.endTransaction();
-        }
-
+        });
     }
 
     public void criarClonePlanos(Controlador controlador, Usuario usuario) {

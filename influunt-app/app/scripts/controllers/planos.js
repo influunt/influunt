@@ -58,7 +58,7 @@ angular.module('influuntApp')
       };
 
       $scope.clonarPlanos = function(controladorId) {
-        return Restangular.one('controladores', controladorId).all('editar_planos).customGET()
+        return Restangular.one('controladores', controladorId).all('editar_planos').customGET()
           .then(function() {
             $state.go('app.controladores');
           })
