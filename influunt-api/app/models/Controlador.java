@@ -153,7 +153,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
         deleteGruposSemaforicos(this);
         deleteVerdesConflitantes(this);
         deleteEstagiosGruposSemaforicos(this);
-//        deleteTransicoesProibidas(this);
+        deleteTransicoesProibidas(this);
 
         this.criarPossiveisTransicoes();
     }
@@ -199,28 +199,35 @@ public class Controlador extends Model implements Cloneable, Serializable {
     }
 
     private void deleteTransicoesProibidas(Controlador controlador) {
+        System.out.println("deleteTransicoesProibidas()");
         if (controlador.getId() != null) {
-            Controlador controladorAux = Controlador.find.byId(controlador.getId());
-            if (controladorAux != null) {
+            System.out.println("id is not null");
+            controlador.getAneis().forEach(anel -> {
+                System.out.println("dentro de anel");
+                anel.getEstagios().forEach(estagio -> {
+                    System.out.println("dentro de estagio");
+                    estagio.getOrigemDeTransicoesProibidas().forEach(transicaoProibida -> {
+                        System.out.println("dentro de origem transicoes proibidas");
+                        if (transicaoProibida.isDestroy()) {
+                            transicaoProibida.delete();
+                        }
+                    });
 
-                controladorAux.getAneis().stream()
-                        .map(Anel::getEstagios)
-                        .flatMap(Collection::stream)
-                        .forEach(estagio -> {
-                            estagio.getOrigemDeTransicoesProibidas().forEach(TransicaoProibida::delete);
-                            estagio.getDestinoDeTransicoesProibidas().forEach(TransicaoProibida::delete);
-                            estagio.getAlternativaDeTransicoesProibidas().forEach(TransicaoProibida::delete);
-                        });
+                    estagio.getDestinoDeTransicoesProibidas().forEach(transicaoProibida -> {
+                        System.out.println("dentro de destino transicoes proibidas");
+                        if (transicaoProibida.isDestroy()) {
+                            transicaoProibida.delete();
+                        }
+                    });
 
-                controlador.getAneis().stream()
-                        .map(Anel::getEstagios)
-                        .flatMap(Collection::stream)
-                        .forEach(estagio -> {
-                            estagio.getOrigemDeTransicoesProibidas().forEach(transicaoProibida -> transicaoProibida.setId(null));
-                            estagio.getDestinoDeTransicoesProibidas().forEach(transicaoProibida -> transicaoProibida.setId(null));
-                            estagio.getAlternativaDeTransicoesProibidas().forEach(transicaoProibida -> transicaoProibida.setId(null));
-                        });
-            }
+                    estagio.getAlternativaDeTransicoesProibidas().forEach(transicaoProibida -> {
+                        System.out.println("dentro de alternativo transicoes proibidas");
+                        if (transicaoProibida.isDestroy()) {
+                            transicaoProibida.delete();
+                        }
+                    });
+                });
+            });
         }
     }
 

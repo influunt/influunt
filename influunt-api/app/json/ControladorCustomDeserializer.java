@@ -176,6 +176,7 @@ public class ControladorCustomDeserializer {
             }
         }
     }
+
     private void parseGruposSemaforicos(JsonNode node) {
         if (node.has("gruposSemaforicos")) {
             List<GrupoSemaforico> grupoSemaforicos = new ArrayList<GrupoSemaforico>();
@@ -613,6 +614,9 @@ public class ControladorCustomDeserializer {
 
         if (node.has("idJson")) {
             transicaoProibida.setIdJson(node.get("idJson").asText());
+        }
+        if (node.has("_destroy")) {
+            transicaoProibida.setDestroy(node.get("_destroy").asBoolean());
         }
 
         if (node.has("origem")) {

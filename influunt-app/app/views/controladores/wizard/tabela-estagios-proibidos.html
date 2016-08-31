@@ -16,7 +16,7 @@
 
       <td data-ng-repeat="td in currentEstagios" class="clickable"
         data-ng-class="{disabled: tr === td }"
-        data-ng-click="toggleTransicaoProibida(td, tr, (tr.id === td.id))">
+        data-ng-click="toggleTransicaoProibida(td, tr, (tr.idJson === td.idJson))">
         <i class="fa fa-times transicao-proibida"
         data-ng-class="{ ativo : currentTransicoesProibidas['E' + td.posicao + '-E' + tr.posicao] }"></i>
       </td>

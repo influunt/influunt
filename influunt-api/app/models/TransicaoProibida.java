@@ -43,6 +43,9 @@ public class TransicaoProibida extends Model implements Serializable {
     @ManyToOne
     private Estagio alternativo;
 
+    @Transient
+    private boolean destroy;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
@@ -139,5 +142,13 @@ public class TransicaoProibida extends Model implements Serializable {
             return (getAlternativo() != getDestino());
         else return true;
 
+    }
+
+    public boolean isDestroy() {
+        return destroy;
+    }
+
+    public void setDestroy(boolean destroy) {
+        this.destroy = destroy;
     }
 }
