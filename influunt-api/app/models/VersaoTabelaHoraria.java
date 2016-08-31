@@ -32,7 +32,7 @@ public class VersaoTabelaHoraria extends Model implements Serializable {
     private String idJson;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne()
     private Controlador controlador;
 
     @OneToOne
@@ -56,6 +56,7 @@ public class VersaoTabelaHoraria extends Model implements Serializable {
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
+
 
     public VersaoTabelaHoraria() {
         super();

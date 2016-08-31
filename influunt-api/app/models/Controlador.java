@@ -575,7 +575,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
                 VersaoPlano versaoPlano = anel.getVersaoPlano();
                 if(versaoPlano != null) {
                     versaoPlano.ativar();
-//                    versaoPlano.update();
                 }
             });
 

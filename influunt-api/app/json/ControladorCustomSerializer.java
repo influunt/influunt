@@ -176,7 +176,7 @@ public class ControladorCustomSerializer {
     private void putControladorDadosBasicos(Controlador controlador, ObjectNode root) {
         if (controlador.getId() != null) {
             root.put("id", controlador.getId().toString());
-            refVersoesTabelasHorarias("versoesTabelasHorarias", controlador.getVersaoTabelaHoraria(), root);
+            refVersoesTabelasHorarias("versoesTabelasHorarias", controlador.getVersoesTabelasHorarias(), root);
         }
         if (controlador.getIdJson() != null) {
             root.put("idJson", controlador.getIdJson());
@@ -1396,13 +1396,17 @@ public class ControladorCustomSerializer {
 
     }
 
-    private void refVersoesTabelasHorarias(String name, VersaoTabelaHoraria versaoTabelaHoraria, ObjectNode parentJson) {
-        if (versaoTabelaHoraria != null && versaoTabelaHoraria.getIdJson() != null) {
-            versoesTabelasHorariasMap.put(versaoTabelaHoraria.getIdJson().toString(), versaoTabelaHoraria);
-            ObjectNode versaoTabelaHorariaJson = Json.newObject();
-            versaoTabelaHorariaJson.put("idJson", versaoTabelaHoraria.getIdJson().toString());
-            parentJson.set(name, versaoTabelaHorariaJson);
+    private void refVersoesTabelasHorarias(String name, List<VersaoTabelaHoraria> versoesTabelaHorarias, ObjectNode parentJson) {
+        ArrayNode versoesTabelaHorariasJson = Json.newArray();
+        for (VersaoTabelaHoraria versaoTabelaHoraria : versoesTabelaHorarias) {
+            if (versaoTabelaHoraria != null && versaoTabelaHoraria.getIdJson() != null) {
+                versoesTabelasHorariasMap.put(versaoTabelaHoraria.getIdJson().toString(), versaoTabelaHoraria);
+                ObjectNode versaoTabelaHorariaJson = Json.newObject();
+                versaoTabelaHorariaJson.put("idJson", versaoTabelaHoraria.getIdJson().toString());
+                versoesTabelaHorariasJson.add(versaoTabelaHorariaJson);
+            }
         }
+        parentJson.set(name, versoesTabelaHorariasJson);
     }
 
     private void refVersoesPlanos(String name, VersaoPlano versaoPlano, ObjectNode parentJson) {

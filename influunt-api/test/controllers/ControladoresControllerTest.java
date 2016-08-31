@@ -24,18 +24,17 @@ import security.Authenticator;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.EventObject;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import static play.inject.Bindings.bind;
 import static play.mvc.Http.Status.OK;
 import static play.mvc.Http.Status.UNPROCESSABLE_ENTITY;
 import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.route;
-import static org.hamcrest.CoreMatchers.*;
 
 /**
  * Created by lesiopinheiro on 8/10/16.
@@ -416,7 +415,7 @@ public class ControladoresControllerTest extends WithApplication {
 
         controladorClonado.getAneis().forEach(anel -> {
 
-            if(!CollectionUtils.isEmpty(anel.getVersoesPlanos())) {
+            if (!CollectionUtils.isEmpty(anel.getVersoesPlanos())) {
                 VersaoPlano versaoEdicao = anel.getVersaoPlanoEmEdicao();
                 VersaoPlano versaoAnterior = versaoEdicao.getVersaoAnterior();
 
@@ -456,17 +455,54 @@ public class ControladoresControllerTest extends WithApplication {
     }
 
     @Test
-    public void deveriaClonarTabelaHoraria() {
+    public void deveriaClonar5VersoesPlano() {
         Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
         controlador.setStatusControlador(StatusControlador.ATIVO);
         controlador.update();
+
+        int totalVersoes = 2;
+
+        assertEquals("Total de Versão Plano", totalVersoes, VersaoPlano.find.findRowCount());
+
+        for (int i = 2; i < 7; i++) {
+            Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
+                    .uri(routes.ControladoresController.editarPlanos(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+
+
+            Result postResult = route(postRequest);
+            JsonNode json = Json.parse(Helpers.contentAsString(postResult));
+            Controlador controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
+
+            assertEquals("Total de Versão Plano", totalVersoes * i, VersaoPlano.find.findRowCount());
+
+            postRequest = new Http.RequestBuilder().method("POST")
+                    .uri(routes.PlanosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
+
+            postResult = route(postRequest);
+            json = Json.parse(Helpers.contentAsString(postResult));
+            assertEquals(OK, postResult.status());
+            controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
+
+            assertEquals("Total de Versão Plano", totalVersoes * i, VersaoPlano.find.findRowCount());
+
+            controladorClonado.ativar();
+        }
+
+
+    }
+
+    @Test
+    public void deveriaClonarTabelaHorariaEditarTabelaHoraria() {
+        Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
+        controlador.setStatusControlador(StatusControlador.ATIVO);
+        controlador.update();
+
 
         int totalTabelaHoraria = 1;
         int totalEventos = 3;
 
         assertEquals("Total de Tabelas Horarias", totalTabelaHoraria, TabelaHorario.find.findRowCount());
         assertEquals("Total de Eventos", totalEventos, Evento.find.findRowCount());
-
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
                 .uri(routes.ControladoresController.editarTabelaHoraria(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
@@ -478,6 +514,7 @@ public class ControladoresControllerTest extends WithApplication {
         Controlador controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
 
         assertEquals("Total de Tabelas Horarias", totalTabelaHoraria * 2, TabelaHorario.find.findRowCount());
+        assertEquals("Total de Versão Tabelas Horarias", totalTabelaHoraria * 2, VersaoTabelaHoraria.find.findRowCount());
         assertEquals("Total de Eventos", totalEventos * 2, Evento.find.findRowCount());
 
         if (controlador.getTabelaHoraria() != null) {
@@ -490,13 +527,55 @@ public class ControladoresControllerTest extends WithApplication {
 
         controladorClonado.update();
 
+        assertEquals("Total de Versão Tabelas Horarias", totalTabelaHoraria * 2, VersaoTabelaHoraria.find.findRowCount());
+        assertEquals("Total de Tabelas Horarias", totalTabelaHoraria * 2, TabelaHorario.find.findRowCount());
+
+
         postRequest = new Http.RequestBuilder().method("POST")
                 .uri(routes.TabelaHorariosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
 
         postResult = route(postRequest);
         json = Json.parse(Helpers.contentAsString(postResult));
         assertEquals(OK, postResult.status());
+    }
 
+    @Test
+    public void deveriaClonar5VersoesTabelaHoraria() {
+        Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
+        controlador.setStatusControlador(StatusControlador.ATIVO);
+        controlador.update();
+
+        int totalTabelaHoraria = 1;
+        int totalEventos = 3;
+
+        assertEquals("Total de Tabelas Horarias", totalTabelaHoraria, TabelaHorario.find.findRowCount());
+        assertEquals("Total de Eventos", totalEventos, Evento.find.findRowCount());
+
+        for (int i = 2; i < 7; i++) {
+            Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
+                    .uri(routes.ControladoresController.editarTabelaHoraria(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+
+            Result postResult = route(postRequest);
+            JsonNode json = Json.parse(Helpers.contentAsString(postResult));
+            Controlador controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
+
+            assertEquals("Total de Tabelas Horarias", totalTabelaHoraria * i, TabelaHorario.find.findRowCount());
+            assertEquals("Total de Versão Tabelas Horarias", totalTabelaHoraria * i, VersaoTabelaHoraria.find.findRowCount());
+            assertEquals("Total de Eventos", totalEventos * i, Evento.find.findRowCount());
+
+            postRequest = new Http.RequestBuilder().method("POST")
+                    .uri(routes.TabelaHorariosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
+
+            postResult = route(postRequest);
+            json = Json.parse(Helpers.contentAsString(postResult));
+            assertEquals(OK, postResult.status());
+            controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
+
+            assertEquals("Total de Versão Tabelas Horarias", totalTabelaHoraria * i, VersaoTabelaHoraria.find.findRowCount());
+            assertEquals("Total de Tabelas Horarias", totalTabelaHoraria * i, TabelaHorario.find.findRowCount());
+
+            controladorClonado.ativar();
+        }
     }
 
     @Test
