@@ -318,11 +318,6 @@ var WizardControladorPage = function () {
     });
   };
 
-   this.selecionarSemConfi = function() {
-    var selector = '"input[type="checkbox"]"';
-    return world.checkICheck(selector);
-  };
-
   this.marcarSegundoAnelComoAtivo = function() {
     return world.execJavascript('window.scrollTo(0, 0);').then(function() {
       return world.getElement('li.addTab').click();
