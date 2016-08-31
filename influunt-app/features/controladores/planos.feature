@@ -8,13 +8,6 @@ Funcionalidade: Fluxo de cadastro de planos
     Quando o usuário clicar no botão Planos do controlador
     Então o sistema deverá redirecionar para a tela de planos
 
-  # Cenário: Tentar salvar planos em branco
-  #   Dado que o usuário esteja na página de planos
-  #   E que o usuário deixe os campos em branco
-  #   Quando o usuário clicar no botão de Salvar
-  #   Então o sistema deverá indicar erro nos campos obrigatórios
-  #   E o sistema irá continuar na página de planos
-
   Cenário: Selecionar modo de operação apagado
     # Dado que o usuário esteja na página de planos
     E que o usuário selecione o modo de operação "Apagado"
