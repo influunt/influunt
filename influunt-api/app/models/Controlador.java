@@ -151,8 +151,95 @@ public class Controlador extends Model implements Cloneable, Serializable {
             }
         }
 
+        this.deleteAnelSeNecessario();
+        deleteGruposSemaforicos(this);
+        deleteVerdesConflitantes(this);
+        deleteEstagiosGruposSemaforicos(this);
+        deleteTransicoesProibidas(this);
+        deleteTabelasEntreVerdes(this);
+
         this.criarPossiveisTransicoes();
     }
+
+    private void deleteTabelasEntreVerdes(Controlador controlador) {
+        if (controlador.getId() != null) {
+            controlador.getAneis().forEach(anel -> {
+                anel.getGruposSemaforicos().forEach(grupoSemaforico ->
+                        grupoSemaforico.getTabelasEntreVerdes().forEach(tabelaEntreVerdes -> {
+                            if (tabelaEntreVerdes.isDestroy()) {
+                                tabelaEntreVerdes.delete();
+                            }
+                        }));
+            });
+        }
+    }
+
+
+    private void deleteVerdesConflitantes(Controlador c) {
+        if (c.getId() != null) {
+            c.getAneis().forEach(anel -> {
+                anel.getGruposSemaforicos().forEach(grupoSemaforico ->
+                        grupoSemaforico.getVerdesConflitantes().forEach(verdeConflitante -> {
+                            if (verdeConflitante.isDestroy()) {
+                                verdeConflitante.delete();
+                            }
+                        }));
+            });
+        }
+    }
+
+    private void deleteGruposSemaforicos(Controlador controlador) {
+        if (controlador.getId() != null) {
+            controlador.getAneis().forEach(anel -> {
+                anel.getGruposSemaforicos().forEach(grupoSemaforico -> {
+                    if (grupoSemaforico.isDestroy()) {
+                        grupoSemaforico.delete();
+                    }
+                });
+            });
+        }
+    }
+
+    private void deleteEstagiosGruposSemaforicos(Controlador controlador) {
+        if (controlador.getId() != null) {
+            controlador.getAneis().forEach(anel -> {
+                anel.getGruposSemaforicos().forEach(grupoSemaforico -> {
+                    grupoSemaforico.getEstagiosGruposSemaforicos().forEach(estagioGrupoSemaforico -> {
+                        if (estagioGrupoSemaforico.isDestroy()) {
+                            estagioGrupoSemaforico.delete();
+                        }
+                    });
+                });
+            });
+        }
+    }
+
+    private void deleteTransicoesProibidas(Controlador controlador) {
+        if (controlador.getId() != null) {
+            controlador.getAneis().forEach(anel -> {
+                anel.getEstagios().forEach(estagio -> {
+                    estagio.getOrigemDeTransicoesProibidas().forEach(transicaoProibida -> {
+                        if (transicaoProibida.isDestroy()) {
+                            transicaoProibida.delete();
+                        }
+                    });
+
+                    estagio.getDestinoDeTransicoesProibidas().forEach(transicaoProibida -> {
+                        if (transicaoProibida.isDestroy()) {
+                            transicaoProibida.delete();
+                        }
+                    });
+
+                    estagio.getAlternativaDeTransicoesProibidas().forEach(transicaoProibida -> {
+                        if (transicaoProibida.isDestroy()) {
+                            transicaoProibida.delete();
+                        }
+                    });
+                });
+            });
+        }
+    }
+
 
     private void gerarCLC() {
         List<Controlador> controladorList =

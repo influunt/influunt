@@ -21,7 +21,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -269,7 +271,7 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = ControladorVerdesConflitantesCheck.class, message = "Esse grupo semafórico deve ter ao menos um verde conflitante")
     public boolean isAoMenosUmVerdeConflitante() {
         if (this.getAnel() != null) {
-            return this.getVerdesConflitantes() != null && this.getVerdesConflitantes().stream().anyMatch(grupoSemaforico -> grupoSemaforico != null);
+            return this.getVerdesConflitantes() != null && this.getVerdesConflitantes().stream().filter(verdeConflitante -> !verdeConflitante.isDestroy()).anyMatch(grupoSemaforico -> grupoSemaforico != null);
         } else {
             return true;
         }
@@ -299,13 +301,9 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = ControladorTabelaEntreVerdesCheck.class, message = "Esse grupo semafórico deve ter no máximo o número de tabelas entre-verdes definido na configuração do controlador.")
     public boolean isNumeroCorretoTabelasEntreVerdes() {
         if (this.getAnel() != null && this.getAnel().isAtivo()) {
-            Set<Integer> posicoes = new HashSet<>();
-            for (Transicao transicao : this.getTransicoes()) {
-                for (TabelaEntreVerdesTransicao tevTransicao : transicao.getTabelaEntreVerdesTransicoes()) {
-                    posicoes.add(tevTransicao.getTabelaEntreVerdes().getPosicao());
-                }
-            }
-            return !(getTabelasEntreVerdes().size() > getAnel().getControlador().getModelo().getLimiteTabelasEntreVerdes());
+            int totalTabelasEntreVerdes = getTabelasEntreVerdes().stream().filter(tabelaEntreVerdes -> !tabelaEntreVerdes.isDestroy()).collect(Collectors.toList()).size();
+            int limiteTabelasEntreVerdes = getAnel().getControlador().getModelo().getLimiteTabelasEntreVerdes();
+            return totalTabelasEntreVerdes <= limiteTabelasEntreVerdes;
         }
         return true;
     }
