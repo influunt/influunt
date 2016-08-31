@@ -86,6 +86,15 @@ var World = function () {
     }, waitTimeout);
   };
 
+  this.waitForByXpathInverse = function(xpath, timeout) {
+    var waitTimeout = timeout || defaultTimeout;
+    return driver.wait(function() {
+      return driver.isElementPresent(webdriver.By.xpath(xpath)).then(function(isElementPresent) {
+        return !isElementPresent;
+      });
+    }, waitTimeout);
+  };
+
   this.waitForAJAX = function(timeout) {
     timeout = timeout || defaultTimeout;
     var pollInterval = 500;

@@ -83,6 +83,10 @@ var PlanosPage = function () {
     return world.waitFor('influunt-knob[title="DEFASAGEM"]');
   };
 
+  this.hiddenDiagramaIntervalo = function() {
+    return world.waitForByXpathInverse('//h5[text()="Diagrama de Intervalos"]');
+  };
+
   this.clicarBotaoConfigurarEstagio = function(estagio) {
      return world.getElement('ul.planos div.sortable-list li.ui-state-default div.sortable button.btn-primary').click().then(function() {
       return world.waitFor('div#modal-configuracao-estagio');

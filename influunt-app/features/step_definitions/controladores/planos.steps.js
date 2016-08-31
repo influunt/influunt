@@ -72,4 +72,9 @@ module.exports = function() {
   this.Given(/^que o usuário clique no botão de adicionar um novo plano$/, function () {
     return planosPage.clicarBotaoAdicionarNovoPlano();
   });
+
+  this.Given(/^o diagrama de intervalos não deverá aparecer$/, function(){
+    return planosPage.hiddenDiagramaIntervalo();
+
+  });
 };

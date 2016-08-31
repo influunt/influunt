@@ -9,7 +9,7 @@ Funcionalidade: Fluxo de cadastro de planos
     Então o sistema deverá redirecionar para a tela de planos
 
   Cenário: Selecionar modo de operação apagado
-    # Dado que o usuário esteja na página de planos
+    Dado que o usuário esteja na página de planos
     E que o usuário selecione o modo de operação "Apagado"
     Então o diagrama de ciclos deverá marcar o grupo semafórico "G1" como "Apagado"
     E o diagrama de ciclos deverá marcar o grupo semafórico "G2" como "Apagado"
@@ -19,7 +19,7 @@ Funcionalidade: Fluxo de cadastro de planos
     E o usuário não deve ter a opção de marcar a defasagem do ciclo
 
   Cenário: Selecionar modo de operação intermitente
-    # Dado que o usuário esteja na página de planos
+    Dado que o usuário esteja na página de planos
     E que o usuário selecione o modo de operação "Intermitente"
     Então o diagrama de ciclos deverá marcar o grupo semafórico "G1" como "Intermitente"
     E o diagrama de ciclos deverá marcar o grupo semafórico "G2" como "Intermitente"
@@ -29,7 +29,7 @@ Funcionalidade: Fluxo de cadastro de planos
     E o usuário não deve ter a opção de marcar a defasagem do ciclo
 
   Cenário: Selecionar modo de operação isolado
-    # Dado que o usuário esteja na página de planos
+    Dado que o usuário esteja na página de planos
     E que o usuário selecione o modo de operação "Isolado"
     Então o diagrama de ciclos deverá marcar o grupo semafórico "G1" como "Operação Normal"
     E o diagrama de ciclos deverá marcar o grupo semafórico "G2" como "Operação Normal"
@@ -39,7 +39,7 @@ Funcionalidade: Fluxo de cadastro de planos
     E o usuário não deve ter a opção de marcar a defasagem do ciclo
 
   Cenário: Selecionar modo de operação coordenado
-    # Dado que o usuário esteja na página de planos
+    Dado que o usuário esteja na página de planos
     E que o usuário selecione o modo de operação "Coordenado"
     Então o diagrama de ciclos deverá marcar o grupo semafórico "G1" como "Operação Normal"
     E o diagrama de ciclos deverá marcar o grupo semafórico "G2" como "Operação Normal"
@@ -49,17 +49,12 @@ Funcionalidade: Fluxo de cadastro de planos
     E o usuário deve ter a opção de marcar a defasagem do ciclo
 
   Cenário: Selecionar modo de operação atuado
-    # Dado que o usuário esteja na página de planos
+    Dado que o usuário esteja na página de planos
     E que o usuário selecione o modo de operação "Atuado"
-    # Então o diagrama de ciclos deverá marcar o grupo semafórico "G1" como "Operação Normal"
-    # E o diagrama de ciclos deverá marcar o grupo semafórico "G2" como "Operação Normal"
-    # E o diagrama de ciclos deverá marcar o grupo semafórico "G3" como "Operação Normal"
-    # E o usuário deve ter a opção de selecionar uma tabela entre verdes para o plano
-    # E o usuário não deve ter a opção de marcar o tempo de ciclo do estágio
-    # E o usuário não deve ter a opção de marcar a defasagem do ciclo
+    Então o diagrama de intervalos não deverá aparecer
 
   Cenário: Configurar Plano no modo Isolado
-    # Dado que o usuário esteja na página de planos
+    Dado que o usuário esteja na página de planos
     E que o usuário selecione o modo de operação "Isolado"
     E que o usuário clique no botão de configurar o estágio "E1"
     E que o usuário marque 4 segundos para o "Tempo de Verde"
