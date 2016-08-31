@@ -51,6 +51,9 @@ public class TabelaEntreVerdes extends Model implements Cloneable, Serializable 
     @Column
     private Integer posicao;
 
+    @Transient
+    private boolean destroy;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
@@ -150,5 +153,13 @@ public class TabelaEntreVerdes extends Model implements Cloneable, Serializable 
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    public boolean isDestroy() {
+        return destroy;
+    }
+
+    public void setDestroy(boolean destroy) {
+        this.destroy = destroy;
     }
 }

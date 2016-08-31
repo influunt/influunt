@@ -24,7 +24,7 @@
 
                 <div id="tabs-1">
                   <div class="col-lg-12 col-sm-12 padding-top-20">
-                    <h3>{{ 'controladores.estagios' | translate }}</h3>
+                    <h3>{{ 'controladores.estagios.titulo' | translate }}</h3>
                   </div>
                   <div class="col-lg-12 col-sm-12 no-padding figures ibox-content">
                     <div class="bxslider">
@@ -95,7 +95,7 @@
                             <textarea type="text" rows="4" class="form-control m-b" placeholder="Descrição" data-ng-model="grupo.descricao"></textarea>
                           </div>
                           <div class="col-lg-1 col-sm-1 groups-stages">
-                            <button ng-click="removeGrupo($index)"
+                            <button ng-click="removeGrupo(grupo)"
                               data-ng-disabled="currentGruposSemaforicos.length <= 2"
                               class="btn btn-xs btn-danger">{{ 'crud.excluir' | translate }}</button>
                           </div>

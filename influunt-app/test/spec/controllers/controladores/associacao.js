@@ -156,6 +156,7 @@ describe('Controller: ControladoresAssociacaoCtrl', function () {
       var estagios = [{idJson: 1}, {idJson: 2}, {idJson: 3}, {idJson: 4}, {idJson: 5}];
       scope.objeto = {estagios: estagios};
       scope.currentEstagios = [estagios[0], estagios[1], estagios[2]];
+      scope.currentAnel = {estagios: [{idJson: 1}, {idJson: 2}, {idJson: 3}]};
 
       // simulando a troca de posições entre o primeiro e o segundo estágios e a chamada da
       // funcao pelo plugin sortable.

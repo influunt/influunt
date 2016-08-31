@@ -78,16 +78,8 @@ angular.module('influuntApp')
         grupo.estagiosGruposSemaforicos = grupo.estagiosGruposSemaforicos || [];
         estagio.estagiosGruposSemaforicos = estagio.estagiosGruposSemaforicos || [];
 
-        var index = _.findIndex($scope.objeto.estagiosGruposSemaforicos, busca);
-        if (index >= 0) {
-          var estagioGrupoSemaforico = $scope.objeto.estagiosGruposSemaforicos[index];
-          $scope.objeto.estagiosGruposSemaforicos.splice(index, 1);
-          index = _.findIndex(grupo.estagiosGruposSemaforicos, {idJson: estagioGrupoSemaforico.idJson});
-          grupo.estagiosGruposSemaforicos.splice(index, 1);
-
-          index = _.findIndex(estagio.estagiosGruposSemaforicos, {idJson: estagioGrupoSemaforico.idJson});
-          estagio.estagiosGruposSemaforicos.splice(index, 1);
-        } else {
+        var estagioGrupoSemaforico = _.find($scope.objeto.estagiosGruposSemaforicos, busca);
+        if (typeof estagioGrupoSemaforico === 'undefined') {
           var obj = {
             idJson: UUID.generate(),
             grupoSemaforico: { idJson: grupo.idJson },
@@ -97,6 +89,19 @@ angular.module('influuntApp')
           $scope.objeto.estagiosGruposSemaforicos.push(obj);
           grupo.estagiosGruposSemaforicos.push({idJson: obj.idJson});
           estagio.estagiosGruposSemaforicos.push({idJson: obj.idJson});
+
+        } else if (estagioGrupoSemaforico._destroy) {
+          delete estagioGrupoSemaforico._destroy;
+        } else if (estagioGrupoSemaforico.id) {
+          estagioGrupoSemaforico._destroy = true;
+        } else {
+          var index = _.findIndex($scope.objeto.estagiosGruposSemaforicos, { idJson: estagioGrupoSemaforico.idJson });
+          $scope.objeto.estagiosGruposSemaforicos.splice(index, 1);
+          index = _.findIndex(grupo.estagiosGruposSemaforicos, {idJson: estagioGrupoSemaforico.idJson});
+          grupo.estagiosGruposSemaforicos.splice(index, 1);
+
+          index = _.findIndex(estagio.estagiosGruposSemaforicos, {idJson: estagioGrupoSemaforico.idJson});
+          estagio.estagiosGruposSemaforicos.splice(index, 1);
         }
       };
 
@@ -157,6 +162,9 @@ angular.module('influuntApp')
         });
 
         $scope.objeto.estagios = _.orderBy($scope.objeto.estagios, ['posicao']);
+        $scope.currentAnel.estagios = _.map($scope.currentEstagios, function(estagio) {
+          return {idJson: estagio.idJson};
+        });
       };
 
       $scope.sortableOptions = {

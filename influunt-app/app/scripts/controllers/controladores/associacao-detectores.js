@@ -8,11 +8,11 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresAssociacaoDetectoresCtrl', ['$scope', '$state', '$controller', 'assertControlador', 'influuntAlert',
-    function ($scope, $state, $controller, assertControlador, influuntAlert) {
+  .controller('ControladoresAssociacaoDetectoresCtrl', ['$scope', '$state', '$controller', '$filter', 'assertControlador', 'influuntAlert', 'Restangular', 'toast',
+    function ($scope, $state, $controller, $filter, assertControlador, influuntAlert, Restangular, toast) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
-      var atualizaPosicoesDetectores, atualizaEstagiosComDetector;
+      var atualizaPosicoesDetectores, atualizaEstagiosComDetector, excluirDetectorNoServidor, excluirDetectorNoCliente;
 
       /**
        * Pré-condições para acesso à tela de associcao de detectores: Somente será possivel
@@ -99,21 +99,34 @@ angular.module('influuntApp')
         atualizaPosicoesDetectores();
       };
 
+      excluirDetectorNoCliente = function(detector) {
+        var idJson = detector.idJson;
+        var detectorIndex = _.findIndex($scope.objeto.detectores, {idJson: idJson});
+        $scope.objeto.detectores.splice(detectorIndex, 1);
+
+        detectorIndex = _.findIndex($scope.currentAnel.detectores, {idJson: idJson});
+        $scope.currentAnel.detectores.splice(detectorIndex, 1);
+
+        $scope.atualizaDetectores();
+        atualizaPosicoesDetectores();
+        atualizaEstagiosComDetector();
+      };
+
       $scope.excluirDetector = function(detector) {
         return influuntAlert
           .delete()
           .then(function(confirmado) {
             if (confirmado) {
-              var idJson = detector.idJson;
-              var detectorIndex = _.findIndex($scope.objeto.detectores, {idJson: idJson});
-              $scope.objeto.detectores.splice(detectorIndex, 1);
-
-              detectorIndex = _.findIndex($scope.currentAnel.detectores, {idJson: idJson});
-              $scope.currentAnel.detectores.splice(detectorIndex, 1);
-
-              $scope.atualizaDetectores();
-              atualizaPosicoesDetectores();
-              atualizaEstagiosComDetector();
+              if (angular.isUndefined(detector.id)) {
+                excluirDetectorNoCliente(detector);
+              } else {
+                Restangular.one('detectores', detector.id).remove()
+                  .then(function() {
+                    excluirDetectorNoCliente(detector);
+                  }).catch(function() {
+                    toast.error($filter('translate')('controladores.detectores.msg_erro_apagar_detector'));
+                  });
+              }
             }
           });
       };

@@ -144,7 +144,7 @@ describe('Controller: ControladoresConfiguracaoGruposCtrl', function () {
       deferred = $q.defer();
       spyOn(influuntAlert, 'delete').and.returnValue(deferred.promise);
 
-      scope.removeGrupo(0);
+      scope.removeGrupo(scope.objeto.gruposSemaforicos[0]);
     }));
 
     describe('Remover um grupo semafórico enviado à API', function () {

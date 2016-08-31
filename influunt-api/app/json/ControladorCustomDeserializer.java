@@ -1,10 +1,7 @@
 package json;
 
-import com.avaje.ebean.Ebean;
-import com.avaje.ebean.Model;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
-import org.apache.commons.collections.ListUtils;
 import org.joda.time.LocalTime;
 
 import java.text.DateFormat;
@@ -14,9 +11,6 @@ import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Created by rodrigosol on 7/29/16.
@@ -151,82 +145,9 @@ public class ControladorCustomDeserializer {
         parseAreas(node);
         parseAtrasosDeGrupo(node);
 
-        consumers.stream().forEach(c -> {
-            c.accept(caches);
-        });
-
-        controlador.deleteAnelSeNecessario();
-        deleteGruposSemaforicos(controlador);
-        deleteVerdesConflitantes(controlador);
-        deleteEstagiosGruposSemaforicos(controlador);
-        deleteTransicoesProibidas(controlador);
+        consumers.stream().forEach(c -> c.accept(caches));
 
         return controlador;
-    }
-
-    private void deleteVerdesConflitantes(Controlador c) {
-        if (c.getId() != null) {
-            Controlador controlador = Controlador.find.byId(c.getId());
-            controlador.getAneis().forEach(anel -> {
-                anel.getGruposSemaforicos().forEach(grupoSemaforico -> {
-                    grupoSemaforico.getVerdesConflitantes().forEach(verdesConflitantes -> verdesConflitantes.delete());
-                });
-            });
-        }
-    }
-
-    private void deleteGruposSemaforicos(Controlador controlador) {
-        for (GrupoSemaforico grupoSemaforico : controlador.getGruposSemaforicos()) {
-            if (grupoSemaforico.isDestroy()) {
-                grupoSemaforico.delete();
-            }
-        }
-    }
-
-    private void deleteEstagiosGruposSemaforicos(Controlador controlador) {
-        if (controlador.getId() != null) {
-            Controlador controladorAux = Controlador.find.byId(controlador.getId());
-            if (controladorAux != null) {
-                controladorAux.getAneis().stream()
-                        .map(Anel::getGruposSemaforicos)
-                        .flatMap(Collection::stream)
-                        .map(GrupoSemaforico::getEstagiosGruposSemaforicos)
-                        .flatMap(Collection::stream)
-                        .forEach(EstagioGrupoSemaforico::delete);
-
-                controlador.getAneis().stream()
-                        .map(Anel::getGruposSemaforicos)
-                        .flatMap(Collection::stream)
-                        .map(GrupoSemaforico::getEstagiosGruposSemaforicos)
-                        .flatMap(Collection::stream)
-                        .forEach(estagioGrupoSemaforico -> estagioGrupoSemaforico.setId(null));
-            }
-        }
-    }
-    private void deleteTransicoesProibidas(Controlador controlador) {
-        if (controlador.getId() != null) {
-            Controlador controladorAux = Controlador.find.byId(controlador.getId());
-            if (controladorAux != null) {
-
-                controladorAux.getAneis().stream()
-                        .map(Anel::getEstagios)
-                        .flatMap(Collection::stream)
-                        .forEach(estagio -> {
-                            estagio.getOrigemDeTransicoesProibidas().forEach(TransicaoProibida::delete);
-                            estagio.getDestinoDeTransicoesProibidas().forEach(TransicaoProibida::delete);
-                            estagio.getAlternativaDeTransicoesProibidas().forEach(TransicaoProibida::delete);
-                        });
-
-                controlador.getAneis().stream()
-                        .map(Anel::getEstagios)
-                        .flatMap(Collection::stream)
-                        .forEach(estagio -> {
-                            estagio.getOrigemDeTransicoesProibidas().forEach(transicaoProibida -> transicaoProibida.setId(null));
-                            estagio.getDestinoDeTransicoesProibidas().forEach(transicaoProibida -> transicaoProibida.setId(null));
-                            estagio.getAlternativaDeTransicoesProibidas().forEach(transicaoProibida -> transicaoProibida.setId(null));
-                        });
-            }
-        }
     }
 
     private void parseAneis(JsonNode node) {
@@ -249,6 +170,7 @@ public class ControladorCustomDeserializer {
             }
         }
     }
+
     private void parseGruposSemaforicos(JsonNode node) {
         if (node.has("gruposSemaforicos")) {
             List<GrupoSemaforico> grupoSemaforicos = new ArrayList<GrupoSemaforico>();
@@ -297,9 +219,7 @@ public class ControladorCustomDeserializer {
         if (node.has("verdesConflitantes")) {
             for (JsonNode innerNode : node.get("verdesConflitantes")) {
                 VerdesConflitantes verdesConflitantes = parseVerdesConflitante(innerNode);
-                if (!verdesConflitantes.isDestroy()) {
-                    verdesConflitantesCache.put(verdesConflitantes.getIdJson(), verdesConflitantes);
-                }
+                verdesConflitantesCache.put(verdesConflitantes.getIdJson(), verdesConflitantes);
             }
         }
     }
@@ -689,6 +609,9 @@ public class ControladorCustomDeserializer {
         if (node.has("idJson")) {
             transicaoProibida.setIdJson(node.get("idJson").asText());
         }
+        if (node.has("_destroy")) {
+            transicaoProibida.setDestroy(node.get("_destroy").asBoolean());
+        }
 
         if (node.has("origem")) {
             final String origemId = node.get("origem").get("idJson").asText();
@@ -730,6 +653,9 @@ public class ControladorCustomDeserializer {
         if (node.has("idJson")) {
             estagioGrupoSemaforico.setIdJson(node.get("idJson").asText());
         }
+        if (node.has("_destroy")) {
+            estagioGrupoSemaforico.setDestroy(node.get("_destroy").asBoolean());
+        }
 
         if (node.has("grupoSemaforico")) {
             final String grupoSemaforicoId = node.get("grupoSemaforico").get("idJson").asText();
@@ -758,14 +684,12 @@ public class ControladorCustomDeserializer {
     private VerdesConflitantes parseVerdesConflitante(JsonNode node) {
         VerdesConflitantes verdesConflitantes = new VerdesConflitantes();
 
-        verdesConflitantes.setId(null);
+        if (node.has("id") && node.get("id") != null) {
+            verdesConflitantes.setId(UUID.fromString(node.get("id").asText()));
+        }
 
         if (node.has("_destroy")) {
             verdesConflitantes.setDestroy(node.get("_destroy").asBoolean());
-        }
-
-        if (verdesConflitantes.isDestroy()) {
-            return verdesConflitantes;
         }
 
         if (node.has("idJson")) {
@@ -875,6 +799,9 @@ public class ControladorCustomDeserializer {
 
         if (node.has("idJson")) {
             tabelaEntreVerdes.setIdJson(node.get("idJson").asText());
+        }
+        if (node.has("_destroy")) {
+            tabelaEntreVerdes.setDestroy(node.get("_destroy").asBoolean());
         }
         tabelaEntreVerdes.setDescricao(node.get("descricao") != null ? node.get("descricao").asText() : null);
         tabelaEntreVerdes.setPosicao(node.get("posicao") != null ? node.get("posicao").asInt() : null);

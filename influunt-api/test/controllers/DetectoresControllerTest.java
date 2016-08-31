@@ -1,15 +1,12 @@
 package controllers;
 
-import com.avaje.ebean.Ebean;
 import com.google.inject.Singleton;
 import models.Anel;
-import models.Cidade;
+import models.Detector;
 import models.Estagio;
 import org.junit.Test;
 import play.Application;
-import play.Logger;
 import play.Mode;
-import play.libs.Json;
 import play.inject.guice.GuiceApplicationBuilder;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -28,7 +25,7 @@ import static play.inject.Bindings.bind;
 import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.route;
 
-public class EstagiosControllerTest extends WithApplication {
+public class DetectoresControllerTest extends WithApplication {
 
     @Override
     protected Application provideApplication() {
@@ -47,25 +44,35 @@ public class EstagiosControllerTest extends WithApplication {
 
 
     @Test
-    public void testApagarEstagioExistente() {
+    public void testApagarDetectorExistente() {
+        Detector detector = new Detector();
+
         Anel anel = new Anel();
+        detector.setAnel(anel);
+        anel.addDetectores(detector);
+
         Estagio estagio = new Estagio();
-        anel.addEstagio(estagio);
+        detector.setEstagio(estagio);
+        estagio.setDetector(detector);
+
         anel.save();
         estagio.save();
+        detector.save();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.EstagiosController.delete(estagio.getId().toString()).url());
+                .uri(routes.DetectoresController.delete(detector.getId().toString()).url());
         Result result = route(request);
 
         assertEquals(200, result.status());
-        assertNull(Estagio.find.byId(estagio.getId()));
+        assertNull(Detector.find.byId(detector.getId()));
+        assertNotNull("Anel não deve ser deletado", Anel.find.byId(anel.getId()));
+        assertNotNull("Estágio não deve ser deletado", Estagio.find.byId(estagio.getId()));
     }
 
     @Test
-    public void testApagarEstagioNaoExistente() {
+    public void testApagarDetectorNaoExistente() {
         Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.EstagiosController.delete(UUID.randomUUID().toString()).url());
+                .uri(routes.DetectoresController.delete(UUID.randomUUID().toString()).url());
         Result result = route(deleteRequest);
         assertEquals(404, result.status());
     }

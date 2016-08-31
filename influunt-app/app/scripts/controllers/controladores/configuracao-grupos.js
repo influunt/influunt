@@ -59,17 +59,13 @@ angular.module('influuntApp')
         return atualizaPosicaoGrupos();
       };
 
-      $scope.removeGrupo = function(index) {
+      $scope.removeGrupo = function(grupo) {
         influuntAlert.delete().then(function(confirmado) {
           if (confirmado) {
-            var jsonId = $scope.currentAnel.gruposSemaforicos[index].idJson;
-            var i = _.findIndex($scope.objeto.gruposSemaforicos, {idJson: jsonId});
-            var grupo = $scope.objeto.gruposSemaforicos[i];
-
             if (grupo.id) {
               removeGrupoSalvo(grupo);
             } else {
-              removeGrupoLocal(index, i);
+              removeGrupoLocal(grupo);
             }
 
             $scope.atualizaGruposSemaforicos();
@@ -94,9 +90,11 @@ angular.module('influuntApp')
        * @param      {<type>}  index   The index
        * @param      {<type>}  i       { parameter_description }
        */
-      removeGrupoLocal = function(index, i) {
+      removeGrupoLocal = function(grupo) {
+        var index = _.findIndex($scope.currentAnel.gruposSemaforicos, { idJson: grupo.idJson });
         $scope.currentAnel.gruposSemaforicos.splice(index, 1);
-        $scope.objeto.gruposSemaforicos.splice(i, 1);
+        index = _.findIndex($scope.objeto.gruposSemaforicos, { idJson: grupo.idJson });
+        $scope.objeto.gruposSemaforicos.splice(index, 1);
       };
 
       $scope.selecionaAnelGruposSemaforicos = function(index) {
@@ -133,8 +131,9 @@ angular.module('influuntApp')
           .flatten()
           .map('idJson')
           .compact()
-          .each(function(idJson) {
-            var obj = _.find($scope.objeto.gruposSemaforicos, {idJson: idJson});
+          .map(function(idJson) { return _.find($scope.objeto.gruposSemaforicos, {idJson: idJson}); })
+          .orderBy(['posicao'])
+          .each(function(obj) {
 
             if (!obj._destroy) {
               obj.posicao = ++posicao;
