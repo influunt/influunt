@@ -87,13 +87,4 @@ module.exports = function() {
       return expect(res).to.be.true;
     });
   });
-
-  this.Given(/^o agrupamento deverá ser excluido$/, function() {
-    // return agrupamentosPage.agrupamentoDeveSerExcluido().then(function(res) {
-    //   expect(res).to.be.true
-    // });
-    return agrupamentosPage.toastMessage().then(function(text) {
-      expect(text).to.match(/Removido com sucesso/);
-    });
-  });
 };
