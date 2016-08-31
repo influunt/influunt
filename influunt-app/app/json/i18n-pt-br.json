@@ -23,7 +23,6 @@
     "endereco": "Pesquisar por endereço",
     "enviarImagens": "Enviar Imagens",
     "entreverdes": "Entre-Verdes",
-    "estagios": "Estágios",
     "escolhaArea": "Escolha a área",
     "firmware": "FIRMWARE",
     "fornecedor": "Fabricante",
@@ -131,19 +130,20 @@
       "ausenciaMaxima": "Ausência de Detecção Máxima",
       "deteccaoMinima": "Detecção Permanente Mínima",
       "deteccaoMaxima": "Detecção Permanente Máxima",
-      "transicaoProibida": "Transição Proíbida"
+      "transicaoProibida": "Transição Proibida"
     },
     "aneis": {
       "titulo": "Configuração de Aneis",
       "titulo_msg_apagar_anel": "Deseja mesmo apagar este anel?",
       "corpo_msg_apagar_anel": "Ao apagar esse anel todos os relacionamentos previamente cadastrados serão apagados.",
       "remover_estagio": "Remover Estágio",
-      "remover_croqui": "Remover Croqui",
-      "msg_erro_apagar_estagio": "Não foi possível apagar o estágio."
+      "remover_croqui": "Remover Croqui"
     },
     "estagios": {
+      "titulo": "Estágios",
       "titulo_msg_apagar_estagio": "Deseja mesmo apagar este estágio?",
-      "corpo_msg_apagar_estagio": "Ao apagar esse estágio todos os relacionamentos previamente cadastrados serão apagados."
+      "corpo_msg_apagar_estagio": "Ao apagar esse estágio todos os relacionamentos previamente cadastrados serão apagados.",
+      "msg_erro_apagar_estagio": "Não foi possível apagar o estágio."
     },
     "validacoes": {
       "aoMenosUmGrupoSemaforico": "Este anel deve ter mais de 1 grupo semáforico",

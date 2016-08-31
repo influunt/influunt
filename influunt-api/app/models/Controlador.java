@@ -16,7 +16,10 @@ import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.UUID;
 
 /**
  * Entidade que representa o {@link Controlador} no sistema
@@ -154,8 +157,22 @@ public class Controlador extends Model implements Cloneable, Serializable {
         deleteVerdesConflitantes(this);
         deleteEstagiosGruposSemaforicos(this);
         deleteTransicoesProibidas(this);
+        deleteTabelasEntreVerdes(this);
 
         this.criarPossiveisTransicoes();
+    }
+
+    private void deleteTabelasEntreVerdes(Controlador controlador) {
+        if (controlador.getId() != null) {
+            controlador.getAneis().forEach(anel -> {
+                anel.getGruposSemaforicos().forEach(grupoSemaforico ->
+                    grupoSemaforico.getTabelasEntreVerdes().forEach(tabelaEntreVerdes -> {
+                        if (tabelaEntreVerdes.isDestroy()) {
+                            tabelaEntreVerdes.delete();
+                        }
+                    }));
+            });
+        }
     }
 
 
@@ -163,11 +180,11 @@ public class Controlador extends Model implements Cloneable, Serializable {
         if (c.getId() != null) {
             c.getAneis().forEach(anel -> {
                 anel.getGruposSemaforicos().forEach(grupoSemaforico ->
-                        grupoSemaforico.getVerdesConflitantes().forEach(verdeConflitante -> {
-                            if (verdeConflitante.isDestroy()) {
-                                verdeConflitante.delete();
-                            }
-                        }));
+                    grupoSemaforico.getVerdesConflitantes().forEach(verdeConflitante -> {
+                        if (verdeConflitante.isDestroy()) {
+                            verdeConflitante.delete();
+                        }
+                    }));
             });
         }
     }

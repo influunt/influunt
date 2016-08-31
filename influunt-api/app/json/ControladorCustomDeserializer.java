@@ -806,6 +806,9 @@ public class ControladorCustomDeserializer {
         if (node.has("idJson")) {
             tabelaEntreVerdes.setIdJson(node.get("idJson").asText());
         }
+        if (node.has("_destroy")) {
+            tabelaEntreVerdes.setDestroy(node.get("_destroy").asBoolean());
+        }
         tabelaEntreVerdes.setDescricao(node.get("descricao") != null ? node.get("descricao").asText() : null);
         tabelaEntreVerdes.setPosicao(node.get("posicao") != null ? node.get("posicao").asInt() : null);
 

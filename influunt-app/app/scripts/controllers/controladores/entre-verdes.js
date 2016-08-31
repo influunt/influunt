@@ -8,12 +8,12 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresEntreVerdesCtrl', ['$scope', '$state', '$controller', 'assertControlador',
-    function ($scope, $state, $controller, assertControlador) {
+  .controller('ControladoresEntreVerdesCtrl', ['$scope', '$state', '$controller', 'assertControlador', 'influuntAlert',
+    function ($scope, $state, $controller, assertControlador, influuntAlert) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
       $scope.isTabelaEntreVerdes = true;
-      var aneisBkp;
+      var aneisBkp, removeTabelaEntreVerdeLocal;
 
       /**
        * Garante que o controlador tem as condições mínimas para acessar a tela de entre verdes.
@@ -79,9 +79,10 @@ angular.module('influuntApp')
       };
 
       $scope.adicionarTabelaEntreVerdes = function() {
+        var totalTabelasEntreVerdes = $scope.currentTabelasEntreVerdes.length;
         $scope.currentAnel.gruposSemaforicos.forEach(function(gs) {
           var grupoSemaforico = _.find($scope.objeto.gruposSemaforicos, {idJson: gs.idJson});
-          var totalTabelasEntreVerdes = grupoSemaforico.tabelasEntreVerdes.length;
+
           if (totalTabelasEntreVerdes < $scope.limiteTabelasEntreVerdes) {
             var tabelaEntreVerde =  {
               idJson: UUID.generate(),
@@ -116,46 +117,41 @@ angular.module('influuntApp')
             });
           }
         });
+
         $scope.atualizaTabelaEntreVerdes();
-        var index = $scope.currentGrupoSemaforico.tabelasEntreVerdes.length - 1;
-        $scope.selecionaTabelaEntreVerdes($scope.currentTabelasEntreVerdes[index], index);
+        $scope.selecionaTabelaEntreVerdes(
+          _.last($scope.currentTabelasEntreVerdes),
+          $scope.currentTabelasEntreVerdes.length - 1
+        );
       };
 
-      $scope.removerTabelaEntreVerdes = function(index) {
-        $scope.currentAnel.gruposSemaforicos.forEach(function(gs) {
-          var grupoSemaforico = _.find($scope.objeto.gruposSemaforicos, {idJson: gs.idJson});
-          var totalTabelasEntreVerdes = grupoSemaforico.tabelasEntreVerdes.length;
-          var tabelaEntreVerde = grupoSemaforico.tabelasEntreVerdes[index];
-          var tevIndex = _.findIndex($scope.objeto.tabelasEntreVerdes, {idJson: tabelaEntreVerde.idJson});
-          $scope.objeto.tabelasEntreVerdes.splice(tevIndex, 1);
-          grupoSemaforico.tabelasEntreVerdes.splice(index, 1);
 
-          // Remove as associacoes de tabelasEntreVerdesTransicoes para a tabelaEntreVerde
-          // a ser removida.
-          $scope.objeto.tabelasEntreVerdesTransicoes = _
-            .chain($scope.objeto.tabelasEntreVerdesTransicoes)
-            .map(function(tevt) {
-              if (tevt.tabelaEntreVerdes.idJson === tabelaEntreVerde.idJson) {
-                var transicao = _.find($scope.objeto.transicoes, {idJson: tevt.transicao.idJson});
-                var index = _.findIndex(transicao.tabelasEntreVerdesTransicoes, {idJson: tevt.idJson});
-                transicao.tabelaEntreVerdesTransicoes.splice(index, 1);
-                return null;
+      $scope.removerTabelaEntreVerdes = function(tev) {
+        var posicaoTev = tev.posicao;
+        influuntAlert.delete().then(function(confirmacao) {
+          if (confirmacao) {
+            $scope.currentAnel.gruposSemaforicos.forEach(function(gs) {
+              var grupoSemaforico = _.find($scope.objeto.gruposSemaforicos, {idJson: gs.idJson});
+
+              var tabelaEntreVerde = _
+                .chain($scope.objeto.tabelasEntreVerdes)
+                .reject('_destroy')
+                .find({
+                  posicao: posicaoTev,
+                  grupoSemaforico: { idJson: gs.idJson }
+                })
+                .value();
+
+              if (tabelaEntreVerde && angular.isDefined(tabelaEntreVerde.id)) {
+                tabelaEntreVerde._destroy = true;
               } else {
-                return tevt;
+                var tevIndex = _.findIndex($scope.objeto.tabelasEntreVerdes, {idJson: tabelaEntreVerde.idJson});
+                removeTabelaEntreVerdeLocal(tevIndex, grupoSemaforico, tabelaEntreVerde);
               }
-              // return (tevt.tabelaEntreVerdes.idJson === tabelaEntreVerde.idJson);
-            })
-            .compact()
-            .value();
+            });
 
-          $scope.atualizaTabelaEntreVerdes();
-
-          if ($scope.currentTabelaEntreVerdesIndex >= index) {
-            if ($scope.currentTabelaEntreVerdesIndex === totalTabelasEntreVerdes - 1) {
-              $scope.selecionaTabelaEntreVerdes($scope.currentTabelasEntreVerdes[$scope.currentTabelaEntreVerdesIndex - 1], $scope.currentTabelaEntreVerdesIndex - 1);
-            } else {
-              $scope.selecionaTabelaEntreVerdes($scope.currentTabelasEntreVerdes[$scope.currentTabelaEntreVerdesIndex], $scope.currentTabelaEntreVerdesIndex);
-            }
+            $scope.atualizaTabelaEntreVerdes();
+            $scope.selecionaTabelaEntreVerdes(_.last($scope.currentTabelasEntreVerdes), $scope.currentTabelasEntreVerdes.length - 1);
           }
         });
       };
@@ -230,6 +226,30 @@ angular.module('influuntApp')
         $scope.selecionaGrupoSemaforico($scope.currentGruposSemaforicos[0], 0);
         $scope.atualizaTabelaEntreVerdes();
         $scope.selecionaTabelaEntreVerdes($scope.currentTabelasEntreVerdes[0], 0);
+      };
+
+      removeTabelaEntreVerdeLocal = function(tevIndex, grupoSemaforico, tabelaEntreVerde) {
+        $scope.objeto.tabelasEntreVerdes.splice(tevIndex, 1);
+
+        var index = _.findIndex(grupoSemaforico.tabelasEntreVerdes, {idJson: tabelaEntreVerde.idJson});
+        grupoSemaforico.tabelasEntreVerdes.splice(index, 1);
+
+        // Remove as associacoes de tabelasEntreVerdesTransicoes para a tabelaEntreVerde
+        // a ser removida.
+        $scope.objeto.tabelasEntreVerdesTransicoes = _
+          .chain($scope.objeto.tabelasEntreVerdesTransicoes)
+          .map(function(tevt) {
+            if (tevt.tabelaEntreVerdes.idJson === tabelaEntreVerde.idJson) {
+              var transicao = _.find($scope.objeto.transicoes, {idJson: tevt.transicao.idJson});
+              var index = _.findIndex(transicao.tabelasEntreVerdesTransicoes, {idJson: tevt.idJson});
+              transicao.tabelaEntreVerdesTransicoes.splice(index, 1);
+              return null;
+            } else {
+              return tevt;
+            }
+          })
+          .compact()
+          .value();
       };
 
     }]);
