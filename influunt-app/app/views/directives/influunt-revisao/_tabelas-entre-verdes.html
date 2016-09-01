@@ -12,7 +12,7 @@
       data-ng-options="tev as tev.descricao for tev in dadosCurrentTabelaEntreVerdes | filter: {grupoSemaforicoIdJson: gsTabelasEntreVerdes.idJson}"></select>
 </div>
 
-<div class="col-sm-12 no-padding padding-top-20">
+<div class="col-sm-12 no-padding padding-top-20" data-ng-if="tabelaEntreVerdeSelecionada">
   <div class="col-sm-12 no-padding-left">
     <h3>
       <strong>{{ tabelaEntreVerdeSelecionada.descricao }}</strong>
@@ -20,7 +20,8 @@
   </div>
   <div class="col-sm-3 no-padding-left"></div>
   <div class="col-sm-3 no-padding-left">
-    <p>{{ 'controladores.revisao.amarelo' | translate }}</p>
+    <p ng-if="gsTabelasEntreVerdes.tipo === 'VEICULAR'">{{ 'controladores.revisao.amarelo' | translate }}</p>
+    <p ng-if="gsTabelasEntreVerdes.tipo === 'PEDESTRE'">{{ 'controladores.revisao.vermelhoIntermitente' | translate }}</p>
   </div>
   <div class="col-sm-3 no-padding-left">
     <p>{{ 'controladores.revisao.vermelhoLimpeza' | translate }}</p>

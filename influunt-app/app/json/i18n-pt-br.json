@@ -123,11 +123,15 @@
       "demandaPrioritaria": "Demanda Prioritaria",
       "desativacaoTempoMax": "Desativ. Tempo max",
       "semTransicao": "Este controlador ainda não possui transições cadastradas",
-      "vazio": "Não há dados a ser exibidos nesta seção",
+      "vazio": "Não há dados a serem exibidos nesta seção",
       "tabelaPadrao": "Tabela Padrão",
       "amarelo": "Amarelo",
+      "vermelhoIntermitente": "Vermelho Intermitente",
       "vermelhoLimpeza": "Vermelho Limpeza",
       "estagio": "Estágio",
+      "ausenciaDeteccao": "Ausência de Detecção",
+      "ausenciaDeteccaoPermanente": "Ausência de Detecção Permanente",
+
       "ausenciaMinima": "Ausência de Detecção Mínima",
       "ausenciaMaxima": "Ausência de Detecção Máxima",
       "deteccaoMinima": "Detecção Permanente Mínima",
@@ -136,7 +140,8 @@
       "submitPopup": {
         "titulo": "",
         "texto": "Descreva abaixo a modificação feita no cadastro deste controlador"
-      }
+      },
+      "verdeSeguranca": "Verde segurança"
     },
     "aneis": {
       "titulo": "Configuração de Aneis",

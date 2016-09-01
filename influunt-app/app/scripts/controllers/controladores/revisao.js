@@ -8,8 +8,10 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
- .controller('ControladoresRevisaoCtrl', ['$scope', '$state', '$controller', '$filter', 'assertControlador', 'influuntAlert',
-    function ($scope, $state, $controller, $filter, assertControlador, influuntAlert) {
+ .controller('ControladoresRevisaoCtrl', ['$scope', '$state', '$controller', '$filter',
+                                          'assertControlador', 'influuntAlert', 'Restangular', 'toast',
+    function ($scope, $state, $controller, $filter,
+              assertControlador, influuntAlert, Restangular, toast) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
       var setDadosBasicosControlador, setDadosCurrentAnel, getNumGruposSemaforicosAnel,
@@ -63,15 +65,19 @@ angular.module('influuntApp')
         var texto = $filter('translate')('controladores.revisao.submitPopup.texto');
         return influuntAlert
           .prompt(titulo, texto)
-          .then(function(response) {
-            if (response) {
-              // @todo
-              //   1. Verificar se descricao do controlador deve receber a "mensagem de commit" do controlador.
-              //   2. Verificar se há uma rota para envio deste POST.
-              $scope.objeto.versaoControlador.descricao = response;
+          .then(function(texto) {
+            if (texto) {
+              return Restangular.one('controladores', $scope.objeto.id)
+                .all('atualizar_descricao')
+                .customPUT({descricao: texto})
+                .then(function() {
+                  $state.go('app.controladores');
+                })
+                .catch(function(err) {
+                  toast.clear();
+                  influuntAlert.alert('Controlador', err.data[0].message);
+                });
             }
-
-            return $scope.submitForm({$valid: true}, 'associacao_detectores', 'app.controladores');
           });
       };
 
@@ -153,7 +159,8 @@ angular.module('influuntApp')
               posicao: grupoSemaforico.posicao,
               descricao: grupoSemaforico.descricao,
               tipo: grupoSemaforico.tipo,
-              faseVermelha: grupoSemaforico.faseVermelhaApagadaAmareloIntermitente ? 'Colocar em amarelo intermitente' : 'Não colocar em amarelo intermitente'
+              faseVermelha: grupoSemaforico.faseVermelhaApagadaAmareloIntermitente ? 'Colocar em amarelo intermitente' : 'Não colocar em amarelo intermitente',
+              tempoVerdeSeguranca: grupoSemaforico.tempoVerdeSeguranca
             };
 
             grupos.push(dadosGrupo);
@@ -276,7 +283,7 @@ angular.module('influuntApp')
                   tempoVermelhoLimpeza: tevt.tempoVermelhoLimpeza,
                   tipo: transicao.tipo,
                   label: 'E' + origem.posicao + '-' + 'E' + destino.posicao
-                }
+                };
               });
 
               return obj;
@@ -328,14 +335,14 @@ angular.module('influuntApp')
             return ids.indexOf(detector.estagio.idJson) >= 0;
           });
 
+          detectores = _.orderBy(detectores, ['tipo', 'posicao']);
+
           _.forEach(detectores, function(detector) {
             $scope.dadosCurrentDetectores.push({
               nome: detector.tipo === 'PEDESTRE' ? 'DP'+detector.posicao : 'DV'+detector.posicao,
               estagio: _.find($scope.objeto.estagios, { idJson: detector.estagio.idJson }),
-              tempoAusenciaDeteccaoMinima: detector.tempoAusenciaDeteccaoMinima || 0,
-              tempoAusenciaDeteccaoMaxima: detector.tempoAusenciaDeteccaoMaxima || 0,
-              tempoDeteccaoPermanenteMinima: detector.tempoDeteccaoPermanenteMinima || 0,
-              tempoDeteccaoPermanenteMaxima: detector.tempoDeteccaoPermanenteMaxima || 0
+              tempoAusenciaDeteccao: detector.tempoAusenciaDeteccao || 0,
+              tempoDeteccaoPermanente: detector.tempoDeteccaoPermanente || 0,
             });
           });
         }

@@ -1387,6 +1387,9 @@ public class ControladorCustomDeserializer {
 
         if (node.has("versaoControlador") && node.get("versaoControlador").get("id") != null) {
             controlador.setVersaoControlador(VersaoControlador.find.byId(UUID.fromString(node.get("versaoControlador").get("id").asText())));
+            if (node.get("versaoControlador").get("descricao") != null) {
+                controlador.getVersaoControlador().setDescricao(node.get("versaoControlador").get("descricao").asText());
+            }
         }
 
         controlador.setNumeroSMEE(node.get("numeroSMEE") != null ? node.get("numeroSMEE").asText() : null);

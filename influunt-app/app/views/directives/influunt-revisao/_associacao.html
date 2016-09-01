@@ -4,17 +4,11 @@
   <div class="col-lg-2 col-sm-2">
     <p><strong>{{ 'controladores.revisao.estagio' | translate }}</strong></p>
   </div>
-  <div class="col-lg-2 col-sm-2">
-      <p><strong>{{ 'controladores.revisao.ausenciaMinima' | translate }}</strong></p>
+  <div class="col-lg-4 col-sm-4">
+      <p><strong>{{ 'controladores.revisao.ausenciaDeteccao' | translate }}</strong></p>
   </div>
-  <div class="col-lg-2 col-sm-2">
-    <p><strong>{{ 'controladores.revisao.ausenciaMaxima' | translate }}</strong></p>
-  </div>
-  <div class="col-lg-2 col-sm-2">
-    <p><strong>{{ 'controladores.revisao.deteccaoMinima' | translate }}</strong></p>
-  </div>
-  <div class="col-lg-2 col-sm-2">
-    <p><strong>{{ 'controladores.revisao.deteccaoMaxima' | translate }}</strong></p>
+  <div class="col-lg-4 col-sm-4">
+    <p><strong>{{ 'controladores.revisao.ausenciaDeteccaoPermanente' | translate }}</strong></p>
   </div>
 </div>
 <div class="col-sm-12 no-padding" data-ng-repeat="detector in dadosCurrentDetectores">
@@ -24,16 +18,10 @@
   <div class="col-lg-2 col-sm-2">
     <p class="view-group"><strong>E{{ detector.estagio.posicao }}</strong></p>
   </div>
-  <div class="col-lg-2 col-sm-2">
-    <p>{{ detector.tempoAusenciaDeteccaoMinima }}s</p>
+  <div class="col-lg-4 col-sm-4">
+    <p>{{ detector.tempoAusenciaDeteccao }}s</p>
   </div>
-  <div class="col-lg-2 col-sm-2">
-    <p>{{ detector.tempoAusenciaDeteccaoMaxima }}s</p>
-  </div>
-  <div class="col-lg-2 col-sm-2">
-    <p>{{ detector.tempoDeteccaoPermanenteMinima }}s</p>
-  </div>
-  <div class="col-lg-2 col-sm-2">
-    <p>{{ detector.tempoDeteccaoPermanenteMaxima }}s</p>
+  <div class="col-lg-4 col-sm-4">
+    <p>{{ detector.tempoDeteccaoPermanente }}s</p>
   </div>
 </div>
