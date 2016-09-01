@@ -313,6 +313,11 @@ var World = function () {
     return driver.navigate().refresh();
   };
 
+  this.getTextInSweetAlert = function() {
+    var _this = this;
+    return _this.getElement('div[class*="sweet-alert"] p').getText()
+  };
+
   this.dragAndDrop = function(element, location) {
     return driver.actions().dragAndDrop(element, location);
   };

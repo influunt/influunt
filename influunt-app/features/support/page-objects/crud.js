@@ -37,7 +37,7 @@ var CrudPage = function () {
   };
 
   this.textoConfirmacaoApagarRegistro = function() {
-    return world.getElement('div[class*="sweet-alert"] p').getText();
+    return world.getTextInSweetAlert();
   };
 
   this.toastMessage = function() {
