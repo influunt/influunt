@@ -231,7 +231,7 @@ public class ControladorUtil {
 
         controlador.getAneis().forEach(anel -> {
             VersaoPlano versaoPlanoOrigem = anel.getVersaoPlanoAtivo();
-            if(versaoPlanoOrigem != null) {
+            if (versaoPlanoOrigem != null) {
                 versaoPlanoOrigem.setStatusVersao(StatusVersao.ARQUIVADO);
 
                 VersaoPlano versaoPlano = new VersaoPlano(anel, usuario);
@@ -288,7 +288,7 @@ public class ControladorUtil {
         long startTime = System.nanoTime();
 
         VersaoTabelaHoraria versaoTabelaHorariaOrigem = controlador.getVersaoTabelaHoraria();
-        if(versaoTabelaHorariaOrigem.getTabelaHoraria() != null) {
+        if (versaoTabelaHorariaOrigem.getTabelaHoraria() != null) {
             TabelaHorario tabelaHorarioAux = copyPrimitveFields(versaoTabelaHorariaOrigem.getTabelaHoraria());
             tabelaHorarioAux.setIdJson(UUID.randomUUID().toString());
             VersaoTabelaHoraria versaoTabelaHoraria = new VersaoTabelaHoraria(controlador, versaoTabelaHorariaOrigem.getTabelaHoraria(), tabelaHorarioAux, usuario);

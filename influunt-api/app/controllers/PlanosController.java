@@ -10,6 +10,7 @@ import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import models.Anel;
 import models.Controlador;
+import models.Plano;
 import models.VersaoPlano;
 import play.db.ebean.Transactional;
 import play.libs.Json;
@@ -61,6 +62,20 @@ public class PlanosController extends Controller {
         } else {
             List<VersaoPlano> versoes = anel.getVersoesPlanos();
             return CompletableFuture.completedFuture(ok(Json.toJson(versoes)));
+        }
+    }
+
+    @Transactional
+    public CompletionStage<Result> delete(String id) {
+        Plano detector = Plano.find.byId(UUID.fromString(id));
+        if (detector == null) {
+            return CompletableFuture.completedFuture(notFound());
+        } else {
+            if (detector.delete()) {
+                return CompletableFuture.completedFuture(ok());
+            } else {
+                return CompletableFuture.completedFuture(badRequest());
+            }
         }
     }
 }

@@ -285,8 +285,8 @@ public class Estagio extends Model implements Serializable, Cloneable {
         return getEstagiosGruposSemaforicos() != null
                 && !getEstagiosGruposSemaforicos().isEmpty()
                 && !getEstagiosGruposSemaforicos().stream()
-                    .filter(estagioGrupoSemaforico -> !estagioGrupoSemaforico.isDestroy())
-                    .collect(Collectors.toList()).isEmpty();
+                .filter(estagioGrupoSemaforico -> !estagioGrupoSemaforico.isDestroy())
+                .collect(Collectors.toList()).isEmpty();
     }
 
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
@@ -392,6 +392,14 @@ public class Estagio extends Model implements Serializable, Cloneable {
 
     public void setEstagiosPlanos(List<EstagioPlano> estagiosPlanos) {
         this.estagiosPlanos = estagiosPlanos;
+    }
+
+    public void addEstagioPlano(EstagioPlano estagioPlano) {
+        if (getEstagiosPlanos() == null) {
+            setEstagiosPlanos(new ArrayList<EstagioPlano>());
+        }
+
+        getEstagiosPlanos().add(estagioPlano);
     }
 
     public boolean temDetectorVeicular() {

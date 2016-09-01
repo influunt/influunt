@@ -25,7 +25,7 @@ import java.util.UUID;
 public class ControladorFisico extends Model implements Serializable {
 
     private static final long serialVersionUID = -1589359465988312426L;
-    
+
     public static Finder<UUID, ControladorFisico> find = new Finder<UUID, ControladorFisico>(ControladorFisico.class);
 
     @Id

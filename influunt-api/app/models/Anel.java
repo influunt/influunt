@@ -238,7 +238,7 @@ public class Anel extends Model implements Cloneable, Serializable {
     @Transient
     public VersaoPlano getVersaoPlanoAtivo() {
         if (versaoPlanoAtivo == null) {
-            if(getVersoesPlanos().isEmpty() || getVersoesPlanos() == null) {
+            if (getVersoesPlanos().isEmpty() || getVersoesPlanos() == null) {
                 VersaoPlano versaoPlano = VersaoPlano.find.fetch("planos").where()
                         .and(Expr.eq("anel_id", this.id.toString()), Expr.eq("status_versao", StatusVersao.ATIVO)).findUnique();
                 this.versaoPlanoAtivo = versaoPlano;
@@ -252,7 +252,7 @@ public class Anel extends Model implements Cloneable, Serializable {
     @Transient
     public VersaoPlano getVersaoPlanoEmEdicao() {
         if (versaoPlanoEdicao == null) {
-            if(getVersoesPlanos().isEmpty() || getVersoesPlanos() == null) {
+            if (getVersoesPlanos().isEmpty() || getVersoesPlanos() == null) {
                 VersaoPlano versaoPlano = VersaoPlano.find.fetch("planos").where()
                         .and(Expr.eq("anel_id", this.id.toString()), Expr.eq("status_versao", StatusVersao.EDITANDO)).findUnique();
                 this.versaoPlanoEdicao = versaoPlano;
@@ -266,7 +266,7 @@ public class Anel extends Model implements Cloneable, Serializable {
 
     @Transient
     public List<Plano> getPlanos() {
-        if(getVersaoPlanoEmEdicao() != null) {
+        if (getVersaoPlanoEmEdicao() != null) {
             return getVersaoPlanoEmEdicao().getPlanos();
         }
         return getVersaoPlanoAtivo() != null ? getVersaoPlanoAtivo().getPlanos() : Arrays.asList();
