@@ -221,6 +221,8 @@ public class ControladorUtil {
             });
             anel.getEstagios().forEach(estagio -> {
                 estagio.getOrigemDeTransicoesProibidas().forEach(transicaoProibida -> transicaoProibida.setIdJson(UUID.randomUUID().toString()));
+                estagio.getDestinoDeTransicoesProibidas().forEach(transicaoProibida -> transicaoProibida.setIdJson(UUID.randomUUID().toString()));
+                estagio.getAlternativaDeTransicoesProibidas().forEach(transicaoProibida -> transicaoProibida.setIdJson(UUID.randomUUID().toString()));
                 estagio.setIdJson(UUID.randomUUID().toString());
             });
         });
