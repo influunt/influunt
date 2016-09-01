@@ -11,7 +11,7 @@
  * i18n de forma assincrona).
  */
 angular.module('influuntApp')
-  .directive('influuntDropzone', ['APP_ROOT', '$timeout', 'Restangular', 'toast', function (APP_ROOT, $timeout, Restangular, toast) {
+  .directive('influuntDropzone', ['APP_ROOT', '$timeout', '$filter', 'Restangular', 'toast', function (APP_ROOT, $timeout, $filter, Restangular, toast) {
     return {
       restrict: 'A',
       scope: {
@@ -42,7 +42,7 @@ angular.module('influuntApp')
             scope.onDelete({ imagem: { id: imagemId } });
             dropzone.removeFile(dropzoneFile);
           }).catch(function() {
-            toast.error('Não foi possível apagar a imagem.');
+            toast.error($filter('translate')('controladores.geral.dropzone.erro_apagar_imagem'));
           });
         };
 
