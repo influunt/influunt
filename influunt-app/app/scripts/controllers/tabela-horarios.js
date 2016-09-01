@@ -144,7 +144,7 @@ angular.module('influuntApp')
       $scope.clonarTabelaHoraria = function(controladorId) {
         return Restangular.one('controladores', controladorId).all('editar_tabela_horaria').customGET()
           .then(function() {
-            $state.go('app.controladores');
+            $state.go('app.tabela_horarios_edit', { id: controladorId });
           })
           .catch(function(err) {
             toast.error($filter('translate')('geral.mensagens.default_erro'));

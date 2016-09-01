@@ -60,6 +60,18 @@ angular.module('influuntApp')
       $scope.clonarPlanos = function(controladorId) {
         return Restangular.one('controladores', controladorId).all('editar_planos').customGET()
           .then(function() {
+            $state.go('app.planos_edit', { id: controladorId });
+          })
+          .catch(function(err) {
+            toast.error($filter('translate')('geral.mensagens.default_erro'));
+            throw new Error(JSON.stringify(err));
+          });
+      };
+
+      $scope.cancelarEdicao = function(planoIdJson) {
+        var plano = _.find($scope.objeto.planos, { idJson: planoIdJson });
+        return Restangular.one('planos', plano.id).all('edit/cancel').customPOST()
+          .then(function() {
             $state.go('app.controladores');
           })
           .catch(function(err) {

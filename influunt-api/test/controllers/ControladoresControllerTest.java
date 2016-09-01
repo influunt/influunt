@@ -29,7 +29,7 @@ import static play.test.Helpers.route;
 /**
  * Created by lesiopinheiro on 8/10/16.
  */
-public class ControladoresControllerTest  extends AbstractInfluuntControladorTest {
+public class ControladoresControllerTest extends AbstractInfluuntControladorTest {
     @Test
     public void naoDeveriaClonarControladorComStatusConfigurado() {
         Controlador controlador = controladorTestUtils.getControladorDadosBasicos();

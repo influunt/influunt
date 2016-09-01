@@ -279,7 +279,7 @@ public class ControladoresController extends Controller {
                 return CompletableFuture.completedFuture(notFound());
             } else {
                 VersaoControlador versaoControlador = controlador.getVersaoControlador();
-                if(versaoControlador != null) {
+                if (versaoControlador != null) {
                     versaoControlador.setDescricao(json.get("descricao").asText());
                     versaoControlador.update();
                 }
