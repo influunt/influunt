@@ -8,26 +8,29 @@
             <div class="col-lg-12">
               <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                  <h5>{{ pageTitle | translate }}</h5>
+                  <h2>{{ pageTitle | translate }}</h2>
                 </div>
 
-                <div class="ibox-content" id="ibox-content">
-                  <div id="vertical-timeline" class="vertical-container dark-timeline">
+                <div class="no-padding padding-top-20 ibox-content text-center" data-ng-if="versoes.length === 0">
+                  <i class="fa fa-exclamation-circle m-t-lg"></i>
+                  <p>{{ 'planos.vazio' | translate }}</p>
+                </div>
 
+                <div class="ibox-content" id="ibox-content" data-ng-if="versoes.length > 0">
+                  <div id="vertical-timeline" class="vertical-container dark-timeline">
                     <div class="vertical-timeline-block" ng-repeat="versao in versoes">
                       <div class="vertical-timeline-icon" ng-class="$first ? 'navy-bg' : 'yellow-bg'">
                         <i class="fa fa-file-o"></i>
                       </div>
                       <div class="vertical-timeline-content">
                         <hgroup>
-                          <a href="#" class="btn btn-sm btn-primary"> Visualizar</a>
-                          <div class="clearfix"></div>
+                          <!-- <a href="#" class="btn btn-sm btn-primary"> Visualizar</a> -->
+                          <!-- <div class="clearfix"></div> -->
                           <span class="vertical-date">{{versao.dataCriacao | influuntDate: 'fromNow'}} <br/><small>{{versao.dataCriacao | influuntDate: 'LL'}}</small></span>
                         </hgroup>
-                        <p>{{versao.descricao}}</p>
+                        {{versao.descricao}}
                       </div>
                     </div>
-
                   </div>
                 </div>
 
