@@ -8,21 +8,10 @@ Funcionalidade: Fluxo de cadastro de planos
     Quando o usuário clicar no botão Planos do controlador
     Então o sistema deverá redirecionar para a tela de planos
 
-  Cenário: Copiar um plano
+  Cenário: Editar os planos
     Dado que o usuário esteja na página de planos
-    E que o usuário clicar em copiar o "PLANO 1"
-    Então o sistema exibe uma caixa para copiar o plano 1
-    E o usuário selecionar o "PLANO 16"
-    Quando o usuário clicar no botão copiar
-    Então o "PLANO 16" deverá estar ativado
-
-  Cenário: Editar o nome de um Plano
-    Dado que o usuário esteja na página de planos
-    E que o usuário clicar em editar o "PLANO 1"
-    Então o sistema exibe uma caixa para renomear o plano
-    E o usuário prenche o campo com "PLANO 77"
-    Quando o usuário responde sim
-    Então o sistema deve alterar o nome para "PLANO 77"
+    Quando o usuário clicar em editar
+    Então o "PLANO 1" deverá estar ativado
 
   Cenário: Selecionar modo de operação apagado
     Dado que o usuário esteja na página de planos
@@ -92,3 +81,19 @@ Funcionalidade: Fluxo de cadastro de planos
     E que o usuário selecione o modo de operação "Isolado"
     E o usuário decide adicionar o estágio removido "E1"
     Então a quantidade de estagios na lista deverá ser 3
+
+  Cenário: Copiar um plano
+    Dado que o usuário esteja na página de planos
+    E que o usuário clicar em copiar o "PLANO 1"
+    Então o sistema exibe uma caixa para copiar o plano 1
+    E o usuário selecionar o "PLANO 16"
+    Quando o usuário clicar no botão copiar
+    Então o "PLANO 16" deverá estar ativado
+
+  Cenário: Editar o nome de um Plano
+    Dado que o usuário esteja na página de planos
+    E que o usuário clicar em editar o "PLANO 1"
+    Então o sistema exibe uma caixa para renomear o plano
+    E o usuário prenche o campo com "PLANO 77"
+    Quando o usuário responde sim
+    Então o sistema deve alterar o nome para "PLANO 77"

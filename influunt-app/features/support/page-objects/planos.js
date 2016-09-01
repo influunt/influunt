@@ -88,7 +88,8 @@ var PlanosPage = function () {
   };
 
   this.clicarBotaoConfigurarEstagio = function(estagio) {
-     return world.getElement('ul.planos div.sortable-list li.ui-state-default div.sortable button.btn-primary').click().then(function() {
+    world.waitForOverlayDisappear();
+    return world.getElement('ul.planos div.sortable-list li.ui-state-default div.sortable button.btn-primary').click().then(function() {
       return world.waitFor('div#modal-configuracao-estagio');
     }).then(function() {
       return world.waitForAnimationFinishes('div.modal-content');

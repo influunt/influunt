@@ -98,7 +98,7 @@ module.exports = function() {
 
   this.Given(/^que o usuário clicar em copiar o "([^"]*)"$/, function (plano) {
     var action_copiar = "fa-files"
-    return planosPage.clicarBotaoAcaoPlano( action_copiar, plano);
+    return planosPage.clicarBotaoAcaoPlano(action_copiar, plano);
   });
 
   this.Given(/^o sistema exibe uma caixa para renomear o plano$/, function() {
@@ -132,5 +132,9 @@ module.exports = function() {
 
   this.Given(/^o "([^"]*)" deverá estar ativado$/, function (plano) {
     return planosPage.isPlanoAtivo(plano);
+  });
+
+  this.Given(/^o usuário clicar em editar$/, function () {
+    return planosPage.clicarBotao('Editar');
   });
 };
