@@ -51,7 +51,6 @@ public class PlanosControllerTest extends WithApplication {
         plano.setVersaoPlano(versao);
         plano.setModoOperacao(ModoOperacaoPlano.TEMPO_FIXO_ISOLADO);
         plano.setPosicaoTabelaEntreVerde(1);
-        plano.save();
 
         Estagio estagio = new Estagio();
         estagio.save();
@@ -62,6 +61,16 @@ public class PlanosControllerTest extends WithApplication {
         estagioPlano.setPlano(plano);
         plano.addEstagios(estagioPlano);
 
+        GrupoSemaforico grupo = new GrupoSemaforico();
+        GrupoSemaforicoPlano gsPlano = new GrupoSemaforicoPlano();
+        gsPlano.setGrupoSemaforico(grupo);
+        grupo.addGRupoSemaforicoPlano(gsPlano);
+        gsPlano.setPlano(plano);
+        plano.addGruposSemaforicos(gsPlano);
+        grupo.save();
+        plano.save();
+        gsPlano.save();
+
         assertNotNull(plano.getId());
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("DELETE")
@@ -71,8 +80,10 @@ public class PlanosControllerTest extends WithApplication {
         assertEquals(200, result.status());
         assertNull(Plano.find.byId(plano.getId()));
         assertNull(Ebean.find(EstagioPlano.class).where().eq("id", estagioPlano.getId()).findUnique());
+        assertNull(Ebean.find(GrupoSemaforicoPlano.class).where().eq("id", gsPlano.getId()).findUnique());
         assertNotNull(Estagio.find.byId(estagio.getId()));
         assertNotNull(VersaoPlano.find.byId(versao.getId()));
+        assertNotNull(GrupoSemaforico.find.byId(grupo.getId()));
     }
 
     @Test
