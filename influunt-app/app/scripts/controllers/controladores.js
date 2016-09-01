@@ -164,7 +164,7 @@ angular.module('influuntApp')
        */
       $scope.selecionaAnel = function(index) {
         $scope.currentAnelIndex = index;
-        $scope.currentAnel = $scope.aneis[$scope.currentAnelIndex];
+        $scope.currentAnel = $scope.objeto.aneis[$scope.currentAnelIndex];
       };
 
       /**
