@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import models.Controlador;
+import models.StatusVersao;
 import models.VersaoTabelaHoraria;
 import play.db.ebean.Transactional;
 import play.libs.Json;
@@ -16,6 +17,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
+import utils.DBUtils;
 
 import java.util.List;
 import java.util.UUID;
@@ -61,6 +63,26 @@ public class TabelaHorariosController extends Controller {
         } else {
             List<VersaoTabelaHoraria> versoes = controlador.getVersoesTabelasHorarias();
             return CompletableFuture.completedFuture(ok(Json.toJson(versoes)));
+        }
+    }
+
+
+    @Transactional
+    public CompletionStage<Result> cancelarEdicao(String id) {
+        Controlador controlador = Controlador.find.byId(UUID.fromString(id));
+        if (controlador == null) {
+            return CompletableFuture.completedFuture(notFound());
+        } else {
+            DBUtils.executeWithTransaction(() -> {
+                VersaoTabelaHoraria versaoTabelaHoraria = controlador.getVersaoTabelaHorariaEmEdicao();
+                if (controlador.getVersoesTabelasHorarias().size() > 1 && versaoTabelaHoraria != null) {
+                    VersaoTabelaHoraria versaoTabelaHorariaOrigem = versaoTabelaHoraria.getTabelaHorariaOrigem().getVersaoTabelaHoraria();
+                    versaoTabelaHorariaOrigem.setStatusVersao(StatusVersao.ATIVO);
+                    versaoTabelaHorariaOrigem.update();
+                    versaoTabelaHoraria.delete();
+                }
+            });
+            return CompletableFuture.completedFuture(ok());
         }
     }
 
