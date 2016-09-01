@@ -11,6 +11,8 @@ DELETE FROM `grupos_semaforicos`;
 DELETE FROM `enderecos`;
 DELETE FROM `aneis`;
 DELETE FROM `agrupamentos_controladores`;
+DELETE FROM `versoes_controladores`;
+DELETE FROM `controladores_fisicos`;
 DELETE FROM `controladores`;
 DELETE FROM `agrupamentos`;
 DELETE FROM `areas`;
@@ -33,6 +35,12 @@ INSERT INTO `modelo_controladores`(`id`, `id_json`, `fabricante_id`, `descricao`
 
 INSERT INTO `controladores`(`id`, `id_json`, `nome_endereco`, `status_controlador`, `sequencia`, `numero_smee`, `numero_smeeconjugado1`, `numero_smeeconjugado2`, `numero_smeeconjugado3`, `firmware`, `modelo_id`, `area_id`, `data_criacao`, `data_atualizacao`) VALUES
 ('e3470d37-55e2-40ee-bb82-b316d76079af', NULL, 'Av. Paulista com R. Bela Cintra', 1, 1, NULL, NULL, NULL, NULL, NULL, '84e21c9b-169a-4a98-bc69-d0c8689bfcf6', 'cdc81822-2908-43fd-b6d2-a2fe38e67e88', TIMESTAMP '2016-08-09 11:05:27.354', TIMESTAMP '2016-08-09 11:05:56.951');
+
+INSERT INTO `controladores_fisicos`(`id`, `id_json`, `data_criacao`, `data_atualizacao`) VALUES
+('d1cf6613-7fdc-4de3-b7c6-59e0a85fe0df', NULL, TIMESTAMP '2016-08-09 11:05:18.1', TIMESTAMP '2016-08-09 11:05:18.1');
+
+INSERT INTO `versoes_controladores`(`id`, `id_json`, `controlador_origem_id`, `controlador_id`, `controlador_fisico_id`, `usuario_id`, `descricao`, `status_versao`, `data_criacao`) VALUES
+('27d635d9-133a-4732-9cdb-5010d1243f1f', NULL, NULL, 'e3470d37-55e2-40ee-bb82-b316d76079af', 'd1cf6613-7fdc-4de3-b7c6-59e0a85fe0df', '2f0e0547-3135-428b-8f6d-0a1098eca0a5', 'Controlador criado pelo usuário: Administrador Geral', '0', TIMESTAMP '2016-08-09 11:05:18.1');
 
 INSERT INTO `aneis`(`id`, `id_json`, `ativo`, `descricao`, `posicao`, `numero_smee`, `controlador_id`, `croqui_id`, `data_criacao`, `data_atualizacao`) VALUES
 ('42684680-67fa-46d4-8492-3038c37bf9ab', '5029daeb-9cc8-484c-be96-78738ee7a49c', TRUE, NULL, 1, NULL, 'e3470d37-55e2-40ee-bb82-b316d76079af', NULL, TIMESTAMP '2016-08-09 11:05:27.36', TIMESTAMP '2016-08-09 11:05:56.955'),
