@@ -29,6 +29,7 @@ var myHooks = function () {
     }).then(function () {
       return world.visit('/login');
     }).then(function () {
+      world.sleep(300);
       return world.setValue('input[name="usuario"]', 'root');
     }).then(function () {
       return world.setValue('input[name="senha"]', '1234');

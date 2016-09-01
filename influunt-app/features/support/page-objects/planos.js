@@ -175,12 +175,12 @@ var PlanosPage = function () {
   this.getTextInModal = function() {
     var modal = 'div[class*="modal-content"] h3'
     return world.waitFor(modal).then(function() {
-      return world.getElement(modal).getText()
+      return world.getElement(modal).getText();
     });
   };
 
   this.isPlanoAtivo = function(plano) {
-    return world.waitForByXpath('//ul[@id="side-menu"]//span[contains(text(), "'+plano+'")]/..//div[contains(@class, "checked")]')
+    return world.waitForByXpath('//ul[@id="side-menu"]//span[contains(text(), "'+plano+'")]/..//div[contains(@class, "checked")]');
   };
 };
 

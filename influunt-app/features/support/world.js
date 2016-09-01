@@ -150,6 +150,8 @@ var World = function () {
   };
 
   this.setValue = function(cssSelector, value) {
+    var _this = this;
+    this.waitFor(cssSelector);
     return driver.findElement(webdriver.By.css(cssSelector)).sendKeys(value);
   };
 
