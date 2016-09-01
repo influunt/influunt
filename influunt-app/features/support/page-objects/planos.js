@@ -10,9 +10,9 @@ var PlanosPage = function () {
     return world.execSqlScript('features/support/scripts/planos/controlador.sql');
   };
 
-  this.clicarBotaoPlanos = function() {
+  this.clicarBotao = function(button) {
     return world.waitForOverlayDisappear().then(function() {
-      return world.findLinkByText('Planos').click();
+      return world.findLinkByText(button).click();
     });
   };
 
@@ -112,8 +112,12 @@ var PlanosPage = function () {
     });
   };
 
-  this.fecharCaixaConfiguracao = function() {
-    return world.getElement('div#modal-configuracao-estagio div.modal-footer button').click();
+  this.clicarBotaoModal = function(modal) {
+    return world.getElement('div#'+modal+' div.modal-footer button').click();
+  };
+
+  this.clicarBotaoCopiar = function() {
+    return world.getElement('div#modal-copiar-plano div.modal-footer button').click();
   };
 
   this.trocarEstagiosDeLugar = function(estagio1, estagio2) {
@@ -134,7 +138,7 @@ var PlanosPage = function () {
     });
   };
 
-  this.estagioEscluido = function(numeroEstagios) {
+  this.estagioExcluido = function(numeroEstagios) {
     return world.getElements('div.sortable-list').then(function(elements) {
       return elements.length === numeroEstagios;
     });
@@ -142,6 +146,41 @@ var PlanosPage = function () {
 
   this.clicarBotaoAddPlano = function(estagio) {
     return world.getElementByXpath('//div[contains(@class, "add-card-container")]//p[contains(text(), "'+estagio+'")]').click();
+  };
+
+  this.clicarBotaoAcaoPlano = function(action, plano) {
+    return world.getElementByXpath('//ul[@id="side-menu"]//span[contains(text(), "'+plano+'")]/..//i[contains(@class, "'+action+'")]').click().then(function() {
+      return world.sleep(500);
+    });
+  };
+
+  this.textoConfirmacaoEditarPlano = function() {
+    return world.getTextInSweetAlert();
+  };
+
+  this.preencherCampoEditarPlano = function(valor) {
+    var campo = 'input[type="text"]'
+    return world.setValue(campo, valor);
+  };
+
+  this.selecionarPlano = function(valor) {
+    var campo = 'select[name="controladores"]'
+    return world.selectOption(campo, valor);
+  };
+
+  this.nomePlanoAterado = function(plano) {
+    return world.waitForByXpath('//ul[@id="side-menu"]//span[contains(text(), "'+plano+'")]');
+  };
+
+  this.getTextInModal = function() {
+    var modal = 'div[class*="modal-content"] h3'
+    return world.waitFor(modal).then(function() {
+      return world.getElement(modal).getText()
+    });
+  };
+
+  this.isPlanoAtivo = function(plano) {
+    return world.waitForByXpath('//ul[@id="side-menu"]//span[contains(text(), "'+plano+'")]/..//div[contains(@class, "checked")]')
   };
 };
 

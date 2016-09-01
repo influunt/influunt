@@ -1,6 +1,7 @@
 'use strict';
 
 var PlanosPage = require('../../support/page-objects/planos');
+var expect = require('chai').expect;
 
 module.exports = function() {
   var planosPage = new PlanosPage();
@@ -10,7 +11,7 @@ module.exports = function() {
   });
 
   this.Given(/^o usuário clicar no botão Planos do controlador$/, function () {
-    return planosPage.clicarBotaoPlanos();
+    return planosPage.clicarBotao('Planos');
   });
 
   this.Given(/^o sistema deverá redirecionar para a tela de planos$/, function () {
@@ -62,7 +63,8 @@ module.exports = function() {
   });
 
   this.Given(/^que o usuário clique no botão de fechar a caixa de configuração$/, function () {
-    return planosPage.fecharCaixaConfiguracao();
+    var modal_id = 'modal-configuracao-estagio'
+    return planosPage.clicarBotaoModal(modal_id);
   });
 
   this.Given(/^que o usuário troque de lugar os estágios "([^"]*)" e "([^"]*)"$/, function (estagio1, estagio2) {
@@ -82,10 +84,53 @@ module.exports = function() {
   });
 
   this.Given(/^a quantidade de estagios na lista deverá ser (\d+)$/, function (numeroEstagios) {
-    return planosPage.estagioEscluido(numeroEstagios);
+    return planosPage.estagioExcluido(numeroEstagios);
   });
 
   this.Given(/^o usuário decide adicionar o estágio removido "([^"]*)"$/, function (estagio) {
     return planosPage.clicarBotaoAddPlano(estagio);
+  });
+
+  this.Given(/^que o usuário clicar em editar o "([^"]*)"$/, function (plano) {
+    var action_editar = "fa-pencil"
+    return planosPage.clicarBotaoAcaoPlano(action_editar, plano);
+  });
+
+  this.Given(/^que o usuário clicar em copiar o "([^"]*)"$/, function (plano) {
+    var action_copiar = "fa-files"
+    return planosPage.clicarBotaoAcaoPlano( action_copiar, plano);
+  });
+
+  this.Given(/^o sistema exibe uma caixa para renomear o plano$/, function() {
+    return planosPage.textoConfirmacaoEditarPlano().then(function(text) {
+      expect(text).to.equal('Digite no campo abaixo um nome para este plano');
+    });
+  });
+
+  this.Given(/^o sistema exibe uma caixa para copiar o plano 1$/, function() {
+    return planosPage.getTextInModal().then(function(text) {
+      expect(text).to.equal('selecione os planos que deverão copiar as configurações de PLANO 1');
+    });
+  });
+
+  this.Given(/^o usuário prenche o campo com "([^"]*)"$/, function (valor) {
+    return planosPage.preencherCampoEditarPlano(valor);
+  });
+
+  this.Given(/^o usuário selecionar o "([^"]*)"$/, function (valor) {
+    return planosPage.selecionarPlano(valor);
+  });
+
+  this.Given(/^o sistema deve alterar o nome para "([^"]*)"$/, function (valor) {
+    return planosPage.nomePlanoAterado(valor);
+  });
+
+  this.Given(/^o usuário clicar no botão copiar$/, function () {
+    var modal_id = 'modal-copiar-plano'
+    return planosPage.clicarBotaoModal(modal_id);
+  });
+
+  this.Given(/^o "([^"]*)" deverá estar ativado$/, function (plano) {
+    return planosPage.isPlanoAtivo(plano);
   });
 };

@@ -8,6 +8,22 @@ Funcionalidade: Fluxo de cadastro de planos
     Quando o usuário clicar no botão Planos do controlador
     Então o sistema deverá redirecionar para a tela de planos
 
+  Cenário: Copiar um plano
+    Dado que o usuário esteja na página de planos
+    E que o usuário clicar em copiar o "PLANO 1"
+    Então o sistema exibe uma caixa para copiar o plano 1
+    E o usuário selecionar o "PLANO 16"
+    Quando o usuário clicar no botão copiar
+    Então o "PLANO 16" deverá estar ativado
+
+  Cenário: Editar o nome de um Plano
+    Dado que o usuário esteja na página de planos
+    E que o usuário clicar em editar o "PLANO 1"
+    Então o sistema exibe uma caixa para renomear o plano
+    E o usuário prenche o campo com "PLANO 77"
+    Quando o usuário responde sim
+    Então o sistema deve alterar o nome para "PLANO 77"
+
   Cenário: Selecionar modo de operação apagado
     Dado que o usuário esteja na página de planos
     E que o usuário selecione o modo de operação "Apagado"
@@ -62,7 +78,6 @@ Funcionalidade: Fluxo de cadastro de planos
     E que o usuário clique no botão de configurar o estágio "E2"
     E que o usuário marque 15 segundos para o "Tempo de Verde"
     E que o usuário clique no botão de fechar a caixa de configuração
-    # Então o Tempo de Ciclo deverá mudar para "15" segundos
 
   Cenário: Remover estágio do intervalo em operação Isolado
     Dado que o usuário esteja na página de planos
