@@ -30,10 +30,6 @@ angular.module('influuntApp')
       return Restangular.all(resourceName).getList()
         .then(function(res) {
           $scope.lista = res;
-        })
-        .catch(function(err) {
-          toast.error(err);
-          throw new Error(err);
         });
     };
 
