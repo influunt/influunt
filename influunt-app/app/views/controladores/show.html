@@ -1,35 +1,54 @@
-<fieldset data-ng-init="inicializaRevisao()">
-  <div class="row margin-top-20">
-    <div class="col-sm-12 col-lg-12 actions clearfix padding-right-20">
-      <div class="right">
-        <a class="btn btn-outline btn-primary"
-            tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.ver' | translate }} {{ 'controladores.geral.historico' | translate }}"
-            type="button" data-target="#modal-timeline" data-toggle="modal">
-          <i class="fa fa-code-fork"></i> {{ 'controladores.geral.historico' | translate }}
-        </a>
-        <a class="btn btn-outline btn-primary"
-            tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.controlador' | translate }}"
-            type="button" ng-click="configurar(objeto.id)"
-            ng-show="objeto.statusControlador == 'EM_CONFIGURACAO' || objeto.statusControlador == 'EM_EDICAO' || objeto.statusControlador == 'CONFIGURADO'">
-          <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
-        </a>
-        <a class="btn btn-outline btn-primary "
-            tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.copiar' | translate }} {{ 'controladores.controlador' | translate }}"
-            type="button" ng-click="copiar(objeto.id)"
-            ng-show="objeto.statusControlador == 'ATIVO'">
-          <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
-        </a>
-        <a class="btn btn-outline btn-danger"
-            tooltips tooltip-side="bottom" tooltip-template="{{ 'controladores.geral.cancelarEdicao' | translate }} {{ 'controladores.controlador' | translate }}"
-            type="button" ng-if="objeto && objeto.versaoControlador && getUsuario().id === objeto.versaoControlador.usuario.id"
-            ng-click="cancelarEdicao(objeto.id)"
-            ng-show="objeto.statusControlador == 'EM_EDICAO'">
-          <i class="fa fa-trash"></i> {{ 'controladores.geral.cancelarEdicao' | translate }}
-        </a>
+<div id="form" data-ng-init="inicializaRevisao()">
+  <div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+
+
+          <fieldset >
+            <div class="row margin-top-20">
+              <div class="col-sm-12 col-lg-12 actions clearfix padding-right-20">
+                <div class="right">
+                  <a class="btn btn-outline btn-primary"
+                      tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.ver' | translate }} {{ 'controladores.geral.historico' | translate }}"
+                      type="button" data-target="#modal-timeline" data-toggle="modal">
+                    <i class="fa fa-code-fork"></i> {{ 'controladores.geral.historico' | translate }}
+                  </a>
+                  <a class="btn btn-outline btn-primary"
+                      tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.controlador' | translate }}"
+                      type="button" ng-click="configurar(objeto.id)"
+                      ng-show="objeto.statusControlador == 'EM_CONFIGURACAO' || objeto.statusControlador == 'EM_EDICAO' || objeto.statusControlador == 'CONFIGURADO'">
+                    <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
+                  </a>
+                  <a class="btn btn-outline btn-primary "
+                      tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.copiar' | translate }} {{ 'controladores.controlador' | translate }}"
+                      type="button" ng-click="copiar(objeto.id)"
+                      ng-show="objeto.statusControlador == 'ATIVO'">
+                    <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
+                  </a>
+                  <a class="btn btn-outline btn-danger"
+                      tooltips tooltip-side="bottom" tooltip-template="{{ 'controladores.geral.cancelarEdicao' | translate }} {{ 'controladores.controlador' | translate }}"
+                      type="button" ng-if="objeto && objeto.versaoControlador && getUsuario().id === objeto.versaoControlador.usuario.id"
+                      ng-click="cancelarEdicao(objeto.id)"
+                      ng-show="objeto.statusControlador == 'EM_EDICAO'">
+                    <i class="fa fa-trash"></i> {{ 'controladores.geral.cancelarEdicao' | translate }}
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <influunt-revisao objeto="objeto" data-ng-controller="ControladoresRevisaoCtrl"></influunt-revisao>
+            <influunt-modal-timeline></influunt-modal-timeline>
+          </fieldset>
+
+
+        <div class="col-sm-12 bg-border-footer">
+          <a class="btn btn-primary btn-outline btn-footer right m-r-sm" ui-sref="app.controladores">{{ 'geral.crud.voltar' | translate }}</a>
+        </div>
+
+        </div>
       </div>
     </div>
   </div>
+</div>
 
-  <influunt-revisao objeto="objeto" data-ng-controller="ControladoresRevisaoCtrl"></influunt-revisao>
-  <influunt-modal-timeline></influunt-modal-timeline>
-</fieldset>

@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
- .controller('ControladoresRevisaoCtrl', ['$scope', '$state', '$controller', 'assertControlador',
-    function ($scope, $state, $controller, assertControlador) {
+ .controller('ControladoresRevisaoCtrl', ['$scope', '$state', '$controller', '$filter', 'assertControlador', 'influuntAlert',
+    function ($scope, $state, $controller, $filter, assertControlador, influuntAlert) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
       var setDadosBasicosControlador, setDadosCurrentAnel, getNumGruposSemaforicosAnel,
@@ -35,6 +35,7 @@ angular.module('influuntApp')
       $scope.inicializaRevisao = function() {
         return $scope.inicializaWizard().then(function() {
           setDadosBasicosControlador();
+
           $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
           $scope.aneis = _.filter($scope.objeto.aneis, 'ativo');
           $scope.selecionaAnelRevisao(0);
@@ -55,6 +56,23 @@ angular.module('influuntApp')
         setDadosCurrentTransicoesProibidas();
         setDadosCurrentTabelasEntreVerdes();
         setDadosCurrentDetectores();
+      };
+
+      $scope.commitMessage = function() {
+        var titulo = $filter('translate')('controladores.revisao.submitPopup.titulo');
+        var texto = $filter('translate')('controladores.revisao.submitPopup.texto');
+        return influuntAlert
+          .prompt(titulo, texto)
+          .then(function(response) {
+            if (response) {
+              // @todo
+              //   1. Verificar se descricao do controlador deve receber a "mensagem de commit" do controlador.
+              //   2. Verificar se há uma rota para envio deste POST.
+              $scope.objeto.versaoControlador.descricao = response;
+            }
+
+            return $scope.submitForm({$valid: true}, 'associacao_detectores', 'app.controladores');
+          });
       };
 
       setDadosBasicosControlador = function() {

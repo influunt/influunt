@@ -1,11 +1,17 @@
 <fieldset data-ng-controller="ControladoresRevisaoCtrl" data-ng-init="inicializaRevisao()">
   <influunt-revisao objeto="objeto"></influunt-revisao>
-  <div class="row links-revisao" id="asdf">
+  <div class="row links-revisao">
     <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix">
       <div class="right">
-        <a ui-sref="app.controladores" tooltips tooltip-template="{{ 'geral.tooltip.salvar' | translate }}" class="btn btn-primary btn-footer">
+
+        <!-- <a ui-sref="app.controladores" tooltips tooltip-template="{{ 'geral.tooltip.salvar' | translate }}" class="btn btn-primary btn-footer">
+          {{ 'plugins.steps.labels.save' | translate }} <i class="fa fa-arrow-right"></i>
+        </a> -->
+        <a class="btn btn-primary btn-footer" tooltips tooltip-template="{{ 'geral.tooltip.salvar' | translate }}"
+            data-ng-click="commitMessage()">
           {{ 'plugins.steps.labels.save' | translate }} <i class="fa fa-arrow-right"></i>
         </a>
+
       </div>
       <div class="right">
         <a ui-sref="app.wizard_controladores.associacao_detectores({id: $state.params.id})" tooltips tooltip-template="<b>{{ 'geral.tooltip.voltarPara' | translate }}</b> {{ 'controladores.associacaoDetectores.titulo' | translate }}" class="btn btn-outline btn-primary btn-footer right m-r-sm">

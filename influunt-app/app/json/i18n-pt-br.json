@@ -132,7 +132,11 @@
       "ausenciaMaxima": "Ausência de Detecção Máxima",
       "deteccaoMinima": "Detecção Permanente Mínima",
       "deteccaoMaxima": "Detecção Permanente Máxima",
-      "transicaoProibida": "Transição Proibida"
+      "transicaoProibida": "Transição Proibida",
+      "submitPopup": {
+        "titulo": "",
+        "texto": "Descreva abaixo a modificação feita no cadastro deste controlador"
+      }
     },
     "aneis": {
       "titulo": "Configuração de Aneis",
