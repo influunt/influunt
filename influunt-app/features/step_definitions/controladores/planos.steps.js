@@ -63,7 +63,7 @@ module.exports = function() {
   });
 
   this.Given(/^que o usuário clique no botão de fechar a caixa de configuração$/, function () {
-    var modal_id = 'modal-configuracao-estagio'
+    var modal_id = 'modal-configuracao-estagio';
     return planosPage.clicarBotaoModal(modal_id);
   });
 
@@ -92,12 +92,12 @@ module.exports = function() {
   });
 
   this.Given(/^que o usuário clicar em editar o "([^"]*)"$/, function (plano) {
-    var action_editar = "fa-pencil"
+    var action_editar = "fa-pencil";
     return planosPage.clicarBotaoAcaoPlano(action_editar, plano);
   });
 
   this.Given(/^que o usuário clicar em copiar o "([^"]*)"$/, function (plano) {
-    var action_copiar = "fa-files"
+    var action_copiar = "fa-files";
     return planosPage.clicarBotaoAcaoPlano(action_copiar, plano);
   });
 
@@ -126,7 +126,7 @@ module.exports = function() {
   });
 
   this.Given(/^o usuário clicar no botão copiar$/, function () {
-    var modal_id = 'modal-copiar-plano'
+    var modal_id = 'modal-copiar-plano';
     return planosPage.clicarBotaoModal(modal_id);
   });
 
