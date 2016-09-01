@@ -3,25 +3,25 @@
 # ~~~~
 
 # Cidades
-GET         /api/v1/cidades                             controllers.CidadesController.findAll()
-POST        /api/v1/cidades                             controllers.CidadesController.create()
-PUT         /api/v1/cidades/:id                         controllers.CidadesController.update(id)
-GET         /api/v1/cidades/:id                         controllers.CidadesController.findOne(id)
-DELETE      /api/v1/cidades/:id                         controllers.CidadesController.delete(id)
+GET         /api/v1/cidades                                       controllers.CidadesController.findAll()
+POST        /api/v1/cidades                                       controllers.CidadesController.create()
+PUT         /api/v1/cidades/:id                                   controllers.CidadesController.update(id)
+GET         /api/v1/cidades/:id                                   controllers.CidadesController.findOne(id)
+DELETE      /api/v1/cidades/:id                                   controllers.CidadesController.delete(id)
 
 # Areas
-GET         /api/v1/areas                               controllers.AreasController.findAll()
-POST        /api/v1/areas                               controllers.AreasController.create()
-PUT         /api/v1/areas/:id                           controllers.AreasController.update(id)
-GET         /api/v1/areas/:id                           controllers.AreasController.findOne(id)
-DELETE      /api/v1/areas/:id                           controllers.AreasController.delete(id)
+GET         /api/v1/areas                                         controllers.AreasController.findAll()
+POST        /api/v1/areas                                         controllers.AreasController.create()
+PUT         /api/v1/areas/:id                                     controllers.AreasController.update(id)
+GET         /api/v1/areas/:id                                     controllers.AreasController.findOne(id)
+DELETE      /api/v1/areas/:id                                     controllers.AreasController.delete(id)
 
 # Subareas
-GET         /api/v1/subareas                            controllers.SubareasController.findAll()
-POST        /api/v1/subareas                            controllers.SubareasController.create()
-PUT         /api/v1/subareas/:id                        controllers.SubareasController.update(id)
-GET         /api/v1/subareas/:id                        controllers.SubareasController.findOne(id)
-DELETE      /api/v1/subareas/:id                        controllers.SubareasController.delete(id)
+GET         /api/v1/subareas                                      controllers.SubareasController.findAll()
+POST        /api/v1/subareas                                      controllers.SubareasController.create()
+PUT         /api/v1/subareas/:id                                  controllers.SubareasController.update(id)
+GET         /api/v1/subareas/:id                                  controllers.SubareasController.findOne(id)
+DELETE      /api/v1/subareas/:id                                  controllers.SubareasController.delete(id)
 
 # Controladores
 GET         /api/v1/controladores                                 controllers.ControladoresController.findAll()
@@ -46,75 +46,76 @@ GET         /api/v1/controladores/:id/editar_tabela_horaria       controllers.Co
 PUT         /api/v1/controladores/:id/atualizar_descricao         controllers.ControladoresController.atualizarDescricao(id)
 
 # Fabricantes
-GET         /api/v1/fabricantes                         controllers.FabricantesController.findAll()
-POST        /api/v1/fabricantes                         controllers.FabricantesController.create()
-PUT         /api/v1/fabricantes/:id                     controllers.FabricantesController.update(id)
-GET         /api/v1/fabricantes/:id                     controllers.FabricantesController.findOne(id)
-DELETE      /api/v1/fabricantes/:id                     controllers.FabricantesController.delete(id)
+GET         /api/v1/fabricantes                                   controllers.FabricantesController.findAll()
+POST        /api/v1/fabricantes                                   controllers.FabricantesController.create()
+PUT         /api/v1/fabricantes/:id                               controllers.FabricantesController.update(id)
+GET         /api/v1/fabricantes/:id                               controllers.FabricantesController.findOne(id)
+DELETE      /api/v1/fabricantes/:id                               controllers.FabricantesController.delete(id)
 
 # Modelos controladores
-GET         /api/v1/modelos                             controllers.ModelosControladoresController.findAll()
-POST        /api/v1/modelos                             controllers.ModelosControladoresController.create()
-PUT         /api/v1/modelos/:id                         controllers.ModelosControladoresController.update(id)
-GET         /api/v1/modelos/:id                         controllers.ModelosControladoresController.findOne(id)
-DELETE      /api/v1/modelos/:id                         controllers.ModelosControladoresController.delete(id)
+GET         /api/v1/modelos                                       controllers.ModelosControladoresController.findAll()
+POST        /api/v1/modelos                                       controllers.ModelosControladoresController.create()
+PUT         /api/v1/modelos/:id                                   controllers.ModelosControladoresController.update(id)
+GET         /api/v1/modelos/:id                                   controllers.ModelosControladoresController.findOne(id)
+DELETE      /api/v1/modelos/:id                                   controllers.ModelosControladoresController.delete(id)
 
 # Usuarios
-GET         /api/v1/usuarios                            controllers.UsuariosController.findAll()
-POST        /api/v1/usuarios                            controllers.UsuariosController.create()
-PUT         /api/v1/usuarios/:id                        controllers.UsuariosController.update(id)
-GET         /api/v1/usuarios/:id                        controllers.UsuariosController.findOne(id)
-DELETE      /api/v1/usuarios/:id                        controllers.UsuariosController.delete(id)
+GET         /api/v1/usuarios                                      controllers.UsuariosController.findAll()
+POST        /api/v1/usuarios                                      controllers.UsuariosController.create()
+PUT         /api/v1/usuarios/:id                                  controllers.UsuariosController.update(id)
+GET         /api/v1/usuarios/:id                                  controllers.UsuariosController.findOne(id)
+DELETE      /api/v1/usuarios/:id                                  controllers.UsuariosController.delete(id)
 
 # Perfis
-GET         /api/v1/perfis                              controllers.PerfisController.findAll()
-POST        /api/v1/perfis                              controllers.PerfisController.create()
-PUT         /api/v1/perfis/:id                          controllers.PerfisController.update(id)
-GET         /api/v1/perfis/:id                          controllers.PerfisController.findOne(id)
-DELETE      /api/v1/perfis/:id                          controllers.PerfisController.delete(id)
+GET         /api/v1/perfis                                        controllers.PerfisController.findAll()
+POST        /api/v1/perfis                                        controllers.PerfisController.create()
+PUT         /api/v1/perfis/:id                                    controllers.PerfisController.update(id)
+GET         /api/v1/perfis/:id                                    controllers.PerfisController.findOne(id)
+DELETE      /api/v1/perfis/:id                                    controllers.PerfisController.delete(id)
 
 # Permissoes
-GET         /api/v1/permissoes                          controllers.PermissoesController.findAll()
-POST        /api/v1/permissoes                          controllers.PermissoesController.create()
-PUT         /api/v1/permissoes/:id                      controllers.PermissoesController.update(id)
-GET         /api/v1/permissoes/:id                      controllers.PermissoesController.findOne(id)
-DELETE      /api/v1/permissoes/:id                      controllers.PermissoesController.delete(id)
+GET         /api/v1/permissoes                                    controllers.PermissoesController.findAll()
+POST        /api/v1/permissoes                                    controllers.PermissoesController.create()
+PUT         /api/v1/permissoes/:id                                controllers.PermissoesController.update(id)
+GET         /api/v1/permissoes/:id                                controllers.PermissoesController.findOne(id)
+DELETE      /api/v1/permissoes/:id                                controllers.PermissoesController.delete(id)
 
 # Agrupamentops
-GET         /api/v1/agrupamentos                        controllers.AgrupamentosController.findAll()
-POST        /api/v1/agrupamentos                        controllers.AgrupamentosController.create()
-PUT         /api/v1/agrupamentos/:id                    controllers.AgrupamentosController.update(id)
-GET         /api/v1/agrupamentos/:id                    controllers.AgrupamentosController.findOne(id)
-DELETE      /api/v1/agrupamentos/:id                    controllers.AgrupamentosController.delete(id)
+GET         /api/v1/agrupamentos                                  controllers.AgrupamentosController.findAll()
+POST        /api/v1/agrupamentos                                  controllers.AgrupamentosController.create()
+PUT         /api/v1/agrupamentos/:id                              controllers.AgrupamentosController.update(id)
+GET         /api/v1/agrupamentos/:id                              controllers.AgrupamentosController.findOne(id)
+DELETE      /api/v1/agrupamentos/:id                              controllers.AgrupamentosController.delete(id)
 
 
 # Imagens
-POST        /api/v1/imagens                             controllers.ImagensController.create()
-GET         /api/v1/imagens/:id                         controllers.ImagensController.findOne(id)
-GET         /api/v1/imagens/:id/:version                controllers.ImagensController.findOneVersion(id,version)
-DELETE      /api/v1/imagens/:id                         controllers.ImagensController.delete(id)
-DELETE      /api/v1/imagens/:id/croqui                  controllers.ImagensController.deleteCroqui(id)
+POST        /api/v1/imagens                                       controllers.ImagensController.create()
+GET         /api/v1/imagens/:id                                   controllers.ImagensController.findOne(id)
+GET         /api/v1/imagens/:id/:version                          controllers.ImagensController.findOneVersion(id,version)
+DELETE      /api/v1/imagens/:id                                   controllers.ImagensController.delete(id)
+DELETE      /api/v1/imagens/:id/croqui                            controllers.ImagensController.deleteCroqui(id)
 
 #View Helpers
-GET         /api/v1/helpers/controlador                 controllers.HelpersController.controladorHelper()
+GET         /api/v1/helpers/controlador                           controllers.HelpersController.controladorHelper()
 
 #Login
-POST        /api/v1/login                               controllers.SecurityController.login
+POST        /api/v1/login                                         controllers.SecurityController.login
 
 # Planos
-POST        /api/v1/planos                              controllers.PlanosController.create()
-GET         /api/v1/planos/:id/timeline                 controllers.PlanosController.timeline(id)
-DELETE      /api/v1/planos/:id                          controllers.PlanosController.delete(id)
+POST        /api/v1/planos                                        controllers.PlanosController.create()
+GET         /api/v1/planos/:id/timeline                           controllers.PlanosController.timeline(id)
+DELETE      /api/v1/planos/:id                                    controllers.PlanosController.delete(id)
 
 # Tabela Horario
-POST        /api/v1/tabela_horarios                     controllers.TabelaHorariosController.create()
-GET         /api/v1/tabela_horarios/:id/timeline        controllers.TabelaHorariosController.timeline(id)
+POST        /api/v1/tabela_horarios                               controllers.TabelaHorariosController.create()
+GET         /api/v1/tabela_horarios/:id/timeline                  controllers.TabelaHorariosController.timeline(id)
+DELETE      /api/v1/tabela_horarios/:id/cancelar_edicao           controllers.TabelaHorariosController.cancelarEdicao(id)
 
 # Estágios
-DELETE      /api/v1/estagios/:id                        controllers.EstagiosController.delete(id)
+DELETE      /api/v1/estagios/:id                                  controllers.EstagiosController.delete(id)
 
 # Detectores
-DELETE      /api/v1/detectores/:id                      controllers.DetectoresController.delete(id)
+DELETE      /api/v1/detectores/:id                                controllers.DetectoresController.delete(id)
 
 # Eventos
-DELETE      /api/v1/eventos/:id                         controllers.EventosController.delete(id)
+DELETE      /api/v1/eventos/:id                                   controllers.EventosController.delete(id)

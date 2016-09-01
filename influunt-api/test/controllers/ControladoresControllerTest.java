@@ -563,6 +563,36 @@ public class ControladoresControllerTest  extends AbstractInfluuntControladorTes
 
     }
 
+
+    @Test
+    public void deveriaCancelarTabelaHorariaClonada() {
+        Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
+        controlador.ativar();
+
+        int totalTabelaHorarias = Ebean.find(TabelaHorario.class).findRowCount();
+        int totalVersoesTabelasHorarias = Ebean.find(VersaoTabelaHoraria.class).findRowCount();
+
+        Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
+                .uri(routes.ControladoresController.editarTabelaHoraria(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+
+        Result postResult = route(postRequest);
+        JsonNode json = Json.parse(Helpers.contentAsString(postResult));
+        Controlador controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
+
+        assertEquals(200, postResult.status());
+        assertEquals("Total Tabela Horarias", totalTabelaHorarias * 2, Ebean.find(TabelaHorario.class).findRowCount());
+        assertEquals("Total Versoes Tabela Horarias", totalVersoesTabelasHorarias * 2, Ebean.find(VersaoTabelaHoraria.class).findRowCount());
+
+
+        Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
+                .uri(routes.TabelaHorariosController.cancelarEdicao(controladorClonado.getId().toString()).url());
+        Result deleteResult = route(deleteRequest);
+        assertEquals(200, deleteResult.status());
+
+        assertEquals("Total Tabela Horarias", totalTabelaHorarias, Ebean.find(TabelaHorario.class).findRowCount());
+        assertEquals("Total Versoes Tabela Horarias", totalVersoesTabelasHorarias, Ebean.find(VersaoTabelaHoraria.class).findRowCount());
+    }
+
     private <T> void assertFields(T origem, T destino) {
         for (Field field : origem.getClass().getDeclaredFields()) {
             field.setAccessible(true);

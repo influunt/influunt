@@ -123,13 +123,16 @@ angular.module('influuntApp')
           });
 
 
+          $scope.currentVersaoTabelaHoraria = _.find($scope.objeto.versoesTabelasHorarias, {statusVersao: 'EDITANDO'}) || _.find($scope.objeto.versoesTabelasHorarias, {statusVersao: 'ATIVO'});
+
           if($scope.objeto.tabelasHorarias.length === 0) {
             $scope.objeto.versoesTabelasHorarias = ($scope.objeto.versoesTabelasHorarias.length > 0) ? $scope.objeto.versoesTabelasHorarias : [{idJson: UUID.generate()}];
             adicionaTabelaHorario($scope.objeto);
           }
-          $scope.objeto.tabelaHoraria = $scope.objeto.tabelasHorarias[0];
-          $scope.currentTabelaHoraria = $scope.objeto.tabelasHorarias[0];
-          $scope.currentVersaoTabelaHoraria = _.find($scope.objeto.versoesTabelasHorarias, {tabelaHoraria: {idJson: $scope.currentTabelaHoraria.idJson}});
+
+          $scope.objeto.tabelaHoraria = $scope.currentVersaoTabelaHoraria.tabelaHoraria;
+          $scope.currentTabelaHoraria = $scope.currentVersaoTabelaHoraria.tabelaHoraria;
+
 
           adicionaEvento($scope.currentTabelaHoraria, 'NORMAL');
           adicionaEvento($scope.currentTabelaHoraria, 'ESPECIAL_RECORRENTE');
@@ -158,6 +161,20 @@ angular.module('influuntApp')
             toast.error($filter('translate')('geral.mensagens.default_erro'));
             throw new Error(JSON.stringify(err));
           });
+      };
+
+      $scope.cancelarEdicao = function(controladorId) {
+        influuntAlert.delete().then(function(confirmado) {
+          return confirmado && Restangular.one('tabela_horarios', controladorId).all("cancelar_edicao").customDELETE()
+            .then(function() {
+              toast.success($filter('translate')('geral.mensagens.removido_com_sucesso'));
+              $state.go('app.controladores');
+            })
+            .catch(function(err) {
+              toast.error($filter('translate')('geral.mensagens.default_erro'));
+              throw new Error(err);
+            });
+        });
       };
 
       $scope.selecionaTipoEvento = function(index) {
