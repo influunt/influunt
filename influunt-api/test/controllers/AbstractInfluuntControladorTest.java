@@ -23,7 +23,7 @@ import static play.test.Helpers.inMemoryDatabase;
  */
 public abstract class AbstractInfluuntControladorTest extends WithApplication {
 
-    protected  static ControladorTestUtil controladorTestUtils;
+    protected static ControladorTestUtil controladorTestUtils;
 
     @Override
     protected Application provideApplication() {

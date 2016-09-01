@@ -93,5 +93,4 @@ public class PlanosControllerTest extends WithApplication {
         Result result = route(deleteRequest);
         assertEquals(404, result.status());
     }
-
 }

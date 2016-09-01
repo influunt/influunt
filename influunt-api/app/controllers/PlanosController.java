@@ -8,16 +8,14 @@ import checks.PlanosCheck;
 import com.fasterxml.jackson.databind.JsonNode;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
-import models.Anel;
-import models.Controlador;
-import models.Plano;
-import models.VersaoPlano;
+import models.*;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
+import utils.DBUtils;
 
 import java.util.List;
 import java.util.UUID;
@@ -67,15 +65,45 @@ public class PlanosController extends Controller {
 
     @Transactional
     public CompletionStage<Result> delete(String id) {
-        Plano detector = Plano.find.byId(UUID.fromString(id));
-        if (detector == null) {
+        Plano plano = Plano.find.byId(UUID.fromString(id));
+        if (plano == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
-            if (detector.delete()) {
+            if (plano.delete()) {
                 return CompletableFuture.completedFuture(ok());
             } else {
                 return CompletableFuture.completedFuture(badRequest());
             }
         }
+    }
+
+    @Transactional
+    public CompletionStage<Result> cancelarEdicao(String id) {
+        Plano plano = Plano.find.fetch("versaoPlano").fetch("versaoPlano.versaoAnterior").where().eq("id", id).findUnique();
+        if (plano == null) {
+            return CompletableFuture.completedFuture(notFound());
+        }
+
+        boolean success = DBUtils.executeWithTransaction(() -> {
+            plano.getAnel().getControlador().getAneis().forEach(anel -> {
+                VersaoPlano versaoAtual = anel.getVersaoPlanoEmEdicao();
+                if (versaoAtual != null && versaoAtual.getStatusVersao() == StatusVersao.EDITANDO) {
+                    VersaoPlano versaoAnterior = versaoAtual.getVersaoAnterior();
+                    if (versaoAnterior != null) {
+                        versaoAnterior.setStatusVersao(StatusVersao.ATIVO);
+                        versaoAnterior.addPlano(plano);
+                        plano.setVersaoPlano(versaoAnterior);
+                        versaoAnterior.save();
+                        versaoAtual.delete();
+                    }
+                }
+            });
+        });
+
+        if (success) {
+            return CompletableFuture.completedFuture(ok());
+        }
+
+        return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY));
     }
 }

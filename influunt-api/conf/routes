@@ -105,6 +105,7 @@ POST        /api/v1/login                                         controllers.Se
 POST        /api/v1/planos                                        controllers.PlanosController.create()
 GET         /api/v1/planos/:id/timeline                           controllers.PlanosController.timeline(id)
 DELETE      /api/v1/planos/:id                                    controllers.PlanosController.delete(id)
+DELETE      /api/v1/planos/:id/edit/cancel                        controllers.PlanosController.cancelarEdicao(id)
 
 # Tabela Horario
 POST        /api/v1/tabela_horarios                               controllers.TabelaHorariosController.create()
