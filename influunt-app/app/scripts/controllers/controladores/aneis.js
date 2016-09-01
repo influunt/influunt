@@ -234,18 +234,14 @@ angular.module('influuntApp')
         $scope.$watch('currentAnel', function(anel) {
           watcherEndereco(anel);
           setarImagensEstagios(anel);
-        });
+        }, true);
       };
 
       watcherEndereco = function(anel) {
-        $scope.currentEndereco = _.find($scope.objeto.todosEnderecos, {idJson: $scope.currentAnel.endereco.idJson});
-        if ($scope.currentEndereco && $scope.currentEndereco.localizacao && ($scope.currentEndereco.localizacao2 || $scope.currentEndereco.alturaNumerica)) {
-          anel.localizacao = $filter('nomeEndereco')($scope.currentEndereco);
-          anel.latitude = $scope.currentEndereco.latitude;
-          anel.longitude = $scope.currentEndereco.longitude;
-        } else {
-          anel.localizacao = '';
-        }
+        $scope.currentEndereco = _.find($scope.objeto.todosEnderecos, {idJson: anel.endereco.idJson});
+        anel.localizacao = $filter('nomeEndereco')($scope.currentEndereco);
+        anel.latitude = $scope.currentEndereco.latitude;
+        anel.longitude = $scope.currentEndereco.longitude;
       };
 
       setarImagensEstagios = function(anel) {
