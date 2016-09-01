@@ -151,7 +151,7 @@ var World = function () {
 
   this.setValue = function(cssSelector, value) {
     var _this = this;
-    this.waitFor(cssSelector);
+    _this.waitFor(cssSelector);
     return driver.findElement(webdriver.By.css(cssSelector)).sendKeys(value);
   };
 
@@ -317,7 +317,7 @@ var World = function () {
 
   this.getTextInSweetAlert = function() {
     var _this = this;
-    return _this.getElement('div[class*="sweet-alert"] p').getText()
+    return _this.getElement('div[class*="sweet-alert"] p').getText();
   };
 
   this.dragAndDrop = function(element, location) {

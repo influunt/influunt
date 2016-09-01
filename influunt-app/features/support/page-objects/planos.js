@@ -96,7 +96,7 @@ var PlanosPage = function () {
     });
   };
 
-  this.clicarBotaoApagarEstagio = function(estagio) {
+  this.clicarBotaoApagarEstagio = function() {
      return world.getElement('ul.planos div.sortable-list li.ui-state-default div.sortable h4.ng-binding i.fa-trash').click().then(function() {
       return world.waitFor('div#modal-configuracao-estagio');
     }).then(function() {
@@ -160,12 +160,12 @@ var PlanosPage = function () {
   };
 
   this.preencherCampoEditarPlano = function(valor) {
-    var campo = 'input[type="text"]'
+    var campo = 'input[type="text"]';
     return world.setValue(campo, valor);
   };
 
   this.selecionarPlano = function(valor) {
-    var campo = 'select[name="controladores"]'
+    var campo = 'select[name="controladores"]';
     return world.selectOption(campo, valor);
   };
 
@@ -174,7 +174,7 @@ var PlanosPage = function () {
   };
 
   this.getTextInModal = function() {
-    var modal = 'div[class*="modal-content"] h3'
+    var modal = 'div[class*="modal-content"] h3';
     return world.waitFor(modal).then(function() {
       return world.getElement(modal).getText();
     });
