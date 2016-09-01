@@ -348,7 +348,8 @@
     "croqui": "CROQUI",
     "erro_deletar_croqui": "Não foi possível apagar o Croqui.",
     "dropzone": {
-      "mensagem": "Clique ou Arraste imagens para este local"
+      "mensagem": "Clique ou Arraste imagens para este local",
+      "erro_apagar_imagem": "Não foi possível apagar a imagem."
     }
   },
   "login": {
@@ -446,5 +447,9 @@
   },
   "status": {
     "titulo": "Status dos Controladores"
+  },
+  "sistema": {
+    "mensagem_erro_502": "Erro ao comunicar com a API.",
+    "mensagem_erro_404": "Não encontrado."
   }
 }
