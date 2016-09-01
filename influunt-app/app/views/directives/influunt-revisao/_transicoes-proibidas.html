@@ -1,0 +1,39 @@
+<div class="col-sm-12 no-padding padding-top-20 ibox-content">
+  <div class="col-sm-6 no-padding-left review-page">
+    <div class="row">
+      <div class="col-sm-6 no-padding text-center">
+        <p><strong>{{ 'controladores.revisao.transicaoProibida' | translate }}</strong></p>
+      </div>
+      <div class="col-sm-6 no-padding text-center">
+        <p><strong>{{ 'controladores.revisao.alternativa' | translate }}</strong></p>
+      </div>
+    </div>
+    <div class="row text-center">
+      <div class="col-sm-6 no-padding" data-ng-repeat-start="transicaoProibida in dadosCurrentTRansicoesProibidas1">
+        <p><b class="gray-box">E{{ transicaoProibida.origem.posicao }}-E{{ transicaoProibida.destino.posicao }}</b></p>
+      </div>
+      <div class="col-sm-6 no-padding" data-ng-repeat-end>
+        <p><b class="white-box">E{{ transicaoProibida.alternativo.posicao }}</b></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-6 no-padding-left review-page">
+    <div class="row">
+      <div class="col-sm-6 no-padding text-center">
+        <p><strong>{{ 'controladores.revisao.transicaoProibida' | translate }}</strong></p>
+      </div>
+      <div class="col-sm-6 no-padding text-center">
+        <p><strong>{{ 'controladores.revisao.alternativa' | translate }}</strong></p>
+      </div>
+    </div>
+    <div class="row text-center">
+      <div class="col-sm-6 no-padding" data-ng-repeat-start="transicaoProibida in dadosCurrentTRansicoesProibidas2">
+        <p><b class="gray-box">E{{ transicaoProibida.origem.posicao }}-E{{ transicaoProibida.destino.posicao }}</b></p>
+      </div>
+      <div class="col-sm-6 no-padding" data-ng-repeat-end>
+        <p><b class="white-box">E{{ transicaoProibida.alternativo.posicao }}</b></p>
+      </div>
+    </div>
+  </div>
+</div>

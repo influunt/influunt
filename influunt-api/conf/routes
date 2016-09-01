@@ -43,6 +43,7 @@ PUT         /api/v1/controladores/:id/ativar                      controllers.Co
 DELETE      /api/v1/controladores/:id/cancelar_edicao             controllers.ControladoresController.cancelarEdicao(id)
 GET         /api/v1/controladores/:id/editar_planos               controllers.ControladoresController.editarPlanos(id)
 GET         /api/v1/controladores/:id/editar_tabela_horaria       controllers.ControladoresController.editarTabelaHoraria(id)
+PUT         /api/v1/controladores/:id/atualizar_descricao         controllers.ControladoresController.atualizarDescricao(id)
 
 # Fabricantes
 GET         /api/v1/fabricantes                         controllers.FabricantesController.findAll()

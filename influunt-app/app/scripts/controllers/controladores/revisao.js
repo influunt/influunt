@@ -8,15 +8,16 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
- .controller('ControladoresRevisaoCtrl', ['$scope', '$state', '$controller', 'assertControlador',
-    function ($scope, $state, $controller, assertControlador) {
+ .controller('ControladoresRevisaoCtrl', ['$scope', '$state', '$controller', '$filter',
+                                          'assertControlador', 'influuntAlert', 'Restangular', 'toast',
+    function ($scope, $state, $controller, $filter,
+              assertControlador, influuntAlert, Restangular, toast) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
       var setDadosBasicosControlador, setDadosCurrentAnel, getNumGruposSemaforicosAnel,
           getNumDetectoresAnel, setDadosCurrentGruposSemaforicos, setDadosCurrentEstagios,
           setDadosCurrentVerdesConflitantes, setDadosCurrentTransicoesProibidas, setDadosCurrentTabelasEntreVerdes,
           setDadosCurrentDetectores;
-
 
       /**
        * Pré-condições para acesso à tela de revisao: Somente será possível acessar esta
@@ -36,9 +37,13 @@ angular.module('influuntApp')
       $scope.inicializaRevisao = function() {
         return $scope.inicializaWizard().then(function() {
           setDadosBasicosControlador();
+
           $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
-          $scope.aneis = _.filter($scope.objeto.aneis, { ativo: true });
+          $scope.aneis = _.filter($scope.objeto.aneis, 'ativo');
           $scope.selecionaAnelRevisao(0);
+
+          $scope.markerEnderecoControlador = _.clone($scope.objeto.todosEnderecos[0]);
+          $scope.markerEnderecoControlador.options = {draggable: false};
         });
       };
 
@@ -53,6 +58,27 @@ angular.module('influuntApp')
         setDadosCurrentTransicoesProibidas();
         setDadosCurrentTabelasEntreVerdes();
         setDadosCurrentDetectores();
+      };
+
+      $scope.commitMessage = function() {
+        var titulo = $filter('translate')('controladores.revisao.submitPopup.titulo');
+        var texto = $filter('translate')('controladores.revisao.submitPopup.texto');
+        return influuntAlert
+          .prompt(titulo, texto)
+          .then(function(texto) {
+            if (texto) {
+              return Restangular.one('controladores', $scope.objeto.id)
+                .all('atualizar_descricao')
+                .customPUT({descricao: texto})
+                .then(function() {
+                  $state.go('app.controladores');
+                })
+                .catch(function(err) {
+                  toast.clear();
+                  influuntAlert.alert('Controlador', err.data[0].message);
+                });
+            }
+          });
       };
 
       setDadosBasicosControlador = function() {
@@ -133,7 +159,8 @@ angular.module('influuntApp')
               posicao: grupoSemaforico.posicao,
               descricao: grupoSemaforico.descricao,
               tipo: grupoSemaforico.tipo,
-              faseVermelha: grupoSemaforico.faseVermelhaApagadaAmareloIntermitente ? 'Colocar em amarelo intermitente' : 'Não colocar em amarelo intermitente'
+              faseVermelha: grupoSemaforico.faseVermelhaApagadaAmareloIntermitente ? 'Colocar em amarelo intermitente' : 'Não colocar em amarelo intermitente',
+              tempoVerdeSeguranca: grupoSemaforico.tempoVerdeSeguranca
             };
 
             grupos.push(dadosGrupo);
@@ -148,7 +175,7 @@ angular.module('influuntApp')
       setDadosCurrentEstagios = function() {
         $scope.dadosCurrentEstagios = [];
         if ($scope.currentEstagios) {
-          _.forEach($scope.currentEstagios, function(estagio) {
+          _.forEach($scope.currentEstagios, function(estagio, index) {
             var ids = _.map(estagio.estagiosGruposSemaforicos, 'idJson');
             var estagioGrupos = _.chain($scope.objeto.estagiosGruposSemaforicos)
               .filter(function(e) {
@@ -157,7 +184,8 @@ angular.module('influuntApp')
               .value();
 
             ids = _.map(estagioGrupos, function(egs) { return egs.grupoSemaforico.idJson; });
-            var gruposStr = _.chain($scope.objeto.gruposSemaforicos)
+            var gruposStr = _
+              .chain($scope.objeto.gruposSemaforicos)
               .filter(function(e) {
                 return ids.indexOf(e.idJson) >= 0;
               })
@@ -167,7 +195,7 @@ angular.module('influuntApp')
               .value();
 
             var dadosEstagio = {
-              posicao: estagio.posicao,
+              posicao: estagio.posicao || (index + 1),
               gruposSemaforicosStr: gruposStr,
               demandaPrioritaria: estagio.demandaPrioritaria,
               tempoMaximoPermanenciaAtivado: estagio.tempoMaximoPermanenciaAtivado,
@@ -230,6 +258,40 @@ angular.module('influuntApp')
       };
 
       setDadosCurrentTabelasEntreVerdes = function() {
+        if ($scope.currentGruposSemaforicos) {
+          var gs = _.map($scope.currentGruposSemaforicos, 'idJson');
+          $scope.dadosCurrentTabelaEntreVerdes = _
+            .chain($scope.objeto.tabelasEntreVerdes)
+            .filter(function(tev) {return gs.indexOf(tev.grupoSemaforico.idJson) >= 0;})
+            .map(function(tev) {
+              var obj = {
+                descricao: tev.descricao,
+                posicao: tev.posicao,
+                grupoSemaforicoIdJson: tev.grupoSemaforico.idJson
+              };
+
+              obj.transicoes = _.map(tev.tabelaEntreVerdesTransicoes, function(el) {
+                var tevt = _.find($scope.objeto.tabelasEntreVerdesTransicoes, {idJson: el.idJson});
+                var transicao = _.find($scope.objeto.transicoes, {idJson: tevt.transicao.idJson});
+                var origem = _.find($scope.objeto.estagios, {idJson: transicao.origem.idJson});
+                var destino = _.find($scope.objeto.estagios, {idJson: transicao.destino.idJson});
+
+                return {
+                  tempoAmarelo: tevt.tempoAmarelo,
+                  tempoVermelhoIntermitente: tevt.tempoVermelhoIntermitente,
+                  tempoAtrasoGrupo: tevt.tempoAtrasoGrupo,
+                  tempoVermelhoLimpeza: tevt.tempoVermelhoLimpeza,
+                  tipo: transicao.tipo,
+                  label: 'E' + origem.posicao + '-' + 'E' + destino.posicao
+                };
+              });
+
+              return obj;
+            })
+            .orderBy(['posicao'])
+            .value();
+        }
+
         $scope.dadosCurrentTabelasentreVerdesPadrao = [];
         $scope.dadosCurrentTabelasentreVerdesOutra = [];
         if ($scope.currentEstagios) {
@@ -273,14 +335,14 @@ angular.module('influuntApp')
             return ids.indexOf(detector.estagio.idJson) >= 0;
           });
 
+          detectores = _.orderBy(detectores, ['tipo', 'posicao']);
+
           _.forEach(detectores, function(detector) {
             $scope.dadosCurrentDetectores.push({
               nome: detector.tipo === 'PEDESTRE' ? 'DP'+detector.posicao : 'DV'+detector.posicao,
               estagio: _.find($scope.objeto.estagios, { idJson: detector.estagio.idJson }),
-              tempoAusenciaDeteccaoMinima: detector.tempoAusenciaDeteccaoMinima || 0,
-              tempoAusenciaDeteccaoMaxima: detector.tempoAusenciaDeteccaoMaxima || 0,
-              tempoDeteccaoPermanenteMinima: detector.tempoDeteccaoPermanenteMinima || 0,
-              tempoDeteccaoPermanenteMaxima: detector.tempoDeteccaoPermanenteMaxima || 0
+              tempoAusenciaDeteccao: detector.tempoAusenciaDeteccao || 0,
+              tempoDeteccaoPermanente: detector.tempoDeteccaoPermanente || 0,
             });
           });
         }

@@ -37,9 +37,8 @@ angular.module('influuntApp')
         return $scope.inicializaWizard().then(function() {
           if ($scope.assertAneis()) {
             $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
-            $scope.aneis = $scope.objeto.aneis;
             $scope.currentAnelIndex = 0;
-            $scope.currentAnel = $scope.aneis[0];
+            $scope.currentAnel = $scope.objeto.aneis[0];
 
             ativaPrimeiroAnel($scope.objeto);
             atualizarAneisAtivos();
@@ -60,7 +59,7 @@ angular.module('influuntApp')
        * Endereços são sempre validados, logo precisam de ser removidos dos anéis não ativos.
        */
       $scope.beforeSubmitForm = function() {
-        $scope.aneis.forEach(function(anel) {
+        $scope.objeto.aneis.forEach(function(anel) {
           if (!anel.ativo) {
             delete anel.enderecos;
           }
@@ -146,8 +145,7 @@ angular.module('influuntApp')
               .then(function() {
                 $scope.inicializaWizard().then(function() {
                   $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
-                  $scope.aneis = $scope.objeto.aneis;
-                  $scope.currentAnel = $scope.aneis[$scope.currentAnelIndex];
+                  $scope.currentAnel = $scope.objeto.aneis[$scope.currentAnelIndex];
                   setarImagensEstagios($scope.currentAnel);
                 });
                 return true;
@@ -161,20 +159,20 @@ angular.module('influuntApp')
       };
 
       $scope.ativarProximoAnel = function() {
-        $scope.selecionaAnelLocal(_.findIndex($scope.aneis, { ativo: false }));
+        $scope.selecionaAnelLocal(_.findIndex($scope.objeto.aneis, { ativo: false }));
         $scope.currentAnel.ativo = true;
         inicializaEnderecos();
         atualizarAneisAtivos();
       };
 
       $scope.desativarUltimoAnel = function() {
-        var ultimoAnelAtivoIndex = _.findLastIndex($scope.aneis, { ativo: true });
+        var ultimoAnelAtivoIndex = _.findLastIndex($scope.objeto.aneis, { ativo: true });
         if (ultimoAnelAtivoIndex === 0) {
           return false;
         }
 
-        $scope.aneis[ultimoAnelAtivoIndex].ativo = false;
-        delete $scope.aneis[ultimoAnelAtivoIndex].enderecos;
+        $scope.objeto.aneis[ultimoAnelAtivoIndex].ativo = false;
+        delete $scope.objeto.aneis[ultimoAnelAtivoIndex].enderecos;
         atualizarAneisAtivos();
       };
 
@@ -187,9 +185,9 @@ angular.module('influuntApp')
               text = $filter('translate')('controladores.aneis.corpo_msg_apagar_anel');
           return influuntAlert.confirm(title, text).then(function(deveApagarAnel) {
             if (deveApagarAnel) {
-              var ultimoAnelAtivoIndex = _.findLastIndex($scope.aneis, { ativo: true });
-              $scope.aneis[ultimoAnelAtivoIndex].ativo = false;
-              $scope.aneis[ultimoAnelAtivoIndex]._destroy = true;
+              var ultimoAnelAtivoIndex = _.findLastIndex($scope.objeto.aneis, { ativo: true });
+              $scope.objeto.aneis[ultimoAnelAtivoIndex].ativo = false;
+              $scope.objeto.aneis[ultimoAnelAtivoIndex]._destroy = true;
               $scope.submitForm({$valid: true}, 'aneis', 'app.wizard_controladores.aneis');
             }
             return deveApagarAnel;
@@ -219,11 +217,11 @@ angular.module('influuntApp')
       };
 
       atualizarAneisAtivos = function() {
-        $scope.aneisAtivos = _.filter($scope.aneis, { ativo: true });
+        $scope.aneis = _.filter($scope.objeto.aneis, { ativo: true });
       };
 
       inicializaEnderecos = function() {
-        _.each($scope.aneis, function(anel) {
+        _.each($scope.objeto.aneis, function(anel) {
           if (!anel.endereco) {
             setandoEnderecoByAnel(anel);
           }

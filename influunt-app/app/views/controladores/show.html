@@ -1,309 +1,54 @@
-<fieldset data-ng-init="inicializaRevisao()">
-  <div class="row margin-top-20">
-    <div class="col-sm-12 col-lg-12 actions clearfix padding-right-20">
-      <div class="right">
-        <a class="btn btn-outline btn-primary" tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.ver' | translate }} {{ 'controladores.geral.historico' | translate }}" type="button" data-target="#modal-timeline" data-toggle="modal">
-          <i class="fa fa-code-fork"></i> {{ 'controladores.geral.historico' | translate }}
-        </a>
-        <a class="btn btn-outline btn-primary" tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.controlador' | translate }}"  type="button" ng-click="configurar(objeto.id)" ng-show="objeto.statusControlador == 'EM_CONFIGURACAO' || objeto.statusControlador == 'EM_EDICAO' || objeto.statusControlador == 'CONFIGURADO'">
-          <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
-        </a>
-        <a class="btn btn-outline btn-primary " tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.copiar' | translate }} {{ 'controladores.controlador' | translate }}"  type="button" ng-click="copiar(objeto.id)" ng-show="objeto.statusControlador == 'ATIVO'">
-          <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
-        </a>
-        <a class="btn btn-outline btn-danger" tooltips tooltip-side="bottom" tooltip-template="{{ 'controladores.geral.cancelarEdicao' | translate }} {{ 'controladores.controlador' | translate }}"  type="button" ng-if="objeto && objeto.versaoControlador && getUsuario().id === objeto.versaoControlador.usuario.id" ng-click="cancelarEdicao(objeto.id)" ng-show="objeto.statusControlador == 'EM_EDICAO'">
-          <i class="fa fa-trash"></i> {{ 'controladores.geral.cancelarEdicao' | translate }}
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <div class="m-t-md">
-    <div class="col-lg-12 col-sm-12 bg-border no-padding margin-botton ibox revisao">
-      <div class="col-lg-12 col-sm-12 text-left">
-        <h2>{{ 'controladores.dadosBasicos.titulo' | translate }}</h2>
-      </div>
-      <div class="col-lg-12 col-sm-12 ibox-content no-padding-left no-padding-right padding-top-20">
-        <div class="col-lg-4 col-sm-3">
-          <p><strong>{{ 'controladores.cidade' | translate }}:</strong> {{ dadosBasicos.cidade.nome }}</p>
-          <p><strong>{{ 'controladores.area' | translate }}:</strong> {{ dadosBasicos.area.descricao }}</p></br>
-          <p><strong>{{ 'controladores.numeroSMEE' | translate }}:</strong> {{ dadosBasicos.numeroSMEE }}</p>
-          <p><strong>{{ 'controladores.CLC' | translate }}:</strong> {{ objeto.CLC }}</p></br>
-          <p><strong>{{ 'controladores.numeroSMEEConjugado1' | translate }}:</strong> {{ dadosBasicos.numeroSMEEConjugado1 }}</p>
-          <p><strong>{{ 'controladores.numeroSMEEConjugado2' | translate }}:</strong> {{ dadosBasicos.numeroSMEEConjugado2 }}</p>
-          <p><strong>{{ 'controladores.numeroSMEEConjugado3' | translate }}:</strong> {{ dadosBasicos.numeroSMEEConjugado3 }}</p>
-        </div>
-        <div class="col-lg-4 col-sm-3">
-          <p><strong>{{ 'controladores.Fabricante' | translate }}:</strong> {{ dadosBasicos.fabricante.nome }}</p>
-          <p><strong>{{ 'controladores.modelo' | translate }}:</strong> {{ dadosBasicos.modelo.descricao }}</p></br>
-          <p><strong>{{ 'controladores.estagios' | translate }}:</strong> {{ dadosBasicos.numEstagios }}</p>
-          <p><strong>{{ 'controladores.aneis' | translate }}:</strong> {{ dadosBasicos.numAneisAtivos }}</p>
-          <p><strong>{{ 'controladores.maxDetectorVeicular' | translate }}:</strong> {{ dadosBasicos.numDetectoresVeicular }}</p>
-          <p><strong>{{ 'controladores.maxDetectorPedestre' | translate }}:</strong> {{ dadosBasicos.numDetectoresPedestre }}</p>
-        </div>
-        <div class="col-lg-4 col-sm-6">
-          <p><strong>{{ 'controladores.localizacao' | translate }}:</strong> {{ dadosBasicos.endereco }}</p>
-          <figure>
-            <div influunt-map
-              markers="objeto.todosEnderecos[0]"
-              class="influunt-map">
-            </div>
-          </figure>
-        </div>
-      </div>
-    </div>
-  </div>
-
-<!-- Abas de aneis -->
-  <div class="m-t-md">
-    <div class="col-lg-12 col-sm-12 bg-border no-padding revisao">
-      <div class="ibox float-e-margins">
-        <div class="tabpanel">
-          <div class="col-lg-12 col-sm-12 padding-top-20 tabs-container">
-            <influunt-tabs class="tabpanel"
-                           data-on-activate="selecionaAnelRevisao"
-                           data-aneis-ativos="aneis">
-            </influunt-tabs>
-            <div class="ui-layout-content tab-content">
-              <div id="tabs-1">
-                <div class="col-lg-12 col-sm-12 no-padding-left padding-top-20 text-left">
-                  <div class="col-lg-3 col-sm-3 no-padding-left">
-                    <p><strong>{{ 'controladores.CLA' | translate }}:</strong> {{ dadosCurrentAnel.CLA }}</p>
-                    <p><strong>{{ 'controladores.localizacao' | translate }}:</strong> {{ dadosCurrentAnel.localizacao }}</p>
-                    <p><strong>{{ 'controladores.numeroSMEE' | translate }}:</strong> {{ dadosCurrentAnel.numeroSMEE }}</p>
-                  </div>
-                  <div class="col-lg-3 col-sm-3 no-padding-left">
-                    <p><strong>{{ 'controladores.gruposPedestres' | translate }}:</strong> {{ dadosCurrentAnel.numGruposPedestre }}</p>
-                    <p><strong>{{ 'controladores.gruposSinaisVeiculares' | translate }}:</strong> {{ dadosCurrentAnel.numGruposVeicular }}</p>
-                  </div>
-                  <div class="col-lg-3 col-sm-3 no-padding-left">
-                    <p><strong>{{ 'controladores.numeroDetectoresPedestres' | translate }}:</strong> {{ dadosCurrentAnel.numDetectoresPedestre }}</p>
-                    <p><strong>{{ 'controladores.numeroDetectores' | translate }}:</strong> {{ dadosCurrentAnel.numDetectoresVeicular }}</p>
-                  </div>
-                </div>
-
-                <div class="col-lg-12 col-sm-12 no-padding">
-                  <div class="col-lg-6 col-sm-6 no-padding-left text-left">
-                    <div class="col-lg-12 col-sm-12 no-padding">
-                      <h2>{{ 'controladores.gruposSemaforicos.titulo' | translate }}</h2>
-                    </div>
-                    <div class="col-lg-12 col-sm-12 no-padding padding-top-20" data-ng-repeat="gruposSemaforicos in dadosCurrentGruposSemaforicos" data-ng-class="{ 'ibox-content': $index === 0 }">
-                      <div class="col-lg-4 col-sm-4 no-padding-left" data-ng-repeat="grupoSemaforico in gruposSemaforicos">
-                        <h3>{{ 'controladores.revisao.grupo' | translate }} {{ grupoSemaforico.posicao }}</h3>
-                        <p>{{ grupoSemaforico.descricao }}</p>
-                        <p><strong>{{ 'controladores.revisao.tipo' | translate }}:</strong> {{ grupoSemaforico.tipo }}</p>
-                        <p><strong>{{ 'controladores.revisao.faseVermelha' | translate }}:</strong> {{ grupoSemaforico.faseVermelha }}</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-lg-6 col-sm-6 no-padding-left text-left">
-                    <div class="col-lg-12 col-sm-12 no-padding">
-                      <h2>{{ 'controladores.estagios' | translate }}</h2>
-                    </div>
-                    <div class="col-lg-12 col-sm-12 no-padding padding-top-20 ibox-content">
-                      <div class="col-sm-6 no-padding-left review-page" data-ng-repeat="estagio in dadosCurrentEstagios">
-                        <img data-ng-src="{{ estagio.imagem }}">
-                        <h3>E{{ estagio.posicao }}</h3>
-                        <div>{{ estagio.gruposSemaforicosStr }}</div>
-                        <div class="m-t-xs" data-ng-if="estagio.tempoMaximoPermanenciaAtivado">{{ 'controladores.revisao.desativacaoTempoMax' | translate }}: {{ estagio.tempoMaximoPermanencia }}s</div>
-                        <div class="m-t-xs" data-ng-if="estagio.demandaPrioritaria">{{ 'controladores.revisao.demandaPrioritaria' | translate }}</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-sm-12 no-padding">
-                  <div class="col-sm-6 no-padding-left padding-top-20 text-left">
-                    <div class="col-sm-12 no-padding">
-                      <h2>{{ 'controladores.verdesConflitantes.titulo' | translate }}</h2>
-                    </div>
-                    <div class="col-sm-12 no-padding padding-top-20 ibox-content">
-
-                      <div class="col-sm-2 no-padding-left" data-ng-repeat="verdeConflitante in dadosCurrentVerdesConflitantes">
-                        <p class="view-group"><strong>G{{ verdeConflitante.origem.posicao }}-G{{ verdeConflitante.destino.posicao }}</strong></p>
-                      </div>
-
-                    </div>
-                  </div>
+<div id="form" data-ng-init="inicializaRevisao()">
+  <div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
 
 
-                  <div class="col-sm-6 no-padding-left padding-top-20 text-left">
-                    <div class="col-sm-12 no-padding">
-                      <h2>{{ 'controladores.transicoesProibidas.titulo' | translate }}</h2>
-                    </div>
-                    <div class="col-sm-12 no-padding padding-top-20 ibox-content">
-                      <div class="col-sm-6 no-padding-left review-page">
-                        <div class="row">
-                          <div class="col-sm-6 no-padding text-center">
-                            <p><strong>{{ 'controladores.revisao.transicaoProibida' | translate }}</strong></p>
-                          </div>
-                          <div class="col-sm-6 no-padding text-center">
-                            <p><strong>{{ 'controladores.revisao.alternativa' | translate }}</strong></p>
-                          </div>
-                        </div>
-                        <div class="row text-center">
-                          <div class="col-sm-6 no-padding" data-ng-repeat-start="transicaoProibida in dadosCurrentTRansicoesProibidas1">
-                            <p><b class="gray-box">E{{ transicaoProibida.origem.posicao }}-E{{ transicaoProibida.destino.posicao }}</b></i></p>
-                          </div>
-                          <div class="col-sm-6 no-padding" data-ng-repeat-end>
-                            <p><b class="white-box">E{{ transicaoProibida.alternativo.posicao }}</b></i></p>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="col-sm-6 no-padding-left review-page">
-                        <div class="row">
-                          <div class="col-sm-6 no-padding text-center">
-                            <p><strong>{{ 'controladores.revisao.transicaoProibida' | translate }}</strong></p>
-                          </div>
-                          <div class="col-sm-6 no-padding text-center">
-                            <p><strong>{{ 'controladores.revisao.alternativa' | translate }}</strong></p>
-                          </div>
-                        </div>
-                        <div class="row text-center">
-                          <div class="col-sm-6 no-padding" data-ng-repeat-start="transicaoProibida in dadosCurrentTRansicoesProibidas2">
-                            <p><b class="gray-box">E{{ transicaoProibida.origem.posicao }}-E{{ transicaoProibida.destino.posicao }}</b></i></p>
-                          </div>
-                          <div class="col-sm-6 no-padding" data-ng-repeat-end>
-                            <p><b class="white-box">E{{ transicaoProibida.alternativo.posicao }}</b></i></p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-sm-6 no-padding-left padding-top-20 text-left">
-                    <div class="col-sm-12 no-padding">
-                      <h2>Exemplo tela vazia</h2>
-                    </div>
-                    <div class="col-sm-12 no-padding padding-top-20 ibox-content text-center">
-                      <i class="fa fa-exclamation-circle"></i>
-                      <p>{{ 'controladores.revisao.semTransicao' | translate }}</p>
-                    </div>
-                  </div>
-
-                  <div class="col-sm-12 no-padding">
-                    <div class="col-sm-6 no-padding-left padding-top-20 text-left">
-                      <div class="col-sm-12 no-padding">
-                        <h2>{{ 'controladores.entreVerdes.titulo' | translate }}</h2>
-                      </div>
-                      <div class="col-lg-12 col-sm-12 no-padding padding-top-20 ibox-content">
-                        <select class="form-control m-b">
-                          <option value="VEICULAR">Exemplo 1</option>
-                          <option value="PEDESTRE">Exemplo 2</option>
-                        </select>
-                      </div>
-                      <div class="col-sm-6 no-padding">
-                        <div class="col-sm-12 no-padding padding-top-20">
-                          <div class="col-sm-12 no-padding-left">
-                            <h3><strong>{{ 'controladores.revisao.tabelaPadrao' | translate }}</strong></h3>
-                          </div>
-                          <div class="col-sm-4 no-padding-left">
-                          </div>
-                          <div class="col-sm-4 no-padding-left">
-                            <p>{{ 'controladores.revisao.amarelo' | translate }}</p>
-                          </div>
-                          <div class="col-sm-4 no-padding-left">
-                            <p>{{ 'controladores.revisao.vermelhoLimpeza' | translate }}</p>
-                          </div>
-                        </div>
-                        <div class="col-sm-12 no-padding">
-                          <div class="col-sm-4" data-ng-repeat-start="tabelaPadrao in dadosCurrentTabelasentreVerdesPadrao">
-                            <p class="view-group"><strong>E{{ tabelaPadrao.origem.posicao }}-E{{ tabelaPadrao.destino.posicao }}</strong></p>
-                          </div>
-                          <div class="col-sm-4">
-                            <p>{{ tabelaPadrao.tempoAmarelo || tabelaPadrao.tempoVermelhoIntermitente }}s</p>
-                          </div>
-                          <div class="col-sm-4" data-ng-repeat-end>
-                            <p>{{ tabelaPadrao.tempoVermelhoLimpeza }}s</p>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="col-sm-6 no-padding">
-                        <div class="col-sm-12 no-padding padding-top-20">
-                          <div class="col-sm-12 no-padding-left" data-ng-if="dadosCurrentTabelasentreVerdesOutra[0]">
-                            <h3><strong>{{ dadosCurrentTabelasentreVerdesOutra[0].nome }}</strong></h3>
-                          </div>
-                          <div class="col-sm-4 no-padding-left" data-ng-if="dadosCurrentTabelasentreVerdesOutra[0]">
-                          </div>
-                          <div class="col-sm-4 no-padding-left" data-ng-if="dadosCurrentTabelasentreVerdesOutra[0]">
-                            <p>{{ 'controladores.revisao.amarelo' | translate }}</p>
-                          </div>
-                          <div class="col-sm-4 no-padding-left" data-ng-if="dadosCurrentTabelasentreVerdesOutra[0]">
-                            <p>{{ 'controladores.revisao.vermelhoLimpeza' | translate }}</p>
-                          </div>
-                        </div>
-                        <div class="col-sm-12 no-padding">
-                          <div class="col-sm-4" data-ng-repeat-start="tabelaOutra in dadosCurrentTabelasentreVerdesOutra">
-                            <p class="view-group"><strong>E{{ tabelaOutra.origem.posicao }}-E{{ tabelaOutra.destino.posicao }}</strong></p>
-                          </div>
-                          <div class="col-sm-4">
-                            <p>{{ tabelaOutra.tempoAmarelo || tabelaOutra.tempoVermelhoIntermitente }}s</p>
-                          </div>
-                          <div class="col-sm-4" data-ng-repeat-end>
-                            <p>{{ tabelaOutra.tempoVermelhoLimpeza }}s</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-
-
-                    <div class="col-lg-6 col-sm-6 no-padding-left padding-top-20 text-left">
-                      <div class="col-lg-12 col-sm-12 no-padding">
-                        <h2>{{ 'controladores.associacao.titulo' | translate }}</h2>
-                      </div>
-                      <div class="col-lg-12 col-sm-12 no-padding padding-top-20 ibox-content">
-                        <div class="col-lg-2 col-sm-2">
-                        </div>
-                        <div class="col-lg-2 col-sm-2">
-                          <p><strong>{{ 'controladores.revisao.estagio' | translate }}</strong></p>
-                        </div>
-                        <div class="col-lg-2 col-sm-2">
-                            <p><strong>{{ 'controladores.revisao.ausenciaMinima' | translate }}</strong></p>
-                        </div>
-                        <div class="col-lg-2 col-sm-2">
-                          <p><strong>{{ 'controladores.revisao.ausenciaMaxima' | translate }}</strong></p>
-                        </div>
-                        <div class="col-lg-2 col-sm-2">
-                          <p><strong>{{ 'controladores.revisao.deteccaoMinima' | translate }}</strong></p>
-                        </div>
-                        <div class="col-lg-2 col-sm-2">
-                          <p><strong>{{ 'controladores.revisao.deteccaoMaxima' | translate }}</strong></p>
-                        </div>
-                      </div>
-                      <div class="col-sm-12 no-padding" data-ng-repeat="detector in dadosCurrentDetectores">
-                        <div class="col-lg-2 col-sm-2">
-                          <p><strong>{{ detector.nome }}</strong></p>
-                        </div>
-                        <div class="col-lg-2 col-sm-2">
-                          <p class="view-group"><strong>E{{ detector.estagio.posicao }}</strong></p>
-                        </div>
-                        <div class="col-lg-2 col-sm-2">
-                          <p>{{ detector.tempoAusenciaDeteccaoMinima }}s</p>
-                        </div>
-                        <div class="col-lg-2 col-sm-2">
-                          <p>{{ detector.tempoAusenciaDeteccaoMaxima }}s</p>
-                        </div>
-                        <div class="col-lg-2 col-sm-2">
-                          <p>{{ detector.tempoDeteccaoPermanenteMinima }}s</p>
-                        </div>
-                        <div class="col-lg-2 col-sm-2">
-                          <p>{{ detector.tempoDeteccaoPermanenteMaxima }}s</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+          <fieldset >
+            <div class="row margin-top-20">
+              <div class="col-sm-12 col-lg-12 actions clearfix padding-right-20">
+                <div class="right">
+                  <a class="btn btn-outline btn-primary"
+                      tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.ver' | translate }} {{ 'controladores.geral.historico' | translate }}"
+                      type="button" data-target="#modal-timeline" data-toggle="modal">
+                    <i class="fa fa-code-fork"></i> {{ 'controladores.geral.historico' | translate }}
+                  </a>
+                  <a class="btn btn-outline btn-primary"
+                      tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.controlador' | translate }}"
+                      type="button" ng-click="configurar(objeto.id)"
+                      ng-show="objeto.statusControlador == 'EM_CONFIGURACAO' || objeto.statusControlador == 'EM_EDICAO' || objeto.statusControlador == 'CONFIGURADO'">
+                    <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
+                  </a>
+                  <a class="btn btn-outline btn-primary "
+                      tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.copiar' | translate }} {{ 'controladores.controlador' | translate }}"
+                      type="button" ng-click="copiar(objeto.id)"
+                      ng-show="objeto.statusControlador == 'ATIVO'">
+                    <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
+                  </a>
+                  <a class="btn btn-outline btn-danger"
+                      tooltips tooltip-side="bottom" tooltip-template="{{ 'controladores.geral.cancelarEdicao' | translate }} {{ 'controladores.controlador' | translate }}"
+                      type="button" ng-if="objeto && objeto.versaoControlador && getUsuario().id === objeto.versaoControlador.usuario.id"
+                      ng-click="cancelarEdicao(objeto.id)"
+                      ng-show="objeto.statusControlador == 'EM_EDICAO'">
+                    <i class="fa fa-trash"></i> {{ 'controladores.geral.cancelarEdicao' | translate }}
+                  </a>
                 </div>
               </div>
             </div>
-          </div>
+
+            <influunt-revisao objeto="objeto" data-ng-controller="ControladoresRevisaoCtrl"></influunt-revisao>
+            <influunt-modal-timeline></influunt-modal-timeline>
+          </fieldset>
+
+
+        <div class="col-sm-12 bg-border-footer">
+          <a class="btn btn-primary btn-outline btn-footer right m-r-sm" ui-sref="app.controladores">{{ 'geral.crud.voltar' | translate }}</a>
+        </div>
+
         </div>
       </div>
     </div>
   </div>
-</fieldset>
+</div>
 
-<influunt-modal-timeline></influunt-modal-timeline>
