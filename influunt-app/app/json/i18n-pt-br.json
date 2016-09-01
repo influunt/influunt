@@ -277,6 +277,7 @@
   },
   "planos": {
     "titulo": "Planos",
+    "vazio": "Ainda não há planos cadastrados.",
     "resetarPlano": {
       "tituloAlert": "Limpar plano",
       "mensagemAlert": "Quer mesmo limpar as configurações deste plano?",
