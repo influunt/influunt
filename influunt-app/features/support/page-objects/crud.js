@@ -36,6 +36,18 @@ var CrudPage = function () {
     'Limite Planos':                   '[name="limitePlanos"]',
   };
 
+  this.textoConfirmacaoApagarRegistro = function() {
+    return world.getTextInSweetAlert();
+  };
+
+  this.toastMessage = function() {
+    return world.sleep(1000).then(function() {
+      return world.waitFor('#toast-container div.toast-message').then(function() {
+        return world.getElement('#toast-container div').getText();
+      });
+    });
+  };
+
   this.preencherCampo = function(campo, valor) {
     return world.setValue(campos[campo], valor);
   };

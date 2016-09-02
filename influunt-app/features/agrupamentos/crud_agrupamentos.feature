@@ -47,4 +47,4 @@ Funcionalidade: tela de cadastro de agrupamentos
     E clicar no botão de excluir um agrupamento
     Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir o agrupamento
     Quando o usuário responde sim
-    Então o agrupamento deverá ser excluido
+    Então o item deverá ser excluido

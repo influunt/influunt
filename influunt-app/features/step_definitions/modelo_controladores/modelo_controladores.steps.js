@@ -76,21 +76,9 @@ module.exports = function() {
     modelosPage.clicarLinkComTexto('Excluir');
   });
 
-  this.Given(/^o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir$/, function() {
-    return modelosPage.textoConfirmacaoApagarRegistro().then(function(text) {
-      expect(text).to.equal('Quer mesmo apagar este registro?');
-    });
-  });
-
   this.Given(/^nenhum modelo deve ser excluído$/, function() {
     return modelosPage.nenhumModeloDeveSerExcluido().then(function(res) {
       return expect(res).to.be.true;
-    });
-  });
-
-  this.Given(/^o modelo deverá ser excluido$/, function() {
-    return modelosPage.toastMessage().then(function(text) {
-      expect(text).to.match(/Removido com sucesso/);
     });
   });
 };
