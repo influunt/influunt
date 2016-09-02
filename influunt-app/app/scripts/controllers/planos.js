@@ -70,7 +70,7 @@ angular.module('influuntApp')
 
       $scope.cancelarEdicao = function(planoIdJson) {
         var plano = _.find($scope.objeto.planos, { idJson: planoIdJson });
-        return Restangular.one('planos', plano.id).all('edit/cancel').customPOST()
+        return Restangular.one('planos', plano.id).all('edit/cancel').customDELETE()
           .then(function() {
             $state.go('app.controladores');
           })
