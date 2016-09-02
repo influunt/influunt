@@ -17,10 +17,6 @@ describe('Service: validaTransicao', function () {
     };
   }));
 
-  it('Retorna xxxx', function() {
-    expect(true).toEqual(true);
-  });
-
   it('Retorna uma lista vazia quando não houver erros', function() {
     var response = validaTransicao.valida();
     expect(response).toEqual([]);
