@@ -17,8 +17,7 @@ before_script:
   - cd influunt-app && npm install && bower install && cd ..
   - wget http://downloads.typesafe.com/typesafe-activator/1.3.10/typesafe-activator-1.3.10-minimal.zip
   - unzip -q typesafe-activator-1.3.10-minimal.zip
-  - alias activator="$(pwd)/activator-1.3.10-minimal/bin/activator"
-script: cd influunt-app && npm test && cd ../influunt-api && activator jacoco:cover && cd ..
+script: cd influunt-app && npm test && cd ../influunt-api && ../activator-1.3.10-minimal/bin/activator jacoco:cover && cd ..
 after_success:
   - curl -k https://www.jpm4j.org/install/script | sudo sh
   - sudo jpm install com.codacy:codacy-coverage-reporter:assembly
