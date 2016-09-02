@@ -91,8 +91,6 @@ public class PlanosController extends Controller {
                     VersaoPlano versaoAnterior = versaoAtual.getVersaoAnterior();
                     if (versaoAnterior != null) {
                         versaoAnterior.setStatusVersao(StatusVersao.ATIVO);
-                        versaoAnterior.addPlano(plano);
-                        plano.setVersaoPlano(versaoAnterior);
                         versaoAnterior.save();
                         versaoAtual.delete();
                     }
