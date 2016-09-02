@@ -122,7 +122,7 @@ public class TabelaHorario extends Model implements Cloneable, Serializable {
     }
 
     @AssertTrue(groups = TabelaHorariosCheck.class,
-            message = "A tabela horária deve ter pelo menos 1 evento configurado.")
+            message = "A tabela horário deve ter pelo menos 1 evento configurado.")
     public boolean isAoMenosUmEvento() {
         return !this.getEventos().isEmpty();
     }

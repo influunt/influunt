@@ -43,7 +43,7 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         List<Erro> erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro(CONTROLADOR, "O controlador deve ter tabela horária configurada.", "possuiTabelaHoraria")
+                new Erro(CONTROLADOR, "O controlador deve ter tabela horário configurada.", "possuiTabelaHoraria")
         ));
 
         TabelaHorario tabelaHoraria = new TabelaHorario();
@@ -54,7 +54,7 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro(CONTROLADOR, "A tabela horária deve ter pelo menos 1 evento configurado.", "versoesTabelasHorarias[0].tabelaHoraria.aoMenosUmEvento")
+                new Erro(CONTROLADOR, "A tabela horário deve ter pelo menos 1 evento configurado.", "versoesTabelasHorarias[0].tabelaHoraria.aoMenosUmEvento")
         ));
 
         Evento evento = new Evento();

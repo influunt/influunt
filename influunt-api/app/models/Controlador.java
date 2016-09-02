@@ -508,7 +508,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
     }
 
     @AssertTrue(groups = TabelaHorariosCheck.class,
-            message = "O controlador deve ter tabela horária configurada.")
+            message = "O controlador deve ter tabela horário configurada.")
     public boolean isPossuiTabelaHoraria() {
         return this.getTabelaHoraria() != null;
     }
