@@ -7,6 +7,7 @@ var world = new worldObj.World();
 var TabelaHorariosPage = function () {
 
   var campos = {
+    'Dias':                     'select[name="eventoDiaDaSemana"]',
     'Hora':                     'select[name="eventoHora"]',
     'Minuto':                   'select[name="eventoMinuto"]',
     'Segundo':                  'select[name="eventoSegundo"]',

@@ -15,6 +15,7 @@ Funcionalidade: Fluxo para setar tabela de horários
 
   Cenário: Adicionar um envento
     Dado que o usuário esteja na página tabela horários
+    E o usuario selecionar "Domingo" no campo "Dias"
     E o usuario selecionar "12" no campo "Hora"
     E o usuario selecionar "0" no campo "Minuto"
     E o usuario selecionar "0" no campo "Segundo"
