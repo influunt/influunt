@@ -135,7 +135,6 @@ angular.module('influuntApp')
             adicionaTabelaHorario($scope.objeto);
           }
 
-          // $scope.currentTabelaHoraria = $scope.currentVersaoTabelaHoraria.tabelaHoraria;
           $scope.currentTabelaHoraria = _.find(
             $scope.objeto.tabelasHorarias, {idJson: $scope.currentVersaoTabelaHoraria.tabelaHoraria.idJson}
           );
