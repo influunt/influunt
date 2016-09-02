@@ -19,6 +19,7 @@ angular.module('influuntApp')
           minutos: '=',
           segundos: '=',
           dias: '=',
+          tabelaHoraria: '=',
           podeRemover: '=',
           erros: '=',
           onVerificaAtualizacaoDeEventos: '&',
