@@ -225,3 +225,9 @@ ul.menu-planos li.item-menu span.nome-plano.configurado {
   font-size: 0.7em;
   line-height: 1.2;
 }
+
+@media (min-width: 768px) {
+  .desc-plano {
+    width: 85%;
+  }
+}
