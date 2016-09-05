@@ -15,10 +15,11 @@
         <div class="col-lg-3 col-sm-3 no-padding-left">
           <p><strong>{{ 'controladores.gruposPedestres' | translate }}:</strong> {{ dadosCurrentAnel.numGruposPedestre }}</p>
           <p><strong>{{ 'controladores.gruposSinaisVeiculares' | translate }}:</strong> {{ dadosCurrentAnel.numGruposVeicular }}</p>
-        </div>
-        <div class="col-lg-3 col-sm-3 no-padding-left">
           <p><strong>{{ 'controladores.numeroDetectoresPedestres' | translate }}:</strong> {{ dadosCurrentAnel.numDetectoresPedestre }}</p>
           <p><strong>{{ 'controladores.numeroDetectores' | translate }}:</strong> {{ dadosCurrentAnel.numDetectoresVeicular }}</p>
+        </div>
+        <div class="col-lg-6 col-sm-6 no-padding-left">
+          <img data-ng-src="{{ dadosCurrentAnel.croqui }}">
         </div>
       </div>
 
