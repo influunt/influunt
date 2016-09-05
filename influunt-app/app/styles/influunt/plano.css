@@ -214,3 +214,7 @@ ul.menu-planos li.item-menu span.nome-plano.configurado {
   background: #3d3d3d;
   border-color: #0a0a0a;
 }
+
+.desc-plano {
+  font-size: 0.7em;
+}

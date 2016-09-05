@@ -51,7 +51,8 @@
                                   class="item-menu">
                                     <input type="checkbox" ichecks data-ng-model="plano.configurado" data-if-unchecked="resetarPlano(plano, $index)" data-is-disabled="$first" data-if-changed="selecionaPlano(plano, $index)" ng-if="!somenteVisualizacao">
                                     <span class="nome-plano" data-ng-class="{configurado: plano.configurado}">
-                                      {{ plano.descricao }}
+                                      {{'tabelaHorarios.plano' | translate}} {{ plano.posicao }}
+                                      <span class="desc-plano">{{ plano.descricao }}</span>
                                     </span>
                                     <span class="badge badge-danger badge-notification pull-right m-t-sm"
                                         data-ng-if="errors.aneis[currentAnelIndex].planos[$index]"
@@ -79,7 +80,7 @@
                           </div>
                           <div class="col-lg-10 col-sm-10" data-ng-if="currentPlano.configurado">
                             <div class="col-l-12 col-sm-12 border-bottom p-sm">
-                              <h1>{{'tabelaHorarios.plano' | translate}} - {{ plano.descricao }}</h1>
+                              <h1>{{'tabelaHorarios.plano' | translate}} {{ plano.posicao }} - {{ plano.descricao }}</h1>
                             </div>
                             <div class="col-lg-2 col-sm-2">
                               <article>
