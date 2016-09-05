@@ -53,7 +53,6 @@ public class AreasController extends Controller {
         if (area == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
-            area.getLimitesGeograficos();
             return CompletableFuture.completedFuture(ok(Json.toJson(area)));
         }
     }
