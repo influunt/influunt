@@ -278,7 +278,8 @@ angular.module('influuntApp')
       $scope.selecionaPlano = function(plano, index) {
         $scope.currentPlanoIndex = index;
         $scope.currentPlano = plano;
-        $scope.currentVersaoPlano = _.find($scope.objeto.versoesPlanos, {anel: {idJson: $scope.currentAnel.idJson}});
+        $scope.currentVersaoPlanoIndex = _.findIndex($scope.objeto.versoesPlanos, {anel: {idJson: $scope.currentAnel.idJson}});
+        $scope.currentVersaoPlano = $scope.objeto.versoesPlanos[$scope.currentVersaoPlanoIndex];
         atualizaEstagiosPlanos();
         return atualizaPosicaoPlanos();
       };
