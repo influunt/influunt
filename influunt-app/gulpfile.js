@@ -26,6 +26,7 @@ var paths = {
   scripts: [
     yeoman.app + '/scripts/**/*.js'
   ],
+
   styles: [yeoman.app + '/styles/**/*.scss'],
   test: ['test/helpers/**/*.js', 'test/spec/**/*.js'],
   testRequire: [
@@ -77,12 +78,16 @@ var paths = {
     'bower_components/angular-tooltips/dist/angular-tooltips.min.js',
 
     // inspinea scripts.
+    yeoman.app + '/plugins/jquery-ui-1.12.0/jquery-ui.js',
     yeoman.app + '/plugins/metisMenu/jquery.metisMenu.js',
     yeoman.app + '/plugins/ui-bootstrap-tpls-1.1.2.min.js',
     yeoman.app + '/plugins/inspinia.js',
     yeoman.app + '/plugins/icheck.min.js',
     yeoman.app + '/plugins/dropzone/dropzone.js',
-    yeoman.app + '/plugins/roundSlider-1.3/roundslider.min.js'
+    yeoman.app + '/plugins/roundSlider-1.3/roundslider.min.js',
+    yeoman.app + '/plugins/uiTabs/ui.tabs.overflowResize.js',
+    yeoman.app + '/plugins/uiTabs/lib/ui.tabs.addTab.js',
+    yeoman.app + '/plugins/uiTabs/lib/ui.tabs.closable.js'
     // yeoman.app + '/json/**/*.js'
     // 'test/mock/**/*.js'
   ],
