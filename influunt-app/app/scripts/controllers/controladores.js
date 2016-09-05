@@ -446,6 +446,10 @@ angular.module('influuntApp')
 
       $scope.podeAtivar = function(controlador) {
         return (controlador.statusControlador === 'CONFIGURADO') && (controlador.versoesPlanos && controlador.versoesPlanos.length > 0) && (controlador.versoesTabelasHorarias && controlador.versoesTabelasHorarias.length > 0);
-      }
+      };
+
+      $scope.podeMostrarPlanosETabelaHoraria = function(controlador) {
+        return controlador.statusControlador !== 'EM_CONFIGURACAO' && controlador.statusControlador !== 'EM_EDICAO';
+      };
 
     }]);
