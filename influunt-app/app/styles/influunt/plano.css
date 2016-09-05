@@ -216,5 +216,12 @@ ul.menu-planos li.item-menu span.nome-plano.configurado {
 }
 
 .desc-plano {
+  width: 95%;
+  min-height: 14px;
+  display: block;
+  position: relative;
+  top: -10px;
+  left: 27px;
   font-size: 0.7em;
+  line-height: 1.2;
 }
