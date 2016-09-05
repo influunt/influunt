@@ -42,6 +42,8 @@ angular.module('influuntApp')
                 }
               }
             }
+          }else if(!value){
+            scope.localizacao = '';
           }
         });
 
