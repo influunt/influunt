@@ -166,7 +166,7 @@ public class VersaoPlano extends Model implements Serializable {
     }
 
     /**
-     * Retorna a {@link List<VersaoPlano>}
+     * Retorna a {@link VersaoPlano}
      *
      * @param anel
      * @return

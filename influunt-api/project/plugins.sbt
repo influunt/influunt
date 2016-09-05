@@ -23,3 +23,7 @@ addSbtPlugin("com.typesafe.sbt" % "sbt-play-ebean" % "3.0.0")
 
 // Plugin to enable code coverage reports
 addSbtPlugin("de.johoop" % "jacoco4sbt" % "2.1.6")
+
+addSbtPlugin("com.typesafe.sbt" % "sbt-multi-jvm" % "0.3.8")
+addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.0.0-RC1")
+
