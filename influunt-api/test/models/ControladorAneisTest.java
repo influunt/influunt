@@ -206,6 +206,11 @@ public class ControladorAneisTest extends ControladorTest {
         area.setDescricao(2);
         area.save();
 
+        Subarea subarea = new Subarea();
+        subarea.setArea(area);
+        subarea.setNumero(234);
+        subarea.save();
+
         Controlador c1A1 = getControladorAneis();
         Controlador c2A1 = getControladorAneis();
 
@@ -234,10 +239,10 @@ public class ControladorAneisTest extends ControladorTest {
         assertEquals(c1A2.getArea().getId().toString(), c2A2.getArea().getId().toString());
         assertNotEquals(c1A1.getArea().getId().toString(), c1A2.getArea().getId().toString());
 
-        assertEquals("1.000.0001", c1A1.getCLC());
-        assertEquals("1.000.0002", c2A1.getCLC());
-        assertEquals("2.000.0001", c1A2.getCLC());
-        assertEquals("2.000.0002", c2A2.getCLC());
+        assertEquals("1.010.0001", c1A1.getCLC());
+        assertEquals("1.010.0002", c2A1.getCLC());
+        assertEquals("2.010.0001", c1A2.getCLC());
+        assertEquals("2.010.0002", c2A2.getCLC());
 
         List<Anel> aneisC1A1 = c1A1.getAneis().stream().sorted((o1, o2) -> o1.getPosicao().compareTo(o2.getPosicao())).collect(Collectors.toList());
         List<Anel> aneisC2A1 = c2A1.getAneis().stream().sorted((o1, o2) -> o1.getPosicao().compareTo(o2.getPosicao())).collect(Collectors.toList());
@@ -245,7 +250,7 @@ public class ControladorAneisTest extends ControladorTest {
         List<Anel> aneisC2A2 = c2A2.getAneis().stream().sorted((o1, o2) -> o1.getPosicao().compareTo(o2.getPosicao())).collect(Collectors.toList());
 
 
-        assertEquals("1.000.0001.1", aneisC1A1.get(0).getCLA());
+        assertEquals("1.000.1001.1", aneisC1A1.get(0).getCLA());
         assertEquals("1.000.0001.2", aneisC1A1.get(1).getCLA());
         assertEquals("1.000.0001.3", aneisC1A1.get(2).getCLA());
         assertEquals("1.000.0001.4", aneisC1A1.get(3).getCLA());

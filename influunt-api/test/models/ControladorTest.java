@@ -52,6 +52,12 @@ public abstract class ControladorTest extends WithApplication {
         area.setDescricao(1);
         area.save();
 
+        Subarea subarea = new Subarea();
+        subarea.setArea(area);
+        subarea.setNome("Subarea 1");
+        subarea.setNumero(1);
+        subarea.save();
+
         Fabricante fabricante = new Fabricante();
         fabricante.setNome("Tesc");
         fabricante.save();
@@ -68,7 +74,7 @@ public abstract class ControladorTest extends WithApplication {
         usuario.setEmail("abc@influunt.com.br");
         usuario.save();
 
-        controladorTestUtils = new ControladorTestUtil(cidade, area, fabricante, modeloControlador);
+        controladorTestUtils = new ControladorTestUtil(cidade, area, subarea, fabricante, modeloControlador);
     }
 
     protected Controlador getControlador() {
