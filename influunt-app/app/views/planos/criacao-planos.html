@@ -243,7 +243,12 @@
             <div class="modal-dialog">
               <div class="modal-content animated bounceInRight">
                 <div class="modal-header">
-                  <ng-include src="'views/planos/opcoes-inferior.html'"></ng-include>
+                  <h3>{{currentEstagioPlano.posicao}}&ordm; {{ 'planos.estagioSequencia' | translate }} - E{{getEstagio(currentEstagioPlano).posicao}}</h3>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <ng-include src="'views/planos/opcoes-inferior.html'"></ng-include>
+                  </div>
                 </div>
 
                 <div class="modal-footer">

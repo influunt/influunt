@@ -291,9 +291,11 @@ angular.module('influuntApp')
       };
 
       $scope.getEstagio = function(estagioPlano) {
-        var ep = _.find($scope.objeto.estagiosPlanos, {idJson: estagioPlano.idJson});
-        var estagio = _.find($scope.objeto.estagios, {idJson: ep.estagio.idJson});
-        return estagio;
+        if(estagioPlano){
+          var ep = _.find($scope.objeto.estagiosPlanos, {idJson: estagioPlano.idJson});
+          var estagio = _.find($scope.objeto.estagios, {idJson: ep.estagio.idJson});
+          return estagio;
+        }
       };
 
       $scope.adicionarEstagioPlano = function(estagioPlano) {
