@@ -365,6 +365,12 @@ angular.module('influuntApp')
         var imagem = _.find($scope.objeto.imagens, {idJson: estagio.imagem.idJson});
         return imagem && $filter('imageSource')(imagem.id, 'thumb');
       };
+      
+      $scope.getImagemDeCroqui = function(anel) {
+        var imagem = _.find($scope.objeto.imagens, {idJson: anel.croqui.idJson});
+        return imagem && $filter('imageSource')(imagem.id, 'thumb');
+      };
+      
 
       $scope.copiar = function(controladorId) {
         return Restangular.one('controladores', controladorId).all("edit").customGET()

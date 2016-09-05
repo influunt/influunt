@@ -1,15 +1,21 @@
 <div class="col-lg-12 col-sm-12 no-padding padding-top-20 ibox-content">
-  <label for="gsTabelasEntreVerdes">{{ 'controladores.configuracao_grupo' | translate }}</label>
-  <select class="form-control m-b" id="gsTabelasEntreVerdes"
-      data-ng-model="gsTabelasEntreVerdes"
-      data-ng-init="gsTabelasEntreVerdes = currentGruposSemaforicos[0]"
-      data-ng-options="gs as 'G'+gs.posicao for gs in currentGruposSemaforicos | orderBy: 'posicao'">
-  </select>
+  <div class="col-sm-6 no-padding-left">
+    <label for="gsTabelasEntreVerdes">{{ 'controladores.configuracao_grupo' | translate }}</label>
+    <select class="form-control m-b" id="gsTabelasEntreVerdes"
+        data-ng-model="gsTabelasEntreVerdes"
+        data-ng-init="gsTabelasEntreVerdes = currentGruposSemaforicos[0]"
+        data-ng-change="atualizaTabelasEntreVerdes(gsTabelasEntreVerdes)"
+        data-ng-options="gs as 'G'+gs.posicao for gs in currentGruposSemaforicos | orderBy: 'posicao'">
+    </select>
+  </div>
 
-  <label for="gsTabelasEntreVerdes">{{ 'controladores.entreVerdes.titulo' | translate }}</label>
-  <select class="form-control m-b" id="gsTabelasEntreVerdes"
-      data-ng-model="tabelaEntreVerdeSelecionada"
-      data-ng-options="tev as tev.descricao for tev in dadosCurrentTabelaEntreVerdes | filter: {grupoSemaforicoIdJson: gsTabelasEntreVerdes.idJson}"></select>
+  <div class="col-sm-6 no-padding-left">
+    <label for="gsTabelasEntreVerdes">{{ 'controladores.entreVerdes.titulo' | translate }}</label>
+    <select class="form-control m-b" id="tabelasEntreVerdes"
+        data-ng-model="tabelaEntreVerdeSelecionada"
+        data-ng-options="tev as tev.descricao for tev in currentTabelasEntreVerdes">
+    </select>
+  </div>
 </div>
 
 <div class="col-sm-12 no-padding padding-top-20" data-ng-if="tabelaEntreVerdeSelecionada">
