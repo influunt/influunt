@@ -86,6 +86,15 @@ var World = function () {
     }, waitTimeout);
   };
 
+  this.waitForByXpathInverse = function(xpath, timeout) {
+    var waitTimeout = timeout || defaultTimeout;
+    return driver.wait(function() {
+      return driver.isElementPresent(webdriver.By.xpath(xpath)).then(function(isElementPresent) {
+        return !isElementPresent;
+      });
+    }, waitTimeout);
+  };
+
   this.waitForAJAX = function(timeout) {
     timeout = timeout || defaultTimeout;
     var pollInterval = 500;
@@ -141,6 +150,8 @@ var World = function () {
   };
 
   this.setValue = function(cssSelector, value) {
+    var _this = this;
+    _this.waitFor(cssSelector);
     return driver.findElement(webdriver.By.css(cssSelector)).sendKeys(value);
   };
 
@@ -302,6 +313,11 @@ var World = function () {
 
   this.reloadPage = function() {
     return driver.navigate().refresh();
+  };
+
+  this.getTextInSweetAlert = function() {
+    var _this = this;
+    return _this.getElement('div[class*="sweet-alert"] p').getText();
   };
 
   this.dragAndDrop = function(element, location) {
