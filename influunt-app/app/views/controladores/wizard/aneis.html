@@ -125,13 +125,13 @@
                 <div class="col-lg-6 col-sm-6">
                   <h4>{{ 'geral.croqui' | translate }}</h4>
                   <div class="col-lg-12 col-sm-12 croqui movements">
-                    <form class="dropzone"
-                          id="croqui"
+                    <form class="dropzone croqui"
+                          id="croqui_{{currentAnelIndex}}"
                           imagens-url="dados.imagensUrl"
                           enctype="multipart/form-data"
                           influunt-dropzone
                           anel="currentAnel"
-                          options="{thumbnailWidth: 2000, thumbnailHeight: 2000, maxFiles: 1,}"
+                          options="{thumbnailWidth: 2000, thumbnailHeight: 2000, maxFiles: 1}"
                           on-success="adicionarCroqui(upload, imagem)"
                           on-delete="removerCroquiLocal(imagem)"
                           remove-button-text="{{ 'controladores.aneis.remover_croqui' | translate }}">
