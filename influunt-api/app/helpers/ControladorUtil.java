@@ -42,6 +42,7 @@ public class ControladorUtil {
         controladorClone.setStatusControlador(StatusControlador.EM_EDICAO);
         controladorClone.setArea(controlador.getArea());
         controladorClone.setModelo(controlador.getModelo());
+        controladorClone.setSubarea(controlador.getSubarea());
 
         if (controlador.getEndereco() != null && controlador.getEndereco().getIdJson() != null) {
             Endereco enderecoAux = copyPrimitveFields(controlador.getEndereco());

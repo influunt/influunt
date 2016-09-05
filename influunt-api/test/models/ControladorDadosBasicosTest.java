@@ -210,9 +210,11 @@ public class ControladorDadosBasicosTest extends ControladorTest {
 
         Controlador c1A2 = getControladorDadosBasicos();
         c1A2.setArea(area);
+        c1A2.setSubarea(null);
 
         Controlador c2A2 = getControladorDadosBasicos();
         c2A2.setArea(area);
+        c2A2.setSubarea(null);
 
         c1A1.save();
         c2A1.save();
@@ -222,8 +224,8 @@ public class ControladorDadosBasicosTest extends ControladorTest {
         assertEquals(c1A1.getArea().getId().toString(), c2A1.getArea().getId().toString());
         assertEquals(c1A2.getArea().getId().toString(), c2A2.getArea().getId().toString());
 
-        assertEquals("1.000.0001", c1A1.getCLC());
-        assertEquals("1.000.0002", c2A1.getCLC());
+        assertEquals("1.001.0001", c1A1.getCLC());
+        assertEquals("1.001.0002", c2A1.getCLC());
         assertEquals("2.000.0001", c1A2.getCLC());
         assertEquals("2.000.0002", c2A2.getCLC());
 
@@ -234,8 +236,8 @@ public class ControladorDadosBasicosTest extends ControladorTest {
 
         c1A2.setSubarea(subarea);
 
-        assertEquals("1.000.0001", c1A1.getCLC());
-        assertEquals("1.000.0002", c2A1.getCLC());
+        assertEquals("1.001.0001", c1A1.getCLC());
+        assertEquals("1.001.0002", c2A1.getCLC());
         assertEquals("2.234.0001", c1A2.getCLC());
         assertEquals("2.000.0002", c2A2.getCLC());
     }
