@@ -27,6 +27,11 @@ angular.module('influuntApp')
             if (angular.isFunction(scope.onDelete())) {
               scope.onDelete()(objIdjson).then(function(deveRemover) {
                 if (deveRemover) {
+                  var dropzoneId = "croqui_" + (scope.anel.posicao - 1);
+                  var dropzone = Dropzone.forElement('#' + dropzoneId);
+                  _.filter(dropzone.files, {dropzoneId: dropzoneId}).map(function (e) {
+                    e.accepted = false;
+                  });
                   destroySingleFakePreview(objIdjson);
                 }
               });
