@@ -216,7 +216,7 @@ ul.menu-planos li.item-menu span.nome-plano.configurado {
 }
 
 .desc-plano {
-  width: 95%;
+  width: 92%;
   min-height: 14px;
   display: block;
   position: relative;
@@ -226,8 +226,8 @@ ul.menu-planos li.item-menu span.nome-plano.configurado {
   line-height: 1.2;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 960px) {
   .desc-plano {
-    width: 85%;
+    width: 88%;
   }
 }
