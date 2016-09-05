@@ -112,7 +112,8 @@ angular.module('influuntApp')
             numGruposPedestre: gruposSemaforicosCount.totalPedestre,
             numGruposVeicular: gruposSemaforicosCount.totalVeicular,
             numDetectoresPedestre: detectoresCount.totalPedestre,
-            numDetectoresVeicular: detectoresCount.totalVeicular
+            numDetectoresVeicular: detectoresCount.totalVeicular,
+            croqui: $scope.getImagemDeCroqui($scope.currentAnel)
           };
         }
       };
@@ -290,40 +291,14 @@ angular.module('influuntApp')
             })
             .orderBy(['posicao'])
             .value();
+          $scope.atualizaTabelasEntreVerdes($scope.currentGruposSemaforicos[0]);
         }
+      };
 
-        $scope.dadosCurrentTabelasentreVerdesPadrao = [];
-        $scope.dadosCurrentTabelasentreVerdesOutra = [];
-        if ($scope.currentEstagios) {
-          var ids = _.map($scope.currentEstagios, 'idJson');
-          var transicoes = _.filter($scope.objeto.transicoes, function(t) {
-            return ids.indexOf(t.origem.idJson) >= 0 || ids.indexOf(t.destino.idJson) >= 0;
-          });
-
-          _.forEach(transicoes, function(transicao) {
-            var tevtPadrao = _.find($scope.objeto.tabelasEntreVerdesTransicoes, { idJson: transicao.tabelaEntreVerdesTransicoes[0].idJson });
-            $scope.dadosCurrentTabelasentreVerdesPadrao.push({
-              origem: _.find($scope.objeto.estagios, { idJson: transicao.origem.idJson }),
-              destino: _.find($scope.objeto.estagios, { idJson: transicao.destino.idJson }),
-              tempoAmarelo: tevtPadrao.tempoAmarelo,
-              tempoVermelhoLimpeza: tevtPadrao.tempoVermelhoLimpeza,
-              tempoVermelhoIntermitente: tevtPadrao.tempoVermelhoIntermitente
-            });
-
-            var tevtOutra = _.get(transicao, 'tabelaEntreVerdesTransicoes[1]');
-            if (typeof tevtOutra !== 'undefined') {
-              tevtOutra = _.find($scope.objeto.tabelasEntreVerdesTransicoes, { idJson: tevtOutra.idJson });
-              var tevOutra = _.find($scope.tabelasEntreVerdes, { idJson: tevtOutra.tabelaEntreVerdes.idJson });
-              $scope.dadosCurrentTabelasentreVerdesOutra.push({
-                origem: _.find($scope.objeto.estagios, { idJson: transicao.origem.idJson }),
-                destino: _.find($scope.objeto.estagios, { idJson: transicao.destino.idJson }),
-                tempoAmarelo: tevtOutra.tempoAmarelo,
-                tempoVermelhoLimpeza: tevtOutra.tempoVermelhoLimpeza,
-                tempoVermelhoIntermitente: tevtOutra.tempoVermelhoIntermitente,
-                nome: _.get(tevOutra, 'descricao') || 'NOVA'
-              });
-            }
-          });
+      $scope.atualizaTabelasEntreVerdes = function(grupo){
+        if(grupo){
+          $scope.currentTabelasEntreVerdes = _.filter($scope.dadosCurrentTabelaEntreVerdes, {grupoSemaforicoIdJson: grupo.idJson});
+          $scope.tabelaEntreVerdeSelecionada = $scope.currentTabelasEntreVerdes[0];
         }
       };
 

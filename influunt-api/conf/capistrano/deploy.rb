@@ -69,8 +69,7 @@ namespace :app do
   desc 'Makes the production build'
   task :build do
     run_locally do
-      # execute "command -v activator >/dev/null 2>&1 && activator dist || command -v ../activator-1.3.10-minimal/bin/activator >/dev/null 2>&1 && ../activator-1.3.10-minimal/bin/activator dist"
-      execute "activator dist"
+      execute 'command -v activator >/dev/null 2>&1; if [ "$?" -eq 0 ]; then activator dist; else ../activator-1.3.10-minimal/bin/activator dist; fi;'
     end
   end
 
@@ -86,4 +85,3 @@ before 'deploy:updating', 'deploy:upload_tarball'
 before 'deploy:upload_tarball', 'app:build'
 after 'deploy:published', 'deploy:restart'
 after 'deploy:cleanup', 'app:cleanup'
-

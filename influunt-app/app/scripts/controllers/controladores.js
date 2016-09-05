@@ -365,6 +365,12 @@ angular.module('influuntApp')
         var imagem = _.find($scope.objeto.imagens, {idJson: estagio.imagem.idJson});
         return imagem && $filter('imageSource')(imagem.id, 'thumb');
       };
+      
+      $scope.getImagemDeCroqui = function(anel) {
+        var imagem = _.find($scope.objeto.imagens, {idJson: anel.croqui.idJson});
+        return imagem && $filter('imageSource')(imagem.id, 'thumb');
+      };
+      
 
       $scope.copiar = function(controladorId) {
         return Restangular.one('controladores', controladorId).all("edit").customGET()
@@ -436,6 +442,14 @@ angular.module('influuntApp')
               $state.go(destino, {id: $scope.objeto.id});
             }
           });
+      };
+
+      $scope.podeAtivar = function(controlador) {
+        return (controlador.statusControlador === 'CONFIGURADO') && (controlador.versoesPlanos && controlador.versoesPlanos.length > 0) && (controlador.versoesTabelasHorarias && controlador.versoesTabelasHorarias.length > 0);
+      };
+
+      $scope.podeMostrarPlanosETabelaHoraria = function(controlador) {
+        return controlador.statusControlador !== 'EM_CONFIGURACAO' && controlador.statusControlador !== 'EM_EDICAO';
       };
 
     }]);

@@ -423,7 +423,7 @@ public class ControladorPlanoTest extends ControladorTest {
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro(CONTROLADOR, "O tempo de estagio ultrapassa o tempo maximo de permanencia.", "aneis[1].versoesPlanos[0].planos[0].estagiosPlanos[0].ultrapassaTempoMaximoPermanencia"),
                 new Erro(CONTROLADOR, "O tempo de verde intermediaria deve estar entre o valor de verde minimo e verde maximo.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeIntermediarioFieldEntreMinimoMaximo"),
-                new Erro(CONTROLADOR, "A soma dos tempos dos estágios ultrapassa o tempo de ciclo.", "aneis[1].versoesPlanos[0].planos[0].ultrapassaTempoCiclo"),
+                new Erro(CONTROLADOR, "A soma dos tempos dos estágios é diferente do tempo de ciclo.", "aneis[1].versoesPlanos[0].planos[0].ultrapassaTempoCiclo"),
                 new Erro(CONTROLADOR, "A sequência de estagio não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio")
         ));
 

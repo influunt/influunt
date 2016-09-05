@@ -127,11 +127,13 @@ angular.module('influuntApp')
             }
           });
 
-          $scope.currentVersaoTabelaHoraria = _.find($scope.objeto.versoesTabelasHorarias, {statusVersao: 'EDITANDO'}) ||
-                                              _.find($scope.objeto.versoesTabelasHorarias, {statusVersao: 'ATIVO'});
+          $scope.currentVersaoTabelaHorariaIndex = _.findIndex($scope.objeto.versoesTabelasHorarias, {statusVersao: 'EDITANDO'}) ||
+                                                   _.findIndex($scope.objeto.versoesTabelasHorarias, {statusVersao: 'ATIVO'});
+          $scope.currentVersaoTabelaHoraria = $scope.objeto.versoesTabelasHorarias[$scope.currentVersaoTabelaHorariaIndex];
           if($scope.objeto.tabelasHorarias.length === 0) {
             $scope.objeto.versoesTabelasHorarias = ($scope.objeto.versoesTabelasHorarias.length > 0) ? $scope.objeto.versoesTabelasHorarias : [{idJson: UUID.generate()}];
-            $scope.currentVersaoTabelaHoraria = $scope.objeto.versoesTabelasHorarias[0];
+            $scope.currentVersaoTabelaHorariaIndex = 0;
+            $scope.currentVersaoTabelaHoraria = $scope.objeto.versoesTabelasHorarias[$scope.currentVersaoTabelaHorariaIndex];
             adicionaTabelaHorario($scope.objeto);
           }
 
@@ -412,8 +414,12 @@ angular.module('influuntApp')
       };
 
       $scope.getErrosTabelaHoraria = function() {
-        if ($scope.errors && $scope.errors.tabelaHoraria) {
-          return _.chain($scope.errors.tabelaHoraria.aoMenosUmEvento).map().flatten().value();
+        if ($scope.errors && $scope.errors.versoesTabelasHorarias[$scope.currentVersaoTabelaHorariaIndex]) {
+          return _
+          .chain($scope.errors.versoesTabelasHorarias[$scope.currentVersaoTabelaHorariaIndex].tabelaHoraria.aoMenosUmEvento)
+          .map()
+          .flatten()
+          .value();
         } else {
           return [];
         }

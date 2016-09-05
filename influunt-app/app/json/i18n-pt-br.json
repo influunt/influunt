@@ -298,7 +298,8 @@
       "tempoFixoIsolado": "Isolado",
       "intermitente": "Intermitente",
       "apagado": "Apagado"
-    }
+    },
+    "estagioSequencia": "Estágio da Sequência"
   },
   "diagramaIntervalos": {
     "titulo": "Diagrama de Intervalos"
