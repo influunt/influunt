@@ -38,6 +38,7 @@ var influunt;
           var estagioAtual = estagioPlanoAtual.estagio;
           var tempoVerde = plano.modoOperacao === 'ATUADO' ? estagioPlanoAtual.tempoVerdeMinimo || valoresMinimos.verdeMinimoMin : estagioPlanoAtual.tempoVerde || valoresMinimos.verdeMin;
           var estagioAnterior = this.estagioAnterior(plano.estagiosPlanos,i).estagio;
+          
           if(estagioAtual.idJson !== estagioAnterior.idJson){
             for(var j = 0; j < estagioAnterior.gruposSemaforicos.length; j++){
               var grupo = estagioAnterior.gruposSemaforicos[j];
