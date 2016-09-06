@@ -22,7 +22,7 @@ angular.module('influuntApp')
             toast.error($filter('translate')('sistema.mensagem_erro_404'));
           } else {
             if (ENV === 'development') {
-              var msg = response.status + ' ' + response.statusText + '             ' + response.data;
+              var msg = response.status + ' ' + response.statusText + '             ' + JSON.stringify(response.data);
               toast.error(msg);
             }
           }

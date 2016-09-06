@@ -127,8 +127,11 @@ angular.module('influuntApp')
             }
           });
 
-          $scope.currentVersaoTabelaHorariaIndex = _.findIndex($scope.objeto.versoesTabelasHorarias, {statusVersao: 'EDITANDO'}) ||
-                                                   _.findIndex($scope.objeto.versoesTabelasHorarias, {statusVersao: 'ATIVO'});
+          $scope.currentVersaoTabelaHorariaIndex = _.findIndex($scope.objeto.versoesTabelasHorarias, {statusVersao: 'EDITANDO'});
+          if ($scope.currentVersaoTabelaHorariaIndex === -1) {
+           $scope.currentVersaoTabelaHorariaIndex = _.findIndex($scope.objeto.versoesTabelasHorarias, {statusVersao: 'ATIVO'});
+          }
+
           $scope.currentVersaoTabelaHoraria = $scope.objeto.versoesTabelasHorarias[$scope.currentVersaoTabelaHorariaIndex];
           if($scope.objeto.tabelasHorarias.length === 0) {
             $scope.objeto.versoesTabelasHorarias = ($scope.objeto.versoesTabelasHorarias.length > 0) ? $scope.objeto.versoesTabelasHorarias : [{idJson: UUID.generate()}];
