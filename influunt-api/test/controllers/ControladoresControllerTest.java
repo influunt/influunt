@@ -108,6 +108,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         assertEquals("Teste de Aneis", controlador.getAneis().size(), controladorClonado.getAneis().size());
         assertEquals("Teste de Agrupamentos", controlador.getAgrupamentos().size(), controladorClonado.getAgrupamentos().size());
         assertEquals("Teste de Area", controlador.getArea(), controladorClonado.getArea());
+        assertEquals("Teste de Subarea", controlador.getSubarea(), controladorClonado.getSubarea());
         assertEquals("Teste de Modelo", controlador.getModelo(), controladorClonado.getModelo());
         assertEquals("Teste de Controlador Fisico", controlador.getVersaoControlador().getControladorFisico(), controladorClonado.getVersaoControlador().getControladorFisico());
         assertEquals("Total de Versoes", 2, controladorClonado.getVersaoControlador().getControladorFisico().getVersoes().size());
@@ -290,6 +291,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         assertEquals("Teste de Aneis", controlador.getAneis().size(), controladorClonado.getAneis().size());
         assertEquals("Teste de Agrupamentos", controlador.getAgrupamentos().size(), controladorClonado.getAgrupamentos().size());
         assertEquals("Teste de Area", controlador.getArea(), controladorClonado.getArea());
+        assertEquals("Teste de Subarea", controlador.getSubarea(), controladorClonado.getSubarea());
         assertEquals("Teste de Modelo", controlador.getModelo(), controladorClonado.getModelo());
         assertEquals("Teste de Controlador Fisico", controlador.getVersaoControlador().getControladorFisico(), controladorClonado.getVersaoControlador().getControladorFisico());
         assertEquals("Total de Versoes", 2, controladorClonado.getVersaoControlador().getControladorFisico().getVersoes().size());

@@ -14,13 +14,15 @@ public class ControladorTestUtil {
 
     private Cidade cidade;
     private Area area;
+    private Subarea subarea;
     private Fabricante fabricante;
     private ModeloControlador modeloControlador;
     private Usuario usuario;
 
-    public ControladorTestUtil(Cidade cidade, Area area, Fabricante fabricante, ModeloControlador modeloControlador) {
+    public ControladorTestUtil(Cidade cidade, Area area, Subarea subarea, Fabricante fabricante, ModeloControlador modeloControlador) {
         this.cidade = cidade;
         this.area = area;
+        this.subarea = subarea;
         this.fabricante = fabricante;
         this.modeloControlador = modeloControlador;
     }
@@ -33,6 +35,7 @@ public class ControladorTestUtil {
 
         Controlador controlador = getControlador();
         controlador.setArea(this.area);
+        controlador.setSubarea(this.subarea);
         controlador.setModelo(this.modeloControlador);
         controlador.setNumeroSMEE("1234");
         controlador.setNumeroSMEEConjugado1("C1");

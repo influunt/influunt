@@ -92,6 +92,7 @@ angular.module('influuntApp')
                 var imagemId = $(this).parent('.dz-image-preview').attr('data-imagem-id');
                 deleteImage(imagemId, file, _this);
               });
+              file.dropzoneId = this.element.id;
               file.previewElement.appendChild(removeButton);
             });
           }

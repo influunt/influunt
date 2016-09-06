@@ -2595,11 +2595,11 @@ tip-tip span {
   font-weight: 600;
 }
 
-.wrapper-content .basic-wizard .content .body .movements #croqui.dropzone {
+.wrapper-content .basic-wizard .content .body .movements form.dropzone.croqui {
   padding: 0;
 }
 
-.wrapper-content .basic-wizard .content .body .movements #croqui.dropzone .dz-preview, .wrapper-content .basic-wizard .content .body .movements #croqui.dropzone .dropzone-previews .dz-preview {
+.wrapper-content .basic-wizard .content .body .movements form.dropzone.croqui .dz-preview, .wrapper-content .basic-wizard .content .body .movements form.dropzone.croqui .dropzone-previews .dz-preview {
   width: 100%;
   height: 100%;
   margin: 0;
@@ -2607,7 +2607,7 @@ tip-tip span {
   padding: 0;
 }
 
-.wrapper-content .basic-wizard .content .body .movements #croqui.dropzone .dz-preview .dz-details, .wrapper-content .basic-wizard .content .body .movements #croqui.dropzone .dropzone-previews .dz-preview .dz-details {
+.wrapper-content .basic-wizard .content .body .movements form.dropzone.croqui .dz-preview .dz-details, .wrapper-content .basic-wizard .content .body .movements form.dropzone.croqui .dropzone-previews .dz-preview .dz-details {
   width: 100%;
   height: 100%;
   overflow: auto;
@@ -2615,25 +2615,25 @@ tip-tip span {
   top: 45px;
 }
 
-.wrapper-content .basic-wizard .content .body .movements #croqui.dropzone .dz-preview .dz-details img, .wrapper-content .basic-wizard .content .body .movements #croqui.dropzone .dropzone-previews .dz-preview .dz-details img {
+.wrapper-content .basic-wizard .content .body .movements form.dropzone.croqui .dz-preview .dz-details img, .wrapper-content .basic-wizard .content .body .movements form.dropzone.croqui .dropzone-previews .dz-preview .dz-details img {
   width: 100%;
   height: auto !important;
 }
 
-.wrapper-content .basic-wizard .content .body .movements #croqui.dropzone .dz-preview .dz-progress, .wrapper-content .basic-wizard .content .body .movements #croqui.dropzone .dropzone-previews .dz-preview .dz-progress {
+.wrapper-content .basic-wizard .content .body .movements form.dropzone.croqui .dz-preview .dz-progress, .wrapper-content .basic-wizard .content .body .movements form.dropzone.croqui .dropzone-previews .dz-preview .dz-progress {
   top: 6px;
 }
 
-.wrapper-content .basic-wizard .content .body .movements #croqui.dropzone .dz-preview .dz-details .dz-size, .wrapper-content .basic-wizard .content .body .movements #croqui.dropzone .dropzone-previews .dz-preview .dz-details .dz-size {
+.wrapper-content .basic-wizard .content .body .movements form.dropzone.croqui .dz-preview .dz-details .dz-size, .wrapper-content .basic-wizard .content .body .movements form.dropzone.croqui .dropzone-previews .dz-preview .dz-details .dz-size {
   display: none;
 }
 
-.wrapper-content .basic-wizard .content .body .movements #croqui.dropzone .dz-preview a.dz-remove, .wrapper-content .basic-wizard .content .body .movements #croqui.dropzone .dropzone-previews a.dz-remove {
+.wrapper-content .basic-wizard .content .body .movements form.dropzone.croqui .dz-preview a.dz-remove, .wrapper-content .basic-wizard .content .body .movements form.dropzone.croqui .dropzone-previews a.dz-remove {
   margin-top: 0;
   position: relative;
 }
 
-.wrapper-content .basic-wizard .content .body .movements #croqui .dz-default.dz-message span {
+.wrapper-content .basic-wizard .content .body .movements .dropzone.croqui .dz-default.dz-message span {
   display: block;
   font-size: 13px;
   font-weight: 700;
@@ -2654,7 +2654,7 @@ tip-tip span {
   text-transform: uppercase;
 }
 
-#croqui.dropzone .dz-preview, .dropzone-previews .dz-preview {
+form.dropzone.croqui .dz-preview, .dropzone-previews .dz-preview {
   width: 100%;
   height: 100%;
   margin: 0;
@@ -2662,7 +2662,7 @@ tip-tip span {
   padding: 0;
 }
 
-#croqui.dropzone .dz-preview .dz-details, .dropzone-previews .dz-preview .dz-details {
+form.dropzone.croqui .dz-preview .dz-details, .dropzone-previews .dz-preview .dz-details {
   width: 100%;
   height: 100%;
   overflow: auto;
@@ -2670,24 +2670,24 @@ tip-tip span {
   top: 45px;
 }
 
-#croqui.dropzone .dz-preview .dz-details img, .dropzone-previews .dz-preview .dz-details img {
+form.dropzone.croqui .dz-preview .dz-details img, .dropzone-previews .dz-preview .dz-details img {
   width: 100%;
   height: auto !important;
 }
 
-#croqui {
+form.croqui {
   padding: 0;
 }
 
-#croqui.dropzone .dz-preview .dz-progress, .dropzone-previews .dz-preview .dz-progress {
+form.dropzone.croqui .dz-preview .dz-progress, .dropzone-previews .dz-preview .dz-progress {
   top: 6px;
 }
 
-#croqui.dropzone .dz-preview .dz-details .dz-size, .dropzone-previews .dz-preview .dz-details .dz-size {
+form.dropzone.croqui .dz-preview .dz-details .dz-size, .dropzone-previews .dz-preview .dz-details .dz-size {
   display: none;
 }
 
-#croqui.dropzone .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
+form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
   margin-top: 0;
   position: relative;
 }

@@ -30,7 +30,7 @@ angular.module('influuntApp')
           $scope.data = res;
           $scope.helpers = {};
 
-          if ($scope.objeto.area) {
+          if ($scope.objeto.area && $scope.objeto.areas) {
             var idJson = $scope.objeto.area.idJson;
             var area = _.find($scope.objeto.areas, {idJson: idJson});
             var cidade = _.find($scope.objeto.cidades, {idJson: area.cidade.idJson});
