@@ -2,6 +2,7 @@ package models;
 
 import be.objectify.deadbolt.java.models.Role;
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -22,6 +23,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "perfis")
+@ChangeLog
 @JsonSerialize(using = PerfilSerializer.class)
 public class Perfil extends Model implements Role, Serializable {
 

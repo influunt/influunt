@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -19,6 +20,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "versoes_tabelas_horarias")
+@ChangeLog
 public class VersaoTabelaHoraria extends Model implements Serializable {
 
     private static final long serialVersionUID = -8768656473022942047L;
@@ -58,7 +60,6 @@ public class VersaoTabelaHoraria extends Model implements Serializable {
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
-
 
     public VersaoTabelaHoraria() {
         super();

@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -23,6 +24,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "enderecos")
+@ChangeLog
 @JsonSerialize(using = EnderecoSerializer.class)
 @JsonDeserialize(using = EnderecoDeserializer.class)
 public class Endereco extends Model implements Serializable {

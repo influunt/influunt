@@ -27,6 +27,7 @@ import static org.junit.Assert.*;
 import static play.inject.Bindings.bind;
 import static play.mvc.Http.Status.OK;
 import static play.mvc.Http.Status.UNPROCESSABLE_ENTITY;
+import static play.test.Helpers.fakeRequest;
 import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.route;
 
@@ -50,7 +51,11 @@ public class SubareasControllerTest extends WithApplication {
     }
 
     @Before
-    public void setUp() {
+    public void setup() {
+        Http.Context context = new Http.Context(fakeRequest());
+        context.args.put("user", null);
+        Http.Context.current.set(context);
+
         Cidade cidade = new Cidade();
         cidade.setNome("SP");
         cidade.save();

@@ -2,6 +2,7 @@ package models;
 
 import checks.PlanosCheck;
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -22,7 +23,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "grupos_semaforicos_planos")
-
+@ChangeLog
 public class GrupoSemaforicoPlano extends Model implements Cloneable, Serializable {
 
     private static final long serialVersionUID = -8086882310576023685L;

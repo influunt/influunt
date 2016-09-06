@@ -26,13 +26,12 @@ resolvers += Resolver.jcenterRepo
 javaOptions in Test += "-Dconfig.file=conf/test.conf"
 javaOptions in Test += "-Dtest.timeout=600000"
 
-
-
 libraryDependencies ++= Seq(
   javaJdbc,
   cache,
   javaWs,
   evolutions,
+  "uk.co.panaxiom" %% "play-jongo" % "2.0.0-jongo1.3",
   "be.objectify" %% "deadbolt-java" % "2.5.0",
   "mysql" % "mysql-connector-java" % "5.1.36",
   "org.hibernate" % "hibernate-validator" % "5.2.4.Final",

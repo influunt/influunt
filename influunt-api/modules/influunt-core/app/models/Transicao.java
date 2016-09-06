@@ -3,6 +3,7 @@ package models;
 import checks.ControladorAtrasoDeGrupoCheck;
 import checks.ControladorTabelaEntreVerdesCheck;
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.PrivateOwned;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
@@ -26,6 +27,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "transicoes")
+@ChangeLog
 public class Transicao extends Model implements Cloneable, Serializable {
 
     private static final long serialVersionUID = -6578371832958671414L;

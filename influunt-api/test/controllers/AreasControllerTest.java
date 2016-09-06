@@ -26,6 +26,7 @@ import static org.junit.Assert.*;
 import static play.inject.Bindings.bind;
 import static play.mvc.Http.Status.OK;
 import static play.mvc.Http.Status.UNPROCESSABLE_ENTITY;
+import static play.test.Helpers.fakeRequest;
 import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.route;
 
@@ -50,6 +51,10 @@ public class AreasControllerTest extends WithApplication {
 
     @Before
     public void setUp() {
+        Http.Context context = new Http.Context(fakeRequest());
+        context.args.put("user", null);
+        Http.Context.current.set(context);
+
         cidade = new Cidade();
         cidade.setNome("BH");
         cidade.save();
@@ -228,6 +233,18 @@ public class AreasControllerTest extends WithApplication {
         assertEquals(OK, postResult.status());
         assertEquals("1", areaRetornada.getDescricao().toString());
 
+    }
+
+
+    @Test
+    public void testAtualizarAreaExistenteNew() {
+        Area area = new Area();
+        area.setDescricao(1);
+        area.setCidade(cidade);
+        area.save();
+
+        area.setDescricao(22);
+        area.update();
     }
 
 }

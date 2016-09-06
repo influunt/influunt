@@ -4,6 +4,7 @@ import be.objectify.deadbolt.java.models.Permission;
 import be.objectify.deadbolt.java.models.Role;
 import be.objectify.deadbolt.java.models.Subject;
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -24,6 +25,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "usuarios")
+@ChangeLog
 @JsonSerialize(using = UsuarioSerializer.class)
 @JsonDeserialize(using = UsuarioDeserialiazer.class)
 public class Usuario extends Model implements Subject, Serializable {

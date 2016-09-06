@@ -2,6 +2,7 @@ package models;
 
 import checks.ControladorTransicoesProibidasCheck;
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -18,7 +19,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "transicoes_proibidas")
-
+@ChangeLog
 public class TransicaoProibida extends Model implements Serializable {
 
     private static final long serialVersionUID = -3825474482773695751L;

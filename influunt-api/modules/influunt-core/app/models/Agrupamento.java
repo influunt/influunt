@@ -2,6 +2,7 @@ package models;
 
 import checks.NumeroDeControladores;
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.PrivateOwned;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
@@ -26,6 +27,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "agrupamentos")
+@ChangeLog
 @JsonSerialize(using = AgrupamentoSerializer.class)
 public class Agrupamento extends Model implements Cloneable, Serializable {
 

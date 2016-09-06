@@ -2,6 +2,7 @@ package models;
 
 import checks.ControladorTabelaEntreVerdesCheck;
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.PrivateOwned;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
@@ -23,7 +24,7 @@ import java.util.UUID;
  * Created by rodrigosol on 6/22/16.
  */
 @Entity
-
+@ChangeLog
 public class TabelaEntreVerdes extends Model implements Cloneable, Serializable {
 
     private static final long serialVersionUID = -5424393072628559818L;
