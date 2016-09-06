@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -22,6 +23,7 @@ import java.util.UUID;
  * @author lesiopinheiro
  */
 @Entity
+@ChangeLog
 public class LimiteArea extends Model implements Serializable {
 
     private static final long serialVersionUID = -2938220305527197172L;
@@ -31,19 +33,25 @@ public class LimiteArea extends Model implements Serializable {
 
     @Column
     private String idJson;
+
     @Column
     private Double latitude;
+
     @Column
     private Double longitude;
+
     @Column
     private Integer posicao;
+
     @ManyToOne
     private Area area;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)

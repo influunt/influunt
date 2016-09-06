@@ -7,6 +7,7 @@ import org.junit.Before;
 import play.Application;
 import play.Mode;
 import play.inject.guice.GuiceApplicationBuilder;
+import play.mvc.Http;
 import play.test.WithApplication;
 import security.AllowAllAuthenticator;
 import security.Authenticator;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import static play.inject.Bindings.bind;
+import static play.test.Helpers.fakeRequest;
 import static play.test.Helpers.inMemoryDatabase;
 
 /**
@@ -41,6 +43,10 @@ public abstract class AbstractInfluuntControladorTest extends WithApplication {
 
     @Before
     public void setUpModels() {
+        Http.Context context = new Http.Context(fakeRequest());
+        context.args.put("user", null);
+        Http.Context.current.set(context);
+
         Cidade cidade = new Cidade();
         cidade.setNome("São Paulo");
         cidade.save();

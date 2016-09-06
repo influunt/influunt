@@ -6,6 +6,7 @@ import akka.stream.javadsl.Source;
 import akka.util.ByteString;
 import com.google.inject.Singleton;
 import models.Imagem;
+import org.junit.Before;
 import org.junit.Test;
 import play.Application;
 import play.Mode;
@@ -27,6 +28,7 @@ import java.util.UUID;
 import static org.junit.Assert.*;
 import static play.inject.Bindings.bind;
 import static play.mvc.Http.Status.OK;
+import static play.test.Helpers.fakeRequest;
 import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.route;
 
@@ -50,6 +52,12 @@ public class ImagensControllerTest extends WithApplication {
                 .in(Mode.TEST).build();
     }
 
+    @Before
+    public void setup() {
+        Http.Context context = new Http.Context(fakeRequest());
+        context.args.put("user", null);
+        Http.Context.current.set(context);
+    }
 
     @Test
     public void testCriarNovaImagem() {

@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -22,6 +23,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "atrasos_de_grupos")
+@ChangeLog
 public class AtrasoDeGrupo extends Model implements Cloneable, Serializable {
 
     public static Finder<UUID, AtrasoDeGrupo> find = new Finder<UUID, AtrasoDeGrupo>(AtrasoDeGrupo.class);

@@ -2,6 +2,7 @@ package models;
 
 import checks.AreasCheck;
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -29,6 +30,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "areas")
+@ChangeLog
 @JsonSerialize(using = AreaSerializer.class)
 @JsonDeserialize(using = AreaDeserializer.class)
 public class Area extends Model implements Cloneable, Serializable {

@@ -2,6 +2,7 @@ package models;
 
 import com.avaje.ebean.Expr;
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -22,6 +23,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "controladores_fisicos")
+@ChangeLog
 public class ControladorFisico extends Model implements Serializable {
 
     private static final long serialVersionUID = -1589359465988312426L;

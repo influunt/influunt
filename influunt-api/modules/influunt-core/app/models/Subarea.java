@@ -2,6 +2,7 @@ package models;
 
 import checks.SubareasCheck;
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.PrivateOwned;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
@@ -30,6 +31,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "subareas")
+@ChangeLog
 @JsonSerialize(using = SubareaSerializer.class)
 @JsonDeserialize(using = SubareaDeserializer.class)
 public class Subarea extends Model implements Cloneable, Serializable {
