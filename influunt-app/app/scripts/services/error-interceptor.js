@@ -16,17 +16,16 @@ angular.module('influuntApp')
         },
 
         responseError: function(response) {
-          if (response.status === 502) {
-            toast.error($filter('translate')('sistema.mensagem_erro_502'));
-          } else if (response.status === 404) {
-            toast.error($filter('translate')('sistema.mensagem_erro_404'));
-          } else {
-            if (ENV === 'development') {
-              var msg = response.status + ' ' + response.statusText + '             ' + JSON.stringify(response.data);
-              toast.error(msg);
-            }
-          }
-
+          // if (response.status === 502) {
+          //   toast.error($filter('translate')('sistema.mensagem_erro_502'));
+          // } else if (response.status === 404) {
+          //   toast.error($filter('translate')('sistema.mensagem_erro_404'));
+          // } else {
+          //   if (ENV === 'development') {
+          //     var msg = response.status + ' ' + response.statusText + '             ' + JSON.stringify(response.data);
+          //     toast.error(msg);
+          //   }
+          // }
           return $q.reject(response);
         },
 
