@@ -27,6 +27,7 @@ libraryDependencies ++= Seq(
   "org.hamcrest" % "hamcrest-library" % "1.3",
   "commons-beanutils" % "commons-beanutils" % "1.9.2",
   "net.coobird" % "thumbnailator" % "0.4.8",
+  "com.google.code.gson" % "gson" % "2.7",
   "org.mindrot" % "jbcrypt" % "0.3m")
 
 jacoco.settings

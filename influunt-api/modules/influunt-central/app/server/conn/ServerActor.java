@@ -1,4 +1,4 @@
-package os72c.server.conn;
+package server.conn;
 
 import akka.actor.*;
 import akka.event.Logging;
@@ -56,11 +56,6 @@ public class ServerActor extends UntypedActor {
 
     }
 
-    public static void main(String args[]){
-        ActorSystem system = ActorSystem.create("InfluuntCentral", ConfigFactory.load());
-        system.actorOf(Props.create(ServerActor.class),"ClientActor");
-        system.awaitTermination();
-    }
 
     @Override
     public SupervisorStrategy supervisorStrategy() {

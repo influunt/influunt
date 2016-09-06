@@ -38,7 +38,7 @@ public class Client {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        conf72c = ConfigFactory.load().getConfig("72c");
+//        conf72c = ConfigFactory.load().getConfig("72c");
         new Client();
     }
 
