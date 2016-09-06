@@ -61,7 +61,6 @@ public class PermissoesControllerTest extends WithApplication {
         Http.Context.current.set(context);
     }
 
-
     @Test
     public void testCriarNovaPermissao() {
         Permissao permissao = getPermissao();

@@ -6,6 +6,7 @@ import models.Area;
 import models.Cidade;
 import models.Fabricante;
 import models.ModeloControlador;
+import org.junit.Before;
 import org.junit.Test;
 import play.Application;
 import play.Mode;
@@ -25,6 +26,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static play.inject.Bindings.bind;
 import static play.mvc.Http.Status.OK;
+import static play.test.Helpers.fakeRequest;
 import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.route;
 
@@ -44,6 +46,13 @@ public class HelpersControllerTest extends WithApplication {
                 .overrides(bind(Authenticator.class).to(AllowAllAuthenticator.class).in(Singleton.class))
                 .in(Mode.TEST).build();
 
+    }
+
+    @Before
+    public void setup() {
+        Http.Context context = new Http.Context(fakeRequest());
+        context.args.put("user", null);
+        Http.Context.current.set(context);
     }
 
     @Test

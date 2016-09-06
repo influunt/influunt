@@ -22,6 +22,7 @@ import java.util.*;
 
 import static org.junit.Assert.*;
 import static play.inject.Bindings.bind;
+import static play.test.Helpers.fakeRequest;
 import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.route;
 
@@ -48,7 +49,11 @@ public class UsuariosControllerTest extends WithApplication {
     }
 
     @Before
-    public void setUp() {
+    public void setup() {
+        Http.Context context = new Http.Context(fakeRequest());
+        context.args.put("user", null);
+        Http.Context.current.set(context);
+
         cidade = new Cidade();
         cidade.setNome("BH");
         cidade.save();
@@ -69,8 +74,6 @@ public class UsuariosControllerTest extends WithApplication {
 
         perfil.setPermissoes(Arrays.asList(permissao));
         perfil.update();
-
-
     }
 
     @NotNull
