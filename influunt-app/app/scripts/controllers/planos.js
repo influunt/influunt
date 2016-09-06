@@ -58,13 +58,31 @@ angular.module('influuntApp')
       };
 
       $scope.clonarPlanos = function(controladorId) {
-        return Restangular.one('controladores', controladorId).all('editar_planos').customGET()
+        return Restangular.one('controladores', controladorId).all("pode_editar").customGET()
+          .then(function() {
+            Restangular.one('controladores', controladorId).all('editar_planos').customGET()
+              .then(function() {
+                $state.go('app.planos_edit', { id: controladorId });
+              })
+              .catch(function(err) {
+                toast.error($filter('translate')('geral.mensagens.default_erro'));
+                throw new Error(JSON.stringify(err));
+              });
+          })
+          .catch(function(err) {
+            toast.clear();
+            influuntAlert.alert('Controlador', err.data[0].message);
+          });
+      };
+
+      $scope.editarPlano = function(controladorId) {
+        return Restangular.one('controladores', controladorId).all("pode_editar").customGET()
           .then(function() {
             $state.go('app.planos_edit', { id: controladorId });
           })
           .catch(function(err) {
-            toast.error($filter('translate')('geral.mensagens.default_erro'));
-            throw new Error(JSON.stringify(err));
+            toast.clear();
+            influuntAlert.alert('Controlador', err.data[0].message);
           });
       };
 

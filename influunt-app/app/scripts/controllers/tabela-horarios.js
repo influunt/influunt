@@ -173,6 +173,17 @@ angular.module('influuntApp')
           });
       };
 
+      $scope.editarTabelaHoraria = function(controladorId) {
+        return Restangular.one('controladores', controladorId).all("pode_editar").customGET()
+          .then(function() {
+            $state.go('app.tabela_horarios_edit', { id: controladorId });
+          })
+          .catch(function(err) {
+            toast.clear();
+            influuntAlert.alert('Controlador', err.data[0].message);
+          });
+      };
+
       $scope.cancelarEdicao = function(controladorId) {
         influuntAlert.delete().then(function(confirmado) {
           return confirmado && Restangular.one('tabela_horarios', controladorId).all('cancelar_edicao').customDELETE()
