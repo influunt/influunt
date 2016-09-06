@@ -28,21 +28,14 @@ angular.module('influuntApp')
         scope.$watch('result', function(value) {
           if (angular.isObject(value)) {
             updateGeometryData(value);
-
-            if (value.address_components && _.isArray(value.address_components)) {
-              var foundName = false;
-              for (var i = 0; i < value.address_components.length && !foundName; i++) {
-                if (value.address_components[i].types) {
-                  for (var j = 0; j < value.address_components[i].types.length && !foundName; j++) {
-                    if (value.address_components[i].types[j] === 'route') {
-                      scope.localizacao = value.address_components[i].short_name;
-                      foundName = true;
-                    }
-                  }
-                }
-              }
-            }
-          }else if(!value){
+            scope.localizacao = _.isArray(value.address_components) && _.chain(value.address_components)
+              .filter(function(component) {
+                return component.types.indexOf('route') >= 0;
+              })
+              .first()
+              .get('short_name')
+              .value();
+          } else if(!value) {
             scope.localizacao = '';
           }
         });

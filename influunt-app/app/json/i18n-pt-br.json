@@ -91,15 +91,16 @@
       "verTelaAnterior": "Ver Resumo"
     },
     "associacaoDetectores": {
-      "titulo": "Detectores",
       "adicionarDetector": "Adicionar Detector",
-      "detector": "detector",
-      "pedestre": "Pedestre",
-      "veicular": "Veícular",
       "ausencia": "Ausência de Detecção",
+      "configuracaoDetector": "Configuração do detector",
       "deteccao": "Detecção Permanente",
-      "monitoramentoFalha": "Monitoramento de Falha",
+      "detector": "detector",
       "mensagemMaxDetectores": "Você poderá adicionar até",
+      "monitoramentoFalha": "Monitoramento de Falha",
+      "pedestre": "Pedestre",
+      "titulo": "Detectores",
+      "veicular": "Veícular",
       "verTabelaEntreVerdes": "Ver Tela de Entre Verdes"
     },
     "dadosBasicos": {
