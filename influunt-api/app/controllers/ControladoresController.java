@@ -3,6 +3,7 @@ package controllers;
 import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
 import be.objectify.deadbolt.java.actions.Dynamic;
 import checks.*;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
@@ -262,6 +263,28 @@ public class ControladoresController extends Controller {
         } else {
             controladorService.cancelar(controlador);
             return CompletableFuture.completedFuture(ok());
+        }
+    }
+
+    @Transactional
+    public CompletionStage<Result> atualizarDescricao(String id) {
+        JsonNode json = request().body().asJson();
+
+        if (json == null) {
+            return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
+        } else {
+
+            Controlador controlador = Controlador.find.byId(UUID.fromString(id));
+            if (controlador == null) {
+                return CompletableFuture.completedFuture(notFound());
+            } else {
+                VersaoControlador versaoControlador = controlador.getVersaoControlador();
+                if (versaoControlador != null) {
+                    versaoControlador.setDescricao(json.get("descricao").asText());
+                    versaoControlador.update();
+                }
+                return CompletableFuture.completedFuture(ok());
+            }
         }
     }
 

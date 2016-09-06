@@ -1,0 +1,87 @@
+<div class="col-lg-12 col-sm-12 padding-top-20 tabs-container">
+
+  <influunt-tabs class="tabpanel"
+                 data-on-activate="selecionaAnelRevisao"
+                 data-aneis-ativos="aneis">
+  </influunt-tabs>
+
+  <div class="ui-layout-content tab-content">
+      <div class="col-lg-12 col-sm-12 no-padding-left padding-top-20 text-left">
+        <div class="col-lg-3 col-sm-3 no-padding-left">
+          <p><strong>{{ 'controladores.CLA' | translate }}:</strong> {{ dadosCurrentAnel.CLA }}</p>
+          <p><strong>{{ 'controladores.localizacao' | translate }}:</strong> {{ dadosCurrentAnel.localizacao }}</p>
+          <p><strong>{{ 'controladores.numeroSMEE' | translate }}:</strong> {{ dadosCurrentAnel.numeroSMEE }}</p>
+        </div>
+        <div class="col-lg-3 col-sm-3 no-padding-left">
+          <p><strong>{{ 'controladores.gruposPedestres' | translate }}:</strong> {{ dadosCurrentAnel.numGruposPedestre }}</p>
+          <p><strong>{{ 'controladores.gruposSinaisVeiculares' | translate }}:</strong> {{ dadosCurrentAnel.numGruposVeicular }}</p>
+          <p><strong>{{ 'controladores.numeroDetectoresPedestres' | translate }}:</strong> {{ dadosCurrentAnel.numDetectoresPedestre }}</p>
+          <p><strong>{{ 'controladores.numeroDetectores' | translate }}:</strong> {{ dadosCurrentAnel.numDetectoresVeicular }}</p>
+        </div>
+        <div class="col-lg-6 col-sm-6 no-padding-left">
+          <img data-ng-src="{{ dadosCurrentAnel.croqui }}">
+        </div>
+      </div>
+
+      <div class="col-lg-12 col-sm-12 no-padding">
+        <div class="col-lg-6 col-sm-6 no-padding-left text-left">
+          <div class="col-lg-12 col-sm-12 no-padding">
+            <h2>{{ 'controladores.gruposSemaforicos.titulo' | translate }}</h2>
+          </div>
+          <ng-include src="'views/directives/influunt-revisao/_grupos-semaforicos.html'" data-ng-if="dadosCurrentGruposSemaforicos.length > 0"></ng-include>
+          <ng-include src="'views/directives/influunt-revisao/_vazio.html'" data-ng-if="!(dadosCurrentGruposSemaforicos && dadosCurrentGruposSemaforicos.length > 0)"></ng-include>
+        </div>
+
+        <div class="col-lg-6 col-sm-6 no-padding-left text-left">
+          <div class="col-lg-12 col-sm-12 no-padding">
+            <h2>{{ 'controladores.associacao.titulo' | translate }}</h2>
+          </div>
+          <ng-include src="'views/directives/influunt-revisao/_estagios.html'" data-ng-if="dadosCurrentEstagios.length > 0"></ng-include>
+          <ng-include src="'views/directives/influunt-revisao/_vazio.html'" data-ng-if="!(dadosCurrentEstagios && dadosCurrentEstagios.length > 0)"></ng-include>
+        </div>
+      </div>
+
+      <div class="col-sm-12 no-padding">
+        <div class="col-sm-6 no-padding-left padding-top-20 text-left">
+          <div class="col-sm-12 no-padding">
+            <h2>{{ 'controladores.verdesConflitantes.titulo' | translate }}</h2>
+          </div>
+          <ng-include src="'views/directives/influunt-revisao/_verdes-conflitantes.html'" data-ng-if="dadosCurrentVerdesConflitantes.length > 0"></ng-include>
+          <ng-include src="'views/directives/influunt-revisao/_vazio.html'" data-ng-if="!(dadosCurrentVerdesConflitantes && dadosCurrentVerdesConflitantes.length > 0)"></ng-include>
+        </div>
+
+        <div class="col-sm-6 no-padding-left padding-top-20 text-left">
+          <div class="col-sm-12 no-padding">
+            <h2>{{ 'controladores.transicoesProibidas.titulo' | translate }}</h2>
+          </div>
+          <ng-include src="'views/directives/influunt-revisao/_transicoes-proibidas.html'"
+              data-ng-if="dadosCurrentTRansicoesProibidas1.length > 0 || dadosCurrentTRansicoesProibidas2.length > 0">
+          </ng-include>
+          <ng-include src="'views/directives/influunt-revisao/_vazio.html'"
+            data-ng-if="!(dadosCurrentTRansicoesProibidas1 && dadosCurrentTRansicoesProibidas2 && dadosCurrentTRansicoesProibidas1.length + dadosCurrentTRansicoesProibidas2.length > 0)"></ng-include>
+        </div>
+
+        <div class="col-sm-12 no-padding">
+          <div class="col-sm-6 no-padding-left padding-top-20 text-left">
+            <div class="col-sm-12 no-padding">
+              <h2>{{ 'controladores.entreVerdes.titulo' | translate }}</h2>
+            </div>
+            <ng-include src="'views/directives/influunt-revisao/_tabelas-entre-verdes.html'"
+                data-ng-if="dadosCurrentGruposSemaforicos.length > 0">
+            </ng-include>
+            <ng-include src="'views/directives/influunt-revisao/_vazio.html'"
+                data-ng-if="!(dadosCurrentGruposSemaforicos && dadosCurrentGruposSemaforicos.length > 0)">
+            </ng-include>
+          </div>
+
+          <div class="col-lg-6 col-sm-6 no-padding-left padding-top-20 text-left">
+            <div class="col-lg-12 col-sm-12 no-padding">
+              <h2>{{ 'controladores.associacaoDetectores.titulo' | translate }}</h2>
+            </div>
+            <ng-include src="'views/directives/influunt-revisao/_associacao.html'" data-ng-if="dadosCurrentDetectores.length > 0"></ng-include>
+            <ng-include src="'views/directives/influunt-revisao/_vazio.html'" data-ng-if="!(dadosCurrentDetectores && dadosCurrentDetectores.length > 0)"></ng-include>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>

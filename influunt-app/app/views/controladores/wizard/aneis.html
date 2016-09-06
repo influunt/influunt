@@ -9,7 +9,7 @@
                          data-on-remove="desativarUltimoAnel"
                          data-before-remove="deletarUltimoAnelAtivo"
                          data-on-activate="selecionaAnelLocal"
-                         data-aneis-ativos="aneisAtivos"
+                         data-aneis-ativos="aneis"
                          data-error-check="anelTemErro"
                          data-can-add-tabs="true"
                          data-can-remove-tabs="true"
@@ -125,13 +125,13 @@
                 <div class="col-lg-6 col-sm-6">
                   <h4>{{ 'geral.croqui' | translate }}</h4>
                   <div class="col-lg-12 col-sm-12 croqui movements">
-                    <form class="dropzone"
-                          id="croqui"
+                    <form class="dropzone croqui"
+                          id="croqui_{{currentAnelIndex}}"
                           imagens-url="dados.imagensUrl"
                           enctype="multipart/form-data"
                           influunt-dropzone
                           anel="currentAnel"
-                          options="{thumbnailWidth: 2000, thumbnailHeight: 2000, maxFiles: 1,}"
+                          options="{thumbnailWidth: 2000, thumbnailHeight: 2000, maxFiles: 1}"
                           on-success="adicionarCroqui(upload, imagem)"
                           on-delete="removerCroquiLocal(imagem)"
                           remove-button-text="{{ 'controladores.aneis.remover_croqui' | translate }}">
@@ -183,16 +183,4 @@
 </fieldset>
 
 
-<div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog" style="width: 95%;">
-    <div class="modal-content animated bounceInRight">
-      <div class="modal-header">
-        <influunt-revisao objeto="objeto" data-ng-controller="ControladoresRevisaoCtrl" data-show-footer="false"></influunt-revisao>
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">{{ 'crud.fechar' | translate }}</button>
-      </div>
-    </div>
-  </div>
-</div>
+<ng-include src="'views/controladores/wizard/common/popup-revisao.html'">

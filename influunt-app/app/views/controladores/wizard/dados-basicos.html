@@ -29,7 +29,7 @@
               </div>
 
               <div class="form-group">
-                <label class="control-label">{{ 'controladores.localizacao' | translate }}:</label>
+                <label class="control-label">{{ 'controladores.nomeEndereco' | translate }}:</label>
                 <input type="text" name="nomeEndereco" class="form-control" data-ng-model="objeto.nomeEndereco" disabled="disabled" readonly>
               </div>
 
@@ -150,7 +150,7 @@
 
             <div class="col-lg-4 col-sm-4 divider">
               <div class="form-group">
-                <label class="control-label">{{ 'controladores.fornecedor' | translate }}</label>
+                <label class="control-label">{{ 'controladores.fabricante' | translate }}</label>
                 <select name="fabricante" class="form-control"
                   data-ng-options="fornecedor as fornecedor.nome for fornecedor in data.fabricantes track by fornecedor.id"
                   data-ng-model="helpers.fornecedor"></select>

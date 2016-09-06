@@ -29,7 +29,7 @@ import static play.test.Helpers.route;
 /**
  * Created by lesiopinheiro on 8/10/16.
  */
-public class ControladoresControllerTest  extends AbstractInfluuntControladorTest {
+public class ControladoresControllerTest extends AbstractInfluuntControladorTest {
     @Test
     public void naoDeveriaClonarControladorComStatusConfigurado() {
         Controlador controlador = controladorTestUtils.getControladorDadosBasicos();
@@ -108,6 +108,7 @@ public class ControladoresControllerTest  extends AbstractInfluuntControladorTes
         assertEquals("Teste de Aneis", controlador.getAneis().size(), controladorClonado.getAneis().size());
         assertEquals("Teste de Agrupamentos", controlador.getAgrupamentos().size(), controladorClonado.getAgrupamentos().size());
         assertEquals("Teste de Area", controlador.getArea(), controladorClonado.getArea());
+        assertEquals("Teste de Subarea", controlador.getSubarea(), controladorClonado.getSubarea());
         assertEquals("Teste de Modelo", controlador.getModelo(), controladorClonado.getModelo());
         assertEquals("Teste de Controlador Fisico", controlador.getVersaoControlador().getControladorFisico(), controladorClonado.getVersaoControlador().getControladorFisico());
         assertEquals("Total de Versoes", 2, controladorClonado.getVersaoControlador().getControladorFisico().getVersoes().size());
@@ -290,6 +291,7 @@ public class ControladoresControllerTest  extends AbstractInfluuntControladorTes
         assertEquals("Teste de Aneis", controlador.getAneis().size(), controladorClonado.getAneis().size());
         assertEquals("Teste de Agrupamentos", controlador.getAgrupamentos().size(), controladorClonado.getAgrupamentos().size());
         assertEquals("Teste de Area", controlador.getArea(), controladorClonado.getArea());
+        assertEquals("Teste de Subarea", controlador.getSubarea(), controladorClonado.getSubarea());
         assertEquals("Teste de Modelo", controlador.getModelo(), controladorClonado.getModelo());
         assertEquals("Teste de Controlador Fisico", controlador.getVersaoControlador().getControladorFisico(), controladorClonado.getVersaoControlador().getControladorFisico());
         assertEquals("Total de Versoes", 2, controladorClonado.getVersaoControlador().getControladorFisico().getVersoes().size());
@@ -369,7 +371,7 @@ public class ControladoresControllerTest  extends AbstractInfluuntControladorTes
                 VersaoPlano versaoAnterior = versaoEdicao.getVersaoAnterior();
 
                 versaoAnterior.getPlanos().forEach(origem -> {
-                    Plano destino = versaoEdicao.getPlanos().stream().filter(aux -> aux.getIdJson().equals(origem.getIdJson())).findFirst().orElse(null);
+                    Plano destino = versaoEdicao.getPlanos().stream().filter(aux -> aux.getPosicao().equals(origem.getPosicao())).findFirst().orElse(null);
                     assertEquals("Teste Anel | Plano | Anel: ", origem.getAnel().getIdJson(), destino.getAnel().getIdJson());
                     if (origem.getAgrupamento() != null) {
                         assertEquals("Teste Anel | Plano | Agrupamento: ", origem.getAgrupamento().getIdJson(), destino.getAgrupamento().getIdJson());
@@ -377,9 +379,9 @@ public class ControladoresControllerTest  extends AbstractInfluuntControladorTes
                     assertFields(origem, destino);
 
                     origem.getEstagiosPlanos().forEach(estagioPlano -> {
-                        EstagioPlano estagioPlanoClonado = destino.getEstagiosPlanos().stream().filter(aux -> aux.getIdJson().equals(estagioPlano.getIdJson())).findFirst().orElse(null);
+                        EstagioPlano estagioPlanoClonado = destino.getEstagiosPlanos().stream().filter(aux -> aux.getPosicao().equals(estagioPlano.getPosicao())).findFirst().orElse(null);
                         assertEquals("Teste Anel | Plano | Estagio Plano |  Estagio: ", estagioPlano.getEstagio().getIdJson(), estagioPlanoClonado.getEstagio().getIdJson());
-                        assertEquals("Teste Anel | Plano | Estagio Plano |  Plano: ", estagioPlano.getPlano().getIdJson(), estagioPlanoClonado.getPlano().getIdJson());
+                        assertNotEquals("Teste Anel | Plano | Estagio Plano |  Plano: ", estagioPlano.getPlano().getIdJson(), estagioPlanoClonado.getPlano().getIdJson());
                         if (estagioPlano.getEstagioQueRecebeEstagioDispensavel() != null) {
                             assertEquals("Teste Anel | Plano | Estagio Plano |  Estagio Dispensavel: ", estagioPlano.getEstagioQueRecebeEstagioDispensavel().getIdJson(), estagioPlanoClonado.getEstagioQueRecebeEstagioDispensavel().getIdJson());
                         }
@@ -387,9 +389,9 @@ public class ControladoresControllerTest  extends AbstractInfluuntControladorTes
                     });
 
                     origem.getGruposSemaforicosPlanos().forEach(grupoSemaforicoPlano -> {
-                        GrupoSemaforicoPlano grupoSemaforicoPlanoClonado = destino.getGruposSemaforicosPlanos().stream().filter(aux -> aux.getIdJson().equals(grupoSemaforicoPlano.getIdJson())).findFirst().orElse(null);
+                        GrupoSemaforicoPlano grupoSemaforicoPlanoClonado = destino.getGruposSemaforicosPlanos().stream().filter(aux -> aux.getGrupoSemaforico().getPosicao().equals(grupoSemaforicoPlano.getGrupoSemaforico().getPosicao())).findFirst().orElse(null);
                         assertEquals("Teste Anel | Plano | Grupo Semaforico Plano |  Grupo Semaforico Plano: ", grupoSemaforicoPlano.getGrupoSemaforico().getIdJson(), grupoSemaforicoPlanoClonado.getGrupoSemaforico().getIdJson());
-                        assertEquals("Teste Anel | Plano | Grupo Semaforico Plano |  Plano: ", grupoSemaforicoPlano.getPlano().getIdJson(), grupoSemaforicoPlanoClonado.getPlano().getIdJson());
+                        assertNotEquals("Teste Anel | Plano | Grupo Semaforico Plano |  Plano: ", grupoSemaforicoPlano.getPlano().getIdJson(), grupoSemaforicoPlanoClonado.getPlano().getIdJson());
                         assertFields(grupoSemaforicoPlano, grupoSemaforicoPlanoClonado);
                     });
                 });
@@ -561,6 +563,36 @@ public class ControladoresControllerTest  extends AbstractInfluuntControladorTes
         assertEquals("Total de Planos", totalPlanos * 2, Plano.find.findRowCount());
         assertEquals("Total de GrupoSemaforicoPlano", totalGruposSemaforicosPlanos * 2, Ebean.find(GrupoSemaforicoPlano.class).findRowCount());
 
+    }
+
+
+    @Test
+    public void deveriaCancelarTabelaHorariaClonada() {
+        Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
+        controlador.ativar();
+
+        int totalTabelaHorarias = Ebean.find(TabelaHorario.class).findRowCount();
+        int totalVersoesTabelasHorarias = Ebean.find(VersaoTabelaHoraria.class).findRowCount();
+
+        Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
+                .uri(routes.ControladoresController.editarTabelaHoraria(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+
+        Result postResult = route(postRequest);
+        JsonNode json = Json.parse(Helpers.contentAsString(postResult));
+        Controlador controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
+
+        assertEquals(200, postResult.status());
+        assertEquals("Total Tabela Horarias", totalTabelaHorarias * 2, Ebean.find(TabelaHorario.class).findRowCount());
+        assertEquals("Total Versoes Tabela Horarias", totalVersoesTabelasHorarias * 2, Ebean.find(VersaoTabelaHoraria.class).findRowCount());
+
+
+        Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
+                .uri(routes.TabelaHorariosController.cancelarEdicao(controladorClonado.getId().toString()).url());
+        Result deleteResult = route(deleteRequest);
+        assertEquals(200, deleteResult.status());
+
+        assertEquals("Total Tabela Horarias", totalTabelaHorarias, Ebean.find(TabelaHorario.class).findRowCount());
+        assertEquals("Total Versoes Tabela Horarias", totalVersoesTabelasHorarias, Ebean.find(VersaoTabelaHoraria.class).findRowCount());
     }
 
     private <T> void assertFields(T origem, T destino) {

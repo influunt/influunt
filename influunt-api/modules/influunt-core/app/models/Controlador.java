@@ -568,13 +568,13 @@ public class Controlador extends Model implements Cloneable, Serializable {
             versao.update();
 
             VersaoTabelaHoraria versaoTabelaHoraria = this.getVersaoTabelaHoraria();
-            if(versaoTabelaHoraria != null) {
+            if (versaoTabelaHoraria != null) {
                 versaoTabelaHoraria.ativar();
             }
 
             getAneis().forEach(anel -> {
                 VersaoPlano versaoPlano = anel.getVersaoPlano();
-                if(versaoPlano != null) {
+                if (versaoPlano != null) {
                     versaoPlano.ativar();
                 }
             });

@@ -14,7 +14,8 @@ angular.module('influuntApp')
     function ($scope, $state, $timeout, Restangular, $filter, toast,
               influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo, handleValidations, TabelaHorariaService) {
 
-      var adicionaTabelaHorario, adicionaEvento, atualizaPlanos, atualizaGruposSemaforicos, atualizaEventos, atualizaPosicaoEventos, removerEventoNoCliente;
+      var adicionaTabelaHorario, adicionaEvento, atualizaPlanos, atualizaGruposSemaforicos, atualizaEventos,
+          atualizaPosicaoEventos, removerEventoNoCliente;
 
       $scope.somenteVisualizacao = $state.current.data.somenteVisualizacao;
       /**
@@ -100,7 +101,11 @@ angular.module('influuntApp')
           $scope.segundos = $scope.getTimes(60);
           $scope.planos = $scope.getTimes(16);
 
-          $scope.tipoEventos = [{posicao: ''}, {posicao: 'Especiais Recorrentes'}, {posicao: 'Especiais Não Recorrentes'}];
+          $scope.tipoEventos = [
+            {posicao: ''},
+            {posicao: 'Especiais Recorrentes'},
+            {posicao: 'Especiais Não Recorrentes'}
+          ];
           $scope.nomesTabs = [
             $filter('translate')('tabelaHorarios.eventos'),
             $filter('translate')('tabelaHorarios.eventosRecorrentes'),
@@ -122,14 +127,19 @@ angular.module('influuntApp')
             }
           });
 
-
+          $scope.currentVersaoTabelaHorariaIndex = _.findIndex($scope.objeto.versoesTabelasHorarias, {statusVersao: 'EDITANDO'}) ||
+                                                   _.findIndex($scope.objeto.versoesTabelasHorarias, {statusVersao: 'ATIVO'});
+          $scope.currentVersaoTabelaHoraria = $scope.objeto.versoesTabelasHorarias[$scope.currentVersaoTabelaHorariaIndex];
           if($scope.objeto.tabelasHorarias.length === 0) {
             $scope.objeto.versoesTabelasHorarias = ($scope.objeto.versoesTabelasHorarias.length > 0) ? $scope.objeto.versoesTabelasHorarias : [{idJson: UUID.generate()}];
+            $scope.currentVersaoTabelaHorariaIndex = 0;
+            $scope.currentVersaoTabelaHoraria = $scope.objeto.versoesTabelasHorarias[$scope.currentVersaoTabelaHorariaIndex];
             adicionaTabelaHorario($scope.objeto);
           }
-          $scope.objeto.tabelaHoraria = $scope.objeto.tabelasHorarias[0];
-          $scope.currentTabelaHoraria = $scope.objeto.tabelasHorarias[0];
-          $scope.currentVersaoTabelaHoraria = _.find($scope.objeto.versoesTabelasHorarias, {tabelaHoraria: {idJson: $scope.currentTabelaHoraria.idJson}});
+
+          $scope.currentTabelaHoraria = _.find(
+            $scope.objeto.tabelasHorarias, {idJson: $scope.currentVersaoTabelaHoraria.tabelaHoraria.idJson}
+          );
 
           adicionaEvento($scope.currentTabelaHoraria, 'NORMAL');
           adicionaEvento($scope.currentTabelaHoraria, 'ESPECIAL_RECORRENTE');
@@ -141,7 +151,7 @@ angular.module('influuntApp')
       $scope.clonarTabelaHoraria = function(controladorId) {
         return Restangular.one('controladores', controladorId).all('editar_tabela_horaria').customGET()
           .then(function() {
-            $state.go('app.controladores');
+            $state.go('app.tabela_horarios_edit', { id: controladorId });
           })
           .catch(function(err) {
             toast.error($filter('translate')('geral.mensagens.default_erro'));
@@ -158,6 +168,20 @@ angular.module('influuntApp')
             toast.error($filter('translate')('geral.mensagens.default_erro'));
             throw new Error(JSON.stringify(err));
           });
+      };
+
+      $scope.cancelarEdicao = function(controladorId) {
+        influuntAlert.delete().then(function(confirmado) {
+          return confirmado && Restangular.one('tabela_horarios', controladorId).all("cancelar_edicao").customDELETE()
+            .then(function() {
+              toast.success($filter('translate')('geral.mensagens.removido_com_sucesso'));
+              $state.go('app.controladores');
+            })
+            .catch(function(err) {
+              toast.error($filter('translate')('geral.mensagens.default_erro'));
+              throw new Error(err);
+            });
+        });
       };
 
       $scope.selecionaTipoEvento = function(index) {
@@ -201,7 +225,9 @@ angular.module('influuntApp')
         if(evento.hora && evento.minuto && evento.segundo && evento.posicaoPlano){
           evento.horario = evento.hora + ':' + evento.minuto + ':' + evento.segundo;
 
-          if(($scope.currentTipoEvento !== 'NORMAL' && evento.data && evento.nome) || ($scope.currentTipoEvento === 'NORMAL' && evento.diaDaSemana) && !evento.posicao){
+          if (($scope.currentTipoEvento !== 'NORMAL' && evento.data && evento.nome) ||
+             ($scope.currentTipoEvento === 'NORMAL' && evento.diaDaSemana) &&
+             !evento.posicao) {
             //Salva Evento
             $scope.objeto.eventos = $scope.objeto.eventos || [];
             $scope.objeto.eventos.push(evento);
@@ -239,7 +265,9 @@ angular.module('influuntApp')
       $scope.visualizarPlano = function(evento){
         $scope.selecionaAnel(0);
         var plano = _.find($scope.currentPlanos, {posicao: parseInt(evento.posicaoPlano)});
-        $scope.plano = geraDadosDiagramaIntervalo.gerar(plano, $scope.currentAnel, $scope.currentGruposSemaforicos, $scope.objeto);
+        $scope.plano = geraDadosDiagramaIntervalo.gerar(
+          plano, $scope.currentAnel, $scope.currentGruposSemaforicos, $scope.objeto
+        );
         var diagramaBuilder = new influunt.components.DiagramaIntervalos($scope.plano, $scope.valoresMinimos);
         var result = diagramaBuilder.calcula();
         _.each(result.gruposSemaforicos, function(g) {
@@ -254,13 +282,13 @@ angular.module('influuntApp')
         var tabelaHoraria = {
           idJson: UUID.generate(),
           controlador: { idJson: controlador.idJson },
-          versaoTabelaHoraria: {idJson: controlador.versoesTabelasHorarias[0].idJson},
+          versaoTabelaHoraria: {idJson: $scope.currentVersaoTabelaHoraria.idJson},
           eventos: []
         };
+
         controlador.tabelasHorarias = controlador.tabelasHorarias || [];
         controlador.tabelasHorarias.push(tabelaHoraria);
-        controlador.tabelaHoraria = controlador.tabelasHorarias[0];
-        controlador.versoesTabelasHorarias[0].tabelaHoraria = {idJson: tabelaHoraria.idJson};
+        $scope.currentVersaoTabelaHoraria.tabelaHoraria = {idJson: tabelaHoraria.idJson};
 
         return tabelaHoraria;
       };
@@ -272,18 +300,21 @@ angular.module('influuntApp')
         if($scope.novosEventos){
           eventoIndex = _.findIndex($scope.novosEventos, {tabelaHoraria: {idJson: tabelaHoraria.idJson}, tipo: tipo});
         }
+
         var evento = {
           idJson: UUID.generate(),
           tabelaHoraria: { idJson: tabelaHoraria.idJson },
           tipo: tipo,
           dataMoment: moment()
         };
+
         $scope.novosEventos = $scope.novosEventos || [];
-        if(eventoIndex >= 0){
+        if (eventoIndex >= 0) {
           $scope.novosEventos.splice(eventoIndex, 1, evento);
-        }else{
+        } else {
           $scope.novosEventos.push(evento);
         }
+
         return evento;
       };
 
@@ -323,7 +354,10 @@ angular.module('influuntApp')
           .orderBy(['posicao'])
           .value();
 
-        $scope.currentNovoEvento = _.find($scope.novosEventos, {tabelaHoraria: {idJson: $scope.currentTabelaHoraria.idJson}, tipo: $scope.currentTipoEvento});
+        $scope.currentNovoEvento = _.find(
+          $scope.novosEventos,
+          {tabelaHoraria: {idJson: $scope.currentTabelaHoraria.idJson}, tipo: $scope.currentTipoEvento}
+        );
         return atualizaPosicaoEventos();
       };
 
@@ -380,8 +414,12 @@ angular.module('influuntApp')
       };
 
       $scope.getErrosTabelaHoraria = function() {
-        if ($scope.errors && $scope.errors.tabelaHoraria) {
-          return _.chain($scope.errors.tabelaHoraria.aoMenosUmEvento).map().flatten().value();
+        if ($scope.errors && $scope.errors.versoesTabelasHorarias[$scope.currentVersaoTabelaHorariaIndex]) {
+          return _
+          .chain($scope.errors.versoesTabelasHorarias[$scope.currentVersaoTabelaHorariaIndex].tabelaHoraria.aoMenosUmEvento)
+          .map()
+          .flatten()
+          .value();
         } else {
           return [];
         }

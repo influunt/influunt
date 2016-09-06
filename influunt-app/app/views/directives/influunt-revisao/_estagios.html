@@ -1,0 +1,13 @@
+<div class="col-lg-12 col-sm-12 no-padding padding-top-20 ibox-content">
+  <div class="col-sm-6 no-padding-left review-page" data-ng-repeat="estagio in dadosCurrentEstagios">
+    <img data-ng-src="{{ estagio.imagem }}">
+    <h3>E{{ estagio.posicao }}</h3>
+    <div>{{ estagio.gruposSemaforicosStr }}</div>
+    <div class="m-t-xs" data-ng-if="estagio.tempoMaximoPermanencia">
+      {{ 'controladores.revisao.desativacaoTempoMax' | translate }}: {{ estagio.tempoMaximoPermanencia }}s
+    </div>
+    <div class="m-t-xs" data-ng-if="estagio.demandaPrioritaria">
+      {{ 'controladores.revisao.demandaPrioritaria' | translate }}
+    </div>
+  </div>
+</div>

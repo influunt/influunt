@@ -164,7 +164,7 @@ angular.module('influuntApp')
        */
       $scope.selecionaAnel = function(index) {
         $scope.currentAnelIndex = index;
-        $scope.currentAnel = $scope.aneis[$scope.currentAnelIndex];
+        $scope.currentAnel = $scope.objeto.aneis[$scope.currentAnelIndex];
       };
 
       /**
@@ -356,6 +356,10 @@ angular.module('influuntApp')
             })
             .orderBy(['posicao'])
             .value();
+
+            $scope.currentAnel.estagios = $scope.currentEstagios.map(function(i) {
+              return { idJson: i.idJson };
+            });
         }
 
         return $scope.currentEstagios;
@@ -365,6 +369,14 @@ angular.module('influuntApp')
         var imagem = _.find($scope.objeto.imagens, {idJson: estagio.imagem.idJson});
         return imagem && $filter('imageSource')(imagem.id, 'thumb');
       };
+
+      $scope.getImagemDeCroqui = function(anel) {
+        if (anel.croqui) {
+          var imagem = _.find($scope.objeto.imagens, { idJson: anel.croqui.idJson });
+          return imagem && $filter('imageSource')(imagem.id, 'thumb');
+        }
+      };
+
 
       $scope.copiar = function(controladorId) {
         return Restangular.one('controladores', controladorId).all("edit").customGET()
@@ -436,6 +448,14 @@ angular.module('influuntApp')
               $state.go(destino, {id: $scope.objeto.id});
             }
           });
+      };
+
+      $scope.podeAtivar = function(controlador) {
+        return (controlador.statusControlador === 'CONFIGURADO') && (controlador.versoesPlanos && controlador.versoesPlanos.length > 0) && (controlador.versoesTabelasHorarias && controlador.versoesTabelasHorarias.length > 0);
+      };
+
+      $scope.podeMostrarPlanosETabelaHoraria = function(controlador) {
+        return controlador.statusControlador !== 'EM_CONFIGURACAO' && controlador.statusControlador !== 'EM_EDICAO';
       };
 
     }]);

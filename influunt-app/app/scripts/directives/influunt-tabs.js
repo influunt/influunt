@@ -90,6 +90,12 @@ angular.module('influuntApp')
               if (result) {
                 var tabs = $(element).tabs('instance');
                 tabs.remove(data.index, true);
+              }else{
+                var el = $(data.tab.children).first();
+                el.css('position', 'absolute');
+                $timeout(function (){
+                  el.attr('style', null);
+                });
               }
             });
             return false;
@@ -98,6 +104,7 @@ angular.module('influuntApp')
         };
 
         var tabRemoved = function(event, data) {
+          
           $timeout(function() {
             checkTabLimit();
             toggleCloseButton();
@@ -136,7 +143,6 @@ angular.module('influuntApp')
 
         scope.$watch('aneisAtivos', function(value) {
           if (value) {
-
             $(element).tabs({
               closable: !!scope.canRemoveTabs,
               addTab: !!scope.canAddTabs,

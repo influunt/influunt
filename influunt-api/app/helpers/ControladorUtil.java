@@ -42,6 +42,7 @@ public class ControladorUtil {
         controladorClone.setStatusControlador(StatusControlador.EM_EDICAO);
         controladorClone.setArea(controlador.getArea());
         controladorClone.setModelo(controlador.getModelo());
+        controladorClone.setSubarea(controlador.getSubarea());
 
         if (controlador.getEndereco() != null && controlador.getEndereco().getIdJson() != null) {
             Endereco enderecoAux = copyPrimitveFields(controlador.getEndereco());
@@ -205,6 +206,28 @@ public class ControladorUtil {
             });
         });
 
+        //Atualizando IDJson de Planos
+        controlador.getAneis().forEach(anel -> {
+            anel.getDetectores().forEach(detector -> detector.setIdJson(UUID.randomUUID().toString()));
+            anel.getGruposSemaforicos().forEach(grupoSemaforico -> {
+                grupoSemaforico.getVerdesConflitantesOrigem().forEach(verdesConflitantes -> verdesConflitantes.setIdJson(UUID.randomUUID().toString()));
+                grupoSemaforico.getEstagiosGruposSemaforicos().forEach(estagioGrupoSemaforico -> estagioGrupoSemaforico.setIdJson(UUID.randomUUID().toString()));
+                grupoSemaforico.getTabelasEntreVerdes().forEach(tabelaEntreVerdes -> tabelaEntreVerdes.setIdJson(UUID.randomUUID().toString()));
+                grupoSemaforico.getTransicoes().forEach(transicao -> {
+                    transicao.getTabelaEntreVerdesTransicoes().forEach(tabelaEntreVerdesTransicao -> tabelaEntreVerdesTransicao.setIdJson(UUID.randomUUID().toString()));
+                    transicao.getAtrasoDeGrupo().setIdJson(UUID.randomUUID().toString());
+                    transicao.setIdJson(UUID.randomUUID().toString());
+                });
+                grupoSemaforico.setIdJson(UUID.randomUUID().toString());
+            });
+            anel.getEstagios().forEach(estagio -> {
+                estagio.getOrigemDeTransicoesProibidas().forEach(transicaoProibida -> transicaoProibida.setIdJson(UUID.randomUUID().toString()));
+                estagio.getDestinoDeTransicoesProibidas().forEach(transicaoProibida -> transicaoProibida.setIdJson(UUID.randomUUID().toString()));
+                estagio.getAlternativaDeTransicoesProibidas().forEach(transicaoProibida -> transicaoProibida.setIdJson(UUID.randomUUID().toString()));
+                estagio.setIdJson(UUID.randomUUID().toString());
+            });
+        });
+
         // FIM CLONE CONTROLADOR
         Ebean.update(controladorClone);
 
@@ -231,7 +254,7 @@ public class ControladorUtil {
 
         controlador.getAneis().forEach(anel -> {
             VersaoPlano versaoPlanoOrigem = anel.getVersaoPlanoAtivo();
-            if(versaoPlanoOrigem != null) {
+            if (versaoPlanoOrigem != null) {
                 versaoPlanoOrigem.setStatusVersao(StatusVersao.ARQUIVADO);
 
                 VersaoPlano versaoPlano = new VersaoPlano(anel, usuario);
@@ -279,6 +302,16 @@ public class ControladorUtil {
             });
         });
 
+        //Atualizando IDJson de Planos
+        controlador.getAneis().forEach(anel -> {
+            anel.getPlanos().forEach(plano -> {
+                plano.getEstagiosPlanos().forEach(estagioPlano -> estagioPlano.setIdJson(UUID.randomUUID().toString()));
+                plano.getGruposSemaforicosPlanos().forEach(grupoSemaforicoPlano -> grupoSemaforicoPlano.setIdJson(UUID.randomUUID().toString()));
+                plano.setIdJson(UUID.randomUUID().toString());
+            });
+        });
+        Ebean.update(controlador);
+
         long elapsed = System.nanoTime() - startTime;
         Logger.info(String.format("[PLANO] - DeepClone: Elapsed time: %d ns (%f seconds)%n", elapsed, elapsed / Math.pow(10, 9)));
     }
@@ -288,7 +321,7 @@ public class ControladorUtil {
         long startTime = System.nanoTime();
 
         VersaoTabelaHoraria versaoTabelaHorariaOrigem = controlador.getVersaoTabelaHoraria();
-        if(versaoTabelaHorariaOrigem.getTabelaHoraria() != null) {
+        if (versaoTabelaHorariaOrigem.getTabelaHoraria() != null) {
             TabelaHorario tabelaHorarioAux = copyPrimitveFields(versaoTabelaHorariaOrigem.getTabelaHoraria());
             tabelaHorarioAux.setIdJson(UUID.randomUUID().toString());
             VersaoTabelaHoraria versaoTabelaHoraria = new VersaoTabelaHoraria(controlador, versaoTabelaHorariaOrigem.getTabelaHoraria(), tabelaHorarioAux, usuario);

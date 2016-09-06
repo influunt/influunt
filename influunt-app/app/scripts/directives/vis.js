@@ -66,9 +66,9 @@ angular.module('influuntApp')
               if (grupo.intervalos[0].status === 0) {
                 items.push({
                   start: 0,
-                  end: 255,
+                  end: grupo.intervalos[0].duracao,
                   group: groupId,
-                  content: '255s',
+                  content: grupo.intervalos[0].duracao + 's',
                   id: groupId + 'i' + index,
                   className: 'indicacao-' + modoOperacaoService.getCssClass(0),
                   type: 'range'

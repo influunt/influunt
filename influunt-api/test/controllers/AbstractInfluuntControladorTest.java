@@ -25,7 +25,7 @@ import static play.test.Helpers.inMemoryDatabase;
  */
 public abstract class AbstractInfluuntControladorTest extends WithApplication {
 
-    protected  static ControladorTestUtil controladorTestUtils;
+    protected static ControladorTestUtil controladorTestUtils;
 
     @Override
     protected Application provideApplication() {
@@ -56,6 +56,12 @@ public abstract class AbstractInfluuntControladorTest extends WithApplication {
         area.setDescricao(1);
         area.save();
 
+        Subarea subarea = new Subarea();
+        subarea.setArea(area);
+        subarea.setNome("Subarea 1");
+        subarea.setNumero(1);
+        subarea.save();
+
         Fabricante fabricante = new Fabricante();
         fabricante.setNome("Tesc");
         fabricante.save();
@@ -65,7 +71,7 @@ public abstract class AbstractInfluuntControladorTest extends WithApplication {
         modeloControlador.setDescricao("Modelo 1");
         modeloControlador.save();
 
-        controladorTestUtils = new ControladorTestUtil(cidade, area, fabricante, modeloControlador);
+        controladorTestUtils = new ControladorTestUtil(cidade, area, subarea, fabricante, modeloControlador);
     }
 
     public abstract List<Erro> getErros(Controlador controlador);

@@ -2326,7 +2326,7 @@ tip-tip {
     font-weight: 600;
 }
 
-.wrapper-content .basic-wizard .content .body .movements #croqui.dropzone {
+.wrapper-content .basic-wizard .content .body .movements form.dropzone.croqui {
   padding: 0;
   .dz-preview, .dropzone-previews .dz-preview {
       width: 100%;
@@ -2359,7 +2359,7 @@ tip-tip {
 
 }
 
-.wrapper-content .basic-wizard .content .body .movements #croqui .dz-default.dz-message span {
+.wrapper-content .basic-wizard .content .body .movements .dropzone.croqui .dz-default.dz-message span {
     display: block;
     font-size: 13px;
     font-weight: 700;
@@ -2379,14 +2379,14 @@ tip-tip {
   text-transform: uppercase;
 }
 
-#croqui.dropzone .dz-preview, .dropzone-previews .dz-preview {
+form.dropzone.croqui .dz-preview, .dropzone-previews .dz-preview {
     width: 100%;
     height: 100%;
     margin: 0;
     display: block;
     padding: 0;
 }
-#croqui.dropzone .dz-preview .dz-details, .dropzone-previews .dz-preview .dz-details {
+form.dropzone.croqui .dz-preview .dz-details, .dropzone-previews .dz-preview .dz-details {
     width: 100%;
     height: 100%;
     overflow: auto;
@@ -2394,24 +2394,24 @@ tip-tip {
     top: 45px;
 }
 
-#croqui.dropzone .dz-preview .dz-details img, .dropzone-previews .dz-preview .dz-details img {
+form.dropzone.croqui .dz-preview .dz-details img, .dropzone-previews .dz-preview .dz-details img {
     width: 100%;
     height: auto !important;
 }
 
-#croqui {
+form.croqui {
     padding: 0;
 }
 
-#croqui.dropzone .dz-preview .dz-progress, .dropzone-previews .dz-preview .dz-progress {
+form.dropzone.croqui .dz-preview .dz-progress, .dropzone-previews .dz-preview .dz-progress {
     top: 6px;
 }
 
-#croqui.dropzone .dz-preview .dz-details .dz-size, .dropzone-previews .dz-preview .dz-details .dz-size {
+form.dropzone.croqui .dz-preview .dz-details .dz-size, .dropzone-previews .dz-preview .dz-details .dz-size {
     display: none;
 }
 
-#croqui.dropzone .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
+form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
     margin-top: 0;
     position: relative;
 }

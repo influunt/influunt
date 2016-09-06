@@ -4,6 +4,7 @@ import checks.Erro;
 import checks.InfluuntValidator;
 import checks.PlanosCheck;
 import com.fasterxml.jackson.databind.JsonNode;
+import controllers.routes;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import org.hamcrest.Matchers;
@@ -422,7 +423,7 @@ public class ControladorPlanoTest extends ControladorTest {
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro(CONTROLADOR, "O tempo de estagio ultrapassa o tempo maximo de permanencia.", "aneis[1].versoesPlanos[0].planos[0].estagiosPlanos[0].ultrapassaTempoMaximoPermanencia"),
                 new Erro(CONTROLADOR, "O tempo de verde intermediaria deve estar entre o valor de verde minimo e verde maximo.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeIntermediarioFieldEntreMinimoMaximo"),
-                new Erro(CONTROLADOR, "A soma dos tempos dos estágios ultrapassa o tempo de ciclo.", "aneis[1].versoesPlanos[0].planos[0].ultrapassaTempoCiclo"),
+                new Erro(CONTROLADOR, "A soma dos tempos dos estágios é diferente do tempo de ciclo.", "aneis[1].versoesPlanos[0].planos[0].ultrapassaTempoCiclo"),
                 new Erro(CONTROLADOR, "A sequência de estagio não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio")
         ));
 
@@ -859,6 +860,38 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertThat(erros, Matchers.empty());
     }
+
+
+    @Test
+    public void testCancelaEdicaoPlano() {
+        Controlador controlador = getControladorTabelaHorario();
+        controlador.ativar();
+
+        Anel anelCom2Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
+        VersaoPlano versaoPlano = anelCom2Estagios.getVersaoPlano();
+        Plano plano = versaoPlano.getPlanos().get(0);
+
+        int totalPlanos = Plano.find.findRowCount();
+        int totalVersoesPlanos = VersaoPlano.find.findRowCount();
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
+                .uri(routes.ControladoresController.editarPlanos(controlador.getId().toString()).url())
+                .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+        Result result = route(request);
+
+        assertEquals(200, result.status());
+        assertEquals("Total Planos", totalPlanos * 2, Plano.find.findRowCount());
+        assertEquals("Total Versões Planos", totalVersoesPlanos * 2, VersaoPlano.find.findRowCount());
+
+        request = new Http.RequestBuilder().method("DELETE")
+                .uri(routes.PlanosController.cancelarEdicao(plano.getId().toString()).url());
+        result = route(request);
+
+        assertEquals(200, result.status());
+        assertEquals("Total Planos", totalPlanos, Plano.find.findRowCount());
+        assertEquals("Total Versões Planos", totalVersoesPlanos, VersaoPlano.find.findRowCount());
+    }
+
 
     @Override
     public List<Erro> getErros(Controlador controlador) {

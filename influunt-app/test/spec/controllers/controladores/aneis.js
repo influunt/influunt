@@ -148,7 +148,7 @@ describe('Controller: ControladoresAneisCtrl', function () {
     });
 
     it('O array de aneis ativos de ser atualizado.', function() {
-      expect(scope.aneisAtivos.length).toBe(2);
+      expect(scope.aneis.length).toBe(2);
     });
   });
 

@@ -48,7 +48,7 @@
                 <tr>
                   <th>{{ 'controladores.geral.statusControlador' | translate }}</th>
                   <th>{{ 'controladores.geral.CLC' | translate }}</th>
-                  <th>{{ 'controladores.geral.localizacao' | translate }}</th>
+                  <th>{{ 'controladores.nomeEndereco' | translate }}</th>
                   <th>{{ 'controladores.geral.dataAtualizacao' | translate }}</th>
                   <th>{{ 'controladores.geral.acoes' | translate }}</th>
                 </tr>
@@ -64,13 +64,13 @@
                       <a class="btn btn-outline btn-primary" tooltips tooltip-side="left" tooltip-template="{{ 'geral.tooltip.ver' | translate }} {{ 'controladores.controlador' | translate }}"  type="button" ui-sref="app.controladores_show({id: controlador.id})">
                         <i class="fa fa-eye"></i> {{ 'controladores.geral.visualizar' | translate }}
                       </a>
-                      <a class="btn btn-outline btn-primary" tooltips tooltip-side="left" tooltip-template="{{ 'geral.tooltip.verEditar' | translate }} {{ 'controladores.geral.planos' | translate }}" ui-sref="app.planos({id: controlador.id})">
+                      <a class="btn btn-outline btn-primary" tooltips tooltip-side="left" tooltip-template="{{ 'geral.tooltip.verEditar' | translate }} {{ 'controladores.geral.planos' | translate }}" ui-sref="app.planos({id: controlador.id})" data-ng-if="podeMostrarPlanosETabelaHoraria(controlador)">
                         <i class="fa fa-file-text"></i> {{ 'controladores.geral.planos' | translate }}
                       </a>
-                      <a class="btn btn-outline btn-primary" tooltips tooltip-side="left" tooltip-template="{{ 'geral.tooltip.verEditar' | translate }} {{ 'controladores.geral.tabelaHorario' | translate }}"  type="button" ui-sref="app.tabela_horarios({id: controlador.id})">
+                      <a class="btn btn-outline btn-primary" tooltips tooltip-side="left" tooltip-template="{{ 'geral.tooltip.verEditar' | translate }} {{ 'controladores.geral.tabelaHorario' | translate }}"  type="button" ui-sref="app.tabela_horarios({id: controlador.id})" data-ng-if="podeMostrarPlanosETabelaHoraria(controlador)">
                         <i class="fa fa-calendar"></i> {{ 'controladores.geral.tabelaHorario' | translate }}
                       </a>
-                      <a class="btn btn-outline btn-primary" tooltips tooltip-side="left" tooltip-template="{{ 'geral.tooltip.ativar' | translate }} {{ 'controladores.controlador' | translate }}"  type="button" ng-click="ativar(controlador.id)" ng-show="controlador.statusControlador == 'CONFIGURADO'">
+                      <a class="btn btn-outline btn-primary" tooltips tooltip-side="left" tooltip-template="{{ 'geral.tooltip.ativar' | translate }} {{ 'controladores.controlador' | translate }}"  type="button" data-ng-click="ativar(controlador.id)" data-ng-if="podeAtivar(controlador)">
                         <i class="fa fa-check"></i> {{ 'controladores.geral.ativar' | translate }}
                       </a>
                     </hgroup>

@@ -15,12 +15,13 @@
     "mostrar" : "Visualizar Alteração"
   },
   "controladores": {
+    "nomeEndereco": "Localização",
     "titulo": "Programação",
     "detector": "Detector",
     "mapa": "Mapa dos controladores",
     "anel": "Anel",
     "area": "Área",
-    "subarea": "SubArea",
+    "subarea": "Subárea",
     "adicionarGrupo": "Adicionar Grupo",
     "ativo": "Ativo",
     "cidade": "Cidade",
@@ -34,7 +35,7 @@
     "entreverdes": "Entre-Verdes",
     "escolhaArea": "Escolha a área",
     "firmware": "FIRMWARE",
-    "fornecedor": "Fabricante",
+    "fabricante": "Fabricante",
     "gruposAssociados": "Grupos Associados",
     "gruposPedestres": "Grupos semafóricos de pedestres",
     "gruposSinaisVeiculares": "Grupos semafóricos veiculares",
@@ -84,7 +85,6 @@
       "configuracao": "Configuração",
       "ativo": "Ativo",
       "CLC": "CLC",
-      "localizacao": "Localização",
       "dataAtualizacao": "Data atualização",
       "statusControlador": "Status do controlador",
       "acoes": "Ações",
@@ -132,15 +132,25 @@
       "demandaPrioritaria": "Demanda Prioritaria",
       "desativacaoTempoMax": "Desativ. Tempo max",
       "semTransicao": "Este controlador ainda não possui transições cadastradas",
+      "vazio": "Não há dados a serem exibidos nesta seção",
       "tabelaPadrao": "Tabela Padrão",
       "amarelo": "Amarelo",
+      "vermelhoIntermitente": "Vermelho Intermitente",
       "vermelhoLimpeza": "Vermelho Limpeza",
       "estagio": "Estágio",
+      "ausenciaDeteccao": "Ausência de Detecção",
+      "ausenciaDeteccaoPermanente": "Ausência de Detecção Permanente",
+
       "ausenciaMinima": "Ausência de Detecção Mínima",
       "ausenciaMaxima": "Ausência de Detecção Máxima",
       "deteccaoMinima": "Detecção Permanente Mínima",
       "deteccaoMaxima": "Detecção Permanente Máxima",
-      "transicaoProibida": "Transição Proibida"
+      "transicaoProibida": "Transição Proibida",
+      "submitPopup": {
+        "titulo": "",
+        "texto": "Descreva abaixo a modificação feita no cadastro deste controlador"
+      },
+      "verdeSeguranca": "Verde segurança"
     },
     "aneis": {
       "titulo": "Configuração de Aneis",
@@ -256,7 +266,8 @@
     "opcoes": "Opções",
     "salvar": "Salvar",
     "visualizar": "Visualizar",
-    "voltar": "Voltar"
+    "voltar": "Voltar",
+    "cancelar": "Cancelar"
   },
   "modelos": {
     "descricao": "DESCRIÇÃO",
@@ -276,9 +287,11 @@
   },
   "planos": {
     "titulo": "Planos",
+    "vazio": "Ainda não há planos cadastrados.",
     "resetarPlano": {
       "tituloAlert": "Limpar plano",
-      "mensagemAlert": "Quer mesmo limpar as configurações deste plano?"
+      "mensagemAlert": "Quer mesmo limpar as configurações deste plano?",
+      "erroAoDeletar": "Ocorreu um erro ao apagar o plano."
     },
     "renomearPlano": {
       "tituloAlert": "renomear plano",
@@ -294,7 +307,8 @@
       "tempoFixoIsolado": "Isolado",
       "intermitente": "Intermitente",
       "apagado": "Apagado"
-    }
+    },
+    "estagioSequencia": "Estágio da Sequência"
   },
   "diagramaIntervalos": {
     "titulo": "Diagrama de Intervalos"
@@ -357,7 +371,8 @@
     "croqui": "CROQUI",
     "erro_deletar_croqui": "Não foi possível apagar o Croqui.",
     "dropzone": {
-      "mensagem": "Clique ou Arraste imagens para este local"
+      "mensagem": "Clique ou Arraste imagens para este local",
+      "erro_apagar_imagem": "Não foi possível apagar a imagem."
     }
   },
   "login": {
@@ -455,5 +470,9 @@
   },
   "status": {
     "titulo": "Status dos Controladores"
+  },
+  "sistema": {
+    "mensagem_erro_502": "Erro ao comunicar com a API.",
+    "mensagem_erro_404": "Não encontrado."
   }
 }

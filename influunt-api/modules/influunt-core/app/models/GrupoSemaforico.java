@@ -191,6 +191,14 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
         this.gruposSemaforicosPlanos = gruposSemaforicosPlanos;
     }
 
+    public void addGRupoSemaforicoPlano(GrupoSemaforicoPlano grupoSemaforicoPlano) {
+        if (getGruposSemaforicosPlanos() == null) {
+            setGruposSemaforicosPlanos(new ArrayList<GrupoSemaforicoPlano>());
+        }
+
+        getGruposSemaforicosPlanos().add(grupoSemaforicoPlano);
+    }
+
     public Integer getPosicao() {
         return posicao;
     }
