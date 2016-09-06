@@ -2,6 +2,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Usuario;
+import org.junit.Before;
 import org.junit.Test;
 import play.Application;
 import play.Mode;
@@ -18,6 +19,7 @@ import java.util.concurrent.ExecutionException;
 import static org.junit.Assert.assertEquals;
 import static play.mvc.Http.Status.OK;
 import static play.mvc.Http.Status.UNAUTHORIZED;
+import static play.test.Helpers.fakeRequest;
 import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.route;
 
@@ -33,13 +35,19 @@ public class SecurityControllerTest extends WithApplication {
                 .in(Mode.TEST).build();
     }
 
+    @Before
+    public void setup() {
+        Http.Context context = new Http.Context(fakeRequest());
+        context.args.put("user", null);
+        Http.Context.current.set(context);
+    }
+
     @Test
     public void testUnauthorizedLogin() throws InterruptedException, ExecutionException {
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
                 .uri(routes.SecurityController.login().url());
         Result postResult = route(postRequest);
         assertEquals(UNAUTHORIZED, postResult.status());
-
     }
 
     @Test

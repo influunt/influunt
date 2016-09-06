@@ -5,6 +5,15 @@
     "aviso": "Você está utilizado o navegador <strong id='nav'>Internet Explorer</strong>. Esse sistema não foi projetado para ser utilizado nesse navegador.",
     "recomendacao": "Comportamentos não esperados podem acontecer durante a utilização. Recomenda-se a utilização do navegador Google Chrome, versão 51 ou superior."
   },
+  "auditorias": {
+    "classe": "Classe",
+    "titulo": "Auditoria",
+    "tipo": "Tipo",
+    "usuario": "Usuário",
+    "alteracao": "Alteração",
+    "data": "Data Alteração",
+    "mostrar" : "Visualizar Alteração"
+  },
   "controladores": {
     "nomeEndereco": "Localização",
     "titulo": "Programação",

@@ -2,6 +2,7 @@ package models;
 
 import checks.TabelaHorariosCheck;
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -28,6 +29,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "tabela_horarios")
+@ChangeLog
 public class TabelaHorario extends Model implements Cloneable, Serializable {
 
     private static final long serialVersionUID = -165840092475392332L;

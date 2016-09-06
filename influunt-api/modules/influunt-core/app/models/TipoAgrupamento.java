@@ -4,6 +4,7 @@ package models;
  * Created by pedropires on 7/7/16.
  */
 public enum TipoAgrupamento {
+
     ROTA("Rota"), CORREDOR("Corredor");
 
     private String name;

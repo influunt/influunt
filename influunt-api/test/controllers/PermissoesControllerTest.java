@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Singleton;
 import models.Permissao;
 import org.jetbrains.annotations.NotNull;
+import org.junit.Before;
 import org.junit.Test;
 import play.Application;
 import play.Logger;
@@ -24,6 +25,7 @@ import java.util.UUID;
 
 import static org.junit.Assert.*;
 import static play.inject.Bindings.bind;
+import static play.test.Helpers.fakeRequest;
 import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.route;
 
@@ -52,6 +54,12 @@ public class PermissoesControllerTest extends WithApplication {
         return permissao;
     }
 
+    @Before
+    public void setup() {
+        Http.Context context = new Http.Context(fakeRequest());
+        context.args.put("user", null);
+        Http.Context.current.set(context);
+    }
 
     @Test
     public void testCriarNovaPermissao() {

@@ -6,6 +6,7 @@ import controllers.routes;
 import models.Perfil;
 import models.Permissao;
 import models.Usuario;
+import org.junit.Before;
 import org.junit.Test;
 import play.Application;
 import play.Logger;
@@ -21,6 +22,7 @@ import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static play.mvc.Http.Status.OK;
+import static play.test.Helpers.fakeRequest;
 import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.route;
 
@@ -40,6 +42,13 @@ public class AutorizacaoTest extends WithApplication {
     private Application getApplication(Map configuration) {
         return new GuiceApplicationBuilder().configure(configuration)
                 .in(Mode.TEST).build();
+    }
+
+    @Before
+    public void setup() {
+        Http.Context context = new Http.Context(fakeRequest());
+        context.args.put("user", null);
+        Http.Context.current.set(context);
     }
 
     @Test
