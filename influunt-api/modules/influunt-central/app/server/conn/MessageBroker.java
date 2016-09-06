@@ -9,6 +9,7 @@ import akka.routing.Routee;
 import akka.routing.Router;
 import handlers.ConexaoOfflineActorHandler;
 import handlers.ConexaoOnlineActorHandler;
+import handlers.EchoActorHandler;
 import protocol.Envelope;
 
 import java.util.ArrayList;
@@ -23,9 +24,11 @@ public class MessageBroker extends UntypedActor {
 
     Router routerControladorOnline;
     Router routerControladorOffline;
+    Router routerEcho;
     {
         List<Routee> routeesControladorOnline = new ArrayList<Routee>();
         List<Routee> routeesControladorOffline = new ArrayList<Routee>();
+        List<Routee> routeesEcho = new ArrayList<Routee>();
         for (int i = 0; i < 5; i++) {
             ActorRef rControladorOnline = getContext().actorOf(Props.create(ConexaoOnlineActorHandler.class));
             getContext().watch(rControladorOnline);
@@ -35,10 +38,14 @@ public class MessageBroker extends UntypedActor {
             getContext().watch(rControladorOffline);
             routeesControladorOffline.add(new ActorRefRoutee(rControladorOffline));
 
+            ActorRef rEcho = getContext().actorOf(Props.create(EchoActorHandler.class));
+            getContext().watch(rEcho);
+            routeesEcho.add(new ActorRefRoutee(rEcho));
 
         }
         routerControladorOnline = new Router(new RoundRobinRoutingLogic(), routeesControladorOnline);
         routerControladorOffline = new Router(new RoundRobinRoutingLogic(), routeesControladorOffline);
+        routerEcho = new Router(new RoundRobinRoutingLogic(), routeesEcho);
     }
 
 
@@ -52,6 +59,9 @@ public class MessageBroker extends UntypedActor {
                     break;
                 case CONTROLADOR_OFFLINE:
                     routerControladorOffline.route(envelope,getSender());
+                    break;
+                case ECHO:
+                    routerEcho.route(envelope,getSender());
                     break;
             }
 

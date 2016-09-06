@@ -92,4 +92,7 @@ public class Envelope {
         return gson.toJson(this);
     }
 
+    public Envelope replayWithSameMenssage(String detino) {
+        return new Envelope(this.tipoMensagem,this.idControlador,detino,this.qos,this.conteudo,this.idMensagem);
+    }
 }

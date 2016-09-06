@@ -13,6 +13,7 @@ import akka.routing.Router;
 import com.google.gson.Gson;
 import com.typesafe.config.Config;
 import org.eclipse.paho.client.mqttv3.*;
+import protocol.Echo;
 import protocol.Envelope;
 import scala.concurrent.duration.Duration;
 import server.Server;
@@ -86,7 +87,18 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
             if (!client.isConnected()) {
                 throw new Exception("Conexao morreu");
             }
+        } else if(message instanceof Envelope){
+            sendMenssage((Envelope)message);
         }
+    }
+
+    private void sendMenssage(Envelope envelope) throws MqttException {
+        MqttMessage message = new MqttMessage();
+        message.setQos(envelope.getQos());
+        message.setRetained(true);
+        message.setPayload(envelope.toJson().getBytes());
+        client.publish(envelope.getDestino(), message);
+
     }
 
     private void sendToBroker(MqttMessage message) throws MqttException {
@@ -129,15 +141,25 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
         log.info("Status: {}", client.isConnected());
 
 
-        log.info("Subscribe: {}","controladores/conn/online" );
         client.subscribe("controladores/conn/online", 1, (topic, message) -> {
             sendToBroker(message);
         });
 
-        log.info("Subscribe: {}","controladores/conn/offline" );
         client.subscribe("controladores/conn/offline", 1, (topic, message) -> {
             sendToBroker(message);
         });
+
+        client.subscribe("central/echo", 1, (topic, message) -> {
+            sendToBroker(message);
+        });
+
+        Envelope echo = Echo.getMensagem("central","controlador/1234/echo","Ola mundo da central.");
+        MqttMessage message = new MqttMessage();
+        message.setQos(1);
+        message.setRetained(true);
+        message.setPayload(echo.toJson().getBytes());
+        client.publish(echo.getDestino(), message);
+
 
     }
 

@@ -2,9 +2,14 @@ package os72c.client.conn;
 
 import akka.actor.ActorRef;
 import akka.actor.Cancellable;
+import akka.actor.Props;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
+import akka.routing.ActorRefRoutee;
+import akka.routing.RoundRobinRoutingLogic;
+import akka.routing.Routee;
+import akka.routing.Router;
 import com.google.gson.Gson;
 import com.typesafe.config.Config;
 import models.StatusControlador;
@@ -14,9 +19,12 @@ import os72c.client.controladores.Controlador;
 import os72c.client.procolos.MensagemControladorSupervisor;
 import protocol.ControladorOffline;
 import protocol.ControladorOnline;
+import protocol.Echo;
 import protocol.Envelope;
 import scala.concurrent.duration.Duration;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static protocol.ControladorOnline.getMensagem;
@@ -26,12 +34,26 @@ import static protocol.ControladorOnline.getMensagem;
  */
 public class MQTTClientActor extends UntypedActor implements MqttCallback {
 
+    private String id = "1234";
+
     private MqttClient client;
     private MqttConnectOptions opts;
     LoggingAdapter log = Logging.getLogger(getContext().system(), this);
     private ActorRef controlador;
     private Cancellable tick;
-    private String id;
+
+
+
+    Router router;
+    {
+        List<Routee> routees = new ArrayList<Routee>();
+        for (int i = 0; i < 5; i++) {
+            ActorRef r = getContext().actorOf(Props.create(MessageBroker.class));
+            getContext().watch(r);
+            routees.add(new ActorRefRoutee(r));
+        }
+        router = new Router(new RoundRobinRoutingLogic(), routees);
+    }
 
     @Override
     public void preStart() throws Exception {
@@ -106,7 +128,7 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback {
         opts.setAutomaticReconnect(false);
         opts.setConnectionTimeout(10);
 
-        Envelope controladorOffline = ControladorOffline.getMensagem("1234");
+        Envelope controladorOffline = ControladorOffline.getMensagem(id);
 
         opts.setWill(controladorOffline.getDestino(),controladorOffline.toJson().getBytes(),1,true);
         log.info("OPTS {}",opts);
@@ -124,18 +146,38 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback {
         log.info("Status: {}",client.isConnected());
 
 
-        Envelope controladorOnline = ControladorOnline.getMensagem("1234",System.currentTimeMillis(),"1.0", StatusControlador.ATIVO);
+
+        client.subscribe("controlador/" + id + "/+", 1, (topic, message) -> {
+            sendToBroker(message);
+        });
+
+
+        Envelope controladorOnline = ControladorOnline.getMensagem(id,System.currentTimeMillis(),"1.0", StatusControlador.ATIVO);
         MqttMessage message = new MqttMessage();
         message.setQos(2);
         message.setRetained(true);
         message.setPayload(controladorOnline.toJson().getBytes());
         client.publish(controladorOnline.getDestino(), message);
 
+
+        Envelope echo = Echo.getMensagem(id,"central/echo","Ola mundo");
+        message = new MqttMessage();
+        message.setQos(1);
+        message.setRetained(true);
+        message.setPayload(echo.toJson().getBytes());
+        client.publish(echo.getDestino(), message);
+
     }
 
-    private void desconectar(String topic, MqttMessage message) {
-        log.info("ServerActor morreu");
+
+    private void sendToBroker(MqttMessage message) throws MqttException {
+
+        String parsedBytes = new String(message.getPayload());
+        Envelope envelope = new Gson().fromJson(parsedBytes,Envelope.class);
+        log.info("Enviando mensagem para o broker: {}", envelope.getTipoMensagem() );
+        router.route(envelope,getSender());
     }
+
 
     @Override
     public void connectionLost(Throwable cause) {
