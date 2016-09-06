@@ -79,6 +79,9 @@ module.exports = function(config) {
       'app/plugins/uiTabs/lib/ui.tabs.addTab.js',
       'app/plugins/uiTabs/lib/ui.tabs.closable.js',
 
+      // influunt app plugins.
+      'app/plugins/diagrama-intervalos.js',
+
       // tests and scripts.
       'test/helpers/**/*.js',
       'test/mock/**/*.js',
