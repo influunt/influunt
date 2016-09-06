@@ -16,6 +16,7 @@ angular.module('influuntApp')
         options: '='
       },
       link: function(scope, element) {
+        L.Icon.Default.imagePath = 'images/leaflet';
         var map, markersLayer, areasLayer;
         var TILE_LAYER = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw';
         var DEFAULTS = {LATITUDE: -23.550382, LONGITUDE: -46.663956, ZOOM: 15};
