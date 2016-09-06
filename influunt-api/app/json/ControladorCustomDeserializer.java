@@ -898,9 +898,6 @@ public class ControladorCustomDeserializer {
         if (node.get("tempoVermelhoLimpeza") != null) {
             tabelaEntreVerdesTransicao.setTempoVermelhoLimpeza(node.get("tempoVermelhoLimpeza").asInt());
         }
-        if (node.get("tempoAtrasoGrupo") != null) {
-            tabelaEntreVerdesTransicao.setTempoAtrasoGrupo(node.get("tempoAtrasoGrupo").asInt());
-        }
 
         if (node.has("transicao")) {
             final String transicaoId = node.get("transicao").get("idJson").asText();
