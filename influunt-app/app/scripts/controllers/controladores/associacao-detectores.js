@@ -12,7 +12,8 @@ angular.module('influuntApp')
     function ($scope, $state, $controller, $filter, assertControlador, influuntAlert, Restangular, toast) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
-      var atualizaPosicoesDetectores, atualizaEstagiosComDetector, excluirDetectorNoCliente;
+      var atualizaPosicoesDetectores, atualizaEstagiosComDetector, excluirDetectorNoCliente,
+      abreModalConfiguracaoDetector;
 
       /**
        * Pré-condições para acesso à tela de associcao de detectores: Somente será possivel
@@ -72,6 +73,7 @@ angular.module('influuntApp')
         }
 
         atualizaEstagiosComDetector();
+        abreModalConfiguracaoDetector(detector);
       };
 
       /**
@@ -157,6 +159,22 @@ angular.module('influuntApp')
         });
 
         return $scope.currentDetectores;
+      };
+
+      /**
+       * Abre o modal de configurações de determinado controlador na primeira vez
+       * que o usuário o relaciona a algum estágio.
+       *
+       * @param      {<type>}  detector  The detector
+       */
+      abreModalConfiguracaoDetector = function(detector) {
+        if (!detector.configurado && _.has(detector.estagio, 'idJson')) {
+          $('#Config').modal();
+        }
+      };
+
+      $scope.configurarDetector = function(detector) {
+        detector.configurado = true;
       };
 
       /**
