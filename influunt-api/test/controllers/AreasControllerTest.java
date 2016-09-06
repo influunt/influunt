@@ -230,4 +230,16 @@ public class AreasControllerTest extends WithApplication {
 
     }
 
+
+    @Test
+    public void testAtualizarAreaExistenteNew() {
+        Area area = new Area();
+        area.setDescricao(1);
+        area.setCidade(cidade);
+        area.save();
+
+        area.setDescricao(22);
+        area.update();
+    }
+
 }

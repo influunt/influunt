@@ -5,6 +5,7 @@ import checks.ControladorAssociacaoGruposSemaforicosCheck;
 import checks.ControladorTransicoesProibidasCheck;
 import checks.PlanosCheck;
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -34,6 +35,7 @@ import java.util.stream.Collectors;
  */
 @Entity
 @Table(name = "estagios")
+@ChangeLog
 public class Estagio extends Model implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 5984122994022833262L;

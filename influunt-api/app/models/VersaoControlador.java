@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -20,6 +21,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "versoes_controladores")
+@ChangeLog
 public class VersaoControlador extends Model implements Serializable {
 
     private static final long serialVersionUID = -7484351940720950030L;

@@ -2,6 +2,7 @@ package models;
 
 import be.objectify.deadbolt.java.models.Permission;
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -21,6 +22,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "permissoes")
+@ChangeLog
 public class Permissao extends Model implements Permission, Serializable {
 
     private static final long serialVersionUID = -1771456494137102241L;

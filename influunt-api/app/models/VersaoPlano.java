@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -21,6 +22,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "versoes_planos")
+@ChangeLog
 public class VersaoPlano extends Model implements Serializable {
 
     private static final long serialVersionUID = -956154568458918910L;

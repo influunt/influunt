@@ -2,6 +2,7 @@ package models;
 
 import checks.ControladorAssociacaoDetectoresCheck;
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -25,7 +26,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "detectores")
-
+@ChangeLog
 public class Detector extends Model implements Cloneable, Serializable {
 
     private static final long serialVersionUID = 3752412658492551927L;

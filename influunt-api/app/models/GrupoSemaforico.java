@@ -4,6 +4,7 @@ import checks.ControladorGruposSemaforicosCheck;
 import checks.ControladorTabelaEntreVerdesCheck;
 import checks.ControladorVerdesConflitantesCheck;
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.PrivateOwned;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
@@ -33,6 +34,7 @@ import java.util.stream.Collectors;
  */
 @Entity
 @Table(name = "grupos_semaforicos")
+@ChangeLog
 public class GrupoSemaforico extends Model implements Cloneable, Serializable {
 
     public static Finder<UUID, GrupoSemaforico> find = new Finder<UUID, GrupoSemaforico>(GrupoSemaforico.class);

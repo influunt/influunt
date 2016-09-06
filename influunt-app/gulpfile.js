@@ -75,6 +75,7 @@ var paths = {
     'bower_components/moment-timezone/builds/moment-timezone-with-data-2010-2020.js',
     'bower_components/angular-datepicker/dist/angular-datepicker.js',
     'bower_components/angular-tooltips/dist/angular-tooltips.min.js',
+    'bower_components/string/dist/string.min.js',
 
     // inspinea scripts.
     yeoman.app + '/plugins/metisMenu/jquery.metisMenu.js',

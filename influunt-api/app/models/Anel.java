@@ -3,6 +3,7 @@ package models;
 import checks.*;
 import com.avaje.ebean.Expr;
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.PrivateOwned;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
@@ -27,6 +28,7 @@ import java.util.*;
  */
 @Entity
 @Table(name = "aneis")
+@ChangeLog
 @AoMenosUmGrupoSemaforico(groups = ControladorGruposSemaforicosCheck.class)
 @ConformidadeNumeroEstagios(groups = ControladorAneisCheck.class)
 @ConformidadeNumeroDetectores(groups = ControladorAneisCheck.class)

@@ -116,3 +116,8 @@ DELETE      /api/v1/detectores/:id                      controllers.DetectoresCo
 
 # Detectores
 DELETE      /api/v1/eventos/:id                         controllers.EventosController.delete(id)
+
+
+# Auditoria
+GET         /api/v1/auditorias/:id                      controllers.AuditoriaController.findOne(id)
+GET         /api/v1/auditorias/                         controllers.AuditoriaController.findAll

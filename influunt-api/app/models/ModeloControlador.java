@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -26,6 +27,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "modelo_controladores")
+@ChangeLog
 @JsonSerialize(using = ModeloControladorSerializer.class)
 @JsonDeserialize(using = ModeloControladorDeserializer.class)
 public class ModeloControlador extends Model implements Cloneable, Serializable {

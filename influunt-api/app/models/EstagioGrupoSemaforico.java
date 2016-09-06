@@ -2,6 +2,7 @@ package models;
 
 import checks.ControladorAssociacaoGruposSemaforicosCheck;
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -23,6 +24,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "estagios_grupos_semaforicos")
+@ChangeLog
 public class EstagioGrupoSemaforico extends Model implements Cloneable, Serializable {
 
     private static final long serialVersionUID = 5983122994022833262L;

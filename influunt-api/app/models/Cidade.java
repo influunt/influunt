@@ -2,6 +2,7 @@ package models;
 
 import checks.CidadesCheck;
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -27,6 +28,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "cidades")
+@ChangeLog
 @JsonSerialize(using = CidadeSerializer.class)
 @JsonDeserialize(using = CidadeDeserializer.class)
 public class Cidade extends Model implements Cloneable, Serializable {
