@@ -17,14 +17,12 @@ angular.module('influuntApp')
       $scope.client.subscribe('#');
     }
 
-
     var status = function(message){
       var id = message.destinationName.split('/')[2];
       $scope.controladores[id].ativo = true;
       $scope.controladores[id].status = JSON.parse(message.payloadString);
       $scope.$apply();
     };
-
 
     $scope.controladores = {
       'controlador': {ativo: false, status:undefined},

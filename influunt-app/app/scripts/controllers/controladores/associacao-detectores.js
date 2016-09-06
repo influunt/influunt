@@ -169,7 +169,10 @@ angular.module('influuntApp')
        */
       abreModalConfiguracaoDetector = function(detector) {
         if (!detector.configurado && _.has(detector.estagio, 'idJson')) {
-          $('#Config').modal();
+          var $modal = $('#Config');
+          if ($modal.length > 0) {
+            $modal.modal();
+          }
         }
       };
 
