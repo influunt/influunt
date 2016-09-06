@@ -112,7 +112,7 @@ module.exports = function() {
 	});
 
 	this.Given(/^o sistema deverá indicar erro nos campos nome$/, function () {
-    return cidadesPage.getErrorMessageFor("nome").then(function(result) {
+    return cidadesPage.getErrorMessageFor('nome').then(function(result) {
       return expect(result).to.exist;
     });
 	});

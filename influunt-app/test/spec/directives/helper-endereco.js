@@ -2,25 +2,25 @@
 
 describe('Directive: helperEndereco', function () {
   beforeEach(module('influuntApp'));
-  var mockEndereco = function() {
-    return {
-      geometry: {
-        lat: function() {
-          return 1;
-        },
-        lng: function() {
-          return 1;
-        }
-      }
-    };
-  };
+  // var mockEndereco = function() {
+  //   return {
+  //     geometry: {
+  //       lat: function() {
+  //         return 1;
+  //       },
+  //       lng: function() {
+  //         return 1;
+  //       }
+  //     }
+  //   };
+  // };
 
-  var element,
-    scope;
+  // var element,
+  //   scope;
 
-  beforeEach(inject(function ($rootScope) {
-    scope = $rootScope.$new();
-  }));
+  // beforeEach(inject(function ($rootScope) {
+  //   scope = $rootScope.$new();
+  // }));
 
   // xit('Deve atualizar os campos de latitude e longitude', inject(function($compile) {
   //   scope.data = {

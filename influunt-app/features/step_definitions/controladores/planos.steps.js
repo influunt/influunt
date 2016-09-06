@@ -92,12 +92,12 @@ module.exports = function() {
   });
 
   this.Given(/^que o usuário clicar em editar o "([^"]*)"$/, function (plano) {
-    var actionEditar = "fa-pencil";
+    var actionEditar = 'fa-pencil';
     return planosPage.clicarBotaoAcaoPlano(actionEditar, plano);
   });
 
   this.Given(/^que o usuário clicar em copiar o "([^"]*)"$/, function (plano) {
-    var actionCopiar = "fa-files";
+    var actionCopiar = 'fa-files';
     return planosPage.clicarBotaoAcaoPlano(actionCopiar, plano);
   });
 

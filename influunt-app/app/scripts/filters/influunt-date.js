@@ -14,7 +14,7 @@ angular.module('influuntApp')
       format = format || 'DD/MM/YYYY HH:mm:ss';
       if(input) {
         if(_.isString(input)) {
-          input = moment(input, "DD/MM/YYYY HH:mm:ss");
+          input = moment(input, 'DD/MM/YYYY HH:mm:ss');
         }
         if(format === 'fromNow') {
           return input.fromNow();

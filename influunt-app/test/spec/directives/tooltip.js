@@ -5,12 +5,12 @@ describe('Directive: tooltip', function () {
   // load the directive's module
   beforeEach(module('influuntApp'));
 
-  var element,
-    scope;
+  // var element,
+  //   scope;
 
-  beforeEach(inject(function ($rootScope) {
-    scope = $rootScope.$new();
-  }));
+  // beforeEach(inject(function ($rootScope) {
+  //   scope = $rootScope.$new();
+  // }));
 
   // xit('should make hidden element visible', inject(function ($compile) {
   //   element = angular.element('<tooltip></tooltip>');
