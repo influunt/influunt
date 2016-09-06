@@ -19,7 +19,6 @@ var CidadesPage = function () {
     world.getElements('tbody tr[data-ng-repeat="cidade in lista"]').then(function(elements) {
       totalCidadesIndex = elements.length;
     });
-    // console.log('totalCidadesIndex: '+totalCidadesIndex);
     return world.waitFor('tbody tr[data-ng-repeat="cidade in lista"]');
   };
 
@@ -51,6 +50,7 @@ var CidadesPage = function () {
   };
 
   this.clicarBotaoSalvar = function() {
+    world.sleep(500);
     return world.clickButton('input[type="submit"]');
   };
 
