@@ -64,17 +64,19 @@ var influunt;
                 for(var t = tempoCiclo + tempoAmareloOuVermelhoIntermitente + tempoAtrasoGrupo; t < tempoCiclo + tempoEntreVerde + tempoAtrasoGrupo; t++){
                   diagrama[posicao][t] = 6;
                 }
-              }else {
-                for(var t = tempoCiclo; t < tempoCiclo + tempoEntreVerde + tempoVerde; t++){
-                  diagrama[posicao][t] = 1;
-                }
+                instante = Math.max(instante, tempoEntreVerde);
               }
-              instante = Math.max(instante, tempoEntreVerde);
             }
           }
           for(var j = 0; j < estagioAtual.gruposSemaforicos.length; j++){
              var grupo = estagioAtual.gruposSemaforicos[j];
-             for(var t = instante + tempoCiclo; t < tempoCiclo + instante + tempoVerde; t++){
+             var inicio;
+             if(!_.find(estagioAnterior.gruposSemaforicos, {'id': grupo.id})){
+               inicio = instante + tempoCiclo;
+             }else{
+               inicio = tempoCiclo;
+             }
+             for(var t = inicio; t < tempoCiclo + instante + tempoVerde; t++){
                diagrama[plano.posicaoGruposSemaforicos['G' + grupo.posicao]][t] = 1;
              }
           }
