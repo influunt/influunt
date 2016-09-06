@@ -33,7 +33,7 @@ var CrudPage = function () {
     'Limite Detectores Pedestre':      '[name="limiteDetectorPedestre"]',
     'Limite Detectores Veicular':      '[name="limiteDetectorVeicular"]',
     'Limite Tabelas Entre Verdes':     '[name="limiteTabelasEntreVerdes"]',
-    'Limite Planos':                   '[name="limitePlanos"]',
+    'Limite Planos':                   '[name="limitePlanos"]'
   };
 
   this.textoConfirmacaoApagarRegistro = function() {
@@ -49,6 +49,7 @@ var CrudPage = function () {
   };
 
   this.preencherCampo = function(campo, valor) {
+    world.sleep(500);
     return world.setValue(campos[campo], valor);
   };
 

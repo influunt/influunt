@@ -21,7 +21,7 @@ module.exports = function() {
   });
 
   this.Given(/^clicar no botão de Novo Agrupamento$/, function(callback) {
-    agrupamentosPage.clicarBotaoNovoAgrupamento();
+    agrupamentosPage.clicarLinkComTexto('Novo');
     callback();
   });
 
