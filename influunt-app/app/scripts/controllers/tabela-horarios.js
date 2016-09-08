@@ -15,7 +15,9 @@ angular.module('influuntApp')
               influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo, handleValidations, TabelaHorariaService) {
 
       var adicionaTabelaHorario, adicionaEvento, atualizaPlanos, atualizaGruposSemaforicos, atualizaEventos,
-          atualizaPosicaoEventos, removerEventoNoCliente;
+          atualizaPosicaoEventos, atualizaQuantidadeEventos, removerEventoNoCliente;
+
+      var qtdEventos, qtdEventosRecorrentes, qtdEventosNaoRecorrentes;
 
       $scope.somenteVisualizacao = $state.current.data.somenteVisualizacao;
       /**
@@ -106,10 +108,13 @@ angular.module('influuntApp')
             {posicao: 'Especiais Recorrentes'},
             {posicao: 'Especiais Não Recorrentes'}
           ];
+
+          $scope.qtdEventos = 0;
+
           $scope.nomesTabs = [
-            $filter('translate')('tabelaHorarios.eventos'),
-            $filter('translate')('tabelaHorarios.eventosRecorrentes'),
-            $filter('translate')('tabelaHorarios.eventosNaoRecorrentes')
+            $filter('translate')('tabelaHorarios.eventos') + '<span class=\'badge badge-success m-l-xs\'>' + $scope.qtdEventos + '</span>',
+            $filter('translate')('tabelaHorarios.eventosRecorrentes') + '<span class=\'badge badge-success m-l-xs\'>' + $scope.qtdEventosRecorrentes + '</span>',
+            $filter('translate')('tabelaHorarios.eventosNaoRecorrentes') + '<span class=\'badge badge-success m-l-xs\'>' + $scope.qtdEventosNaoRecorrentes + '</span>'
           ];
 
           $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
@@ -389,6 +394,19 @@ angular.module('influuntApp')
           evento.posicao = index;
           index++;
         });
+        atualizaQuantidadeEventos();
+      };
+
+      atualizaQuantidadeEventos = function() {
+        qtdEventos = _.filter($scope.objeto.eventos, {tipo: 'NORMAL'}).length;
+        qtdEventosRecorrentes = _.filter($scope.objeto.eventos, {tipo: 'ESPECIAL_RECORRENTE'}).length;
+        qtdEventosNaoRecorrentes = _.filter($scope.objeto.eventos, {tipo: 'ESPECIAL_NAO_RECORRENTE'}).length;
+
+        $scope.nomesTabs = [
+          $filter('translate')('tabelaHorarios.eventos') + '<span class=\'badge badge-success m-l-xs\'>' + qtdEventos + '</span>',
+          $filter('translate')('tabelaHorarios.eventosRecorrentes') + '<span class=\'badge badge-success m-l-xs\'>' + qtdEventosRecorrentes + '</span>',
+          $filter('translate')('tabelaHorarios.eventosNaoRecorrentes') + '<span class=\'badge badge-success m-l-xs\'>' + qtdEventosNaoRecorrentes + '</span>'
+        ];
       };
 
       $scope.submitForm = function() {

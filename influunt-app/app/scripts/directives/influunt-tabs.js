@@ -20,22 +20,13 @@ angular.module('influuntApp')
         maxTabs: '=',
         canAddTabs: '=',
         canRemoveTabs: '=',
-        nameTabs: '=?'
+        nameTabs: '=?',
+        canRenameTabs: '=?'
       },
       template: '<ul class="nav nav-tabs"></ul>',
       link: function (scope, element) {
 
         var initializing = true;
-
-        var inicializaNameTabs = function() {
-          if (_.isArray(scope.nameTabs) &&
-              _.isArray(scope.aneisAtivos) &&
-              scope.nameTabs.length !== scope.aneisAtivos.length) {
-            throw new Error('A lista de nomes das tabs deve ter a mesma quantidade de itens das tabs ativas.');
-          }
-        };
-
-        scope.$watch('nameTabs', inicializaNameTabs);
 
         var getNomeTabs = function(index) {
           if (_.isArray(scope.nameTabs)) {
@@ -44,6 +35,27 @@ angular.module('influuntApp')
             return (scope.nameTabs || 'Anel') + ' ' + (index + 1);
           }
         };
+
+        var renameTabs = function() {
+          var tabs = element.find('li[role="tab"] a');
+          _.forEach(tabs, function(tab, index) {
+            var nome = getNomeTabs(index);
+            $(tab).html(nome);
+          });
+        };
+
+        var inicializaNameTabs = function() {
+          if (_.isArray(scope.nameTabs) &&
+              _.isArray(scope.aneisAtivos) &&
+              scope.nameTabs.length !== scope.aneisAtivos.length) {
+            throw new Error('A lista de nomes das tabs deve ter a mesma quantidade de itens das tabs ativas.');
+          }
+          if(!initializing && !!scope.canRenameTabs){
+            renameTabs();
+          }
+        };
+
+        scope.$watch('nameTabs', inicializaNameTabs);
 
         var hideAddButton = function() {
           element.find('li[role="tab"].addTab').hide();
@@ -127,7 +139,6 @@ angular.module('influuntApp')
         var createInitialTabs = function() {
           var tabs = $(element).tabs('instance');
           _.forEach(scope.aneisAtivos, function(anel, index) {
-            // tabs.add(scope.nameTabs + ' ' + (index+1), !!scope.canAddTabs);
             tabs.add(getNomeTabs(index), !!scope.canAddTabs);
           });
           tabs.activate(0);
