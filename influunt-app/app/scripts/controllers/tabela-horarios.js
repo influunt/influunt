@@ -127,8 +127,11 @@ angular.module('influuntApp')
             }
           });
 
-          $scope.currentVersaoTabelaHorariaIndex = _.findIndex($scope.objeto.versoesTabelasHorarias, {statusVersao: 'EDITANDO'}) ||
-                                                   _.findIndex($scope.objeto.versoesTabelasHorarias, {statusVersao: 'ATIVO'});
+          $scope.currentVersaoTabelaHorariaIndex = _.findIndex($scope.objeto.versoesTabelasHorarias, {statusVersao: 'EDITANDO'});
+          if ($scope.currentVersaoTabelaHorariaIndex === -1) {
+           $scope.currentVersaoTabelaHorariaIndex = _.findIndex($scope.objeto.versoesTabelasHorarias, {statusVersao: 'ATIVO'});
+          }
+
           $scope.currentVersaoTabelaHoraria = $scope.objeto.versoesTabelasHorarias[$scope.currentVersaoTabelaHorariaIndex];
           if($scope.objeto.tabelasHorarias.length === 0) {
             $scope.objeto.versoesTabelasHorarias = ($scope.objeto.versoesTabelasHorarias.length > 0) ? $scope.objeto.versoesTabelasHorarias : [{idJson: UUID.generate()}];
@@ -167,6 +170,17 @@ angular.module('influuntApp')
           .catch(function(err) {
             toast.error($filter('translate')('geral.mensagens.default_erro'));
             throw new Error(JSON.stringify(err));
+          });
+      };
+
+      $scope.editarTabelaHoraria = function(controladorId) {
+        return Restangular.one('controladores', controladorId).all("pode_editar").customGET()
+          .then(function() {
+            $state.go('app.tabela_horarios_edit', { id: controladorId });
+          })
+          .catch(function(err) {
+            toast.clear();
+            influuntAlert.alert('Controlador', err.data[0].message);
           });
       };
 

@@ -13,12 +13,12 @@ INSERT INTO `usuarios` (`id`, `login`, `senha`, `email`, `nome`, `root`, `data_c
 
 -- Perfis / Permissões
 Set @PerfilAdministradorId = UUID();
-Set @PerfilEngenheiroId = UUID();
-Set @PerfilOperadorId = UUID();
-Set @PerfilTecnicoId = UUID();
 INSERT into `perfis` (`id`, `nome`, `data_criacao`, `data_atualizacao`) VALUE (@PerfilAdministradorId, 'Administrador', NOW(), NOW());
+Set @PerfilEngenheiroId = UUID();
 INSERT into `perfis` (`id`, `nome`, `data_criacao`, `data_atualizacao`) VALUE (@PerfilEngenheiroId, 'Engenheiro', NOW(), NOW());
+Set @PerfilOperadorId = UUID();
 INSERT into `perfis` (`id`, `nome`, `data_criacao`, `data_atualizacao`) VALUE (@PerfilOperadorId, 'Operador', NOW(), NOW());
+Set @PerfilTecnicoId = UUID();
 INSERT into `perfis` (`id`, `nome`, `data_criacao`, `data_atualizacao`) VALUE (@PerfilTecnicoId, 'Técnico', NOW(), NOW());
 
 

@@ -1,48 +1,40 @@
 <div class="container-fluid wrapper wrapper-content animated fadeInRight" data-ng-init="init()">
-  <div class="row margin-bottom-10" ng-if="somenteVisualizacao">
-    <div class="col-sm-12 col-lg-12 actions clearfix padding-right-30">
-      <div class="right">
-        <a class="btn btn-outline btn-primary" tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.ver' | translate }} {{ 'controladores.geral.historico' | translate }}" type="button" data-target="#modal-timeline" data-toggle="modal">
-          <i class="fa fa-code-fork"></i> {{ 'controladores.geral.historico' | translate }}
-        </a>
-        <a class="btn btn-outline btn-primary" tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.geral.tabelaHorario' | translate }}"  type="button" ui-sref="app.tabela_horarios_edit({id: objeto.id})" ng-show="currentVersaoTabelaHoraria.statusVersao === 'EDITANDO' || currentVersaoTabelaHoraria.statusVersao === undefined">
-          <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
-        </a>
-        <a class="btn btn-outline btn-primary " tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.geral.tabelaHorario' | translate }}"  type="button" ng-click="clonarTabelaHoraria(objeto.id)" ng-show="currentVersaoTabelaHoraria.statusVersao === 'ATIVO'">
-          <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
-        </a>
-        <a class="btn btn-outline btn-danger"
-            tooltips tooltip-side="bottom" tooltip-template="{{ 'controladores.geral.cancelarEdicao' | translate }} {{ 'controladores.geral.tabelaHorario' | translate }}"
-            type="button" ng-if="currentVersaoTabelaHoraria.statusVersao === 'EDITANDO'" ng-click="cancelarEdicao(objeto.id)">
-          <i class="fa fa-trash"></i> {{ 'controladores.geral.cancelarEdicao' | translate }}
-        </a>
-      </div>
-    </div>
-  </div>
   <section role="complementary" class="basic-wizard">
     <div class="content clearfix wizard-body">
-      <div class="step-content body">
+      <div class="step-content tabs-container body">
         <fieldset>
-          <div class="col-lg-12 col-sm-12 bg-border no-padding">
-            <div class="ibox float-e-margins">
-              <div class="tabpanel">
-                <uib-alert type="danger" data-ng-if="getErrosTabelaHoraria().length > 0">
-                  <div style="padding-left: 12px;">
-                    <ul>
-                      <li data-ng-repeat="message in getErrosTabelaHoraria()">{{ message }}</li>
-                    </ul>
-                  </div>
-                </uib-alert>
-                <div class="col-lg-12 col-sm-12 tabs-container no-padding">
-                  <div class="ui-layout-content tab-content">
-                    <div id="tabs-1">
-                      <ng-include src="'views/tabela_horarios/tabs-eventos.html'">
-                    </div>
-                  </div>
-                </div>
+
+          <div class="row" ng-if="somenteVisualizacao">
+            <div class="col-sm-12 col-lg-12 actions clearfix padding-right-20">
+              <div class="right">
+                <a class="btn btn-primary" tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.ver' | translate }} {{ 'controladores.geral.historico' | translate }}" type="button" data-target="#modal-timeline" data-toggle="modal">
+                  <i class="fa fa-code-fork"></i> {{ 'controladores.geral.historico' | translate }}
+                </a>
+                <a class="btn btn-primary" tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.geral.tabelaHorario' | translate }}"  type="button" ng-click="editarTabelaHoraria(objeto.id)" ng-show="currentVersaoTabelaHoraria.statusVersao === 'EDITANDO' || currentVersaoTabelaHoraria.statusVersao === undefined">
+                  <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
+                </a>
+                <a class="btn btn-primary " tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.geral.tabelaHorario' | translate }}"  type="button" ng-click="clonarTabelaHoraria(objeto.id)" ng-show="currentVersaoTabelaHoraria.statusVersao === 'ATIVO'">
+                  <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
+                </a>
               </div>
             </div>
           </div>
+
+          <div class="row" ng-if="!somenteVisualizacao">
+            <div class="col-sm-12 col-lg-12 actions clearfix padding-right-20">
+              <div class="right">
+                <a class="btn btn-danger"
+                    tooltips tooltip-side="bottom" tooltip-template="{{ 'controladores.geral.cancelarEdicao' | translate }} {{ 'controladores.geral.tabelaHorario' | translate }}"
+                    type="button" ng-if="currentVersaoTabelaHoraria.statusVersao === 'EDITANDO'" ng-click="cancelarEdicao(objeto.id)">
+                  <i class="fa fa-trash"></i> {{ 'controladores.geral.cancelarEdicao' | translate }}
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <ng-include src="'views/tabela_horarios/tabs-eventos.html'"></ng-include>
+
+
           <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix" ng-if="!somenteVisualizacao">
             <div class="right">
               <a tooltips tooltip-template="Descartar" ui-sref="app.controladores" class="btn btn-outline btn-info btn-footer right m-r-sm right">
@@ -54,9 +46,7 @@
             </div>
           </div>
 
-          <!-- timeline -->
           <influunt-modal-timeline></influunt-modal-timeline>
-          <!-- /MODAIS -->
 
         </fieldset>
       </div>

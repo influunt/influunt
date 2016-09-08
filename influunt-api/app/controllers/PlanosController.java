@@ -91,7 +91,7 @@ public class PlanosController extends Controller {
                     VersaoPlano versaoAnterior = versaoAtual.getVersaoAnterior();
                     if (versaoAnterior != null) {
                         versaoAnterior.setStatusVersao(StatusVersao.ATIVO);
-                        versaoAnterior.save();
+                        versaoAnterior.update();
                         versaoAtual.delete();
                     }
                 }
@@ -101,7 +101,6 @@ public class PlanosController extends Controller {
         if (success) {
             return CompletableFuture.completedFuture(ok());
         }
-
         return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY));
     }
 }

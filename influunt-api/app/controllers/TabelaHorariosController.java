@@ -72,18 +72,21 @@ public class TabelaHorariosController extends Controller {
         Controlador controlador = Controlador.find.byId(UUID.fromString(id));
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
-        } else {
-            DBUtils.executeWithTransaction(() -> {
-                VersaoTabelaHoraria versaoTabelaHoraria = controlador.getVersaoTabelaHorariaEmEdicao();
-                if (controlador.getVersoesTabelasHorarias().size() > 1 && versaoTabelaHoraria != null) {
-                    VersaoTabelaHoraria versaoTabelaHorariaOrigem = versaoTabelaHoraria.getTabelaHorariaOrigem().getVersaoTabelaHoraria();
-                    versaoTabelaHorariaOrigem.setStatusVersao(StatusVersao.ATIVO);
-                    versaoTabelaHorariaOrigem.update();
-                    versaoTabelaHoraria.delete();
-                }
-            });
+        }
+        boolean success = DBUtils.executeWithTransaction(() -> {
+            VersaoTabelaHoraria versaoTabelaHoraria = controlador.getVersaoTabelaHorariaEmEdicao();
+            if (controlador.getVersoesTabelasHorarias().size() > 1 && versaoTabelaHoraria != null) {
+                VersaoTabelaHoraria versaoTabelaHorariaOrigem = versaoTabelaHoraria.getTabelaHorariaOrigem().getVersaoTabelaHoraria();
+                versaoTabelaHorariaOrigem.setStatusVersao(StatusVersao.ATIVO);
+                versaoTabelaHorariaOrigem.update();
+                versaoTabelaHoraria.delete();
+            }
+        });
+
+        if (success) {
             return CompletableFuture.completedFuture(ok());
         }
+        return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY));
     }
 
 }
