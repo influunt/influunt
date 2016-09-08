@@ -91,7 +91,8 @@ var paths = {
     yeoman.app + '/plugins/uiTabs/lib/ui.tabs.closable.js',
 
     // influunt app plugins.
-    yeoman.app + '/plugins/diagrama-intervalos.js'
+    yeoman.app + '/plugins/influunt/diagrama-intervalos.js',
+    yeoman.app + '/plugins/influunt/quadro-tabela-horaria.js'
 
     // yeoman.app + '/json/**/*.js'
     // 'test/mock/**/*.js'

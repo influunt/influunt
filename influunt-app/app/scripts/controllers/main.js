@@ -40,6 +40,6 @@ angular.module('influuntApp')
         $('.spin-icon').on('click', function(){
           $(this).parents().eq(2).find('.theme-config-box').toggleClass('open');
         });
-      }
+      };
     }
   ]);

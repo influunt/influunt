@@ -49,6 +49,12 @@
         "dist/css/bootstrap.css",
         "dist/js/bootstrap.js"
       ]
+    },
+    "moment": {
+      "main": [
+        "min/locales.min.js",
+        "min/moment.min.js"
+      ]
     }
   },
   "resolutions": {
