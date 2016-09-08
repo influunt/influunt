@@ -18,6 +18,9 @@ angular.module('influuntApp')
           atualizaPosicaoEventosDoTipo, atualizaPosicaoEventos, atualizaQuantidadeEventos, removerEventoNoCliente;
 
       var qtdEventos, qtdEventosRecorrentes, qtdEventosNaoRecorrentes;
+      var NORMAL = 'NORMAL';
+      var ESPECIAL_RECORRENTE = 'ESPECIAL_RECORRENTE';
+      var ESPECIAL_NAO_RECORRENTE = 'ESPECIAL_NAO_RECORRENTE';
 
       $scope.somenteVisualizacao = $state.current.data.somenteVisualizacao;
       /**
@@ -28,7 +31,7 @@ angular.module('influuntApp')
         Restangular.one('controladores', id).get().then(function(res) {
           $scope.objeto = res;
           $scope.comCheckBoxGrupo = false;
-          $scope.currentTipoEvento = 'NORMAL';
+          $scope.currentTipoEvento = NORMAL;
           $scope.dias = [
             {
               label: 'Todos os dias da semana',
@@ -149,9 +152,9 @@ angular.module('influuntApp')
             $scope.objeto.tabelasHorarias, {idJson: $scope.currentVersaoTabelaHoraria.tabelaHoraria.idJson}
           );
 
-          adicionaEvento($scope.currentTabelaHoraria, 'NORMAL');
-          adicionaEvento($scope.currentTabelaHoraria, 'ESPECIAL_RECORRENTE');
-          adicionaEvento($scope.currentTabelaHoraria, 'ESPECIAL_NAO_RECORRENTE');
+          adicionaEvento($scope.currentTabelaHoraria, NORMAL);
+          adicionaEvento($scope.currentTabelaHoraria, ESPECIAL_RECORRENTE);
+          adicionaEvento($scope.currentTabelaHoraria, ESPECIAL_NAO_RECORRENTE);
           $scope.selecionaTipoEvento(0);
         });
       };
@@ -206,13 +209,13 @@ angular.module('influuntApp')
       $scope.selecionaTipoEvento = function(index) {
         switch(index) {
           case 1:
-            $scope.currentTipoEvento = 'ESPECIAL_RECORRENTE';
+            $scope.currentTipoEvento = ESPECIAL_RECORRENTE;
             break;
           case 2:
-            $scope.currentTipoEvento = 'ESPECIAL_NAO_RECORRENTE';
+            $scope.currentTipoEvento = ESPECIAL_NAO_RECORRENTE;
             break;
           default:
-            $scope.currentTipoEvento = 'NORMAL';
+            $scope.currentTipoEvento = NORMAL;
             break;
         }
 
@@ -245,8 +248,8 @@ angular.module('influuntApp')
         if(evento.hora && evento.minuto && evento.segundo && evento.posicaoPlano){
           evento.horario = evento.hora + ':' + evento.minuto + ':' + evento.segundo;
 
-          if (($scope.currentTipoEvento !== 'NORMAL' && evento.data && evento.nome) ||
-             ($scope.currentTipoEvento === 'NORMAL' && evento.diaDaSemana) &&
+          if (($scope.currentTipoEvento !== NORMAL && evento.data && evento.nome) ||
+             ($scope.currentTipoEvento === NORMAL && evento.diaDaSemana) &&
              !evento.posicao) {
             //Salva Evento
             $scope.objeto.eventos = $scope.objeto.eventos || [];
@@ -345,10 +348,10 @@ angular.module('influuntApp')
           $scope.novosEventos.push(evento);
         }
 
-        if(tipo === 'NORMAL'){
+        if(tipo === NORMAL){
           $scope.eventosNormais = _.chain($scope.objeto.eventos)
           .filter(function(e){
-            return e.tipo === 'NORMAL' && e.tabelaHoraria.idJson === $scope.currentTabelaHoraria.idJson;
+            return e.tipo === NORMAL && e.tabelaHoraria.idJson === $scope.currentTabelaHoraria.idJson;
           })
           .orderBy(['posicao'])
           .value();
@@ -415,16 +418,16 @@ angular.module('influuntApp')
       };
 
       atualizaPosicaoEventos = function() {
-        atualizaPosicaoEventosDoTipo('NORMAL');
-        atualizaPosicaoEventosDoTipo('ESPECIAL_RECORRENTE');
-        atualizaPosicaoEventosDoTipo('ESPECIAL_NAO_RECORRENTE');
+        atualizaPosicaoEventosDoTipo(NORMAL);
+        atualizaPosicaoEventosDoTipo(ESPECIAL_RECORRENTE);
+        atualizaPosicaoEventosDoTipo(ESPECIAL_NAO_RECORRENTE);
         atualizaQuantidadeEventos();
       };
 
       atualizaQuantidadeEventos = function() {
-        qtdEventos = _.filter($scope.objeto.eventos, {tipo: 'NORMAL'}).length;
-        qtdEventosRecorrentes = _.filter($scope.objeto.eventos, {tipo: 'ESPECIAL_RECORRENTE'}).length;
-        qtdEventosNaoRecorrentes = _.filter($scope.objeto.eventos, {tipo: 'ESPECIAL_NAO_RECORRENTE'}).length;
+        qtdEventos = _.filter($scope.objeto.eventos, {tipo: NORMAL}).length;
+        qtdEventosRecorrentes = _.filter($scope.objeto.eventos, {tipo: ESPECIAL_RECORRENTE}).length;
+        qtdEventosNaoRecorrentes = _.filter($scope.objeto.eventos, {tipo: ESPECIAL_NAO_RECORRENTE}).length;
 
         $scope.nomesTabs = [
           $filter('translate')('tabelaHorarios.eventos') + '<span class=\'badge badge-success m-l-xs\'>' + qtdEventos + '</span>',
@@ -462,7 +465,7 @@ angular.module('influuntApp')
             if($scope.currentTabelaHoraria.eventos[eventoIndex]) {
               var evento = _.find($scope.objeto.eventos, {idJson: $scope.currentTabelaHoraria.eventos[eventoIndex].idJson});
 
-              hasError = hasError || ((evento.tipo === 'NORMAL' && indice === 0) || (evento.tipo === 'ESPECIAL_RECORRENTE' && indice === 1) || (evento.tipo === 'ESPECIAL_NAO_RECORRENTE' && indice === 2));
+              hasError = hasError || ((evento.tipo === NORMAL && indice === 0) || (evento.tipo === ESPECIAL_RECORRENTE && indice === 1) || (evento.tipo === ESPECIAL_NAO_RECORRENTE && indice === 2));
             }
           });
         }
