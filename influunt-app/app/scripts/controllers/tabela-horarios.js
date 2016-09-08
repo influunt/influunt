@@ -490,7 +490,6 @@ angular.module('influuntApp')
       $scope.$watch('eventosNormais',function(newObj){
         if($scope.eventosNormais && newObj){
           var quadroHorarioBuilder = new influunt.components.QuadroTabelaHorario($scope.dias, $scope.eventosNormais);
-          console.log('caculando');
           $scope.agenda = quadroHorarioBuilder.calcula();
         }
       },true);

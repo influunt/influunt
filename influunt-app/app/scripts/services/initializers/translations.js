@@ -29,6 +29,7 @@ angular.module('influuntApp')
       function(tmhDynamicLocale, APP_SETTINGS, $http, $log) {
 
         var file = LOCALE_LOCATION_PATTERN.replace(/\{\{locale\}\}/g, APP_SETTINGS.defaultLocale);
+        moment.locale(APP_SETTINGS.defaultLocale);
         $http.get(file)
           .then(function() {
             tmhDynamicLocale.set(APP_SETTINGS.defaultLocale);
