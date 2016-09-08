@@ -21,7 +21,7 @@ module.exports = function() {
   });
 
   this.Given(/^clicar no botão de Novo Fabricante$/, function() {
-    return fabricantesPage.clicarBotaoNovoFabricante();
+    return fabricantesPage.clicarLinkComTexto('Novo');
   });
 
   this.Given(/^o sistema deverá redirecionar para o formulário de Cadastro de novo fabricante$/, function() {
