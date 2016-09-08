@@ -1,44 +1,21 @@
 import com.fasterxml.jackson.databind.JsonNode;
+import config.WithInfluuntApplicationNoAuthentication;
 import controllers.routes;
 import models.Fabricante;
 import models.ModeloControlador;
-import org.junit.Before;
 import org.junit.Test;
-import play.Application;
-import play.Mode;
-import play.inject.guice.GuiceApplicationBuilder;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
-import play.test.WithApplication;
-import security.Authenticator;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
-import static play.inject.Bindings.bind;
-import static play.test.Helpers.fakeRequest;
-import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.route;
 
-public class ModelosControladoresControllerTest extends WithApplication {
-
-    @Override
-    protected Application provideApplication() {
-        Map<String, String> options = new HashMap<String, String>();
-        options.put("DATABASE_TO_UPPER", "FALSE");
-        return getApplication(inMemoryDatabase("default", options));
-    }
-
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    private Application getApplication(Map configuration) {
-        return new GuiceApplicationBuilder().configure(configuration)
-                .overrides(bind(Authenticator.class).to(TestAuthenticator.class)).in(Mode.TEST).build();
-    }
+public class ModelosControladoresControllerTest extends WithInfluuntApplicationNoAuthentication {
 
     private ModeloControlador criarModeloComFabricante(String descricao, boolean persist) {
         Fabricante fabricante = new Fabricante();
@@ -49,13 +26,6 @@ public class ModelosControladoresControllerTest extends WithApplication {
         modelo.setFabricante(fabricante);
         if (persist) modelo.save();
         return modelo;
-    }
-
-    @Before
-    public void setup() {
-        Http.Context context = new Http.Context(fakeRequest());
-        context.args.put("user", null);
-        Http.Context.current.set(context);
     }
 
     @Test

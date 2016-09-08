@@ -24,7 +24,6 @@ libraryDependencies ++= Seq(
   javaJdbc,
   cache,
   javaWs,
-  evolutions,
   "uk.co.panaxiom" %% "play-jongo" % "2.0.0-jongo1.3",
   "be.objectify" %% "deadbolt-java" % "2.5.0",
   "mysql" % "mysql-connector-java" % "5.1.36",
