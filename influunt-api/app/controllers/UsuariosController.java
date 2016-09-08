@@ -87,8 +87,10 @@ public class UsuariosController extends Controller {
         if (usuario == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
+            boolean root = usuario.isRoot();
             usuario = Json.fromJson(json, Usuario.class);
             usuario.setId(UUID.fromString(id));
+            usuario.setRoot(root);
             List<Erro> erros = new InfluuntValidator<Usuario>().validate(usuario);
 
             if (erros.isEmpty()) {
