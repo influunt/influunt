@@ -12,6 +12,7 @@ DELETE FROM `enderecos`;
 DELETE FROM `aneis`;
 DELETE FROM `agrupamentos_controladores`;
 DELETE FROM `controladores`;
+DELETE FROM `limite_area`;
 DELETE FROM `areas`;
 DELETE FROM `cidades`;
 DELETE FROM `modelo_controladores`;
@@ -19,7 +20,6 @@ DELETE FROM `fabricantes`;
 DELETE FROM `agrupamentos`;
 
 SET @AgrupamentoId = RANDOM_UUID();
-
 
 INSERT INTO `cidades`(`id`, `id_json`, `nome`, `data_criacao`, `data_atualizacao`) VALUES
 ('89f4f1ea-2e2a-430c-abae-56b32982ca0b', NULL, STRINGDECODE('S\u00e3o Paulo'), TIMESTAMP '2016-08-09 11:05:18.096', TIMESTAMP '2016-08-09 11:05:18.096');
