@@ -55,6 +55,10 @@ var AreasPage = function () {
     return world.getElement(formAreas);
   };
 
+  this.limetesNaTabela = function() {
+    return world.waitFor('td.ng-binding li');
+  };
+
   this.textoExisteNaTabela = function(text) {
     return world.waitForByXpath('//td[contains(text(), "'+text+'")]').then(function() {
       return world.getElementByXpath('//td[contains(text(), "'+text+'")]');
@@ -76,12 +80,11 @@ var AreasPage = function () {
   };
 
   this.textoConfirmacaoApagarRegistro = function() {
-    return world.getElement('div[class*="sweet-alert"] p').getText();
+    return world.getTextInSweetAlert();
   };
 
   this.nenhumaAreaDeveSerExcluida = function() {
     return world.getElements('tbody tr[data-ng-repeat="area in lista"]').then(function(elements) {
-      // console.log('antes: '+totalAreasIndex+' / agora: '+elements.length);
       return elements.length === totalAreasIndex;
     });
   };
@@ -126,6 +129,7 @@ var AreasPage = function () {
   };
 
   this.getErrorMessageFor = function(campo) {
+    world.sleep(500);
     return world.waitFor('[name="'+campo+'"] + p[class*="error-msg"]').then(function() {
       return world.getElement('[name="'+campo+'"] + p[class*="error-msg"]').getText();
     });

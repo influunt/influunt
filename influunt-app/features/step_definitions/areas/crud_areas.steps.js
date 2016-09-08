@@ -21,7 +21,7 @@ module.exports = function() {
   });
 
   this.Given(/^clicar no botão de Nova Area$/, function(callback) {
-    areasPage.clicarBotaoNovaArea();
+    areasPage.clicarLinkComTexto('Novo');
     callback();
   });
 
@@ -55,6 +55,10 @@ module.exports = function() {
 
   this.Given(/^clicar no botão de editar area$/, function() {
     areasPage.clicarLinkComTexto('Editar');
+  });
+
+  this.Given(/^clicar no botão de adicionar limites geográficos$/, function() {
+    areasPage.clicarLinkComTexto('adicionar limites geográficos');
   });
 
   this.Given(/^o sistema deverá redirecionar para o formulário de edição de areas$/, function() {
@@ -98,5 +102,9 @@ module.exports = function() {
 
   this.Given(/^o usuario marcar a cidade como "([^"]*)"$/, function (cidade) {
     return areasPage.selecionarCidade(cidade);
+  });
+
+  this.Given(/^o sistema deverá possuir longitude e latidude$/, function () {
+    return areasPage.limetesNaTabela();
   });
 };
