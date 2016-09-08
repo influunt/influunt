@@ -198,7 +198,7 @@ angular.module('influuntApp')
 
       $scope.onChangeCheckboxGrupo = function(grupo, isAtivo) {
         var gruposSemaforicos = _.chain($scope.objeto.gruposSemaforicos)
-          .filter(function(gs) { return gs.anel.idJson === $scope.currentAnel.idJson })
+          .filter(function(gs) { return gs.anel.idJson === $scope.currentAnel.idJson; })
           .orderBy(['posicao'])
           .value();
 
@@ -557,7 +557,7 @@ angular.module('influuntApp')
           return $scope.currentGruposSemaforicos;
       };
 
-      atualizaTabelaEntreVerdes = function(anel) {
+      atualizaTabelaEntreVerdes = function() {
         var grupoSemaforico = _.find($scope.objeto.gruposSemaforicos, {idJson: $scope.currentGruposSemaforicos[0].idJson});
         var ids = _.map(grupoSemaforico.tabelasEntreVerdes, 'idJson');
 
@@ -750,7 +750,7 @@ angular.module('influuntApp')
           _.each(result.gruposSemaforicos, function(g) {
 
             var gruposSemaforicos = _.chain($scope.objeto.gruposSemaforicos)
-              .filter(function(gs) { return gs.anel.idJson === $scope.currentAnel.idJson })
+              .filter(function(gs) { return gs.anel.idJson === $scope.currentAnel.idJson; })
               .orderBy(['posicao'])
               .value();
 

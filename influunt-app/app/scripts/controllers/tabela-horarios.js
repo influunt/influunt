@@ -172,7 +172,7 @@ angular.module('influuntApp')
 
       $scope.cancelarEdicao = function(controladorId) {
         influuntAlert.delete().then(function(confirmado) {
-          return confirmado && Restangular.one('tabela_horarios', controladorId).all("cancelar_edicao").customDELETE()
+          return confirmado && Restangular.one('tabela_horarios', controladorId).all('cancelar_edicao').customDELETE()
             .then(function() {
               toast.success($filter('translate')('geral.mensagens.removido_com_sucesso'));
               $state.go('app.controladores');
@@ -219,7 +219,7 @@ angular.module('influuntApp')
 
       $scope.verificaAtualizacaoDeEventos = function(evento) {
         if(evento.dataMoment) {
-          evento.data = evento.dataMoment.format("DD-MM-YYYY");
+          evento.data = evento.dataMoment.format('DD-MM-YYYY');
         }
 
         if(evento.hora && evento.minuto && evento.segundo && evento.posicaoPlano){

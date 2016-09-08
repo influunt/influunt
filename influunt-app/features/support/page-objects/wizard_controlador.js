@@ -133,7 +133,7 @@ var WizardControladorPage = function () {
   this.errorMessagesDadosBasicos = function() {
     var thisWizardPage = this;
     var messages = [];
-    return thisWizardPage.getErrorMessageFor('[name="area"]').then(function(msg) {
+    return thisWizardPage.getErrorMessageFor('[name="area"]').then(function() {
 
       return new Promise(function (resolve, reject) {
         for (var i = 0; i < messages.length; i++) {

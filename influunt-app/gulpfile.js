@@ -76,6 +76,7 @@ var paths = {
     'bower_components/moment-timezone/builds/moment-timezone-with-data-2010-2020.js',
     'bower_components/angular-datepicker/dist/angular-datepicker.js',
     'bower_components/angular-tooltips/dist/angular-tooltips.min.js',
+    'bower_components/string/dist/string.min.js',
 
     // inspinea scripts.
     yeoman.app + '/plugins/jquery-ui-1.12.0/jquery-ui.js',
@@ -87,7 +88,11 @@ var paths = {
     yeoman.app + '/plugins/roundSlider-1.3/roundslider.min.js',
     yeoman.app + '/plugins/uiTabs/ui.tabs.overflowResize.js',
     yeoman.app + '/plugins/uiTabs/lib/ui.tabs.addTab.js',
-    yeoman.app + '/plugins/uiTabs/lib/ui.tabs.closable.js'
+    yeoman.app + '/plugins/uiTabs/lib/ui.tabs.closable.js',
+
+    // influunt app plugins.
+    yeoman.app + '/plugins/diagrama-intervalos.js'
+
     // yeoman.app + '/json/**/*.js'
     // 'test/mock/**/*.js'
   ],

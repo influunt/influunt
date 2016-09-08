@@ -3,6 +3,7 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Singleton;
 import models.*;
+import org.junit.Before;
 import org.junit.Test;
 import play.Application;
 import play.Mode;
@@ -19,6 +20,7 @@ import java.util.*;
 
 import static org.junit.Assert.*;
 import static play.inject.Bindings.bind;
+import static play.test.Helpers.fakeRequest;
 import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.route;
 
@@ -37,6 +39,13 @@ public class AgrupamentosControllerTest extends WithApplication {
                 .overrides(bind(Authenticator.class).to(AllowAllAuthenticator.class).in(Singleton.class))
                 .in(Mode.TEST).build();
         return app;
+    }
+
+    @Before
+    public void setup() {
+        Http.Context context = new Http.Context(fakeRequest());
+        context.args.put("user", null);
+        Http.Context.current.set(context);
     }
 
     private Controlador getControlador() {

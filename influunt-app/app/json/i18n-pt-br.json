@@ -5,6 +5,15 @@
     "aviso": "Você está utilizado o navegador <strong id='nav'>Internet Explorer</strong>. Esse sistema não foi projetado para ser utilizado nesse navegador.",
     "recomendacao": "Comportamentos não esperados podem acontecer durante a utilização. Recomenda-se a utilização do navegador Google Chrome, versão 51 ou superior."
   },
+  "auditorias": {
+    "classe": "Classe",
+    "titulo": "Auditoria",
+    "tipo": "Tipo",
+    "usuario": "Usuário",
+    "alteracao": "Alteração",
+    "data": "Data Alteração",
+    "mostrar" : "Visualizar Alteração"
+  },
   "controladores": {
     "nomeEndereco": "Localização",
     "titulo": "Programação",
@@ -82,15 +91,16 @@
       "verTelaAnterior": "Ver Resumo"
     },
     "associacaoDetectores": {
-      "titulo": "Detectores",
       "adicionarDetector": "Adicionar Detector",
-      "detector": "detector",
-      "pedestre": "Pedestre",
-      "veicular": "Veícular",
       "ausencia": "Ausência de Detecção",
+      "configuracaoDetector": "Configuração do detector",
       "deteccao": "Detecção Permanente",
-      "monitoramentoFalha": "Monitoramento de Falha",
+      "detector": "detector",
       "mensagemMaxDetectores": "Você poderá adicionar até",
+      "monitoramentoFalha": "Monitoramento de Falha",
+      "pedestre": "Pedestre",
+      "titulo": "Detectores",
+      "veicular": "Veícular",
       "verTabelaEntreVerdes": "Ver Tela de Entre Verdes"
     },
     "dadosBasicos": {

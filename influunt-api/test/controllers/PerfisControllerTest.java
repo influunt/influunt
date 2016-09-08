@@ -23,6 +23,7 @@ import java.util.*;
 
 import static org.junit.Assert.*;
 import static play.inject.Bindings.bind;
+import static play.test.Helpers.fakeRequest;
 import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.route;
 
@@ -47,6 +48,10 @@ public class PerfisControllerTest extends WithApplication {
 
     @Before
     public void setUp() {
+        Http.Context context = new Http.Context(fakeRequest());
+        context.args.put("user", null);
+        Http.Context.current.set(context);
+
         permissao = new Permissao();
         permissao.setDescricao("Deus");
         permissao.setChave("*");

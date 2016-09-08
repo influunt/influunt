@@ -54,5 +54,10 @@
     "name": "controladores",
     "label": "controladores.titulo",
     "route": "app.controladores"
+  },
+  {
+    "name": "auditorias",
+    "label": "auditorias.titulo",
+    "route": "app.auditorias"
   }
 ]

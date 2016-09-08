@@ -693,6 +693,27 @@ angular
             breadcrumb: 'agrupamentos.mostrar'
           }
         })
+
+        // AUDITORIA
+        .state('app.auditorias', {
+          url: '/auditorias',
+          templateUrl: 'views/auditorias/index.html',
+          controller: 'AuditoriasCtrl',
+          controllerAs: 'auditorias',
+          data: {
+            title: 'auditorias.titulo',
+          }
+        })
+        .state('app.auditorias_show', {
+          url: '/auditorias/:id',
+          templateUrl: 'views/auditorias/show.html',
+          controller: 'AuditoriasCtrl',
+          controllerAs: 'auditorias',
+          data: {
+            title: 'auditorias.titulo',
+            breadcrumb: 'auditorias.mostrar'
+          }
+        })
       ;
     }])
 
