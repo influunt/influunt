@@ -478,5 +478,10 @@
   },
   "historico": {
     "vazio": "O histórico está vazio."
+  },
+  "diagrama_intervalo": {
+    "erros": {
+      "nao_existe_plano": "Plano {NUMERO} não está configurado para esse anel."
+    }
   }
 }

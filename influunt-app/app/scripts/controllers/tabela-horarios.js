@@ -14,7 +14,7 @@ angular.module('influuntApp')
     function ($scope, $state, $timeout, Restangular, $filter, toast,
               influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo, handleValidations, TabelaHorariaService) {
 
-      var adicionaTabelaHorario, adicionaEvento, atualizaPlanos, atualizaGruposSemaforicos, atualizaEventos,
+      var adicionaTabelaHorario, adicionaEvento, atualizaPlanos, atualizaDiagramaIntervalo, atualizaGruposSemaforicos, atualizaEventos,
           atualizaPosicaoEventosDoTipo, atualizaPosicaoEventos, atualizaQuantidadeEventos, removerEventoNoCliente;
 
       var qtdEventos, qtdEventosRecorrentes, qtdEventosNaoRecorrentes;
@@ -226,6 +226,7 @@ angular.module('influuntApp')
         $scope.currentAnel = $scope.aneis[$scope.currentAnelIndex];
         atualizaGruposSemaforicos();
         atualizaPlanos();
+        atualizaDiagramaIntervalo();
       };
 
       $scope.selecionaEvento = function(evento){
@@ -282,19 +283,29 @@ angular.module('influuntApp')
       };
 
       $scope.visualizarPlano = function(evento){
+        $scope.selecionaEvento(evento);
         $scope.selecionaAnel(0);
-        var plano = _.find($scope.currentPlanos, {posicao: parseInt(evento.posicaoPlano)});
-        $scope.plano = geraDadosDiagramaIntervalo.gerar(
-          plano, $scope.currentAnel, $scope.currentGruposSemaforicos, $scope.objeto
-        );
-        var diagramaBuilder = new influunt.components.DiagramaIntervalos($scope.plano, $scope.valoresMinimos);
-        var result = diagramaBuilder.calcula();
-        _.each(result.gruposSemaforicos, function(g) {
-          g.ativo = true;
-        });
-        $scope.dadosDiagrama = result;
         $('#modalDiagramaIntervalos').modal('show');
         return $scope.dadosDiagrama;
+      };
+      
+      atualizaDiagramaIntervalo = function (){
+        var posicaoPlano = parseInt($scope.currentEvento.posicaoPlano);
+        var plano = _.find($scope.currentPlanos, {posicao: posicaoPlano});
+        if(plano){
+          $scope.currentPlano = plano;
+          $scope.plano = geraDadosDiagramaIntervalo.gerar(
+            plano, $scope.currentAnel, $scope.currentGruposSemaforicos, $scope.objeto
+          );
+          var diagramaBuilder = new influunt.components.DiagramaIntervalos($scope.plano, $scope.valoresMinimos);
+          var result = diagramaBuilder.calcula();
+          _.each(result.gruposSemaforicos, function(g) {
+            g.ativo = true;
+          });
+          $scope.dadosDiagrama = result;
+        }else{
+          $scope.dadosDiagrama = {erros: [$filter('translate')('diagrama_intervalo.erros.nao_existe_plano', {NUMERO: posicaoPlano})]};
+        }
       };
 
       adicionaTabelaHorario = function(controlador) {
