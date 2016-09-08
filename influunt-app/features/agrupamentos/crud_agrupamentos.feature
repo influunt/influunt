@@ -15,8 +15,8 @@ Funcionalidade: tela de cadastro de agrupamentos
 
   Cenário: Cadastro de agrupamentos
     Quando o usuário acessar a tela de cadastro de novos agrupamentos
-    E o usuario preencher o campo "Nome" com "Corredor da Paulista"
-    E o usuario selecionar o valor "Corredor" no campo "Tipo"
+    E o usuário preencher o campo "Nome" com "Corredor da Paulista"
+    E o usuário selecionar o valor "Corredor" no campo "Tipo"
     E clicar no botão de salvar
 
   Cenário: Acesso à tela de detalhes de um agrupamento
@@ -31,8 +31,8 @@ Funcionalidade: tela de cadastro de agrupamentos
 
   Cenário: Edição de agrupamentos
     Quando o usuário acessar o formulário de edição de agrupamentos
-    E o usuario preencher o campo "Nome" com "Rota da Cidade"
-    E o usuario selecionar o valor "Rota" no campo "Tipo"
+    E o usuário preencher o campo "Nome" com "Rota da Cidade"
+    E o usuário selecionar o valor "Rota" no campo "Tipo"
     E clicar no botão de salvar
 
   Cenário: Exclusão de agrupamentos sem confirmação do usuário

@@ -19,15 +19,15 @@ Funcionalidade: tela de cadastro de modelos de controladores
 
   Cenário: Cadastro de modelos
     Quando o usuário acessar a tela de cadastro de novos modelos
-    E o usuario preencher o campo "Descrição" com "Modelo 1"
-    E o usuario selecionar o valor "Raro Labs" no campo "Fabricante"
-    E o usuario preencher o campo "Limite Estágios" com "8"
-    E o usuario preencher o campo "Limite Grupos Semafóricos" com "8"
-    E o usuario preencher o campo "Limite Aneies" com "8"
-    E o usuario preencher o campo "Limite Detectores Pedestre" com "8"
-    E o usuario preencher o campo "Limite Detectores Veicular" com "8"
-    E o usuario preencher o campo "Limite Tabelas Entre Verdes" com "8"
-    E o usuario preencher o campo "Limite Planos" com "16"
+    E o usuário preencher o campo "Descrição" com "Modelo 1"
+    E o usuário selecionar o valor "Raro Labs" no campo "Fabricante"
+    E o usuário preencher o campo "Limite Estágios" com "8"
+    E o usuário preencher o campo "Limite Grupos Semafóricos" com "8"
+    E o usuário preencher o campo "Limite Aneies" com "8"
+    E o usuário preencher o campo "Limite Detectores Pedestre" com "8"
+    E o usuário preencher o campo "Limite Detectores Veicular" com "8"
+    E o usuário preencher o campo "Limite Tabelas Entre Verdes" com "8"
+    E o usuário preencher o campo "Limite Planos" com "16"
     E clicar no botão de salvar
     Então o registro do modelo deverá ser salvo com nome igual a "Modelo 1"
     E o sistema deverá retornar à tela de listagem de modelos
@@ -44,8 +44,8 @@ Funcionalidade: tela de cadastro de modelos de controladores
 
   Cenário: Edição de modelos
     Quando o usuário acessar o formulário de edição de modelos
-    E o usuario preencher o campo "Descrição" com "Modelo 2"
-    E o usuario preencher o campo "Limite Estágios" com "16"
+    E o usuário preencher o campo "Descrição" com "Modelo 2"
+    E o usuário preencher o campo "Limite Estágios" com "16"
     E clicar no botão de salvar
     Então o registro do modelo deverá ser salvo com nome igual a "Modelo 2"
     E o sistema deverá retornar à tela de listagem de modelos

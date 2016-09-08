@@ -14,7 +14,7 @@ Funcionalidade: tela de cadastro de cidades
 
   Cenário: Cadastro de cidades
     Quando o usuário acessar a tela de cadastro de novas cidades
-    E o usuario preencher o campo "Nome" com "São Paulo"
+    E o usuário preencher o campo "Nome" com "São Paulo"
     E clicar no botão de salvar
     Então o registro da cidade deverá ser salvo com nome igual a "São Paulo"
     E o sistema deverá retornar à tela de listagem de cidades
@@ -22,7 +22,7 @@ Funcionalidade: tela de cadastro de cidades
   Cenário: Cadastro de cidades com mesmo nome
     Dado que exista uma cidade cadastrada no sistema com o nome "Belo Horizonte"
     Quando o usuário acessar a tela de cadastro de novas cidades
-    E o usuario preencher o campo "Nome" com "Belo Horizonte"
+    E o usuário preencher o campo "Nome" com "Belo Horizonte"
     E clicar no botão de salvar
     Então o sistema deverá indicar erro nos campos nome
 
@@ -39,7 +39,7 @@ Funcionalidade: tela de cadastro de cidades
 
   Cenário: Edição de cidades
     Quando o usuário acessar o formulário de edição de cidades
-    E o usuario preencher o campo "Nome" com "Belo Horizonte"
+    E o usuário preencher o campo "Nome" com "Belo Horizonte"
     E clicar no botão de salvar
     Então o registro da cidade deverá ser salvo com nome igual a "Belo Horizonte"
     E o sistema deverá retornar à tela de listagem de cidades
