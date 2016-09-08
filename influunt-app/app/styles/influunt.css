@@ -2732,3 +2732,12 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
 .modal-lg {
   width: 95%;
 }
+
+.theme-config-box.open {
+  margin-right: 0;
+}
+
+.theme-config-box .skin-setttings {
+  background: #e8eaea;
+  padding: 20px;
+}

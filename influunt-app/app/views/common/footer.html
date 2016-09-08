@@ -1,3 +1,24 @@
+<div class="theme-config">
+    <div class="theme-config-box" ng-init="openPesquisa()">
+        <div class="spin-icon">
+            <i class="fa fa-search ng-scope"></i>
+        </div>
+        <div class="skin-setttings">
+          <h3>{{ 'crud.pesquisar' | translate }}</h3>
+          <form role="form" class="form-group">
+            <div class="input-group">
+              <input type="text" class="form-control" ng-model="filtros.campo_busca">
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-primary">
+                  <i class="fa fa-search" aria-hidden="true" tooltips tooltip-side="left" tooltip-template="{{ 'crud.pesquisar' | translate }}"></i>
+                </button>
+              </span>
+            </div>
+          </form>
+        </div>
+    </div>
+</div>
+
 <div class="footer">
     <div class="pull-right">
         <a href="http://www.rarolabs.com.br">
