@@ -22,6 +22,8 @@ var WizardControladorPage = function () {
   };
 
   this.clicarBotaoNovoControlador = function() {
+    world.waitForToastMessageDisapear(10000);
+    world.sleep(500);
     return world.clickButton(novoControladorButton);
   };
 

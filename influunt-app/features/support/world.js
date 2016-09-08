@@ -59,6 +59,11 @@ var World = function () {
     return driver.sleep(timeout);
   };
 
+  this.waitForToastMessageDisapear = function(timeout) {
+    var _this = this;
+    return _this.waitForInverse('#toast-container div.toast-message', timeout)
+  };
+
   this.waitFor = function(cssLocator, timeout) {
     var waitTimeout = timeout || defaultTimeout;
     return driver.wait(function() {
