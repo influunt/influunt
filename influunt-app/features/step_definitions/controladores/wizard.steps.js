@@ -152,6 +152,10 @@ module.exports = function() {
     return wizardPage.preencherCampoSMEECom123();
   });
 
+  this.Given(/^o usuário clicar para fechar o modal$/, function () {
+    return wizardPage.clickFecharModal();
+  });
+
   this.Given(/^que o usuário clicar Confirmo que não há configurações a serem feitas aqui$/, function(){
     return wizardPage.selecionarValor();
   });

@@ -149,8 +149,14 @@ Funcionalidade: Fluxo de cadastro de controladores
   Cenário: Salvar detectores
     Dado que o usuário esteja no wizard no passo "Detectores"
     E que o usuário associe o detector "DP1" com o estágio "E3"
+    E que o usuário marque 40 no tempo "Ausência de Detecção"
+    E o usuário clicar para fechar o modal
     E que o usuário associe o detector "DV1" com o estágio "E1"
+    E que o usuário marque 40 no tempo "Ausência de Detecção"
+    E o usuário clicar para fechar o modal
     E que o usuário associe o detector "DV2" com o estágio "E2"
+    E que o usuário marque 40 no tempo "Ausência de Detecção"
+    E o usuário clicar para fechar o modal
     Quando o usuário clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Revisão"
 

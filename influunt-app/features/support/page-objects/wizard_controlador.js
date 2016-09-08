@@ -385,6 +385,10 @@ var WizardControladorPage = function () {
     });
   };
 
+  this.clickFecharModal = function() {
+    return world.clickButton('div.modal button');
+  };
+
   this.clicarBotao = function(text) {
     return world.sleep(600).then(function(){
       return world.findLinkByText(text).then(function(link) {
@@ -418,6 +422,7 @@ var WizardControladorPage = function () {
 
   this.marcarTempoAtrasoGrupo = function(value, field) {
     var baseSelector = 'influunt-knob[title="'+field+'"]';
+    world.sleep(500);
     return world.getElement(baseSelector + ' p.knob-value').click().then(function() {
       return world.resetValue(baseSelector + ' input.rs-input', value);
     }).then(world.waitForAnimationFinishes);
@@ -438,10 +443,6 @@ var WizardControladorPage = function () {
     return world.getElement('div.dropup button').click().then(function() {
       return world.getElement('div.dropup ul li:nth-child('+indexTipo+')').click();
     });
-  };
-
-  this.limparTelaComReload = function() {
-    return world.reloadPage();
   };
 
   this.preencherCampoSMEECom123 = function() {
