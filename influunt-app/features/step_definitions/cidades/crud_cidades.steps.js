@@ -21,7 +21,7 @@ module.exports = function() {
   });
 
   this.Given(/^clicar no botão de Nova Cidade$/, function(callback) {
-    cidadesPage.clicarBotaoNovaCidade();
+    cidadesPage.clicarLinkComTexto('Novo');
     callback();
   });
 
@@ -89,9 +89,6 @@ module.exports = function() {
   });
 
   this.Given(/^a cidade deverá ser excluida$/, function() {
-    // return cidadesPage.cidadeDeveSerExcluida().then(function(res) {
-    //   expect(res).to.be.true
-    // });
     return cidadesPage.toastMessage().then(function(text) {
       expect(text).to.match(/Removido com sucesso/);
     });
