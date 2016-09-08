@@ -15,7 +15,7 @@ angular.module('influuntApp')
               influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo, handleValidations, TabelaHorariaService) {
 
       var adicionaTabelaHorario, adicionaEvento, atualizaPlanos, atualizaGruposSemaforicos, atualizaEventos,
-          atualizaPosicaoEventos, atualizaQuantidadeEventos, removerEventoNoCliente;
+          atualizaPosicaoEventosDoTipo, atualizaPosicaoEventos, atualizaQuantidadeEventos, removerEventoNoCliente;
 
       var qtdEventos, qtdEventosRecorrentes, qtdEventosNaoRecorrentes;
 
@@ -334,6 +334,14 @@ angular.module('influuntApp')
           $scope.novosEventos.push(evento);
         }
 
+        if(tipo === 'NORMAL'){
+          $scope.eventosNormais = _.chain($scope.objeto.eventos)
+          .filter(function(e){
+            return e.tipo === 'NORMAL' && e.tabelaHoraria.idJson === $scope.currentTabelaHoraria.idJson;
+          })
+          .orderBy(['posicao'])
+          .value();
+        }
         return evento;
       };
 
@@ -365,6 +373,7 @@ angular.module('influuntApp')
       };
 
       atualizaEventos = function() {
+        atualizaPosicaoEventos();
         $scope.currentEventos = _
           .chain($scope.objeto.eventos)
           .filter(function(e){
@@ -377,23 +386,27 @@ angular.module('influuntApp')
           $scope.novosEventos,
           {tabelaHoraria: {idJson: $scope.currentTabelaHoraria.idJson}, tipo: $scope.currentTipoEvento}
         );
-        return atualizaPosicaoEventos();
+        return $scope.currentEventos;
+      };
+
+      atualizaPosicaoEventosDoTipo = function(tipo) {
+        var index = 1;
+        return _.chain($scope.objeto.eventos)
+          .filter(function(e){
+            return e.tipo === tipo;
+          })
+          .orderBy(['posicao'])
+          .value()
+          .forEach(function (evento){
+            evento.posicao = index;
+            index++;
+          });
       };
 
       atualizaPosicaoEventos = function() {
-        var index = 1;
-        _.filter($scope.objeto.eventos, {tipo: 'NORMAL'}).forEach(function (evento){
-          evento.posicao = index;
-          index++;
-        });
-        _.filter($scope.objeto.eventos, {tipo: 'ESPECIAL_RECORRENTE'}).forEach(function (evento){
-          evento.posicao = index;
-          index++;
-        });
-        _.filter($scope.objeto.eventos, {tipo: 'ESPECIAL_NAO_RECORRENTE'}).forEach(function (evento){
-          evento.posicao = index;
-          index++;
-        });
+        atualizaPosicaoEventosDoTipo('NORMAL');
+        atualizaPosicaoEventosDoTipo('ESPECIAL_RECORRENTE');
+        atualizaPosicaoEventosDoTipo('ESPECIAL_NAO_RECORRENTE');
         atualizaQuantidadeEventos();
       };
 
@@ -459,24 +472,25 @@ angular.module('influuntApp')
 
       //Métodos para colorir tabela
       $scope.getTableCell = function(v,i){
-        return v[Math.floor(i / 4)][i % 4].state;
+        return v[Math.floor(i)][0].state;
       };
 
       $scope.highlightEvento = function(v,i){
-        var table = v[Math.floor(i / 4)][i % 4].state;
+        var table = v[Math.floor(i)][0].state;
         var tr = angular.element('.evento .' + table).parent();
         tr.addClass('light_' + table);
       };
 
       $scope.leaveHighlightEvento = function(v,i){
-        var table = v[Math.floor(i / 4)][i % 4].state;
+        var table = v[Math.floor(i)][0].state;
         var tr = angular.element('.light_' + table);
         tr.removeClass('light_' + table);
       };
 
-      $scope.$watch('currentEventos',function(newObj){
-        if($scope.currentEventos && newObj){
-          var quadroHorarioBuilder = new influunt.components.QuadroTabelaHorario($scope.dias, $scope.currentEventos);
+      $scope.$watch('eventosNormais',function(newObj){
+        if($scope.eventosNormais && newObj){
+          var quadroHorarioBuilder = new influunt.components.QuadroTabelaHorario($scope.dias, $scope.eventosNormais);
+          console.log('caculando');
           $scope.agenda = quadroHorarioBuilder.calcula();
         }
       },true);
