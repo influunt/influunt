@@ -11,12 +11,10 @@ import akka.routing.RoundRobinRoutingLogic;
 import akka.routing.Routee;
 import akka.routing.Router;
 import com.google.gson.Gson;
-import com.typesafe.config.Config;
 import org.eclipse.paho.client.mqttv3.*;
 import protocol.Echo;
 import protocol.Envelope;
 import scala.concurrent.duration.Duration;
-import server.Server;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +27,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class MQTTServerActor extends UntypedActor implements MqttCallback {
 
+    private final String host;
+    private final String port;
     private Map<String, Long> contador = new HashMap<String, Long>();
 
     private MqttClient client;
@@ -49,6 +49,10 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
         router = new Router(new RoundRobinRoutingLogic(), routees);
     }
 
+    public MQTTServerActor(final String host, final String port){
+        this.host = host;
+        this.port = port;
+    }
 
     @Override
     public void preStart() throws Exception {
@@ -118,12 +122,9 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
 
     private void connect() throws MqttException {
         log.info("Iniciando MQTTCentral");
-        //Config conf = //Server.conf72c.getConfig("mosquitto");
-        String host = "mosquitto.rarolabs.com.br";//conf.getString("host");
-        String port = "1883"; //conf.getString("port");
         log.info("Conectando no servidor:{}:{}", host, port);
 
-        client = new MqttClient("tcp://" + host + ":" + port, "servidor");
+        client = new MqttClient("tcp://" + host + ":" + port, "central");
         opts = new MqttConnectOptions();
         opts.setAutomaticReconnect(false);
         opts.setConnectionTimeout(10);

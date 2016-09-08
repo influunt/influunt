@@ -16,11 +16,19 @@ import java.net.URL;
 import java.net.URLConnection;
 
 public class Client {
-    public static Config conf72c;
+    public static play.Configuration conf72c;
     LoggingAdapter log;
 
+    public Client(play.Configuration config) throws InterruptedException {
+        this.conf72c = config;
+        init();
+
+    }
     public Client() throws InterruptedException {
         // Create an Akka system
+    }
+
+    private void init() throws InterruptedException {
         ActorSystem system = ActorSystem.create("InfluuntSystem", ConfigFactory.load());
         log = Logging.getLogger(system, this);
         ActorRef supervidor = system.actorOf(Supervisor.props(), "supervisor");
@@ -32,15 +40,18 @@ public class Client {
             Thread.sleep(1000);
         }
 
-        ActorRef cliente = system.actorOf(Props.create(ClientActor.class), "cliente");
+        ActorRef cliente = system.actorOf(Props.create(ClientActor.class,
+                conf72c.getConfig("device").getString("id"),
+                conf72c.getConfig("device").getConfig("mqtt").getString("host"),
+                conf72c.getConfig("device").getConfig("mqtt").getString("port")), "cliente");
         system.awaitTermination();
 
     }
 
-    public static void main(String[] args) throws InterruptedException {
-//        conf72c = ConfigFactory.load().getConfig("72c");
-        new Client();
-    }
+//    public static void main(String[] args) throws InterruptedException {
+////        conf72c = ConfigFactory.load().getConfig("72c");
+//        new Client();
+//    }
 
     private static boolean netIsAvailable() {
         try {

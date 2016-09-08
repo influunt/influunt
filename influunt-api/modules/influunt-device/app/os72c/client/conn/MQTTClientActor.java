@@ -34,7 +34,9 @@ import static protocol.ControladorOnline.getMensagem;
  */
 public class MQTTClientActor extends UntypedActor implements MqttCallback {
 
-    private String id = "1234";
+    private final String host;
+    private final String id;
+    private final String port;
 
     private MqttClient client;
     private MqttConnectOptions opts;
@@ -53,6 +55,12 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback {
             routees.add(new ActorRefRoutee(r));
         }
         router = new Router(new RoundRobinRoutingLogic(), routees);
+    }
+
+    public MQTTClientActor(final String id, final String host, final String port){
+        this.id = id;
+        this.host = host;
+        this.port = port;
     }
 
     @Override
@@ -112,17 +120,11 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback {
 
     private void connect() throws MqttException {
         log.info("Iniciando MQTTControlador");
-//        id = Client.conf72c.getString("id");
-//        Config conf = Client.conf72c.getConfig("mosquitto");
-//        String host = conf.getString("host");
-//        String port = conf.getString("port");
-        String host = "mosquitto.rarolabs.com.br";//conf.getString("host");
-        String port = "1883"; //conf.getString("port");
 
         log.info("Conectando no servidor:{}:{}",host,port);
         log.info("cliente id: {}",id);
 
-        client = new MqttClient("tcp://"+host+":"+port, "foo");
+        client = new MqttClient("tcp://"+host+":"+port, id);
         log.info("Cliente criado {}",client);
         opts = new MqttConnectOptions();
         opts.setAutomaticReconnect(false);

@@ -14,6 +14,9 @@ import java.util.concurrent.TimeUnit;
  */
 public class ServerActor extends UntypedActor {
 
+    private final String mqttHost;
+    private final String mqttPort;
+
     LoggingAdapter log = Logging.getLogger(getContext().system(), this);
     private ActorRef mqqtCentral;
 
@@ -28,6 +31,10 @@ public class ServerActor extends UntypedActor {
                     },false);
 
 
+    public ServerActor(final String mqttHost, final String mqttPort){
+        this.mqttHost = mqttHost;
+        this.mqttPort = mqttPort;
+    }
     @Override
     public void preStart() throws Exception {
         super.preStart();
@@ -35,7 +42,7 @@ public class ServerActor extends UntypedActor {
     }
 
     private void setup() {
-        mqqtCentral = getContext().actorOf(Props.create(MQTTServerActor.class),"CentralMQTT");
+        mqqtCentral = getContext().actorOf(Props.create(MQTTServerActor.class,mqttHost,mqttPort),"CentralMQTT");
         this.getContext().watch(mqqtCentral);
         mqqtCentral.tell("CONNECT",getSelf());
     }
