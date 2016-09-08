@@ -22,9 +22,7 @@ import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static play.mvc.Http.Status.OK;
-import static play.test.Helpers.fakeRequest;
-import static play.test.Helpers.inMemoryDatabase;
-import static play.test.Helpers.route;
+import static play.test.Helpers.*;
 
 /**
  * Created by rodrigosol on 6/30/16.
