@@ -50,7 +50,7 @@ module.exports = function() {
     return wizardPage.cadastrarEntidadesDadosBasicos();
   });
 
-  this.Given(/^o usuario adicionar (\d+) imagens para os estágios do anel corrente$/, function (qtde) {
+  this.Given(/^o usuário adicionar (\d+) imagens para os estágios do anel corrente$/, function (qtde) {
     return wizardPage.adicionarImagensEstagios(qtde);
   });
 
@@ -70,11 +70,11 @@ module.exports = function() {
     return wizardPage.clicarBotao(text);
   });
 
-  this.Given(/^que o usuario adicione (\d+) grupos semafóricos ao anel$/, function (numGrupos) {
+  this.Given(/^que o usuário adicione (\d+) grupos semafóricos ao anel$/, function (numGrupos) {
     return wizardPage.adicionarGruposSemaforicosAoAnel(numGrupos);
   });
 
-  this.Given(/^o usuario associar o grupo semafórico "([^"]*)" com o estágio "([^"]*)"$/, function (grupo, estagio) {
+  this.Given(/^o usuário associar o grupo semafórico "([^"]*)" com o estágio "([^"]*)"$/, function (grupo, estagio) {
     return wizardPage.associarGrupoSemaforicoEstagio(grupo, estagio);
   });
 
@@ -82,7 +82,7 @@ module.exports = function() {
     return wizardPage.selecionarEstagio(estagio);
   });
 
-  this.Given(/^o usuario marcar o grupo semafórico "([^"]*)" como "([^"]*)"$/, function (grupo, tipoGrupo) {
+  this.Given(/^o usuário marcar o grupo semafórico "([^"]*)" como "([^"]*)"$/, function (grupo, tipoGrupo) {
     return wizardPage.selecionarTipoGrupoSemaforico(grupo, tipoGrupo);
   });
 
@@ -112,7 +112,7 @@ module.exports = function() {
     return wizardPage.selecionaEstagioAlternativoParaTransicaoProibida(transicao, estagio);
   });
 
-  this.Given(/^o usuario preencher os dados dos verdes conflitantes corretamente$/, function () {
+  this.Given(/^o usuário preencher os dados dos verdes conflitantes corretamente$/, function () {
     return wizardPage.fillVerdesConflitantes();
   });
 
@@ -144,11 +144,11 @@ module.exports = function() {
     return wizardPage.limparTelaComReload();
   });
 
-  this.Given(/^o usuario limpar os campos$/, function() {
+  this.Given(/^o usuário limpar os campos$/, function() {
     return wizardPage.limparCampos();
   });
 
-  this.Given(/^o usuario preencher o campo NÚMERO SMEE com 123$/, function () {
+  this.Given(/^o usuário preencher o campo NÚMERO SMEE com 123$/, function () {
     return wizardPage.preencherCampoSMEECom123();
   });
 
