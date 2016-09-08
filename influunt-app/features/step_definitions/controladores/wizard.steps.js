@@ -116,8 +116,8 @@ module.exports = function() {
     return wizardPage.fillVerdesConflitantes();
   });
 
-  this.Given(/^o sistema irá redirecionar o usuário para a página de listagem de controladores$/, function () {
-    return wizardPage.indexPage();
+  this.Given(/^o sistema deverá redirecionar o usuário para a página de listagem de controladores$/, function () {
+    return wizardPage.isIndexPage();
   });
 
   this.Given(/^o sistema deverá indicar tabela incompleta para o grupo "([^"]*)"$/, function (grupo) {

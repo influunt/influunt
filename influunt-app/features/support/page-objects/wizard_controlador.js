@@ -12,7 +12,12 @@ var WizardControladorPage = function () {
   this.world = world;
 
   this.indexPage = function() {
+    var _this = this
     world.visit(INDEX_PATH);
+    return this.isIndexPage();
+  };
+
+  this.isIndexPage = function() {
     return world.waitFor(novoControladorButton);
   };
 
@@ -265,7 +270,6 @@ var WizardControladorPage = function () {
       return Promise.resolve(true);
     });
   };
-
 
   this.isEstagioAlternativoInvalido = function(transicao) {
     var estagioAlternativo = '#estagio-alternativo-' + transicao;
