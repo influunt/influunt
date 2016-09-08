@@ -156,7 +156,15 @@ module.exports = function() {
     return wizardPage.clickFecharModal();
   });
 
+  this.Given(/^o usuário clicar no botão sim$/, function () {
+    return wizardPage.clickBotaoSimSweet();
+  });
+
   this.Given(/^que o usuário clicar Confirmo que não há configurações a serem feitas aqui$/, function(){
     return wizardPage.selecionarValor();
+  });
+
+  this.Given(/^o usuário deverá preecher a modificação com "([^"]*)"$/, function(valor){
+    return wizardPage.preencherModificao(valor);
   });
 };

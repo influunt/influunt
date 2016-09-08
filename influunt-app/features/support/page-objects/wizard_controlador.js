@@ -389,6 +389,10 @@ var WizardControladorPage = function () {
     return world.clickButton('div.modal button');
   };
 
+  this.clickBotaoSimSweet = function() {
+    return world.clickButton('div.sweet-alert button.confirm');
+  };
+
   this.clicarBotao = function(text) {
     return world.sleep(600).then(function(){
       return world.findLinkByText(text).then(function(link) {
@@ -447,6 +451,10 @@ var WizardControladorPage = function () {
 
   this.preencherCampoSMEECom123 = function() {
     return world.setValue('[name="numeroSMEE"]', '123');
+  };
+
+  this.preencherModificao = function(valor){
+    return world.setValue('div.sweet-alert input', valor);
   };
 
   this.associarDetectorEstagio = function(detector, estagio) {
