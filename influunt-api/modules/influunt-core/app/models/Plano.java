@@ -375,30 +375,31 @@ public class Plano extends Model implements Cloneable, Serializable {
         if (!estagio.equals(estagioAnterior)) {
             for (EstagioGrupoSemaforico estagioGrupoSemaforico : estagioAnterior.getEstagiosGruposSemaforicos()) {
                 if(!estagio.getGruposSemaforicos().contains(estagioGrupoSemaforico.getGrupoSemaforico())){
-                    TabelaEntreVerdes tabelaEntreVerdes = estagioGrupoSemaforico.getGrupoSemaforico().getTabelasEntreVerdes().stream().filter(tev -> tev.getPosicao().equals(getPosicaoTabelaEntreVerde())).findFirst().orElse(null);
-
-                    Transicao transicao = estagioGrupoSemaforico.getGrupoSemaforico().findTransicaoByOrigemDestino(estagioAnterior, estagio);
-
-                    if (Objects.nonNull(tabelaEntreVerdes) && Objects.nonNull(transicao)) {
-                        TabelaEntreVerdesTransicao tabelaEntreVerdesTransicao = tabelaEntreVerdes.getTabelaEntreVerdesTransicoes().stream().filter(tvt -> tvt.getTransicao().equals(transicao)).findFirst().orElse(null);
-                        if (Objects.nonNull(tabelaEntreVerdesTransicao)) {
-                            totalTempoEntreverdes.add(tabelaEntreVerdesTransicao.getTotalTempoEntreverdes(estagioGrupoSemaforico.getGrupoSemaforico().getTipo()));
-                        }
-                    }
+                    totalTempoEntreverdes.add(tempoEntreVerdes(estagio, estagioAnterior, estagioGrupoSemaforico));
+                }else{
+                    totalTempoEntreverdes.add(0);
                 }
             }
-            if(totalTempoEntreverdes.isEmpty()){
-                tempoEntreVerdes = 0;
-            }else{
-                tempoEntreVerdes = Collections.max(totalTempoEntreverdes);
-            }
+            tempoEntreVerdes = Collections.max(totalTempoEntreverdes);
         }
         if (isAtuado()) {
             return tempoEntreVerdes + estagioPlano.getTempoVerdeMaximo();
         }
 
         return tempoEntreVerdes + estagioPlano.getTempoVerde();
+    }
 
+    private Integer tempoEntreVerdes(Estagio estagio, Estagio estagioAnterior, EstagioGrupoSemaforico estagioGrupoSemaforico) {
+        TabelaEntreVerdes tabelaEntreVerdes = estagioGrupoSemaforico.getGrupoSemaforico().getTabelasEntreVerdes().stream().filter(tev -> tev.getPosicao().equals(getPosicaoTabelaEntreVerde())).findFirst().orElse(null);
+        Transicao transicao = estagioGrupoSemaforico.getGrupoSemaforico().findTransicaoByOrigemDestino(estagioAnterior, estagio);
+
+        if (Objects.nonNull(tabelaEntreVerdes) && Objects.nonNull(transicao)) {
+            TabelaEntreVerdesTransicao tabelaEntreVerdesTransicao = tabelaEntreVerdes.getTabelaEntreVerdesTransicoes().stream().filter(tvt -> tvt.getTransicao().equals(transicao)).findFirst().orElse(null);
+            if (Objects.nonNull(tabelaEntreVerdesTransicao)) {
+                return tabelaEntreVerdesTransicao.getTotalTempoEntreverdes(estagioGrupoSemaforico.getGrupoSemaforico().getTipo());
+            }
+        }
+        return 0;
     }
 
     public Integer getTempoCicloAgrupamento() {
