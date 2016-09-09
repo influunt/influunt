@@ -302,6 +302,37 @@ angular.module('influuntApp')
         }
       };
 
+      $scope.atualizaTabelaDeAtrasoDeGrupo = function(grupo){
+        if(grupo){
+          $scope.gsAtrasoGrupo = grupo;
+          $scope.currentAtrasosDeGrupoGanhoPassagem = _
+          .chain($scope.objeto.transicoes)
+          .filter(function (transicao) { return transicao.grupoSemaforico.idJson === grupo.idJson;})
+          .map(function(transicao) {
+            var origem = _.find($scope.objeto.estagios, {idJson: transicao.origem.idJson});
+            var destino = _.find($scope.objeto.estagios, {idJson: transicao.destino.idJson});
+            return {
+              label: 'E' + origem.posicao + '-' + 'E' + destino.posicao,
+              tempoAtrasoGrupo: transicao.tempoAtrasoGrupo
+            };
+          })
+          .value();
+
+          $scope.currentAtrasosDeGrupoPerdaPassagem = _
+          .chain($scope.objeto.transicoesComPerdaDePassagem)
+          .filter(function (transicao) { return transicao.grupoSemaforico.idJson === grupo.idJson;})
+          .map(function(transicao) {
+            var origem = _.find($scope.objeto.estagios, {idJson: transicao.origem.idJson});
+            var destino = _.find($scope.objeto.estagios, {idJson: transicao.destino.idJson});
+            return {
+              label: 'E' + origem.posicao + '-' + 'E' + destino.posicao,
+              tempoAtrasoGrupo: transicao.tempoAtrasoGrupo
+            };
+          })
+          .value();
+        }
+      };
+
       setDadosCurrentDetectores = function() {
         $scope.dadosCurrentDetectores = [];
         if ($scope.currentEstagios) {

@@ -74,6 +74,21 @@
             </ng-include>
           </div>
 
+          <div class="col-sm-6 no-padding-left padding-top-20 text-left">
+            <div class="col-sm-12 no-padding">
+              <h2>{{ 'controladores.atrasoDeGrupo.titulo' | translate }}</h2>
+            </div>
+            <ng-include src="'views/directives/influunt-revisao/_atraso-grupos.html'"
+                data-ng-if="dadosCurrentGruposSemaforicos.length > 0">
+            </ng-include>
+            <ng-include src="'views/directives/influunt-revisao/_vazio.html'"
+                data-ng-if="!(dadosCurrentGruposSemaforicos && dadosCurrentGruposSemaforicos.length > 0)">
+            </ng-include>
+          </div>
+
+        </div>
+
+        <div class="col-sm-12 no-padding">
           <div class="col-lg-6 col-sm-6 no-padding-left padding-top-20 text-left">
             <div class="col-lg-12 col-sm-12 no-padding">
               <h2>{{ 'controladores.associacaoDetectores.titulo' | translate }}</h2>
