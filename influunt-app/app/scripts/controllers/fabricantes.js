@@ -14,6 +14,16 @@ angular.module('influuntApp')
       $controller('CrudCtrl', {$scope: $scope});
       $scope.inicializaNovoCrud('fabricantes');
 
+      $scope.pesquisa = {
+        campos: [
+          {
+            nome: 'nome',
+            label: 'Nome',
+            tipo: 'texto'
+          }
+        ]
+      };
+
       /**
        * Adiciona um novo formulario de modelos ao fabricante.
        */
