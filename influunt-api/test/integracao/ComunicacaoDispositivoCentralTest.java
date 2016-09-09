@@ -79,7 +79,7 @@ public class ComunicacaoDispositivoCentralTest extends WithApplication {
     }
 
     @Before
-    public void setup() throws IOException {
+    public void setup() throws IOException, InterruptedException {
 
         final IConfig classPathConfig = new MemoryConfig(new Properties());
         List<? extends InterceptHandler> userHandlers = asList(new InterceptHandler() {
@@ -120,6 +120,7 @@ public class ComunicacaoDispositivoCentralTest extends WithApplication {
 
         mqttBroker = new Server();
         mqttBroker.startServer(classPathConfig, userHandlers);
+        Thread.sleep(100);
         central = app.injector().instanceOf(Central.class);
     }
 

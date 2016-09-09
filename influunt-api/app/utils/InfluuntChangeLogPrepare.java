@@ -25,7 +25,9 @@ public class InfluuntChangeLogPrepare implements ChangeLogPrepare {
         changes.getChanges().forEach(change -> {
             Auditoria auditoria = new Auditoria();
             auditoria.change = change;
-            auditoria.usuario = usuario;
+            if(usuario != null) {
+                auditoria.usuario = usuario;
+            }
 
             jongo.getCollection("auditorias").insert(auditoria);
         });
