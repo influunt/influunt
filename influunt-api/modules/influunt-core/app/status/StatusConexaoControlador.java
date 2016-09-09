@@ -18,9 +18,13 @@ import java.util.Map;
 public class StatusConexaoControlador {
 
     public static PlayJongo jongo = Play.current().injector().instanceOf(PlayJongo.class);
+
     public String _id;
+
     public String idControlador;
+
     public Long timestamp;
+
     public boolean conectado;
 
     public StatusConexaoControlador(String idControlador, long timestamp, boolean conectado) {

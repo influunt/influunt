@@ -38,7 +38,9 @@ import java.util.stream.Collectors;
 public class GrupoSemaforico extends Model implements Cloneable, Serializable {
 
     private static final long serialVersionUID = 7439393568357903233L;
+
     public static Finder<UUID, GrupoSemaforico> find = new Finder<UUID, GrupoSemaforico>(GrupoSemaforico.class);
+
     @Id
     private UUID id;
 

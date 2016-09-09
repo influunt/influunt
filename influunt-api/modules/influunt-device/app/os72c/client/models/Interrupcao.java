@@ -5,6 +5,7 @@ package os72c.client.models;
  */
 public class Interrupcao implements Comparable<Interrupcao> {
     public final TipoInterrupcao tipoInterrupcao;
+
     public final Integer indice;
 
     public Interrupcao(TipoInterrupcao tipoInterrupcao, Integer indice) {

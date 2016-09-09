@@ -10,7 +10,9 @@ import java.util.Date;
  */
 public class MensagemControladorSupervisor extends Mensagem {
     public final TipoEvento tipoEvento;
+
     public final String[] argumentos;
+
     public final EstadoGrupo[] estadoDosGrupos;
 
     public MensagemControladorSupervisor(TipoEvento tipoEvento, EstadoGrupo[] estadoDosGrupos, String... args) {

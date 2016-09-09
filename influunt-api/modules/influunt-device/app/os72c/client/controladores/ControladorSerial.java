@@ -17,12 +17,19 @@ import java.util.concurrent.CompletableFuture;
  */
 public class ControladorSerial extends Controlador implements SerialPortEventListener {
     private SerialPort serialPort;
+
     private String porta;
+
     private Integer baudrate;
+
     private Integer databits;
+
     private Integer stopbits;
+
     private Integer parity;
+
     private Integer startDelay;
+
     private boolean ack = false;
 
     private StringBuilder message = new StringBuilder();

@@ -43,14 +43,17 @@ public class Perfil extends Model implements Role, Serializable {
 
     @Column
     private String idJson;
+
     @Column
     @NotBlank(message = "não pode ficar em branco")
     private String nome;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)

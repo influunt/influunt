@@ -19,6 +19,7 @@ import java.util.Locale;
 public class FormattersProvider implements Provider<Formatters> {
 
     public static final String STR_DATE_TIME_FORMAT = "dd/MM/yyyy HH:mm:ss";
+
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(STR_DATE_TIME_FORMAT);
 
     private final MessagesApi messagesApi;

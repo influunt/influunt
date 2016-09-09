@@ -21,7 +21,7 @@ import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static play.mvc.Http.Status.OK;
-import static play.test.Helpers.*;
+import static play.test.Helpers.route;
 
 /**
  * Created by rodrigosol on 6/30/16.

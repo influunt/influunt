@@ -15,7 +15,7 @@ import java.util.UUID;
 import static org.junit.Assert.*;
 import static play.mvc.Http.Status.OK;
 import static play.mvc.Http.Status.UNPROCESSABLE_ENTITY;
-import static play.test.Helpers.*;
+import static play.test.Helpers.route;
 
 public class CidadesControllerTest extends WithInfluuntApplicationNoAuthentication {
 

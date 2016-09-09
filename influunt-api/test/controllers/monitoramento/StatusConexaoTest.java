@@ -34,6 +34,7 @@ public class StatusConexaoTest extends WithApplication {
     private Http.Context context;
 
     private Optional<String> tokenComAcesso;
+
     private PlayJongo jongo;
 
     @Override

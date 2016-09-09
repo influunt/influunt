@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Estado {
     private Long timestap;
+
     private Cancellable cancellable;
 
     public Long getTimestap() {

@@ -18,9 +18,13 @@ import os72c.client.procolos.MensagemInterrupcao;
  */
 public class Supervisor extends UntypedActor {
     LoggingAdapter log = Logging.getLogger(getContext().system(), this);
+
     Long i = 0l;
+
     private Intervalos intervalos;
+
     private ActorRef controlador;
+
     //    private Config conf;
     private boolean ativo = false;
 

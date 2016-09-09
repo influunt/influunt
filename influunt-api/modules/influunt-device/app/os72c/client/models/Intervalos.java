@@ -15,9 +15,13 @@ import java.util.concurrent.TimeUnit;
 public class Intervalos {
 
     private final UntypedActorContext context;
+
     private final ActorRef controlador;
+
     private final ActorRef supervisor;
+
     private ImmutableList<Troca> trocas;
+
     private int intervalo = 0;
 
     public Intervalos(UntypedActorContext context, ActorRef controlador, ActorRef supervisor) {

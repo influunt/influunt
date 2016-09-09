@@ -15,7 +15,7 @@ import play.test.Helpers;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static play.mvc.Http.Status.OK;
-import static play.test.Helpers.*;
+import static play.test.Helpers.route;
 
 public class HelpersControllerTest extends WithInfluuntApplicationNoAuthentication {
 

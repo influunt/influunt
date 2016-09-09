@@ -18,9 +18,13 @@ import java.util.List;
 public class Auditoria {
 
     public static PlayJongo jongo = Play.current().injector().instanceOf(PlayJongo.class);
+
     public String _id;
+
     public BeanChange change;
+
     public Usuario usuario;
+
     public Long timestamp = System.currentTimeMillis();
 
     public static MongoCollection auditorias() {

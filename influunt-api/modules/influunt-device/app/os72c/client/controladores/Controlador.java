@@ -21,8 +21,11 @@ import java.util.regex.Pattern;
  */
 public abstract class Controlador extends UntypedActor {
     private static final int ID_CONTROLADOR = 0;
+
     private static Pattern pattern = Pattern.compile("([P|V|E|N|M]\\d+)");
+
     protected ActorRef supervisor;
+
     private String idControlador;
 
 

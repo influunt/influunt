@@ -15,8 +15,11 @@ public class Client {
 
 
     private final Configuration mqttSettings;
+
     private final ActorSystem system;
+
     private ActorRef servidor;
+
     private Configuration configuration = Play.current().injector().instanceOf(Configuration.class);
 
 

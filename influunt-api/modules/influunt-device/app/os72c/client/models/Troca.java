@@ -8,7 +8,9 @@ import akka.actor.Cancellable;
 public class Troca {
 
     private final Integer index;
+
     private Long duracao;
+
     private Cancellable cancellable;
 
     private EstadoGrupo[] grupos;

@@ -16,8 +16,7 @@ import java.util.UUID;
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static play.inject.Bindings.bind;
-import static play.test.Helpers.*;
+import static play.test.Helpers.route;
 
 
 public class FabricantesControllerTest extends WithInfluuntApplicationNoAuthentication {

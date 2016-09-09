@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
-import static play.inject.Bindings.bind;
-import static play.test.Helpers.*;
 import static play.test.Helpers.route;
 
 public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthentication {

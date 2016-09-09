@@ -29,13 +29,21 @@ import java.util.concurrent.TimeUnit;
 public class MQTTClientActor extends UntypedActor implements MqttCallback {
 
     private final String host;
+
     private final String id;
+
     private final String port;
+
     LoggingAdapter log = Logging.getLogger(getContext().system(), this);
+
     Router router;
+
     private MqttClient client;
+
     private MqttConnectOptions opts;
+
     private ActorRef controlador;
+
     private Cancellable tick;
 
     {

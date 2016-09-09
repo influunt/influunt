@@ -23,6 +23,7 @@ import static play.test.Helpers.inMemoryDatabase;
 public abstract class ControladorTest extends WithInfluuntApplicationNoAuthentication {
 
     private static ControladorTestUtil controladorTestUtils;
+
     protected Usuario usuario;
 
 

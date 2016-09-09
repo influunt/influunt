@@ -13,10 +13,15 @@ import java.util.UUID;
 public class ControladorTestUtil {
 
     private Cidade cidade;
+
     private Area area;
+
     private Subarea subarea;
+
     private Fabricante fabricante;
+
     private ModeloControlador modeloControlador;
+
     private Usuario usuario;
 
     public ControladorTestUtil(Cidade cidade, Area area, Subarea subarea, Fabricante fabricante, ModeloControlador modeloControlador) {

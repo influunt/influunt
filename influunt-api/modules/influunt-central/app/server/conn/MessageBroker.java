@@ -23,7 +23,9 @@ public class MessageBroker extends UntypedActor {
 
 
     Router routerControladorOnline;
+
     Router routerControladorOffline;
+
     Router routerEcho;
 
     {

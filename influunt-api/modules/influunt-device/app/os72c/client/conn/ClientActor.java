@@ -23,10 +23,15 @@ public class ClientActor extends UntypedActor {
                             return SupervisorStrategy.stop();
                         }
                     }, false);
+
     private final String id;
+
     private final String host;
+
     private final String port;
+
     LoggingAdapter log = Logging.getLogger(getContext().system(), this);
+
     private ActorRef mqqtControlador;
 
     public ClientActor(final String id, final String host, final String port) {

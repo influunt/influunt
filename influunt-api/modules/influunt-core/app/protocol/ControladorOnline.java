@@ -7,6 +7,7 @@ import models.StatusControlador;
  */
 public class ControladorOnline {
     public long dataHora;
+
     public String versao72c;
 
     public StatusControlador status;

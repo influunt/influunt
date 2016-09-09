@@ -22,9 +22,13 @@ public class ServerActor extends UntypedActor {
                             return SupervisorStrategy.stop();
                         }
                     }, false);
+
     private final String mqttHost;
+
     private final String mqttPort;
+
     LoggingAdapter log = Logging.getLogger(getContext().system(), this);
+
     private ActorRef mqqtCentral;
 
 

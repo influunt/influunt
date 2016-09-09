@@ -17,55 +17,101 @@ import java.util.function.Consumer;
  */
 public class ControladorCustomDeserializer {
     public static final String ANEIS = "aneis";
+
     public static final String ESTAGIOS = "estagios";
+
     public static final String GRUPOS_SEMAFORICOS = "gruposSemaforicos";
+
     public static final String VERSOES_PLANOS = "versoesPlanos";
+
     public static final String VERSOES_TABELAS_HORARIAS = "versoesTabelasHorarias";
+
     public static final String DETECTORES = "detectores";
+
     public static final String TRANSICAO_PROIBIDA = "transicaoProibida";
+
     public static final String ESTAGIO_GRUPO_SEMAFORICO = "estagioGrupoSemaforico";
+
     public static final String VERDES_CONFLITANTES = "verdesConflitantes";
+
     public static final String TRANSICAO = "transicao";
+
     public static final String ATRASO_DE_GRUPO = "atrasoDeGrupo";
+
     public static final String TABELAS_ENTRE_VERDES = "tabelasEntreVerdes";
+
     public static final String TABELA_ENTRE_VERDES_TRANSICAO = "tabelaEntreVerdesTransicao";
+
     public static final String PLANOS = "planos";
+
     public static final String GRUPOS_SEMAFORICOS_PLANOS = "gruposSemaforicosPlanos";
+
     public static final String ESTAGIOS_PLANOS = "estagiosPlanos";
+
     public static final String TABELAS_HORARIAS = "tabelasHorarias";
+
     public static final String EVENTOS = "eventos";
+
     public static final String ENDERECOS = "enderecos";
+
     public static final String CIDADES = "cidades";
+
     public static final String AREAS = "areas";
+
     public static final String IMAGENS = "imagens";
+
     private Controlador controlador = new Controlador();
+
     private Map<String, Map<String, Object>> models;
 
     private Map<String, Anel> aneisCache;
+
     private Map<String, Estagio> estagiosCache;
+
     private Map<String, GrupoSemaforico> gruposSemaforicosCache;
+
     private Map<String, Detector> detectoresCache;
+
     private Map<String, TransicaoProibida> transicaoProibidaCache;
+
     private Map<String, EstagioGrupoSemaforico> estagioGrupoSemaforicoCache;
+
     private Map<String, VerdesConflitantes> verdesConflitantesCache;
+
     private Map<String, Transicao> transicaoCache;
+
     private Map<String, AtrasoDeGrupo> atrasoDeGrupoCache;
+
     private Map<String, TabelaEntreVerdes> tabelasEntreVerdesCache;
+
     private Map<String, TabelaEntreVerdesTransicao> tabelaEntreVerdesTransicaoCache;
+
     private Map<String, Plano> planosCache;
+
     private Map<String, VersaoPlano> versoesPlanosCache;
+
     private Map<String, VersaoTabelaHoraria> versoesTabelasHorariasCache;
+
     private Map<String, GrupoSemaforicoPlano> gruposSemaforicosPlanosCache;
+
     private Map<String, EstagioPlano> estagiosPlanosCache;
+
     private Map<String, TabelaHorario> tabelasHorariasCache;
+
     private Map<String, Evento> eventosCache;
+
     private Map<String, Endereco> enderecosCache;
+
     private Map<String, Area> areasCache;
+
     private Map<String, Cidade> cidadesCache;
+
     private Map<String, Imagem> imagensCache;
 
     private ExecutorService executor = Executors.newSingleThreadExecutor();
+
     private List<Consumer<Map<String, Map>>> consumers = new ArrayList<Consumer<Map<String, Map>>>();
+
     private Map<String, Map> caches = new HashMap<String, Map>();
 
 

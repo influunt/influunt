@@ -38,12 +38,19 @@ import static play.test.Helpers.inMemoryDatabase;
 public class ComunicacaoDispositivoCentralTest extends WithApplication {
 
     private Server mqttBroker;
+
     private Central central;
+
     private CompletableFuture onConnectFuture = new CompletableFuture<>();
+
     private CompletableFuture onDisconectFuture = new CompletableFuture<>();
+
     private CompletableFuture onSubscribeFuture = new CompletableFuture<>();
+
     private CompletableFuture<byte[]> onPublishFuture = new CompletableFuture<>();
+
     private Client client;
+
     private PlayJongo jongo;
 
     @Override

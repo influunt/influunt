@@ -12,12 +12,19 @@ import java.util.UUID;
 public class Envelope {
 
     private String idMensagem;
+
     private TipoMensagem tipoMensagem;
+
     private String idControlador;
+
     private String destino;
+
     private int qos;
+
     private long carimboDeTempo;
+
     private Object conteudo;
+
     private String emResposta;
 
     public Envelope(TipoMensagem tipoMensagem, String idControlador, String destino, int qos,
