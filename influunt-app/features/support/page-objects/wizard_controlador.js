@@ -12,7 +12,6 @@ var WizardControladorPage = function () {
   this.world = world;
 
   this.indexPage = function() {
-    var _this = this
     world.visit(INDEX_PATH);
     return this.isIndexPage();
   };

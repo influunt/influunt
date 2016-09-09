@@ -29,9 +29,9 @@ Funcionalidade: Fluxo de cadastro de controladores
 
   Cenário: Salvar anéis do controlador
     Dado que o usuário esteja no wizard no passo "Anéis"
-    E o usuário limpar o campor endereço 1
+    E o usuário limpar o campo endereço 1
     E o usuário buscar o endereço "Av Paulista" para o endereço 1
-    E o usuário limpar o campor endereço 2
+    E o usuário limpar o campo endereço 2
     E o usuário buscar o endereço "Rua Bela Cintra" para o endereço 2
     E o usuário adicionar 3 imagens para os estágios do anel corrente
     E o usuário adicionar um novo anel ativo

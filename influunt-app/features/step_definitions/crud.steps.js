@@ -18,7 +18,7 @@ module.exports = function() {
     return crudPage.buscarEndereco(query, numEndereco);
   });
 
- this.Given(/^o usuário limpar o campor endereço (\d+)$/, function (numEndereco) {
+ this.Given(/^o usuário limpar o campo endereço (\d+)$/, function (numEndereco) {
     return crudPage.limparEndereco(numEndereco);
   });
 
