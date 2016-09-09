@@ -63,10 +63,7 @@ public class UsuariosController extends Controller {
     }
 
     public CompletionStage<Result> findAll() {
-        if (!request().queryString().isEmpty()) {
-            return CompletableFuture.completedFuture(ok(Json.toJson(new InfluuntQueryBuilder(Usuario.class, request().queryString()).query())));
-        }
-        return CompletableFuture.completedFuture(ok(Json.toJson(Usuario.find.fetch("area").findList())));
+        return CompletableFuture.completedFuture(ok(Json.toJson(new InfluuntQueryBuilder(Usuario.class, request().queryString()).fetch(Arrays.asList("area")).query())));
     }
 
     @Transactional

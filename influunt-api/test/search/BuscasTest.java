@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Singleton;
 import controllers.routes;
 import models.Cidade;
+import models.Fabricante;
+import models.ModeloControlador;
 import org.junit.Before;
 import org.junit.Test;
 import play.Application;
@@ -25,8 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.*;
 import static play.inject.Bindings.bind;
 import static play.test.Helpers.*;
 
@@ -184,6 +185,66 @@ public class BuscasTest extends WithApplication {
         assertEquals("Teste42",cidades.get(12).getNome());
         assertEquals("Teste41",cidades.get(13).getNome());
         assertEquals("Teste40",cidades.get(14).getNome());
+    }
+
+
+    @Test
+    public void deveriaBuscarCidadesComPaginacao100() throws IOException {
+        criarCidades(76);
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
+                .uri(routes.CidadesController.findAll().url().concat("?per_page=100&sort_type=asc"));
+        Result result = route(request);
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode json = Json.parse(Helpers.contentAsString(result));
+        List<Cidade> cidades = mapper.readValue(json.get("data").toString(), new TypeReference<List<Cidade>>(){});
+
+        assertEquals("Paginacao com 76 itens", 76, cidades.size());
+    }
+
+
+    @Test
+    public void deveriaRealizarFetchs() throws IOException {
+        Fabricante fabricante = new Fabricante();
+        fabricante.setNome("Raro Labs");
+        fabricante.save();
+
+        ModeloControlador modelo = new ModeloControlador();
+        modelo.setDescricao("Modelo Teste");
+        modelo.setFabricante(fabricante);
+        modelo.save();
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
+                .uri(routes.ModelosControladoresController.findAll().url());
+        Result result = route(request);
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode json = Json.parse(Helpers.contentAsString(result));
+        List<ModeloControlador> modelos = mapper.readValue(json.get("data").toString(), new TypeReference<List<ModeloControlador>>() {
+        });
+
+        assertEquals(1, modelos.size());
+        assertEquals("Raro Labs", modelos.get(0).getFabricante().getNome());
+
+    }
+
+    @Test
+    public void naoDeveriaRealizarFetchs() throws IOException {
+        Fabricante fabricante = new Fabricante();
+        fabricante.setNome("Raro Labs");
+        fabricante.save();
+
+        ModeloControlador modelo = new ModeloControlador();
+        modelo.setDescricao("Modelo Teste");
+        modelo.setFabricante(fabricante);
+        modelo.save();
+
+
+        ObjectMapper mapper = new ObjectMapper();
+        List<ModeloControlador> modelos = mapper.readValue(new InfluuntQueryBuilder(ModeloControlador.class, null).query().get("data").toString(), new TypeReference<List<ModeloControlador>>(){});
+
+        assertEquals(1, modelos.size());
+        assertNull(modelos.get(0).getFabricante().getNome());
+
     }
 
     private void criarCidades(int quantidade) {
