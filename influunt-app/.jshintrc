@@ -15,6 +15,7 @@
     "angular": false,
     "$": true,
     "_": true,
+    "S": true,
     "influunt": true,
     "Dropzone": true,
     "moment": true,
