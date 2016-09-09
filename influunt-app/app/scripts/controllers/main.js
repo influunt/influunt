@@ -12,7 +12,6 @@ angular.module('influuntApp')
     function MainCtrl($scope, $state, $filter, $controller, $http, influuntAlert) {
       // Herda todo o comportamento de breadcrumbs.
       $controller('BreadcrumbsCtrl', {$scope: $scope});
-      $controller('DatatablesCtrl', {$scope: $scope});
 
       $scope.sair = function() {
         influuntAlert

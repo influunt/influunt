@@ -1,0 +1,26 @@
+<footer class="table-footer">
+  <div class="row">
+
+    <div class="col-md-6 page-num-info">
+      <span>
+        {{ 'geral.crud.itensPorPagina' | translate }}
+        <input type="text" ng-model="pagination.perPage" data-ng-change="onPerPageChange()">
+      </span>
+    </div>
+
+    <div class="col-md-6 text-right pagination-container">
+      <ul class="pagination-sm"
+          uib-pagination
+          previous-text="Anterior"
+          next-text="Próximo"
+          total-items="pagination.totalItems"
+          ng-model="pagination.current"
+          max-size="pagination.maxSize"
+          boundary-link-numbers="true"
+          data-ng-change="index()"
+          rotate="false">
+      </ul>
+    </div>
+
+  </div>
+</footer>

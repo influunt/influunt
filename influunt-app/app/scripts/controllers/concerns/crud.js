@@ -8,9 +8,16 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('CrudCtrl', ['$scope', '$state', '$filter', 'Restangular', 'toast', 'influuntAlert', 'handleValidations',
-    function ($scope, $state, $filter, Restangular, toast, influuntAlert, handleValidations) {
+  .controller('CrudCtrl', ['$scope', '$state', '$filter', '$timeout',
+                           'Restangular', 'toast', 'influuntAlert', 'handleValidations',
+    function ($scope, $state, $filter, $timeout,
+              Restangular, toast, influuntAlert, handleValidations) {
     var resourceName = null;
+    $scope.pagination = {
+      current: 1,
+      perPage: 30,
+      maxSize: 5
+    };
 
     /**
      * Inicializa novo crud.
@@ -27,10 +34,24 @@ angular.module('influuntApp')
      * @return     {Object}  Promise
      */
     $scope.index = function() {
-      return Restangular.all(resourceName).getList()
+      var query = {
+        perPage: $scope.pagination.perPage,
+        page: $scope.pagination.current
+      };
+
+      return Restangular.all(resourceName).customGET(null, query)
         .then(function(res) {
-          $scope.lista = res;
+          $scope.lista = res.data;
+          $scope.pagination.totalItems = res.meta.pagination.total;
         });
+    };
+
+    var perPageTimeout = null;
+    $scope.onPerPageChange = function() {
+      $timeout.cancel(perPageTimeout);
+      perPageTimeout = $timeout(function() {
+        $scope.index();
+      }, 500);
     };
 
     /**
