@@ -154,7 +154,7 @@
                                             data-ng-click="selecionaEstagioPlano(estagioPlano, $index)"
                                             data-ng-class="{'origem-transicao-proibida': estagioPlano.origemTransicaoProibida, 'destino-transicao-proibida': estagioPlano.destinoTransicaoProibida}">
                                           <div class="sortable">
-                                              <h4 class="ng-binding">
+                                              <h4 class="ng-binding" id="E{{ getEstagio(estagioPlano).posicao }}">
                                                 <span class="badge badge-danger"
                                                   data-ng-if="getErrosEstagiosPlanos($index)"
                                                   inf-tooltip
