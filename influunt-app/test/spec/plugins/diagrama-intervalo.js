@@ -717,14 +717,14 @@
         plano.tempoCiclo = 40;
         var diagramaIntervaloBuilder = new influunt.components.DiagramaIntervalos(plano, valoresMinimos);
         resposta = diagramaIntervaloBuilder.calcula();
-        expect('Tempo de Ciclo é menor que os tempos dos estágios.').toBe(resposta.erros[0]);
+        expect('Tempo de Ciclo é diferente da soma dos tempos dos estágios.').toBe(resposta.erros[0]);
       });
       
       it('Erro de tempo de ciclo menor', function() {
         delete plano.tempoCiclo;
         var diagramaIntervaloBuilder = new influunt.components.DiagramaIntervalos(plano, valoresMinimos);
         resposta = diagramaIntervaloBuilder.calcula();
-        expect('Tempo de Ciclo é menor que os tempos dos estágios.').toBe(resposta.erros[0]);
+        expect('Tempo de Ciclo é diferente da soma dos tempos dos estágios.').toBe(resposta.erros[0]);
       });
     });
   });
