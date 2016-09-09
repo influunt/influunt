@@ -58,10 +58,7 @@ public class CidadesController extends Controller {
 
     @Transactional
     public CompletionStage<Result> findAll() {
-        if (!request().queryString().isEmpty()) {
-            return CompletableFuture.completedFuture(ok(Json.toJson(new InfluuntQueryBuilder(Cidade.class, request().queryString()).query())));
-        }
-        return CompletableFuture.completedFuture(ok(Json.toJson(Cidade.find.findList())));
+        return CompletableFuture.completedFuture(ok(Json.toJson(new InfluuntQueryBuilder(Cidade.class, request().queryString()).query())));
     }
 
     @Transactional

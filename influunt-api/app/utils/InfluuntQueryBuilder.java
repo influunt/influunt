@@ -4,7 +4,6 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Expr;
 import com.avaje.ebean.Expression;
 import com.avaje.ebean.ExpressionList;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.joda.time.DateTime;
 import play.Logger;
 
@@ -14,18 +13,21 @@ import java.util.List;
 import java.util.Map;
 
 import static java.lang.Integer.parseInt;
-import static utils.InfluuntUtils.*;
+import static utils.InfluuntUtils.parseDate;
+import static utils.InfluuntUtils.underscore;
 
 /**
  * Created by lesiopinheiro on 9/6/16.
  */
 public class InfluuntQueryBuilder {
 
+    public final static int PER_PAGE_DEFAULT = 30;
+
     private Class klass;
 
-    private int page = 1;
+    private int page = 0;
 
-    private int perPage = 20;
+    private int perPage;
 
     private Map<String, Object> searchFields = new HashMap<String, Object>();
 
@@ -42,13 +44,14 @@ public class InfluuntQueryBuilder {
 
     public InfluuntQueryBuilder(Class klass, Map<String, String[]> params) {
         this.klass = klass;
+        this.perPage = PER_PAGE_DEFAULT;
         if (!params.isEmpty()) {
             this.sortField = (params.get("sort") != null) ? params.get("sort")[0] : null;
             this.sortType = (params.get("sort_type") != null) ? params.get("sort_type")[0] : null;
-            this.page = (params.get("page") != null) ? parseInt(params.get("page")[0]) : 1;
-            this.perPage = (params.get("perPage") != null) ? parseInt(params.get("perPage")[0]) : 20;
+            this.page = (params.get("page") != null) ? parseInt(params.get("page")[0]) : 0;
+            this.perPage = (params.get("per_page") != null) ? parseInt(params.get("per_page")[0]) : PER_PAGE_DEFAULT;
             params.entrySet().forEach(q -> {
-                if(!"sort".equals(q.getKey()) && !"sort_type".equals(q.getKey()) && !"page".equals(q.getKey()) && !"perPage".equals(q.getKey())) {
+                if(!"sort".equals(q.getKey()) && !"sort_type".equals(q.getKey()) && !"page".equals(q.getKey()) && !"per_page".equals(q.getKey())) {
                     searchFields.put(q.getKey().toString(), q.getValue()[0].toString());
                 }
             });
@@ -69,7 +72,7 @@ public class InfluuntQueryBuilder {
                     if (keyExpression.length > 1) {
                         searchFieldDefinitions.add(new SearchFieldDefinition(underscore(keyExpression[0]), keyExpression[1], value));
                     } else {
-                        searchFieldDefinitions.add(new SearchFieldDefinition(underscore(key), SearchFieldDefinition.EQ, value));
+                        searchFieldDefinitions.add(new SearchFieldDefinition(underscore(key), null, value));
                     }
                 }
 
@@ -79,13 +82,14 @@ public class InfluuntQueryBuilder {
                 DateTime date = parseDate(searchField.getValue().toString(), null);
                 if (date != null) {
                     predicates.add(getFieldOperator(searchField.getFieldOperator(), searchField.getFieldName(), date));
-                } else if (NumberUtils.isNumber(searchField.getValue().toString())) {
-                    predicates.add(getFieldOperator(searchField.getFieldOperator(), searchField.getFieldName(), searchField.getValue()));
                 } else {
-                    predicates.add(Expr.icontains(searchField.getFieldName(), searchField.getValue().toString()));
+                    if(searchField.getFieldOperator() != null) {
+                        predicates.add(getFieldOperator(searchField.getFieldOperator(), searchField.getFieldName(), searchField.getValue()));
+                    } else {
+                        predicates.add(Expr.icontains(searchField.getFieldName(), searchField.getValue().toString()));
+                    }
                 }
             });
-
 
             // Verifica se existem campos com between
             List<BetweenFieldDefinition> betweenFiels = BetweenFieldDefinition.getBetweenFileds(searchFields);
@@ -99,14 +103,67 @@ public class InfluuntQueryBuilder {
                 }
             });
 
-            if (sortField != null) {
-                return predicates.orderBy(sortField.concat(" ").concat(sortType)).findList();
+            if (getSortField() != null) {
+                Logger.debug(FG_GREEN + "SQL WITH SORT: " + predicates.orderBy(getSortField().concat(" ").concat(getSortType())).getGeneratedSql() + FG_DEFAULT);
+                return predicates.orderBy(getSortField().concat(" ").concat(getSortType())).findPagedList(getPage(), getPerPage()).getList();
             } else {
-                return predicates.findList();
+                return predicates.findPagedList(getPage(), getPerPage()).getList();
             }
         } else {
-            return Ebean.find(klass).findList();
+            if (getSortField() != null) {
+                return Ebean.find(getKlass()).orderBy(getSortField().concat(" ").concat(getSortType())).findPagedList(getPage(), getPerPage()).getList();
+            } else {
+                return Ebean.find(getKlass()).findPagedList(getPage(), getPerPage()).getList();
+            }
         }
+    }
+
+    public Class getKlass() {
+        return klass;
+    }
+
+    public void setKlass(Class klass) {
+        this.klass = klass;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public int getPerPage() {
+        return perPage;
+    }
+
+    public void setPerPage(int perPage) {
+        this.perPage = perPage;
+    }
+
+    public Map<String, Object> getSearchFields() {
+        return searchFields;
+    }
+
+    public void setSearchFields(Map<String, Object> searchFields) {
+        this.searchFields = searchFields;
+    }
+
+    public String getSortField() {
+        return sortField;
+    }
+
+    public void setSortField(String sortField) {
+        this.sortField = sortField;
+    }
+
+    public String getSortType() {
+        return sortType;
+    }
+
+    public void setSortType(String sortType) {
+        this.sortType = sortType;
     }
 
     private Expression getFieldOperator(String operator, String key, Object value) {
