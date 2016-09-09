@@ -72,7 +72,7 @@
                               </div>
                               <div class="col-lg-8 col-sm-8 priority">
                                   <label>
-                                    <input type="checkbox" ichecks data-ng-model="estagio.tempoMaximoPermanenciaAtivado" if-unchecked="limpaTempoPermanencia(estagio)">
+                                    <input type="checkbox" ichecks data-ng-model="estagio.tempoMaximoPermanenciaAtivado" data-if-unchecked="limpaTempoPermanencia(estagio)" data-if-checked="atribuiTempoPermanencia(estagio)">
                                     <span>Ativar monitoramento de tempo máximo de permanencia</span>
                                   </label>
                                   <label>

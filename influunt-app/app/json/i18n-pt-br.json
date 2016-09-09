@@ -132,6 +132,7 @@
       "faseVermelha": "Fase Vermelha",
       "demandaPrioritaria": "Demanda Prioritaria",
       "desativacaoTempoMax": "Desativ. Tempo max",
+      "tempoMaximoPermanencia": "Tempo Max. Permanência",
       "semTransicao": "Este controlador ainda não possui transições cadastradas",
       "vazio": "Não há dados a serem exibidos nesta seção",
       "tabelaPadrao": "Tabela Padrão",

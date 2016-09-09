@@ -296,8 +296,12 @@ angular.module('influuntApp')
       $scope.selecionaPlano = function(plano, index) {
         $scope.currentPlanoIndex = index;
         $scope.currentPlano = plano;
-        $scope.currentVersaoPlanoIndex = _.findIndex($scope.objeto.versoesPlanos, {anel: {idJson: $scope.currentAnel.idJson}});
-        $scope.currentVersaoPlano = $scope.objeto.versoesPlanos[$scope.currentVersaoPlanoIndex];
+        var versoes = _
+        .chain($scope.objeto.versoesPlanos)
+        .filter(function (versao) { return versao.anel.idJson === $scope.currentAnel.idJson;})
+        .value();
+        $scope.currentVersaoPlanoIndex = _.findIndex(versoes, {anel: {idJson: $scope.currentAnel.idJson}});
+        $scope.currentVersaoPlano = versoes[$scope.currentVersaoPlanoIndex];
         atualizaEstagiosPlanos();
         return atualizaPosicaoPlanos();
       };
@@ -432,7 +436,7 @@ angular.module('influuntApp')
       };
 
       $scope.getErrosEstagiosPlanos = function(index) {
-        var erros = _.get($scope.errors, 'aneis[' + $scope.currentAnelIndex + '].planos[' + $scope.currentPlanoIndex + '].estagiosPlanos[' + index + ']');
+        var erros = _.get($scope.errors, 'aneis[' + $scope.currentAnelIndex + '].versoesPlanos[' + $scope.currentVersaoPlanoIndex + '].planos[' + $scope.currentPlanoIndex + '].estagiosPlanos[' + index + ']');
         return erros;
       };
 

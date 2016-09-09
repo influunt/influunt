@@ -68,6 +68,10 @@ angular.module('influuntApp')
         estagio.tempoMaximoPermanencia = null;
       };
 
+      $scope.atribuiTempoPermanencia = function(estagio) {
+        estagio.tempoMaximoPermanencia = $scope.objeto.maximoPermanenciaEstagioMin;
+      };
+
       $scope.associaEstagiosGrupoSemaforico = function(grupo, estagio) {
         var busca = {
           grupoSemaforico: {idJson: grupo.idJson},

@@ -3,8 +3,8 @@
     <img data-ng-src="{{ estagio.imagem }}">
     <h3>E{{ estagio.posicao }}</h3>
     <div>{{ estagio.gruposSemaforicosStr }}</div>
-    <div class="m-t-xs" data-ng-if="estagio.tempoMaximoPermanencia">
-      {{ 'controladores.revisao.desativacaoTempoMax' | translate }}: {{ estagio.tempoMaximoPermanencia }}s
+    <div class="m-t-xs" data-ng-if="estagio.tempoMaximoPermanenciaAtivado">
+      {{ 'controladores.revisao.tempoMaximoPermanencia' | translate }}: {{ estagio.tempoMaximoPermanencia }}s
     </div>
     <div class="m-t-xs" data-ng-if="estagio.demandaPrioritaria">
       {{ 'controladores.revisao.demandaPrioritaria' | translate }}
