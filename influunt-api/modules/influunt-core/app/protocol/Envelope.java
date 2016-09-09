@@ -1,8 +1,6 @@
 package protocol;
 
 import com.google.gson.Gson;
-import com.google.inject.Guice;
-import models.StatusControlador;
 
 import java.util.UUID;
 
@@ -22,8 +20,8 @@ public class Envelope {
     private Object conteudo;
     private String emResposta;
 
-    public Envelope(TipoMensagem tipoMensagem,String idControlador,String destino,int qos,
-                    Object conteudo,String emResposta){
+    public Envelope(TipoMensagem tipoMensagem, String idControlador, String destino, int qos,
+                    Object conteudo, String emResposta) {
         this.tipoMensagem = tipoMensagem;
         this.idControlador = idControlador;
         this.destino = destino;
@@ -87,12 +85,12 @@ public class Envelope {
     }
 
 
-    public String toJson(){
+    public String toJson() {
         Gson gson = new Gson();
         return gson.toJson(this);
     }
 
     public Envelope replayWithSameMenssage(String detino) {
-        return new Envelope(this.tipoMensagem,this.idControlador,detino,this.qos,this.conteudo,this.idMensagem);
+        return new Envelope(this.tipoMensagem, this.idControlador, detino, this.qos, this.conteudo, this.idMensagem);
     }
 }

@@ -16,8 +16,8 @@ public class Intervalos {
 
     private final UntypedActorContext context;
     private final ActorRef controlador;
-    private ImmutableList<Troca> trocas;
     private final ActorRef supervisor;
+    private ImmutableList<Troca> trocas;
     private int intervalo = 0;
 
     public Intervalos(UntypedActorContext context, ActorRef controlador, ActorRef supervisor) {
@@ -29,22 +29,22 @@ public class Intervalos {
     public void start(int delay, int start) {
         int ciclo = 0;
         int momento = 0;
-        for(int i =start; i < trocas.size(); i++){
+        for (int i = start; i < trocas.size(); i++) {
             Troca troca = trocas.get(i);
-            if(i == 0){
+            if (i == 0) {
                 momento = delay;
-            }else{
+            } else {
                 momento = delay + ciclo;
             }
             troca.setCancellable(context.system().scheduler().scheduleOnce(Duration.create(momento, TimeUnit.MILLISECONDS),
                     new Runnable() {
                         @Override
                         public void run() {
-                            controlador.tell(new MensagemControladorSupervisor(TipoEvento.MUDANCA_GRUPO,troca.getGrupos(),String.valueOf(new Date().getTime()),String.valueOf(troca.getDuracao())), supervisor);
+                            controlador.tell(new MensagemControladorSupervisor(TipoEvento.MUDANCA_GRUPO, troca.getGrupos(), String.valueOf(new Date().getTime()), String.valueOf(troca.getDuracao())), supervisor);
                             intervalo++;
-                            if(intervalo >= trocas.size()){
+                            if (intervalo >= trocas.size()) {
                                 intervalo = 0;
-                                supervisor.tell(new MensagemControladorSupervisor(TipoEvento.PROXIMO_CICLO,null,troca.getDuracao().toString()),supervisor);
+                                supervisor.tell(new MensagemControladorSupervisor(TipoEvento.PROXIMO_CICLO, null, troca.getDuracao().toString()), supervisor);
                             }
 
 
@@ -61,24 +61,24 @@ public class Intervalos {
     }
 
     public void proximoCiclo(Integer delay) {
-        start(delay,0);
+        start(delay, 0);
     }
 
     public void proximoEstagio() {
         pararExecucao();
-        int proximo = intervalo + 1 >= trocas.size() ? 0: intervalo + 1;
+        int proximo = intervalo + 1 >= trocas.size() ? 0 : intervalo + 1;
         System.out.println("Pulando para o intervalo:" + proximo);
-        start(0,proximo);
+        start(0, proximo);
     }
 
-    public void status(){
+    public void status() {
         System.out.println("Intervalo Atual:" + intervalo);
     }
 
     public void pararExecucao() {
         trocas.stream().forEach(troca -> {
-            troca.getCancellable().cancel();
-            }
+                    troca.getCancellable().cancel();
+                }
         );
     }
 }

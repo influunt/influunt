@@ -12,7 +12,6 @@ import akka.routing.Routee;
 import akka.routing.Router;
 import com.google.gson.Gson;
 import org.eclipse.paho.client.mqttv3.*;
-import protocol.Echo;
 import protocol.Envelope;
 import scala.concurrent.duration.Duration;
 
@@ -29,16 +28,15 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
 
     private final String host;
     private final String port;
+    LoggingAdapter log = Logging.getLogger(getContext().system(), this);
+    Router router;
     private Map<String, Long> contador = new HashMap<String, Long>();
-
     private MqttClient client;
     private MqttConnectOptions opts;
-    LoggingAdapter log = Logging.getLogger(getContext().system(), this);
     private ActorRef central;
     private Cancellable tick;
     private ActorRef messageBroker;
 
-    Router router;
     {
         List<Routee> routees = new ArrayList<Routee>();
         for (int i = 0; i < 5; i++) {
@@ -49,7 +47,7 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
         router = new Router(new RoundRobinRoutingLogic(), routees);
     }
 
-    public MQTTServerActor(final String host, final String port){
+    public MQTTServerActor(final String host, final String port) {
         this.host = host;
         this.port = port;
     }
@@ -91,8 +89,8 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
             if (!client.isConnected()) {
                 throw new Exception("Conexao morreu");
             }
-        } else if(message instanceof Envelope){
-            sendMenssage((Envelope)message);
+        } else if (message instanceof Envelope) {
+            sendMenssage((Envelope) message);
         }
     }
 
@@ -108,9 +106,9 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
     private void sendToBroker(MqttMessage message) throws MqttException {
 
         String parsedBytes = new String(message.getPayload());
-        Envelope envelope = new Gson().fromJson(parsedBytes,Envelope.class);
-        log.info("Enviando mensagem para o broker: {}", envelope.getTipoMensagem() );
-        router.route(envelope,getSender());
+        Envelope envelope = new Gson().fromJson(parsedBytes, Envelope.class);
+        log.info("Enviando mensagem para o broker: {}", envelope.getTipoMensagem());
+        router.route(envelope, getSender());
     }
 
     private void offline(MqttMessage message) throws MqttException {
@@ -153,14 +151,6 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
         client.subscribe("central/echo", 1, (topic, message) -> {
             sendToBroker(message);
         });
-
-        Envelope echo = Echo.getMensagem("central","controlador/1234/echo","Ola mundo da central.");
-        MqttMessage message = new MqttMessage();
-        message.setQos(1);
-        message.setRetained(true);
-        message.setPayload(echo.toJson().getBytes());
-        client.publish(echo.getDestino(), message);
-
 
     }
 

@@ -13,7 +13,7 @@ public class Troca {
 
     private EstadoGrupo[] grupos;
 
-    public Troca(long duracao, int index, EstadoGrupo... grupos){
+    public Troca(long duracao, int index, EstadoGrupo... grupos) {
         this.grupos = grupos;
         this.duracao = duracao;
         this.index = index;

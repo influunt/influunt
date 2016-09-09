@@ -20,8 +20,8 @@ import java.util.regex.Pattern;
  * Created by rodrigosol on 6/24/16.
  */
 public abstract class Controlador extends UntypedActor {
-    private static Pattern pattern = Pattern.compile("([P|V|E|N|M]\\d+)");
     private static final int ID_CONTROLADOR = 0;
+    private static Pattern pattern = Pattern.compile("([P|V|E|N|M]\\d+)");
     protected ActorRef supervisor;
     private String idControlador;
 
@@ -29,20 +29,20 @@ public abstract class Controlador extends UntypedActor {
     protected abstract void supervisorPronto(ActorRef supervisor, String[] argumentos);
 
     protected void pronto(String fabricante, String modelo, String firmware) {
-        supervisor.tell(new MensagemControladorSupervisor(TipoEvento.CONTROLADOR_PRONTO,null,idControlador,fabricante,modelo,firmware),getSelf());
+        supervisor.tell(new MensagemControladorSupervisor(TipoEvento.CONTROLADOR_PRONTO, null, idControlador, fabricante, modelo, firmware), getSelf());
     }
 
     @Override
     public void onReceive(Object message) throws Exception {
         System.out.println("Recebida:" + message);
-        if(message instanceof MensagemControladorSupervisor) {
+        if (message instanceof MensagemControladorSupervisor) {
             MensagemControladorSupervisor mensagemControladorSupervisor = (MensagemControladorSupervisor) message;
-            switch (mensagemControladorSupervisor.tipoEvento){
+            switch (mensagemControladorSupervisor.tipoEvento) {
                 case MUDANCA_GRUPO:
-                    MensagemControladorSupervisor msg = new MensagemControladorSupervisor(TipoEvento.MUDANCA_GRUPO,mensagemControladorSupervisor.estadoDosGrupos,
-                            String.valueOf(new Date().getTime() -  Long.valueOf(mensagemControladorSupervisor.argumentos[0])),
-                                    mensagemControladorSupervisor.argumentos[1]);
-                    getContext().actorFor("akka://InfluuntSystem/user/cliente/ControladorMQTT").tell(msg,getSelf());
+                    MensagemControladorSupervisor msg = new MensagemControladorSupervisor(TipoEvento.MUDANCA_GRUPO, mensagemControladorSupervisor.estadoDosGrupos,
+                            String.valueOf(new Date().getTime() - Long.valueOf(mensagemControladorSupervisor.argumentos[0])),
+                            mensagemControladorSupervisor.argumentos[1]);
+                    getContext().actorFor("akka://InfluuntSystem/user/cliente/ControladorMQTT").tell(msg, getSelf());
                     onChange(mensagemControladorSupervisor.estadoDosGrupos, Integer.valueOf(mensagemControladorSupervisor.argumentos[1]));
 
                     break;
@@ -51,9 +51,9 @@ public abstract class Controlador extends UntypedActor {
                     supervisorPronto(supervisor, mensagemControladorSupervisor.argumentos);
                     break;
             }
-        }else if(message instanceof Interrupcao){
+        } else if (message instanceof Interrupcao) {
             Interrupcao i = (Interrupcao) message;
-            switch (i.tipoInterrupcao){
+            switch (i.tipoInterrupcao) {
                 case ERRO:
                     entrarEmModoAmarelhoIntermitente();
                     break;
@@ -62,19 +62,19 @@ public abstract class Controlador extends UntypedActor {
         }
     }
 
-    protected void interruption(String msg){
+    protected void interruption(String msg) {
 
         Set<Interrupcao> interrupcaoSet = new TreeSet<Interrupcao>();
         Matcher matcher = pattern.matcher(msg);
         while (matcher.find()) {
-            TipoInterrupcao ti = TipoInterrupcao.fromString(matcher.group().substring(0,1));
+            TipoInterrupcao ti = TipoInterrupcao.fromString(matcher.group().substring(0, 1));
             Integer indice = Integer.valueOf(matcher.group().substring(1));
-            interrupcaoSet.add(new Interrupcao(ti,indice));
+            interrupcaoSet.add(new Interrupcao(ti, indice));
             System.out.println(matcher.group());
         }
 
-        if(interrupcaoSet.size() > 0){
-            supervisor.tell(new MensagemInterrupcao(interrupcaoSet),getSelf());
+        if (interrupcaoSet.size() > 0) {
+            supervisor.tell(new MensagemInterrupcao(interrupcaoSet), getSelf());
         }
     }
 

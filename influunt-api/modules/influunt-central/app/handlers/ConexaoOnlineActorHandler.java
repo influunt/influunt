@@ -16,11 +16,11 @@ public class ConexaoOnlineActorHandler extends UntypedActor {
 
     @Override
     public void onReceive(Object message) throws Exception {
-        if(message instanceof Envelope) {
+        if (message instanceof Envelope) {
             Envelope envelope = (Envelope) message;
-            if(envelope.getTipoMensagem().equals(TipoMensagem.CONTROLADOR_ONLINE)){
+            if (envelope.getTipoMensagem().equals(TipoMensagem.CONTROLADOR_ONLINE)) {
                 log.info("O controlador: {} esta online", envelope.getIdControlador());
-                StatusConexaoControlador.log(envelope.getIdControlador(),envelope.getCarimboDeTempo(),true);
+                StatusConexaoControlador.log(envelope.getIdControlador(), envelope.getCarimboDeTempo(), true);
             }
         }
     }

@@ -22,9 +22,7 @@ import java.util.*;
 
 import static org.junit.Assert.*;
 import static play.inject.Bindings.bind;
-import static play.test.Helpers.fakeRequest;
-import static play.test.Helpers.inMemoryDatabase;
-import static play.test.Helpers.route;
+import static play.test.Helpers.*;
 
 public class UsuariosControllerTest extends WithApplication {
 

@@ -6,26 +6,27 @@ import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import com.google.common.collect.ImmutableList;
-import com.typesafe.config.Config;
-import os72c.client.Client;
-import os72c.client.controladores.ControladorI2C;
-import os72c.client.controladores.ControladorSerial;
-import os72c.client.models.*;
+import os72c.client.models.EstadoGrupo;
+import os72c.client.models.Interrupcao;
+import os72c.client.models.Intervalos;
+import os72c.client.models.Troca;
 import os72c.client.procolos.MensagemControladorSupervisor;
 import os72c.client.procolos.MensagemInterrupcao;
-import os72c.client.utils.Constants;
 
 /**
  * Created by rodrigosol on 6/24/16.
  */
 public class Supervisor extends UntypedActor {
-    private Intervalos intervalos;
     LoggingAdapter log = Logging.getLogger(getContext().system(), this);
     Long i = 0l;
+    private Intervalos intervalos;
     private ActorRef controlador;
-//    private Config conf;
+    //    private Config conf;
     private boolean ativo = false;
 
+    public static Props props() {
+        return Props.create(Supervisor.class);
+    }
 
     @Override
     public void preStart() throws Exception {
@@ -53,13 +54,9 @@ public class Supervisor extends UntypedActor {
 //        args[Constants.SERIAL_START_DELAY] = conf.getString("serial.startdelay");
     }
 
-    public static Props props() {
-        return Props.create(Supervisor.class);
-    }
-
     @Override
     public void onReceive(Object message) throws Exception {
-        log.info("onReceive: {}",message);
+        log.info("onReceive: {}", message);
 
         if (message instanceof MensagemControladorSupervisor) {
             final MensagemControladorSupervisor mensagemControladorSupervisor = (MensagemControladorSupervisor) message;
@@ -77,9 +74,9 @@ public class Supervisor extends UntypedActor {
                     }
                     break;
             }
-        }else if(message instanceof MensagemInterrupcao){
+        } else if (message instanceof MensagemInterrupcao) {
             intervalos.status();
-            tratarInterrupcao(((MensagemInterrupcao)message));
+            tratarInterrupcao(((MensagemInterrupcao) message));
         }
     }
 
@@ -119,14 +116,14 @@ public class Supervisor extends UntypedActor {
     }
 
     private void tratarInterrupcaoNormal(Interrupcao i) {
-        intervalos.start(0,0);
+        intervalos.start(0, 0);
         this.ativo = true;
     }
 
     private void tratarInterrupcaoErro(Interrupcao i) {
         intervalos.pararExecucao();
         this.ativo = false;
-        controlador.tell(i,getSelf());
+        controlador.tell(i, getSelf());
     }
 
     private void registraControlador(MensagemControladorSupervisor mensagemControladorSupervisor) {
@@ -138,7 +135,7 @@ public class Supervisor extends UntypedActor {
 
 
         intervalos.setTrocas(trocas);
-        intervalos.start(0,0);
+        intervalos.start(0, 0);
 
     }
 

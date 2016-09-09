@@ -26,10 +26,8 @@ import java.util.UUID;
 @ChangeLog
 public class AtrasoDeGrupo extends Model implements Cloneable, Serializable {
 
-    public static Finder<UUID, AtrasoDeGrupo> find = new Finder<UUID, AtrasoDeGrupo>(AtrasoDeGrupo.class);
-
     private static final long serialVersionUID = -7392788716344603379L;
-
+    public static Finder<UUID, AtrasoDeGrupo> find = new Finder<UUID, AtrasoDeGrupo>(AtrasoDeGrupo.class);
     @Id
     private UUID id;
 

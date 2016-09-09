@@ -9,7 +9,7 @@ public class ControladorI2C extends Controlador {
     @Override
     protected void supervisorPronto(ActorRef supervisor, String[] argumentos) {
         System.out.println("Supervisor Pronto");
-        pronto("Raro Labs","FakeController","1.00");
+        pronto("Raro Labs", "FakeController", "1.00");
     }
 
     @Override

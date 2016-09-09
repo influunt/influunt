@@ -150,10 +150,6 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         return estagioQueRecebeEstagioDispensavel;
     }
 
-    public void setEstagioQueRecebeEstagioDispensavel(EstagioPlano estagioQueRecebeEstagioDispensavel) {
-        this.estagioQueRecebeEstagioDispensavel = estagioQueRecebeEstagioDispensavel;
-    }
-
     public boolean isDispensavel() {
         return dispensavel;
     }
@@ -264,6 +260,10 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
             return getEstagioQueRecebeEstagioDispensavel() != null;
         }
         return true;
+    }
+
+    public void setEstagioQueRecebeEstagioDispensavel(EstagioPlano estagioQueRecebeEstagioDispensavel) {
+        this.estagioQueRecebeEstagioDispensavel = estagioQueRecebeEstagioDispensavel;
     }
 
     @AssertTrue(groups = PlanosCheck.class, message = "deve ser o estágio anterior ou posterior ao estágio dispensável.")

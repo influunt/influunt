@@ -1,7 +1,6 @@
 package handlers;
 
 import akka.actor.UntypedActor;
-
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import protocol.Envelope;
@@ -16,11 +15,11 @@ public class ConexaoOfflineActorHandler extends UntypedActor {
 
     @Override
     public void onReceive(Object message) throws Exception {
-        if(message instanceof Envelope) {
+        if (message instanceof Envelope) {
             Envelope envelope = (Envelope) message;
-            if(envelope.getTipoMensagem().equals(TipoMensagem.CONTROLADOR_OFFLINE)){
+            if (envelope.getTipoMensagem().equals(TipoMensagem.CONTROLADOR_OFFLINE)) {
                 log.info("O controlador: {} esta offline", envelope.getIdControlador());
-                StatusConexaoControlador.log(envelope.getIdControlador(),envelope.getCarimboDeTempo(),false);
+                StatusConexaoControlador.log(envelope.getIdControlador(), envelope.getCarimboDeTempo(), false);
             }
         }
     }

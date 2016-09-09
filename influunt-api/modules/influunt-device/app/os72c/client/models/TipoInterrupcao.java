@@ -17,10 +17,6 @@ public enum TipoInterrupcao {
         this.tipo = tipo;
     }
 
-    public boolean equalsName(String otherName) {
-        return (otherName == null) ? false : tipo.equals(otherName);
-    }
-
     public static TipoInterrupcao fromString(String text) {
         if (text != null) {
             for (TipoInterrupcao b : TipoInterrupcao.values()) {
@@ -30,6 +26,10 @@ public enum TipoInterrupcao {
             }
         }
         return null;
+    }
+
+    public boolean equalsName(String otherName) {
+        return (otherName == null) ? false : tipo.equals(otherName);
     }
 
 }

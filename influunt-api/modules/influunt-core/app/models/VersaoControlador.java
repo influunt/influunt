@@ -91,6 +91,40 @@ public class VersaoControlador extends Model implements Serializable {
 
     }
 
+    public static boolean usuarioPodeEditarControlador(Controlador controlador, Usuario usuario) {
+        VersaoControlador versao = findByControlador(controlador);
+        if (versao != null) {
+            return usuario.equals(versao.getUsuario());
+        }
+        return false;
+    }
+
+    /**
+     * Retorna a {@link  VersaoControlador}
+     *
+     * @param controlador
+     * @return
+     */
+    public static List<VersaoControlador> versoes(Controlador controlador) {
+        ArrayList<VersaoControlador> versoes = new ArrayList<VersaoControlador>();
+        getElement(versoes, controlador);
+        return versoes;
+    }
+
+    static void getElement(ArrayList<VersaoControlador> versoes, Controlador controlador) {
+        VersaoControlador versao = findByControlador(controlador);
+        if (versao != null) {
+            versoes.add(versao);
+            if (versao.getControladorOrigem() != null) {
+                getElement(versoes, versao.getControladorOrigem());
+            }
+        }
+    }
+
+    public static VersaoControlador findByControlador(Controlador controlador) {
+        return VersaoControlador.find.where().eq("controlador_id", controlador.getId()).findUnique();
+    }
+
     public UUID getId() {
         return id;
     }
@@ -177,40 +211,6 @@ public class VersaoControlador extends Model implements Serializable {
     @Override
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
-    }
-
-    public static boolean usuarioPodeEditarControlador(Controlador controlador, Usuario usuario) {
-        VersaoControlador versao = findByControlador(controlador);
-        if (versao != null) {
-            return usuario.equals(versao.getUsuario());
-        }
-        return false;
-    }
-
-    /**
-     * Retorna a {@link  VersaoControlador}
-     *
-     * @param controlador
-     * @return
-     */
-    public static List<VersaoControlador> versoes(Controlador controlador) {
-        ArrayList<VersaoControlador> versoes = new ArrayList<VersaoControlador>();
-        getElement(versoes, controlador);
-        return versoes;
-    }
-
-    static void getElement(ArrayList<VersaoControlador> versoes, Controlador controlador) {
-        VersaoControlador versao = findByControlador(controlador);
-        if (versao != null) {
-            versoes.add(versao);
-            if (versao.getControladorOrigem() != null) {
-                getElement(versoes, versao.getControladorOrigem());
-            }
-        }
-    }
-
-    public static VersaoControlador findByControlador(Controlador controlador) {
-        return VersaoControlador.find.where().eq("controlador_id", controlador.getId()).findUnique();
     }
 
     public void ativar() {

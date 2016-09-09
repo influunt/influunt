@@ -27,12 +27,13 @@ public class StatusControladorController {
 
     public CompletionStage<Result> findOne(String id) {
         List<StatusConexaoControlador> status = StatusConexaoControlador.findByIdControlador(id);
-        if (status == null ) {
+        if (status == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
             return CompletableFuture.completedFuture(ok(Json.toJson(status)));
         }
     }
+
     public CompletionStage<Result> ultimoStatusDosControladores() {
         HashMap<String, Boolean> map = StatusConexaoControlador.ultimoStatusDosControladores();
         return CompletableFuture.completedFuture(ok(Json.toJson(map)));
@@ -40,7 +41,7 @@ public class StatusControladorController {
 
     public CompletionStage<Result> ultimoStatus(String id) {
         StatusConexaoControlador statusConexaoControlador = StatusConexaoControlador.ultimoStatus(id);
-        if (statusConexaoControlador == null ) {
+        if (statusConexaoControlador == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
             return CompletableFuture.completedFuture(ok(Json.toJson(statusConexaoControlador)));
@@ -48,10 +49,10 @@ public class StatusControladorController {
 
     }
 
-    public CompletionStage<Result> historico(String id,String pagina, String tamanho) {
+    public CompletionStage<Result> historico(String id, String pagina, String tamanho) {
         List<StatusConexaoControlador> statusConexaoControlador = StatusConexaoControlador.historico(id, Integer.valueOf(pagina),
                 Integer.valueOf(tamanho));
-        if (statusConexaoControlador == null ) {
+        if (statusConexaoControlador == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
             return CompletableFuture.completedFuture(ok(Json.toJson(statusConexaoControlador)));

@@ -16,6 +16,14 @@ public enum DiaDaSemana {
         this.name = name;
     }
 
+    public static DiaDaSemana get(String name) {
+        DiaDaSemana value = Arrays.stream(DiaDaSemana.values()).filter(diaDaSemana -> diaDaSemana.equalsName(name)).findFirst().orElse(null);
+        if (value == null) {
+            value = DiaDaSemana.valueOf(name);
+        }
+        return value;
+    }
+
     public boolean equalsName(String otherName) {
         return otherName != null && name.equals(otherName);
     }
@@ -23,13 +31,5 @@ public enum DiaDaSemana {
     @Override
     public String toString() {
         return name;
-    }
-
-    public static DiaDaSemana get(String name) {
-        DiaDaSemana value = Arrays.stream(DiaDaSemana.values()).filter(diaDaSemana -> diaDaSemana.equalsName(name)).findFirst().orElse(null);
-        if (value == null) {
-            value = DiaDaSemana.valueOf(name);
-        }
-        return value;
     }
 }

@@ -25,6 +25,7 @@ import static play.test.Helpers.inMemoryDatabase;
 public abstract class ControladorTest extends WithApplication {
 
     private static ControladorTestUtil controladorTestUtils;
+    protected Usuario usuario;
 
     @Override
     protected Application provideApplication() {
@@ -33,15 +34,12 @@ public abstract class ControladorTest extends WithApplication {
         return getApplication(inMemoryDatabase("default", options));
     }
 
-
     @SuppressWarnings({"unchecked", "rawtypes"})
     private Application getApplication(Map configuration) {
         return new GuiceApplicationBuilder().configure(configuration)
                 .overrides(bind(Authenticator.class).to(AllowAllAuthenticator.class).in(Singleton.class))
                 .in(Mode.TEST).build();
     }
-
-    protected Usuario usuario;
 
     @Before
     public void setup() {

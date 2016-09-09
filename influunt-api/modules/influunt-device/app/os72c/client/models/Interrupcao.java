@@ -3,11 +3,11 @@ package os72c.client.models;
 /**
  * Created by rodrigosol on 7/13/16.
  */
-public class Interrupcao implements Comparable<Interrupcao>{
+public class Interrupcao implements Comparable<Interrupcao> {
     public final TipoInterrupcao tipoInterrupcao;
     public final Integer indice;
 
-    public Interrupcao(TipoInterrupcao tipoInterrupcao, Integer indice){
+    public Interrupcao(TipoInterrupcao tipoInterrupcao, Integer indice) {
         this.tipoInterrupcao = tipoInterrupcao;
         this.indice = indice;
     }
@@ -34,13 +34,13 @@ public class Interrupcao implements Comparable<Interrupcao>{
 
     @Override
     public int compareTo(Interrupcao o) {
-        if(this.tipoInterrupcao.equals(o.tipoInterrupcao)){
+        if (this.tipoInterrupcao.equals(o.tipoInterrupcao)) {
             return 0;
-        }else if(this.tipoInterrupcao.equals(TipoInterrupcao.ERRO)){
+        } else if (this.tipoInterrupcao.equals(TipoInterrupcao.ERRO)) {
             return -1;
-        }else if(o.tipoInterrupcao.equals(TipoInterrupcao.ERRO)){
+        } else if (o.tipoInterrupcao.equals(TipoInterrupcao.ERRO)) {
             return 1;
-        }else {
+        } else {
             return this.tipoInterrupcao.compareTo(o.tipoInterrupcao);
         }
     }

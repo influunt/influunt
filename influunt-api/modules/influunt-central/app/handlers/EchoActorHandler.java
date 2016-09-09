@@ -4,8 +4,6 @@ import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import protocol.Envelope;
-import protocol.TipoMensagem;
-
 
 
 /**
@@ -17,14 +15,14 @@ public class EchoActorHandler extends UntypedActor {
 
     @Override
     public void onReceive(Object message) throws Exception {
-        if(message instanceof Envelope) {
+        if (message instanceof Envelope) {
             Envelope envelope = (Envelope) message;
-            if(envelope.getEmResposta() == null) {
+            if (envelope.getEmResposta() == null) {
                 log.info("Respondendo echo para controlador: {}", envelope.getConteudo().toString());
-                Envelope envelope1 = envelope.replayWithSameMenssage("controlador/"+ envelope.getIdControlador() +"/echo");
+                Envelope envelope1 = envelope.replayWithSameMenssage("controlador/" + envelope.getIdControlador() + "/echo");
 
-                getContext().actorSelection("akka://application/user/servidor/CentralMQTT").tell(envelope1,getSelf());
-            }else{
+                getContext().actorSelection("akka://application/user/servidor/CentralMQTT").tell(envelope1, getSelf());
+            } else {
                 log.info("Controlador respondeu o echo: {}", envelope.getConteudo().toString());
             }
         }

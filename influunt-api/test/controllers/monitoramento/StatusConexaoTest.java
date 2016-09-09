@@ -1,13 +1,7 @@
 package controllers.monitoramento;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.TypeFactory;
-import com.google.gson.Gson;
-import com.google.gson.internal.LinkedTreeMap;
 import com.google.inject.Singleton;
-import controllers.*;
-import json.ControladorCustomSerializer;
 import models.Cidade;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +23,6 @@ import java.util.*;
 import static org.junit.Assert.*;
 import static play.inject.Bindings.bind;
 import static play.test.Helpers.*;
-import static tyrex.util.Configuration.console;
 
 /**
  * Created by lesiopinheiro on 9/2/16.
@@ -42,6 +35,7 @@ public class StatusConexaoTest extends WithApplication {
 
     private Optional<String> tokenComAcesso;
     private PlayJongo jongo;
+
     @Override
     protected Application provideApplication() {
         Map<String, String> options = new HashMap<String, String>();
@@ -65,20 +59,20 @@ public class StatusConexaoTest extends WithApplication {
 
         jongo.getCollection("status_conexao_controladores").drop();
 
-        StatusConexaoControlador.log("1",System.currentTimeMillis(),true);
+        StatusConexaoControlador.log("1", System.currentTimeMillis(), true);
         Thread.sleep(10);
-        StatusConexaoControlador.log("1",System.currentTimeMillis(),false);
+        StatusConexaoControlador.log("1", System.currentTimeMillis(), false);
         Thread.sleep(10);
-        StatusConexaoControlador.log("2",System.currentTimeMillis(),false);
+        StatusConexaoControlador.log("2", System.currentTimeMillis(), false);
         Thread.sleep(10);
-        StatusConexaoControlador.log("2",System.currentTimeMillis(),true);
+        StatusConexaoControlador.log("2", System.currentTimeMillis(), true);
 
     }
 
     @Test
-    public void testUltimoStatusDosControlador(){
+    public void testUltimoStatusDosControlador() {
         HashMap<String, Boolean> usc = StatusConexaoControlador.ultimoStatusDosControladores();
-        assertEquals(2,usc.size());
+        assertEquals(2, usc.size());
 
         assertFalse(usc.get("1"));
         assertTrue(usc.get("2"));
@@ -94,28 +88,28 @@ public class StatusConexaoTest extends WithApplication {
     @Test
     public void testHistoricoStatusControlador() throws InterruptedException {
         jongo.getCollection("status_conexao_controladores").drop();
-        for(int i = 0; i < 100; i++){
+        for (int i = 0; i < 100; i++) {
             Thread.sleep(10);
-            if(i < 50){
+            if (i < 50) {
                 StatusConexaoControlador.log("1", System.currentTimeMillis(), true);
-            }else{
+            } else {
                 StatusConexaoControlador.log("1", System.currentTimeMillis(), false);
             }
 
         }
 
-        List<StatusConexaoControlador> statusControlador = StatusConexaoControlador.historico("1",0,50);
-        assertEquals(50,statusControlador.size());
+        List<StatusConexaoControlador> statusControlador = StatusConexaoControlador.historico("1", 0, 50);
+        assertEquals(50, statusControlador.size());
         assertFalse(statusControlador.get(0).conectado);
 
-        statusControlador = StatusConexaoControlador.historico("1",1,50);
-        assertEquals(50,statusControlador.size());
+        statusControlador = StatusConexaoControlador.historico("1", 1, 50);
+        assertEquals(50, statusControlador.size());
         assertTrue(statusControlador.get(0).conectado);
 
     }
 
     @Test
-    public void testStatusControladorApi(){
+    public void testStatusControladorApi() {
         System.out.println(controllers.monitoramento.routes.StatusControladorController.findOne("1").url());
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
                 .uri(controllers.monitoramento.routes.StatusControladorController.findOne("1").url());
@@ -126,14 +120,14 @@ public class StatusConexaoTest extends WithApplication {
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
         List<LinkedHashMap> status = Json.fromJson(json, List.class);
 
-        assertEquals(2,status.size());
+        assertEquals(2, status.size());
         assertFalse(Boolean.valueOf(status.get(0).get("conectado").toString()));
 
     }
 
 
     @Test
-    public void testUltimoStatusDeTodosControladoresApi(){
+    public void testUltimoStatusDeTodosControladoresApi() {
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
                 .uri(controllers.monitoramento.routes.StatusControladorController.ultimoStatusDosControladores().url());
@@ -143,7 +137,7 @@ public class StatusConexaoTest extends WithApplication {
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
 
-        assertEquals(2,json.size());
+        assertEquals(2, json.size());
         System.out.println(json.toString());
         assertFalse(json.get("1").asBoolean());
         assertTrue(json.get("2").asBoolean());
@@ -151,7 +145,7 @@ public class StatusConexaoTest extends WithApplication {
     }
 
     @Test
-    public void testUltimoStatusDeUmControladorApi(){
+    public void testUltimoStatusDeUmControladorApi() {
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
                 .uri(controllers.monitoramento.routes.StatusControladorController.ultimoStatus("2").url());
@@ -166,10 +160,10 @@ public class StatusConexaoTest extends WithApplication {
     }
 
     @Test
-    public void testHistoricoApi(){
+    public void testHistoricoApi() {
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
-                .uri(controllers.monitoramento.routes.StatusControladorController.historico("1","0","1").url());
+                .uri(controllers.monitoramento.routes.StatusControladorController.historico("1", "0", "1").url());
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
@@ -179,7 +173,7 @@ public class StatusConexaoTest extends WithApplication {
         assertFalse(json.get(0).get("conectado").asBoolean());
 
         postRequest = new Http.RequestBuilder().method("GET")
-                .uri(controllers.monitoramento.routes.StatusControladorController.historico("1","1","1").url());
+                .uri(controllers.monitoramento.routes.StatusControladorController.historico("1", "1", "1").url());
         postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());

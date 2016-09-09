@@ -25,6 +25,7 @@ public class MessageBroker extends UntypedActor {
     Router routerControladorOnline;
     Router routerControladorOffline;
     Router routerEcho;
+
     {
         List<Routee> routeesControladorOnline = new ArrayList<Routee>();
         List<Routee> routeesControladorOffline = new ArrayList<Routee>();
@@ -51,17 +52,17 @@ public class MessageBroker extends UntypedActor {
 
     @Override
     public void onReceive(Object message) throws Exception {
-        if(message instanceof Envelope){
+        if (message instanceof Envelope) {
             Envelope envelope = (Envelope) message;
-            switch (envelope.getTipoMensagem()){
+            switch (envelope.getTipoMensagem()) {
                 case CONTROLADOR_ONLINE:
-                    routerControladorOnline.route(envelope,getSender());
+                    routerControladorOnline.route(envelope, getSender());
                     break;
                 case CONTROLADOR_OFFLINE:
-                    routerControladorOffline.route(envelope,getSender());
+                    routerControladorOffline.route(envelope, getSender());
                     break;
                 case ECHO:
-                    routerEcho.route(envelope,getSender());
+                    routerEcho.route(envelope, getSender());
                     break;
             }
 

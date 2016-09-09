@@ -28,9 +28,7 @@ import java.util.UUID;
 import static org.junit.Assert.*;
 import static play.inject.Bindings.bind;
 import static play.mvc.Http.Status.OK;
-import static play.test.Helpers.fakeRequest;
-import static play.test.Helpers.inMemoryDatabase;
-import static play.test.Helpers.route;
+import static play.test.Helpers.*;
 
 
 /**

@@ -26,9 +26,7 @@ import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static play.inject.Bindings.bind;
-import static play.test.Helpers.fakeRequest;
-import static play.test.Helpers.inMemoryDatabase;
-import static play.test.Helpers.route;
+import static play.test.Helpers.*;
 
 
 public class FabricantesControllerTest extends WithApplication {

@@ -19,9 +19,7 @@ import java.util.concurrent.ExecutionException;
 import static org.junit.Assert.assertEquals;
 import static play.mvc.Http.Status.OK;
 import static play.mvc.Http.Status.UNAUTHORIZED;
-import static play.test.Helpers.fakeRequest;
-import static play.test.Helpers.inMemoryDatabase;
-import static play.test.Helpers.route;
+import static play.test.Helpers.*;
 
 public class SecurityControllerTest extends WithApplication {
 

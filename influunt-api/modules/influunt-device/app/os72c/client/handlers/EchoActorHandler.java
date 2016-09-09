@@ -15,15 +15,15 @@ public class EchoActorHandler extends UntypedActor {
 
     @Override
     public void onReceive(Object message) throws Exception {
-        if(message instanceof Envelope) {
+        if (message instanceof Envelope) {
             Envelope envelope = (Envelope) message;
-            if(envelope.getTipoMensagem().equals(TipoMensagem.ECHO)){
+            if (envelope.getTipoMensagem().equals(TipoMensagem.ECHO)) {
 
-                if(envelope.getEmResposta() == null) {
+                if (envelope.getEmResposta() == null) {
                     log.info("Respondento echo para central: {}", envelope.getConteudo().toString());
                     Envelope envelope1 = envelope.replayWithSameMenssage("central/echo");
                     getSender().tell(envelope1, getSelf());
-                }else{
+                } else {
                     log.info("Central respondeu o echo: {}", envelope.getConteudo().toString());
                 }
             }
