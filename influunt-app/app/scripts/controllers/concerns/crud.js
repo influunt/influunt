@@ -42,8 +42,8 @@ angular.module('influuntApp')
      */
     $scope.index = function() {
       var query = {
-        perPage: $scope.pagination.perPage,
-        page: $scope.pagination.current
+        per_page: $scope.pagination.perPage,
+        page: $scope.pagination.current - 1
       };
 
       buildFilterQuery(query);
@@ -52,7 +52,7 @@ angular.module('influuntApp')
       return Restangular.all(resourceName).customGET(null, query)
         .then(function(res) {
           $scope.lista = res.data;
-          $scope.pagination.totalItems = res.meta.pagination.total;
+          $scope.pagination.totalItems = res.total;
         });
     };
 
@@ -62,8 +62,13 @@ angular.module('influuntApp')
           var field = (nomeCampo + '_' + dadosFiltro.tipoFiltro).replace(/\_$/, '');
           query[field] = dadosFiltro.valor;
         } else {
-          query[nomeCampo + '_start'] = moment(dadosFiltro.start).format('DD/MM/YYYY');
-          query[nomeCampo + '_end'] = moment(dadosFiltro.end).format('DD/MM/YYYY');
+          if (dadosFiltro.start) {
+            query[nomeCampo + '_start'] = moment(dadosFiltro.start).format('DD/MM/YYYY');
+          }
+
+          if (dadosFiltro.end) {
+            query[nomeCampo + '_end'] = moment(dadosFiltro.end).format('DD/MM/YYYY');
+          }
         }
       });
     };

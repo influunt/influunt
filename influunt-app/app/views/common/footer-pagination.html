@@ -4,7 +4,7 @@
     <div class="col-md-6 page-num-info">
       <span>
         {{ 'geral.crud.itensPorPagina' | translate }}
-        <input type="text" ng-model="pagination.perPage" data-ng-change="onPerPageChange()">
+        <input type="number" min="0" step="1" ng-model="pagination.perPage" data-ng-change="onPerPageChange()">
       </span>
     </div>
 
@@ -14,7 +14,9 @@
           previous-text="Anterior"
           next-text="Próximo"
           total-items="pagination.totalItems"
+          items-per-page="pagination.perPage"
           ng-model="pagination.current"
+          num-pages="pagination.numPages"
           max-size="pagination.maxSize"
           boundary-link-numbers="true"
           data-ng-change="index()"

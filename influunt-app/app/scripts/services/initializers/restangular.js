@@ -12,8 +12,8 @@
 angular.module('influuntApp')
 .config(['RestangularProvider', 'APP_ROOT', '$httpProvider',
   function(RestangularProvider, APP_ROOT, $httpProvider) {
-    // RestangularProvider.setBaseUrl(APP_ROOT);
-    RestangularProvider.setBaseUrl('https://demo7285146.mockable.io');
+    RestangularProvider.setBaseUrl(APP_ROOT);
+    // RestangularProvider.setBaseUrl('https://demo7285146.mockable.io');
     $httpProvider.interceptors.push('authInterceptor');
     $httpProvider.interceptors.push('blockuiInterceptor');
   }]);

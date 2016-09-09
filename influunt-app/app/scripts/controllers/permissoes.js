@@ -21,14 +21,9 @@ angular.module('influuntApp')
             tipo: 'texto'
           },
           {
-            nome: 'posicao',
-            label: 'Posição',
-            tipo: 'numerico'
-          },
-          {
-            nome: 'dataCriacao',
-            label: 'Data Criação',
-            tipo: 'data'
+            nome: 'chave',
+            label: 'Chave',
+            tipo: 'texto'
           }
         ]
       };
