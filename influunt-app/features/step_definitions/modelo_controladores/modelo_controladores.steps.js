@@ -20,9 +20,8 @@ module.exports = function() {
     });
   });
 
-  this.Given(/^clicar no botão de Novo Modelo$/, function(callback) {
-    modelosPage.clicarBotaoNovoModelo();
-    callback();
+  this.Given(/^clicar no botão de Novo Modelo$/, function() {
+    return modelosPage.clicarLinkComTexto('Novo');
   });
 
   this.Given(/^o sistema deverá redirecionar para o formulário de cadastro de novos modelos$/, function() {
@@ -59,6 +58,10 @@ module.exports = function() {
 
   this.Given(/^clicar no botão de editar um modelo$/, function() {
     modelosPage.clicarLinkComTexto('Editar');
+  });
+
+  this.Given(/^o usuário limpe o campo Descrição$/, function() {
+    modelosPage.limparCampoDescricao();
   });
 
   this.Given(/^o sistema deverá redirecionar para o formulário de edição de modelos$/, function() {

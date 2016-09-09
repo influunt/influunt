@@ -44,6 +44,7 @@ Funcionalidade: tela de cadastro de modelos de controladores
 
   Cenário: Edição de modelos
     Quando o usuário acessar o formulário de edição de modelos
+    E o usuário limpe o campo Descrição
     E o usuário preencher o campo "Descrição" com "Modelo 2"
     E o usuário preencher o campo "Limite Estágios" com "16"
     E clicar no botão de salvar
