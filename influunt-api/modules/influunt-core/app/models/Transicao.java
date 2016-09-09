@@ -174,6 +174,13 @@ public class Transicao extends Model implements Cloneable, Serializable {
         this.tipo = tipo;
     }
 
+    public Integer getTempoAtrasoGrupo(){
+        if(this.getAtrasoDeGrupo() == null){
+            return 0;
+        }
+        return this.getAtrasoDeGrupo().getAtrasoDeGrupo();
+    }
+
     @AssertTrue(groups = ControladorTabelaEntreVerdesCheck.class, message = "Essa transição deve ter pelo menos uma tabela de entreverdes.")
     public boolean isAoMenosUmaTabelaEntreVerdesTransicao() {
         return isPerdaDePassagem() || !getTabelaEntreVerdesTransicoes().isEmpty();

@@ -2,7 +2,7 @@
   'use strict';
 
   describe('Quadro de horários', function() {
-    var dias, eventos, resposta;
+    var dias, eventos, resposta, i;
     var dom = 'dom';
     var seg = 'seg';
     var ter = 'ter';
@@ -245,88 +245,88 @@
 
       it('Os intervalos de domingo devem ser [0-1 -> 1] e [2-23 -> 5]', function() {
         var intervalos = resposta[dom];
-        for(var i = 0; i <= 1; i++){
+        for(i = 0; i <= 1; i++){
           expect('horarioColor1').toBe(intervalos[i][0].state);
         }
-        for(var i = 2; i <= 23; i++){
+        for(i = 2; i <= 23; i++){
           expect('horarioColor5').toBe(intervalos[i][0].state);
         }
       });
 
       it('Os intervalos de segunda devem ser [0-7 -> 5], [8-21 -> 3] e [22-23 -> 6]', function() {
         var intervalos = resposta[seg];
-        for(var i = 0; i <= 7; i++){
+        for(i = 0; i <= 7; i++){
           expect('horarioColor5').toBe(intervalos[i][0].state);
         }
-        for(var i = 8; i <= 21; i++){
+        for(i = 8; i <= 21; i++){
           expect('horarioColor3').toBe(intervalos[i][0].state);
         }
-        for(var i = 22; i <= 23; i++){
+        for(i = 22; i <= 23; i++){
           expect('horarioColor6').toBe(intervalos[i][0].state);
         }
       });
 
       it('Os intervalos de terça devem ser [0-1 -> 6], [2-21 -> 5] e [22-23 -> 6]', function() {
         var intervalos = resposta[ter];
-        for(var i = 0; i <= 1; i++){
+        for(i = 0; i <= 1; i++){
           expect('horarioColor6').toBe(intervalos[i][0].state);
         }
-        for(var i = 2; i <= 21; i++){
+        for(i = 2; i <= 21; i++){
           expect('horarioColor5').toBe(intervalos[i][0].state);
         }
-        for(var i = 22; i <= 23; i++){
+        for(i = 22; i <= 23; i++){
           expect('horarioColor6').toBe(intervalos[i][0].state);
         }
       });
 
       it('Os intervalos de quarta devem ser [0-1 -> 6], [2-21 -> 5] e [22-23 -> 6]', function() {
         var intervalos = resposta[qua];
-        for(var i = 0; i <= 1; i++){
+        for(i = 0; i <= 1; i++){
           expect('horarioColor6').toBe(intervalos[i][0].state);
         }
-        for(var i = 2; i <= 21; i++){
+        for(i = 2; i <= 21; i++){
           expect('horarioColor5').toBe(intervalos[i][0].state);
         }
-        for(var i = 22; i <= 23; i++){
+        for(i = 22; i <= 23; i++){
           expect('horarioColor6').toBe(intervalos[i][0].state);
         }
       });
 
       it('Os intervalos de quinta devem ser [0-1 -> 6], [2-21 -> 5] e [22-23 -> 6]', function() {
         var intervalos = resposta[qui];
-        for(var i = 0; i <= 1; i++){
+        for(i = 0; i <= 1; i++){
           expect('horarioColor6').toBe(intervalos[i][0].state);
         }
-        for(var i = 2; i <= 21; i++){
+        for(i = 2; i <= 21; i++){
           expect('horarioColor5').toBe(intervalos[i][0].state);
         }
-        for(var i = 22; i <= 23; i++){
+        for(i = 22; i <= 23; i++){
           expect('horarioColor6').toBe(intervalos[i][0].state);
         }
       });
 
       it('Os intervalos de sexta devem ser [0-1 -> 6], [2-9 -> 5], [10-21 -> 4] e [22-23 -> 6]', function() {
         var intervalos = resposta[sex];
-        for(var i = 0; i <= 1; i++){
+        for(i = 0; i <= 1; i++){
           expect('horarioColor6').toBe(intervalos[i][0].state);
         }
-        for(var i = 2; i <= 9; i++){
+        for(i = 2; i <= 9; i++){
           expect('horarioColor5').toBe(intervalos[i][0].state);
         }
-        for(var i = 10; i <= 21; i++){
+        for(i = 10; i <= 21; i++){
           expect('horarioColor4').toBe(intervalos[i][0].state);
         }
-        for(var i = 22; i <= 23; i++){
+        for(i = 22; i <= 23; i++){
           expect('horarioColor6').toBe(intervalos[i][0].state);
         }
       });
 
       it('Os intervalos de sabado devem ser [0-1 -> 6] e [2-23 -> 5]', function() {
         var intervalos = resposta[sab];
-        for(var i = 0; i <= 1; i++){
+        for(i = 0; i <= 1; i++){
           expect('horarioColor6').toBe(intervalos[i][0].state);
         }
-        for(var i = 2; i <= 23; i++){
+        for(i = 2; i <= 23; i++){
           expect('horarioColor5').toBe(intervalos[i][0].state);
         }
       });
