@@ -15,6 +15,7 @@ var influunt;
       QuadroTabelaHorario.prototype.calcula = function () {
         this.agenda = this.inicializa();
         var eventos = this.eventos;
+        var dias = this.dias;
         var programas = [];
         var index = 0;
         eventos.forEach(function(evento){
@@ -24,6 +25,7 @@ var influunt;
             programa.minuto = programa.horario.split(':')[1];
             programa.segundo = programa.horario.split(':')[2];
             programa.dia = programa.diaDaSemana;
+            programa.prioridade = _.find(dias, {value: programa.dia}).prioridade;
             programa.class = 'horarioColor' + (index+1);
             programa.index = index;
             index++;
@@ -149,10 +151,16 @@ var influunt;
         return intervalo;
       };
       QuadroTabelaHorario.prototype.comparePrograma = function (a, b) {
+        var pa = a.prioridade;
+        var pb = b.prioridade;
         var sa = parseInt(a.segundo);
         var sb = parseInt(b.segundo);
 
-        if(sa < sb){
+        if(pb < pa){
+          return -1;
+        }else if(pb > pa){
+          return 1;
+        }else if(sa < sb){
           return -1;
         }else if(sa > sb){
           return 1;

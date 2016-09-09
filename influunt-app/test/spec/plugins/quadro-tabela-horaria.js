@@ -164,6 +164,26 @@
         {
           idJson: 'evento-9-JSON',
           posicao: 9
+        },
+        {
+          idJson: 'evento-10-JSON',
+          posicao: 10,
+          diaDaSemana: 'QUINTA',
+          tabelaHoraria: { 
+            idJson: 'th-1-JSON'
+          },
+          tipo: 'NORMAL',
+          horario: '2:4:2'
+        },
+        {
+          idJson: 'evento-11-JSON',
+          posicao: 11,
+          diaDaSemana: 'TODOS_OS_DIAS',
+          tabelaHoraria: { 
+            idJson: 'th-1-JSON'
+          },
+          tipo: 'NORMAL',
+          horario: '2:4:2'
         }
       ];
     });
@@ -176,12 +196,12 @@
         expect(eventos).toBeDefined();
       });
 
-      it('Deve existir 9 eventos', function() {
-        expect(eventos.length).toBe(9);
+      it('Deve existir 11 eventos', function() {
+        expect(eventos.length).toBe(11);
       });
 
-      it('Deve existir 8 eventos NORMAL', function() {
-        expect(_.filter(eventos, {tipo: 'NORMAL'}).length).toBe(8);
+      it('Deve existir 10 eventos NORMAL', function() {
+        expect(_.filter(eventos, {tipo: 'NORMAL'}).length).toBe(10);
       });
 
     });
@@ -292,13 +312,13 @@
         }
       });
 
-      it('Os intervalos de quinta devem ser [0-1 -> 6], [2-21 -> 5] e [22-23 -> 6]', function() {
+      it('Os intervalos de quinta devem ser [0-1 -> 6], [2-21 -> 9] e [22-23 -> 6]', function() {
         var intervalos = resposta[qui];
         for(i = 0; i <= 1; i++){
           expect('horarioColor6').toBe(intervalos[i][0].state);
         }
         for(i = 2; i <= 21; i++){
-          expect('horarioColor5').toBe(intervalos[i][0].state);
+          expect('horarioColor9').toBe(intervalos[i][0].state);
         }
         for(i = 22; i <= 23; i++){
           expect('horarioColor6').toBe(intervalos[i][0].state);
