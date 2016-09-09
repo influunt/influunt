@@ -863,4 +863,3 @@ drop table if exists versoes_controladores;
 drop table if exists versoes_planos;
 
 drop table if exists versoes_tabelas_horarias;
-
