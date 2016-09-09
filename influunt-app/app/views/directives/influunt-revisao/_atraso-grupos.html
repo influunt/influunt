@@ -1,0 +1,63 @@
+<div class="col-lg-12 col-sm-12 no-padding padding-top-20 ibox-content">
+  <div class="col-sm-12 no-padding-left">
+    <label for="gsTabelasEntreVerdes">{{ 'controladores.configuracao_grupo' | translate }}</label>
+    <select class="form-control m-b" id="gsTabelasEntreVerdes"
+        data-ng-model="gsAtrasoGrupo"
+        data-ng-init="atualizaTabelaDeAtrasoDeGrupo(currentGruposSemaforicos[0])"
+        data-ng-change="atualizaTabelaDeAtrasoDeGrupo(gsAtrasoGrupo)"
+        data-ng-options="gs as 'G'+gs.posicao for gs in currentGruposSemaforicos | orderBy: 'posicao'">
+    </select>
+  </div>
+</div>
+
+<div class="col-sm-12 no-padding padding-top-20" data-ng-if="gsAtrasoGrupo">
+  <div class="col-sm-6">
+    <div class="col-sm-12 no-padding-left">
+      <h3>
+        <strong>{{ 'controladores.perdaDePassagem' | translate }}</strong>
+      </h3>
+    </div>
+    <div class="col-sm-6 no-padding-left"></div>
+    <div class="col-sm-6 no-padding-left">
+      <p>{{ 'controladores.atrasoDeGrupo.titulo' | translate }}</p>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="col-sm-12 no-padding-left">
+      <h3>
+        <strong>{{ 'controladores.ganhoDePassagem' | translate }}</strong>
+      </h3>
+    </div>
+    <div class="col-sm-6 no-padding-left"></div>
+    <div class="col-sm-6 no-padding-left">
+      <p>{{ 'controladores.atrasoDeGrupo.titulo' | translate }}</p>
+    </div>
+  </div>
+</div>
+
+<div class="col-sm-12">
+  <div class="col-sm-6">
+    <div class="row" data-ng-repeat="transicao in currentAtrasosDeGrupoGanhoPassagem">
+      <div class="col-sm-6">
+        <p class="view-group">
+          <strong>{{ transicao.label }}</strong>
+        </p>
+      </div>
+      <div class="col-sm-6">
+        <p>{{ transicao.tempoAtrasoGrupo }}s</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="row" data-ng-repeat="transicao in currentAtrasosDeGrupoPerdaPassagem">
+      <div class="col-sm-6">
+        <p class="view-group">
+          <strong>{{ transicao.label }}</strong>
+        </p>
+      </div>
+      <div class="col-sm-6">
+        <p>{{ transicao.tempoAtrasoGrupo }}s</p>
+      </div>
+    </div>
+  </div>
+</div>
