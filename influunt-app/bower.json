@@ -34,8 +34,8 @@
     "angular-datepicker": "^2.0.0",
     "bowser": "~1.4.3",
     "moment": "^2.14.1",
-    "angular-tooltips": "^1.1.6",
-    "string": "^3.3.1"
+    "string": "^3.3.1",
+    "angular-tooltips": "^1.1.7"
   },
   "devDependencies": {
     "angular-mocks": "^1.4.0"
@@ -52,8 +52,8 @@
     },
     "moment": {
       "main": [
-        "min/locales.min.js",
-        "min/moment.min.js"
+        "min/moment.min.js",
+        "min/locales.min.js"
       ]
     }
   },
