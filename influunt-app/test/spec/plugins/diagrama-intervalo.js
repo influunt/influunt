@@ -64,6 +64,21 @@
                         }
                       ]
                     }
+                  ],
+                  transicoesComPerdaDePassagem: [
+                    {
+                      id: 'transicao-perda-1',
+                      idJson: 'transicao-perda-1-JSON',
+                      origem: {
+                        id: 'E3', 
+                        idJson: 'E3-JSON'
+                      },
+                      destino: {
+                        id: 'E1', 
+                        idJson: 'E1-JSON'
+                      },
+                      tempoAtrasoGrupo: 2
+                    }
                   ]
                 },
                 {
@@ -122,6 +137,21 @@
                           tempoVermelhoLimpeza: 3
                         }
                       ]
+                    }
+                  ],
+                  transicoesComPerdaDePassagem: [
+                    {
+                      id: 'transicao-perda-2',
+                      idJson: 'transicao-perda-2-JSON',
+                      origem: {
+                        id: 'E3', 
+                        idJson: 'E3-JSON'
+                      },
+                      destino: {
+                        id: 'E1', 
+                        idJson: 'E1-JSON'
+                      },
+                      tempoAtrasoGrupo: 0
                     }
                   ]
                 },
@@ -197,6 +227,21 @@
                         }
                       ]
                     },
+                  ],
+                  transicoesComPerdaDePassagem: [
+                    {
+                      id: 'transicao-perda-3',
+                      idJson: 'transicao-perda-3-JSON',
+                      origem: {
+                        id: 'E1', 
+                        idJson: 'E1-JSON'
+                      },
+                      destino: {
+                        id: 'E2', 
+                        idJson: 'E2-JSON'
+                      },
+                      tempoAtrasoGrupo: 0
+                    }
                   ]
                 },
                 {
@@ -256,6 +301,21 @@
                         }
                       ]
                     }
+                  ],
+                  transicoesComPerdaDePassagem: [
+                    {
+                      id: 'transicao-perda-4',
+                      idJson: 'transicao-perda-4-JSON',
+                      origem: {
+                        id: 'E1', 
+                        idJson: 'E1-JSON'
+                      },
+                      destino: {
+                        id: 'E2', 
+                        idJson: 'E2-JSON'
+                      },
+                      tempoAtrasoGrupo: 0
+                    }
                   ]
                 },
                 {
@@ -315,6 +375,21 @@
                         }
                       ]
                     },
+                  ],
+                  transicoesComPerdaDePassagem: [
+                    {
+                      id: 'transicao-perda-5',
+                      idJson: 'transicao-perda-5-JSON',
+                      origem: {
+                        id: 'E1', 
+                        idJson: 'E1-JSON'
+                      },
+                      destino: {
+                        id: 'E2', 
+                        idJson: 'E2-JSON'
+                      },
+                      tempoAtrasoGrupo: 0
+                    }
                   ]
                 }
               ]
@@ -368,6 +443,21 @@
                         }
                       ]
                     }
+                  ],
+                  transicoesComPerdaDePassagem: [
+                    {
+                      id: 'transicao-perda-6',
+                      idJson: 'transicao-perda-6-JSON',
+                      origem: {
+                        id: 'E2', 
+                        idJson: 'E2-JSON'
+                      },
+                      destino: {
+                        id: 'E3', 
+                        idJson: 'E3-JSON'
+                      },
+                      tempoAtrasoGrupo: 0
+                    }
                   ]
                 },
                 {
@@ -427,8 +517,22 @@
                         }
                       ]
                     },
+                  ],
+                  transicoesComPerdaDePassagem: [
+                    {
+                      id: 'transicao-perda-7',
+                      idJson: 'transicao-perda-7-JSON',
+                      origem: {
+                        id: 'E2', 
+                        idJson: 'E2-JSON'
+                      },
+                      destino: {
+                        id: 'E3', 
+                        idJson: 'E3-JSON'
+                      },
+                      tempoAtrasoGrupo: 0
+                    }
                   ]
-
                 },
               ]
             }
@@ -529,9 +633,9 @@
         expect(resposta.gruposSemaforicos[4].intervalos.length).toBe(5);
       });
 
-      it('Os intervalos do G1 devem durar 8(vermelho) , 20(verde), 3(amarelo), 1(vermelho limpeza) e 28(vermelho) segundos', function() {
-        expect(resposta.gruposSemaforicos[0].intervalos[0].duracao).toBe(8);
-        expect(resposta.gruposSemaforicos[0].intervalos[1].duracao).toBe(20);
+      it('Os intervalos do G1 devem durar 6(vermelho) , 22(verde), 3(amarelo), 1(vermelho limpeza) e 28(vermelho) segundos', function() {
+        expect(resposta.gruposSemaforicos[0].intervalos[0].duracao).toBe(6);
+        expect(resposta.gruposSemaforicos[0].intervalos[1].duracao).toBe(22);
         expect(resposta.gruposSemaforicos[0].intervalos[2].duracao).toBe(3);
         expect(resposta.gruposSemaforicos[0].intervalos[3].duracao).toBe(1);
         expect(resposta.gruposSemaforicos[0].intervalos[4].duracao).toBe(28);
@@ -606,7 +710,22 @@
         expect(resposta.estagios[1].duracao).toBe(14);
         expect(resposta.estagios[2].duracao).toBe(18);
       });
-
+    });
+    
+    describe('valida os erros', function() {
+      it('Erro de tempo de ciclo menor', function() {
+        plano.tempoCiclo = 40;
+        var diagramaIntervaloBuilder = new influunt.components.DiagramaIntervalos(plano, valoresMinimos);
+        resposta = diagramaIntervaloBuilder.calcula();
+        expect('Tempo de Ciclo é diferente da soma dos tempos dos estágios.').toBe(resposta.erros[0]);
+      });
+      
+      it('Erro de tempo de ciclo menor', function() {
+        delete plano.tempoCiclo;
+        var diagramaIntervaloBuilder = new influunt.components.DiagramaIntervalos(plano, valoresMinimos);
+        resposta = diagramaIntervaloBuilder.calcula();
+        expect('Tempo de Ciclo é diferente da soma dos tempos dos estágios.').toBe(resposta.erros[0]);
+      });
     });
   });
 })();

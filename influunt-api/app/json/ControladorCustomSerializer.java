@@ -1082,6 +1082,7 @@ public class ControladorCustomSerializer {
         }
 
         if (transicao.getAtrasoDeGrupo() != null) {
+            transicaoJson.put("tempoAtrasoGrupo", transicao.getTempoAtrasoGrupo().toString());
             refAtrasoDeGrupo("atrasoDeGrupo", transicao.getAtrasoDeGrupo(), transicaoJson);
         }
 
