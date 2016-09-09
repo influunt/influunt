@@ -1,52 +1,21 @@
 package controllers;
 
 import checks.Erro;
-import com.google.inject.Singleton;
+import config.WithInfluuntApplicationNoAuthentication;
 import models.*;
 import org.junit.Before;
-import play.Application;
-import play.Mode;
-import play.inject.guice.GuiceApplicationBuilder;
-import play.mvc.Http;
-import play.test.WithApplication;
-import security.AllowAllAuthenticator;
-import security.Authenticator;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import static play.inject.Bindings.bind;
-import static play.test.Helpers.fakeRequest;
-import static play.test.Helpers.inMemoryDatabase;
 
 /**
  * Created by lesiopinheiro on 8/31/16.
  */
-public abstract class AbstractInfluuntControladorTest extends WithApplication {
+public abstract class AbstractInfluuntControladorTest extends WithInfluuntApplicationNoAuthentication {
 
     protected static ControladorTestUtil controladorTestUtils;
 
-    @Override
-    protected Application provideApplication() {
-        Map<String, String> options = new HashMap<String, String>();
-        options.put("DATABASE_TO_UPPER", "FALSE");
-        return getApplication(inMemoryDatabase("default", options));
-    }
-
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    private Application getApplication(Map configuration) {
-        return new GuiceApplicationBuilder().configure(configuration)
-                .overrides(bind(Authenticator.class).to(AllowAllAuthenticator.class).in(Singleton.class))
-                .in(Mode.TEST).build();
-    }
-
     @Before
     public void setUpModels() {
-        Http.Context context = new Http.Context(fakeRequest());
-        context.args.put("user", null);
-        Http.Context.current.set(context);
-
         Cidade cidade = new Cidade();
         cidade.setNome("São Paulo");
         cidade.save();
