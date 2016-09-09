@@ -1,16 +1,23 @@
-package os72c.server.conn;
+package server.conn;
 
 import akka.actor.ActorRef;
 import akka.actor.Cancellable;
+import akka.actor.Props;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
-import com.typesafe.config.Config;
+import akka.routing.ActorRefRoutee;
+import akka.routing.RoundRobinRoutingLogic;
+import akka.routing.Routee;
+import akka.routing.Router;
+import com.google.gson.Gson;
 import org.eclipse.paho.client.mqttv3.*;
-import os72c.server.Server;
+import protocol.Envelope;
 import scala.concurrent.duration.Duration;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -19,13 +26,40 @@ import java.util.concurrent.TimeUnit;
  */
 public class MQTTServerActor extends UntypedActor implements MqttCallback {
 
+    private final String host;
+
+    private final String port;
+
+    LoggingAdapter log = Logging.getLogger(getContext().system(), this);
+
+    Router router;
+
     private Map<String, Long> contador = new HashMap<String, Long>();
 
     private MqttClient client;
+
     private MqttConnectOptions opts;
-    LoggingAdapter log = Logging.getLogger(getContext().system(), this);
+
     private ActorRef central;
+
     private Cancellable tick;
+
+    private ActorRef messageBroker;
+
+    {
+        List<Routee> routees = new ArrayList<Routee>();
+        for (int i = 0; i < 5; i++) {
+            ActorRef r = getContext().actorOf(Props.create(MessageBroker.class));
+            getContext().watch(r);
+            routees.add(new ActorRefRoutee(r));
+        }
+        router = new Router(new RoundRobinRoutingLogic(), routees);
+    }
+
+    public MQTTServerActor(final String host, final String port) {
+        this.host = host;
+        this.port = port;
+    }
 
     @Override
     public void preStart() throws Exception {
@@ -64,57 +98,40 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
             if (!client.isConnected()) {
                 throw new Exception("Conexao morreu");
             }
+        } else if (message instanceof Envelope) {
+            sendMenssage((Envelope) message);
         }
     }
 
-    private void proximo(String topic, MqttMessage message) throws MqttException {
-        String controladorId = topic.split("/")[2];
-        System.out.println("Proximo:" + controladorId);
-        Long ultimoValor = Long.valueOf(message.toString());
-        System.out.println(controladorId + "--->" + ultimoValor);
-        if (!contador.containsKey(controladorId)) {
-            contador.put(controladorId, ultimoValor);
-        }
-        imprimir(controladorId);
-    }
-
-    private void registrar(String topic, MqttMessage message) throws MqttException {
-        String controladorId = topic.split("/")[2];
-        System.out.println("Registrar:" + controladorId);
-        if (!contador.containsKey(controladorId)) {
-            contador.put(controladorId, 0l);
-        }
-        imprimir(controladorId);
-    }
-
-    private void imprimir(String controladorId) throws MqttException {
-        System.out.println("Imprimir:" + controladorId);
+    private void sendMenssage(Envelope envelope) throws MqttException {
         MqttMessage message = new MqttMessage();
-        message.setQos(1);
+        message.setQos(envelope.getQos());
         message.setRetained(true);
-        Long newValue = contador.get(controladorId) + 1;
-        contador.put(controladorId, newValue);
-        message.setPayload(newValue.toString().getBytes());
-        client.publish("controlador/" + controladorId + "/imprimir", message);
+        message.setPayload(envelope.toJson().getBytes());
+        client.publish(envelope.getDestino(), message);
+
     }
 
-    private void desconectar(String topic, MqttMessage message) throws MqttException {
-        String controladorId = topic.split("/")[2];
-        System.out.println("Desconectar:" + controladorId);
-        if (!contador.containsKey(controladorId)) {
-            contador.put(controladorId, 0l);
-        }
-        imprimir(controladorId);
+    private void sendToBroker(MqttMessage message) throws MqttException {
+
+        String parsedBytes = new String(message.getPayload());
+        Envelope envelope = new Gson().fromJson(parsedBytes, Envelope.class);
+        log.info("Enviando mensagem para o broker: {}", envelope.getTipoMensagem());
+        router.route(envelope, getSender());
     }
+
+    private void offline(MqttMessage message) throws MqttException {
+        log.info("Controlador Offline");
+
+        log.info(message.getPayload().toString());
+    }
+
 
     private void connect() throws MqttException {
         log.info("Iniciando MQTTCentral");
-        Config conf = Server.conf72c.getConfig("mosquitto");
-        String host = conf.getString("host");
-        String port = conf.getString("port");
         log.info("Conectando no servidor:{}:{}", host, port);
 
-        client = new MqttClient("tcp://" + host + ":" + port, "servidor");
+        client = new MqttClient("tcp://" + host + ":" + port, "central");
         opts = new MqttConnectOptions();
         opts.setAutomaticReconnect(false);
         opts.setConnectionTimeout(10);
@@ -132,15 +149,18 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
         log.info("Status: {}", client.isConnected());
 
 
-        client.subscribe("central/desconectar/+", 1, (topic, message) -> {
-            desconectar(topic, message);
+        client.subscribe("controladores/conn/online", 1, (topic, message) -> {
+            sendToBroker(message);
         });
-        client.subscribe("central/registrar/+", 1, (topic, message) -> {
-            registrar(topic, message);
+
+        client.subscribe("controladores/conn/offline", 1, (topic, message) -> {
+            sendToBroker(message);
         });
-        client.subscribe("central/proxima/+", 1, (topic, message) -> {
-            proximo(topic, message);
+
+        client.subscribe("central/echo", 1, (topic, message) -> {
+            sendToBroker(message);
         });
+
     }
 
     @Override
@@ -164,4 +184,5 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
     public void deliveryComplete(IMqttDeliveryToken token) {
 
     }
+
 }

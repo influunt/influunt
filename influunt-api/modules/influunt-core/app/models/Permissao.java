@@ -34,19 +34,24 @@ public class Permissao extends Model implements Permission, Serializable {
 
     @Column
     private String idJson;
+
     @Column
     @NotBlank(message = "não pode ficar em branco")
     private String descricao;
+
     @Column
     @NotBlank(message = "não pode ficar em branco")
     private String chave;
+
     @ManyToMany(mappedBy = "permissoes")
     private List<Perfil> perfis;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)

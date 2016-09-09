@@ -79,6 +79,33 @@ public class VersaoPlano extends Model implements Serializable {
         this.statusVersao = StatusVersao.EDITANDO;
     }
 
+    /**
+     * Retorna a {@link VersaoPlano}
+     *
+     * @param anel
+     * @return
+     */
+    public static List<VersaoPlano> versoes(Anel anel) {
+        ArrayList<VersaoPlano> versoes = new ArrayList<VersaoPlano>();
+        getElement(versoes, anel.getVersaoPlano());
+        return versoes;
+    }
+
+    public static VersaoPlano findByVersaoAnterior(VersaoPlano versaoAnterior) {
+        return VersaoPlano.find.where().eq("versao_plano_id", versaoAnterior.getId()).findUnique();
+    }
+
+    static void getElement(ArrayList<VersaoPlano> versoes, VersaoPlano versaoPlano) {
+        if (versaoPlano != null) {
+            VersaoPlano versao = findByVersaoAnterior(versaoPlano);
+            if (versao != null) {
+                versoes.add(versao);
+                if (versao.getVersaoAnterior() != null) {
+                    getElement(versoes, versao.getVersaoAnterior());
+                }
+            }
+        }
+    }
 
     public UUID getId() {
         return id;
@@ -165,34 +192,6 @@ public class VersaoPlano extends Model implements Serializable {
 
     public boolean isEditando() {
         return StatusVersao.EDITANDO.equals(this.getStatusVersao());
-    }
-
-    /**
-     * Retorna a {@link VersaoPlano}
-     *
-     * @param anel
-     * @return
-     */
-    public static List<VersaoPlano> versoes(Anel anel) {
-        ArrayList<VersaoPlano> versoes = new ArrayList<VersaoPlano>();
-        getElement(versoes, anel.getVersaoPlano());
-        return versoes;
-    }
-
-    public static VersaoPlano findByVersaoAnterior(VersaoPlano versaoAnterior) {
-        return VersaoPlano.find.where().eq("versao_plano_id", versaoAnterior.getId()).findUnique();
-    }
-
-    static void getElement(ArrayList<VersaoPlano> versoes, VersaoPlano versaoPlano) {
-        if (versaoPlano != null) {
-            VersaoPlano versao = findByVersaoAnterior(versaoPlano);
-            if (versao != null) {
-                versoes.add(versao);
-                if (versao.getVersaoAnterior() != null) {
-                    getElement(versoes, versao.getVersaoAnterior());
-                }
-            }
-        }
     }
 
     public void ativar() {

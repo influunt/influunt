@@ -8,6 +8,7 @@ import java.util.UUID;
 public class Mensagem {
 
     public final String id = UUID.randomUUID().toString();
+
     public final Long timestamp = System.currentTimeMillis();
 
 }

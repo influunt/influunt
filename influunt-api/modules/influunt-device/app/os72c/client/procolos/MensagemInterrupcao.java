@@ -10,7 +10,7 @@ import java.util.Set;
 public class MensagemInterrupcao extends Mensagem {
     public final Set<Interrupcao> interrupcoes;
 
-    public MensagemInterrupcao(Set<Interrupcao> interrupcoes){
+    public MensagemInterrupcao(Set<Interrupcao> interrupcoes) {
         this.interrupcoes = interrupcoes;
     }
 

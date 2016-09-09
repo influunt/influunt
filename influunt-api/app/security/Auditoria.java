@@ -19,10 +19,6 @@ public class Auditoria {
 
     public static PlayJongo jongo = Play.current().injector().instanceOf(PlayJongo.class);
 
-    public static MongoCollection auditorias() {
-        return jongo.getCollection("auditorias");
-    }
-
     public String _id;
 
     public BeanChange change;
@@ -30,6 +26,10 @@ public class Auditoria {
     public Usuario usuario;
 
     public Long timestamp = System.currentTimeMillis();
+
+    public static MongoCollection auditorias() {
+        return jongo.getCollection("auditorias");
+    }
 
     public static Auditoria findById(String id) {
         return auditorias().findOne("{ _id: # }", new ObjectId(id)).as(Auditoria.class);
@@ -59,10 +59,6 @@ public class Auditoria {
         auditorias().drop();
     }
 
-    public void insert() {
-        auditorias().insert(this);
-    }
-
     @NotNull
     private static List<Auditoria> toList(MongoCursor<Auditoria> auditorias) {
         ArrayList<Auditoria> lista = new ArrayList<Auditoria>(auditorias.count());
@@ -70,6 +66,10 @@ public class Auditoria {
             lista.add(auditoria);
         });
         return lista;
+    }
+
+    public void insert() {
+        auditorias().insert(this);
     }
 
 }

@@ -10,7 +10,7 @@ public class InfluuntServerConfigStartup implements ServerConfigStartup {
     @Inject
     private InfluuntChangeLogPrepare influuntChangeLogPrepare;
 
-    public void onStart(ServerConfig serverConfig){
+    public void onStart(ServerConfig serverConfig) {
         serverConfig.setChangeLogPrepare(influuntChangeLogPrepare);
     }
 }

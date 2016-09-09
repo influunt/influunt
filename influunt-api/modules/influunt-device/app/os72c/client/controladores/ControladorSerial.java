@@ -17,12 +17,19 @@ import java.util.concurrent.CompletableFuture;
  */
 public class ControladorSerial extends Controlador implements SerialPortEventListener {
     private SerialPort serialPort;
+
     private String porta;
+
     private Integer baudrate;
+
     private Integer databits;
+
     private Integer stopbits;
+
     private Integer parity;
+
     private Integer startDelay;
+
     private boolean ack = false;
 
     private StringBuilder message = new StringBuilder();
@@ -112,7 +119,7 @@ public class ControladorSerial extends Controlador implements SerialPortEventLis
             try {
                 byte buffer[] = serialPort.readBytes();
                 for (byte b : buffer) {
-                    if ( (b == '\r' || b == '\n') && message.length() > 0) {
+                    if ((b == '\r' || b == '\n') && message.length() > 0) {
                         String toProcess = message.toString();
                         CompletableFuture.supplyAsync(() -> {
                             return processMessage(toProcess);
@@ -137,13 +144,13 @@ public class ControladorSerial extends Controlador implements SerialPortEventLis
         if (msg.endsWith("ACK;")) {
             //Permite o envio da proxima mudancao de grupo
             ack = true;
-        }else if( msg.startsWith("OK")){
+        } else if (msg.startsWith("OK")) {
             String fields[] = msg.split(",");
             Arrays.stream(fields).map(s -> s.trim());
             pronto(fields[1], fields[2], fields[3]);
             ack = true;
 
-        } else{
+        } else {
             System.out.println("Interrupcao Recebida");
             ack = true;
             interruption(msg);

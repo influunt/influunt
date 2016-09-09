@@ -22,6 +22,7 @@ import static play.test.Helpers.route;
 public class UsuariosControllerTest extends WithInfluuntApplicationNoAuthentication {
 
     private Area area;
+
     private Perfil perfil;
 
     @Before

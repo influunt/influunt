@@ -133,7 +133,7 @@ public class TabelaEntreVerdesTransicao extends Model implements Cloneable, Seri
     }
 
     public Integer getTempoAtrasoGrupo() {
-        if(getTransicao() != null && getTransicao().getAtrasoDeGrupo() != null){
+        if (getTransicao() != null && getTransicao().getAtrasoDeGrupo() != null) {
             return getTransicao().getAtrasoDeGrupo().getAtrasoDeGrupo();
         }
         return 0;

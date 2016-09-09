@@ -37,9 +37,9 @@ import java.util.stream.Collectors;
 @ChangeLog
 public class GrupoSemaforico extends Model implements Cloneable, Serializable {
 
-    public static Finder<UUID, GrupoSemaforico> find = new Finder<UUID, GrupoSemaforico>(GrupoSemaforico.class);
-
     private static final long serialVersionUID = 7439393568357903233L;
+
+    public static Finder<UUID, GrupoSemaforico> find = new Finder<UUID, GrupoSemaforico>(GrupoSemaforico.class);
 
     @Id
     private UUID id;
@@ -266,16 +266,16 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
         return transicoes;
     }
 
+    public void setTransicoes(List<Transicao> transicoes) {
+        this.transicoes = transicoes;
+    }
+
     public List<Transicao> getTransicoesComGanhoDePassagem() {
         return transicoes.stream().filter(Transicao::isGanhoDePassagem).collect(Collectors.toList());
     }
 
     public List<Transicao> getTransicoesComPerdaDePassagem() {
         return transicoes.stream().filter(Transicao::isPerdaDePassagem).collect(Collectors.toList());
-    }
-
-    public void setTransicoes(List<Transicao> transicoes) {
-        this.transicoes = transicoes;
     }
 
     public TabelaEntreVerdes findByTabelaEntreVerdesPadrao() {

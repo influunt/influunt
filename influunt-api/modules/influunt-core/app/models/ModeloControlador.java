@@ -139,6 +139,10 @@ public class ModeloControlador extends Model implements Cloneable, Serializable 
         return descricao;
     }
 
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
     public Integer getLimiteEstagio() {
         return limiteEstagio;
     }
@@ -193,10 +197,6 @@ public class ModeloControlador extends Model implements Cloneable, Serializable 
 
     public void setLimitePlanos(Integer limitePlanos) {
         this.limitePlanos = limitePlanos;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
     }
 
     public DateTime getDataCriacao() {

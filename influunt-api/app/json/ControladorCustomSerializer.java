@@ -21,26 +21,47 @@ import java.util.Map;
 public class ControladorCustomSerializer {
 
     private Map<String, Estagio> estagiosMap = new HashMap<String, Estagio>();
+
     private Map<String, GrupoSemaforico> gruposSemaforicosMap = new HashMap<String, GrupoSemaforico>();
+
     private Map<String, Detector> detectoresMap = new HashMap<String, Detector>();
+
     private Map<String, Imagem> imagensMap = new HashMap<String, Imagem>();
+
     private Map<String, TransicaoProibida> transicoesProibidasMap = new HashMap<String, TransicaoProibida>();
+
     private Map<String, EstagioGrupoSemaforico> estagiosGruposSemaforicosMap = new HashMap<String, EstagioGrupoSemaforico>();
+
     private Map<String, VerdesConflitantes> verdesConflitantesMap = new HashMap<String, VerdesConflitantes>();
+
     private Map<String, Transicao> transicoesMap = new HashMap<String, Transicao>();
+
     private Map<String, Transicao> transicoesComPerdaDePassagemMap = new HashMap<String, Transicao>();
+
     private Map<String, TabelaEntreVerdes> entreVerdesMap = new HashMap<String, TabelaEntreVerdes>();
+
     private Map<String, TabelaEntreVerdesTransicao> entreVerdesTransicoesMap = new HashMap<String, TabelaEntreVerdesTransicao>();
+
     private Map<String, VersaoPlano> versoesPlanosMap = new HashMap<String, VersaoPlano>();
+
     private Map<String, Plano> planosMap = new HashMap<String, Plano>();
+
     private Map<String, GrupoSemaforicoPlano> grupoSemaforicoPlanoMap = new HashMap<String, GrupoSemaforicoPlano>();
+
     private Map<String, EstagioPlano> estagioPlanoMap = new HashMap<String, EstagioPlano>();
+
     private Map<String, VersaoTabelaHoraria> versoesTabelasHorariasMap = new HashMap<String, VersaoTabelaHoraria>();
+
     private Map<String, TabelaHorario> tabelasHorariasMap = new HashMap<String, TabelaHorario>();
+
     private Map<String, Evento> eventosMap = new HashMap<String, Evento>();
+
     private Map<String, Endereco> enderecosMap = new HashMap<String, Endereco>();
+
     private Map<String, Area> areasMap = new HashMap<String, Area>();
+
     private Map<String, LimiteArea> limitesMap = new HashMap<String, LimiteArea>();
+
     private Map<String, AtrasoDeGrupo> atrasosDeGrupoMap = new HashMap<String, AtrasoDeGrupo>();
 
     public JsonNode getControladorJson(Controlador controlador) {

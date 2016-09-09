@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Estado {
     private Long timestap;
+
     private Cancellable cancellable;
 
     public Long getTimestap() {
@@ -32,7 +33,7 @@ public class Estado {
 
     public void agendar(UntypedActorContext context, ActorRef controlador, EstadoGrupo[] estadoGrupos, int duracao) {
 
-        setCancellable(context.system().scheduler().scheduleOnce( Duration.create(duracao, TimeUnit.MILLISECONDS),
-                controlador, new MensagemControladorSupervisor(TipoEvento.MUDANCA_GRUPO,estadoGrupos), context.dispatcher(), null));
+        setCancellable(context.system().scheduler().scheduleOnce(Duration.create(duracao, TimeUnit.MILLISECONDS),
+                controlador, new MensagemControladorSupervisor(TipoEvento.MUDANCA_GRUPO, estadoGrupos), context.dispatcher(), null));
     }
 }

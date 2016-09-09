@@ -19,6 +19,7 @@ libraryDependencies ++= Seq(
   cache,
   javaWs,
   evolutions,
+  "uk.co.panaxiom" %% "play-jongo" % "2.0.0-jongo1.3",
   "be.objectify" %% "deadbolt-java" % "2.5.0",
   "mysql" % "mysql-connector-java" % "5.1.36",
   "org.hibernate" % "hibernate-validator" % "5.2.4.Final",
@@ -27,6 +28,7 @@ libraryDependencies ++= Seq(
   "org.hamcrest" % "hamcrest-library" % "1.3",
   "commons-beanutils" % "commons-beanutils" % "1.9.2",
   "net.coobird" % "thumbnailator" % "0.4.8",
+  "com.google.code.gson" % "gson" % "2.7",
   "org.mindrot" % "jbcrypt" % "0.3m")
 
 jacoco.settings

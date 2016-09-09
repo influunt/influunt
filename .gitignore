@@ -13,3 +13,7 @@ imagens/*
 /bin/
 1.sql
 npm-debug.log
+*mosquittorarolabscombr*
+*.mapdb*
+influunt-api/default-create-all.sql
+influunt-api/default-drop-all.sql

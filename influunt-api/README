@@ -24,7 +24,7 @@ Controllers
 Components
 ==========
 
-- Module.java:
+- TestModule.java:
 
   Shows how to use Guice to bind all the components needed by your application.
 

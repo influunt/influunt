@@ -138,16 +138,8 @@ public class Plano extends Model implements Cloneable, Serializable {
         return tempoCiclo;
     }
 
-    public void setTempoCiclo(Integer tempoCiclo) {
-        this.tempoCiclo = tempoCiclo;
-    }
-
     public Integer getDefasagem() {
         return defasagem;
-    }
-
-    public void setDefasagem(Integer defasagem) {
-        this.defasagem = defasagem;
     }
 
     public Anel getAnel() {
@@ -164,10 +156,6 @@ public class Plano extends Model implements Cloneable, Serializable {
 
     public Agrupamento getAgrupamento() {
         return agrupamento;
-    }
-
-    public void setAgrupamento(Agrupamento agrupamento) {
-        this.agrupamento = agrupamento;
     }
 
     public List<EstagioPlano> getEstagiosPlanos() {
@@ -283,12 +271,20 @@ public class Plano extends Model implements Cloneable, Serializable {
         return true;
     }
 
+    public void setTempoCiclo(Integer tempoCiclo) {
+        this.tempoCiclo = tempoCiclo;
+    }
+
     @AssertTrue(groups = PlanosCheck.class, message = "deve estar entre 0 e o tempo de ciclo")
     public boolean isDefasagem() {
         if (isTempoFixoCoordenado() && getTempoCiclo() != null) {
             return !(getDefasagem() == null || !RangeUtils.getInstance().TEMPO_DEFASAGEM.contains(getDefasagem()) || !Range.between(0, getTempoCiclo()).contains(getDefasagem()));
         }
         return true;
+    }
+
+    public void setDefasagem(Integer defasagem) {
+        this.defasagem = defasagem;
     }
 
     @AssertTrue(groups = PlanosCheck.class, message = "A soma dos tempos dos estágios é diferente do tempo de ciclo.")
@@ -335,6 +331,9 @@ public class Plano extends Model implements Cloneable, Serializable {
         return !(!this.isTempoFixoCoordenado() && this.getAgrupamento() != null);
     }
 
+    public void setAgrupamento(Agrupamento agrupamento) {
+        this.agrupamento = agrupamento;
+    }
 
     @AssertTrue(groups = PlanosCheck.class, message = "O Tempo de ciclo deve ser simétrico ou assimétrico ao tempo de ciclo dos controladores.")
     public boolean isTempoCicloIgualOuMultiploDeTodoAgrupamento() {
@@ -374,9 +373,9 @@ public class Plano extends Model implements Cloneable, Serializable {
         Integer tempoEntreVerdes = 0;
         if (!estagio.equals(estagioAnterior)) {
             for (EstagioGrupoSemaforico estagioGrupoSemaforico : estagioAnterior.getEstagiosGruposSemaforicos()) {
-                if(!estagio.getGruposSemaforicos().contains(estagioGrupoSemaforico.getGrupoSemaforico())){
+                if (!estagio.getGruposSemaforicos().contains(estagioGrupoSemaforico.getGrupoSemaforico())) {
                     totalTempoEntreverdes.add(tempoEntreVerdes(estagio, estagioAnterior, estagioGrupoSemaforico));
-                }else{
+                } else {
                     totalTempoEntreverdes.add(0);
                 }
             }

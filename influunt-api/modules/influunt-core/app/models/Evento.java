@@ -115,10 +115,6 @@ public class Evento extends Model implements Cloneable, Serializable {
         return diaDaSemana;
     }
 
-    public void setDiaDaSemana(DiaDaSemana diaDaSemana) {
-        this.diaDaSemana = diaDaSemana;
-    }
-
     public LocalTime getHorario() {
         return horario;
     }
@@ -201,6 +197,10 @@ public class Evento extends Model implements Cloneable, Serializable {
             return this.getDiaDaSemana() != null;
         }
         return true;
+    }
+
+    public void setDiaDaSemana(DiaDaSemana diaDaSemana) {
+        this.diaDaSemana = diaDaSemana;
     }
 
     @AssertTrue(groups = TabelaHorariosCheck.class,

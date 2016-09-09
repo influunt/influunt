@@ -3,7 +3,9 @@ package checks;
 public class Erro {
 
     public String root;
+
     public String message;
+
     public String path;
 
     public Erro(String root, String message, String path) {

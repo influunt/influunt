@@ -5,8 +5,13 @@ name := """influunt-api"""
 version := "0.1.0"
 
 lazy val root = (project in file(".")).enablePlugins(PlayJava, PlayEbean)
-    .dependsOn(influuntCore,influuntDevice)
-    .aggregate(influuntCore,influuntDevice)
+    .dependsOn(influuntCore,influuntDevice,influuntCentral)
+    .aggregate(influuntCore,influuntDevice,influuntCentral)
+
+lazy val influuntCentral = (project in file("modules/influunt-central")).enablePlugins(PlayJava, PlayEbean)
+  .dependsOn(influuntCore)
+  .aggregate(influuntCore)
+
 
 lazy val influuntDevice = (project in file("modules/influunt-device")).enablePlugins(PlayJava, PlayEbean)
      .dependsOn(influuntCore)
@@ -15,10 +20,13 @@ lazy val influuntDevice = (project in file("modules/influunt-device")).enablePlu
 lazy val influuntCore = (project in file("modules/influunt-core")).enablePlugins(PlayJava, PlayEbean)
 
 
+
 scalaVersion := "2.11.7"
 resolvers += Resolver.jcenterRepo
 javaOptions in Test += "-Dconfig.file=conf/test.conf"
 javaOptions in Test += "-Dtest.timeout=600000"
+
+
 
 libraryDependencies ++= Seq(
   javaJdbc,
@@ -33,6 +41,7 @@ libraryDependencies ++= Seq(
   "org.hamcrest" % "hamcrest-library" % "1.3",
   "commons-beanutils" % "commons-beanutils" % "1.9.2",
   "net.coobird" % "thumbnailator" % "0.4.8",
+   "io.moquette" % "moquette-broker" % "0.8",
   "org.mindrot" % "jbcrypt" % "0.3m")
 
 jacoco.settings
@@ -46,3 +55,5 @@ fork in run := false
 
 fork in Test := false
 resolvers ++= Seq(Resolver.mavenLocal, "Sonatype snapshots repository" at "https://oss.sonatype.org/content/repositories/snapshots/")
+resolvers ++= Seq("Sonatype snapshots repository" at "http://dl.bintray.com/andsel/maven/")
+

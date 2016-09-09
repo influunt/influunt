@@ -11,6 +11,7 @@ import java.util.List;
 public class ControladorHelper {
 
     private List<Cidade> cidades;
+
     private List<Fabricante> fabricantes;
 
     public ControladorHelper() {

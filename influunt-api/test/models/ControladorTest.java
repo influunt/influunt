@@ -1,10 +1,21 @@
 package models;
 
 import checks.Erro;
+import com.google.inject.Singleton;
 import config.WithInfluuntApplicationNoAuthentication;
 import org.junit.Before;
+import play.Application;
+import play.Mode;
+import play.inject.guice.GuiceApplicationBuilder;
+import security.AllowAllAuthenticator;
+import security.Authenticator;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static play.inject.Bindings.bind;
+import static play.test.Helpers.inMemoryDatabase;
 
 /**
  * Created by rodrigosol on 6/22/16.

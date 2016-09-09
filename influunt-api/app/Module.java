@@ -16,11 +16,15 @@ import java.text.SimpleDateFormat;
 
 public class Module extends AbstractModule {
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:SS");
+
     private static final SimpleDateFormat DATE_FORMAT_SIMPLE = new SimpleDateFormat("yyyy-MM-dd");
 
     @Override
     public void configure() {
         bind(Authenticator.class).to(DBAuthenticator.class).in(Singleton.class);
+
+        //bind(server.Central.class).asEagerSingleton();
+
     }
 
 
