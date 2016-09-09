@@ -12,11 +12,18 @@ angular.module('influuntApp')
                            'Restangular', 'toast', 'influuntAlert', 'handleValidations',
     function ($scope, $state, $filter, $timeout,
               Restangular, toast, influuntAlert, handleValidations) {
+    var buildFilterQuery, buildSortQuery;
     var resourceName = null;
     $scope.pagination = {
       current: 1,
       perPage: 30,
       maxSize: 5
+    };
+
+    $scope.pesquisa = {
+      orderField: '',
+      orderReverse: true,
+      campos: []
     };
 
     /**
@@ -39,11 +46,31 @@ angular.module('influuntApp')
         page: $scope.pagination.current
       };
 
+      buildFilterQuery(query);
+      buildSortQuery(query);
+
       return Restangular.all(resourceName).customGET(null, query)
         .then(function(res) {
           $scope.lista = res.data;
           $scope.pagination.totalItems = res.meta.pagination.total;
         });
+    };
+
+    buildFilterQuery = function(query) {
+      _.each($scope.pesquisa.filtro, function(dadosFiltro, nomeCampo) {
+        if (dadosFiltro.tipoCampo === 'texto' || dadosFiltro.tipoCampo === 'numerico') {
+          var field = (nomeCampo + '_' + dadosFiltro.tipoFiltro).replace(/\_$/, '');
+          query[field] = dadosFiltro.valor;
+        } else {
+          query[nomeCampo + '_start'] = moment(dadosFiltro.start).format('DD/MM/YYYY');
+          query[nomeCampo + '_end'] = moment(dadosFiltro.end).format('DD/MM/YYYY');
+        }
+      });
+    };
+
+    buildSortQuery = function(query) {
+      query.sort = $scope.pesquisa.orderField;
+      query.sort_type = $scope.pesquisa.orderReverse ? 'desc' : 'asc';
     };
 
     var perPageTimeout = null;

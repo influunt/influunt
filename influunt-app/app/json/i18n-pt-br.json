@@ -260,17 +260,17 @@
     "titulo": "Fabricantes"
   },
   "crud": {
+    "cancelar": "Cancelar",
     "configurar": "Configurar",
     "editar": "Editar",
     "excluir": "Excluir",
     "fechar": "Fechar",
     "novo": "Novo",
     "opcoes": "Opções",
+    "pesquisar": "Pesquisar",
     "salvar": "Salvar",
     "visualizar": "Visualizar",
-    "voltar": "Voltar",
-    "pesquisar": "Pesquisar",
-    "cancelar": "Cancelar"
+    "voltar": "Voltar"
   },
   "modelos": {
     "descricao": "DESCRIÇÃO",
@@ -451,6 +451,16 @@
         "saveBack": "Salvar e Voltar",
         "saveNext": "Salvar e Avançar"
       }
+    }
+  },
+  "directives": {
+    "filtroLateral": {
+      "contem": "Contém",
+      "igual": "Igual",
+      "maiorOuIgualQue": "Maior ou igual que",
+      "maiorQue": "Maior que",
+      "menorOuIgualQue": "Menor ou igual que",
+      "menorQue": "Menor que"
     }
   },
   "agrupamentos": {

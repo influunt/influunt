@@ -1,0 +1,21 @@
+<label class="col-sm-2 control-label">{{ campo.label }}</label>
+<div class="col-sm-5">
+  <input type="datetime"
+      class="form-control"
+      date-time
+      data-ng-model="ngModel[campo.nome].start"
+      auto-close="true"
+      min-view="date"
+      default-view="date"
+      format="DD/MM/YYYY">
+</div>
+<div class="col-sm-5">
+  <input type="datetime"
+      class="form-control"
+      date-time
+      data-ng-model="ngModel[campo.nome].end"
+      auto-close="true"
+      min-view="date"
+      default-view="date"
+      format="DD/MM/YYYY">
+</div>
