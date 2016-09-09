@@ -89,6 +89,7 @@ var PlanosPage = function () {
 
   this.clicarBotaoConfigurarEstagio = function(estagio) {
     world.waitForOverlayDisappear();
+    world.sleep(300);
 
     return world.getElementByXpath('//ul[contains(@class, "planos")]//h4[contains(@id, "'+estagio+'")]/../button').click().then(function() {
       return world.waitFor('div#modal-configuracao-estagio');
@@ -97,8 +98,8 @@ var PlanosPage = function () {
     });
   };
 
-  this.clicarBotaoApagarEstagio = function() {
-     return world.getElement('ul.planos div.sortable-list li.ui-state-default div.sortable h4.ng-binding i.fa-trash').click().then(function() {
+  this.clicarBotaoApagarEstagio = function(estagio) {
+     return world.getElementByXpath('//ul[contains(@class, "planos")]//h4[contains(@id, "'+estagio+'")]/i[contains(@class, "fa-trash")]').click().then(function() {
       return world.waitFor('div#modal-configuracao-estagio');
     }).then(function() {
       return world.waitForAnimationFinishes('div.modal-content');
