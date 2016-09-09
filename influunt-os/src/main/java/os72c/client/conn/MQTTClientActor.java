@@ -5,9 +5,11 @@ import akka.actor.Cancellable;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
+import com.google.gson.Gson;
 import com.typesafe.config.Config;
 import org.eclipse.paho.client.mqttv3.*;
 import os72c.client.Client;
+import os72c.client.procolos.MensagemControladorSupervisor;
 import scala.concurrent.duration.Duration;
 
 import java.util.concurrent.TimeUnit;
@@ -66,18 +68,18 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback {
             if(!client.isConnected()){
                 throw new Exception("Conexao morreu");
             }
+        }else if(message instanceof MensagemControladorSupervisor){
+            String json = new Gson().toJson(((MensagemControladorSupervisor) message));
+            log.error("DIFERENÇA {}",json);
+            MqttMessage status = new MqttMessage();
+            status.setQos(0);
+            status.setRetained(false);
+            status.setPayload(json.getBytes());
+            client.publish("central/status/" + id, status);
+
+
         }
     }
-
-    private void imprimir(String topic, MqttMessage message) throws MqttException {
-        log.info("controlador ---> {}", message.toString());
-        proxima(message);
-    }
-
-    private void proxima(MqttMessage message) throws MqttException {
-        client.publish("central/proxima/" + id,message);
-    }
-
 
     private void connect() throws MqttException {
         log.info("Iniciando MQTTControlador");
@@ -86,13 +88,18 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback {
         String host = conf.getString("host");
         String port = conf.getString("port");
         log.info("Conectando no servidor:{}:{}",host,port);
+        log.info("cliente id: {}",id);
 
         client = new MqttClient("tcp://"+host+":"+port, id);
+        log.info("Cliente criado {}",client);
         opts = new MqttConnectOptions();
         opts.setAutomaticReconnect(false);
         opts.setConnectionTimeout(10);
         opts.setWill("central/desconectar/" + id,"1".getBytes(),1,true);
+        log.info("OPTS {}",opts);
+
         client.setCallback(this);
+        log.info("CALLBACK {}",opts);
         client.connect(opts);
         if(tick != null){
             tick.cancel();
@@ -103,16 +110,13 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback {
 
         log.info("Status: {}",client.isConnected());
 
-        client.subscribe("controlador/" + id + "/imprimir", 1, (topic, message) -> {
-            imprimir(topic, message);
-        });
         client.subscribe("central/morreu", 1, (topic, message) -> {
             desconectar(topic, message);
         });
 
 
         MqttMessage message = new MqttMessage();
-        message.setQos(1);
+        message.setQos(2);
         message.setRetained(true);
         message.setPayload("1".getBytes());
         client.publish("central/registrar/" + id, message);

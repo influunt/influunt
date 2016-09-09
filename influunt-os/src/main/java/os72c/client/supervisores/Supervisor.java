@@ -132,16 +132,9 @@ public class Supervisor extends UntypedActor {
 
     private void registraControlador(MensagemControladorSupervisor mensagemControladorSupervisor) {
         ImmutableList<Troca> trocas = ImmutableList.of(
-                new Troca(6000, 0, EstadoGrupo.VERMELHO, EstadoGrupo.VERDE, EstadoGrupo.VERMELHO, EstadoGrupo.VERMELHO_INTERMITENTE, EstadoGrupo.VERMELHO, EstadoGrupo.DESLIGADO),
-                new Troca(6000, 1, EstadoGrupo.VERMELHO, EstadoGrupo.AMARELO, EstadoGrupo.VERMELHO, EstadoGrupo.VERMELHO_INTERMITENTE, EstadoGrupo.VERMELHO, EstadoGrupo.DESLIGADO),
-                new Troca(6000, 2, EstadoGrupo.VERMELHO, EstadoGrupo.VERMELHO, EstadoGrupo.VERMELHO, EstadoGrupo.VERMELHO, EstadoGrupo.VERMELHO, EstadoGrupo.DESLIGADO),
-                new Troca(18000, 3, EstadoGrupo.VERDE, EstadoGrupo.VERMELHO, EstadoGrupo.VERMELHO, EstadoGrupo.VERMELHO, EstadoGrupo.VERDE, EstadoGrupo.DESLIGADO),
-                new Troca(6000, 4, EstadoGrupo.AMARELO, EstadoGrupo.VERMELHO, EstadoGrupo.VERMELHO, EstadoGrupo.VERMELHO, EstadoGrupo.VERDE, EstadoGrupo.DESLIGADO),
-                new Troca(6000, 5, EstadoGrupo.VERMELHO, EstadoGrupo.VERMELHO, EstadoGrupo.VERMELHO, EstadoGrupo.VERMELHO, EstadoGrupo.VERDE, EstadoGrupo.DESLIGADO),
-                new Troca(6000, 6, EstadoGrupo.VERMELHO, EstadoGrupo.VERMELHO, EstadoGrupo.VERDE, EstadoGrupo.VERDE, EstadoGrupo.VERDE, EstadoGrupo.DESLIGADO),
-                new Troca(6000, 7, EstadoGrupo.VERMELHO, EstadoGrupo.VERMELHO, EstadoGrupo.VERMELHO_INTERMITENTE, EstadoGrupo.VERDE, EstadoGrupo.VERMELHO_INTERMITENTE, EstadoGrupo.DESLIGADO),
-                new Troca(6000, 8, EstadoGrupo.VERMELHO, EstadoGrupo.VERMELHO, EstadoGrupo.VERMELHO, EstadoGrupo.VERDE, EstadoGrupo.VERMELHO, EstadoGrupo.DESLIGADO),
-                new Troca(6000, 9, EstadoGrupo.VERMELHO, EstadoGrupo.VERDE, EstadoGrupo.VERMELHO, EstadoGrupo.VERDE, EstadoGrupo.VERMELHO, EstadoGrupo.DESLIGADO)
+                new Troca(6000, 0, EstadoGrupo.VERMELHO),
+                new Troca(6000, 1, EstadoGrupo.AMARELO),
+                new Troca(6000, 2, EstadoGrupo.VERMELHO)
         );
 
 

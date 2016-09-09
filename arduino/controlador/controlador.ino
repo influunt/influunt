@@ -151,9 +151,9 @@ void colorWipe(uint32_t c, uint8_t wait)
 
 void setup() {
 
-for(int i = 22; i <= 52; i+=2){
-  pinMode(i, INPUT);
-}
+//for(int i = 22; i <= 52; i+=2){
+//  pinMode(i, INPUT);
+//}
   
   
   Serial.begin(115200);
@@ -183,31 +183,31 @@ void loop() {
     colorWipe(strip.Color(255, 255, 0), 10);
     colorWipe(strip.Color(255, 0, 0), 10);
   }
-  trap = "";
-  
-  for(int i = 22; i <= 52; i+=2){
-    if (digitalRead(i) == HIGH) {
-      if(i >= 22 && i <= 28){
-        trap = trap + "P" + ((i/2) - 11);
-      }else if(i >= 30 && i <= 44){
-        trap = trap +   "V" +  ((i/2) - 15);
-      }else if(i >= 46 && i <= 48){
-        trap = trap + "E" +  ((i/2) - 23);
-      }else if(i == 50){
-        trap = trap + "N0";
-      }else if(i == 52){
-        trap = trap + "M0";
-      }
-    }
-  }
-
-  if(!trap.equals("")){
-    Serial.println(trap + ";");
-//    String serialData = Serial.readStringUntil(';');
-//    if(!serialData.startsWith("ACK;")){
-//      //Não recebeu o evento!!!! O que fazer?
+//  trap = "";
+//  
+//  for(int i = 22; i <= 52; i+=2){
+//    if (digitalRead(i) == HIGH) {
+//      if(i >= 22 && i <= 28){
+//        trap = trap + "P" + ((i/2) - 11);
+//      }else if(i >= 30 && i <= 44){
+//        trap = trap +   "V" +  ((i/2) - 15);
+//      }else if(i >= 46 && i <= 48){
+//        trap = trap + "E" +  ((i/2) - 23);
+//      }else if(i == 50){
+//        trap = trap + "N0";
+//      }else if(i == 52){
+//        trap = trap + "M0";
+//      }
 //    }
-  }
+//  }
+//
+//  if(!trap.equals("")){
+//    Serial.println(trap + ";");
+////    String serialData = Serial.readStringUntil(';');
+////    if(!serialData.startsWith("ACK;")){
+////      //Não recebeu o evento!!!! O que fazer?
+////    }
+//  }
    
   displayThread.check();
   if (Serial.available() > 0 ) {

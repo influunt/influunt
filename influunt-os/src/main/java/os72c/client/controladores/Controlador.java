@@ -10,6 +10,7 @@ import os72c.client.models.TipoInterrupcao;
 import os72c.client.procolos.MensagemControladorSupervisor;
 import os72c.client.procolos.MensagemInterrupcao;
 
+import java.util.Date;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
@@ -38,7 +39,12 @@ public abstract class Controlador extends UntypedActor {
             MensagemControladorSupervisor mensagemControladorSupervisor = (MensagemControladorSupervisor) message;
             switch (mensagemControladorSupervisor.tipoEvento){
                 case MUDANCA_GRUPO:
-                    onChange(mensagemControladorSupervisor.estadoDosGrupos, Integer.valueOf(mensagemControladorSupervisor.argumentos[0]));
+                    MensagemControladorSupervisor msg = new MensagemControladorSupervisor(TipoEvento.MUDANCA_GRUPO,mensagemControladorSupervisor.estadoDosGrupos,
+                            String.valueOf(new Date().getTime() -  Long.valueOf(mensagemControladorSupervisor.argumentos[0])),
+                                    mensagemControladorSupervisor.argumentos[1]);
+                    getContext().actorFor("akka://InfluuntSystem/user/cliente/ControladorMQTT").tell(msg,getSelf());
+                    onChange(mensagemControladorSupervisor.estadoDosGrupos, Integer.valueOf(mensagemControladorSupervisor.argumentos[1]));
+
                     break;
                 case SUPERVISOR_PRONTO:
                     supervisor = getSender();

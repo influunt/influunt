@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableList;
 import os72c.client.procolos.MensagemControladorSupervisor;
 import scala.concurrent.duration.Duration;
 
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -39,7 +40,7 @@ public class Intervalos {
                     new Runnable() {
                         @Override
                         public void run() {
-                            controlador.tell(new MensagemControladorSupervisor(TipoEvento.MUDANCA_GRUPO,troca.getGrupos(),String.valueOf(troca.getDuracao())), supervisor);
+                            controlador.tell(new MensagemControladorSupervisor(TipoEvento.MUDANCA_GRUPO,troca.getGrupos(),String.valueOf(new Date().getTime()),String.valueOf(troca.getDuracao())), supervisor);
                             intervalo++;
                             if(intervalo >= trocas.size()){
                                 intervalo = 0;

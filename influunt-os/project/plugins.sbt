@@ -1,3 +1,4 @@
+import sbt._
 
 resolvers += Classpaths.typesafeResolver
 
