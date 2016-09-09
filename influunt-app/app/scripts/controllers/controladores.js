@@ -402,7 +402,7 @@ angular.module('influuntApp')
       };
 
       $scope.configurar = function(controladorId) {
-        return Restangular.one('controladores', controladorId).all("pode_editar").customGET()
+        return Restangular.one('controladores', controladorId).all('pode_editar').customGET()
           .then(function() {
             $state.go('app.wizard_controladores.dados_basicos',{id: controladorId});
           })
@@ -413,7 +413,7 @@ angular.module('influuntApp')
       };
 
       $scope.ativar = function(controladorId) {
-        return Restangular.one('controladores', controladorId).all("ativar").customPUT()
+        return Restangular.one('controladores', controladorId).all('ativar').customPUT()
           .then(function() {
             $scope.index();
           })
@@ -425,7 +425,7 @@ angular.module('influuntApp')
 
       $scope.cancelarEdicao = function(controladorId) {
         influuntAlert.delete().then(function(confirmado) {
-          return confirmado && Restangular.one('controladores', controladorId).all("cancelar_edicao").customDELETE()
+          return confirmado && Restangular.one('controladores', controladorId).all('cancelar_edicao').customDELETE()
             .then(function() {
               toast.success($filter('translate')('geral.mensagens.removido_com_sucesso'));
               $state.go('app.controladores');

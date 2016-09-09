@@ -279,7 +279,6 @@ public class ControladorTestUtil {
             for (GrupoSemaforico grupoSemaforico : anel.getGruposSemaforicos()) {
                 for (Transicao transicao : grupoSemaforico.getTransicoesComGanhoDePassagem()) {
                     for (TabelaEntreVerdesTransicao tabelaEntreVerdesTransicao : transicao.getTabelaEntreVerdesTransicoes()) {
-                        tabelaEntreVerdesTransicao.setTempoAtrasoGrupo(0);
                         tabelaEntreVerdesTransicao.setTempoVermelhoLimpeza(5);
                         if (grupoSemaforico.isVeicular()) {
                             tabelaEntreVerdesTransicao.setTempoAmarelo(4);

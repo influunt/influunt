@@ -196,7 +196,7 @@ var World = function () {
     return driver.findElement(webdriver.By.linkText(text));
   };
 
-   this.findByText = function(text) {
+  this.findByText = function(text) {
     return driver.findElement(webdriver.By.text(text));
   };
 

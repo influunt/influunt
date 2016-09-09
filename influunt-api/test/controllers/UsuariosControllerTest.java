@@ -1,58 +1,33 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.inject.Singleton;
+import config.WithInfluuntApplicationNoAuthentication;
 import models.*;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
 import org.junit.Test;
-import play.Application;
 import play.Logger;
-import play.Mode;
-import play.inject.guice.GuiceApplicationBuilder;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
-import play.test.WithApplication;
-import security.AllowAllAuthenticator;
-import security.Authenticator;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 import static play.inject.Bindings.bind;
 import static play.test.Helpers.*;
 
-public class UsuariosControllerTest extends WithApplication {
+public class UsuariosControllerTest extends WithInfluuntApplicationNoAuthentication {
 
-    private Cidade cidade;
     private Area area;
     private Perfil perfil;
-    private Permissao permissao;
-
-    @Override
-    protected Application provideApplication() {
-        Map<String, String> options = new HashMap<String, String>();
-        options.put("DATABASE_TO_UPPER", "FALSE");
-        return getApplication(inMemoryDatabase("default", options));
-    }
-
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    private Application getApplication(Map configuration) {
-        Application app = new GuiceApplicationBuilder().configure(configuration)
-                .overrides(bind(Authenticator.class).to(AllowAllAuthenticator.class).in(Singleton.class))
-                .in(Mode.TEST).build();
-        return app;
-    }
 
     @Before
     public void setup() {
-        Http.Context context = new Http.Context(fakeRequest());
-        context.args.put("user", null);
-        Http.Context.current.set(context);
-
-        cidade = new Cidade();
+        Cidade cidade = new Cidade();
         cidade.setNome("BH");
         cidade.save();
 
@@ -65,7 +40,7 @@ public class UsuariosControllerTest extends WithApplication {
         perfil.setNome("Root");
         perfil.save();
 
-        permissao = new Permissao();
+        Permissao permissao = new Permissao();
         permissao.setDescricao("Deus");
         permissao.setChave("*");
         permissao.save();

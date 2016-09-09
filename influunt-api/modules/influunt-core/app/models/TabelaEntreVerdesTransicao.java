@@ -54,11 +54,6 @@ public class TabelaEntreVerdesTransicao extends Model implements Cloneable, Seri
     @Column
     private Integer tempoVermelhoLimpeza = 0;
 
-    @Range(min = 0, max = 20, message = "deve estar entre {min} e {max}")
-    @NotNull(message = "não pode ficar em branco")
-    @Column
-    private Integer tempoAtrasoGrupo = 0;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
@@ -138,11 +133,10 @@ public class TabelaEntreVerdesTransicao extends Model implements Cloneable, Seri
     }
 
     public Integer getTempoAtrasoGrupo() {
-        return tempoAtrasoGrupo;
-    }
-
-    public void setTempoAtrasoGrupo(Integer tempoAtrasoGrupo) {
-        this.tempoAtrasoGrupo = tempoAtrasoGrupo;
+        if(getTransicao() != null && getTransicao().getAtrasoDeGrupo() != null){
+            return getTransicao().getAtrasoDeGrupo().getAtrasoDeGrupo();
+        }
+        return 0;
     }
 
     public DateTime getDataCriacao() {

@@ -14,7 +14,7 @@ describe('Filter: nomeEndereco', function () {
       localizacao2: 'texto 2',
       alturaNumerica: '123',
       referencia: 'texto 3'
-    }
+    };
   }));
 
   it('Deve retornar false se não houver dados sobre o endereco ou sobre a localização dele', function() {

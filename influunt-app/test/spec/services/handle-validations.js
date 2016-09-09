@@ -57,8 +57,8 @@ describe('Service: handleValidations', function () {
       var expectativa = {
         test:[
           {
-            test_1:['message-0'],
-            test_2:['message-0.1']
+            test_1: ['message-0'],
+            test_2: ['message-0.1']
           },
           {
             test_3:['message-1']

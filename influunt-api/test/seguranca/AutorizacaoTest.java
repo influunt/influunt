@@ -1,24 +1,23 @@
 package seguranca;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import config.WithInfluuntApplicationAuthenticated;
 import controllers.SecurityController;
 import controllers.routes;
 import models.Perfil;
 import models.Permissao;
 import models.Usuario;
-import org.junit.Before;
 import org.junit.Test;
-import play.Application;
 import play.Logger;
-import play.Mode;
-import play.inject.guice.GuiceApplicationBuilder;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.routing.Router;
-import play.test.WithApplication;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static play.mvc.Http.Status.OK;
@@ -27,27 +26,7 @@ import static play.test.Helpers.*;
 /**
  * Created by rodrigosol on 6/30/16.
  */
-public class AutorizacaoTest extends WithApplication {
-
-    @Override
-    protected Application provideApplication() {
-        Map<String, String> options = new HashMap<String, String>();
-        options.put("DATABASE_TO_UPPER", "FALSE");
-        return getApplication(inMemoryDatabase("default", options));
-    }
-
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    private Application getApplication(Map configuration) {
-        return new GuiceApplicationBuilder().configure(configuration)
-                .in(Mode.TEST).build();
-    }
-
-    @Before
-    public void setup() {
-        Http.Context context = new Http.Context(fakeRequest());
-        context.args.put("user", null);
-        Http.Context.current.set(context);
-    }
+public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
 
     @Test
     public void testAutorizacao() {

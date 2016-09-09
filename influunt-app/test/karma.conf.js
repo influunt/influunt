@@ -79,6 +79,9 @@ module.exports = function(config) {
       'app/plugins/uiTabs/lib/ui.tabs.addTab.js',
       'app/plugins/uiTabs/lib/ui.tabs.closable.js',
 
+      // influunt app plugins.
+      'app/plugins/influunt/**/*.js',
+
       // tests and scripts.
       'test/helpers/**/*.js',
       'test/mock/**/*.js',
@@ -130,7 +133,8 @@ module.exports = function(config) {
     logLevel: config.LOG_INFO,
 
     preprocessors: {
-      'app/scripts/**/*.js': ['coverage']
+      'app/scripts/**/*.js': ['coverage'],
+      'app/plugins/influunt/**/*.js': ['coverage']
     },
 
     coverageReporter: {

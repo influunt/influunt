@@ -8,8 +8,8 @@ var influunt;
         this.agenda = {};
         this.dias = dias;
         this.eventos = eventos;
-        this.intervaloHora = 4;
-        this.intervaloDia = 96;
+        this.intervaloHora = 1;
+        this.intervaloDia = 24;
         this.horaDia = 24;
       }
       QuadroTabelaHorario.prototype.calcula = function () {
@@ -22,6 +22,7 @@ var influunt;
           if(programa.diaDaSemana && programa.horario){
             programa.hora = programa.horario.split(':')[0];
             programa.minuto = programa.horario.split(':')[1];
+            programa.segundo = programa.horario.split(':')[2];
             programa.dia = programa.diaDaSemana;
             programa.class = 'horarioColor' + (index+1);
             programa.index = index;
@@ -62,13 +63,13 @@ var influunt;
         var _this = this;
         programas.forEach(function(programa){
           var hora = parseInt(programa.hora);
-          var minuto = parseInt(programa.minuto / 15);
+          var minuto = 0;
           var dia = _.find(dias, {value: programa.dia});
           dia.dias.forEach(function(dia){
             hash[dia] = hash[dia] || {}
             hash[dia][hora] = hash[dia][hora] || {}
             if(hash[dia][hora][minuto]){
-              if(_this.comparePrograma(programa,hash[dia][hora][minuto]) < 0){
+              if(_this.comparePrograma(programa,hash[dia][hora][minuto]) > 0){
                 hash[dia][hora][minuto] = programa
               }
             }else{
@@ -91,12 +92,12 @@ var influunt;
               var minuto = i % intervaloHora;
               var slot = agenda[dia][hora][minuto];
 
-              if(slot.state == 'unset'){
+              if(slot.state === 'unset'){
                 if(trocas[dia] && trocas[dia][hora] && trocas[dia][hora][minuto]){
                   slot.state = trocas[dia][hora][minuto].class;
                   slot.index = trocas[dia][hora][minuto].index;
                   ultimo = slot.state;
-                }else if(typeof ultimo !== 'undefined'){
+                }else {
                   slot.state = ultimo;
                 }
               }
@@ -148,32 +149,16 @@ var influunt;
         return intervalo;
       };
       QuadroTabelaHorario.prototype.comparePrograma = function (a, b) {
-        var dias = this.dias;
-        var pa = _.find(dias, {value: a.dia}).prioridade;
-        var pb = _.find(dias, {value: b.dia}).prioridade;
-        var ha = parseInt(a.hora);
-        var hb = parseInt(b.hora);
-        var ma = parseInt(a.minuto);
-        var mb = parseInt(b.minuto);
+        var sa = parseInt(a.segundo);
+        var sb = parseInt(b.segundo);
 
-        if (pa < pb ) {
+        if(sa < sb){
           return -1;
-        }else if(pa > pb){
+        }else if(sa > sb){
           return 1;
         }else{
-          if(ha < hb){
-            return -1;
-          }else if(ha > hb){
-            return 1
-          }else{
-            if(ma < mb){
-              return -1;
-            }else if(ma > mb){
-              return 1;
-            }
-          }
+          return 0;
         }
-        return 0;
       };
 
       return QuadroTabelaHorario;

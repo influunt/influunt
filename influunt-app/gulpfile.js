@@ -88,7 +88,12 @@ var paths = {
     yeoman.app + '/plugins/roundSlider-1.3/roundslider.min.js',
     yeoman.app + '/plugins/uiTabs/ui.tabs.overflowResize.js',
     yeoman.app + '/plugins/uiTabs/lib/ui.tabs.addTab.js',
-    yeoman.app + '/plugins/uiTabs/lib/ui.tabs.closable.js'
+    yeoman.app + '/plugins/uiTabs/lib/ui.tabs.closable.js',
+
+    // influunt app plugins.
+    yeoman.app + '/plugins/influunt/diagrama-intervalos.js',
+    yeoman.app + '/plugins/influunt/quadro-tabela-horaria.js'
+
     // yeoman.app + '/json/**/*.js'
     // 'test/mock/**/*.js'
   ],

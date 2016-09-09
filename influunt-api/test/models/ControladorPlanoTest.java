@@ -836,7 +836,10 @@ public class ControladorPlanoTest extends ControladorTest {
         estagioPlano4.setPosicao(3);
 
         erros = getErros(controlador);
-        assertThat(erros, Matchers.empty());
+        assertEquals(1, erros.size());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+                new Erro(CONTROLADOR, "A soma dos tempos dos estágios é diferente do tempo de ciclo.", "aneis[0].versoesPlanos[0].planos[0].ultrapassaTempoCiclo")
+        ));
 
         //3 - 2 - 1 - 4
         estagioPlano1.setPosicao(3);
@@ -858,7 +861,10 @@ public class ControladorPlanoTest extends ControladorTest {
         estagioPlano4.setPosicao(4);
 
         erros = getErros(controlador);
-        assertThat(erros, Matchers.empty());
+        assertEquals(1, erros.size());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+                new Erro(CONTROLADOR, "A soma dos tempos dos estágios é diferente do tempo de ciclo.", "aneis[0].versoesPlanos[0].planos[0].ultrapassaTempoCiclo")
+        ));
     }
 
 

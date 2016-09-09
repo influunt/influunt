@@ -49,6 +49,8 @@ public class UsuarioSerializer extends JsonSerializer<Usuario> {
             jgen.writeObjectField("perfil", usuario.getPerfil());
         }
 
+        jgen.writeObjectField("root", usuario.isRoot());
+
         jgen.writeEndObject();
     }
 }

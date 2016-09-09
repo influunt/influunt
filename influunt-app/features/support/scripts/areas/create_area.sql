@@ -8,6 +8,7 @@ DELETE FROM `aneis`;
 DELETE FROM `agrupamentos_controladores`;
 DELETE FROM `agrupamentos`;
 DELETE FROM `controladores`;
+DELETE FROM `limite_area`;
 DELETE FROM `areas`;
 DELETE FROM `cidades`;
 SET @CidadeId = RANDOM_UUID();

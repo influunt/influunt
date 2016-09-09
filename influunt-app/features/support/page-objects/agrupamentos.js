@@ -28,10 +28,6 @@ var AgrupamentosPage = function () {
     return world.getElements('tbody tr td');
   };
 
-  this.clicarBotaoNovoAgrupamento = function() {
-    return world.clickButton('a[href*="/agrupamentos/new"]');
-  };
-
   this.formAgrupamentos = function() {
     return world.getElement(formAgrupamentos);
   };

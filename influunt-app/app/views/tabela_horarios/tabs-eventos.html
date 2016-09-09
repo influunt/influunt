@@ -1,13 +1,23 @@
+<influunt-tabs class="tabpanel"
+               data-on-activate="selecionaTipoEvento"
+               data-aneis-ativos="tipoEventos"
+               data-error-check="tipoEventoTemErro"
+               data-name-tabs="nomesTabs"
+               data-can-rename-tabs="true">
+</influunt-tabs>
 <div class="col-lg-12 col-sm-12 no-padding ibox white-bg">
   <div class="ibox float-e-margins">
     <div class="tabpanel">
       <div class="col-lg-12 col-sm-12 tabs-container m-t-md">
-        <influunt-tabs class="tabpanel"
-                       data-on-activate="selecionaTipoEvento"
-                       data-aneis-ativos="tipoEventos"
-                       data-error-check="tipoEventoTemErro"
-                       data-name-tabs="nomesTabs">
-        </influunt-tabs>
+
+        <uib-alert type="danger" data-ng-if="getErrosTabelaHoraria().length > 0">
+          <div>
+            <ul>
+              <li data-ng-repeat="message in getErrosTabelaHoraria()">{{ message }}</li>
+            </ul>
+          </div>
+        </uib-alert>
+
         <div class="ui-layout-content tab-content">
           <div>
             <div class="col-lg-12 col-sm-12 bg-border no-padding" style="background:#f2f2f2">
@@ -16,7 +26,7 @@
                   <div class="col-lg-12 col-sm-12 tabs-container no-padding">
                     <div class="ui-layout-content tab-content">
                       <div id="tabs-1">
-                        <ng-include src="'views/tabela_horarios/tabelas.html'">
+                        <ng-include src="'views/tabela_horarios/tabelas.html'"></ng-include>
                       </div>
                     </div>
                   </div>
@@ -25,6 +35,7 @@
             </div>
           </div>
         </div>
+
       </div>
     </div>
   </div>

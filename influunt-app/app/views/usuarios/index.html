@@ -33,9 +33,15 @@
                   <td><a href="mailto:{{ usuario.email}}" target="_top">{{ usuario.email }}</a></td>
                   <td data-ng-bind-html="usuario.perfil | resourceToString"></td>
                   <td>
-                    <a ui-sref="app.usuarios_show({id: usuario.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
-                    <a ui-sref="app.usuarios_edit({id: usuario.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.editar' | translate }}</a>
-                    <a data-ng-click="confirmDelete(usuario.id)" class="btn btn-danger btn-xs">{{ 'geral.crud.excluir' | translate }}</a>
+                    <a ui-sref="app.usuarios_show({id: usuario.id})" class="btn btn-primary btn-xs">
+                      {{ 'geral.crud.visualizar' | translate }}
+                    </a>
+                    <a ui-sref="app.usuarios_edit({id: usuario.id})" class="btn btn-primary btn-xs" data-ng-if="!usuario.root">
+                      {{ 'geral.crud.editar' | translate }}
+                    </a>
+                    <a data-ng-click="confirmDelete(usuario.id)" class="btn btn-danger btn-xs" data-ng-if="!usuario.root">
+                      {{ 'geral.crud.excluir' | translate }}
+                    </a>
                   </td>
                 </tr>
               </tbody>

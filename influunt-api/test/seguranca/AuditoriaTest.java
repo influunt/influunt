@@ -1,6 +1,7 @@
 package seguranca;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import config.WithInfluuntApplicationAuthenticated;
 import controllers.SecurityController;
 import controllers.routes;
 import models.Area;
@@ -8,18 +9,16 @@ import models.Cidade;
 import models.Usuario;
 import org.junit.Before;
 import org.junit.Test;
-import play.Application;
-import play.Mode;
-import play.inject.guice.GuiceApplicationBuilder;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
-import play.test.WithApplication;
 import security.Auditoria;
 import uk.co.panaxiom.playjongo.PlayJongo;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -29,26 +28,11 @@ import static play.test.Helpers.*;
 /**
  * Created by lesiopinheiro on 9/2/16.
  */
-public class AuditoriaTest extends WithApplication {
+public class AuditoriaTest extends WithInfluuntApplicationAuthenticated {
 
     private Cidade cidade;
 
-    private Http.Context context;
-
     private Optional<String> tokenComAcesso;
-
-    @Override
-    protected Application provideApplication() {
-        Map<String, String> options = new HashMap<String, String>();
-        options.put("DATABASE_TO_UPPER", "FALSE");
-        return getApplication(inMemoryDatabase("default", options));
-    }
-
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    private Application getApplication(Map configuration) {
-        return new GuiceApplicationBuilder().configure(configuration)
-                .in(Mode.TEST).build();
-    }
 
     @Before
     public void setUp() {
@@ -58,7 +42,7 @@ public class AuditoriaTest extends WithApplication {
 
         Auditoria.jongo = jongo;
 
-        context = new Http.Context(fakeRequest());
+        Http.Context context = new Http.Context(fakeRequest());
         context.args.put("user", null);
         Http.Context.current.set(context);
 

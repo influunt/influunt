@@ -2431,3 +2431,16 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
 .modal-sm { width: 25%; }
 .modal-md { width: 50%; }
 .modal-lg { width: 95%; }
+
+
+//open
+
+.theme-config-box {
+  &.open {
+    margin-right: 0;
+  }
+  .skin-setttings {
+      background: #e8eaea;
+      padding: 20px;
+  }
+}

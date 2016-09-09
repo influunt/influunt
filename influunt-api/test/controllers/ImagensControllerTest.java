@@ -4,29 +4,19 @@ import akka.stream.Materializer;
 import akka.stream.javadsl.FileIO;
 import akka.stream.javadsl.Source;
 import akka.util.ByteString;
-import com.google.inject.Singleton;
+import config.WithInfluuntApplicationNoAuthentication;
 import models.Imagem;
-import org.junit.Before;
 import org.junit.Test;
-import play.Application;
-import play.Mode;
-import play.inject.guice.GuiceApplicationBuilder;
 import play.mvc.Http;
 import play.mvc.Http.MultipartFormData.DataPart;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
-import play.test.WithApplication;
-import security.AllowAllAuthenticator;
-import security.Authenticator;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
-import static play.inject.Bindings.bind;
 import static play.mvc.Http.Status.OK;
 import static play.test.Helpers.*;
 
@@ -34,28 +24,7 @@ import static play.test.Helpers.*;
 /**
  * Created by pedropires on 6/17/16.
  */
-public class ImagensControllerTest extends WithApplication {
-
-    @Override
-    protected Application provideApplication() {
-        Map<String, String> options = new HashMap<String, String>();
-        options.put("DATABASE_TO_UPPER", "FALSE");
-        return getApplication(inMemoryDatabase("default", options));
-    }
-
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    private Application getApplication(Map configuration) {
-        return new GuiceApplicationBuilder().configure(configuration)
-                .overrides(bind(Authenticator.class).to(AllowAllAuthenticator.class).in(Singleton.class))
-                .in(Mode.TEST).build();
-    }
-
-    @Before
-    public void setup() {
-        Http.Context context = new Http.Context(fakeRequest());
-        context.args.put("user", null);
-        Http.Context.current.set(context);
-    }
+public class ImagensControllerTest extends WithInfluuntApplicationNoAuthentication {
 
     @Test
     public void testCriarNovaImagem() {

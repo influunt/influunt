@@ -58,13 +58,31 @@ angular.module('influuntApp')
       };
 
       $scope.clonarPlanos = function(controladorId) {
-        return Restangular.one('controladores', controladorId).all('editar_planos').customGET()
+        return Restangular.one('controladores', controladorId).all("pode_editar").customGET()
+          .then(function() {
+            Restangular.one('controladores', controladorId).all('editar_planos').customGET()
+              .then(function() {
+                $state.go('app.planos_edit', { id: controladorId });
+              })
+              .catch(function(err) {
+                toast.error($filter('translate')('geral.mensagens.default_erro'));
+                throw new Error(JSON.stringify(err));
+              });
+          })
+          .catch(function(err) {
+            toast.clear();
+            influuntAlert.alert('Controlador', err.data[0].message);
+          });
+      };
+
+      $scope.editarPlano = function(controladorId) {
+        return Restangular.one('controladores', controladorId).all("pode_editar").customGET()
           .then(function() {
             $state.go('app.planos_edit', { id: controladorId });
           })
           .catch(function(err) {
-            toast.error($filter('translate')('geral.mensagens.default_erro'));
-            throw new Error(JSON.stringify(err));
+            toast.clear();
+            influuntAlert.alert('Controlador', err.data[0].message);
           });
       };
 
@@ -198,7 +216,7 @@ angular.module('influuntApp')
 
       $scope.onChangeCheckboxGrupo = function(grupo, isAtivo) {
         var gruposSemaforicos = _.chain($scope.objeto.gruposSemaforicos)
-          .filter(function(gs) { return gs.anel.idJson === $scope.currentAnel.idJson })
+          .filter(function(gs) { return gs.anel.idJson === $scope.currentAnel.idJson; })
           .orderBy(['posicao'])
           .value();
 
@@ -557,7 +575,7 @@ angular.module('influuntApp')
           return $scope.currentGruposSemaforicos;
       };
 
-      atualizaTabelaEntreVerdes = function(anel) {
+      atualizaTabelaEntreVerdes = function() {
         var grupoSemaforico = _.find($scope.objeto.gruposSemaforicos, {idJson: $scope.currentGruposSemaforicos[0].idJson});
         var ids = _.map(grupoSemaforico.tabelasEntreVerdes, 'idJson');
 
@@ -750,7 +768,7 @@ angular.module('influuntApp')
           _.each(result.gruposSemaforicos, function(g) {
 
             var gruposSemaforicos = _.chain($scope.objeto.gruposSemaforicos)
-              .filter(function(gs) { return gs.anel.idJson === $scope.currentAnel.idJson })
+              .filter(function(gs) { return gs.anel.idJson === $scope.currentAnel.idJson; })
               .orderBy(['posicao'])
               .value();
 
