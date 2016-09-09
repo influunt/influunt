@@ -50,7 +50,7 @@ module.exports = function() {
     return wizardPage.cadastrarEntidadesDadosBasicos();
   });
 
-  this.Given(/^o usuario adicionar (\d+) imagens para os estágios do anel corrente$/, function (qtde) {
+  this.Given(/^o usuário adicionar (\d+) imagens para os estágios do anel corrente$/, function (qtde) {
     return wizardPage.adicionarImagensEstagios(qtde);
   });
 
@@ -70,11 +70,11 @@ module.exports = function() {
     return wizardPage.clicarBotao(text);
   });
 
-  this.Given(/^que o usuario adicione (\d+) grupos semafóricos ao anel$/, function (numGrupos) {
+  this.Given(/^que o usuário adicione (\d+) grupos semafóricos ao anel$/, function (numGrupos) {
     return wizardPage.adicionarGruposSemaforicosAoAnel(numGrupos);
   });
 
-  this.Given(/^o usuario associar o grupo semafórico "([^"]*)" com o estágio "([^"]*)"$/, function (grupo, estagio) {
+  this.Given(/^o usuário associar o grupo semafórico "([^"]*)" com o estágio "([^"]*)"$/, function (grupo, estagio) {
     return wizardPage.associarGrupoSemaforicoEstagio(grupo, estagio);
   });
 
@@ -82,7 +82,7 @@ module.exports = function() {
     return wizardPage.selecionarEstagio(estagio);
   });
 
-  this.Given(/^o usuario marcar o grupo semafórico "([^"]*)" como "([^"]*)"$/, function (grupo, tipoGrupo) {
+  this.Given(/^o usuário marcar o grupo semafórico "([^"]*)" como "([^"]*)"$/, function (grupo, tipoGrupo) {
     return wizardPage.selecionarTipoGrupoSemaforico(grupo, tipoGrupo);
   });
 
@@ -112,12 +112,12 @@ module.exports = function() {
     return wizardPage.selecionaEstagioAlternativoParaTransicaoProibida(transicao, estagio);
   });
 
-  this.Given(/^o usuario preencher os dados dos verdes conflitantes corretamente$/, function () {
+  this.Given(/^o usuário preencher os dados dos verdes conflitantes corretamente$/, function () {
     return wizardPage.fillVerdesConflitantes();
   });
 
-  this.Given(/^o sistema irá redirecionar o usuário para a página de listagem de controladores$/, function () {
-    return wizardPage.indexPage();
+  this.Given(/^o sistema deverá redirecionar o usuário para a página de listagem de controladores$/, function () {
+    return wizardPage.isIndexPage();
   });
 
   this.Given(/^o sistema deverá indicar tabela incompleta para o grupo "([^"]*)"$/, function (grupo) {
@@ -144,15 +144,27 @@ module.exports = function() {
     return wizardPage.limparTelaComReload();
   });
 
-  this.Given(/^o usuario limpar os campos$/, function() {
+  this.Given(/^o usuário limpar os campos$/, function() {
     return wizardPage.limparCampos();
   });
 
-  this.Given(/^o usuario preencher o campo NÚMERO SMEE com 123$/, function () {
+  this.Given(/^o usuário preencher o campo NÚMERO SMEE com 123$/, function () {
     return wizardPage.preencherCampoSMEECom123();
+  });
+
+  this.Given(/^o usuário clicar para fechar o modal$/, function () {
+    return wizardPage.clickFecharModal();
+  });
+
+  this.Given(/^o usuário clicar no botão sim$/, function () {
+    return wizardPage.clickBotaoSimSweet();
   });
 
   this.Given(/^que o usuário clicar Confirmo que não há configurações a serem feitas aqui$/, function(){
     return wizardPage.selecionarValor();
+  });
+
+  this.Given(/^o usuário deverá preecher a modificação com "([^"]*)"$/, function(valor){
+    return wizardPage.preencherModificao(valor);
   });
 };

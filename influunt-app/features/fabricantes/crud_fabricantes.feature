@@ -14,14 +14,14 @@ Funcionalidade: tela de cadastro de fabricantes
 
   Cenário: Cadastro de fabricante sem modelo de controlador
     Quando o usuário acessar a tela de cadastro de novos fabricantes
-    E o usuario preencher o campo "Nome" com "Raro Labs"
+    E o usuário preencher o campo "Nome" com "Raro Labs"
     E clicar no botão de salvar
     Então o registro do fabricante deverá ser salvo com "nome" igual a "Raro Labs"
     E o sistema deverá retornar à tela de listagem de fabricantes
 
   Cenário: Cadastro de fabricante com um modelo de controlador
     Quando o usuário acessar a tela de cadastro de novos fabricantes
-    E o usuario preencher o campo "Nome" com "MobiLab"
+    E o usuário preencher o campo "Nome" com "MobiLab"
     E clicar no botão de salvar
     Então o registro do fabricante deverá ser salvo com "nome" igual a "MobiLab"
     E o registro do fabricante deverá ser salvo com "modelo" igual a "Default"
@@ -39,7 +39,7 @@ Funcionalidade: tela de cadastro de fabricantes
 
   Cenário: Edição de fabricantes
     Quando o usuário acessar o formulário de edição de fabricantes
-    E o usuario preencher o campo "Nome" com "Fabricante"
+    E o usuário preencher o campo "Nome" com "Fabricante"
     E clicar no botão de salvar
     Então o registro do fabricante deverá ser salvo com "nome" igual a "Fabricante"
     E o sistema deverá retornar à tela de listagem de fabricantes

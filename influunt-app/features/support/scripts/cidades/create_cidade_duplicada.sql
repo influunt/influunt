@@ -7,6 +7,7 @@ DELETE FROM `aneis`;
 DELETE FROM `agrupamentos_controladores`;
 DELETE FROM `agrupamentos`;
 DELETE FROM `controladores`;
+DELETE FROM `limite_area`;
 DELETE FROM `areas`;
 DELETE FROM `cidades`;
 INSERT INTO `cidades` (`id`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (RANDOM_UUID(), 'Belo Horizonte', NOW(), NOW());

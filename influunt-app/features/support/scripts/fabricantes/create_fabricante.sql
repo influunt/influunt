@@ -14,6 +14,7 @@ DELETE FROM `agrupamentos_controladores`;
 DELETE FROM `versoes_controladores`;
 DELETE FROM `controladores`;
 DELETE FROM `agrupamentos`;
+DELETE FROM `limite_area`;
 DELETE FROM `areas`;
 DELETE FROM `cidades`;
 DELETE FROM `modelo_controladores`;

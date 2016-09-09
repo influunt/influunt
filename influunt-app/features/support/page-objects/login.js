@@ -12,10 +12,12 @@ var LoginPage = function () {
   };
 
   this.preencherUsuario = function(usuario) {
+    world.sleep(500);
     return world.setValue('[name="usuario"]', usuario);
   };
 
   this.preencherSenha = function(senha) {
+    world.sleep(500);
     return world.setValue('[name="senha"]', senha);
   };
 

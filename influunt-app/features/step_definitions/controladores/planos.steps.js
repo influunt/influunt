@@ -137,4 +137,12 @@ module.exports = function() {
   this.Given(/^o usuário clicar em editar$/, function () {
     return planosPage.clicarBotao('Editar');
   });
+
+  this.Given(/^o usuário clicar em salvar$/, function () {
+    return planosPage.clicarBotao('Salvar');
+  });
+
+  this.Given(/^que o usuário selecione o anel 2$/, function () {
+    return planosPage.clicarAbaAnel2();
+  });
 };

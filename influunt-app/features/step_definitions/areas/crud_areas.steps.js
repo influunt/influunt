@@ -100,7 +100,7 @@ module.exports = function() {
     });
   });
 
-  this.Given(/^o usuario marcar a cidade como "([^"]*)"$/, function (cidade) {
+  this.Given(/^o usuário marcar a cidade como "([^"]*)"$/, function (cidade) {
     return areasPage.selecionarCidade(cidade);
   });
 

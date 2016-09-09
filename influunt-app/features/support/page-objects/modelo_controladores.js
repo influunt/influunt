@@ -72,6 +72,10 @@ var ModelosPage = function () {
     return world.getElement('div[class*="sweet-alert"] p').getText();
   };
 
+  this.limparCampoDescricao = function() {
+    return world.clearField(inputDescricaoModelo);
+  };
+
   this.nenhumModeloDeveSerExcluido = function() {
     return world.getElements('tbody tr[data-ng-repeat="modelo in lista"]').then(function(elements) {
       return elements.length === totalModelosIndex;

@@ -6,19 +6,19 @@ var expect = require('chai').expect;
 module.exports = function() {
   var crudPage = new CrudPage();
 
-  this.Given(/^o usuario preencher o campo "([^"]*)" com "([^"]*)"$/, function (campo, valor) {
+  this.Given(/^o usuário preencher o campo "([^"]*)" com "([^"]*)"$/, function (campo, valor) {
     return crudPage.preencherCampo(campo, valor);
   });
 
-  this.Given(/^o usuario selecionar o valor "([^"]*)" no campo "([^"]*)"$/, function (valor, campo) {
+  this.Given(/^o usuário selecionar o valor "([^"]*)" no campo "([^"]*)"$/, function (valor, campo) {
     return crudPage.selecionarValor(campo, valor);
   });
 
-  this.Given(/^o usuario buscar o endereço "([^"]*)" para o endereço (\d+)$/, function (query, numEndereco) {
+  this.Given(/^o usuário buscar o endereço "([^"]*)" para o endereço (\d+)$/, function (query, numEndereco) {
     return crudPage.buscarEndereco(query, numEndereco);
   });
 
- this.Given(/^o usuario limpar o campor endereço (\d+)$/, function (numEndereco) {
+ this.Given(/^o usuário limpar o campo endereço (\d+)$/, function (numEndereco) {
     return crudPage.limparEndereco(numEndereco);
   });
 

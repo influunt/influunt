@@ -17,27 +17,27 @@ Funcionalidade: Fluxo de cadastro de controladores
 
   Cenário: Salvar dados básicos do controlador
     Dado que o usuário esteja no wizard no passo "Dados Básicos"
-    E o usuario selecionar o valor "São Paulo" no campo "Cidade"
-    E o usuario selecionar o valor "1" no campo "Área"
-    E o usuario preencher o campo NÚMERO SMEE com 123
-    E o usuario buscar o endereço "Av Paulista" para o endereço 1
-    E o usuario buscar o endereço "Rua Bela Cintra" para o endereço 2
-    E o usuario selecionar o valor "Raro Labs" no campo "Fabricante"
-    E o usuario selecionar o valor "Mínima" no campo "Modelo"
+    E o usuário selecionar o valor "São Paulo" no campo "Cidade"
+    E o usuário selecionar o valor "1" no campo "Área"
+    E o usuário preencher o campo NÚMERO SMEE com 123
+    E o usuário buscar o endereço "Av Paulista" para o endereço 1
+    E o usuário buscar o endereço "Rua Bela Cintra" para o endereço 2
+    E o usuário selecionar o valor "Raro Labs" no campo "Fabricante"
+    E o usuário selecionar o valor "Mínima" no campo "Modelo"
     E clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Anéis"
 
   Cenário: Salvar anéis do controlador
     Dado que o usuário esteja no wizard no passo "Anéis"
-    E o usuario limpar o campor endereço 1
-    E o usuario buscar o endereço "Av Paulista" para o endereço 1
-    E o usuario limpar o campor endereço 2
-    E o usuario buscar o endereço "Rua Bela Cintra" para o endereço 2
-    E o usuario adicionar 3 imagens para os estágios do anel corrente
+    E o usuário limpar o campo endereço 1
+    E o usuário buscar o endereço "Av Paulista" para o endereço 1
+    E o usuário limpar o campo endereço 2
+    E o usuário buscar o endereço "Rua Bela Cintra" para o endereço 2
+    E o usuário adicionar 3 imagens para os estágios do anel corrente
     E o usuário adicionar um novo anel ativo
-    E o usuario buscar o endereço "Av Paulista" para o endereço 1
-    E o usuario buscar o endereço "Rua Augusta" para o endereço 2
-    E o usuario adicionar 2 imagens para os estágios do anel corrente
+    E o usuário buscar o endereço "Av Paulista" para o endereço 1
+    E o usuário buscar o endereço "Rua Augusta" para o endereço 2
+    E o usuário adicionar 2 imagens para os estágios do anel corrente
     E clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Grupos Semafóricos"
 
@@ -50,14 +50,14 @@ Funcionalidade: Fluxo de cadastro de controladores
 
   Cenário: Salvar grupos semafóricos do controlador
     Dado que o usuário esteja no wizard no passo "Grupos Semafóricos"
-    E que o usuario adicione 3 grupos semafóricos ao anel
-    Quando o usuario marcar o grupo semafórico "G1" como "Veicular"
-    E o usuario marcar o grupo semafórico "G2" como "Veicular"
-    E o usuario marcar o grupo semafórico "G3" como "Pedestre"
+    E que o usuário adicione 3 grupos semafóricos ao anel
+    Quando o usuário marcar o grupo semafórico "G1" como "Veicular"
+    E o usuário marcar o grupo semafórico "G2" como "Veicular"
+    E o usuário marcar o grupo semafórico "G3" como "Pedestre"
     E o usuário selecionar o anel 2
-    E que o usuario adicione 2 grupos semafóricos ao anel
-    Quando o usuario marcar o grupo semafórico "G4" como "Veicular"
-    E o usuario marcar o grupo semafórico "G5" como "Pedestre"
+    E que o usuário adicione 2 grupos semafóricos ao anel
+    Quando o usuário marcar o grupo semafórico "G4" como "Veicular"
+    E o usuário marcar o grupo semafórico "G5" como "Pedestre"
     E clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Verdes Conflitantes"
 
@@ -101,12 +101,12 @@ Funcionalidade: Fluxo de cadastro de controladores
   Cenário: Salvar associação do controlador
     Dado que o usuário esteja no wizard no passo "Associação"
     E o usuário selecionar o anel 1
-    E o usuario associar o grupo semafórico "G1" com o estágio "E1"
-    E o usuario associar o grupo semafórico "G2" com o estágio "E2"
-    E o usuario associar o grupo semafórico "G3" com o estágio "E3"
+    E o usuário associar o grupo semafórico "G1" com o estágio "E1"
+    E o usuário associar o grupo semafórico "G2" com o estágio "E2"
+    E o usuário associar o grupo semafórico "G3" com o estágio "E3"
     E o usuário selecionar o anel 2
-    E o usuario associar o grupo semafórico "G4" com o estágio "E1"
-    E o usuario associar o grupo semafórico "G5" com o estágio "E2"
+    E o usuário associar o grupo semafórico "G4" com o estágio "E1"
+    E o usuário associar o grupo semafórico "G5" com o estágio "E2"
     E clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Transições Proibidas"
 
@@ -120,7 +120,7 @@ Funcionalidade: Fluxo de cadastro de controladores
 
   Cenário: Tentar salvar uma transição proibida informando um estágio alternativo
     Dado que o usuário esteja no wizard no passo "Transições Proibidas"
-    E o usuario selecionar o valor "E1" no campo "Alternativa"
+    E o usuário selecionar o valor "E1" no campo "Alternativa"
     Quando clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Atraso de Grupo"
 
@@ -149,13 +149,21 @@ Funcionalidade: Fluxo de cadastro de controladores
   Cenário: Salvar detectores
     Dado que o usuário esteja no wizard no passo "Detectores"
     E que o usuário associe o detector "DP1" com o estágio "E3"
+    E que o usuário marque 40 no tempo "Ausência de Detecção"
+    E o usuário clicar para fechar o modal
     E que o usuário associe o detector "DV1" com o estágio "E1"
+    E que o usuário marque 40 no tempo "Ausência de Detecção"
+    E o usuário clicar para fechar o modal
     E que o usuário associe o detector "DV2" com o estágio "E2"
+    E que o usuário marque 40 no tempo "Ausência de Detecção"
+    E o usuário clicar para fechar o modal
     Quando o usuário clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Revisão"
 
   Cenário: Salvar revisão
     Dado que o usuário esteja no wizard no passo "Revisão"
     Quando o usuário clicar no botão "Salvar"
-    Então o sistema irá redirecionar o usuário para a página de listagem de controladores
+    E o usuário deverá preecher a modificação com "Revisão 1"
+    Quando o usuário clicar no botão sim
+    Então o sistema deverá redirecionar o usuário para a página de listagem de controladores
 
