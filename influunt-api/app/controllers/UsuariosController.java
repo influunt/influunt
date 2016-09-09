@@ -12,6 +12,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
+import utils.InfluuntQueryBuilder;
 
 import java.util.Arrays;
 import java.util.List;
@@ -62,6 +63,9 @@ public class UsuariosController extends Controller {
     }
 
     public CompletionStage<Result> findAll() {
+        if (!request().queryString().isEmpty()) {
+            return CompletableFuture.completedFuture(ok(Json.toJson(new InfluuntQueryBuilder(Usuario.class, request().queryString()).query())));
+        }
         return CompletableFuture.completedFuture(ok(Json.toJson(Usuario.find.fetch("area").findList())));
     }
 

@@ -6,6 +6,7 @@ import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import utils.InfluuntQueryBuilder;
 
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -15,6 +16,9 @@ public class ModelosControladoresController extends Controller {
 
     @Transactional
     public CompletionStage<Result> findAll() {
+        if (!request().queryString().isEmpty()) {
+            return CompletableFuture.completedFuture(ok(Json.toJson(new InfluuntQueryBuilder(ModeloControlador.class, request().queryString()).query())));
+        }
         return CompletableFuture.completedFuture(ok(Json.toJson(ModeloControlador.findAll())));
     }
 
