@@ -1,50 +1,23 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.inject.Singleton;
+import config.WithInfluuntApplicationNoAuthentication;
 import models.Permissao;
 import org.jetbrains.annotations.NotNull;
-import org.junit.Before;
 import org.junit.Test;
-import play.Application;
 import play.Logger;
-import play.Mode;
-import play.inject.guice.GuiceApplicationBuilder;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
-import play.test.WithApplication;
-import security.AllowAllAuthenticator;
-import security.Authenticator;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
-import static play.inject.Bindings.bind;
-import static play.test.Helpers.fakeRequest;
-import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.route;
 
-public class PermissoesControllerTest extends WithApplication {
-
-    @Override
-    protected Application provideApplication() {
-        Map<String, String> options = new HashMap<String, String>();
-        options.put("DATABASE_TO_UPPER", "FALSE");
-        return getApplication(inMemoryDatabase("default", options));
-    }
-
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    private Application getApplication(Map configuration) {
-        Application app = new GuiceApplicationBuilder().configure(configuration)
-                .overrides(bind(Authenticator.class).to(AllowAllAuthenticator.class).in(Singleton.class))
-                .in(Mode.TEST).build();
-        return app;
-    }
+public class PermissoesControllerTest extends WithInfluuntApplicationNoAuthentication {
 
     @NotNull
     private Permissao getPermissao() {
@@ -52,13 +25,6 @@ public class PermissoesControllerTest extends WithApplication {
         permissao.setDescricao("Deus");
         permissao.setChave("*");
         return permissao;
-    }
-
-    @Before
-    public void setup() {
-        Http.Context context = new Http.Context(fakeRequest());
-        context.args.put("user", null);
-        Http.Context.current.set(context);
     }
 
     @Test
