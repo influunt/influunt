@@ -61,7 +61,7 @@ var World = function () {
 
   this.waitForToastMessageDisapear = function(timeout) {
     var _this = this;
-    return _this.waitForInverse('#toast-container div.toast-message', timeout)
+    return _this.waitForInverse('#toast-container div.toast-message', timeout);
   };
 
   this.waitFor = function(cssLocator, timeout) {
