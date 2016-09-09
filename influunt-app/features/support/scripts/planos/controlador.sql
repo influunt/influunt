@@ -4,11 +4,15 @@ DELETE FROM `atrasos_de_grupos`;
 DELETE FROM `transicoes`;
 DELETE FROM `transicoes_proibidas`;
 DELETE FROM `detectores`;
+DELETE FROM `grupos_semaforicos_planos`;
 DELETE FROM `estagios_grupos_semaforicos`;
+DELETE FROM `estagios_planos`;
+DELETE FROM `planos`;
 DELETE FROM `estagios`;
 DELETE FROM `tabela_entre_verdes`;
 DELETE FROM `grupos_semaforicos`;
 DELETE FROM `enderecos`;
+DELETE FROM `versoes_planos`;
 DELETE FROM `aneis`;
 DELETE FROM `agrupamentos_controladores`;
 DELETE FROM `versoes_controladores`;
@@ -23,19 +27,19 @@ DELETE FROM `fabricantes`;
 DELETE FROM `imagens`;
 
 INSERT INTO `cidades`(`id`, `id_json`, `nome`, `data_criacao`, `data_atualizacao`) VALUES
-('89f4f1ea-2e2a-430c-abae-56b32982ca0b', NULL, STRINGDECODE('S\u00e3o Paulo'), TIMESTAMP '2016-08-09 11:05:18.096', TIMESTAMP '2016-08-09 11:05:18.096');
+('89f4f1ea-2e2a-430c-abae-56b32982ca0b', '01036462-768b-11e6-b849-de6d89655da4', STRINGDECODE('S\u00e3o Paulo'), TIMESTAMP '2016-08-09 11:05:18.096', TIMESTAMP '2016-08-09 11:05:18.096');
 
 INSERT INTO `areas`(`id`, `id_json`, `descricao`, `cidade_id`, `data_criacao`, `data_atualizacao`) VALUES
 ('cdc81822-2908-43fd-b6d2-a2fe38e67e88', '71ea3bd2-75d3-11e6-aa4a-fe9f24d4bd34', 1, '89f4f1ea-2e2a-430c-abae-56b32982ca0b', TIMESTAMP '2016-08-09 11:05:18.097', TIMESTAMP '2016-08-09 11:05:18.097');
 
 INSERT INTO `fabricantes`(`id`, `id_json`, `nome`, `data_criacao`, `data_atualizacao`) VALUES
-('cd9589b9-4dff-458c-b530-94ffaa309918', NULL, 'Raro Labs', TIMESTAMP '2016-08-09 11:05:18.098', TIMESTAMP '2016-08-09 11:05:18.098');
+('cd9589b9-4dff-458c-b530-94ffaa309918', '0103a5a8-768b-11e6-b849-de6d89655da5', 'Raro Labs', TIMESTAMP '2016-08-09 11:05:18.098', TIMESTAMP '2016-08-09 11:05:18.098');
 
 INSERT INTO `modelo_controladores`(`id`, `id_json`, `fabricante_id`, `descricao`, `limite_estagio`, `limite_grupo_semaforico`, `limite_anel`, `limite_detector_pedestre`, `limite_detector_veicular`, `limite_tabelas_entre_verdes`, `limite_planos`, `data_criacao`, `data_atualizacao`) VALUES
-('84e21c9b-169a-4a98-bc69-d0c8689bfcf6', NULL, 'cd9589b9-4dff-458c-b530-94ffaa309918', STRINGDECODE('M\u00ednima'), 16, 16, 4, 4, 8, 2, 16, TIMESTAMP '2016-08-09 11:05:18.1', TIMESTAMP '2016-08-09 11:05:18.1');
+('84e21c9b-169a-4a98-bc69-d0c8689bfcf6', '0103bd72-768b-11e6-b849-de6d89655da4', 'cd9589b9-4dff-458c-b530-94ffaa309918', STRINGDECODE('M\u00ednima'), 16, 16, 4, 4, 8, 2, 16, TIMESTAMP '2016-08-09 11:05:18.1', TIMESTAMP '2016-08-09 11:05:18.1');
 
 INSERT INTO `controladores`(`id`, `id_json`, `nome_endereco`, `status_controlador`, `sequencia`, `numero_smee`, `numero_smeeconjugado1`, `numero_smeeconjugado2`, `numero_smeeconjugado3`, `firmware`, `modelo_id`, `area_id`, `data_criacao`, `data_atualizacao`) VALUES
-('e3470d37-55e2-40ee-bb82-b316d76079af', NULL, 'Av. Paulista com R. Bela Cintra', 1, 1, NULL, NULL, NULL, NULL, NULL, '84e21c9b-169a-4a98-bc69-d0c8689bfcf6', 'cdc81822-2908-43fd-b6d2-a2fe38e67e88', TIMESTAMP '2016-08-09 11:05:27.354', TIMESTAMP '2016-08-09 11:05:56.951');
+('e3470d37-55e2-40ee-bb82-b316d76079af', NULL, 'Av. Paulista com R. Bela Cintra', 2, 1, NULL, NULL, NULL, NULL, NULL, '84e21c9b-169a-4a98-bc69-d0c8689bfcf6', 'cdc81822-2908-43fd-b6d2-a2fe38e67e88', TIMESTAMP '2016-08-09 11:05:27.354', TIMESTAMP '2016-08-09 11:05:56.951');
 
 INSERT INTO `controladores_fisicos`(`id`, `id_json`, `data_criacao`, `data_atualizacao`) VALUES
 ('d1cf6613-7fdc-4de3-b7c6-59e0a85fe0df', NULL, TIMESTAMP '2016-08-09 11:05:18.1', TIMESTAMP '2016-08-09 11:05:18.1');
