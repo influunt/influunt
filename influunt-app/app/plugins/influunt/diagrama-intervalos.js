@@ -115,7 +115,7 @@ var influunt;
           var duracao = 1;
 
           if(!tempoCiclo || diagrama[i].length > tempoCiclo){
-            return {erros: ['Tempo de Ciclo é menor que os tempos dos estágios.']};
+            return {erros: ['Tempo de Ciclo é diferente da soma dos tempos dos estágios.']};
           }
 
           for(var j = 0; j < diagrama[i].length; j++){
