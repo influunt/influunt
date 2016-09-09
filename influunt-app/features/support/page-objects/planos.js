@@ -89,7 +89,8 @@ var PlanosPage = function () {
 
   this.clicarBotaoConfigurarEstagio = function(estagio) {
     world.waitForOverlayDisappear();
-    return world.getElement('ul.planos div.sortable-list li.ui-state-default div.sortable button.btn-primary').click().then(function() {
+
+    return world.getElementByXpath('//ul[contains(@class, "planos")]//h4[contains(@id, "'+estagio+'")]/../button').click().then(function() {
       return world.waitFor('div#modal-configuracao-estagio');
     }).then(function() {
       return world.waitForAnimationFinishes('div.modal-content');
@@ -171,6 +172,10 @@ var PlanosPage = function () {
 
   this.nomePlanoAterado = function(plano) {
     return world.waitForByXpath('//ul[@id="side-menu"]//span[contains(text(), "'+plano+'")]');
+  };
+
+  this.clicarAbaAnel2 = function() {
+    return world.getElement('li[aria-selected="false"]').click();
   };
 
   this.getTextInModal = function() {

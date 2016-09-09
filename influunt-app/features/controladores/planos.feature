@@ -58,15 +58,26 @@ Funcionalidade: Fluxo de cadastro de planos
     E que o usuário selecione o modo de operação "Atuado"
     Então o diagrama de intervalos não deverá aparecer
 
-  Cenário: Configurar Plano no modo Isolado
+  Cenário: Configurar e Salvar o Plano no modo Isolado
     Dado que o usuário esteja na página de planos
     E que o usuário selecione o modo de operação "Isolado"
     E que o usuário clique no botão de configurar o estágio "E1"
-    E que o usuário marque 4 segundos para o "Tempo de Verde"
+    E que o usuário marque 6 segundos para o "Tempo de Verde"
     E que o usuário clique no botão de fechar a caixa de configuração
     E que o usuário clique no botão de configurar o estágio "E2"
-    E que o usuário marque 15 segundos para o "Tempo de Verde"
+    E que o usuário marque 9 segundos para o "Tempo de Verde"
     E que o usuário clique no botão de fechar a caixa de configuração
+    E que o usuário clique no botão de configurar o estágio "E3"
+    E que o usuário marque 6 segundos para o "Tempo de Verde"
+    E que o usuário clique no botão de fechar a caixa de configuração
+    E que o usuário selecione o anel 2
+    E que o usuário clique no botão de configurar o estágio "E1"
+    E que o usuário marque 12 segundos para o "Tempo de Verde"
+    E que o usuário clique no botão de fechar a caixa de configuração
+    E que o usuário clique no botão de configurar o estágio "E2"
+    E que o usuário marque 12 segundos para o "Tempo de Verde"
+    E que o usuário clique no botão de fechar a caixa de configuração
+    E o usuário clicar em salvar
 
   Cenário: Remover estágio do intervalo em operação Isolado
     Dado que o usuário esteja na página de planos

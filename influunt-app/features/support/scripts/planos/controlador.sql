@@ -41,7 +41,7 @@ INSERT INTO `controladores_fisicos`(`id`, `id_json`, `data_criacao`, `data_atual
 ('d1cf6613-7fdc-4de3-b7c6-59e0a85fe0df', NULL, TIMESTAMP '2016-08-09 11:05:18.1', TIMESTAMP '2016-08-09 11:05:18.1');
 
 INSERT INTO `versoes_controladores`(`id`, `id_json`, `controlador_origem_id`, `controlador_id`, `controlador_fisico_id`, `usuario_id`, `descricao`, `status_versao`, `data_criacao`) VALUES
-('27d635d9-133a-4732-9cdb-5010d1243f1f', NULL, NULL, 'e3470d37-55e2-40ee-bb82-b316d76079af', 'd1cf6613-7fdc-4de3-b7c6-59e0a85fe0df', '2f0e0547-3135-428b-8f6d-0a1098eca0a5', 'Controlador criado pelo usuário: Administrador Geral', '0', TIMESTAMP '2016-08-09 11:05:18.1');
+('27d635d9-133a-4732-9cdb-5010d1243f1f', NULL, NULL, 'e3470d37-55e2-40ee-bb82-b316d76079af', 'd1cf6613-7fdc-4de3-b7c6-59e0a85fe0df', '2f0e0547-3135-428b-8f6d-0a1098eca0a5', 'Controlador criado pelo usuário: Administrador Geral', '1', TIMESTAMP '2016-08-09 11:05:18.1');
 
 INSERT INTO `aneis`(`id`, `id_json`, `ativo`, `descricao`, `posicao`, `numero_smee`, `controlador_id`, `croqui_id`, `data_criacao`, `data_atualizacao`) VALUES
 ('42684680-67fa-46d4-8492-3038c37bf9ab', '5029daeb-9cc8-484c-be96-78738ee7a49c', TRUE, NULL, 1, NULL, 'e3470d37-55e2-40ee-bb82-b316d76079af', NULL, TIMESTAMP '2016-08-09 11:05:27.36', TIMESTAMP '2016-08-09 11:05:56.955'),
@@ -50,12 +50,12 @@ INSERT INTO `aneis`(`id`, `id_json`, `ativo`, `descricao`, `posicao`, `numero_sm
 ('4000f989-d277-46f5-b31e-fe0e8d9418ce', '77b77277-44fe-451a-9501-d95650a5bfb8', FALSE, NULL, 4, NULL, 'e3470d37-55e2-40ee-bb82-b316d76079af', NULL, TIMESTAMP '2016-08-09 11:05:27.37', TIMESTAMP '2016-08-09 11:05:57.009');
 
 INSERT INTO `enderecos`(`id`, `id_json`, `controlador_id`, `anel_id`, `localizacao`, `localizacao2`, `latitude`, `longitude`, `data_criacao`, `data_atualizacao`) VALUES
-('15c96b0c-e978-4041-ab2b-3bde20ced8b3', '2c2722e9-21b4-43eb-a93c-9f0f7fe6a394', NULL, '42684680-67fa-46d4-8492-3038c37bf9ab', 'Av. Paulista', 'R. Bela Cintra', -23.5630684, -46.65443270000003, TIMESTAMP '2016-08-09 11:05:38.35', TIMESTAMP '2016-08-09 11:05:56.991'),
-('bba9e786-9af7-47c7-85d1-f1dfb7f14393', 'a788ee64-7f08-4ecc-afad-9774b5c19078', NULL, 'b06a3589-36d2-4e6a-a7e2-5918dff4aca0', 'R. Bela Cintra', 'Av. Paulista', -23.5574614, -46.6629714, TIMESTAMP '2016-08-09 11:05:38.354', TIMESTAMP '2016-08-09 11:05:56.992'),
-('df50b804-2d66-48cc-93ba-5801239a38e8', '2d851f52-1c43-4a3b-bd54-976e38cec4b7', NULL, '4000f989-d277-46f5-b31e-fe0e8d9418ce', 'Av. Paulista', 'R. Bela Cintra', -23.5630684, -46.65443270000003, TIMESTAMP '2016-08-09 11:05:38.36', TIMESTAMP '2016-08-09 11:05:57.006'),
-('5494bc4b-858c-4dce-b2e1-e66038e40cba', 'd4ea3fb1-0e33-49f0-a30d-322ebe2a082f', NULL, '329de548-d44f-4315-80e7-aec3369460b3', 'R. Augusta', 'R. Bela Cintra', -23.559029, -46.661228300000005, TIMESTAMP '2016-08-09 11:05:38.362', TIMESTAMP '2016-08-09 11:05:57.007'),
-('714bd503-5cc6-4ad5-a58d-8501f9717f7e', '8f4b898d-50b0-4238-96ec-8b7c8ff45085', 'e3470d37-55e2-40ee-bb82-b316d76079af', NULL, 'Av. Paulista', 'R. Bela Cintra', -23.5630684, -46.65443270000003, TIMESTAMP '2016-08-09 11:05:27.372', TIMESTAMP '2016-08-09 11:05:57.011'),
-('49eac119-53f5-4b32-9826-e818d4116dd6', 'db8c26ef-6df9-4a78-a3f1-44f594b47b6c', NULL, NULL, 'R. Bela Cintra', 'R. Bela Cintra', -23.5574614, -46.6629714, TIMESTAMP '2016-08-09 11:05:27.375', TIMESTAMP '2016-08-09 11:05:57.012');
+('15c96b0c-e978-4041-ab2b-3bde20ced8b3', '2c2722e9-21b4-43eb-a93c-9f0f7fe6a394', NULL, NULL, 'Av. Paulista', 'R. Bela Cintra', -23.5630684, -46.65443270000003, TIMESTAMP '2016-08-09 11:05:38.35', TIMESTAMP '2016-08-09 11:05:56.991'),
+('bba9e786-9af7-47c7-85d1-f1dfb7f14393', 'a788ee64-7f08-4ecc-afad-9774b5c19078', NULL, 'b06a3589-36d2-4e6a-a7e2-5918dff4aca0', 'Av. do Estado', 'Av. Dom Pedro I', -23.5574614, -46.6629714, TIMESTAMP '2016-08-09 11:05:38.354', TIMESTAMP '2016-08-09 11:05:56.992'),
+('df50b804-2d66-48cc-93ba-5801239a38e8', '2d851f52-1c43-4a3b-bd54-976e38cec4b7', NULL, '4000f989-d277-46f5-b31e-fe0e8d9418ce', 'Av. São João', 'Av. Ipiranga', -23.5630684, -46.65443270000003, TIMESTAMP '2016-08-09 11:05:38.36', TIMESTAMP '2016-08-09 11:05:57.006'),
+('5494bc4b-858c-4dce-b2e1-e66038e40cba', 'd4ea3fb1-0e33-49f0-a30d-322ebe2a082f', NULL, '329de548-d44f-4315-80e7-aec3369460b3', 'R. Vitória', 'Av. Rio Branco', -23.559029, -46.661228300000005, TIMESTAMP '2016-08-09 11:05:38.362', TIMESTAMP '2016-08-09 11:05:57.007'),
+('714bd503-5cc6-4ad5-a58d-8501f9717f7e', '8f4b898d-50b0-4238-96ec-8b7c8ff45085', 'e3470d37-55e2-40ee-bb82-b316d76079af', '42684680-67fa-46d4-8492-3038c37bf9ab', 'Av. Paulista', 'R. Bela Cintra', -23.5630684, -46.65443270000003, TIMESTAMP '2016-08-09 11:05:27.372', TIMESTAMP '2016-08-09 11:05:57.011'),
+('49eac119-53f5-4b32-9826-e818d4116dd6', 'db8c26ef-6df9-4a78-a3f1-44f594b47b6c', NULL, NULL, 'R. dos Estudantes', 'R. Da Glória', -23.5574614, -46.6629714, TIMESTAMP '2016-08-09 11:05:27.375', TIMESTAMP '2016-08-09 11:05:57.012');
 
 INSERT INTO `imagens`(`id`, `id_json`, `filename`, `content_type`, `data_criacao`, `data_atualizacao`) VALUES
 ('51964ce2-03db-40b4-9aac-993d2fd1697e', 'beb74567-a0b3-4f6e-810b-47336c979d53', 'ubuntu.jpeg', 'image/jpeg', TIMESTAMP '2016-08-09 11:05:33.478', TIMESTAMP '2016-08-09 11:05:33.478'),
