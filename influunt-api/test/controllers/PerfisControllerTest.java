@@ -157,7 +157,7 @@ public class PerfisControllerTest extends WithInfluuntApplicationNoAuthenticatio
                 .uri(routes.PerfisController.findAll().url());
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
-        List<Perfil> perfis = Json.fromJson(json, List.class);
+        List<Perfil> perfis = Json.fromJson(json.get("data"), List.class);
 
         assertEquals(200, result.status());
         assertEquals(2, perfis.size());

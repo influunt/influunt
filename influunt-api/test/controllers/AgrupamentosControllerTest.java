@@ -183,7 +183,7 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
                 .uri(routes.AgrupamentosController.findAll().url());
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
-        List<Agrupamento> agrupamentos = Json.fromJson(json, List.class);
+        List<Agrupamento> agrupamentos = Json.fromJson(json.get("data"), List.class);
 
         assertEquals(200, result.status());
         assertEquals(2, agrupamentos.size());

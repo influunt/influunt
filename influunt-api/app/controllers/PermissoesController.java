@@ -57,10 +57,7 @@ public class PermissoesController extends Controller {
 
     @Transactional
     public CompletionStage<Result> findAll() {
-        if (!request().queryString().isEmpty()) {
-            return CompletableFuture.completedFuture(ok(Json.toJson(new InfluuntQueryBuilder(Permissao.class, request().queryString()).query())));
-        }
-        return CompletableFuture.completedFuture(ok(Json.toJson(Permissao.find.findList())));
+        return CompletableFuture.completedFuture(ok(new InfluuntQueryBuilder(Permissao.class, request().queryString()).query()));
     }
 
     @Transactional

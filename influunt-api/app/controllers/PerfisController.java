@@ -59,10 +59,7 @@ public class PerfisController extends Controller {
 
     @Transactional
     public CompletionStage<Result> findAll() {
-        if (!request().queryString().isEmpty()) {
-            return CompletableFuture.completedFuture(ok(Json.toJson(new InfluuntQueryBuilder(Perfil.class, request().queryString()).query())));
-        }
-        return CompletableFuture.completedFuture(ok(Json.toJson(Perfil.find.findList())));
+        return CompletableFuture.completedFuture(ok(new InfluuntQueryBuilder(Perfil.class, request().queryString()).query()));
     }
 
     @Transactional

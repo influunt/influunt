@@ -44,10 +44,7 @@ public class FabricantesController extends Controller {
 
     @Transactional
     public CompletionStage<Result> findAll() {
-        if (!request().queryString().isEmpty()) {
-            return CompletableFuture.completedFuture(ok(Json.toJson(new InfluuntQueryBuilder(Fabricante.class, request().queryString()).query())));
-        }
-        return CompletableFuture.completedFuture(ok(Json.toJson(Fabricante.find.findList())));
+        return CompletableFuture.completedFuture(ok(new InfluuntQueryBuilder(Fabricante.class, request().queryString()).query()));
     }
 
     @Transactional

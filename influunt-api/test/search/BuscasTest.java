@@ -65,7 +65,7 @@ public class BuscasTest extends WithApplication {
                 .uri(routes.CidadesController.findAll().url() + "?nome=Teste&dataCriacao_start=07%2F09%2F2016%2011:34:55&sort=nome&sort_type=desc");
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
-        List<Cidade> cidades = Json.fromJson(json, List.class);
+        List<Cidade> cidades = Json.fromJson(json.get("data"), List.class);
         assertEquals(4, cidades.size());
     }
 
@@ -77,7 +77,7 @@ public class BuscasTest extends WithApplication {
                 .uri(routes.CidadesController.findAll().url() + "?nome=Teste1");
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
-        List<Cidade> cidades = Json.fromJson(json, List.class);
+        List<Cidade> cidades = Json.fromJson(json.get("data"), List.class);
         assertNotEquals("Nao deveria retornar a quantidade correta", 1, cidades.size());
 
 
@@ -85,7 +85,7 @@ public class BuscasTest extends WithApplication {
                 .uri(routes.CidadesController.findAll().url() + "?nome_eq=Teste1");
         result = route(request);
         json = Json.parse(Helpers.contentAsString(result));
-        cidades = Json.fromJson(json, List.class);
+        cidades = Json.fromJson(json.get("data"), List.class);
         assertEquals(1, cidades.size());
     }
 
@@ -97,7 +97,7 @@ public class BuscasTest extends WithApplication {
                 .uri(routes.CidadesController.findAll().url());
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
-        List<Cidade> cidades = Json.fromJson(json, List.class);
+        List<Cidade> cidades = Json.fromJson(json.get("data"), List.class);
         assertEquals("Paginacao Default", InfluuntQueryBuilder.PER_PAGE_DEFAULT, cidades.size());
     }
 
@@ -109,7 +109,7 @@ public class BuscasTest extends WithApplication {
                 .uri(routes.CidadesController.findAll().url().concat("?page=1"));
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
-        List<Cidade> cidades = Json.fromJson(json, List.class);
+        List<Cidade> cidades = Json.fromJson(json.get("data"), List.class);
         assertEquals("Paginacao Default", 20, cidades.size());
     }
 
@@ -121,7 +121,7 @@ public class BuscasTest extends WithApplication {
                 .uri(routes.CidadesController.findAll().url().concat("?per_page=20"));
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
-        List<Cidade> cidades = Json.fromJson(json, List.class);
+        List<Cidade> cidades = Json.fromJson(json.get("data"), List.class);
         assertEquals("Paginacao Default", 20, cidades.size());
     }
 
@@ -132,10 +132,10 @@ public class BuscasTest extends WithApplication {
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
                 .uri(routes.CidadesController.findAll().url().concat("?per_page=15&sort=nome&sort_type=asc"));
         Result result = route(request);
-        JsonNode json = Json.parse(Helpers.contentAsString(result));
 
         ObjectMapper mapper = new ObjectMapper();
-        List<Cidade> cidades = mapper.readValue(Helpers.contentAsString(result), new TypeReference<List<Cidade>>(){});
+        JsonNode json = Json.parse(Helpers.contentAsString(result));
+        List<Cidade> cidades = mapper.readValue(json.get("data").toString(), new TypeReference<List<Cidade>>(){});
 
         assertEquals("Paginacao 15 itens", 15, cidades.size());
         assertEquals("Teste0", cidades.get(0).getNome());
@@ -165,7 +165,8 @@ public class BuscasTest extends WithApplication {
         JsonNode json = Json.parse(Helpers.contentAsString(result));
 
         ObjectMapper mapper = new ObjectMapper();
-        List<Cidade> cidades = mapper.readValue(Helpers.contentAsString(result), new TypeReference<List<Cidade>>(){});
+        JsonNode json = Json.parse(Helpers.contentAsString(result));
+        List<Cidade> cidades = mapper.readValue(json.get("data").toString(), new TypeReference<List<Cidade>>(){});
 
         assertEquals("Paginacao 15 itens", 15, cidades.size());
         assertEquals("Teste9", cidades.get(0).getNome());

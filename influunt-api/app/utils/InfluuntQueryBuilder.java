@@ -1,11 +1,12 @@
 package utils;
 
-import com.avaje.ebean.Ebean;
-import com.avaje.ebean.Expr;
-import com.avaje.ebean.Expression;
-import com.avaje.ebean.ExpressionList;
+import com.avaje.ebean.*;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.joda.time.DateTime;
 import play.Logger;
+import play.libs.Json;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,8 +59,9 @@ public class InfluuntQueryBuilder {
         }
     }
 
-    public List<? extends Class> query() {
-        Logger.debug(FG_GREEN + "SQL: " + klass.getName() + FG_DEFAULT);
+
+    public JsonNode query() {
+        PagedList pagedList;
 
         if (!searchFields.isEmpty()) {
             ExpressionList predicates = Ebean.find(klass).where();
@@ -104,18 +106,25 @@ public class InfluuntQueryBuilder {
             });
 
             if (getSortField() != null) {
-                Logger.debug(FG_GREEN + "SQL WITH SORT: " + predicates.orderBy(getSortField().concat(" ").concat(getSortType())).getGeneratedSql() + FG_DEFAULT);
-                return predicates.orderBy(getSortField().concat(" ").concat(getSortType())).findPagedList(getPage(), getPerPage()).getList();
+                pagedList = predicates.orderBy(getSortField().concat(" ").concat(getSortType())).findPagedList(getPage(), getPerPage());
             } else {
-                return predicates.findPagedList(getPage(), getPerPage()).getList();
+                pagedList = predicates.findPagedList(getPage(), getPerPage());
             }
         } else {
             if (getSortField() != null) {
-                return Ebean.find(getKlass()).orderBy(getSortField().concat(" ").concat(getSortType())).findPagedList(getPage(), getPerPage()).getList();
+                pagedList = Ebean.find(getKlass()).orderBy(getSortField().concat(" ").concat(getSortType())).findPagedList(getPage(), getPerPage());
             } else {
-                return Ebean.find(getKlass()).findPagedList(getPage(), getPerPage()).getList();
+                pagedList = Ebean.find(getKlass()).findPagedList(getPage(), getPerPage());
             }
         }
+
+        ObjectNode retorno = JsonNodeFactory.instance.objectNode();
+        List result = pagedList.getList();
+        JsonNode dataJson = Json.toJson(result);
+        retorno.set("data", dataJson);
+        retorno.put("total", pagedList.getTotalRowCount());
+
+        return retorno;
     }
 
     public Class getKlass() {

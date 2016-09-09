@@ -56,10 +56,7 @@ public class AgrupamentosController extends Controller {
 
     @Transactional
     public CompletionStage<Result> findAll() {
-        if (!request().queryString().isEmpty()) {
-            return CompletableFuture.completedFuture(ok(Json.toJson(new InfluuntQueryBuilder(Agrupamento.class, request().queryString()).query())));
-        }
-        return CompletableFuture.completedFuture(ok(Json.toJson(Agrupamento.find.findList())));
+        return CompletableFuture.completedFuture(ok(new InfluuntQueryBuilder(Agrupamento.class, request().queryString()).query()));
     }
 
     @Transactional

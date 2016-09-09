@@ -16,10 +16,7 @@ public class ModelosControladoresController extends Controller {
 
     @Transactional
     public CompletionStage<Result> findAll() {
-        if (!request().queryString().isEmpty()) {
-            return CompletableFuture.completedFuture(ok(Json.toJson(new InfluuntQueryBuilder(ModeloControlador.class, request().queryString()).query())));
-        }
-        return CompletableFuture.completedFuture(ok(Json.toJson(ModeloControlador.findAll())));
+        return CompletableFuture.completedFuture(ok(new InfluuntQueryBuilder(ModeloControlador.class, request().queryString()).query()));
     }
 
     @Transactional

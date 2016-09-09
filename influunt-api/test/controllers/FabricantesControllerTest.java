@@ -51,7 +51,7 @@ public class FabricantesControllerTest extends WithInfluuntApplicationNoAuthenti
                 .uri(routes.FabricantesController.findAll().url());
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
-        List<Fabricante> fabricantes = Json.fromJson(json, List.class);
+        List<Fabricante> fabricantes = Json.fromJson(json.get("data"), List.class);
 
         assertEquals(200, result.status());
         assertEquals(2, fabricantes.size());
