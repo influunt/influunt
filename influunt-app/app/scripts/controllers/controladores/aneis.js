@@ -139,7 +139,7 @@ angular.module('influuntApp')
         return influuntAlert.confirm(title, text).then(function(deveApagarEstagio) {
           if (deveApagarEstagio) {
             var estagio = _.find($scope.objeto.estagios, { idJson: estagioIdJson });
-            if(estagio.id){
+            if (estagio.id) {
             return Restangular.one('estagios', estagio.id).remove()
               .then(function() {
                 $scope.inicializaWizard().then(function() {
@@ -152,7 +152,7 @@ angular.module('influuntApp')
                 toast.error($filter('translate')('controladores.estagios.msg_erro_apagar_estagio'));
                 return false;
               });
-            }else{
+            } else {
               var imagem = _.find($scope.objeto.imagens, { idJson: estagio.imagem.idJson });
               $scope.removerEstagio(imagem);
             }
