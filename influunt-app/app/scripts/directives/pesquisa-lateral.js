@@ -17,6 +17,7 @@ angular.module('influuntApp')
         onClose: '&'
       },
       link: function(scope, el) {
+        var limpaFiltro;
 
         var toggleOpen = function() {
           $(el).find('.theme-config-box').toggleClass('open');
@@ -29,8 +30,21 @@ angular.module('influuntApp')
 
         scope.limparPesquisa = function() {
           toggleOpen();
+          limpaFiltro();
+
           return angular.isDefined(scope.onClose) && scope.onClose();
-        }
+        };
+
+        limpaFiltro = function() {
+          _.each(scope.ngModel, function(item) {
+            if (item.tipoCampo === 'data') {
+              item.start = null;
+              item.end = null;
+            } else {
+              item.valor = null;
+            }
+          });
+        };
 
         scope.ngModel = {};
         $('.spin-icon').on('click', function() {
