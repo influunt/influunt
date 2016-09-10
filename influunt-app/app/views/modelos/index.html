@@ -1,3 +1,9 @@
+<pesquisa-lateral
+    data-ng-model="pesquisa.filtro"
+    campos="pesquisa.campos"
+    on-close="index()">
+</pesquisa-lateral>
+
 <div class="wrapper wrapper-content animated fadeInRight" data-ng-init="index()">
   <div class="row">
     <div class="col-lg-12">
@@ -39,6 +45,7 @@
             </div>
           </table>
 
+          <ng-include src="'views/common/footer-pagination.html'"></ng-include>
         </div>
       </div>
     </div>

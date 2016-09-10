@@ -14,6 +14,16 @@ angular.module('influuntApp')
       $controller('CrudCtrl', {$scope: $scope});
       $scope.inicializaNovoCrud('areas');
 
+      $scope.pesquisa = {
+        campos: [
+          {
+            nome: 'descricao',
+            label: 'Área',
+            tipo: 'texto'
+          }
+        ]
+      };
+
       /**
        * Adiciona um novo formulario de coordenadas à area.
        */

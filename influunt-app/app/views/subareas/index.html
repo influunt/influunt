@@ -1,3 +1,9 @@
+<pesquisa-lateral
+    data-ng-model="pesquisa.filtro"
+    campos="pesquisa.campos"
+    on-close="index()">
+</pesquisa-lateral>
+
 <div class="wrapper wrapper-content animated fadeInRight" data-ng-init="index()">
   <div class="row">
     <div class="col-lg-12">
@@ -21,8 +27,17 @@
                 <tr>
                   <th>{{ 'areas.cidade' | translate }}</th>
                   <th>{{ 'subareas.area' | translate }}</th>
-                  <th>{{ 'subareas.nome' | translate }}</th>
-                  <th>{{ 'subareas.numero' | translate }}</th>
+                  <th sortable-th
+                    data-ng-model="pesquisa"
+                    data-name="nome"
+                    data-label="{{ 'subareas.nome' | translate }}"
+                    data-ng-click="index()">
+                  </th>
+                  <th sortable-th
+                    data-ng-model="pesquisa"
+                    data-name="numero"
+                    data-label="{{ 'subareas.numero' | translate }}"
+                    data-ng-click="index()">
                   <th>{{ 'geral.crud.opcoes' | translate }}</th>
                 </tr>
               </thead>
@@ -42,6 +57,7 @@
             </div>
           </table>
 
+          <ng-include src="'views/common/footer-pagination.html'"></ng-include>
         </div>
       </div>
     </div>

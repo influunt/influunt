@@ -14,6 +14,21 @@ angular.module('influuntApp')
       $controller('CrudCtrl', {$scope: $scope});
       $scope.inicializaNovoCrud('subareas');
 
+      $scope.pesquisa = {
+        campos: [
+          {
+            nome: 'nome',
+            label: 'Nome',
+            tipo: 'texto'
+          },
+          {
+            nome: 'numero',
+            label: 'Número',
+            tipo: 'texto'
+          }
+        ]
+      };
+
       var getHelpersControlador;
       /**
        * Recupera a lista de cidades que podem ser relacionadas à área.
@@ -24,7 +39,7 @@ angular.module('influuntApp')
         });
         getHelpersControlador();
       };
-      
+
       getHelpersControlador = function() {
         return Restangular.one('helpers', 'controlador').get().then(function(res) {
           $scope.data = res;

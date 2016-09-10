@@ -14,12 +14,22 @@ angular.module('influuntApp')
       $controller('CrudCtrl', { $scope: $scope });
       $scope.inicializaNovoCrud('modelos');
 
+      $scope.pesquisa = {
+        campos: [
+          {
+            nome: 'descricao',
+            label: 'Descrição',
+            tipo: 'texto'
+          }
+        ]
+      };
+
       /**
        * Recupera a lista de fabricantes que podem ser relacionadas ao modelo.
        */
       $scope.beforeShow = function() {
-        Restangular.all('fabricantes').getList().then(function(res) {
-          $scope.fabricantes = res;
+        Restangular.all('fabricantes').customGET().then(function(res) {
+          $scope.fabricantes = res.data;
         });
       };
 

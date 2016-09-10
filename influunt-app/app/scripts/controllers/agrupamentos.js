@@ -15,6 +15,26 @@ angular.module('influuntApp')
       $controller('CrudCtrl', { $scope: $scope });
       $scope.inicializaNovoCrud('agrupamentos');
 
+      $scope.pesquisa = {
+        campos: [
+          {
+            nome: 'nome',
+            label: 'Nome',
+            tipo: 'texto'
+          },
+          {
+            nome: 'numero',
+            label: 'Número',
+            tipo: 'texto'
+          },
+          {
+            nome: 'tipo',
+            label: 'Tipo',
+            tipo: 'texto'
+          }
+        ]
+      };
+
       /**
        * Recupera a lista de controladores que podem ser relacionadas ao agrupamento.
        */

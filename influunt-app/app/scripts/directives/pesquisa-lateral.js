@@ -27,6 +27,11 @@ angular.module('influuntApp')
           return angular.isDefined(scope.onClose) && scope.onClose();
         };
 
+        scope.limparPesquisa = function() {
+          toggleOpen();
+          return angular.isDefined(scope.onClose) && scope.onClose();
+        }
+
         scope.ngModel = {};
         $('.spin-icon').on('click', function() {
           toggleOpen();
