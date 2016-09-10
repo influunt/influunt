@@ -84,22 +84,6 @@ angular.module('influuntApp')
         $scope.objeto.imagens.push(_imagem);
       };
 
-      $scope.removerEstagio = function(img) {
-        var anel = $scope.currentAnel;
-
-        var imagemIndex = _.findIndex($scope.objeto.imagens, { id: img.id });
-        var imagem = $scope.objeto.imagens[imagemIndex];
-        var estagioIndex = _.findIndex($scope.objeto.estagios, function(estagio) {
-          return estagio.imagem.idJson === imagem.idJson;
-        });
-        var estagio = $scope.objeto.estagios[estagioIndex];
-        var estagioAnelIndex = _.findIndex(anel.estagios, {idJson: estagio.idJson});
-
-        $scope.objeto.imagens.splice(imagemIndex, 1);
-        $scope.objeto.estagios.splice(estagioIndex, 1);
-        anel.estagios.splice(estagioAnelIndex, 1);
-      };
-
       $scope.adicionarCroqui = function(upload, imagem) {
         var _imagem = { id: imagem.id, filename: imagem.filename, idJson: imagem.idJson };
 
@@ -135,12 +119,27 @@ angular.module('influuntApp')
         return Restangular.one('imagens', imagem.id).customDELETE('croqui');
       };
 
+      $scope.removerEstagio = function(img) {
+        var anel = $scope.currentAnel;
+
+        var imagemIndex = _.findIndex($scope.objeto.imagens, { id: img.id });
+        var imagem = $scope.objeto.imagens[imagemIndex];
+        var estagioIndex = _.findIndex($scope.objeto.estagios, {imagem: {idJson: imagem.idJson}});
+        var estagio = $scope.objeto.estagios[estagioIndex];
+        var estagioAnelIndex = _.findIndex(anel.estagios, {idJson: estagio.idJson});
+
+        $scope.objeto.imagens.splice(imagemIndex, 1);
+        $scope.objeto.estagios.splice(estagioIndex, 1);
+        anel.estagios.splice(estagioAnelIndex, 1);
+      };
+
       $scope.deletarEstagio = function(estagioIdJson) {
         var title = $filter('translate')('controladores.estagios.titulo_msg_apagar_estagio'),
             text = $filter('translate')('controladores.estagios.corpo_msg_apagar_estagio');
         return influuntAlert.confirm(title, text).then(function(deveApagarEstagio) {
           if (deveApagarEstagio) {
             var estagio = _.find($scope.objeto.estagios, { idJson: estagioIdJson });
+            if (estagio.id) {
             return Restangular.one('estagios', estagio.id).remove()
               .then(function() {
                 $scope.inicializaWizard().then(function() {
@@ -153,6 +152,10 @@ angular.module('influuntApp')
                 toast.error($filter('translate')('controladores.estagios.msg_erro_apagar_estagio'));
                 return false;
               });
+            } else {
+              var imagem = _.find($scope.objeto.imagens, { idJson: estagio.imagem.idJson });
+              $scope.removerEstagio(imagem);
+            }
           }
           return deveApagarEstagio;
         });

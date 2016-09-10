@@ -39,8 +39,9 @@ angular.module('influuntApp')
 
         var deleteImage = function(imagemId, dropzoneFile, dropzone) {
           return Restangular.one('imagens', imagemId).remove().then(function() {
-            scope.onDelete({ imagem: { id: imagemId } });
+            dropzoneFile.previewElement = null;
             dropzone.removeFile(dropzoneFile);
+            scope.onDelete({ imagem: { id: imagemId } });
           }).catch(function() {
             toast.error($filter('translate')('controladores.geral.dropzone.erro_apagar_imagem'));
           });
