@@ -8,23 +8,23 @@
       <form role="form" name="formularioPesquisa">
         <div class="form-group" data-ng-repeat="campo in campos"
             data-ng-init="ngModel[campo.nome].tipoCampo = campo.tipo">
-          <div data-ng-if="campo.tipo === 'texto'">
+          <div data-ng-if="campo.tipo === 'texto'" class="{{ campo.tipo }}">
             <ng-include src="'views/directives/pesquisa-lateral/texto.html'"></ng-include>
           </div>
-          <div data-ng-if="campo.tipo === 'numerico'">
+          <div data-ng-if="campo.tipo === 'numerico'" class="{{ campo.tipo }}">
             <ng-include src="'views/directives/pesquisa-lateral/numerico.html'"></ng-include>
           </div>
-          <div data-ng-if="campo.tipo === 'data'">
+          <div data-ng-if="campo.tipo === 'data'" class="{{ campo.tipo }}">
             <ng-include src="'views/directives/pesquisa-lateral/data.html'"></ng-include>
           </div>
         </div>
 
         <div class="col-sm-12 bg-border-footer">
-          <input class="btn btn-primary btn-footer right m-r-sm"
+          <input class="btn btn-primary btn-footer right m-r-sm botao-pesquisar"
               type="submit"
               data-ng-click="pesquisar()"
               value="{{ 'crud.pesquisar' | translate }}">
-          <input class="btn btn-primary btn-outline btn-footer right m-r-sm"
+          <input class="btn btn-primary btn-outline btn-footer right m-r-sm botao-limpar-pesquisa"
               type="button"
               data-ng-click="limparPesquisa()"
               value="{{ 'crud.limparPesquisa' | translate }}">
