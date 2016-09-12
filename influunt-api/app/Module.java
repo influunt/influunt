@@ -22,9 +22,7 @@ public class Module extends AbstractModule {
     @Override
     public void configure() {
         bind(Authenticator.class).to(DBAuthenticator.class).in(Singleton.class);
-
         //bind(server.Central.class).asEagerSingleton();
-
     }
 
 

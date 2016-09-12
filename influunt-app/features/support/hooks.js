@@ -24,7 +24,7 @@ var myHooks = function () {
 
 
   this.registerHandler('BeforeFeatures', function () {
-    return world.execScript('curl localhost:9000').then(function(){
+    return world.execScript('curl -XPOST localhost:9000/api/v1/cucumber').then(function(){
       return world.execSqlScript('features/support/scripts/create_usuario.sql');
     }).then(function () {
       return world.visit('/login');
