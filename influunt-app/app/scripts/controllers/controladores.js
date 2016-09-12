@@ -451,7 +451,6 @@ angular.module('influuntApp')
       };
 
       $scope.podeAtivar = function(controlador) {
-        console.log(controlador);
         return (controlador.statusControlador === 'CONFIGURADO') && (controlador.versoesPlanos && controlador.versoesPlanos.length > 0) && (controlador.versoesTabelasHorarias && controlador.versoesTabelasHorarias.length > 0);
       };
 

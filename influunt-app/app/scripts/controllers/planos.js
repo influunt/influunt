@@ -87,17 +87,16 @@ angular.module('influuntApp')
       };
 
       $scope.cancelarEdicao = function() {
-        var plano = _.chain($scope.objeto.planos).filter(function(p) {return !!p.id;}).last().value();
-        console.log(plano);
+        var plano = _.chain($scope.objeto.planos).filter(function(p) { return !!p.id; }).last().value();
         if (plano.id) {
-        return Restangular.one('planos', plano.id).all('edit/cancel').customDELETE()
-          .then(function() {
-            $state.go('app.controladores');
-          })
-          .catch(function(err) {
-            toast.error($filter('translate')('geral.mensagens.default_erro'));
-            throw new Error(JSON.stringify(err));
-          });
+          return Restangular.one('planos', plano.id).all('edit/cancel').customDELETE()
+            .then(function() {
+              $state.go('app.controladores');
+            })
+            .catch(function(err) {
+              toast.error($filter('translate')('geral.mensagens.default_erro'));
+              throw new Error(JSON.stringify(err));
+            });
         } else {
           $state.go('app.controladores');
         }
