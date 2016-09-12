@@ -18,7 +18,12 @@ angular.module('influuntApp')
         campos: [
           {
             nome: 'nome',
-            label: 'Nome',
+            label: 'fabricantes.nome',
+            tipo: 'texto'
+          },
+          {
+            nome: 'modelo_controladores.descricao',
+            label: 'fabricantes.modelo',
             tipo: 'texto'
           }
         ]

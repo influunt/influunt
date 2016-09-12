@@ -25,7 +25,12 @@
             <div class="table">
               <thead>
                 <tr>
-                  <th>{{ 'areas.cidade' | translate }}</th>
+                  <th sortable-th
+                    data-ng-model="pesquisa"
+                    data-name="cidades.nome"
+                    data-label="{{ 'areas.cidade' | translate }}"
+                    data-ng-click="index()">
+                  </th>
                   <th sortable-th
                     data-ng-model="pesquisa"
                     data-name="descricao"

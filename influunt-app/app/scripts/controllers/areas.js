@@ -17,8 +17,13 @@ angular.module('influuntApp')
       $scope.pesquisa = {
         campos: [
           {
+            nome: 'cidades.nome',
+            label: 'areas.cidade',
+            tipo: 'texto'
+          },
+          {
             nome: 'descricao',
-            label: 'Área',
+            label: 'areas.descricao',
             tipo: 'texto'
           }
         ]

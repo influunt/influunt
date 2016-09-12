@@ -31,7 +31,12 @@
                     data-label="{{ 'fabricantes.nome' | translate }}"
                     data-ng-click="index()">
                   </th>
-                  <th>{{ 'fabricantes.modelo' | translate }}</th>
+                  <th sortable-th
+                    data-ng-model="pesquisa"
+                    data-name="modelo_controladores.descricao"
+                    data-label="{{ 'fabricantes.modelo' | translate }}"
+                    data-ng-click="index()">
+                  </th>
                   <th>{{ 'geral.crud.opcoes' | translate }}</th>
                 </tr>
               </thead>

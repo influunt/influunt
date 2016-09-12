@@ -43,7 +43,12 @@
                     data-label="{{ 'usuarios.email' | translate }}"
                     data-ng-click="index()">
                   </th>
-                  <th>{{ 'usuarios.perfil' | translate }}</th>
+                  <th sortable-th
+                    data-ng-model="pesquisa"
+                    data-name="perfis.nome"
+                    data-label="{{ 'usuarios.perfil' | translate }}"
+                    data-ng-click="index()">
+                  </th>
                   <th>{{ 'geral.crud.opcoes' | translate }}</th>
                 </tr>
               </thead>

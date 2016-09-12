@@ -17,12 +17,12 @@ angular.module('influuntApp')
         campos: [
           {
             nome: 'descricao',
-            label: 'Descrição',
+            label: 'permissoes.descricao',
             tipo: 'texto'
           },
           {
             nome: 'chave',
-            label: 'Chave',
+            label: 'permissoes.chave',
             tipo: 'texto'
           }
         ]

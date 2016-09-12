@@ -19,17 +19,17 @@ angular.module('influuntApp')
         campos: [
           {
             nome: 'nome',
-            label: 'Nome',
+            label: 'agrupamentos.nome',
             tipo: 'texto'
           },
           {
             nome: 'numero',
-            label: 'Número',
+            label: 'agrupamentos.numero',
             tipo: 'texto'
           },
           {
             nome: 'tipo',
-            label: 'Tipo',
+            label: 'agrupamentos.tipo',
             tipo: 'texto'
           }
         ]

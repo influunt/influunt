@@ -18,17 +18,22 @@ angular.module('influuntApp')
         campos: [
           {
             nome: 'nome',
-            label: 'Nome',
+            label: 'usuarios.nome',
             tipo: 'texto'
           },
           {
             nome: 'login',
-            label: 'Login',
+            label: 'usuarios.login',
             tipo: 'texto'
           },
           {
             nome: 'email',
-            label: 'E-mail',
+            label: 'usuarios.email',
+            tipo: 'texto'
+          },
+          {
+            nome: 'perfis.nome',
+            label: 'usuarios.perfil',
             tipo: 'texto'
           }
         ]

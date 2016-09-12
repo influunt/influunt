@@ -18,7 +18,7 @@ angular.module('influuntApp')
         campos: [
           {
             nome: 'nome',
-            label: 'Nome',
+            label: 'perfis.nome',
             tipo: 'texto'
           }
         ]
