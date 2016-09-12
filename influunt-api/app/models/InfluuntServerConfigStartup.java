@@ -13,4 +13,5 @@ public class InfluuntServerConfigStartup implements ServerConfigStartup {
     public void onStart(ServerConfig serverConfig) {
         serverConfig.setChangeLogPrepare(influuntChangeLogPrepare);
     }
+
 }
