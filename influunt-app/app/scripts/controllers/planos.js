@@ -86,16 +86,20 @@ angular.module('influuntApp')
           });
       };
 
-      $scope.cancelarEdicao = function(planoIdJson) {
-        var plano = _.find($scope.objeto.planos, { idJson: planoIdJson });
-        return Restangular.one('planos', plano.id).all('edit/cancel').customDELETE()
-          .then(function() {
-            $state.go('app.controladores');
-          })
-          .catch(function(err) {
-            toast.error($filter('translate')('geral.mensagens.default_erro'));
-            throw new Error(JSON.stringify(err));
-          });
+      $scope.cancelarEdicao = function() {
+        var plano = _.chain($scope.objeto.planos).filter(function(p) { return !!p.id; }).last().value();
+        if (plano.id) {
+          return Restangular.one('planos', plano.id).all('edit/cancel').customDELETE()
+            .then(function() {
+              $state.go('app.controladores');
+            })
+            .catch(function(err) {
+              toast.error($filter('translate')('geral.mensagens.default_erro'));
+              throw new Error(JSON.stringify(err));
+            });
+        } else {
+          $state.go('app.controladores');
+        }
       };
 
       $scope.selecionaEstagioPlano = function(estagioPlano, index) {
