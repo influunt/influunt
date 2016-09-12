@@ -40,27 +40,12 @@ public class Auditoria {
         return toList(auditorias);
     }
 
-    public static List<Auditoria> findAllByLogin(String login) {
-        MongoCursor<Auditoria> auditorias = auditorias().find("{usuario.login: #}", login).sort("{timestamp: -1}").as(Auditoria.class);
-        return toList(auditorias);
-    }
-
-    public static List<Auditoria> findAllByLoginAndTable(String login, String tableName) {
-        MongoCursor<Auditoria> auditorias = auditorias().find("{usuario.login: #, change.table: #}", login, tableName).sort("{timestamp: -1}").as(Auditoria.class);
-        return toList(auditorias);
-    }
-
-    public static List<Auditoria> findAllByTable(String tableName) {
-        MongoCursor<Auditoria> auditorias = auditorias().find("{change.table: #}", tableName).sort("{timestamp: -1}").as(Auditoria.class);
-        return toList(auditorias);
-    }
-
     public static void deleteAll() {
         auditorias().drop();
     }
 
     @NotNull
-    private static List<Auditoria> toList(MongoCursor<Auditoria> auditorias) {
+    public static List<Auditoria> toList(MongoCursor<Auditoria> auditorias) {
         ArrayList<Auditoria> lista = new ArrayList<Auditoria>(auditorias.count());
         auditorias.forEach(auditoria -> {
             lista.add(auditoria);

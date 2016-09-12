@@ -5,9 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Singleton;
 import controllers.routes;
-import models.Cidade;
-import models.Fabricante;
-import models.ModeloControlador;
+import models.*;
 import org.junit.Before;
 import org.junit.Test;
 import play.Application;
@@ -19,7 +17,9 @@ import play.mvc.Result;
 import play.test.Helpers;
 import play.test.WithApplication;
 import security.AllowAllAuthenticator;
+import security.Auditoria;
 import security.Authenticator;
+import uk.co.panaxiom.playjongo.PlayJongo;
 import utils.InfluuntQueryBuilder;
 
 import java.io.IOException;
@@ -53,9 +53,27 @@ public class BuscasTest extends WithApplication {
 
     @Before
     public void setup() {
+        PlayJongo jongo = provideApplication().injector().instanceOf(PlayJongo.class);
+        jongo.getCollection("auditorias").drop();
+
+        Auditoria.jongo = jongo;
+
         Http.Context context = new Http.Context(fakeRequest());
         context.args.put("user", null);
         Http.Context.current.set(context);
+
+        Usuario usuario = new Usuario();
+        usuario.setNome("Admin");
+        usuario.setLogin("admin");
+        usuario.setSenha("1234");
+        usuario.setRoot(true);
+        usuario.setEmail("root@influunt.com.br");
+        usuario.save();
+
+        context.args.put("user", usuario);
+        Http.Context.current.set(context);
+
+        Auditoria.deleteAll();
     }
 
     @Test
@@ -63,7 +81,7 @@ public class BuscasTest extends WithApplication {
         criarCidades(4);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
-                .uri(routes.CidadesController.findAll().url() + "?nome=Teste&dataCriacao_start=07%2F09%2F2016%2011:34:55&sort=nome&sort_type=desc");
+                .uri(routes.CidadesController.findAll().url().concat("?nome=Teste&dataCriacao_start=07%2F09%2F2016%2011:34:55&sort=nome&sort_type=desc"));
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
         List<Cidade> cidades = Json.fromJson(json.get("data"), List.class);
@@ -136,7 +154,8 @@ public class BuscasTest extends WithApplication {
 
         ObjectMapper mapper = new ObjectMapper();
         JsonNode json = Json.parse(Helpers.contentAsString(result));
-        List<Cidade> cidades = mapper.readValue(json.get("data").toString(), new TypeReference<List<Cidade>>(){});
+        List<Cidade> cidades = mapper.readValue(json.get("data").toString(), new TypeReference<List<Cidade>>() {
+        });
 
         assertEquals("Paginacao 15 itens", 15, cidades.size());
         assertEquals("Teste0", cidades.get(0).getNome());
@@ -149,11 +168,11 @@ public class BuscasTest extends WithApplication {
         assertEquals("Teste15", cidades.get(7).getNome());
         assertEquals("Teste16", cidades.get(8).getNome());
         assertEquals("Teste17", cidades.get(9).getNome());
-        assertEquals("Teste18",cidades.get(10).getNome());
-        assertEquals("Teste19",cidades.get(11).getNome());
-        assertEquals("Teste2",cidades.get(12).getNome());
-        assertEquals("Teste20",cidades.get(13).getNome());
-        assertEquals("Teste21",cidades.get(14).getNome());
+        assertEquals("Teste18", cidades.get(10).getNome());
+        assertEquals("Teste19", cidades.get(11).getNome());
+        assertEquals("Teste2", cidades.get(12).getNome());
+        assertEquals("Teste20", cidades.get(13).getNome());
+        assertEquals("Teste21", cidades.get(14).getNome());
     }
 
     @Test
@@ -167,7 +186,8 @@ public class BuscasTest extends WithApplication {
 
         ObjectMapper mapper = new ObjectMapper();
         JsonNode json = Json.parse(Helpers.contentAsString(result));
-        List<Cidade> cidades = mapper.readValue(json.get("data").toString(), new TypeReference<List<Cidade>>(){});
+        List<Cidade> cidades = mapper.readValue(json.get("data").toString(), new TypeReference<List<Cidade>>() {
+        });
 
         assertEquals("Paginacao 15 itens", 15, cidades.size());
         assertEquals("Teste9", cidades.get(0).getNome());
@@ -180,11 +200,11 @@ public class BuscasTest extends WithApplication {
         assertEquals("Teste47", cidades.get(7).getNome());
         assertEquals("Teste46", cidades.get(8).getNome());
         assertEquals("Teste45", cidades.get(9).getNome());
-        assertEquals("Teste44",cidades.get(10).getNome());
-        assertEquals("Teste43",cidades.get(11).getNome());
-        assertEquals("Teste42",cidades.get(12).getNome());
-        assertEquals("Teste41",cidades.get(13).getNome());
-        assertEquals("Teste40",cidades.get(14).getNome());
+        assertEquals("Teste44", cidades.get(10).getNome());
+        assertEquals("Teste43", cidades.get(11).getNome());
+        assertEquals("Teste42", cidades.get(12).getNome());
+        assertEquals("Teste41", cidades.get(13).getNome());
+        assertEquals("Teste40", cidades.get(14).getNome());
     }
 
 
@@ -197,7 +217,8 @@ public class BuscasTest extends WithApplication {
         Result result = route(request);
         ObjectMapper mapper = new ObjectMapper();
         JsonNode json = Json.parse(Helpers.contentAsString(result));
-        List<Cidade> cidades = mapper.readValue(json.get("data").toString(), new TypeReference<List<Cidade>>(){});
+        List<Cidade> cidades = mapper.readValue(json.get("data").toString(), new TypeReference<List<Cidade>>() {
+        });
 
         assertEquals("Paginacao com 76 itens", 76, cidades.size());
     }
@@ -205,17 +226,39 @@ public class BuscasTest extends WithApplication {
 
     @Test
     public void deveriaRealizarFetchs() throws IOException {
-        Fabricante fabricante = new Fabricante();
-        fabricante.setNome("Raro Labs");
-        fabricante.save();
-
-        ModeloControlador modelo = new ModeloControlador();
-        modelo.setDescricao("Modelo Teste");
-        modelo.setFabricante(fabricante);
-        modelo.save();
+        criarFabricanteModeloControlador();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
                 .uri(routes.ModelosControladoresController.findAll().url());
+        Result result = route(request);
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode json = Json.parse(Helpers.contentAsString(result));
+        List<ModeloControlador> modelos = mapper.readValue(json.get("data").toString(), new TypeReference<List<ModeloControlador>>() {
+        });
+
+        assertEquals(1, modelos.size());
+        assertEquals("Raro Labs", modelos.get(0).getFabricante().getNome());
+    }
+
+    @Test
+    public void naoDeveriaRealizarFetchs() throws IOException {
+        criarFabricanteModeloControlador();
+
+        ObjectMapper mapper = new ObjectMapper();
+        List<ModeloControlador> modelos = mapper.readValue(new InfluuntQueryBuilder(ModeloControlador.class, null).query().get("data").toString(), new TypeReference<List<ModeloControlador>>() {
+        });
+
+        assertEquals(1, modelos.size());
+        assertNull(modelos.get(0).getFabricante().getNome());
+    }
+
+
+    @Test
+    public void deveriaBuscarModeloPeloNomeDoFabricante() throws IOException {
+        criarFabricanteModeloControlador();
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
+                .uri(routes.ModelosControladoresController.findAll().url().concat("?fabricante.nome=Raro"));
         Result result = route(request);
         ObjectMapper mapper = new ObjectMapper();
         JsonNode json = Json.parse(Helpers.contentAsString(result));
@@ -228,7 +271,114 @@ public class BuscasTest extends WithApplication {
     }
 
     @Test
-    public void naoDeveriaRealizarFetchs() throws IOException {
+    public void deveriaBuscarAreaPeloNomeDaCidade() throws IOException {
+        criarCidadeArea("Belo Horizonte");
+        criarCidadeArea("Belo Vale");
+        criarCidadeArea("São Paulo");
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
+                .uri(routes.AreasController.findAll().url().concat("?cidade.nome=Belo"));
+        Result result = route(request);
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode json = Json.parse(Helpers.contentAsString(result));
+        List<Area> areas = mapper.readValue(json.get("data").toString(), new TypeReference<List<Area>>() {});
+
+        assertEquals(10, areas.size());
+
+        request = new Http.RequestBuilder().method("GET")
+                .uri(routes.AreasController.findAll().url().concat("?cidade.nome=Belo%20Horizonte"));
+        result = route(request);
+        json = Json.parse(Helpers.contentAsString(result));
+        areas = mapper.readValue(json.get("data").toString(), new TypeReference<List<Area>>() {});
+        assertEquals(5, areas.size());
+        for(Area area : areas) {
+            assertEquals("Belo Horizonte", area.getCidade().getNome());
+        }
+
+        request = new Http.RequestBuilder().method("GET")
+                .uri(routes.AreasController.findAll().url().concat("?cidade.nome=Belo%20Vale"));
+        result = route(request);
+        json = Json.parse(Helpers.contentAsString(result));
+        areas = mapper.readValue(json.get("data").toString(), new TypeReference<List<Area>>() {});
+        assertEquals(5, areas.size());
+        for(Area area : areas) {
+            assertEquals("Belo Vale", area.getCidade().getNome());
+        }
+
+        request = new Http.RequestBuilder().method("GET")
+                .uri(routes.AreasController.findAll().url().concat("?cidade.nome=São"));
+        result = route(request);
+        json = Json.parse(Helpers.contentAsString(result));
+        areas = mapper.readValue(json.get("data").toString(), new TypeReference<List<Area>>() {});
+        assertEquals(5, areas.size());
+        for(Area area : areas) {
+            assertEquals("São Paulo", area.getCidade().getNome());
+        }
+    }
+
+    @Test
+    public void deveriaBuscarAuditoriasPeloLoginUsuario() {
+        criarCidades(5);
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
+                .uri(routes.AuditoriaController.findAll().url().concat("?usuario.login=admin"));
+        Result result = route(request);
+        JsonNode json = Json.parse(Helpers.contentAsString(result));
+        List<Auditoria> auditorias = Json.fromJson(json.get("data"), List.class);
+        assertEquals(OK, result.status());
+        assertEquals(5, auditorias.size());
+    }
+
+    @Test
+    public void naoDeveriaBuscarAuditoriasPeloLoginUsuarioExistente() {
+        criarCidades(5);
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
+                .uri(routes.AuditoriaController.findAll().url().concat("?usuario.login=teste"));
+        Result result = route(request);
+        JsonNode json = Json.parse(Helpers.contentAsString(result));
+        List<Auditoria> auditorias = Json.fromJson(json.get("data"), List.class);
+        assertEquals(OK, result.status());
+        assertEquals(0, auditorias.size());
+    }
+
+    @Test
+    public void deveriaBuscarAuditoriasPeloLoginUsuarioComPaginacaoDefault() {
+        criarCidades(50);
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
+                .uri(routes.AuditoriaController.findAll().url().concat("?usuario.login=admin"));
+        Result result = route(request);
+        JsonNode json = Json.parse(Helpers.contentAsString(result));
+        List<Auditoria> auditorias = Json.fromJson(json.get("data"), List.class);
+        assertEquals("Paginacao Default", InfluuntQueryBuilder.PER_PAGE_DEFAULT, auditorias.size());
+    }
+
+    @Test
+    public void deveriaBuscarAuditoriasNaPaginaIgual2() {
+        criarCidades(50);
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
+                .uri(routes.AuditoriaController.findAll().url().concat("?page=1"));
+        Result result = route(request);
+        JsonNode json = Json.parse(Helpers.contentAsString(result));
+        List<Auditoria> auditorias = Json.fromJson(json.get("data"), List.class);
+        assertEquals("Paginacao Default", 20, auditorias.size());
+    }
+
+    @Test
+    public void deveriaBuscarAuditoriasAPartirDe() {
+        criarCidades(50);
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
+                .uri(routes.AuditoriaController.findAll().url().concat("?timestamp_start=12%2F09%2F2016%2011:34:55"));
+        Result result = route(request);
+        JsonNode json = Json.parse(Helpers.contentAsString(result));
+        List<Auditoria> auditorias = Json.fromJson(json.get("data"), List.class);
+        assertEquals("Paginacao Default", 30, auditorias.size());
+    }
+
+    private void criarFabricanteModeloControlador() {
         Fabricante fabricante = new Fabricante();
         fabricante.setNome("Raro Labs");
         fabricante.save();
@@ -237,21 +387,26 @@ public class BuscasTest extends WithApplication {
         modelo.setDescricao("Modelo Teste");
         modelo.setFabricante(fabricante);
         modelo.save();
-
-
-        ObjectMapper mapper = new ObjectMapper();
-        List<ModeloControlador> modelos = mapper.readValue(new InfluuntQueryBuilder(ModeloControlador.class, null).query().get("data").toString(), new TypeReference<List<ModeloControlador>>(){});
-
-        assertEquals(1, modelos.size());
-        assertNull(modelos.get(0).getFabricante().getNome());
-
     }
 
     private void criarCidades(int quantidade) {
-        for(int i = 0; i < quantidade; i++) {
+        for (int i = 0; i < quantidade; i++) {
             Cidade cidade = new Cidade();
             cidade.setNome("Teste" + i);
             cidade.save();
+        }
+    }
+
+    private void criarCidadeArea(String nomeCidade) {
+        Cidade cidade = new Cidade();
+        cidade.setNome(nomeCidade);
+        cidade.save();
+
+        for (int i = 1; i <= 5; i++) {
+            Area area = new Area();
+            area.setDescricao(i);
+            area.setCidade(cidade);
+            area.save();
         }
     }
 

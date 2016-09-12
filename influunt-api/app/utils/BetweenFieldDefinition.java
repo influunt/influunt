@@ -85,4 +85,12 @@ public class BetweenFieldDefinition {
     public boolean hasOnlyEndValue() {
         return this.getStartValue() != null && this.getEndValue() == null;
     }
+
+    public Long getStartValueTimestamp() {
+        return ((DateTime) getStartValue()).getMillis();
+    }
+
+    public Long getEndValueTimestamp() {
+        return ((DateTime) getStartValue()).getMillis();
+    }
 }

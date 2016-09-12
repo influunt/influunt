@@ -96,48 +96,48 @@ public class AuditoriaTest extends WithInfluuntApplicationAuthenticated {
 
         // FIND BY LOGIN
         request = new Http.RequestBuilder().method(GET)
-                .uri("/api/v1/auditorias/?login=admin").header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+                .uri(routes.AuditoriaController.findAll().url().concat("?usuario.login=admin")).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
         result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
-        List<Auditoria> auditorias = Json.fromJson(json, List.class);
+        List<Auditoria> auditorias = Json.fromJson(json.get("data"), List.class);
         assertEquals(OK, result.status());
         assertEquals(2, auditorias.size());
 
 
         // FIND BY LOGIN AND TABLE WITHOUT DATA
         request = new Http.RequestBuilder().method(GET)
-                .uri("/api/v1/auditorias/?login=admin&table=controladores").header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+                .uri(routes.AuditoriaController.findAll().url().concat("?usuario.login=admin&change.table=controladores")).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
         result = route(request);
         json = Json.parse(Helpers.contentAsString(result));
-        auditorias = Json.fromJson(json, List.class);
+        auditorias = Json.fromJson(json.get("data"), List.class);
         assertEquals(OK, result.status());
         assertEquals(0, auditorias.size());
 
         // FIND BY LOGIN AND TABLE
         request = new Http.RequestBuilder().method(GET)
-                .uri("/api/v1/auditorias/?login=admin&table=areas").header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+                .uri(routes.AuditoriaController.findAll().url().concat("?usuario.login=admin&change.table=areas")).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
         result = route(request);
         json = Json.parse(Helpers.contentAsString(result));
-        auditorias = Json.fromJson(json, List.class);
+        auditorias = Json.fromJson(json.get("data"), List.class);
         assertEquals(OK, result.status());
         assertEquals(2, auditorias.size());
 
 
         // FIND BY TABLE
         request = new Http.RequestBuilder().method(GET)
-                .uri("/api/v1/auditorias/?table=areas").header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+                .uri(routes.AuditoriaController.findAll().url().concat("?change.table=areas")).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
         result = route(request);
         json = Json.parse(Helpers.contentAsString(result));
-        auditorias = Json.fromJson(json, List.class);
+        auditorias = Json.fromJson(json.get("data"), List.class);
         assertEquals(OK, result.status());
         assertEquals(2, auditorias.size());
 
         // FIND BY TABLE WITHOUT DATA
         request = new Http.RequestBuilder().method(GET)
-                .uri("/api/v1/auditorias/?table=controladores").header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+                .uri(routes.AuditoriaController.findAll().url().concat("?change.table=controladores")).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
         result = route(request);
         json = Json.parse(Helpers.contentAsString(result));
-        auditorias = Json.fromJson(json, List.class);
+        auditorias = Json.fromJson(json.get("data"), List.class);
         assertEquals(OK, result.status());
         assertEquals(0, auditorias.size());
     }
