@@ -46,8 +46,8 @@ angular.module('influuntApp')
        * Recupera a lista de cidades que podem ser relacionadas à área.
        */
       $scope.beforeShow = function() {
-        Restangular.all('areas').getList().then(function(res) {
-          $scope.areas = res;
+        Restangular.all('areas').customGET().then(function(res) {
+          $scope.areas = res.data;
         });
         getHelpersControlador();
       };

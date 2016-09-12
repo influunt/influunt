@@ -203,7 +203,7 @@ public class InfluuntQueryBuilder {
                 } else if (field.hasOnlyEndValue()) {
                     predicates.add(String.format("timestamp: { $lte: %s}", field.getEndValueTimestamp()));
                 } else {
-                    predicates.add(String.format("timestamp: { $gte %s, $lte: %s}", field.getStartValueTimestamp(), field.getEndValueTimestamp()));
+                    predicates.add(String.format("timestamp: { $gte: %s, $lte: %s}", field.getStartValueTimestamp(), field.getEndValueTimestamp()));
                 }
             });
 

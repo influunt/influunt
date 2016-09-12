@@ -65,11 +65,11 @@ public class BetweenFieldDefinition {
                 guestList.add(key);
                 if (SearchFieldDefinition.START.equals(keyExpression[1])) {
                     Object endValue = searchFields.get(keyExpression[0].concat("_").concat(SearchFieldDefinition.END));
-                    list.add(new BetweenFieldDefinition(underscore(keyExpression[0]), valueAux, endValue));
+                    list.add(new BetweenFieldDefinition(underscore(keyExpression[0]), valueAux, getFormatteDate(endValue)));
                     guestList.add(keyExpression[0].concat("_").concat(SearchFieldDefinition.END));
                 } else {
                     Object startValue = searchFields.get(keyExpression[0].concat("_").concat(SearchFieldDefinition.START));
-                    list.add(new BetweenFieldDefinition(underscore(keyExpression[0]), startValue, valueAux));
+                    list.add(new BetweenFieldDefinition(underscore(keyExpression[0]), getFormatteDate(startValue), valueAux));
                     guestList.add(keyExpression[0].concat("_").concat(SearchFieldDefinition.START));
                 }
             }
@@ -83,7 +83,7 @@ public class BetweenFieldDefinition {
     }
 
     public boolean hasOnlyEndValue() {
-        return this.getStartValue() != null && this.getEndValue() == null;
+        return this.getStartValue() == null && this.getEndValue() != null;
     }
 
     public Long getStartValueTimestamp() {
@@ -91,6 +91,13 @@ public class BetweenFieldDefinition {
     }
 
     public Long getEndValueTimestamp() {
-        return ((DateTime) getStartValue()).getMillis();
+        return ((DateTime) getEndValue()).getMillis();
+    }
+
+    private static Object getFormatteDate(Object value) {
+        if(value != null) {
+            DateTime date = parseDate(value.toString(), null);
+            return (date != null) ? date : value;
+        } else return null;
     }
 }

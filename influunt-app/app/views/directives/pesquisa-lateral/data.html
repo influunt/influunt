@@ -1,6 +1,7 @@
-<label class="col-sm-2 control-label">{{ campo.label }}</label>
+<label class="col-sm-2 control-label">{{ campo.label | translate }}</label>
 <div class="col-sm-5">
   <input type="datetime"
+      id="lalala"
       class="form-control data-inicio"
       date-time
       data-ng-model="ngModel[campo.nome].start"

@@ -29,8 +29,8 @@ angular.module('influuntApp')
       };
 
       $scope.beforeShow = function() {
-        Restangular.all('permissoes').getList().then(function(res) {
-          $scope.permissoes = res;
+        Restangular.all('permissoes').customGET().then(function(res) {
+          $scope.permissoes = res.data;
         });
       };
 

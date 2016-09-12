@@ -40,7 +40,7 @@ angular.module('influuntApp')
      *
      * @return     {Object}  Promise
      */
-    $scope.index = function(onlyList) {
+    $scope.index = function() {
       var query = {
         per_page: $scope.pagination.perPage,
         page: $scope.pagination.current - 1
@@ -49,27 +49,10 @@ angular.module('influuntApp')
       buildFilterQuery(query);
       buildSortQuery(query);
 
-      return onlyList ? runOnlyListIndex(query) : paginateList(query);
-
-      // return Restangular.all(resourceName).customGET(null, query)
-      //   .then(function(res) {
-      //     $scope.lista = res.data;
-      //     $scope.pagination.totalItems = res.total;
-      //   });
-    };
-
-    var paginateList = function(query) {
       return Restangular.all(resourceName).customGET(null, query)
         .then(function(res) {
           $scope.lista = res.data;
           $scope.pagination.totalItems = res.total;
-        });
-    };
-
-    var runOnlyListIndex = function(query) {
-      return Restangular.all(resourceName).getList(query)
-        .then(function(res) {
-          $scope.lista = res;
         });
     };
 
@@ -80,11 +63,11 @@ angular.module('influuntApp')
           query[field] = dadosFiltro.valor;
         } else {
           if (dadosFiltro.start) {
-            query[nomeCampo + '_start'] = moment(dadosFiltro.start).format('DD/MM/YYYY');
+            query[nomeCampo + '_start'] = moment(dadosFiltro.start).format('DD/MM/YYYY HH:mm:ss');
           }
 
           if (dadosFiltro.end) {
-            query[nomeCampo + '_end'] = moment(dadosFiltro.end).format('DD/MM/YYYY');
+            query[nomeCampo + '_end'] = moment(dadosFiltro.end).format('DD/MM/YYYY HH:mm:ss');
           }
         }
       });
