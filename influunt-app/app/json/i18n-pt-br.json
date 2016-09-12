@@ -18,6 +18,16 @@
     "nomeEndereco": "Localização",
     "titulo": "Programação",
     "detector": "Detector",
+    "mapaControladores": {
+      "titulo": "Mapa dos controladores",
+      "area": "Área",
+      "areas": "Áreas",
+      "agrupamentos": "Agrupamentos",
+      "controladores": "Controladores",
+      "filtros": "Filtros",
+      "aneis": "Anéis",
+      "exibir": "Exibir"
+    },
     "mapa": "Mapa dos controladores",
     "anel": "Anel",
     "area": "Área",
