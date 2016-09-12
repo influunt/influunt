@@ -86,8 +86,10 @@ angular.module('influuntApp')
           });
       };
 
-      $scope.cancelarEdicao = function(planoIdJson) {
-        var plano = _.find($scope.objeto.planos, { idJson: planoIdJson });
+      $scope.cancelarEdicao = function() {
+        var plano = _.chain($scope.objeto.planos).filter(function(p) {return !!p.id;}).last().value();
+        console.log(plano);
+        if (plano.id) {
         return Restangular.one('planos', plano.id).all('edit/cancel').customDELETE()
           .then(function() {
             $state.go('app.controladores');
@@ -96,6 +98,9 @@ angular.module('influuntApp')
             toast.error($filter('translate')('geral.mensagens.default_erro'));
             throw new Error(JSON.stringify(err));
           });
+        } else {
+          $state.go('app.controladores');
+        }
       };
 
       $scope.selecionaEstagioPlano = function(estagioPlano, index) {
