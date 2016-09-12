@@ -41,13 +41,7 @@ angular.module('influuntApp')
      * @return     {Object}  Promise
      */
     $scope.index = function() {
-      var query = {
-        per_page: $scope.pagination.perPage,
-        page: $scope.pagination.current - 1
-      };
-
-      buildFilterQuery(query);
-      buildSortQuery(query);
+      var query = $scope.buildQuery($scope.pesquisa);
 
       return Restangular.all(resourceName).customGET(null, query)
         .then(function(res) {
@@ -56,8 +50,20 @@ angular.module('influuntApp')
         });
     };
 
-    buildFilterQuery = function(query) {
-      _.each($scope.pesquisa.filtro, function(dadosFiltro, nomeCampo) {
+    $scope.buildQuery = function(pesquisa) {
+      var query = {
+        per_page: $scope.pagination.perPage,
+        page: $scope.pagination.current - 1
+      };
+
+      buildFilterQuery(query, pesquisa);
+      buildSortQuery(query, pesquisa);
+
+      return query;
+    };
+
+    buildFilterQuery = function(query, pesquisa) {
+      _.each(pesquisa.filtro, function(dadosFiltro, nomeCampo) {
         if (dadosFiltro.tipoCampo === 'texto' || dadosFiltro.tipoCampo === 'numerico') {
           var field = (nomeCampo + '_' + dadosFiltro.tipoFiltro).replace(/\_$/, '');
           query[field] = dadosFiltro.valor;
@@ -73,9 +79,9 @@ angular.module('influuntApp')
       });
     };
 
-    buildSortQuery = function(query) {
-      query.sort = $scope.pesquisa.orderField;
-      query.sort_type = $scope.pesquisa.orderReverse ? 'desc' : 'asc';
+    buildSortQuery = function(query, pesquisa) {
+      query.sort = pesquisa.orderField;
+      query.sort_type = pesquisa.orderReverse ? 'desc' : 'asc';
     };
 
     var perPageTimeout = null;
@@ -84,6 +90,10 @@ angular.module('influuntApp')
       perPageTimeout = $timeout(function() {
         $scope.index();
       }, 500);
+    };
+
+    $scope.onPageChange = function() {
+      return $scope.index();
     };
 
     /**

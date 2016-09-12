@@ -49,6 +49,9 @@ angular.module('influuntApp')
         Restangular.all('areas').customGET().then(function(res) {
           $scope.areas = res.data;
         });
+      };
+
+      $scope.afterShow = function() {
         getHelpersControlador();
       };
 

@@ -19,10 +19,12 @@ describe('Controller: AreasCtrl', function () {
     });
 
     httpBackend = $httpBackend;
-    listaCidades = [
-      {nome: 'cidade 1'},
-      {nome: 'cidade 2'}
-    ];
+    listaCidades = {
+      data: [
+        {nome: 'cidade 1'},
+        {nome: 'cidade 2'}
+      ]
+    };
   }));
 
   it('Deve conter as definições das funções de CRUD', function() {
@@ -57,6 +59,6 @@ describe('Controller: AreasCtrl', function () {
     httpBackend.expectGET('/cidades').respond(listaCidades);
     scope.beforeShow();
     httpBackend.flush();
-    expect(scope.cidades.length).toEqual(listaCidades.length);
+    expect(scope.cidades.length).toEqual(listaCidades.data.length);
   });
 });

@@ -34,17 +34,17 @@ describe('Controller: PerfisCtrl', function () {
 
   it('Ao entrar na tela de permissões, deverá carregar o perfil, todas as permissões existentes' +
     ' e relacionar quais permissões do perfil estão ativas', function() {
-      var permissoes = [{id: 1}, {id: 2}];
+      var permissoes = {data: [{id: 1}, {id: 2}]};
       var perfil = {permissoes: [{id: 1}]};
 
       $state.params = {id: 1};
-      $httpBackend.expectGET('/permissoes').respond(permissoes);
+      $httpBackend.expectGET('/permissoes?page=0&per_page=30&sort_type=asc').respond(permissoes);
       $httpBackend.expectGET('/perfis/1').respond(perfil);
       scope.inicializaPermissoes();
       $httpBackend.flush();
 
       expect(scope.objeto.permissoes).toEqual(perfil.permissoes);
-      expect(scope.permissoes.length).toBe(permissoes.length);
+      expect(scope.permissoes.length).toBe(permissoes.data.length);
       expect(scope.permissoesAtivadas).toEqual({1: true});
     });
 

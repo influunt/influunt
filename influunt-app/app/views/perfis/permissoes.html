@@ -1,8 +1,7 @@
-<pre>{{pesquisaPermissoes}}</pre>
 <pesquisa-lateral
-    data-ng-model="pesquisa.filtro"
+    data-ng-model="pesquisaPermissoes.filtro"
     campos="pesquisaPermissoes.campos"
-    on-close="index()">
+    on-close="show()">
 </pesquisa-lateral>
 
 <div id="form" data-ng-init="inicializaPermissoes()">
@@ -23,7 +22,12 @@
                   <table class="table table-bordered table-striped">
                     <thead>
                       <tr>
-                        <th>{{ 'perfis.permissoes.descricao' | translate}}</th>
+                        <th sortable-th
+                          data-ng-model="pesquisaPermissoes"
+                          data-name="descricao"
+                          data-label="{{ 'perfis.permissoes.descricao' | translate }}"
+                          data-ng-click="show()">
+                        </th>
                         <th>{{ 'perfis.permissoes.permite' | translate}}</th>
                       </tr>
                     </thead>
