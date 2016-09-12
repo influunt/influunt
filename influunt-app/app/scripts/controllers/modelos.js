@@ -17,7 +17,7 @@ angular.module('influuntApp')
       $scope.pesquisa = {
         campos: [
           {
-            nome: 'fabricantes.nome',
+            nome: 'fabricante.nome',
             label: 'modelos.fabricante',
             tipo: 'texto'
           },

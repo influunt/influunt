@@ -32,7 +32,7 @@ angular.module('influuntApp')
             tipo: 'texto'
           },
           {
-            nome: 'perfis.nome',
+            nome: 'perfil.nome',
             label: 'usuarios.perfil',
             tipo: 'texto'
           }

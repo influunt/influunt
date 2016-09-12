@@ -22,7 +22,7 @@ angular.module('influuntApp')
             tipo: 'texto'
           },
           {
-            nome: 'modelo_controladores.descricao',
+            nome: 'modelos.descricao',
             label: 'fabricantes.modelo',
             tipo: 'texto'
           }

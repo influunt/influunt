@@ -40,7 +40,7 @@ angular.module('influuntApp')
      *
      * @return     {Object}  Promise
      */
-    $scope.index = function() {
+    $scope.index = function(onlyList) {
       var query = {
         per_page: $scope.pagination.perPage,
         page: $scope.pagination.current - 1
@@ -49,10 +49,27 @@ angular.module('influuntApp')
       buildFilterQuery(query);
       buildSortQuery(query);
 
+      return onlyList ? runOnlyListIndex(query) : paginateList(query);
+
+      // return Restangular.all(resourceName).customGET(null, query)
+      //   .then(function(res) {
+      //     $scope.lista = res.data;
+      //     $scope.pagination.totalItems = res.total;
+      //   });
+    };
+
+    var paginateList = function(query) {
       return Restangular.all(resourceName).customGET(null, query)
         .then(function(res) {
           $scope.lista = res.data;
           $scope.pagination.totalItems = res.total;
+        });
+    };
+
+    var runOnlyListIndex = function(query) {
+      return Restangular.all(resourceName).getList(query)
+        .then(function(res) {
+          $scope.lista = res;
         });
     };
 
