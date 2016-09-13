@@ -8,9 +8,23 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('CrudCtrl', ['$scope', '$state', '$filter', 'Restangular', 'toast', 'influuntAlert', 'handleValidations',
-    function ($scope, $state, $filter, Restangular, toast, influuntAlert, handleValidations) {
+  .controller('CrudCtrl', ['$scope', '$state', '$filter', '$timeout',
+                           'Restangular', 'toast', 'influuntAlert', 'handleValidations',
+    function ($scope, $state, $filter, $timeout,
+              Restangular, toast, influuntAlert, handleValidations) {
+    var buildFilterQuery, buildSortQuery;
     var resourceName = null;
+    $scope.pagination = {
+      current: 1,
+      perPage: 30,
+      maxSize: 5
+    };
+
+    $scope.pesquisa = {
+      orderField: '',
+      orderReverse: true,
+      campos: []
+    };
 
     /**
      * Inicializa novo crud.
@@ -27,10 +41,59 @@ angular.module('influuntApp')
      * @return     {Object}  Promise
      */
     $scope.index = function() {
-      return Restangular.all(resourceName).getList()
+      var query = $scope.buildQuery($scope.pesquisa);
+
+      return Restangular.all(resourceName).customGET(null, query)
         .then(function(res) {
-          $scope.lista = res;
+          $scope.lista = res.data;
+          $scope.pagination.totalItems = res.total;
         });
+    };
+
+    $scope.buildQuery = function(pesquisa) {
+      var query = {
+        per_page: $scope.pagination.perPage,
+        page: $scope.pagination.current - 1
+      };
+
+      buildFilterQuery(query, pesquisa);
+      buildSortQuery(query, pesquisa);
+
+      return query;
+    };
+
+    buildFilterQuery = function(query, pesquisa) {
+      _.each(pesquisa.filtro, function(dadosFiltro, nomeCampo) {
+        if (dadosFiltro.tipoCampo === 'texto' || dadosFiltro.tipoCampo === 'numerico') {
+          var field = (nomeCampo + '_' + dadosFiltro.tipoFiltro).replace(/\_$/, '');
+          query[field] = dadosFiltro.valor;
+        } else {
+          if (dadosFiltro.start) {
+            query[nomeCampo + '_start'] = moment(dadosFiltro.start).format('DD/MM/YYYY HH:mm:ss');
+          }
+
+          if (dadosFiltro.end) {
+            query[nomeCampo + '_end'] = moment(dadosFiltro.end).format('DD/MM/YYYY HH:mm:ss');
+          }
+        }
+      });
+    };
+
+    buildSortQuery = function(query, pesquisa) {
+      query.sort = pesquisa.orderField;
+      query.sort_type = pesquisa.orderReverse ? 'desc' : 'asc';
+    };
+
+    var perPageTimeout = null;
+    $scope.onPerPageChange = function() {
+      $timeout.cancel(perPageTimeout);
+      perPageTimeout = $timeout(function() {
+        $scope.index();
+      }, 500);
+    };
+
+    $scope.onPageChange = function() {
+      return $scope.index();
     };
 
     /**

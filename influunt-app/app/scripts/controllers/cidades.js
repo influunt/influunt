@@ -13,4 +13,14 @@ angular.module('influuntApp')
       // Herda todo o comportamento do crud basico.
       $controller('CrudCtrl', {$scope: $scope});
       $scope.inicializaNovoCrud('cidades');
+
+      $scope.pesquisa = {
+        campos: [
+          {
+            nome: 'nome',
+            label: 'cidades.nome',
+            tipo: 'texto'
+          }
+        ]
+      };
     }]);

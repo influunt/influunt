@@ -27,7 +27,6 @@ angular
     'oitozero.ngSweetAlert',
     'ui.bootstrap',
     'ui.sortable',
-    'datatables',
     'google.places',
     '720kb.tooltips',
 

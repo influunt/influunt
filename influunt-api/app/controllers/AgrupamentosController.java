@@ -12,6 +12,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
+import utils.InfluuntQueryBuilder;
 
 import java.util.List;
 import java.util.UUID;
@@ -55,7 +56,7 @@ public class AgrupamentosController extends Controller {
 
     @Transactional
     public CompletionStage<Result> findAll() {
-        return CompletableFuture.completedFuture(ok(Json.toJson(Agrupamento.find.findList())));
+        return CompletableFuture.completedFuture(ok(new InfluuntQueryBuilder(Agrupamento.class, request().queryString()).query()));
     }
 
     @Transactional

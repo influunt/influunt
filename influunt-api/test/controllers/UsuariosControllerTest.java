@@ -152,7 +152,7 @@ public class UsuariosControllerTest extends WithInfluuntApplicationNoAuthenticat
                 .uri(routes.UsuariosController.findAll().url());
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
-        List<Usuario> usuarios = Json.fromJson(json, List.class);
+        List<Usuario> usuarios = Json.fromJson(json.get("data"), List.class);
 
         assertEquals(200, result.status());
         assertEquals(2, usuarios.size());

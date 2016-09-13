@@ -17,7 +17,6 @@
     "angular-translate-loader-static-files": "^2.11.0",
     "angular-dynamic-locale": "^0.1.32",
     "restangular": "^1.5.2",
-    "angular-datatables": "0.5.4",
     "AngularJS-Toaster": "angularjs-toaster#^2.0.0",
     "ngSweetAlert": "angular-sweetalert#^1.1.0",
     "leaflet": "^0.7.7",

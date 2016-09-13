@@ -13,4 +13,19 @@ angular.module('influuntApp')
       $controller('CrudCtrl', {$scope: $scope});
       $scope.inicializaNovoCrud('permissoes');
 
+      $scope.pesquisa = {
+        campos: [
+          {
+            nome: 'descricao',
+            label: 'permissoes.descricao',
+            tipo: 'texto'
+          },
+          {
+            nome: 'chave',
+            label: 'permissoes.chave',
+            tipo: 'texto'
+          }
+        ]
+      };
+
     }]);

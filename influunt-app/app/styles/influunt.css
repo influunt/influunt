@@ -277,7 +277,7 @@
 
 .bg-border-footer {
   padding-top: 10px;
-  padding-bottom: 60px;
+  padding-bottom: 10px;
 }
 
 .pg-bt {
@@ -2740,4 +2740,13 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
 .theme-config-box .skin-setttings {
   background: #e8eaea;
   padding: 20px;
+}
+
+.skin-setttings {
+  width: 600px;
+  display: table;
+}
+
+.theme-config-box {
+  margin-right: -600px;
 }

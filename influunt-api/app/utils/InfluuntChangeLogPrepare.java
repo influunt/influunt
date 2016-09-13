@@ -3,6 +3,7 @@ package utils;
 import com.avaje.ebean.event.changelog.ChangeLogPrepare;
 import com.avaje.ebean.event.changelog.ChangeSet;
 import models.Usuario;
+import play.Logger;
 import play.api.Play;
 import play.mvc.Http;
 import security.Auditoria;
@@ -12,6 +13,7 @@ public class InfluuntChangeLogPrepare implements ChangeLogPrepare {
 
     @Override
     public boolean prepare(ChangeSet changes) {
+        Logger.debug("Salvando auditoria....", changes.getChanges().get(0).getTable());
         PlayJongo jongo = Play.current().injector().instanceOf(PlayJongo.class);
 
         final Usuario usuario;
@@ -23,15 +25,17 @@ public class InfluuntChangeLogPrepare implements ChangeLogPrepare {
         }
 
         changes.getChanges().forEach(change -> {
+            change.getValues().remove("dataCriacao");
+            change.getValues().remove("dataAtualizacao");
             Auditoria auditoria = new Auditoria();
             auditoria.change = change;
-            if(usuario != null) {
+
+            if (usuario != null) {
                 auditoria.usuario = usuario;
             }
 
             jongo.getCollection("auditorias").insert(auditoria);
         });
-
 
         return false;
     }

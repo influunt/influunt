@@ -14,6 +14,31 @@ angular.module('influuntApp')
       $controller('CrudCtrl', {$scope: $scope});
       $scope.inicializaNovoCrud('usuarios');
 
+      $scope.pesquisa = {
+        campos: [
+          {
+            nome: 'nome',
+            label: 'usuarios.nome',
+            tipo: 'texto'
+          },
+          {
+            nome: 'login',
+            label: 'usuarios.login',
+            tipo: 'texto'
+          },
+          {
+            nome: 'email',
+            label: 'usuarios.email',
+            tipo: 'texto'
+          },
+          {
+            nome: 'perfil.nome',
+            label: 'usuarios.perfil',
+            tipo: 'texto'
+          }
+        ]
+      };
+
       /**
        * Recupera a lista de configuracoes que podem ser relacionadas aos modelos.
        */

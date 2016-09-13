@@ -1,0 +1,17 @@
+<label class="col-sm-2 control-label">{{ campo.label | translate }}</label>
+<div class="col-sm-10  campos-pesquisa">
+  <div class="col-sm-4">
+    <select class="form-control m-b"
+        data-ng-model="ngModel[campo.nome].tipoFiltro"
+        data-ng-init="ngModel[campo.nome].tipoFiltro = 'eq'">
+      <option value="eq">{{ 'directives.filtroLateral.igual' | translate }}</option>
+      <option value="gt">{{ 'directives.filtroLateral.maiorQue' | translate }}</option>
+      <option value="gte">{{ 'directives.filtroLateral.maiorOuIgualQue' | translate }}</option>
+      <option value="lt">{{ 'directives.filtroLateral.menorQue' | translate }}</option>
+      <option value="lte">{{ 'directives.filtroLateral.menorOuIgualQue' | translate }}</option>
+    </select>
+  </div>
+  <div class="col-sm-8">
+    <input type="number" ng-model="ngModel[campo.nome].valor" class="form-control">
+  </div>
+</div>

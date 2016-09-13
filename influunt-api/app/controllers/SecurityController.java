@@ -17,7 +17,7 @@ import java.util.concurrent.CompletionStage;
 
 public class SecurityController extends Controller {
 
-    public final static String AUTH_TOKEN_HEADER = "X-AUTH-TOKEN";
+    public static final String AUTH_TOKEN_HEADER = "X-AUTH-TOKEN";
 
     public static final String AUTH_TOKEN = "authToken";
 
