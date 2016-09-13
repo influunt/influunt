@@ -98,6 +98,8 @@ public class BetweenFieldDefinition {
         if(value != null) {
             DateTime date = parseDate(value.toString(), null);
             return (date != null) ? date : value;
-        } else return null;
+        } else {
+            return null;
+        }
     }
 }

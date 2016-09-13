@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 import org.jongo.MongoCursor;
-import play.Logger;
 import play.libs.Json;
 import security.Auditoria;
 
@@ -26,11 +25,11 @@ import static utils.InfluuntUtils.underscore;
  */
 public class InfluuntQueryBuilder {
 
-    public final static int PER_PAGE_DEFAULT = 30;
+    public static final int PER_PAGE_DEFAULT = 30;
 
     private Class klass;
 
-    private int page = 0;
+    private int page;
 
     private int perPage;
 
@@ -140,8 +139,8 @@ public class InfluuntQueryBuilder {
             });
 
             // Verifica se existem campos com between
-            List<BetweenFieldDefinition> betweenFiels = BetweenFieldDefinition.getBetweenFileds(searchFields);
-            betweenFiels.forEach(field ->{
+            List<BetweenFieldDefinition> betweenFields = BetweenFieldDefinition.getBetweenFileds(searchFields);
+            betweenFields.forEach(field ->{
                 if(field.hasOnlyStartValue()) {
                     predicates.add(Expr.ge(field.getFieldName(), field.getStartValue()));
                 } else if (field.hasOnlyEndValue()) {
@@ -196,8 +195,8 @@ public class InfluuntQueryBuilder {
             });
 
             // Verifica se existem campos com between
-            List<BetweenFieldDefinition> betweenFiels = BetweenFieldDefinition.getBetweenFileds(searchFields);
-            betweenFiels.forEach(field -> {
+            List<BetweenFieldDefinition> betweenFields = BetweenFieldDefinition.getBetweenFileds(searchFields);
+            betweenFields.forEach(field -> {
                 if (field.hasOnlyStartValue()) {
                     predicates.add(String.format("timestamp: { $gte: %s}", field.getStartValueTimestamp()));
                 } else if (field.hasOnlyEndValue()) {
@@ -208,12 +207,11 @@ public class InfluuntQueryBuilder {
             });
 
             String query = "{".concat(String.join(",", predicates)).concat("}");
-            Logger.warn("FIND: " + query);
             if (getSortField() != null) {
                 int sortTypeAux = getSortType().equalsIgnoreCase("asc") ? 1 : -1;
                 auditorias = Auditoria.auditorias().find(query).skip(getSkip()).sort("{".concat(getSortType()).concat(String.format(": %s", sortTypeAux)).concat("}")).limit(getPerPage()).as(Auditoria.class);
             } else {
-                auditorias = Auditoria.auditorias().find(query).skip(getSkip()).limit(getPerPage()).as(Auditoria.class);;
+                auditorias = Auditoria.auditorias().find(query).skip(getSkip()).limit(getPerPage()).as(Auditoria.class);
             }
             total = Auditoria.auditorias().find(query).as(Auditoria.class).count();
         } else {
@@ -221,7 +219,7 @@ public class InfluuntQueryBuilder {
                 int sortTypeAux = getSortType().equalsIgnoreCase("asc") ? 1 : -1;
                 auditorias = Auditoria.auditorias().find().skip(getSkip()).limit(getPerPage()).sort("{".concat(getSortType()).concat(String.format(": %s", sortTypeAux))).limit(getPerPage()).as(Auditoria.class);
             } else {
-                auditorias = Auditoria.auditorias().find().skip(getSkip()).limit(getPerPage()).as(Auditoria.class);;
+                auditorias = Auditoria.auditorias().find().skip(getSkip()).limit(getPerPage()).as(Auditoria.class);
             }
             total = Auditoria.auditorias().find().as(Auditoria.class).count();
         }
