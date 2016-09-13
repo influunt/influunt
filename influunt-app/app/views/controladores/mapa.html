@@ -10,55 +10,55 @@
             <i class="fa fa-angle-left fa-map"></i>
           </div>
           <div class="skin-setttings">
-            <h3>AJUSTES</h3>
+            <h3>{{ 'controladores.mapaControladores.ajustes' | translate }}</h3>
             <hr>
             <div class="col-lg-12">
-              <h3 class="m-t-none m-b"><i class="fa fa-eye"></i> Exibir</h3>
+              <h3 class="m-t-none m-b"><i class="fa fa-eye"></i> {{ 'controladores.mapaControladores.exibir' | translate }}</h3>
               <hr>
               <div class="inputAjustes">
                 <input type="checkbox" ichecks>
-                <span>Áreas</span>
+                <span>{{ 'controladores.mapaControladores.areas' | translate }}</span>
               </div>
               <div class="inputAjustes">
                 <input type="checkbox" ichecks>
-                <span>Controladores</span>
+                <span>{{ 'controladores.mapaControladores.controladores' | translate }}</span>
               </div>
               <div class="inputAjustes">
                 <input type="checkbox" ichecks>
-                <span>Anéis</span>
+                <span>{{ 'controladores.mapaControladores.aneis' | translate }}</span>
               </div>
               <div class="inputAjustes">
                 <input type="checkbox" ichecks>
-                <span>Sub-áreas</span>
+                <span>{{ 'controladores.mapaControladores.subAreas' | translate }}</span>
               </div>
               <div class="inputAjustes">
                 <input type="checkbox" ichecks>
-                <span>Agrupamentos</span>
+                <span>{{ 'controladores.mapaControladores.agrupamentos' | translate }}</span>
               </div>
             </div>
             <div class="col-lg-12">
-              <h3 class="m-t-none m-b"><i class="fa fa-filter"></i> Filtrar</h3>
+              <h3 class="m-t-none m-b"><i class="fa fa-filter"></i> {{ 'controladores.mapaControladores.filtrar' | translate }}</h3>
               <hr>
               <form role="form">
                 <select class="form-control m-b" name="modo">
-                    <option>Isolado</option>
+                    <option>option 1</option>
                     <option>option 2</option>
                     <option>option 3</option>
                     <option>option 4</option>
                 </select>
-                <div class="form-group"><label>Áreas</label> <input type="text" placeholder="" class="form-control"></div>
-                <div class="form-group"><label>Controladores</label> <input type="text" placeholder="" class="form-control"></div>
-                <div class="form-group"><label>Agrupamentos</label> <input type="text" placeholder="" class="form-control"></div>
+                <div class="form-group"><label>{{ 'controladores.mapaControladores.areas' | translate }}</label> <input type="text" placeholder="" class="form-control"></div>
+                <div class="form-group"><label>{{ 'controladores.mapaControladores.controladores' | translate }}</label> <input type="text" placeholder="" class="form-control"></div>
+                <div class="form-group"><label>{{ 'controladores.mapaControladores.agrupamentos' | translate }}</label> <input type="text" placeholder="" class="form-control"></div>
                 <div class="inputAjustes">
                   <input type="checkbox" ichecks>
-                  <span>Controladores em planos impostos</span>
+                  <span>{{ 'controladores.mapaControladores.controladoresImpostos' | translate }}</span>
                 </div>
                 <div class="inputAjustes">
                   <input type="checkbox" ichecks>
-                  <span>Apenas controladores com falhas</span>
+                  <span>{{ 'controladores.mapaControladores.controladoresFalhas' | translate }}</span>
                 </div>
                 <div>
-                  <button class="btn btn-primary" type="">Filtrar</button>
+                  <button class="btn btn-primary" type="">{{ 'controladores.mapaControladores.filtrar' | translate }}</button>
                 </div>
               </form>
             </div>
@@ -76,11 +76,11 @@
               <p>
                 Rua Haddock Lobo, 215 - São Paulo - SP.
               </p>
-              <button class="btn btn-primary" type="submit">Tabela de Horários</button>
+              <button class="btn btn-primary" type="submit">{{ 'controladores.mapaControladores.tabelaHorarios' | translate }}</button>
             </div>
 
             <div class="ibox-content" ng-init="openPlanos()">
-                <h3 class="btnPlanos">8 Planos <i class="fa fa-angle-down right"></i></h3>
+                <h3 class="btnPlanos">8 {{ 'controladores.mapaControladores.planos' | translate }} <i class="fa fa-angle-down right"></i></h3>
               <ul class="planos">
                 <li><a href="#">Plano 1</a></li>
                 <li><a href="#">Plano 2</a></li>
@@ -94,10 +94,10 @@
             </div>
             <div class="ibox-content">
               <h3>Ações</h3>
-              <button class="btn btn-primary" type="submit">Impor Planos</button>
-              <button class="btn btn-primary" type="submit">Trocar tabela horária</button>
-              <button class="btn btn-primary" type="submit">Enviar plano</button>
-              <button class="btn btn-primary" type="submit">Enviar tabela horária</button>
+              <button class="btn btn-primary" type="submit">{{ 'controladores.mapaControladores.imporPlanos' | translate }}</button>
+              <button class="btn btn-primary" type="submit">{{ 'controladores.mapaControladores.trocarTabela' | translate }}</button>
+              <button class="btn btn-primary" type="submit">{{ 'controladores.mapaControladores.enviarPlano' | translate }}</button>
+              <button class="btn btn-primary" type="submit">{{ 'controladores.mapaControladores.enviarTabela' | translate }}</button>
             </div>
           </div>
         </div>
