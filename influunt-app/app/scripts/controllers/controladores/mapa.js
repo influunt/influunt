@@ -161,8 +161,14 @@ angular.module('influuntApp')
         });
       };
 
+      $scope.openPlanos = function() {
+        $('.btnPlanos').on('click', function(){
+          $(this).parents().eq(2).find('.planos').toggleClass('openPlanos');
+        });
+      };
+
       $scope.closeAcoes = function() {
-        $('.acoes').on('click', function(){
+        $('.fecharAcoes').on('click', function(){
           $(this).parents().eq(2).find('.acoes').toggleClass('closeAcao');
         });
       };

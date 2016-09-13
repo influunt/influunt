@@ -2529,6 +2529,37 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
     &.closeAcao {
       right: -270px;
     }
+    .fecharAcoes {
+      display: block;
+      padding: 5px;
+      cursor: pointer;
+    }
+    .btnPlanos {
+      text-decoration: none;
+      display: block;
+      margin: 10px 0;
+      cursor: pointer;
+    }
+    ul {
+      margin-left: 0px;
+      float: left;
+      padding-left: 0;
+      margin-bottom: 20px;
+      &.planos {
+        display: none;
+        &.openPlanos {
+          display: table;
+        }
+        li {
+          list-style: none;
+          text-decoration: underline;
+          margin-bottom: 5px;
+          a {
+            color: #1ab394;
+          }
+        }
+      }
+    }
     .btn {
       min-width: 180px;
     }

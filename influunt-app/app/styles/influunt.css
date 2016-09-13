@@ -2842,6 +2842,44 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
   right: -270px;
 }
 
+.ajusteMapa .acoes .fecharAcoes {
+  display: block;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.ajusteMapa .acoes .btnPlanos {
+  text-decoration: none;
+  display: block;
+  margin: 10px 0;
+  cursor: pointer;
+}
+
+.ajusteMapa .acoes ul {
+  margin-left: 0px;
+  float: left;
+  padding-left: 0;
+  margin-bottom: 20px;
+}
+
+.ajusteMapa .acoes ul.planos {
+  display: none;
+}
+
+.ajusteMapa .acoes ul.planos.openPlanos {
+  display: table;
+}
+
+.ajusteMapa .acoes ul.planos li {
+  list-style: none;
+  text-decoration: underline;
+  margin-bottom: 5px;
+}
+
+.ajusteMapa .acoes ul.planos li a {
+  color: #1ab394;
+}
+
 .ajusteMapa .acoes .btn {
   min-width: 180px;
 }
