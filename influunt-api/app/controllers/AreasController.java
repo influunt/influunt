@@ -13,8 +13,10 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
+import utils.InfluuntQueryBuilder;
 
 import javax.validation.groups.Default;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -59,7 +61,7 @@ public class AreasController extends Controller {
 
     @Transactional
     public CompletionStage<Result> findAll() {
-        return CompletableFuture.completedFuture(ok(Json.toJson(Area.find.fetch("cidade").findList())));
+        return CompletableFuture.completedFuture(ok(Json.toJson(new InfluuntQueryBuilder(Area.class, request().queryString()).fetch(Arrays.asList("cidade")).query())));
     }
 
     @Transactional

@@ -1,9 +1,17 @@
 package utils;
 
+import com.google.common.base.CaseFormat;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+
 /**
  * Created by lesiopinheiro on 7/14/16.
  */
 public class InfluuntUtils {
+
+    // Deafult Format - dd/mm/yyyy HH:MM:SS
+    private static final String DEFAULT_DATE_FORMAT = "dd/MM/yyyy HH:mm:ss";
+    private static final String DEFAULT_DATE_REGEX = "(\\d{2})/(\\d{2})/(\\d{4})[ ](\\d{2})[:](\\d{2})[:](\\d{2})";
 
     private static final InfluuntUtils instance = new InfluuntUtils();
 
@@ -22,5 +30,28 @@ public class InfluuntUtils {
             return x % y == 0;
         }
         return y % x == 0;
+    }
+
+    /**
+     * Check the {@link String} is a valid date and then returns the formatted value
+     *
+     * @param value  to be formatted
+     * @param format format used to format the value
+     * @return {@link DateTime}
+     */
+    public static DateTime parseDate(String value, String format) {
+        if (format == null || format.isEmpty()) {
+            format = DEFAULT_DATE_REGEX;
+        }
+
+        if (value.matches(format)) {
+            return DateTimeFormat.forPattern(DEFAULT_DATE_FORMAT).parseDateTime(value);
+        }
+
+        return null;
+    }
+
+    public static String underscore(String input) {
+        return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, input);
     }
 }

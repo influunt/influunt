@@ -153,4 +153,24 @@ angular.module('influuntApp')
           };
         });
       };
+
+      $scope.openAjutesMapa = function() {
+        $('.spin-icon').on('click', function(){
+          $(this).parents().eq(2).find('.theme-config-box, .leaflet-left').toggleClass('open');
+          $(this).parents().eq(2).find('.fa-angle-left').toggleClass('fa-map');
+        });
+      };
+
+      $scope.openPlanos = function() {
+        $('.btnPlanos').on('click', function(){
+          $(this).parents().eq(2).find('.planos').toggleClass('openPlanos');
+        });
+      };
+
+      $scope.closeAcoes = function() {
+        $('.fecharAcoes').on('click', function(){
+          $(this).parents().eq(4).find('.acoes').toggleClass('closeAcao');
+        });
+      };
+
     }]);

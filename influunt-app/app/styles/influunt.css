@@ -277,7 +277,7 @@
 
 .bg-border-footer {
   padding-top: 10px;
-  padding-bottom: 60px;
+  padding-bottom: 10px;
 }
 
 .pg-bt {
@@ -2733,6 +2733,19 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
   width: 95%;
 }
 
+.breadcrumb {
+  margin-top: 23px;
+}
+
+.skin-setttings {
+  width: 600px;
+  display: table;
+}
+
+.theme-config-box {
+  margin-right: -600px;
+}
+
 .theme-config-box.open {
   margin-right: 0;
 }
@@ -2750,4 +2763,146 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
 
 .dashboard .widget h2.font-bold {
   font-size: 29px;
+}
+
+.ajusteMapa .leaflet-left {
+  left: 10px;
+  -webkit-transition-duration: 0.8s;
+          transition-duration: 0.8s;
+}
+
+.ajusteMapa .leaflet-left.open {
+  left: 210px;
+}
+
+.ajusteMapa .ajutes.theme-config {
+  height: 100%;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid #ddd;
+  top: 0;
+  left: 0;
+  right: auto;
+}
+
+.ajusteMapa .ajutes.theme-config .theme-config-box {
+  margin-left: -240px;
+  margin-right: auto;
+}
+
+.ajusteMapa .ajutes.theme-config .theme-config-box.open {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.ajusteMapa .ajutes.theme-config .theme-config-box.open .skin-setttings {
+  margin-right: 0px;
+}
+
+.ajusteMapa .ajutes.theme-config .theme-config-box.open .spin-icon {
+  background-color: #fff;
+  color: #ccc;
+}
+
+.ajusteMapa .ajutes.theme-config .theme-config-box .skin-setttings {
+  width: 240px;
+  display: table;
+  padding: 20px 10px;
+  margin-left: 0;
+  margin-right: 45px;
+  background: #ffffff;
+  -webkit-transition-duration: 0.8s;
+          transition-duration: 0.8s;
+}
+
+.ajusteMapa .ajutes.theme-config .theme-config-box .skin-setttings .inputAjustes {
+  margin-bottom: 20px;
+}
+
+.ajusteMapa .ajutes.theme-config .theme-config-box .spin-icon {
+  width: 45px;
+  padding: 12px 15px;
+  right: 0;
+  left: auto;
+  border-radius: 0;
+}
+
+.ajusteMapa .ajutes h3 {
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+.ajusteMapa .ajutes .btn {
+  min-width: 190px;
+}
+
+.ajusteMapa .ajutes .inputAjustes span {
+  position: absolute;
+  margin-left: 10px;
+}
+
+.ajusteMapa .areaMapa {
+  width: 100% !important;
+  height: 850px !important;
+  margin-left: 40px;
+  border: 1px solid #ddd;
+}
+
+.ajusteMapa .acoes {
+  width: 270px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: table;
+  padding: 10px;
+  background: #ffffff;
+  -webkit-transition-duration: 0.8s;
+          transition-duration: 0.8s;
+}
+
+.ajusteMapa .acoes.closeAcao {
+  right: -270px;
+}
+
+.ajusteMapa .acoes .fecharAcoes {
+  display: block;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.ajusteMapa .acoes .btnPlanos {
+  text-decoration: none;
+  display: block;
+  margin: 10px 0;
+  cursor: pointer;
+}
+
+.ajusteMapa .acoes ul {
+  margin-left: 0px;
+  float: left;
+  padding-left: 0;
+  margin-bottom: 20px;
+}
+
+.ajusteMapa .acoes ul.planos {
+  display: none;
+}
+
+.ajusteMapa .acoes ul.planos.openPlanos {
+  display: table;
+}
+
+.ajusteMapa .acoes ul.planos li {
+  list-style: none;
+  text-decoration: underline;
+  margin-bottom: 5px;
+}
+
+.ajusteMapa .acoes ul.planos li a {
+  color: #1ab394;
+}
+
+.ajusteMapa .acoes .btn {
+  min-width: 180px;
 }

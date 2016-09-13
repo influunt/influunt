@@ -28,17 +28,20 @@ describe('Controller: CrudCtrl', function () {
 
     httpBackend = $httpBackend;
 
-    resourceList = [
-      {attr1: 'attr1'},
-      {attr2: 'attr2'}
-    ];
+    resourceList = {
+      data: [
+        {attr1: 'attr1'},
+        {attr2: 'attr2'}
+      ]
+    };
 
     resourceObj = {id: 'id', attr1: 'attr1'};
     scope.inicializaNovoCrud('resource');
   }));
 
   it('Quando o index é executado, deve ser retornada uma lista de objetos do resource', function() {
-    httpBackend.expectGET('/resource').respond(resourceList);
+    var url = '/resource?page=0&per_page=30&sort=&sort_type=desc';
+    httpBackend.expectGET(url).respond(resourceList);
     scope.index();
     httpBackend.flush();
     expect(scope.lista.length).toBe(2);

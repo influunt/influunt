@@ -1,0 +1,5 @@
+<a href="" data-ng-click="ngModel.orderField = name; ngModel.orderReverse = !ngModel.orderReverse">
+  {{ label }}
+  <span data-ng-show="ngModel.orderField === name && ngModel.orderReverse"> ▲</span>
+  <span data-ng-show="ngModel.orderField === name && !ngModel.orderReverse"> ▼</span>
+</a>
