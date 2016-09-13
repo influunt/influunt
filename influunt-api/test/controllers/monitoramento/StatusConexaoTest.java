@@ -101,11 +101,11 @@ public class StatusConexaoTest extends WithApplication {
 
         List<StatusConexaoControlador> statusControlador = StatusConexaoControlador.historico("1", 0, 50);
         assertEquals(50, statusControlador.size());
-        assertFalse(statusControlador.get(0).conectado);
+        assertFalse(statusControlador.get(0).isConectado());
 
         statusControlador = StatusConexaoControlador.historico("1", 1, 50);
         assertEquals(50, statusControlador.size());
-        assertTrue(statusControlador.get(0).conectado);
+        assertTrue(statusControlador.get(0).isConectado());
 
     }
 

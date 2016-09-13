@@ -69,7 +69,6 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
 
     @Override
     public void postStop() throws Exception {
-        log.info("postStop()");
         super.postStop();
         client.close();
     }
@@ -77,16 +76,11 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
     @Override
     public void postRestart(Throwable reason) throws Exception {
         super.postRestart(reason);
-        log.info("postRestar()");
-        log.info("Restart foi chamado");
         connect();
     }
 
     @Override
     public void onReceive(Object message) throws Exception {
-        log.info("---------------------------");
-        log.info(message.toString());
-        log.info("---------------------------");
         if (message instanceof Exception) {
             throw (Exception) message;
         } else if (message.equals("CONNECT")) {
@@ -94,7 +88,6 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
             connect();
             getSender().tell("CONNECTED", getSelf());
         } else if ("Tick".equals(message)) {
-            log.info("Connection Status:" + client.isConnected());
             if (!client.isConnected()) {
                 throw new Exception("Conexao morreu");
             }
@@ -104,32 +97,21 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
     }
 
     private void sendMenssage(Envelope envelope) throws MqttException {
+        System.out.println("PUBLICANDO SERVER " + envelope);
         MqttMessage message = new MqttMessage();
         message.setQos(envelope.getQos());
         message.setRetained(true);
         message.setPayload(envelope.toJson().getBytes());
         client.publish(envelope.getDestino(), message);
-
     }
 
     private void sendToBroker(MqttMessage message) throws MqttException {
-
         String parsedBytes = new String(message.getPayload());
         Envelope envelope = new Gson().fromJson(parsedBytes, Envelope.class);
-        log.info("Enviando mensagem para o broker: {}", envelope.getTipoMensagem());
         router.route(envelope, getSender());
     }
 
-    private void offline(MqttMessage message) throws MqttException {
-        log.info("Controlador Offline");
-
-        log.info(message.getPayload().toString());
-    }
-
-
     private void connect() throws MqttException {
-        log.info("Iniciando MQTTCentral");
-        log.info("Conectando no servidor:{}:{}", host, port);
 
         client = new MqttClient("tcp://" + host + ":" + port, "central");
         opts = new MqttConnectOptions();
@@ -146,8 +128,6 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
                     Duration.create(5000, TimeUnit.MILLISECONDS), getSelf(), "Tick", getContext().dispatcher(), null);
         }
 
-        log.info("Status: {}", client.isConnected());
-
 
         client.subscribe("controladores/conn/online", 1, (topic, message) -> {
             sendToBroker(message);
@@ -157,15 +137,13 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
             sendToBroker(message);
         });
 
-        client.subscribe("central/echo", 1, (topic, message) -> {
+        client.subscribe("central/+", 1, (topic, message) -> {
             sendToBroker(message);
         });
-
     }
 
     @Override
     public void connectionLost(Throwable cause) {
-        log.error("Conexao morreu");
         try {
             connect();
         } catch (MqttException e) {

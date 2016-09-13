@@ -246,7 +246,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
         assertEquals(200, postResult.status());
         assertNotNull("ID Controldor Clonado", controladorRetornado.getId());
-        assertEquals("Status Controlador", controladorRetornado.getStatusControlador(), StatusControlador.ATIVO);
+        assertEquals("StatusDevice Controlador", controladorRetornado.getStatusControlador(), StatusControlador.ATIVO);
         assertFields(controlador, controladorRetornado);
     }
 
@@ -282,8 +282,8 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         Controlador controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
 
         controlador.refresh();
-        assertEquals("Status do Controlador", controlador.getStatusControlador(), StatusControlador.ATIVO);
-        assertEquals("Status da Versao Controlador", controlador.getVersaoControlador().getStatusVersao(), StatusVersao.ARQUIVADO);
+        assertEquals("StatusDevice do Controlador", controlador.getStatusControlador(), StatusControlador.ATIVO);
+        assertEquals("StatusDevice da Versao Controlador", controlador.getVersaoControlador().getStatusVersao(), StatusVersao.ARQUIVADO);
 
         assertEquals(200, postResult.status());
         assertNotNull("ID Controldor Clonado", controladorClonado.getId());
@@ -339,8 +339,8 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         assertEquals("Total de Imagens", totalImagens, Imagem.find.findRowCount());
 
         controlador.refresh();
-        assertEquals("Status do Controlador", controlador.getStatusControlador(), StatusControlador.ATIVO);
-        assertEquals("Status da Versao Controlador", controlador.getVersaoControlador().getStatusVersao(), StatusVersao.ATIVO);
+        assertEquals("StatusDevice do Controlador", controlador.getStatusControlador(), StatusControlador.ATIVO);
+        assertEquals("StatusDevice da Versao Controlador", controlador.getVersaoControlador().getStatusVersao(), StatusVersao.ATIVO);
 
     }
 

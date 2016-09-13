@@ -317,6 +317,13 @@ public class Anel extends Model implements Cloneable, Serializable {
         return null;
     }
 
+    public Estagio findEstagioByPosicao(Integer posicao) {
+        if (Objects.nonNull(posicao)) {
+            return getEstagios().stream().filter(estagio -> posicao.equals(estagio.getPosicao())).findFirst().orElse(null);
+        }
+        return null;
+    }
+
     public Detector findDetectorByDescricao(String descricao) {
         if (Objects.nonNull(descricao)) {
             return getDetectores().stream().filter(detector -> descricao.equals(detector.getDescricao())).findFirst().orElse(null);

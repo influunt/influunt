@@ -25,7 +25,7 @@ public class InfluuntChangeLogPrepare implements ChangeLogPrepare {
         changes.getChanges().forEach(change -> {
             Auditoria auditoria = new Auditoria();
             auditoria.change = change;
-            if(usuario != null) {
+            if (usuario != null) {
                 auditoria.usuario = usuario;
             }
 

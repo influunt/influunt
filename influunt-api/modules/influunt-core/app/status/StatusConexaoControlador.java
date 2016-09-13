@@ -93,6 +93,10 @@ public class StatusConexaoControlador {
         new StatusConexaoControlador(idControlador, carimboDeTempo, online).save();
     }
 
+    public boolean isConectado(){
+        return conectado;
+    }
+
     public void insert() {
         status().insert(this);
     }

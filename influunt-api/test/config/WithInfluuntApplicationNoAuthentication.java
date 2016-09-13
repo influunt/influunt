@@ -1,6 +1,12 @@
 package config;
 
 import com.google.inject.Singleton;
+import os72c.client.conf.DeviceConfig;
+import os72c.client.conf.TestDeviceConfig;
+import os72c.client.storage.MapStorage;
+import os72c.client.storage.Storage;
+import os72c.client.storage.StorageConf;
+import os72c.client.storage.TestStorageConf;
 import play.Application;
 import play.Mode;
 import play.inject.guice.GuiceApplicationBuilder;
@@ -20,6 +26,9 @@ public class WithInfluuntApplicationNoAuthentication extends WithInfluuntApplica
     protected Application createApplication(Map configuration) {
         return new GuiceApplicationBuilder().configure(configuration)
                 .overrides(bind(Authenticator.class).to(AllowAllAuthenticator.class).in(Singleton.class))
+                .overrides(bind(DeviceConfig.class).to(TestDeviceConfig.class).in(Singleton.class))
+                .overrides(bind(StorageConf.class).to(TestStorageConf.class).in(Singleton.class))
+                .overrides(bind(Storage.class).to(MapStorage.class).in(Singleton.class))
                 .in(Mode.TEST).build();
     }
 

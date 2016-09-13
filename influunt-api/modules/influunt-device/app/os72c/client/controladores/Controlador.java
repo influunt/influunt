@@ -7,8 +7,8 @@ import os72c.client.models.EstadoGrupo;
 import os72c.client.models.Interrupcao;
 import os72c.client.models.TipoEvento;
 import os72c.client.models.TipoInterrupcao;
-import os72c.client.procolos.MensagemControladorSupervisor;
-import os72c.client.procolos.MensagemInterrupcao;
+import os72c.client.protocols.MensagemControladorSupervisor;
+import os72c.client.protocols.MensagemInterrupcao;
 
 import java.util.Date;
 import java.util.Set;

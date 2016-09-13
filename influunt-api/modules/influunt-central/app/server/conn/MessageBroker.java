@@ -3,12 +3,15 @@ package server.conn;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
+import akka.event.Logging;
+import akka.event.LoggingAdapter;
 import akka.routing.ActorRefRoutee;
 import akka.routing.RoundRobinRoutingLogic;
 import akka.routing.Routee;
 import akka.routing.Router;
 import handlers.ConexaoOfflineActorHandler;
 import handlers.ConexaoOnlineActorHandler;
+import handlers.ConfiguracaoActorHandler;
 import handlers.EchoActorHandler;
 import protocol.Envelope;
 
@@ -28,10 +31,15 @@ public class MessageBroker extends UntypedActor {
 
     Router routerEcho;
 
+    Router routerConfiguracaoInicial;
+
+    LoggingAdapter log = Logging.getLogger(getContext().system(), this);
+
     {
         List<Routee> routeesControladorOnline = new ArrayList<Routee>();
         List<Routee> routeesControladorOffline = new ArrayList<Routee>();
         List<Routee> routeesEcho = new ArrayList<Routee>();
+        List<Routee> routeesConfiguracaoInicial = new ArrayList<Routee>();
         for (int i = 0; i < 5; i++) {
             ActorRef rControladorOnline = getContext().actorOf(Props.create(ConexaoOnlineActorHandler.class));
             getContext().watch(rControladorOnline);
@@ -45,10 +53,15 @@ public class MessageBroker extends UntypedActor {
             getContext().watch(rEcho);
             routeesEcho.add(new ActorRefRoutee(rEcho));
 
+            ActorRef rConfiguracao = getContext().actorOf(Props.create(ConfiguracaoActorHandler.class));
+            getContext().watch(rConfiguracao);
+            routeesConfiguracaoInicial.add(new ActorRefRoutee(rConfiguracao));
+
         }
         routerControladorOnline = new Router(new RoundRobinRoutingLogic(), routeesControladorOnline);
         routerControladorOffline = new Router(new RoundRobinRoutingLogic(), routeesControladorOffline);
         routerEcho = new Router(new RoundRobinRoutingLogic(), routeesEcho);
+        routerConfiguracaoInicial = new Router(new RoundRobinRoutingLogic(), routeesConfiguracaoInicial);
     }
 
 
@@ -65,6 +78,10 @@ public class MessageBroker extends UntypedActor {
                     break;
                 case ECHO:
                     routerEcho.route(envelope, getSender());
+                    break;
+                case CONFIGURACAO_INICIAL:
+                    System.out.println("CONFIGURACAO_INICIAL");
+                    routerConfiguracaoInicial.route(envelope, getSender());
                     break;
             }
 
