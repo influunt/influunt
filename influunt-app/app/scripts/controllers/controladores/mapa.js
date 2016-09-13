@@ -40,12 +40,12 @@ angular.module('influuntApp')
       };
 
       getDadosFiltros = function() {
-        return Restangular.all('agrupamentos').customGET()
-          .then(function(res) {
+        return Restangular.all('agrupamentos').getList()
+          .then(function(agrupamentos) {
             $scope.filtro = {
               areas: _.chain($scope.lista).map('areas').flatten().uniqBy('idJson').value(),
               controladores: _.orderBy($scope.lista, ['CLC']),
-              agrupamentos: res.data,
+              agrupamentos: agrupamentos,
 
               exibirAreas: true,
               exibirControladores: true,
@@ -153,4 +153,24 @@ angular.module('influuntApp')
           };
         });
       };
+
+      $scope.openAjutesMapa = function() {
+        $('.spin-icon').on('click', function(){
+          $(this).parents().eq(2).find('.theme-config-box, .leaflet-left').toggleClass('open');
+          $(this).parents().eq(2).find('.fa-angle-left').toggleClass('fa-map');
+        });
+      };
+
+      $scope.openPlanos = function() {
+        $('.btnPlanos').on('click', function(){
+          $(this).parents().eq(2).find('.planos').toggleClass('openPlanos');
+        });
+      };
+
+      $scope.closeAcoes = function() {
+        $('.fecharAcoes').on('click', function(){
+          $(this).parents().eq(4).find('.acoes').toggleClass('closeAcao');
+        });
+      };
+
     }]);
