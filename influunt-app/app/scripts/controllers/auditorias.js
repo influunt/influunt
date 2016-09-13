@@ -12,6 +12,32 @@ angular.module('influuntApp')
     function ($scope, $controller) {
       // Herda todo o comportamento do crud basico.
       $controller('CrudCtrl', {$scope: $scope});
-      $scope.inicializaNovoCrud('auditorias/');
+      $scope.inicializaNovoCrud('auditorias');
+
+      $scope.pesquisa = {
+        campos: [
+          {
+            nome: 'change.table',
+            label: 'auditorias.classe',
+            tipo: 'texto'
+          },
+          {
+            nome: 'change.type',
+            label: 'auditorias.tipo',
+            tipo: 'texto'
+          },
+          {
+            nome: 'usuario.login',
+            label: 'auditorias.usuario',
+            tipo: 'texto'
+          },
+          {
+            nome: 'timestamp',
+            label: 'auditorias.data',
+            tipo: 'data'
+          }
+        ]
+      };
+
     }]);
 

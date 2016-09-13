@@ -28,7 +28,14 @@ angular.module('influuntApp')
       $scope.inicializaIndex = function(){
         $scope.filtros = {};
         $scope.filtroLateral = {};
-        $scope.index();
+
+        // @todo       quando a api implementar o mesmo modelo de paginação para controladores,
+        //             este metodo deverá voltar trabalhar com o metodo index padrao.
+        // $scope.index();
+        return Restangular.all('controladores').getList()
+          .then(function(res) {
+            $scope.lista = res;
+          });
       };
 
       /**

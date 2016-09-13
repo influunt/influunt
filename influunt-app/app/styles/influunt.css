@@ -277,7 +277,7 @@
 
 .bg-border-footer {
   padding-top: 10px;
-  padding-bottom: 60px;
+  padding-bottom: 10px;
 }
 
 .pg-bt {
@@ -2742,6 +2742,7 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
   padding: 20px;
 }
 
+<<<<<<< HEAD
 .ajusteMapa .leaflet-left {
   left: 10px;
   -webkit-transition-duration: 0.8s;
@@ -2882,4 +2883,13 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
 
 .ajusteMapa .acoes .btn {
   min-width: 180px;
+=======
+.skin-setttings {
+  width: 600px;
+  display: table;
+}
+
+.theme-config-box {
+  margin-right: -600px;
+>>>>>>> 5024ba9af477302bdde3feb10ad86c4585566e41
 }

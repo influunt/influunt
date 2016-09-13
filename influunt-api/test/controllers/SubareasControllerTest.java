@@ -138,7 +138,7 @@ public class SubareasControllerTest extends WithInfluuntApplicationNoAuthenticat
                 .uri(routes.SubareasController.findAll().url());
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
-        List<Area> subareas = Json.fromJson(json, List.class);
+        List<Area> subareas = Json.fromJson(json.get("data"), List.class);
 
         assertEquals(200, result.status());
         assertEquals(2, subareas.size());

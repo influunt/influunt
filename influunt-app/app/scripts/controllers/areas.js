@@ -14,6 +14,21 @@ angular.module('influuntApp')
       $controller('CrudCtrl', {$scope: $scope});
       $scope.inicializaNovoCrud('areas');
 
+      $scope.pesquisa = {
+        campos: [
+          {
+            nome: 'cidade.nome',
+            label: 'areas.cidade',
+            tipo: 'texto'
+          },
+          {
+            nome: 'descricao',
+            label: 'areas.descricao',
+            tipo: 'texto'
+          }
+        ]
+      };
+
       /**
        * Adiciona um novo formulario de coordenadas à area.
        */
@@ -41,8 +56,8 @@ angular.module('influuntApp')
        * Recupera a lista de cidades que podem ser relacionadas à área.
        */
       $scope.beforeShow = function() {
-        Restangular.all('cidades').getList().then(function(res) {
-          $scope.cidades = res;
+        Restangular.all('cidades').customGET().then(function(res) {
+          $scope.cidades = res.data;
         });
       };
 

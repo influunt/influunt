@@ -127,7 +127,7 @@ public class AreasControllerTest extends WithInfluuntApplicationNoAuthentication
                 .uri(routes.AreasController.findAll().url());
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
-        List<Area> areas = Json.fromJson(json, List.class);
+        List<Area> areas = Json.fromJson(json.get("data"), List.class);
 
         assertEquals(200, result.status());
         assertEquals(2, areas.size());

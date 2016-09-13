@@ -122,7 +122,7 @@ DELETE      /api/v1/detectores/:id                                controllers.De
 DELETE      /api/v1/eventos/:id                                   controllers.EventosController.delete(id)
 
 # Auditoria
-GET         /api/v1/auditorias/                                   controllers.AuditoriaController.findAll
+GET         /api/v1/auditorias                                    controllers.AuditoriaController.findAll
 GET         /api/v1/auditorias/:id                                controllers.AuditoriaController.findOne(id)
 
 ## MONITORAMENTO
@@ -131,3 +131,5 @@ GET         /api/v1/monitoramento/status_conexao/:id                            
 GET         /api/v1/monitoramento/status_conexao                                    controllers.monitoramento.StatusControladorController.ultimoStatusDosControladores()
 GET         /api/v1/monitoramento/status_conexao/:id/ultimo_status                  controllers.monitoramento.StatusControladorController.ultimoStatus(id)
 GET         /api/v1/monitoramento/status_conexao/:id/historico/:pagina/:tamanho     controllers.monitoramento.StatusControladorController.historico(id,pagina,tamanho)
+
+POST        /api/v1/cucumber                                      controllers.CucumberController.createDB()

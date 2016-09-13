@@ -40,12 +40,12 @@ angular.module('influuntApp')
       };
 
       getDadosFiltros = function() {
-        return Restangular.all('agrupamentos').getList()
-          .then(function(agrupamentos) {
+        return Restangular.all('agrupamentos').customGET()
+          .then(function(res) {
             $scope.filtro = {
               areas: _.chain($scope.lista).map('areas').flatten().uniqBy('idJson').value(),
               controladores: _.orderBy($scope.lista, ['CLC']),
-              agrupamentos: agrupamentos,
+              agrupamentos: res.data,
 
               exibirAreas: true,
               exibirControladores: true,
