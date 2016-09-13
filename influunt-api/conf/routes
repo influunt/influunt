@@ -100,6 +100,7 @@ GET         /api/v1/helpers/controlador                           controllers.He
 
 #Login
 POST        /api/v1/login                                         controllers.SecurityController.login
+DELETE      /api/v1/logout/:id                                    controllers.SecurityController.logout(id)
 
 # Planos
 POST        /api/v1/planos                                        controllers.PlanosController.create()

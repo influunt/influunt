@@ -90,4 +90,9 @@ public class Sessao extends Model implements Serializable {
     public void setDataCriacao(DateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
+
+    public void desativar() {
+        this.ativa = false;
+        this.update();
+    }
 }

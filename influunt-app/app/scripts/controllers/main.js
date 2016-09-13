@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('MainCtrl', ['$scope', '$state', '$filter', '$controller', '$http', 'influuntAlert',
-    function MainCtrl($scope, $state, $filter, $controller, $http, influuntAlert) {
+  .controller('MainCtrl', ['$scope', '$state', '$filter', '$controller', '$http', 'influuntAlert', 'Restangular',
+    function MainCtrl($scope, $state, $filter, $controller, $http, influuntAlert, Restangular) {
       // Herda todo o comportamento de breadcrumbs.
       $controller('BreadcrumbsCtrl', {$scope: $scope});
 
@@ -21,8 +21,19 @@ angular.module('influuntApp')
           )
           .then(function(confirmado) {
             if (confirmado) {
-              localStorage.removeItem('token');
-              $state.go('login');
+              console.log(localStorage.token)
+              Restangular.one('logout', localStorage.token).remove()
+                .then(function(res) {
+                  localStorage.removeItem('token');
+                  $state.go('login');
+                })
+                .catch(function(err) {
+                  if (err.status === 401) {
+                    err.data.forEach(function(error) {
+                      influuntAlert.alert($filter('translate')('geral.atencao'), error.message);
+                    });
+                  }
+                });
             }
           });
       };
