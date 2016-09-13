@@ -3,53 +3,30 @@ package search;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.inject.Singleton;
+import config.WithInfluuntApplicationNoAuthentication;
 import controllers.routes;
 import models.*;
 import org.junit.Before;
 import org.junit.Test;
-import play.Application;
-import play.Mode;
-import play.inject.guice.GuiceApplicationBuilder;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
-import play.test.WithApplication;
-import security.AllowAllAuthenticator;
 import security.Auditoria;
-import security.Authenticator;
 import uk.co.panaxiom.playjongo.PlayJongo;
 import utils.InfluuntQueryBuilder;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.Assert.*;
-import static play.inject.Bindings.bind;
 import static play.test.Helpers.*;
 
 
 /**
  * Created by lesiopinheiro on 9/9/16.
  */
-public class BuscasTest extends WithApplication {
-
-    @Override
-    protected Application provideApplication() {
-        Map<String, String> options = new HashMap<String, String>();
-        options.put("DATABASE_TO_UPPER", "FALSE");
-        return getApplication(inMemoryDatabase("default", options));
-    }
-
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    private Application getApplication(Map configuration) {
-        return new GuiceApplicationBuilder().configure(configuration)
-                .overrides(bind(Authenticator.class).to(AllowAllAuthenticator.class).in(Singleton.class))
-                .in(Mode.TEST).build();
-    }
+public class BuscasTest extends WithInfluuntApplicationNoAuthentication {
 
     @Before
     public void setup() {
@@ -182,7 +159,6 @@ public class BuscasTest extends WithApplication {
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
                 .uri(routes.CidadesController.findAll().url().concat("?per_page=15&sort=nome&sort_type=desc"));
         Result result = route(request);
-        JsonNode json = Json.parse(Helpers.contentAsString(result));
 
         ObjectMapper mapper = new ObjectMapper();
         JsonNode json = Json.parse(Helpers.contentAsString(result));
