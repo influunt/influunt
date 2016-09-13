@@ -40,7 +40,7 @@ describe('Controller: CrudCtrl', function () {
   }));
 
   it('Quando o index é executado, deve ser retornada uma lista de objetos do resource', function() {
-    var url = '/resource?page=0&per_page=30&sort=&sort_type=desc'
+    var url = '/resource?page=0&per_page=30&sort=&sort_type=desc';
     httpBackend.expectGET(url).respond(resourceList);
     scope.index();
     httpBackend.flush();
