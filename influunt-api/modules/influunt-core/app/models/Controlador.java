@@ -143,7 +143,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
                 ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
                 ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
                 ControladorAssociacaoDetectoresCheck.class);
-        return erros.size() == 0 ? controlador : null;
+        return erros.isEmpty() ? controlador : null;
     }
 
     @Override

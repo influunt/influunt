@@ -55,7 +55,6 @@ public class ConfiguracaoActorHandler extends UntypedActor {
         } else if (message instanceof String) {
             if (message.toString().equals("VERIFICA")) {
                 log.info("Solicita configuração a central: {}", sender());
-                //TODO
                 getContext().actorSelection(Atores.mqttActorPath(idControlador)).tell(Sinal.getMensagem(TipoMensagem.CONFIGURACAO_INICIAL, idControlador, "central/configuracao"), getSelf());
             }
         }

@@ -20,14 +20,14 @@ public class Configuracao {
         if (controlador != null && !controlador.getStatusControlador().equals(StatusControlador.EM_CONFIGURACAO)) {
             return new Envelope(TipoMensagem.CONFIGURACAO,
                     envelope.getIdControlador(),
-                    "controlador/" + envelope.getIdControlador() + "/configuracao",
+                    "controlador/".concat(envelope.getIdControlador()).concat("/configuracao"),
                     2,
                     new ControladorCustomSerializer().getControladorJson(controlador).toString(),
                     envelope.getIdMensagem());
         } else {
             return new Envelope(TipoMensagem.ERRO,
                     envelope.getIdControlador(),
-                    "controlador/" + envelope.getIdControlador() + "/configuracao",
+                    "controlador/".concat(envelope.getIdControlador()).concat("/configuracao"),
                     2,
                     null,
                     envelope.getIdMensagem());

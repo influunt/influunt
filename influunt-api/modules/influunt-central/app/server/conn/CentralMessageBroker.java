@@ -18,35 +18,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static utils.MessageBrokerUtils.createRoutees;
+
 
 /**
  * Created by rodrigosol on 9/6/16.
  */
-public class MessageBroker extends UntypedActor {
+public class CentralMessageBroker extends UntypedActor {
 
     Map<TipoMensagem, Router> routers = new HashMap<>();
 
     LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
     {
-        routers.put(TipoMensagem.CONTROLADOR_ONLINE, createRoutees(5, ConexaoOnlineActorHandler.class));
-        routers.put(TipoMensagem.CONTROLADOR_OFFLINE, createRoutees(5, ConexaoOfflineActorHandler.class));
-        routers.put(TipoMensagem.ECHO, createRoutees(5, EchoActorHandler.class));
-        routers.put(TipoMensagem.CONFIGURACAO_INICIAL, createRoutees(5, ConfiguracaoActorHandler.class));
-        routers.put(TipoMensagem.MUDANCA_STATUS_CONTROLADOR, createRoutees(5, MudancaStatusControladorActorHandler.class));
-        routers.put(TipoMensagem.OK, createRoutees(5, OKActorHandler.class));
+        routers.put(TipoMensagem.CONTROLADOR_ONLINE, createRoutees(getContext(),5, ConexaoOnlineActorHandler.class));
+        routers.put(TipoMensagem.CONTROLADOR_OFFLINE, createRoutees(getContext(),5, ConexaoOfflineActorHandler.class));
+        routers.put(TipoMensagem.ECHO, createRoutees(getContext(),5, EchoActorHandler.class));
+        routers.put(TipoMensagem.CONFIGURACAO_INICIAL, createRoutees(getContext(),5, ConfiguracaoActorHandler.class));
+        routers.put(TipoMensagem.MUDANCA_STATUS_CONTROLADOR, createRoutees(getContext(),5, MudancaStatusControladorActorHandler.class));
+        routers.put(TipoMensagem.OK, createRoutees(getContext(),5, OKActorHandler.class));
     }
 
-    private Router createRoutees(int size, Class clazz) {
-        List<Routee> routees = new ArrayList<Routee>();
-        for (int i = 0; i < size; i++) {
-            ActorRef ref = getContext().actorOf(Props.create(clazz));
-            getContext().watch(ref);
-            routees.add(new ActorRefRoutee(ref));
-        }
-
-        return new Router(new RoundRobinRoutingLogic(), routees);
-    }
 
     @Override
     public void onReceive(Object message) throws Exception {

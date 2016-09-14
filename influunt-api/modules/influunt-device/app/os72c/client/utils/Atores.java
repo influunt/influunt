@@ -5,6 +5,6 @@ package os72c.client.utils;
  */
 public class Atores {
     public final static String mqttActorPath(String idControlador) {
-        return "akka://InfluuntSystem/user/" + idControlador + "/ControladorMQTT";
+        return "akka://InfluuntSystem/user/".concat(idControlador).concat("/ControladorMQTT");
     }
 }

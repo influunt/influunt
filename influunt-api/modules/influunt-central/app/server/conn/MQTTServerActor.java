@@ -49,7 +49,7 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
     {
         List<Routee> routees = new ArrayList<Routee>();
         for (int i = 0; i < 5; i++) {
-            ActorRef r = getContext().actorOf(Props.create(MessageBroker.class));
+            ActorRef r = getContext().actorOf(Props.create(CentralMessageBroker.class));
             getContext().watch(r);
             routees.add(new ActorRefRoutee(r));
         }
@@ -97,7 +97,6 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
     }
 
     private void sendMenssage(Envelope envelope) throws MqttException {
-        System.out.println("PUBLICANDO SERVER " + envelope);
         MqttMessage message = new MqttMessage();
         message.setQos(envelope.getQos());
         message.setRetained(true);
