@@ -2474,9 +2474,33 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
       }
     }
   }
-  .moda0l {
-    hr {
-      border-top: 1px solid #fff;
+}
+.dashModal {
+  table {
+    margin-top: 20px;
+    thead {
+      tr {
+        th {
+          background-color: #e7eaec;
+          text-transform: uppercase;
+          font-size: 14px;
+          font-weight: 500;
+          color: 676a6c;
+          &.endereco {
+            width: 60%;
+            @media (max-width: 1200px) {
+              width: 40%;
+            }
+          }
+        }
+      }
+    }
+    tbody {
+      tr {
+        td {
+          text-align: left;
+        }
+      }
     }
   }
 }

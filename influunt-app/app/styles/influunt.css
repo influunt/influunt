@@ -2777,8 +2777,30 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
   box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.3);
 }
 
-.dashboard .moda0l hr {
-  border-top: 1px solid #fff;
+.dashModal table {
+  margin-top: 20px;
+}
+
+.dashModal table thead tr th {
+  background-color: #e7eaec;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 500;
+  color: 676a6c;
+}
+
+.dashModal table thead tr th.endereco {
+  width: 60%;
+}
+
+@media (max-width: 1200px) {
+  .dashModal table thead tr th.endereco {
+    width: 40%;
+  }
+}
+
+.dashModal table tbody tr td {
+  text-align: left;
 }
 
 .ajusteMapa .leaflet-left {
