@@ -79,7 +79,6 @@ angular.module('influuntApp')
         var query = $scope.buildQuery($scope.pesquisaAcessos);
         query.sort = 'data_criacao';
         query.sort_type = 'desc';
-        console.log(query)
 
         Restangular.one('usuarios', id).all('access_log').customGET(null, query)
         .then(function(res){

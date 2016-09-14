@@ -35,12 +35,14 @@ describe('Controller: MainCtrl', function () {
       spyOn(influuntAlert, 'confirm').and.returnValue(deferred.promise);
     }));
 
-    it('Se o usuário confirmar a saída, sua credencial removida', function() {
+    it('Se o usuário confirmar a saída, sua credencial removida', inject(function ($httpBackend) {
+      $httpBackend.expectDELETE('/logout/123').respond({});
       scope.sair();
       deferred.resolve(true);
+      $httpBackend.flush();
       scope.$apply();
       expect(localStorage.token).not.toBeDefined();
-    });
+    }));
 
     it('Se o usuário cancelar, sua credencial permanecerá válida', function() {
       scope.sair();
