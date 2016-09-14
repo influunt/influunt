@@ -1,238 +1,117 @@
 <div class="container-fluid wrapper wrapper-content animated fadeInRight dashboard">
-  <div class="col-lg-12 col-sm-12">
-    <div class="col-lg-12 col-sm-12">
-      <h3>STATUS</h3>
-    </div>
-    <div data-toggle="modal" data-target="#myModal" class="col-lg-3 col-sm-6">
-      <div class="widget style1 navy-bg falseBtn">
-        <div class="row">
-          <div class="col-lg-3 col-sm-3">
-            <i class="fa fa-check-circle-o fa-5x"></i>
-          </div>
-          <div class="col-lg-8 col-sm-7 text-right">
-            <span> Controladores online </span>
-            <h2 class="font-bold">1432</h2>
-          </div>
-          <div class="col-lg-1 col-sm-2 text-right marginTop">
-            <i class="fa fa-angle-right fa-3x"></i>
-          </div>
-        </div>
+  <div class="ibox-content">
+    <div class="row">
+      <div class="col-lg-12">
+        <h1>21 23 956</h1>
       </div>
-    </div>
-    <div data-toggle="modal" data-target="#myModal" class="col-lg-3 col-sm-6">
-      <div class="widget style1 red-bg falseBtn">
-        <div class="row">
-          <div class="col-lg-3 col-sm-3">
-            <i class="fa fa-exclamation-triangle fa-5x"></i>
-          </div>
-          <div class="col-lg-8 col-sm-7 text-right">
-            <span> Controladores offline </span>
-            <h2 class="font-bold">13</h2>
-          </div>
-          <div class="col-lg-1 col-sm-2 text-right marginTop">
-            <i class="fa fa-angle-right fa-3x"></i>
-          </div>
-        </div>
+      <hr>
+      <div class="col-lg-12 ibox-content">
+        <span><i class="fa fa-circle text-navy"></i> Online <br>Av. Paulista, 2057, Palmares, São Paulo - SP</span>
       </div>
-    </div>
-  </div>
-  <div class="col-lg-12 col-sm-12">
-    <div class="col-lg-12">
-      <h3>MODO</h3>
-    </div>
-    <div class="col-lg-3 col-sm-6">
-      <div class="widget style1 lazur-bg">
-        <div class="row">
-          <div class="col-lg-7 col-sm-6">
-            <h2>Isolado</h2>
-          </div>
-          <div class="col-lg-4 col-sm-4 text-right">
-            <h2 class="font-bold">1432</h2>
-          </div>
-          <div class="col-lg-1 col-sm-2 text-right">
-            <i class="fa fa-angle-right fa-3x"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-3 col-sm-6">
-      <div class="widget style1 lazur-bg">
-        <div class="row">
-          <div class="col-lg-7 col-sm-6">
-            <h2>Coordenado</h2>
-          </div>
-          <div class="col-lg-4 col-sm-4 text-right">
-            <h2 class="font-bold">1432</h2>
-          </div>
-          <div class="col-lg-1 col-sm-2 text-right">
-            <i class="fa fa-angle-right fa-3x"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-3 col-sm-6">
-      <div class="widget style1 lazur-bg">
-        <div class="row">
-          <div class="col-lg-7 col-sm-6">
-            <h2>Atuado</h2>
-          </div>
-          <div class="col-lg-4 col-sm-4 text-right">
-            <h2 class="font-bold">1432</h2>
-          </div>
-          <div class="col-lg-1 col-sm-2 text-right">
-            <i class="fa fa-angle-right fa-3x"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-3 col-sm-6">
-      <div class="widget style1 lazur-bg">
-        <div class="row">
-          <div class="col-lg-7 col-sm-6">
-            <h2>Interminente</h2>
-          </div>
-          <div class="col-lg-4 col-sm-4 text-right">
-            <h2 class="font-bold">1432</h2>
-          </div>
-          <div class="col-lg-1 col-sm-2 text-right">
-            <i class="fa fa-angle-right fa-3x"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-3 col-sm-6">
-      <div class="widget style1 lazur-bg">
-        <div class="row">
-          <div class="col-lg-7 col-sm-6">
-            <h2>Apagado</h2>
-          </div>
-          <div class="col-lg-4 col-sm-4 text-right">
-            <h2 class="font-bold">1432</h2>
-          </div>
-          <div class="col-lg-1 col-sm-2 text-right">
-            <i class="fa fa-angle-right fa-3x"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal inmodal dashModal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog" style="width: 95%;">
-    <div class="modal-content animated bounceInRight">
-      <div class="modal-header">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="ibox float-e-margins">
-              <input type="text" class="form-control input-sm m-b-xs" id="filter" placeholder="Buscar por Status, nome ou endereço">
-
-              <table class="footable table table-stripped" data-page-size="8" data-filter=#filter>
-                <thead>
-                  <tr>
-                    <th>Status</th>
-                    <th>Nome</th>
-                    <th class="endereco" data-hide="phone,tablet">Endereço</th>
-                    <th data-hide="phone,tablet">Histórico</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class="gradeX">
-                    <td><i class="fa fa-circle text-navy"></i> Online</td>
-                    <td>547961-7</td>
-                    <td>Av. Paulista 2057, Palmares, São Paulo - SP</td>
-                    <td>Online desde 05/06, às 18:00. <a href="#">Ver histórico</a></td>
-                  </tr>
-                  <tr class="gradeC">
-                    <td><i class="fa fa-circle text-danger"></i> Offline</td>
-                    <td>547961-7</td>
-                    <td>Av. Paulista 2057, Palmares, São Paulo - SP</td>
-                    <td>Offline desde 05/06, às 18:00. <a href="#">Ver histórico</a></td>
-                  </tr>
-                  <tr class="gradeA">
-                    <td><i class="fa fa-circle text-navy"></i> Online</td>
-                    <td>147961-7</td>
-                    <td>Av. Paulista 2057, Palmares, São Paulo - SP</td>
-                    <td>Online desde 05/06, às 18:00. <a href="#">Ver histórico</a></td>
-                  </tr>
-                  <tr class="gradeA">
-                    <td><i class="fa fa-circle text-danger"></i> Offline</td>
-                    <td>247961-7</td>
-                    <td>Av. Paulista 2057, Palmares, São Paulo - SP</td>
-                    <td>Offline desde 05/06, às 18:00. <a href="#">Ver histórico</a></td>
-                  </tr>
-
-                  <tr class="gradeA">
-                    <td><i class="fa fa-circle text-navy"></i> Online</td>
-                    <td>347961-7</td>
-                    <td>Av. Paulista 2057, Palmares, São Paulo - SP</td>
-                    <td>Online desde 05/06, às 18:00. <a href="#">Ver histórico</a></td>
-                  </tr>
-                  <tr class="gradeA">
-                    <td><i class="fa fa-circle text-danger"></i> Offline</td>
-                    <td>447961-7</td>
-                    <td>Av. Amazonas, Belo Horizonte - MG</td>
-                    <td>Offline desde 05/06, às 18:00. <a href="#">Ver histórico</a></td>
-                  </tr>
-                  <tr class="gradeA">
-                    <td><i class="fa fa-circle text-navy"></i> Online</td>
-                    <td>547961-7</td>
-                    <td>Av. Paulista 2057, Palmares, São Paulo - SP</td>
-                    <td>Online desde 05/06, às 18:00. <a href="#">Ver histórico</a></td>
-                  </tr>
-                  <tr class="gradeA">
-                    <td><i class="fa fa-circle text-danger"></i> Offline</td>
-                    <td>547961-7</td>
-                    <td>Av. Paulista 2057, Palmares, São Paulo - SP</td>
-                    <td>Offline desde 05/06, às 18:00. <a href="#">Ver histórico</a></td>
-                  </tr>
-                  <tr class="gradeA">
-                    <td><i class="fa fa-circle text-navy"></i> Online</td>
-                    <td>547961-7</td>
-                    <td>Av. Paulista 2057, Palmares, São Paulo - SP</td>
-                    <td>Online desde 05/06, às 18:00. <a href="#">Ver histórico</a></td>
-                  </tr>
-                  <tr class="gradeA">
-                    <td><i class="fa fa-circle text-danger"></i> Offline</td>
-                    <td>547961-7</td>
-                    <td>Av. Paulista 2057, Palmares, São Paulo - SP</td>
-                    <td>Offline desde 05/06, às 18:00. <a href="#">Ver histórico</a></td>
-                  </tr>
-                  <tr class="gradeA">
-                    <td><i class="fa fa-circle text-navy"></i> Online</td>
-                    <td>547961-7</td>
-                    <td>Av. Paulista 2057, Palmares, São Paulo - SP</td>
-                    <td>Online desde 05/06, às 18:00. <a href="#">Ver histórico</a></td>
-                  </tr>
-                  <tr class="gradeA">
-                    <td><i class="fa fa-circle text-danger"></i> Offline</td>
-                    <td>547961-7</td>
-                    <td>Av. Paulista 2057, Palmares, São Paulo - SP</td>
-                    <td>Offline desde 05/06, às 18:00. <a href="#">Ver histórico</a></td>
-                  </tr>
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <td colspan="5">
-                      <ul class="pagination pull-right"></ul>
-                    </td>
-                  </tr>
-                </tfoot>
-              </table>
+      <hr>
+      <div class="col-lg-12 col-sm-12 ibox-content no-padding">
+        <div class="col-lg-2 col-sm-3">
+          <div class="widget style1 navy-bg">
+            <div class="row">
+              <div class="col-lg-3 col-sm-4">
+                <i class="fa fa-check-circle-o fa-3x"></i>
+              </div>
+              <div class="col-lg-9 col-sm-8 text-left">
+                <h2 class="font-bold">86%</h2>
+                <span>Tempo Livre</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+        <div class="col-lg-3 col-sm-4">
+          <div class="widget style1 lazur-bg">
+            <div class="row">
+              <div class="col-lg-4 col-sm-4">
+                <i class="fa fa-clock-o fa-3x"></i>
+              </div>
+              <div class="col-lg-8 col-sm-8 text-left">
+                <h2 class="font-bold">12 dias 16 horas</h2>
+                <span>Online</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-4">
+          <div class="widget style1 red-bg">
+            <div class="row">
+              <div class="col-lg-4 col-sm-4">
+                <i class="fa fa-clock-o fa-3x"></i>
+              </div>
+              <div class="col-lg-8 col-sm-8 text-left">
+                <h2 class="font-bold">3 dias 2 horas</h2>
+                <span>Offline</span>
+              </div>
+            </div>
+          </div>
+        </div>
 
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">{{ 'crud.fechar' | translate }}</button>
+      </div>
+      <div class="col-lg-12 ibox-content">
+        <div id="vertical-timeline" class="vertical-container light-timeline no-margins">
+          <div class="vertical-timeline-block">
+            <div class="vertical-timeline-icon navy-bg">
+            </div>
+            <span class="vertical-date">
+                Today <br>
+                <small>Dec 24</small>
+            </span>
+            <div class="vertical-timeline-content">
+              <h2>Controlador Online</h2>
+              <p>Conference on the sales results for the previous year. Monica please examine sales trends in marketing and products. Below please find the current status of the sale.
+              </p>
+
+            </div>
+          </div>
+          <div class="vertical-timeline-block">
+            <div class="vertical-timeline-icon red-bg">
+            </div>
+            <span class="vertical-date">
+                Today <br>
+                <small>Dec 24</small>
+            </span>
+            <div class="vertical-timeline-content">
+              <h2>Controlador Online</h2>
+              <p>Conference on the sales results for the previous year. Monica please examine sales trends in marketing and products. Below please find the current status of the sale.
+              </p>
+
+            </div>
+          </div>
+          <div class="vertical-timeline-block">
+            <div class="vertical-timeline-icon navy-bg">
+            </div>
+            <span class="vertical-date">
+                Today <br>
+                <small>Dec 24</small>
+            </span>
+            <div class="vertical-timeline-content">
+              <h2>Controlador Online</h2>
+              <p>Conference on the sales results for the previous year. Monica please examine sales trends in marketing and products. Below please find the current status of the sale.
+              </p>
+
+            </div>
+          </div>
+          <div class="vertical-timeline-block">
+            <div class="vertical-timeline-icon red-bg">
+            </div>
+            <span class="vertical-date">
+                Today <br>
+                <small>Dec 24</small>
+            </span>
+            <div class="vertical-timeline-content">
+              <h2>Controlador Online</h2>
+              <p>Conference on the sales results for the previous year. Monica please examine sales trends in marketing and products. Below please find the current status of the sale.
+              </p>
+
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
   </div>
 </div>
-
-<script>
-  $(document).ready(function() {
-    $('.footable').footable();
-  });
-</script>

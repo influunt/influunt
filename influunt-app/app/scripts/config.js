@@ -42,6 +42,11 @@ angular
           templateUrl: 'views/main.html'
         })
 
+        .state('app.main_info', {
+          url: '/main-info',
+          templateUrl: 'views/main-info.html'
+        })
+
         .state('app.status', {
           url: '/status',
           templateUrl: 'views/status/index.html',
