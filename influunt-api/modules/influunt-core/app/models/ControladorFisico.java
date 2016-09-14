@@ -13,6 +13,7 @@ import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,11 @@ public class ControladorFisico extends Model implements Serializable {
 
     @Column
     private String idJson;
+
+    @ManyToOne
+    @Valid
+    @NotNull(message = "não pode ficar em branco")
+    private Area area;
 
     @OneToMany(mappedBy = "controladorFisico", cascade = CascadeType.ALL)
     @Valid
@@ -116,5 +122,13 @@ public class ControladorFisico extends Model implements Serializable {
             setVersoes(new ArrayList<VersaoControlador>());
         }
         getVersoes().add(versaoControlador);
+    }
+
+    public Area getArea() {
+        return area;
+    }
+
+    public void setArea(Area area) {
+        this.area = area;
     }
 }

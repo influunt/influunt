@@ -23,6 +23,9 @@ drop index if exists ix_controladores_area_id;
 alter table controladores drop constraint if exists fk_controladores_subarea_id;
 drop index if exists ix_controladores_subarea_id;
 
+alter table controladores_fisicos drop constraint if exists fk_controladores_fisicos_area_id;
+drop index if exists ix_controladores_fisicos_area_id;
+
 alter table detectores drop constraint if exists fk_detectores_anel_id;
 drop index if exists ix_detectores_anel_id;
 

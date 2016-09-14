@@ -347,7 +347,6 @@ create table tabela_entre_verdes_transicao (
   tempo_amarelo                 integer,
   tempo_vermelho_intermitente   integer,
   tempo_vermelho_limpeza        integer not null,
-  tempo_atraso_grupo            integer not null,
   data_criacao                  datetime(6) not null,
   data_atualizacao              datetime(6) not null,
   constraint pk_tabela_entre_verdes_transicao primary key (id)

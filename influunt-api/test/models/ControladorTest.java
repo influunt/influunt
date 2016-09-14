@@ -6,6 +6,7 @@ import org.junit.Before;
 
 import java.util.List;
 
+
 /**
  * Created by rodrigosol on 6/22/16.
  */
@@ -48,7 +49,7 @@ public abstract class ControladorTest extends WithInfluuntApplicationNoAuthentic
         usuario.setEmail("abc@influunt.com.br");
         usuario.save();
 
-        controladorTestUtils = new ControladorTestUtil(cidade, area, subarea, fabricante, modeloControlador);
+        controladorTestUtils = new ControladorTestUtil(area, subarea, fabricante, modeloControlador);
     }
 
     protected Controlador getControlador() {
