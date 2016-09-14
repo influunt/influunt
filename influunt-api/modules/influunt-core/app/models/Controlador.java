@@ -592,4 +592,12 @@ public class Controlador extends Model implements Cloneable, Serializable {
             this.update();
         });
     }
+
+    public static Controlador findUniqueByArea(String controladorId, String areaId) {
+        return Controlador.find.where().eq("id", controladorId).eq("area_id", areaId).findUnique();
+    }
+
+    public static List<Controlador> findListByArea(String areaId) {
+        return Controlador.find.where().eq("area_id", areaId).findList();
+    }
 }

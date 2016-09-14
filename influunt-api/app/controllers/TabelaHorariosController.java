@@ -1,6 +1,5 @@
 package controllers;
 
-import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
 import be.objectify.deadbolt.java.actions.Dynamic;
 import checks.Erro;
 import checks.InfluuntValidator;
@@ -27,12 +26,11 @@ import java.util.concurrent.CompletionStage;
 /**
  * Created by lesiopinheiro on 7/13/16.
  */
-@DeferredDeadbolt
 @Security.Authenticated(Secured.class)
-@Dynamic("Influunt")
 public class TabelaHorariosController extends Controller {
 
     @Transactional
+    @Dynamic("Influunt")
     public CompletionStage<Result> create() {
         JsonNode json = request().body().asJson();
 
@@ -55,6 +53,7 @@ public class TabelaHorariosController extends Controller {
     }
 
     @Transactional
+    @Dynamic("Influunt")
     public CompletionStage<Result> timeline(String id) {
         Controlador controlador = Controlador.find.byId(UUID.fromString(id));
 
@@ -68,6 +67,7 @@ public class TabelaHorariosController extends Controller {
 
 
     @Transactional
+    @Dynamic("Influunt")
     public CompletionStage<Result> cancelarEdicao(String id) {
         Controlador controlador = Controlador.find.byId(UUID.fromString(id));
         if (controlador == null) {

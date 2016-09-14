@@ -1,9 +1,12 @@
 package helpers;
 
+import models.Area;
 import models.Cidade;
 import models.Fabricante;
+import models.Usuario;
 
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  * Created by rodrigosol on 6/15/16.
@@ -14,8 +17,21 @@ public class ControladorHelper {
 
     private List<Fabricante> fabricantes;
 
-    public ControladorHelper() {
-        cidades = Cidade.find.findList();
+    public ControladorHelper(Usuario usuario) {
+        if (usuario.isRoot()) {
+            cidades = Cidade.find.findList();
+        } else if (usuario.getArea() != null) {
+            cidades = Cidade.find.where().eq("id", usuario.getArea().getCidade().getId()).findList();
+            for (Cidade cidade : cidades) {
+                ListIterator<Area> it = cidade.getAreas().listIterator();
+                while (it.hasNext()) {
+                    Area area = it.next();
+                    if (!area.getId().equals(usuario.getArea().getId())) {
+                        it.remove();
+                    }
+                }
+            }
+        }
         fabricantes = Fabricante.find.findList();
     }
 

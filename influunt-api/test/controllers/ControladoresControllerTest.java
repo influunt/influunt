@@ -506,6 +506,8 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
                     .uri(routes.ControladoresController.editarTabelaHoraria(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
 
             Result postResult = route(postRequest);
+            assertEquals(OK, postResult.status());
+
             JsonNode json = Json.parse(Helpers.contentAsString(postResult));
             Controlador controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
 

@@ -1,6 +1,5 @@
 package controllers;
 
-import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
 import be.objectify.deadbolt.java.actions.Dynamic;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -16,15 +15,14 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
-@DeferredDeadbolt
 @Security.Authenticated(Secured.class)
-@Dynamic("Influunt")
 public class EstagiosController extends Controller {
 
     @Inject
     private Provider<Application> provider;
 
     @Transactional
+    @Dynamic("Influunt")
     public CompletionStage<Result> delete(String id) {
         Estagio estagio = Estagio.find.byId(UUID.fromString(id));
         if (estagio == null) {

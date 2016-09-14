@@ -1,6 +1,5 @@
 package controllers;
 
-import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
 import be.objectify.deadbolt.java.actions.Dynamic;
 import checks.*;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -25,42 +24,46 @@ import java.util.concurrent.CompletionStage;
 
 import static models.VersaoControlador.usuarioPodeEditarControlador;
 
-@DeferredDeadbolt
 @Security.Authenticated(Secured.class)
-@Dynamic("Influunt")
 public class ControladoresController extends Controller {
 
     @Inject
     private ControladorService controladorService;
 
     @Transactional
+    @Dynamic(value = "ControladorAreaAuth(bodyArea)")
     public CompletionStage<Result> dadosBasicos() {
         return doStep(false, javax.validation.groups.Default.class);
     }
 
     @Transactional
+    @Dynamic(value = "ControladorAreaAuth(body)")
     public CompletionStage<Result> aneis() {
         return doStep(false, javax.validation.groups.Default.class, ControladorAneisCheck.class);
     }
 
     @Transactional
+    @Dynamic(value = "ControladorAreaAuth(body)")
     public CompletionStage<Result> gruposSemaforicos() {
         return doStep(false, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class);
     }
 
     @Transactional
+    @Dynamic(value = "ControladorAreaAuth(body)")
     public CompletionStage<Result> verdesConflitantes() {
         return doStep(false, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
                 ControladorVerdesConflitantesCheck.class);
     }
 
     @Transactional
+    @Dynamic(value = "ControladorAreaAuth(body)")
     public CompletionStage<Result> associacaoGruposSemaforicos() {
         return doStep(false, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
                 ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class);
     }
 
     @Transactional
+    @Dynamic(value = "ControladorAreaAuth(body)")
     public CompletionStage<Result> transicoesProibidas() {
         return doStep(false, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
                 ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
@@ -68,6 +71,7 @@ public class ControladoresController extends Controller {
     }
 
     @Transactional
+    @Dynamic(value = "ControladorAreaAuth(body)")
     public CompletionStage<Result> atrasoDeGrupo() {
         return doStep(false, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
                 ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
@@ -75,6 +79,7 @@ public class ControladoresController extends Controller {
     }
 
     @Transactional
+    @Dynamic(value = "ControladorAreaAuth(body)")
     public CompletionStage<Result> entreVerdes() {
         return doStep(false, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
                 ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
@@ -82,6 +87,7 @@ public class ControladoresController extends Controller {
     }
 
     @Transactional
+    @Dynamic(value = "ControladorAreaAuth(body)")
     public CompletionStage<Result> associacaoDetectores() {
         return doStep(true, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
                 ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
@@ -90,6 +96,7 @@ public class ControladoresController extends Controller {
     }
 
     @Transactional
+    @Dynamic(value = "ControladorAreaAuth(path)")
     public CompletionStage<Result> findOne(String id) {
         Controlador controlador = Controlador.find.byId(UUID.fromString(id));
         if (controlador == null) {
@@ -99,8 +106,8 @@ public class ControladoresController extends Controller {
         }
     }
 
-
     @Transactional
+    @Dynamic(value = "ControladorAreaAuth(path)")
     public CompletionStage<Result> edit(String id) {
 
         if (getUsuario() == null) {
@@ -133,6 +140,7 @@ public class ControladoresController extends Controller {
     }
 
     @Transactional
+    @Dynamic(value = "ControladorAreaAuth(path)")
     public CompletionStage<Result> editarPlanos(String id) {
 
         if (getUsuario() == null) {
@@ -166,6 +174,7 @@ public class ControladoresController extends Controller {
     }
 
     @Transactional
+    @Dynamic(value = "ControladorAreaAuth(path)")
     public CompletionStage<Result> editarTabelaHoraria(String id) {
 
         if (getUsuario() == null) {
@@ -199,14 +208,25 @@ public class ControladoresController extends Controller {
     }
 
     @Transactional
+    @Dynamic(value = "Influunt")
     public CompletionStage<Result> findAll() {
-        List<ControladorFisico> controladoresFisicos = ControladorFisico.find.fetch("versoes").findList();
-        List<Controlador> controladores = new ArrayList<Controlador>();
-        controladoresFisicos.stream().forEach(controladorFisico -> controladores.add(controladorFisico.getControladorAtivoOuEditando()));
-        return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladoresJson(controladores)));
+        Usuario u = getUsuario();
+        List<ControladorFisico> controladoresFisicos = null;
+        if (u.isRoot()) {
+            controladoresFisicos = ControladorFisico.find.fetch("versoes").findList();
+        } else if (u.getArea() != null) {
+            controladoresFisicos = ControladorFisico.find.fetch("versoes").where().eq("area_id", u.getArea().getId()).findList();
+        }
+        if (controladoresFisicos != null) {
+            List<Controlador> controladores = new ArrayList<Controlador>();
+            controladoresFisicos.stream().forEach(controladorFisico -> controladores.add(controladorFisico.getControladorAtivoOuEditando()));
+            return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladoresJson(controladores)));
+        }
+        return CompletableFuture.completedFuture(forbidden());
     }
 
     @Transactional
+    @Dynamic(value = "ControladorAreaAuth(path)")
     public CompletionStage<Result> delete(String id) {
         Controlador controlador = Controlador.find.byId(UUID.fromString(id));
         if (controlador == null) {
@@ -218,6 +238,7 @@ public class ControladoresController extends Controller {
     }
 
     @Transactional
+    @Dynamic(value = "ControladorAreaAuth(path)")
     public CompletionStage<Result> timeline(String id) {
         Controlador controlador = Controlador.find.byId(UUID.fromString(id));
         if (controlador == null) {
@@ -229,6 +250,7 @@ public class ControladoresController extends Controller {
     }
 
     @Transactional
+    @Dynamic(value = "ControladorAreaAuth(path)")
     public CompletionStage<Result> podeEditar(String id) {
         Controlador controlador = Controlador.find.byId(UUID.fromString(id));
         if (controlador == null) {
@@ -245,6 +267,7 @@ public class ControladoresController extends Controller {
     }
 
     @Transactional
+    @Dynamic(value = "ControladorAreaAuth(path)")
     public CompletionStage<Result> ativar(String id) {
         Controlador controlador = Controlador.find.byId(UUID.fromString(id));
         if (controlador == null) {
@@ -256,6 +279,7 @@ public class ControladoresController extends Controller {
     }
 
     @Transactional
+    @Dynamic(value = "ControladorAreaAuth(path)")
     public CompletionStage<Result> cancelarEdicao(String id) {
         Controlador controlador = Controlador.find.byId(UUID.fromString(id));
         if (controlador == null) {
@@ -267,6 +291,7 @@ public class ControladoresController extends Controller {
     }
 
     @Transactional
+    @Dynamic(value = "ControladorAreaAuth(path)")
     public CompletionStage<Result> atualizarDescricao(String id) {
         JsonNode json = request().body().asJson();
 
@@ -317,6 +342,7 @@ public class ControladoresController extends Controller {
                     ControladorFisico controladorFisico = new ControladorFisico();
                     VersaoControlador versaoControlador = new VersaoControlador(controlador, controladorFisico, getUsuario());
                     controladorFisico.addVersaoControlador(versaoControlador);
+                    controladorFisico.setArea(controlador.getArea());
                     controlador.save();
                     controladorFisico.save();
                 }

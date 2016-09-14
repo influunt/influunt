@@ -2,6 +2,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import security.Authenticator;
 import security.DBAuthenticator;
+import security.InfluuntContextManager;
 
 import java.text.SimpleDateFormat;
 
@@ -22,6 +23,7 @@ public class Module extends AbstractModule {
     @Override
     public void configure() {
         bind(Authenticator.class).to(DBAuthenticator.class).in(Singleton.class);
+        bind(InfluuntContextManager.class).asEagerSingleton();
         //bind(server.Central.class).asEagerSingleton();
     }
 

@@ -40,7 +40,7 @@ public abstract class AbstractInfluuntControladorTest extends WithInfluuntApplic
         modeloControlador.setDescricao("Modelo 1");
         modeloControlador.save();
 
-        controladorTestUtils = new ControladorTestUtil(cidade, area, subarea, fabricante, modeloControlador);
+        controladorTestUtils = new ControladorTestUtil(area, subarea, fabricante, modeloControlador);
     }
 
     public abstract List<Erro> getErros(Controlador controlador);
