@@ -2,10 +2,8 @@ package integracao;
 
 import config.WithInfluuntApplicationNoAuthentication;
 import models.*;
-import org.joda.time.LocalTime;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -42,7 +40,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         return controlador;
     }
 
-    private void criaRelacaoDadosBasicos(){
+    private void criaRelacaoDadosBasicos() {
         cidade = new Cidade();
         cidade.setNome("São Paulo");
         cidade.save();
@@ -101,7 +99,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
 
     }
 
-    private Anel getAnel(Integer posicao){
+    private Anel getAnel(Integer posicao) {
         return controlador.getAneis().stream().filter(anel -> anel.getPosicao().equals(posicao)).findAny().get();
     }
 
@@ -133,17 +131,17 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         controlador.save();
     }
 
-    private GrupoSemaforico criaGrupoSemaforico(Anel anel, TipoGrupoSemaforico tipo, Integer posicao){
+    private GrupoSemaforico criaGrupoSemaforico(Anel anel, TipoGrupoSemaforico tipo, Integer posicao) {
         GrupoSemaforico grupoSemaforico = new GrupoSemaforico();
         grupoSemaforico.setAnel(anel);
         grupoSemaforico.setControlador(controlador);
         grupoSemaforico.setTipo(tipo);
-        grupoSemaforico.setDescricao("G"+posicao);
+        grupoSemaforico.setDescricao("G" + posicao);
         grupoSemaforico.setPosicao(posicao);
-        if(tipo.equals(TipoGrupoSemaforico.PEDESTRE)){
+        if (tipo.equals(TipoGrupoSemaforico.PEDESTRE)) {
             grupoSemaforico.setTempoVerdeSeguranca(4);
             grupoSemaforico.setFaseVermelhaApagadaAmareloIntermitente(false);
-        }else{
+        } else {
             grupoSemaforico.setTempoVerdeSeguranca(10);
             grupoSemaforico.setFaseVermelhaApagadaAmareloIntermitente(true);
         }
@@ -172,7 +170,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         controlador.save();
     }
 
-    private void criarVerdeConflitante(Anel anel, Integer origem, Integer destino){
+    private void criarVerdeConflitante(Anel anel, Integer origem, Integer destino) {
         GrupoSemaforico grupoSemaforicoOrigem = anel.findGrupoSemaforicoByPosicao(origem);
         GrupoSemaforico grupoSemaforicoDestino = anel.findGrupoSemaforicoByPosicao(destino);
 
@@ -200,7 +198,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         controlador.save();
     }
 
-    private EstagioGrupoSemaforico criarAssociacaoEstagioGrupoSemaforico(Anel anel, Integer posicaoEstagio, Integer posicaoGrupoSemaforico){
+    private EstagioGrupoSemaforico criarAssociacaoEstagioGrupoSemaforico(Anel anel, Integer posicaoEstagio, Integer posicaoGrupoSemaforico) {
         Estagio estagio = anel.findEstagioByPosicao(posicaoEstagio);
         GrupoSemaforico grupoSemaforico = anel.findGrupoSemaforicoByPosicao(posicaoGrupoSemaforico);
 
@@ -245,7 +243,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         controlador.save();
     }
 
-    private void criarTransicaoProibida(Anel anel, Integer posicaoOrigem, Integer posicaoDestino, Integer posicaoAlternativo){
+    private void criarTransicaoProibida(Anel anel, Integer posicaoOrigem, Integer posicaoDestino, Integer posicaoAlternativo) {
         Estagio origem = anel.findEstagioByPosicao(posicaoOrigem);
         Estagio destino = anel.findEstagioByPosicao(posicaoDestino);
         Estagio alternativo = anel.findEstagioByPosicao(posicaoAlternativo);
@@ -269,7 +267,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         controlador.save();
     }
 
-    private void criarAtrasoDeGrupo(){
+    private void criarAtrasoDeGrupo() {
         for (Anel anel : controlador.getAneis()) {
             for (GrupoSemaforico grupoSemaforico : anel.getGruposSemaforicos()) {
                 for (Transicao transicao : grupoSemaforico.getTransicoes()) {
@@ -303,7 +301,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         controlador.save();
     }
 
-    private void setEntreVerde(Anel anel, Integer posicaoGrupo, Integer posicaoOrigem, Integer posicaoDestino, Integer tempoAmarelo, Integer tempoVermelho){
+    private void setEntreVerde(Anel anel, Integer posicaoGrupo, Integer posicaoOrigem, Integer posicaoDestino, Integer tempoAmarelo, Integer tempoVermelho) {
         GrupoSemaforico grupoSemaforico = anel.findGrupoSemaforicoByPosicao(posicaoGrupo);
         Estagio origem = anel.findEstagioByPosicao(posicaoOrigem);
         Estagio destino = anel.findEstagioByPosicao(posicaoDestino);
@@ -346,7 +344,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         controlador.save();
     }
 
-    private Detector associaDetectorEstagio(Anel anel, Integer posicaoEstagio, TipoDetector tipo, Integer posicao){
+    private Detector associaDetectorEstagio(Anel anel, Integer posicaoEstagio, TipoDetector tipo, Integer posicao) {
         Detector detector = criarDetector(anel, tipo, posicao, false);
         Estagio estagio = anel.findEstagioByPosicao(posicaoEstagio);
         detector.setEstagio(estagio);

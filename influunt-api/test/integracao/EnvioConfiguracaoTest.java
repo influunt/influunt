@@ -2,128 +2,108 @@ package integracao;
 
 import checks.*;
 import com.fasterxml.jackson.databind.JsonNode;
-import controllers.routes;
-import json.ControladorCustomDeserializer;
-import json.ControladorCustomSerializer;
-import models.*;
-import org.hamcrest.Matchers;
-import org.junit.After;
-import org.junit.Before;
+import models.Anel;
+import models.Controlador;
+import models.StatusControlador;
+import models.StatusDevice;
 import org.junit.Test;
-import play.libs.Json;
-import play.mvc.Http;
-import play.mvc.Result;
-import play.test.Helpers;
+import protocol.TipoMensagem;
+import status.StatusControladorFisico;
 
 import javax.validation.groups.Default;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
-import static org.junit.Assert.*;
-import static play.mvc.Http.Status.OK;
-import static play.mvc.Http.Status.UNPROCESSABLE_ENTITY;
-import static play.test.Helpers.route;
+import static org.awaitility.Awaitility.await;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created by rodrigosol on 6/22/16.
  */
-public class EnvioConfiguracaoTest extends BasicMQTTTest{
+public class EnvioConfiguracaoTest extends BasicMQTTTest {
 
 
     @Test
     public void configuracaoValida() {
-        centralDeveSeConectarAoServidorMQTT();
         List<Erro> erros = getErros(controlador);
         assertThat(erros, org.hamcrest.Matchers.empty());
     }
 
     @Test
     public void configuracaoOK() throws InterruptedException, ExecutionException, TimeoutException {
-        centralDeveSeConectarAoServidorMQTT();
+        await().until(() -> onPublishFutureList.size() > 4);
 
-        resp = onPublishFuture.get(TIMEOUT, TimeUnit.SECONDS);
-        onPublishFuture = new CompletableFuture<>();
-
-        JsonNode json = play.libs.Json.parse(new String(resp));
-        assertEquals("CONFIGURACAO_INICIAL", json.get("tipoMensagem").asText());
+        JsonNode json = play.libs.Json.parse(onPublishFutureList.get(1));
+        assertEquals(TipoMensagem.CONFIGURACAO_INICIAL.toString(), json.get("tipoMensagem").asText());
         assertEquals(idControlador, json.get("idControlador").asText());
 
         String idMensagem = json.get("idMensagem").asText();
 
-        resp = onPublishFuture.get(TIMEOUT, TimeUnit.SECONDS);
-        onPublishFuture = new CompletableFuture<>();
-        json = play.libs.Json.parse(new String(resp));
-        assertEquals("CONFIGURACAO", json.get("tipoMensagem").asText());
+        json = play.libs.Json.parse(onPublishFutureList.get(2));
+        assertEquals(TipoMensagem.CONFIGURACAO.toString(), json.get("tipoMensagem").asText());
         assertEquals(idControlador, json.get("idControlador").asText());
         assertEquals(idMensagem, json.get("emResposta").asText());
 
         idMensagem = json.get("idMensagem").asText();
 
-        resp = onPublishFuture.get(TIMEOUT, TimeUnit.SECONDS);
-        onPublishFuture = new CompletableFuture<>();
-        json = play.libs.Json.parse(new String(resp));
-        assertEquals("OK", json.get("tipoMensagem").asText());
+        json = play.libs.Json.parse(new String(onPublishFutureList.get(3)));
+        assertEquals(TipoMensagem.OK.toString(), json.get("tipoMensagem").asText());
         assertEquals(idControlador, json.get("idControlador").asText());
         assertEquals(idMensagem, json.get("emResposta").asText());
+
+        json = play.libs.Json.parse(new String(onPublishFutureList.get(4)));
+        assertEquals(TipoMensagem.MUDANCA_STATUS_CONTROLADOR.toString(), json.get("tipoMensagem").asText());
+        assertEquals(idControlador, json.get("idControlador").asText());
+        assertEquals(StatusDevice.CONFIGURADO.toString(), json.get("conteudo").get("status").asText());
     }
 
     @Test
     public void configuracaoErro() throws InterruptedException, ExecutionException, TimeoutException {
         Anel anel = controlador.getAneis().stream().filter(anel1 -> !anel1.isAtivo()).findAny().get();
         anel.setAtivo(true);
-
         controlador.save();
 
-        centralDeveSeConectarAoServidorMQTT();
+        await().until(() -> onPublishFutureList.size() > 4);
 
-        resp = onPublishFuture.get(TIMEOUT, TimeUnit.SECONDS);
-        onPublishFuture = new CompletableFuture<>();
-
-        JsonNode json = play.libs.Json.parse(new String(resp));
-        assertEquals("CONFIGURACAO_INICIAL", json.get("tipoMensagem").asText());
+        JsonNode json = play.libs.Json.parse(new String(onPublishFutureList.get(1)));
+        assertEquals(TipoMensagem.CONFIGURACAO_INICIAL.toString(), json.get("tipoMensagem").asText());
         assertEquals(idControlador, json.get("idControlador").asText());
 
         String idMensagem = json.get("idMensagem").asText();
 
-        resp = onPublishFuture.get(TIMEOUT, TimeUnit.SECONDS);
-        onPublishFuture = new CompletableFuture<>();
-        json = play.libs.Json.parse(new String(resp));
-        assertEquals("CONFIGURACAO", json.get("tipoMensagem").asText());
+        json = play.libs.Json.parse(new String(onPublishFutureList.get(2)));
+        assertEquals(TipoMensagem.CONFIGURACAO.toString(), json.get("tipoMensagem").asText());
         assertEquals(idControlador, json.get("idControlador").asText());
         assertEquals(idMensagem, json.get("emResposta").asText());
 
         idMensagem = json.get("idMensagem").asText();
 
-        resp = onPublishFuture.get(TIMEOUT, TimeUnit.SECONDS);
-        onPublishFuture = new CompletableFuture<>();
-        json = play.libs.Json.parse(new String(resp));
-        assertEquals("ERRO", json.get("tipoMensagem").asText());
+        json = play.libs.Json.parse(new String(onPublishFutureList.get(3)));
+        assertEquals(TipoMensagem.ERRO.toString(), json.get("tipoMensagem").asText());
         assertEquals(idControlador, json.get("idControlador").asText());
         assertEquals(idMensagem, json.get("emResposta").asText());
+
+        json = play.libs.Json.parse(new String(onPublishFutureList.get(4)));
+        assertEquals(idControlador, json.get("idControlador").asText());
+        assertEquals(TipoMensagem.MUDANCA_STATUS_CONTROLADOR.toString(), json.get("tipoMensagem").asText());
+        assertEquals(StatusDevice.NOVO.toString(), json.get("conteudo").get("status").asText());
     }
 
     @Test
     public void naoExisteConfiguracao() throws InterruptedException, ExecutionException, TimeoutException {
-        centralDeveSeConectarAoServidorMQTT();
+        controlador.setStatusControlador(StatusControlador.EM_CONFIGURACAO);
+        controlador.save();
+        await().until(() -> onPublishFutureList.size() > 2);
 
-        resp = onPublishFuture.get(TIMEOUT, TimeUnit.SECONDS);
-        onPublishFuture = new CompletableFuture<>();
-
-        JsonNode json = play.libs.Json.parse(new String(resp));
+        JsonNode json = play.libs.Json.parse(new String(onPublishFutureList.get(1)));
         assertEquals("CONFIGURACAO_INICIAL", json.get("tipoMensagem").asText());
         assertEquals(idControlador, json.get("idControlador").asText());
 
         String idMensagem = json.get("idMensagem").asText();
 
-        resp = onPublishFuture.get(TIMEOUT, TimeUnit.SECONDS);
-        json = play.libs.Json.parse(new String(resp));
+        json = play.libs.Json.parse(new String(onPublishFutureList.get(2)));
         assertEquals("ERRO", json.get("tipoMensagem").asText());
         assertEquals(idControlador, json.get("idControlador").asText());
         assertEquals(idMensagem, json.get("emResposta").asText());

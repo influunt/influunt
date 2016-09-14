@@ -41,7 +41,7 @@ libraryDependencies ++= Seq(
   "org.hamcrest" % "hamcrest-library" % "1.3",
   "commons-beanutils" % "commons-beanutils" % "1.9.2",
   "net.coobird" % "thumbnailator" % "0.4.8",
-   "io.moquette" % "moquette-broker" % "0.8",
+  "io.moquette" % "moquette-broker" % "0.8" exclude("org.slf4j", "slf4j-log4j12"),
   "org.mindrot" % "jbcrypt" % "0.3m",
 
   "org.jetbrains.kotlin" % "kotlin-stdlib" % "1.0.3",
@@ -50,7 +50,9 @@ libraryDependencies ++= Seq(
   "org.eclipse.collections" % "eclipse-collections-forkjoin" % "7.1.0",
   "net.jpountz.lz4" % "lz4" % "1.3.0",
   "org.mapdb" % "elsa" % "3.0.0-M6",
-  "com.google.guava" % "guava" % "19.0")
+  "com.google.guava" % "guava" % "19.0",
+
+  "org.awaitility" % "awaitility-scala" % "2.0.0")
 
 jacoco.settings
 parallelExecution in jacoco.Config := false

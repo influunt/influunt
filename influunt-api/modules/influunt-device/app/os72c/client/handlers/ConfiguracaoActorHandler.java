@@ -4,22 +4,24 @@ import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import models.Controlador;
-import protocol.Configuracao;
-import protocol.Envelope;
-import protocol.Sinal;
-import protocol.TipoMensagem;
+import models.StatusDevice;
+import os72c.client.storage.Storage;
+import os72c.client.utils.Atores;
+import protocol.*;
 
 /**
  * Created by rodrigosol on 9/6/16.
  */
 public class ConfiguracaoActorHandler extends UntypedActor {
 
+    private final Storage storage;
     LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
     private final String idControlador;
 
-    public ConfiguracaoActorHandler(String idControlador) {
+    public ConfiguracaoActorHandler(String idControlador, Storage storage) {
         this.idControlador = idControlador;
+        this.storage = storage;
     }
 
     @Override
@@ -31,23 +33,29 @@ public class ConfiguracaoActorHandler extends UntypedActor {
                     log.info("Mensagem de configuração errada: {}", envelope.getConteudo().toString());
                 } else {
                     log.info("Central respondeu a configuração: {}", envelope.getConteudo().toString());
-                    Envelope envelope1;
-                    if(Controlador.isValido(envelope.getConteudo())){
+                    Envelope envelopeSinal;
+                    Envelope envelopeStatus;
+                    Controlador controlador = Controlador.isValido(envelope.getConteudo());
+                    if(controlador != null){
+                        storage.setControlador(controlador);
+                        storage.setStatus(StatusDevice.CONFIGURADO);
                         log.info("Responder OK para Central: {}", envelope.getConteudo().toString());
-                        envelope1 = Sinal.getMensagem(TipoMensagem.OK, idControlador, "central/configuracao");
+                        envelopeSinal = Sinal.getMensagem(TipoMensagem.OK, idControlador, DestinoCentral.pedidoConfiguracao());
                     }else{
                         log.info("Responder ERRO para Central: {}", envelope.getConteudo().toString());
-                        envelope1 = Sinal.getMensagem(TipoMensagem.ERRO, idControlador, "central/configuracao");
+                        envelopeSinal = Sinal.getMensagem(TipoMensagem.ERRO, idControlador, DestinoCentral.pedidoConfiguracao());
                     }
-                    envelope1.setEmResposta(envelope.getIdMensagem());
-                    getContext().actorSelection("akka://InfluuntSystem/user/"+idControlador+"/ControladorMQTT").tell(envelope1, getSelf());
+                    envelopeSinal.setEmResposta(envelope.getIdMensagem());
+                    envelopeStatus = MudancaStatusControlador.getMensagem(idControlador, storage.getStatus());
+                    getContext().actorSelection(Atores.mqttActorPath(idControlador)).tell(envelopeSinal, getSelf());
+                    getContext().actorSelection(Atores.mqttActorPath(idControlador)).tell(envelopeStatus, getSelf());
                 }
             }
         } else if (message instanceof  String){
             if(message.toString().equals("VERIFICA")){
                 log.info("Solicita configuração a central: {}", sender());
                 //TODO
-                getContext().actorSelection("akka://InfluuntSystem/user/"+idControlador+"/ControladorMQTT").tell(Sinal.getMensagem(TipoMensagem.CONFIGURACAO_INICIAL, idControlador, "central/configuracao"), getSelf());
+                getContext().actorSelection(Atores.mqttActorPath(idControlador)).tell(Sinal.getMensagem(TipoMensagem.CONFIGURACAO_INICIAL, idControlador, "central/configuracao"), getSelf());
             }
         }
     }

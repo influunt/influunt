@@ -10,5 +10,6 @@ public enum TipoMensagem {
     CONFIGURACAO_INICIAL,
     CONFIGURACAO,
     OK,
-    ERRO
+    ERRO,
+    MUDANCA_STATUS_CONTROLADOR
 }

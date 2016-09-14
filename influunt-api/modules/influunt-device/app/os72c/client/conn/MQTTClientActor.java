@@ -61,7 +61,7 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback {
 
         List<Routee> routees = new ArrayList<Routee>();
         for (int i = 0; i < 5; i++) {
-            ActorRef r = getContext().actorOf(Props.create(MessageBroker.class, this.id));
+            ActorRef r = getContext().actorOf(Props.create(MessageBroker.class, this.id, this.storage));
             getContext().watch(r);
             routees.add(new ActorRefRoutee(r));
         }

@@ -13,6 +13,7 @@ import os72c.client.handlers.ConfiguracaoActorHandler;
 import os72c.client.handlers.EchoActorHandler;
 import os72c.client.protocols.Mensagem;
 import os72c.client.protocols.MensagemVerificaConfiguracao;
+import os72c.client.storage.Storage;
 import protocol.Envelope;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class MessageBroker extends UntypedActor {
     ActorRef actorConfiguracao;
 
 
-    public MessageBroker(String idControlador) {
+    public MessageBroker(String idControlador, Storage storage) {
         List<Routee> routeesEcho = new ArrayList<Routee>();
         for (int i = 0; i < 5; i++) {
             ActorRef rEcho = getContext().actorOf(Props.create(EchoActorHandler.class));
@@ -38,7 +39,7 @@ public class MessageBroker extends UntypedActor {
         }
         routerEcho = new Router(new RoundRobinRoutingLogic(), routeesEcho);
 
-        actorConfiguracao = getContext().actorOf(Props.create(ConfiguracaoActorHandler.class, idControlador));
+        actorConfiguracao = getContext().actorOf(Props.create(ConfiguracaoActorHandler.class, idControlador, storage));
     }
 
     @Override
