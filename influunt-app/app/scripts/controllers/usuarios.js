@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('UsuariosCtrl', ['$scope', '$controller', 'Restangular',
-    function ($scope, $controller, Restangular) {
+  .controller('UsuariosCtrl', ['$scope', '$controller', 'Restangular', '$state', '$timeout',
+    function ($scope, $controller, Restangular, $state, $timeout) {
       // Herda todo o comportamento do crud basico.
       $controller('CrudCtrl', {$scope: $scope});
       $scope.inicializaNovoCrud('usuarios');
@@ -39,6 +39,28 @@ angular.module('influuntApp')
         ]
       };
 
+      $scope.pesquisaAcessos = {
+        campos: [
+          {
+            nome: 'dataCriacao',
+            label: 'sessoes.dataAcesso',
+            tipo: 'data'
+          }
+        ]
+      };
+
+      var perPageTimeout = null;
+      $scope.onPerPageChange = function() {
+        $timeout.cancel(perPageTimeout);
+        perPageTimeout = $timeout(function() {
+          return $scope.$state.current.name === 'app.usuarios_access_log' ? $scope.accessLog() : $scope.index();
+        }, 500);
+      };
+
+      $scope.onPageChange = function() {
+        return $scope.$state.current.name === 'app.usuarios_access_log' ? $scope.accessLog() : $scope.index();
+      };
+
       /**
        * Recupera a lista de configuracoes que podem ser relacionadas aos modelos.
        */
@@ -49,6 +71,20 @@ angular.module('influuntApp')
 
         Restangular.all('perfis').getList().then(function(res) {
           $scope.perfis = res;
+        });
+      };
+
+      $scope.accessLog = function() {
+        var id = $state.params.id;
+        var query = $scope.buildQuery($scope.pesquisaAcessos);
+        query.sort = 'data_criacao';
+        query.sort_type = 'desc';
+        console.log(query)
+
+        Restangular.one('usuarios', id).all('access_log').customGET(null, query)
+        .then(function(res){
+          $scope.sessoes = res.data;
+          $scope.pagination.totalItems = res.total;
         });
       };
 

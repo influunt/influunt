@@ -34,7 +34,7 @@ public class SecurityController extends Controller {
             String senha = json.get("senha").asText();
             final Usuario usuario = (Usuario) authenticator.getSubjectByCredentials(login, senha);
             if (usuario != null) {
-                response().setHeader(AUTH_TOKEN, authenticator.createSession(usuario));
+                response().setHeader(AUTH_TOKEN, authenticator.createSession(usuario, request().remoteAddress()));
                 return CompletableFuture.completedFuture(ok(Json.toJson(usuario)));
             }
             return CompletableFuture.completedFuture(unauthorized(Json.toJson(Arrays.asList(new Erro("login", "usuário ou senha inválidos", "")))));

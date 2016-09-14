@@ -650,6 +650,17 @@ angular
           }
         })
 
+        .state('app.usuarios_access_log', {
+          url: '/usuarios/:id/access_log',
+          templateUrl: 'views/usuarios/access_log.html',
+          controller: 'UsuariosCtrl',
+          controllerAs: 'usuarios',
+          data: {
+            title: 'usuarios.access_log',
+            breadcrumb: 'usuarios.access_log'
+          }
+        })
+
         // CRUD Agrupamentos
         .state('app.agrupamentos', {
           url: '/agrupamentos',

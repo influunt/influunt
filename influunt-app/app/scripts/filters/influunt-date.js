@@ -10,7 +10,7 @@
  */
 angular.module('influuntApp')
   .filter('influuntDate', function () {
-    return function (input, format) {
+    return function influuntDate(input, format) {
       format = format || 'DD/MM/YYYY HH:mm:ss';
       if(input) {
         if(_.isString(input)) {
@@ -21,6 +21,8 @@ angular.module('influuntApp')
         }
 
         return input.format(format);
+      } else {
+        return '-----';
       }
     };
   });

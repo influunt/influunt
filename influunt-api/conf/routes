@@ -65,6 +65,7 @@ POST        /api/v1/usuarios                                      controllers.Us
 PUT         /api/v1/usuarios/:id                                  controllers.UsuariosController.update(id)
 GET         /api/v1/usuarios/:id                                  controllers.UsuariosController.findOne(id)
 DELETE      /api/v1/usuarios/:id                                  controllers.UsuariosController.delete(id)
+GET         /api/v1/usuarios/:id/access_log                       controllers.UsuariosController.accessLog(id)
 
 # Perfis
 GET         /api/v1/perfis                                        controllers.PerfisController.findAll()

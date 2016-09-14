@@ -36,7 +36,13 @@ public class DBAuthenticator implements Authenticator {
 
     @Override
     public String createSession(final Subject subject) {
+        return createSession(subject, null);
+    }
+
+    @Override
+    public String createSession(final Subject subject, final String ip) {
         Sessao newSession = new Sessao((Usuario) subject);
+        newSession.setIp(ip);
         newSession.save();
         return newSession.getToken();
     }
