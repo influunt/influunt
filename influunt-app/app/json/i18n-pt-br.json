@@ -432,7 +432,8 @@
   },
   "menu": {
     "cadastros": "Cadastros",
-    "configuracoes": "Configurações"
+    "configuracoes": "Configurações",
+    "sair": "Sair"
   },
   "timeline": {
     "titulo": "Histórico de alterações"
@@ -475,7 +476,8 @@
     "novo": "Novo Usuário",
     "editar": "Editar Usuário",
     "mostrar": "Visualizar Usuário",
-    "access_log": "Log Acesso"
+    "access_log": "Log Acesso",
+    "editar_perfil": "Editar Perfil"
   },
   "plugins": {
     "datatables_cdn": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json",
