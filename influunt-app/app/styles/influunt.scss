@@ -2454,6 +2454,82 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
       padding: 20px;
   }
 }
+.dashboard {
+  h3 {
+    text-transform: uppercase;
+  }
+  .widget {
+    h2 {
+      text-transform: uppercase;
+      font-size: 18px;
+      font-weight: 600;
+      &.font-bold {
+        font-size: 29px;
+        @media (max-width: 1530px) {
+          font-size: 19px;
+        }
+        @media (max-width: 900px) {
+          font-size: 15px;
+        }
+      }
+    }
+    .marginTop {
+      margin-top: 13px;
+    }
+    &.falseBtn {
+      cursor: pointer;
+      &:hover {
+        box-shadow: inset 0px 0px 10px rgba(0,0,0,0.3);
+      }
+    }
+  }
+  .vertical-timeline-block {
+    .vertical-date {
+      float: left;
+      margin-left: 75px;
+      margin-top: 10px;
+    }
+    .vertical-timeline-content {
+      background: #f5f5f5;
+      margin-left: 140px;
+      &::before {
+        border-right: 7px solid #f5f5f5;
+      }
+      p {
+        width: 100%;
+      }
+    }
+  }
+}
+.dashModal {
+  table {
+    margin-top: 20px;
+    thead {
+      tr {
+        th {
+          background-color: #e7eaec;
+          text-transform: uppercase;
+          font-size: 14px;
+          font-weight: 500;
+          color: 676a6c;
+          &.endereco {
+            width: 60%;
+            @media (max-width: 1200px) {
+              width: 40%;
+            }
+          }
+        }
+      }
+    }
+    tbody {
+      tr {
+        td {
+          text-align: left;
+        }
+      }
+    }
+  }
+}
 .ajusteMapa {
   .leaflet-left {
     left: 10px;

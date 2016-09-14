@@ -2755,6 +2755,89 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
   padding: 20px;
 }
 
+.dashboard h3 {
+  text-transform: uppercase;
+}
+
+.dashboard .widget h2 {
+  text-transform: uppercase;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.dashboard .widget h2.font-bold {
+  font-size: 29px;
+}
+
+@media (max-width: 1530px) {
+  .dashboard .widget h2.font-bold {
+    font-size: 19px;
+  }
+}
+
+@media (max-width: 900px) {
+  .dashboard .widget h2.font-bold {
+    font-size: 15px;
+  }
+}
+
+.dashboard .widget .marginTop {
+  margin-top: 13px;
+}
+
+.dashboard .widget.falseBtn {
+  cursor: pointer;
+}
+
+.dashboard .widget.falseBtn:hover {
+  box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+.dashboard .vertical-timeline-block .vertical-date {
+  float: left;
+  margin-left: 75px;
+  margin-top: 10px;
+}
+
+.dashboard .vertical-timeline-block .vertical-timeline-content {
+  background: #f5f5f5;
+  margin-left: 140px;
+}
+
+.dashboard .vertical-timeline-block .vertical-timeline-content::before {
+  border-right: 7px solid #f5f5f5;
+}
+
+.dashboard .vertical-timeline-block .vertical-timeline-content p {
+  width: 100%;
+}
+
+.dashModal table {
+  margin-top: 20px;
+}
+
+.dashModal table thead tr th {
+  background-color: #e7eaec;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 500;
+  color: 676a6c;
+}
+
+.dashModal table thead tr th.endereco {
+  width: 60%;
+}
+
+@media (max-width: 1200px) {
+  .dashModal table thead tr th.endereco {
+    width: 40%;
+  }
+}
+
+.dashModal table tbody tr td {
+  text-align: left;
+}
+
 .ajusteMapa .leaflet-left {
   left: 10px;
   -webkit-transition-duration: 0.8s;
