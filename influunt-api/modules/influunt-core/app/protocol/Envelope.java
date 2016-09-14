@@ -104,4 +104,8 @@ public class Envelope {
     public Envelope replayWithSameMenssage(String detino) {
         return new Envelope(this.tipoMensagem, this.idControlador, detino, this.qos, this.conteudo, this.idMensagem);
     }
+
+    public void setDestino(String destino) {
+        this.destino = destino;
+    }
 }
