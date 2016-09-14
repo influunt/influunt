@@ -5,6 +5,7 @@ import be.objectify.deadbolt.java.actions.Dynamic;
 import checks.Erro;
 import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
+import models.Sessao;
 import models.Usuario;
 import play.db.ebean.Transactional;
 import play.libs.Json;
@@ -15,6 +16,7 @@ import security.Secured;
 import utils.InfluuntQueryBuilder;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -24,7 +26,6 @@ import java.util.concurrent.CompletionStage;
 @Security.Authenticated(Secured.class)
 @Dynamic("Influunt")
 public class UsuariosController extends Controller {
-
 
     @Transactional
     public CompletionStage<Result> create() {
@@ -102,6 +103,20 @@ public class UsuariosController extends Controller {
             }
         }
 
+    }
+
+    @Transactional
+    public CompletionStage<Result> accessLog(String id) {
+        HashMap<String, String[]> params = new HashMap<>();
+        Usuario usuario = Usuario.find.byId(UUID.fromString(id));
+        if (usuario == null) {
+            return CompletableFuture.completedFuture(notFound());
+        } else {
+            String[] usuarioId = {id};
+            params.putAll(request().queryString());
+            params.put("usuario_id", usuarioId);
+            return CompletableFuture.completedFuture(ok(new InfluuntQueryBuilder(Sessao.class, params).query()));
+        }
     }
 
 }

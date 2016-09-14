@@ -33,6 +33,15 @@ public interface Authenticator {
     public String createSession(Subject subject);
 
     /**
+     * Cria um novo token de acesso para o usuário
+     *
+     * @param subject
+     * @param remoteAddress
+     * @return token de acesso
+     */
+    public String createSession(Subject subject, String remoteAddress);
+
+    /**
      * Finaliza todas as sessoes do usuario informado
      *
      * @param subject

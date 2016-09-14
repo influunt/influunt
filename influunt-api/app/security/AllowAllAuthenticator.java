@@ -38,7 +38,13 @@ public class AllowAllAuthenticator implements Authenticator {
 
     @Override
     public String createSession(final Subject subject) {
+        return createSession(subject, null);
+    }
+
+    @Override
+    public String createSession(final Subject subject, String remoteAdrress) {
         Sessao newSession = new Sessao((Usuario) subject);
+        newSession.setIp(remoteAdrress);
         sessions.put(newSession.getToken(), newSession);
         return newSession.getToken();
     }

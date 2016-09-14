@@ -474,7 +474,8 @@
     "titulo": "Usuários",
     "novo": "Novo Usuário",
     "editar": "Editar Usuário",
-    "mostrar": "Visualizar Usuário"
+    "mostrar": "Visualizar Usuário",
+    "access_log": "Log Acesso"
   },
   "plugins": {
     "datatables_cdn": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json",
@@ -523,6 +524,11 @@
       "rota": "Rota",
       "subArea": "Subarea"
     }
+  },
+  "sessoes": {
+    "dataAcesso": "Data de Acesso",
+    "dataSaida": "Data de Saída",
+    "ip": "IP"
   },
   "status": {
     "titulo": "Status dos Controladores"

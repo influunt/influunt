@@ -68,6 +68,9 @@
                     <a data-ng-click="confirmDelete(usuario.id)" class="btn btn-danger btn-xs" data-ng-if="!usuario.root">
                       {{ 'geral.crud.excluir' | translate }}
                     </a>
+                    <a ui-sref="app.usuarios_access_log({id: usuario.id})" class="btn btn-info btn-xs">
+                      {{ 'usuarios.access_log' | translate }}
+                    </a>
                   </td>
                 </tr>
               </tbody>
