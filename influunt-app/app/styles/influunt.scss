@@ -2462,6 +2462,12 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
       font-weight: 600;
       &.font-bold {
         font-size: 29px;
+        @media (max-width: 1530px) {
+          font-size: 19px;
+        }
+        @media (max-width: 900px) {
+          font-size: 15px;
+        }
       }
     }
     .marginTop {

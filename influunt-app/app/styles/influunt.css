@@ -2765,6 +2765,18 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
   font-size: 29px;
 }
 
+@media (max-width: 1530px) {
+  .dashboard .widget h2.font-bold {
+    font-size: 19px;
+  }
+}
+
+@media (max-width: 900px) {
+  .dashboard .widget h2.font-bold {
+    font-size: 15px;
+  }
+}
+
 .dashboard .widget .marginTop {
   margin-top: 13px;
 }
