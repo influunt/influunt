@@ -74,7 +74,7 @@ var influunt;
              var inicio;
              if(!_.find(estagioAnterior.gruposSemaforicos, {'id': grupo.id})){
                var transicao = _.find(grupo.transicoesComPerdaDePassagem, {'origem': {'idJson': estagioAnterior.idJson}, 'destino': {'idJson': estagioAtual.idJson}});
-               var tempoAtrasoGrupo = !_.isUndefined(transicao.tempoAtrasoGrupo) ? parseInt(transicao.tempoAtrasoGrupo) : 0;
+               var tempoAtrasoGrupo = !_.isUndefined(transicao && transicao.tempoAtrasoGrupo) ? parseInt(transicao.tempoAtrasoGrupo) : 0;
                inicio = instante + tempoCiclo - tempoAtrasoGrupo;
              }else{
                inicio = tempoCiclo;
