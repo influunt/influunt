@@ -36,7 +36,13 @@ public class TestAuthenticator implements Authenticator {
 
     @Override
     public String createSession(final Subject subject) {
+        return createSession(subject, null);
+    }
+
+    @Override
+    public String createSession(final Subject subject, final String remoteAddress) {
         Sessao newSession = new Sessao((Usuario) subject);
+        newSession.setIp(remoteAddress);
         sessions.put(newSession.getToken(), newSession);
         return newSession.getToken();
     }

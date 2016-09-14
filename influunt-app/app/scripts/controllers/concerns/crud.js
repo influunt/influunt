@@ -69,10 +69,16 @@ angular.module('influuntApp')
           query[field] = dadosFiltro.valor;
         } else {
           if (dadosFiltro.start) {
+            if(angular.isString(dadosFiltro.start)) {
+              dadosFiltro.start = moment(dadosFiltro.start, 'DD/MM/YYYY');
+            }
             query[nomeCampo + '_start'] = moment(dadosFiltro.start).format('DD/MM/YYYY HH:mm:ss');
           }
 
           if (dadosFiltro.end) {
+            if(angular.isString(dadosFiltro.end)) {
+              dadosFiltro.end = moment(dadosFiltro.end, 'DD/MM/YYYY');
+            }
             query[nomeCampo + '_end'] = moment(dadosFiltro.end).format('DD/MM/YYYY HH:mm:ss');
           }
         }
