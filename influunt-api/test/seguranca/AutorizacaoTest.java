@@ -31,11 +31,7 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
 
     private List<Permissao> permissoes = new ArrayList<Permissao>();
 
-    private Perfil perfilComAcesso;
-    private Perfil perfilSemAcesso;
-
     private Usuario usuarioComAcesso;
-    private Usuario usuarioSemAcesso;
 
     private Optional<String> tokenComAcesso;
     private Optional<String> tokenSemAcesso;
@@ -53,12 +49,12 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
             permissoes.add(p);
         }
 
-        perfilComAcesso = new Perfil();
+        Perfil perfilComAcesso = new Perfil();
         perfilComAcesso.setNome("Deus");
         perfilComAcesso.setPermissoes(permissoes);
         perfilComAcesso.save();
 
-        perfilSemAcesso = new Perfil();
+        Perfil perfilSemAcesso = new Perfil();
         perfilSemAcesso.setNome("Odin");
         perfilSemAcesso.setPermissoes(new ArrayList<Permissao>());
         perfilSemAcesso.save();
@@ -72,7 +68,7 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
         usuarioComAcesso.setPerfil(perfilComAcesso);
         usuarioComAcesso.save();
 
-        usuarioSemAcesso = new Usuario();
+        Usuario usuarioSemAcesso = new Usuario();
         usuarioSemAcesso.setNome("Admin");
         usuarioSemAcesso.setLogin("admin1");
         usuarioSemAcesso.setSenha("1234");
