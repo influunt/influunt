@@ -41,6 +41,7 @@ public class DeviceMessageBroker extends UntypedActor {
 
         routers.put(TipoMensagem.ECHO, createRoutees(getContext(),5, EchoActorHandler.class));
         routers.put(TipoMensagem.CONFIGURACAO, createRoutees(getContext(),1, ConfiguracaoActorHandler.class,idControlador, storage));
+        actorConfiguracao = getContext().actorOf(Props.create(ConfiguracaoActorHandler.class,idControlador, storage),"actorConfig");
 
     }
 
