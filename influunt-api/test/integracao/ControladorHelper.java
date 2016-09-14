@@ -12,10 +12,15 @@ import java.util.UUID;
  */
 public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
     private Cidade cidade;
+
     private Area area;
+
     private Subarea subarea;
+
     private Fabricante fabricante;
+
     private ModeloControlador modeloControlador;
+
     private Controlador controlador;
 
     public Controlador getControlador() {

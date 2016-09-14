@@ -1,6 +1,5 @@
 package protocol;
 
-import models.StatusControlador;
 import models.StatusDevice;
 
 /**

@@ -3,13 +3,15 @@ package controllers.monitoramento;
 import com.fasterxml.jackson.databind.JsonNode;
 import config.WithInfluuntApplicationNoAuthentication;
 import models.Cidade;
+import models.StatusControlador;
+import models.StatusDevice;
 import org.junit.Before;
 import org.junit.Test;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
-import status.StatusConexaoControlador;
+import status.StatusControladorFisico;
 import uk.co.panaxiom.playjongo.PlayJongo;
 
 import java.util.HashMap;
@@ -17,14 +19,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static play.test.Helpers.OK;
 import static play.test.Helpers.route;
 
 /**
  * Created by lesiopinheiro on 9/2/16.
  */
-public class StatusConexaoTest extends WithInfluuntApplicationNoAuthentication {
+public class StatusControladorFisicoTest extends WithInfluuntApplicationNoAuthentication {
 
     private Cidade cidade;
 
@@ -39,64 +41,64 @@ public class StatusConexaoTest extends WithInfluuntApplicationNoAuthentication {
     public void setUp() throws InterruptedException {
 
         jongo = provideApplication().injector().instanceOf(PlayJongo.class);
-        StatusConexaoControlador.jongo = jongo;
+        StatusControladorFisico.jongo = jongo;
 
-        jongo.getCollection(StatusConexaoControlador.COLLECTION).drop();
+        jongo.getCollection(StatusControladorFisico.COLLECTION).drop();
 
-        StatusConexaoControlador.log("1", System.currentTimeMillis(), true);
+        StatusControladorFisico.log("1", System.currentTimeMillis(), StatusDevice.NOVO);
         Thread.sleep(10);
-        StatusConexaoControlador.log("1", System.currentTimeMillis(), false);
+        StatusControladorFisico.log("1", System.currentTimeMillis(), StatusDevice.CONFIGURADO);
         Thread.sleep(10);
-        StatusConexaoControlador.log("2", System.currentTimeMillis(), false);
+        StatusControladorFisico.log("2", System.currentTimeMillis(), StatusDevice.NOVO);
         Thread.sleep(10);
-        StatusConexaoControlador.log("2", System.currentTimeMillis(), true);
+        StatusControladorFisico.log("2", System.currentTimeMillis(), StatusDevice.ATIVO);
 
     }
 
     @Test
     public void testUltimoStatusDosControlador() {
-        HashMap<String, Boolean> usc = StatusConexaoControlador.ultimoStatusDosControladores();
+        HashMap<String, StatusDevice> usc = StatusControladorFisico.ultimoStatusDosControladores();
         assertEquals(2, usc.size());
 
-        assertFalse(usc.get("1"));
-        assertTrue(usc.get("2"));
+        assertEquals(StatusDevice.CONFIGURADO, usc.get("1"));
+        assertEquals(StatusDevice.ATIVO, usc.get("2"));
 
 
     }
 
     @Test
     public void testStatusDeUmControlador() {
-        assertFalse(StatusConexaoControlador.ultimoStatus("1").conectado);
+        assertEquals(StatusDevice.CONFIGURADO, StatusControladorFisico.ultimoStatus("1").statusDevice);
     }
 
     @Test
     public void testHistoricoStatusControlador() throws InterruptedException {
-        jongo.getCollection(StatusConexaoControlador.COLLECTION).drop();
+        jongo.getCollection(StatusControladorFisico.COLLECTION).drop();
         for (int i = 0; i < 100; i++) {
             Thread.sleep(10);
             if (i < 50) {
-                StatusConexaoControlador.log("1", System.currentTimeMillis(), true);
+                StatusControladorFisico.log("1", System.currentTimeMillis(), StatusDevice.NOVO);
             } else {
-                StatusConexaoControlador.log("1", System.currentTimeMillis(), false);
+                StatusControladorFisico.log("1", System.currentTimeMillis(), StatusDevice.ATIVO);
             }
 
         }
 
-        List<StatusConexaoControlador> statusControlador = StatusConexaoControlador.historico("1", 0, 50);
+        List<StatusControladorFisico> statusControlador = StatusControladorFisico.historico("1", 0, 50);
         assertEquals(50, statusControlador.size());
-        assertFalse(statusControlador.get(0).isConectado());
+        assertEquals(StatusDevice.ATIVO, statusControlador.get(0).statusDevice);
 
-        statusControlador = StatusConexaoControlador.historico("1", 1, 50);
+        statusControlador = StatusControladorFisico.historico("1", 1, 50);
         assertEquals(50, statusControlador.size());
-        assertTrue(statusControlador.get(0).isConectado());
+        assertEquals(StatusDevice.NOVO, statusControlador.get(0).statusDevice);
 
     }
 
     @Test
     public void testStatusControladorApi() {
-        System.out.println(controllers.monitoramento.routes.StatusControladorController.findOne("1").url());
+
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
-                .uri(controllers.monitoramento.routes.StatusControladorController.findOne("1").url());
+                .uri(routes.StatusControladorFisicoController.findOne("1").url());
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
@@ -105,7 +107,7 @@ public class StatusConexaoTest extends WithInfluuntApplicationNoAuthentication {
         List<LinkedHashMap> status = Json.fromJson(json, List.class);
 
         assertEquals(2, status.size());
-        assertFalse(Boolean.valueOf(status.get(0).get("conectado").toString()));
+        assertEquals(StatusDevice.CONFIGURADO.toString(), status.get(0).get("statusDevice").toString());
 
     }
 
@@ -114,7 +116,7 @@ public class StatusConexaoTest extends WithInfluuntApplicationNoAuthentication {
     public void testUltimoStatusDeTodosControladoresApi() {
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
-                .uri(controllers.monitoramento.routes.StatusControladorController.ultimoStatusDosControladores().url());
+                .uri(routes.StatusControladorFisicoController.ultimoStatusDosControladores().url());
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
@@ -122,9 +124,9 @@ public class StatusConexaoTest extends WithInfluuntApplicationNoAuthentication {
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
 
         assertEquals(2, json.size());
-        System.out.println(json.toString());
-        assertFalse(json.get("1").asBoolean());
-        assertTrue(json.get("2").asBoolean());
+
+        assertEquals(StatusControlador.CONFIGURADO.toString(), json.get("1").asText());
+        assertEquals(StatusControlador.ATIVO.toString(), json.get("2").asText());
 
     }
 
@@ -132,14 +134,15 @@ public class StatusConexaoTest extends WithInfluuntApplicationNoAuthentication {
     public void testUltimoStatusDeUmControladorApi() {
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
-                .uri(controllers.monitoramento.routes.StatusControladorController.ultimoStatus("2").url());
+                .uri(routes.StatusControladorFisicoController.ultimoStatus("2").url());
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
 
-        assertTrue(json.get("conectado").asBoolean());
+        assertEquals(StatusDevice.ATIVO.toString(), json.get("statusDevice").asText());
+
 
     }
 
@@ -147,24 +150,25 @@ public class StatusConexaoTest extends WithInfluuntApplicationNoAuthentication {
     public void testHistoricoApi() {
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
-                .uri(controllers.monitoramento.routes.StatusControladorController.historico("1", "0", "1").url());
+                .uri(routes.StatusControladorFisicoController.historico("1", "0", "1").url());
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
 
-        assertFalse(json.get(0).get("conectado").asBoolean());
+        assertEquals(StatusControlador.CONFIGURADO.toString(), json.get(0).get("statusDevice").asText());
+
 
         postRequest = new Http.RequestBuilder().method("GET")
-                .uri(controllers.monitoramento.routes.StatusControladorController.historico("1", "1", "1").url());
+                .uri(routes.StatusControladorFisicoController.historico("1", "1", "1").url());
         postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
 
         json = Json.parse(Helpers.contentAsString(postResult));
 
-        assertTrue(json.get(0).get("conectado").asBoolean());
+        assertEquals(StatusDevice.NOVO.toString(), json.get(0).get("statusDevice").asText());
 
     }
 

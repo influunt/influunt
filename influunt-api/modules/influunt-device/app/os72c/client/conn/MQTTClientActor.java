@@ -11,14 +11,11 @@ import akka.routing.RoundRobinRoutingLogic;
 import akka.routing.Routee;
 import akka.routing.Router;
 import com.google.gson.Gson;
-import models.StatusControlador;
 import org.eclipse.paho.client.mqttv3.*;
 import os72c.client.protocols.Mensagem;
 import os72c.client.protocols.MensagemControladorSupervisor;
 import os72c.client.protocols.MensagemVerificaConfiguracao;
 import os72c.client.storage.Storage;
-import play.Configuration;
-import play.api.Play;
 import protocol.ControladorOffline;
 import protocol.ControladorOnline;
 import protocol.Envelope;
@@ -35,13 +32,13 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback {
 
     private final String host;
 
-    private String id;
-
     private final String port;
 
     LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
     Router router;
+
+    private String id;
 
     private MqttClient client;
 
@@ -108,7 +105,7 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback {
             status.setRetained(false);
             status.setPayload(json.getBytes());
             client.publish("central/status/" + id, status);
-        }else if (message instanceof Envelope){
+        } else if (message instanceof Envelope) {
             sendMenssage((Envelope) message);
         }
     }

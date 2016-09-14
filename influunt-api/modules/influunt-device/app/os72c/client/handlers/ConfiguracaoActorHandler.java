@@ -15,9 +15,10 @@ import protocol.*;
 public class ConfiguracaoActorHandler extends UntypedActor {
 
     private final Storage storage;
-    LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
     private final String idControlador;
+
+    LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
     public ConfiguracaoActorHandler(String idControlador, Storage storage) {
         this.idControlador = idControlador;
@@ -36,12 +37,12 @@ public class ConfiguracaoActorHandler extends UntypedActor {
                     Envelope envelopeSinal;
                     Envelope envelopeStatus;
                     Controlador controlador = Controlador.isValido(envelope.getConteudo());
-                    if(controlador != null){
+                    if (controlador != null) {
                         storage.setControlador(controlador);
                         storage.setStatus(StatusDevice.CONFIGURADO);
                         log.info("Responder OK para Central: {}", envelope.getConteudo().toString());
                         envelopeSinal = Sinal.getMensagem(TipoMensagem.OK, idControlador, DestinoCentral.pedidoConfiguracao());
-                    }else{
+                    } else {
                         log.info("Responder ERRO para Central: {}", envelope.getConteudo().toString());
                         envelopeSinal = Sinal.getMensagem(TipoMensagem.ERRO, idControlador, DestinoCentral.pedidoConfiguracao());
                     }
@@ -51,8 +52,8 @@ public class ConfiguracaoActorHandler extends UntypedActor {
                     getContext().actorSelection(Atores.mqttActorPath(idControlador)).tell(envelopeStatus, getSelf());
                 }
             }
-        } else if (message instanceof  String){
-            if(message.toString().equals("VERIFICA")){
+        } else if (message instanceof String) {
+            if (message.toString().equals("VERIFICA")) {
                 log.info("Solicita configuração a central: {}", sender());
                 //TODO
                 getContext().actorSelection(Atores.mqttActorPath(idControlador)).tell(Sinal.getMensagem(TipoMensagem.CONFIGURACAO_INICIAL, idControlador, "central/configuracao"), getSelf());

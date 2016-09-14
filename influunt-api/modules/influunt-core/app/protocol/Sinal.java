@@ -1,11 +1,5 @@
 package protocol;
 
-import json.ControladorCustomSerializer;
-import models.Controlador;
-import models.StatusControlador;
-
-import java.util.UUID;
-
 /**
  * Created by rodrigosol on 9/6/16.
  */

@@ -5,7 +5,6 @@ import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import protocol.Configuracao;
 import protocol.Envelope;
-import protocol.TipoMensagem;
 
 
 /**

@@ -3,8 +3,6 @@ package os72c.client.conn;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
-import akka.event.Logging;
-import akka.event.LoggingAdapter;
 import akka.routing.ActorRefRoutee;
 import akka.routing.RoundRobinRoutingLogic;
 import akka.routing.Routee;
@@ -27,6 +25,7 @@ public class MessageBroker extends UntypedActor {
 
 
     Router routerEcho;
+
     ActorRef actorConfiguracao;
 
 
@@ -61,7 +60,7 @@ public class MessageBroker extends UntypedActor {
             }
 
         } else if (message instanceof Mensagem) {
-            if(message instanceof MensagemVerificaConfiguracao){
+            if (message instanceof MensagemVerificaConfiguracao) {
                 actorConfiguracao.tell("VERIFICA", getSender());
             }
         }

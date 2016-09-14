@@ -57,6 +57,8 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
         assertEquals(TipoMensagem.MUDANCA_STATUS_CONTROLADOR.toString(), json.get("tipoMensagem").asText());
         assertEquals(idControlador, json.get("idControlador").asText());
         assertEquals(StatusDevice.CONFIGURADO.toString(), json.get("conteudo").get("status").asText());
+        await().until(() -> StatusControladorFisico.ultimoStatus(idControlador) != null);
+        assertEquals(StatusDevice.CONFIGURADO.toString(), StatusControladorFisico.ultimoStatus(idControlador).getStatusDevice().toString());
     }
 
     @Test
@@ -89,6 +91,7 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
         assertEquals(idControlador, json.get("idControlador").asText());
         assertEquals(TipoMensagem.MUDANCA_STATUS_CONTROLADOR.toString(), json.get("tipoMensagem").asText());
         assertEquals(StatusDevice.NOVO.toString(), json.get("conteudo").get("status").asText());
+        assertEquals(StatusDevice.NOVO.toString(), StatusControladorFisico.ultimoStatus(idControlador).getStatusDevice().toString());
     }
 
     @Test

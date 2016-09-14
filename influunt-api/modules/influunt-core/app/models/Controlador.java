@@ -136,6 +136,16 @@ public class Controlador extends Model implements Cloneable, Serializable {
     @Transient
     private VersaoTabelaHoraria versaoTabelaHorariaEmEdicao;
 
+    public static Controlador isValido(Object conteudo) {
+        JsonNode controladorJson = play.libs.Json.parse(conteudo.toString());
+        Controlador controlador = new ControladorCustomDeserializer().getControladorFromJson(controladorJson);
+        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+                ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
+                ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
+                ControladorAssociacaoDetectoresCheck.class);
+        return erros.size() == 0 ? controlador : null;
+    }
+
     @Override
     public void save() {
         antesDeSalvarOuAtualizar();
@@ -188,7 +198,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
             });
         }
     }
-
 
     private void deleteVerdesConflitantes(Controlador c) {
         if (c.getId() != null) {
@@ -254,7 +263,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
             });
         }
     }
-
 
     private void gerarCLC() {
         List<Controlador> controladorList =
@@ -486,7 +494,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
         return null;
     }
 
-
     public VersaoControlador getVersaoControlador() {
         return versaoControlador;
     }
@@ -584,15 +591,5 @@ public class Controlador extends Model implements Cloneable, Serializable {
             this.setStatusControlador(StatusControlador.ATIVO);
             this.update();
         });
-    }
-
-    public static Controlador isValido(Object conteudo) {
-        JsonNode controladorJson = play.libs.Json.parse(conteudo.toString());
-        Controlador controlador = new ControladorCustomDeserializer().getControladorFromJson(controladorJson);
-        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
-                ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
-                ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
-                ControladorAssociacaoDetectoresCheck.class);
-        return erros.size() == 0 ? controlador : null;
     }
 }

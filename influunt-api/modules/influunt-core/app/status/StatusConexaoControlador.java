@@ -17,6 +17,8 @@ import java.util.Map;
  */
 public class StatusConexaoControlador {
 
+    public static final String COLLECTION = "status_conexao_controladores";
+
     public static PlayJongo jongo = Play.current().injector().instanceOf(PlayJongo.class);
 
     public String _id;
@@ -40,7 +42,7 @@ public class StatusConexaoControlador {
     }
 
     public static MongoCollection status() {
-        return jongo.getCollection("status_conexao_controladores");
+        return jongo.getCollection(COLLECTION);
     }
 
 
@@ -93,7 +95,7 @@ public class StatusConexaoControlador {
         new StatusConexaoControlador(idControlador, carimboDeTempo, online).save();
     }
 
-    public boolean isConectado(){
+    public boolean isConectado() {
         return conectado;
     }
 

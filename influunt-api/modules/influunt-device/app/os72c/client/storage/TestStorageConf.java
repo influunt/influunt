@@ -12,7 +12,7 @@ public class TestStorageConf implements StorageConf {
 
     private final DB db;
 
-    public TestStorageConf(){
+    public TestStorageConf() {
         db = DBMaker.memoryDB().make();
     }
 

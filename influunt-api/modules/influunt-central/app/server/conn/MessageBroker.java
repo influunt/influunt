@@ -9,14 +9,14 @@ import akka.routing.ActorRefRoutee;
 import akka.routing.RoundRobinRoutingLogic;
 import akka.routing.Routee;
 import akka.routing.Router;
-import handlers.ConexaoOfflineActorHandler;
-import handlers.ConexaoOnlineActorHandler;
-import handlers.ConfiguracaoActorHandler;
-import handlers.EchoActorHandler;
+import handlers.*;
 import protocol.Envelope;
+import protocol.TipoMensagem;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -24,67 +24,40 @@ import java.util.List;
  */
 public class MessageBroker extends UntypedActor {
 
-
-    Router routerControladorOnline;
-
-    Router routerControladorOffline;
-
-    Router routerEcho;
-
-    Router routerConfiguracaoInicial;
+    Map<TipoMensagem, Router> routers = new HashMap<>();
 
     LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
     {
-        List<Routee> routeesControladorOnline = new ArrayList<Routee>();
-        List<Routee> routeesControladorOffline = new ArrayList<Routee>();
-        List<Routee> routeesEcho = new ArrayList<Routee>();
-        List<Routee> routeesConfiguracaoInicial = new ArrayList<Routee>();
-        for (int i = 0; i < 5; i++) {
-            ActorRef rControladorOnline = getContext().actorOf(Props.create(ConexaoOnlineActorHandler.class));
-            getContext().watch(rControladorOnline);
-            routeesControladorOnline.add(new ActorRefRoutee(rControladorOnline));
-
-            ActorRef rControladorOffline = getContext().actorOf(Props.create(ConexaoOfflineActorHandler.class));
-            getContext().watch(rControladorOffline);
-            routeesControladorOffline.add(new ActorRefRoutee(rControladorOffline));
-
-            ActorRef rEcho = getContext().actorOf(Props.create(EchoActorHandler.class));
-            getContext().watch(rEcho);
-            routeesEcho.add(new ActorRefRoutee(rEcho));
-
-            ActorRef rConfiguracao = getContext().actorOf(Props.create(ConfiguracaoActorHandler.class));
-            getContext().watch(rConfiguracao);
-            routeesConfiguracaoInicial.add(new ActorRefRoutee(rConfiguracao));
-
-        }
-        routerControladorOnline = new Router(new RoundRobinRoutingLogic(), routeesControladorOnline);
-        routerControladorOffline = new Router(new RoundRobinRoutingLogic(), routeesControladorOffline);
-        routerEcho = new Router(new RoundRobinRoutingLogic(), routeesEcho);
-        routerConfiguracaoInicial = new Router(new RoundRobinRoutingLogic(), routeesConfiguracaoInicial);
+        routers.put(TipoMensagem.CONTROLADOR_ONLINE, createRoutees(5, ConexaoOnlineActorHandler.class));
+        routers.put(TipoMensagem.CONTROLADOR_OFFLINE, createRoutees(5, ConexaoOfflineActorHandler.class));
+        routers.put(TipoMensagem.ECHO, createRoutees(5, EchoActorHandler.class));
+        routers.put(TipoMensagem.CONFIGURACAO_INICIAL, createRoutees(5, ConfiguracaoActorHandler.class));
+        routers.put(TipoMensagem.MUDANCA_STATUS_CONTROLADOR, createRoutees(5, MudancaStatusControladorActorHandler.class));
+        routers.put(TipoMensagem.OK, createRoutees(5, OKActorHandler.class));
     }
 
+    private Router createRoutees(int size, Class clazz) {
+        List<Routee> routees = new ArrayList<Routee>();
+        for (int i = 0; i < size; i++) {
+            ActorRef ref = getContext().actorOf(Props.create(clazz));
+            getContext().watch(ref);
+            routees.add(new ActorRefRoutee(ref));
+        }
+
+        return new Router(new RoundRobinRoutingLogic(), routees);
+    }
 
     @Override
     public void onReceive(Object message) throws Exception {
         if (message instanceof Envelope) {
             Envelope envelope = (Envelope) message;
-            switch (envelope.getTipoMensagem()) {
-                case CONTROLADOR_ONLINE:
-                    routerControladorOnline.route(envelope, getSender());
-                    break;
-                case CONTROLADOR_OFFLINE:
-                    routerControladorOffline.route(envelope, getSender());
-                    break;
-                case ECHO:
-                    routerEcho.route(envelope, getSender());
-                    break;
-                case CONFIGURACAO_INICIAL:
-                    System.out.println("CONFIGURACAO_INICIAL");
-                    routerConfiguracaoInicial.route(envelope, getSender());
-                    break;
+            if (routers.containsKey(envelope.getTipoMensagem())) {
+                routers.get(envelope.getTipoMensagem()).route(envelope, getSender());
+            } else {
+                log.error("MESSAGE BROKER NÃO SABER TRATAR O TIPO: {}", envelope.getTipoMensagem());
+                throw new RuntimeException("MESSAGE BROKER NÃO SABER TRATAR O TIPO " + envelope.getTipoMensagem());
             }
-
         }
     }
 }

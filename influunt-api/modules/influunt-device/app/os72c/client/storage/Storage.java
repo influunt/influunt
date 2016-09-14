@@ -8,9 +8,14 @@ import models.StatusDevice;
  */
 public interface Storage {
     public StatusDevice getStatus();
+
     public void setStatus(StatusDevice statusDevice);
+
     public Controlador getControlador();
+
     public void setControlador(Controlador controlador);
+
     public Controlador getControladorStaging();
+
     public void setControladorStaging(Controlador controlador);
 }

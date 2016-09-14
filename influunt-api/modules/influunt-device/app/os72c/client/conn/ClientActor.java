@@ -29,6 +29,7 @@ public class ClientActor extends UntypedActor {
     private final String host;
 
     private final String port;
+
     private final Storage storage;
 
     LoggingAdapter log = Logging.getLogger(getContext().system(), this);

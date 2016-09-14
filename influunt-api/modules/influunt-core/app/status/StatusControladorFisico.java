@@ -18,6 +18,8 @@ import java.util.Map;
  */
 public class StatusControladorFisico {
 
+    public static final String COLLECTION = "status_controladores";
+
     public static PlayJongo jongo = Play.current().injector().instanceOf(PlayJongo.class);
 
     public String _id;
@@ -41,7 +43,7 @@ public class StatusControladorFisico {
     }
 
     public static MongoCollection status() {
-        return jongo.getCollection("status_conexao_controladores");
+        return jongo.getCollection(COLLECTION);
     }
 
 
@@ -92,6 +94,7 @@ public class StatusControladorFisico {
 
     public static void log(String idControlador, long carimboDeTempo, StatusDevice statusDevice) {
         new StatusControladorFisico(idControlador, carimboDeTempo, statusDevice).save();
+
     }
 
     public StatusDevice getStatusDevice() {

@@ -5,11 +5,11 @@ package protocol;
  */
 public class DestinoCentral {
 
-    public final static String envioDeStatus(){
+    public final static String envioDeStatus() {
         return "central/mudanca_status_controlador";
     }
 
-    public final static String pedidoConfiguracao(){
+    public final static String pedidoConfiguracao() {
         return "central/configuracao";
     }
 }

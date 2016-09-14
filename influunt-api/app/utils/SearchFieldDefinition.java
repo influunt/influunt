@@ -3,11 +3,17 @@ package utils;
 public class SearchFieldDefinition {
 
     public static final String EQ = "eq";
+
     public static final String LT = "lt";
+
     public static final String LTE = "lte";
+
     public static final String GT = "gt";
+
     public static final String GTE = "gte";
+
     public static final String START = "start";
+
     public static final String END = "end";
 
     private String fieldName;

@@ -17,14 +17,14 @@ public class Configuracao {
 
     public static Envelope getMensagem(Envelope envelope) {
         Controlador controlador = Controlador.find.byId(UUID.fromString(envelope.getIdControlador()));
-        if(controlador != null && !controlador.getStatusControlador().equals(StatusControlador.EM_CONFIGURACAO)){
+        if (controlador != null && !controlador.getStatusControlador().equals(StatusControlador.EM_CONFIGURACAO)) {
             return new Envelope(TipoMensagem.CONFIGURACAO,
                     envelope.getIdControlador(),
                     "controlador/" + envelope.getIdControlador() + "/configuracao",
                     2,
                     new ControladorCustomSerializer().getControladorJson(controlador).toString(),
                     envelope.getIdMensagem());
-        }else{
+        } else {
             return new Envelope(TipoMensagem.ERRO,
                     envelope.getIdControlador(),
                     "controlador/" + envelope.getIdControlador() + "/configuracao",

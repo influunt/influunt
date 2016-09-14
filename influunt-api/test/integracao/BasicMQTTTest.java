@@ -13,6 +13,7 @@ import os72c.client.Client;
 import os72c.client.conf.DeviceConfig;
 import server.Central;
 import status.StatusConexaoControlador;
+import status.StatusControladorFisico;
 import uk.co.panaxiom.playjongo.PlayJongo;
 
 import java.io.IOException;
@@ -33,8 +34,11 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
     protected Central central;
 
     protected List<String> onConnectFutureList = new ArrayList<>();
+
     protected List<String> onDisconectFutureList = new ArrayList<>();
+
     protected List<String> onSubscribeFutureList = new ArrayList<>();
+
     protected List<byte[]> onPublishFutureList = new ArrayList<>();
 
     protected Client client;
@@ -89,8 +93,10 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
 
         jongo = provideApp.injector().instanceOf(PlayJongo.class);
         StatusConexaoControlador.jongo = jongo;
+        StatusControladorFisico.jongo = jongo;
 
-        jongo.getCollection("status_conexao_controladores").drop();
+        jongo.getCollection(StatusConexaoControlador.COLLECTION).drop();
+        jongo.getCollection(StatusControladorFisico.COLLECTION).drop();
 
         mqttBroker = new Server();
         mqttBroker.startServer(classPathConfig, userHandlers);

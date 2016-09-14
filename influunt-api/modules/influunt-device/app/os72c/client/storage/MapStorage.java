@@ -14,22 +14,24 @@ import models.StatusDevice;
  * Created by leonardo on 9/13/16.
  */
 @Singleton
-public class MapStorage implements Storage{
+public class MapStorage implements Storage {
 
     private final DB db;
+
     private final HTreeMap<String, String> status;
+
     private final HTreeMap<String, String> controlador;
 
     @Inject
-    public MapStorage(StorageConf storageConf){
+    public MapStorage(StorageConf storageConf) {
         this.db = storageConf.getDB();
         this.status = this.db.hashMap("status")
                 .keySerializer(Serializer.STRING)
                 .valueSerializer(Serializer.STRING)
-                .layout(1,1,1)
+                .layout(1, 1, 1)
                 .createOrOpen();
 
-        if(!this.status.containsKey("status")){
+        if (!this.status.containsKey("status")) {
             this.status.put("status", StatusDevice.NOVO.toString());
             db.commit();
         }
@@ -37,7 +39,7 @@ public class MapStorage implements Storage{
         this.controlador = this.db.hashMap("controladores")
                 .keySerializer(Serializer.STRING)
                 .valueSerializer(Serializer.STRING)
-                .layout(1,2,1)
+                .layout(1, 2, 1)
                 .createOrOpen();
     }
 

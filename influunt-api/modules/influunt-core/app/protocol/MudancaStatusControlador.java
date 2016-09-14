@@ -14,7 +14,7 @@ public class MudancaStatusControlador {
 
     public static Envelope getMensagem(String idControlador, StatusDevice status) {
         MudancaStatusControlador mudancaStatusControlador = new MudancaStatusControlador(status);
-        return new Envelope(TipoMensagem.MUDANCA_STATUS_CONTROLADOR, idControlador, DestinoCentral.envioDeStatus() , 1, mudancaStatusControlador, null);
+        return new Envelope(TipoMensagem.MUDANCA_STATUS_CONTROLADOR, idControlador, DestinoCentral.envioDeStatus(), 1, mudancaStatusControlador, null);
     }
 
 }
