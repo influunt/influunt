@@ -3,6 +3,7 @@ package controllers;
 import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
 import be.objectify.deadbolt.java.actions.Dynamic;
 import helpers.ControladorHelper;
+import models.Usuario;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -20,7 +21,12 @@ public class HelpersController extends Controller {
 
     @Transactional
     public CompletionStage<Result> controladorHelper() {
-        return CompletableFuture.completedFuture(ok(Json.toJson(new ControladorHelper())));
+        return CompletableFuture.completedFuture(ok(Json.toJson(new ControladorHelper(getUsuario()))));
+    }
+
+
+    private Usuario getUsuario() {
+        return (Usuario) ctx().args.get("user");
     }
 
 }

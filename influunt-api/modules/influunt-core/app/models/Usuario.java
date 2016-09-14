@@ -189,6 +189,14 @@ public class Usuario extends Model implements Subject, Serializable {
         return getPermissions().stream().filter(p -> p.getValue().equals(key)).count() > 0;
     }
 
+    public boolean isAllowedByArea(String controladorId) {
+        if (getArea() != null) {
+            Controlador controlador = Controlador.findUniqueByArea(controladorId, getArea().getId().toString());
+            return controlador != null;
+        }
+        return false;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -205,4 +213,6 @@ public class Usuario extends Model implements Subject, Serializable {
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
     }
+
+
 }

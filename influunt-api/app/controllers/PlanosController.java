@@ -1,6 +1,5 @@
 package controllers;
 
-import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
 import be.objectify.deadbolt.java.actions.Dynamic;
 import checks.Erro;
 import checks.InfluuntValidator;
@@ -25,12 +24,11 @@ import java.util.concurrent.CompletionStage;
 /**
  * Created by lesiopinheiro on 7/13/16.
  */
-@DeferredDeadbolt
 @Security.Authenticated(Secured.class)
-@Dynamic("Influunt")
 public class PlanosController extends Controller {
 
     @Transactional
+    @Dynamic("Influunt")
     public CompletionStage<Result> create() {
         JsonNode json = request().body().asJson();
 
@@ -52,6 +50,7 @@ public class PlanosController extends Controller {
     }
 
     @Transactional
+    @Dynamic("Influunt")
     public CompletionStage<Result> timeline(String id) {
         Anel anel = Anel.find.byId(UUID.fromString(id));
 
@@ -64,6 +63,7 @@ public class PlanosController extends Controller {
     }
 
     @Transactional
+    @Dynamic("Influunt")
     public CompletionStage<Result> delete(String id) {
         Plano plano = Plano.find.byId(UUID.fromString(id));
         if (plano == null) {
@@ -78,6 +78,7 @@ public class PlanosController extends Controller {
     }
 
     @Transactional
+    @Dynamic("Influunt")
     public CompletionStage<Result> cancelarEdicao(String id) {
         Plano plano = Plano.find.fetch("versaoPlano").fetch("versaoPlano.versaoAnterior").where().eq("id", id).findUnique();
         if (plano == null) {

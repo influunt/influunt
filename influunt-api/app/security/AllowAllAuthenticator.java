@@ -18,7 +18,6 @@ public class AllowAllAuthenticator implements Authenticator {
 
     @Override
     public Subject getSubjectByCredentials(final String login, final String password) {
-
         return getUsuario();
     }
 

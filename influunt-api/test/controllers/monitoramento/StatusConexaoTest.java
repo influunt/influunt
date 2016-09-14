@@ -34,7 +34,6 @@ public class StatusConexaoTest extends WithInfluuntApplicationNoAuthentication {
 
     private PlayJongo jongo;
 
-
     @Before
     public void setUp() throws InterruptedException {
 

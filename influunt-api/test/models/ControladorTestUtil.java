@@ -12,8 +12,6 @@ import java.util.UUID;
  */
 public class ControladorTestUtil {
 
-    private Cidade cidade;
-
     private Area area;
 
     private Subarea subarea;
@@ -24,8 +22,7 @@ public class ControladorTestUtil {
 
     private Usuario usuario;
 
-    public ControladorTestUtil(Cidade cidade, Area area, Subarea subarea, Fabricante fabricante, ModeloControlador modeloControlador) {
-        this.cidade = cidade;
+    public ControladorTestUtil(Area area, Subarea subarea, Fabricante fabricante, ModeloControlador modeloControlador) {
         this.area = area;
         this.subarea = subarea;
         this.fabricante = fabricante;
@@ -66,6 +63,7 @@ public class ControladorTestUtil {
         VersaoControlador versaoControlador = new VersaoControlador(controlador, controladorFisico, getUsuario());
         controladorFisico.addVersaoControlador(versaoControlador);
         controlador.setVersaoControlador(versaoControlador);
+        controladorFisico.setArea(controlador.getArea());
         controlador.save();
         controladorFisico.save();
 

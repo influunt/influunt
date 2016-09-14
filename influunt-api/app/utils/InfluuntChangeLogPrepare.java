@@ -3,7 +3,6 @@ package utils;
 import com.avaje.ebean.event.changelog.ChangeLogPrepare;
 import com.avaje.ebean.event.changelog.ChangeSet;
 import models.Usuario;
-import play.Logger;
 import play.api.Play;
 import play.mvc.Http;
 import security.Auditoria;

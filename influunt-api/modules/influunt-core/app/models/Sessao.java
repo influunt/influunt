@@ -47,7 +47,9 @@ public class Sessao extends Model implements Serializable {
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     private DateTime dataSaida;
 
-    public Sessao() {super();}
+    public Sessao() {
+        super();
+    }
 
     public Sessao(final Usuario usuario) {
         this.usuario = usuario;

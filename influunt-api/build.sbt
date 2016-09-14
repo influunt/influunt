@@ -65,5 +65,5 @@ fork in run := false
 
 fork in Test := false
 resolvers ++= Seq(Resolver.mavenLocal, "Sonatype snapshots repository" at "https://oss.sonatype.org/content/repositories/snapshots/")
-resolvers ++= Seq("Sonatype snapshots repository" at "http://dl.bintray.com/andsel/maven/")
+resolvers ++= Seq("Sonatype snapshots repository 2" at "http://dl.bintray.com/andsel/maven/")
 

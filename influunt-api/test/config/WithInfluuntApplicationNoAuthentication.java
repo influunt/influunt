@@ -1,6 +1,8 @@
 package config;
 
+import be.objectify.deadbolt.java.cache.HandlerCache;
 import com.google.inject.Singleton;
+import config.auth.TestDeadboltHandlerCache;
 import os72c.client.conf.DeviceConfig;
 import os72c.client.conf.TestDeviceConfig;
 import os72c.client.storage.MapStorage;
@@ -26,6 +28,7 @@ public class WithInfluuntApplicationNoAuthentication extends WithInfluuntApplica
     protected Application createApplication(Map configuration) {
         return new GuiceApplicationBuilder().configure(configuration)
                 .overrides(bind(Authenticator.class).to(AllowAllAuthenticator.class).in(Singleton.class))
+                .overrides(bind(HandlerCache.class).to(TestDeadboltHandlerCache.class).in(Singleton.class))
                 .overrides(bind(DeviceConfig.class).to(TestDeviceConfig.class).in(Singleton.class))
                 .overrides(bind(StorageConf.class).to(TestStorageConf.class).in(Singleton.class))
                 .overrides(bind(Storage.class).to(MapStorage.class).in(Singleton.class))
