@@ -51,7 +51,7 @@ public class InfluuntQueryBuilder {
             this.page = (params.get("page") != null) ? parseInt(params.get("page")[0]) : 0;
             this.perPage = (params.get("per_page") != null) ? parseInt(params.get("per_page")[0]) : PER_PAGE_DEFAULT;
             params.entrySet().forEach(q -> {
-                if(!"sort".equals(q.getKey()) && !"sort_type".equals(q.getKey()) && !"page".equals(q.getKey()) && !"per_page".equals(q.getKey())) {
+                if (!"sort".equals(q.getKey()) && !"sort_type".equals(q.getKey()) && !"page".equals(q.getKey()) && !"per_page".equals(q.getKey())) {
                     searchFields.put(q.getKey().toString(), q.getValue()[0].toString());
                 }
             });
@@ -130,7 +130,7 @@ public class InfluuntQueryBuilder {
                 if (date != null) {
                     predicates.add(getFieldOperator(searchField.getFieldOperator(), searchField.getFieldName(), date));
                 } else {
-                    if(searchField.getFieldOperator() != null) {
+                    if (searchField.getFieldOperator() != null) {
                         predicates.add(getFieldOperator(searchField.getFieldOperator(), searchField.getFieldName(), searchField.getValue()));
                     } else {
                         predicates.add(Expr.icontains(searchField.getFieldName(), searchField.getValue().toString()));
@@ -140,8 +140,8 @@ public class InfluuntQueryBuilder {
 
             // Verifica se existem campos com between
             List<BetweenFieldDefinition> betweenFields = BetweenFieldDefinition.getBetweenFileds(searchFields);
-            betweenFields.forEach(field ->{
-                if(field.hasOnlyStartValue()) {
+            betweenFields.forEach(field -> {
+                if (field.hasOnlyStartValue()) {
                     predicates.add(Expr.ge(field.getFieldName(), field.getStartValue()));
                 } else if (field.hasOnlyEndValue()) {
                     predicates.add(Expr.le(field.getFieldName(), field.getEndValue()));

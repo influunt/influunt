@@ -11,7 +11,6 @@ import org.junit.Test;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
-import play.test.Helpers;
 import security.Auditoria;
 import uk.co.panaxiom.playjongo.PlayJongo;
 import utils.InfluuntQueryBuilder;
@@ -29,7 +28,9 @@ import static play.test.Helpers.*;
 public class BuscasTest extends WithInfluuntApplicationNoAuthentication {
 
     private static final String PAGINACAO_DEFAULT = "Paginacao Default";
+
     private static final String DATA = "data";
+
     private static final String GET = "GET";
 
 
@@ -262,7 +263,8 @@ public class BuscasTest extends WithInfluuntApplicationNoAuthentication {
         Result result = route(request);
         ObjectMapper mapper = new ObjectMapper();
         JsonNode json = Json.parse(contentAsString(result));
-        List<Area> areas = mapper.readValue(json.get(DATA).toString(), new TypeReference<List<Area>>() {});
+        List<Area> areas = mapper.readValue(json.get(DATA).toString(), new TypeReference<List<Area>>() {
+        });
 
         assertEquals(10, areas.size());
 
@@ -270,9 +272,10 @@ public class BuscasTest extends WithInfluuntApplicationNoAuthentication {
                 .uri(routes.AreasController.findAll().url().concat("?cidade.nome=Belo%20Horizonte"));
         result = route(request);
         json = Json.parse(contentAsString(result));
-        areas = mapper.readValue(json.get(DATA).toString(), new TypeReference<List<Area>>() {});
+        areas = mapper.readValue(json.get(DATA).toString(), new TypeReference<List<Area>>() {
+        });
         assertEquals(5, areas.size());
-        for(Area area : areas) {
+        for (Area area : areas) {
             assertEquals("Belo Horizonte", area.getCidade().getNome());
         }
 
@@ -280,9 +283,10 @@ public class BuscasTest extends WithInfluuntApplicationNoAuthentication {
                 .uri(routes.AreasController.findAll().url().concat("?cidade.nome=Belo%20Vale"));
         result = route(request);
         json = Json.parse(contentAsString(result));
-        areas = mapper.readValue(json.get(DATA).toString(), new TypeReference<List<Area>>() {});
+        areas = mapper.readValue(json.get(DATA).toString(), new TypeReference<List<Area>>() {
+        });
         assertEquals(5, areas.size());
-        for(Area area : areas) {
+        for (Area area : areas) {
             assertEquals("Belo Vale", area.getCidade().getNome());
         }
 
@@ -290,9 +294,10 @@ public class BuscasTest extends WithInfluuntApplicationNoAuthentication {
                 .uri(routes.AreasController.findAll().url().concat("?cidade.nome=São"));
         result = route(request);
         json = Json.parse(contentAsString(result));
-        areas = mapper.readValue(json.get(DATA).toString(), new TypeReference<List<Area>>() {});
+        areas = mapper.readValue(json.get(DATA).toString(), new TypeReference<List<Area>>() {
+        });
         assertEquals(5, areas.size());
-        for(Area area : areas) {
+        for (Area area : areas) {
             assertEquals("São Paulo", area.getCidade().getNome());
         }
     }

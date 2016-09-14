@@ -5,7 +5,7 @@ import akka.actor.Cancellable;
 import akka.actor.UntypedActorContext;
 import os72c.client.models.EstadoGrupo;
 import os72c.client.models.TipoEvento;
-import os72c.client.procolos.MensagemControladorSupervisor;
+import os72c.client.protocols.MensagemControladorSupervisor;
 import scala.concurrent.duration.Duration;
 
 import java.util.concurrent.TimeUnit;

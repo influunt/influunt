@@ -13,7 +13,6 @@ public class InfluuntChangeLogPrepare implements ChangeLogPrepare {
 
     @Override
     public boolean prepare(ChangeSet changes) {
-        Logger.debug("Salvando auditoria....", changes.getChanges().get(0).getTable());
         PlayJongo jongo = Play.current().injector().instanceOf(PlayJongo.class);
 
         final Usuario usuario;
@@ -29,7 +28,6 @@ public class InfluuntChangeLogPrepare implements ChangeLogPrepare {
             change.getValues().remove("dataAtualizacao");
             Auditoria auditoria = new Auditoria();
             auditoria.change = change;
-
             if (usuario != null) {
                 auditoria.usuario = usuario;
             }

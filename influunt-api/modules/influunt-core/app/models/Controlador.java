@@ -8,8 +8,10 @@ import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.PrivateOwned;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import json.ControladorCustomDeserializer;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
@@ -134,6 +136,16 @@ public class Controlador extends Model implements Cloneable, Serializable {
     @Transient
     private VersaoTabelaHoraria versaoTabelaHorariaEmEdicao;
 
+    public static Controlador isValido(Object conteudo) {
+        JsonNode controladorJson = play.libs.Json.parse(conteudo.toString());
+        Controlador controlador = new ControladorCustomDeserializer().getControladorFromJson(controladorJson);
+        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+                ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
+                ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
+                ControladorAssociacaoDetectoresCheck.class);
+        return erros.isEmpty() ? controlador : null;
+    }
+
     @Override
     public void save() {
         antesDeSalvarOuAtualizar();
@@ -186,7 +198,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
             });
         }
     }
-
 
     private void deleteVerdesConflitantes(Controlador c) {
         if (c.getId() != null) {
@@ -252,7 +263,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
             });
         }
     }
-
 
     private void gerarCLC() {
         List<Controlador> controladorList =
@@ -483,7 +493,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
         }
         return null;
     }
-
 
     public VersaoControlador getVersaoControlador() {
         return versaoControlador;

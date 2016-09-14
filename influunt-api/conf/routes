@@ -126,10 +126,19 @@ GET         /api/v1/auditorias                                    controllers.Au
 GET         /api/v1/auditorias/:id                                controllers.AuditoriaController.findOne(id)
 
 ## MONITORAMENTO
-# Status Conexao
+
+# StatusDevice Conexao
 GET         /api/v1/monitoramento/status_conexao/:id                                controllers.monitoramento.StatusControladorController.findOne(id)
 GET         /api/v1/monitoramento/status_conexao                                    controllers.monitoramento.StatusControladorController.ultimoStatusDosControladores()
 GET         /api/v1/monitoramento/status_conexao/:id/ultimo_status                  controllers.monitoramento.StatusControladorController.ultimoStatus(id)
 GET         /api/v1/monitoramento/status_conexao/:id/historico/:pagina/:tamanho     controllers.monitoramento.StatusControladorController.historico(id,pagina,tamanho)
+
+# StatusDevice Status
+GET         /api/v1/monitoramento/status/:id                                controllers.monitoramento.StatusControladorFisicoController.findOne(id)
+GET         /api/v1/monitoramento/status                                    controllers.monitoramento.StatusControladorFisicoController.ultimoStatusDosControladores()
+GET         /api/v1/monitoramento/status/:id/ultimo_status                  controllers.monitoramento.StatusControladorFisicoController.ultimoStatus(id)
+GET         /api/v1/monitoramento/status/:id/historico/:pagina/:tamanho     controllers.monitoramento.StatusControladorFisicoController.historico(id,pagina,tamanho)
+
+
 
 POST        /api/v1/cucumber                                      controllers.CucumberController.createDB()

@@ -31,6 +31,7 @@ import static play.test.Helpers.*;
 public class AuditoriaTest extends WithInfluuntApplicationAuthenticated {
 
     private static final String DATA = "data";
+
     private Cidade cidade;
 
     private Optional<String> tokenComAcesso;

@@ -5,6 +5,7 @@ import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.japi.Function;
 import com.typesafe.config.ConfigFactory;
+import os72c.client.storage.Storage;
 import scala.concurrent.duration.Duration;
 
 import java.util.concurrent.TimeUnit;
@@ -19,7 +20,6 @@ public class ClientActor extends UntypedActor {
                     new Function<Throwable, SupervisorStrategy.Directive>() {
                         @Override
                         public SupervisorStrategy.Directive apply(Throwable t) {
-                            System.out.println("ERRO!!******************");
                             return SupervisorStrategy.stop();
                         }
                     }, false);
@@ -30,14 +30,17 @@ public class ClientActor extends UntypedActor {
 
     private final String port;
 
+    private final Storage storage;
+
     LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
     private ActorRef mqqtControlador;
 
-    public ClientActor(final String id, final String host, final String port) {
+    public ClientActor(final String id, final String host, final String port, Storage storage) {
         this.id = id;
         this.host = host;
         this.port = port;
+        this.storage = storage;
     }
 
     public static void main(String args[]) {
@@ -53,22 +56,17 @@ public class ClientActor extends UntypedActor {
     }
 
     private void setup() {
-        mqqtControlador = getContext().actorOf(Props.create(MQTTClientActor.class, id, host, port), "ControladorMQTT");
+        mqqtControlador = getContext().actorOf(Props.create(MQTTClientActor.class, id, host, port, storage), "ControladorMQTT");
         this.getContext().watch(mqqtControlador);
         mqqtControlador.tell("CONNECT", getSelf());
     }
 
     @Override
     public void onReceive(Object message) throws Exception {
-        log.info("---------------------------");
-        log.info(message.toString());
-        log.info("---------------------------");
         if (message instanceof Terminated) {
             final Terminated t = (Terminated) message;
-            log.info("Ele morreu!");
             getContext().system().scheduler().scheduleOnce(Duration.create(30, TimeUnit.SECONDS), getSelf(), "RESTART", getContext().system().dispatcher(), getSelf());
         } else if ("RESTART".equals(message)) {
-            log.info("Devo restartar ele!");
             setup();
         }
 

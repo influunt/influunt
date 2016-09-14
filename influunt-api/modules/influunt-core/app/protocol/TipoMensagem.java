@@ -6,5 +6,10 @@ package protocol;
 public enum TipoMensagem {
     CONTROLADOR_ONLINE,
     CONTROLADOR_OFFLINE,
-    ECHO
+    ECHO,
+    CONFIGURACAO_INICIAL,
+    CONFIGURACAO,
+    OK,
+    ERRO,
+    MUDANCA_STATUS_CONTROLADOR
 }

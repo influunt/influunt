@@ -27,5 +27,6 @@ addSbtPlugin("de.johoop" % "jacoco4sbt" % "2.1.6")
 addSbtPlugin("com.typesafe.sbt" % "sbt-multi-jvm" % "0.3.8")
 addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.0.0-RC1")
 
+addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.8.2")
 
 
