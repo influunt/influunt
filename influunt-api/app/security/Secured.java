@@ -22,21 +22,6 @@ public class Secured extends Security.Authenticator {
             return usuario.getIdentifier();
         }
         return null;
-
-//        Subject usuario = null;
-//        final String[] authTokenHeaderValues = ctx.request().headers().get(SecurityController.AUTH_TOKEN);
-//        if ((authTokenHeaderValues != null) && (authTokenHeaderValues.length == 1)
-//                && (authTokenHeaderValues[0] != null)) {
-//            usuario = authenticator.getSubjectByToken(authTokenHeaderValues[0]);
-//        } else {
-//            usuario = authenticator.getSubjectByToken("");
-//        }
-//        if (usuario != null) {
-//            ctx.args.put("user", usuario);
-//            return usuario.getIdentifier();
-//        }
-//
-//        return null;
     }
 
     @Override
