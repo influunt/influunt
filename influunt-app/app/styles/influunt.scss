@@ -2464,6 +2464,20 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
         font-size: 29px;
       }
     }
+    .marginTop {
+      margin-top: 13px;
+    }
+    &.falseBtn {
+      cursor: pointer;
+      &:hover {
+        box-shadow: inset 0px 0px 10px rgba(0,0,0,0.3);
+      }
+    }
+  }
+  .moda0l {
+    hr {
+      border-top: 1px solid #fff;
+    }
   }
 }
 .ajusteMapa {
