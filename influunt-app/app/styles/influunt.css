@@ -2755,6 +2755,10 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
   padding: 20px;
 }
 
+.dashboard h3 {
+  text-transform: uppercase;
+}
+
 .dashboard .widget h2 {
   text-transform: uppercase;
   font-size: 18px;

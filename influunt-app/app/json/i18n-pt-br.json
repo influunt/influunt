@@ -408,6 +408,26 @@
     "usuario": "Usuário"
   },
   "main": {
+    "status": "Status",
+    "online": "Online",
+    "offline": "Offline",
+    "modo": "Modo",
+    "controlOnline": "Controladores Online",
+    "isolado": "Isolado",
+    "coordenado": "Coordenado",
+    "atuado": "Atuado",
+    "interminente": "Interminente",
+    "apagado": "Apagado",
+    "nome": "nome",
+    "endereco": "Endereço",
+    "historico": "Histórico",
+    "buscar": "Buscar por Status, nome ou endereço",
+    "tempoLivre": "Tempo Livre",
+    "controlOff": "Controlador Offline",
+    "controlOn": "Controlador Online",
+    "verHistorico": "Ver histórico",
+    "offDesde": "Offline desde",
+    "onDesde": "Online desde",
     "hello_world": "Dashboard"
   },
   "menu": {

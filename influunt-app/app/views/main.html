@@ -1,7 +1,7 @@
 <div class="container-fluid wrapper wrapper-content animated fadeInRight dashboard">
   <div class="col-lg-12 col-sm-12">
     <div class="col-lg-12 col-sm-12">
-      <h3>STATUS</h3>
+      <h3>{{ 'main.status' | translate }}</h3>
     </div>
     <div data-toggle="modal" data-target="#myModal" class="col-lg-3 col-sm-6">
       <div class="widget style1 navy-bg falseBtn">
@@ -10,7 +10,7 @@
             <i class="fa fa-check-circle-o fa-5x"></i>
           </div>
           <div class="col-lg-8 col-sm-7 text-right">
-            <span> Controladores online </span>
+            <span> {{ 'main.controlOn' | translate }} </span>
             <h2 class="font-bold">1432</h2>
           </div>
           <div class="col-lg-1 col-sm-2 text-right marginTop">
@@ -26,7 +26,7 @@
             <i class="fa fa-exclamation-triangle fa-5x"></i>
           </div>
           <div class="col-lg-8 col-sm-7 text-right">
-            <span> Controladores offline </span>
+            <span> {{ 'main.controlOff' | translate }} </span>
             <h2 class="font-bold">13</h2>
           </div>
           <div class="col-lg-1 col-sm-2 text-right marginTop">
@@ -38,13 +38,13 @@
   </div>
   <div class="col-lg-12 col-sm-12">
     <div class="col-lg-12">
-      <h3>MODO</h3>
+      <h3>{{ 'main.modo' | translate }}</h3>
     </div>
     <div class="col-lg-3 col-sm-6">
       <div class="widget style1 lazur-bg">
         <div class="row">
           <div class="col-lg-7 col-sm-6">
-            <h2>Isolado</h2>
+            <h2>{{ 'main.isolado' | translate }}</h2>
           </div>
           <div class="col-lg-4 col-sm-4 text-right">
             <h2 class="font-bold">1432</h2>
@@ -59,7 +59,7 @@
       <div class="widget style1 lazur-bg">
         <div class="row">
           <div class="col-lg-7 col-sm-6">
-            <h2>Coordenado</h2>
+            <h2>{{ 'main.coordenado' | translate }}</h2>
           </div>
           <div class="col-lg-4 col-sm-4 text-right">
             <h2 class="font-bold">1432</h2>
@@ -74,7 +74,7 @@
       <div class="widget style1 lazur-bg">
         <div class="row">
           <div class="col-lg-7 col-sm-6">
-            <h2>Atuado</h2>
+            <h2>{{ 'main.atuado' | translate }}</h2>
           </div>
           <div class="col-lg-4 col-sm-4 text-right">
             <h2 class="font-bold">1432</h2>
@@ -89,7 +89,7 @@
       <div class="widget style1 lazur-bg">
         <div class="row">
           <div class="col-lg-7 col-sm-6">
-            <h2>Interminente</h2>
+            <h2>{{ 'main.interminente' | translate }}</h2>
           </div>
           <div class="col-lg-4 col-sm-4 text-right">
             <h2 class="font-bold">1432</h2>
@@ -104,7 +104,7 @@
       <div class="widget style1 lazur-bg">
         <div class="row">
           <div class="col-lg-7 col-sm-6">
-            <h2>Apagado</h2>
+            <h2>{{ 'main.apagado' | translate }}</h2>
           </div>
           <div class="col-lg-4 col-sm-4 text-right">
             <h2 class="font-bold">1432</h2>
@@ -125,90 +125,90 @@
         <div class="row">
           <div class="col-lg-12">
             <div class="ibox float-e-margins">
-              <input type="text" class="form-control input-sm m-b-xs" id="filter" placeholder="Buscar por Status, nome ou endereço">
+              <input type="text" class="form-control input-sm m-b-xs" id="filter" placeholder="{{ 'main.buscar' | translate }}">
 
               <table class="footable table table-stripped" data-page-size="8" data-filter=#filter>
                 <thead>
                   <tr>
-                    <th>Status</th>
-                    <th>Nome</th>
-                    <th class="endereco" data-hide="phone,tablet">Endereço</th>
-                    <th data-hide="phone,tablet">Histórico</th>
+                    <th>{{ 'main.status' | translate }}</th>
+                    <th>{{ 'main.nome' | translate }}</th>
+                    <th class="endereco" data-hide="phone,tablet">{{ 'main.endereco' | translate }}</th>
+                    <th data-hide="phone,tablet">{{ 'main.historico' | translate }}</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr class="gradeX">
-                    <td><i class="fa fa-circle text-navy"></i> Online</td>
+                    <td><i class="fa fa-circle text-navy"></i> {{ 'main.online' | translate }}</td>
                     <td>547961-7</td>
                     <td>Av. Paulista 2057, Palmares, São Paulo - SP</td>
-                    <td>Online desde 05/06, às 18:00. <a ui-sref="app.main_info" data-dismiss="modal">Ver histórico</a></td>
+                    <td>{{ 'main.onDesde' | translate }} 05/06, às 18:00. <a ui-sref="app.main_info" data-dismiss="modal">{{ 'main.verHistorico' | translate }}</a></td>
                   </tr>
                   <tr class="gradeC">
-                    <td><i class="fa fa-circle text-danger"></i> Offline</td>
+                    <td><i class="fa fa-circle text-danger"></i> {{ 'main.offline' | translate }}</td>
                     <td>547961-7</td>
                     <td>Av. Paulista 2057, Palmares, São Paulo - SP</td>
-                    <td>Offline desde 05/06, às 18:00. <a ui-sref="app.main_info" data-dismiss="modal">Ver histórico</a></td>
+                    <td>{{ 'main.offDesde' | translate }} 05/06, às 18:00. <a ui-sref="app.main_info" data-dismiss="modal">{{ 'main.verHistorico' | translate }}</a></td>
                   </tr>
                   <tr class="gradeA">
-                    <td><i class="fa fa-circle text-navy"></i> Online</td>
+                    <td><i class="fa fa-circle text-navy"></i> {{ 'main.online' | translate }}</td>
                     <td>147961-7</td>
                     <td>Av. Paulista 2057, Palmares, São Paulo - SP</td>
-                    <td>Online desde 05/06, às 18:00. <a ui-sref="app.main_info" data-dismiss="modal">Ver histórico</a></td>
+                    <td>{{ 'main.onDesde' | translate }} 05/06, às 18:00. <a ui-sref="app.main_info" data-dismiss="modal">{{ 'main.verHistorico' | translate }}</a></td>
                   </tr>
                   <tr class="gradeA">
-                    <td><i class="fa fa-circle text-danger"></i> Offline</td>
+                    <td><i class="fa fa-circle text-danger"></i> {{ 'main.offline' | translate }}</td>
                     <td>247961-7</td>
                     <td>Av. Paulista 2057, Palmares, São Paulo - SP</td>
-                    <td>Offline desde 05/06, às 18:00. <a ui-sref="app.main_info" data-dismiss="modal">Ver histórico</a></td>
+                    <td>{{ 'main.offDesde' | translate }} 05/06, às 18:00. <a ui-sref="app.main_info" data-dismiss="modal">{{ 'main.verHistorico' | translate }}</a></td>
                   </tr>
 
                   <tr class="gradeA">
-                    <td><i class="fa fa-circle text-navy"></i> Online</td>
+                    <td><i class="fa fa-circle text-navy"></i> {{ 'main.online' | translate }}</td>
                     <td>347961-7</td>
                     <td>Av. Paulista 2057, Palmares, São Paulo - SP</td>
-                    <td>Online desde 05/06, às 18:00. <a ui-sref="app.main_info" data-dismiss="modal">Ver histórico</a></td>
+                    <td>{{ 'main.onDesde' | translate }} 05/06, às 18:00. <a ui-sref="app.main_info" data-dismiss="modal">{{ 'main.verHistorico' | translate }}</a></td>
                   </tr>
                   <tr class="gradeA">
-                    <td><i class="fa fa-circle text-danger"></i> Offline</td>
+                    <td><i class="fa fa-circle text-danger"></i> {{ 'main.offline' | translate }}</td>
                     <td>447961-7</td>
                     <td>Av. Amazonas, Belo Horizonte - MG</td>
-                    <td>Offline desde 05/06, às 18:00. <a ui-sref="app.main_info" data-dismiss="modal">Ver histórico</a></td>
+                    <td>{{ 'main.offDesde' | translate }} 05/06, às 18:00. <a ui-sref="app.main_info" data-dismiss="modal">{{ 'main.verHistorico' | translate }}</a></td>
                   </tr>
                   <tr class="gradeA">
-                    <td><i class="fa fa-circle text-navy"></i> Online</td>
+                    <td><i class="fa fa-circle text-navy"></i> {{ 'main.online' | translate }}</td>
                     <td>547961-7</td>
                     <td>Av. Paulista 2057, Palmares, São Paulo - SP</td>
-                    <td>Online desde 05/06, às 18:00. <a ui-sref="app.main_info" data-dismiss="modal">Ver histórico</a></td>
+                    <td>{{ 'main.onDesde' | translate }} 05/06, às 18:00. <a ui-sref="app.main_info" data-dismiss="modal">{{ 'main.verHistorico' | translate }}</a></td>
                   </tr>
                   <tr class="gradeA">
-                    <td><i class="fa fa-circle text-danger"></i> Offline</td>
+                    <td><i class="fa fa-circle text-danger"></i> {{ 'main.offline' | translate }}</td>
                     <td>547961-7</td>
                     <td>Av. Paulista 2057, Palmares, São Paulo - SP</td>
-                    <td>Offline desde 05/06, às 18:00. <a ui-sref="app.main_info" data-dismiss="modal">Ver histórico</a></td>
+                    <td>{{ 'main.offDesde' | translate }} 05/06, às 18:00. <a ui-sref="app.main_info" data-dismiss="modal">{{ 'main.verHistorico' | translate }}</a></td>
                   </tr>
                   <tr class="gradeA">
-                    <td><i class="fa fa-circle text-navy"></i> Online</td>
+                    <td><i class="fa fa-circle text-navy"></i> {{ 'main.online' | translate }}</td>
                     <td>547961-7</td>
                     <td>Av. Paulista 2057, Palmares, São Paulo - SP</td>
-                    <td>Online desde 05/06, às 18:00. <a ui-sref="app.main_info" data-dismiss="modal">Ver histórico</a></td>
+                    <td>{{ 'main.onDesde' | translate }} 05/06, às 18:00. <a ui-sref="app.main_info" data-dismiss="modal">{{ 'main.verHistorico' | translate }}</a></td>
                   </tr>
                   <tr class="gradeA">
-                    <td><i class="fa fa-circle text-danger"></i> Offline</td>
+                    <td><i class="fa fa-circle text-danger"></i> {{ 'main.offline' | translate }}</td>
                     <td>547961-7</td>
                     <td>Av. Paulista 2057, Palmares, São Paulo - SP</td>
-                    <td>Offline desde 05/06, às 18:00. <a ui-sref="app.main_info" data-dismiss="modal">Ver histórico</a></td>
+                    <td>{{ 'main.offDesde' | translate }} 05/06, às 18:00. <a ui-sref="app.main_info" data-dismiss="modal">{{ 'main.verHistorico' | translate }}</a></td>
                   </tr>
                   <tr class="gradeA">
-                    <td><i class="fa fa-circle text-navy"></i> Online</td>
+                    <td><i class="fa fa-circle text-navy"></i> {{ 'main.online' | translate }}</td>
                     <td>547961-7</td>
                     <td>Av. Paulista 2057, Palmares, São Paulo - SP</td>
-                    <td>Online desde 05/06, às 18:00. <a ui-sref="app.main_info" data-dismiss="modal">Ver histórico</a></td>
+                    <td>{{ 'main.onDesde' | translate }} 05/06, às 18:00. <a ui-sref="app.main_info" data-dismiss="modal">{{ 'main.verHistorico' | translate }}</a></td>
                   </tr>
                   <tr class="gradeA">
-                    <td><i class="fa fa-circle text-danger"></i> Offline</td>
+                    <td><i class="fa fa-circle text-danger"></i> {{ 'main.offline' | translate }}</td>
                     <td>547961-7</td>
                     <td>Av. Paulista 2057, Palmares, São Paulo - SP</td>
-                    <td>Offline desde 05/06, às 18:00. <a ui-sref="app.main_info" data-dismiss="modal">Ver histórico</a></td>
+                    <td>{{ 'main.offDesde' | translate }} 05/06, às 18:00. <a ui-sref="app.main_info" data-dismiss="modal">{{ 'main.verHistorico' | translate }}</a></td>
                   </tr>
                 </tbody>
                 <tfoot>
