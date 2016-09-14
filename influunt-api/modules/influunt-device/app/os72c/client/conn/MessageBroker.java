@@ -3,11 +3,17 @@ package os72c.client.conn;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
+import akka.event.Logging;
+import akka.event.LoggingAdapter;
 import akka.routing.ActorRefRoutee;
 import akka.routing.RoundRobinRoutingLogic;
 import akka.routing.Routee;
 import akka.routing.Router;
+import os72c.client.handlers.ConfiguracaoActorHandler;
 import os72c.client.handlers.EchoActorHandler;
+import os72c.client.protocols.Mensagem;
+import os72c.client.protocols.MensagemVerificaConfiguracao;
+import os72c.client.storage.Storage;
 import protocol.Envelope;
 
 import java.util.ArrayList;
@@ -21,8 +27,10 @@ public class MessageBroker extends UntypedActor {
 
 
     Router routerEcho;
+    ActorRef actorConfiguracao;
 
-    {
+
+    public MessageBroker(String idControlador, Storage storage) {
         List<Routee> routeesEcho = new ArrayList<Routee>();
         for (int i = 0; i < 5; i++) {
             ActorRef rEcho = getContext().actorOf(Props.create(EchoActorHandler.class));
@@ -30,8 +38,9 @@ public class MessageBroker extends UntypedActor {
             routeesEcho.add(new ActorRefRoutee(rEcho));
         }
         routerEcho = new Router(new RoundRobinRoutingLogic(), routeesEcho);
-    }
 
+        actorConfiguracao = getContext().actorOf(Props.create(ConfiguracaoActorHandler.class, idControlador, storage));
+    }
 
     @Override
     public void onReceive(Object message) throws Exception {
@@ -41,8 +50,20 @@ public class MessageBroker extends UntypedActor {
                 case ECHO:
                     routerEcho.route(envelope, getSender());
                     break;
+                case CONFIGURACAO:
+                    System.out.println("CONFIGURACAO");
+                    actorConfiguracao.tell(envelope, getSender());
+                    break;
+                case ERRO:
+                    System.out.println("ERRO");
+                    break;
+
             }
 
+        } else if (message instanceof Mensagem) {
+            if(message instanceof MensagemVerificaConfiguracao){
+                actorConfiguracao.tell("VERIFICA", getSender());
+            }
         }
     }
 }

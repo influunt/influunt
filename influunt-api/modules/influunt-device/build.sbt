@@ -51,7 +51,15 @@ lazy val influuntDevice = (project in file(".")).enablePlugins(PlayJava, PlayEbe
       "org.eclipse.paho" % "org.eclipse.paho.client.mqttv3" % "1.1.0",
       "org.fusesource.mqtt-client" % "mqtt-client" % "1.14",
       "com.google.code.gson" % "gson" % "2.7",
+
+      "org.jetbrains.kotlin" % "kotlin-stdlib" % "1.0.3",
+      "org.eclipse.collections" % "eclipse-collections-api" % "7.1.0",
+      "org.eclipse.collections" % "eclipse-collections" % "7.1.0",
+      "org.eclipse.collections" % "eclipse-collections-forkjoin" % "7.1.0",
+      "net.jpountz.lz4" % "lz4" % "1.3.0",
+      "org.mapdb" % "elsa" % "3.0.0-M6",
       "com.google.guava" % "guava" % "19.0"),
+
     javaOptions in run ++= Seq(
       "-Xms128m", "-Xmx1024m", "-Djava.library.path=./target/native"),
     // disable parallel tests

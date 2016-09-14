@@ -3,7 +3,7 @@ package os72c.client.models;
 import akka.actor.ActorRef;
 import akka.actor.UntypedActorContext;
 import com.google.common.collect.ImmutableList;
-import os72c.client.procolos.MensagemControladorSupervisor;
+import os72c.client.protocols.MensagemControladorSupervisor;
 import scala.concurrent.duration.Duration;
 
 import java.util.Date;

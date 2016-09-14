@@ -18,7 +18,6 @@ public class ServerActor extends UntypedActor {
                     new Function<Throwable, SupervisorStrategy.Directive>() {
                         @Override
                         public SupervisorStrategy.Directive apply(Throwable t) {
-                            System.out.println("ERRO!!******************");
                             return SupervisorStrategy.stop();
                         }
                     }, false);
@@ -51,15 +50,10 @@ public class ServerActor extends UntypedActor {
 
     @Override
     public void onReceive(Object message) throws Exception {
-        log.info("---------------------------");
-        log.info(message.toString());
-        log.info("---------------------------");
         if (message instanceof Terminated) {
             final Terminated t = (Terminated) message;
-            log.info("Ele morreu!");
             getContext().system().scheduler().scheduleOnce(Duration.create(30, TimeUnit.SECONDS), getSelf(), "RESTART", getContext().system().dispatcher(), getSelf());
         } else if ("RESTART".equals(message)) {
-            log.info("Devo restartar ele!");
             setup();
         }
 

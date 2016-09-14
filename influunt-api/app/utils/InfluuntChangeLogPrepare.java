@@ -29,7 +29,6 @@ public class InfluuntChangeLogPrepare implements ChangeLogPrepare {
             change.getValues().remove("dataAtualizacao");
             Auditoria auditoria = new Auditoria();
             auditoria.change = change;
-
             if (usuario != null) {
                 auditoria.usuario = usuario;
             }

@@ -126,7 +126,7 @@ GET         /api/v1/auditorias                                    controllers.Au
 GET         /api/v1/auditorias/:id                                controllers.AuditoriaController.findOne(id)
 
 ## MONITORAMENTO
-# Status Conexao
+# StatusDevice Conexao
 GET         /api/v1/monitoramento/status_conexao/:id                                controllers.monitoramento.StatusControladorController.findOne(id)
 GET         /api/v1/monitoramento/status_conexao                                    controllers.monitoramento.StatusControladorController.ultimoStatusDosControladores()
 GET         /api/v1/monitoramento/status_conexao/:id/ultimo_status                  controllers.monitoramento.StatusControladorController.ultimoStatus(id)
