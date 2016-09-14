@@ -174,8 +174,8 @@ public class Transicao extends Model implements Cloneable, Serializable {
         this.tipo = tipo;
     }
 
-    public Integer getTempoAtrasoGrupo(){
-        if(this.getAtrasoDeGrupo() == null){
+    public Integer getTempoAtrasoGrupo() {
+        if (this.getAtrasoDeGrupo() == null) {
             return 0;
         }
         return this.getAtrasoDeGrupo().getAtrasoDeGrupo();

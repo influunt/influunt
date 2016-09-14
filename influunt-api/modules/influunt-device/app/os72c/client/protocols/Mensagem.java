@@ -1,4 +1,4 @@
-package os72c.client.procolos;
+package os72c.client.protocols;
 
 import java.util.UUID;
 

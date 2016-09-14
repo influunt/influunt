@@ -1,33 +1,30 @@
 package controllers.monitoramento;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.inject.Singleton;
+import config.WithInfluuntApplicationNoAuthentication;
 import models.Cidade;
 import org.junit.Before;
 import org.junit.Test;
-import play.Application;
-import play.Mode;
-import play.inject.guice.GuiceApplicationBuilder;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
-import play.test.WithApplication;
-import security.AllowAllAuthenticator;
-import security.Authenticator;
 import status.StatusConexaoControlador;
 import uk.co.panaxiom.playjongo.PlayJongo;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
-import static play.inject.Bindings.bind;
-import static play.test.Helpers.*;
+import static play.test.Helpers.OK;
+import static play.test.Helpers.route;
 
 /**
  * Created by lesiopinheiro on 9/2/16.
  */
-public class StatusConexaoTest extends WithApplication {
+public class StatusConexaoTest extends WithInfluuntApplicationNoAuthentication {
 
     private Cidade cidade;
 
@@ -37,20 +34,6 @@ public class StatusConexaoTest extends WithApplication {
 
     private PlayJongo jongo;
 
-    @Override
-    protected Application provideApplication() {
-        Map<String, String> options = new HashMap<String, String>();
-        options.put("DATABASE_TO_UPPER", "FALSE");
-        return getApplication(inMemoryDatabase("default", options));
-    }
-
-
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    private Application getApplication(Map configuration) {
-        return new GuiceApplicationBuilder().configure(configuration)
-                .overrides(bind(Authenticator.class).to(AllowAllAuthenticator.class).in(Singleton.class))
-                .in(Mode.TEST).build();
-    }
 
     @Before
     public void setUp() throws InterruptedException {
@@ -58,7 +41,7 @@ public class StatusConexaoTest extends WithApplication {
         jongo = provideApplication().injector().instanceOf(PlayJongo.class);
         StatusConexaoControlador.jongo = jongo;
 
-        jongo.getCollection("status_conexao_controladores").drop();
+        jongo.getCollection(StatusConexaoControlador.COLLECTION).drop();
 
         StatusConexaoControlador.log("1", System.currentTimeMillis(), true);
         Thread.sleep(10);
@@ -88,7 +71,7 @@ public class StatusConexaoTest extends WithApplication {
 
     @Test
     public void testHistoricoStatusControlador() throws InterruptedException {
-        jongo.getCollection("status_conexao_controladores").drop();
+        jongo.getCollection(StatusConexaoControlador.COLLECTION).drop();
         for (int i = 0; i < 100; i++) {
             Thread.sleep(10);
             if (i < 50) {
@@ -101,11 +84,11 @@ public class StatusConexaoTest extends WithApplication {
 
         List<StatusConexaoControlador> statusControlador = StatusConexaoControlador.historico("1", 0, 50);
         assertEquals(50, statusControlador.size());
-        assertFalse(statusControlador.get(0).conectado);
+        assertFalse(statusControlador.get(0).isConectado());
 
         statusControlador = StatusConexaoControlador.historico("1", 1, 50);
         assertEquals(50, statusControlador.size());
-        assertTrue(statusControlador.get(0).conectado);
+        assertTrue(statusControlador.get(0).isConectado());
 
     }
 

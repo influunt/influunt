@@ -21,6 +21,9 @@ import static play.test.Helpers.inMemoryDatabase;
  */
 public abstract class WithInfluuntApplication extends WithApplication {
 
+
+    public Application provideApp;
+
     @Override
     protected Application provideApplication() {
         Map<String, String> dbOptions = new HashMap<String, String>();
@@ -30,8 +33,12 @@ public abstract class WithInfluuntApplication extends WithApplication {
         appOptions.put("db.default.driver", abstractAppOptions.get("db.default.driver"));
         appOptions.put("db.default.url", abstractAppOptions.get("db.default.url"));
         appOptions.put("play.evolutions.db.default.enabled", "false");
-        return getApplication(appOptions);
+        appOptions.put("central.mqtt.host", "127.0.0.1");
+        appOptions.put("central.mqtt.port", "1883");
+        provideApp = getApplication(appOptions);
+        return provideApp;
     }
+
 
     @Before
     public void setupContext() {

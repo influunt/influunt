@@ -1,4 +1,4 @@
-package os72c.client.procolos;
+package os72c.client.protocols;
 
 import os72c.client.models.Interrupcao;
 

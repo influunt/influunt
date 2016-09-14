@@ -77,6 +77,10 @@ public class Envelope {
         return emResposta;
     }
 
+    public void setEmResposta(String emResposta) {
+        this.emResposta = emResposta;
+    }
+
     @Override
     public String toString() {
         return "Envelope{" +

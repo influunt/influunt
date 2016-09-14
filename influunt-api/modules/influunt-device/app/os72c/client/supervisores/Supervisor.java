@@ -10,8 +10,8 @@ import os72c.client.models.EstadoGrupo;
 import os72c.client.models.Interrupcao;
 import os72c.client.models.Intervalos;
 import os72c.client.models.Troca;
-import os72c.client.procolos.MensagemControladorSupervisor;
-import os72c.client.procolos.MensagemInterrupcao;
+import os72c.client.protocols.MensagemControladorSupervisor;
+import os72c.client.protocols.MensagemInterrupcao;
 
 /**
  * Created by rodrigosol on 6/24/16.
