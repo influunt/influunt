@@ -12,6 +12,6 @@ public enum TipoMensagem {
     OK,
     ERRO,
     MUDANCA_STATUS_CONTROLADOR,
-    TRANSACAO;
-
+    TRANSACAO,
+    ENVIO_PLANOS;
 }

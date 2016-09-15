@@ -27,6 +27,9 @@ public class Transacao {
     public Long timestamp;
     public transient Object payload;
 
+    public Transacao(){
+    }
+
     public Transacao(String idControlador, Object payload) {
         this.etapaTransacao = EtapaTransacao.NEW;
         this.transacaoId = UUID.randomUUID().toString();
@@ -34,6 +37,7 @@ public class Transacao {
         this.payload = payload;
         this.timestamp = System.currentTimeMillis();
     }
+
     public static MongoCollection transacoes() {
         return jongo.getCollection(COLLECTION);
     }
@@ -42,6 +46,9 @@ public class Transacao {
         return transacoes().findOne("{ transacaoId: # }", transacaoId).as(Transacao.class);
     }
 
+    public void setPayload(Object payload) {
+        this.payload = payload;
+    }
 
     public void create() {
         transacoes().insert(this);
@@ -54,5 +61,14 @@ public class Transacao {
     public void updateStatus(EtapaTransacao etapaTransacao) {
         this.etapaTransacao = etapaTransacao;
         this.timestamp = System.currentTimeMillis();
+    }
+
+    @Override
+    public String toString() {
+        return "Transacao{" +
+                "etapaTransacao=" + etapaTransacao +
+                ", transacaoId='" + transacaoId + '\'' +
+                ", idControlador='" + idControlador + '\'' +
+                '}';
     }
 }

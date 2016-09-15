@@ -3,6 +3,9 @@ package handlers;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
+import com.fasterxml.jackson.databind.JsonNode;
+import models.Controlador;
+import play.libs.Json;
 import protocol.*;
 import status.Transacao;
 import utils.AtoresCentral;
@@ -22,12 +25,13 @@ public class TransacaoActorHandler extends UntypedActor {
         if (message instanceof Envelope) {
             Envelope envelope = (Envelope) message;
             if (envelope.getTipoMensagem().equals(TipoMensagem.TRANSACAO)) {
-                Transacao transacao = (Transacao) envelope.getConteudo();
-                log.info("NOVA TRANSACAO FOI CRIADA: {}", transacao);
+                JsonNode transacaoJson = play.libs.Json.parse(envelope.getConteudo().toString());
+                Transacao transacao = (Transacao) Json.fromJson(transacaoJson, Transacao.class);
+                log.info("CENTRAL - TX Recebida: {}", transacao);
                 switch (transacao.etapaTransacao){
-
                     case NEW:
                         transacao.updateStatus(EtapaTransacao.PREPARE_TO_COMMIT);
+                        transacao.setPayload(Controlador.getPacotePlanos(envelope.getIdControlador()));
                         envelope.setDestino(DestinoControlador.transacao(envelope.getIdControlador()));
                         break;
 
@@ -51,6 +55,8 @@ public class TransacaoActorHandler extends UntypedActor {
                         envelope.setDestino(DestinoApp.transacao(transacao.transacaoId));
                         break;
                 }
+                log.info("CENTRAL - TX Enviada: {}", transacao);
+                envelope.setConteudo(Json.toJson(transacao).toString());
                 getContext().actorSelection(AtoresCentral.mqttActorPath()).tell(envelope, getSelf());
             }
         }

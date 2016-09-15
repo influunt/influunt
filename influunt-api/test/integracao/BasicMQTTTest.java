@@ -104,9 +104,6 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
         mqttBroker.startServer(classPathConfig, userHandlers);
         Thread.sleep(100);
         central = provideApp.injector().instanceOf(Central.class);
-
-        //O cliente foi instanciado
-        client = provideApp.injector().instanceOf(Client.class);
     }
 
     @After
@@ -121,5 +118,9 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
         onSubscribeFutureList.clear();
         onPublishFutureList.clear();
         System.gc();
+    }
+
+    protected void startClient(){
+        client = provideApp.injector().instanceOf(Client.class);
     }
 }

@@ -11,6 +11,7 @@ import akka.routing.Routee;
 import akka.routing.Router;
 import os72c.client.handlers.ConfiguracaoActorHandler;
 import os72c.client.handlers.EchoActorHandler;
+import os72c.client.handlers.TransacaoActorHandler;
 import os72c.client.protocols.Mensagem;
 import os72c.client.protocols.MensagemVerificaConfiguracao;
 import os72c.client.storage.Storage;
@@ -41,6 +42,7 @@ public class DeviceMessageBroker extends UntypedActor {
 
         routers.put(TipoMensagem.ECHO, createRoutees(getContext(),5, EchoActorHandler.class));
         routers.put(TipoMensagem.CONFIGURACAO, createRoutees(getContext(),1, ConfiguracaoActorHandler.class,idControlador, storage));
+        routers.put(TipoMensagem.TRANSACAO, createRoutees(getContext(),1, TransacaoActorHandler.class,idControlador));
         actorConfiguracao = getContext().actorOf(Props.create(ConfiguracaoActorHandler.class,idControlador, storage),"actorConfig");
 
     }

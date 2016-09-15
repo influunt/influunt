@@ -11,10 +11,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import json.ControladorCustomDeserializer;
+import json.ControladorCustomSerializer;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
+import play.libs.Json;
 import utils.DBUtils;
 
 import javax.persistence.*;
@@ -599,5 +603,16 @@ public class Controlador extends Model implements Cloneable, Serializable {
 
     public static List<Controlador> findListByArea(String areaId) {
         return Controlador.find.where().eq("area_id", areaId).findList();
+    }
+    
+    public static String getPacotePlanos(String idControlador) {
+        Controlador controlador = Controlador.find.byId(UUID.fromString(idControlador));
+        JsonNode json = new ControladorCustomSerializer().getControladorJson(controlador);
+
+        ObjectNode retorno = JsonNodeFactory.instance.objectNode();
+        retorno.set("planos", json.get("planos"));
+        retorno.set("tabelaHorarias", json.get("tabelaHorarias"));
+
+        return retorno.toString();
     }
 }

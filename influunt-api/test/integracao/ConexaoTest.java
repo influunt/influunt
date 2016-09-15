@@ -18,6 +18,7 @@ public class ConexaoTest extends BasicMQTTTest {
     @Test
     public void centralDeveSeConectarAoServidorMQTT() {
         //A central ao se conectar no servidor deve se inscrever em diversos tópicos
+        startClient();
 
         await().until(() -> onPublishFutureList.size() > 0);
         //A central conectou
@@ -31,12 +32,14 @@ public class ConexaoTest extends BasicMQTTTest {
         //A central se increveu para receber informação de quando um controlador fica offline
         assertEquals("controladores/conn/offline", onSubscribeFutureList.get(1));
 
-        //A central se increveu para receber informação de echo
+        //A central se increveu para receber informação de central
         assertEquals("central/+", onSubscribeFutureList.get(2));
 
+        //A central se increveu para receber informação de transações
+        assertEquals("central/transacoes/+", onSubscribeFutureList.get(3));
 
-        //A central se increveu para receber informação de echo
-        assertEquals("controlador/" + idControlador + "/+", onSubscribeFutureList.get(3));
+        //A cliente se inscreve para receber informações enviadas pela central
+        assertEquals("controlador/" + idControlador + "/+", onSubscribeFutureList.get(4));
 
         //O cliente se conectou
         assertEquals(idControlador, onConnectFutureList.get(1));
