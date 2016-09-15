@@ -12,7 +12,7 @@ angular.module('influuntApp')
     function ($scope, $controller, $filter, Restangular) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
-      var filtraDados, filtraControladores, getMarkersControladores, getMarkersAneis, getAreas, getDadosFiltros;
+      var filtraDados, filtraControladores, getMarkersControladores, getMarkersAneis, getAreas, getDadosFiltros, getAgrupamentos;
 
       $scope.inicializaMapa = function() {
         return Restangular
@@ -27,6 +27,34 @@ angular.module('influuntApp')
           });
       };
 
+      $scope.setCurrentObject = function(markerData) {
+        if (markerData.tipo === 'ANEL') {
+          // Busca anel e controlador a partir do id do elemento clicado.
+          $scope.lista.some(function(c) {
+            $scope.currentControlador = c;
+            $scope.currentAnel = _.find($scope.currentControlador.aneis, {idJson: markerData.idJson});
+
+            return !!$scope.currentControlador && !!$scope.currentAnel;
+          });
+
+          $scope.currentAnel.planos = _
+            .chain($scope.currentAnel.planos)
+            .map(function(plano) {
+              return _.find($scope.currentControlador.planos, {idJson: plano.idJson});
+            })
+            .orderBy(['posicao'])
+            .value();
+
+          var enderecoAnel = _.find(
+            $scope.currentControlador.todosEnderecos,
+            {idJson: $scope.currentAnel.endereco.idJson}
+          );
+          $scope.currentAnel.localizacao = $filter('nomeEndereco')(enderecoAnel);
+          $scope.openAcoesAnel();
+          $scope.$apply();
+        }
+      };
+
       $scope.$watch('filtro', function(value) {
         return value && filtraDados();
       }, true);
@@ -34,6 +62,7 @@ angular.module('influuntApp')
       filtraDados = function() {
         $scope.markers = [];
         $scope.areas = [];
+        $scope.agrupamentos = [];
         var controladores = filtraControladores($scope.lista, $scope.filtro);
         angular.forEach(controladores, function(controlador) {
           $scope.markers = _.concat($scope.markers, getMarkersAneis(controlador));
@@ -41,6 +70,7 @@ angular.module('influuntApp')
           $scope.areas = _.concat($scope.areas, getAreas(controlador));
         });
 
+        $scope.agrupamentos = _.concat($scope.agrupamentos, getAgrupamentos());
         $scope.areas = _.uniqBy($scope.areas, 'popupText');
       };
 
@@ -54,6 +84,32 @@ angular.module('influuntApp')
 
             return $scope.filtro;
           });
+      };
+
+      getAgrupamentos = function() {
+        return _.map($scope.filtro.agrupamentos, function(agrupamento) {
+          var enderecosAgrupamento = _
+            .chain(agrupamento.controladores)
+            .map(function(cont) {
+              return _.find($scope.lista, {id: cont.id})
+            })
+            .map('aneis')
+            .flatten()
+            .map('endereco.idJson')
+            .value();
+
+          var enderecos = _
+            .chain($scope.lista)
+            .map('todosEnderecos')
+            .flatten()
+            .uniqBy('id')
+            .filter(function(e) {
+              return enderecosAgrupamento.indexOf(e.idJson) >= 0;
+            })
+            .value();
+
+          return {points: enderecos};
+        });
       };
 
       filtraControladores = function(controladores, filtro) {
@@ -92,6 +148,9 @@ angular.module('influuntApp')
           longitude: endereco.longitude,
           popupText: '<strong>CLC: </strong>' + controlador.CLC,
           options: {
+            id: controlador.id,
+            idJson: controlador.idJson,
+            tipo: 'CONTROLADOR',
             draggable: false,
             icon: 'images/leaflet/influunt-icons/controlador.svg',
             iconSize: [32, 37],
@@ -115,6 +174,9 @@ angular.module('influuntApp')
               longitude: endereco.longitude,
               popupText: $filter('markersAneisPopup')(anel, controlador),
               options: {
+                id: anel.id,
+                idJson: anel.idJson,
+                tipo: 'ANEL',
                 draggable: false,
                 icon: 'images/leaflet/influunt-icons/anel.svg',
                 iconSize: [32, 37],
@@ -160,10 +222,11 @@ angular.module('influuntApp')
         });
       };
 
-      $scope.closeAcoes = function() {
-        $('.fecharAcoes').on('click', function(){
-          $(this).parents().eq(4).find('.acoes').toggleClass('closeAcao');
-        });
+      $scope.closeAcoesAnel = function() {
+        $('.acoes').removeClass('open-acao-panel');
       };
 
+      $scope.openAcoesAnel = function() {
+        $('.acoes').addClass('open-acao-panel');
+      };
     }]);

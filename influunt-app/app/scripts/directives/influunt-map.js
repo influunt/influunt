@@ -11,13 +11,15 @@ angular.module('influuntApp')
     return {
       restrict: 'A',
       scope: {
-        markers: '=',
-        areas: '=',
-        options: '='
+        markers: '=?',
+        areas: '=?',
+        subareas: '=?',
+        options: '=?',
+        onClickMarker: '&?'
       },
       link: function(scope, element) {
         L.Icon.Default.imagePath = 'images/leaflet';
-        var map, markersLayer, areasLayer;
+        var map, markersLayer, areasLayer, subareasLayer;
         var TILE_LAYER = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw';
         var DEFAULTS = {LATITUDE: -23.550382, LONGITUDE: -46.663956, ZOOM: 15};
         var DEFAULT_MARKER_OPTINS = {draggable: true};
@@ -25,7 +27,7 @@ angular.module('influuntApp')
         var DEFAULT_BG_COLORS = ['#FFC107', '#FF5722', '#009688', '#4CAF50', '#3F51B5', '#D32F2F'];
 
         // private methods.
-        var initializeMap, createMarker, addMarkers, addAreas, createArea;
+        var addAreas, addMarkers, addSubareas, createArea, createMarker, createSubarea, initializeMap;
 
         initializeMap = function() {
           if (_.isObject(map)) {
@@ -59,6 +61,11 @@ angular.module('influuntApp')
                 obj.latitude = coordinates.lat;
                 obj.longitude = coordinates.lng;
               });
+            })
+            .on('click', function(ev) {
+              var markerData = ev.target.options;
+              return angular.isFunction(scope.onClickMarker) &&
+                scope.onClickMarker({$markerData: markerData});
             });
 
           if (obj.popupText) {
@@ -73,12 +80,41 @@ angular.module('influuntApp')
           var options = {color: DEFAULT_BG_COLORS[index]};
           options = _.merge(options, obj.options);
           var points = obj.points.map(function(p) { return [p.latitude, p.longitude];});
-          var area = L.polygon(points, options);
+          var area = L
+            .polygon(points, options);
 
           if (obj.popupText) {
             area.bindPopup(obj.popupText);
           }
           return area;
+        };
+
+        createSubarea = function(obj, index) {
+          var options = {color: DEFAULT_BG_COLORS[index]};
+          options = _.merge(options, obj.options);
+          var points = obj.points.map(function(p) { return [p.latitude, p.longitude];});
+          var subarea = L
+            .polygon(points, options);
+
+          if (obj.popupText) {
+            subarea.bindPopup(obj.popupText);
+          }
+          return subarea;
+        };
+
+        addMarkers = function(markers) {
+          if (_.isObject(markersLayer)) {
+            map.removeLayer(markersLayer);
+          }
+
+          markersLayer = new L.FeatureGroup();
+          markers.forEach(function(marker) {
+            var m = createMarker(marker);
+            markersLayer.addLayer(m);
+          });
+
+
+          map.addLayer(markersLayer);
         };
 
         addAreas = function(areas) {
@@ -95,19 +131,18 @@ angular.module('influuntApp')
           map.addLayer(areasLayer);
         };
 
-        addMarkers = function(markers) {
-          if (_.isObject(markersLayer)) {
-            map.removeLayer(markersLayer);
+        addSubareas = function(subareas) {
+          if (_.isObject(subareasLayer)) {
+            map.removeLayer(subareasLayer);
           }
 
-          markersLayer = new L.FeatureGroup();
-          markers.forEach(function(marker) {
-            var m = createMarker(marker);
-            markersLayer.addLayer(m);
+          subareasLayer = new L.FeatureGroup();
+          subareas.forEach(function(subarea, index) {
+            var a = createSubarea(subarea, index);
+            subareasLayer.addLayer(a);
           });
 
-
-          map.addLayer(markersLayer);
+          map.addLayer(subareasLayer);
         };
 
         scope.$watch('markers', function(markers) {
@@ -130,6 +165,16 @@ angular.module('influuntApp')
 
           if (_.isArray(areas) && angular.isDefined(map)) {
             addAreas(areas);
+          }
+        }, true);
+
+        scope.$watch('subareas', function(subareas) {
+          initializeMap();
+
+          console.log('adding subareas');
+
+          if (_.isArray(subareas) && angular.isDefined(map)) {
+            addSubareas(subareas);
           }
         }, true);
       }

@@ -1,0 +1,37 @@
+<div class="acoes">
+  <div class="col-lg-12">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title" ng-init="closeAcoesAnel()">
+        <h3 class="fecharAcoes">
+          {{ currentAnel.CLA }}
+          <i class="fa fa-times right"></i>
+        </h3>
+      </div>
+      <div class="ibox-content">
+        <p>{{ currentAnel.localizacao }}</p>
+        <button class="btn btn-primary" type="submit">
+          {{ 'controladores.mapaControladores.tabelaHorarios' | translate }}
+        </button>
+      </div>
+
+      <div class="ibox-content" ng-init="openPlanos()">
+        <h3 class="btnPlanos">
+          {{ currentAnel.planos.length }} {{ 'controladores.mapaControladores.planos' | translate }}
+          <i class="fa fa-angle-down right" />
+        </h3>
+        <ul class="planos">
+          <li data-ng-repeat="plano in currentAnel.planos">
+            <a href="#">{{ 'controladores.geral.plano' | translate}} {{ plano.posicao }} - {{ plano.descricao }}</a>
+          </li>
+        </ul>
+      </div>
+      <div class="ibox-content">
+        <h3>Ações</h3>
+        <button class="btn btn-primary" type="submit">{{ 'controladores.mapaControladores.imporPlanos' | translate }}</button>
+        <button class="btn btn-primary" type="submit">{{ 'controladores.mapaControladores.trocarTabela' | translate }}</button>
+        <button class="btn btn-primary" type="submit">{{ 'controladores.mapaControladores.enviarPlano' | translate }}</button>
+        <button class="btn btn-primary" type="submit">{{ 'controladores.mapaControladores.enviarTabela' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>
