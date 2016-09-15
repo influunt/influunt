@@ -92,24 +92,24 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
                 new Erro(CONTROLADOR, "O detector de pedestre deve estar associado a um estágio com grupo semafórico de pedestre.", "aneis[1].detectores[0].associadoAoMenosUmEstagioPedestre"),
                 new Erro(CONTROLADOR, "O detector veicular deve estar associado a um estágio com grupo semafórico veicular.", "aneis[0].detectores[0].associadoAoMenosUmEstagioVeicular"),
                 new Erro(CONTROLADOR, "O tempo de ausência de detecção deve estar entre 0 e 4320.", "aneis[0].detectores[0].tempoAusenciaDeteccaoEstaDentroDaFaixa"),
-                new Erro(CONTROLADOR, "O tempo de detecção permanente deve estar entre 0 e 4320.", "aneis[0].detectores[0].tempoDeteccaoPermanenteEstaDentroDaFaixa")
+                new Erro(CONTROLADOR, "O tempo de detecção permanente deve estar entre 0 e 1440.", "aneis[0].detectores[0].tempoDeteccaoPermanenteEstaDentroDaFaixa")
         ));
 
         detector.setTipo(TipoDetector.VEICULAR);
         detector2.setTipo(TipoDetector.PEDESTRE);
 
         detector2.setTempoAusenciaDeteccao(5000);
-        detector2.setTempoDeteccaoPermanente(4321);
+        detector2.setTempoDeteccaoPermanente(1441);
 
         erros = getErros(controlador);
         assertEquals(2, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro(CONTROLADOR, "O tempo de ausência de detecção deve estar entre 0 e 4320.", "aneis[0].detectores[0].tempoAusenciaDeteccaoEstaDentroDaFaixa"),
-                new Erro(CONTROLADOR, "O tempo de detecção permanente deve estar entre 0 e 4320.", "aneis[0].detectores[0].tempoDeteccaoPermanenteEstaDentroDaFaixa")
+                new Erro(CONTROLADOR, "O tempo de detecção permanente deve estar entre 0 e 1440.", "aneis[0].detectores[0].tempoDeteccaoPermanenteEstaDentroDaFaixa")
         ));
 
         detector2.setTempoAusenciaDeteccao(0);
-        detector2.setTempoDeteccaoPermanente(4320);
+        detector2.setTempoDeteccaoPermanente(1440);
 
         erros = getErros(controlador);
         assertThat(erros, Matchers.empty());

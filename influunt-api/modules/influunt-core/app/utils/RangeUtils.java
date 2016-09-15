@@ -39,7 +39,7 @@ public class RangeUtils {
 
     public static InfluuntRange TEMPO_AUSENCIA_DETECCAO = new InfluuntRange(0, 4320);
 
-    public static InfluuntRange TEMPO_DETECCAO_PERMANENTE = new InfluuntRange(0, 4320);
+    public static InfluuntRange TEMPO_DETECCAO_PERMANENTE = new InfluuntRange(0, 1440);
 
     protected RangeUtils() {
     }
