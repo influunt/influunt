@@ -3,6 +3,7 @@ package os72c.client.handlers;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
+import com.fasterxml.jackson.databind.JsonNode;
 import models.Controlador;
 import models.StatusDevice;
 import os72c.client.storage.Storage;

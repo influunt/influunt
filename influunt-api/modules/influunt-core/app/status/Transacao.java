@@ -1,12 +1,17 @@
 package status;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import models.Controlador;
 import models.Estagio;
 import models.StatusDevice;
 import org.jongo.Aggregate;
 import org.jongo.MongoCollection;
 import org.jongo.MongoCursor;
 import play.api.Play;
+import play.libs.Json;
 import protocol.EtapaTransacao;
+import protocol.TipoTransacao;
 import uk.co.panaxiom.playjongo.PlayJongo;
 
 import java.util.*;
@@ -22,6 +27,7 @@ public class Transacao {
 
     public String _id;
     public EtapaTransacao etapaTransacao;
+    public TipoTransacao tipoTransacao;
     public String transacaoId;
     public String idControlador;
     public Long timestamp;
@@ -30,8 +36,9 @@ public class Transacao {
     public Transacao(){
     }
 
-    public Transacao(String idControlador, Object payload) {
+    public Transacao(String idControlador, Object payload, TipoTransacao tipoTransacao) {
         this.etapaTransacao = EtapaTransacao.NEW;
+        this.tipoTransacao = tipoTransacao;
         this.transacaoId = UUID.randomUUID().toString();
         this.idControlador = idControlador;
         this.payload = payload;
@@ -70,5 +77,26 @@ public class Transacao {
                 ", transacaoId='" + transacaoId + '\'' +
                 ", idControlador='" + idControlador + '\'' +
                 '}';
+    }
+
+    public JsonNode toJson() {
+        ObjectNode root = Json.newObject();
+        root.put("transacaoId", transacaoId);
+        root.put("etapaTransacao", etapaTransacao.toString());
+        root.put("tipoTransacao", tipoTransacao.toString());
+        root.put("idControlador", idControlador);
+        root.put("timestamp", timestamp);
+        if(payload != null){
+            root.put("payload", payload.toString());
+        }
+        return root;
+    }
+
+    public static Transacao fromJson(JsonNode transacaoJson) {
+        Transacao transacao = (Transacao) Json.fromJson(transacaoJson, Transacao.class);
+        if(transacaoJson.has("payload")){
+            transacao.setPayload(transacaoJson.get("payload").asText());
+        }
+        return transacao;
     }
 }

@@ -26,12 +26,11 @@ public class TransacaoActorHandler extends UntypedActor {
             Envelope envelope = (Envelope) message;
             if (envelope.getTipoMensagem().equals(TipoMensagem.TRANSACAO)) {
                 JsonNode transacaoJson = play.libs.Json.parse(envelope.getConteudo().toString());
-                Transacao transacao = (Transacao) Json.fromJson(transacaoJson, Transacao.class);
+                Transacao transacao = Transacao.fromJson(transacaoJson);
                 log.info("CENTRAL - TX Recebida: {}", transacao);
                 switch (transacao.etapaTransacao){
                     case NEW:
                         transacao.updateStatus(EtapaTransacao.PREPARE_TO_COMMIT);
-                        transacao.setPayload(Controlador.getPacotePlanos(envelope.getIdControlador()));
                         envelope.setDestino(DestinoControlador.transacao(envelope.getIdControlador()));
                         break;
 
@@ -56,7 +55,7 @@ public class TransacaoActorHandler extends UntypedActor {
                         break;
                 }
                 log.info("CENTRAL - TX Enviada: {}", transacao);
-                envelope.setConteudo(Json.toJson(transacao).toString());
+                envelope.setConteudo(transacao.toJson().toString());
                 getContext().actorSelection(AtoresCentral.mqttActorPath()).tell(envelope, getSelf());
             }
         }

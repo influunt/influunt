@@ -3,6 +3,7 @@ package os72c.client.storage;
 import br.org.mapdb.DB;
 import br.org.mapdb.HTreeMap;
 import br.org.mapdb.Serializer;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import json.ControladorCustomDeserializer;
@@ -61,7 +62,14 @@ public class MapStorage implements Storage {
 
     @Override
     public void setControlador(Controlador controlador) {
-        this.status.put("atual", new ControladorCustomSerializer().getControladorJson(controlador).toString());
+        this.controlador.put("atual", new ControladorCustomSerializer().getControladorJson(controlador).toString());
+        db.commit();
+    }
+
+    @Override
+    public void setPlanos(JsonNode plano) {
+        this.controlador.put("atualPlanos", plano.toString());
+        db.commit();
     }
 
     @Override
@@ -71,6 +79,34 @@ public class MapStorage implements Storage {
 
     @Override
     public void setControladorStaging(Controlador controlador) {
-        this.status.put("temp", new ControladorCustomSerializer().getControladorJson(controlador).toString());
+        this.controlador.put("temp", new ControladorCustomSerializer().getControladorJson(controlador).toString());
+        db.commit();
     }
+
+    @Override
+    public void setPlanosStaging(JsonNode plano) {
+        this.controlador.put("tempPlanos", plano.toString());
+        db.commit();
+    }
+
+    @Override
+    public JsonNode getControladorJson() {
+        return play.libs.Json.parse(this.controlador.get("atual"));
+    }
+
+    @Override
+    public JsonNode getControladorJsonStaging() {
+        return play.libs.Json.parse(this.controlador.get("temp"));
+    }
+
+    @Override
+    public JsonNode getPlanos() {
+        return play.libs.Json.parse(this.controlador.get("atualPlanos"));
+    }
+
+    @Override
+    public JsonNode getPlanosStaging() {
+        return play.libs.Json.parse(this.controlador.get("tempPlanos"));
+    }
+
 }

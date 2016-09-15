@@ -1,8 +1,11 @@
 package json;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.*;
 import org.joda.time.LocalTime;
+import play.libs.Json;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -211,6 +214,30 @@ public class ControladorCustomDeserializer {
         consumers.stream().forEach(c -> c.accept(caches));
 
         return controlador;
+    }
+
+    public Controlador getPacotesFromJson(JsonNode configuracaoControladorJson, JsonNode pacotePlanosJson) {
+        ObjectNode node = ((ObjectNode)configuracaoControladorJson);
+        for (JsonNode innerNode : pacotePlanosJson.get("versoesPlanos")){
+            if(innerNode.has("anel") && innerNode.get("anel").has("idJson")){
+                for (JsonNode anelNode : node.get("aneis")){
+                    if(anelNode.get("idJson").asText().equals(innerNode.get("anel").get("idJson").asText())){
+                        ((ObjectNode) anelNode.get("versaoPlano")).set("idJson", innerNode.get("idJson"));
+                    }
+                }
+
+            }
+        }
+        node.set("versoesPlanos", pacotePlanosJson.get("versoesPlanos"));
+        node.set("planos", pacotePlanosJson.get("planos"));
+        node.set("gruposSemaforicosPlanos", pacotePlanosJson.get("gruposSemaforicosPlanos"));
+        node.set("estagiosPlanos", pacotePlanosJson.get("estagiosPlanos"));
+
+        node.set("versoesTabelasHorarias", pacotePlanosJson.get("versoesTabelasHorarias"));
+        node.set("tabelasHorarias", pacotePlanosJson.get("tabelasHorarias"));
+        node.set("eventos", pacotePlanosJson.get("eventos"));
+
+        return getControladorFromJson(node);
     }
 
     private void parseAneis(JsonNode node) {
@@ -1478,5 +1505,4 @@ public class ControladorCustomDeserializer {
     private void runLater(Consumer<Map<String, Map>> c) {
         consumers.add(c);
     }
-
 }
