@@ -1,121 +1,198 @@
 <div class="container-fluid wrapper wrapper-content animated fadeInRight dashboard">
-  <div class="col-lg-12 col-sm-12">
-    <div class="col-lg-12 col-sm-12">
-      <h3>{{ 'main.status' | translate }}</h3>
-    </div>
-    <div data-toggle="modal" data-target="#myModal" class="col-lg-3 col-sm-6">
-      <div class="widget style1 navy-bg falseBtn">
-        <div class="row">
-          <div class="col-lg-3 col-sm-3">
-            <i class="fa fa-check-circle-o fa-5x"></i>
+  <div class="col-lg-8 col-sm-12">
+    <div class="row">
+      <div data-toggle="modal" data-target="#myModal" class="col-lg-3 col-sm-6">
+        <div class="widget style1 navy-bg falseBtn">
+          <div class="row">
+            <div class="col-lg-3 col-sm-3">
+              <h2 class="font-bold">1432</h2>
+            </div>
+            <div class="col-lg-8 col-sm-7 text-right">
+              <span> {{ 'main.controlOn' | translate }} </span>
+            </div>
           </div>
-          <div class="col-lg-8 col-sm-7 text-right">
-            <span> {{ 'main.controlOn' | translate }} </span>
-            <h2 class="font-bold">1432</h2>
+        </div>
+      </div>
+      <div data-toggle="modal" data-target="#myModal" class="col-lg-3 col-sm-6">
+        <div class="widget style1 red-bg falseBtn">
+          <div class="row">
+            <div class="col-lg-3 col-sm-3">
+              <h2 class="font-bold">13</h2>
+            </div>
+            <div class="col-lg-8 col-sm-7 text-right">
+              <span> {{ 'main.controlOff' | translate }} </span>
+            </div>
           </div>
-          <div class="col-lg-1 col-sm-2 text-right marginTop">
-            <i class="fa fa-angle-right fa-3x"></i>
+        </div>
+      </div>
+      <div data-toggle="modal" data-target="#myModal" class="col-lg-3 col-sm-6">
+        <div class="widget style1 blue-bg falseBtn">
+          <div class="row">
+            <div class="col-lg-3 col-sm-3">
+              <h2 class="font-bold">13</h2>
+            </div>
+            <div class="col-lg-8 col-sm-7 text-right">
+              <span> Controlador com imposição de planos </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-toggle="modal" data-target="#myModal" class="col-lg-3 col-sm-6">
+        <div class="widget style1 lazur-bg falseBtn">
+          <div class="row">
+            <div class="col-lg-3 col-sm-3">
+              <h2 class="font-bold">13</h2>
+            </div>
+            <div class="col-lg-8 col-sm-7 text-right">
+              <span> Controladores Coordenados </span>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <div data-toggle="modal" data-target="#myModal" class="col-lg-3 col-sm-6">
-      <div class="widget style1 red-bg falseBtn">
-        <div class="row">
-          <div class="col-lg-3 col-sm-3">
-            <i class="fa fa-exclamation-triangle fa-5x"></i>
+    
+    <div class="row col-lg-12">
+      <div class="col-lg-12 white-bg">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>Controladores Por Status</h5>
           </div>
-          <div class="col-lg-8 col-sm-7 text-right">
-            <span> {{ 'main.controlOff' | translate }} </span>
-            <h2 class="font-bold">13</h2>
+          <div>
+            <table class="table">
+              <tbody>
+                <tr>
+                  <td>
+                    <button type="button" class="btn btn-danger m-r-sm">12</button>
+                    NOVO
+                  </td>
+                  <td>
+                    <button type="button" class="btn btn-primary m-r-sm">28</button>
+                    CONFIGURADO
+                  </td>
+                  <td>
+                    <button type="button" class="btn btn-info m-r-sm">15</button>
+                    ATIVO
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <button type="button" class="btn btn-info m-r-sm">20</button>
+                    INOPERANTE
+                  </td>
+                  <td>
+                    <button type="button" class="btn btn-success m-r-sm">40</button>
+                    OPERANDO COM FALHAS
+                  </td>
+                  <td>
+                    <button type="button" class="btn btn-danger m-r-sm">30</button>
+                    INATIVO
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-          <div class="col-lg-1 col-sm-2 text-right marginTop">
-            <i class="fa fa-angle-right fa-3x"></i>
+        </div>
+
+      </div>
+    </div>
+    <div class="row col-lg-12">
+      <div class="col-lg-12 white-bg">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>Controladores Por Modo</h5>
+          </div>
+          <div>
+            <table class="table">
+              <tbody>
+                <tr>
+                  <td>
+                    <button type="button" class="btn btn-danger m-r-sm">12</button>
+                    ATUADO
+                  </td>
+                  <td>
+                    <button type="button" class="btn btn-primary m-r-sm">28</button>
+                    COORDENADO
+                  </td>
+                  <td>
+                    <button type="button" class="btn btn-info m-r-sm">15</button>
+                    ISOLADO
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <button type="button" class="btn btn-info m-r-sm">20</button>
+                    APAGADO
+                  </td>
+                  <td>
+                    <button type="button" class="btn btn-success m-r-sm">40</button>
+                    INTERMITENTE
+                  </td>
+                  <td>
+                    <button type="button" class="btn btn-danger m-r-sm">30</button>
+                    MANUAL
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 col-sm-12">
+    <div class="ibox float-e-margins white-bg">
+      <div class="ibox-content ibox-heading yellow-bg">
+        <h3><strong>3</strong> controladores estão apresentado <strong>falhas</strong></h3>
+        <small><i class="fa fa-check-circle"></i> 5 se recuperaram de falhas na última hora</small>
+      </div>
+      <div class="ibox-content inspinia-timeline">
+        <div class="timeline-item">
+          <div class="row">
+            <div class="col-xs-3 date">
+              <i class="fa fa-plug text-white" style="background-color:#1ab394"></i>
+              6:20
+              <br>
+              <small class="text-navy">1 e 40 horas atrás</small>
+            </div>
+            <div class="col-xs-7 content no-top-border">
+              <p class="m-b-xs"><strong>Queda de Energia</strong></p>
+              <p><strong>547961-7</strong><br>Av Paulista com Consolação</p>
+            </div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="row">
+            <div class="col-xs-3 date">
+              <i class="fa fa-plug text-white" style="background-color:#ed5565"></i>
+              6:00
+              <br>
+              <small class="text-navy">2 horas atrás</small>
+            </div>
+            <div class="col-xs-7 content no-top-border">
+              <p class="m-b-xs"><strong>Queda de Energia</strong></p>
+              <p><strong>547961-7</strong><br>Av Paulista com Consolação</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="row">
+              <div class="col-xs-3 date">
+                <i class="fa fa-lightbulb-o text-white" style="background-color:#f8ac59"></i>
+                6:00
+                <br>
+                <small class="text-navy">2 horas atrás</small>
+              </div>
+              <div class="col-xs-7 content no-top-border">
+                <p class="m-b-xs"><strong>Fase Pedestre Queimada</strong></p>
+                <p><strong>547961-7</strong><br>Av Paulista com Consolação</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="col-lg-12 col-sm-12">
-    <div class="col-lg-12">
-      <h3>{{ 'main.modo' | translate }}</h3>
-    </div>
-    <div class="col-lg-3 col-sm-6">
-      <div class="widget style1 lazur-bg">
-        <div class="row">
-          <div class="col-lg-7 col-sm-6">
-            <h2>{{ 'main.isolado' | translate }}</h2>
-          </div>
-          <div class="col-lg-4 col-sm-4 text-right">
-            <h2 class="font-bold">1432</h2>
-          </div>
-          <div class="col-lg-1 col-sm-2 text-right">
-            <i class="fa fa-angle-right fa-3x"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-3 col-sm-6">
-      <div class="widget style1 lazur-bg">
-        <div class="row">
-          <div class="col-lg-7 col-sm-6">
-            <h2>{{ 'main.coordenado' | translate }}</h2>
-          </div>
-          <div class="col-lg-4 col-sm-4 text-right">
-            <h2 class="font-bold">1432</h2>
-          </div>
-          <div class="col-lg-1 col-sm-2 text-right">
-            <i class="fa fa-angle-right fa-3x"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-3 col-sm-6">
-      <div class="widget style1 lazur-bg">
-        <div class="row">
-          <div class="col-lg-7 col-sm-6">
-            <h2>{{ 'main.atuado' | translate }}</h2>
-          </div>
-          <div class="col-lg-4 col-sm-4 text-right">
-            <h2 class="font-bold">1432</h2>
-          </div>
-          <div class="col-lg-1 col-sm-2 text-right">
-            <i class="fa fa-angle-right fa-3x"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-3 col-sm-6">
-      <div class="widget style1 lazur-bg">
-        <div class="row">
-          <div class="col-lg-7 col-sm-6">
-            <h2>{{ 'main.interminente' | translate }}</h2>
-          </div>
-          <div class="col-lg-4 col-sm-4 text-right">
-            <h2 class="font-bold">1432</h2>
-          </div>
-          <div class="col-lg-1 col-sm-2 text-right">
-            <i class="fa fa-angle-right fa-3x"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-3 col-sm-6">
-      <div class="widget style1 lazur-bg">
-        <div class="row">
-          <div class="col-lg-7 col-sm-6">
-            <h2>{{ 'main.apagado' | translate }}</h2>
-          </div>
-          <div class="col-lg-4 col-sm-4 text-right">
-            <h2 class="font-bold">1432</h2>
-          </div>
-          <div class="col-lg-1 col-sm-2 text-right">
-            <i class="fa fa-angle-right fa-3x"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+
 </div>
 
 <div class="modal inmodal dashModal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -232,7 +309,7 @@
 </div>
 
 <script>
-  $(document).ready(function() {
-    $('.footable').footable();
-  });
+$(document).ready(function() {
+  $('.footable').footable();
+});
 </script>
