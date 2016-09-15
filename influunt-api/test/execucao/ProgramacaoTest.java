@@ -22,21 +22,25 @@ public class ProgramacaoTest {
 
     @Test
     public void testIndex(){
+        GrupoSemaforico g = new GrupoSemaforico();
+        g.setTempoVerdeSeguranca(1);
+        GrupoSemaforicoPlano gsf = new GrupoSemaforicoPlano();
+        gsf.setGrupoSemaforico(g);
         Plano p1 = new Plano();
         p1.setTempoCiclo(255);
-        p1.setGruposSemaforicosPlanos(Arrays.asList(new GrupoSemaforicoPlano[] {new GrupoSemaforicoPlano(),new GrupoSemaforicoPlano(),new GrupoSemaforicoPlano(),new GrupoSemaforicoPlano()}));
+        p1.setGruposSemaforicosPlanos(Arrays.asList(new GrupoSemaforicoPlano[] {gsf,gsf,gsf,gsf}));
 
         Plano p2 = new Plano();
         p2.setTempoCiclo(254);
-        p2.setGruposSemaforicosPlanos(Arrays.asList(new GrupoSemaforicoPlano[] {new GrupoSemaforicoPlano(),new GrupoSemaforicoPlano(),new GrupoSemaforicoPlano(),new GrupoSemaforicoPlano()}));
+        p2.setGruposSemaforicosPlanos(Arrays.asList(new GrupoSemaforicoPlano[] {gsf,gsf,gsf,gsf}));
 
         Plano p3 = new Plano();
         p3.setTempoCiclo(253);
-        p3.setGruposSemaforicosPlanos(Arrays.asList(new GrupoSemaforicoPlano[] {new GrupoSemaforicoPlano(),new GrupoSemaforicoPlano(),new GrupoSemaforicoPlano(),new GrupoSemaforicoPlano()}));
+        p3.setGruposSemaforicosPlanos(Arrays.asList(new GrupoSemaforicoPlano[] {gsf,gsf,gsf,gsf}));
 
         Plano p4 = new Plano();
         p4.setTempoCiclo(252);
-        p4.setGruposSemaforicosPlanos(Arrays.asList(new GrupoSemaforicoPlano[] {new GrupoSemaforicoPlano(),new GrupoSemaforicoPlano(),new GrupoSemaforicoPlano(),new GrupoSemaforicoPlano()}));
+        p4.setGruposSemaforicosPlanos(Arrays.asList(new GrupoSemaforicoPlano[] {gsf,gsf,gsf,gsf}));
 
         ArrayList<Plano> planos = new ArrayList<>(4);
 
