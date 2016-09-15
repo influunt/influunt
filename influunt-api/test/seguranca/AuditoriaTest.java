@@ -108,7 +108,7 @@ public class AuditoriaTest extends WithInfluuntApplicationAuthenticated {
 
         // FIND BY LOGIN AND TABLE WITHOUT DATA
         request = new Http.RequestBuilder().method(GET)
-                .uri(routes.AuditoriaController.findAll().url().concat("?usuario.login=admin&change.table=controladores")).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+                .uri(routes.AuditoriaController.findAll().url().concat("?usuario.login=admin&mudar.table=controladores")).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
         result = route(request);
         json = Json.parse(Helpers.contentAsString(result));
         auditorias = Json.fromJson(json.get(DATA), List.class);
@@ -117,7 +117,7 @@ public class AuditoriaTest extends WithInfluuntApplicationAuthenticated {
 
         // FIND BY LOGIN AND TABLE
         request = new Http.RequestBuilder().method(GET)
-                .uri(routes.AuditoriaController.findAll().url().concat("?usuario.login=admin&change.table=areas")).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+                .uri(routes.AuditoriaController.findAll().url().concat("?usuario.login=admin&mudar.table=areas")).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
         result = route(request);
         json = Json.parse(Helpers.contentAsString(result));
         auditorias = Json.fromJson(json.get(DATA), List.class);
@@ -127,7 +127,7 @@ public class AuditoriaTest extends WithInfluuntApplicationAuthenticated {
 
         // FIND BY TABLE
         request = new Http.RequestBuilder().method(GET)
-                .uri(routes.AuditoriaController.findAll().url().concat("?change.table=areas")).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+                .uri(routes.AuditoriaController.findAll().url().concat("?mudar.table=areas")).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
         result = route(request);
         json = Json.parse(Helpers.contentAsString(result));
         auditorias = Json.fromJson(json.get(DATA), List.class);
@@ -136,7 +136,7 @@ public class AuditoriaTest extends WithInfluuntApplicationAuthenticated {
 
         // FIND BY TABLE WITHOUT DATA
         request = new Http.RequestBuilder().method(GET)
-                .uri(routes.AuditoriaController.findAll().url().concat("?change.table=controladores")).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+                .uri(routes.AuditoriaController.findAll().url().concat("?mudar.table=controladores")).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
         result = route(request);
         json = Json.parse(Helpers.contentAsString(result));
         auditorias = Json.fromJson(json.get(DATA), List.class);

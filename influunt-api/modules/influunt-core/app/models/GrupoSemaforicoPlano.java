@@ -38,6 +38,11 @@ public class GrupoSemaforicoPlano extends Model implements Cloneable, Serializab
     @NotNull
     private GrupoSemaforico grupoSemaforico;
 
+    @OneToMany
+    @NotNull
+    private List<Intervalo> intervalos;
+
+
     @ManyToOne
     @NotNull
     private Plano plano;
@@ -116,6 +121,14 @@ public class GrupoSemaforicoPlano extends Model implements Cloneable, Serializab
 
     public void setDataAtualizacao(DateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
+    }
+
+    public List<Intervalo> getIntervalos() {
+        return intervalos;
+    }
+
+    public void setIntervalos(List<Intervalo> intervalos) {
+        this.intervalos = intervalos;
     }
 
     @AssertTrue(groups = PlanosCheck.class, message = "O tempo de verde está menor que o tempo de segurança configurado.")
