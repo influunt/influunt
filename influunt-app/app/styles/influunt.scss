@@ -2462,6 +2462,13 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
   h3 {
     text-transform: uppercase;
   }
+  ..timeline-item {
+    .date {
+      i {
+        background: none;
+      }
+    }
+  }
   .widget {
     h2 {
       text-transform: uppercase;

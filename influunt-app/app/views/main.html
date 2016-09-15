@@ -34,7 +34,7 @@
                 <h2 class="font-bold">13</h2>
               </div>
               <div class="col-lg-8 col-sm-7 text-right">
-                <span> Controlador com imposição de planos </span>
+                <span> {{ 'main.controlImposicao' | translate }} </span>
               </div>
             </div>
           </div>
@@ -46,7 +46,7 @@
                 <h2 class="font-bold">13</h2>
               </div>
               <div class="col-lg-8 col-sm-7 text-right">
-                <span> Controladores Coordenados </span>
+                <span> {{ 'main.controlCoordenado' | translate }} </span>
               </div>
             </div>
           </div>
@@ -58,17 +58,17 @@
         <div class="col-lg-12 white-bg padding-bottom-20">
           <div class="ibox float-e-margins">
             <div class="ibox-title">
-              <h5>Controladores Por Status</h5>
+              <h5>{{ 'main.controlStatus' | translate }}</h5>
             </div>
             <div class="col-lg-12 no-padding padding-top-20">
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-danger m-r-sm">12</button> NOVO
+                <button type="button" class="btn btn-danger m-r-sm">12</button> {{ 'main.novo' | translate }}
               </div>
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-primary m-r-sm">28</button> CONFIGURADO
+                <button type="button" class="btn btn-primary m-r-sm">28</button> {{ 'main.configurado' | translate }}
               </div>
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-info m-r-sm">15</button> ATIVO
+                <button type="button" class="btn btn-info m-r-sm">15</button> {{ 'main.ativo' | translate }}
               </div>
             </div>
             <div class="col-lg-12">
@@ -76,13 +76,13 @@
             </div>
             <div class="col-lg-12 no-padding padding-botton-20">
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-info m-r-sm">20</button> INOPERANTE
+                <button type="button" class="btn btn-info m-r-sm">20</button> {{ 'main.inoperante' | translate }}
               </div>
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-success m-r-sm">40</button> OPERANDO COM FALHAS
+                <button type="button" class="btn btn-success m-r-sm">40</button> {{ 'main.operandoFalhas' | translate }}
               </div>
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-danger m-r-sm">30</button> INATIVO
+                <button type="button" class="btn btn-danger m-r-sm">30</button> {{ 'main.inativo' | translate }}
               </div>
             </div>
           </div>
@@ -93,17 +93,17 @@
         <div class="col-lg-12 white-bg padding-bottom-20">
           <div class="ibox float-e-margins">
             <div class="ibox-title">
-              <h5>Controladores Por Modo</h5>
+              <h5>{{ 'main.controlModo' | translate }}</h5>
             </div>
             <div class="col-lg-12 no-padding padding-top-20">
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-danger m-r-sm">12</button> ATUADO
+                <button type="button" class="btn btn-danger m-r-sm">12</button> {{ 'main.atuado' | translate }}
               </div>
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-primary m-r-sm">28</button> COORDENADO
+                <button type="button" class="btn btn-primary m-r-sm">28</button> {{ 'main.coordenado' | translate }}
               </div>
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-info m-r-sm">15</button> ISOLADO
+                <button type="button" class="btn btn-info m-r-sm">15</button> {{ 'main.isolado' | translate }}
               </div>
             </div>
             <div class="col-lg-12">
@@ -111,13 +111,13 @@
             </div>
             <div class="col-lg-12 no-padding padding-botton-20">
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-info m-r-sm">20</button> APAGADO
+                <button type="button" class="btn btn-info m-r-sm">20</button> {{ 'main.apagado' | translate }}
               </div>
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-success m-r-sm">40</button> INTERMITENTE
+                <button type="button" class="btn btn-success m-r-sm">40</button> {{ 'main.interminente' | translate }}
               </div>
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-danger m-r-sm">30</button> MANUAL
+                <button type="button" class="btn btn-danger m-r-sm">30</button> {{ 'main.manual' | translate }}
               </div>
             </div>
           </div>
@@ -129,19 +129,19 @@
   <div class="col-lg-4 col-sm-12">
     <div class="ibox float-e-margins white-bg">
       <div class="ibox-content ibox-heading yellow-bg">
-        <h3><strong>3</strong> controladores estão apresentado <strong>falhas</strong></h3>
-        <small><i class="fa fa-check-circle"></i> 5 se recuperaram de falhas na última hora</small>
+        <h3><strong>3</strong> {{ 'main.controlApresentando' | translate }} <strong>{{ 'main.falhas' | translate }}</strong></h3>
+        <small><i class="fa fa-check-circle"></i> 5 {{ 'main.recuperaFalhas' | translate }}</small>
       </div>
       <div class="ibox-content inspinia-timeline">
         <div class="timeline-item">
           <div class="row">
             <div class="col-xs-3 date">
-              <i class="fa fa-plug text-white" style="background-color:#1ab394"></i> 6:20
+              <i class="fa fa-plug navy-bg"></i> 6:20
               <br>
               <small class="text-navy">1 e 40 horas atrás</small>
             </div>
             <div class="col-xs-7 content no-top-border">
-              <p class="m-b-xs"><strong>Queda de Energia</strong></p>
+              <p class="m-b-xs"><strong>{{ 'main.quedaEnergia' | translate }}</strong></p>
               <p><strong>547961-7</strong><br>Av Paulista com Consolação</p>
             </div>
           </div>
@@ -149,24 +149,24 @@
         <div class="timeline-item">
           <div class="row">
             <div class="col-xs-3 date">
-              <i class="fa fa-plug text-white" style="background-color:#ed5565"></i> 6:00
+              <i class="fa fa-plug btn-danger"></i> 6:00
               <br>
               <small class="text-navy">2 horas atrás</small>
             </div>
             <div class="col-xs-7 content no-top-border">
-              <p class="m-b-xs"><strong>Queda de Energia</strong></p>
+              <p class="m-b-xs"><strong>{{ 'main.quedaEnergia' | translate }}</strong></p>
               <p><strong>547961-7</strong><br>Av Paulista com Consolação</p>
             </div>
           </div>
           <div class="timeline-item">
             <div class="row">
               <div class="col-xs-3 date">
-                <i class="fa fa-lightbulb-o text-white" style="background-color:#f8ac59"></i> 6:00
+                <i class="fa fa-lightbulb-o btn-warning"></i> 6:00
                 <br>
                 <small class="text-navy">2 horas atrás</small>
               </div>
               <div class="col-xs-7 content no-top-border">
-                <p class="m-b-xs"><strong>Fase Pedestre Queimada</strong></p>
+                <p class="m-b-xs"><strong>{{ 'main.faseQueimada' | translate }}</strong></p>
                 <p><strong>547961-7</strong><br>Av Paulista com Consolação</p>
               </div>
             </div>
