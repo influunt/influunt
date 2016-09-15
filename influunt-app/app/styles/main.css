@@ -20,6 +20,7 @@
 @import url(./directives/influunt-tabs.css);
 @import url(./directives/influunt-block-ui.css);
 @import url(./directives/dropzone.css);
+@import url(./directives/filtro-mapa.css);
 tr.detector-selecionado td.titulo {
   background-color: #6fd1bd;
 }

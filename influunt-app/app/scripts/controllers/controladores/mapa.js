@@ -15,11 +15,16 @@ angular.module('influuntApp')
       var filtraDados, filtraControladores, getMarkersControladores, getMarkersAneis, getAreas, getDadosFiltros;
 
       $scope.inicializaMapa = function() {
-        return $scope.index().then(function() {
-          getDadosFiltros().then(function() {
-            filtraDados();
+        return Restangular
+          .all('controladores')
+          .getList()
+          .then(function(res) {
+            $scope.lista = res;
+            return getDadosFiltros();
+          })
+          .then(function() {
+            return filtraDados();
           });
-        });
       };
 
       $scope.$watch('filtro', function(value) {
@@ -40,17 +45,12 @@ angular.module('influuntApp')
       };
 
       getDadosFiltros = function() {
-        return Restangular.all('agrupamentos').getList()
-          .then(function(agrupamentos) {
-            $scope.filtro = {
-              areas: _.chain($scope.lista).map('areas').flatten().uniqBy('idJson').value(),
-              controladores: _.orderBy($scope.lista, ['CLC']),
-              agrupamentos: agrupamentos,
-
-              exibirAreas: true,
-              exibirControladores: true,
-              exibirAneis: true
-            };
+        return Restangular.all('agrupamentos').customGET()
+          .then(function(res) {
+            $scope.filtro = $scope.filtro || {};
+            $scope.filtro.areas = _.chain($scope.lista).map('areas').flatten().uniqBy('idJson').value();
+            $scope.filtro.controladores = _.orderBy($scope.lista, ['CLC']);
+            $scope.filtro.agrupamentos = res.data;
 
             return $scope.filtro;
           });
@@ -86,7 +86,7 @@ angular.module('influuntApp')
           return [];
         }
 
-        var endereco = _.find(controlador.todosEnderecos, controlador.enderecos[0]);
+        var endereco = _.find(controlador.todosEnderecos, controlador.endereco);
         return {
           latitude: endereco.latitude,
           longitude: endereco.longitude,
@@ -109,7 +109,7 @@ angular.module('influuntApp')
         return _.chain(controlador.aneis)
           .filter('ativo')
           .map(function(anel) {
-            var endereco = _.find(controlador.todosEnderecos, anel.enderecos[0]);
+            var endereco = _.find(controlador.todosEnderecos, anel.endereco);
             return {
               latitude: endereco.latitude,
               longitude: endereco.longitude,
@@ -151,13 +151,6 @@ angular.module('influuntApp')
             points: limites,
             popupText: '<h1>CTA' + area.descricao + '</h1>'
           };
-        });
-      };
-
-      $scope.openAjutesMapa = function() {
-        $('.spin-icon').on('click', function(){
-          $(this).parents().eq(2).find('.theme-config-box, .leaflet-left').toggleClass('open');
-          $(this).parents().eq(2).find('.fa-angle-left').toggleClass('fa-map');
         });
       };
 
