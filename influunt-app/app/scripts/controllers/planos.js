@@ -88,7 +88,7 @@ angular.module('influuntApp')
 
       $scope.cancelarEdicao = function() {
         var plano = _.chain($scope.objeto.planos).filter(function(p) { return !!p.id; }).last().value();
-        influuntAlert.delete().then(function(confirmado) {
+        influuntAlert.delete().then(function() {
           if (plano && plano.id) {
             return Restangular.one('planos', plano.id).all('cancelar_edicao').customDELETE()
               .then(function() {
