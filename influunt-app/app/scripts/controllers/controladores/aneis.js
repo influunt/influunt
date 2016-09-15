@@ -199,9 +199,9 @@ angular.module('influuntApp')
       };
 
       setDadosBasicos = function() {
-        $scope.dadosBasicos = {
-          numeroSMEE: $scope.objeto.numeroSMEE || '-',
-        };
+        if ($scope.currentAnel.numeroSMEE === undefined) {
+          $scope.currentAnel.numeroSMEE = $scope.objeto.numeroSMEE || '-';
+        }
       };
 
       /**

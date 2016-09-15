@@ -27,12 +27,14 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
 
     @Test
     public void configuracaoValida() {
+        startClient();
         List<Erro> erros = getErros(controlador);
         assertThat(erros, org.hamcrest.Matchers.empty());
     }
 
     @Test
     public void configuracaoOK() throws InterruptedException, ExecutionException, TimeoutException {
+        startClient();
         await().until(() -> onPublishFutureList.size() > 4);
 
         JsonNode json = play.libs.Json.parse(onPublishFutureList.get(1));
@@ -67,6 +69,8 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
         anel.setAtivo(true);
         controlador.save();
 
+        startClient();
+
         await().until(() -> onPublishFutureList.size() > 4);
 
         JsonNode json = play.libs.Json.parse(new String(onPublishFutureList.get(1)));
@@ -98,6 +102,7 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
     public void naoExisteConfiguracao() throws InterruptedException, ExecutionException, TimeoutException {
         controlador.setStatusControlador(StatusControlador.EM_CONFIGURACAO);
         controlador.save();
+        startClient();
         await().until(() -> onPublishFutureList.size() > 2);
 
         JsonNode json = play.libs.Json.parse(new String(onPublishFutureList.get(1)));

@@ -80,7 +80,7 @@ angular.module('influuntApp')
        * Adiciona um novo detector à lista de detectores do controlador.
        */
       $scope.adicionaDetector = function(tipo) {
-        var posicao = _.filter($scope.currentDetectores, {tipo: tipo}).length + 1;
+        var posicao = _.filter($scope.objeto.detectores, {tipo: tipo}).length + 1;
         var detector = {
           idJson: UUID.generate(),
           anel: { idJson: $scope.currentAnel.idJson },
@@ -186,7 +186,7 @@ angular.module('influuntApp')
        */
       atualizaPosicoesDetectores = function() {
         return ['VEICULAR', 'PEDESTRE'].forEach(function(tipo) {
-          return _.chain($scope.currentDetectores)
+          return _.chain($scope.objeto.detectores)
             .filter({tipo: tipo})
             .orderBy(['posicao'])
             .each(function(d, i) {

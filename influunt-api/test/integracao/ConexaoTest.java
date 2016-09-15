@@ -18,6 +18,7 @@ public class ConexaoTest extends BasicMQTTTest {
     @Test
     public void centralDeveSeConectarAoServidorMQTT() {
         //A central ao se conectar no servidor deve se inscrever em diversos tópicos
+        startClient();
 
         await().until(() -> onPublishFutureList.size() > 0);
         //A central conectou
