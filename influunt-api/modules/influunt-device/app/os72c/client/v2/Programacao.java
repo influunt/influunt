@@ -6,7 +6,6 @@ import models.Intervalo;
 import models.Plano;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,24 +32,22 @@ public class Programacao {
         this.planos = planos;
         this.cicloMaximo = calculaMMC();
         this.numeroGrupoSemaforico = quantidadeDeGruposSemaforicos();
-        grupos = new HashMap<Integer,List<EstadoGrupoSemaforico>>(numeroGrupoSemaforico);
-        temposDeCiclo = new HashMap<Integer,Integer>(numeroGrupoSemaforico);
-        temposDeVerdeSeguranca = new HashMap<Integer,Integer>(numeroGrupoSemaforico);
+        grupos = new HashMap<>(numeroGrupoSemaforico);
+        temposDeCiclo = new HashMap<>(numeroGrupoSemaforico);
+        temposDeVerdeSeguranca = new HashMap<>(numeroGrupoSemaforico);
 
         int index = 1;
         for(Plano plano : planos){
             for (GrupoSemaforicoPlano grupoSemaforicoPlano : plano.getGruposSemaforicosPlanos()){
-                grupos.put(index,new ArrayList<EstadoGrupoSemaforico>(plano.getTempoCiclo()));
-
+                grupos.put(index,new ArrayList<>(plano.getTempoCiclo()));
                 List<Intervalo> intervalos = grupoSemaforicoPlano.getIntervalos().stream().sorted((o1, o2) -> o1.getOrdem().compareTo(o2.getOrdem())).collect(Collectors.toList());;
                 int i = 0;
                 for(Intervalo intervalo : intervalos){
                     for(int j = 0; j < intervalo.getTamanho(); j++,i++){
                         grupos.get(index).add(i,intervalo.getEstadoGrupoSemaforico());
-                        temposDeVerdeSeguranca.put(i,grupoSemaforicoPlano.getGrupoSemaforico().getTempoVerdeSeguranca());
                     }
                 }
-
+                temposDeVerdeSeguranca.put(index,grupoSemaforicoPlano.getGrupoSemaforico().getTempoVerdeSeguranca());
                 temposDeCiclo.put(index,plano.getTempoCiclo());
                 index++;
             }
@@ -91,23 +88,33 @@ public class Programacao {
     }
 
     public int proximaJanelaParaTrocaDePlano(int instante){
+        int tempo = 0;
         for(int grupo = 1; grupo <= numeroGrupoSemaforico; grupo++){
             int indexGrupo = getIndex(grupo,instante);
             EstadoGrupoSemaforico estado = grupos.get(grupo).get(indexGrupo);
             if(estado.equals(EstadoGrupoSemaforico.VERDE)){
-//                int quantosSegundosEstavaNoVerde = rebobinaVerde(grupo,indexGrupo);
-//                if(quantosSegundosEstavaNoVerde)
+                int quantosSegundosEstavaNoVerde = rebobinaVerde(grupo,indexGrupo);
+                if(quantosSegundosEstavaNoVerde < temposDeVerdeSeguranca.get(grupo)){
+                    if(tempo < (temposDeVerdeSeguranca.get(grupo) - quantosSegundosEstavaNoVerde)){
+                        tempo = (temposDeVerdeSeguranca.get(grupo) - quantosSegundosEstavaNoVerde);
+                    }
+                }
             }
         }
+        return tempo;
     }
 
-    public int proximaJanelaParaImposicao(int instante){
-        return 0;
+    private int rebobinaVerde(int grupo, int indexGrupo) {
+        int intervalos = 0;
+        while(grupos.get(grupo).get(indexGrupo).equals(EstadoGrupoSemaforico.VERDE)){
+            intervalos++;
+            if((indexGrupo - 1) < 0 ){
+                indexGrupo = temposDeCiclo.get(grupo) - 1;
+            }else{
+                indexGrupo--;
+            }
+        }
+        return intervalos;
     }
-
-    public List<EstadoGrupoSemaforico> detectorAcionado(int detector){
-        return null;
-    }
-
 
 }
