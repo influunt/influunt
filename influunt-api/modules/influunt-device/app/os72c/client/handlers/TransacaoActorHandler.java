@@ -8,8 +8,10 @@ import models.Controlador;
 import models.StatusDevice;
 import os72c.client.storage.Storage;
 import os72c.client.utils.AtoresDevice;
-import play.libs.Json;
-import protocol.*;
+import protocol.DestinoCentral;
+import protocol.Envelope;
+import protocol.EtapaTransacao;
+import protocol.TipoMensagem;
 import status.Transacao;
 
 /**
@@ -34,16 +36,16 @@ public class TransacaoActorHandler extends UntypedActor {
                 JsonNode transacaoJson = play.libs.Json.parse(envelope.getConteudo().toString());
                 Transacao transacao = Transacao.fromJson(transacaoJson);
                 log.info("DEVICE - TX Recebida: {}", transacao);
-                switch (transacao.etapaTransacao){
+                switch (transacao.etapaTransacao) {
                     case PREPARE_TO_COMMIT:
-                        switch (transacao.tipoTransacao){
+                        switch (transacao.tipoTransacao) {
                             case PACOTE_PLANO:
                                 Controlador controlador = Controlador.isPacotePlanosValido(storage.getControladorJson(), transacao.payload);
-                                if(controlador != null){
+                                if (controlador != null) {
                                     storage.setPlanos(play.libs.Json.parse(transacao.payload.toString()));
                                     storage.setStatus(StatusDevice.ATIVO);
                                     transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
-                                }else{
+                                } else {
                                     transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
                                 }
                                 break;

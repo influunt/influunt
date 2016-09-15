@@ -372,7 +372,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         controlador.save();
     }
 
-    protected Controlador setPlanos(Controlador controlador){
+    protected Controlador setPlanos(Controlador controlador) {
         this.controlador = controlador;
         setDadosPlanos();
         setDadosTabelaHoraria();
@@ -380,14 +380,14 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         return this.controlador;
     }
 
-    private void criaVersaoPlanos(Anel anel){
+    private void criaVersaoPlanos(Anel anel) {
         VersaoPlano versaoPlano = new VersaoPlano(anel, getUsuario());
         versaoPlano.setStatusVersao(StatusVersao.ATIVO);
         anel.addVersaoPlano(versaoPlano);
         versaoPlano.save();
     }
 
-    private Plano criarPlano(Anel anel, Integer posicao, ModoOperacaoPlano modoOperacaoPlano, Integer tempoCiclo){
+    private Plano criarPlano(Anel anel, Integer posicao, ModoOperacaoPlano modoOperacaoPlano, Integer tempoCiclo) {
         Plano plano = new Plano();
         plano.setPosicao(posicao);
         plano.setDescricao("PLANO " + posicao);
@@ -424,7 +424,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         evento.setDiaDaSemana(diaDaSemana);
         evento.setHorario(horario);
         evento.setPosicaoPlano(posicaoPlano);
-        if(tipoEvento != TipoEvento.NORMAL){
+        if (tipoEvento != TipoEvento.NORMAL) {
             evento.setData(new Date());
         }
         evento.setTabelaHorario(tabelaHoraria);

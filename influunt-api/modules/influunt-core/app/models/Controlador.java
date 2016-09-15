@@ -1,7 +1,6 @@
 package models;
 
 import checks.*;
-import com.avaje.ebean.Expr;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
@@ -11,14 +10,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import json.ControladorCustomDeserializer;
-import json.ControladorCustomSerializer;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
-import play.libs.Json;
 import utils.DBUtils;
 
 import javax.persistence.*;
@@ -26,7 +21,10 @@ import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.UUID;
 
 /**
  * Entidade que representa o {@link Controlador} no sistema

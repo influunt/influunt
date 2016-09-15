@@ -1,6 +1,5 @@
 package integracao;
 
-import checks.*;
 import config.WithInfluuntApplicationNoAuthentication;
 import io.moquette.interception.InterceptHandler;
 import io.moquette.interception.messages.*;
@@ -17,7 +16,6 @@ import status.StatusConexaoControlador;
 import status.StatusControladorFisico;
 import uk.co.panaxiom.playjongo.PlayJongo;
 
-import javax.validation.groups.Default;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -120,7 +118,7 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
         System.gc();
     }
 
-    protected void startClient(){
+    protected void startClient() {
         client = provideApp.injector().instanceOf(Client.class);
     }
 }

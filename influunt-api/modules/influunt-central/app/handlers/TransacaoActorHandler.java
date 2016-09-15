@@ -4,15 +4,9 @@ import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Controlador;
-import play.libs.Json;
 import protocol.*;
 import status.Transacao;
 import utils.AtoresCentral;
-
-import static protocol.EtapaTransacao.COMMITED;
-import static protocol.EtapaTransacao.PREPARE_FAIL;
-import static protocol.EtapaTransacao.PREPARE_OK;
 
 /**
  * Created by rodrigosol on 9/6/16.
@@ -28,7 +22,7 @@ public class TransacaoActorHandler extends UntypedActor {
                 JsonNode transacaoJson = play.libs.Json.parse(envelope.getConteudo().toString());
                 Transacao transacao = Transacao.fromJson(transacaoJson);
                 log.info("CENTRAL - TX Recebida: {}", transacao);
-                switch (transacao.etapaTransacao){
+                switch (transacao.etapaTransacao) {
                     case NEW:
                         transacao.updateStatus(EtapaTransacao.PREPARE_TO_COMMIT);
                         envelope.setDestino(DestinoControlador.transacao(envelope.getIdControlador()));

@@ -7,13 +7,10 @@ import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import models.Controlador;
 import org.junit.Test;
-import status.StatusConexaoControlador;
-import status.Transacao;
 
 import javax.validation.groups.Default;
 import java.util.List;
 
-import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.*;
 
 

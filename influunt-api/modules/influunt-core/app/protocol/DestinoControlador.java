@@ -13,7 +13,7 @@ public class DestinoControlador {
         return "central/configuracao";
     }
 
-    public final static String transacao(String idControlador){
+    public final static String transacao(String idControlador) {
         return "controlador/".concat(idControlador).concat("/transacoes");
     }
 }

@@ -5,9 +5,6 @@ import akka.actor.Props;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
-import akka.routing.ActorRefRoutee;
-import akka.routing.RoundRobinRoutingLogic;
-import akka.routing.Routee;
 import akka.routing.Router;
 import os72c.client.handlers.ConfiguracaoActorHandler;
 import os72c.client.handlers.EchoActorHandler;
@@ -18,12 +15,9 @@ import os72c.client.storage.Storage;
 import protocol.Envelope;
 import protocol.TipoMensagem;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
 import static utils.MessageBrokerUtils.createRoutees;
 
 
@@ -40,10 +34,10 @@ public class DeviceMessageBroker extends UntypedActor {
 
     public DeviceMessageBroker(String idControlador, Storage storage) {
 
-        routers.put(TipoMensagem.ECHO, createRoutees(getContext(),5, EchoActorHandler.class));
-        routers.put(TipoMensagem.CONFIGURACAO, createRoutees(getContext(),1, ConfiguracaoActorHandler.class, idControlador, storage));
-        routers.put(TipoMensagem.TRANSACAO, createRoutees(getContext(),1, TransacaoActorHandler.class, idControlador, storage));
-        actorConfiguracao = getContext().actorOf(Props.create(ConfiguracaoActorHandler.class, idControlador, storage),"actorConfig");
+        routers.put(TipoMensagem.ECHO, createRoutees(getContext(), 5, EchoActorHandler.class));
+        routers.put(TipoMensagem.CONFIGURACAO, createRoutees(getContext(), 1, ConfiguracaoActorHandler.class, idControlador, storage));
+        routers.put(TipoMensagem.TRANSACAO, createRoutees(getContext(), 1, TransacaoActorHandler.class, idControlador, storage));
+        actorConfiguracao = getContext().actorOf(Props.create(ConfiguracaoActorHandler.class, idControlador, storage), "actorConfig");
 
     }
 

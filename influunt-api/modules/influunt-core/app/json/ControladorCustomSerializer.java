@@ -128,7 +128,7 @@ public class ControladorCustomSerializer {
         ObjectNode root = Json.newObject();
 
         controlador.getAneis().stream().filter(anel -> anel.isAtivo()).forEach(anel -> {
-            if(anel.getVersaoPlano() != null){
+            if (anel.getVersaoPlano() != null) {
                 versoesPlanosMap.put(anel.getVersaoPlano().getIdJson().toString(), anel.getVersaoPlano());
             }
         });
@@ -137,7 +137,7 @@ public class ControladorCustomSerializer {
         putControladorGruposSemaforicosPlanos(root);
         putControladorEstagiosPlanos(root);
 
-        if(controlador.getVersaoTabelaHoraria() != null){
+        if (controlador.getVersaoTabelaHoraria() != null) {
             versoesTabelasHorariasMap.put(controlador.getVersaoTabelaHoraria().getIdJson().toString(), controlador.getVersaoTabelaHoraria());
         }
         putControladorVersoesTabelasHorarias(root);

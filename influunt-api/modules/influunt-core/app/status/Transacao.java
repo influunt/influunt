@@ -2,19 +2,14 @@ package status;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import models.Controlador;
-import models.Estagio;
-import models.StatusDevice;
-import org.jongo.Aggregate;
 import org.jongo.MongoCollection;
-import org.jongo.MongoCursor;
 import play.api.Play;
 import play.libs.Json;
 import protocol.EtapaTransacao;
 import protocol.TipoTransacao;
 import uk.co.panaxiom.playjongo.PlayJongo;
 
-import java.util.*;
+import java.util.UUID;
 
 /**
  * Created by lesiopinheiro on 9/2/16.
@@ -33,7 +28,7 @@ public class Transacao {
     public Long timestamp;
     public transient Object payload;
 
-    public Transacao(){
+    public Transacao() {
     }
 
     public Transacao(String idControlador, Object payload, TipoTransacao tipoTransacao) {
@@ -49,7 +44,7 @@ public class Transacao {
         return jongo.getCollection(COLLECTION);
     }
 
-    public static Transacao findByTransacaoId(String transacaoId){
+    public static Transacao findByTransacaoId(String transacaoId) {
         return transacoes().findOne("{ transacaoId: # }", transacaoId).as(Transacao.class);
     }
 
@@ -86,7 +81,7 @@ public class Transacao {
         root.put("tipoTransacao", tipoTransacao.toString());
         root.put("idControlador", idControlador);
         root.put("timestamp", timestamp);
-        if(payload != null){
+        if (payload != null) {
             root.put("payload", payload.toString());
         }
         return root;
@@ -94,7 +89,7 @@ public class Transacao {
 
     public static Transacao fromJson(JsonNode transacaoJson) {
         Transacao transacao = (Transacao) Json.fromJson(transacaoJson, Transacao.class);
-        if(transacaoJson.has("payload")){
+        if (transacaoJson.has("payload")) {
             transacao.setPayload(transacaoJson.get("payload").asText());
         }
         return transacao;

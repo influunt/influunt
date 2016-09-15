@@ -1,11 +1,9 @@
 package json;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.*;
 import org.joda.time.LocalTime;
-import play.libs.Json;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -217,11 +215,11 @@ public class ControladorCustomDeserializer {
     }
 
     public Controlador getPacotesFromJson(JsonNode configuracaoControladorJson, JsonNode pacotePlanosJson) {
-        ObjectNode node = ((ObjectNode)configuracaoControladorJson);
-        for (JsonNode innerNode : pacotePlanosJson.get("versoesPlanos")){
-            if(innerNode.has("anel") && innerNode.get("anel").has("idJson")){
-                for (JsonNode anelNode : node.get("aneis")){
-                    if(anelNode.get("idJson").asText().equals(innerNode.get("anel").get("idJson").asText())){
+        ObjectNode node = ((ObjectNode) configuracaoControladorJson);
+        for (JsonNode innerNode : pacotePlanosJson.get("versoesPlanos")) {
+            if (innerNode.has("anel") && innerNode.get("anel").has("idJson")) {
+                for (JsonNode anelNode : node.get("aneis")) {
+                    if (anelNode.get("idJson").asText().equals(innerNode.get("anel").get("idJson").asText())) {
                         ((ObjectNode) anelNode.get("versaoPlano")).set("idJson", innerNode.get("idJson"));
                     }
                 }
