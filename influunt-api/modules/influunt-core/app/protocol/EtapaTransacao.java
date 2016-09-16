@@ -12,7 +12,7 @@ public enum EtapaTransacao {
     COMPLETED,
     //Informa o usuário que a transacao foi abortada
     //Central --> App
-    FAILD, //o usuário
+    FAILED, //o usuário
     //Informa o dispositivo que ele deve se preparar para uma transacao
     //Central --> Device
     PREPARE_TO_COMMIT,

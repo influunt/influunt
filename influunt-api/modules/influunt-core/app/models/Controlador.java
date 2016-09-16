@@ -469,7 +469,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
     @Transient
     public VersaoTabelaHoraria getVersaoTabelaHorariaAtiva() {
         if (versaoTabelaHorariaAtiva == null) {
-            if (!getVersoesTabelasHorarias().isEmpty() && getVersoesTabelasHorarias() != null) {
+            if (getVersoesTabelasHorarias() != null && !getVersoesTabelasHorarias().isEmpty()) {
                 this.versaoTabelaHorariaAtiva = getVersoesTabelasHorarias().stream().filter(versaoTabelaHoraria -> versaoTabelaHoraria.isAtivo()).findFirst().orElse(null);
             }
         }
@@ -479,7 +479,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
     @Transient
     public VersaoTabelaHoraria getVersaoTabelaHorariaEmEdicao() {
         if (versaoTabelaHorariaEmEdicao == null) {
-            if (!getVersoesTabelasHorarias().isEmpty() && getVersoesTabelasHorarias() != null) {
+            if (getVersoesTabelasHorarias() != null && !getVersoesTabelasHorarias().isEmpty()) {
                 this.versaoTabelaHorariaEmEdicao = getVersoesTabelasHorarias().stream().filter(versaoTabelaHoraria -> versaoTabelaHoraria.isEditando()).findFirst().orElse(null);
             }
         }

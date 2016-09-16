@@ -130,7 +130,7 @@ public class EnvioTabelaHorariaTest extends BasicMQTTTest {
         jsonConteudo = play.libs.Json.parse(json.get("conteudo").asText());
         assertEquals(TipoMensagem.TRANSACAO.toString(), json.get("tipoMensagem").asText());
         assertEquals(idControlador, json.get("idControlador").asText());
-        assertEquals(EtapaTransacao.FAILD.toString(), jsonConteudo.get("etapaTransacao").asText());
+        assertEquals(EtapaTransacao.FAILED.toString(), jsonConteudo.get("etapaTransacao").asText());
         assertEquals(idTransacao, jsonConteudo.get("transacaoId").asText());
 
     }

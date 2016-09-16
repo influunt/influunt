@@ -34,7 +34,7 @@ public class TransacaoActorHandler extends UntypedActor {
                         break;
 
                     case PREPARE_FAIL:
-                        transacao.updateStatus(EtapaTransacao.FAILD);
+                        transacao.updateStatus(EtapaTransacao.FAILED);
                         envelope.setDestino(DestinoApp.transacao(transacao.transacaoId));
                         break;
 
@@ -44,7 +44,7 @@ public class TransacaoActorHandler extends UntypedActor {
                         break;
 
                     case ABORTED:
-                        transacao.updateStatus(EtapaTransacao.FAILD);
+                        transacao.updateStatus(EtapaTransacao.FAILED);
                         envelope.setDestino(DestinoApp.transacao(transacao.transacaoId));
                         break;
                 }

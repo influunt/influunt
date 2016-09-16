@@ -1,7 +1,7 @@
 package utils;
 
 public class AtoresCentral {
-    public final static String mqttActorPath() {
+    public static final String mqttActorPath() {
         return "akka://application/user/servidor/CentralMQTT";
     }
 }
