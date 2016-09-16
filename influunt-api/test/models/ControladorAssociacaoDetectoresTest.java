@@ -91,7 +91,7 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro(CONTROLADOR, "O detector de pedestre deve estar associado a um estágio com grupo semafórico de pedestre.", "aneis[1].detectores[0].associadoAoMenosUmEstagioPedestre"),
                 new Erro(CONTROLADOR, "O detector veicular deve estar associado a um estágio com grupo semafórico veicular.", "aneis[0].detectores[0].associadoAoMenosUmEstagioVeicular"),
-                new Erro(CONTROLADOR, "O tempo de ausência de detecção deve estar entre 0 e 1440.", "aneis[0].detectores[0].tempoAusenciaDeteccaoEstaDentroDaFaixa"),
+                new Erro(CONTROLADOR, "O tempo de ausência de detecção deve estar entre 0 e 4320.", "aneis[0].detectores[0].tempoAusenciaDeteccaoEstaDentroDaFaixa"),
                 new Erro(CONTROLADOR, "O tempo de detecção permanente deve estar entre 0 e 1440.", "aneis[0].detectores[0].tempoDeteccaoPermanenteEstaDentroDaFaixa")
         ));
 
@@ -104,7 +104,7 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(2, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "O tempo de ausência de detecção deve estar entre 0 e 1440.", "aneis[0].detectores[0].tempoAusenciaDeteccaoEstaDentroDaFaixa"),
+                new Erro(CONTROLADOR, "O tempo de ausência de detecção deve estar entre 0 e 4320.", "aneis[0].detectores[0].tempoAusenciaDeteccaoEstaDentroDaFaixa"),
                 new Erro(CONTROLADOR, "O tempo de detecção permanente deve estar entre 0 e 1440.", "aneis[0].detectores[0].tempoDeteccaoPermanenteEstaDentroDaFaixa")
         ));
 

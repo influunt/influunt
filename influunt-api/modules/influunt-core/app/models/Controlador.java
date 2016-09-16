@@ -1,7 +1,6 @@
 package models;
 
 import checks.*;
-import com.avaje.ebean.Expr;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
@@ -143,6 +142,17 @@ public class Controlador extends Model implements Cloneable, Serializable {
                 ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
                 ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
                 ControladorAssociacaoDetectoresCheck.class);
+        return erros.isEmpty() ? controlador : null;
+    }
+
+    public static Controlador isPacotePlanosValido(Object controladorObject, Object planosObject) {
+        JsonNode controladorJson = play.libs.Json.parse(controladorObject.toString());
+        JsonNode planoJson = play.libs.Json.parse(planosObject.toString());
+        Controlador controlador = new ControladorCustomDeserializer().getPacotesFromJson(controladorJson, planoJson);
+        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+                ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
+                ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
+                ControladorAssociacaoDetectoresCheck.class, PlanosCheck.class, TabelaHorariosCheck.class);
         return erros.isEmpty() ? controlador : null;
     }
 
@@ -459,11 +469,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
     @Transient
     public VersaoTabelaHoraria getVersaoTabelaHorariaAtiva() {
         if (versaoTabelaHorariaAtiva == null) {
-            if (getVersoesTabelasHorarias().isEmpty() || getVersoesTabelasHorarias() == null) {
-                VersaoTabelaHoraria versaoTabelaHoraria = VersaoTabelaHoraria.find.fetch("tabelaHoraria").where()
-                        .and(Expr.eq("controlador_id", this.id.toString()), Expr.eq("status_versao", StatusVersao.ATIVO)).findUnique();
-                this.versaoTabelaHorariaAtiva = versaoTabelaHoraria;
-            } else {
+            if (getVersoesTabelasHorarias() != null && !getVersoesTabelasHorarias().isEmpty()) {
                 this.versaoTabelaHorariaAtiva = getVersoesTabelasHorarias().stream().filter(versaoTabelaHoraria -> versaoTabelaHoraria.isAtivo()).findFirst().orElse(null);
             }
         }
@@ -473,11 +479,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
     @Transient
     public VersaoTabelaHoraria getVersaoTabelaHorariaEmEdicao() {
         if (versaoTabelaHorariaEmEdicao == null) {
-            if (getVersoesTabelasHorarias().isEmpty() || getVersoesTabelasHorarias() == null) {
-                VersaoTabelaHoraria versaoTabelaHoraria = VersaoTabelaHoraria.find.fetch("tabelaHoraria").where()
-                        .and(Expr.eq("controlador_id", this.id.toString()), Expr.eq("status_versao", StatusVersao.EDITANDO)).findUnique();
-                this.versaoTabelaHorariaEmEdicao = versaoTabelaHoraria;
-            } else {
+            if (getVersoesTabelasHorarias() != null && !getVersoesTabelasHorarias().isEmpty()) {
                 this.versaoTabelaHorariaEmEdicao = getVersoesTabelasHorarias().stream().filter(versaoTabelaHoraria -> versaoTabelaHoraria.isEditando()).findFirst().orElse(null);
             }
         }

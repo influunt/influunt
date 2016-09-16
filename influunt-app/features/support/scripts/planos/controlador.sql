@@ -41,8 +41,8 @@ INSERT INTO `modelo_controladores`(`id`, `id_json`, `fabricante_id`, `descricao`
 INSERT INTO `controladores`(`id`, `id_json`, `nome_endereco`, `status_controlador`, `sequencia`, `numero_smee`, `numero_smeeconjugado1`, `numero_smeeconjugado2`, `numero_smeeconjugado3`, `firmware`, `modelo_id`, `area_id`, `data_criacao`, `data_atualizacao`) VALUES
 ('e3470d37-55e2-40ee-bb82-b316d76079af', NULL, 'Av. Paulista com R. Bela Cintra', 2, 1, NULL, NULL, NULL, NULL, NULL, '84e21c9b-169a-4a98-bc69-d0c8689bfcf6', 'cdc81822-2908-43fd-b6d2-a2fe38e67e88', TIMESTAMP '2016-08-09 11:05:27.354', TIMESTAMP '2016-08-09 11:05:56.951');
 
-INSERT INTO `controladores_fisicos`(`id`, `id_json`, `data_criacao`, `data_atualizacao`) VALUES
-('d1cf6613-7fdc-4de3-b7c6-59e0a85fe0df', NULL, TIMESTAMP '2016-08-09 11:05:18.1', TIMESTAMP '2016-08-09 11:05:18.1');
+INSERT INTO `controladores_fisicos`(`id`, `id_json`, `area_id`, `data_criacao`, `data_atualizacao`) VALUES
+('d1cf6613-7fdc-4de3-b7c6-59e0a85fe0df', NULL, 'cdc81822-2908-43fd-b6d2-a2fe38e67e88', TIMESTAMP '2016-08-09 11:05:18.1', TIMESTAMP '2016-08-09 11:05:18.1');
 
 INSERT INTO `versoes_controladores`(`id`, `id_json`, `controlador_origem_id`, `controlador_id`, `controlador_fisico_id`, `usuario_id`, `descricao`, `status_versao`, `data_criacao`) VALUES
 ('27d635d9-133a-4732-9cdb-5010d1243f1f', NULL, NULL, 'e3470d37-55e2-40ee-bb82-b316d76079af', 'd1cf6613-7fdc-4de3-b7c6-59e0a85fe0df', '2f0e0547-3135-428b-8f6d-0a1098eca0a5', 'Controlador criado pelo usuário: Administrador Geral', '1', TIMESTAMP '2016-08-09 11:05:18.1');
@@ -115,7 +115,6 @@ INSERT INTO `atrasos_de_grupos`(`id`, `id_json`, `transicao_id`, `atraso_de_grup
 ('a71e9d5c-dcd5-47b2-8fa5-9ea38e8341af', '20ced4b4-b7db-4577-a5e9-d0afd2dc1397', '1bae4c2f-3308-4080-b599-fbf591f92377', 0, TIMESTAMP '2016-08-09 11:05:47.984', TIMESTAMP '2016-08-09 11:05:56.971'),
 ('b206f820-fbac-436a-87d5-52d8e4c2368e', '830b0de9-1c75-4132-8055-408d94b3bfca', 'ae9f1d5b-4435-4e66-b92d-77873a381736', 0, TIMESTAMP '2016-08-09 11:05:47.991', TIMESTAMP '2016-08-09 11:05:56.972'),
 ('f92e0e9a-4cd4-4c20-930b-fa6868d3f218', '93512192-45be-4cf0-92ec-32d5d96eb2cc', '53cd4c4e-0e74-49cd-8549-c353ac66cf7b', 0, TIMESTAMP '2016-08-09 11:05:47.997', TIMESTAMP '2016-08-09 11:05:56.979');
-
 
 INSERT INTO `tabela_entre_verdes_transicao`(`id`, `id_json`, `tabela_entre_verdes_id`, `transicao_id`, `tempo_amarelo`, `tempo_vermelho_intermitente`, `tempo_vermelho_limpeza`, `data_criacao`, `data_atualizacao`) VALUES
 ('0a8601e3-aaa2-4999-b99a-5d328a327505', 'e8d17b9c-d3bf-4683-97fa-d4a4cce8648d', '65a79af6-13b2-4263-966f-899441e3c2f8', '1bae4c2f-3308-4080-b599-fbf591f92377', 3, NULL, 0, TIMESTAMP '2016-08-09 11:05:47.979', TIMESTAMP '2016-08-09 11:05:56.967'),
