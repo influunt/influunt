@@ -1,12 +1,10 @@
 package execucao;
 
-import com.google.common.collect.Lists;
 import config.WithInfluuntApplicationNoAuthentication;
 import integracao.ControladorHelper;
 import models.*;
 import org.junit.Test;
-import os72c.client.v2.EstadoGrupoBaixoNivel;
-import os72c.client.v2.Programacao;
+import os72c.client.v2.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -203,6 +201,39 @@ public class ProgramacaoTest extends WithInfluuntApplicationNoAuthentication{
     }
 
     @Test
+    public void testSimulacao(){
+        Controlador controlador = new ControladorHelper().setPlanos(new ControladorHelper().getControlador());
+        List<Plano> planos = new ArrayList<>();
+        planos.add(getPlano(controlador, 1, 1));
+        planos.add(getPlano(controlador, 2, 1));
+
+        Simulador simulador = new SimulacaoBuilder().dataInicio(0)
+                                                    .inicioSimulacao(0)
+                                                    .fimSimulacao(728)
+                                                    .velocidadeSimulacao(VelocidadeSimulacao.TEMPO_REAL)
+                                                    .planos(planos)
+                                                    .build();
+
+        ResultadoSimulacao resultado = simulador.simular();
+        assertEquals(728,resultado.getTempoSimulacao());
+
+        resultado.tempoGrupos().values().forEach((h) -> {
+            assertEquals(728,h.values().stream().mapToInt(Long::intValue).sum());
+        });
+
+        assertEquals(476l,resultado.getTemposGrupo(1).get(EstadoGrupoSemaforico.VERMELHO).longValue());
+        assertEquals(168l,resultado.getTemposGrupo(1).get(EstadoGrupoSemaforico.VERDE).longValue());
+        assertEquals(42l,resultado.getTemposGrupo(1).get(EstadoGrupoSemaforico.AMARELO).longValue());
+        assertEquals(42l,resultado.getTemposGrupo(1).get(EstadoGrupoSemaforico.VERMELHO_LIMPEZA).longValue());
+
+        assertEquals(494l,resultado.getTemposGrupo(6).get(EstadoGrupoSemaforico.VERMELHO).longValue());
+        assertEquals(130l,resultado.getTemposGrupo(6).get(EstadoGrupoSemaforico.VERDE).longValue());
+        assertEquals(39l,resultado.getTemposGrupo(6).get(EstadoGrupoSemaforico.AMARELO).longValue());
+        assertEquals(65l,resultado.getTemposGrupo(6).get(EstadoGrupoSemaforico.VERMELHO_LIMPEZA).longValue());
+
+    }
+
+    @Test
     public void testTrocaDeEstagios() {
         Controlador controlador = new ControladorHelper().setPlanos(new ControladorHelper().getControlador());
 
@@ -383,4 +414,6 @@ public class ProgramacaoTest extends WithInfluuntApplicationNoAuthentication{
 
         return planos;
     }
+
+
 }
