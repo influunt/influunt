@@ -19,15 +19,20 @@ angular.module('influuntApp')
       },
       link: function(scope, element) {
         L.Icon.Default.imagePath = 'images/leaflet';
-        var map, markersLayer, areasLayer, subareasLayer;
+
         var TILE_LAYER = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw';
         var DEFAULTS = {LATITUDE: -23.550382, LONGITUDE: -46.663956, ZOOM: 15};
         var DEFAULT_MARKER_OPTINS = {draggable: true};
         var DEFAULT_MAP_OPTIONS = {scrollWheelZoom: false};
         var DEFAULT_BG_COLORS = ['#FFC107', '#FF5722', '#009688', '#4CAF50', '#3F51B5', '#D32F2F'];
+        var BOUNDING_BOX_SIZE = 10.0 / 1000; // unidade: km's.
+        var BOUNDING_BOX_VARIATION = 15;    // intervalo (em graus) da variacao do bounding box.
+        var HULL_CONCAVITY = 29;
 
         // private methods.
-        var addAreas, addMarkers, addSubareas, createArea, createMarker, createSubarea, initializeMap;
+        var addAreas, addMarkers, addSubareas, createArea, createMarker,
+            createSubarea, getConcaveHullPoints, getBoundingBox, initializeMap;
+        var map, markersLayer, areasLayer, subareasLayer;
 
         initializeMap = function() {
           if (_.isObject(map)) {
@@ -68,10 +73,6 @@ angular.module('influuntApp')
                 scope.onClickMarker({$markerData: markerData});
             });
 
-          if (obj.popupText) {
-            marker.bindPopup(obj.popupText);
-          }
-
           map.setView([obj.latitude, obj.longitude]);
           return marker;
         };
@@ -89,12 +90,18 @@ angular.module('influuntApp')
           return area;
         };
 
-        createSubarea = function(obj, index) {
-          var options = {color: DEFAULT_BG_COLORS[index]};
+        createSubarea = function(obj) {
+          var options = {
+            color: '#000',
+            fill: false,
+            dashArray: [20, 10]
+          };
+
           options = _.merge(options, obj.options);
-          var points = obj.points.map(function(p) { return [p.latitude, p.longitude];});
-          var subarea = L
-            .polygon(points, options);
+
+          var points = getBoundingBox(obj.points);
+          points = getConcaveHullPoints(points);
+          var subarea = L.polygon(points, options);
 
           if (obj.popupText) {
             subarea.bindPopup(obj.popupText);
@@ -145,6 +152,31 @@ angular.module('influuntApp')
           map.addLayer(subareasLayer);
         };
 
+        getConcaveHullPoints = function(points) {
+          points = _.map(points, function(i) { return {lat: i.lat, lng: i.lng}; });
+          var pts = points.map(map.latLngToContainerPoint.bind(map));
+
+          pts = hull(pts, HULL_CONCAVITY, ['.x', '.y']);
+          pts = pts.map(function(pt) {
+            return map.containerPointToLatLng(L.point(pt.x, pt.y));
+          });
+
+          return pts;
+        };
+
+        getBoundingBox = function(points) {
+          var boxedPoints = [];
+          _.each(points, function(point) {
+            var thisPoint = new L.LatLng(point.latitude, point.longitude);
+            boxedPoints.push(thisPoint);
+            for (var i = 0; i < 360; i += BOUNDING_BOX_VARIATION) {
+              boxedPoints.push(thisPoint.destinationPoint(i, BOUNDING_BOX_SIZE));
+            }
+          });
+
+          return boxedPoints;
+        };
+
         scope.$watch('markers', function(markers) {
           initializeMap();
           if (_.isObject(markersLayer)) {
@@ -170,8 +202,6 @@ angular.module('influuntApp')
 
         scope.$watch('subareas', function(subareas) {
           initializeMap();
-
-          console.log('adding subareas');
 
           if (_.isArray(subareas) && angular.isDefined(map)) {
             addSubareas(subareas);

@@ -22,7 +22,7 @@ angular.module('influuntApp')
           .then(function(confirmado) {
             if (confirmado) {
               Restangular.one('logout', localStorage.token).remove()
-                .then(function(res) {
+                .then(function() {
                   localStorage.removeItem('token');
                   $state.go('login');
                 })

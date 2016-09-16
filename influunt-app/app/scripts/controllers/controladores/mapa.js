@@ -32,7 +32,11 @@ angular.module('influuntApp')
           // Busca anel e controlador a partir do id do elemento clicado.
           $scope.lista.some(function(c) {
             $scope.currentControlador = c;
-            $scope.currentAnel = _.find($scope.currentControlador.aneis, {idJson: markerData.idJson});
+            $scope.currentAnel = _
+              .chain($scope.currentControlador.aneis)
+              .find({idJson: markerData.idJson})
+              .clone()
+              .value();
 
             return !!$scope.currentControlador && !!$scope.currentAnel;
           });
@@ -49,6 +53,7 @@ angular.module('influuntApp')
             $scope.currentControlador.todosEnderecos,
             {idJson: $scope.currentAnel.endereco.idJson}
           );
+
           $scope.currentAnel.localizacao = $filter('nomeEndereco')(enderecoAnel);
           $scope.openAcoesAnel();
           $scope.$apply();
@@ -63,6 +68,7 @@ angular.module('influuntApp')
         $scope.markers = [];
         $scope.areas = [];
         $scope.agrupamentos = [];
+
         var controladores = filtraControladores($scope.lista, $scope.filtro);
         angular.forEach(controladores, function(controlador) {
           $scope.markers = _.concat($scope.markers, getMarkersAneis(controlador));
@@ -87,11 +93,21 @@ angular.module('influuntApp')
       };
 
       getAgrupamentos = function() {
+        if (!$scope.filtro.exibirAgrupamentos) {
+          return [];
+        }
+
         return _.map($scope.filtro.agrupamentos, function(agrupamento) {
+          var controladores = _.map(agrupamento.controladores, 'id');
+          controladores = _.filter($scope.lista, function(c) {
+            return controladores.indexOf(c.id) >= 0;
+          });
+
+          controladores = filtraControladores(controladores, $scope.filtro);
           var enderecosAgrupamento = _
-            .chain(agrupamento.controladores)
+            .chain(controladores)
             .map(function(cont) {
-              return _.find($scope.lista, {id: cont.id})
+              return _.find($scope.lista, {id: cont.id});
             })
             .map('aneis')
             .flatten()
