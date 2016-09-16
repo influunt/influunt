@@ -5,6 +5,7 @@ import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import protocol.Configuracao;
 import protocol.Envelope;
+import utils.AtoresCentral;
 
 
 /**
@@ -21,7 +22,7 @@ public class ConfiguracaoActorHandler extends UntypedActor {
             if (envelope.getEmResposta() == null) {
                 Envelope envelope1 = Configuracao.getMensagem(envelope);
                 log.info("ENVIANDO CONFIGURACAO");
-                getContext().actorSelection("akka://application/user/servidor/CentralMQTT").tell(envelope1, getSelf());
+                getContext().actorSelection(AtoresCentral.mqttActorPath()).tell(envelope1, getSelf());
             } else {
                 log.info("Controlador confirmando o recebindo da configuração: {}", envelope.getConteudo().toString());
             }

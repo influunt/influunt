@@ -1,5 +1,6 @@
 package os72c.client.storage;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import models.Controlador;
 import models.StatusDevice;
 
@@ -15,7 +16,20 @@ public interface Storage {
 
     public void setControlador(Controlador controlador);
 
+    public void setPlanos(JsonNode plano);
+
     public Controlador getControladorStaging();
 
     public void setControladorStaging(Controlador controlador);
+
+    public void setPlanosStaging(JsonNode plano);
+
+    public JsonNode getControladorJson();
+
+    public JsonNode getControladorJsonStaging();
+
+    public JsonNode getPlanos();
+
+    public JsonNode getPlanosStaging();
+
 }

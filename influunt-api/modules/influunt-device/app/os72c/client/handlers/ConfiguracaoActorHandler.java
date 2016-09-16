@@ -6,7 +6,7 @@ import akka.event.LoggingAdapter;
 import models.Controlador;
 import models.StatusDevice;
 import os72c.client.storage.Storage;
-import os72c.client.utils.Atores;
+import os72c.client.utils.AtoresDevice;
 import protocol.*;
 
 /**
@@ -48,14 +48,14 @@ public class ConfiguracaoActorHandler extends UntypedActor {
                     }
                     envelopeSinal.setEmResposta(envelope.getIdMensagem());
                     envelopeStatus = MudancaStatusControlador.getMensagem(idControlador, storage.getStatus());
-                    getContext().actorSelection(Atores.mqttActorPath(idControlador)).tell(envelopeSinal, getSelf());
-                    getContext().actorSelection(Atores.mqttActorPath(idControlador)).tell(envelopeStatus, getSelf());
+                    getContext().actorSelection(AtoresDevice.mqttActorPath(idControlador)).tell(envelopeSinal, getSelf());
+                    getContext().actorSelection(AtoresDevice.mqttActorPath(idControlador)).tell(envelopeStatus, getSelf());
                 }
             }
         } else if (message instanceof String) {
             if (message.toString().equals("VERIFICA")) {
                 log.info("Solicita configuração a central: {}", sender());
-                getContext().actorSelection(Atores.mqttActorPath(idControlador)).tell(Sinal.getMensagem(TipoMensagem.CONFIGURACAO_INICIAL, idControlador, "central/configuracao"), getSelf());
+                getContext().actorSelection(AtoresDevice.mqttActorPath(idControlador)).tell(Sinal.getMensagem(TipoMensagem.CONFIGURACAO_INICIAL, idControlador, "central/configuracao"), getSelf());
             }
         }
     }

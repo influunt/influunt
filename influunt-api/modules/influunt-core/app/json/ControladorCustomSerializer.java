@@ -114,6 +114,39 @@ public class ControladorCustomSerializer {
         return controladoresJson;
     }
 
+    public JsonNode getPacoteConfiguracaoJson(Controlador controlador) {
+        controlador.setVersoesTabelasHorarias(null);
+        controlador.setVersaoControlador(null);
+        controlador.getAneis().stream().filter(anel -> anel.isAtivo()).forEach(anel -> {
+            anel.setVersoesPlanos(null);
+            anel.setVersaoPlanoAtivo(new VersaoPlano());
+        });
+        return getControladorJson(controlador);
+    }
+
+    public JsonNode getPacotePlanosJson(Controlador controlador) {
+        ObjectNode root = Json.newObject();
+
+        controlador.getAneis().stream().filter(anel -> anel.isAtivo()).forEach(anel -> {
+            if (anel.getVersaoPlano() != null) {
+                versoesPlanosMap.put(anel.getVersaoPlano().getIdJson().toString(), anel.getVersaoPlano());
+            }
+        });
+        putControladorVersoesPlanos(root);
+        putControladorPlano(root);
+        putControladorGruposSemaforicosPlanos(root);
+        putControladorEstagiosPlanos(root);
+
+        if (controlador.getVersaoTabelaHoraria() != null) {
+            versoesTabelasHorariasMap.put(controlador.getVersaoTabelaHoraria().getIdJson().toString(), controlador.getVersaoTabelaHoraria());
+        }
+        putControladorVersoesTabelasHorarias(root);
+        putControladorTabelasHorarias(root);
+        putControladorEventos(root);
+
+        return root;
+    }
+
     private void putControladorVersoesPlanos(ObjectNode root) {
         ArrayNode versaoPlanoJson = Json.newArray();
         versoesPlanosMap.values().stream().forEach(versaoPlano -> {

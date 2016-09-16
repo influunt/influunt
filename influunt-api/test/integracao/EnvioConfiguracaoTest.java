@@ -68,6 +68,7 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
         Anel anel = controlador.getAneis().stream().filter(anel1 -> !anel1.isAtivo()).findAny().get();
         anel.setAtivo(true);
         controlador.save();
+        startClient();
 
         startClient();
 
@@ -103,6 +104,7 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
         controlador.setStatusControlador(StatusControlador.EM_CONFIGURACAO);
         controlador.save();
         startClient();
+
         await().until(() -> onPublishFutureList.size() > 2);
 
         JsonNode json = play.libs.Json.parse(new String(onPublishFutureList.get(1)));
@@ -117,12 +119,11 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
         assertEquals(idMensagem, json.get("emResposta").asText());
     }
 
-    public List<Erro> getErros(Controlador controlador) {
+    protected List<Erro> getErros(Controlador controlador) {
         return new InfluuntValidator<Controlador>().validate(controlador,
                 Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
                 ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class,
                 ControladorTransicoesProibidasCheck.class, ControladorTabelaEntreVerdesCheck.class,
                 ControladorAssociacaoDetectoresCheck.class);
     }
-
 }

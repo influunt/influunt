@@ -139,6 +139,10 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
         client.subscribe("central/+", 1, (topic, message) -> {
             sendToBroker(message);
         });
+
+        client.subscribe("central/transacoes/+", 1, (topic, message) -> {
+            sendToBroker(message);
+        });
     }
 
     @Override

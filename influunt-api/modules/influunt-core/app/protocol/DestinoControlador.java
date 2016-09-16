@@ -3,7 +3,7 @@ package protocol;
 /**
  * Created by leonardo on 9/14/16.
  */
-public class DestinoCentral {
+public class DestinoControlador {
 
     public final static String envioDeStatus() {
         return "central/mudanca_status_controlador";
@@ -13,7 +13,7 @@ public class DestinoCentral {
         return "central/configuracao";
     }
 
-    public static String transacao(String idTransacao) {
-        return "central/transacoes/".concat(idTransacao);
+    public final static String transacao(String idControlador) {
+        return "controlador/".concat(idControlador).concat("/transacoes");
     }
 }

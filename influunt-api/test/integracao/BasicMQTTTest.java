@@ -111,11 +111,14 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
         client.finish();
         mqttBroker = null;
         mqttBroker = null;
+        onConnectFutureList.clear();
+        onDisconectFutureList.clear();
+        onSubscribeFutureList.clear();
+        onPublishFutureList.clear();
         System.gc();
     }
 
-    public void startClient() {
-        //O cliente foi instanciado
+    protected void startClient() {
         client = provideApp.injector().instanceOf(Client.class);
     }
 }
