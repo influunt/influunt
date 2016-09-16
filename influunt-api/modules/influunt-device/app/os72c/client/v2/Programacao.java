@@ -1,9 +1,6 @@
 package os72c.client.v2;
 
-import models.EstadoGrupoSemaforico;
-import models.GrupoSemaforicoPlano;
-import models.Intervalo;
-import models.Plano;
+import models.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,25 +16,31 @@ import static org.apache.commons.math3.util.ArithmeticUtils.lcm;
 public class Programacao {
 
     private final HashMap<Integer,Integer> temposDeCiclo;
+    private final HashMap<Integer,Integer> temposDeCicloPorAnel;
     private final HashMap<Integer,Integer> temposDeVerdeSeguranca;
 
     private final HashMap<Integer,List<EstadoGrupoSemaforico>> grupos;
+    private final HashMap<Integer,List<Estagio>> estagios;
     private final long cicloMaximo;
 
     private final List<Plano> planos;
 
     private final int numeroGrupoSemaforico;
 
-    public Programacao(List<Plano> planos){
+    public <E> Programacao(List<Plano> planos){
         this.planos = planos;
         this.cicloMaximo = calculaMMC();
         this.numeroGrupoSemaforico = quantidadeDeGruposSemaforicos();
         grupos = new HashMap<>(numeroGrupoSemaforico);
         temposDeCiclo = new HashMap<>(numeroGrupoSemaforico);
+        temposDeCicloPorAnel = new HashMap<>(planos.size());
         temposDeVerdeSeguranca = new HashMap<>(numeroGrupoSemaforico);
+        estagios = new HashMap<>(planos.size());
 
         int index = 1;
         for(Plano plano : planos){
+            int indexEstagio = 0;
+            ArrayList<Estagio> lista = new ArrayList<>();
             for (GrupoSemaforicoPlano grupoSemaforicoPlano : plano.getGruposSemaforicosPlanos()){
                 grupos.put(index,new ArrayList<>(plano.getTempoCiclo()));
                 List<Intervalo> intervalos = grupoSemaforicoPlano.getIntervalos().stream().sorted((o1, o2) -> o1.getOrdem().compareTo(o2.getOrdem())).collect(Collectors.toList());;
@@ -51,6 +54,17 @@ public class Programacao {
                 temposDeCiclo.put(index,plano.getTempoCiclo());
                 index++;
             }
+
+            for (EstagioPlano estagioPlano : plano.ordenarEstagiosPorPosicao()){
+                for(int i = 0; i < estagioPlano.getDuracaoEstagio(); i++){
+                    lista.add(indexEstagio, estagioPlano.getEstagio());
+                    indexEstagio++;
+                }
+                estagios.put(plano.getAnel().getPosicao(), lista);
+
+            }
+
+            temposDeCicloPorAnel.put(plano.getAnel().getPosicao(), plano.getTempoCiclo());
         }
 
     }
@@ -65,6 +79,20 @@ public class Programacao {
 
     public int getIndex(int grupo,int instante){
         return (instante - 1) % temposDeCiclo.get(grupo);
+    }
+
+    public int getIndexAnel(int anel,int instante){
+        return (instante - 1) % temposDeCicloPorAnel.get(anel);
+    }
+
+    public List<Estagio> getEstagiosAtuais(int instante){
+        return estagios.keySet().stream().map(key -> estagios.get(key).get(getIndexAnel(key, instante))).collect(Collectors.toList());
+    }
+
+    public List<Estagio> novaConfiguracaoEstagioSeHouverMudanca(int momentoAnterior, int momentoAtual){
+        List<Estagio> confAnterior = getEstagiosAtuais(momentoAnterior);
+        List<Estagio> confAtual = getEstagiosAtuais(momentoAtual);
+        return confAnterior.equals(confAtual) ? null : confAtual;
     }
 
     public long getCicloMaximo() {

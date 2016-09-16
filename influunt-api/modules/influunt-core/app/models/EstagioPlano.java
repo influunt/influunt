@@ -335,4 +335,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         return this.getTempoVerde();
     }
 
+    public Integer getDuracaoEstagio() {
+        return getPlano().getTempoEstagio(this);
+    }
 }

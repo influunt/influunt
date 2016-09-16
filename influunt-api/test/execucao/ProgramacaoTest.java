@@ -1,6 +1,8 @@
 package execucao;
 
 import com.google.common.collect.Lists;
+import config.WithInfluuntApplicationNoAuthentication;
+import integracao.ControladorHelper;
 import models.*;
 import org.junit.Test;
 import os72c.client.v2.EstadoGrupoBaixoNivel;
@@ -16,12 +18,17 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by rodrigosol on 9/8/16.
  */
-public class ProgramacaoTest {
+public class ProgramacaoTest extends WithInfluuntApplicationNoAuthentication{
 
     private List<Plano> planosG1eG2;
 
     @Test
     public void testIndex(){
+        Anel anel = new Anel();
+        anel.setPosicao(1);
+        VersaoPlano versaoPlano = new VersaoPlano();
+        versaoPlano.setAnel(anel);
+
         GrupoSemaforico g = new GrupoSemaforico();
         g.setTempoVerdeSeguranca(1);
         GrupoSemaforicoPlano gsf = new GrupoSemaforicoPlano();
@@ -29,18 +36,22 @@ public class ProgramacaoTest {
         Plano p1 = new Plano();
         p1.setTempoCiclo(255);
         p1.setGruposSemaforicosPlanos(Arrays.asList(new GrupoSemaforicoPlano[] {gsf,gsf,gsf,gsf}));
+        p1.setVersaoPlano(versaoPlano);
 
         Plano p2 = new Plano();
         p2.setTempoCiclo(254);
         p2.setGruposSemaforicosPlanos(Arrays.asList(new GrupoSemaforicoPlano[] {gsf,gsf,gsf,gsf}));
+        p2.setVersaoPlano(versaoPlano);
 
         Plano p3 = new Plano();
         p3.setTempoCiclo(253);
         p3.setGruposSemaforicosPlanos(Arrays.asList(new GrupoSemaforicoPlano[] {gsf,gsf,gsf,gsf}));
+        p3.setVersaoPlano(versaoPlano);
 
         Plano p4 = new Plano();
         p4.setTempoCiclo(252);
         p4.setGruposSemaforicosPlanos(Arrays.asList(new GrupoSemaforicoPlano[] {gsf,gsf,gsf,gsf}));
+        p4.setVersaoPlano(versaoPlano);
 
         ArrayList<Plano> planos = new ArrayList<>(4);
 
@@ -172,11 +183,111 @@ public class ProgramacaoTest {
         }
 
         assertEquals(37,mudancas);
+    }
 
+    @Test
+    public void testIndexEstagios() {
+        Controlador controlador = new ControladorHelper().setPlanos(new ControladorHelper().getControlador());
+
+        List<Plano> planos = new ArrayList<>();
+        planos.add(getPlano(controlador, 1, 1));
+        planos.add(getPlano(controlador, 2, 1));
+        Programacao programacao = new Programacao(planos);
+
+        assertEquals(0, programacao.getIndexAnel(1, 1));
+        assertEquals(0, programacao.getIndexAnel(2, 1));
+        assertEquals(2, programacao.getIndexAnel(1, 55));
+        assertEquals(54, programacao.getIndexAnel(2, 55));
+        assertEquals(7, programacao.getIndexAnel(1, 60));
+        assertEquals(3, programacao.getIndexAnel(2, 60));
+    }
+
+    @Test
+    public void testTrocaDeEstagios() {
+        Controlador controlador = new ControladorHelper().setPlanos(new ControladorHelper().getControlador());
+
+        List<Plano> planos = new ArrayList<>();
+        planos.add(getPlano(controlador, 1, 1));
+        planos.add(getPlano(controlador, 2, 1));
+        Programacao programacao = new Programacao(planos);
+
+        assertEquals(1, programacao.getEstagiosAtuais(1).get(0).getPosicao().longValue());
+        assertEquals(1, programacao.getEstagiosAtuais(18).get(0).getPosicao().longValue());
+        assertEquals(2, programacao.getEstagiosAtuais(19).get(0).getPosicao().longValue());
+        assertEquals(2, programacao.getEstagiosAtuais(34).get(0).getPosicao().longValue());
+        assertEquals(3, programacao.getEstagiosAtuais(35).get(0).getPosicao().longValue());
+        assertEquals(3, programacao.getEstagiosAtuais(52).get(0).getPosicao().longValue());
+        assertEquals(1, programacao.getEstagiosAtuais(53).get(0).getPosicao().longValue());
+
+        assertEquals(1, programacao.getEstagiosAtuais(1).get(1).getPosicao().longValue());
+        assertEquals(1, programacao.getEstagiosAtuais(18).get(1).getPosicao().longValue());
+        assertEquals(3, programacao.getEstagiosAtuais(19).get(1).getPosicao().longValue());
+        assertEquals(3, programacao.getEstagiosAtuais(34).get(1).getPosicao().longValue());
+        assertEquals(3, programacao.getEstagiosAtuais(35).get(1).getPosicao().longValue());
+        assertEquals(2, programacao.getEstagiosAtuais(52).get(1).getPosicao().longValue());
+        assertEquals(2, programacao.getEstagiosAtuais(53).get(1).getPosicao().longValue());
+
+        assertEquals(1, programacao.getEstagiosAtuais(1).get(0).getPosicao().longValue());
+        assertEquals(1, programacao.getEstagiosAtuais(18).get(0).getPosicao().longValue());
+        assertEquals(2, programacao.getEstagiosAtuais(19).get(0).getPosicao().longValue());
+        assertEquals(3, programacao.getEstagiosAtuais(38).get(0).getPosicao().longValue());
+        assertEquals(3, programacao.getEstagiosAtuais(39).get(0).getPosicao().longValue());
+        assertEquals(1, programacao.getEstagiosAtuais(56).get(0).getPosicao().longValue());
+        assertEquals(1, programacao.getEstagiosAtuais(57).get(0).getPosicao().longValue());
+
+        assertEquals(1, programacao.getEstagiosAtuais(1).get(1).getPosicao().longValue());
+        assertEquals(1, programacao.getEstagiosAtuais(18).get(1).getPosicao().longValue());
+        assertEquals(3, programacao.getEstagiosAtuais(19).get(1).getPosicao().longValue());
+        assertEquals(3, programacao.getEstagiosAtuais(38).get(1).getPosicao().longValue());
+        assertEquals(2, programacao.getEstagiosAtuais(39).get(1).getPosicao().longValue());
+        assertEquals(2, programacao.getEstagiosAtuais(56).get(1).getPosicao().longValue());
+        assertEquals(1, programacao.getEstagiosAtuais(57).get(1).getPosicao().longValue());
+
+        assertEquals(2, programacao.getEstagiosAtuais(384).get(0).getPosicao().longValue());
+        assertEquals(2, programacao.getEstagiosAtuais(384).get(1).getPosicao().longValue());
+    }
+
+    @Test
+    public void testMudancaEstagio() {
+        Controlador controlador = new ControladorHelper().setPlanos(new ControladorHelper().getControlador());
+
+        List<Plano> planos = new ArrayList<>();
+        planos.add(getPlano(controlador, 1, 1));
+        planos.add(getPlano(controlador, 2, 1));
+        Programacao programacao = new Programacao(planos);
+
+        long mudancas = programacao.getCicloMaximo();
+        for(int i = 1; i <= programacao.getCicloMaximo(); i++){
+            if(programacao.novaConfiguracaoEstagioSeHouverMudanca(i, i+1) == null){
+                mudancas--;
+            }
+        }
+
+        assertEquals(76,mudancas);
     }
 
 
-        private List<Plano> getPlanosG1() {
+    private Plano getPlano(Controlador controlador, Integer posicaoAnel, Integer posicaoPlano){
+        return controlador
+                .getAneis()
+                .stream()
+                .filter(anel -> anel.getPosicao().equals(posicaoAnel))
+                .findFirst()
+                .get()
+                .getPlanos()
+                .stream()
+                .filter(plano1 -> plano1.getPosicao().equals(posicaoPlano))
+                .findFirst()
+                .get();
+    }
+
+
+    private List<Plano> getPlanosG1() {
+        Anel anel = new Anel();
+        anel.setPosicao(1);
+        VersaoPlano versaoPlano = new VersaoPlano();
+        versaoPlano.setAnel(anel);
+
         ArrayList<Plano> planos = new ArrayList<>();
         GrupoSemaforico g1 = new GrupoSemaforico();
         g1.setTempoVerdeSeguranca(5);
@@ -215,6 +326,7 @@ public class ProgramacaoTest {
         ArrayList<GrupoSemaforicoPlano> grupoSemaforicoPlanos = new ArrayList<>();
         grupoSemaforicoPlanos.add(g1p1);
         p1.setGruposSemaforicosPlanos(grupoSemaforicoPlanos);
+        p1.setVersaoPlano(versaoPlano);
         planos.add(p1);
 
         return planos;
@@ -222,6 +334,11 @@ public class ProgramacaoTest {
 
 
     public List<Plano> getPlanosG1eG2() {
+        Anel anel = new Anel();
+        anel.setPosicao(1);
+        VersaoPlano versaoPlano = new VersaoPlano();
+        versaoPlano.setAnel(anel);
+
         List<Plano> planos = getPlanosG1();
 
         GrupoSemaforico g1 = new GrupoSemaforico();
@@ -261,6 +378,7 @@ public class ProgramacaoTest {
         ArrayList<GrupoSemaforicoPlano> grupoSemaforicoPlanos = new ArrayList<>();
         grupoSemaforicoPlanos.add(g1p1);
         p1.setGruposSemaforicosPlanos(grupoSemaforicoPlanos);
+        p1.setVersaoPlano(versaoPlano);
         planos.add(p1);
 
         return planos;

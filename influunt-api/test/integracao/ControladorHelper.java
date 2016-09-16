@@ -564,7 +564,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
             estagioPlano.setPosicao(posicoes[i]);
             estagioPlano.setPlano(plano);
             estagioPlano.setEstagio(estagio);
-            estagioPlano.setTempoVerde(tempos[i]);
+            estagioPlano.setTempoVerde(tempos[estagioPlano.getPosicao() - 1]);
             plano.addEstagios(estagioPlano);
             i++;
         }
