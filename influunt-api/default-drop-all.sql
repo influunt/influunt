@@ -76,6 +76,9 @@ drop index if exists ix_grupos_semaforicos_planos_grupo_semaforico_id;
 alter table grupos_semaforicos_planos drop constraint if exists fk_grupos_semaforicos_planos_plano_id;
 drop index if exists ix_grupos_semaforicos_planos_plano_id;
 
+alter table intervalos drop constraint if exists fk_intervalos_grupo_semaforico_plano_id;
+drop index if exists ix_intervalos_grupo_semaforico_plano_id;
+
 alter table limite_area drop constraint if exists fk_limite_area_area_id;
 drop index if exists ix_limite_area_area_id;
 
@@ -202,6 +205,8 @@ drop table if exists grupos_semaforicos;
 drop table if exists grupos_semaforicos_planos;
 
 drop table if exists imagens;
+
+drop table if exists intervalos;
 
 drop table if exists limite_area;
 

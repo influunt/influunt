@@ -12,9 +12,11 @@ import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,16 +37,17 @@ public class GrupoSemaforicoPlano extends Model implements Cloneable, Serializab
     private String idJson;
 
     @ManyToOne
-    @NotNull
+    @NotNull(message = "não pode ficar em branco")
     private GrupoSemaforico grupoSemaforico;
 
-    @OneToMany
-    @NotNull
+    @OneToMany(cascade = CascadeType.ALL)
+    @NotNull(message = "não pode ficar em branco")
+    @Valid
     private List<Intervalo> intervalos;
 
 
     @ManyToOne
-    @NotNull
+    @NotNull(message = "não pode ficar em branco")
     private Plano plano;
 
     @Column
@@ -146,5 +149,18 @@ public class GrupoSemaforicoPlano extends Model implements Cloneable, Serializab
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    public void addIntervalos(Intervalo intervalo) {
+        if (getIntervalos() == null) {
+            setIntervalos(new ArrayList<Intervalo>());
+        }
+        getIntervalos().add(intervalo);
+    }
+
+    public List<Intervalo> ordenarIntervalos() {
+        List<Intervalo> listaIntervalos = this.getIntervalos();
+        listaIntervalos.sort((anterior, proximo) -> anterior.getOrdem().compareTo(proximo.getOrdem()));
+        return listaIntervalos;
     }
 }

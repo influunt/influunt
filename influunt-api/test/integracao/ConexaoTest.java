@@ -19,7 +19,7 @@ public class ConexaoTest extends BasicMQTTTest {
     public void centralDeveSeConectarAoServidorMQTT() {
         //A central ao se conectar no servidor deve se inscrever em diversos tópicos
 
-        await().until(() -> onPublishFutureList.size() > 0);
+        await().until(() -> StatusConexaoControlador.ultimoStatus(idControlador) != null);
         //A central conectou
         assertEquals("central", onConnectFutureList.get(0));
 

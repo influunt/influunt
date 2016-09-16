@@ -99,6 +99,7 @@ public class Programacao {
 //                if(quantosSegundosEstavaNoVerde)
             }
         }
+        return 0;
     }
 
     public int proximaJanelaParaImposicao(int instante){

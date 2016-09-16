@@ -1,24 +1,12 @@
 package models;
 
-import checks.PlanosCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.ChangeLog;
-import com.avaje.ebean.annotation.CreatedTimestamp;
-import com.avaje.ebean.annotation.UpdatedTimestamp;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import json.deserializers.InfluuntDateTimeDeserializer;
-import json.serializers.InfluuntDateTimeSerializer;
-import org.joda.time.DateTime;
 
 import javax.persistence.*;
-import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.List;
 import java.util.UUID;
-
-import static com.sun.tools.doclint.Entity.nu;
 
 /**
  * Created by lesiopinheiro on 7/13/16.
@@ -36,17 +24,21 @@ public class Intervalo extends Model implements Cloneable, Serializable {
     @Column
     private String idJson;
 
-    @OneToOne
-    @NotNull
+    @ManyToOne
+    @NotNull(message = "não pode ficar em branco")
     private GrupoSemaforicoPlano grupoSemaforicoPlano;
 
-    @NotNull
+    @NotNull(message = "não pode ficar em branco")
+    @Column
     private Integer ordem;
 
-    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column
+    @NotNull(message = "não pode ficar em branco")
     private EstadoGrupoSemaforico estadoGrupoSemaforico;
 
-    @NotNull
+    @NotNull(message = "não pode ficar em branco")
+    @Column
     private Integer tamanho;
 
 
@@ -94,6 +86,14 @@ public class Intervalo extends Model implements Cloneable, Serializable {
 
     public void setEstadoGrupoSemaforico(EstadoGrupoSemaforico estadoGrupoSemaforico) {
         this.estadoGrupoSemaforico = estadoGrupoSemaforico;
+    }
+
+    public GrupoSemaforicoPlano getGrupoSemaforicoPlano() {
+        return grupoSemaforicoPlano;
+    }
+
+    public void setGrupoSemaforicoPlano(GrupoSemaforicoPlano grupoSemaforicoPlano) {
+        this.grupoSemaforicoPlano = grupoSemaforicoPlano;
     }
 
     @Override

@@ -46,6 +46,8 @@ public class ControladorCustomDeserializer {
 
     public static final String GRUPOS_SEMAFORICOS_PLANOS = "gruposSemaforicosPlanos";
 
+    public static final String INTERVALOS = "intervalos";
+
     public static final String ESTAGIOS_PLANOS = "estagiosPlanos";
 
     public static final String TABELAS_HORARIAS = "tabelasHorarias";
@@ -93,6 +95,8 @@ public class ControladorCustomDeserializer {
     private Map<String, VersaoTabelaHoraria> versoesTabelasHorariasCache;
 
     private Map<String, GrupoSemaforicoPlano> gruposSemaforicosPlanosCache;
+
+    private Map<String, Intervalo> intervalosCache;
 
     private Map<String, EstagioPlano> estagiosPlanosCache;
 
@@ -158,6 +162,9 @@ public class ControladorCustomDeserializer {
         gruposSemaforicosPlanosCache = new HashMap<String, GrupoSemaforicoPlano>();
         caches.put(GRUPOS_SEMAFORICOS_PLANOS, gruposSemaforicosPlanosCache);
 
+        intervalosCache = new HashMap<String, Intervalo>();
+        caches.put(INTERVALOS, intervalosCache);
+
         estagiosPlanosCache = new HashMap<String, EstagioPlano>();
         caches.put(ESTAGIOS_PLANOS, estagiosPlanosCache);
 
@@ -196,6 +203,7 @@ public class ControladorCustomDeserializer {
         parseTabelasEntreVerdesTransicoes(node);
         parsePlanos(node);
         parseGruposSemaforicosPlanos(node);
+        parseIntervalos(node);
         parseEstagiosPlanos(node);
         parseTabelasHorarias(node);
         parseEventos(node);
@@ -358,6 +366,15 @@ public class ControladorCustomDeserializer {
             for (JsonNode nodeGrupoSemaforicoPlano : node.get("gruposSemaforicosPlanos")) {
                 GrupoSemaforicoPlano grupoSemaforicoPlano = parseGruposSemaforicosPlano(nodeGrupoSemaforicoPlano);
                 gruposSemaforicosPlanosCache.put(grupoSemaforicoPlano.getIdJson().toString(), grupoSemaforicoPlano);
+            }
+        }
+    }
+
+    private void parseIntervalos(JsonNode node) {
+        if (node.has("intervalos")) {
+            for (JsonNode nodeIntervalo : node.get("intervalos")) {
+                Intervalo intervalo = parseIntervalo(nodeIntervalo);
+                intervalosCache.put(intervalo.getIdJson().toString(), intervalo);
             }
         }
     }
@@ -1080,7 +1097,42 @@ public class ControladorCustomDeserializer {
             runLater(c);
         }
 
+        List<Intervalo> intervalos = new ArrayList<>();
+        parseCollection("intervalos", node, intervalos, INTERVALOS, GRUPOS_SEMAFORICOS_PLANOS);
+        grupoSemaforicoPlano.setIntervalos(intervalos);
+
         return grupoSemaforicoPlano;
+    }
+
+    private Intervalo parseIntervalo(JsonNode node) {
+        Intervalo intervalo = new Intervalo();
+        if (node.has("id")) {
+            intervalo.setId(UUID.fromString(node.get("id").asText()));
+        }
+        if (node.has("idJson")) {
+            intervalo.setIdJson(node.get("idJson").asText());
+        }
+        if (node.has("tamanho")) {
+            intervalo.setTamanho(node.get("tamanho").asInt());
+        }
+        if (node.has("ordem")) {
+            intervalo.setOrdem(node.get("ordem").asInt());
+        }
+        if (node.has("estadoGrupoSemaforico")) {
+            intervalo.setEstadoGrupoSemaforico(EstadoGrupoSemaforico.valueOf(node.get("estadoGrupoSemaforico").asText()));
+        }
+
+        if (node.has("grupoSemaforicoPlano")) {
+            final String grupoSemaforicoPlanoId = node.get("grupoSemaforicoPlano").get("idJson").asText();
+            Consumer<Map<String, Map>> c = (caches) -> {
+                Map map = caches.get(GRUPOS_SEMAFORICOS_PLANOS);
+                intervalo.setGrupoSemaforicoPlano((GrupoSemaforicoPlano) map.get(grupoSemaforicoPlanoId));
+            };
+
+            runLater(c);
+        }
+
+        return intervalo;
     }
 
     private EstagioPlano parseEstagiosPlano(JsonNode node) {
