@@ -237,6 +237,7 @@ public class ControladorCustomDeserializer {
         node.set("versoesPlanos", pacotePlanosJson.get("versoesPlanos"));
         node.set("planos", pacotePlanosJson.get("planos"));
         node.set("gruposSemaforicosPlanos", pacotePlanosJson.get("gruposSemaforicosPlanos"));
+        node.set("intervalos", pacotePlanosJson.get("intervalos"));
         node.set("estagiosPlanos", pacotePlanosJson.get("estagiosPlanos"));
 
         node.set("versoesTabelasHorarias", pacotePlanosJson.get("versoesTabelasHorarias"));

@@ -138,6 +138,7 @@ public class ControladorCustomSerializer {
         putControladorVersoesPlanos(root);
         putControladorPlano(root);
         putControladorGruposSemaforicosPlanos(root);
+        putControladorIntervalos(root);
         putControladorEstagiosPlanos(root);
 
         if (controlador.getVersaoTabelaHoraria() != null) {

@@ -948,21 +948,6 @@ public class ControladorPlanoTest extends ControladorTest {
         assertEquals("Total Versões Planos", totalVersoesPlanos, VersaoPlano.find.findRowCount());
     }
 
-    @Test
-    public void testIntervalos() {
-        Controlador controlador = new ControladorHelper().getControlador();
-        Anel anel = controlador.getAneis().stream().filter(anel1 -> anel1.getPosicao().equals(1)).findFirst().get();
-        Plano plano = anel.getPlanos().stream().filter(plano1 -> plano1.getPosicao().equals(1)).findFirst().get();
-
-        GrupoSemaforicoPlano grupoPlano = plano.getGruposSemaforicosPlanos().stream().filter(gsp -> gsp.getGrupoSemaforico().getPosicao().equals(1)).findFirst().get();
-
-        List<Intervalo> listaIntervalos = grupoPlano.ordenarIntervalos();
-        assertEquals("G1", 1, grupoPlano.getGrupoSemaforico().getPosicao().longValue());
-        assertEquals("Amarelo 3", EstadoGrupoSemaforico.AMARELO, listaIntervalos.get(0).getEstadoGrupoSemaforico());
-        assertEquals("Amarelo 3", 3, listaIntervalos.get(0).getTamanho().longValue());
-
-    }
-
     @Override
     public List<Erro> getErros(Controlador controlador) {
         return new InfluuntValidator<Controlador>().validate(controlador, Default.class, PlanosCheck.class);
