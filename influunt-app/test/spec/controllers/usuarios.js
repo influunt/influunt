@@ -22,14 +22,18 @@ describe('Controller: UsuariosCtrl', function () {
 
     httpBackend = $httpBackend;
 
-    listaAreas = [
-      {descricao: 'area 1'},
-      {descricao: 'area 2'}
-    ];
-    listaPerfis = [
-      {nome: 'cidade 1'},
-      {nome: 'cidade 2'}
-    ];
+    listaAreas = {
+      data:[
+        {descricao: 'area 1'},
+        {descricao: 'area 2'}
+      ]
+    };
+    listaPerfis = {
+      data: [
+        {nome: 'cidade 1'},
+        {nome: 'cidade 2'}
+      ]
+    };
   }));
 
   it('Deve conter as definições das funções de CRUD', function() {
@@ -45,7 +49,7 @@ describe('Controller: UsuariosCtrl', function () {
     httpBackend.expectGET('/perfis').respond(listaPerfis);
     scope.beforeShow();
     httpBackend.flush();
-    expect(scope.perfis.length).toEqual(listaPerfis.length);
+    expect(scope.perfis.length).toEqual(listaPerfis.data.length);
   });
 
   it('Deve copiar o login do usuário para o id', function() {

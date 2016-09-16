@@ -87,7 +87,7 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 
 
--- # CRUD Suareas
+-- # CRUD Subareas
 Set @PermissaoId = UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/subareas', '[Subárea] - Listar Subárea', NOW(), NOW());
 -- INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
@@ -232,7 +232,16 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 -- INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 
+-- # RECUPERAR SENHA
+Set @PermissaoId = UUID();
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'POST /api/v1/recuperar_senha', '[Usuário] - Recuperar Senha', NOW(), NOW());
+-- INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 
+Set @PermissaoId = UUID();
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'POST /api/v1/redefinir_senha', '[Usuário] - Redefinir Senha', NOW(), NOW());
+-- INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 
 
 -- # Menu Configurações

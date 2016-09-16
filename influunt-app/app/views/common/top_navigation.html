@@ -22,9 +22,18 @@
         </li>
       </ul>
       <ul class="nav navbar-top-links navbar-right">
+        <li uib-dropdown>
+            <a class="count-info" href uib-dropdown-toggle>
+                <i class="fa fa-user"></i>{{getUsuario().login}}
+                <b class="caret"></b>
+            </a>
+            <ul uib-dropdown-menu class="animated fadeInRight m-t-xs">
+                <li><a ui-sref="app.usuarios_edit({id: getUsuario().id})">{{ 'usuarios.editar_perfil' | translate }}</a></li>
+            </ul>
+        </li>
         <li>
           <a data-ng-click="sair()">
-            <i class="fa fa-sign-out"></i> Sair
+            <i class="fa fa-sign-out"></i> {{ 'menu.sair' | translate }}
           </a>
         </li>
       </ul>
