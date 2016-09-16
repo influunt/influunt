@@ -18,10 +18,6 @@ SET controladores_fisicos.area_id = (
 alter table controladores_fisicos add constraint fk_controladores_fisicos_area_id foreign key (area_id) references areas (id) on delete restrict on update restrict;
 create index ix_controladores_fisicos_area_id on controladores_fisicos (area_id);
 
-
-ALTER TABLE usuarios ADD COLUMN reset_password_token VARCHAR (40);
-ALTER TABLE usuarios ADD COLUMN password_token_expiration datetime(6);
-
 # --- !Downs
 
 alter table controladores_fisicos drop foreign key fk_controladores_fisicos_area_id;
@@ -32,7 +28,3 @@ ALTER TABLE `controladores_fisicos` DROP COLUMN `area_id`;
 ALTER TABLE sessoes DROP COLUMN ip;
 ALTER TABLE sessoes DROP COLUMN data_saida;
 ALTER TABLE sessoes DROP COLUMN ip;
-
-ALTER TABLE usuarios DROP COLUMN reset_password_token;
-ALTER TABLE usuarios DROP COLUMN password_token_expiration;
-

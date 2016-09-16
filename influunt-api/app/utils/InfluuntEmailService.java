@@ -42,8 +42,8 @@ public class InfluuntEmailService {
 
         Email email = new Email()
                 .setSubject("Influunt Recuperar Senha")
-                .setFrom("Mister FROM <lesio@rarolabs.com.br>")
-                .addTo("Miss TO <"+emailAddress+">")
+                .setFrom("naoresponda@influunt.com.br")
+                .addTo(emailAddress)
                 .setBodyText(htmlContent);
         mailerClient.send(email);
     }

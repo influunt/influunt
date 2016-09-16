@@ -192,8 +192,8 @@ public class Usuario extends Model implements Subject, Serializable {
         return resetPasswordToken;
     }
 
-    public void setResetPasswordToken(String refreshPasswordToken) {
-        this.resetPasswordToken = refreshPasswordToken;
+    public void setResetPasswordToken(String resetPasswordToken) {
+        this.resetPasswordToken = resetPasswordToken;
     }
 
     public DateTime getPasswordTokenExpiration() {

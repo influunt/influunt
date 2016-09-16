@@ -73,7 +73,7 @@ public class SecurityController extends Controller {
                 String token = UUID.randomUUID().toString().replace("-", "");
                 String link = String.format("%s#/redefinir_senha?token=%s", configuration.getString("influuntUrl"), token);
                 usuario.setResetPasswordToken(token);
-                usuario.setPasswordTokenExpiration(DateTime.now());
+                usuario.setPasswordTokenExpiration(DateTime.now().plusHours(24));
                 usuario.update();
                 if (!Play.current().isTest()) {
                     influuntEmailService.enviarEmailRecuperarSenha(usuario.getNome(), link, usuario.getEmail());
