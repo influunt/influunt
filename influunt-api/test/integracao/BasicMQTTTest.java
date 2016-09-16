@@ -117,7 +117,7 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
         onPublishFutureList.clear();
         System.gc();
     }
-
+    
     protected void startClient() {
         client = provideApp.injector().instanceOf(Client.class);
     }

@@ -70,6 +70,8 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
         controlador.save();
         startClient();
 
+        startClient();
+
         await().until(() -> onPublishFutureList.size() > 4);
 
         JsonNode json = play.libs.Json.parse(new String(onPublishFutureList.get(1)));
