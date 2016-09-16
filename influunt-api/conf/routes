@@ -102,6 +102,9 @@ GET         /api/v1/helpers/controlador                           controllers.He
 #Login
 POST        /api/v1/login                                         controllers.SecurityController.login
 DELETE      /api/v1/logout/:id                                    controllers.SecurityController.logout(id)
+POST        /api/v1/recuperar_senha                               controllers.SecurityController.recuperarSenha
+POST        /api/v1/redefinir_senha                               controllers.SecurityController.redefinirSenha
+GET         /api/v1/checar_token_valido/:token                    controllers.SecurityController.checkResetPasswordToken(token)
 
 # Planos
 POST        /api/v1/planos                                        controllers.PlanosController.create()

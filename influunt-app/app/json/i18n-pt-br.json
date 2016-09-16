@@ -405,7 +405,14 @@
     "acessar": "Acessar",
     "esqueceu_sua_senha": "Esqueceu sua senha?",
     "senha": "Senha",
-    "usuario": "Usuário"
+    "novaSenha": "Nova senha",
+    "confirmarSenha": "Confirme sua nova senha",
+    "usuario": "Usuário",
+    "email": "e-mail",
+    "recuperar": "Recuperar",
+    "redefinir": "Redefinir",
+    "senhasIguais": "Senhas diferentes",
+    "recuperarSenhaSucesso": "Instruções para recuperar sua senha foram enviadas para seu e-mail"
   },
   "main": {
     "status": "Status",

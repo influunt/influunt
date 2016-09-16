@@ -1,0 +1,36 @@
+<div class="middle-box text-center  animated fadeInDown">
+  <div>
+    <div>
+      <img src="images/logo-escura.png" alt="Influunt" style="width: 256px; height: auto">
+    </div>
+    <h3>{{'titulo_padrao' | translate}}</h3>
+    <form class="m-t" name="recuperarSenhaForm" data-ng-submit="submitRecuperarSenha(recuperarSenhaForm.$valid)" novalidate>
+      <div class="form-group login email" data-ng-class="{'has-error': recuperarSenhaForm.email.$invalid && (!recuperarSenhaForm.email.$pristine || submited) || error}">
+        <input type="text" class="form-control" name="email" placeholder="{{ 'login.email' | translate }}" data-ng-model="credenciais.email" required>
+        <p ng-show="recuperarSenhaForm.email.$invalid && (!recuperarSenhaForm.email.$pristine || submited)" class="help-block error-msg">{{ 'geral.campo_obrigatorio' | translate }}</p>
+        <p ng-show="!(recuperarSenhaForm.email.$invalid && (!recuperarSenhaForm.email.$pristine || submited)) && error" class="help-block error-msg">{{ error }}</p>
+      </div>
+
+      <div class="widget red-bg p-xl" id="alert" style="display:none">
+        <h2>
+          {{'geral.atencao' | translate}}
+        </h2>
+        <br>
+        <p data-ng-bind-html="'navegador.aviso' | translate"></p>
+        <p data-ng-bind-html="'navegador.recomendacao' | translate"></p>
+      </div>
+
+      <button type="submit" class="btn btn-primary block full-width m-b" id="acessar" >{{ 'login.recuperar' | translate }}</button>
+    </form>
+  </div>
+</div>
+
+<script type="text/javascript">
+$( document ).ready(function() {
+  if(!(bowser.check({chrome: "51"}, window.navigator.userAgent))){
+    $('#nav').html(bowser.name + " (" + bowser.version + ")");
+    $('#alert').show();
+  };
+});
+
+</script>

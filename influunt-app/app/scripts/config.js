@@ -26,6 +26,26 @@ angular
           }
         })
 
+        .state('recuperar_senha', {
+          url: '/recuperar_senha',
+          templateUrl: 'views/login/recuperar_senha.html',
+          controller: 'LoginCtrl',
+          controllerAs: 'login',
+          data: {
+            title: 'geral.dashboard',
+          }
+        })
+
+        .state('redefinir_senha', {
+          url: '/redefinir_senha',
+          templateUrl: 'views/login/redefinir_senha.html',
+          controller: 'LoginCtrl',
+          controllerAs: 'login',
+          data: {
+            title: 'geral.dashboard',
+          }
+        })
+
         .state('app', {
           abstract: true,
           url: '/app',
@@ -733,8 +753,8 @@ angular
       ;
     }])
 
-    .run(['$rootScope', '$state', '$timeout',
-      function($rootScope, $state, $timeout) {
+    .run(['$rootScope', '$state', '$timeout', 'TELAS_SEM_LOGIN',
+      function($rootScope, $state, $timeout, TELAS_SEM_LOGIN) {
 
         $rootScope.$state = $state;
 
@@ -744,7 +764,7 @@ angular
 
         $rootScope.$on('$stateChangeStart', function(ev, toState) {
           $timeout(function() {
-            if (!$rootScope.isAuthenticated() && toState.name !== 'login') {
+            if (!$rootScope.isAuthenticated() && TELAS_SEM_LOGIN.indexOf(toState.name) < 0) {
                 $state.go('login');
             }
           });
