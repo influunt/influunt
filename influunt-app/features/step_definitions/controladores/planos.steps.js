@@ -145,4 +145,8 @@ module.exports = function() {
   this.Given(/^que o usuário selecione o anel 2$/, function () {
     return planosPage.clicarAbaAnel2();
   });
+
+  this.Given(/^clicar em cancelar a edição$/, function () {
+    return planosPage.clicarBotao('Cancelar Edição');
+  });
 };

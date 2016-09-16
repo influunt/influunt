@@ -64,7 +64,8 @@ describe('Controller: ControladoresAneisCtrl', function () {
         var objeto = {
           aneis: [{idJson: 1, endereco: endereco1, posicao: 1}, {idJson: 2, endereco: enderecoVazio}],
           estagios: [],
-          todosEnderecos: [endereco1, enderecoVazio]
+          todosEnderecos: [endereco1, enderecoVazio],
+          numeroSMEE: 2
         };
         WizardControladores.fakeInicializaWizard(scope, $q, objeto, scope.inicializaAneis);
       });
@@ -75,6 +76,11 @@ describe('Controller: ControladoresAneisCtrl', function () {
         expect(scope.currentAnelIndex).toBe(0);
         expect(scope.currentAnel).toBe(scope.aneis[0]);
       });
+      
+      it('Deve iniciar o primeiro anel com SMEE do dados básicos', function () {
+        expect(scope.currentAnel.numeroSMEE).toBe(2);
+      });
+
 
       it('Cada anel ativo do controlador deverá ter um endereco', function() {
         expect(scope.aneis[0].endereco).toBeDefined();

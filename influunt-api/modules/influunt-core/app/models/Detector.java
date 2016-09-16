@@ -193,7 +193,7 @@ public class Detector extends Model implements Cloneable, Serializable {
 
     @JsonIgnore
     @AssertTrue(groups = ControladorAssociacaoDetectoresCheck.class,
-            message = "O tempo de ausência de detecção deve estar entre 0 e 1440.")
+            message = "O tempo de ausência de detecção deve estar entre 0 e 4320.")
     public boolean isTempoAusenciaDeteccaoEstaDentroDaFaixa() {
         if (isMonitorado()) {
             return getTempoAusenciaDeteccao() != null && RangeUtils.getInstance().TEMPO_AUSENCIA_DETECCAO.contains(getTempoAusenciaDeteccao());

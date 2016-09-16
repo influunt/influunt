@@ -2,8 +2,10 @@ package integracao;
 
 import config.WithInfluuntApplicationNoAuthentication;
 import models.*;
+import org.joda.time.LocalTime;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -370,134 +372,83 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         controlador.save();
     }
 
-//    public Controlador getControladorPlanos() {
-//        Controlador controlador = getControladorAssociacaoDetectores();
-//        controlador.save();
-//
-//        Anel anelCom2Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
-//        Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
-//
-//        VersaoPlano versaoPlanoAnel2Estagios = new VersaoPlano(anelCom2Estagios, getUsuario());
-//        versaoPlanoAnel2Estagios.setStatusVersao(StatusVersao.ATIVO);
-//        anelCom2Estagios.addVersaoPlano(versaoPlanoAnel2Estagios);
-//        versaoPlanoAnel2Estagios.save();
-//
-//        VersaoPlano versaoPlanoAnel4Estagios = new VersaoPlano(anelCom4Estagios, getUsuario());
-//        versaoPlanoAnel4Estagios.setStatusVersao(StatusVersao.ATIVO);
-//        anelCom4Estagios.addVersaoPlano(versaoPlanoAnel4Estagios);
-//        versaoPlanoAnel4Estagios.save();
-//
-//        Plano plano1Anel2 = new Plano();
-//        versaoPlanoAnel2Estagios.addPlano(plano1Anel2);
-//        plano1Anel2.setVersaoPlano(versaoPlanoAnel2Estagios);
-//
-//        plano1Anel2.setModoOperacao(ModoOperacaoPlano.TEMPO_FIXO_ISOLADO);
-//        plano1Anel2.setPosicao(1);
-//        plano1Anel2.setDescricao("Principal");
-//        plano1Anel2.setPosicaoTabelaEntreVerde(1);
-//
-//        Plano plano1Anel4 = new Plano();
-//        versaoPlanoAnel4Estagios.addPlano(plano1Anel4);
-//        plano1Anel4.setVersaoPlano(versaoPlanoAnel4Estagios);
-//
-//        Estagio estagio = anelCom4Estagios.getEstagios().stream().filter(estagio1 -> estagio1.getPosicao().equals(4)).findFirst().get();
-//        criarDetector(anelCom4Estagios, TipoDetector.VEICULAR, 4, false);
-//        Detector detector = anelCom4Estagios.getDetectores().get(3);
-//        detector.setDescricao("D4");
-//        detector.setEstagio(estagio);
-//        estagio.setDetector(detector);
-//
-//        plano1Anel4.setModoOperacao(ModoOperacaoPlano.ATUADO);
-//        plano1Anel4.setPosicao(1);
-//        plano1Anel4.setDescricao("Principal");
-//        plano1Anel4.setPosicaoTabelaEntreVerde(1);
-//
-//        criarGrupoSemaforicoPlano(anelCom2Estagios, plano1Anel2);
-//        criarGrupoSemaforicoPlano(anelCom4Estagios, plano1Anel4);
-//
-//        criarEstagioPlano(anelCom2Estagios, plano1Anel2, new int[]{2, 1});
-//        criarEstagioPlano(anelCom4Estagios, plano1Anel4, new int[]{1, 4, 3, 2});
-//
-//        EstagioPlano estagioPlano1Anel2 = plano1Anel2.getEstagiosPlanos().get(0);
-//        EstagioPlano estagioPlano2Anel2 = plano1Anel2.getEstagiosPlanos().get(1);
-//
-//        EstagioPlano estagioPlano1Anel4 = plano1Anel4.getEstagiosPlanos().get(0);
-//        EstagioPlano estagioPlano2Anel4 = plano1Anel4.getEstagiosPlanos().get(1);
-//        EstagioPlano estagioPlano3Anel4 = plano1Anel4.getEstagiosPlanos().get(2);
-//        EstagioPlano estagioPlano4Anel4 = plano1Anel4.getEstagiosPlanos().get(3);
-//
-//        estagioPlano1Anel2.setTempoVerde(21);
-//        plano1Anel2.setTempoCiclo(60);
-//        estagioPlano2Anel2.setTempoVerde(21);
-//
-//        estagioPlano1Anel4.setTempoVerdeMinimo(20);
-//        estagioPlano1Anel4.setTempoVerdeMaximo(20);
-//        estagioPlano1Anel4.setTempoVerdeIntermediario(20);
-//        estagioPlano1Anel4.setTempoExtensaoVerde(10.0);
-//
-//        estagioPlano2Anel4.setTempoVerdeMinimo(20);
-//        estagioPlano2Anel4.setTempoVerdeMaximo(20);
-//        estagioPlano2Anel4.setTempoVerdeIntermediario(20);
-//        estagioPlano2Anel4.setTempoExtensaoVerde(10.0);
-//
-//        estagioPlano3Anel4.setTempoVerdeMinimo(20);
-//        estagioPlano3Anel4.setTempoVerdeMaximo(20);
-//        estagioPlano3Anel4.setTempoVerdeIntermediario(20);
-//        estagioPlano3Anel4.setTempoExtensaoVerde(10.0);
-//
-//        estagioPlano4Anel4.setTempoVerdeMinimo(20);
-//        estagioPlano4Anel4.setTempoVerdeMaximo(20);
-//        estagioPlano4Anel4.setTempoVerdeIntermediario(20);
-//        estagioPlano4Anel4.setTempoExtensaoVerde(10.0);
-//
-//        return controlador;
-//    }
-//
-//    public Controlador getControladorTabelaHorario() {
-//        Controlador controlador = getControladorPlanos();
-//        controlador.save();
-//
-//        TabelaHorario tabelaHoraria = new TabelaHorario();
-//        VersaoTabelaHoraria versaoTabelaHoraria = new VersaoTabelaHoraria(controlador, null, tabelaHoraria, getUsuario());
-//        versaoTabelaHoraria.setStatusVersao(StatusVersao.ATIVO);
-//        tabelaHoraria.setVersaoTabelaHoraria(versaoTabelaHoraria);
-//        controlador.addVersaoTabelaHoraria(versaoTabelaHoraria);
-//
-//        Evento evento = new Evento();
-//        evento.setTabelaHorario(tabelaHoraria);
-//        tabelaHoraria.addEventos(evento);
-//        evento.setTipo(TipoEvento.NORMAL);
-//        evento.setPosicao(1);
-//        evento.setDiaDaSemana(DiaDaSemana.DOMINGO);
-//        evento.setHorario(LocalTime.parse("10:00:00"));
-//        evento.setPosicaoPlano(1);
-//
-//        Evento evento2 = new Evento();
-//        evento2.setTabelaHorario(tabelaHoraria);
-//        tabelaHoraria.addEventos(evento2);
-//        evento2.setTipo(TipoEvento.ESPECIAL_RECORRENTE);
-//        evento2.setPosicao(2);
-//        evento2.setData(new Date());
-//        evento2.setDiaDaSemana(DiaDaSemana.SEGUNDA_A_SABADO);
-//        evento2.setHorario(LocalTime.parse("18:00:00"));
-//        evento2.setPosicaoPlano(1);
-//
-//        Evento evento3 = new Evento();
-//        evento3.setTabelaHorario(tabelaHoraria);
-//        tabelaHoraria.addEventos(evento3);
-//        evento3.setTipo(TipoEvento.ESPECIAL_NAO_RECORRENTE);
-//        evento3.setPosicao(3);
-//        evento3.setData(new Date());
-//        evento3.setDiaDaSemana(DiaDaSemana.DOMINGO);
-//        evento3.setHorario(LocalTime.parse("08:00:00"));
-//        evento3.setPosicaoPlano(1);
-//
-//        return controlador;
-//    }
+    protected Controlador setPlanos(Controlador controlador) {
+        this.controlador = controlador;
+        setDadosPlanos();
+        setDadosTabelaHoraria();
+
+        return this.controlador;
+    }
+
+    private void criaVersaoPlanos(Anel anel) {
+        VersaoPlano versaoPlano = new VersaoPlano(anel, getUsuario());
+        versaoPlano.setStatusVersao(StatusVersao.ATIVO);
+        anel.addVersaoPlano(versaoPlano);
+        versaoPlano.save();
+    }
+
+    private Plano criarPlano(Anel anel, Integer posicao, ModoOperacaoPlano modoOperacaoPlano, Integer tempoCiclo) {
+        Plano plano = new Plano();
+        plano.setPosicao(posicao);
+        plano.setDescricao("PLANO " + posicao);
+        plano.setModoOperacao(modoOperacaoPlano);
+        plano.setPosicaoTabelaEntreVerde(1);
+        plano.setTempoCiclo(tempoCiclo);
+        anel.getVersaoPlano().addPlano(plano);
+        plano.setVersaoPlano(anel.getVersaoPlano());
+        criarGrupoSemaforicoPlano(anel, plano);
+        return plano;
+    }
+
+    public void setDadosPlanos() {
+        Anel anel = getAnel(1);
+        criaVersaoPlanos(anel);
+        Plano plano = criarPlano(anel, 1, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 52);
+        criarEstagioPlano(anel, plano, new int[]{1, 2, 3}, new int[]{10, 10, 10});
+
+        plano = criarPlano(anel, 5, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 47);
+        criarEstagioPlano(anel, plano, new int[]{1, 2, 3}, new int[]{10, 5, 10});
+
+        anel = getAnel(2);
+        criaVersaoPlanos(anel);
+        plano = criarPlano(anel, 1, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 56);
+        criarEstagioPlano(anel, plano, new int[]{1, 3, 2}, new int[]{10, 12, 10});
+
+        controlador.save();
+    }
+
+    private void criarEvento(TabelaHorario tabelaHoraria, int posicao, TipoEvento tipoEvento, DiaDaSemana diaDaSemana, LocalTime horario, int posicaoPlano) {
+        Evento evento = new Evento();
+        evento.setPosicao(posicao);
+        evento.setTipo(tipoEvento);
+        evento.setDiaDaSemana(diaDaSemana);
+        evento.setHorario(horario);
+        evento.setPosicaoPlano(posicaoPlano);
+        if (tipoEvento != TipoEvento.NORMAL) {
+            evento.setData(new Date());
+        }
+        evento.setTabelaHorario(tabelaHoraria);
+        tabelaHoraria.addEventos(evento);
+    }
+
+    public void setDadosTabelaHoraria() {
+        TabelaHorario tabelaHoraria = new TabelaHorario();
+        VersaoTabelaHoraria versaoTabelaHoraria = new VersaoTabelaHoraria(controlador, null, tabelaHoraria, getUsuario());
+        versaoTabelaHoraria.setStatusVersao(StatusVersao.ATIVO);
+        tabelaHoraria.setVersaoTabelaHoraria(versaoTabelaHoraria);
+        controlador.addVersaoTabelaHoraria(versaoTabelaHoraria);
+
+        criarEvento(tabelaHoraria, 1, TipoEvento.NORMAL, DiaDaSemana.TODOS_OS_DIAS, LocalTime.parse("00:00:00"), 1);
+        criarEvento(tabelaHoraria, 2, TipoEvento.NORMAL, DiaDaSemana.SEGUNDA_A_SABADO, LocalTime.parse("08:00:00"), 1);
+        criarEvento(tabelaHoraria, 1, TipoEvento.NORMAL, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("18:00:00"), 1);
+        criarEvento(tabelaHoraria, 3, TipoEvento.ESPECIAL_RECORRENTE, DiaDaSemana.SEGUNDA_A_SABADO, LocalTime.parse("18:00:00"), 1);
+        criarEvento(tabelaHoraria, 4, TipoEvento.ESPECIAL_NAO_RECORRENTE, DiaDaSemana.DOMINGO, LocalTime.parse("08:00:00"), 1);
+
+        controlador.save();
+    }
 
     // METODOS AUXILIARES
-
-    protected void criarGrupoSemaforicoPlano(Anel anel, Plano plano) {
+    private void criarGrupoSemaforicoPlano(Anel anel, Plano plano) {
         plano.setGruposSemaforicosPlanos(null);
         for (GrupoSemaforico grupoSemaforico : anel.getGruposSemaforicos()) {
             GrupoSemaforicoPlano grupoPlano = new GrupoSemaforicoPlano();
@@ -508,7 +459,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         }
     }
 
-    protected void criarEstagioPlano(Anel anel, Plano plano, int posicoes[]) {
+    private void criarEstagioPlano(Anel anel, Plano plano, int posicoes[], int tempos[]) {
         int i = 0;
         plano.setEstagiosPlanos(null);
         for (Estagio estagio : anel.ordenarEstagiosPorPosicao()) {
@@ -516,6 +467,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
             estagioPlano.setPosicao(posicoes[i]);
             estagioPlano.setPlano(plano);
             estagioPlano.setEstagio(estagio);
+            estagioPlano.setTempoVerde(tempos[i]);
             plano.addEstagios(estagioPlano);
             i++;
         }
