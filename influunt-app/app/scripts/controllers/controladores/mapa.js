@@ -12,7 +12,9 @@ angular.module('influuntApp')
     function ($scope, $controller, $filter, Restangular) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
-      var filtraDados, filtraControladores, getMarkersControladores, getMarkersAneis, getAreas, getDadosFiltros, getAgrupamentos;
+      var filtraDados, filtraControladores, getMarkersControladores, getMarkersAneis,
+          getAreas, getDadosFiltros, getAgrupamentos, getSubareas, getCoordenadasFromControladores,
+          getSubareasAsAgrupamentos;
 
       $scope.inicializaMapa = function() {
         return Restangular
@@ -57,8 +59,25 @@ angular.module('influuntApp')
           $scope.currentAnel.localizacao = $filter('nomeEndereco')(enderecoAnel);
           $scope.openAcoesAnel();
           $scope.$apply();
+        } else {
+          // quando clicar no marker controlador, deve-se abrir os dados do primeiro
+          // anel (geralmente localizado no mesmo ponto do controlador).
+          var controlador = _.find($scope.lista, {id: markerData.id});
+          var idMarker = _.orderBy(controlador.aneis, 'posicao')[0].idJson;
+          var marker = _.chain($scope.markers).map('options').find({idJson: idMarker}).value();
+          $scope.setCurrentObject(marker);
         }
       };
+
+      // $scope.exibirTabelasHorarias = function(controlador) {};
+
+      // $scope.imporPlano = function(anel) {};
+
+      // $scope.trocarTabelaHoraria = function(controlador) {};
+
+      // $scope.enviarPlano = function(anel) {};
+
+      // $scope.enviarTabela = function(controlador) {};
 
       $scope.$watch('filtro', function(value) {
         return value && filtraDados();
@@ -77,6 +96,7 @@ angular.module('influuntApp')
         });
 
         $scope.agrupamentos = _.concat($scope.agrupamentos, getAgrupamentos());
+        $scope.agrupamentos = _.concat($scope.agrupamentos, getSubareas());
         $scope.areas = _.uniqBy($scope.areas, 'popupText');
       };
 
@@ -88,8 +108,53 @@ angular.module('influuntApp')
             $scope.filtro.controladores = _.orderBy($scope.lista, ['CLC']);
             $scope.filtro.agrupamentos = res.data;
 
+            var subareas = getSubareasAsAgrupamentos();
+            $scope.filtro.agrupamentos = _.concat($scope.filtro.agrupamentos, subareas);
+
             return $scope.filtro;
           });
+      };
+
+      getSubareas = function() {
+        if (!$scope.filtro.exibirSubareas || !$scope.filtro.exibirAgrupamentos) {
+          return [];
+        }
+
+        var subareas = _
+          .chain($scope.lista)
+          .filter('subarea')
+          .groupBy('subarea.idJson')
+          .value();
+
+          return _.map(subareas, function(controladores) {
+            return {
+              points: getCoordenadasFromControladores(controladores),
+              type: 'SUBAREA'
+            };
+          });
+      };
+
+      getSubareasAsAgrupamentos = function() {
+        return _
+          .chain($scope.lista)
+          .filter('subarea')
+          .groupBy('subarea.id')
+          .map(function(controladores, subarea) {
+            subarea = _
+              .chain($scope.lista)
+              .map('areas').flatten()
+              .map('subareas').flatten()
+              .uniqBy('id')
+              .find({id: subarea})
+              .value();
+
+            return {
+              id: subarea.id,
+              nome: subarea.nome,
+              controladores: controladores
+            };
+          })
+          .value();
       };
 
       getAgrupamentos = function() {
@@ -103,29 +168,34 @@ angular.module('influuntApp')
             return controladores.indexOf(c.id) >= 0;
           });
 
-          controladores = filtraControladores(controladores, $scope.filtro);
-          var enderecosAgrupamento = _
-            .chain(controladores)
-            .map(function(cont) {
-              return _.find($scope.lista, {id: cont.id});
-            })
-            .map('aneis')
-            .flatten()
-            .map('endereco.idJson')
-            .value();
-
-          var enderecos = _
-            .chain($scope.lista)
-            .map('todosEnderecos')
-            .flatten()
-            .uniqBy('id')
-            .filter(function(e) {
-              return enderecosAgrupamento.indexOf(e.idJson) >= 0;
-            })
-            .value();
-
-          return {points: enderecos};
+          return {
+            points: getCoordenadasFromControladores(controladores),
+            type: agrupamento.tipo
+          };
         });
+      };
+
+      getCoordenadasFromControladores = function(controladores) {
+        controladores = filtraControladores(controladores, $scope.filtro);
+        var enderecosAgrupamento = _
+          .chain(controladores)
+          .map(function(cont) {
+            return _.find($scope.lista, {id: cont.id});
+          })
+          .map('aneis')
+          .flatten()
+          .map('endereco.idJson')
+          .value();
+
+        return _
+          .chain($scope.lista)
+          .map('todosEnderecos')
+          .flatten()
+          .uniqBy('id')
+          .filter(function(e) {
+            return enderecosAgrupamento.indexOf(e.idJson) >= 0;
+          })
+          .value();
       };
 
       filtraControladores = function(controladores, filtro) {
@@ -183,6 +253,7 @@ angular.module('influuntApp')
 
         return _.chain(controlador.aneis)
           .filter('ativo')
+          .orderBy('posicao')
           .map(function(anel) {
             var endereco = _.find(controlador.todosEnderecos, anel.endereco);
             return {
@@ -192,6 +263,7 @@ angular.module('influuntApp')
               options: {
                 id: anel.id,
                 idJson: anel.idJson,
+                controladorId: controlador.id,
                 tipo: 'ANEL',
                 draggable: false,
                 icon: 'images/leaflet/influunt-icons/anel.svg',

@@ -48,6 +48,7 @@ public class AgrupamentoSerializer extends JsonSerializer<Agrupamento> {
                 controladorAux.setDetectores(null);
                 controladorAux.setGruposSemaforicos(null);
                 controladorAux.setAgrupamentos(null);
+                controladorAux.setVersoesTabelasHorarias(null);
                 jgen.writeObject(controladorAux);
             }
             jgen.writeEndArray();

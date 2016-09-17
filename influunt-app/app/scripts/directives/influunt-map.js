@@ -13,7 +13,7 @@ angular.module('influuntApp')
       scope: {
         markers: '=?',
         areas: '=?',
-        subareas: '=?',
+        agrupamentos: '=?',
         options: '=?',
         onClickMarker: '&?'
       },
@@ -27,12 +27,12 @@ angular.module('influuntApp')
         var DEFAULT_BG_COLORS = ['#FFC107', '#FF5722', '#009688', '#4CAF50', '#3F51B5', '#D32F2F'];
         var BOUNDING_BOX_SIZE = 10.0 / 1000; // unidade: km's.
         var BOUNDING_BOX_VARIATION = 15;    // intervalo (em graus) da variacao do bounding box.
-        var HULL_CONCAVITY = 29;
+        var HULL_CONCAVITY = 0.0013;
 
         // private methods.
-        var addAreas, addMarkers, addSubareas, createArea, createMarker,
-            createSubarea, getConcaveHullPoints, getBoundingBox, initializeMap;
-        var map, markersLayer, areasLayer, subareasLayer;
+        var addAreas, addMarkers, addAgrupamentos, createArea, createMarker,
+            createAgrupamento, getConcaveHullPoints, getBoundingBox, initializeMap;
+        var map, markersLayer, areasLayer, agrupamentosLayer, polylineLayer;
 
         initializeMap = function() {
           if (_.isObject(map)) {
@@ -90,23 +90,28 @@ angular.module('influuntApp')
           return area;
         };
 
-        createSubarea = function(obj) {
+        createAgrupamento = function(obj) {
+          var colors = {
+            ROTA: '#000',
+            CORREDOR: '#2196f3',
+            SUBAREA: '#4caf50'
+          };
+
           var options = {
-            color: '#000',
+            color: colors[obj.type],
             fill: false,
             dashArray: [20, 10]
           };
 
           options = _.merge(options, obj.options);
-
           var points = getBoundingBox(obj.points);
           points = getConcaveHullPoints(points);
-          var subarea = L.polygon(points, options);
+          var agrupamento = L.polygon(points, options);
 
           if (obj.popupText) {
-            subarea.bindPopup(obj.popupText);
+            agrupamento.bindPopup(obj.popupText);
           }
-          return subarea;
+          return agrupamento;
         };
 
         addMarkers = function(markers) {
@@ -138,30 +143,22 @@ angular.module('influuntApp')
           map.addLayer(areasLayer);
         };
 
-        addSubareas = function(subareas) {
-          if (_.isObject(subareasLayer)) {
-            map.removeLayer(subareasLayer);
+        addAgrupamentos = function(agrupamentos) {
+          if (_.isObject(agrupamentosLayer)) {
+            map.removeLayer(agrupamentosLayer);
           }
 
-          subareasLayer = new L.FeatureGroup();
-          subareas.forEach(function(subarea, index) {
-            var a = createSubarea(subarea, index);
-            subareasLayer.addLayer(a);
+          agrupamentosLayer = new L.FeatureGroup();
+          agrupamentos.forEach(function(agrupamento, index) {
+            var a = createAgrupamento(agrupamento, index);
+            agrupamentosLayer.addLayer(a);
           });
 
-          map.addLayer(subareasLayer);
+          map.addLayer(agrupamentosLayer);
         };
 
         getConcaveHullPoints = function(points) {
-          points = _.map(points, function(i) { return {lat: i.lat, lng: i.lng}; });
-          var pts = points.map(map.latLngToContainerPoint.bind(map));
-
-          pts = hull(pts, HULL_CONCAVITY, ['.x', '.y']);
-          pts = pts.map(function(pt) {
-            return map.containerPointToLatLng(L.point(pt.x, pt.y));
-          });
-
-          return pts;
+          return hull(points, HULL_CONCAVITY, ['.lat', '.lng']);
         };
 
         getBoundingBox = function(points) {
@@ -177,6 +174,27 @@ angular.module('influuntApp')
           return boxedPoints;
         };
 
+        var agrupaAneis = function(markers) {
+          if (_.isObject(polylineLayer)) {
+            map.removeLayer(polylineLayer);
+          }
+
+          polylineLayer = new L.FeatureGroup();
+          var controladores = _
+            .chain(markers)
+            .filter('options.controladorId')
+            .groupBy('options.controladorId')
+            .value();
+
+          _.each(controladores, function(aneis) {
+            aneis = _.map(aneis, function(anel) { return new L.LatLng(anel.latitude, anel.longitude); });
+            var polyline = L.polyline(aneis, {color: 'red', weight: 2, dashArray: [20, 10]});
+            polylineLayer.addLayer(polyline);
+          });
+
+          map.addLayer(polylineLayer);
+        };
+
         scope.$watch('markers', function(markers) {
           initializeMap();
           if (_.isObject(markersLayer)) {
@@ -189,6 +207,7 @@ angular.module('influuntApp')
 
           if (_.isArray(markers) && markers.length > 0 && angular.isDefined(map)) {
             addMarkers(markers);
+            agrupaAneis(markers);
           }
         }, true);
 
@@ -200,11 +219,11 @@ angular.module('influuntApp')
           }
         }, true);
 
-        scope.$watch('subareas', function(subareas) {
+        scope.$watch('agrupamentos', function(agrupamentos) {
           initializeMap();
 
-          if (_.isArray(subareas) && angular.isDefined(map)) {
-            addSubareas(subareas);
+          if (_.isArray(agrupamentos) && angular.isDefined(map)) {
+            addAgrupamentos(agrupamentos);
           }
         }, true);
       }

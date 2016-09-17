@@ -9,9 +9,14 @@
       </div>
       <div class="ibox-content">
         <p>{{ currentAnel.localizacao }}</p>
-        <button class="btn btn-primary" type="submit">
-          {{ 'controladores.mapaControladores.tabelaHorarios' | translate }}
+
+        <button
+            class="btn btn-primary"
+            data-ng-disabled="!(currentControlador.tabelasHorarias.length > 0)"
+            data-ng-click="exibirTabelasHorarias(currentControlador)">
+          {{ 'controladores.mapaControladores.tabelasHorarias' | translate }}
         </button>
+
       </div>
 
       <div class="ibox-content" ng-init="openPlanos()">
@@ -27,10 +32,30 @@
       </div>
       <div class="ibox-content">
         <h3>Ações</h3>
-        <button class="btn btn-primary" type="submit">{{ 'controladores.mapaControladores.imporPlanos' | translate }}</button>
-        <button class="btn btn-primary" type="submit">{{ 'controladores.mapaControladores.trocarTabela' | translate }}</button>
-        <button class="btn btn-primary" type="submit">{{ 'controladores.mapaControladores.enviarPlano' | translate }}</button>
-        <button class="btn btn-primary" type="submit">{{ 'controladores.mapaControladores.enviarTabela' | translate }}</button>
+        <button
+            class="btn btn-primary"
+            data-ng-disabled="!(currentAnel.planos.length > 0)"
+            data-ng-click="imporPlano(currentAnel)">
+          {{ 'controladores.mapaControladores.imporPlanos' | translate }}
+        </button>
+        <button
+            class="btn btn-primary"
+            data-ng-disabled="!(currentControlador.tabelasHorarias.length > 0)"
+            data-ng-click="trocarTabelaHoraria(currentControlador)">
+          {{ 'controladores.mapaControladores.trocarTabela' | translate }}
+        </button>
+        <button
+            class="btn btn-primary"
+            data-ng-disabled="!(currentAnel.planos.length > 0)"
+            data-ng-click="enviarPlano(currentAnel)">
+          {{ 'controladores.mapaControladores.enviarPlano' | translate }}
+        </button>
+        <button
+            class="btn btn-primary"
+            data-ng-disabled="!(currentControlador.tabelasHorarias.length > 0)"
+            data-ng-click="enviarTabela(currentControlador)">
+          {{ 'controladores.mapaControladores.enviarTabela' | translate }}
+        </button>
       </div>
     </div>
   </div>
