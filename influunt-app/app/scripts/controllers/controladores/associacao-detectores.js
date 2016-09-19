@@ -52,6 +52,16 @@ angular.module('influuntApp')
         });
       };
 
+      $scope.limpaTempoDeteccao = function(detector) {
+        detector.tempoAusenciaDeteccao = null;
+        detector.tempoDeteccaoPermanente = null;
+      };
+
+      $scope.atribuiTempoDeteccao = function(detector) {
+        detector.tempoAusenciaDeteccao = $scope.objeto.ausenciaDeteccaoMin;
+        detector.tempoDeteccaoPermanente = $scope.objeto.deteccaoPermanenteMin;
+      };
+
       /**
        * Associa/Desassocia um estagio a um detector.
        *
