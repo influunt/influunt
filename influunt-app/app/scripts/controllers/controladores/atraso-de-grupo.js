@@ -74,9 +74,7 @@ angular.module('influuntApp')
       };
 
       $scope.selecionaAnelAtrasoDeGrupo = function(index) {
-        $scope.selecionaAnel(index);
-        $scope.atualizaGruposSemaforicos();
-        $scope.selecionaGrupoSemaforico($scope.currentGruposSemaforicos[0], 0);
+        $scope.inicializaAtrasoDeGrupo(index);
       };
       
       $scope.confirmacaoNadaHaPreencher = function(){
