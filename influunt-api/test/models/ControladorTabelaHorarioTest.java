@@ -118,13 +118,22 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         evento2.setPosicaoPlano(2);
 
         erros = getErros(controlador);
-        assertEquals(2, erros.size());
+        assertEquals(3, erros.size());
         assertThat(erros, Matchers.hasItems(
                 new Erro(CONTROLADOR, "Existem eventos configurados no mesmo dia e horário.", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].eventosMesmoDiaEHora"),
-                new Erro(CONTROLADOR, "Existem eventos configurados no mesmo dia e horário.", "versoesTabelasHorarias[0].tabelaHoraria.eventos[1].eventosMesmoDiaEHora")
+                new Erro(CONTROLADOR, "Existem eventos configurados no mesmo dia e horário.", "versoesTabelasHorarias[0].tabelaHoraria.eventos[1].eventosMesmoDiaEHora"),
+                new Erro(CONTROLADOR, "O plano selecionado não está configurado em todos os anéis.", "versoesTabelasHorarias[0].tabelaHoraria.eventos[1].planosConfigurados")
         ));
 
         evento2.setHorario(LocalTime.parse("00:00:00"));
+
+        erros = getErros(controlador);
+        assertEquals(1, erros.size());
+        assertThat(erros, Matchers.hasItems(
+                new Erro(CONTROLADOR, "O plano selecionado não está configurado em todos os anéis.", "versoesTabelasHorarias[0].tabelaHoraria.eventos[1].planosConfigurados")
+        ));
+
+        evento2.setPosicaoPlano(1);
 
         erros = getErros(controlador);
         assertTrue(erros.isEmpty());
