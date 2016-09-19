@@ -103,12 +103,16 @@ public class ControladorCustomSerializer {
         return root;
     }
 
-    public JsonNode getControladoresJson(List<Controlador> controladores) {
-        ArrayList<JsonNode> jsonControladores = new ArrayList<JsonNode>();
+    public JsonNode getControladorBasicoJson(Controlador controlador) {
+        ObjectNode root = Json.newObject();
+        putControladorDadosIndex(controlador, root);
+        return root;
+    }
 
+    public JsonNode getControladoresJson(List<Controlador> controladores) {
         ArrayNode controladoresJson = Json.newArray();
         for (Controlador controlador : controladores) {
-            controladoresJson.add(getControladorJson(controlador));
+            controladoresJson.add(getControladorBasicoJson(controlador));
         }
 
         return controladoresJson;
@@ -228,6 +232,26 @@ public class ControladorCustomSerializer {
             eventoJson.add(getEventoJson(evento));
         });
         root.set("eventos", eventoJson);
+    }
+
+    private void putControladorDadosIndex(Controlador controlador, ObjectNode root) {
+        if (controlador.getIdJson() != null) {
+            root.put("idJson", controlador.getIdJson());
+        }
+        if (controlador.getNomeEndereco() != null) {
+            root.put("nomeEndereco", controlador.getNomeEndereco());
+        }
+        root.put("dataCriacao", InfluuntDateTimeSerializer.parse(controlador.getDataCriacao()));
+        root.put("dataAtualizacao", InfluuntDateTimeSerializer.parse(controlador.getDataAtualizacao()));
+        root.put("CLC", controlador.getCLC());
+        if (controlador.getStatusControlador() != null) {
+            root.put("statusControlador", controlador.getStatusControlador().toString());
+        }
+        Anel anel = controlador.getAneis().stream().filter(anel1 -> anel1.isAtivo()).findFirst().orElse(null);
+        if (anel != null) {
+            root.put("planoConfigurado", anel.getVersaoPlano() != null);
+        }
+        root.put("tabelaHorariaConfigurado", controlador.getVersaoTabelaHoraria() != null);
     }
 
     private void putControladorDadosBasicos(Controlador controlador, ObjectNode root) {
