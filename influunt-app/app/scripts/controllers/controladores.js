@@ -169,8 +169,10 @@ angular.module('influuntApp')
        *
        * @param      {<type>}  index   The index
        */
+
       $scope.selecionaAnel = function(index) {
         $scope.currentAnelIndex = index;
+        $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
         $scope.currentAnel = $scope.objeto.aneis[$scope.currentAnelIndex];
       };
 
