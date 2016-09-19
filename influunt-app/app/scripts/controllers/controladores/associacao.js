@@ -12,7 +12,7 @@ angular.module('influuntApp')
     function ($scope, $state, $controller, assertControlador, utilEstagios) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
-      var atualizaPosicaoEstagios, onSortableStop;
+      var atualizaPosicaoEstagios, onSortableStop, marcaGrupoEstagiosAtivos;
 
       /**
        * Pré-condições para acesso à tela de associações: Somente será possível acessar esta
@@ -30,6 +30,23 @@ angular.module('influuntApp')
         return valid;
       };
 
+      marcaGrupoEstagiosAtivos = function(grupoSemaforicos) {
+        _.each(grupoSemaforicos, function(grupo) {
+          grupo.label = 'G' + (grupo.posicao);
+          grupo.ativo = false;
+
+          // Cria o objeto helper para marcar os grupos ativos em cada estagio da tela.
+          grupo.estagiosRelacionados = {};
+          grupo.estagiosAtivados = {};
+          return _.isArray(grupo.estagiosGruposSemaforicos) &&
+            grupo.estagiosGruposSemaforicos.forEach(function(eg) {
+              var estagioGrupo = _.find($scope.objeto.estagiosGruposSemaforicos, {idJson: eg.idJson});
+              var estagio = _.find($scope.objeto.estagios, {idJson: estagioGrupo.estagio.idJson});
+              grupo.estagiosRelacionados[estagio.id] = true;
+            });
+        });
+      };
+
       $scope.inicializaAssociacao = function() {
         return $scope.inicializaWizard().then(function() {
           if ($scope.assertAssociacoes()) {
@@ -39,21 +56,7 @@ angular.module('influuntApp')
 
             atualizaPosicaoEstagios();
             $scope.selecionaAnelAssociacao(0);
-
-            _.each($scope.objeto.gruposSemaforicos, function(grupo) {
-              grupo.label = 'G' + (grupo.posicao);
-              grupo.ativo = false;
-
-              // Cria o objeto helper para marcar os grupos ativos em cada estagio da tela.
-              grupo.estagiosRelacionados = {};
-              grupo.estagiosAtivados = {};
-              return _.isArray(grupo.estagiosGruposSemaforicos) &&
-                grupo.estagiosGruposSemaforicos.forEach(function(eg) {
-                  var estagioGrupo = _.find($scope.objeto.estagiosGruposSemaforicos, {idJson: eg.idJson});
-                  var estagio = _.find($scope.objeto.estagios, {idJson: estagioGrupo.estagio.idJson});
-                  grupo.estagiosRelacionados[estagio.id] = true;
-                });
-            });
+            marcaGrupoEstagiosAtivos($scope.objeto.gruposSemaforicos);
           }
         });
       };
@@ -115,6 +118,7 @@ angular.module('influuntApp')
       };
 
       $scope.selecionaAnelAssociacao = function(index) {
+        marcaGrupoEstagiosAtivos($scope.objeto.gruposSemaforicos);
         $scope.selecionaAnel(index);
         $scope.atualizaGruposSemaforicos();
         $scope.atualizaEstagios();
