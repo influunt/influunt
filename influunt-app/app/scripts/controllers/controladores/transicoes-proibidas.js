@@ -35,7 +35,7 @@ angular.module('influuntApp')
        * das posições.
        */
       $scope.inicializaTransicoesProibidas = function(index) {
-        var anelEscolhido = index || 0
+        var anelEscolhido = index || 0 ;
         return $scope.inicializaWizard().then(function() {
           if ($scope.assertTransicoesProibidas()) {
             $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
