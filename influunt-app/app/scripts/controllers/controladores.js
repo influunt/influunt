@@ -195,7 +195,9 @@ angular.module('influuntApp')
           var allTransicoesGrupo = _.union($scope.currentGrupoSemaforico.transicoes, $scope.currentGrupoSemaforico.transicoesComPerdaDePassagem);
           var allTransicoes = _.union($scope.objeto.transicoes, $scope.objeto.transicoesComPerdaDePassagem);
           $scope.constroiTabelaOrigensEDestinos(allTransicoesGrupo, allTransicoes);
+          $scope.setAtributos();
           $scope.atualizaTransicoes();
+          $scope.atualizaGruposSemaforicos();
         }
       };
 
