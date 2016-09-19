@@ -169,8 +169,10 @@ angular.module('influuntApp')
        *
        * @param      {<type>}  index   The index
        */
+
       $scope.selecionaAnel = function(index) {
         $scope.currentAnelIndex = index;
+        $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
         $scope.currentAnel = $scope.objeto.aneis[$scope.currentAnelIndex];
       };
 
@@ -193,7 +195,9 @@ angular.module('influuntApp')
           var allTransicoesGrupo = _.union($scope.currentGrupoSemaforico.transicoes, $scope.currentGrupoSemaforico.transicoesComPerdaDePassagem);
           var allTransicoes = _.union($scope.objeto.transicoes, $scope.objeto.transicoesComPerdaDePassagem);
           $scope.constroiTabelaOrigensEDestinos(allTransicoesGrupo, allTransicoes);
+          $scope.setAtributos();
           $scope.atualizaTransicoes();
+          $scope.atualizaGruposSemaforicos();
         }
       };
 
@@ -458,7 +462,7 @@ angular.module('influuntApp')
       };
 
       $scope.podeAtivar = function(controlador) {
-        return (controlador.statusControlador === 'CONFIGURADO') && (controlador.versoesPlanos && controlador.versoesPlanos.length > 0) && (controlador.versoesTabelasHorarias && controlador.versoesTabelasHorarias.length > 0);
+        return controlador.statusControlador === 'CONFIGURADO' && controlador.planoConfigurado && controlador.tabelaHorariaConfigurado;
       };
 
       $scope.podeMostrarPlanosETabelaHoraria = function(controlador) {

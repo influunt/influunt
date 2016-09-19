@@ -1,4 +1,4 @@
-<fieldset data-ng-init="inicializaTransicoesProibidas()">
+<fieldset data-ng-init="inicializaTransicoesProibidas(0)">
 
   <div class="m-t-md">
     <div class="col-lg-12 col-sm-12 bg-border no-padding">
@@ -102,11 +102,9 @@
         </a>
       </div>
       <div class="right">
-        <a data-ng-if="podeSalvar()" go-to-top data-ng-click="submitForm({$valid: true}, 'transicoes_proibidas', 'app.wizard_controladores.associacao')" tooltips tooltip-template="<b>{{ 'geral.tooltip.salvarVoltarPara' | translate }}</b> {{ 'controladores.associacao.titulo' | translate }}" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
-          <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.saveBack' | translate }}
+        <a data-ng-if="podeSalvar()" go-to-top data-ng-click="submitForm({$valid: true}, 'transicoes_proibidas', 'app.wizard_controladores.transicoes_proibidas'); atualizaTransicoesProibidas" tooltips tooltip-template="<b>{{ 'geral.tooltip.salvarPermanecer' | translate }}</b> Transições Proíbidas" class="btn btn-outline btn-primary btn-footer right m-r-sm right">{{ 'plugins.steps.labels.save' | translate }}
         </a>
-        <a data-ng-if="!podeSalvar()" disabled="disabled" tooltips tooltip-template="<b><span>{{ 'geral.tooltip.naoPodeSalvarSemConfirmacao' | translate }}</span></b>" class="btn btn-primary btn-footer right m-r-sm right">
-          <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.saveBack' | translate }}
+        <a data-ng-if="!podeSalvar()" disabled="disabled" tooltips tooltip-template="<b><span>{{ 'geral.tooltip.naoPodeSalvarSemConfirmacao' | translate }}</span></b>" class="btn btn-primary btn-footer right m-r-sm right">{{ 'plugins.steps.labels.save' | translate }}
         </a>
       </div>
       <div class="right">
