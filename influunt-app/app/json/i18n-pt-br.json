@@ -138,7 +138,9 @@
       "titulo": "Verdes Conflitantes"
     },
     "associacao": {
-      "titulo": "Associação Estágio x Grupo Semafórico"
+      "titulo": "Associação Estágio x Grupo Semafórico",
+      "tempoMaximoPermanenciaAtivado": "Ativar monitoramento de tempo máximo de permanência no estágio",
+      "demandaPrioritaria": "Demanda prioritária"
     },
     "entreVerdes": {
       "titulo": "Tabela de Entre Verdes"
