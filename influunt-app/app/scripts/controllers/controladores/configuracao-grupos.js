@@ -121,7 +121,7 @@ angular.module('influuntApp')
         return [
           { n: $filter('translate')('faseVermelhaNaoIntermitente'), v: false }, 
           { n: $filter('translate')('faseVermelhaIntermitente'), v: true }
-        ]
+        ];
       };
 
       /**
