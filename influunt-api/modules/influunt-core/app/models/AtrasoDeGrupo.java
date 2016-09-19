@@ -41,7 +41,7 @@ public class AtrasoDeGrupo extends Model implements Cloneable, Serializable {
 
     @Column
     @NotNull(message = "não pode ficar em branco")
-    @Range(min = 0, max = 20, message = "deve estar entre {min} e {max}")
+    @Range(min = 0, max = 60, message = "deve estar entre {min} e {max}")
     private Integer atrasoDeGrupo = 0;
 
     @Column
