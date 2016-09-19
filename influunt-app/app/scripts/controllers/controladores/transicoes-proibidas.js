@@ -34,7 +34,8 @@ angular.module('influuntApp')
        * Inicializa a tela de estagios proibidos: Carrega os dados necessários, ordena os aneis e estágios a partir
        * das posições.
        */
-      $scope.inicializaTransicoesProibidas = function() {
+      $scope.inicializaTransicoesProibidas = function(index) {
+        var anelEscolhido = index || 0 ;
         return $scope.inicializaWizard().then(function() {
           if ($scope.assertTransicoesProibidas()) {
             $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
@@ -55,7 +56,9 @@ angular.module('influuntApp')
               });
             });
 
-            $scope.selecionaAnelTransicoesProibidas(0);
+            $scope.selecionaAnel(anelEscolhido);
+            $scope.atualizaEstagios();
+            $scope.atualizaTransicoesProibidas();
           }
         });
       };
@@ -155,7 +158,7 @@ angular.module('influuntApp')
         var indexAnel = _.findIndex($scope.objeto.aneis, {idJson: estagioOrigem.anel.idJson});
         var anel = $scope.objeto.aneis[indexAnel];
 
-        if (!($scope.errors && $scope.errors.aneis[indexAnel])) {
+        if (!($scope.errors && $scope.errors.aneis && $scope.errors.aneis[indexAnel])) {
           return false;
         }
 
@@ -176,9 +179,7 @@ angular.module('influuntApp')
       };
 
       $scope.selecionaAnelTransicoesProibidas = function(index) {
-        $scope.selecionaAnel(index);
-        $scope.atualizaEstagios();
-        $scope.atualizaTransicoesProibidas();
+        $scope.inicializaTransicoesProibidas(index);
       };
 
       $scope.atualizaTransicoesProibidas = function() {

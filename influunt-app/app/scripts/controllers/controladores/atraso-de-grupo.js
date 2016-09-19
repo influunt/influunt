@@ -38,16 +38,24 @@ angular.module('influuntApp')
        *
        * @return     {<type>}  { description_of_the_return_value }
        */
-      $scope.inicializaAtrasoDeGrupo = function() {
+
+      $scope.setAtributos = function() {
+        $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
+        $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
+        $scope.objeto.gruposSemaforicos = _.orderBy($scope.objeto.gruposSemaforicos, ['posicao']);
+        $scope.atrasoGrupoMin = $scope.objeto.atrasoGrupoMin;
+        $scope.atrasoGrupoMax = $scope.objeto.atrasoGrupoMax;
+        inicializaTransicoes();
+      };
+
+      $scope.inicializaAtrasoDeGrupo = function(index) {
         return $scope.inicializaWizard().then(function() {
           if ($scope.assertAtrasoDeGrupo()) {
-            $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
-            $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
-            $scope.objeto.gruposSemaforicos = _.orderBy($scope.objeto.gruposSemaforicos, ['posicao']);
-            $scope.atrasoGrupoMin = $scope.objeto.atrasoGrupoMin;
-            $scope.atrasoGrupoMax = $scope.objeto.atrasoGrupoMax;
-            $scope.selecionaAnelAtrasoDeGrupo(0);
-            inicializaTransicoes();
+            $scope.selecionaAnel(index);
+            $scope.atualizaGruposSemaforicos();
+            $scope.selecionaGrupoSemaforico($scope.currentGruposSemaforicos[0], 0);
+            
+            $scope.setAtributos();
           }
         });
       };
@@ -66,9 +74,7 @@ angular.module('influuntApp')
       };
 
       $scope.selecionaAnelAtrasoDeGrupo = function(index) {
-        $scope.selecionaAnel(index);
-        $scope.atualizaGruposSemaforicos();
-        $scope.selecionaGrupoSemaforico($scope.currentGruposSemaforicos[0], 0);
+        $scope.inicializaAtrasoDeGrupo(index);
       };
       
       $scope.confirmacaoNadaHaPreencher = function(){
