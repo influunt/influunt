@@ -135,7 +135,9 @@
       "veicular": "Veícular",
       "verdeSeguranca": "Verde Segurança",
       "faseVermelhaApagada": "Fase Vermelha Apagada",
-      "descricao": "Descrição"
+      "descricao": "Descrição",
+      "faseVermelhaNaoIntermitente": "Não colocar em amarelo intermitente",
+      "faseVermelhaIntermitente": "Colocar em amarelo intermitente"
     },
     "transicoesProibidas": {
       "titulo": "Transições Proibidas"

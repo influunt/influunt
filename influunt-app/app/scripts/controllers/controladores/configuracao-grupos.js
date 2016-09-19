@@ -117,6 +117,13 @@ angular.module('influuntApp')
         }
       };
 
+      $scope.faseVermelhaOptions = function(){
+        return [
+          { n: $filter('translate')('faseVermelhaNaoIntermitente'), v: false }, 
+          { n: $filter('translate')('faseVermelhaIntermitente'), v: true }
+        ]
+      };
+
       /**
        * atualiza as posições dos grupos.
        *

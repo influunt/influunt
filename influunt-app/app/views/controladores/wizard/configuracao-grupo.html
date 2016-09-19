@@ -87,7 +87,7 @@
                         </div>
                         <div class="col-lg-3 col-sm-3 groups-stages">
                           <select ng-model="grupo.faseVermelhaApagadaAmareloIntermitente" class="form-control m-b"
-                              ng-options="o.v as o.n for o in [{ n: 'Não colocar em amarelo intermitente', v: false }, { n: 'Colocar em amarelo intermitente', v: true }]" data-ng-disabled="grupo.tipo === 'PEDESTRE'">
+                              ng-options="o.v as o.n for o in faseVermelhaOptions" data-ng-disabled="grupo.tipo === 'PEDESTRE'">
                           </select>
                         </div>
                         <div class="col-lg-3 col-sm-3 groups-stages">
