@@ -14,8 +14,9 @@ angular.module('influuntApp')
     function ($scope, $state, $timeout, Restangular, $filter, toast,
               influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo, handleValidations, TabelaHorariaService) {
 
-      var adicionaTabelaHorario, adicionaEvento, atualizaPlanos, atualizaDiagramaIntervalo, atualizaGruposSemaforicos, atualizaEventos,
-          atualizaPosicaoEventosDoTipo, atualizaPosicaoEventos, atualizaQuantidadeEventos, removerEventoNoCliente;
+      var adicionaTabelaHorario, adicionaEvento, atualizaPlanos, atualizaDiagramaIntervalo, atualizaGruposSemaforicos, atualizaEventos, 
+      atualizaEventosNormais, atualizaPosicaoEventosDoTipo, atualizaPosicaoEventos, atualizaQuantidadeEventos, removerEventoNoCliente,
+      atualizaQuadroTabelaHoraria;
 
       var qtdEventos, qtdEventosRecorrentes, qtdEventosNaoRecorrentes;
       var NORMAL = 'NORMAL';
@@ -270,6 +271,7 @@ angular.module('influuntApp')
         $scope.objeto.eventos.splice(eventoObjetoIndex, 1);
         $scope.currentTabelaHoraria.eventos.splice(eventoIndex, 1);
         atualizaEventos();
+        atualizaEventosNormais();
       };
 
       $scope.removerEvento = function(evento) {
@@ -349,12 +351,7 @@ angular.module('influuntApp')
         }
 
         if(tipo === NORMAL){
-          $scope.eventosNormais = _.chain($scope.objeto.eventos)
-          .filter(function(e){
-            return e.tipo === NORMAL && e.tabelaHoraria.idJson === $scope.currentTabelaHoraria.idJson;
-          })
-          .orderBy(['posicao'])
-          .value();
+          atualizaEventosNormais();
         }
         return evento;
       };
@@ -503,10 +500,22 @@ angular.module('influuntApp')
 
       $scope.$watch('eventosNormais',function(newObj){
         if($scope.eventosNormais && newObj){
-          var quadroHorarioBuilder = new influunt.components.QuadroTabelaHorario($scope.dias, $scope.eventosNormais);
-          $scope.agenda = quadroHorarioBuilder.calcula();
+          atualizaQuadroTabelaHoraria();
         }
       },true);
 
+      atualizaEventosNormais = function(){
+        $scope.eventosNormais = _.chain($scope.objeto.eventos)
+        .filter(function(e){
+          return e.tipo === NORMAL && e.tabelaHoraria.idJson === $scope.currentTabelaHoraria.idJson;
+        })
+        .orderBy(['posicao'])
+        .value();
+      };
+
+      atualizaQuadroTabelaHoraria = function(){
+        var quadroHorarioBuilder = new influunt.components.QuadroTabelaHorario($scope.dias, $scope.eventosNormais);
+        $scope.agenda = quadroHorarioBuilder.calcula();
+      };
     }
   ]);
