@@ -17,7 +17,7 @@ public class RangeUtils {
 
     public static InfluuntRange TEMPO_VERMELHO_LIMPEZA_PEDESTRE = new InfluuntRange(0, 5);
 
-    public static InfluuntRange TEMPO_ATRASO_GRUPO = new InfluuntRange(0, 20);
+    public static InfluuntRange TEMPO_ATRASO_GRUPO = new InfluuntRange(0, 60);
 
     public static InfluuntRange TEMPO_VERDE_SEGURANCA_VEICULAR = new InfluuntRange(10, 30);
 
