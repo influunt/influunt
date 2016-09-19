@@ -129,7 +129,15 @@
       "titulo": "Dados Básicos"
     },
     "gruposSemaforicos": {
-      "titulo": "Grupos Semafóricos"
+      "titulo": "Grupos Semafóricos",
+      "tipo": "Tipo",
+      "pedestre": "Pedestre",
+      "veicular": "Veícular",
+      "verdeSeguranca": "Verde Segurança",
+      "faseVermelhaApagada": "Fase Vermelha Apagada",
+      "descricao": "Descrição",
+      "faseVermelhaNaoIntermitente": "Não colocar em amarelo intermitente",
+      "faseVermelhaIntermitente": "Colocar em amarelo intermitente"
     },
     "transicoesProibidas": {
       "titulo": "Transições Proibidas"

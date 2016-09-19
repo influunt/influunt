@@ -109,14 +109,19 @@ angular.module('influuntApp')
 
       $scope.atualizaTempoVerdeSeguranca = function(grupo){
         if (grupo.tipo === 'VEICULAR'){
-          grupo.disableSelectFase = false;
           grupo.tempoVerdeSeguranca = $scope.objeto.verdeSegurancaVeicularMin;
           grupo.faseVermelhaApagadaAmareloIntermitente = true;
         } else {
           grupo.tempoVerdeSeguranca = $scope.objeto.verdeSegurancaPedestreMin;
           grupo.faseVermelhaApagadaAmareloIntermitente = false;
-          grupo.disableSelectFase = true;
         }
+      };
+
+      $scope.faseVermelhaOptions = function(){
+        return [
+          { n: $filter('translate')('faseVermelhaNaoIntermitente'), v: false }, 
+          { n: $filter('translate')('faseVermelhaIntermitente'), v: true }
+        ]
       };
 
       /**
