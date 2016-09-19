@@ -473,7 +473,7 @@ angular.module('influuntApp')
         return errorsCurrentPlanos;
       };
 
-      $scope.getErroInPlano = function(plano, index) {
+      $scope.getErroInPlano = function(index) {
        var errors              = _.get($scope.errors, 'aneis[' + $scope.currentAnelIndex + '].versoesPlanos[' + 0 + '].planos');
        var keysErrors          = getKeysErros(errors);
        var errorsPlanoIdJson   = getIdJsonDePlanosQuePossuemErros(keysErrors);
