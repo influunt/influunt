@@ -2763,6 +2763,10 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
   text-transform: uppercase;
 }
 
+.dashboard .timeline-item .date i {
+  background: none;
+}
+
 .dashboard .widget h2 {
   text-transform: uppercase;
   font-size: 18px;
@@ -2989,4 +2993,8 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
 
 .ajusteMapa .acoes .btn {
   min-width: 180px;
+}
+
+.wrapper-content .basic-wizard .content .body .stages .priority label {
+  min-width: 100%;
 }
