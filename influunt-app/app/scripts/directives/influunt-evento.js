@@ -41,8 +41,8 @@ angular.module('influuntApp')
             scope.onVerificaAtualizacaoDeEventos()(scope.evento);
           };
 
-          scope.minDate = moment().startOf('year').toDate();
-          scope.maxDate = moment().endOf('year').toDate();
+          scope.minDate = moment().startOf('year');
+          scope.maxDate = moment().endOf('year');
 
           scope.$watch('evento', function(evento){
             if(evento) {
