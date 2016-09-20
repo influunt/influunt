@@ -226,6 +226,26 @@ public class ControladoresController extends Controller {
     }
 
     @Transactional
+    @Dynamic(value = "Influunt")
+    public CompletionStage<Result> getControladoresForMapa() {
+        Usuario u = getUsuario();
+        List<ControladorFisico> controladoresFisicos = null;
+        if (u.isRoot()) {
+            controladoresFisicos = ControladorFisico.find.fetch("versoes").findList();
+        } else if (u.getArea() != null) {
+            controladoresFisicos = ControladorFisico.find.fetch("versoes").where().eq("area_id", u.getArea().getId()).findList();
+        }
+
+        if (controladoresFisicos != null) {
+            List<Controlador> controladores = new ArrayList<Controlador>();
+            controladoresFisicos.stream().forEach(controladorFisico -> controladores.add(controladorFisico.getControladorAtivoOuEditando()));
+            return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladoresForMapas(controladores)));
+        }
+
+        return CompletableFuture.completedFuture(forbidden());
+    }
+
+    @Transactional
     @Dynamic(value = "ControladorAreaAuth(path)")
     public CompletionStage<Result> delete(String id) {
         Controlador controlador = Controlador.find.byId(UUID.fromString(id));
