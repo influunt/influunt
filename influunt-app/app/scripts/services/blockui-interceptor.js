@@ -19,26 +19,6 @@ angular.module('influuntApp')
           }
 
           return request;
-        },
-        // responseError: function(response) {
-        //   if (response.config.url.match(new RegExp(APP_ROOT))) {
-        //     $timeout.cancel(loadingUnblockTimeout);
-        //     loadingUnblockTimeout = $timeout(function() {
-        //       influuntBlockui.unblock();
-        //     }, 500);
-        //   }
-
-        //   return $q.reject(response);
-        // },
-        // response: function(response) {
-        //   if (response.config.url.match(new RegExp(APP_ROOT))) {
-        //     $timeout.cancel(loadingUnblockTimeout);
-        //     loadingUnblockTimeout = $timeout(function() {
-        //       influuntBlockui.unblock();
-        //     }, 500);
-        //   }
-
-        //   return response;
-        // }
+        }
       };
     }]);
