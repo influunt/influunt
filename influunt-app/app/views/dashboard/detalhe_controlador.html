@@ -1,0 +1,67 @@
+<div class="container-fluid wrapper wrapper-content animated fadeInRight dashboard" ng-init="detalheControlador()">
+  <div class="ibox-content">
+    <div class="row">
+      <div class="col-lg-12">
+        <h1>{{controlador.clc}}</h1>
+      </div>
+      <hr>
+      <div class="col-lg-12 ibox-content">
+        <span><i class="fa fa-circle text-navy"></i> {{ 'main.online' | translate }} <br>{{controlador.endereco}}</span>
+      </div>
+      <hr>
+      <div class="col-lg-12 col-sm-12 ibox-content no-padding">
+        <div class="col-lg-2 col-sm-3">
+          <div class="widget style1 navy-bg">
+            <div class="row">
+              <div class="col-lg-3 col-sm-4">
+                <i class="fa fa-check-circle-o fa-3x"></i>
+              </div>
+              <div class="col-lg-9 col-sm-8 text-left">
+                <h2 class="font-bold">{{controlador.percentualOnline}}%</h2>
+                <span>{{ 'main.tempoDisponivel' | translate }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-4">
+          <div class="widget style1 lazur-bg">
+            <div class="row">
+              <div class="col-lg-1 col-sm-2">
+                <i class="fa fa-clock-o fa-3x"></i>
+              </div>
+              <div class="col-lg-11 col-sm-10 text-left">
+                <h2 class="font-bold">{{controlador.totalOnline | influuntDate: 'fromHours'}}</h2>
+                <span>{{ 'main.online' | translate }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-4">
+          <div class="widget style1 red-bg">
+            <div class="row">
+              <div class="col-lg-1 col-sm-2">
+                <i class="fa fa-clock-o fa-3x"></i>
+              </div>
+              <div class="col-lg-11 col-sm-10 text-left">
+                <h2 class="font-bold">{{controlador.totalOffline | influuntDate: 'fromHours'}}</h2>
+                <span>{{ 'main.offline' | translate }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12 ibox-content">
+        <div id="vertical-timeline" class="vertical-container light-timeline no-margins">
+          <div class="vertical-timeline-block" ng-repeat="item in controlador.historico">
+            <div class="vertical-timeline-icon" ng-class="item.conectado ? 'navy-bg' : 'red-bg'">
+            </div>
+            <span class="vertical-date">{{item.timestamp | influuntDate: 'dddd'}} <br/><small>{{item.timestamp | influuntDate: 'll'}}</small></span>
+            <div class="vertical-timeline-content">
+              <h2>{{ item.conectado ? 'main.controlOn' : 'main.controlOff' | translate }}</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

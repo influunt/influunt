@@ -1,0 +1,62 @@
+<!-- modal controladores online -->
+<div class="modal inmodal dashModal" id="modalControladores" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" style="width: 95%;">
+    <div class="modal-content animated bounceInRight">
+      <div class="modal-header">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+              <!-- <input type="text" class="form-control input-sm m-b-xs" id="filter" placeholder="{{ 'main.buscar' | translate }}"> -->
+
+
+              <table class="footable table table-stripped" data-page-size="10" data-filter=#filter>
+                  <thead>
+                    <tr>
+                      <th>{{ 'main.status' | translate }}</th>
+                      <th>{{ 'main.nome' | translate }}</th>
+                      <th class="endereco" data-hide="phone,tablet">{{ 'main.endereco' | translate }}</th>
+                      <th data-hide="phone,tablet">{{ 'main.historico' | translate }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr data-ng-repeat="controlador in controladores | startFrom: (pagination.current -1 ) * 10 | limitTo: 10">
+                      <td ng-if="online"><i class="fa fa-circle text-navy"></i> {{ 'main.online' | translate }}</td>
+                      <td ng-if="!online"><i class="fa fa-circle text-danger"></i> {{ 'main.offline' | translate }}</td>
+                      <td>{{controlador.clc}}</td>
+                      <td>{{controlador.endereco}}</td>
+                      <td>{{ online ? 'main.onDesde' : 'main.offDesde' | translate }} - {{controlador | influuntDate: 'll'}}. <a ui-sref="app.dashboard_detalhe_controlador({id: controlador.id})" data-dismiss="modal"> {{ 'main.verHistorico' | translate }}</a></td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td colspan="5">
+                        <ul class="pagination pull-right"></ul>
+                      </td>
+                    </tr>
+                  </tfoot>
+              </table>
+
+              <div class="col-md-6 text-right pagination-container">
+                <ul class="pagination-sm"
+                    uib-pagination
+                    previous-text="Anterior"
+                    next-text="Próximo"
+                    items-per-page="10"
+                    total-items="controladores.length"
+                    ng-model="pagination.current"
+                    max-size="pagination.maxSize"
+                    boundary-link-numbers="true"
+                    rotate="false">
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">{{ 'crud.fechar' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>

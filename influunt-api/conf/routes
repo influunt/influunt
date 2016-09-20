@@ -145,6 +145,11 @@ GET         /api/v1/monitoramento/status                                    cont
 GET         /api/v1/monitoramento/status/:id/ultimo_status                  controllers.monitoramento.StatusControladorFisicoController.ultimoStatus(id)
 GET         /api/v1/monitoramento/status/:id/historico/:pagina/:tamanho     controllers.monitoramento.StatusControladorFisicoController.historico(id,pagina,tamanho)
 
+# Monitoramento
+GET         /api/v1/monitoramento/status_controladores                              controllers.monitoramento.MonitoramentoController.ultimoStatusDosControladores()
+GET         /api/v1/monitoramento/controladores_onlines                             controllers.monitoramento.MonitoramentoController.controladoresOnline()
+GET         /api/v1/monitoramento/controladores_offlines                            controllers.monitoramento.MonitoramentoController.controladoresOffline()
+GET         /api/v1/monitoramento/detalhe_controlador/:id                           controllers.monitoramento.MonitoramentoController.detalheControlador(id)
 
 
 POST        /api/v1/cucumber                                      controllers.CucumberController.createDB()

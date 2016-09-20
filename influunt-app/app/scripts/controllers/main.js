@@ -13,6 +13,11 @@ angular.module('influuntApp')
       // Herda todo o comportamento de breadcrumbs.
       $controller('BreadcrumbsCtrl', {$scope: $scope});
 
+      $scope.pagination = {
+        current: 1,
+        maxSize: 5
+      };
+
       $scope.sair = function() {
         influuntAlert
           .confirm(
@@ -36,6 +41,57 @@ angular.module('influuntApp')
             }
           });
       };
+
+      $scope.loadDashboard = function() {
+        Restangular.one('monitoramento', 'status_controladores').get()
+          .then(function(res) {
+            $scope.dados_status = _.countBy(_.values(res.status), _.identity);
+            $scope.dados_onlines = _.countBy(_.values(res.onlines), _.identity);
+          })
+          .catch(function(err) {
+            if (err.status === 401) {
+              err.data.forEach(function(error) {
+                influuntAlert.alert($filter('translate')('geral.atencao'), error.message);
+              });
+            }
+          });
+
+      };
+
+      $scope.carregarControladores = function(onlines) {
+        var rota = onlines ? 'controladores_onlines' : 'controladores_offlines';
+        Restangular.one('monitoramento', rota).get()
+          .then(function(res) {
+            $scope.pagination.current = 1;
+            $scope.controladores = res.data;
+            $scope.online = onlines;
+          })
+          .catch(function(err) {
+            if (err.status === 401) {
+              err.data.forEach(function(error) {
+                influuntAlert.alert($filter('translate')('geral.atencao'), error.message);
+              });
+            }
+          });
+
+      };
+
+      $scope.detalheControlador = function() {
+        var controladorId = $state.params.id;
+        Restangular.one('monitoramento/detalhe_controlador', controladorId).get()
+          .then(function(res) {
+            console.log("TOTAL: ", res)
+            $scope.controlador = res;
+          })
+          .catch(function(err) {
+            if (err.status === 401) {
+              err.data.forEach(function(error) {
+                influuntAlert.alert($filter('translate')('geral.atencao'), error.message);
+              });
+            }
+          });
+      };
+
 
       $scope.getUsuario = function() {
         return JSON.parse(localStorage.usuario);

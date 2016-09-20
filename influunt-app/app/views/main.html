@@ -1,13 +1,13 @@
-<div class="container-fluid wrapper wrapper-content animated fadeInRight dashboard">
+<div class="container-fluid wrapper wrapper-content animated fadeInRight dashboard" ng-init="loadDashboard()">
 
   <div class="col-lg-8 col-sm-12">
     <div class="row">
       <div class="col-lg-12 no-padding">
-        <div data-toggle="modal" data-target="#myModal" class="col-lg-3 col-sm-6">
+        <div data-toggle="modal" data-target="#modalControladores" class="col-lg-3 col-sm-6" ng-click="carregarControladores(true)">
           <div class="widget style1 navy-bg falseBtn">
             <div class="row">
               <div class="col-lg-3 col-sm-3">
-                <h2 class="font-bold">1432</h2>
+                <h2 class="font-bold">{{dados_onlines['true'] || 0}}</h2>
               </div>
               <div class="col-lg-8 col-sm-7 text-right">
                 <span> {{ 'main.controlOn' | translate }} </span>
@@ -15,11 +15,11 @@
             </div>
           </div>
         </div>
-        <div data-toggle="modal" data-target="#myModal" class="col-lg-3 col-sm-6">
+        <div data-toggle="modal" data-target="#modalControladores" class="col-lg-3 col-sm-6" ng-click="carregarControladores(false)">
           <div class="widget style1 red-bg falseBtn">
             <div class="row">
               <div class="col-lg-3 col-sm-3">
-                <h2 class="font-bold">13</h2>
+                <h2 class="font-bold">{{dados_onlines['false'] || 0}}</h2>
               </div>
               <div class="col-lg-8 col-sm-7 text-right">
                 <span> {{ 'main.controlOff' | translate }} </span>
@@ -27,7 +27,7 @@
             </div>
           </div>
         </div>
-        <div data-toggle="modal" data-target="#myModal" class="col-lg-3 col-sm-6">
+        <div data-toggle="modal" data-target="#myModal" class="col-lg-3 col-sm-6 hide">
           <div class="widget style1 blue-bg falseBtn">
             <div class="row">
               <div class="col-lg-3 col-sm-3">
@@ -39,7 +39,7 @@
             </div>
           </div>
         </div>
-        <div data-toggle="modal" data-target="#myModal" class="col-lg-3 col-sm-6">
+        <div data-toggle="modal" data-target="#myModal" class="col-lg-3 col-sm-6 hide">
           <div class="widget style1 lazur-bg falseBtn">
             <div class="row">
               <div class="col-lg-3 col-sm-3">
@@ -62,13 +62,13 @@
             </div>
             <div class="col-lg-12 no-padding padding-top-20">
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-danger m-r-sm">12</button> {{ 'main.novo' | translate }}
+                <button type="button" class="btn btn-danger m-r-sm">{{dados_status['NOVO']}}</button> {{ 'main.novo' | translate }}
               </div>
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-primary m-r-sm">28</button> {{ 'main.configurado' | translate }}
+                <button type="button" class="btn btn-primary m-r-sm">{{dados_status['CONFIGURADO']}}</button> {{ 'main.configurado' | translate }}
               </div>
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-info m-r-sm">15</button> {{ 'main.ativo' | translate }}
+                <button type="button" class="btn btn-info m-r-sm">{{dados_status['ATIVO']}}</button> {{ 'main.ativo' | translate }}
               </div>
             </div>
             <div class="col-lg-12">
@@ -76,20 +76,20 @@
             </div>
             <div class="col-lg-12 no-padding padding-botton-20">
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-info m-r-sm">20</button> {{ 'main.inoperante' | translate }}
+                <button type="button" class="btn btn-info m-r-sm">{{dados_status['INOPERANTE']}}</button> {{ 'main.inoperante' | translate }}
               </div>
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-success m-r-sm">40</button> {{ 'main.operandoFalhas' | translate }}
+                <button type="button" class="btn btn-success m-r-sm">{{dados_status['OPERANDO_COM_FALHAS']}}</button> {{ 'main.operandoFalhas' | translate }}
               </div>
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-danger m-r-sm">30</button> {{ 'main.inativo' | translate }}
+                <button type="button" class="btn btn-danger m-r-sm">{{dados_status['INATIVO']}}</button> {{ 'main.inativo' | translate }}
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="col-lg-12 padding-top-20">
+      <div class="col-lg-12 padding-top-20 hide">
         <div class="col-lg-12 white-bg padding-bottom-20">
           <div class="ibox float-e-margins">
             <div class="ibox-title">
@@ -126,7 +126,7 @@
     </div>
   </div>
 
-  <div class="col-lg-4 col-sm-12">
+  <div class="col-lg-4 col-sm-12 hide">
     <div class="ibox float-e-margins white-bg">
       <div class="ibox-content ibox-heading yellow-bg">
         <h3><strong>3</strong> {{ 'main.controlApresentando' | translate }} <strong>{{ 'main.falhas' | translate }}</strong></h3>
@@ -176,118 +176,9 @@
     </div>
   </div>
 
-  <div class="modal inmodal dashModal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" style="width: 95%;">
-      <div class="modal-content animated bounceInRight">
-        <div class="modal-header">
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="ibox float-e-margins">
-                <input type="text" class="form-control input-sm m-b-xs" id="filter" placeholder="{{ 'main.buscar' | translate }}">
+  <ng-include src="'/views/dashboard/modal_controladores.html'"></ng-include>
 
-                <table class="footable table table-stripped" data-page-size="8" data-filter=#filter>
-                  <thead>
-                    <tr>
-                      <th>{{ 'main.status' | translate }}</th>
-                      <th>{{ 'main.nome' | translate }}</th>
-                      <th class="endereco" data-hide="phone,tablet">{{ 'main.endereco' | translate }}</th>
-                      <th data-hide="phone,tablet">{{ 'main.historico' | translate }}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr class="gradeX">
-                      <td><i class="fa fa-circle text-navy"></i> {{ 'main.online' | translate }}</td>
-                      <td>547961-7</td>
-                      <td>Av. Paulista 2057, Palmares, São Paulo - SP</td>
-                      <td>{{ 'main.onDesde' | translate }} 05/06, às 18:00. <a ui-sref="app.main_info" data-dismiss="modal">{{ 'main.verHistorico' | translate }}</a></td>
-                    </tr>
-                    <tr class="gradeC">
-                      <td><i class="fa fa-circle text-danger"></i> {{ 'main.offline' | translate }}</td>
-                      <td>547961-7</td>
-                      <td>Av. Paulista 2057, Palmares, São Paulo - SP</td>
-                      <td>{{ 'main.offDesde' | translate }} 05/06, às 18:00. <a ui-sref="app.main_info" data-dismiss="modal">{{ 'main.verHistorico' | translate }}</a></td>
-                    </tr>
-                    <tr class="gradeA">
-                      <td><i class="fa fa-circle text-navy"></i> {{ 'main.online' | translate }}</td>
-                      <td>147961-7</td>
-                      <td>Av. Paulista 2057, Palmares, São Paulo - SP</td>
-                      <td>{{ 'main.onDesde' | translate }} 05/06, às 18:00. <a ui-sref="app.main_info" data-dismiss="modal">{{ 'main.verHistorico' | translate }}</a></td>
-                    </tr>
-                    <tr class="gradeA">
-                      <td><i class="fa fa-circle text-danger"></i> {{ 'main.offline' | translate }}</td>
-                      <td>247961-7</td>
-                      <td>Av. Paulista 2057, Palmares, São Paulo - SP</td>
-                      <td>{{ 'main.offDesde' | translate }} 05/06, às 18:00. <a ui-sref="app.main_info" data-dismiss="modal">{{ 'main.verHistorico' | translate }}</a></td>
-                    </tr>
-
-                    <tr class="gradeA">
-                      <td><i class="fa fa-circle text-navy"></i> {{ 'main.online' | translate }}</td>
-                      <td>347961-7</td>
-                      <td>Av. Paulista 2057, Palmares, São Paulo - SP</td>
-                      <td>{{ 'main.onDesde' | translate }} 05/06, às 18:00. <a ui-sref="app.main_info" data-dismiss="modal">{{ 'main.verHistorico' | translate }}</a></td>
-                    </tr>
-                    <tr class="gradeA">
-                      <td><i class="fa fa-circle text-danger"></i> {{ 'main.offline' | translate }}</td>
-                      <td>447961-7</td>
-                      <td>Av. Amazonas, Belo Horizonte - MG</td>
-                      <td>{{ 'main.offDesde' | translate }} 05/06, às 18:00. <a ui-sref="app.main_info" data-dismiss="modal">{{ 'main.verHistorico' | translate }}</a></td>
-                    </tr>
-                    <tr class="gradeA">
-                      <td><i class="fa fa-circle text-navy"></i> {{ 'main.online' | translate }}</td>
-                      <td>547961-7</td>
-                      <td>Av. Paulista 2057, Palmares, São Paulo - SP</td>
-                      <td>{{ 'main.onDesde' | translate }} 05/06, às 18:00. <a ui-sref="app.main_info" data-dismiss="modal">{{ 'main.verHistorico' | translate }}</a></td>
-                    </tr>
-                    <tr class="gradeA">
-                      <td><i class="fa fa-circle text-danger"></i> {{ 'main.offline' | translate }}</td>
-                      <td>547961-7</td>
-                      <td>Av. Paulista 2057, Palmares, São Paulo - SP</td>
-                      <td>{{ 'main.offDesde' | translate }} 05/06, às 18:00. <a ui-sref="app.main_info" data-dismiss="modal">{{ 'main.verHistorico' | translate }}</a></td>
-                    </tr>
-                    <tr class="gradeA">
-                      <td><i class="fa fa-circle text-navy"></i> {{ 'main.online' | translate }}</td>
-                      <td>547961-7</td>
-                      <td>Av. Paulista 2057, Palmares, São Paulo - SP</td>
-                      <td>{{ 'main.onDesde' | translate }} 05/06, às 18:00. <a ui-sref="app.main_info" data-dismiss="modal">{{ 'main.verHistorico' | translate }}</a></td>
-                    </tr>
-                    <tr class="gradeA">
-                      <td><i class="fa fa-circle text-danger"></i> {{ 'main.offline' | translate }}</td>
-                      <td>547961-7</td>
-                      <td>Av. Paulista 2057, Palmares, São Paulo - SP</td>
-                      <td>{{ 'main.offDesde' | translate }} 05/06, às 18:00. <a ui-sref="app.main_info" data-dismiss="modal">{{ 'main.verHistorico' | translate }}</a></td>
-                    </tr>
-                    <tr class="gradeA">
-                      <td><i class="fa fa-circle text-navy"></i> {{ 'main.online' | translate }}</td>
-                      <td>547961-7</td>
-                      <td>Av. Paulista 2057, Palmares, São Paulo - SP</td>
-                      <td>{{ 'main.onDesde' | translate }} 05/06, às 18:00. <a ui-sref="app.main_info" data-dismiss="modal">{{ 'main.verHistorico' | translate }}</a></td>
-                    </tr>
-                    <tr class="gradeA">
-                      <td><i class="fa fa-circle text-danger"></i> {{ 'main.offline' | translate }}</td>
-                      <td>547961-7</td>
-                      <td>Av. Paulista 2057, Palmares, São Paulo - SP</td>
-                      <td>{{ 'main.offDesde' | translate }} 05/06, às 18:00. <a ui-sref="app.main_info" data-dismiss="modal">{{ 'main.verHistorico' | translate }}</a></td>
-                    </tr>
-                  </tbody>
-                  <tfoot>
-                    <tr>
-                      <td colspan="5">
-                        <ul class="pagination pull-right"></ul>
-                      </td>
-                    </tr>
-                  </tfoot>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">{{ 'crud.fechar' | translate }}</button>
-        </div>
-      </div>
-    </div>
-  </div>
+</div>
 
   <script>
     $(document).ready(function() {
