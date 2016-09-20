@@ -5,16 +5,16 @@
         <div class="steps-wrapper wizard clearfix">
           <div class="steps clearfix">
             <ul class="progress-indicator" wizard-steps>
-              <li ui-sref=".dados_basicos({id: $state.params.id})" ng-class="{ active: $state.current.name === 'app.wizard_controladores.dados_basicos' }"> <span class="bubble"></span>{{ 'controladores.dadosBasicos.titulo' | translate }}</li>
-              <li ui-sref=".aneis({id: $state.params.id})" ng-class="{ active: $state.current.name === 'app.wizard_controladores.aneis' }"> <span class="bubble"></span>{{ 'controladores.aneis.titulo' | translate }}</li>
-              <li ui-sref=".configuracao_grupo({id: $state.params.id})" ng-class="{ active: $state.current.name === 'app.wizard_controladores.configuracao_grupo' }"> <span class="bubble"></span>{{ 'controladores.gruposSemaforicos.titulo' | translate }}</li>
-              <li ui-sref=".verdes_conflitantes({id: $state.params.id})" ng-class="{ active: $state.current.name === 'app.wizard_controladores.verdes_conflitantes' }"> <span class="bubble"></span>{{ 'controladores.verdesConflitantes.titulo' | translate }}</li>
-              <li ui-sref=".associacao({id: $state.params.id})" ng-class="{ active: $state.current.name === 'app.wizard_controladores.associacao' }" > <span class="bubble"></span>{{ 'controladores.associacao.titulo' | translate }}</li>
-              <li ui-sref=".transicoes_proibidas({id: $state.params.id})" ng-class="{ active: $state.current.name === 'app.wizard_controladores.transicoes_proibidas' }"> <span class="bubble"></span>{{ 'controladores.transicoesProibidas.titulo' | translate }}</li>
-              <li ui-sref=".atraso_de_grupo({id: $state.params.id})" ng-class="{ active: $state.current.name === 'app.wizard_controladores.atraso_de_grupo' }"> <span class="bubble"></span>{{ 'controladores.atrasoDeGrupo.titulo' | translate }}</li>
-              <li ui-sref=".entre_verdes({id: $state.params.id})" ng-class="{ active: $state.current.name === 'app.wizard_controladores.entre_verdes' }"> <span class="bubble"></span>{{ 'controladores.entreVerdes.titulo' | translate }}</li>
-              <li ui-sref=".associacao_detectores({id: $state.params.id})" ng-class="{ active: $state.current.name === 'app.wizard_controladores.associacao_detectores' }"> <span class="bubble"></span>{{ 'controladores.associacaoDetectores.titulo' | translate }}</li>
-              <li ui-sref=".revisao({id: $state.params.id})" ng-class="{ active: $state.current.name === 'app.wizard_controladores.revisao' }"> <span class="bubble"></span>{{ 'controladores.revisao.titulo' | translate }}</li>
+              <li ng-class="{ active: $state.current.name === 'app.wizard_controladores.dados_basicos' }"> <span class="bubble"></span>{{ 'controladores.dadosBasicos.titulo' | translate }}</li>
+              <li ng-class="{ active: $state.current.name === 'app.wizard_controladores.aneis' }"> <span class="bubble"></span>{{ 'controladores.aneis.titulo' | translate }}</li>
+              <li ng-class="{ active: $state.current.name === 'app.wizard_controladores.configuracao_grupo' }"> <span class="bubble"></span>{{ 'controladores.gruposSemaforicos.titulo' | translate }}</li>
+              <li ng-class="{ active: $state.current.name === 'app.wizard_controladores.verdes_conflitantes' }"> <span class="bubble"></span>{{ 'controladores.verdesConflitantes.titulo' | translate }}</li>
+              <li ng-class="{ active: $state.current.name === 'app.wizard_controladores.associacao' }" > <span class="bubble"></span>{{ 'controladores.associacao.titulo' | translate }}</li>
+              <li ng-class="{ active: $state.current.name === 'app.wizard_controladores.transicoes_proibidas' }"> <span class="bubble"></span>{{ 'controladores.transicoesProibidas.titulo' | translate }}</li>
+              <li ng-class="{ active: $state.current.name === 'app.wizard_controladores.atraso_de_grupo' }"> <span class="bubble"></span>{{ 'controladores.atrasoDeGrupo.titulo' | translate }}</li>
+              <li ng-class="{ active: $state.current.name === 'app.wizard_controladores.entre_verdes' }"> <span class="bubble"></span>{{ 'controladores.entreVerdes.titulo' | translate }}</li>
+              <li ng-class="{ active: $state.current.name === 'app.wizard_controladores.associacao_detectores' }"> <span class="bubble"></span>{{ 'controladores.associacaoDetectores.titulo' | translate }}</li>
+              <li ng-class="{ active: $state.current.name === 'app.wizard_controladores.revisao' }"> <span class="bubble"></span>{{ 'controladores.revisao.titulo' | translate }}</li>
             </ul>
           </div>
           <div class="content clearfix wizard-body">

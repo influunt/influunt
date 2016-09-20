@@ -8,9 +8,13 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresDadosBasicosCtrl', ['$scope', '$controller', '$filter',
-    function ($scope, $controller, $filter) {
+  .controller('ControladoresDadosBasicosCtrl', ['$scope', '$controller', '$filter', 'influuntBlockui',
+    function ($scope, $controller, $filter, influuntBlockui) {
       $controller('ControladoresCtrl', {$scope: $scope});
+
+      $scope.inicializaWizardDadosBasicos = function() {
+        return $scope.inicializaWizard().finally(influuntBlockui.unblock);
+      };
 
       $scope.$watch('objeto.todosEnderecos', function(todosEnderecos) {
         if (!_.isArray(todosEnderecos)) { return false; }

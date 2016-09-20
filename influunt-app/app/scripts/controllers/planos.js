@@ -21,7 +21,8 @@ angular.module('influuntApp')
           atualizaEstagiosPlanos, adicionaEstagioASequencia, atualizaPosicaoPlanos, atualizaPosicaoEstagiosPlanos,
           carregaDadosPlano, getOpcoesEstagiosDisponiveis, montaTabelaValoresMinimos, parseAllToInt, setDiagramaEstatico,
           atualizaDiagramaIntervalos, getPlanoParaDiagrama, atualizaTransicoesProibidas, getErrosGruposSemaforicosPlanos,
-          duplicarPlano, removerPlanoLocal;
+          duplicarPlano, removerPlanoLocal, getErrosUltrapassaTempoSeguranca, getKeysErros, 
+          getIdJsonDePlanosQuePossuemErros, getPlanoComErro;
       var diagramaDebouncer = null;
 
       $scope.somenteVisualizacao = $state.current.data.somenteVisualizacao;
@@ -439,7 +440,55 @@ angular.module('influuntApp')
         .flatten()
         .value();
         erros.push(getErrosGruposSemaforicosPlanos(listaErros));
+        erros.push(getErrosUltrapassaTempoSeguranca(listaErros));
         return _.chain(erros).flatten().value();
+      };
+
+      getKeysErros = function(errors) {
+        var keysErrors = [];
+        _.forEach(errors, function(v, key){ 
+          if (typeof v !== 'undefined') {
+            keysErrors.push(key);
+          }
+        });
+        return keysErrors;
+      };
+
+      getIdJsonDePlanosQuePossuemErros = function (keysErrors) {
+        var errorsPlanoIdJson = [];
+        _.map(keysErrors, function(KeyError) {
+          var versaoPlanosByCurrentAnel = _.find($scope.objeto.versoesPlanos, {anel: {idJson: $scope.currentAnel.idJson}});
+          errorsPlanoIdJson.push(versaoPlanosByCurrentAnel.planos[KeyError].idJson);
+        });
+        return errorsPlanoIdJson;
+      };
+
+      getPlanoComErro = function (planos, errorsPlanoIdJson) {
+        var errorsPlanos = [];
+        
+        errorsPlanos = _.chain(planos)
+          .filter(function(e) {
+            return errorsPlanoIdJson.indexOf(e.idJson) >= 0;
+         }).value();
+        return errorsPlanos;
+      };
+
+      $scope.getErroPorPlano = function(index) {
+       var errors              = _.get($scope.errors, 'aneis[' + $scope.currentAnelIndex + '].versoesPlanos[0].planos');
+       var keysErrors          = getKeysErros(errors);
+       var errorsPlanoIdJson   = getIdJsonDePlanosQuePossuemErros(keysErrors);
+       var errorsInPlanos      = getPlanoComErro($scope.objeto.planos, errorsPlanoIdJson);
+       var errorsPosicao       = [];
+
+        _.map(errorsInPlanos, function(errorInPlano) {
+          errorsPosicao.push(errorInPlano.posicao);
+        });
+
+        var assertError = _.some(errorsPosicao, function(errorPosicao) {
+          return index === errorPosicao -1;
+        });
+
+        return assertError;
       };
 
       $scope.getErrosEstagiosPlanos = function(index) {
@@ -447,6 +496,38 @@ angular.module('influuntApp')
         return erros;
       };
 
+      getErrosGruposSemaforicosPlanos = function(listaErros){
+        var erros = [];
+        var currentPlanoIndex = $scope.currentPlanoIndex;
+        
+        if(listaErros){
+          _.each(listaErros.planos[currentPlanoIndex].gruposSemaforicosPlanos, function (erro, index){
+            if(erro) {
+              var grupoSemaforicoPlanoIdJson = $scope.currentPlano.gruposSemaforicosPlanos[index].idJson;
+              var grupoSemaforicoPlano = _.find($scope.objeto.gruposSemaforicosPlanos, {idJson: grupoSemaforicoPlanoIdJson});
+              var grupoSemaforico = _.find($scope.objeto.gruposSemaforicos, {idJson: grupoSemaforicoPlano.grupoSemaforico.idJson});
+              var texto = 'G' + grupoSemaforico.posicao + ' - ' + erro.respeitaVerdesDeSeguranca[0];
+              erros.push(texto);
+            }
+          });
+        }
+        return erros;
+      };
+
+      getErrosUltrapassaTempoSeguranca = function(listaErros){
+        var erros = [];
+        var currentPlanoIndex = $scope.currentPlanoIndex;
+
+        if(listaErros){
+          _.each(listaErros.planos[currentPlanoIndex].ultrapassaTempoCiclo, function (errosNoPlano){
+            if(errosNoPlano) {
+              var texto = errosNoPlano;
+              erros.push(texto);
+            }
+          });
+        }
+        return erros;
+      };
 
       /**
        * Adiciona um novo plano ao controlador.
@@ -618,10 +699,8 @@ angular.module('influuntApp')
           };
         });
 
-          return $scope.currentPlanos;
+        return $scope.currentPlanos;
       };
-
-
 
       atualizaEstagiosPlanos = function() {
         var ids = _.map($scope.currentPlano.estagiosPlanos, 'idJson');
@@ -707,23 +786,6 @@ angular.module('influuntApp')
         $scope.objeto.vermelhoLimpezaPedestreMin = parseInt($scope.objeto.vermelhoLimpezaPedestreMin);
         $scope.objeto.vermelhoLimpezaVeicularMax = parseInt($scope.objeto.vermelhoLimpezaVeicularMax);
         $scope.objeto.vermelhoLimpezaVeicularMin = parseInt($scope.objeto.vermelhoLimpezaVeicularMin);
-      };
-
-
-      getErrosGruposSemaforicosPlanos = function(listaErros){
-        var erros = [];
-        if(listaErros){
-          _.each(listaErros.gruposSemaforicosPlanos, function (erro, index){
-            if(erro) {
-              var grupoSemaforicoPlanoIdJson = $scope.currentPlano.gruposSemaforicosPlanos[index].idJson;
-              var grupoSemaforicoPlano = _.find($scope.objeto.gruposSemaforicosPlanos, {idJson: grupoSemaforicoPlanoIdJson});
-              var grupoSemaforico = _.find($scope.objeto.gruposSemaforicos, {idJson: grupoSemaforicoPlano.grupoSemaforico.idJson});
-              var texto = 'G' + grupoSemaforico.posicao + ' - ' + erro.respeitaVerdesDeSeguranca[0];
-              erros.push(texto);
-            }
-          });
-        }
-        return erros;
       };
 
       //Funções para Diagrama de Planos
