@@ -474,7 +474,7 @@ angular.module('influuntApp')
       };
 
       $scope.getErroPorPlano = function(index) {
-       var errors              = _.get($scope.errors, 'aneis[' + $scope.currentAnelIndex + '].versoesPlanos[' + 0 + '].planos');
+       var errors              = _.get($scope.errors, 'aneis[' + $scope.currentAnelIndex + '].versoesPlanos[0].planos');
        var keysErrors          = getKeysErros(errors);
        var errorsPlanoIdJson   = getIdJsonDePlanosQuePossuemErros(keysErrors);
        var errorsInPlanos      = getPlanoComErro($scope.objeto.planos, errorsPlanoIdJson);
