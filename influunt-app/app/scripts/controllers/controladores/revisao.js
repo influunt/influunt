@@ -10,8 +10,9 @@
 angular.module('influuntApp')
  .controller('ControladoresRevisaoCtrl', ['$scope', '$state', '$controller', '$filter',
                                           'assertControlador', 'influuntAlert', 'Restangular', 'toast',
+                                          'influuntBlockui',
     function ($scope, $state, $controller, $filter,
-              assertControlador, influuntAlert, Restangular, toast) {
+              assertControlador, influuntAlert, Restangular, toast, influuntBlockui) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
       var setDadosBasicosControlador, setDadosCurrentAnel, getNumGruposSemaforicosAnel,
@@ -35,16 +36,18 @@ angular.module('influuntApp')
       };
 
       $scope.inicializaRevisao = function() {
-        return $scope.inicializaWizard().then(function() {
-          setDadosBasicosControlador();
+        return $scope.inicializaWizard()
+          .then(function() {
+            setDadosBasicosControlador();
 
-          $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
-          $scope.aneis = _.filter($scope.objeto.aneis, 'ativo');
-          $scope.selecionaAnelRevisao(0);
+            $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
+            $scope.aneis = _.filter($scope.objeto.aneis, 'ativo');
+            $scope.selecionaAnelRevisao(0);
 
-          $scope.markerEnderecoControlador = _.clone($scope.objeto.todosEnderecos[0]);
-          $scope.markerEnderecoControlador.options = {draggable: false};
-        });
+            $scope.markerEnderecoControlador = _.clone($scope.objeto.todosEnderecos[0]);
+            $scope.markerEnderecoControlador.options = {draggable: false};
+          })
+          .finally(influuntBlockui.unblock);
       };
 
       $scope.selecionaAnelRevisao = function(index) {

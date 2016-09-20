@@ -8,8 +8,10 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresAneisCtrl', ['$scope', '$state', '$controller', '$q', '$filter', 'assertControlador', 'influuntAlert', 'Restangular', 'toast',
-    function ($scope, $state, $controller, $q, $filter, assertControlador, influuntAlert, Restangular, toast) {
+  .controller('ControladoresAneisCtrl', ['$scope', '$state', '$controller', '$q', '$filter', 'assertControlador',
+                                         'influuntAlert', 'Restangular', 'toast', 'influuntBlockui',
+    function ($scope, $state, $controller, $q, $filter, assertControlador,
+              influuntAlert, Restangular, toast, influuntBlockui) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
       // Métodos privados.
@@ -102,13 +104,16 @@ angular.module('influuntApp')
       $scope.removerCroqui = function(imagemIdJson) {
         return influuntAlert.delete().then(function(confirmado) {
           if (confirmado) {
-            return deletarCroquiNoServidor(imagemIdJson).then(function() {
-              $scope.removerCroquiLocal(imagemIdJson);
-              return true;
-            }).catch(function() {
-              toast.error($filter('translate')('geral.erro_deletar_croqui'));
-              return false;
-            });
+            return deletarCroquiNoServidor(imagemIdJson)
+              .then(function() {
+                $scope.removerCroquiLocal(imagemIdJson);
+                return true;
+              })
+              .catch(function() {
+                toast.error($filter('translate')('geral.erro_deletar_croqui'));
+                return false;
+              })
+              .finally(influuntBlockui.unblock);
           }
           return confirmado;
         });

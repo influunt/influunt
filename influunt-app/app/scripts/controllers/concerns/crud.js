@@ -10,8 +10,10 @@
 angular.module('influuntApp')
   .controller('CrudCtrl', ['$scope', '$state', '$filter', '$timeout',
                            'Restangular', 'toast', 'influuntAlert', 'handleValidations',
+                           'influuntBlockui',
     function ($scope, $state, $filter, $timeout,
-              Restangular, toast, influuntAlert, handleValidations) {
+              Restangular, toast, influuntAlert, handleValidations,
+              influuntBlockui) {
     var buildFilterQuery, buildSortQuery;
     var resourceName = null;
     $scope.pagination = {
@@ -47,7 +49,8 @@ angular.module('influuntApp')
         .then(function(res) {
           $scope.lista = res.data;
           $scope.pagination.totalItems = res.total;
-        });
+        })
+        .finally(influuntBlockui.unblock);
     };
 
     $scope.buildQuery = function(pesquisa) {
@@ -118,7 +121,8 @@ angular.module('influuntApp')
             $scope.objeto = res;
             $scope.afterShow();
           }
-        });
+        })
+        .finally(influuntBlockui.unblock);
     };
 
     /**
@@ -159,21 +163,28 @@ angular.module('influuntApp')
             toast.error($filter('translate')('geral.mensagens.default_erro'));
             throw new Error(JSON.stringify(err));
           }
-        });
+        })
+        .finally(influuntBlockui.unblock);
     };
 
     /**
      * Cria um novo registro.
      */
     $scope.create = function() {
-      return Restangular.service(resourceName).post($scope.objeto);
+      return Restangular
+        .service(resourceName)
+        .post($scope.objeto)
+        .finally(influuntBlockui.unblock);
     };
 
     /**
      * Atualiza um registro.
      */
     $scope.update = function() {
-      return $scope.objeto.save();
+      return $scope
+        .objeto
+        .save()
+        .finally(influuntBlockui.unblock);
     };
 
     $scope.confirmDelete = function(id) {
@@ -185,6 +196,9 @@ angular.module('influuntApp')
           })
           .catch(function() {
             toast.error($filter('translate')('geral.mensagens.default_erro'));
+          })
+          .finally(function() {
+            influuntBlockui.unblock();
           });
       });
     };

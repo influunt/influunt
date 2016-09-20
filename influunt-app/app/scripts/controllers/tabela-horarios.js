@@ -14,7 +14,7 @@ angular.module('influuntApp')
     function ($scope, $state, $timeout, Restangular, $filter, toast,
               influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo, handleValidations, TabelaHorariaService) {
 
-      var adicionaTabelaHorario, adicionaEvento, atualizaPlanos, atualizaDiagramaIntervalo, atualizaGruposSemaforicos, atualizaEventos, 
+      var adicionaTabelaHorario, adicionaEvento, atualizaPlanos, atualizaDiagramaIntervalo, atualizaGruposSemaforicos, atualizaEventos,
       atualizaEventosNormais, atualizaPosicaoEventosDoTipo, atualizaPosicaoEventos, atualizaQuantidadeEventos, removerEventoNoCliente,
       atualizaQuadroTabelaHoraria;
 
@@ -157,7 +157,8 @@ angular.module('influuntApp')
           adicionaEvento($scope.currentTabelaHoraria, ESPECIAL_RECORRENTE);
           adicionaEvento($scope.currentTabelaHoraria, ESPECIAL_NAO_RECORRENTE);
           $scope.selecionaTipoEvento(0);
-        });
+        })
+        .finally(influuntBlockui.unblock);
       };
 
       $scope.clonarTabelaHoraria = function(controladorId) {
