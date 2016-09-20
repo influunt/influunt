@@ -22,7 +22,7 @@ angular.module('influuntApp')
           carregaDadosPlano, getOpcoesEstagiosDisponiveis, montaTabelaValoresMinimos, parseAllToInt, setDiagramaEstatico,
           atualizaDiagramaIntervalos, getPlanoParaDiagrama, atualizaTransicoesProibidas, getErrosGruposSemaforicosPlanos,
           duplicarPlano, removerPlanoLocal, getErroInPlano, getErrosPlanos, getErrosUltrapassaTempoSeguranca, getKeysErros, 
-          getIdJsonDePlanosQuePossuemErros, getCurrentPlanoComErro;
+          getIdJsonDePlanosQuePossuemErros, getPlanoComErro;
       var diagramaDebouncer = null;
 
       $scope.somenteVisualizacao = $state.current.data.somenteVisualizacao;
@@ -463,26 +463,26 @@ angular.module('influuntApp')
         return errorsPlanoIdJson;
       };
 
-      getCurrentPlanoComErro = function (planos, errorsPlanoIdJson) {
-        var errorsCurrentPlanos = [];
+      getPlanoComErro = function (planos, errorsPlanoIdJson) {
+        var errorsPlanos = [];
         
-        errorsCurrentPlanos = _.chain(planos)
+        errorsPlanos = _.chain(planos)
           .filter(function(e) {
             return errorsPlanoIdJson.indexOf(e.idJson) >= 0;
          }).value();
-        return errorsCurrentPlanos;
+        return errorsPlanos;
       };
 
       $scope.getErroInPlano = function(index) {
        var errors              = _.get($scope.errors, 'aneis[' + $scope.currentAnelIndex + '].versoesPlanos[' + 0 + '].planos');
        var keysErrors          = getKeysErros(errors);
        var errorsPlanoIdJson   = getIdJsonDePlanosQuePossuemErros(keysErrors);
-       var errorsCurrentPlanos = getCurrentPlanoComErro($scope.objeto.planos, errorsPlanoIdJson);
+       var errorsInPlanos      = getPlanoComErro($scope.objeto.planos, errorsPlanoIdJson);
        var errorsPosicao       = [];
 
-        _.map(errorsCurrentPlanos, function(errorCurrentPlano) {
-          errorsPosicao.push(errorCurrentPlano.posicao)
-        })
+        _.map(errorsInPlanos, function(errorInPlano) {
+          errorsPosicao.push(errorInPlano.posicao);
+        });
 
         var assertError = _.some(errorsPosicao, function(errorPosicao) {
           return index === errorPosicao -1;
