@@ -33,13 +33,10 @@ angular.module('influuntApp')
       
       $scope.verificaConfirmacaoNadaHaPreencher = function(){
         if($scope.confirmacao){
-          if($scope.possuiInformacoesPreenchidas()){
-            confirmacaoNadaHaPreencher[$scope.currentAnel.posicao] = true;
-            $scope.confirmacao[$scope.currentAnel.posicao] = false;
-          }else{
-            confirmacaoNadaHaPreencher[$scope.currentAnel.posicao] = false;
-            $scope.confirmacao[$scope.currentAnel.posicao] = false;
-          }
+          confirmacaoNadaHaPreencher[$scope.currentAnel.posicao] = $scope.possuiInformacoesPreenchidas();
+          $scope.confirmacao[$scope.currentAnel.posicao] = false;
         }
       };
   }]);
+
+
