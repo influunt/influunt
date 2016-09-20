@@ -185,7 +185,6 @@ angular.module('influuntApp')
           })
           .catch(function(err) {
             toast.error($filter('translate')('geral.mensagens.default_erro'));
-            throw new Error(err);
           });
       });
     };

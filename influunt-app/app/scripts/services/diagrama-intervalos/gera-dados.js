@@ -8,7 +8,7 @@
  * Factory in the influuntApp.
  */
 angular.module('influuntApp')
-  .factory('geraDadosDiagramaIntervalo', function () {
+  .factory('geraDadosDiagramaIntervalo', function geraDadosDiagramaIntervalo() {
     // Service logic
     // ...
 
@@ -31,7 +31,7 @@ angular.module('influuntApp')
         gruposSemaforicos.forEach(function (grupo, index) {
           plano.posicaoGruposSemaforicos['G' + grupo.posicao] = index;
         });
-        
+
         currentPlano.gruposSemaforicosPlanos.forEach(function (gp){
           var grupoPlano = _.cloneDeep(_.find(controlador.gruposSemaforicosPlanos, {idJson: gp.idJson}));
           plano.gruposSemaforicosPlanos.push(grupoPlano);

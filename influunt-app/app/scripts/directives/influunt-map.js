@@ -11,21 +11,28 @@ angular.module('influuntApp')
     return {
       restrict: 'A',
       scope: {
-        markers: '=',
-        areas: '=',
-        options: '='
+        markers: '=?',
+        areas: '=?',
+        agrupamentos: '=?',
+        options: '=?',
+        onClickMarker: '&?'
       },
       link: function(scope, element) {
         L.Icon.Default.imagePath = 'images/leaflet';
-        var map, markersLayer, areasLayer;
+
         var TILE_LAYER = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw';
         var DEFAULTS = {LATITUDE: -23.550382, LONGITUDE: -46.663956, ZOOM: 15};
         var DEFAULT_MARKER_OPTINS = {draggable: true};
         var DEFAULT_MAP_OPTIONS = {scrollWheelZoom: false};
         var DEFAULT_BG_COLORS = ['#FFC107', '#FF5722', '#009688', '#4CAF50', '#3F51B5', '#D32F2F'];
+        var BOUNDING_BOX_SIZE = 10.0 / 1000; // unidade: km's.
+        var BOUNDING_BOX_VARIATION = 15;    // intervalo (em graus) da variacao do bounding box.
+        var HULL_CONCAVITY = 0.0013;
 
         // private methods.
-        var initializeMap, createMarker, addMarkers, addAreas, createArea;
+        var addAreas, addMarkers, addAgrupamentos, createArea, createMarker,
+            createAgrupamento, getConcaveHullPoints, getBoundingBox, initializeMap;
+        var map, markersLayer, areasLayer, agrupamentosLayer, polylineLayer;
 
         initializeMap = function() {
           if (_.isObject(map)) {
@@ -59,11 +66,12 @@ angular.module('influuntApp')
                 obj.latitude = coordinates.lat;
                 obj.longitude = coordinates.lng;
               });
+            })
+            .on('click', function(ev) {
+              var markerData = ev.target.options;
+              return angular.isFunction(scope.onClickMarker) &&
+                scope.onClickMarker({$markerData: markerData});
             });
-
-          if (obj.popupText) {
-            marker.bindPopup(obj.popupText);
-          }
 
           map.setView([obj.latitude, obj.longitude]);
           return marker;
@@ -72,27 +80,43 @@ angular.module('influuntApp')
         createArea = function(obj, index) {
           var options = {color: DEFAULT_BG_COLORS[index]};
           options = _.merge(options, obj.options);
-          var points = obj.points.map(function(p) { return [p.latitude, p.longitude];});
-          var area = L.polygon(points, options);
 
-          if (obj.popupText) {
-            area.bindPopup(obj.popupText);
-          }
+          var points = obj.points.map(function(p) {
+            return new L.LatLng(p.latitude, p.longitude);
+          });
+
+          var area = L.polygon(points, options);
           return area;
         };
 
-        addAreas = function(areas) {
-          if (_.isObject(areasLayer)) {
-            map.removeLayer(areasLayer);
-          }
+        var getAreaTitle = function(area, title) {
+          var labelLocation = area.getCentroid();
+          return new L.LabelOverlay(
+            labelLocation, '<h1><strong>' + title + '</strong></h1>'
+          );
+        };
 
-          areasLayer = new L.FeatureGroup();
-          areas.forEach(function(area, index) {
-            var a = createArea(area, index);
-            areasLayer.addLayer(a);
-          });
+        createAgrupamento = function(obj) {
+          var colors = {
+            ROTA: '#555',
+            CORREDOR: '#2196f3',
+            SUBAREA: '#4caf50'
+          };
 
-          map.addLayer(areasLayer);
+          var options = {
+            color: colors[obj.type],
+            fill: false,
+            opacity: 1,
+            weight: 4,
+            dashArray: [20, 10]
+          };
+
+          options = _.merge(options, obj.options);
+          var points = getBoundingBox(obj.points);
+          points = getConcaveHullPoints(points);
+          var agrupamento = L.polygon(points, options);
+
+          return agrupamento;
         };
 
         addMarkers = function(markers) {
@@ -110,6 +134,79 @@ angular.module('influuntApp')
           map.addLayer(markersLayer);
         };
 
+        addAreas = function(areas) {
+          if (_.isObject(areasLayer)) {
+            map.removeLayer(areasLayer);
+          }
+
+          areasLayer = new L.FeatureGroup();
+          areas.forEach(function(area, index) {
+            var a = createArea(area, index);
+            areasLayer.addLayer(a);
+            areasLayer.addLayer(getAreaTitle(a, area.label));
+          });
+
+          // Forces zoom when double clicking in an area.
+          areasLayer.on('dblclick', function() {
+            var zoom = map.getZoom();
+            map.setZoom(zoom + 1);
+          });
+
+          map.addLayer(areasLayer);
+        };
+
+        addAgrupamentos = function(agrupamentos) {
+          if (_.isObject(agrupamentosLayer)) {
+            map.removeLayer(agrupamentosLayer);
+          }
+
+          agrupamentosLayer = new L.FeatureGroup();
+          agrupamentos.forEach(function(agrupamento, index) {
+            var a = createAgrupamento(agrupamento, index);
+            agrupamentosLayer.addLayer(a);
+          });
+
+          map.addLayer(agrupamentosLayer);
+        };
+
+        getConcaveHullPoints = function(points) {
+          return hull(points, HULL_CONCAVITY, ['.lat', '.lng']);
+        };
+
+        getBoundingBox = function(points) {
+          var boxedPoints = [];
+          _.each(points, function(point) {
+            var thisPoint = new L.LatLng(point.latitude, point.longitude);
+            boxedPoints.push(thisPoint);
+            for (var i = 0; i < 360; i += BOUNDING_BOX_VARIATION) {
+              boxedPoints.push(thisPoint.destinationPoint(i, BOUNDING_BOX_SIZE));
+            }
+          });
+
+          return boxedPoints;
+        };
+
+        var agrupaAneis = function(markers) {
+          if (_.isObject(polylineLayer)) {
+            map.removeLayer(polylineLayer);
+          }
+
+          polylineLayer = new L.FeatureGroup();
+          var controladores = _
+            .chain(markers)
+            .filter('options.controladorId')
+            .groupBy('options.controladorId')
+            .value();
+
+          _.each(controladores, function(aneis) {
+            aneis = _.map(aneis, function(anel) { return new L.LatLng(anel.latitude, anel.longitude); });
+            var polyline = L.polyline(aneis, {color: 'red', weight: 2, dashArray: [20, 10]});
+            polylineLayer.addLayer(polyline);
+          });
+
+          map.addLayer(polylineLayer);
+        };
+
         scope.$watch('markers', function(markers) {
           initializeMap();
           if (_.isObject(markersLayer)) {
@@ -122,6 +219,7 @@ angular.module('influuntApp')
 
           if (_.isArray(markers) && markers.length > 0 && angular.isDefined(map)) {
             addMarkers(markers);
+            agrupaAneis(markers);
           }
         }, true);
 
@@ -130,6 +228,14 @@ angular.module('influuntApp')
 
           if (_.isArray(areas) && angular.isDefined(map)) {
             addAreas(areas);
+          }
+        }, true);
+
+        scope.$watch('agrupamentos', function(agrupamentos) {
+          initializeMap();
+
+          if (_.isArray(agrupamentos) && angular.isDefined(map)) {
+            addAgrupamentos(agrupamentos);
           }
         }, true);
       }

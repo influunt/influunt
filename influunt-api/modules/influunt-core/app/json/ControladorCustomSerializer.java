@@ -361,6 +361,10 @@ public class ControladorCustomSerializer {
             root.putObject("area").put("idJson", controlador.getArea().getIdJson());
         }
 
+        if (controlador.getSubarea() != null && controlador.getSubarea().getIdJson() != null) {
+            root.putObject("subarea").put("idJson", controlador.getSubarea().getIdJson());
+        }
+
         refEndereco("endereco", controlador.getEndereco(), root);
     }
 

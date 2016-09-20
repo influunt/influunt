@@ -41,7 +41,9 @@ angular.module('influuntApp')
             };
 
         SweetAlert.swal(options, function (confirmado) {
-          defer.resolve(confirmado);
+          setTimeout(function() {
+            defer.resolve(confirmado);
+          }, 100);
         });
 
         return defer.promise;
@@ -61,7 +63,9 @@ angular.module('influuntApp')
             closeOnConfirm: true,
             closeOnCancel: true
           }, function (inputvalue) {
-            defer.resolve(inputvalue);
+            setTimeout(function() {
+              defer.resolve(inputvalue);
+            }, 100);
         });
 
         return defer.promise;
