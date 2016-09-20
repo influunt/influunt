@@ -21,7 +21,7 @@ angular.module('influuntApp')
           atualizaEstagiosPlanos, adicionaEstagioASequencia, atualizaPosicaoPlanos, atualizaPosicaoEstagiosPlanos,
           carregaDadosPlano, getOpcoesEstagiosDisponiveis, montaTabelaValoresMinimos, parseAllToInt, setDiagramaEstatico,
           atualizaDiagramaIntervalos, getPlanoParaDiagrama, atualizaTransicoesProibidas, getErrosGruposSemaforicosPlanos,
-          duplicarPlano, removerPlanoLocal, getErrosPlanos, getErrosUltrapassaTempoSeguranca, getKeysErros, 
+          duplicarPlano, removerPlanoLocal, getErrosUltrapassaTempoSeguranca, getKeysErros, 
           getIdJsonDePlanosQuePossuemErros, getPlanoComErro;
       var diagramaDebouncer = null;
 
