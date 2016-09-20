@@ -62,6 +62,17 @@ angular
           templateUrl: 'views/main.html'
         })
 
+        .state('app.dashboard_detalhe_controlador', {
+          url: '/main/controlador/:id',
+          templateUrl: 'views/dashboard/detalhe_controlador.html',
+          controller: 'MainCtrl',
+          controllerAs: 'main',
+          data: {
+            title: 'geral.dashboard',
+            breadcrumb: 'controladores.controlador'
+          }
+        })
+
         .state('app.main_info', {
           url: '/main-info',
           templateUrl: 'views/main-info.html'
