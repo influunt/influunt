@@ -128,18 +128,17 @@
                     </div>
                   </div>
                 </div>
+                <div class="col-sm-12 col-lg-12 pg-bt-footer padding-top-20 padding-bottom-20" data-ng-show="!possuiInformacoesPreenchidas()">
+                  <div class="right">
+                    <input type="checkbox" ichecks data-ng-model="confirmacao[currentAnel.posicao]" data-if-changed="confirmacaoNadaHaPreencher()">
+                    <span>{{ 'plugins.steps.confirmation' | translate }}</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-
-  <div class="col-sm-12 col-lg-12 pg-bt-footer padding-top-20" data-ng-if="totalNaoPreenchido === objeto.atrasosDeGrupo.length">
-    <div class="right">
-      <input type="checkbox" ichecks data-ng-model="confirmacao" data-if-changed="confirmacaoNadaHaPreencher()">
-      <span>{{ 'plugins.steps.confirmation' | translate }}</span>
     </div>
   </div>
 

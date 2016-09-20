@@ -235,6 +235,9 @@ public class ControladorCustomSerializer {
     }
 
     private void putControladorDadosIndex(Controlador controlador, ObjectNode root) {
+        if (controlador.getId() != null) {
+            root.put("id", controlador.getId().toString());
+        }
         if (controlador.getIdJson() != null) {
             root.put("idJson", controlador.getIdJson());
         }

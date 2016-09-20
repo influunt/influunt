@@ -74,6 +74,7 @@ angular.module('influuntApp')
           if ($scope.assertEntreVerdes()) {
             $scope.limiteTabelasEntreVerdes = $scope.objeto.limiteTabelasEntreVerdes;
             $scope.sortByPosicao();
+            $scope.inicializaConfirmacaoNadaHaPreencher();
           }
         });
       };
@@ -250,6 +251,59 @@ angular.module('influuntApp')
           })
           .compact()
           .value();
+      };
+
+      $scope.$watch('currentTabelasEntreVerdesTransicoes', function() {
+        if($scope.currentGrupoSemaforico && $scope.confirmacao){
+          $scope.verificaConfirmacaoNadaHaPreencher();
+        }
+      }, true);
+
+      //Confirmar não há nada a preencher por grupo Semaforico
+      var confirmacaoNadaHaPreencher = {};
+
+      $scope.inicializaConfirmacaoNadaHaPreencher = function(){
+        $scope.confirmacao = {};
+        $scope.objeto.gruposSemaforicos.forEach(function(grupo) {
+          confirmacaoNadaHaPreencher[grupo.posicao] = confirmacaoNadaHaPreencher[grupo.posicao] || $scope.possuiInformacoesPreenchidas(grupo);
+        });
+      };
+
+      $scope.confirmacaoNadaHaPreencher = function(){
+        confirmacaoNadaHaPreencher[$scope.currentGrupoSemaforico.posicao] = !confirmacaoNadaHaPreencher[$scope.currentGrupoSemaforico.posicao];
+      };
+
+      $scope.podeSalvar = function() {
+        return _.values(confirmacaoNadaHaPreencher).every(function(e) {return e;});
+      };
+
+      $scope.verificaConfirmacaoNadaHaPreencher = function(){
+        if($scope.possuiInformacoesPreenchidas()){
+          confirmacaoNadaHaPreencher[$scope.currentGrupoSemaforico.posicao] = true;
+          $scope.confirmacao[$scope.currentGrupoSemaforico.posicao] = false;
+        }else{
+          confirmacaoNadaHaPreencher[$scope.currentGrupoSemaforico.posicao] = false;
+          $scope.confirmacao[$scope.currentGrupoSemaforico.posicao] = false;
+        }
+      };
+
+      $scope.possuiInformacoesPreenchidas = function(grupo) {
+        grupo = grupo || $scope.currentGrupoSemaforico;
+        if(grupo){
+          var resultados = _.chain(grupo.tabelasEntreVerdes).map(function(tev){
+            var tabelaEntreVerde = _.find($scope.objeto.tabelasEntreVerdes, {idJson: tev.idJson});
+            var ids = _.map(tabelaEntreVerde.tabelaEntreVerdesTransicoes, 'idJson');
+            var resultados = _.chain($scope.objeto.tabelasEntreVerdesTransicoes).filter(function(tevt) {
+              return ids.indexOf(tevt.idJson) >= 0;
+            }).map(function(tevt) {
+              var tempoAmarelo = tevt.tempoVermelhoIntermitente ? tevt.tempoVermelhoIntermitente : tevt.tempoAmarelo;
+              return parseInt(tempoAmarelo) !== 3 || parseInt(tevt.tempoVermelhoLimpeza) !== 0;
+            }).value();
+            return resultados.some(function(e) { return e; });
+          }).value();
+          return resultados.some(function(e) { return e; });
+        }
+        return false;
       };
 
     }]);
