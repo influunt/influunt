@@ -1,0 +1,62 @@
+<div class="acoes">
+  <div class="col-lg-12">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h3 class="fecharAcoes">
+          {{ currentAnel.CLA }}
+          <i class="fa fa-times right" data-ng-click="closeAcoesAnel()"></i>
+        </h3>
+      </div>
+      <div class="ibox-content">
+        <p>{{ currentAnel.localizacao }}</p>
+
+        <button
+            class="btn btn-primary"
+            data-ng-disabled="!(currentControlador.tabelasHorarias.length > 0)"
+            data-ng-click="exibirTabelasHorarias(currentControlador)">
+          {{ 'controladores.mapaControladores.tabelasHorarias' | translate }}
+        </button>
+
+      </div>
+
+      <div class="ibox-content" ng-init="openPlanos()">
+        <h3 class="btnPlanos">
+          {{ currentAnel.planos.length }} {{ 'controladores.mapaControladores.planos' | translate }}
+          <i class="fa fa-angle-down right" />
+        </h3>
+        <ul class="planos">
+          <li data-ng-repeat="plano in currentAnel.planos">
+            <a data-ng-click="showDiagramaIntervalos(plano)">{{ 'controladores.geral.plano' | translate}} {{ plano.posicao }} - {{ plano.descricao }}</a>
+          </li>
+        </ul>
+      </div>
+      <div class="ibox-content">
+        <h3>Ações</h3>
+        <button
+            class="btn btn-primary"
+            data-ng-disabled="!(currentAnel.planos.length > 0)"
+            data-toggle="modal" data-target="#modal-imposicao-plaos" aria-hidden="true">
+          {{ 'controladores.mapaControladores.imporPlanos' | translate }}
+        </button>
+        <button
+            class="btn btn-primary"
+            data-ng-disabled="!(currentAnel.planos.length > 0)"
+            data-ng-click="enviarPlano(currentAnel)">
+          {{ 'controladores.mapaControladores.enviarPlano' | translate }}
+        </button>
+        <button
+            class="btn btn-primary"
+            data-ng-disabled="!(currentControlador.tabelasHorarias.length > 0)"
+            data-ng-click="trocarTabelaHoraria(currentControlador)">
+          {{ 'controladores.mapaControladores.trocarTabela' | translate }}
+        </button>
+        <button
+            class="btn btn-primary"
+            data-ng-disabled="!(currentControlador.tabelasHorarias.length > 0)"
+            data-ng-click="enviarTabela(currentControlador)">
+          {{ 'controladores.mapaControladores.enviarTabela' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

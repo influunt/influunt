@@ -235,6 +235,10 @@ public class ControladorCustomSerializer {
     }
 
     private void putControladorDadosIndex(Controlador controlador, ObjectNode root) {
+        if (controlador.getId() != null) {
+            root.put("id", controlador.getId().toString());
+        }
+        
         if (controlador.getIdJson() != null) {
             root.put("idJson", controlador.getIdJson());
         }
@@ -356,6 +360,10 @@ public class ControladorCustomSerializer {
 
         if (controlador.getArea() != null && controlador.getArea().getIdJson() != null) {
             root.putObject("area").put("idJson", controlador.getArea().getIdJson());
+        }
+
+        if (controlador.getSubarea() != null && controlador.getSubarea().getIdJson() != null) {
+            root.putObject("subarea").put("idJson", controlador.getSubarea().getIdJson());
         }
 
         refEndereco("endereco", controlador.getEndereco(), root);

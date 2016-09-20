@@ -2929,9 +2929,9 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
   margin-left: 10px;
 }
 
-.ajusteMapa .areaMapa {
+.ajusteMapa .area-mapa {
   width: 100% !important;
-  height: 850px !important;
+  height: 650px !important;
   margin-left: 40px;
   border: 1px solid #ddd;
 }
@@ -2941,7 +2941,7 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
   height: 100%;
   position: absolute;
   top: 0;
-  right: 0;
+  right: -270px;
   display: table;
   padding: 10px;
   background: #ffffff;
@@ -2949,8 +2949,8 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
           transition-duration: 0.8s;
 }
 
-.ajusteMapa .acoes.closeAcao {
-  right: -270px;
+.ajusteMapa .acoes.open-acao-panel {
+  right: 0;
 }
 
 .ajusteMapa .acoes .fecharAcoes {
