@@ -447,9 +447,9 @@ angular.module('influuntApp')
       getKeysErros = function(errors) {
         var keysErrors = [];
         _.forEach(errors, function(v, key){ 
-          if (typeof v != 'undefined') {
+          if (typeof v !== 'undefined') {
             keysErrors.push(key);
-          };
+          }
         });
         return keysErrors;
       };
