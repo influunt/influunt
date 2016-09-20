@@ -101,6 +101,47 @@ describe('Controller: CrudCtrl', function () {
     expect(scope.update).toHaveBeenCalled();
   });
 
+  describe('confirmDelete', function () {
+    var deferred, toast;
+    beforeEach(inject(function(influuntAlert, $q, _toast_) {
+      toast = _toast_;
+      deferred = $q.defer();
+      spyOn(influuntAlert, 'delete').and.returnValue(deferred.promise);
+    }));
+
+    it('Em caso de sucesso, deve enviar uma mensagem de sucesso e carregar novamente os dados de index', function() {
+      spyOn(scope, 'index');
+      spyOn(toast, 'success');
+
+      var url = '/resource/1';
+      httpBackend.expectDELETE(url).respond({});
+
+      scope.confirmDelete(1);
+      deferred.resolve(true);
+      httpBackend.flush();
+      scope.$apply();
+
+      expect(scope.index).toHaveBeenCalled();
+      expect(toast.success).toHaveBeenCalled();
+    });
+
+    it('Em caso de erro, deve exibir a mensagem', function() {
+      spyOn(scope, 'index');
+      spyOn(toast, 'error');
+
+      var url = '/resource/1';
+      httpBackend.expectDELETE(url).respond(422, {});
+
+      scope.confirmDelete(1);
+      deferred.resolve(true);
+      httpBackend.flush();
+      scope.$apply();
+
+      expect(scope.index).not.toHaveBeenCalled();
+      expect(toast.error).toHaveBeenCalled();
+    });
+  });
+
   afterEach(function() {
     httpBackend.verifyNoOutstandingExpectation();
     httpBackend.verifyNoOutstandingRequest();

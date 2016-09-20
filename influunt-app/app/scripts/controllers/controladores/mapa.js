@@ -9,7 +9,9 @@
  */
 angular.module('influuntApp')
   .controller('ControladoresMapaCtrl', ['$scope', '$controller', '$filter', 'Restangular',
-    function ($scope, $controller, $filter, Restangular) {
+                                        'geraDadosDiagramaIntervalo', 'influuntAlert',
+    function ($scope, $controller, $filter, Restangular,
+              geraDadosDiagramaIntervalo, influuntAlert) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
       var filtraDados, filtraControladores, getMarkersControladores, getMarkersAneis,
@@ -69,15 +71,59 @@ angular.module('influuntApp')
         }
       };
 
-      // $scope.exibirTabelasHorarias = function(controlador) {};
+      $scope.showDiagramaIntervalos = function(plano) {
+        $scope.comCheckBoxGrupo = false;
+        $scope.currentPlano = plano;
+        $('#modalDiagramaIntervalos').modal('show');
 
-      // $scope.imporPlano = function(anel) {};
+        var gruposSemaforicos = $scope.currentAnel.gruposSemaforicos.map(function(gs) {
+          return _.find($scope.currentControlador.gruposSemaforicos, {idJson: gs.idJson});
+        });
 
-      // $scope.trocarTabelaHoraria = function(controlador) {};
+        $scope.plano = geraDadosDiagramaIntervalo.gerar(
+          plano, $scope.currentAnel, gruposSemaforicos, $scope.currentControlador
+        );
+        var diagramaBuilder = new influunt.components.DiagramaIntervalos($scope.plano, $scope.valoresMinimos);
+        var result = diagramaBuilder.calcula();
+        _.each(result.gruposSemaforicos, function(g) {
+          g.ativo = true;
+        });
+        $scope.dadosDiagrama = result;
+      };
 
-      // $scope.enviarPlano = function(anel) {};
 
-      // $scope.enviarTabela = function(controlador) {};
+      $scope.imporPlano = function() {
+        $scope.currentAnel.currentPlano = $scope.planoImposto;
+        $scope.currentAnel.hasPlanoImposto = true;
+      };
+
+      $scope.enviarPlano = function(anel) {
+        var plano = anel.currentPlano || anel.planos[0];
+        var endereco = _.find($scope.currentControlador.todosEnderecos, {idJson: anel.endereco.idJson});
+        var localizacao = $filter('nomeEndereco')(endereco);
+        influuntAlert.confirm(
+          $filter('translate')('controladores.mapaControladores.enviarPlano'),
+          $filter('translate')(
+            'controladores.mapaControladores.confirmacaoEnvioPlano',
+            {PLANO: plano.descricao, ANEL: localizacao}
+          )
+        )
+        .then(function(confirma) {
+          return confirma && influuntAlert.prompt(
+            $filter('translate')('controladores.mapaControladores.enviarPlano'),
+            $filter('translate')('controladores.mapaControladores.descrevaEnvioPlano')
+          );
+        })
+        .then(function(res) {
+          return res && influuntAlert.alert(
+            $filter('translate')('controladores.mapaControladores.enviarPlano'),
+            $filter('translate')(
+              'controladores.mapaControladores.sucessoEnvioPlano',
+              {PLANO: plano.descricao, ANEL: localizacao}
+            )
+          );
+        });
+      };
 
       $scope.$watch('filtro', function(value) {
         return value && filtraDados();
@@ -97,7 +143,7 @@ angular.module('influuntApp')
 
         $scope.agrupamentos = _.concat($scope.agrupamentos, getAgrupamentos());
         $scope.agrupamentos = _.concat($scope.agrupamentos, getSubareas());
-        $scope.areas = _.uniqBy($scope.areas, 'popupText');
+        $scope.areas = _.uniqBy($scope.areas, 'id');
       };
 
       getDadosFiltros = function() {
@@ -298,8 +344,9 @@ angular.module('influuntApp')
             .value();
 
           return {
+            id: area.id,
             points: limites,
-            popupText: '<h1>CTA' + area.descricao + '</h1>'
+            label: '<h1><strong>' + $filter('translate')('controladores.geral.CTA') + area.descricao + '</strong></h1>'
           };
         });
       };

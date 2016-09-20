@@ -80,19 +80,25 @@ angular.module('influuntApp')
         createArea = function(obj, index) {
           var options = {color: DEFAULT_BG_COLORS[index]};
           options = _.merge(options, obj.options);
-          var points = obj.points.map(function(p) { return [p.latitude, p.longitude];});
-          var area = L
-            .polygon(points, options);
 
-          if (obj.popupText) {
-            area.bindPopup(obj.popupText);
-          }
+          var points = obj.points.map(function(p) {
+            return new L.LatLng(p.latitude, p.longitude);
+          });
+
+          var area = L.polygon(points, options);
           return area;
+        };
+
+        var getAreaTitle = function(area, title) {
+          var labelLocation = area.getCentroid();
+          return new L.LabelOverlay(
+            labelLocation, '<h1><strong>' + title + '</strong></h1>'
+          );
         };
 
         createAgrupamento = function(obj) {
           var colors = {
-            ROTA: '#000',
+            ROTA: '#555',
             CORREDOR: '#2196f3',
             SUBAREA: '#4caf50'
           };
@@ -100,6 +106,8 @@ angular.module('influuntApp')
           var options = {
             color: colors[obj.type],
             fill: false,
+            opacity: 1,
+            weight: 4,
             dashArray: [20, 10]
           };
 
@@ -108,9 +116,6 @@ angular.module('influuntApp')
           points = getConcaveHullPoints(points);
           var agrupamento = L.polygon(points, options);
 
-          if (obj.popupText) {
-            agrupamento.bindPopup(obj.popupText);
-          }
           return agrupamento;
         };
 
@@ -138,6 +143,13 @@ angular.module('influuntApp')
           areas.forEach(function(area, index) {
             var a = createArea(area, index);
             areasLayer.addLayer(a);
+            areasLayer.addLayer(getAreaTitle(a, area.label));
+          });
+
+          // Forces zoom when double clicking in an area.
+          areasLayer.on('dblclick', function() {
+            var zoom = map.getZoom();
+            map.setZoom(zoom + 1);
           });
 
           map.addLayer(areasLayer);

@@ -15,6 +15,6 @@ describe('Directive: filtroMapa', function () {
   it('should make hidden element visible', inject(function ($compile) {
     element = angular.element('<filtro-mapa></filtro-mapa>');
     element = $compile(element)(scope);
-    expect(element.text()).toBe('this is the filtroMapa directive');
+    expect(element).toBeDefined();
   }));
 });

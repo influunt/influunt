@@ -18,3 +18,66 @@
     </section>
   </div>
 </div>
+
+<!-- modal diagrama de intervalos -->
+<div class="modal inmodal" id="modalDiagramaIntervalos" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content animated bounceInRight">
+      <div class="modal-header">
+        <h2>{{ 'controladores.geral.plano' | translate }} {{ currentPlano.posicao }}</h2>
+        <h5>{{ currentPlano.descricao }}</h5>
+      </div>
+      <div class="modal-body">
+        <fieldset>
+          <div class="col-lg-12 col-sm-12 ibox white-bg no-padding">
+            <div class="ibox float-e-margins">
+              <div class="tabpanel">
+                <div class="col-lg-12 col-sm-12 padding-top-20 tabs-container">
+                  <div class="ui-layout-content tab-content">
+                    <div id="tabs-1">
+                      <section>
+                        <div class="col-lg-12 col-sm-12 no-padding table-create-plan overflow">
+                          <ng-include src="'views/planos/tabela-planos.html'"></ng-include>
+                        </div>
+                      </section>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal para selecionar planos para imposição. -->
+<div class="modal inmodal" id="modal-imposicao-plaos" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content animated bounceInRight">
+      <div class="modal-header">
+        <h3>{{ 'controladores.mapaControladores.imposicaoPlano.mensagem' | translate }}</h3>
+        <div class="form-group">
+          <div class="col-sm-12 form-group">
+            <select
+                name="controladores" class="form-control"
+                data-ng-options="option as option.descricao for option in currentAnel.planos track by option.idJson"
+                data-ng-model="planoImposto"
+                style="width: 100%;">
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" data-ng-click="imporPlano()">
+          {{ 'controladores.mapaControladores.imporPlano' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

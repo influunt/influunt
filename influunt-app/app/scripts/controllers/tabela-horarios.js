@@ -293,7 +293,7 @@ angular.module('influuntApp')
         $('#modalDiagramaIntervalos').modal('show');
         return $scope.dadosDiagrama;
       };
-      
+
       atualizaDiagramaIntervalo = function (){
         var posicaoPlano = parseInt($scope.currentEvento.posicaoPlano);
         var plano = _.find($scope.currentPlanos, {posicao: posicaoPlano});

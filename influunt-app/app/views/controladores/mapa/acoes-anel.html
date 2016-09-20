@@ -26,7 +26,7 @@
         </h3>
         <ul class="planos">
           <li data-ng-repeat="plano in currentAnel.planos">
-            <a href="#">{{ 'controladores.geral.plano' | translate}} {{ plano.posicao }} - {{ plano.descricao }}</a>
+            <a data-ng-click="showDiagramaIntervalos(plano)">{{ 'controladores.geral.plano' | translate}} {{ plano.posicao }} - {{ plano.descricao }}</a>
           </li>
         </ul>
       </div>
@@ -35,20 +35,20 @@
         <button
             class="btn btn-primary"
             data-ng-disabled="!(currentAnel.planos.length > 0)"
-            data-ng-click="imporPlano(currentAnel)">
+            data-toggle="modal" data-target="#modal-imposicao-plaos" aria-hidden="true">
           {{ 'controladores.mapaControladores.imporPlanos' | translate }}
-        </button>
-        <button
-            class="btn btn-primary"
-            data-ng-disabled="!(currentControlador.tabelasHorarias.length > 0)"
-            data-ng-click="trocarTabelaHoraria(currentControlador)">
-          {{ 'controladores.mapaControladores.trocarTabela' | translate }}
         </button>
         <button
             class="btn btn-primary"
             data-ng-disabled="!(currentAnel.planos.length > 0)"
             data-ng-click="enviarPlano(currentAnel)">
           {{ 'controladores.mapaControladores.enviarPlano' | translate }}
+        </button>
+        <button
+            class="btn btn-primary"
+            data-ng-disabled="!(currentControlador.tabelasHorarias.length > 0)"
+            data-ng-click="trocarTabelaHoraria(currentControlador)">
+          {{ 'controladores.mapaControladores.trocarTabela' | translate }}
         </button>
         <button
             class="btn btn-primary"

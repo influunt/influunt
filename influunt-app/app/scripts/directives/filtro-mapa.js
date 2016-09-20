@@ -20,7 +20,6 @@ angular.module('influuntApp')
           $(el).find('.fa-angle-left').toggleClass('fa-map');
         };
 
-
         $('.spin-icon').on('click', function(){
           toggleOpen();
         });
