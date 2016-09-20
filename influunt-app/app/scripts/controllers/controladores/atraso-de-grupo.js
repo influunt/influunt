@@ -13,9 +13,9 @@ angular.module('influuntApp')
 
       $scope.isAtrasoDeGrupo = true;
       var inicializaTransicoes;
-      var confirmacaoNadaHaPreencher;
 
       $controller('ControladoresCtrl', {$scope: $scope});
+      $controller('ConfirmacaoNadaHaPreencherCtrl', {$scope: $scope});
       /**
        * Garante que o controlador tem as condições mínimas para acessar a tela de atraso de grupo.
        *
@@ -54,8 +54,10 @@ angular.module('influuntApp')
             $scope.selecionaAnel(index);
             $scope.atualizaGruposSemaforicos();
             $scope.selecionaGrupoSemaforico($scope.currentGruposSemaforicos[0], 0);
-            
+
             $scope.setAtributos();
+
+            $scope.inicializaConfirmacaoNadaHaPreencher();
           }
         });
       };
@@ -74,24 +76,39 @@ angular.module('influuntApp')
       };
 
       $scope.selecionaAnelAtrasoDeGrupo = function(index) {
-        $scope.inicializaAtrasoDeGrupo(index);
-      };
-      
-      $scope.confirmacaoNadaHaPreencher = function(){
-        confirmacaoNadaHaPreencher = !confirmacaoNadaHaPreencher;
+        $scope.selecionaAnel(index);
+        $scope.atualizaGruposSemaforicos();
+        $scope.selecionaGrupoSemaforico($scope.currentGruposSemaforicos[0], 0);
+        
+        $scope.setAtributos();
       };
 
-      $scope.podeSalvar = function() {
-        if($scope.objeto && !!$scope.objeto.atrasosDeGrupo){
-          $scope.totalNaoPreenchido = _.filter($scope.objeto.atrasosDeGrupo, {atrasoDeGrupo: '0'}).length;
-          $scope.totalNaoPreenchido = $scope.totalNaoPreenchido + _.filter($scope.objeto.atrasosDeGrupo, {atrasoDeGrupo: 0}).length;
-          if($scope.totalNaoPreenchido < $scope.objeto.atrasosDeGrupo.length){
-            confirmacaoNadaHaPreencher = false;
-            return true;
-          }
-          return confirmacaoNadaHaPreencher;
+      $scope.$watch('currentTransicoesComPerdaDePassagem', function() {
+        if($scope.currentAnel && $scope.confirmacao){
+          $scope.verificaConfirmacaoNadaHaPreencher();
+        }
+      }, true);
+
+      $scope.$watch('currentTransicoes', function() {
+        if($scope.currentAnel && $scope.confirmacao){
+          $scope.verificaConfirmacaoNadaHaPreencher();
+        }
+      }, true);
+
+      $scope.possuiInformacoesPreenchidas = function() {
+        var totalNaoPreenchido, total, totalNaoPreenchidoComPerdaDePassagem, totalComPerdaDePassagem;
+        if($scope.currentTransicoes && $scope.currentTransicoesComPerdaDePassagem){
+          totalNaoPreenchido = _.filter($scope.currentTransicoes, {atrasoDeGrupo: {atrasoDeGrupo: '0'}}).length;
+          totalNaoPreenchido += _.filter($scope.currentTransicoes, {atrasoDeGrupo: {atrasoDeGrupo: 0}}).length;
+          total = _.values($scope.currentTransicoes).length;
+
+          totalNaoPreenchidoComPerdaDePassagem = _.filter($scope.currentTransicoesComPerdaDePassagem, {atrasoDeGrupo: {atrasoDeGrupo: '0'}}).length;
+          totalNaoPreenchidoComPerdaDePassagem += _.filter($scope.currentTransicoesComPerdaDePassagem, {atrasoDeGrupo: {atrasoDeGrupo: 0}}).length;
+          totalComPerdaDePassagem = _.values($scope.currentTransicoesComPerdaDePassagem).length;
+          return totalNaoPreenchido < total || totalNaoPreenchidoComPerdaDePassagem < totalComPerdaDePassagem;
         }
         return false;
       };
 
-    }]);
+    }
+  ]);

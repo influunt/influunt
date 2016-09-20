@@ -238,7 +238,6 @@ public class ControladorCustomSerializer {
         if (controlador.getId() != null) {
             root.put("id", controlador.getId().toString());
         }
-        
         if (controlador.getIdJson() != null) {
             root.put("idJson", controlador.getIdJson());
         }

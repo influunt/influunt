@@ -11,6 +11,7 @@ angular.module('influuntApp')
   .controller('ControladoresAssociacaoDetectoresCtrl', ['$scope', '$state', '$controller', '$filter', 'assertControlador', 'influuntAlert', 'Restangular', 'toast',
     function ($scope, $state, $controller, $filter, assertControlador, influuntAlert, Restangular, toast) {
       $controller('ControladoresCtrl', {$scope: $scope});
+      $controller('ConfirmacaoNadaHaPreencherCtrl', {$scope: $scope});
 
       var atualizaPosicoesDetectores, atualizaEstagiosComDetector, excluirDetectorNoCliente,
       abreModalConfiguracaoDetector;
@@ -47,6 +48,8 @@ angular.module('influuntApp')
 
             $scope.podeDetectorPedestre = _.filter($scope.objeto.gruposSemaforicos, {tipo: 'PEDESTRE'}).length > 0;
             $scope.podeDetectorVeicular = _.filter($scope.objeto.gruposSemaforicos, {tipo: 'VEICULAR'}).length > 0;
+
+            $scope.inicializaConfirmacaoNadaHaPreencher();
             return _.isArray($scope.currentDetectores) && $scope.selecionaDetector($scope.currentDetectores[0], 0);
           }
         });
@@ -109,6 +112,7 @@ angular.module('influuntApp')
 
         $scope.atualizaDetectores();
         atualizaPosicoesDetectores();
+        $scope.verificaConfirmacaoNadaHaPreencher();
       };
 
       excluirDetectorNoCliente = function(detector) {
@@ -122,6 +126,7 @@ angular.module('influuntApp')
         $scope.atualizaDetectores();
         atualizaPosicoesDetectores();
         atualizaEstagiosComDetector();
+        $scope.verificaConfirmacaoNadaHaPreencher();
       };
 
       $scope.excluirDetector = function(detector) {
@@ -221,5 +226,13 @@ angular.module('influuntApp')
           var estagio = _.find($scope.currentEstagios, {idJson: e.idJson});
           estagio.temDetector = true;
         });
+      };
+
+      $scope.possuiInformacoesPreenchidas = function(anel) {
+        if(anel){
+          return _.values(anel.detectores).length > 0;
+        }else{
+          return _.values($scope.currentDetectores).length > 0;
+        }
       };
     }]);

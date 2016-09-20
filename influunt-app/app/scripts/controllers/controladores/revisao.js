@@ -82,7 +82,10 @@ angular.module('influuntApp')
       };
 
       setDadosBasicosControlador = function() {
-        var area = _.find($scope.objeto.areas, {idJson: $scope.objeto.area.idJson});
+        var area;
+        if($scope.objeto && $scope.objeto.area){
+          area = _.find($scope.objeto.areas, {idJson: $scope.objeto.area.idJson});
+        }
         $scope.dadosBasicos = {
           area: area,
           cidade: _.find($scope.objeto.cidades, { idJson: area.cidade.idJson }),

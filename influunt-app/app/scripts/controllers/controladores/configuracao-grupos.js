@@ -28,6 +28,7 @@ angular.module('influuntApp')
         return valid;
       };
 
+
       $scope.inicializaConfiguracaoGrupos = function() {
         return $scope.inicializaWizard().then(function() {
           if ($scope.assert()) {
@@ -115,13 +116,6 @@ angular.module('influuntApp')
           grupo.tempoVerdeSeguranca = $scope.objeto.verdeSegurancaPedestreMin;
           grupo.faseVermelhaApagadaAmareloIntermitente = false;
         }
-      };
-
-      $scope.faseVermelhaOptions = function(){
-        return [
-          { n: $filter('translate')('faseVermelhaNaoIntermitente'), v: false }, 
-          { n: $filter('translate')('faseVermelhaIntermitente'), v: true }
-        ];
       };
 
       /**
