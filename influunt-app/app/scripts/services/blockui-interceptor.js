@@ -14,7 +14,6 @@ angular.module('influuntApp')
       return {
         request: function(request) {
           if (request.url.match(new RegExp(APP_ROOT))) {
-            console.log(request.url);
             influuntBlockui.block();
           }
 
