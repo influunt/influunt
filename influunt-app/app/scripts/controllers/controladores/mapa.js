@@ -21,6 +21,7 @@ angular.module('influuntApp')
       $scope.inicializaMapa = function() {
         return Restangular
           .all('controladores')
+          .all('mapas')
           .getList()
           .then(function(res) {
             $scope.lista = res;

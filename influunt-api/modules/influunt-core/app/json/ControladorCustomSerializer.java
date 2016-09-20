@@ -118,6 +118,15 @@ public class ControladorCustomSerializer {
         return controladoresJson;
     }
 
+    public JsonNode getControladoresForMapas(List<Controlador> controladores) {
+        ArrayNode controladoresJson = Json.newArray();
+        for (Controlador controlador : controladores) {
+            controladoresJson.add(getControladorJson(controlador));
+        }
+
+        return controladoresJson;
+    }
+
     public JsonNode getPacoteConfiguracaoJson(Controlador controlador) {
         controlador.setVersoesTabelasHorarias(null);
         controlador.setVersaoControlador(null);
