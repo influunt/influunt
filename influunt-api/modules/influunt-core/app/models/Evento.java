@@ -212,6 +212,19 @@ public class Evento extends Model implements Cloneable, Serializable {
         return true;
     }
 
+    @AssertTrue(groups = TabelaHorariosCheck.class,
+            message = "O plano selecionado não está configurado em todos os anéis.")
+    public boolean isPlanosConfigurados() {
+        if(getPosicaoPlano() != null) {
+            return getTabelaHorario().getControlador()
+                    .getAneis()
+                    .stream()
+                    .filter(anel -> anel.isAtivo())
+                    .allMatch(anel -> anel.getPlanos().stream().anyMatch(plano -> getPosicaoPlano().equals(plano.getPosicao())));
+        }
+        return true;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
