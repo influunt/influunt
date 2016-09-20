@@ -104,7 +104,6 @@ angular.module('influuntApp')
       $scope.removerCroqui = function(imagemIdJson) {
         return influuntAlert.delete().then(function(confirmado) {
           if (confirmado) {
-            console.log('remove croqui.')
             return deletarCroquiNoServidor(imagemIdJson)
               .then(function() {
                 $scope.removerCroquiLocal(imagemIdJson);
