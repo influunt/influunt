@@ -473,7 +473,7 @@ angular.module('influuntApp')
         return errorsPlanos;
       };
 
-      $scope.getErroInPlano = function(index) {
+      $scope.getErroPorPlano = function(index) {
        var errors              = _.get($scope.errors, 'aneis[' + $scope.currentAnelIndex + '].versoesPlanos[' + 0 + '].planos');
        var keysErrors          = getKeysErros(errors);
        var errorsPlanoIdJson   = getIdJsonDePlanosQuePossuemErros(keysErrors);
@@ -521,7 +521,7 @@ angular.module('influuntApp')
         if(listaErros){
           _.each(listaErros.planos[currentPlanoIndex].ultrapassaTempoCiclo, function (errosNoPlano){
             if(errosNoPlano) {
-              var texto = $scope.currentPlano.descricao  + " - " + errosNoPlano;
+              var texto = errosNoPlano;
               erros.push(texto);
             }
           });
