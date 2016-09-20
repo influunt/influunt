@@ -496,6 +496,39 @@ angular.module('influuntApp')
         return erros;
       };
 
+      getErrosGruposSemaforicosPlanos = function(listaErros){
+        var erros = [];
+        var currentPlanoIndex = $scope.currentPlanoIndex;
+        
+        if(listaErros){
+          _.each(listaErros.planos[currentPlanoIndex].gruposSemaforicosPlanos, function (erro, index){
+            if(erro) {
+              var grupoSemaforicoPlanoIdJson = $scope.currentPlano.gruposSemaforicosPlanos[index].idJson;
+              var grupoSemaforicoPlano = _.find($scope.objeto.gruposSemaforicosPlanos, {idJson: grupoSemaforicoPlanoIdJson});
+              var grupoSemaforico = _.find($scope.objeto.gruposSemaforicos, {idJson: grupoSemaforicoPlano.grupoSemaforico.idJson});
+              var texto = 'G' + grupoSemaforico.posicao + ' - ' + erro.respeitaVerdesDeSeguranca[0];
+              erros.push(texto);
+            }
+          });
+        }
+        return erros;
+      };
+
+      getErrosUltrapassaTempoSeguranca = function(listaErros){
+        var erros = [];
+        var currentPlanoIndex = $scope.currentPlanoIndex;
+
+        if(listaErros){
+          _.each(listaErros.planos[currentPlanoIndex].ultrapassaTempoCiclo, function (errosNoPlano){
+            if(errosNoPlano) {
+              var texto = $scope.currentPlano.descricao  + " - " + errosNoPlano;
+              erros.push(texto);
+            }
+          });
+        }
+        return erros;
+      };
+
       /**
        * Adiciona um novo plano ao controlador.
        *
@@ -754,38 +787,6 @@ angular.module('influuntApp')
         $scope.objeto.vermelhoLimpezaVeicularMax = parseInt($scope.objeto.vermelhoLimpezaVeicularMax);
         $scope.objeto.vermelhoLimpezaVeicularMin = parseInt($scope.objeto.vermelhoLimpezaVeicularMin);
       };
-
-
-      getErrosGruposSemaforicosPlanos = function(listaErros){
-        var erros = [];
-        if(listaErros){
-          _.each(listaErros.gruposSemaforicosPlanos, function (erro, index){
-            if(erro) {
-              var grupoSemaforicoPlanoIdJson = $scope.currentPlano.gruposSemaforicosPlanos[index].idJson;
-              var grupoSemaforicoPlano = _.find($scope.objeto.gruposSemaforicosPlanos, {idJson: grupoSemaforicoPlanoIdJson});
-              var grupoSemaforico = _.find($scope.objeto.gruposSemaforicos, {idJson: grupoSemaforicoPlano.grupoSemaforico.idJson});
-              var texto = 'G' + grupoSemaforico.posicao + ' - ' + erro.respeitaVerdesDeSeguranca[0];
-              erros.push(texto);
-            }
-          });
-        }
-        return erros;
-      };
-
-      getErrosUltrapassaTempoSeguranca = function(listaErros){
-        var erros = [];
-        if(listaErros){
-          var listErrosNoPlano = listaErros.planos
-          _.each(listErrosNoPlano, function (plano){
-            if(plano) {
-              var texto =  +'- ' + plano.ultrapassaTempoCiclo[0];
-              erros.push(texto);
-            }
-          });
-        }
-        return erros;
-      };
-
 
       //Funções para Diagrama de Planos
       /**
