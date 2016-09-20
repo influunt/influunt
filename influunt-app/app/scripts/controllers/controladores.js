@@ -35,7 +35,8 @@ angular.module('influuntApp')
         return Restangular.all('controladores').getList()
           .then(function(res) {
             $scope.lista = res;
-          });
+          })
+          .finally(influuntBlockui.unblock);
       };
 
       /**
@@ -84,10 +85,11 @@ angular.module('influuntApp')
 
       var loadWizardData = function(obj) {
         $scope.objeto = obj;
-        getHelpersControlador();
         $scope.validacoes = {
           alerts: []
         };
+
+        return getHelpersControlador();
       };
 
       /**
@@ -99,21 +101,24 @@ angular.module('influuntApp')
       $scope.inicializaWizard = function() {
         influuntBlockui.block();
         var defer = $q.defer();
+        var responseControlador;
 
         var id = $state.params.id;
         if (id) {
-          Restangular.one('controladores', id).get().then(function(res) {
-            loadWizardData(res);
-
-            influuntBlockui.unblock();
-            defer.resolve(res);
-          });
+          Restangular.one('controladores', id).get()
+            .then(function(res) {
+              responseControlador = res;
+              return loadWizardData(res);
+            })
+            .then(function() {
+              defer.resolve(responseControlador);
+            });
         } else {
           var endereco = {
             idJson: UUID.generate()
           };
 
-          loadWizardData({
+          return loadWizardData({
             limiteEstagio: 16,
             limiteGrupoSemaforico: 16,
             limiteAnel: 4,
@@ -124,10 +129,10 @@ angular.module('influuntApp')
             endereco: {
               idJson: endereco.idJson
             }
+          })
+          .then(function() {
+            defer.resolve({});
           });
-
-          influuntBlockui.unblock();
-          defer.resolve({});
         }
 
         return defer.promise;
@@ -138,6 +143,7 @@ angular.module('influuntApp')
         if (angular.isFunction($scope.beforeSubmitForm)) {
           $scope.beforeSubmitForm();
         }
+
         if (form.$valid) {
           Restangular
             .all('controladores')
@@ -148,19 +154,19 @@ angular.module('influuntApp')
 
               $scope.errors = {};
               $state.go(nextStep, {id: $scope.objeto.id});
-              influuntBlockui.unblock();
             })
             .catch(function(res) {
-              influuntBlockui.unblock();
               if (res.status === 422) {
                 if (angular.isFunction($scope.afterSubmitFormOnValidationError)) {
                   $scope.afterSubmitFormOnValidationError();
                 }
+
                 $scope.buildValidationMessages(res.data);
               } else {
                 console.error(res);
               }
-            });
+            })
+            .finally(influuntBlockui.unblock);
         }
       };
 

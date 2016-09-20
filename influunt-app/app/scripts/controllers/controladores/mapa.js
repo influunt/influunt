@@ -9,9 +9,9 @@
  */
 angular.module('influuntApp')
   .controller('ControladoresMapaCtrl', ['$scope', '$controller', '$filter', 'Restangular',
-                                        'geraDadosDiagramaIntervalo', 'influuntAlert',
+                                        'geraDadosDiagramaIntervalo', 'influuntAlert', 'influuntBlockui',
     function ($scope, $controller, $filter, Restangular,
-              geraDadosDiagramaIntervalo, influuntAlert) {
+              geraDadosDiagramaIntervalo, influuntAlert, influuntBlockui) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
       var filtraDados, filtraControladores, getMarkersControladores, getMarkersAneis,
@@ -29,7 +29,8 @@ angular.module('influuntApp')
           })
           .then(function() {
             return filtraDados();
-          });
+          })
+          .finally(influuntBlockui.unblock);
       };
 
       $scope.setCurrentObject = function(markerData) {
