@@ -805,14 +805,14 @@ header .nav-secon li a {
   .indicacao-vermelho-intermitente {
       background: url('../images/lines.png') #ff1b00;
       .vis-item-content {
-          background: rgba(255,255,255,0.8);
+        text-shadow: 1px 2px 0px #fff;
           font-weight: 700;
       }
   }
   .indicacao-intermitente {
       background: url('../images/lines.png') #fffb00;
       .vis-item-content {
-          background: rgba(255,255,255,0.8);
+        text-shadow: 1px 2px 0px #fff;
           font-weight: 700;
       }
   }
