@@ -80,7 +80,6 @@ angular.module('influuntApp')
         var controladorId = $state.params.id;
         Restangular.one('monitoramento/detalhe_controlador', controladorId).get()
           .then(function(res) {
-            console.log("TOTAL: ", res)
             $scope.controlador = res;
           })
           .catch(function(err) {
