@@ -36,7 +36,7 @@ public class SimulacaoBuilder {
     }
 
     public Simulador build() {
-        if(params.getFimSimulacao() - params.getInicioSimulacao()<= 0){
+        if(params.getFimSimulacao() - params.getInicioSimulacao() < 0){
             throw new RuntimeException("Simulacao com parametros invalidos");
         }
         return new Simulador(planos,params);

@@ -3,6 +3,7 @@ package os72c.client.v2;
 import models.EstadoGrupoSemaforico;
 import org.apache.commons.collections.map.MultiKeyMap;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -10,28 +11,49 @@ import java.util.List;
  * Created by rodrigosol on 9/16/16.
  */
 public class ResultadoSimulacao {
-    private HashMap<Integer,HashMap<EstadoGrupoSemaforico,Long>> tempoGrupos = new HashMap<>();
+    private final VelocidadeSimulacao velocidadeSimulacao;
+
+    private final long steps;
+    private  long pointer = 0;
+
+    private List<HashMap<Integer,HashMap<EstadoGrupoSemaforico,Long>>> tempoGrupos = new ArrayList<>();
 
     private long tempoSimulacao;
+    public ResultadoSimulacao(VelocidadeSimulacao velocidadeSimulacao, long tempoSimulacao){
+        this.velocidadeSimulacao = velocidadeSimulacao;
+        this.tempoSimulacao = tempoSimulacao;
+        if(velocidadeSimulacao.equals(VelocidadeSimulacao.RESULTADO_FINAL)){
+            this.steps = 1l;
+        }else{
+            this.steps = tempoSimulacao / velocidadeSimulacao.getVelocidade();
+        }
+        for(int i =0; i < steps; i++){
+            tempoGrupos.add(new HashMap<>());
+        }
+
+    }
 
     public void registraGrupos(List<EstadoGrupoSemaforico> grupos) {
+        int localStep = (int) (pointer % steps);
+
         for(int i = 1; i <= grupos.size(); i++){
-            if(tempoGrupos.get(i) == null || tempoGrupos.get(i).get(grupos.get(i-1)) == null){
+            if(tempoGrupos.get(localStep).get(i) == null || tempoGrupos.get(localStep).get(i).get(grupos.get(i-1)) == null){
                 HashMap<EstadoGrupoSemaforico, Long> local;
 
-                if(tempoGrupos.get(i) == null) {
+                if(tempoGrupos.get(localStep).get(i) == null) {
                     local = new HashMap<>();
                 }else{
-                    local = tempoGrupos.get(i);
+                    local = tempoGrupos.get(localStep).get(i);
                 }
 
                 local.put(grupos.get(i-1),1l);
-                tempoGrupos.put(i,local);
+                tempoGrupos.get(localStep).put(i,local);
             }else{
-                Long atual = tempoGrupos.get(i).get(grupos.get(i - 1));
-                tempoGrupos.get(i).put(grupos.get(i-1),atual+1);
+                Long atual = tempoGrupos.get(localStep).get(i).get(grupos.get(i - 1));
+                tempoGrupos.get(localStep).get(i).put(grupos.get(i-1),atual+1);
             }
         }
+        pointer++;
     }
 
     public void setTempoSimulacao(long tempoSimulacao) {
@@ -43,11 +65,22 @@ public class ResultadoSimulacao {
     }
 
 
-    public HashMap<EstadoGrupoSemaforico,Long> getTemposGrupo(int grupo) {
-        return tempoGrupos.get(grupo);
+    public HashMap<EstadoGrupoSemaforico,Long> getTemposGrupo(int step, int grupo) {
+        return tempoGrupos.get(step).get(grupo);
     }
 
-    public HashMap<Integer,HashMap<EstadoGrupoSemaforico,Long>> tempoGrupos() {
+    public List<HashMap<Integer,HashMap<EstadoGrupoSemaforico,Long>>> tempoGrupos() {
         return tempoGrupos;
+    }
+
+    public void play(long momento){
+
+    }
+    public void foward(long momento){
+
+    }
+
+    public void backward(long momento){
+
     }
 }

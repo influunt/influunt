@@ -11,13 +11,21 @@ import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
+import utils.CustomCalendar;
 
 import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.UUID;
+
+import static com.sun.tools.doclint.Entity.and;
+import static com.sun.tools.doclint.Entity.ni;
+import static com.sun.tools.doclint.Entity.nu;
+import static utils.CustomCalendar.getCalendar;
 
 /**
  * Entidade que representa um {@link Evento} no sistema
@@ -27,7 +35,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "eventos")
 @ChangeLog
-public class Evento extends Model implements Cloneable, Serializable {
+public class Evento extends Model implements Cloneable, Serializable, Comparable<Evento> {
 
     private static final long serialVersionUID = -8164198987601502461L;
 
@@ -81,6 +89,7 @@ public class Evento extends Model implements Cloneable, Serializable {
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
+
 
     public Evento() {
         super();
@@ -180,6 +189,7 @@ public class Evento extends Model implements Cloneable, Serializable {
         this.dataAtualizacao = dataAtualizacao;
     }
 
+
     @AssertTrue(groups = TabelaHorariosCheck.class,
             message = "Existem eventos configurados no mesmo dia e horário.")
     public boolean isEventosMesmoDiaEHora() {
@@ -243,5 +253,81 @@ public class Evento extends Model implements Cloneable, Serializable {
 
     public boolean isEventoEspecialNaoRecorrente() {
         return TipoEvento.ESPECIAL_NAO_RECORRENTE.equals(this.getTipo());
+    }
+
+
+    @Override
+    public int compareTo(Evento o) {
+        if(this.getTipo().compareTo(o.getTipo()) == 0){
+            if(this.getTipo().equals(TipoEvento.NORMAL)) {
+                if (this.getDiaDaSemana().compareTo(o.getDiaDaSemana()) == 0) {
+                    return this.getData().compareTo(o.getData());
+                } else {
+                    return this.getDiaDaSemana().compareTo(o.getDiaDaSemana());
+                }
+            }else {
+                return this.getData().compareTo(o.getData());
+            }
+        }else{
+            return this.getTipo().compareTo(o.getTipo());
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Evento{" +
+                "posicaoPlano=" + posicaoPlano +
+                ", data=" + data +
+                ", diaDaSemana=" + diaDaSemana +
+                ", tipo=" + tipo +
+                '}';
+    }
+
+    public boolean tenhoPrioridade(Evento evento, boolean euSouPetrio, boolean outroEPetrio) {
+
+        if(euSouPetrio || !outroEPetrio){
+            return true;
+        }else if(!euSouPetrio || outroEPetrio){
+            return false;
+        }else{
+            return true;
+        }
+//        Calendar calendar = CustomCalendar.getCalendar();
+//
+//        if(instante < calendar.getTime().getTime()){
+//            calendar.add(Calendar.SECOND, (int) instante);
+//        }else{
+//            calendar = Calendar.getInstance();
+//            calendar.setTime(new Date(instante));
+//        }
+//
+//        if(this.tipo.equals(TipoEvento.NORMAL) && evento.getTipo().equals(TipoEvento.NORMAL)){
+//
+//            if(getDiaDaSemana().contains(calendar.get(Calendar.DAY_OF_WEEK)) && !evento.getDiaDaSemana().contains(calendar.get(Calendar.DAY_OF_WEEK)) ){
+//                //A instancia atual esta no dia dela e a outra nao
+//                return true;
+//            }else if(!getDiaDaSemana().contains(calendar.get(Calendar.DAY_OF_WEEK))  && evento.getDiaDaSemana().contains(calendar.get(Calendar.DAY_OF_WEEK))) {
+//                //A instancia atual esta nao esta no dia dela e a outra nao
+//                return false;
+//            }else{
+//                Calendar meuCalendar = Calendar.getInstance();
+//
+//                meuCalendar.setTime(getData());
+//                int meuInstanteRelativo = CustomCalendar.getTempoAjustado(meuCalendar);
+//
+//                meuCalendar.setTime(evento.getData());
+//                int outraInstanteRelativo = CustomCalendar.getTempoAjustado(meuCalendar);
+//
+//                if(insercao){
+//                    return true;
+//                }
+//                if(getDiaDaSemana().contains(calendar.get(Calendar.DAY_OF_WEEK))  && evento.getDiaDaSemana().contains(calendar.get(Calendar.DAY_OF_WEEK))){
+//                    return  meuInstanteRelativo < outraInstanteRelativo;
+//                }else{
+//                    return true;
+//                }
+//            }
+//        }
+//        return false;
     }
 }

@@ -210,26 +210,83 @@ public class ProgramacaoTest extends WithInfluuntApplicationNoAuthentication{
         Simulador simulador = new SimulacaoBuilder().dataInicio(0)
                                                     .inicioSimulacao(0)
                                                     .fimSimulacao(728)
-                                                    .velocidadeSimulacao(VelocidadeSimulacao.TEMPO_REAL)
+                                                    .velocidadeSimulacao(VelocidadeSimulacao.RESULTADO_FINAL)
                                                     .planos(planos)
                                                     .build();
 
         ResultadoSimulacao resultado = simulador.simular();
-        assertEquals(728,resultado.getTempoSimulacao());
+        assertEquals(729,resultado.getTempoSimulacao());
 
-        resultado.tempoGrupos().values().forEach((h) -> {
-            assertEquals(728,h.values().stream().mapToInt(Long::intValue).sum());
+        resultado.tempoGrupos().forEach(i -> {
+          i.values().forEach((h) -> {
+                assertEquals(729,h.values().stream().mapToInt(Long::intValue).sum());
+            });
         });
 
-        assertEquals(476l,resultado.getTemposGrupo(1).get(EstadoGrupoSemaforico.VERMELHO).longValue());
-        assertEquals(168l,resultado.getTemposGrupo(1).get(EstadoGrupoSemaforico.VERDE).longValue());
-        assertEquals(42l,resultado.getTemposGrupo(1).get(EstadoGrupoSemaforico.AMARELO).longValue());
-        assertEquals(42l,resultado.getTemposGrupo(1).get(EstadoGrupoSemaforico.VERMELHO_LIMPEZA).longValue());
+        assertEquals(477l,resultado.getTemposGrupo(0,1).get(EstadoGrupoSemaforico.VERMELHO).longValue());
+        assertEquals(168l,resultado.getTemposGrupo(0,1).get(EstadoGrupoSemaforico.VERDE).longValue());
+        assertEquals(42l,resultado.getTemposGrupo(0,1).get(EstadoGrupoSemaforico.AMARELO).longValue());
+        assertEquals(42l,resultado.getTemposGrupo(0,1).get(EstadoGrupoSemaforico.VERMELHO_LIMPEZA).longValue());
 
-        assertEquals(494l,resultado.getTemposGrupo(6).get(EstadoGrupoSemaforico.VERMELHO).longValue());
-        assertEquals(130l,resultado.getTemposGrupo(6).get(EstadoGrupoSemaforico.VERDE).longValue());
-        assertEquals(39l,resultado.getTemposGrupo(6).get(EstadoGrupoSemaforico.AMARELO).longValue());
-        assertEquals(65l,resultado.getTemposGrupo(6).get(EstadoGrupoSemaforico.VERMELHO_LIMPEZA).longValue());
+        assertEquals(495l,resultado.getTemposGrupo(0,6).get(EstadoGrupoSemaforico.VERMELHO).longValue());
+        assertEquals(130l,resultado.getTemposGrupo(0,6).get(EstadoGrupoSemaforico.VERDE).longValue());
+        assertEquals(39l,resultado.getTemposGrupo(0,6).get(EstadoGrupoSemaforico.AMARELO).longValue());
+        assertEquals(65l,resultado.getTemposGrupo(0,6).get(EstadoGrupoSemaforico.VERMELHO_LIMPEZA).longValue());
+
+    }
+
+    @Test
+    public void testSimulacao2(){
+        Controlador controlador = new ControladorHelper().setPlanos(new ControladorHelper().getControlador());
+        List<Plano> planos = new ArrayList<>();
+        planos.add(getPlano(controlador, 1, 1));
+        planos.add(getPlano(controlador, 2, 1));
+
+        Simulador simulador = new SimulacaoBuilder().dataInicio(0)
+                .inicioSimulacao(727)
+                .fimSimulacao(729)
+                .velocidadeSimulacao(VelocidadeSimulacao.TEMPO_REAL)
+                .planos(planos)
+                .build();
+
+        ResultadoSimulacao resultado = simulador.simular();
+        assertEquals(3,resultado.getTempoSimulacao());
+
+        resultado.tempoGrupos().forEach(i->{
+          i.values().forEach((h) -> {
+                assertEquals(3,h.values().stream().mapToInt(Long::intValue).sum());
+            });
+        });
+
+        assertEquals(3l,resultado.getTemposGrupo(0,1).get(EstadoGrupoSemaforico.VERMELHO).longValue());
+        assertEquals(3l,resultado.getTemposGrupo(0,6).get(EstadoGrupoSemaforico.VERMELHO).longValue());
+
+    }
+    @Test
+    public void testSimulacao3(){
+        Controlador controlador = new ControladorHelper().setPlanos(new ControladorHelper().getControlador());
+        List<Plano> planos = new ArrayList<>();
+        planos.add(getPlano(controlador, 1, 1));
+        planos.add(getPlano(controlador, 2, 1));
+
+        Simulador simulador = new SimulacaoBuilder().dataInicio(7)
+                .inicioSimulacao(7)
+                .fimSimulacao(7)
+                .velocidadeSimulacao(VelocidadeSimulacao.TEMPO_REAL)
+                .planos(planos)
+                .build();
+
+        ResultadoSimulacao resultado = simulador.simular();
+        assertEquals(1,resultado.getTempoSimulacao());
+
+        resultado.tempoGrupos().forEach(i->{
+          i.values().forEach((h) -> {
+              assertEquals(1,h.values().stream().mapToInt(Long::intValue).sum());
+          });
+        });
+
+        assertEquals(1l,resultado.getTemposGrupo(0,1).get(EstadoGrupoSemaforico.VERMELHO).longValue());
+        assertEquals(1l,resultado.getTemposGrupo(0,6).get(EstadoGrupoSemaforico.VERMELHO).longValue());
 
     }
 
@@ -297,7 +354,6 @@ public class ProgramacaoTest extends WithInfluuntApplicationNoAuthentication{
         assertEquals(76,mudancas);
     }
 
-
     private Plano getPlano(Controlador controlador, Integer posicaoAnel, Integer posicaoPlano){
         return controlador
                 .getAneis()
@@ -311,7 +367,6 @@ public class ProgramacaoTest extends WithInfluuntApplicationNoAuthentication{
                 .findFirst()
                 .get();
     }
-
 
     private List<Plano> getPlanosG1() {
         Anel anel = new Anel();
@@ -362,7 +417,6 @@ public class ProgramacaoTest extends WithInfluuntApplicationNoAuthentication{
 
         return planos;
     }
-
 
     public List<Plano> getPlanosG1eG2() {
         Anel anel = new Anel();
