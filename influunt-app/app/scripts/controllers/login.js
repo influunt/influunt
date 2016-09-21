@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('LoginCtrl', ['$scope', 'Restangular', '$state', '$filter', 'influuntAlert', 'toast', '$location',
-    function LoginCtrl ($scope, Restangular, $state, $filter, influuntAlert, toast, $location) {
+  .controller('LoginCtrl', ['$scope', 'Restangular', '$state', '$filter', 'influuntAlert', 'toast', '$location', 'influuntBlockui',
+    function LoginCtrl ($scope, Restangular, $state, $filter, influuntAlert, toast, $location, influuntBlockui) {
       $scope.credenciais = {};
 
       $scope.submitLogin = function(formValido) {
@@ -29,7 +29,8 @@ angular.module('influuntApp')
                 influuntAlert.alert($filter('translate')('geral.atencao'), error.message);
               });
             }
-          });
+          })
+          .finally(influuntBlockui.unblock);
       };
 
       $scope.submitRecuperarSenha = function(formValido) {
