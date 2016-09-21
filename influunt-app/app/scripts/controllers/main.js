@@ -74,8 +74,8 @@ angular.module('influuntApp')
                 influuntAlert.alert($filter('translate')('geral.atencao'), error.message);
               });
             }
-          });
-
+          })
+          .finally(influuntBlockui.unblock);
       };
 
       $scope.detalheControlador = function() {
@@ -90,7 +90,8 @@ angular.module('influuntApp')
                 influuntAlert.alert($filter('translate')('geral.atencao'), error.message);
               });
             }
-          });
+          })
+          .finally(influuntBlockui.unblock);
       };
 
 
