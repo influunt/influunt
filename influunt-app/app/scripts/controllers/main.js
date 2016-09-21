@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('MainCtrl', ['$scope', '$state', '$filter', '$controller', '$http', 'influuntAlert', 'Restangular',
-    function MainCtrl($scope, $state, $filter, $controller, $http, influuntAlert, Restangular) {
+  .controller('MainCtrl', ['$scope', '$state', '$filter', '$controller', '$http', 'influuntAlert', 'Restangular', 'influuntBlockui',
+    function MainCtrl($scope, $state, $filter, $controller, $http, influuntAlert, Restangular, influuntBlockui) {
       // Herda todo o comportamento de breadcrumbs.
       $controller('BreadcrumbsCtrl', {$scope: $scope});
 
@@ -37,7 +37,8 @@ angular.module('influuntApp')
                       influuntAlert.alert($filter('translate')('geral.atencao'), error.message);
                     });
                   }
-                });
+                })
+                .finally(influuntBlockui.unblock);
             }
           });
       };
@@ -54,7 +55,8 @@ angular.module('influuntApp')
                 influuntAlert.alert($filter('translate')('geral.atencao'), error.message);
               });
             }
-          });
+          })
+          .finally(influuntBlockui.unblock);
 
       };
 
