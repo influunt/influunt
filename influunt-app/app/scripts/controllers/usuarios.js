@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('UsuariosCtrl', ['$scope', '$controller', 'Restangular', '$state', '$timeout',
-    function ($scope, $controller, Restangular, $state, $timeout) {
+  .controller('UsuariosCtrl', ['$scope', '$controller', 'Restangular', '$state', '$timeout', 'influuntBlockui',
+    function ($scope, $controller, Restangular, $state, $timeout, influuntBlockui) {
       // Herda todo o comportamento do crud basico.
       $controller('CrudCtrl', {$scope: $scope});
       $scope.inicializaNovoCrud('usuarios');
@@ -84,7 +84,8 @@ angular.module('influuntApp')
         .then(function(res){
           $scope.sessoes = res.data;
           $scope.pagination.totalItems = res.total;
-        });
+        })
+        .finally(influuntBlockui.unblock);
       };
 
     }]);
