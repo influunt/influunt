@@ -147,7 +147,7 @@
       </a>
     </div>
     <div class="right">
-      <a data-ng-if="podeSalvar()" go-to-top data-ng-click="submitForm({$valid: true}, 'entre_verdes', 'app.wizard_controladores.associacao_detectores')" tooltips tooltip-template="<b>{{ 'geral.tooltip.salvarAvancarPara' | translate }}</b> {{ 'controladores.associacaoDetectores.titulo' | translate }}" class="go-to-top btn btn-primary btn-footer right">
+      <a data-ng-if="podeSalvar()" go-to-top data-ng-click="submitForm('entre_verdes', 'app.wizard_controladores.associacao_detectores')" tooltips tooltip-template="<b>{{ 'geral.tooltip.salvarAvancarPara' | translate }}</b> {{ 'controladores.associacaoDetectores.titulo' | translate }}" class="go-to-top btn btn-primary btn-footer right">
         {{ 'plugins.steps.labels.saveNext' | translate }} <i class="fa fa-arrow-right"></i>
       </a>
       <a data-ng-if="!podeSalvar()" disabled="disabled" tooltips tooltip-template="<b><span>{{ 'geral.tooltip.naoPodeSalvarSemConfirmacao' | translate }}</span></b>" class="go-to-top btn btn-primary btn-footer right">
@@ -155,7 +155,7 @@
       </a>
     </div>
     <div class="right">
-      <a data-ng-if="podeSalvar()" go-to-top data-ng-click="submitForm({$valid: true}, 'entre_verdes', 'app.wizard_controladores.entre_verdes')" tooltips tooltip-template="<b>{{ 'geral.tooltip.salvarPermanecer' | translate }}</b> {{ 'controladores.entreVerdes.titulo' | translate }}" class="btn btn-outline btn-primary btn-footer right m-r-sm right">{{ 'plugins.steps.labels.save' | translate }}
+      <a data-ng-if="podeSalvar()" go-to-top data-ng-click="submitForm('entre_verdes', 'app.wizard_controladores.entre_verdes')" tooltips tooltip-template="<b>{{ 'geral.tooltip.salvarPermanecer' | translate }}</b> {{ 'controladores.entreVerdes.titulo' | translate }}" class="btn btn-outline btn-primary btn-footer right m-r-sm right">{{ 'plugins.steps.labels.save' | translate }}
       </a>
       <a data-ng-if="!podeSalvar()" disabled="disabled" tooltips tooltip-template="<b><span>{{ 'geral.tooltip.naoPodeSalvarSemConfirmacao' | translate }}</span></b>" class="btn btn-primary btn-footer right m-r-sm right">{{ 'plugins.steps.labels.save' | translate }}
       </a>

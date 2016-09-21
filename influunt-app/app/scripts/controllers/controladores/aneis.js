@@ -196,7 +196,7 @@ angular.module('influuntApp')
               var ultimoAnelAtivoIndex = _.findLastIndex($scope.objeto.aneis, { ativo: true });
               $scope.objeto.aneis[ultimoAnelAtivoIndex].ativo = false;
               $scope.objeto.aneis[ultimoAnelAtivoIndex]._destroy = true;
-              $scope.submitForm({$valid: true}, 'aneis', 'app.wizard_controladores.aneis');
+              $scope.submitForm('aneis', 'app.wizard_controladores.aneis');
             }
             return deveApagarAnel;
           });

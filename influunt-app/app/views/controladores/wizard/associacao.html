@@ -76,7 +76,7 @@
                               <div class="col-lg-4 col-sm-4 priority">
                                 <div class="knob-item text-center" data-ng-show="estagio.tempoMaximoPermanenciaAtivado">
                                   <influunt-knob
-                                  label="SEG" min="objeto.maximoPermanenciaEstagioMin" max="objeto.maximoPermanenciaEstagioMax" 
+                                  label="SEG" min="objeto.maximoPermanenciaEstagioMin" max="objeto.maximoPermanenciaEstagioMax"
                                   read-only="!estagio.tempoMaximoPermanenciaAtivado"
                                   data-ng-model="estagio.tempoMaximoPermanencia"></influunt-knob>
                                 </div>
@@ -102,12 +102,12 @@
           <i class="fa fa-eye"></i> {{ 'plugins.steps.labels.last_screen' | translate }}
         </a>
         <div class="right">
-          <a go-to-top data-ng-click="submitForm({$valid: true}, 'associacao_grupos_semaforicos', 'app.wizard_controladores.transicoes_proibidas')" tooltips tooltip-template="<b>{{ 'geral.tooltip.salvarAvancarPara' | translate }}</b> Transições Proíbidas" class="go-to-top btn btn-primary btn-footer right">
+          <a go-to-top data-ng-click="submitForm('associacao_grupos_semaforicos', 'app.wizard_controladores.transicoes_proibidas')" tooltips tooltip-template="<b>{{ 'geral.tooltip.salvarAvancarPara' | translate }}</b> Transições Proíbidas" class="go-to-top btn btn-primary btn-footer right">
             {{ 'plugins.steps.labels.saveNext' | translate }} <i class="fa fa-arrow-right"></i>
           </a>
         </div>
         <div class="right">
-          <a go-to-top data-ng-click="submitForm({$valid: true}, 'associacao_grupos_semaforicos', 'app.wizard_controladores.associacao')" tooltips tooltip-template="<b>{{ 'geral.tooltip.salvarPermanecer' | translate }}</b> {{ 'controladores.associacao.titulo' | translate }}" class="btn btn-outline btn-primary btn-footer right m-r-sm right">{{ 'plugins.steps.labels.save' | translate }}
+          <a go-to-top data-ng-click="submitForm('associacao_grupos_semaforicos', 'app.wizard_controladores.associacao')" tooltips tooltip-template="<b>{{ 'geral.tooltip.salvarPermanecer' | translate }}</b> {{ 'controladores.associacao.titulo' | translate }}" class="btn btn-outline btn-primary btn-footer right m-r-sm right">{{ 'plugins.steps.labels.save' | translate }}
           </a>
         </div>
         <div class="right">

@@ -435,7 +435,6 @@ angular.module('influuntApp')
       };
 
       $scope.submitForm = function() {
-
         Restangular
         .all('tabela_horarios')
         .post($scope.objeto)

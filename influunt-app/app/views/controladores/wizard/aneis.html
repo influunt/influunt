@@ -164,12 +164,12 @@
         <i class="fa fa-eye"></i> {{ 'plugins.steps.labels.last_screen' | translate }}
       </a>
       <div class="right">
-        <a go-to-top data-ng-click="submitForm({$valid: true}, 'aneis', 'app.wizard_controladores.configuracao_grupo')" tooltips tooltip-template="<b>{{ 'geral.tooltip.salvarAvancarPara' | translate }}</b> {{ 'controladores.gruposSemaforicos.titulo' | translate }}" class="go-to-top btn btn-primary btn-footer right">
+        <a go-to-top data-ng-click="submitForm('aneis', 'app.wizard_controladores.configuracao_grupo')" tooltips tooltip-template="<b>{{ 'geral.tooltip.salvarAvancarPara' | translate }}</b> {{ 'controladores.gruposSemaforicos.titulo' | translate }}" class="go-to-top btn btn-primary btn-footer right">
           {{ 'plugins.steps.labels.saveNext' | translate }} <i class="fa fa-arrow-right"></i>
         </a>
       </div>
       <div class="right">
-        <a data-ng-click="submitForm({$valid: true}, 'aneis', 'app.wizard_controladores.aneis');" tooltips tooltip-template="<b>{{ 'geral.tooltip.salvarPermanecer' | translate }}</b> {{ 'controladores.aneis.titulo' | translate }}" class="btn btn-outline btn-primary btn-footer right m-r-sm right">{{ 'plugins.steps.labels.save' | translate }}
+        <a data-ng-click="submitForm('aneis', 'app.wizard_controladores.aneis');" tooltips tooltip-template="<b>{{ 'geral.tooltip.salvarPermanecer' | translate }}</b> {{ 'controladores.aneis.titulo' | translate }}" class="btn btn-outline btn-primary btn-footer right m-r-sm right">{{ 'plugins.steps.labels.save' | translate }}
         </a>
       </div>
       <div class="right">

@@ -138,36 +138,34 @@ angular.module('influuntApp')
         return defer.promise;
       };
 
-      $scope.submitForm = function(form, stepResource, nextStep) {
+      $scope.submitForm = function(stepResource, nextStep) {
         influuntBlockui.block();
         if (angular.isFunction($scope.beforeSubmitForm)) {
           $scope.beforeSubmitForm();
         }
 
-        if (form.$valid) {
-          Restangular
-            .all('controladores')
-            .all(stepResource)
-            .post($scope.objeto)
-            .then(function(res) {
-              $scope.objeto = res;
+        Restangular
+          .all('controladores')
+          .all(stepResource)
+          .post($scope.objeto)
+          .then(function(res) {
+            $scope.objeto = res;
 
-              $scope.errors = {};
-              $state.go(nextStep, {id: $scope.objeto.id});
-            })
-            .catch(function(res) {
-              if (res.status === 422) {
-                if (angular.isFunction($scope.afterSubmitFormOnValidationError)) {
-                  $scope.afterSubmitFormOnValidationError();
-                }
-
-                $scope.buildValidationMessages(res.data);
-              } else {
-                console.error(res);
+            $scope.errors = {};
+            $state.go(nextStep, {id: $scope.objeto.id});
+          })
+          .catch(function(res) {
+            if (res.status === 422) {
+              if (angular.isFunction($scope.afterSubmitFormOnValidationError)) {
+                $scope.afterSubmitFormOnValidationError();
               }
-            })
-            .finally(influuntBlockui.unblock);
-        }
+
+              $scope.buildValidationMessages(res.data);
+            } else {
+              console.error(res);
+            }
+          })
+          .finally(influuntBlockui.unblock);
       };
 
       /**
