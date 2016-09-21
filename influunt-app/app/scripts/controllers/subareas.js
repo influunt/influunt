@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('SubAreasCtrl', ['$controller', '$scope', 'Restangular',
-    function ($controller, $scope, Restangular) {
+  .controller('SubAreasCtrl', ['$controller', '$scope', 'Restangular', 'influuntBlockui',
+    function ($controller, $scope, Restangular, influuntBlockui) {
       // Herda todo o comportamento do crud basico.
       $controller('CrudCtrl', {$scope: $scope});
       $scope.inicializaNovoCrud('subareas');
@@ -75,7 +75,8 @@ angular.module('influuntApp')
             $scope.objeto.cidades = $scope.data.cidades;
             $scope.objeto.areas = _.chain($scope.data.cidades).map('areas').flatten().value();
           }
-        });
+        })
+        .finally(influuntBlockui.unblock);
       };
 
     }]);
