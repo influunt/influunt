@@ -40,14 +40,16 @@ angular.module('influuntApp')
 
           var deleteImage = function(imagemId, dropzoneFile, dropzone) {
             return Restangular
-              .one('imagens', imagemId).remove().then(function() {
-                dropzoneFile.previewElement = null;
-                dropzone.removeFile(dropzoneFile);
-                scope.onDelete({ imagem: { id: imagemId } });
-              }).catch(function() {
-                toast.error($filter('translate')('controladores.geral.dropzone.erro_apagar_imagem'));
-              })
-              .finally(influuntBlockui.unblock);
+              .one('imagens', imagemId).remove()
+                .then(function() {
+                  dropzoneFile.previewElement = null;
+                  dropzone.removeFile(dropzoneFile);
+                  $('.dz-preview[data-imagem-id="'+ imagemId +'"]').remove()
+                  scope.onDelete({ imagem: { id: imagemId } });
+                }).catch(function() {
+                  toast.error($filter('translate')('geral.dropzone.erro_apagar_imagem'));
+                })
+                .finally(influuntBlockui.unblock);
           };
 
           scope.$watch('anel.idJson', function(value) {
