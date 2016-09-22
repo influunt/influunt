@@ -30,7 +30,9 @@ describe('Controller: BreadcrumbsCtrl', function () {
     });
 
     httpBackend = $httpBackend;
-    controlador = { nomeEndereco: "Av Teste 1" };
+    controlador = { 
+      nomeEndereco: 'Av Teste 1' 
+    };
 
   }));
 
