@@ -393,6 +393,7 @@
       "voltarSemPara": "Voltar sem salvar para",
       "salvarAvancarPara": "Salvar e avançar para",
       "naoPodeSalvarSemConfirmacao": "É necessário preencher os dados ou confirmar que não há nada a ser feito",
+      "naoPodeSalvarSemConfirmacaoEntreVerdes": "É necessário preencher os dados ou confirmar que não há nada a ser feito em cada grupo semafórico. Verifique os grupos ",
       "ver": "Visualizar",
       "verEditar": "Ver ou editar",
       "copiar": "Copiar",
@@ -530,7 +531,7 @@
     "datatables_cdn": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json",
     "steps": {
       "confirmation": "Confirmo que não há configurações a serem feitas nesse anel.",
-      "confirmationDefault": "Confirmo que será utilizado a configuração padrão para esse grupo semafórico.",
+      "confirmationDefault": "Confirmo que será utilizada a configuração padrão para esse grupo semafórico.",
       "labels": {
         "back": "Voltar",
         "last_screen": "Ver Resumo",

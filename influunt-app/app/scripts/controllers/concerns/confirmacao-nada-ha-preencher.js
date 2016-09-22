@@ -30,7 +30,7 @@ angular.module('influuntApp')
       $scope.possuiInformacoesPreenchidas = function() {
         throw new Error('Método possuiInformacoesPreenchidas não implementado classe filho.');
       };
-      
+
       $scope.verificaConfirmacaoNadaHaPreencher = function(){
         if($scope.confirmacao){
           confirmacaoNadaHaPreencher[$scope.currentAnel.posicao] = $scope.possuiInformacoesPreenchidas();
