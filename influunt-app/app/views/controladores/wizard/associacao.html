@@ -76,7 +76,7 @@
                               <div class="col-lg-4 col-sm-4 priority">
                                 <div class="knob-item text-center" data-ng-show="estagio.tempoMaximoPermanenciaAtivado">
                                   <influunt-knob
-                                  label="SEG" min="objeto.maximoPermanenciaEstagioMin" max="objeto.maximoPermanenciaEstagioMax" 
+                                  label="SEG" min="objeto.maximoPermanenciaEstagioMin" max="objeto.maximoPermanenciaEstagioMax"
                                   read-only="!estagio.tempoMaximoPermanenciaAtivado"
                                   data-ng-model="estagio.tempoMaximoPermanencia"></influunt-knob>
                                 </div>
@@ -111,7 +111,7 @@
           </a>
         </div>
         <div class="right">
-          <a data-ng-click="voltarSemSalvar('associacao_grupos_semaforicos')" tooltips tooltip-template="<b><span>{{ 'geral.tooltip.voltarSemPara' | translate }}</span></b> {{ 'controladores.verdesConflitantes.titulo' | translate }}" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
+          <a data-ng-click="voltarSemSalvar('app.wizard_controladores.verdes_conflitantes')" tooltips tooltip-template="<b><span>{{ 'geral.tooltip.voltarSemPara' | translate }}</span></b> {{ 'controladores.verdesConflitantes.titulo' | translate }}" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
             <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.back' | translate }}
           </a>
         </div>
