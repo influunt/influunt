@@ -160,7 +160,8 @@ angular.module('influuntApp')
             $scope.filtro.agrupamentos = _.concat($scope.filtro.agrupamentos, subareas);
 
             return $scope.filtro;
-          });
+          })
+          .finally(influuntBlockui.unblock);
       };
 
       getSubareas = function() {

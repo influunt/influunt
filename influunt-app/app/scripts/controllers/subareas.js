@@ -46,9 +46,11 @@ angular.module('influuntApp')
        * Recupera a lista de cidades que podem ser relacionadas à área.
        */
       $scope.beforeShow = function() {
-        Restangular.all('areas').customGET().then(function(res) {
-          $scope.areas = res.data;
-        });
+        Restangular.all('areas').customGET()
+          .then(function(res) {
+            $scope.areas = res.data;
+          })
+          .finally(influuntBlockui.unblock);
       };
 
       $scope.afterShow = function() {
@@ -56,27 +58,28 @@ angular.module('influuntApp')
       };
 
       getHelpersControlador = function() {
-        return Restangular.one('helpers', 'controlador').get().then(function(res) {
-          $scope.data = res;
-          $scope.helpers = {};
+        return Restangular.one('helpers', 'controlador').get()
+          .then(function(res) {
+            $scope.data = res;
+            $scope.helpers = {};
 
-          if ($scope.objeto.area && $scope.objeto.areas) {
-            var idJson = $scope.objeto.area.idJson;
-            var area = _.find($scope.objeto.areas, {idJson: idJson});
-            var cidade = _.find($scope.objeto.cidades, {idJson: area.cidade.idJson});
+            if ($scope.objeto.area && $scope.objeto.areas) {
+              var idJson = $scope.objeto.area.idJson;
+              var area = _.find($scope.objeto.areas, {idJson: idJson});
+              var cidade = _.find($scope.objeto.cidades, {idJson: area.cidade.idJson});
 
-            cidade.areas = cidade.areas.map(function(area) {
-              return _.find($scope.objeto.areas, {idJson: area.idJson});
-            });
+              cidade.areas = cidade.areas.map(function(area) {
+                return _.find($scope.objeto.areas, {idJson: area.idJson});
+              });
 
-            $scope.helpers.cidade = cidade;
-          } else {
-            $scope.helpers.cidade = $scope.data.cidades[0];
-            $scope.objeto.cidades = $scope.data.cidades;
-            $scope.objeto.areas = _.chain($scope.data.cidades).map('areas').flatten().value();
-          }
-        })
-        .finally(influuntBlockui.unblock);
+              $scope.helpers.cidade = cidade;
+            } else {
+              $scope.helpers.cidade = $scope.data.cidades[0];
+              $scope.objeto.cidades = $scope.data.cidades;
+              $scope.objeto.areas = _.chain($scope.data.cidades).map('areas').flatten().value();
+            }
+          })
+          .finally(influuntBlockui.unblock);
       };
 
     }]);

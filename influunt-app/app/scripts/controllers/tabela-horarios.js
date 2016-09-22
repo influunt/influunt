@@ -29,136 +29,137 @@ angular.module('influuntApp')
        */
       $scope.init = function() {
         var id = $state.params.id;
-        Restangular.one('controladores', id).get().then(function(res) {
-          $scope.objeto = res;
-          $scope.comCheckBoxGrupo = false;
-          $scope.currentTipoEvento = NORMAL;
-          $scope.dias = [
-            {
-              label: 'Todos os dias da semana',
-              value: 'TODOS_OS_DIAS',
-              dias: ['dom','seg','ter','qua','qui','sex','sab'],
-              prioridade:11
-            },
-            {
-              label: 'Domingo',
-              value: 'DOMINGO',
-              dias: ['dom'],
-              prioridade:7
-            },
-            {
-              label: 'Segunda-feira',
-              value: 'SEGUNDA',
-              dias: ['seg'] ,
-              prioridade:6,
-            },
-            {
-              label: 'Terça-feira',
-              value: 'TERCA',
-              dias: ['ter'],
-              prioridade:5
-            },
-            {
-              label: 'Quarta-feira',
-              value: 'QUARTA',
-              dias: ['qua'],
-              prioridade:4,
-            },
-            {
-              label: 'Quinta-feira',
-              value: 'QUINTA',
-              dias: ['qui'],
-              prioridade:3
-            },
-            {
-              label: 'Sexta-feira',
-              value: 'SEXTA',
-              dias: ['sex'],
-              prioridade:2
-            },
-            {
-              label: 'Sábado',
-              value: 'SABADO',
-              dias: ['sab'],
-              prioridade:1
-            },
-            {
-              label: 'Sábado e Domingo',
-              value: 'SABADO_A_DOMINGO',
-              dias: ['dom','sab'],
-              prioridade:8
-            },
+        Restangular.one('controladores', id).get()
+          .then(function(res) {
+            $scope.objeto = res;
+            $scope.comCheckBoxGrupo = false;
+            $scope.currentTipoEvento = NORMAL;
+            $scope.dias = [
+              {
+                label: 'Todos os dias da semana',
+                value: 'TODOS_OS_DIAS',
+                dias: ['dom','seg','ter','qua','qui','sex','sab'],
+                prioridade:11
+              },
+              {
+                label: 'Domingo',
+                value: 'DOMINGO',
+                dias: ['dom'],
+                prioridade:7
+              },
+              {
+                label: 'Segunda-feira',
+                value: 'SEGUNDA',
+                dias: ['seg'] ,
+                prioridade:6,
+              },
+              {
+                label: 'Terça-feira',
+                value: 'TERCA',
+                dias: ['ter'],
+                prioridade:5
+              },
+              {
+                label: 'Quarta-feira',
+                value: 'QUARTA',
+                dias: ['qua'],
+                prioridade:4,
+              },
+              {
+                label: 'Quinta-feira',
+                value: 'QUINTA',
+                dias: ['qui'],
+                prioridade:3
+              },
+              {
+                label: 'Sexta-feira',
+                value: 'SEXTA',
+                dias: ['sex'],
+                prioridade:2
+              },
+              {
+                label: 'Sábado',
+                value: 'SABADO',
+                dias: ['sab'],
+                prioridade:1
+              },
+              {
+                label: 'Sábado e Domingo',
+                value: 'SABADO_A_DOMINGO',
+                dias: ['dom','sab'],
+                prioridade:8
+              },
 
-            {
-              label: 'Segunda à Sexta',
-              value: 'SEGUNDA_A_SEXTA',
-              dias: ['seg','ter','qua','qui','sex'],
-              prioridade:9
-            },
-            {
-              label: 'Segunda à Sábado',
-              value: 'SEGUNDA_A_SABADO',
-              dias: ['seg','ter','qua','qui','sex','sab'],
-              prioridade:10
+              {
+                label: 'Segunda à Sexta',
+                value: 'SEGUNDA_A_SEXTA',
+                dias: ['seg','ter','qua','qui','sex'],
+                prioridade:9
+              },
+              {
+                label: 'Segunda à Sábado',
+                value: 'SEGUNDA_A_SABADO',
+                dias: ['seg','ter','qua','qui','sex','sab'],
+                prioridade:10
+              }
+            ];
+            $scope.horarios = $scope.getTimes(24);
+            $scope.minutos = $scope.getTimes(60);
+            $scope.segundos = $scope.getTimes(60);
+            $scope.planos = $scope.getTimes(16);
+
+            $scope.tipoEventos = [
+              {posicao: ''},
+              {posicao: 'Especiais Recorrentes'},
+              {posicao: 'Especiais Não Recorrentes'}
+            ];
+
+            $scope.qtdEventos = 0;
+
+            $scope.nomesTabs = [
+              $filter('translate')('tabelaHorarios.eventos') + '<span class=\'badge badge-success m-l-xs\'>' + $scope.qtdEventos + '</span>',
+              $filter('translate')('tabelaHorarios.eventosRecorrentes') + '<span class=\'badge badge-success m-l-xs\'>' + $scope.qtdEventosRecorrentes + '</span>',
+              $filter('translate')('tabelaHorarios.eventosNaoRecorrentes') + '<span class=\'badge badge-success m-l-xs\'>' + $scope.qtdEventosNaoRecorrentes + '</span>'
+            ];
+
+            $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
+            $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
+
+            _.each($scope.objeto.eventos, function(evento){
+              evento.hora = parseInt(evento.horario.split(':')[0]) + '';
+              evento.minuto = parseInt(evento.horario.split(':')[1]) + '';
+              evento.segundo = parseInt(evento.horario.split(':')[2]) + '';
+              if(!!evento.diaDaSemana){
+                evento.diaDaSemana = _.find($scope.dias, {label: evento.diaDaSemana}).value;
+              }
+              if(!!evento.data){
+                evento.data = moment(evento.data, 'DD-MM-YYYY');
+              }
+            });
+
+            $scope.currentVersaoTabelaHorariaIndex = _.findIndex($scope.objeto.versoesTabelasHorarias, {statusVersao: 'EDITANDO'});
+            if ($scope.currentVersaoTabelaHorariaIndex === -1) {
+             $scope.currentVersaoTabelaHorariaIndex = _.findIndex($scope.objeto.versoesTabelasHorarias, {statusVersao: 'ATIVO'});
             }
-          ];
-          $scope.horarios = $scope.getTimes(24);
-          $scope.minutos = $scope.getTimes(60);
-          $scope.segundos = $scope.getTimes(60);
-          $scope.planos = $scope.getTimes(16);
 
-          $scope.tipoEventos = [
-            {posicao: ''},
-            {posicao: 'Especiais Recorrentes'},
-            {posicao: 'Especiais Não Recorrentes'}
-          ];
-
-          $scope.qtdEventos = 0;
-
-          $scope.nomesTabs = [
-            $filter('translate')('tabelaHorarios.eventos') + '<span class=\'badge badge-success m-l-xs\'>' + $scope.qtdEventos + '</span>',
-            $filter('translate')('tabelaHorarios.eventosRecorrentes') + '<span class=\'badge badge-success m-l-xs\'>' + $scope.qtdEventosRecorrentes + '</span>',
-            $filter('translate')('tabelaHorarios.eventosNaoRecorrentes') + '<span class=\'badge badge-success m-l-xs\'>' + $scope.qtdEventosNaoRecorrentes + '</span>'
-          ];
-
-          $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
-          $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
-
-          _.each($scope.objeto.eventos, function(evento){
-            evento.hora = parseInt(evento.horario.split(':')[0]) + '';
-            evento.minuto = parseInt(evento.horario.split(':')[1]) + '';
-            evento.segundo = parseInt(evento.horario.split(':')[2]) + '';
-            if(!!evento.diaDaSemana){
-              evento.diaDaSemana = _.find($scope.dias, {label: evento.diaDaSemana}).value;
-            }
-            if(!!evento.data){
-              evento.data = moment(evento.data, 'DD-MM-YYYY');
-            }
-          });
-
-          $scope.currentVersaoTabelaHorariaIndex = _.findIndex($scope.objeto.versoesTabelasHorarias, {statusVersao: 'EDITANDO'});
-          if ($scope.currentVersaoTabelaHorariaIndex === -1) {
-           $scope.currentVersaoTabelaHorariaIndex = _.findIndex($scope.objeto.versoesTabelasHorarias, {statusVersao: 'ATIVO'});
-          }
-
-          $scope.currentVersaoTabelaHoraria = $scope.objeto.versoesTabelasHorarias[$scope.currentVersaoTabelaHorariaIndex];
-          if($scope.objeto.tabelasHorarias.length === 0) {
-            $scope.objeto.versoesTabelasHorarias = ($scope.objeto.versoesTabelasHorarias.length > 0) ? $scope.objeto.versoesTabelasHorarias : [{idJson: UUID.generate()}];
-            $scope.currentVersaoTabelaHorariaIndex = 0;
             $scope.currentVersaoTabelaHoraria = $scope.objeto.versoesTabelasHorarias[$scope.currentVersaoTabelaHorariaIndex];
-            adicionaTabelaHorario($scope.objeto);
-          }
+            if($scope.objeto.tabelasHorarias.length === 0) {
+              $scope.objeto.versoesTabelasHorarias = ($scope.objeto.versoesTabelasHorarias.length > 0) ? $scope.objeto.versoesTabelasHorarias : [{idJson: UUID.generate()}];
+              $scope.currentVersaoTabelaHorariaIndex = 0;
+              $scope.currentVersaoTabelaHoraria = $scope.objeto.versoesTabelasHorarias[$scope.currentVersaoTabelaHorariaIndex];
+              adicionaTabelaHorario($scope.objeto);
+            }
 
-          $scope.currentTabelaHoraria = _.find(
-            $scope.objeto.tabelasHorarias, {idJson: $scope.currentVersaoTabelaHoraria.tabelaHoraria.idJson}
-          );
+            $scope.currentTabelaHoraria = _.find(
+              $scope.objeto.tabelasHorarias, {idJson: $scope.currentVersaoTabelaHoraria.tabelaHoraria.idJson}
+            );
 
-          adicionaEvento($scope.currentTabelaHoraria, NORMAL);
-          adicionaEvento($scope.currentTabelaHoraria, ESPECIAL_RECORRENTE);
-          adicionaEvento($scope.currentTabelaHoraria, ESPECIAL_NAO_RECORRENTE);
-          $scope.selecionaTipoEvento(0);
-        })
-        .finally(influuntBlockui.unblock);
+            adicionaEvento($scope.currentTabelaHoraria, NORMAL);
+            adicionaEvento($scope.currentTabelaHoraria, ESPECIAL_RECORRENTE);
+            adicionaEvento($scope.currentTabelaHoraria, ESPECIAL_NAO_RECORRENTE);
+            $scope.selecionaTipoEvento(0);
+          })
+          .finally(influuntBlockui.unblock);
       };
 
       $scope.clonarTabelaHoraria = function(controladorId) {
@@ -169,7 +170,8 @@ angular.module('influuntApp')
           .catch(function(err) {
             toast.error($filter('translate')('geral.mensagens.default_erro'));
             throw new Error(JSON.stringify(err));
-          });
+          })
+          .finally(influuntBlockui.unblock);
       };
 
       $scope.timeline = function() {
@@ -180,7 +182,8 @@ angular.module('influuntApp')
           .catch(function(err) {
             toast.error($filter('translate')('geral.mensagens.default_erro'));
             throw new Error(JSON.stringify(err));
-          });
+          })
+          .finally(influuntBlockui.unblock);
       };
 
       $scope.editarTabelaHoraria = function(controladorId) {
@@ -191,7 +194,8 @@ angular.module('influuntApp')
           .catch(function(err) {
             toast.clear();
             influuntAlert.alert('Controlador', err.data[0].message);
-          });
+          })
+          .finally(influuntBlockui.unblock);
       };
 
       $scope.cancelarEdicao = function(controladorId) {
@@ -204,7 +208,8 @@ angular.module('influuntApp')
             .catch(function(err) {
               toast.error($filter('translate')('geral.mensagens.default_erro'));
               throw new Error(err);
-            });
+            })
+            .finally(influuntBlockui.unblock);
         });
       };
 
@@ -284,7 +289,8 @@ angular.module('influuntApp')
               removerEventoNoCliente(evento);
             }).catch(function() {
               toast.error($filter('translate')('controladores.eventos.msg_erro_apagar_evento'));
-            });
+            })
+            .finally(influuntBlockui.unblock);
         }
       };
 
@@ -453,7 +459,8 @@ angular.module('influuntApp')
           } else {
             console.error(res);
           }
-        });
+        })
+        .finally(influuntBlockui.unblock);
       };
 
       $scope.tipoEventoTemErro = function(indice) {
