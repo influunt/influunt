@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresCtrl', ['$controller', '$scope', '$state', '$filter', 'Restangular', '$q', 'handleValidations', 'APP_ROOT', 'influuntBlockui', 'toast', 'influuntAlert',
-    function ($controller, $scope, $state, $filter, Restangular, $q, handleValidations, APP_ROOT, influuntBlockui, toast, influuntAlert) {
+  .controller('ControladoresCtrl', ['$controller', '$scope', '$state', '$filter', 'Restangular', '$q', 'handleValidations', 'APP_ROOT', 'influuntBlockui', 'toast', 'influuntAlert', 'STATUS_CONTROLADOR',
+    function ($controller, $scope, $state, $filter, Restangular, $q, handleValidations, APP_ROOT, influuntBlockui, toast, influuntAlert, STATUS_CONTROLADOR) {
 
 
       // Herda todo o comportamento do crud basico.
@@ -20,6 +20,32 @@ angular.module('influuntApp')
       // Seta URL para salvar imagens
       $scope.dados = {
         imagensUrl: APP_ROOT + '/imagens'
+      };
+
+      $scope.pesquisa = {
+        campos: [
+          {
+            nome: 'statusControlador',
+            label: 'main.status',
+            tipo: 'select',
+            options: STATUS_CONTROLADOR
+          },
+          {
+            nome: 'clc',
+            label: 'controladores.geral.CLC',
+            tipo: 'texto'
+          },
+          {
+            nome: 'nomeEndereco',
+            label: 'controladores.nomeEndereco',
+            tipo: 'texto'
+          },
+          {
+            nome: 'descricao',
+            label: 'areas.descricao',
+            tipo: 'texto'
+          }
+        ]
       };
 
       /**
