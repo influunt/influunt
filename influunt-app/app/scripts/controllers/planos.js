@@ -21,7 +21,7 @@ angular.module('influuntApp')
           atualizaEstagiosPlanos, adicionaEstagioASequencia, atualizaPosicaoPlanos, atualizaPosicaoEstagiosPlanos,
           carregaDadosPlano, getOpcoesEstagiosDisponiveis, montaTabelaValoresMinimos, parseAllToInt, setDiagramaEstatico,
           atualizaDiagramaIntervalos, getPlanoParaDiagrama, atualizaTransicoesProibidas, getErrosGruposSemaforicosPlanos,
-          duplicarPlano, removerPlanoLocal, getErrosUltrapassaTempoSeguranca, getKeysErros, 
+          duplicarPlano, removerPlanoLocal, getErrosUltrapassaTempoSeguranca, getKeysErros,
           getIdJsonDePlanosQuePossuemErros, getPlanoComErro;
       var diagramaDebouncer = null;
 
@@ -59,7 +59,7 @@ angular.module('influuntApp')
       };
 
       $scope.clonarPlanos = function(controladorId) {
-        return Restangular.one('controladores', controladorId).all("pode_editar").customGET()
+        return Restangular.one('controladores', controladorId).all('pode_editar').customGET()
           .then(function() {
             Restangular.one('controladores', controladorId).all('editar_planos').customGET()
               .then(function() {
@@ -446,7 +446,7 @@ angular.module('influuntApp')
 
       getKeysErros = function(errors) {
         var keysErrors = [];
-        _.forEach(errors, function(v, key){ 
+        _.forEach(errors, function(v, key){
           if (typeof v !== 'undefined') {
             keysErrors.push(key);
           }
@@ -465,7 +465,7 @@ angular.module('influuntApp')
 
       getPlanoComErro = function (planos, errorsPlanoIdJson) {
         var errorsPlanos = [];
-        
+
         errorsPlanos = _.chain(planos)
           .filter(function(e) {
             return errorsPlanoIdJson.indexOf(e.idJson) >= 0;
@@ -499,7 +499,7 @@ angular.module('influuntApp')
       getErrosGruposSemaforicosPlanos = function(listaErros){
         var erros = [];
         var currentPlanoIndex = $scope.currentPlanoIndex;
-        
+
         if(listaErros){
           _.each(listaErros.planos[currentPlanoIndex].gruposSemaforicosPlanos, function (erro, index){
             if(erro) {

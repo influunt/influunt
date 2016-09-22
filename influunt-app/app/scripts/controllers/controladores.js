@@ -394,7 +394,7 @@ angular.module('influuntApp')
 
 
       $scope.copiar = function(controladorId) {
-        return Restangular.one('controladores', controladorId).all("edit").customGET()
+        return Restangular.one('controladores', controladorId).all('edit').customGET()
           .then(function() {
             $state.go('app.controladores');
           })
@@ -406,7 +406,7 @@ angular.module('influuntApp')
 
       $scope.timeline = function() {
         var id = $state.params.id;
-        return Restangular.one('controladores', id).all("timeline").customGET()
+        return Restangular.one('controladores', id).all('timeline').customGET()
           .then(function(res) {
             $scope.versoes = res;
           })

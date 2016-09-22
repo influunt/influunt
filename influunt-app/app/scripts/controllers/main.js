@@ -46,8 +46,8 @@ angular.module('influuntApp')
       $scope.loadDashboard = function() {
         Restangular.one('monitoramento', 'status_controladores').get()
           .then(function(res) {
-            $scope.dados_status = _.countBy(_.values(res.status), _.identity);
-            $scope.dados_onlines = _.countBy(_.values(res.onlines), _.identity);
+            $scope.dadosStatus = _.countBy(_.values(res.status), _.identity);
+            $scope.dadosOnlines = _.countBy(_.values(res.onlines), _.identity);
           })
           .catch(function(err) {
             if (err.status === 401) {

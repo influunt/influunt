@@ -7,7 +7,7 @@
           <div class="widget style1 navy-bg falseBtn">
             <div class="row">
               <div class="col-lg-3 col-sm-3">
-                <h2 class="font-bold">{{dados_onlines['true'] || 0}}</h2>
+                <h2 class="font-bold">{{dadosOnlines['true'] || 0}}</h2>
               </div>
               <div class="col-lg-8 col-sm-7 text-right">
                 <span> {{ 'main.controlOn' | translate }} </span>
@@ -19,7 +19,7 @@
           <div class="widget style1 red-bg falseBtn">
             <div class="row">
               <div class="col-lg-3 col-sm-3">
-                <h2 class="font-bold">{{dados_onlines['false'] || 0}}</h2>
+                <h2 class="font-bold">{{dadosOnlines['false'] || 0}}</h2>
               </div>
               <div class="col-lg-8 col-sm-7 text-right">
                 <span> {{ 'main.controlOff' | translate }} </span>
@@ -62,13 +62,13 @@
             </div>
             <div class="col-lg-12 no-padding padding-top-20">
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-danger m-r-sm">{{dados_status['NOVO']}}</button> {{ 'main.novo' | translate }}
+                <button type="button" class="btn btn-danger m-r-sm">{{dadosStatus['NOVO']}}</button> {{ 'main.novo' | translate }}
               </div>
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-primary m-r-sm">{{dados_status['CONFIGURADO']}}</button> {{ 'main.configurado' | translate }}
+                <button type="button" class="btn btn-primary m-r-sm">{{dadosStatus['CONFIGURADO']}}</button> {{ 'main.configurado' | translate }}
               </div>
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-info m-r-sm">{{dados_status['ATIVO']}}</button> {{ 'main.ativo' | translate }}
+                <button type="button" class="btn btn-info m-r-sm">{{dadosStatus['ATIVO']}}</button> {{ 'main.ativo' | translate }}
               </div>
             </div>
             <div class="col-lg-12">
@@ -76,13 +76,13 @@
             </div>
             <div class="col-lg-12 no-padding padding-botton-20">
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-info m-r-sm">{{dados_status['INOPERANTE']}}</button> {{ 'main.inoperante' | translate }}
+                <button type="button" class="btn btn-info m-r-sm">{{dadosStatus['INOPERANTE']}}</button> {{ 'main.inoperante' | translate }}
               </div>
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-success m-r-sm">{{dados_status['OPERANDO_COM_FALHAS']}}</button> {{ 'main.operandoFalhas' | translate }}
+                <button type="button" class="btn btn-success m-r-sm">{{dadosStatus['OPERANDO_COM_FALHAS']}}</button> {{ 'main.operandoFalhas' | translate }}
               </div>
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-danger m-r-sm">{{dados_status['INATIVO']}}</button> {{ 'main.inativo' | translate }}
+                <button type="button" class="btn btn-danger m-r-sm">{{dadosStatus['INATIVO']}}</button> {{ 'main.inativo' | translate }}
               </div>
             </div>
           </div>

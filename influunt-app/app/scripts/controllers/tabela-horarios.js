@@ -184,7 +184,7 @@ angular.module('influuntApp')
       };
 
       $scope.editarTabelaHoraria = function(controladorId) {
-        return Restangular.one('controladores', controladorId).all("pode_editar").customGET()
+        return Restangular.one('controladores', controladorId).all('pode_editar').customGET()
           .then(function() {
             $state.go('app.tabela_horarios_edit', { id: controladorId });
           })
