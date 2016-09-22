@@ -27,52 +27,83 @@ public class GerenteProgramacaoTest {
         GerenciadorDeEventos g = new GerenciadorDeEventos();
 
         Calendar instante = Calendar.getInstance();
-        instante.set(2016,8,18,11,0,1);
+        instante.set(2016,8,18,11,20,1);
 
         TabelaHorario th = getTabelaHoraria();
         List<Evento> eventoList = th.getEventos();
         g.addEventos(eventoList);
         g.imprimeTabelaHoraria();
 
-        pergunta(1,instante);
         assertEquals(Integer.valueOf(1),g.eventoAtual(instante).getPosicaoPlano());
 
         instante.add(Calendar.DAY_OF_MONTH, 1);
-        pergunta(2,instante);
         assertEquals(Integer.valueOf(2),g.eventoAtual(instante).getPosicaoPlano());
 
         instante.add(Calendar.DAY_OF_WEEK, 1);
-        pergunta(2,instante);
         assertEquals(Integer.valueOf(3),g.eventoAtual(instante).getPosicaoPlano());
 
         instante.add(Calendar.DAY_OF_WEEK, 1);
-        pergunta(2,instante);
         assertEquals(Integer.valueOf(4),g.eventoAtual(instante).getPosicaoPlano());
 
         instante.add(Calendar.DAY_OF_WEEK, 1);
-        pergunta(2,instante);
         assertEquals(Integer.valueOf(5),g.eventoAtual(instante).getPosicaoPlano());
 
         instante.add(Calendar.DAY_OF_WEEK, 1);
-        pergunta(2,instante);
         assertEquals(Integer.valueOf(6),g.eventoAtual(instante).getPosicaoPlano());
 
         instante.add(Calendar.DAY_OF_WEEK, 1);
-        pergunta(2,instante);
         assertEquals(Integer.valueOf(7),g.eventoAtual(instante).getPosicaoPlano());
 
 
     }
 
-    private void pergunta(int i, Calendar instante) {
-        SimpleDateFormat sdf = new SimpleDateFormat("E H:m:s");
-        System.out.println("O plano " + i + " e o retornado em:" + sdf.format(instante.getTime()) + " -- "
-                + (
-                ((instante.get(Calendar.DAY_OF_WEEK) -1) * 84600) +
-                (instante.get(Calendar.HOUR_OF_DAY) * 3600) +
-                (instante.get(Calendar.MINUTE) * 60) +
-                 instante.get(Calendar.SECOND)
-                ));
+    @Test
+    public void eventoDePrioridadeMenorNaoDeveSobreporTest(){
+        GerenciadorDeEventos g = new GerenciadorDeEventos();
+
+        Calendar instante = Calendar.getInstance();
+        instante.set(2016,8,19,11,0,1);
+
+        Evento domingo = new Evento();
+        domingo.setTipo(TipoEvento.NORMAL);
+        domingo.setDiaDaSemana(DiaDaSemana.DOMINGO);
+        domingo.setData(instante.getTime());
+        domingo.setPosicaoPlano(1);
+
+        Evento sabadoDomingo = new Evento();
+        sabadoDomingo.setTipo(TipoEvento.NORMAL);
+        sabadoDomingo.setDiaDaSemana(DiaDaSemana.SABADO_A_DOMINGO);
+        sabadoDomingo.setData(instante.getTime());
+        sabadoDomingo.setPosicaoPlano(2);
+
+        List<Evento> eventos = new ArrayList<>();
+        eventos.add(domingo);
+        eventos.add(sabadoDomingo);
+
+        g.addEventos(eventos);
+        g.imprimeTabelaHoraria();
+        assertEquals(3,g.getQuantidadeIntervalos());
+        assertEquals(Integer.valueOf(1),g.eventoAtual(instante).getPosicaoPlano());
+        instante.add(Calendar.DAY_OF_WEEK,5);
+        assertEquals(Integer.valueOf(2),g.eventoAtual(instante).getPosicaoPlano());
+        instante.add(Calendar.HOUR,23);
+        instante.add(Calendar.MINUTE,60);
+        instante.add(Calendar.SECOND,-1);
+        pergunta(2,instante);
+        assertEquals(Integer.valueOf(2),g.eventoAtual(instante).getPosicaoPlano());
+        instante.add(Calendar.SECOND,1);
+        pergunta(1,instante);
+        assertEquals(Integer.valueOf(1),g.eventoAtual(instante).getPosicaoPlano());
+        instante.add(Calendar.MILLISECOND,-1);
+        pergunta(2,instante);
+        assertEquals(Integer.valueOf(2),g.eventoAtual(instante).getPosicaoPlano());
+        instante.add(Calendar.MILLISECOND,1);
+        pergunta(1,instante);
+        assertEquals(Integer.valueOf(1),g.eventoAtual(instante).getPosicaoPlano());
+
+
+
+
     }
 
     @Test
@@ -129,26 +160,14 @@ public class GerenteProgramacaoTest {
 
 
     }
-    @Test
-    public void sobrescritaDeEventosTest(){
-        GerenciadorDeEventos g = new GerenciadorDeEventos();
 
-        long instante = (37 * 60 * 60 + (20 * 60)) * 1000;
-        long instanteAnterior = (37 * 60 * 60 + (19 * 60)) * 1000;
-        long instantePosterior = (37 * 60 * 60 + (21 * 60)) * 1000;
-
-        TabelaHorario th = getTabelaHoraria();
-        List<Evento> eventoList = th.getEventos();
-
-        g.addEventos(eventoList);
-    }
     private TabelaHorario getTabelaHoraria() {
 
         TabelaHorario tabelaHorario = new TabelaHorario();
         ArrayList<Evento> eventos = new ArrayList<>();
 
         Calendar cal = Calendar.getInstance();
-        cal.set(2016,8,18,11,0,1);
+        cal.set(2016,8,18,11,20,1);
 
         Evento domingo = new Evento();
         domingo.setTipo(TipoEvento.NORMAL);
@@ -202,38 +221,47 @@ public class GerenteProgramacaoTest {
         sabado.setPosicaoPlano(7);
         eventos.add(sabado);
 
-//
         Evento sabadoDomingo = new Evento();
         sabadoDomingo.setTipo(TipoEvento.NORMAL);
         sabadoDomingo.setDiaDaSemana(DiaDaSemana.SABADO_A_DOMINGO);
         sabadoDomingo.setData(cal.getTime());
         sabadoDomingo.setPosicaoPlano(8);
         eventos.add(sabadoDomingo);
-//
-//        Evento segundaAsexta = new Evento();
-//        segundaAsexta.setTipo(TipoEvento.NORMAL);
-//        segundaAsexta.setDiaDaSemana(DiaDaSemana.SEGUNDA_A_SEXTA);
-//        segundaAsexta.setData(cal.getTime());
-//        segundaAsexta.setPosicaoPlano(9);
-//        eventos.add(segundaAsexta);
-//
-//        Evento segundaASabado = new Evento();
-//        segundaASabado.setTipo(TipoEvento.NORMAL);
-//        segundaASabado.setDiaDaSemana(DiaDaSemana.SEGUNDA_A_SABADO);
-//        segundaASabado.setData(cal.getTime());
-//        segundaASabado.setPosicaoPlano(10);
-//        eventos.add(segundaASabado);
-//
-//        Evento todos = new Evento();
-//        todos.setTipo(TipoEvento.NORMAL);
-//        todos.setDiaDaSemana(DiaDaSemana.TODOS_OS_DIAS);
-//        todos.setData(cal.getTime());
-//        todos.setPosicaoPlano(11);
-//        eventos.add(todos);
 
+        Evento segundaAsexta = new Evento();
+        segundaAsexta.setTipo(TipoEvento.NORMAL);
+        segundaAsexta.setDiaDaSemana(DiaDaSemana.SEGUNDA_A_SEXTA);
+        segundaAsexta.setData(cal.getTime());
+        segundaAsexta.setPosicaoPlano(9);
+        eventos.add(segundaAsexta);
+
+        Evento segundaASabado = new Evento();
+        segundaASabado.setTipo(TipoEvento.NORMAL);
+        segundaASabado.setDiaDaSemana(DiaDaSemana.SEGUNDA_A_SABADO);
+        segundaASabado.setData(cal.getTime());
+        segundaASabado.setPosicaoPlano(10);
+        eventos.add(segundaASabado);
+
+        Evento todos = new Evento();
+        todos.setTipo(TipoEvento.NORMAL);
+        todos.setDiaDaSemana(DiaDaSemana.TODOS_OS_DIAS);
+        todos.setData(cal.getTime());
+        todos.setPosicaoPlano(11);
+        eventos.add(todos);
 
         tabelaHorario.setEventos(eventos);
         return  tabelaHorario;
+    }
+
+    private void pergunta(int i, Calendar instante) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY - EEE - HH:mm:ss");
+        System.out.println("O plano " + i + " e o retornado em:" + sdf.format(instante.getTime()) + " -- "
+                + ((
+                ((instante.get(Calendar.DAY_OF_WEEK) -1) * 84600) +
+                        (instante.get(Calendar.HOUR_OF_DAY) * 3600) +
+                        (instante.get(Calendar.MINUTE) * 60) +
+                        instante.get(Calendar.SECOND) + instante.get(Calendar.MILLISECOND)
+        ))* 1000);
     }
 
 

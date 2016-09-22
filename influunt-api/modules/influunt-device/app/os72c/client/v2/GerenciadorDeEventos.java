@@ -13,6 +13,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.google.common.collect.Range.closed;
+import static com.sun.javafx.tools.resource.DeployResource.Type.data;
+import static utils.ConstantesDeTempo.*;
 
 
 /**
@@ -20,16 +22,13 @@ import static com.google.common.collect.Range.closed;
  */
 public class GerenciadorDeEventos {
 
-    private static final int FIRST_SECOND = 0;
-
-    private static final int LAST_SECOND = 604800;
-
-
     RangeMap<Integer, Evento> rangeMap = TreeRangeMap.create();
 
     Map<Integer, Boolean> petrios = new HashMap<>();
 
     private List<Evento> eventos;
+
+    
 
 
     public void addEventos(List<Evento> eventos) {
@@ -44,17 +43,17 @@ public class GerenciadorDeEventos {
     }
 
     private void processaEvento(Evento evento) {
-        Arrays.stream(evento.getDiaDaSemana().momentosDeAtivacao(getInicio(evento))).forEach(inicio -> {
+        Arrays.stream(evento.getDiaDaSemana().momentosDeAtivacao(getMSNoDia(evento))).forEach(inicio -> {
             adiconarEvento(evento, inicio);
         });
     }
 
     private void adiconarEvento(Evento evento, int inicio) {
         if (rangeMap.getEntry(0) == null) {
-            rangeMap.put(closed(inicio, LAST_SECOND), evento);
-            rangeMap.put(closed(FIRST_SECOND, inicio - 1), evento);
+            rangeMap.put(closed(inicio, ULTIMO_MS_DA_SEMANA), evento);
+            rangeMap.put(closed(PRIMEIRO_MS_DA_SEMANA, inicio - 1), evento);
             petrios.put(inicio, true);
-            petrios.put(FIRST_SECOND, false);
+            petrios.put(PRIMEIRO_MS_DA_SEMANA, false);
 
         } else {
             Map.Entry<Range<Integer>, Evento> eventoAtualMap = rangeMap.getEntry(inicio);
@@ -65,8 +64,6 @@ public class GerenciadorDeEventos {
             petrios.put(range.lowerEndpoint(), true);
             atualizaRanges(evento, range);
         }
-
-        imprimeTabelaHoraria();
     }
 
     private void compacta(RangeMap<Integer, Evento> rangeMap) {
@@ -108,7 +105,7 @@ public class GerenciadorDeEventos {
 
             if (evento.tenhoPrioridade(entry.getValue(), false, petrios.get(entry.getKey().lowerEndpoint()))) {
                 novosRanges.add(Maps.immutableEntry(entry.getKey(), evento));
-                if (entry.getKey().upperEndpoint().equals(LAST_SECOND)) {
+                if (entry.getKey().upperEndpoint().equals(ULTIMO_MS_DA_SEMANA)) {
                     foiAteOFinal = true;
                 }
             } else {
@@ -143,19 +140,23 @@ public class GerenciadorDeEventos {
     }
 
 
-    private Integer getInicio(Evento evento) {
+    private Integer getMSNoDia(Evento evento) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(evento.getData());
-        return getInicio(calendar);
+        return getMSNoDia(calendar);
     }
 
-    private Integer getInicio(Calendar calendar) {
-        return (calendar.get(Calendar.HOUR_OF_DAY) * 3600) + (calendar.get(Calendar.MINUTE) * 60) + calendar.get(Calendar.SECOND);
+    private Integer getMSNoDia(Calendar calendar) {
+        return (calendar.get(Calendar.HOUR_OF_DAY) * MS_POR_HORA) + (calendar.get(Calendar.MINUTE) * MS_POR_MINUTO) + ((calendar.get(Calendar.SECOND) * MS_POR_SEGUNDO)) + calendar.get(Calendar.MILLISECOND);
+    }
+
+    private Integer getMSNaSemana(Calendar calendar) {
+        return ((calendar.get(Calendar.DAY_OF_WEEK) - 1) * MS_POR_DIA) + getMSNoDia(calendar);
     }
 
 
     public Evento eventoAtual(Calendar data) {
-        return rangeMap.get(getInicio(data) + ((data.get(Calendar.DAY_OF_WEEK) - 1) * 84600));
+        return rangeMap.get(getMSNaSemana(data));
     }
 
     public int getQuantidadeIntervalos() {
@@ -163,14 +164,14 @@ public class GerenciadorDeEventos {
     }
 
     public void imprimeTabelaHoraria() {
-        SimpleDateFormat sdf = new SimpleDateFormat("E H:m:s");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY - EEE - HH:mm:ss");
         System.out.println("\n\n");
         rangeMap.asMapOfRanges().entrySet().stream().forEach(rangeEventoEntry -> {
             Calendar inicio = CustomCalendar.getCalendar();
             Calendar fim = CustomCalendar.getCalendar();
 
-            inicio.add(Calendar.SECOND, rangeEventoEntry.getKey().lowerEndpoint());
-            fim.add(Calendar.SECOND, rangeEventoEntry.getKey().upperEndpoint());
+            inicio.add(Calendar.MILLISECOND, rangeEventoEntry.getKey().lowerEndpoint());
+            fim.add(Calendar.MILLISECOND, rangeEventoEntry.getKey().upperEndpoint());
             System.out.println(rangeEventoEntry.getKey().toString() + "---" + sdf.format(inicio.getTime()) + " a " + sdf.format(fim.getTime()) + ": " + rangeEventoEntry.getValue().getDiaDaSemana() + " : " + rangeEventoEntry.getValue().getPosicaoPlano());
         });
 

@@ -134,17 +134,17 @@ public enum DiaDaSemana {
             case  DOMINGO:
                 return 0;
             case   SEGUNDA:
-                return 86400;
+                return 86400000;
             case    TERCA:
-                return 172800;
+                return 172800000;
             case   QUARTA:
-                return 259200;
+                return 259200000;
             case   QUINTA:
-                return 345600;
+                return 345600000;
             case    SEXTA:
-                return 432000;
+                return 432000000;
             case  SABADO:
-                return 518400;
+                return 518400000;
             default:
                 return 0;
         }
