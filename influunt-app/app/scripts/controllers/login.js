@@ -48,7 +48,8 @@ angular.module('influuntApp')
             if (err.status === 422) {
               $scope.error = err.data;
             }
-          });
+          })
+          .finally(influuntBlockui.unblock);
 
       };
 
@@ -56,11 +57,12 @@ angular.module('influuntApp')
         var token = $location.search().token;
         if(angular.isDefined(token)) {
           return Restangular.one('checar_token_valido', token).customGET()
-          .catch(function(err) {
-            toast.clear();
-            toast.error(err.data);
-            $state.go('login');
-          });
+            .catch(function(err) {
+              toast.clear();
+              toast.error(err.data);
+              $state.go('login');
+            })
+            .finally(influuntBlockui.unblock);
         } else {
           $state.go('login');
         }
@@ -81,7 +83,8 @@ angular.module('influuntApp')
           })
           .catch(function(err) {
             $scope.error = err.data;
-          });
+          })
+          .finally(influuntBlockui.unblock);
       };
 
     }]);

@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresAssociacaoDetectoresCtrl', ['$scope', '$state', '$controller', '$filter', 'assertControlador', 'influuntAlert', 'Restangular', 'toast',
-    function ($scope, $state, $controller, $filter, assertControlador, influuntAlert, Restangular, toast) {
+  .controller('ControladoresAssociacaoDetectoresCtrl', ['$scope', '$state', '$controller', '$filter', 'assertControlador', 'influuntAlert', 'Restangular', 'toast', 'influuntBlockui',
+    function ($scope, $state, $controller, $filter, assertControlador, influuntAlert, Restangular, toast, influuntBlockui) {
       $controller('ControladoresCtrl', {$scope: $scope});
       $controller('ConfirmacaoNadaHaPreencherCtrl', {$scope: $scope});
 
@@ -140,9 +140,11 @@ angular.module('influuntApp')
                 Restangular.one('detectores', detector.id).remove()
                   .then(function() {
                     excluirDetectorNoCliente(detector);
-                  }).catch(function() {
+                  })
+                  .catch(function() {
                     toast.error($filter('translate')('controladores.detectores.msg_erro_apagar_detector'));
-                  });
+                  })
+                  .finally(influuntBlockui.unblock);
               }
             }
           });

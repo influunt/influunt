@@ -156,7 +156,8 @@ angular.module('influuntApp')
               }).catch(function() {
                 toast.error($filter('translate')('controladores.estagios.msg_erro_apagar_estagio'));
                 return false;
-              });
+              })
+              .finally(influuntBlockui.unblock);
             } else {
               var imagem = _.find($scope.objeto.imagens, { idJson: estagio.imagem.idJson });
               $scope.removerEstagio(imagem);

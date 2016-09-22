@@ -43,44 +43,48 @@ angular.module('influuntApp')
        * Carrega as listas de dependencias dos controladores. Atua na tela de crud.
        */
       $scope.beforeShow = function() {
-        Restangular.all('areas').getList().then(function(res) {
-          $scope.areas = res;
-        });
+        Restangular.all('areas').getList()
+          .then(function(res) {
+            $scope.areas = res;
+          })
+          .finally(influuntBlockui.unblock);
       };
 
       /**
        * Carrega os dados de fabricas e cidades, que não estão diretamente relacionados ao contolador.
        */
       var getHelpersControlador = function() {
-        return Restangular.one('helpers', 'controlador').get().then(function(res) {
-          $scope.data = res;
-          $scope.helpers = {};
+        return Restangular.one('helpers', 'controlador').get()
+          .then(function(res) {
+            $scope.data = res;
+            $scope.helpers = {};
 
-          if ($scope.objeto.area) {
-            var idJson = $scope.objeto.area.idJson;
-            var area = _.find($scope.objeto.areas, {idJson: idJson});
-            var cidade = _.find($scope.objeto.cidades, {idJson: area.cidade.idJson});
+            if ($scope.objeto.area) {
+              var idJson = $scope.objeto.area.idJson;
+              var area = _.find($scope.objeto.areas, {idJson: idJson});
+              var cidade = _.find($scope.objeto.cidades, {idJson: area.cidade.idJson});
 
-            cidade.areas = cidade.areas.map(function(area) {
-              return _.find($scope.objeto.areas, {idJson: area.idJson});
-            });
+              cidade.areas = cidade.areas.map(function(area) {
+                return _.find($scope.objeto.areas, {idJson: area.idJson});
+              });
 
-            $scope.helpers.cidade = cidade;
-          } else {
-            $scope.helpers.cidade = $scope.data.cidades[0];
-            $scope.objeto.cidades = $scope.data.cidades;
-            $scope.objeto.areas = _.chain($scope.data.cidades).map('areas').flatten().value();
-          }
+              $scope.helpers.cidade = cidade;
+            } else {
+              $scope.helpers.cidade = $scope.data.cidades[0];
+              $scope.objeto.cidades = $scope.data.cidades;
+              $scope.objeto.areas = _.chain($scope.data.cidades).map('areas').flatten().value();
+            }
 
-          if ($scope.objeto.modelo) {
-            var modelos = _.chain($scope.data.fabricantes).map('modelos').flatten().uniq().value();
-            var modelo = _.find(modelos, {id: $scope.objeto.modelo.id});
-            $scope.modeloControlador = modelo;
+            if ($scope.objeto.modelo) {
+              var modelos = _.chain($scope.data.fabricantes).map('modelos').flatten().uniq().value();
+              var modelo = _.find(modelos, {id: $scope.objeto.modelo.id});
+              $scope.modeloControlador = modelo;
 
-            var fabricante = _.find($scope.data.fabricantes, {id: modelo.fabricante.id});
-            $scope.helpers.fornecedor = fabricante;
-          }
-        });
+              var fabricante = _.find($scope.data.fabricantes, {id: modelo.fabricante.id});
+              $scope.helpers.fornecedor = fabricante;
+            }
+          })
+          .finally(influuntBlockui.unblock);
       };
 
       var loadWizardData = function(obj) {
@@ -112,7 +116,8 @@ angular.module('influuntApp')
             })
             .then(function() {
               defer.resolve(responseControlador);
-            });
+            })
+            .finally(influuntBlockui.unblock);
         } else {
           var endereco = {
             idJson: UUID.generate()
@@ -403,7 +408,8 @@ angular.module('influuntApp')
           .catch(function(err) {
             toast.error($filter('translate')('geral.mensagens.default_erro'));
             throw new Error(JSON.stringify(err));
-          });
+          })
+          .finally(influuntBlockui.unblock);
       };
 
       $scope.timeline = function() {
@@ -415,7 +421,8 @@ angular.module('influuntApp')
           .catch(function(err) {
             toast.error($filter('translate')('geral.mensagens.default_erro'));
             throw new Error(JSON.stringify(err));
-          });
+          })
+          .finally(influuntBlockui.unblock);
       };
 
       $scope.configurar = function(controladorId) {
@@ -426,7 +433,8 @@ angular.module('influuntApp')
           .catch(function(err) {
             toast.clear();
             influuntAlert.alert('Controlador', err.data[0].message);
-          });
+          })
+          .finally(influuntBlockui.unblock);
       };
 
       $scope.ativar = function(controladorId) {
@@ -437,7 +445,8 @@ angular.module('influuntApp')
           .catch(function(err) {
             toast.clear();
             influuntAlert.alert('Controlador', err.data[0].message);
-          });
+          })
+          .finally(influuntBlockui.unblock);
       };
 
       $scope.cancelarEdicao = function(controladorId) {
@@ -450,7 +459,8 @@ angular.module('influuntApp')
             .catch(function(err) {
               toast.error($filter('translate')('geral.mensagens.default_erro'));
               throw new Error(err);
-            });
+            })
+            .finally(influuntBlockui.unblock);
         });
       };
 
