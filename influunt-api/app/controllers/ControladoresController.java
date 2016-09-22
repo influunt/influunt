@@ -212,9 +212,7 @@ public class ControladoresController extends Controller {
     @Dynamic(value = "Influunt")
     public CompletionStage<Result> findAll() {
         Usuario u = getUsuario();
-        List<ControladorFisico> controladoresFisicos = null;
         if (u.isRoot()) {
-            System.out.println((String[])Arrays.asList(u.getArea().getId().toString()).toArray());
             String[] areaId = {u.getArea().getId().toString()};
             return CompletableFuture.completedFuture(ok(new InfluuntQueryBuilder(Controlador.class, request().queryString()).fetch(Arrays.asList("versaoControlador", "modelo")).query()));
         } else if (u.getArea() != null) {
