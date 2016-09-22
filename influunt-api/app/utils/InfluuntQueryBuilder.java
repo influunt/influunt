@@ -10,7 +10,6 @@ import models.StatusVersao;
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 import org.jongo.MongoCursor;
-import play.Logger;
 import play.libs.Json;
 import security.Auditoria;
 
@@ -139,9 +138,7 @@ public class InfluuntQueryBuilder {
                 }
             });
 
-            Logger.warn("***É CONTROLADOR????***");
             if(klass.equals(Controlador.class)) {
-                Logger.warn("***OPA É CONTROLADOR***");
                 predicates.add(Expr.in("versaoControlador.statusVersao", Arrays.asList(StatusVersao.ATIVO, StatusVersao.EDITANDO)));
             }
 
