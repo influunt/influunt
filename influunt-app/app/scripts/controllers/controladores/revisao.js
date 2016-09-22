@@ -79,7 +79,8 @@ angular.module('influuntApp')
                 .catch(function(err) {
                   toast.clear();
                   influuntAlert.alert('Controlador', err.data[0].message);
-                });
+                })
+                .finally(influuntBlockui.unblock);
             }
           });
       };
