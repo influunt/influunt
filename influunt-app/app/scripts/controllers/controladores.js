@@ -31,8 +31,8 @@ angular.module('influuntApp')
             options: STATUS_CONTROLADOR
           },
           {
-            nome: 'clc',
-            label: 'controladores.geral.CLC',
+            nome: 'numeroSmee',
+            label: 'controladores.numeroSMEE',
             tipo: 'texto'
           },
           {
@@ -41,28 +41,16 @@ angular.module('influuntApp')
             tipo: 'texto'
           },
           {
-            nome: 'descricao',
+            nome: 'area.descricao',
             label: 'areas.descricao',
             tipo: 'texto'
-          }
+          },
+          {
+            nome: 'modelo.descricao',
+            label: 'controladores.modelo',
+            tipo: 'texto'
+          },
         ]
-      };
-
-      /**
-       * Inicializa os dados da tela de index e os objetos requeridos para o filtro.
-       */
-      $scope.inicializaIndex = function(){
-        $scope.filtros = {};
-        $scope.filtroLateral = {};
-
-        // @todo       quando a api implementar o mesmo modelo de paginação para controladores,
-        //             este metodo deverá voltar trabalhar com o metodo index padrao.
-        // $scope.index();
-        return Restangular.all('controladores').getList()
-          .then(function(res) {
-            $scope.lista = res;
-          })
-          .finally(influuntBlockui.unblock);
       };
 
       /**

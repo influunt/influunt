@@ -14,6 +14,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
 import services.ControladorService;
+import utils.InfluuntQueryBuilder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -213,14 +214,12 @@ public class ControladoresController extends Controller {
         Usuario u = getUsuario();
         List<ControladorFisico> controladoresFisicos = null;
         if (u.isRoot()) {
-            controladoresFisicos = ControladorFisico.find.fetch("versoes").findList();
+            System.out.println((String[])Arrays.asList(u.getArea().getId().toString()).toArray());
+            String[] areaId = {u.getArea().getId().toString()};
+            return CompletableFuture.completedFuture(ok(new InfluuntQueryBuilder(Controlador.class, request().queryString()).fetch(Arrays.asList("versaoControlador", "modelo")).query()));
         } else if (u.getArea() != null) {
-            controladoresFisicos = ControladorFisico.find.fetch("versoes").where().eq("area_id", u.getArea().getId()).findList();
-        }
-        if (controladoresFisicos != null) {
-            List<Controlador> controladores = new ArrayList<Controlador>();
-            controladoresFisicos.stream().forEach(controladorFisico -> controladores.add(controladorFisico.getControladorAtivoOuEditando()));
-            return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladoresJson(controladores)));
+            request().queryString().put("area.id", (String[])Arrays.asList(u.getArea().getId().toString()).toArray());
+            return CompletableFuture.completedFuture(ok(new InfluuntQueryBuilder(Controlador.class, request().queryString()).fetch(Arrays.asList("area", "versaoControlador", "modelo")).query()));
         }
         return CompletableFuture.completedFuture(forbidden());
     }
