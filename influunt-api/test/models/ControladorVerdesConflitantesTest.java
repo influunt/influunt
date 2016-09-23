@@ -116,15 +116,6 @@ public class ControladorVerdesConflitantesTest extends ControladorTest {
         grupoSemaforico3.addVerdeConflitante(grupoSemaforico4);
         grupoSemaforico4.addVerdeConflitante(grupoSemaforico3);
 
-//        erros = getErros(controlador);
-//        assertEquals(2, erros.size());
-//        assertThat(erros, Matchers.hasItems(
-//                new Erro(CONTROLADOR, "Tempo máximo de permanência deve estar entre {min} e {max}", "aneis[1].estagios[0].tempoMaximoPermanenciaOk"),
-//                new Erro(CONTROLADOR, "Tempo máximo de permanência deve estar entre {min} e {max}", "aneis[1].estagios[1].tempoMaximoPermanenciaOk")
-//        ));
-//
-//        anelAtivo.getEstagios().forEach(estagio -> estagio.setTempoMaximoPermanencia(100));
-
         erros = getErros(controlador);
         assertThat(erros, Matchers.empty());
     }

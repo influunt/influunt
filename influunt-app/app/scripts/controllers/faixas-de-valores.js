@@ -17,7 +17,6 @@ angular.module('influuntApp')
         return Restangular.one(resourceName, '').get()
           .then(function(res) {
             $scope.objeto = res;
-            console.log('objeto: ', res)
           })
           .finally(influuntBlockui.unblock);
       };

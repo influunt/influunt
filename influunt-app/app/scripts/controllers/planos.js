@@ -34,7 +34,6 @@ angular.module('influuntApp')
         var id = $state.params.id;
         Restangular.one('controladores', id).get().then(function(res) {
           $scope.objeto = res;
-          console.log('$scope.objeto: ', $scope.objeto)
           $scope.comCheckBoxGrupo = !$scope.somenteVisualizacao;
           parseAllToInt();
           montaTabelaValoresMinimos();
@@ -895,11 +894,6 @@ angular.module('influuntApp')
         var errors = _.get($scope.errors, 'aneis['+ $scope.currentAnelIndex +'].versoesPlanos['+ $scope.currentVersaoPlanoIndex +'].planos['+ $scope.currentPlanoIndex +'].defasagem');
         return errors;
       };
-
-      // $scope.getErrosVerde = function(verde) {
-      //   var errors = _.get($scope.errors, 'aneis['+ $scope.currentAnelIndex +'].versoesPlanos['+ $scope.currentVersaoPlanoIndex +'].planos['+ $scope.currentPlanoIndex +'].estagiosPlanos['+ $scope.currentEstagioPlanoIndex +'].tempoVerde'+verde);
-      //   return errors;
-      // };
 
       $scope.getErrosTempo = function(tempo) {
         var errors = _.get($scope.errors, 'aneis['+ $scope.currentAnelIndex +'].versoesPlanos['+ $scope.currentVersaoPlanoIndex +'].planos['+ $scope.currentPlanoIndex +'].estagiosPlanos['+ $scope.currentEstagioPlanoIndex +'].tempo'+tempo);

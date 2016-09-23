@@ -84,51 +84,12 @@ public class ControladorAneisTest extends ControladorTest {
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro(CONTROLADOR, "Um anel ativo deve ter ao menos dois estágios e no máximo o limite do modelo do controlador", "aneis[0]")
-//                new Erro(CONTROLADOR, "Tempo máximo de permanência deve estar entre {min} e {max}", "aneis[0].estagios[0].tempoMaximoPermanenciaOk"),
-//                new Erro(CONTROLADOR, "Tempo máximo de permanência deve estar entre {min} e {max}", "aneis[0].estagios[1].tempoMaximoPermanenciaOk"),
-//                new Erro(CONTROLADOR, "Tempo máximo de permanência deve estar entre {min} e {max}", "aneis[0].estagios[2].tempoMaximoPermanenciaOk"),
-//                new Erro(CONTROLADOR, "Tempo máximo de permanência deve estar entre {min} e {max}", "aneis[0].estagios[3].tempoMaximoPermanenciaOk"),
-//                new Erro(CONTROLADOR, "Tempo máximo de permanência deve estar entre {min} e {max}", "aneis[0].estagios[4].tempoMaximoPermanenciaOk"),
-//                new Erro(CONTROLADOR, "Tempo máximo de permanência deve estar entre {min} e {max}", "aneis[0].estagios[5].tempoMaximoPermanenciaOk"),
-//                new Erro(CONTROLADOR, "Tempo máximo de permanência deve estar entre {min} e {max}", "aneis[0].estagios[6].tempoMaximoPermanenciaOk"),
-//                new Erro(CONTROLADOR, "Tempo máximo de permanência deve estar entre {min} e {max}", "aneis[0].estagios[7].tempoMaximoPermanenciaOk"),
-//                new Erro(CONTROLADOR, "Tempo máximo de permanência deve estar entre {min} e {max}", "aneis[0].estagios[8].tempoMaximoPermanenciaOk"),
-//                new Erro(CONTROLADOR, "Tempo máximo de permanência deve estar entre {min} e {max}", "aneis[0].estagios[9].tempoMaximoPermanenciaOk"),
-//                new Erro(CONTROLADOR, "Tempo máximo de permanência deve estar entre {min} e {max}", "aneis[0].estagios[10].tempoMaximoPermanenciaOk"),
-//                new Erro(CONTROLADOR, "Tempo máximo de permanência deve estar entre {min} e {max}", "aneis[0].estagios[11].tempoMaximoPermanenciaOk"),
-//                new Erro(CONTROLADOR, "Tempo máximo de permanência deve estar entre {min} e {max}", "aneis[0].estagios[12].tempoMaximoPermanenciaOk"),
-//                new Erro(CONTROLADOR, "Tempo máximo de permanência deve estar entre {min} e {max}", "aneis[0].estagios[13].tempoMaximoPermanenciaOk"),
-//                new Erro(CONTROLADOR, "Tempo máximo de permanência deve estar entre {min} e {max}", "aneis[0].estagios[14].tempoMaximoPermanenciaOk"),
-//                new Erro(CONTROLADOR, "Tempo máximo de permanência deve estar entre {min} e {max}", "aneis[0].estagios[15].tempoMaximoPermanenciaOk"),
-//                new Erro(CONTROLADOR, "Tempo máximo de permanência deve estar entre {min} e {max}", "aneis[0].estagios[16].tempoMaximoPermanenciaOk")
         ));
 
         estagios.clear();
         IntStream.rangeClosed(1, 16).forEach(i -> estagios.add(new Estagio(i)));
         anel1.setEstagios(estagios);
 
-//        erros = getErros(controlador);
-//        assertEquals(16, erros.size());
-//        assertThat(erros, org.hamcrest.Matchers.hasItems(
-//                new Erro(CONTROLADOR, "Tempo máximo de permanência deve estar entre {min} e {max}", "aneis[0].estagios[0].tempoMaximoPermanenciaOk"),
-//                new Erro(CONTROLADOR, "Tempo máximo de permanência deve estar entre {min} e {max}", "aneis[0].estagios[1].tempoMaximoPermanenciaOk"),
-//                new Erro(CONTROLADOR, "Tempo máximo de permanência deve estar entre {min} e {max}", "aneis[0].estagios[2].tempoMaximoPermanenciaOk"),
-//                new Erro(CONTROLADOR, "Tempo máximo de permanência deve estar entre {min} e {max}", "aneis[0].estagios[3].tempoMaximoPermanenciaOk"),
-//                new Erro(CONTROLADOR, "Tempo máximo de permanência deve estar entre {min} e {max}", "aneis[0].estagios[4].tempoMaximoPermanenciaOk"),
-//                new Erro(CONTROLADOR, "Tempo máximo de permanência deve estar entre {min} e {max}", "aneis[0].estagios[5].tempoMaximoPermanenciaOk"),
-//                new Erro(CONTROLADOR, "Tempo máximo de permanência deve estar entre {min} e {max}", "aneis[0].estagios[6].tempoMaximoPermanenciaOk"),
-//                new Erro(CONTROLADOR, "Tempo máximo de permanência deve estar entre {min} e {max}", "aneis[0].estagios[7].tempoMaximoPermanenciaOk"),
-//                new Erro(CONTROLADOR, "Tempo máximo de permanência deve estar entre {min} e {max}", "aneis[0].estagios[8].tempoMaximoPermanenciaOk"),
-//                new Erro(CONTROLADOR, "Tempo máximo de permanência deve estar entre {min} e {max}", "aneis[0].estagios[9].tempoMaximoPermanenciaOk"),
-//                new Erro(CONTROLADOR, "Tempo máximo de permanência deve estar entre {min} e {max}", "aneis[0].estagios[10].tempoMaximoPermanenciaOk"),
-//                new Erro(CONTROLADOR, "Tempo máximo de permanência deve estar entre {min} e {max}", "aneis[0].estagios[11].tempoMaximoPermanenciaOk"),
-//                new Erro(CONTROLADOR, "Tempo máximo de permanência deve estar entre {min} e {max}", "aneis[0].estagios[12].tempoMaximoPermanenciaOk"),
-//                new Erro(CONTROLADOR, "Tempo máximo de permanência deve estar entre {min} e {max}", "aneis[0].estagios[13].tempoMaximoPermanenciaOk"),
-//                new Erro(CONTROLADOR, "Tempo máximo de permanência deve estar entre {min} e {max}", "aneis[0].estagios[14].tempoMaximoPermanenciaOk"),
-//                new Erro(CONTROLADOR, "Tempo máximo de permanência deve estar entre {min} e {max}", "aneis[0].estagios[15].tempoMaximoPermanenciaOk")
-//        ));
-//
-//        anel1.getEstagios().forEach(estagio -> estagio.setTempoMaximoPermanencia(100));
         erros = getErros(controlador);
         assertThat(erros, org.hamcrest.Matchers.empty());
     }

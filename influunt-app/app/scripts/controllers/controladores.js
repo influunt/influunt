@@ -303,8 +303,6 @@ angular.module('influuntApp')
       $scope.buildValidationMessages = function(errors, objeto) {
         $scope.errors = handleValidations.buildValidationMessages(errors, objeto);
         $scope.getErrosVerdes();
-        console.log('objeto: ', $scope.objeto)
-        console.log('$scope.errors: ', $scope.errors)
       };
 
       $scope.getErrosVerdes = function() {

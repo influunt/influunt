@@ -46,8 +46,6 @@ angular.module('influuntApp')
         $scope.objeto.gruposSemaforicos = _.orderBy($scope.objeto.gruposSemaforicos, ['posicao']);
         $scope.atrasoGrupoMin = $scope.objeto.atrasoGrupoMin;
         $scope.atrasoGrupoMax = $scope.objeto.atrasoGrupoMax;
-        console.log('$scope.atrasoGrupoMin: ', $scope.atrasoGrupoMin)
-        console.log('$scope.atrasoGrupoMax: ', $scope.atrasoGrupoMax)
         inicializaTransicoes();
       };
 

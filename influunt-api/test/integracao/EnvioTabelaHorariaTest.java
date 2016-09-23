@@ -30,7 +30,7 @@ import static org.junit.Assert.assertThat;
  */
 public class EnvioTabelaHorariaTest extends BasicMQTTTest {
 
-    // @Test
+    @Test
     public void configuracaoValida() {
         startClient();
         controlador = new ControladorHelper().setPlanos(controlador);
@@ -38,7 +38,7 @@ public class EnvioTabelaHorariaTest extends BasicMQTTTest {
         assertThat(erros, org.hamcrest.Matchers.empty());
     }
 
-    // @Test
+    @Test
     public void enviarPlanosOK() {
         startClient();
         controlador = new ControladorHelper().setPlanos(controlador);
@@ -93,7 +93,7 @@ public class EnvioTabelaHorariaTest extends BasicMQTTTest {
         assertEquals(idTransacao, jsonConteudo.get("transacaoId").asText());
     }
 
-    // @Test
+    @Test
     public void enviarPlanosNaoOK() {
         startClient();
         controlador = new ControladorHelper().getControlador();

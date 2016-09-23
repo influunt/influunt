@@ -50,7 +50,6 @@ angular.module('influuntApp')
     };
 
     var getLimits = function(path, objeto) {
-      console.log('objeto: ', objeto)
       if (path.match(/tempoVerdeSegurancaFieldVeicular$/)) {
         return [objeto.verdeSegurancaVeicularMin, objeto.verdeSegurancaVeicularMax];
       } else if (path.match(/tempoVerdeSegurancaFieldPedestre$/)) {
@@ -98,7 +97,6 @@ angular.module('influuntApp')
         }
       }
 
-      console.log('$scope.errors: ', validationMessages)
       return validationMessages;
     };
 

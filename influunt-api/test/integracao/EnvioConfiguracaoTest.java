@@ -25,14 +25,14 @@ import static org.junit.Assert.assertThat;
 public class EnvioConfiguracaoTest extends BasicMQTTTest {
 
 
-    // @Test
+    @Test
     public void configuracaoValida() {
         startClient();
         List<Erro> erros = getErros(controlador);
         assertThat(erros, org.hamcrest.Matchers.empty());
     }
 
-    // @Test
+    @Test
     public void configuracaoOK() throws InterruptedException, ExecutionException, TimeoutException {
         startClient();
         await().until(() -> onPublishFutureList.size() > 4);
@@ -63,7 +63,7 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
         assertEquals(StatusDevice.CONFIGURADO.toString(), StatusControladorFisico.ultimoStatus(idControlador).getStatusDevice().toString());
     }
 
-    // @Test
+    @Test
     public void configuracaoErro() throws InterruptedException, ExecutionException, TimeoutException {
         Anel anel = controlador.getAneis().stream().filter(anel1 -> !anel1.isAtivo()).findAny().get();
         anel.setAtivo(true);
@@ -99,7 +99,7 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
         assertEquals(StatusDevice.NOVO.toString(), StatusControladorFisico.ultimoStatus(idControlador).getStatusDevice().toString());
     }
 
-    // @Test
+    @Test
     public void naoExisteConfiguracao() throws InterruptedException, ExecutionException, TimeoutException {
         controlador.setStatusControlador(StatusControlador.EM_CONFIGURACAO);
         controlador.save();
