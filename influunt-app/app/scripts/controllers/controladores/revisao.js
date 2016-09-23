@@ -18,7 +18,7 @@ angular.module('influuntApp')
       var setDadosBasicosControlador, setDadosCurrentAnel, getNumGruposSemaforicosAnel,
           getNumDetectoresAnel, setDadosCurrentGruposSemaforicos, setDadosCurrentEstagios,
           setDadosCurrentVerdesConflitantes, setDadosCurrentTransicoesProibidas, setDadosCurrentTabelasEntreVerdes,
-          setDadosCurrentDetectores;
+          setDadosCurrentDetectores, setCurrentAtrasosDeGrupo;
 
       /**
        * Pré-condições para acesso à tela de revisao: Somente será possível acessar esta
@@ -61,6 +61,7 @@ angular.module('influuntApp')
         setDadosCurrentTransicoesProibidas();
         setDadosCurrentTabelasEntreVerdes();
         setDadosCurrentDetectores();
+        setCurrentAtrasosDeGrupo();
       };
 
       $scope.commitMessage = function() {
@@ -168,7 +169,8 @@ angular.module('influuntApp')
               descricao: grupoSemaforico.descricao,
               tipo: grupoSemaforico.tipo,
               faseVermelha: grupoSemaforico.faseVermelhaApagadaAmareloIntermitente ? 'Colocar em amarelo intermitente' : 'Não colocar em amarelo intermitente',
-              tempoVerdeSeguranca: grupoSemaforico.tempoVerdeSeguranca
+              tempoVerdeSeguranca: grupoSemaforico.tempoVerdeSeguranca,
+              tabelaEntreVerdes: grupoSemaforico.tabelasEntreVerdes
             };
 
             grupos.push(dadosGrupo);
@@ -263,6 +265,10 @@ angular.module('influuntApp')
             }
           });
         }
+      };
+
+      setCurrentAtrasosDeGrupo = function(){
+        $scope.currentAtrasosdeGrupo = $scope.objeto.atrasosDeGrupo;
       };
 
       setDadosCurrentTabelasEntreVerdes = function() {

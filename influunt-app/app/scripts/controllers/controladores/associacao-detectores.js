@@ -50,6 +50,7 @@ angular.module('influuntApp')
             $scope.podeDetectorVeicular = _.filter($scope.objeto.gruposSemaforicos, {tipo: 'VEICULAR'}).length > 0;
 
             $scope.inicializaConfirmacaoNadaHaPreencher();
+            $scope.atualizaTotalDetectoresPorAnel();
             return _.isArray($scope.currentDetectores) && $scope.selecionaDetector($scope.currentDetectores[0], 0);
           }
         });
@@ -113,6 +114,11 @@ angular.module('influuntApp')
         $scope.atualizaDetectores();
         atualizaPosicoesDetectores();
         $scope.verificaConfirmacaoNadaHaPreencher();
+        $scope.atualizaTotalDetectoresPorAnel();
+      };
+
+      $scope.atualizaTotalDetectoresPorAnel = function(){
+        $scope.maxDetectoresPorAnel = $scope.currentEstagios.length - $scope.currentDetectores.length;
       };
 
       excluirDetectorNoCliente = function(detector) {
@@ -127,6 +133,7 @@ angular.module('influuntApp')
         atualizaPosicoesDetectores();
         atualizaEstagiosComDetector();
         $scope.verificaConfirmacaoNadaHaPreencher();
+        $scope.atualizaTotalDetectoresPorAnel();
       };
 
       $scope.excluirDetector = function(detector) {
@@ -159,6 +166,8 @@ angular.module('influuntApp')
         $scope.selecionaAnel(index);
         $scope.atualizaEstagios();
         $scope.atualizaDetectores();
+        atualizaPosicoesDetectores();
+        $scope.atualizaTotalDetectoresPorAnel();
       };
 
       $scope.atualizaDetectores = function() {
