@@ -201,7 +201,7 @@ public class InfluuntQueryBuilder {
                     if (searchField.getFieldOperator() != null) {
                         predicates.add(getMongoFieldOperator(searchField.getFieldOperator(), searchField.getFieldName(), searchField.getValue()));
                     } else {
-                        predicates.add(String.format("'%s': {$regex: '%s'}", searchField.getFieldName(), searchField.getValue().toString()));
+                        predicates.add(String.format("'%s': {$regex: '%s', $options: 'i'}", searchField.getFieldName(), searchField.getValue().toString()));
                     }
                 }
             });
