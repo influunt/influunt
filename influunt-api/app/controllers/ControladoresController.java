@@ -16,10 +16,7 @@ import security.Secured;
 import services.ControladorService;
 import utils.InfluuntQueryBuilder;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
@@ -213,11 +210,16 @@ public class ControladoresController extends Controller {
     public CompletionStage<Result> findAll() {
         Usuario u = getUsuario();
         if (u.isRoot()) {
-            String[] areaId = {u.getArea().getId().toString()};
             return CompletableFuture.completedFuture(ok(new InfluuntQueryBuilder(Controlador.class, request().queryString()).fetch(Arrays.asList("versaoControlador", "modelo")).query()));
         } else if (u.getArea() != null) {
-            request().queryString().put("area.id", (String[])Arrays.asList(u.getArea().getId().toString()).toArray());
-            return CompletableFuture.completedFuture(ok(new InfluuntQueryBuilder(Controlador.class, request().queryString()).fetch(Arrays.asList("area", "versaoControlador", "modelo")).query()));
+            String[] areaId = {u.getArea().getId().toString()};
+            Map<String, String[]> params = new HashMap<>();
+            params.putAll(ctx().request().queryString());
+            if(params.containsKey("area.descricao")) {
+                params.remove("area.descricao");
+            }
+            params.put("area.id", areaId);
+            return CompletableFuture.completedFuture(ok(new InfluuntQueryBuilder(Controlador.class, params).fetch(Arrays.asList("area", "versaoControlador", "modelo")).query()));
         }
         return CompletableFuture.completedFuture(forbidden());
     }
