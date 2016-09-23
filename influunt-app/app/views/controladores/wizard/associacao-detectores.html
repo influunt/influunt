@@ -93,7 +93,7 @@
                                 <a>{{ 'controladores.associacaoDetectores.veicular' | translate }}</a>
                               </li>
                             </ul>
-                            <p class="both">{{ 'controladores.associacaoDetectores.mensagemMaxDetectores' | translate }} {{ currentEstagios.length - objeto.detectores.length }} {{ 'controladores.associacaoDetectores.titulo' | translate }}</p>
+                            <p class="both">{{ 'controladores.associacaoDetectores.mensagemMaxDetectores' | translate }} {{ maxDetectoresPorAnel }} {{ 'controladores.associacaoDetectores.titulo' | translate }}</p>
                           </div>
                         </td>
                       </tr>
@@ -125,7 +125,7 @@
           <div class="row">
             <div data-ng-if="currentDetector" class="col-lg-12 col-sm-12">
               <div class="col-lg-4 col-sm-4 estagio-detalhe">
-                <input type="checkbox" ichecks data-ng-model="currentDetector.monitorado" 
+                <input type="checkbox" ichecks data-ng-model="currentDetector.monitorado"
                 data-if-unchecked="limpaTempoDeteccao(currentDetector)" data-if-checked="atribuiTempoDeteccao(currentDetector)">
                 <strong>{{ 'controladores.associacaoDetectores.monitoramentoFalha' | translate }}</strong>
               </div>

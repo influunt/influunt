@@ -158,12 +158,14 @@ describe('Controller: ControladoresAssociacaoDetectoresCtrl', function () {
           {
             idJson: 1,
             ativo: true,
-            estagios: [{idJson: 'e1'},{idJson: 'e2'}]
+            estagios: [{idJson: 'e1'},{idJson: 'e2'}, {idJson: 'e3'}, {idJson: 'e4'}]
           }
         ],
         estagios: [
           {idJson: 'e1', id: 'e1', posicao: 1, anel: {idJson: 1}},
-          {idJson: 'e2', id: 'e2', posicao: 2, anel: {idJson: 1}}
+          {idJson: 'e2', id: 'e2', posicao: 2, anel: {idJson: 1}},
+          {idJson: 'e3', id: 'e3', posicao: 3, anel: {idJson: 1}},
+          {idJson: 'e4', id: 'e4', posicao: 4, anel: {idJson: 1}}
         ]
       };
 
@@ -185,6 +187,10 @@ describe('Controller: ControladoresAssociacaoDetectoresCtrl', function () {
       expect(scope.objeto.detectores[1].posicao).toBe(1);
       expect(scope.objeto.detectores[2].posicao).toBe(2);
       expect(scope.objeto.detectores[3].posicao).toBe(2);
+    });
+
+    it('Deve calcular a quantidade de detectores que pode ser adicionado', function(){
+      expect(scope.maxDetectoresPorAnel).toBe(0);
     });
 
     describe('remover detector', function () {
@@ -215,6 +221,14 @@ describe('Controller: ControladoresAssociacaoDetectoresCtrl', function () {
         expect(scope.objeto.detectores.length).toBe(3);
         expect(scope.currentAnel.detectores.length).toBe(3);
         expect(scope.currentDetectores.length).toBe(3);
+      });
+
+      it('Deve aumentar a quantidade de detectores que pode ser adicionado', function(){
+        scope.excluirDetector(scope.objeto.detectores[0]);
+        deferred.resolve(true);
+        scope.$apply();
+
+        expect(scope.maxDetectoresPorAnel).toBe(1);
       });
 
       it('Estagios que possuem detectores associados devem ter a associação removida.', function() {
