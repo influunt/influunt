@@ -285,9 +285,9 @@ public class Evento extends Model implements Cloneable, Serializable, Comparable
 
     public boolean tenhoPrioridade(Evento evento, boolean euSouPetrio, boolean outroEPetrio) {
 
-        if(euSouPetrio || !outroEPetrio){
+        if(euSouPetrio && !outroEPetrio){
             return true;
-        }else if(!euSouPetrio || outroEPetrio){
+        }else if(!euSouPetrio && outroEPetrio){
             return false;
         }else{
             return true;
