@@ -4,16 +4,16 @@ import com.avaje.ebean.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import json.ControladorCustomSerializer;
+import models.Controlador;
+import models.StatusVersao;
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 import org.jongo.MongoCursor;
 import play.libs.Json;
 import security.Auditoria;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.BiConsumer;
 
 import static java.lang.Integer.parseInt;
@@ -138,6 +138,10 @@ public class InfluuntQueryBuilder {
                 }
             });
 
+            if(klass.equals(Controlador.class)) {
+                predicates.add(Expr.in("versaoControlador.statusVersao", Arrays.asList(StatusVersao.ATIVO, StatusVersao.EDITANDO)));
+            }
+
             // Verifica se existem campos com between
             List<BetweenFieldDefinition> betweenFields = BetweenFieldDefinition.getBetweenFileds(searchFields);
             betweenFields.forEach(field -> {
@@ -156,6 +160,9 @@ public class InfluuntQueryBuilder {
                 pagedList = predicates.findPagedList(getPage(), getPerPage());
             }
         } else {
+            if(klass.equals(Controlador.class)) {
+                query.where().add((Expr.in("versaoControlador.statusVersao", Arrays.asList(StatusVersao.ATIVO, StatusVersao.EDITANDO))));
+            }
             if (getSortField() != null) {
                 pagedList = query.orderBy(getSortField().concat(" ").concat(getSortType())).findPagedList(getPage(), getPerPage());
             } else {
@@ -165,7 +172,12 @@ public class InfluuntQueryBuilder {
 
         ObjectNode retorno = JsonNodeFactory.instance.objectNode();
         List result = pagedList.getList();
-        JsonNode dataJson = Json.toJson(result);
+        JsonNode dataJson = null;
+        if(klass.equals(Controlador.class)) {
+            dataJson = new ControladorCustomSerializer().getControladoresJson(result);
+        } else {
+            dataJson = Json.toJson(result);
+        }
         retorno.set("data", dataJson);
         retorno.put("total", pagedList.getTotalRowCount());
 
