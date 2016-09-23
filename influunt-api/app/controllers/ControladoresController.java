@@ -14,11 +14,9 @@ import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
 import services.ControladorService;
+import utils.InfluuntQueryBuilder;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
@@ -211,16 +209,17 @@ public class ControladoresController extends Controller {
     @Dynamic(value = "Influunt")
     public CompletionStage<Result> findAll() {
         Usuario u = getUsuario();
-        List<ControladorFisico> controladoresFisicos = null;
         if (u.isRoot()) {
-            controladoresFisicos = ControladorFisico.find.fetch("versoes").findList();
+            return CompletableFuture.completedFuture(ok(new InfluuntQueryBuilder(Controlador.class, request().queryString()).fetch(Arrays.asList("versaoControlador", "modelo")).query()));
         } else if (u.getArea() != null) {
-            controladoresFisicos = ControladorFisico.find.fetch("versoes").where().eq("area_id", u.getArea().getId()).findList();
-        }
-        if (controladoresFisicos != null) {
-            List<Controlador> controladores = new ArrayList<Controlador>();
-            controladoresFisicos.stream().forEach(controladorFisico -> controladores.add(controladorFisico.getControladorAtivoOuEditando()));
-            return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladoresJson(controladores)));
+            String[] areaId = {u.getArea().getId().toString()};
+            Map<String, String[]> params = new HashMap<>();
+            params.putAll(ctx().request().queryString());
+            if(params.containsKey("area.descricao")) {
+                params.remove("area.descricao");
+            }
+            params.put("area.id", areaId);
+            return CompletableFuture.completedFuture(ok(new InfluuntQueryBuilder(Controlador.class, params).fetch(Arrays.asList("area", "versaoControlador", "modelo")).query()));
         }
         return CompletableFuture.completedFuture(forbidden());
     }

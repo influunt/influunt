@@ -34,17 +34,6 @@ describe('Controller: ControladoresCtrl', function () {
       expect(scope.confirmDelete).toBeDefined();
     });
 
-    it('Inicializa Index:', function() {
-      var controladores = [{}, {}];
-      $httpBackend.expectGET('/controladores').respond(controladores);
-      scope.inicializaIndex();
-      $httpBackend.flush();
-
-      expect(scope.lista.length).toBe(2);
-      expect(scope.filtros).toEqual({});
-      expect(scope.filtroLateral).toEqual({});
-    });
-
     it('before show: carrega a lista de areas', function() {
       var areas = [{}, {}];
       $httpBackend.expectGET('/areas').respond(areas);
