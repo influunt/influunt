@@ -1,0 +1,220 @@
+<div class="ibox-content">
+  <form class="simple_form form-horizontal"
+      method="post"
+      name="formFaixasDeValores"
+      novalidate="novalidate"
+      data-ng-submit="save()">
+
+    <div class="form-group">
+      <label class="control-label col-sm-2 control-label">{{ 'faixas_de_valores.tempoDefasagem' | translate }}</label>
+      <div class="col-sm-5">
+        <div class="input-group">
+          <span class="input-group-addon">de</span>
+          <input type="number" class="input-sm form-control" name="defasagemMin" ng-model="objeto.tempoDefasagemMin">
+          <span class="input-group-addon">até</span>
+          <input type="number" class="input-sm form-control" name="defasagemMax" ng-model="objeto.tempoDefasagemMax">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-2 control-label">{{ 'faixas_de_valores.tempoAmarelo' | translate }}</label>
+      <div class="col-sm-5">
+        <div class="input-group">
+          <span class="input-group-addon">de</span>
+          <input type="number" class="input-sm form-control" name="amareloMin" ng-model="objeto.tempoAmareloMin">
+          <span class="input-group-addon">até</span>
+          <input type="number" class="input-sm form-control" name="amareloMax" ng-model="objeto.tempoAmareloMax">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-2 control-label">{{ 'faixas_de_valores.tempoVermelhoIntermitente' | translate }}</label>
+      <div class="col-sm-5">
+        <div class="input-group">
+          <span class="input-group-addon">de</span>
+          <input type="number" class="input-sm form-control" name="vermelhoIntermitenteMin" ng-model="objeto.tempoVermelhoIntermitenteMin">
+          <span class="input-group-addon">até</span>
+          <input type="number" class="input-sm form-control" name="vermelhoIntermitenteMax" ng-model="objeto.tempoVermelhoIntermitenteMax">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-2 control-label">{{ 'faixas_de_valores.tempoVermelhoLimpezaVeicular' | translate }}</label>
+      <div class="col-sm-5">
+        <div class="input-group">
+          <span class="input-group-addon">de</span>
+          <input type="number" class="input-sm form-control" name="tempoVermelhoLimpezaVeicularMin" ng-model="objeto.tempoVermelhoLimpezaVeicularMin">
+          <span class="input-group-addon">até</span>
+          <input type="number" class="input-sm form-control" name="tempoVermelhoLimpezaVeicularMax" ng-model="objeto.tempoVermelhoLimpezaVeicularMax">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-2 control-label">{{ 'faixas_de_valores.tempoVermelhoLimpezaPedestre' | translate }}</label>
+      <div class="col-sm-5">
+        <div class="input-group">
+          <span class="input-group-addon">de</span>
+          <input type="number" class="input-sm form-control" name="tempoVermelhoLimpezaPedestreMin" ng-model="objeto.tempoVermelhoLimpezaPedestreMin">
+          <span class="input-group-addon">até</span>
+          <input type="number" class="input-sm form-control" name="tempoVermelhoLimpezaPedestreMax" ng-model="objeto.tempoVermelhoLimpezaPedestreMax">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-2 control-label">{{ 'faixas_de_valores.tempoAtrasoGrupo' | translate }}</label>
+      <div class="col-sm-5">
+        <div class="input-group">
+          <span class="input-group-addon">de</span>
+          <input type="number" class="input-sm form-control" name="tempoAtrasoGrupoMin" ng-model="objeto.tempoAtrasoGrupoMin">
+          <span class="input-group-addon">até</span>
+          <input type="number" class="input-sm form-control" name="tempoAtrasoGrupoMax" ng-model="objeto.tempoAtrasoGrupoMax">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-2 control-label">{{ 'faixas_de_valores.tempoVerdeSegurancaVeicular' | translate }}</label>
+      <div class="col-sm-5">
+        <div class="input-group">
+          <span class="input-group-addon">de</span>
+          <input type="number" class="input-sm form-control" name="tempoVerdeSegurancaVeicularMin" ng-model="objeto.tempoVerdeSegurancaVeicularMin">
+          <span class="input-group-addon">até</span>
+          <input type="number" class="input-sm form-control" name="tempoVerdeSegurancaVeicularMax" ng-model="objeto.tempoVerdeSegurancaVeicularMax">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-2 control-label">{{ 'faixas_de_valores.tempoVerdeSegurancaPedestre' | translate }}</label>
+      <div class="col-sm-5">
+        <div class="input-group">
+          <span class="input-group-addon">de</span>
+          <input type="number" class="input-sm form-control" name="tempoVerdeSegurancaPedestreMin" ng-model="objeto.tempoVerdeSegurancaPedestreMin">
+          <span class="input-group-addon">até</span>
+          <input type="number" class="input-sm form-control" name="tempoVerdeSegurancaPedestreMax" ng-model="objeto.tempoVerdeSegurancaPedestreMax">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-2 control-label">{{ 'faixas_de_valores.tempoMaximoPermanenciaEstagio' | translate }}</label>
+      <div class="col-sm-5">
+        <div class="input-group">
+          <span class="input-group-addon">de</span>
+          <input type="number" class="input-sm form-control" name="tempoMaximoPermanenciaEstagioMin" ng-model="objeto.tempoMaximoPermanenciaEstagioMin">
+          <span class="input-group-addon">até</span>
+          <input type="number" class="input-sm form-control" name="tempoMaximoPermanenciaEstagioMax" ng-model="objeto.tempoMaximoPermanenciaEstagioMax">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-2 control-label">{{ 'faixas_de_valores.tempoCiclo' | translate }}</label>
+      <div class="col-sm-5">
+        <div class="input-group">
+          <span class="input-group-addon">de</span>
+          <input type="number" class="input-sm form-control" name="tempoCicloMin" ng-model="objeto.tempoCicloMin">
+          <span class="input-group-addon">até</span>
+          <input type="number" class="input-sm form-control" name="tempoCicloMax" ng-model="objeto.tempoCicloMax">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-2 control-label">{{ 'faixas_de_valores.tempoVerdeMinimo' | translate }}</label>
+      <div class="col-sm-5">
+        <div class="input-group">
+          <span class="input-group-addon">de</span>
+          <input type="number" class="input-sm form-control" name="tempoVerdeMinimoMin" ng-model="objeto.tempoVerdeMinimoMin">
+          <span class="input-group-addon">até</span>
+          <input type="number" class="input-sm form-control" name="tempoVerdeMinimoMax" ng-model="objeto.tempoVerdeMinimoMax">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-2 control-label">{{ 'faixas_de_valores.tempoVerdeMaximo' | translate }}</label>
+      <div class="col-sm-5">
+        <div class="input-group">
+          <span class="input-group-addon">de</span>
+          <input type="number" class="input-sm form-control" name="tempoVerdeMaximoMin" ng-model="objeto.tempoVerdeMaximoMin">
+          <span class="input-group-addon">até</span>
+          <input type="number" class="input-sm form-control" name="tempoVerdeMaximoMax" ng-model="objeto.tempoVerdeMaximoMax">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-2 control-label">{{ 'faixas_de_valores.tempoVerdeIntermediario' | translate }}</label>
+      <div class="col-sm-5">
+        <div class="input-group">
+          <span class="input-group-addon">de</span>
+          <input type="number" class="input-sm form-control" name="tempoVerdeIntermediarioMin" ng-model="objeto.tempoVerdeIntermediarioMin">
+          <span class="input-group-addon">até</span>
+          <input type="number" class="input-sm form-control" name="tempoVerdeIntermediarioMax" ng-model="objeto.tempoVerdeIntermediarioMax">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-2 control-label">{{ 'faixas_de_valores.tempoExtensaoVerde' | translate }}</label>
+      <div class="col-sm-5">
+        <div class="input-group">
+          <span class="input-group-addon">de</span>
+          <input type="number" class="input-sm form-control" name="tempoExtensaoVerdeMin" ng-model="objeto.tempoExtensaoVerdeMin">
+          <span class="input-group-addon">até</span>
+          <input type="number" class="input-sm form-control" name="tempoExtensaoVerdeMax" ng-model="objeto.tempoExtensaoVerdeMax">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-2 control-label">{{ 'faixas_de_valores.tempoVerde' | translate }}</label>
+      <div class="col-sm-5">
+        <div class="input-group">
+          <span class="input-group-addon">de</span>
+          <input type="number" class="input-sm form-control" name="tempoVerdeMin" ng-model="objeto.tempoVerdeMin">
+          <span class="input-group-addon">até</span>
+          <input type="number" class="input-sm form-control" name="tempoVerdeMax" ng-model="objeto.tempoVerdeMax">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-2 control-label">{{ 'faixas_de_valores.tempoAusenciaDeteccao' | translate }}</label>
+      <div class="col-sm-5">
+        <div class="input-group">
+          <span class="input-group-addon">de</span>
+          <input type="number" class="input-sm form-control" name="tempoAusenciaDeteccaoMin" ng-model="objeto.tempoAusenciaDeteccaoMin">
+          <span class="input-group-addon">até</span>
+          <input type="number" class="input-sm form-control" name="tempoAusenciaDeteccaoMax" ng-model="objeto.tempoAusenciaDeteccaoMax">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-2 control-label">{{ 'faixas_de_valores.tempoDeteccaoPermanente' | translate }}</label>
+      <div class="col-sm-5">
+        <div class="input-group">
+          <span class="input-group-addon">de</span>
+          <input type="number" class="input-sm form-control" name="tempoDeteccaoPermanenteMin" ng-model="objeto.tempoDeteccaoPermanenteMin">
+          <span class="input-group-addon">até</span>
+          <input type="number" class="input-sm form-control" name="tempoDeteccaoPermanenteMax" ng-model="objeto.tempoDeteccaoPermanenteMax">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-4 col-sm-offset-2">
+        <input class="btn btn-primary" name="commit" type="submit" value="{{ 'geral.crud.salvar' | translate }}">
+        <a class="btn btn-default" ui-sref="app.main">{{ 'geral.crud.voltar' | translate }}</a>
+      </div>
+    </div>
+
+  </form>
+</div>

@@ -16,6 +16,7 @@ angular.module('influuntApp')
 
       $controller('ControladoresCtrl', {$scope: $scope});
       $controller('ConfirmacaoNadaHaPreencherCtrl', {$scope: $scope});
+
       /**
        * Garante que o controlador tem as condições mínimas para acessar a tela de atraso de grupo.
        *
@@ -45,6 +46,8 @@ angular.module('influuntApp')
         $scope.objeto.gruposSemaforicos = _.orderBy($scope.objeto.gruposSemaforicos, ['posicao']);
         $scope.atrasoGrupoMin = $scope.objeto.atrasoGrupoMin;
         $scope.atrasoGrupoMax = $scope.objeto.atrasoGrupoMax;
+        console.log('$scope.atrasoGrupoMin: ', $scope.atrasoGrupoMin)
+        console.log('$scope.atrasoGrupoMax: ', $scope.atrasoGrupoMax)
         inicializaTransicoes();
       };
 
@@ -79,7 +82,7 @@ angular.module('influuntApp')
         $scope.selecionaAnel(index);
         $scope.atualizaGruposSemaforicos();
         $scope.selecionaGrupoSemaforico($scope.currentGruposSemaforicos[0], 0);
-        
+
         $scope.setAtributos();
       };
 
@@ -110,5 +113,20 @@ angular.module('influuntApp')
         return false;
       };
 
-    }
-  ]);
+      $scope.possuiErroAtrasoDeGrupo = function(anelIndex, grupoSemaforicoIndex, transicaoIndex) {
+        var errors = _.get($scope.errors, 'aneis[' + anelIndex + '].gruposSemaforicos[' + grupoSemaforicoIndex + '].transicoes[' + transicaoIndex + ']');
+        return _.isObject(errors) && Object.keys(errors).length > 0;
+      }
+
+      $scope.beforeSubmitForm = function() {
+        _.forEach($scope.objeto.aneis, function(anel) {
+          var gsIdJson = _.map(anel.gruposSemaforicos, 'idJson');
+          anel.gruposSemaforicos = _
+            .chain($scope.objeto.gruposSemaforicos)
+            .filter(function(gs) { return gsIdJson.indexOf(gs.idJson) > -1 })
+            .map(function(gs) { return { idJson: gs.idJson } })
+            .value();
+        });
+      };
+
+    }]);

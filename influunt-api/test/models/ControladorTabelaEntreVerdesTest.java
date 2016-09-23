@@ -13,6 +13,7 @@ import play.mvc.Result;
 import play.test.Helpers;
 
 import javax.validation.groups.Default;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -46,12 +47,16 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
         TabelaEntreVerdesTransicao tabelaEntreVerdesTransicao = transicao1Anel2EstagiosGS1.getTabelaEntreVerdesTransicoes().get(0);
 
         List<Erro> erros = getErros(controlador);
-
+        assertEquals(16, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[1].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[2].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[3].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
+                new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitenteOk"),
+                new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[1].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitenteOk"),
+                new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[2].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitenteOk"),
+                new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[3].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitenteOk"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[1].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[2].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
@@ -61,27 +66,31 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[1].gruposSemaforicos[1].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmarelo")
         ));
-        assertEquals(12, erros.size());
 
         tabelaEntreVerdesTransicao.setTempoAmarelo(500);
         tabelaEntreVerdesTransicao.setTempoVermelhoLimpeza(500); // TEMPO PARA GRUPO SEMAFORICO VEICULAR
 
         erros = getErros(controlador);
 
-        assertEquals(13, erros.size());
+        assertEquals(17, erros.size());
+        Collections.sort(erros, (Erro e1, Erro e2) -> e1.path.compareTo(e2.path));
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "deve estar entre 3 e 5", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
-                new Erro(CONTROLADOR, "deve estar entre 0 e 7", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoLimpezaFieldVeicular"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[2].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[1].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
+                new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitenteOk"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[1].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
+                new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[1].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitenteOk"),
+                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[2].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
+                new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[2].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitenteOk"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[3].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
+                new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[3].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitenteOk"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[1].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[2].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[3].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[4].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[5].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
+                new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmareloOk"),
+                new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoLimpezaFieldVeicular"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[1].gruposSemaforicos[1].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmarelo")
         ));
 
@@ -93,21 +102,25 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
 
         erros = getErros(controlador);
 
-        assertEquals(14, erros.size());
+        assertEquals(17, erros.size());
+        Collections.sort(erros, (Erro e1, Erro e2) -> e1.path.compareTo(e2.path));
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "deve estar entre 0 e 7", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoLimpezaFieldVeicular"),
-                new Erro(CONTROLADOR, "deve estar entre 3 e 32", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
-                new Erro(CONTROLADOR, "deve estar entre 0 e 5", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoLimpezaFieldPedestre"),
-                new Erro(CONTROLADOR, "deve estar entre 3 e 5", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
+                new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitenteOk"),
+                new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoLimpezaFieldPedestre"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[1].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
+                new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[1].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitenteOk"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[2].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
+                new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[2].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitenteOk"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[3].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
+                new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[3].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitenteOk"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[1].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[2].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[3].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[4].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[5].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
+                new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmareloOk"),
+                new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoLimpezaFieldVeicular"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[1].gruposSemaforicos[1].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmarelo")
         ));
 
@@ -118,22 +131,26 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
 
         erros = getErros(controlador);
 
-        assertEquals(15, erros.size());
+        assertEquals(18, erros.size());
+        Collections.sort(erros, (Erro e1, Erro e2) -> e1.path.compareTo(e2.path));
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro(CONTROLADOR, "Esse grupo semafórico deve ter no máximo o número de tabelas entre-verdes definido na configuração do controlador.", "aneis[0].gruposSemaforicos[0].numeroCorretoTabelasEntreVerdes"),
-                new Erro(CONTROLADOR, "deve estar entre 0 e 7", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoLimpezaFieldVeicular"),
-                new Erro(CONTROLADOR, "deve estar entre 3 e 32", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
-                new Erro(CONTROLADOR, "deve estar entre 0 e 5", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoLimpezaFieldPedestre"),
-                new Erro(CONTROLADOR, "deve estar entre 3 e 5", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
+                new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitenteOk"),
+                new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoLimpezaFieldPedestre"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[1].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
+                new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[1].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitenteOk"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[2].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
+                new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[2].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitenteOk"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[3].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
+                new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[3].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitenteOk"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[1].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[2].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[3].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[4].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[5].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
+                new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmareloOk"),
+                new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoLimpezaFieldVeicular"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[1].gruposSemaforicos[1].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmarelo")
         ));
     }
@@ -228,7 +245,7 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
-        assertEquals(12, json.size());
+        assertEquals(16, json.size());
     }
 
     @Override

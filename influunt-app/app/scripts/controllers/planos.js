@@ -21,7 +21,7 @@ angular.module('influuntApp')
           atualizaEstagiosPlanos, adicionaEstagioASequencia, atualizaPosicaoPlanos, atualizaPosicaoEstagiosPlanos,
           carregaDadosPlano, getOpcoesEstagiosDisponiveis, montaTabelaValoresMinimos, parseAllToInt, setDiagramaEstatico,
           atualizaDiagramaIntervalos, getPlanoParaDiagrama, atualizaTransicoesProibidas, getErrosGruposSemaforicosPlanos,
-          duplicarPlano, removerPlanoLocal, getErrosUltrapassaTempoSeguranca, getKeysErros, 
+          duplicarPlano, removerPlanoLocal, getErrosUltrapassaTempoSeguranca, getKeysErros,
           getIdJsonDePlanosQuePossuemErros, getPlanoComErro;
       var diagramaDebouncer = null;
 
@@ -34,6 +34,7 @@ angular.module('influuntApp')
         var id = $state.params.id;
         Restangular.one('controladores', id).get().then(function(res) {
           $scope.objeto = res;
+          console.log('$scope.objeto: ', $scope.objeto)
           $scope.comCheckBoxGrupo = !$scope.somenteVisualizacao;
           parseAllToInt();
           montaTabelaValoresMinimos();
@@ -412,7 +413,7 @@ angular.module('influuntApp')
         .catch(function(res) {
           influuntBlockui.unblock();
           if (res.status === 422) {
-            $scope.errors = handleValidations.buildValidationMessages(res.data);
+            $scope.errors = handleValidations.buildValidationMessages(res.data, $scope.objeto);
           } else {
             console.error(res);
           }
@@ -446,7 +447,7 @@ angular.module('influuntApp')
 
       getKeysErros = function(errors) {
         var keysErrors = [];
-        _.forEach(errors, function(v, key){ 
+        _.forEach(errors, function(v, key){
           if (typeof v !== 'undefined') {
             keysErrors.push(key);
           }
@@ -465,7 +466,7 @@ angular.module('influuntApp')
 
       getPlanoComErro = function (planos, errorsPlanoIdJson) {
         var errorsPlanos = [];
-        
+
         errorsPlanos = _.chain(planos)
           .filter(function(e) {
             return errorsPlanoIdJson.indexOf(e.idJson) >= 0;
@@ -499,7 +500,7 @@ angular.module('influuntApp')
       getErrosGruposSemaforicosPlanos = function(listaErros){
         var erros = [];
         var currentPlanoIndex = $scope.currentPlanoIndex;
-        
+
         if(listaErros){
           _.each(listaErros.planos[currentPlanoIndex].gruposSemaforicosPlanos, function (erro, index){
             if(erro) {
@@ -734,7 +735,7 @@ angular.module('influuntApp')
             estagio.tempoVerdeMinimo = $scope.objeto.verdeMinimoMin;
             estagio.tempoVerdeMaximo = $scope.objeto.verdeMaximoMin;
             estagio.tempoVerdeIntermediario = $scope.objeto.verdeIntermediarioMin;
-            estagio.tempoExtensaoVerde = $scope.objeto.extensaVerdeMin;
+            estagio.tempoExtensaoVerde = $scope.objeto.extensaoVerdeMin;
           });
         } else {
           plano.tempoCiclo = $scope.objeto.cicloMin;
@@ -764,8 +765,8 @@ angular.module('influuntApp')
         $scope.objeto.cicloMax = parseInt($scope.objeto.cicloMax);
         $scope.objeto.cicloMin = parseInt($scope.objeto.cicloMin);
         $scope.objeto.defasagemMin = parseInt($scope.objeto.defasagemMin);
-        $scope.objeto.extensaVerdeMax = parseInt($scope.objeto.extensaVerdeMax);
-        $scope.objeto.extensaVerdeMin = parseInt($scope.objeto.extensaVerdeMin);
+        $scope.objeto.extensaoVerdeMax = parseInt($scope.objeto.extensaoVerdeMax);
+        $scope.objeto.extensaoVerdeMin = parseInt($scope.objeto.extensaoVerdeMin);
         $scope.objeto.maximoPermanenciaEstagioMax = parseInt($scope.objeto.maximoPermanenciaEstagioMax);
         $scope.objeto.maximoPermanenciaEstagioMin = parseInt($scope.objeto.maximoPermanenciaEstagioMin);
         $scope.objeto.verdeIntermediarioMax = parseInt($scope.objeto.verdeIntermediarioMax);
@@ -883,6 +884,26 @@ angular.module('influuntApp')
         });
 
         return transicoesProibidas;
+      };
+
+      $scope.erroTempoCiclo = function() {
+        var errors = _.get($scope.errors, 'aneis['+ $scope.currentAnelIndex +'].versoesPlanos['+ $scope.currentVersaoPlanoIndex +'].planos['+ $scope.currentPlanoIndex +'].tempoCiclo');
+        return errors;
+      };
+
+      $scope.erroDefasagem = function() {
+        var errors = _.get($scope.errors, 'aneis['+ $scope.currentAnelIndex +'].versoesPlanos['+ $scope.currentVersaoPlanoIndex +'].planos['+ $scope.currentPlanoIndex +'].defasagem');
+        return errors;
+      };
+
+      // $scope.getErrosVerde = function(verde) {
+      //   var errors = _.get($scope.errors, 'aneis['+ $scope.currentAnelIndex +'].versoesPlanos['+ $scope.currentVersaoPlanoIndex +'].planos['+ $scope.currentPlanoIndex +'].estagiosPlanos['+ $scope.currentEstagioPlanoIndex +'].tempoVerde'+verde);
+      //   return errors;
+      // };
+
+      $scope.getErrosTempo = function(tempo) {
+        var errors = _.get($scope.errors, 'aneis['+ $scope.currentAnelIndex +'].versoesPlanos['+ $scope.currentVersaoPlanoIndex +'].planos['+ $scope.currentPlanoIndex +'].estagiosPlanos['+ $scope.currentEstagioPlanoIndex +'].tempo'+tempo);
+        return errors;
       };
 
     }]);

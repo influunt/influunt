@@ -13,6 +13,7 @@ import play.mvc.Result;
 import play.test.Helpers;
 
 import javax.validation.groups.Default;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -49,33 +50,58 @@ public class ControladorAtrasoDeGrupoTest extends ControladorTest {
         }
 
         List<Erro> erros = getErros(controlador);
+        assertEquals(48, erros.size());
+        Collections.sort(erros, (Erro e1, Erro e2) -> e1.path.compareTo(e2.path));
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[0].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[0].transicoes[0].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[1].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[0].transicoes[1].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[2].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[0].transicoes[2].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[3].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[0].transicoes[3].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[4].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[0].transicoes[4].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[5].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[0].transicoes[5].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[6].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[0].transicoes[6].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[7].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[0].transicoes[7].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[8].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[0].transicoes[8].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[0].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[1].transicoes[0].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[1].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[1].transicoes[1].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[2].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[1].transicoes[2].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[3].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[1].transicoes[3].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[4].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[1].transicoes[4].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[5].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[1].transicoes[5].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[6].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[1].transicoes[6].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[7].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[1].transicoes[7].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[8].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[1].transicoes[8].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[9].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[1].transicoes[9].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[10].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[1].transicoes[10].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[1].gruposSemaforicos[0].transicoes[0].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[1].gruposSemaforicos[0].transicoes[0].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[1].gruposSemaforicos[0].transicoes[1].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[1].gruposSemaforicos[0].transicoes[1].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[1].gruposSemaforicos[1].transicoes[0].atrasoDeGrupoPresent"),
-                new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[1].gruposSemaforicos[1].transicoes[1].atrasoDeGrupoPresent")
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[1].gruposSemaforicos[1].transicoes[0].tempoAtrasoDeGrupoDentroDaFaixa"),
+                new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[1].gruposSemaforicos[1].transicoes[1].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[1].gruposSemaforicos[1].transicoes[1].tempoAtrasoDeGrupoDentroDaFaixa")
         ));
-        assertEquals(24, erros.size());
     }
 
     @Override
@@ -162,7 +188,7 @@ public class ControladorAtrasoDeGrupoTest extends ControladorTest {
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
-        assertEquals(24, json.size());
+        assertEquals(48, json.size());
     }
 
     @Override

@@ -9,7 +9,8 @@
  */
 angular.module('influuntApp')
   .factory('handleValidations', function handleValidations() {
-    var handle = function(errors) {
+
+    var handle = function(errors, objeto) {
       var validations = {};
       var response = {};
 
@@ -24,8 +25,8 @@ angular.module('influuntApp')
           validations[path].push(err.message);
         });
 
-        _.each(validations, function(path, messages) {
-          _.update(response, messages, _.constant(path));
+        _.each(validations, function(messages, path) {
+          _.update(response, path, _.constant(translate(path, messages, objeto)));
         });
 
         // Específicos para as validações em escopo de anel.
@@ -39,8 +40,57 @@ angular.module('influuntApp')
       return response;
     };
 
-    var buildValidationMessages = function(errors) {
-      var validationMessages = handle(errors);
+    var translate = function(path, messages, objeto) {
+      var translated = [];
+      _.each(messages, function(message) {
+        var limits = getLimits(path, objeto);
+        translated.push(message.replace("{min}", limits[0]).replace("{max}", limits[1]));
+      });
+      return translated;
+    };
+
+    var getLimits = function(path, objeto) {
+      console.log('objeto: ', objeto)
+      if (path.match(/tempoVerdeSegurancaFieldVeicular$/)) {
+        return [objeto.verdeSegurancaVeicularMin, objeto.verdeSegurancaVeicularMax];
+      } else if (path.match(/tempoVerdeSegurancaFieldPedestre$/)) {
+        return [objeto.verdeSegurancaPedestreMin, objeto.verdeSegurancaPedestreMax];
+      } else if (path.match(/tempoMaximoPermanenciaOk$/)) {
+        return [objeto.maximoPermanenciaEstagioMin, objeto.maximoPermanenciaEstagioMax];
+      } else if (path.match(/tempoAtrasoDeGrupoDentroDaFaixa$/)) {
+        return [objeto.atrasoGrupoMin, objeto.atrasoGrupoMax];
+      } else if (path.match(/tempoAmareloOk$/)) {
+        return [objeto.amareloMin, objeto.amareloMax];
+      } else if (path.match(/tempoVermelhoIntermitenteOk$/)) {
+        return [objeto.vermelhoIntermitenteMin, objeto.vermelhoIntermitenteMax];
+      } else if (path.match(/tempoVermelhoLimpezaFieldVeicular$/)) {
+        return [objeto.vermelhoLimpezaVeicularMin, objeto.vermelhoLimpezaVeicularMax];
+      } else if (path.match(/tempoVermelhoLimpezaFieldPedestre$/)) {
+        return [objeto.vermelhoLimpezaPedestreMin, objeto.vermelhoLimpezaPedestreMax];
+      } else if (path.match(/tempoAusenciaDeteccaoEstaDentroDaFaixa$/)) {
+        return [objeto.ausenciaDeteccaoMin, objeto.ausenciaDeteccaoMax];
+      } else if (path.match(/tempoDeteccaoPermanenteEstaDentroDaFaixa$/)) {
+        return [objeto.deteccaoPermanenteMin, objeto.deteccaoPermanenteMax];
+      } else if (path.match(/tempoCiclo$/)) {
+        return [objeto.cicloMin, objeto.cicloMax];
+      } else if (path.match(/defasagem$/)) {
+        return [objeto.defasagemMin, objeto.defasagemMax];
+      } else if (path.match(/tempoVerdeMinimo$/)) {
+        return [objeto.verdeMinimoMin, objeto.verdeMinimoMax];
+      } else if (path.match(/tempoVerdeMaximo$/)) {
+        return [objeto.verdeMaximoMin, objeto.verdeMaximoMax];
+      } else if (path.match(/tempoVerdeIntermediario$/)) {
+        return [objeto.verdeIntermediarioMin, objeto.verdeIntermediarioMax];
+      } else if (path.match(/tempoExtensaoVerde$/)) {
+        return [objeto.extensaoVerdeMin, objeto.extensaoVerdeMax];
+      } else if (path.match(/tempoVerde$/)) {
+        return [objeto.verdeMin, objeto.verdeMax];
+      }
+      return [0, 0];
+    };
+
+    var buildValidationMessages = function(errors, objeto) {
+      var validationMessages = handle(errors, objeto);
 
       if (validationMessages && _.isArray(validationMessages.aneis)) {
         for (var i = 0; i < validationMessages.aneis.length; i++) {
@@ -48,6 +98,7 @@ angular.module('influuntApp')
         }
       }
 
+      console.log('$scope.errors: ', validationMessages)
       return validationMessages;
     };
 

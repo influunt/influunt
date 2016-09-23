@@ -89,7 +89,6 @@ public class Anel extends Model implements Cloneable, Serializable {
     @Valid
     private List<VersaoPlano> versoesPlanos;
 
-
     @OneToOne(mappedBy = "anel", cascade = CascadeType.ALL)
     @Valid
     private Endereco endereco;

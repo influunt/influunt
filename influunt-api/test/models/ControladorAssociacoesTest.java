@@ -14,6 +14,7 @@ import play.mvc.Result;
 import play.test.Helpers;
 
 import javax.validation.groups.Default;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -105,7 +106,6 @@ public class ControladorAssociacoesTest extends ControladorTest {
         estagioNovo2.addEstagioGrupoSemaforico(estagioGrupoSemaforicoNovo2);
 
         erros = getErros(controlador);
-
         assertThat(erros, Matchers.empty());
     }
 

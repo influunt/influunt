@@ -530,7 +530,7 @@
     "datatables_cdn": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json",
     "steps": {
       "confirmation": "Confirmo que não há configurações a serem feitas nesse anel.",
-      "confirmationDefault": "Confirmo que será utilizado a configuração padrão para esse grupo semafórico.",
+      "confirmationDefault": "Confirmo que será utilizada a configuração padrão para esse grupo semafórico.",
       "labels": {
         "back": "Voltar",
         "last_screen": "Ver Resumo",
@@ -594,5 +594,26 @@
     "erros": {
       "nao_existe_plano": "Plano {NUMERO} não está configurado para esse anel."
     }
+  },
+  "faixas_de_valores": {
+    "titulo": "Faixas de Valores",
+    "editar": "Editar",
+    "tempoDefasagem": "Tempo de Defasagem",
+    "tempoAmarelo": "Tempo de Amarelo",
+    "tempoVermelhoIntermitente": "Tempo de Vermelho Intermitente",
+    "tempoVermelhoLimpezaVeicular": "Tempo de Vermelho de Limpeza Veicular",
+    "tempoVermelhoLimpezaPedestre": "Tempo de Vermelho de Limpeza Pedestre",
+    "tempoAtrasoGrupo": "Tempo de Atraso de Grupo",
+    "tempoVerdeSegurancaVeicular": "Tempo de Verde de Segurança Veicular",
+    "tempoVerdeSegurancaPedestre": "Tempo de Verde de Segurança Pedestre",
+    "tempoMaximoPermanenciaEstagio": "Tempo Máximo de Permanência no Estágio",
+    "tempoCiclo": "Tempo de Ciclo",
+    "tempoVerdeMinimo": "Tempo de Verde Mínimo",
+    "tempoVerdeMaximo": "Tempo de Verde Máximo",
+    "tempoVerdeIntermediario": "Tempo de Verde Intermediário",
+    "tempoExtensaoVerde": "Tempo de Extensão de Verde",
+    "tempoVerde": "Tempo de Verde",
+    "tempoAusenciaDeteccao": "Tempo de Ausência de Detecção",
+    "tempoDeteccaoPermanente": "Tempo de Detecção Permanente"
   }
 }

@@ -113,6 +113,7 @@ angular.module('influuntApp')
         $scope.atualizaDetectores();
         atualizaPosicoesDetectores();
         $scope.verificaConfirmacaoNadaHaPreencher();
+        $scope.errors = null;
       };
 
       excluirDetectorNoCliente = function(detector) {

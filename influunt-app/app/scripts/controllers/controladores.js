@@ -161,7 +161,7 @@ angular.module('influuntApp')
                   $scope.afterSubmitFormOnValidationError();
                 }
 
-                $scope.buildValidationMessages(res.data);
+                $scope.buildValidationMessages(res.data, $scope.objeto);
               } else {
                 console.error(res);
               }
@@ -300,9 +300,11 @@ angular.module('influuntApp')
         }
       };
 
-      $scope.buildValidationMessages = function(errors) {
-        $scope.errors = handleValidations.buildValidationMessages(errors);
+      $scope.buildValidationMessages = function(errors, objeto) {
+        $scope.errors = handleValidations.buildValidationMessages(errors, objeto);
         $scope.getErrosVerdes();
+        console.log('objeto: ', $scope.objeto)
+        console.log('$scope.errors: ', $scope.errors)
       };
 
       $scope.getErrosVerdes = function() {

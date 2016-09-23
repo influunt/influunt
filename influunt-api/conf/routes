@@ -131,6 +131,10 @@ DELETE      /api/v1/eventos/:id                                   controllers.Ev
 GET         /api/v1/auditorias                                    controllers.AuditoriaController.findAll
 GET         /api/v1/auditorias/:id                                controllers.AuditoriaController.findOne(id)
 
+# Faixas de Valores
+GET         /api/v1/faixas_de_valores                             controllers.FaixasDeValoresController.findOne
+PUT         /api/v1/faixas_de_valores                             controllers.FaixasDeValoresController.update
+
 ## MONITORAMENTO
 
 # StatusDevice Conexao
@@ -152,4 +156,5 @@ GET         /api/v1/monitoramento/controladores_offlines                        
 GET         /api/v1/monitoramento/detalhe_controlador/:id                           controllers.monitoramento.MonitoramentoController.detalheControlador(id)
 
 
+# Rota para o cucumber conseguir criar o banco de dados durante o teste
 POST        /api/v1/cucumber                                      controllers.CucumberController.createDB()

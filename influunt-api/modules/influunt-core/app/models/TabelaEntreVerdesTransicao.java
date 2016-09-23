@@ -42,11 +42,9 @@ public class TabelaEntreVerdesTransicao extends Model implements Cloneable, Seri
     @ManyToOne
     private Transicao transicao;
 
-    @Range(min = 3, max = 5, message = "deve estar entre {min} e {max}")
     @Column
     private Integer tempoAmarelo;
 
-    @Range(min = 3, max = 32, message = "deve estar entre {min} e {max}")
     @Column
     private Integer tempoVermelhoIntermitente;
 
@@ -167,7 +165,7 @@ public class TabelaEntreVerdesTransicao extends Model implements Cloneable, Seri
         this.tempoAmarelo = tempoAmarelo;
     }
 
-    @AssertTrue(groups = ControladorTabelaEntreVerdesCheck.class, message = "deve estar entre 0 e 7")
+    @AssertTrue(groups = ControladorTabelaEntreVerdesCheck.class, message = "deve estar entre {min} e {max}")
     public boolean isTempoVermelhoLimpezaFieldVeicular() {
         if (getTransicao().isGanhoDePassagem() && getTransicao().getGrupoSemaforico().isVeicular() && getTempoVermelhoLimpeza() != null) {
             return RangeUtils.getInstance().TEMPO_VERMELHO_LIMPEZA_VEICULAR.contains(getTempoVermelhoLimpeza());
@@ -175,7 +173,7 @@ public class TabelaEntreVerdesTransicao extends Model implements Cloneable, Seri
         return true;
     }
 
-    @AssertTrue(groups = ControladorTabelaEntreVerdesCheck.class, message = "deve estar entre 0 e 5")
+    @AssertTrue(groups = ControladorTabelaEntreVerdesCheck.class, message = "deve estar entre {min} e {max}")
     public boolean isTempoVermelhoLimpezaFieldPedestre() {
         if (getTransicao().isGanhoDePassagem() && getTransicao().getGrupoSemaforico().isPedestre() && getTempoVermelhoLimpeza() != null) {
             return RangeUtils.getInstance().TEMPO_VERMELHO_LIMPEZA_PEDESTRE.contains(getTempoVermelhoLimpeza());
@@ -189,6 +187,19 @@ public class TabelaEntreVerdesTransicao extends Model implements Cloneable, Seri
             return getTempoVermelhoIntermitente() != null;
         }
         return true;
+    }
+
+    @AssertTrue(groups = ControladorTabelaEntreVerdesCheck.class, message = "deve estar entre {min} e {max}")
+    public boolean isTempoVermelhoIntermitenteOk() {
+        if (getTransicao().isGanhoDePassagem() && getTransicao().getGrupoSemaforico().isPedestre()) {
+            return getTempoVermelhoIntermitente() != null && RangeUtils.getInstance().TEMPO_VERMELHO_INTERMITENTE.contains(getTempoVermelhoIntermitente());
+        }
+        return true;
+    }
+
+    @AssertTrue(message = "deve estar entre {min} e {max}")
+    public boolean isTempoAmareloOk() {
+        return getTempoAmarelo() == null || RangeUtils.getInstance().TEMPO_AMARELO.contains(getTempoAmarelo());
     }
 
     public void setTempoVermelhoIntermitente(Integer tempoVermelhoIntermitente) {

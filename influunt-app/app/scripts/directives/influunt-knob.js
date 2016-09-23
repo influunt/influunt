@@ -30,6 +30,10 @@ angular.module('influuntApp')
           var showLabel = function(args) {
             return '<p class="knob-value">' + args.value + '</p><p class="knob-label">' + scope.label + '</p>';
           };
+
+          console.log('knob min: ', scope.min)
+          console.log('knob max: ', scope.max)
+
           scope.mostrarPercentual = scope.mostrarPercentual || false;
           scope.ngModel = scope.ngModel || scope.min || 0;
           knob = $(element).find('.knob-shape').roundSlider({
@@ -62,7 +66,7 @@ angular.module('influuntApp')
             value = value || scope.min;
             $(element).find('.knob-shape').roundSlider('setValue', value);
           });
-          
+
           scope.$watch('readOnly', function(value) {
             if(value){
               $(element).find('.knob-shape').roundSlider('disable');
