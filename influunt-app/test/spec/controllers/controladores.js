@@ -122,14 +122,20 @@ describe('Controller: ControladoresCtrl', function () {
   describe('selecionaAnel', function () {
     beforeEach(function() {
       scope.objeto = {
-        aneis: [{idJson: 1, ativo: true}, {idJson: 2, ativo: true}]
+        aneis: [{idJson: 1, ativo: true, endereco: {idJson: 1}} , {idJson: 2, ativo: true}],
+        todosEnderecos: [{idJson: 1, localizacao: "Av Paulista", localizacao2: "Av Pedro I"}]
       };
+
       scope.aneis = scope.objeto.aneis;
       scope.selecionaAnel(0);
     });
 
     it('Deve inicializar o objeto currentAnel com o indice de parametro', function() {
       expect(scope.currentAnel).toBe(scope.objeto.aneis[0]);
+    });
+
+    it('Deve retornar a localização do anel selecionado', function() {
+      expect(scope.currentAnel.localizacao).toBe("Av Paulista com Av Pedro I");
     });
   });
 
