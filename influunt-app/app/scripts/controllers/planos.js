@@ -443,16 +443,19 @@ angular.module('influuntApp')
 
       $scope.getErrosPlanos = function(listaErros) {
         var erros = _
-        .chain(listaErros)
-        .filter(function(e) {
-          return _.isString(e[0]);
-        })
-        .map()
-        .flatten()
-        .value();
+          .chain(listaErros)
+          .filter(function(e) {
+            return _.isString(e[0]);
+          })
+          .map()
+          .flatten()
+          .value();
+
         erros.push(getErrosGruposSemaforicosPlanos(listaErros));
         erros.push(getErrosUltrapassaTempoSeguranca(listaErros));
-        return _.chain(erros).flatten().value();
+        erros.push(getErrosPlanoAtuadoSemDetector(listaErros));
+
+        return _.flatten(erros);
       };
 
       getKeysErros = function(errors) {
@@ -485,7 +488,7 @@ angular.module('influuntApp')
       };
 
       $scope.getErroPorPlano = function(index) {
-       var errors              = _.get($scope.errors, 'aneis[' + $scope.currentAnelIndex + '].versoesPlanos[0].planos');
+       var errors              = _.get($scope.errors, 'aneis[' + $scope.currentAnelIndex + '].versoesPlanos['+ $scope.currentVersaoPlanoIndex +'].planos');
        var keysErrors          = getKeysErros(errors);
        var errorsPlanoIdJson   = getIdJsonDePlanosQuePossuemErros(keysErrors);
        var errorsInPlanos      = getPlanoComErro($scope.objeto.planos, errorsPlanoIdJson);
@@ -511,16 +514,19 @@ angular.module('influuntApp')
         var erros = [];
         var currentPlanoIndex = $scope.currentPlanoIndex;
 
-        if(listaErros){
-          _.each(listaErros.planos[currentPlanoIndex].gruposSemaforicosPlanos, function (erro, index){
-            if(erro) {
-              var grupoSemaforicoPlanoIdJson = $scope.currentPlano.gruposSemaforicosPlanos[index].idJson;
-              var grupoSemaforicoPlano = _.find($scope.objeto.gruposSemaforicosPlanos, {idJson: grupoSemaforicoPlanoIdJson});
-              var grupoSemaforico = _.find($scope.objeto.gruposSemaforicos, {idJson: grupoSemaforicoPlano.grupoSemaforico.idJson});
-              var texto = 'G' + grupoSemaforico.posicao + ' - ' + erro.respeitaVerdesDeSeguranca[0];
-              erros.push(texto);
-            }
-          });
+        if (listaErros) {
+          var errosGruposSemaforicosPlanos = _.get(listaErros, 'planos['+ currentPlanoIndex +'].gruposSemaforicosPlanos');
+          if (errosGruposSemaforicosPlanos) {
+            _.each(errosGruposSemaforicosPlanos, function(erro, index) {
+              if(erro) {
+                var grupoSemaforicoPlanoIdJson = $scope.currentPlano.gruposSemaforicosPlanos[index].idJson;
+                var grupoSemaforicoPlano = _.find($scope.objeto.gruposSemaforicosPlanos, {idJson: grupoSemaforicoPlanoIdJson});
+                var grupoSemaforico = _.find($scope.objeto.gruposSemaforicos, {idJson: grupoSemaforicoPlano.grupoSemaforico.idJson});
+                var texto = 'G' + grupoSemaforico.posicao + ' - ' + erro.respeitaVerdesDeSeguranca[0];
+                erros.push(texto);
+              }
+            });
+          }
         }
         return erros;
       };
@@ -530,14 +536,25 @@ angular.module('influuntApp')
         var currentPlanoIndex = $scope.currentPlanoIndex;
 
         if(listaErros){
-          _.each(listaErros.planos[currentPlanoIndex].ultrapassaTempoCiclo, function (errosNoPlano){
-            if(errosNoPlano) {
-              var texto = errosNoPlano;
-              erros.push(texto);
-            }
-          });
+          var errosUltrapassaTempoSeguranca = _.get(listaErros, 'planos['+ currentPlanoIndex +'].ultrapassaTempoCiclo');
+          if (errosUltrapassaTempoSeguranca) {
+            _.each(errosUltrapassaTempoSeguranca, function (errosNoPlano){
+              if(errosNoPlano) {
+                var texto = errosNoPlano;
+                erros.push(texto);
+              }
+            });
+          }
         }
         return erros;
+      };
+
+      var getErrosPlanoAtuadoSemDetector = function(listaErros) {
+        var erros = _.get(listaErros, 'planos['+ $scope.currentPlanoIndex +'].modoOperacaoValido');
+        if (erros) {
+          return erros;
+        }
+        return [];
       };
 
       /**

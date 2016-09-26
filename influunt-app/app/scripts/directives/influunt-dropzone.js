@@ -77,16 +77,16 @@ angular.module('influuntApp')
             headers: {
               authToken: localStorage.token
             },
-            success: function(upload, imagem) {
+            success: function(upload, response) {
               var anel = scope.anel;
               if (angular.isDefined(anel)) {
                 // Adiciona o anel id ao elemento do preview. Este id será utilizado
                 // para filtrar as imagens de estagios para os diferentes aneis.
                 $(upload.previewElement).attr('data-anel-id', anel.idJson);
-                $(upload.previewElement).attr('data-imagem-id', imagem.id);
+                $(upload.previewElement).attr('data-imagem-id', response.imagem.id);
               }
 
-              return scope.onSuccess({ upload: upload, imagem: imagem });
+              return scope.onSuccess({ upload: upload, imagem: response.imagem, anelIdJson: response.anelIdJson });
             },
             init: function() {
               this.on('addedfile', function(file) {
@@ -100,6 +100,11 @@ angular.module('influuntApp')
                 });
                 file.dropzoneId = this.element.id;
                 file.previewElement.appendChild(removeButton);
+              });
+
+              // chamado logo antes de o arquivo ser enviado p/ o servidor
+              this.on('sending', function(file, xhr, formData) {
+                formData.append('anelIdJson', scope.anel.idJson);
               });
             }
           };
