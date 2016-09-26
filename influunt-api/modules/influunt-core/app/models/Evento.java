@@ -11,7 +11,6 @@ import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
-import utils.CustomCalendar;
 
 import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
@@ -19,13 +18,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.UUID;
-
-import static com.sun.tools.doclint.Entity.and;
-import static com.sun.tools.doclint.Entity.ni;
-import static com.sun.tools.doclint.Entity.nu;
-import static utils.CustomCalendar.getCalendar;
 
 /**
  * Entidade que representa um {@link Evento} no sistema
@@ -258,17 +251,17 @@ public class Evento extends Model implements Cloneable, Serializable, Comparable
 
     @Override
     public int compareTo(Evento o) {
-        if(this.getTipo().compareTo(o.getTipo()) == 0){
-            if(this.getTipo().equals(TipoEvento.NORMAL)) {
+        if (this.getTipo().compareTo(o.getTipo()) == 0) {
+            if (this.getTipo().equals(TipoEvento.NORMAL)) {
                 if (this.getDiaDaSemana().compareTo(o.getDiaDaSemana()) == 0) {
                     return this.getData().compareTo(o.getData());
                 } else {
                     return this.getDiaDaSemana().compareTo(o.getDiaDaSemana());
                 }
-            }else {
+            } else {
                 return this.getData().compareTo(o.getData());
             }
-        }else{
+        } else {
             return this.getTipo().compareTo(o.getTipo());
         }
     }
@@ -285,11 +278,11 @@ public class Evento extends Model implements Cloneable, Serializable, Comparable
 
     public boolean tenhoPrioridade(Evento evento, boolean euSouPetrio, boolean outroEPetrio) {
 
-        if(euSouPetrio && !outroEPetrio){
+        if (euSouPetrio && !outroEPetrio) {
             return true;
-        }else if(!euSouPetrio && outroEPetrio){
+        } else if (!euSouPetrio && outroEPetrio) {
             return false;
-        }else{
+        } else {
             return true;
         }
 //        Calendar calendar = CustomCalendar.getCalendar();
@@ -329,5 +322,25 @@ public class Evento extends Model implements Cloneable, Serializable, Comparable
 //            }
 //        }
 //        return false;
+    }
+
+    public boolean isAtivoEm(DateTime agora) {
+
+
+        if (!this.getTipo().equals(TipoEvento.NORMAL)) {
+            DateTime data = new DateTime(getData().getTime());
+
+            boolean ano = this.getTipo().equals(TipoEvento.ESPECIAL_NAO_RECORRENTE) ? agora.getYear() == data.getYear() : true;
+            if (!ano || agora.getMonthOfYear() != data.getMonthOfYear() || agora.getDayOfMonth() != data.getDayOfMonth()) {
+                return false;
+            } else {
+                if (agora.getMillisOfDay() >= data.getMillisOfDay()) {
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+        }
+        return false;
     }
 }

@@ -4,6 +4,7 @@ import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;
 import com.google.common.collect.TreeRangeMap;
 import models.Evento;
+import models.TipoEvento;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 
 import static com.google.common.collect.Range.closed;
 import static com.google.common.collect.Range.closedOpen;
+import static com.sun.javafx.tools.resource.DeployResource.Type.data;
 import static utils.ConstantesDeTempo.*;
 
 
@@ -28,13 +30,18 @@ public class GerenciadorDeEventos {
 
     private List<Evento> eventos;
 
+    private List<Evento> eventosEspeciais;
+
 
     public void addEventos(List<Evento> eventos) {
 
-        this.eventos = eventos.stream().sorted().collect(Collectors.toList());
+        this.eventos = eventos.stream().filter(evento -> evento.getTipo().equals(TipoEvento.NORMAL)).sorted().collect(Collectors.toList());
         for (Evento evento : this.eventos) {
             processaEvento(evento);
         }
+
+        this.eventosEspeciais = eventos.stream().filter(evento -> !evento.getTipo().equals(TipoEvento.NORMAL)).sorted().collect(Collectors.toList());
+
     }
 
     private void processaEvento(Evento evento) {
@@ -145,8 +152,13 @@ public class GerenciadorDeEventos {
     }
 
 
-    public Evento eventoAtual(Calendar data) {
-        return rangeMap.get(getMSNaSemana(data));
+    public Evento eventoAtual(DateTime data) {
+        Evento evento = getEventoEspecial(data);
+        return evento == null ? rangeMap.get(getMSNaSemana(data.toCalendar(Locale.forLanguageTag("pt-BR")))) : evento;
+    }
+
+    private Evento getEventoEspecial(DateTime agora) {
+        return eventosEspeciais.stream().filter(evento -> evento.isAtivoEm(agora)).findFirst().orElse(null);
     }
 
     public int getQuantidadeIntervalos() {

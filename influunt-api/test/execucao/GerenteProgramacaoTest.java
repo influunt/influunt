@@ -9,6 +9,7 @@ import org.joda.time.DateTime;
 import org.junit.Test;
 import os72c.client.v2.GerenciadorDeEventos;
 import os72c.client.v2.GerenteProgramacao;
+import utils.ConstantesDeTempo;
 import utils.CustomCalendar;
 
 import java.text.SimpleDateFormat;
@@ -26,6 +27,170 @@ import static org.junit.Assert.assertTrue;
  */
 public class GerenteProgramacaoTest {
 
+    @Test
+    public void sobreposicaoPorTipo() {
+
+        DateTime dt = new DateTime();
+        DateTime agora = dt.plus(0);
+
+        Evento normal = new Evento();
+        normal.setTipo(TipoEvento.NORMAL);
+        normal.setDiaDaSemana(DiaDaSemana.DOMINGO);
+        normal.setData(dt.toCalendar(Locale.forLanguageTag("pt-BR")).getTime());
+        normal.setPosicaoPlano(1);
+
+        Evento especialRecorrente = new Evento();
+        especialRecorrente.setTipo(TipoEvento.ESPECIAL_RECORRENTE);
+        especialRecorrente.setData(dt.toCalendar(Locale.forLanguageTag("pt-BR")).getTime());
+        especialRecorrente.setPosicaoPlano(2);
+
+        Evento especialNaoRecorrente = new Evento();
+        especialNaoRecorrente.setTipo(TipoEvento.ESPECIAL_RECORRENTE);
+        especialNaoRecorrente.setData(dt.toCalendar(Locale.forLanguageTag("pt-BR")).getTime());
+        especialNaoRecorrente.setPosicaoPlano(3);
+
+        GerenciadorDeEventos g = new GerenciadorDeEventos();
+        List<Evento> eventoList = new ArrayList<>();
+
+        eventoList.add(normal);
+        eventoList.add(especialNaoRecorrente);
+        eventoList.add(especialRecorrente);
+
+        g.addEventos(eventoList);
+
+        assertEquals(Integer.valueOf(3),g.eventoAtual(dt).getPosicaoPlano());
+
+        DateTime outraData = dt.plusDays(1);
+        assertEquals(Integer.valueOf(1),g.eventoAtual(outraData).getPosicaoPlano());
+
+        eventoList = new ArrayList<>();
+        eventoList.add(normal);
+        eventoList.add(especialRecorrente);
+        g.addEventos(eventoList);
+        assertEquals(Integer.valueOf(2),g.eventoAtual(dt).getPosicaoPlano());
+
+
+
+
+
+
+    }
+
+    @Test
+    public void ativacaoEspecialRecorrenteTest() {
+
+        DateTime dt = new DateTime();
+        DateTime agora = dt.plus(0);
+
+        Evento especialRecorrente = new Evento();
+        especialRecorrente.setTipo(TipoEvento.ESPECIAL_RECORRENTE);
+        especialRecorrente.setData(dt.toCalendar(Locale.forLanguageTag("pt-BR")).getTime());
+
+
+        assertTrue(especialRecorrente.isAtivoEm(agora));
+
+        agora = agora.minusMillis(1);
+        assertFalse(especialRecorrente.isAtivoEm(agora));
+
+        agora = agora.plusMillis(1);
+        assertTrue(especialRecorrente.isAtivoEm(agora));
+
+        agora = agora.plusMillis(1);
+        assertTrue(especialRecorrente.isAtivoEm(agora));
+
+        agora = agora.plusYears(1);
+        assertTrue(especialRecorrente.isAtivoEm(agora));
+
+        agora = agora.plusDays(1);
+        assertFalse(especialRecorrente.isAtivoEm(agora));
+    }
+
+    @Test
+    public void ativacaoEspecialNaoRecorrenteTest() {
+
+        DateTime dt = new DateTime();
+        DateTime agora = dt.plus(0);
+
+        Evento especialRecorrente = new Evento();
+        especialRecorrente.setTipo(TipoEvento.ESPECIAL_NAO_RECORRENTE);
+        especialRecorrente.setData(dt.toCalendar(Locale.forLanguageTag("pt-BR")).getTime());
+
+
+        assertTrue(especialRecorrente.isAtivoEm(agora));
+
+        agora = agora.minusMillis(1);
+        assertFalse(especialRecorrente.isAtivoEm(agora));
+
+        agora = agora.plusMillis(1);
+        assertTrue(especialRecorrente.isAtivoEm(agora));
+
+        agora = agora.plusMillis(1);
+        assertTrue(especialRecorrente.isAtivoEm(agora));
+
+        agora = agora.plusYears(1);
+        assertFalse(especialRecorrente.isAtivoEm(agora));
+
+        agora = agora.plusDays(1);
+        assertFalse(especialRecorrente.isAtivoEm(agora));
+
+
+    }
+
+
+
+
+    public void sobreposicaoPrioridadePlanoRecorrenteTest() {
+        GerenciadorDeEventos g = new GerenciadorDeEventos();
+        List<Evento> eventoList = new ArrayList<>();
+
+        DateTime dt = new DateTime(2016, 9, 18, 0, 0, 0);
+        Calendar instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
+        eventoList.add(criaEvento(TipoEvento.NORMAL, DiaDaSemana.TODOS_OS_DIAS, instante.getTime(), 1));
+        eventoList.add(criaEvento(TipoEvento.NORMAL, DiaDaSemana.SEGUNDA_A_SABADO, instante.getTime(), 2));
+        eventoList.add(criaEvento(TipoEvento.NORMAL, DiaDaSemana.SEGUNDA_A_SEXTA, instante.getTime(), 3));
+        eventoList.add(criaEvento(TipoEvento.NORMAL, DiaDaSemana.SABADO_A_DOMINGO, instante.getTime(), 4));
+        eventoList.add(criaEvento(TipoEvento.NORMAL, DiaDaSemana.SABADO, instante.getTime(), 5));
+        eventoList.add(criaEvento(TipoEvento.NORMAL, DiaDaSemana.SEXTA, instante.getTime(), 6));
+        eventoList.add(criaEvento(TipoEvento.NORMAL, DiaDaSemana.QUINTA, instante.getTime(), 7));
+        eventoList.add(criaEvento(TipoEvento.NORMAL, DiaDaSemana.QUARTA, instante.getTime(), 8));
+        eventoList.add(criaEvento(TipoEvento.NORMAL, DiaDaSemana.TERCA, instante.getTime(), 9));
+        eventoList.add(criaEvento(TipoEvento.NORMAL, DiaDaSemana.SEGUNDA, instante.getTime(), 10));
+        eventoList.add(criaEvento(TipoEvento.NORMAL, DiaDaSemana.DOMINGO, instante.getTime(), 10));
+
+        eventoList.add(criaEvento(TipoEvento.ESPECIAL_RECORRENTE, DiaDaSemana.DOMINGO, instante.getTime(), 10));
+
+        g.addEventos(eventoList);
+        assertFalse(g.getIntervalos().asMapOfRanges()
+                .values()
+                .stream()
+                .mapToInt(e -> e.getPosicaoPlano())
+                .anyMatch(value -> value < 5));
+
+        eventoList = new ArrayList<>();
+
+        instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
+        eventoList.add(criaEvento(TipoEvento.NORMAL, DiaDaSemana.DOMINGO, instante.getTime(), 10));
+        eventoList.add(criaEvento(TipoEvento.NORMAL, DiaDaSemana.SEGUNDA, instante.getTime(), 10));
+        eventoList.add(criaEvento(TipoEvento.NORMAL, DiaDaSemana.TERCA, instante.getTime(), 9));
+        eventoList.add(criaEvento(TipoEvento.NORMAL, DiaDaSemana.QUARTA, instante.getTime(), 8));
+        eventoList.add(criaEvento(TipoEvento.NORMAL, DiaDaSemana.QUINTA, instante.getTime(), 7));
+        eventoList.add(criaEvento(TipoEvento.NORMAL, DiaDaSemana.SEXTA, instante.getTime(), 6));
+        eventoList.add(criaEvento(TipoEvento.NORMAL, DiaDaSemana.SABADO, instante.getTime(), 5));
+        eventoList.add(criaEvento(TipoEvento.NORMAL, DiaDaSemana.SABADO_A_DOMINGO, instante.getTime(), 4));
+        eventoList.add(criaEvento(TipoEvento.NORMAL, DiaDaSemana.SEGUNDA_A_SEXTA, instante.getTime(), 3));
+        eventoList.add(criaEvento(TipoEvento.NORMAL, DiaDaSemana.SEGUNDA_A_SABADO, instante.getTime(), 2));
+        eventoList.add(criaEvento(TipoEvento.NORMAL, DiaDaSemana.TODOS_OS_DIAS, instante.getTime(), 1));
+
+        g = new GerenciadorDeEventos();
+
+        g.addEventos(eventoList);
+        assertFalse(g.getIntervalos().asMapOfRanges()
+                .values()
+                .stream()
+                .mapToInt(e -> e.getPosicaoPlano())
+                .anyMatch(value -> value < 5));
+
+    }
     @Test
     public void sobreposicaoPrioridadeTest() {
         GerenciadorDeEventos g = new GerenciadorDeEventos();
@@ -98,23 +263,23 @@ public class GerenteProgramacaoTest {
 
         dt = new DateTime(2016,9,18,0,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(2),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(2),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,20,9,59,59);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(2),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(2),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,20,10,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(1),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(1),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,22,9,59,59);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(1),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(1),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,22,10,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(2),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(2),g.eventoAtual(dt).getPosicaoPlano());
 
 
     }
@@ -155,39 +320,39 @@ public class GerenteProgramacaoTest {
 
         dt = new DateTime(2016,9,18,0,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(3),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(3),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,18,18,30,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(4),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(4),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,19,0,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(1),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(1),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,20,0,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(5),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(5),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,21,0,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(5),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(5),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,22,0,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(5),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(5),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,23,0,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(5),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(5),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,24,0,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(6),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(6),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,24,18,30,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(3),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(3),g.eventoAtual(dt).getPosicaoPlano());
 
     }
 
@@ -210,43 +375,43 @@ public class GerenteProgramacaoTest {
 
         dt = new DateTime(2016,9,18,0,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(1),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(1),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,18,20,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(2),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(2),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,19,0,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(1),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(1),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,20,0,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(1),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(1),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,21,0,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(1),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(1),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,22,0,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(1),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(1),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,23,0,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(1),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(1),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,24,0,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(1),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(1),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,24,20,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(2),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(2),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,25,0,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(1),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(1),g.eventoAtual(dt).getPosicaoPlano());
 
 
     }
@@ -311,123 +476,123 @@ public class GerenteProgramacaoTest {
 
         dt = new DateTime(2016,9,18,0,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(1),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(1),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,18,10,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(11),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(11),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,18,20,30,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(10),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(10),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,19,0,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(1),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(1),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,19,3,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(12),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(12),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,19,6,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(2),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(2),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,19,14,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(4),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(4),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,19,19,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(3),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(3),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,20,0,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(1),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(1),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,20,3,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(12),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(12),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,20,6,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(5),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(5),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,20,19,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(3),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(3),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,21,0,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(1),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(1),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,21,3,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(12),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(12),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,21,6,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(2),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(2),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,21,19,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(3),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(3),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,22,0,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(1),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(1),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,22,3,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(12),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(12),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,22,5,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(6),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(6),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,22,6,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(2),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(2),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,22,19,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(3),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(3),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,23,0,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(1),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(1),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,23,3,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(12),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(12),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,23,5,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(7),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(7),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,23,6,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(8),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(8),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,23,19,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(9),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(9),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,24,0,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(1),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(1),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,24,3,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(12),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(12),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,24,10,0,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(11),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(11),g.eventoAtual(dt).getPosicaoPlano());
 
         dt = new DateTime(2016,9,24,20,30,0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
-        assertEquals(Integer.valueOf(10),g.eventoAtual(instante).getPosicaoPlano());
+        assertEquals(Integer.valueOf(10),g.eventoAtual(dt).getPosicaoPlano());
 
 
         g.imprimeTabelaHoraria();
@@ -448,8 +613,7 @@ public class GerenteProgramacaoTest {
     public void planoAtualTest(){
         GerenciadorDeEventos g = new GerenciadorDeEventos();
 
-        DateTime dt = new DateTime(2016,9,18,11,20,1);
-        Calendar instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
+        DateTime instante = new DateTime(2016,9,18,11,20,1);
 
         TabelaHorario th = getTabelaHoraria();
         List<Evento> eventoList = th.getEventos();
@@ -458,47 +622,45 @@ public class GerenteProgramacaoTest {
 
         assertEquals(8,g.getQuantidadeIntervalos());
         pergunta(1,instante);
-        System.out.println(g.getMSNaSemana(instante));
 
 
         assertEquals(Integer.valueOf(1),g.eventoAtual(instante).getPosicaoPlano());
 
-        instante.add(Calendar.DAY_OF_MONTH, 1);
+        instante = instante.plusDays( 1);
         assertEquals(Integer.valueOf(2),g.eventoAtual(instante).getPosicaoPlano());
 
-        instante.add(Calendar.DAY_OF_WEEK, 1);
+        instante = instante.plusDays(1);
         assertEquals(Integer.valueOf(3),g.eventoAtual(instante).getPosicaoPlano());
 
-        instante.add(Calendar.DAY_OF_WEEK, 1);
+        instante = instante.plusDays(1);
         assertEquals(Integer.valueOf(4),g.eventoAtual(instante).getPosicaoPlano());
 
-        instante.add(Calendar.DAY_OF_WEEK, 1);
+        instante = instante.plusDays(1);
         assertEquals(Integer.valueOf(5),g.eventoAtual(instante).getPosicaoPlano());
 
-        instante.add(Calendar.DAY_OF_WEEK, 1);
+        instante = instante.plusDays(1);
         assertEquals(Integer.valueOf(6),g.eventoAtual(instante).getPosicaoPlano());
 
-        instante.add(Calendar.DAY_OF_WEEK, 1);
+        instante = instante.plusDays(1);
         assertEquals(Integer.valueOf(7),g.eventoAtual(instante).getPosicaoPlano());
     }
 
     @Test
-    public void eventoDePrioridadeMenorNaoDeveSobreporTest(){
+    public void eventoDePrioridadeMenorNaoDeveSobreporTest() {
         GerenciadorDeEventos g = new GerenciadorDeEventos();
 
-        Calendar instante = Calendar.getInstance();
-        instante.set(2016,8,19,11,0,1);
+        DateTime instante = new DateTime(2016, 9, 19, 11, 0, 1);
 
         Evento domingo = new Evento();
         domingo.setTipo(TipoEvento.NORMAL);
         domingo.setDiaDaSemana(DiaDaSemana.DOMINGO);
-        domingo.setData(instante.getTime());
+        domingo.setData(instante.toDate());
         domingo.setPosicaoPlano(1);
 
         Evento sabadoDomingo = new Evento();
         sabadoDomingo.setTipo(TipoEvento.NORMAL);
         sabadoDomingo.setDiaDaSemana(DiaDaSemana.SABADO_A_DOMINGO);
-        sabadoDomingo.setData(instante.getTime());
+        sabadoDomingo.setData(instante.toDate());
         sabadoDomingo.setPosicaoPlano(2);
 
         List<Evento> eventos = new ArrayList<>();
@@ -507,28 +669,25 @@ public class GerenteProgramacaoTest {
 
         g.addEventos(eventos);
         g.imprimeTabelaHoraria();
-        assertEquals(3,g.getQuantidadeIntervalos());
-        assertEquals(Integer.valueOf(1),g.eventoAtual(instante).getPosicaoPlano());
-        instante.add(Calendar.DAY_OF_WEEK,5);
-        assertEquals(Integer.valueOf(2),g.eventoAtual(instante).getPosicaoPlano());
-        instante.add(Calendar.HOUR,23);
-        instante.add(Calendar.MINUTE,60);
-        instante.add(Calendar.SECOND,-1);
+        assertEquals(3, g.getQuantidadeIntervalos());
+        assertEquals(Integer.valueOf(1), g.eventoAtual(instante).getPosicaoPlano());
+        instante = instante.plusDays(5);
         pergunta(2,instante);
-        assertEquals(Integer.valueOf(2),g.eventoAtual(instante).getPosicaoPlano());
-        instante.add(Calendar.SECOND,1);
-        pergunta(1,instante);
-        assertEquals(Integer.valueOf(1),g.eventoAtual(instante).getPosicaoPlano());
-        instante.add(Calendar.MILLISECOND,-1);
-        pergunta(2,instante);
-        assertEquals(Integer.valueOf(2),g.eventoAtual(instante).getPosicaoPlano());
-        instante.add(Calendar.MILLISECOND,1);
-        pergunta(1,instante);
-        assertEquals(Integer.valueOf(1),g.eventoAtual(instante).getPosicaoPlano());
-
-
-
-
+        assertEquals(Integer.valueOf(2), g.eventoAtual(instante).getPosicaoPlano());
+        instante = instante.plusHours(23);
+        instante = instante.plusMinutes(60);
+        instante = instante.minusSeconds(1);
+        pergunta(2, instante);
+        assertEquals(Integer.valueOf(2), g.eventoAtual(instante).getPosicaoPlano());
+        instante = instante.plusSeconds(1);
+        pergunta(1, instante);
+        assertEquals(Integer.valueOf(1), g.eventoAtual(instante).getPosicaoPlano());
+        instante = instante.minusMillis(1);
+        pergunta(2, instante);
+        assertEquals(Integer.valueOf(2), g.eventoAtual(instante).getPosicaoPlano());
+        instante = instante.plusMillis(1);
+        pergunta(1, instante);
+        assertEquals(Integer.valueOf(1), g.eventoAtual(instante).getPosicaoPlano());
     }
 
     @Test
@@ -577,11 +736,11 @@ public class GerenteProgramacaoTest {
 
         g.addEventos(eventos);
         assertEquals(4,g.getQuantidadeIntervalos());
-        assertEquals(Integer.valueOf(2), g.eventoAtual(instanteAnterior).getPosicaoPlano());
-        assertEquals(Integer.valueOf(1), g.eventoAtual(instante).getPosicaoPlano());
-        assertEquals(Integer.valueOf(3), g.eventoAtual(instantePosterior).getPosicaoPlano());
-        assertEquals(Integer.valueOf(3), g.eventoAtual(umDiaDepois).getPosicaoPlano());
-        assertEquals(Integer.valueOf(3), g.eventoAtual(umDiaAntes).getPosicaoPlano());
+        assertEquals(Integer.valueOf(2), g.eventoAtual(new DateTime(instanteAnterior)).getPosicaoPlano());
+        assertEquals(Integer.valueOf(1), g.eventoAtual(new DateTime(instante)).getPosicaoPlano());
+        assertEquals(Integer.valueOf(3), g.eventoAtual(new DateTime(instantePosterior)).getPosicaoPlano());
+        assertEquals(Integer.valueOf(3), g.eventoAtual(new DateTime(umDiaDepois)).getPosicaoPlano());
+        assertEquals(Integer.valueOf(3), g.eventoAtual(new DateTime(umDiaAntes)).getPosicaoPlano());
 
 
     }
@@ -679,7 +838,8 @@ public class GerenteProgramacaoTest {
         return  tabelaHorario;
     }
 
-    private void pergunta(int i, Calendar instante) {
+    private void pergunta(int i, DateTime data) {
+        Calendar instante = data.toCalendar(Locale.forLanguageTag("pt-BR"));
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY - EEE - HH:mm:ss");
         System.out.println("O plano " + i + " e o retornado em:" + sdf.format(instante.getTime()) + " -- "
                 + ((
