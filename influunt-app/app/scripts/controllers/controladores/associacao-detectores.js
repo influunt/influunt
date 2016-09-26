@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresAssociacaoDetectoresCtrl', ['$scope', '$state', '$controller', '$filter', 'assertControlador', 'influuntAlert', 'Restangular', 'toast',
-    function ($scope, $state, $controller, $filter, assertControlador, influuntAlert, Restangular, toast) {
+  .controller('ControladoresAssociacaoDetectoresCtrl', ['$scope', '$state', '$controller', '$filter', 'assertControlador', 'influuntAlert', 'Restangular', 'toast', 'influuntBlockui',
+    function ($scope, $state, $controller, $filter, assertControlador, influuntAlert, Restangular, toast, influuntBlockui) {
       $controller('ControladoresCtrl', {$scope: $scope});
       $controller('ConfirmacaoNadaHaPreencherCtrl', {$scope: $scope});
 
@@ -50,6 +50,7 @@ angular.module('influuntApp')
             $scope.podeDetectorVeicular = _.filter($scope.objeto.gruposSemaforicos, {tipo: 'VEICULAR'}).length > 0;
 
             $scope.inicializaConfirmacaoNadaHaPreencher();
+            $scope.atualizaTotalDetectoresPorAnel();
             return _.isArray($scope.currentDetectores) && $scope.selecionaDetector($scope.currentDetectores[0], 0);
           }
         });
@@ -114,6 +115,11 @@ angular.module('influuntApp')
         atualizaPosicoesDetectores();
         $scope.verificaConfirmacaoNadaHaPreencher();
         $scope.errors = null;
+        $scope.atualizaTotalDetectoresPorAnel();
+      };
+
+      $scope.atualizaTotalDetectoresPorAnel = function(){
+        $scope.maxDetectoresPorAnel = $scope.currentEstagios.length - $scope.currentDetectores.length;
       };
 
       excluirDetectorNoCliente = function(detector) {
@@ -128,6 +134,7 @@ angular.module('influuntApp')
         atualizaPosicoesDetectores();
         atualizaEstagiosComDetector();
         $scope.verificaConfirmacaoNadaHaPreencher();
+        $scope.atualizaTotalDetectoresPorAnel();
       };
 
       $scope.excluirDetector = function(detector) {
@@ -141,9 +148,11 @@ angular.module('influuntApp')
                 Restangular.one('detectores', detector.id).remove()
                   .then(function() {
                     excluirDetectorNoCliente(detector);
-                  }).catch(function() {
+                  })
+                  .catch(function() {
                     toast.error($filter('translate')('controladores.detectores.msg_erro_apagar_detector'));
-                  });
+                  })
+                  .finally(influuntBlockui.unblock);
               }
             }
           });
@@ -158,6 +167,8 @@ angular.module('influuntApp')
         $scope.selecionaAnel(index);
         $scope.atualizaEstagios();
         $scope.atualizaDetectores();
+        atualizaPosicoesDetectores();
+        $scope.atualizaTotalDetectoresPorAnel();
       };
 
       $scope.atualizaDetectores = function() {

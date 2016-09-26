@@ -32,30 +32,32 @@ angular.module('influuntApp')
        */
       $scope.init = function() {
         var id = $state.params.id;
-        Restangular.one('controladores', id).get().then(function(res) {
-          $scope.objeto = res;
-          $scope.comCheckBoxGrupo = !$scope.somenteVisualizacao;
-          parseAllToInt();
-          montaTabelaValoresMinimos();
+        Restangular.one('controladores', id).get()
+          .then(function(res) {
+            $scope.objeto = res;
+            $scope.comCheckBoxGrupo = !$scope.somenteVisualizacao;
+            parseAllToInt();
+            montaTabelaValoresMinimos();
 
-          $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
-          $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
+            $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
+            $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
 
-          $scope.aneis.forEach(function(anel) {
-            if (!(_.isArray(anel.planos) && anel.planos.length > 0)) {
-              anel.planos = anel.planos || [];
-              var versaoPlano = {idJson: UUID.generate(), anel:{idJson: anel.idJson}};
-              $scope.objeto.versoesPlanos.push(versaoPlano);
-              anel.versaoPlano = {idJson: versaoPlano.idJson};
-            }
-            for (var i = 0; i < $scope.objeto.limitePlanos; i++) {
-              adicionaPlano(anel, i + 1);
-            }
-          });
+            $scope.aneis.forEach(function(anel) {
+              if (!(_.isArray(anel.planos) && anel.planos.length > 0)) {
+                anel.planos = anel.planos || [];
+                var versaoPlano = {idJson: UUID.generate(), anel:{idJson: anel.idJson}};
+                $scope.objeto.versoesPlanos.push(versaoPlano);
+                anel.versaoPlano = {idJson: versaoPlano.idJson};
+              }
+              for (var i = 0; i < $scope.objeto.limitePlanos; i++) {
+                adicionaPlano(anel, i + 1);
+              }
+            });
 
-          $scope.selecionaAnelPlanos(0);
-          return atualizaDiagramaIntervalos();
-        });
+            $scope.selecionaAnelPlanos(0);
+            return atualizaDiagramaIntervalos();
+          })
+          .finally(influuntBlockui.unblock);
       };
 
       $scope.clonarPlanos = function(controladorId) {
@@ -68,12 +70,14 @@ angular.module('influuntApp')
               .catch(function(err) {
                 toast.error($filter('translate')('geral.mensagens.default_erro'));
                 throw new Error(JSON.stringify(err));
-              });
+              })
+              .finally(influuntBlockui.unblock);
           })
           .catch(function(err) {
             toast.clear();
             influuntAlert.alert('Controlador', err.data[0].message);
-          });
+          })
+          .finally(influuntBlockui.unblock);
       };
 
       $scope.editarPlano = function(controladorId) {
@@ -84,7 +88,8 @@ angular.module('influuntApp')
           .catch(function(err) {
             toast.clear();
             influuntAlert.alert('Controlador', err.data[0].message);
-          });
+          })
+          .finally(influuntBlockui.unblock);
       };
 
       $scope.cancelarEdicao = function() {
@@ -99,7 +104,8 @@ angular.module('influuntApp')
               .catch(function(err) {
                 toast.error($filter('translate')('geral.mensagens.default_erro'));
                 throw new Error(JSON.stringify(err));
-              });
+              })
+              .finally(influuntBlockui.unblock);
           } else {
             $state.go('app.controladores');
           }
@@ -199,7 +205,8 @@ angular.module('influuntApp')
                     removerPlanoLocal(plano, index);
                   }).catch(function() {
                     toast.error($filter('translate')('planos.resetarPlano.erroAoDeletar'));
-                  });
+                  })
+                  .finally(influuntBlockui.unblock);
               }
             } else {
               plano.configurado = true;
@@ -322,10 +329,12 @@ angular.module('influuntApp')
       };
 
       $scope.getEstagio = function(estagioPlano) {
-        if(estagioPlano){
+        if (estagioPlano) {
           var ep = _.find($scope.objeto.estagiosPlanos, {idJson: estagioPlano.idJson});
-          var estagio = _.find($scope.objeto.estagios, {idJson: ep.estagio.idJson});
-          return estagio;
+          if (ep) {
+            var estagio = _.find($scope.objeto.estagios, {idJson: ep.estagio.idJson});
+            return estagio;
+          }
         }
       };
 
@@ -364,7 +373,8 @@ angular.module('influuntApp')
             .catch(function(err) {
               toast.error($filter('translate')('geral.mensagens.default_erro'));
               throw new Error(JSON.stringify(err));
-            });
+            })
+            .finally(influuntBlockui.unblock);
         }
       };
 
@@ -416,7 +426,8 @@ angular.module('influuntApp')
           } else {
             console.error(res);
           }
-        });
+        })
+        .finally(influuntBlockui.unblock);
       };
 
       /**

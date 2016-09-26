@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ModelosCtrl', ['$controller', '$scope', 'Restangular', '$filter',
-    function ($controller, $scope, Restangular, $filter) {
+  .controller('ModelosCtrl', ['$controller', '$scope', 'Restangular', '$filter', 'influuntBlockui',
+    function ($controller, $scope, Restangular, $filter, influuntBlockui) {
       // Herda todo o comportamento do crud basico.
       $controller('CrudCtrl', { $scope: $scope });
       $scope.inicializaNovoCrud('modelos');
@@ -33,9 +33,11 @@ angular.module('influuntApp')
        * Recupera a lista de fabricantes que podem ser relacionadas ao modelo.
        */
       $scope.beforeShow = function() {
-        Restangular.all('fabricantes').customGET().then(function(res) {
-          $scope.fabricantes = res.data;
-        });
+        Restangular.all('fabricantes').customGET()
+          .then(function(res) {
+            $scope.fabricantes = res.data;
+          })
+          .finally(influuntBlockui.unblock);
       };
 
       $scope.limitesList = function(modelo) {

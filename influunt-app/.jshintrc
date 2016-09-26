@@ -19,6 +19,7 @@
     "influunt": true,
     "Dropzone": true,
     "moment": true,
+    "humanizeDuration": true,
 
     // leaflet lib
     "L": true,

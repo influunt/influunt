@@ -67,10 +67,10 @@
               <h2>{{ 'controladores.entreVerdes.titulo' | translate }}</h2>
             </div>
             <ng-include src="'views/directives/influunt-revisao/_tabelas-entre-verdes.html'"
-                data-ng-if="dadosCurrentGruposSemaforicos.length > 0">
+                data-ng-if="currentTabelasEntreVerdes.length > 0">
             </ng-include>
             <ng-include src="'views/directives/influunt-revisao/_vazio.html'"
-                data-ng-if="!(dadosCurrentGruposSemaforicos && dadosCurrentGruposSemaforicos.length > 0)">
+                data-ng-if="!(dadosCurrentGruposSemaforicos && currentTabelasEntreVerdes.length > 0)">
             </ng-include>
           </div>
 
@@ -79,10 +79,10 @@
               <h2>{{ 'controladores.atrasoDeGrupo.titulo' | translate }}</h2>
             </div>
             <ng-include src="'views/directives/influunt-revisao/_atraso-grupos.html'"
-                data-ng-if="dadosCurrentGruposSemaforicos.length > 0">
+                data-ng-if="currentAtrasosdeGrupo.length > 0">
             </ng-include>
             <ng-include src="'views/directives/influunt-revisao/_vazio.html'"
-                data-ng-if="!(dadosCurrentGruposSemaforicos && dadosCurrentGruposSemaforicos.length > 0)">
+                data-ng-if="!(dadosCurrentGruposSemaforicos && currentAtrasosdeGrupo.length > 0)">
             </ng-include>
           </div>
 

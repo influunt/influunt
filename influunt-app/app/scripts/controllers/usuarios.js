@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('UsuariosCtrl', ['$scope', '$controller', 'Restangular', '$state', '$timeout',
-    function ($scope, $controller, Restangular, $state, $timeout) {
+  .controller('UsuariosCtrl', ['$scope', '$controller', 'Restangular', '$state', '$timeout', 'influuntBlockui',
+    function ($scope, $controller, Restangular, $state, $timeout, influuntBlockui) {
       // Herda todo o comportamento do crud basico.
       $controller('CrudCtrl', {$scope: $scope});
       $scope.inicializaNovoCrud('usuarios');
@@ -65,13 +65,17 @@ angular.module('influuntApp')
        * Recupera a lista de configuracoes que podem ser relacionadas aos modelos.
        */
       $scope.beforeShow = function() {
-        Restangular.all('areas').customGET().then(function(res) {
-          $scope.areas = res.data;
-        });
+        Restangular.all('areas').customGET()
+          .then(function(res) {
+            $scope.areas = res.data;
+          })
+          .finally(influuntBlockui.unblock);
 
-        Restangular.all('perfis').customGET().then(function(res) {
-          $scope.perfis = res.data;
-        });
+        Restangular.all('perfis').customGET()
+          .then(function(res) {
+            $scope.perfis = res.data;
+          })
+          .finally(influuntBlockui.unblock);
       };
 
       $scope.accessLog = function() {
@@ -81,10 +85,11 @@ angular.module('influuntApp')
         query.sort_type = 'desc';
 
         Restangular.one('usuarios', id).all('access_log').customGET(null, query)
-        .then(function(res){
-          $scope.sessoes = res.data;
-          $scope.pagination.totalItems = res.total;
-        });
+          .then(function(res){
+            $scope.sessoes = res.data;
+            $scope.pagination.totalItems = res.total;
+          })
+          .finally(influuntBlockui.unblock);
       };
 
     }]);

@@ -55,9 +55,7 @@ angular.module('influuntApp')
             $scope.selecionaAnel(index);
             $scope.atualizaGruposSemaforicos();
             $scope.selecionaGrupoSemaforico($scope.currentGruposSemaforicos[0], 0);
-
             $scope.setAtributos();
-
             $scope.inicializaConfirmacaoNadaHaPreencher();
           }
         });
@@ -80,8 +78,8 @@ angular.module('influuntApp')
         $scope.selecionaAnel(index);
         $scope.atualizaGruposSemaforicos();
         $scope.selecionaGrupoSemaforico($scope.currentGruposSemaforicos[0], 0);
-
         $scope.setAtributos();
+        $scope.inicializaConfirmacaoNadaHaPreencher();
       };
 
       $scope.$watch('currentTransicoesComPerdaDePassagem', function() {

@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('AreasCtrl', ['$controller', '$scope', 'Restangular',
-    function ($controller, $scope, Restangular) {
+  .controller('AreasCtrl', ['$controller', '$scope', 'Restangular', 'influuntBlockui',
+    function ($controller, $scope, Restangular, influuntBlockui) {
       // Herda todo o comportamento do crud basico.
       $controller('CrudCtrl', {$scope: $scope});
       $scope.inicializaNovoCrud('areas');
@@ -56,9 +56,11 @@ angular.module('influuntApp')
        * Recupera a lista de cidades que podem ser relacionadas à área.
        */
       $scope.beforeShow = function() {
-        Restangular.all('cidades').customGET().then(function(res) {
+        Restangular.all('cidades').customGET()
+        .then(function(res) {
           $scope.cidades = res.data;
-        });
+        })
+        .finally(influuntBlockui.unblock);
       };
 
     }]);

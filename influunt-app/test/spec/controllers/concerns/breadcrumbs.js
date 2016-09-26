@@ -17,14 +17,23 @@ describe('Controller: BreadcrumbsCtrl', function () {
 
   var BreadcrumbsCtrl,
     scope,
-    $state;
+    $state,
+    httpBackend,
+    controlador;
 
-  beforeEach(inject(function ($controller, $rootScope, _$state_) {
+
+  beforeEach(inject(function ($controller, $rootScope, _$state_, $httpBackend) {
     $state = _$state_;
     scope = $rootScope.$new();
     BreadcrumbsCtrl = $controller('BreadcrumbsCtrl', {
       $scope: scope
     });
+
+    httpBackend = $httpBackend;
+    controlador = { 
+      nomeEndereco: 'Av Teste 1' 
+    };
+
   }));
 
   it('Deve atualizar os breadcrumbs sempre que a rota atual for alterada', function() {
@@ -57,6 +66,17 @@ describe('Controller: BreadcrumbsCtrl', function () {
     expect(scope.pageTitle).toBe(state.data.title);
   });
 
+  it('Deve buscar o endereço do controlador caso esteja no controller correto', function() {
+    var state = {
+      controller: 'Controladores'
+    };
+
+    httpBackend.expectGET('/controladores').respond(controlador);
+    scope.setControladorEndereco(state);
+    httpBackend.flush();
+    expect(scope.controladorLocalizacao).toEqual(controlador.nomeEndereco);
+  });
+
   it('Deve atualizar o titulo da pagina para "geral.titulo_padrao" se não houver titulo parametrizado', function() {
     var state = {
       name: 'app.main'
@@ -64,9 +84,5 @@ describe('Controller: BreadcrumbsCtrl', function () {
 
     scope.udpateBreadcrumbs(state);
     expect(scope.pageTitle).toBe('geral.titulo_padrao');
-  });
-
-  it('write tests to DatatablesCtrl!!!!', function() {
-    expect(true).toBe(true);
   });
 });

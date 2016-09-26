@@ -14,6 +14,7 @@ angular.module('influuntApp')
       scope: {
         ngModel: '=',
         campos: '=',
+        options: '=',
         onClose: '&'
       },
       link: function(scope, el) {

@@ -44,7 +44,6 @@ angular.module('influuntApp')
      */
     $scope.index = function() {
       var query = $scope.buildQuery($scope.pesquisa);
-
       return Restangular.all(resourceName).customGET(null, query)
         .then(function(res) {
           $scope.lista = res.data;
@@ -70,7 +69,31 @@ angular.module('influuntApp')
         if (dadosFiltro.tipoCampo === 'texto' || dadosFiltro.tipoCampo === 'numerico') {
           var field = (nomeCampo + '_' + dadosFiltro.tipoFiltro).replace(/\_$/, '');
           query[field] = dadosFiltro.valor;
-        } else {
+        } else if(dadosFiltro.tipoCampo === 'select') {
+          var field = (nomeCampo + '_eq');
+          // TODO - rever enumns na busca, pois mostramos o texto mas temos que enviar o valor numerio da posicao
+          var valor = dadosFiltro.valor;
+          if (nomeCampo === 'statusControlador') {
+            switch(dadosFiltro.valor) {
+              case 'EM_CONFIGURACAO':
+                valor = 0;
+                break;
+              case 'CONFIGURADO':
+                valor = 1;
+                break;
+              case 'ATIVO':
+                valor = 2;
+                break;
+              case 'EM_EDICAO':
+                valor = 3;
+                break;
+              default:
+                valor = 0; // EM configuracao
+                break;
+            }
+          }
+          query[field] = valor;
+        }else {
           if (dadosFiltro.start) {
             if(angular.isString(dadosFiltro.start)) {
               dadosFiltro.start = moment(dadosFiltro.start, 'DD/MM/YYYY');
@@ -197,9 +220,7 @@ angular.module('influuntApp')
           .catch(function() {
             toast.error($filter('translate')('geral.mensagens.default_erro'));
           })
-          .finally(function() {
-            influuntBlockui.unblock();
-          });
+          .finally(influuntBlockui.unblock);
       });
     };
 

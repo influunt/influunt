@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresEntreVerdesCtrl', ['$scope', '$state', '$controller', 'assertControlador', 'influuntAlert',
-    function ($scope, $state, $controller, assertControlador, influuntAlert) {
+  .controller('ControladoresEntreVerdesCtrl', ['$scope', '$state', '$controller', '$filter', 'assertControlador', 'influuntAlert',
+    function ($scope, $state, $controller, $filter, assertControlador, influuntAlert) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
       $scope.isTabelaEntreVerdes = true;
@@ -284,12 +284,14 @@ angular.module('influuntApp')
       };
 
       $scope.verificaConfirmacaoNadaHaPreencher = function(){
-        if($scope.possuiInformacoesPreenchidas()){
-          confirmacaoNadaHaPreencher[$scope.currentGrupoSemaforico.posicao] = true;
-          $scope.confirmacao[$scope.currentGrupoSemaforico.posicao] = false;
-        }else{
-          confirmacaoNadaHaPreencher[$scope.currentGrupoSemaforico.posicao] = false;
-          $scope.confirmacao[$scope.currentGrupoSemaforico.posicao] = false;
+        if (!$scope.confirmacao[$scope.currentGrupoSemaforico.posicao]) {
+          if ($scope.possuiInformacoesPreenchidas()) {
+            confirmacaoNadaHaPreencher[$scope.currentGrupoSemaforico.posicao] = true;
+            $scope.confirmacao[$scope.currentGrupoSemaforico.posicao] = false;
+          } else {
+            confirmacaoNadaHaPreencher[$scope.currentGrupoSemaforico.posicao] = false;
+            $scope.confirmacao[$scope.currentGrupoSemaforico.posicao] = false;
+          }
         }
       };
 
@@ -310,6 +312,17 @@ angular.module('influuntApp')
           return resultados.some(function(e) { return e; });
         }
         return false;
+      };
+
+      $scope.mensagemConfirmacao = function() {
+        var msg = $filter('translate')('geral.tooltip.naoPodeSalvarSemConfirmacaoEntreVerdes');
+        var grupos = []
+        _.each(confirmacaoNadaHaPreencher, function(confirmado, posicaoGrupo) {
+          if (!confirmado) {
+            grupos.push(posicaoGrupo);
+          }
+        });
+        return msg + _.map(grupos, function(g) { return "G"+g }).join(", ");
       };
 
     }]);

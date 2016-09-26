@@ -298,7 +298,7 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
         Result result = route(request);
         assertEquals(200, result.status());
         JsonNode json = Json.parse(Helpers.contentAsString(result));
-        assertEquals(2, json.size());
+        assertEquals(2, json.get("data").size());
 
         usuarioComAcesso.setRoot(false);
         usuarioComAcesso.setArea(area1);
@@ -310,7 +310,7 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
         result = route(request);
         assertEquals(200, result.status());
         json = Json.parse(Helpers.contentAsString(result));
-        assertEquals(1, json.size());
+        assertEquals(1, json.get("data").size());
     }
 
 

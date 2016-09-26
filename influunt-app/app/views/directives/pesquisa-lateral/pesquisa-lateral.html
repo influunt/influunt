@@ -17,6 +17,9 @@
           <div data-ng-if="campo.tipo === 'data'" class="{{ campo.tipo }}">
             <ng-include src="'views/directives/pesquisa-lateral/data.html'"></ng-include>
           </div>
+          <div data-ng-if="campo.tipo === 'select'" class="{{ campo.tipo }}">
+            <ng-include src="'views/directives/pesquisa-lateral/select.html'"></ng-include>
+          </div>
         </div>
 
         <div class="col-sm-12 bg-border-footer">
