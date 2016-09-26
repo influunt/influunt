@@ -90,7 +90,6 @@ public class ControladorAneisTest extends ControladorTest {
         anel1.setEstagios(estagios);
 
         erros = getErros(controlador);
-
         assertThat(erros, org.hamcrest.Matchers.empty());
     }
 

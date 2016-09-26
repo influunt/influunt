@@ -108,7 +108,7 @@ angular.module('influuntApp')
         return $scope.objeto && $scope.objeto.gruposSemaforicos.length < $scope.objeto.limiteGrupoSemaforico;
       };
 
-      $scope.atualizaTempoVerdeSeguranca = function(grupo){
+      $scope.atualizaTempoVerdeSeguranca = function(grupo) {
         if (grupo.tipo === 'VEICULAR'){
           grupo.tempoVerdeSeguranca = $scope.objeto.verdeSegurancaVeicularMin;
           grupo.faseVermelhaApagadaAmareloIntermitente = true;

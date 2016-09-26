@@ -66,11 +66,12 @@ angular.module('influuntApp')
 
     buildFilterQuery = function(query, pesquisa) {
       _.each(pesquisa.filtro, function(dadosFiltro, nomeCampo) {
+        var field;
         if (dadosFiltro.tipoCampo === 'texto' || dadosFiltro.tipoCampo === 'numerico') {
-          var field = (nomeCampo + '_' + dadosFiltro.tipoFiltro).replace(/\_$/, '');
+          field = (nomeCampo + '_' + dadosFiltro.tipoFiltro).replace(/\_$/, '');
           query[field] = dadosFiltro.valor;
         } else if(dadosFiltro.tipoCampo === 'select') {
-          var field = (nomeCampo + '_eq');
+          field = (nomeCampo + '_eq');
           // TODO - rever enumns na busca, pois mostramos o texto mas temos que enviar o valor numerio da posicao
           var valor = dadosFiltro.valor;
           if (nomeCampo === 'statusControlador') {

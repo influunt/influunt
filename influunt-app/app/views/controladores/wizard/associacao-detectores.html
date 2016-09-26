@@ -132,16 +132,20 @@
               <div class="knob">
                 <div class="col-lg-4 col-sm-4 text-center knob-item">
                   <influunt-knob
-                      title="{{ 'controladores.associacaoDetectores.ausencia' | translate }}" label="MIN"
-                      min="objeto.ausenciaDeteccaoMin" max="objeto.ausenciaDeteccaoMax"
+                      title="{{ 'controladores.associacaoDetectores.ausencia' | translate }}"
+                      label="MIN"
+                      min="objeto.ausenciaDeteccaoMin"
+                      max="objeto.ausenciaDeteccaoMax"
                       read-only="!currentDetector.monitorado"
                       data-ng-model="currentDetector.tempoAusenciaDeteccao">
                   </influunt-knob>
                 </div>
                 <div class="col-lg-4 col-sm-4 text-center knob-item">
                   <influunt-knob
-                      title="{{ 'controladores.associacaoDetectores.deteccao' | translate }}" label="MIN"
-                      min="objeto.deteccaoPermanenteMin" max="objeto.deteccaoPermanenteMax"
+                      title="{{ 'controladores.associacaoDetectores.deteccao' | translate }}"
+                      label="MIN"
+                      min="objeto.deteccaoPermanenteMin"
+                      max="objeto.deteccaoPermanenteMax"
                       read-only="!currentDetector.monitorado"
                       data-ng-model="currentDetector.tempoDeteccaoPermanente">
                   </influunt-knob>

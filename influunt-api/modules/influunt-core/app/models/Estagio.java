@@ -12,9 +12,9 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
-import org.apache.commons.lang3.Range;
 import org.joda.time.DateTime;
 import utils.DBUtils;
+import utils.RangeUtils;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -324,10 +324,16 @@ public class Estagio extends Model implements Serializable, Cloneable {
         return true;
     }
 
-    @AssertTrue(groups = PlanosCheck.class, message = "deve estar entre 60 e 255")
+    @AssertTrue(groups = PlanosCheck.class, message = "Tempo máximo de permanência deve estar entre {min} e {max}")
     public boolean istempoMaximoPermanencia() {
+        return isTempoMaximoPermanenciaOk();
+    }
+
+    @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class, message = "Tempo máximo de permanência deve estar entre {min} e {max}")
+    public boolean isTempoMaximoPermanenciaOk() {
         if (getTempoMaximoPermanenciaAtivado()) {
-            return !(getTempoMaximoPermanencia() == null || !Range.between(60, 255).contains(getTempoMaximoPermanencia()));
+            return getTempoMaximoPermanencia() != null &&
+                    RangeUtils.getInstance().TEMPO_MAXIMO_PERMANENCIA_ESTAGIO.contains(getTempoMaximoPermanencia());
         }
         return true;
     }

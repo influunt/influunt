@@ -62,7 +62,7 @@ angular.module('influuntApp')
             value = value || scope.min;
             $(element).find('.knob-shape').roundSlider('setValue', value);
           });
-          
+
           scope.$watch('readOnly', function(value) {
             if(value){
               $(element).find('.knob-shape').roundSlider('disable');

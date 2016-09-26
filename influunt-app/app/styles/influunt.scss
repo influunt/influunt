@@ -2305,6 +2305,16 @@ tip-tip {
     cursor: help;
 }
 
+.wrapper-content .basic-wizard .content .body span.badge.badge-danger.badge-notification.tooltipstered.badge-tempo-ciclo {
+    position: relative;
+}
+
+.wrapper-content .basic-wizard .content .body span.badge.badge-danger.badge-notification.tooltipstered.badge-grupo-semaforico {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 .wrapper-content .basic-wizard .content .body span.badge.badge-danger.badge-notification.badge-detector.tooltipstered {
     display: inline;
     font-size: 20px;

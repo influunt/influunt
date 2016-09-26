@@ -1,39 +1,69 @@
 <div class="text-center" data-ng-if="currentPlano.modoOperacao === 'ATUADO'">
   <div class="knob-item col-lg-3 col-sm-3">
-    <influunt-knob ng-model="currentEstagioPlano.tempoVerdeMinimo"
+    <span class="badge badge-danger badge-notification badge-tempo-ciclo"
+      data-ng-show="getErrosTempo('VerdeMinimo')"
+      inf-tooltip
+      messages="[getErrosTempo('VerdeMinimo')]">
+      <i class="fa fa-exclamation"></i>
+    </span>
+    <influunt-knob ng-model="currentEstagiosPlanos[currentEstagioPlanoIndex].tempoVerdeMinimo"
       min="objeto.verdeMinimoMin" max="objeto.verdeMinimoMax"
       title="TEMPO DE VERDE MIN." label="SEG" read-only="somenteVisualizacao">
     </influunt-knob>
   </div>
 
   <div class="knob-item col-lg-3 col-sm-3">
-    <influunt-knob ng-model="currentEstagioPlano.tempoVerdeMaximo"
+    <span class="badge badge-danger badge-notification badge-tempo-ciclo"
+      data-ng-show="getErrosTempo('VerdeMaximo')"
+      inf-tooltip
+      messages="[getErrosTempo('VerdeMaximo')]">
+      <i class="fa fa-exclamation"></i>
+    </span>
+    <influunt-knob ng-model="currentEstagiosPlanos[currentEstagioPlanoIndex].tempoVerdeMaximo"
       min="objeto.verdeMaximoMin" max="objeto.verdeMaximoMax"
       title="TEMPO DE VERDE MAX." label="SEG" read-only="somenteVisualizacao">
     </influunt-knob>
   </div>
 
   <div class="knob-item col-lg-3 col-sm-3">
-    <influunt-knob ng-model="currentEstagioPlano.tempoVerdeIntermediario"
+    <span class="badge badge-danger badge-notification badge-tempo-ciclo"
+      data-ng-show="getErrosTempo('VerdeIntermediario')"
+      inf-tooltip
+      messages="[getErrosTempo('VerdeIntermediario')]">
+      <i class="fa fa-exclamation"></i>
+    </span>
+    <influunt-knob ng-model="currentEstagiosPlanos[currentEstagioPlanoIndex].tempoVerdeIntermediario"
       min="objeto.verdeIntermediarioMin" max="objeto.verdeIntermediarioMax"
       title="TEMPO DE VERDE INTERMEDIÁRIO" label="SEG" read-only="somenteVisualizacao">
     </influunt-knob>
   </div>
 
   <div class="knob-item col-lg-3 col-sm-3">
-    <influunt-knob ng-model="currentEstagioPlano.tempoExtensaoVerde"
-      min="objeto.extensaVerdeMin" max="objeto.extensaVerdeMax"
+      <span class="badge badge-danger badge-notification badge-tempo-ciclo"
+      data-ng-show="getErrosTempo('ExtensaoVerde')"
+      inf-tooltip
+      messages="[getErrosTempo('ExtensaoVerde')]">
+      <i class="fa fa-exclamation"></i>
+    </span>
+    <influunt-knob ng-model="currentEstagiosPlanos[currentEstagioPlanoIndex].tempoExtensaoVerde"
+      min="objeto.extensaoVerdeMin" max="objeto.extensaoVerdeMax"
       title="EXTENSÃO DE VERDE" label="SEG" read-only="somenteVisualizacao">
     </influunt-knob>
   </div>
 </div>
+
 <div class="text-center" data-ng-if="currentPlano.modoOperacao === 'TEMPO_FIXO_COORDENADO' || currentPlano.modoOperacao === 'TEMPO_FIXO_ISOLADO'">
   <div class="knob-item col-lg-3 col-sm-3">
+    <span class="badge badge-danger badge-notification badge-tempo-ciclo"
+      data-ng-show="getErrosTempo('Verde')"
+      inf-tooltip
+      messages="[getErrosTempo('Verde')]">
+      <i class="fa fa-exclamation"></i>
+    </span>
     <influunt-knob ng-model="currentEstagiosPlanos[currentEstagioPlanoIndex].tempoVerde"
       min="objeto.verdeMin" max="objeto.verdeMax"
       title="TEMPO DE VERDE" label="SEG" read-only="somenteVisualizacao"
-      mostrar-percentual="true"
-      max-percentual="currentPlano.tempoCiclo">
+      mostrar-percentual="true" max-percentual="currentPlano.tempoCiclo">
     </influunt-knob>
   </div>
 </div>

@@ -45,9 +45,7 @@ angular.module('influuntApp')
           res.forEach(function(controlador) {
             $scope.controladores.push({ id: controlador.id, name: controlador.nomeEndereco });
           });
-        })
-        .finally(influuntBlockui.unblock);
-        ;
+        }).finally(influuntBlockui.unblock);
       };
 
     }]);
