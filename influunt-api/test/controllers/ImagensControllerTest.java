@@ -36,7 +36,7 @@ public class ImagensControllerTest extends WithInfluuntApplicationNoAuthenticati
             imagem = new File(appRootPath, "../../test/resources/ubuntu.jpeg");
         }
         Materializer mat = app.injector().instanceOf(Materializer.class);
-        DataPart dataPart = new DataPart("hello", "world");
+        DataPart dataPart = new DataPart("anelIdJson", "1234");
         Source<ByteString, ?> src = FileIO.fromFile(imagem);
         FilePart<Source<ByteString, ?>> filePart = new FilePart<>("imagem", "ubuntu.jpeg", "image/jpeg", src);
 

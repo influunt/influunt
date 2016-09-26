@@ -68,8 +68,8 @@ angular.module('influuntApp')
         });
       };
 
-      $scope.adicionarEstagio = function(upload, imagem) {
-        var anel = $scope.currentAnel;
+      $scope.adicionarEstagio = function(upload, imagem, anelIdJson) {
+        var anel = _.find($scope.objeto.aneis, { idJson: anelIdJson });
         anel.estagios = anel.estagios || [];
         $scope.objeto.estagios = $scope.objeto.estagios || [];
         $scope.objeto.imagens = $scope.objeto.imagens || [];
@@ -86,10 +86,11 @@ angular.module('influuntApp')
         $scope.objeto.imagens.push(_imagem);
       };
 
-      $scope.adicionarCroqui = function(upload, imagem) {
+      $scope.adicionarCroqui = function(upload, imagem, anelIdJson) {
         var _imagem = { id: imagem.id, filename: imagem.filename, idJson: imagem.idJson };
 
-        $scope.currentAnel.croqui = {id: _imagem.id, idJson: _imagem.idJson};
+        var anel = _.find($scope.objeto.aneis, { idJson: anelIdJson });
+        anel.croqui = {id: _imagem.id, idJson: _imagem.idJson};
         $scope.objeto.imagens = $scope.objeto.imagens || [];
         $scope.objeto.imagens.push(_imagem);
       };
