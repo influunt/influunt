@@ -29,7 +29,7 @@ public class InfluuntEmailService {
         ctx.setVariable("nome", nome);
         ctx.setVariable("link", link);
 
-        Logger.warn("URL: "+ provider.get().path().toString().concat("/app/templates/"));
+        Logger.warn("URL: " + provider.get().path().toString().concat("/app/templates/"));
 
         FileTemplateResolver fileTemplateResolver = new FileTemplateResolver();
         fileTemplateResolver.setPrefix(provider.get().path().toString().concat("/app/templates/"));

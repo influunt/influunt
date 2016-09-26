@@ -23,7 +23,7 @@ angular.module('influuntApp')
 
       $scope.save = function() {
         return Restangular.one(resourceName, '').customPUT($scope.objeto)
-          .then(function(res) {
+          .then(function() {
             $state.go('app.main');
           })
           .finally(function() {

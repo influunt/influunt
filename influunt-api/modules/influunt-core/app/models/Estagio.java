@@ -12,7 +12,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
-import org.apache.commons.lang3.Range;
 import org.joda.time.DateTime;
 import utils.DBUtils;
 import utils.RangeUtils;
@@ -334,7 +333,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
     public boolean isTempoMaximoPermanenciaOk() {
         if (getTempoMaximoPermanenciaAtivado()) {
             return getTempoMaximoPermanencia() != null &&
-                    RangeUtils.getInstance().TEMPO_MAXIMO_PERMANECIA_ESTAGIO.contains(getTempoMaximoPermanencia());
+                    RangeUtils.getInstance().TEMPO_MAXIMO_PERMANENCIA_ESTAGIO.contains(getTempoMaximoPermanencia());
         }
         return true;
     }

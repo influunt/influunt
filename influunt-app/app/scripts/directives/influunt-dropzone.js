@@ -44,7 +44,7 @@ angular.module('influuntApp')
                 .then(function() {
                   dropzoneFile.previewElement = null;
                   dropzone.removeFile(dropzoneFile);
-                  $('.dz-preview[data-imagem-id="'+ imagemId +'"]').remove()
+                  $('.dz-preview[data-imagem-id="'+ imagemId +'"]').remove();
                   scope.onDelete({ imagem: { id: imagemId } });
                 }).catch(function() {
                   toast.error($filter('translate')('geral.dropzone.erro_apagar_imagem'));

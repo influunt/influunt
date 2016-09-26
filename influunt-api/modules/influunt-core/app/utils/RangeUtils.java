@@ -15,7 +15,7 @@ public class RangeUtils {
     public InfluuntRange TEMPO_ATRASO_GRUPO;
     public InfluuntRange TEMPO_VERDE_SEGURANCA_VEICULAR;
     public InfluuntRange TEMPO_VERDE_SEGURANCA_PEDESTRE;
-    public InfluuntRange TEMPO_MAXIMO_PERMANECIA_ESTAGIO;
+    public InfluuntRange TEMPO_MAXIMO_PERMANENCIA_ESTAGIO;
     public InfluuntRange TEMPO_CICLO;
     public InfluuntRange TEMPO_VERDE_MINIMO;
     public InfluuntRange TEMPO_VERDE_MAXIMO;
@@ -35,7 +35,7 @@ public class RangeUtils {
         TEMPO_ATRASO_GRUPO = new InfluuntRange<Integer>(valores.getTempoAtrasoGrupoMin(), valores.getTempoAtrasoGrupoMax());
         TEMPO_VERDE_SEGURANCA_VEICULAR = new InfluuntRange<>(valores.getTempoVerdeSegurancaVeicularMin(), valores.getTempoVerdeSegurancaVeicularMax());
         TEMPO_VERDE_SEGURANCA_PEDESTRE = new InfluuntRange<>(valores.getTempoVerdeSegurancaPedestreMin(), valores.getTempoVerdeSegurancaPedestreMax());
-        TEMPO_MAXIMO_PERMANECIA_ESTAGIO = new InfluuntRange<>(valores.getTempoMaximoPermanenciaEstagioMin(), valores.getTempoMaximoPermanenciaEstagioMax());
+        TEMPO_MAXIMO_PERMANENCIA_ESTAGIO = new InfluuntRange<>(valores.getTempoMaximoPermanenciaEstagioMin(), valores.getTempoMaximoPermanenciaEstagioMax());
         TEMPO_CICLO = new InfluuntRange<>(valores.getTempoCicloMin(), valores.getTempoCicloMax());
         TEMPO_VERDE_MINIMO = new InfluuntRange<>(valores.getTempoVerdeMinimoMin(), valores.getTempoVerdeMinimoMax());
         TEMPO_VERDE_MAXIMO = new InfluuntRange<>(valores.getTempoVerdeMaximoMin(), valores.getTempoVerdeMaximoMax());

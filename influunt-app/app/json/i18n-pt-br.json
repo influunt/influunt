@@ -598,6 +598,8 @@
   },
   "faixas_de_valores": {
     "titulo": "Faixas de Valores",
+    "de": "de",
+    "ate": "até",
     "editar": "Editar",
     "tempoDefasagem": "Tempo de Defasagem",
     "tempoAmarelo": "Tempo de Amarelo",

@@ -112,8 +112,8 @@ public class ControladorDadosBasicosTest extends ControladorTest {
         assertEquals("verdeSegurancaVeicularMax", controladorJSON.get("verdeSegurancaVeicularMax").asText(), rangeUtils.TEMPO_VERDE_SEGURANCA_VEICULAR.getMax().toString());
         assertEquals("verdeSegurancaPedestreMin", controladorJSON.get("verdeSegurancaPedestreMin").asText(), rangeUtils.TEMPO_VERDE_SEGURANCA_PEDESTRE.getMin().toString());
         assertEquals("verdeSegurancaPedestreMax", controladorJSON.get("verdeSegurancaPedestreMax").asText(), rangeUtils.TEMPO_VERDE_SEGURANCA_PEDESTRE.getMax().toString());
-        assertEquals("maximoPermanenciaEstagioMin", controladorJSON.get("maximoPermanenciaEstagioMin").asText(), rangeUtils.TEMPO_MAXIMO_PERMANECIA_ESTAGIO.getMin().toString());
-        assertEquals("maximoPermanenciaEstagioMax", controladorJSON.get("maximoPermanenciaEstagioMax").asText(), rangeUtils.TEMPO_MAXIMO_PERMANECIA_ESTAGIO.getMax().toString());
+        assertEquals("maximoPermanenciaEstagioMin", controladorJSON.get("maximoPermanenciaEstagioMin").asText(), rangeUtils.TEMPO_MAXIMO_PERMANENCIA_ESTAGIO.getMin().toString());
+        assertEquals("maximoPermanenciaEstagioMax", controladorJSON.get("maximoPermanenciaEstagioMax").asText(), rangeUtils.TEMPO_MAXIMO_PERMANENCIA_ESTAGIO.getMax().toString());
         assertEquals("cicloMin", controladorJSON.get("cicloMin").asText(), rangeUtils.TEMPO_CICLO.getMin().toString());
         assertEquals("cicloMax", controladorJSON.get("cicloMax").asText(), rangeUtils.TEMPO_CICLO.getMax().toString());
     }

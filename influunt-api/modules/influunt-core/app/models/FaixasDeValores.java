@@ -509,7 +509,7 @@ public class FaixasDeValores extends Model implements Cloneable, Serializable {
         valores.setTempoVermelhoLimpezaPedestreMin(0);
         valores.setTempoVermelhoLimpezaPedestreMax(5);
         valores.setTempoAtrasoGrupoMin(0);
-        valores.setTempoAtrasoGrupoMax(60);
+        valores.setTempoAtrasoGrupoMax(20);
         valores.setTempoVerdeSegurancaVeicularMin(10);
         valores.setTempoVerdeSegurancaVeicularMax(30);
         valores.setTempoVerdeSegurancaPedestreMin(4);

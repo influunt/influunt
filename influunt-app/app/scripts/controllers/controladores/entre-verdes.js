@@ -179,8 +179,8 @@ angular.module('influuntApp')
           var gsIdJson = _.map(anel.gruposSemaforicos, 'idJson');
           anel.gruposSemaforicos = _
             .chain($scope.objeto.gruposSemaforicos)
-            .filter(function(gs) { return gsIdJson.indexOf(gs.idJson) > -1 })
-            .map(function(gs) { return { idJson: gs.idJson } })
+            .filter(function(gs) { return gsIdJson.indexOf(gs.idJson) > -1; })
+            .map(function(gs) { return { idJson: gs.idJson }; })
             .value();
         });
 
@@ -316,13 +316,13 @@ angular.module('influuntApp')
 
       $scope.mensagemConfirmacao = function() {
         var msg = $filter('translate')('geral.tooltip.naoPodeSalvarSemConfirmacaoEntreVerdes');
-        var grupos = []
+        var posicoesGrupos = [];
         _.each(confirmacaoNadaHaPreencher, function(confirmado, posicaoGrupo) {
           if (!confirmado) {
-            grupos.push(posicaoGrupo);
+            posicoesGrupos.push(posicaoGrupo);
           }
         });
-        return msg + _.map(grupos, function(g) { return "G"+g }).join(", ");
+        return msg + _.map(posicoesGrupos, function(posicao) { return "G"+posicao; }).join(", ");
       };
 
     }]);

@@ -10,37 +10,10 @@
 angular.module('influuntApp')
   .factory('handleValidations', function handleValidations() {
 
-    var handle = function(errors, objeto) {
-      var validations = {};
-      var response = {};
+    // funções privadas
+    var translate, getLimits;
 
-      if (_.isArray(errors)) {
-        errors.forEach(function(err) {
-          var path = err.path.match(/\d+\]$/) ? err.path + '.general' : err.path;
-          if (!path) {
-            path = 'general';
-          }
-
-          validations[path] = validations[path] || [];
-          validations[path].push(err.message);
-        });
-
-        _.each(validations, function(messages, path) {
-          _.update(response, path, _.constant(translate(path, messages, objeto)));
-        });
-
-        // Específicos para as validações em escopo de anel.
-        _.each(response.aneis, function(anel) {
-          if (anel) {
-            anel.all = _.chain(anel).values().flatten().uniq().value();
-          }
-        });
-      }
-
-      return response;
-    };
-
-    var translate = function(path, messages, objeto) {
+    translate = function(path, messages, objeto) {
       var translated = [];
       _.each(messages, function(message) {
         var limits = getLimits(path, objeto);
@@ -49,7 +22,7 @@ angular.module('influuntApp')
       return translated;
     };
 
-    var getLimits = function(path, objeto) {
+    getLimits = function(path, objeto) {
       if (path.match(/tempoVerdeSegurancaFieldVeicular$/)) {
         return [objeto.verdeSegurancaVeicularMin, objeto.verdeSegurancaVeicularMax];
       } else if (path.match(/tempoVerdeSegurancaFieldPedestre$/)) {
@@ -86,6 +59,39 @@ angular.module('influuntApp')
         return [objeto.verdeMin, objeto.verdeMax];
       }
       return [0, 0];
+    };
+
+
+
+
+    var handle = function(errors, objeto) {
+      var validations = {};
+      var response = {};
+
+      if (_.isArray(errors)) {
+        errors.forEach(function(err) {
+          var path = err.path.match(/\d+\]$/) ? err.path + '.general' : err.path;
+          if (!path) {
+            path = 'general';
+          }
+
+          validations[path] = validations[path] || [];
+          validations[path].push(err.message);
+        });
+
+        _.each(validations, function(messages, path) {
+          _.update(response, path, _.constant(translate(path, messages, objeto)));
+        });
+
+        // Específicos para as validações em escopo de anel.
+        _.each(response.aneis, function(anel) {
+          if (anel) {
+            anel.all = _.chain(anel).values().flatten().uniq().value();
+          }
+        });
+      }
+
+      return response;
     };
 
     var buildValidationMessages = function(errors, objeto) {

@@ -14,9 +14,7 @@ import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 import static org.junit.Assert.*;
-import static play.mvc.Http.Status.OK;
-import static play.mvc.Http.Status.UNAUTHORIZED;
-import static play.mvc.Http.Status.UNPROCESSABLE_ENTITY;
+import static play.mvc.Http.Status.*;
 import static play.test.Helpers.route;
 
 public class SecurityControllerTest extends WithInfluuntApplicationAuthenticated {
