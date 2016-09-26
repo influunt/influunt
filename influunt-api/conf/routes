@@ -153,3 +153,6 @@ GET         /api/v1/monitoramento/detalhe_controlador/:id                       
 
 
 POST        /api/v1/cucumber                                      controllers.CucumberController.createDB()
+
+
+GET         /assets/*file                                         controllers.Assets.at(path="/public", file)
