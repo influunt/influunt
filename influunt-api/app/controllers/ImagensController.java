@@ -20,6 +20,8 @@ import security.Secured;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -37,6 +39,7 @@ public class ImagensController extends Controller {
     public CompletionStage<Result> create() {
         Http.MultipartFormData<File> body = request().body().asMultipartFormData();
         Http.MultipartFormData.FilePart<File> picture = body.getFile("imagem");
+        String anelIdJson = body.asFormUrlEncoded().get("anelIdJson")[0];
         if (picture != null) {
             Imagem imagem = new Imagem();
             imagem.setFilename(picture.getFilename());
@@ -60,7 +63,11 @@ public class ImagensController extends Controller {
                 Logger.error(e.getMessage(), e);
                 return CompletableFuture.completedFuture(internalServerError());
             }
-            return CompletableFuture.completedFuture(ok(Json.toJson(imagem)));
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("imagem", imagem);
+            response.put("anelIdJson", anelIdJson);
+            return CompletableFuture.completedFuture(ok(Json.toJson(response)));
         } else {
             return CompletableFuture.completedFuture(badRequest());
         }
