@@ -215,7 +215,7 @@ public class ControladoresController extends Controller {
             String[] areaId = {u.getArea().getId().toString()};
             Map<String, String[]> params = new HashMap<>();
             params.putAll(ctx().request().queryString());
-            if(params.containsKey("area.descricao")) {
+            if (params.containsKey("area.descricao")) {
                 params.remove("area.descricao");
             }
             params.put("area.id", areaId);

@@ -138,7 +138,7 @@ public class InfluuntQueryBuilder {
                 }
             });
 
-            if(klass.equals(Controlador.class)) {
+            if (klass.equals(Controlador.class)) {
                 predicates.add(Expr.in("versaoControlador.statusVersao", Arrays.asList(StatusVersao.ATIVO, StatusVersao.EDITANDO)));
             }
 
@@ -160,7 +160,7 @@ public class InfluuntQueryBuilder {
                 pagedList = predicates.findPagedList(getPage(), getPerPage());
             }
         } else {
-            if(klass.equals(Controlador.class)) {
+            if (klass.equals(Controlador.class)) {
                 query.where().add((Expr.in("versaoControlador.statusVersao", Arrays.asList(StatusVersao.ATIVO, StatusVersao.EDITANDO))));
             }
             if (getSortField() != null) {
@@ -173,7 +173,7 @@ public class InfluuntQueryBuilder {
         ObjectNode retorno = JsonNodeFactory.instance.objectNode();
         List result = pagedList.getList();
         JsonNode dataJson = null;
-        if(klass.equals(Controlador.class)) {
+        if (klass.equals(Controlador.class)) {
             dataJson = new ControladorCustomSerializer().getControladoresJson(result);
         } else {
             dataJson = Json.toJson(result);

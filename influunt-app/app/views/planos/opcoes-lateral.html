@@ -1,23 +1,37 @@
-<div class="text-center" data-ng-if="currentPlano.modoOperacao === 'TEMPO_FIXO_COORDENADO'">
-  <div class="knob-item col-lg-12 col-sm-12">
-    <influunt-knob ng-model="currentPlano.tempoCiclo"
-      min="objeto.cicloMin" max="objeto.cicloMax"
-      title="TEMPO DE CICLO" label="SEG" read-only="somenteVisualizacao">
-    </influunt-knob>
-  </div>
-  <div class="knob-item col-lg-12 col-sm-12">
-    <influunt-knob ng-model="currentPlano.defasagem"
-      min="objeto.defasagemMin" max="objeto.defasagemMax"
-      title="DEFASAGEM" label="SEG" read-only="somenteVisualizacao">
-    </influunt-knob>
-  </div>
-</div>
+<div class="text-center" data-ng-if="currentPlano.modoOperacao === 'TEMPO_FIXO_COORDENADO' || currentPlano.modoOperacao === 'TEMPO_FIXO_ISOLADO'">
 
-<div class="text-center" data-ng-if="currentPlano.modoOperacao === 'TEMPO_FIXO_ISOLADO'">
   <div class="knob-item col-lg-12 col-sm-12">
-    <influunt-knob ng-model="currentPlano.tempoCiclo"
-      min="objeto.cicloMin" max="objeto.cicloMax"
-      title="TEMPO DE CICLO" label="SEG" read-only="somenteVisualizacao">
+    <span class="badge badge-danger badge-notification badge-tempo-ciclo"
+      data-ng-show="erroTempoCiclo()"
+      inf-tooltip
+      messages="[erroTempoCiclo()]">
+      <i class="fa fa-exclamation"></i>
+    </span>
+    <influunt-knob
+      title="TEMPO DE CICLO"
+      label="SEG"
+      min="objeto.cicloMin"
+      max="objeto.cicloMax"
+      read-only="somenteVisualizacao"
+      ng-model="currentPlano.tempoCiclo">
     </influunt-knob>
   </div>
+
+  <div class="knob-item col-lg-12 col-sm-12" data-ng-if="currentPlano.modoOperacao === 'TEMPO_FIXO_COORDENADO'">
+    <span class="badge badge-danger badge-notification badge-tempo-ciclo"
+      data-ng-show="erroDefasagem()"
+      inf-tooltip
+      messages="[erroDefasagem()]">
+      <i class="fa fa-exclamation"></i>
+    </span>
+    <influunt-knob
+      title="DEFASAGEM"
+      label="SEG"
+      min="objeto.defasagemMin"
+      max="objeto.defasagemMax"
+      read-only="somenteVisualizacao"
+      ng-model="currentPlano.defasagem">
+    </influunt-knob>
+  </div>
+
 </div>

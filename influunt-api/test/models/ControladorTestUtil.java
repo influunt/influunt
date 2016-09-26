@@ -78,6 +78,7 @@ public class ControladorTestUtil {
         anel1.setDescricao("Anel 0");
         anel1.setAtivo(true);
         List<Estagio> estagios = Arrays.asList(new Estagio(1), new Estagio(2), new Estagio(3), new Estagio(4));
+        estagios.forEach(estagio -> estagio.setTempoMaximoPermanencia(100));
         anel1.setEstagios(estagios);
 
         Endereco paulista = new Endereco(1.0, 1.0, "Av. Paulista");
@@ -195,6 +196,7 @@ public class ControladorTestUtil {
         anelAtivo.setEndereco(paulista);
 
         anelAtivo.setEstagios(Arrays.asList(new Estagio(1), new Estagio(2)));
+        anelAtivo.getEstagios().forEach(estagio -> estagio.setTempoMaximoPermanencia(100));
 
         criarGrupoSemaforico(anelAtivo, TipoGrupoSemaforico.VEICULAR, 3);
         criarGrupoSemaforico(anelAtivo, TipoGrupoSemaforico.VEICULAR, 4);

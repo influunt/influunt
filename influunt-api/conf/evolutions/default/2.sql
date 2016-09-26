@@ -27,4 +27,3 @@ ALTER TABLE `controladores_fisicos` DROP COLUMN `area_id`;
 
 ALTER TABLE sessoes DROP COLUMN ip;
 ALTER TABLE sessoes DROP COLUMN data_saida;
-ALTER TABLE sessoes DROP COLUMN ip;

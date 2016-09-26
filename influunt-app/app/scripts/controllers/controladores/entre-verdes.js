@@ -175,10 +175,15 @@ angular.module('influuntApp')
       $scope.beforeSubmitForm = function() {
         aneisBkp = angular.copy($scope.objeto.aneis);
         _.forEach($scope.aneis, function(anel) {
-          _.forEach(anel.gruposSemaforicos, function(grupoSemaforico) {
-            delete grupoSemaforico.tabelasEntreVerdes;
-          });
+
+          var gsIdJson = _.map(anel.gruposSemaforicos, 'idJson');
+          anel.gruposSemaforicos = _
+            .chain($scope.objeto.gruposSemaforicos)
+            .filter(function(gs) { return gsIdJson.indexOf(gs.idJson) > -1; })
+            .map(function(gs) { return { idJson: gs.idJson }; })
+            .value();
         });
+
       };
 
       $scope.afterSubmitFormOnValidationError = function() {
@@ -187,13 +192,14 @@ angular.module('influuntApp')
       };
 
       $scope.errosAmareloOuVermelho = function(grupoSemaforico, transicaoIndex) {
-        var path = 'aneis['+$scope.currentAnelIndex+'].gruposSemaforicos['+$scope.currentGrupoSemaforicoIndex+'].transicoes['+transicaoIndex+'].tabelaEntreVerdesTransicoes['+$scope.currentTabelaEntreVerdesIndex+'].'+this.amareloOuVermelho(grupoSemaforico, true);
+        var path = 'aneis['+$scope.currentAnelIndex+'].gruposSemaforicos['+$scope.currentGrupoSemaforicoIndex+'].transicoes['+transicaoIndex+'].tabelaEntreVerdesTransicoes['+$scope.currentTabelaEntreVerdesIndex+']';
         return _.get($scope.errors, path);
       };
 
       $scope.possuiErroAmareloOuVermelho = function(grupoSemaforico, transicaoIndex) {
-        var errors = this.errosAmareloOuVermelho(grupoSemaforico, transicaoIndex);
-        return _.isArray(errors) && errors.length > 0;
+        var path = 'aneis['+$scope.currentAnelIndex+'].gruposSemaforicos['+$scope.currentGrupoSemaforicoIndex+'].transicoes['+transicaoIndex+'].tabelaEntreVerdesTransicoes['+$scope.currentTabelaEntreVerdesIndex+'].'+$scope.amareloOuVermelho(grupoSemaforico, true)+'Ok';
+        var errors = _.get($scope.errors, path);
+        return _.isObject(errors) && Object.keys(errors).length > 0;
       };
 
       $scope.errosVermelhoLimpeza = function(grupoSemaforico, transicaoIndex) {
@@ -310,13 +316,13 @@ angular.module('influuntApp')
 
       $scope.mensagemConfirmacao = function() {
         var msg = $filter('translate')('geral.tooltip.naoPodeSalvarSemConfirmacaoEntreVerdes');
-        var grupos = []
+        var posicoesGrupos = [];
         _.each(confirmacaoNadaHaPreencher, function(confirmado, posicaoGrupo) {
           if (!confirmado) {
-            grupos.push(posicaoGrupo);
+            posicoesGrupos.push(posicaoGrupo);
           }
         });
-        return msg + _.map(grupos, function(g) { return "G"+g }).join(", ");
+        return msg + _.map(posicoesGrupos, function(posicao) { return "G"+posicao; }).join(", ");
       };
 
     }]);

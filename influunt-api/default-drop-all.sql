@@ -197,6 +197,8 @@ drop table if exists eventos;
 
 drop table if exists fabricantes;
 
+drop table if exists faixas_de_valores;
+
 drop table if exists grupos_semaforicos;
 
 drop table if exists grupos_semaforicos_planos;

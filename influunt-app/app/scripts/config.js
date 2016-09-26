@@ -761,6 +761,18 @@ angular
             breadcrumb: 'auditorias.mostrar'
           }
         })
+
+        // FAIXAS DE VALORES
+        .state('app.faixas_de_valores_edit', {
+          url: '/faixas_de_valores/edit',
+          templateUrl: 'views/faixas_de_valores/edit.html',
+          controller: 'FaixasDeValoresCtrl',
+          controllerAs: 'faixasDeValores',
+          data: {
+            title: 'faixas_de_valores.titulo',
+            breadcrumb: 'faixas_de_valores.editar'
+          }
+        })
       ;
     }])
 

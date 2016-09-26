@@ -43,10 +43,15 @@
         "label": "perfis.titulo",
         "route": "app.perfis"
       },
-			{
+      {
         "name": "usuarios",
         "label": "usuarios.titulo",
         "route": "app.usuarios"
+      },
+      {
+        "name": "faixasDeValores",
+        "label": "faixas_de_valores.titulo",
+        "route": "app.faixas_de_valores_edit"
       }
     ]
   },

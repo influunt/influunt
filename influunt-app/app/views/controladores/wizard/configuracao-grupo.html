@@ -62,6 +62,12 @@
                       <div class="row botton-line-grey" data-ng-repeat="grupo in currentGruposSemaforicos">
                         <div class="col-lg-1 col-sm-1 groups-stages-top">
                           <hgroup>
+                            <span class="badge badge-danger badge-notification badge-grupo-semaforico"
+                              data-ng-show="grupoSemaforicoTemErro(currentAnelIndex, $index)"
+                              inf-tooltip
+                              messages="errors.aneis[currentAnelIndex].gruposSemaforicos[$index]">
+                              <i class="fa fa-exclamation"></i>
+                            </span>
                             <label class="checkbox-inline i-checks">
                               <h3 class="label-name">G{{ grupo.posicao }}</h3>
                             </label>
