@@ -1,4 +1,4 @@
-package os72c.client.v2;
+package engine;
 
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;
@@ -138,23 +138,21 @@ public class GerenciadorDeEventos {
 
 
     private Integer getMSNoDia(Evento evento) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(evento.getData());
-        return getMSNoDia(calendar);
+        return getMSNoDia(evento.getDataHora());
     }
 
-    private Integer getMSNoDia(Calendar calendar) {
-        return (calendar.get(Calendar.HOUR_OF_DAY) * MS_POR_HORA) + (calendar.get(Calendar.MINUTE) * MS_POR_MINUTO) + ((calendar.get(Calendar.SECOND) * MS_POR_SEGUNDO)) + calendar.get(Calendar.MILLISECOND);
+    private Integer getMSNoDia(DateTime dateTime) {
+        return dateTime.getMillisOfDay();
     }
 
-    public Integer getMSNaSemana(Calendar calendar) {
-        return ((calendar.get(Calendar.DAY_OF_WEEK) - 1) * MS_POR_DIA) + getMSNoDia(calendar);
+    public Integer getMSNaSemana(DateTime dateTime) {
+        return ((dateTime.toGregorianCalendar().get(Calendar.DAY_OF_WEEK) - 1) * MS_POR_DIA) + getMSNoDia(dateTime);
     }
 
 
     public Evento eventoAtual(DateTime data) {
         Evento evento = getEventoEspecial(data);
-        return evento == null ? rangeMap.get(getMSNaSemana(data.toCalendar(Locale.forLanguageTag("pt-BR")))) : evento;
+        return evento == null ? rangeMap.get(getMSNaSemana(data)) : evento;
     }
 
     private Evento getEventoEspecial(DateTime agora) {

@@ -1,7 +1,7 @@
 package os72c.client.v2;
 
+import engine.GerenciadorDeIntervalos;
 import models.EstadoGrupoSemaforico;
-import models.Estagio;
 import models.Plano;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public class Simulador {
 
     private final ParametrosSimulacao params;
 
-    private Programacao programacao;
+    private GerenciadorDeIntervalos programacao;
 
     public Simulador(List<Plano> planos, ParametrosSimulacao params) {
         this.planos = planos;
@@ -26,7 +26,7 @@ public class Simulador {
         long momento = params.getInicioSimulacao() - params.getDataInicio();
         long fimSimulacao = params.getFimSimulacao() - params.getDataInicio();
 
-        this.programacao = new Programacao(planos);
+        this.programacao = new GerenciadorDeIntervalos(planos);
 //        this.descolamento = params.getDataInicio();
 
         ResultadoSimulacao resultado = new ResultadoSimulacao(params.getVelocidadeSimulacao(),(fimSimulacao - momento) + 1);

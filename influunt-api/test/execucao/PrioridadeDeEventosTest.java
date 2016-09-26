@@ -4,7 +4,7 @@ import models.DiaDaSemana;
 import models.Evento;
 import models.TipoEvento;
 import org.junit.Test;
-import os72c.client.v2.GerenciadorDeEventos;
+import engine.GerenciadorDeEventos;
 import utils.CustomCalendar;
 
 import java.util.Calendar;

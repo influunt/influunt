@@ -16,7 +16,6 @@ import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
@@ -342,5 +341,18 @@ public class Evento extends Model implements Cloneable, Serializable, Comparable
             }
         }
         return false;
+    }
+
+    public DateTime getDataHora() {
+
+        DateTime dataHora;
+        if(this.data != null){
+            dataHora = new DateTime(this.data);
+
+        }else{
+            dataHora = new DateTime(2016,9,18,0,0,0,0);
+        }
+
+        return dataHora.withMillisOfDay(0).plusMillis(this.horario.getMillisOfDay());
     }
 }

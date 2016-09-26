@@ -6,17 +6,13 @@ import models.TabelaHorario;
 import models.TipoEvento;
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
+import org.joda.time.LocalTime;
 import org.junit.Test;
-import os72c.client.v2.GerenciadorDeEventos;
-import os72c.client.v2.GerenteProgramacao;
-import utils.ConstantesDeTempo;
-import utils.CustomCalendar;
+import engine.GerenciadorDeEventos;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static com.sun.javafx.tools.resource.DeployResource.Type.data;
-import static com.sun.tools.doclint.Entity.rang;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -36,12 +32,13 @@ public class GerenteProgramacaoTest {
         Evento normal = new Evento();
         normal.setTipo(TipoEvento.NORMAL);
         normal.setDiaDaSemana(DiaDaSemana.DOMINGO);
-        normal.setData(dt.toCalendar(Locale.forLanguageTag("pt-BR")).getTime());
+        normal.setHorario(new LocalTime(dt));
         normal.setPosicaoPlano(1);
 
         Evento especialRecorrente = new Evento();
         especialRecorrente.setTipo(TipoEvento.ESPECIAL_RECORRENTE);
         especialRecorrente.setData(dt.toCalendar(Locale.forLanguageTag("pt-BR")).getTime());
+
         especialRecorrente.setPosicaoPlano(2);
 
         Evento especialNaoRecorrente = new Evento();
@@ -605,6 +602,7 @@ public class GerenteProgramacaoTest {
         evento.setTipo(tipoEvento);
         evento.setDiaDaSemana(diaDaSemana);
         evento.setData(data);
+        evento.setHorario(new LocalTime(data));
         evento.setPosicaoPlano(posicao);
         return evento;
     }
@@ -655,12 +653,14 @@ public class GerenteProgramacaoTest {
         domingo.setTipo(TipoEvento.NORMAL);
         domingo.setDiaDaSemana(DiaDaSemana.DOMINGO);
         domingo.setData(instante.toDate());
+        domingo.setHorario(new LocalTime(instante.toDate()));
         domingo.setPosicaoPlano(1);
 
         Evento sabadoDomingo = new Evento();
         sabadoDomingo.setTipo(TipoEvento.NORMAL);
         sabadoDomingo.setDiaDaSemana(DiaDaSemana.SABADO_A_DOMINGO);
         sabadoDomingo.setData(instante.toDate());
+        sabadoDomingo.setHorario(new LocalTime(instante.toDate()));
         sabadoDomingo.setPosicaoPlano(2);
 
         List<Evento> eventos = new ArrayList<>();
@@ -714,18 +714,21 @@ public class GerenteProgramacaoTest {
         eventoInstante.setTipo(TipoEvento.NORMAL);
         eventoInstante.setDiaDaSemana(DiaDaSemana.SEGUNDA);
         eventoInstante.setData(instante.getTime());
+        eventoInstante.setHorario(new LocalTime(instante.getTime()));
         eventoInstante.setPosicaoPlano(1);
 
         Evento eventoInstanteAnterior = new Evento();
         eventoInstanteAnterior.setTipo(TipoEvento.NORMAL);
         eventoInstanteAnterior.setDiaDaSemana(DiaDaSemana.SEGUNDA);
         eventoInstanteAnterior.setData(instanteAnterior.getTime());
+        eventoInstanteAnterior.setHorario(new LocalTime(instanteAnterior.getTime()));
         eventoInstanteAnterior.setPosicaoPlano(2);
 
         Evento eventoInstantePosterior = new Evento();
         eventoInstantePosterior.setTipo(TipoEvento.NORMAL);
         eventoInstantePosterior.setDiaDaSemana(DiaDaSemana.SEGUNDA);
         eventoInstantePosterior.setData(instantePosterior.getTime());
+        eventoInstantePosterior.setHorario(new LocalTime(instantePosterior.getTime()));
         eventoInstantePosterior.setPosicaoPlano(3);
 
 
@@ -758,6 +761,7 @@ public class GerenteProgramacaoTest {
         domingo.setTipo(TipoEvento.NORMAL);
         domingo.setDiaDaSemana(DiaDaSemana.DOMINGO);
         domingo.setData(cal.getTime());
+        domingo.setHorario(new LocalTime(cal.getTime()));
         domingo.setPosicaoPlano(1);
         eventos.add(domingo);
 
@@ -766,6 +770,7 @@ public class GerenteProgramacaoTest {
         segunda.setTipo(TipoEvento.NORMAL);
         segunda.setDiaDaSemana(DiaDaSemana.SEGUNDA);
         segunda.setData(cal.getTime());
+        segunda.setHorario(new LocalTime(cal.getTime()));
         segunda.setPosicaoPlano(2);
         eventos.add(segunda);
 
@@ -774,6 +779,7 @@ public class GerenteProgramacaoTest {
         terca.setTipo(TipoEvento.NORMAL);
         terca.setDiaDaSemana(DiaDaSemana.TERCA);
         terca.setData(cal.getTime());
+        terca.setHorario(new LocalTime(cal.getTime()));
         terca.setPosicaoPlano(3);
         eventos.add(terca);
 
@@ -781,6 +787,7 @@ public class GerenteProgramacaoTest {
         quarta.setTipo(TipoEvento.NORMAL);
         quarta.setDiaDaSemana(DiaDaSemana.QUARTA);
         quarta.setData(cal.getTime());
+        quarta.setHorario(new LocalTime(cal.getTime()));
         quarta.setPosicaoPlano(4);
         eventos.add(quarta);
 
@@ -788,6 +795,7 @@ public class GerenteProgramacaoTest {
         quinta.setTipo(TipoEvento.NORMAL);
         quinta.setDiaDaSemana(DiaDaSemana.QUINTA);
         quinta.setData(cal.getTime());
+        quinta.setHorario(new LocalTime(cal.getTime()));
         quinta.setPosicaoPlano(5);
         eventos.add(quinta);
 
@@ -796,6 +804,7 @@ public class GerenteProgramacaoTest {
         sexta.setTipo(TipoEvento.NORMAL);
         sexta.setDiaDaSemana(DiaDaSemana.SEXTA);
         sexta.setData(cal.getTime());
+        sexta.setHorario(new LocalTime(cal.getTime()));
         sexta.setPosicaoPlano(6);
         eventos.add(sexta);
 
@@ -803,6 +812,7 @@ public class GerenteProgramacaoTest {
         sabado.setTipo(TipoEvento.NORMAL);
         sabado.setDiaDaSemana(DiaDaSemana.SABADO);
         sabado.setData(cal.getTime());
+        sabado.setHorario(new LocalTime(cal.getTime()));
         sabado.setPosicaoPlano(7);
         eventos.add(sabado);
 
@@ -810,6 +820,7 @@ public class GerenteProgramacaoTest {
         sabadoDomingo.setTipo(TipoEvento.NORMAL);
         sabadoDomingo.setDiaDaSemana(DiaDaSemana.SABADO_A_DOMINGO);
         sabadoDomingo.setData(cal.getTime());
+        sabadoDomingo.setHorario(new LocalTime(cal.getTime()));
         sabadoDomingo.setPosicaoPlano(8);
         eventos.add(sabadoDomingo);
 
@@ -817,6 +828,7 @@ public class GerenteProgramacaoTest {
         segundaAsexta.setTipo(TipoEvento.NORMAL);
         segundaAsexta.setDiaDaSemana(DiaDaSemana.SEGUNDA_A_SEXTA);
         segundaAsexta.setData(cal.getTime());
+        segundaAsexta.setHorario(new LocalTime(cal.getTime()));
         segundaAsexta.setPosicaoPlano(9);
         eventos.add(segundaAsexta);
 
@@ -824,13 +836,16 @@ public class GerenteProgramacaoTest {
         segundaASabado.setTipo(TipoEvento.NORMAL);
         segundaASabado.setDiaDaSemana(DiaDaSemana.SEGUNDA_A_SABADO);
         segundaASabado.setData(cal.getTime());
+        segundaASabado.setHorario(new LocalTime(cal.getTime()));
         segundaASabado.setPosicaoPlano(10);
+
         eventos.add(segundaASabado);
 
         Evento todos = new Evento();
         todos.setTipo(TipoEvento.NORMAL);
         todos.setDiaDaSemana(DiaDaSemana.TODOS_OS_DIAS);
         todos.setData(cal.getTime());
+        todos.setHorario(new LocalTime(cal.getTime()));
         todos.setPosicaoPlano(11);
         eventos.add(todos);
 

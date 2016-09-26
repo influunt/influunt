@@ -1,6 +1,7 @@
-package os72c.client.v2;
+package engine;
 
 import models.*;
+import org.apache.commons.math3.util.ArithmeticUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +14,7 @@ import static org.apache.commons.math3.util.ArithmeticUtils.lcm;
 /**
  * Created by rodrigosol on 9/15/16.
  */
-public class Programacao {
+public class GerenciadorDeIntervalos {
 
     private final HashMap<Integer,Integer> temposDeCiclo;
     private final HashMap<Integer,Integer> temposDeCicloPorAnel;
@@ -27,7 +28,7 @@ public class Programacao {
 
     private final int numeroGrupoSemaforico;
 
-    public <E> Programacao(List<Plano> planos){
+    public <E> GerenciadorDeIntervalos(List<Plano> planos){
         this.planos = planos;
         this.cicloMaximo = calculaMMC();
         this.numeroGrupoSemaforico = quantidadeDeGruposSemaforicos();
@@ -74,7 +75,7 @@ public class Programacao {
     }
 
     public long  calculaMMC() {
-        return planos.stream().mapToInt(i -> i.getTempoCiclo()).reduce((p1, p2) -> lcm(p1,p2)).getAsInt();
+        return planos.stream().mapToInt(i -> i.getTempoCiclo()).reduce((p1, p2) -> ArithmeticUtils.lcm(p1,p2)).getAsInt();
     }
 
     public int getIndex(int grupo,int instante){

@@ -1,6 +1,7 @@
 package execucao;
 
 import config.WithInfluuntApplicationNoAuthentication;
+import engine.GerenciadorDeIntervalos;
 import integracao.ControladorHelper;
 import models.*;
 import org.junit.Test;
@@ -58,7 +59,7 @@ public class ProgramacaoTest extends WithInfluuntApplicationNoAuthentication{
         planos.add(p3);
         planos.add(p4);
 
-        Programacao prog = new Programacao(planos);
+        GerenciadorDeIntervalos prog = new GerenciadorDeIntervalos(planos);
         assertEquals(688246020,prog.getCicloMaximo());
 
         assertEquals(0,prog.getIndex(1,1));
@@ -87,7 +88,7 @@ public class ProgramacaoTest extends WithInfluuntApplicationNoAuthentication{
 
     @Test
     public void testTrocaDePlanosCom1Grupo(){
-        Programacao programacao = new Programacao(getPlanosG1());
+        GerenciadorDeIntervalos programacao = new GerenciadorDeIntervalos(getPlanosG1());
 
         assertEquals(EstadoGrupoSemaforico.VERDE,programacao.getProgram(1).get(0));
         assertEquals(EstadoGrupoSemaforico.VERDE,programacao.getProgram(3).get(0));
@@ -119,7 +120,7 @@ public class ProgramacaoTest extends WithInfluuntApplicationNoAuthentication{
 
     @Test
     public void testTrocaDePlanosCom2Grupo() {
-        Programacao programacao = new Programacao(getPlanosG1eG2());
+        GerenciadorDeIntervalos programacao = new GerenciadorDeIntervalos(getPlanosG1eG2());
 
         assertEquals(EstadoGrupoSemaforico.VERDE, programacao.getProgram(1).get(0));
         assertEquals(EstadoGrupoSemaforico.VERDE, programacao.getProgram(3).get(0));
@@ -172,7 +173,7 @@ public class ProgramacaoTest extends WithInfluuntApplicationNoAuthentication{
 
     @Test
     public void testMudancaGrupo() {
-        Programacao programacao = new Programacao(getPlanosG1eG2());
+        GerenciadorDeIntervalos programacao = new GerenciadorDeIntervalos(getPlanosG1eG2());
         long mudancas = programacao.getCicloMaximo();
         for(int i = 1; i <= programacao.getCicloMaximo(); i++){
             if(programacao.novaConfiguracaoSeHouverMudanca(i,i+1) == null){
@@ -190,7 +191,7 @@ public class ProgramacaoTest extends WithInfluuntApplicationNoAuthentication{
         List<Plano> planos = new ArrayList<>();
         planos.add(getPlano(controlador, 1, 1));
         planos.add(getPlano(controlador, 2, 1));
-        Programacao programacao = new Programacao(planos);
+        GerenciadorDeIntervalos programacao = new GerenciadorDeIntervalos(planos);
 
         assertEquals(0, programacao.getIndexAnel(1, 1));
         assertEquals(0, programacao.getIndexAnel(2, 1));
@@ -297,7 +298,7 @@ public class ProgramacaoTest extends WithInfluuntApplicationNoAuthentication{
         List<Plano> planos = new ArrayList<>();
         planos.add(getPlano(controlador, 1, 1));
         planos.add(getPlano(controlador, 2, 1));
-        Programacao programacao = new Programacao(planos);
+        GerenciadorDeIntervalos programacao = new GerenciadorDeIntervalos(planos);
 
         assertEquals(1, programacao.getEstagiosAtuais(1).get(0).getPosicao().longValue());
         assertEquals(1, programacao.getEstagiosAtuais(18).get(0).getPosicao().longValue());
@@ -342,7 +343,7 @@ public class ProgramacaoTest extends WithInfluuntApplicationNoAuthentication{
         List<Plano> planos = new ArrayList<>();
         planos.add(getPlano(controlador, 1, 1));
         planos.add(getPlano(controlador, 2, 1));
-        Programacao programacao = new Programacao(planos);
+        GerenciadorDeIntervalos programacao = new GerenciadorDeIntervalos(planos);
 
         long mudancas = programacao.getCicloMaximo();
         for(int i = 1; i <= programacao.getCicloMaximo(); i++){
