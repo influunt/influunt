@@ -11,7 +11,7 @@ angular.module('influuntApp')
   .controller('ControladoresCtrl', ['$controller', '$scope', '$state', '$filter', 'Restangular', '$q', 'handleValidations', 'APP_ROOT', 'influuntBlockui', 'toast', 'influuntAlert', 'STATUS_CONTROLADOR',
     function ($controller, $scope, $state, $filter, Restangular, $q, handleValidations, APP_ROOT, influuntBlockui, toast, influuntAlert, STATUS_CONTROLADOR) {
 
-
+      var setLocalizacaoNoCurrentAnel;
       // Herda todo o comportamento do crud basico.
       $controller('CrudCtrl', {$scope: $scope});
       $scope.inicializaNovoCrud('controladores');
@@ -199,6 +199,15 @@ angular.module('influuntApp')
         $scope.currentAnelIndex = index;
         $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
         $scope.currentAnel = $scope.objeto.aneis[$scope.currentAnelIndex];
+        setLocalizacaoNoCurrentAnel($scope.currentAnel);
+      };
+
+      setLocalizacaoNoCurrentAnel = function(currentAnel){
+        var idJsonEndereco = null;
+        idJsonEndereco = _.get(currentAnel.endereco, 'idJson');
+        $scope.currentEndereco = _.find($scope.objeto.todosEnderecos, {idJson: idJsonEndereco });
+        $scope.currentAnel.localizacao = $filter('nomeEndereco')($scope.currentEndereco);
+
       };
 
       /**
