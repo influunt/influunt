@@ -2,6 +2,7 @@ package engine;
 
 import models.*;
 import org.apache.commons.math3.util.ArithmeticUtils;
+import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -146,4 +147,8 @@ public class GerenciadorDeIntervalos {
         return intervalos;
     }
 
+    public List<EstadoGrupoSemaforico> getEstadosGrupo(DateTime instante) {
+        int i = (int) (instante.getMillis() % cicloMaximo);
+        return getProgram(i + 1);
+    }
 }

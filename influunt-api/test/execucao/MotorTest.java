@@ -9,13 +9,17 @@ import models.*;
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 import org.junit.Test;
+import simulacao.*;
 import utils.CustomCalendar;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
+import static junit.framework.TestCase.assertNull;
 import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 
@@ -26,11 +30,15 @@ public class MotorTest  extends WithInfluuntApplicationNoAuthentication{
 
     private boolean iniciado = false;
     private boolean finalizado = false;
+    private Evento eventoAnterior = null;
+    private Evento eventoAtual = null;
+    private List<EstadoGrupoSemaforico> estadoAnterior = null;
+    private List<EstadoGrupoSemaforico> estadoAtual = null;
 
     @Test
     public void motorTest(){
 
-
+        LogSimulacao logSimulacao = new LogSimulacao();
         Controlador controlador = new ControladorHelper().setPlanos(new ControladorHelper().getControlador());
 
 //        criarEvento(tabelaHoraria, 1, TipoEvento.NORMAL, DiaDaSemana.TODOS_OS_DIAS, LocalTime.parse("00:00:00"), 1);
@@ -41,41 +49,48 @@ public class MotorTest  extends WithInfluuntApplicationNoAuthentication{
 
         Motor motor = new Motor(controlador, new MotorCallback() {
             @Override
-            public void onStart() {
+            public void onStart(DateTime timestamp) {
                 iniciado = true;
+                logSimulacao.log(new DefaultLog(timestamp, TipoEventoLog.INICIO_EXECUCAO));
             }
 
             @Override
-            public void onStop() {
+            public void onStop(DateTime timestamp) {
                 finalizado = true;
+                logSimulacao.log(new DefaultLog(timestamp, TipoEventoLog.INICIO_EXECUCAO));
             }
 
             @Override
-            public void onChangeEvento(Evento eventoAntigo, Evento eventoNovo) {
-
+            public void onChangeEvento(DateTime timeStamp, Evento eventoAntigo, Evento eventoNovo) {
+                eventoAnterior = eventoAntigo;
+                eventoAtual = eventoNovo;
+                logSimulacao.log(new AlteracaoEventoLog(timeStamp,eventoAntigo,eventoNovo));
             }
 
             @Override
-            public void onGrupoChange(EstadoGrupoSemaforico estadoAntigo, EstadoGrupoSemaforico estadoNovo) {
-
+            public void onGrupoChange(DateTime timeStamp, List<EstadoGrupoSemaforico> estadoAntigo, List<EstadoGrupoSemaforico> estadoNovo) {
+                estadoAnterior = estadoAntigo;
+                estadoAtual = estadoNovo;
+                logSimulacao.log(new AlteracaoEstadoLog(timeStamp,estadoAntigo,estadoNovo));
             }
         });
 
         DateTime inicio = new DateTime(2016,9,18,0,0,0);
         DateTime fim = new DateTime(2016,9,25,23,59,59);
 
-        motor.start();
-        await().until(() -> iniciado);
+        motor.start(inicio);
+        //await().until(() -> iniciado);
         assertTrue(iniciado);
 
-        while(inicio.getMillis() <= fim.getMillis()){
+        while (inicio.getMillis() <= fim.getMillis()){
             motor.tick(inicio);
             inicio = inicio.plusSeconds(1);
         }
-
-        motor.stop();
-        await().until(() -> finalizado);
+        motor.stop(fim);
+        //await().until(() -> finalizado);
         assertTrue(finalizado);
+
+        logSimulacao.print(TipoEventoLog.ALTERACAO_EVENTO);
 
 
     }

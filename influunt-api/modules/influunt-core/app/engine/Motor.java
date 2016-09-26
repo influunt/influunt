@@ -1,12 +1,14 @@
 package engine;
 
 import models.Controlador;
+import models.EstadoGrupoSemaforico;
 import models.Evento;
+import models.Plano;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.stream.Collectors;
 
 
 /**
@@ -20,6 +22,7 @@ public class Motor implements MotorEvents {
     private List<MotorCallback> callbacks = new ArrayList<>();
 
     private Evento eventoAtual;
+    private List<EstadoGrupoSemaforico> estadoAtual;
 
     public Motor(Controlador controlador, MotorCallback callback){
         callbacks.add(callback);
@@ -29,31 +32,53 @@ public class Motor implements MotorEvents {
 
     }
 
-    public void start(){
-        callbacks.stream().forEach(MotorCallback::onStart);
+    public void start(DateTime timestamp){
+        callbacks.stream().forEach(motorCallback -> motorCallback.onStart(timestamp));
     }
 
-    public void stop(){
-        callbacks.stream().forEach(MotorCallback::onStop);
+    public void stop(DateTime timestamp){
+        callbacks.stream().forEach(motorCallback -> motorCallback.onStop(timestamp));
     }
 
-    public void onEventoChange(Evento atual, Evento novo){
-        callbacks.stream().forEach(callback -> callback.onChangeEvento(atual,novo));
+    public void onEventoChange(DateTime timestamp, Evento atual, Evento novo){
+        callbacks.stream().forEach(motorCallback -> motorCallback.onChangeEvento(timestamp,atual,novo));
     }
 
-    public void onGrupoChange(){
-        callbacks.stream().forEach(callback -> callback.onGrupoChange(null,null));
+    public void onGrupoChange(DateTime timestamp, List<EstadoGrupoSemaforico> atual, List<EstadoGrupoSemaforico> novo){
+        callbacks.stream().forEach(motorCallback -> motorCallback.onGrupoChange(timestamp,atual,novo));
     }
 
     public void tick(DateTime instante){
         Evento evento = gerenciadorDeEventos.eventoAtual(instante);
+        boolean iniciarGrupos = false;
         if(eventoAtual == null){
-            onEventoChange(null,evento);
+            onEventoChange(instante,null,evento);
             eventoAtual = evento;
+            iniciarGrupos = true;
         }else{
             if(!evento.equals(eventoAtual)){
-                onEventoChange(eventoAtual,evento);
+                onEventoChange(instante,eventoAtual,evento);
                 eventoAtual = evento;
+                iniciarGrupos = true;
+            }
+        }
+
+        if(iniciarGrupos) {
+            List<Plano> planos = controlador.getAneis().stream()
+                    .flatMap(anel -> anel.getPlanos().stream())
+                    .filter(plano -> plano.getPosicao() == eventoAtual.getPosicaoPlano())
+                    .collect(Collectors.toList());
+
+            gerenciadorDeIntervalos = new GerenciadorDeIntervalos(planos);
+        }
+        if(estadoAtual == null){
+            estadoAtual = gerenciadorDeIntervalos.getEstadosGrupo(instante);
+            onGrupoChange(instante,null,estadoAtual);
+        }else{
+            List<EstadoGrupoSemaforico> estadoGrupoSemaforico = gerenciadorDeIntervalos.getEstadosGrupo(instante);
+            if(!estadoAtual.equals(estadoGrupoSemaforico)){
+                onGrupoChange(instante,estadoAtual,estadoGrupoSemaforico);
+                estadoAtual = estadoGrupoSemaforico;
             }
         }
     }
