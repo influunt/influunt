@@ -62,8 +62,6 @@ public class StatusControladorFisicoTest extends WithInfluuntApplicationNoAuthen
 
         assertEquals(StatusDevice.CONFIGURADO, usc.get("1"));
         assertEquals(StatusDevice.ATIVO, usc.get("2"));
-
-
     }
 
     @Test
@@ -91,7 +89,6 @@ public class StatusControladorFisicoTest extends WithInfluuntApplicationNoAuthen
         statusControlador = StatusControladorFisico.historico("1", 1, 50);
         assertEquals(50, statusControlador.size());
         assertEquals(StatusDevice.NOVO, statusControlador.get(0).statusDevice);
-
     }
 
     @Test
@@ -108,7 +105,6 @@ public class StatusControladorFisicoTest extends WithInfluuntApplicationNoAuthen
 
         assertEquals(2, status.size());
         assertEquals(StatusDevice.CONFIGURADO.toString(), status.get(0).get("statusDevice").toString());
-
     }
 
 
@@ -142,8 +138,6 @@ public class StatusControladorFisicoTest extends WithInfluuntApplicationNoAuthen
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
 
         assertEquals(StatusDevice.ATIVO.toString(), json.get("statusDevice").asText());
-
-
     }
 
     @Test
@@ -169,7 +163,6 @@ public class StatusControladorFisicoTest extends WithInfluuntApplicationNoAuthen
         json = Json.parse(Helpers.contentAsString(postResult));
 
         assertEquals(StatusDevice.NOVO.toString(), json.get(0).get("statusDevice").asText());
-
     }
 
 

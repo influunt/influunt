@@ -62,13 +62,13 @@
             </div>
             <div class="col-lg-12 no-padding padding-top-20">
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-danger m-r-sm">{{dados_status['NOVO']}}</button> {{ 'main.novo' | translate }}
+                <button type="button" class="btn btn-danger m-r-sm">{{dados_status['NOVO'] || 0}}</button> {{ 'main.novo' | translate }}
               </div>
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-primary m-r-sm">{{dados_status['CONFIGURADO']}}</button> {{ 'main.configurado' | translate }}
+                <button type="button" class="btn btn-primary m-r-sm">{{dados_status['CONFIGURADO'] || 0}}</button> {{ 'main.configurado' | translate }}
               </div>
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-info m-r-sm">{{dados_status['ATIVO']}}</button> {{ 'main.ativo' | translate }}
+                <button type="button" class="btn btn-info m-r-sm">{{dados_status['ATIVO'] || 0}}</button> {{ 'main.ativo' | translate }}
               </div>
             </div>
             <div class="col-lg-12">
@@ -76,13 +76,13 @@
             </div>
             <div class="col-lg-12 no-padding padding-botton-20">
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-info m-r-sm">{{dados_status['INOPERANTE']}}</button> {{ 'main.inoperante' | translate }}
+                <button type="button" class="btn btn-info m-r-sm">{{dados_status['INOPERANTE'] || 0}}</button> {{ 'main.inoperante' | translate }}
               </div>
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-success m-r-sm">{{dados_status['OPERANDO_COM_FALHAS']}}</button> {{ 'main.operandoFalhas' | translate }}
+                <button type="button" class="btn btn-success m-r-sm">{{dados_status['OPERANDO_COM_FALHAS'] || 0}}</button> {{ 'main.operandoFalhas' | translate }}
               </div>
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-danger m-r-sm">{{dados_status['INATIVO']}}</button> {{ 'main.inativo' | translate }}
+                <button type="button" class="btn btn-danger m-r-sm">{{dados_status['INATIVO'] || 0}}</button> {{ 'main.inativo' | translate }}
               </div>
             </div>
           </div>
@@ -97,13 +97,13 @@
             </div>
             <div class="col-lg-12 no-padding padding-top-20">
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-danger m-r-sm">12</button> {{ 'main.atuado' | translate }}
+                <button type="button" class="btn btn-danger m-r-sm">{{modos_operacoes['ATUADO'] || 0}}</button> {{ 'main.atuado' | translate }}
               </div>
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-primary m-r-sm">28</button> {{ 'main.coordenado' | translate }}
+                <button type="button" class="btn btn-primary m-r-sm">{{modos_operacoes['TEMPO_FIXO_COORDENADO'] || 0}}</button> {{ 'main.coordenado' | translate }}
               </div>
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-info m-r-sm">15</button> {{ 'main.isolado' | translate }}
+                <button type="button" class="btn btn-info m-r-sm">{{modos_operacoes['TEMPO_FIXO_ISOLADO'] || 0}}</button> {{ 'main.isolado' | translate }}
               </div>
             </div>
             <div class="col-lg-12">
@@ -111,13 +111,13 @@
             </div>
             <div class="col-lg-12 no-padding padding-botton-20">
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-info m-r-sm">20</button> {{ 'main.apagado' | translate }}
+                <button type="button" class="btn btn-info m-r-sm">{{modos_operacoes['APAGADO'] || 0}}</button> {{ 'main.apagado' | translate }}
               </div>
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-success m-r-sm">40</button> {{ 'main.interminente' | translate }}
+                <button type="button" class="btn btn-success m-r-sm">{{modos_operacoes['INTERMITENTE'] || 0}}</button> {{ 'main.interminente' | translate }}
               </div>
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-danger m-r-sm">30</button> {{ 'main.manual' | translate }}
+                <button type="button" class="btn btn-danger m-r-sm">{{modos_operacoes['MANUAL'] || 0}}</button> {{ 'main.manual' | translate }}
               </div>
             </div>
           </div>

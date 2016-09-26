@@ -150,6 +150,13 @@ GET         /api/v1/monitoramento/status                                    cont
 GET         /api/v1/monitoramento/status/:id/ultimo_status                  controllers.monitoramento.StatusControladorFisicoController.ultimoStatus(id)
 GET         /api/v1/monitoramento/status/:id/historico/:pagina/:tamanho     controllers.monitoramento.StatusControladorFisicoController.historico(id,pagina,tamanho)
 
+# ModoOPeracao Controlador
+GET         /api/v1/monitoramento/modo_operacoes_controladores/:id                                controllers.monitoramento.ModoOperacaoControladorController.findOne(id)
+GET         /api/v1/monitoramento/modo_operacoes_controladores                                    controllers.monitoramento.ModoOperacaoControladorController.ultimoModoOperacaoDosControladores()
+GET         /api/v1/monitoramento/modo_operacoes_controladores/:id/ultimo_modo_operacao           controllers.monitoramento.ModoOperacaoControladorController.ultimoModoOperacaoControlador(id)
+GET         /api/v1/monitoramento/modo_operacoes_controladores/:id/historico/:pagina/:tamanho     controllers.monitoramento.ModoOperacaoControladorController.historico(id,pagina,tamanho)
+
+
 # Monitoramento
 GET         /api/v1/monitoramento/status_controladores                              controllers.monitoramento.MonitoramentoController.ultimoStatusDosControladores()
 GET         /api/v1/monitoramento/controladores_onlines                             controllers.monitoramento.MonitoramentoController.controladoresOnline()
