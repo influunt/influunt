@@ -3,11 +3,11 @@ package utils;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import org.joda.time.DateTime;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.templateresolver.FileTemplateResolver;
 import play.Application;
-import play.Logger;
 import play.libs.mailer.Email;
 import play.libs.mailer.MailerClient;
 
@@ -28,8 +28,7 @@ public class InfluuntEmailService {
         final Context ctx = new Context();
         ctx.setVariable("nome", nome);
         ctx.setVariable("link", link);
-
-        Logger.warn("URL: " + provider.get().path().toString().concat("/app/templates/"));
+        ctx.setVariable("data", InfluuntUtils.formatDateToString(new DateTime(), "dd 'de' MMMM 'de' yyyy 'às' HH:mm:ss"));
 
         FileTemplateResolver fileTemplateResolver = new FileTemplateResolver();
         fileTemplateResolver.setPrefix(provider.get().path().toString().concat("/app/templates/"));
