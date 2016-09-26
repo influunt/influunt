@@ -453,7 +453,7 @@ angular.module('influuntApp')
 
         erros.push(getErrosGruposSemaforicosPlanos(listaErros));
         erros.push(getErrosUltrapassaTempoSeguranca(listaErros));
-        erros.push(getErrosPlanoAutuadoSemDetector(listaErros));
+        erros.push(getErrosPlanoAtuadoSemDetector(listaErros));
 
         return _.flatten(erros);
       };
@@ -549,7 +549,7 @@ angular.module('influuntApp')
         return erros;
       };
 
-      var getErrosPlanoAutuadoSemDetector = function(listaErros) {
+      var getErrosPlanoAtuadoSemDetector = function(listaErros) {
         var erros = _.get(listaErros, 'planos['+ $scope.currentPlanoIndex +'].modoOperacaoValido');
         if (erros) {
           return erros;
