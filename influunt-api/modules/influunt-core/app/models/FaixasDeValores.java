@@ -493,10 +493,10 @@ public class FaixasDeValores extends Model implements Cloneable, Serializable {
 
     public static FaixasDeValores getInstance() {
         FaixasDeValores valores = Ebean.find(FaixasDeValores.class).setMaxRows(1).findUnique();
-        return valores != null ? valores : createDefault();
+        return valores != null ? valores : getDefault();
     }
 
-    private static FaixasDeValores createDefault() {
+    private static FaixasDeValores getDefault() {
         FaixasDeValores valores = new FaixasDeValores();
         valores.setTempoDefasagemMin(0);
         valores.setTempoDefasagemMax(255);
@@ -532,7 +532,6 @@ public class FaixasDeValores extends Model implements Cloneable, Serializable {
         valores.setTempoAusenciaDeteccaoMax(4320);
         valores.setTempoDeteccaoPermanenteMin(0);
         valores.setTempoDeteccaoPermanenteMax(1440);
-        valores.save();
         return valores;
     }
 }
