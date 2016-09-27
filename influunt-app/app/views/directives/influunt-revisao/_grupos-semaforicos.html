@@ -1,9 +1,8 @@
 <div class="col-lg-12 col-sm-12 no-padding padding-top-20" data-ng-repeat="gruposSemaforicos in dadosCurrentGruposSemaforicos" data-ng-class="{ 'ibox-content': $index === 0 }">
   <div class="col-lg-4 col-sm-4 no-padding-left" data-ng-repeat="grupoSemaforico in gruposSemaforicos">
     <h3>{{ 'controladores.revisao.grupo' | translate }} {{ grupoSemaforico.posicao }}</h3>
-    <p>{{ grupoSemaforico.descricao }}</p>
+    <p><strong>{{ 'controladores.revisao.descricao' | translate }}:</strong> {{ grupoSemaforico.descricao }}</p>
     <p><strong>{{ 'controladores.revisao.tipo' | translate }}:</strong> {{ grupoSemaforico.tipo }}</p>
-    <p><strong>{{ 'controladores.revisao.faseVermelha' | translate }}:</strong> {{ grupoSemaforico.faseVermelha }}</p>
     <p><strong>{{ 'controladores.revisao.faseVermelha' | translate }}:</strong> {{ grupoSemaforico.faseVermelha }}</p>
     <p><strong>{{ 'controladores.revisao.verdeSeguranca' | translate }}:</strong> {{ grupoSemaforico.tempoVerdeSeguranca || 0 }}s</p>
   </div>
