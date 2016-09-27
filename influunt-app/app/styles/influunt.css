@@ -940,22 +940,31 @@ header .nav-secon li a {
   background: #3d3d3d;
 }
 
+.wrapper-content .basic-wizard .content .body .association.plans .vis-background .vis-group .vis-item .vis-item-overflow .vis-item-content, .wrapper-content .basic-wizard .content .body .association.plans .vis-foreground .vis-group .vis-item .vis-item-overflow .vis-item-content {
+  background: rgba(0, 0, 0, 0.6);
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  padding: 1px 4px;
+  margin: 6px 1px;
+  border-radius: 3px;
+  font-size: 0.9em;
+  color: #fff;
+  font-weight: 600;
+}
+
+.wrapper-content .basic-wizard .content .body .association.plans .vis-background .vis-group .vis-item .vis-item-overflow .vis-item-content:hover, .wrapper-content .basic-wizard .content .body .association.plans .vis-foreground .vis-group .vis-item .vis-item-overflow .vis-item-content:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.wrapper-content .basic-wizard .content .body .association.plans .vis-background .vis-group .vis-item .vis-item-overflow .vis-item-content {
+  background: black;
+}
+
 .wrapper-content .basic-wizard .content .body .association.plans .indicacao-vermelho-intermitente {
   background: url("../images/lines.png") #ff1b00;
 }
 
-.wrapper-content .basic-wizard .content .body .association.plans .indicacao-vermelho-intermitente .vis-item-content {
-  text-shadow: 1px 2px 0px #fff;
-  font-weight: 700;
-}
-
 .wrapper-content .basic-wizard .content .body .association.plans .indicacao-intermitente {
   background: url("../images/lines.png") #fffb00;
-}
-
-.wrapper-content .basic-wizard .content .body .association.plans .indicacao-intermitente .vis-item-content {
-  text-shadow: 1px 2px 0px #fff;
-  font-weight: 700;
 }
 
 .wrapper-content .basic-wizard .content .body .association.tables-associated .association-know {

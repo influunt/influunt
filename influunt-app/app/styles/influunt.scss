@@ -802,19 +802,45 @@ header .nav-secon li a {
   nav.plans li .wiped {
       background:#3d3d3d;
   }
-  .indicacao-vermelho-intermitente {
-      background: url('../images/lines.png') #ff1b00;
-      .vis-item-content {
-        text-shadow: 1px 2px 0px #fff;
-          font-weight: 700;
+  .vis-background, .vis-foreground {
+    .vis-group {
+      .vis-item {
+        .vis-item-overflow {
+          .vis-item-content {
+            background: rgba(0, 0, 0, 0.6);
+            box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            padding: 1px 4px;
+            margin: 6px 1px;
+            border-radius: 3px;
+            font-size: 0.9em;
+            color: #fff;
+            font-weight: 600;
+            &:hover {
+              background: rgba(0, 0, 0, 0.8);
+            }
+          }
+        }
       }
+    }
+  }
+
+  .vis-background {
+    .vis-group {
+      .vis-item {
+        .vis-item-overflow {
+          .vis-item-content {
+            background: rgba(0, 0, 0, 1);
+          }
+        }
+      }
+    }
+  }
+
+  .indicacao-vermelho-intermitente {
+    background: url('../images/lines.png') #ff1b00;
   }
   .indicacao-intermitente {
       background: url('../images/lines.png') #fffb00;
-      .vis-item-content {
-        text-shadow: 1px 2px 0px #fff;
-          font-weight: 700;
-      }
   }
 }
 .wrapper-content .basic-wizard .content .body .association.tables-associated .association-know {
