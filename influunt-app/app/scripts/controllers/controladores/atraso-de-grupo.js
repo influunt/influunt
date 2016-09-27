@@ -62,7 +62,7 @@ angular.module('influuntApp')
       };
 
       inicializaTransicoes = function() {
-        var allTransicoes = _.union($scope.objeto.transicoes, $scope.objeto.transicoesComPerdaDePassagem);
+        var allTransicoes = _.union($scope.objeto.transicoes, $scope.objeto.transicoesComGanhoDePassagem);
         _.forEach(allTransicoes, function(transicao) {
           if (typeof transicao.atrasoDeGrupo === 'undefined') {
             transicao.atrasoDeGrupo = { idJson: UUID.generate(), atrasoDeGrupo: $scope.atrasoGrupoMin };
@@ -82,7 +82,7 @@ angular.module('influuntApp')
         $scope.inicializaConfirmacaoNadaHaPreencher();
       };
 
-      $scope.$watch('currentTransicoesComPerdaDePassagem', function() {
+      $scope.$watch('currentTransicoesComGanhoDePassagem', function() {
         if($scope.currentAnel && $scope.confirmacao){
           $scope.verificaConfirmacaoNadaHaPreencher();
         }
@@ -95,16 +95,16 @@ angular.module('influuntApp')
       }, true);
 
       $scope.possuiInformacoesPreenchidas = function() {
-        var totalNaoPreenchido, total, totalNaoPreenchidoComPerdaDePassagem, totalComPerdaDePassagem;
-        if($scope.currentTransicoes && $scope.currentTransicoesComPerdaDePassagem){
+        var totalNaoPreenchido, total, totalNaoPreenchidoComGanhoDePassagem, totalComGanhoDePassagem;
+        if($scope.currentTransicoes && $scope.currentTransicoesComGanhoDePassagem){
           totalNaoPreenchido = _.filter($scope.currentTransicoes, {atrasoDeGrupo: {atrasoDeGrupo: '0'}}).length;
           totalNaoPreenchido += _.filter($scope.currentTransicoes, {atrasoDeGrupo: {atrasoDeGrupo: 0}}).length;
           total = _.values($scope.currentTransicoes).length;
 
-          totalNaoPreenchidoComPerdaDePassagem = _.filter($scope.currentTransicoesComPerdaDePassagem, {atrasoDeGrupo: {atrasoDeGrupo: '0'}}).length;
-          totalNaoPreenchidoComPerdaDePassagem += _.filter($scope.currentTransicoesComPerdaDePassagem, {atrasoDeGrupo: {atrasoDeGrupo: 0}}).length;
-          totalComPerdaDePassagem = _.values($scope.currentTransicoesComPerdaDePassagem).length;
-          return totalNaoPreenchido < total || totalNaoPreenchidoComPerdaDePassagem < totalComPerdaDePassagem;
+          totalNaoPreenchidoComGanhoDePassagem = _.filter($scope.currentTransicoesComGanhoDePassagem, {atrasoDeGrupo: {atrasoDeGrupo: '0'}}).length;
+          totalNaoPreenchidoComGanhoDePassagem += _.filter($scope.currentTransicoesComGanhoDePassagem, {atrasoDeGrupo: {atrasoDeGrupo: 0}}).length;
+          totalComGanhoDePassagem = _.values($scope.currentTransicoesComGanhoDePassagem).length;
+          return totalNaoPreenchido < total || totalNaoPreenchidoComGanhoDePassagem < totalComGanhoDePassagem;
         }
         return false;
       };

@@ -877,7 +877,6 @@ angular.module('influuntApp')
             var grupo = gruposSemaforicos[g.posicao-1];
             var grupoPlano = _.find($scope.plano.gruposSemaforicosPlanos, {grupoSemaforico: {idJson: grupo.idJson}, plano: {idJson: $scope.plano.idJson}});
             g.ativado = grupoPlano.ativado;
-            g.labelPosicao = grupo.posicao;
             if(!g.ativado){
               g.intervalos.unshift({
                 status: modoOperacaoService.getModoIdByName('APAGADO'),

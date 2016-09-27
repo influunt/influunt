@@ -40,10 +40,13 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
         assertEquals("Quantidade de tabela entre-verdes", 1, anelCom2Estagios.getGruposSemaforicos().get(1).getTabelasEntreVerdes().size());
         assertEquals("Quantidade de tabela entre-verdes", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTabelasEntreVerdes().size());
         assertEquals("Quantidade de tabela entre-verdes", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTabelasEntreVerdes().size());
-        assertEquals("Quantidade de transicoes", 1, anelCom2Estagios.getGruposSemaforicos().get(0).getTransicoesComGanhoDePassagem().size());
-        assertEquals("Quantidade de transicoes", 4, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComGanhoDePassagem().size());
+        assertEquals("Quantidade de transicoes G1", 4, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().size());
+        assertEquals("Quantidade de transicoes G2", 6, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().size());
+        assertEquals("Quantidade de transicoes G3", 1, anelCom2Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().size());
+        assertEquals("Quantidade de transicoes G4", 1, anelCom2Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().size());
 
-        Transicao transicao1Anel2EstagiosGS1 = anelCom2Estagios.getGruposSemaforicos().get(0).getTransicoesComGanhoDePassagem().get(0);
+
+        Transicao transicao1Anel2EstagiosGS1 = anelCom2Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().get(0);
         TabelaEntreVerdesTransicao tabelaEntreVerdesTransicao = transicao1Anel2EstagiosGS1.getTabelaEntreVerdesTransicoes().get(0);
 
         List<Erro> erros = getErros(controlador);
@@ -95,7 +98,7 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
         ));
 
         GrupoSemaforico grupoSemaforicoAnel4EstagiosPedestre = anelCom4Estagios.getGruposSemaforicos().stream().filter(grupoSemaforico -> grupoSemaforico.isPedestre()).findFirst().get();
-        Transicao transicao1Anel4EstagiosGS1 = grupoSemaforicoAnel4EstagiosPedestre.getTransicoesComGanhoDePassagem().get(0);
+        Transicao transicao1Anel4EstagiosGS1 = grupoSemaforicoAnel4EstagiosPedestre.getTransicoesComPerdaDePassagem().get(0);
         tabelaEntreVerdesTransicao = transicao1Anel4EstagiosGS1.getTabelaEntreVerdesTransicoes().get(0);
         tabelaEntreVerdesTransicao.setTempoVermelhoIntermitente(500);
         tabelaEntreVerdesTransicao.setTempoVermelhoLimpeza(6); // TEMPO PARA GRUPO SEMAFORICO PEDESTRE
@@ -174,26 +177,26 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
         Anel anelCom2Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
         Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
 
-        assertEquals("Total de transicoes Anel 2 Estagios - G1", 1, anelCom2Estagios.getGruposSemaforicos().get(0).getTransicoesComGanhoDePassagem().size());
-        assertEquals("Total de transicoes Anel 2 Estagios - G2", 1, anelCom2Estagios.getGruposSemaforicos().get(1).getTransicoesComGanhoDePassagem().size());
+        assertEquals("Total de transicoes Anel 2 Estagios - G1", 1, anelCom2Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().size());
+        assertEquals("Total de transicoes Anel 2 Estagios - G2", 1, anelCom2Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().size());
 
-        assertEquals("Total de transicoes Anel 4 Estagios - G1", 4, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComGanhoDePassagem().size());
-        assertEquals("Total de transicoes Anel 4 Estagios - G2", 6, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComGanhoDePassagem().size());
+        assertEquals("Total de transicoes Anel 4 Estagios - G1", 4, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().size());
+        assertEquals("Total de transicoes Anel 4 Estagios - G2", 6, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().size());
 
-        assertEquals("Total tabela EntreVerdes Anel 2 Estagios - G1", 1, anelCom2Estagios.getGruposSemaforicos().get(0).getTransicoesComGanhoDePassagem().get(0).getTabelaEntreVerdesTransicoes().size());
-        assertEquals("Total tabela EntreVerdes Anel 2 Estagios - G2", 1, anelCom2Estagios.getGruposSemaforicos().get(1).getTransicoesComGanhoDePassagem().get(0).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 2 Estagios - G1", 1, anelCom2Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().get(0).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 2 Estagios - G2", 1, anelCom2Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().get(0).getTabelaEntreVerdesTransicoes().size());
 
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComGanhoDePassagem().get(0).getTabelaEntreVerdesTransicoes().size());
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComGanhoDePassagem().get(1).getTabelaEntreVerdesTransicoes().size());
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComGanhoDePassagem().get(2).getTabelaEntreVerdesTransicoes().size());
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComGanhoDePassagem().get(3).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().get(0).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().get(1).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().get(2).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().get(3).getTabelaEntreVerdesTransicoes().size());
 
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComGanhoDePassagem().get(0).getTabelaEntreVerdesTransicoes().size());
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComGanhoDePassagem().get(1).getTabelaEntreVerdesTransicoes().size());
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComGanhoDePassagem().get(2).getTabelaEntreVerdesTransicoes().size());
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComGanhoDePassagem().get(3).getTabelaEntreVerdesTransicoes().size());
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComGanhoDePassagem().get(4).getTabelaEntreVerdesTransicoes().size());
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComGanhoDePassagem().get(5).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().get(0).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().get(1).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().get(2).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().get(3).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().get(4).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().get(5).getTabelaEntreVerdesTransicoes().size());
     }
 
     @Override
@@ -210,26 +213,26 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
         Anel anelCom2Estagios = controladorJson.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
         Anel anelCom4Estagios = controladorJson.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
 
-        assertEquals("Total de transicoes Anel 2 Estagios - G1", 1, anelCom2Estagios.getGruposSemaforicos().get(0).getTransicoesComGanhoDePassagem().size());
-        assertEquals("Total de transicoes Anel 2 Estagios - G2", 1, anelCom2Estagios.getGruposSemaforicos().get(1).getTransicoesComGanhoDePassagem().size());
+        assertEquals("Total de transicoes Anel 2 Estagios - G1", 1, anelCom2Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().size());
+        assertEquals("Total de transicoes Anel 2 Estagios - G2", 1, anelCom2Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().size());
 
-        assertEquals("Total de transicoes Anel 4 Estagios - G1", 4, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComGanhoDePassagem().size());
-        assertEquals("Total de transicoes Anel 4 Estagios - G2", 6, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComGanhoDePassagem().size());
+        assertEquals("Total de transicoes Anel 4 Estagios - G1", 4, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().size());
+        assertEquals("Total de transicoes Anel 4 Estagios - G2", 6, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().size());
 
-        assertEquals("Total tabela EntreVerdes Anel 2 Estagios - G1", 1, anelCom2Estagios.getGruposSemaforicos().get(0).getTransicoesComGanhoDePassagem().get(0).getTabelaEntreVerdesTransicoes().size());
-        assertEquals("Total tabela EntreVerdes Anel 2 Estagios - G2", 1, anelCom2Estagios.getGruposSemaforicos().get(1).getTransicoesComGanhoDePassagem().get(0).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 2 Estagios - G1", 1, anelCom2Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().get(0).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 2 Estagios - G2", 1, anelCom2Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().get(0).getTabelaEntreVerdesTransicoes().size());
 
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComGanhoDePassagem().get(0).getTabelaEntreVerdesTransicoes().size());
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComGanhoDePassagem().get(1).getTabelaEntreVerdesTransicoes().size());
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComGanhoDePassagem().get(2).getTabelaEntreVerdesTransicoes().size());
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComGanhoDePassagem().get(3).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().get(0).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().get(1).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().get(2).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().get(3).getTabelaEntreVerdesTransicoes().size());
 
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComGanhoDePassagem().get(0).getTabelaEntreVerdesTransicoes().size());
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComGanhoDePassagem().get(1).getTabelaEntreVerdesTransicoes().size());
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComGanhoDePassagem().get(2).getTabelaEntreVerdesTransicoes().size());
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComGanhoDePassagem().get(3).getTabelaEntreVerdesTransicoes().size());
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComGanhoDePassagem().get(4).getTabelaEntreVerdesTransicoes().size());
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComGanhoDePassagem().get(5).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().get(0).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().get(1).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().get(2).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().get(3).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().get(4).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().get(5).getTabelaEntreVerdesTransicoes().size());
     }
 
     @Override
@@ -270,26 +273,26 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
         GrupoSemaforico g3 = anelCom2Estagios.findGrupoSemaforicoByDescricao("G3");
         GrupoSemaforico g4 = anelCom2Estagios.findGrupoSemaforicoByDescricao("G4");
 
-        assertEquals("Total de transicoes Anel 2 Estagios - G3", 1, g3.getTransicoesComGanhoDePassagem().size());
-        assertEquals("Total de transicoes Anel 2 Estagios - G4", 1, g4.getTransicoesComGanhoDePassagem().size());
+        assertEquals("Total de transicoes Anel 2 Estagios - G3", 1, g3.getTransicoesComPerdaDePassagem().size());
+        assertEquals("Total de transicoes Anel 2 Estagios - G4", 1, g4.getTransicoesComPerdaDePassagem().size());
 
-        assertEquals("Total de transicoes Anel 4 Estagios - G1", 4, g1.getTransicoesComGanhoDePassagem().size());
-        assertEquals("Total de transicoes Anel 4 Estagios - G2", 6, g2.getTransicoesComGanhoDePassagem().size());
+        assertEquals("Total de transicoes Anel 4 Estagios - G1", 4, g1.getTransicoesComPerdaDePassagem().size());
+        assertEquals("Total de transicoes Anel 4 Estagios - G2", 6, g2.getTransicoesComPerdaDePassagem().size());
 
-        assertEquals("Total tabela EntreVerdes Anel 2 Estagios - G3", 1, g3.getTransicoesComGanhoDePassagem().get(0).getTabelaEntreVerdesTransicoes().size());
-        assertEquals("Total tabela EntreVerdes Anel 2 Estagios - G4", 1, g4.getTransicoesComGanhoDePassagem().get(0).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 2 Estagios - G3", 1, g3.getTransicoesComPerdaDePassagem().get(0).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 2 Estagios - G4", 1, g4.getTransicoesComPerdaDePassagem().get(0).getTabelaEntreVerdesTransicoes().size());
 
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, g1.getTransicoesComGanhoDePassagem().get(0).getTabelaEntreVerdesTransicoes().size());
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, g1.getTransicoesComGanhoDePassagem().get(1).getTabelaEntreVerdesTransicoes().size());
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, g1.getTransicoesComGanhoDePassagem().get(2).getTabelaEntreVerdesTransicoes().size());
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, g1.getTransicoesComGanhoDePassagem().get(3).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, g1.getTransicoesComPerdaDePassagem().get(0).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, g1.getTransicoesComPerdaDePassagem().get(1).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, g1.getTransicoesComPerdaDePassagem().get(2).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, g1.getTransicoesComPerdaDePassagem().get(3).getTabelaEntreVerdesTransicoes().size());
 
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, g2.getTransicoesComGanhoDePassagem().get(0).getTabelaEntreVerdesTransicoes().size());
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, g2.getTransicoesComGanhoDePassagem().get(1).getTabelaEntreVerdesTransicoes().size());
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, g2.getTransicoesComGanhoDePassagem().get(2).getTabelaEntreVerdesTransicoes().size());
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, g2.getTransicoesComGanhoDePassagem().get(3).getTabelaEntreVerdesTransicoes().size());
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, g2.getTransicoesComGanhoDePassagem().get(4).getTabelaEntreVerdesTransicoes().size());
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, g2.getTransicoesComGanhoDePassagem().get(5).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, g2.getTransicoesComPerdaDePassagem().get(0).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, g2.getTransicoesComPerdaDePassagem().get(1).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, g2.getTransicoesComPerdaDePassagem().get(2).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, g2.getTransicoesComPerdaDePassagem().get(3).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, g2.getTransicoesComPerdaDePassagem().get(4).getTabelaEntreVerdesTransicoes().size());
+        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, g2.getTransicoesComPerdaDePassagem().get(5).getTabelaEntreVerdesTransicoes().size());
     }
 
     @Override

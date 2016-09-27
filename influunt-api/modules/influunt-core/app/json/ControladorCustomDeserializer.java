@@ -341,8 +341,8 @@ public class ControladorCustomDeserializer {
             }
         }
 
-        if (node.has("transicoesComPerdaDePassagem")) {
-            for (JsonNode innerNode : node.get("transicoesComPerdaDePassagem")) {
+        if (node.has("transicoesComGanhoDePassagem")) {
+            for (JsonNode innerNode : node.get("transicoesComGanhoDePassagem")) {
                 Transicao transicao = parseTransicao(innerNode);
                 transicaoCache.put(transicao.getIdJson().toString(), transicao);
             }
@@ -645,7 +645,7 @@ public class ControladorCustomDeserializer {
 
         List<Transicao> transicoes = new ArrayList<>();
         parseCollection("transicoes", node, transicoes, TRANSICAO, GRUPOS_SEMAFORICOS);
-        parseCollection("transicoesComPerdaDePassagem", node, transicoes, TRANSICAO, GRUPOS_SEMAFORICOS);
+        parseCollection("transicoesComGanhoDePassagem", node, transicoes, TRANSICAO, GRUPOS_SEMAFORICOS);
         grupoSemaforico.setTransicoes(transicoes);
 
 

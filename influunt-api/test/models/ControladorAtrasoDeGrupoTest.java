@@ -38,8 +38,8 @@ public class ControladorAtrasoDeGrupoTest extends ControladorTest {
         Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
         assertEquals("Quantidade de transicoes com ganho de passagem", 1, anelCom2Estagios.getGruposSemaforicos().get(0).getTransicoesComGanhoDePassagem().size());
         assertEquals("Quantidade de transicoes com perda de passagem", 1, anelCom2Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().size());
-        assertEquals("Quantidade de transicoes com ganho de passagem", 4, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComGanhoDePassagem().size());
-        assertEquals("Quantidade de transicoes com perda de passagem", 5, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().size());
+        assertEquals("Quantidade de transicoes com ganho de passagem", 5, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComGanhoDePassagem().size());
+        assertEquals("Quantidade de transicoes com perda de passagem", 4, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().size());
 
         for (Anel anel : controlador.getAneis()) {
             for (GrupoSemaforico grupoSemaforico : anel.getGruposSemaforicos()) {
@@ -128,10 +128,10 @@ public class ControladorAtrasoDeGrupoTest extends ControladorTest {
         assertEquals("Total de transicoes com ganho de passagem Anel 2 Estagios - G2", 1, anelCom2Estagios.getGruposSemaforicos().get(1).getTransicoesComGanhoDePassagem().size());
         assertEquals("Total de transicoes com perda de passagem Anel 2 Estagios - G2", 1, anelCom2Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().size());
 
-        assertEquals("Total de transicoes com ganho de passagem Anel 4 Estagios - G1", 4, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComGanhoDePassagem().size());
-        assertEquals("Total de transicoes com perda de passagem Anel 4 Estagios - G1", 5, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().size());
-        assertEquals("Total de transicoes com ganho de passagem Anel 4 Estagios - G2", 6, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComGanhoDePassagem().size());
-        assertEquals("Total de transicoes com perda de passagem Anel 4 Estagios - G2", 5, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().size());
+        assertEquals("Total de transicoes com ganho de passagem Anel 4 Estagios - G1", 5, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComGanhoDePassagem().size());
+        assertEquals("Total de transicoes com perda de passagem Anel 4 Estagios - G1", 4, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().size());
+        assertEquals("Total de transicoes com ganho de passagem Anel 4 Estagios - G2", 5, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComGanhoDePassagem().size());
+        assertEquals("Total de transicoes com perda de passagem Anel 4 Estagios - G2", 6, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().size());
 
         for (Anel anel : controlador.getAneis()) {
             for (GrupoSemaforico grupoSemaforico : anel.getGruposSemaforicos()) {
@@ -161,10 +161,10 @@ public class ControladorAtrasoDeGrupoTest extends ControladorTest {
         assertEquals("Total de transicoes com ganho de passagem Anel 2 Estagios - G2", 1, anelCom2Estagios.getGruposSemaforicos().get(1).getTransicoesComGanhoDePassagem().size());
         assertEquals("Total de transicoes com perda de passagem Anel 2 Estagios - G2", 1, anelCom2Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().size());
 
-        assertEquals("Total de transicoes com ganho de passagem Anel 4 Estagios - G1", 4, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComGanhoDePassagem().size());
-        assertEquals("Total de transicoes com perda de passagem Anel 4 Estagios - G1", 5, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().size());
-        assertEquals("Total de transicoes com ganho de passagem Anel 4 Estagios - G2", 6, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComGanhoDePassagem().size());
-        assertEquals("Total de transicoes com perda de passagem Anel 4 Estagios - G2", 5, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().size());
+        assertEquals("Total de transicoes com ganho de passagem Anel 4 Estagios - G1", 5, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComGanhoDePassagem().size());
+        assertEquals("Total de transicoes com perda de passagem Anel 4 Estagios - G1", 4, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().size());
+        assertEquals("Total de transicoes com ganho de passagem Anel 4 Estagios - G2", 5, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComGanhoDePassagem().size());
+        assertEquals("Total de transicoes com perda de passagem Anel 4 Estagios - G2", 6, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().size());
 
         for (Anel anel : controlador.getAneis()) {
             for (GrupoSemaforico grupoSemaforico : anel.getGruposSemaforicos()) {
@@ -222,10 +222,10 @@ public class ControladorAtrasoDeGrupoTest extends ControladorTest {
         assertEquals("Total de transicoes com perda de passagem Anel 2 Estagios - G3", 1, g3.getTransicoesComPerdaDePassagem().size());
         assertEquals("Total de transicoes com perda de passagem Anel 2 Estagios - G4", 1, g4.getTransicoesComPerdaDePassagem().size());
 
-        assertEquals("Total de transicoes com ganho de passagem Anel 4 Estagios - G1", 4, g1.getTransicoesComGanhoDePassagem().size());
-        assertEquals("Total de transicoes com ganho de passagem Anel 4 Estagios - G2", 6, g2.getTransicoesComGanhoDePassagem().size());
-        assertEquals("Total de transicoes com ganho de passagem Anel 4 Estagios - G1", 5, g1.getTransicoesComPerdaDePassagem().size());
-        assertEquals("Total de transicoes com ganho de passagem Anel 4 Estagios - G2", 5, g2.getTransicoesComPerdaDePassagem().size());
+        assertEquals("Total de transicoes com ganho de passagem Anel 4 Estagios - G1", 5, g1.getTransicoesComGanhoDePassagem().size());
+        assertEquals("Total de transicoes com ganho de passagem Anel 4 Estagios - G2", 5, g2.getTransicoesComGanhoDePassagem().size());
+        assertEquals("Total de transicoes com ganho de passagem Anel 4 Estagios - G1", 4, g1.getTransicoesComPerdaDePassagem().size());
+        assertEquals("Total de transicoes com ganho de passagem Anel 4 Estagios - G2", 6, g2.getTransicoesComPerdaDePassagem().size());
 
         for (Anel anel : controlador.getAneis()) {
             for (GrupoSemaforico grupoSemaforico : anel.getGruposSemaforicos()) {
