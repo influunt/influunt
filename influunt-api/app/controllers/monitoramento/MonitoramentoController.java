@@ -14,10 +14,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
-import status.ErrosControlador;
-import status.ModoOperacaoControlador;
-import status.StatusConexaoControlador;
-import status.StatusControladorFisico;
+import status.*;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -40,12 +37,14 @@ public class MonitoramentoController extends Controller {
         HashMap<String, Boolean> onlines = StatusConexaoControlador.ultimoStatusDosControladores();
         HashMap<String, ModoOperacaoPlano> modos = ModoOperacaoControlador.ultimoModoOperacaoDosControladores();
         HashMap<String, Object> erros = ErrosControlador.ultimosErrosDosControladoresPorErro(10);
+        HashMap<String, Boolean> imposicaoPlanos = ImposicaoPlanosControlador.ultimoStatusPlanoImpostoDosControladoresOn();
 
         ObjectNode retorno = JsonNodeFactory.instance.objectNode();
         retorno.set("status", Json.toJson(status));
         retorno.set("onlines", Json.toJson(onlines));
         retorno.set("modosOperacoes", Json.toJson(onlines));
         retorno.set("erros", controladoresToJson(erros));
+        retorno.set("imposicaoPlanos", Json.toJson(imposicaoPlanos));
 
         return CompletableFuture.completedFuture(ok(Json.toJson(retorno)));
     }

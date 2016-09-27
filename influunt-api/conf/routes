@@ -162,6 +162,13 @@ GET         /api/v1/monitoramento/erros_controladores                           
 GET         /api/v1/monitoramento/erros_controladores/:id/ultimo_erro                    controllers.monitoramento.ErrosControladorController.ultimoErroControlador(id)
 GET         /api/v1/monitoramento/erros_controladores/:id/historico/:pagina/:tamanho     controllers.monitoramento.ErrosControladorController.historico(id,pagina,tamanho)
 
+# ImposicaoPlanos Controlador
+GET         /api/v1/monitoramento/imposicoes_planos/:id                                controllers.monitoramento.ImposicaoPlanosControladorController.findOne(id)
+GET         /api/v1/monitoramento/imposicoes_planos                                    controllers.monitoramento.ImposicaoPlanosControladorController.ultimoStatusPlanoImpostoDosControladores()
+GET         /api/v1/monitoramento/imposicoes_planos/:id/ultimo_status                  controllers.monitoramento.ImposicaoPlanosControladorController.ultimoStatusPlanoImposto(id)
+GET         /api/v1/monitoramento/imposicoes_planos/:id/historico/:pagina/:tamanho     controllers.monitoramento.ImposicaoPlanosControladorController.historico(id,pagina,tamanho)
+
+
 # Monitoramento
 GET         /api/v1/monitoramento/status_controladores                              controllers.monitoramento.MonitoramentoController.ultimoStatusDosControladores()
 GET         /api/v1/monitoramento/controladores_onlines                             controllers.monitoramento.MonitoramentoController.controladoresOnline()
