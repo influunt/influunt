@@ -279,7 +279,7 @@ public class Plano extends Model implements Cloneable, Serializable {
         this.defasagem = defasagem;
     }
 
-    @AssertTrue(groups = PlanosCheck.class, message = "A soma dos tempos dos estágios é diferente do tempo de ciclo.")
+    @AssertTrue(groups = PlanosCheck.class, message = "A soma dos tempos dos estágios {temposEstagios} é diferente do tempo de ciclo {tempoCiclo}.")
     public boolean isUltrapassaTempoCiclo() {
         if (!this.getEstagiosPlanos().isEmpty() && isPosicaoUnicaEstagio() && isSequenciaInvalida() && (isTempoFixoIsolado() || isTempoFixoCoordenado()) && Range.between(30, 255).contains(getTempoCiclo())) {
             getEstagiosPlanos().sort((e1, e2) -> e1.getPosicao().compareTo(e2.getPosicao()));

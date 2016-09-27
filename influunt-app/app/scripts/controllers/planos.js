@@ -540,6 +540,7 @@ angular.module('influuntApp')
           if (errosUltrapassaTempoSeguranca) {
             _.each(errosUltrapassaTempoSeguranca, function (errosNoPlano){
               if(errosNoPlano) {
+                console.log('-->', errosNoPlano);
                 var texto = errosNoPlano;
                 erros.push(texto);
               }

@@ -423,7 +423,7 @@ public class ControladorPlanoTest extends ControladorTest {
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro(CONTROLADOR, "O tempo de estagio ultrapassa o tempo maximo de permanencia.", "aneis[1].versoesPlanos[0].planos[0].estagiosPlanos[0].ultrapassaTempoMaximoPermanencia"),
                 new Erro(CONTROLADOR, "O tempo de verde intermediário deve estar entre os valores de verde mínimo e verde máximo.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeIntermediarioFieldEntreMinimoMaximo"),
-                new Erro(CONTROLADOR, "A soma dos tempos dos estágios é diferente do tempo de ciclo.", "aneis[1].versoesPlanos[0].planos[0].ultrapassaTempoCiclo"),
+                new Erro(CONTROLADOR, "A soma dos tempos dos estágios {temposEstagios} é diferente do tempo de ciclo {tempoCiclo}.", "aneis[1].versoesPlanos[0].planos[0].ultrapassaTempoCiclo"),
                 new Erro(CONTROLADOR, "A sequência de estagio não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio")
         ));
 
@@ -746,7 +746,7 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "A soma dos tempos dos estágios é diferente do tempo de ciclo.", "aneis[0].versoesPlanos[0].planos[0].ultrapassaTempoCiclo")
+                new Erro(CONTROLADOR, "A soma dos tempos dos estágios {temposEstagios} é diferente do tempo de ciclo {tempoCiclo}.", "aneis[0].versoesPlanos[0].planos[0].ultrapassaTempoCiclo")
         ));
 
         //3 - 2 - 1 - 4
@@ -771,7 +771,7 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "A soma dos tempos dos estágios é diferente do tempo de ciclo.", "aneis[0].versoesPlanos[0].planos[0].ultrapassaTempoCiclo")
+                new Erro(CONTROLADOR, "A soma dos tempos dos estágios {temposEstagios} é diferente do tempo de ciclo {tempoCiclo}.", "aneis[0].versoesPlanos[0].planos[0].ultrapassaTempoCiclo")
         ));
     }
 
