@@ -46,7 +46,6 @@ Funcionalidade: tela de cadastro de areas
     E clicar no botão de salvar
     Então o sistema deverá possuir longitude e latidude
 
-
   Cenário: Acesso à tela de detalhes de area
     Quando o usuário acessar a tela de listagem de areas
     E clicar no botão de visualizar área

@@ -26,7 +26,7 @@ var getDriver = function() {
 };
 
 var World = function () {
-  var defaultTimeout = 20 * 1000;
+  var defaultTimeout = 2 * 1000;
   var screenshotPath = 'screenshots';
   var baseUrl = 'http://localhost/#';
   var self = this;
@@ -158,6 +158,12 @@ var World = function () {
     var _this = this;
     _this.waitFor(cssSelector);
     return driver.findElement(webdriver.By.css(cssSelector)).sendKeys(value);
+  };
+
+  this.setValueByXpath = function(xpathSelector, value) {
+    var _this = this;
+    _this.waitFor(cssSelector);
+    return driver.findElement(webdriver.By.xpath(xpathSelector)).sendKeys(value);
   };
 
   this.resetValue = function(cssSelector, value) {
@@ -331,6 +337,29 @@ var World = function () {
 
   this.clearField = function(cssSelector) {
     return driver.findElement(webdriver.By.css(cssSelector)).clear();
+  };
+
+  this.clearFieldByXpath = function(xpathSelector) {
+    return driver.findElement(webdriver.By.xpath(xpathSelector)).clear();
+  };
+
+  this.buscarEndereco = function(query, cssSelector) {
+    var _this = this;
+    return _this.setValueAsHuman(cssSelector, query).then(function() {
+      return _this.waitFor('div[g-places-autocomplete-drawer] > div.pac-container');
+    }).then(function() {
+      return _this.getElements('div[g-places-autocomplete-drawer] > div.pac-container div:first-child');
+    }).then(function(elements) {
+      return new Promise(function(resolve, reject) {
+        setTimeout(function() {
+          if (elements.length > 0) {
+            return elements[0].click().then(resolve);
+          } else {
+            reject('No results found for address "'+query+'"');
+          }
+        }, 500);
+      });
+    });
   };
 };
 
