@@ -156,7 +156,7 @@ GET         /api/v1/monitoramento/modo_operacoes_controladores                  
 GET         /api/v1/monitoramento/modo_operacoes_controladores/:id/ultimo_modo_operacao           controllers.monitoramento.ModoOperacaoControladorController.ultimoModoOperacaoControlador(id)
 GET         /api/v1/monitoramento/modo_operacoes_controladores/:id/historico/:pagina/:tamanho     controllers.monitoramento.ModoOperacaoControladorController.historico(id,pagina,tamanho)
 
-# ModoOperacao Controlador
+# Erros Controladores
 GET         /api/v1/monitoramento/erros_controladores/:id                                controllers.monitoramento.ErrosControladorController.findOne(id)
 GET         /api/v1/monitoramento/erros_controladores                                    controllers.monitoramento.ErrosControladorController.ultimosErrosDosControladores()
 GET         /api/v1/monitoramento/erros_controladores/:id/ultimo_erro                    controllers.monitoramento.ErrosControladorController.ultimoErroControlador(id)
