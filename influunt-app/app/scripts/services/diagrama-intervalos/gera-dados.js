@@ -17,6 +17,7 @@ angular.module('influuntApp')
     // Public API here
     return {
       gerar: function (currentPlano, currentAnel, currentGruposSemaforicos, objeto) {
+        // debugger;
         currentPlano = _.find(objeto.planos, {idJson: currentPlano.idJson});
         plano = _.cloneDeep(currentPlano);
         var anel = currentAnel;

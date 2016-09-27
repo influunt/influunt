@@ -11,18 +11,18 @@ angular.module('influuntApp')
   .controller('PlanosCtrl', ['$scope', '$state', '$timeout', 'Restangular', '$filter',
                              'validaTransicao', 'utilEstagios', 'toast', 'modoOperacaoService',
                              'influuntAlert', 'influuntBlockui', 'geraDadosDiagramaIntervalo',
-                             'handleValidations',
+                             'handleValidations', 'utilControladores', 'planoService',
     function ($scope, $state, $timeout, Restangular, $filter,
               validaTransicao, utilEstagios, toast, modoOperacaoService,
               influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo,
-              handleValidations) {
+              handleValidations, utilControladores, planoService) {
 
-      var adicionaPlano, selecionaAnel, atualizaTabelaEntreVerdes, atualizaEstagios, atualizaGruposSemaforicos, atualizaPlanos,
+      var selecionaAnel, atualizaTabelaEntreVerdes, atualizaEstagios, atualizaGruposSemaforicos, atualizaPlanos,
           atualizaEstagiosPlanos, adicionaEstagioASequencia, atualizaPosicaoPlanos, atualizaPosicaoEstagiosPlanos,
-          carregaDadosPlano, getOpcoesEstagiosDisponiveis, montaTabelaValoresMinimos, parseAllToInt, setDiagramaEstatico,
-          atualizaDiagramaIntervalos, getPlanoParaDiagrama, atualizaTransicoesProibidas, getErrosGruposSemaforicosPlanos, 
-          getErrosPlanoAtuadoSemDetector, duplicarPlano, removerPlanoLocal, getErrosUltrapassaTempoSeguranca, getKeysErros,
-          getIdJsonDePlanosQuePossuemErros, getPlanoComErro;
+          atualizaDiagramaIntervalos, atualizaTransicoesProibidas, carregaDadosPlano, duplicarPlano,
+          getErrosGruposSemaforicosPlanos, getErrosPlanoAtuadoSemDetector, getErrosUltrapassaTempoSeguranca,
+          getIdJsonDePlanosQuePossuemErros, getKeysErros, getOpcoesEstagiosDisponiveis, getPlanoComErro,
+          getPlanoParaDiagrama, montaTabelaValoresMinimos, removerPlanoLocal, setDiagramaEstatico;
       var diagramaDebouncer = null;
 
       $scope.somenteVisualizacao = $state.current.data.somenteVisualizacao;
@@ -36,21 +36,24 @@ angular.module('influuntApp')
           .then(function(res) {
             $scope.objeto = res;
             $scope.comCheckBoxGrupo = !$scope.somenteVisualizacao;
-            parseAllToInt();
+            $scope.objeto = utilControladores.parseLimitsToInt($scope.objeto);
             montaTabelaValoresMinimos();
 
             $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
-            $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
+            $scope.aneis = _.filter($scope.objeto.aneis, 'ativo');
 
             $scope.aneis.forEach(function(anel) {
               if (!(_.isArray(anel.planos) && anel.planos.length > 0)) {
-                anel.planos = anel.planos || [];
+                anel.planos = [];
                 var versaoPlano = {idJson: UUID.generate(), anel:{idJson: anel.idJson}};
+
+                $scope.objeto.versoesPlanos = $scope.objeto.versoesPlanos || [];
                 $scope.objeto.versoesPlanos.push(versaoPlano);
                 anel.versaoPlano = {idJson: versaoPlano.idJson};
               }
+
               for (var i = 0; i < $scope.objeto.limitePlanos; i++) {
-                adicionaPlano(anel, i + 1);
+                planoService.adicionar($scope.objeto, anel, i + 1);
               }
             });
 
@@ -183,7 +186,7 @@ angular.module('influuntApp')
 
         indexPlano = _.findIndex($scope.currentAnel.planos, {idJson: plano.idJson});
         $scope.currentAnel.planos.splice(indexPlano, 1);
-        adicionaPlano($scope.currentAnel, index + 1);
+        planoService.adicionar($scope.objeto, $scope.currentAnel, index + 1);
         atualizaPlanos();
 
         plano = _.find($scope.objeto.planos, {idJson: $scope.currentPlanos[index].idJson});
@@ -312,9 +315,10 @@ angular.module('influuntApp')
         $scope.currentPlanoIndex = index;
         $scope.currentPlano = plano;
         var versoes = _
-        .chain($scope.objeto.versoesPlanos)
-        .filter(function (versao) { return versao.anel.idJson === $scope.currentAnel.idJson;})
-        .value();
+          .chain($scope.objeto.versoesPlanos)
+          .filter(function (versao) { return versao.anel.idJson === $scope.currentAnel.idJson;})
+          .value();
+
         $scope.currentVersaoPlanoIndex = _.findIndex(versoes, {anel: {idJson: $scope.currentAnel.idJson}});
         $scope.currentVersaoPlano = versoes[$scope.currentVersaoPlanoIndex];
         atualizaEstagiosPlanos();
@@ -557,77 +561,6 @@ angular.module('influuntApp')
         return [];
       };
 
-      /**
-       * Adiciona um novo plano ao controlador.
-       *
-       * @param      {<type>}  anel    The anel
-       */
-      adicionaPlano = function(anel, posicao) {
-        var plano = _.find($scope.objeto.planos, {posicao: posicao, anel: {idJson: anel.idJson}});
-        if (plano) {
-          plano.configurado = true;
-        }else {
-          plano = {
-            idJson: UUID.generate(),
-            anel: { idJson: anel.idJson },
-            descricao: 'PLANO ' + posicao,
-            posicao: posicao,
-            modoOperacao: 'TEMPO_FIXO_ISOLADO',
-            posicaoTabelaEntreVerde: 1,
-            gruposSemaforicosPlanos: [],
-            estagiosPlanos: [],
-            tempoCiclo: $scope.objeto.cicloMin,
-            configurado: posicao === 1 ? true : false,
-            versaoPlano: {idJson: anel.versaoPlano.idJson}
-          };
-
-          var versaoPlano = _.find($scope.objeto.versoesPlanos, {idJson: anel.versaoPlano.idJson});
-          versaoPlano.planos = versaoPlano.planos || [];
-          versaoPlano.planos.push({idJson: plano.idJson});
-
-
-          $scope.objeto.gruposSemaforicosPlanos = $scope.objeto.gruposSemaforicosPlanos || [];
-          anel.gruposSemaforicos.forEach(function (g){
-            var grupo =  _.find($scope.objeto.gruposSemaforicos, {idJson: g.idJson});
-            var grupoPlano = {
-              idJson: UUID.generate(),
-              ativado: true,
-              grupoSemaforico: {
-                idJson: grupo.idJson
-              },
-              plano: {
-                idJson: plano.idJson
-              }
-            };
-
-            $scope.objeto.gruposSemaforicosPlanos.push(grupoPlano);
-            plano.gruposSemaforicosPlanos.push({idJson: grupoPlano.idJson});
-          });
-
-          anel.estagios.forEach(function (e){
-            var estagio =  _.find($scope.objeto.estagios, {idJson: e.idJson});
-            var estagioPlano = {
-              idJson: UUID.generate(),
-              estagio: {
-                idJson: estagio.idJson
-              },
-              plano: {
-                idJson: plano.idJson
-              },
-              posicao: estagio.posicao,
-              tempoVerde: $scope.objeto.verdeMin,
-              dispensavel: false
-            };
-            $scope.objeto.estagiosPlanos.push(estagioPlano);
-            plano.estagiosPlanos.push({idJson: estagioPlano.idJson});
-          });
-
-          $scope.objeto.planos = $scope.objeto.planos || [];
-          $scope.objeto.planos.push(plano);
-          anel.planos.push({idJson: plano.idJson});
-        }
-      };
-
       getOpcoesEstagiosDisponiveis = function() {
         var estagiosPlanos = _.map($scope.currentEstagiosPlanos, function(ep) {
           return _.find($scope.objeto.estagios, { idJson: ep.estagio.idJson });
@@ -783,37 +716,6 @@ angular.module('influuntApp')
           verdeMinimoMin: $scope.objeto.verdeMinimoMin
         };
         return $scope.valoresMinimos;
-      };
-
-      parseAllToInt = function() {
-        $scope.objeto.amareloMax = parseInt($scope.objeto.amareloMax);
-        $scope.objeto.amareloMin = parseInt($scope.objeto.amareloMin);
-        $scope.objeto.atrasoGrupoMin = parseInt($scope.objeto.atrasoGrupoMin);
-        $scope.objeto.cicloMax = parseInt($scope.objeto.cicloMax);
-        $scope.objeto.cicloMin = parseInt($scope.objeto.cicloMin);
-        $scope.objeto.defasagemMin = parseInt($scope.objeto.defasagemMin);
-        $scope.objeto.extensaoVerdeMax = parseInt($scope.objeto.extensaoVerdeMax);
-        $scope.objeto.extensaoVerdeMin = parseInt($scope.objeto.extensaoVerdeMin);
-        $scope.objeto.maximoPermanenciaEstagioMax = parseInt($scope.objeto.maximoPermanenciaEstagioMax);
-        $scope.objeto.maximoPermanenciaEstagioMin = parseInt($scope.objeto.maximoPermanenciaEstagioMin);
-        $scope.objeto.verdeIntermediarioMax = parseInt($scope.objeto.verdeIntermediarioMax);
-        $scope.objeto.verdeIntermediarioMin = parseInt($scope.objeto.verdeIntermediarioMin);
-        $scope.objeto.verdeMax = parseInt($scope.objeto.verdeMax);
-        $scope.objeto.verdeMaximoMax = parseInt($scope.objeto.verdeMaximoMax);
-        $scope.objeto.verdeMaximoMin = parseInt($scope.objeto.verdeMaximoMin);
-        $scope.objeto.verdeMin = parseInt($scope.objeto.verdeMin);
-        $scope.objeto.verdeMinimoMax = parseInt($scope.objeto.verdeMinimoMax);
-        $scope.objeto.verdeMinimoMin = parseInt($scope.objeto.verdeMinimoMin);
-        $scope.objeto.verdeSegurancaPedestreMax = parseInt($scope.objeto.verdeSegurancaPedestreMax);
-        $scope.objeto.verdeSegurancaPedestreMin = parseInt($scope.objeto.verdeSegurancaPedestreMin);
-        $scope.objeto.verdeSegurancaVeicularMax = parseInt($scope.objeto.verdeSegurancaVeicularMax);
-        $scope.objeto.verdeSegurancaVeicularMin = parseInt($scope.objeto.verdeSegurancaVeicularMin);
-        $scope.objeto.vermelhoIntermitenteMax = parseInt($scope.objeto.vermelhoIntermitenteMax);
-        $scope.objeto.vermelhoIntermitenteMin = parseInt($scope.objeto.vermelhoIntermitenteMin);
-        $scope.objeto.vermelhoLimpezaPedestreMax = parseInt($scope.objeto.vermelhoLimpezaPedestreMax);
-        $scope.objeto.vermelhoLimpezaPedestreMin = parseInt($scope.objeto.vermelhoLimpezaPedestreMin);
-        $scope.objeto.vermelhoLimpezaVeicularMax = parseInt($scope.objeto.vermelhoLimpezaVeicularMax);
-        $scope.objeto.vermelhoLimpezaVeicularMin = parseInt($scope.objeto.vermelhoLimpezaVeicularMin);
       };
 
       //Funções para Diagrama de Planos

@@ -36,8 +36,11 @@
     "it": true,
     "spyOn": true,
     "Paho": true,
+
     // tests helpers
-    "WizardControladores": true
+    "WizardControladores": true,
+    "ControladorBasico": true,
+    "ControladorComPlanos": true
   }
 }
 

@@ -463,7 +463,7 @@ angular.module('influuntApp')
       $scope.ativar = function(controladorId) {
         return Restangular.one('controladores', controladorId).all('ativar').customPUT()
           .then(function() {
-            $scope.index();
+            return $scope.index();
           })
           .catch(function(err) {
             toast.clear();
