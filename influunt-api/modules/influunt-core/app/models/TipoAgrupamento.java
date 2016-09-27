@@ -17,8 +17,4 @@ public enum TipoAgrupamento {
         return otherName != null && name.equals(otherName);
     }
 
-//    @Override
-//    public String toString() {
-//        return name;
-//    }
 }

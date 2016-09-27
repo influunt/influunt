@@ -1,8 +1,6 @@
 package models;
 
-import checks.NumeroDeControladores;
 import checks.NumeroDeElementosNaLista;
-import checks.PlanosCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
@@ -13,7 +11,6 @@ import json.deserializers.AgrupamentoDeserializer;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.AgrupamentoSerializer;
 import json.serializers.InfluuntDateTimeSerializer;
-import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 import utils.InfluuntUtils;
@@ -209,20 +206,16 @@ public class Agrupamento extends Model implements Cloneable, Serializable {
 
     @AssertTrue(message = "O plano associado ao agrupamento deve estar configurado em todos os anéis")
     public boolean isPlanoConfiguradoEmTodosOsAneis() {
-        boolean isConfigurado = true;
-        for (Anel anel : getAneis()) {
-            for (Plano plano : anel.getPlanos()) {
-                if (!plano.getPosicao().equals(getPosicaoPlano())) {
-                    isConfigurado = false;
-                    break;
-                }
-            }
-            if (!isConfigurado) break;
+        if (getPosicaoPlano() != null) {
+            return getAneis()
+                    .stream()
+                    .filter(Anel::isAtivo)
+                    .allMatch(anel -> anel.getPlanos().stream().anyMatch(plano -> getPosicaoPlano().equals(plano.getPosicao())));
         }
-        return isConfigurado;
+        return true;
     }
 
-    // TODO: Testa se o plano X (1, 2, etc.) em todos os anéis são múltiplos entre si.
+    // Testa se o plano X (1, 2, etc.) em todos os anéis são múltiplos entre si.
     @AssertTrue(message = "O Tempo de ciclo deve ser simétrico ou assimétrico ao tempo de ciclo dos planos.")
     public boolean isTempoCicloIgualOuMultiploDeTodoPlano() {
         boolean isMultiplo = true;

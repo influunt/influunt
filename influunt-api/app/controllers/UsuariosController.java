@@ -5,7 +5,6 @@ import be.objectify.deadbolt.java.actions.Dynamic;
 import checks.Erro;
 import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Fabricante;
 import models.Sessao;
 import models.Usuario;
 import play.db.ebean.Transactional;

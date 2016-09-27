@@ -6,7 +6,6 @@ import checks.Erro;
 import checks.InfluuntValidator;
 import checks.SubareasCheck;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Cidade;
 import models.Subarea;
 import play.db.ebean.Transactional;
 import play.libs.Json;

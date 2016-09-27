@@ -17,7 +17,6 @@ import utils.InfluuntQueryBuilder;
 import utils.InfluuntResultBuilder;
 
 import javax.validation.groups.Default;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;

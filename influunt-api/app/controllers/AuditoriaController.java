@@ -2,7 +2,6 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
 import be.objectify.deadbolt.java.actions.Dynamic;
-import models.Cidade;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;

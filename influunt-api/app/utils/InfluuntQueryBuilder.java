@@ -1,16 +1,11 @@
 package utils;
 
 import com.avaje.ebean.*;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import json.ControladorCustomSerializer;
 import models.Controlador;
 import models.StatusVersao;
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 import org.jongo.MongoCursor;
-import play.libs.Json;
 import security.Auditoria;
 
 import java.util.*;
@@ -170,19 +165,7 @@ public class InfluuntQueryBuilder {
             }
         }
 
-
         return new InfluuntQueryResult(pagedList.getList(), pagedList.getTotalRowCount(), klass);
-
-//        ObjectNode retorno = JsonNodeFactory.instance.objectNode();
-//        JsonNode dataJson = null;
-//        if (klass.equals(Controlador.class)) {
-//            dataJson = new ControladorCustomSerializer().getControladoresJson(result);
-//        } else {
-//            dataJson = Json.toJson(result);
-//        }
-//        retorno.set("data", dataJson);
-//        retorno.put("total", pagedList.getTotalRowCount());
-//        return retorno;
     }
 
     public InfluuntQueryResult auditoriaQuery() {
@@ -238,12 +221,6 @@ public class InfluuntQueryBuilder {
         }
 
         return new InfluuntQueryResult(Auditoria.toList(auditorias), total, klass);
-//        ObjectNode retorno = JsonNodeFactory.instance.objectNode();
-//        JsonNode dataJson = Json.toJson(Auditoria.toList(auditorias));
-//        retorno.set("data", dataJson);
-//        retorno.put("total", total);
-//
-//        return retorno;
     }
 
     @NotNull

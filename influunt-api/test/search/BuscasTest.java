@@ -17,9 +17,7 @@ import utils.InfluuntQueryBuilder;
 import utils.InfluuntResultBuilder;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 import static org.junit.Assert.*;
 import static play.test.Helpers.*;
@@ -232,7 +230,8 @@ public class BuscasTest extends WithInfluuntApplicationNoAuthentication {
         ObjectMapper mapper = new ObjectMapper();
 
         InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(ModeloControlador.class, null).query());
-        List<ModeloControlador> modelos = mapper.readValue(result.toJson().get(DATA).toString(), new TypeReference<List<ModeloControlador>>() {});
+        List<ModeloControlador> modelos = mapper.readValue(result.toJson().get(DATA).toString(), new TypeReference<List<ModeloControlador>>() {
+        });
 
         assertEquals(1, modelos.size());
         assertNull(modelos.get(0).getFabricante().getNome());

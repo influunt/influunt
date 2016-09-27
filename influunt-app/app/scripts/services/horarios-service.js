@@ -8,7 +8,7 @@
  * Factory in the influuntApp.
  */
 angular.module('influuntApp')
-  .factory('HorariosService', function () {
+  .factory('HorariosService', ['$filter', function ($filter) {
 
     var getTimes = function(quantidade){
       return new Array(quantidade);
@@ -17,68 +17,68 @@ angular.module('influuntApp')
     var getDias = function() {
       return [
         {
-          label: 'Todos os dias da semana',
+          label: $filter('diaDaSemana')('TODOS_OS_DIAS'),
           value: 'TODOS_OS_DIAS',
           dias: ['dom','seg','ter','qua','qui','sex','sab'],
           prioridade: 11
         },
         {
-          label: 'Domingo',
+          label: $filter('diaDaSemana')('DOMINGO'),
           value: 'DOMINGO',
           dias: ['dom'],
           prioridade: 7
         },
         {
-          label: 'Segunda-feira',
+          label: $filter('diaDaSemana')('SEGUNDA'),
           value: 'SEGUNDA',
           dias: ['seg'] ,
           prioridade: 6,
         },
         {
-          label: 'Terça-feira',
+          label: $filter('diaDaSemana')('TERCA'),
           value: 'TERCA',
           dias: ['ter'],
           prioridade: 5
         },
         {
-          label: 'Quarta-feira',
+          label: $filter('diaDaSemana')('QUARTA'),
           value: 'QUARTA',
           dias: ['qua'],
           prioridade: 4,
         },
         {
-          label: 'Quinta-feira',
+          label: $filter('diaDaSemana')('QUINTA'),
           value: 'QUINTA',
           dias: ['qui'],
           prioridade: 3
         },
         {
-          label: 'Sexta-feira',
+          label: $filter('diaDaSemana')('SEXTA'),
           value: 'SEXTA',
           dias: ['sex'],
           prioridade: 2
         },
         {
-          label: 'Sábado',
+          label: $filter('diaDaSemana')('SABADO'),
           value: 'SABADO',
           dias: ['sab'],
           prioridade: 1
         },
         {
-          label: 'Sábado e Domingo',
+          label: $filter('diaDaSemana')('SABADO_A_DOMINGO'),
           value: 'SABADO_A_DOMINGO',
           dias: ['dom','sab'],
           prioridade: 8
         },
 
         {
-          label: 'Segunda à Sexta',
+          label: $filter('diaDaSemana')('SEGUNDA_A_SEXTA'),
           value: 'SEGUNDA_A_SEXTA',
           dias: ['seg','ter','qua','qui','sex'],
           prioridade: 9
         },
         {
-          label: 'Segunda à Sábado',
+          label: $filter('diaDaSemana')('SEGUNDA_A_SABADO'),
           value: 'SEGUNDA_A_SABADO',
           dias: ['seg','ter','qua','qui','sex','sab'],
           prioridade: 10
@@ -113,4 +113,4 @@ angular.module('influuntApp')
       getSegundos: getSegundos,
       getPlanos: getPlanos
     };
-  });
+  }]);

@@ -13,7 +13,6 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Created by rodrigosol on 7/29/16.
@@ -807,9 +806,6 @@ public class ControladorCustomSerializer {
         if (plano.getAnel() != null && plano.getAnel().getIdJson() != null) {
             planoJson.putObject("anel").put("idJson", plano.getAnel().getIdJson().toString());
         }
-//        if (plano.getAgrupamento() != null && plano.getAgrupamento().getIdJson() != null) {
-//            planoJson.putObject("agrupamento").put("idJson", plano.getAgrupamento().getIdJson().toString());
-//        }
 
         refVersoesPlanos("versaoPlano", plano.getVersaoPlano(), planoJson);
         refEstagiosPlanos("estagiosPlanos", plano.getEstagiosPlanos(), planoJson);

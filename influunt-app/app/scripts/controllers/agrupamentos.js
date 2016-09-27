@@ -99,10 +99,7 @@ angular.module('influuntApp')
       };
 
       addControladorNaView = function(controlador) {
-        var foundControlador = false;
-        _.forEach($scope.controladoresNaView, function(controladores) {
-          foundControlador = foundControlador || _.findIndex(controladores, { id: controlador.id }) > -1;
-        });
+        var foundControlador = _.map(_.flatten($scope.controladoresNaView), 'id').indexOf(controlador.id) > -1;
         if (!foundControlador) {
           if ($scope.controladoresNaView.length === 0) {
             $scope.controladoresNaView.push([controlador]);

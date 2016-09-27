@@ -27,16 +27,6 @@ describe('Directive: ichecks', function () {
     element = $compile(element)(scope);
     scope.$apply();
 
-    console.log('aplicou!')
-
-    // $timeout.flush();
-
-    console.log('fez timeout flush')
-
-    // $timeout.verifyNoPendingTasks();
-
-    console.log('verificou timeout')
-
     $timeout(function() {
       expect(element.is(':disabled')).toBe(true);
     }, 1000);
@@ -46,9 +36,6 @@ describe('Directive: ichecks', function () {
     element = angular.element('<input type="checkbox" ichecks ng-model="test" is-disabled="false">');
     element = $compile(element)(scope);
     scope.$apply();
-
-    // $timeout.flush();
-    // $timeout.verifyNoPendingTasks();
 
     expect(element.is(':disabled')).toBe(false);
   }));

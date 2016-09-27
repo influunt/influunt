@@ -4,8 +4,8 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import models.*;
-import org.apache.commons.lang3.ObjectUtils;
+import models.Agrupamento;
+import models.Anel;
 
 import java.io.IOException;
 
@@ -58,6 +58,7 @@ public class AgrupamentoSerializer extends JsonSerializer<Agrupamento> {
                 jgen.writeStartObject();
                 jgen.writeStringField("id", anel.getId().toString());
                 jgen.writeStringField("CLA", anel.getCLA());
+                jgen.writeBooleanField("ativo", anel.isAtivo());
                 jgen.writeEndObject();
             }
             jgen.writeEndArray();

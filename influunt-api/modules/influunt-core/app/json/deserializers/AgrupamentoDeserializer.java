@@ -6,9 +6,11 @@ import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.*;
+import models.Agrupamento;
+import models.Anel;
+import models.DiaDaSemana;
+import models.TipoAgrupamento;
 import org.joda.time.LocalTime;
-import play.libs.Json;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -68,6 +70,9 @@ public class AgrupamentoDeserializer extends JsonDeserializer<Agrupamento> {
                 if (anelJson.has("id")) {
                     Anel anel = new Anel();
                     anel.setId(UUID.fromString(anelJson.get("id").asText()));
+                    if (anelJson.get("ativo") != null) {
+                        anel.setAtivo(anelJson.get("ativo").asBoolean());
+                    }
                     agrupamento.addAnel(anel);
                 }
             }

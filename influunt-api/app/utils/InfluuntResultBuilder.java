@@ -26,7 +26,6 @@ public class InfluuntResultBuilder {
     }
 
     public JsonNode toJson(String serializer) {
-        ObjectNode retorno = JsonNodeFactory.instance.objectNode();
         JsonNode dataJson;
         if (result.getKlass().equals(Controlador.class)) {
             switch (serializer) {
@@ -37,11 +36,13 @@ public class InfluuntResultBuilder {
                     dataJson = new ControladorCustomSerializer().getControladoresAgrupamentos((List<Controlador>) result.getResult());
                     break;
                 default:
-                    throw new RuntimeException("Serializer type not found: "+serializer);
+                    throw new RuntimeException("Serializer type not found: " + serializer);
             }
         } else {
             dataJson = Json.toJson(result.getResult());
         }
+
+        ObjectNode retorno = JsonNodeFactory.instance.objectNode();
         retorno.set("data", dataJson);
         retorno.put("total", result.getTotal());
         return retorno;

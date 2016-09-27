@@ -7,7 +7,6 @@ import checks.Erro;
 import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Cidade;
-import models.Sessao;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
