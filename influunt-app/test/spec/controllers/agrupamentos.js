@@ -25,8 +25,10 @@ describe('Controller: AgrupamentosCtrl', function () {
   });
 
   it('Deve carregar a lista de controladores antes de exibir dados', inject(function($httpBackend) {
-    var controladores = [{id: 1, localizacao: 'conf1'}, {id: 2, localizacao: 'fab2'}];
-    $httpBackend.expectGET('/controladores').respond(controladores);
+    var controladores = {data: [{id: 1, localizacao: 'conf1'}, {id: 2, localizacao: 'fab2'}], total: 2};
+    var subareas = [{ controladores: controladores.data }]
+    $httpBackend.expectGET('/controladores/agrupamentos').respond(controladores);
+    $httpBackend.expectGET('/subareas').respond(subareas);
     scope.beforeShow();
     $httpBackend.flush();
 
