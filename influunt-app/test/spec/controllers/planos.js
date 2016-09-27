@@ -56,7 +56,6 @@ describe('Controller: PlanosCtrl', function () {
 
     it('Deve criar um objeto de versão planos para cada anel ativo', function() {
       var aneis = _.filter(scope.objeto.aneis, 'ativo');
-      console.log(aneis);
       aneis.forEach(function(anel) {
         expect(anel.versaoPlano).toBeDefined();
       });
@@ -87,5 +86,76 @@ describe('Controller: PlanosCtrl', function () {
         expect(_.map(planosConfigurados, 'id')).toEqual(_.map(controlador.planos, 'id'));
       });
     });
+  });
+
+  describe('editarPlano - função de edição de planos não ATIVOS', function () {
+    beforeEach(function() {
+      beforeEachFn(ControladorComPlanos);
+    });
+
+    it('Deve redirecionar à tela de edicao de planos', function() {
+      $httpBackend.expectGET('/controladores/' + controladorId + '/pode_editar').respond(200, null);
+      scope.editarPlano(controladorId);
+      $httpBackend.flush();
+      expect($state.current.name).toBe('app.planos_edit');
+    });
+
+    it('O usuário deve ser alertado que não pode editar o plano, se for o caso', inject(function(toast, influuntAlert) {
+      spyOn(toast, 'clear');
+      spyOn(influuntAlert, 'alert');
+
+      $httpBackend.expectGET('/controladores/' + controladorId + '/pode_editar').respond(403, [{message: 'teste'}]);
+      scope.editarPlano(controladorId);
+      $httpBackend.flush();
+
+      expect(toast.clear).toHaveBeenCalled();
+      expect(influuntAlert.alert).toHaveBeenCalled();
+    }));
+
+    it('Os demais erros devem ser tratados via toast.error', inject(function(toast) {
+      spyOn(toast, 'error');
+
+      $httpBackend.expectGET('/controladores/' + controladorId + '/pode_editar').respond(403);
+      scope.editarPlano(controladorId);
+      $httpBackend.flush();
+
+      expect(toast.error).toHaveBeenCalled();
+    }));
+  });
+
+  describe('clonarPlanos - função de edição de planos ATIVOS', function () {
+    beforeEach(function() {
+      beforeEachFn(ControladorComPlanos);
+    });
+
+    it('Deve redirecionar à tela de edicao de planos', function() {
+      $httpBackend.expectGET('/controladores/' + controladorId + '/pode_editar').respond(200, null);
+      $httpBackend.expectGET('/controladores/' + controladorId + '/editar_planos').respond(controlador);
+      scope.clonarPlanos(controladorId);
+      $httpBackend.flush();
+      expect($state.current.name).toBe('app.planos_edit');
+    });
+
+    it('O usuário deve ser alertado que não pode editar o plano, se for o caso', inject(function(toast, influuntAlert) {
+      spyOn(toast, 'clear');
+      spyOn(influuntAlert, 'alert');
+
+      $httpBackend.expectGET('/controladores/' + controladorId + '/pode_editar').respond(403, [{message: 'teste'}]);
+      scope.clonarPlanos(controladorId);
+      $httpBackend.flush();
+
+      expect(toast.clear).toHaveBeenCalled();
+      expect(influuntAlert.alert).toHaveBeenCalled();
+    }));
+
+    it('Os demais erros devem ser tratados via toast.error', inject(function(toast) {
+      spyOn(toast, 'error');
+
+      $httpBackend.expectGET('/controladores/' + controladorId + '/pode_editar').respond(403);
+      scope.clonarPlanos(controladorId);
+      $httpBackend.flush();
+
+      expect(toast.error).toHaveBeenCalled();
+    }));
   });
 });

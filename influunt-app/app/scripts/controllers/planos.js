@@ -22,7 +22,7 @@ angular.module('influuntApp')
           atualizaDiagramaIntervalos, atualizaTransicoesProibidas, carregaDadosPlano, duplicarPlano,
           getErrosGruposSemaforicosPlanos, getErrosPlanoAtuadoSemDetector, getErrosUltrapassaTempoSeguranca,
           getIdJsonDePlanosQuePossuemErros, getKeysErros, getOpcoesEstagiosDisponiveis, getPlanoComErro,
-          getPlanoParaDiagrama, montaTabelaValoresMinimos, removerPlanoLocal, setDiagramaEstatico;
+          getPlanoParaDiagrama, montaTabelaValoresMinimos, removerPlanoLocal, setDiagramaEstatico, handleErroEditarPlano;
       var diagramaDebouncer = null;
 
       $scope.somenteVisualizacao = $state.current.data.somenteVisualizacao;
@@ -64,22 +64,15 @@ angular.module('influuntApp')
       };
 
       $scope.clonarPlanos = function(controladorId) {
-        return Restangular.one('controladores', controladorId).all("pode_editar").customGET()
+        return Restangular
+          .one('controladores', controladorId).all('pode_editar').customGET()
           .then(function() {
-            Restangular.one('controladores', controladorId).all('editar_planos').customGET()
-              .then(function() {
-                $state.go('app.planos_edit', { id: controladorId });
-              })
-              .catch(function(err) {
-                toast.error($filter('translate')('geral.mensagens.default_erro'));
-                throw new Error(JSON.stringify(err));
-              })
-              .finally(influuntBlockui.unblock);
+            return Restangular.one('controladores', controladorId).all('editar_planos').customGET();
           })
-          .catch(function(err) {
-            toast.clear();
-            influuntAlert.alert('Controlador', err.data[0].message);
+          .then(function() {
+            $state.go('app.planos_edit', { id: controladorId });
           })
+          .catch(handleErroEditarPlano)
           .finally(influuntBlockui.unblock);
       };
 
@@ -88,10 +81,7 @@ angular.module('influuntApp')
           .then(function() {
             $state.go('app.planos_edit', { id: controladorId });
           })
-          .catch(function(err) {
-            toast.clear();
-            influuntAlert.alert('Controlador', err.data[0].message);
-          })
+          .catch(handleErroEditarPlano)
           .finally(influuntBlockui.unblock);
       };
 
@@ -716,6 +706,15 @@ angular.module('influuntApp')
           verdeMinimoMin: $scope.objeto.verdeMinimoMin
         };
         return $scope.valoresMinimos;
+      };
+
+      handleErroEditarPlano = function(err) {
+        if (err.status === 403 && _.get(err, 'data.[0].message')) {
+          toast.clear();
+          influuntAlert.alert('Controlador', err.data[0].message);
+        } else {
+          toast.error($filter('translate')('geral.mensagens.default_erro'));
+        }
       };
 
       //Funções para Diagrama de Planos

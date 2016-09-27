@@ -16,7 +16,12 @@
                 <a class="btn btn-primary" tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.geral.planos' | translate }}"  type="button" ng-click="editarPlano(objeto.id)" data-ng-if="currentVersaoPlano.statusVersao === 'EDITANDO' || currentVersaoPlano.statusVersao === undefined">
                   <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
                 </a>
-                <a class="btn btn-primary " tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.geral.planos' | translate }}"  type="button" ng-click="clonarPlanos(objeto.id)" data-ng-if="currentVersaoPlano.statusVersao === 'ATIVO'">
+                <a class="btn btn-primary"
+                    tooltips tooltip-side="bottom"
+                    tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.geral.planos' | translate }}"
+                    type="button"
+                    ng-click="clonarPlanos(objeto.id)"
+                    data-ng-if="currentVersaoPlano.statusVersao === 'ATIVO'">
                   <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
                 </a>
               </div>
