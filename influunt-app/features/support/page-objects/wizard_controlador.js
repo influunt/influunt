@@ -69,7 +69,7 @@ var WizardControladorPage = function () {
   };
 
   this.isWizardGruposSemaforicos = function() {
-    return world.waitForByXpath('//li[contains(@ng-class, "app.wizard_controladores.configuracao_aneis")][contains(@class, "active")]');
+    return world.waitForByXpath('//li[contains(@ng-class, "app.wizard_controladores.configuracao_grupo")][contains(@class, "active")]');
   };
 
   this.isWizardVerdesConflitantes = function() {
