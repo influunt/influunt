@@ -184,7 +184,7 @@ public class Transicao extends Model implements Cloneable, Serializable {
 
     @AssertTrue(groups = ControladorTabelaEntreVerdesCheck.class, message = "Essa transição deve ter pelo menos uma tabela de entreverdes.")
     public boolean isAoMenosUmaTabelaEntreVerdesTransicao() {
-        return isPerdaDePassagem() || !getTabelaEntreVerdesTransicoes().isEmpty();
+        return isGanhoDePassagem() || !getTabelaEntreVerdesTransicoes().isEmpty();
     }
 
     @AssertTrue(groups = ControladorAtrasoDeGrupoCheck.class, message = "Essa transição deve ter um atraso de grupo.")

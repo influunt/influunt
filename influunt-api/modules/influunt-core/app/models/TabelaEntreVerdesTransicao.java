@@ -154,7 +154,7 @@ public class TabelaEntreVerdesTransicao extends Model implements Cloneable, Seri
 
     @AssertTrue(groups = ControladorTabelaEntreVerdesCheck.class, message = "não pode ficar em branco")
     public boolean isTempoAmarelo() {
-        if (getTransicao().isGanhoDePassagem() && getTransicao().getGrupoSemaforico().isVeicular()) {
+        if (getTransicao().isPerdaDePassagem() && getTransicao().getGrupoSemaforico().isVeicular()) {
             return getTempoAmarelo() != null;
         }
         return true;
@@ -166,7 +166,7 @@ public class TabelaEntreVerdesTransicao extends Model implements Cloneable, Seri
 
     @AssertTrue(groups = ControladorTabelaEntreVerdesCheck.class, message = "deve estar entre {min} e {max}")
     public boolean isTempoVermelhoLimpezaFieldVeicular() {
-        if (getTransicao().isGanhoDePassagem() && getTransicao().getGrupoSemaforico().isVeicular() && getTempoVermelhoLimpeza() != null) {
+        if (getTransicao().isPerdaDePassagem() && getTransicao().getGrupoSemaforico().isVeicular() && getTempoVermelhoLimpeza() != null) {
             return RangeUtils.getInstance().TEMPO_VERMELHO_LIMPEZA_VEICULAR.contains(getTempoVermelhoLimpeza());
         }
         return true;
@@ -174,7 +174,7 @@ public class TabelaEntreVerdesTransicao extends Model implements Cloneable, Seri
 
     @AssertTrue(groups = ControladorTabelaEntreVerdesCheck.class, message = "deve estar entre {min} e {max}")
     public boolean isTempoVermelhoLimpezaFieldPedestre() {
-        if (getTransicao().isGanhoDePassagem() && getTransicao().getGrupoSemaforico().isPedestre() && getTempoVermelhoLimpeza() != null) {
+        if (getTransicao().isPerdaDePassagem() && getTransicao().getGrupoSemaforico().isPedestre() && getTempoVermelhoLimpeza() != null) {
             return RangeUtils.getInstance().TEMPO_VERMELHO_LIMPEZA_PEDESTRE.contains(getTempoVermelhoLimpeza());
         }
         return true;
@@ -182,7 +182,7 @@ public class TabelaEntreVerdesTransicao extends Model implements Cloneable, Seri
 
     @AssertTrue(groups = ControladorTabelaEntreVerdesCheck.class, message = "não pode ficar em branco")
     public boolean isTempoVermelhoIntermitente() {
-        if (getTransicao().isGanhoDePassagem() && getTransicao().getGrupoSemaforico().isPedestre()) {
+        if (getTransicao().isPerdaDePassagem() && getTransicao().getGrupoSemaforico().isPedestre()) {
             return getTempoVermelhoIntermitente() != null;
         }
         return true;
@@ -190,7 +190,7 @@ public class TabelaEntreVerdesTransicao extends Model implements Cloneable, Seri
 
     @AssertTrue(groups = ControladorTabelaEntreVerdesCheck.class, message = "deve estar entre {min} e {max}")
     public boolean isTempoVermelhoIntermitenteOk() {
-        if (getTransicao().isGanhoDePassagem() && getTransicao().getGrupoSemaforico().isPedestre()) {
+        if (getTransicao().isPerdaDePassagem() && getTransicao().getGrupoSemaforico().isPedestre()) {
             return getTempoVermelhoIntermitente() != null && RangeUtils.getInstance().TEMPO_VERMELHO_INTERMITENTE.contains(getTempoVermelhoIntermitente());
         }
         return true;
@@ -198,7 +198,10 @@ public class TabelaEntreVerdesTransicao extends Model implements Cloneable, Seri
 
     @AssertTrue(message = "deve estar entre {min} e {max}")
     public boolean isTempoAmareloOk() {
-        return getTempoAmarelo() == null || RangeUtils.getInstance().TEMPO_AMARELO.contains(getTempoAmarelo());
+        if (getTransicao().isPerdaDePassagem() && getTransicao().getGrupoSemaforico().isVeicular() && getTempoAmarelo() != null) {
+            return RangeUtils.getInstance().TEMPO_AMARELO.contains(getTempoAmarelo());
+        }
+        return true;
     }
 
     public void setTempoVermelhoIntermitente(Integer tempoVermelhoIntermitente) {
