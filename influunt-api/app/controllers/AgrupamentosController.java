@@ -13,6 +13,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
 import utils.InfluuntQueryBuilder;
+import utils.InfluuntResultBuilder;
 
 import java.util.List;
 import java.util.UUID;
@@ -28,19 +29,19 @@ public class AgrupamentosController extends Controller {
     @Transactional
     public CompletionStage<Result> create() {
         JsonNode json = request().body().asJson();
-
         if (json == null) {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
-        } else {
-            Agrupamento agrupamento = Json.fromJson(json, Agrupamento.class);
-            List<Erro> erros = new InfluuntValidator<Agrupamento>().validate(agrupamento);
+        }
 
-            if (erros.isEmpty()) {
-                agrupamento.save();
-                return CompletableFuture.completedFuture(ok(Json.toJson(agrupamento)));
-            } else {
-                return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
-            }
+        Agrupamento agrupamento = Json.fromJson(json, Agrupamento.class);
+        List<Erro> erros = new InfluuntValidator<Agrupamento>().validate(agrupamento);
+
+        if (erros.isEmpty()) {
+            agrupamento.save();
+            JsonNode agrupamentoJson = Json.toJson(agrupamento);
+            return CompletableFuture.completedFuture(ok(agrupamentoJson));
+        } else {
+            return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
         }
     }
 
@@ -56,7 +57,8 @@ public class AgrupamentosController extends Controller {
 
     @Transactional
     public CompletionStage<Result> findAll() {
-        return CompletableFuture.completedFuture(ok(new InfluuntQueryBuilder(Agrupamento.class, request().queryString()).query()));
+        InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Agrupamento.class, request().queryString()).query());
+        return CompletableFuture.completedFuture(ok(result.toJson()));
     }
 
     @Transactional

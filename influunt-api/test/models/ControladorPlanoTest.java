@@ -693,97 +693,97 @@ public class ControladorPlanoTest extends ControladorTest {
         assertEquals("Anel 4 estágios possui 1 plano com 4 estagios", 4, anelCom4Estagios.getPlanos().get(0).getEstagiosPlanos().size());
     }
 
-    @Test
-    public void testAgrupamento() {
-        Controlador controlador = getControladorPlanos();
-        controlador.save();
-
-        Agrupamento agrupamento = new Agrupamento();
-        agrupamento.setTipo(TipoAgrupamento.CORREDOR);
-        agrupamento.setNome("Corredor Afonso Pena");
-        agrupamento.setNumero("1204");
-        agrupamento.save();
-
-        controlador.addAgrupamento(agrupamento);
-        controlador.save();
-
-        assertEquals("Controlador dentro de 1 agrupamento", 1, controlador.getAgrupamentos().size());
-
-        Anel anel1 = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
-        Anel anel2 = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
-        Plano planoAnel1 = anel1.getPlanos().stream().filter(plano -> plano.getPosicao().equals(1)).findFirst().get();
-        EstagioPlano estagio1Anel1 = planoAnel1.getEstagiosPlanos().get(0);
-        EstagioPlano estagio2Anel1 = planoAnel1.getEstagiosPlanos().get(1);
-
-        Plano planoAnel2 = anel2.getPlanos().stream().filter(plano -> plano.getPosicao().equals(1)).findFirst().get();
-        EstagioPlano estagio1Anel2 = planoAnel2.getEstagiosPlanos().get(0);
-        EstagioPlano estagio2Anel2 = planoAnel2.getEstagiosPlanos().get(1);
-        EstagioPlano estagio3Anel2 = planoAnel2.getEstagiosPlanos().get(2);
-        EstagioPlano estagio4Anel2 = planoAnel2.getEstagiosPlanos().get(3);
-
-        planoAnel1.setAgrupamento(agrupamento);
-        agrupamento.addPlano(planoAnel1);
-
-        List<Erro> erros = getErros(controlador);
-        assertEquals(1, erros.size());
-        assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "O Plano só poderá pertencer a um agrupamento se estiver em modo Coordenado.", "aneis[1].versoesPlanos[0].planos[0].agrupamento")
-        ));
-
-        planoAnel1.setModoOperacao(ModoOperacaoPlano.TEMPO_FIXO_COORDENADO);
-        planoAnel2.setModoOperacao(ModoOperacaoPlano.TEMPO_FIXO_COORDENADO);
-
-        planoAnel1.setTempoCiclo(60);
-        estagio1Anel1.setTempoVerde(21);
-        estagio2Anel1.setTempoVerde(21);
-
-        planoAnel2.setTempoCiclo(128);
-        estagio1Anel2.setTempoVerde(10);
-        estagio2Anel2.setTempoVerde(10);
-        estagio3Anel2.setTempoVerde(10);
-        estagio4Anel2.setTempoVerde(10);
-
-        planoAnel2.setAgrupamento(agrupamento);
-        agrupamento.addPlano(planoAnel2);
-
-        erros = getErros(controlador);
-        assertEquals(2, erros.size());
-        assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "O Tempo de ciclo deve ser simétrico ou assimétrico ao tempo de ciclo dos controladores.", "aneis[0].versoesPlanos[0].planos[0].tempoCicloIgualOuMultiploDeTodoAgrupamento"),
-                new Erro(CONTROLADOR, "O Tempo de ciclo deve ser simétrico ou assimétrico ao tempo de ciclo dos controladores.", "aneis[1].versoesPlanos[0].planos[0].tempoCicloIgualOuMultiploDeTodoAgrupamento")
-        ));
-
-        planoAnel1.setTempoCiclo(180);
-        estagio1Anel1.setTempoVerde(81);
-        estagio2Anel1.setTempoVerde(81);
-
-        erros = getErros(controlador);
-        assertEquals(2, erros.size());
-        assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "O Tempo de ciclo deve ser simétrico ou assimétrico ao tempo de ciclo dos controladores.", "aneis[0].versoesPlanos[0].planos[0].tempoCicloIgualOuMultiploDeTodoAgrupamento"),
-                new Erro(CONTROLADOR, "O Tempo de ciclo deve ser simétrico ou assimétrico ao tempo de ciclo dos controladores.", "aneis[1].versoesPlanos[0].planos[0].tempoCicloIgualOuMultiploDeTodoAgrupamento")
-        ));
-
-        planoAnel2.setTempoCiclo(140);
-        estagio1Anel2.setTempoVerde(12);
-        estagio2Anel2.setTempoVerde(17);
-        estagio3Anel2.setTempoVerde(13);
-        estagio4Anel2.setTempoVerde(10);
-
-        erros = getErros(controlador);
-        assertEquals(2, erros.size());
-        assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "O Tempo de ciclo deve ser simétrico ou assimétrico ao tempo de ciclo dos controladores.", "aneis[0].versoesPlanos[0].planos[0].tempoCicloIgualOuMultiploDeTodoAgrupamento"),
-                new Erro(CONTROLADOR, "O Tempo de ciclo deve ser simétrico ou assimétrico ao tempo de ciclo dos controladores.", "aneis[1].versoesPlanos[0].planos[0].tempoCicloIgualOuMultiploDeTodoAgrupamento")
-        ));
-
-        planoAnel1.setTempoCiclo(70);
-        estagio1Anel1.setTempoVerde(26);
-        estagio2Anel1.setTempoVerde(26);
-
-        erros = getErros(controlador);
-        assertThat(erros, Matchers.empty());
-    }
+//    @Test
+//    public void testAgrupamento() {
+//        Controlador controlador = getControladorPlanos();
+//        controlador.save();
+//
+//        Agrupamento agrupamento = new Agrupamento();
+//        agrupamento.setTipo(TipoAgrupamento.CORREDOR);
+//        agrupamento.setNome("Corredor Afonso Pena");
+//        agrupamento.setNumero("1204");
+//        agrupamento.save();
+//
+//        controlador.addAgrupamento(agrupamento);
+//        controlador.save();
+//
+//        assertEquals("Controlador dentro de 1 agrupamento", 1, controlador.getAgrupamentos().size());
+//
+//        Anel anel1 = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
+//        Anel anel2 = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
+//        Plano planoAnel1 = anel1.getPlanos().stream().filter(plano -> plano.getPosicao().equals(1)).findFirst().get();
+//        EstagioPlano estagio1Anel1 = planoAnel1.getEstagiosPlanos().get(0);
+//        EstagioPlano estagio2Anel1 = planoAnel1.getEstagiosPlanos().get(1);
+//
+//        Plano planoAnel2 = anel2.getPlanos().stream().filter(plano -> plano.getPosicao().equals(1)).findFirst().get();
+//        EstagioPlano estagio1Anel2 = planoAnel2.getEstagiosPlanos().get(0);
+//        EstagioPlano estagio2Anel2 = planoAnel2.getEstagiosPlanos().get(1);
+//        EstagioPlano estagio3Anel2 = planoAnel2.getEstagiosPlanos().get(2);
+//        EstagioPlano estagio4Anel2 = planoAnel2.getEstagiosPlanos().get(3);
+//
+//        planoAnel1.setAgrupamento(agrupamento);
+//        agrupamento.addPlano(planoAnel1);
+//
+//        List<Erro> erros = getErros(controlador);
+//        assertEquals(1, erros.size());
+//        assertThat(erros, org.hamcrest.Matchers.hasItems(
+//                new Erro(CONTROLADOR, "O Plano só poderá pertencer a um agrupamento se estiver em modo Coordenado.", "aneis[1].versoesPlanos[0].planos[0].agrupamento")
+//        ));
+//
+//        planoAnel1.setModoOperacao(ModoOperacaoPlano.TEMPO_FIXO_COORDENADO);
+//        planoAnel2.setModoOperacao(ModoOperacaoPlano.TEMPO_FIXO_COORDENADO);
+//
+//        planoAnel1.setTempoCiclo(60);
+//        estagio1Anel1.setTempoVerde(21);
+//        estagio2Anel1.setTempoVerde(21);
+//
+//        planoAnel2.setTempoCiclo(128);
+//        estagio1Anel2.setTempoVerde(10);
+//        estagio2Anel2.setTempoVerde(10);
+//        estagio3Anel2.setTempoVerde(10);
+//        estagio4Anel2.setTempoVerde(10);
+//
+//        planoAnel2.setAgrupamento(agrupamento);
+//        agrupamento.addPlano(planoAnel2);
+//
+//        erros = getErros(controlador);
+//        assertEquals(2, erros.size());
+//        assertThat(erros, org.hamcrest.Matchers.hasItems(
+//                new Erro(CONTROLADOR, "O Tempo de ciclo deve ser simétrico ou assimétrico ao tempo de ciclo dos controladores.", "aneis[0].versoesPlanos[0].planos[0].tempoCicloIgualOuMultiploDeTodoAgrupamento"),
+//                new Erro(CONTROLADOR, "O Tempo de ciclo deve ser simétrico ou assimétrico ao tempo de ciclo dos controladores.", "aneis[1].versoesPlanos[0].planos[0].tempoCicloIgualOuMultiploDeTodoAgrupamento")
+//        ));
+//
+//        planoAnel1.setTempoCiclo(180);
+//        estagio1Anel1.setTempoVerde(81);
+//        estagio2Anel1.setTempoVerde(81);
+//
+//        erros = getErros(controlador);
+//        assertEquals(2, erros.size());
+//        assertThat(erros, org.hamcrest.Matchers.hasItems(
+//                new Erro(CONTROLADOR, "O Tempo de ciclo deve ser simétrico ou assimétrico ao tempo de ciclo dos controladores.", "aneis[0].versoesPlanos[0].planos[0].tempoCicloIgualOuMultiploDeTodoAgrupamento"),
+//                new Erro(CONTROLADOR, "O Tempo de ciclo deve ser simétrico ou assimétrico ao tempo de ciclo dos controladores.", "aneis[1].versoesPlanos[0].planos[0].tempoCicloIgualOuMultiploDeTodoAgrupamento")
+//        ));
+//
+//        planoAnel2.setTempoCiclo(140);
+//        estagio1Anel2.setTempoVerde(12);
+//        estagio2Anel2.setTempoVerde(17);
+//        estagio3Anel2.setTempoVerde(13);
+//        estagio4Anel2.setTempoVerde(10);
+//
+//        erros = getErros(controlador);
+//        assertEquals(2, erros.size());
+//        assertThat(erros, org.hamcrest.Matchers.hasItems(
+//                new Erro(CONTROLADOR, "O Tempo de ciclo deve ser simétrico ou assimétrico ao tempo de ciclo dos controladores.", "aneis[0].versoesPlanos[0].planos[0].tempoCicloIgualOuMultiploDeTodoAgrupamento"),
+//                new Erro(CONTROLADOR, "O Tempo de ciclo deve ser simétrico ou assimétrico ao tempo de ciclo dos controladores.", "aneis[1].versoesPlanos[0].planos[0].tempoCicloIgualOuMultiploDeTodoAgrupamento")
+//        ));
+//
+//        planoAnel1.setTempoCiclo(70);
+//        estagio1Anel1.setTempoVerde(26);
+//        estagio2Anel1.setTempoVerde(26);
+//
+//        erros = getErros(controlador);
+//        assertThat(erros, Matchers.empty());
+//    }
 
     @Test
     public void testVerdeSeguranca() {

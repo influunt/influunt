@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import models.Anel;
 import models.Area;
+import models.Controlador;
 import models.Subarea;
 import org.apache.commons.lang3.ObjectUtils;
 
@@ -19,12 +21,12 @@ public class SubareaSerializer extends JsonSerializer<Subarea> {
     public void serialize(Subarea subarea, JsonGenerator jgen, SerializerProvider serializers) throws IOException, JsonProcessingException {
         jgen.writeStartObject();
         if (subarea.getId() == null) {
-            jgen.writeStringField("id", null);
+            jgen.writeNullField("id");
         } else {
             jgen.writeStringField("id", subarea.getId().toString());
         }
         if (subarea.getIdJson() == null) {
-            jgen.writeStringField("idJson", null);
+            jgen.writeNullField("idJson");
         } else {
             jgen.writeStringField("idJson", subarea.getIdJson().toString());
         }
@@ -45,6 +47,15 @@ public class SubareaSerializer extends JsonSerializer<Subarea> {
             area.setSubareas(null);
             jgen.writeObjectField("area", area);
         }
+
+        jgen.writeArrayFieldStart("controladores");
+        for (Controlador controlador : subarea.getControladores()) {
+            jgen.writeStartObject();
+            jgen.writeStringField("id", controlador.getId().toString());
+            jgen.writeEndObject();
+        }
+        jgen.writeEndArray();
+
         jgen.writeEndObject();
     }
 }

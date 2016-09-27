@@ -89,6 +89,10 @@ public class Anel extends Model implements Cloneable, Serializable {
     @Valid
     private List<VersaoPlano> versoesPlanos;
 
+    @ManyToMany(mappedBy = "aneis")
+    @JoinTable(name = "agrupamentos_aneis", joinColumns = {@JoinColumn(name = "anel_id")}, inverseJoinColumns = {@JoinColumn(name = "agrupamento_id")})
+    private List<Agrupamento> agrupamentos;
+
     @OneToOne(mappedBy = "anel", cascade = CascadeType.ALL)
     @Valid
     private Endereco endereco;
@@ -222,6 +226,7 @@ public class Anel extends Model implements Cloneable, Serializable {
         this.ativo = ativo;
     }
 
+    @JsonIgnore
     public String getIdAnel() {
         return String.format("%s-%d", this.controlador.getCLC(), this.posicao);
     }
@@ -439,6 +444,22 @@ public class Anel extends Model implements Cloneable, Serializable {
             return getVersaoPlanoAtivo();
         }
         return null;
+    }
+
+    public List<Agrupamento> getAgrupamentos() {
+        return agrupamentos;
+    }
+
+    public void setAgrupamentos(List<Agrupamento> agrupamentos) {
+        this.agrupamentos = agrupamentos;
+    }
+
+    public void addAgrupamento(Agrupamento agrupamento) {
+        if (getAgrupamentos() == null) {
+            setAgrupamentos(new ArrayList<Agrupamento>());
+        }
+
+        getAgrupamentos().add(agrupamento);
     }
 }
 

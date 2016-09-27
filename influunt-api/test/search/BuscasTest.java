@@ -14,9 +14,12 @@ import play.mvc.Result;
 import security.Auditoria;
 import uk.co.panaxiom.playjongo.PlayJongo;
 import utils.InfluuntQueryBuilder;
+import utils.InfluuntResultBuilder;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import static org.junit.Assert.*;
 import static play.test.Helpers.*;
@@ -227,8 +230,9 @@ public class BuscasTest extends WithInfluuntApplicationNoAuthentication {
         criarFabricanteModeloControlador();
 
         ObjectMapper mapper = new ObjectMapper();
-        List<ModeloControlador> modelos = mapper.readValue(new InfluuntQueryBuilder(ModeloControlador.class, null).query().get(DATA).toString(), new TypeReference<List<ModeloControlador>>() {
-        });
+
+        InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(ModeloControlador.class, null).query());
+        List<ModeloControlador> modelos = mapper.readValue(result.toJson().get(DATA).toString(), new TypeReference<List<ModeloControlador>>() {});
 
         assertEquals(1, modelos.size());
         assertNull(modelos.get(0).getFabricante().getNome());

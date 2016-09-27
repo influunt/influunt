@@ -1051,10 +1051,6 @@ public class ControladorCustomDeserializer {
             plano.setModoOperacao(ModoOperacaoPlano.valueOf(node.get("modoOperacao").asText()));
         }
 
-        if (node.has("agrupamento") && node.get("agrupamento").get("id") != null) {
-            plano.setAgrupamento(Agrupamento.find.byId(UUID.fromString(node.get("agrupamento").get("id").asText())));
-        }
-
         if (node.has("versaoPlano") && node.get("versaoPlano").has("idJson")) {
             final String versaoPlanoId = node.get("versaoPlano").get("idJson").asText();
             Consumer<Map<String, Map>> c = (caches) -> {

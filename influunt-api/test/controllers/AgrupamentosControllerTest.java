@@ -3,6 +3,7 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import config.WithInfluuntApplicationNoAuthentication;
 import models.*;
+import org.joda.time.LocalTime;
 import org.junit.Test;
 import play.libs.Json;
 import play.mvc.Http;
@@ -12,6 +13,7 @@ import play.test.Helpers;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 import static play.test.Helpers.route;
@@ -24,9 +26,15 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
         cidade.save();
 
         Area area = new Area();
-        area.setCidade(cidade);
         area.setDescricao(1);
+        area.setCidade(cidade);
         area.save();
+
+        Subarea subarea = new Subarea();
+        subarea.setArea(area);
+        subarea.setNome("Subarea 1");
+        subarea.setNumero(1);
+        subarea.save();
 
         Fabricante fabricante = new Fabricante();
         fabricante.setNome("Tesc");
@@ -35,65 +43,72 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
         ModeloControlador modeloControlador = new ModeloControlador();
         modeloControlador.setFabricante(fabricante);
         modeloControlador.setDescricao("Modelo 1");
-        modeloControlador.setLimiteAnel(4);
-        modeloControlador.setLimiteGrupoSemaforico(16);
-        modeloControlador.setLimiteDetectorPedestre(4);
-        modeloControlador.setLimiteDetectorVeicular(8);
-        modeloControlador.setLimiteEstagio(16);
         modeloControlador.save();
 
-        Controlador controlador = new Controlador();
-        controlador.setArea(area);
-        controlador.setModelo(modeloControlador);
-        controlador.setNumeroSMEE("1234");
-        controlador.setNumeroSMEEConjugado1("C1");
-        controlador.setNumeroSMEEConjugado2("C2");
-        controlador.setNumeroSMEEConjugado3("C3");
-        controlador.setFirmware("1.0rc");
-        Endereco enderecoPaulista = new Endereco();
-        enderecoPaulista.setLocalizacao("Av Paulista");
-        enderecoPaulista.setLatitude(1.0);
-        enderecoPaulista.setLongitude(2.0);
-        enderecoPaulista.setControlador(controlador);
-
-        Endereco enderecoBelaCintra = new Endereco();
-        enderecoBelaCintra.setLocalizacao("Rua Bela Cintra");
-        enderecoBelaCintra.setLatitude(3.0);
-        enderecoBelaCintra.setLongitude(4.0);
-        enderecoBelaCintra.setControlador(controlador);
-
-        controlador.setEndereco(enderecoPaulista);
-        controlador.setNomeEndereco("Av. Paulista com Bela Cintra");
-        controlador.save();
-
-        return controlador;
+        return new ControladorTestUtil(area, subarea, fabricante, modeloControlador).getControladorPlanos();
     }
 
-    @Test
-    public void testCriarNovoAgrupamento() {
-        Controlador controlador1 = getControlador();
-        controlador1.save();
-        assertNotNull(controlador1.getId());
-
-        List<Controlador> controladores = new ArrayList<Controlador>();
-        controladores.add(controlador1);
+    private Agrupamento getAgrupamento() {
+        Controlador controlador = getControlador();
+        controlador.save();
 
         Agrupamento agrupamento = new Agrupamento();
         agrupamento.setNome("Teste");
         agrupamento.setTipo(TipoAgrupamento.ROTA);
-        agrupamento.setControladores(controladores);
+        agrupamento.setNumero("1");
+        agrupamento.setDescricao("Agrupamento de Teste");
+        agrupamento.setDiaDaSemana(DiaDaSemana.DOMINGO);
+        agrupamento.setHorario(LocalTime.MIDNIGHT);
+        // Plano 2 não está configurado em todos os anéis
+        agrupamento.setPosicaoPlano(1);
+        agrupamento.setAneis(controlador.getAneis().stream().filter(Anel::isAtivo).collect(Collectors.toList()));
+        return agrupamento;
+    }
+
+    @Test
+    public void testCriarNovoAgrupamento() {
+        Controlador controlador = getControlador();
+        controlador.save();
+
+        Agrupamento agrupamento = getAgrupamento();
+        // Plano 2 não está configurado em todos os anéis
+        agrupamento.setPosicaoPlano(2);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
                 .uri(routes.AgrupamentosController.create().url()).bodyJson(Json.toJson(agrupamento));
         Result result = route(request);
+        assertEquals(422, result.status());
+        assertEquals(0, Agrupamento.find.findRowCount());
+
+        // Plano 1 está configurado em todos os anéis
+        agrupamento.setPosicaoPlano(1);
+        List<Anel> aneis = agrupamento.getAneis();
+        agrupamento.setAneis(new ArrayList<Anel>());
+
+        request = new Http.RequestBuilder().method("POST")
+                .uri(routes.AgrupamentosController.create().url()).bodyJson(Json.toJson(agrupamento));
+        result = route(request);
+        assertEquals(422, result.status());
+        assertEquals(0, Agrupamento.find.findRowCount());
+
+
+        agrupamento.setAneis(aneis);
+
+        request = new Http.RequestBuilder().method("POST")
+                .uri(routes.AgrupamentosController.create().url()).bodyJson(Json.toJson(agrupamento));
+        result = route(request);
+        assertEquals(200, result.status());
+        assertEquals(1, Agrupamento.find.findRowCount());
+
         JsonNode json = Json.parse(Helpers.contentAsString(result));
         Agrupamento agrupamentoRetornado = Json.fromJson(json, Agrupamento.class);
-
-        assertEquals(200, result.status());
-        assertEquals(TipoAgrupamento.ROTA, agrupamentoRetornado.getTipo());
-        assertEquals(1, agrupamentoRetornado.getControladores().size());
-        assertNotNull(agrupamentoRetornado.getControladores().get(0).getId());
-        assertNotNull(agrupamentoRetornado.getId());
+        assertEquals(agrupamento.getTipo(), agrupamentoRetornado.getTipo());
+        assertEquals(agrupamento.getNome(), agrupamentoRetornado.getNome());
+        assertEquals(agrupamento.getNumero(), agrupamentoRetornado.getNumero());
+        assertEquals(agrupamento.getDescricao(), agrupamentoRetornado.getDescricao());
+        assertEquals(agrupamento.getDiaDaSemana(), agrupamentoRetornado.getDiaDaSemana());
+        assertEquals(agrupamento.getHorario(), agrupamentoRetornado.getHorario());
+        assertEquals(agrupamento.getPosicaoPlano(), agrupamentoRetornado.getPosicaoPlano());
     }
 
     @Test
@@ -109,47 +124,40 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
 
     @Test
     public void testAtualizarAgrupamentoExistente() {
-        Controlador controlador1 = getControlador();
-        controlador1.save();
-        assertNotNull(controlador1.getId());
-
-        List<Controlador> controladores = new ArrayList<Controlador>();
-        controladores.add(controlador1);
-
-        Agrupamento agrupamento = new Agrupamento();
-        agrupamento.setTipo(TipoAgrupamento.CORREDOR);
-        agrupamento.setControladores(controladores);
-        agrupamento.setNome("Teste");
+        Agrupamento agrupamento = getAgrupamento();
         agrupamento.save();
 
         UUID agrupamentoId = agrupamento.getId();
         assertNotNull(agrupamentoId);
+        assertEquals("Teste", agrupamento.getNome());
+        assertEquals(TipoAgrupamento.ROTA, agrupamento.getTipo());
+        assertEquals("1", agrupamento.getNumero());
+        assertEquals("Agrupamento de Teste", agrupamento.getDescricao());
+        assertEquals(2, agrupamento.getAneis().size());
 
-
-        Agrupamento novoAgrupamento = new Agrupamento();
-        novoAgrupamento.setTipo(TipoAgrupamento.ROTA);
-        novoAgrupamento.setControladores(controladores);
-        novoAgrupamento.setNome("Teste 2");
+        agrupamento.setTipo(TipoAgrupamento.CORREDOR);
+        agrupamento.setNome("Teste 2");
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
                 .uri(routes.AgrupamentosController.update(agrupamentoId.toString()).url())
-                .bodyJson(Json.toJson(novoAgrupamento));
-
+                .bodyJson(Json.toJson(agrupamento));
         Result result = route(request);
         assertEquals(200, result.status());
 
         JsonNode json = Json.parse(Helpers.contentAsString(result));
         Agrupamento agrupamentoRetornado = Json.fromJson(json, Agrupamento.class);
 
-        assertEquals(TipoAgrupamento.ROTA, agrupamentoRetornado.getTipo());
-        assertEquals("Teste 2", agrupamentoRetornado.getNome());
         assertEquals(agrupamentoRetornado.getId(), agrupamentoId);
+        assertEquals(TipoAgrupamento.CORREDOR, agrupamentoRetornado.getTipo());
+        assertEquals("Teste 2", agrupamentoRetornado.getNome());
+        assertEquals("1", agrupamentoRetornado.getNumero());
+        assertEquals("Agrupamento de Teste", agrupamentoRetornado.getDescricao());
+        assertEquals(2, agrupamentoRetornado.getAneis().size());
     }
 
     @Test
     public void testApagarAgrupamentoExistente() {
-        Agrupamento agrupamento = new Agrupamento();
-        agrupamento.setTipo(TipoAgrupamento.CORREDOR);
+        Agrupamento agrupamento = getAgrupamento();
         agrupamento.save();
         assertNotNull(agrupamento.getId());
 
@@ -171,11 +179,11 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
 
     @Test
     public void testListarAgrupamentos() {
-        Agrupamento agrupamento = new Agrupamento();
+        Agrupamento agrupamento = getAgrupamento();
         agrupamento.setTipo(TipoAgrupamento.CORREDOR);
         agrupamento.save();
 
-        Agrupamento agrupamento1 = new Agrupamento();
+        Agrupamento agrupamento1 = getAgrupamento();
         agrupamento1.setTipo(TipoAgrupamento.ROTA);
         agrupamento1.save();
 
@@ -191,8 +199,7 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
 
     @Test
     public void testBuscarDadosAgrupamento() {
-        Agrupamento agrupamento = new Agrupamento();
-        agrupamento.setTipo(TipoAgrupamento.ROTA);
+        Agrupamento agrupamento = getAgrupamento();
         agrupamento.save();
         UUID agrupamentoId = agrupamento.getId();
         assertNotNull(agrupamentoId);

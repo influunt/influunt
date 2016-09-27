@@ -111,7 +111,7 @@ public class InfluuntQueryBuilder {
         return this;
     }
 
-    public JsonNode query() {
+    public InfluuntQueryResult query() {
         PagedList pagedList;
         Query query = Ebean.find(klass);
 
@@ -170,21 +170,22 @@ public class InfluuntQueryBuilder {
             }
         }
 
-        ObjectNode retorno = JsonNodeFactory.instance.objectNode();
-        List result = pagedList.getList();
-        JsonNode dataJson = null;
-        if (klass.equals(Controlador.class)) {
-            dataJson = new ControladorCustomSerializer().getControladoresJson(result);
-        } else {
-            dataJson = Json.toJson(result);
-        }
-        retorno.set("data", dataJson);
-        retorno.put("total", pagedList.getTotalRowCount());
 
-        return retorno;
+        return new InfluuntQueryResult(pagedList.getList(), pagedList.getTotalRowCount(), klass);
+
+//        ObjectNode retorno = JsonNodeFactory.instance.objectNode();
+//        JsonNode dataJson = null;
+//        if (klass.equals(Controlador.class)) {
+//            dataJson = new ControladorCustomSerializer().getControladoresJson(result);
+//        } else {
+//            dataJson = Json.toJson(result);
+//        }
+//        retorno.set("data", dataJson);
+//        retorno.put("total", pagedList.getTotalRowCount());
+//        return retorno;
     }
 
-    public JsonNode auditoriaQuery() {
+    public InfluuntQueryResult auditoriaQuery() {
         List<String> predicates = new ArrayList<>();
         MongoCursor<Auditoria> auditorias;
         int total = 0;
@@ -236,12 +237,13 @@ public class InfluuntQueryBuilder {
             total = Auditoria.auditorias().find().as(Auditoria.class).count();
         }
 
-        ObjectNode retorno = JsonNodeFactory.instance.objectNode();
-        JsonNode dataJson = Json.toJson(Auditoria.toList(auditorias));
-        retorno.set("data", dataJson);
-        retorno.put("total", total);
-
-        return retorno;
+        return new InfluuntQueryResult(Auditoria.toList(auditorias), total, klass);
+//        ObjectNode retorno = JsonNodeFactory.instance.objectNode();
+//        JsonNode dataJson = Json.toJson(Auditoria.toList(auditorias));
+//        retorno.set("data", dataJson);
+//        retorno.put("total", total);
+//
+//        return retorno;
     }
 
     @NotNull

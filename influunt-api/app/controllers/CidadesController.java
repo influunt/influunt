@@ -7,6 +7,7 @@ import checks.Erro;
 import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Cidade;
+import models.Sessao;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -14,6 +15,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
 import utils.InfluuntQueryBuilder;
+import utils.InfluuntResultBuilder;
 
 import java.util.List;
 import java.util.UUID;
@@ -58,7 +60,8 @@ public class CidadesController extends Controller {
 
     @Transactional
     public CompletionStage<Result> findAll() {
-        return CompletableFuture.completedFuture(ok(new InfluuntQueryBuilder(Cidade.class, request().queryString()).query()));
+        InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Cidade.class, request().queryString()).query());
+        return CompletableFuture.completedFuture(ok(result.toJson()));
     }
 
     @Transactional

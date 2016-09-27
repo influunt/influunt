@@ -5,6 +5,7 @@ import be.objectify.deadbolt.java.actions.Dynamic;
 import checks.Erro;
 import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
+import models.Fabricante;
 import models.Sessao;
 import models.Usuario;
 import play.db.ebean.Transactional;
@@ -14,11 +15,9 @@ import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
 import utils.InfluuntQueryBuilder;
+import utils.InfluuntResultBuilder;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
@@ -64,7 +63,8 @@ public class UsuariosController extends Controller {
     }
 
     public CompletionStage<Result> findAll() {
-        return CompletableFuture.completedFuture(ok(Json.toJson(new InfluuntQueryBuilder(Usuario.class, request().queryString()).fetch(Arrays.asList("area")).query())));
+        InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Usuario.class, request().queryString()).fetch(Collections.singletonList("area")).query());
+        return CompletableFuture.completedFuture(ok(result.toJson()));
     }
 
     @Transactional
@@ -115,7 +115,8 @@ public class UsuariosController extends Controller {
             String[] usuarioId = {id};
             params.putAll(request().queryString());
             params.put("usuario_id", usuarioId);
-            return CompletableFuture.completedFuture(ok(new InfluuntQueryBuilder(Sessao.class, params).query()));
+            InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Sessao.class, params).query());
+            return CompletableFuture.completedFuture(ok(result.toJson()));
         }
     }
 

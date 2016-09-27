@@ -4,8 +4,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import models.Agrupamento;
-import models.Controlador;
+import models.*;
 import org.apache.commons.lang3.ObjectUtils;
 
 import java.io.IOException;
@@ -18,41 +17,60 @@ public class AgrupamentoSerializer extends JsonSerializer<Agrupamento> {
     @Override
     public void serialize(Agrupamento agrupamento, JsonGenerator jgen, SerializerProvider serializers) throws IOException, JsonProcessingException {
         jgen.writeStartObject();
+
         if (agrupamento.getId() == null) {
-            jgen.writeStringField("id", null);
+            jgen.writeNullField("id");
         } else {
             jgen.writeStringField("id", agrupamento.getId().toString());
         }
+
         if (agrupamento.getNome() != null) {
-            jgen.writeStringField("nome", agrupamento.getNome().toString());
+            jgen.writeStringField("nome", agrupamento.getNome());
         }
+
         if (agrupamento.getNumero() != null) {
-            jgen.writeStringField("numero", agrupamento.getNumero().toString());
+            jgen.writeStringField("numero", agrupamento.getNumero());
         }
+
+        if (agrupamento.getDescricao() != null) {
+            jgen.writeStringField("descricao", agrupamento.getDescricao());
+        }
+
         if (agrupamento.getTipo() != null) {
-            jgen.writeObjectField("tipo", agrupamento.getTipo());
+            jgen.writeStringField("tipo", agrupamento.getTipo().toString());
         }
-        if (agrupamento.getDataCriacao() != null) {
-            jgen.writeStringField("dataCriacao", InfluuntDateTimeSerializer.parse(agrupamento.getDataCriacao()));
+
+        if (agrupamento.getDiaDaSemana() != null) {
+            jgen.writeStringField("diaDaSemana", agrupamento.getDiaDaSemana().name());
         }
-        if (agrupamento.getDataAtualizacao() != null) {
-            jgen.writeStringField("dataAtualizacao", InfluuntDateTimeSerializer.parse(agrupamento.getDataAtualizacao()));
+
+        if (agrupamento.getHorario() != null) {
+            jgen.writeStringField("horario", agrupamento.getHorario().toString());
         }
-        if (agrupamento.getControladores() != null) {
-            jgen.writeArrayFieldStart("controladores");
-            for (Controlador controlador : agrupamento.getControladores()) {
-                Controlador controladorAux = ObjectUtils.clone(controlador);
-                controladorAux.setAneis(null);
-                controladorAux.setModelo(null);
-                controladorAux.setArea(null);
-                controladorAux.setDetectores(null);
-                controladorAux.setGruposSemaforicos(null);
-                controladorAux.setAgrupamentos(null);
-                controladorAux.setVersoesTabelasHorarias(null);
-                jgen.writeObject(controladorAux);
+
+        if (agrupamento.getPosicaoPlano() != null) {
+            jgen.writeStringField("posicaoPlano", agrupamento.getPosicaoPlano().toString());
+        }
+
+        if (agrupamento.getAneis() != null) {
+            jgen.writeArrayFieldStart("aneis");
+            for (Anel anel : agrupamento.getAneis()) {
+                jgen.writeStartObject();
+                jgen.writeStringField("id", anel.getId().toString());
+                jgen.writeStringField("CLA", anel.getCLA());
+                jgen.writeEndObject();
             }
             jgen.writeEndArray();
         }
+
+        if (agrupamento.getDataCriacao() != null) {
+            jgen.writeStringField("dataCriacao", InfluuntDateTimeSerializer.parse(agrupamento.getDataCriacao()));
+        }
+
+        if (agrupamento.getDataAtualizacao() != null) {
+            jgen.writeStringField("dataAtualizacao", InfluuntDateTimeSerializer.parse(agrupamento.getDataAtualizacao()));
+        }
+
         jgen.writeEndObject();
     }
 }

@@ -31,6 +31,10 @@ public class StatusConexaoControlador {
 
     public boolean conectado;
 
+//    public boolean getConectado() {
+//        return conectado;
+//    }
+
     public StatusConexaoControlador(String idControlador, long timestamp, boolean conectado) {
         this.idControlador = idControlador;
         this.timestamp = timestamp;

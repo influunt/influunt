@@ -13,10 +13,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by lesiopinheiro on 8/3/16.
@@ -53,7 +50,7 @@ public class ControladorUtil {
         /*
          * ANEIS
          */
-        ArrayList<Anel> aneis = new ArrayList<Anel>();
+        ArrayList<Anel> aneisClonados = new ArrayList<Anel>();
         controlador.getAneis().forEach(anel -> {
             Anel anelAux = copyPrimitveFields(anel);
             anelAux.setControlador(controladorClone);
@@ -74,7 +71,7 @@ public class ControladorUtil {
                 anelAux.addEstagio(estagioAux);
                 estagios.put(estagio.getId(), estagioAux);
             });
-            aneis.add(anelAux);
+            aneisClonados.add(anelAux);
 
             /*
             * GRUPOS SEMAFORICOS
@@ -107,13 +104,12 @@ public class ControladorUtil {
             });
 
         });
-        controladorClone.setAneis(aneis);
-
-        // ASSOCIACAO ESTAGIO x GRUPO SEMAFORICO
+        controladorClone.setAneis(aneisClonados);
 
         // salvar o controlador para salvar os estagios e associa-los ao grupo semaforico
         Ebean.save(controladorClone);
 
+        // ASSOCIACAO ESTAGIO x GRUPO SEMAFORICO
         HashMap<String, Anel> aneisClone = new HashMap<String, Anel>();
         HashMap<String, Estagio> estagiosClone = new HashMap<String, Estagio>();
         HashMap<String, GrupoSemaforico> gruposClone = new HashMap<String, GrupoSemaforico>();
@@ -263,7 +259,6 @@ public class ControladorUtil {
                 anel.getPlanos().forEach(plano -> {
                     Plano planoAux = copyPrimitveFields(plano);
                     plano.setVersaoPlano(versaoPlano);
-                    planoAux.setAgrupamento(plano.getAgrupamento());
 
                     plano.getGruposSemaforicosPlanos().forEach(grupoSemaforicoPlano -> {
                         GrupoSemaforicoPlano gspAux = copyPrimitveFields(grupoSemaforicoPlano);
