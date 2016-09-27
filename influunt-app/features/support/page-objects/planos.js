@@ -46,7 +46,7 @@ var PlanosPage = function () {
   };
 
   this.isDiagramaApagado = function(indexGrupo) {
-    return world.waitFor('div#visualization div.vis-foreground div.vis-group:nth-child('+indexGrupo+') div.indicacao-apagado');
+    return world.waitFor('div#visualization div.vis-foreground div.vis-group.group:nth-child('+indexGrupo+') div.indicacao-apagado');
   };
 
   this.isDiagramaIntermitente = function(indexGrupo) {
