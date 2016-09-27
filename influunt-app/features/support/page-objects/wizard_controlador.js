@@ -423,12 +423,25 @@ var WizardControladorPage = function () {
     }, Promise.resolve());
   };
 
-  this.marcarTempoAtrasoGrupo = function(value, field) {
-    var baseSelector = 'influunt-knob[title="'+field+'"]';
+  this.marcarTempoAtrasoGrupo = function(tipoTransicao, value, posicao) {
+    var baseSelector = 'li[data-ng-repeat="transicao in '+tipoTransicao+'"] div.initial-position div.knob-item[id="'+posicao+'"] influunt-knob[title="Atraso de Grupo"]';
     world.sleep(500);
     return world.getElement(baseSelector + ' p.knob-value').click().then(function() {
       return world.resetValue(baseSelector + ' input.rs-input', value);
     }).then(world.waitForAnimationFinishes);
+  };
+
+  this.selecionarGrupo = function(grupo){
+    return world.execJavascript('window.scrollTo(0, 0);').then(function() {
+      return world.findLinkByText(grupo).click();
+    });
+  };
+
+  this.confirmaSemConfiguracao = function(){
+    var xpath = '//ins[contains(@class, "iCheck-helper")]';
+    return world.scrollToDown().then(function() {
+      return world.getElementByXpath(xpath).click();
+    });
   };
 
   this.marcarTempoEntreVerdes = function(value, field, transicao) {

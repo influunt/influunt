@@ -124,8 +124,18 @@ module.exports = function() {
     return wizardPage.errorMessagesVerdesConflitantesGrupo(grupo);
   });
 
-  this.Given(/^que o usuário marque (\d+) no tempo "([^"]*)"$/, function (value, field) {
-    return wizardPage.marcarTempoAtrasoGrupo(value, field);
+  this.Given(/^que o usuário marque (\d+) no campo (\d+) para transições com perda de direito de passagem$/, function (value, posicao) {
+    var tipoTransicao = 'currentTransicoes';
+    return wizardPage.marcarTempoAtrasoGrupo(tipoTransicao, value, posicao);
+  });
+
+  this.Given(/^que o usuário marque (\d+) no campo (\d+) para transições com ganho de direito de passagem$/, function (value, posicao) {
+    var tipoTransicao = 'currentTransicoesComPerdaDePassagem';
+    return wizardPage.marcarTempoAtrasoGrupo(tipoTransicao, value, posicao);
+  });
+
+  this.Given(/^que o usuário clique no grupo "([^"]*)"$/, function (grupo) {
+    return wizardPage.selecionarGrupo(grupo);
   });
 
   this.Given(/^que o usuário marque (\d+) no tempo "([^"]*)" da transição "([^"]*)"$/, function (value, field, transicao) {
@@ -162,6 +172,10 @@ module.exports = function() {
 
   this.Given(/^que o usuário clicar Confirmo que não há configurações a serem feitas aqui$/, function(){
     return wizardPage.selecionarValor();
+  });
+
+  this.Given(/^confirma que será utilizada a configuração padrão para esse grupo semafórico$/, function(){
+    return wizardPage.confirmaSemConfiguracao();
   });
 
   this.Given(/^o usuário deverá preecher a modificação com "([^"]*)"$/, function(valor){
