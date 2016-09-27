@@ -708,7 +708,7 @@ public class ControladorCustomSerializer {
         transicoesComPerdaDePassagemMap.values().stream().forEach(transicao -> {
             arrayJson.add(getTransicao(transicao));
         });
-        root.set("transicoesComPerdaDePassagem", arrayJson);
+        root.set("transicoesComGanhoDePassagem", arrayJson);
     }
 
     private void putControladorImagens(ObjectNode root) {
@@ -978,8 +978,8 @@ public class ControladorCustomSerializer {
         refVerdesConflitantes("verdesConflitantesOrigem", grupoSemaforico.getVerdesConflitantesOrigem(), grupoSemaforicoJson);
         refVerdesConflitantes("verdesConflitantesDestino", grupoSemaforico.getVerdesConflitantesDestino(), grupoSemaforicoJson);
         refEstagiosGruposSemaforicos("estagiosGruposSemaforicos", grupoSemaforico.getEstagiosGruposSemaforicos(), grupoSemaforicoJson);
-        refTransicoes("transicoes", grupoSemaforico.getTransicoesComGanhoDePassagem(), grupoSemaforicoJson);
-        refTransicoesComPerdaDePassagem("transicoesComPerdaDePassagem", grupoSemaforico.getTransicoesComPerdaDePassagem(), grupoSemaforicoJson);
+        refTransicoes("transicoes", grupoSemaforico.getTransicoesComPerdaDePassagem(), grupoSemaforicoJson);
+        refTransicoesComGanhoDePassagem("transicoesComGanhoDePassagem", grupoSemaforico.getTransicoesComGanhoDePassagem(), grupoSemaforicoJson);
         refEntreVerdes("tabelasEntreVerdes", grupoSemaforico.getTabelasEntreVerdes(), grupoSemaforicoJson);
 
         return grupoSemaforicoJson;
@@ -1409,7 +1409,7 @@ public class ControladorCustomSerializer {
         parentJson.set(name, transicoesJson);
     }
 
-    private void refTransicoesComPerdaDePassagem(String name, List<Transicao> transicoes, ObjectNode parentJson) {
+    private void refTransicoesComGanhoDePassagem(String name, List<Transicao> transicoes, ObjectNode parentJson) {
         ArrayNode transicoesJson = Json.newArray();
         for (Transicao transicao : transicoes) {
             if (transicao.getIdJson() != null) {

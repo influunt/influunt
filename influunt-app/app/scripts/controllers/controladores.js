@@ -226,8 +226,8 @@ angular.module('influuntApp')
         }
 
         if (angular.isDefined($scope.isAtrasoDeGrupo) && $scope.isAtrasoDeGrupo) {
-          var allTransicoesGrupo = _.union($scope.currentGrupoSemaforico.transicoes, $scope.currentGrupoSemaforico.transicoesComPerdaDePassagem);
-          var allTransicoes = _.union($scope.objeto.transicoes, $scope.objeto.transicoesComPerdaDePassagem);
+          var allTransicoesGrupo = _.union($scope.currentGrupoSemaforico.transicoes, $scope.currentGrupoSemaforico.transicoesComGanhoDePassagem);
+          var allTransicoes = _.union($scope.objeto.transicoes, $scope.objeto.transicoesComGanhoDePassagem);
           $scope.constroiTabelaOrigensEDestinos(allTransicoesGrupo, allTransicoes);
           $scope.setAtributos();
           $scope.atualizaTransicoes();
@@ -242,10 +242,10 @@ angular.module('influuntApp')
           $scope.currentTransicoes.push(transicao);
         });
 
-        $scope.currentTransicoesComPerdaDePassagem = [];
-        _.forEach($scope.currentGrupoSemaforico.transicoesComPerdaDePassagem, function(t) {
-          var transicao = _.find($scope.objeto.transicoesComPerdaDePassagem, { idJson: t.idJson });
-          $scope.currentTransicoesComPerdaDePassagem.push(transicao);
+        $scope.currentTransicoesComGanhoDePassagem = [];
+        _.forEach($scope.currentGrupoSemaforico.transicoesComGanhoDePassagem, function(t) {
+          var transicao = _.find($scope.objeto.transicoesComGanhoDePassagem, { idJson: t.idJson });
+          $scope.currentTransicoesComGanhoDePassagem.push(transicao);
         });
       };
 

@@ -66,11 +66,11 @@ angular.module('influuntApp')
               novoGrupoSemaforico.transicoes.push(novaTransicao);
             });
 
-            novoGrupoSemaforico.transicoesComPerdaDePassagem = [];
-            grupoSemaforico.transicoesComPerdaDePassagem.forEach(function(t){
-              var transicao = _.find(controlador.transicoesComPerdaDePassagem, {idJson: t.idJson});
+            novoGrupoSemaforico.transicoesComGanhoDePassagem = [];
+            grupoSemaforico.transicoesComGanhoDePassagem.forEach(function(t){
+              var transicao = _.find(controlador.transicoesComGanhoDePassagem, {idJson: t.idJson});
               var novaTransicao = _.cloneDeep(transicao);
-              novoGrupoSemaforico.transicoesComPerdaDePassagem.push(novaTransicao);
+              novoGrupoSemaforico.transicoesComGanhoDePassagem.push(novaTransicao);
             });
 
             novoEstagio.gruposSemaforicos.push(novoGrupoSemaforico);

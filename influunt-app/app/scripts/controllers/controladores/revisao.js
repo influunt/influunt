@@ -318,7 +318,7 @@ angular.module('influuntApp')
       $scope.atualizaTabelaDeAtrasoDeGrupo = function(grupo){
         if(grupo){
           $scope.gsAtrasoGrupo = grupo;
-          $scope.currentAtrasosDeGrupoGanhoPassagem = _
+          $scope.currentAtrasosDeGrupoPerdaPassagem = _
           .chain($scope.objeto.transicoes)
           .filter(function (transicao) { return transicao.grupoSemaforico.idJson === grupo.idJson;})
           .map(function(transicao) {
@@ -331,8 +331,8 @@ angular.module('influuntApp')
           })
           .value();
 
-          $scope.currentAtrasosDeGrupoPerdaPassagem = _
-          .chain($scope.objeto.transicoesComPerdaDePassagem)
+          $scope.currentAtrasosDeGrupoGanhoPassagem = _
+          .chain($scope.objeto.transicoesComGanhoDePassagem)
           .filter(function (transicao) { return transicao.grupoSemaforico.idJson === grupo.idJson;})
           .map(function(transicao) {
             var origem = _.find($scope.objeto.estagios, {idJson: transicao.origem.idJson});

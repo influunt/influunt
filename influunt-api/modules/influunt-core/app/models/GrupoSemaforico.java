@@ -370,14 +370,14 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
                         .filter(estagio ->
                                 !estagio.equals(estagioGrupoSemaforico.getEstagio()) && !estagioGrupoSemaforico.getEstagio().temTransicaoProibidaParaEstagio(estagio))
                         .forEach(estagio ->
-                                this.addTransicaoSeNecessario(new Transicao(this, estagioGrupoSemaforico.getEstagio(), estagio, TipoTransicao.GANHO_DE_PASSAGEM))));
+                                this.addTransicaoSeNecessario(new Transicao(this, estagioGrupoSemaforico.getEstagio(), estagio, TipoTransicao.PERDA_DE_PASSAGEM))));
 
         getEstagiosGruposSemaforicos().forEach(estagioGrupoSemaforico ->
                 this.getAnel().getEstagios().stream()
                         .filter(estagio ->
                                 !estagio.equals(estagioGrupoSemaforico.getEstagio()) && !estagio.temTransicaoProibidaParaEstagio(estagioGrupoSemaforico.getEstagio()))
                         .forEach(estagio ->
-                                this.addTransicaoSeNecessario(new Transicao(this, estagio, estagioGrupoSemaforico.getEstagio(), TipoTransicao.PERDA_DE_PASSAGEM))));
+                                this.addTransicaoSeNecessario(new Transicao(this, estagio, estagioGrupoSemaforico.getEstagio(), TipoTransicao.GANHO_DE_PASSAGEM))));
 
         getTransicoes().forEach(transicao -> {
             if (transicao.isDestroy()) {
@@ -407,7 +407,7 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
         if (transicaoAux != null) {
             transicaoAux.setDestroy(false);
         } else {
-            if (transicao.isGanhoDePassagem()) {
+            if (transicao.isPerdaDePassagem()) {
                 TabelaEntreVerdes tabelaEntreVerdes = this.findByTabelaEntreVerdesPadrao();
                 TabelaEntreVerdesTransicao tevTransicao = new TabelaEntreVerdesTransicao(tabelaEntreVerdes, transicao);
                 tabelaEntreVerdes.addTabelaEntreVerdesTransicao(tevTransicao);
