@@ -13,6 +13,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
 import utils.InfluuntQueryBuilder;
+import utils.InfluuntResultBuilder;
 
 import java.util.List;
 import java.util.UUID;
@@ -59,7 +60,8 @@ public class PerfisController extends Controller {
 
     @Transactional
     public CompletionStage<Result> findAll() {
-        return CompletableFuture.completedFuture(ok(new InfluuntQueryBuilder(Perfil.class, request().queryString()).query()));
+        InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Perfil.class, request().queryString()).query());
+        return CompletableFuture.completedFuture(ok(result.toJson()));
     }
 
     @Transactional

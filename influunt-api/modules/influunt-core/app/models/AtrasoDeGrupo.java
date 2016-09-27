@@ -1,23 +1,16 @@
 package models;
 
-import checks.ControladorAssociacaoDetectoresCheck;
-import checks.ControladorAtrasoDeGrupoCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
-import org.hibernate.validator.constraints.Range;
 import org.joda.time.DateTime;
-import play.Logger;
-import utils.RangeUtils;
 
 import javax.persistence.*;
-import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.UUID;

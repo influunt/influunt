@@ -15,6 +15,7 @@ import play.mvc.Security;
 import security.Secured;
 import services.ControladorService;
 import utils.InfluuntQueryBuilder;
+import utils.InfluuntResultBuilder;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -210,7 +211,8 @@ public class ControladoresController extends Controller {
     public CompletionStage<Result> findAll() {
         Usuario u = getUsuario();
         if (u.isRoot()) {
-            return CompletableFuture.completedFuture(ok(new InfluuntQueryBuilder(Controlador.class, request().queryString()).fetch(Arrays.asList("versaoControlador", "modelo")).query()));
+            InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Controlador.class, request().queryString()).fetch(Arrays.asList("versaoControlador", "modelo")).query());
+            return CompletableFuture.completedFuture(ok(result.toJson()));
         } else if (u.getArea() != null) {
             String[] areaId = {u.getArea().getId().toString()};
             Map<String, String[]> params = new HashMap<>();
@@ -219,7 +221,8 @@ public class ControladoresController extends Controller {
                 params.remove("area.descricao");
             }
             params.put("area.id", areaId);
-            return CompletableFuture.completedFuture(ok(new InfluuntQueryBuilder(Controlador.class, params).fetch(Arrays.asList("area", "versaoControlador", "modelo")).query()));
+            InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Controlador.class, params).fetch(Arrays.asList("area", "versaoControlador", "modelo")).query());
+            return CompletableFuture.completedFuture(ok(result.toJson()));
         }
         return CompletableFuture.completedFuture(forbidden());
     }
@@ -241,6 +244,27 @@ public class ControladoresController extends Controller {
             return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladoresForMapas(controladores)));
         }
 
+        return CompletableFuture.completedFuture(forbidden());
+    }
+
+    @Transactional
+    @Dynamic(value = "Influunt")
+    public CompletionStage<Result> getControladoresForAgrupamentos() {
+        Usuario u = getUsuario();
+        if (u.isRoot()) {
+            InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Controlador.class, request().queryString()).fetch(Collections.singletonList("aneis")).query());
+            return CompletableFuture.completedFuture(ok(result.toJson("agrupamentos")));
+        } else if (u.getArea() != null) {
+            String[] areaId = {u.getArea().getId().toString()};
+            Map<String, String[]> params = new HashMap<>();
+            params.putAll(ctx().request().queryString());
+            if (params.containsKey("area.descricao")) {
+                params.remove("area.descricao");
+            }
+            params.put("area.id", areaId);
+            InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Controlador.class, params).fetch(Arrays.asList("area", "versaoControlador", "modelo")).query());
+            return CompletableFuture.completedFuture(ok(result.toJson("agrupamentos")));
+        }
         return CompletableFuture.completedFuture(forbidden());
     }
 

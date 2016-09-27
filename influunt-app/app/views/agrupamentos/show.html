@@ -28,8 +28,13 @@
                         <td> {{ objeto.tipo }} </td>
                       </tr>
                       <tr>
-                        <th>{{ 'agrupamentos.controladores' | translate }}</th>
-                        <td data-ng-bind-html="objeto.controladores | resourceListToString: 'localizacao' "></td>
+                        <th>{{ 'agrupamentos.aneis' | translate }}</th>
+                        <td data-ng-bind-html="objeto.aneis | orderBy: 'CLA' | resourceListToString: 'CLA' "></td>
+                      </tr>
+                      <tr>
+                        <th>{{ 'agrupamentos.plano' | translate }}</th>
+                        <td>Plano {{ objeto.posicaoPlano }} ({{ objeto.diaDaSemana | diaDaSemana }} às {{ objeto.horario | influuntDate: 'HH:mm:ss' }})</td>
+                        <!-- <td data-ng-bind-html="objeto.aneis | orderBy: 'CLA' | resourceListToString: 'CLA' "></td> -->
                       </tr>
                       <tr>
                         <th>{{ 'geral.auditoria.dataCriacao' | translate }}</th>

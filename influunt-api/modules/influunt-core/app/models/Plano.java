@@ -13,7 +13,6 @@ import json.serializers.InfluuntDateTimeSerializer;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.Range;
 import org.joda.time.DateTime;
-import utils.InfluuntUtils;
 import utils.RangeUtils;
 
 import javax.persistence.*;
@@ -62,9 +61,6 @@ public class Plano extends Model implements Cloneable, Serializable {
     @ManyToOne
     @NotNull(message = "nao pode ser vazio")
     private VersaoPlano versaoPlano;
-
-    @ManyToOne
-    private Agrupamento agrupamento;
 
     @OneToMany(mappedBy = "plano", cascade = CascadeType.ALL)
     @Valid
@@ -152,10 +148,6 @@ public class Plano extends Model implements Cloneable, Serializable {
 
     public void setVersaoPlano(VersaoPlano versaoPlano) {
         this.versaoPlano = versaoPlano;
-    }
-
-    public Agrupamento getAgrupamento() {
-        return agrupamento;
     }
 
     public List<EstagioPlano> getEstagiosPlanos() {
@@ -326,22 +318,6 @@ public class Plano extends Model implements Cloneable, Serializable {
         return true;
     }
 
-    @AssertTrue(groups = PlanosCheck.class, message = "O Plano só poderá pertencer a um agrupamento se estiver em modo Coordenado.")
-    public boolean isAgrupamento() {
-        return !(!this.isTempoFixoCoordenado() && this.getAgrupamento() != null);
-    }
-
-    public void setAgrupamento(Agrupamento agrupamento) {
-        this.agrupamento = agrupamento;
-    }
-
-    @AssertTrue(groups = PlanosCheck.class, message = "O Tempo de ciclo deve ser simétrico ou assimétrico ao tempo de ciclo dos controladores.")
-    public boolean isTempoCicloIgualOuMultiploDeTodoAgrupamento() {
-        if (this.getAgrupamento() != null && this.getTempoCiclo() != null) {
-            return InfluuntUtils.getInstance().multiplo(this.getTempoCicloAgrupamento(), this.getTempoCiclo());
-        }
-        return true;
-    }
 
     public void addGruposSemaforicos(GrupoSemaforicoPlano grupoPlano) {
         if (getGruposSemaforicosPlanos() == null) {
@@ -399,19 +375,6 @@ public class Plano extends Model implements Cloneable, Serializable {
             }
         }
         return 0;
-    }
-
-    public Integer getTempoCicloAgrupamento() {
-        Plano plano = this.getAgrupamento().getPlanos()
-                .stream()
-                .filter(planoAux ->
-                        planoAux.getPosicao().equals(this.getPosicao()) && !planoAux.getIdJson().equals(this.getIdJson()))
-                .findFirst()
-                .orElse(null);
-        if (plano != null) {
-            return plano.getTempoCiclo();
-        }
-        return 1;
     }
 
     public List<EstagioPlano> ordenarEstagiosPorPosicao() {

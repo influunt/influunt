@@ -1,8 +1,8 @@
-alter table agrupamentos_controladores drop constraint if exists fk_agrupamentos_controladores_agrupamentos;
-drop index if exists ix_agrupamentos_controladores_agrupamentos;
+alter table agrupamentos_aneis drop constraint if exists fk_agrupamentos_aneis_agrupamentos;
+drop index if exists ix_agrupamentos_aneis_agrupamentos;
 
-alter table agrupamentos_controladores drop constraint if exists fk_agrupamentos_controladores_controladores;
-drop index if exists ix_agrupamentos_controladores_controladores;
+alter table agrupamentos_aneis drop constraint if exists fk_agrupamentos_aneis_aneis;
+drop index if exists ix_agrupamentos_aneis_aneis;
 
 alter table aneis drop constraint if exists fk_aneis_controlador_id;
 drop index if exists ix_aneis_controlador_id;
@@ -91,9 +91,6 @@ drop index if exists ix_permissoes_perfis_permissoes;
 alter table planos drop constraint if exists fk_planos_versao_plano_id;
 drop index if exists ix_planos_versao_plano_id;
 
-alter table planos drop constraint if exists fk_planos_agrupamento_id;
-drop index if exists ix_planos_agrupamento_id;
-
 alter table sessoes drop constraint if exists fk_sessoes_usuario_id;
 drop index if exists ix_sessoes_usuario_id;
 
@@ -169,7 +166,7 @@ drop index if exists ix_versoes_tabelas_horarias_usuario_id;
 
 drop table if exists agrupamentos;
 
-drop table if exists agrupamentos_controladores;
+drop table if exists agrupamentos_aneis;
 
 drop table if exists aneis;
 
