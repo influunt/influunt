@@ -126,6 +126,17 @@ public class ControladorCustomSerializer {
         return controladoresJson;
     }
 
+    public JsonNode getControladoresAgrupamentos(List<Controlador> controladores) {
+        ArrayNode controladoresJson = Json.newArray();
+        for (Controlador controlador : controladores) {
+            ObjectNode root = Json.newObject();
+            putControladorAgrupamentos(controlador, root);
+            controladoresJson.add(root);
+        }
+
+        return controladoresJson;
+    }
+
     public JsonNode getPacoteConfiguracaoJson(Controlador controlador) {
         controlador.setVersoesTabelasHorarias(null);
         controlador.setVersaoControlador(null);
@@ -375,6 +386,32 @@ public class ControladorCustomSerializer {
         }
 
         refEndereco("endereco", controlador.getEndereco(), root);
+    }
+
+    private void putControladorAgrupamentos(Controlador controlador, ObjectNode root) {
+        if (controlador.getId() != null) {
+            root.put("id", controlador.getId().toString());
+        }
+
+        if (controlador.getNomeEndereco() != null) {
+            root.put("nomeEndereco", controlador.getNomeEndereco());
+        }
+
+        root.put("CLC", controlador.getCLC());
+
+        if (controlador.getStatusControlador() != null) {
+            root.put("statusControlador", controlador.getStatusControlador().toString());
+        }
+
+        ArrayNode aneisJson = root.putArray("aneis");
+        controlador.getAneis().stream().filter(Anel::isAtivo).forEach(anel -> {
+            Map<String, Object> anelMap = new HashMap<>();
+            anelMap.put("id", anel.getId().toString());
+            anelMap.put("CLA", anel.getCLA());
+            anelMap.put("ativo", anel.isAtivo());
+            anelMap.put("posicao", anel.getPosicao());
+            aneisJson.add(Json.toJson(anelMap));
+        });
     }
 
     private void putControladorModelo(ModeloControlador modeloControlador, ObjectNode root) {
@@ -768,9 +805,6 @@ public class ControladorCustomSerializer {
         }
         if (plano.getAnel() != null && plano.getAnel().getIdJson() != null) {
             planoJson.putObject("anel").put("idJson", plano.getAnel().getIdJson().toString());
-        }
-        if (plano.getAgrupamento() != null && plano.getAgrupamento().getIdJson() != null) {
-            planoJson.putObject("agrupamento").put("idJson", plano.getAgrupamento().getIdJson().toString());
         }
 
         refVersoesPlanos("versaoPlano", plano.getVersaoPlano(), planoJson);

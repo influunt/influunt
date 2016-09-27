@@ -473,6 +473,26 @@ public class ControladorTestUtil {
         return controlador;
     }
 
+    public Controlador getControladorAgrupamentos() {
+        Controlador controlador = getControladorTabelaHorario();
+        controlador.save();
+
+        Agrupamento agrupamento = new Agrupamento();
+        agrupamento.setTipo(TipoAgrupamento.ROTA);
+        agrupamento.setNome("Rota 1");
+        agrupamento.setNumero("1");
+        agrupamento.setDiaDaSemana(DiaDaSemana.DOMINGO);
+        agrupamento.setHorario(LocalTime.MIDNIGHT);
+        agrupamento.setPosicaoPlano(1);
+        controlador.getAneis()
+                .stream()
+                .filter(Anel::isAtivo)
+                .forEach(agrupamento::addAnel);
+        agrupamento.save();
+
+        return controlador;
+    }
+
     // METODOS AUXILIARES
 
     protected void criarGrupoSemaforicoPlano(Anel anel, Plano plano) {

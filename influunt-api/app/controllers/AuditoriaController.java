@@ -10,6 +10,7 @@ import play.mvc.Security;
 import security.Auditoria;
 import security.Secured;
 import utils.InfluuntQueryBuilder;
+import utils.InfluuntResultBuilder;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -33,7 +34,8 @@ public class AuditoriaController extends Controller {
     }
 
     public CompletionStage<Result> findAll() {
-        return CompletableFuture.completedFuture(ok(Json.toJson(new InfluuntQueryBuilder(Auditoria.class, request().queryString()).auditoriaQuery())));
+        InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Auditoria.class, request().queryString()).auditoriaQuery());
+        return CompletableFuture.completedFuture(ok(result.toJson()));
     }
 
 

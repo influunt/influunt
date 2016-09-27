@@ -12,7 +12,7 @@ angular.module('influuntApp')
       restrict: 'A',
       scope: {
         isDisabled: '=',
-        ngModel: '=',
+        ngModel: '=?',
         ifChanged: '&',
         ifChecked: '&',
         ifUnchecked: '&'

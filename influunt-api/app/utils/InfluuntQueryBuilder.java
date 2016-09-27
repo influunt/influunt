@@ -1,16 +1,11 @@
 package utils;
 
 import com.avaje.ebean.*;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import json.ControladorCustomSerializer;
 import models.Controlador;
 import models.StatusVersao;
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 import org.jongo.MongoCursor;
-import play.libs.Json;
 import security.Auditoria;
 
 import java.util.*;
@@ -111,7 +106,7 @@ public class InfluuntQueryBuilder {
         return this;
     }
 
-    public JsonNode query() {
+    public InfluuntQueryResult query() {
         PagedList pagedList;
         Query query = Ebean.find(klass);
 
@@ -170,21 +165,10 @@ public class InfluuntQueryBuilder {
             }
         }
 
-        ObjectNode retorno = JsonNodeFactory.instance.objectNode();
-        List result = pagedList.getList();
-        JsonNode dataJson = null;
-        if (klass.equals(Controlador.class)) {
-            dataJson = new ControladorCustomSerializer().getControladoresJson(result);
-        } else {
-            dataJson = Json.toJson(result);
-        }
-        retorno.set("data", dataJson);
-        retorno.put("total", pagedList.getTotalRowCount());
-
-        return retorno;
+        return new InfluuntQueryResult(pagedList.getList(), pagedList.getTotalRowCount(), klass);
     }
 
-    public JsonNode auditoriaQuery() {
+    public InfluuntQueryResult auditoriaQuery() {
         List<String> predicates = new ArrayList<>();
         MongoCursor<Auditoria> auditorias;
         int total = 0;
@@ -236,12 +220,7 @@ public class InfluuntQueryBuilder {
             total = Auditoria.auditorias().find().as(Auditoria.class).count();
         }
 
-        ObjectNode retorno = JsonNodeFactory.instance.objectNode();
-        JsonNode dataJson = Json.toJson(Auditoria.toList(auditorias));
-        retorno.set("data", dataJson);
-        retorno.put("total", total);
-
-        return retorno;
+        return new InfluuntQueryResult(Auditoria.toList(auditorias), total, klass);
     }
 
     @NotNull

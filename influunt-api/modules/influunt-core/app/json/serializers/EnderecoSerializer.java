@@ -33,7 +33,6 @@ public class EnderecoSerializer extends JsonSerializer<Endereco> {
         }
         if (endereco.getControlador() != null) {
             Controlador controlador = ObjectUtils.clone(endereco.getControlador());
-            controlador.setAgrupamentos(null);
             controlador.setAneis(null);
             controlador.setDetectores(null);
             controlador.setEndereco(null);

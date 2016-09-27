@@ -10,9 +10,9 @@
 angular.module('influuntApp')
   .controller('TabelaHorariosCtrl', ['$scope', '$state', '$timeout', 'Restangular', '$filter', 'toast',
                            'influuntAlert', 'influuntBlockui', 'geraDadosDiagramaIntervalo',
-                           'handleValidations', 'TabelaHorariaService',
+                           'handleValidations', 'TabelaHorariaService', 'HorariosService',
     function ($scope, $state, $timeout, Restangular, $filter, toast,
-              influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo, handleValidations, TabelaHorariaService) {
+              influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo, handleValidations, TabelaHorariaService, HorariosService) {
 
       var adicionaTabelaHorario, adicionaEvento, atualizaPlanos, atualizaDiagramaIntervalo, atualizaGruposSemaforicos, atualizaEventos,
       atualizaEventosNormais, atualizaPosicaoEventosDoTipo, atualizaPosicaoEventos, atualizaQuantidadeEventos, removerEventoNoCliente,
@@ -34,79 +34,12 @@ angular.module('influuntApp')
             $scope.objeto = res;
             $scope.comCheckBoxGrupo = false;
             $scope.currentTipoEvento = NORMAL;
-            $scope.dias = [
-              {
-                label: 'Todos os dias da semana',
-                value: 'TODOS_OS_DIAS',
-                dias: ['dom','seg','ter','qua','qui','sex','sab'],
-                prioridade:11
-              },
-              {
-                label: 'Domingo',
-                value: 'DOMINGO',
-                dias: ['dom'],
-                prioridade:7
-              },
-              {
-                label: 'Segunda-feira',
-                value: 'SEGUNDA',
-                dias: ['seg'] ,
-                prioridade:6,
-              },
-              {
-                label: 'Terça-feira',
-                value: 'TERCA',
-                dias: ['ter'],
-                prioridade:5
-              },
-              {
-                label: 'Quarta-feira',
-                value: 'QUARTA',
-                dias: ['qua'],
-                prioridade:4,
-              },
-              {
-                label: 'Quinta-feira',
-                value: 'QUINTA',
-                dias: ['qui'],
-                prioridade:3
-              },
-              {
-                label: 'Sexta-feira',
-                value: 'SEXTA',
-                dias: ['sex'],
-                prioridade:2
-              },
-              {
-                label: 'Sábado',
-                value: 'SABADO',
-                dias: ['sab'],
-                prioridade:1
-              },
-              {
-                label: 'Sábado e Domingo',
-                value: 'SABADO_A_DOMINGO',
-                dias: ['dom','sab'],
-                prioridade:8
-              },
 
-              {
-                label: 'Segunda à Sexta',
-                value: 'SEGUNDA_A_SEXTA',
-                dias: ['seg','ter','qua','qui','sex'],
-                prioridade:9
-              },
-              {
-                label: 'Segunda à Sábado',
-                value: 'SEGUNDA_A_SABADO',
-                dias: ['seg','ter','qua','qui','sex','sab'],
-                prioridade:10
-              }
-            ];
-            $scope.horarios = $scope.getTimes(24);
-            $scope.minutos = $scope.getTimes(60);
-            $scope.segundos = $scope.getTimes(60);
-            $scope.planos = $scope.getTimes(16);
+            $scope.dias = HorariosService.getDias();
+            $scope.horarios = HorariosService.getHoras();
+            $scope.minutos = HorariosService.getMinutos();
+            $scope.segundos = HorariosService.getSegundos();
+            $scope.planos = HorariosService.getPlanos();
 
             $scope.tipoEventos = [
               {posicao: ''},
@@ -241,10 +174,6 @@ angular.module('influuntApp')
 
       $scope.selecionaEvento = function(evento){
         $scope.currentEvento = evento;
-      };
-
-      $scope.getTimes = function(quantidade){
-        return new Array(quantidade);
       };
 
       $scope.verificaAtualizacaoDeEventos = function(evento) {

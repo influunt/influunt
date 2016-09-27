@@ -14,6 +14,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
 import utils.InfluuntQueryBuilder;
+import utils.InfluuntResultBuilder;
 
 import javax.validation.groups.Default;
 import java.util.Arrays;
@@ -60,7 +61,8 @@ public class SubareasController extends Controller {
 
     @Transactional
     public CompletionStage<Result> findAll() {
-        return CompletableFuture.completedFuture(ok(Json.toJson(new InfluuntQueryBuilder(Subarea.class, request().queryString()).fetch(Arrays.asList("area", "area.cidade")).query())));
+        InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Subarea.class, request().queryString()).fetch(Arrays.asList("area", "area.cidade")).query());
+        return CompletableFuture.completedFuture(ok(result.toJson()));
     }
 
     @Transactional

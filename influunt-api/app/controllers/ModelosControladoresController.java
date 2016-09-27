@@ -7,6 +7,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import utils.InfluuntQueryBuilder;
+import utils.InfluuntResultBuilder;
 
 import java.util.Arrays;
 import java.util.UUID;
@@ -17,7 +18,8 @@ public class ModelosControladoresController extends Controller {
 
     @Transactional
     public CompletionStage<Result> findAll() {
-        return CompletableFuture.completedFuture(ok(new InfluuntQueryBuilder(ModeloControlador.class, request().queryString()).fetch(Arrays.asList("fabricante")).query()));
+        InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(ModeloControlador.class, request().queryString()).fetch(Arrays.asList("fabricante")).query());
+        return CompletableFuture.completedFuture(ok(result.toJson()));
     }
 
     @Transactional

@@ -106,7 +106,6 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         assertNotNull("ID Controldor Clonado", controladorClonado.getId());
         assertNotEquals("Teste de Id Diferentes", controlador.getId(), controladorClonado.getId());
         assertEquals("Teste de Aneis", controlador.getAneis().size(), controladorClonado.getAneis().size());
-        assertEquals("Teste de Agrupamentos", controlador.getAgrupamentos().size(), controladorClonado.getAgrupamentos().size());
         assertEquals("Teste de Area", controlador.getArea(), controladorClonado.getArea());
         assertEquals("Teste de Subarea", controlador.getSubarea(), controladorClonado.getSubarea());
         assertEquals("Teste de Modelo", controlador.getModelo(), controladorClonado.getModelo());
@@ -289,7 +288,6 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         assertNotNull("ID Controldor Clonado", controladorClonado.getId());
         assertNotEquals("Teste de Id Diferentes", controlador.getId(), controladorClonado.getId());
         assertEquals("Teste de Aneis", controlador.getAneis().size(), controladorClonado.getAneis().size());
-        assertEquals("Teste de Agrupamentos", controlador.getAgrupamentos().size(), controladorClonado.getAgrupamentos().size());
         assertEquals("Teste de Area", controlador.getArea(), controladorClonado.getArea());
         assertEquals("Teste de Subarea", controlador.getSubarea(), controladorClonado.getSubarea());
         assertEquals("Teste de Modelo", controlador.getModelo(), controladorClonado.getModelo());
@@ -373,9 +371,6 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
                 versaoAnterior.getPlanos().forEach(origem -> {
                     Plano destino = versaoEdicao.getPlanos().stream().filter(aux -> aux.getPosicao().equals(origem.getPosicao())).findFirst().orElse(null);
                     assertEquals("Teste Anel | Plano | Anel: ", origem.getAnel().getIdJson(), destino.getAnel().getIdJson());
-                    if (origem.getAgrupamento() != null) {
-                        assertEquals("Teste Anel | Plano | Agrupamento: ", origem.getAgrupamento().getIdJson(), destino.getAgrupamento().getIdJson());
-                    }
                     assertFields(origem, destino);
 
                     origem.getEstagiosPlanos().forEach(estagioPlano -> {
@@ -595,6 +590,78 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
         assertEquals("Total Tabela Horarias", totalTabelaHorarias, Ebean.find(TabelaHorario.class).findRowCount());
         assertEquals("Total Versoes Tabela Horarias", totalVersoesTabelasHorarias, Ebean.find(VersaoTabelaHoraria.class).findRowCount());
+    }
+
+    @Test
+    public void deveriaAssociarAgrupamentoQuandoAtivar() {
+        Controlador controlador = controladorTestUtils.getControladorAgrupamentos();
+        controlador.update();
+
+        // primeira ativação
+        Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
+                .uri(routes.ControladoresController.ativar(controlador.getId().toString()).url());
+        Result result = route(request);
+        assertEquals(200, result.status());
+
+        // criar nova versão do controlador
+        request = new Http.RequestBuilder().method("GET")
+                .uri(routes.ControladoresController.edit(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+        result = route(request);
+        assertEquals(200, result.status());
+
+        JsonNode json = Json.parse(Helpers.contentAsString(result));
+        Controlador controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
+
+        Agrupamento.find.findList().forEach(agrupamento -> {
+            agrupamento.getAneis().forEach(anelAgrupamento -> {
+
+                Anel anelControlador = controlador.getAneis().stream()
+                        .filter(anel -> anel.getId().equals(anelAgrupamento.getId()))
+                        .findFirst()
+                        .orElse(null);
+                // anel antigo deve continuar associado ao controlador
+                assertNotNull(anelControlador);
+
+                Anel anelClonado = controladorClonado.getAneis().stream()
+                        .filter(anel -> anel.getId().equals(anelAgrupamento.getId()))
+                        .findFirst()
+                        .orElse(null);
+                // anel clonado NÃO deve estar associado ao controlador
+                // após o clone
+                assertNull(anelClonado);
+
+            });
+        });
+
+        // ativar nova versão
+        request = new Http.RequestBuilder().method("PUT")
+                .uri(routes.ControladoresController.ativar(controladorClonado.getId().toString()).url());
+        result = route(request);
+        assertEquals(200, result.status());
+
+        Controlador controladorAtivo = Controlador.find.byId(controladorClonado.getId());
+
+        Agrupamento.find.findList().forEach(agrupamento -> {
+            agrupamento.getAneis().forEach(anelAgrupamento -> {
+
+                Anel anelControlador = controlador.getAneis().stream()
+                        .filter(anel -> anel.getId().equals(anelAgrupamento.getId()))
+                        .findFirst()
+                        .orElse(null);
+                // anel antigo deve ser removido do agrupamento
+                // ao ativar o controlador
+                assertNull(anelControlador);
+
+                Anel anelClonado = controladorAtivo.getAneis().stream()
+                        .filter(anel -> anel.getId().equals(anelAgrupamento.getId()))
+                        .findFirst()
+                        .orElse(null);
+                // anel clonado deve estar associado ao controlador
+                // após a ativação
+                assertNotNull(anelClonado);
+
+            });
+        });
     }
 
     private <T> void assertFields(T origem, T destino) {
