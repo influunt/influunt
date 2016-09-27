@@ -49,6 +49,7 @@ angular.module('influuntApp')
             $scope.dados_status = _.countBy(_.values(res.status), _.identity);
             $scope.dados_onlines = _.countBy(_.values(res.onlines), _.identity);
             $scope.modos_operacoes = _.countBy(_.values(res.modosOperacoes), _.identity);
+            $scope.erros_controladores = res.erros.data;
           })
           .catch(function(err) {
             if (err.status === 401) {

@@ -14,6 +14,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
+import status.ErrosControlador;
 import status.ModoOperacaoControlador;
 import status.StatusConexaoControlador;
 import status.StatusControladorFisico;
@@ -38,11 +39,13 @@ public class MonitoramentoController extends Controller {
         HashMap<String, StatusDevice> status = StatusControladorFisico.ultimoStatusDosControladores();
         HashMap<String, Boolean> onlines = StatusConexaoControlador.ultimoStatusDosControladores();
         HashMap<String, ModoOperacaoPlano> modos = ModoOperacaoControlador.ultimoModoOperacaoDosControladores();
+        HashMap<String, Object> erros = ErrosControlador.ultimosErrosDosControladoresPorErro(10);
 
         ObjectNode retorno = JsonNodeFactory.instance.objectNode();
         retorno.set("status", Json.toJson(status));
         retorno.set("onlines", Json.toJson(onlines));
         retorno.set("modosOperacoes", Json.toJson(onlines));
+        retorno.set("erros", controladoresToJson(erros));
 
         return CompletableFuture.completedFuture(ok(Json.toJson(retorno)));
     }
@@ -78,10 +81,14 @@ public class MonitoramentoController extends Controller {
         controladores.forEach(controlador -> {
             LinkedHashMap status = ((LinkedHashMap) controladoresStauts.get(controlador.getId().toString()));
             Long timestamp = 0L;
+            String motivoFalhaControlador = "";
             if (status != null) {
                 timestamp = (Long) status.get("timestamp");
+                if(status.get("motivoFalhaControlador") != null) {
+                    motivoFalhaControlador = status.get("motivoFalhaControlador").toString();
+                }
             }
-            itens.addObject().put("id", controlador.getId().toString()).put("clc", controlador.getCLC()).put("endereco", controlador.getNomeEndereco()).put("data", timestamp);
+            itens.addObject().put("id", controlador.getId().toString()).put("clc", controlador.getCLC()).put("endereco", controlador.getNomeEndereco()).put("data", timestamp).put("motivoFalha", motivoFalhaControlador);
         });
         ObjectNode retorno = JsonNodeFactory.instance.objectNode();
         retorno.putArray("data").addAll(itens);

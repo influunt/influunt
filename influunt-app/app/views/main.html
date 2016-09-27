@@ -129,49 +129,22 @@
   <div class="col-lg-4 col-sm-12">
     <div class="ibox float-e-margins white-bg">
       <div class="ibox-content ibox-heading yellow-bg">
-        <h3><strong>3</strong> {{ 'main.controlApresentando' | translate }} <strong>{{ 'main.falhas' | translate }}</strong></h3>
+        <h3><strong>{{erros_controladores.length || 'Nenhum'}}</strong> {{ 'main.controlApresentando' | translate }} <strong>{{ 'main.falhas' | translate }}</strong></h3>
         <small><i class="fa fa-check-circle"></i> 5 {{ 'main.recuperaFalhas' | translate }}</small>
       </div>
       <div class="ibox-content inspinia-timeline">
-        <div class="timeline-item">
+        <div class="timeline-item" ng-repeat="erro in erros_controladores">
           <div class="row">
             <div class="col-xs-3 date">
-              <i class="fa fa-plug navy-bg"></i> 6:20
+              <i class="fa fa-plug text-danger"></i> {{erro.data | influuntDate: 'HH:mm:ss'}}
               <br>
-              <small class="text-navy">1 e 40 horas atrás</small>
+              <small class="text-navy">{{erro.data | influuntDate: 'fromNow'}}</small>
             </div>
             <div class="col-xs-7 content no-top-border">
-              <p class="m-b-xs"><strong>{{ 'main.quedaEnergia' | translate }}</strong></p>
-              <p><strong>547961-7</strong><br>Av Paulista com Consolação</p>
+              <p class="m-b-xs"><strong>{{ erro.motivoFalha | humanize }}</strong></p>
+              <p><strong>{{erro.clc}}</strong><br>{{erro.endereco}}</p>
             </div>
           </div>
-        </div>
-        <div class="timeline-item">
-          <div class="row">
-            <div class="col-xs-3 date">
-              <i class="fa fa-plug btn-danger"></i> 6:00
-              <br>
-              <small class="text-navy">2 horas atrás</small>
-            </div>
-            <div class="col-xs-7 content no-top-border">
-              <p class="m-b-xs"><strong>{{ 'main.quedaEnergia' | translate }}</strong></p>
-              <p><strong>547961-7</strong><br>Av Paulista com Consolação</p>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="row">
-              <div class="col-xs-3 date">
-                <i class="fa fa-lightbulb-o btn-warning"></i> 6:00
-                <br>
-                <small class="text-navy">2 horas atrás</small>
-              </div>
-              <div class="col-xs-7 content no-top-border">
-                <p class="m-b-xs"><strong>{{ 'main.faseQueimada' | translate }}</strong></p>
-                <p><strong>547961-7</strong><br>Av Paulista com Consolação</p>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
