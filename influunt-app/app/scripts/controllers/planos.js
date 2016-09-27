@@ -20,8 +20,8 @@ angular.module('influuntApp')
       var adicionaPlano, selecionaAnel, atualizaTabelaEntreVerdes, atualizaEstagios, atualizaGruposSemaforicos, atualizaPlanos,
           atualizaEstagiosPlanos, adicionaEstagioASequencia, atualizaPosicaoPlanos, atualizaPosicaoEstagiosPlanos,
           carregaDadosPlano, getOpcoesEstagiosDisponiveis, montaTabelaValoresMinimos, parseAllToInt, setDiagramaEstatico,
-          atualizaDiagramaIntervalos, getPlanoParaDiagrama, atualizaTransicoesProibidas, getErrosGruposSemaforicosPlanos,
-          duplicarPlano, removerPlanoLocal, getErrosUltrapassaTempoSeguranca, getKeysErros,
+          atualizaDiagramaIntervalos, getPlanoParaDiagrama, atualizaTransicoesProibidas, getErrosGruposSemaforicosPlanos, 
+          getErrosPlanoAtuadoSemDetector, duplicarPlano, removerPlanoLocal, getErrosUltrapassaTempoSeguranca, getKeysErros,
           getIdJsonDePlanosQuePossuemErros, getPlanoComErro;
       var diagramaDebouncer = null;
 
@@ -549,7 +549,7 @@ angular.module('influuntApp')
         return erros;
       };
 
-      var getErrosPlanoAtuadoSemDetector = function(listaErros) {
+      getErrosPlanoAtuadoSemDetector = function(listaErros) {
         var erros = _.get(listaErros, 'planos['+ $scope.currentPlanoIndex +'].modoOperacaoValido');
         if (erros) {
           return erros;
@@ -830,6 +830,7 @@ angular.module('influuntApp')
           return {
             ativado: grupo.tipo === 'VEICULAR',
             posicao: grupo.posicao,
+            labelPosicao: grupo.posicao,
             intervalos: [{
               status: grupo.tipo === 'VEICULAR' ? modo : modoApagado,
               duracao: $scope.currentPlano.tempoCiclo || $scope.objeto.cicloMax
