@@ -60,7 +60,6 @@ public class ModoOperacaoControlador {
                 modos().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'},'modoOperacao': {$first:'$modoOperacao'}}}").
                         as(Map.class);
         for (Map m : ultimoStatus) {
-            Logger.error("KKKKK: " + m.get("modoOperacao").toString());
             hash.put(m.get("_id").toString(), ModoOperacaoPlano.valueOf(m.get("modoOperacao").toString()));
         }
 

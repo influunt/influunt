@@ -42,7 +42,7 @@ public class MonitoramentoController extends Controller {
         ObjectNode retorno = JsonNodeFactory.instance.objectNode();
         retorno.set("status", Json.toJson(status));
         retorno.set("onlines", Json.toJson(onlines));
-        retorno.set("modosOperacoes", Json.toJson(onlines));
+        retorno.set("modosOperacoes", Json.toJson(modos));
         retorno.set("erros", controladoresToJson(erros));
         retorno.set("imposicaoPlanos", Json.toJson(imposicaoPlanos));
 
@@ -83,7 +83,7 @@ public class MonitoramentoController extends Controller {
             String motivoFalhaControlador = "";
             if (status != null) {
                 timestamp = (Long) status.get("timestamp");
-                if(status.get("motivoFalhaControlador") != null) {
+                if (status.get("motivoFalhaControlador") != null) {
                     motivoFalhaControlador = status.get("motivoFalhaControlador").toString();
                 }
             }
