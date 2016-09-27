@@ -14,8 +14,8 @@ describe('Service: utilControladores', function () {
 
   describe('parseLimitsToInt', function () {
     var knownFields = [
-      'amareloMax', 'amareloMin', 'atrasoGrupoMin', 'cicloMax', 'cicloMin', 'defasagemMin', 'extensaVerdeMax',
-      'extensaVerdeMin', 'maximoPermanenciaEstagioMax', 'maximoPermanenciaEstagioMin', 'verdeIntermediarioMax',
+      'amareloMax', 'amareloMin', 'atrasoGrupoMin', 'cicloMax', 'cicloMin', 'defasagemMin', 'extensaoVerdeMax',
+      'extensaoVerdeMin', 'maximoPermanenciaEstagioMax', 'maximoPermanenciaEstagioMin', 'verdeIntermediarioMax',
       'verdeIntermediarioMin', 'verdeMax', 'verdeMaximoMax', 'verdeMaximoMin', 'verdeMin', 'verdeMinimoMax',
       'verdeMinimoMin', 'verdeSegurancaPedestreMax', 'verdeSegurancaPedestreMin', 'verdeSegurancaVeicularMax',
       'verdeSegurancaVeicularMin', 'vermelhoIntermitenteMax', 'vermelhoIntermitenteMin', 'vermelhoLimpezaPedestreMax',
