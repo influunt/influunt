@@ -9,8 +9,8 @@ DELETE FROM `estagios`;
 DELETE FROM `tabela_entre_verdes`;
 DELETE FROM `grupos_semaforicos`;
 DELETE FROM `enderecos`;
+DELETE FROM `agrupamentos_aneis`;
 DELETE FROM `aneis`;
-DELETE FROM `agrupamentos_controladores`;
 DELETE FROM `controladores`;
 DELETE FROM `limite_area`;
 DELETE FROM `areas`;
@@ -42,5 +42,7 @@ INSERT INTO `aneis`(`id`, `id_json`, `ativo`, `descricao`, `posicao`, `numero_sm
 ('b06a3589-36d2-4e6a-a7e2-5918dff4aca0', '1fd59915-e006-466d-a924-f3d1aa414eba', FALSE, NULL, 3, NULL, 'e3470d37-55e2-40ee-bb82-b316d76079af', NULL, TIMESTAMP '2016-08-09 11:05:27.368', TIMESTAMP '2016-08-09 11:05:57.008'),
 ('4000f989-d277-46f5-b31e-fe0e8d9418ce', '77b77277-44fe-451a-9501-d95650a5bfb8', FALSE, NULL, 4, NULL, 'e3470d37-55e2-40ee-bb82-b316d76079af', NULL, TIMESTAMP '2016-08-09 11:05:27.37', TIMESTAMP '2016-08-09 11:05:57.009');
 
-INSERT INTO `agrupamentos` (`id`, `nome`, `tipo`, `data_criacao`, `data_atualizacao`) VALUES (@AgrupamentoId, 'Corredor da Paulista', 'CORREDOR', NOW(), NOW());
-INSERT INTO `agrupamentos_controladores` (`agrupamento_id`, `controlador_id`) VALUES (@AgrupamentoId, 'e3470d37-55e2-40ee-bb82-b316d76079af');
+INSERT INTO `agrupamentos` (`id`, `nome`, `tipo`, `numero`, `descricao`, `data_criacao`, `data_atualizacao`, `posicao_plano`, `dia_da_semana`, `horario`) VALUES
+(@AgrupamentoId, 'Corredor da Paulista', 'CORREDOR', '2000', 'descricao1', NOW(), NOW(), '1', 'SEGUNDA', NOW());
+INSERT INTO `agrupamentos_aneis` (`agrupamento_id`, `anel_id`) VALUES
+(@AgrupamentoId, '42684680-67fa-46d4-8492-3038c37bf9ab');
