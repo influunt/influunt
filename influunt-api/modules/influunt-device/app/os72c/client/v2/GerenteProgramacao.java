@@ -43,7 +43,6 @@ public class GerenteProgramacao {
     public int getPlanoAtual(Long momento) {
         int planoEscolhido = -1;
         for (Evento evento : this.eventos) {
-            System.out.println("Analisando:" + evento);
             if (planoEscolhido == -1) {
                 planoEscolhido = evento.getPosicaoPlano();
             } else {
@@ -51,7 +50,6 @@ public class GerenteProgramacao {
                     planoEscolhido = evento.getPosicaoPlano();
                 }
             }
-            System.out.println("Plano Escolhido:" + planoEscolhido);
         }
 
         return planoEscolhido;

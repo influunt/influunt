@@ -447,7 +447,7 @@ public class ControladorPlanoTest extends ControladorTest {
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro(CONTROLADOR, "O tempo de verde intermediário deve estar entre os valores de verde mínimo e verde máximo.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeIntermediarioFieldEntreMinimoMaximo"),
                 new Erro(CONTROLADOR, "A sequência de estagio não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
-                new Erro(CONTROLADOR, "O tempo de estagio ultrapassa o tempo maximo de permanencia.", "aneis[1].versoesPlanos[0].planos[0].estagiosPlanos[0].ultrapassaTempoMaximoPermanencia"),
+                new Erro(CONTROLADOR, "O tempo de estagio ultrapassa o tempo máximo de permanência.", "aneis[1].versoesPlanos[0].planos[0].estagiosPlanos[0].ultrapassaTempoMaximoPermanencia"),
                 new Erro(CONTROLADOR, "A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).", "aneis[1].versoesPlanos[0].planos[0].ultrapassaTempoCiclo"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].intervalos"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].intervalos"),

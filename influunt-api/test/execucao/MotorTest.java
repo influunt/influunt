@@ -39,12 +39,6 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication {
         LogSimulacao logSimulacao = new LogSimulacao();
         Controlador controlador = new ControladorHelper().setPlanos(new ControladorHelper().getControlador());
 
-//        criarEvento(tabelaHoraria, 1, TipoEvento.NORMAL, DiaDaSemana.TODOS_OS_DIAS, LocalTime.parse("00:00:00"), 1);
-//        criarEvento(tabelaHoraria, 2, TipoEvento.NORMAL, DiaDaSemana.SEGUNDA_A_SABADO, LocalTime.parse("08:00:00"), 1);
-//        criarEvento(tabelaHoraria, 1, TipoEvento.NORMAL, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("18:00:00"), 1);
-//        criarEvento(tabelaHoraria, 3, TipoEvento.ESPECIAL_RECORRENTE, DiaDaSemana.SEGUNDA_A_SABADO, LocalTime.parse("18:00:00"), 1);
-//        criarEvento(tabelaHoraria, 4, TipoEvento.ESPECIAL_NAO_RECORRENTE, DiaDaSemana.DOMINGO, LocalTime.parse("08:00:00"), 1);
-
         Motor motor = new Motor(controlador, new MotorCallback() {
             @Override
             public void onStart(DateTime timestamp) {
@@ -77,7 +71,6 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication {
         DateTime fim = new DateTime(2016, 10, 9, 18, 0, 0);
 
         motor.start(inicio);
-        //await().until(() -> iniciado);
         assertTrue(iniciado);
 
         while (inicio.getMillis() / 1000 <= fim.getMillis() / 1000) {
@@ -85,7 +78,6 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication {
             inicio = inicio.plusSeconds(1);
         }
         motor.stop(fim);
-        //await().until(() -> finalizado);
         assertTrue(finalizado);
 
         logSimulacao.print(TipoEventoLog.ALTERACAO_EVENTO);

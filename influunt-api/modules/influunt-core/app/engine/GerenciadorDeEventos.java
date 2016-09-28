@@ -60,12 +60,6 @@ public class GerenciadorDeEventos {
             Range<Integer> eventoAtualRange = eventoAtualMap.getKey();
             Evento eventoAtual = eventoAtualMap.getValue();
 
-//            if(petrios.get(eventoAtualRange.lowerEndpoint()) != null){
-//                if(evento.compareTo(eventoAtual) > 0){
-//                    rangeMap.remove(eventoAtualRange);
-//                }
-//            }
-
             Range<Integer> range;
             if (eventoAtualRange.upperEndpoint().equals(ULTIMO_MS_DA_SEMANA)) {
                 range = Range.closed(inicio, eventoAtualRange.upperEndpoint());

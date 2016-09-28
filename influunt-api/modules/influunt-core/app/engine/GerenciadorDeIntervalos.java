@@ -48,7 +48,6 @@ public class GerenciadorDeIntervalos {
             for (GrupoSemaforicoPlano grupoSemaforicoPlano : plano.getGruposSemaforicosPlanos()) {
                 grupos.put(index, new ArrayList<>(plano.getTempoCiclo()));
                 List<Intervalo> intervalos = grupoSemaforicoPlano.getIntervalos().stream().sorted((o1, o2) -> o1.getOrdem().compareTo(o2.getOrdem())).collect(Collectors.toList());
-                ;
                 int i = 0;
                 for (Intervalo intervalo : intervalos) {
                     for (int j = 0; j < intervalo.getTamanho(); j++, i++) {
