@@ -13,13 +13,29 @@ Funcionalidade: tela de cadastro de agrupamentos
     E clicar no botão de Novo Agrupamento
     Então o sistema deverá redirecionar para o formulário de cadastro de novos agrupamentos
 
+  Cenário: Não posso cadastrar um agrupamento em branco
+    Quando o usuário acessar a tela de listagem de agrupamentos
+    E clicar no botão de Novo Agrupamento
+    E clicar no botão de salvar
+    Então o sistema deverá indicar erro no campo "nome"
+    Então o sistema deverá indicar erro no campo "tipo"
+    #TODO melhor a apresentação do erro caso não tenha anel associado
+    # Então o sistema deverá indicar erro no campo "aneis"
+    Então o sistema deverá indicar erro no campo "agrupamentoPlanoDiaSemana"
+    Então o sistema deverá indicar erro no campo "planoHora"
+
   Cenário: Cadastro de agrupamentos
+    Dado que exista ao menos um controlador cadastrado no sistema
     Quando o usuário acessar a tela de cadastro de novos agrupamentos
     E o usuário preencher o campo "Nome" com "Corredor da Paulista"
+    E o usuário preencher o campo "Descrição" com "Agrupamento 1"
     E o usuário selecionar o valor "Corredor" no campo "Tipo"
+    E o usuario selecionar o valor "Av. Paulista com R. Bela Cintra" no campo Controladores
     E clicar no botão de salvar
+    Então deve ser exibida uma lista com os agrupamentos já cadastrados no sistema
 
   Cenário: Acesso à tela de detalhes de um agrupamento
+    Dado que exista ao menos um agrupamento cadastrado no sistema
     Quando o usuário acessar a tela de listagem de agrupamentos
     E clicar no botão de visualizar um agrupamento
     Então o sistema deverá redirecionar para a tela de visualização de agrupamentos

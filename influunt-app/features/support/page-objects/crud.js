@@ -34,7 +34,12 @@ var CrudPage = function () {
     'Limite Detectores Pedestre':      '[name="limiteDetectorPedestre"]',
     'Limite Detectores Veicular':      '[name="limiteDetectorVeicular"]',
     'Limite Tabelas Entre Verdes':     '[name="limiteTabelasEntreVerdes"]',
-    'Limite Planos':                   '[name="limitePlanos"]'
+    'Limite Planos':                   '[name="limitePlanos"]',
+    'Dia':                             '[name="agrupamentoPlanoDiaSemana"]',
+    'Hora':                            '[name="planoHora"]',
+    'Minuto':                          '[name="planoMinuto"]',
+    'Segundo':                         '[name="planoSegundo"]',
+    'Plano':                           '[name="posicaoPlano"]'
   };
 
   this.textoConfirmacaoApagarRegistro = function() {
