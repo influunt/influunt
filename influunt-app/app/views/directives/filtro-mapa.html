@@ -65,6 +65,15 @@
         </div>
 
         <div class="form-group">
+          <label>{{ 'controladores.mapaControladores.subAreas' | translate }}</label>
+          <select select2 name="subareas" class="form-control filtro-mapa"
+              data-ng-options="option.nome for option in ngModel.subareas track by option.id"
+              data-ng-model="ngModel.subareasSelecionadas"
+              multiple="multiple">
+          </select>
+        </div>
+
+        <div class="form-group">
           <label>{{ 'controladores.mapaControladores.agrupamentos' | translate }}</label>
           <select select2 name="agrupamentos" class="form-control filtro-mapa"
               data-ng-options="option.nome for option in ngModel.agrupamentos track by option.id"

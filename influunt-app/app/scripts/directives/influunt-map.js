@@ -31,7 +31,7 @@ angular.module('influuntApp')
 
         // private methods.
         var addAreas, addMarkers, addAgrupamentos, createArea, createMarker,
-            createAgrupamento, getConcaveHullPoints, getBoundingBox, initializeMap;
+            createAgrupamento, getConcaveHullPoints, getBoundingBox, initializeMap, agrupaAneis;
         var map, markersLayer, areasLayer, agrupamentosLayer, polylineLayer;
 
         initializeMap = function() {
@@ -186,7 +186,7 @@ angular.module('influuntApp')
           return boxedPoints;
         };
 
-        var agrupaAneis = function(markers) {
+        agrupaAneis = function(markers) {
           if (_.isObject(polylineLayer)) {
             map.removeLayer(polylineLayer);
           }

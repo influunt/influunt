@@ -10,266 +10,103 @@
 angular.module('influuntApp')
   .controller('ControladoresMapaCtrl', ['$scope', '$controller', '$filter', 'Restangular',
                                         'geraDadosDiagramaIntervalo', 'influuntAlert', 'influuntBlockui',
+                                        'filtrosMapa',
     function ($scope, $controller, $filter, Restangular,
-              geraDadosDiagramaIntervalo, influuntAlert, influuntBlockui) {
+              geraDadosDiagramaIntervalo, influuntAlert, influuntBlockui,
+              filtrosMapa) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
-      var filtraDados, filtraControladores, getMarkersControladores, getMarkersAneis,
-          getAreas, getDadosFiltros, getAgrupamentos, getSubareas, getCoordenadasFromControladores,
-          getSubareasAsAgrupamentos;
+      var filtraDados, getMarkersControladores, getMarkersAneis,
+          getAreas, constroiFiltros, getAgrupamentos, getSubareas, getCoordenadasFromControladores;
 
       $scope.inicializaMapa = function() {
-        return Restangular
-          .all('controladores')
-          .all('mapas')
-          .getList()
+        return Restangular.all('controladores').all('mapas').getList()
           .then(function(res) {
-            $scope.lista = res;
-            return getDadosFiltros();
+            $scope.listaControladores = res;
+            $scope.listaAneis     = _.chain($scope.listaControladores).map('aneis').flatten().uniqBy('id').value();
+            $scope.listaEnderecos = _.chain($scope.listaControladores).map('todosEnderecos').flatten().uniqBy('id').value();
+            $scope.listaAreas     = _.chain($scope.listaControladores).map('areas').flatten().uniqBy('id').value();
+            $scope.listaSubareas  = _.chain($scope.listaControladores).filter('subarea').map('areas').flatten().map('subareas').flatten().uniqBy('id').value();
+            $scope.listaLimites   = _.chain($scope.listaControladores).map('limites').flatten().uniqBy('id').value();
+            return Restangular.all('agrupamentos').customGET();
           })
-          .then(function() {
-            return filtraDados();
+          .then(function(res) {
+            $scope.listaAgrupamentos = res.data;
+            constroiFiltros();
+            filtraDados();
           })
           .finally(influuntBlockui.unblock);
-      };
-
-      $scope.setCurrentObject = function(markerData) {
-        if (markerData.tipo === 'ANEL') {
-          // Busca anel e controlador a partir do id do elemento clicado.
-          $scope.lista.some(function(c) {
-            $scope.currentControlador = c;
-            $scope.currentAnel = _
-              .chain($scope.currentControlador.aneis)
-              .find({idJson: markerData.idJson})
-              .clone()
-              .value();
-
-            return !!$scope.currentControlador && !!$scope.currentAnel;
-          });
-
-          $scope.currentAnel.planos = _
-            .chain($scope.currentAnel.planos)
-            .map(function(plano) {
-              return _.find($scope.currentControlador.planos, {idJson: plano.idJson});
-            })
-            .orderBy(['posicao'])
-            .value();
-
-          var enderecoAnel = _.find(
-            $scope.currentControlador.todosEnderecos,
-            {idJson: $scope.currentAnel.endereco.idJson}
-          );
-
-          $scope.currentAnel.localizacao = $filter('nomeEndereco')(enderecoAnel);
-          $scope.openAcoesAnel();
-          $scope.$apply();
-        } else {
-          // quando clicar no marker controlador, deve-se abrir os dados do primeiro
-          // anel (geralmente localizado no mesmo ponto do controlador).
-          var controlador = _.find($scope.lista, {id: markerData.id});
-          var idMarker = _.orderBy(controlador.aneis, 'posicao')[0].idJson;
-          var marker = _.chain($scope.markers).map('options').find({idJson: idMarker}).value();
-          $scope.setCurrentObject(marker);
-        }
-      };
-
-      $scope.showDiagramaIntervalos = function(plano) {
-        $scope.comCheckBoxGrupo = false;
-        $scope.currentPlano = plano;
-        $('#modalDiagramaIntervalos').modal('show');
-
-        var gruposSemaforicos = $scope.currentAnel.gruposSemaforicos.map(function(gs) {
-          return _.find($scope.currentControlador.gruposSemaforicos, {idJson: gs.idJson});
-        });
-
-        $scope.plano = geraDadosDiagramaIntervalo.gerar(
-          plano, $scope.currentAnel, gruposSemaforicos, $scope.currentControlador
-        );
-        var diagramaBuilder = new influunt.components.DiagramaIntervalos($scope.plano, $scope.valoresMinimos);
-        var result = diagramaBuilder.calcula();
-        _.each(result.gruposSemaforicos, function(g) {
-          g.ativo = true;
-        });
-        $scope.dadosDiagrama = result;
-      };
-
-
-      $scope.imporPlano = function() {
-        $scope.currentAnel.currentPlano = $scope.planoImposto;
-        $scope.currentAnel.hasPlanoImposto = true;
-      };
-
-      $scope.enviarPlano = function(anel) {
-        var plano = anel.currentPlano || anel.planos[0];
-        var endereco = _.find($scope.currentControlador.todosEnderecos, {idJson: anel.endereco.idJson});
-        var localizacao = $filter('nomeEndereco')(endereco);
-        influuntAlert.confirm(
-          $filter('translate')('controladores.mapaControladores.enviarPlano'),
-          $filter('translate')(
-            'controladores.mapaControladores.confirmacaoEnvioPlano',
-            {PLANO: plano.descricao, ANEL: localizacao}
-          )
-        )
-        .then(function(confirma) {
-          return confirma && influuntAlert.prompt(
-            $filter('translate')('controladores.mapaControladores.enviarPlano'),
-            $filter('translate')('controladores.mapaControladores.descrevaEnvioPlano')
-          );
-        })
-        .then(function(res) {
-          return res && influuntAlert.alert(
-            $filter('translate')('controladores.mapaControladores.enviarPlano'),
-            $filter('translate')(
-              'controladores.mapaControladores.sucessoEnvioPlano',
-              {PLANO: plano.descricao, ANEL: localizacao}
-            )
-          );
-        });
       };
 
       $scope.$watch('filtro', function(value) {
         return value && filtraDados();
       }, true);
 
+      constroiFiltros = function() {
+        $scope.filtro = $scope.filtro || {};
+        $scope.filtro.areas = _
+          .chain($scope.listaControladores)
+          .map('areas')
+          .flatten()
+          .uniqBy('idJson')
+          .orderBy('descricao')
+          .value();
+        $scope.filtro.subareas = _.orderBy($scope.listaSubareas, 'nome');
+        $scope.filtro.controladores = _.orderBy($scope.listaControladores, 'CLC');
+        $scope.filtro.agrupamentos = _.orderBy($scope.listaAgrupamentos, 'nome');
+
+        return $scope.filtro;
+      };
+
       filtraDados = function() {
         $scope.markers = [];
         $scope.areas = [];
         $scope.agrupamentos = [];
 
-        var controladores = filtraControladores($scope.lista, $scope.filtro);
+        var controladores = filtrosMapa.getControladores($scope.filtro, $scope.listaControladores);
         angular.forEach(controladores, function(controlador) {
           $scope.markers = _.concat($scope.markers, getMarkersAneis(controlador));
           $scope.markers = _.concat($scope.markers, getMarkersControladores(controlador));
-          $scope.areas = _.concat($scope.areas, getAreas(controlador));
         });
 
-        $scope.agrupamentos = _.concat($scope.agrupamentos, getAgrupamentos());
-        $scope.agrupamentos = _.concat($scope.agrupamentos, getSubareas());
-        $scope.areas = _.uniqBy($scope.areas, 'id');
+        $scope.areas = _
+          .chain(controladores)
+          .map('areas')
+          .flatten()
+          .uniqBy('idJson')
+          .map(function(area) { return _.find($scope.listaAreas, {idJson: area.idJson}); })
+          .value();
+
+        $scope.areas = getAreas(filtrosMapa.getAreas($scope.areas, $scope.filtro));
+        $scope.agrupamentos = _.concat($scope.agrupamentos, getAgrupamentos(
+          filtrosMapa.getAgrupamentos(controladores, $scope.filtro, $scope.listaAgrupamentos))
+        );
+
+        $scope.agrupamentos = _.concat(
+          $scope.agrupamentos,
+          getSubareas(filtrosMapa.getSubareas($scope.filtro, controladores))
+        );
       };
 
-      getDadosFiltros = function() {
-        return Restangular.all('agrupamentos').customGET()
-          .then(function(res) {
-            $scope.filtro = $scope.filtro || {};
-            $scope.filtro.areas = _.chain($scope.lista).map('areas').flatten().uniqBy('idJson').value();
-            $scope.filtro.controladores = _.orderBy($scope.lista, ['CLC']);
-            $scope.filtro.agrupamentos = res.data;
-
-            var subareas = getSubareasAsAgrupamentos();
-            $scope.filtro.agrupamentos = _.concat($scope.filtro.agrupamentos, subareas);
-
-            return $scope.filtro;
-          })
-          .finally(influuntBlockui.unblock);
-      };
-
-      getSubareas = function() {
-        if (!$scope.filtro.exibirSubareas || !$scope.filtro.exibirAgrupamentos) {
+      getAreas = function(areas) {
+        if (!$scope.filtro.exibirAreas) {
           return [];
         }
 
-        var subareas = _
-          .chain($scope.lista)
-          .filter('subarea')
-          .groupBy('subarea.idJson')
-          .value();
-
-          return _.map(subareas, function(controladores) {
-            return {
-              points: getCoordenadasFromControladores(controladores),
-              type: 'SUBAREA'
-            };
-          });
-      };
-
-      getSubareasAsAgrupamentos = function() {
-        return _
-          .chain($scope.lista)
-          .filter('subarea')
-          .groupBy('subarea.id')
-          .map(function(controladores, subarea) {
-            subarea = _
-              .chain($scope.lista)
-              .map('areas').flatten()
-              .map('subareas').flatten()
-              .uniqBy('id')
-              .find({id: subarea})
-              .value();
-
-            return {
-              id: subarea.id,
-              nome: subarea.nome,
-              controladores: controladores
-            };
-          })
-          .value();
-      };
-
-      getAgrupamentos = function() {
-        if (!$scope.filtro.exibirAgrupamentos) {
-          return [];
-        }
-
-        return _.map($scope.filtro.agrupamentos, function(agrupamento) {
-          var controladores = _.map(agrupamento.controladores, 'id');
-          controladores = _.filter($scope.lista, function(c) {
-            return controladores.indexOf(c.id) >= 0;
-          });
+        return _.map(areas, function(area) {
+          var ids = _.map(area.limites, 'idJson');
+          var limites = _
+            .chain($scope.listaLimites)
+            .filter(function(l) { return ids.indexOf(l.idJson) >= 0; })
+            .orderBy('posicao')
+            .value();
 
           return {
-            points: getCoordenadasFromControladores(controladores),
-            type: agrupamento.tipo
+            id: area.id,
+            points: limites,
+            label: '<h1><strong>' + $filter('translate')('controladores.geral.CTA') + area.descricao + '</strong></h1>'
           };
         });
-      };
-
-      getCoordenadasFromControladores = function(controladores) {
-        controladores = filtraControladores(controladores, $scope.filtro);
-        var enderecosAgrupamento = _
-          .chain(controladores)
-          .map(function(cont) {
-            return _.find($scope.lista, {id: cont.id});
-          })
-          .map('aneis')
-          .flatten()
-          .map('endereco.idJson')
-          .value();
-
-        return _
-          .chain($scope.lista)
-          .map('todosEnderecos')
-          .flatten()
-          .uniqBy('id')
-          .filter(function(e) {
-            return enderecosAgrupamento.indexOf(e.idJson) >= 0;
-          })
-          .value();
-      };
-
-      filtraControladores = function(controladores, filtro) {
-        var areasIds = _.map(filtro.areasSelecionadas, 'idJson');
-        var controladoresIds = _.map(filtro.controladoresSelecionados, 'id');
-        var controladoresPorAgrupamentos = _.chain(filtro.agrupamentosSelecionados)
-          .map('controladores')
-          .flatten()
-          .map('id')
-          .uniq().value();
-
-        var lista = controladores;
-        if (_.isArray(areasIds) && areasIds.length > 0) {
-          lista = _.filter(lista, function(i) {return areasIds.indexOf(i.area.idJson) >= 0;});
-        }
-
-        if (_.isArray(controladoresIds) && controladoresIds.length > 0) {
-          lista = _.filter(lista, function(i) {return controladoresIds.indexOf(i.id) >= 0;});
-        }
-
-        if (_.isArray(controladoresPorAgrupamentos) && controladoresPorAgrupamentos.length > 0) {
-          lista = _.filter(lista, function(i) {return controladoresPorAgrupamentos.indexOf(i.id) >= 0;});
-        }
-
-        return lista;
       };
 
       getMarkersControladores = function(controlador) {
@@ -325,32 +162,153 @@ angular.module('influuntApp')
           .value();
       };
 
-      getAreas = function(controlador) {
-        if (!$scope.filtro.exibirAreas) {
+      getSubareas = function(subareas) {
+        if (!$scope.filtro.exibirSubareas) {
           return [];
         }
 
-        return _.map(controlador.areas, function(area) {
-          var ids = _.map(area.limites, 'idJson');
-          var limites = _
-            .chain(controlador.limites)
-            .filter(function(l) {
-              return ids.indexOf(l.idJson) >= 0;
-            })
-            .orderBy(['posicao'])
-            .map(function(limite) {
-              return {
-                latitude: limite.latitude,
-                longitude: limite.longitude
-              };
-            })
-            .value();
+        return _.map(subareas, function(controladores) {
+          return {
+            points: getCoordenadasFromControladores(controladores),
+            type: 'SUBAREA'
+          };
+        });
+      };
+
+      getAgrupamentos = function(agrupamentos) {
+        if (!$scope.filtro.exibirAgrupamentos) {
+          return [];
+        }
+
+        return _.map(agrupamentos, function(agrupamento) {
+          var pontos = _.map(agrupamento.aneis, function(anel) {
+            return _.find($scope.listaEnderecos, {
+              idJson: _.find($scope.listaAneis, {id: anel.id}).endereco.idJson
+            });
+          });
 
           return {
-            id: area.id,
-            points: limites,
-            label: '<h1><strong>' + $filter('translate')('controladores.geral.CTA') + area.descricao + '</strong></h1>'
+            points: pontos,
+            type: agrupamento.tipo,
+            name: agrupamento.nome
           };
+        });
+      };
+
+      getCoordenadasFromControladores = function(controladores) {
+        controladores = filtrosMapa.getControladores($scope.filtro, controladores);
+        var enderecosAgrupamento = _
+          .chain(controladores)
+          .map(function(cont) {
+            return _.find($scope.listaControladores, {id: cont.id});
+          })
+          .map('aneis')
+          .flatten()
+          .map('endereco.idJson')
+          .value();
+
+        return _
+          .chain($scope.listaControladores)
+          .map('todosEnderecos')
+          .flatten()
+          .uniqBy('id')
+          .filter(function(e) {
+            return enderecosAgrupamento.indexOf(e.idJson) >= 0;
+          })
+          .value();
+      };
+
+
+      $scope.setCurrentObject = function(markerData) {
+        if (markerData.tipo === 'ANEL') {
+          // Busca anel e controlador a partir do id do elemento clicado.
+          $scope.listaControladores.some(function(c) {
+            $scope.currentControlador = c;
+            $scope.currentAnel = _
+              .chain($scope.currentControlador.aneis)
+              .find({idJson: markerData.idJson})
+              .clone()
+              .value();
+
+            return !!$scope.currentControlador && !!$scope.currentAnel;
+          });
+
+          $scope.currentAnel.planos = _
+            .chain($scope.currentAnel.planos)
+            .map(function(plano) {
+              return _.find($scope.currentControlador.planos, {idJson: plano.idJson});
+            })
+            .orderBy(['posicao'])
+            .value();
+
+          var enderecoAnel = _.find(
+            $scope.currentControlador.todosEnderecos,
+            {idJson: $scope.currentAnel.endereco.idJson}
+          );
+
+          $scope.currentAnel.localizacao = $filter('nomeEndereco')(enderecoAnel);
+          $scope.openAcoesAnel();
+          $scope.$apply();
+        } else {
+          // quando clicar no marker controlador, deve-se abrir os dados do primeiro
+          // anel (geralmente localizado no mesmo ponto do controlador).
+          var controlador = _.find($scope.listaControladores, {id: markerData.id});
+          var idMarker = _.orderBy(controlador.aneis, 'posicao')[0].idJson;
+          var marker = _.chain($scope.markers).map('options').find({idJson: idMarker}).value();
+          $scope.setCurrentObject(marker);
+        }
+      };
+
+      $scope.showDiagramaIntervalos = function(plano) {
+        $scope.comCheckBoxGrupo = false;
+        $scope.currentPlano = plano;
+        $('#modalDiagramaIntervalos').modal('show');
+
+        var gruposSemaforicos = $scope.currentAnel.gruposSemaforicos.map(function(gs) {
+          return _.find($scope.currentControlador.gruposSemaforicos, {idJson: gs.idJson});
+        });
+
+        $scope.plano = geraDadosDiagramaIntervalo.gerar(
+          plano, $scope.currentAnel, gruposSemaforicos, $scope.currentControlador
+        );
+        var diagramaBuilder = new influunt.components.DiagramaIntervalos($scope.plano, $scope.valoresMinimos);
+        var result = diagramaBuilder.calcula();
+        _.each(result.gruposSemaforicos, function(g) {
+          g.ativo = true;
+        });
+        $scope.dadosDiagrama = result;
+      };
+
+      $scope.imporPlano = function() {
+        $scope.currentAnel.currentPlano = $scope.planoImposto;
+        $scope.currentAnel.hasPlanoImposto = true;
+      };
+
+      $scope.enviarPlano = function(anel) {
+        var plano = anel.currentPlano || anel.planos[0];
+        var endereco = _.find($scope.currentControlador.todosEnderecos, {idJson: anel.endereco.idJson});
+        var localizacao = $filter('nomeEndereco')(endereco);
+        influuntAlert.confirm(
+          $filter('translate')('controladores.mapaControladores.enviarPlano'),
+          $filter('translate')(
+            'controladores.mapaControladores.confirmacaoEnvioPlano',
+            {PLANO: plano.descricao, ANEL: localizacao}
+          )
+        )
+        .then(function(confirma) {
+          return confirma && influuntAlert.prompt(
+            $filter('translate')('controladores.mapaControladores.enviarPlano'),
+            $filter('translate')('controladores.mapaControladores.descrevaEnvioPlano')
+          );
+        })
+        .then(function(res) {
+          return res && influuntAlert.alert(
+            $filter('translate')('controladores.mapaControladores.enviarPlano'),
+            $filter('translate')(
+              'controladores.mapaControladores.sucessoEnvioPlano',
+              {PLANO: plano.descricao, ANEL: localizacao}
+            )
+          );
         });
       };
 
