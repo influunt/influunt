@@ -24,20 +24,39 @@
     <appender-ref ref="STDOUT" />
   </appender>
 
-  <logger name="play" level="DEBUG" />
-  <logger name="application" level="DEBUG" />
-  <logger name="org.hibernate.type" level="INFO" />
-  <logger name="org.hibernate" level="INFO" />
-  <logger name="org.hibernate.SQL"  level="DEBUG" />
+  <logger name="play" level="WARN" />
+  <logger name="application" level="WARN" />
+  <logger name="org.hibernate.type" level="WARN" />
+  <logger name="org.hibernate" level="WARN" />
+  <logger name="org.hibernate.SQL"  level="WARN" />
+  <logger name="com.zaxxer.hikari" level="WARN"/>
+  <logger name="org.mongodb.driver" level="WARN"/>
 
 
   <!-- Off these ones as they are annoying, and anyway we manage configuration ourselves -->
+  <logger name="org.avaje.ebean.TXN" level="WARN" />
+  <logger name="org.avaje.ebean.SQL" level="WARN"/>
+  <logger name="com.avaje.ebeaninternal.server.deploy.parse.DeployCreateProperties" level="WARN" />
+  <logger name="com.avaje.ebeaninternal.server.deploy.BeanDescriptorManager" level="WARN" />
+  <logger name="com.avaje.ebeaninternal.server.core.DefaultContainer" level="WARN" />
+  <logger name="com.avaje.ebean.dbmigration.DdlRunner" level="WARN" />
+  <logger name="akka.event.slf4j.Slf4jLogger" level="WARN" />
+  <logger name="org.reflections.Reflections" level="WARN" />
+  <logger name=" os72c.client.handlers.*" level="WARN" />
+  <logger name="akka.actor" level="WARN" />
+
+
   <logger name="com.avaje.ebean.config.PropertyMapLoader" level="OFF" />
   <logger name="com.avaje.ebeaninternal.server.core.XmlConfigLoader" level="OFF" />
   <logger name="com.avaje.ebeaninternal.server.lib.BackgroundThread" level="OFF" />
   <logger name="com.gargoylesoftware.htmlunit.javascript" level="OFF" />
 
-  <root level="INFO">
+
+  <logger name="org.jdbcdslog.ConnectionLogger" level="OFF"  /> <!-- Won' log connections -->
+  <logger name="org.jdbcdslog.StatementLogger"  level="OFF" /> <!-- Will log all statements -->
+  <logger name="org.jdbcdslog.ResultSetLogger"  level="OFF"  /> <!-- Won' log result sets -->
+
+  <root level="WARN">
     <appender-ref ref="ASYNCFILE" />
     <appender-ref ref="ASYNCSTDOUT" />
   </root>
