@@ -335,7 +335,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
     }
 
     @AssertTrue(groups = ControladorTransicoesProibidasCheck.class,
-            message = "Esse estágio é de demanda prioritária então não pode ter transição proibida.")
+            message = "Um estágio de demanda prioritária não pode ter transição proibida.")
     public boolean isNaoPossuiTransicaoProibidaCasoDemandaPrioritaria() {
         if (isDemandaPrioritaria()) {
             return getOrigemDeTransicoesProibidas().size() == 0 && getDestinoDeTransicoesProibidas().size() == 0 && getAlternativaDeTransicoesProibidas().size() == 0;

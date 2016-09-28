@@ -113,7 +113,7 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
                 new Erro(CONTROLADOR, "O estágio de origem deve ser diferente do estágio de destino.", "aneis[1].estagios[0].origemDeTransicoesProibidas[0].origemEDestinoDiferentes"),
                 new Erro(CONTROLADOR, "Esse estágio não pode ter um estágio de destino e alternativo ao mesmo tempo.", "aneis[1].estagios[0].aoMesmoTempoDestinoEAlternativo"),
                 new Erro(CONTROLADOR, "O Estágio alternativo deve ser diferente do destino.", "aneis[1].estagios[0].origemDeTransicoesProibidas[0].estagioAlternativoDiferenteOrigemEDestino"),
-                new Erro(CONTROLADOR, "Esse estágio é de demanda prioritária então não pode ter transição proibida.", "aneis[1].estagios[0].naoPossuiTransicaoProibidaCasoDemandaPrioritaria")
+                new Erro(CONTROLADOR, "Um estágio de demanda prioritária não pode ter transição proibida.", "aneis[1].estagios[0].naoPossuiTransicaoProibidaCasoDemandaPrioritaria")
         ));
 
         estagio1AnelCom2Estagios.setDemandaPrioritaria(false);
