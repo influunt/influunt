@@ -3038,3 +3038,9 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
   font-size: 20px;
   padding-top: 6px;
 }
+
+.simulacao .simular {
+  background-color: #e9eaee;
+  padding: 20px 0;
+  margin-bottom: 30px;
+}
