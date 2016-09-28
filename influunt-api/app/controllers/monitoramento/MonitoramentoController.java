@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Controlador;
+import models.ModoOperacaoPlano;
 import models.StatusDevice;
 import org.jetbrains.annotations.NotNull;
 import play.libs.Json;
@@ -13,8 +14,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
-import status.StatusConexaoControlador;
-import status.StatusControladorFisico;
+import status.*;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -35,10 +35,16 @@ public class MonitoramentoController extends Controller {
     public CompletionStage<Result> ultimoStatusDosControladores() {
         HashMap<String, StatusDevice> status = StatusControladorFisico.ultimoStatusDosControladores();
         HashMap<String, Boolean> onlines = StatusConexaoControlador.ultimoStatusDosControladores();
+        HashMap<String, ModoOperacaoPlano> modos = ModoOperacaoControlador.ultimoModoOperacaoDosControladores();
+        HashMap<String, Object> erros = ErrosControlador.ultimosErrosDosControladoresPorErro(10);
+        HashMap<String, Boolean> imposicaoPlanos = ImposicaoPlanosControlador.ultimoStatusPlanoImpostoDosControladoresOn();
 
         ObjectNode retorno = JsonNodeFactory.instance.objectNode();
         retorno.set("status", Json.toJson(status));
         retorno.set("onlines", Json.toJson(onlines));
+        retorno.set("modosOperacoes", Json.toJson(modos));
+        retorno.set("erros", controladoresToJson(erros));
+        retorno.set("imposicaoPlanos", Json.toJson(imposicaoPlanos));
 
         return CompletableFuture.completedFuture(ok(Json.toJson(retorno)));
     }
@@ -74,10 +80,14 @@ public class MonitoramentoController extends Controller {
         controladores.forEach(controlador -> {
             LinkedHashMap status = ((LinkedHashMap) controladoresStauts.get(controlador.getId().toString()));
             Long timestamp = 0L;
+            String motivoFalhaControlador = "";
             if (status != null) {
                 timestamp = (Long) status.get("timestamp");
+                if (status.get("motivoFalhaControlador") != null) {
+                    motivoFalhaControlador = status.get("motivoFalhaControlador").toString();
+                }
             }
-            itens.addObject().put("id", controlador.getId().toString()).put("clc", controlador.getCLC()).put("endereco", controlador.getNomeEndereco()).put("data", timestamp);
+            itens.addObject().put("id", controlador.getId().toString()).put("clc", controlador.getCLC()).put("endereco", controlador.getNomeEndereco()).put("data", timestamp).put("motivoFalha", motivoFalhaControlador);
         });
         ObjectNode retorno = JsonNodeFactory.instance.objectNode();
         retorno.putArray("data").addAll(itens);

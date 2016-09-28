@@ -7,7 +7,7 @@
           <div class="widget style1 navy-bg falseBtn">
             <div class="row">
               <div class="col-lg-3 col-sm-3">
-                <h2 class="font-bold">{{dados_onlines['true'] || 0}}</h2>
+                <h2 class="font-bold">{{dadosOnlines['true'] || 0}}</h2>
               </div>
               <div class="col-lg-8 col-sm-7 text-right">
                 <span> {{ 'main.controlOn' | translate }} </span>
@@ -19,7 +19,7 @@
           <div class="widget style1 red-bg falseBtn">
             <div class="row">
               <div class="col-lg-3 col-sm-3">
-                <h2 class="font-bold">{{dados_onlines['false'] || 0}}</h2>
+                <h2 class="font-bold">{{dadosOnlines['false'] || 0}}</h2>
               </div>
               <div class="col-lg-8 col-sm-7 text-right">
                 <span> {{ 'main.controlOff' | translate }} </span>
@@ -31,7 +31,7 @@
           <div class="widget style1 blue-bg falseBtn">
             <div class="row">
               <div class="col-lg-3 col-sm-3">
-                <h2 class="font-bold">13</h2>
+                <h2 class="font-bold">{{planosImpostos['true'] || 0}}</h2>
               </div>
               <div class="col-lg-8 col-sm-7 text-right">
                 <span> {{ 'main.controlImposicao' | translate }} </span>
@@ -43,10 +43,10 @@
           <div class="widget style1 lazur-bg falseBtn">
             <div class="row">
               <div class="col-lg-3 col-sm-3">
-                <h2 class="font-bold">13</h2>
+                <h2 class="font-bold">{{modosOperacoes['MANUAL'] || 0}}</h2>
               </div>
               <div class="col-lg-8 col-sm-7 text-right">
-                <span> {{ 'main.controlCoordenado' | translate }} </span>
+                <span> {{ 'main.controlManual' | translate }} </span>
               </div>
             </div>
           </div>
@@ -62,13 +62,13 @@
             </div>
             <div class="col-lg-12 no-padding padding-top-20">
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-danger m-r-sm">{{dados_status['NOVO']}}</button> {{ 'main.novo' | translate }}
+                <button type="button" class="btn btn-danger m-r-sm">{{dadosStatus['NOVO'] || 0}}</button> {{ 'main.novo' | translate }}
               </div>
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-primary m-r-sm">{{dados_status['CONFIGURADO']}}</button> {{ 'main.configurado' | translate }}
+                <button type="button" class="btn btn-primary m-r-sm">{{dadosStatus['CONFIGURADO'] || 0}}</button> {{ 'main.configurado' | translate }}
               </div>
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-info m-r-sm">{{dados_status['ATIVO']}}</button> {{ 'main.ativo' | translate }}
+                <button type="button" class="btn btn-info m-r-sm">{{dadosStatus['ATIVO'] || 0}}</button> {{ 'main.ativo' | translate }}
               </div>
             </div>
             <div class="col-lg-12">
@@ -76,13 +76,13 @@
             </div>
             <div class="col-lg-12 no-padding padding-botton-20">
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-info m-r-sm">{{dados_status['INOPERANTE']}}</button> {{ 'main.inoperante' | translate }}
+                <button type="button" class="btn btn-info m-r-sm">{{dadosStatus['INOPERANTE'] || 0}}</button> {{ 'main.inoperante' | translate }}
               </div>
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-success m-r-sm">{{dados_status['OPERANDO_COM_FALHAS']}}</button> {{ 'main.operandoFalhas' | translate }}
+                <button type="button" class="btn btn-success m-r-sm">{{dadosStatus['OPERANDO_COM_FALHAS'] || 0}}</button> {{ 'main.operandoFalhas' | translate }}
               </div>
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-danger m-r-sm">{{dados_status['INATIVO']}}</button> {{ 'main.inativo' | translate }}
+                <button type="button" class="btn btn-danger m-r-sm">{{dadosStatus['INATIVO'] || 0}}</button> {{ 'main.inativo' | translate }}
               </div>
             </div>
           </div>
@@ -97,13 +97,13 @@
             </div>
             <div class="col-lg-12 no-padding padding-top-20">
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-danger m-r-sm">12</button> {{ 'main.atuado' | translate }}
+                <button type="button" class="btn btn-danger m-r-sm">{{modosOperacoes['ATUADO'] || 0}}</button> {{ 'main.atuado' | translate }}
               </div>
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-primary m-r-sm">28</button> {{ 'main.coordenado' | translate }}
+                <button type="button" class="btn btn-primary m-r-sm">{{modosOperacoes['TEMPO_FIXO_COORDENADO'] || 0}}</button> {{ 'main.coordenado' | translate }}
               </div>
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-info m-r-sm">15</button> {{ 'main.isolado' | translate }}
+                <button type="button" class="btn btn-info m-r-sm">{{modosOperacoes['TEMPO_FIXO_ISOLADO'] || 0}}</button> {{ 'main.isolado' | translate }}
               </div>
             </div>
             <div class="col-lg-12">
@@ -111,13 +111,13 @@
             </div>
             <div class="col-lg-12 no-padding padding-botton-20">
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-info m-r-sm">20</button> {{ 'main.apagado' | translate }}
+                <button type="button" class="btn btn-info m-r-sm">{{modosOperacoes['APAGADO'] || 0}}</button> {{ 'main.apagado' | translate }}
               </div>
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-success m-r-sm">40</button> {{ 'main.interminente' | translate }}
+                <button type="button" class="btn btn-success m-r-sm">{{modosOperacoes['INTERMITENTE'] || 0}}</button> {{ 'main.interminente' | translate }}
               </div>
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-danger m-r-sm">30</button> {{ 'main.manual' | translate }}
+                <button type="button" class="btn btn-danger m-r-sm">{{modosOperacoes['MANUAL'] || 0}}</button> {{ 'main.manual' | translate }}
               </div>
             </div>
           </div>
@@ -129,49 +129,22 @@
   <div class="col-lg-4 col-sm-12">
     <div class="ibox float-e-margins white-bg">
       <div class="ibox-content ibox-heading yellow-bg">
-        <h3><strong>3</strong> {{ 'main.controlApresentando' | translate }} <strong>{{ 'main.falhas' | translate }}</strong></h3>
+        <h3><strong>{{errosControladores.length || 'Nenhum'}}</strong> {{ 'main.controlApresentando' | translate }} <strong>{{ 'main.falhas' | translate }}</strong></h3>
         <small><i class="fa fa-check-circle"></i> 5 {{ 'main.recuperaFalhas' | translate }}</small>
       </div>
       <div class="ibox-content inspinia-timeline">
-        <div class="timeline-item">
+        <div class="timeline-item" ng-repeat="erro in errosControladores">
           <div class="row">
             <div class="col-xs-3 date">
-              <i class="fa fa-plug navy-bg"></i> 6:20
+              <i class="fa fa-plug text-danger"></i> {{erro.data | influuntDate: 'HH:mm:ss'}}
               <br>
-              <small class="text-navy">1 e 40 horas atrás</small>
+              <small class="text-navy">{{erro.data | influuntDate: 'fromNow'}}</small>
             </div>
             <div class="col-xs-7 content no-top-border">
-              <p class="m-b-xs"><strong>{{ 'main.quedaEnergia' | translate }}</strong></p>
-              <p><strong>547961-7</strong><br>Av Paulista com Consolação</p>
+              <p class="m-b-xs"><strong>{{ erro.motivoFalha | humanize }}</strong></p>
+              <p><strong>{{erro.clc}}</strong><br><pre>{{erro.data}}</pre>{{erro.endereco}}</p>
             </div>
           </div>
-        </div>
-        <div class="timeline-item">
-          <div class="row">
-            <div class="col-xs-3 date">
-              <i class="fa fa-plug btn-danger"></i> 6:00
-              <br>
-              <small class="text-navy">2 horas atrás</small>
-            </div>
-            <div class="col-xs-7 content no-top-border">
-              <p class="m-b-xs"><strong>{{ 'main.quedaEnergia' | translate }}</strong></p>
-              <p><strong>547961-7</strong><br>Av Paulista com Consolação</p>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="row">
-              <div class="col-xs-3 date">
-                <i class="fa fa-lightbulb-o btn-warning"></i> 6:00
-                <br>
-                <small class="text-navy">2 horas atrás</small>
-              </div>
-              <div class="col-xs-7 content no-top-border">
-                <p class="m-b-xs"><strong>{{ 'main.faseQueimada' | translate }}</strong></p>
-                <p><strong>547961-7</strong><br>Av Paulista com Consolação</p>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
