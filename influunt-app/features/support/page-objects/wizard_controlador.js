@@ -423,7 +423,15 @@ var WizardControladorPage = function () {
     }, Promise.resolve());
   };
 
-  this.marcarTempoAtrasoGrupo = function(tipoTransicao, value, posicao) {
+  this.marcarTempoAtrasoGrupo = function(value, field) {
+    var baseSelector = 'influunt-knob[title="'+field+'"]';
+    world.sleep(500);
+    return world.getElement(baseSelector + ' p.knob-value').click().then(function() {
+      return world.resetValue(baseSelector + ' input.rs-input', value);
+    }).then(world.waitForAnimationFinishes);    
+  };
+  
+  this.marcarTempoAtrasoGrupoTransicao = function(tipoTransicao, value, posicao) {
     var baseSelector = 'li[data-ng-repeat="transicao in '+tipoTransicao+'"] div.initial-position div.knob-item[id="'+posicao+'"] influunt-knob[title="Atraso de Grupo"]';
     world.sleep(500);
     return world.getElement(baseSelector + ' p.knob-value').click().then(function() {

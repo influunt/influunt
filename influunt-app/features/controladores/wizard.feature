@@ -170,7 +170,6 @@ Funcionalidade: Fluxo de cadastro de controladores
     E que o usuário adicione um detector do tipo "Veicular"
     E que o usuário adicione um detector do tipo "Pedestre"
     Quando o usuário clicar no botão para ir pro próximo passo
-    Então o sistema deverá indicar erro nos campos do passo "Detectores"
     E o sistema irá continuar no passo "Detectores"
 
   Cenário: Salvar detectores
@@ -182,6 +181,15 @@ Funcionalidade: Fluxo de cadastro de controladores
     E que o usuário marque 40 no tempo "Ausência de Detecção"
     E o usuário clicar para fechar o modal
     E que o usuário associe o detector "DV2" com o estágio "E2"
+    E que o usuário marque 40 no tempo "Ausência de Detecção"
+    E o usuário clicar para fechar o modal
+    E o usuário selecionar o anel 2
+    E que o usuário adicione um detector do tipo "Veicular"
+    E que o usuário adicione um detector do tipo "Pedestre"
+    E que o usuário associe o detector "DV3" com o estágio "E1"
+    E que o usuário marque 40 no tempo "Ausência de Detecção"
+    E o usuário clicar para fechar o modal
+    E que o usuário associe o detector "DP2" com o estágio "E2"
     E que o usuário marque 40 no tempo "Ausência de Detecção"
     E o usuário clicar para fechar o modal
     Quando o usuário clicar no botão para ir pro próximo passo

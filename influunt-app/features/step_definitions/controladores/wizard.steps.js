@@ -126,12 +126,16 @@ module.exports = function() {
 
   this.Given(/^que o usuário marque (\d+) no campo (\d+) para transições com perda de direito de passagem$/, function (value, posicao) {
     var tipoTransicao = 'currentTransicoes';
-    return wizardPage.marcarTempoAtrasoGrupo(tipoTransicao, value, posicao);
+    return wizardPage.marcarTempoAtrasoGrupoTransicao(tipoTransicao, value, posicao);
   });
 
   this.Given(/^que o usuário marque (\d+) no campo (\d+) para transições com ganho de direito de passagem$/, function (value, posicao) {
     var tipoTransicao = 'currentTransicoesComPerdaDePassagem';
-    return wizardPage.marcarTempoAtrasoGrupo(tipoTransicao, value, posicao);
+    return wizardPage.marcarTempoAtrasoGrupoTransicao(tipoTransicao, value, posicao);
+  });
+
+  this.Given(/^que o usuário marque (\d+) no tempo "([^"]*)"$/, function (value, field) {
+    return wizardPage.marcarTempoAtrasoGrupo(value, field);
   });
 
   this.Given(/^que o usuário clique no grupo "([^"]*)"$/, function (grupo) {
