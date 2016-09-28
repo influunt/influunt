@@ -33,4 +33,25 @@ public class AlteracaoEstadoLog extends EventoLog {
         }
 
     }
+
+    public List<EstadoGrupoSemaforico> getAnterior() {
+        return anterior;
+    }
+
+    public void setAnterior(List<EstadoGrupoSemaforico> anterior) {
+        this.anterior = anterior;
+    }
+
+    public List<EstadoGrupoSemaforico> getAtual() {
+        return atual;
+    }
+
+    public void setAtual(List<EstadoGrupoSemaforico> atual) {
+        this.atual = atual;
+    }
+
+    @Override
+    public boolean match(Object... params) {
+        return false;
+    }
 }

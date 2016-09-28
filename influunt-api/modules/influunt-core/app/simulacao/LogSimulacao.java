@@ -1,8 +1,11 @@
 package simulacao;
 
+import org.joda.time.DateTime;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * Created by rodrigosol on 9/26/16.
@@ -23,5 +26,14 @@ public class LogSimulacao {
                 System.out.println(e.mensagem(i));
             }
         }
+    }
+
+    public EventoLog filter(TipoEventoLog tipoEventoLog, DateTime timestamp,Object... params) {
+        return find(tipoEventoLog,timestamp).filter(eventoLog -> eventoLog.match(params)).findFirst().orElse(null);
+    }
+
+    public Stream<EventoLog> find(TipoEventoLog tipoEventoLog, DateTime timestamp){
+        return logSimulacaos.stream().filter(eventoLog -> eventoLog.getTipoEventoLog().equals(tipoEventoLog))
+                .filter(eventoLog -> eventoLog.timeStamp.equals(timestamp));
     }
 }

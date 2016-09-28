@@ -1,0 +1,127 @@
+# language: pt
+Funcionalidade: Valida a especificação da execução de controladores quando em modo amarelo intermitente
+
+  Contexto:
+    Dado que exista o controlador "suely"
+
+#  4.2.5.1.	No modo amarelo intermitente, os grupos focais veiculares operam em amarelo intermitente e
+#  todos os grupos focais de pedestres permanecem apagados.
+
+#  4.2.5.2.	O modo amarelo intermitente deverá poder ser acionado a partir dos seguintes eventos:
+#
+#  a)	Requisição através de recurso existente no Painel de Facilidades para solicitação do modo amarelo
+#  intermitente, sendo que, quando acionado, o modo amarelo intermitente deverá ser imposto para todos os anéis
+#  programados.
+#
+#  b)	Detecção, pelo próprio controlador, de falha que possa comprometer a segurança do trânsito de veículos ou
+#  de pedestres. As falhas que devem levar o controlador ao modo amarelo intermitente estão relacionadas
+#  no item 4.2.5.3.
+#
+#  c)	Quando da energização das lâmpadas dos grupos focais ou ao se restaurar a energia no
+#  controlador (Sequência de Partida – item 4.5.13).
+#
+#  d)	Acionamento, por meio da Tabela de Mudança de Plano, de um plano residente no próprio controlador,
+#  caracterizado como modo amarelo intermitente, durante um período programado,
+#  sendo que deverá ser possível o acionamento por anel.
+#
+#  e)	Acionamento do modo amarelo Intermitente pela Central de Semáforos em Tempo Fixo,
+#  sendo que deverá ser possível o acionamento por anel.
+
+
+#  4.2.5.3.	As falhas que devem levar o controlador ao modo amarelo intermitente são:
+#  a)	Ocorrência de verdes conflitantes: o modo intermitente deverá ocorrer somente para o anel em que ocorreu a
+#  falha.
+#
+#  b)	Todos os focos vermelhos de um mesmo grupo semafórico apagados (fase vermelha apagada),
+#  previamente parametrizado, conforme item 4.5.12.1: o modo intermitente deverá ocorrer somente para o
+#  anel em que ocorreu a falha.
+#
+#  c)	Erro na sequência de acionamento das cores dos grupos semafóricos (conforme descrito no item 4.5.1.1):
+#  o modo intermitente deverá ocorrer somente para o anel em que ocorreu a falha.
+#
+#  d)	Desrespeito do tempo máximo de permanência no estágio (com a exceção prevista no item 4.2.5.8):
+#  o modo intermitente deverá ocorrer somente para o anel em que ocorreu a falha.
+#
+#  e)	Falha de CPU – Watch Dog Timer: o modo intermitente deverá ocorrer em todos os anéis.
+#
+#  f)	Falha ou inconsistência na Prom, Eprom, SD card ou outro sistema de armazenamento de dados em
+#  que se encontra gravada a programação do controlador: o modo intermitente deverá ocorrer em todos os anéis.
+
+#  4.2.5.4.	No caso de ocorrência de verdes conflitantes, conforme a letra “a)” do item 4.2.5.3,
+#  uma vez iniciado o modo amarelo intermitente no anel afetado, ele deve assim permanecer por um
+#  intervalo de 10 (dez) segundos, após o que o referido anel deverá ser automaticamente reinicializado,
+#  devendo a saída do amarelo intermitente se dar conforme a letra “b)” do item 4.2.5.12.
+
+#  4.2.5.5.	Se, após a reinicialização do anel conforme o item 4.2.5.4, for detectada, em qualquer momento nos
+#  dois primeiros ciclos, nova ocorrência de verdes conflitantes, o procedimento de saída do modo amarelo
+#  intermitente só se dará após a reinicialização manual do controlador.
+
+#  4.2.5.6.	No caso da letra “b)” do item 4.2.5.3, o procedimento de saída do modo amarelo
+#  intermitente só se dará após a reinicialização manual do controlador.
+
+#  4.2.5.7.	A ocorrência de amarelo intermitente por falha bem como a falha propriamente dita deverão ser
+#  registradas em LOG e transmitidas à Central de Semáforos em Tempo Fixo, conforme o item 4.5.26.1.
+
+#  4.2.5.8.	Quanto a tempo máximo de permanência no estágio (letra “d)” do item 4.2.5.3), deve-se observar a
+#  exceção para o controle manual (itens 4.1.3.13 e 4.5.5.5).
+
+#  4.2.5.9.	A ocorrência de verdes conflitantes previsto na letra “a)” do item 4.2.5.3 e do desrespeito
+#  ao tempo máximo de permanência no estágio previsto na letra “d)” do item 4.2.5.3
+#  (com a exceção para o controle manual – itens 4.1.3.13 e 4.5.5.5) deverá ser registrada em LOG e
+#  transmitida à Central de Semáforos em Tempo Fixo, conforme o item 4.5.26.1.
+
+#  4.2.5.10.	Quando ocorrerem falhas que comprometam a segurança, conforme as letras “b)”
+#  do item 4.2.5.2 e item 4.2.5.3, afetando apenas alguns grupos semafóricos,
+#  deverão ir para o modo amarelo intermitente apenas os anéis cujos grupos semafóricos apresentaram a falha,
+#  devendo os demais anéis permanecer operando no plano e modo de operação previsto.
+
+#  4.2.5.11.	A comunicação de dados do controlador, quando em controle centralizado de supervisão,
+#  não deverá ser interrompida pelo modo de operação amarelo intermitente nas situações mencionadas
+#  em “a)”, “d)” e “e)” do item 4.2.5.2.
+
+#  4.2.5.12.	A seguir, está descrito o procedimento de como deve se dar a entrada e a saída do
+#  modo amarelo intermitente para cada uma das situações mencionadas no item 4.2.5.2:
+#  a)	Requisição através de recurso existente no Painel de Facilidades:
+#  Entrada do modo amarelo intermitente:
+#  O controlador deverá cumprir os tempos de verde de segurança, o entreverdes correspondente à transição
+#  mencionada no item 4.5.2.7 e executar três segundos de vermelho integral
+#  (inclusive nos grupos focais de pedestres) antes de entrar no modo intermitente em todos os anéis configurados.
+#
+#  Saída do modo amarelo intermitente:
+#
+#  Executar três segundos de vermelho integral (inclusive nos grupos focais de pedestres) de todos os anéis
+#  antes de voltar ao plano/modo previsto na Tabela Horária.
+#
+#  b)	Detecção de falha que compromete a segurança:
+#  Entrada do modo amarelo intermitente:
+#  Imediatamente após a detecção da falha.
+#  Saída do modo amarelo intermitente:
+#  Executar três segundos de vermelho integral (inclusive nos grupos focais de pedestres) no(s) anel(eis)
+#  em amarelo intermitente antes de voltar ao plano/modo previsto na Tabela Horária.
+#  c)	Acionamento, por meio da Tabela de Mudança de Plano, do plano caracterizado como modo
+#  amarelo intermitente:
+#
+#  Entrada do modo amarelo intermitente:
+#
+#  O controlador deverá cumprir os tempos de verde de segurança, o entreverdes correspondente à transição
+#  mencionada no item 4.5.2.7 e executar três segundos de vermelho integral antes de entrar no modo
+#  intermitente (inclusive nos grupos focais de pedestres) no anel em questão.
+#
+#  Saída do modo amarelo intermitente:
+#
+#  Executar três segundos de vermelho integral (inclusive nos grupos focais de pedestres) no anel em questão
+#  antes de voltar ao plano/modo previsto na Tabela Horária.
+#
+#  d)	Acionamento do modo amarelo Intermitente pela Central de Semáforos em Tempo Fixo:
+#
+#  Entrada do modo amarelo intermitente:
+#
+#  O controlador deverá cumprir os tempos de verde de segurança, o entreverdes correspondente à transição
+#  mencionada no item 4.5.2.7 e executar três segundos de vermelho integral no anel em questão antes de
+#  entrar no modo intermitente (inclusive nos grupos focais de pedestres).
+#
+#  Saída do modo amarelo intermitente:
+#
+#  Executar três segundos de vermelho integral (inclusive nos grupos focais de pedestres)
+#  no anel em questão antes de voltar ao plano/modo previsto na Tabela Horária.
+

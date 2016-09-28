@@ -67,7 +67,7 @@ public class Motor implements MotorEvents {
         }
 
         if (iniciarGrupos) {
-            List<Plano> planos = controlador.getAneis().stream()
+            List<Plano> planos = controlador.getAneis().stream().sorted((a1,a2) -> a1.getPosicao().compareTo(a2.getPosicao()))
                     .flatMap(anel -> anel.getPlanos().stream())
                     .filter(plano -> plano.getPosicao() == eventoAtual.getPosicaoPlano())
                     .collect(Collectors.toList());
@@ -89,6 +89,41 @@ public class Motor implements MotorEvents {
 
     @Override
     public void onEvento(EventoMotor eventoMotor) {
+        switch (eventoMotor.getTipoEvento().getTipoEventoControlador()) {
+            case ALARME:
+                trataAlarme(eventoMotor);
+                break;
+            case FALHA:
+                trataFalha(eventoMotor);
+                break;
+            case DETECTOR_PEDESTRE:
+                trataDetectorPedestre(eventoMotor);
+                break;
+            case DETECTOR_VEICULAR:
+                trataDetectorVeicular(eventoMotor);
+                break;
+            case IMPOSICAO_PLANO:
+                trataImposicaoPlano(eventoMotor);
+                break;
+        }
+    }
+
+    private void trataImposicaoPlano(EventoMotor eventoMotor) {
+    }
+
+    private void trataDetectorVeicular(EventoMotor eventoMotor) {
+
+    }
+
+    private void trataDetectorPedestre(EventoMotor eventoMotor) {
+
+    }
+
+    private void trataFalha(EventoMotor eventoMotor) {
+
+    }
+
+    private void trataAlarme(EventoMotor eventoMotor) {
 
     }
 }

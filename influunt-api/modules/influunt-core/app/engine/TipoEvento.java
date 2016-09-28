@@ -18,7 +18,7 @@ public enum TipoEvento {
     RETIRADA_DO_PLUG(TipoEventoControlador.ALARME, 6, "Retirada de plug", null),
 
     //Falhas
-    FASE_VERMELHA_DE_GRUPO_SEMAFORICO_APAGADA(TipoEventoControlador.ALARME, 1, "Fase vermelha do grupo semafórico apagada", "%s: Fase vermelha do grupo semafórico apagada"),
+    FASE_VERMELHA_DE_GRUPO_SEMAFORICO_APAGADA(TipoEventoControlador.FALHA, 1, "Fase vermelha do grupo semafórico apagada", "%s: Fase vermelha do grupo semafórico apagada"),
 
     //Detector
     ACIONAMENTO_DETECTOR_VEICULAR(TipoEventoControlador.DETECTOR_VEICULAR, 1, "Acionamento de detector veicular", "%s foi acionado"),

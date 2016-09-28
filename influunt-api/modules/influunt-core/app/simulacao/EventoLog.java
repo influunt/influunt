@@ -51,4 +51,6 @@ public abstract class EventoLog {
     }
 
     public abstract String mensagem(int evento);
+
+    public abstract boolean match(Object... params);
 }

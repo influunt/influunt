@@ -16,4 +16,9 @@ public class DefaultLog extends EventoLog {
     public String mensagem(int evento) {
         return prefix(evento);
     }
+
+    @Override
+    public boolean match(Object... params) {
+        return false;
+    }
 }

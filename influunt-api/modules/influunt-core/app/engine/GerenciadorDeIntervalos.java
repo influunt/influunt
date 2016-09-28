@@ -45,7 +45,12 @@ public class GerenciadorDeIntervalos {
         for (Plano plano : planos) {
             int indexEstagio = 0;
             ArrayList<Estagio> lista = new ArrayList<>();
-            for (GrupoSemaforicoPlano grupoSemaforicoPlano : plano.getGruposSemaforicosPlanos()) {
+            List<GrupoSemaforicoPlano> grupoSemaforicoPlanos = plano.getGruposSemaforicosPlanos()
+                                                                    .stream()
+                                                                    .sorted((o1, o2) -> o1.getGrupoSemaforico().getPosicao().compareTo(o2.getGrupoSemaforico().getPosicao()))
+                                                                    .collect(Collectors.toList());
+
+            for (GrupoSemaforicoPlano grupoSemaforicoPlano : grupoSemaforicoPlanos) {
                 grupos.put(index, new ArrayList<>(plano.getTempoCiclo()));
                 List<Intervalo> intervalos = grupoSemaforicoPlano.getIntervalos().stream().sorted((o1, o2) -> o1.getOrdem().compareTo(o2.getOrdem())).collect(Collectors.toList());
                 int i = 0;
@@ -107,6 +112,9 @@ public class GerenciadorDeIntervalos {
         List<EstadoGrupoSemaforico> estadoGrupoSemaforicos = new ArrayList<>(numeroGrupoSemaforico);
         for (int grupo = 1; grupo <= numeroGrupoSemaforico; grupo++) {
             int indexGrupo = getIndex(grupo, instante);
+            if(indexGrupo==-1){
+                System.out.println(1);
+            }
             EstadoGrupoSemaforico estado = grupos.get(grupo).get(indexGrupo);
             estadoGrupoSemaforicos.add(estado);
         }
@@ -150,7 +158,7 @@ public class GerenciadorDeIntervalos {
     }
 
     public List<EstadoGrupoSemaforico> getEstadosGrupo(DateTime instante) {
-        int i = (int) (instante.getMillis() % cicloMaximo);
+        int i = (int) (instante.getMillis()/1000 % cicloMaximo);
         return getProgram(i + 1);
     }
 }

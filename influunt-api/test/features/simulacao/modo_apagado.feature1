@@ -1,0 +1,20 @@
+# language: pt
+Funcionalidade: Valida a especificação da execução de controladores quando em modo apagado
+
+  Contexto:
+    Dado que exista o controlador "suely"
+
+  #4.2.6.1.	Deverá ser possível impor ao controlador a operação no modo apagado num determinado anel.
+  #Neste modo, todos os grupos focais veiculares e todos os grupos focais de pedestres do anel permanecem apagados.
+  #Deverá ser possível, também, programar um plano selecionando somente um ou mais anéis que ficarão apagados.
+
+  #4.2.6.2.	Antes de entrar no modo apagado, o controlador deverá cumprir os tempos de verde de segurança e o
+  #entreverdes correspondente à transição mencionada no item 4.5.2.7 e executar 3 (três) segundos de vermelho integral
+  #no anel em questão.
+
+  #4.2.6.3.	Antes de sair do modo apagado, o controlador deverá executar 5 (cinco) segundos de amarelo intermitente
+  #e 3 (três) segundos de vermelho integral (inclusive nos grupos focais de pedestres) no anel em questão.
+
+  #4.2.6.4.	Durante a operação em modo apagado, o controlador deverá continuar funcionando internamente.
+  #A comunicação com a Central de Semáforos em Tempo Fixo também deverá ser mantida.
+

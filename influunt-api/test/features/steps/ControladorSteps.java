@@ -1,29 +1,36 @@
 package features.steps;
 
+import com.avaje.ebeaninternal.server.lib.util.Str;
 import com.fasterxml.jackson.databind.JsonNode;
 import config.WithInfluuntApplicationNoAuthentication;
+import cucumber.api.DataTable;
+import cucumber.api.PendingException;
 import cucumber.api.java.Before;
 import cucumber.api.java.pt.Dado;
+import cucumber.api.java.pt.Então;
 import cucumber.api.java.pt.Quando;
 import engine.EventoMotor;
 import engine.TipoEvento;
 import json.ControladorCustomDeserializer;
-import models.Controlador;
-import models.Detector;
-import models.Plano;
-import models.TipoDetector;
+import models.*;
 import org.apache.commons.io.IOUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.junit.Assert;
+import simulacao.AlteracaoEstadoLog;
+import simulacao.EventoLog;
 import simulacao.Simulador;
+import simulacao.TipoEventoLog;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static junit.framework.TestCase.assertNotNull;
+import static org.junit.Assert.assertEquals;
 import static play.test.Helpers.inMemoryDatabase;
 
 /**
@@ -121,6 +128,73 @@ public class ControladorSteps extends WithInfluuntApplicationNoAuthentication {
     @Quando("^a simulacao terminar$")
     public void a_simulacao_terminar() throws Throwable {
         simulador.simular();
+    }
+
+    @Então("^a simulacao tera duracao de (\\d+) segundos$")
+    public void a_simulacao_tera_duracao_de_segundos(int duracao) throws Throwable {
+        assertEquals(duracao,simulador.getTempoSimulacao());
+    }
+
+    @Dado("^que esse cenario ainda nao foi implementado$")
+    public void que_esse_cenario_ainda_nao_foi_implementado() throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        throw new PendingException();
+    }
+
+    @Então("^que houveram as seguintes trocas de planos:$")
+    public void que_houveram_as_seguintes_trocas_de_planos(DataTable dataTable) throws Throwable {
+        List<List<String>> rows = dataTable.asLists(String.class);
+
+        int i = 0;
+        for(List<String> row : rows){
+            if(i > 0) {
+                int planoAnterior = Integer.valueOf(row.get(0));
+                int planoAtual = Integer.valueOf(row.get(1));
+                DateTime timestamp = parseDate(row.get(2));
+                int anel = Integer.valueOf(row.get(3));
+
+                checkMudancaDePlano(planoAnterior, planoAtual, timestamp, anel, i);
+            }
+            i++;
+        }
+    }
+
+    @Então("^que os grupos semaforicos estao nos seguintes estados:$")
+    public void que_os_grupos_semaforicos_estao_nos_seguintes_estados(DataTable dataTable) throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        // For automatic transformation, change DataTable to one of
+        // List<YourType>, List<List<E>>, List<Map<K,V>> or Map<K,V>.
+        // E,K,V must be a scalar (String, Integer, Date, enum etc)
+        List<List<String>> rows = dataTable.asLists(String.class);
+        int i = 0;
+        for(List<String> row : rows){
+            if(i > 0) {
+                DateTime timestamp = parseDate(row.get(0));
+                List<EstadoGrupoSemaforico> estado = parserEstadoGrupoSemaforico(1,row);
+                checkMudancaDeEstado(timestamp,estado,i);
+            }
+            i++;
+        }
+
+    }
+
+
+    private List<EstadoGrupoSemaforico> parserEstadoGrupoSemaforico(int i, List<String> row) {
+        List<EstadoGrupoSemaforico> result = new ArrayList<>();
+        for(i = 1; i < row.size(); i++){
+            result.add(EstadoGrupoSemaforico.valueOf(row.get(i)));
+        }
+        return result;
+    }
+
+    private void checkMudancaDePlano(int planoAnterior, int planoAtual, DateTime timestamp, int anel, int linha) {
+        EventoLog mudancaoDePlano = simulador.findInLog(TipoEventoLog.ALTERACAO_EVENTO,timestamp,planoAnterior,planoAtual,anel);
+        assertNotNull("A mudança de planos da linha " + linha + " nao ocorreu",mudancaoDePlano);
+    }
+    private void checkMudancaDeEstado(DateTime timestamp, List<EstadoGrupoSemaforico> estado, int linha) {
+        AlteracaoEstadoLog estadoGrupoSemaforico = (AlteracaoEstadoLog) simulador.findFirstInLog(TipoEventoLog.ALTERACAO_ESTADO,timestamp);
+        Assert.assertNotNull("A configuracao de estados nao mudou nesse instante, conforme a linha:" + linha,estadoGrupoSemaforico);
+        assertEquals("A configuracao de estados nao esta como a esperada na linha " + linha,estado,estadoGrupoSemaforico.getAtual());
     }
 
     private byte[] readControladorJson(String controladorId) throws IOException {

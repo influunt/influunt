@@ -693,6 +693,23 @@
         {
           "idJson": "22782f57-6196-4309-ad07-2bcf6f7d2f7a"
         }
+      ],
+      "intervalos": [
+        {
+          "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a218"
+        },
+        {
+          "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a228"
+        },
+        {
+          "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a238"
+        },
+        {
+          "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a248"
+        },
+        {
+          "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a258"
+        }
       ]
     },
     {
@@ -3575,7 +3592,13 @@
       "grupoSemaforico": {
         "idJson": "e5303cc6-31bc-4819-960c-3ca419a59172"
       },
-      "ativado": true
+      "ativado": true,
+      "intervalos": [
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a718"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a728"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a738"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a748"}
+      ]
     },
     {
       "id": "b35f4651-2530-43ca-97e7-faada0f2c409",
@@ -3586,7 +3609,14 @@
       "grupoSemaforico": {
         "idJson": "8f29849f-2360-459b-be1b-bb85bd36a04a"
       },
-      "ativado": true
+      "ativado": true,
+      "intervalos": [
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a218"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a228"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a238"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a248"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a258"}
+      ]
     },
     {
       "id": "7c01928c-e32e-40c0-bee0-84109e808b14",
@@ -3597,7 +3627,13 @@
       "grupoSemaforico": {
         "idJson": "20f30fe4-28c2-48b0-a925-21ef2e508f51"
       },
-      "ativado": true
+      "ativado": true,
+      "intervalos": [
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a614"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a624"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a634"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a644"}
+      ]
     },
     {
       "id": "a59981cc-4701-421b-b81e-08b112e62ce9",
@@ -3608,7 +3644,13 @@
       "grupoSemaforico": {
         "idJson": "7201b1f9-a9c6-47da-80f4-e3d9a75b0e6c"
       },
-      "ativado": true
+      "ativado": true,
+      "intervalos": [
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a318"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a328"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a338"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a348"}
+      ]
     },
     {
       "id": "3351fdf5-ce8c-499d-872a-c8db46df7687",
@@ -3619,7 +3661,14 @@
       "grupoSemaforico": {
         "idJson": "26cb3522-49bc-429b-9b47-81ec3d5cd895"
       },
-      "ativado": true
+      "ativado": true,
+      "intervalos": [
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a612"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a622"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a632"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a642"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a652"}
+      ]
     },
     {
       "id": "75a3d044-c009-4d71-b68a-8c22be3026ed",
@@ -3630,7 +3679,13 @@
       "grupoSemaforico": {
         "idJson": "48eb3a83-6420-4535-9518-c7f771913a5e"
       },
-      "ativado": true
+      "ativado": true,
+      "intervalos": [
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a918"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a928"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a938"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a948"}
+      ]
     },
     {
       "id": "95153fbf-abc8-4a6e-840d-52794a0ead84",
@@ -3641,7 +3696,14 @@
       "grupoSemaforico": {
         "idJson": "8b0b3de5-e47f-4f8b-96d0-93749fec9f6f"
       },
-      "ativado": true
+      "ativado": true,
+      "intervalos": [
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a518"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a528"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a538"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a548"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a558"}
+      ]
     },
     {
       "id": "b0fe075f-b887-404b-b320-dcfc88a3ad9e",
@@ -3652,7 +3714,14 @@
       "grupoSemaforico": {
         "idJson": "346bd583-d423-420f-88ce-f60e45f89608"
       },
-      "ativado": true
+      "ativado": true,
+      "intervalos": [
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a418"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a428"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a438"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a448"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a458"}
+      ]
     },
     {
       "id": "c6e832b9-6394-4339-a3ea-379edef48feb",
@@ -3663,7 +3732,14 @@
       "grupoSemaforico": {
         "idJson": "0870874e-3f4f-436b-afe9-48068f5ded61"
       },
-      "ativado": true
+      "ativado": true,
+      "intervalos": [
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a818"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a828"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a838"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a848"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a858"}
+      ]
     },
     {
       "id": "95acbd13-4d15-472a-ba04-740bac9be706",
@@ -3674,7 +3750,14 @@
       "grupoSemaforico": {
         "idJson": "2e41f7a1-7019-442b-9c3d-51eb9237c08e"
       },
-      "ativado": true
+      "ativado": true,
+      "intervalos": [
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a610"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a620"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a630"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a640"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a650"}
+      ]
     },
     {
       "id": "df066532-a81a-4fd4-bc3a-c889a86cf2a4",
@@ -3685,7 +3768,14 @@
       "grupoSemaforico": {
         "idJson": "c7c4dfbb-b2e1-4616-bc7c-a1f989734734"
       },
-      "ativado": true
+      "ativado": true,
+      "intervalos": [
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a518"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a528"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a538"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a548"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a558"}
+      ]
     },
     {
       "id": "0008f9d5-e4c9-4d1a-9efe-7fea448fbd87",
@@ -3696,7 +3786,13 @@
       "grupoSemaforico": {
         "idJson": "30f681ff-6c30-4684-a750-4c2594b6fd94"
       },
-      "ativado": true
+      "ativado": true,
+      "intervalos": [
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a618"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a628"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a638"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a648"}
+      ]
     },
     {
       "id": "ad699ff2-ee7d-48df-828c-fe7e440dc012",
@@ -3707,7 +3803,14 @@
       "grupoSemaforico": {
         "idJson": "6cf9d919-ab06-4166-a0fa-4d1f214e50f1"
       },
-      "ativado": true
+      "ativado": true,
+      "intervalos": [
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a616"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a626"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a636"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a616"},
+        {"idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a616"}
+      ]
     }
   ],
   "estagiosPlanos": [
@@ -5059,6 +5162,480 @@
       "tabelaHoraria": {
         "idJson": "eb3efe89-d256-4355-9dcb-9fe5509e767f"
       }
+    }
+  ],
+  "intervalos": [
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a611",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a612",
+      "tamanho": 11,
+      "ordem": 1,
+      "estadoGrupoSemaforico": "VERMELHO",
+      "grupoSemaforicoPlano": {"idJson": "d0d0b4b6-0ac7-4c47-899a-f69f2328fcd6"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a621",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a622",
+      "tamanho": 80,
+      "ordem": 2,
+      "estadoGrupoSemaforico": "VERDE",
+      "grupoSemaforicoPlano": {"idJson": "d0d0b4b6-0ac7-4c47-899a-f69f2328fcd6"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a631",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a632",
+      "tamanho": 4,
+      "ordem": 3,
+      "estadoGrupoSemaforico": "AMARELO",
+      "grupoSemaforicoPlano": {"idJson": "d0d0b4b6-0ac7-4c47-899a-f69f2328fcd6"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a641",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a642",
+      "tamanho": 2,
+      "ordem": 4,
+      "estadoGrupoSemaforico": "VERMELHO_LIMPEZA",
+      "grupoSemaforicoPlano": {"idJson": "d0d0b4b6-0ac7-4c47-899a-f69f2328fcd6"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a651",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a652",
+      "tamanho": 31,
+      "ordem": 5,
+      "estadoGrupoSemaforico": "VERMELHO",
+      "grupoSemaforicoPlano": {"idJson": "d0d0b4b6-0ac7-4c47-899a-f69f2328fcd6"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a613",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a614",
+      "tamanho": 9,
+      "ordem": 1,
+      "estadoGrupoSemaforico": "VERMELHO_INTERMITENTE",
+      "grupoSemaforicoPlano": {"idJson": "719b465b-0a38-46db-bea8-9200e5c1a9f3"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a623",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a624",
+      "tamanho": 2,
+      "ordem": 2,
+      "estadoGrupoSemaforico": "VERMELHO_LIMPEZA",
+      "grupoSemaforicoPlano": {"idJson": "719b465b-0a38-46db-bea8-9200e5c1a9f3"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a633",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a634",
+      "tamanho": 86,
+      "ordem": 3,
+      "estadoGrupoSemaforico": "VERMELHO",
+      "grupoSemaforicoPlano": {"idJson": "719b465b-0a38-46db-bea8-9200e5c1a9f3"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a643",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a644",
+      "tamanho": 31,
+      "ordem": 4,
+      "estadoGrupoSemaforico": "VERDE",
+      "grupoSemaforicoPlano": {"idJson": "719b465b-0a38-46db-bea8-9200e5c1a9f3"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a615",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a616",
+      "tamanho": 11,
+      "ordem": 1,
+      "estadoGrupoSemaforico": "VERMELHO",
+      "grupoSemaforicoPlano": {"idJson": "5af08c81-aed6-400c-9123-714f3d0164e6"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a625",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a626",
+      "tamanho": 99,
+      "ordem": 2,
+      "estadoGrupoSemaforico": "VERDE",
+      "grupoSemaforicoPlano": {"idJson": "5af08c81-aed6-400c-9123-714f3d0164e6"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a635",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a636",
+      "tamanho": 4,
+      "ordem": 3,
+      "estadoGrupoSemaforico": "AMARELO",
+      "grupoSemaforicoPlano": {"idJson": "5af08c81-aed6-400c-9123-714f3d0164e6"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a615",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a616",
+      "tamanho": 1,
+      "ordem": 4,
+      "estadoGrupoSemaforico": "VERMELHO_LIMPEZA",
+      "grupoSemaforicoPlano": {"idJson": "5af08c81-aed6-400c-9123-714f3d0164e6"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a615",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a616",
+      "tamanho": 13,
+      "ordem": 5,
+      "estadoGrupoSemaforico": "VERMELHO",
+      "grupoSemaforicoPlano": {"idJson": "5af08c81-aed6-400c-9123-714f3d0164e6"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a617",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a618",
+      "tamanho": 9,
+      "ordem": 1,
+      "estadoGrupoSemaforico": "VERMELHO_INTERMITENTE",
+      "grupoSemaforicoPlano": {"idJson": "71e0eccd-8160-40c1-9180-829a1dd2f99f"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a627",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a628",
+      "tamanho": 2,
+      "ordem": 2,
+      "estadoGrupoSemaforico": "VERMELHO_LIMPEZA",
+      "grupoSemaforicoPlano": {"idJson": "71e0eccd-8160-40c1-9180-829a1dd2f99f"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a637",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a638",
+      "tamanho": 104,
+      "ordem": 3,
+      "estadoGrupoSemaforico": "VERMELHO",
+      "grupoSemaforicoPlano": {"idJson": "71e0eccd-8160-40c1-9180-829a1dd2f99f"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a647",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a648",
+      "tamanho": 13,
+      "ordem": 4,
+      "estadoGrupoSemaforico": "VERDE",
+      "grupoSemaforicoPlano": {"idJson": "71e0eccd-8160-40c1-9180-829a1dd2f99f"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a619",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a610",
+      "tamanho": 6,
+      "ordem": 1,
+      "estadoGrupoSemaforico": "VERDE",
+      "grupoSemaforicoPlano": {"idJson": "94cc88e4-89d0-4eef-83a6-5c2df24db0bc"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a629",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a620",
+      "tamanho": 3,
+      "ordem": 2,
+      "estadoGrupoSemaforico": "AMARELO",
+      "grupoSemaforicoPlano": {"idJson": "94cc88e4-89d0-4eef-83a6-5c2df24db0bc"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a639",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a630",
+      "tamanho": 2,
+      "ordem": 3,
+      "estadoGrupoSemaforico": "VERMELHO_LIMPEZA",
+      "grupoSemaforicoPlano": {"idJson": "94cc88e4-89d0-4eef-83a6-5c2df24db0bc"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a649",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a640",
+      "tamanho": 86,
+      "ordem": 4,
+      "estadoGrupoSemaforico": "VERMELHO",
+      "grupoSemaforicoPlano": {"idJson": "94cc88e4-89d0-4eef-83a6-5c2df24db0bc"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a659",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a650",
+      "tamanho": 31,
+      "ordem": 5,
+      "estadoGrupoSemaforico": "VERDE",
+      "grupoSemaforicoPlano": {"idJson": "94cc88e4-89d0-4eef-83a6-5c2df24db0bc"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a917",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a918",
+      "tamanho": 9,
+      "ordem": 1,
+      "estadoGrupoSemaforico": "VERMELHO_INTERMITENTE",
+      "grupoSemaforicoPlano": {"idJson": "56420f30-e6df-47f0-97ef-8f4357eb923c"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a927",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a928",
+      "tamanho": 2,
+      "ordem": 2,
+      "estadoGrupoSemaforico": "VERMELHO_LIMPEZA",
+      "grupoSemaforicoPlano": {"idJson": "56420f30-e6df-47f0-97ef-8f4357eb923c"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a937",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a938",
+      "tamanho": 86,
+      "ordem": 3,
+      "estadoGrupoSemaforico": "VERMELHO",
+      "grupoSemaforicoPlano": {"idJson": "56420f30-e6df-47f0-97ef-8f4357eb923c"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a947",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a948",
+      "tamanho": 31,
+      "ordem": 4,
+      "estadoGrupoSemaforico": "VERDE",
+      "grupoSemaforicoPlano": {"idJson": "56420f30-e6df-47f0-97ef-8f4357eb923c"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a217",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a218",
+      "tamanho": 11,
+      "ordem": 1,
+      "estadoGrupoSemaforico": "VERMELHO",
+      "grupoSemaforicoPlano": {"idJson": "776efa13-522f-429c-b75b-c6457819dc09"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a227",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a228",
+      "tamanho": 80,
+      "ordem": 2,
+      "estadoGrupoSemaforico": "VERDE",
+      "grupoSemaforicoPlano": {"idJson": "776efa13-522f-429c-b75b-c6457819dc09"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a237",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a238",
+      "tamanho": 4,
+      "ordem": 3,
+      "estadoGrupoSemaforico": "AMARELO",
+      "grupoSemaforicoPlano": {"idJson": "776efa13-522f-429c-b75b-c6457819dc09"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a247",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a248",
+      "tamanho": 2,
+      "ordem": 4,
+      "estadoGrupoSemaforico": "VERMELHO_LIMPEZA",
+      "grupoSemaforicoPlano": {"idJson": "776efa13-522f-429c-b75b-c6457819dc09"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a257",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a258",
+      "tamanho": 31,
+      "ordem": 5,
+      "estadoGrupoSemaforico": "VERMELHO",
+      "grupoSemaforicoPlano": {"idJson": "776efa13-522f-429c-b75b-c6457819dc09"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a817",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a818",
+      "tamanho": 6,
+      "ordem": 1,
+      "estadoGrupoSemaforico": "VERMELHO",
+      "grupoSemaforicoPlano": {"idJson": "55cb2833-aa69-4be4-b2f7-a1f8c7f9f5ed"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a827",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a828",
+      "tamanho": 20,
+      "ordem": 2,
+      "estadoGrupoSemaforico": "VERDE",
+      "grupoSemaforicoPlano": {"idJson": "55cb2833-aa69-4be4-b2f7-a1f8c7f9f5ed"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a837",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a838",
+      "tamanho": 9,
+      "ordem": 3,
+      "estadoGrupoSemaforico": "VERMELHO_INTERMITENTE",
+      "grupoSemaforicoPlano": {"idJson": "55cb2833-aa69-4be4-b2f7-a1f8c7f9f5ed"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a847",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a848",
+      "tamanho": 2,
+      "ordem": 4,
+      "estadoGrupoSemaforico": "VERMELHO_LIMPEZA",
+      "grupoSemaforicoPlano": {"idJson": "55cb2833-aa69-4be4-b2f7-a1f8c7f9f5ed"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a857",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a858",
+      "tamanho": 91,
+      "ordem": 5,
+      "estadoGrupoSemaforico": "VERMELHO",
+      "grupoSemaforicoPlano": {"idJson": "55cb2833-aa69-4be4-b2f7-a1f8c7f9f5ed"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a717",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a718",
+      "tamanho": 4,
+      "ordem": 1,
+      "estadoGrupoSemaforico": "AMARELO",
+      "grupoSemaforicoPlano": {"idJson": "5edd4a08-408b-4628-b097-d3f079a01e3c"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a727",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a728",
+      "tamanho": 2,
+      "ordem": 2,
+      "estadoGrupoSemaforico": "VERMELHO_LIMPEZA",
+      "grupoSemaforicoPlano": {"idJson": "5edd4a08-408b-4628-b097-d3f079a01e3c"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a737",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a738",
+      "tamanho": 31,
+      "ordem": 3,
+      "estadoGrupoSemaforico": "VERMELHO",
+      "grupoSemaforicoPlano": {"idJson": "5edd4a08-408b-4628-b097-d3f079a01e3c"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a747",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a748",
+      "tamanho": 91,
+      "ordem": 4,
+      "estadoGrupoSemaforico": "VERDE",
+      "grupoSemaforicoPlano": {"idJson": "5edd4a08-408b-4628-b097-d3f079a01e3c"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a517",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a518",
+      "tamanho": 9,
+      "ordem": 1,
+      "estadoGrupoSemaforico": "VERMELHO_INTERMITENTE",
+      "grupoSemaforicoPlano": {"idJson": "c2f9a6f6-d335-4ad0-abe0-95e789c3181a"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a527",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a528",
+      "tamanho": 2,
+      "ordem": 2,
+      "estadoGrupoSemaforico": "VERMELHO_LIMPEZA",
+      "grupoSemaforicoPlano": {"idJson": "c2f9a6f6-d335-4ad0-abe0-95e789c3181a"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a537",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a538",
+      "tamanho": 97,
+      "ordem": 3,
+      "estadoGrupoSemaforico": "VERMELHO",
+      "grupoSemaforicoPlano": {"idJson": "c2f9a6f6-d335-4ad0-abe0-95e789c3181a"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a547",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a548",
+      "tamanho": 20,
+      "ordem": 4,
+      "estadoGrupoSemaforico": "VERDE",
+      "grupoSemaforicoPlano": {"idJson": "c2f9a6f6-d335-4ad0-abe0-95e789c3181a"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a517",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a518",
+      "tamanho": 11,
+      "ordem": 1,
+      "estadoGrupoSemaforico": "VERMELHO",
+      "grupoSemaforicoPlano": {"idJson": "ac393ec6-1863-405d-a27b-152f7e3654b8"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a527",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a528",
+      "tamanho": 92,
+      "ordem": 2,
+      "estadoGrupoSemaforico": "VERDE",
+      "grupoSemaforicoPlano": {"idJson": "ac393ec6-1863-405d-a27b-152f7e3654b8"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a537",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a538",
+      "tamanho": 3,
+      "ordem": 3,
+      "estadoGrupoSemaforico": "AMARELO",
+      "grupoSemaforicoPlano": {"idJson": "ac393ec6-1863-405d-a27b-152f7e3654b8"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a547",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a548",
+      "tamanho": 2,
+      "ordem": 4,
+      "estadoGrupoSemaforico": "VERMELHO_LIMPEZA",
+      "grupoSemaforicoPlano": {"idJson": "ac393ec6-1863-405d-a27b-152f7e3654b8"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a557",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a558",
+      "tamanho": 20,
+      "ordem": 5,
+      "estadoGrupoSemaforico": "VERDE",
+      "grupoSemaforicoPlano": {"idJson": "ac393ec6-1863-405d-a27b-152f7e3654b8"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a417",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a418",
+      "tamanho": 23,
+      "ordem": 1,
+      "estadoGrupoSemaforico": "VERMELHO",
+      "grupoSemaforicoPlano": {"idJson": "7ccfa4ef-0f2d-4ae6-b02c-0b817d14b991"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a427",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a428",
+      "tamanho": 80,
+      "ordem": 2,
+      "estadoGrupoSemaforico": "VERDE",
+      "grupoSemaforicoPlano": {"idJson": "7ccfa4ef-0f2d-4ae6-b02c-0b817d14b991"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a437",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a438",
+      "tamanho": 4,
+      "ordem": 3,
+      "estadoGrupoSemaforico": "AMARELO",
+      "grupoSemaforicoPlano": {"idJson": "7ccfa4ef-0f2d-4ae6-b02c-0b817d14b991"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a447",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a448",
+      "tamanho": 2,
+      "ordem": 4,
+      "estadoGrupoSemaforico": "VERMELHO_LIMPEZA",
+      "grupoSemaforicoPlano": {"idJson": "7ccfa4ef-0f2d-4ae6-b02c-0b817d14b991"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a457",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a458",
+      "tamanho": 19,
+      "ordem": 5,
+      "estadoGrupoSemaforico": "VERMELHO",
+      "grupoSemaforicoPlano": {"idJson": "7ccfa4ef-0f2d-4ae6-b02c-0b817d14b991"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a317",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a318",
+      "tamanho": 20,
+      "ordem": 1,
+      "estadoGrupoSemaforico": "VERDE",
+      "grupoSemaforicoPlano": {"idJson": "8cdc9b29-09bb-4482-8a0e-a2358401fa98"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a327",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a328",
+      "tamanho": 3,
+      "ordem": 2,
+      "estadoGrupoSemaforico": "AMARELO",
+      "grupoSemaforicoPlano": {"idJson": "8cdc9b29-09bb-4482-8a0e-a2358401fa98"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a337",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a338",
+      "tamanho": 86,
+      "ordem": 3,
+      "estadoGrupoSemaforico": "VERMELHO",
+      "grupoSemaforicoPlano": {"idJson": "8cdc9b29-09bb-4482-8a0e-a2358401fa98"}
+    },
+    {
+      "id": "44cdbec0-37db-4e21-b9c4-4c86b344a347",
+      "idJson": "44cdbec0-37db-4e21-b9c4-4c86b344a348",
+      "tamanho": 19,
+      "ordem": 4,
+      "estadoGrupoSemaforico": "VERDE",
+      "grupoSemaforicoPlano": {"idJson": "8cdc9b29-09bb-4482-8a0e-a2358401fa98"}
     }
   ]
 }
