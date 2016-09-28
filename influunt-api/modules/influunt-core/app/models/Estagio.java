@@ -298,6 +298,15 @@ public class Estagio extends Model implements Serializable, Cloneable {
     }
 
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
+            message = "Estágio de demanda prioritária deve ser associado a somente 1 grupo semafórico.")
+    public boolean isSomenteUmEstagioGrupoSemaforicoEmDemandaPrioritaria() {
+        if(isEstagiosGrupoSemaforicosNotEmpty() && isDemandaPrioritaria()){
+            return getEstagiosGruposSemaforicos().size() <= 1;
+        }
+        return true;
+    }
+
+    @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
             message = "Existem grupos semafóricos conflitantes associados a esse estágio.")
     public boolean isNaoDevePossuirGruposSemaforicosConflitantes() {
         if (isEstagiosGrupoSemaforicosNotEmpty()) {
@@ -305,7 +314,6 @@ public class Estagio extends Model implements Serializable, Cloneable {
         }
         return true;
     }
-
 
     @AssertTrue(groups = ControladorTransicoesProibidasCheck.class,
             message = "Esse estágio não pode ter um estágio de destino e alternativo ao mesmo tempo.")
@@ -454,5 +462,9 @@ public class Estagio extends Model implements Serializable, Cloneable {
 
     public void setDestroy(boolean destroy) {
         this.destroy = destroy;
+    }
+
+    public boolean isDemandaPrioritaria() {
+        return demandaPrioritaria;
     }
 }

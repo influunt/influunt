@@ -1,5 +1,6 @@
 package models;
 
+import checks.ControladorAssociacaoGruposSemaforicosCheck;
 import checks.ControladorGruposSemaforicosCheck;
 import checks.ControladorTabelaEntreVerdesCheck;
 import checks.ControladorVerdesConflitantesCheck;
@@ -313,6 +314,16 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
         } else {
             return true;
         }
+    }
+
+    @JsonIgnore
+    @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
+            message = "Esse grupo semafórico não pode estar associado a um estágio de demanda prioritária e com outro estágio ao mesmo tempo.")
+    public boolean isNaoEstaAssociadoAEstagioDemandaPrioritariaEOutroEstagio() {
+        if(getEstagiosGruposSemaforicos() != null && getEstagiosGruposSemaforicos().stream().anyMatch(estagioGrupoSemaforico -> estagioGrupoSemaforico.getEstagio().isDemandaPrioritaria())){
+            return getEstagiosGruposSemaforicos().size() <= 1;
+        }
+        return true;
     }
 
     @JsonIgnore
