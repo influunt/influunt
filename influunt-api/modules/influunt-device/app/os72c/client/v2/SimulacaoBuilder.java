@@ -2,7 +2,6 @@ package os72c.client.v2;
 
 import models.Plano;
 
-
 import java.util.List;
 
 /**
@@ -36,10 +35,10 @@ public class SimulacaoBuilder {
     }
 
     public Simulador build() {
-        if(params.getFimSimulacao() - params.getInicioSimulacao() < 0){
+        if (params.getFimSimulacao() - params.getInicioSimulacao() < 0) {
             throw new RuntimeException("Simulacao com parametros invalidos");
         }
-        return new Simulador(planos,params);
+        return new Simulador(planos, params);
     }
 
     public SimulacaoBuilder planos(List<Plano> planos) {

@@ -497,7 +497,7 @@ public class ControladorTestUtil {
         }
     }
 
-    protected void criaIntervalos(Plano plano){
+    protected void criaIntervalos(Plano plano) {
         List<EstagioPlano> estagios = plano.ordenarEstagiosPorPosicao();
         TabelaEntreVerdesTransicao tabelaEntreVerdesTransicao;
         Intervalo intervalo;
@@ -508,7 +508,7 @@ public class ControladorTestUtil {
             Estagio estagioAnterior = estagioPlanoAnterior.getEstagio();
 
             List<Integer> tempos = new ArrayList<>();
-            for(GrupoSemaforico grupoSemaforico : estagioAnterior.getGruposSemaforicos()){
+            for (GrupoSemaforico grupoSemaforico : estagioAnterior.getGruposSemaforicos()) {
                 Transicao transicao = grupoSemaforico
                         .getTransicoes()
                         .stream()
@@ -533,11 +533,11 @@ public class ControladorTestUtil {
                 intervalo = new Intervalo();
                 intervalo.setOrdem(grupoSemaforicoPlano.getIntervalos().size() + 1);
 
-                if(grupoSemaforico.isVeicular()){
+                if (grupoSemaforico.isVeicular()) {
                     intervalo.setEstadoGrupoSemaforico(EstadoGrupoSemaforico.AMARELO);
                     intervalo.setTamanho(tabelaEntreVerdesTransicao.getTempoAmarelo());
                     tempos.add(tabelaEntreVerdesTransicao.getTempoAmarelo() + tabelaEntreVerdesTransicao.getTempoVermelhoLimpeza());
-                }else{
+                } else {
                     intervalo.setEstadoGrupoSemaforico(EstadoGrupoSemaforico.VERMELHO_INTERMITENTE);
                     intervalo.setTamanho(tabelaEntreVerdesTransicao.getTempoVermelhoIntermitente());
                     tempos.add(tabelaEntreVerdesTransicao.getTempoVermelhoIntermitente() + tabelaEntreVerdesTransicao.getTempoVermelhoLimpeza());
@@ -553,7 +553,7 @@ public class ControladorTestUtil {
                 grupoSemaforicoPlano.addIntervalos(intervalo);
             }
 
-            for(GrupoSemaforico grupoSemaforico : estagioAtual.getGruposSemaforicos()){
+            for (GrupoSemaforico grupoSemaforico : estagioAtual.getGruposSemaforicos()) {
                 grupoSemaforicoPlano = plano
                         .getGruposSemaforicosPlanos()
                         .stream()

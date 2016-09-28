@@ -9,27 +9,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.apache.commons.math3.util.ArithmeticUtils.lcm;
-
 
 /**
  * Created by rodrigosol on 9/15/16.
  */
 public class GerenciadorDeIntervalos {
 
-    private final HashMap<Integer,Integer> temposDeCiclo;
-    private final HashMap<Integer,Integer> temposDeCicloPorAnel;
-    private final HashMap<Integer,Integer> temposDeVerdeSeguranca;
+    private final HashMap<Integer, Integer> temposDeCiclo;
 
-    private final HashMap<Integer,List<EstadoGrupoSemaforico>> grupos;
-    private final HashMap<Integer,List<Estagio>> estagios;
+    private final HashMap<Integer, Integer> temposDeCicloPorAnel;
+
+    private final HashMap<Integer, Integer> temposDeVerdeSeguranca;
+
+    private final HashMap<Integer, List<EstadoGrupoSemaforico>> grupos;
+
+    private final HashMap<Integer, List<Estagio>> estagios;
+
     private final long cicloMaximo;
 
     private final List<Plano> planos;
 
     private final int numeroGrupoSemaforico;
 
-    public <E> GerenciadorDeIntervalos(List<Plano> planos){
+    public <E> GerenciadorDeIntervalos(List<Plano> planos) {
         this.planos = planos;
         this.cicloMaximo = calculaMMC();
         this.numeroGrupoSemaforico = quantidadeDeGruposSemaforicos();
@@ -40,25 +42,26 @@ public class GerenciadorDeIntervalos {
         estagios = new HashMap<>(planos.size());
 
         int index = 1;
-        for(Plano plano : planos){
+        for (Plano plano : planos) {
             int indexEstagio = 0;
             ArrayList<Estagio> lista = new ArrayList<>();
-            for (GrupoSemaforicoPlano grupoSemaforicoPlano : plano.getGruposSemaforicosPlanos()){
-                grupos.put(index,new ArrayList<>(plano.getTempoCiclo()));
-                List<Intervalo> intervalos = grupoSemaforicoPlano.getIntervalos().stream().sorted((o1, o2) -> o1.getOrdem().compareTo(o2.getOrdem())).collect(Collectors.toList());;
+            for (GrupoSemaforicoPlano grupoSemaforicoPlano : plano.getGruposSemaforicosPlanos()) {
+                grupos.put(index, new ArrayList<>(plano.getTempoCiclo()));
+                List<Intervalo> intervalos = grupoSemaforicoPlano.getIntervalos().stream().sorted((o1, o2) -> o1.getOrdem().compareTo(o2.getOrdem())).collect(Collectors.toList());
+                ;
                 int i = 0;
-                for(Intervalo intervalo : intervalos){
-                    for(int j = 0; j < intervalo.getTamanho(); j++,i++){
-                        grupos.get(index).add(i,intervalo.getEstadoGrupoSemaforico());
+                for (Intervalo intervalo : intervalos) {
+                    for (int j = 0; j < intervalo.getTamanho(); j++, i++) {
+                        grupos.get(index).add(i, intervalo.getEstadoGrupoSemaforico());
                     }
                 }
-                temposDeVerdeSeguranca.put(index,grupoSemaforicoPlano.getGrupoSemaforico().getTempoVerdeSeguranca());
-                temposDeCiclo.put(index,plano.getTempoCiclo());
+                temposDeVerdeSeguranca.put(index, grupoSemaforicoPlano.getGrupoSemaforico().getTempoVerdeSeguranca());
+                temposDeCiclo.put(index, plano.getTempoCiclo());
                 index++;
             }
 
-            for (EstagioPlano estagioPlano : plano.ordenarEstagiosPorPosicao()){
-                for(int i = 0; i < estagioPlano.getDuracaoEstagio(); i++){
+            for (EstagioPlano estagioPlano : plano.ordenarEstagiosPorPosicao()) {
+                for (int i = 0; i < estagioPlano.getDuracaoEstagio(); i++) {
                     lista.add(indexEstagio, estagioPlano.getEstagio());
                     indexEstagio++;
                 }
@@ -71,27 +74,27 @@ public class GerenciadorDeIntervalos {
 
     }
 
-    public int quantidadeDeGruposSemaforicos(){
+    public int quantidadeDeGruposSemaforicos() {
         return planos.stream().mapToInt(i -> i.getGruposSemaforicosPlanos().size()).sum();
     }
 
-    public long  calculaMMC() {
-        return planos.stream().mapToInt(i -> i.getTempoCiclo()).reduce((p1, p2) -> ArithmeticUtils.lcm(p1,p2)).getAsInt();
+    public long calculaMMC() {
+        return planos.stream().mapToInt(i -> i.getTempoCiclo()).reduce((p1, p2) -> ArithmeticUtils.lcm(p1, p2)).getAsInt();
     }
 
-    public int getIndex(int grupo,int instante){
+    public int getIndex(int grupo, int instante) {
         return (instante - 1) % temposDeCiclo.get(grupo);
     }
 
-    public int getIndexAnel(int anel,int instante){
+    public int getIndexAnel(int anel, int instante) {
         return (instante - 1) % temposDeCicloPorAnel.get(anel);
     }
 
-    public List<Estagio> getEstagiosAtuais(int instante){
+    public List<Estagio> getEstagiosAtuais(int instante) {
         return estagios.keySet().stream().map(key -> estagios.get(key).get(getIndexAnel(key, instante))).collect(Collectors.toList());
     }
 
-    public List<Estagio> novaConfiguracaoEstagioSeHouverMudanca(int momentoAnterior, int momentoAtual){
+    public List<Estagio> novaConfiguracaoEstagioSeHouverMudanca(int momentoAnterior, int momentoAtual) {
         List<Estagio> confAnterior = getEstagiosAtuais(momentoAnterior);
         List<Estagio> confAtual = getEstagiosAtuais(momentoAtual);
         return confAnterior.equals(confAtual) ? null : confAtual;
@@ -101,31 +104,31 @@ public class GerenciadorDeIntervalos {
         return cicloMaximo;
     }
 
-    public List<EstadoGrupoSemaforico> getProgram(int instante){
+    public List<EstadoGrupoSemaforico> getProgram(int instante) {
         List<EstadoGrupoSemaforico> estadoGrupoSemaforicos = new ArrayList<>(numeroGrupoSemaforico);
-        for(int grupo = 1; grupo <= numeroGrupoSemaforico; grupo++){
-            int indexGrupo = getIndex(grupo,instante);
+        for (int grupo = 1; grupo <= numeroGrupoSemaforico; grupo++) {
+            int indexGrupo = getIndex(grupo, instante);
             EstadoGrupoSemaforico estado = grupos.get(grupo).get(indexGrupo);
             estadoGrupoSemaforicos.add(estado);
         }
         return estadoGrupoSemaforicos;
     }
 
-    public List<EstadoGrupoSemaforico> novaConfiguracaoSeHouverMudanca(int momentoAnterior, int momentoAtual){
+    public List<EstadoGrupoSemaforico> novaConfiguracaoSeHouverMudanca(int momentoAnterior, int momentoAtual) {
         List<EstadoGrupoSemaforico> confAnterior = getProgram(momentoAnterior);
         List<EstadoGrupoSemaforico> confAtual = getProgram(momentoAtual);
         return confAnterior.equals(confAtual) ? null : confAtual;
     }
 
-    public int proximaJanelaParaTrocaDePlano(int instante){
+    public int proximaJanelaParaTrocaDePlano(int instante) {
         int tempo = 0;
-        for(int grupo = 1; grupo <= numeroGrupoSemaforico; grupo++){
-            int indexGrupo = getIndex(grupo,instante);
+        for (int grupo = 1; grupo <= numeroGrupoSemaforico; grupo++) {
+            int indexGrupo = getIndex(grupo, instante);
             EstadoGrupoSemaforico estado = grupos.get(grupo).get(indexGrupo);
-            if(estado.equals(EstadoGrupoSemaforico.VERDE)){
-                int quantosSegundosEstavaNoVerde = rebobinaVerde(grupo,indexGrupo);
-                if(quantosSegundosEstavaNoVerde < temposDeVerdeSeguranca.get(grupo)){
-                    if(tempo < (temposDeVerdeSeguranca.get(grupo) - quantosSegundosEstavaNoVerde)){
+            if (estado.equals(EstadoGrupoSemaforico.VERDE)) {
+                int quantosSegundosEstavaNoVerde = rebobinaVerde(grupo, indexGrupo);
+                if (quantosSegundosEstavaNoVerde < temposDeVerdeSeguranca.get(grupo)) {
+                    if (tempo < (temposDeVerdeSeguranca.get(grupo) - quantosSegundosEstavaNoVerde)) {
                         tempo = (temposDeVerdeSeguranca.get(grupo) - quantosSegundosEstavaNoVerde);
                     }
                 }
@@ -136,11 +139,11 @@ public class GerenciadorDeIntervalos {
 
     private int rebobinaVerde(int grupo, int indexGrupo) {
         int intervalos = 0;
-        while(grupos.get(grupo).get(indexGrupo).equals(EstadoGrupoSemaforico.VERDE)){
+        while (grupos.get(grupo).get(indexGrupo).equals(EstadoGrupoSemaforico.VERDE)) {
             intervalos++;
-            if((indexGrupo - 1) < 0 ){
+            if ((indexGrupo - 1) < 0) {
                 indexGrupo = temposDeCiclo.get(grupo) - 1;
-            }else{
+            } else {
                 indexGrupo--;
             }
         }

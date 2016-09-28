@@ -1,7 +1,5 @@
 package models;
 
-import org.joda.time.field.AbstractPartialFieldProperty;
-
 import java.util.Arrays;
 
 /**
@@ -46,38 +44,38 @@ public enum DiaDaSemana {
 
 
     public int[] momentosDeAtivacao(final int horaNoDia) {
-        switch (this){
-            case  DOMINGO:
+        switch (this) {
+            case DOMINGO:
                 return new int[]{DOMINGO.inicio() + horaNoDia};
-            case   SEGUNDA:
-                return new int[]{SEGUNDA.inicio()  + horaNoDia};
-            case    TERCA:
-                return new int[]{TERCA.inicio()  + horaNoDia};
-            case   QUARTA:
-                return new int[]{QUARTA.inicio()  + horaNoDia};
-            case   QUINTA:
-                return new int[]{QUINTA.inicio()  + horaNoDia};
-            case    SEXTA:
-                return new int[]{SEXTA.inicio()  + horaNoDia};
-            case  SABADO:
-                return new int[]{SABADO.inicio()  + horaNoDia};
+            case SEGUNDA:
+                return new int[]{SEGUNDA.inicio() + horaNoDia};
+            case TERCA:
+                return new int[]{TERCA.inicio() + horaNoDia};
+            case QUARTA:
+                return new int[]{QUARTA.inicio() + horaNoDia};
+            case QUINTA:
+                return new int[]{QUINTA.inicio() + horaNoDia};
+            case SEXTA:
+                return new int[]{SEXTA.inicio() + horaNoDia};
+            case SABADO:
+                return new int[]{SABADO.inicio() + horaNoDia};
             case SABADO_A_DOMINGO:
                 return new int[]{
-                    SABADO.inicio()  + horaNoDia,
-                    DOMINGO.inicio()  + horaNoDia
+                        SABADO.inicio() + horaNoDia,
+                        DOMINGO.inicio() + horaNoDia
                 };
             case SEGUNDA_A_SEXTA:
                 return new int[]{
-                        SEGUNDA.inicio()  + horaNoDia,
-                        TERCA.inicio()  + horaNoDia,
-                        QUARTA.inicio()  + horaNoDia,
-                        QUINTA.inicio()  + horaNoDia,
+                        SEGUNDA.inicio() + horaNoDia,
+                        TERCA.inicio() + horaNoDia,
+                        QUARTA.inicio() + horaNoDia,
+                        QUINTA.inicio() + horaNoDia,
                         SEXTA.inicio() + horaNoDia
                 };
             case SEGUNDA_A_SABADO:
                 return new int[]{
-                        SEGUNDA.inicio()  + horaNoDia,
-                        TERCA.inicio()  + horaNoDia,
+                        SEGUNDA.inicio() + horaNoDia,
+                        TERCA.inicio() + horaNoDia,
                         QUARTA.inicio() + horaNoDia,
                         QUINTA.inicio() + horaNoDia,
                         SEXTA.inicio() + horaNoDia,
@@ -85,13 +83,13 @@ public enum DiaDaSemana {
                 };
             case TODOS_OS_DIAS:
                 return new int[]{
-                        DOMINGO.inicio()  + horaNoDia,
+                        DOMINGO.inicio() + horaNoDia,
                         SEGUNDA.inicio() + horaNoDia,
                         TERCA.inicio() + horaNoDia,
                         QUARTA.inicio() + horaNoDia,
                         QUINTA.inicio() + horaNoDia,
                         SEXTA.inicio() + horaNoDia,
-                        SABADO.inicio()  + horaNoDia
+                        SABADO.inicio() + horaNoDia
                 };
 
             default:
@@ -99,21 +97,22 @@ public enum DiaDaSemana {
         }
 
     }
+
     public int getDia() {
-        switch (this){
-            case  DOMINGO:
+        switch (this) {
+            case DOMINGO:
                 return 1;
-            case   SEGUNDA:
+            case SEGUNDA:
                 return 2;
-            case    TERCA:
+            case TERCA:
                 return 3;
-            case   QUARTA:
+            case QUARTA:
                 return 4;
-            case   QUINTA:
+            case QUINTA:
                 return 5;
-            case    SEXTA:
+            case SEXTA:
                 return 6;
-            case  SABADO:
+            case SABADO:
                 return 7;
             case SABADO_A_DOMINGO:
                 return 7;
@@ -130,20 +129,20 @@ public enum DiaDaSemana {
     }
 
     public int inicio() {
-        switch (this){
-            case  DOMINGO:
+        switch (this) {
+            case DOMINGO:
                 return 0;
-            case   SEGUNDA:
+            case SEGUNDA:
                 return 86400000;
-            case    TERCA:
+            case TERCA:
                 return 172800000;
-            case   QUARTA:
+            case QUARTA:
                 return 259200000;
-            case   QUINTA:
+            case QUINTA:
                 return 345600000;
-            case    SEXTA:
+            case SEXTA:
                 return 432000000;
-            case  SABADO:
+            case SABADO:
                 return 518400000;
             default:
                 return 0;
@@ -151,9 +150,9 @@ public enum DiaDaSemana {
     }
 
     public boolean contains(int outroDia) {
-        switch (outroDia){
+        switch (outroDia) {
             case 1:
-                return this == DOMINGO || this ==SABADO_A_DOMINGO || this == TODOS_OS_DIAS;
+                return this == DOMINGO || this == SABADO_A_DOMINGO || this == TODOS_OS_DIAS;
             case 2:
                 return this == SEGUNDA || this == SEGUNDA_A_SEXTA || this == SEGUNDA_A_SABADO || this == TODOS_OS_DIAS;
             case 3:

@@ -34,6 +34,7 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
     private Usuario usuarioComAcesso;
 
     private Optional<String> tokenComAcesso;
+
     private Optional<String> tokenSemAcesso;
 
     @Before

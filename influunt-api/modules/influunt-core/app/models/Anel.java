@@ -236,10 +236,6 @@ public class Anel extends Model implements Cloneable, Serializable {
         this.versoesPlanos = versoesPlanos;
     }
 
-    public void setVersaoPlanoAtivo(VersaoPlano versaoPlanoAtivo) {
-        this.versaoPlanoAtivo = versaoPlanoAtivo;
-    }
-
     @Transient
     public VersaoPlano getVersaoPlanoAtivo() {
         if (versaoPlanoAtivo == null) {
@@ -252,6 +248,10 @@ public class Anel extends Model implements Cloneable, Serializable {
             }
         }
         return versaoPlanoAtivo;
+    }
+
+    public void setVersaoPlanoAtivo(VersaoPlano versaoPlanoAtivo) {
+        this.versaoPlanoAtivo = versaoPlanoAtivo;
     }
 
     @Transient

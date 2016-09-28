@@ -156,6 +156,14 @@ public class Controlador extends Model implements Cloneable, Serializable {
         return erros.isEmpty() ? controlador : null;
     }
 
+    public static Controlador findUniqueByArea(String controladorId, String areaId) {
+        return Controlador.find.where().eq("id", controladorId).eq("area_id", areaId).findUnique();
+    }
+
+    public static List<Controlador> findListByArea(String areaId) {
+        return Controlador.find.where().eq("area_id", areaId).findList();
+    }
+
     @Override
     public void save() {
         antesDeSalvarOuAtualizar();
@@ -593,13 +601,5 @@ public class Controlador extends Model implements Cloneable, Serializable {
             this.setStatusControlador(StatusControlador.ATIVO);
             this.update();
         });
-    }
-
-    public static Controlador findUniqueByArea(String controladorId, String areaId) {
-        return Controlador.find.where().eq("id", controladorId).eq("area_id", areaId).findUnique();
-    }
-
-    public static List<Controlador> findListByArea(String areaId) {
-        return Controlador.find.where().eq("area_id", areaId).findList();
     }
 }

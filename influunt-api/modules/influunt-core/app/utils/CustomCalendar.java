@@ -8,15 +8,20 @@ import java.util.GregorianCalendar;
  */
 public class CustomCalendar {
     private static final int INITIAL_YEAR = 2016;
+
     private static final int INITIAL_MONTH = 8;
+
     private static final int INITIAL_DAY = 18;
+
     private static final int INITIAL_HOUR = 0;
+
     private static final int INITIAL_MINUTE = 0;
+
     private static final int INITIAL_SECOND = 0;
 
-    public static Calendar getCalendar(){
+    public static Calendar getCalendar() {
         Calendar calendar = new GregorianCalendar(INITIAL_YEAR, INITIAL_MONTH, INITIAL_DAY,
-                                                  INITIAL_HOUR,INITIAL_MINUTE,INITIAL_SECOND);
+                INITIAL_HOUR, INITIAL_MINUTE, INITIAL_SECOND);
         return calendar;
     }
 

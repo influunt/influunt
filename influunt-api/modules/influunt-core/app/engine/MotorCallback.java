@@ -11,8 +11,11 @@ import java.util.List;
  */
 public interface MotorCallback {
     public void onStart(DateTime timestamp);
+
     public void onStop(DateTime timestamp);
-    public void onChangeEvento(DateTime timestamp,Evento eventoAntigo, Evento eventoNovo);
+
+    public void onChangeEvento(DateTime timestamp, Evento eventoAntigo, Evento eventoNovo);
+
     public void onGrupoChange(DateTime timestamp, List<EstadoGrupoSemaforico> estadoAntigo, List<EstadoGrupoSemaforico> estadoNovo);
 
 }

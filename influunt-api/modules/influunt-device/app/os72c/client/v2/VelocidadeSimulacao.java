@@ -13,7 +13,7 @@ public enum VelocidadeSimulacao {
 
     private final int velocidade;
 
-    VelocidadeSimulacao(int velocidade){
+    VelocidadeSimulacao(int velocidade) {
         this.velocidade = velocidade;
     }
 

@@ -267,7 +267,7 @@ public class Evento extends Model implements Cloneable, Serializable, Comparable
 
     @Override
     public String toString() {
-        return "Evento{" +
+        return "EventoMotor{" +
                 "posicaoPlano=" + posicaoPlano +
                 ", data=" + data +
                 ", diaDaSemana=" + diaDaSemana +
@@ -335,7 +335,7 @@ public class Evento extends Model implements Cloneable, Serializable, Comparable
             } else {
                 if (agora.getMillisOfDay() >= data.getMillisOfDay()) {
                     return true;
-                }else{
+                } else {
                     return false;
                 }
             }
@@ -346,11 +346,11 @@ public class Evento extends Model implements Cloneable, Serializable, Comparable
     public DateTime getDataHora() {
 
         DateTime dataHora;
-        if(this.data != null){
+        if (this.data != null) {
             dataHora = new DateTime(this.data);
 
-        }else{
-            dataHora = new DateTime(2016,9,18,0,0,0,0);
+        } else {
+            dataHora = new DateTime(2016, 9, 18, 0, 0, 0, 0);
         }
 
         return dataHora.withMillisOfDay(0).plusMillis(this.horario.getMillisOfDay());

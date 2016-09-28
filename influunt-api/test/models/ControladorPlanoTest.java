@@ -5,7 +5,6 @@ import checks.InfluuntValidator;
 import checks.PlanosCheck;
 import com.fasterxml.jackson.databind.JsonNode;
 import controllers.routes;
-import integracao.ControladorHelper;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import org.hamcrest.Matchers;

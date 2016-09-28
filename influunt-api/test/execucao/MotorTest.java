@@ -1,42 +1,40 @@
 package execucao;
 
 import config.WithInfluuntApplicationNoAuthentication;
-import engine.GerenciadorDeEventos;
 import engine.Motor;
 import engine.MotorCallback;
 import integracao.ControladorHelper;
-import models.*;
+import models.Controlador;
+import models.EstadoGrupoSemaforico;
+import models.Evento;
 import org.joda.time.DateTime;
-import org.joda.time.LocalTime;
 import org.junit.Test;
 import simulacao.*;
-import utils.CustomCalendar;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
-import static junit.framework.TestCase.assertNull;
-import static org.awaitility.Awaitility.await;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 
 /**
  * Created by rodrigosol on 9/8/16.
  */
-public class MotorTest  extends WithInfluuntApplicationNoAuthentication{
+public class MotorTest extends WithInfluuntApplicationNoAuthentication {
 
     private boolean iniciado = false;
+
     private boolean finalizado = false;
+
     private Evento eventoAnterior = null;
+
     private Evento eventoAtual = null;
+
     private List<EstadoGrupoSemaforico> estadoAnterior = null;
+
     private List<EstadoGrupoSemaforico> estadoAtual = null;
 
     @Test
-    public void motorTest(){
+    public void motorTest() {
 
         LogSimulacao logSimulacao = new LogSimulacao();
         Controlador controlador = new ControladorHelper().setPlanos(new ControladorHelper().getControlador());
@@ -64,25 +62,25 @@ public class MotorTest  extends WithInfluuntApplicationNoAuthentication{
             public void onChangeEvento(DateTime timeStamp, Evento eventoAntigo, Evento eventoNovo) {
                 eventoAnterior = eventoAntigo;
                 eventoAtual = eventoNovo;
-                logSimulacao.log(new AlteracaoEventoLog(timeStamp,eventoAntigo,eventoNovo));
+                logSimulacao.log(new AlteracaoEventoLog(timeStamp, eventoAntigo, eventoNovo));
             }
 
             @Override
             public void onGrupoChange(DateTime timeStamp, List<EstadoGrupoSemaforico> estadoAntigo, List<EstadoGrupoSemaforico> estadoNovo) {
                 estadoAnterior = estadoAntigo;
                 estadoAtual = estadoNovo;
-                logSimulacao.log(new AlteracaoEstadoLog(timeStamp,estadoAntigo,estadoNovo));
+                logSimulacao.log(new AlteracaoEstadoLog(timeStamp, estadoAntigo, estadoNovo));
             }
         });
 
-        DateTime inicio = new DateTime(2016,9,18,0,0,0);
-        DateTime fim = new DateTime(2016,9,25,23,59,59);
+        DateTime inicio = new DateTime(2016, 9, 18, 0, 0, 0);
+        DateTime fim = new DateTime(2016, 10, 9, 18, 0, 0);
 
         motor.start(inicio);
         //await().until(() -> iniciado);
         assertTrue(iniciado);
 
-        while (inicio.getMillis() <= fim.getMillis()){
+        while (inicio.getMillis() / 1000 <= fim.getMillis() / 1000) {
             motor.tick(inicio);
             inicio = inicio.plusSeconds(1);
         }

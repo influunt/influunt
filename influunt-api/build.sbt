@@ -33,6 +33,9 @@ libraryDependencies ++= Seq(
   cache,
   javaWs,
   "uk.co.panaxiom" %% "play-jongo" % "2.0.0-jongo1.3",
+  "info.cukes" % "cucumber-junit" % "1.2.5" % "test",
+  "info.cukes" % "cucumber-java" % "1.2.5" % "test",
+  "info.cukes" % "cucumber-guice" % "1.2.5" % "test",
   "be.objectify" %% "deadbolt-java" % "2.5.0",
   "mysql" % "mysql-connector-java" % "5.1.36",
   "org.hibernate" % "hibernate-validator" % "5.2.4.Final",
@@ -66,4 +69,5 @@ fork in run := false
 fork in Test := false
 resolvers ++= Seq(Resolver.mavenLocal, "Sonatype snapshots repository" at "https://oss.sonatype.org/content/repositories/snapshots/")
 resolvers ++= Seq("Sonatype snapshots repository 2" at "http://dl.bintray.com/andsel/maven/")
+
 

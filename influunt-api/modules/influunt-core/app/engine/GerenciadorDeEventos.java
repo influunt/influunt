@@ -9,13 +9,11 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.google.common.collect.Range.closed;
 import static com.google.common.collect.Range.closedOpen;
-import static com.sun.javafx.tools.resource.DeployResource.Type.data;
 import static utils.ConstantesDeTempo.*;
 
 
@@ -120,7 +118,7 @@ public class GerenciadorDeEventos {
             adicionar = 0;
             for (Map.Entry<Range<Integer>, Evento> entry : praTras) {
                 Boolean petrio = petrios.get(entry.getKey().lowerEndpoint());
-                if (evento.tenhoPrioridade(entry.getValue(), false,  petrio == null ? false : petrio)) {
+                if (evento.tenhoPrioridade(entry.getValue(), false, petrio == null ? false : petrio)) {
                     adicionar = entry.getKey().upperEndpoint();
                     rangeMap.remove(entry.getKey());
                     petrios.remove(entry.getKey().lowerEndpoint());
@@ -164,12 +162,12 @@ public class GerenciadorDeEventos {
     }
 
     public void imprimeTabelaHoraria() {
-        DateTimeFormatter sdf =  DateTimeFormat.forPattern("dd/MM/YYYY - EEE - HH:mm:ss");
+        DateTimeFormatter sdf = DateTimeFormat.forPattern("dd/MM/YYYY - EEE - HH:mm:ss");
         System.out.println("\n\n");
         rangeMap.asMapOfRanges().entrySet().stream().forEach(rangeEventoEntry -> {
-            DateTime inicioDt = new DateTime(2016,9,18,0,0,0);
+            DateTime inicioDt = new DateTime(2016, 9, 18, 0, 0, 0);
             inicioDt = inicioDt.plus(rangeEventoEntry.getKey().lowerEndpoint());
-            DateTime fimDt = new DateTime(2016,9,18,0,0,0);
+            DateTime fimDt = new DateTime(2016, 9, 18, 0, 0, 0);
             fimDt = fimDt.plus(rangeEventoEntry.getKey().upperEndpoint());
             System.out.println(rangeEventoEntry.getKey().toString() + "---" + sdf.print(inicioDt) + " a " + sdf.print(fimDt) + ": " + rangeEventoEntry.getValue().getDiaDaSemana() + " : " + rangeEventoEntry.getValue().getPosicaoPlano());
         });

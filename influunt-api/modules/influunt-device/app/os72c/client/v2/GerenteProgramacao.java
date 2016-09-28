@@ -17,16 +17,16 @@ public class GerenteProgramacao {
 
     private List<Evento> eventos;
 
-    public GerenteProgramacao(TabelaHorario tabelaAtual){
+    public GerenteProgramacao(TabelaHorario tabelaAtual) {
         this.tabelaAtual = tabelaAtual;
         ordenaEventos();
     }
 
-    public long atualizarTabela(){
+    public long atualizarTabela() {
         return 0;
     }
 
-    private void ordenaEventos(){
+    private void ordenaEventos() {
         this.eventos = tabelaAtual.getEventos();
         eventos.sort(new Comparator<Evento>() {
             @Override
@@ -36,18 +36,18 @@ public class GerenteProgramacao {
         });
     }
 
-    public List<Evento> getEventos(){
+    public List<Evento> getEventos() {
         return this.eventos;
     }
 
     public int getPlanoAtual(Long momento) {
         int planoEscolhido = -1;
-        for(Evento evento : this.eventos){
+        for (Evento evento : this.eventos) {
             System.out.println("Analisando:" + evento);
-            if(planoEscolhido == -1){
+            if (planoEscolhido == -1) {
                 planoEscolhido = evento.getPosicaoPlano();
-            }else{
-                if(momentoFuturo(evento,momento)){
+            } else {
+                if (momentoFuturo(evento, momento)) {
                     planoEscolhido = evento.getPosicaoPlano();
                 }
             }
@@ -61,7 +61,7 @@ public class GerenteProgramacao {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date(momento));
         Integer diaDaSemana = cal.get(Calendar.DAY_OF_WEEK);
-        if(evento.getTipo().equals(TipoEvento.NORMAL)){
+        if (evento.getTipo().equals(TipoEvento.NORMAL)) {
             int diaDaSemanaEvento = evento.getDiaDaSemana().getDia();
             return diaDaSemana.compareTo(diaDaSemanaEvento) > 0;
         }

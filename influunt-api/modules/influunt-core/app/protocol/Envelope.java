@@ -56,6 +56,9 @@ public class Envelope {
         return destino;
     }
 
+    public void setDestino(String destino) {
+        this.destino = destino;
+    }
 
     public int getQos() {
         return qos;
@@ -95,7 +98,6 @@ public class Envelope {
                 '}';
     }
 
-
     public String toJson() {
         Gson gson = new Gson();
         return gson.toJson(this);
@@ -103,9 +105,5 @@ public class Envelope {
 
     public Envelope replayWithSameMenssage(String detino) {
         return new Envelope(this.tipoMensagem, this.idControlador, detino, this.qos, this.conteudo, this.idMensagem);
-    }
-
-    public void setDestino(String destino) {
-        this.destino = destino;
     }
 }
