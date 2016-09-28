@@ -297,43 +297,7 @@ public class Evento extends Model implements Cloneable, Serializable, Comparable
         } else {
             return true;
         }
-//        Calendar calendar = CustomCalendar.getCalendar();
-//
-//        if(instante < calendar.getTime().getTime()){
-//            calendar.add(Calendar.SECOND, (int) instante);
-//        }else{
-//            calendar = Calendar.getInstance();
-//            calendar.setTime(new Date(instante));
-//        }
-//
-//        if(this.tipo.equals(TipoEvento.NORMAL) && evento.getTipo().equals(TipoEvento.NORMAL)){
-//
-//            if(getDiaDaSemana().contains(calendar.get(Calendar.DAY_OF_WEEK)) && !evento.getDiaDaSemana().contains(calendar.get(Calendar.DAY_OF_WEEK)) ){
-//                //A instancia atual esta no dia dela e a outra nao
-//                return true;
-//            }else if(!getDiaDaSemana().contains(calendar.get(Calendar.DAY_OF_WEEK))  && evento.getDiaDaSemana().contains(calendar.get(Calendar.DAY_OF_WEEK))) {
-//                //A instancia atual esta nao esta no dia dela e a outra nao
-//                return false;
-//            }else{
-//                Calendar meuCalendar = Calendar.getInstance();
-//
-//                meuCalendar.setTime(getData());
-//                int meuInstanteRelativo = CustomCalendar.getTempoAjustado(meuCalendar);
-//
-//                meuCalendar.setTime(evento.getData());
-//                int outraInstanteRelativo = CustomCalendar.getTempoAjustado(meuCalendar);
-//
-//                if(insercao){
-//                    return true;
-//                }
-//                if(getDiaDaSemana().contains(calendar.get(Calendar.DAY_OF_WEEK))  && evento.getDiaDaSemana().contains(calendar.get(Calendar.DAY_OF_WEEK))){
-//                    return  meuInstanteRelativo < outraInstanteRelativo;
-//                }else{
-//                    return true;
-//                }
-//            }
-//        }
-//        return false;
+
     }
 
     public boolean isAtivoEm(DateTime agora) {
