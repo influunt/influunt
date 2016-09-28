@@ -46,11 +46,11 @@ angular.module('influuntApp')
       $scope.loadDashboard = function() {
         Restangular.one('monitoramento', 'status_controladores').get()
           .then(function(res) {
-            $scope.dados_status = _.countBy(_.values(res.status), _.identity);
-            $scope.dados_onlines = _.countBy(_.values(res.onlines), _.identity);
-            $scope.modos_operacoes = _.countBy(_.values(res.modosOperacoes), _.identity);
-            $scope.planos_impostos = _.countBy(_.values(res.imposicaoPlanos), _.identity);
-            $scope.erros_controladores = res.erros.data;
+            $scope.dadosStatus = _.countBy(_.values(res.status), _.identity);
+            $scope.dadosOnlines = _.countBy(_.values(res.onlines), _.identity);
+            $scope.modosOperacoes = _.countBy(_.values(res.modosOperacoes), _.identity);
+            $scope.planosImpostos = _.countBy(_.values(res.imposicaoPlanos), _.identity);
+            $scope.errosControladores = res.erros.data;
           })
           .catch(function(err) {
             if (err.status === 401) {
