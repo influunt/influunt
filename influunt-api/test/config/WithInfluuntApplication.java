@@ -48,7 +48,7 @@ public abstract class WithInfluuntApplication extends WithApplication {
     }
 
 
-    private Application getApplication(Map configuration) {
+    protected Application getApplication(Map configuration) {
         Application application = createApplication(configuration);
         buildDatabase();
         return application;

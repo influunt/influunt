@@ -27,7 +27,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "eventos")
 @ChangeLog
-public class Evento extends Model implements Cloneable, Serializable {
+public class Evento extends Model implements Cloneable, Serializable, Comparable<Evento> {
 
     private static final long serialVersionUID = -8164198987601502461L;
 
@@ -81,6 +81,7 @@ public class Evento extends Model implements Cloneable, Serializable {
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
+
 
     public Evento() {
         super();
@@ -180,6 +181,7 @@ public class Evento extends Model implements Cloneable, Serializable {
         this.dataAtualizacao = dataAtualizacao;
     }
 
+
     @AssertTrue(groups = TabelaHorariosCheck.class,
             message = "Existem eventos configurados no mesmo dia e horário.")
     public boolean isEventosMesmoDiaEHora() {
@@ -256,5 +258,78 @@ public class Evento extends Model implements Cloneable, Serializable {
 
     public boolean isEventoEspecialNaoRecorrente() {
         return TipoEvento.ESPECIAL_NAO_RECORRENTE.equals(this.getTipo());
+    }
+
+
+    @Override
+    public int compareTo(Evento o) {
+        if (this.getTipo().compareTo(o.getTipo()) == 0) {
+            if (this.getTipo().equals(TipoEvento.NORMAL)) {
+                if (this.getDiaDaSemana().compareTo(o.getDiaDaSemana()) == 0) {
+                    return this.getData().compareTo(o.getData());
+                } else {
+                    return this.getDiaDaSemana().compareTo(o.getDiaDaSemana());
+                }
+            } else {
+                return this.getData().compareTo(o.getData());
+            }
+        } else {
+            return this.getTipo().compareTo(o.getTipo());
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "EventoMotor{" +
+                "posicaoPlano=" + posicaoPlano +
+                ", data=" + data +
+                ", diaDaSemana=" + diaDaSemana +
+                ", tipo=" + tipo +
+                '}';
+    }
+
+    public boolean tenhoPrioridade(Evento evento, boolean euSouPetrio, boolean outroEPetrio) {
+
+        if (euSouPetrio && !outroEPetrio) {
+            return true;
+        } else if (!euSouPetrio && outroEPetrio) {
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
+    public boolean isAtivoEm(DateTime agora) {
+
+
+        if (!this.getTipo().equals(TipoEvento.NORMAL)) {
+            DateTime data = new DateTime(getData().getTime());
+
+            boolean ano = this.getTipo().equals(TipoEvento.ESPECIAL_NAO_RECORRENTE) ? agora.getYear() == data.getYear() : true;
+            if (!ano || agora.getMonthOfYear() != data.getMonthOfYear() || agora.getDayOfMonth() != data.getDayOfMonth()) {
+                return false;
+            } else {
+                if (agora.getMillisOfDay() >= data.getMillisOfDay()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
+    public DateTime getDataHora() {
+
+        DateTime dataHora;
+        if (this.data != null) {
+            dataHora = new DateTime(this.data);
+
+        } else {
+            dataHora = new DateTime(2016, 9, 18, 0, 0, 0, 0);
+        }
+
+        return dataHora.withMillisOfDay(0).plusMillis(this.horario.getMillisOfDay());
     }
 }

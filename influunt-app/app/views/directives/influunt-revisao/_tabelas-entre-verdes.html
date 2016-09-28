@@ -24,34 +24,28 @@
       <strong>{{ tabelaEntreVerdeSelecionada.descricao }}</strong>
     </h3>
   </div>
-  <div class="col-sm-3 no-padding-left"></div>
-  <div class="col-sm-3 no-padding-left">
+  <div class="col-sm-4 no-padding-left"></div>
+  <div class="col-sm-4 no-padding-left">
     <p ng-if="gsTabelasEntreVerdes.tipo === 'VEICULAR'">{{ 'controladores.revisao.amarelo' | translate }}</p>
     <p ng-if="gsTabelasEntreVerdes.tipo === 'PEDESTRE'">{{ 'controladores.revisao.vermelhoIntermitente' | translate }}</p>
   </div>
-  <div class="col-sm-3 no-padding-left">
+  <div class="col-sm-4 no-padding-left">
     <p>{{ 'controladores.revisao.vermelhoLimpeza' | translate }}</p>
-  </div>
-  <div class="col-sm-3 no-padding-left">
-    <p>{{ 'controladores.atrasoDeGrupo.titulo' | translate }}</p>
   </div>
 </div>
 
 <div class="col-sm-12">
   <div class="row" data-ng-repeat="transicao in tabelaEntreVerdeSelecionada.transicoes">
-    <div class="col-sm-3">
+    <div class="col-sm-4">
       <p class="view-group">
         <strong>{{ transicao.label }}</strong>
       </p>
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-4">
       <p>{{ transicao.tempoAmarelo || transicao.tempoVermelhoIntermitente }}s</p>
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-4">
       <p>{{ transicao.tempoVermelhoLimpeza }}s</p>
-    </div>
-    <div class="col-sm-3">
-      <p>{{ transicao.tempoAtrasoGrupo }}s</p>
     </div>
   </div>
 </div>

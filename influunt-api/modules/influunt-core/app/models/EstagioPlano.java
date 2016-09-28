@@ -246,7 +246,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         return true;
     }
 
-    @AssertTrue(groups = PlanosCheck.class, message = "O tempo de estagio ultrapassa o tempo maximo de permanencia.")
+    @AssertTrue(groups = PlanosCheck.class, message = "O tempo de estagio ultrapassa o tempo máximo de permanência.")
     public boolean isUltrapassaTempoMaximoPermanencia() {
         if (getEstagio().getTempoMaximoPermanenciaAtivado()) {
             RangeUtils rangeUtils = RangeUtils.getInstance();
@@ -340,4 +340,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         return this.getTempoVerde();
     }
 
+    public Integer getDuracaoEstagio() {
+        return getPlano().getTempoEstagio(this);
+    }
 }

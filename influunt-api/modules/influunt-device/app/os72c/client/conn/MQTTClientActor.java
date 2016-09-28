@@ -104,7 +104,7 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback {
             status.setQos(0);
             status.setRetained(false);
             status.setPayload(json.getBytes());
-            client.publish("central/status/" + id, status);
+            client.publish("central/erros/" + id, status);
         } else if (message instanceof Envelope) {
             sendMenssage((Envelope) message);
         }

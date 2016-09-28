@@ -33,6 +33,9 @@ libraryDependencies ++= Seq(
   cache,
   javaWs,
   "uk.co.panaxiom" %% "play-jongo" % "2.0.0-jongo1.3",
+  "info.cukes" % "cucumber-junit" % "1.2.5" % "test",
+  "info.cukes" % "cucumber-java" % "1.2.5" % "test",
+  "info.cukes" % "cucumber-guice" % "1.2.5" % "test",
   "be.objectify" %% "deadbolt-java" % "2.5.0",
   "mysql" % "mysql-connector-java" % "5.1.36",
   "org.hibernate" % "hibernate-validator" % "5.2.4.Final",
@@ -43,9 +46,9 @@ libraryDependencies ++= Seq(
   "net.coobird" % "thumbnailator" % "0.4.8",
   "io.moquette" % "moquette-broker" % "0.8" exclude("org.slf4j", "slf4j-log4j12"),
   "org.mindrot" % "jbcrypt" % "0.3m",
+  "org.apache.commons" % "commons-math3" % "3.6.1",
   "com.typesafe.play" %% "play-mailer" % "5.0.0",
   "org.thymeleaf" % "thymeleaf" % "3.0.1.RELEASE",
-
   "org.jetbrains.kotlin" % "kotlin-stdlib" % "1.0.3",
   "org.eclipse.collections" % "eclipse-collections-api" % "7.1.0",
   "org.eclipse.collections" % "eclipse-collections" % "7.1.0",
@@ -68,4 +71,5 @@ fork in run := false
 fork in Test := false
 resolvers ++= Seq(Resolver.mavenLocal, "Sonatype snapshots repository" at "https://oss.sonatype.org/content/repositories/snapshots/")
 resolvers ++= Seq("Sonatype snapshots repository 2" at "http://dl.bintray.com/andsel/maven/")
+
 

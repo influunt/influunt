@@ -67,12 +67,6 @@ public class MapStorage implements Storage {
     }
 
     @Override
-    public void setPlanos(JsonNode plano) {
-        this.controlador.put("atualPlanos", plano.toString());
-        db.commit();
-    }
-
-    @Override
     public Controlador getControladorStaging() {
         return new ControladorCustomDeserializer().getControladorFromJson(play.libs.Json.parse(this.controlador.get("temp")));
     }
@@ -80,12 +74,6 @@ public class MapStorage implements Storage {
     @Override
     public void setControladorStaging(Controlador controlador) {
         this.controlador.put("temp", new ControladorCustomSerializer().getControladorJson(controlador).toString());
-        db.commit();
-    }
-
-    @Override
-    public void setPlanosStaging(JsonNode plano) {
-        this.controlador.put("tempPlanos", plano.toString());
         db.commit();
     }
 
@@ -105,8 +93,20 @@ public class MapStorage implements Storage {
     }
 
     @Override
+    public void setPlanos(JsonNode plano) {
+        this.controlador.put("atualPlanos", plano.toString());
+        db.commit();
+    }
+
+    @Override
     public JsonNode getPlanosStaging() {
         return play.libs.Json.parse(this.controlador.get("tempPlanos"));
+    }
+
+    @Override
+    public void setPlanosStaging(JsonNode plano) {
+        this.controlador.put("tempPlanos", plano.toString());
+        db.commit();
     }
 
 }

@@ -26,11 +26,13 @@ import static utils.MessageBrokerUtils.createRoutees;
  */
 public class DeviceMessageBroker extends UntypedActor {
 
-    private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
     Router routerEcho;
 
     ActorRef actorConfiguracao;
+
     Map<TipoMensagem, Router> routers = new HashMap<>();
+
+    private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
     public DeviceMessageBroker(String idControlador, Storage storage) {
 
