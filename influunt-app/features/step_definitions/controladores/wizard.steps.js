@@ -130,7 +130,7 @@ module.exports = function() {
   });
 
   this.Given(/^que o usuário marque (\d+) no campo (\d+) para transições com ganho de direito de passagem$/, function (value, posicao) {
-    var tipoTransicao = 'currentTransicoesComPerdaDePassagem';
+    var tipoTransicao = 'currentTransicoesComGanhoDePassagem';
     return wizardPage.marcarTempoAtrasoGrupoTransicao(tipoTransicao, value, posicao);
   });
 
