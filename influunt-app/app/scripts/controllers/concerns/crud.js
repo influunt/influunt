@@ -88,9 +88,6 @@ angular.module('influuntApp')
               case 'EM_EDICAO':
                 valor = 3;
                 break;
-              default:
-                valor = 0; // EM configuracao
-                break;
             }
           }
           query[field] = valor;
