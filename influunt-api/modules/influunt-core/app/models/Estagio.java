@@ -67,6 +67,9 @@ public class Estagio extends Model implements Serializable, Cloneable {
     @Column
     private Boolean demandaPrioritaria = false;
 
+    @Column
+    private Integer tempoVerdeDemandaPrioritaria;
+
     @OneToMany(mappedBy = "estagio", cascade = CascadeType.ALL)
     private List<EstagioGrupoSemaforico> estagiosGruposSemaforicos;
 
@@ -206,6 +209,14 @@ public class Estagio extends Model implements Serializable, Cloneable {
         this.demandaPrioritaria = demandaPrioritaria;
     }
 
+    public Integer getTempoVerdeDemandaPrioritaria() {
+        return tempoVerdeDemandaPrioritaria;
+    }
+
+    public void setTempoVerdeDemandaPrioritaria(Integer tempoVerdeDemandaPrioritaria) {
+        this.tempoVerdeDemandaPrioritaria = tempoVerdeDemandaPrioritaria;
+    }
+
     public List<EstagioGrupoSemaforico> getEstagiosGruposSemaforicos() {
         return estagiosGruposSemaforicos;
     }
@@ -323,6 +334,14 @@ public class Estagio extends Model implements Serializable, Cloneable {
         } else return true;
     }
 
+    @AssertTrue(groups = ControladorTransicoesProibidasCheck.class,
+            message = "Esse estágio é de demanda prioritária então não pode ter transição proibida.")
+    public boolean isNaoPossuiTransicaoProibidaCasoDemandaPrioritaria() {
+        if (isDemandaPrioritaria()) {
+            return getOrigemDeTransicoesProibidas().size() == 0 && getDestinoDeTransicoesProibidas().size() == 0 && getAlternativaDeTransicoesProibidas().size() == 0;
+        } else return true;
+    }
+
     @AssertTrue(groups = ControladorAssociacaoDetectoresCheck.class,
             message = "Esse estágio deve estar associado a pelo menos um detector.")
     public boolean isAssociadoDetectorCasoDemandaPrioritaria() {
@@ -342,6 +361,15 @@ public class Estagio extends Model implements Serializable, Cloneable {
         if (getTempoMaximoPermanenciaAtivado()) {
             return getTempoMaximoPermanencia() != null &&
                     RangeUtils.getInstance().TEMPO_MAXIMO_PERMANENCIA_ESTAGIO.contains(getTempoMaximoPermanencia());
+        }
+        return true;
+    }
+
+    @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class, message = "O Tempo de verde do estágio de demanda priortária deve estar entre {min} e {max}")
+    public boolean isTempoVerdeDemandaPrioritaria() {
+        if (isDemandaPrioritaria()) {
+            return getTempoVerdeDemandaPrioritaria() != null &&
+                    RangeUtils.getInstance().TEMPO_VERDE.contains(getTempoVerdeDemandaPrioritaria());
         }
         return true;
     }

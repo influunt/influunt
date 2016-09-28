@@ -605,20 +605,22 @@ angular.module('influuntApp')
 
           anel.estagios.forEach(function (e){
             var estagio =  _.find($scope.objeto.estagios, {idJson: e.idJson});
-            var estagioPlano = {
-              idJson: UUID.generate(),
-              estagio: {
-                idJson: estagio.idJson
-              },
-              plano: {
-                idJson: plano.idJson
-              },
-              posicao: estagio.posicao,
-              tempoVerde: $scope.objeto.verdeMin,
-              dispensavel: false
-            };
-            $scope.objeto.estagiosPlanos.push(estagioPlano);
-            plano.estagiosPlanos.push({idJson: estagioPlano.idJson});
+            if(!estagio.demandaPrioritaria){
+              var estagioPlano = {
+                idJson: UUID.generate(),
+                estagio: {
+                  idJson: estagio.idJson
+                },
+                plano: {
+                  idJson: plano.idJson
+                },
+                posicao: estagio.posicao,
+                tempoVerde: $scope.objeto.verdeMin,
+                dispensavel: false
+              };
+              $scope.objeto.estagiosPlanos.push(estagioPlano);
+              plano.estagiosPlanos.push({idJson: estagioPlano.idJson});
+            }
           });
 
           $scope.objeto.planos = $scope.objeto.planos || [];
@@ -673,7 +675,7 @@ angular.module('influuntApp')
         $scope.currentEstagios = _
           .chain($scope.objeto.estagios)
           .filter(function(e) {
-            return ids.indexOf(e.idJson) >= 0;
+            return ids.indexOf(e.idJson) >= 0 && !e.demandaPrioritaria;
           })
           .orderBy(['posicao'])
           .value();
@@ -829,7 +831,7 @@ angular.module('influuntApp')
           return {
             ativado: grupo.tipo === 'VEICULAR',
             posicao: grupo.posicao,
-            labelPosicao: grupo.posicao,
+            labelPosicao: 'G' + grupo.posicao,
             intervalos: [{
               status: grupo.tipo === 'VEICULAR' ? modo : modoApagado,
               duracao: $scope.currentPlano.tempoCiclo || $scope.objeto.cicloMax

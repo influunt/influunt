@@ -1053,6 +1053,9 @@ public class ControladorCustomSerializer {
         if (estagio.getDemandaPrioritaria() != null) {
             estagioJson.put("demandaPrioritaria", estagio.getDemandaPrioritaria());
         }
+        if (estagio.getTempoVerdeDemandaPrioritaria() != null) {
+            estagioJson.put("tempoVerdeDemandaPrioritaria", estagio.getTempoVerdeDemandaPrioritaria());
+        }
         if (estagio.getPosicao() != null) {
             estagioJson.put("posicao", estagio.getPosicao());
         }
