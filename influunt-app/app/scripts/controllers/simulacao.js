@@ -14,4 +14,5 @@ angular.module('influuntApp')
       $controller('CrudCtrl', {$scope: $scope});
       $scope.inicializaNovoCrud('simulacao');
 
+
     }]);
