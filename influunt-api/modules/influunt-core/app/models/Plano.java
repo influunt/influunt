@@ -13,7 +13,6 @@ import json.serializers.InfluuntDateTimeSerializer;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.Range;
 import org.joda.time.DateTime;
-import utils.InfluuntUtils;
 import utils.RangeUtils;
 
 import javax.persistence.*;
@@ -62,9 +61,6 @@ public class Plano extends Model implements Cloneable, Serializable {
     @ManyToOne
     @NotNull(message = "nao pode ser vazio")
     private VersaoPlano versaoPlano;
-
-    @ManyToOne
-    private Agrupamento agrupamento;
 
     @OneToMany(mappedBy = "plano", cascade = CascadeType.ALL)
     @Valid
@@ -152,10 +148,6 @@ public class Plano extends Model implements Cloneable, Serializable {
 
     public void setVersaoPlano(VersaoPlano versaoPlano) {
         this.versaoPlano = versaoPlano;
-    }
-
-    public Agrupamento getAgrupamento() {
-        return agrupamento;
     }
 
     public List<EstagioPlano> getEstagiosPlanos() {
@@ -263,10 +255,10 @@ public class Plano extends Model implements Cloneable, Serializable {
         return true;
     }
 
-    @AssertTrue(groups = PlanosCheck.class, message = "deve estar entre 30 e 255")
+    @AssertTrue(groups = PlanosCheck.class, message = "Tempo de ciclo deve estar entre {min} e {max}")
     public boolean isTempoCiclo() {
         if (isTempoFixoIsolado() || isTempoFixoCoordenado()) {
-            return !(getTempoCiclo() == null || !RangeUtils.getInstance().TEMPO_CICLO.contains(getTempoCiclo()));
+            return getTempoCiclo() != null && RangeUtils.getInstance().TEMPO_CICLO.contains(getTempoCiclo());
         }
         return true;
     }
@@ -275,10 +267,10 @@ public class Plano extends Model implements Cloneable, Serializable {
         this.tempoCiclo = tempoCiclo;
     }
 
-    @AssertTrue(groups = PlanosCheck.class, message = "deve estar entre 0 e o tempo de ciclo")
+    @AssertTrue(groups = PlanosCheck.class, message = "Defasagem deve estar entre {min} e o tempo de ciclo")
     public boolean isDefasagem() {
         if (isTempoFixoCoordenado() && getTempoCiclo() != null) {
-            return !(getDefasagem() == null || !RangeUtils.getInstance().TEMPO_DEFASAGEM.contains(getDefasagem()) || !Range.between(0, getTempoCiclo()).contains(getDefasagem()));
+            return getDefasagem() != null && RangeUtils.getInstance().TEMPO_DEFASAGEM.contains(getDefasagem()) && Range.between(0, getTempoCiclo()).contains(getDefasagem());
         }
         return true;
     }
@@ -287,7 +279,7 @@ public class Plano extends Model implements Cloneable, Serializable {
         this.defasagem = defasagem;
     }
 
-    @AssertTrue(groups = PlanosCheck.class, message = "A soma dos tempos dos estágios é diferente do tempo de ciclo.")
+    @AssertTrue(groups = PlanosCheck.class, message = "A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).")
     public boolean isUltrapassaTempoCiclo() {
         if (!this.getEstagiosPlanos().isEmpty() && isPosicaoUnicaEstagio() && isSequenciaInvalida() && (isTempoFixoIsolado() || isTempoFixoCoordenado()) && Range.between(30, 255).contains(getTempoCiclo())) {
             getEstagiosPlanos().sort((e1, e2) -> e1.getPosicao().compareTo(e2.getPosicao()));
@@ -326,22 +318,6 @@ public class Plano extends Model implements Cloneable, Serializable {
         return true;
     }
 
-    @AssertTrue(groups = PlanosCheck.class, message = "O Plano só poderá pertencer a um agrupamento se estiver em modo Coordenado.")
-    public boolean isAgrupamento() {
-        return !(!this.isTempoFixoCoordenado() && this.getAgrupamento() != null);
-    }
-
-    public void setAgrupamento(Agrupamento agrupamento) {
-        this.agrupamento = agrupamento;
-    }
-
-    @AssertTrue(groups = PlanosCheck.class, message = "O Tempo de ciclo deve ser simétrico ou assimétrico ao tempo de ciclo dos controladores.")
-    public boolean isTempoCicloIgualOuMultiploDeTodoAgrupamento() {
-        if (this.getAgrupamento() != null && this.getTempoCiclo() != null) {
-            return InfluuntUtils.getInstance().multiplo(this.getTempoCicloAgrupamento(), this.getTempoCiclo());
-        }
-        return true;
-    }
 
     public void addGruposSemaforicos(GrupoSemaforicoPlano grupoPlano) {
         if (getGruposSemaforicosPlanos() == null) {
@@ -399,19 +375,6 @@ public class Plano extends Model implements Cloneable, Serializable {
             }
         }
         return 0;
-    }
-
-    public Integer getTempoCicloAgrupamento() {
-        Plano plano = this.getAgrupamento().getPlanos()
-                .stream()
-                .filter(planoAux ->
-                        planoAux.getPosicao().equals(this.getPosicao()) && !planoAux.getIdJson().equals(this.getIdJson()))
-                .findFirst()
-                .orElse(null);
-        if (plano != null) {
-            return plano.getTempoCiclo();
-        }
-        return 1;
     }
 
     public List<EstagioPlano> ordenarEstagiosPorPosicao() {

@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresEntreVerdesCtrl', ['$scope', '$state', '$controller', 'assertControlador', 'influuntAlert',
-    function ($scope, $state, $controller, assertControlador, influuntAlert) {
+  .controller('ControladoresEntreVerdesCtrl', ['$scope', '$state', '$controller', '$filter', 'assertControlador', 'influuntAlert',
+    function ($scope, $state, $controller, $filter, assertControlador, influuntAlert) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
       $scope.isTabelaEntreVerdes = true;
@@ -74,6 +74,7 @@ angular.module('influuntApp')
           if ($scope.assertEntreVerdes()) {
             $scope.limiteTabelasEntreVerdes = $scope.objeto.limiteTabelasEntreVerdes;
             $scope.sortByPosicao();
+            $scope.inicializaConfirmacaoNadaHaPreencher();
           }
         });
       };
@@ -174,10 +175,15 @@ angular.module('influuntApp')
       $scope.beforeSubmitForm = function() {
         aneisBkp = angular.copy($scope.objeto.aneis);
         _.forEach($scope.aneis, function(anel) {
-          _.forEach(anel.gruposSemaforicos, function(grupoSemaforico) {
-            delete grupoSemaforico.tabelasEntreVerdes;
-          });
+
+          var gsIdJson = _.map(anel.gruposSemaforicos, 'idJson');
+          anel.gruposSemaforicos = _
+            .chain($scope.objeto.gruposSemaforicos)
+            .filter(function(gs) { return gsIdJson.indexOf(gs.idJson) > -1; })
+            .map(function(gs) { return { idJson: gs.idJson }; })
+            .value();
         });
+
       };
 
       $scope.afterSubmitFormOnValidationError = function() {
@@ -186,13 +192,14 @@ angular.module('influuntApp')
       };
 
       $scope.errosAmareloOuVermelho = function(grupoSemaforico, transicaoIndex) {
-        var path = 'aneis['+$scope.currentAnelIndex+'].gruposSemaforicos['+$scope.currentGrupoSemaforicoIndex+'].transicoes['+transicaoIndex+'].tabelaEntreVerdesTransicoes['+$scope.currentTabelaEntreVerdesIndex+'].'+this.amareloOuVermelho(grupoSemaforico, true);
+        var path = 'aneis['+$scope.currentAnelIndex+'].gruposSemaforicos['+$scope.currentGrupoSemaforicoIndex+'].transicoes['+transicaoIndex+'].tabelaEntreVerdesTransicoes['+$scope.currentTabelaEntreVerdesIndex+']';
         return _.get($scope.errors, path);
       };
 
       $scope.possuiErroAmareloOuVermelho = function(grupoSemaforico, transicaoIndex) {
-        var errors = this.errosAmareloOuVermelho(grupoSemaforico, transicaoIndex);
-        return _.isArray(errors) && errors.length > 0;
+        var path = 'aneis['+$scope.currentAnelIndex+'].gruposSemaforicos['+$scope.currentGrupoSemaforicoIndex+'].transicoes['+transicaoIndex+'].tabelaEntreVerdesTransicoes['+$scope.currentTabelaEntreVerdesIndex+'].'+$scope.amareloOuVermelho(grupoSemaforico, true)+'Ok';
+        var errors = _.get($scope.errors, path);
+        return _.isObject(errors) && Object.keys(errors).length > 0;
       };
 
       $scope.errosVermelhoLimpeza = function(grupoSemaforico, transicaoIndex) {
@@ -250,6 +257,72 @@ angular.module('influuntApp')
           })
           .compact()
           .value();
+      };
+
+      $scope.$watch('currentTabelasEntreVerdesTransicoes', function() {
+        if($scope.currentGrupoSemaforico && $scope.confirmacao){
+          $scope.verificaConfirmacaoNadaHaPreencher();
+        }
+      }, true);
+
+      //Confirmar não há nada a preencher por grupo Semaforico
+      var confirmacaoNadaHaPreencher = {};
+
+      $scope.inicializaConfirmacaoNadaHaPreencher = function(){
+        $scope.confirmacao = {};
+        $scope.objeto.gruposSemaforicos.forEach(function(grupo) {
+          confirmacaoNadaHaPreencher[grupo.posicao] = confirmacaoNadaHaPreencher[grupo.posicao] || $scope.possuiInformacoesPreenchidas(grupo);
+        });
+      };
+
+      $scope.confirmacaoNadaHaPreencher = function(){
+        confirmacaoNadaHaPreencher[$scope.currentGrupoSemaforico.posicao] = !confirmacaoNadaHaPreencher[$scope.currentGrupoSemaforico.posicao];
+      };
+
+      $scope.podeSalvar = function() {
+        return _.values(confirmacaoNadaHaPreencher).every(function(e) {return e;});
+      };
+
+      $scope.verificaConfirmacaoNadaHaPreencher = function(){
+        if (!$scope.confirmacao[$scope.currentGrupoSemaforico.posicao]) {
+          if ($scope.possuiInformacoesPreenchidas()) {
+            confirmacaoNadaHaPreencher[$scope.currentGrupoSemaforico.posicao] = true;
+            $scope.confirmacao[$scope.currentGrupoSemaforico.posicao] = false;
+          } else {
+            confirmacaoNadaHaPreencher[$scope.currentGrupoSemaforico.posicao] = false;
+            $scope.confirmacao[$scope.currentGrupoSemaforico.posicao] = false;
+          }
+        }
+      };
+
+      $scope.possuiInformacoesPreenchidas = function(grupo) {
+        grupo = grupo || $scope.currentGrupoSemaforico;
+        if(grupo){
+          var resultados = _.chain(grupo.tabelasEntreVerdes).map(function(tev){
+            var tabelaEntreVerde = _.find($scope.objeto.tabelasEntreVerdes, {idJson: tev.idJson});
+            var ids = _.map(tabelaEntreVerde.tabelaEntreVerdesTransicoes, 'idJson');
+            var resultados = _.chain($scope.objeto.tabelasEntreVerdesTransicoes).filter(function(tevt) {
+              return ids.indexOf(tevt.idJson) >= 0;
+            }).map(function(tevt) {
+              var tempoAmarelo = tevt.tempoVermelhoIntermitente ? tevt.tempoVermelhoIntermitente : tevt.tempoAmarelo;
+              return parseInt(tempoAmarelo) !== 3 || parseInt(tevt.tempoVermelhoLimpeza) !== 0;
+            }).value();
+            return resultados.some(function(e) { return e; });
+          }).value();
+          return resultados.some(function(e) { return e; });
+        }
+        return false;
+      };
+
+      $scope.mensagemConfirmacao = function() {
+        var msg = $filter('translate')('geral.tooltip.naoPodeSalvarSemConfirmacaoEntreVerdes');
+        var posicoesGrupos = [];
+        _.each(confirmacaoNadaHaPreencher, function(confirmado, posicaoGrupo) {
+          if (!confirmado) {
+            posicoesGrupos.push(posicaoGrupo);
+          }
+        });
+        return msg + _.map(posicoesGrupos, function(posicao) { return "G"+posicao; }).join(", ");
       };
 
     }]);

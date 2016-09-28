@@ -11,11 +11,11 @@ angular.module('influuntApp')
   .controller('ControladoresTransicoesProibidasCtrl', ['$scope', '$state', '$controller', 'assertControlador',
     function ($scope, $state, $controller, assertControlador) {
       $controller('ControladoresCtrl', {$scope: $scope});
+      $controller('ConfirmacaoNadaHaPreencherCtrl', {$scope: $scope});
 
       // funcoes privadas.
       var desativarTransicaoProibida, ativarTransicaoProibida, getEstagioAnterior;
 
-      var confirmacaoNadaHaPreencher;
       /**
        * Garante que o controlador tem as condições mínimas para acessar a tela de transicoes proibidas.
        *
@@ -34,14 +34,16 @@ angular.module('influuntApp')
        * Inicializa a tela de estagios proibidos: Carrega os dados necessários, ordena os aneis e estágios a partir
        * das posições.
        */
-      $scope.inicializaTransicoesProibidas = function() {
+      $scope.inicializaTransicoesProibidas = function(index) {
+        var anelEscolhido = index || 0 ;
+        $scope.confirmacao = {};
         return $scope.inicializaWizard().then(function() {
           if ($scope.assertTransicoesProibidas()) {
             $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
             $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
 
             $scope.aneis.forEach(function(anel) {
-              anel.transicoesProibidas =  {};
+              anel.transicoesProibidas = {};
               anel.estagios.forEach(function(e) {
                 var estagio = _.find($scope.objeto.estagios, {idJson: e.idJson});
                 return estagio.origemDeTransicoesProibidas &&
@@ -54,26 +56,23 @@ angular.module('influuntApp')
                   });
               });
             });
+            $scope.inicializaConfirmacaoNadaHaPreencher();
 
-            $scope.selecionaAnelTransicoesProibidas(0);
+            $scope.selecionaAnel(anelEscolhido);
+            $scope.atualizaEstagios();
+            $scope.atualizaTransicoesProibidas();
           }
         });
       };
 
-      $scope.confirmacaoNadaHaPreencher = function(){
-        confirmacaoNadaHaPreencher = !confirmacaoNadaHaPreencher;
+      $scope.possuiInformacoesPreenchidas = function(anel) {
+        if(anel){
+          return _.values(anel.transicoesProibidas).length > 0;
+        }else{
+          return _.values($scope.currentTransicoesProibidas).length > 0;
+        }
       };
 
-      $scope.podeSalvar = function() {
-        if($scope.objeto && !!$scope.objeto.transicoesProibidas){
-          if($scope.objeto.transicoesProibidas.length > 0){
-            confirmacaoNadaHaPreencher = false;
-            return true;
-          }
-          return confirmacaoNadaHaPreencher;
-        }
-        return false;
-      };
       /**
        * Ativa/desativa uma transição proibida da tabela de transições proibidas.
        *
@@ -155,7 +154,7 @@ angular.module('influuntApp')
         var indexAnel = _.findIndex($scope.objeto.aneis, {idJson: estagioOrigem.anel.idJson});
         var anel = $scope.objeto.aneis[indexAnel];
 
-        if (!($scope.errors && $scope.errors.aneis[indexAnel])) {
+        if (!($scope.errors && $scope.errors.aneis && $scope.errors.aneis[indexAnel])) {
           return false;
         }
 
@@ -225,6 +224,8 @@ angular.module('influuntApp')
             posicao: estagio1.posicao
           }
         };
+
+        $scope.verificaConfirmacaoNadaHaPreencher();
       };
 
       /**
@@ -264,7 +265,7 @@ angular.module('influuntApp')
           }
         }
 
-
+        $scope.verificaConfirmacaoNadaHaPreencher();
       };
 
       /**

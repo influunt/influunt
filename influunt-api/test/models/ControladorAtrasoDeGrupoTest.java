@@ -13,6 +13,7 @@ import play.mvc.Result;
 import play.test.Helpers;
 
 import javax.validation.groups.Default;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -37,8 +38,8 @@ public class ControladorAtrasoDeGrupoTest extends ControladorTest {
         Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
         assertEquals("Quantidade de transicoes com ganho de passagem", 1, anelCom2Estagios.getGruposSemaforicos().get(0).getTransicoesComGanhoDePassagem().size());
         assertEquals("Quantidade de transicoes com perda de passagem", 1, anelCom2Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().size());
-        assertEquals("Quantidade de transicoes com ganho de passagem", 4, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComGanhoDePassagem().size());
-        assertEquals("Quantidade de transicoes com perda de passagem", 5, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().size());
+        assertEquals("Quantidade de transicoes com ganho de passagem", 5, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComGanhoDePassagem().size());
+        assertEquals("Quantidade de transicoes com perda de passagem", 4, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().size());
 
         for (Anel anel : controlador.getAneis()) {
             for (GrupoSemaforico grupoSemaforico : anel.getGruposSemaforicos()) {
@@ -49,33 +50,58 @@ public class ControladorAtrasoDeGrupoTest extends ControladorTest {
         }
 
         List<Erro> erros = getErros(controlador);
+        assertEquals(48, erros.size());
+        Collections.sort(erros, (Erro e1, Erro e2) -> e1.path.compareTo(e2.path));
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[0].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[0].transicoes[0].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[1].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[0].transicoes[1].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[2].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[0].transicoes[2].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[3].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[0].transicoes[3].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[4].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[0].transicoes[4].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[5].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[0].transicoes[5].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[6].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[0].transicoes[6].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[7].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[0].transicoes[7].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[8].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[0].transicoes[8].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[0].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[1].transicoes[0].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[1].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[1].transicoes[1].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[2].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[1].transicoes[2].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[3].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[1].transicoes[3].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[4].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[1].transicoes[4].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[5].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[1].transicoes[5].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[6].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[1].transicoes[6].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[7].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[1].transicoes[7].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[8].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[1].transicoes[8].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[9].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[1].transicoes[9].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[1].transicoes[10].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[1].transicoes[10].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[1].gruposSemaforicos[0].transicoes[0].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[1].gruposSemaforicos[0].transicoes[0].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[1].gruposSemaforicos[0].transicoes[1].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[1].gruposSemaforicos[0].transicoes[1].tempoAtrasoDeGrupoDentroDaFaixa"),
                 new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[1].gruposSemaforicos[1].transicoes[0].atrasoDeGrupoPresent"),
-                new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[1].gruposSemaforicos[1].transicoes[1].atrasoDeGrupoPresent")
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[1].gruposSemaforicos[1].transicoes[0].tempoAtrasoDeGrupoDentroDaFaixa"),
+                new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[1].gruposSemaforicos[1].transicoes[1].atrasoDeGrupoPresent"),
+                new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[1].gruposSemaforicos[1].transicoes[1].tempoAtrasoDeGrupoDentroDaFaixa")
         ));
-        assertEquals(24, erros.size());
     }
 
     @Override
@@ -102,10 +128,10 @@ public class ControladorAtrasoDeGrupoTest extends ControladorTest {
         assertEquals("Total de transicoes com ganho de passagem Anel 2 Estagios - G2", 1, anelCom2Estagios.getGruposSemaforicos().get(1).getTransicoesComGanhoDePassagem().size());
         assertEquals("Total de transicoes com perda de passagem Anel 2 Estagios - G2", 1, anelCom2Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().size());
 
-        assertEquals("Total de transicoes com ganho de passagem Anel 4 Estagios - G1", 4, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComGanhoDePassagem().size());
-        assertEquals("Total de transicoes com perda de passagem Anel 4 Estagios - G1", 5, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().size());
-        assertEquals("Total de transicoes com ganho de passagem Anel 4 Estagios - G2", 6, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComGanhoDePassagem().size());
-        assertEquals("Total de transicoes com perda de passagem Anel 4 Estagios - G2", 5, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().size());
+        assertEquals("Total de transicoes com ganho de passagem Anel 4 Estagios - G1", 5, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComGanhoDePassagem().size());
+        assertEquals("Total de transicoes com perda de passagem Anel 4 Estagios - G1", 4, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().size());
+        assertEquals("Total de transicoes com ganho de passagem Anel 4 Estagios - G2", 5, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComGanhoDePassagem().size());
+        assertEquals("Total de transicoes com perda de passagem Anel 4 Estagios - G2", 6, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().size());
 
         for (Anel anel : controlador.getAneis()) {
             for (GrupoSemaforico grupoSemaforico : anel.getGruposSemaforicos()) {
@@ -135,10 +161,10 @@ public class ControladorAtrasoDeGrupoTest extends ControladorTest {
         assertEquals("Total de transicoes com ganho de passagem Anel 2 Estagios - G2", 1, anelCom2Estagios.getGruposSemaforicos().get(1).getTransicoesComGanhoDePassagem().size());
         assertEquals("Total de transicoes com perda de passagem Anel 2 Estagios - G2", 1, anelCom2Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().size());
 
-        assertEquals("Total de transicoes com ganho de passagem Anel 4 Estagios - G1", 4, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComGanhoDePassagem().size());
-        assertEquals("Total de transicoes com perda de passagem Anel 4 Estagios - G1", 5, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().size());
-        assertEquals("Total de transicoes com ganho de passagem Anel 4 Estagios - G2", 6, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComGanhoDePassagem().size());
-        assertEquals("Total de transicoes com perda de passagem Anel 4 Estagios - G2", 5, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().size());
+        assertEquals("Total de transicoes com ganho de passagem Anel 4 Estagios - G1", 5, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComGanhoDePassagem().size());
+        assertEquals("Total de transicoes com perda de passagem Anel 4 Estagios - G1", 4, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().size());
+        assertEquals("Total de transicoes com ganho de passagem Anel 4 Estagios - G2", 5, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComGanhoDePassagem().size());
+        assertEquals("Total de transicoes com perda de passagem Anel 4 Estagios - G2", 6, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().size());
 
         for (Anel anel : controlador.getAneis()) {
             for (GrupoSemaforico grupoSemaforico : anel.getGruposSemaforicos()) {
@@ -162,7 +188,7 @@ public class ControladorAtrasoDeGrupoTest extends ControladorTest {
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
-        assertEquals(24, json.size());
+        assertEquals(48, json.size());
     }
 
     @Override
@@ -196,10 +222,10 @@ public class ControladorAtrasoDeGrupoTest extends ControladorTest {
         assertEquals("Total de transicoes com perda de passagem Anel 2 Estagios - G3", 1, g3.getTransicoesComPerdaDePassagem().size());
         assertEquals("Total de transicoes com perda de passagem Anel 2 Estagios - G4", 1, g4.getTransicoesComPerdaDePassagem().size());
 
-        assertEquals("Total de transicoes com ganho de passagem Anel 4 Estagios - G1", 4, g1.getTransicoesComGanhoDePassagem().size());
-        assertEquals("Total de transicoes com ganho de passagem Anel 4 Estagios - G2", 6, g2.getTransicoesComGanhoDePassagem().size());
-        assertEquals("Total de transicoes com ganho de passagem Anel 4 Estagios - G1", 5, g1.getTransicoesComPerdaDePassagem().size());
-        assertEquals("Total de transicoes com ganho de passagem Anel 4 Estagios - G2", 5, g2.getTransicoesComPerdaDePassagem().size());
+        assertEquals("Total de transicoes com ganho de passagem Anel 4 Estagios - G1", 5, g1.getTransicoesComGanhoDePassagem().size());
+        assertEquals("Total de transicoes com ganho de passagem Anel 4 Estagios - G2", 5, g2.getTransicoesComGanhoDePassagem().size());
+        assertEquals("Total de transicoes com ganho de passagem Anel 4 Estagios - G1", 4, g1.getTransicoesComPerdaDePassagem().size());
+        assertEquals("Total de transicoes com ganho de passagem Anel 4 Estagios - G2", 6, g2.getTransicoesComPerdaDePassagem().size());
 
         for (Anel anel : controlador.getAneis()) {
             for (GrupoSemaforico grupoSemaforico : anel.getGruposSemaforicos()) {

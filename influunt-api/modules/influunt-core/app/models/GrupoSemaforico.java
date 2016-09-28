@@ -338,7 +338,7 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
         return this.getTipo() != null && TipoGrupoSemaforico.VEICULAR.equals(this.getTipo());
     }
 
-    @AssertTrue(groups = ControladorGruposSemaforicosCheck.class, message = "deve estar entre 10 e 30")
+    @AssertTrue(groups = ControladorGruposSemaforicosCheck.class, message = "Tempo de verde de segurança veicular deve estar entre {min} e {max}")
     public boolean isTempoVerdeSegurancaFieldVeicular() {
         if (this.getTempoVerdeSeguranca() != null && this.getTipo().equals(TipoGrupoSemaforico.VEICULAR)) {
             return RangeUtils.getInstance().TEMPO_VERDE_SEGURANCA_VEICULAR.contains(getTempoVerdeSeguranca());
@@ -346,7 +346,7 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
         return true;
     }
 
-    @AssertTrue(groups = ControladorGruposSemaforicosCheck.class, message = "deve estar entre 4 e 10")
+    @AssertTrue(groups = ControladorGruposSemaforicosCheck.class, message = "Tempo de verde de segurança pedestre deve estar entre {min} e {max}")
     public boolean isTempoVerdeSegurancaFieldPedestre() {
         if (this.getTempoVerdeSeguranca() != null && this.getTipo().equals(TipoGrupoSemaforico.PEDESTRE)) {
             return RangeUtils.getInstance().TEMPO_VERDE_SEGURANCA_PEDESTRE.contains(getTempoVerdeSeguranca());
@@ -370,14 +370,14 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
                         .filter(estagio ->
                                 !estagio.equals(estagioGrupoSemaforico.getEstagio()) && !estagioGrupoSemaforico.getEstagio().temTransicaoProibidaParaEstagio(estagio))
                         .forEach(estagio ->
-                                this.addTransicaoSeNecessario(new Transicao(this, estagioGrupoSemaforico.getEstagio(), estagio, TipoTransicao.GANHO_DE_PASSAGEM))));
+                                this.addTransicaoSeNecessario(new Transicao(this, estagioGrupoSemaforico.getEstagio(), estagio, TipoTransicao.PERDA_DE_PASSAGEM))));
 
         getEstagiosGruposSemaforicos().forEach(estagioGrupoSemaforico ->
                 this.getAnel().getEstagios().stream()
                         .filter(estagio ->
                                 !estagio.equals(estagioGrupoSemaforico.getEstagio()) && !estagio.temTransicaoProibidaParaEstagio(estagioGrupoSemaforico.getEstagio()))
                         .forEach(estagio ->
-                                this.addTransicaoSeNecessario(new Transicao(this, estagio, estagioGrupoSemaforico.getEstagio(), TipoTransicao.PERDA_DE_PASSAGEM))));
+                                this.addTransicaoSeNecessario(new Transicao(this, estagio, estagioGrupoSemaforico.getEstagio(), TipoTransicao.GANHO_DE_PASSAGEM))));
 
         getTransicoes().forEach(transicao -> {
             if (transicao.isDestroy()) {
@@ -407,7 +407,7 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
         if (transicaoAux != null) {
             transicaoAux.setDestroy(false);
         } else {
-            if (transicao.isGanhoDePassagem()) {
+            if (transicao.isPerdaDePassagem()) {
                 TabelaEntreVerdes tabelaEntreVerdes = this.findByTabelaEntreVerdesPadrao();
                 TabelaEntreVerdesTransicao tevTransicao = new TabelaEntreVerdesTransicao(tabelaEntreVerdes, transicao);
                 tabelaEntreVerdes.addTabelaEntreVerdesTransicao(tevTransicao);

@@ -174,7 +174,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         this.dataAtualizacao = dataAtualizacao;
     }
 
-    @AssertTrue(groups = PlanosCheck.class, message = "deve estar entre 1 e 255")
+    @AssertTrue(groups = PlanosCheck.class, message = "Tempo de verde deve estar entre {min} e {max}")
     public boolean isTempoVerde() {
         if (getPlano().isTempoFixoIsolado() || getPlano().isTempoFixoCoordenado()) {
             return RangeUtils.getInstance().TEMPO_VERDE.contains(getTempoVerde());
@@ -186,7 +186,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         this.tempoVerde = tempoVerde;
     }
 
-    @AssertTrue(groups = PlanosCheck.class, message = "deve estar entre 10 e 255")
+    @AssertTrue(groups = PlanosCheck.class, message = "Tempo de verde mínimo deve estar entre {min} e {max}")
     public boolean isTempoVerdeMinimo() {
         if (getPlano().isAtuado()) {
             return RangeUtils.getInstance().TEMPO_VERDE_MINIMO.contains(getTempoVerdeMinimo());
@@ -198,7 +198,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         this.tempoVerdeMinimo = tempoVerdeMinimo;
     }
 
-    @AssertTrue(groups = PlanosCheck.class, message = "deve estar entre 10 e 255")
+    @AssertTrue(groups = PlanosCheck.class, message = "Tempo de verde máximo deve estar entre {min} e {max}")
     public boolean isTempoVerdeMaximo() {
         if (getPlano().isAtuado()) {
             return RangeUtils.getInstance().TEMPO_VERDE_MAXIMO.contains(getTempoVerdeMaximo());
@@ -210,7 +210,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         this.tempoVerdeMaximo = tempoVerdeMaximo;
     }
 
-    @AssertTrue(groups = PlanosCheck.class, message = "deve estar entre 10 e 255")
+    @AssertTrue(groups = PlanosCheck.class, message = "Tempo de verde intermediário deve estar entre {min} e {max}")
     public boolean isTempoVerdeIntermediario() {
         if (getPlano().isAtuado()) {
             return RangeUtils.getInstance().TEMPO_VERDE_INTERMEDIARIO.contains(getTempoVerdeIntermediario());
@@ -222,7 +222,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         this.tempoVerdeIntermediario = tempoVerdeIntermitente;
     }
 
-    @AssertTrue(groups = PlanosCheck.class, message = "deve estar entre 1 e 10")
+    @AssertTrue(groups = PlanosCheck.class, message = "Tempo de extensão de verde deve estar entre {min} e {max}")
     public boolean isTempoExtensaoVerde() {
         if (getPlano().isAtuado()) {
             return RangeUtils.getInstance().TEMPO_EXTENSAO_VERDE.contains(getTempoExtensaoVerde());
@@ -234,9 +234,13 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         this.tempoExtensaoVerde = tempoExtensaoVerde;
     }
 
-    @AssertTrue(groups = PlanosCheck.class, message = "O tempo de verde intermediaria deve estar entre o valor de verde minimo e verde maximo.")
+    @AssertTrue(groups = PlanosCheck.class, message = "O tempo de verde intermediário deve estar entre os valores de verde mínimo e verde máximo.")
     public boolean isTempoVerdeIntermediarioFieldEntreMinimoMaximo() {
-        if (getPlano().isAtuado() && RangeUtils.getInstance().TEMPO_VERDE_MINIMO.contains(getTempoVerdeMinimo()) && RangeUtils.TEMPO_VERDE_MAXIMO.contains(getTempoVerdeMaximo()) && RangeUtils.TEMPO_VERDE_INTERMEDIARIO.contains(getTempoVerdeIntermediario())) {
+        RangeUtils rangeUtils = RangeUtils.getInstance();
+        if (getPlano().isAtuado() &&
+                rangeUtils.TEMPO_VERDE_MINIMO.contains(getTempoVerdeMinimo()) &&
+                rangeUtils.TEMPO_VERDE_MAXIMO.contains(getTempoVerdeMaximo()) &&
+                rangeUtils.TEMPO_VERDE_INTERMEDIARIO.contains(getTempoVerdeIntermediario())) {
             return Range.between(getTempoVerdeMinimo(), getTempoVerdeMaximo()).contains(getTempoVerdeIntermediario());
         }
         return true;
@@ -245,9 +249,10 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = PlanosCheck.class, message = "O tempo de estagio ultrapassa o tempo maximo de permanencia.")
     public boolean isUltrapassaTempoMaximoPermanencia() {
         if (getEstagio().getTempoMaximoPermanenciaAtivado()) {
-            if (getPlano().isAtuado() && RangeUtils.getInstance().TEMPO_VERDE_MAXIMO.contains(getTempoVerdeMaximo())) {
+            RangeUtils rangeUtils = RangeUtils.getInstance();
+            if (getPlano().isAtuado() && rangeUtils.TEMPO_VERDE_MAXIMO.contains(getTempoVerdeMaximo())) {
                 return getTempoVerdeMaximo() <= getEstagio().getTempoMaximoPermanencia();
-            } else if ((getPlano().isTempoFixoCoordenado() || getPlano().isTempoFixoIsolado()) && RangeUtils.TEMPO_VERDE.contains(getTempoVerde())) {
+            } else if ((getPlano().isTempoFixoCoordenado() || getPlano().isTempoFixoIsolado()) && rangeUtils.TEMPO_VERDE.contains(getTempoVerde())) {
                 return getTempoVerde() <= getEstagio().getTempoMaximoPermanencia();
             }
         }

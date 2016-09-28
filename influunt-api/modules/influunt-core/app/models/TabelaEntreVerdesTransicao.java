@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
-import org.hibernate.validator.constraints.Range;
 import org.joda.time.DateTime;
 import utils.RangeUtils;
 
@@ -42,11 +41,9 @@ public class TabelaEntreVerdesTransicao extends Model implements Cloneable, Seri
     @ManyToOne
     private Transicao transicao;
 
-    @Range(min = 3, max = 5, message = "deve estar entre {min} e {max}")
     @Column
     private Integer tempoAmarelo;
 
-    @Range(min = 3, max = 32, message = "deve estar entre {min} e {max}")
     @Column
     private Integer tempoVermelhoIntermitente;
 
@@ -157,7 +154,7 @@ public class TabelaEntreVerdesTransicao extends Model implements Cloneable, Seri
 
     @AssertTrue(groups = ControladorTabelaEntreVerdesCheck.class, message = "não pode ficar em branco")
     public boolean isTempoAmarelo() {
-        if (getTransicao().isGanhoDePassagem() && getTransicao().getGrupoSemaforico().isVeicular()) {
+        if (getTransicao().isPerdaDePassagem() && getTransicao().getGrupoSemaforico().isVeicular()) {
             return getTempoAmarelo() != null;
         }
         return true;
@@ -167,17 +164,17 @@ public class TabelaEntreVerdesTransicao extends Model implements Cloneable, Seri
         this.tempoAmarelo = tempoAmarelo;
     }
 
-    @AssertTrue(groups = ControladorTabelaEntreVerdesCheck.class, message = "deve estar entre 0 e 7")
+    @AssertTrue(groups = ControladorTabelaEntreVerdesCheck.class, message = "deve estar entre {min} e {max}")
     public boolean isTempoVermelhoLimpezaFieldVeicular() {
-        if (getTransicao().isGanhoDePassagem() && getTransicao().getGrupoSemaforico().isVeicular() && getTempoVermelhoLimpeza() != null) {
+        if (getTransicao().isPerdaDePassagem() && getTransicao().getGrupoSemaforico().isVeicular() && getTempoVermelhoLimpeza() != null) {
             return RangeUtils.getInstance().TEMPO_VERMELHO_LIMPEZA_VEICULAR.contains(getTempoVermelhoLimpeza());
         }
         return true;
     }
 
-    @AssertTrue(groups = ControladorTabelaEntreVerdesCheck.class, message = "deve estar entre 0 e 5")
+    @AssertTrue(groups = ControladorTabelaEntreVerdesCheck.class, message = "deve estar entre {min} e {max}")
     public boolean isTempoVermelhoLimpezaFieldPedestre() {
-        if (getTransicao().isGanhoDePassagem() && getTransicao().getGrupoSemaforico().isPedestre() && getTempoVermelhoLimpeza() != null) {
+        if (getTransicao().isPerdaDePassagem() && getTransicao().getGrupoSemaforico().isPedestre() && getTempoVermelhoLimpeza() != null) {
             return RangeUtils.getInstance().TEMPO_VERMELHO_LIMPEZA_PEDESTRE.contains(getTempoVermelhoLimpeza());
         }
         return true;
@@ -185,8 +182,24 @@ public class TabelaEntreVerdesTransicao extends Model implements Cloneable, Seri
 
     @AssertTrue(groups = ControladorTabelaEntreVerdesCheck.class, message = "não pode ficar em branco")
     public boolean isTempoVermelhoIntermitente() {
-        if (getTransicao().isGanhoDePassagem() && getTransicao().getGrupoSemaforico().isPedestre()) {
+        if (getTransicao().isPerdaDePassagem() && getTransicao().getGrupoSemaforico().isPedestre()) {
             return getTempoVermelhoIntermitente() != null;
+        }
+        return true;
+    }
+
+    @AssertTrue(groups = ControladorTabelaEntreVerdesCheck.class, message = "deve estar entre {min} e {max}")
+    public boolean isTempoVermelhoIntermitenteOk() {
+        if (getTransicao().isPerdaDePassagem() && getTransicao().getGrupoSemaforico().isPedestre()) {
+            return getTempoVermelhoIntermitente() != null && RangeUtils.getInstance().TEMPO_VERMELHO_INTERMITENTE.contains(getTempoVermelhoIntermitente());
+        }
+        return true;
+    }
+
+    @AssertTrue(message = "deve estar entre {min} e {max}")
+    public boolean isTempoAmareloOk() {
+        if (getTransicao().isPerdaDePassagem() && getTransicao().getGrupoSemaforico().isVeicular() && getTempoAmarelo() != null) {
+            return RangeUtils.getInstance().TEMPO_AMARELO.contains(getTempoAmarelo());
         }
         return true;
     }

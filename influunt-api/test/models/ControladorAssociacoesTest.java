@@ -105,7 +105,6 @@ public class ControladorAssociacoesTest extends ControladorTest {
         estagioNovo2.addEstagioGrupoSemaforico(estagioGrupoSemaforicoNovo2);
 
         erros = getErros(controlador);
-
         assertThat(erros, Matchers.empty());
     }
 

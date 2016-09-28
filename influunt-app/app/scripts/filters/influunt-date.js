@@ -17,10 +17,12 @@ angular.module('influuntApp')
           input = moment(input, 'DD/MM/YYYY HH:mm:ss');
         }
         if(format === 'fromNow') {
-          return input.fromNow();
+          return moment(input).fromNow();
         }
-
-        return input.format(format);
+        if(format === 'fromHours') {
+          return humanizeDuration(moment.duration(input, 'hours').asMilliseconds(),{ language: 'pt' });
+        }
+        return moment(input).format(format);
       } else {
         return '-----';
       }

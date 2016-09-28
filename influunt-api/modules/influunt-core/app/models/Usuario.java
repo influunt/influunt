@@ -9,6 +9,7 @@ import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import excpetions.InfluuntNoMatchException;
 import helpers.HashHelper;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.deserializers.UsuarioDeserialiazer;
@@ -16,6 +17,7 @@ import json.serializers.InfluuntDateTimeSerializer;
 import json.serializers.UsuarioSerializer;
 import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
+import org.joda.time.Hours;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -63,6 +65,12 @@ public class Usuario extends Model implements Subject, Serializable {
 
     @ManyToOne
     private Perfil perfil;
+
+    @Column
+    private String resetPasswordToken;
+
+    @Column
+    private DateTime passwordTokenExpiration;
 
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
@@ -180,6 +188,22 @@ public class Usuario extends Model implements Subject, Serializable {
         this.perfil = perfil;
     }
 
+    public String getResetPasswordToken() {
+        return resetPasswordToken;
+    }
+
+    public void setResetPasswordToken(String resetPasswordToken) {
+        this.resetPasswordToken = resetPasswordToken;
+    }
+
+    public DateTime getPasswordTokenExpiration() {
+        return passwordTokenExpiration;
+    }
+
+    public void setPasswordTokenExpiration(DateTime passwordTokenExpiration) {
+        this.passwordTokenExpiration = passwordTokenExpiration;
+    }
+
     @Override
     public String getIdentifier() {
         return getLogin();
@@ -197,6 +221,28 @@ public class Usuario extends Model implements Subject, Serializable {
         return false;
     }
 
+    public boolean isResetPasswordTokenValid(String token) {
+
+        if (this.getResetPasswordToken() == null || this.getResetPasswordToken().compareTo(token) != 0) {
+            return false;
+        }
+
+        if (Hours.hoursBetween(this.getPasswordTokenExpiration(), new DateTime()).getHours() >= 24) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public void redefinirSenha(String novaSenha, String confirmacaoNovaSenha) throws InfluuntNoMatchException {
+
+        if (novaSenha.compareTo(confirmacaoNovaSenha) != 0)
+            throw new InfluuntNoMatchException("A nova senha e sua confirmação não conferem.");
+
+        this.setSenha(novaSenha);
+        this.setResetPasswordToken(null);
+        this.setPasswordTokenExpiration(null);
+    }
 
     @Override
     public boolean equals(Object o) {

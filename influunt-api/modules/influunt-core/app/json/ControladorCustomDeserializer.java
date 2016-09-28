@@ -350,8 +350,8 @@ public class ControladorCustomDeserializer {
             }
         }
 
-        if (node.has("transicoesComPerdaDePassagem")) {
-            for (JsonNode innerNode : node.get("transicoesComPerdaDePassagem")) {
+        if (node.has("transicoesComGanhoDePassagem")) {
+            for (JsonNode innerNode : node.get("transicoesComGanhoDePassagem")) {
                 Transicao transicao = parseTransicao(innerNode);
                 transicaoCache.put(transicao.getIdJson().toString(), transicao);
             }
@@ -663,7 +663,7 @@ public class ControladorCustomDeserializer {
 
         List<Transicao> transicoes = new ArrayList<>();
         parseCollection("transicoes", node, transicoes, TRANSICAO, GRUPOS_SEMAFORICOS);
-        parseCollection("transicoesComPerdaDePassagem", node, transicoes, TRANSICAO, GRUPOS_SEMAFORICOS);
+        parseCollection("transicoesComGanhoDePassagem", node, transicoes, TRANSICAO, GRUPOS_SEMAFORICOS);
         grupoSemaforico.setTransicoes(transicoes);
 
 
@@ -1067,10 +1067,6 @@ public class ControladorCustomDeserializer {
         }
         if (node.has("modoOperacao")) {
             plano.setModoOperacao(ModoOperacaoPlano.valueOf(node.get("modoOperacao").asText()));
-        }
-
-        if (node.has("agrupamento") && node.get("agrupamento").get("id") != null) {
-            plano.setAgrupamento(Agrupamento.find.byId(UUID.fromString(node.get("agrupamento").get("id").asText())));
         }
 
         if (node.has("versaoPlano") && node.get("versaoPlano").has("idJson")) {

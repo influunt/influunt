@@ -13,9 +13,10 @@ angular.module('influuntApp')
 
       $scope.isAtrasoDeGrupo = true;
       var inicializaTransicoes;
-      var confirmacaoNadaHaPreencher;
 
       $controller('ControladoresCtrl', {$scope: $scope});
+      $controller('ConfirmacaoNadaHaPreencherCtrl', {$scope: $scope});
+
       /**
        * Garante que o controlador tem as condições mínimas para acessar a tela de atraso de grupo.
        *
@@ -38,22 +39,30 @@ angular.module('influuntApp')
        *
        * @return     {<type>}  { description_of_the_return_value }
        */
-      $scope.inicializaAtrasoDeGrupo = function() {
+
+      $scope.setAtributos = function() {
+        $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
+        $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
+        $scope.objeto.gruposSemaforicos = _.orderBy($scope.objeto.gruposSemaforicos, ['posicao']);
+        $scope.atrasoGrupoMin = $scope.objeto.atrasoGrupoMin;
+        $scope.atrasoGrupoMax = $scope.objeto.atrasoGrupoMax;
+        inicializaTransicoes();
+      };
+
+      $scope.inicializaAtrasoDeGrupo = function(index) {
         return $scope.inicializaWizard().then(function() {
           if ($scope.assertAtrasoDeGrupo()) {
-            $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
-            $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
-            $scope.objeto.gruposSemaforicos = _.orderBy($scope.objeto.gruposSemaforicos, ['posicao']);
-            $scope.atrasoGrupoMin = $scope.objeto.atrasoGrupoMin;
-            $scope.atrasoGrupoMax = $scope.objeto.atrasoGrupoMax;
-            $scope.selecionaAnelAtrasoDeGrupo(0);
-            inicializaTransicoes();
+            $scope.selecionaAnel(index);
+            $scope.atualizaGruposSemaforicos();
+            $scope.selecionaGrupoSemaforico($scope.currentGruposSemaforicos[0], 0);
+            $scope.setAtributos();
+            $scope.inicializaConfirmacaoNadaHaPreencher();
           }
         });
       };
 
       inicializaTransicoes = function() {
-        var allTransicoes = _.union($scope.objeto.transicoes, $scope.objeto.transicoesComPerdaDePassagem);
+        var allTransicoes = _.union($scope.objeto.transicoes, $scope.objeto.transicoesComGanhoDePassagem);
         _.forEach(allTransicoes, function(transicao) {
           if (typeof transicao.atrasoDeGrupo === 'undefined') {
             transicao.atrasoDeGrupo = { idJson: UUID.generate(), atrasoDeGrupo: $scope.atrasoGrupoMin };
@@ -69,23 +78,51 @@ angular.module('influuntApp')
         $scope.selecionaAnel(index);
         $scope.atualizaGruposSemaforicos();
         $scope.selecionaGrupoSemaforico($scope.currentGruposSemaforicos[0], 0);
-      };
-      
-      $scope.confirmacaoNadaHaPreencher = function(){
-        confirmacaoNadaHaPreencher = !confirmacaoNadaHaPreencher;
+        $scope.setAtributos();
+        $scope.inicializaConfirmacaoNadaHaPreencher();
       };
 
-      $scope.podeSalvar = function() {
-        if($scope.objeto && !!$scope.objeto.atrasosDeGrupo){
-          $scope.totalNaoPreenchido = _.filter($scope.objeto.atrasosDeGrupo, {atrasoDeGrupo: '0'}).length;
-          $scope.totalNaoPreenchido = $scope.totalNaoPreenchido + _.filter($scope.objeto.atrasosDeGrupo, {atrasoDeGrupo: 0}).length;
-          if($scope.totalNaoPreenchido < $scope.objeto.atrasosDeGrupo.length){
-            confirmacaoNadaHaPreencher = false;
-            return true;
-          }
-          return confirmacaoNadaHaPreencher;
+      $scope.$watch('currentTransicoesComGanhoDePassagem', function() {
+        if($scope.currentAnel && $scope.confirmacao){
+          $scope.verificaConfirmacaoNadaHaPreencher();
+        }
+      }, true);
+
+      $scope.$watch('currentTransicoes', function() {
+        if($scope.currentAnel && $scope.confirmacao){
+          $scope.verificaConfirmacaoNadaHaPreencher();
+        }
+      }, true);
+
+      $scope.possuiInformacoesPreenchidas = function() {
+        var totalNaoPreenchido, total, totalNaoPreenchidoComGanhoDePassagem, totalComGanhoDePassagem;
+        if($scope.currentTransicoes && $scope.currentTransicoesComGanhoDePassagem){
+          totalNaoPreenchido = _.filter($scope.currentTransicoes, {atrasoDeGrupo: {atrasoDeGrupo: '0'}}).length;
+          totalNaoPreenchido += _.filter($scope.currentTransicoes, {atrasoDeGrupo: {atrasoDeGrupo: 0}}).length;
+          total = _.values($scope.currentTransicoes).length;
+
+          totalNaoPreenchidoComGanhoDePassagem = _.filter($scope.currentTransicoesComGanhoDePassagem, {atrasoDeGrupo: {atrasoDeGrupo: '0'}}).length;
+          totalNaoPreenchidoComGanhoDePassagem += _.filter($scope.currentTransicoesComGanhoDePassagem, {atrasoDeGrupo: {atrasoDeGrupo: 0}}).length;
+          totalComGanhoDePassagem = _.values($scope.currentTransicoesComGanhoDePassagem).length;
+          return totalNaoPreenchido < total || totalNaoPreenchidoComGanhoDePassagem < totalComGanhoDePassagem;
         }
         return false;
+      };
+
+      $scope.possuiErroAtrasoDeGrupo = function(anelIndex, grupoSemaforicoIndex, transicaoIndex) {
+        var errors = _.get($scope.errors, 'aneis[' + anelIndex + '].gruposSemaforicos[' + grupoSemaforicoIndex + '].transicoes[' + transicaoIndex + ']');
+        return _.isObject(errors) && Object.keys(errors).length > 0;
+      };
+
+      $scope.beforeSubmitForm = function() {
+        _.forEach($scope.objeto.aneis, function(anel) {
+          var gsIdJson = _.map(anel.gruposSemaforicos, 'idJson');
+          anel.gruposSemaforicos = _
+            .chain($scope.objeto.gruposSemaforicos)
+            .filter(function(gs) { return gsIdJson.indexOf(gs.idJson) > -1; })
+            .map(function(gs) { return { idJson: gs.idJson }; })
+            .value();
+        });
       };
 
     }]);

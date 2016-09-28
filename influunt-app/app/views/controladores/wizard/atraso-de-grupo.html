@@ -1,4 +1,4 @@
-<fieldset data-ng-init="inicializaAtrasoDeGrupo()">
+<fieldset data-ng-init="inicializaAtrasoDeGrupo(0)">
   <div class="m-t-md">
     <div class="col-lg-12 col-sm-12 bg-border no-padding">
       <div class="ibox float-e-margins">
@@ -56,9 +56,9 @@
                                     <div class="text-center">
                                       <div class="knob-item" data-ng-class="{ 'col-lg-4 col-sm-4': currentTabelaEntreVerdes.posicao === 1, 'col-lg-6 col-sm-6': currentTabelaEntreVerdes.posicao !== 1 }">
                                         <span class="badge badge-danger badge-notification"
-                                          data-ng-show="possuiErroAmareloOuVermelho(currentGrupoSemaforico, $index)"
+                                          data-ng-show="possuiErroAtrasoDeGrupo(currentAnelIndex, currentGrupoSemaforicoIndex, $index)"
                                           inf-tooltip
-                                          messages="[errosAmareloOuVermelho(currentGrupoSemaforico, $index)]">
+                                          messages="errors.aneis[currentAnelIndex].gruposSemaforicos[currentGrupoSemaforicoIndex].transicoes[$index]">
                                           <i class="fa fa-exclamation"></i>
                                         </span>
                                         <influunt-knob
@@ -66,7 +66,8 @@
                                           label="SEG"
                                           min="atrasoGrupoMin"
                                           max="atrasoGrupoMax"
-                                          data-ng-model="transicao.atrasoDeGrupo.atrasoDeGrupo">
+                                          data-ng-model="transicao.atrasoDeGrupo.atrasoDeGrupo"
+                                          data-ng-click="inicializaConfirmacaoNadaHaPreencher()">
                                         </influunt-knob>
                                       </div>
                                     </div>
@@ -84,7 +85,7 @@
 
                           <nav>
                             <ul>
-                              <li data-ng-repeat="transicao in currentTransicoesComPerdaDePassagem">
+                              <li data-ng-repeat="transicao in currentTransicoesComGanhoDePassagem">
                                 <div class="group-figures col-lg-5 col-sm-5 no-padding">
                                   <div class="col-lg-6 col-sm-6 group-figure stage-images">
                                     <figure>
@@ -104,9 +105,9 @@
                                     <div class="text-center">
                                       <div class="knob-item" data-ng-class="{ 'col-lg-4 col-sm-4': currentTabelaEntreVerdes.posicao === 1, 'col-lg-6 col-sm-6': currentTabelaEntreVerdes.posicao !== 1 }">
                                         <span class="badge badge-danger badge-notification"
-                                          data-ng-show="possuiErroAmareloOuVermelho(currentGrupoSemaforico, $index)"
+                                          data-ng-show="possuiErroAtrasoDeGrupo(currentAnelIndex, currentGrupoSemaforicoIndex, $index + currentTransicoes.length)"
                                           inf-tooltip
-                                          messages="[errosAmareloOuVermelho(currentGrupoSemaforico, $index)]">
+                                          messages="errors.aneis[currentAnelIndex].gruposSemaforicos[currentGrupoSemaforicoIndex].transicoes[$index + currentTransicoes.length]">
                                           <i class="fa fa-exclamation"></i>
                                         </span>
                                         <influunt-knob
@@ -128,18 +129,17 @@
                     </div>
                   </div>
                 </div>
+                <div class="col-sm-12 col-lg-12 pg-bt-footer padding-top-20 padding-bottom-20" data-ng-show="!possuiInformacoesPreenchidas()">
+                  <div class="right">
+                    <input type="checkbox" ichecks data-ng-model="confirmacao[currentAnel.posicao]" data-if-changed="confirmacaoNadaHaPreencher()">
+                    <span>{{ 'plugins.steps.confirmation' | translate }}</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-
-  <div class="col-sm-12 col-lg-12 pg-bt-footer padding-top-20" data-ng-if="totalNaoPreenchido === objeto.atrasosDeGrupo.length">
-    <div class="right">
-      <input type="checkbox" ichecks data-ng-model="confirmacao" data-if-changed="confirmacaoNadaHaPreencher()">
-      <span>{{ 'plugins.steps.confirmation' | translate }}</span>
     </div>
   </div>
 
@@ -157,11 +157,9 @@
       </a>
     </div>
     <div class="right">
-      <a data-ng-if="podeSalvar()" go-to-top data-ng-click="submitForm({$valid: true}, 'atraso_de_grupo', 'app.wizard_controladores.transicoes_proibidas')" tooltips tooltip-template="<b>{{ 'geral.tooltip.salvarVoltarPara' | translate }}</b> {{ 'controladores.transicoesProibidas.titulo' | translate }}" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
-        <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.saveBack' | translate }}
+      <a data-ng-if="podeSalvar()" go-to-top data-ng-click="submitForm({$valid: true}, 'atraso_de_grupo', 'app.wizard_controladores.atraso_de_grupo')" tooltips tooltip-template="<b>{{ 'geral.tooltip.salvarPermanecer' | translate }}</b> {{ 'controladores.atrasoDeGrupo.titulo' | translate }}" class="btn btn-outline btn-primary btn-footer right m-r-sm right">{{ 'plugins.steps.labels.save' | translate }}
       </a>
-      <a data-ng-if="!podeSalvar()" disabled="disabled"  tooltips tooltip-template="<b><span>{{ 'geral.tooltip.naoPodeSalvarSemConfirmacao' | translate }}</span></b>" class="btn btn-primary btn-footer right m-r-sm right">
-        <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.saveBack' | translate }}
+      <a data-ng-if="!podeSalvar()" disabled="disabled"  tooltips tooltip-template="<b><span>{{ 'geral.tooltip.naoPodeSalvarSemConfirmacao' | translate }}</span></b>" class="btn btn-primary btn-footer right m-r-sm right">{{ 'plugins.steps.labels.save' | translate }}
       </a>
     </div>
     <div class="right">

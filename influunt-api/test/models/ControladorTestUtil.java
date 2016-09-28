@@ -75,6 +75,7 @@ public class ControladorTestUtil {
         anel1.setDescricao("Anel 0");
         anel1.setAtivo(true);
         List<Estagio> estagios = Arrays.asList(new Estagio(1), new Estagio(2), new Estagio(3), new Estagio(4));
+        estagios.forEach(estagio -> estagio.setTempoMaximoPermanencia(100));
         anel1.setEstagios(estagios);
 
         Endereco paulista = new Endereco(1.0, 1.0, "Av. Paulista");
@@ -192,6 +193,7 @@ public class ControladorTestUtil {
         anelAtivo.setEndereco(paulista);
 
         anelAtivo.setEstagios(Arrays.asList(new Estagio(1), new Estagio(2)));
+        anelAtivo.getEstagios().forEach(estagio -> estagio.setTempoMaximoPermanencia(100));
 
         criarGrupoSemaforico(anelAtivo, TipoGrupoSemaforico.VEICULAR, 3);
         criarGrupoSemaforico(anelAtivo, TipoGrupoSemaforico.VEICULAR, 4);
@@ -277,7 +279,7 @@ public class ControladorTestUtil {
 
         for (Anel anel : controlador.getAneis()) {
             for (GrupoSemaforico grupoSemaforico : anel.getGruposSemaforicos()) {
-                for (Transicao transicao : grupoSemaforico.getTransicoesComGanhoDePassagem()) {
+                for (Transicao transicao : grupoSemaforico.getTransicoesComPerdaDePassagem()) {
                     for (TabelaEntreVerdesTransicao tabelaEntreVerdesTransicao : transicao.getTabelaEntreVerdesTransicoes()) {
                         tabelaEntreVerdesTransicao.setTempoVermelhoLimpeza(5);
                         if (grupoSemaforico.isVeicular()) {
@@ -467,6 +469,26 @@ public class ControladorTestUtil {
         evento3.setDiaDaSemana(DiaDaSemana.DOMINGO);
         evento3.setHorario(LocalTime.parse("08:00:00"));
         evento3.setPosicaoPlano(1);
+
+        return controlador;
+    }
+
+    public Controlador getControladorAgrupamentos() {
+        Controlador controlador = getControladorTabelaHorario();
+        controlador.save();
+
+        Agrupamento agrupamento = new Agrupamento();
+        agrupamento.setTipo(TipoAgrupamento.ROTA);
+        agrupamento.setNome("Rota 1");
+        agrupamento.setNumero("1");
+        agrupamento.setDiaDaSemana(DiaDaSemana.DOMINGO);
+        agrupamento.setHorario(LocalTime.MIDNIGHT);
+        agrupamento.setPosicaoPlano(1);
+        controlador.getAneis()
+                .stream()
+                .filter(Anel::isAtivo)
+                .forEach(agrupamento::addAnel);
+        agrupamento.save();
 
         return controlador;
     }

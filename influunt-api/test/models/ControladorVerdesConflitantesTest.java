@@ -116,9 +116,7 @@ public class ControladorVerdesConflitantesTest extends ControladorTest {
         grupoSemaforico3.addVerdeConflitante(grupoSemaforico4);
         grupoSemaforico4.addVerdeConflitante(grupoSemaforico3);
 
-
         erros = getErros(controlador);
-
         assertThat(erros, Matchers.empty());
     }
 

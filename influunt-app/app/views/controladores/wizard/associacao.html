@@ -63,22 +63,23 @@
                               </div>
                             </div>
                             <div class="col-lg-5 col-sm-5 padding-top-20 text-left">
-                              <div class="col-lg-4 col-sm-4 priority">
-                                <div class="knob-item text-center">
-                                  <influunt-knob
-                                  label="SEG" min="objeto.maximoPermanenciaEstagioMin" max="objeto.maximoPermanenciaEstagioMax" read-only=!estagio.tempoMaximoPermanenciaAtivado
-                                  data-ng-model="estagio.tempoMaximoPermanencia"></influunt-knob>
-                                </div>
-                              </div>
                               <div class="col-lg-8 col-sm-8 priority">
                                   <label>
                                     <input type="checkbox" ichecks data-ng-model="estagio.tempoMaximoPermanenciaAtivado" data-if-unchecked="limpaTempoPermanencia(estagio)" data-if-checked="atribuiTempoPermanencia(estagio)">
-                                    <span>Ativar monitoramento de tempo máximo de permanencia</span>
+                                    <span>{{ 'controladores.associacao.tempoMaximoPermanenciaAtivado' | translate }}</span>
                                   </label>
                                   <label>
                                     <input type="checkbox" ichecks data-ng-model="estagio.demandaPrioritaria">
-                                    <span>Demanda prioritária</span>
+                                    <span>{{ 'controladores.associacao.demandaPrioritaria' | translate }}</span>
                                   </label>
+                              </div>
+                              <div class="col-lg-4 col-sm-4 priority">
+                                <div class="knob-item text-center" data-ng-show="estagio.tempoMaximoPermanenciaAtivado">
+                                  <influunt-knob
+                                  label="SEG" min="objeto.maximoPermanenciaEstagioMin" max="objeto.maximoPermanenciaEstagioMax"
+                                  read-only="!estagio.tempoMaximoPermanenciaAtivado"
+                                  data-ng-model="estagio.tempoMaximoPermanencia"></influunt-knob>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -106,12 +107,11 @@
           </a>
         </div>
         <div class="right">
-          <a go-to-top data-ng-click="submitForm({$valid: true}, 'associacao_grupos_semaforicos', 'app.wizard_controladores.verdes_conflitantes')" tooltips tooltip-template="<b>{{ 'geral.tooltip.salvarVoltarPara' | translate }}</b> {{ 'controladores.verdesConflitantes.titulo' | translate }}" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
-            <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.saveBack' | translate }}
+          <a go-to-top data-ng-click="submitForm({$valid: true}, 'associacao_grupos_semaforicos', 'app.wizard_controladores.associacao')" tooltips tooltip-template="<b>{{ 'geral.tooltip.salvarPermanecer' | translate }}</b> {{ 'controladores.associacao.titulo' | translate }}" class="btn btn-outline btn-primary btn-footer right m-r-sm right">{{ 'plugins.steps.labels.save' | translate }}
           </a>
         </div>
         <div class="right">
-          <a data-ng-click="voltarSemSalvar('associacao_grupos_semaforicos')" tooltips tooltip-template="<b><span>{{ 'geral.tooltip.voltarSemPara' | translate }}</span></b> {{ 'controladores.verdesConflitantes.titulo' | translate }}" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
+          <a data-ng-click="voltarSemSalvar('app.wizard_controladores.verdes_conflitantes')" tooltips tooltip-template="<b><span>{{ 'geral.tooltip.voltarSemPara' | translate }}</span></b> {{ 'controladores.verdesConflitantes.titulo' | translate }}" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
             <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.back' | translate }}
           </a>
         </div>

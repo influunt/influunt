@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
+import utils.RangeUtils;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -183,12 +184,17 @@ public class Transicao extends Model implements Cloneable, Serializable {
 
     @AssertTrue(groups = ControladorTabelaEntreVerdesCheck.class, message = "Essa transição deve ter pelo menos uma tabela de entreverdes.")
     public boolean isAoMenosUmaTabelaEntreVerdesTransicao() {
-        return isPerdaDePassagem() || !getTabelaEntreVerdesTransicoes().isEmpty();
+        return isGanhoDePassagem() || !getTabelaEntreVerdesTransicoes().isEmpty();
     }
 
     @AssertTrue(groups = ControladorAtrasoDeGrupoCheck.class, message = "Essa transição deve ter um atraso de grupo.")
     public boolean isAtrasoDeGrupoPresent() {
         return getAtrasoDeGrupo() != null;
+    }
+
+    @AssertTrue(groups = ControladorAtrasoDeGrupoCheck.class, message = "O tempo de atraso de grupo deve estar entre {min} e {max}.")
+    public boolean isTempoAtrasoDeGrupoDentroDaFaixa() {
+        return getAtrasoDeGrupo() != null && RangeUtils.getInstance().TEMPO_ATRASO_GRUPO.contains(getAtrasoDeGrupo().getAtrasoDeGrupo());
     }
 
     public void addTabelaEntreVerdesTransicao(TabelaEntreVerdesTransicao tabelaEntreVerdesTransicao) {

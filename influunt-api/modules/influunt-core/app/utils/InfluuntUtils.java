@@ -3,6 +3,7 @@ package utils;
 import com.google.common.base.CaseFormat;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 /**
  * Created by lesiopinheiro on 7/14/16.
@@ -54,5 +55,10 @@ public class InfluuntUtils {
             return x % y == 0;
         }
         return y % x == 0;
+    }
+
+    public static String formatDateToString(DateTime date, String format) {
+        DateTimeFormatter dtfOut = DateTimeFormat.forPattern(format);
+        return dtfOut.print(date);
     }
 }

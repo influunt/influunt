@@ -8,7 +8,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
-import org.hibernate.validator.constraints.Range;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
@@ -41,7 +40,6 @@ public class AtrasoDeGrupo extends Model implements Cloneable, Serializable {
 
     @Column
     @NotNull(message = "não pode ficar em branco")
-    @Range(min = 0, max = 20, message = "deve estar entre {min} e {max}")
     private Integer atrasoDeGrupo = 0;
 
     @Column

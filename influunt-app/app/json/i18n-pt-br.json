@@ -27,16 +27,23 @@
       "subAreas": "Subáreas",
       "planos": "Planos",
       "imporPlanos": "Impor Planos",
+      "imporPlano": "Impor Plano",
       "trocarTabela": "Trocar tabela horária",
       "enviarPlano": "Enviar plano",
+      "confirmacaoEnvioPlano": "Tem certeza que você deseja enviar o plano {PLANO} para o anel da {ANEL}?",
+      "descrevaEnvioPlano": "Descreva aqui as circunstâncias para o envio deste plano",
+      "sucessoEnvioPlano": "Plano {PLANO} enviado com sucesso ao anel {ANEL}",
       "enviarTabela": "Enviar tabela horária",
+      "imposicaoPlano": {
+        "mensagem": "Selecione abaixo um plano para ser imposto"
+      },
       "agrupamentos": "Agrupamentos",
       "controladores": "Controladores",
       "controladoresImpostos": "Controladores em planos impostos",
       "controladoresFalhas": "Apenas controladores com falhas",
       "filtros": "Filtros",
       "filtrar": "Filtrar",
-      "tabelaHorarios": "Tabela de horários",
+      "tabelasHorarias": "Tabelas horárias",
       "aneis": "Anéis",
       "exibir": "Exibir"
     },
@@ -97,9 +104,11 @@
       "configurado": "Configurado",
       "visualizar": "Visualizar",
       "planos": "Planos",
+      "plano": "Plano",
       "tabelaHorario": "Tabela Horária",
       "ativar": "Ativar",
       "verMapa": "Ver no mapa",
+      "CTA": "CTA",
       "prefixoEstagio": "E",
       "prefixoGrupo": "G",
       "todos": "Todos",
@@ -129,7 +138,15 @@
       "titulo": "Dados Básicos"
     },
     "gruposSemaforicos": {
-      "titulo": "Grupos Semafóricos"
+      "titulo": "Grupos Semafóricos",
+      "tipo": "Tipo",
+      "pedestre": "Pedestre",
+      "veicular": "Veícular",
+      "verdeSeguranca": "Verde Segurança",
+      "faseVermelhaApagada": "Fase Vermelha Apagada",
+      "descricao": "Descrição",
+      "faseVermelhaNaoIntermitente": "Não colocar em amarelo intermitente",
+      "faseVermelhaIntermitente": "Colocar em amarelo intermitente"
     },
     "transicoesProibidas": {
       "titulo": "Transições Proibidas"
@@ -138,7 +155,9 @@
       "titulo": "Verdes Conflitantes"
     },
     "associacao": {
-      "titulo": "Associação Estágio x Grupo Semafórico"
+      "titulo": "Associação Estágio x Grupo Semafórico",
+      "tempoMaximoPermanenciaAtivado": "Ativar monitoramento de tempo máximo de permanência no estágio",
+      "demandaPrioritaria": "Demanda prioritária"
     },
     "entreVerdes": {
       "titulo": "Tabela de Entre Verdes"
@@ -151,6 +170,7 @@
       "alternativa": "Alternativa",
       "grupo": "Grupo",
       "tipo": "Tipo",
+      "descricao": "Descrição",
       "faseVermelha": "Fase Vermelha",
       "demandaPrioritaria": "Demanda Prioritaria",
       "desativacaoTempoMax": "Desativ. Tempo max",
@@ -244,6 +264,9 @@
     "plano": "Plano",
     "descartar": "Descartar",
     "tabelaEspecial": "Tabelas horárias especial ativa na semana entre os dias",
+    "horas": "Hora",
+    "minutos": "Min.",
+    "segundos": "Seg.",
     "hr": "HR",
     "seg": "SEG",
     "ter": "TER",
@@ -367,9 +390,11 @@
       "salvar": "Salvar",
       "voltarPara": "Voltar para",
       "salvarVoltarPara": "Salvar e voltar para",
+      "salvarPermanecer": "Salvar e permanecer em",
       "voltarSemPara": "Voltar sem salvar para",
       "salvarAvancarPara": "Salvar e avançar para",
       "naoPodeSalvarSemConfirmacao": "É necessário preencher os dados ou confirmar que não há nada a ser feito",
+      "naoPodeSalvarSemConfirmacaoEntreVerdes": "É necessário preencher os dados ou confirmar que não há nada a ser feito em cada grupo semafórico. Verifique os grupos ",
       "ver": "Visualizar",
       "verEditar": "Ver ou editar",
       "copiar": "Copiar",
@@ -405,7 +430,14 @@
     "acessar": "Acessar",
     "esqueceu_sua_senha": "Esqueceu sua senha?",
     "senha": "Senha",
-    "usuario": "Usuário"
+    "novaSenha": "Nova senha",
+    "confirmarSenha": "Confirme sua nova senha",
+    "usuario": "Usuário",
+    "email": "e-mail",
+    "recuperar": "Recuperar",
+    "redefinir": "Redefinir",
+    "senhasIguais": "Senhas diferentes",
+    "recuperarSenhaSucesso": "Instruções para recuperar sua senha foram enviadas para seu e-mail"
   },
   "main": {
     "status": "Status",
@@ -415,7 +447,6 @@
     "controlOnline": "Controladores Online",
     "isolado": "Isolado",
     "coordenado": "Coordenado",
-    "atuado": "Atuado",
     "interminente": "Interminente",
     "apagado": "Apagado",
     "nome": "nome",
@@ -423,16 +454,36 @@
     "historico": "Histórico",
     "buscar": "Buscar por Status, nome ou endereço",
     "tempoLivre": "Tempo Livre",
+    "tempoDisponivel": "Tempo Disponível",
     "controlOff": "Controlador Offline",
     "controlOn": "Controlador Online",
     "verHistorico": "Ver histórico",
+    "controlImposicao": "Controlador com imposição de planos",
+    "controlCoordenado": "Controladores Coordenados",
+    "controlManual": "Controladores Manuais",
+    "controlStatus": "Controladores Por Status",
+    "controlModo": "Controladores Por Modo",
+    "controlApresentando": "controladores estão apresentado",
+    "recuperaFalhas": "se recuperaram de falhas na última hora",
+    "quedaEnergia": "Queda de Energia",
+    "faseQueimada": "Fase Pedestre Queimada",
+    "falhas": "falhas",
+    "novo": "Novo",
+    "configurado": "Configurado",
+    "ativo": "Ativo",
+    "inoperante": "Inoperante",
+    "operandoFalhas": "Operando Com Falhas",
+    "inativo": "Inativo",
+    "atuado": "Atuado",
+    "manual": "Manual",
     "offDesde": "Offline desde",
     "onDesde": "Online desde",
     "hello_world": "Dashboard"
   },
   "menu": {
     "cadastros": "Cadastros",
-    "configuracoes": "Configurações"
+    "configuracoes": "Configurações",
+    "sair": "Sair"
   },
   "timeline": {
     "titulo": "Histórico de alterações"
@@ -475,12 +526,14 @@
     "novo": "Novo Usuário",
     "editar": "Editar Usuário",
     "mostrar": "Visualizar Usuário",
-    "access_log": "Log Acesso"
+    "access_log": "Log de Acesso",
+    "editar_perfil": "Editar Perfil"
   },
   "plugins": {
     "datatables_cdn": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json",
     "steps": {
-      "confirmation": "Confirmo que não há configurações a serem feitas aqui.",
+      "confirmation": "Confirmo que não há configurações a serem feitas nesse anel.",
+      "confirmationDefault": "Confirmo que será utilizada a configuração padrão para esse grupo semafórico.",
       "labels": {
         "back": "Voltar",
         "last_screen": "Ver Resumo",
@@ -512,13 +565,16 @@
     "nome": "Nome",
     "numero": "Número",
     "tipo": "Tipo",
+    "descricao": "Descrição",
     "novo": "Novo Agrupamento",
     "editar": "Editar Agrupamento",
     "mostrar": "Visualizar Agrupamento",
     "ativo": "Ativo",
     "subArea": "Sub-Áreas",
-    "controladoresAvulso": "Controladores avulso",
+    "controladoresAvulso": "Controladores avulsos",
     "controladores": "Controladores",
+    "plano": "Plano",
+    "aneis": "Anéis",
     "options": {
       "corredor": "Corredor",
       "rota": "Rota",
@@ -544,5 +600,28 @@
     "erros": {
       "nao_existe_plano": "Plano {NUMERO} não está configurado para esse anel."
     }
+  },
+  "faixas_de_valores": {
+    "titulo": "Faixas de Valores",
+    "de": "de",
+    "ate": "até",
+    "editar": "Editar",
+    "tempoDefasagem": "Tempo de Defasagem",
+    "tempoAmarelo": "Tempo de Amarelo",
+    "tempoVermelhoIntermitente": "Tempo de Vermelho Intermitente",
+    "tempoVermelhoLimpezaVeicular": "Tempo de Vermelho de Limpeza Veicular",
+    "tempoVermelhoLimpezaPedestre": "Tempo de Vermelho de Limpeza Pedestre",
+    "tempoAtrasoGrupo": "Tempo de Atraso de Grupo",
+    "tempoVerdeSegurancaVeicular": "Tempo de Verde de Segurança Veicular",
+    "tempoVerdeSegurancaPedestre": "Tempo de Verde de Segurança Pedestre",
+    "tempoMaximoPermanenciaEstagio": "Tempo Máximo de Permanência no Estágio",
+    "tempoCiclo": "Tempo de Ciclo",
+    "tempoVerdeMinimo": "Tempo de Verde Mínimo",
+    "tempoVerdeMaximo": "Tempo de Verde Máximo",
+    "tempoVerdeIntermediario": "Tempo de Verde Intermediário",
+    "tempoExtensaoVerde": "Tempo de Extensão de Verde",
+    "tempoVerde": "Tempo de Verde",
+    "tempoAusenciaDeteccao": "Tempo de Ausência de Detecção",
+    "tempoDeteccaoPermanente": "Tempo de Detecção Permanente"
   }
 }

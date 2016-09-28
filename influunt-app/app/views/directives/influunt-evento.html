@@ -11,20 +11,23 @@
   <input type="datetime" class="form-control" date-time data-ng-model="evento.dataMoment" view="month" auto-close="true" min-view="date" format="DD/MM/YYYY" data-ng-blur="verificaAtualizacao()" ng-disabled="readOnly">
 </td>
 <td data-ng-if="TabelaHorariaService.isCurrentTipoEventoEspecial()">
-  <input type="datetime" class="form-control" date-time data-ng-model="evento.dataMoment" view="month" auto-close="true" min-view="date" max-view="month" min-date="{{minDate}}" max-date={{maxDate}} default-view="date" format="DD/MM" data-ng-blur="verificaAtualizacao()" ng-disabled="readOnly">
+  <input type="datetime" class="form-control" date-time data-ng-model="evento.dataMoment" view="month" auto-close="true" min-view="date" max-view="month" min-date="minDate" max-date="maxDate" default-view="date" format="DD/MM" data-ng-blur="verificaAtualizacao()" ng-disabled="readOnly">
 </td>
 <td>
   <select name="eventoHora" data-ng-model="evento.hora" class="form-control" data-ng-change="verificaAtualizacao()" ng-disabled="readOnly">
+    <option value="" disabled selected style="display: none;">{{ 'tabelaHorarios.horas' | translate }}</option>
     <option data-ng-repeat="hora in horarios track by $index" value="{{$index}}">{{$index}}</option>
   </select>
 </td>
 <td>
   <select name="eventoMinuto" data-ng-model="evento.minuto" class="form-control" data-ng-change="verificaAtualizacao()" ng-disabled="readOnly">
+    <option value="" disabled selected style="display: none;">{{ 'tabelaHorarios.minutos' | translate }}</option>
     <option data-ng-repeat="minuto in minutos track by $index" value="{{$index}}">{{$index}}</option>
   </select>
 </td>
 <td>
   <select name="eventoSegundo" data-ng-model="evento.segundo" class="form-control" data-ng-change="verificaAtualizacao()" ng-disabled="readOnly">
+  <option value="" disabled selected style="display: none;">{{ 'tabelaHorarios.segundos' | translate }}</option>
     <option data-ng-repeat="segundo in segundos track by $index" value="{{$index}}">{{$index}}</option>
   </select>
 </td>

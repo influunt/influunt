@@ -10,7 +10,6 @@ import utils.RangeUtils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -106,12 +105,36 @@ public class ControladorCustomSerializer {
         return root;
     }
 
-    public JsonNode getControladoresJson(List<Controlador> controladores) {
-        ArrayList<JsonNode> jsonControladores = new ArrayList<JsonNode>();
+    public JsonNode getControladorBasicoJson(Controlador controlador) {
+        ObjectNode root = Json.newObject();
+        putControladorDadosIndex(controlador, root);
+        return root;
+    }
 
+    public JsonNode getControladoresJson(List<Controlador> controladores) {
+        ArrayNode controladoresJson = Json.newArray();
+        for (Controlador controlador : controladores) {
+            controladoresJson.add(getControladorBasicoJson(controlador));
+        }
+
+        return controladoresJson;
+    }
+
+    public JsonNode getControladoresForMapas(List<Controlador> controladores) {
         ArrayNode controladoresJson = Json.newArray();
         for (Controlador controlador : controladores) {
             controladoresJson.add(getControladorJson(controlador));
+        }
+
+        return controladoresJson;
+    }
+
+    public JsonNode getControladoresAgrupamentos(List<Controlador> controladores) {
+        ArrayNode controladoresJson = Json.newArray();
+        for (Controlador controlador : controladores) {
+            ObjectNode root = Json.newObject();
+            putControladorAgrupamentos(controlador, root);
+            controladoresJson.add(root);
         }
 
         return controladoresJson;
@@ -242,6 +265,29 @@ public class ControladorCustomSerializer {
         root.set("eventos", eventoJson);
     }
 
+    private void putControladorDadosIndex(Controlador controlador, ObjectNode root) {
+        if (controlador.getId() != null) {
+            root.put("id", controlador.getId().toString());
+        }
+        if (controlador.getIdJson() != null) {
+            root.put("idJson", controlador.getIdJson());
+        }
+        if (controlador.getNomeEndereco() != null) {
+            root.put("nomeEndereco", controlador.getNomeEndereco());
+        }
+        root.put("dataCriacao", InfluuntDateTimeSerializer.parse(controlador.getDataCriacao()));
+        root.put("dataAtualizacao", InfluuntDateTimeSerializer.parse(controlador.getDataAtualizacao()));
+        root.put("CLC", controlador.getCLC());
+        if (controlador.getStatusControlador() != null) {
+            root.put("statusControlador", controlador.getStatusControlador().toString());
+        }
+        Anel anel = controlador.getAneis().stream().filter(anel1 -> anel1.isAtivo()).findFirst().orElse(null);
+        if (anel != null) {
+            root.put("planoConfigurado", anel.getVersaoPlano() != null);
+        }
+        root.put("tabelaHorariaConfigurado", controlador.getVersaoTabelaHoraria() != null);
+    }
+
     private void putControladorDadosBasicos(Controlador controlador, ObjectNode root) {
         if (controlador.getId() != null) {
             root.put("id", controlador.getId().toString());
@@ -302,40 +348,41 @@ public class ControladorCustomSerializer {
 
         root.put("CLC", controlador.getCLC());
 
-        root.put("verdeMin", RangeUtils.TEMPO_VERDE.getMin().toString());
-        root.put("verdeMax", RangeUtils.TEMPO_VERDE.getMax().toString());
-        root.put("verdeMinimoMin", RangeUtils.TEMPO_VERDE_MINIMO.getMin().toString());
-        root.put("verdeMinimoMax", RangeUtils.TEMPO_VERDE_MINIMO.getMax().toString());
-        root.put("verdeMaximoMin", RangeUtils.TEMPO_VERDE_MAXIMO.getMin().toString());
-        root.put("verdeMaximoMax", RangeUtils.TEMPO_VERDE_MAXIMO.getMax().toString());
-        root.put("extensaVerdeMin", RangeUtils.TEMPO_EXTENSAO_VERDE.getMin().toString());
-        root.put("extensaVerdeMax", RangeUtils.TEMPO_EXTENSAO_VERDE.getMax().toString());
-        root.put("verdeIntermediarioMin", RangeUtils.TEMPO_VERDE_INTERMEDIARIO.getMin().toString());
-        root.put("verdeIntermediarioMax", RangeUtils.TEMPO_VERDE_INTERMEDIARIO.getMax().toString());
-        root.put("defasagemMin", RangeUtils.TEMPO_DEFASAGEM.getMin().toString());
-        root.put("defasagemMax", RangeUtils.TEMPO_DEFASAGEM.getMax().toString());
-        root.put("amareloMin", RangeUtils.TEMPO_AMARELO.getMin().toString());
-        root.put("amareloMax", RangeUtils.TEMPO_AMARELO.getMax().toString());
-        root.put("vermelhoIntermitenteMin", RangeUtils.TEMPO_VERMELHO_INTERMITENTE.getMin().toString());
-        root.put("vermelhoIntermitenteMax", RangeUtils.TEMPO_VERMELHO_INTERMITENTE.getMax().toString());
-        root.put("vermelhoLimpezaVeicularMin", RangeUtils.TEMPO_VERMELHO_LIMPEZA_VEICULAR.getMin().toString());
-        root.put("vermelhoLimpezaVeicularMax", RangeUtils.TEMPO_VERMELHO_LIMPEZA_VEICULAR.getMax().toString());
-        root.put("vermelhoLimpezaPedestreMin", RangeUtils.TEMPO_VERMELHO_LIMPEZA_PEDESTRE.getMin().toString());
-        root.put("vermelhoLimpezaPedestreMax", RangeUtils.TEMPO_VERMELHO_LIMPEZA_PEDESTRE.getMax().toString());
-        root.put("atrasoGrupoMin", RangeUtils.TEMPO_ATRASO_GRUPO.getMin().toString());
-        root.put("atrasoGrupoMax", RangeUtils.TEMPO_ATRASO_GRUPO.getMax().toString());
-        root.put("verdeSegurancaVeicularMin", RangeUtils.TEMPO_VERDE_SEGURANCA_VEICULAR.getMin().toString());
-        root.put("verdeSegurancaVeicularMax", RangeUtils.TEMPO_VERDE_SEGURANCA_VEICULAR.getMax().toString());
-        root.put("verdeSegurancaPedestreMin", RangeUtils.TEMPO_VERDE_SEGURANCA_PEDESTRE.getMin().toString());
-        root.put("verdeSegurancaPedestreMax", RangeUtils.TEMPO_VERDE_SEGURANCA_PEDESTRE.getMax().toString());
-        root.put("maximoPermanenciaEstagioMin", RangeUtils.TEMPO_MAXIMO_PERMANECIA_ESTAGIO.getMin().toString());
-        root.put("maximoPermanenciaEstagioMax", RangeUtils.TEMPO_MAXIMO_PERMANECIA_ESTAGIO.getMax().toString());
-        root.put("cicloMin", RangeUtils.TEMPO_CICLO.getMin().toString());
-        root.put("cicloMax", RangeUtils.TEMPO_CICLO.getMax().toString());
-        root.put("ausenciaDeteccaoMin", RangeUtils.TEMPO_AUSENCIA_DETECCAO.getMin().toString());
-        root.put("ausenciaDeteccaoMax", RangeUtils.TEMPO_AUSENCIA_DETECCAO.getMax().toString());
-        root.put("deteccaoPermanenteMin", RangeUtils.TEMPO_DETECCAO_PERMANENTE.getMin().toString());
-        root.put("deteccaoPermanenteMax", RangeUtils.TEMPO_DETECCAO_PERMANENTE.getMax().toString());
+        RangeUtils rangeUtils = RangeUtils.getInstance();
+        root.put("verdeMin", rangeUtils.TEMPO_VERDE.getMin().toString());
+        root.put("verdeMax", rangeUtils.TEMPO_VERDE.getMax().toString());
+        root.put("verdeMinimoMin", rangeUtils.TEMPO_VERDE_MINIMO.getMin().toString());
+        root.put("verdeMinimoMax", rangeUtils.TEMPO_VERDE_MINIMO.getMax().toString());
+        root.put("verdeMaximoMin", rangeUtils.TEMPO_VERDE_MAXIMO.getMin().toString());
+        root.put("verdeMaximoMax", rangeUtils.TEMPO_VERDE_MAXIMO.getMax().toString());
+        root.put("extensaoVerdeMin", rangeUtils.TEMPO_EXTENSAO_VERDE.getMin().toString());
+        root.put("extensaoVerdeMax", rangeUtils.TEMPO_EXTENSAO_VERDE.getMax().toString());
+        root.put("verdeIntermediarioMin", rangeUtils.TEMPO_VERDE_INTERMEDIARIO.getMin().toString());
+        root.put("verdeIntermediarioMax", rangeUtils.TEMPO_VERDE_INTERMEDIARIO.getMax().toString());
+        root.put("defasagemMin", rangeUtils.TEMPO_DEFASAGEM.getMin().toString());
+        root.put("defasagemMax", rangeUtils.TEMPO_DEFASAGEM.getMax().toString());
+        root.put("amareloMin", rangeUtils.TEMPO_AMARELO.getMin().toString());
+        root.put("amareloMax", rangeUtils.TEMPO_AMARELO.getMax().toString());
+        root.put("vermelhoIntermitenteMin", rangeUtils.TEMPO_VERMELHO_INTERMITENTE.getMin().toString());
+        root.put("vermelhoIntermitenteMax", rangeUtils.TEMPO_VERMELHO_INTERMITENTE.getMax().toString());
+        root.put("vermelhoLimpezaVeicularMin", rangeUtils.TEMPO_VERMELHO_LIMPEZA_VEICULAR.getMin().toString());
+        root.put("vermelhoLimpezaVeicularMax", rangeUtils.TEMPO_VERMELHO_LIMPEZA_VEICULAR.getMax().toString());
+        root.put("vermelhoLimpezaPedestreMin", rangeUtils.TEMPO_VERMELHO_LIMPEZA_PEDESTRE.getMin().toString());
+        root.put("vermelhoLimpezaPedestreMax", rangeUtils.TEMPO_VERMELHO_LIMPEZA_PEDESTRE.getMax().toString());
+        root.put("atrasoGrupoMin", rangeUtils.TEMPO_ATRASO_GRUPO.getMin().toString());
+        root.put("atrasoGrupoMax", rangeUtils.TEMPO_ATRASO_GRUPO.getMax().toString());
+        root.put("verdeSegurancaVeicularMin", rangeUtils.TEMPO_VERDE_SEGURANCA_VEICULAR.getMin().toString());
+        root.put("verdeSegurancaVeicularMax", rangeUtils.TEMPO_VERDE_SEGURANCA_VEICULAR.getMax().toString());
+        root.put("verdeSegurancaPedestreMin", rangeUtils.TEMPO_VERDE_SEGURANCA_PEDESTRE.getMin().toString());
+        root.put("verdeSegurancaPedestreMax", rangeUtils.TEMPO_VERDE_SEGURANCA_PEDESTRE.getMax().toString());
+        root.put("maximoPermanenciaEstagioMin", rangeUtils.TEMPO_MAXIMO_PERMANENCIA_ESTAGIO.getMin().toString());
+        root.put("maximoPermanenciaEstagioMax", rangeUtils.TEMPO_MAXIMO_PERMANENCIA_ESTAGIO.getMax().toString());
+        root.put("cicloMin", rangeUtils.TEMPO_CICLO.getMin().toString());
+        root.put("cicloMax", rangeUtils.TEMPO_CICLO.getMax().toString());
+        root.put("ausenciaDeteccaoMin", rangeUtils.TEMPO_AUSENCIA_DETECCAO.getMin().toString());
+        root.put("ausenciaDeteccaoMax", rangeUtils.TEMPO_AUSENCIA_DETECCAO.getMax().toString());
+        root.put("deteccaoPermanenteMin", rangeUtils.TEMPO_DETECCAO_PERMANENTE.getMin().toString());
+        root.put("deteccaoPermanenteMax", rangeUtils.TEMPO_DETECCAO_PERMANENTE.getMax().toString());
 
 
         if (controlador.getStatusControlador() != null) {
@@ -346,7 +393,37 @@ public class ControladorCustomSerializer {
             root.putObject("area").put("idJson", controlador.getArea().getIdJson());
         }
 
+        if (controlador.getSubarea() != null && controlador.getSubarea().getIdJson() != null) {
+            root.putObject("subarea").put("idJson", controlador.getSubarea().getIdJson());
+        }
+
         refEndereco("endereco", controlador.getEndereco(), root);
+    }
+
+    private void putControladorAgrupamentos(Controlador controlador, ObjectNode root) {
+        if (controlador.getId() != null) {
+            root.put("id", controlador.getId().toString());
+        }
+
+        if (controlador.getNomeEndereco() != null) {
+            root.put("nomeEndereco", controlador.getNomeEndereco());
+        }
+
+        root.put("CLC", controlador.getCLC());
+
+        if (controlador.getStatusControlador() != null) {
+            root.put("statusControlador", controlador.getStatusControlador().toString());
+        }
+
+        ArrayNode aneisJson = root.putArray("aneis");
+        controlador.getAneis().stream().filter(Anel::isAtivo).forEach(anel -> {
+            Map<String, Object> anelMap = new HashMap<>();
+            anelMap.put("id", anel.getId().toString());
+            anelMap.put("CLA", anel.getCLA());
+            anelMap.put("ativo", anel.isAtivo());
+            anelMap.put("posicao", anel.getPosicao());
+            aneisJson.add(Json.toJson(anelMap));
+        });
     }
 
     private void putControladorModelo(ModeloControlador modeloControlador, ObjectNode root) {
@@ -643,7 +720,7 @@ public class ControladorCustomSerializer {
         transicoesComPerdaDePassagemMap.values().stream().forEach(transicao -> {
             arrayJson.add(getTransicao(transicao));
         });
-        root.set("transicoesComPerdaDePassagem", arrayJson);
+        root.set("transicoesComGanhoDePassagem", arrayJson);
     }
 
     private void putControladorImagens(ObjectNode root) {
@@ -740,9 +817,6 @@ public class ControladorCustomSerializer {
         }
         if (plano.getAnel() != null && plano.getAnel().getIdJson() != null) {
             planoJson.putObject("anel").put("idJson", plano.getAnel().getIdJson().toString());
-        }
-        if (plano.getAgrupamento() != null && plano.getAgrupamento().getIdJson() != null) {
-            planoJson.putObject("agrupamento").put("idJson", plano.getAgrupamento().getIdJson().toString());
         }
 
         refVersoesPlanos("versaoPlano", plano.getVersaoPlano(), planoJson);
@@ -843,6 +917,7 @@ public class ControladorCustomSerializer {
 
         if (estagioPlano.getPlano() != null && estagioPlano.getPlano().getIdJson() != null) {
             estagioPlanoJson.putObject("plano").put("idJson", estagioPlano.getPlano().getIdJson().toString());
+            estagioPlanoJson.put("tempoEstagio", estagioPlano.getPlano().getTempoEstagio(estagioPlano));
         }
 
         if (estagioPlano.getEstagio() != null && estagioPlano.getEstagio().getIdJson() != null) {
@@ -949,8 +1024,8 @@ public class ControladorCustomSerializer {
         refVerdesConflitantes("verdesConflitantesOrigem", grupoSemaforico.getVerdesConflitantesOrigem(), grupoSemaforicoJson);
         refVerdesConflitantes("verdesConflitantesDestino", grupoSemaforico.getVerdesConflitantesDestino(), grupoSemaforicoJson);
         refEstagiosGruposSemaforicos("estagiosGruposSemaforicos", grupoSemaforico.getEstagiosGruposSemaforicos(), grupoSemaforicoJson);
-        refTransicoes("transicoes", grupoSemaforico.getTransicoesComGanhoDePassagem(), grupoSemaforicoJson);
-        refTransicoesComPerdaDePassagem("transicoesComPerdaDePassagem", grupoSemaforico.getTransicoesComPerdaDePassagem(), grupoSemaforicoJson);
+        refTransicoes("transicoes", grupoSemaforico.getTransicoesComPerdaDePassagem(), grupoSemaforicoJson);
+        refTransicoesComGanhoDePassagem("transicoesComGanhoDePassagem", grupoSemaforico.getTransicoesComGanhoDePassagem(), grupoSemaforicoJson);
         refEntreVerdes("tabelasEntreVerdes", grupoSemaforico.getTabelasEntreVerdes(), grupoSemaforicoJson);
 
         return grupoSemaforicoJson;
@@ -1380,7 +1455,7 @@ public class ControladorCustomSerializer {
         parentJson.set(name, transicoesJson);
     }
 
-    private void refTransicoesComPerdaDePassagem(String name, List<Transicao> transicoes, ObjectNode parentJson) {
+    private void refTransicoesComGanhoDePassagem(String name, List<Transicao> transicoes, ObjectNode parentJson) {
         ArrayNode transicoesJson = Json.newArray();
         for (Transicao transicao : transicoes) {
             if (transicao.getIdJson() != null) {

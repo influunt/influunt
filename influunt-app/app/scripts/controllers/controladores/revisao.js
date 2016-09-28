@@ -10,14 +10,15 @@
 angular.module('influuntApp')
  .controller('ControladoresRevisaoCtrl', ['$scope', '$state', '$controller', '$filter',
                                           'assertControlador', 'influuntAlert', 'Restangular', 'toast',
+                                          'influuntBlockui',
     function ($scope, $state, $controller, $filter,
-              assertControlador, influuntAlert, Restangular, toast) {
+              assertControlador, influuntAlert, Restangular, toast, influuntBlockui) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
       var setDadosBasicosControlador, setDadosCurrentAnel, getNumGruposSemaforicosAnel,
           getNumDetectoresAnel, setDadosCurrentGruposSemaforicos, setDadosCurrentEstagios,
           setDadosCurrentVerdesConflitantes, setDadosCurrentTransicoesProibidas, setDadosCurrentTabelasEntreVerdes,
-          setDadosCurrentDetectores;
+          setDadosCurrentDetectores, setCurrentAtrasosDeGrupo;
 
       /**
        * Pré-condições para acesso à tela de revisao: Somente será possível acessar esta
@@ -35,16 +36,18 @@ angular.module('influuntApp')
       };
 
       $scope.inicializaRevisao = function() {
-        return $scope.inicializaWizard().then(function() {
-          setDadosBasicosControlador();
+        return $scope.inicializaWizard()
+          .then(function() {
+            setDadosBasicosControlador();
 
-          $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
-          $scope.aneis = _.filter($scope.objeto.aneis, 'ativo');
-          $scope.selecionaAnelRevisao(0);
+            $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
+            $scope.aneis = _.filter($scope.objeto.aneis, 'ativo');
+            $scope.selecionaAnelRevisao(0);
 
-          $scope.markerEnderecoControlador = _.clone($scope.objeto.todosEnderecos[0]);
-          $scope.markerEnderecoControlador.options = {draggable: false};
-        });
+            $scope.markerEnderecoControlador = _.clone($scope.objeto.todosEnderecos[0]);
+            $scope.markerEnderecoControlador.options = {draggable: false};
+          })
+          .finally(influuntBlockui.unblock);
       };
 
       $scope.selecionaAnelRevisao = function(index) {
@@ -58,6 +61,7 @@ angular.module('influuntApp')
         setDadosCurrentTransicoesProibidas();
         setDadosCurrentTabelasEntreVerdes();
         setDadosCurrentDetectores();
+        setCurrentAtrasosDeGrupo();
       };
 
       $scope.commitMessage = function() {
@@ -76,13 +80,17 @@ angular.module('influuntApp')
                 .catch(function(err) {
                   toast.clear();
                   influuntAlert.alert('Controlador', err.data[0].message);
-                });
+                })
+                .finally(influuntBlockui.unblock);
             }
           });
       };
 
       setDadosBasicosControlador = function() {
-        var area = _.find($scope.objeto.areas, {idJson: $scope.objeto.area.idJson});
+        var area;
+        if($scope.objeto && $scope.objeto.area){
+          area = _.find($scope.objeto.areas, {idJson: $scope.objeto.area.idJson});
+        }
         $scope.dadosBasicos = {
           area: area,
           cidade: _.find($scope.objeto.cidades, { idJson: area.cidade.idJson }),
@@ -161,7 +169,8 @@ angular.module('influuntApp')
               descricao: grupoSemaforico.descricao,
               tipo: grupoSemaforico.tipo,
               faseVermelha: grupoSemaforico.faseVermelhaApagadaAmareloIntermitente ? 'Colocar em amarelo intermitente' : 'Não colocar em amarelo intermitente',
-              tempoVerdeSeguranca: grupoSemaforico.tempoVerdeSeguranca
+              tempoVerdeSeguranca: grupoSemaforico.tempoVerdeSeguranca,
+              tabelaEntreVerdes: grupoSemaforico.tabelasEntreVerdes
             };
 
             grupos.push(dadosGrupo);
@@ -258,6 +267,10 @@ angular.module('influuntApp')
         }
       };
 
+      setCurrentAtrasosDeGrupo = function(){
+        $scope.currentAtrasosdeGrupo = $scope.objeto.atrasosDeGrupo;
+      };
+
       setDadosCurrentTabelasEntreVerdes = function() {
         if ($scope.currentGruposSemaforicos) {
           var gs = _.map($scope.currentGruposSemaforicos, 'idJson');
@@ -305,7 +318,7 @@ angular.module('influuntApp')
       $scope.atualizaTabelaDeAtrasoDeGrupo = function(grupo){
         if(grupo){
           $scope.gsAtrasoGrupo = grupo;
-          $scope.currentAtrasosDeGrupoGanhoPassagem = _
+          $scope.currentAtrasosDeGrupoPerdaPassagem = _
           .chain($scope.objeto.transicoes)
           .filter(function (transicao) { return transicao.grupoSemaforico.idJson === grupo.idJson;})
           .map(function(transicao) {
@@ -318,8 +331,8 @@ angular.module('influuntApp')
           })
           .value();
 
-          $scope.currentAtrasosDeGrupoPerdaPassagem = _
-          .chain($scope.objeto.transicoesComPerdaDePassagem)
+          $scope.currentAtrasosDeGrupoGanhoPassagem = _
+          .chain($scope.objeto.transicoesComGanhoDePassagem)
           .filter(function (transicao) { return transicao.grupoSemaforico.idJson === grupo.idJson;})
           .map(function(transicao) {
             var origem = _.find($scope.objeto.estagios, {idJson: transicao.origem.idJson});

@@ -18,7 +18,6 @@ SET controladores_fisicos.area_id = (
 alter table controladores_fisicos add constraint fk_controladores_fisicos_area_id foreign key (area_id) references areas (id) on delete restrict on update restrict;
 create index ix_controladores_fisicos_area_id on controladores_fisicos (area_id);
 
-
 # --- !Downs
 
 alter table controladores_fisicos drop foreign key fk_controladores_fisicos_area_id;

@@ -76,7 +76,7 @@ describe('Controller: ControladoresAneisCtrl', function () {
         expect(scope.currentAnelIndex).toBe(0);
         expect(scope.currentAnel).toBe(scope.aneis[0]);
       });
-      
+
       it('Deve iniciar o primeiro anel com SMEE do dados básicos', function () {
         expect(scope.currentAnel.numeroSMEE).toBe(2);
       });
@@ -109,7 +109,7 @@ describe('Controller: ControladoresAneisCtrl', function () {
     });
 
     it('Deve adicionar uma nova imagem à lista de estágios', function() {
-      scope.adicionarEstagio({}, {id: 1, idJson: 'imagem-1'});
+      scope.adicionarEstagio({}, {id: 1, idJson: 'imagem-1'}, 'anel-1');
       expect(scope.currentAnel.estagios.length).toBe(1);
     });
   });

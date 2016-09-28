@@ -97,8 +97,8 @@ public class ControladorGruposSemaforicosTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(2, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro(CONTROLADOR, "deve estar entre 10 e 30", "aneis[0].gruposSemaforicos[0].tempoVerdeSegurancaFieldVeicular"),
-                new Erro(CONTROLADOR, "deve estar entre 4 e 10", "aneis[0].gruposSemaforicos[1].tempoVerdeSegurancaFieldPedestre")
+                new Erro(CONTROLADOR, "Tempo de verde de segurança veicular deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].tempoVerdeSegurancaFieldVeicular"),
+                new Erro(CONTROLADOR, "Tempo de verde de segurança pedestre deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[1].tempoVerdeSegurancaFieldPedestre")
         ));
 
         grupoSemaforicoVeicular.setTempoVerdeSeguranca(31);
@@ -107,8 +107,8 @@ public class ControladorGruposSemaforicosTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(2, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro(CONTROLADOR, "deve estar entre 10 e 30", "aneis[0].gruposSemaforicos[0].tempoVerdeSegurancaFieldVeicular"),
-                new Erro(CONTROLADOR, "deve estar entre 4 e 10", "aneis[0].gruposSemaforicos[1].tempoVerdeSegurancaFieldPedestre")
+                new Erro(CONTROLADOR, "Tempo de verde de segurança veicular deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].tempoVerdeSegurancaFieldVeicular"),
+                new Erro(CONTROLADOR, "Tempo de verde de segurança pedestre deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[1].tempoVerdeSegurancaFieldPedestre")
         ));
 
         grupoSemaforicoVeicular.setTempoVerdeSeguranca(30);

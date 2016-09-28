@@ -8,8 +8,10 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresAneisCtrl', ['$scope', '$state', '$controller', '$q', '$filter', 'assertControlador', 'influuntAlert', 'Restangular', 'toast',
-    function ($scope, $state, $controller, $q, $filter, assertControlador, influuntAlert, Restangular, toast) {
+  .controller('ControladoresAneisCtrl', ['$scope', '$state', '$controller', '$q', '$filter', 'assertControlador',
+                                         'influuntAlert', 'Restangular', 'toast', 'influuntBlockui',
+    function ($scope, $state, $controller, $q, $filter, assertControlador,
+              influuntAlert, Restangular, toast, influuntBlockui) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
       // Métodos privados.
@@ -66,8 +68,8 @@ angular.module('influuntApp')
         });
       };
 
-      $scope.adicionarEstagio = function(upload, imagem) {
-        var anel = $scope.currentAnel;
+      $scope.adicionarEstagio = function(upload, imagem, anelIdJson) {
+        var anel = _.find($scope.objeto.aneis, { idJson: anelIdJson });
         anel.estagios = anel.estagios || [];
         $scope.objeto.estagios = $scope.objeto.estagios || [];
         $scope.objeto.imagens = $scope.objeto.imagens || [];
@@ -84,10 +86,11 @@ angular.module('influuntApp')
         $scope.objeto.imagens.push(_imagem);
       };
 
-      $scope.adicionarCroqui = function(upload, imagem) {
+      $scope.adicionarCroqui = function(upload, imagem, anelIdJson) {
         var _imagem = { id: imagem.id, filename: imagem.filename, idJson: imagem.idJson };
 
-        $scope.currentAnel.croqui = {id: _imagem.id, idJson: _imagem.idJson};
+        var anel = _.find($scope.objeto.aneis, { idJson: anelIdJson });
+        anel.croqui = {id: _imagem.id, idJson: _imagem.idJson};
         $scope.objeto.imagens = $scope.objeto.imagens || [];
         $scope.objeto.imagens.push(_imagem);
       };
@@ -102,13 +105,16 @@ angular.module('influuntApp')
       $scope.removerCroqui = function(imagemIdJson) {
         return influuntAlert.delete().then(function(confirmado) {
           if (confirmado) {
-            return deletarCroquiNoServidor(imagemIdJson).then(function() {
-              $scope.removerCroquiLocal(imagemIdJson);
-              return true;
-            }).catch(function() {
-              toast.error($filter('translate')('geral.erro_deletar_croqui'));
-              return false;
-            });
+            return deletarCroquiNoServidor(imagemIdJson)
+              .then(function() {
+                $scope.removerCroquiLocal(imagemIdJson);
+                return true;
+              })
+              .catch(function() {
+                toast.error($filter('translate')('geral.erro_deletar_croqui'));
+                return false;
+              })
+              .finally(influuntBlockui.unblock);
           }
           return confirmado;
         });
@@ -151,7 +157,8 @@ angular.module('influuntApp')
               }).catch(function() {
                 toast.error($filter('translate')('controladores.estagios.msg_erro_apagar_estagio'));
                 return false;
-              });
+              })
+              .finally(influuntBlockui.unblock);
             } else {
               var imagem = _.find($scope.objeto.imagens, { idJson: estagio.imagem.idJson });
               $scope.removerEstagio(imagem);

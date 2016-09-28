@@ -136,6 +136,7 @@ public class Imagem extends Model implements Serializable {
                 Files.delete(imagemPath.toPath());
             } catch (IOException e) {
                 Logger.error(e.getMessage(), e);
+                return false;
             }
             return true;
         }

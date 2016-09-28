@@ -26,6 +26,26 @@ angular
           }
         })
 
+        .state('recuperar_senha', {
+          url: '/recuperar_senha',
+          templateUrl: 'views/login/recuperar_senha.html',
+          controller: 'LoginCtrl',
+          controllerAs: 'login',
+          data: {
+            title: 'geral.dashboard',
+          }
+        })
+
+        .state('redefinir_senha', {
+          url: '/redefinir_senha',
+          templateUrl: 'views/login/redefinir_senha.html',
+          controller: 'LoginCtrl',
+          controllerAs: 'login',
+          data: {
+            title: 'geral.dashboard',
+          }
+        })
+
         .state('app', {
           abstract: true,
           url: '/app',
@@ -40,6 +60,17 @@ angular
         .state('app.main', {
           url: '/main',
           templateUrl: 'views/main.html'
+        })
+
+        .state('app.dashboard_detalhe_controlador', {
+          url: '/main/controlador/:id',
+          templateUrl: 'views/dashboard/detalhe_controlador.html',
+          controller: 'MainCtrl',
+          controllerAs: 'main',
+          data: {
+            title: 'geral.dashboard',
+            breadcrumb: 'controladores.controlador'
+          }
         })
 
         .state('app.main_info', {
@@ -730,11 +761,23 @@ angular
             breadcrumb: 'auditorias.mostrar'
           }
         })
+
+        // FAIXAS DE VALORES
+        .state('app.faixas_de_valores_edit', {
+          url: '/faixas_de_valores/edit',
+          templateUrl: 'views/faixas_de_valores/edit.html',
+          controller: 'FaixasDeValoresCtrl',
+          controllerAs: 'faixasDeValores',
+          data: {
+            title: 'faixas_de_valores.titulo',
+            breadcrumb: 'faixas_de_valores.editar'
+          }
+        })
       ;
     }])
 
-    .run(['$rootScope', '$state', '$timeout',
-      function($rootScope, $state, $timeout) {
+    .run(['$rootScope', '$state', '$timeout', 'TELAS_SEM_LOGIN',
+      function($rootScope, $state, $timeout, TELAS_SEM_LOGIN) {
 
         $rootScope.$state = $state;
 
@@ -744,7 +787,7 @@ angular
 
         $rootScope.$on('$stateChangeStart', function(ev, toState) {
           $timeout(function() {
-            if (!$rootScope.isAuthenticated() && toState.name !== 'login') {
+            if (!$rootScope.isAuthenticated() && TELAS_SEM_LOGIN.indexOf(toState.name) < 0) {
                 $state.go('login');
             }
           });

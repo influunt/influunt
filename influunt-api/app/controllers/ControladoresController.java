@@ -14,11 +14,10 @@ import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
 import services.ControladorService;
+import utils.InfluuntQueryBuilder;
+import utils.InfluuntResultBuilder;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
@@ -211,16 +210,60 @@ public class ControladoresController extends Controller {
     @Dynamic(value = "Influunt")
     public CompletionStage<Result> findAll() {
         Usuario u = getUsuario();
+        if (u.isRoot()) {
+            InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Controlador.class, request().queryString()).fetch(Arrays.asList("versaoControlador", "modelo")).query());
+            return CompletableFuture.completedFuture(ok(result.toJson()));
+        } else if (u.getArea() != null) {
+            String[] areaId = {u.getArea().getId().toString()};
+            Map<String, String[]> params = new HashMap<>();
+            params.putAll(ctx().request().queryString());
+            if (params.containsKey("area.descricao")) {
+                params.remove("area.descricao");
+            }
+            params.put("area.id", areaId);
+            InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Controlador.class, params).fetch(Arrays.asList("area", "versaoControlador", "modelo")).query());
+            return CompletableFuture.completedFuture(ok(result.toJson()));
+        }
+        return CompletableFuture.completedFuture(forbidden());
+    }
+
+    @Transactional
+    @Dynamic(value = "Influunt")
+    public CompletionStage<Result> getControladoresForMapa() {
+        Usuario u = getUsuario();
         List<ControladorFisico> controladoresFisicos = null;
         if (u.isRoot()) {
             controladoresFisicos = ControladorFisico.find.fetch("versoes").findList();
         } else if (u.getArea() != null) {
             controladoresFisicos = ControladorFisico.find.fetch("versoes").where().eq("area_id", u.getArea().getId()).findList();
         }
+
         if (controladoresFisicos != null) {
             List<Controlador> controladores = new ArrayList<Controlador>();
             controladoresFisicos.stream().forEach(controladorFisico -> controladores.add(controladorFisico.getControladorAtivoOuEditando()));
-            return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladoresJson(controladores)));
+            return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladoresForMapas(controladores)));
+        }
+
+        return CompletableFuture.completedFuture(forbidden());
+    }
+
+    @Transactional
+    @Dynamic(value = "Influunt")
+    public CompletionStage<Result> getControladoresForAgrupamentos() {
+        Usuario u = getUsuario();
+        if (u.isRoot()) {
+            InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Controlador.class, request().queryString()).fetch(Collections.singletonList("aneis")).query());
+            return CompletableFuture.completedFuture(ok(result.toJson("agrupamentos")));
+        } else if (u.getArea() != null) {
+            String[] areaId = {u.getArea().getId().toString()};
+            Map<String, String[]> params = new HashMap<>();
+            params.putAll(ctx().request().queryString());
+            if (params.containsKey("area.descricao")) {
+                params.remove("area.descricao");
+            }
+            params.put("area.id", areaId);
+            InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Controlador.class, params).fetch(Arrays.asList("area", "versaoControlador", "modelo")).query());
+            return CompletableFuture.completedFuture(ok(result.toJson("agrupamentos")));
         }
         return CompletableFuture.completedFuture(forbidden());
     }

@@ -43,7 +43,7 @@
                     data-label="{{ 'agrupamentos.tipo' | translate }}"
                     data-ng-click="index()">
                   </th>
-                  <th>{{ 'agrupamentos.controladores' | translate }}</th>
+                  <th>{{ 'agrupamentos.aneis' | translate }}</th>
                   <th>{{ 'geral.crud.opcoes' | translate }}</th>
                 </tr>
               </thead>
@@ -52,7 +52,7 @@
                   <td>{{ agrupamento.nome }}</td>
                   <td>{{ agrupamento.numero }}</td>
                   <td>{{ agrupamento.tipo }}</td>
-                  <td data-ng-bind-html="agrupamento.controladores | resourceListToString: 'nomeEndereco' "></td>
+                  <td data-ng-bind-html="agrupamento.aneis | orderBy: 'CLA' | resourceListToString: 'CLA' "></td>
                   <td>
                     <a ui-sref="app.agrupamentos_show({id: agrupamento.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
                     <a ui-sref="app.agrupamentos_edit({id: agrupamento.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.editar' | translate }}</a>

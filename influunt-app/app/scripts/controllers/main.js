@@ -8,10 +8,15 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('MainCtrl', ['$scope', '$state', '$filter', '$controller', '$http', 'influuntAlert', 'Restangular',
-    function MainCtrl($scope, $state, $filter, $controller, $http, influuntAlert, Restangular) {
+  .controller('MainCtrl', ['$scope', '$state', '$filter', '$controller', '$http', 'influuntAlert', 'Restangular', 'influuntBlockui',
+    function MainCtrl($scope, $state, $filter, $controller, $http, influuntAlert, Restangular, influuntBlockui) {
       // Herda todo o comportamento de breadcrumbs.
       $controller('BreadcrumbsCtrl', {$scope: $scope});
+
+      $scope.pagination = {
+        current: 1,
+        maxSize: 5
+      };
 
       $scope.sair = function() {
         influuntAlert
@@ -22,7 +27,7 @@ angular.module('influuntApp')
           .then(function(confirmado) {
             if (confirmado) {
               Restangular.one('logout', localStorage.token).remove()
-                .then(function(res) {
+                .then(function() {
                   localStorage.removeItem('token');
                   $state.go('login');
                 })
@@ -32,10 +37,66 @@ angular.module('influuntApp')
                       influuntAlert.alert($filter('translate')('geral.atencao'), error.message);
                     });
                   }
-                });
+                })
+                .finally(influuntBlockui.unblock);
             }
           });
       };
+
+      $scope.loadDashboard = function() {
+        Restangular.one('monitoramento', 'status_controladores').get()
+          .then(function(res) {
+            $scope.dadosStatus = _.countBy(_.values(res.status), _.identity);
+            $scope.dadosOnlines = _.countBy(_.values(res.onlines), _.identity);
+            $scope.modosOperacoes = _.countBy(_.values(res.modosOperacoes), _.identity);
+            $scope.planosImpostos = _.countBy(_.values(res.imposicaoPlanos), _.identity);
+            $scope.errosControladores = res.erros.data;
+          })
+          .catch(function(err) {
+            if (err.status === 401) {
+              err.data.forEach(function(error) {
+                influuntAlert.alert($filter('translate')('geral.atencao'), error.message);
+              });
+            }
+          })
+          .finally(influuntBlockui.unblock);
+
+      };
+
+      $scope.carregarControladores = function(onlines) {
+        var rota = onlines ? 'controladores_onlines' : 'controladores_offlines';
+        Restangular.one('monitoramento', rota).get()
+          .then(function(res) {
+            $scope.pagination.current = 1;
+            $scope.controladores = res.data;
+            $scope.online = onlines;
+          })
+          .catch(function(err) {
+            if (err.status === 401) {
+              err.data.forEach(function(error) {
+                influuntAlert.alert($filter('translate')('geral.atencao'), error.message);
+              });
+            }
+          })
+          .finally(influuntBlockui.unblock);
+      };
+
+      $scope.detalheControlador = function() {
+        var controladorId = $state.params.id;
+        Restangular.one('monitoramento/detalhe_controlador', controladorId).get()
+          .then(function(res) {
+            $scope.controlador = res;
+          })
+          .catch(function(err) {
+            if (err.status === 401) {
+              err.data.forEach(function(error) {
+                influuntAlert.alert($filter('translate')('geral.atencao'), error.message);
+              });
+            }
+          })
+          .finally(influuntBlockui.unblock);
+      };
+
 
       $scope.getUsuario = function() {
         return JSON.parse(localStorage.usuario);

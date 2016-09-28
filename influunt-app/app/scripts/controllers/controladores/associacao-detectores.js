@@ -8,9 +8,10 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresAssociacaoDetectoresCtrl', ['$scope', '$state', '$controller', '$filter', 'assertControlador', 'influuntAlert', 'Restangular', 'toast',
-    function ($scope, $state, $controller, $filter, assertControlador, influuntAlert, Restangular, toast) {
+  .controller('ControladoresAssociacaoDetectoresCtrl', ['$scope', '$state', '$controller', '$filter', 'assertControlador', 'influuntAlert', 'Restangular', 'toast', 'influuntBlockui',
+    function ($scope, $state, $controller, $filter, assertControlador, influuntAlert, Restangular, toast, influuntBlockui) {
       $controller('ControladoresCtrl', {$scope: $scope});
+      $controller('ConfirmacaoNadaHaPreencherCtrl', {$scope: $scope});
 
       var atualizaPosicoesDetectores, atualizaEstagiosComDetector, excluirDetectorNoCliente,
       abreModalConfiguracaoDetector;
@@ -47,9 +48,22 @@ angular.module('influuntApp')
 
             $scope.podeDetectorPedestre = _.filter($scope.objeto.gruposSemaforicos, {tipo: 'PEDESTRE'}).length > 0;
             $scope.podeDetectorVeicular = _.filter($scope.objeto.gruposSemaforicos, {tipo: 'VEICULAR'}).length > 0;
+
+            $scope.inicializaConfirmacaoNadaHaPreencher();
+            $scope.atualizaTotalDetectoresPorAnel();
             return _.isArray($scope.currentDetectores) && $scope.selecionaDetector($scope.currentDetectores[0], 0);
           }
         });
+      };
+
+      $scope.limpaTempoDeteccao = function(detector) {
+        detector.tempoAusenciaDeteccao = null;
+        detector.tempoDeteccaoPermanente = null;
+      };
+
+      $scope.atribuiTempoDeteccao = function(detector) {
+        detector.tempoAusenciaDeteccao = $scope.objeto.ausenciaDeteccaoMin;
+        detector.tempoDeteccaoPermanente = $scope.objeto.deteccaoPermanenteMin;
       };
 
       /**
@@ -99,6 +113,13 @@ angular.module('influuntApp')
 
         $scope.atualizaDetectores();
         atualizaPosicoesDetectores();
+        $scope.verificaConfirmacaoNadaHaPreencher();
+        $scope.errors = null;
+        $scope.atualizaTotalDetectoresPorAnel();
+      };
+
+      $scope.atualizaTotalDetectoresPorAnel = function(){
+        $scope.maxDetectoresPorAnel = $scope.currentEstagios.length - $scope.currentDetectores.length;
       };
 
       excluirDetectorNoCliente = function(detector) {
@@ -112,6 +133,8 @@ angular.module('influuntApp')
         $scope.atualizaDetectores();
         atualizaPosicoesDetectores();
         atualizaEstagiosComDetector();
+        $scope.verificaConfirmacaoNadaHaPreencher();
+        $scope.atualizaTotalDetectoresPorAnel();
       };
 
       $scope.excluirDetector = function(detector) {
@@ -125,9 +148,11 @@ angular.module('influuntApp')
                 Restangular.one('detectores', detector.id).remove()
                   .then(function() {
                     excluirDetectorNoCliente(detector);
-                  }).catch(function() {
+                  })
+                  .catch(function() {
                     toast.error($filter('translate')('controladores.detectores.msg_erro_apagar_detector'));
-                  });
+                  })
+                  .finally(influuntBlockui.unblock);
               }
             }
           });
@@ -142,6 +167,8 @@ angular.module('influuntApp')
         $scope.selecionaAnel(index);
         $scope.atualizaEstagios();
         $scope.atualizaDetectores();
+        atualizaPosicoesDetectores();
+        $scope.atualizaTotalDetectoresPorAnel();
       };
 
       $scope.atualizaDetectores = function() {
@@ -211,5 +238,13 @@ angular.module('influuntApp')
           var estagio = _.find($scope.currentEstagios, {idJson: e.idJson});
           estagio.temDetector = true;
         });
+      };
+
+      $scope.possuiInformacoesPreenchidas = function(anel) {
+        if(anel){
+          return _.values(anel.detectores).length > 0;
+        }else{
+          return _.values($scope.currentDetectores).length > 0;
+        }
       };
     }]);

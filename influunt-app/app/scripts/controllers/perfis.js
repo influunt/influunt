@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('PerfisCtrl', ['$scope', '$controller', 'Restangular', '$timeout',
-    function ($scope, $controller, Restangular, $timeout) {
+  .controller('PerfisCtrl', ['$scope', '$controller', 'Restangular', '$timeout', 'influuntBlockui',
+    function ($scope, $controller, Restangular, $timeout, influuntBlockui) {
       // Herda todo o comportamento do crud basico.
       $controller('CrudCtrl', {$scope: $scope});
       $scope.inicializaNovoCrud('perfis');
@@ -53,10 +53,12 @@ angular.module('influuntApp')
       $scope.beforeShow = function() {
         var query = $scope.buildQuery($scope.pesquisaPermissoes);
 
-        Restangular.all('permissoes').customGET(null, query).then(function(res) {
-          $scope.permissoes = res.data;
-          $scope.pagination.totalItems = res.total;
-        });
+        Restangular.all('permissoes').customGET(null, query)
+          .then(function(res) {
+            $scope.permissoes = res.data;
+            $scope.pagination.totalItems = res.total;
+          })
+          .finally(influuntBlockui.unblock);
       };
 
       $scope.afterShow = function() {

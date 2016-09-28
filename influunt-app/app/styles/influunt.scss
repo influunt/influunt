@@ -802,19 +802,45 @@ header .nav-secon li a {
   nav.plans li .wiped {
       background:#3d3d3d;
   }
-  .indicacao-vermelho-intermitente {
-      background: url('../images/lines.png') #ff1b00;
-      .vis-item-content {
-          background: rgba(255,255,255,0.8);
-          font-weight: 700;
+  .vis-background, .vis-foreground {
+    .vis-group {
+      .vis-item {
+        .vis-item-overflow {
+          .vis-item-content {
+            background: rgba(0, 0, 0, 0.6);
+            box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            padding: 1px 4px;
+            margin: 6px 1px;
+            border-radius: 3px;
+            font-size: 0.9em;
+            color: #fff;
+            font-weight: 600;
+            &:hover {
+              background: rgba(0, 0, 0, 0.8);
+            }
+          }
+        }
       }
+    }
+  }
+
+  .vis-background {
+    .vis-group {
+      .vis-item {
+        .vis-item-overflow {
+          .vis-item-content {
+            background: rgba(0, 0, 0, 1);
+          }
+        }
+      }
+    }
+  }
+
+  .indicacao-vermelho-intermitente {
+    background: url('../images/lines.png') #ff1b00;
   }
   .indicacao-intermitente {
       background: url('../images/lines.png') #fffb00;
-      .vis-item-content {
-          background: rgba(255,255,255,0.8);
-          font-weight: 700;
-      }
   }
 }
 .wrapper-content .basic-wizard .content .body .association.tables-associated .association-know {
@@ -1803,6 +1829,10 @@ table.table-diagonal:nth-of-type(1) th.diagonal {
   padding-top: 20px !important;
 }
 
+.padding-bottom-20 {
+  padding-bottom: 20px !important;
+}
+
 .padding-left-20 {
   padding-left: 20px !important;
 }
@@ -2301,6 +2331,16 @@ tip-tip {
     cursor: help;
 }
 
+.wrapper-content .basic-wizard .content .body span.badge.badge-danger.badge-notification.tooltipstered.badge-tempo-ciclo {
+    position: relative;
+}
+
+.wrapper-content .basic-wizard .content .body span.badge.badge-danger.badge-notification.tooltipstered.badge-grupo-semaforico {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 .wrapper-content .basic-wizard .content .body span.badge.badge-danger.badge-notification.badge-detector.tooltipstered {
     display: inline;
     font-size: 20px;
@@ -2458,6 +2498,13 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
   h3 {
     text-transform: uppercase;
   }
+  .timeline-item {
+    .date {
+      i {
+        background: none;
+      }
+    }
+  }
   .widget {
     h2 {
       text-transform: uppercase;
@@ -2478,6 +2525,10 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
     }
     &.falseBtn {
       cursor: pointer;
+      min-height: 110px;
+      @media (max-width: 1200px) {
+        min-height: inherit;
+      }
       &:hover {
         box-shadow: inset 0px 0px 10px rgba(0,0,0,0.3);
       }
@@ -2491,7 +2542,7 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
     }
     .vertical-timeline-content {
       background: #f5f5f5;
-      margin-left: 140px;
+      margin-left: 185px;
       &::before {
         border-right: 7px solid #f5f5f5;
       }
@@ -2596,9 +2647,9 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
       }
     }
   }
-  .areaMapa {
+  .area-mapa {
     width: 100% !important;
-    height: 850px !important;
+    height: 650px !important;
     margin-left: 40px;
     border: 1px solid #ddd;
   }
@@ -2607,13 +2658,13 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
     height: 100%;
     position: absolute;
     top: 0;
-    right: 0;
+    right: -270px;
     display: table;
     padding: 10px;
     background: #ffffff;
     transition-duration: 0.8s;
-    &.closeAcao {
-      right: -270px;
+    &.open-acao-panel {
+      right: 0;
     }
     .fecharAcoes {
       display: block;
@@ -2649,5 +2700,23 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
     .btn {
       min-width: 180px;
     }
+  }
+}
+
+.wrapper-content .basic-wizard .content .body .stages .priority label {
+  min-width: 100%;
+}
+
+.bg-border-footer  {
+  margin-bottom: 20px;
+}
+
+.breadcrumb {
+  .cruzamento {
+    margin-top: 6px;
+    margin-bottom: 0;
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 500;
   }
 }

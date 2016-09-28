@@ -3,6 +3,7 @@ import com.google.inject.Singleton;
 import security.Authenticator;
 import security.DBAuthenticator;
 import security.InfluuntContextManager;
+import utils.InfluuntEmailService;
 
 import java.text.SimpleDateFormat;
 
@@ -16,6 +17,7 @@ import java.text.SimpleDateFormat;
  */
 
 public class Module extends AbstractModule {
+
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:SS");
 
     private static final SimpleDateFormat DATE_FORMAT_SIMPLE = new SimpleDateFormat("yyyy-MM-dd");
@@ -24,8 +26,8 @@ public class Module extends AbstractModule {
     public void configure() {
         bind(Authenticator.class).to(DBAuthenticator.class).in(Singleton.class);
         bind(InfluuntContextManager.class).asEagerSingleton();
+        bind(InfluuntEmailService.class).asEagerSingleton();
         //bind(server.Central.class).asEagerSingleton();
     }
-
 
 }

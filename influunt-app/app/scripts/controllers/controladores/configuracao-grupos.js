@@ -28,6 +28,7 @@ angular.module('influuntApp')
         return valid;
       };
 
+
       $scope.inicializaConfiguracaoGrupos = function() {
         return $scope.inicializaWizard().then(function() {
           if ($scope.assert()) {
@@ -107,15 +108,13 @@ angular.module('influuntApp')
         return $scope.objeto && $scope.objeto.gruposSemaforicos.length < $scope.objeto.limiteGrupoSemaforico;
       };
 
-      $scope.atualizaTempoVerdeSeguranca = function(grupo){
+      $scope.atualizaTempoVerdeSeguranca = function(grupo) {
         if (grupo.tipo === 'VEICULAR'){
-          grupo.disableSelectFase = false;
           grupo.tempoVerdeSeguranca = $scope.objeto.verdeSegurancaVeicularMin;
           grupo.faseVermelhaApagadaAmareloIntermitente = true;
         } else {
           grupo.tempoVerdeSeguranca = $scope.objeto.verdeSegurancaPedestreMin;
           grupo.faseVermelhaApagadaAmareloIntermitente = false;
-          grupo.disableSelectFase = true;
         }
       };
 

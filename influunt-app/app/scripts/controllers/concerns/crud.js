@@ -10,8 +10,10 @@
 angular.module('influuntApp')
   .controller('CrudCtrl', ['$scope', '$state', '$filter', '$timeout',
                            'Restangular', 'toast', 'influuntAlert', 'handleValidations',
+                           'influuntBlockui',
     function ($scope, $state, $filter, $timeout,
-              Restangular, toast, influuntAlert, handleValidations) {
+              Restangular, toast, influuntAlert, handleValidations,
+              influuntBlockui) {
     var buildFilterQuery, buildSortQuery;
     var resourceName = null;
     $scope.pagination = {
@@ -42,12 +44,12 @@ angular.module('influuntApp')
      */
     $scope.index = function() {
       var query = $scope.buildQuery($scope.pesquisa);
-
       return Restangular.all(resourceName).customGET(null, query)
         .then(function(res) {
           $scope.lista = res.data;
           $scope.pagination.totalItems = res.total;
-        });
+        })
+        .finally(influuntBlockui.unblock);
     };
 
     $scope.buildQuery = function(pesquisa) {
@@ -64,10 +66,35 @@ angular.module('influuntApp')
 
     buildFilterQuery = function(query, pesquisa) {
       _.each(pesquisa.filtro, function(dadosFiltro, nomeCampo) {
+        var field;
         if (dadosFiltro.tipoCampo === 'texto' || dadosFiltro.tipoCampo === 'numerico') {
-          var field = (nomeCampo + '_' + dadosFiltro.tipoFiltro).replace(/\_$/, '');
+          field = (nomeCampo + '_' + dadosFiltro.tipoFiltro).replace(/\_$/, '');
           query[field] = dadosFiltro.valor;
-        } else {
+        } else if(dadosFiltro.tipoCampo === 'select') {
+          field = (nomeCampo + '_eq');
+          // TODO - rever enumns na busca, pois mostramos o texto mas temos que enviar o valor numerio da posicao
+          var valor = dadosFiltro.valor;
+          if (nomeCampo === 'statusControlador') {
+            switch(dadosFiltro.valor) {
+              case 'EM_CONFIGURACAO':
+                valor = 0;
+                break;
+              case 'CONFIGURADO':
+                valor = 1;
+                break;
+              case 'ATIVO':
+                valor = 2;
+                break;
+              case 'EM_EDICAO':
+                valor = 3;
+                break;
+              default:
+                valor = 0; // EM configuracao
+                break;
+            }
+          }
+          query[field] = valor;
+        }else {
           if (dadosFiltro.start) {
             if(angular.isString(dadosFiltro.start)) {
               dadosFiltro.start = moment(dadosFiltro.start, 'DD/MM/YYYY');
@@ -118,7 +145,8 @@ angular.module('influuntApp')
             $scope.objeto = res;
             $scope.afterShow();
           }
-        });
+        })
+        .finally(influuntBlockui.unblock);
     };
 
     /**
@@ -159,21 +187,28 @@ angular.module('influuntApp')
             toast.error($filter('translate')('geral.mensagens.default_erro'));
             throw new Error(JSON.stringify(err));
           }
-        });
+        })
+        .finally(influuntBlockui.unblock);
     };
 
     /**
      * Cria um novo registro.
      */
     $scope.create = function() {
-      return Restangular.service(resourceName).post($scope.objeto);
+      return Restangular
+        .service(resourceName)
+        .post($scope.objeto)
+        .finally(influuntBlockui.unblock);
     };
 
     /**
      * Atualiza um registro.
      */
     $scope.update = function() {
-      return $scope.objeto.save();
+      return $scope
+        .objeto
+        .save()
+        .finally(influuntBlockui.unblock);
     };
 
     $scope.confirmDelete = function(id) {
@@ -183,10 +218,10 @@ angular.module('influuntApp')
             toast.success($filter('translate')('geral.mensagens.removido_com_sucesso'));
             return $scope.index();
           })
-          .catch(function(err) {
+          .catch(function() {
             toast.error($filter('translate')('geral.mensagens.default_erro'));
-            throw new Error(err);
-          });
+          })
+          .finally(influuntBlockui.unblock);
       });
     };
 

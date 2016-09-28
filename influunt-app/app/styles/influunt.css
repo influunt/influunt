@@ -940,22 +940,31 @@ header .nav-secon li a {
   background: #3d3d3d;
 }
 
+.wrapper-content .basic-wizard .content .body .association.plans .vis-background .vis-group .vis-item .vis-item-overflow .vis-item-content, .wrapper-content .basic-wizard .content .body .association.plans .vis-foreground .vis-group .vis-item .vis-item-overflow .vis-item-content {
+  background: rgba(0, 0, 0, 0.6);
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  padding: 1px 4px;
+  margin: 6px 1px;
+  border-radius: 3px;
+  font-size: 0.9em;
+  color: #fff;
+  font-weight: 600;
+}
+
+.wrapper-content .basic-wizard .content .body .association.plans .vis-background .vis-group .vis-item .vis-item-overflow .vis-item-content:hover, .wrapper-content .basic-wizard .content .body .association.plans .vis-foreground .vis-group .vis-item .vis-item-overflow .vis-item-content:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.wrapper-content .basic-wizard .content .body .association.plans .vis-background .vis-group .vis-item .vis-item-overflow .vis-item-content {
+  background: black;
+}
+
 .wrapper-content .basic-wizard .content .body .association.plans .indicacao-vermelho-intermitente {
   background: url("../images/lines.png") #ff1b00;
 }
 
-.wrapper-content .basic-wizard .content .body .association.plans .indicacao-vermelho-intermitente .vis-item-content {
-  background: rgba(255, 255, 255, 0.8);
-  font-weight: 700;
-}
-
 .wrapper-content .basic-wizard .content .body .association.plans .indicacao-intermitente {
   background: url("../images/lines.png") #fffb00;
-}
-
-.wrapper-content .basic-wizard .content .body .association.plans .indicacao-intermitente .vis-item-content {
-  background: rgba(255, 255, 255, 0.8);
-  font-weight: 700;
 }
 
 .wrapper-content .basic-wizard .content .body .association.tables-associated .association-know {
@@ -2048,6 +2057,10 @@ table.table-diagonal:nth-of-type(1) th.diagonal {
   padding-top: 20px !important;
 }
 
+.padding-bottom-20 {
+  padding-bottom: 20px !important;
+}
+
 .padding-left-20 {
   padding-left: 20px !important;
 }
@@ -2570,6 +2583,16 @@ tip-tip span {
   cursor: help;
 }
 
+.wrapper-content .basic-wizard .content .body span.badge.badge-danger.badge-notification.tooltipstered.badge-tempo-ciclo {
+  position: relative;
+}
+
+.wrapper-content .basic-wizard .content .body span.badge.badge-danger.badge-notification.tooltipstered.badge-grupo-semaforico {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
 .wrapper-content .basic-wizard .content .body span.badge.badge-danger.badge-notification.badge-detector.tooltipstered {
   display: inline;
   font-size: 20px;
@@ -2759,6 +2782,10 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
   text-transform: uppercase;
 }
 
+.dashboard .timeline-item .date i {
+  background: none;
+}
+
 .dashboard .widget h2 {
   text-transform: uppercase;
   font-size: 18px;
@@ -2787,6 +2814,13 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
 
 .dashboard .widget.falseBtn {
   cursor: pointer;
+  min-height: 110px;
+}
+
+@media (max-width: 1200px) {
+  .dashboard .widget.falseBtn {
+    min-height: inherit;
+  }
 }
 
 .dashboard .widget.falseBtn:hover {
@@ -2801,7 +2835,7 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
 
 .dashboard .vertical-timeline-block .vertical-timeline-content {
   background: #f5f5f5;
-  margin-left: 140px;
+  margin-left: 185px;
 }
 
 .dashboard .vertical-timeline-block .vertical-timeline-content::before {
@@ -2914,9 +2948,9 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
   margin-left: 10px;
 }
 
-.ajusteMapa .areaMapa {
+.ajusteMapa .area-mapa {
   width: 100% !important;
-  height: 850px !important;
+  height: 650px !important;
   margin-left: 40px;
   border: 1px solid #ddd;
 }
@@ -2926,7 +2960,7 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
   height: 100%;
   position: absolute;
   top: 0;
-  right: 0;
+  right: -270px;
   display: table;
   padding: 10px;
   background: #ffffff;
@@ -2934,8 +2968,8 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
           transition-duration: 0.8s;
 }
 
-.ajusteMapa .acoes.closeAcao {
-  right: -270px;
+.ajusteMapa .acoes.open-acao-panel {
+  right: 0;
 }
 
 .ajusteMapa .acoes .fecharAcoes {
@@ -2978,4 +3012,20 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
 
 .ajusteMapa .acoes .btn {
   min-width: 180px;
+}
+
+.wrapper-content .basic-wizard .content .body .stages .priority label {
+  min-width: 100%;
+}
+
+.bg-border-footer {
+  margin-bottom: 20px;
+}
+
+.breadcrumb .cruzamento {
+  margin-top: 6px;
+  margin-bottom: 0;
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 500;
 }

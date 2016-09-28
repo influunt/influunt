@@ -1,19 +1,14 @@
 package utils;
 
 import com.avaje.ebean.*;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import models.Controlador;
+import models.StatusVersao;
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 import org.jongo.MongoCursor;
-import play.libs.Json;
 import security.Auditoria;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.BiConsumer;
 
 import static java.lang.Integer.parseInt;
@@ -111,7 +106,7 @@ public class InfluuntQueryBuilder {
         return this;
     }
 
-    public JsonNode query() {
+    public InfluuntQueryResult query() {
         PagedList pagedList;
         Query query = Ebean.find(klass);
 
@@ -138,6 +133,10 @@ public class InfluuntQueryBuilder {
                 }
             });
 
+            if (klass.equals(Controlador.class)) {
+                predicates.add(Expr.in("versaoControlador.statusVersao", Arrays.asList(StatusVersao.ATIVO, StatusVersao.EDITANDO)));
+            }
+
             // Verifica se existem campos com between
             List<BetweenFieldDefinition> betweenFields = BetweenFieldDefinition.getBetweenFileds(searchFields);
             betweenFields.forEach(field -> {
@@ -156,6 +155,9 @@ public class InfluuntQueryBuilder {
                 pagedList = predicates.findPagedList(getPage(), getPerPage());
             }
         } else {
+            if (klass.equals(Controlador.class)) {
+                query.where().add((Expr.in("versaoControlador.statusVersao", Arrays.asList(StatusVersao.ATIVO, StatusVersao.EDITANDO))));
+            }
             if (getSortField() != null) {
                 pagedList = query.orderBy(getSortField().concat(" ").concat(getSortType())).findPagedList(getPage(), getPerPage());
             } else {
@@ -163,16 +165,10 @@ public class InfluuntQueryBuilder {
             }
         }
 
-        ObjectNode retorno = JsonNodeFactory.instance.objectNode();
-        List result = pagedList.getList();
-        JsonNode dataJson = Json.toJson(result);
-        retorno.set("data", dataJson);
-        retorno.put("total", pagedList.getTotalRowCount());
-
-        return retorno;
+        return new InfluuntQueryResult(pagedList.getList(), pagedList.getTotalRowCount(), klass);
     }
 
-    public JsonNode auditoriaQuery() {
+    public InfluuntQueryResult auditoriaQuery() {
         List<String> predicates = new ArrayList<>();
         MongoCursor<Auditoria> auditorias;
         int total = 0;
@@ -189,7 +185,7 @@ public class InfluuntQueryBuilder {
                     if (searchField.getFieldOperator() != null) {
                         predicates.add(getMongoFieldOperator(searchField.getFieldOperator(), searchField.getFieldName(), searchField.getValue()));
                     } else {
-                        predicates.add(String.format("'%s': {$regex: '%s'}", searchField.getFieldName(), searchField.getValue().toString()));
+                        predicates.add(String.format("'%s': {$regex: '%s', $options: 'i'}", searchField.getFieldName(), searchField.getValue().toString()));
                     }
                 }
             });
@@ -224,12 +220,7 @@ public class InfluuntQueryBuilder {
             total = Auditoria.auditorias().find().as(Auditoria.class).count();
         }
 
-        ObjectNode retorno = JsonNodeFactory.instance.objectNode();
-        JsonNode dataJson = Json.toJson(Auditoria.toList(auditorias));
-        retorno.set("data", dataJson);
-        retorno.put("total", total);
-
-        return retorno;
+        return new InfluuntQueryResult(Auditoria.toList(auditorias), total, klass);
     }
 
     @NotNull

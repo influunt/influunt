@@ -1,6 +1,8 @@
 package status;
 
 import org.jetbrains.annotations.NotNull;
+import org.joda.time.DateTime;
+import org.joda.time.Hours;
 import org.jongo.Aggregate;
 import org.jongo.MongoCollection;
 import org.jongo.MongoCursor;
@@ -36,6 +38,7 @@ public class StatusConexaoControlador {
     }
 
     public StatusConexaoControlador(Map map) {
+        this._id = map.get("_id").toString();
         this.idControlador = map.get("idControlador").toString();
         this.timestamp = (long) map.get("timestamp");
         this.conectado = (boolean) map.get("conectado");
@@ -63,6 +66,14 @@ public class StatusConexaoControlador {
         return hash;
     }
 
+    public static HashMap<String, Object> ultimoStatusDosControladoresOfflines() {
+        return ultimoStatusDosControladoresPorSituacao(false);
+    }
+
+    public static HashMap<String, Object> ultimoStatusDosControladoresOnlines() {
+        return ultimoStatusDosControladoresPorSituacao(true);
+    }
+
     public static StatusConexaoControlador ultimoStatus(String idControlador) {
         MongoCursor<Map> result = status().find("{ idControlador: # }", idControlador).sort("{timestamp:-1}").limit(1).as(Map.class);
         if (result.hasNext()) {
@@ -77,6 +88,77 @@ public class StatusConexaoControlador {
         return toList(result);
     }
 
+    public static Integer tempoOnline(List<StatusConexaoControlador> status) {
+        List<Long> timeline = new ArrayList<>();
+        List<String> idsUtilizados = new ArrayList<>();
+        boolean temOnline = false;
+        for (StatusConexaoControlador aux : status) {
+            if (!idsUtilizados.contains(aux._id) && aux.isConectado()) {
+                temOnline = true;
+                timeline.add(aux.timestamp);
+                idsUtilizados.add(aux._id);
+            }
+            for (StatusConexaoControlador statusOff : status) {
+                if (!idsUtilizados.contains(statusOff._id) && !statusOff.isConectado() && temOnline) {
+                    timeline.add(statusOff.timestamp);
+                    temOnline = false;
+                    idsUtilizados.add(statusOff._id);
+                    break;
+                }
+                if (!idsUtilizados.contains(statusOff._id) && temOnline) {
+                    idsUtilizados.add(statusOff._id);
+                }
+            }
+        }
+        Integer horasOnline = 0;
+        for (int i = 0; i < timeline.size(); i++) {
+            Long first = timeline.get(i);
+            Long second = new DateTime().getMillis();
+            if (timeline.size() > i + 1) {
+                second = timeline.get(++i);
+            }
+            horasOnline += Hours.hoursBetween(new DateTime(first), new DateTime(second)).getHours();
+        }
+        return horasOnline;
+    }
+
+    public static Integer tempoOffline(List<StatusConexaoControlador> status) {
+        List<Long> timeline = new ArrayList<>();
+        List<String> idsUtilizados = new ArrayList<>();
+        boolean temOffline = false;
+        for (StatusConexaoControlador aux : status) {
+            if (!idsUtilizados.contains(aux._id) && !aux.isConectado()) {
+                temOffline = true;
+                timeline.add(aux.timestamp);
+                idsUtilizados.add(aux._id);
+            }
+            for (StatusConexaoControlador statusOff : status) {
+                if (!idsUtilizados.contains(statusOff._id) && statusOff.isConectado() && temOffline) {
+                    timeline.add(statusOff.timestamp);
+                    temOffline = false;
+                    idsUtilizados.add(statusOff._id);
+                    continue;
+                }
+                if (!idsUtilizados.contains(statusOff._id) && !temOffline) {
+                    idsUtilizados.add(statusOff._id);
+                    break;
+                }
+            }
+        }
+        Integer horasOnline = 0;
+        for (int i = 0; i < timeline.size(); i++) {
+            Long first = timeline.get(i);
+            Long second = null;
+            if (timeline.size() > i + 1) {
+                second = timeline.get(++i);
+            }
+            if (second != null) {
+                horasOnline += Hours.hoursBetween(new DateTime(first), new DateTime(second)).getHours();
+            }
+        }
+
+        return horasOnline;
+    }
 
     @NotNull
     private static List<StatusConexaoControlador> toList(MongoCursor<Map> status) {
@@ -106,5 +188,28 @@ public class StatusConexaoControlador {
     private void save() {
         insert();
     }
+
+    @Override
+    public String toString() {
+        return "StatusConexaoControlador{" +
+                "_id='" + _id + '\'' +
+                ", idControlador='" + idControlador + '\'' +
+                ", timestamp=" + timestamp +
+                ", conectado=" + conectado +
+                '}';
+    }
+
+    private static HashMap<String, Object> ultimoStatusDosControladoresPorSituacao(Boolean online) {
+        //TODO: Confirmar se o last nao pega um registro aleatorio. Ele pode ser causa de inconsitencia
+        HashMap<String, Object> hash = new HashMap<>();
+        Aggregate.ResultsIterator<Map> ultimoStatus =
+                status().aggregate("{$sort:{timestamp:-1}}").and("{$match: {'conectado': " + online + "}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'},'conectado': {$first: '$conectado'}}}").
+                        as(Map.class);
+        for (Map m : ultimoStatus) {
+            hash.put(m.get("_id").toString(), m);
+        }
+        return hash;
+    }
+
 
 }

@@ -47,6 +47,8 @@ libraryDependencies ++= Seq(
   "io.moquette" % "moquette-broker" % "0.8" exclude("org.slf4j", "slf4j-log4j12"),
   "org.mindrot" % "jbcrypt" % "0.3m",
   "org.apache.commons" % "commons-math3" % "3.6.1",
+  "com.typesafe.play" %% "play-mailer" % "5.0.0",
+  "org.thymeleaf" % "thymeleaf" % "3.0.1.RELEASE",
   "org.jetbrains.kotlin" % "kotlin-stdlib" % "1.0.3",
   "org.eclipse.collections" % "eclipse-collections-api" % "7.1.0",
   "org.eclipse.collections" % "eclipse-collections" % "7.1.0",
