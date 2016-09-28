@@ -21,6 +21,7 @@ public class TransacaoActorHandler extends UntypedActor {
     LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
     private String idControlador;
+
     private Storage storage;
 
     public TransacaoActorHandler(String idControlador, Storage storage) {

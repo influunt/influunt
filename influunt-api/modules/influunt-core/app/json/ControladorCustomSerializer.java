@@ -47,6 +47,8 @@ public class ControladorCustomSerializer {
 
     private Map<String, GrupoSemaforicoPlano> grupoSemaforicoPlanoMap = new HashMap<String, GrupoSemaforicoPlano>();
 
+    private Map<String, Intervalo> intervalosMap = new HashMap<String, Intervalo>();
+
     private Map<String, EstagioPlano> estagioPlanoMap = new HashMap<String, EstagioPlano>();
 
     private Map<String, VersaoTabelaHoraria> versoesTabelasHorariasMap = new HashMap<String, VersaoTabelaHoraria>();
@@ -84,6 +86,7 @@ public class ControladorCustomSerializer {
 
         putControladorPlano(root);
         putControladorGruposSemaforicosPlanos(root);
+        putControladorIntervalos(root);
         putControladorEstagiosPlanos(root);
 
         putControladorCidades(root);
@@ -158,6 +161,7 @@ public class ControladorCustomSerializer {
         putControladorVersoesPlanos(root);
         putControladorPlano(root);
         putControladorGruposSemaforicosPlanos(root);
+        putControladorIntervalos(root);
         putControladorEstagiosPlanos(root);
 
         if (controlador.getVersaoTabelaHoraria() != null) {
@@ -200,6 +204,14 @@ public class ControladorCustomSerializer {
             grupoSemaforicoPlanoJson.add(getGrupoSemaforicoPlanoJson(grupoSemaforicoPlano));
         });
         root.set("gruposSemaforicosPlanos", grupoSemaforicoPlanoJson);
+    }
+
+    private void putControladorIntervalos(ObjectNode root) {
+        ArrayNode intervalosJson = Json.newArray();
+        intervalosMap.values().stream().forEach(intervalo -> {
+            intervalosJson.add(getIntervaloJson(intervalo));
+        });
+        root.set("intervalos", intervalosJson);
     }
 
     private void putControladorEstagiosPlanos(ObjectNode root) {
@@ -834,7 +846,40 @@ public class ControladorCustomSerializer {
 
         grupoSemaforicoPlanoJson.put("ativado", grupoSemaforicoPlano.isAtivado());
 
+        refIntervalos("intervalos", grupoSemaforicoPlano.getIntervalos(), grupoSemaforicoPlanoJson);
+
         return grupoSemaforicoPlanoJson;
+    }
+
+    private JsonNode getIntervaloJson(Intervalo intervalo) {
+        ObjectNode intervaloJson = Json.newObject();
+
+        if (intervalo.getId() != null) {
+            intervaloJson.put("id", intervalo.getId().toString());
+        }
+
+        if (intervalo.getIdJson() != null) {
+            intervaloJson.put("idJson", intervalo.getIdJson().toString());
+        }
+
+        if (intervalo.getTamanho() != null) {
+            intervaloJson.put("tamanho", intervalo.getTamanho().toString());
+        }
+
+        if (intervalo.getOrdem() != null) {
+            intervaloJson.put("ordem", intervalo.getOrdem().toString());
+        }
+
+        if (intervalo.getEstadoGrupoSemaforico() != null) {
+            intervaloJson.put("estadoGrupoSemaforico", intervalo.getEstadoGrupoSemaforico().toString());
+        }
+
+        if (intervalo.getGrupoSemaforicoPlano() != null && intervalo.getGrupoSemaforicoPlano().getIdJson() != null) {
+            intervaloJson.putObject("grupoSemaforicoPlano").put("idJson", intervalo.getGrupoSemaforicoPlano().getIdJson().toString());
+        }
+
+
+        return intervaloJson;
     }
 
     private JsonNode getEstagioPlanoJson(EstagioPlano estagioPlano) {
@@ -1589,6 +1634,19 @@ public class ControladorCustomSerializer {
             }
         }
         parentJson.set(name, grupoSemaforicoPlanosJson);
+    }
+
+    private void refIntervalos(String name, List<Intervalo> intervalos, ObjectNode parentJson) {
+        ArrayNode intervalosJson = Json.newArray();
+        for (Intervalo intervalo : intervalos) {
+            if (intervalo != null && intervalo.getIdJson() != null) {
+                intervalosMap.put(intervalo.getIdJson().toString(), intervalo);
+                ObjectNode intervaloJson = Json.newObject();
+                intervaloJson.put("idJson", intervalo.getIdJson().toString());
+                intervalosJson.add(intervaloJson);
+            }
+        }
+        parentJson.set(name, intervalosJson);
     }
 
     private void refEventos(String name, List<Evento> eventos, ObjectNode parentJson) {

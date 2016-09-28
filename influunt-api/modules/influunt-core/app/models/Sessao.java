@@ -107,16 +107,16 @@ public class Sessao extends Model implements Serializable {
         return dataCriacao;
     }
 
+    public void setDataCriacao(DateTime dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
     public DateTime getDataSaida() {
         return dataSaida;
     }
 
     public void setDataSaida(DateTime dataSaida) {
         this.dataSaida = dataSaida;
-    }
-
-    public void setDataCriacao(DateTime dataCriacao) {
-        this.dataCriacao = dataCriacao;
     }
 
     public void desativar() {
