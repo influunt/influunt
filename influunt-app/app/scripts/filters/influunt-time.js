@@ -12,10 +12,8 @@ angular.module('influuntApp')
   .filter('influuntTime', function () {
     return function influuntTime(input, format) {
       format = format || 'HH:mm:ss';
-      if(input) {
-        if(_.isString(input)) {
-          return moment(input, 'HH:mm:ss.000').format(format);
-        }
+      if(_.isString(input)) {
+        return moment(input, 'HH:mm:ss.000').format(format);
       }
       return '-----';
     };
