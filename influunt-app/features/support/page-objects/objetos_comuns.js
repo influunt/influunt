@@ -19,6 +19,10 @@ var ObjetosComuns = function () {
   this.trocarAnel = function() {
     return world.getElement('li[aria-selected="false"]').click();
   };
+
+  this.limparCampo = function(campo) {
+    return world.clearField(campo);
+  };
 };
 
 module.exports = ObjetosComuns;

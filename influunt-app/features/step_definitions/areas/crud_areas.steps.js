@@ -108,4 +108,9 @@ module.exports = function() {
   this.Given(/^o sistema deverá possuir longitude e latidude$/, function () {
     return areasPage.limetesNaTabela();
   });
+
+  this.Given(/^que o usuário limpe o campo área$/, function () {
+    var input = 'input[name="area"]'
+    return objetosComuns.limparCampo(input);
+  });
 };
