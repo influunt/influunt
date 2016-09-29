@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by rodrigosol on 7/29/16.
@@ -123,7 +124,18 @@ public class ControladorCustomSerializer {
     public JsonNode getControladoresForMapas(List<Controlador> controladores) {
         ArrayNode controladoresJson = Json.newArray();
         for (Controlador controlador : controladores) {
-            controladoresJson.add(getControladorJson(controlador));
+            ObjectNode root = Json.newObject();
+            putControladorMapa(controlador, root);
+
+            // TODO: 9/28/16 Caso não precise dos elementos dentro dos aneis de putControladorAneis, criar um novo mais exclusivo.
+            List<Anel> aneis = controlador.getAneis().stream().filter(Anel::isAtivo).collect(Collectors.toList());
+            putControladorAneis(aneis, root);
+            putControladorCidades(root);
+            putControladorSubarea(controlador.getSubarea(), root);
+            putControladorAreas(root);
+            putControladorLimites(root);
+            putControladorEnderecos(root);
+            controladoresJson.add(root);
         }
 
         return controladoresJson;
@@ -399,6 +411,23 @@ public class ControladorCustomSerializer {
             root.putObject("subarea").put("idJson", controlador.getSubarea().getIdJson());
         }
 
+        refEndereco("endereco", controlador.getEndereco(), root);
+    }
+
+    private void putControladorMapa(Controlador controlador, ObjectNode root) {
+        if (controlador.getId() != null) {
+            root.put("id", controlador.getId().toString());
+        }
+
+        if (controlador.getSubarea() != null && controlador.getSubarea().getIdJson() != null) {
+            root.putObject("subarea").put("idJson", controlador.getSubarea().getIdJson());
+        }
+
+        if (controlador.getArea() != null && controlador.getArea().getIdJson() != null) {
+            root.putObject("area").put("idJson", controlador.getArea().getIdJson());
+        }
+
+        root.put("CLC", controlador.getCLC());
         refEndereco("endereco", controlador.getEndereco(), root);
     }
 

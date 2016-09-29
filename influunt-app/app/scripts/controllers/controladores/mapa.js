@@ -8,20 +8,19 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresMapaCtrl', ['$scope', '$controller', '$filter', 'Restangular',
+  .controller('ControladoresMapaCtrl', ['$scope', '$filter', 'Restangular',
                                         'geraDadosDiagramaIntervalo', 'influuntAlert', 'influuntBlockui',
                                         'filtrosMapa',
-    function ($scope, $controller, $filter, Restangular,
+    function ($scope, $filter, Restangular,
               geraDadosDiagramaIntervalo, influuntAlert, influuntBlockui,
               filtrosMapa) {
-      $controller('ControladoresCtrl', {$scope: $scope});
-
       var filtraDados, getMarkersControladores, getMarkersAneis,
           getAreas, constroiFiltros, getAgrupamentos, getSubareas, getCoordenadasFromControladores;
 
       $scope.inicializaMapa = function() {
         return Restangular.all('controladores').all('mapas').getList()
           .then(function(res) {
+
             $scope.listaControladores = res;
             $scope.listaAneis     = _.chain($scope.listaControladores).map('aneis').flatten().uniqBy('id').value();
             $scope.listaEnderecos = _.chain($scope.listaControladores).map('todosEnderecos').flatten().uniqBy('id').value();

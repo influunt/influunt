@@ -30,8 +30,8 @@ angular.module('influuntApp')
         var HULL_CONCAVITY = 0.0013;
 
         // private methods.
-        var addAreas, addMarkers, addAgrupamentos, createArea, createMarker,
-            createAgrupamento, getConcaveHullPoints, getBoundingBox, initializeMap, agrupaAneis;
+        var addAreas, addMarkers, addAgrupamentos, createArea, createMarker, createAgrupamento, getConcaveHullPoints,
+          getBoundingBox, initializeMap, agrupaAneis, getAreaTitle;
         var map, markersLayer, areasLayer, agrupamentosLayer, polylineLayer;
 
         initializeMap = function() {
@@ -89,7 +89,7 @@ angular.module('influuntApp')
           return area;
         };
 
-        var getAreaTitle = function(area, title) {
+        getAreaTitle = function(area, title) {
           var labelLocation = area.getCentroid();
           return new L.LabelOverlay(
             labelLocation, '<h1><strong>' + title + '</strong></h1>'
