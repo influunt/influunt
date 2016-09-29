@@ -152,7 +152,15 @@ module.exports = function() {
     return planosPage.clicarBotao('Cancelar Edição');
   });
 
+  this.Given(/^que o usuário clicar no plano (\d+)$/, function(numeroPlano) {
+    return planosPage.clickInPlano(numeroPlano);
+  });
+
   this.Given(/^o sistema deverá apresentar erro de "([^"]*)"$/, function (texto) {
     return planosPage.errosImpeditivos(texto);
+  });
+
+  this.Given(/^o sistema deverá mostrar erro no plano (\d+)$/, function (numeroPlano) {
+    return planosPage.errosInPlanos(numeroPlano);
   });
 };

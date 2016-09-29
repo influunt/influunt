@@ -114,10 +114,12 @@ var PlanosPage = function () {
 
   this.marcarValorConfig = function(field, value) {
     var baseSelector = 'influunt-knob[title="'+field.toUpperCase()+'"]';
-    return world.getElement(baseSelector + ' p.knob-value').click().then(function() {
-      return world.resetValue(baseSelector + ' input.rs-input', value);
-    }).then(function() {
-      return world.sleep(500);
+    return world.waitForOverlayDisappear().then(function() {
+      return world.getElement(baseSelector + ' p.knob-value').click().then(function() {
+        return world.resetValue(baseSelector + ' input.rs-input', value);
+      }).then(function() {
+        return world.sleep(500);
+      });
     });
   };
 
@@ -193,7 +195,17 @@ var PlanosPage = function () {
   };
 
   this.errosImpeditivos = function(texto){
-    return world.waitForByXpath('//div[contains (@class, "alert")]//li[contains(text(), "'+texto+'")]')
+    return world.waitForByXpath('//div[contains (@class, "alert")]//li[contains(text(), "'+texto+'")]');
+  };
+
+  this.errosInPlanos = function(numeroPlano){
+    return world.waitForByXpath('//li[contains (@id, "'+numeroPlano+'")]//span[contains (@class, "badge-danger")]');
+  };
+
+  this.clickInPlano = function(numeroPlano){
+    return world.waitForOverlayDisappear().then(function() {
+      return world.getElementByXpath('//li[contains (@id, "'+numeroPlano+'")]//ins[contains(@class, "iCheck-helper")]').click();
+    });
   };
 };
 
