@@ -2,17 +2,14 @@
 
 /**
  * @ngdoc function
- * @name influuntApp.controller:AuditoriasCtrl
+ * @name influuntApp.controller:SimulacaoCtrl
  * @description
- * # AuditoriasCtrl
+ * # SimulacaoCtrl
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
   .controller('SimulacaoCtrl', ['$scope', '$controller',
     function ($scope, $controller) {
-      // Herda todo o comportamento do crud basico.
-      $controller('CrudCtrl', {$scope: $scope});
-      $scope.inicializaNovoCrud('simulacao');
 
 
     }]);
