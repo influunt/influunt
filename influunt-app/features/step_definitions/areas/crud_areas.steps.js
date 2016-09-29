@@ -2,9 +2,11 @@
 
 var expect = require('chai').expect;
 var AreasPage = require('../../support/page-objects/areas');
+var ObjetosComuns = require('../../support/page-objects/objetos_comuns');
 
 module.exports = function() {
   var areasPage = new AreasPage();
+  var objetosComuns = new ObjetosComuns();
 
   this.Given(/^que exista ao menos uma area cadastrada no sistema$/, { timeout: 15 * 1000 }, function() {
     return areasPage.existeAoMenosUmaArea();
@@ -20,9 +22,8 @@ module.exports = function() {
     });
   });
 
-  this.Given(/^clicar no botão de Nova Area$/, function(callback) {
-    areasPage.clicarLinkComTexto('Novo');
-    callback();
+  this.Given(/^clicar no botão de Nova Area$/, function() {
+    return objetosComuns.clicarLinkNovo();
   });
 
   this.Given(/^o sistema deverá redirecionar para o formulário de Cadastro de novas Areas$/, function() {
@@ -44,7 +45,7 @@ module.exports = function() {
   });
 
   this.Given(/^clicar no botão de visualizar área$/, function() {
-    areasPage.clicarLinkComTexto('Visualizar');
+    objetosComuns.clicarLinkComTexto('Visualizar');
   });
 
   this.Given(/^o sistema deverá redirecionar para a tela de visualização de areas$/, function() {
@@ -54,11 +55,11 @@ module.exports = function() {
   });
 
   this.Given(/^clicar no botão de editar area$/, function() {
-    areasPage.clicarLinkComTexto('Editar');
+    objetosComuns.clicarLinkComTexto('Editar');
   });
 
   this.Given(/^clicar no botão de adicionar limites geográficos$/, function() {
-    areasPage.clicarLinkComTexto('adicionar limites geográficos');
+    objetosComuns.clicarLinkComTexto('adicionar limites geográficos');
   });
 
   this.Given(/^o sistema deverá redirecionar para o formulário de edição de areas$/, function() {
@@ -69,11 +70,11 @@ module.exports = function() {
 
   this.Given(/^o usuário acessar o formulário de edição de areas$/, function() {
     areasPage.indexPage();
-    return areasPage.clicarLinkComTexto('Editar');
+    return objetosComuns.clicarLinkComTexto('Editar');
   });
 
   this.Given(/^clicar no botão de excluir uma area$/, function() {
-    areasPage.clicarLinkComTexto('Excluir');
+    objetosComuns.clicarLinkComTexto('Excluir');
   });
 
   this.Given(/^o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir a area$/, function() {

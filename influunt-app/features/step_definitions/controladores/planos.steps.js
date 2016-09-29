@@ -1,10 +1,12 @@
 'use strict';
 
 var PlanosPage = require('../../support/page-objects/planos');
+var ObjetosComuns = require('../../support/page-objects/objetos_comuns');
 var expect = require('chai').expect;
 
 module.exports = function() {
   var planosPage = new PlanosPage();
+  var objetosComuns = new ObjetosComuns();
 
   this.Given(/^que o sistema possui ao menos um controlador configurado$/, function () {
     return planosPage.cadastrarControlador();
@@ -142,8 +144,8 @@ module.exports = function() {
     return planosPage.clicarBotao('Salvar');
   });
 
-  this.Given(/^que o usuário selecione o anel 2$/, function () {
-    return planosPage.clicarAbaAnel2();
+  this.Given(/^que o usuário selecione o anel (\d+)$/, function (anel) {
+    return objetosComuns.trocarAnel();
   });
 
   this.Given(/^clicar em cancelar a edição$/, function () {

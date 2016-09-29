@@ -15,6 +15,10 @@ var ObjetosComuns = function () {
       return world.findLinkByText(texto).click();
     });
   };
+
+  this.trocarAnel = function() {
+    return world.getElement('li[aria-selected="false"]').click();
+  };
 };
 
 module.exports = ObjetosComuns;

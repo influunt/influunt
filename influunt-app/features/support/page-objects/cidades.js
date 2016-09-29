@@ -70,12 +70,6 @@ var CidadesPage = function () {
     return world.clickButton(novaCidadeButton);
   };
 
-  this.clicarLinkComTexto = function(texto) {
-    return world.waitForOverlayDisappear().then(function (){
-      return world.findLinkByText(texto).click();
-    });
-  };
-
   this.cidadeIdH5 = function() {
     return world.getElement('h5 small').then(function(element) {
       return element.getText();

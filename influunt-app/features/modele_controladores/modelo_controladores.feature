@@ -3,8 +3,8 @@
 Funcionalidade: tela de cadastro de modelos de controladores
 
   Cenário: Listagem de modelos
-    Dado que o usuário esteja na tela de listagem de modelos
-    E que exista ao menos um modelo cadastrado no sistema
+    Dado que exista ao menos um modelo cadastrado no sistema
+    E que o usuário esteja na tela de listagem de modelos
     Então deve ser exibida uma lista com o modelo já cadastrado no sistema
 
   Cenário: Acesso à tela de novo modelo de crontroladores

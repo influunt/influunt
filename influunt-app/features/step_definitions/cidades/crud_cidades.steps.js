@@ -2,9 +2,11 @@
 
 var expect = require('chai').expect;
 var CidadesPage = require('../../support/page-objects/cidades');
+var ObjetosComuns = require('../../support/page-objects/objetos_comuns');
 
 module.exports = function() {
   var cidadesPage = new CidadesPage();
+  var objetosComuns = new ObjetosComuns();
 
   this.Given(/^que exista ao menos uma cidade cadastrada no sistema$/, { timeout: 15 * 1000 }, function() {
     return cidadesPage.existeAoMenosUmaCidade();
@@ -20,9 +22,8 @@ module.exports = function() {
     });
   });
 
-  this.Given(/^clicar no botão de Nova Cidade$/, function(callback) {
-    cidadesPage.clicarLinkComTexto('Novo');
-    callback();
+  this.Given(/^clicar no botão de Nova Cidade$/, function() {
+    return objetosComuns.clicarLinkNovo();
   });
 
   this.Given(/^o sistema deverá redirecionar para o formulário de cadastro de novas cidades$/, function() {
@@ -50,7 +51,7 @@ module.exports = function() {
   });
 
   this.Given(/^clicar no botão de visualizar cidade$/, function() {
-    cidadesPage.clicarLinkComTexto('Visualizar');
+    objetosComuns.clicarLinkComTexto('Visualizar');
   });
 
   this.Given(/^o sistema deverá redirecionar para a tela de visualização de cidades$/, function() {
@@ -60,7 +61,7 @@ module.exports = function() {
   });
 
   this.Given(/^clicar no botão de editar cidade$/, function() {
-    cidadesPage.clicarLinkComTexto('Editar');
+    objetosComuns.clicarLinkComTexto('Editar');
   });
 
   this.Given(/^o sistema deverá redirecionar para o formulário de edição cidades$/, function() {
@@ -71,11 +72,11 @@ module.exports = function() {
 
   this.Given(/^o usuário acessar o formulário de edição de cidades$/, function() {
     cidadesPage.indexPage();
-    return cidadesPage.clicarLinkComTexto('Editar');
+    return objetosComuns.clicarLinkComTexto('Editar');
   });
 
   this.Given(/^clicar no botão de excluir uma cidade$/, function() {
-    cidadesPage.clicarLinkComTexto('Excluir');
+    objetosComuns.clicarLinkComTexto('Excluir');
   });
 
   this.Given(/^o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir a cidade$/, function() {

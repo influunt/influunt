@@ -65,12 +65,6 @@ var AreasPage = function () {
     });
   };
 
-  this.clicarLinkComTexto = function(texto) {
-    return world.waitForOverlayDisappear().then(function (){
-      return world.findLinkByText(texto).click();
-    });
-  };
-
   this.textoFieldDescricaoArea = function() {
     return world.waitFor(inputDescArea).then(function() {
       return world.getElement(inputDescArea);
@@ -129,7 +123,7 @@ var AreasPage = function () {
   };
 
   this.getErrorMessageFor = function(campo) {
-    world.sleep(500);
+    world.sleep(1000);
     return world.waitFor('[name="'+campo+'"] + p[class*="error-msg"]').then(function() {
       return world.getElement('[name="'+campo+'"] + p[class*="error-msg"]').getText();
     });
