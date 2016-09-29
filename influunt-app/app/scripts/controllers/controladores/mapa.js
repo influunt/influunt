@@ -20,13 +20,16 @@ angular.module('influuntApp')
       $scope.inicializaMapa = function() {
         return Restangular.all('controladores').all('mapas').getList()
           .then(function(res) {
-
             $scope.listaControladores = res;
+            return Restangular.all('areas').customGET(null, {'cidade.id': $scope.listaControladores[0].cidade.id});
+          })
+          .then(function(res) {
             $scope.listaAneis     = _.chain($scope.listaControladores).map('aneis').flatten().uniqBy('id').value();
             $scope.listaEnderecos = _.chain($scope.listaControladores).map('todosEnderecos').flatten().uniqBy('id').value();
-            $scope.listaAreas     = _.chain($scope.listaControladores).map('areas').flatten().uniqBy('id').value();
-            $scope.listaSubareas  = _.chain($scope.listaControladores).filter('subarea').map('areas').flatten().map('subareas').flatten().uniqBy('id').value();
-            $scope.listaLimites   = _.chain($scope.listaControladores).map('limites').flatten().uniqBy('id').value();
+            $scope.listaAreas     = res.data;
+            $scope.listaSubareas  = _.chain($scope.listaAreas).map('subareas').flatten().value();
+            $scope.listaLimites   = _.chain($scope.listaAreas).map('limites').flatten().value();
+
             return Restangular.all('agrupamentos').customGET();
           })
           .then(function(res) {
@@ -50,13 +53,7 @@ angular.module('influuntApp')
         $scope.filtro.exibirSubareas = true;
         $scope.filtro.exibirAgrupamentos = true;
 
-        $scope.filtro.areas = _
-          .chain($scope.listaControladores)
-          .map('areas')
-          .flatten()
-          .uniqBy('idJson')
-          .orderBy('descricao')
-          .value();
+        $scope.filtro.areas = _.orderBy($scope.listaAreas, 'descricao');
         $scope.filtro.subareas = _.orderBy($scope.listaSubareas, 'nome');
         $scope.filtro.controladores = _.orderBy($scope.listaControladores, 'CLC');
         $scope.filtro.agrupamentos = _.orderBy($scope.listaAgrupamentos, 'nome');
@@ -77,8 +74,7 @@ angular.module('influuntApp')
 
         $scope.areas = _
           .chain(controladores)
-          .map('areas')
-          .flatten()
+          .map('area')
           .uniqBy('idJson')
           .map(function(area) { return _.find($scope.listaAreas, {idJson: area.idJson}); })
           .value();
