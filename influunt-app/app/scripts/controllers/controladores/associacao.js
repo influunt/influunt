@@ -117,6 +117,31 @@ angular.module('influuntApp')
         return _.isObject(errors) && Object.keys(errors).length > 0;
       };
 
+      $scope.grupoSemaforicoTemErro = function(indiceAnel, grupo) {
+        var indiceGrupo = _.findIndex($scope.currentAnel.gruposSemaforicos, {idJson: grupo.idJson});
+        var errors = _.get($scope.errors, 'aneis[' + indiceAnel + '].gruposSemaforicos[' + indiceGrupo + ']');
+        return _.isObject(errors) && Object.keys(errors).length > 0;
+      };
+
+      $scope.getErrosGrupoSemaforico = function(indiceAnel, grupo) {
+        var indiceGrupo = _.findIndex($scope.currentAnel.gruposSemaforicos, {idJson: grupo.idJson});
+        var errors = _.get($scope.errors, 'aneis[' + indiceAnel + '].gruposSemaforicos[' + indiceGrupo + ']');
+        return errors;
+      };
+      
+      $scope.getErrosAneis = function(listaErros) {
+        var erros = _
+          .chain(listaErros)
+          .filter(function(e) {
+            return _.isString(e[0]);
+          })
+          .map()
+          .flatten()
+          .value();
+
+        return _.flatten(erros);
+      };
+
       $scope.selecionaAnelAssociacao = function(index) {
         marcaGrupoEstagiosAtivos($scope.objeto.gruposSemaforicos);
         $scope.selecionaAnel(index);

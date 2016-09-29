@@ -458,6 +458,13 @@
           G3: 2,
           G4: 3,
           G5: 4
+        },
+        labelsGruposSemaforicos: {
+          0: 'G1',
+          1: 'G2',
+          2: 'G3',
+          3: 'G4',
+          4: 'G5'
         }
       };
       valoresMinimos = {
@@ -548,11 +555,11 @@
       });
 
       it('O label do grupos semaforicos devem estar corretos', function() {
-        expect(resposta.gruposSemaforicos[0].labelPosicao).toBe(1);
-        expect(resposta.gruposSemaforicos[1].labelPosicao).toBe(2);
-        expect(resposta.gruposSemaforicos[2].labelPosicao).toBe(3);
-        expect(resposta.gruposSemaforicos[3].labelPosicao).toBe(4);
-        expect(resposta.gruposSemaforicos[4].labelPosicao).toBe(5);
+        expect(resposta.gruposSemaforicos[0].labelPosicao).toBe('G1');
+        expect(resposta.gruposSemaforicos[1].labelPosicao).toBe('G2');
+        expect(resposta.gruposSemaforicos[2].labelPosicao).toBe('G3');
+        expect(resposta.gruposSemaforicos[3].labelPosicao).toBe('G4');
+        expect(resposta.gruposSemaforicos[4].labelPosicao).toBe('G5');
       });
 
       it('Os intervalos do G1 devem durar 6(vermelho) , 22(verde), 3(amarelo), 1(vermelho limpeza) e 28(vermelho) segundos', function() {
@@ -1054,6 +1061,12 @@
           G6: 1,
           G7: 2,
           G8: 3
+        },
+        labelsGruposSemaforicos: {
+          0: 'G5',
+          1: 'G6',
+          2: 'G7',
+          3: 'G8'
         }
       };
       valoresMinimos = {
@@ -1092,10 +1105,10 @@
       });
 
       it('O label do grupos semaforicos devem estar corretos', function() {
-        expect(resposta.gruposSemaforicos[0].labelPosicao).toBe(5);
-        expect(resposta.gruposSemaforicos[1].labelPosicao).toBe(6);
-        expect(resposta.gruposSemaforicos[2].labelPosicao).toBe(7);
-        expect(resposta.gruposSemaforicos[3].labelPosicao).toBe(8);
+        expect(resposta.gruposSemaforicos[0].labelPosicao).toBe('G5');
+        expect(resposta.gruposSemaforicos[1].labelPosicao).toBe('G6');
+        expect(resposta.gruposSemaforicos[2].labelPosicao).toBe('G7');
+        expect(resposta.gruposSemaforicos[3].labelPosicao).toBe('G8');
       });
 
       it('Os intervalos do G5 devem durar 20(verde) , 3(amarelo), 1(vermelho limpeza), 16(vermelho) e 20(verde) segundos', function() {

@@ -565,6 +565,9 @@ public class ControladorCustomDeserializer {
         if (node.get("demandaPrioritaria") != null) {
             estagio.setDemandaPrioritaria(node.get("demandaPrioritaria").asBoolean());
         }
+        if (node.get("tempoVerdeDemandaPrioritaria") != null) {
+            estagio.setTempoVerdeDemandaPrioritaria(node.get("tempoVerdeDemandaPrioritaria").asInt());
+        }
         if (node.get("posicao") != null) {
             estagio.setPosicao(node.get("posicao").asInt());
         }

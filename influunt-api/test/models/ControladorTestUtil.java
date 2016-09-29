@@ -140,7 +140,7 @@ public class ControladorTestUtil {
         EstagioGrupoSemaforico estagioGrupoSemaforico4 = new EstagioGrupoSemaforico(estagio4, grupoSemaforico2);
 
 
-        estagio1.setDemandaPrioritaria(true);
+        estagio1.setDemandaPrioritaria(false);
         estagio1.setTempoMaximoPermanencia(100);
         estagio1.addEstagioGrupoSemaforico(estagioGrupoSemaforico1);
         estagio1.setDescricao("estagio1");
@@ -164,6 +164,7 @@ public class ControladorTestUtil {
         Estagio estagioNovo = anelCom2Estagios.getEstagios().get(0);
         Estagio estagioNovo2 = anelCom2Estagios.getEstagios().get(1);
         estagioNovo.setDemandaPrioritaria(true);
+        estagioNovo.setTempoVerdeDemandaPrioritaria(100);
         estagioNovo.setTempoMaximoPermanenciaAtivado(false);
         estagioNovo2.setTempoMaximoPermanenciaAtivado(false);
 

@@ -33,16 +33,16 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
         Controlador controlador = getControladorTabelaDeEntreVerdes();
         controlador.save();
 
+        Anel anelCom2Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
+        Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
+
         List<Erro> erros = getErros(controlador);
 
-        assertEquals(2, erros.size());
+        assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "Esse estágio deve estar associado a pelo menos um detector.", "aneis[0].estagios[0].associadoDetectorCasoDemandaPrioritaria"),
                 new Erro(CONTROLADOR, "Esse estágio deve estar associado a pelo menos um detector.", "aneis[1].estagios[0].associadoDetectorCasoDemandaPrioritaria")
         ));
 
-        Anel anelCom2Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
-        Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
 
         for (int i = 0; i < 5; i++) {
             criarDetector(anelCom2Estagios, TipoDetector.PEDESTRE, i + 1, false);
@@ -50,7 +50,7 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
 
         erros = getErros(controlador);
 
-        assertEquals(9, erros.size());
+        assertEquals(8, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro(CONTROLADOR, "A quantidade de detectores não deve ultrapassar a quantidade de estágios definidas no modelo do controlador.", "aneis[1]"),
                 new Erro(CONTROLADOR, "Numero total de detectores de pedestre informado individualmente nos aneis excede o limite do controlador", ""),
@@ -59,7 +59,6 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
                 new Erro(CONTROLADOR, "O detector deve estar associado a pelo menos um estágio.", "aneis[1].detectores[2].associadoAoMenosUmEstagio"),
                 new Erro(CONTROLADOR, "O detector deve estar associado a pelo menos um estágio.", "aneis[1].detectores[3].associadoAoMenosUmEstagio"),
                 new Erro(CONTROLADOR, "O detector deve estar associado a pelo menos um estágio.", "aneis[1].detectores[4].associadoAoMenosUmEstagio"),
-                new Erro(CONTROLADOR, "Esse estágio deve estar associado a pelo menos um detector.", "aneis[0].estagios[0].associadoDetectorCasoDemandaPrioritaria"),
                 new Erro(CONTROLADOR, "Esse estágio deve estar associado a pelo menos um detector.", "aneis[1].estagios[0].associadoDetectorCasoDemandaPrioritaria")
         ));
 
@@ -67,9 +66,8 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
 
         erros = getErros(controlador);
 
-        assertEquals(2, erros.size());
+        assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "Esse estágio deve estar associado a pelo menos um detector.", "aneis[0].estagios[0].associadoDetectorCasoDemandaPrioritaria"),
                 new Erro(CONTROLADOR, "Esse estágio deve estar associado a pelo menos um detector.", "aneis[1].estagios[0].associadoDetectorCasoDemandaPrioritaria")
         ));
 
@@ -192,7 +190,7 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
-        assertEquals(2, json.size());
+        assertEquals(1, json.size());
     }
 
     @Override

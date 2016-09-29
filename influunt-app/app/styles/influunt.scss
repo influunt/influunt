@@ -2331,6 +2331,15 @@ tip-tip {
     cursor: help;
 }
 
+.wrapper-content .basic-wizard .content .body span.badge.badge-danger.badge-notification.tooltipstered.badge-associacao-estagio-grupo {
+    display: inline-block;
+    width: inherit;
+    cursor: help;
+    padding-bottom: 4px;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
 .wrapper-content .basic-wizard .content .body span.badge.badge-danger.badge-notification.tooltipstered.badge-tempo-ciclo {
     position: relative;
 }
