@@ -15,7 +15,31 @@
     "mostrar" : "Visualizar Alteração"
   },
   "simulacao": {
-    "titulo": "Simulação"
+    "titulo": "Simulação",
+    "parametros": "Parâmetros",
+    "simulacaoCompleta": "Simulacao Completa",
+    "inicioControl": "Início Controlador",
+    "inicioSimulacao": "Início Simulação",
+    "fimSimulacao": "Fim da Simulação",
+    "horario": "Horário",
+    "progDisparo": "Programar disparo de detectores",
+    "progImposicao": "Programar imposição de planos",
+    "disparoFalhas": "Disparo de falhas",
+    "detectorVeicular": "Detector Veícular",
+    "detector": "Parâmetros",
+    "tipo": "Parâmetros",
+    "plano": "Plano",
+    "falhas": "Falhas",
+    "problema": "Problema",
+    "tempoSimulacao": "Tempo de simulação",
+    "simular": "Simular",
+    "interromper": "Interromper",
+    "reiniciar": "Reiniciar",
+    "data": "Parâmetros",
+    "log": "Log",
+    "verLog": "Ver log",
+    "trocaEstagio": "Troca de estágio",
+    "velocidade": "Velocidade"
   },
   "controladores": {
     "nomeEndereco": "Localização",

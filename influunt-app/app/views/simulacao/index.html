@@ -5,7 +5,7 @@
         <div class='col-lg-3'>
           <div class='ibox float-e-margins'>
             <div class='ibox-title'>
-              <h5>Parâmetros</h5>
+              <h5>{{ 'simulacao.parametros' | translate }}</h5>
               <div class='ibox-tools'>
                 <a class='collapse-link'>
                   <i class='fa fa-chevron-up'></i>
@@ -17,7 +17,7 @@
                 <div class='col-lg-12'>
                   <div class='row'>
                     <div class='col-lg-12'>
-                      <h4>Velocidade</h4>
+                      <h4>{{ 'simulacao.velocidade' | translate }}</h4>
                     </div>
                     <div class='col-lg-4'>
                       <label>
@@ -46,7 +46,7 @@
                     <div class='col-lg-8'>
                       <label>
                         <input type='radio' value='1x' id='1x' name='1x'>
-                        Simulação completa
+                        {{ 'simulacao.simulacaoCompleta' | translate }}
                       </label>
                     </div>
                   </div>
@@ -55,7 +55,7 @@
                 <div class='col-lg-12'>
                   <div class='row'>
                     <div class='col-lg-12'>
-                      <h4>Início controlador</h4>
+                      <h4>{{ 'simulacao.inicioControl' | translate }}</h4>
                     </div>
                     <div class='col-lg-4'>
                       <select class='form-control m-b' name='account'>
@@ -111,7 +111,7 @@
                 <div class='col-lg-12'>
                   <div class='row'>
                     <div class='col-lg-12'>
-                      <h4>Início Simulação</h4>
+                      <h4>{{ 'simulacao.inicioSimulacao' | translate }}</h4>
                     </div>
                     <div class='col-lg-4'>
                       <select class='form-control m-b' name='account'>
@@ -167,7 +167,7 @@
                 <div class='col-lg-12'>
                   <div class='row'>
                     <div class='col-lg-12'>
-                      <h4>Fim da Simulação</h4>
+                      <h4>{{ 'simulacao.fimSimulacao' | translate }}</h4>
                     </div>
                     <div class='col-lg-4'>
                       <select class='form-control m-b' name='account'>
@@ -227,7 +227,7 @@
         <div class='col-lg-9'>
           <div class='ibox float-e-margins collapsed'>
             <div class='ibox-title'>
-              <h5>Parâmetros</h5>
+              <h5>{{ 'simulacao.progDisparo' | translate }}</h5>
               <div class='ibox-tools'>
                 <a class='collapse-link'>
                   <i class='fa fa-chevron-up'></i>
@@ -239,16 +239,16 @@
                 <div class='col-lg-12'>
                   <div class='row'>
                     <div class='col-lg-3'>
-                      <h4>Detector</h4>
+                      <h4>{{ 'simulacao.detector' | translate }}</h4>
                     </div>
                     <div class='col-lg-2'>
-                      <h4>Tipo</h4>
+                      <h4>{{ 'simulacao.tipo' | translate }}</h4>
                     </div>
                     <div class='col-lg-3'>
-                      <h4>Data</h4>
+                      <h4>{{ 'simulacao.data' | translate }}</h4>
                     </div>
                     <div class='col-lg-4'>
-                      <h4>Horário</h4>
+                      <h4>{{ 'simulacao.horario' | translate }}</h4>
                     </div>
 
                     <div class='col-lg-3'>
@@ -261,7 +261,7 @@
                     </div>
                     <div class='col-lg-2'>
                       <p>
-                        Detector veícular
+                        {{ 'simulacao.detectorVeicular' | translate }}
                       </p>
                     </div>
                     <div class='col-lg-1'>
@@ -333,7 +333,7 @@
 
           <div class='ibox float-e-margins collapsed'>
             <div class='ibox-title'>
-              <h5>Programar disparo de detectores</h5>
+              <h5>{{ 'simulacao.progImposicao' | translate }}</h5>
               <div class='ibox-tools'>
                 <a class='collapse-link'>
                   <i class='fa fa-chevron-up'></i>
@@ -345,13 +345,13 @@
                 <div class='col-lg-12'>
                   <div class='row'>
                     <div class='col-lg-5'>
-                      <h4>Plano</h4>
+                      <h4>{{ 'simulacao.plano' | translate }}</h4>
                     </div>
                     <div class='col-lg-3'>
-                      <h4>Data</h4>
+                      <h4>{{ 'simulacao.data' | translate }}</h4>
                     </div>
                     <div class='col-lg-4'>
-                      <h4>Horário</h4>
+                      <h4>{{ 'simulacao.horario' | translate }}</h4>
                     </div>
 
                     <div class='col-lg-5'>
@@ -431,7 +431,7 @@
 
           <div class='ibox float-e-margins collapsed'>
             <div class='ibox-title'>
-              <h5>Programar imposição de planos</h5>
+              <h5>{{ 'simulacao.disparoFalhas' | translate }}</h5>
               <div class='ibox-tools'>
                 <a class='collapse-link'>
                   <i class='fa fa-chevron-up'></i>
@@ -443,16 +443,16 @@
                 <div class='col-lg-12'>
                   <div class='row'>
                     <div class='col-lg-3'>
-                      <h4>Problema</h4>
+                      <h4>{{ 'simulacao.problema' | translate }}</h4>
                     </div>
                     <div class='col-lg-2'>
-                      <h4>Falhas</h4>
+                      <h4>{{ 'simulacao.falhas' | translate }}</h4>
                     </div>
                     <div class='col-lg-3'>
-                      <h4>Data</h4>
+                      <h4>{{ 'simulacao.data' | translate }}</h4>
                     </div>
                     <div class='col-lg-4'>
-                      <h4>Horário</h4>
+                      <h4>{{ 'simulacao.horario' | translate }}</h4>
                     </div>
 
                     <div class='col-lg-3'>
@@ -545,12 +545,12 @@
       <div class='row'>
         <div class='col-lg-12 text-center simular'>
           <p>
-            Tempo de simulação
+            {{ 'simulacao.tempoSimulacao' | translate }}
           </p>
           <h3>00h 00m 00s</h3>
-          <button class='btn btn-primary' type='button' name='button'><i class='fa fa-play'></i> Simular</button>
-          <button class='btn btn-primary' type='button' name='button'><i class='fa fa-pause'></i> Interromper</button>
-          <button class='btn btn-primary' type='button' name='button'><i class='fa fa-undo'></i> Reiniciar</button>
+          <button class='btn btn-primary' type='button' name='button'><i class='fa fa-play'></i> {{ 'simulacao.simular' | translate }}</button>
+          <button class='btn btn-primary' type='button' name='button'><i class='fa fa-pause'></i> {{ 'simulacao.interromper' | translate }}</button>
+          <button class='btn btn-primary' type='button' name='button'><i class='fa fa-undo'></i> {{ 'simulacao.reiniciar' | translate }}</button>
         </div>
       </div>
       <div class='col-lg-12'>
@@ -558,7 +558,7 @@
           <div class='ibox-title'>
             <h5>Anel 1 - <b>Plano 2</b></h5>
             <div class='ibox-tools' data-ng-click='fechaLog()'>
-              <button class="btn btn-outline btn-default btn-sm btnLog" type="button" name="button">Ver log <i class='fa fa-chevron-up'></i></button>
+              <button class="btn btn-outline btn-default btn-sm btnLog" type="button" name="button">{{ 'simulacao.verLog' | translate }} <i class='fa fa-chevron-up'></i></button>
               <a class='collapse-link'>
                 <i class='fa fa-chevron-up'></i>
               </a>
@@ -578,104 +578,104 @@
                     </div>
                   </div>
                   <div id='main' class='log col-lg-6 col-sm-6'>
-                    <h2>Log</h2>
+                    <h2>{{ 'simulacao.log' | translate }}</h2>
                     <hr>
                     <div>
                       <p>
-                        <b>16h 12m 32s</b>Troca de estágio: E1 - E2
+                        <b>16h 12m 32s</b>{{ 'simulacao.trocaEstagio' | translate }}: E1 - E2
                       </p>
                       <p>
-                        <b>16h 12m 32s</b>Troca de estágio: E1 - E2
+                        <b>16h 12m 32s</b>{{ 'simulacao.trocaEstagio' | translate }}: E1 - E2
                       </p>
                       <p>
-                        <b>16h 12m 32s</b>Troca de estágio: E1 - E2
+                        <b>16h 12m 32s</b>{{ 'simulacao.trocaEstagio' | translate }}: E1 - E2
                       </p>
                       <p>
-                        <b>16h 12m 32s</b>Troca de estágio: E1 - E2
+                        <b>16h 12m 32s</b>{{ 'simulacao.trocaEstagio' | translate }}: E1 - E2
                       </p>
                       <p>
-                        <b>16h 12m 32s</b>Troca de estágio: E1 - E2
+                        <b>16h 12m 32s</b>{{ 'simulacao.trocaEstagio' | translate }}: E1 - E2
                       </p>
                       <p>
-                        <b>16h 12m 32s</b>Troca de estágio: E1 - E2
+                        <b>16h 12m 32s</b>{{ 'simulacao.trocaEstagio' | translate }}: E1 - E2
                       </p>
                       <p>
-                        <b>16h 12m 32s</b>Troca de estágio: E1 - E2
+                        <b>16h 12m 32s</b>{{ 'simulacao.trocaEstagio' | translate }}: E1 - E2
                       </p>
                       <p>
-                        <b>16h 12m 32s</b>Troca de estágio: E1 - E2
+                        <b>16h 12m 32s</b>{{ 'simulacao.trocaEstagio' | translate }}: E1 - E2
                       </p>
                       <p>
-                        <b>16h 12m 32s</b>Troca de estágio: E1 - E2
+                        <b>16h 12m 32s</b>{{ 'simulacao.trocaEstagio' | translate }}: E1 - E2
                       </p>
                       <p>
-                        <b>16h 12m 32s</b>Troca de estágio: E1 - E2
+                        <b>16h 12m 32s</b>{{ 'simulacao.trocaEstagio' | translate }}: E1 - E2
                       </p>
                       <p>
-                        <b>16h 12m 32s</b>Troca de estágio: E1 - E2
+                        <b>16h 12m 32s</b>{{ 'simulacao.trocaEstagio' | translate }}: E1 - E2
                       </p>
                       <p>
-                        <b>16h 12m 32s</b>Troca de estágio: E1 - E2
+                        <b>16h 12m 32s</b>{{ 'simulacao.trocaEstagio' | translate }}: E1 - E2
                       </p>
                       <p>
-                        <b>16h 12m 32s</b>Troca de estágio: E1 - E2
+                        <b>16h 12m 32s</b>{{ 'simulacao.trocaEstagio' | translate }}: E1 - E2
                       </p>
                       <p>
-                        <b>16h 12m 32s</b>Troca de estágio: E1 - E2
+                        <b>16h 12m 32s</b>{{ 'simulacao.trocaEstagio' | translate }}: E1 - E2
                       </p>
                       <p>
-                        <b>16h 12m 32s</b>Troca de estágio: E1 - E2
+                        <b>16h 12m 32s</b>{{ 'simulacao.trocaEstagio' | translate }}: E1 - E2
                       </p>
                       <p>
-                        <b>16h 12m 32s</b>Troca de estágio: E1 - E2
+                        <b>16h 12m 32s</b>{{ 'simulacao.trocaEstagio' | translate }}: E1 - E2
                       </p>
                       <p>
-                        <b>16h 12m 32s</b>Troca de estágio: E1 - E2
+                        <b>16h 12m 32s</b>{{ 'simulacao.trocaEstagio' | translate }}: E1 - E2
                       </p>
                       <p>
-                        <b>16h 12m 32s</b>Troca de estágio: E1 - E2
+                        <b>16h 12m 32s</b>{{ 'simulacao.trocaEstagio' | translate }}: E1 - E2
                       </p>
                       <p>
-                        <b>16h 12m 32s</b>Troca de estágio: E1 - E2
+                        <b>16h 12m 32s</b>{{ 'simulacao.trocaEstagio' | translate }}: E1 - E2
                       </p>
                       <p>
-                        <b>16h 12m 32s</b>Troca de estágio: E1 - E2
+                        <b>16h 12m 32s</b>{{ 'simulacao.trocaEstagio' | translate }}: E1 - E2
                       </p>
                       <p>
-                        <b>16h 12m 32s</b>Troca de estágio: E1 - E2
+                        <b>16h 12m 32s</b>{{ 'simulacao.trocaEstagio' | translate }}: E1 - E2
                       </p>
                       <p>
-                        <b>16h 12m 32s</b>Troca de estágio: E1 - E2
+                        <b>16h 12m 32s</b>{{ 'simulacao.trocaEstagio' | translate }}: E1 - E2
                       </p>
                       <p>
-                        <b>16h 12m 32s</b>Troca de estágio: E1 - E2
+                        <b>16h 12m 32s</b>{{ 'simulacao.trocaEstagio' | translate }}: E1 - E2
                       </p>
                       <p>
-                        <b>16h 12m 32s</b>Troca de estágio: E1 - E2
+                        <b>16h 12m 32s</b>{{ 'simulacao.trocaEstagio' | translate }}: E1 - E2
                       </p>
                       <p>
-                        <b>16h 12m 32s</b>Troca de estágio: E1 - E2
+                        <b>16h 12m 32s</b>{{ 'simulacao.trocaEstagio' | translate }}: E1 - E2
                       </p>
                       <p>
-                        <b>16h 12m 32s</b>Troca de estágio: E1 - E2
+                        <b>16h 12m 32s</b>{{ 'simulacao.trocaEstagio' | translate }}: E1 - E2
                       </p>
                       <p>
-                        <b>16h 12m 32s</b>Troca de estágio: E1 - E2
+                        <b>16h 12m 32s</b>{{ 'simulacao.trocaEstagio' | translate }}: E1 - E2
                       </p>
                       <p>
-                        <b>16h 12m 32s</b>Troca de estágio: E1 - E2
+                        <b>16h 12m 32s</b>{{ 'simulacao.trocaEstagio' | translate }}: E1 - E2
                       </p>
                       <p>
-                        <b>16h 12m 32s</b>Troca de estágio: E1 - E2
+                        <b>16h 12m 32s</b>{{ 'simulacao.trocaEstagio' | translate }}: E1 - E2
                       </p>
                       <p>
-                        <b>16h 12m 32s</b>Troca de estágio: E1 - E2
+                        <b>16h 12m 32s</b>{{ 'simulacao.trocaEstagio' | translate }}: E1 - E2
                       </p>
                       <p>
-                        <b>16h 12m 32s</b>Troca de estágio: E1 - E2
+                        <b>16h 12m 32s</b>{{ 'simulacao.trocaEstagio' | translate }}: E1 - E2
                       </p>
                       <p>
-                        <b>16h 12m 32s</b>Troca de estágio: E1 - E2
+                        <b>16h 12m 32s</b>{{ 'simulacao.trocaEstagio' | translate }}: E1 - E2
                       </p>
                     </div>
 
