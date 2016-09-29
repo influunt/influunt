@@ -38,7 +38,7 @@
                     data-ng-click="index()">
                   </th>
                   <th>{{ 'controladores.geral.dataAtualizacao' | translate }}</th>
-                  <th>{{ 'controladores.geral.acoes' | translate }}</th>
+                  <th>{{ 'controladores.geral.visualizarAcoes' | translate }}</th>
                 </tr>
               </thead>
               <tbody>
@@ -49,8 +49,8 @@
                   <td>{{controlador.dataAtualizacao}}</td>
                   <td>
                     <hgroup>
-                      <a class="btn btn-outline btn-primary" tooltips tooltip-side="left" tooltip-template="{{ 'geral.tooltip.ver' | translate }} {{ 'controladores.controlador' | translate }}"  type="button" ui-sref="app.controladores_show({id: controlador.id})">
-                        <i class="fa fa-eye"></i> {{ 'controladores.geral.visualizar' | translate }}
+                      <a class="btn btn-outline btn-primary" tooltips tooltip-side="left" tooltip-template="{{ 'geral.tooltip.ver' | translate }} {{ 'controladores.geral.configuracao' | translate }}"  type="button" ui-sref="app.controladores_show({id: controlador.id})">
+                        <i class="fa fa-eye"></i> {{ 'controladores.geral.configuracao' | translate }}
                       </a>
                       <a class="btn btn-outline btn-primary" tooltips tooltip-side="left" tooltip-template="{{ 'geral.tooltip.verEditar' | translate }} {{ 'controladores.geral.planos' | translate }}" ui-sref="app.planos({id: controlador.id})" data-ng-if="podeMostrarPlanosETabelaHoraria(controlador)">
                         <i class="fa fa-file-text"></i> {{ 'controladores.geral.planos' | translate }}
@@ -58,8 +58,8 @@
                       <a class="btn btn-outline btn-primary" tooltips tooltip-side="left" tooltip-template="{{ 'geral.tooltip.verEditar' | translate }} {{ 'controladores.geral.tabelaHorario' | translate }}"  type="button" ui-sref="app.tabela_horarios({id: controlador.id})" data-ng-if="podeMostrarPlanosETabelaHoraria(controlador)">
                         <i class="fa fa-calendar"></i> {{ 'controladores.geral.tabelaHorario' | translate }}
                       </a>
-                      <a class="btn btn-outline btn-primary" tooltips tooltip-side="left" tooltip-template="{{ 'geral.tooltip.ativar' | translate }} {{ 'controladores.controlador' | translate }}"  type="button" data-ng-click="ativar(controlador.id)" data-ng-if="podeAtivar(controlador)">
-                        <i class="fa fa-check"></i> {{ 'controladores.geral.ativar' | translate }}
+                      <a class="btn btn-outline btn-primary" tooltips tooltip-side="left" tooltip-template="{{ 'controladores.geral.finalizar' | translate }} {{ 'controladores.geral.configuracao' | translate }}"  type="button" data-ng-click="finalizar(controlador.id)" data-ng-if="podeFinalizar(controlador)">
+                        <i class="fa fa-check"></i> {{ 'controladores.geral.finalizar' | translate }}
                       </a>
                     </hgroup>
                   </td>

@@ -41,6 +41,7 @@ DELETE      /api/v1/controladores/:id                             controllers.Co
 GET         /api/v1/controladores/:id/edit                        controllers.ControladoresController.edit(id)
 GET         /api/v1/controladores/:id/timeline                    controllers.ControladoresController.timeline(id)
 GET         /api/v1/controladores/:id/pode_editar                 controllers.ControladoresController.podeEditar(id)
+PUT         /api/v1/controladores/:id/finalizar                    controllers.ControladoresController.finalizar(id)
 PUT         /api/v1/controladores/:id/ativar                      controllers.ControladoresController.ativar(id)
 DELETE      /api/v1/controladores/:id/cancelar_edicao             controllers.ControladoresController.cancelarEdicao(id)
 GET         /api/v1/controladores/:id/editar_planos               controllers.ControladoresController.editarPlanos(id)

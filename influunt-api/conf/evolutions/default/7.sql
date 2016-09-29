@@ -5,3 +5,6 @@ alter table estagios add column tempo_verde_demanda_prioritaria integer AFTER de
 
 # --- !Downs
 alter table estagios drop column tempo_verde_demanda_prioritaria;
+
+
+

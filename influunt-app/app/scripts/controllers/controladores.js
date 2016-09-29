@@ -424,9 +424,10 @@ angular.module('influuntApp')
 
 
       $scope.copiar = function(controladorId) {
+        console.log("OALALALALAALALAAL")
         return Restangular.one('controladores', controladorId).all("edit").customGET()
-          .then(function() {
-            $state.go('app.controladores');
+          .then(function(res) {
+            $state.go('app.wizard_controladores.dados_basicos',{id: res.id});
           })
           .catch(function(err) {
             toast.error($filter('translate')('geral.mensagens.default_erro'));
@@ -450,7 +451,7 @@ angular.module('influuntApp')
 
       $scope.configurar = function(controladorId) {
         return Restangular.one('controladores', controladorId).all('pode_editar').customGET()
-          .then(function() {
+          .then(function(res) {
             $state.go('app.wizard_controladores.dados_basicos',{id: controladorId});
           })
           .catch(function(err) {
@@ -460,8 +461,32 @@ angular.module('influuntApp')
           .finally(influuntBlockui.unblock);
       };
 
+      $scope.finalizar = function(controladorId) {
+        var titulo = $filter('translate')('controladores.revisao.submitPopup.titulo');
+        var texto = $filter('translate')('controladores.revisao.submitPopup.texto');
+        return influuntAlert
+          .prompt(titulo, texto)
+          .then(function(texto) {
+            if (texto) {
+              return Restangular.one('controladores', controladorId)
+                .all('finalizar')
+                .customPUT({descricao: texto})
+                .then(function() {
+                  $scope.index();
+                })
+                .catch(function(err) {
+                  toast.clear();
+                  influuntAlert.alert('Controlador', err.data[0].message);
+                })
+                .finally(influuntBlockui.unblock);
+            }
+          });
+      };
+
       $scope.ativar = function(controladorId) {
-        return Restangular.one('controladores', controladorId).all('ativar').customPUT()
+        return Restangular.one('controladores', controladorId)
+          .all('ativar')
+          .customPUT()
           .then(function() {
             $scope.index();
           })
@@ -504,8 +529,12 @@ angular.module('influuntApp')
         return controlador.statusControlador === 'CONFIGURADO' && controlador.planoConfigurado && controlador.tabelaHorariaConfigurado;
       };
 
+      $scope.podeFinalizar = function(controlador) {
+        return (controlador.statusControlador === 'EM_CONFIGURACAO' || controlador.statusControlador === 'EM_EDICAO') && controlador.planoConfigurado && controlador.tabelaHorariaConfigurado;
+      };
+
       $scope.podeMostrarPlanosETabelaHoraria = function(controlador) {
-        return controlador.statusControlador !== 'EM_CONFIGURACAO' && controlador.statusControlador !== 'EM_EDICAO';
+        return controlador.controladorConfigurado;
       };
 
     }]);

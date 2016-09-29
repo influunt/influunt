@@ -21,10 +21,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Entidade que representa o {@link Controlador} no sistema
@@ -561,6 +558,34 @@ public class Controlador extends Model implements Cloneable, Serializable {
         getVersoesTabelasHorarias().add(versaoTabelaHoraria);
     }
 
+    public void finalizar() {
+        DBUtils.executeWithTransaction(() -> {
+            VersaoControlador versao = this.getVersaoControlador();
+            versao.finalizar();
+            versao.update();
+
+            VersaoTabelaHoraria versaoTabelaHoraria = this.getVersaoTabelaHoraria();
+            if (versaoTabelaHoraria != null) {
+                versaoTabelaHoraria.finalizar();
+            }
+
+            getAneis().forEach(anel -> {
+                VersaoPlano versaoPlano = anel.getVersaoPlano();
+                if (versaoPlano != null) {
+                    versaoPlano.finalizar();
+                }
+            });
+
+            this.setStatusControlador(StatusControlador.CONFIGURADO);
+
+            Controlador controladorOrigem = versaoControlador.getControladorOrigem();
+            if (controladorOrigem != null) {
+                this.reassociarAgrupamentos(controladorOrigem);
+            }
+            this.update();
+        });
+    }
+
     public void ativar() {
         DBUtils.executeWithTransaction(() -> {
             VersaoControlador versao = this.getVersaoControlador();
@@ -588,6 +613,8 @@ public class Controlador extends Model implements Cloneable, Serializable {
             this.update();
         });
     }
+
+
     private void reassociarAgrupamentos(Controlador controladorOrigem) {
         long totalAneisOrigem = controladorOrigem.getAneis().stream().filter(Anel::isAtivo).count();
         long totalAneisAtual = this.getAneis().stream().filter(Anel::isAtivo).count();
@@ -629,4 +656,11 @@ public class Controlador extends Model implements Cloneable, Serializable {
         }
     }
 
+    public boolean isConfigurado() {
+        return new InfluuntValidator<Controlador>().validate(this, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+                ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
+                ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
+                ControladorAssociacaoDetectoresCheck.class).size() == 0;
+
+    }
 }
