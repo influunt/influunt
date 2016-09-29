@@ -52,6 +52,7 @@ public class VersaoTabelaHoraria extends Model implements Serializable {
     @Column
     private String descricao;
 
+    @Enumerated(EnumType.STRING)
     @Column
     private StatusVersao statusVersao;
 
@@ -163,6 +164,10 @@ public class VersaoTabelaHoraria extends Model implements Serializable {
 
     public void ativar() {
         setStatusVersao(StatusVersao.ATIVO);
+    }
+
+    public void finalizar() {
+        setStatusVersao(StatusVersao.CONFIGURADO);
     }
 
     @Override

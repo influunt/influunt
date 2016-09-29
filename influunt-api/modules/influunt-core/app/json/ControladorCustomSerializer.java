@@ -286,6 +286,7 @@ public class ControladorCustomSerializer {
             root.put("planoConfigurado", anel.getVersaoPlano() != null);
         }
         root.put("tabelaHorariaConfigurado", controlador.getVersaoTabelaHoraria() != null);
+        root.put("controladorConfigurado", controlador.isConfigurado());
     }
 
     private void putControladorDadosBasicos(Controlador controlador, ObjectNode root) {

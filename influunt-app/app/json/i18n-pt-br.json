@@ -123,6 +123,7 @@
     "ganhoDePassagem": "Transições com ganho de direito de passagem",
     "perdaDePassagem": "Transições com perda de direito de passagem",
     "geral": {
+      "finalizar": "Finalizar",
       "novo": "Novo",
       "historico": "Histórico",
       "cancelarEdicao": "Cancelar Edição",
@@ -145,6 +146,7 @@
       "CLC": "CLC",
       "dataAtualizacao": "Data atualização",
       "statusControlador": "Status do controlador",
+      "visualizarAcoes": "Visualizar/Ações",
       "acoes": "Ações",
       "verTelaAnterior": "Ver Resumo"
     },
