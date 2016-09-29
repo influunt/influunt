@@ -34,11 +34,13 @@ var PlanosPage = function () {
     return world.execJavascript(script).then(function(indexGrupo) {
       switch(modoOperacao) {
         case 'Apagado':
-          return _this.isDiagramaApagado(indexGrupo);
+          return _this.isDiagramaApagado();
         case 'Intermitente':
           return _this.isDiagramaIntermitente(indexGrupo);
         case 'Operação Normal':
           return _this.isDiagramaOperacaoNormal(indexGrupo);
+        case 'Em Vermelho':
+          return _this.isDiagramaVermelho(indexGrupo);
         default:
           throw new Error('Modo de operação não reconhecido: '+modoOperacao);
       }
@@ -47,6 +49,10 @@ var PlanosPage = function () {
 
   this.isDiagramaApagado = function() {
     return world.waitFor('div#visualization div.vis-foreground div.indicacao-apagado');
+  };
+
+  this.isDiagramaVermelho = function(indexGrupo){
+    return world.waitFor('div#visualization div.vis-foreground div.vis-group:nth-child('+indexGrupo+') div.indicacao-vermelho');
   };
 
   this.isDiagramaIntermitente = function(indexGrupo) {
@@ -173,10 +179,6 @@ var PlanosPage = function () {
 
   this.nomePlanoAlterado = function(plano) {
     return world.waitForByXpath('//ul[@id="side-menu"]//span[contains(text(), "'+plano+'")]');
-  };
-
-  this.clicarAbaAnel2 = function() {
-    return world.getElement('li[aria-selected="false"]').click();
   };
 
   this.getTextInModal = function() {

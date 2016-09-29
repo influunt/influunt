@@ -25,15 +25,15 @@ Funcionalidade: Fluxo de cadastro de planos
   Cenário: Apresentar erro com estágios proibidos
     Dado que o usuário esteja na página de planos
     E que o usuário selecione o modo de operação "Apagado"
-    Então o sistema deverá apresentar erro de "transição proibida de E1 para E2"
+    Então o sistema deverá apresentar erro de "transição proibida de E3 para E4"
 
   Cenário: Remover estágio com transição proibida
     Dado que o usuário esteja na página de planos
     E que o usuário selecione o modo de operação "Apagado"
-    E que o usuário clique no botão apagar o estagio "E1"
+    E que o usuário clique no botão apagar o estagio "E4"
     Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
     Quando o usuário responde sim
-    Então a quantidade de estagios na lista deverá ser 2
+    Então a quantidade de estagios na lista deverá ser 3
 
   Cenário: Selecionar modo de operação apagado
     Dado que o usuário esteja na página de planos
@@ -84,7 +84,7 @@ Funcionalidade: Fluxo de cadastro de planos
     Dado que o usuário esteja na página de planos
     E que o usuário selecione o modo de operação "Isolado"
     E que o usuário clique no botão de configurar o estágio "E1"
-    E que o usuário marque 6 segundos para o "Tempo de Verde"
+    E que o usuário marque 9 segundos para o "Tempo de Verde"
     E que o usuário clique no botão de fechar a caixa de configuração
     E que o usuário clique no botão de configurar o estágio "E2"
     E que o usuário marque 9 segundos para o "Tempo de Verde"
@@ -99,6 +99,15 @@ Funcionalidade: Fluxo de cadastro de planos
     E que o usuário clique no botão de configurar o estágio "E2"
     E que o usuário marque 12 segundos para o "Tempo de Verde"
     E que o usuário clique no botão de fechar a caixa de configuração
+
+  Cenário: Remover estágio em modo de operação Isolado
+    Dado que o usuário esteja na página de planos
+    E que o usuário selecione o anel 1
+    E que o usuário selecione o modo de operação "Isolado"
+    E que o usuário clique no botão apagar o estagio "E1"
+    Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
+    Quando o usuário responde sim
+    Então a quantidade de estagios na lista deverá ser 2
 
   Cenário: Adicionar estágio novamente para o plano
     Dado que o usuário esteja na página de planos
