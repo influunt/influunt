@@ -325,14 +325,14 @@ describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
       scope.errors = handleValidations.buildValidationMessages(error, scope.objeto);
     }));
     
-    it('O controlador deve ter ao meno um anel e um estagio.', function() {
+    it('Não deve ter erro para transição E1A1-E2A1', function() {
       var origem = {idJson: 'E1A1'};
       var destino = {idJson: 'E2A1'};
       var result = scope.getErrosEstagiosAlternativos(origem, destino);
       expect(result).not.toBeTruthy();
     });
 
-    it('Um controlador que não tenha ao menos um anel deve ser considerado inválido', function() {
+    it('Deve ter erro para a transição E1A2-E2A2', function() {
       var origem = {idJson: 'E1A2'};
       var destino = {idJson: 'E2A2'};
       var result = scope.getErrosEstagiosAlternativos(origem, destino);
