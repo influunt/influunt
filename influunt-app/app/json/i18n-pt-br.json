@@ -17,7 +17,7 @@
   "simulacao": {
     "titulo": "Simulação",
     "parametros": "Parâmetros",
-    "simulacaoCompleta": "Simulacao Completa",
+    "simulacaoCompleta": "Simulação Completa",
     "inicioControl": "Início Controlador",
     "inicioSimulacao": "Início Simulação",
     "fimSimulacao": "Fim da Simulação",
@@ -25,7 +25,7 @@
     "progDisparo": "Programar disparo de detectores",
     "progImposicao": "Programar imposição de planos",
     "disparoFalhas": "Disparo de falhas",
-    "detectorVeicular": "Detector Veícular",
+    "detectorVeicular": "Detector Veicular",
     "detector": "Parâmetros",
     "tipo": "Parâmetros",
     "plano": "Plano",
@@ -158,7 +158,7 @@
       "monitoramentoFalha": "Monitoramento de Falha",
       "pedestre": "Pedestre",
       "titulo": "Detectores",
-      "veicular": "Veícular",
+      "veicular": "Veicular",
       "verTabelaEntreVerdes": "Ver Tela de Entre Verdes"
     },
     "dadosBasicos": {
@@ -168,7 +168,7 @@
       "titulo": "Grupos Semafóricos",
       "tipo": "Tipo",
       "pedestre": "Pedestre",
-      "veicular": "Veícular",
+      "veicular": "Veicular",
       "verdeSeguranca": "Verde Segurança",
       "faseVermelhaApagada": "Fase Vermelha Apagada",
       "descricao": "Descrição",
