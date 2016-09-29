@@ -941,7 +941,7 @@ angular.module('influuntApp')
         _.each(estagio.estagiosGruposSemaforicos, function(gs){
           var egs = _.find($scope.objeto.estagiosGruposSemaforicos, {idJson: gs.idJson});
           var grupo = _.find($scope.objeto.gruposSemaforicos, {idJson: egs.grupoSemaforico.idJson});
-          tempoMax = grupo.tempoVerdeSeguranca > tempoMax ? grupo.tempoVerdeSeguranca : tempoMax;
+          tempoMax = _.max([grupo.tempoVerdeSeguranca, tempoMax]);
           veicular = grupo.tipo === 'VEICULAR' ? true : veicular;
         });
         estagio.verdeMinimoEstagio = tempoMax;

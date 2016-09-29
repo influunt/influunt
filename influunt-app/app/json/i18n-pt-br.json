@@ -377,7 +377,7 @@
     },
     "verdeMinimoVeicular": {
       "tituloAlert": "Verde de Segurança",
-      "mensagemAlert": "Tem certeza que deseja colocar o tempo de verde menor que o tempo de verde de segurança dos grupos semafóricos."
+      "mensagemAlert": "Tem certeza que deseja colocar o tempo de verde menor que o tempo de verde de segurança dos grupos semafóricos?"
     },
     "verdeMinimoPedestre": {
       "tituloAlert": "Verde de Segurança",
