@@ -291,4 +291,52 @@ describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
       });
     });
   });
+  
+  describe('getErrosEstagiosAlternativos', function () {
+    beforeEach(inject(function(handleValidations) {
+      scope.objeto = {
+        aneis: [
+          {
+            idJson: 1,
+            estagios: [
+              {idJson: 'E1A1'},
+              {idJson: 'E2A1'}
+            ]
+          }, 
+          {
+            idJson: 2,
+            estagios: [
+              {idJson: 'E1A2'},
+              {idJson: 'E2A2'}
+            ]
+          }
+        ], 
+        estagios: [
+          {idJson: 'E1A1', anel: {idJson: 1}},
+          {idJson: 'E2A1', anel: {idJson: 1}},
+          {idJson: 'E1A2', anel: {idJson: 2}, origemDeTransicoesProibidas: [{idJson: 'TP1'}]},
+          {idJson: 'E2A2', anel: {idJson: 2}}
+        ], 
+        transicoesProibidas: [
+          {idJson: 'TP1', origem: {idJson: 'E1A2'}, destino: {idJson: 'E2A2'}}
+        ]
+      };
+      var error = [{"root":"Controlador","message":"não pode ficar em branco","path":"aneis[1].estagios[0].origemDeTransicoesProibidas[0].alternativo"}];
+      scope.errors = handleValidations.buildValidationMessages(error, scope.objeto);
+    }));
+    
+    it('O controlador deve ter ao meno um anel e um estagio.', function() {
+      var origem = {idJson: 'E1A1'};
+      var destino = {idJson: 'E2A1'};
+      var result = scope.getErrosEstagiosAlternativos(origem, destino);
+      expect(result).not.toBeTruthy();
+    });
+
+    it('Um controlador que não tenha ao menos um anel deve ser considerado inválido', function() {
+      var origem = {idJson: 'E1A2'};
+      var destino = {idJson: 'E2A2'};
+      var result = scope.getErrosEstagiosAlternativos(origem, destino);
+      expect(result).toBeTruthy();
+    });
+  });
 });
