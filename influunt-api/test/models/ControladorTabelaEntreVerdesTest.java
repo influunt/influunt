@@ -238,7 +238,7 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
     @Override
     @Test
     public void testControllerValidacao() {
-        Controlador controlador = getControladorAtrasoDeGrupo();
+        Controlador controlador = getControladorTransicoesProibidas();
         controlador.save();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")

@@ -62,6 +62,9 @@ angular.module('influuntApp')
         setDadosCurrentTabelasEntreVerdes();
         setDadosCurrentDetectores();
         setCurrentAtrasosDeGrupo();
+
+        $scope.gsTabelasEntreVerdes = $scope.currentGruposSemaforicos[0];
+        $scope.gsAtrasoGrupo = $scope.currentGruposSemaforicos[0];
       };
 
       $scope.commitMessage = function() {
@@ -367,11 +370,4 @@ angular.module('influuntApp')
           });
         }
       };
-
-      $scope.$watch("currentGruposSemaforicos", function (){
-        if($scope.currentGruposSemaforicos){
-          $scope.gsTabelasEntreVerdes = $scope.currentGruposSemaforicos[0];
-          $scope.gsAtrasoGrupo = $scope.currentGruposSemaforicos[0];
-        }
-      });
     }]);

@@ -257,7 +257,7 @@ public class ControladorTestUtil {
     }
 
     public Controlador getControladorAtrasoDeGrupo() {
-        Controlador controlador = getControladorTransicoesProibidas();
+        Controlador controlador = getControladorTabelaDeEntreVerdes();
         controlador.save();
 
         for (Anel anel : controlador.getAneis()) {
@@ -275,7 +275,7 @@ public class ControladorTestUtil {
 
     public Controlador getControladorTabelaDeEntreVerdes() {
 
-        Controlador controlador = getControladorAtrasoDeGrupo();
+        Controlador controlador = getControladorTransicoesProibidas();
         controlador.save();
 
         for (Anel anel : controlador.getAneis()) {
@@ -296,7 +296,7 @@ public class ControladorTestUtil {
     }
 
     public Controlador getControladorAssociacaoDetectores() {
-        Controlador controlador = getControladorTabelaDeEntreVerdes();
+        Controlador controlador = getControladorAtrasoDeGrupo();
         controlador.save();
 
         Anel anelCom2Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();

@@ -72,18 +72,19 @@ public class ControladoresController extends Controller {
 
     @Transactional
     @Dynamic(value = "ControladorAreaAuth(body)")
-    public CompletionStage<Result> atrasoDeGrupo() {
+    public CompletionStage<Result> entreVerdes() {
         return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
                 ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
-                ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class);
+                ControladorTransicoesProibidasCheck.class, ControladorTabelaEntreVerdesCheck.class);
     }
 
     @Transactional
     @Dynamic(value = "ControladorAreaAuth(body)")
-    public CompletionStage<Result> entreVerdes() {
+    public CompletionStage<Result> atrasoDeGrupo() {
         return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
                 ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
-                ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class);
+                ControladorTransicoesProibidasCheck.class, ControladorTabelaEntreVerdesCheck.class,
+                ControladorAtrasoDeGrupoCheck.class);
     }
 
     @Transactional
@@ -91,8 +92,8 @@ public class ControladoresController extends Controller {
     public CompletionStage<Result> associacaoDetectores() {
         return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
                 ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
-                ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
-                ControladorAssociacaoDetectoresCheck.class);
+                ControladorTransicoesProibidasCheck.class, ControladorTabelaEntreVerdesCheck.class,
+                ControladorAtrasoDeGrupoCheck.class, ControladorAssociacaoDetectoresCheck.class);
     }
 
     @Transactional
