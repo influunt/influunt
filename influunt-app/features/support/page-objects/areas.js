@@ -130,10 +130,8 @@ var AreasPage = function () {
   };
 
   this.selecionarCidade = function(cidade) {
-    var index = cidade === 'São Paulo' ? 2 : 1;
-    return world.getElement('select[name="cidade"] option:nth-child('+index+')').click();
+    return world.getElementByXpath('//select[contains(@name, "cidade")]//option[contains(@label, "'+cidade+'")]').click();
   };
-
 };
 
 module.exports = AreasPage;
