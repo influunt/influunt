@@ -45,8 +45,8 @@ var PlanosPage = function () {
     });
   };
 
-  this.isDiagramaApagado = function(indexGrupo) {
-    return world.waitFor('div#visualization div.vis-foreground div.vis-group.group:nth-child('+indexGrupo+') div.indicacao-apagado');
+  this.isDiagramaApagado = function() {
+    return world.waitFor('div#visualization div.vis-foreground div.indicacao-apagado');
   };
 
   this.isDiagramaIntermitente = function(indexGrupo) {
@@ -171,7 +171,7 @@ var PlanosPage = function () {
     return world.selectOption(campo, valor);
   };
 
-  this.nomePlanoAterado = function(plano) {
+  this.nomePlanoAlterado = function(plano) {
     return world.waitForByXpath('//ul[@id="side-menu"]//span[contains(text(), "'+plano+'")]');
   };
 
@@ -188,6 +188,10 @@ var PlanosPage = function () {
 
   this.isPlanoAtivo = function(plano) {
     return world.waitForByXpath('//ul[@id="side-menu"]//span[contains(text(), "'+plano+'")]/..//div[contains(@class, "checked")]');
+  };
+
+  this.errosImpeditivos = function(texto){
+    return world.waitForByXpath('//div[contains (@class, "alert")]//li[contains(text(), "'+texto+'")]')
   };
 };
 

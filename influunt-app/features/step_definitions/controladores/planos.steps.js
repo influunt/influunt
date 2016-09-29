@@ -122,7 +122,7 @@ module.exports = function() {
   });
 
   this.Given(/^o sistema deve alterar o nome para "([^"]*)"$/, function (valor) {
-    return planosPage.nomePlanoAterado(valor);
+    return planosPage.nomePlanoAlterado(valor);
   });
 
   this.Given(/^o usuário clicar no botão copiar$/, function () {
@@ -148,5 +148,9 @@ module.exports = function() {
 
   this.Given(/^clicar em cancelar a edição$/, function () {
     return planosPage.clicarBotao('Cancelar Edição');
+  });
+
+  this.Given(/^o sistema deverá apresentar erro de "([^"]*)"$/, function (texto) {
+    return planosPage.errosImpeditivos(texto);
   });
 };

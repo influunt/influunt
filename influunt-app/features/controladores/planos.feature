@@ -22,6 +22,19 @@ Funcionalidade: Fluxo de cadastro de planos
     Quando o usuário clicar em editar
     Então o "PLANO 1" deverá estar ativado
 
+  Cenário: Apresentar erro com estágios proibidos
+    Dado que o usuário esteja na página de planos
+    E que o usuário selecione o modo de operação "Apagado"
+    Então o sistema deverá apresentar erro de "transição proibida de E1 para E2"
+
+  Cenário: Remover estágio com transição proibida
+    Dado que o usuário esteja na página de planos
+    E que o usuário selecione o modo de operação "Apagado"
+    E que o usuário clique no botão apagar o estagio "E1"
+    Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
+    Quando o usuário responde sim
+    Então a quantidade de estagios na lista deverá ser 2
+
   Cenário: Selecionar modo de operação apagado
     Dado que o usuário esteja na página de planos
     E que o usuário selecione o modo de operação "Apagado"
@@ -41,7 +54,6 @@ Funcionalidade: Fluxo de cadastro de planos
     E o usuário não deve ter a opção de selecionar uma tabela entre verdes para o plano
     E o usuário não deve ter a opção de marcar o tempo de ciclo do estágio
     E o usuário não deve ter a opção de marcar a defasagem do ciclo
-
 
   Cenário: Selecionar modo de operação coordenado
     Dado que o usuário esteja na página de planos
@@ -68,20 +80,6 @@ Funcionalidade: Fluxo de cadastro de planos
     E o usuário deve ter a opção de marcar o tempo de ciclo do estágio
     E o usuário não deve ter a opção de marcar a defasagem do ciclo
 
-  Cenário: Remover estágio do intervalo em operação Isolado
-    Dado que o usuário esteja na página de planos
-    E que o usuário selecione o modo de operação "Isolado"
-    E que o usuário clique no botão apagar o estagio "E1"
-    Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
-    Quando o usuário responde sim
-    Então a quantidade de estagios na lista deverá ser 2
-
-  Cenário: Adicionar estágio novamente para o plano
-    Dado que o usuário esteja na página de planos
-    E que o usuário selecione o modo de operação "Isolado"
-    E o usuário decide adicionar o estágio removido "E1"
-    Então a quantidade de estagios na lista deverá ser 3
-
   Cenário: Configurar e Plano Isolado
     Dado que o usuário esteja na página de planos
     E que o usuário selecione o modo de operação "Isolado"
@@ -101,6 +99,12 @@ Funcionalidade: Fluxo de cadastro de planos
     E que o usuário clique no botão de configurar o estágio "E2"
     E que o usuário marque 12 segundos para o "Tempo de Verde"
     E que o usuário clique no botão de fechar a caixa de configuração
+
+  Cenário: Adicionar estágio novamente para o plano
+    Dado que o usuário esteja na página de planos
+    E que o usuário selecione o modo de operação "Isolado"
+    E o usuário decide adicionar o estágio removido "E1"
+    Então a quantidade de estagios na lista deverá ser 3
 
   Cenário: Copiar um plano
     Dado que o usuário esteja na página de planos
