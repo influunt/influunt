@@ -62,7 +62,6 @@ angular.module('influuntApp')
       };
 
       atualizaValorDefaultTempoMaximoPermanenciaEstagios = function(estagio) {
-        console.log('atualizando');
         var isVeicular = !!estagioVeicular(estagio);
         if(isVeicular && estagio.tempoMaximoPermanencia === $scope.objeto.maximoPermanenciaEstagioMin) {
           estagio.tempoMaximoPermanencia = $scope.objeto.defaultMaximoPermanenciaEstagioVeicular;
@@ -74,9 +73,11 @@ angular.module('influuntApp')
       estagioVeicular = function(estagio){
         return _.some(estagio.estagiosGruposSemaforicos, function(egs){
           var estagioGrupoSemaforico = _.find($scope.objeto.estagiosGruposSemaforicos, {idJson: egs.idJson});
-          var grupo = _.find($scope.objeto.gruposSemaforicos, {idJson: estagioGrupoSemaforico.grupoSemaforico.idJson});
-          if(grupo.tipo === 'VEICULAR'){
-            return true;
+          if(!estagioGrupoSemaforico._destroy){
+            var grupo = _.find($scope.objeto.gruposSemaforicos, {idJson: estagioGrupoSemaforico.grupoSemaforico.idJson});
+            if(grupo.tipo === 'VEICULAR'){
+              return true;
+            }
           }
           return false;
         });
@@ -92,6 +93,7 @@ angular.module('influuntApp')
       };
 
       $scope.atribuiTempoPermanencia = function(estagio) {
+        estagio.tempoMaximoPermanencia = $scope.objeto.maximoPermanenciaEstagioMin;
         atualizaValorDefaultTempoMaximoPermanenciaEstagios(estagio);
       };
 
