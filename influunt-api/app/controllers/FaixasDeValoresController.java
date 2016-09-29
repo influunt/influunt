@@ -42,8 +42,13 @@ public class FaixasDeValoresController extends Controller {
         }
 
         FaixasDeValores valoresParsed = Json.fromJson(json, FaixasDeValores.class);
-        valoresParsed.setId(valores.getId());
-        valoresParsed.update();
+        if (valores.getId() == null) {
+            valoresParsed.save();
+        } else {
+            valoresParsed.setId(valores.getId());
+            valoresParsed.update();
+        }
+
         return CompletableFuture.completedFuture(ok(Json.toJson(valoresParsed)));
     }
 

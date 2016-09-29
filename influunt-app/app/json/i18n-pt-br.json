@@ -642,6 +642,7 @@
     "titulo": "Faixas de Valores",
     "de": "de",
     "ate": "até",
+    "default": "Padrão",
     "editar": "Editar",
     "tempoDefasagem": "Tempo de Defasagem",
     "tempoAmarelo": "Tempo de Amarelo",
@@ -659,6 +660,7 @@
     "tempoExtensaoVerde": "Tempo de Extensão de Verde",
     "tempoVerde": "Tempo de Verde",
     "tempoAusenciaDeteccao": "Tempo de Ausência de Detecção",
-    "tempoDeteccaoPermanente": "Tempo de Detecção Permanente"
+    "tempoDeteccaoPermanente": "Tempo de Detecção Permanente",
+    "veicular": "Veicular"
   }
 }

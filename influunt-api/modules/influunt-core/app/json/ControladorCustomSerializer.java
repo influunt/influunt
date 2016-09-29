@@ -378,6 +378,7 @@ public class ControladorCustomSerializer {
         root.put("verdeSegurancaPedestreMax", rangeUtils.TEMPO_VERDE_SEGURANCA_PEDESTRE.getMax().toString());
         root.put("maximoPermanenciaEstagioMin", rangeUtils.TEMPO_MAXIMO_PERMANENCIA_ESTAGIO.getMin().toString());
         root.put("maximoPermanenciaEstagioMax", rangeUtils.TEMPO_MAXIMO_PERMANENCIA_ESTAGIO.getMax().toString());
+        root.put("defaultMaximoPermanenciaEstagioVeicular", rangeUtils.getDefaultMaximoPermanenciaEstagioVeicular());
         root.put("cicloMin", rangeUtils.TEMPO_CICLO.getMin().toString());
         root.put("cicloMax", rangeUtils.TEMPO_CICLO.getMax().toString());
         root.put("ausenciaDeteccaoMin", rangeUtils.TEMPO_AUSENCIA_DETECCAO.getMin().toString());

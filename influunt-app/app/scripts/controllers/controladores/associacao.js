@@ -12,7 +12,7 @@ angular.module('influuntApp')
     function ($scope, $state, $controller, assertControlador, utilEstagios) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
-      var atualizaPosicaoEstagios, onSortableStop, marcaGrupoEstagiosAtivos;
+      var atualizaPosicaoEstagios, onSortableStop, marcaGrupoEstagiosAtivos, atualizaValorDefaultTempoMaximoPermanenciaEstagios, estagioVeicular;
 
       /**
        * Pré-condições para acesso à tela de associações: Somente será possível acessar esta
@@ -61,6 +61,26 @@ angular.module('influuntApp')
         });
       };
 
+      atualizaValorDefaultTempoMaximoPermanenciaEstagios = function(estagio) {
+        console.log('atualizando');
+        var isVeicular = !!estagioVeicular(estagio);
+        if(isVeicular && estagio.tempoMaximoPermanencia === $scope.objeto.maximoPermanenciaEstagioMin) {
+          estagio.tempoMaximoPermanencia = $scope.objeto.defaultMaximoPermanenciaEstagioVeicular;
+        }else if(!isVeicular && estagio.tempoMaximoPermanencia === $scope.objeto.defaultMaximoPermanenciaEstagioVeicular){
+          estagio.tempoMaximoPermanencia = $scope.objeto.maximoPermanenciaEstagioMin;
+        }
+      };
+
+      estagioVeicular = function(estagio){
+        return _.some(estagio.estagiosGruposSemaforicos, function(egs){
+          var estagioGrupoSemaforico = _.find($scope.objeto.estagiosGruposSemaforicos, {idJson: egs.idJson});
+          var grupo = _.find($scope.objeto.gruposSemaforicos, {idJson: estagioGrupoSemaforico.grupoSemaforico.idJson});
+          if(grupo.tipo === 'VEICULAR'){
+            return true;
+          }
+          return false;
+        });
+      };
       /**
        * Limpa o tempo máximo de permanência do estágio caso o usuário uncheck o
        * checkbox de tempo máximo de permanência.
@@ -72,7 +92,7 @@ angular.module('influuntApp')
       };
 
       $scope.atribuiTempoPermanencia = function(estagio) {
-        estagio.tempoMaximoPermanencia = $scope.objeto.maximoPermanenciaEstagioMin;
+        atualizaValorDefaultTempoMaximoPermanenciaEstagios(estagio);
       };
 
       $scope.associaEstagiosGrupoSemaforico = function(grupo, estagio) {
@@ -110,6 +130,8 @@ angular.module('influuntApp')
           index = _.findIndex(estagio.estagiosGruposSemaforicos, {idJson: estagioGrupoSemaforico.idJson});
           estagio.estagiosGruposSemaforicos.splice(index, 1);
         }
+
+        atualizaValorDefaultTempoMaximoPermanenciaEstagios(estagio);
       };
 
       $scope.estagioTemErro = function(indiceAnel, indiceEstagio) {
