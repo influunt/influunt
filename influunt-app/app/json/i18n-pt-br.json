@@ -375,6 +375,14 @@
     "copiarPlano": {
       "mensagem": "selecione os planos que deverão copiar as configurações de "
     },
+    "verdeMinimoVeicular": {
+      "tituloAlert": "Verde de Segurança",
+      "mensagemAlert": "Tem certeza que deseja colocar o tempo de verde menor que o tempo de verde de segurança dos grupos semafóricos."
+    },
+    "verdeMinimoPedestre": {
+      "tituloAlert": "Verde de Segurança",
+      "mensagemAlert": "Não é permitido colocar o tempo de verde menor que o tempo de verde de segurança em estágio de pedestre."
+    },
     "modoOperacao": "MODO DE OPERAÇÃO",
     "modosOperacao": {
       "atuado": "Atuado",
