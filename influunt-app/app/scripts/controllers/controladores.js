@@ -424,7 +424,6 @@ angular.module('influuntApp')
 
 
       $scope.copiar = function(controladorId) {
-        console.log("OALALALALAALALAAL")
         return Restangular.one('controladores', controladorId).all("edit").customGET()
           .then(function(res) {
             $state.go('app.wizard_controladores.dados_basicos',{id: res.id});
@@ -451,7 +450,7 @@ angular.module('influuntApp')
 
       $scope.configurar = function(controladorId) {
         return Restangular.one('controladores', controladorId).all('pode_editar').customGET()
-          .then(function(res) {
+          .then(function() {
             $state.go('app.wizard_controladores.dados_basicos',{id: controladorId});
           })
           .catch(function(err) {
