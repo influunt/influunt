@@ -276,7 +276,8 @@ angular.module('influuntApp')
           idJson: UUID.generate(),
           tabelaHoraria: { idJson: tabelaHoraria.idJson },
           tipo: tipo,
-          dataMoment: moment()
+          dataMoment: moment(),
+          segundo: '0'
         };
 
         $scope.novosEventos = $scope.novosEventos || [];

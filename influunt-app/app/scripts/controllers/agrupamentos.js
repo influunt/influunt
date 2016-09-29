@@ -235,6 +235,7 @@ angular.module('influuntApp')
           registrarWatcherAneis();
           registrarWatcherControladoresSelecionadosHandle();
         }
+        $scope.objeto.segundo = $scope.objeto.segundo || '0';
       };
 
       atualizaHandles = function() {
