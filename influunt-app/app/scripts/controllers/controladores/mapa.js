@@ -43,6 +43,13 @@ angular.module('influuntApp')
 
       constroiFiltros = function() {
         $scope.filtro = $scope.filtro || {};
+
+        $scope.filtro.exibirAreas = true;
+        $scope.filtro.exibirControladores = true;
+        $scope.filtro.exibirAneis = true;
+        $scope.filtro.exibirSubareas = true;
+        $scope.filtro.exibirAgrupamentos = true;
+
         $scope.filtro.areas = _
           .chain($scope.listaControladores)
           .map('areas')

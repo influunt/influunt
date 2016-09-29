@@ -124,6 +124,8 @@ public class ControladorCustomSerializer {
     public JsonNode getControladoresForMapas(List<Controlador> controladores) {
         ArrayNode controladoresJson = Json.newArray();
         for (Controlador controlador : controladores) {
+//            ObjectNode root = (ObjectNode) getControladorJson(controlador);
+//            controladoresJson.add(root);
             ObjectNode root = Json.newObject();
             putControladorMapa(controlador, root);
 
@@ -135,10 +137,23 @@ public class ControladorCustomSerializer {
             putControladorAreas(root);
             putControladorLimites(root);
             putControladorEnderecos(root);
+
+            putControladorPlano(root);
+            putControladorGruposSemaforicos(root);
+            putControladorEstagios(root);
+            putControladorEstagiosPlanos(root);
+            putControladorEstagiosGruposSemaforicos(root);
+            putControladorTransicoes(root);
+            putControladorGruposSemaforicosPlanos(root);
+
+            putControladorTabelaEntreVerdes(root);
+            putControladorTabelaEntreVerdesTransicoes(root);
+
             controladoresJson.add(root);
         }
 
         return controladoresJson;
+//        return null;
     }
 
     public JsonNode getControladoresAgrupamentos(List<Controlador> controladores) {
