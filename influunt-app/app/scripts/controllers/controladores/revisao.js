@@ -210,6 +210,7 @@ angular.module('influuntApp')
               demandaPrioritaria: estagio.demandaPrioritaria,
               tempoMaximoPermanenciaAtivado: estagio.tempoMaximoPermanenciaAtivado,
               tempoMaximoPermanencia: estagio.tempoMaximoPermanencia,
+              tempoVerdeDemandaPrioritaria: estagio.tempoVerdeDemandaPrioritaria,
               imagem: $scope.getImagemDeEstagio(estagio)
             };
 
@@ -366,4 +367,11 @@ angular.module('influuntApp')
           });
         }
       };
+
+      $scope.$watch("currentGruposSemaforicos", function (){
+        if($scope.currentGruposSemaforicos){
+          $scope.gsTabelasEntreVerdes = $scope.currentGruposSemaforicos[0];
+          $scope.gsAtrasoGrupo = $scope.currentGruposSemaforicos[0];
+        }
+      });
     }]);

@@ -293,6 +293,15 @@ public class Anel extends Model implements Cloneable, Serializable {
         return !isAtivo() || getEndereco() != null;
     }
 
+    @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
+            message = "O anel ativo deve ter somente um estágio de demanda prioritária.")
+    public boolean isSomenteUmEstagioDeDemandaPrioritaria() {
+        if (this.isAtivo()) {
+            return this.getEstagios().stream().filter(estagio -> estagio.isDemandaPrioritaria()).count() <= 1;
+        }
+        return true;
+    }
+
     @AssertTrue(groups = PlanosCheck.class,
             message = "O anel ativo deve ter pelo menos 1 plano configurado.")
     public boolean isAoMenosUmPlanoConfigurado() {

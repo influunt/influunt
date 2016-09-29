@@ -20,11 +20,9 @@ var influunt;
       function DiagramaIntervalos(plano, valoresMinimos) {
         this.plano = plano;
         this.valoresMinimos = valoresMinimos;
-        this.gruposPosicoes = {};
       }
       DiagramaIntervalos.prototype.calcula = function () {
         var plano = this.plano;
-        var gruposPosicoes = this.gruposPosicoes;
         var valoresMinimos = this.valoresMinimos;
         var diagrama = createArray(plano.quantidadeGruposSemaforicos, plano.tempoCiclo);
         var estagios = [];
@@ -55,7 +53,6 @@ var influunt;
               var tempoAmareloOuVermelhoIntermitente = grupo.tipo == 'VEICULAR' ? tempoAmarelo : tempoVermelhoIntermitente;
               var tempoEntreVerde = tempoAmareloOuVermelhoIntermitente + tempoVermelhoLimpeza;
               var posicao = plano.posicaoGruposSemaforicos['G' + grupo.posicao];
-              gruposPosicoes[posicao] = grupo.posicao;
               if(!_.find(estagioAtual.gruposSemaforicos, {'id': grupo.id})){
                 if(tempoAtrasoGrupo > 0){
                   for(var t = tempoCiclo; t < tempoCiclo + tempoAtrasoGrupo; t++){
@@ -102,7 +99,7 @@ var influunt;
         return this.gerarDiagramaIntervalo(diagrama, estagios, plano.tempoCiclo);
       };
       DiagramaIntervalos.prototype.gerarDiagramaIntervalo = function (diagrama, estagios, tempoCiclo) {
-        var gruposPosicoes = this.gruposPosicoes;
+        var plano = this.plano;
         var size = _.chain(diagrama).map(function(i) { return i.length; }).max().value();
         diagrama.forEach(function(grupo) {
           for (i = grupo.length; i < size; i++) {
@@ -113,7 +110,7 @@ var influunt;
         for(var i = 0; i < diagrama.length; i++){
           resultado.gruposSemaforicos[i] = resultado.gruposSemaforicos[i] || {};
           resultado.gruposSemaforicos[i].posicao = (i + 1);
-          resultado.gruposSemaforicos[i].labelPosicao = gruposPosicoes[i];
+          resultado.gruposSemaforicos[i].labelPosicao = plano.labelsGruposSemaforicos[i];
           resultado.gruposSemaforicos[i].intervalos = resultado.gruposSemaforicos[i].intervalos || [];
           intervalos = resultado.gruposSemaforicos[i].intervalos;
           var status = diagrama[i][0];
