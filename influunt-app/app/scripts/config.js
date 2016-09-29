@@ -762,6 +762,17 @@ angular
           }
         })
 
+        // SIMULACAO
+        .state('app.simulacao', {
+          url: '/simulacao',
+          templateUrl: 'views/simulacao/index.html',
+          controller: 'SimulacaoCtrl',
+          controllerAs: 'simulacao',
+          data: {
+            title: 'simulacao.titulo',
+          }
+        })
+
         // FAIXAS DE VALORES
         .state('app.faixas_de_valores_edit', {
           url: '/faixas_de_valores/edit',
