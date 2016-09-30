@@ -125,20 +125,14 @@ angular.module('influuntApp')
        */
       atualizaPosicaoGrupos = function() {
         var posicao = 0;
-        _.chain($scope.aneis)
-          .map('gruposSemaforicos')
-          .flatten()
-          .map('idJson')
-          .compact()
-          .map(function(idJson) { return _.find($scope.objeto.gruposSemaforicos, {idJson: idJson}); })
-          .orderBy(['posicao'])
-          .each(function(obj) {
-
-            if (!obj._destroy) {
-              obj.posicao = ++posicao;
+        _.each($scope.aneis, function(anel){
+          _.each(anel.gruposSemaforicos, function(grupo){
+            var grupoSemaforico = _.find($scope.objeto.gruposSemaforicos, {idJson: grupo.idJson});
+            if (!grupoSemaforico._destroy) {
+              grupoSemaforico.posicao = ++posicao;
             }
-          })
-          .value();
+          });
+        });
       };
 
     }]);
