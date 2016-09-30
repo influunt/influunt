@@ -487,7 +487,7 @@ angular.module('influuntApp')
           .all('ativar')
           .customPUT()
           .then(function() {
-            $scope.index();
+            return $scope.index();
           })
           .catch(function(err) {
             toast.clear();

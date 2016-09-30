@@ -90,8 +90,9 @@ angular.module('influuntApp')
                 break;
             }
           }
+
           query[field] = valor;
-        }else {
+        } else {
           if (dadosFiltro.start) {
             if(angular.isString(dadosFiltro.start)) {
               dadosFiltro.start = moment(dadosFiltro.start, 'DD/MM/YYYY');

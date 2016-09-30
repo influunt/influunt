@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Conjunto de funções auxiliares utilizadas pelos testes do wizard de controladores.
  *

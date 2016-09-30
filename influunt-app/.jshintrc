@@ -34,10 +34,14 @@
     "expect": true,
     "inject": true,
     "it": true,
-    "spyOn": true,
+    "jasmine": true,
     "Paho": true,
+    "spyOn": true,
+
     // tests helpers
-    "WizardControladores": true
+    "WizardControladores": true,
+    "ControladorBasico": true,
+    "ControladorComPlanos": true
   }
 }
 

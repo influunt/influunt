@@ -26,7 +26,6 @@ describe('Controller: ControladoresAneisCtrl', function () {
     $httpBackend.expectGET('/helpers/controlador').respond(helpers);
     scope.inicializaWizard();
     $httpBackend.flush();
-
   }));
 
   it('Deve conter as definições de funções do ControladorCtrl', function() {

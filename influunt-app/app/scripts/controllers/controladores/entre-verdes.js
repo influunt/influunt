@@ -322,6 +322,7 @@ angular.module('influuntApp')
             posicoesGrupos.push(posicaoGrupo);
           }
         });
+
         return msg + _.map(posicoesGrupos, function(posicao) { return "G"+posicao; }).join(", ");
       };
 
