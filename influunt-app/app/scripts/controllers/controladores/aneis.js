@@ -16,7 +16,8 @@ angular.module('influuntApp')
 
       // Métodos privados.
       var ativaPrimeiroAnel, inicializaEnderecos, atualizarAneisAtivos, registrarWatcherCurrentAnel, setDadosBasicos,
-      setandoEnderecoByAnel, watcherEndereco, setarImagensEstagios, inicializaObjetoCroqui, deletarCroquiNoServidor;
+      setandoEnderecoByAnel, watcherEndereco, setarImagensEstagios, inicializaObjetoCroqui, deletarCroquiNoServidor,
+      deletarPlanosTabelasHorariosNoServidor;
 
       /**
        * Pré-condições para acesso à tela de aneis: Somente será possível acessar esta
@@ -84,6 +85,8 @@ angular.module('influuntApp')
         anel.estagios.push({idJson: uuid});
         $scope.objeto.estagios.push(estagio);
         $scope.objeto.imagens.push(_imagem);
+
+        deletarPlanosTabelasHorariosNoServidor();
       };
 
       $scope.adicionarCroqui = function(upload, imagem, anelIdJson) {
@@ -137,6 +140,8 @@ angular.module('influuntApp')
         $scope.objeto.imagens.splice(imagemIndex, 1);
         $scope.objeto.estagios.splice(estagioIndex, 1);
         anel.estagios.splice(estagioAnelIndex, 1);
+
+        deletarPlanosTabelasHorariosNoServidor();
       };
 
       $scope.deletarEstagio = function(estagioIdJson) {
@@ -298,5 +303,9 @@ angular.module('influuntApp')
             nomeImagem: croqui.filename
           };
         }
+      };
+
+      deletarPlanosTabelasHorariosNoServidor = function() {
+        return Restangular.one('controladores', $scope.objeto.id).customDELETE('remover_planos_tabelas_horarios').finally(influuntBlockui.unblock);
       };
   }]);

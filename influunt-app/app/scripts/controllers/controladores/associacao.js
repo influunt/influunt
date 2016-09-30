@@ -8,11 +8,12 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresAssociacaoCtrl', ['$scope', '$state', '$controller', 'assertControlador', 'utilEstagios',
-    function ($scope, $state, $controller, assertControlador, utilEstagios) {
+  .controller('ControladoresAssociacaoCtrl', ['$scope', '$state', '$controller', 'assertControlador', 'utilEstagios', 'Restangular', 'influuntBlockui',
+    function ($scope, $state, $controller, assertControlador, utilEstagios, Restangular, influuntBlockui) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
-      var atualizaPosicaoEstagios, onSortableStop, marcaGrupoEstagiosAtivos, atualizaValorDefaultTempoMaximoPermanenciaEstagios, estagioVeicular;
+
+      var atualizaPosicaoEstagios, onSortableStop, marcaGrupoEstagiosAtivos, atualizaValorDefaultTempoMaximoPermanenciaEstagios, estagioVeicular, deletarPlanosTabelasHorariosNoServidor;
 
       /**
        * Pré-condições para acesso à tela de associações: Somente será possível acessar esta
@@ -134,6 +135,7 @@ angular.module('influuntApp')
         }
 
         atualizaValorDefaultTempoMaximoPermanenciaEstagios(estagio);
+        deletarPlanosTabelasHorariosNoServidor();
       };
 
       $scope.estagioTemErro = function(indiceAnel, indiceEstagio) {
@@ -152,7 +154,7 @@ angular.module('influuntApp')
         var errors = _.get($scope.errors, 'aneis[' + indiceAnel + '].gruposSemaforicos[' + indiceGrupo + ']');
         return errors;
       };
-      
+
       $scope.getErrosAneis = function(listaErros) {
         var erros = _
           .chain(listaErros)
@@ -229,5 +231,9 @@ angular.module('influuntApp')
         stop: function() {
           $scope.$apply(onSortableStop);
         }
+      };
+
+      deletarPlanosTabelasHorariosNoServidor = function() {
+        return Restangular.one('controladores', $scope.objeto.id).customDELETE('remover_planos_tabelas_horarios').finally(influuntBlockui.unblock);
       };
     }]);
