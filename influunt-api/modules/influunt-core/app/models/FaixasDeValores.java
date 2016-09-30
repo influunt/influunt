@@ -111,6 +111,10 @@ public class FaixasDeValores extends Model implements Cloneable, Serializable {
 
     @Column
     @NotNull(message = "não pode ficar em branco")
+    private Integer defaultTempoMaximoPermanenciaEstagioVeicular;
+
+    @Column
+    @NotNull(message = "não pode ficar em branco")
     private Integer tempoCicloMin;
 
     @Column
@@ -350,6 +354,14 @@ public class FaixasDeValores extends Model implements Cloneable, Serializable {
         this.tempoMaximoPermanenciaEstagioMax = tempoMaximoPermanenciaEstagioMax;
     }
 
+    public Integer getDefaultTempoMaximoPermanenciaEstagioVeicular() {
+        return defaultTempoMaximoPermanenciaEstagioVeicular;
+    }
+
+    public void setDefaultTempoMaximoPermanenciaEstagioVeicular(Integer defaultTempoMaximoPermanenciaEstagioVeicular) {
+        this.defaultTempoMaximoPermanenciaEstagioVeicular = defaultTempoMaximoPermanenciaEstagioVeicular;
+    }
+
     public Integer getTempoCicloMin() {
         return tempoCicloMin;
     }
@@ -519,6 +531,7 @@ public class FaixasDeValores extends Model implements Cloneable, Serializable {
         valores.setTempoVerdeSegurancaPedestreMax(10);
         valores.setTempoMaximoPermanenciaEstagioMin(60);
         valores.setTempoMaximoPermanenciaEstagioMax(255);
+        valores.setDefaultTempoMaximoPermanenciaEstagioVeicular(127);
         valores.setTempoCicloMin(30);
         valores.setTempoCicloMax(255);
         valores.setTempoVerdeMinimoMin(10);
