@@ -919,7 +919,6 @@ public class ControladorCustomSerializer {
 
         if (estagioPlano.getPlano() != null && estagioPlano.getPlano().getIdJson() != null) {
             estagioPlanoJson.putObject("plano").put("idJson", estagioPlano.getPlano().getIdJson().toString());
-            estagioPlanoJson.put("tempoEstagio", estagioPlano.getPlano().getTempoEstagio(estagioPlano));
         }
 
         if (estagioPlano.getEstagio() != null && estagioPlano.getEstagio().getIdJson() != null) {

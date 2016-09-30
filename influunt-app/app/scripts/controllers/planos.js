@@ -540,7 +540,10 @@ angular.module('influuntApp')
           if (errosultrapassaTempoCiclo) {
             _.each(errosultrapassaTempoCiclo, function (errosNoPlano){
               if(errosNoPlano) {
-                var texto = errosNoPlano.replace("{temposEstagios}", _.sumBy($scope.currentEstagiosPlanos, function(o) { return o.tempoEstagio; })).replace("{tempoCiclo}", $scope.currentPlano.tempoCiclo);
+                var texto = errosNoPlano.replace("{temposEstagios}", _.sumBy($scope.currentEstagiosPlanos, function(o) { 
+                  return o.tempoEstagio || 0; 
+                }))
+                .replace("{tempoCiclo}", $scope.currentPlano.tempoCiclo);
                 erros.push(texto);
               }
             });
@@ -884,13 +887,22 @@ angular.module('influuntApp')
           var diagramaBuilder = new influunt.components.DiagramaIntervalos($scope.plano, $scope.valoresMinimos);
           var result = diagramaBuilder.calcula();
 
+          var estagiosPlanos = _.chain($scope.objeto.estagiosPlanos)
+            .filter(function(ep) { return ep.plano.idJson === $scope.currentPlano.idJson; })
+            .orderBy(['posicao'])
+            .value();
+
+          _.each(result.estagios, function(e) {
+            var estagioPlano =  estagiosPlanos[e.posicao-1];
+            estagioPlano.tempoEstagio = e.duracao;
+          });
+
+          var gruposSemaforicos = _.chain($scope.objeto.gruposSemaforicos)
+            .filter(function(gs) { return gs.anel.idJson === $scope.currentAnel.idJson; })
+            .orderBy(['posicao'])
+            .value();
+
           _.each(result.gruposSemaforicos, function(g) {
-
-            var gruposSemaforicos = _.chain($scope.objeto.gruposSemaforicos)
-              .filter(function(gs) { return gs.anel.idJson === $scope.currentAnel.idJson; })
-              .orderBy(['posicao'])
-              .value();
-
             var grupo = gruposSemaforicos[g.posicao-1];
             var grupoPlano = _.find($scope.plano.gruposSemaforicosPlanos, {grupoSemaforico: {idJson: grupo.idJson}, plano: {idJson: $scope.plano.idJson}});
             g.ativado = grupoPlano.ativado;
