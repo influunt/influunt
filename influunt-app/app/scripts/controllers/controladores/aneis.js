@@ -9,9 +9,9 @@
  */
 angular.module('influuntApp')
   .controller('ControladoresAneisCtrl', ['$scope', '$state', '$controller', '$q', '$filter', 'assertControlador',
-                                         'influuntAlert', 'Restangular', 'toast', 'influuntBlockui',
+                                         'influuntAlert', 'Restangular', 'toast', 'influuntBlockui', 'removerPlanosTabelasHorarias',
     function ($scope, $state, $controller, $q, $filter, assertControlador,
-              influuntAlert, Restangular, toast, influuntBlockui) {
+              influuntAlert, Restangular, toast, influuntBlockui, removerPlanosTabelasHorarias) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
       // Métodos privados.
@@ -84,6 +84,8 @@ angular.module('influuntApp')
         anel.estagios.push({idJson: uuid});
         $scope.objeto.estagios.push(estagio);
         $scope.objeto.imagens.push(_imagem);
+
+        removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor($scope.objeto.id);
       };
 
       $scope.adicionarCroqui = function(upload, imagem, anelIdJson) {
@@ -137,6 +139,8 @@ angular.module('influuntApp')
         $scope.objeto.imagens.splice(imagemIndex, 1);
         $scope.objeto.estagios.splice(estagioIndex, 1);
         anel.estagios.splice(estagioAnelIndex, 1);
+
+        removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor($scope.objeto.id);
       };
 
       $scope.deletarEstagio = function(estagioIdJson) {

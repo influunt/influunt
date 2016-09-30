@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresConfiguracaoGruposCtrl', ['$scope', '$controller', '$state', '$filter', 'assertControlador', 'influuntAlert',
-    function ($scope, $controller, $state, $filter, assertControlador, influuntAlert) {
+  .controller('ControladoresConfiguracaoGruposCtrl', ['$scope', '$controller', '$state', '$filter', 'assertControlador', 'influuntAlert', 'removerPlanosTabelasHorarias',
+    function ($scope, $controller, $state, $filter, assertControlador, influuntAlert, removerPlanosTabelasHorarias) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
       var atualizaPosicaoGrupos, removeGrupoSalvo, removeGrupoLocal;
@@ -57,6 +57,7 @@ angular.module('influuntApp')
         $scope.currentAnel.gruposSemaforicos.push({ idJson: obj.idJson });
 
         $scope.atualizaGruposSemaforicos();
+        removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor($scope.objeto.id);
         return atualizaPosicaoGrupos();
       };
 
@@ -70,6 +71,7 @@ angular.module('influuntApp')
             }
 
             $scope.atualizaGruposSemaforicos();
+            removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor($scope.objeto.id);
             return atualizaPosicaoGrupos();
           }
         });

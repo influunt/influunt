@@ -121,6 +121,7 @@ describe('Controller: ControladoresAneisCtrl', function () {
         imagens: [{id: 'imagem-1', idJson: 'imagem-1'}],
       };
       scope.currentAnel = scope.objeto.aneis[0];
+      $httpBackend.expectDELETE('/controladores/remover_planos_tabelas_horarios').respond({});
       scope.removerEstagio({id: 'imagem-1'});
       scope.$apply();
     });

@@ -373,6 +373,18 @@ public class ControladoresController extends Controller {
         }
     }
 
+    @Transactional
+    @Dynamic("Influunt")
+    public CompletionStage<Result> removerPlanosTabelasHorarios(String id) {
+        Controlador controlador = Controlador.find.byId(UUID.fromString(id));
+        if (controlador == null) {
+            return CompletableFuture.completedFuture(notFound());
+        } else {
+            controlador.removerPlanosTabelasHorarios();
+            return CompletableFuture.completedFuture(ok());
+        }
+    }
+
     private CompletionStage<Result> doStep(Class<?>... validationGroups) {
         if (request().body() == null) {
             return CompletableFuture.completedFuture(badRequest());

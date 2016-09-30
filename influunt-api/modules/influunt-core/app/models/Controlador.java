@@ -663,4 +663,23 @@ public class Controlador extends Model implements Cloneable, Serializable {
                 ControladorAssociacaoDetectoresCheck.class).size() == 0;
 
     }
+
+    /**
+     * Metodo utilizado para remoção dos {@link Plano} e {@link TabelaHorario} toda vez que houver necessidade
+     */
+    public void removerPlanosTabelasHorarios() {
+        getAneis().forEach(anel -> {
+            if(anel.getVersaoPlano() != null) {
+                anel.getVersaoPlano().delete();
+            }
+            anel.getPlanos().forEach(plano -> plano.delete());
+        });
+
+        if(getTabelaHoraria() != null) {
+            getTabelaHoraria().delete();
+        }
+        if(getVersaoTabelaHoraria() != null) {
+            getVersaoTabelaHoraria().delete();
+        }
+    }
 }
