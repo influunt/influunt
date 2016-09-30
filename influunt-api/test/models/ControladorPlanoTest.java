@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static play.mvc.Http.Status.OK;
 import static play.mvc.Http.Status.UNPROCESSABLE_ENTITY;
 import static play.test.Helpers.route;
@@ -765,8 +766,6 @@ public class ControladorPlanoTest extends ControladorTest {
         EstagioPlano estagioPlano3 = plano.getEstagiosPlanos().stream().filter(estagioPlano -> estagioPlano.getPosicao().equals(3)).findAny().get();
         EstagioPlano estagioPlano4 = plano.getEstagiosPlanos().stream().filter(estagioPlano -> estagioPlano.getPosicao().equals(4)).findAny().get();
 
-        //List<Erro> erros = getErros(controlador);
-
         //1 - 4 - 3 - 2
         estagioPlano1.setPosicao(1);
         estagioPlano2.setPosicao(4);
@@ -824,6 +823,54 @@ public class ControladorPlanoTest extends ControladorTest {
         ));
     }
 
+    @Test
+    public void sequenciaEstagio() {
+        Controlador controlador = getControladorPlanos();
+        Anel anel = controlador.getAneis().stream().filter(anel1 -> anel1.isAtivo() && anel1.getEstagios().size() == 4).findFirst().get();
+        Plano plano = anel.getPlanos().get(0);
+
+        plano.setModoOperacao(ModoOperacaoPlano.TEMPO_FIXO_ISOLADO);
+        plano.setTempoCiclo(128);
+
+        criarEstagioPlano(anel, plano, new int[]{1, 3, 2, 4});
+        EstagioPlano estagioPlano1 = plano.getEstagiosPlanos().stream().filter(estagioPlano -> estagioPlano.getPosicao().equals(1)).findAny().get();
+        EstagioPlano estagioPlano2 = plano.getEstagiosPlanos().stream().filter(estagioPlano -> estagioPlano.getPosicao().equals(2)).findAny().get();
+        EstagioPlano estagioPlano3 = plano.getEstagiosPlanos().stream().filter(estagioPlano -> estagioPlano.getPosicao().equals(3)).findAny().get();
+        EstagioPlano estagioPlano4 = plano.getEstagiosPlanos().stream().filter(estagioPlano -> estagioPlano.getPosicao().equals(4)).findAny().get();
+
+        estagioPlano1.setTempoVerde(10);
+        estagioPlano2.setTempoVerde(10);
+        estagioPlano3.setTempoVerde(10);
+        estagioPlano4.setTempoVerde(10);
+
+        List<Erro> erros = getErros(controlador);
+        assertEquals(1, erros.size());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+                new Erro(CONTROLADOR, "A sequência de estagio não é válida.", "aneis[0].versoesPlanos[0].planos[0].sequenciaInvalida")
+        ));
+
+        criarEstagioPlano(anel, plano, new int[]{1, 4, 3, 2});
+        estagioPlano1 = plano.getEstagiosPlanos().stream().filter(estagioPlano -> estagioPlano.getPosicao().equals(1)).findAny().get();
+        estagioPlano2 = plano.getEstagiosPlanos().stream().filter(estagioPlano -> estagioPlano.getPosicao().equals(2)).findAny().get();
+        estagioPlano3 = plano.getEstagiosPlanos().stream().filter(estagioPlano -> estagioPlano.getPosicao().equals(3)).findAny().get();
+        estagioPlano4 = plano.getEstagiosPlanos().stream().filter(estagioPlano -> estagioPlano.getPosicao().equals(4)).findAny().get();
+
+        estagioPlano1.setTempoVerde(10);
+        estagioPlano2.setTempoVerde(10);
+        estagioPlano3.setTempoVerde(10);
+        estagioPlano4.setTempoVerde(10);
+
+        erros = getErros(controlador);
+        assertThat(erros, Matchers.empty());
+
+        estagioPlano2.setDispensavel(true);
+
+        erros = getErros(controlador);
+        assertEquals(1, erros.size());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+                new Erro(CONTROLADOR, "A sequência de estagio não é válida, pois existe uma transição proibida devido a não execução do estágio dispensável.", "aneis[0].versoesPlanos[0].planos[0].sequenciaInvalidaSeExisteEstagioDispensavel")
+        ));
+    }
 
     @Test
     public void testCancelaEdicaoPlano() {
