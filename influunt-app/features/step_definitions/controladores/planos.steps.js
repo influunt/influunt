@@ -156,11 +156,25 @@ module.exports = function() {
     return planosPage.clickInPlano(numeroPlano);
   });
 
+  this.Given(/^o usuário queira limpar o plano (\d+)$/, function(numeroPlano){
+    return planosPage.clickInPlano(numeroPlano);
+  });
+
   this.Given(/^o sistema deverá apresentar erro de "([^"]*)"$/, function (texto) {
     return planosPage.errosImpeditivos(texto);
   });
 
   this.Given(/^o sistema deverá mostrar erro no plano (\d+)$/, function (numeroPlano) {
     return planosPage.errosInPlanos(numeroPlano);
+  });
+
+  this.Given(/^o usuário responde sim para verde de segurança/, function () {
+    return planosPage.clicarSimVerdeSeguranca();
+  });
+
+  this.Given(/^o sistema deverá mostar um alerta para verdes segurança menor$/, function () {
+    return planosPage.alertVerdeSeguranca().then(function(text) {
+      expect(text).to.equal('Tem certeza que deseja colocar o tempo de verde menor que o tempo de verde de segurança dos grupos semafóricos?');
+    });
   });
 };

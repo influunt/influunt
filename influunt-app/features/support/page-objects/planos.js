@@ -207,6 +207,16 @@ var PlanosPage = function () {
       return world.getElementByXpath('//li[contains (@id, "'+numeroPlano+'")]//ins[contains(@class, "iCheck-helper")]').click();
     });
   };
+
+  this.clicarSimVerdeSeguranca = function(){
+    return world.waitFor('div[class^="sweet-alert"][class$="visible"]').then(function() {
+      return world.getElementByXpath('//button[contains(@class, "confirm")]').click();
+    });
+  };
+
+  this.alertVerdeSeguranca = function() {
+    return world.getTextInSweetAlert();
+  };
 };
 
 module.exports = PlanosPage;

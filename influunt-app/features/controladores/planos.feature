@@ -85,9 +85,13 @@ Funcionalidade: Fluxo de cadastro de planos
     E que o usuário selecione o modo de operação "Isolado"
     E que o usuário clique no botão de configurar o estágio "E1"
     E que o usuário marque 9 segundos para o "Tempo de Verde"
+    Então o sistema deverá mostar um alerta para verdes segurança menor
+    E o usuário responde sim para verde de segurança
     E que o usuário clique no botão de fechar a caixa de configuração
     E que o usuário clique no botão de configurar o estágio "E2"
     E que o usuário marque 9 segundos para o "Tempo de Verde"
+    Então o sistema deverá mostar um alerta para verdes segurança menor
+    Quando o usuário responde sim para verde de segurança
     E que o usuário clique no botão de fechar a caixa de configuração
     E que o usuário clique no botão de configurar o estágio "E3"
     E que o usuário marque 6 segundos para o "Tempo de Verde"
@@ -112,7 +116,7 @@ Funcionalidade: Fluxo de cadastro de planos
   Cenário: Adicionar estágio novamente para o plano
     Dado que o usuário esteja na página de planos
     E que o usuário selecione o modo de operação "Isolado"
-    E o usuário decide adicionar o estágio removido "E1"
+    E o usuário decide adicionar o estágio removido "+E1"
     Então a quantidade de estagios na lista deverá ser 3
 
   Cenário: Copiar um plano
@@ -131,13 +135,16 @@ Funcionalidade: Fluxo de cadastro de planos
     Quando o usuário responde sim
     Então o sistema deve alterar o nome para "PLANO 77"
 
-  Cenário: Tentar Salvar salvar o plano incorreto
+  Cenário: Tentar salvar o plano incorreto
     Dado que o usuário esteja na página de planos
+    Então o sistema deverá apresentar erro de "Tempo de Ciclo é diferente da soma dos tempos dos estágios."
+    E que o usuário marque 45 segundos para o "TEMPO DE CICLO"
     E o usuário clicar em salvar
-    Então o sistema deverá apresentar erro de "G1 - O tempo de verde está menor que o tempo de segurança configurado."
     E o sistema deverá apresentar erro de "G2 - O tempo de verde está menor que o tempo de segurança configurado."
     E o sistema deverá mostrar erro no plano 1
     E o sistema deverá mostrar erro no plano 16
+    Então o usuário queira limpar o plano 16
+    E o usuário responde sim
 
   Cenário: Salvar o Plano no modo Isolado
     Dado que o usuário esteja na página de planos
@@ -151,7 +158,5 @@ Funcionalidade: Fluxo de cadastro de planos
     E que o usuário clique no botão de configurar o estágio "E3"
     E que o usuário marque 13 segundos para o "Tempo de Verde"
     E que o usuário clique no botão de fechar a caixa de configuração
-    E que o usuário clicar no plano 16
-    E o usuário responde sim
     E o usuário clicar em salvar
     Então o sistema deverá redirecionar o usuário para a página de listagem de controladores
