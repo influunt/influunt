@@ -85,7 +85,7 @@ angular.module('influuntApp')
         $scope.objeto.estagios.push(estagio);
         $scope.objeto.imagens.push(_imagem);
 
-        removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor();
+        removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor($scope.objeto.id);
       };
 
       $scope.adicionarCroqui = function(upload, imagem, anelIdJson) {
@@ -140,7 +140,7 @@ angular.module('influuntApp')
         $scope.objeto.estagios.splice(estagioIndex, 1);
         anel.estagios.splice(estagioAnelIndex, 1);
 
-        removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor();
+        removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor($scope.objeto.id);
       };
 
       $scope.deletarEstagio = function(estagioIdJson) {

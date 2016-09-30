@@ -57,7 +57,7 @@ angular.module('influuntApp')
         $scope.currentAnel.gruposSemaforicos.push({ idJson: obj.idJson });
 
         $scope.atualizaGruposSemaforicos();
-        removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor();
+        removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor($scope.objeto.id);
         return atualizaPosicaoGrupos();
       };
 
@@ -71,7 +71,7 @@ angular.module('influuntApp')
             }
 
             $scope.atualizaGruposSemaforicos();
-            removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor();
+            removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor($scope.objeto.id);
             return atualizaPosicaoGrupos();
           }
         });

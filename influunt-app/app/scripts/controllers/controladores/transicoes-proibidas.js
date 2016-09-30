@@ -225,7 +225,7 @@ angular.module('influuntApp')
           }
         };
 
-        removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor();
+        removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor($scope.objeto.id);
         $scope.verificaConfirmacaoNadaHaPreencher();
       };
 
@@ -266,7 +266,7 @@ angular.module('influuntApp')
           }
         }
 
-        removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor();
+        removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor($scope.objeto.id);
         $scope.verificaConfirmacaoNadaHaPreencher();
       };
 

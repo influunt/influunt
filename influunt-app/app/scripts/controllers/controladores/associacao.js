@@ -135,7 +135,7 @@ angular.module('influuntApp')
         }
 
         atualizaValorDefaultTempoMaximoPermanenciaEstagios(estagio);
-        removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor();
+        removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor($scope.objeto.id);
       };
 
       $scope.estagioTemErro = function(indiceAnel, indiceEstagio) {
