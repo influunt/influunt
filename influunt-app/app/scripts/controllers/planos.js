@@ -317,10 +317,12 @@ angular.module('influuntApp')
       };
 
       $scope.getImagemDeEstagio = function(estagioPlano) {
-        var ep = _.find($scope.objeto.estagiosPlanos, {idJson: estagioPlano.idJson});
-        var estagio = _.find($scope.objeto.estagios, {idJson: ep.estagio.idJson});
-        var imagem = _.find($scope.objeto.imagens, {idJson: estagio.imagem.idJson});
-        return imagem && $filter('imageSource')(imagem.id);
+        if(estagioPlano.idJson){
+          var ep = _.find($scope.objeto.estagiosPlanos, {idJson: estagioPlano.idJson});
+          var estagio = _.find($scope.objeto.estagios, {idJson: ep.estagio.idJson});
+          var imagem = _.find($scope.objeto.imagens, {idJson: estagio.imagem.idJson});
+          return imagem && $filter('imageSource')(imagem.id);
+        }
       };
 
       $scope.getEstagio = function(estagioPlano) {
@@ -380,6 +382,9 @@ angular.module('influuntApp')
        * @param      {<type>}  plano   The plano
        */
       $scope.limpaDadosPlano = function() {
+        $timeout(function(){
+          atualizaEstagiosPlanos();
+        });
         var plano = $scope.currentPlano;
         if (plano.modoOperacao === 'ATUADO') {
           plano.tempoCiclo = null;

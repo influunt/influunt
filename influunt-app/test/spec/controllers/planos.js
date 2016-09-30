@@ -158,4 +158,33 @@ describe('Controller: PlanosCtrl', function () {
       expect(toast.error).toHaveBeenCalled();
     }));
   });
+  
+  describe('bugs', function () {
+    var deferred;
+    beforeEach(inject(function(influuntAlert, $q) {
+      beforeEachFn(ControladorComPlanos);
+      // Mocks a call for confirm method and calls the promise function.
+      deferred = $q.defer();
+      spyOn(influuntAlert, 'delete').and.returnValue(deferred.promise);
+    }));
+    
+    it('Adicionar, remover e trocar modo de operação', function() {
+      var estagioPlano = _.find(scope.objeto.estagiosPlanos, {idJson: scope.currentPlano.estagiosPlanos[0].idJson});
+      expect(scope.currentPlano.estagiosPlanos.length).toBe(3);
+
+      scope.adicionarEstagioPlano(estagioPlano);
+      expect(scope.currentPlano.estagiosPlanos.length).toBe(4);
+
+      var estagioPlano = _.find(scope.objeto.estagiosPlanos, {idJson: scope.currentPlano.estagiosPlanos[0].idJson});
+      scope.removerEstagioPlano(estagioPlano);
+      deferred.resolve(true);
+      scope.$apply();
+      expect(scope.currentPlano.estagiosPlanos.length).toBe(3);
+
+      scope.currentPlano.modoOperacao = 'ATUADO';
+      scope.limpaDadosPlano();
+
+      expect(scope.currentPlano.estagiosPlanos.length).toBe(3);
+    });
+  });
 });
