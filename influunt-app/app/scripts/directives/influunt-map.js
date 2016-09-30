@@ -30,8 +30,9 @@ angular.module('influuntApp')
         var HULL_CONCAVITY = 0.0013;
 
         // private methods.
-        var addAreas, addMarkers, addAgrupamentos, createArea, createMarker, createAgrupamento, getConcaveHullPoints,
-          getBoundingBox, initializeMap, agrupaAneis, getAreaTitle;
+        var addAgrupamentos, addAreas, addMarkers, agrupaAneis, createAgrupamento, createArea, createMarker,
+            getAreaTitle, getBoundingBox, getConcaveHullPoints, initializeMap, renderAgrupamentos, renderAreas,
+            renderMarkers, setView;
         var map, markersLayer, areasLayer, agrupamentosLayer, polylineLayer;
 
         initializeMap = function() {
@@ -73,7 +74,7 @@ angular.module('influuntApp')
                 scope.onClickMarker({$markerData: markerData});
             });
 
-          map.setView([obj.latitude, obj.longitude]);
+          // map.setView([obj.latitude, obj.longitude]);
           return marker;
         };
 
@@ -207,36 +208,54 @@ angular.module('influuntApp')
           map.addLayer(polylineLayer);
         };
 
-        scope.$watch('markers', function(markers) {
-          initializeMap();
-          if (_.isObject(markersLayer)) {
-            map.removeLayer(markersLayer);
-          }
 
-          if (_.isPlainObject(markers) && angular.isDefined(map)) {
-            addMarkers([markers]);
-          }
+        var markersTimeout, areasTimeout, agrupamentosTimeout;
+        renderMarkers = function(markers) {
+          initializeMap();
+          if (_.isObject(markersLayer)) { map.removeLayer(markersLayer); }
+
+          if (_.isPlainObject(markers) && angular.isDefined(map)) { addMarkers([markers]); }
 
           if (_.isArray(markers) && markers.length > 0 && angular.isDefined(map)) {
             addMarkers(markers);
             agrupaAneis(markers);
           }
+        };
+
+        renderAreas = function(areas) {
+          initializeMap();
+          if (_.isArray(areas) && angular.isDefined(map)) { addAreas(areas); }
+
+          setView();
+        };
+
+        renderAgrupamentos = function(agrupamentos) {
+          initializeMap();
+          if (_.isArray(agrupamentos) && angular.isDefined(map)) { addAgrupamentos(agrupamentos); }
+        };
+
+        setView = function() {
+          if (angular.isDefined(areasLayer)) {
+            var layers = _.filter(areasLayer.getLayers(), 'getBounds');
+            var group = new L.featureGroup(layers);
+            var bounds = group.getBounds();
+            return bounds.isValid() && map.fitBounds(bounds);
+          }
+        };
+
+        scope.$watch('markers', function(markers) {
+          clearTimeout(markersTimeout);
+          markersTimeout = setTimeout(function() {renderMarkers(markers);}, 200);
         }, true);
 
         scope.$watch('areas', function(areas) {
-          initializeMap();
-
-          if (_.isArray(areas) && angular.isDefined(map)) {
-            addAreas(areas);
-          }
+          clearTimeout(areasTimeout);
+          areasTimeout = setTimeout(function() {renderAreas(areas);}, 200);
         }, true);
 
         scope.$watch('agrupamentos', function(agrupamentos) {
-          initializeMap();
-
-          if (_.isArray(agrupamentos) && angular.isDefined(map)) {
-            addAgrupamentos(agrupamentos);
-          }
+          clearTimeout(agrupamentosTimeout);
+          agrupamentosTimeout = setTimeout(function() {renderAgrupamentos(agrupamentos);}, 200);
         }, true);
       }
     };

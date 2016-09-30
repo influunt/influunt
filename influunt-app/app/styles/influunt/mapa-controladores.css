@@ -1,0 +1,142 @@
+.mapa-container .leaflet-left {
+  left: 10px;
+  -webkit-transition-duration: 0.8s;
+          transition-duration: 0.8s;
+}
+
+.mapa-container .leaflet-left.open {
+  left: 210px;
+}
+
+.mapa-container .ajutes.theme-config {
+  height: 100%;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid #ddd;
+  top: 0;
+  left: 0;
+  right: auto;
+}
+
+.mapa-container .ajutes.theme-config .theme-config-box {
+  margin-left: -240px;
+  margin-right: auto;
+}
+
+.mapa-container .ajutes.theme-config .theme-config-box.open {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.mapa-container .ajutes.theme-config .theme-config-box.open .skin-setttings {
+  margin-right: 0px;
+}
+
+.mapa-container .ajutes.theme-config .theme-config-box.open .spin-icon {
+  background-color: #fff;
+  color: #ccc;
+}
+
+.mapa-container .ajutes.theme-config .theme-config-box .skin-setttings {
+  width: 240px;
+  display: table;
+  padding: 20px 10px;
+  margin-left: 0;
+  margin-right: 45px;
+  background: #ffffff;
+  -webkit-transition-duration: 0.8s;
+          transition-duration: 0.8s;
+}
+
+.mapa-container .ajutes.theme-config .theme-config-box .skin-setttings .inputAjustes {
+  margin-bottom: 20px;
+}
+
+.mapa-container .ajutes.theme-config .theme-config-box .spin-icon {
+  width: 45px;
+  padding: 12px 15px;
+  right: 0;
+  left: auto;
+  border-radius: 0;
+  z-index: 2;
+}
+
+.mapa-container .ajutes h3 {
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+.mapa-container .ajutes .btn {
+  min-width: 190px;
+}
+
+.mapa-container .ajutes .inputAjustes span {
+  position: absolute;
+  margin-left: 10px;
+}
+
+.mapa-container .area-mapa {
+  width: 100% !important;
+  height: 500px !important;
+  margin-left: 40px;
+  border: 1px solid #ddd;
+}
+
+.mapa-container .acoes {
+  width: 270px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: -270px;
+  display: table;
+  padding: 10px;
+  background: #ffffff;
+  -webkit-transition-duration: 0.8s;
+          transition-duration: 0.8s;
+}
+
+.mapa-container .acoes.open-acao-panel {
+  right: 0;
+}
+
+.mapa-container .acoes .fecharAcoes {
+  display: block;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.mapa-container .acoes .btnPlanos {
+  text-decoration: none;
+  display: block;
+  margin: 10px 0;
+  cursor: pointer;
+}
+
+.mapa-container .acoes ul {
+  margin-left: 0px;
+  float: left;
+  padding-left: 0;
+  margin-bottom: 20px;
+}
+
+.mapa-container .acoes ul.planos {
+  display: none;
+}
+
+.mapa-container .acoes ul.planos.openPlanos {
+  display: table;
+}
+
+.mapa-container .acoes ul.planos li {
+  list-style: none;
+  text-decoration: underline;
+  margin-bottom: 5px;
+}
+
+.mapa-container .acoes ul.planos li a {
+  color: #1ab394;
+}
+
+.mapa-container .acoes .btn {
+  min-width: 180px;
+}
