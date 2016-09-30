@@ -73,9 +73,13 @@ INSERT INTO `controladores_fisicos` (`id`, `id_json`, `area_id`, `data_criacao`,
 VALUES
   ('fbac66f8-7d51-4a27-98e5-6a290aa48a45',NULL,'24bc8524-8661-11e6-9678-1f0de452edaf','2016-09-29 13:25:30.530000','2016-09-29 13:25:30.530000');
 
-INSERT INTO `faixas_de_valores` (`id`, `id_json`, `tempo_defasagem_min`, `tempo_defasagem_max`, `tempo_amarelo_min`, `tempo_amarelo_max`, `tempo_vermelho_intermitente_min`, `tempo_vermelho_intermitente_max`, `tempo_vermelho_limpeza_veicular_min`, `tempo_vermelho_limpeza_veicular_max`, `tempo_vermelho_limpeza_pedestre_min`, `tempo_vermelho_limpeza_pedestre_max`, `tempo_atraso_grupo_min`, `tempo_atraso_grupo_max`, `tempo_verde_seguranca_veicular_min`, `tempo_verde_seguranca_veicular_max`, `tempo_verde_seguranca_pedestre_min`, `tempo_verde_seguranca_pedestre_max`, `tempo_maximo_permanencia_estagio_min`, `tempo_maximo_permanencia_estagio_max`, `tempo_ciclo_min`, `tempo_ciclo_max`, `tempo_verde_minimo_min`, `tempo_verde_minimo_max`, `tempo_verde_maximo_min`, `tempo_verde_maximo_max`, `tempo_verde_intermediario_min`, `tempo_verde_intermediario_max`, `tempo_extensao_verde_min`, `tempo_extensao_verde_max`, `tempo_verde_min`, `tempo_verde_max`, `tempo_ausencia_deteccao_min`, `tempo_ausencia_deteccao_max`, `tempo_deteccao_permanente_min`, `tempo_deteccao_permanente_max`, `data_criacao`, `data_atualizacao`)
+INSERT INTO `faixas_de_valores` (`id`, `id_json`, `tempo_defasagem_min`, `tempo_defasagem_max`, `tempo_amarelo_min`, `tempo_amarelo_max`, `tempo_vermelho_intermitente_min`, `tempo_vermelho_intermitente_max`, `tempo_vermelho_limpeza_veicular_min`, `tempo_vermelho_limpeza_veicular_max`,
+                                 `tempo_vermelho_limpeza_pedestre_min`, `tempo_vermelho_limpeza_pedestre_max`, `tempo_atraso_grupo_min`, `tempo_atraso_grupo_max`, `tempo_verde_seguranca_veicular_min`, `tempo_verde_seguranca_veicular_max`, `tempo_verde_seguranca_pedestre_min`,
+                                 `tempo_verde_seguranca_pedestre_max`, `tempo_maximo_permanencia_estagio_min`, `tempo_maximo_permanencia_estagio_max`, `default_tempo_maximo_permanencia_estagio_veicular`, `tempo_ciclo_min`, `tempo_ciclo_max`, `tempo_verde_minimo_min`, `tempo_verde_minimo_max`,
+                                 `tempo_verde_maximo_min`, `tempo_verde_maximo_max`, `tempo_verde_intermediario_min`, `tempo_verde_intermediario_max`, `tempo_extensao_verde_min`, `tempo_extensao_verde_max`, `tempo_verde_min`, `tempo_verde_max`, `tempo_ausencia_deteccao_min`, `tempo_ausencia_deteccao_max`,
+                                 `tempo_deteccao_permanente_min`, `tempo_deteccao_permanente_max`, `data_criacao`, `data_atualizacao`)
 VALUES
-  ('2b62b0d8-8661-11e6-9678-1f0de452edaf','2b62b0e2-8661-11e6-9678-1f0de452edaf',0,255,3,5,3,32,0,7,0,5,0,20,10,30,4,10,60,255,30,255,10,255,10,255,10,255,1,10,1,255,0,4320,0,1440,'2016-09-29 13:24:17.000000','2016-09-29 13:24:17.000000');
+  ('14e42bc7-849d-423b-866a-c7285233f0e1','47ef4a70-2341-460d-8193-40962fdcb89b',0,255,3,5,3,32,0,7,0,5,0,20,10,30,4,10,60,255,127,30,255,10,255,10,255,10,255,1,10,1,255,0,4320,0,1440,'2016-09-30 08:12:58.812000','2016-09-30 08:12:58.812000');
 
 INSERT INTO `grupos_semaforicos` (`id`, `id_json`, `tipo`, `descricao`, `anel_id`, `controlador_id`, `posicao`, `fase_vermelha_apagada_amarelo_intermitente`, `tempo_verde_seguranca`, `data_criacao`, `data_atualizacao`)
 VALUES
@@ -203,4 +207,4 @@ VALUES
 
 INSERT INTO `versoes_controladores` (`id`, `id_json`, `controlador_origem_id`, `controlador_id`, `controlador_fisico_id`, `usuario_id`, `descricao`, `status_versao`, `data_criacao`)
 VALUES
-  ('45a311d6-f7c1-4231-a851-13851641121b',NULL,NULL,'21440a8c-764d-4605-a23e-ef3103c9f544','fbac66f8-7d51-4a27-98e5-6a290aa48a45','2f0e0547-3135-428b-8f6d-0a1098eca0a5','revisao1',0,'2016-09-29 13:25:30.531000');
+  ('45a311d6-f7c1-4231-a851-13851641121b',NULL,NULL,'21440a8c-764d-4605-a23e-ef3103c9f544','fbac66f8-7d51-4a27-98e5-6a290aa48a45','2f0e0547-3135-428b-8f6d-0a1098eca0a5','Controlador criado pelo usuário: Administrador Geral','EDITANDO','2016-09-29 13:25:30.531000');
