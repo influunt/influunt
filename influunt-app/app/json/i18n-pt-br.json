@@ -14,6 +14,33 @@
     "data": "Data Alteração",
     "mostrar" : "Visualizar Alteração"
   },
+  "simulacao": {
+    "titulo": "Simulação",
+    "parametros": "Parâmetros",
+    "simulacaoCompleta": "Simulação Completa",
+    "inicioControl": "Início Controlador",
+    "inicioSimulacao": "Início Simulação",
+    "fimSimulacao": "Fim da Simulação",
+    "horario": "Horário",
+    "progDisparo": "Programar disparo de detectores",
+    "progImposicao": "Programar imposição de planos",
+    "disparoFalhas": "Disparo de falhas",
+    "detectorVeicular": "Detector Veicular",
+    "detector": "Parâmetros",
+    "tipo": "Parâmetros",
+    "plano": "Plano",
+    "falhas": "Falhas",
+    "problema": "Problema",
+    "tempoSimulacao": "Tempo de simulação",
+    "simular": "Simular",
+    "interromper": "Interromper",
+    "reiniciar": "Reiniciar",
+    "data": "Parâmetros",
+    "log": "Log",
+    "verLog": "Ver log",
+    "trocaEstagio": "Troca de estágio",
+    "velocidade": "Velocidade"
+  },
   "controladores": {
     "nomeEndereco": "Localização",
     "titulo": "Programação",
@@ -96,6 +123,7 @@
     "ganhoDePassagem": "Transições com ganho de direito de passagem",
     "perdaDePassagem": "Transições com perda de direito de passagem",
     "geral": {
+      "finalizar": "Finalizar",
       "novo": "Novo",
       "historico": "Histórico",
       "cancelarEdicao": "Cancelar Edição",
@@ -118,6 +146,7 @@
       "CLC": "CLC",
       "dataAtualizacao": "Data atualização",
       "statusControlador": "Status do controlador",
+      "visualizarAcoes": "Visualizar/Ações",
       "acoes": "Ações",
       "verTelaAnterior": "Ver Resumo"
     },
@@ -131,7 +160,7 @@
       "monitoramentoFalha": "Monitoramento de Falha",
       "pedestre": "Pedestre",
       "titulo": "Detectores",
-      "veicular": "Veícular",
+      "veicular": "Veicular",
       "verTabelaEntreVerdes": "Ver Tela de Entre Verdes"
     },
     "dadosBasicos": {
@@ -141,7 +170,7 @@
       "titulo": "Grupos Semafóricos",
       "tipo": "Tipo",
       "pedestre": "Pedestre",
-      "veicular": "Veícular",
+      "veicular": "Veicular",
       "verdeSeguranca": "Verde Segurança",
       "faseVermelhaApagada": "Fase Vermelha Apagada",
       "descricao": "Descrição",
@@ -347,6 +376,14 @@
     },
     "copiarPlano": {
       "mensagem": "selecione os planos que deverão copiar as configurações de "
+    },
+    "verdeMinimoVeicular": {
+      "tituloAlert": "Verde de Segurança",
+      "mensagemAlert": "Tem certeza que deseja colocar o tempo de verde menor que o tempo de verde de segurança dos grupos semafóricos?"
+    },
+    "verdeMinimoPedestre": {
+      "tituloAlert": "Verde de Segurança",
+      "mensagemAlert": "Não é permitido colocar o tempo de verde menor que o tempo de verde de segurança em estágio de pedestre."
     },
     "modoOperacao": "MODO DE OPERAÇÃO",
     "modosOperacao": {
@@ -605,6 +642,7 @@
     "titulo": "Faixas de Valores",
     "de": "de",
     "ate": "até",
+    "default": "Padrão",
     "editar": "Editar",
     "tempoDefasagem": "Tempo de Defasagem",
     "tempoAmarelo": "Tempo de Amarelo",
@@ -622,6 +660,7 @@
     "tempoExtensaoVerde": "Tempo de Extensão de Verde",
     "tempoVerde": "Tempo de Verde",
     "tempoAusenciaDeteccao": "Tempo de Ausência de Detecção",
-    "tempoDeteccaoPermanente": "Tempo de Detecção Permanente"
+    "tempoDeteccaoPermanente": "Tempo de Detecção Permanente",
+    "veicular": "Veicular"
   }
 }

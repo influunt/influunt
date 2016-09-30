@@ -28,7 +28,7 @@ public class ControladorUtil {
 
     public Controlador deepClone(Controlador controlador) {
 
-        if (controlador.getStatusControlador() != StatusControlador.ATIVO) {
+        if (controlador.getStatusControlador() != StatusControlador.ATIVO && controlador.getStatusControlador() != StatusControlador.CONFIGURADO) {
             throw new IllegalStateException();
         }
 

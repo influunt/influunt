@@ -123,6 +123,9 @@ describe('Controller: ControladoresConfiguracaoGruposCtrl', function () {
       scope.currentAnel = scope.objeto.aneis[1];
       scope.adicionaGrupoSemaforico();
       expect(scope.objeto.gruposSemaforicos[1].posicao).toBe(2);
+      scope.currentAnel = scope.objeto.aneis[0];
+      scope.adicionaGrupoSemaforico();
+      expect(scope.objeto.gruposSemaforicos[1].posicao).toBe(3);
     });
   });
 
@@ -202,6 +205,16 @@ describe('Controller: ControladoresConfiguracaoGruposCtrl', function () {
       var grupo = _.find(scope.objeto.gruposSemaforicos, {idJson: scope.objeto.aneis[1].gruposSemaforicos[0].idJson});
       expect(grupo.posicao).toBe(1);
     });
+    
+    it('Caso seja adicionado um novo grupo semaforico no anel 1 as posições devem ser atualizadas', function() {
+      deferred.resolve(true);
+      scope.$apply();
+      scope.currentAnel = scope.objeto.aneis[0];
+      scope.aneis = scope.objeto.aneis;
+      scope.adicionaGrupoSemaforico();
+      var grupo = _.find(scope.objeto.gruposSemaforicos, {idJson: scope.objeto.aneis[1].gruposSemaforicos[0].idJson});
+      expect(grupo.posicao).toBe(2);
+    });
   });
 
   describe('selecionaAnelGruposSemaforicos', function () {
@@ -253,6 +266,29 @@ describe('Controller: ControladoresConfiguracaoGruposCtrl', function () {
     it('Deve permitir adicionar outro grupo semaforico se a quantidade limite não for alcancada', function() {
       scope.objeto.limiteGrupoSemaforico = 10;
       expect(scope.podeAdicionarGrupoSemaforico()).toBeTruthy();
+    });
+  });
+  
+  describe('atualizaTempoVerdeSeguranca', function () {
+    beforeEach(function() {
+      scope.objeto = {
+        verdeSegurancaVeicularMin: 10,
+        verdeSegurancaPedestreMin: 4
+      };
+    });
+
+    it('Atualiza o verde de Segurança Veicular e coloca a fase vermelha apagada em amarelo intermitente', function() {
+      var grupo = {tipo: 'VEICULAR'};
+      scope.atualizaTempoVerdeSeguranca(grupo);
+      expect(grupo.tempoVerdeSeguranca).toBe(10);
+      expect(grupo.faseVermelhaApagadaAmareloIntermitente).toBeTruthy();
+    });
+
+    it('Atualiza o verde de Segurança de Pedestre e não coloca a fase vermelha apagada em amarelo intermitente', function() {
+      var grupo = {tipo: 'PEDESTRE'};
+      scope.atualizaTempoVerdeSeguranca(grupo);
+      expect(grupo.tempoVerdeSeguranca).toBe(4);
+      expect(grupo.faseVermelhaApagadaAmareloIntermitente).not.toBeTruthy();
     });
   });
 });

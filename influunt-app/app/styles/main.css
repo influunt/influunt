@@ -15,6 +15,7 @@
 @import url(./pace.css);
 @import url(./influunt.css);
 @import url(./influunt/plano.css);
+@import url(./influunt/mapa-controladores.css);
 @import url(./directives/influunt-knob.css);
 @import url(./directives/influunt-map.css);
 @import url(./directives/influunt-tabs.css);
@@ -23,6 +24,91 @@
 @import url(./directives/filtro-mapa.css);
 tr.detector-selecionado td.titulo {
   background-color: #6fd1bd;
+}
+
+.simulacao h5 {
+  font-size: 16px;
+  font-weight: 300;
+}
+
+.simulacao .ibox-title {
+  background: #fff;
+}
+
+.simulacao .fa-trash {
+  font-size: 20px;
+  padding-top: 6px;
+}
+
+.simulacao .simular {
+  background-color: #e9eaee;
+  padding: 20px 0;
+  margin-bottom: 30px;
+}
+
+.simulacao .diagrama .guia {
+  height: 500px;
+  overflow: auto;
+}
+
+.simulacao .diagrama .guia .simulaEspaco {
+  width: 2000px;
+  height: 800px;
+  background: url(https://cloud.githubusercontent.com/assets/19826047/18851706/8b23956e-8413-11e6-98ff-252b551ffbd5.jpg) no-repeat;
+  background-position-x: -20px;
+  background-position-y: -580px;
+  display: block;
+}
+
+.simulacao .diagrama100 {
+  width: 100% !important;
+  -webkit-transition-duration: 0.8s;
+}
+
+.simulacao .log div {
+  overflow-y: auto;
+  max-height: 380px;
+}
+
+.simulacao .log.logClose {
+  display: none !important;
+}
+
+.simulacao .log b {
+  margin-right: 30px;
+}
+
+#main {
+  float: right;
+  position: absolute;
+  right: 0;
+}
+
+#sidebar {
+  float: left;
+  height: 450px;
+  overflow-y: hidden;
+}
+
+#dragbar {
+  background-color: #e9eaee;
+  height: 100%;
+  float: right;
+  padding: 220px 6px 0;
+  cursor: col-resize;
+}
+
+#dragbar i {
+  color: #bdbec1;
+}
+
+#ghostbar {
+  width: 3px;
+  background-color: #000;
+  opacity: 0.5;
+  position: absolute;
+  cursor: col-resize;
+  z-index: 999;
 }
 
 li.anel-selecionado {

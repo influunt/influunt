@@ -140,7 +140,7 @@ public class ControladorTestUtil {
         EstagioGrupoSemaforico estagioGrupoSemaforico4 = new EstagioGrupoSemaforico(estagio4, grupoSemaforico2);
 
 
-        estagio1.setDemandaPrioritaria(true);
+        estagio1.setDemandaPrioritaria(false);
         estagio1.setTempoMaximoPermanencia(100);
         estagio1.addEstagioGrupoSemaforico(estagioGrupoSemaforico1);
         estagio1.setDescricao("estagio1");
@@ -164,6 +164,7 @@ public class ControladorTestUtil {
         Estagio estagioNovo = anelCom2Estagios.getEstagios().get(0);
         Estagio estagioNovo2 = anelCom2Estagios.getEstagios().get(1);
         estagioNovo.setDemandaPrioritaria(true);
+        estagioNovo.setTempoVerdeDemandaPrioritaria(100);
         estagioNovo.setTempoMaximoPermanenciaAtivado(false);
         estagioNovo2.setTempoMaximoPermanenciaAtivado(false);
 
@@ -256,7 +257,7 @@ public class ControladorTestUtil {
     }
 
     public Controlador getControladorAtrasoDeGrupo() {
-        Controlador controlador = getControladorTransicoesProibidas();
+        Controlador controlador = getControladorTabelaDeEntreVerdes();
         controlador.save();
 
         for (Anel anel : controlador.getAneis()) {
@@ -274,7 +275,7 @@ public class ControladorTestUtil {
 
     public Controlador getControladorTabelaDeEntreVerdes() {
 
-        Controlador controlador = getControladorAtrasoDeGrupo();
+        Controlador controlador = getControladorTransicoesProibidas();
         controlador.save();
 
         for (Anel anel : controlador.getAneis()) {
@@ -295,7 +296,7 @@ public class ControladorTestUtil {
     }
 
     public Controlador getControladorAssociacaoDetectores() {
-        Controlador controlador = getControladorTabelaDeEntreVerdes();
+        Controlador controlador = getControladorAtrasoDeGrupo();
         controlador.save();
 
         Anel anelCom2Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();

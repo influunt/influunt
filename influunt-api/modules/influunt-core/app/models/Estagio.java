@@ -67,6 +67,9 @@ public class Estagio extends Model implements Serializable, Cloneable {
     @Column
     private Boolean demandaPrioritaria = false;
 
+    @Column
+    private Integer tempoVerdeDemandaPrioritaria;
+
     @OneToMany(mappedBy = "estagio", cascade = CascadeType.ALL)
     private List<EstagioGrupoSemaforico> estagiosGruposSemaforicos;
 
@@ -206,6 +209,14 @@ public class Estagio extends Model implements Serializable, Cloneable {
         this.demandaPrioritaria = demandaPrioritaria;
     }
 
+    public Integer getTempoVerdeDemandaPrioritaria() {
+        return tempoVerdeDemandaPrioritaria;
+    }
+
+    public void setTempoVerdeDemandaPrioritaria(Integer tempoVerdeDemandaPrioritaria) {
+        this.tempoVerdeDemandaPrioritaria = tempoVerdeDemandaPrioritaria;
+    }
+
     public List<EstagioGrupoSemaforico> getEstagiosGruposSemaforicos() {
         return estagiosGruposSemaforicos;
     }
@@ -298,6 +309,15 @@ public class Estagio extends Model implements Serializable, Cloneable {
     }
 
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
+            message = "Estágio de demanda prioritária deve ser associado a somente 1 grupo semafórico.")
+    public boolean isSomenteUmEstagioGrupoSemaforicoEmDemandaPrioritaria() {
+        if(isEstagiosGrupoSemaforicosNotEmpty() && isDemandaPrioritaria()){
+            return getEstagiosGruposSemaforicos().size() <= 1;
+        }
+        return true;
+    }
+
+    @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
             message = "Existem grupos semafóricos conflitantes associados a esse estágio.")
     public boolean isNaoDevePossuirGruposSemaforicosConflitantes() {
         if (isEstagiosGrupoSemaforicosNotEmpty()) {
@@ -306,12 +326,19 @@ public class Estagio extends Model implements Serializable, Cloneable {
         return true;
     }
 
-
     @AssertTrue(groups = ControladorTransicoesProibidasCheck.class,
             message = "Esse estágio não pode ter um estágio de destino e alternativo ao mesmo tempo.")
     public boolean isAoMesmoTempoDestinoEAlternativo() {
         if (!getDestinoDeTransicoesProibidas().isEmpty() && !getAlternativaDeTransicoesProibidas().isEmpty()) {
             return getDestinoDeTransicoesProibidas().stream().filter(estagio -> getAlternativaDeTransicoesProibidas().contains(estagio)).count() == 0;
+        } else return true;
+    }
+
+    @AssertTrue(groups = ControladorTransicoesProibidasCheck.class,
+            message = "Um estágio de demanda prioritária não pode ter transição proibida.")
+    public boolean isNaoPossuiTransicaoProibidaCasoDemandaPrioritaria() {
+        if (isDemandaPrioritaria()) {
+            return getOrigemDeTransicoesProibidas().size() == 0 && getDestinoDeTransicoesProibidas().size() == 0 && getAlternativaDeTransicoesProibidas().size() == 0;
         } else return true;
     }
 
@@ -334,6 +361,15 @@ public class Estagio extends Model implements Serializable, Cloneable {
         if (getTempoMaximoPermanenciaAtivado()) {
             return getTempoMaximoPermanencia() != null &&
                     RangeUtils.getInstance().TEMPO_MAXIMO_PERMANENCIA_ESTAGIO.contains(getTempoMaximoPermanencia());
+        }
+        return true;
+    }
+
+    @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class, message = "O Tempo de verde do estágio de demanda priortária deve estar entre {min} e {max}")
+    public boolean isTempoVerdeDemandaPrioritaria() {
+        if (isDemandaPrioritaria()) {
+            return getTempoVerdeDemandaPrioritaria() != null &&
+                    RangeUtils.getInstance().TEMPO_VERDE.contains(getTempoVerdeDemandaPrioritaria());
         }
         return true;
     }
@@ -454,5 +490,9 @@ public class Estagio extends Model implements Serializable, Cloneable {
 
     public void setDestroy(boolean destroy) {
         this.destroy = destroy;
+    }
+
+    public boolean isDemandaPrioritaria() {
+        return demandaPrioritaria;
     }
 }

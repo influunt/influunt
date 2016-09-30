@@ -79,8 +79,8 @@ public class ControladorAssociacoesTest extends ControladorTest {
 
         estagioGrupoSemaforico1 = new EstagioGrupoSemaforico(estagio1, grupoSemaforico1);
         estagioGrupoSemaforico2 = new EstagioGrupoSemaforico(estagio2, grupoSemaforico2);
-        EstagioGrupoSemaforico estagioGrupoSemaforico3 = new EstagioGrupoSemaforico(estagio2, grupoSemaforico1);
-        EstagioGrupoSemaforico estagioGrupoSemaforico4 = new EstagioGrupoSemaforico(estagio2, grupoSemaforico2);
+        EstagioGrupoSemaforico estagioGrupoSemaforico3 = new EstagioGrupoSemaforico(estagio3, grupoSemaforico1);
+        EstagioGrupoSemaforico estagioGrupoSemaforico4 = new EstagioGrupoSemaforico(estagio4, grupoSemaforico2);
 
         estagio1.setEstagiosGruposSemaforicos(null);
         estagio2.setEstagiosGruposSemaforicos(null);
@@ -91,6 +91,12 @@ public class ControladorAssociacoesTest extends ControladorTest {
         estagio2.addEstagioGrupoSemaforico(estagioGrupoSemaforico2);
         estagio3.addEstagioGrupoSemaforico(estagioGrupoSemaforico3);
         estagio4.addEstagioGrupoSemaforico(estagioGrupoSemaforico4);
+
+        grupoSemaforico1.addEstagioGrupoSemaforico(estagioGrupoSemaforico1);
+        grupoSemaforico1.addEstagioGrupoSemaforico(estagioGrupoSemaforico3);
+        grupoSemaforico2.addEstagioGrupoSemaforico(estagioGrupoSemaforico2);
+        grupoSemaforico2.addEstagioGrupoSemaforico(estagioGrupoSemaforico4);
+
 
         Estagio estagioNovo = anelCom2Estagios.getEstagios().get(0);
         Estagio estagioNovo2 = anelCom2Estagios.getEstagios().get(1);
@@ -103,6 +109,62 @@ public class ControladorAssociacoesTest extends ControladorTest {
         EstagioGrupoSemaforico estagioGrupoSemaforicoNovo2 = new EstagioGrupoSemaforico(estagioNovo2, grupoSemaforicoNovo2);
         estagioNovo.addEstagioGrupoSemaforico(estagioGrupoSemaforicoNovo);
         estagioNovo2.addEstagioGrupoSemaforico(estagioGrupoSemaforicoNovo2);
+
+        erros = getErros(controlador);
+        assertEquals(1, erros.size());
+        assertThat(erros, Matchers.hasItems(
+                new Erro(CONTROLADOR, "O Tempo de verde do estágio de demanda priortária deve estar entre {min} e {max}", "aneis[1].estagios[0].tempoVerdeDemandaPrioritaria")
+        ));
+
+        estagioNovo.setTempoVerdeDemandaPrioritaria(10);
+
+        estagio1.setDemandaPrioritaria(true);
+        estagio2.setDemandaPrioritaria(true);
+
+        erros = getErros(controlador);
+        assertEquals(5, erros.size());
+        assertThat(erros, Matchers.hasItems(
+                new Erro(CONTROLADOR, "O anel ativo deve ter somente um estágio de demanda prioritária.", "aneis[0].somenteUmEstagioDeDemandaPrioritaria"),
+                new Erro(CONTROLADOR, "Esse grupo semafórico não pode estar associado a um estágio de demanda prioritária e a outro estágio ao mesmo tempo.", "aneis[0].gruposSemaforicos[0].naoEstaAssociadoAEstagioDemandaPrioritariaEOutroEstagio"),
+                new Erro(CONTROLADOR, "Esse grupo semafórico não pode estar associado a um estágio de demanda prioritária e a outro estágio ao mesmo tempo.", "aneis[0].gruposSemaforicos[1].naoEstaAssociadoAEstagioDemandaPrioritariaEOutroEstagio"),
+                new Erro(CONTROLADOR, "O Tempo de verde do estágio de demanda priortária deve estar entre {min} e {max}", "aneis[0].estagios[0].tempoVerdeDemandaPrioritaria"),
+                new Erro(CONTROLADOR, "O Tempo de verde do estágio de demanda priortária deve estar entre {min} e {max}", "aneis[0].estagios[1].tempoVerdeDemandaPrioritaria")
+        ));
+
+        estagio1.setDemandaPrioritaria(false);
+        estagio2.setTempoVerdeDemandaPrioritaria(1);
+
+        GrupoSemaforico grupoSemaforico5 = new GrupoSemaforico();
+        grupoSemaforico5.setAnel(anelCom4Estagios);
+        grupoSemaforico5.setControlador(controlador);
+        grupoSemaforico5.setTipo(TipoGrupoSemaforico.VEICULAR);
+        grupoSemaforico5.setTempoVerdeSeguranca(10);
+        grupoSemaforico5.setDescricao("G3");
+        grupoSemaforico5.setPosicao(3);
+        grupoSemaforico5.setFaseVermelhaApagadaAmareloIntermitente(true);
+        anelCom4Estagios.addGruposSemaforicos(grupoSemaforico5);
+        grupoSemaforico5.setAnel(anelCom4Estagios);
+        controlador.addGruposSemaforicos(grupoSemaforico5);
+
+        grupoSemaforico5.addVerdeConflitante(grupoSemaforico1);
+
+        EstagioGrupoSemaforico estagioGrupoSemaforico5 = new EstagioGrupoSemaforico(estagio2, grupoSemaforico5);
+        estagio2.addEstagioGrupoSemaforico(estagioGrupoSemaforico5);
+
+        erros = getErros(controlador);
+        assertEquals(2, erros.size());
+        assertThat(erros, Matchers.hasItems(
+                new Erro(CONTROLADOR, "Estágio de demanda prioritária deve ser associado a somente 1 grupo semafórico.", "aneis[0].estagios[1].somenteUmEstagioGrupoSemaforicoEmDemandaPrioritaria"),
+                new Erro(CONTROLADOR, "Esse grupo semafórico não pode estar associado a um estágio de demanda prioritária e a outro estágio ao mesmo tempo.", "aneis[0].gruposSemaforicos[1].naoEstaAssociadoAEstagioDemandaPrioritariaEOutroEstagio")
+        ));
+
+        estagio2.setEstagiosGruposSemaforicos(null);
+        estagio2.addEstagioGrupoSemaforico(estagioGrupoSemaforico2);
+
+        grupoSemaforico2.setEstagiosGruposSemaforicos(null);
+        grupoSemaforico2.addEstagioGrupoSemaforico(estagioGrupoSemaforico2);
+
+        estagioGrupoSemaforico4.setGrupoSemaforico(grupoSemaforico5);
 
         erros = getErros(controlador);
         assertThat(erros, Matchers.empty());
@@ -185,10 +247,10 @@ public class ControladorAssociacoesTest extends ControladorTest {
         assertEquals(anelCom4Estagios.getDetectores().size(), anelCom4EstagiosJson.getDetectores().size());
         assertEquals(anelCom4Estagios.getNumeroSMEE(), anelCom4EstagiosJson.getNumeroSMEE());
         assertEquals(anelCom4Estagios.getEstagios().size(), anelCom4EstagiosJson.getEstagios().size());
-        Estagio estagioDemanda = anelCom4EstagiosJson.getEstagios().stream().filter(anelAux -> anelAux.getDemandaPrioritaria() == Boolean.TRUE).findFirst().get();
-        Estagio estagioSemDemanda = anelCom4EstagiosJson.getEstagios().stream().filter(anelAux -> anelAux.getDemandaPrioritaria() == Boolean.FALSE).findFirst().get();
-        assertEquals(100, estagioDemanda.getTempoMaximoPermanencia().intValue());
-        assertEquals(200, estagioSemDemanda.getTempoMaximoPermanencia().intValue());
+        Estagio estagio1 = anelCom4EstagiosJson.getEstagios().stream().filter(anelAux -> anelAux.getDescricao().equals("estagio1")).findFirst().get();
+        Estagio estagio2 = anelCom4EstagiosJson.getEstagios().stream().filter(anelAux -> anelAux.getDescricao().equals("estagio2")).findFirst().get();
+        assertEquals(100, estagio1.getTempoMaximoPermanencia().intValue());
+        assertEquals(200, estagio2.getTempoMaximoPermanencia().intValue());
     }
 
     @Override

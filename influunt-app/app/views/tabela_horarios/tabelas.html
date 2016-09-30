@@ -7,7 +7,9 @@
         <th data-ng-if="tabelaHorariaService.isCurrentTipoEventoEspecial() || tabelaHorariaService.isCurrentTipoEventoNaoRecorrente()">{{ 'tabelaHorarios.nome' | translate }}</th>
         <th data-ng-if="tabelaHorariaService.isCurrentTipoEventoEspecial()">{{ 'tabelaHorarios.data' | translate }}</th>
         <th data-ng-if="tabelaHorariaService.isCurrentTipoEventoNaoRecorrente()">{{ 'tabelaHorarios.diaMes' | translate }}</th>
-        <th colspan="3">{{ 'tabelaHorarios.horario' | translate }}</th>
+        <th>{{ 'tabelaHorarios.horas' | translate }}</th>
+        <th>{{ 'tabelaHorarios.minutos' | translate }}</th>
+        <th>{{ 'tabelaHorarios.segundos' | translate }}</th>
         <th colspan="3">{{ 'tabelaHorarios.plano' | translate }}</th>
     </tr>
     </thead>

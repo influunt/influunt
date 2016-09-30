@@ -7,6 +7,7 @@ import com.google.inject.Inject;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import models.*;
+import org.apache.commons.lang3.StringUtils;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -32,66 +33,67 @@ public class ControladoresController extends Controller {
     @Transactional
     @Dynamic(value = "ControladorAreaAuth(bodyArea)")
     public CompletionStage<Result> dadosBasicos() {
-        return doStep(false, javax.validation.groups.Default.class);
+        return doStep(javax.validation.groups.Default.class);
     }
 
     @Transactional
     @Dynamic(value = "ControladorAreaAuth(body)")
     public CompletionStage<Result> aneis() {
-        return doStep(false, javax.validation.groups.Default.class, ControladorAneisCheck.class);
+        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class);
     }
 
     @Transactional
     @Dynamic(value = "ControladorAreaAuth(body)")
     public CompletionStage<Result> gruposSemaforicos() {
-        return doStep(false, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class);
+        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class);
     }
 
     @Transactional
     @Dynamic(value = "ControladorAreaAuth(body)")
     public CompletionStage<Result> verdesConflitantes() {
-        return doStep(false, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
                 ControladorVerdesConflitantesCheck.class);
     }
 
     @Transactional
     @Dynamic(value = "ControladorAreaAuth(body)")
     public CompletionStage<Result> associacaoGruposSemaforicos() {
-        return doStep(false, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
                 ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class);
     }
 
     @Transactional
     @Dynamic(value = "ControladorAreaAuth(body)")
     public CompletionStage<Result> transicoesProibidas() {
-        return doStep(false, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
                 ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
                 ControladorTransicoesProibidasCheck.class);
     }
 
     @Transactional
     @Dynamic(value = "ControladorAreaAuth(body)")
-    public CompletionStage<Result> atrasoDeGrupo() {
-        return doStep(false, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+    public CompletionStage<Result> entreVerdes() {
+        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
                 ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
-                ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class);
+                ControladorTransicoesProibidasCheck.class, ControladorTabelaEntreVerdesCheck.class);
     }
 
     @Transactional
     @Dynamic(value = "ControladorAreaAuth(body)")
-    public CompletionStage<Result> entreVerdes() {
-        return doStep(false, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+    public CompletionStage<Result> atrasoDeGrupo() {
+        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
                 ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
-                ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class);
+                ControladorTransicoesProibidasCheck.class, ControladorTabelaEntreVerdesCheck.class,
+                ControladorAtrasoDeGrupoCheck.class);
     }
 
     @Transactional
     @Dynamic(value = "ControladorAreaAuth(body)")
     public CompletionStage<Result> associacaoDetectores() {
-        return doStep(true, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+        return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
                 ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
-                ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
-                ControladorAssociacaoDetectoresCheck.class);
+                ControladorTransicoesProibidasCheck.class, ControladorTabelaEntreVerdesCheck.class,
+                ControladorAtrasoDeGrupoCheck.class, ControladorAssociacaoDetectoresCheck.class);
     }
 
     @Transactional
@@ -108,7 +110,6 @@ public class ControladoresController extends Controller {
     @Transactional
     @Dynamic(value = "ControladorAreaAuth(path)")
     public CompletionStage<Result> edit(String id) {
-
         if (getUsuario() == null) {
             return CompletableFuture.completedFuture(unauthorized(Json.toJson(Arrays.asList(new Erro("clonar", "usuário não econtrado", "")))));
         }
@@ -117,19 +118,11 @@ public class ControladoresController extends Controller {
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
-
-            if (controlador.getStatusControlador() != StatusControlador.ATIVO
-                    && controlador.getStatusControlador() != StatusControlador.EM_CONFIGURACAO
-                    && controlador.getStatusControlador() != StatusControlador.EM_EDICAO) {
-
-                return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Arrays.asList(new Erro("clonar", "não é possível editar controlador", "")))));
-            }
-
             if (controlador.getStatusControlador().equals(StatusControlador.EM_EDICAO) && !usuarioPodeEditarControlador(controlador, getUsuario())) {
                 return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Arrays.asList(new Erro("editar", "usuário diferente do que está editando controlador!", "")))));
             }
 
-            if (controlador.getStatusControlador() == StatusControlador.ATIVO) {
+            if (controlador.getStatusControlador() == StatusControlador.ATIVO || controlador.getStatusControlador() == StatusControlador.CONFIGURADO) {
                 Controlador controladorEdicao = controladorService.criarCloneControlador(controlador, getUsuario());
                 return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controladorEdicao)));
             }
@@ -311,6 +304,30 @@ public class ControladoresController extends Controller {
 
     @Transactional
     @Dynamic(value = "ControladorAreaAuth(path)")
+    public CompletionStage<Result> finalizar(String id) {
+        Controlador controlador = Controlador.find.byId(UUID.fromString(id));
+        if (controlador == null) {
+            return CompletableFuture.completedFuture(notFound());
+        } else {
+            if(request().body().asJson() != null) {
+                String descricao = request().body().asJson().get("descricao").asText();
+                if(StringUtils.isEmpty(descricao.trim())) {
+                    return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY,
+                            Json.toJson(Collections.singletonList(new Erro("controlador", "Informe uma descrição para finalizar a configuração", "")))));
+                }
+                VersaoControlador versaoControlador = controlador.getVersaoControlador();
+                if (versaoControlador != null) {
+                    versaoControlador.setDescricao(descricao);
+                    versaoControlador.update();
+                }
+            }
+            controlador.finalizar();
+            return CompletableFuture.completedFuture(ok());
+        }
+    }
+
+    @Transactional
+    @Dynamic(value = "ControladorAreaAuth(path)")
     public CompletionStage<Result> ativar(String id) {
         Controlador controlador = Controlador.find.byId(UUID.fromString(id));
         if (controlador == null) {
@@ -356,7 +373,7 @@ public class ControladoresController extends Controller {
         }
     }
 
-    private CompletionStage<Result> doStep(boolean finalizaConfiguracaoSeSucesso, Class<?>... validationGroups) {
+    private CompletionStage<Result> doStep(Class<?>... validationGroups) {
         if (request().body() == null) {
             return CompletableFuture.completedFuture(badRequest());
         }
@@ -376,9 +393,6 @@ public class ControladoresController extends Controller {
                 return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
             } else {
                 if (checkIfExists) {
-                    if (finalizaConfiguracaoSeSucesso) {
-                        controlador.setStatusControlador(StatusControlador.CONFIGURADO);
-                    }
                     controlador.update();
                 } else {
                     // Criar a prmieira versao e o controlador fisico

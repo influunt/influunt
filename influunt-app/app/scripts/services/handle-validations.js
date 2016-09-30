@@ -57,6 +57,8 @@ angular.module('influuntApp')
         return [objeto.extensaoVerdeMin, objeto.extensaoVerdeMax];
       } else if (path.match(/tempoVerde$/)) {
         return [objeto.verdeMin, objeto.verdeMax];
+      } else if (path.match(/tempoVerdeDemandaPrioritaria$/)) {
+        return [objeto.verdeMin, objeto.verdeMax];
       }
       return [0, 0];
     };

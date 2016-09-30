@@ -21,8 +21,8 @@ angular.module('influuntApp')
           atualizaEstagiosPlanos, adicionaEstagioASequencia, atualizaPosicaoPlanos, atualizaPosicaoEstagiosPlanos,
           carregaDadosPlano, getOpcoesEstagiosDisponiveis, montaTabelaValoresMinimos, parseAllToInt, setDiagramaEstatico,
           atualizaDiagramaIntervalos, getPlanoParaDiagrama, atualizaTransicoesProibidas, getErrosGruposSemaforicosPlanos, 
-          getErrosPlanoAtuadoSemDetector, duplicarPlano, removerPlanoLocal, getErrosUltrapassaTempoCiclo, getKeysErros,
-          getIdJsonDePlanosQuePossuemErros, getPlanoComErro, getIndexPlano;
+          getErrosPlanoAtuadoSemDetector, duplicarPlano, removerPlanoLocal, getErrosUltrapassaTempoCiclo, getErrosSequenciaInvalida, 
+          getKeysErros, getIdJsonDePlanosQuePossuemErros, getPlanoComErro, getIndexPlano, verdeMinimoDoEstagio;
       var diagramaDebouncer = null;
 
       $scope.somenteVisualizacao = $state.current.data.somenteVisualizacao;
@@ -452,9 +452,10 @@ angular.module('influuntApp')
           .value();
 
         var currentPlanoIndex = getIndexPlano($scope.currentAnel, $scope.currentPlano);
-          erros.push(getErrosGruposSemaforicosPlanos(listaErros, currentPlanoIndex));
+        erros.push(getErrosGruposSemaforicosPlanos(listaErros, currentPlanoIndex));
         erros.push(getErrosUltrapassaTempoCiclo(listaErros, currentPlanoIndex));
         erros.push(getErrosPlanoAtuadoSemDetector(listaErros, currentPlanoIndex));
+        erros.push(getErrosSequenciaInvalida(listaErros, currentPlanoIndex));
 
         return _.flatten(erros);
       };
@@ -539,7 +540,10 @@ angular.module('influuntApp')
           if (errosultrapassaTempoCiclo) {
             _.each(errosultrapassaTempoCiclo, function (errosNoPlano){
               if(errosNoPlano) {
-                var texto = errosNoPlano.replace("{temposEstagios}", _.sumBy($scope.currentEstagiosPlanos, function(o) { return o.tempoEstagio; })).replace("{tempoCiclo}", $scope.currentPlano.tempoCiclo);
+                var texto = errosNoPlano.replace("{temposEstagios}", _.sumBy($scope.currentEstagiosPlanos, function(o) { 
+                  return o.tempoEstagio || 0; 
+                }))
+                .replace("{tempoCiclo}", $scope.currentPlano.tempoCiclo);
                 erros.push(texto);
               }
             });
@@ -554,6 +558,20 @@ angular.module('influuntApp')
           return erros;
         }
         return [];
+      };
+      
+      getErrosSequenciaInvalida = function(listaErros, currentPlanoIndex) {
+        var erros = [];
+        var errosSequencia;
+        errosSequencia = _.get(listaErros, 'planos['+ currentPlanoIndex +'].sequenciaInvalida');
+        if (errosSequencia) {
+          erros.push(errosSequencia[0]);
+        }
+        errosSequencia = _.get(listaErros, 'planos['+ currentPlanoIndex +'].sequenciaInvalidaSeExisteEstagioDispensavel');
+        if (errosSequencia) {
+          erros.push(errosSequencia[0]);
+        }
+        return _.flatten(erros);
       };
 
       /**
@@ -605,20 +623,22 @@ angular.module('influuntApp')
 
           anel.estagios.forEach(function (e){
             var estagio =  _.find($scope.objeto.estagios, {idJson: e.idJson});
-            var estagioPlano = {
-              idJson: UUID.generate(),
-              estagio: {
-                idJson: estagio.idJson
-              },
-              plano: {
-                idJson: plano.idJson
-              },
-              posicao: estagio.posicao,
-              tempoVerde: $scope.objeto.verdeMin,
-              dispensavel: false
-            };
-            $scope.objeto.estagiosPlanos.push(estagioPlano);
-            plano.estagiosPlanos.push({idJson: estagioPlano.idJson});
+            if(!estagio.demandaPrioritaria){
+              var estagioPlano = {
+                idJson: UUID.generate(),
+                estagio: {
+                  idJson: estagio.idJson
+                },
+                plano: {
+                  idJson: plano.idJson
+                },
+                posicao: estagio.posicao,
+                tempoVerde: verdeMinimoDoEstagio(estagio),
+                dispensavel: false
+              };
+              $scope.objeto.estagiosPlanos.push(estagioPlano);
+              plano.estagiosPlanos.push({idJson: estagioPlano.idJson});
+            }
           });
 
           $scope.objeto.planos = $scope.objeto.planos || [];
@@ -641,6 +661,7 @@ angular.module('influuntApp')
       };
 
       adicionaEstagioASequencia = function(estagioIdJson, planoIdJson, posicao) {
+        var estagio = _.find($scope.objeto.estagios, {idJson: estagioIdJson});
         var novoEstagioPlano = {
           idJson: UUID.generate(),
           estagio: {
@@ -650,7 +671,7 @@ angular.module('influuntApp')
             idJson: planoIdJson
           },
           posicao: posicao,
-          tempoVerde: $scope.objeto.verdeMin,
+          tempoVerde: verdeMinimoDoEstagio(estagio),
           dispensavel: false
         };
 
@@ -673,7 +694,7 @@ angular.module('influuntApp')
         $scope.currentEstagios = _
           .chain($scope.objeto.estagios)
           .filter(function(e) {
-            return ids.indexOf(e.idJson) >= 0;
+            return ids.indexOf(e.idJson) >= 0 && !e.demandaPrioritaria;
           })
           .orderBy(['posicao'])
           .value();
@@ -829,7 +850,7 @@ angular.module('influuntApp')
           return {
             ativado: grupo.tipo === 'VEICULAR',
             posicao: grupo.posicao,
-            labelPosicao: grupo.posicao,
+            labelPosicao: 'G' + grupo.posicao,
             intervalos: [{
               status: grupo.tipo === 'VEICULAR' ? modo : modoApagado,
               duracao: $scope.currentPlano.tempoCiclo || $scope.objeto.cicloMax
@@ -866,13 +887,22 @@ angular.module('influuntApp')
           var diagramaBuilder = new influunt.components.DiagramaIntervalos($scope.plano, $scope.valoresMinimos);
           var result = diagramaBuilder.calcula();
 
+          var estagiosPlanos = _.chain($scope.objeto.estagiosPlanos)
+            .filter(function(ep) { return ep.plano.idJson === $scope.currentPlano.idJson; })
+            .orderBy(['posicao'])
+            .value();
+
+          _.each(result.estagios, function(e, i) {
+            var estagioPlano = estagiosPlanos[i];
+            estagioPlano.tempoEstagio = e.duracao;
+          });
+
+          var gruposSemaforicos = _.chain($scope.objeto.gruposSemaforicos)
+            .filter(function(gs) { return gs.anel.idJson === $scope.currentAnel.idJson; })
+            .orderBy(['posicao'])
+            .value();
+
           _.each(result.gruposSemaforicos, function(g) {
-
-            var gruposSemaforicos = _.chain($scope.objeto.gruposSemaforicos)
-              .filter(function(gs) { return gs.anel.idJson === $scope.currentAnel.idJson; })
-              .orderBy(['posicao'])
-              .value();
-
             var grupo = gruposSemaforicos[g.posicao-1];
             var grupoPlano = _.find($scope.plano.gruposSemaforicosPlanos, {grupoSemaforico: {idJson: grupo.idJson}, plano: {idJson: $scope.plano.idJson}});
             g.ativado = grupoPlano.ativado;
@@ -930,6 +960,40 @@ angular.module('influuntApp')
       getIndexPlano = function(anel, plano){
         var planos = _.find($scope.objeto.versoesPlanos, {idJson: anel.versaoPlano.idJson}).planos;
         return _.findIndex(planos, {idJson: plano.idJson});
+      };
+
+      verdeMinimoDoEstagio = function(estagio){
+        var tempoMax = $scope.objeto.verdeMin;
+        var veicular = false;
+        _.each(estagio.estagiosGruposSemaforicos, function(gs){
+          var egs = _.find($scope.objeto.estagiosGruposSemaforicos, {idJson: gs.idJson});
+          var grupo = _.find($scope.objeto.gruposSemaforicos, {idJson: egs.grupoSemaforico.idJson});
+          tempoMax = _.max([grupo.tempoVerdeSeguranca, tempoMax]);
+          veicular = grupo.tipo === 'VEICULAR' ? true : veicular;
+        });
+        estagio.verdeMinimoEstagio = tempoMax;
+        estagio.isVeicular = veicular;
+        return tempoMax;
+      };
+
+      $scope.verificaVerdeMinimoDoEstagio = function(oldValue, value){
+        var estagio = _.find($scope.objeto.estagios, {idJson: $scope.currentEstagiosPlanos[$scope.currentEstagioPlanoIndex].estagio.idJson});
+        var tempoVerde = value;
+        var verdeMinimo = estagio.verdeMinimoEstagio || verdeMinimoDoEstagio(estagio);
+        if(tempoVerde < verdeMinimo){
+          if(estagio.isVeicular){
+            influuntAlert.confirm($filter('translate')('planos.verdeMinimoVeicular.tituloAlert'), 
+                $filter('translate')('planos.verdeMinimoVeicular.mensagemAlert')).then(function(confirmado) {
+              if (!confirmado) {
+                $scope.currentEstagiosPlanos[$scope.currentEstagioPlanoIndex].tempoVerde = oldValue;
+              }
+            });
+          }else{
+            influuntAlert.alert($filter('translate')('planos.verdeMinimoPedestre.tituloAlert'), 
+                $filter('translate')('planos.verdeMinimoPedestre.mensagemAlert'));
+            $scope.currentEstagiosPlanos[$scope.currentEstagioPlanoIndex].tempoVerde = oldValue;
+          }
+        }
       };
 
     }]);

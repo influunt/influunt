@@ -63,9 +63,9 @@ public class ControladorService {
         DBUtils.executeWithTransaction(() -> {
             VersaoControlador versaoControlador = controlador.getVersaoControlador();
             Controlador controladorOrigem = versaoControlador.getControladorOrigem();
-            controladorOrigem.setStatusControlador(StatusControlador.ATIVO);
+            controladorOrigem.setStatusControlador(StatusControlador.CONFIGURADO);
             VersaoControlador versaoControladorOrigem = controladorOrigem.getVersaoControlador();
-            versaoControladorOrigem.setStatusVersao(StatusVersao.ATIVO);
+            versaoControladorOrigem.setStatusVersao(StatusVersao.CONFIGURADO);
             versaoControladorOrigem.update();
             controladorOrigem.update();
 

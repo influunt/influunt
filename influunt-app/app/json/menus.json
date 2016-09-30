@@ -64,5 +64,10 @@
     "name": "auditorias",
     "label": "auditorias.titulo",
     "route": "app.auditorias"
+  },
+  {
+    "name": "simulacao",
+    "label": "simulacao.titulo",
+    "route": "app.simulacao"
   }
 ]

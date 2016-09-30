@@ -59,6 +59,9 @@ public class AgrupamentoSerializer extends JsonSerializer<Agrupamento> {
                 jgen.writeStringField("id", anel.getId().toString());
                 jgen.writeStringField("CLA", anel.getCLA());
                 jgen.writeBooleanField("ativo", anel.isAtivo());
+                jgen.writeObjectFieldStart("controlador");
+                jgen.writeStringField("id", anel.getControlador().getId().toString());
+                jgen.writeEndObject();
                 jgen.writeEndObject();
             }
             jgen.writeEndArray();

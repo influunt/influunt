@@ -8,35 +8,30 @@
       <hr>
       <div class="inputAjustes">
         <input type="checkbox"
-            data-ng-init="ngModel.exibirAreas = true"
             ichecks
             data-ng-model="ngModel.exibirAreas">
         <span>{{ 'controladores.mapaControladores.areas' | translate }}</span>
       </div>
       <div class="inputAjustes">
         <input type="checkbox"
-            data-ng-init="ngModel.exibirControladores = true"
             ichecks
             data-ng-model="ngModel.exibirControladores">
         <span>{{ 'controladores.mapaControladores.controladores' | translate }}</span>
       </div>
       <div class="inputAjustes">
         <input type="checkbox"
-            data-ng-init="ngModel.exibirAneis = true"
             ichecks
             data-ng-model="ngModel.exibirAneis">
         <span>{{ 'controladores.mapaControladores.aneis' | translate }}</span>
       </div>
       <div class="inputAjustes">
         <input type="checkbox"
-            data-ng-init="ngModel.exibirSubareas = true"
             ichecks
             data-ng-model="ngModel.exibirSubareas">
         <span>{{ 'controladores.mapaControladores.subAreas' | translate }}</span>
       </div>
       <div class="inputAjustes">
         <input type="checkbox"
-            data-ng-init="ngModel.exibirAgrupamentos = true"
             ichecks
             data-ng-model="ngModel.exibirAgrupamentos">
         <span>{{ 'controladores.mapaControladores.agrupamentos' | translate }}</span>
@@ -60,6 +55,15 @@
           <select select2 name="controladores" class="form-control filtro-mapa"
               data-ng-options="option.CLC for option in ngModel.controladores track by option.id"
               data-ng-model="ngModel.controladoresSelecionados"
+              multiple="multiple">
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>{{ 'controladores.mapaControladores.subAreas' | translate }}</label>
+          <select select2 name="subareas" class="form-control filtro-mapa"
+              data-ng-options="option.nome for option in ngModel.subareas track by option.id"
+              data-ng-model="ngModel.subareasSelecionadas"
               multiple="multiple">
           </select>
         </div>
