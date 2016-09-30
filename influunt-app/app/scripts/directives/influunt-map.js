@@ -30,8 +30,9 @@ angular.module('influuntApp')
         var HULL_CONCAVITY = 0.0013;
 
         // private methods.
-        var addAreas, addMarkers, addAgrupamentos, createArea, createMarker,
-            createAgrupamento, getConcaveHullPoints, getBoundingBox, initializeMap;
+        var addAgrupamentos, addAreas, addMarkers, agrupaAneis, createAgrupamento, createArea, createMarker,
+            getAreaTitle, getBoundingBox, getConcaveHullPoints, initializeMap, renderAgrupamentos, renderAreas,
+            renderMarkers, setView;
         var map, markersLayer, areasLayer, agrupamentosLayer, polylineLayer;
 
         initializeMap = function() {
@@ -73,13 +74,13 @@ angular.module('influuntApp')
                 scope.onClickMarker({$markerData: markerData});
             });
 
-          map.setView([obj.latitude, obj.longitude]);
           return marker;
         };
 
         createArea = function(obj, index) {
           var options = {color: DEFAULT_BG_COLORS[index]};
           options = _.merge(options, obj.options);
+          options.className = 'influunt-area';
 
           var points = obj.points.map(function(p) {
             return new L.LatLng(p.latitude, p.longitude);
@@ -89,7 +90,7 @@ angular.module('influuntApp')
           return area;
         };
 
-        var getAreaTitle = function(area, title) {
+        getAreaTitle = function(area, title) {
           var labelLocation = area.getCentroid();
           return new L.LabelOverlay(
             labelLocation, '<h1><strong>' + title + '</strong></h1>'
@@ -108,7 +109,8 @@ angular.module('influuntApp')
             fill: false,
             opacity: 1,
             weight: 4,
-            dashArray: [20, 10]
+            dashArray: [20, 10],
+            className: 'influunt-agrupamento'
           };
 
           options = _.merge(options, obj.options);
@@ -186,7 +188,7 @@ angular.module('influuntApp')
           return boxedPoints;
         };
 
-        var agrupaAneis = function(markers) {
+        agrupaAneis = function(markers) {
           if (_.isObject(polylineLayer)) {
             map.removeLayer(polylineLayer);
           }
@@ -207,37 +209,54 @@ angular.module('influuntApp')
           map.addLayer(polylineLayer);
         };
 
-        scope.$watch('markers', function(markers) {
-          initializeMap();
-          if (_.isObject(markersLayer)) {
-            map.removeLayer(markersLayer);
-          }
 
-          if (_.isPlainObject(markers) && angular.isDefined(map)) {
-            addMarkers([markers]);
-          }
+        var markersTimeout, areasTimeout, agrupamentosTimeout;
+        renderMarkers = function(markers) {
+          if (_.isObject(markersLayer)) { map.removeLayer(markersLayer); }
+
+          if (_.isPlainObject(markers) && angular.isDefined(map)) { addMarkers([markers]); }
 
           if (_.isArray(markers) && markers.length > 0 && angular.isDefined(map)) {
             addMarkers(markers);
             agrupaAneis(markers);
           }
+        };
+
+        renderAreas = function(areas) {
+          if (_.isArray(areas) && angular.isDefined(map)) { addAreas(areas); }
+
+          setView();
+        };
+
+        renderAgrupamentos = function(agrupamentos) {
+          if (_.isArray(agrupamentos) && angular.isDefined(map)) { addAgrupamentos(agrupamentos); }
+        };
+
+        setView = function() {
+          if (angular.isDefined(areasLayer)) {
+            var layers = _.filter(areasLayer.getLayers(), 'getBounds');
+            var group = new L.featureGroup(layers);
+            var bounds = group.getBounds();
+            return bounds.isValid() && map.fitBounds(bounds);
+          }
+        };
+
+        scope.$watch('markers', function(markers) {
+          clearTimeout(markersTimeout);
+          markersTimeout = setTimeout(function() {renderMarkers(markers);}, 200);
         }, true);
 
         scope.$watch('areas', function(areas) {
-          initializeMap();
-
-          if (_.isArray(areas) && angular.isDefined(map)) {
-            addAreas(areas);
-          }
+          clearTimeout(areasTimeout);
+          areasTimeout = setTimeout(function() {renderAreas(areas);}, 200);
         }, true);
 
         scope.$watch('agrupamentos', function(agrupamentos) {
-          initializeMap();
-
-          if (_.isArray(agrupamentos) && angular.isDefined(map)) {
-            addAgrupamentos(agrupamentos);
-          }
+          clearTimeout(agrupamentosTimeout);
+          agrupamentosTimeout = setTimeout(function() {renderAgrupamentos(agrupamentos);}, 200);
         }, true);
+
+        initializeMap();
       }
     };
   }]);

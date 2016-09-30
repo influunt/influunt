@@ -7,6 +7,7 @@ import checks.Erro;
 import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Area;
+import models.Usuario;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -17,9 +18,7 @@ import utils.InfluuntQueryBuilder;
 import utils.InfluuntResultBuilder;
 
 import javax.validation.groups.Default;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
@@ -62,8 +61,25 @@ public class AreasController extends Controller {
 
     @Transactional
     public CompletionStage<Result> findAll() {
-        InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Area.class, request().queryString()).fetch(Collections.singletonList("cidade")).query());
-        return CompletableFuture.completedFuture(ok(result.toJson()));
+        Usuario u = getUsuario();
+        Result res;
+        Map<String, String[]> params = new HashMap<>();
+        params.putAll(ctx().request().queryString());
+
+        if (u.isRoot()) {
+            InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Area.class, params).fetch(Collections.singletonList("cidade")).query());
+            res = ok(result.toJson());
+        } else if (u.getArea() != null) {
+            String[] areaId = {u.getArea().getId().toString()};
+            params.put("id", areaId);
+            InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Area.class, params).fetch(Collections.singletonList("cidade")).query());
+
+            res = ok(result.toJson());
+        } else {
+            res = forbidden();
+        }
+
+        return CompletableFuture.completedFuture(res);
     }
 
     @Transactional
@@ -101,4 +117,7 @@ public class AreasController extends Controller {
 
     }
 
+    private Usuario getUsuario() {
+        return (Usuario) ctx().args.get("user");
+    }
 }

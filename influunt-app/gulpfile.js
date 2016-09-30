@@ -77,6 +77,7 @@ var paths = {
     'bower_components/angular-datepicker/dist/angular-datepicker.js',
     'bower_components/angular-tooltips/dist/angular-tooltips.min.js',
     'bower_components/string/dist/string.min.js',
+    'bower_components/hull-js/dist/hull.js',
 
     // inspinea scripts.
     yeoman.app + '/plugins/jquery-ui-1.12.0/jquery-ui.js',

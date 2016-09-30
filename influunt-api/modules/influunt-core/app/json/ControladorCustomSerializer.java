@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by rodrigosol on 7/29/16.
@@ -123,7 +124,23 @@ public class ControladorCustomSerializer {
     public JsonNode getControladoresForMapas(List<Controlador> controladores) {
         ArrayNode controladoresJson = Json.newArray();
         for (Controlador controlador : controladores) {
-            controladoresJson.add(getControladorJson(controlador));
+            inicializaMaps();
+            ObjectNode root = Json.newObject();
+            putControladorMapa(controlador, root);
+
+            List<Anel> aneis = controlador.getAneis().stream().filter(Anel::isAtivo).collect(Collectors.toList());
+            putControladorAneis(aneis, root);
+            putControladorEnderecos(root);
+            putControladorPlano(root);
+            putControladorGruposSemaforicos(root);
+            putControladorEstagios(root);
+            putControladorEstagiosPlanos(root);
+            putControladorEstagiosGruposSemaforicos(root);
+            putControladorTransicoes(root);
+            putControladorGruposSemaforicosPlanos(root);
+            putControladorTabelaEntreVerdes(root);
+            putControladorTabelaEntreVerdesTransicoes(root);
+            controladoresJson.add(root);
         }
 
         return controladoresJson;
@@ -399,6 +416,27 @@ public class ControladorCustomSerializer {
             root.putObject("subarea").put("idJson", controlador.getSubarea().getIdJson());
         }
 
+        refEndereco("endereco", controlador.getEndereco(), root);
+    }
+
+    private void putControladorMapa(Controlador controlador, ObjectNode root) {
+        if (controlador.getId() != null) {
+            root.put("id", controlador.getId().toString());
+        }
+
+        if (controlador.getArea() != null && controlador.getArea().getIdJson() != null) {
+            root.putObject("area").put("idJson", controlador.getArea().getIdJson());
+            if (controlador.getArea().getCidade() != null && controlador.getArea().getCidade().getId() != null) {
+                root.putObject("cidade").put("id", controlador.getArea().getCidade().getId().toString());
+            }
+        }
+
+        if (controlador.getSubarea() != null && controlador.getSubarea().getIdJson() != null) {
+            root.putObject("subarea").put("idJson", controlador.getSubarea().getIdJson());
+        }
+
+
+        root.put("CLC", controlador.getCLC());
         refEndereco("endereco", controlador.getEndereco(), root);
     }
 
@@ -760,6 +798,32 @@ public class ControladorCustomSerializer {
         root.set("atrasosDeGrupo", atrasosDeGrupoJson);
     }
 
+
+    private void inicializaMaps() {
+        estagiosMap = new HashMap<String, Estagio>();
+        gruposSemaforicosMap = new HashMap<String, GrupoSemaforico>();
+        detectoresMap = new HashMap<String, Detector>();
+        imagensMap = new HashMap<String, Imagem>();
+        transicoesProibidasMap = new HashMap<String, TransicaoProibida>();
+        estagiosGruposSemaforicosMap = new HashMap<String, EstagioGrupoSemaforico>();
+        verdesConflitantesMap = new HashMap<String, VerdesConflitantes>();
+        transicoesMap = new HashMap<String, Transicao>();
+        transicoesComPerdaDePassagemMap = new HashMap<String, Transicao>();
+        entreVerdesMap = new HashMap<String, TabelaEntreVerdes>();
+        entreVerdesTransicoesMap = new HashMap<String, TabelaEntreVerdesTransicao>();
+        versoesPlanosMap = new HashMap<String, VersaoPlano>();
+        planosMap = new HashMap<String, Plano>();
+        grupoSemaforicoPlanoMap = new HashMap<String, GrupoSemaforicoPlano>();
+        intervalosMap = new HashMap<String, Intervalo>();
+        estagioPlanoMap = new HashMap<String, EstagioPlano>();
+        versoesTabelasHorariasMap = new HashMap<String, VersaoTabelaHoraria>();
+        tabelasHorariasMap = new HashMap<String, TabelaHorario>();
+        eventosMap = new HashMap<String, Evento>();
+        enderecosMap = new HashMap<String, Endereco>();
+        areasMap = new HashMap<String, Area>();
+        limitesMap = new HashMap<String, LimiteArea>();
+        atrasosDeGrupoMap = new HashMap<String, AtrasoDeGrupo>();
+    }
 
     private JsonNode getVersaoPlanoJson(VersaoPlano versaoPlano) {
         ObjectNode versaoPlanoJson = Json.newObject();
