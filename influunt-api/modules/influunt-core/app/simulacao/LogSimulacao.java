@@ -36,4 +36,9 @@ public class LogSimulacao {
         return logSimulacaos.stream().filter(eventoLog -> eventoLog.getTipoEventoLog().equals(tipoEventoLog))
                 .filter(eventoLog -> eventoLog.timeStamp.equals(timestamp));
     }
+
+    public Stream<EventoLog> find(TipoEventoLog tipoEventoLog) {
+        return logSimulacaos.stream().filter(eventoLog -> eventoLog.getTipoEventoLog().equals(tipoEventoLog));
+
+    }
 }

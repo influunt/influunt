@@ -4,6 +4,7 @@ import engine.EventoMotor;
 import engine.Motor;
 import engine.MotorCallback;
 import models.*;
+import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 
 import java.text.SimpleDateFormat;
@@ -76,13 +77,14 @@ public class Simulador implements MotorCallback {
     public void simular() {
         motor = new Motor(controlador, this);
         motor.start(inicio);
-        while (inicio.getMillis() / 1000 < fim.getMillis() / 1000) {
-            processaEventos(inicio);
-            motor.tick(inicio);
+        DateTime inicioSimulacao = inicio;
+        while (inicioSimulacao.getMillis() / 1000 < fim.getMillis() / 1000) {
+            processaEventos(inicioSimulacao);
+            motor.tick(inicioSimulacao);
             tempoSimulacao++;
-            inicio = inicio.plusSeconds(1);
+            inicioSimulacao = inicioSimulacao.plusSeconds(1);
         }
-        motor.stop(inicio);
+        motor.stop(inicioSimulacao);
     }
 
     private void processaEventos(DateTime inicio) {
@@ -113,6 +115,11 @@ public class Simulador implements MotorCallback {
         logSimulacao.log(new AlteracaoEstadoLog(timestamp, estadoAntigo, estadoNovo));
     }
 
+    @Override
+    public void onAgendamentoTrocaDePlanos(DateTime timestamp,DateTime momentoAgendamento, int anel, int plano, int planoAnterior) {
+        logSimulacao.log(new AgendamentoTrocaDePlanoLog(timestamp,momentoAgendamento,anel,plano,planoAnterior));
+    }
+
     public int getTempoSimulacao() {
         return tempoSimulacao;
     }
@@ -127,5 +134,70 @@ public class Simulador implements MotorCallback {
 
     public EventoLog findFirstInLog(TipoEventoLog alteracaoEstado, DateTime timestamp) {
         return findInLog(alteracaoEstado,timestamp).findFirst().orElse(null);
+    }
+
+    public LogSimulacao getLogSimulacao() {
+        return logSimulacao;
+    }
+
+    public int getQuantidadeGruposSemaforicos() {
+        return 2;
+    }
+
+    public Map<Integer, java.util.List<Pair<DateTime,Intervalo>>> getIntervalos() {
+
+        Map<Integer, java.util.List<Pair<DateTime,Intervalo>>>  mapa = new HashMap<>();
+
+
+        List<EventoLog> eventos = logSimulacao.find(TipoEventoLog.ALTERACAO_ESTADO).collect(Collectors.toList());
+        DateTime dataInicio = eventos.get(0).getTimeStamp();
+
+        for(EventoLog eventoLog : eventos){
+            AlteracaoEstadoLog  alteracaoEstadoLog = (AlteracaoEstadoLog) eventoLog;
+            int tamanho = (int) (alteracaoEstadoLog.timeStamp.getMillis() / 1000 -  dataInicio.getMillis() / 1000);
+            dataInicio = alteracaoEstadoLog.timeStamp;
+
+
+            for(int i = 1 ; i <= alteracaoEstadoLog.getAtual().size(); i++){
+                if(i > 120){
+                    System.out.println("P");
+                }
+                if(!mapa.containsKey(i)){
+                    mapa.put(i,new ArrayList<>());
+                }
+                if(mapa.get(i).isEmpty()){
+                    Intervalo intervalo = new Intervalo();
+                    intervalo.setTamanho(tamanho);
+                    intervalo.setEstadoGrupoSemaforico(alteracaoEstadoLog.getAtual().get(i - 1));
+                    mapa.get(i).add(new Pair<DateTime, Intervalo>(alteracaoEstadoLog.timeStamp,intervalo));
+                }else{
+                    Intervalo ultimo =  mapa.get(i).get(mapa.get(i).size() -1).getSecond();
+                    if(ultimo.getEstadoGrupoSemaforico().equals(alteracaoEstadoLog.getAtual().get(i -1))){
+                        ultimo.setTamanho(ultimo.getTamanho() + tamanho);
+                    }else{
+                        Intervalo intervalo = new Intervalo();
+                        intervalo.setTamanho(tamanho);
+                        ultimo.setTamanho(ultimo.getTamanho() + tamanho);
+                        intervalo.setEstadoGrupoSemaforico(alteracaoEstadoLog.getAtual().get(i - 1));
+                        mapa.get(i).add(new Pair<DateTime, Intervalo>(alteracaoEstadoLog.timeStamp,intervalo));
+
+                    }
+                }
+            }
+        }
+
+        return mapa;
+    }
+
+    public List<EventoLog> getMudancaEventos() {
+        return logSimulacao.find(TipoEventoLog.ALTERACAO_EVENTO).collect(Collectors.toList());
+    }
+
+    public DateTime getInicio() {
+        return inicio;
+    }
+
+    public DateTime getFim() {
+        return fim;
     }
 }

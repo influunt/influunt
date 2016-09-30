@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 /**
  * Created by rodrigosol on 9/26/16.
  */
-public class Motor implements MotorEvents {
+public class Motor implements MotorEvents, GerenciadorDeIntervalosCallBack {
     private final Controlador controlador;
 
     private GerenciadorDeEventos gerenciadorDeEventos;
@@ -51,6 +51,11 @@ public class Motor implements MotorEvents {
         callbacks.stream().forEach(motorCallback -> motorCallback.onGrupoChange(timestamp, atual, novo));
     }
 
+    @Override
+    public void onAgendamentoDeTrocaDePlanos(DateTime timestamp, DateTime momento, int anel, int plano, int planoAnterior) {
+        callbacks.stream().forEach(motorCallback -> motorCallback.onAgendamentoTrocaDePlanos(timestamp,momento, anel, plano, planoAnterior));
+    }
+
     public void tick(DateTime instante) {
         Evento evento = gerenciadorDeEventos.eventoAtual(instante);
         boolean iniciarGrupos = false;
@@ -62,18 +67,15 @@ public class Motor implements MotorEvents {
             if (!evento.equals(eventoAtual)) {
                 onEventoChange(instante, eventoAtual, evento);
                 eventoAtual = evento;
-                iniciarGrupos = true;
+                gerenciadorDeIntervalos.trocarPlanos(instante,getPlanos(eventoAtual));
             }
         }
 
         if (iniciarGrupos) {
-            List<Plano> planos = controlador.getAneis().stream().sorted((a1,a2) -> a1.getPosicao().compareTo(a2.getPosicao()))
-                    .flatMap(anel -> anel.getPlanos().stream())
-                    .filter(plano -> plano.getPosicao() == eventoAtual.getPosicaoPlano())
-                    .collect(Collectors.toList());
-
-            gerenciadorDeIntervalos = new GerenciadorDeIntervalos(planos);
+            gerenciadorDeIntervalos = new GerenciadorDeIntervalos(getPlanos(eventoAtual),this);
+            iniciarGrupos = false;
         }
+
         if (estadoAtual == null) {
             estadoAtual = gerenciadorDeIntervalos.getEstadosGrupo(instante);
             onGrupoChange(instante, null, estadoAtual);
@@ -84,6 +86,13 @@ public class Motor implements MotorEvents {
                 estadoAtual = estadoGrupoSemaforico;
             }
         }
+    }
+
+    private List<Plano> getPlanos(Evento evento) {
+        return  controlador.getAneis().stream().sorted((a1,a2) -> a1.getPosicao().compareTo(a2.getPosicao()))
+                .flatMap(anel -> anel.getPlanos().stream())
+                .filter(plano -> plano.getPosicao() == eventoAtual.getPosicaoPlano())
+                .collect(Collectors.toList());
     }
 
 
@@ -108,6 +117,7 @@ public class Motor implements MotorEvents {
         }
     }
 
+
     private void trataImposicaoPlano(EventoMotor eventoMotor) {
     }
 
@@ -126,4 +136,5 @@ public class Motor implements MotorEvents {
     private void trataAlarme(EventoMotor eventoMotor) {
 
     }
+
 }
