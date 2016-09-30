@@ -8,11 +8,11 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresConfiguracaoGruposCtrl', ['$scope', '$controller', '$state', '$filter', 'assertControlador', 'influuntAlert', 'Restangular', 'influuntBlockui',
-    function ($scope, $controller, $state, $filter, assertControlador, influuntAlert, Restangular, influuntBlockui) {
+  .controller('ControladoresConfiguracaoGruposCtrl', ['$scope', '$controller', '$state', '$filter', 'assertControlador', 'influuntAlert', 'removerPlanosTabelasHorarias',
+    function ($scope, $controller, $state, $filter, assertControlador, influuntAlert, removerPlanosTabelasHorarias) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
-      var atualizaPosicaoGrupos, removeGrupoSalvo, removeGrupoLocal, deletarPlanosTabelasHorariosNoServidor;
+      var atualizaPosicaoGrupos, removeGrupoSalvo, removeGrupoLocal;
 
       /**
        * Pré-condições para acesso à tela.
@@ -57,7 +57,7 @@ angular.module('influuntApp')
         $scope.currentAnel.gruposSemaforicos.push({ idJson: obj.idJson });
 
         $scope.atualizaGruposSemaforicos();
-        deletarPlanosTabelasHorariosNoServidor();
+        removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor();
         return atualizaPosicaoGrupos();
       };
 
@@ -71,7 +71,7 @@ angular.module('influuntApp')
             }
 
             $scope.atualizaGruposSemaforicos();
-            deletarPlanosTabelasHorariosNoServidor();
+            removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor();
             return atualizaPosicaoGrupos();
           }
         });
@@ -138,10 +138,6 @@ angular.module('influuntApp')
           })
           .value();
         });
-      };
-
-      deletarPlanosTabelasHorariosNoServidor = function() {
-        return Restangular.one('controladores', $scope.objeto.id).customDELETE('remover_planos_tabelas_horarios').finally(influuntBlockui.unblock);
       };
 
     }]);

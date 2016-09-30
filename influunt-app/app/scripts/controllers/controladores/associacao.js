@@ -8,12 +8,12 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresAssociacaoCtrl', ['$scope', '$state', '$controller', 'assertControlador', 'utilEstagios', 'Restangular', 'influuntBlockui',
-    function ($scope, $state, $controller, assertControlador, utilEstagios, Restangular, influuntBlockui) {
+  .controller('ControladoresAssociacaoCtrl', ['$scope', '$state', '$controller', 'assertControlador', 'utilEstagios', 'removerPlanosTabelasHorarias',
+    function ($scope, $state, $controller, assertControlador, utilEstagios, removerPlanosTabelasHorarias) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
 
-      var atualizaPosicaoEstagios, onSortableStop, marcaGrupoEstagiosAtivos, atualizaValorDefaultTempoMaximoPermanenciaEstagios, estagioVeicular, deletarPlanosTabelasHorariosNoServidor;
+      var atualizaPosicaoEstagios, onSortableStop, marcaGrupoEstagiosAtivos, atualizaValorDefaultTempoMaximoPermanenciaEstagios, estagioVeicular;
 
       /**
        * Pré-condições para acesso à tela de associações: Somente será possível acessar esta
@@ -135,7 +135,7 @@ angular.module('influuntApp')
         }
 
         atualizaValorDefaultTempoMaximoPermanenciaEstagios(estagio);
-        deletarPlanosTabelasHorariosNoServidor();
+        removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor();
       };
 
       $scope.estagioTemErro = function(indiceAnel, indiceEstagio) {
@@ -233,7 +233,4 @@ angular.module('influuntApp')
         }
       };
 
-      deletarPlanosTabelasHorariosNoServidor = function() {
-        return Restangular.one('controladores', $scope.objeto.id).customDELETE('remover_planos_tabelas_horarios').finally(influuntBlockui.unblock);
-      };
     }]);

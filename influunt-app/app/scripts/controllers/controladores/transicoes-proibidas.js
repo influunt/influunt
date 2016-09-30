@@ -8,13 +8,13 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresTransicoesProibidasCtrl', ['$scope', '$state', '$controller', 'assertControlador', 'Restangular', 'influuntBlockui',
-    function ($scope, $state, $controller, assertControlador, Restangular, influuntBlockui) {
+  .controller('ControladoresTransicoesProibidasCtrl', ['$scope', '$state', '$controller', 'assertControlador', 'removerPlanosTabelasHorarias',
+    function ($scope, $state, $controller, assertControlador, removerPlanosTabelasHorarias) {
       $controller('ControladoresCtrl', {$scope: $scope});
       $controller('ConfirmacaoNadaHaPreencherCtrl', {$scope: $scope});
 
       // funcoes privadas.
-      var desativarTransicaoProibida, ativarTransicaoProibida, getEstagioAnterior, deletarPlanosTabelasHorariosNoServidor;
+      var desativarTransicaoProibida, ativarTransicaoProibida, getEstagioAnterior;
 
       /**
        * Garante que o controlador tem as condições mínimas para acessar a tela de transicoes proibidas.
@@ -225,7 +225,7 @@ angular.module('influuntApp')
           }
         };
 
-        deletarPlanosTabelasHorariosNoServidor();
+        removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor();
         $scope.verificaConfirmacaoNadaHaPreencher();
       };
 
@@ -266,7 +266,7 @@ angular.module('influuntApp')
           }
         }
 
-        deletarPlanosTabelasHorariosNoServidor();
+        removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor();
         $scope.verificaConfirmacaoNadaHaPreencher();
       };
 
@@ -285,10 +285,6 @@ angular.module('influuntApp')
 
         var t = _.find($scope.objeto.transicoesProibidas, query);
         return t && t.alternativo && _.find($scope.objeto.estagios, {idJson: t.alternativo.idJson});
-      };
-
-      deletarPlanosTabelasHorariosNoServidor = function() {
-        return Restangular.one('controladores', $scope.objeto.id).customDELETE('remover_planos_tabelas_horarios').finally(influuntBlockui.unblock);
       };
 
     }]);

@@ -9,15 +9,14 @@
  */
 angular.module('influuntApp')
   .controller('ControladoresAneisCtrl', ['$scope', '$state', '$controller', '$q', '$filter', 'assertControlador',
-                                         'influuntAlert', 'Restangular', 'toast', 'influuntBlockui',
+                                         'influuntAlert', 'Restangular', 'toast', 'influuntBlockui', 'removerPlanosTabelasHorarias',
     function ($scope, $state, $controller, $q, $filter, assertControlador,
-              influuntAlert, Restangular, toast, influuntBlockui) {
+              influuntAlert, Restangular, toast, influuntBlockui, removerPlanosTabelasHorarias) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
       // Métodos privados.
       var ativaPrimeiroAnel, inicializaEnderecos, atualizarAneisAtivos, registrarWatcherCurrentAnel, setDadosBasicos,
-      setandoEnderecoByAnel, watcherEndereco, setarImagensEstagios, inicializaObjetoCroqui, deletarCroquiNoServidor,
-      deletarPlanosTabelasHorariosNoServidor;
+      setandoEnderecoByAnel, watcherEndereco, setarImagensEstagios, inicializaObjetoCroqui, deletarCroquiNoServidor;
 
       /**
        * Pré-condições para acesso à tela de aneis: Somente será possível acessar esta
@@ -86,7 +85,7 @@ angular.module('influuntApp')
         $scope.objeto.estagios.push(estagio);
         $scope.objeto.imagens.push(_imagem);
 
-        deletarPlanosTabelasHorariosNoServidor();
+        removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor();
       };
 
       $scope.adicionarCroqui = function(upload, imagem, anelIdJson) {
@@ -141,7 +140,7 @@ angular.module('influuntApp')
         $scope.objeto.estagios.splice(estagioIndex, 1);
         anel.estagios.splice(estagioAnelIndex, 1);
 
-        deletarPlanosTabelasHorariosNoServidor();
+        removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor();
       };
 
       $scope.deletarEstagio = function(estagioIdJson) {
@@ -303,9 +302,5 @@ angular.module('influuntApp')
             nomeImagem: croqui.filename
           };
         }
-      };
-
-      deletarPlanosTabelasHorariosNoServidor = function() {
-        return Restangular.one('controladores', $scope.objeto.id).customDELETE('remover_planos_tabelas_horarios').finally(influuntBlockui.unblock);
       };
   }]);
