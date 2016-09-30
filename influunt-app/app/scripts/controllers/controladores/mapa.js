@@ -8,12 +8,10 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresMapaCtrl', ['$scope', '$filter', 'Restangular',
-                                        'geraDadosDiagramaIntervalo', 'influuntAlert', 'influuntBlockui',
-                                        'filtrosMapa',
-    function ($scope, $filter, Restangular,
-              geraDadosDiagramaIntervalo, influuntAlert, influuntBlockui,
-              filtrosMapa) {
+  .controller('ControladoresMapaCtrl', ['$scope', '$filter', 'Restangular', 'geraDadosDiagramaIntervalo',
+                                        'influuntAlert', 'influuntBlockui', 'filtrosMapa',
+    function ($scope, $filter, Restangular, geraDadosDiagramaIntervalo,
+              influuntAlert, influuntBlockui, filtrosMapa) {
       var filtraDados, getMarkersControladores, getMarkersAneis,
           getAreas, constroiFiltros, getAgrupamentos, getSubareas, getCoordenadasFromControladores;
 

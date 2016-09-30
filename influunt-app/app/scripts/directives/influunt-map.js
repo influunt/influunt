@@ -74,13 +74,13 @@ angular.module('influuntApp')
                 scope.onClickMarker({$markerData: markerData});
             });
 
-          // map.setView([obj.latitude, obj.longitude]);
           return marker;
         };
 
         createArea = function(obj, index) {
           var options = {color: DEFAULT_BG_COLORS[index]};
           options = _.merge(options, obj.options);
+          options.className = 'influunt-area';
 
           var points = obj.points.map(function(p) {
             return new L.LatLng(p.latitude, p.longitude);
@@ -109,7 +109,8 @@ angular.module('influuntApp')
             fill: false,
             opacity: 1,
             weight: 4,
-            dashArray: [20, 10]
+            dashArray: [20, 10],
+            className: 'influunt-agrupamento'
           };
 
           options = _.merge(options, obj.options);
@@ -211,7 +212,6 @@ angular.module('influuntApp')
 
         var markersTimeout, areasTimeout, agrupamentosTimeout;
         renderMarkers = function(markers) {
-          initializeMap();
           if (_.isObject(markersLayer)) { map.removeLayer(markersLayer); }
 
           if (_.isPlainObject(markers) && angular.isDefined(map)) { addMarkers([markers]); }
@@ -223,14 +223,12 @@ angular.module('influuntApp')
         };
 
         renderAreas = function(areas) {
-          initializeMap();
           if (_.isArray(areas) && angular.isDefined(map)) { addAreas(areas); }
 
           setView();
         };
 
         renderAgrupamentos = function(agrupamentos) {
-          initializeMap();
           if (_.isArray(agrupamentos) && angular.isDefined(map)) { addAgrupamentos(agrupamentos); }
         };
 
@@ -257,6 +255,8 @@ angular.module('influuntApp')
           clearTimeout(agrupamentosTimeout);
           agrupamentosTimeout = setTimeout(function() {renderAgrupamentos(agrupamentos);}, 200);
         }, true);
+
+        initializeMap();
       }
     };
   }]);

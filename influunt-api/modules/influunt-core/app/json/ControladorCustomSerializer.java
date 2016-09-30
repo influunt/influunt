@@ -124,21 +124,13 @@ public class ControladorCustomSerializer {
     public JsonNode getControladoresForMapas(List<Controlador> controladores) {
         ArrayNode controladoresJson = Json.newArray();
         for (Controlador controlador : controladores) {
-//            ObjectNode root = (ObjectNode) getControladorJson(controlador);
-//            controladoresJson.add(root);
             inicializaMaps();
             ObjectNode root = Json.newObject();
             putControladorMapa(controlador, root);
 
-            // TODO: 9/28/16 Caso não precise dos elementos dentro dos aneis de putControladorAneis, criar um novo mais exclusivo.
             List<Anel> aneis = controlador.getAneis().stream().filter(Anel::isAtivo).collect(Collectors.toList());
             putControladorAneis(aneis, root);
-//            putControladorCidades(root);
-//            putControladorSubarea(controlador.getSubarea(), root);
-//            putControladorAreas(root);
-//            putControladorLimites(root);
             putControladorEnderecos(root);
-
             putControladorPlano(root);
             putControladorGruposSemaforicos(root);
             putControladorEstagios(root);
@@ -146,10 +138,8 @@ public class ControladorCustomSerializer {
             putControladorEstagiosGruposSemaforicos(root);
             putControladorTransicoes(root);
             putControladorGruposSemaforicosPlanos(root);
-
             putControladorTabelaEntreVerdes(root);
             putControladorTabelaEntreVerdesTransicoes(root);
-
             controladoresJson.add(root);
         }
 
