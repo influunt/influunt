@@ -198,7 +198,5 @@ Funcionalidade: Fluxo de cadastro de controladores
   Cenário: Salvar revisão
     Dado que o usuário esteja no wizard no passo "Revisão"
     Quando o usuário clicar no botão "Salvar"
-    E o usuário deverá preecher a modificação com "Revisão 1"
-    Quando o usuário clicar no botão sim
     Então o sistema deverá redirecionar o usuário para a página de listagem de controladores
 
