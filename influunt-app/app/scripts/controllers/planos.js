@@ -21,8 +21,8 @@ angular.module('influuntApp')
           atualizaEstagiosPlanos, adicionaEstagioASequencia, atualizaPosicaoPlanos, atualizaPosicaoEstagiosPlanos,
           carregaDadosPlano, getOpcoesEstagiosDisponiveis, montaTabelaValoresMinimos, parseAllToInt, setDiagramaEstatico,
           atualizaDiagramaIntervalos, getPlanoParaDiagrama, atualizaTransicoesProibidas, getErrosGruposSemaforicosPlanos, 
-          getErrosPlanoAtuadoSemDetector, duplicarPlano, removerPlanoLocal, getErrosUltrapassaTempoCiclo, getKeysErros,
-          getIdJsonDePlanosQuePossuemErros, getPlanoComErro, getIndexPlano, verdeMinimoDoEstagio;
+          getErrosPlanoAtuadoSemDetector, duplicarPlano, removerPlanoLocal, getErrosUltrapassaTempoCiclo, getErrosSequenciaInvalida, 
+          getKeysErros, getIdJsonDePlanosQuePossuemErros, getPlanoComErro, getIndexPlano, verdeMinimoDoEstagio;
       var diagramaDebouncer = null;
 
       $scope.somenteVisualizacao = $state.current.data.somenteVisualizacao;
@@ -452,9 +452,10 @@ angular.module('influuntApp')
           .value();
 
         var currentPlanoIndex = getIndexPlano($scope.currentAnel, $scope.currentPlano);
-          erros.push(getErrosGruposSemaforicosPlanos(listaErros, currentPlanoIndex));
+        erros.push(getErrosGruposSemaforicosPlanos(listaErros, currentPlanoIndex));
         erros.push(getErrosUltrapassaTempoCiclo(listaErros, currentPlanoIndex));
         erros.push(getErrosPlanoAtuadoSemDetector(listaErros, currentPlanoIndex));
+        erros.push(getErrosSequenciaInvalida(listaErros, currentPlanoIndex));
 
         return _.flatten(erros);
       };
@@ -554,6 +555,20 @@ angular.module('influuntApp')
           return erros;
         }
         return [];
+      };
+      
+      getErrosSequenciaInvalida = function(listaErros, currentPlanoIndex) {
+        var erros = [];
+        var errosSequencia;
+        errosSequencia = _.get(listaErros, 'planos['+ currentPlanoIndex +'].sequenciaInvalida');
+        if (errosSequencia) {
+          erros.push(errosSequencia[0]);
+        }
+        errosSequencia = _.get(listaErros, 'planos['+ currentPlanoIndex +'].sequenciaInvalidaSeExisteEstagioDispensavel');
+        if (errosSequencia) {
+          erros.push(errosSequencia[0]);
+        }
+        return _.flatten(erros);
       };
 
       /**
