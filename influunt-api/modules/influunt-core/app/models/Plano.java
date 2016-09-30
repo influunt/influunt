@@ -21,6 +21,7 @@ import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by lesiopinheiro on 7/13/16.
@@ -152,6 +153,10 @@ public class Plano extends Model implements Cloneable, Serializable {
 
     public List<EstagioPlano> getEstagiosPlanos() {
         return estagiosPlanos;
+    }
+
+    public List<EstagioPlano> getEstagiosPlanosSemEstagioDispensavel() {
+        return estagiosPlanos.stream().filter(estagioPlano -> !estagioPlano.isDispensavel()).collect(Collectors.toList());
     }
 
     public void setEstagiosPlanos(List<EstagioPlano> estagios) {
@@ -292,19 +297,15 @@ public class Plano extends Model implements Cloneable, Serializable {
             message = "A sequência de estagio não é válida.")
     public boolean isSequenciaInvalida() {
         if (!this.getEstagiosPlanos().isEmpty() && isPosicaoUnicaEstagio()) {
-            getEstagiosPlanos().sort((e1, e2) -> e1.getPosicao().compareTo(e2.getPosicao()));
-            for (int i = 0; i < getEstagiosPlanos().size(); i++) {
-                EstagioPlano origem = getEstagiosPlanos().get(i);
-                EstagioPlano destino = null;
-                if ((i + 1) < getEstagiosPlanos().size()) {
-                    destino = getEstagiosPlanos().get(i + 1);
-                } else {
-                    destino = getEstagiosPlanos().get(0);
-                }
-                if (origem.getEstagio().temTransicaoProibidaParaEstagio(destino.getEstagio())) {
-                    return false;
-                }
-            }
+            return sequenciaDeEstagioValida(ordenarEstagiosPorPosicao());
+        }
+        return true;
+    }
+
+    @AssertTrue(groups = PlanosCheck.class, message = "A sequência de estagio não é válida, pois existe uma transição proibida devido a não execução do estágio dispensável.")
+    public boolean isSequenciaInvalidaSeExisteEstagioDispensavel() {
+        if (!this.getEstagiosPlanos().isEmpty() && getEstagiosPlanos().stream().anyMatch(estagioPlano -> estagioPlano.isDispensavel())) {
+            return this.sequenciaDeEstagioValida(this.ordenarEstagiosPorPosicaoSemEstagioDispensavel());
         }
         return true;
     }
@@ -383,6 +384,29 @@ public class Plano extends Model implements Cloneable, Serializable {
         return listaEstagioPlanos;
     }
 
+    public List<EstagioPlano> ordenarEstagiosPorPosicaoSemEstagioDispensavel() {
+        List<EstagioPlano> listaEstagioPlanos = this.getEstagiosPlanosSemEstagioDispensavel();
+        listaEstagioPlanos.sort((anterior, proximo) -> anterior.getPosicao().compareTo(proximo.getPosicao()));
+        return listaEstagioPlanos;
+    }
+
+    public boolean sequenciaDeEstagioValida(List<EstagioPlano> estagios){
+        int tamanho = estagios.size();
+        for (int i = 0; i < tamanho; i++) {
+            EstagioPlano origem = estagios.get(i);
+            EstagioPlano destino = null;
+            if ((i + 1) < tamanho) {
+                destino = estagios.get(i + 1);
+            } else {
+                destino = estagios.get(0);
+            }
+            if (origem.getEstagio().temTransicaoProibidaParaEstagio(destino.getEstagio())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
@@ -402,4 +426,5 @@ public class Plano extends Model implements Cloneable, Serializable {
                 + ", dataAtualizacao=" + dataAtualizacao
                 + '}';
     }
+
 }
