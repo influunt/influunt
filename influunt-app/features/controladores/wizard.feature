@@ -128,23 +128,6 @@ Funcionalidade: Fluxo de cadastro de controladores
     E o usuário selecionar o anel 2
     E o usuário selecionar o valor "E1" no campo "Alternativa"
     Quando clicar no botão para ir pro próximo passo
-    Então o sistema irá avançar para o passo "Atraso de Grupo"
-
-  Cenário: Tentar salvar um atraso de grupo
-    Dado que o usuário esteja no wizard no passo "Atraso de Grupo"
-    E que o usuário marque 15 no campo 1 para transições com perda de direito de passagem
-    E que o usuário marque 20 no campo 1 para transições com ganho de direito de passagem
-    E que o usuário marque 15 no campo 2 para transições com ganho de direito de passagem
-    E que o usuário clique no grupo "G2"
-    E que o usuário marque 23 no campo 1 para transições com perda de direito de passagem
-    E que o usuário marque 15 no campo 2 para transições com perda de direito de passagem
-    E que o usuário marque 10 no campo 1 para transições com ganho de direito de passagem
-    E que o usuário clique no grupo "G3"
-    E que o usuário marque 4 no campo 1 para transições com perda de direito de passagem
-    E que o usuário marque 12 no campo 2 para transições com perda de direito de passagem
-    E que o usuário marque 11 no campo 1 para transições com ganho de direito de passagem
-    E que o usuário marque 8 no campo 2 para transições com ganho de direito de passagem
-    Quando clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Tabela Entre Verdes"
 
   Cenário: Salvar tabela entre verdes
@@ -162,6 +145,23 @@ Funcionalidade: Fluxo de cadastro de controladores
     E que o usuário marque 2 no tempo "Vermelho Intermitente" da transição "E2-E1"
     E que o usuário marque 2 no tempo "Vermelho de Limpeza" da transição "E2-E1"
     Quando o usuário clicar no botão para ir pro próximo passo
+    Então o sistema irá avançar para o passo "Atraso de Grupo"
+
+  Cenário: Tentar salvar um atraso de grupo
+    Dado que o usuário esteja no wizard no passo "Atraso de Grupo"
+    E que o usuário marque 15 no campo 1 para transições com perda de direito de passagem
+    E que o usuário marque 20 no campo 1 para transições com ganho de direito de passagem
+    E que o usuário marque 15 no campo 2 para transições com ganho de direito de passagem
+    E que o usuário clique no grupo "G2"
+    E que o usuário marque 23 no campo 1 para transições com perda de direito de passagem
+    E que o usuário marque 15 no campo 2 para transições com perda de direito de passagem
+    E que o usuário marque 10 no campo 1 para transições com ganho de direito de passagem
+    E que o usuário clique no grupo "G3"
+    E que o usuário marque 4 no campo 1 para transições com perda de direito de passagem
+    E que o usuário marque 12 no campo 2 para transições com perda de direito de passagem
+    E que o usuário marque 11 no campo 1 para transições com ganho de direito de passagem
+    E que o usuário marque 8 no campo 2 para transições com ganho de direito de passagem
+    Quando clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Detectores"
 
   Cenário: Tentar salvar detectores sem configurar
