@@ -1,8 +1,7 @@
 package controllers;
 
 import config.WithInfluuntApplicationNoAuthentication;
-import models.Anel;
-import models.Estagio;
+import models.*;
 import org.junit.Test;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -17,7 +16,33 @@ public class EstagiosControllerTest extends WithInfluuntApplicationNoAuthenticat
 
     @Test
     public void testApagarEstagioExistente() {
+        Cidade cidade = new Cidade();
+        cidade.setNome("São Paulo");
+        cidade.save();
+
+        Area area = new Area();
+        area.setCidade(cidade);
+        area.setDescricao(1);
+        area.save();
+
+        Subarea subarea = new Subarea();
+        subarea.setArea(area);
+        subarea.setNome("Subarea 1");
+        subarea.setNumero(1);
+        subarea.save();
+
+        Fabricante fabricante = new Fabricante();
+        fabricante.setNome("Tesc");
+        fabricante.save();
+
+        ModeloControlador modeloControlador = new ModeloControlador();
+        modeloControlador.setFabricante(fabricante);
+        modeloControlador.setDescricao("Modelo 1");
+        modeloControlador.save();
+
+        Controlador controlador = new ControladorTestUtil(area, subarea, fabricante, modeloControlador).getControladorDadosBasicos();
         Anel anel = new Anel();
+        anel.setControlador(controlador);
         Estagio estagio = new Estagio();
         anel.addEstagio(estagio);
         anel.save();

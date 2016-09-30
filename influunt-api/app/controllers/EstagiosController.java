@@ -29,6 +29,7 @@ public class EstagiosController extends Controller {
             return CompletableFuture.completedFuture(notFound());
         } else {
             if (estagio.delete(provider.get().path())) {
+                estagio.getAnel().getControlador().removerPlanosTabelasHorarios();
                 return CompletableFuture.completedFuture(ok());
             } else {
                 return CompletableFuture.completedFuture(badRequest());

@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresTransicoesProibidasCtrl', ['$scope', '$state', '$controller', 'assertControlador',
-    function ($scope, $state, $controller, assertControlador) {
+  .controller('ControladoresTransicoesProibidasCtrl', ['$scope', '$state', '$controller', 'assertControlador', 'removerPlanosTabelasHorarias',
+    function ($scope, $state, $controller, assertControlador, removerPlanosTabelasHorarias) {
       $controller('ControladoresCtrl', {$scope: $scope});
       $controller('ConfirmacaoNadaHaPreencherCtrl', {$scope: $scope});
 
@@ -225,6 +225,7 @@ angular.module('influuntApp')
           }
         };
 
+        removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor($scope.objeto.id);
         $scope.verificaConfirmacaoNadaHaPreencher();
       };
 
@@ -265,6 +266,7 @@ angular.module('influuntApp')
           }
         }
 
+        removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor($scope.objeto.id);
         $scope.verificaConfirmacaoNadaHaPreencher();
       };
 
@@ -284,4 +286,5 @@ angular.module('influuntApp')
         var t = _.find($scope.objeto.transicoesProibidas, query);
         return t && t.alternativo && _.find($scope.objeto.estagios, {idJson: t.alternativo.idJson});
       };
+
     }]);
