@@ -16,13 +16,9 @@ public interface Storage {
 
     public void setControlador(Controlador controlador);
 
-    public void setPlanos(JsonNode plano);
-
     public Controlador getControladorStaging();
 
     public void setControladorStaging(Controlador controlador);
-
-    public void setPlanosStaging(JsonNode plano);
 
     public JsonNode getControladorJson();
 
@@ -30,6 +26,10 @@ public interface Storage {
 
     public JsonNode getPlanos();
 
+    public void setPlanos(JsonNode plano);
+
     public JsonNode getPlanosStaging();
+
+    public void setPlanosStaging(JsonNode plano);
 
 }

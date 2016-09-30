@@ -41,6 +41,7 @@ DELETE      /api/v1/controladores/:id                             controllers.Co
 GET         /api/v1/controladores/:id/edit                        controllers.ControladoresController.edit(id)
 GET         /api/v1/controladores/:id/timeline                    controllers.ControladoresController.timeline(id)
 GET         /api/v1/controladores/:id/pode_editar                 controllers.ControladoresController.podeEditar(id)
+PUT         /api/v1/controladores/:id/finalizar                    controllers.ControladoresController.finalizar(id)
 PUT         /api/v1/controladores/:id/ativar                      controllers.ControladoresController.ativar(id)
 DELETE      /api/v1/controladores/:id/cancelar_edicao             controllers.ControladoresController.cancelarEdicao(id)
 GET         /api/v1/controladores/:id/editar_planos               controllers.ControladoresController.editarPlanos(id)
@@ -150,6 +151,25 @@ GET         /api/v1/monitoramento/status                                    cont
 GET         /api/v1/monitoramento/status/:id/ultimo_status                  controllers.monitoramento.StatusControladorFisicoController.ultimoStatus(id)
 GET         /api/v1/monitoramento/status/:id/historico/:pagina/:tamanho     controllers.monitoramento.StatusControladorFisicoController.historico(id,pagina,tamanho)
 
+# ModoOperacao Controlador
+GET         /api/v1/monitoramento/modo_operacoes_controladores/:id                                controllers.monitoramento.ModoOperacaoControladorController.findOne(id)
+GET         /api/v1/monitoramento/modo_operacoes_controladores                                    controllers.monitoramento.ModoOperacaoControladorController.ultimoModoOperacaoDosControladores()
+GET         /api/v1/monitoramento/modo_operacoes_controladores/:id/ultimo_modo_operacao           controllers.monitoramento.ModoOperacaoControladorController.ultimoModoOperacaoControlador(id)
+GET         /api/v1/monitoramento/modo_operacoes_controladores/:id/historico/:pagina/:tamanho     controllers.monitoramento.ModoOperacaoControladorController.historico(id,pagina,tamanho)
+
+# Erros Controladores
+GET         /api/v1/monitoramento/erros_controladores/:id                                controllers.monitoramento.ErrosControladorController.findOne(id)
+GET         /api/v1/monitoramento/erros_controladores                                    controllers.monitoramento.ErrosControladorController.ultimosErrosDosControladores()
+GET         /api/v1/monitoramento/erros_controladores/:id/ultimo_erro                    controllers.monitoramento.ErrosControladorController.ultimoErroControlador(id)
+GET         /api/v1/monitoramento/erros_controladores/:id/historico/:pagina/:tamanho     controllers.monitoramento.ErrosControladorController.historico(id,pagina,tamanho)
+
+# ImposicaoPlanos Controlador
+GET         /api/v1/monitoramento/imposicoes_planos/:id                                controllers.monitoramento.ImposicaoPlanosControladorController.findOne(id)
+GET         /api/v1/monitoramento/imposicoes_planos                                    controllers.monitoramento.ImposicaoPlanosControladorController.ultimoStatusPlanoImpostoDosControladores()
+GET         /api/v1/monitoramento/imposicoes_planos/:id/ultimo_status                  controllers.monitoramento.ImposicaoPlanosControladorController.ultimoStatusPlanoImposto(id)
+GET         /api/v1/monitoramento/imposicoes_planos/:id/historico/:pagina/:tamanho     controllers.monitoramento.ImposicaoPlanosControladorController.historico(id,pagina,tamanho)
+
+
 # Monitoramento
 GET         /api/v1/monitoramento/status_controladores                              controllers.monitoramento.MonitoramentoController.ultimoStatusDosControladores()
 GET         /api/v1/monitoramento/controladores_onlines                             controllers.monitoramento.MonitoramentoController.controladoresOnline()
@@ -160,5 +180,5 @@ GET         /api/v1/monitoramento/detalhe_controlador/:id                       
 # Rota para o cucumber conseguir criar o banco de dados durante o teste
 POST        /api/v1/cucumber                                      controllers.CucumberController.createDB()
 
-
+# Asset
 GET         /assets/*file                                         controllers.Assets.at(path="/public", file)

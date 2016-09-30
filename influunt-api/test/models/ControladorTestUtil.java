@@ -2,10 +2,7 @@ package models;
 
 import org.joda.time.LocalTime;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by lesiopinheiro on 8/10/16.
@@ -143,7 +140,7 @@ public class ControladorTestUtil {
         EstagioGrupoSemaforico estagioGrupoSemaforico4 = new EstagioGrupoSemaforico(estagio4, grupoSemaforico2);
 
 
-        estagio1.setDemandaPrioritaria(true);
+        estagio1.setDemandaPrioritaria(false);
         estagio1.setTempoMaximoPermanencia(100);
         estagio1.addEstagioGrupoSemaforico(estagioGrupoSemaforico1);
         estagio1.setDescricao("estagio1");
@@ -167,6 +164,7 @@ public class ControladorTestUtil {
         Estagio estagioNovo = anelCom2Estagios.getEstagios().get(0);
         Estagio estagioNovo2 = anelCom2Estagios.getEstagios().get(1);
         estagioNovo.setDemandaPrioritaria(true);
+        estagioNovo.setTempoVerdeDemandaPrioritaria(100);
         estagioNovo.setTempoMaximoPermanenciaAtivado(false);
         estagioNovo2.setTempoMaximoPermanenciaAtivado(false);
 
@@ -259,7 +257,7 @@ public class ControladorTestUtil {
     }
 
     public Controlador getControladorAtrasoDeGrupo() {
-        Controlador controlador = getControladorTransicoesProibidas();
+        Controlador controlador = getControladorTabelaDeEntreVerdes();
         controlador.save();
 
         for (Anel anel : controlador.getAneis()) {
@@ -277,7 +275,7 @@ public class ControladorTestUtil {
 
     public Controlador getControladorTabelaDeEntreVerdes() {
 
-        Controlador controlador = getControladorAtrasoDeGrupo();
+        Controlador controlador = getControladorTransicoesProibidas();
         controlador.save();
 
         for (Anel anel : controlador.getAneis()) {
@@ -298,7 +296,7 @@ public class ControladorTestUtil {
     }
 
     public Controlador getControladorAssociacaoDetectores() {
-        Controlador controlador = getControladorTabelaDeEntreVerdes();
+        Controlador controlador = getControladorAtrasoDeGrupo();
         controlador.save();
 
         Anel anelCom2Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
@@ -428,6 +426,9 @@ public class ControladorTestUtil {
         estagioPlano4Anel4.setTempoVerdeIntermediario(20);
         estagioPlano4Anel4.setTempoExtensaoVerde(10.0);
 
+        criaIntervalos(plano1Anel2);
+        criaIntervalos(plano1Anel4);
+
         return controlador;
     }
 
@@ -516,6 +517,87 @@ public class ControladorTestUtil {
             estagioPlano.setEstagio(estagio);
             plano.addEstagios(estagioPlano);
             i++;
+        }
+    }
+
+    protected void criaIntervalos(Plano plano) {
+        List<EstagioPlano> estagios = plano.ordenarEstagiosPorPosicao();
+        TabelaEntreVerdesTransicao tabelaEntreVerdesTransicao;
+        Intervalo intervalo;
+        GrupoSemaforicoPlano grupoSemaforicoPlano;
+        for (EstagioPlano estagioPlano : estagios) {
+            EstagioPlano estagioPlanoAnterior = estagioPlano.getEstagioPlanoAnterior(estagios);
+            Estagio estagioAtual = estagioPlano.getEstagio();
+            Estagio estagioAnterior = estagioPlanoAnterior.getEstagio();
+
+            List<Integer> tempos = new ArrayList<>();
+            for (GrupoSemaforico grupoSemaforico : estagioAnterior.getGruposSemaforicos()) {
+                Transicao transicao = grupoSemaforico
+                        .getTransicoes()
+                        .stream()
+                        .filter(transicao1 -> transicao1.getOrigem().equals(estagioAnterior) && transicao1.getDestino().equals(estagioAtual))
+                        .findAny()
+                        .get();
+                tabelaEntreVerdesTransicao = grupoSemaforico
+                        .getTabelasEntreVerdes()
+                        .get(0)
+                        .getTabelaEntreVerdesTransicoes()
+                        .stream()
+                        .filter(tevt -> tevt.getTransicao().equals(transicao))
+                        .findAny()
+                        .get();
+                grupoSemaforicoPlano = plano
+                        .getGruposSemaforicosPlanos()
+                        .stream()
+                        .filter(grupoPlano -> grupoPlano.getGrupoSemaforico().equals(grupoSemaforico))
+                        .findAny()
+                        .get();
+
+                intervalo = new Intervalo();
+                intervalo.setOrdem(grupoSemaforicoPlano.getIntervalos().size() + 1);
+
+                if (grupoSemaforico.isVeicular()) {
+                    intervalo.setEstadoGrupoSemaforico(EstadoGrupoSemaforico.AMARELO);
+                    intervalo.setTamanho(tabelaEntreVerdesTransicao.getTempoAmarelo());
+                    tempos.add(tabelaEntreVerdesTransicao.getTempoAmarelo() + tabelaEntreVerdesTransicao.getTempoVermelhoLimpeza());
+                } else {
+                    intervalo.setEstadoGrupoSemaforico(EstadoGrupoSemaforico.VERMELHO_INTERMITENTE);
+                    intervalo.setTamanho(tabelaEntreVerdesTransicao.getTempoVermelhoIntermitente());
+                    tempos.add(tabelaEntreVerdesTransicao.getTempoVermelhoIntermitente() + tabelaEntreVerdesTransicao.getTempoVermelhoLimpeza());
+                }
+                intervalo.setGrupoSemaforicoPlano(grupoSemaforicoPlano);
+                grupoSemaforicoPlano.addIntervalos(intervalo);
+
+                intervalo = new Intervalo();
+                intervalo.setOrdem(grupoSemaforicoPlano.getIntervalos().size() + 1);
+                intervalo.setTamanho(tabelaEntreVerdesTransicao.getTempoVermelhoLimpeza());
+                intervalo.setEstadoGrupoSemaforico(EstadoGrupoSemaforico.VERMELHO_LIMPEZA);
+                intervalo.setGrupoSemaforicoPlano(grupoSemaforicoPlano);
+                grupoSemaforicoPlano.addIntervalos(intervalo);
+            }
+
+            for (GrupoSemaforico grupoSemaforico : estagioAtual.getGruposSemaforicos()) {
+                grupoSemaforicoPlano = plano
+                        .getGruposSemaforicosPlanos()
+                        .stream()
+                        .filter(grupoPlano -> grupoPlano.getGrupoSemaforico().equals(grupoSemaforico))
+                        .findAny()
+                        .get();
+
+                intervalo = new Intervalo();
+                intervalo.setOrdem(grupoSemaforicoPlano.getIntervalos().size() + 1);
+                intervalo.setEstadoGrupoSemaforico(EstadoGrupoSemaforico.VERMELHO);
+                intervalo.setTamanho(Collections.max(tempos));
+                intervalo.setGrupoSemaforicoPlano(grupoSemaforicoPlano);
+                grupoSemaforicoPlano.addIntervalos(intervalo);
+
+                intervalo = new Intervalo();
+                intervalo.setOrdem(grupoSemaforicoPlano.getIntervalos().size() + 1);
+                intervalo.setEstadoGrupoSemaforico(EstadoGrupoSemaforico.VERDE);
+                intervalo.setTamanho(estagioPlano.getTempoVerdeEstagio());
+                intervalo.setGrupoSemaforicoPlano(grupoSemaforicoPlano);
+                grupoSemaforicoPlano.addIntervalos(intervalo);
+            }
         }
     }
 

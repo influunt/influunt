@@ -119,6 +119,10 @@ public abstract class ControladorTest extends WithInfluuntApplicationNoAuthentic
         controladorTestUtils.criarDetector(anel, tipo, posicao, monitorado);
     }
 
+    protected void criaIntervalos(Plano plano) {
+        controladorTestUtils.criaIntervalos(plano);
+    }
+
     public abstract void testVazio();
 
     public abstract void testNoValidationErro();

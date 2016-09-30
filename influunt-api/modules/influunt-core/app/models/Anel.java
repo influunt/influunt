@@ -240,10 +240,6 @@ public class Anel extends Model implements Cloneable, Serializable {
         this.versoesPlanos = versoesPlanos;
     }
 
-    public void setVersaoPlanoAtivo(VersaoPlano versaoPlanoAtivo) {
-        this.versaoPlanoAtivo = versaoPlanoAtivo;
-    }
-
     @Transient
     public VersaoPlano getVersaoPlanoAtivo() {
         if (versaoPlanoAtivo == null) {
@@ -256,6 +252,10 @@ public class Anel extends Model implements Cloneable, Serializable {
             }
         }
         return versaoPlanoAtivo;
+    }
+
+    public void setVersaoPlanoAtivo(VersaoPlano versaoPlanoAtivo) {
+        this.versaoPlanoAtivo = versaoPlanoAtivo;
     }
 
     @Transient
@@ -291,6 +291,15 @@ public class Anel extends Model implements Cloneable, Serializable {
     @AssertTrue(message = "Anel deve ter endereço")
     public boolean isEnderecosOk() {
         return !isAtivo() || getEndereco() != null;
+    }
+
+    @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
+            message = "O anel ativo deve ter somente um estágio de demanda prioritária.")
+    public boolean isSomenteUmEstagioDeDemandaPrioritaria() {
+        if (this.isAtivo()) {
+            return this.getEstagios().stream().filter(estagio -> estagio.isDemandaPrioritaria()).count() <= 1;
+        }
+        return true;
     }
 
     @AssertTrue(groups = PlanosCheck.class,

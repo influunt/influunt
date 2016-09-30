@@ -21,11 +21,17 @@ public class Transacao {
     public static PlayJongo jongo = Play.current().injector().instanceOf(PlayJongo.class);
 
     public String _id;
+
     public EtapaTransacao etapaTransacao;
+
     public TipoTransacao tipoTransacao;
+
     public String transacaoId;
+
     public String idControlador;
+
     public Long timestamp;
+
     public transient Object payload;
 
     public Transacao() {
@@ -46,6 +52,14 @@ public class Transacao {
 
     public static Transacao findByTransacaoId(String transacaoId) {
         return transacoes().findOne("{ transacaoId: # }", transacaoId).as(Transacao.class);
+    }
+
+    public static Transacao fromJson(JsonNode transacaoJson) {
+        Transacao transacao = (Transacao) Json.fromJson(transacaoJson, Transacao.class);
+        if (transacaoJson.has("payload")) {
+            transacao.setPayload(transacaoJson.get("payload").asText());
+        }
+        return transacao;
     }
 
     public void setPayload(Object payload) {
@@ -85,13 +99,5 @@ public class Transacao {
             root.put("payload", payload.toString());
         }
         return root;
-    }
-
-    public static Transacao fromJson(JsonNode transacaoJson) {
-        Transacao transacao = (Transacao) Json.fromJson(transacaoJson, Transacao.class);
-        if (transacaoJson.has("payload")) {
-            transacao.setPayload(transacaoJson.get("payload").asText());
-        }
-        return transacao;
     }
 }

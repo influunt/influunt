@@ -87,15 +87,15 @@ angular.module('influuntApp')
     };
 
     var getHoras = function() {
-      return getTimes(24);
+      return _.map(getTimes(24), function(v, i) {return _.padStart(i, 2, 0);});
     };
 
     var getMinutos = function() {
-      return getTimes(60);
+      return _.map(getTimes(60), function(v, i) {return _.padStart(i, 2, 0);});
     };
 
     var getSegundos = function() {
-      return getTimes(60);
+      return _.map(getTimes(60), function(v, i) {return _.padStart(i, 2, 0);});
     };
 
     var getPlanos = function(limitePlanos) {

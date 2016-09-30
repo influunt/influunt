@@ -154,7 +154,7 @@ angular.module('influuntApp')
         var indexAnel = _.findIndex($scope.objeto.aneis, {idJson: estagioOrigem.anel.idJson});
         var anel = $scope.objeto.aneis[indexAnel];
 
-        if (!($scope.errors && $scope.errors.aneis && $scope.errors.aneis[indexAnel])) {
+        if (!(_.keys($scope.errors).length > 0 && _.keys($scope.errors.aneis).length > 0 && _.keys($scope.errors.aneis[indexAnel]).length > 0)) {
           return false;
         }
 

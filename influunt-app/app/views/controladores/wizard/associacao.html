@@ -14,6 +14,13 @@
 
               <div class="ui-layout-content tab-content">
                 <div id="tabs-1">
+                  <uib-alert type="danger" data-ng-if="getErrosAneis(errors.aneis[currentAnelIndex]).length > 0">
+                    <div style="padding-left: 12px;">
+                      <ul>
+                        <li data-ng-repeat="message in getErrosAneis(errors.aneis[currentAnelIndex])">{{ message }}</li>
+                      </ul>
+                    </div>
+                  </uib-alert>
                   <div class="col-lg-12 col-sm-12 no-padding stages">
                     <div class="col-lg-12 col-sm-12">
                       <div class="row">
@@ -60,6 +67,12 @@
                                   <input type="checkbox" ichecks data-ng-model="grupo.estagiosRelacionados[estagio.id]" data-if-changed="associaEstagiosGrupoSemaforico(grupo, estagio)">
                                 </label>
                                 <p>{{ grupo.label }}</p>
+                                <span class="badge badge-danger badge-notification badge-associacao-estagio-grupo"
+                                  data-ng-show="grupoSemaforicoTemErro(currentAnelIndex, grupo) && grupo.estagiosRelacionados[estagio.id]"
+                                  inf-tooltip
+                                  messages="getErrosGrupoSemaforico(currentAnelIndex, grupo)">
+                                  <i class="fa fa-exclamation"></i>
+                                </span>
                               </div>
                             </div>
                             <div class="col-lg-5 col-sm-5 padding-top-20 text-left">
@@ -68,17 +81,23 @@
                                     <input type="checkbox" ichecks data-ng-model="estagio.tempoMaximoPermanenciaAtivado" data-if-unchecked="limpaTempoPermanencia(estagio)" data-if-checked="atribuiTempoPermanencia(estagio)">
                                     <span>{{ 'controladores.associacao.tempoMaximoPermanenciaAtivado' | translate }}</span>
                                   </label>
-                                  <label>
-                                    <input type="checkbox" ichecks data-ng-model="estagio.demandaPrioritaria">
-                                    <span>{{ 'controladores.associacao.demandaPrioritaria' | translate }}</span>
-                                  </label>
+                                  <div class="knob-item text-center" data-ng-show="estagio.tempoMaximoPermanenciaAtivado">
+                                    <influunt-knob
+                                    label="SEG" min="objeto.maximoPermanenciaEstagioMin" max="objeto.maximoPermanenciaEstagioMax"
+                                    read-only="!estagio.tempoMaximoPermanenciaAtivado"
+                                    data-ng-model="estagio.tempoMaximoPermanencia"></influunt-knob>
+                                  </div>
                               </div>
                               <div class="col-lg-4 col-sm-4 priority">
-                                <div class="knob-item text-center" data-ng-show="estagio.tempoMaximoPermanenciaAtivado">
+                                <label>
+                                  <input type="checkbox" ichecks data-ng-model="estagio.demandaPrioritaria">
+                                  <span>{{ 'controladores.associacao.demandaPrioritaria' | translate }}</span>
+                                </label>
+                                <div class="knob-item text-center" data-ng-show="estagio.demandaPrioritaria">
                                   <influunt-knob
-                                  label="SEG" min="objeto.maximoPermanenciaEstagioMin" max="objeto.maximoPermanenciaEstagioMax"
-                                  read-only="!estagio.tempoMaximoPermanenciaAtivado"
-                                  data-ng-model="estagio.tempoMaximoPermanencia"></influunt-knob>
+                                  label="SEG" min="objeto.verdeMin" max="objeto.verdeMax"
+                                  read-only="!estagio.demandaPrioritaria"
+                                  data-ng-model="estagio.tempoVerdeDemandaPrioritaria"></influunt-knob>
                                 </div>
                               </div>
                             </div>

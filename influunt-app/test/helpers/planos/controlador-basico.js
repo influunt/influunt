@@ -215,7 +215,7 @@ var ControladorBasico = {
             idJson: '3f043bde-886b-4f57-b7c5-fb6d7e0e7c8a'
           }
         ],
-        transicoesComPerdaDePassagem: [
+        transicoesComGanhoDePassagem: [
           {
             idJson: '8cb04751-3ad0-4ca9-8b4b-ba739d140da4'
           }
@@ -252,7 +252,7 @@ var ControladorBasico = {
             idJson: 'ed395f5f-0a50-4301-aed5-785e91d5e1e6'
           }
         ],
-        transicoesComPerdaDePassagem: [
+        transicoesComGanhoDePassagem: [
           {
             idJson: '60863641-e3b8-42cd-8530-bdf61872a14a'
           }
@@ -348,7 +348,7 @@ var ControladorBasico = {
         }
       }
     ],
-    transicoesComPerdaDePassagem: [
+    transicoesComGanhoDePassagem: [
       {
         id: 'ac8704be-8542-458b-90fb-7e6bb288a270',
         idJson: '8cb04751-3ad0-4ca9-8b4b-ba739d140da4',

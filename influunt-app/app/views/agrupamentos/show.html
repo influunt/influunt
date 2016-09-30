@@ -33,7 +33,7 @@
                       </tr>
                       <tr>
                         <th>{{ 'agrupamentos.plano' | translate }}</th>
-                        <td>Plano {{ objeto.posicaoPlano }} ({{ objeto.diaDaSemana | diaDaSemana }} às {{ objeto.horario | influuntDate: 'HH:mm:ss' }})</td>
+                        <td>Plano {{ objeto.posicaoPlano }} ({{ objeto.diaDaSemana | diaDaSemana }} às {{ objeto.horario | influuntTime: 'HH:mm:ss' }})</td>
                         <!-- <td data-ng-bind-html="objeto.aneis | orderBy: 'CLA' | resourceListToString: 'CLA' "></td> -->
                       </tr>
                       <tr>

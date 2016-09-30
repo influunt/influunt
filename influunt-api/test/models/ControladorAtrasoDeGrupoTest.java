@@ -31,7 +31,7 @@ public class ControladorAtrasoDeGrupoTest extends ControladorTest {
     @Override
     @Test
     public void testVazio() {
-        Controlador controlador = getControladorTransicoesProibidas();
+        Controlador controlador = getControladorTabelaDeEntreVerdes();
         controlador.save();
 
         Anel anelCom2Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
@@ -178,7 +178,7 @@ public class ControladorAtrasoDeGrupoTest extends ControladorTest {
     @Override
     @Test
     public void testControllerValidacao() {
-        Controlador controlador = getControladorTransicoesProibidas();
+        Controlador controlador = getControladorTabelaDeEntreVerdes();
         controlador.save();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
@@ -241,7 +241,8 @@ public class ControladorAtrasoDeGrupoTest extends ControladorTest {
         return new InfluuntValidator<Controlador>().validate(controlador,
                 Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
                 ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class,
-                ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class);
+                ControladorTransicoesProibidasCheck.class, ControladorTabelaEntreVerdesCheck.class,
+                ControladorAtrasoDeGrupoCheck.class);
     }
 
 }

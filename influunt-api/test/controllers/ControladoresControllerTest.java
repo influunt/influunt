@@ -30,22 +30,7 @@ import static play.test.Helpers.route;
  * Created by lesiopinheiro on 8/10/16.
  */
 public class ControladoresControllerTest extends AbstractInfluuntControladorTest {
-    @Test
-    public void naoDeveriaClonarControladorComStatusConfigurado() {
-        Controlador controlador = controladorTestUtils.getControladorDadosBasicos();
-        controlador.setStatusControlador(StatusControlador.CONFIGURADO);
-        controlador.save();
-
-        Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
-                .uri(routes.ControladoresController.edit(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
-        Result postResult = route(postRequest);
-
-        assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
-
-        JsonNode json = Json.parse(Helpers.contentAsString(postResult));
-        assertEquals(1, json.size());
-    }
-
+    
     @Test
     public void naoDeveriaEditarControladorComOutroUsuario() {
         Usuario usuario = new Usuario();
@@ -337,8 +322,8 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         assertEquals("Total de Imagens", totalImagens, Imagem.find.findRowCount());
 
         controlador.refresh();
-        assertEquals("StatusDevice do Controlador", controlador.getStatusControlador(), StatusControlador.ATIVO);
-        assertEquals("StatusDevice da Versao Controlador", controlador.getVersaoControlador().getStatusVersao(), StatusVersao.ATIVO);
+        assertEquals("StatusDevice do Controlador", controlador.getStatusControlador(), StatusControlador.CONFIGURADO);
+        assertEquals("StatusDevice da Versao Controlador", controlador.getVersaoControlador().getStatusVersao(), StatusVersao.CONFIGURADO);
 
     }
 

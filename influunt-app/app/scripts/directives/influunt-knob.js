@@ -24,7 +24,8 @@ angular.module('influuntApp')
           min: '=',
           max: '=',
           readOnly: '=',
-          ngModel: '='
+          ngModel: '=',
+          onChange: '&'
         },
         link: function influuntKnob(scope, element) {
           var showLabel = function(args) {
@@ -44,10 +45,15 @@ angular.module('influuntApp')
 
           knob.on('change', function(ev) {
             var value = ev.value;
+            var oldValue = scope.ngModel;
 
             if (angular.isDefined(value)) {
               scope.ngModel = ev.value;
               scope.$apply();
+
+              if (angular.isFunction(scope.onChange())){
+                scope.onChange()(oldValue, value);
+              }
             }
           });
 

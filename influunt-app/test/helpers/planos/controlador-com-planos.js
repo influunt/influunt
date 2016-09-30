@@ -299,7 +299,7 @@ var ControladorComPlanos = {
             idJson: 'b11d057b-a680-42ff-8baa-cd36379b80dc'
           }
         ],
-        transicoesComPerdaDePassagem: [
+        transicoesComGanhoDePassagem: [
           {
             idJson: '1889843e-8ffe-45f7-8bac-b9c1a93e8f3a'
           },
@@ -345,7 +345,7 @@ var ControladorComPlanos = {
             idJson: '6c14a739-9b10-4cc0-acc0-b74941e6591c'
           }
         ],
-        transicoesComPerdaDePassagem: [
+        transicoesComGanhoDePassagem: [
           {
             idJson: '35edb941-7325-48c2-b343-ceca04fc8408'
           },
@@ -397,7 +397,7 @@ var ControladorComPlanos = {
             idJson: '20f82117-072f-41e6-bc08-81cf30019bf3'
           }
         ],
-        transicoesComPerdaDePassagem: [
+        transicoesComGanhoDePassagem: [
           {
             idJson: '89bb547c-f386-4763-8eea-797700607970'
           },
@@ -449,7 +449,7 @@ var ControladorComPlanos = {
             idJson: '1f97cbaa-454b-4911-a17b-fb2c08f9aac0'
           }
         ],
-        transicoesComPerdaDePassagem: [
+        transicoesComGanhoDePassagem: [
           {
             idJson: '662d217d-cb23-4011-8e30-81b162f15a90'
           },
@@ -504,7 +504,7 @@ var ControladorComPlanos = {
             idJson: 'bb6973c1-94ea-4c6b-a396-8dc338aeff10'
           }
         ],
-        transicoesComPerdaDePassagem: [
+        transicoesComGanhoDePassagem: [
           {
             idJson: '4cd3f4be-5acc-49ff-8e8e-ce06f924ebe5'
           }
@@ -950,7 +950,7 @@ var ControladorComPlanos = {
         }
       }
     ],
-    transicoesComPerdaDePassagem: [
+    transicoesComGanhoDePassagem: [
       {
         id: '1ea1975e-48ff-4f27-a16d-260969d0d5aa',
         idJson: '1889843e-8ffe-45f7-8bac-b9c1a93e8f3a',

@@ -63,7 +63,8 @@
     <influunt-knob ng-model="currentEstagiosPlanos[currentEstagioPlanoIndex].tempoVerde"
       min="objeto.verdeMin" max="objeto.verdeMax"
       title="TEMPO DE VERDE" label="SEG" read-only="somenteVisualizacao"
-      mostrar-percentual="true" max-percentual="currentPlano.tempoCiclo">
+      mostrar-percentual="true" max-percentual="currentPlano.tempoCiclo"
+      on-change="verificaVerdeMinimoDoEstagio">
     </influunt-knob>
   </div>
 </div>
