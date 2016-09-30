@@ -892,8 +892,8 @@ angular.module('influuntApp')
             .orderBy(['posicao'])
             .value();
 
-          _.each(result.estagios, function(e) {
-            var estagioPlano =  estagiosPlanos[e.posicao-1];
+          _.each(result.estagios, function(e, i) {
+            var estagioPlano = estagiosPlanos[i];
             estagioPlano.tempoEstagio = e.duracao;
           });
 
