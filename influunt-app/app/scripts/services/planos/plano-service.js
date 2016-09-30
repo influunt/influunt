@@ -39,7 +39,7 @@ angular.module('influuntApp')
           gruposSemaforicosPlanos: [],
           estagiosPlanos: [],
           tempoCiclo: controlador.cicloMin,
-          configurado: posicao === 1 ? true : false,
+          configurado: posicao === 1,
           versaoPlano: {idJson: anel.versaoPlano.idJson}
         };
 
