@@ -191,7 +191,7 @@ angular.module('influuntApp')
 
         plano = _.find($scope.objeto.planos, {idJson: $scope.currentPlanos[index].idJson});
         plano.id = idPlano;
-        $scope.selecionaPlano(plano, index);
+        $scope.selecionaPlano($scope.currentPlanos[0], 0);
       };
 
       $scope.resetarPlano = function(plano, index) {
