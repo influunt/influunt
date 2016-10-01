@@ -114,6 +114,7 @@ var PlanosPage = function () {
 
   this.marcarValorConfig = function(field, value) {
     var baseSelector = 'influunt-knob[title="'+field.toUpperCase()+'"]';
+    world.sleep(300);
     return world.waitForOverlayDisappear().then(function() {
       return world.getElement(baseSelector + ' p.knob-value').click().then(function() {
         return world.resetValue(baseSelector + ' input.rs-input', value);
@@ -124,7 +125,10 @@ var PlanosPage = function () {
   };
 
   this.clicarBotaoModal = function(modal) {
-    return world.getElement('div#'+modal+' div.modal-footer button').click();
+    world.sleep(500);
+    return world.waitForOverlayDisappear().then(function() {
+      return world.getElement('div#'+modal+' div.modal-footer button').click();
+    });
   };
 
   this.clicarBotaoCopiar = function() {
