@@ -15,7 +15,7 @@
 
           <!-- botão de nova area -->
           <div class="pull-right actions">
-            <a class="btn btn-small btn-primary btn-rounded" tooltips tooltip-template="Adicionar nova area" ui-sref="app.areas_new">
+            <a class="btn btn-small btn-primary btn-rounded" tooltips tooltip-template="Adicionar nova area" ui-sref="app.areas_new" permission permission-sref="'app.areas_new'">
               <i class="fa fa-plus"></i>
               {{ 'geral.crud.novo' | translate }}
             </a>
@@ -47,9 +47,9 @@
                   <td>{{ area.descricao }}</td>
                   <td data-ng-bind-html="area.limites | limitesListToString"></td>
                   <td>
-                    <a ui-sref="app.areas_show({id: area.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
-                    <a ui-sref="app.areas_edit({id: area.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.editar' | translate }}</a>
-                    <a data-ng-click="confirmDelete(area.id)" class="btn btn-danger btn-xs">{{ 'geral.crud.excluir' | translate }}</a>
+                    <a ui-sref="app.areas_show({id: area.id})" permission permission-sref="'app.areas_show'" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
+                    <a ui-sref="app.areas_edit({id: area.id})" permission permission-sref="'app.areas_edit'" class="btn btn-primary btn-xs">{{ 'geral.crud.editar' | translate }}</a>
+                    <a data-ng-click="confirmDelete(area.id)" permission permission-only="'removerAreas'" class="btn btn-danger btn-xs">{{ 'geral.crud.excluir' | translate }}</a>
                   </td>
                 </tr>
               </tbody>

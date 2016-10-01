@@ -96,6 +96,8 @@ public class ImagensController extends Controller {
     }
 
     @Transactional
+    @Security.Authenticated(Secured.class)
+    @Dynamic("Influunt")
     public CompletionStage<Result> delete(String id) {
         Imagem imagem = Imagem.find.byId(UUID.fromString(id));
         if (imagem == null) {
@@ -106,6 +108,8 @@ public class ImagensController extends Controller {
     }
 
     @Transactional
+    @Security.Authenticated(Secured.class)
+    @Dynamic("Influunt")
     public CompletionStage<Result> deleteCroqui(String id) {
         Imagem imagem = Imagem.find.byId(UUID.fromString(id));
         if (imagem == null) {

@@ -177,7 +177,7 @@ public class Usuario extends Model implements Subject, Serializable {
                 return permissoes;
             }
         }
-        return new ArrayList<Permission>();
+        return new ArrayList<Permissao>();
     }
 
     public Perfil getPerfil() {

@@ -7,16 +7,36 @@
           <div class="row" ng-if="somenteVisualizacao">
             <div class="col-sm-12 col-lg-12 actions clearfix padding-right-20">
               <div class="right">
-                <a data-toggle="modal" data-target="#myModal" class="btn btn-info btn-footer" tooltips tooltip-side="bottom" tooltip-template="{{ 'plugins.steps.labels.last_screen' | translate }}">
+                <a data-toggle="modal"
+                   data-target="#myModal"
+                   class="btn btn-info btn-footer"
+                   tooltips tooltip-side="bottom"
+                   tooltip-template="{{ 'plugins.steps.labels.last_screen' | translate }}"
+                   permission permission-only="'verControlador'">
                   <i class="fa fa-eye"></i> {{ 'plugins.steps.labels.last_screen' | translate }}
                 </a>
-                <a class="btn btn-primary" tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.ver' | translate }} {{ 'controladores.geral.historico' | translate }}" type="button" data-target="#modal-timeline" data-toggle="modal">
+                <a class="btn btn-primary"
+                   type="button"
+                   data-target="#modal-timeline"
+                   data-toggle="modal"
+                   tooltips tooltip-side="bottom"
+                   tooltip-template="{{ 'geral.tooltip.ver' | translate }} {{ 'controladores.geral.historico' | translate }}">
                   <i class="fa fa-code-fork"></i> {{ 'controladores.geral.historico' | translate }}
                 </a>
-                <a class="btn btn-primary" tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.geral.planos' | translate }}"  type="button" ng-click="editarPlano(objeto.id)" data-ng-if="currentVersaoPlano.statusVersao === 'EDITANDO' || currentVersaoPlano.statusVersao === undefined">
+                <a class="btn btn-primary"
+                   type="button"
+                   tooltips tooltip-side="bottom"
+                   tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.geral.planos' | translate }}"
+                   ng-click="editarPlano(objeto.id)" data-ng-if="currentVersaoPlano.statusVersao === 'EDITANDO' || currentVersaoPlano.statusVersao === undefined"
+                   permission permission-only="'criarPlanos'">
                   <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
                 </a>
-                <a class="btn btn-primary " tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.geral.planos' | translate }}"  type="button" ng-click="clonarPlanos(objeto.id)" data-ng-if="currentVersaoPlano.statusVersao === 'ATIVO' || currentVersaoPlano.statusVersao === 'CONFIGURADO'">
+                <a class="btn btn-primary "
+                   tooltips tooltip-side="bottom"
+                   tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.geral.planos' | translate }}"
+                   type="button" ng-click="clonarPlanos(objeto.id)"
+                   data-ng-if="currentVersaoPlano.statusVersao === 'ATIVO' || currentVersaoPlano.statusVersao === 'CONFIGURADO'"
+                   permission permission-only="'criarPlanos'">
                   <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
                 </a>
               </div>

@@ -36,8 +36,6 @@ public class PerfilSerializer extends JsonSerializer<Perfil> {
         for (Permissao permissao : perfil.getPermissoes()) {
             jgen.writeStartObject();
             jgen.writeStringField("id", permissao.getId().toString());
-            jgen.writeStringField("descricao", permissao.getDescricao());
-            jgen.writeStringField("chave", permissao.getChave());
             jgen.writeEndObject();
         }
         jgen.writeEndArray();

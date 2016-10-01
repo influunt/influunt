@@ -31,7 +31,7 @@
                   <td>{{ auditoria.usuario.login }}</td>
                   <td>{{ auditoria.change.eventTime | date: 'dd/MM/yyyy HH:mm:ss' }}</td>
                   <td>
-                    <a ui-sref="app.auditorias_show({id: auditoria._id})" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
+                    <a ui-sref="app.auditorias_show({id: auditoria._id})" permission permission-sref="'app.auditorias_show'" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
                   </td>
                 </tr>
               </tbody>

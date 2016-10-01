@@ -320,7 +320,7 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
             message = "Esse grupo semafórico não pode estar associado a um estágio de demanda prioritária e a outro estágio ao mesmo tempo.")
     public boolean isNaoEstaAssociadoAEstagioDemandaPrioritariaEOutroEstagio() {
-        if(getEstagiosGruposSemaforicos() != null && getEstagiosGruposSemaforicos().stream().anyMatch(estagioGrupoSemaforico -> estagioGrupoSemaforico.getEstagio().isDemandaPrioritaria())){
+        if (getEstagiosGruposSemaforicos() != null && getEstagiosGruposSemaforicos().stream().anyMatch(estagioGrupoSemaforico -> estagioGrupoSemaforico.getEstagio().isDemandaPrioritaria())) {
             return getEstagiosGruposSemaforicos().size() <= 1;
         }
         return true;

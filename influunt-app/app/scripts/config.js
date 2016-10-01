@@ -13,7 +13,10 @@ angular
   .config(['$stateProvider', '$urlRouterProvider',
     function ($stateProvider, $urlRouterProvider) {
 
-      $urlRouterProvider.otherwise('/login');
+      $urlRouterProvider.otherwise(function($injector) {
+        var $state = $injector.get("$state");
+        $state.go('login');
+      });
 
       $stateProvider
         .state('login', {
@@ -57,9 +60,16 @@ angular
             redirectTo: 'app.main'
           }
         })
+
         .state('app.main', {
           url: '/main',
-          templateUrl: 'views/main.html'
+          templateUrl: 'views/main.html',
+          data: {
+            permissions: {
+              only: 'visualizarStatusControladores',
+              redirectTo: 'login'
+            }
+          }
         })
 
         .state('app.dashboard_detalhe_controlador', {
@@ -69,42 +79,27 @@ angular
           controllerAs: 'main',
           data: {
             title: 'geral.dashboard',
-            breadcrumb: 'controladores.controlador'
+            breadcrumb: 'controladores.controlador',
+            permissions: {
+              only: 'visualizarDetalhesControlador',
+              redirectTo: 'app.main'
+            }
           }
         })
 
-        .state('app.main_info', {
-          url: '/main-info',
-          templateUrl: 'views/main-info.html'
-        })
 
-        .state('app.status', {
-          url: '/status',
-          templateUrl: 'views/status/index.html',
-          controller: 'StatusCtrl',
-          controllerAs: 'status',
-          data: {
-            title: 'status.titulo'
-          }
-        })
-
+        // CRUD cidades
         .state('app.cidades', {
           url: '/cidades',
           templateUrl: 'views/cidades/index.html',
           controller: 'CidadesCtrl',
           controllerAs: 'cidades',
           data: {
-            title: 'cidades.titulo'
-          }
-        })
-
-        .state('app.horarios', {
-          url: '/horarios',
-          templateUrl: 'views/horarios/index.html',
-          controller: 'HorariosCtrl',
-          controllerAs: 'horarios',
-          data: {
-            title: 'horarios.titulo'
+            title: 'cidades.titulo',
+            permissions: {
+              only: 'listarCidades',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -115,7 +110,11 @@ angular
           controllerAs: 'cidades',
           data: {
             title: 'cidades.titulo',
-            breadcrumb: 'cidades.novo'
+            breadcrumb: 'cidades.novo',
+            permissions: {
+              only: 'criarCidades',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -126,7 +125,11 @@ angular
           controllerAs: 'cidades',
           data: {
             title: 'cidades.titulo',
-            breadcrumb: 'cidades.editar'
+            breadcrumb: 'cidades.editar',
+            permissions: {
+              only: 'editarCidades',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -137,7 +140,11 @@ angular
           controllerAs: 'cidades',
           data: {
             title: 'cidades.titulo',
-            breadcrumb: 'cidades.mostrar'
+            breadcrumb: 'cidades.mostrar',
+            permissions: {
+              only: 'visualizarCidades',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -148,7 +155,11 @@ angular
           controller: 'AreasCtrl',
           controllerAs: 'areas',
           data: {
-            title: 'areas.titulo'
+            title: 'areas.titulo',
+            permissions: {
+              only: 'listarAreas',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -159,7 +170,11 @@ angular
           controllerAs: 'areas',
           data: {
             title: 'areas.titulo',
-            breadcrumb: 'areas.novo'
+            breadcrumb: 'areas.novo',
+            permissions: {
+              only: 'criarAreas',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -170,7 +185,11 @@ angular
           controllerAs: 'areas',
           data: {
             title: 'areas.titulo',
-            breadcrumb: 'areas.editar'
+            breadcrumb: 'areas.editar',
+            permissions: {
+              only: 'editarAreas',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -181,7 +200,11 @@ angular
           controllerAs: 'areas',
           data: {
             title: 'areas.titulo',
-            breadcrumb: 'areas.mostrar'
+            breadcrumb: 'areas.mostrar',
+            permissions: {
+              only: 'visualizarAreas',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -192,7 +215,11 @@ angular
           controller: 'SubAreasCtrl',
           controllerAs: 'subareas',
           data: {
-            title: 'subareas.titulo'
+            title: 'subareas.titulo',
+            permissions: {
+              only: 'listarSubareas',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -203,7 +230,11 @@ angular
           controllerAs: 'subareas',
           data: {
             title: 'subareas.titulo',
-            breadcrumb: 'subareas.novo'
+            breadcrumb: 'subareas.novo',
+            permissions: {
+              only: 'criarSubareas',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -214,7 +245,11 @@ angular
           controllerAs: 'subareas',
           data: {
             title: 'subareas.titulo',
-            breadcrumb: 'subareas.editar'
+            breadcrumb: 'subareas.editar',
+            permissions: {
+              only: 'editarSubareas',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -225,20 +260,30 @@ angular
           controllerAs: 'subareas',
           data: {
             title: 'subareas.titulo',
-            breadcrumb: 'subareas.mostrar'
+            breadcrumb: 'subareas.mostrar',
+            permissions: {
+              only: 'visualizarSubareas',
+              redirectTo: 'app.main'
+            }
           }
         })
 
         // Crud controladores.
+        // TODO: verificar se essa rota é utilizada
         .state('app.controladores', {
           url: '/controladores',
           templateUrl: 'views/controladores/index.html',
           controller: 'ControladoresCtrl',
           controllerAs: 'controladores',
           data: {
-            title: 'controladores.titulo'
+            title: 'controladores.titulo',
+            permissions: {
+              only: 'listarControladores',
+              redirectTo: 'app.main'
+            }
           }
         })
+
 
         .state('app.controladores_show', {
           url: '/controladores/:id',
@@ -246,11 +291,17 @@ angular
           controller: 'ControladoresRevisaoCtrl',
           controllerAs: 'controladores',
           data: {
-            title: 'controladores.titulo'
+            title: 'controladores.titulo',
+            permissions: {
+              only: 'verControlador',
+              redirectTo: 'app.main'
+            }
           }
         })
 
+
         //Timeline
+        // TODO: verificar se essa rota é utilizada
         .state('app.controladores_timeline', {
           url: '/controladores/:id/timeline',
           templateUrl: 'views/controladores/timeline.html',
@@ -261,46 +312,7 @@ angular
           }
         })
 
-        // Crud tipos detectores.
-        .state('app.tipos_detectores', {
-          url: '/tipos_detectores',
-          templateUrl: 'views/tipos_detectores/index.html',
-          controller: 'TiposDetectoresCtrl',
-          controllerAs: 'tipos_detectores',
-          data: {
-            title: 'tipos_detectores.titulo'
-          }
-        })
 
-        .state('app.tipos_detectores_new', {
-          url: '/tipos_detectores/new',
-          templateUrl: 'views/tipos_detectores/new.html',
-          controller: 'TiposDetectoresCtrl',
-          controllerAs: 'tipos_detectores',
-          data: {
-            title: 'tipos_detectores.titulo'
-          }
-        })
-
-        .state('app.tipos_detectores_edit', {
-          url: '/tipos_detectores/:id/edit',
-          templateUrl: 'views/tipos_detectores/edit.html',
-          controller: 'TiposDetectoresCtrl',
-          controllerAs: 'tipos_detectores',
-          data: {
-            title: 'tipos_detectores.titulo'
-          }
-        })
-
-        .state('app.tipos_detectores_show', {
-          url: '/tipos_detectores/:id',
-          templateUrl: 'views/tipos_detectores/show.html',
-          controller: 'TiposDetectoresCtrl',
-          controllerAs: 'tipos_detectores',
-          data: {
-            title: 'tipos_detectores.titulo'
-          }
-        })
 
         // Crud Fabricantes.
         .state('app.fabricantes', {
@@ -309,7 +321,11 @@ angular
           controller: 'FabricantesCtrl',
           controllerAs: 'fabricantes',
           data: {
-            title: 'fabricantes.titulo'
+            title: 'fabricantes.titulo',
+            permissions: {
+              only: 'listarFabricantes',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -320,7 +336,11 @@ angular
           controllerAs: 'fabricantes',
           data: {
             title: 'fabricantes.titulo',
-            breadcrumb: 'fabricantes.novo'
+            breadcrumb: 'fabricantes.novo',
+            permissions: {
+              only: 'criarFabricantes',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -331,7 +351,11 @@ angular
           controllerAs: 'fabricantes',
           data: {
             title: 'fabricantes.titulo',
-            breadcrumb: 'fabricantes.editar'
+            breadcrumb: 'fabricantes.editar',
+            permissions: {
+              only: 'editarFabricantes',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -342,7 +366,11 @@ angular
           controllerAs: 'fabricantes',
           data: {
             title: 'fabricantes.titulo',
-            breadcrumb: 'fabricantes.mostrar'
+            breadcrumb: 'fabricantes.mostrar',
+            permissions: {
+              only: 'visualizarFabricantes',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -354,7 +382,11 @@ angular
           controller: 'ModelosCtrl',
           controllerAs: 'modelos',
           data: {
-            title: 'modelos.titulo'
+            title: 'modelos.titulo',
+            permissions: {
+              only: 'listarModelos',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -365,7 +397,11 @@ angular
           controllerAs: 'modelos',
           data: {
             title: 'modelos.titulo',
-            breadcrumb: 'modelos.novo'
+            breadcrumb: 'modelos.novo',
+            permissions: {
+              only: 'criarModelos',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -376,7 +412,11 @@ angular
           controllerAs: 'modelos',
           data: {
             title: 'modelos.titulo',
-            breadcrumb: 'modelos.editar'
+            breadcrumb: 'modelos.editar',
+            permissions: {
+              only: 'editarModelos',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -387,7 +427,11 @@ angular
           controllerAs: 'modelos',
           data: {
             title: 'modelos.titulo',
-            breadcrumb: 'modelos.mostrar'
+            breadcrumb: 'modelos.mostrar',
+            permissions: {
+              only: 'visualizarModelos',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -409,7 +453,11 @@ angular
           templateUrl: 'views/controladores/wizard/dados-basicos.html',
           controller: 'ControladoresDadosBasicosCtrl',
           data: {
-            title: 'controladores.dadosBasicos.titulo'
+            title: 'controladores.dadosBasicos.titulo',
+            permissions: {
+              only: 'criarControlador',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -418,7 +466,11 @@ angular
           templateUrl: 'views/controladores/wizard/aneis.html',
           controller: 'ControladoresAneisCtrl',
           data: {
-            title: 'controladores.aneis.titulo'
+            title: 'controladores.aneis.titulo',
+            permissions: {
+              only: 'criarControlador',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -427,7 +479,11 @@ angular
           templateUrl: 'views/controladores/wizard/configuracao-grupo.html',
           controller: 'ControladoresConfiguracaoGruposCtrl',
           data: {
-            title: 'controladores.gruposSemaforicos.titulo'
+            title: 'controladores.gruposSemaforicos.titulo',
+            permissions: {
+              only: 'criarControlador',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -436,7 +492,11 @@ angular
           templateUrl: 'views/controladores/wizard/associacao.html',
           controller: 'ControladoresAssociacaoCtrl',
           data: {
-            title: 'controladores.associacao.titulo'
+            title: 'controladores.associacao.titulo',
+            permissions: {
+              only: 'criarControlador',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -445,7 +505,11 @@ angular
           templateUrl: 'views/controladores/wizard/verdes-conflitantes.html',
           controller: 'ControladoresVerdesConflitantesCtrl',
           data: {
-            title: 'controladores.verdesConflitantes.titulo'
+            title: 'controladores.verdesConflitantes.titulo',
+            permissions: {
+              only: 'criarControlador',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -454,7 +518,11 @@ angular
           templateUrl: 'views/controladores/wizard/transicoes-proibidas.html',
           controller: 'ControladoresTransicoesProibidasCtrl',
           data: {
-            title: 'controladores.transicoesProibidas.titulo'
+            title: 'controladores.transicoesProibidas.titulo',
+            permissions: {
+              only: 'criarControlador',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -463,7 +531,11 @@ angular
           templateUrl: 'views/controladores/wizard/atraso-de-grupo.html',
           controller: 'ControladoresAtrasoDeGrupoCtrl',
           data: {
-            title: 'controladores.atrasoDeGrupo.titulo'
+            title: 'controladores.atrasoDeGrupo.titulo',
+            permissions: {
+              only: 'criarControlador',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -472,7 +544,11 @@ angular
           templateUrl: 'views/controladores/wizard/entre-verdes.html',
           controller: 'ControladoresEntreVerdesCtrl',
           data: {
-            title: 'controladores.entreVerdes.titulo'
+            title: 'controladores.entreVerdes.titulo',
+            permissions: {
+              only: 'criarControlador',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -481,7 +557,11 @@ angular
           controller: 'ControladoresAssociacaoDetectoresCtrl',
           templateUrl: 'views/controladores/wizard/associacao-detectores.html',
           data: {
-            title: 'controladores.associacaoDetectores.titulo'
+            title: 'controladores.associacaoDetectores.titulo',
+            permissions: {
+              only: 'criarControlador',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -490,7 +570,11 @@ angular
           controller: 'ControladoresRevisaoCtrl',
           templateUrl: 'views/controladores/wizard/revisao.html',
           data: {
-            title: 'controladores.revisao.titulo'
+            title: 'controladores.revisao.titulo',
+            permissions: {
+              only: 'criarControlador',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -499,7 +583,11 @@ angular
           templateUrl: 'views/controladores/mapa.html',
           controller: 'ControladoresMapaCtrl',
           data: {
-            title: 'controladores.mapa'
+            title: 'controladores.mapa',
+            permissions: {
+              only: 'verNoMapa',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -509,7 +597,11 @@ angular
           controller: 'PlanosCtrl',
           data: {
             title: 'planos.titulo',
-            somenteVisualizacao: true
+            somenteVisualizacao: true,
+            permissions: {
+              only: 'verPlanos',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -519,7 +611,11 @@ angular
           controller: 'PlanosCtrl',
           data: {
             title: 'planos.titulo',
-            somenteVisualizacao: false
+            somenteVisualizacao: false,
+            permissions: {
+              only: 'criarPlanos',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -529,7 +625,11 @@ angular
           controller: 'TabelaHorariosCtrl',
           data: {
             title: 'tabelaHorarios.titulo',
-            somenteVisualizacao: true
+            somenteVisualizacao: true,
+            permissions: {
+              only: 'verTabelaHoraria',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -539,7 +639,11 @@ angular
           controller: 'TabelaHorariosCtrl',
           data: {
             title: 'tabelaHorarios.titulo',
-            somenteVisualizacao: false
+            somenteVisualizacao: false,
+            permissions: {
+              only: 'criarTabelaHoraria',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -550,7 +654,11 @@ angular
           controller: 'PerfisCtrl',
           controllerAs: 'perfis',
           data: {
-            title: 'perfis.titulo'
+            title: 'perfis.titulo',
+            permissions: {
+              only: 'listarPerfis',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -561,7 +669,11 @@ angular
           controllerAs: 'perfis',
           data: {
             title: 'perfis.titulo',
-            breadcrumb: 'perfis.novo'
+            breadcrumb: 'perfis.novo',
+            permissions: {
+              only: 'criarPerfis',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -572,7 +684,11 @@ angular
           controllerAs: 'perfis',
           data: {
             title: 'perfis.titulo',
-            breadcrumb: 'perfis.editar'
+            breadcrumb: 'perfis.editar',
+            permissions: {
+              only: 'editarPerfis',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -583,7 +699,11 @@ angular
           controllerAs: 'perfis',
           data: {
             title: 'perfis.titulo',
-            breadcrumb: 'perfis.mostrar'
+            breadcrumb: 'perfis.mostrar',
+            permissions: {
+              only: 'visualizarPerfis',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -594,7 +714,11 @@ angular
           controllerAs: 'perfis',
           data: {
             title: 'perfis.titulo',
-            breadcrumb: 'perfis.definir_permissoes'
+            breadcrumb: 'perfis.definir_permissoes',
+            permissions: {
+              only: 'editarPerfis',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -605,7 +729,11 @@ angular
           controller: 'PermissoesCtrl',
           controllerAs: 'permissoes',
           data: {
-            title: 'permissoes.titulo'
+            title: 'permissoes.titulo',
+            permissions: {
+              only: 'listarPermissoes',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -616,7 +744,11 @@ angular
           controllerAs: 'permissoes',
           data: {
             title: 'permissoes.titulo',
-            breadcrumb: 'permissoes.novo'
+            breadcrumb: 'permissoes.novo',
+            permissions: {
+              only: 'criarPermissoes',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -627,7 +759,11 @@ angular
           controllerAs: 'permissoes',
           data: {
             title: 'permissoes.titulo',
-            breadcrumb: 'permissoes.editar'
+            breadcrumb: 'permissoes.editar',
+            permissions: {
+              only: 'editarPermissoes',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -638,7 +774,11 @@ angular
           controllerAs: 'permissoes',
           data: {
             title: 'permissoes.titulo',
-            breadcrumb: 'permissoes.mostrar'
+            breadcrumb: 'permissoes.mostrar',
+            permissions: {
+              only: 'visualizarPermissoes',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -649,7 +789,11 @@ angular
           controller: 'UsuariosCtrl',
           controllerAs: 'usuarios',
           data: {
-            title: 'usuarios.titulo'
+            title: 'usuarios.titulo',
+            permissions: {
+              only: 'listarUsuarios',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -660,7 +804,11 @@ angular
           controllerAs: 'usuarios',
           data: {
             title: 'usuarios.titulo',
-            breadcrumb: 'usuarios.novo'
+            breadcrumb: 'usuarios.novo',
+            permissions: {
+              only: 'criarUsuarios',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -671,7 +819,19 @@ angular
           controllerAs: 'usuarios',
           data: {
             title: 'usuarios.titulo',
-            breadcrumb: 'usuarios.editar'
+            breadcrumb: 'usuarios.editar',
+            permissions: {
+              only: function(transitionProperties) {
+                var usuarioLogado = JSON.parse(localStorage.usuario);
+                var usuarioId = transitionProperties.toParams.id;
+                if (usuarioLogado.id === usuarioId) {
+                  return true;
+                } else {
+                  return 'editarUsuarios';
+                }
+              },
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -682,7 +842,19 @@ angular
           controllerAs: 'usuarios',
           data: {
             title: 'usuarios.titulo',
-            breadcrumb: 'usuarios.mostrar'
+            breadcrumb: 'usuarios.mostrar',
+            permissions: {
+              only: function(transitionProperties) {
+                var usuarioLogado = JSON.parse(localStorage.usuario);
+                var usuarioId = transitionProperties.toParams.id;
+                if (usuarioLogado.id === usuarioId) {
+                  return true;
+                } else {
+                  return 'visualizarUsuarios';
+                }
+              },
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -693,7 +865,11 @@ angular
           controllerAs: 'usuarios',
           data: {
             title: 'usuarios.access_log',
-            breadcrumb: 'usuarios.access_log'
+            breadcrumb: 'usuarios.access_log',
+            permissions: {
+              only: 'verLogAcessoUsuarios',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -704,7 +880,11 @@ angular
           controller: 'AgrupamentosCtrl',
           controllerAs: 'agrupamentos',
           data: {
-            title: 'agrupamentos.titulo'
+            title: 'agrupamentos.titulo',
+            permissions: {
+              only: 'listarAgrupamentos',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -715,7 +895,11 @@ angular
           controllerAs: 'agrupamentos',
           data: {
             title: 'agrupamentos.titulo',
-            breadcrumb: 'agrupamentos.novo'
+            breadcrumb: 'agrupamentos.novo',
+            permissions: {
+              only: 'criarAgrupamentos',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -726,7 +910,11 @@ angular
           controllerAs: 'agrupamentos',
           data: {
             title: 'agrupamentos.titulo',
-            breadcrumb: 'agrupamentos.editar'
+            breadcrumb: 'agrupamentos.editar',
+            permissions: {
+              only: 'editarAgrupamentos',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -737,7 +925,11 @@ angular
           controllerAs: 'agrupamentos',
           data: {
             title: 'agrupamentos.titulo',
-            breadcrumb: 'agrupamentos.mostrar'
+            breadcrumb: 'agrupamentos.mostrar',
+            permissions: {
+              only: 'visualizarAgrupamentos',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -749,8 +941,13 @@ angular
           controllerAs: 'auditorias',
           data: {
             title: 'auditorias.titulo',
+            permissions: {
+              only: 'listarAuditorias',
+              redirectTo: 'app.main'
+            }
           }
         })
+
         .state('app.auditorias_show', {
           url: '/auditorias/:id',
           templateUrl: 'views/auditorias/show.html',
@@ -758,7 +955,11 @@ angular
           controllerAs: 'auditorias',
           data: {
             title: 'auditorias.titulo',
-            breadcrumb: 'auditorias.mostrar'
+            breadcrumb: 'auditorias.mostrar',
+            permissions: {
+              only: 'visualizarAuditorias',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -781,27 +982,38 @@ angular
           controllerAs: 'faixasDeValores',
           data: {
             title: 'faixas_de_valores.titulo',
-            breadcrumb: 'faixas_de_valores.editar'
+            breadcrumb: 'faixas_de_valores.editar',
+            permissions: {
+              only: 'visualizarFaixasDeValores',
+              redirectTo: 'app.main'
+            }
           }
         })
       ;
+
+      // Prevent router from automatic state resolving
+      $urlRouterProvider.deferIntercept();
     }])
 
-    .run(['$rootScope', '$state', '$timeout', 'TELAS_SEM_LOGIN',
-      function($rootScope, $state, $timeout, TELAS_SEM_LOGIN) {
+  .run(['$rootScope', '$state', '$timeout', 'TELAS_SEM_LOGIN',
+    function($rootScope, $state, $timeout, TELAS_SEM_LOGIN) {
 
-        $rootScope.$state = $state;
+      $rootScope.$state = $state;
 
-        $rootScope.isAuthenticated = function() {
-          return !!localStorage.token;
-        };
+      $rootScope.isAuthenticated = function() {
+        return !!localStorage.token;
+      };
 
-        $rootScope.$on('$stateChangeStart', function(ev, toState) {
-          $timeout(function() {
-            if (!$rootScope.isAuthenticated() && TELAS_SEM_LOGIN.indexOf(toState.name) < 0) {
-                $state.go('login');
-            }
-          });
+      var needLogin = function(stateName) {
+        return !$rootScope.isAuthenticated() && TELAS_SEM_LOGIN.indexOf(stateName) < 0;
+      };
+
+      $rootScope.$on('$stateChangeStart', function() {
+        $timeout(function() {
+          if (needLogin()) {
+            $state.go('login');
+          }
         });
+      });
 
-      }]);
+    }]);

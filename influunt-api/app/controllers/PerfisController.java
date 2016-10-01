@@ -1,6 +1,5 @@
 package controllers;
 
-import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
 import be.objectify.deadbolt.java.actions.Dynamic;
 import checks.Erro;
 import checks.InfluuntValidator;
@@ -20,7 +19,6 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
-@DeferredDeadbolt
 @Security.Authenticated(Secured.class)
 @Dynamic("Influunt")
 public class PerfisController extends Controller {

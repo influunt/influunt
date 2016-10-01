@@ -15,7 +15,7 @@
 
           <!-- botão de novo fabricante -->
           <div class="pull-right actions">
-            <a class="btn btn-small btn-primary btn-rounded" tooltips tooltip-template="Adicionar novo fabricante" ui-sref="app.fabricantes_new">
+            <a class="btn btn-small btn-primary btn-rounded" tooltips tooltip-template="Adicionar novo fabricante" ui-sref="app.fabricantes_new" permission permission-sref="'app.fabricantes_new'">
               <i class="fa fa-plus"></i>
               {{ 'geral.crud.novo' | translate }}
             </a>
@@ -45,9 +45,9 @@
                   <td>{{ fabricante.nome }}</td>
                   <td data-ng-bind-html="fabricante.modelos | resourceListToString"></td>
                   <td>
-                    <a ui-sref="app.fabricantes_show({id: fabricante.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
-                    <a ui-sref="app.fabricantes_edit({id: fabricante.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.editar' | translate }}</a>
-                    <a data-ng-click="confirmDelete(fabricante.id)" class="btn btn-danger btn-xs">{{ 'geral.crud.excluir' | translate }}</a>
+                    <a ui-sref="app.fabricantes_show({id: fabricante.id})" permission permission-sref="'app.fabricantes_show'" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
+                    <a ui-sref="app.fabricantes_edit({id: fabricante.id})" permission permission-sref="'app.fabricantes_edit'" class="btn btn-primary btn-xs">{{ 'geral.crud.editar' | translate }}</a>
+                    <a data-ng-click="confirmDelete(fabricante.id)" permission permission-only="'removerFabricantes'" class="btn btn-danger btn-xs">{{ 'geral.crud.excluir' | translate }}</a>
                   </td>
                 </tr>
               </tbody>

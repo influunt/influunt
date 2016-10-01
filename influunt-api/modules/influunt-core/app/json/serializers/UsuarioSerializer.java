@@ -1,5 +1,6 @@
 package json.serializers;
 
+import be.objectify.deadbolt.java.models.Permission;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
@@ -47,6 +48,13 @@ public class UsuarioSerializer extends JsonSerializer<Usuario> {
         }
         if (usuario.getPerfil() != null) {
             jgen.writeObjectField("perfil", usuario.getPerfil());
+        }
+        if (usuario.getPermissions() != null) {
+            jgen.writeArrayFieldStart("permissoes");
+            for (Permission permissao : usuario.getPermissions()) {
+                jgen.writeString(permissao.getValue());
+            }
+            jgen.writeEndArray();
         }
 
         jgen.writeObjectField("root", usuario.isRoot());
