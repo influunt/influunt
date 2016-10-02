@@ -75,18 +75,20 @@
           <tbody>
             <tr>
               <td width="51%">
-                <!-- <div class="form-group" data-ng-class="{ 'has-error': errors.diaDaSemana }"> -->
+                <div data-ng-class="{ 'has-error': errors.diaDaSemana }">
                   <select name="agrupamentoPlanoDiaSemana" class="form-control" data-ng-model="objeto.diaDaSemana">
                     <option data-ng-repeat="dia in dias" value="{{dia.value}}">{{dia.label}}</option>
                   </select>
                   <p class="help-block error-msg" data-ng-repeat="error in errors.diaDaSemana">{{ error }}</p>
-                <!-- </div> -->
+                </div>
               </td>
               <td width="10%">
-                <select name="planoHora" data-ng-model="objeto.hora" class="form-control" data-ng-change="atualizaHorario()">
-                  <option data-ng-repeat="hora in horarios track by $index" value="{{$index}}">{{hora}}</option>
-                </select>
-                <p class="help-block error-msg" data-ng-repeat="error in errors.horario">{{ error }}</p>
+                <div data-ng-class="{ 'has-error': errors.diaDaSemana }">
+                  <select name="planoHora" data-ng-model="objeto.hora" class="form-control" data-ng-change="atualizaHorario()">
+                    <option data-ng-repeat="hora in horarios track by $index" value="{{$index}}">{{hora}}</option>
+                  </select>
+                  <p class="help-block error-msg" data-ng-repeat="error in errors.horario">{{ error }}</p>
+                </div>
               </td>
               <td width="10%">
                 <select name="planoMinuto" data-ng-model="objeto.minuto" class="form-control" data-ng-change="atualizaHorario()">
