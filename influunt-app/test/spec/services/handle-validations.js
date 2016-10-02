@@ -97,7 +97,6 @@ describe('Service: handleValidations', function () {
         {path: 'aneis', message: 'teste_1'}
       ];
       var response = handleValidations.handle(errors);
-      console.log(response);
       expect(response.aneis[0]).toBe('teste_1');
     });
   });
