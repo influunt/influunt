@@ -2,9 +2,6 @@
 
 describe('Service: crud/breadcrumbs', function () {
 
-  // load the service's module
-  // beforeEach(module('influuntApp'));
-
   // instantiate service
   var breadcrumbs;
   beforeEach(inject(function (_breadcrumbs_) {

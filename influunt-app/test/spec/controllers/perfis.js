@@ -2,11 +2,6 @@
 
 describe('Controller: PerfisCtrl', function () {
 
-  // load the controller's module
-  // beforeEach(module('influuntApp', function(RestangularProvider) {
-  //   RestangularProvider.setBaseUrl('');
-  // }));
-
   var PerfisCtrl,
     scope,
     $httpBackend,

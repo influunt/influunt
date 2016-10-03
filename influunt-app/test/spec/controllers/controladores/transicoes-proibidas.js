@@ -1,9 +1,6 @@
 'use strict';
 
 describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
-  // beforeEach(module('influuntApp', function(RestangularProvider) {
-  //   RestangularProvider.setBaseUrl('');
-  // }));
 
   var ControladoresTransicoesProibidasCtrl,
     scope,

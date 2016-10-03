@@ -2,9 +2,6 @@
 
 describe('Service: utilControladores', function () {
 
-  // load the service's module
-  // beforeEach(module('influuntApp'));
-
   // instantiate service
   var utilControladores, controlador;
   beforeEach(inject(function (_utilControladores_) {

@@ -1,9 +1,6 @@
 'use strict';
 
 describe('Controller: ControladoresVerdesConflitantesCtrl', function () {
-  // beforeEach(module('influuntApp', function(RestangularProvider) {
-  //   RestangularProvider.setBaseUrl('');
-  // }));
 
   var ControladoresVerdesConflitantesCtrl,
     scope,

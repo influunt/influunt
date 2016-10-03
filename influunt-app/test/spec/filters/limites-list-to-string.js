@@ -3,8 +3,6 @@
 describe('Filter: limitesListToString', function () {
 
   var limites;
-  // load the filter's module
-  // beforeEach(module('influuntApp'));
 
   // initialize a new instance of the filter before each test
   var limitesListToString;

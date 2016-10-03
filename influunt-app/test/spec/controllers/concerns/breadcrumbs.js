@@ -2,19 +2,6 @@
 
 describe('Controller: BreadcrumbsCtrl', function () {
 
-  // load the controller's module
-  // beforeEach(module('influuntApp', function($provide) {
-  //   var breadcrumbs = function() {
-  //     return {
-  //       path: function() {
-  //         return [];
-  //       }
-  //     };
-  //   };
-
-  //   $provide.factory('breadcrumbs', breadcrumbs);
-  // }));
-
   var BreadcrumbsCtrl,
     scope,
     $state,

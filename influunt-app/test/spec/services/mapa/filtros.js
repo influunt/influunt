@@ -2,9 +2,6 @@
 
 describe('Service: filtrosMapa', function () {
 
-  // load the service's module
-  // beforeEach(module('influuntApp'));
-
   // instantiate service
   var filtrosMapa;
   beforeEach(inject(function (_filtrosMapa_) {

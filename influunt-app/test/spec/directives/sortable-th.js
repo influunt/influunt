@@ -2,9 +2,6 @@
 
 describe('Directive: sortableTh', function () {
 
-  // load the directive's module
-  // beforeEach(modsule('influuntApp'));
-
   var element,
     scope;
 

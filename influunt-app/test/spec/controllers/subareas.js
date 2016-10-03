@@ -2,11 +2,6 @@
 
 describe('Controller: SubAreasCtrl', function () {
 
-  // load the controller's module
-  // beforeEach(module('influuntApp', function(RestangularProvider) {
-  //   RestangularProvider.setBaseUrl('');
-  // }));
-
   var SubAreasCtrl,
     scope,
     httpBackend,

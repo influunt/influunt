@@ -2,9 +2,6 @@
 
 describe('Service: utilEstagios', function () {
 
-  // load the service's module
-  // beforeEach(module('influuntApp'));
-
   // instantiate service
   var utilEstagios, lista;
   beforeEach(inject(function (_utilEstagios_) {

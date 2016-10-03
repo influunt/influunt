@@ -8,16 +8,12 @@ describe('Directive: influuntKnob', function () {
   };
 
   var setComponentsValue = function(element, val) {
-    // $(element).find('.knob-shape').roundSlider('setValue', val).trigger('change', [{value: val}]);
     $(element).find('.knob-shape').roundSlider('setValue', val).trigger({
       type: 'change',
       value: val
     });
     scope.$apply();
   };
-
-  // load the directive's module
-  // beforeEach(module('influuntApp'));
 
   var element,
     scope,

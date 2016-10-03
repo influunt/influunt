@@ -2,9 +2,6 @@
 
 describe('Service: telasSemLogin', function () {
 
-  // load the service's module
-  // beforeEach(module('influuntApp'));
-
   // instantiate service
   var telasSemLogin;
   beforeEach(inject(function (_TELAS_SEM_LOGIN_) {

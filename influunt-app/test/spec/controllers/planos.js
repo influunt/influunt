@@ -12,10 +12,6 @@ describe('Controller: PlanosCtrl', function () {
       controladorId,
       anelId;
 
-  // beforeEach(module('influuntApp', function(RestangularProvider) {
-  //   RestangularProvider.setBaseUrl('');
-  // }));
-
   beforeEach(inject(function (_$controller_, $rootScope, _$httpBackend_, _$q_, _$state_) {
     $httpBackend = _$httpBackend_;
     $q = _$q_;

@@ -2,9 +2,6 @@
 
 describe('Service: TabelaHorariaService', function () {
 
-  // load the service's module
-  // beforeEach(module('influuntApp'));
-
   // instantiate service
   var TabelaHorariaService;
   beforeEach(inject(function (_TabelaHorariaService_) {

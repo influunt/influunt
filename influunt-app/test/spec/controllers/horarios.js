@@ -2,9 +2,6 @@
 
 describe('Controller: HorariosCtrl', function () {
 
-  // load the controller's module
-  // beforeEach(module('influuntApp'));
-
   var HorariosCtrl,
     scope;
 

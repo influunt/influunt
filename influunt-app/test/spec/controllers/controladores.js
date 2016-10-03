@@ -1,9 +1,6 @@
 'use strict';
 
 describe('Controller: ControladoresCtrl', function () {
-  // beforeEach(module('influuntApp', function(RestangularProvider) {
-  //   RestangularProvider.setBaseUrl('');
-  // }));
 
   var ControladoresCtrl,
     scope,

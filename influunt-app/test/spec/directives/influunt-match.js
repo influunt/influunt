@@ -5,9 +5,6 @@ describe('Directive: influuntMatch', function () {
   var validTemplate = '<input ng-model="confirmation" influunt-match="original"></input>';
   var compiled;
 
-  // load the directive's module
-  // beforeEach(module('influuntApp'));
-
   var element,
     compile,
     scope;

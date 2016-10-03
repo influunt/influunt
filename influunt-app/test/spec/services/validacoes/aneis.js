@@ -2,9 +2,6 @@
 
 describe('Service: validacoesAneis', function () {
 
-  // load the service's module
-  // beforeEach(module('influuntApp'));
-
   // instantiate service
   var validacoesAneis, controlador, anel;
   beforeEach(inject(function (_validacoesAneis_) {

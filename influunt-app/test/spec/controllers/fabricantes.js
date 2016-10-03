@@ -2,11 +2,6 @@
 
 describe('Controller: FabricantesCtrl', function () {
 
-  // load the controller's module
-  // beforeEach(module('influuntApp', function(RestangularProvider) {
-  //   RestangularProvider.setBaseUrl('');
-  // }));
-
   var FabricantesCtrl, scope;
 
   beforeEach(inject(function ($controller, $rootScope) {

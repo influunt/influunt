@@ -2,9 +2,6 @@
 
 describe('Directive: influuntDropzone', function () {
 
-  // load the directive's module
-  // beforeEach(module('influuntApp'));
-
   var scope;
 
   beforeEach(inject(function ($rootScope) {
