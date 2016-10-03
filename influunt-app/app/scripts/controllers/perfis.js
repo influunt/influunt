@@ -11,7 +11,7 @@ angular.module('influuntApp')
   .controller('PerfisCtrl', ['$scope', '$controller', 'Restangular', '$timeout', 'influuntBlockui', 'PermissionsService',
     function ($scope, $controller, Restangular, $timeout, influuntBlockui, PermissionsService) {
 
-      var atualizarRolesAtivos;
+      var atualizarRolesAtivos, objetoLoaded = false, permissoesLoaded = false;
 
       // Herda todo o comportamento do crud basico.
       $controller('CrudCtrl', {$scope: $scope});
@@ -54,6 +54,10 @@ angular.module('influuntApp')
           .then(function(response) {
             $scope.permissions = response.permissoes;
             $scope.roles = response.permissoesApp;
+            permissoesLoaded = true;
+            if (objetoLoaded) {
+              atualizarRolesAtivos();
+            }
           }).finally(influuntBlockui.unblock);
 
         $scope.show();
@@ -73,7 +77,10 @@ angular.module('influuntApp')
       $scope.afterShow = function() {
         $scope.permissoesAtivadas = {};
         $scope.rolesAtivados = {};
-        return $scope.objeto.permissoes && atualizarRolesAtivos();
+        objetoLoaded = true;
+        if (permissoesLoaded) {
+          atualizarRolesAtivos();
+        }
       };
 
       $scope.atualizarPermissoes = function() {
