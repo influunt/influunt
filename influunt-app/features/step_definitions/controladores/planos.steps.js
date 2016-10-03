@@ -144,8 +144,8 @@ module.exports = function() {
     return planosPage.clicarBotao('Salvar');
   });
 
-  this.Given(/^que o usuário selecione o anel (\d+)$/, function (anel) {
-    return objetosComuns.trocarAnel();
+  this.Given(/^que o usuário selecione o anel (\d+)$/, function (numeroAnel) {
+    return objetosComuns.trocarAnel(numeroAnel);
   });
 
   this.Given(/^clicar em cancelar a edição$/, function () {

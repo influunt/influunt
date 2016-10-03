@@ -16,8 +16,9 @@ var ObjetosComuns = function () {
     });
   };
 
-  this.trocarAnel = function(anel) {
-    return world.getElement('li[aria-selected="false"]').click();
+  this.trocarAnel = function(numeroAnel) {
+    var xpath = ('//li[contains(@aria-selected, "false")]//a[contains(text(), "Anel '+numeroAnel+'")]');
+    return world.getElementByXpath(xpath).click();
   };
 
   this.limparCampo = function(campo) {
