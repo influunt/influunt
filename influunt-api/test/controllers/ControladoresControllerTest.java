@@ -30,7 +30,7 @@ import static play.test.Helpers.route;
  * Created by lesiopinheiro on 8/10/16.
  */
 public class ControladoresControllerTest extends AbstractInfluuntControladorTest {
-    
+
     @Test
     public void naoDeveriaEditarControladorComOutroUsuario() {
         Usuario usuario = new Usuario();
@@ -52,7 +52,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         controlador = new ControladorCustomDeserializer().getControladorFromJson(json);
 
 
-        postRequest = new Http.RequestBuilder().method("GET")
+        postRequest = new Http.RequestBuilder().method("POST")
                 .uri(routes.ControladoresController.edit(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
         postResult = route(postRequest);
         json = Json.parse(Helpers.contentAsString(postResult));
@@ -64,7 +64,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         versao.setUsuario(usuario);
         versao.update();
 
-        postRequest = new Http.RequestBuilder().method("GET")
+        postRequest = new Http.RequestBuilder().method("POST")
                 .uri(routes.ControladoresController.edit(controladorClonado.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
         postResult = route(postRequest);
 
@@ -80,7 +80,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         controlador.setStatusControlador(StatusControlador.ATIVO);
         controlador.update();
 
-        Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
+        Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
                 .uri(routes.ControladoresController.edit(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
 
         Result postResult = route(postRequest);
@@ -258,7 +258,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         int totalAtrasoDeGrupo = 24;
         int totalImagens = 0;
 
-        Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
+        Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
                 .uri(routes.ControladoresController.edit(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
 
         Result postResult = route(postRequest);
@@ -589,7 +589,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         assertEquals(200, result.status());
 
         // criar nova versão do controlador
-        request = new Http.RequestBuilder().method("GET")
+        request = new Http.RequestBuilder().method("POST")
                 .uri(routes.ControladoresController.edit(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
         result = route(request);
         assertEquals(200, result.status());

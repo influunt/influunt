@@ -32,12 +32,13 @@ angular.module('influuntApp')
             tipo: 'texto'
           },
           {
-            nome: 'timestamp',
+            nome: 'change.eventTime',
             label: 'auditorias.data',
             tipo: 'data'
           }
-        ]
+        ],
+        orderField: 'change.eventTime',
+        orderReverse: true
       };
 
     }]);
-

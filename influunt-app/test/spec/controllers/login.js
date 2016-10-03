@@ -1,21 +1,11 @@
 'use strict';
 
 describe('Controller: LoginCtrl', function () {
+
   var LoginCtrl,
     scope,
     $httpBackend,
     form;
-
-  // load the controller's module
-  /**
-   * Solução sugerida pelo angular-translate para testar apps com carregamento
-   * de traduções de arquivo json
-   *  (fonte: https://angular-translate.github.io/docs/#/guide/22_unit-testing-with-angular-translate)
-   */
-  beforeEach(module('influuntApp', function ($translateProvider, RestangularProvider) {
-    $translateProvider.translations('en', {});
-    RestangularProvider.setBaseUrl('');
-  }));
 
   // carrega o template de login.
   beforeEach(inject(function ($controller, $rootScope, $compile, $templateCache, _$httpBackend_) {
@@ -57,7 +47,15 @@ describe('Controller: LoginCtrl', function () {
 
   it('caso o login seja executado com sucesso, deve ser redirecionado para tela inicial do sistema',
     inject(function($state) {
-      $httpBackend.expectPOST('/login').respond({});
+      var usuario = {
+        id: 'teste',
+        login: 'teste',
+        email: 'teste@example.com',
+        root: true,
+        permissoes: []
+      }
+      $httpBackend.expectPOST('/login').respond(usuario);
+
       scope.submitLogin(true);
       $httpBackend.flush();
 

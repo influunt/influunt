@@ -7,13 +7,23 @@
           <div class="row" ng-if="somenteVisualizacao">
             <div class="col-sm-12 col-lg-12 actions clearfix padding-right-20">
               <div class="right">
-                <a class="btn btn-primary" tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.ver' | translate }} {{ 'controladores.geral.historico' | translate }}" type="button" data-target="#modal-timeline" data-toggle="modal">
+                <a class="btn btn-primary" type="button"
+                   tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.ver' | translate }} {{ 'controladores.geral.historico' | translate }}"
+                   data-target="#modal-timeline" data-toggle="modal">
                   <i class="fa fa-code-fork"></i> {{ 'controladores.geral.historico' | translate }}
                 </a>
-                <a class="btn btn-primary" tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.geral.tabelaHorario' | translate }}"  type="button" ng-click="editarTabelaHoraria(objeto.id)" ng-show="currentVersaoTabelaHoraria.statusVersao === 'EDITANDO' || currentVersaoTabelaHoraria.statusVersao === undefined">
+                <a class="btn btn-primary" type="button"
+                   tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.geral.tabelaHorario' | translate }}"
+                   ng-click="editarTabelaHoraria(objeto.id)"
+                   ng-if="currentVersaoTabelaHoraria.statusVersao === 'EDITANDO' || currentVersaoTabelaHoraria.statusVersao === undefined"
+                   permission permission-only="'criarTabelaHoraria'">
                   <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
                 </a>
-                <a class="btn btn-primary " tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.geral.tabelaHorario' | translate }}"  type="button" ng-click="clonarTabelaHoraria(objeto.id)" ng-show="currentVersaoTabelaHoraria.statusVersao === 'ATIVO'">
+                <a class="btn btn-primary" type="button"
+                   tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.geral.tabelaHorario' | translate }}"
+                   ng-click="clonarTabelaHoraria(objeto.id)"
+                   ng-if="currentVersaoTabelaHoraria.statusVersao === 'ATIVO'"
+                   permission permission-only="'criarTabelaHoraria'">
                   <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
                 </a>
               </div>
@@ -23,9 +33,10 @@
           <div class="row" ng-if="!somenteVisualizacao">
             <div class="col-sm-12 col-lg-12 actions clearfix padding-right-20">
               <div class="right">
-                <a class="btn btn-danger"
+                <a class="btn btn-danger" type="button"
                     tooltips tooltip-side="bottom" tooltip-template="{{ 'controladores.geral.cancelarEdicao' | translate }} {{ 'controladores.geral.tabelaHorario' | translate }}"
-                    type="button" ng-if="currentVersaoTabelaHoraria.statusVersao === 'EDITANDO'" ng-click="cancelarEdicao(objeto.id)">
+                    ng-click="cancelarEdicao(objeto.id)"
+                    ng-if="currentVersaoTabelaHoraria.statusVersao === 'EDITANDO'">
                   <i class="fa fa-trash"></i> {{ 'controladores.geral.cancelarEdicao' | translate }}
                 </a>
               </div>

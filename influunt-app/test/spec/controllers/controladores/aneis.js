@@ -2,10 +2,6 @@
 
 describe('Controller: ControladoresAneisCtrl', function () {
 
-  beforeEach(module('influuntApp', function(RestangularProvider) {
-    RestangularProvider.setBaseUrl('');
-  }));
-
   var ControladoresAneisCtrl,
     scope,
     $httpBackend,

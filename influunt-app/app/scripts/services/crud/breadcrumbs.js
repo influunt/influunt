@@ -31,7 +31,9 @@ angular.module('influuntApp')
       // Caso o estado seja abstrato (em geral, o último estado do breadcrumb se
       // encaixa neste contexto), o app deverá trabalhar com o estado alternativo,
       // determinado no campo data->redirectTo.
+
       var breadcrumbState = state.abstract ? $state.get(state.data.redirectTo) : state;
+
       breadcrumb.unshift({
         url: breadcrumbState.name,
         title: breadcrumbState.data.breadcrumb || breadcrumbState.data.title

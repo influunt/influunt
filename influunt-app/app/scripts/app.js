@@ -14,6 +14,12 @@ angular
     'ngCookies',
     'ngResource',
     'ui.router',
+
+    // angular-permissions: deve ser incluído
+    // imediatamente após o ui.router
+    'permission',
+    'permission.ui',
+
     'ngSanitize',
     'ngTouch',
 

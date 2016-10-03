@@ -1,9 +1,6 @@
 'use strict';
 
 describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
-  beforeEach(module('influuntApp', function(RestangularProvider) {
-    RestangularProvider.setBaseUrl('');
-  }));
 
   var ControladoresTransicoesProibidasCtrl,
     scope,
@@ -291,7 +288,7 @@ describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
       });
     });
   });
-  
+
   describe('getErrosEstagiosAlternativos', function () {
     beforeEach(inject(function(handleValidations) {
       scope.objeto = {
@@ -302,7 +299,7 @@ describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
               {idJson: 'E1A1'},
               {idJson: 'E2A1'}
             ]
-          }, 
+          },
           {
             idJson: 2,
             estagios: [
@@ -310,13 +307,13 @@ describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
               {idJson: 'E2A2'}
             ]
           }
-        ], 
+        ],
         estagios: [
           {idJson: 'E1A1', anel: {idJson: 1}},
           {idJson: 'E2A1', anel: {idJson: 1}},
           {idJson: 'E1A2', anel: {idJson: 2}, origemDeTransicoesProibidas: [{idJson: 'TP1'}]},
           {idJson: 'E2A2', anel: {idJson: 2}}
-        ], 
+        ],
         transicoesProibidas: [
           {idJson: 'TP1', origem: {idJson: 'E1A2'}, destino: {idJson: 'E2A2'}}
         ]
@@ -324,7 +321,7 @@ describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
       var error = [{"root":"Controlador","message":"não pode ficar em branco","path":"aneis[1].estagios[0].origemDeTransicoesProibidas[0].alternativo"}];
       scope.errors = handleValidations.buildValidationMessages(error, scope.objeto);
     }));
-    
+
     it('Não deve ter erro para transição E1A1-E2A1', function() {
       var origem = {idJson: 'E1A1'};
       var destino = {idJson: 'E2A1'};

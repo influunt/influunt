@@ -10,6 +10,8 @@
 angular.module('influuntApp')
 .factory('planoService', function planoService() {
 
+    var criarPlano;
+
     var verdeMinimoDoEstagio = function(controlador, estagio){
       var tempoMax = controlador.verdeMin;
       var veicular = false;
@@ -24,24 +26,12 @@ angular.module('influuntApp')
       return tempoMax;
     };
 
-    var adicionar = function(controlador, anel, posicao) {
-      var plano = _.find(controlador.planos, {posicao: posicao, anel: {idJson: anel.idJson}});
+    var adicionar = function(controlador, anel, posicao, plano) {
+      plano = plano || _.find(controlador.planos, {posicao: posicao, anel: {idJson: anel.idJson}});
       if (plano) {
         plano.configurado = true;
-      }else {
-        plano = {
-          idJson: UUID.generate(),
-          anel: { idJson: anel.idJson },
-          descricao: 'PLANO ' + posicao,
-          posicao: posicao,
-          modoOperacao: 'TEMPO_FIXO_ISOLADO',
-          posicaoTabelaEntreVerde: 1,
-          gruposSemaforicosPlanos: [],
-          estagiosPlanos: [],
-          tempoCiclo: controlador.cicloMin,
-          configurado: posicao === 1,
-          versaoPlano: {idJson: anel.versaoPlano.idJson}
-        };
+      } else {
+        plano = criarPlano(controlador, anel, posicao);
 
         var versaoPlano = _.find(controlador.versoesPlanos, {idJson: anel.versaoPlano.idJson});
         versaoPlano.planos = versaoPlano.planos || [];
@@ -97,8 +87,36 @@ angular.module('influuntApp')
     return controlador;
   };
 
+  var criarPlanoManualExclusivo = function(controlador, anel) {
+    var plano = _.find(controlador.planos, {modoOperacao: 'MANUAL', anel: {idJson: anel.idJson}}) || criarPlano(controlador, anel, 0, 'Exclusivo', 'MANUAL');
+    var controlador = adicionar(controlador, anel, 0, plano);
+    plano = _.find(controlador.planos, {modoOperacao: 'MANUAL', anel: {idJson: anel.idJson}});
+    plano.manualExclusivo = true;
+    delete plano.cicloMin;
+  };
+
+
+  criarPlano = function(controlador, anel, posicao, descricao, modoOperacao) {
+    descricao = descricao || 'PLANO ' + posicao ;
+    modoOperacao = modoOperacao || 'TEMPO_FIXO_ISOLADO';
+    return {
+      idJson: UUID.generate(),
+      anel: { idJson: anel.idJson },
+      descricao: descricao,
+      posicao: posicao,
+      modoOperacao: modoOperacao,
+      posicaoTabelaEntreVerde: 1,
+      gruposSemaforicosPlanos: [],
+      estagiosPlanos: [],
+      tempoCiclo: controlador.cicloMin,
+      configurado: posicao === 1,
+      versaoPlano: {idJson: anel.versaoPlano.idJson}
+    };
+  };
+
   return {
     adicionar: adicionar,
-    verdeMinimoDoEstagio: verdeMinimoDoEstagio
+    verdeMinimoDoEstagio: verdeMinimoDoEstagio,
+    criarPlanoManualExclusivo: criarPlanoManualExclusivo
   };
 });

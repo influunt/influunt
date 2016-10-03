@@ -488,6 +488,9 @@ public class ControladorCustomDeserializer {
         if (node.has("ativo")) {
             anel.setAtivo(node.get("ativo").asBoolean());
         }
+        if (node.has("aceitaModoManual")) {
+            anel.setAceitaModoManual(node.get("aceitaModoManual").asBoolean());
+        }
         if (node.has("idJson")) {
             anel.setIdJson(node.get("idJson").asText());
         }

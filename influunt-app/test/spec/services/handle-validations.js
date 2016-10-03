@@ -2,9 +2,6 @@
 
 describe('Service: handleValidations', function () {
 
-  // load the service's module
-  beforeEach(module('influuntApp'));
-
   // instantiate service
   var handleValidations;
   beforeEach(inject(function (_handleValidations_) {
@@ -77,7 +74,6 @@ describe('Service: handleValidations', function () {
     var response = handleValidations.handle(errors);
     expect(response.test[0]).not.toBeDefined();
     expect(response.test[9999]).toBeDefined();
-
   });
 
   it('Toda mensagem de anel também deverá incluir um atributo "all", onde todas as mensagens serão reunidas',
@@ -90,5 +86,16 @@ describe('Service: handleValidations', function () {
 
       var response = handleValidations.handle(errors);
       expect(response.aneis[1].all).toBeDefined();
+  });
+
+  describe('bugs', function () {
+    it ('O objeto de erros de um anel pode ser um array erros ou somente um erro (string)', function() {
+      var errors = [
+        {path: 'aneis', message: 'teste_1'}
+      ];
+      var response = handleValidations.handle(errors);
+      expect(response.aneis[0]).toBe('teste_1');
     });
+  });
+
 });

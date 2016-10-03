@@ -311,7 +311,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
             message = "Estágio de demanda prioritária deve ser associado a somente 1 grupo semafórico.")
     public boolean isSomenteUmEstagioGrupoSemaforicoEmDemandaPrioritaria() {
-        if(isEstagiosGrupoSemaforicosNotEmpty() && isDemandaPrioritaria()){
+        if (isEstagiosGrupoSemaforicosNotEmpty() && isDemandaPrioritaria()) {
             return getEstagiosGruposSemaforicos().size() <= 1;
         }
         return true;
