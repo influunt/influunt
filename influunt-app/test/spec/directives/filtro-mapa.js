@@ -2,9 +2,6 @@
 
 describe('Directive: filtroMapa', function () {
 
-  // load the directive's module
-  beforeEach(module('influuntApp'));
-
   var element,
     scope;
 

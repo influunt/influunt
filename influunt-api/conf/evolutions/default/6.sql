@@ -14,6 +14,7 @@ create table intervalos (
 alter table intervalos add constraint fk_intervalos_grupo_semaforico_plano_id foreign key (grupo_semaforico_plano_id) references grupos_semaforicos_planos (id) on delete restrict on update restrict;
 create index ix_intervalos_grupo_semaforico_plano_id on intervalos (grupo_semaforico_plano_id);
 
+
 # --- !Downs
 
 alter table intervalos drop foreign key fk_intervalos_grupo_semaforico_plano_id;

@@ -2,9 +2,6 @@
 
 describe('Service: assertControlador', function () {
 
-  // load the service's module
-  beforeEach(module('influuntApp'));
-
   // instantiate service
   var assertControlador, controlador;
   beforeEach(inject(function (_assertControlador_) {

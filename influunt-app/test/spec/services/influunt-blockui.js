@@ -2,9 +2,6 @@
 
 describe('Service: influuntBlockui', function () {
 
-  // load the service's module
-  beforeEach(module('influuntApp'));
-
   // instantiate service
   var influuntBlockui;
   beforeEach(inject(function (_influuntBlockui_) {

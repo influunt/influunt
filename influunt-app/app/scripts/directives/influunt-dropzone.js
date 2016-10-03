@@ -24,7 +24,7 @@ angular.module('influuntApp')
           onDelete: '&',
           removeButtonText: '@'
         },
-        link: function postLink(scope, element) {
+        link: function postLink(scope, element) { 
           /**
            * A cada troca de anel, este watcher deverá esconder os itens que
            * não são deste anel e exibir aqueles que são deles.
@@ -83,8 +83,8 @@ angular.module('influuntApp')
                 // Adiciona o anel id ao elemento do preview. Este id será utilizado
                 // para filtrar as imagens de estagios para os diferentes aneis.
                 $(upload.previewElement).attr('data-anel-id', anel.idJson);
-                $(upload.previewElement).attr('data-imagem-id', response.imagem.id);
               }
+              $(upload.previewElement).attr('data-imagem-id', response.imagem.id);
 
               return scope.onSuccess({ upload: upload, imagem: response.imagem, anelIdJson: response.anelIdJson });
             },
@@ -104,7 +104,8 @@ angular.module('influuntApp')
 
               // chamado logo antes de o arquivo ser enviado p/ o servidor
               this.on('sending', function(file, xhr, formData) {
-                formData.append('anelIdJson', scope.anel.idJson);
+                var anelIdJson = scope.anel ? scope.anel.idJson : UUID.generate();
+                formData.append('anelIdJson', anelIdJson);
               });
             }
           };

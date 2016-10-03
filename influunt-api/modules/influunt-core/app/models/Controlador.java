@@ -21,7 +21,10 @@ import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.UUID;
 
 /**
  * Entidade que representa o {@link Controlador} no sistema
@@ -83,6 +86,9 @@ public class Controlador extends Model implements Cloneable, Serializable {
 
     @Column
     private String firmware;
+
+    @OneToOne
+    private Imagem croqui;
 
     @ManyToOne
     @Valid
@@ -379,6 +385,14 @@ public class Controlador extends Model implements Cloneable, Serializable {
         this.firmware = firmware;
     }
 
+    public Imagem getCroqui() {
+        return croqui;
+    }
+
+    public void setCroqui(Imagem croqui) {
+        this.croqui = croqui;
+    }
+
     public ModeloControlador getModelo() {
         return modelo;
     }
@@ -657,6 +671,8 @@ public class Controlador extends Model implements Cloneable, Serializable {
     }
 
     public boolean isConfigurado() {
+        getEndereco();
+        getAneis().forEach(Anel::getEndereco);
         return new InfluuntValidator<Controlador>().validate(this, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
                 ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
                 ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,

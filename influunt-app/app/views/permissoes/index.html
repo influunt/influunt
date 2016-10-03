@@ -15,7 +15,7 @@
 
           <!-- botão de nova permissoes -->
           <div class="pull-right actions">
-            <a class="btn btn-small btn-primary btn-rounded" tooltips tooltip-template="Adicionar nova permissão" ui-sref="app.permissoes_new">
+            <a class="btn btn-small btn-primary btn-rounded" tooltips tooltip-template="Adicionar nova permissão" ui-sref="app.permissoes_new" permission permission-sref="'app.permissoes_new'">
               <i class="fa fa-plus"></i>
               {{ 'geral.crud.novo' | translate }}
             </a>
@@ -45,9 +45,9 @@
                   <td>{{ permissao.descricao }}</td>
                   <td>{{ permissao.chave }}</td>
                   <td>
-                    <a ui-sref="app.permissoes_show({id: permissao.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
-                    <a ui-sref="app.permissoes_edit({id: permissao.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.editar' | translate }}</a>
-                    <a data-ng-click="confirmDelete(permissao.id)" class="btn btn-danger btn-xs">{{ 'geral.crud.excluir' | translate }}</a>
+                    <a ui-sref="app.permissoes_show({id: permissao.id})" permission permission-sref="'app.permissoes_show'" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
+                    <a ui-sref="app.permissoes_edit({id: permissao.id})" permission permission-sref="'app.permissoes_edit'" class="btn btn-primary btn-xs">{{ 'geral.crud.editar' | translate }}</a>
+                    <a data-ng-click="confirmDelete(permissao.id)" permission permission-only="'removerPermissoes'" class="btn btn-danger btn-xs">{{ 'geral.crud.excluir' | translate }}</a>
                   </td>
                 </tr>
               </tbody>

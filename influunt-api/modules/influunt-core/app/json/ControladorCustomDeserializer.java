@@ -488,6 +488,9 @@ public class ControladorCustomDeserializer {
         if (node.has("ativo")) {
             anel.setAtivo(node.get("ativo").asBoolean());
         }
+        if (node.has("aceitaModoManual")) {
+            anel.setAceitaModoManual(node.get("aceitaModoManual").asBoolean());
+        }
         if (node.has("idJson")) {
             anel.setIdJson(node.get("idJson").asText());
         }
@@ -1503,6 +1506,10 @@ public class ControladorCustomDeserializer {
 
         if (node.has("modelo") && node.get("modelo").get("id") != null) {
             controlador.setModelo(ModeloControlador.find.byId(UUID.fromString(node.get("modelo").get("id").asText())));
+        }
+
+        if (node.has("croqui") && node.get("croqui").get("id") != null) {
+            controlador.setCroqui(Imagem.find.byId(UUID.fromString(node.get("croqui").get("id").asText())));
         }
 
         if (node.has("versaoControlador") && node.get("versaoControlador").get("id") != null) {

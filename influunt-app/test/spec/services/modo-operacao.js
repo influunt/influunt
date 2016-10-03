@@ -2,9 +2,6 @@
 
 describe('Service: modoOperacaoService', function () {
 
-  // load the service's module
-  beforeEach(module('influuntApp'));
-
   // instantiate service
   var modoOperacaoService;
   beforeEach(inject(function (_modoOperacaoService_) {

@@ -46,6 +46,9 @@ public class Permissao extends Model implements Permission, Serializable {
     @ManyToMany(mappedBy = "permissoes")
     private List<Perfil> perfis;
 
+    @ManyToMany(mappedBy = "permissoes")
+    private List<PermissaoApp> permissoesApp;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
@@ -109,5 +112,13 @@ public class Permissao extends Model implements Permission, Serializable {
 
     public void setDataAtualizacao(DateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
+    }
+
+    public List<PermissaoApp> getPermissoesApp() {
+        return permissoesApp;
+    }
+
+    public void setPermissoesApp(List<PermissaoApp> permissoesApp) {
+        this.permissoesApp = permissoesApp;
     }
 }

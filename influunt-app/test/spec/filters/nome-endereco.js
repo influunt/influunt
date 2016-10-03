@@ -2,9 +2,6 @@
 
 describe('Filter: nomeEndereco', function () {
 
-  // load the filter's module
-  beforeEach(module('influuntApp'));
-
   // initialize a new instance of the filter before each test
   var nomeEndereco, endereco;
   beforeEach(inject(function ($filter) {

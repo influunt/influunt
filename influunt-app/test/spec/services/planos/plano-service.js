@@ -2,9 +2,6 @@
 
 describe('Service: planoService', function () {
 
-  // load the service's module
-  beforeEach(module('influuntApp'));
-
   // instantiate service
   var planoService, controlador, anel;
   beforeEach(inject(function (_planoService_) {
