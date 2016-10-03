@@ -23,7 +23,7 @@ angular.module('influuntApp')
           atualizaDiagramaIntervalos, getPlanoParaDiagrama, atualizaTransicoesProibidas, getErrosGruposSemaforicosPlanos,
           getErrosPlanoAtuadoSemDetector, duplicarPlano, removerPlanoLocal, getErrosUltrapassaTempoCiclo, getErrosSequenciaInvalida,
           getKeysErros, getIdJsonDePlanosQuePossuemErros, getPlanoComErro, getIndexPlano, handleErroEditarPlano, verdeMinimoDoEstagio,
-          mudarPlanoManualExcluisvo, criarPlanoManualExclusivo;
+          mudarPlanoManualExcluisvo;
 
       var diagramaDebouncer = null;
 
@@ -54,7 +54,7 @@ angular.module('influuntApp')
                 anel.versaoPlano = {idJson: versaoPlano.idJson};
               }
               if(anel.aceitaModoManual) {
-                criarPlanoManualExclusivo(anel);
+                planoService.criarPlanoManualExclusivo($scope.objeto, anel);
               }
               for (var i = 0; i < $scope.objeto.limitePlanos; i++) {
                 planoService.adicionar($scope.objeto, anel, i + 1);
@@ -182,7 +182,7 @@ angular.module('influuntApp')
         $scope.currentAnel.planos.splice(indexPlano, 1);
 
         if(plano.manualExclusivo) {
-          criarPlanoManualExclusivo($scope.currentAnel);
+          planoService.criarPlanoManualExclusivo($scope.objeto, $scope.currentAnel);
         } else {
           planoService.adicionar($scope.objeto, $scope.currentAnel, index + 1);
         }
@@ -889,70 +889,4 @@ angular.module('influuntApp')
         }
       };
 
-      criarPlanoManualExclusivo = function(anel) {
-        var plano = _.find($scope.objeto.planos, {modoOperacao: 'MANUAL', anel: {idJson: anel.idJson}});
-        if (plano) {
-          plano.configurado = true;
-        } else {
-          plano = {
-            idJson: UUID.generate(),
-            anel: { idJson: anel.idJson },
-            descricao: 'Exclusivo',
-            posicao: 0,
-            modoOperacao: 'MANUAL',
-            posicaoTabelaEntreVerde: 1,
-            gruposSemaforicosPlanos: [],
-            estagiosPlanos: [],
-            configurado: false,
-            manualExclusivo: true,
-            versaoPlano: {idJson: anel.versaoPlano.idJson}
-          };
-
-          var versaoPlano = _.find($scope.objeto.versoesPlanos, {idJson: anel.versaoPlano.idJson});
-          versaoPlano.planos = versaoPlano.planos || [];
-          versaoPlano.planos.push({idJson: plano.idJson});
-
-          $scope.objeto.gruposSemaforicosPlanos = $scope.objeto.gruposSemaforicosPlanos || [];
-          anel.gruposSemaforicos.forEach(function (g){
-            var grupo =  _.find($scope.objeto.gruposSemaforicos, {idJson: g.idJson});
-            var grupoPlano = {
-              idJson: UUID.generate(),
-              ativado: true,
-              grupoSemaforico: {
-                idJson: grupo.idJson
-              },
-              plano: {
-                idJson: plano.idJson
-              }
-            };
-
-            $scope.objeto.gruposSemaforicosPlanos.push(grupoPlano);
-            plano.gruposSemaforicosPlanos.push({idJson: grupoPlano.idJson});
-          });
-
-          anel.estagios.forEach(function (e){
-            var estagio =  _.find($scope.objeto.estagios, {idJson: e.idJson});
-            if(!estagio.demandaPrioritaria){
-              var estagioPlano = {
-                idJson: UUID.generate(),
-                estagio: {
-                  idJson: estagio.idJson
-                },
-                plano: {
-                  idJson: plano.idJson
-                },
-                posicao: estagio.posicao,
-                tempoVerde: planoService.verdeMinimoDoEstagio($scope.objeto, estagio),
-                dispensavel: false
-              };
-              $scope.objeto.estagiosPlanos.push(estagioPlano);
-              plano.estagiosPlanos.push({idJson: estagioPlano.idJson});
-            }
-          });
-
-          $scope.objeto.planos = $scope.objeto.planos || [];
-          $scope.objeto.planos.push(plano);
-          anel.planos.push({idJson: plano.idJson});
-        }
-      };
     }]);
