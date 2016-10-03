@@ -60,7 +60,6 @@ angular.module('influuntApp')
       $scope.segundos = HorariosService.getSegundos();
       $scope.planos = HorariosService.getPlanos();
 
-
       loadControladores = function() {
         Restangular.all('controladores').customGET('agrupamentos')
           .then(function(res) {
@@ -145,7 +144,6 @@ angular.module('influuntApp')
         });
       };
 
-
       registrarWatcherSubareasHandle = function() {
         $scope.$watch('subareasHandle', function(subareas) {
 
@@ -209,7 +207,6 @@ angular.module('influuntApp')
           $scope.subareasHandle[subarea.id] = false;
         });
       };
-
 
       /**
        * Recupera a lista de controladores que podem ser relacionadas ao agrupamento.
@@ -295,7 +292,6 @@ angular.module('influuntApp')
         });
       };
 
-
       adicionarAnel = function(anelId) {
         if (!angular.isArray($scope.objeto.aneis)) {
           $scope.objeto.aneis = [];
@@ -318,7 +314,6 @@ angular.module('influuntApp')
         });
       };
 
-
       registrarWatcherAneis = function() {
         $scope.$watch('aneisHandle', function(aneisHandle) {
           if (aneisHandle) {
@@ -335,7 +330,6 @@ angular.module('influuntApp')
           }
         }, true);
       };
-
 
       $scope.uncheckControlador = function(anelId) {
         var controlador = findControladorByAnelId(anelId);
@@ -375,5 +369,4 @@ angular.module('influuntApp')
           ($scope.objeto.segundo.length < 2 ? '0'+$scope.objeto.segundo : $scope.objeto.segundo);
         }
       };
-
     }]);

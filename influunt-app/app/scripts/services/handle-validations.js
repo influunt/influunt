@@ -63,9 +63,6 @@ angular.module('influuntApp')
       return [0, 0];
     };
 
-
-
-
     var handle = function(errors, objeto) {
       var validations = {};
       var response = {};
