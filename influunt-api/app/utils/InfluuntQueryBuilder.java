@@ -213,7 +213,7 @@ public class InfluuntQueryBuilder {
         } else {
             if (getSortField() != null) {
                 int sortTypeAux = getSortType().equalsIgnoreCase("asc") ? 1 : -1;
-                auditorias = Auditoria.auditorias().find().skip(getSkip()).limit(getPerPage()).sort("{".concat(getSortType()).concat(String.format(": %s", sortTypeAux))).limit(getPerPage()).as(Auditoria.class);
+                auditorias = Auditoria.auditorias().find().skip(getSkip()).limit(getPerPage()).sort("{".concat(getSortField()).concat(String.format(": %s", sortTypeAux)).concat("}")).limit(getPerPage()).as(Auditoria.class);
             } else {
                 auditorias = Auditoria.auditorias().find().skip(getSkip()).limit(getPerPage()).as(Auditoria.class);
             }
