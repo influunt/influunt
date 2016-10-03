@@ -4,9 +4,6 @@ describe('Filter: checkboxFilter', function () {
 
   var input;
 
-  // load the filter's module
-  beforeEach(module('influuntApp'));
-
   // initialize a new instance of the filter before each test
   var checkboxFilter;
   beforeEach(inject(function ($filter) {

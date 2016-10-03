@@ -2,9 +2,6 @@
 
 describe('Service: removerPlanosTabelasHorarias', function () {
 
-  // load the service's module
-  beforeEach(module('influuntApp'));
-
   // instantiate service
   var removerPlanosTabelasHorarias;
   beforeEach(inject(function (_removerPlanosTabelasHorarias_) {

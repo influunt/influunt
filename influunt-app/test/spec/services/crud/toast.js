@@ -2,9 +2,6 @@
 
 describe('Service: crud/toast', function () {
 
-  // load the service's module
-  beforeEach(module('influuntApp'));
-
   var toaster;
 
   // instantiate service

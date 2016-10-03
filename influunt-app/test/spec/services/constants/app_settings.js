@@ -2,9 +2,6 @@
 
 describe('Service: app_settings', function () {
 
-  // load the service's module
-  beforeEach(module('influuntApp'));
-
   // instantiate service
   var appSettings;
   beforeEach(inject(function (_APP_SETTINGS_) {

@@ -2,11 +2,6 @@
 
 describe('Controller: AreasCtrl', function () {
 
-  // load the controller's module
-  beforeEach(module('influuntApp', function(RestangularProvider) {
-    RestangularProvider.setBaseUrl('');
-  }));
-
   var AreasCtrl,
     scope,
     httpBackend,

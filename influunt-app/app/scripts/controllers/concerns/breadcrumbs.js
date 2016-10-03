@@ -39,11 +39,11 @@ angular.module('influuntApp')
     $scope.filterControllers = function(state) {
       var controllersName = ['Controladores', 'TabelaHorarios', 'Planos'];
       var result = false;
-      
-        if (state !== undefined && state.controller !== undefined) { 
+
+        if (state !== undefined && state.controller !== undefined) {
           var stateController = state.controller;
           result = _.some(controllersName, function(controllerName){
-            return stateController.indexOf(controllerName) > -1; 
+            return stateController.indexOf(controllerName) > -1;
           });
         }
       return result;
@@ -63,7 +63,7 @@ angular.module('influuntApp')
       var temControlador = $scope.filterControllers(state);
 
       if (temControlador) {
-        $scope.setControladorEndereco();  
+        $scope.setControladorEndereco();
       } else {
         $scope.controladorLocalizacao = null;
       }

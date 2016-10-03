@@ -15,7 +15,7 @@
 
           <!-- botão de nova usuario -->
           <div class="pull-right actions">
-            <a class="btn btn-small btn-primary btn-rounded" tooltips tooltip-template="Adicionar novo usuário" ui-sref="app.usuarios_new">
+            <a class="btn btn-small btn-primary btn-rounded" tooltips tooltip-template="Adicionar novo usuário" ui-sref="app.usuarios_new" permission permission-sref="'app.usuarios_new'">
               <i class="fa fa-plus"></i>
               {{ 'geral.crud.novo' | translate }}
             </a>
@@ -59,16 +59,16 @@
                   <td><a href="mailto:{{ usuario.email}}" target="_top">{{ usuario.email }}</a></td>
                   <td data-ng-bind-html="usuario.perfil | resourceToString"></td>
                   <td>
-                    <a ui-sref="app.usuarios_show({id: usuario.id})" class="btn btn-primary btn-xs">
+                    <a ui-sref="app.usuarios_show({id: usuario.id})" permission permission-only="'visualizarUsuarios'" class="btn btn-primary btn-xs">
                       {{ 'geral.crud.visualizar' | translate }}
                     </a>
-                    <a ui-sref="app.usuarios_edit({id: usuario.id})" class="btn btn-primary btn-xs" data-ng-if="!usuario.root">
+                    <a ui-sref="app.usuarios_edit({id: usuario.id})" permission permission-only="'editarUsuarios'" class="btn btn-primary btn-xs" data-ng-if="!usuario.root">
                       {{ 'geral.crud.editar' | translate }}
                     </a>
-                    <a data-ng-click="confirmDelete(usuario.id)" class="btn btn-danger btn-xs" data-ng-if="!usuario.root">
+                    <a data-ng-click="confirmDelete(usuario.id)" permission permission-only="'removerUsuarios'" class="btn btn-danger btn-xs" data-ng-if="!usuario.root">
                       {{ 'geral.crud.excluir' | translate }}
                     </a>
-                    <a ui-sref="app.usuarios_access_log({id: usuario.id})" class="btn btn-info btn-xs">
+                    <a ui-sref="app.usuarios_access_log({id: usuario.id})" permission permission-sref="'app.usuarios_access_log'" class="btn btn-info btn-xs">
                       {{ 'usuarios.access_log' | translate }}
                     </a>
                   </td>

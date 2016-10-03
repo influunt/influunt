@@ -15,7 +15,7 @@
 
           <!-- botão de nova cidade -->
           <div class="pull-right actions">
-            <a class="btn btn-small btn-primary btn-rounded" tooltips tooltip-template="Adicionar nova cidade" ui-sref="app.cidades_new" >
+            <a class="btn btn-small btn-primary btn-rounded" tooltips tooltip-template="Adicionar nova cidade" ui-sref="app.cidades_new" permission permission-sref="'app.cidades_new'">
               <i class="fa fa-plus"></i>
               {{ 'geral.crud.novo' | translate }}
             </a>
@@ -38,9 +38,9 @@
                 <tr data-ng-repeat="cidade in lista">
                   <td>{{ cidade.nome }}</td>
                   <td>
-                    <a ui-sref="app.cidades_show({id: cidade.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
-                    <a ui-sref="app.cidades_edit({id: cidade.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.editar' | translate }}</a>
-                    <a data-ng-click="confirmDelete(cidade.id)" class="btn btn-danger btn-xs">{{ 'geral.crud.excluir' | translate }}</a>
+                    <a ui-sref="app.cidades_show({id: cidade.id})" permission permission-sref="'app.cidades_show'" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
+                    <a ui-sref="app.cidades_edit({id: cidade.id})" permission permission-sref="'app.cidades_edit'" class="btn btn-primary btn-xs">{{ 'geral.crud.editar' | translate }}</a>
+                    <a data-ng-click="confirmDelete(cidade.id)" permission permission-only="'removerCidades'" class="btn btn-danger btn-xs">{{ 'geral.crud.excluir' | translate }}</a>
                   </td>
                 </tr>
               </tbody>

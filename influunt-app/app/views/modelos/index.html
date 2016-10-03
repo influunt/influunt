@@ -14,7 +14,7 @@
         <div class="ibox-content">
           <!-- botão de novo modelo -->
           <div class="pull-right actions">
-            <a class="btn btn-small btn-primary btn-rounded" tooltips tooltip-template="Adicionar novo modelo" ui-sref="app.modelos_new">
+            <a class="btn btn-small btn-primary btn-rounded" tooltips tooltip-template="Adicionar novo modelo" ui-sref="app.modelos_new" permission permission-sref="'app.modelos_new'">
               <i class="fa fa-plus"></i>
               {{ 'geral.crud.novo' | translate }}
             </a>
@@ -46,9 +46,9 @@
                   <td>{{ modelo.descricao }}</td>
                   <td data-ng-bind-html="limitesList(modelo)"></td>
                   <td>
-                    <a ui-sref="app.modelos_show({id: modelo.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
-                    <a ui-sref="app.modelos_edit({id: modelo.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.editar' | translate }}</a>
-                    <a data-ng-click="confirmDelete(modelo.id)" class="btn btn-danger btn-xs">{{ 'geral.crud.excluir' | translate }}</a>
+                    <a ui-sref="app.modelos_show({id: modelo.id})" permission permission-sref="'app.modelos_show'" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
+                    <a ui-sref="app.modelos_edit({id: modelo.id})" permission permission-sref="'app.modelos_edit'" class="btn btn-primary btn-xs">{{ 'geral.crud.editar' | translate }}</a>
+                    <a data-ng-click="confirmDelete(modelo.id)" permission permission-only="'removerModelos'" class="btn btn-danger btn-xs">{{ 'geral.crud.excluir' | translate }}</a>
                   </td>
                 </tr>
               </tbody>

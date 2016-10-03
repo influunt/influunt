@@ -20,7 +20,7 @@ angular.module('influuntApp')
 
         Restangular.all('login').post($scope.credenciais)
           .then(function(res) {
-            localStorage.setItem('usuario', JSON.stringify(_.pick(res,['id', 'login', 'email'])));
+            localStorage.setItem('usuario', JSON.stringify(_.pick(res, ['id', 'login', 'email', 'root', 'permissoes'])));
             $state.go('app.main');
           })
           .catch(function(err) {

@@ -323,7 +323,7 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
         assertEquals(expectedResult, result.status());
 
         // edit
-        request = new Http.RequestBuilder().method("GET")
+        request = new Http.RequestBuilder().method("POST")
                 .uri(routes.ControladoresController.edit(controlador.getId().toString()).url()).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
         result = route(request);
         assertEquals(expectedResult, result.status());

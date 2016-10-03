@@ -134,7 +134,7 @@ public class InfluuntQueryBuilder {
             });
 
             if (klass.equals(Controlador.class)) {
-                predicates.add(Expr.in("versaoControlador.statusVersao", Arrays.asList(StatusVersao.CONFIGURADO,StatusVersao.ATIVO, StatusVersao.EDITANDO)));
+                predicates.add(Expr.in("versaoControlador.statusVersao", Arrays.asList(StatusVersao.CONFIGURADO, StatusVersao.ATIVO, StatusVersao.EDITANDO)));
             }
 
             // Verifica se existem campos com between

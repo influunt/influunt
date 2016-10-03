@@ -309,9 +309,9 @@ public class ControladoresController extends Controller {
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
-            if(request().body().asJson() != null) {
+            if (request().body().asJson() != null) {
                 String descricao = request().body().asJson().get("descricao").asText();
-                if(StringUtils.isEmpty(descricao.trim())) {
+                if (StringUtils.isEmpty(descricao.trim())) {
                     return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY,
                             Json.toJson(Collections.singletonList(new Erro("controlador", "Informe uma descrição para finalizar a configuração", "")))));
                 }

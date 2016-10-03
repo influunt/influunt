@@ -34,11 +34,6 @@
         "route": "app.agrupamentos"
       },
       {
-        "name": "permissoes",
-        "label": "permissoes.titulo",
-        "route": "app.permissoes"
-      },
-      {
         "name": "perfis",
         "label": "perfis.titulo",
         "route": "app.perfis"

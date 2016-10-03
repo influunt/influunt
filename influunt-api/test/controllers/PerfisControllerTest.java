@@ -165,10 +165,10 @@ public class PerfisControllerTest extends WithInfluuntApplicationNoAuthenticatio
 
     @Test
     public void testBuscarDadosPerfil() {
-
         Perfil perfil = getPerfil();
         perfil.save();
 
+        UUID permissaoId = perfil.getPermissoes().get(0).getId();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
                 .uri(routes.PerfisController.findOne(perfil.getId().toString()).url());
@@ -179,7 +179,7 @@ public class PerfisControllerTest extends WithInfluuntApplicationNoAuthenticatio
         assertEquals(200, result.status());
         assertEquals(perfil.getId(), perfilRetornado.getId());
         assertEquals("Root", perfilRetornado.getNome());
-        assertEquals("Deus", perfilRetornado.getPermissoes().get(0).getDescricao());
+        assertEquals(permissaoId, perfilRetornado.getPermissoes().get(0).getId());
     }
 
 }

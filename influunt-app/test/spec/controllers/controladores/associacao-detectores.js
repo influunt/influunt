@@ -1,10 +1,6 @@
 'use strict';
 
 describe('Controller: ControladoresAssociacaoDetectoresCtrl', function () {
-  // load the controller's module
-  beforeEach(module('influuntApp', function(RestangularProvider) {
-    RestangularProvider.setBaseUrl('');
-  }));
 
   var ControladoresAssociacaoDetectoresCtrl,
     scope,
