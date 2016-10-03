@@ -17,13 +17,12 @@ angular.module('influuntApp')
               influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo,
               handleValidations, utilControladores, planoService) {
 
-      var adicionaPlano, selecionaAnel, atualizaTabelaEntreVerdes, atualizaEstagios, atualizaGruposSemaforicos, atualizaPlanos,
-          atualizaEstagiosPlanos, adicionaEstagioASequencia, atualizaPosicaoPlanos, atualizaPosicaoEstagiosPlanos,
+      var selecionaAnel, atualizaTabelaEntreVerdes, atualizaEstagios, atualizaGruposSemaforicos, atualizaPlanos,
+          atualizaEstagiosPlanos, adicionaEstagioASequencia, atualizaPosicaoEstagiosPlanos,
           carregaDadosPlano, getOpcoesEstagiosDisponiveis, montaTabelaValoresMinimos, setDiagramaEstatico,
           atualizaDiagramaIntervalos, getPlanoParaDiagrama, atualizaTransicoesProibidas, getErrosGruposSemaforicosPlanos,
           getErrosPlanoAtuadoSemDetector, duplicarPlano, removerPlanoLocal, getErrosUltrapassaTempoCiclo, getErrosSequenciaInvalida,
-          getKeysErros, getIdJsonDePlanosQuePossuemErros, getPlanoComErro, getIndexPlano, handleErroEditarPlano, verdeMinimoDoEstagio,
-          mudarPlanoManualExcluisvo;
+          getKeysErros, getIdJsonDePlanosQuePossuemErros, getPlanoComErro, getIndexPlano, handleErroEditarPlano;
 
       var diagramaDebouncer = null;
 

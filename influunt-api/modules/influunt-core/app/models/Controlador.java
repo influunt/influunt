@@ -87,6 +87,9 @@ public class Controlador extends Model implements Cloneable, Serializable {
     @Column
     private String firmware;
 
+    @OneToOne
+    private Imagem croqui;
+
     @ManyToOne
     @Valid
     @NotNull(message = "não pode ficar em branco")
@@ -380,6 +383,14 @@ public class Controlador extends Model implements Cloneable, Serializable {
 
     public void setFirmware(String firmware) {
         this.firmware = firmware;
+    }
+
+    public Imagem getCroqui() {
+        return croqui;
+    }
+
+    public void setCroqui(Imagem croqui) {
+        this.croqui = croqui;
     }
 
     public ModeloControlador getModelo() {

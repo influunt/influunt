@@ -88,7 +88,7 @@ angular.module('influuntApp')
 
   var criarPlanoManualExclusivo = function(controlador, anel) {
     var plano = _.find(controlador.planos, {modoOperacao: 'MANUAL', anel: {idJson: anel.idJson}}) || criarPlano(controlador, anel, 0, 'Exclusivo', 'MANUAL');
-    var controlador = adicionar(controlador, anel, 0, plano);
+    controlador = adicionar(controlador, anel, 0, plano);
     plano = _.find(controlador.planos, {modoOperacao: 'MANUAL', anel: {idJson: anel.idJson}});
     plano.manualExclusivo = true;
     delete plano.cicloMin;
