@@ -71,7 +71,7 @@ public class SecurityController extends Controller {
             Usuario usuario = Usuario.find.where().eq("email", json.get("email").asText()).findUnique();
             if (usuario != null) {
                 String token = UUID.randomUUID().toString().replace("-", "");
-                String link = String.format("%s#/redefinir_senha?token=%s", configuration.getString("influuntUrl"), token);
+                String link = String.format("%s?token=%s/#/redefinir_senha", configuration.getString("influuntUrl"), token);
                 usuario.setResetPasswordToken(token);
                 usuario.setPasswordTokenExpiration(DateTime.now().plusHours(24));
                 usuario.update();
