@@ -54,7 +54,7 @@
                                 <div class="group-figures col-lg-7 col-sm-7 no-padding initial-position">
                                   <div class="knob">
                                     <div class="text-center">
-                                      <div class="knob-item" id="{{$index + 1}}" data-ng-class="{ 'col-lg-4 col-sm-4': currentTabelaEntreVerdes.posicao === 1, 'col-lg-6 col-sm-6': currentTabelaEntreVerdes.posicao !== 1 } ">
+                                      <div class="knob-item" id="tv_{{$index + 1}}" data-ng-class="{ 'col-lg-4 col-sm-4': currentTabelaEntreVerdes.posicao === 1, 'col-lg-6 col-sm-6': currentTabelaEntreVerdes.posicao !== 1 } ">
                                         <span class="badge badge-danger badge-notification"
                                           data-ng-show="possuiErroAtrasoDeGrupo(currentAnelIndex, currentGrupoSemaforicoIndex, $index)"
                                           inf-tooltip
@@ -103,7 +103,7 @@
                                 <div class="group-figures col-lg-7 col-sm-7 no-padding initial-position">
                                   <div class="knob">
                                     <div class="text-center">
-                                      <div class="knob-item" id="{{$index +1}}" data-ng-class="{ 'col-lg-4 col-sm-4': currentTabelaEntreVerdes.posicao === 1, 'col-lg-6 col-sm-6': currentTabelaEntreVerdes.posicao !== 1 }">
+                                      <div class="knob-item" id="tv_{{$index +1}}" data-ng-class="{ 'col-lg-4 col-sm-4': currentTabelaEntreVerdes.posicao === 1, 'col-lg-6 col-sm-6': currentTabelaEntreVerdes.posicao !== 1 }">
                                         <span class="badge badge-danger badge-notification"
                                           data-ng-show="possuiErroAtrasoDeGrupo(currentAnelIndex, currentGrupoSemaforicoIndex, $index + currentTransicoes.length)"
                                           inf-tooltip
