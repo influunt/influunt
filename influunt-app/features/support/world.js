@@ -160,6 +160,12 @@ var World = function () {
     return driver.findElement(webdriver.By.css(cssSelector)).sendKeys(value);
   };
 
+  this.setValueByXpath = function(xpathSelector, value) {
+    var _this = this;
+    _this.waitFor(xpathSelector);
+    return driver.findElement(webdriver.By.xpath(xpathSelector)).sendKeys(value);
+  };
+
   this.resetValue = function(cssSelector, value) {
     return driver.findElement(webdriver.By.css(cssSelector)).sendKeys(webdriver.Key.BACK_SPACE, webdriver.Key.BACK_SPACE, webdriver.Key.BACK_SPACE, value, webdriver.Key.ENTER);
   };
@@ -331,6 +337,29 @@ var World = function () {
 
   this.clearField = function(cssSelector) {
     return driver.findElement(webdriver.By.css(cssSelector)).clear();
+  };
+
+  this.clearFieldByXpath = function(xpathSelector) {
+    return driver.findElement(webdriver.By.xpath(xpathSelector)).clear();
+  };
+
+  this.buscarEndereco = function(query, cssSelector) {
+    var _this = this;
+    return _this.setValueAsHuman(cssSelector, query).then(function() {
+      return _this.waitFor('div[g-places-autocomplete-drawer] > div.pac-container');
+    }).then(function() {
+      return _this.getElements('div[g-places-autocomplete-drawer] > div.pac-container div:first-child');
+    }).then(function(elements) {
+      return new Promise(function(resolve, reject) {
+        setTimeout(function() {
+          if (elements.length > 0) {
+            return elements[0].click().then(resolve);
+          } else {
+            reject('No results found for address "'+query+'"');
+          }
+        }, 500);
+      });
+    });
   };
 };
 

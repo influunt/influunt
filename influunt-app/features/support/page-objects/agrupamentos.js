@@ -16,6 +16,10 @@ var AgrupamentosPage = function () {
     return world.execSqlScript('features/support/scripts/agrupamentos/create_agrupamento.sql');
   };
 
+  this.existeUmControladorConfigurado = function() {
+    return world.execSqlScript('features/support/scripts/planos/controlador.sql');
+  };
+
   this.indexPage = function() {
     world.visit(INDEX_PATH);
     world.getElements('tbody tr[data-ng-repeat="agrupamento in lista"]').then(function(elements) {
@@ -50,12 +54,6 @@ var AgrupamentosPage = function () {
 
   this.isIndex = function() {
     return world.getElements('tbody tr[data-ng-repeat="agrupamentos in lista"]');
-  };
-
-  this.clicarLinkComTexto = function(texto) {
-    return world.waitForOverlayDisappear().then(function (){
-      return world.findLinkByText(texto).click();
-    });
   };
 
   this.isShow = function() {

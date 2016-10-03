@@ -37,7 +37,6 @@ angular.module('influuntApp')
         versaoPlano.planos = versaoPlano.planos || [];
         versaoPlano.planos.push({idJson: plano.idJson});
 
-
         controlador.gruposSemaforicosPlanos = controlador.gruposSemaforicosPlanos || [];
         anel.gruposSemaforicos.forEach(function (g){
           var grupo =  _.find(controlador.gruposSemaforicos, {idJson: g.idJson});

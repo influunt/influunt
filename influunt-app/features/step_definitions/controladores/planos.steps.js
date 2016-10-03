@@ -1,10 +1,12 @@
 'use strict';
 
 var PlanosPage = require('../../support/page-objects/planos');
+var ObjetosComuns = require('../../support/page-objects/objetos_comuns');
 var expect = require('chai').expect;
 
 module.exports = function() {
   var planosPage = new PlanosPage();
+  var objetosComuns = new ObjetosComuns();
 
   this.Given(/^que o sistema possui ao menos um controlador configurado$/, function () {
     return planosPage.cadastrarControlador();
@@ -122,7 +124,7 @@ module.exports = function() {
   });
 
   this.Given(/^o sistema deve alterar o nome para "([^"]*)"$/, function (valor) {
-    return planosPage.nomePlanoAterado(valor);
+    return planosPage.nomePlanoAlterado(valor);
   });
 
   this.Given(/^o usuário clicar no botão copiar$/, function () {
@@ -142,11 +144,37 @@ module.exports = function() {
     return planosPage.clicarBotao('Salvar');
   });
 
-  this.Given(/^que o usuário selecione o anel 2$/, function () {
-    return planosPage.clicarAbaAnel2();
+  this.Given(/^que o usuário selecione o anel (\d+)$/, function (numeroAnel) {
+    return objetosComuns.trocarAnel(numeroAnel);
   });
 
   this.Given(/^clicar em cancelar a edição$/, function () {
     return planosPage.clicarBotao('Cancelar Edição');
+  });
+
+  this.Given(/^que o usuário clicar no plano (\d+)$/, function(numeroPlano) {
+    return planosPage.clickInPlano(numeroPlano);
+  });
+
+  this.Given(/^o usuário queira limpar o plano (\d+)$/, function(numeroPlano){
+    return planosPage.clickInPlano(numeroPlano);
+  });
+
+  this.Given(/^o sistema deverá apresentar erro de "([^"]*)"$/, function (texto) {
+    return planosPage.errosImpeditivos(texto);
+  });
+
+  this.Given(/^o sistema deverá mostrar erro no plano (\d+)$/, function (numeroPlano) {
+    return planosPage.errosInPlanos(numeroPlano);
+  });
+
+  this.Given(/^o usuário responde sim para verde de segurança/, function () {
+    return planosPage.clicarSimVerdeSeguranca();
+  });
+
+  this.Given(/^o sistema deverá mostar um alerta para verdes segurança menor$/, function () {
+    return planosPage.alertVerdeSeguranca().then(function(text) {
+      expect(text).to.equal('Tem certeza que deseja colocar o tempo de verde menor que o tempo de verde de segurança dos grupos semafóricos?');
+    });
   });
 };

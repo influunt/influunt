@@ -20,8 +20,9 @@ Funcionalidade: Fluxo de cadastro de controladores
     E o usuário selecionar o valor "São Paulo" no campo "Cidade"
     E o usuário selecionar o valor "1" no campo "Área"
     E o usuário preencher o campo NÚMERO SMEE com 123
-    E o usuário buscar o endereço "Av Paulista" para o endereço 1
+    E o usuário buscar o endereço "Av Paulista" no primeiro endereço
     E o usuário buscar o endereço "Rua Bela Cintra" para o endereço 2
+    E o usuário preencher o campo "Altura Numérica" com "123"
     E o usuário selecionar o valor "Raro Labs" no campo "Fabricante"
     E o usuário selecionar o valor "Mínima" no campo "Modelo"
     E clicar no botão para ir pro próximo passo
@@ -30,12 +31,12 @@ Funcionalidade: Fluxo de cadastro de controladores
   Cenário: Salvar anéis do controlador
     Dado que o usuário esteja no wizard no passo "Anéis"
     E o usuário limpar o campo endereço 1
-    E o usuário buscar o endereço "Av Paulista" para o endereço 1
+    E o usuário buscar o endereço "Av Paulista" no primeiro endereço
     E o usuário limpar o campo endereço 2
     E o usuário buscar o endereço "Rua Bela Cintra" para o endereço 2
     E o usuário adicionar 3 imagens para os estágios do anel corrente
     E o usuário adicionar um novo anel ativo
-    E o usuário buscar o endereço "Av Paulista" para o endereço 1
+    E o usuário buscar o endereço "Av Paulista" no primeiro endereço
     E o usuário buscar o endereço "Rua Augusta" para o endereço 2
     E o usuário adicionar 2 imagens para os estágios do anel corrente
     E clicar no botão para ir pro próximo passo
@@ -113,6 +114,8 @@ Funcionalidade: Fluxo de cadastro de controladores
   Cenário: Tentar salvar uma transição proibida sem informar estágio alternativo
     Dado que o usuário esteja no wizard no passo "Transições Proibidas"
     E que a tabela de estágios alternativos esteja em branco
+    E o usuário marcar a transição de "E1" para "E2" como proibida
+    E o usuário selecionar o anel 2
     Quando o usuário marcar a transição de "E1" para "E2" como proibida
     E clicar no botão para ir pro próximo passo
     Então o sistema deverá indicar que o campo de estágio alternativo para a transição "E1-E2" é obrigatório
@@ -120,13 +123,10 @@ Funcionalidade: Fluxo de cadastro de controladores
 
   Cenário: Tentar salvar uma transição proibida informando um estágio alternativo
     Dado que o usuário esteja no wizard no passo "Transições Proibidas"
+    E o usuário selecionar o anel 1
     E o usuário selecionar o valor "E1" no campo "Alternativa"
-    Quando clicar no botão para ir pro próximo passo
-    Então o sistema irá avançar para o passo "Atraso de Grupo"
-
-  Cenário: Tentar salvar um atraso de grupo
-    Dado que o usuário esteja no wizard no passo "Atraso de Grupo"
-    E que o usuário marque 15 no tempo "Atraso de Grupo"
+    E o usuário selecionar o anel 2
+    E o usuário selecionar o valor "E1" no campo "Alternativa"
     Quando clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Tabela Entre Verdes"
 
@@ -134,7 +134,34 @@ Funcionalidade: Fluxo de cadastro de controladores
     Dado que o usuário esteja no wizard no passo "Tabela Entre Verdes"
     E que o usuário marque 4 no tempo "Amarelo" da transição "E1-E3"
     E que o usuário marque 2 no tempo "Vermelho de Limpeza" da transição "E1-E3"
+    E que o usuário clique no grupo "G2"
+    E confirma que será utilizada a configuração padrão para esse grupo semafórico
+    E que o usuário clique no grupo "G3"
+    E confirma que será utilizada a configuração padrão para esse grupo semafórico
+    E o usuário selecionar o anel 2
+    E que o usuário clique no grupo "G4"
+    E confirma que será utilizada a configuração padrão para esse grupo semafórico
+    E que o usuário clique no grupo "G5"
+    E que o usuário marque 2 no tempo "Vermelho Intermitente" da transição "E2-E1"
+    E que o usuário marque 2 no tempo "Vermelho de Limpeza" da transição "E2-E1"
     Quando o usuário clicar no botão para ir pro próximo passo
+    Então o sistema irá avançar para o passo "Atraso de Grupo"
+
+  Cenário: Tentar salvar um atraso de grupo
+    Dado que o usuário esteja no wizard no passo "Atraso de Grupo"
+    E que o usuário marque 15 no campo 1 para transições com perda de direito de passagem
+    E que o usuário marque 20 no campo 1 para transições com ganho de direito de passagem
+    E que o usuário marque 15 no campo 2 para transições com ganho de direito de passagem
+    E que o usuário clique no grupo "G2"
+    E que o usuário marque 23 no campo 1 para transições com perda de direito de passagem
+    E que o usuário marque 15 no campo 2 para transições com perda de direito de passagem
+    E que o usuário marque 10 no campo 1 para transições com ganho de direito de passagem
+    E que o usuário clique no grupo "G3"
+    E que o usuário marque 4 no campo 1 para transições com perda de direito de passagem
+    E que o usuário marque 12 no campo 2 para transições com perda de direito de passagem
+    E que o usuário marque 11 no campo 1 para transições com ganho de direito de passagem
+    E que o usuário marque 8 no campo 2 para transições com ganho de direito de passagem
+    Quando clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Detectores"
 
   Cenário: Tentar salvar detectores sem configurar
@@ -143,7 +170,6 @@ Funcionalidade: Fluxo de cadastro de controladores
     E que o usuário adicione um detector do tipo "Veicular"
     E que o usuário adicione um detector do tipo "Pedestre"
     Quando o usuário clicar no botão para ir pro próximo passo
-    Então o sistema deverá indicar erro nos campos do passo "Detectores"
     E o sistema irá continuar no passo "Detectores"
 
   Cenário: Salvar detectores
@@ -157,13 +183,20 @@ Funcionalidade: Fluxo de cadastro de controladores
     E que o usuário associe o detector "DV2" com o estágio "E2"
     E que o usuário marque 40 no tempo "Ausência de Detecção"
     E o usuário clicar para fechar o modal
+    E o usuário selecionar o anel 2
+    E que o usuário adicione um detector do tipo "Veicular"
+    E que o usuário adicione um detector do tipo "Pedestre"
+    E que o usuário associe o detector "DV3" com o estágio "E1"
+    E que o usuário marque 40 no tempo "Ausência de Detecção"
+    E o usuário clicar para fechar o modal
+    E que o usuário associe o detector "DP2" com o estágio "E2"
+    E que o usuário marque 40 no tempo "Ausência de Detecção"
+    E o usuário clicar para fechar o modal
     Quando o usuário clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Revisão"
 
   Cenário: Salvar revisão
     Dado que o usuário esteja no wizard no passo "Revisão"
     Quando o usuário clicar no botão "Salvar"
-    E o usuário deverá preecher a modificação com "Revisão 1"
-    Quando o usuário clicar no botão sim
     Então o sistema deverá redirecionar o usuário para a página de listagem de controladores
 

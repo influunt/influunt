@@ -2,9 +2,11 @@
 
 var expect = require('chai').expect;
 var ModelosPage = require('../../support/page-objects/modelo_controladores');
+var ObjetosComuns = require('../../support/page-objects/objetos_comuns');
 
 module.exports = function() {
   var modelosPage = new ModelosPage();
+  var objetosComuns = new ObjetosComuns();
 
   this.Given(/^que o usuário esteja na tela de listagem de modelos$/, function() {
     return modelosPage.indexPage();
@@ -21,7 +23,7 @@ module.exports = function() {
   });
 
   this.Given(/^clicar no botão de Novo Modelo$/, function() {
-    return modelosPage.clicarLinkComTexto('Novo');
+    return objetosComuns.clicarLinkNovo();
   });
 
   this.Given(/^o sistema deverá redirecionar para o formulário de cadastro de novos modelos$/, function() {
@@ -47,7 +49,7 @@ module.exports = function() {
   });
 
   this.Given(/^clicar no botão de visualizar um modelo$/, function() {
-    modelosPage.clicarLinkComTexto('Visualizar');
+    objetosComuns.clicarLinkComTexto('Visualizar');
   });
 
   this.Given(/^o sistema deverá redirecionar para a tela de visualização de modelos$/, function() {
@@ -57,7 +59,7 @@ module.exports = function() {
   });
 
   this.Given(/^clicar no botão de editar um modelo$/, function() {
-    modelosPage.clicarLinkComTexto('Editar');
+    objetosComuns.clicarLinkComTexto('Editar');
   });
 
   this.Given(/^o usuário limpe o campo Descrição$/, function() {
@@ -72,11 +74,11 @@ module.exports = function() {
 
   this.Given(/^o usuário acessar o formulário de edição de modelos$/, function() {
     modelosPage.indexPage();
-    return modelosPage.clicarLinkComTexto('Editar');
+    return objetosComuns.clicarLinkComTexto('Editar');
   });
 
   this.Given(/^clicar no botão de excluir um modelo$/, function() {
-    modelosPage.clicarLinkComTexto('Excluir');
+    objetosComuns.clicarLinkComTexto('Excluir');
   });
 
   this.Given(/^nenhum modelo deve ser excluído$/, function() {

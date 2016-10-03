@@ -7,7 +7,7 @@ var path = require('path');
 var WizardControladorPage = function () {
   var INDEX_PATH = '/app/controladores';
 
-  var novoControladorButton = 'button[ui-sref="app.wizard_controladores.dados_basicos"]';
+  var novoControladorButton = 'a[ui-sref="app.wizard_controladores.dados_basicos"]';
 
   this.world = world;
 
@@ -18,12 +18,6 @@ var WizardControladorPage = function () {
 
   this.isIndexPage = function() {
     return world.waitFor(novoControladorButton);
-  };
-
-  this.clicarBotaoNovoControlador = function() {
-    world.waitForToastMessageDisapear(10000);
-    world.sleep(500);
-    return world.clickButton(novoControladorButton);
   };
 
   this.isWizardPasso = function(passo) {
@@ -57,43 +51,43 @@ var WizardControladorPage = function () {
   };
 
   this.isWizardRevisao = function() {
-    return world.waitFor('li[ui-sref^=".revisao"].active');
+    return world.waitForByXpath('//li[contains(@ng-class, "app.wizard_controladores.revisao")][contains(@class, "active")]');
   };
 
   this.isWizardDadosBasicos = function() {
-    return world.waitFor('li[ui-sref^=".dados_basicos"].active');
+    return world.waitForByXpath('//li[contains(@ng-class, "app.wizard_controladores.dados_basicos")][contains(@class, "active")]');
   };
 
   this.isWizardAneis = function() {
-    return world.waitFor('li[ui-sref^=".aneis"].active');
+    return world.waitForByXpath('//li[contains(@ng-class, "app.wizard_controladores.aneis")][contains(@class, "active")]');
   };
 
   this.isWizardGruposSemaforicos = function() {
-    return world.waitFor('li[ui-sref^=".configuracao_grupo"].active');
+    return world.waitForByXpath('//li[contains(@ng-class, "app.wizard_controladores.configuracao_grupo")][contains(@class, "active")]');
   };
 
   this.isWizardVerdesConflitantes = function() {
-    return world.waitFor('li[ui-sref^=".verdes_conflitantes"].active');
+    return world.waitForByXpath('//li[contains(@ng-class, "app.wizard_controladores.verdes_conflitantes")][contains(@class, "active")]');
   };
 
   this.isWizardAssociacao = function() {
-    return world.waitFor('li[ui-sref^=".associacao"].active');
+    return world.waitForByXpath('//li[contains(@ng-class, "app.wizard_controladores.associacao")][contains(@class, "active")]');
   };
 
   this.isWizardTransicoesProibidas = function() {
-    return world.waitFor('li[ui-sref^=".transicoes_proibidas"].active');
+    return world.waitForByXpath('//li[contains(@ng-class, "app.wizard_controladores.transicoes_proibidas")][contains(@class, "active")]');
   };
 
   this.isWizardAtrasoDeGrupo = function() {
-    return world.waitFor('li[ui-sref^=".atraso_de_grupo"].active');
+    return world.waitForByXpath('//li[contains(@ng-class, "app.wizard_controladores.atraso_de_grupo")][contains(@class, "active")]');
   };
 
   this.isWizardTabelaEntreVerdes = function() {
-    return world.waitFor('li[ui-sref^=".entre_verdes"].active');
+    return world.waitForByXpath('//li[contains(@ng-class, "app.wizard_controladores.entre_verdes")][contains(@class, "active")]');
   };
 
   this.isWizardDetectores = function() {
-    return world.waitFor('li[ui-sref^=".associacao_detectores"].active');
+    return world.waitForByXpath('//li[contains(@ng-class, "app.wizard_controladores.associacao_detectores")][contains(@class, "active")]');
   };
 
   this.clicarBotaoProximoPasso = function() {
@@ -403,7 +397,7 @@ var WizardControladorPage = function () {
   };
 
   this.isIndex = function() {
-    return world.waitFor('tr[ng-repeat^="controlador in lista"]');
+    return world.waitForByXpath('//h5[contains(text() = "Programação")]');
   };
 
   this.adicionarGruposSemaforicosAoAnel = function(numGrupos) {
@@ -429,6 +423,27 @@ var WizardControladorPage = function () {
     return world.getElement(baseSelector + ' p.knob-value').click().then(function() {
       return world.resetValue(baseSelector + ' input.rs-input', value);
     }).then(world.waitForAnimationFinishes);
+  };
+
+  this.marcarTempoAtrasoGrupoTransicao = function(tipoTransicao, value, posicao) {
+    var baseSelector = 'li[data-ng-repeat="transicao in '+tipoTransicao+'"] div.initial-position div.knob-item[id="tv_'+posicao+'"] influunt-knob[title="Atraso de Grupo"]';
+    world.sleep(500);
+    return world.getElement(baseSelector + ' p.knob-value').click().then(function() {
+      return world.resetValue(baseSelector + ' input.rs-input', value);
+    }).then(world.waitForAnimationFinishes);
+  };
+
+  this.selecionarGrupo = function(grupo){
+    return world.execJavascript('window.scrollTo(0, 0);').then(function() {
+      return world.findLinkByText(grupo).click();
+    });
+  };
+
+  this.confirmaSemConfiguracao = function(){
+    var xpath = '//ins[contains(@class, "iCheck-helper")]';
+    return world.scrollToDown().then(function() {
+      return world.getElementByXpath(xpath).click();
+    });
   };
 
   this.marcarTempoEntreVerdes = function(value, field, transicao) {
