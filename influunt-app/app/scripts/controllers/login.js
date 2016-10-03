@@ -94,7 +94,7 @@ angular.module('influuntApp')
         var resultMatch = location.search.match(/token=\w+/);
         var token;
         if(_.isArray(resultMatch)) {
-          token = resultMatch[0].split("=")[1];
+          token = resultMatch[0].split('=')[1];
         }
         return token;
       };
