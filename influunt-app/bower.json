@@ -45,6 +45,11 @@
   "appPath": "app",
   "moduleName": "influuntApp",
   "overrides": {
+    "angular-datepicker": {
+      "main": [
+        "./dist/angular-datepicker.css"
+      ]
+    },
     "bootstrap": {
       "main": [
         "less/bootstrap.less",
