@@ -430,7 +430,7 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
         result = route(request);
         assertEquals(expectedResult, result.status());
 
-        // entre verdes
+        // entreverdes
         request = new Http.RequestBuilder().method("POST")
                 .uri(routes.ControladoresController.entreVerdes().url())
                 .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get())
