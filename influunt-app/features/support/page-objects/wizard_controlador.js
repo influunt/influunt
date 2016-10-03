@@ -23,7 +23,7 @@ var WizardControladorPage = function () {
   this.clicarBotaoNovoControlador = function() {
     world.waitForToastMessageDisapear(10000);
     world.sleep(500);
-    return world.findLinkByText("Novo").click();;
+    return world.findLinkByText("Novo").click();
   };
 
   this.isWizardPasso = function(passo) {
@@ -428,9 +428,9 @@ var WizardControladorPage = function () {
     world.sleep(500);
     return world.getElement(baseSelector + ' p.knob-value').click().then(function() {
       return world.resetValue(baseSelector + ' input.rs-input', value);
-    }).then(world.waitForAnimationFinishes);    
+    }).then(world.waitForAnimationFinishes);
   };
-  
+
   this.marcarTempoAtrasoGrupoTransicao = function(tipoTransicao, value, posicao) {
     var baseSelector = 'li[data-ng-repeat="transicao in '+tipoTransicao+'"] div.initial-position div.knob-item[id="'+posicao+'"] influunt-knob[title="Atraso de Grupo"]';
     world.sleep(500);
