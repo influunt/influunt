@@ -114,6 +114,10 @@ public class InfluuntQueryBuilder {
             query.fetch(fetchAux);
         });
 
+        if (klass.equals(Controlador.class)) {
+            query.fetch("endereco");
+        }
+        
         if (!searchFields.isEmpty()) {
             ExpressionList predicates = query.where();
 

@@ -2,16 +2,18 @@
 
 var expect = require('chai').expect;
 var WizardPage = require('../../support/page-objects/wizard_controlador');
+var ObjetosComuns = require('../../support/page-objects/objetos_comuns');
 
 module.exports = function() {
   var wizardPage = new WizardPage();
+  var objetosComuns = new ObjetosComuns();
 
   this.Given(/^que o usuário acesse a página de listagem de controladores$/, function () {
     return wizardPage.indexPage();
   });
 
   this.Given(/^o usuário clicar no botão Novo Controlador$/, function () {
-    return wizardPage.clicarBotaoNovoControlador();
+    return objetosComuns.clicarLinkNovo();
   });
 
   this.Given(/^o sistema deverá redirecionar para o formulário de Cadastro de Controladores$/, function () {
@@ -124,8 +126,22 @@ module.exports = function() {
     return wizardPage.errorMessagesVerdesConflitantesGrupo(grupo);
   });
 
+  this.Given(/^que o usuário marque (\d+) no campo (\d+) para transições com perda de direito de passagem$/, function (value, posicao) {
+    var tipoTransicao = 'currentTransicoes';
+    return wizardPage.marcarTempoAtrasoGrupoTransicao(tipoTransicao, value, posicao);
+  });
+
+  this.Given(/^que o usuário marque (\d+) no campo (\d+) para transições com ganho de direito de passagem$/, function (value, posicao) {
+    var tipoTransicao = 'currentTransicoesComGanhoDePassagem';
+    return wizardPage.marcarTempoAtrasoGrupoTransicao(tipoTransicao, value, posicao);
+  });
+
   this.Given(/^que o usuário marque (\d+) no tempo "([^"]*)"$/, function (value, field) {
     return wizardPage.marcarTempoAtrasoGrupo(value, field);
+  });
+
+  this.Given(/^que o usuário clique no grupo "([^"]*)"$/, function (grupo) {
+    return wizardPage.selecionarGrupo(grupo);
   });
 
   this.Given(/^que o usuário marque (\d+) no tempo "([^"]*)" da transição "([^"]*)"$/, function (value, field, transicao) {
@@ -162,6 +178,10 @@ module.exports = function() {
 
   this.Given(/^que o usuário clicar Confirmo que não há configurações a serem feitas aqui$/, function(){
     return wizardPage.selecionarValor();
+  });
+
+  this.Given(/^confirma que será utilizada a configuração padrão para esse grupo semafórico$/, function(){
+    return wizardPage.confirmaSemConfiguracao();
   });
 
   this.Given(/^o usuário deverá preecher a modificação com "([^"]*)"$/, function(valor){

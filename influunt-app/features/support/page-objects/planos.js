@@ -34,19 +34,25 @@ var PlanosPage = function () {
     return world.execJavascript(script).then(function(indexGrupo) {
       switch(modoOperacao) {
         case 'Apagado':
-          return _this.isDiagramaApagado(indexGrupo);
+          return _this.isDiagramaApagado();
         case 'Intermitente':
           return _this.isDiagramaIntermitente(indexGrupo);
         case 'Operação Normal':
           return _this.isDiagramaOperacaoNormal(indexGrupo);
+        case 'Em Vermelho':
+          return _this.isDiagramaVermelho(indexGrupo);
         default:
           throw new Error('Modo de operação não reconhecido: '+modoOperacao);
       }
     });
   };
 
-  this.isDiagramaApagado = function(indexGrupo) {
-    return world.waitFor('div#visualization div.vis-foreground div.vis-group.group:nth-child('+indexGrupo+') div.indicacao-apagado');
+  this.isDiagramaApagado = function() {
+    return world.waitFor('div#visualization div.vis-foreground div.indicacao-apagado');
+  };
+
+  this.isDiagramaVermelho = function(indexGrupo){
+    return world.waitFor('div#visualization div.vis-foreground div.vis-group:nth-child('+indexGrupo+') div.indicacao-vermelho');
   };
 
   this.isDiagramaIntermitente = function(indexGrupo) {
@@ -108,15 +114,21 @@ var PlanosPage = function () {
 
   this.marcarValorConfig = function(field, value) {
     var baseSelector = 'influunt-knob[title="'+field.toUpperCase()+'"]';
-    return world.getElement(baseSelector + ' p.knob-value').click().then(function() {
-      return world.resetValue(baseSelector + ' input.rs-input', value);
-    }).then(function() {
-      return world.sleep(500);
+    world.sleep(300);
+    return world.waitForOverlayDisappear().then(function() {
+      return world.getElement(baseSelector + ' p.knob-value').click().then(function() {
+        return world.resetValue(baseSelector + ' input.rs-input', value);
+      }).then(function() {
+        return world.sleep(500);
+      });
     });
   };
 
   this.clicarBotaoModal = function(modal) {
-    return world.getElement('div#'+modal+' div.modal-footer button').click();
+    world.sleep(500);
+    return world.waitForOverlayDisappear().then(function() {
+      return world.getElement('div#'+modal+' div.modal-footer button').click();
+    });
   };
 
   this.clicarBotaoCopiar = function() {
@@ -171,12 +183,8 @@ var PlanosPage = function () {
     return world.selectOption(campo, valor);
   };
 
-  this.nomePlanoAterado = function(plano) {
+  this.nomePlanoAlterado = function(plano) {
     return world.waitForByXpath('//ul[@id="side-menu"]//span[contains(text(), "'+plano+'")]');
-  };
-
-  this.clicarAbaAnel2 = function() {
-    return world.getElement('li[aria-selected="false"]').click();
   };
 
   this.getTextInModal = function() {
@@ -188,6 +196,30 @@ var PlanosPage = function () {
 
   this.isPlanoAtivo = function(plano) {
     return world.waitForByXpath('//ul[@id="side-menu"]//span[contains(text(), "'+plano+'")]/..//div[contains(@class, "checked")]');
+  };
+
+  this.errosImpeditivos = function(texto){
+    return world.waitForByXpath('//div[contains (@class, "alert")]//li[contains(text(), "'+texto+'")]');
+  };
+
+  this.errosInPlanos = function(numeroPlano){
+    return world.waitForByXpath('//li[contains (@id, "'+numeroPlano+'")]//span[contains (@class, "badge-danger")]');
+  };
+
+  this.clickInPlano = function(numeroPlano){
+    return world.waitForOverlayDisappear().then(function() {
+      return world.getElementByXpath('//li[contains (@id, "'+numeroPlano+'")]//ins[contains(@class, "iCheck-helper")]').click();
+    });
+  };
+
+  this.clicarSimVerdeSeguranca = function(){
+    return world.waitFor('div[class^="sweet-alert"][class$="visible"]').then(function() {
+      return world.getElementByXpath('//button[contains(@class, "confirm")]').click();
+    });
+  };
+
+  this.alertVerdeSeguranca = function() {
+    return world.getTextInSweetAlert();
   };
 };
 

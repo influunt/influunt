@@ -70,14 +70,8 @@ var CidadesPage = function () {
     return world.clickButton(novaCidadeButton);
   };
 
-  this.clicarLinkComTexto = function(texto) {
-    return world.waitForOverlayDisappear().then(function (){
-      return world.findLinkByText(texto).click();
-    });
-  };
-
   this.cidadeIdH5 = function() {
-    return world.getElement('h5 small').then(function(element) {
+    return world.getElementByXpath('//h5/small').then(function(element) {
       return element.getText();
     });
   };
@@ -110,7 +104,7 @@ var CidadesPage = function () {
     });
   };
 
-  this.existeAoMenosUmaCidadeComNome = function(nome) {
+  this.existeAoMenosUmaCidadeComNome = function() {
     return world.execSqlScript('features/support/scripts/cidades/create_cidade_duplicada.sql');
   };
 
