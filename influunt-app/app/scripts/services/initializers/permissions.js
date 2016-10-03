@@ -22,34 +22,24 @@ angular.module('influuntApp')
       var usuarioLogado;
       var getUsuarioLogado = function() {
         if (!usuarioLogado) {
-          usuarioLogado = JSON.parse(localStorage.usuario);
+          var dataUsuario = localStorage.usuario || '{}';
+          usuarioLogado = JSON.parse(dataUsuario);
         }
         return usuarioLogado;
       };
 
       var checkUsuario = function(usuario, permissionName) {
-        var isUsuarioPermitted = false;
-        for (var i = 0, length = usuario.permissoes.length; i < length; i++) {
-          if (usuario.permissoes[i] === permissionName) {
-            isUsuarioPermitted = true;
-          }
-        }
-        return isUsuarioPermitted;
+        return _.some(usuario.permissoes, function(permissao) {
+          return permissao === permissionName;
+        });
       };
 
       var permissionHandler = function(permissionName) {
         var usuario = getUsuarioLogado();
-        if (usuario) {
-          if (usuario.root) {
-            return true;
-          } else if (permissionName === 'PUT /api/v1/usuarios/$id<[^/]+>') {
-            // usuário sempre pode editar suas próprias informações
-            return true;
-          } else {
-            return checkUsuario(usuario, permissionName);
-          }
+        if (usuario.root || permissionName === 'PUT /api/v1/usuarios/$id<[^/]+>') {
+          return true;
         } else {
-          return false;
+          return checkUsuario(usuario, permissionName);
         }
       };
 

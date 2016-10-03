@@ -78,8 +78,8 @@ angular.module('influuntApp')
 
       $scope.atualizarPermissoes = function() {
           var permissoes = [];
-          _.forEach($scope.rolesAtivados, function(ativado, role_id) {
-            var role = _.find($scope.roles, { id: role_id });
+          _.forEach($scope.rolesAtivados, function(ativado, roleId) {
+            var role = _.find($scope.roles, { id: roleId });
             if (ativado) {
               permissoes.push(role.permissoes);
             }
@@ -89,7 +89,7 @@ angular.module('influuntApp')
             .flatten()
             .map('id')
             .uniq()
-            .map(function(permissao_id) { return { id: permissao_id }; })
+            .map(function(permissaoId) { return { id: permissaoId }; })
             .value();
       };
 

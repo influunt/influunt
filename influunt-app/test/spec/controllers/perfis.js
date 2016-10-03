@@ -51,7 +51,7 @@ describe('Controller: PerfisCtrl', function () {
 
   it('Deve remover o item da lista de permissoes, caso este já esteja nela', function() {
     scope.objeto = { permissoes: [{ id: '1' }, { id: '2' }] };
-    scope.roles = [{ id: '1', permissoes: [{ id: '1', chave: 'a' }, { id: '2', chave: 'b' }] }, { id: '2', permissoes: [{ id: '3', chave: 'c' }, { id: '4', chave: 'd' }] }]
+    scope.roles = [{ id: '1', permissoes: [{ id: '1', chave: 'a' }, { id: '2', chave: 'b' }] }, { id: '2', permissoes: [{ id: '3', chave: 'c' }, { id: '4', chave: 'd' }] }];
     scope.rolesAtivados = { '1': false, '2': false };
 
     scope.atualizarPermissoes();
@@ -61,7 +61,7 @@ describe('Controller: PerfisCtrl', function () {
   it('Deve adicionar o item à lista de permissoes, caso este não esteja nela', function() {
     scope.objeto = { permissoes: [] };
     scope.roles = [{ id: '1', permissoes: [{ id: '1', chave: 'a' }, { id: '2', chave: 'b' }] },
-                   { id: '2', permissoes: [{ id: '3', chave: 'c' }, { id: '4', chave: 'd' }] }]
+                   { id: '2', permissoes: [{ id: '3', chave: 'c' }, { id: '4', chave: 'd' }] }];
     scope.rolesAtivados = { '1': false, '2': true };
 
     scope.atualizarPermissoes();

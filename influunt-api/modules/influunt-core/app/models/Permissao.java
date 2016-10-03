@@ -113,4 +113,12 @@ public class Permissao extends Model implements Permission, Serializable {
     public void setDataAtualizacao(DateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
     }
+
+    public List<PermissaoApp> getPermissoesApp() {
+        return permissoesApp;
+    }
+
+    public void setPermissoesApp(List<PermissaoApp> permissoesApp) {
+        this.permissoesApp = permissoesApp;
+    }
 }
