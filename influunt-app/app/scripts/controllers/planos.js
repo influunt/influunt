@@ -17,12 +17,13 @@ angular.module('influuntApp')
               influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo,
               handleValidations, utilControladores, planoService) {
 
-      var selecionaAnel, atualizaTabelaEntreVerdes, atualizaEstagios, atualizaGruposSemaforicos, atualizaPlanos,
+      var adicionaPlano, selecionaAnel, atualizaTabelaEntreVerdes, atualizaEstagios, atualizaGruposSemaforicos, atualizaPlanos,
           atualizaEstagiosPlanos, adicionaEstagioASequencia, atualizaPosicaoPlanos, atualizaPosicaoEstagiosPlanos,
           carregaDadosPlano, getOpcoesEstagiosDisponiveis, montaTabelaValoresMinimos, setDiagramaEstatico,
-          atualizaDiagramaIntervalos, getPlanoParaDiagrama, atualizaTransicoesProibidas, getErrosGruposSemaforicosPlanos, 
-          getErrosPlanoAtuadoSemDetector, duplicarPlano, removerPlanoLocal, getErrosUltrapassaTempoCiclo, getErrosSequenciaInvalida, 
-          getKeysErros, getIdJsonDePlanosQuePossuemErros, getPlanoComErro, getIndexPlano, handleErroEditarPlano;
+          atualizaDiagramaIntervalos, getPlanoParaDiagrama, atualizaTransicoesProibidas, getErrosGruposSemaforicosPlanos,
+          getErrosPlanoAtuadoSemDetector, duplicarPlano, removerPlanoLocal, getErrosUltrapassaTempoCiclo, getErrosSequenciaInvalida,
+          getKeysErros, getIdJsonDePlanosQuePossuemErros, getPlanoComErro, getIndexPlano, handleErroEditarPlano, verdeMinimoDoEstagio,
+          mudarPlanoManualExcluisvo;
 
       var diagramaDebouncer = null;
 
@@ -52,7 +53,9 @@ angular.module('influuntApp')
                 $scope.objeto.versoesPlanos.push(versaoPlano);
                 anel.versaoPlano = {idJson: versaoPlano.idJson};
               }
-
+              if(anel.aceitaModoManual) {
+                planoService.criarPlanoManualExclusivo($scope.objeto, anel);
+              }
               for (var i = 0; i < $scope.objeto.limitePlanos; i++) {
                 planoService.adicionar($scope.objeto, anel, i + 1);
               }
@@ -177,7 +180,13 @@ angular.module('influuntApp')
 
         indexPlano = _.findIndex($scope.currentAnel.planos, {idJson: plano.idJson});
         $scope.currentAnel.planos.splice(indexPlano, 1);
-        planoService.adicionar($scope.objeto, $scope.currentAnel, index + 1);
+
+        if(plano.manualExclusivo) {
+          planoService.criarPlanoManualExclusivo($scope.objeto, $scope.currentAnel);
+        } else {
+          planoService.adicionar($scope.objeto, $scope.currentAnel, index + 1);
+        }
+
         atualizaPlanos();
 
         plano = _.find($scope.objeto.planos, {idJson: $scope.currentPlanos[index].idJson});
@@ -312,8 +321,7 @@ angular.module('influuntApp')
 
         $scope.currentVersaoPlanoIndex = _.findIndex(versoes, {anel: {idJson: $scope.currentAnel.idJson}});
         $scope.currentVersaoPlano = versoes[$scope.currentVersaoPlanoIndex];
-        atualizaEstagiosPlanos();
-        return atualizaPosicaoPlanos();
+        return atualizaEstagiosPlanos();
       };
 
       $scope.getImagemDeEstagio = function(estagioPlano) {
@@ -501,7 +509,7 @@ angular.module('influuntApp')
         });
 
         var assertError = _.some(errorsPosicao, function(errorPosicao) {
-          return index === errorPosicao -1;
+          return index === errorPosicao;
         });
 
         return assertError;
@@ -540,8 +548,8 @@ angular.module('influuntApp')
           if (errosultrapassaTempoCiclo) {
             _.each(errosultrapassaTempoCiclo, function (errosNoPlano){
               if(errosNoPlano) {
-                var texto = errosNoPlano.replace("{temposEstagios}", _.sumBy($scope.currentEstagiosPlanos, function(o) { 
-                  return o.tempoEstagio || 0; 
+                var texto = errosNoPlano.replace("{temposEstagios}", _.sumBy($scope.currentEstagiosPlanos, function(o) {
+                  return o.tempoEstagio || 0;
                 }))
                 .replace("{tempoCiclo}", $scope.currentPlano.tempoCiclo);
                 erros.push(texto);
@@ -559,7 +567,7 @@ angular.module('influuntApp')
         }
         return [];
       };
-      
+
       getErrosSequenciaInvalida = function(listaErros, currentPlanoIndex) {
         var erros = [];
         var errosSequencia;
@@ -696,12 +704,6 @@ angular.module('influuntApp')
         });
       };
 
-      atualizaPosicaoPlanos = function(){
-        $scope.currentPlanos.forEach(function (plano, index){
-          plano.posicao = index + 1;
-        });
-      };
-
       carregaDadosPlano = function(plano){
         if (plano.modoOperacao === 'ATUADO') {
           plano.estagiosPlanos.forEach(function(e) {
@@ -787,7 +789,7 @@ angular.module('influuntApp')
           return false;
         }
 
-        if (['INTERMITENTE', 'APAGADO', 'ATUADO'].indexOf($scope.currentPlano.modoOperacao) < 0) {
+        if (['INTERMITENTE', 'APAGADO', 'ATUADO', 'MANUAL'].indexOf($scope.currentPlano.modoOperacao) < 0) {
           getPlanoParaDiagrama();
           var diagramaBuilder = new influunt.components.DiagramaIntervalos($scope.plano, $scope.valoresMinimos);
           var result = diagramaBuilder.calcula();
@@ -873,14 +875,14 @@ angular.module('influuntApp')
         var verdeMinimo = estagio.verdeMinimoEstagio || planoService.verdeMinimoDoEstagio($scope.objeto, estagio);
         if(tempoVerde < verdeMinimo){
           if(estagio.isVeicular){
-            influuntAlert.confirm($filter('translate')('planos.verdeMinimoVeicular.tituloAlert'), 
+            influuntAlert.confirm($filter('translate')('planos.verdeMinimoVeicular.tituloAlert'),
                 $filter('translate')('planos.verdeMinimoVeicular.mensagemAlert')).then(function(confirmado) {
               if (!confirmado) {
                 $scope.currentEstagiosPlanos[$scope.currentEstagioPlanoIndex].tempoVerde = oldValue;
               }
             });
           }else{
-            influuntAlert.alert($filter('translate')('planos.verdeMinimoPedestre.tituloAlert'), 
+            influuntAlert.alert($filter('translate')('planos.verdeMinimoPedestre.tituloAlert'),
                 $filter('translate')('planos.verdeMinimoPedestre.mensagemAlert'));
             $scope.currentEstagiosPlanos[$scope.currentEstagioPlanoIndex].tempoVerde = oldValue;
           }
