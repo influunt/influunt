@@ -1,9 +1,3 @@
-<pesquisa-lateral
-    data-ng-model="pesquisaPermissoes.filtro"
-    campos="pesquisaPermissoes.campos"
-    on-close="show()">
-</pesquisa-lateral>
-
 <div id="form" data-ng-init="inicializaPermissoes()">
   <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
@@ -32,16 +26,18 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr data-ng-repeat="permissao in permissoes">
-                        <td>{{ permissao.descricao }}</td>
+                      <tr data-ng-repeat="role in roles">
+                        <td>{{ role.nome }}</td>
                         <td width="5%">
-                          <input type="checkbox" ichecks data-if-changed="atualizaListaPermissoes(permissao)" data-ng-model="permissoesAtivadas[permissao.id]">
+                          <input type="checkbox"
+                                 ichecks
+                                 data-ng-model="rolesAtivados[role.id]"
+                                 data-if-checked="atualizarPermissoes()"
+                                 data-if-unchecked="atualizarPermissoes()">
                         </td>
                       </tr>
                     </tbody>
                   </table>
-
-                  <ng-include src="'views/common/footer-pagination.html'"></ng-include>
                 </div>
               </div>
             </div>

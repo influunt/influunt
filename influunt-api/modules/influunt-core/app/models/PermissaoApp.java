@@ -1,6 +1,5 @@
 package models;
 
-import be.objectify.deadbolt.java.models.Permission;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
@@ -9,10 +8,11 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
-import org.hibernate.validator.constraints.NotBlank;
+import json.serializers.PermissaoAppSerializer;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
@@ -21,33 +21,29 @@ import java.util.UUID;
  * Created by rodrigosol on 6/29/16.
  */
 @Entity
-@Table(name = "permissoes")
+@Table(name = "permissoes_app")
 @ChangeLog
-public class Permissao extends Model implements Permission, Serializable {
+@JsonSerialize(using = PermissaoAppSerializer.class)
+public class PermissaoApp extends Model implements Serializable {
 
     private static final long serialVersionUID = -1771456494137102241L;
 
-    public static Finder<UUID, Permissao> find = new Finder<UUID, Permissao>(Permissao.class);
+    public static Finder<UUID, PermissaoApp> find = new Finder<UUID, PermissaoApp>(PermissaoApp.class);
 
     @Id
     private UUID id;
 
     @Column
-    private String idJson;
-
-    @Column
-    @NotBlank(message = "não pode ficar em branco")
-    private String descricao;
-
-    @Column
-    @NotBlank(message = "não pode ficar em branco")
+    @NotNull(message = "não pode ficar em branco")
     private String chave;
 
-    @ManyToMany(mappedBy = "permissoes")
-    private List<Perfil> perfis;
+    @Column
+    @NotNull(message = "não pode ficar em branco")
+    private String nome;
 
-    @ManyToMany(mappedBy = "permissoes")
-    private List<PermissaoApp> permissoesApp;
+    @ManyToMany
+    @JoinTable(name = "permissoes_app_permissoes", joinColumns = {@JoinColumn(name = "permissao_app_id")}, inverseJoinColumns = {@JoinColumn(name = "permissao_id")})
+    private List<Permissao> permissoes;
 
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
@@ -61,33 +57,12 @@ public class Permissao extends Model implements Permission, Serializable {
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
 
-    public String getIdJson() {
-        return idJson;
-    }
-
-    public void setIdJson(String idJson) {
-        this.idJson = idJson;
-    }
-
-    @Override
-    public String getValue() {
-        return chave;
-    }
-
     public UUID getId() {
         return id;
     }
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
     }
 
     public String getChave() {
@@ -114,11 +89,19 @@ public class Permissao extends Model implements Permission, Serializable {
         this.dataAtualizacao = dataAtualizacao;
     }
 
-    public List<PermissaoApp> getPermissoesApp() {
-        return permissoesApp;
+    public String getNome() {
+        return nome;
     }
 
-    public void setPermissoesApp(List<PermissaoApp> permissoesApp) {
-        this.permissoesApp = permissoesApp;
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public List<Permissao> getPermissoes() {
+        return permissoes;
+    }
+
+    public void setPermissoes(List<Permissao> permissoes) {
+        this.permissoes = permissoes;
     }
 }

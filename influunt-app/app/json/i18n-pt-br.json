@@ -226,6 +226,7 @@
       "verdeSeguranca": "Verde segurança"
     },
     "aneis": {
+      "aceitaModoManual": "Aceita Modo Manual",
       "titulo": "Configuração de Aneis",
       "titulo_msg_apagar_anel": "Deseja mesmo apagar este anel?",
       "corpo_msg_apagar_anel": "Ao apagar esse anel todos os relacionamentos previamente cadastrados serão apagados.",
@@ -386,7 +387,9 @@
       "tituloAlert": "Verde de Segurança",
       "mensagemAlert": "Não é permitido colocar o tempo de verde menor que o tempo de verde de segurança em estágio de pedestre."
     },
+    "planoManualExclusivo": "Plano Manual (Exclusivo)",
     "modoOperacao": "MODO DE OPERAÇÃO",
+    "modoManual": "Manual",
     "modosOperacao": {
       "atuado": "Atuado",
       "tempoFixoCoordenado": "Coordenado",

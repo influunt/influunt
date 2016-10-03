@@ -1,7 +1,6 @@
 'use strict';
 
 describe('Directive: wizardSteps', function () {
-  beforeEach(module('influuntApp'));
 
   var element, scope, $compile;
 

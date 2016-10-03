@@ -15,7 +15,7 @@
 
           <!-- botão de nova agrupamento -->
           <div class="pull-right actions">
-            <a class="btn btn-small btn-primary btn-rounded" tooltips tooltip-template="Adicionar novo agrupamento" ui-sref="app.agrupamentos_new">
+            <a class="btn btn-small btn-primary btn-rounded" tooltips tooltip-template="Adicionar novo agrupamento" ui-sref="app.agrupamentos_new" permission permission-sref="'app.agrupamentos_new'">
               <i class="fa fa-plus"></i>
               {{ 'geral.crud.novo' | translate }}
             </a>
@@ -54,9 +54,9 @@
                   <td>{{ agrupamento.tipo }}</td>
                   <td data-ng-bind-html="agrupamento.aneis | orderBy: 'CLA' | resourceListToString: 'CLA' "></td>
                   <td>
-                    <a ui-sref="app.agrupamentos_show({id: agrupamento.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
-                    <a ui-sref="app.agrupamentos_edit({id: agrupamento.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.editar' | translate }}</a>
-                    <a data-ng-click="confirmDelete(agrupamento.id)" class="btn btn-danger btn-xs">{{ 'geral.crud.excluir' | translate }}</a>
+                    <a ui-sref="app.agrupamentos_show({id: agrupamento.id})" permission permission-sref="'app.agrupamentos_show'" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
+                    <a ui-sref="app.agrupamentos_edit({id: agrupamento.id})" permission permission-sref="'app.agrupamentos_edit'" class="btn btn-primary btn-xs">{{ 'geral.crud.editar' | translate }}</a>
+                    <a data-ng-click="confirmDelete(agrupamento.id)" permission permission-only="'removerAgrupamentos'" class="btn btn-danger btn-xs">{{ 'geral.crud.excluir' | translate }}</a>
                   </td>
                 </tr>
               </tbody>

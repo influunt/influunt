@@ -12,11 +12,11 @@
     <div class="navbar-collapse collapse" id="navbar">
       <ul class="nav navbar-nav">
         <li uib-dropdown data-ng-repeat="menu in menus">
-          <a ui-sref="{{ menu.route }}" data-ng-if="!menu.children">{{ menu.label | translate | uppercase }}</a>
+          <a ui-sref="{{ menu.route }}" data-ng-if="!menu.children" permission permission-sref="menu.route">{{ menu.label | translate | uppercase }}</a>
           <a href uib-dropdown-toggle data-ng-if="menu.children">{{ menu.label | translate | uppercase }}<span class="caret"></span></a>
           <ul role="menu" uib-dropdown-menu data-ng-if="menu.children">
             <li data-ng-repeat="submenu in menu.children">
-              <a ui-sref="{{ submenu.route }}">{{ submenu.label | translate }}</a>
+              <a ui-sref="{{ submenu.route }}" permission permission-sref="submenu.route">{{ submenu.label | translate }}</a>
             </li>
           </ul>
         </li>
@@ -27,7 +27,7 @@
                 <i class="fa fa-user"></i>{{getUsuario().login}}
                 <b class="caret"></b>
             </a>
-            <ul uib-dropdown-menu class="animated fadeInRight m-t-xs">
+            <ul uib-dropdown-menu class="m-t-xs">
                 <li><a ui-sref="app.usuarios_edit({id: getUsuario().id})">{{ 'usuarios.editar_perfil' | translate }}</a></li>
             </ul>
         </li>

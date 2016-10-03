@@ -2,9 +2,6 @@
 
 describe('Service: handleValidations', function () {
 
-  // load the service's module
-  beforeEach(module('influuntApp'));
-
   // instantiate service
   var handleValidations;
   beforeEach(inject(function (_handleValidations_) {

@@ -8,8 +8,11 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('PerfisCtrl', ['$scope', '$controller', 'Restangular', '$timeout', 'influuntBlockui',
-    function ($scope, $controller, Restangular, $timeout, influuntBlockui) {
+  .controller('PerfisCtrl', ['$scope', '$controller', 'Restangular', '$timeout', 'influuntBlockui', 'PermissionsService',
+    function ($scope, $controller, Restangular, $timeout, influuntBlockui, PermissionsService) {
+
+      var atualizarRolesAtivos, objetoLoaded = false, permissoesLoaded = false;
+
       // Herda todo o comportamento do crud basico.
       $controller('CrudCtrl', {$scope: $scope});
       $scope.inicializaNovoCrud('perfis');
@@ -47,6 +50,16 @@ angular.module('influuntApp')
       };
 
       $scope.inicializaPermissoes = function() {
+        PermissionsService.loadPermissions()
+          .then(function(response) {
+            $scope.permissions = response.permissoes;
+            $scope.roles = response.permissoesApp;
+            permissoesLoaded = true;
+            if (objetoLoaded) {
+              atualizarRolesAtivos();
+            }
+          }).finally(influuntBlockui.unblock);
+
         $scope.show();
       };
 
@@ -63,20 +76,36 @@ angular.module('influuntApp')
 
       $scope.afterShow = function() {
         $scope.permissoesAtivadas = {};
-        return $scope.objeto.permissoes &&
-          $scope.objeto.permissoes.forEach(function(permissao) {
-            $scope.permissoesAtivadas[permissao.id] = true;
-          });
+        $scope.rolesAtivados = {};
+        objetoLoaded = true;
+        if (permissoesLoaded) {
+          atualizarRolesAtivos();
+        }
       };
 
-      $scope.atualizaListaPermissoes = function(permissao) {
-        $scope.objeto.permissoes = $scope.objeto.permissoes || [];
-        var index = _.findIndex($scope.objeto.permissoes, {id: permissao.id});
-        if (index >= 0) {
-          $scope.objeto.permissoes.splice(index, 1);
-        } else {
-          $scope.objeto.permissoes.push(permissao);
-        }
+      $scope.atualizarPermissoes = function() {
+          var permissoes = [];
+          _.forEach($scope.rolesAtivados, function(ativado, roleId) {
+            var role = _.find($scope.roles, { id: roleId });
+            if (ativado) {
+              permissoes.push(role.permissoes);
+            }
+          });
+          $scope.objeto.permissoes = _
+            .chain(permissoes)
+            .flatten()
+            .map('id')
+            .uniq()
+            .map(function(permissaoId) { return { id: permissaoId }; })
+            .value();
+      };
+
+      atualizarRolesAtivos = function() {
+        _.forEach($scope.roles, function(role) {
+          var permissoesRole = _.map(role.permissoes, 'id');
+          var permissoesObjeto = _.map($scope.objeto.permissoes, 'id');
+          $scope.rolesAtivados[role.id] = _.intersection(permissoesRole, permissoesObjeto).length === permissoesRole.length;
+        });
       };
 
     }]);
