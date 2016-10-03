@@ -2682,6 +2682,10 @@ tip-tip span {
   overflow: auto !important;
 }
 
+.wrapper-content .basic-wizard .content .body .croqui.movements.controlador {
+  min-height: 350px;
+}
+
 .wrapper-content .basic-wizard .content .body .revisao strong {
   text-transform: uppercase;
 }
