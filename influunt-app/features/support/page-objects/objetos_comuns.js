@@ -16,7 +16,7 @@ var ObjetosComuns = function () {
     });
   };
 
-  this.trocarAnel = function() {
+  this.trocarAnel = function(anel) {
     return world.getElement('li[aria-selected="false"]').click();
   };
 

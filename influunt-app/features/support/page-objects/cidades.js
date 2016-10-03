@@ -104,7 +104,7 @@ var CidadesPage = function () {
     });
   };
 
-  this.existeAoMenosUmaCidadeComNome = function(nome) {
+  this.existeAoMenosUmaCidadeComNome = function() {
     return world.execSqlScript('features/support/scripts/cidades/create_cidade_duplicada.sql');
   };
 

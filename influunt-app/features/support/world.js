@@ -162,7 +162,7 @@ var World = function () {
 
   this.setValueByXpath = function(xpathSelector, value) {
     var _this = this;
-    _this.waitFor(cssSelector);
+    _this.waitFor(xpathSelector);
     return driver.findElement(webdriver.By.xpath(xpathSelector)).sendKeys(value);
   };
 

@@ -27,7 +27,6 @@ var CrudPage = function () {
     'Tipo':                            '[name="tipo"]',
     'Número SMEE':                     '[name="numeroSMEE"]',
     'Alternativa':                     'select[name="alternativos"]',
-    'Descrição':                       '[name="descricao"]',
     'Limite Estágios':                 '[name="limiteEstagio"]',
     'Limite Grupos Semafóricos':       '[name="limiteGrupoSemaforico"]',
     'Limite Aneies':                   '[name="limiteAnel"]',
