@@ -71,7 +71,7 @@ var CidadesPage = function () {
   };
 
   this.cidadeIdH5 = function() {
-    return world.getElement('h5 small').then(function(element) {
+    return world.getElementByXpath('//h5/small').then(function(element) {
       return element.getText();
     });
   };
