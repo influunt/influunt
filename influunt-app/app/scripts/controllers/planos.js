@@ -509,7 +509,7 @@ angular.module('influuntApp')
         });
 
         var assertError = _.some(errorsPosicao, function(errorPosicao) {
-          return index === errorPosicao -1;
+          return index === errorPosicao;
         });
 
         return assertError;
@@ -893,7 +893,7 @@ angular.module('influuntApp')
         var plano = _.find($scope.objeto.planos, {modoOperacao: 'MANUAL', anel: {idJson: anel.idJson}});
         if (plano) {
           plano.configurado = true;
-        }else {
+        } else {
           plano = {
             idJson: UUID.generate(),
             anel: { idJson: anel.idJson },
@@ -942,7 +942,7 @@ angular.module('influuntApp')
                   idJson: plano.idJson
                 },
                 posicao: estagio.posicao,
-                tempoVerde: verdeMinimoDoEstagio(estagio),
+                tempoVerde: planoService.verdeMinimoDoEstagio($scope.objeto, estagio),
                 dispensavel: false
               };
               $scope.objeto.estagiosPlanos.push(estagioPlano);

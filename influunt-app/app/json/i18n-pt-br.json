@@ -388,6 +388,7 @@
     },
     "planoManualExclusivo": "Plano Manual (Exclusivo)",
     "modoOperacao": "MODO DE OPERAÇÃO",
+    "modoManual": "Manual",
     "modosOperacao": {
       "atuado": "Atuado",
       "tempoFixoCoordenado": "Coordenado",

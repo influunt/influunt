@@ -78,7 +78,7 @@
                                   class="item-menu">
                                     <input type="checkbox" ichecks data-ng-model="plano.configurado" data-if-unchecked="resetarPlano(plano, $index)" data-is-disabled="plano.posicao === 1" data-if-changed="selecionaPlano(plano, $index)" ng-if="!somenteVisualizacao">
                                     <span class="nome-plano" data-ng-class="{configurado: plano.configurado}">
-                                      {{'tabelaHorarios.plano' | translate}} {{ plano.modoOperacao === 'MANUAL' ? 'Manual' : plano.posicao }}
+                                      {{'tabelaHorarios.plano' | translate}} {{ plano.modoOperacao === 'MANUAL' ? ('planos.modoManual' | translate) : plano.posicao }}
                                     </span>
                                     <span class="badge badge-danger badge-notification pull-right m-t-sm"
                                         data-ng-if="getErroPorPlano($index)"
