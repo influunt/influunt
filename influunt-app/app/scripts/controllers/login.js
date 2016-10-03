@@ -10,6 +10,9 @@
 angular.module('influuntApp')
   .controller('LoginCtrl', ['$scope', 'Restangular', '$state', '$filter', 'influuntAlert', 'toast', '$location', 'influuntBlockui',
     function LoginCtrl ($scope, Restangular, $state, $filter, influuntAlert, toast, $location, influuntBlockui) {
+
+      var getTokenFromLocation;
+
       $scope.credenciais = {};
 
       $scope.submitLogin = function(formValido) {
@@ -54,7 +57,7 @@ angular.module('influuntApp')
       };
 
       $scope.checarTokenValido = function() {
-        var token = $location.search().token;
+        var token = getTokenFromLocation();
         if(angular.isDefined(token)) {
           return Restangular.one('checar_token_valido', token).customGET()
             .catch(function(err) {
@@ -74,7 +77,7 @@ angular.module('influuntApp')
           return false;
         }
 
-        var token = $location.search().token;
+        var token = getTokenFromLocation();
         $scope.credenciais.token = token;
         Restangular.all('redefinir_senha').post($scope.credenciais)
           .then(function() {
@@ -85,6 +88,15 @@ angular.module('influuntApp')
             $scope.error = err.data;
           })
           .finally(influuntBlockui.unblock);
+      };
+
+      getTokenFromLocation = function() {
+        var resultMatch = location.search.match(/token=\w+/);
+        var token;
+        if(_.isArray(resultMatch)) {
+          token = resultMatch[0].split('=')[1];
+        }
+        return token;
       };
 
     }]);
