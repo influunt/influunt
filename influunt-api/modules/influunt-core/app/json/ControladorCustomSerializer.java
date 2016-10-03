@@ -1441,6 +1441,9 @@ public class ControladorCustomSerializer {
         if (anel.isAtivo() != null) {
             anelJson.put("ativo", anel.isAtivo());
         }
+        if (anel.istAceitaModoManual() != null) {
+            anelJson.put("aceitaModoManual", anel.istAceitaModoManual());
+        }
         if (anel.getPosicao() != null) {
             anelJson.put("posicao", anel.getPosicao());
         }

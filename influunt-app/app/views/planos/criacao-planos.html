@@ -76,9 +76,9 @@
                                   data-ng-click="selecionaPlano(plano, $index)"
                                   data-ng-class="{active: $index === currentPlanoIndex}"
                                   class="item-menu">
-                                    <input type="checkbox" ichecks data-ng-model="plano.configurado" data-if-unchecked="resetarPlano(plano, $index)" data-is-disabled="$first" data-if-changed="selecionaPlano(plano, $index)" ng-if="!somenteVisualizacao">
+                                    <input type="checkbox" ichecks data-ng-model="plano.configurado" data-if-unchecked="resetarPlano(plano, $index)" data-is-disabled="plano.posicao === 1" data-if-changed="selecionaPlano(plano, $index)" ng-if="!somenteVisualizacao">
                                     <span class="nome-plano" data-ng-class="{configurado: plano.configurado}">
-                                      {{'tabelaHorarios.plano' | translate}} {{ plano.posicao }}
+                                      {{'tabelaHorarios.plano' | translate}} {{ plano.modoOperacao === 'MANUAL' ? 'Manual' : plano.posicao }}
                                     </span>
                                     <span class="badge badge-danger badge-notification pull-right m-t-sm"
                                         data-ng-if="getErroPorPlano($index)"
@@ -89,7 +89,7 @@
                                     <!-- copiar plano. -->
                                     <i class="fa fa-files-o pull-right m-t-sm"
                                         data-ng-click="copiarPlano(plano)"
-                                        data-ng-if="plano.configurado && !somenteVisualizacao"
+                                        data-ng-if="plano.configurado && !somenteVisualizacao && plano.modoOperacao != 'MANUAL'"
                                         data-toggle="modal" data-target="#modal-copiar-plano"
                                         aria-hidden="true">
                                     </i>
@@ -97,7 +97,7 @@
                                     <!-- renomear plano. -->
                                     <i class="fa fa-pencil pull-right m-t-sm"
                                         data-ng-click="renomearPlano(plano)"
-                                        data-ng-if="plano.configurado && !somenteVisualizacao"
+                                        data-ng-if="plano.configurado && !somenteVisualizacao && plano.modoOperacao != 'MANUAL'"
                                         aria-hidden="true">
                                     </i>
                                     <span class="desc-plano">{{ plano.descricao }}</span>
@@ -115,7 +115,8 @@
                                   <aside>
                                     <div class="form-group">
                                       <label>{{'planos.modoOperacao' | translate}}</label>
-                                      <select class="form-control" name="modoOperacao" data-ng-model="currentPlano.modoOperacao" data-ng-change="limpaDadosPlano()" ng-disabled="somenteVisualizacao">
+                                      <span class="form-control" data-ng-if="currentPlano.modoOperacao === 'MANUAL'">MANUAL</span>
+                                      <select class="form-control" name="modoOperacao" data-ng-model="currentPlano.modoOperacao" data-ng-change="limpaDadosPlano()" ng-disabled="somenteVisualizacao" data-ng-if="currentPlano.modoOperacao != 'MANUAL'">
                                         <option value="ATUADO">
                                           {{'planos.modosOperacao.atuado' | translate}}
                                         </option>
@@ -191,7 +192,7 @@
                                             <figure>
                                               <img ng-src="{{ getImagemDeEstagio(estagioPlano) }}" width="100%">
                                             </figure>
-                                            <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#modal-configuracao-estagio" ng-disabled="somenteVisualizacao">
+                                            <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#modal-configuracao-estagio" ng-disabled="somenteVisualizacao" data-ng-if="currentPlano.modoOperacao != 'MANUAL'">
                                               <i class="fa fa-cog" />
                                               {{'crud.configurar' | translate}}
                                             </button>
@@ -208,7 +209,7 @@
                                   </div>
                                 </section>
                               </div>
-                              <div class="col-lg-12 col-sm-12 association plans stage-time m-t-md" data-ng-if="currentPlano.modoOperacao !== 'ATUADO'">
+                              <div class="col-lg-12 col-sm-12 association plans stage-time m-t-md" data-ng-if="currentPlano.modoOperacao !== 'ATUADO' && currentPlano.modoOperacao !== 'MANUAL'">
                                 <div class="ibox-title">
                                   <h5>{{ 'diagramaIntervalos.titulo' | translate }}</h5>
                                   <ng-include src="'views/planos/header-buttons.html'" class="right"></ng-include>

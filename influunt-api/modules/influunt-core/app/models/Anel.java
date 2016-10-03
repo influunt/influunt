@@ -98,6 +98,9 @@ public class Anel extends Model implements Cloneable, Serializable {
     private Endereco endereco;
 
     @Column
+    private Boolean aceitaModoManual;
+
+    @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
@@ -349,6 +352,14 @@ public class Anel extends Model implements Cloneable, Serializable {
 
     public boolean temDetectorVeicular() {
         return getDetectores().stream().filter(detector -> detector.isVeicular()).count() > 0;
+    }
+
+    public Boolean istAceitaModoManual() {
+        return aceitaModoManual;
+    }
+
+    public void setAceitaModoManual(Boolean aceitaModoManual) {
+        this.aceitaModoManual = aceitaModoManual;
     }
 
     @Override
