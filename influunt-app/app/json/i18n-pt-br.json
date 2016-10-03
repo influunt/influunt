@@ -106,7 +106,7 @@
     "maxDetectorVeicular": "Número de detector veicular",
     "maxEstagios": "Número de estágios",
     "maxGrupoSemaforos": "Número de grupos semafóricos",
-    "maxTabelasEntreVerdes": "Número de tabelas entre verdes",
+    "maxTabelasEntreVerdes": "Número de tabelas entreverdes",
     "maxPlanos": "Número de planos",
     "modelo": "Modelo",
     "novo": "Novo Controlador",
@@ -119,7 +119,7 @@
     "opcoes": "Opções",
     "tipo": "Tipo",
     "versaoFirmware": "Versão do Firmware",
-    "numeroTabelasEntreVerdes": "Número de tabelas entre verdes",
+    "numeroTabelasEntreVerdes": "Número de tabelas entreverdes",
     "ganhoDePassagem": "Transições com ganho de direito de passagem",
     "perdaDePassagem": "Transições com perda de direito de passagem",
     "geral": {
@@ -161,7 +161,7 @@
       "pedestre": "Pedestre",
       "titulo": "Detectores",
       "veicular": "Veicular",
-      "verTabelaEntreVerdes": "Ver Tela de Entre Verdes"
+      "verTabelaEntreVerdes": "Ver Tela de Entreverdes"
     },
     "dadosBasicos": {
       "titulo": "Dados Básicos"
@@ -189,7 +189,7 @@
       "demandaPrioritaria": "Demanda prioritária"
     },
     "entreVerdes": {
-      "titulo": "Tabela de Entre Verdes"
+      "titulo": "Tabela de Entreverdes"
     },
     "atrasoDeGrupo": {
       "titulo": "Atraso de Grupo"
@@ -291,6 +291,7 @@
     "data": "Data",
     "horario": "Horário",
     "diaMes": "Data (Dia/Mês)",
+    "diaMesAno": "Data (Dia/Mês/Ano)",
     "plano": "Plano",
     "descartar": "Descartar",
     "tabelaEspecial": "Tabelas horárias especial ativa na semana entre os dias",
@@ -483,6 +484,7 @@
     "status": "Status",
     "online": "Online",
     "offline": "Offline",
+    "nenhum": "Nenhum",
     "modo": "Modo",
     "controlOnline": "Controladores Online",
     "isolado": "Isolado",
@@ -503,11 +505,12 @@
     "controlManual": "Controladores Manuais",
     "controlStatus": "Controladores Por Status",
     "controlModo": "Controladores Por Modo",
-    "controlApresentando": "controladores estão apresentado",
+    "controlApresentando": "controlador está apresentado",
     "recuperaFalhas": "se recuperaram de falhas na última hora",
     "quedaEnergia": "Queda de Energia",
     "faseQueimada": "Fase Pedestre Queimada",
     "falhas": "falhas",
+    "falha": "falha",
     "novo": "Novo",
     "configurado": "Configurado",
     "ativo": "Ativo",
