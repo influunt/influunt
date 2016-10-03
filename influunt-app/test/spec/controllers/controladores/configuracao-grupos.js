@@ -1,10 +1,10 @@
 'use strict';
 
 describe('Controller: ControladoresConfiguracaoGruposCtrl', function () {
-  // load the controller's module
-  beforeEach(module('influuntApp', function(RestangularProvider) {
-    RestangularProvider.setBaseUrl('');
-  }));
+  // // load the controller's module
+  // beforeEach(module('influuntApp', function(RestangularProvider) {
+  //   RestangularProvider.setBaseUrl('');
+  // }));
 
   var ControladoresConfiguracaoGruposCtrl,
     scope,
@@ -206,7 +206,7 @@ describe('Controller: ControladoresConfiguracaoGruposCtrl', function () {
       var grupo = _.find(scope.objeto.gruposSemaforicos, {idJson: scope.objeto.aneis[1].gruposSemaforicos[0].idJson});
       expect(grupo.posicao).toBe(1);
     });
-    
+
     it('Caso seja adicionado um novo grupo semaforico no anel 1 as posições devem ser atualizadas', function() {
       deferred.resolve(true);
       scope.$apply();
@@ -269,7 +269,7 @@ describe('Controller: ControladoresConfiguracaoGruposCtrl', function () {
       expect(scope.podeAdicionarGrupoSemaforico()).toBeTruthy();
     });
   });
-  
+
   describe('atualizaTempoVerdeSeguranca', function () {
     beforeEach(function() {
       scope.objeto = {

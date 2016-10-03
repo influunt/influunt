@@ -3,7 +3,7 @@
 describe('Filter: resourceToString', function () {
 
   // load the filter's module
-  beforeEach(module('influuntApp'));
+  // beforeEach(module('influuntApp'));
 
   // initialize a new instance of the filter before each test
   var resourceToString, resource;

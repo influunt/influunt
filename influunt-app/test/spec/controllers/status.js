@@ -3,7 +3,7 @@
 describe('Controller: StatusCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('influuntApp'));
+  // beforeEach(module('influuntApp'));
 
   var StatusCtrl,
     scope;
@@ -17,5 +17,5 @@ describe('Controller: StatusCtrl', function () {
     });
   }));
 
-  
+
 });

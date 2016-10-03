@@ -3,17 +3,17 @@
 describe('Controller: BreadcrumbsCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('influuntApp', function($provide) {
-    var breadcrumbs = function() {
-      return {
-        path: function() {
-          return [];
-        }
-      };
-    };
+  // beforeEach(module('influuntApp', function($provide) {
+  //   var breadcrumbs = function() {
+  //     return {
+  //       path: function() {
+  //         return [];
+  //       }
+  //     };
+  //   };
 
-    $provide.factory('breadcrumbs', breadcrumbs);
-  }));
+  //   $provide.factory('breadcrumbs', breadcrumbs);
+  // }));
 
   var BreadcrumbsCtrl,
     scope,
@@ -30,8 +30,8 @@ describe('Controller: BreadcrumbsCtrl', function () {
     });
 
     httpBackend = $httpBackend;
-    controlador = { 
-      nomeEndereco: 'Av Teste 1' 
+    controlador = {
+      nomeEndereco: 'Av Teste 1'
     };
 
   }));
@@ -44,8 +44,10 @@ describe('Controller: BreadcrumbsCtrl', function () {
     expect(scope.udpateBreadcrumbs).toHaveBeenCalled();
   });
 
+
   it('Deve utilizar o state "current" se não for passado um state por parametro', function() {
     $state.current = {
+      name: 'teste',
       data: {
         title: 'teste'
       }
@@ -55,8 +57,10 @@ describe('Controller: BreadcrumbsCtrl', function () {
     expect(scope.pageTitle).toBe($state.current.data.title);
   });
 
+
   it('O titulo da página deve ser igual ao campo de titulo parametrizado no objeto "data" do state', function() {
     var state = {
+      name: 'teste',
       data: {
         title: 'teste'
       }
@@ -65,6 +69,7 @@ describe('Controller: BreadcrumbsCtrl', function () {
     scope.udpateBreadcrumbs(state);
     expect(scope.pageTitle).toBe(state.data.title);
   });
+
 
   it('Deve buscar o endereço do controlador caso esteja no controller correto', function() {
     var state = {
@@ -77,9 +82,11 @@ describe('Controller: BreadcrumbsCtrl', function () {
     expect(scope.controladorLocalizacao).toEqual(controlador.nomeEndereco);
   });
 
+
   it('Deve atualizar o titulo da pagina para "geral.titulo_padrao" se não houver titulo parametrizado', function() {
     var state = {
-      name: 'app.main'
+      name: 'app.main',
+      data: {}
     };
 
     scope.udpateBreadcrumbs(state);

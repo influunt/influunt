@@ -2,7 +2,7 @@
 
 describe('Controller: CidadesCtrl', function () {
   // load the controller's module
-  beforeEach(module('influuntApp'));
+  // beforeEach(module('influuntApp'));
 
   var CidadesCtrl,
     scope;

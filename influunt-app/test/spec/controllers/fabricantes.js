@@ -3,9 +3,9 @@
 describe('Controller: FabricantesCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('influuntApp', function(RestangularProvider) {
-    RestangularProvider.setBaseUrl('');
-  }));
+  // beforeEach(module('influuntApp', function(RestangularProvider) {
+  //   RestangularProvider.setBaseUrl('');
+  // }));
 
   var FabricantesCtrl, scope;
 

@@ -3,7 +3,7 @@
 describe('Controller: ControladoresMapaCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('influuntApp'));
+  // beforeEach(module('influuntApp'));
 
   var ControladoresMapaCtrl,
     scope;

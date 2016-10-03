@@ -1,9 +1,9 @@
 'use strict';
 
 describe('Controller: ControladoresAssociacaoCtrl', function () {
-  beforeEach(module('influuntApp', function(RestangularProvider) {
-    RestangularProvider.setBaseUrl('');
-  }));
+  // beforeEach(module('influuntApp', function(RestangularProvider) {
+  //   RestangularProvider.setBaseUrl('');
+  // }));
 
 
 

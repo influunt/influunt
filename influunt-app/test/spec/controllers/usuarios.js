@@ -3,9 +3,9 @@
 describe('Controller: UsuariosCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('influuntApp', function(RestangularProvider) {
-    RestangularProvider.setBaseUrl('');
-  }));
+  // beforeEach(module('influuntApp', function(RestangularProvider) {
+  //   RestangularProvider.setBaseUrl('');
+  // }));
 
   var UsuariosCtrl,
     scope,

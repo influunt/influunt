@@ -4,9 +4,9 @@ describe('Filter: imageSource', function () {
 
   var appRoot = 'base_url';
   // load the controller's module
-  beforeEach(module('influuntApp', function($provide) {
-    $provide.constant('APP_ROOT', appRoot);
-  }));
+  // beforeEach(module('influuntApp', function($provide) {
+  //   $provide.constant('APP_ROOT', 'base_url');
+  // }));
 
   // initialize a new instance of the filter before each test
   var imageSource;

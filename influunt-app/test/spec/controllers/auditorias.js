@@ -3,7 +3,7 @@
 describe('Controller: AuditoriasCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('influuntApp'));
+  // beforeEach(module('influuntApp'));
 
   var AuditoriasCtrl,
     scope;

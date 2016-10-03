@@ -12,9 +12,9 @@ describe('Controller: PlanosCtrl', function () {
       controladorId,
       anelId;
 
-  beforeEach(module('influuntApp', function(RestangularProvider) {
-    RestangularProvider.setBaseUrl('');
-  }));
+  // beforeEach(module('influuntApp', function(RestangularProvider) {
+  //   RestangularProvider.setBaseUrl('');
+  // }));
 
   beforeEach(inject(function (_$controller_, $rootScope, _$httpBackend_, _$q_, _$state_) {
     $httpBackend = _$httpBackend_;
@@ -158,7 +158,7 @@ describe('Controller: PlanosCtrl', function () {
       expect(toast.error).toHaveBeenCalled();
     }));
   });
-  
+
   describe('bugs', function () {
     var deferred;
     beforeEach(inject(function(influuntAlert, $q) {
@@ -167,7 +167,7 @@ describe('Controller: PlanosCtrl', function () {
       deferred = $q.defer();
       spyOn(influuntAlert, 'delete').and.returnValue(deferred.promise);
     }));
-    
+
     it('Adicionar, remover e trocar modo de operação', function() {
       var estagioPlano = _.find(scope.objeto.estagiosPlanos, {idJson: scope.currentPlano.estagiosPlanos[0].idJson});
       expect(scope.currentPlano.estagiosPlanos.length).toBe(3);

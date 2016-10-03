@@ -2,14 +2,16 @@
 
 describe('Controller: AgrupamentosCtrl', function () {
   // load the controller's module
-  beforeEach(module('influuntApp', function(RestangularProvider) {
-    RestangularProvider.setBaseUrl('');
-  }));
+  // beforeEach(module('influuntApp', function(RestangularProvider) {
+  //   RestangularProvider.setBaseUrl('');
+  // }));
 
   var AgrupamentosCtrl,
-    scope;
+    scope,
+    $httpBackend;
 
-  beforeEach(inject(function ($controller, $rootScope) {
+  beforeEach(inject(function ($controller, $rootScope, _$httpBackend_) {
+    $httpBackend = _$httpBackend_;
     scope = $rootScope.$new();
     AgrupamentosCtrl = $controller('AgrupamentosCtrl', {
       $scope: scope

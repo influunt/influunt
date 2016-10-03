@@ -3,9 +3,9 @@
 describe('Controller: CrudCtrl', function () {
 
   // ad the controller's module
-  beforeEach(module('influuntApp', function(RestangularProvider) {
-    RestangularProvider.setBaseUrl('');
-  }));
+  // beforeEach(module('influuntApp', function(RestangularProvider) {
+  //   RestangularProvider.setBaseUrl('');
+  // }));
 
   var CrudCtrl,
     scope,

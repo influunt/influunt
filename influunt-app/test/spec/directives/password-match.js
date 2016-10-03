@@ -3,7 +3,7 @@
 describe('Directive: passwordMatch', function () {
 
   // load the directive's module
-  beforeEach(module('influuntApp'));
+  // beforeEach(module('influuntApp'));
 
   var element,
     scope;

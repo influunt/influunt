@@ -6,7 +6,7 @@ describe('Directive: influuntMatch', function () {
   var compiled;
 
   // load the directive's module
-  beforeEach(module('influuntApp'));
+  // beforeEach(module('influuntApp'));
 
   var element,
     compile,

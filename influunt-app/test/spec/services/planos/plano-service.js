@@ -3,7 +3,7 @@
 describe('Service: planoService', function () {
 
   // load the service's module
-  beforeEach(module('influuntApp'));
+  // beforeEach(module('influuntApp'));
 
   // instantiate service
   var planoService, controlador, anel;

@@ -3,7 +3,7 @@
 describe('Controller: PermissoesCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('influuntApp'));
+  // beforeEach(module('influuntApp'));
 
   var PermissoesCtrl,
     scope;

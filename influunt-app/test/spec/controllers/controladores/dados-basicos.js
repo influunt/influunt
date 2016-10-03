@@ -3,7 +3,7 @@
 describe('Controller: ControladoresDadosBasicosCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('influuntApp'));
+  // beforeEach(module('influuntApp'));
 
   var ControladoresDadosBasicosCtrl,
     scope;
