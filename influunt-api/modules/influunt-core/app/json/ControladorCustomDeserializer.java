@@ -1505,6 +1505,10 @@ public class ControladorCustomDeserializer {
             controlador.setModelo(ModeloControlador.find.byId(UUID.fromString(node.get("modelo").get("id").asText())));
         }
 
+        if (node.has("croqui") && node.get("croqui").get("id") != null) {
+            controlador.setCroqui(Imagem.find.byId(UUID.fromString(node.get("croqui").get("id").asText())));
+        }
+
         if (node.has("versaoControlador") && node.get("versaoControlador").get("id") != null) {
 
             controlador.setVersaoControlador(VersaoControlador.find.byId(UUID.fromString(node.get("versaoControlador").get("id").asText())));
