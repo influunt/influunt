@@ -2,16 +2,18 @@
 
 var expect = require('chai').expect;
 var WizardPage = require('../../support/page-objects/wizard_controlador');
+var ObjetosComuns = require('../../support/page-objects/objetos_comuns');
 
 module.exports = function() {
   var wizardPage = new WizardPage();
+  var objetosComuns = new ObjetosComuns();
 
   this.Given(/^que o usuário acesse a página de listagem de controladores$/, function () {
     return wizardPage.indexPage();
   });
 
   this.Given(/^o usuário clicar no botão Novo Controlador$/, function () {
-    return wizardPage.clicarBotaoNovoControlador();
+    return objetosComuns.clicarLinkNovo();
   });
 
   this.Given(/^o sistema deverá redirecionar para o formulário de Cadastro de Controladores$/, function () {

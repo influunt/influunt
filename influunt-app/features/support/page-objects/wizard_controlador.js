@@ -20,12 +20,6 @@ var WizardControladorPage = function () {
     return world.waitFor(novoControladorButton);
   };
 
-  this.clicarBotaoNovoControlador = function() {
-    world.waitForToastMessageDisapear(10000);
-    world.sleep(500);
-    return world.findLinkByText("Novo").click();
-  };
-
   this.isWizardPasso = function(passo) {
     var _this = this;
     return world.waitForOverlayDisappear().then(function() {
