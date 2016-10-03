@@ -87,7 +87,7 @@ angular.module('influuntApp')
 
         // Específicos para as validações em escopo de anel.
         _.each(response.aneis, function(anel) {
-          if (anel) {
+          if (_.isObject(anel)) {
             anel.all = _.chain(anel).values().flatten().uniq().value();
           }
         });
