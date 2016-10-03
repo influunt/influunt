@@ -104,11 +104,8 @@ angular.module('influuntApp')
 
               // chamado logo antes de o arquivo ser enviado p/ o servidor
               this.on('sending', function(file, xhr, formData) {
-                if (scope.anel) {
-                  formData.append('anelIdJson', scope.anel.idJson);
-                } else {
-                  formData.append('anelIdJson', UUID.generate());
-                }
+                var anelIdJson = scope.anel ? scope.anel.idJson : UUID.generate();
+                formData.append('anelIdJson', anelIdJson);
               });
             }
           };
