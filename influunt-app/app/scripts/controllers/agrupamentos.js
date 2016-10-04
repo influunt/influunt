@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('AgrupamentosCtrl', ['$scope', '$controller', '$timeout', 'Restangular', 'HorariosService', 'influuntBlockui',
-    function ($scope, $controller, $timeout, Restangular, HorariosService, influuntBlockui) {
+  .controller('AgrupamentosCtrl', ['$scope', '$controller', '$timeout', 'Restangular', 'HorariosService', 'influuntBlockui', 'influuntAlert', '$filter',
+    function ($scope, $controller, $timeout, Restangular, HorariosService, influuntBlockui, influuntAlert, $filter) {
 
       // funções privadas
       var inicializaAneisHandle, inicializaControladoresHandle, adicionarAnel, removerAnel, findControladorByAnelId,
@@ -61,7 +61,7 @@ angular.module('influuntApp')
       $scope.planos = HorariosService.getPlanos();
 
       loadControladores = function() {
-        Restangular.all('controladores').customGET('agrupamentos')
+        Restangular.all('controladores').customGET('agrupamentos', { statusControlador: 1 })
           .then(function(res) {
             $scope.controladores = [];
             res.data.forEach(function(controlador) {
@@ -96,6 +96,7 @@ angular.module('influuntApp')
             }
           }).finally(influuntBlockui.unblock);
       };
+
 
       addControladorNaView = function(controlador) {
         var foundControlador = _.map(_.flatten($scope.controladoresNaView), 'id').indexOf(controlador.id) > -1;
@@ -296,7 +297,8 @@ angular.module('influuntApp')
         if (!angular.isArray($scope.objeto.aneis)) {
           $scope.objeto.aneis = [];
         }
-        $scope.objeto.aneis.push({ id: anelId });
+        var controlador = _.find($scope.controladores, function(c) { return _.findIndex(c.aneis, { id: anelId }) > -1; });
+        $scope.objeto.aneis.push({ id: anelId, controlador: { id: controlador.id } });
       };
 
       removerAnel = function(anelId) {
@@ -369,4 +371,30 @@ angular.module('influuntApp')
           ($scope.objeto.segundo.length < 2 ? '0'+$scope.objeto.segundo : $scope.objeto.segundo);
         }
       };
+
+      $scope.salvar = function(formValido) {
+        var title = $filter('translate')('agrupamentos.eventosPopup.title'),
+            text = $filter('translate')('agrupamentos.eventosPopup.text');
+
+        return influuntAlert.ask(title, text)
+          .then(function(criarEventos) {
+            $scope.criarEventos = criarEventos;
+            $scope.save(formValido);
+          });
+      };
+
+      $scope.create = function() {
+        return Restangular
+          .service('agrupamentos')
+          .post($scope.objeto, { criarEventos: $scope.criarEventos })
+          .finally(influuntBlockui.unblock);
+      };
+
+      $scope.update = function() {
+        return $scope
+          .objeto
+          .save({ criarEventos: $scope.criarEventos })
+          .finally(influuntBlockui.unblock);
+      };
+
     }]);

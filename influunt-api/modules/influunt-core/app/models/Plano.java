@@ -390,7 +390,7 @@ public class Plano extends Model implements Cloneable, Serializable {
         return listaEstagioPlanos;
     }
 
-    public boolean sequenciaDeEstagioValida(List<EstagioPlano> estagios){
+    public boolean sequenciaDeEstagioValida(List<EstagioPlano> estagios) {
         int tamanho = estagios.size();
         for (int i = 0; i < tamanho; i++) {
             EstagioPlano origem = estagios.get(i);

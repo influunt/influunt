@@ -622,6 +622,10 @@
       "corredor": "Corredor",
       "rota": "Rota",
       "subArea": "Subarea"
+    },
+    "eventosPopup": {
+      "title": "Atualizar Tabela Horária?",
+      "text": "Deseja atualizar a tabela horária dos controladores associados a este agrupamento?"
     }
   },
   "sessoes": {
