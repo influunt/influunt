@@ -516,7 +516,6 @@ public class FaixasDeValores extends Model implements Cloneable, Serializable {
 
     @AssertTrue(groups = FaixaDeValoresCheck.class, message = "o valor padrão deve estar entre o minímo e o máximo.")
     public boolean isTempoMaximoPermanenciaEstagioVeicularValido() {
-        int a = 0;
         return Range.between(getTempoMaximoPermanenciaEstagioMin(), getTempoMaximoPermanenciaEstagioMax()).contains(defaultTempoMaximoPermanenciaEstagioVeicular);
     }
 
