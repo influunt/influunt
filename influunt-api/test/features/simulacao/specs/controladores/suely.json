@@ -290,13 +290,10 @@
         "idJson": "ceddbb1b-cf65-472c-af29-0076932b3ecd"
       },
       "origemDeTransicoesProibidas": [
-
       ],
       "destinoDeTransicoesProibidas": [
-
       ],
       "alternativaDeTransicoesProibidas": [
-
       ],
       "estagiosGruposSemaforicos": [
         {
@@ -318,13 +315,10 @@
         "idJson": "6fa5bd7b-a560-4130-97f6-90fa549f2049"
       },
       "origemDeTransicoesProibidas": [
-
       ],
       "destinoDeTransicoesProibidas": [
-
       ],
       "alternativaDeTransicoesProibidas": [
-
       ],
       "estagiosGruposSemaforicos": [
         {
@@ -346,13 +340,10 @@
         "idJson": "b674824a-97d6-4785-8c35-4dce5f042ce4"
       },
       "origemDeTransicoesProibidas": [
-
       ],
       "destinoDeTransicoesProibidas": [
-
       ],
       "alternativaDeTransicoesProibidas": [
-
       ],
       "estagiosGruposSemaforicos": [
         {
@@ -374,7 +365,6 @@
         "idJson": "a8f813dd-c8cf-4da7-80e7-bde97d6a0ac0"
       },
       "origemDeTransicoesProibidas": [
-
       ],
       "destinoDeTransicoesProibidas": [
         {
@@ -382,7 +372,6 @@
         }
       ],
       "alternativaDeTransicoesProibidas": [
-
       ],
       "estagiosGruposSemaforicos": [
         {
@@ -413,13 +402,10 @@
         "idJson": "64eeef2e-47b9-4d93-a89b-a32d26ff363e"
       },
       "origemDeTransicoesProibidas": [
-
       ],
       "destinoDeTransicoesProibidas": [
-
       ],
       "alternativaDeTransicoesProibidas": [
-
       ],
       "estagiosGruposSemaforicos": [
         {
@@ -447,13 +433,10 @@
         "idJson": "1a749926-2d09-428a-af72-f1ff6c1e2ddc"
       },
       "origemDeTransicoesProibidas": [
-
       ],
       "destinoDeTransicoesProibidas": [
-
       ],
       "alternativaDeTransicoesProibidas": [
-
       ],
       "estagiosGruposSemaforicos": [
         {
@@ -478,13 +461,10 @@
         "idJson": "690566ee-88cd-466e-8aa2-482b2fbf37f8"
       },
       "origemDeTransicoesProibidas": [
-
       ],
       "destinoDeTransicoesProibidas": [
-
       ],
       "alternativaDeTransicoesProibidas": [
-
       ],
       "estagiosGruposSemaforicos": [
         {
@@ -506,13 +486,10 @@
         "idJson": "f62e47bc-4f5c-4fd7-a3a8-224aa672cd2a"
       },
       "origemDeTransicoesProibidas": [
-
       ],
       "destinoDeTransicoesProibidas": [
-
       ],
       "alternativaDeTransicoesProibidas": [
-
       ],
       "estagiosGruposSemaforicos": [
         {
@@ -537,13 +514,10 @@
         "idJson": "30457fa1-abcf-451f-bc11-48ea02459e86"
       },
       "origemDeTransicoesProibidas": [
-
       ],
       "destinoDeTransicoesProibidas": [
-
       ],
       "alternativaDeTransicoesProibidas": [
-
       ],
       "estagiosGruposSemaforicos": [
         {
@@ -573,7 +547,6 @@
         }
       ],
       "destinoDeTransicoesProibidas": [
-
       ],
       "alternativaDeTransicoesProibidas": [
         {
@@ -617,7 +590,6 @@
         }
       ],
       "verdesConflitantesDestino": [
-
       ],
       "estagiosGruposSemaforicos": [
         {
@@ -658,7 +630,6 @@
         "idJson": "64bbdc2f-af35-47ef-a400-2d936f0ba5ca"
       },
       "verdesConflitantesOrigem": [
-
       ],
       "verdesConflitantesDestino": [
         {
@@ -715,7 +686,6 @@
         }
       ],
       "verdesConflitantesDestino": [
-
       ],
       "estagiosGruposSemaforicos": [
         {
@@ -761,7 +731,6 @@
         }
       ],
       "verdesConflitantesDestino": [
-
       ],
       "estagiosGruposSemaforicos": [
         {
@@ -801,7 +770,6 @@
         }
       ],
       "verdesConflitantesDestino": [
-
       ],
       "estagiosGruposSemaforicos": [
         {
@@ -851,7 +819,6 @@
         "idJson": "35603881-ddc3-43f3-a23e-a9336559222a"
       },
       "verdesConflitantesOrigem": [
-
       ],
       "verdesConflitantesDestino": [
         {
@@ -891,7 +858,6 @@
         "idJson": "62e76d34-3622-491c-a08b-09060c615528"
       },
       "verdesConflitantesOrigem": [
-
       ],
       "verdesConflitantesDestino": [
         {
@@ -957,7 +923,6 @@
         }
       ],
       "verdesConflitantesDestino": [
-
       ],
       "estagiosGruposSemaforicos": [
         {
@@ -1010,7 +975,6 @@
         "idJson": "051c3cda-c1df-496f-aa4f-08b0ce71e3d5"
       },
       "verdesConflitantesOrigem": [
-
       ],
       "verdesConflitantesDestino": [
         {
@@ -1050,7 +1014,6 @@
         "idJson": "64bbdc2f-af35-47ef-a400-2d936f0ba5ca"
       },
       "verdesConflitantesOrigem": [
-
       ],
       "verdesConflitantesDestino": [
         {
@@ -1093,7 +1056,6 @@
         "idJson": "64bbdc2f-af35-47ef-a400-2d936f0ba5ca"
       },
       "verdesConflitantesOrigem": [
-
       ],
       "verdesConflitantesDestino": [
         {
@@ -1210,7 +1172,6 @@
         }
       ],
       "verdesConflitantesDestino": [
-
       ],
       "estagiosGruposSemaforicos": [
         {
@@ -2232,7 +2193,6 @@
         "idJson": "3a9178c9-a7a7-422a-91b3-04791bac9b58"
       },
       "tabelaEntreVerdesTransicoes": [
-
       ],
       "grupoSemaforico": {
         "idJson": "346bd583-d423-420f-88ce-f60e45f89608"
@@ -2253,7 +2213,6 @@
         "idJson": "c6e04335-87ac-417d-9eac-c289d9cbabf5"
       },
       "tabelaEntreVerdesTransicoes": [
-
       ],
       "grupoSemaforico": {
         "idJson": "26cb3522-49bc-429b-9b47-81ec3d5cd895"
@@ -2274,7 +2233,6 @@
         "idJson": "455674e9-bf20-4184-b3a4-314a31510086"
       },
       "tabelaEntreVerdesTransicoes": [
-
       ],
       "grupoSemaforico": {
         "idJson": "0870874e-3f4f-436b-afe9-48068f5ded61"
@@ -2295,7 +2253,6 @@
         "idJson": "c6e04335-87ac-417d-9eac-c289d9cbabf5"
       },
       "tabelaEntreVerdesTransicoes": [
-
       ],
       "grupoSemaforico": {
         "idJson": "26cb3522-49bc-429b-9b47-81ec3d5cd895"
@@ -2316,7 +2273,6 @@
         "idJson": "7b6b4ea9-5357-498d-8f58-1a84ccd7eae6"
       },
       "tabelaEntreVerdesTransicoes": [
-
       ],
       "grupoSemaforico": {
         "idJson": "7201b1f9-a9c6-47da-80f4-e3d9a75b0e6c"
@@ -2337,7 +2293,6 @@
         "idJson": "c2c6cfe6-91df-4741-af7d-44efe5687c9b"
       },
       "tabelaEntreVerdesTransicoes": [
-
       ],
       "grupoSemaforico": {
         "idJson": "48eb3a83-6420-4535-9518-c7f771913a5e"
@@ -2358,7 +2313,6 @@
         "idJson": "73eef446-be3e-40be-b201-8e395e29f4ec"
       },
       "tabelaEntreVerdesTransicoes": [
-
       ],
       "grupoSemaforico": {
         "idJson": "8b0b3de5-e47f-4f8b-96d0-93749fec9f6f"
@@ -2379,7 +2333,6 @@
         "idJson": "c2c6cfe6-91df-4741-af7d-44efe5687c9b"
       },
       "tabelaEntreVerdesTransicoes": [
-
       ],
       "grupoSemaforico": {
         "idJson": "20f30fe4-28c2-48b0-a925-21ef2e508f51"
@@ -2400,7 +2353,6 @@
         "idJson": "c2c6cfe6-91df-4741-af7d-44efe5687c9b"
       },
       "tabelaEntreVerdesTransicoes": [
-
       ],
       "grupoSemaforico": {
         "idJson": "30f681ff-6c30-4684-a750-4c2594b6fd94"
@@ -2421,7 +2373,6 @@
         "idJson": "c2c6cfe6-91df-4741-af7d-44efe5687c9b"
       },
       "tabelaEntreVerdesTransicoes": [
-
       ],
       "grupoSemaforico": {
         "idJson": "48eb3a83-6420-4535-9518-c7f771913a5e"
@@ -2442,7 +2393,6 @@
         "idJson": "3a9178c9-a7a7-422a-91b3-04791bac9b58"
       },
       "tabelaEntreVerdesTransicoes": [
-
       ],
       "grupoSemaforico": {
         "idJson": "346bd583-d423-420f-88ce-f60e45f89608"
@@ -2463,7 +2413,6 @@
         "idJson": "d389917b-22b5-4010-bf3b-ec01f3003717"
       },
       "tabelaEntreVerdesTransicoes": [
-
       ],
       "grupoSemaforico": {
         "idJson": "e5303cc6-31bc-4819-960c-3ca419a59172"
@@ -2484,7 +2433,6 @@
         "idJson": "658eb0ea-09fe-4eb0-afff-5c7037439e7c"
       },
       "tabelaEntreVerdesTransicoes": [
-
       ],
       "grupoSemaforico": {
         "idJson": "7201b1f9-a9c6-47da-80f4-e3d9a75b0e6c"
@@ -2505,7 +2453,6 @@
         "idJson": "c2c6cfe6-91df-4741-af7d-44efe5687c9b"
       },
       "tabelaEntreVerdesTransicoes": [
-
       ],
       "grupoSemaforico": {
         "idJson": "30f681ff-6c30-4684-a750-4c2594b6fd94"
@@ -2526,7 +2473,6 @@
         "idJson": "6fc56ffb-00a0-4d1d-b44c-b474af68b027"
       },
       "tabelaEntreVerdesTransicoes": [
-
       ],
       "grupoSemaforico": {
         "idJson": "6cf9d919-ab06-4166-a0fa-4d1f214e50f1"
@@ -2547,7 +2493,6 @@
         "idJson": "00ed7109-594c-4e42-aed4-8778bc02706d"
       },
       "tabelaEntreVerdesTransicoes": [
-
       ],
       "grupoSemaforico": {
         "idJson": "c7c4dfbb-b2e1-4616-bc7c-a1f989734734"
@@ -2568,7 +2513,6 @@
         "idJson": "c2c6cfe6-91df-4741-af7d-44efe5687c9b"
       },
       "tabelaEntreVerdesTransicoes": [
-
       ],
       "grupoSemaforico": {
         "idJson": "2e41f7a1-7019-442b-9c3d-51eb9237c08e"
@@ -2589,7 +2533,6 @@
         "idJson": "6fc56ffb-00a0-4d1d-b44c-b474af68b027"
       },
       "tabelaEntreVerdesTransicoes": [
-
       ],
       "grupoSemaforico": {
         "idJson": "48eb3a83-6420-4535-9518-c7f771913a5e"
@@ -2610,7 +2553,6 @@
         "idJson": "c6e04335-87ac-417d-9eac-c289d9cbabf5"
       },
       "tabelaEntreVerdesTransicoes": [
-
       ],
       "grupoSemaforico": {
         "idJson": "6cf9d919-ab06-4166-a0fa-4d1f214e50f1"
@@ -2631,7 +2573,6 @@
         "idJson": "c2c6cfe6-91df-4741-af7d-44efe5687c9b"
       },
       "tabelaEntreVerdesTransicoes": [
-
       ],
       "grupoSemaforico": {
         "idJson": "20f30fe4-28c2-48b0-a925-21ef2e508f51"
@@ -2652,7 +2593,6 @@
         "idJson": "c6e04335-87ac-417d-9eac-c289d9cbabf5"
       },
       "tabelaEntreVerdesTransicoes": [
-
       ],
       "grupoSemaforico": {
         "idJson": "8f29849f-2360-459b-be1b-bb85bd36a04a"
@@ -2673,7 +2613,6 @@
         "idJson": "c6e04335-87ac-417d-9eac-c289d9cbabf5"
       },
       "tabelaEntreVerdesTransicoes": [
-
       ],
       "grupoSemaforico": {
         "idJson": "6cf9d919-ab06-4166-a0fa-4d1f214e50f1"
@@ -2694,7 +2633,6 @@
         "idJson": "6fc56ffb-00a0-4d1d-b44c-b474af68b027"
       },
       "tabelaEntreVerdesTransicoes": [
-
       ],
       "grupoSemaforico": {
         "idJson": "2e41f7a1-7019-442b-9c3d-51eb9237c08e"
@@ -2715,7 +2653,6 @@
         "idJson": "c2c6cfe6-91df-4741-af7d-44efe5687c9b"
       },
       "tabelaEntreVerdesTransicoes": [
-
       ],
       "grupoSemaforico": {
         "idJson": "2e41f7a1-7019-442b-9c3d-51eb9237c08e"
@@ -2736,7 +2673,6 @@
         "idJson": "c6e04335-87ac-417d-9eac-c289d9cbabf5"
       },
       "tabelaEntreVerdesTransicoes": [
-
       ],
       "grupoSemaforico": {
         "idJson": "8f29849f-2360-459b-be1b-bb85bd36a04a"
@@ -2757,7 +2693,6 @@
         "idJson": "7b6b4ea9-5357-498d-8f58-1a84ccd7eae6"
       },
       "tabelaEntreVerdesTransicoes": [
-
       ],
       "grupoSemaforico": {
         "idJson": "7201b1f9-a9c6-47da-80f4-e3d9a75b0e6c"
@@ -2778,7 +2713,6 @@
         "idJson": "6fc56ffb-00a0-4d1d-b44c-b474af68b027"
       },
       "tabelaEntreVerdesTransicoes": [
-
       ],
       "grupoSemaforico": {
         "idJson": "20f30fe4-28c2-48b0-a925-21ef2e508f51"
@@ -2799,7 +2733,6 @@
         "idJson": "658eb0ea-09fe-4eb0-afff-5c7037439e7c"
       },
       "tabelaEntreVerdesTransicoes": [
-
       ],
       "grupoSemaforico": {
         "idJson": "7201b1f9-a9c6-47da-80f4-e3d9a75b0e6c"
@@ -4044,7 +3977,6 @@
         }
       ],
       "subareas": [
-
       ]
     },
     {

@@ -207,7 +207,6 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
         });
 
 
-
         agrupamentoRetornado.setDiaDaSemana(DiaDaSemana.SEXTA);
         agrupamentoRetornado.setHorario(LocalTime.parse("13:00:00"));
 

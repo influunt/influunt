@@ -702,16 +702,16 @@ public class Controlador extends Model implements Cloneable, Serializable {
      */
     public void removerPlanosTabelasHorarios() {
         getAneis().forEach(anel -> {
-            if(anel.getVersaoPlano() != null) {
+            if (anel.getVersaoPlano() != null) {
                 anel.getVersaoPlano().delete();
             }
             anel.getPlanos().forEach(Plano::delete);
         });
 
-        if(getTabelaHoraria() != null) {
+        if (getTabelaHoraria() != null) {
             getTabelaHoraria().delete();
         }
-        if(getVersaoTabelaHoraria() != null) {
+        if (getVersaoTabelaHoraria() != null) {
             getVersaoTabelaHoraria().delete();
         }
     }

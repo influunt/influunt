@@ -376,7 +376,7 @@ angular.module('influuntApp')
         var title = $filter('translate')('agrupamentos.eventosPopup.title'),
             text = $filter('translate')('agrupamentos.eventosPopup.text');
 
-        return influuntAlert.alert(title, text)
+        return influuntAlert.ask(title, text)
           .then(function(criarEventos) {
             $scope.criarEventos = criarEventos;
             $scope.save(formValido);
