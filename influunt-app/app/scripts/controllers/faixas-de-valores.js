@@ -31,7 +31,6 @@ angular.module('influuntApp')
           .catch(function(err) {
             if (err.status === 422) {
               $scope.errors = handleValidations.handle(err.data);
-              console.log($scope.errors)
             } else {
               toast.error($filter('translate')('geral.mensagens.default_erro'));
               throw new Error(JSON.stringify(err));
