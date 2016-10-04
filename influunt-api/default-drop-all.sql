@@ -66,6 +66,9 @@ drop index if exists ix_estagios_planos_estagio_que_recebe_estagio_dispensavel_3
 alter table eventos drop constraint if exists fk_eventos_tabela_horario_id;
 drop index if exists ix_eventos_tabela_horario_id;
 
+alter table eventos drop constraint if exists fk_eventos_agrupamento_id;
+drop index if exists ix_eventos_agrupamento_id;
+
 alter table grupos_semaforicos drop constraint if exists fk_grupos_semaforicos_anel_id;
 drop index if exists ix_grupos_semaforicos_anel_id;
 
