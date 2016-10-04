@@ -22,9 +22,9 @@ angular.module('influuntApp')
        * @return     {boolean}  { description_of_the_return_value }
        */
       $scope.assertTransicoesProibidas = function() {
-        var valid = assertControlador.hasAneis($scope.objeto) && assertControlador.hasEstagios($scope.objeto);
+        var valid = assertControlador.assertStepTransicoesProibidas($scope.objeto);
         if (!valid) {
-          $state.go('app.wizard_controladores.verdes_conflitantes', {id: $scope.objeto.id});
+          $state.go('app.wizard_controladores.associacao', {id: $scope.objeto.id});
         }
 
         return valid;
