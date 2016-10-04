@@ -72,6 +72,9 @@ angular.module('influuntApp')
 
             $scope.currentVersaoTabelaHorariaIndex = _.findIndex($scope.objeto.versoesTabelasHorarias, {statusVersao: 'EDITANDO'});
             if ($scope.currentVersaoTabelaHorariaIndex === -1) {
+             $scope.currentVersaoTabelaHorariaIndex = _.findIndex($scope.objeto.versoesTabelasHorarias, {statusVersao: 'CONFIGURADO'});
+            }
+            if ($scope.currentVersaoTabelaHorariaIndex === -1) {
              $scope.currentVersaoTabelaHorariaIndex = _.findIndex($scope.objeto.versoesTabelasHorarias, {statusVersao: 'ATIVO'});
             }
 
