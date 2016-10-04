@@ -6,18 +6,8 @@
       tooltip-template="{{tooltip}}"
       type="button"
       permission permission-only="'criarControlador'"
-      data-ng-click="goToStep(route, routeParams)"
+      data-ng-click="onClick()"
       data-dismiss="modal">
     <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
   </button>
-  <!-- <a class="btn btn-primary btn-sm"
-      data-ng-if="condition"
-      tooltips tooltip-side="bottom"
-      tooltip-template="{{tooltip}}"
-      type="button"
-      href="{{ route }}"
-      permission permission-only="'criarControlador'"
-      data-dismiss="modal">
-    <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
-  </a> -->
 </div>

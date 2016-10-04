@@ -22,15 +22,8 @@ angular.module('influuntApp')
       objeto: '=',
       scope: {
         condition: '=',
-        route: '=',
-        routeParams: '=',
+        onClick: '&',
         tooltip: '@'
-      },
-      link: function(scope) {
-        scope.goToStep = function(route, params) {
-console.log('goToStep', route, params)
-          $state.go(route, params);
-        };
       }
     };
   }]);

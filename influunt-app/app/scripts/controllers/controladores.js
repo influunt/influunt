@@ -430,14 +430,36 @@ angular.module('influuntApp')
       };
 
 
-      $scope.copiar = function(controladorId) {
+      $scope.editarEmRevisao = function(controlador, step) {
+        if (controlador.statusControlador === 'EM_CONFIGURACAO' || controlador.statusControlador === 'EM_EDICAO') {
+          $scope.configurar(controlador.id, step);
+        } else {
+          $scope.copiar(controlador.id, step);
+        }
+      };
+
+      $scope.copiar = function(controladorId, step) {
+        step = step || 'app.wizard_controladores.dados_basicos';
         return Restangular.one('controladores', controladorId).all("edit").customPOST()
           .then(function(res) {
-            $state.go('app.wizard_controladores.dados_basicos',{id: res.id});
+            $state.go(step,{id: res.id});
           })
           .catch(function(err) {
             toast.error($filter('translate')('geral.mensagens.default_erro'));
             throw new Error(JSON.stringify(err));
+          })
+          .finally(influuntBlockui.unblock);
+      };
+
+      $scope.configurar = function(controladorId, step) {
+        step = step || 'app.wizard_controladores.dados_basicos';
+        return Restangular.one('controladores', controladorId).all('pode_editar').customGET()
+          .then(function() {
+            $state.go(step,{id: controladorId});
+          })
+          .catch(function(err) {
+            toast.clear();
+            influuntAlert.alert('Controlador', err.data[0].message);
           })
           .finally(influuntBlockui.unblock);
       };
@@ -451,18 +473,6 @@ angular.module('influuntApp')
           .catch(function(err) {
             toast.error($filter('translate')('geral.mensagens.default_erro'));
             throw new Error(JSON.stringify(err));
-          })
-          .finally(influuntBlockui.unblock);
-      };
-
-      $scope.configurar = function(controladorId) {
-        return Restangular.one('controladores', controladorId).all('pode_editar').customGET()
-          .then(function() {
-            $state.go('app.wizard_controladores.dados_basicos',{id: controladorId});
-          })
-          .catch(function(err) {
-            toast.clear();
-            influuntAlert.alert('Controlador', err.data[0].message);
           })
           .finally(influuntBlockui.unblock);
       };
