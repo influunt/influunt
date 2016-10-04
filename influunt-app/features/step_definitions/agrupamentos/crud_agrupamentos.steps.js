@@ -40,7 +40,7 @@ module.exports = function() {
     return agrupamentosPage.newPage();
   });
 
-  this.Given(/^o usuario selecionar o valor "([^"]*)" no campo Controladores$/, function (valor) {
+  this.Given(/^o usuário selecionar o valor "([^"]*)" no campo Controladores$/, function (valor) {
     return agrupamentosPage.selecionarControlador(valor);
   });
 
