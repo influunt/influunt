@@ -236,9 +236,12 @@
                  permission-on-authorized="PermissionStrategies.enableElement"
                  permission-on-unauthorized="PermissionStrategies.disableElement">
         </div>
-        <div class="input-group">
-          <span class="input-group-addon">{{ 'faixas_de_valores.default' | translate }} {{ 'faixas_de_valores.veicular' | translate }}</span>
-          <input type="number" class="input-sm form-control" name="defaultTempoMaximoPermanenciaEstagioVeicular" ng-model="objeto.defaultTempoMaximoPermanenciaEstagioVeicular">
+        <div data-ng-class="{'has-error': errors.tempoMaximoPermanenciaEstagioVeicularValido || errors.tempoMaximoPermanenciaEstagioVeicularValido }">
+          <div class="input-group">
+            <span class="input-group-addon">{{ 'faixas_de_valores.default' | translate }} {{ 'faixas_de_valores.veicular' | translate }}</span>
+            <input type="number" class="input-sm form-control" name="defaultTempoMaximoPermanenciaEstagioVeicular" ng-model="objeto.defaultTempoMaximoPermanenciaEstagioVeicular">
+          </div>
+          <span class="help-block error-msg" data-ng-repeat="error in errors.tempoMaximoPermanenciaEstagioVeicularValido || errors.tempoMaximoPermanenciaEstagioVeicularValido">{{ error }}</span>
         </div>
       </div>
     </div>

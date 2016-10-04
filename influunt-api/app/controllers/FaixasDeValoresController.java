@@ -2,6 +2,9 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
 import be.objectify.deadbolt.java.actions.Dynamic;
+import checks.Erro;
+import checks.FaixaDeValoresCheck;
+import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.FaixasDeValores;
 import play.db.ebean.Transactional;
@@ -11,6 +14,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
@@ -42,14 +46,18 @@ public class FaixasDeValoresController extends Controller {
         }
 
         FaixasDeValores valoresParsed = Json.fromJson(json, FaixasDeValores.class);
-        if (valores.getId() == null) {
-            valoresParsed.save();
+        List<Erro> erros = new InfluuntValidator<FaixasDeValores>().validate(valoresParsed, javax.validation.groups.Default.class, FaixaDeValoresCheck.class);
+        if (erros.isEmpty()) {
+            if (valores.getId() == null) {
+                valoresParsed.save();
+            } else {
+                valoresParsed.setId(valores.getId());
+                valoresParsed.update();
+            }
+            return CompletableFuture.completedFuture(ok(Json.toJson(valoresParsed)));
         } else {
-            valoresParsed.setId(valores.getId());
-            valoresParsed.update();
+            return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
         }
-
-        return CompletableFuture.completedFuture(ok(Json.toJson(valoresParsed)));
     }
 
 }
