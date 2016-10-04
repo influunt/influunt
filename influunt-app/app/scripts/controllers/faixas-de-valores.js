@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('FaixasDeValoresCtrl', ['$controller', '$scope', '$filter', '$state', 'Restangular', 'influuntBlockui', 'toast', 'PermissionStrategies',
-    function ($controller, $scope, $filter, $state, Restangular, influuntBlockui, toast, PermissionStrategies) {
+  .controller('FaixasDeValoresCtrl', ['$controller', '$scope', '$filter', '$state', 'Restangular', 'influuntBlockui', 'toast', 'PermissionStrategies', 'handleValidations',
+    function ($controller, $scope, $filter, $state, Restangular, influuntBlockui, toast, PermissionStrategies, handleValidations) {
 
       var resourceName = 'faixas_de_valores';
 
@@ -28,9 +28,17 @@ angular.module('influuntApp')
           .then(function() {
             $state.go('app.main');
           })
+          .catch(function(err) {
+            if (err.status === 422) {
+              $scope.errors = handleValidations.handle(err.data);
+              console.log($scope.errors)
+            } else {
+              toast.error($filter('translate')('geral.mensagens.default_erro'));
+              throw new Error(JSON.stringify(err));
+            }
+          })
           .finally(function() {
             influuntBlockui.unblock();
-            toast.success($filter('translate')('geral.mensagens.salvo_com_sucesso'));
           });
       };
 
