@@ -69,8 +69,6 @@ Funcionalidade: tela de cadastro de agrupamentos
   Cenário: Exclusão de agrupamentos com confirmação do usuário
     Quando o usuário acessar a tela de listagem de agrupamentos
     E clicar no botão de excluir um agrupamento
-    Então sistema deverá mostar um alerta se deseja atualizar tabela horária
-    E o usuário responde sim
     Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir o agrupamento
     Quando o usuário responde sim
     Então o item deverá ser excluido
