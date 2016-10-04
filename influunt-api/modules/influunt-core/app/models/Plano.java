@@ -252,7 +252,7 @@ public class Plano extends Model implements Cloneable, Serializable {
     }
 
     @AssertTrue(groups = PlanosCheck.class,
-            message = "A sequência de estagio não é válida.")
+            message = "A sequência de estágios não é válida.")
     public boolean isPosicaoUnicaEstagio() {
         if (!this.getEstagiosPlanos().isEmpty()) {
             return !(this.getEstagiosPlanos().size() != this.getEstagiosPlanos().stream().map(estagioPlano -> estagioPlano.getPosicao()).distinct().count());
@@ -294,7 +294,7 @@ public class Plano extends Model implements Cloneable, Serializable {
     }
 
     @AssertTrue(groups = PlanosCheck.class,
-            message = "A sequência de estagio não é válida.")
+            message = "A sequência de estágios não é válida.")
     public boolean isSequenciaInvalida() {
         if (!this.getEstagiosPlanos().isEmpty() && isPosicaoUnicaEstagio()) {
             return sequenciaDeEstagioValida(ordenarEstagiosPorPosicao());
@@ -302,9 +302,9 @@ public class Plano extends Model implements Cloneable, Serializable {
         return true;
     }
 
-    @AssertTrue(groups = PlanosCheck.class, message = "A sequência de estagio não é válida, pois existe uma transição proibida devido a não execução do estágio dispensável.")
+    @AssertTrue(groups = PlanosCheck.class, message = "A sequência de estágios não é válida, pois existe uma transição proibida devido a não execução do estágio dispensável.")
     public boolean isSequenciaInvalidaSeExisteEstagioDispensavel() {
-        if (!this.getEstagiosPlanos().isEmpty() && getEstagiosPlanos().stream().anyMatch(estagioPlano -> estagioPlano.isDispensavel())) {
+        if (!this.getEstagiosPlanos().isEmpty() && getEstagiosPlanos().stream().anyMatch(EstagioPlano::isDispensavel)) {
             return this.sequenciaDeEstagioValida(this.ordenarEstagiosPorPosicaoSemEstagioDispensavel());
         }
         return true;

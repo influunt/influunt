@@ -9,8 +9,8 @@
  * Método auxiliar para exibição de alerts.
  */
 angular.module('influuntApp')
-  .factory('influuntAlert', ['SweetAlert', '$q', '$filter',
-    function influuntAlert(SweetAlert, $q, $filter) {
+  .factory('influuntAlert', ['SweetAlert', '$q', '$filter', 'Objects',
+    function influuntAlert(SweetAlert, $q, $filter, Objects) {
 
       var defaultOptions = {
         showCancelButton: true,
@@ -38,7 +38,7 @@ angular.module('influuntApp')
        */
       var confirmPopup = function(title, text) {
         var defer = $q.defer(),
-            options = _.merge(defaultOptions, {
+            options = Objects.merge(defaultOptions, {
               title: title,
               text: text
             });
@@ -54,7 +54,7 @@ angular.module('influuntApp')
 
       var promptPopup = function(title, text) {
         var defer = $q.defer(),
-            options = _.merge(defaultOptions, {
+            options = Objects.merge(defaultOptions, {
               title: title,
               text: text,
               type: 'input'
@@ -80,7 +80,7 @@ angular.module('influuntApp')
 
       var askPopup = function(title, text) {
         var defer = $q.defer(),
-            options = _.merge(defaultOptions, {
+            options = Objects.merge(defaultOptions, {
               title: title,
               text: text,
               cancelButtonText: $filter('translate')('geral.mensagens.nao'),

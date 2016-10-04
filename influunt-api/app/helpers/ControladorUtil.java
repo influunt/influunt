@@ -253,6 +253,9 @@ public class ControladorUtil {
 
         controlador.getAneis().forEach(anel -> {
             VersaoPlano versaoPlanoOrigem = anel.getVersaoPlanoAtivo();
+            if (versaoPlanoOrigem == null) {
+                versaoPlanoOrigem = anel.getVersaoPlanoConfigurado();
+            }
             if (versaoPlanoOrigem != null) {
                 versaoPlanoOrigem.setStatusVersao(StatusVersao.ARQUIVADO);
 
@@ -318,7 +321,10 @@ public class ControladorUtil {
     public void deepCloneTabelaHoraria(Controlador controlador, Usuario usuario) {
         long startTime = System.nanoTime();
 
-        VersaoTabelaHoraria versaoTabelaHorariaOrigem = controlador.getVersaoTabelaHoraria();
+        VersaoTabelaHoraria versaoTabelaHorariaOrigem = controlador.getVersaoTabelaHorariaAtiva();
+        if (versaoTabelaHorariaOrigem == null) {
+            versaoTabelaHorariaOrigem = controlador.getVersaoTabelaHorariaConfigurada();
+        }
         if (versaoTabelaHorariaOrigem.getTabelaHoraria() != null) {
             TabelaHorario tabelaHorarioAux = copyPrimitveFields(versaoTabelaHorariaOrigem.getTabelaHoraria());
             tabelaHorarioAux.setIdJson(UUID.randomUUID().toString());

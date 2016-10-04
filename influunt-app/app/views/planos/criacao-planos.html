@@ -77,13 +77,13 @@
                                   data-ng-class="{active: $index === currentPlanoIndex}"
                                   class="item-menu",
                                   id="plano_{{plano.posicao}}">
-                                    <input type="checkbox" ichecks data-ng-model="plano.configurado" data-if-unchecked="resetarPlano(plano, $index)" data-is-disabled="$first" data-if-changed="selecionaPlano(plano, $index)" ng-if="!somenteVisualizacao">
+                                    <input type="checkbox" ichecks data-ng-model="plano.configurado" data-if-unchecked="resetarPlano(plano, $index)" data-is-disabled="plano.posicao === 1" data-if-changed="selecionaPlano(plano, $index)" ng-if="!somenteVisualizacao">
 
                                     <span class="nome-plano" data-ng-class="{configurado: plano.configurado}">
                                       {{'tabelaHorarios.plano' | translate}} {{ plano.modoOperacao === 'MANUAL' ? ('planos.modoManual' | translate) : plano.posicao }}
                                     </span>
                                     <span class="badge badge-danger badge-notification pull-right m-t-sm"
-                                        data-ng-if="getErroPorPlano($index)"
+                                        data-ng-if="planoTemErro($index)"
                                         style="margin-left: .3em;">
                                       <i class="fa fa-exclamation"></i>
                                     </span>
@@ -109,7 +109,7 @@
                           </div>
                           <div class="col-lg-10 col-sm-9" data-ng-if="currentPlano.configurado">
                             <div class="col-l-12 col-sm-12 border-bottom p-sm">
-                              <h1>{{'tabelaHorarios.plano' | translate}} {{ plano.posicao }} - {{ plano.descricao }}</h1>
+                              <h1>{{'tabelaHorarios.plano' | translate}} {{ currentPlano.modoOperacao === 'MANUAL' ? ('planos.modoManual' | translate) : currentPlano.posicao }} - {{ currentPlano.descricao }}</h1>
                             </div>
                             <div class="col-lg-2 col-sm-3">
                               <article>
