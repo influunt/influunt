@@ -244,8 +244,8 @@ public class ControladorPlanoTest extends ControladorTest {
                 new Erro(CONTROLADOR, "Tempo de verde máximo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoVerdeMaximo"),
                 new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoVerdeIntermediario"),
                 new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoExtensaoVerde"),
-                new Erro(CONTROLADOR, "A sequência de estagio não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
-                new Erro(CONTROLADOR, "A sequência de estagio não é válida.", "aneis[1].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
+                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
+                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[1].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].intervalos"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].intervalos"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[1].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].intervalos"),
@@ -281,8 +281,8 @@ public class ControladorPlanoTest extends ControladorTest {
                 new Erro(CONTROLADOR, "Tempo de verde máximo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoVerdeMaximo"),
                 new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoVerdeIntermediario"),
                 new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoExtensaoVerde"),
-                new Erro(CONTROLADOR, "A sequência de estagio não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
-                new Erro(CONTROLADOR, "A sequência de estagio não é válida.", "aneis[1].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
+                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
+                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[1].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].intervalos"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].intervalos"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[1].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].intervalos"),
@@ -344,8 +344,8 @@ public class ControladorPlanoTest extends ControladorTest {
                 new Erro(CONTROLADOR, "Tempo de verde máximo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoVerdeMaximo"),
                 new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoVerdeIntermediario"),
                 new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoExtensaoVerde"),
-                new Erro(CONTROLADOR, "A sequência de estagio não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
-                new Erro(CONTROLADOR, "A sequência de estagio não é válida.", "aneis[1].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
+                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
+                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[1].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].intervalos"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].intervalos"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[1].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].intervalos"),
@@ -399,8 +399,8 @@ public class ControladorPlanoTest extends ControladorTest {
                 new Erro(CONTROLADOR, "Tempo de verde máximo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoVerdeMaximo"),
                 new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoVerdeIntermediario"),
                 new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoExtensaoVerde"),
-                new Erro(CONTROLADOR, "A sequência de estagio não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
-                new Erro(CONTROLADOR, "A sequência de estagio não é válida.", "aneis[1].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
+                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
+                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[1].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
                 new Erro(CONTROLADOR, "O tempo de verde está menor que o tempo de segurança configurado.", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].respeitaVerdesDeSeguranca"),
                 new Erro(CONTROLADOR, "O tempo de verde está menor que o tempo de segurança configurado.", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].respeitaVerdesDeSeguranca"),
                 new Erro(CONTROLADOR, "O tempo de verde está menor que o tempo de segurança configurado.", "aneis[1].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].respeitaVerdesDeSeguranca"),
@@ -446,7 +446,7 @@ public class ControladorPlanoTest extends ControladorTest {
         assertEquals(8, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro(CONTROLADOR, "O tempo de verde intermediário deve estar entre os valores de verde mínimo e verde máximo.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeIntermediarioFieldEntreMinimoMaximo"),
-                new Erro(CONTROLADOR, "A sequência de estagio não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
+                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
                 new Erro(CONTROLADOR, "O tempo de estagio ultrapassa o tempo máximo de permanência.", "aneis[1].versoesPlanos[0].planos[0].estagiosPlanos[0].ultrapassaTempoMaximoPermanencia"),
                 new Erro(CONTROLADOR, "A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).", "aneis[1].versoesPlanos[0].planos[0].ultrapassaTempoCiclo"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].intervalos"),
@@ -464,7 +464,7 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(5, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "A sequência de estagio não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
+                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].intervalos"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].intervalos"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[1].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].intervalos"),
@@ -508,7 +508,7 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(5, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "A sequência de estagio não é válida.", "aneis[0].versoesPlanos[0].planos[0].sequenciaInvalida"),
+                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].sequenciaInvalida"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].intervalos"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].intervalos"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[1].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].intervalos"),
@@ -554,7 +554,7 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(5, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "A sequência de estagio não é válida.", "aneis[0].versoesPlanos[0].planos[0].sequenciaInvalida"),
+                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].sequenciaInvalida"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].intervalos"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].intervalos"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[1].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].intervalos"),
@@ -845,7 +845,7 @@ public class ControladorPlanoTest extends ControladorTest {
         List<Erro> erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "A sequência de estagio não é válida.", "aneis[0].versoesPlanos[0].planos[0].sequenciaInvalida")
+                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].sequenciaInvalida")
         ));
 
         criarEstagioPlano(anel, plano, new int[]{1, 4, 3, 2});
@@ -867,7 +867,7 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "A sequência de estagio não é válida, pois existe uma transição proibida devido a não execução do estágio dispensável.", "aneis[0].versoesPlanos[0].planos[0].sequenciaInvalidaSeExisteEstagioDispensavel")
+                new Erro(CONTROLADOR, "A sequência de estágios não é válida, pois existe uma transição proibida devido a não execução do estágio dispensável.", "aneis[0].versoesPlanos[0].planos[0].sequenciaInvalidaSeExisteEstagioDispensavel")
         ));
     }
 

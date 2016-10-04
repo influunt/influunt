@@ -307,7 +307,11 @@ angular.module('influuntApp')
 
       $scope.selecionaAnelPlanos = function(index) {
         selecionaAnel(index);
-        $scope.selecionaPlano($scope.currentPlanos[0], 0);
+        if ($scope.currentAnel.aceitaModoManual) {
+          $scope.selecionaPlano($scope.currentPlanos[1], 1);
+        } else {
+          $scope.selecionaPlano($scope.currentPlanos[0], 0);
+        }
       };
 
       $scope.selecionaPlano = function(plano, index) {
@@ -448,6 +452,11 @@ angular.module('influuntApp')
         return handleValidations.anelTemErro($scope.errors, indice);
       };
 
+      $scope.planoTemErro = function(index) {
+        var temErro = !!_.get($scope.errors, 'aneis[' + $scope.currentAnelIndex + '].versoesPlanos['+ $scope.currentVersaoPlanoIndex +'].planos['+ index +']');
+        return temErro;
+      };
+
       $scope.getErrosPlanos = function(listaErros) {
         var erros = _
           .chain(listaErros)
@@ -467,52 +476,71 @@ angular.module('influuntApp')
         return _.flatten(erros);
       };
 
-      getKeysErros = function(errors) {
-        var keysErrors = [];
-        _.forEach(errors, function(v, key){
-          if (typeof v !== 'undefined') {
-            keysErrors.push(key);
-          }
-        });
-        return keysErrors;
-      };
 
-      getIdJsonDePlanosQuePossuemErros = function (keysErrors) {
-        var errorsPlanoIdJson = [];
-        _.map(keysErrors, function(KeyError) {
-          var versaoPlanosByCurrentAnel = _.find($scope.objeto.versoesPlanos, {anel: {idJson: $scope.currentAnel.idJson}});
-          errorsPlanoIdJson.push(versaoPlanosByCurrentAnel.planos[KeyError].idJson);
-        });
-        return errorsPlanoIdJson;
-      };
 
-      getPlanoComErro = function (planos, errorsPlanoIdJson) {
-        var errorsPlanos = [];
 
-        errorsPlanos = _.chain(planos)
-          .filter(function(e) {
-            return errorsPlanoIdJson.indexOf(e.idJson) >= 0;
-         }).value();
-        return errorsPlanos;
-      };
+      // getKeysErros = function(errors) {
+      //   var keysErrors = [];
+      //   _.forEach(errors, function(v, key){
+      //     if (typeof v !== 'undefined' && v !== null) {
+      //       keysErrors.push(key);
+      //     }
+      //   });
+      //   return keysErrors;
+      // };
 
-      $scope.getErroPorPlano = function(index) {
-       var errors              = _.get($scope.errors, 'aneis[' + $scope.currentAnelIndex + '].versoesPlanos['+ $scope.currentVersaoPlanoIndex +'].planos');
-       var keysErrors          = getKeysErros(errors);
-       var errorsPlanoIdJson   = getIdJsonDePlanosQuePossuemErros(keysErrors);
-       var errorsInPlanos      = getPlanoComErro($scope.objeto.planos, errorsPlanoIdJson);
-       var errorsPosicao       = [];
+      // getIdJsonDePlanosQuePossuemErros = function (keysErrors) {
+      //   var errorsPlanoIdJson = [];
+      //   _.map(keysErrors, function(KeyError) {
+      //     var versaoPlanosByCurrentAnel = _.find($scope.objeto.versoesPlanos, {anel: {idJson: $scope.currentAnel.idJson}});
+      //     versaoPlanosByCurrentAnel.planos = _
+      //       .chain($scope.objeto.planos)
+      //       .orderBy('posicao')
+      //       .map(function(plano) { return { idJson: plano.idJson }; })
+      //       .value();
+      //     errorsPlanoIdJson.push(versaoPlanosByCurrentAnel.planos[KeyError].idJson);
+      //   });
+      //   return errorsPlanoIdJson;
+      // };
 
-        _.map(errorsInPlanos, function(errorInPlano) {
-          errorsPosicao.push(errorInPlano.posicao);
-        });
+      // getPlanoComErro = function (planos, errorsPlanoIdJson) {
+      //   var errorsPlanos = [];
 
-        var assertError = _.some(errorsPosicao, function(errorPosicao) {
-          return index === errorPosicao;
-        });
+      //   errorsPlanos = _.chain(planos)
+      //     .filter(function(e) {
+      //       return errorsPlanoIdJson.indexOf(e.idJson) >= 0;
+      //    }).value();
+      //   return errorsPlanos;
+      // };
 
-        return assertError;
-      };
+      // $scope.getErroPorPlano = function(index) {
+      //   $scope.objeto.planos = _.orderBy($scope.objeto.planos, 'posicao');
+      //   var errors              = _.get($scope.errors, 'aneis[' + $scope.currentAnelIndex + '].versoesPlanos['+ $scope.currentVersaoPlanoIndex +'].planos');
+      //   var keysErrors          = getKeysErros(errors);
+      //   var errorsPlanoIdJson   = getIdJsonDePlanosQuePossuemErros(keysErrors);
+      //   var errorsInPlanos      = getPlanoComErro($scope.objeto.planos, errorsPlanoIdJson);
+      //   var errorsPosicao       = [];
+
+      //   _.map(errorsInPlanos, function(errorInPlano) {
+      //     errorsPosicao.push(errorInPlano.posicao);
+      //   });
+
+      //   var assertError = _.some(errorsPosicao, function(errorPosicao) {
+      //     // console.log($scope)
+      //     // debugger
+      //     if (!$scope.currentAnel.aceitaModoManual) {
+      //       index = index + 1;
+      //     }
+      //     return index === errorPosicao;
+      //   });
+
+      //   return assertError;
+      // };
+
+
+
+
+
 
       $scope.getErrosEstagiosPlanos = function(index) {
         var erros = _.get($scope.errors, 'aneis[' + $scope.currentAnelIndex + '].versoesPlanos[' + $scope.currentVersaoPlanoIndex + '].planos[' + getIndexPlano($scope.currentAnel, $scope.currentPlano) + '].estagiosPlanos[' + index + ']');

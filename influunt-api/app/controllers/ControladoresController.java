@@ -122,7 +122,7 @@ public class ControladoresController extends Controller {
                 return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Arrays.asList(new Erro("editar", "usuário diferente do que está editando controlador!", "")))));
             }
 
-            if (controlador.getStatusControlador() == StatusControlador.ATIVO || controlador.getStatusControlador() == StatusControlador.CONFIGURADO) {
+            if (controlador.podeClonar()) {
                 Controlador controladorEdicao = controladorService.criarCloneControlador(controlador, getUsuario());
                 return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controladorEdicao)));
             }
@@ -144,18 +144,11 @@ public class ControladoresController extends Controller {
             return CompletableFuture.completedFuture(notFound());
         } else {
 
-            if (controlador.getStatusControlador() != StatusControlador.ATIVO
-                    && controlador.getStatusControlador() != StatusControlador.EM_CONFIGURACAO
-                    && controlador.getStatusControlador() != StatusControlador.EM_EDICAO) {
-
-                return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Arrays.asList(new Erro("clonar", "não é possível editar planos", "")))));
-            }
-
             if (controlador.getStatusControlador().equals(StatusControlador.EM_EDICAO) && !usuarioPodeEditarControlador(controlador, getUsuario())) {
                 return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Arrays.asList(new Erro("editar", "usuário diferente do que está editando planos", "")))));
             }
 
-            if (controlador.getStatusControlador() == StatusControlador.ATIVO) {
+            if (controlador.podeClonar()) {
                 controladorService.criarClonePlanos(controlador, getUsuario());
                 controlador.refresh();
                 return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador)));
@@ -178,18 +171,11 @@ public class ControladoresController extends Controller {
             return CompletableFuture.completedFuture(notFound());
         } else {
 
-            if (controlador.getStatusControlador() != StatusControlador.ATIVO
-                    && controlador.getStatusControlador() != StatusControlador.EM_CONFIGURACAO
-                    && controlador.getStatusControlador() != StatusControlador.EM_EDICAO) {
-
-                return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Arrays.asList(new Erro("clonar", "não é possível editar planos", "")))));
-            }
-
             if (controlador.getStatusControlador().equals(StatusControlador.EM_EDICAO) && !usuarioPodeEditarControlador(controlador, getUsuario())) {
                 return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Arrays.asList(new Erro("editar", "usuário diferente do que está editando planos", "")))));
             }
 
-            if (controlador.getStatusControlador() == StatusControlador.ATIVO) {
+            if (controlador.podeClonar()) {
                 controladorService.criarCloneTabelaHoraria(controlador, getUsuario());
                 controlador.refresh();
                 return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador)));
