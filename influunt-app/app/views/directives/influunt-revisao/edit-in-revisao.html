@@ -1,11 +1,23 @@
 <div class="right">
-  <a class="btn btn-primary btn-sm"
+  <button
+      class="btn btn-primary btn-sm"
       data-ng-if="condition"
       tooltips tooltip-side="bottom"
       tooltip-template="{{tooltip}}"
-      href="{{ route }}"
       type="button"
-      permission permission-only="'criarControlador'">
+      permission permission-only="'criarControlador'"
+      data-ng-click="goToStep(route, routeParams)"
+      data-dismiss="modal">
     <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
-  </a>
+  </button>
+  <!-- <a class="btn btn-primary btn-sm"
+      data-ng-if="condition"
+      tooltips tooltip-side="bottom"
+      tooltip-template="{{tooltip}}"
+      type="button"
+      href="{{ route }}"
+      permission permission-only="'criarControlador'"
+      data-dismiss="modal">
+    <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
+  </a> -->
 </div>

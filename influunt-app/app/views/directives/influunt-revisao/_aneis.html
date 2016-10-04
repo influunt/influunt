@@ -8,7 +8,8 @@
   <div class="ui-layout-content tab-content">
     <div class="col-lg-12 col-sm-12 no-padding-left padding-top-20 text-left">
       <edit-in-revisao condition="assertControlador.assertStepAneis(objeto)"
-          route="$state.href('app.wizard_controladores.aneis', { id: objeto.id })"
+          route="'app.wizard_controladores.aneis'"
+          route-params="{ id: objeto.id }"
           tooltip="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.aneis.titulo' | translate }}">
       </edit-in-revisao>
 
@@ -36,7 +37,8 @@
           </div>
           <div class="col-lg-3 col-sm-3" style="margin-top: 15px;">
             <edit-in-revisao condition="assertControlador.assertStepConfiguracaoGrupos(objeto)"
-                route="$state.href('app.wizard_controladores.configuracao_grupo', { id: objeto.id })"
+                route="'app.wizard_controladores.configuracao_grupo'"
+                route-params="{ id: objeto.id }"
                 tooltip="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.gruposSemaforicos.titulo' | translate }}">
             </edit-in-revisao>
           </div>
@@ -52,7 +54,8 @@
           </div>
           <div class="col-lg-3 col-sm-3 no-padding-right" style="margin-top: 15px;">
             <edit-in-revisao condition="assertControlador.assertStepAssociacao(objeto)"
-                route="$state.href('app.wizard_controladores.associacao', { id: objeto.id })"
+                route="'app.wizard_controladores.associacao'"
+                route-params="{ id: objeto.id }"
                 tooltip="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.associacao.titulo' | translate }}">
             </edit-in-revisao>
           </div>
@@ -70,7 +73,8 @@
           </div>
           <div class="col-lg-3 col-sm-3" style="margin-top: 15px;">
             <edit-in-revisao condition="assertControlador.assertStepVerdesConflitantes(objeto)"
-                route="$state.href('app.wizard_controladores.verdes_conflitantes', { id: objeto.id })"
+                route="'app.wizard_controladores.verdes_conflitantes'"
+                route-params="{ id: objeto.id }"
                 tooltip="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.verdesConflitantes.titulo' | translate }}">
             </edit-in-revisao>
           </div>
@@ -86,7 +90,8 @@
           </div>
           <div class="col-lg-3 col-sm-3 no-padding-right" style="margin-top: 15px;">
             <edit-in-revisao condition="assertControlador.assertStepTransicoesProibidas(objeto)"
-                route="$state.href('app.wizard_controladores.transicoes_proibidas', { id: objeto.id })"
+                route="'app.wizard_controladores.transicoes_proibidas'"
+                route-params="{ id: objeto.id }"
                 tooltip="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.transicoesProibidas.titulo' | translate }}">
             </edit-in-revisao>
           </div>
@@ -106,7 +111,8 @@
             </div>
             <div class="col-lg-3 col-sm-3" style="margin-top: 15px;">
               <edit-in-revisao condition="assertControlador.assertStepEntreVerdes(objeto)"
-                  route="$state.href('app.wizard_controladores.entre_verdes', { id: objeto.id })"
+                  route="'app.wizard_controladores.entre_verdes'"
+                  route-params="{ id: objeto.id }"
                   tooltip="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.entreVerdes.titulo' | translate }}">
               </edit-in-revisao>
             </div>
@@ -126,7 +132,8 @@
             </div>
             <div class="col-lg-3 col-sm-3 no-padding-right" style="margin-top: 15px;">
               <edit-in-revisao condition="assertControlador.assertStepAtrasoDeGrupo(objeto)"
-                  route="$state.href('app.wizard_controladores.atraso_de_grupo', { id: objeto.id })"
+                  route="'app.wizard_controladores.atraso_de_grupo'"
+                  route-params="{ id: objeto.id }"
                   tooltip="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.atrasoDeGrupo.titulo' | translate }}">
               </edit-in-revisao>
             </div>
@@ -149,7 +156,8 @@
             </div>
             <div class="col-lg-3 col-sm-3" style="margin-top: 15px;">
               <edit-in-revisao condition="assertControlador.assertStepAssociacaoDetectores(objeto)"
-                  route="$state.href('app.wizard_controladores.associacao_detectores', { id: objeto.id })"
+                  route="'app.wizard_controladores.associacao_detectores'"
+                  route-params="{ id: objeto.id }"
                   tooltip="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.associacaoDetectores.titulo' | translate }}">
               </edit-in-revisao>
             </div>

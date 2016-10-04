@@ -15,7 +15,7 @@ angular.module('influuntApp')
     };
   })
 
-  .directive('editInRevisao', function () {
+  .directive('editInRevisao', ['$state', function ($state) {
     return {
       restrict: 'E',
       templateUrl: 'views/directives/influunt-revisao/edit-in-revisao.html',
@@ -23,7 +23,14 @@ angular.module('influuntApp')
       scope: {
         condition: '=',
         route: '=',
+        routeParams: '=',
         tooltip: '@'
+      },
+      link: function(scope) {
+        scope.goToStep = function(route, params) {
+console.log('goToStep', route, params)
+          $state.go(route, params);
+        };
       }
     };
-  });
+  }]);
