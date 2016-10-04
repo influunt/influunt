@@ -9,26 +9,26 @@ describe('Service: removerPlanosTabelasHorarias', function () {
 
   it('verifica se envia a requisicao se tiver versão Plano', function () {
     var scope = {objeto: {versoesPlanos: [{idJson: 'vp1'}], versoesTabelasHorarias: []}};
-    expect(true, removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor(scope.objeto));
-    expect(true, scope.objeto.enviadoRemoverPlanosETabelaHoraria);
+    expect(removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor(scope.objeto)).toBeTruthy();
+    expect(scope.objeto.enviadoRemoverPlanosETabelaHoraria).toBeTruthy();
 
-    expect(false, removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor(scope.objeto));
+    expect(removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor(scope.objeto)).toBeFalsy();
   });
   
   it('verifica se envia a requisicao se tiver versão tabela horaria', function () {
     var scope = {objeto: {versoesPlanos: [], versoesTabelasHorarias: [{idJson: 'vth1'}]}};
-    expect(true, removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor(scope.objeto));
-    expect(true, scope.objeto.enviadoRemoverPlanosETabelaHoraria);
+    expect(removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor(scope.objeto)).toBeTruthy();
+    expect(scope.objeto.enviadoRemoverPlanosETabelaHoraria).toBeTruthy();
 
-    expect(false, removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor(scope.objeto));
+    expect(removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor(scope.objeto)).toBeFalsy();
   });
 
   it('não envia a requisao caso não tenha versoesPlanos e não tenha versoesTabelasHorarias', function () {
     var scope = {objeto: {versoesPlanos: [], versoesTabelasHorarias: []}};
-    expect(false, removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor(scope.objeto));
-    expect(false, scope.objeto.enviadoRemoverPlanosETabelaHoraria);
+    expect(removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor(scope.objeto)).toBeFalsy();
+    expect(scope.objeto.enviadoRemoverPlanosETabelaHoraria).toBeFalsy();
 
-    expect(false, removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor(scope.objeto));
+    expect(removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor(scope.objeto)).toBeFalsy();
   });
 
 });
