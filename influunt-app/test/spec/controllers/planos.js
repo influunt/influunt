@@ -191,7 +191,7 @@ describe('Controller: PlanosCtrl', function () {
 
     it('Badge de erro deve aparecer na posição correta', function() {
       scope.selecionaAnelPlanos(0);
-      scope.errors = {"aneis":[{"versoesPlanos":[{"planos":[{"ultrapassaTempoCiclo":["A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s)."]},null,{"ultrapassaTempoCiclo":["A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s)."]}]}],"all":[{"planos":[{"ultrapassaTempoCiclo":["A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s)."]},null,{"ultrapassaTempoCiclo":["A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s)."]}]}]}]};
+      scope.errors = {'aneis':[{'versoesPlanos':[{'planos':[{'ultrapassaTempoCiclo':['A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).']},null,{'ultrapassaTempoCiclo':['A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).']}]}],'all':[{'planos':[{'ultrapassaTempoCiclo':['A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).']},null,{'ultrapassaTempoCiclo':['A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).']}]}]}]};
 
       expect(scope.planoTemErro(0)).toBe(true);
       expect(scope.planoTemErro(1)).toBe(false);
@@ -208,7 +208,7 @@ describe('Controller: PlanosCtrl', function () {
 
     it('Badge de erro deve aparecer na posição correta', function() {
       scope.selecionaAnelPlanos(0);
-      scope.errors = {"aneis":[{"versoesPlanos":[{"planos":[null, {"ultrapassaTempoCiclo":["A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s)."]},null,{"ultrapassaTempoCiclo":["A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s)."]}]}],"all":[{"planos":[{"ultrapassaTempoCiclo":["A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s)."]},null,{"ultrapassaTempoCiclo":["A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s)."]}]}]}]};
+      scope.errors = {'aneis':[{'versoesPlanos':[{'planos':[null, {'ultrapassaTempoCiclo':['A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).']},null,{'ultrapassaTempoCiclo':['A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).']}]}],'all':[{'planos':[{'ultrapassaTempoCiclo':['A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).']},null,{'ultrapassaTempoCiclo':['A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).']}]}]}]};
 
       expect(scope.planoTemErro(0)).toBe(false);
       expect(scope.planoTemErro(1)).toBe(true);
