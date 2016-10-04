@@ -183,4 +183,19 @@ describe('Controller: PlanosCtrl', function () {
       expect(scope.currentPlano.estagiosPlanos.length).toBe(3);
     });
   });
+
+  describe('erros ao salvar', function () {
+    beforeEach(function() {
+      beforeEachFn(ControladorComPlanos);
+    });
+
+    it('Badge de erro deve aparecer na posição correta', function() {
+      scope.selecionaAnelPlanos(0);
+      scope.errors = {"aneis":[{"versoesPlanos":[{"planos":[{"ultrapassaTempoCiclo":["A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s)."]},null,{"ultrapassaTempoCiclo":["A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s)."]}]}],"all":[{"planos":[{"ultrapassaTempoCiclo":["A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s)."]},null,{"ultrapassaTempoCiclo":["A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s)."]}]}]}]};
+
+      expect(scope.getErroPorPlano(0)).toBe(true);
+      expect(scope.getErroPorPlano(1)).toBe(false);
+      expect(scope.getErroPorPlano(2)).toBe(true);
+    });
+  });
 });

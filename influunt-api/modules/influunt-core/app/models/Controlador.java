@@ -715,4 +715,8 @@ public class Controlador extends Model implements Cloneable, Serializable {
             getVersaoTabelaHoraria().delete();
         }
     }
+
+    public boolean podeClonar() {
+        return getStatusControlador() == StatusControlador.ATIVO || getStatusControlador() == StatusControlador.CONFIGURADO;
+    }
 }

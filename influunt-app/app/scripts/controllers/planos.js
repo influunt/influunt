@@ -470,7 +470,7 @@ angular.module('influuntApp')
       getKeysErros = function(errors) {
         var keysErrors = [];
         _.forEach(errors, function(v, key){
-          if (typeof v !== 'undefined') {
+          if (typeof v !== 'undefined' && v !== null) {
             keysErrors.push(key);
           }
         });
@@ -481,6 +481,11 @@ angular.module('influuntApp')
         var errorsPlanoIdJson = [];
         _.map(keysErrors, function(KeyError) {
           var versaoPlanosByCurrentAnel = _.find($scope.objeto.versoesPlanos, {anel: {idJson: $scope.currentAnel.idJson}});
+          versaoPlanosByCurrentAnel.planos = _
+            .chain($scope.objeto.planos)
+            .orderBy('posicao')
+            .map(function(plano) { return { idJson: plano.idJson }; })
+            .value();
           errorsPlanoIdJson.push(versaoPlanosByCurrentAnel.planos[KeyError].idJson);
         });
         return errorsPlanoIdJson;
@@ -497,18 +502,19 @@ angular.module('influuntApp')
       };
 
       $scope.getErroPorPlano = function(index) {
-       var errors              = _.get($scope.errors, 'aneis[' + $scope.currentAnelIndex + '].versoesPlanos['+ $scope.currentVersaoPlanoIndex +'].planos');
-       var keysErrors          = getKeysErros(errors);
-       var errorsPlanoIdJson   = getIdJsonDePlanosQuePossuemErros(keysErrors);
-       var errorsInPlanos      = getPlanoComErro($scope.objeto.planos, errorsPlanoIdJson);
-       var errorsPosicao       = [];
+        $scope.objeto.planos = _.orderBy($scope.objeto.planos, 'posicao')
+        var errors              = _.get($scope.errors, 'aneis[' + $scope.currentAnelIndex + '].versoesPlanos['+ $scope.currentVersaoPlanoIndex +'].planos');
+        var keysErrors          = getKeysErros(errors);
+        var errorsPlanoIdJson   = getIdJsonDePlanosQuePossuemErros(keysErrors);
+        var errorsInPlanos      = getPlanoComErro($scope.objeto.planos, errorsPlanoIdJson);
+        var errorsPosicao       = [];
 
         _.map(errorsInPlanos, function(errorInPlano) {
           errorsPosicao.push(errorInPlano.posicao);
         });
 
         var assertError = _.some(errorsPosicao, function(errorPosicao) {
-          return index === errorPosicao;
+          return (index + 1) === errorPosicao;
         });
 
         return assertError;

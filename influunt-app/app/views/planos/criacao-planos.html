@@ -76,7 +76,6 @@
                                   data-ng-click="selecionaPlano(plano, $index)"
                                   data-ng-class="{active: $index === currentPlanoIndex}"
                                   class="item-menu",
-
                                   id="plano_{{plano.posicao}}">
                                     <input type="checkbox" ichecks data-ng-model="plano.configurado" data-if-unchecked="resetarPlano(plano, $index)" data-is-disabled="$first" data-if-changed="selecionaPlano(plano, $index)" ng-if="!somenteVisualizacao">
 
