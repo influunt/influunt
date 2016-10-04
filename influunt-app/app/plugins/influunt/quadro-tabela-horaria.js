@@ -100,6 +100,7 @@ var influunt;
                   slot.index = trocas[dia][hora][minuto].index;
                   ultimo = slot.state;
                 }else {
+                  ultimo = ultimo || slot.state;
                   slot.state = ultimo;
                 }
               }
