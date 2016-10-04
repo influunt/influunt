@@ -85,7 +85,6 @@ angular.module('influuntApp')
           return false;
         }
 
-        // if (!$scope.currentTransicoesProibidas) debugger;
         var transicao = 'E' + estagio1.posicao + '-E' + estagio2.posicao;
         if ($scope.currentTransicoesProibidas.hasOwnProperty(transicao)) {
           desativarTransicaoProibida(estagio1, estagio2);

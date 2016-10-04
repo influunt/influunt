@@ -51,9 +51,15 @@ angular.module('influuntApp')
         return false;
       }
 
-      var gruposSemaforicos = _.chain(controlador.aneis).map('gruposSemaforicos').value();
-      var transicoes = _.chain(gruposSemaforicos).map('transicoes').value();
-      return transicoes.length >= gruposSemaforicos.length;
+      var gruposSemaforicos = _.chain(controlador.aneis).map('gruposSemaforicos').flatten().compact().value();
+      return gruposSemaforicos.length > 0 &&
+        gruposSemaforicos
+          .map(function(i) {
+            return _.find(controlador.gruposSemaforicos, {idJson: i.idJson});
+          })
+          .every(function(i) {
+            return _.isArray(i.transicoes) && i.transicoes.length > 0;
+          });
     };
 
     /**
@@ -203,11 +209,11 @@ angular.module('influuntApp')
 
       assertStepAneis: assertStepAneis,
       assertStepConfiguracaoGrupos: assertStepConfiguracaoGrupos,
-      assertStepAssociacao: assertStepAssociacao,
       assertStepVerdesConflitantes: assertStepVerdesConflitantes,
+      assertStepAssociacao: assertStepAssociacao,
       assertStepTransicoesProibidas: assertStepTransicoesProibidas,
-      assertStepAtrasoDeGrupo: assertStepAtrasoDeGrupo,
       assertStepEntreVerdes: assertStepEntreVerdes,
+      assertStepAtrasoDeGrupo: assertStepAtrasoDeGrupo,
       assertStepAssociacaoDetectores: assertStepAssociacaoDetectores
     };
   });
