@@ -8,14 +8,20 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresCtrl', ['$controller', '$scope', '$state', '$filter', 'Restangular', '$q', 'handleValidations', 'APP_ROOT', 'influuntBlockui', 'toast', 'influuntAlert', 'STATUS_CONTROLADOR', 'breadcrumbs',
-    function ($controller, $scope, $state, $filter, Restangular, $q, handleValidations, APP_ROOT, influuntBlockui, toast, influuntAlert, STATUS_CONTROLADOR, breadcrumbs) {
+  .controller('ControladoresCtrl', ['$controller', '$scope', '$state', '$filter', 'Restangular', '$q',
+                                    'handleValidations', 'APP_ROOT', 'influuntBlockui', 'toast', 'influuntAlert',
+                                    'STATUS_CONTROLADOR', 'breadcrumbs', 'assertControlador',
+    function ($controller, $scope, $state, $filter, Restangular, $q,
+              handleValidations, APP_ROOT, influuntBlockui, toast, influuntAlert,
+              STATUS_CONTROLADOR, breadcrumbs, assertControlador, ) {
 
       var setLocalizacaoNoCurrentAnel;
       // Herda todo o comportamento do crud basico.
       $controller('CrudCtrl', {$scope: $scope});
       $scope.inicializaNovoCrud('controladores');
       $scope.hideRemoveCoordenada = true;
+
+      $scope.assertControlador = assertControlador;
 
       // Seta URL para salvar imagens
       $scope.dados = {
