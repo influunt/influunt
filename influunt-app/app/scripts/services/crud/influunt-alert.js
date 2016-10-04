@@ -12,6 +12,15 @@ angular.module('influuntApp')
   .factory('influuntAlert', ['SweetAlert', '$q', '$filter',
     function influuntAlert(SweetAlert, $q, $filter) {
 
+      var defaultOptions = {
+        showCancelButton: true,
+        confirmButtonColor: '#DD6B55',
+        closeOnConfirm: true,
+        closeOnCancel: true,
+        confirmButtonText: $filter('translate')('geral.mensagens.sim'),
+        cancelButtonText: $filter('translate')('geral.mensagens.cancelar')
+      };
+
       var alertPopup = function(title, text) {
         SweetAlert.swal({
           type: 'warning',
@@ -29,16 +38,10 @@ angular.module('influuntApp')
        */
       var confirmPopup = function(title, text) {
         var defer = $q.defer(),
-            options = {
+            options = _merge(defaultOptions, {
               title: title,
-              text: text,
-              showCancelButton: true,
-              confirmButtonColor: '#DD6B55',
-              confirmButtonText: $filter('translate')('geral.mensagens.sim'),
-              cancelButtonText: $filter('translate')('geral.mensagens.cancelar'),
-              closeOnConfirm: true,
-              closeOnCancel: true
-            };
+              text: text
+            });
 
         SweetAlert.swal(options, function (confirmado) {
           setTimeout(function() {
@@ -50,22 +53,17 @@ angular.module('influuntApp')
       };
 
       var promptPopup = function(title, text) {
-        var defer = $q.defer();
-        SweetAlert.swal(
-          {
-            title: title,
-            text: text,
-            type: 'input',
-            showCancelButton: true,
-            confirmButtonColor: '#DD6B55',
-            confirmButtonText: $filter('translate')('geral.mensagens.sim'),
-            cancelButtonText: $filter('translate')('geral.mensagens.cancelar'),
-            closeOnConfirm: true,
-            closeOnCancel: true
-          }, function (inputvalue) {
-            setTimeout(function() {
-              defer.resolve(inputvalue);
-            }, 100);
+        var defer = $q.defer(),
+            options = _merge(defaultOptions, {
+              title: title,
+              text: text,
+              type: 'input'
+            });
+
+        SweetAlert.swal(options, function (inputvalue) {
+          setTimeout(function() {
+            defer.resolve(inputvalue);
+          }, 100);
         });
 
         return defer.promise;
@@ -80,11 +78,29 @@ angular.module('influuntApp')
         return confirmPopup(title, text);
       };
 
+      var askPopup = function(title, text) {
+        var defer = $q.defer(),
+            options = _.merge(defaultOptions, {
+              title: title,
+              text: text,
+              cancelButtonText: $filter('translate')('geral.mensagens.nao'),
+            });
+
+        SweetAlert.swal(options, function (confirmado) {
+          setTimeout(function() {
+            defer.resolve(confirmado);
+          }, 100);
+        });
+
+        return defer.promise;
+      };
+
       return  {
         alert: alertPopup,
         confirm: confirmPopup,
         delete: deleteAlert,
-        prompt: promptPopup
+        prompt: promptPopup,
+        ask: askPopup
       };
 
     }]);

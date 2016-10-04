@@ -134,6 +134,10 @@ public class Controlador extends Model implements Cloneable, Serializable {
     @Transient
     private VersaoTabelaHoraria versaoTabelaHorariaEmEdicao;
 
+    @JsonIgnore
+    @Transient
+    private VersaoTabelaHoraria versaoTabelaHorariaConfigurada;
+
     public static Controlador isValido(Object conteudo) {
         JsonNode controladorJson = play.libs.Json.parse(conteudo.toString());
         Controlador controlador = new ControladorCustomDeserializer().getControladorFromJson(controladorJson);
@@ -467,17 +471,17 @@ public class Controlador extends Model implements Cloneable, Serializable {
     }
 
     public TabelaHorario getTabelaHoraria() {
-        if (getVersaoTabelaHorariaEmEdicao() != null) {
-            return getVersaoTabelaHorariaEmEdicao().getTabelaHoraria();
+        if (getVersaoTabelaHoraria() != null) {
+            return getVersaoTabelaHoraria().getTabelaHoraria();
         }
-        return getVersaoTabelaHorariaAtiva() != null ? getVersaoTabelaHorariaAtiva().getTabelaHoraria() : null;
+        return null;
     }
 
     @Transient
     public VersaoTabelaHoraria getVersaoTabelaHorariaAtiva() {
         if (versaoTabelaHorariaAtiva == null) {
             if (getVersoesTabelasHorarias() != null && !getVersoesTabelasHorarias().isEmpty()) {
-                this.versaoTabelaHorariaAtiva = getVersoesTabelasHorarias().stream().filter(versaoTabelaHoraria -> versaoTabelaHoraria.isAtivo()).findFirst().orElse(null);
+                this.versaoTabelaHorariaAtiva = getVersoesTabelasHorarias().stream().filter(VersaoTabelaHoraria::isAtivo).findFirst().orElse(null);
             }
         }
         return versaoTabelaHorariaAtiva;
@@ -487,16 +491,28 @@ public class Controlador extends Model implements Cloneable, Serializable {
     public VersaoTabelaHoraria getVersaoTabelaHorariaEmEdicao() {
         if (versaoTabelaHorariaEmEdicao == null) {
             if (getVersoesTabelasHorarias() != null && !getVersoesTabelasHorarias().isEmpty()) {
-                this.versaoTabelaHorariaEmEdicao = getVersoesTabelasHorarias().stream().filter(versaoTabelaHoraria -> versaoTabelaHoraria.isEditando()).findFirst().orElse(null);
+                this.versaoTabelaHorariaEmEdicao = getVersoesTabelasHorarias().stream().filter(VersaoTabelaHoraria::isEditando).findFirst().orElse(null);
             }
         }
         return versaoTabelaHorariaEmEdicao;
     }
 
     @Transient
+    public VersaoTabelaHoraria getVersaoTabelaHorariaConfigurada() {
+        if (versaoTabelaHorariaConfigurada == null) {
+            if (getVersoesTabelasHorarias() != null && !getVersoesTabelasHorarias().isEmpty()) {
+                this.versaoTabelaHorariaConfigurada = getVersoesTabelasHorarias().stream().filter(VersaoTabelaHoraria::isConfigurada).findFirst().orElse(null);
+            }
+        }
+        return versaoTabelaHorariaConfigurada;
+    }
+
+    @Transient
     public VersaoTabelaHoraria getVersaoTabelaHoraria() {
         if (getVersaoTabelaHorariaEmEdicao() != null) {
             return getVersaoTabelaHorariaEmEdicao();
+        } else if (getVersaoTabelaHorariaConfigurada() != null) {
+            return getVersaoTabelaHorariaConfigurada();
         } else if (getVersaoTabelaHorariaAtiva() != null) {
             return getVersaoTabelaHorariaAtiva();
         }
@@ -671,14 +687,14 @@ public class Controlador extends Model implements Cloneable, Serializable {
     }
 
     public boolean isConfigurado() {
-        setEndereco(getEndereco());
-        getAneis().forEach(anel -> anel.setEndereco(anel.getEndereco()));
+        getEndereco().getAlturaNumerica();
+        getAneis().stream().filter(Anel::isAtivo).forEach(anel -> anel.getEndereco().getAlturaNumerica());
+        getVersoesTabelasHorarias().forEach(versaoTabelaHoraria -> versaoTabelaHoraria.getTabelaHoraria().getVersaoTabelaHoraria());
 
         return new InfluuntValidator<Controlador>().validate(this, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
                 ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
                 ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
                 ControladorAssociacaoDetectoresCheck.class).size() == 0;
-
     }
 
     /**
@@ -689,7 +705,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
             if(anel.getVersaoPlano() != null) {
                 anel.getVersaoPlano().delete();
             }
-            anel.getPlanos().forEach(plano -> plano.delete());
+            anel.getPlanos().forEach(Plano::delete);
         });
 
         if(getTabelaHoraria() != null) {

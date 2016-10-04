@@ -83,6 +83,9 @@ public class Agrupamento extends Model implements Cloneable, Serializable {
     @NotNull(message = "não pode ficar em branco")
     private LocalTime horario;
 
+    @OneToMany(cascade = CascadeType.REMOVE)
+    private List<Evento> eventos;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
@@ -248,5 +251,30 @@ public class Agrupamento extends Model implements Cloneable, Serializable {
             return p.getTempoCiclo();
         }
         return 1;
+    }
+
+    public void criarEventos() {
+        List<Evento> eventos = Evento.find.where().eq("agrupamento_id", getId().toString()).findList();
+        eventos.forEach(Evento::delete);
+
+        for (Anel anel : getAneis()) {
+            TabelaHorario tabela = anel.getControlador().getTabelaHoraria();
+            if (tabela != null) {
+                Evento evento = new Evento();
+                evento.setTabelaHorario(tabela);
+                evento.setTipo(TipoEvento.NORMAL);
+                evento.setPosicaoPlano(getPosicaoPlano());
+                evento.setDiaDaSemana(getDiaDaSemana());
+                evento.setHorario(getHorario());
+                evento.setAgrupamento(this);
+                List<Evento> eventoPosicao = Evento.find.select("posicao").where().eq("tabela_horario_id", tabela.getId()).orderBy("posicao desc").setMaxRows(1).findList();
+                if (!eventoPosicao.isEmpty()) {
+                    evento.setPosicao(eventoPosicao.get(0).getPosicao() + 1);
+                } else {
+                    evento.setPosicao(1);
+                }
+                evento.save();
+            }
+        }
     }
 }

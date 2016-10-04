@@ -45,7 +45,7 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
         modeloControlador.setDescricao("Modelo 1");
         modeloControlador.save();
 
-        return new ControladorTestUtil(area, subarea, fabricante, modeloControlador).getControladorPlanos();
+        return new ControladorTestUtil(area, subarea, fabricante, modeloControlador).getControladorTabelaHorario();
     }
 
     private Agrupamento getAgrupamento() {
@@ -112,6 +112,39 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
     }
 
     @Test
+    public void testCriarNovoAgrupamentoComEventos() {
+        Controlador controlador = getControlador();
+        controlador.save();
+        Agrupamento agrupamento = getAgrupamento();
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
+                .uri(routes.AgrupamentosController.create().url() + "?criarEventos=true").bodyJson(Json.toJson(agrupamento));
+        Result result = route(request);
+        assertEquals(200, result.status());
+        assertEquals(1, Agrupamento.find.findRowCount());
+
+        JsonNode json = Json.parse(Helpers.contentAsString(result));
+        Agrupamento agrupamentoRetornado = Json.fromJson(json, Agrupamento.class);
+        assertEquals(agrupamento.getTipo(), agrupamentoRetornado.getTipo());
+        assertEquals(agrupamento.getNome(), agrupamentoRetornado.getNome());
+        assertEquals(agrupamento.getNumero(), agrupamentoRetornado.getNumero());
+        assertEquals(agrupamento.getDescricao(), agrupamentoRetornado.getDescricao());
+        assertEquals(agrupamento.getDiaDaSemana(), agrupamentoRetornado.getDiaDaSemana());
+        assertEquals(agrupamento.getHorario(), agrupamentoRetornado.getHorario());
+        assertEquals(agrupamento.getPosicaoPlano(), agrupamentoRetornado.getPosicaoPlano());
+
+        List<Evento> eventos = Evento.find.where().eq("agrupamento_id", agrupamentoRetornado.getId()).findList();
+        assertEquals(agrupamento.getAneis().size(), eventos.size());
+        eventos.forEach(evento -> {
+            assertEquals(agrupamento.getDiaDaSemana(), evento.getDiaDaSemana());
+            assertEquals(agrupamento.getHorario(), evento.getHorario());
+            assertEquals(agrupamento.getPosicaoPlano(), evento.getPosicaoPlano());
+            assertEquals(TipoEvento.NORMAL, evento.getTipo());
+        });
+    }
+
+
+    @Test
     public void testAtualizarAgrupamentoNaoExistente() {
         Agrupamento agrupamento = new Agrupamento();
 
@@ -154,6 +187,48 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
         assertEquals("Agrupamento de Teste", agrupamentoRetornado.getDescricao());
         assertEquals(2, agrupamentoRetornado.getAneis().size());
     }
+
+    @Test
+    public void testAtualizarAgrupamentoComEventos() {
+        Agrupamento agrupamento = getAgrupamento();
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
+                .uri(routes.AgrupamentosController.create().url() + "?criarEventos=true").bodyJson(Json.toJson(agrupamento));
+        Result result = route(request);
+        assertEquals(200, result.status());
+        JsonNode json = Json.parse(Helpers.contentAsString(result));
+        Agrupamento agrupamentoRetornado = Json.fromJson(json, Agrupamento.class);
+
+        List<Evento> eventos = Evento.find.where().eq("agrupamento_id", agrupamentoRetornado.getId()).findList();
+        assertEquals(agrupamentoRetornado.getAneis().size(), eventos.size());
+        eventos.forEach(evento -> {
+            assertEquals(DiaDaSemana.DOMINGO, evento.getDiaDaSemana());
+            assertEquals(LocalTime.MIDNIGHT, evento.getHorario());
+        });
+
+
+
+        agrupamentoRetornado.setDiaDaSemana(DiaDaSemana.SEXTA);
+        agrupamentoRetornado.setHorario(LocalTime.parse("13:00:00"));
+
+        request = new Http.RequestBuilder().method("PUT")
+                .uri(routes.AgrupamentosController.update(agrupamentoRetornado.getId().toString()).url() + "?criarEventos=true")
+                .bodyJson(Json.toJson(agrupamentoRetornado));
+        result = route(request);
+        assertEquals(200, result.status());
+        json = Json.parse(Helpers.contentAsString(result));
+        agrupamentoRetornado = Json.fromJson(json, Agrupamento.class);
+
+        List<Evento> novosEventos = Evento.find.where().eq("agrupamento_id", agrupamentoRetornado.getId()).findList();
+        assertEquals(agrupamentoRetornado.getAneis().size(), novosEventos.size());
+        novosEventos.forEach(evento -> {
+            assertNotEquals(eventos.get(0).getId(), evento.getId());
+            assertNotEquals(eventos.get(1).getId(), evento.getId());
+            assertEquals(DiaDaSemana.SEXTA, evento.getDiaDaSemana());
+            assertEquals(LocalTime.parse("13:00:00"), evento.getHorario());
+        });
+    }
+
 
     @Test
     public void testApagarAgrupamentoExistente() {
