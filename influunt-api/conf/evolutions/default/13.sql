@@ -12,7 +12,4 @@ create index ix_eventos_agrupamento_id on eventos (agrupamento_id);
 alter table eventos drop foreign key fk_eventos_agrupamento_id;
 drop index ix_eventos_agrupamento_id on eventos;
 
-ALTER TABLE `eventos` DROP COLUMN `agrupamento_id`
-
-
-
+ALTER TABLE `eventos` DROP COLUMN `agrupamento_id`;

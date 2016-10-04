@@ -297,7 +297,7 @@ angular.module('influuntApp')
         if (!angular.isArray($scope.objeto.aneis)) {
           $scope.objeto.aneis = [];
         }
-        var controlador = _.find($scope.controladores, function(c) { return _.findIndex(c.aneis, { id: anelId }) > -1; })
+        var controlador = _.find($scope.controladores, function(c) { return _.findIndex(c.aneis, { id: anelId }) > -1; });
         $scope.objeto.aneis.push({ id: anelId, controlador: { id: controlador.id } });
       };
 
@@ -381,7 +381,7 @@ angular.module('influuntApp')
             $scope.criarEventos = criarEventos;
             $scope.save(formValido);
           });
-      }
+      };
 
       $scope.create = function() {
         return Restangular

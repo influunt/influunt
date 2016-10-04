@@ -40,10 +40,6 @@ public class Agrupamento extends Model implements Cloneable, Serializable {
 
     public static Finder<UUID, Agrupamento> find = new Finder<UUID, Agrupamento>(Agrupamento.class);
 
-    public Agrupamento() {
-        this.idJson = UUID.randomUUID().toString();
-    }
-
     @Id
     private UUID id;
 
@@ -97,6 +93,11 @@ public class Agrupamento extends Model implements Cloneable, Serializable {
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
+
+    public Agrupamento() {
+        this.idJson = UUID.randomUUID().toString();
+    }
+
 
     public String getIdJson() {
         return idJson;
@@ -276,5 +277,13 @@ public class Agrupamento extends Model implements Cloneable, Serializable {
                 evento.save();
             }
         }
+    }
+
+    public List<Evento> getEventos() {
+        return eventos;
+    }
+
+    public void setEventos(List<Evento> eventos) {
+        this.eventos = eventos;
     }
 }
