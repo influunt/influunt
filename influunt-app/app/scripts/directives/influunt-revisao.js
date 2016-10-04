@@ -15,7 +15,7 @@ angular.module('influuntApp')
     };
   })
 
-  .directive('editInRevisao', ['$state', function ($state) {
+  .directive('editInRevisao', function () {
     return {
       restrict: 'E',
       templateUrl: 'views/directives/influunt-revisao/edit-in-revisao.html',
@@ -26,4 +26,4 @@ angular.module('influuntApp')
         tooltip: '@'
       }
     };
-  }]);
+  });
