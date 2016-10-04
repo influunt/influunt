@@ -11,8 +11,14 @@ angular.module('influuntApp')
   .service('removerPlanosTabelasHorarias',['Restangular', 'influuntBlockui',
    function (Restangular, influuntBlockui) {
 
-    var deletarPlanosTabelasHorariosNoServidor = function(controladorId) {
-      return Restangular.one('controladores', controladorId).customDELETE('remover_planos_tabelas_horarios').finally(influuntBlockui.unblock);
+    var deletarPlanosTabelasHorariosNoServidor = function(controlador) {
+      controlador.versoesPlanos = controlador.versoesPlanos || [];
+      controlador.versoesTabelasHorarias = controlador.versoesTabelasHorarias || [];
+      if(!controlador.enviadoRemoverPlanosETabelaHoraria && (controlador.versoesPlanos.length > 0 || controlador.versoesTabelasHorarias.length > 0)){
+        controlador.enviadoRemoverPlanosETabelaHoraria = true;
+        return Restangular.one('controladores', controlador.id).customDELETE('remover_planos_tabelas_horarios').finally(influuntBlockui.unblock);
+      }
+      return false;
     };
 
     return {

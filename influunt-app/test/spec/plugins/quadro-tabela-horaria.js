@@ -354,7 +354,7 @@
   });
   
   describe('Quadro de horários - Preenchimento da volta', function() {
-    var dias, eventos, resposta, i;
+    var dias, eventos, resposta;
     var dom = 'dom';
     var seg = 'seg';
     var ter = 'ter';
@@ -437,42 +437,13 @@
           idJson: 'evento-1-JSON',
           posicao: 1,
           diaDaSemana: 'SEGUNDA',
-          tabelaHoraria: { 
+          tabelaHoraria: {
             idJson: 'th-1-JSON'
           },
           tipo: 'NORMAL',
           horario: '8:0:0'
         }
       ];
-    });
-
-    describe('descricao da resposta', function() {
-      beforeEach(function() {
-        var quadroHorarioBuilder = new influunt.components.QuadroTabelaHorario(dias, []);
-        resposta = quadroHorarioBuilder.calcula();
-      });
-
-      it('Deve ter uma lista para cada dia da semana', function() {
-        expect(_.size(resposta)).toBe(7);
-      });
-
-      it('Deve ter 24 intervalos para cada lista', function() {
-        expect(resposta[dom].length).toBe(24);
-        expect(resposta[seg].length).toBe(24);
-        expect(resposta[ter].length).toBe(24);
-        expect(resposta[qua].length).toBe(24);
-        expect(resposta[qui].length).toBe(24);
-        expect(resposta[sex].length).toBe(24);
-        expect(resposta[sab].length).toBe(24);
-      });
-
-      it('Todos os intervalos devem ser vazios', function() {
-        _.forEach(resposta, function(intervalos){
-          _.forEach(intervalos, function(intervalo){
-            expect('unset').toBe(intervalo[0].state);
-          });
-        });
-      });
     });
 
     describe('descricao da resposta', function() {

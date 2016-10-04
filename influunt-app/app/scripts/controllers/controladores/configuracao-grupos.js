@@ -57,7 +57,7 @@ angular.module('influuntApp')
         $scope.currentAnel.gruposSemaforicos.push({ idJson: obj.idJson });
 
         $scope.atualizaGruposSemaforicos();
-        removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor($scope.objeto.id);
+        removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor($scope.objeto);
         return atualizaPosicaoGrupos();
       };
 
@@ -71,7 +71,7 @@ angular.module('influuntApp')
             }
 
             $scope.atualizaGruposSemaforicos();
-            removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor($scope.objeto.id);
+            removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor($scope.objeto);
             return atualizaPosicaoGrupos();
           }
         });
@@ -129,11 +129,13 @@ angular.module('influuntApp')
         var posicao = 0;
         _.each($scope.aneis, function(anel){
           _.chain(anel.gruposSemaforicos)
+          .map(function (grupo){
+            return _.find($scope.objeto.gruposSemaforicos, {idJson: grupo.idJson});
+          })
           .orderBy(['posicao'])
           .each(function(grupo){
-            var grupoSemaforico = _.find($scope.objeto.gruposSemaforicos, {idJson: grupo.idJson});
-            if (!grupoSemaforico._destroy) {
-              grupoSemaforico.posicao = ++posicao;
+            if (!grupo._destroy) {
+              grupo.posicao = ++posicao;
             }
           })
           .value();
