@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresCtrl', ['$controller', '$scope', '$state', '$filter', 'Restangular', '$q', 'handleValidations', 'APP_ROOT', 'influuntBlockui', 'toast', 'influuntAlert', 'STATUS_CONTROLADOR',
-    function ($controller, $scope, $state, $filter, Restangular, $q, handleValidations, APP_ROOT, influuntBlockui, toast, influuntAlert, STATUS_CONTROLADOR) {
+  .controller('ControladoresCtrl', ['$controller', '$scope', '$state', '$filter', 'Restangular', '$q', 'handleValidations', 'APP_ROOT', 'influuntBlockui', 'toast', 'influuntAlert', 'STATUS_CONTROLADOR', 'breadcrumbs',
+    function ($controller, $scope, $state, $filter, Restangular, $q, handleValidations, APP_ROOT, influuntBlockui, toast, influuntAlert, STATUS_CONTROLADOR, breadcrumbs) {
 
       var setLocalizacaoNoCurrentAnel;
       // Herda todo o comportamento do crud basico.
@@ -200,6 +200,7 @@ angular.module('influuntApp')
         $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
         $scope.currentAnel = $scope.objeto.aneis[$scope.currentAnelIndex];
         setLocalizacaoNoCurrentAnel($scope.currentAnel);
+        breadcrumbs.setNomeEndereco($scope.currentAnel.localizacao);
       };
 
       setLocalizacaoNoCurrentAnel = function(currentAnel){

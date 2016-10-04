@@ -11,7 +11,7 @@
  * Factory in the influuntApp.
  */
 angular.module('influuntApp')
-  .factory('breadcrumbs', ['$state', function ($state) {
+  .service('breadcrumbs', ['$state', '$rootScope', function ($state, $rootScope) {
     /**
      * Monta a estrutura de breadcrumbs do topo de todas as páginas.
      *
@@ -52,8 +52,13 @@ angular.module('influuntApp')
       return breadcrumb;
     };
 
+    var setNomeEndereco = function(localizacao){
+      $rootScope.controladorLocalizacao = localizacao;
+    };
+
 
     return {
-      path: path
+      path: path,
+      setNomeEndereco: setNomeEndereco
     };
   }]);
