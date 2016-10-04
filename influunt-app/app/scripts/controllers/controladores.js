@@ -13,7 +13,7 @@ angular.module('influuntApp')
                                     'STATUS_CONTROLADOR', 'breadcrumbs', 'assertControlador',
     function ($controller, $scope, $state, $filter, Restangular, $q,
               handleValidations, APP_ROOT, influuntBlockui, toast, influuntAlert,
-              STATUS_CONTROLADOR, breadcrumbs, assertControlador, ) {
+              STATUS_CONTROLADOR, breadcrumbs, assertControlador) {
 
       var setLocalizacaoNoCurrentAnel;
       // Herda todo o comportamento do crud basico.
