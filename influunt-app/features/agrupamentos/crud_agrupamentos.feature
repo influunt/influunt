@@ -4,6 +4,7 @@ Funcionalidade: tela de cadastro de agrupamentos
 
   @agrupamentos1
   Cenário: Listagem de agrupamentos
+    Dado que exista ao menos um controlador cadastrado no sistema
     Dado que exista ao menos um agrupamento cadastrado no sistema
     Quando o usuário acessar a tela de listagem de agrupamentos
     Então deve ser exibida uma lista com os agrupamentos já cadastrados no sistema

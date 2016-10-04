@@ -14,6 +14,8 @@ drop index if exists ix_areas_cidade_id;
 
 alter table atrasos_de_grupos drop constraint if exists fk_atrasos_de_grupos_transicao_id;
 
+alter table controladores drop constraint if exists fk_controladores_croqui_id;
+
 alter table controladores drop constraint if exists fk_controladores_modelo_id;
 drop index if exists ix_controladores_modelo_id;
 
@@ -90,6 +92,12 @@ drop index if exists ix_permissoes_perfis_perfis;
 
 alter table permissoes_perfis drop constraint if exists fk_permissoes_perfis_permissoes;
 drop index if exists ix_permissoes_perfis_permissoes;
+
+alter table permissoes_app_permissoes drop constraint if exists fk_permissoes_app_permissoes_permissoes_app;
+drop index if exists ix_permissoes_app_permissoes_permissoes_app;
+
+alter table permissoes_app_permissoes drop constraint if exists fk_permissoes_app_permissoes_permissoes;
+drop index if exists ix_permissoes_app_permissoes_permissoes;
 
 alter table planos drop constraint if exists fk_planos_versao_plano_id;
 drop index if exists ix_planos_versao_plano_id;
@@ -216,6 +224,10 @@ drop table if exists perfis;
 drop table if exists permissoes_perfis;
 
 drop table if exists permissoes;
+
+drop table if exists permissoes_app;
+
+drop table if exists permissoes_app_permissoes;
 
 drop table if exists planos;
 

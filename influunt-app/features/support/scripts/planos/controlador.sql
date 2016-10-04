@@ -54,14 +54,14 @@ VALUES
 
 INSERT INTO `controladores` (`id`, `id_json`, `nome_endereco`, `status_controlador`, `sequencia`, `numero_smee`, `numero_smeeconjugado1`, `numero_smeeconjugado2`, `numero_smeeconjugado3`, `firmware`, `modelo_id`, `area_id`, `subarea_id`, `data_criacao`, `data_atualizacao`)
 VALUES
-  ('21440a8c-764d-4605-a23e-ef3103c9f544',NULL,'Av. Paulista com R. Bela Cintra',1,1,NULL,NULL,NULL,NULL,NULL,'24c6f1e4-8661-11e6-9678-1f0de452edaf','24bc8524-8661-11e6-9678-1f0de452edaf',NULL,'2016-09-29 13:25:30.457000','2016-09-29 13:30:42.648000');
+  ('21440a8c-764d-4605-a23e-ef3103c9f544',NULL,'Av. Paulista com R. Bela Cintra',0,1,NULL,NULL,NULL,NULL,NULL,'24c6f1e4-8661-11e6-9678-1f0de452edaf','24bc8524-8661-11e6-9678-1f0de452edaf',NULL,'2016-09-29 13:25:30.457000','2016-09-29 13:30:42.648000');
 
-INSERT INTO `aneis` (`id`, `id_json`, `ativo`, `descricao`, `posicao`, `numero_smee`, `controlador_id`, `croqui_id`, `data_criacao`, `data_atualizacao`)
+INSERT INTO `aneis` (`id`, `id_json`, `ativo`, `descricao`, `posicao`, `numero_smee`, `aceita_modo_manual`, `controlador_id`, `croqui_id`, `data_criacao`, `data_atualizacao`)
 VALUES
-  ('287415c8-1d96-4ab1-a04f-377b19cd9238','5f5cfcb3-9d03-47f9-b0c4-86345d64760e',1,NULL,1,'-','21440a8c-764d-4605-a23e-ef3103c9f544',NULL,'2016-09-29 13:25:30.463000','2016-09-29 13:30:42.650000'),
-  ('4d3c3682-75d0-4944-8212-6f321718a951','20656ac9-27dd-4782-937b-28cb691dbdb3',0,NULL,3,NULL,'21440a8c-764d-4605-a23e-ef3103c9f544',NULL,'2016-09-29 13:25:30.465000','2016-09-29 13:30:42.733000'),
-  ('dc415c07-60aa-4048-8c7d-0714745324af','9e816e30-b0d5-4608-a874-abd3ff8ca609',0,NULL,4,NULL,'21440a8c-764d-4605-a23e-ef3103c9f544',NULL,'2016-09-29 13:25:30.467000','2016-09-29 13:30:42.912000'),
-  ('e4aea91d-790d-496f-b70e-887060734fd7','af5d0c03-c248-419d-b052-cbe20bc97b3b',1,NULL,2,NULL,'21440a8c-764d-4605-a23e-ef3103c9f544',NULL,'2016-09-29 13:25:30.464000','2016-09-29 13:30:42.713000');
+  ('287415c8-1d96-4ab1-a04f-377b19cd9238','5f5cfcb3-9d03-47f9-b0c4-86345d64760e',1,NULL,1,'-', '0','21440a8c-764d-4605-a23e-ef3103c9f544',NULL,'2016-09-29 13:25:30.463000','2016-09-29 13:30:42.650000'),
+  ('4d3c3682-75d0-4944-8212-6f321718a951','20656ac9-27dd-4782-937b-28cb691dbdb3',0,NULL,3,NULL,'0','21440a8c-764d-4605-a23e-ef3103c9f544',NULL,'2016-09-29 13:25:30.465000','2016-09-29 13:30:42.733000'),
+  ('dc415c07-60aa-4048-8c7d-0714745324af','9e816e30-b0d5-4608-a874-abd3ff8ca609',0,NULL,4,NULL,'0','21440a8c-764d-4605-a23e-ef3103c9f544',NULL,'2016-09-29 13:25:30.467000','2016-09-29 13:30:42.912000'),
+  ('e4aea91d-790d-496f-b70e-887060734fd7','af5d0c03-c248-419d-b052-cbe20bc97b3b',1,NULL,2,NULL,'0','21440a8c-764d-4605-a23e-ef3103c9f544',NULL,'2016-09-29 13:25:30.464000','2016-09-29 13:30:42.713000');
 
 INSERT INTO `enderecos` (`id`, `id_json`, `controlador_id`, `anel_id`, `localizacao`, `latitude`, `longitude`, `localizacao2`, `altura_numerica`, `referencia`, `data_criacao`, `data_atualizacao`)
 VALUES
