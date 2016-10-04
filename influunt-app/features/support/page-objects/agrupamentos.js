@@ -20,6 +20,10 @@ var AgrupamentosPage = function () {
     return world.execSqlScript('features/support/scripts/planos/controlador.sql');
   };
 
+  this.controladorConfigurado = function(){
+    return world.execSqlScript('features/support/scripts/controladores/set_controlador_finalizado.sql');
+  };
+
   this.indexPage = function() {
     world.visit(INDEX_PATH);
     world.getElements('tbody tr[data-ng-repeat="agrupamento in lista"]').then(function(elements) {
@@ -78,6 +82,10 @@ var AgrupamentosPage = function () {
     return world.getElements('tbody tr[data-ng-repeat="agrupamento in lista"]').then(function(elements) {
       return elements.length === totalAgrupamentosIndex;
     });
+  };
+
+  this.alertaAtulizarTabelaHoraria = function() {
+    return world.getTextInSweetAlert();
   };
 
   this.toastMessage = function() {

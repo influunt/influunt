@@ -18,6 +18,8 @@ Funcionalidade: tela de cadastro de agrupamentos
     Quando o usuário acessar a tela de listagem de agrupamentos
     E clicar no botão de Novo Agrupamento
     E clicar no botão de salvar
+    Então sistema deverá mostar um alerta se deseja atualizar tabela horária
+    E o usuário responde sim
     Então o sistema deverá indicar erro no campo "nome"
     Então o sistema deverá indicar erro no campo "tipo"
     #TODO melhor a apresentação do erro caso não tenha anel associado
@@ -27,12 +29,15 @@ Funcionalidade: tela de cadastro de agrupamentos
 
   Cenário: Cadastro de agrupamentos
     Dado que exista ao menos um controlador cadastrado no sistema
+    E que este controlador esteja finalizado
     Quando o usuário acessar a tela de cadastro de novos agrupamentos
     E o usuário preencher o campo "Nome" com "Corredor da Paulista"
     E o usuário preencher o campo "Descrição" com "Agrupamento 1"
     E o usuário selecionar o valor "Corredor" no campo "Tipo"
     E o usuario selecionar o valor "Av. Paulista com R. Bela Cintra" no campo Controladores
     E clicar no botão de salvar
+    Então sistema deverá mostar um alerta se deseja atualizar tabela horária
+    E o usuário responde sim
     Então deve ser exibida uma lista com os agrupamentos já cadastrados no sistema
 
   Cenário: Acesso à tela de detalhes de um agrupamento
@@ -51,6 +56,8 @@ Funcionalidade: tela de cadastro de agrupamentos
     E o usuário preencher o campo "Nome" com "Rota da Cidade"
     E o usuário selecionar o valor "Rota" no campo "Tipo"
     E clicar no botão de salvar
+    Então sistema deverá mostar um alerta se deseja atualizar tabela horária
+    E o usuário responde sim
 
   Cenário: Exclusão de agrupamentos sem confirmação do usuário
     Quando o usuário acessar a tela de listagem de agrupamentos

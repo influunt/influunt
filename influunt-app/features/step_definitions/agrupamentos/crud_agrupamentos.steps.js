@@ -16,6 +16,11 @@ module.exports = function() {
     return agrupamentosPage.existeUmControladorConfigurado();
   });
 
+   this.Given(/^que este controlador esteja finalizado$/, function() {
+    return agrupamentosPage.controladorConfigurado();
+  });
+
+
   this.Given(/^o usuário acessar a tela de listagem de agrupamentos$/, function() {
     return agrupamentosPage.indexPage();
   });
@@ -86,6 +91,13 @@ module.exports = function() {
       expect(text).to.equal('Quer mesmo apagar este registro?');
     });
   });
+
+  this.Given(/^sistema deverá mostar um alerta se deseja atualizar tabela horária$/, function () {
+    return agrupamentosPage.alertaAtulizarTabelaHoraria().then(function(text) {
+      expect(text).to.equal('Deseja atualizar a tabela horária dos controladores associados a este agrupamento?');
+    });
+  });
+
 
   this.Given(/^nenhum agrupamento deve ser excluído$/, function() {
     return agrupamentosPage.nenhumAgrupamentoDeveSerExcluido().then(function(res) {
