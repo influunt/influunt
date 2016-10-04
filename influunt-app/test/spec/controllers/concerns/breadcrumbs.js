@@ -57,19 +57,6 @@ describe('Controller: BreadcrumbsCtrl', function () {
     expect(scope.pageTitle).toBe(state.data.title);
   });
 
-
-  it('Deve buscar o endereço do controlador caso esteja no controller correto', function() {
-    var state = {
-      controller: 'Controladores'
-    };
-
-    httpBackend.expectGET('/controladores').respond(controlador);
-    scope.setControladorEndereco(state);
-    httpBackend.flush();
-    expect(scope.controladorLocalizacao).toEqual(controlador.nomeEndereco);
-  });
-
-
   it('Deve atualizar o titulo da pagina para "geral.titulo_padrao" se não houver titulo parametrizado', function() {
     var state = {
       name: 'app.main',
