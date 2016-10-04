@@ -57,7 +57,6 @@ angular.module('influuntApp')
               });
             });
             $scope.inicializaConfirmacaoNadaHaPreencher();
-
             $scope.selecionaAnel(anelEscolhido);
             $scope.atualizaEstagios();
             $scope.atualizaTransicoesProibidas();
@@ -82,11 +81,11 @@ angular.module('influuntApp')
        * @return     {boolean}  { description_of_the_return_value }
        */
       $scope.toggleTransicaoProibida = function(estagio1, estagio2, disabled) {
-
         if (disabled || estagio1.idJson === estagio2.idJson) {
           return false;
         }
 
+        // if (!$scope.currentTransicoesProibidas) debugger;
         var transicao = 'E' + estagio1.posicao + '-E' + estagio2.posicao;
         if ($scope.currentTransicoesProibidas.hasOwnProperty(transicao)) {
           desativarTransicaoProibida(estagio1, estagio2);

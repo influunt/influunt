@@ -22,7 +22,7 @@ angular.module('influuntApp')
 
     var hasGruposSemaforicos = function(controlador) {
       var countRefGruposSemaforicos = _.chain(controlador.aneis).map('gruposSemaforicos').flatten().compact().value().length;
-      var countGruposSemaforicos = controlador.gruposSemaforicos.length;
+      var countGruposSemaforicos = _.isArray(controlador.gruposSemaforicos) ? controlador.gruposSemaforicos.length : 0;
 
       return countRefGruposSemaforicos > 0 && countGruposSemaforicos >= countRefGruposSemaforicos;
     };
