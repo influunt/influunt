@@ -38,7 +38,7 @@ angular.module('influuntApp')
        */
       var confirmPopup = function(title, text) {
         var defer = $q.defer(),
-            options = _merge(defaultOptions, {
+            options = _.merge(defaultOptions, {
               title: title,
               text: text
             });
@@ -54,7 +54,7 @@ angular.module('influuntApp')
 
       var promptPopup = function(title, text) {
         var defer = $q.defer(),
-            options = _merge(defaultOptions, {
+            options = _.merge(defaultOptions, {
               title: title,
               text: text,
               type: 'input'
