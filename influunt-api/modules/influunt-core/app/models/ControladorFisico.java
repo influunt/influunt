@@ -105,9 +105,10 @@ public class ControladorFisico extends Model implements Serializable {
         return (versaoControlador != null) ? versaoControlador.getControlador() : null;
     }
 
-    public Controlador getControladorAtivoOuEditando() {
+    public Controlador getControladorConfiguradoOuAtivoOuEditando() {
         VersaoControlador versaoControlador = this.getVersoes().stream().filter(versaoControladorAux ->
                 StatusVersao.ATIVO.equals(versaoControladorAux.getStatusVersao()) ||
+                        StatusVersao.CONFIGURADO.equals(versaoControladorAux.getStatusVersao()) ||
                         StatusVersao.EDITANDO.equals(versaoControladorAux.getStatusVersao())).findFirst().orElse(null);
 
         return (versaoControlador != null) ? versaoControlador.getControlador() : null;
