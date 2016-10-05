@@ -244,6 +244,10 @@ public class Usuario extends Model implements Subject, Serializable {
         this.setPasswordTokenExpiration(null);
     }
 
+    public boolean podeAcessarTodasAreas() {
+        return getPermissions().stream().filter(permission -> permission.getValue().equals("visualizarTodasAreas")).count() > 0;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
