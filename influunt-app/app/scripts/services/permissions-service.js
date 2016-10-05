@@ -14,7 +14,34 @@ angular.module('influuntApp')
       return Restangular.all('permissoes').customGET('roles');
     };
 
+
+    var usuarioLogado;
+    var getUsuarioLogado = function(refresh) {
+      refresh = typeof refresh === 'undefined' ? false : !!refresh;
+      if (!usuarioLogado || refresh) {
+        var dataUsuario = localStorage.usuario || '{}';
+        usuarioLogado = JSON.parse(dataUsuario);
+      }
+      return usuarioLogado;
+    };
+
+
+    var checkPermission = function(permissionName, usuario) {
+      usuario = usuario || getUsuarioLogado();
+      return _.some(usuario.permissoes, function(permissao) {
+        return permissao === permissionName;
+      });
+    };
+
+
+    var podeVisualizarTodasAreas = function() {
+      return checkPermission('visualizarTodasAreas');
+    };
+
     return {
-      loadPermissions: loadPermissions
+      loadPermissions: loadPermissions,
+      checkPermission: checkPermission,
+      getUsuario: getUsuarioLogado,
+      podeVisualizarTodasAreas: podeVisualizarTodasAreas
     };
   }]);

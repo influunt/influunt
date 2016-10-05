@@ -33,15 +33,19 @@
               <div class="form-group">
                 <label class="control-label">{{ 'controladores.cidade' | translate }}:</label>
                 <select name="cidade" class="form-control"
-                  data-ng-model="helpers.cidade"
-                  data-ng-options="cidade as cidade.nome for cidade in data.cidades track by cidade.id"></select>
+                        data-ng-model="helpers.cidade"
+                        data-ng-options="cidade as cidade.nome for cidade in data.cidades track by cidade.id"></select>
               </div>
 
               <div class="form-group" data-ng-class="{'has-error': errors.area}">
                 <label class="col-sm-12 no-padding control-label">{{ 'controladores.area' | translate }}:</label>
                 <select name="area" class="form-control"
-                  data-ng-options="area.idJson as area.descricao for area in helpers.cidade.areas"
-                  data-ng-model="objeto.area.idJson"></select>
+                        data-ng-options="area.idJson as area.descricao for area in helpers.cidade.areas"
+                        data-ng-model="objeto.area.idJson"
+                        permission
+                        permission-only="'visualizarTodasAreas'"
+                        permission-on-authorized="PermissionStrategies.enableElement"
+                        permission-on-unauthorized="PermissionStrategies.disableElement"></select>
                 <p class="help-block error-msg" data-ng-repeat="error in errors.area">{{ error }}</p>
               </div>
 
@@ -108,7 +112,7 @@
                 <p><small>{{ 'geral.auditoria.atualizadoPor' | translate}}: {{ objeto.atualizadoPor }}</small></p>
               </footer>
             </div>
-            
+
             <!-- MAPS -->
             <div class="col-lg-4 col-sm-4 maps">
               <div class="form-group">
