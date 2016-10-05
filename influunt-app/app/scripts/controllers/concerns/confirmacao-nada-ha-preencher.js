@@ -32,9 +32,8 @@ angular.module('influuntApp')
       };
 
       $scope.verificaConfirmacaoNadaHaPreencher = function(){
-        if($scope.confirmacao){
+        if ($scope.confirmacao && $scope.confirmacao[$scope.currentAnel.posicao] === false) {
           confirmacaoNadaHaPreencher[$scope.currentAnel.posicao] = $scope.possuiInformacoesPreenchidas();
-          $scope.confirmacao[$scope.currentAnel.posicao] = false;
         }
       };
   }]);
