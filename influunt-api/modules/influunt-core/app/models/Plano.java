@@ -346,26 +346,35 @@ public class Plano extends Model implements Cloneable, Serializable {
     public Integer getTempoEstagio(EstagioPlano estagioPlano) {
         Estagio estagio = estagioPlano.getEstagio();
         Estagio estagioAnterior = getEstagioAnterior(estagioPlano.getEstagio());
-        ArrayList<Integer> totalTempoEntreverdes = new ArrayList<Integer>();
+
+        Integer tempoEntreVerdes = getTempoEntreVerdeEntreEstagios(estagio, estagioAnterior);
+
+        if (isAtuado()) {
+            return tempoEntreVerdes + estagioPlano.getTempoVerdeMaximo();
+        }
+
+
+        return tempoEntreVerdes + estagioPlano.getTempoVerde();
+    }
+
+    public Integer getTempoEntreVerdeEntreEstagios(Estagio estagioAtual, Estagio estagioAnterior) {
         Integer tempoEntreVerdes = 0;
-        if (!estagio.equals(estagioAnterior)) {
+        ArrayList<Integer> totalTempoEntreverdes = new ArrayList<Integer>();
+        if (!estagioAtual.equals(estagioAnterior)) {
             for (EstagioGrupoSemaforico estagioGrupoSemaforico : estagioAnterior.getEstagiosGruposSemaforicos()) {
-                if (!estagio.getGruposSemaforicos().contains(estagioGrupoSemaforico.getGrupoSemaforico())) {
-                    totalTempoEntreverdes.add(tempoEntreVerdes(estagio, estagioAnterior, estagioGrupoSemaforico));
+                if (!estagioAtual.getGruposSemaforicos().contains(estagioGrupoSemaforico.getGrupoSemaforico())) {
+                    totalTempoEntreverdes.add(getTempoEntreVerdes(estagioAtual, estagioAnterior, estagioGrupoSemaforico));
                 } else {
                     totalTempoEntreverdes.add(0);
                 }
             }
             tempoEntreVerdes = Collections.max(totalTempoEntreverdes);
         }
-        if (isAtuado()) {
-            return tempoEntreVerdes + estagioPlano.getTempoVerdeMaximo();
-        }
 
-        return tempoEntreVerdes + estagioPlano.getTempoVerde();
+        return tempoEntreVerdes;
     }
 
-    private Integer tempoEntreVerdes(Estagio estagio, Estagio estagioAnterior, EstagioGrupoSemaforico estagioGrupoSemaforico) {
+    private Integer getTempoEntreVerdes(Estagio estagio, Estagio estagioAnterior, EstagioGrupoSemaforico estagioGrupoSemaforico) {
         TabelaEntreVerdes tabelaEntreVerdes = estagioGrupoSemaforico.getGrupoSemaforico().getTabelasEntreVerdes().stream().filter(tev -> tev.getPosicao().equals(getPosicaoTabelaEntreVerde())).findFirst().orElse(null);
         Transicao transicao = estagioGrupoSemaforico.getGrupoSemaforico().findTransicaoByOrigemDestino(estagioAnterior, estagio);
 
