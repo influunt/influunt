@@ -21,9 +21,9 @@
                       <ul class="bxslider">
                         <li data-ng-repeat="estagio in currentEstagios" class="stage-images">
                           <span class="badge badge-danger badge-notification badge-tempo-ciclo"
-                            data-ng-show="getErrosEstagios($index)"
+                            data-ng-show="errosEstagios[$index].length > 0"
                             inf-tooltip
-                            messages="[[getErrosEstagios($index)]]">
+                            messages="[[errosEstagios[$index]]]">
                             <i class="fa fa-exclamation"></i>
                           </span>
                           <h4>E{{ estagio.posicao }}</h4>
