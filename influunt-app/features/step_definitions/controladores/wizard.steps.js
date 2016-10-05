@@ -52,8 +52,13 @@ module.exports = function() {
     return wizardPage.cadastrarEntidadesDadosBasicos();
   });
 
+  this.Given(/^o usuário adicionar imagem ao "([^"]*)"$/, function (localImagem) {
+    return wizardPage.addImagens(localImagem);
+  });
+
   this.Given(/^o usuário adicionar (\d+) imagens para os estágios do anel corrente$/, function (qtde) {
-    return wizardPage.adicionarImagensEstagios(qtde);
+    var path = '../resources/croquigeral.jpg'
+    return wizardPage.adicionarImagensEstagios(qtde, path);
   });
 
   this.Given(/^o usuário adicionar um novo anel ativo$/, function () {
@@ -101,6 +106,10 @@ module.exports = function() {
   });
 
   this.Given(/^o usuário marcar a transição de "([^"]*)" para "([^"]*)" como proibida$/, function (e1, e2) {
+    return wizardPage.marcarTransicao(e1, e2);
+  });
+
+   this.Given(/^o usuário desmarcar a transição de "([^"]*)" para "([^"]*)" como proibida$/, function (e1, e2) {
     return wizardPage.marcarTransicao(e1, e2);
   });
 
@@ -178,6 +187,10 @@ module.exports = function() {
 
   this.Given(/^que o usuário clicar Confirmo que não há configurações a serem feitas aqui$/, function(){
     return wizardPage.selecionarValor();
+  });
+
+  this.Given(/^que o usuário confirme que não há configurações a serem feitas nesse anel$/, function(){
+    return wizardPage.confirmaSemConfiguracao();
   });
 
   this.Given(/^confirma que será utilizada a configuração padrão para esse grupo semafórico$/, function(){
