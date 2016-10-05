@@ -49,6 +49,7 @@ angular.module('influuntApp')
           {
             nome: 'area.descricao',
             label: 'areas.descricao',
+            permission: 'visualizarTodasAreas',
             tipo: 'texto'
           },
           {

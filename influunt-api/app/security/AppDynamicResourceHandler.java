@@ -46,11 +46,13 @@ public class AppDynamicResourceHandler implements DynamicResourceHandler {
         if (isUsuarioAuthorized(u, chave)) {
 
             if ("ControladorAreaAuth(bodyArea)".equals(permissionValue)) {
+                if (u.podeAcessarTodasAreas()) return CompletableFuture.completedFuture(Boolean.TRUE);
                 String areaId = getAreaIdFromRequestBody(ctx.request().body());
                 boolean authorized = u.getArea() != null && u.getArea().getId().toString().equals(areaId);
                 return CompletableFuture.completedFuture(authorized);
 
             } else if ("ControladorAreaAuth(path)".equals(permissionValue) || "ControladorAreaAuth(body)".equals(permissionValue)) {
+                if (u.podeAcessarTodasAreas()) return CompletableFuture.completedFuture(Boolean.TRUE);
                 String controladorId = null;
                 if ("ControladorAreaAuth(path)".equals(permissionValue)) {
                     controladorId = getControladorIdFromPath(ctx.request().path());
