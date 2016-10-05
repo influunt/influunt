@@ -6,7 +6,8 @@ public enum EstadoGrupo {
     AMARELO((byte) 2),
     VERMELHO((byte) 3),
     VERMELHO_INTERMITENTE((byte) 4),
-    AMARELHO_INTERMITENTE((byte) 5);
+    AMARELHO_INTERMITENTE((byte) 5),
+    VERMELHO_LIMPEZA((byte) 6);
 
     private final byte status;
 

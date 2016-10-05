@@ -1,7 +1,8 @@
 package execucao;
 
+import engine.EstadoGrupoBaixoNivel;
 import org.junit.Test;
-import os72c.client.v2.EstadoGrupoBaixoNivel;
+
 
 import static org.junit.Assert.assertEquals;
 

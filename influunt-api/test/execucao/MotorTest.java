@@ -8,9 +8,6 @@ import models.EstadoGrupoSemaforico;
 import models.Evento;
 import org.joda.time.DateTime;
 import org.junit.Test;
-import simulacao.Simulador;
-import simulacao.TipoEventoLog;
-import simulacao.VisualLog;
 
 import java.io.IOException;
 import java.util.List;
@@ -36,17 +33,17 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication {
     @Test
     public void motorTest() throws IOException {
 
-        Simulador simulador = new Simulador();
-
-        Controlador controlador = new ControladorHelper().setPlanos(new ControladorHelper().getControlador());
-        simulador.setControlador(controlador);
-        simulador.setDataInicioControlador(new DateTime(2016, 9, 19, 7, 59, 0));
-        simulador.setInicio(new DateTime(2016, 9, 19, 7, 55, 0));
-        simulador.setFim(new DateTime(2016, 9, 19, 8, 1, 0));
-        simulador.simular();
-        simulador.getLogSimulacao().print(TipoEventoLog.AGENDAMENTO_TROCA_DE_PLANO);
-        VisualLog visualLog = new VisualLog(simulador);
-        visualLog.setVisible(true);
+//        Simulador simulador = new Simulador();
+//
+//        Controlador controlador = new ControladorHelper().setPlanos(new ControladorHelper().getControlador());
+//        simulador.setControlador(controlador);
+//        simulador.setDataInicioControlador(new DateTime(2016, 9, 19, 7, 59, 0));
+//        simulador.setInicio(new DateTime(2016, 9, 19, 7, 55, 0));
+//        simulador.setFim(new DateTime(2016, 9, 19, 8, 1, 0));
+//        simulador.simular();
+//        simulador.getLogSimulacao().print(TipoEventoLog.AGENDAMENTO_TROCA_DE_PLANO);
+//        VisualLog visualLog = new VisualLog(simulador);
+//        visualLog.setVisible(true);
 
 
     }

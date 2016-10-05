@@ -5,10 +5,14 @@ name := """influunt-api"""
 version := "0.1.0"
 
 lazy val root = (project in file(".")).enablePlugins(PlayJava, PlayEbean)
-    .dependsOn(influuntCore,influuntDevice,influuntCentral)
-    .aggregate(influuntCore,influuntDevice,influuntCentral)
+    .dependsOn(influuntCore,influuntDevice,influuntCentral,influuntSimulador)
+    .aggregate(influuntCore,influuntDevice,influuntCentral,influuntSimulador)
 
 lazy val influuntCentral = (project in file("modules/influunt-central")).enablePlugins(PlayJava, PlayEbean)
+  .dependsOn(influuntCore)
+  .aggregate(influuntCore)
+
+lazy val influuntSimulador = (project in file("modules/influunt-simulador")).enablePlugins(PlayJava, PlayEbean)
   .dependsOn(influuntCore)
   .aggregate(influuntCore)
 

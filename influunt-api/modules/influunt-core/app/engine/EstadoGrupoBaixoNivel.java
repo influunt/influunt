@@ -1,6 +1,9 @@
 package engine;
 
+import models.EstadoGrupoSemaforico;
+
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by rodrigosol on 9/15/16.
@@ -47,4 +50,11 @@ public class EstadoGrupoBaixoNivel {
         return sb.toString();
     }
 
+    public static EstadoGrupoBaixoNivel parse(List<EstadoGrupoSemaforico> estadoAtual) {
+        EstadoGrupoBaixoNivel estadoGrupoBaixoNivel = new EstadoGrupoBaixoNivel();
+        for (int i = 1; i <= estadoAtual.size(); i++) {
+            estadoGrupoBaixoNivel.mudar(i, estadoAtual.get(i - 1).asByte());
+        }
+        return estadoGrupoBaixoNivel;
+    }
 }

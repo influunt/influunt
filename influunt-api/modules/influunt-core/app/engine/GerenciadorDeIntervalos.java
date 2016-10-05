@@ -91,8 +91,13 @@ public class GerenciadorDeIntervalos {
 
         List<EstadoGrupoSemaforico> estadoGrupoSemaforicos = new ArrayList<>(numeroGrupoSemaforico);
         for (int grupo = 1; grupo <= numeroGrupoSemaforico; grupo++) {
-            long indexGrupo = getIndex(grupo, instante);
-            EstadoGrupoSemaforico estado = grupos.get(grupo).get((int) indexGrupo);
+            EstadoGrupoSemaforico estado;
+            if(grupos.get(grupo).size() != 0) {
+                long indexGrupo = getIndex(grupo, instante);
+                estado = grupos.get(grupo).get((int) indexGrupo);
+            }else{
+                estado = EstadoGrupoSemaforico.DESLIGADO;
+            }
             estadoGrupoSemaforicos.add(estado);
         }
         return estadoGrupoSemaforicos;

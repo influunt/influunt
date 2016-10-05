@@ -20,4 +20,6 @@ public interface MotorCallback {
 
     public void onAgendamentoTrocaDePlanos(DateTime timestamp,DateTime momentoAgendamento, int anel, int plano, int planoAnterior);
 
+    public void onEstado(DateTime timestamp, EstadoGrupoBaixoNivel estadoGrupoBaixoNivel);
+
 }

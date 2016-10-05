@@ -180,5 +180,7 @@ GET         /api/v1/monitoramento/detalhe_controlador/:id                       
 # Rota para o cucumber conseguir criar o banco de dados durante o teste
 POST        /api/v1/cucumber                                      controllers.CucumberController.createDB()
 
+#Simulação
+POST       /api/v1/simulacao/:id                                  controllers.simulacao.SimuladorController.simular(id)
 # Asset
 GET         /assets/*file                                         controllers.Assets.at(path="/public", file)

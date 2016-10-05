@@ -44,7 +44,9 @@ public class Motor implements MotorEvents, GerenciadorDeIntervalosCallBack {
     }
 
     public void onEventoChange(DateTime timestamp, Evento atual, Evento novo) {
-        callbacks.stream().forEach(motorCallback -> motorCallback.onChangeEvento(timestamp, atual, novo));
+        for(MotorCallback callback : callbacks){
+            callback.onChangeEvento(timestamp, atual, novo);
+        }
     }
 
     public void onGrupoChange(DateTime timestamp, List<EstadoGrupoSemaforico> atual, List<EstadoGrupoSemaforico> novo) {
@@ -86,6 +88,8 @@ public class Motor implements MotorEvents, GerenciadorDeIntervalosCallBack {
                 estadoAtual = estadoGrupoSemaforico;
             }
         }
+
+        callbacks.stream().forEach(motorCallback -> motorCallback.onEstado(instante,EstadoGrupoBaixoNivel.parse(estadoAtual)));
     }
 
     private List<Plano> getPlanos(Evento evento) {
