@@ -349,7 +349,7 @@ describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
           {idJson: 'TP1', origem: {idJson: 'E1A2'}, destino: {idJson: 'E2A2'}}
         ]
       };
-      var error = [{"root":"Controlador","message":"não pode ficar em branco","path":"aneis[1].estagios[0].origemDeTransicoesProibidas[0].alternativo"}];
+      var error = [{'root':'Controlador','message':'não pode ficar em branco','path':'aneis[1].estagios[0].origemDeTransicoesProibidas[0].alternativo'}];
       scope.errors = handleValidations.buildValidationMessages(error, scope.objeto);
     }));
 
@@ -397,7 +397,7 @@ describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
           {idJson: 'TP1', origem: {idJson: 'E1A2'}, destino: {idJson: 'E2A2'}}
         ]
       };
-      var error = [{"root":"Controlador","message":"Um estágio de demanda prioritária não pode ter transição proibida.","path":"aneis[1].estagios[2].naoPossuiTransicaoProibidaCasoDemandaPrioritaria"}];
+      var error = [{'root':'Controlador','message':'Um estágio de demanda prioritária não pode ter transição proibida.','path':'aneis[1].estagios[2].naoPossuiTransicaoProibidaCasoDemandaPrioritaria'}];
       scope.errors = handleValidations.buildValidationMessages(error, scope.objeto);
       scope.selecionaAnel(1);
     }));
