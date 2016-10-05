@@ -92,10 +92,10 @@
           </div>
         </div>
         <ng-include src="'views/directives/influunt-revisao/_transicoes-proibidas.html'"
-            data-ng-if="dadosCurrentTRansicoesProibidas1.length > 0 || dadosCurrentTRansicoesProibidas2.length > 0">
+            data-ng-if="dadosCurrentTransicoesProibidas1.length > 0 || dadosCurrentTransicoesProibidas2.length > 0">
         </ng-include>
         <ng-include src="'views/directives/influunt-revisao/_vazio.html'"
-          data-ng-if="!(dadosCurrentTRansicoesProibidas1 && dadosCurrentTRansicoesProibidas2 && dadosCurrentTRansicoesProibidas1.length + dadosCurrentTRansicoesProibidas2.length > 0)"></ng-include>
+          data-ng-if="!(dadosCurrentTransicoesProibidas1 && dadosCurrentTransicoesProibidas2 && dadosCurrentTransicoesProibidas1.length + dadosCurrentTransicoesProibidas2.length > 0)"></ng-include>
       </div>
 
       <div class="col-sm-12 no-padding">

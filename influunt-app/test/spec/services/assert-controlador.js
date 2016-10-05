@@ -1,7 +1,6 @@
 'use strict';
 
 describe('Service: assertControlador', function () {
-
   // instantiate service
   var assertControlador, controlador;
   beforeEach(inject(function (_assertControlador_) {
@@ -28,18 +27,6 @@ describe('Service: assertControlador', function () {
       atrasosDeGrupo: [{idJson: 'adg1'}],
       tabelasEntreVerdesTransicoes: [{idJson: 'tevt1', tempoAmarelo: 1}]
     };
-    // controlador = {
-    //   aneis: [{
-    //     gruposSemaforicos: [{
-    //       transicoes: [{
-    //         tabelaEntreVerdesTransicoes: [{}]
-    //       }]
-    //     }],
-    //     estagios: [{idJson: 1}]
-    //   }],
-    //   estagios: [{idJson: 1}],
-    //   transicoes: []
-    // };
   }));
 
   describe('hasAneis', function() {
@@ -330,5 +317,4 @@ describe('Service: assertControlador', function () {
       });
     });
   });
-
 });
