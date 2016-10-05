@@ -165,7 +165,7 @@ public class GrupoSemaforicoPlano extends Model implements Cloneable, Serializab
     }
 
     public void criarIntervalos(){
-        Integer ordem = 1;
+        int ordem = 1;
         GrupoSemaforico grupoSemaforico = getGrupoSemaforico();
         List<EstagioPlano> estagiosPlanos = getPlano().ordenarEstagiosPorPosicao();
         for (EstagioPlano estagioPlano : estagiosPlanos) {
@@ -174,13 +174,13 @@ public class GrupoSemaforicoPlano extends Model implements Cloneable, Serializab
 
             //Caso o grupoSemaforico não tinha o direito de passagem e continua sem ter o direito de passagem
             if(!estagioAnterior.getGruposSemaforicos().contains(grupoSemaforico) && !estagioAtual.getGruposSemaforicos().contains(grupoSemaforico)){
-                criaIntervalo(ordem, EstadoGrupoSemaforico.VERMELHO, getPlano().getTempoEstagio(estagioPlano));
+                ordem = criaIntervalo(ordem, EstadoGrupoSemaforico.VERMELHO, getPlano().getTempoEstagio(estagioPlano));
             }
 
             //Caso o grupoSemaforico não tinha o direito de passagem e está ganhando
             if(!estagioAnterior.getGruposSemaforicos().contains(grupoSemaforico) && estagioAtual.getGruposSemaforicos().contains(grupoSemaforico)){
-                criaIntervalo(ordem, EstadoGrupoSemaforico.VERMELHO, getPlano().getTempoEntreVerdeEntreEstagios(estagioAtual, estagioAnterior));
-                criaIntervalo(ordem, EstadoGrupoSemaforico.VERDE, estagioPlano.getTempoVerdeEstagio());
+                ordem = criaIntervalo(ordem, EstadoGrupoSemaforico.VERMELHO, getPlano().getTempoEntreVerdeEntreEstagios(estagioAtual, estagioAnterior));
+                ordem = criaIntervalo(ordem, EstadoGrupoSemaforico.VERDE, estagioPlano.getTempoVerdeEstagio());
             }
 
             //Caso o grupoSemaforico tinha o direito de passagem e está perdendo
@@ -188,30 +188,32 @@ public class GrupoSemaforicoPlano extends Model implements Cloneable, Serializab
                 Transicao transicao = grupoSemaforico.findTransicaoByOrigemDestino(estagioAnterior, estagioAtual);
                 TabelaEntreVerdesTransicao tabelaEntreVerdesTransicao = grupoSemaforico.findTabelaEntreVerdesTransicaoByTransicao(getPlano().getPosicaoTabelaEntreVerde(), transicao);
                 if (transicao.isAtrasoDeGrupoPresent()) {
-                    criaIntervalo(ordem, EstadoGrupoSemaforico.VERDE, transicao.getAtrasoDeGrupo().getAtrasoDeGrupo());
+                    ordem = criaIntervalo(ordem, EstadoGrupoSemaforico.VERDE, transicao.getAtrasoDeGrupo().getAtrasoDeGrupo());
                 }
                 if (grupoSemaforico.isVeicular()){
-                    criaIntervalo(ordem, EstadoGrupoSemaforico.AMARELO, tabelaEntreVerdesTransicao.getTempoAmarelo());
+                    ordem = criaIntervalo(ordem, EstadoGrupoSemaforico.AMARELO, tabelaEntreVerdesTransicao.getTempoAmarelo());
                 } else {
-                    criaIntervalo(ordem, EstadoGrupoSemaforico.VERMELHO_INTERMITENTE, tabelaEntreVerdesTransicao.getTempoVermelhoIntermitente());
+                    ordem = criaIntervalo(ordem, EstadoGrupoSemaforico.VERMELHO_INTERMITENTE, tabelaEntreVerdesTransicao.getTempoVermelhoIntermitente());
                 }
-                criaIntervalo(ordem, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, tabelaEntreVerdesTransicao.getTempoVermelhoLimpeza());
+                ordem = criaIntervalo(ordem, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, tabelaEntreVerdesTransicao.getTempoVermelhoLimpeza());
+                ordem = criaIntervalo(ordem, EstadoGrupoSemaforico.VERMELHO, estagioPlano.getTempoVerdeEstagio());
             }
 
             //Caso o grupoSemaforico tinha o direito de passagem e continua tento o direito de passagem
             if(estagioAnterior.getGruposSemaforicos().contains(grupoSemaforico) && estagioAtual.getGruposSemaforicos().contains(grupoSemaforico)){
-                criaIntervalo(ordem, EstadoGrupoSemaforico.VERDE, getPlano().getTempoEstagio(estagioPlano));
+                ordem = criaIntervalo(ordem, EstadoGrupoSemaforico.VERDE, getPlano().getTempoEstagio(estagioPlano));
             }
 
         }
     }
 
-    private void criaIntervalo(Integer ordem, EstadoGrupoSemaforico estado, Integer tamanho) {
+    private Integer criaIntervalo(int ordem, EstadoGrupoSemaforico estado, Integer tamanho) {
         Intervalo intervalo = new Intervalo();
         intervalo.setOrdem(ordem);
         intervalo.setEstadoGrupoSemaforico(estado);
         intervalo.setTamanho(tamanho);
         intervalo.setGrupoSemaforicoPlano(this);
-        ordem++;
+        this.addIntervalos(intervalo);
+        return ordem + 1;
     }
 }

@@ -74,10 +74,36 @@ public class IntervalosTest extends WithInfluuntApplicationAuthenticated{
     @Test
     public void geraIntervalos() {
         Controlador controlador = controladorTestUtils.getControladorPlanos();
+        controlador.save();
         Anel anel = controlador.getAneis().stream().filter(anel1 -> anel1.getPosicao().equals(1)).findFirst().get();
         Plano plano = anel.getPlanos().stream().filter(plano1 -> plano1.getPosicao().equals(1)).findFirst().get();
 
-        validaIntervalo(plano, 1, 1, EstadoGrupoSemaforico.VERMELHO, 6);
+        validaIntervalo(plano, 1, 1, EstadoGrupoSemaforico.VERMELHO, 9);
+        validaIntervalo(plano, 1, 2, EstadoGrupoSemaforico.VERDE, 20);
+        validaIntervalo(plano, 1, 3, EstadoGrupoSemaforico.VERDE, 2);
+        validaIntervalo(plano, 1, 4, EstadoGrupoSemaforico.VERMELHO_INTERMITENTE, 30);
+        validaIntervalo(plano, 1, 5, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, 5);
+        validaIntervalo(plano, 1, 6, EstadoGrupoSemaforico.VERMELHO, 20);
+        validaIntervalo(plano, 1, 7, EstadoGrupoSemaforico.VERMELHO, 9);
+        validaIntervalo(plano, 1, 8, EstadoGrupoSemaforico.VERDE, 20);
+        validaIntervalo(plano, 1, 9, EstadoGrupoSemaforico.VERDE, 2);
+        validaIntervalo(plano, 1, 10, EstadoGrupoSemaforico.VERMELHO_INTERMITENTE, 30);
+        validaIntervalo(plano, 1, 11, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, 5);
+        validaIntervalo(plano, 1, 12, EstadoGrupoSemaforico.VERMELHO, 20);
+
+
+        validaIntervalo(plano, 2, 1, EstadoGrupoSemaforico.VERDE, 2);
+        validaIntervalo(plano, 2, 2, EstadoGrupoSemaforico.AMARELO, 4);
+        validaIntervalo(plano, 2, 3, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, 5);
+        validaIntervalo(plano, 2, 4, EstadoGrupoSemaforico.VERMELHO, 20);
+        validaIntervalo(plano, 2, 5, EstadoGrupoSemaforico.VERMELHO, 35);
+        validaIntervalo(plano, 2, 6, EstadoGrupoSemaforico.VERDE, 20);
+        validaIntervalo(plano, 2, 7, EstadoGrupoSemaforico.VERDE, 2);
+        validaIntervalo(plano, 2, 8, EstadoGrupoSemaforico.AMARELO, 4);
+        validaIntervalo(plano, 2, 9, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, 5);
+        validaIntervalo(plano, 2, 10, EstadoGrupoSemaforico.VERMELHO, 20);
+        validaIntervalo(plano, 2, 11, EstadoGrupoSemaforico.VERMELHO, 35);
+        validaIntervalo(plano, 2, 12, EstadoGrupoSemaforico.VERDE, 20);
     }
 
     private void validaIntervalo(Plano plano, int posicaoGrupo, int ordem, EstadoGrupoSemaforico estadoGrupoSemaforico, int tamanho) {

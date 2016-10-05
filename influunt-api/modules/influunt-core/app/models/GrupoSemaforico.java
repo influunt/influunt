@@ -474,7 +474,7 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
     }
 
     public Transicao findTransicaoByOrigemDestino(Estagio origem, Estagio destino) {
-        return getTransicoes().stream().filter(transicao -> transicao.getOrigem().equals(origem) && transicao.getDestino().equals(destino)).findFirst().orElse(null);
+        return getTransicoesComPerdaDePassagem().stream().filter(transicao -> transicao.getOrigem().equals(origem) && transicao.getDestino().equals(destino)).findFirst().orElse(null);
     }
 
     public TabelaEntreVerdesTransicao findTabelaEntreVerdesTransicaoByTransicao(Integer posicaoTabelaEntreVerde, Transicao transicao) {

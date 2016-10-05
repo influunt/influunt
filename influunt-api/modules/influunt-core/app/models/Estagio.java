@@ -495,4 +495,5 @@ public class Estagio extends Model implements Serializable, Cloneable {
     public boolean isDemandaPrioritaria() {
         return demandaPrioritaria;
     }
+
 }

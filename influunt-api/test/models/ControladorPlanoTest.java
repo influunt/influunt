@@ -744,6 +744,7 @@ public class ControladorPlanoTest extends ControladorTest {
     @Test
     public void testVerdeSeguranca() {
         Controlador controlador = getControladorPlanos();
+        controlador.save();
         Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
 
         Plano plano = new Plano();
@@ -825,6 +826,7 @@ public class ControladorPlanoTest extends ControladorTest {
     @Test
     public void sequenciaEstagio() {
         Controlador controlador = getControladorPlanos();
+        controlador.save();
         Anel anel = controlador.getAneis().stream().filter(anel1 -> anel1.isAtivo() && anel1.getEstagios().size() == 4).findFirst().get();
         Plano plano = anel.getPlanos().get(0);
 

@@ -206,7 +206,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
 
         this.criarPossiveisTransicoes();
 
-//        this.criarIntervalos();
+        this.criarIntervalos();
     }
 
     private void deleteTabelasEntreVerdes(Controlador controlador) {
