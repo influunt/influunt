@@ -331,10 +331,10 @@ var influunt;
                   return 'VERDE';
                   break;
                 case 2:
-                  return 'VERMELHO';
+                  return 'AMARELO';
                   break;
                 case 3:
-                  return 'AMARELO';
+                  return 'VERMELHO';
                   break;
                 case 4:
                   return 'VERMELHO_INTERMITENTE';

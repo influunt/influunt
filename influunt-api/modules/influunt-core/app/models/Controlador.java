@@ -549,9 +549,11 @@ public class Controlador extends Model implements Cloneable, Serializable {
         getAneis().stream().filter(Anel::isAtivo).forEach(anel -> {
            if (anel.getPlanos() != null && !anel.getPlanos().isEmpty()) {
                anel.getPlanos().stream().forEach(plano -> {
-                   plano.getGruposSemaforicosPlanos().forEach(grupoSemaforicoPlano -> {
-                       grupoSemaforicoPlano.criarIntervalos();
-                   });
+                   if (plano != null){
+                       plano.getGruposSemaforicosPlanos().forEach(grupoSemaforicoPlano -> {
+                           grupoSemaforicoPlano.criarIntervalos();
+                       });
+                   }
                });
            }
         });
