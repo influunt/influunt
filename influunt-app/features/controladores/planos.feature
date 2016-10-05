@@ -3,7 +3,7 @@
 Funcionalidade: Fluxo de cadastro de planos
 
   Cenário: Acesso à tela de cadastro planos
-    Dado que o sistema possui ao menos um controlador configurado
+    Dado que o sistema possui ao menos um controlador cadastrado
     E que o usuário acesse a página de listagem de controladores
     Quando o usuário clicar no botão Planos do controlador
     Então o sistema deverá redirecionar para a tela de planos

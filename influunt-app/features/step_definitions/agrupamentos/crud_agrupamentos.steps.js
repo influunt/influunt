@@ -12,14 +12,9 @@ module.exports = function() {
     return agrupamentosPage.existeAoMenosUmAgrupamento();
   });
 
-  this.Given(/^que exista ao menos um controlador cadastrado no sistema$/, function() {
-    return agrupamentosPage.existeUmControladorConfigurado();
-  });
-
-   this.Given(/^que este controlador esteja finalizado$/, function() {
+  this.Given(/^que este controlador esteja finalizado$/, function() {
     return agrupamentosPage.controladorConfigurado();
   });
-
 
   this.Given(/^o usuário acessar a tela de listagem de agrupamentos$/, function() {
     return agrupamentosPage.indexPage();

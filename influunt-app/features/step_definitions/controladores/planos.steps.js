@@ -8,10 +8,6 @@ module.exports = function() {
   var planosPage = new PlanosPage();
   var objetosComuns = new ObjetosComuns();
 
-  this.Given(/^que o sistema possui ao menos um controlador configurado$/, function () {
-    return planosPage.cadastrarControlador();
-  });
-
   this.Given(/^o usuário clicar no botão Planos do controlador$/, function () {
     return planosPage.clicarBotao('Planos');
   });
@@ -136,10 +132,6 @@ module.exports = function() {
     return planosPage.isPlanoAtivo(plano);
   });
 
-  this.Given(/^o usuário clicar em editar$/, function () {
-    return planosPage.clicarBotao('Editar');
-  });
-
   this.Given(/^o usuário clicar em salvar$/, function () {
     return planosPage.clicarBotao('Salvar');
   });
@@ -158,10 +150,6 @@ module.exports = function() {
 
   this.Given(/^o usuário queira limpar o plano (\d+)$/, function(numeroPlano){
     return planosPage.clickInPlano(numeroPlano);
-  });
-
-  this.Given(/^o sistema deverá apresentar erro de "([^"]*)"$/, function (texto) {
-    return planosPage.errosImpeditivos(texto);
   });
 
   this.Given(/^o sistema deverá mostrar erro no plano (\d+)$/, function (numeroPlano) {
