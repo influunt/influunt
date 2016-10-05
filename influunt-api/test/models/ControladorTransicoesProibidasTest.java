@@ -167,7 +167,7 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
                 new Erro(CONTROLADOR, "O Estágio de origem não pode ter transição proibida para estágio alternativo.", "aneis[0].estagios[0].origemDeTransicoesProibidas[1].origemNaoPossuiTransicaoProibidaParaAlternativo"),
                 new Erro(CONTROLADOR, "O Estágio de origem não pode ter transição proibida para estágio alternativo.", "aneis[0].estagios[0].origemDeTransicoesProibidas[2].origemNaoPossuiTransicaoProibidaParaAlternativo"),
                 new Erro(CONTROLADOR, "O Estágio de origem não pode ter transição proibida para estágio alternativo.", "aneis[0].estagios[0].origemDeTransicoesProibidas[0].origemNaoPossuiTransicaoProibidaParaAlternativo"),
-                new Erro(CONTROLADOR, "Um estágio deve possuir ao menos uma transição válida.", "aneis[0].estagios[0].estagioPossuiAoMenosUmaTransicaoValida")
+                new Erro(CONTROLADOR, "Esse estágio deve possuir ao menos uma transição válida para outro estágio.", "aneis[0].estagios[0].estagioPossuiAoMenosUmaTransicaoOrigemValida")
         ));
 
 
@@ -218,10 +218,11 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
         estagio4AnelCom4Estagios.setDestinoDeTransicoesProibidas(Collections.singletonList(transicaoProibidaEstagio1ComEstagio4));
 
         erros = getErros(controlador);
-        assertEquals(2, erros.size());
+        assertEquals(3, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro(CONTROLADOR, "O Estágio de origem não pode ter transição proibida para estágio alternativo.", "aneis[0].estagios[0].origemDeTransicoesProibidas[1].origemNaoPossuiTransicaoProibidaParaAlternativo"),
-                new Erro(CONTROLADOR, "Um estágio deve possuir ao menos uma transição válida.", "aneis[1].estagios[0].estagioPossuiAoMenosUmaTransicaoValida")
+                new Erro(CONTROLADOR, "Esse estágio deve possuir ao menos uma transição válida para outro estágio.", "aneis[1].estagios[0].estagioPossuiAoMenosUmaTransicaoOrigemValida"),
+                new Erro(CONTROLADOR, "Pelo menos um estágio deve ter uma transição válida para esse estágio.", "aneis[1].estagios[1].estagioPossuiAoMenosUmaTransicaoDestinoValida")
         ));
 
         transicaoProibidaEstagio1ComEstagio4.setAlternativo(estagio2AnelCom4Estagios);
@@ -229,9 +230,10 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
 
 
         erros = getErros(controlador);
-        assertEquals(1, erros.size());
+        assertEquals(2, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "Um estágio deve possuir ao menos uma transição válida.", "aneis[1].estagios[0].estagioPossuiAoMenosUmaTransicaoValida")
+                new Erro(CONTROLADOR, "Esse estágio deve possuir ao menos uma transição válida para outro estágio.", "aneis[1].estagios[0].estagioPossuiAoMenosUmaTransicaoOrigemValida"),
+                new Erro(CONTROLADOR, "Pelo menos um estágio deve ter uma transição válida para esse estágio.", "aneis[1].estagios[1].estagioPossuiAoMenosUmaTransicaoDestinoValida")
         ));
 
 
