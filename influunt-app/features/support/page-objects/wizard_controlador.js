@@ -291,12 +291,37 @@ var WizardControladorPage = function () {
     return world.execSqlScript('features/support/scripts/controladores/entidades_dados_basicos.sql');
   };
 
-  this.adicionarImagensEstagios = function(qtde) {
-    var filePath = path.join(__dirname, '../resources/ubuntu.jpeg');
+  this.addImagens = function(localImagem) {
+    var corquiPath = '../resources/croquigeral.jpg'
+    var anel1Est1  = '../resources/anel1_est1.jpg'
+    var anel1Est2  = '../resources/anel1_est2.jpg'
+    var anel1Est3  = '../resources/anel1_est3.jpg'
+    var anel2Est1  = '../resources/anel2_est1.jpg'
+    var anel2Est2  = '../resources/anel2_est2.jpg'
+
+    switch(localImagem) {
+      case 'Croqui':
+        return this.adicionarImagem(corquiPath);
+      case 'Anel 1 como Estágio1':
+        return this.adicionarImagem(anel1Est1);
+      case 'Anel 1 como Estágio2':
+        return this.adicionarImagem(anel1Est2);
+      case 'Anel 1 como Estágio3':
+        return this.adicionarImagem(anel1Est3);
+      case 'Anel 2 como Estágio1':
+        return this.adicionarImagem(anel2Est1);
+      case 'Anel 2 como Estágio2':
+        return this.adicionarImagem(anel2Est2);
+      default:
+        throw new Error('Localização da imagem não encontrada: '+localImagem)
+     }
+  };
+
+  this.adicionarImagem = function(locationPath) {
+    var filePath = path.join(__dirname, ''+locationPath+'');
     var promises = [];
-    for(var i = 0; i < qtde; i++) {
-      promises.push(world.dropzoneUpload(filePath));
-    }
+
+    promises.push(world.dropzoneUpload(filePath));
 
     return Promise.all(promises).then(function() {
       return world.waitForAJAX();
