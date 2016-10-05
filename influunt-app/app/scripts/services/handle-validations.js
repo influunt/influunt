@@ -23,6 +23,10 @@ angular.module('influuntApp')
     };
 
     getLimits = function(path, objeto) {
+      if (!angular.isDefined(objeto)) {
+        return [0, 0];
+      }
+
       var limits = {
         tempoVerdeSegurancaFieldVeicular: [objeto.verdeSegurancaVeicularMin, objeto.verdeSegurancaVeicularMax],
         tempoVerdeSegurancaFieldPedestre: [objeto.verdeSegurancaPedestreMin, objeto.verdeSegurancaPedestreMax],
@@ -45,7 +49,7 @@ angular.module('influuntApp')
       };
 
       return _.find(limits, function(value, patten) {
-        return path.match(new Regex(patten + '$')) && value;
+        return path.match(new RegExp(patten + '$')) && value;
       }) || [0,0];
     };
 
