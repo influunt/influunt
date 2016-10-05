@@ -422,13 +422,12 @@ angular.module('influuntApp')
         return imagem && $filter('imageSource')(imagem.id, 'thumb');
       };
 
-      $scope.getImagemDeCroqui = function(anel) {
-        if (anel.croqui) {
-          var imagem = _.find($scope.objeto.imagens, { idJson: anel.croqui.idJson });
+      $scope.getImagemDeCroqui = function(el) {
+        if (el.croqui) {
+          var imagem = _.find($scope.objeto.imagens, { idJson: el.croqui.idJson });
           return imagem && $filter('imageSource')(imagem.id, 'thumb');
         }
       };
-
 
       $scope.editarEmRevisao = function(controlador, step) {
         if (controlador.statusControlador === 'EM_CONFIGURACAO' || controlador.statusControlador === 'EM_EDICAO') {

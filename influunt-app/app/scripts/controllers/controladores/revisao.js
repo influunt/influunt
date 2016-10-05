@@ -108,7 +108,8 @@ angular.module('influuntApp')
           numAneisAtivos: _.filter($scope.objeto.aneis, { ativo: true }).length,
           numDetectoresVeicular: _.filter($scope.objeto.detectores, {tipo : 'VEICULAR'}).length,
           numDetectoresPedestre: _.filter($scope.objeto.detectores, {tipo : 'PEDESTRE'}).length,
-          endereco: $scope.objeto.nomeEndereco
+          endereco: $scope.objeto.nomeEndereco,
+          croqui: $scope.getImagemDeCroqui($scope.objeto)
         };
       };
 
