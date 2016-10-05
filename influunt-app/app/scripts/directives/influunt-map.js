@@ -32,7 +32,7 @@ angular.module('influuntApp')
         // private methods.
         var addAgrupamentos, addAreas, addMarkers, agrupaAneis, createAgrupamento, createArea, createMarker,
             getAreaTitle, getBoundingBox, getConcaveHullPoints, initializeMap, renderAgrupamentos, renderAreas,
-            renderMarkers, setView;
+            renderMarkers, setView, setViewForArea;
         var map, markersLayer, areasLayer, agrupamentosLayer, polylineLayer;
 
         initializeMap = function() {
@@ -41,7 +41,9 @@ angular.module('influuntApp')
           }
 
           var options = _.merge(_.clone(DEFAULT_MAP_OPTIONS), scope.options);
-          map = L.map(element[0], options).setView([DEFAULTS.LATITUDE, DEFAULTS.LONGITUDE], DEFAULTS.ZOOM);
+
+          map = L.map(element[0], options);
+          setView([DEFAULTS.LATITUDE, DEFAULTS.LONGITUDE], DEFAULTS.ZOOM);
           L.tileLayer(TILE_LAYER, {maxZoom: 20, id: 'mapbox.streets'}).addTo(map);
         };
 
@@ -74,7 +76,7 @@ angular.module('influuntApp')
                 scope.onClickMarker({$markerData: markerData});
             });
 
-          map.setView([obj.latitude, obj.longitude]);
+          setView([obj.latitude, obj.longitude]);
           return marker;
         };
 
@@ -145,8 +147,10 @@ angular.module('influuntApp')
           areasLayer = new L.FeatureGroup();
           areas.forEach(function(area, index) {
             var a = createArea(area, index);
-            areasLayer.addLayer(a);
-            areasLayer.addLayer(getAreaTitle(a, area.label));
+            if (a.getLatLngs().length > 0) {
+              areasLayer.addLayer(a);
+              areasLayer.addLayer(getAreaTitle(a, area.label));
+            }
           });
 
           // Forces zoom when double clicking in an area.
@@ -224,22 +228,31 @@ angular.module('influuntApp')
         };
 
         renderAreas = function(areas) {
-          if (_.isArray(areas) && angular.isDefined(map)) { addAreas(areas); }
-
-          setView();
+          if (_.isArray(areas) && angular.isDefined(map)) {
+            addAreas(areas);
+            setViewForArea();
+          }
         };
 
         renderAgrupamentos = function(agrupamentos) {
           if (_.isArray(agrupamentos) && angular.isDefined(map)) { addAgrupamentos(agrupamentos); }
         };
 
-        setView = function() {
+        setViewForArea = function() {
           if (angular.isDefined(areasLayer)) {
             var layers = _.filter(areasLayer.getLayers(), 'getBounds');
             var group = new L.featureGroup(layers);
             var bounds = group.getBounds();
             return bounds.isValid() && map.fitBounds(bounds);
           }
+        };
+
+        var setViewTimeout;
+        setView = function(latlng, zoom) {
+          clearTimeout(setViewTimeout);
+          setViewTimeout = setTimeout(function() {
+            return angular.isDefined(map) && map.setView(latlng, zoom);
+          }, 500);
         };
 
         scope.$watch('markers', function(markers) {
