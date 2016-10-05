@@ -131,8 +131,8 @@ angular.module('influuntApp')
 
             index = _.findIndex($scope.currentAnel.planos, {idJson: p.idJson});
 
-            novoPlano.descricao = 'PLANO ' + (index + 1);
-            novoPlano.posicao = index + 1;
+            novoPlano.descricao = 'PLANO ' + (p.posicao);
+            novoPlano.posicao = p.posicao;
 
             $scope.objeto.planos.push(novoPlano);
             $scope.currentAnel.planos.splice(index, 1, {idJson: novoPlano.idJson});
@@ -183,14 +183,13 @@ angular.module('influuntApp')
         if(plano.manualExclusivo) {
           planoService.criarPlanoManualExclusivo($scope.objeto, $scope.currentAnel);
         } else {
-          planoService.adicionar($scope.objeto, $scope.currentAnel, index + 1);
+          planoService.adicionar($scope.objeto, $scope.currentAnel, plano.posicao);
         }
 
         atualizaPlanos();
 
         plano = _.find($scope.objeto.planos, {idJson: $scope.currentPlanos[index].idJson});
         plano.id = idPlano;
-        $scope.selecionaPlano($scope.currentPlanos[0], 0);
       };
 
       $scope.resetarPlano = function(plano, index) {
