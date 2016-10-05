@@ -8,4 +8,4 @@
  * Constant in the influuntApp.
  */
 angular.module('influuntApp')
-  .constant('STATUS_CONTROLADOR', ['EM_CONFIGURACAO', 'CONFIGURADO', 'ATIVO', 'EM_EDICAO']);
+  .constant('STATUS_CONTROLADOR', ['', 'EM_CONFIGURACAO', 'CONFIGURADO', 'ATIVO', 'EM_EDICAO']);

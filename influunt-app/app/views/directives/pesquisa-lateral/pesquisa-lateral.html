@@ -8,16 +8,32 @@
       <form role="form" name="formularioPesquisa">
         <div class="form-group" data-ng-repeat="campo in campos"
             data-ng-init="ngModel[campo.nome].tipoCampo = campo.tipo">
-          <div data-ng-if="campo.tipo === 'texto'" class="{{ campo.tipo }}">
+
+          <div data-ng-if="campo.tipo === 'texto' && campo.permission" permission permission-only='campo.permission' class="{{ campo.tipo }}">
             <ng-include src="'views/directives/pesquisa-lateral/texto.html'"></ng-include>
           </div>
-          <div data-ng-if="campo.tipo === 'numerico'" class="{{ campo.tipo }}">
+          <div data-ng-if="campo.tipo === 'texto' && !campo.permission" class="{{ campo.tipo }}">
+            <ng-include src="'views/directives/pesquisa-lateral/texto.html'"></ng-include>
+          </div>
+
+          <div data-ng-if="campo.tipo === 'numerico' && campo.permission" permission permission-only='campo.permission' class="{{ campo.tipo }}">
             <ng-include src="'views/directives/pesquisa-lateral/numerico.html'"></ng-include>
           </div>
-          <div data-ng-if="campo.tipo === 'data'" class="{{ campo.tipo }}">
+          <div data-ng-if="campo.tipo === 'numerico' && !campo.permission" class="{{ campo.tipo }}">
+            <ng-include src="'views/directives/pesquisa-lateral/numerico.html'"></ng-include>
+          </div>
+
+          <div data-ng-if="campo.tipo === 'data' && campo.permission" permission permission-only='campo.permission' class="{{ campo.tipo }}">
             <ng-include src="'views/directives/pesquisa-lateral/data.html'"></ng-include>
           </div>
-          <div data-ng-if="campo.tipo === 'select'" class="{{ campo.tipo }}">
+          <div data-ng-if="campo.tipo === 'data' && !campo.permission" class="{{ campo.tipo }}">
+            <ng-include src="'views/directives/pesquisa-lateral/data.html'"></ng-include>
+          </div>
+
+          <div data-ng-if="campo.tipo === 'select' && campo.permission" permission permission-only='campo.permission' class="{{ campo.tipo }}" >
+            <ng-include src="'views/directives/pesquisa-lateral/select.html'"></ng-include>
+          </div>
+          <div data-ng-if="campo.tipo === 'select' && !campo.permission" class="{{ campo.tipo }}" >
             <ng-include src="'views/directives/pesquisa-lateral/select.html'"></ng-include>
           </div>
         </div>

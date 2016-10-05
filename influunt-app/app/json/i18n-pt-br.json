@@ -673,5 +673,10 @@
     "tempoAusenciaDeteccao": "Tempo de Ausência de Detecção",
     "tempoDeteccaoPermanente": "Tempo de Detecção Permanente",
     "veicular": "Veicular"
-  }
+  },
+  "EM_CONFIGURACAO": "Em Configuração",
+  "CONFIGURADO": "Configurado",
+  "ATIVO": "Ativo",
+  "EM_EDICAO": "Em Edição"
+
 }
