@@ -157,9 +157,11 @@
       </a>
     </div>
     <div class="right">
-      <a data-ng-if="podeSalvar()" go-to-top data-ng-click="submitForm({$valid: true}, 'atraso_de_grupo', 'app.wizard_controladores.atraso_de_grupo')" tooltips tooltip-template="<b>{{ 'geral.tooltip.salvarPermanecer' | translate }}</b> {{ 'controladores.atrasoDeGrupo.titulo' | translate }}" class="btn btn-outline btn-primary btn-footer right m-r-sm right">{{ 'plugins.steps.labels.save' | translate }}
+      <a data-ng-if="podeSalvar()" go-to-top data-ng-click="submitForm({$valid: true}, 'atraso_de_grupo', 'app.wizard_controladores.atraso_de_grupo')" tooltips tooltip-template="<b>{{ 'geral.tooltip.salvarPermanecer' | translate }}</b> {{ 'controladores.atrasoDeGrupo.titulo' | translate }}" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
+        {{ 'plugins.steps.labels.save' | translate }}
       </a>
-      <a data-ng-if="!podeSalvar()" disabled="disabled"  tooltips tooltip-template="<b><span>{{ 'geral.tooltip.naoPodeSalvarSemConfirmacao' | translate }}</span></b>" class="btn btn-primary btn-footer right m-r-sm right">{{ 'plugins.steps.labels.save' | translate }}
+      <a data-ng-if="!podeSalvar()" disabled="disabled"  tooltips tooltip-template="<b><span>{{ 'geral.tooltip.naoPodeSalvarSemConfirmacao' | translate }}</span></b>" class="btn btn-primary btn-footer right m-r-sm right">
+        {{ 'plugins.steps.labels.save' | translate }}
       </a>
     </div>
     <div class="right">

@@ -77,7 +77,6 @@ angular.module('influuntApp')
         $scope.atualizaGruposSemaforicos();
         $scope.selecionaGrupoSemaforico($scope.currentGruposSemaforicos[0], 0);
         $scope.setAtributos();
-        $scope.inicializaConfirmacaoNadaHaPreencher();
       };
 
       $scope.$watch('currentTransicoesComGanhoDePassagem', function() {
