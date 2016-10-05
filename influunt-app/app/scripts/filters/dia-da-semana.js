@@ -11,31 +11,20 @@
 angular.module('influuntApp')
   .filter('diaDaSemana', function () {
     return function (input) {
-      if (input) {
-        switch(input) {
-          case 'SEGUNDA_A_SEXTA':
-            return 'Segunda à Sexta';
-          case 'SEGUNDA_A_SABADO':
-            return 'Segunda à Sábado';
-          case 'SABADO_A_DOMINGO':
-            return 'Sábado e Domingo';
-          case 'TODOS_OS_DIAS':
-            return 'Todos os dias da semana';
-          case 'SEGUNDA':
-            return 'Segunda-feira';
-          case 'TERCA':
-            return 'Terça-feira';
-          case 'QUARTA':
-            return 'Quarta-feira';
-          case 'QUINTA':
-            return 'Quinta-feira';
-          case 'SEXTA':
-            return 'Sexta-feira';
-          case 'SABADO':
-            return 'Sábado';
-          case 'DOMINGO':
-            return 'Domingo';
-        }
-      }
+      var labels = {
+        SEGUNDA_A_SEXTA: 'Segunda à Sexta',
+        SEGUNDA_A_SABADO: 'Segunda à Sábado',
+        SABADO_A_DOMINGO: 'Sábado e Domingo',
+        TODOS_OS_DIAS: 'Todos os dias da semana',
+        SEGUNDA: 'Segunda-feira',
+        TERCA: 'Terça-feira',
+        QUARTA: 'Quarta-feira',
+        QUINTA: 'Quinta-feira',
+        SEXTA: 'Sexta-feira',
+        SABADO: 'Sábado',
+        DOMINGO: 'Domingo'
+      };
+
+      return labels[input];
     };
   });

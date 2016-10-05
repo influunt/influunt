@@ -108,7 +108,8 @@ angular.module('influuntApp')
           numAneisAtivos: _.filter($scope.objeto.aneis, { ativo: true }).length,
           numDetectoresVeicular: _.filter($scope.objeto.detectores, {tipo : 'VEICULAR'}).length,
           numDetectoresPedestre: _.filter($scope.objeto.detectores, {tipo : 'PEDESTRE'}).length,
-          endereco: $scope.objeto.nomeEndereco
+          endereco: $scope.objeto.nomeEndereco,
+          croqui: $scope.getImagemDeCroqui($scope.objeto)
         };
       };
 
@@ -366,6 +367,7 @@ angular.module('influuntApp')
               estagio: _.find($scope.objeto.estagios, { idJson: detector.estagio.idJson }),
               tempoAusenciaDeteccao: detector.tempoAusenciaDeteccao || 0,
               tempoDeteccaoPermanente: detector.tempoDeteccaoPermanente || 0,
+              monitorado: detector.monitorado
             });
           });
         }

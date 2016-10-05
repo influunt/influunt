@@ -23,44 +23,34 @@ angular.module('influuntApp')
     };
 
     getLimits = function(path, objeto) {
-      if (path.match(/tempoVerdeSegurancaFieldVeicular$/)) {
-        return [objeto.verdeSegurancaVeicularMin, objeto.verdeSegurancaVeicularMax];
-      } else if (path.match(/tempoVerdeSegurancaFieldPedestre$/)) {
-        return [objeto.verdeSegurancaPedestreMin, objeto.verdeSegurancaPedestreMax];
-      } else if (path.match(/tempoMaximoPermanenciaOk$/)) {
-        return [objeto.maximoPermanenciaEstagioMin, objeto.maximoPermanenciaEstagioMax];
-      } else if (path.match(/tempoAtrasoDeGrupoDentroDaFaixa$/)) {
-        return [objeto.atrasoGrupoMin, objeto.atrasoGrupoMax];
-      } else if (path.match(/tempoAmareloOk$/)) {
-        return [objeto.amareloMin, objeto.amareloMax];
-      } else if (path.match(/tempoVermelhoIntermitenteOk$/)) {
-        return [objeto.vermelhoIntermitenteMin, objeto.vermelhoIntermitenteMax];
-      } else if (path.match(/tempoVermelhoLimpezaFieldVeicular$/)) {
-        return [objeto.vermelhoLimpezaVeicularMin, objeto.vermelhoLimpezaVeicularMax];
-      } else if (path.match(/tempoVermelhoLimpezaFieldPedestre$/)) {
-        return [objeto.vermelhoLimpezaPedestreMin, objeto.vermelhoLimpezaPedestreMax];
-      } else if (path.match(/tempoAusenciaDeteccaoEstaDentroDaFaixa$/)) {
-        return [objeto.ausenciaDeteccaoMin, objeto.ausenciaDeteccaoMax];
-      } else if (path.match(/tempoDeteccaoPermanenteEstaDentroDaFaixa$/)) {
-        return [objeto.deteccaoPermanenteMin, objeto.deteccaoPermanenteMax];
-      } else if (path.match(/tempoCiclo$/)) {
-        return [objeto.cicloMin, objeto.cicloMax];
-      } else if (path.match(/defasagem$/)) {
-        return [objeto.defasagemMin, objeto.defasagemMax];
-      } else if (path.match(/tempoVerdeMinimo$/)) {
-        return [objeto.verdeMinimoMin, objeto.verdeMinimoMax];
-      } else if (path.match(/tempoVerdeMaximo$/)) {
-        return [objeto.verdeMaximoMin, objeto.verdeMaximoMax];
-      } else if (path.match(/tempoVerdeIntermediario$/)) {
-        return [objeto.verdeIntermediarioMin, objeto.verdeIntermediarioMax];
-      } else if (path.match(/tempoExtensaoVerde$/)) {
-        return [objeto.extensaoVerdeMin, objeto.extensaoVerdeMax];
-      } else if (path.match(/tempoVerde$/)) {
-        return [objeto.verdeMin, objeto.verdeMax];
-      } else if (path.match(/tempoVerdeDemandaPrioritaria$/)) {
-        return [objeto.verdeMin, objeto.verdeMax];
+      if (!angular.isDefined(objeto)) {
+        return [0, 0];
       }
-      return [0, 0];
+
+      var limits = {
+        tempoVerdeSegurancaFieldVeicular: [objeto.verdeSegurancaVeicularMin, objeto.verdeSegurancaVeicularMax],
+        tempoVerdeSegurancaFieldPedestre: [objeto.verdeSegurancaPedestreMin, objeto.verdeSegurancaPedestreMax],
+        tempoMaximoPermanenciaOk: [objeto.maximoPermanenciaEstagioMin, objeto.maximoPermanenciaEstagioMax],
+        tempoAtrasoDeGrupoDentroDaFaixa: [objeto.atrasoGrupoMin, objeto.atrasoGrupoMax],
+        tempoAmareloOk: [objeto.amareloMin, objeto.amareloMax],
+        tempoVermelhoIntermitenteOk: [objeto.vermelhoIntermitenteMin, objeto.vermelhoIntermitenteMax],
+        tempoVermelhoLimpezaFieldVeicular: [objeto.vermelhoLimpezaVeicularMin, objeto.vermelhoLimpezaVeicularMax],
+        tempoVermelhoLimpezaFieldPedestre: [objeto.vermelhoLimpezaPedestreMin, objeto.vermelhoLimpezaPedestreMax],
+        tempoAusenciaDeteccaoEstaDentroDaFaixa: [objeto.ausenciaDeteccaoMin, objeto.ausenciaDeteccaoMax],
+        tempoDeteccaoPermanenteEstaDentroDaFaixa: [objeto.deteccaoPermanenteMin, objeto.deteccaoPermanenteMax],
+        tempoCiclo: [objeto.cicloMin, objeto.cicloMax],
+        defasagem: [objeto.defasagemMin, objeto.defasagemMax],
+        tempoVerdeMinimo: [objeto.verdeMinimoMin, objeto.verdeMinimoMax],
+        tempoVerdeMaximo: [objeto.verdeMaximoMin, objeto.verdeMaximoMax],
+        tempoVerdeIntermediario: [objeto.verdeIntermediarioMin, objeto.verdeIntermediarioMax],
+        tempoExtensaoVerde: [objeto.extensaoVerdeMin, objeto.extensaoVerdeMax],
+        tempoVerde: [objeto.verdeMin, objeto.verdeMax],
+        tempoVerdeDemandaPrioritaria: [objeto.verdeMin, objeto.verdeMax]
+      };
+
+      return _.find(limits, function(value, patten) {
+        return path.match(new RegExp(patten + '$')) && value;
+      }) || [0,0];
     };
 
     var handle = function(errors, objeto) {

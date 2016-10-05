@@ -14,7 +14,7 @@ angular.module('influuntApp')
     function ($scope, $state, $filter, $timeout,
               Restangular, toast, influuntAlert, handleValidations,
               influuntBlockui) {
-    var buildFilterQuery, buildSortQuery;
+    var buildFilterQuery, buildSortQuery, buildFilterDataFields, getDadosFiltroSelect;
     var resourceName = null;
     $scope.pagination = {
       current: 1,
@@ -72,42 +72,46 @@ angular.module('influuntApp')
           query[field] = dadosFiltro.valor;
         } else if(dadosFiltro.tipoCampo === 'select') {
           field = (nomeCampo + '_eq');
-          // TODO - rever enumns na busca, pois mostramos o texto mas temos que enviar o valor numerio da posicao
-          var valor = dadosFiltro.valor;
-          if (nomeCampo === 'statusControlador') {
-            switch(dadosFiltro.valor) {
-              case 'EM_CONFIGURACAO':
-                valor = 0;
-                break;
-              case 'CONFIGURADO':
-                valor = 1;
-                break;
-              case 'ATIVO':
-                valor = 2;
-                break;
-              case 'EM_EDICAO':
-                valor = 3;
-                break;
-            }
-          }
 
-          query[field] = valor;
+          query[field] = getDadosFiltroSelect(dadosFiltro, nomeCampo);
         } else {
-          if (dadosFiltro.start) {
-            if(angular.isString(dadosFiltro.start)) {
-              dadosFiltro.start = moment(dadosFiltro.start, 'DD/MM/YYYY');
-            }
-            query[nomeCampo + '_start'] = moment(dadosFiltro.start).format('DD/MM/YYYY HH:mm:ss');
-          }
-
-          if (dadosFiltro.end) {
-            if(angular.isString(dadosFiltro.end)) {
-              dadosFiltro.end = moment(dadosFiltro.end, 'DD/MM/YYYY');
-            }
-            query[nomeCampo + '_end'] = moment(dadosFiltro.end).format('DD/MM/YYYY HH:mm:ss');
-          }
+          buildFilterDataFields('start', dadosFiltro, query, nomeCampo);
+          buildFilterDataFields('end', dadosFiltro, query, nomeCampo);
         }
       });
+    };
+
+    getDadosFiltroSelect = function(dadosFiltro, nomeCampo) {
+      // TODO - rever enumns na busca, pois mostramos o texto mas temos que enviar o valor numerio da posicao
+      var valor = dadosFiltro.valor;
+      if (nomeCampo === 'statusControlador') {
+        switch(dadosFiltro.valor) {
+          case 'EM_CONFIGURACAO':
+            valor = 0;
+            break;
+          case 'CONFIGURADO':
+            valor = 1;
+            break;
+          case 'ATIVO':
+            valor = 2;
+            break;
+          case 'EM_EDICAO':
+            valor = 3;
+            break;
+        }
+      }
+
+      return valor;
+    };
+
+    buildFilterDataFields = function(type, dadosFiltro, query, nomeCampo) {
+      if (dadosFiltro[type]) {
+        if(angular.isString(dadosFiltro[type])) {
+          dadosFiltro[type] = moment(dadosFiltro[type], 'DD/MM/YYYY');
+        }
+
+        query[nomeCampo + '_' + type] = moment(dadosFiltro[type]).format('DD/MM/YYYY HH:mm:ss');
+      }
     };
 
     buildSortQuery = function(query, pesquisa) {
