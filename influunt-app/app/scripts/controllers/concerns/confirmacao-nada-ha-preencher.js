@@ -24,8 +24,7 @@ angular.module('influuntApp')
       };
 
       $scope.podeSalvar = function() {
-        var podeSalvar = _.values(confirmacaoNadaHaPreencher).every(function(e) {return e;});
-        return podeSalvar;
+        return _.values(confirmacaoNadaHaPreencher).every(function(e) {return e;});
       };
 
       $scope.possuiInformacoesPreenchidas = function() {
