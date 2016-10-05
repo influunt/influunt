@@ -366,6 +366,7 @@ angular.module('influuntApp')
               estagio: _.find($scope.objeto.estagios, { idJson: detector.estagio.idJson }),
               tempoAusenciaDeteccao: detector.tempoAusenciaDeteccao || 0,
               tempoDeteccaoPermanente: detector.tempoDeteccaoPermanente || 0,
+              monitorado: detector.monitorado
             });
           });
         }

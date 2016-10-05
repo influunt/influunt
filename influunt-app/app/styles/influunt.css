@@ -2900,3 +2900,13 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
   font-size: 11px;
   font-weight: 500;
 }
+
+.com-monitoramento {
+  font-size: 18px;
+  color: #1ab394;
+}
+
+.sem-monitoramento {
+  font-size: 18px;
+  color: #ec4758;
+}
