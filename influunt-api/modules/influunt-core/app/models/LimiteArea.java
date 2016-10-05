@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
+import json.serializers.LimiteAreaSerializer;
 import org.joda.time.DateTime;
 
 import javax.persistence.Column;
@@ -24,6 +25,7 @@ import java.util.UUID;
  */
 @Entity
 @ChangeLog
+@JsonSerialize(using = LimiteAreaSerializer.class)
 public class LimiteArea extends Model implements Serializable {
 
     private static final long serialVersionUID = -2938220305527197172L;
