@@ -4,7 +4,7 @@ Funcionalidade: tela de cadastro de agrupamentos
 
   @agrupamentos1
   Cenário: Listagem de agrupamentos
-    Dado que exista ao menos um controlador cadastrado no sistema
+    Dado que o sistema possui ao menos um controlador cadastrado
     Dado que exista ao menos um agrupamento cadastrado no sistema
     Quando o usuário acessar a tela de listagem de agrupamentos
     Então deve ser exibida uma lista com os agrupamentos já cadastrados no sistema
@@ -28,7 +28,7 @@ Funcionalidade: tela de cadastro de agrupamentos
     Então o sistema deverá indicar erro no campo "planoHora"
 
   Cenário: Cadastro de agrupamentos
-    Dado que exista ao menos um controlador cadastrado no sistema
+    Dado que o sistema possui ao menos um controlador cadastrado
     E que este controlador esteja finalizado
     Quando o usuário acessar a tela de cadastro de novos agrupamentos
     E o usuário preencher o campo "Nome" com "Corredor da Paulista"

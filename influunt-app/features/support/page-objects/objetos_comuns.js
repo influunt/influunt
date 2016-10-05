@@ -4,6 +4,14 @@ var worldObj = require('../world');
 var world = new worldObj.World();
 
 var ObjetosComuns = function () {
+  this.cadastrarControlador = function() {
+    return world.execSqlScript('features/support/scripts/planos/controlador.sql');
+  };
+
+  this.cadastrarPlanoParaControlador = function() {
+    return world.execSqlScript('features/support/scripts/controladores/plano_controlador.sql');
+  };
+
   this.clicarLinkNovo = function() {
     return world.waitForOverlayDisappear().then(function (){
       return world.getElement('i[class="fa fa-plus"]').click();
@@ -23,6 +31,10 @@ var ObjetosComuns = function () {
 
   this.limparCampo = function(campo) {
     return world.clearField(campo);
+  };
+
+  this.errosImpeditivos = function(texto){
+    return world.waitForByXpath('//div[contains (@class, "alert")]//li[contains(text(), "'+texto+'")]');
   };
 };
 
