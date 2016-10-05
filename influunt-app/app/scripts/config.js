@@ -1008,9 +1008,9 @@ angular
         return !$rootScope.isAuthenticated() && TELAS_SEM_LOGIN.indexOf(stateName) < 0;
       };
 
-      $rootScope.$on('$stateChangeStart', function() {
+      $rootScope.$on('$stateChangeStart', function(ev, toState) {
         $timeout(function() {
-          if (needLogin()) {
+          if (needLogin(toState.name)) {
             $state.go('login');
           }
         });
