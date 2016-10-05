@@ -71,12 +71,6 @@ var FabricantesPage = function () {
     return world.clickButton(novoFabricanteButton);
   };
 
-  this.clicarLinkComTexto = function(texto) {
-    return world.waitForOverlayDisappear().then(function (){
-      return world.findLinkByText(texto).click();
-    });
-  };
-
   this.fabricanteIdH5 = function() {
     return world.getElement('h5 small').then(function(element) {
       return element.getText();

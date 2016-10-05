@@ -21,7 +21,9 @@ var ModelosPage = function () {
    };
 
   this.getItensTabela = function() {
-    return world.getElements('tbody tr td');
+    return world.sleep(1000).then(function() {
+      return world.getElements('tbody tr td');
+    });
   };
 
   this.clicarBotaoNovoModelo = function() {
@@ -46,12 +48,6 @@ var ModelosPage = function () {
 
   this.isIndex = function() {
     return world.getElements('tbody tr[data-ng-repeat="modelos in lista"]');
-  };
-
-  this.clicarLinkComTexto = function(texto) {
-    return world.waitForOverlayDisappear().then(function (){
-      return world.findLinkByText(texto).click();
-    });
   };
 
   this.isShow = function() {

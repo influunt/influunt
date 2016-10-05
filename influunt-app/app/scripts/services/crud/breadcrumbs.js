@@ -11,7 +11,7 @@
  * Factory in the influuntApp.
  */
 angular.module('influuntApp')
-  .factory('breadcrumbs', ['$state', function ($state) {
+  .service('breadcrumbs', ['$state', '$rootScope', function ($state, $rootScope) {
     /**
      * Monta a estrutura de breadcrumbs do topo de todas as páginas.
      *
@@ -31,7 +31,9 @@ angular.module('influuntApp')
       // Caso o estado seja abstrato (em geral, o último estado do breadcrumb se
       // encaixa neste contexto), o app deverá trabalhar com o estado alternativo,
       // determinado no campo data->redirectTo.
+
       var breadcrumbState = state.abstract ? $state.get(state.data.redirectTo) : state;
+
       breadcrumb.unshift({
         url: breadcrumbState.name,
         title: breadcrumbState.data.breadcrumb || breadcrumbState.data.title
@@ -50,8 +52,13 @@ angular.module('influuntApp')
       return breadcrumb;
     };
 
+    var setNomeEndereco = function(localizacao){
+      $rootScope.controladorLocalizacao = localizacao;
+    };
+
 
     return {
-      path: path
+      path: path,
+      setNomeEndereco: setNomeEndereco
     };
   }]);

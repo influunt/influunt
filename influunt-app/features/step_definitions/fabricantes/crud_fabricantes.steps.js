@@ -2,9 +2,12 @@
 
 var expect = require('chai').expect;
 var FabricantesPages = require('../../support/page-objects/fabricantes');
+var ObjetosComuns = require('../../support/page-objects/objetos_comuns');
+
 
 module.exports = function() {
   var fabricantesPage = new FabricantesPages();
+  var objetosComuns = new ObjetosComuns();
 
   this.Given(/^que exista ao menos um fabricante cadastrado no sistema$/, { timeout: 15 * 1000 }, function() {
     return fabricantesPage.existeAoMenosUmFabricante();
@@ -21,7 +24,7 @@ module.exports = function() {
   });
 
   this.Given(/^clicar no botão de Novo Fabricante$/, function() {
-    return fabricantesPage.clicarLinkComTexto('Novo');
+    return objetosComuns.clicarLinkNovo();
   });
 
   this.Given(/^o sistema deverá redirecionar para o formulário de Cadastro de novo fabricante$/, function() {
@@ -57,7 +60,7 @@ module.exports = function() {
   });
 
   this.Given(/^clicar no botão de visualizar fabricante$/, function() {
-    fabricantesPage.clicarLinkComTexto('Visualizar');
+    objetosComuns.clicarLinkComTexto('Visualizar');
   });
 
   this.Given(/^o sistema deverá redirecionar para a tela de visualização de fabricantes$/, function() {
@@ -67,7 +70,7 @@ module.exports = function() {
   });
 
   this.Given(/^clicar no botão de editar fabricante$/, function() {
-    fabricantesPage.clicarLinkComTexto('Editar');
+    objetosComuns.clicarLinkComTexto('Editar');
   });
 
   this.Given(/^o sistema deverá redirecionar para o formulário de edição fabricantes$/, function() {
@@ -78,11 +81,11 @@ module.exports = function() {
 
   this.Given(/^o usuário acessar o formulário de edição de fabricantes$/, function() {
     fabricantesPage.indexPage();
-    return fabricantesPage.clicarLinkComTexto('Editar');
+    return objetosComuns.clicarLinkComTexto('Editar');
   });
 
   this.Given(/^clicar no botão de excluir um fabricante$/, function() {
-    fabricantesPage.clicarLinkComTexto('Excluir');
+    objetosComuns.clicarLinkComTexto('Excluir');
   });
 
   this.Given(/^o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir o fabricante$/, function() {
@@ -110,7 +113,6 @@ module.exports = function() {
 
   this.Given(/^preenche todos os campos do formulário$/, function () {
     return fabricantesPage.fillFabricanteFormFull('Teste Cadastro Fabricante');
-    //callback(null, 'pending');
   });
 
 };

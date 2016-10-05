@@ -162,6 +162,10 @@ public class VersaoTabelaHoraria extends Model implements Serializable {
         return StatusVersao.EDITANDO.equals(this.getStatusVersao());
     }
 
+    public boolean isConfigurada() {
+        return StatusVersao.CONFIGURADO.equals(this.getStatusVersao());
+    }
+
     public void ativar() {
         setStatusVersao(StatusVersao.ATIVO);
     }

@@ -10,9 +10,23 @@
       <div class="col-sm-5">
         <div class="input-group">
           <span class="input-group-addon">{{ 'faixas_de_valores.de' | translate }}</span>
-          <input type="number" class="input-sm form-control" name="defasagemMin" ng-model="objeto.tempoDefasagemMin">
+          <input type="number"
+                 class="input-sm form-control"
+                 name="defasagemMin"
+                 ng-model="objeto.tempoDefasagemMin"
+                 permission
+                 permission-only="'editarFaixasDeValores'"
+                 permission-on-authorized="PermissionStrategies.enableElement"
+                 permission-on-unauthorized="PermissionStrategies.disableElement">
           <span class="input-group-addon">{{ 'faixas_de_valores.ate' | translate }}</span>
-          <input type="number" class="input-sm form-control" name="defasagemMax" ng-model="objeto.tempoDefasagemMax">
+          <input type="number"
+                 class="input-sm form-control"
+                 name="defasagemMax"
+                 ng-model="objeto.tempoDefasagemMax"
+                 permission
+                 permission-only="'editarFaixasDeValores'"
+                 permission-on-authorized="PermissionStrategies.enableElement"
+                 permission-on-unauthorized="PermissionStrategies.disableElement">
         </div>
       </div>
     </div>
@@ -22,9 +36,23 @@
       <div class="col-sm-5">
         <div class="input-group">
           <span class="input-group-addon">{{ 'faixas_de_valores.de' | translate }}</span>
-          <input type="number" class="input-sm form-control" name="amareloMin" ng-model="objeto.tempoAmareloMin">
+          <input type="number"
+                 class="input-sm form-control"
+                 name="amareloMin"
+                 ng-model="objeto.tempoAmareloMin"
+                 permission
+                 permission-only="'editarFaixasDeValores'"
+                 permission-on-authorized="PermissionStrategies.enableElement"
+                 permission-on-unauthorized="PermissionStrategies.disableElement">
           <span class="input-group-addon">{{ 'faixas_de_valores.ate' | translate }}</span>
-          <input type="number" class="input-sm form-control" name="amareloMax" ng-model="objeto.tempoAmareloMax">
+          <input type="number"
+                 class="input-sm form-control"
+                 name="amareloMax"
+                 ng-model="objeto.tempoAmareloMax"
+                 permission
+                 permission-only="'editarFaixasDeValores'"
+                 permission-on-authorized="PermissionStrategies.enableElement"
+                 permission-on-unauthorized="PermissionStrategies.disableElement">
         </div>
       </div>
     </div>
@@ -34,9 +62,23 @@
       <div class="col-sm-5">
         <div class="input-group">
           <span class="input-group-addon">{{ 'faixas_de_valores.de' | translate }}</span>
-          <input type="number" class="input-sm form-control" name="vermelhoIntermitenteMin" ng-model="objeto.tempoVermelhoIntermitenteMin">
+          <input type="number"
+                 class="input-sm form-control"
+                 name="vermelhoIntermitenteMin"
+                 ng-model="objeto.tempoVermelhoIntermitenteMin"
+                 permission
+                 permission-only="'editarFaixasDeValores'"
+                 permission-on-authorized="PermissionStrategies.enableElement"
+                 permission-on-unauthorized="PermissionStrategies.disableElement">
           <span class="input-group-addon">{{ 'faixas_de_valores.ate' | translate }}</span>
-          <input type="number" class="input-sm form-control" name="vermelhoIntermitenteMax" ng-model="objeto.tempoVermelhoIntermitenteMax">
+          <input type="number"
+                 class="input-sm form-control"
+                 name="vermelhoIntermitenteMax"
+                 ng-model="objeto.tempoVermelhoIntermitenteMax"
+                 permission
+                 permission-only="'editarFaixasDeValores'"
+                 permission-on-authorized="PermissionStrategies.enableElement"
+                 permission-on-unauthorized="PermissionStrategies.disableElement">
         </div>
       </div>
     </div>
@@ -46,9 +88,23 @@
       <div class="col-sm-5">
         <div class="input-group">
           <span class="input-group-addon">{{ 'faixas_de_valores.de' | translate }}</span>
-          <input type="number" class="input-sm form-control" name="tempoVermelhoLimpezaVeicularMin" ng-model="objeto.tempoVermelhoLimpezaVeicularMin">
+          <input type="number"
+                 class="input-sm form-control"
+                 name="tempoVermelhoLimpezaVeicularMin"
+                 ng-model="objeto.tempoVermelhoLimpezaVeicularMin"
+                 permission
+                 permission-only="'editarFaixasDeValores'"
+                 permission-on-authorized="PermissionStrategies.enableElement"
+                 permission-on-unauthorized="PermissionStrategies.disableElement">
           <span class="input-group-addon">{{ 'faixas_de_valores.ate' | translate }}</span>
-          <input type="number" class="input-sm form-control" name="tempoVermelhoLimpezaVeicularMax" ng-model="objeto.tempoVermelhoLimpezaVeicularMax">
+          <input type="number"
+                 class="input-sm form-control"
+                 name="tempoVermelhoLimpezaVeicularMax"
+                 ng-model="objeto.tempoVermelhoLimpezaVeicularMax"
+                 permission
+                 permission-only="'editarFaixasDeValores'"
+                 permission-on-authorized="PermissionStrategies.enableElement"
+                 permission-on-unauthorized="PermissionStrategies.disableElement">
         </div>
       </div>
     </div>
@@ -58,9 +114,23 @@
       <div class="col-sm-5">
         <div class="input-group">
           <span class="input-group-addon">{{ 'faixas_de_valores.de' | translate }}</span>
-          <input type="number" class="input-sm form-control" name="tempoVermelhoLimpezaPedestreMin" ng-model="objeto.tempoVermelhoLimpezaPedestreMin">
+          <input type="number"
+                 class="input-sm form-control"
+                 name="tempoVermelhoLimpezaPedestreMin"
+                 ng-model="objeto.tempoVermelhoLimpezaPedestreMin"
+                 permission
+                 permission-only="'editarFaixasDeValores'"
+                 permission-on-authorized="PermissionStrategies.enableElement"
+                 permission-on-unauthorized="PermissionStrategies.disableElement">
           <span class="input-group-addon">{{ 'faixas_de_valores.ate' | translate }}</span>
-          <input type="number" class="input-sm form-control" name="tempoVermelhoLimpezaPedestreMax" ng-model="objeto.tempoVermelhoLimpezaPedestreMax">
+          <input type="number"
+                 class="input-sm form-control"
+                 name="tempoVermelhoLimpezaPedestreMax"
+                 ng-model="objeto.tempoVermelhoLimpezaPedestreMax"
+                 permission
+                 permission-only="'editarFaixasDeValores'"
+                 permission-on-authorized="PermissionStrategies.enableElement"
+                 permission-on-unauthorized="PermissionStrategies.disableElement">
         </div>
       </div>
     </div>
@@ -70,9 +140,23 @@
       <div class="col-sm-5">
         <div class="input-group">
           <span class="input-group-addon">{{ 'faixas_de_valores.de' | translate }}</span>
-          <input type="number" class="input-sm form-control" name="tempoAtrasoGrupoMin" ng-model="objeto.tempoAtrasoGrupoMin">
+          <input type="number"
+                 class="input-sm form-control"
+                 name="tempoAtrasoGrupoMin"
+                 ng-model="objeto.tempoAtrasoGrupoMin"
+                 permission
+                 permission-only="'editarFaixasDeValores'"
+                 permission-on-authorized="PermissionStrategies.enableElement"
+                 permission-on-unauthorized="PermissionStrategies.disableElement">
           <span class="input-group-addon">{{ 'faixas_de_valores.ate' | translate }}</span>
-          <input type="number" class="input-sm form-control" name="tempoAtrasoGrupoMax" ng-model="objeto.tempoAtrasoGrupoMax">
+          <input type="number"
+                 class="input-sm form-control"
+                 name="tempoAtrasoGrupoMax"
+                 ng-model="objeto.tempoAtrasoGrupoMax"
+                 permission
+                 permission-only="'editarFaixasDeValores'"
+                 permission-on-authorized="PermissionStrategies.enableElement"
+                 permission-on-unauthorized="PermissionStrategies.disableElement">
         </div>
       </div>
     </div>
@@ -82,9 +166,23 @@
       <div class="col-sm-5">
         <div class="input-group">
           <span class="input-group-addon">{{ 'faixas_de_valores.de' | translate }}</span>
-          <input type="number" class="input-sm form-control" name="tempoVerdeSegurancaVeicularMin" ng-model="objeto.tempoVerdeSegurancaVeicularMin">
+          <input type="number"
+                 class="input-sm form-control"
+                 name="tempoVerdeSegurancaVeicularMin"
+                 ng-model="objeto.tempoVerdeSegurancaVeicularMin"
+                 permission
+                 permission-only="'editarFaixasDeValores'"
+                 permission-on-authorized="PermissionStrategies.enableElement"
+                 permission-on-unauthorized="PermissionStrategies.disableElement">
           <span class="input-group-addon">{{ 'faixas_de_valores.ate' | translate }}</span>
-          <input type="number" class="input-sm form-control" name="tempoVerdeSegurancaVeicularMax" ng-model="objeto.tempoVerdeSegurancaVeicularMax">
+          <input type="number"
+                 class="input-sm form-control"
+                 name="tempoVerdeSegurancaVeicularMax"
+                 ng-model="objeto.tempoVerdeSegurancaVeicularMax"
+                 permission
+                 permission-only="'editarFaixasDeValores'"
+                 permission-on-authorized="PermissionStrategies.enableElement"
+                 permission-on-unauthorized="PermissionStrategies.disableElement">
         </div>
       </div>
     </div>
@@ -94,9 +192,23 @@
       <div class="col-sm-5">
         <div class="input-group">
           <span class="input-group-addon">{{ 'faixas_de_valores.de' | translate }}</span>
-          <input type="number" class="input-sm form-control" name="tempoVerdeSegurancaPedestreMin" ng-model="objeto.tempoVerdeSegurancaPedestreMin">
+          <input type="number"
+                 class="input-sm form-control"
+                 name="tempoVerdeSegurancaPedestreMin"
+                 ng-model="objeto.tempoVerdeSegurancaPedestreMin"
+                 permission
+                 permission-only="'editarFaixasDeValores'"
+                 permission-on-authorized="PermissionStrategies.enableElement"
+                 permission-on-unauthorized="PermissionStrategies.disableElement">
           <span class="input-group-addon">{{ 'faixas_de_valores.ate' | translate }}</span>
-          <input type="number" class="input-sm form-control" name="tempoVerdeSegurancaPedestreMax" ng-model="objeto.tempoVerdeSegurancaPedestreMax">
+          <input type="number"
+                 class="input-sm form-control"
+                 name="tempoVerdeSegurancaPedestreMax"
+                 ng-model="objeto.tempoVerdeSegurancaPedestreMax"
+                 permission
+                 permission-only="'editarFaixasDeValores'"
+                 permission-on-authorized="PermissionStrategies.enableElement"
+                 permission-on-unauthorized="PermissionStrategies.disableElement">
         </div>
       </div>
     </div>
@@ -106,13 +218,30 @@
       <div class="col-sm-5">
         <div class="input-group">
           <span class="input-group-addon">{{ 'faixas_de_valores.de' | translate }}</span>
-          <input type="number" class="input-sm form-control" name="tempoMaximoPermanenciaEstagioMin" ng-model="objeto.tempoMaximoPermanenciaEstagioMin">
+          <input type="number"
+                 class="input-sm form-control"
+                 name="tempoMaximoPermanenciaEstagioMin"
+                 ng-model="objeto.tempoMaximoPermanenciaEstagioMin"
+                 permission
+                 permission-only="'editarFaixasDeValores'"
+                 permission-on-authorized="PermissionStrategies.enableElement"
+                 permission-on-unauthorized="PermissionStrategies.disableElement">
           <span class="input-group-addon">{{ 'faixas_de_valores.ate' | translate }}</span>
-          <input type="number" class="input-sm form-control" name="tempoMaximoPermanenciaEstagioMax" ng-model="objeto.tempoMaximoPermanenciaEstagioMax">
+          <input type="number"
+                 class="input-sm form-control"
+                 name="tempoMaximoPermanenciaEstagioMax"
+                 ng-model="objeto.tempoMaximoPermanenciaEstagioMax"
+                 permission
+                 permission-only="'editarFaixasDeValores'"
+                 permission-on-authorized="PermissionStrategies.enableElement"
+                 permission-on-unauthorized="PermissionStrategies.disableElement">
         </div>
-        <div class="input-group">
-          <span class="input-group-addon">{{ 'faixas_de_valores.default' | translate }} {{ 'faixas_de_valores.veicular' | translate }}</span>
-          <input type="number" class="input-sm form-control" name="defaultTempoMaximoPermanenciaEstagioVeicular" ng-model="objeto.defaultTempoMaximoPermanenciaEstagioVeicular">
+        <div data-ng-class="{'has-error': errors.tempoMaximoPermanenciaEstagioVeicularValido || errors.tempoMaximoPermanenciaEstagioVeicularValido }">
+          <div class="input-group">
+            <span class="input-group-addon">{{ 'faixas_de_valores.default' | translate }} {{ 'faixas_de_valores.veicular' | translate }}</span>
+            <input type="number" class="input-sm form-control" name="defaultTempoMaximoPermanenciaEstagioVeicular" ng-model="objeto.defaultTempoMaximoPermanenciaEstagioVeicular">
+          </div>
+          <span class="help-block error-msg" data-ng-repeat="error in errors.tempoMaximoPermanenciaEstagioVeicularValido || errors.tempoMaximoPermanenciaEstagioVeicularValido">{{ error }}</span>
         </div>
       </div>
     </div>
@@ -122,9 +251,23 @@
       <div class="col-sm-5">
         <div class="input-group">
           <span class="input-group-addon">{{ 'faixas_de_valores.de' | translate }}</span>
-          <input type="number" class="input-sm form-control" name="tempoCicloMin" ng-model="objeto.tempoCicloMin">
+          <input type="number"
+                 class="input-sm form-control"
+                 name="tempoCicloMin"
+                 ng-model="objeto.tempoCicloMin"
+                 permission
+                 permission-only="'editarFaixasDeValores'"
+                 permission-on-authorized="PermissionStrategies.enableElement"
+                 permission-on-unauthorized="PermissionStrategies.disableElement">
           <span class="input-group-addon">{{ 'faixas_de_valores.ate' | translate }}</span>
-          <input type="number" class="input-sm form-control" name="tempoCicloMax" ng-model="objeto.tempoCicloMax">
+          <input type="number"
+                 class="input-sm form-control"
+                 name="tempoCicloMax"
+                 ng-model="objeto.tempoCicloMax"
+                 permission
+                 permission-only="'editarFaixasDeValores'"
+                 permission-on-authorized="PermissionStrategies.enableElement"
+                 permission-on-unauthorized="PermissionStrategies.disableElement">
         </div>
       </div>
     </div>
@@ -134,9 +277,23 @@
       <div class="col-sm-5">
         <div class="input-group">
           <span class="input-group-addon">{{ 'faixas_de_valores.de' | translate }}</span>
-          <input type="number" class="input-sm form-control" name="tempoVerdeMinimoMin" ng-model="objeto.tempoVerdeMinimoMin">
+          <input type="number"
+                 class="input-sm form-control"
+                 name="tempoVerdeMinimoMin"
+                 ng-model="objeto.tempoVerdeMinimoMin"
+                 permission
+                 permission-only="'editarFaixasDeValores'"
+                 permission-on-authorized="PermissionStrategies.enableElement"
+                 permission-on-unauthorized="PermissionStrategies.disableElement">
           <span class="input-group-addon">{{ 'faixas_de_valores.ate' | translate }}</span>
-          <input type="number" class="input-sm form-control" name="tempoVerdeMinimoMax" ng-model="objeto.tempoVerdeMinimoMax">
+          <input type="number"
+                 class="input-sm form-control"
+                 name="tempoVerdeMinimoMax"
+                 ng-model="objeto.tempoVerdeMinimoMax"
+                 permission
+                 permission-only="'editarFaixasDeValores'"
+                 permission-on-authorized="PermissionStrategies.enableElement"
+                 permission-on-unauthorized="PermissionStrategies.disableElement">
         </div>
       </div>
     </div>
@@ -146,9 +303,23 @@
       <div class="col-sm-5">
         <div class="input-group">
           <span class="input-group-addon">{{ 'faixas_de_valores.de' | translate }}</span>
-          <input type="number" class="input-sm form-control" name="tempoVerdeMaximoMin" ng-model="objeto.tempoVerdeMaximoMin">
+          <input type="number"
+                 class="input-sm form-control"
+                 name="tempoVerdeMaximoMin"
+                 ng-model="objeto.tempoVerdeMaximoMin"
+                 permission
+                 permission-only="'editarFaixasDeValores'"
+                 permission-on-authorized="PermissionStrategies.enableElement"
+                 permission-on-unauthorized="PermissionStrategies.disableElement">
           <span class="input-group-addon">{{ 'faixas_de_valores.ate' | translate }}</span>
-          <input type="number" class="input-sm form-control" name="tempoVerdeMaximoMax" ng-model="objeto.tempoVerdeMaximoMax">
+          <input type="number"
+                 class="input-sm form-control"
+                 name="tempoVerdeMaximoMax"
+                 ng-model="objeto.tempoVerdeMaximoMax"
+                 permission
+                 permission-only="'editarFaixasDeValores'"
+                 permission-on-authorized="PermissionStrategies.enableElement"
+                 permission-on-unauthorized="PermissionStrategies.disableElement">
         </div>
       </div>
     </div>
@@ -158,9 +329,23 @@
       <div class="col-sm-5">
         <div class="input-group">
           <span class="input-group-addon">{{ 'faixas_de_valores.de' | translate }}</span>
-          <input type="number" class="input-sm form-control" name="tempoVerdeIntermediarioMin" ng-model="objeto.tempoVerdeIntermediarioMin">
+          <input type="number"
+                 class="input-sm form-control"
+                 name="tempoVerdeIntermediarioMin"
+                 ng-model="objeto.tempoVerdeIntermediarioMin"
+                 permission
+                 permission-only="'editarFaixasDeValores'"
+                 permission-on-authorized="PermissionStrategies.enableElement"
+                 permission-on-unauthorized="PermissionStrategies.disableElement">
           <span class="input-group-addon">{{ 'faixas_de_valores.ate' | translate }}</span>
-          <input type="number" class="input-sm form-control" name="tempoVerdeIntermediarioMax" ng-model="objeto.tempoVerdeIntermediarioMax">
+          <input type="number"
+                 class="input-sm form-control"
+                 name="tempoVerdeIntermediarioMax"
+                 ng-model="objeto.tempoVerdeIntermediarioMax"
+                 permission
+                 permission-only="'editarFaixasDeValores'"
+                 permission-on-authorized="PermissionStrategies.enableElement"
+                 permission-on-unauthorized="PermissionStrategies.disableElement">
         </div>
       </div>
     </div>
@@ -170,9 +355,23 @@
       <div class="col-sm-5">
         <div class="input-group">
           <span class="input-group-addon">{{ 'faixas_de_valores.de' | translate }}</span>
-          <input type="number" class="input-sm form-control" name="tempoExtensaoVerdeMin" ng-model="objeto.tempoExtensaoVerdeMin">
+          <input type="number"
+                 class="input-sm form-control"
+                 name="tempoExtensaoVerdeMin"
+                 ng-model="objeto.tempoExtensaoVerdeMin"
+                 permission
+                 permission-only="'editarFaixasDeValores'"
+                 permission-on-authorized="PermissionStrategies.enableElement"
+                 permission-on-unauthorized="PermissionStrategies.disableElement">
           <span class="input-group-addon">{{ 'faixas_de_valores.ate' | translate }}</span>
-          <input type="number" class="input-sm form-control" name="tempoExtensaoVerdeMax" ng-model="objeto.tempoExtensaoVerdeMax">
+          <input type="number"
+                 class="input-sm form-control"
+                 name="tempoExtensaoVerdeMax"
+                 ng-model="objeto.tempoExtensaoVerdeMax"
+                 permission
+                 permission-only="'editarFaixasDeValores'"
+                 permission-on-authorized="PermissionStrategies.enableElement"
+                 permission-on-unauthorized="PermissionStrategies.disableElement">
         </div>
       </div>
     </div>
@@ -182,9 +381,23 @@
       <div class="col-sm-5">
         <div class="input-group">
           <span class="input-group-addon">{{ 'faixas_de_valores.de' | translate }}</span>
-          <input type="number" class="input-sm form-control" name="tempoVerdeMin" ng-model="objeto.tempoVerdeMin">
+          <input type="number"
+                 class="input-sm form-control"
+                 name="tempoVerdeMin"
+                 ng-model="objeto.tempoVerdeMin"
+                 permission
+                 permission-only="'editarFaixasDeValores'"
+                 permission-on-authorized="PermissionStrategies.enableElement"
+                 permission-on-unauthorized="PermissionStrategies.disableElement">
           <span class="input-group-addon">{{ 'faixas_de_valores.ate' | translate }}</span>
-          <input type="number" class="input-sm form-control" name="tempoVerdeMax" ng-model="objeto.tempoVerdeMax">
+          <input type="number"
+                 class="input-sm form-control"
+                 name="tempoVerdeMax"
+                 ng-model="objeto.tempoVerdeMax"
+                 permission
+                 permission-only="'editarFaixasDeValores'"
+                 permission-on-authorized="PermissionStrategies.enableElement"
+                 permission-on-unauthorized="PermissionStrategies.disableElement">
         </div>
       </div>
     </div>
@@ -194,9 +407,23 @@
       <div class="col-sm-5">
         <div class="input-group">
           <span class="input-group-addon">{{ 'faixas_de_valores.de' | translate }}</span>
-          <input type="number" class="input-sm form-control" name="tempoAusenciaDeteccaoMin" ng-model="objeto.tempoAusenciaDeteccaoMin">
+          <input type="number"
+                 class="input-sm form-control"
+                 name="tempoAusenciaDeteccaoMin"
+                 ng-model="objeto.tempoAusenciaDeteccaoMin"
+                 permission
+                 permission-only="'editarFaixasDeValores'"
+                 permission-on-authorized="PermissionStrategies.enableElement"
+                 permission-on-unauthorized="PermissionStrategies.disableElement">
           <span class="input-group-addon">{{ 'faixas_de_valores.ate' | translate }}</span>
-          <input type="number" class="input-sm form-control" name="tempoAusenciaDeteccaoMax" ng-model="objeto.tempoAusenciaDeteccaoMax">
+          <input type="number"
+                 class="input-sm form-control"
+                 name="tempoAusenciaDeteccaoMax"
+                 ng-model="objeto.tempoAusenciaDeteccaoMax"
+                 permission
+                 permission-only="'editarFaixasDeValores'"
+                 permission-on-authorized="PermissionStrategies.enableElement"
+                 permission-on-unauthorized="PermissionStrategies.disableElement">
         </div>
       </div>
     </div>
@@ -206,14 +433,28 @@
       <div class="col-sm-5">
         <div class="input-group">
           <span class="input-group-addon">{{ 'faixas_de_valores.de' | translate }}</span>
-          <input type="number" class="input-sm form-control" name="tempoDeteccaoPermanenteMin" ng-model="objeto.tempoDeteccaoPermanenteMin">
+          <input type="number"
+                 class="input-sm form-control"
+                 name="tempoDeteccaoPermanenteMin"
+                 ng-model="objeto.tempoDeteccaoPermanenteMin"
+                 permission
+                 permission-only="'editarFaixasDeValores'"
+                 permission-on-authorized="PermissionStrategies.enableElement"
+                 permission-on-unauthorized="PermissionStrategies.disableElement">
           <span class="input-group-addon">{{ 'faixas_de_valores.ate' | translate }}</span>
-          <input type="number" class="input-sm form-control" name="tempoDeteccaoPermanenteMax" ng-model="objeto.tempoDeteccaoPermanenteMax">
+          <input type="number"
+                 class="input-sm form-control"
+                 name="tempoDeteccaoPermanenteMax"
+                 ng-model="objeto.tempoDeteccaoPermanenteMax"
+                 permission
+                 permission-only="'editarFaixasDeValores'"
+                 permission-on-authorized="PermissionStrategies.enableElement"
+                 permission-on-unauthorized="PermissionStrategies.disableElement">
         </div>
       </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" permission permission-only="'editarFaixasDeValores'">
       <div class="col-sm-4 col-sm-offset-2">
         <input class="btn btn-primary" name="commit" type="submit" value="{{ 'geral.crud.salvar' | translate }}">
         <a class="btn btn-default" ui-sref="app.main">{{ 'geral.crud.voltar' | translate }}</a>

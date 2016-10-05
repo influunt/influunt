@@ -59,7 +59,6 @@
     <script src="/bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="/bower_components/angular-touch/angular-touch.js"></script>
     <script src="/bower_components/jquery.slimscroll/jquery.slimscroll.js"></script>
-    <script src="/bower_components/jquery.slimscroll/jquery.slimscroll.min.js"></script>
     <script src="/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="/bower_components/angular-translate/angular-translate.js"></script>
     <script src="/bower_components/messageformat/messageformat.js"></script>
@@ -86,13 +85,15 @@
     <script src="/bower_components/moment/min/moment.min.js"></script>
     <script src="/bower_components/moment/min/locales.min.js"></script>
     <script src="/bower_components/moment-timezone/builds/moment-timezone-with-data-2010-2020.js"></script>
-    <script src="/bower_components/angular-datepicker/dist/angular-datepicker.js"></script>
     <script src="/bower_components/bowser/src/bowser.js"></script>
     <script src="/bower_components/string/dist/string.min.js"></script>
     <script src="/bower_components/angular-tooltips/dist/angular-tooltips.min.js"></script>
     <script src="/bower_components/hull-js/dist/hull.js"></script>
     <script src="/bower_components/humanize-duration/humanize-duration.js"></script>
     <script src="/bower_components/phaser/build/phaser.js"></script>
+    <script src="/bower_components/angular-permission/dist/angular-permission.js"></script>
+    <script src="/bower_components/angular-permission/dist/angular-permission-ui.js"></script>
+    <script src="/bower_components/angular-permission/dist/angular-permission-ng.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -112,6 +113,7 @@
     <script src="plugins/uiTabs/lib/ui.tabs.closable.js"></script>
     <script src="plugins/cropper/cropper.min.js"></script>
     <script src="plugins/footable/footable.all.min.js"></script>
+    <script src="plugins/angular-datepicker/angular-datepicker.js"></script>
 
     <script src="scripts/app.js"></script>
     <script src="plugins/inspinia-directives.js"></script>
@@ -136,7 +138,6 @@
     <script src="scripts/controllers/subareas.js"></script>
     <script src="scripts/controllers/concerns/crud.js"></script>
     <script src="scripts/controllers/concerns/confirmacao-nada-ha-preencher.js"></script>
-    <script src="scripts/controllers/tipos-detectores.js"></script>
     <script src="scripts/services/validacoes/aneis.js"></script>
     <script src="scripts/controllers/fabricantes.js"></script>
     <script src="scripts/controllers/modelos.js"></script>
@@ -209,8 +210,13 @@
     <script src="scripts/services/status_controlador.js"></script>
     <script src="scripts/filters/dia-da-semana.js"></script>
     <script src="scripts/filters/influunt-time.js"></script>
+    <script src="scripts/services/util/controladores.js"></script>
+    <script src="scripts/services/planos/plano-service.js"></script>
     <script src="scripts/services/mapa/filtros.js"></script>
-
+    <script src="scripts/services/remover-planos-tabelas-horarias.js"></script>
+    <script src="scripts/services/permissions-service.js"></script>
+    <script src="scripts/services/initializers/permissions.js"></script>
+    <script src="scripts/services/util/objects.js"></script>
     <!-- endbuild -->
 
     <script type="text/javascript">

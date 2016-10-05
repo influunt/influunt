@@ -8,12 +8,16 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresDadosBasicosCtrl', ['$scope', '$controller', '$filter', 'influuntBlockui',
-    function ($scope, $controller, $filter, influuntBlockui) {
+  .controller('ControladoresDadosBasicosCtrl', ['$scope', '$controller', '$filter', 'influuntBlockui', 'influuntAlert', 'Restangular', 'toast',
+    function ($scope, $controller, $filter, influuntBlockui, influuntAlert, Restangular, toast) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
+      var deletarCroquiNoServidor, inicializaObjetoCroqui;
+
       $scope.inicializaWizardDadosBasicos = function() {
-        return $scope.inicializaWizard().finally(influuntBlockui.unblock);
+        return $scope.inicializaWizard().then(function (){
+          inicializaObjetoCroqui();
+        }).finally(influuntBlockui.unblock);
       };
 
       $scope.$watch('objeto.todosEnderecos', function(todosEnderecos) {
@@ -33,5 +37,54 @@ angular.module('influuntApp')
       $scope.$watch('objeto.modelo', function(modelo) {
         $scope.modeloControlador = modelo;
       });
+
+      $scope.adicionarCroqui = function(upload, imagem) {
+        var _imagem = { id: imagem.id, filename: imagem.filename, idJson: imagem.idJson };
+
+        $scope.objeto.croqui = {id: _imagem.id, idJson: _imagem.idJson};
+        $scope.objeto.imagens = $scope.objeto.imagens || [];
+        $scope.objeto.imagens.push(_imagem);
+      };
+
+      $scope.removerCroquiLocal = function(img) {
+        var imagemIndex = _.findIndex($scope.objeto.imagens, { id: img.id });
+        $scope.imagemCroqui = null;
+        delete $scope.objeto.croqui;
+        $scope.objeto.imagens.splice(imagemIndex, 1);
+      };
+
+      $scope.removerCroqui = function(imagemIdJson) {
+        return influuntAlert.delete().then(function(confirmado) {
+          if (confirmado) {
+            return deletarCroquiNoServidor(imagemIdJson)
+              .then(function() {
+                $scope.removerCroquiLocal(imagemIdJson);
+                return true;
+              })
+              .catch(function() {
+                toast.error($filter('translate')('geral.erro_deletar_croqui'));
+                return false;
+              })
+              .finally(influuntBlockui.unblock);
+          }
+          return confirmado;
+        });
+      };
+
+      deletarCroquiNoServidor = function(imagemIdJson) {
+        var imagem = _.find($scope.objeto.imagens, { idJson: imagemIdJson });
+        return Restangular.one('imagens', imagem.id).customDELETE('croqui');
+      };
+
+      inicializaObjetoCroqui = function() {
+        var croqui = $scope.objeto.croqui;
+        if (!!croqui) {
+          $scope.imagemCroqui = {
+            idJson: croqui.idJson,
+            url: $filter('imageSource')(croqui.id),
+            nomeImagem: croqui.filename
+          };
+        }
+      };
 
     }]);

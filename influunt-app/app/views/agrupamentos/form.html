@@ -8,7 +8,7 @@
     </div>
   </uib-alert>
 
-  <form class="simple_form form-horizontal" method="post" name="formAgrupamentos" novalidate="novalidate" data-ng-submit="save()">
+  <form class="simple_form form-horizontal" method="post" name="formAgrupamentos" novalidate="novalidate" data-ng-submit="salvar()">
     <div class="col-lg-3 col-sm-3">
       <div class="form-group" data-ng-class="{ 'has-error': errors.nome }">
         <label class="control-label">{{ 'agrupamentos.nome' | translate }}</label>
@@ -48,7 +48,7 @@
                 data-ng-change="watcherSubareasSelecionadas()"></select>
       </div>
 
-      <div class="form-group">
+      <div class="form-group" data-ng-class="{ 'has-error': errors.aneis }">
         <label class="control-label">{{ 'agrupamentos.controladoresAvulso' | translate }}</label>
         <select name="controladores"
                 select2
@@ -57,6 +57,7 @@
                 data-ng-options="option.nomeEndereco for option in controladoresDisponiveisParaEscolha track by option.id"
                 data-ng-model="controladoresSelecionados.controladores"
                 data-ng-change="watcherControladoresSelecionados()"></select>
+        <p class="help-block error-msg" data-ng-repeat="error in errors.aneis">{{ error }}</p>
       </div>
     </div>
 
@@ -75,16 +76,20 @@
           <tbody>
             <tr>
               <td width="51%">
-                <select name="agrupamentoPlanoDiaSemana" class="form-control" data-ng-model="objeto.diaDaSemana">
-                  <option data-ng-repeat="dia in dias" value="{{dia.value}}">{{dia.label}}</option>
-                </select>
-                <p class="help-block error-msg" data-ng-repeat="error in errors.diaDaSemana">{{ error }}</p>
+                <div data-ng-class="{ 'has-error': errors.diaDaSemana }">
+                  <select name="agrupamentoPlanoDiaSemana" class="form-control" data-ng-model="objeto.diaDaSemana">
+                    <option data-ng-repeat="dia in dias" value="{{dia.value}}">{{dia.label}}</option>
+                  </select>
+                  <p class="help-block error-msg" data-ng-repeat="error in errors.diaDaSemana">{{ error }}</p>
+                </div>
               </td>
               <td width="10%">
-                <select name="planoHora" data-ng-model="objeto.hora" class="form-control" data-ng-change="atualizaHorario()">
-                  <option data-ng-repeat="hora in horarios track by $index" value="{{$index}}">{{hora}}</option>
-                </select>
-                <p class="help-block error-msg" data-ng-repeat="error in errors.horario">{{ error }}</p>
+                <div data-ng-class="{ 'has-error': errors.diaDaSemana }">
+                  <select name="planoHora" data-ng-model="objeto.hora" class="form-control" data-ng-change="atualizaHorario()">
+                    <option data-ng-repeat="hora in horarios track by $index" value="{{$index}}">{{hora}}</option>
+                  </select>
+                  <p class="help-block error-msg" data-ng-repeat="error in errors.horario">{{ error }}</p>
+                </div>
               </td>
               <td width="10%">
                 <select name="planoMinuto" data-ng-model="objeto.minuto" class="form-control" data-ng-change="atualizaHorario()">

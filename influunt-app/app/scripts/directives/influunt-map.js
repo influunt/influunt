@@ -74,6 +74,7 @@ angular.module('influuntApp')
                 scope.onClickMarker({$markerData: markerData});
             });
 
+          map.setView([obj.latitude, obj.longitude]);
           return marker;
         };
 

@@ -320,7 +320,7 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
             message = "Esse grupo semafórico não pode estar associado a um estágio de demanda prioritária e a outro estágio ao mesmo tempo.")
     public boolean isNaoEstaAssociadoAEstagioDemandaPrioritariaEOutroEstagio() {
-        if(getEstagiosGruposSemaforicos() != null && getEstagiosGruposSemaforicos().stream().anyMatch(estagioGrupoSemaforico -> estagioGrupoSemaforico.getEstagio().isDemandaPrioritaria())){
+        if (getEstagiosGruposSemaforicos() != null && getEstagiosGruposSemaforicos().stream().anyMatch(estagioGrupoSemaforico -> estagioGrupoSemaforico.getEstagio().isDemandaPrioritaria())) {
             return getEstagiosGruposSemaforicos().size() <= 1;
         }
         return true;
@@ -474,7 +474,12 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
     }
 
     public Transicao findTransicaoByOrigemDestino(Estagio origem, Estagio destino) {
-        return getTransicoes().stream().filter(transicao -> transicao.getOrigem().equals(origem) && transicao.getDestino().equals(destino)).findFirst().orElse(null);
+        return getTransicoesComPerdaDePassagem().stream().filter(transicao -> transicao.getOrigem().equals(origem) && transicao.getDestino().equals(destino)).findFirst().orElse(null);
+    }
+
+    public TabelaEntreVerdesTransicao findTabelaEntreVerdesTransicaoByTransicao(Integer posicaoTabelaEntreVerde, Transicao transicao) {
+        TabelaEntreVerdes tabelaEntreVerdes = getTabelasEntreVerdes().stream().filter(tev -> tev.getPosicao().equals(posicaoTabelaEntreVerde)).findFirst().orElse(null);
+        return tabelaEntreVerdes.getTabelaEntreVerdesTransicoes().stream().filter(tevt -> tevt.getTransicao().equals(transicao)).findFirst().orElse(null);
     }
 
     public void addTransicao(Transicao transicao) {

@@ -2,9 +2,6 @@
 
 describe('Service: authInterceptor', function () {
 
-  // load the service's module
-  beforeEach(module('influuntApp'));
-
   // instantiate service
   var authInterceptor;
   beforeEach(inject(function (_authInterceptor_) {

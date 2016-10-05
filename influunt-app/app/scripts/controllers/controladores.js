@@ -8,14 +8,20 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresCtrl', ['$controller', '$scope', '$state', '$filter', 'Restangular', '$q', 'handleValidations', 'APP_ROOT', 'influuntBlockui', 'toast', 'influuntAlert', 'STATUS_CONTROLADOR',
-    function ($controller, $scope, $state, $filter, Restangular, $q, handleValidations, APP_ROOT, influuntBlockui, toast, influuntAlert, STATUS_CONTROLADOR) {
+  .controller('ControladoresCtrl', ['$controller', '$scope', '$state', '$filter', 'Restangular', '$q',
+                                    'handleValidations', 'APP_ROOT', 'influuntBlockui', 'toast', 'influuntAlert',
+                                    'STATUS_CONTROLADOR', 'breadcrumbs', 'assertControlador',
+    function ($controller, $scope, $state, $filter, Restangular, $q,
+              handleValidations, APP_ROOT, influuntBlockui, toast, influuntAlert,
+              STATUS_CONTROLADOR, breadcrumbs, assertControlador) {
 
       var setLocalizacaoNoCurrentAnel;
       // Herda todo o comportamento do crud basico.
       $controller('CrudCtrl', {$scope: $scope});
       $scope.inicializaNovoCrud('controladores');
       $scope.hideRemoveCoordenada = true;
+
+      $scope.assertControlador = assertControlador;
 
       // Seta URL para salvar imagens
       $scope.dados = {
@@ -200,6 +206,7 @@ angular.module('influuntApp')
         $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
         $scope.currentAnel = $scope.objeto.aneis[$scope.currentAnelIndex];
         setLocalizacaoNoCurrentAnel($scope.currentAnel);
+        breadcrumbs.setNomeEndereco($scope.currentAnel.localizacao);
       };
 
       setLocalizacaoNoCurrentAnel = function(currentAnel){
@@ -415,22 +422,43 @@ angular.module('influuntApp')
         return imagem && $filter('imageSource')(imagem.id, 'thumb');
       };
 
-      $scope.getImagemDeCroqui = function(anel) {
-        if (anel.croqui) {
-          var imagem = _.find($scope.objeto.imagens, { idJson: anel.croqui.idJson });
+      $scope.getImagemDeCroqui = function(el) {
+        if (el.croqui) {
+          var imagem = _.find($scope.objeto.imagens, { idJson: el.croqui.idJson });
           return imagem && $filter('imageSource')(imagem.id, 'thumb');
         }
       };
 
+      $scope.editarEmRevisao = function(controlador, step) {
+        if (controlador.statusControlador === 'EM_CONFIGURACAO' || controlador.statusControlador === 'EM_EDICAO') {
+          $scope.configurar(controlador.id, step);
+        } else {
+          $scope.copiar(controlador.id, step);
+        }
+      };
 
-      $scope.copiar = function(controladorId) {
-        return Restangular.one('controladores', controladorId).all("edit").customGET()
+      $scope.copiar = function(controladorId, step) {
+        step = step || 'app.wizard_controladores.dados_basicos';
+        return Restangular.one('controladores', controladorId).all("edit").customPOST()
           .then(function(res) {
-            $state.go('app.wizard_controladores.dados_basicos',{id: res.id});
+            $state.go(step,{id: res.id});
           })
           .catch(function(err) {
             toast.error($filter('translate')('geral.mensagens.default_erro'));
             throw new Error(JSON.stringify(err));
+          })
+          .finally(influuntBlockui.unblock);
+      };
+
+      $scope.configurar = function(controladorId, step) {
+        step = step || 'app.wizard_controladores.dados_basicos';
+        return Restangular.one('controladores', controladorId).all('pode_editar').customGET()
+          .then(function() {
+            $state.go(step,{id: controladorId});
+          })
+          .catch(function(err) {
+            toast.clear();
+            influuntAlert.alert('Controlador', err.data[0].message);
           })
           .finally(influuntBlockui.unblock);
       };
@@ -444,18 +472,6 @@ angular.module('influuntApp')
           .catch(function(err) {
             toast.error($filter('translate')('geral.mensagens.default_erro'));
             throw new Error(JSON.stringify(err));
-          })
-          .finally(influuntBlockui.unblock);
-      };
-
-      $scope.configurar = function(controladorId) {
-        return Restangular.one('controladores', controladorId).all('pode_editar').customGET()
-          .then(function() {
-            $state.go('app.wizard_controladores.dados_basicos',{id: controladorId});
-          })
-          .catch(function(err) {
-            toast.clear();
-            influuntAlert.alert('Controlador', err.data[0].message);
           })
           .finally(influuntBlockui.unblock);
       };
@@ -487,7 +503,7 @@ angular.module('influuntApp')
           .all('ativar')
           .customPUT()
           .then(function() {
-            $scope.index();
+            return $scope.index();
           })
           .catch(function(err) {
             toast.clear();

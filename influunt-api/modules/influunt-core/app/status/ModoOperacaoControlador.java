@@ -5,7 +5,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jongo.Aggregate;
 import org.jongo.MongoCollection;
 import org.jongo.MongoCursor;
-import play.Logger;
 import play.api.Play;
 import uk.co.panaxiom.playjongo.PlayJongo;
 

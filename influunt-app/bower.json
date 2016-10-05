@@ -37,7 +37,8 @@
     "angular-tooltips": "^1.1.7",
     "hull-js": "^0.2.10",
     "humanize-duration": "^3.9.1",
-    "phaser": "~2.6.2"
+    "phaser": "~2.6.2",
+    "angular-permission": "~4.0.6"
   },
   "devDependencies": {
     "angular-mocks": "^1.4.0"
@@ -45,6 +46,11 @@
   "appPath": "app",
   "moduleName": "influuntApp",
   "overrides": {
+    "angular-datepicker": {
+      "main": [
+        "./dist/angular-datepicker.css"
+      ]
+    },
     "bootstrap": {
       "main": [
         "less/bootstrap.less",
@@ -57,6 +63,11 @@
         "min/moment.min.js",
         "min/locales.min.js"
       ]
+    },
+    "jquery.slimscroll" : {
+      "main": [
+         "jquery.slimscroll.js"
+       ]
     }
   },
   "resolutions": {

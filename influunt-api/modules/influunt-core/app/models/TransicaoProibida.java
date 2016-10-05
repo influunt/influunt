@@ -145,6 +145,15 @@ public class TransicaoProibida extends Model implements Serializable {
 
     }
 
+    @AssertTrue(groups = ControladorTransicoesProibidasCheck.class,
+            message = "O Estágio de origem não pode ter transição proibida para estágio alternativo.")
+    public boolean isOrigemNaoPossuiTransicaoProibidaParaAlternativo() {
+        if (getAlternativo() != null && getOrigem() != null) {
+            return !getOrigem().temTransicaoProibidaParaEstagio(getAlternativo());
+        }
+        return true;
+    }
+
     public boolean isDestroy() {
         return destroy;
     }

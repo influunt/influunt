@@ -70,6 +70,9 @@ public class Evento extends Model implements Cloneable, Serializable, Comparable
     @NotNull(message = "não pode ficar em branco")
     private TabelaHorario tabelaHorario;
 
+    @ManyToOne
+    private Agrupamento agrupamento;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
@@ -331,5 +334,13 @@ public class Evento extends Model implements Cloneable, Serializable, Comparable
         }
 
         return dataHora.withMillisOfDay(0).plusMillis(this.horario.getMillisOfDay());
+    }
+
+    public Agrupamento getAgrupamento() {
+        return agrupamento;
+    }
+
+    public void setAgrupamento(Agrupamento agrupamento) {
+        this.agrupamento = agrupamento;
     }
 }

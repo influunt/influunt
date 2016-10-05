@@ -8,9 +8,10 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresAssociacaoCtrl', ['$scope', '$state', '$controller', 'assertControlador', 'utilEstagios',
-    function ($scope, $state, $controller, assertControlador, utilEstagios) {
+  .controller('ControladoresAssociacaoCtrl', ['$scope', '$state', '$controller', 'assertControlador', 'utilEstagios', 'removerPlanosTabelasHorarias',
+    function ($scope, $state, $controller, assertControlador, utilEstagios, removerPlanosTabelasHorarias) {
       $controller('ControladoresCtrl', {$scope: $scope});
+
 
       var atualizaPosicaoEstagios, onSortableStop, marcaGrupoEstagiosAtivos, atualizaValorDefaultTempoMaximoPermanenciaEstagios, estagioVeicular;
 
@@ -22,9 +23,9 @@ angular.module('influuntApp')
        * @return     {boolean}  { description_of_the_return_value }
        */
       $scope.assertAssociacoes = function() {
-        var valid = assertControlador.hasAneis($scope.objeto) && assertControlador.hasEstagios($scope.objeto);
+        var valid = assertControlador.assertStepAssociacao($scope.objeto);
         if (!valid) {
-          $state.go('app.wizard_controladores.configuracao_grupo', {id: $scope.objeto.id});
+          $state.go('app.wizard_controladores.verdes_conflitantes', {id: $scope.objeto.id});
         }
 
         return valid;
@@ -134,6 +135,7 @@ angular.module('influuntApp')
         }
 
         atualizaValorDefaultTempoMaximoPermanenciaEstagios(estagio);
+        removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor($scope.objeto);
       };
 
       $scope.estagioTemErro = function(indiceAnel, indiceEstagio) {
@@ -152,7 +154,7 @@ angular.module('influuntApp')
         var errors = _.get($scope.errors, 'aneis[' + indiceAnel + '].gruposSemaforicos[' + indiceGrupo + ']');
         return errors;
       };
-      
+
       $scope.getErrosAneis = function(listaErros) {
         var erros = _
           .chain(listaErros)
@@ -230,4 +232,5 @@ angular.module('influuntApp')
           $scope.$apply(onSortableStop);
         }
       };
+
     }]);

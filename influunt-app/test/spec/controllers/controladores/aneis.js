@@ -2,10 +2,6 @@
 
 describe('Controller: ControladoresAneisCtrl', function () {
 
-  beforeEach(module('influuntApp', function(RestangularProvider) {
-    RestangularProvider.setBaseUrl('');
-  }));
-
   var ControladoresAneisCtrl,
     scope,
     $httpBackend,
@@ -26,7 +22,6 @@ describe('Controller: ControladoresAneisCtrl', function () {
     $httpBackend.expectGET('/helpers/controlador').respond(helpers);
     scope.inicializaWizard();
     $httpBackend.flush();
-
   }));
 
   it('Deve conter as definições de funções do ControladorCtrl', function() {
@@ -75,6 +70,7 @@ describe('Controller: ControladoresAneisCtrl', function () {
         scope.$apply();
         expect(scope.currentAnelIndex).toBe(0);
         expect(scope.currentAnel).toBe(scope.aneis[0]);
+        expect(scope.controladorLocalizacao).toBe(scope.aneis[0].localizacao);
       });
 
       it('Deve iniciar o primeiro anel com SMEE do dados básicos', function () {
@@ -89,6 +85,7 @@ describe('Controller: ControladoresAneisCtrl', function () {
       it('Deve criar o texto em "nomeEndereco" associando os nomes do "Av Bandeirantes" "com" "Av Afonso Penna"', function() {
         var anel = scope.objeto.aneis[0];
         expect(anel.localizacao).toBe('Av Bandeirantes com Av Afonso Penna');
+        expect(scope.controladorLocalizacao).toBe('Av Bandeirantes com Av Afonso Penna');
       });
 
       it('no segundo anel o "nomeEndereco" deve ser vazio', function() {
@@ -122,6 +119,7 @@ describe('Controller: ControladoresAneisCtrl', function () {
         imagens: [{id: 'imagem-1', idJson: 'imagem-1'}],
       };
       scope.currentAnel = scope.objeto.aneis[0];
+      $httpBackend.expectDELETE('/controladores/remover_planos_tabelas_horarios').respond({});
       scope.removerEstagio({id: 'imagem-1'});
       scope.$apply();
     });

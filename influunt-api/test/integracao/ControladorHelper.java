@@ -406,112 +406,15 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         Plano plano = criarPlano(anel, 1, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 52);
         criarEstagioPlano(anel, plano, new int[]{1, 2, 3}, new int[]{10, 10, 10});
 
-        criarIntervalo(plano, 1, 1, EstadoGrupoSemaforico.VERMELHO, 6);
-        criarIntervalo(plano, 1, 2, EstadoGrupoSemaforico.VERDE, 12);
-        criarIntervalo(plano, 1, 3, EstadoGrupoSemaforico.AMARELO, 3);
-        criarIntervalo(plano, 1, 4, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, 3);
-        criarIntervalo(plano, 1, 5, EstadoGrupoSemaforico.VERMELHO, 28);
-
-        criarIntervalo(plano, 2, 1, EstadoGrupoSemaforico.VERDE, 2);
-        criarIntervalo(plano, 2, 2, EstadoGrupoSemaforico.AMARELO, 3);
-        criarIntervalo(plano, 2, 3, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, 3);
-        criarIntervalo(plano, 2, 4, EstadoGrupoSemaforico.VERMELHO, 34);
-        criarIntervalo(plano, 2, 5, EstadoGrupoSemaforico.VERDE, 10);
-
-        criarIntervalo(plano, 3, 1, EstadoGrupoSemaforico.VERMELHO, 24);
-        criarIntervalo(plano, 3, 2, EstadoGrupoSemaforico.VERMELHO_INTERMITENTE, 5);
-        criarIntervalo(plano, 3, 3, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, 3);
-        criarIntervalo(plano, 3, 4, EstadoGrupoSemaforico.VERDE, 10);
-        criarIntervalo(plano, 3, 5, EstadoGrupoSemaforico.VERMELHO, 10);
-
-        criarIntervalo(plano, 4, 1, EstadoGrupoSemaforico.VERMELHO_INTERMITENTE, 5);
-        criarIntervalo(plano, 4, 2, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, 3);
-        criarIntervalo(plano, 4, 3, EstadoGrupoSemaforico.VERMELHO, 16);
-        criarIntervalo(plano, 4, 4, EstadoGrupoSemaforico.VERDE, 28);
-
-        criarIntervalo(plano, 5, 1, EstadoGrupoSemaforico.VERMELHO, 8);
-        criarIntervalo(plano, 5, 2, EstadoGrupoSemaforico.VERDE, 26);
-        criarIntervalo(plano, 5, 3, EstadoGrupoSemaforico.VERMELHO_INTERMITENTE, 5);
-        criarIntervalo(plano, 5, 4, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, 3);
-        criarIntervalo(plano, 5, 5, EstadoGrupoSemaforico.VERMELHO, 10);
-
         plano = criarPlano(anel, 5, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 47);
         criarEstagioPlano(anel, plano, new int[]{1, 2, 3}, new int[]{10, 5, 10});
-
-        criarIntervalo(plano, 1, 1, EstadoGrupoSemaforico.VERMELHO, 8);
-        criarIntervalo(plano, 1, 2, EstadoGrupoSemaforico.VERDE, 10);
-        criarIntervalo(plano, 1, 3, EstadoGrupoSemaforico.AMARELO, 3);
-        criarIntervalo(plano, 1, 4, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, 3);
-        criarIntervalo(plano, 1, 5, EstadoGrupoSemaforico.VERMELHO, 28);
-
-        criarIntervalo(plano, 2, 1, EstadoGrupoSemaforico.VERDE, 2);
-        criarIntervalo(plano, 2, 2, EstadoGrupoSemaforico.AMARELO, 3);
-        criarIntervalo(plano, 2, 3, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, 3);
-        criarIntervalo(plano, 2, 4, EstadoGrupoSemaforico.VERMELHO, 34);
-        criarIntervalo(plano, 2, 5, EstadoGrupoSemaforico.VERDE, 10);
-
-        criarIntervalo(plano, 3, 1, EstadoGrupoSemaforico.VERMELHO, 24);
-        criarIntervalo(plano, 3, 2, EstadoGrupoSemaforico.VERMELHO_INTERMITENTE, 5);
-        criarIntervalo(plano, 3, 3, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, 3);
-        criarIntervalo(plano, 3, 4, EstadoGrupoSemaforico.VERDE, 5);
-        criarIntervalo(plano, 3, 5, EstadoGrupoSemaforico.VERMELHO, 10);
-
-        criarIntervalo(plano, 4, 1, EstadoGrupoSemaforico.VERMELHO_INTERMITENTE, 5);
-        criarIntervalo(plano, 4, 2, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, 3);
-        criarIntervalo(plano, 4, 3, EstadoGrupoSemaforico.VERMELHO, 16);
-        criarIntervalo(plano, 4, 4, EstadoGrupoSemaforico.VERDE, 23);
-
-        criarIntervalo(plano, 5, 1, EstadoGrupoSemaforico.VERMELHO, 8);
-        criarIntervalo(plano, 5, 2, EstadoGrupoSemaforico.VERDE, 21);
-        criarIntervalo(plano, 5, 3, EstadoGrupoSemaforico.VERMELHO_INTERMITENTE, 5);
-        criarIntervalo(plano, 5, 4, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, 3);
-        criarIntervalo(plano, 5, 5, EstadoGrupoSemaforico.VERMELHO, 10);
 
         anel = getAnel(2);
         criaVersaoPlanos(anel);
         plano = criarPlano(anel, 1, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 56);
         criarEstagioPlano(anel, plano, new int[]{1, 3, 2}, new int[]{10, 12, 10});
 
-        criarIntervalo(plano, 6, 1, EstadoGrupoSemaforico.VERMELHO, 8);
-        criarIntervalo(plano, 6, 2, EstadoGrupoSemaforico.VERDE, 10);
-        criarIntervalo(plano, 6, 3, EstadoGrupoSemaforico.AMARELO, 3);
-        criarIntervalo(plano, 6, 4, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, 5);
-        criarIntervalo(plano, 6, 5, EstadoGrupoSemaforico.VERMELHO, 30);
-
-        criarIntervalo(plano, 7, 1, EstadoGrupoSemaforico.VERMELHO, 18);
-        criarIntervalo(plano, 7, 2, EstadoGrupoSemaforico.VERDE, 12);
-        criarIntervalo(plano, 7, 3, EstadoGrupoSemaforico.AMARELO, 3);
-        criarIntervalo(plano, 7, 4, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, 5);
-        criarIntervalo(plano, 7, 5, EstadoGrupoSemaforico.VERMELHO, 18);
-
-        criarIntervalo(plano, 8, 1, EstadoGrupoSemaforico.VERMELHO_INTERMITENTE, 3);
-        criarIntervalo(plano, 8, 2, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, 5);
-        criarIntervalo(plano, 8, 3, EstadoGrupoSemaforico.VERMELHO, 38);
-        criarIntervalo(plano, 8, 4, EstadoGrupoSemaforico.VERDE, 10);
-
-        criarIntervalo(plano, 9, 1, EstadoGrupoSemaforico.VERDE, 18);
-        criarIntervalo(plano, 9, 2, EstadoGrupoSemaforico.VERMELHO_INTERMITENTE, 3);
-        criarIntervalo(plano, 9, 3, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, 5);
-        criarIntervalo(plano, 9, 4, EstadoGrupoSemaforico.VERMELHO, 20);
-        criarIntervalo(plano, 9, 5, EstadoGrupoSemaforico.VERDE, 10);
-
-        criarIntervalo(plano, 10, 1, EstadoGrupoSemaforico.VERMELHO_INTERMITENTE, 3);
-        criarIntervalo(plano, 10, 2, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, 5);
-        criarIntervalo(plano, 10, 3, EstadoGrupoSemaforico.VERMELHO, 18);
-        criarIntervalo(plano, 10, 4, EstadoGrupoSemaforico.VERDE, 30);
-        criarIntervalo(plano, 10, 5, EstadoGrupoSemaforico.VERMELHO, 10);
-
         controlador.save();
-    }
-
-    private void criarIntervalo(Plano plano, int posicaoGrupo, int ordem, EstadoGrupoSemaforico estagoGrupoSemaforico, int tamanho) {
-        Intervalo intervalo = new Intervalo();
-        GrupoSemaforicoPlano grupoSemaforicoPlano = plano.getGruposSemaforicosPlanos().stream().filter(gsp -> gsp.getGrupoSemaforico().getPosicao().equals(posicaoGrupo)).findFirst().get();
-        intervalo.setGrupoSemaforicoPlano(grupoSemaforicoPlano);
-        intervalo.setEstadoGrupoSemaforico(estagoGrupoSemaforico);
-        intervalo.setOrdem(ordem);
-        intervalo.setTamanho(tamanho);
-        grupoSemaforicoPlano.addIntervalos(intervalo);
     }
 
     private void criarEvento(TabelaHorario tabelaHoraria, int posicao, TipoEvento tipoEvento, DiaDaSemana diaDaSemana, LocalTime horario, int posicaoPlano) {

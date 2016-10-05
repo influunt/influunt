@@ -1,9 +1,6 @@
 'use strict';
 
 describe('Controller: ControladoresVerdesConflitantesCtrl', function () {
-  beforeEach(module('influuntApp', function(RestangularProvider) {
-    RestangularProvider.setBaseUrl('');
-  }));
 
   var ControladoresVerdesConflitantesCtrl,
     scope,
@@ -31,8 +28,18 @@ describe('Controller: ControladoresVerdesConflitantesCtrl', function () {
   });
 
   describe('assertVerdesConflitantes', function () {
-    it('O controlador deve ter ao meno um anel e um estagio.', function() {
+    it('O controlador deve ter ao menos os dados minimos para a configuração dos grupos.', function() {
       scope.objeto = {aneis: [{idJson: 1, estagios: [{idJson: 'e1'}]}], estagios: [{idJson: 'e1'}]};
+      scope.objeto = {
+        aneis: [{
+          idJson: 1,
+          estagios: [{idJson: 'e1'}],
+          gruposSemaforicos: [{idJson: 'gs1'}]
+        }],
+        estagios: [{idJson: 'e1'}],
+        gruposSemaforicos: [{idJson: 'gs1', transicoes: [{idJson: 't1'}]}]
+      }
+
       var result = scope.assertVerdesConflitantes();
       expect(result).toBeTruthy();
     });

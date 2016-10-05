@@ -47,7 +47,7 @@ public class InfluuntQueryBuilder {
             this.perPage = (params.get("per_page") != null) ? parseInt(params.get("per_page")[0]) : PER_PAGE_DEFAULT;
             params.entrySet().forEach(q -> {
                 if (!"sort".equals(q.getKey()) && !"sort_type".equals(q.getKey()) && !"page".equals(q.getKey()) && !"per_page".equals(q.getKey())) {
-                    searchFields.put(q.getKey().toString(), q.getValue()[0].toString());
+                    searchFields.put(q.getKey(), q.getValue()[0]);
                 }
             });
         }
@@ -114,6 +114,10 @@ public class InfluuntQueryBuilder {
             query.fetch(fetchAux);
         });
 
+        if (klass.equals(Controlador.class)) {
+            query.fetch("endereco");
+        }
+
         if (!searchFields.isEmpty()) {
             ExpressionList predicates = query.where();
 
@@ -134,7 +138,7 @@ public class InfluuntQueryBuilder {
             });
 
             if (klass.equals(Controlador.class)) {
-                predicates.add(Expr.in("versaoControlador.statusVersao", Arrays.asList(StatusVersao.CONFIGURADO,StatusVersao.ATIVO, StatusVersao.EDITANDO)));
+                predicates.add(Expr.in("versaoControlador.statusVersao", Arrays.asList(StatusVersao.CONFIGURADO, StatusVersao.ATIVO, StatusVersao.EDITANDO)));
             }
 
             // Verifica se existem campos com between
@@ -156,7 +160,7 @@ public class InfluuntQueryBuilder {
             }
         } else {
             if (klass.equals(Controlador.class)) {
-                query.where().add((Expr.in("versaoControlador.statusVersao", Arrays.asList(StatusVersao.ATIVO, StatusVersao.EDITANDO))));
+                query.where().add((Expr.in("versaoControlador.statusVersao", Arrays.asList(StatusVersao.CONFIGURADO, StatusVersao.ATIVO, StatusVersao.EDITANDO))));
             }
             if (getSortField() != null) {
                 pagedList = query.orderBy(getSortField().concat(" ").concat(getSortType())).findPagedList(getPage(), getPerPage());
@@ -213,7 +217,7 @@ public class InfluuntQueryBuilder {
         } else {
             if (getSortField() != null) {
                 int sortTypeAux = getSortType().equalsIgnoreCase("asc") ? 1 : -1;
-                auditorias = Auditoria.auditorias().find().skip(getSkip()).limit(getPerPage()).sort("{".concat(getSortType()).concat(String.format(": %s", sortTypeAux))).limit(getPerPage()).as(Auditoria.class);
+                auditorias = Auditoria.auditorias().find().skip(getSkip()).limit(getPerPage()).sort("{".concat(getSortField()).concat(String.format(": %s", sortTypeAux)).concat("}")).limit(getPerPage()).as(Auditoria.class);
             } else {
                 auditorias = Auditoria.auditorias().find().skip(getSkip()).limit(getPerPage()).as(Auditoria.class);
             }

@@ -1,5 +1,6 @@
 package models;
 
+import checks.FaixaDeValoresCheck;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.ChangeLog;
@@ -9,12 +10,14 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
+import org.apache.commons.lang3.Range;
 import org.joda.time.DateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.UUID;
@@ -509,6 +512,11 @@ public class FaixasDeValores extends Model implements Cloneable, Serializable {
     public static FaixasDeValores getInstance() {
         FaixasDeValores valores = Ebean.find(FaixasDeValores.class).setMaxRows(1).findUnique();
         return valores != null ? valores : getDefault();
+    }
+
+    @AssertTrue(groups = FaixaDeValoresCheck.class, message = "o valor padrão deve estar entre o minímo e o máximo.")
+    public boolean isTempoMaximoPermanenciaEstagioVeicularValido() {
+        return Range.between(getTempoMaximoPermanenciaEstagioMin(), getTempoMaximoPermanenciaEstagioMax()).contains(defaultTempoMaximoPermanenciaEstagioVeicular);
     }
 
     private static FaixasDeValores getDefault() {

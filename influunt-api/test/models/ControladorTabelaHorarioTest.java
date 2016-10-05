@@ -294,7 +294,7 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         assertEquals("Quantidade de transições", totalTransicoes - totalTransicoesAnel, Transicao.find.findRowCount());
         assertEquals("Quantidade de transições proibidas", totalTransicoesProibidas - totalTransicoesProibidasAnel, TransicaoProibida.find.findRowCount());
         assertEquals("Quantidade de verdes conflitantes", totalVerdesConflitantes - totalVerdesConflitantesAnel, VerdesConflitantes.find.findRowCount());
-        assertEquals("Quantidade de tabelas entre verdes", totalTabelaEntreVerdes - totalTabelaEntreVerdesAnel, TabelaEntreVerdes.find.findRowCount());
+        assertEquals("Quantidade de tabelas entreverdes", totalTabelaEntreVerdes - totalTabelaEntreVerdesAnel, TabelaEntreVerdes.find.findRowCount());
     }
 
     @Test

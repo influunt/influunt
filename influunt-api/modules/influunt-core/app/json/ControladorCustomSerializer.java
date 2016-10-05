@@ -115,6 +115,7 @@ public class ControladorCustomSerializer {
     public JsonNode getControladoresJson(List<Controlador> controladores) {
         ArrayNode controladoresJson = Json.newArray();
         for (Controlador controlador : controladores) {
+            inicializaMaps();
             controladoresJson.add(getControladorBasicoJson(controlador));
         }
 
@@ -149,6 +150,7 @@ public class ControladorCustomSerializer {
     public JsonNode getControladoresAgrupamentos(List<Controlador> controladores) {
         ArrayNode controladoresJson = Json.newArray();
         for (Controlador controlador : controladores) {
+            inicializaMaps();
             ObjectNode root = Json.newObject();
             putControladorAgrupamentos(controlador, root);
             controladoresJson.add(root);
@@ -328,6 +330,21 @@ public class ControladorCustomSerializer {
         }
         if (controlador.getFirmware() != null) {
             root.put("firmware", controlador.getFirmware());
+        }
+        if (controlador.getCroqui() != null) {
+            ObjectNode croquiJson = Json.newObject();
+            Imagem croqui = controlador.getCroqui();
+
+            if (croqui.getId() != null) {
+                croquiJson.put("id", croqui.getId().toString());
+            }
+
+            if (croqui.getIdJson() != null) {
+                croquiJson.put("idJson", croqui.getIdJson().toString());
+            }
+
+            root.set("croqui", croquiJson);
+            imagensMap.put(croqui.getIdJson(), croqui);
         }
         if (controlador.getSequencia() != null) {
             root.put("sequencia", controlador.getSequencia());
@@ -1439,6 +1456,9 @@ public class ControladorCustomSerializer {
         if (anel.isAtivo() != null) {
             anelJson.put("ativo", anel.isAtivo());
         }
+
+        anelJson.put("aceitaModoManual", anel.isAceitaModoManual());
+
         if (anel.getPosicao() != null) {
             anelJson.put("posicao", anel.getPosicao());
         }

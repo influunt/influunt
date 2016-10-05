@@ -163,4 +163,57 @@ public class GrupoSemaforicoPlano extends Model implements Cloneable, Serializab
         listaIntervalos.sort((anterior, proximo) -> anterior.getOrdem().compareTo(proximo.getOrdem()));
         return listaIntervalos;
     }
+
+    public void criarIntervalos(){
+        int ordem = 1;
+        GrupoSemaforico grupoSemaforico = getGrupoSemaforico();
+        List<EstagioPlano> estagiosPlanos = getPlano().ordenarEstagiosPorPosicao();
+        for (EstagioPlano estagioPlano : estagiosPlanos) {
+            Estagio estagioAtual = estagioPlano.getEstagio();
+            Estagio estagioAnterior = estagioPlano.getEstagioPlanoAnterior(estagiosPlanos).getEstagio();
+
+            //Caso o grupoSemaforico não tinha o direito de passagem e continua sem ter o direito de passagem
+            if(!estagioAnterior.getGruposSemaforicos().contains(grupoSemaforico) && !estagioAtual.getGruposSemaforicos().contains(grupoSemaforico)){
+                ordem = criaIntervalo(ordem, EstadoGrupoSemaforico.VERMELHO, getPlano().getTempoEstagio(estagioPlano));
+            }
+
+            //Caso o grupoSemaforico não tinha o direito de passagem e está ganhando
+            if(!estagioAnterior.getGruposSemaforicos().contains(grupoSemaforico) && estagioAtual.getGruposSemaforicos().contains(grupoSemaforico)){
+                ordem = criaIntervalo(ordem, EstadoGrupoSemaforico.VERMELHO, getPlano().getTempoEntreVerdeEntreEstagios(estagioAtual, estagioAnterior));
+                ordem = criaIntervalo(ordem, EstadoGrupoSemaforico.VERDE, estagioPlano.getTempoVerdeEstagio());
+            }
+
+            //Caso o grupoSemaforico tinha o direito de passagem e está perdendo
+            if (estagioAnterior.getGruposSemaforicos().contains(grupoSemaforico) && !estagioAtual.getGruposSemaforicos().contains(grupoSemaforico)) {
+                Transicao transicao = grupoSemaforico.findTransicaoByOrigemDestino(estagioAnterior, estagioAtual);
+                TabelaEntreVerdesTransicao tabelaEntreVerdesTransicao = grupoSemaforico.findTabelaEntreVerdesTransicaoByTransicao(getPlano().getPosicaoTabelaEntreVerde(), transicao);
+                if (transicao.isAtrasoDeGrupoPresent()) {
+                    ordem = criaIntervalo(ordem, EstadoGrupoSemaforico.VERDE, transicao.getAtrasoDeGrupo().getAtrasoDeGrupo());
+                }
+                if (grupoSemaforico.isVeicular()){
+                    ordem = criaIntervalo(ordem, EstadoGrupoSemaforico.AMARELO, tabelaEntreVerdesTransicao.getTempoAmarelo());
+                } else {
+                    ordem = criaIntervalo(ordem, EstadoGrupoSemaforico.VERMELHO_INTERMITENTE, tabelaEntreVerdesTransicao.getTempoVermelhoIntermitente());
+                }
+                ordem = criaIntervalo(ordem, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, tabelaEntreVerdesTransicao.getTempoVermelhoLimpeza());
+                ordem = criaIntervalo(ordem, EstadoGrupoSemaforico.VERMELHO, estagioPlano.getTempoVerdeEstagio());
+            }
+
+            //Caso o grupoSemaforico tinha o direito de passagem e continua tento o direito de passagem
+            if(estagioAnterior.getGruposSemaforicos().contains(grupoSemaforico) && estagioAtual.getGruposSemaforicos().contains(grupoSemaforico)){
+                ordem = criaIntervalo(ordem, EstadoGrupoSemaforico.VERDE, getPlano().getTempoEstagio(estagioPlano));
+            }
+
+        }
+    }
+
+    private Integer criaIntervalo(int ordem, EstadoGrupoSemaforico estado, Integer tamanho) {
+        Intervalo intervalo = new Intervalo();
+        intervalo.setOrdem(ordem);
+        intervalo.setEstadoGrupoSemaforico(estado);
+        intervalo.setTamanho(tamanho);
+        intervalo.setGrupoSemaforicoPlano(this);
+        this.addIntervalos(intervalo);
+        return ordem + 1;
+    }
 }

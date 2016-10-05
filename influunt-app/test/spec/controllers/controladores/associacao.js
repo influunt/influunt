@@ -1,11 +1,6 @@
 'use strict';
 
 describe('Controller: ControladoresAssociacaoCtrl', function () {
-  beforeEach(module('influuntApp', function(RestangularProvider) {
-    RestangularProvider.setBaseUrl('');
-  }));
-
-
 
   var ControladoresAssociacaoCtrl,
     scope,
@@ -33,8 +28,24 @@ describe('Controller: ControladoresAssociacaoCtrl', function () {
   });
 
   describe('assertAssociacoes', function () {
-    it('O controlador deve ter ao meno um anel e um estagio.', function() {
-      scope.objeto = {aneis: [{idJson: 1, estagios: [{idJson: 'e1'}]}], estagios: [{idJson: 'e1'}]};
+    it('O controlador deve ter ao menos as configurações mínimas até verdes conflitantes.', function() {
+      scope.objeto = {
+        aneis: [
+          {
+            idJson: 1,
+            gruposSemaforicos: [{idJson: 'gs1'}],
+            verdesConflitantes: [{idJson: 'vc1'}],
+            estagios: [{idJson: 'e1'}]}
+        ],
+        estagios: [
+          {idJson: 'e1', id: 'e1', anel: {idJson: 1}}
+        ],
+        gruposSemaforicos: [
+          {idJson: 'gs1'}
+        ],
+        verdesConflitantes: [{idJson: 'vc1'}]
+      };
+
       var result = scope.assertAssociacoes();
       expect(result).toBeTruthy();
     });
@@ -63,6 +74,7 @@ describe('Controller: ControladoresAssociacaoCtrl', function () {
               idJson: 1,
               ativo: true,
               gruposSemaforicos: [{idJson: 'gs1'}],
+              verdesConflitantes: [{idJson: 'vc1'}],
               estagios: [{idJson: 'e1'}, {idJson: 'e2'}]}
           ],
           estagios: [
@@ -77,7 +89,8 @@ describe('Controller: ControladoresAssociacaoCtrl', function () {
           estagiosGruposSemaforicos: [
             {idJson: 'egs1', estagio: {idJson: 'e1'}, grupoSemaforico: {idJson: 'gs1'}},
             {idJson: 'egs2', estagio: {idJson: 'e1'}, grupoSemaforico: {idJson: 'gs2'}}
-          ]
+          ],
+          verdesConflitantes: [{idJson: 'vc1'}]
         };
 
         WizardControladores.fakeInicializaWizard(scope, $q, objeto, scope.inicializaAssociacao);
@@ -98,6 +111,7 @@ describe('Controller: ControladoresAssociacaoCtrl', function () {
             idJson: 1,
             ativo: true,
             gruposSemaforicos: [{idJson: 'gs1'}],
+            verdesConflitantes: [{idJson: 'vc1'}],
             estagios: [{idJson: 'e1'}, {idJson: 'e2'}]}
         ],
         estagios: [
@@ -108,7 +122,8 @@ describe('Controller: ControladoresAssociacaoCtrl', function () {
           {idJson: 'gs1'},
           {idJson: 'gs2'},
           {idJson: 'gs3'}
-        ]
+        ],
+        verdesConflitantes: [{idJson: 'vc1'}]
       };
       scope.aneis = scope.objeto.aneis;
 

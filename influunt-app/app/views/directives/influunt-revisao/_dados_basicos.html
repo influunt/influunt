@@ -1,4 +1,4 @@
-<div class="col-lg-4 col-sm-3">
+<div class="col-lg-3 col-sm-6">
   <p><strong>{{ 'controladores.cidade' | translate }}:</strong> {{ dadosBasicos.cidade.nome }}</p>
   <p><strong>{{ 'controladores.area' | translate }}:</strong> {{ dadosBasicos.area.descricao }}</p>
   <p><strong>{{ 'controladores.subarea' | translate }}:</strong> {{ objeto.subarea.nome }}</p>
@@ -8,7 +8,7 @@
   <p><strong>{{ 'controladores.numeroSMEEConjugado2' | translate }}:</strong> {{ dadosBasicos.numeroSMEEConjugado2 }}</p>
   <p><strong>{{ 'controladores.numeroSMEEConjugado3' | translate }}:</strong> {{ dadosBasicos.numeroSMEEConjugado3 }}</p>
 </div>
-<div class="col-lg-4 col-sm-3">
+<div class="col-lg-3 col-sm-6">
   <p><strong>{{ 'controladores.fabricante' | translate }}:</strong> {{ dadosBasicos.fabricante.nome }}</p>
   <p><strong>{{ 'controladores.modelo' | translate }}:</strong> {{ dadosBasicos.modelo.descricao }}</p><br>
   <p><strong>{{ 'controladores.estagios.titulo' | translate }}:</strong> {{ dadosBasicos.numEstagios }}</p>
@@ -16,7 +16,12 @@
   <p><strong>{{ 'controladores.maxDetectorVeicular' | translate }}:</strong> {{ dadosBasicos.numDetectoresVeicular }}</p>
   <p><strong>{{ 'controladores.maxDetectorPedestre' | translate }}:</strong> {{ dadosBasicos.numDetectoresPedestre }}</p>
 </div>
-<div class="col-lg-4 col-sm-6">
+
+<div class="col-lg-3 col-sm-6 padding-bottom-20">
+  <img data-ng-src="{{ dadosCurrentAnel.croqui }}">
+</div>
+
+<div class="col-lg-3 col-sm-6">
   <p><strong>{{ 'controladores.nomeEndereco' | translate }}:</strong> {{ dadosBasicos.endereco }}</p>
   <figure>
     <div influunt-map markers="markerEnderecoControlador" class="influunt-map"></div>

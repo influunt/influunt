@@ -74,11 +74,11 @@ public class MonitoramentoController extends Controller {
     }
 
     @NotNull
-    private ObjectNode controladoresToJson(HashMap<String, Object> controladoresStauts) {
-        List<Controlador> controladores = Controlador.find.select("id, nomeEndereco").fetch("area", "descricao").fetch("subArea", "numero").where().in("id", controladoresStauts.keySet()).findList();
+    private ObjectNode controladoresToJson(HashMap<String, Object> controladoresStatus) {
+        List<Controlador> controladores = Controlador.find.select("id, nomeEndereco").fetch("area", "descricao").fetch("subArea", "numero").where().in("id", controladoresStatus.keySet()).findList();
         ArrayNode itens = JsonNodeFactory.instance.arrayNode();
         controladores.forEach(controlador -> {
-            LinkedHashMap status = ((LinkedHashMap) controladoresStauts.get(controlador.getId().toString()));
+            LinkedHashMap status = ((LinkedHashMap) controladoresStatus.get(controlador.getId().toString()));
             Long timestamp = 0L;
             String motivoFalhaControlador = "";
             if (status != null) {

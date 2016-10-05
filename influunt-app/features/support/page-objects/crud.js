@@ -7,6 +7,7 @@ var CrudPage = function () {
 
   var campos = {
     'Área':                            '[name="area"]',
+    'Altura Numérica':                 '[name="objeto.todosEnderecos[0].alturaNumerica"]',
     'Cidade':                          'select[name="cidade"]',
     'Configuração Controlador':        'select[name="configuracao"]',
     'Configuração':                    'select[name="configuracao"]',
@@ -33,7 +34,12 @@ var CrudPage = function () {
     'Limite Detectores Pedestre':      '[name="limiteDetectorPedestre"]',
     'Limite Detectores Veicular':      '[name="limiteDetectorVeicular"]',
     'Limite Tabelas Entre Verdes':     '[name="limiteTabelasEntreVerdes"]',
-    'Limite Planos':                   '[name="limitePlanos"]'
+    'Limite Planos':                   '[name="limitePlanos"]',
+    'Dia':                             '[name="agrupamentoPlanoDiaSemana"]',
+    'Hora':                            '[name="planoHora"]',
+    'Minuto':                          '[name="planoMinuto"]',
+    'Segundo':                         '[name="planoSegundo"]',
+    'Plano':                           '[name="posicaoPlano"]'
   };
 
   this.textoConfirmacaoApagarRegistro = function() {
@@ -57,29 +63,25 @@ var CrudPage = function () {
     return world.selectOption(campos[campo], valor);
   };
 
-  this.limparEndereco = function(numEndereco) {
-    var cssSelector = 'div[data-ng-class$=".endereco.localizacao'+(numEndereco)+' }"] helper-endereco > input';
-    return world.clearField(cssSelector);
+  this.limparEndereco1 = function() {
+    var xpathSelector = '//helper-endereco[contains(@ng-model, "currentEndereco.localizacao")]//input';
+    return world.clearFieldByXpath(xpathSelector);
   };
 
-  this.buscarEndereco = function(query, numEndereco) {
-    return world.setValueAsHuman('div[data-ng-class$=".endereco.localizacao'+(numEndereco)+' }"] helper-endereco > input', query).then(function() {
-      return world.waitFor('div[g-places-autocomplete-drawer] > div.pac-container');
-    }).then(function() {
-      return world.getElements('div[g-places-autocomplete-drawer] > div.pac-container div:first-child');
-    }).then(function(elements) {
-      return new Promise(function(resolve, reject) {
-        setTimeout(function() {
-          if (elements.length > 0) {
-            return elements[0].click().then(resolve);
-          } else {
-            reject('No results found for address "'+query+'"');
-          }
-        }, 500);
-      });
-    });
+  this.limparEndereco2 = function() {
+    var xpathSelector = '//helper-endereco[contains(@ng-model, "currentEndereco.localizacao2")]//input';
+    return world.clearFieldByXpath(xpathSelector);
   };
 
+  this.buscarEndereco1 = function(query){
+    var cssSelector = 'div[data-ng-class$=".endereco.localizacao }"] helper-endereco > input';
+    return world.buscarEndereco(query, cssSelector);
+  };
+
+  this.buscarEndereco2 = function(query){
+    var cssSelector = 'div[data-ng-class$=".endereco.localizacao2 }"] helper-endereco > input';
+    return world.buscarEndereco(query, cssSelector);
+  };
 };
 
 module.exports = CrudPage;

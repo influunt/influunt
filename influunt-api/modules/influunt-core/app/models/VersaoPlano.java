@@ -195,6 +195,10 @@ public class VersaoPlano extends Model implements Serializable {
         return StatusVersao.EDITANDO.equals(this.getStatusVersao());
     }
 
+    public boolean isConfigurado() {
+        return StatusVersao.CONFIGURADO.equals(this.getStatusVersao());
+    }
+
     public void ativar() {
         setStatusVersao(StatusVersao.ATIVO);
     }

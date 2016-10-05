@@ -2,6 +2,9 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+# Permissões no APP
+GET         /api/v1/permissoes/roles                              controllers.PermissoesAppController.findAll
+
 # Cidades
 GET         /api/v1/cidades                                       controllers.CidadesController.findAll()
 POST        /api/v1/cidades                                       controllers.CidadesController.create()
@@ -38,7 +41,7 @@ POST        /api/v1/controladores/entre_verdes                    controllers.Co
 POST        /api/v1/controladores/associacao_detectores           controllers.ControladoresController.associacaoDetectores()
 GET         /api/v1/controladores/:id                             controllers.ControladoresController.findOne(id)
 DELETE      /api/v1/controladores/:id                             controllers.ControladoresController.delete(id)
-GET         /api/v1/controladores/:id/edit                        controllers.ControladoresController.edit(id)
+POST        /api/v1/controladores/:id/edit                        controllers.ControladoresController.edit(id)
 GET         /api/v1/controladores/:id/timeline                    controllers.ControladoresController.timeline(id)
 GET         /api/v1/controladores/:id/pode_editar                 controllers.ControladoresController.podeEditar(id)
 PUT         /api/v1/controladores/:id/finalizar                    controllers.ControladoresController.finalizar(id)
@@ -47,6 +50,7 @@ DELETE      /api/v1/controladores/:id/cancelar_edicao             controllers.Co
 GET         /api/v1/controladores/:id/editar_planos               controllers.ControladoresController.editarPlanos(id)
 GET         /api/v1/controladores/:id/editar_tabela_horaria       controllers.ControladoresController.editarTabelaHoraria(id)
 PUT         /api/v1/controladores/:id/atualizar_descricao         controllers.ControladoresController.atualizarDescricao(id)
+DELETE      /api/v1/controladores/:id/remover_planos_tabelas_horarios   controllers.ControladoresController.removerPlanosTabelasHorarios(id)
 
 # Fabricantes
 GET         /api/v1/fabricantes                                   controllers.FabricantesController.findAll()
@@ -61,6 +65,20 @@ POST        /api/v1/modelos                                       controllers.Mo
 PUT         /api/v1/modelos/:id                                   controllers.ModelosControladoresController.update(id)
 GET         /api/v1/modelos/:id                                   controllers.ModelosControladoresController.findOne(id)
 DELETE      /api/v1/modelos/:id                                   controllers.ModelosControladoresController.delete(id)
+
+# Agrupamentos
+GET         /api/v1/agrupamentos                                  controllers.AgrupamentosController.findAll()
+POST        /api/v1/agrupamentos                                  controllers.AgrupamentosController.create()
+PUT         /api/v1/agrupamentos/:id                              controllers.AgrupamentosController.update(id)
+GET         /api/v1/agrupamentos/:id                              controllers.AgrupamentosController.findOne(id)
+DELETE      /api/v1/agrupamentos/:id                              controllers.AgrupamentosController.delete(id)
+
+# Imagens
+POST        /api/v1/imagens                                       controllers.ImagensController.create()
+GET         /api/v1/imagens/:id                                   controllers.ImagensController.findOne(id)
+GET         /api/v1/imagens/:id/:version                          controllers.ImagensController.findOneVersion(id,version)
+DELETE      /api/v1/imagens/:id                                   controllers.ImagensController.delete(id)
+DELETE      /api/v1/imagens/:id/croqui                            controllers.ImagensController.deleteCroqui(id)
 
 # Usuarios
 GET         /api/v1/usuarios                                      controllers.UsuariosController.findAll()
@@ -83,24 +101,6 @@ POST        /api/v1/permissoes                                    controllers.Pe
 PUT         /api/v1/permissoes/:id                                controllers.PermissoesController.update(id)
 GET         /api/v1/permissoes/:id                                controllers.PermissoesController.findOne(id)
 DELETE      /api/v1/permissoes/:id                                controllers.PermissoesController.delete(id)
-
-# Agrupamentops
-GET         /api/v1/agrupamentos                                  controllers.AgrupamentosController.findAll()
-POST        /api/v1/agrupamentos                                  controllers.AgrupamentosController.create()
-PUT         /api/v1/agrupamentos/:id                              controllers.AgrupamentosController.update(id)
-GET         /api/v1/agrupamentos/:id                              controllers.AgrupamentosController.findOne(id)
-DELETE      /api/v1/agrupamentos/:id                              controllers.AgrupamentosController.delete(id)
-
-
-# Imagens
-POST        /api/v1/imagens                                       controllers.ImagensController.create()
-GET         /api/v1/imagens/:id                                   controllers.ImagensController.findOne(id)
-GET         /api/v1/imagens/:id/:version                          controllers.ImagensController.findOneVersion(id,version)
-DELETE      /api/v1/imagens/:id                                   controllers.ImagensController.delete(id)
-DELETE      /api/v1/imagens/:id/croqui                            controllers.ImagensController.deleteCroqui(id)
-
-#View Helpers
-GET         /api/v1/helpers/controlador                           controllers.HelpersController.controladorHelper()
 
 #Login
 POST        /api/v1/login                                         controllers.SecurityController.login
@@ -129,6 +129,9 @@ DELETE      /api/v1/detectores/:id                                controllers.De
 # Detectores
 DELETE      /api/v1/eventos/:id                                   controllers.EventosController.delete(id)
 
+#View Helpers
+GET         /api/v1/helpers/controlador                           controllers.HelpersController.controladorHelper()
+
 # Auditoria
 GET         /api/v1/auditorias                                    controllers.AuditoriaController.findAll
 GET         /api/v1/auditorias/:id                                controllers.AuditoriaController.findOne(id)
@@ -149,7 +152,6 @@ GET         /api/v1/monitoramento/status_conexao/:id/historico/:pagina/:tamanho 
 GET         /api/v1/monitoramento/status/:id                                controllers.monitoramento.StatusControladorFisicoController.findOne(id)
 GET         /api/v1/monitoramento/status                                    controllers.monitoramento.StatusControladorFisicoController.ultimoStatusDosControladores()
 GET         /api/v1/monitoramento/status/:id/ultimo_status                  controllers.monitoramento.StatusControladorFisicoController.ultimoStatus(id)
-GET         /api/v1/monitoramento/status/:id/historico/:pagina/:tamanho     controllers.monitoramento.StatusControladorFisicoController.historico(id,pagina,tamanho)
 
 # ModoOperacao Controlador
 GET         /api/v1/monitoramento/modo_operacoes_controladores/:id                                controllers.monitoramento.ModoOperacaoControladorController.findOne(id)
@@ -169,13 +171,12 @@ GET         /api/v1/monitoramento/imposicoes_planos                             
 GET         /api/v1/monitoramento/imposicoes_planos/:id/ultimo_status                  controllers.monitoramento.ImposicaoPlanosControladorController.ultimoStatusPlanoImposto(id)
 GET         /api/v1/monitoramento/imposicoes_planos/:id/historico/:pagina/:tamanho     controllers.monitoramento.ImposicaoPlanosControladorController.historico(id,pagina,tamanho)
 
-
 # Monitoramento
 GET         /api/v1/monitoramento/status_controladores                              controllers.monitoramento.MonitoramentoController.ultimoStatusDosControladores()
 GET         /api/v1/monitoramento/controladores_onlines                             controllers.monitoramento.MonitoramentoController.controladoresOnline()
 GET         /api/v1/monitoramento/controladores_offlines                            controllers.monitoramento.MonitoramentoController.controladoresOffline()
 GET         /api/v1/monitoramento/detalhe_controlador/:id                           controllers.monitoramento.MonitoramentoController.detalheControlador(id)
-
+GET         /api/v1/monitoramento/status/:id/historico/:pagina/:tamanho     controllers.monitoramento.StatusControladorFisicoController.historico(id, pagina, tamanho)
 
 # Rota para o cucumber conseguir criar o banco de dados durante o teste
 POST        /api/v1/cucumber                                      controllers.CucumberController.createDB()
@@ -184,3 +185,4 @@ POST        /api/v1/cucumber                                      controllers.Cu
 POST       /api/v1/simulacao/:id                                  controllers.simulacao.SimuladorController.simular(id)
 # Asset
 GET         /assets/*file                                         controllers.Assets.at(path="/public", file)
+

@@ -14,13 +14,22 @@ module.exports = function() {
     return crudPage.selecionarValor(campo, valor);
   });
 
-  this.Given(/^o usuário buscar o endereço "([^"]*)" para o endereço (\d+)$/, function (query, numEndereco) {
-    return crudPage.buscarEndereco(query, numEndereco);
+  this.Given(/^o usuário buscar o endereço "([^"]*)" no primeiro endereço$/, function (query) {
+    return crudPage.buscarEndereco1(query);
   });
 
- this.Given(/^o usuário limpar o campo endereço (\d+)$/, function (numEndereco) {
-    return crudPage.limparEndereco(numEndereco);
+  this.Given(/^o usuário buscar o endereço "([^"]*)" para o endereço 2$/, function (query) {
+    return crudPage.buscarEndereco2(query);
   });
+
+ this.Given(/^o usuário limpar o campo endereço 2$/, function () {
+    return crudPage.limparEndereco2();
+  });
+
+  this.Given(/^o usuário limpar o campo endereço 1$/, function () {
+    return crudPage.limparEndereco1();
+  });
+
 
   this.Given(/^o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir$/, function() {
     return crudPage.textoConfirmacaoApagarRegistro().then(function(text) {

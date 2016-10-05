@@ -1,15 +1,13 @@
 'use strict';
 
 describe('Controller: AgrupamentosCtrl', function () {
-  // load the controller's module
-  beforeEach(module('influuntApp', function(RestangularProvider) {
-    RestangularProvider.setBaseUrl('');
-  }));
 
   var AgrupamentosCtrl,
-    scope;
+    scope,
+    $httpBackend;
 
-  beforeEach(inject(function ($controller, $rootScope) {
+  beforeEach(inject(function ($controller, $rootScope, _$httpBackend_) {
+    $httpBackend = _$httpBackend_;
     scope = $rootScope.$new();
     AgrupamentosCtrl = $controller('AgrupamentosCtrl', {
       $scope: scope
@@ -27,7 +25,7 @@ describe('Controller: AgrupamentosCtrl', function () {
   it('Deve carregar a lista de controladores antes de exibir dados', inject(function($httpBackend) {
     var controladores = {data: [{id: 1, localizacao: 'conf1'}, {id: 2, localizacao: 'fab2'}], total: 2};
     var subareas = [{ controladores: controladores.data }]
-    $httpBackend.expectGET('/controladores/agrupamentos').respond(controladores);
+    $httpBackend.expectGET('/controladores/agrupamentos?statusControlador=1').respond(controladores);
     $httpBackend.expectGET('/subareas').respond(subareas);
     scope.beforeShow();
     $httpBackend.flush();

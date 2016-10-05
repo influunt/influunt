@@ -1,9 +1,6 @@
 'use strict';
 
 describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
-  beforeEach(module('influuntApp', function(RestangularProvider) {
-    RestangularProvider.setBaseUrl('');
-  }));
 
   var ControladoresTransicoesProibidasCtrl,
     scope,
@@ -31,8 +28,21 @@ describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
   });
 
   describe('assertTransicoesProibidas', function () {
-    it('O controlador deve ter ao meno um anel e um estagio.', function() {
-      scope.objeto = {aneis: [{idJson: 1, estagios: [{idJson: 'e1'}]}], estagios: [{idJson: 'e1'}]};
+    it('O controlador deve ter ao menos as configuracoes minimas ate associacao.', function() {
+      scope.objeto = {
+        aneis: [{
+          idJson: 1,
+          estagios: [{idJson: 'e1'}],
+          gruposSemaforicos: [{idJson: 'gs1'}],
+          verdesConflitantes: [{idJson: 'vc1'}],
+          estagiosGruposSemaforicos: [{idJson: 'egs1'}]
+
+        }],
+        estagios: [{idJson: 'e1'}],
+        estagiosGruposSemaforicos: [{idJson: 'egs1'}],
+        gruposSemaforicos: [{idJson: 'gs1', transicoes: [{idJson: 't1'}]}],
+        verdesConflitantes: [{idJson: 'vc1'}]
+      };
       var result = scope.assertTransicoesProibidas();
       expect(result).toBeTruthy();
     });
@@ -65,7 +75,10 @@ describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
                 {idJson: 'e2'},
                 {idJson: 'e3'},
                 {idJson: 'e4'}
-              ]
+              ],
+              gruposSemaforicos: [{idJson: 'gs1'}],
+              verdesConflitantes: [{idJson: 'vc1'}],
+              estagiosGruposSemaforicos: [{idJson: 'egs1'}]
             }
           ],
           estagios: [
@@ -76,7 +89,10 @@ describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
           ],
           transicoesProibidas: [
             {idJson: 'tp1',origem: {idJson: 'e1'},destino: {idJson: 'e2'},alternativo: {idJson: 'e3'}}
-          ]
+          ],
+          estagiosGruposSemaforicos: [{idJson: 'egs1'}],
+          gruposSemaforicos: [{idJson: 'gs1', transicoes: [{idJson: 't1'}]}],
+          verdesConflitantes: [{idJson: 'vc1'}]
         };
 
         WizardControladores.fakeInicializaWizard(scope, $q, objeto, scope.inicializaTransicoesProibidas);
@@ -100,7 +116,10 @@ describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
               {idJson: 'e2'},
               {idJson: 'e3'},
               {idJson: 'e4'}
-            ]
+            ],
+            gruposSemaforicos: [{idJson: 'gs1'}],
+            verdesConflitantes: [{idJson: 'vc1'}],
+            estagiosGruposSemaforicos: [{idJson: 'egs1'}]
           }
         ],
         estagios: [
@@ -108,7 +127,10 @@ describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
           {idJson: 'e2', id: 'e2', posicao: 2, anel: {idJson: 1}},
           {idJson: 'e3', id: 'e3', posicao: 3, anel: {idJson: 1}},
           {idJson: 'e4', id: 'e4', posicao: 4, anel: {idJson: 1}}
-        ]
+        ],
+        estagiosGruposSemaforicos: [{idJson: 'egs1'}],
+        gruposSemaforicos: [{idJson: 'gs1'}],
+        verdesConflitantes: [{idJson: 'vc1'}]
       };
 
       WizardControladores.fakeInicializaWizard(scope, $q, objeto, scope.inicializaTransicoesProibidas);
@@ -181,7 +203,10 @@ describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
                 {idJson: 'e2'},
                 {idJson: 'e3'},
                 {idJson: 'e4'}
-              ]
+              ],
+              gruposSemaforicos: [{idJson: 'gs1'}],
+              verdesConflitantes: [{idJson: 'vc1'}],
+              estagiosGruposSemaforicos: [{idJson: 'egs1'}]
             }
           ],
           estagios: [
@@ -189,7 +214,10 @@ describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
             {idJson: 'e2', id: 'e2', posicao: 2, anel: {idJson: 1}},
             {idJson: 'e3', id: 'e3', posicao: 3, anel: {idJson: 1}},
             {idJson: 'e4', id: 'e4', posicao: 4, anel: {idJson: 1}}
-          ]
+          ],
+          estagiosGruposSemaforicos: [{idJson: 'egs1'}],
+          gruposSemaforicos: [{idJson: 'gs1'}],
+          verdesConflitantes: [{idJson: 'vc1'}]
         };
 
         WizardControladores.fakeInicializaWizard(scope, $q, objeto, scope.inicializaTransicoesProibidas);
@@ -291,7 +319,7 @@ describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
       });
     });
   });
-  
+
   describe('getErrosEstagiosAlternativos', function () {
     beforeEach(inject(function(handleValidations) {
       scope.objeto = {
@@ -302,7 +330,7 @@ describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
               {idJson: 'E1A1'},
               {idJson: 'E2A1'}
             ]
-          }, 
+          },
           {
             idJson: 2,
             estagios: [
@@ -310,21 +338,21 @@ describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
               {idJson: 'E2A2'}
             ]
           }
-        ], 
+        ],
         estagios: [
           {idJson: 'E1A1', anel: {idJson: 1}},
           {idJson: 'E2A1', anel: {idJson: 1}},
           {idJson: 'E1A2', anel: {idJson: 2}, origemDeTransicoesProibidas: [{idJson: 'TP1'}]},
           {idJson: 'E2A2', anel: {idJson: 2}}
-        ], 
+        ],
         transicoesProibidas: [
           {idJson: 'TP1', origem: {idJson: 'E1A2'}, destino: {idJson: 'E2A2'}}
         ]
       };
-      var error = [{"root":"Controlador","message":"não pode ficar em branco","path":"aneis[1].estagios[0].origemDeTransicoesProibidas[0].alternativo"}];
+      var error = [{'root':'Controlador','message':'não pode ficar em branco','path':'aneis[1].estagios[0].origemDeTransicoesProibidas[0].alternativo'}];
       scope.errors = handleValidations.buildValidationMessages(error, scope.objeto);
     }));
-    
+
     it('Não deve ter erro para transição E1A1-E2A1', function() {
       var origem = {idJson: 'E1A1'};
       var destino = {idJson: 'E2A1'};
@@ -337,6 +365,61 @@ describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
       var destino = {idJson: 'E2A2'};
       var result = scope.getErrosEstagiosAlternativos(origem, destino);
       expect(result).toBeTruthy();
+    });
+  });
+
+  describe('getErrosEstagiosAlternativos', function () {
+    beforeEach(inject(function(handleValidations) {
+      scope.objeto = {
+        aneis: [
+          {
+            idJson: 1,
+            estagios: [
+              {idJson: 'E1A1'},
+              {idJson: 'E2A1'}
+            ]
+          },
+          {
+            idJson: 2,
+            estagios: [
+              {idJson: 'E1A2'},
+              {idJson: 'E2A2'}
+            ]
+          }
+        ],
+        estagios: [
+          {idJson: 'E1A1', anel: {idJson: 1}},
+          {idJson: 'E2A1', anel: {idJson: 1}},
+          {idJson: 'E1A2', anel: {idJson: 2}, demandaPrioritaria: true},
+          {idJson: 'E2A2', anel: {idJson: 2}}
+        ],
+        transicoesProibidas: [
+          {idJson: 'TP1', origem: {idJson: 'E1A2'}, destino: {idJson: 'E2A2'}}
+        ]
+      };
+      var error = [{'root':'Controlador','message':'Um estágio de demanda prioritária não pode ter transição proibida.','path':'aneis[1].estagios[2].naoPossuiTransicaoProibidaCasoDemandaPrioritaria'}];
+      scope.errors = handleValidations.buildValidationMessages(error, scope.objeto);
+      scope.selecionaAnel(1);
+    }));
+
+    it('Não deve ter erro para o estágio 1', function() {
+      var result = scope.getErrosEstagios(0);
+      expect(result).not.toBeTruthy();
+    });
+
+    it('Não deve ter erro para o estágio 2', function() {
+      var result = scope.getErrosEstagios(1);
+      expect(result).not.toBeTruthy();
+    });
+
+    it('Deve ter erro para o estágio 3', function() {
+      var result = scope.getErrosEstagios(2);
+      expect(result).toBeTruthy();
+    });
+
+    it('Não deve ter erro para o estágio 4', function() {
+      var result = scope.getErrosEstagios(3);
+      expect(result).not.toBeTruthy();
     });
   });
 });

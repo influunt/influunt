@@ -252,7 +252,7 @@ public class Plano extends Model implements Cloneable, Serializable {
     }
 
     @AssertTrue(groups = PlanosCheck.class,
-            message = "A sequência de estagio não é válida.")
+            message = "A sequência de estágios não é válida.")
     public boolean isPosicaoUnicaEstagio() {
         if (!this.getEstagiosPlanos().isEmpty()) {
             return !(this.getEstagiosPlanos().size() != this.getEstagiosPlanos().stream().map(estagioPlano -> estagioPlano.getPosicao()).distinct().count());
@@ -294,7 +294,7 @@ public class Plano extends Model implements Cloneable, Serializable {
     }
 
     @AssertTrue(groups = PlanosCheck.class,
-            message = "A sequência de estagio não é válida.")
+            message = "A sequência de estágios não é válida.")
     public boolean isSequenciaInvalida() {
         if (!this.getEstagiosPlanos().isEmpty() && isPosicaoUnicaEstagio()) {
             return sequenciaDeEstagioValida(ordenarEstagiosPorPosicao());
@@ -302,9 +302,9 @@ public class Plano extends Model implements Cloneable, Serializable {
         return true;
     }
 
-    @AssertTrue(groups = PlanosCheck.class, message = "A sequência de estagio não é válida, pois existe uma transição proibida devido a não execução do estágio dispensável.")
+    @AssertTrue(groups = PlanosCheck.class, message = "A sequência de estágios não é válida, pois existe uma transição proibida devido a não execução do estágio dispensável.")
     public boolean isSequenciaInvalidaSeExisteEstagioDispensavel() {
-        if (!this.getEstagiosPlanos().isEmpty() && getEstagiosPlanos().stream().anyMatch(estagioPlano -> estagioPlano.isDispensavel())) {
+        if (!this.getEstagiosPlanos().isEmpty() && getEstagiosPlanos().stream().anyMatch(EstagioPlano::isDispensavel)) {
             return this.sequenciaDeEstagioValida(this.ordenarEstagiosPorPosicaoSemEstagioDispensavel());
         }
         return true;
@@ -346,26 +346,35 @@ public class Plano extends Model implements Cloneable, Serializable {
     public Integer getTempoEstagio(EstagioPlano estagioPlano) {
         Estagio estagio = estagioPlano.getEstagio();
         Estagio estagioAnterior = getEstagioAnterior(estagioPlano.getEstagio());
-        ArrayList<Integer> totalTempoEntreverdes = new ArrayList<Integer>();
+
+        Integer tempoEntreVerdes = getTempoEntreVerdeEntreEstagios(estagio, estagioAnterior);
+
+        if (isAtuado()) {
+            return tempoEntreVerdes + estagioPlano.getTempoVerdeMaximo();
+        }
+
+
+        return tempoEntreVerdes + estagioPlano.getTempoVerde();
+    }
+
+    public Integer getTempoEntreVerdeEntreEstagios(Estagio estagioAtual, Estagio estagioAnterior) {
         Integer tempoEntreVerdes = 0;
-        if (!estagio.equals(estagioAnterior)) {
+        ArrayList<Integer> totalTempoEntreverdes = new ArrayList<Integer>();
+        if (!estagioAtual.equals(estagioAnterior)) {
             for (EstagioGrupoSemaforico estagioGrupoSemaforico : estagioAnterior.getEstagiosGruposSemaforicos()) {
-                if (!estagio.getGruposSemaforicos().contains(estagioGrupoSemaforico.getGrupoSemaforico())) {
-                    totalTempoEntreverdes.add(tempoEntreVerdes(estagio, estagioAnterior, estagioGrupoSemaforico));
+                if (!estagioAtual.getGruposSemaforicos().contains(estagioGrupoSemaforico.getGrupoSemaforico())) {
+                    totalTempoEntreverdes.add(getTempoEntreVerdes(estagioAtual, estagioAnterior, estagioGrupoSemaforico));
                 } else {
                     totalTempoEntreverdes.add(0);
                 }
             }
             tempoEntreVerdes = Collections.max(totalTempoEntreverdes);
         }
-        if (isAtuado()) {
-            return tempoEntreVerdes + estagioPlano.getTempoVerdeMaximo();
-        }
 
-        return tempoEntreVerdes + estagioPlano.getTempoVerde();
+        return tempoEntreVerdes;
     }
 
-    private Integer tempoEntreVerdes(Estagio estagio, Estagio estagioAnterior, EstagioGrupoSemaforico estagioGrupoSemaforico) {
+    private Integer getTempoEntreVerdes(Estagio estagio, Estagio estagioAnterior, EstagioGrupoSemaforico estagioGrupoSemaforico) {
         TabelaEntreVerdes tabelaEntreVerdes = estagioGrupoSemaforico.getGrupoSemaforico().getTabelasEntreVerdes().stream().filter(tev -> tev.getPosicao().equals(getPosicaoTabelaEntreVerde())).findFirst().orElse(null);
         Transicao transicao = estagioGrupoSemaforico.getGrupoSemaforico().findTransicaoByOrigemDestino(estagioAnterior, estagio);
 
@@ -390,7 +399,7 @@ public class Plano extends Model implements Cloneable, Serializable {
         return listaEstagioPlanos;
     }
 
-    public boolean sequenciaDeEstagioValida(List<EstagioPlano> estagios){
+    public boolean sequenciaDeEstagioValida(List<EstagioPlano> estagios) {
         int tamanho = estagios.size();
         for (int i = 0; i < tamanho; i++) {
             EstagioPlano origem = estagios.get(i);

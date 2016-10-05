@@ -426,9 +426,6 @@ public class ControladorTestUtil {
         estagioPlano4Anel4.setTempoVerdeIntermediario(20);
         estagioPlano4Anel4.setTempoExtensaoVerde(10.0);
 
-        criaIntervalos(plano1Anel2);
-        criaIntervalos(plano1Anel4);
-
         return controlador;
     }
 

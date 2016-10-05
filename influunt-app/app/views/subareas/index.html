@@ -15,7 +15,7 @@
 
           <!-- botão de nova area -->
           <div class="pull-right actions">
-            <a class="btn btn-small btn-primary btn-rounded" tooltips tooltip-template="Adicionar nova subarea" ui-sref="app.subareas_new">
+            <a class="btn btn-small btn-primary btn-rounded" tooltips tooltip-template="Adicionar nova subarea" ui-sref="app.subareas_new" permission permission-sref="'app.subareas_new'">
               <i class="fa fa-plus"></i>
               {{ 'geral.crud.novo' | translate }}
             </a>
@@ -57,9 +57,9 @@
                   <td>{{ subarea.nome }}</td>
                   <td>{{ subarea.numero }}</td>
                   <td>
-                    <a ui-sref="app.subareas_show({id: subarea.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
-                    <a ui-sref="app.subareas_edit({id: subarea.id})" class="btn btn-primary btn-xs">{{ 'geral.crud.editar' | translate }}</a>
-                    <a data-ng-click="confirmDelete(subarea.id)" class="btn btn-danger btn-xs">{{ 'geral.crud.excluir' | translate }}</a>
+                    <a ui-sref="app.subareas_show({id: subarea.id})" permission permission-sref="'app.subareas_show'" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
+                    <a ui-sref="app.subareas_edit({id: subarea.id})" permission permission-sref="'app.subareas_edit'" class="btn btn-primary btn-xs">{{ 'geral.crud.editar' | translate }}</a>
+                    <a data-ng-click="confirmDelete(subarea.id)" permission permission-only="'removerSubareas'" class="btn btn-danger btn-xs">{{ 'geral.crud.excluir' | translate }}</a>
                   </td>
                 </tr>
               </tbody>

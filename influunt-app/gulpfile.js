@@ -78,6 +78,9 @@ var paths = {
     'bower_components/angular-tooltips/dist/angular-tooltips.min.js',
     'bower_components/string/dist/string.min.js',
     'bower_components/hull-js/dist/hull.js',
+    'bower_components/angular-permission/dist/angular-permission.js',
+    'bower_components/angular-permission/dist/angular-permission-ui.js',
+    'bower_components/angular-permission/dist/angular-permission-ng.js',
 
     // inspinea scripts.
     yeoman.app + '/plugins/jquery-ui-1.12.0/jquery-ui.js',

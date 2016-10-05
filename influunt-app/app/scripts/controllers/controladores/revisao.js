@@ -108,7 +108,8 @@ angular.module('influuntApp')
           numAneisAtivos: _.filter($scope.objeto.aneis, { ativo: true }).length,
           numDetectoresVeicular: _.filter($scope.objeto.detectores, {tipo : 'VEICULAR'}).length,
           numDetectoresPedestre: _.filter($scope.objeto.detectores, {tipo : 'PEDESTRE'}).length,
-          endereco: $scope.objeto.nomeEndereco
+          endereco: $scope.objeto.nomeEndereco,
+          croqui: $scope.getImagemDeCroqui($scope.objeto)
         };
       };
 
@@ -258,14 +259,14 @@ angular.module('influuntApp')
           });
 
           dadosCurrentTransicoesProibidas = _.orderBy(dadosCurrentTransicoesProibidas, ['origem.posicao', 'destino.posicao', 'alternativo.posicao']);
-          $scope.dadosCurrentTRansicoesProibidas1 = [];
-          $scope.dadosCurrentTRansicoesProibidas2 = [];
+          $scope.dadosCurrentTransicoesProibidas1 = [];
+          $scope.dadosCurrentTransicoesProibidas2 = [];
 
           _.forEach(dadosCurrentTransicoesProibidas, function(transicaoProibida, index) {
             if (index % 2 === 0) {
-              $scope.dadosCurrentTRansicoesProibidas1.push(transicaoProibida);
+              $scope.dadosCurrentTransicoesProibidas1.push(transicaoProibida);
             } else {
-              $scope.dadosCurrentTRansicoesProibidas2.push(transicaoProibida);
+              $scope.dadosCurrentTransicoesProibidas2.push(transicaoProibida);
             }
           });
         }
@@ -366,6 +367,7 @@ angular.module('influuntApp')
               estagio: _.find($scope.objeto.estagios, { idJson: detector.estagio.idJson }),
               tempoAusenciaDeteccao: detector.tempoAusenciaDeteccao || 0,
               tempoDeteccaoPermanente: detector.tempoDeteccaoPermanente || 0,
+              monitorado: detector.monitorado
             });
           });
         }

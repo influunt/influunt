@@ -8,6 +8,7 @@
 * Controller of the influuntApp
 */
 angular.module('influuntApp')
+
 .controller('SimulacaoCtrl', ['$scope', '$controller','Restangular','influuntBlockui',
 function ($scope, $controller,Restangular,influuntBlockui) {
 

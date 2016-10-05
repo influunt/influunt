@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresConfiguracaoGruposCtrl', ['$scope', '$controller', '$state', '$filter', 'assertControlador', 'influuntAlert',
-    function ($scope, $controller, $state, $filter, assertControlador, influuntAlert) {
+  .controller('ControladoresConfiguracaoGruposCtrl', ['$scope', '$controller', '$state', '$filter', 'assertControlador', 'influuntAlert', 'removerPlanosTabelasHorarias',
+    function ($scope, $controller, $state, $filter, assertControlador, influuntAlert, removerPlanosTabelasHorarias) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
       var atualizaPosicaoGrupos, removeGrupoSalvo, removeGrupoLocal;
@@ -20,7 +20,7 @@ angular.module('influuntApp')
        * @return     {boolean}  { description_of_the_return_value }
        */
       $scope.assert = function() {
-        var valid = assertControlador.hasAneis($scope.objeto) && assertControlador.hasEstagios($scope.objeto);
+        var valid = assertControlador.assertStepConfiguracaoGrupos($scope.objeto);
         if (!valid) {
           $state.go('app.wizard_controladores.aneis', {id: $scope.objeto.id});
         }
@@ -57,6 +57,7 @@ angular.module('influuntApp')
         $scope.currentAnel.gruposSemaforicos.push({ idJson: obj.idJson });
 
         $scope.atualizaGruposSemaforicos();
+        removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor($scope.objeto);
         return atualizaPosicaoGrupos();
       };
 
@@ -70,6 +71,7 @@ angular.module('influuntApp')
             }
 
             $scope.atualizaGruposSemaforicos();
+            removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor($scope.objeto);
             return atualizaPosicaoGrupos();
           }
         });
@@ -127,11 +129,13 @@ angular.module('influuntApp')
         var posicao = 0;
         _.each($scope.aneis, function(anel){
           _.chain(anel.gruposSemaforicos)
+          .map(function (grupo){
+            return _.find($scope.objeto.gruposSemaforicos, {idJson: grupo.idJson});
+          })
           .orderBy(['posicao'])
           .each(function(grupo){
-            var grupoSemaforico = _.find($scope.objeto.gruposSemaforicos, {idJson: grupo.idJson});
-            if (!grupoSemaforico._destroy) {
-              grupoSemaforico.posicao = ++posicao;
+            if (!grupo._destroy) {
+              grupo.posicao = ++posicao;
             }
           })
           .value();

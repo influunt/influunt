@@ -23,9 +23,9 @@ angular.module('influuntApp')
        * @return     {boolean}  { description_of_the_return_value }
        */
       $scope.assertAssociacaoDetectores = function() {
-        var valid = assertControlador.hasAneis($scope.objeto) && assertControlador.hasEstagios($scope.objeto);
+        var valid = assertControlador.assertStepAssociacaoDetectores($scope.objeto);
         if (!valid) {
-          $state.go('app.wizard_controladores.transicoes_proibidas', {id: $scope.objeto.id});
+          $state.go('app.wizard_controladores.atraso_de_grupo', {id: $scope.objeto.id});
         }
 
         return valid;

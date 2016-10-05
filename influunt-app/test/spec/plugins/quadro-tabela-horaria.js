@@ -352,4 +352,127 @@
       });
     });
   });
+  
+  describe('Quadro de horários - Preenchimento da volta', function() {
+    var dias, eventos, resposta;
+    var dom = 'dom';
+    var seg = 'seg';
+    var ter = 'ter';
+    var qua = 'qua';
+    var qui = 'qui';
+    var sex = 'sex';
+    var sab = 'sab';
+    beforeEach(function() {
+      dias = [
+        {
+          label: 'Todos os dias da semana',
+          value: 'TODOS_OS_DIAS',
+          dias: ['dom','seg','ter','qua','qui','sex','sab'],
+          prioridade:11
+        },
+        {
+          label: 'Domingo',
+          value: 'DOMINGO',
+          dias: ['dom'],
+          prioridade:7
+        },
+        {
+          label: 'Segunda-feira',
+          value: 'SEGUNDA',
+          dias: ['seg'] ,
+          prioridade:6,
+        },
+        {
+          label: 'Terça-feira',
+          value: 'TERCA',
+          dias: ['ter'],
+          prioridade:5
+        },
+        {
+          label: 'Quarta-feira',
+          value: 'QUARTA',
+          dias: ['qua'],
+          prioridade:4,
+        },
+        {
+          label: 'Quinta-feira',
+          value: 'QUINTA',
+          dias: ['qui'],
+          prioridade:3
+        },
+        {
+          label: 'Sexta-feira',
+          value: 'SEXTA',
+          dias: ['sex'],
+          prioridade:2
+        },
+        {
+          label: 'Sábado',
+          value: 'SABADO',
+          dias: ['sab'],
+          prioridade:1
+        },
+        {
+          label: 'Sábado e Domingo',
+          value: 'SABADO_A_DOMINGO',
+          dias: ['dom','sab'],
+          prioridade:8
+        },
+
+        {
+          label: 'Segunda à Sexta',
+          value: 'SEGUNDA_A_SEXTA',
+          dias: ['seg','ter','qua','qui','sex'],
+          prioridade:9
+        },
+        {
+          label: 'Segunda à Sábado',
+          value: 'SEGUNDA_A_SABADO',
+          dias: ['seg','ter','qua','qui','sex','sab'],
+          prioridade:10
+        }
+      ];
+      eventos = [
+        {
+          idJson: 'evento-1-JSON',
+          posicao: 1,
+          diaDaSemana: 'SEGUNDA',
+          tabelaHoraria: {
+            idJson: 'th-1-JSON'
+          },
+          tipo: 'NORMAL',
+          horario: '8:0:0'
+        }
+      ];
+    });
+
+    describe('descricao da resposta', function() {
+      beforeEach(function() {
+        var quadroHorarioBuilder = new influunt.components.QuadroTabelaHorario(dias, eventos);
+        resposta = quadroHorarioBuilder.calcula();
+      });
+
+      it('Deve ter uma lista para cada dia da semana', function() {
+        expect(_.size(resposta)).toBe(7);
+      });
+
+      it('Deve ter 24 intervalos para cada lista', function() {
+        expect(resposta[dom].length).toBe(24);
+        expect(resposta[seg].length).toBe(24);
+        expect(resposta[ter].length).toBe(24);
+        expect(resposta[qua].length).toBe(24);
+        expect(resposta[qui].length).toBe(24);
+        expect(resposta[sex].length).toBe(24);
+        expect(resposta[sab].length).toBe(24);
+      });
+
+      it('Todos os intervalos devem estar com evento1', function() {
+        _.forEach(resposta, function(intervalos){
+          _.forEach(intervalos, function(intervalo){
+            expect('horarioColor1').toBe(intervalo[0].state);
+          });
+        });
+      });
+    });
+  });
 })();

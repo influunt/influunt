@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresTransicoesProibidasCtrl', ['$scope', '$state', '$controller', 'assertControlador',
-    function ($scope, $state, $controller, assertControlador) {
+  .controller('ControladoresTransicoesProibidasCtrl', ['$scope', '$state', '$controller', 'assertControlador', 'removerPlanosTabelasHorarias',
+    function ($scope, $state, $controller, assertControlador, removerPlanosTabelasHorarias) {
       $controller('ControladoresCtrl', {$scope: $scope});
       $controller('ConfirmacaoNadaHaPreencherCtrl', {$scope: $scope});
 
@@ -22,9 +22,9 @@ angular.module('influuntApp')
        * @return     {boolean}  { description_of_the_return_value }
        */
       $scope.assertTransicoesProibidas = function() {
-        var valid = assertControlador.hasAneis($scope.objeto) && assertControlador.hasEstagios($scope.objeto);
+        var valid = assertControlador.assertStepTransicoesProibidas($scope.objeto);
         if (!valid) {
-          $state.go('app.wizard_controladores.verdes_conflitantes', {id: $scope.objeto.id});
+          $state.go('app.wizard_controladores.associacao', {id: $scope.objeto.id});
         }
 
         return valid;
@@ -57,7 +57,6 @@ angular.module('influuntApp')
               });
             });
             $scope.inicializaConfirmacaoNadaHaPreencher();
-
             $scope.selecionaAnel(anelEscolhido);
             $scope.atualizaEstagios();
             $scope.atualizaTransicoesProibidas();
@@ -82,7 +81,6 @@ angular.module('influuntApp')
        * @return     {boolean}  { description_of_the_return_value }
        */
       $scope.toggleTransicaoProibida = function(estagio1, estagio2, disabled) {
-
         if (disabled || estagio1.idJson === estagio2.idJson) {
           return false;
         }
@@ -169,9 +167,14 @@ angular.module('influuntApp')
         var indexEstagioAnel = _.findIndex(anel.estagios, {idJson: origem.idJson});
 
         return $scope.errors.aneis[indexAnel].estagios[indexEstagioAnel] &&
-          $scope.errors.aneis[indexAnel]
-          .estagios[indexEstagioAnel]
-          .origemDeTransicoesProibidas[indexDestino];
+          $scope.errors.aneis[indexAnel].estagios[indexEstagioAnel].origemDeTransicoesProibidas &&
+          $scope.errors.aneis[indexAnel].estagios[indexEstagioAnel].origemDeTransicoesProibidas[indexDestino];
+      };
+
+      $scope.getErrosEstagios = function(index) {
+        var errosEstagios =  _.get($scope.errors, 'aneis['+ $scope.currentAnelIndex +'].estagios['+ index +']');
+        return _.get(errosEstagios, 'naoPossuiTransicaoProibidaCasoDemandaPrioritaria');
+
       };
 
       $scope.selecionaAnelTransicoesProibidas = function(index) {
@@ -225,6 +228,7 @@ angular.module('influuntApp')
           }
         };
 
+        removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor($scope.objeto);
         $scope.verificaConfirmacaoNadaHaPreencher();
       };
 
@@ -265,6 +269,7 @@ angular.module('influuntApp')
           }
         }
 
+        removerPlanosTabelasHorarias.deletarPlanosTabelasHorariosNoServidor($scope.objeto);
         $scope.verificaConfirmacaoNadaHaPreencher();
       };
 
@@ -284,4 +289,5 @@ angular.module('influuntApp')
         var t = _.find($scope.objeto.transicoesProibidas, query);
         return t && t.alternativo && _.find($scope.objeto.estagios, {idJson: t.alternativo.idJson});
       };
+
     }]);

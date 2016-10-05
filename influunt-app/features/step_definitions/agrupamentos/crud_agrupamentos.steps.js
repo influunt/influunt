@@ -2,13 +2,24 @@
 
 var expect = require('chai').expect;
 var AgrupamentosPage = require('../../support/page-objects/agrupamentos');
+var ObjetosComuns = require('../../support/page-objects/objetos_comuns');
 
 module.exports = function() {
   var agrupamentosPage = new AgrupamentosPage();
+  var objetosComuns = new ObjetosComuns();
 
   this.Given(/^que exista ao menos um agrupamento cadastrado no sistema$/, function() {
     return agrupamentosPage.existeAoMenosUmAgrupamento();
   });
+
+  this.Given(/^que exista ao menos um controlador cadastrado no sistema$/, function() {
+    return agrupamentosPage.existeUmControladorConfigurado();
+  });
+
+   this.Given(/^que este controlador esteja finalizado$/, function() {
+    return agrupamentosPage.controladorConfigurado();
+  });
+
 
   this.Given(/^o usuário acessar a tela de listagem de agrupamentos$/, function() {
     return agrupamentosPage.indexPage();
@@ -20,9 +31,8 @@ module.exports = function() {
     });
   });
 
-  this.Given(/^clicar no botão de Novo Agrupamento$/, function(callback) {
-    agrupamentosPage.clicarLinkComTexto('Novo');
-    callback();
+  this.Given(/^clicar no botão de Novo Agrupamento$/, function() {
+    return objetosComuns.clicarLinkNovo();
   });
 
   this.Given(/^o sistema deverá redirecionar para o formulário de cadastro de novos agrupamentos$/, function() {
@@ -48,7 +58,7 @@ module.exports = function() {
   });
 
   this.Given(/^clicar no botão de visualizar um agrupamento$/, function() {
-    agrupamentosPage.clicarLinkComTexto('Visualizar');
+    return objetosComuns.clicarLinkComTexto('Visualizar');
   });
 
   this.Given(/^o sistema deverá redirecionar para a tela de visualização de agrupamentos$/, function() {
@@ -58,7 +68,7 @@ module.exports = function() {
   });
 
   this.Given(/^clicar no botão de editar um agrupamento$/, function() {
-    agrupamentosPage.clicarLinkComTexto('Editar');
+    return objetosComuns.clicarLinkComTexto('Editar');
   });
 
   this.Given(/^o sistema deverá redirecionar para o formulário de edição de agrupamentos$/, function() {
@@ -69,11 +79,11 @@ module.exports = function() {
 
   this.Given(/^o usuário acessar o formulário de edição de agrupamentos$/, function() {
     agrupamentosPage.indexPage();
-    return agrupamentosPage.clicarLinkComTexto('Editar');
+    return objetosComuns.clicarLinkComTexto('Editar');
   });
 
   this.Given(/^clicar no botão de excluir um agrupamento$/, function() {
-    agrupamentosPage.clicarLinkComTexto('Excluir');
+    return objetosComuns.clicarLinkComTexto('Excluir');
   });
 
   this.Given(/^o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir o agrupamento$/, function() {
@@ -81,6 +91,13 @@ module.exports = function() {
       expect(text).to.equal('Quer mesmo apagar este registro?');
     });
   });
+
+  this.Given(/^sistema deverá mostar um alerta se deseja atualizar tabela horária$/, function () {
+    return agrupamentosPage.alertaAtulizarTabelaHoraria().then(function(text) {
+      expect(text).to.equal('Deseja atualizar a tabela horária dos controladores associados a este agrupamento?');
+    });
+  });
+
 
   this.Given(/^nenhum agrupamento deve ser excluído$/, function() {
     return agrupamentosPage.nenhumAgrupamentoDeveSerExcluido().then(function(res) {
