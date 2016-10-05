@@ -20,6 +20,7 @@
     "Dropzone": true,
     "moment": true,
     "humanizeDuration": true,
+    "Regex": true,
 
     // leaflet lib
     "L": true,
