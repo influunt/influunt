@@ -378,10 +378,8 @@ public class Estagio extends Model implements Serializable, Cloneable {
             message = "Um estágio deve possuir ao menos uma transição válida.")
     public boolean isEstagioPossuiAoMenosUmaTransicaoValida() {
         for (Estagio estagio : getAnel().getEstagios()) {
-            if (!Objects.equals(getIdJson(), estagio.getIdJson())) {
-                if (!temTransicaoProibidaParaEstagio(estagio)) {
-                    return true;
-                }
+            if (!Objects.equals(getIdJson(), estagio.getIdJson()) && !temTransicaoProibidaParaEstagio(estagio)) {
+                return true;
             }
         }
         return false;
