@@ -368,7 +368,7 @@ describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
     });
   });
 
-  describe('getErrosEstagiosAlternativos', function () {
+  describe('getErrosEstagios', function () {
     beforeEach(inject(function(handleValidations) {
       scope.objeto = {
         aneis: [
@@ -400,26 +400,24 @@ describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
       var error = [{'root':'Controlador','message':'Um estágio de demanda prioritária não pode ter transição proibida.','path':'aneis[1].estagios[2].naoPossuiTransicaoProibidaCasoDemandaPrioritaria'}];
       scope.errors = handleValidations.buildValidationMessages(error, scope.objeto);
       scope.selecionaAnel(1);
+      scope.getErrosEstagios();
+      $timeout.flush();
     }));
 
     it('Não deve ter erro para o estágio 1', function() {
-      var result = scope.getErrosEstagios(0);
-      expect(result).not.toBeTruthy();
+      expect(scope.errosEstagios[0]).not.toBeTruthy();
     });
 
     it('Não deve ter erro para o estágio 2', function() {
-      var result = scope.getErrosEstagios(1);
-      expect(result).not.toBeTruthy();
+      expect(scope.errosEstagios[1]).not.toBeTruthy();
     });
 
     it('Deve ter erro para o estágio 3', function() {
-      var result = scope.getErrosEstagios(2);
-      expect(result).toBeTruthy();
+      expect(scope.errosEstagios[2]).toBeTruthy();
     });
 
     it('Não deve ter erro para o estágio 4', function() {
-      var result = scope.getErrosEstagios(3);
-      expect(result).not.toBeTruthy();
+      expect(scope.errosEstagios[3]).not.toBeTruthy();
     });
   });
 });
