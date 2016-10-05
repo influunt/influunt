@@ -219,7 +219,7 @@ public class ControladoresController extends Controller {
 
         if (controladoresFisicos != null) {
             List<Controlador> controladores = new ArrayList<Controlador>();
-            controladoresFisicos.stream().forEach(controladorFisico -> controladores.add(controladorFisico.getControladorAtivoOuEditando()));
+            controladoresFisicos.stream().forEach(controladorFisico -> controladores.add(controladorFisico.getControladorConfiguradoOuAtivoOuEditando()));
             return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladoresForMapas(controladores)));
         }
 

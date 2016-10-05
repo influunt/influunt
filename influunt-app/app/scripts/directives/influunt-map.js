@@ -31,7 +31,7 @@ angular.module('influuntApp')
 
         // private methods.
         var addAgrupamentos, addAreas, addMarkers, agrupaAneis, createAgrupamento, createArea, createMarker,
-            getAreaTitle, getBoundingBox, getConcaveHullPoints, initializeMap, renderAgrupamentos, renderAreas,
+            getAreaTitle, getBoundingBox, getHullPoints, initializeMap, renderAgrupamentos, renderAreas,
             renderMarkers, setView, setViewForArea;
         var map, markersLayer, areasLayer, agrupamentosLayer, polylineLayer;
 
@@ -89,6 +89,7 @@ angular.module('influuntApp')
             return new L.LatLng(p.latitude, p.longitude);
           });
 
+          points = getHullPoints(points, Infinity);
           var area = L.polygon(points, options);
           return area;
         };
@@ -118,7 +119,7 @@ angular.module('influuntApp')
 
           options = _.merge(options, obj.options);
           var points = getBoundingBox(obj.points);
-          points = getConcaveHullPoints(points);
+          points = getHullPoints(points);
           var agrupamento = L.polygon(points, options);
 
           return agrupamento;
@@ -176,8 +177,9 @@ angular.module('influuntApp')
           map.addLayer(agrupamentosLayer);
         };
 
-        getConcaveHullPoints = function(points) {
-          return hull(points, HULL_CONCAVITY, ['.lat', '.lng']);
+        getHullPoints = function(points, hullConcavity) {
+          hullConcavity = hullConcavity || HULL_CONCAVITY;
+          return hull(points, hullConcavity, ['.lat', '.lng']);
         };
 
         getBoundingBox = function(points) {
