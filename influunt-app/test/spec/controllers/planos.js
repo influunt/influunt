@@ -216,4 +216,202 @@ describe('Controller: PlanosCtrl', function () {
       expect(scope.planoTemErro(3)).toBe(true);
     });
   });
+
+  describe('testar limpar plano de um anel com plano exclusivo', function () {
+    var deferred;
+    beforeEach(inject(function(influuntAlert, $q) {
+      beforeEachFn(ControladorComPlanoExclusivo);
+      deferred = $q.defer();
+      spyOn(influuntAlert, 'confirm').and.returnValue(deferred.promise);
+    }));
+
+    it('Confirmando - Deve permanecer com a numeracao correta', function() {
+      $httpBackend.expectGET('/planos/77cbf85d-9ab8-4cca-9d1d-8d06df2a133f/timeline').respond(timeline);
+      scope.selecionaAnelPlanos(0);
+      $httpBackend.flush();
+
+      expect(scope.currentAnel.aceitaModoManual).toBeTruthy();
+      expect(scope.currentPlanos.length).toBe(17);
+      var plano = scope.currentPlanos[6];
+      plano.configurado = true;
+      scope.selecionaPlano(plano, 6);
+      plano.configurado = false;
+
+      expect(plano.posicao).toBe(6);
+      expect(scope.currentPlano.posicao).toBe(6);
+      scope.resetarPlano(plano, 6);
+      deferred.resolve(true);
+      scope.$apply();
+
+      expect(scope.currentPlanos[0].posicao).toBe(0);
+      expect(scope.currentPlanos[1].posicao).toBe(1);
+      expect(scope.currentPlanos[6].posicao).toBe(6);
+      expect(scope.currentPlanos[16].posicao).toBe(16);
+      expect(scope.currentPlano.posicao).toBe(6);
+
+      expect(scope.currentPlanos.length).toBe(17);
+
+      _.each(scope.currentPlanos, function(plano, index){
+        expect(plano.posicao).toBe(index);
+      });
+    });
+    
+    it('Não Confirmando - Deve permanecer com a numeracao correta', function() {
+      $httpBackend.expectGET('/planos/77cbf85d-9ab8-4cca-9d1d-8d06df2a133f/timeline').respond(timeline);
+      scope.selecionaAnelPlanos(0);
+      $httpBackend.flush();
+
+      expect(scope.currentAnel.aceitaModoManual).toBeTruthy();
+      expect(scope.currentPlanos.length).toBe(17);
+      var plano = scope.currentPlanos[6];
+      plano.configurado = true;
+      scope.selecionaPlano(plano, 6);
+      plano.configurado = false;
+
+      expect(plano.posicao).toBe(6);
+      expect(scope.currentPlano.posicao).toBe(6);
+      scope.resetarPlano(plano, 6);
+      deferred.resolve(false);
+      scope.$apply();
+      
+      expect(scope.currentPlano.configurado).toBeTruthy();
+
+      expect(scope.currentPlanos[0].posicao).toBe(0);
+      expect(scope.currentPlanos[1].posicao).toBe(1);
+      expect(scope.currentPlanos[6].posicao).toBe(6);
+      expect(scope.currentPlanos[16].posicao).toBe(16);
+      expect(scope.currentPlano.posicao).toBe(6);
+
+      expect(scope.currentPlanos.length).toBe(17);
+
+      _.each(scope.currentPlanos, function(plano, index){
+        expect(plano.posicao).toBe(index);
+      });
+    });
+  });
+
+  describe('testar copiar plano de um anel com plano exclusivo', function () {
+    var deferred;
+    beforeEach(inject(function(influuntAlert, $q) {
+      beforeEachFn(ControladorComPlanoExclusivo);
+      deferred = $q.defer();
+      spyOn(influuntAlert, 'confirm').and.returnValue(deferred.promise);
+    }));
+
+    it('Deve permanecer com a numeracao correta', function() {
+      scope.selecionaAnelPlanos(0);
+
+      expect(scope.currentAnel.aceitaModoManual).toBeTruthy();
+      expect(scope.currentPlanos.length).toBe(17);
+      var plano = scope.currentPlanos[1];
+      scope.planoCopiado = plano;
+      scope.planosDestino = [scope.currentPlanos[6], scope.currentPlanos[12], scope.currentPlanos[16]];
+      scope.confirmacaoCopiarPlano();
+
+      expect(scope.currentPlanos.length).toBe(17);
+
+      _.each(scope.currentPlanos, function(plano, index){
+        expect(plano.posicao).toBe(index);
+      });
+    });
+  });
+  
+  describe('testar limpar plano de um anel sem plano exclusivo', function () {
+    var deferred;
+    beforeEach(inject(function(influuntAlert, $q) {
+      beforeEachFn(ControladorComPlanos);
+      deferred = $q.defer();
+      spyOn(influuntAlert, 'confirm').and.returnValue(deferred.promise);
+    }));
+
+    it('Confirmando - Deve permanecer com a numeracao correta', function() {
+      $httpBackend.expectGET('/planos/77cbf85d-9ab8-4cca-9d1d-8d06df2a133f/timeline').respond(timeline);
+      scope.selecionaAnelPlanos(0);
+      $httpBackend.flush();
+
+      expect(scope.currentAnel.aceitaModoManual).toBeFalsy();
+      expect(scope.currentPlanos.length).toBe(16);
+      var plano = scope.currentPlanos[10];
+      plano.configurado = true;
+      scope.selecionaPlano(plano, 10);
+      plano.configurado = false;
+
+      expect(plano.posicao).toBe(11);
+      expect(scope.currentPlano.posicao).toBe(11);
+      scope.resetarPlano(plano, 10);
+      deferred.resolve(true);
+      scope.$apply();
+
+      expect(scope.currentPlanos[0].posicao).toBe(1);
+      expect(scope.currentPlanos[1].posicao).toBe(2);
+      expect(scope.currentPlanos[10].posicao).toBe(11);
+      expect(scope.currentPlanos[15].posicao).toBe(16);
+      expect(scope.currentPlano.posicao).toBe(11);
+
+      expect(scope.currentPlanos.length).toBe(16);
+
+      _.each(scope.currentPlanos, function(plano, index){
+        expect(plano.posicao).toBe(index+1);
+      });
+    });
+    
+    it('Não Confirmando - Deve permanecer com a numeracao correta', function() {
+      $httpBackend.expectGET('/planos/77cbf85d-9ab8-4cca-9d1d-8d06df2a133f/timeline').respond(timeline);
+      scope.selecionaAnelPlanos(0);
+      $httpBackend.flush();
+
+      expect(scope.currentAnel.aceitaManual).toBeFalsy();
+      expect(scope.currentPlanos.length).toBe(16);
+      var plano = scope.currentPlanos[6];
+      plano.configurado = true;
+      scope.selecionaPlano(plano, 6);
+      plano.configurado = false;
+
+      expect(plano.posicao).toBe(7);
+      expect(scope.currentPlano.posicao).toBe(7);
+      scope.resetarPlano(plano, 6);
+      deferred.resolve(false);
+      scope.$apply();
+      
+      expect(scope.currentPlano.configurado).toBeTruthy();
+
+      expect(scope.currentPlanos[0].posicao).toBe(1);
+      expect(scope.currentPlanos[1].posicao).toBe(2);
+      expect(scope.currentPlanos[6].posicao).toBe(7);
+      expect(scope.currentPlanos[15].posicao).toBe(16);
+      expect(scope.currentPlano.posicao).toBe(7);
+
+      expect(scope.currentPlanos.length).toBe(16);
+
+      _.each(scope.currentPlanos, function(plano, index){
+        expect(plano.posicao).toBe(index+1);
+      });
+    });
+  });
+
+  describe('testar copiar plano de um anel sem plano exclusivo', function () {
+    var deferred;
+    beforeEach(inject(function(influuntAlert, $q) {
+      beforeEachFn(ControladorComPlanos);
+      deferred = $q.defer();
+      spyOn(influuntAlert, 'confirm').and.returnValue(deferred.promise);
+    }));
+
+    it('Deve permanecer com a numeracao correta', function() {
+      scope.selecionaAnelPlanos(0);
+
+      expect(scope.currentAnel.aceitaModoManual).toBeFalsy();
+      expect(scope.currentPlanos.length).toBe(16);
+      var plano = scope.currentPlanos[1];
+      scope.planoCopiado = plano;
+      scope.planosDestino = [scope.currentPlanos[6], scope.currentPlanos[12], scope.currentPlanos[15]];
+      scope.confirmacaoCopiarPlano();
+
+      expect(scope.currentPlanos.length).toBe(16);
+
+      _.each(scope.currentPlanos, function(plano, index){
+        expect(plano.posicao).toBe(index+1);
+      });
+    });
+  });
 });
