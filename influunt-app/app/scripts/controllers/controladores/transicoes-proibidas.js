@@ -172,6 +172,10 @@ angular.module('influuntApp')
           .origemDeTransicoesProibidas[indexDestino];
       };
 
+      $scope.getErrosEstagios = function(index) {
+        return _.get($scope.errors, 'aneis['+ $scope.currentAnelIndex +'].estagios['+ index +']');
+      };
+
       $scope.selecionaAnelTransicoesProibidas = function(index) {
         $scope.selecionaAnel(index);
         $scope.atualizaEstagios();
