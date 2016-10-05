@@ -23,11 +23,9 @@ angular.module('influuntApp')
        * @return     {boolean}  { description_of_the_return_value }
        */
       $scope.assertAtrasoDeGrupo = function() {
-        var valid = assertControlador.hasAneis($scope.objeto) &&
-                    assertControlador.hasEstagios($scope.objeto) &&
-                    assertControlador.hasTransicoes($scope.objeto);
+        var valid = assertControlador.assertStepAtrasoDeGrupo($scope.objeto);
         if (!valid) {
-          $state.go('app.wizard_controladores.verdes_conflitantes', {id: $scope.objeto.id});
+          $state.go('app.wizard_controladores.entre_verdes', {id: $scope.objeto.id});
         }
 
         return valid;

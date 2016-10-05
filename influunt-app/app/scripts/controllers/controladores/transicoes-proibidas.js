@@ -22,9 +22,9 @@ angular.module('influuntApp')
        * @return     {boolean}  { description_of_the_return_value }
        */
       $scope.assertTransicoesProibidas = function() {
-        var valid = assertControlador.hasAneis($scope.objeto) && assertControlador.hasEstagios($scope.objeto);
+        var valid = assertControlador.assertStepTransicoesProibidas($scope.objeto);
         if (!valid) {
-          $state.go('app.wizard_controladores.verdes_conflitantes', {id: $scope.objeto.id});
+          $state.go('app.wizard_controladores.associacao', {id: $scope.objeto.id});
         }
 
         return valid;
@@ -57,7 +57,6 @@ angular.module('influuntApp')
               });
             });
             $scope.inicializaConfirmacaoNadaHaPreencher();
-
             $scope.selecionaAnel(anelEscolhido);
             $scope.atualizaEstagios();
             $scope.atualizaTransicoesProibidas();
@@ -82,7 +81,6 @@ angular.module('influuntApp')
        * @return     {boolean}  { description_of_the_return_value }
        */
       $scope.toggleTransicaoProibida = function(estagio1, estagio2, disabled) {
-
         if (disabled || estagio1.idJson === estagio2.idJson) {
           return false;
         }

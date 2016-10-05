@@ -487,12 +487,12 @@ angular
           }
         })
 
-        .state('app.wizard_controladores.associacao', {
-          url: '/associacao/:id',
-          templateUrl: 'views/controladores/wizard/associacao.html',
-          controller: 'ControladoresAssociacaoCtrl',
+        .state('app.wizard_controladores.verdes_conflitantes', {
+          url: '/verdes-conflitantes/:id',
+          templateUrl: 'views/controladores/wizard/verdes-conflitantes.html',
+          controller: 'ControladoresVerdesConflitantesCtrl',
           data: {
-            title: 'controladores.associacao.titulo',
+            title: 'controladores.verdesConflitantes.titulo',
             permissions: {
               only: 'criarControlador',
               redirectTo: 'app.main'
@@ -500,12 +500,12 @@ angular
           }
         })
 
-        .state('app.wizard_controladores.verdes_conflitantes', {
-          url: '/verdes-conflitantes/:id',
-          templateUrl: 'views/controladores/wizard/verdes-conflitantes.html',
-          controller: 'ControladoresVerdesConflitantesCtrl',
+        .state('app.wizard_controladores.associacao', {
+          url: '/associacao/:id',
+          templateUrl: 'views/controladores/wizard/associacao.html',
+          controller: 'ControladoresAssociacaoCtrl',
           data: {
-            title: 'controladores.verdesConflitantes.titulo',
+            title: 'controladores.associacao.titulo',
             permissions: {
               only: 'criarControlador',
               redirectTo: 'app.main'
@@ -526,12 +526,12 @@ angular
           }
         })
 
-        .state('app.wizard_controladores.atraso_de_grupo', {
-          url: '/atraso-de-grupo/:id',
-          templateUrl: 'views/controladores/wizard/atraso-de-grupo.html',
-          controller: 'ControladoresAtrasoDeGrupoCtrl',
+        .state('app.wizard_controladores.entre_verdes', {
+          url: '/entre-verdes/:id',
+          templateUrl: 'views/controladores/wizard/entre-verdes.html',
+          controller: 'ControladoresEntreVerdesCtrl',
           data: {
-            title: 'controladores.atrasoDeGrupo.titulo',
+            title: 'controladores.entreVerdes.titulo',
             permissions: {
               only: 'criarControlador',
               redirectTo: 'app.main'
@@ -539,12 +539,12 @@ angular
           }
         })
 
-        .state('app.wizard_controladores.entre_verdes', {
-          url: '/entre-verdes/:id',
-          templateUrl: 'views/controladores/wizard/entre-verdes.html',
-          controller: 'ControladoresEntreVerdesCtrl',
+        .state('app.wizard_controladores.atraso_de_grupo', {
+          url: '/atraso-de-grupo/:id',
+          templateUrl: 'views/controladores/wizard/atraso-de-grupo.html',
+          controller: 'ControladoresAtrasoDeGrupoCtrl',
           data: {
-            title: 'controladores.entreVerdes.titulo',
+            title: 'controladores.atrasoDeGrupo.titulo',
             permissions: {
               only: 'criarControlador',
               redirectTo: 'app.main'
@@ -995,7 +995,7 @@ angular
       $urlRouterProvider.deferIntercept();
     }])
 
-  .run(['$rootScope', '$state', '$timeout', 'TELAS_SEM_LOGIN',
+    .run(['$rootScope', '$state', '$timeout', 'TELAS_SEM_LOGIN',
     function($rootScope, $state, $timeout, TELAS_SEM_LOGIN) {
 
       $rootScope.$state = $state;

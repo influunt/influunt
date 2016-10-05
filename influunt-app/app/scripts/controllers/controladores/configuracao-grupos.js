@@ -20,7 +20,7 @@ angular.module('influuntApp')
        * @return     {boolean}  { description_of_the_return_value }
        */
       $scope.assert = function() {
-        var valid = assertControlador.hasAneis($scope.objeto) && assertControlador.hasEstagios($scope.objeto);
+        var valid = assertControlador.assertStepConfiguracaoGrupos($scope.objeto);
         if (!valid) {
           $state.go('app.wizard_controladores.aneis', {id: $scope.objeto.id});
         }

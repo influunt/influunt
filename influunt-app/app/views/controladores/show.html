@@ -28,9 +28,9 @@
                   </a>
                   <a class="btn btn-danger"
                       tooltips tooltip-side="bottom" tooltip-template="{{ 'controladores.geral.cancelarEdicao' | translate }} {{ 'controladores.controlador' | translate }}"
-                      type="button" ng-if="objeto && objeto.versaoControlador && getUsuario().id === objeto.versaoControlador.usuario.id"
+                      type="button"
+                      ng-if="objeto && objeto.statusControlador == 'EM_EDICAO' && objeto.versaoControlador && getUsuario().id === objeto.versaoControlador.usuario.id"
                       ng-click="cancelarEdicao(objeto.id)"
-                      ng-if="objeto.statusControlador == 'EM_EDICAO'"
                       permission permission-only="'criarControlador'">
                     <i class="fa fa-trash"></i> {{ 'controladores.geral.cancelarEdicao' | translate }}
                   </a>
@@ -43,10 +43,9 @@
           </fieldset>
 
 
-        <div class="col-sm-12 bg-border-footer">
-          <a class="btn btn-primary btn-outline btn-footer right m-r-sm" ui-sref="app.controladores">{{ 'geral.crud.voltar' | translate }}</a>
-        </div>
-
+          <div class="col-sm-12 bg-border-footer">
+            <a class="btn btn-primary btn-outline btn-footer right m-r-sm" ui-sref="app.controladores">{{ 'geral.crud.voltar' | translate }}</a>
+          </div>
         </div>
       </div>
     </div>

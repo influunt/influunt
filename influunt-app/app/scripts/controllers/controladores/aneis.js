@@ -26,7 +26,7 @@ angular.module('influuntApp')
        * @return     {boolean}  { description_of_the_return_value }
        */
       $scope.assertAneis = function () {
-        var valid = assertControlador.hasAneis($scope.objeto);
+        var valid = assertControlador.assertStepAneis($scope.objeto);
         if (!valid) {
           $state.go('app.wizard_controladores.dados_basicos');
         }

@@ -28,8 +28,21 @@ describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
   });
 
   describe('assertTransicoesProibidas', function () {
-    it('O controlador deve ter ao meno um anel e um estagio.', function() {
-      scope.objeto = {aneis: [{idJson: 1, estagios: [{idJson: 'e1'}]}], estagios: [{idJson: 'e1'}]};
+    it('O controlador deve ter ao menos as configuracoes minimas ate associacao.', function() {
+      scope.objeto = {
+        aneis: [{
+          idJson: 1,
+          estagios: [{idJson: 'e1'}],
+          gruposSemaforicos: [{idJson: 'gs1'}],
+          verdesConflitantes: [{idJson: 'vc1'}],
+          estagiosGruposSemaforicos: [{idJson: 'egs1'}]
+
+        }],
+        estagios: [{idJson: 'e1'}],
+        estagiosGruposSemaforicos: [{idJson: 'egs1'}],
+        gruposSemaforicos: [{idJson: 'gs1', transicoes: [{idJson: 't1'}]}],
+        verdesConflitantes: [{idJson: 'vc1'}]
+      };
       var result = scope.assertTransicoesProibidas();
       expect(result).toBeTruthy();
     });
@@ -62,7 +75,10 @@ describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
                 {idJson: 'e2'},
                 {idJson: 'e3'},
                 {idJson: 'e4'}
-              ]
+              ],
+              gruposSemaforicos: [{idJson: 'gs1'}],
+              verdesConflitantes: [{idJson: 'vc1'}],
+              estagiosGruposSemaforicos: [{idJson: 'egs1'}]
             }
           ],
           estagios: [
@@ -73,7 +89,10 @@ describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
           ],
           transicoesProibidas: [
             {idJson: 'tp1',origem: {idJson: 'e1'},destino: {idJson: 'e2'},alternativo: {idJson: 'e3'}}
-          ]
+          ],
+          estagiosGruposSemaforicos: [{idJson: 'egs1'}],
+          gruposSemaforicos: [{idJson: 'gs1', transicoes: [{idJson: 't1'}]}],
+          verdesConflitantes: [{idJson: 'vc1'}]
         };
 
         WizardControladores.fakeInicializaWizard(scope, $q, objeto, scope.inicializaTransicoesProibidas);
@@ -97,7 +116,10 @@ describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
               {idJson: 'e2'},
               {idJson: 'e3'},
               {idJson: 'e4'}
-            ]
+            ],
+            gruposSemaforicos: [{idJson: 'gs1'}],
+            verdesConflitantes: [{idJson: 'vc1'}],
+            estagiosGruposSemaforicos: [{idJson: 'egs1'}]
           }
         ],
         estagios: [
@@ -105,7 +127,10 @@ describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
           {idJson: 'e2', id: 'e2', posicao: 2, anel: {idJson: 1}},
           {idJson: 'e3', id: 'e3', posicao: 3, anel: {idJson: 1}},
           {idJson: 'e4', id: 'e4', posicao: 4, anel: {idJson: 1}}
-        ]
+        ],
+        estagiosGruposSemaforicos: [{idJson: 'egs1'}],
+        gruposSemaforicos: [{idJson: 'gs1'}],
+        verdesConflitantes: [{idJson: 'vc1'}]
       };
 
       WizardControladores.fakeInicializaWizard(scope, $q, objeto, scope.inicializaTransicoesProibidas);
@@ -178,7 +203,10 @@ describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
                 {idJson: 'e2'},
                 {idJson: 'e3'},
                 {idJson: 'e4'}
-              ]
+              ],
+              gruposSemaforicos: [{idJson: 'gs1'}],
+              verdesConflitantes: [{idJson: 'vc1'}],
+              estagiosGruposSemaforicos: [{idJson: 'egs1'}]
             }
           ],
           estagios: [
@@ -186,7 +214,10 @@ describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
             {idJson: 'e2', id: 'e2', posicao: 2, anel: {idJson: 1}},
             {idJson: 'e3', id: 'e3', posicao: 3, anel: {idJson: 1}},
             {idJson: 'e4', id: 'e4', posicao: 4, anel: {idJson: 1}}
-          ]
+          ],
+          estagiosGruposSemaforicos: [{idJson: 'egs1'}],
+          gruposSemaforicos: [{idJson: 'gs1'}],
+          verdesConflitantes: [{idJson: 'vc1'}]
         };
 
         WizardControladores.fakeInicializaWizard(scope, $q, objeto, scope.inicializaTransicoesProibidas);

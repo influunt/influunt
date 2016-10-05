@@ -258,14 +258,14 @@ angular.module('influuntApp')
           });
 
           dadosCurrentTransicoesProibidas = _.orderBy(dadosCurrentTransicoesProibidas, ['origem.posicao', 'destino.posicao', 'alternativo.posicao']);
-          $scope.dadosCurrentTRansicoesProibidas1 = [];
-          $scope.dadosCurrentTRansicoesProibidas2 = [];
+          $scope.dadosCurrentTransicoesProibidas1 = [];
+          $scope.dadosCurrentTransicoesProibidas2 = [];
 
           _.forEach(dadosCurrentTransicoesProibidas, function(transicaoProibida, index) {
             if (index % 2 === 0) {
-              $scope.dadosCurrentTRansicoesProibidas1.push(transicaoProibida);
+              $scope.dadosCurrentTransicoesProibidas1.push(transicaoProibida);
             } else {
-              $scope.dadosCurrentTRansicoesProibidas2.push(transicaoProibida);
+              $scope.dadosCurrentTransicoesProibidas2.push(transicaoProibida);
             }
           });
         }
