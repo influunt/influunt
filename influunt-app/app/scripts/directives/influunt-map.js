@@ -145,8 +145,10 @@ angular.module('influuntApp')
           areasLayer = new L.FeatureGroup();
           areas.forEach(function(area, index) {
             var a = createArea(area, index);
-            areasLayer.addLayer(a);
-            areasLayer.addLayer(getAreaTitle(a, area.label));
+            if (a.getLatLngs().length > 0) {
+              areasLayer.addLayer(a);
+              areasLayer.addLayer(getAreaTitle(a, area.label));
+            }
           });
 
           // Forces zoom when double clicking in an area.
