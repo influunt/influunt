@@ -6,10 +6,6 @@ var world = new worldObj.World();
 
 var PlanosPage = function () {
 
-  this.cadastrarControlador = function() {
-    return world.execSqlScript('features/support/scripts/planos/controlador.sql');
-  };
-
   this.isPlanos = function() {
     return world.waitFor('ul[class="menu-planos"]');
   };

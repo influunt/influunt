@@ -8,10 +8,6 @@ module.exports = function() {
   var planosPage = new PlanosPage();
   var objetosComuns = new ObjetosComuns();
 
-  this.Given(/^o usuário clicar no botão Planos do controlador$/, function () {
-    return planosPage.clicarBotao('Planos');
-  });
-
   this.Given(/^o sistema deverá redirecionar para a tela de planos$/, function () {
     return planosPage.isPlanos();
   });
