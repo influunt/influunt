@@ -167,13 +167,14 @@ angular.module('influuntApp')
         var indexEstagioAnel = _.findIndex(anel.estagios, {idJson: origem.idJson});
 
         return $scope.errors.aneis[indexAnel].estagios[indexEstagioAnel] &&
-          $scope.errors.aneis[indexAnel]
-          .estagios[indexEstagioAnel]
-          .origemDeTransicoesProibidas[indexDestino];
+          $scope.errors.aneis[indexAnel].estagios[indexEstagioAnel].origemDeTransicoesProibidas &&
+          $scope.errors.aneis[indexAnel].estagios[indexEstagioAnel].origemDeTransicoesProibidas[indexDestino];
       };
 
       $scope.getErrosEstagios = function(index) {
-        return _.get($scope.errors, 'aneis['+ $scope.currentAnelIndex +'].estagios['+ index +']');
+        var errosEstagios =  _.get($scope.errors, 'aneis['+ $scope.currentAnelIndex +'].estagios['+ index +']');
+        return _.get(errosEstagios, 'naoPossuiTransicaoProibidaCasoDemandaPrioritaria');
+
       };
 
       $scope.selecionaAnelTransicoesProibidas = function(index) {

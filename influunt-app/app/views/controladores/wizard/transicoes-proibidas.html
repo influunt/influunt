@@ -23,7 +23,7 @@
                           <span class="badge badge-danger badge-notification badge-tempo-ciclo"
                             data-ng-show="getErrosEstagios($index)"
                             inf-tooltip
-                            messages="getErrosEstagios($index)">
+                            messages="[[getErrosEstagios($index)]]">
                             <i class="fa fa-exclamation"></i>
                           </span>
                           <h4>E{{ estagio.posicao }}</h4>
