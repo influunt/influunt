@@ -5,21 +5,21 @@ Funcionalidade: Fluxo de cadastro de planos
   Cenário: Acesso à tela de cadastro planos
     Dado que o sistema possui ao menos um controlador cadastrado
     E que o usuário acesse a página de listagem de controladores
-    Quando o usuário clicar no botão Planos do controlador
+    Quando o usuário clicar no botão "Planos"
     Então o sistema deverá redirecionar para a tela de planos
 
   Cenário: Cancelar a edição de um plano
     Dado que o usuário esteja na página de planos
-    Quando o usuário clicar em editar
-    E clicar em cancelar a edição
+    Quando o usuário clicar em "Editar"
+    E o usuário clicar em "Cancelar Edição"
     Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
     Quando o usuário responde sim
     Então o sistema deverá redirecionar o usuário para a página de listagem de controladores
 
   Cenário: Editar os planos
-    Quando o usuário clicar no botão Planos do controlador
+    Quando o usuário clicar no botão "Planos"
     Dado que o usuário esteja na página de planos
-    Quando o usuário clicar em editar
+    Quando o usuário clicar em "Editar"
     Então o "PLANO 1" deverá estar ativado
 
   Cenário: Apresentar erro com estágios proibidos
@@ -139,7 +139,7 @@ Funcionalidade: Fluxo de cadastro de planos
     Dado que o usuário esteja na página de planos
     Então o sistema deverá apresentar erro de "Tempo de Ciclo é diferente da soma dos tempos dos estágios."
     E que o usuário marque 45 segundos para o "TEMPO DE CICLO"
-    E o usuário clicar em salvar
+    E o usuário clicar em "Salvar"
     E o sistema deverá apresentar erro de "G2 - O tempo de verde está menor que o tempo de segurança configurado."
     E o sistema deverá mostrar erro no plano 1
     E o sistema deverá mostrar erro no plano 16
@@ -158,5 +158,5 @@ Funcionalidade: Fluxo de cadastro de planos
     E que o usuário clique no botão de configurar o estágio "E3"
     E que o usuário marque 13 segundos para o "Tempo de Verde"
     E que o usuário clique no botão de fechar a caixa de configuração
-    E o usuário clicar em salvar
+    E o usuário clicar em "Salvar"
     Então o sistema deverá redirecionar o usuário para a página de listagem de controladores
