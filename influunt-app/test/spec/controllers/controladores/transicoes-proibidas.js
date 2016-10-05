@@ -369,7 +369,7 @@ describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
   });
 
   describe('getErrosEstagios', function () {
-    beforeEach(inject(function(handleValidations) {
+    beforeEach(inject(function($timeout, handleValidations) {
       scope.objeto = {
         aneis: [
           {
@@ -401,23 +401,30 @@ describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
       scope.errors = handleValidations.buildValidationMessages(error, scope.objeto);
       scope.selecionaAnel(1);
       scope.getErrosEstagios();
-      $timeout.flush();
     }));
 
-    it('Não deve ter erro para o estágio 1', function() {
-      expect(scope.errosEstagios[0]).not.toBeTruthy();
-    });
+    it('Não deve ter erro para o estágio 1', inject(function($timeout) {
+      $timeout(function() {
+        expect(scope.errosEstagios[0]).not.toBeTruthy();
+      }, 300);
+    }));
 
-    it('Não deve ter erro para o estágio 2', function() {
-      expect(scope.errosEstagios[1]).not.toBeTruthy();
-    });
+    it('Não deve ter erro para o estágio 2', inject(function($timeout) {
+      $timeout(function() {
+        expect(scope.errosEstagios[1]).not.toBeTruthy();
+      }, 300);
+    }));
 
-    it('Deve ter erro para o estágio 3', function() {
-      expect(scope.errosEstagios[2]).toBeTruthy();
-    });
+    it('Deve ter erro para o estágio 3', inject(function($timeout) {
+      $timeout(function() {
+        expect(scope.errosEstagios[2]).toBeTruthy();
+      }, 300);
+    }));
 
-    it('Não deve ter erro para o estágio 4', function() {
-      expect(scope.errosEstagios[3]).not.toBeTruthy();
-    });
+    it('Não deve ter erro para o estágio 4', inject(function($timeout) {
+      $timeout(function() {
+        expect(scope.errosEstagios[3]).not.toBeTruthy();
+      }, 300);
+    }));
   });
 });
