@@ -4,9 +4,10 @@ Funcionalidade: Fluxo de cadastro de manutenção de Tabelas Horárias
 
   Cenário: Acesso à tela de tabelas horárias
     Dado que o sistema possui ao menos um controlador cadastrado
+    E que o sistema possui planos para o controlador cadastrado
     E que o usuário acesse a página de listagem de controladores
     Quando o usuário clicar no botão Tabela Horária do controlador
-    Então o sistema deverá redirecionar para a tela de tabela horária
+    Então o sistema deverá redirecionar para a tela de tabela horárias
 
   Cenário: A tabela horária deve possuir ao menos um envento configurado
     Quando o usuário clicar em "Editar"
