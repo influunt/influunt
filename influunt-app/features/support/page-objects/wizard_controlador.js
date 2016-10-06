@@ -208,6 +208,18 @@ var WizardControladorPage = function () {
     });
   };
 
+   this.errorTransacaoProibidaEstagio = function(estagio, anel) {
+    return world.execJavascript('return $("h4:contains(\''+estagio+'\')").parent().children("span.badge-danger:visible").length').then(function(numElements) {
+      return new Promise(function(resolve, reject) {
+        if (numElements > 0) {
+          resolve(true);
+        } else {
+          reject('Expected an error badge for estágio "'+estagio+'" in Anel '+anel);
+        }
+      });
+    });
+  };
+
   this.errorMessagesAssociacao = function() {
     var _this = this;
     return Promise.all([
