@@ -43,7 +43,7 @@ angular.module('influuntApp')
           var options = _.merge(_.clone(DEFAULT_MAP_OPTIONS), scope.options);
 
           map = L.map(element[0], options);
-          setView([DEFAULTS.LATITUDE, DEFAULTS.LONGITUDE], DEFAULTS.ZOOM);
+          map.setView([DEFAULTS.LATITUDE, DEFAULTS.LONGITUDE], DEFAULTS.ZOOM);
           L.tileLayer(TILE_LAYER, {maxZoom: 20, id: 'mapbox.streets'}).addTo(map);
         };
 
