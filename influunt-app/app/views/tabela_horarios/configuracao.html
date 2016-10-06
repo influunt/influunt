@@ -22,7 +22,7 @@
                 <a class="btn btn-primary" type="button"
                    tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.geral.tabelaHorario' | translate }}"
                    ng-click="clonarTabelaHoraria(objeto.id)"
-                   ng-if="currentVersaoTabelaHoraria.statusVersao === 'ATIVO'"
+                   ng-if="currentVersaoTabelaHoraria.statusVersao === 'ATIVO' || currentVersaoTabelaHoraria.statusVersao === 'CONFIGURADO'"
                    permission permission-only="'criarTabelaHoraria'">
                   <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
                 </a>
