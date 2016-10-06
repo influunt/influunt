@@ -36,6 +36,7 @@
                       imagens-url="dados.imagensUrl"
                       enctype="multipart/form-data"
                       influunt-dropzone
+                      options="{acceptedFiles: 'image/*'}"
                       anel="currentAnel"
                       on-success="adicionarEstagio(upload, imagem, anelIdJson)"
                       on-delete="removerEstagio(imagem)"
@@ -136,7 +137,7 @@
                           enctype="multipart/form-data"
                           influunt-dropzone
                           anel="currentAnel"
-                          options="{thumbnailWidth: 2000, thumbnailHeight: 2000, maxFiles: 1}"
+                          options="{thumbnailWidth: 2000, thumbnailHeight: 2000, maxFiles: 1, acceptedFiles: 'image/*'}"
                           on-success="adicionarCroqui(upload, imagem, anelIdJson)"
                           on-delete="removerCroquiLocal(imagem)"
                           remove-button-text="{{ 'controladores.aneis.remover_croqui' | translate }}">
