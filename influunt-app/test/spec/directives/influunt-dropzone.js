@@ -13,7 +13,6 @@ describe('Directive: influuntDropzone', function () {
   }));
 
   it('Deve criar um dropzone', function() {
-    console.log(element);
     expect(element.hasClass('dz-clickable')).toBeTruthy();
   });
 });
