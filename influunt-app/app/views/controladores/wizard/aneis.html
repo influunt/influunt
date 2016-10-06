@@ -48,7 +48,9 @@
                       remove-button-text="{{ 'controladores.aneis.remover_estagio' | translate }}"
                       on-delete="deletarEstagio">
                   </fake-dropzone-preview>
-                  <div class="dz-default dz-message"><span>{{ 'geral.dropzone.mensagem' | translate }}</span></div>
+                  <div class="dz-default dz-message">
+                    <span class="dropzone-area">{{ 'geral.dropzone.mensagem' | translate }}</span>
+                  </div>
                   <div class="fallback">
                     <input name="file" type="file" multiple />
                   </div>
@@ -144,18 +146,22 @@
                       <fake-dropzone-preview
                           controlador="objeto"
                           anel="currentAnel"
+                          max-files="1"
                           imagens="imagemCroqui"
                           on-delete="removerCroqui"
                           remove-button-text="{{ 'controladores.aneis.remover_croqui' | translate }}">
                       </fake-dropzone-preview>
-                      <div class="dz-default dz-message"><span>{{ 'geral.dropzone.mensagem' | translate }}</span></div>
+                      <div class="dz-default dz-message">
+                        <span class="dropzone-area">
+                          {{ 'geral.dropzone.mensagem' | translate }}
+                        </span>
+                      </div>
                       <div class="fallback">
                         <input name="file" type="file" multiple />
                       </div>
                       </form>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>

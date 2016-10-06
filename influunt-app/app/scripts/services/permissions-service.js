@@ -11,7 +11,7 @@ angular.module('influuntApp')
   .factory('PermissionsService', ['Restangular', 'PermRoleStore', 'PermPermissionStore',
     function (Restangular, PermRoleStore, PermPermissionStore) {
 
-      var getPermissions, loadPermissions, checkPermission, resetPermissions, getUsuarioLogado, podeVisualizarTodasAreas;
+      var getPermissions, loadPermissions, checkPermission, resetPermissions, getUsuario, podeVisualizarTodasAreas, isUsuarioRoot;
 
       getPermissions = function() {
         return Restangular.all('permissoes').customGET('roles');
@@ -34,7 +34,7 @@ angular.module('influuntApp')
       };
 
       checkPermission = function(permissionName) {
-        var usuario = getUsuarioLogado();
+        var usuario = getUsuario();
         if (usuario.root || permissionName === 'PUT /api/v1/usuarios/$id<[^/]+>') {
           return true;
         } else {
@@ -47,11 +47,11 @@ angular.module('influuntApp')
       resetPermissions = function() {
         PermPermissionStore.clearStore();
         PermRoleStore.clearStore();
-        getUsuarioLogado(true);
+        getUsuario(true);
       };
 
       var usuarioLogado;
-      getUsuarioLogado = function(refresh) {
+      getUsuario = function(refresh) {
         if (!usuarioLogado || !!refresh) {
           var dataUsuario = localStorage.usuario || '{}';
           usuarioLogado = JSON.parse(dataUsuario);
@@ -63,10 +63,16 @@ angular.module('influuntApp')
         return checkPermission('visualizarTodasAreas');
       };
 
+      isUsuarioRoot = function(){
+        return !!getUsuario().root;
+      };
+
       return {
         loadPermissions: loadPermissions,
         getPermissions: getPermissions,
-        podeVisualizarTodasAreas: podeVisualizarTodasAreas
+        podeVisualizarTodasAreas: podeVisualizarTodasAreas,
+        getUsuario: getUsuario,
+        isUsuarioRoot: isUsuarioRoot
       };
 
     }]);

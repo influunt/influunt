@@ -602,6 +602,9 @@
       "maiorQue": "Maior que",
       "menorOuIgualQue": "Menor ou igual que",
       "menorQue": "Menor que"
+    },
+    "influuntDropzone": {
+      "errorMessage": "Não foi possível adicionar este arquivo. Exclua-o e tente novamente."
     }
   },
   "agrupamentos": {
