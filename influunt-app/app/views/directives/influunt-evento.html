@@ -31,7 +31,7 @@
 <td>
   <select name="eventoPlano" data-ng-model="evento.posicaoPlano" class="form-control" data-ng-change="verificaAtualizacao()"
       inf-tooltip messages="erros" ng-disabled="readOnly">
-    <option data-ng-repeat="plano in planos track by $index" value="{{$index+1}}">Plano {{$index + 1}}</option>
+    <option data-ng-repeat="plano in planos track by $index" value="Plano {{$index+1}}">Plano {{$index + 1}}</option>
   </select>
   <span class="badge badge-danger badge-estagio-alternativo pull-right" data-ng-if="erros" inf-tooltip messages="erros"> <i class="fa fa-exclamation"></i>
   </span>
