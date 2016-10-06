@@ -50,7 +50,7 @@ angular.module('influuntApp')
       };
 
       $scope.inicializaPermissoes = function() {
-        PermissionsService.loadPermissions()
+        PermissionsService.getPermissions()
           .then(function(response) {
             $scope.permissions = response.permissoes;
             $scope.roles = response.permissoesApp;

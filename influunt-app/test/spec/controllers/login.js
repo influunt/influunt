@@ -5,10 +5,11 @@ describe('Controller: LoginCtrl', function () {
   var LoginCtrl,
     scope,
     $httpBackend,
+    $state,
     form;
 
   // carrega o template de login.
-  beforeEach(inject(function ($controller, $rootScope, $compile, $templateCache, _$httpBackend_) {
+  beforeEach(inject(function ($controller, $rootScope, $compile, $templateCache, _$httpBackend_, _$state_) {
     scope = $rootScope.$new();
     LoginCtrl = $controller('LoginCtrl', {
       $scope: scope
@@ -21,6 +22,7 @@ describe('Controller: LoginCtrl', function () {
 
     scope.$apply();
     $httpBackend = _$httpBackend_;
+    $state = _$state_;
   }));
 
   it('Deve possuir um objeto de credenciais já registrado', function() {
@@ -45,22 +47,29 @@ describe('Controller: LoginCtrl', function () {
     expect(form.$valid).toBe(false);
   });
 
-  it('caso o login seja executado com sucesso, deve ser redirecionado para tela inicial do sistema',
-    inject(function($state) {
-      var usuario = {
-        id: 'teste',
-        login: 'teste',
-        email: 'teste@example.com',
-        root: true,
-        permissoes: []
-      }
-      $httpBackend.expectPOST('/login').respond(usuario);
+  describe('caso o login seja executado com sucesso', function() {
+    beforeEach(function(done) { done(); });
+    it('o usuário deve ser redirecionado para tela inicial do sistema',
+      function(done) {
 
-      scope.submitLogin(true);
-      $httpBackend.flush();
+        var usuario = {
+          id: 'teste',
+          login: 'teste',
+          email: 'teste@example.com',
+          root: true,
+          permissoes: []
+        };
+        $httpBackend.expectPOST('/login').respond(usuario);
+        $httpBackend.expectGET('/permissoes/roles').respond({ permissoes: [{ chave: 'visualizarStatusControladores' }], permissoesApp: [] });
 
-      expect($state.current.name).toBe('app.main');
-    }));
+        scope.submitLogin(true);
+        $httpBackend.flush();
+        setTimeout(function() {
+          expect($state.current.name).toBe('app.main');
+          done();
+        }, 1000);
+      });
+  });
 
   it('O formulário é dado como válido se usuário e senha forem preenchidos', function() {
     scope.credenciais.usuario = 'teste';

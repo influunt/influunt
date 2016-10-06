@@ -7,6 +7,7 @@ import checks.Erro;
 import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Cidade;
+import models.Usuario;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -16,7 +17,9 @@ import security.Secured;
 import utils.InfluuntQueryBuilder;
 import utils.InfluuntResultBuilder;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -59,7 +62,17 @@ public class CidadesController extends Controller {
 
     @Transactional
     public CompletionStage<Result> findAll() {
-        InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Cidade.class, request().queryString()).query());
+        Usuario u = getUsuario();
+        InfluuntResultBuilder result;
+        if (u.isRoot() || u.podeAcessarTodasAreas()) {
+            result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Cidade.class, request().queryString()).query());
+        } else {
+            String[] cidadeId = {u.getArea().getCidade().getId().toString()};
+            Map<String, String[]> params = new HashMap<>();
+            params.putAll(ctx().request().queryString());
+            params.put("id", cidadeId);
+            result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Cidade.class, params).query());
+        }
         return CompletableFuture.completedFuture(ok(result.toJson()));
     }
 
@@ -99,4 +112,7 @@ public class CidadesController extends Controller {
 
     }
 
+    private Usuario getUsuario() {
+        return (Usuario) ctx().args.get("user");
+    }
 }

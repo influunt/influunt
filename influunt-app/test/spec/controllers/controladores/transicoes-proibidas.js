@@ -401,14 +401,15 @@ describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
           {idJson: 'TP1', origem: {idJson: 'E1A2'}, destino: {idJson: 'E2A2'}}
         ]
       };
-      var error = [{'root':'Controlador','message':'Um estágio de demanda prioritária não pode ter transição proibida.','path':'aneis[0].estagios[2].naoPossuiTransicaoProibidaCasoDemandaPrioritaria'}, 
-      {"root":"Controlador","message":"Esse estágio deve possuir ao menos uma transição válida para outro estágio.","path":"aneis[0].estagios[2].estagioPossuiAoMenosUmaTransicaoOrigemValida"},
-      {"root":"Controlador","message":"Pelo menos um estágio deve ter uma transição válida para esse estágio.","path":"aneis[0].estagios[2].estagioPossuiAoMenosUmaTransicaoDestinoValida"},
-      {"root":"Controlador","message":"Outro errro qualquer.","path":"aneis[0].estagios[2].estagioPossuiOutroErroQualquer"}];
+      var error = [{'root':'Controlador','message':'Um estágio de demanda prioritária não pode ter transição proibida.','path':'aneis[0].estagios[2].naoPossuiTransicaoProibidaCasoDemandaPrioritaria'},
+                   {'root':'Controlador','message':'Esse estágio deve possuir ao menos uma transição válida para outro estágio.','path':'aneis[0].estagios[2].estagioPossuiAoMenosUmaTransicaoOrigemValida'},
+                   {'root':'Controlador','message':'Pelo menos um estágio deve ter uma transição válida para esse estágio.','path':'aneis[0].estagios[2].estagioPossuiAoMenosUmaTransicaoDestinoValida'},
+                   {'root':'Controlador','message':'Outro erro qualquer.','path':'aneis[0].estagios[2].estagioPossuiOutroErroQualquer'}];
       scope.errors = handleValidations.buildValidationMessages(error, scope.objeto);
       scope.selecionaAnel(0);
       scope.errosEstagios = [];
       scope.getErrosEstagios();
+      scope.$apply();
       $timeout.flush();
     }));
 

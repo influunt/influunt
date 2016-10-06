@@ -995,7 +995,7 @@ angular
       $urlRouterProvider.deferIntercept();
     }])
 
-    .run(['$rootScope', '$state', '$timeout', 'TELAS_SEM_LOGIN',
+  .run(['$rootScope', '$state', '$timeout', 'TELAS_SEM_LOGIN',
     function($rootScope, $state, $timeout, TELAS_SEM_LOGIN) {
 
       $rootScope.$state = $state;
