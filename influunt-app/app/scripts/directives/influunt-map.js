@@ -260,19 +260,16 @@ angular.module('influuntApp')
         scope.$watch('markers', function(markers) {
           clearTimeout(markersTimeout);
           markersTimeout = setTimeout(function() {renderMarkers(markers);}, 200);
-          initializeMap();
         }, true);
 
         scope.$watch('areas', function(areas) {
           clearTimeout(areasTimeout);
           areasTimeout = setTimeout(function() {renderAreas(areas);}, 200);
-          initializeMap();
         }, true);
 
         scope.$watch('agrupamentos', function(agrupamentos) {
           clearTimeout(agrupamentosTimeout);
           agrupamentosTimeout = setTimeout(function() {renderAgrupamentos(agrupamentos);}, 200);
-          initializeMap();
         }, true);
 
         initializeMap();
