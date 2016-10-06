@@ -200,4 +200,9 @@ module.exports = function() {
   this.Given(/^o usuário deverá preecher a modificação com "([^"]*)"$/, function(valor){
     return wizardPage.preencherModificao(valor);
   });
+
+  this.Given(/^o sistema deverá conter erro no estágio "([^"]*)" do "([^"]*)"$/, function(estagio, anel){
+    return wizardPage.errorTransacaoProibidaEstagio(estagio);
+  });
+
 };
