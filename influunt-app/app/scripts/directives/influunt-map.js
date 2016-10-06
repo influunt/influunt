@@ -43,7 +43,7 @@ angular.module('influuntApp')
           var options = _.merge(_.clone(DEFAULT_MAP_OPTIONS), scope.options);
 
           map = L.map(element[0], options);
-          setView([DEFAULTS.LATITUDE, DEFAULTS.LONGITUDE], DEFAULTS.ZOOM);
+          map.setView([DEFAULTS.LATITUDE, DEFAULTS.LONGITUDE], DEFAULTS.ZOOM);
           L.tileLayer(TILE_LAYER, {maxZoom: 20, id: 'mapbox.streets'}).addTo(map);
         };
 
@@ -260,16 +260,19 @@ angular.module('influuntApp')
         scope.$watch('markers', function(markers) {
           clearTimeout(markersTimeout);
           markersTimeout = setTimeout(function() {renderMarkers(markers);}, 200);
+          initializeMap();
         }, true);
 
         scope.$watch('areas', function(areas) {
           clearTimeout(areasTimeout);
           areasTimeout = setTimeout(function() {renderAreas(areas);}, 200);
+          initializeMap();
         }, true);
 
         scope.$watch('agrupamentos', function(agrupamentos) {
           clearTimeout(agrupamentosTimeout);
           agrupamentosTimeout = setTimeout(function() {renderAgrupamentos(agrupamentos);}, 200);
+          initializeMap();
         }, true);
 
         initializeMap();
