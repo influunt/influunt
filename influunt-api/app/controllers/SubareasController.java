@@ -7,6 +7,7 @@ import checks.InfluuntValidator;
 import checks.SubareasCheck;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Subarea;
+import models.Usuario;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -17,9 +18,7 @@ import utils.InfluuntQueryBuilder;
 import utils.InfluuntResultBuilder;
 
 import javax.validation.groups.Default;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
@@ -61,7 +60,20 @@ public class SubareasController extends Controller {
 
     @Transactional
     public CompletionStage<Result> findAll() {
-        InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Subarea.class, request().queryString()).fetch(Arrays.asList("area", "area.cidade")).query());
+        Usuario u = getUsuario();
+        InfluuntResultBuilder result;
+        if (u.isRoot() || u.podeAcessarTodasAreas()) {
+            result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Subarea.class, request().queryString()).fetch(Arrays.asList("area", "area.cidade")).query());
+        } else {
+            String[] areaId = {u.getArea().getId().toString()};
+            Map<String, String[]> params = new HashMap<>();
+            params.putAll(ctx().request().queryString());
+            if (params.containsKey("area.descricao")) {
+                params.remove("area.descricao");
+            }
+            params.put("area.id", areaId);
+            result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Subarea.class, params).fetch(Arrays.asList("area", "area.cidade")).query());
+        }
         return CompletableFuture.completedFuture(ok(result.toJson()));
     }
 
@@ -97,7 +109,9 @@ public class SubareasController extends Controller {
         } else {
             return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
         }
-
     }
 
+    private Usuario getUsuario() {
+        return (Usuario) ctx().args.get("user");
+    }
 }

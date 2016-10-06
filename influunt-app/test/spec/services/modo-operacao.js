@@ -9,7 +9,7 @@ describe('Service: modoOperacaoService', function () {
   }));
 
   describe('getCssClass', function () {
-    it('retorna o nome kebabCase\'d do modo de operação a partir do status numerico', function() {
+    it('retorna o nome kebab-case\'d do modo de operação a partir do status numerico', function() {
       expect(modoOperacaoService.getCssClass(0)).toBe('apagado');
     });
 
