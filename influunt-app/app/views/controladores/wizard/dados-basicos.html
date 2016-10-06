@@ -19,10 +19,13 @@
                     <fake-dropzone-preview
                         controlador="objeto"
                         imagens="imagemCroqui"
+                        max-files="1"
                         on-delete="removerCroqui"
                         remove-button-text="{{ 'controladores.aneis.remover_croqui' | translate }}">
                     </fake-dropzone-preview>
-                    <div class="dz-default dz-message"><span>{{ 'geral.dropzone.mensagem' | translate }}</span></div>
+                    <div class="dz-default dz-message">
+                      <span class="dropzone-area">{{ 'geral.dropzone.mensagem' | translate }}</span>
+                    </div>
                     <div class="fallback">
                       <input name="file" type="file"/>
                     </div>

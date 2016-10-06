@@ -2,17 +2,17 @@
 
 describe('Directive: influuntDropzone', function () {
 
-  var scope;
+  var scope, element;
 
-  beforeEach(inject(function ($rootScope) {
+  beforeEach(inject(function ($rootScope, $compile) {
     scope = $rootScope.$new();
-  }));
 
-  it('Deve criar um dropzone', inject(function($compile) {
-    var element = angular.element('<form class="dropzone" id="estagios" influunt-dropzone>');
+    element = angular.element('<form class="dropzone" id="estagios" influunt-dropzone>');
     element = $compile(element)(scope);
     scope.$apply();
-
-    expect(true).toBe(true);
   }));
+
+  it('Deve criar um dropzone', function() {
+    expect(element.hasClass('dz-clickable')).toBeTruthy();
+  });
 });
