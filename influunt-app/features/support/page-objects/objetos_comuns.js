@@ -36,6 +36,16 @@ var ObjetosComuns = function () {
   this.errosImpeditivos = function(texto){
     return world.waitForByXpath('//div[contains (@class, "alert")]//li[contains(text(), "'+texto+'")]');
   };
+
+  this.textoConfirmacaoApagarRegistro = function() {
+    return world.getTextInSweetAlert();
+  };
+
+  this.clicarSimConfirmacaoApagarRegistro = function() {
+    return world.waitFor('div[class^="sweet-alert"][class$="visible"]').then(function() {
+      return world.clickButton('div[class^="sweet-alert"] button.confirm');
+    });
+  };
 };
 
 module.exports = ObjetosComuns;

@@ -128,10 +128,6 @@ module.exports = function() {
     return planosPage.isPlanoAtivo(plano);
   });
 
-  this.Given(/^o usuário clicar em salvar$/, function () {
-    return planosPage.clicarBotao('Salvar');
-  });
-
   this.Given(/^que o usuário selecione o anel (\d+)$/, function (numeroAnel) {
     return objetosComuns.trocarAnel(numeroAnel);
   });
