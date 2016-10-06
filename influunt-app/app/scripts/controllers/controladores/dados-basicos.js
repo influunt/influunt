@@ -49,9 +49,8 @@ angular.module('influuntApp')
         $scope.objeto.imagens.push(_imagem);
       };
 
-      $scope.removerCroquiLocal = function(img) {
-        var imagemIndex = _.findIndex($scope.objeto.imagens, { id: img.id });
-        $scope.imagemCroqui = null;
+      $scope.removerCroquiLocal = function() {
+        var imagemIndex = _.findIndex($scope.objeto.imagens, { id: $scope.objeto.croqui.id });
         delete $scope.objeto.croqui;
         $scope.objeto.imagens.splice(imagemIndex, 1);
       };
