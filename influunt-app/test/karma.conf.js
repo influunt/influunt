@@ -76,7 +76,7 @@ module.exports = function(config) {
       'app/plugins/metisMenu/jquery.metisMenu.js',
       'app/plugins/ui-bootstrap-tpls-1.1.2.min.js',
       'app/plugins/inspinia.js',
-      'app/plugins/icheck.min.js',
+      'app/plugins/iCheck/icheck.js',
       'app/plugins/dropzone/dropzone.js',
       'app/plugins/roundSlider-1.3/roundslider.min.js',
       'app/plugins/uiTabs/ui.tabs.overflowResize.js',
