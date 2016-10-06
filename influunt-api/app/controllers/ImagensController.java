@@ -6,6 +6,7 @@ import com.google.common.io.Files;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import models.Anel;
+import models.Controlador;
 import models.Imagem;
 import net.coobird.thumbnailator.Thumbnails;
 import play.Application;
@@ -120,6 +121,13 @@ public class ImagensController extends Controller {
             anel.setCroqui(null);
             anel.update();
             imagem.apagar(provider.get().path());
+        } else {
+            Controlador controlador = Controlador.find.where().eq("croqui_id", imagem.getId()).findUnique();
+            if (controlador != null) {
+                controlador.setCroqui(null);
+                controlador.update();
+                imagem.apagar(provider.get().path());
+            }
         }
         return CompletableFuture.completedFuture(ok());
     }
