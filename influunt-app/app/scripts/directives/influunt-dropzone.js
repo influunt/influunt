@@ -11,8 +11,8 @@
  * i18n de forma assincrona).
  */
 angular.module('influuntApp')
-  .directive('influuntDropzone', ['APP_ROOT', '$timeout', '$filter', 'Restangular', 'toast', 'influuntBlockui',
-    function (APP_ROOT, $timeout, $filter, Restangular, toast, influuntBlockui) {
+  .directive('influuntDropzone', ['APP_ROOT', '$timeout', '$filter', '$q', 'Restangular', 'toast', 'influuntBlockui', 'dropzoneUtils',
+    function (APP_ROOT, $timeout, $filter, $q, Restangular, toast, influuntBlockui, dropzoneUtils) {
       return {
         restrict: 'A',
         scope: {
@@ -38,18 +38,26 @@ angular.module('influuntApp')
             });
           };
 
-          var deleteImage = function(imagemId, dropzoneFile, dropzone) {
-            return Restangular
-              .one('imagens', imagemId).remove()
-                .then(function() {
-                  dropzoneFile.previewElement = null;
-                  dropzone.removeFile(dropzoneFile);
-                  $('.dz-preview[data-imagem-id="'+ imagemId +'"]').remove();
-                  scope.onDelete({ imagem: { id: imagemId } });
-                }).catch(function() {
-                  toast.error($filter('translate')('geral.dropzone.erro_apagar_imagem'));
-                })
-                .finally(influuntBlockui.unblock);
+          var deleteImage = function(imagemId, dropzoneFile, dropzone, e) {
+            var deferred = $q.defer();
+            if (imagemId) {
+              Restangular.one('imagens', imagemId).remove().then(deferred.resolve).catch(deferred.reject);
+            } else {
+              deferred.resolve(true);
+            }
+
+            return deferred.promise
+              .then(function() {
+                dropzoneFile.previewElement = null;
+                dropzone.removeFile(dropzoneFile);
+                $(e.target).parent().remove();
+                dropzoneUtils.countFiles(element[0], scope.options.maxFiles);
+                scope.onDelete({ imagem: { id: imagemId } });
+              })
+              .catch(function() {
+                toast.error($filter('translate')('geral.dropzone.erro_apagar_imagem'));
+              })
+              .finally(influuntBlockui.unblock);
           };
 
           scope.$watch('anel.idJson', function(value) {
@@ -96,15 +104,12 @@ angular.module('influuntApp')
                   e.preventDefault();
                   e.stopPropagation();
                   var imagemId = $(this).parent('.dz-image-preview').attr('data-imagem-id');
-                  deleteImage(imagemId, file, _this);
+                  deleteImage(imagemId, file, _this, e);
                 });
                 file.dropzoneId = this.element.id;
                 file.previewElement.appendChild(removeButton);
 
-                console.log(file, 'file added. Should update counter.');
-              })
-              .on('removedfile', function(file) {
-                console.log(file, 'file removed. Should update counter.');
+                dropzoneUtils.countFiles(element[0], scope.options.maxFiles);
               })
               .on('error', function(file, errorMessage) {
                 console.error(errorMessage);

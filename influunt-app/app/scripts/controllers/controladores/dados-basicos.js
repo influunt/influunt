@@ -91,7 +91,7 @@ angular.module('influuntApp')
       };
 
       setarAreaControlador = function() {
-        if (!PermissionsService.podeVisualizarTodasAreas()) {
+        if (!PermissionsService.podeVisualizarTodasAreas() && !PermissionsService.isUsuarioRoot()) {
           $scope.objeto.area = PermissionsService.getUsuario().area;
         }
       };

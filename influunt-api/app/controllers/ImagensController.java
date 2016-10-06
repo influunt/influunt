@@ -37,41 +37,40 @@ public class ImagensController extends Controller {
     @Security.Authenticated(Secured.class)
     @Dynamic("Influunt")
     public CompletionStage<Result> create() {
-        return CompletableFuture.completedFuture(badRequest());
-        // Http.MultipartFormData<File> body = request().body().asMultipartFormData();
-        // Http.MultipartFormData.FilePart<File> picture = body.getFile("imagem");
-        // String anelIdJson = body.asFormUrlEncoded().get("anelIdJson")[0];
-        // if (picture != null) {
-        //     Imagem imagem = new Imagem();
-        //     imagem.setFilename(picture.getFilename());
-        //     imagem.setContentType(picture.getContentType());
-        //     imagem.save();
+        Http.MultipartFormData<File> body = request().body().asMultipartFormData();
+        Http.MultipartFormData.FilePart<File> picture = body.getFile("imagem");
+        String anelIdJson = body.asFormUrlEncoded().get("anelIdJson")[0];
+        if (picture != null) {
+            Imagem imagem = new Imagem();
+            imagem.setFilename(picture.getFilename());
+            imagem.setContentType(picture.getContentType());
+            imagem.save();
 
-        //     File tmpFile = picture.getFile();
-        //     try {
+            File tmpFile = picture.getFile();
+            try {
 
-        //         File appRootPath = provider.get().path();
-        //         Files.copy(tmpFile, imagem.getPath(appRootPath));
+                File appRootPath = provider.get().path();
+                Files.copy(tmpFile, imagem.getPath(appRootPath));
 
-        //         //Create thumbnail
-        //         Thumbnails.of(tmpFile)
-        //                 .forceSize(150, 150)
-        //                 .outputFormat("jpg")
-        //                 .toFile(imagem.getPath(appRootPath, "thumb"));
+                //Create thumbnail
+                Thumbnails.of(tmpFile)
+                        .forceSize(150, 150)
+                        .outputFormat("jpg")
+                        .toFile(imagem.getPath(appRootPath, "thumb"));
 
-        //     } catch (IOException e) {
-        //         imagem.delete();
-        //         Logger.error(e.getMessage(), e);
-        //         return CompletableFuture.completedFuture(internalServerError());
-        //     }
+            } catch (IOException e) {
+                imagem.delete();
+                Logger.error(e.getMessage(), e);
+                return CompletableFuture.completedFuture(internalServerError());
+            }
 
-        //     Map<String, Object> response = new HashMap<>();
-        //     response.put("imagem", imagem);
-        //     response.put("anelIdJson", anelIdJson);
-        //     return CompletableFuture.completedFuture(ok(Json.toJson(response)));
-        // } else {
-        //     return CompletableFuture.completedFuture(badRequest());
-        // }
+            Map<String, Object> response = new HashMap<>();
+            response.put("imagem", imagem);
+            response.put("anelIdJson", anelIdJson);
+            return CompletableFuture.completedFuture(ok(Json.toJson(response)));
+        } else {
+            return CompletableFuture.completedFuture(badRequest());
+        }
     }
 
     @Transactional

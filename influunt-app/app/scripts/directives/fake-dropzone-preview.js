@@ -7,20 +7,21 @@
  * # fakeDropzonePreview
  */
 angular.module('influuntApp')
-  .directive('fakeDropzonePreview', ['$compile', '$interpolate',
-    function ($compile, $interpolate) {
+  .directive('fakeDropzonePreview', ['$compile', '$interpolate', 'dropzoneUtils',
+    function ($compile, $interpolate, dropzoneUtils) {
       return {
         restrict: 'E',
         scope: {
           imagens: '=',
           controlador: '=',
           anel: '=',
+          maxFiles: '=?',
           removeButtonText: '@',
           onDelete: '&'
         },
         link: function postLink(scope, element) {
           var $form = $(element[0]).parent();
-          var template = '<div class="dz-preview dz-processing dz-image-preview" data-anel-id="{{ anel.idJson }}" data-imagem-id="{{ data.objIdJson }}"><div class="dz-details"><img data-dz-thumbnail="" alt="{{ data.nome }}" ng-src="{{ data.source }}"></div><div class="dz-filename"><span data-dz-name="">{{ data.nome }}</span></div><a class="dz-remove" title="{{ removeButtonText }}" ng-click="removerImagem(\'{{ data.objIdJson }}\')">{{ removeButtonText }}</a></div>';
+          var template = '<div class="faked dz-preview dz-processing dz-image-preview" data-anel-id="{{ anel.idJson }}" data-imagem-id="{{ data.objIdJson }}"><div class="dz-details"><img data-dz-thumbnail="" alt="{{ data.nome }}" ng-src="{{ data.source }}"></div><div class="dz-filename"><span data-dz-name="">{{ data.nome }}</span></div><a class="dz-remove" title="{{ removeButtonText }}" ng-click="removerImagem(\'{{ data.objIdJson }}\')">{{ removeButtonText }}</a></div>';
           var destroiFakePreviews, destroySingleFakePreview, criarImagensFake;
 
           scope.removerImagem = function(objIdjson) {
@@ -70,6 +71,7 @@ angular.module('influuntApp')
             if (_.isArray(imagens)) {
               destroiFakePreviews();
               criarImagensFake(imagens);
+              dropzoneUtils.countFiles(element[0], scope.maxFiles);
               $compile($form.contents())(scope);
             }
           });
