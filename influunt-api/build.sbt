@@ -72,4 +72,9 @@ fork in Test := false
 resolvers ++= Seq(Resolver.mavenLocal, "Sonatype snapshots repository" at "https://oss.sonatype.org/content/repositories/snapshots/")
 resolvers ++= Seq("Sonatype snapshots repository 2" at "http://dl.bintray.com/andsel/maven/")
 
-
+mappings in Universal <++= (packageBin in Compile) map { jar =>
+  val scriptsDir = new java.io.File("app/templates/")
+  scriptsDir.listFiles.toSeq.map { f =>
+    f -> ("/app/templates/" + f.getName)
+  }
+}
