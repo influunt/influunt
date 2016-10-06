@@ -87,7 +87,7 @@ var paths = {
     yeoman.app + '/plugins/metisMenu/jquery.metisMenu.js',
     yeoman.app + '/plugins/ui-bootstrap-tpls-1.1.2.min.js',
     yeoman.app + '/plugins/inspinia.js',
-    yeoman.app + '/plugins/icheck.min.js',
+    yeoman.app + '/plugins/iCheck/icheck.js',
     yeoman.app + '/plugins/dropzone/dropzone.js',
     yeoman.app + '/plugins/roundSlider-1.3/roundslider.min.js',
     yeoman.app + '/plugins/uiTabs/ui.tabs.overflowResize.js',
