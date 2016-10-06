@@ -18,7 +18,7 @@ public class ControladorHelper {
     private List<Fabricante> fabricantes;
 
     public ControladorHelper(Usuario usuario) {
-        if (usuario.isRoot()) {
+        if (usuario.isRoot() || usuario.podeAcessarTodasAreas()) {
             cidades = Cidade.find.findList();
         } else if (usuario.getArea() != null) {
             cidades = Cidade.find.where().eq("id", usuario.getArea().getCidade().getId()).findList();

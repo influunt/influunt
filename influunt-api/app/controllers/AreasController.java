@@ -66,7 +66,7 @@ public class AreasController extends Controller {
         Map<String, String[]> params = new HashMap<>();
         params.putAll(ctx().request().queryString());
 
-        if (u.isRoot()) {
+        if (u.isRoot() || u.podeAcessarTodasAreas()) {
             InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Area.class, params).fetch(Collections.singletonList("cidade")).query());
             res = ok(result.toJson());
         } else if (u.getArea() != null) {

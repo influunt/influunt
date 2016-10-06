@@ -37,6 +37,8 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
 
     private Optional<String> tokenSemAcesso;
 
+    private Perfil perfilComAcesso;
+
     @Before
     public void setData() {
         List<Router.RouteDocumentation> myRoutes = app.getWrappedApplication().routes().asJava().documentation();
@@ -50,7 +52,7 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
             permissoes.add(p);
         }
 
-        Perfil perfilComAcesso = new Perfil();
+        perfilComAcesso = new Perfil();
         perfilComAcesso.setNome("Deus");
         perfilComAcesso.setPermissoes(permissoes);
         perfilComAcesso.save();
@@ -92,6 +94,15 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
         postResult = route(postRequest);
         assertEquals(OK, postResult.status());
         tokenSemAcesso = postResult.header(SecurityController.AUTH_TOKEN);
+    }
+
+    private void addPermissaoVerAreas() {
+        Permissao permissaoVerAreas = new Permissao();
+        permissaoVerAreas.setChave("visualizarTodasAreas");
+        permissaoVerAreas.setDescricao("ver todas as áreas");
+        permissaoVerAreas.save();
+        perfilComAcesso.addPermissao(permissaoVerAreas);
+        perfilComAcesso.update();
     }
 
     @Test
@@ -184,7 +195,7 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
         bh.save();
 
         Area sul = new Area();
-        sul.setDescricao(2);
+        sul.setDescricao(1);
         sul.setCidade(bh);
         sul.save();
 
@@ -240,7 +251,21 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
 
         assertEquals(1, json.get("cidades").size());
         assertEquals(1, json.get("cidades").get(0).get("areas").size());
-        assertEquals(2, json.get("cidades").get(0).get("areas").get(0).get("descricao").asInt());
+        assertEquals(1, json.get("cidades").get(0).get("areas").get(0).get("descricao").asInt());
+        assertEquals(2, json.get("fabricantes").size());
+        assertNotNull(json.get("fabricantes").get(0).get("modelos"));
+
+        addPermissaoVerAreas();
+
+        request = new Http.RequestBuilder().method("GET")
+                .uri(routes.HelpersController.controladorHelper().url())
+                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+        result = route(request);
+        assertEquals(OK, result.status());
+        json = Json.parse(Helpers.contentAsString(result));
+
+        assertEquals(2, json.get("cidades").size());
+        assertEquals(2, json.get("cidades").get(0).get("areas").size());
         assertEquals(2, json.get("fabricantes").size());
         assertNotNull(json.get("fabricantes").get(0).get("modelos"));
     }
@@ -312,6 +337,16 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
         assertEquals(200, result.status());
         json = Json.parse(Helpers.contentAsString(result));
         assertEquals(1, json.get("data").size());
+
+        addPermissaoVerAreas();
+
+        request = new Http.RequestBuilder().method("GET")
+                .uri(routes.ControladoresController.findAll().url())
+                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+        result = route(request);
+        assertEquals(200, result.status());
+        json = Json.parse(Helpers.contentAsString(result));
+        assertEquals(2, json.get("data").size());
     }
 
 

@@ -19,27 +19,12 @@ angular.module('influuntApp')
         $urlRouter.listen();
       };
 
-      var usuarioLogado;
-      var getUsuarioLogado = function() {
-        if (!usuarioLogado) {
-          var dataUsuario = localStorage.usuario || '{}';
-          usuarioLogado = JSON.parse(dataUsuario);
-        }
-        return usuarioLogado;
-      };
-
-      var checkUsuario = function(usuario, permissionName) {
-        return _.some(usuario.permissoes, function(permissao) {
-          return permissao === permissionName;
-        });
-      };
-
       var permissionHandler = function(permissionName) {
-        var usuario = getUsuarioLogado();
+        var usuario = PermissionsService.getUsuario();
         if (usuario.root || permissionName === 'PUT /api/v1/usuarios/$id<[^/]+>') {
           return true;
         } else {
-          return checkUsuario(usuario, permissionName);
+          return PermissionsService.checkPermission(permissionName);
         }
       };
 

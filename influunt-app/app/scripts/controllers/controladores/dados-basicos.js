@@ -8,15 +8,18 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresDadosBasicosCtrl', ['$scope', '$controller', '$filter', 'influuntBlockui', 'influuntAlert', 'Restangular', 'toast',
-    function ($scope, $controller, $filter, influuntBlockui, influuntAlert, Restangular, toast) {
+  .controller('ControladoresDadosBasicosCtrl', ['$scope', '$controller', '$filter', 'influuntBlockui', 'influuntAlert', 'Restangular', 'toast', 'PermissionsService', 'PermissionStrategies',
+    function ($scope, $controller, $filter, influuntBlockui, influuntAlert, Restangular, toast, PermissionsService, PermissionStrategies) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
-      var deletarCroquiNoServidor, inicializaObjetoCroqui;
+      var deletarCroquiNoServidor, inicializaObjetoCroqui, setarAreaControlador;
+
+      $scope.PermissionStrategies = PermissionStrategies;
 
       $scope.inicializaWizardDadosBasicos = function() {
         return $scope.inicializaWizard().then(function (){
           inicializaObjetoCroqui();
+          setarAreaControlador();
         }).finally(influuntBlockui.unblock);
       };
 
@@ -84,6 +87,12 @@ angular.module('influuntApp')
             url: $filter('imageSource')(croqui.id),
             nomeImagem: croqui.filename
           };
+        }
+      };
+
+      setarAreaControlador = function() {
+        if (!PermissionsService.podeVisualizarTodasAreas()) {
+          $scope.objeto.area = PermissionsService.getUsuario().area;
         }
       };
 
