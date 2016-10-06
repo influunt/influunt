@@ -49,7 +49,7 @@ describe('Controller: LoginCtrl', function () {
 
   describe('caso o login seja executado com sucesso', function() {
     beforeEach(function(done) { done(); });
-    it('caso o login seja executado com sucesso, deve ser redirecionado para tela inicial do sistema',
+    it('o usuário deve ser redirecionado para tela inicial do sistema',
       function(done) {
 
         var usuario = {
