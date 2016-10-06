@@ -6,7 +6,10 @@ describe('Controller: TabelaHorariosCtrl', function () {
       $httpBackend,
       $q,
       $state,
-      $controller;
+      $controller,
+      controlador,
+      timeline,
+      controladorId;
 
   beforeEach(inject(function (_$controller_, $rootScope, _$httpBackend_, _$q_, _$state_) {
     $httpBackend = _$httpBackend_;
@@ -16,6 +19,25 @@ describe('Controller: TabelaHorariosCtrl', function () {
     $controller = _$controller_;
     TabelaHorariosCtrl = $controller('TabelaHorariosCtrl', { $scope: scope });
   }));
+
+  var beforeEachFn = function(objControlador) {
+    controladorId = objControlador.getControladorId();
+    controlador = objControlador.get();
+
+    // Inicializando, por padrão, o planos em modo de visualizacao. Isto é necessário para acessar os dados
+    // em `data`, nas rotas.
+    $state.go('app.tabela_horarios', {id: controladorId});
+    scope.$apply();
+
+    TabelaHorariosCtrl = $controller('TabelaHorariosCtrl', { $scope: scope });
+
+    timeline = [];
+    $httpBackend.expectGET('/controladores/' + controladorId).respond(controlador);
+    // $httpBackend.expectGET('/tabela_horarios/' + anelId + '/timeline').respond(timeline);
+    scope.init();
+    $httpBackend.flush();
+    scope.$apply();
+  };
 
   describe('erros ao salvar', function () {
     beforeEach(inject(function(handleValidations) {
@@ -127,6 +149,60 @@ describe('Controller: TabelaHorariosCtrl', function () {
 
     it('Não deve ter erro na tabela horária', function() {
       expect(scope.getErrosTabelaHoraria().length).toBe(0);
+    });
+  });
+  
+  describe('editar eventos.', function () {
+    beforeEach(function() { 
+      beforeEachFn(ControladorComPlanos);
+    });
+
+    it('Deve ter um novoEvento para cada tipo', function() {
+      expect(scope.novosEventos.length).toBe(3);
+      expect(scope.currentNovoEvento.tipo).toBe('NORMAL');
+      scope.selecionaTipoEvento(1);
+      expect(scope.currentNovoEvento.tipo).toBe('ESPECIAL_RECORRENTE');
+      scope.selecionaTipoEvento(2);
+      expect(scope.currentNovoEvento.tipo).toBe('ESPECIAL_NAO_RECORRENTE');
+    });
+
+    it('Adiciona um novo evento normal ao objeto', function() {
+      expect(scope.objeto.eventos.length).toBe(0);
+      var evento = {idJson: 'ev1', diaDaSemana: 'TODOS_OS_DIAS', hora: '17', minuto: '0', segundo: '0', posicaoPlano: '1', tipo: 'NORMAL', tabelaHoraria: {idJson: scope.currentTabelaHoraria.idJson}};
+      scope.verificaAtualizacaoDeEventos(evento);
+
+      expect(scope.objeto.eventos.length).toBe(1);
+      expect(scope.novosEventos.length).toBe(3);
+
+      evento.posicaoPlano = '5';
+      scope.verificaAtualizacaoDeEventos(evento);
+
+      expect(scope.objeto.eventos.length).toBe(1);
+      expect(scope.novosEventos.length).toBe(3);
+    });
+    
+    it('Adiciona um novo evento especial ao objeto', function() {
+      scope.selecionaTipoEvento(1);
+      expect(scope.objeto.eventos.length).toBe(0);
+      var evento = {idJson: 'ev2', data: '25/12/2016', nome: 'NATAL', hora: '17', minuto: '0', segundo: '0', posicaoPlano: '1', tipo: 'ESPECIAL_RECORRENTE', tabelaHoraria: {idJson: scope.currentTabelaHoraria.idJson}};
+      scope.verificaAtualizacaoDeEventos(evento);
+
+      expect(scope.objeto.eventos.length).toBe(1);
+      expect(scope.novosEventos.length).toBe(3);
+
+      evento.posicaoPlano = '5';
+      scope.verificaAtualizacaoDeEventos(evento);
+
+      expect(scope.objeto.eventos.length).toBe(1);
+      expect(scope.novosEventos.length).toBe(3);
+    });
+    
+    it('Adiciona um novo evento nao finalizado', function() {
+      expect(scope.objeto.eventos.length).toBe(0);
+      var evento = {idJson: 'ev1', diaDaSemana: 'TODOS_OS_DIAS', hora: '17', minuto: '0', segundo: '0', tipo: 'NORMAL', tabelaHoraria: {idJson: scope.currentTabelaHoraria.idJson}};
+      scope.verificaAtualizacaoDeEventos(evento);
+
+      expect(scope.objeto.eventos.length).toBe(0);
     });
   });
 });

@@ -187,8 +187,8 @@ angular.module('influuntApp')
         if(evento.hora && evento.minuto && evento.segundo && evento.posicaoPlano){
           evento.horario = evento.hora + ':' + evento.minuto + ':' + evento.segundo;
 
-          if (($scope.currentTipoEvento !== NORMAL && evento.data && evento.nome) ||
-             ($scope.currentTipoEvento === NORMAL && evento.diaDaSemana) &&
+          if ((($scope.currentTipoEvento !== NORMAL && evento.data && evento.nome) ||
+             ($scope.currentTipoEvento === NORMAL && evento.diaDaSemana)) &&
              !evento.posicao) {
             //Salva Evento
             $scope.objeto.eventos = $scope.objeto.eventos || [];
