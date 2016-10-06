@@ -211,6 +211,10 @@ var World = function () {
     return driver.findElement(webdriver.By.text(text));
   };
 
+  this.selectByValue = function(selectSelector, optionText) {
+    driver.findElement(webdriver.By.css(selectSelector + " option[value='"+optionText+"']")).click();
+  };
+
   this.selectOption = function(selectSelector, optionText) {
     return this.getElements(selectSelector + ' option').then(function(options) {
       return new Promise(function(resolve, reject) {

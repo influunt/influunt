@@ -18,7 +18,7 @@ var TabelasHorariasPage = function () {
   };
 
   this.selecionarValor = function(campo, valor) {
-    return world.selectOption(campos[campo], valor);
+    return world.selectByValue(campos[campo], valor);
   };
 
   this.enventoPossuiErro = function() {
