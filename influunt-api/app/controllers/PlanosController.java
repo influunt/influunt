@@ -91,7 +91,7 @@ public class PlanosController extends Controller {
                 if (versaoAtual != null && versaoAtual.getStatusVersao() == StatusVersao.EDITANDO) {
                     VersaoPlano versaoAnterior = versaoAtual.getVersaoAnterior();
                     if (versaoAnterior != null) {
-                        versaoAnterior.setStatusVersao(StatusVersao.ATIVO);
+                        versaoAnterior.setStatusVersao(StatusVersao.CONFIGURADO);
                         versaoAnterior.update();
                         versaoAtual.delete();
                     }

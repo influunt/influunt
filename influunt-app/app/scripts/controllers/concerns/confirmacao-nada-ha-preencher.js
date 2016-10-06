@@ -15,6 +15,7 @@ angular.module('influuntApp')
       $scope.inicializaConfirmacaoNadaHaPreencher = function(){
         $scope.confirmacao = {};
         $scope.aneis.forEach(function(anel) {
+          $scope.confirmacao[anel.posicao] = false;
           confirmacaoNadaHaPreencher[anel.posicao] = confirmacaoNadaHaPreencher[anel.posicao] || $scope.possuiInformacoesPreenchidas(anel);
         });
       };
