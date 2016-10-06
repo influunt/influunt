@@ -16,11 +16,23 @@ module.exports = function() {
     return tabelasHorariasPage.isTabelaHoraria();
   });
 
-  this.Given(/^o usuário selecionar o valor "([^"]*)" no campo "([^"]*)" para o evento$/, function (valor, campo) {
-    return tabelasHorariasPage.selecionarValor(campo, valor);
+  this.Given(/^o usuário selecionar o valor "([^"]*)" no campo "([^"]*)" para o evento$/, function (valor, select) {
+    return tabelasHorariasPage.selecionarValor(valor, select);
   });
 
   this.Given(/^o sistema deverá apresentar erro no evento$/, function () {
     return tabelasHorariasPage.enventoPossuiErro();
+  });
+
+  this.Given(/^o sistema deverá apresentar a aba com o valor "([^"]*)"$/, function (valor) {
+    return tabelasHorariasPage.contagemNaAba(valor);
+  });
+
+  this.Given(/^que o usuário remover o ultimo evento$/, function () {
+    return tabelasHorariasPage.removerEvento();
+  });
+
+  this.Given(/^não deve mais possuir eventos inseridos$/, function () {
+    return tabelasHorariasPage.eventosRemovidos();
   });
 };
