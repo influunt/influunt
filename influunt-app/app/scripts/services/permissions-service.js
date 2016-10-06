@@ -17,8 +17,7 @@ angular.module('influuntApp')
 
     var usuarioLogado;
     var getUsuarioLogado = function(refresh) {
-      refresh = typeof refresh === 'undefined' ? false : !!refresh;
-      if (!usuarioLogado || refresh) {
+      if (!usuarioLogado || !!refresh) {
         var dataUsuario = localStorage.usuario || '{}';
         usuarioLogado = JSON.parse(dataUsuario);
       }
