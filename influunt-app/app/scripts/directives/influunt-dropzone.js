@@ -24,7 +24,7 @@ angular.module('influuntApp')
           onDelete: '&',
           removeButtonText: '@'
         },
-        link: function postLink(scope, element) { 
+        link: function postLink(scope, element) {
           /**
            * A cada troca de anel, este watcher deverá esconder os itens que
            * não são deste anel e exibir aqueles que são deles.
@@ -100,6 +100,16 @@ angular.module('influuntApp')
                 });
                 file.dropzoneId = this.element.id;
                 file.previewElement.appendChild(removeButton);
+
+                console.log(file, 'file added. Should update counter.');
+              })
+              .on('removedfile', function(file) {
+                console.log(file, 'file removed. Should update counter.');
+              })
+              .on('error', function(file, errorMessage) {
+                console.error(errorMessage);
+                var text = $filter('translate')('directives.influuntDropzone.errorMessage');
+                $(file.previewElement).find('.dz-error-message').text(text);
               });
 
               // chamado logo antes de o arquivo ser enviado p/ o servidor
