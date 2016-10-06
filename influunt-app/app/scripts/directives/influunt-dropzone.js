@@ -16,9 +16,7 @@ angular.module('influuntApp')
       return {
         restrict: 'A',
         scope: {
-          url: '@',
           anel: '=',
-          imagensUrl: '=',
           options: '=',
           onSuccess: '&',
           onDelete: '&',
@@ -30,6 +28,7 @@ angular.module('influuntApp')
            * não são deste anel e exibir aqueles que são deles.
            */
           var filterVisiblePreviews = function() {
+            console.warn('this block seems not to be used and will be removed soon');
             $timeout(function() {
               if (scope.anel) {
                 $(element).find('.dz-preview[data-anel-id="' + scope.anel.idJson + '"]').show();
