@@ -255,7 +255,7 @@ describe('Controller: PlanosCtrl', function () {
         expect(plano.posicao).toBe(index);
       });
     });
-    
+
     it('Não Confirmando - Deve permanecer com a numeracao correta', function() {
       $httpBackend.expectGET('/planos/77cbf85d-9ab8-4cca-9d1d-8d06df2a133f/timeline').respond(timeline);
       scope.selecionaAnelPlanos(0);
@@ -273,7 +273,7 @@ describe('Controller: PlanosCtrl', function () {
       scope.resetarPlano(plano, 6);
       deferred.resolve(false);
       scope.$apply();
-      
+
       expect(scope.currentPlano.configurado).toBeTruthy();
 
       expect(scope.currentPlanos[0].posicao).toBe(0);
@@ -315,7 +315,7 @@ describe('Controller: PlanosCtrl', function () {
       });
     });
   });
-  
+
   describe('testar limpar plano de um anel sem plano exclusivo', function () {
     var deferred;
     beforeEach(inject(function(influuntAlert, $q) {
@@ -354,7 +354,7 @@ describe('Controller: PlanosCtrl', function () {
         expect(plano.posicao).toBe(index+1);
       });
     });
-    
+
     it('Não Confirmando - Deve permanecer com a numeracao correta', function() {
       $httpBackend.expectGET('/planos/77cbf85d-9ab8-4cca-9d1d-8d06df2a133f/timeline').respond(timeline);
       scope.selecionaAnelPlanos(0);
@@ -372,7 +372,7 @@ describe('Controller: PlanosCtrl', function () {
       scope.resetarPlano(plano, 6);
       deferred.resolve(false);
       scope.$apply();
-      
+
       expect(scope.currentPlano.configurado).toBeTruthy();
 
       expect(scope.currentPlanos[0].posicao).toBe(1);
@@ -414,4 +414,32 @@ describe('Controller: PlanosCtrl', function () {
       });
     });
   });
+
+  describe('para a badge de erro aparecer corretamente', function () {
+    beforeEach(function() {
+      beforeEachFn(ControladorComPlanos);
+      $httpBackend.expectPOST('/planos');
+    });
+
+    it('os planos devem ser ordenados antes de enviados para o servidor', function() {
+      var orderedIdJson = _
+        .chain(scope.objeto.planos)
+        .orderBy('posicao')
+        .map('idJson')
+        .value();
+      var orderedIdJsonVersoes = _.map(scope.objeto.versoesPlanos[0].planos, 'idJson');
+      expect(orderedIdJson).not.toEqual(orderedIdJsonVersoes);
+
+      scope.submitForm();
+
+      orderedIdJson = _
+        .chain(scope.objeto.planos)
+        .orderBy('posicao')
+        .map('idJson')
+        .value();
+      orderedIdJsonVersoes = _.map(scope.objeto.versoesPlanos[0].planos, 'idJson');
+      expect(orderedIdJson).toEqual(orderedIdJsonVersoes);
+    });
+  });
+
 });

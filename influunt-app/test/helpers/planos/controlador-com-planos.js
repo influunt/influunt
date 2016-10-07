@@ -18,6 +18,118 @@ var ControladorComPlanos = {
         }
       }
     ],
+    versoesPlanos: [
+      {
+        id: '1ecb422d-12d3-425d-a26b-2db81fa7ded9',
+        idJson: 'f8e14d25-6086-4fb4-86c3-0193eb165e97',
+        statusVersao: 'ATIVO',
+        anel: {
+          idJson: '49f4f339-0008-43f1-8479-7b9618a72700'
+        },
+        planos: [
+          {
+            idJson: 'fafcc914-8646-440e-af8f-887f73819598'
+          },
+          {
+            idJson: '493b769a-7376-4eee-b71b-22a4bb6050fe'
+          }
+        ]
+      }
+    ],
+    planos: [
+      {
+        id: '2566ca02-1569-4f7f-9278-f93da6b4f8b4',
+        idJson: 'fafcc914-8646-440e-af8f-887f73819598',
+        posicao: 7,
+        descricao: 'PLANO 7',
+        tempoCiclo: 60,
+        defasagem: 0,
+        posicaoTabelaEntreVerde: 1,
+        modoOperacao: 'TEMPO_FIXO_ISOLADO',
+        dataCriacao: '22/09/2016 22:49:32',
+        dataAtualizacao: '22/09/2016 22:51:24',
+        anel: {
+          idJson: '49f4f339-0008-43f1-8479-7b9618a72700'
+        },
+        versaoPlano: {
+          idJson: 'f8e14d25-6086-4fb4-86c3-0193eb165e97'
+        },
+        estagiosPlanos: [
+          {
+            idJson: '13510e46-2b24-4117-86af-cc75699340b0'
+          },
+          {
+            idJson: 'c99454fc-8773-4fc7-b6b6-d32da445af29'
+          },
+          {
+            idJson: '405f4115-6604-44d4-a333-69c42472eaae'
+          }
+        ],
+        gruposSemaforicosPlanos: [
+          {
+            idJson: 'bbef3949-307d-47ec-baf5-39499ac15103'
+          },
+          {
+            idJson: '1e73b1aa-452d-4c89-99af-b5b2b2b21a13'
+          },
+          {
+            idJson: 'b1233c73-fbf1-4e22-a8e2-5a6e26df76eb'
+          },
+          {
+            idJson: 'b097a963-a9da-4230-ab16-34d2a70b0d82'
+          },
+          {
+            idJson: '3f11c132-0db1-43a7-84a6-fc78f394a60b'
+          }
+        ]
+      },
+      {
+        id: 'ddcfa70a-1bae-4441-8be3-ccd526fc9d38',
+        idJson: '493b769a-7376-4eee-b71b-22a4bb6050fe',
+        posicao: 1,
+        descricao: 'PLANO 1',
+        tempoCiclo: 60,
+        defasagem: 0,
+        posicaoTabelaEntreVerde: 1,
+        modoOperacao: 'TEMPO_FIXO_ISOLADO',
+        dataCriacao: '22/09/2016 22:49:31',
+        dataAtualizacao: '22/09/2016 22:51:24',
+        anel: {
+          idJson: '49f4f339-0008-43f1-8479-7b9618a72700'
+        },
+        versaoPlano: {
+          idJson: 'f8e14d25-6086-4fb4-86c3-0193eb165e97'
+        },
+        estagiosPlanos: [
+          {
+            idJson: '450c48a7-0ba5-4c63-b109-2d5a171b4554'
+          },
+          {
+            idJson: 'fe27d1b0-29ca-4ebe-80a6-b7fa35306a23'
+          },
+          {
+            idJson: 'b8633697-c4dc-4f3a-b9c6-ae661be4f7bb'
+          }
+        ],
+        gruposSemaforicosPlanos: [
+          {
+            idJson: '56e46a93-9218-4243-abce-81c7abb52f8f'
+          },
+          {
+            idJson: '6cb58627-c8c2-4f74-b1fb-8fc107884424'
+          },
+          {
+            idJson: '68b08e14-b7b1-4352-8721-0622dbd3693b'
+          },
+          {
+            idJson: 'a586356f-accd-4e1d-865c-15239fb209e0'
+          },
+          {
+            idJson: 'abaf89ea-2084-4f75-8d68-17948d5bb9bc'
+          }
+        ]
+      }
+    ],
     sequencia: 1,
     limiteEstagio: 16,
     limiteGrupoSemaforico: 16,
@@ -1431,100 +1543,6 @@ var ControladorComPlanos = {
         }
       }
     ],
-    planos: [
-      {
-        id: '2566ca02-1569-4f7f-9278-f93da6b4f8b4',
-        idJson: 'fafcc914-8646-440e-af8f-887f73819598',
-        posicao: 7,
-        descricao: 'PLANO 7',
-        tempoCiclo: 60,
-        defasagem: 0,
-        posicaoTabelaEntreVerde: 1,
-        modoOperacao: 'TEMPO_FIXO_ISOLADO',
-        dataCriacao: '22/09/2016 22:49:32',
-        dataAtualizacao: '22/09/2016 22:51:24',
-        anel: {
-          idJson: '49f4f339-0008-43f1-8479-7b9618a72700'
-        },
-        versaoPlano: {
-          idJson: 'f8e14d25-6086-4fb4-86c3-0193eb165e97'
-        },
-        estagiosPlanos: [
-          {
-            idJson: '13510e46-2b24-4117-86af-cc75699340b0'
-          },
-          {
-            idJson: 'c99454fc-8773-4fc7-b6b6-d32da445af29'
-          },
-          {
-            idJson: '405f4115-6604-44d4-a333-69c42472eaae'
-          }
-        ],
-        gruposSemaforicosPlanos: [
-          {
-            idJson: 'bbef3949-307d-47ec-baf5-39499ac15103'
-          },
-          {
-            idJson: '1e73b1aa-452d-4c89-99af-b5b2b2b21a13'
-          },
-          {
-            idJson: 'b1233c73-fbf1-4e22-a8e2-5a6e26df76eb'
-          },
-          {
-            idJson: 'b097a963-a9da-4230-ab16-34d2a70b0d82'
-          },
-          {
-            idJson: '3f11c132-0db1-43a7-84a6-fc78f394a60b'
-          }
-        ]
-      },
-      {
-        id: 'ddcfa70a-1bae-4441-8be3-ccd526fc9d38',
-        idJson: '493b769a-7376-4eee-b71b-22a4bb6050fe',
-        posicao: 1,
-        descricao: 'PLANO 1',
-        tempoCiclo: 60,
-        defasagem: 0,
-        posicaoTabelaEntreVerde: 1,
-        modoOperacao: 'TEMPO_FIXO_ISOLADO',
-        dataCriacao: '22/09/2016 22:49:31',
-        dataAtualizacao: '22/09/2016 22:51:24',
-        anel: {
-          idJson: '49f4f339-0008-43f1-8479-7b9618a72700'
-        },
-        versaoPlano: {
-          idJson: 'f8e14d25-6086-4fb4-86c3-0193eb165e97'
-        },
-        estagiosPlanos: [
-          {
-            idJson: '450c48a7-0ba5-4c63-b109-2d5a171b4554'
-          },
-          {
-            idJson: 'fe27d1b0-29ca-4ebe-80a6-b7fa35306a23'
-          },
-          {
-            idJson: 'b8633697-c4dc-4f3a-b9c6-ae661be4f7bb'
-          }
-        ],
-        gruposSemaforicosPlanos: [
-          {
-            idJson: '56e46a93-9218-4243-abce-81c7abb52f8f'
-          },
-          {
-            idJson: '6cb58627-c8c2-4f74-b1fb-8fc107884424'
-          },
-          {
-            idJson: '68b08e14-b7b1-4352-8721-0622dbd3693b'
-          },
-          {
-            idJson: 'a586356f-accd-4e1d-865c-15239fb209e0'
-          },
-          {
-            idJson: 'abaf89ea-2084-4f75-8d68-17948d5bb9bc'
-          }
-        ]
-      }
-    ],
     gruposSemaforicosPlanos: [
       {
         id: '7e4f3907-e301-46ce-b2a0-d6053e50d981',
@@ -2564,24 +2582,6 @@ var ControladorComPlanos = {
         email: 'root@influunt.com.br'
       }
     },
-    versoesPlanos: [
-      {
-        id: '1ecb422d-12d3-425d-a26b-2db81fa7ded9',
-        idJson: 'f8e14d25-6086-4fb4-86c3-0193eb165e97',
-        statusVersao: 'ATIVO',
-        anel: {
-          idJson: '49f4f339-0008-43f1-8479-7b9618a72700'
-        },
-        planos: [
-          {
-            idJson: 'fafcc914-8646-440e-af8f-887f73819598'
-          },
-          {
-            idJson: '493b769a-7376-4eee-b71b-22a4bb6050fe'
-          }
-        ]
-      }
-    ],
     tabelasHorarias: [
       {
         id: '73883fc8-4a85-4a8b-ada0-ea0dea2cbc97',

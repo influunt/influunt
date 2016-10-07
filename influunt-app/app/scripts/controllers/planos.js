@@ -22,7 +22,7 @@ angular.module('influuntApp')
           carregaDadosPlano, getOpcoesEstagiosDisponiveis, montaTabelaValoresMinimos, setDiagramaEstatico,
           atualizaDiagramaIntervalos, getPlanoParaDiagrama, atualizaTransicoesProibidas, getErrosGruposSemaforicosPlanos,
           getErrosPlanoAtuadoSemDetector, duplicarPlano, removerPlanoLocal, getErrosUltrapassaTempoCiclo, getErrosSequenciaInvalida,
-          getIndexPlano, handleErroEditarPlano, setLocalizacaoNoCurrentAnel;
+          getIndexPlano, handleErroEditarPlano, setLocalizacaoNoCurrentAnel, sortPlanos;
 
       var diagramaDebouncer = null;
 
@@ -418,26 +418,39 @@ angular.module('influuntApp')
         carregaDadosPlano(plano);
       };
 
-      $scope.submitForm = function() {
-        Restangular
-        .all('planos')
-        .post($scope.objeto)
-        .then(function(res) {
-          $scope.objeto = res;
+      sortPlanos = function() {
+        _.forEach($scope.objeto.versoesPlanos, function(versaoPlano) {
+          versaoPlano.planos = _
+            .chain($scope.objeto.planos)
+            .filter(function(plano) { return plano.anel.idJson === versaoPlano.anel.idJson; })
+            .orderBy('posicao')
+            .map(function(plano) { return { idJson: plano.idJson } })
+            .value();
+        })
+      };
 
-          $scope.errors = {};
-          influuntBlockui.unblock();
-          $state.go('app.controladores');
-        })
-        .catch(function(res) {
-          influuntBlockui.unblock();
-          if (res.status === 422) {
-            $scope.errors = handleValidations.buildValidationMessages(res.data, $scope.objeto);
-          } else {
-            console.error(res);
-          }
-        })
-        .finally(influuntBlockui.unblock);
+      $scope.submitForm = function() {
+        // planos são ordenados antes de submeter o form
+        // para que os erros voltem ordenados da API.
+        sortPlanos();
+
+        Restangular.all('planos').post($scope.objeto)
+          .then(function(res) {
+            $scope.objeto = res;
+
+            $scope.errors = {};
+            influuntBlockui.unblock();
+            $state.go('app.controladores');
+          })
+          .catch(function(res) {
+            influuntBlockui.unblock();
+            if (res.status === 422) {
+              $scope.errors = handleValidations.buildValidationMessages(res.data, $scope.objeto);
+            } else {
+              console.error(res);
+            }
+          })
+          .finally(influuntBlockui.unblock);
       };
 
       /**
