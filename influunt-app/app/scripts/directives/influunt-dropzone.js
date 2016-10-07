@@ -28,11 +28,11 @@ angular.module('influuntApp')
            * não são deste anel e exibir aqueles que são deles.
            */
           var filterVisiblePreviews = function() {
-            console.warn('this block seems not to be used and will be removed soon');
             $timeout(function() {
               if (scope.anel) {
-                $(element).find('.dz-preview[data-anel-id="' + scope.anel.idJson + '"]').show();
-                $(element).find('.dz-preview:not([data-anel-id="' + scope.anel.idJson + '"])').hide();
+                $(element).find('.dz-preview[data-anel-id="' + scope.anel.idJson + '"]').removeClass('hide');
+                $(element).find('.dz-preview:not([data-anel-id="' + scope.anel.idJson + '"])').addClass('hide');
+                dropzoneUtils.countFiles(element[0], scope.options.maxFiles);
               }
             });
           };
