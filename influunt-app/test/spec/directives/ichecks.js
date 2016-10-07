@@ -41,7 +41,7 @@ describe('Directive: ichecks', function () {
     element.trigger('click');
     expect(scope.test).toBe(true);
   });
-  
+
   it('Testa a função checked do icheck', inject(function($compile, $timeout) {
     scope.checked = function(){};
     scope.unchecked = function(){};
@@ -51,7 +51,7 @@ describe('Directive: ichecks', function () {
     element = $compile(element)(scope);
     $timeout.flush();
     scope.$apply();
-    
+
     $(element).iCheck('check');
     $timeout.flush();
     expect(scope.checked).toHaveBeenCalled();
@@ -59,5 +59,23 @@ describe('Directive: ichecks', function () {
     $(element).iCheck('uncheck');
     $timeout.flush();
     expect(scope.unchecked).toHaveBeenCalled();
+  }));
+
+  it('Deve criar dois radio e alternar entre eles', inject(function($compile, $timeout) {
+    element = angular.element('<input type="radio" name="teste" value="1" ichecks ng-model="nome">');
+    var element2 = angular.element('<input type="radio" name="teste" value="2" ichecks ng-model="nome">');
+    element = $compile(element)(scope);
+    element2 = $compile(element2)(scope);
+    $timeout.flush();
+    scope.$apply();
+
+    $(element).iCheck('check');
+    $timeout.flush();
+    expect(scope.nome).toBe('1');
+
+    $(element2).iCheck('check');
+    $timeout.flush();
+    expect(scope.nome).toBe('2');
+
   }));
 });
