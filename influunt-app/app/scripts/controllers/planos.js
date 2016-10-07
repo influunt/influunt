@@ -11,18 +11,18 @@ angular.module('influuntApp')
   .controller('PlanosCtrl', ['$scope', '$state', '$timeout', 'Restangular', '$filter',
                              'validaTransicao', 'utilEstagios', 'toast', 'modoOperacaoService',
                              'influuntAlert', 'influuntBlockui', 'geraDadosDiagramaIntervalo',
-                             'handleValidations', 'utilControladores', 'planoService',
+                             'handleValidations', 'utilControladores', 'planoService', 'breadcrumbs',
     function ($scope, $state, $timeout, Restangular, $filter,
               validaTransicao, utilEstagios, toast, modoOperacaoService,
               influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo,
-              handleValidations, utilControladores, planoService) {
+              handleValidations, utilControladores, planoService, breadcrumbs) {
 
       var selecionaAnel, atualizaTabelaEntreVerdes, atualizaEstagios, atualizaGruposSemaforicos, atualizaPlanos,
           atualizaEstagiosPlanos, adicionaEstagioASequencia, atualizaPosicaoEstagiosPlanos,
           carregaDadosPlano, getOpcoesEstagiosDisponiveis, montaTabelaValoresMinimos, setDiagramaEstatico,
           atualizaDiagramaIntervalos, getPlanoParaDiagrama, atualizaTransicoesProibidas, getErrosGruposSemaforicosPlanos,
           getErrosPlanoAtuadoSemDetector, duplicarPlano, removerPlanoLocal, getErrosUltrapassaTempoCiclo, getErrosSequenciaInvalida,
-          getIndexPlano, handleErroEditarPlano;
+          getIndexPlano, handleErroEditarPlano, setLocalizacaoNoCurrentAnel;
 
       var diagramaDebouncer = null;
 
@@ -643,11 +643,19 @@ angular.module('influuntApp')
       selecionaAnel = function(index) {
         $scope.currentAnelIndex = index;
         $scope.currentAnel = $scope.aneis[$scope.currentAnelIndex];
+        setLocalizacaoNoCurrentAnel($scope.currentAnel)
+        breadcrumbs.setNomeEndereco($scope.currentAnel.localizacao);
         atualizaEstagios($scope.currentAnel);
         atualizaGruposSemaforicos();
         atualizaTabelaEntreVerdes($scope.currentAnel);
         atualizaPlanos();
         $scope.timeline();
+      };
+
+      setLocalizacaoNoCurrentAnel = function(currentAnel){
+        var idJsonEndereco = _.get(currentAnel.endereco, 'idJson');
+        var currentEndereco = _.find($scope.objeto.todosEnderecos, {idJson: idJsonEndereco });
+        $scope.currentAnel.localizacao = $filter('nomeEndereco')(currentEndereco);
       };
 
       atualizaEstagios = function(anel) {

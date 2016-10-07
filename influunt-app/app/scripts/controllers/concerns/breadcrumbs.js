@@ -8,7 +8,7 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('BreadcrumbsCtrl', ['$scope', '$state', 'breadcrumbs', 
+  .controller('BreadcrumbsCtrl', ['$scope', '$state', 'breadcrumbs',
     function BreadcrumbsCtrl($scope, $state, breadcrumbs) {
     $scope.DEFAULT_PAGE_TITLE = 'geral.titulo_padrao';
 
@@ -16,6 +16,7 @@ angular.module('influuntApp')
      * Atualiza os breadcrumbs a cada alteração de rota.
      */
     $scope.$on('$stateChangeSuccess', function(event, toState){
+      breadcrumbs.removeNomeEndereco();
       $scope.udpateBreadcrumbs(toState);
     });
 
