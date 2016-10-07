@@ -20,6 +20,10 @@ module.exports = function() {
     return tabelasHorariasPage.selecionarValor(valor, select);
   });
 
+  this.Given(/^o usuário selecionar o valor plano "([^"]*)" no campo "([^"]*)" para o evento$/, function (valor, select) {
+    return tabelasHorariasPage.selecionarValor(valor, select);
+  });
+
   this.Given(/^o sistema deverá apresentar erro no evento$/, function () {
     return tabelasHorariasPage.enventoPossuiErro();
   });
