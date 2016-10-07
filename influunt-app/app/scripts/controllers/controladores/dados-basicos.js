@@ -109,6 +109,6 @@ angular.module('influuntApp')
             breadcrumbs.setNomeEndereco($filter('nomeEndereco')(currentEndereco));
           }
         }
-      }
+      };
 
     }]);

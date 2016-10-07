@@ -643,7 +643,7 @@ angular.module('influuntApp')
       selecionaAnel = function(index) {
         $scope.currentAnelIndex = index;
         $scope.currentAnel = $scope.aneis[$scope.currentAnelIndex];
-        setLocalizacaoNoCurrentAnel($scope.currentAnel)
+        setLocalizacaoNoCurrentAnel($scope.currentAnel);
         breadcrumbs.setNomeEndereco($scope.currentAnel.localizacao);
         atualizaEstagios($scope.currentAnel);
         atualizaGruposSemaforicos();
