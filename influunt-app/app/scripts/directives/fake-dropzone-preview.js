@@ -76,8 +76,8 @@ angular.module('influuntApp')
             if (_.isArray(imagens)) {
               destroiFakePreviews();
               criarImagensFake(imagens);
-              dropzoneUtils.countFiles(element[0], scope.maxFiles);
               $compile($form.contents().not('fake-dropzone-preview'))(scope);
+              dropzoneUtils.countFiles(element[0], scope.maxFiles);
             }
           });
         }
