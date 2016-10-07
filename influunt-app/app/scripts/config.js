@@ -983,6 +983,18 @@ angular
             }
           }
         })
+
+        // RELATORIOS
+        .state('app.relatorios_acoes', {
+          url: '/acoes',
+          templateUrl: 'views/relatorios/acoes.html',
+          controller: 'RelatoriosCtrl',
+          controllerAs: 'relatorios',
+          data: {
+            title: 'relatorios.acoes',
+          }
+        })
+
       ;
 
       // Prevent router from automatic state resolving
