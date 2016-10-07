@@ -16,7 +16,6 @@ angular.module('influuntApp')
      * Atualiza os breadcrumbs a cada alteração de rota.
      */
     $scope.$on('$stateChangeSuccess', function(event, toState){
-      breadcrumbs.removeNomeEndereco();
       $scope.udpateBreadcrumbs(toState);
     });
 
@@ -28,6 +27,7 @@ angular.module('influuntApp')
      * @param      {<type>}  state   The state
      */
     $scope.udpateBreadcrumbs = function (state) {
+      breadcrumbs.removeNomeEndereco();
       state = state || $state.current;
       $scope.pageTitle = state.data && state.data.title || $scope.DEFAULT_PAGE_TITLE;
       $scope.breadcrumbs = breadcrumbs.path(state);
