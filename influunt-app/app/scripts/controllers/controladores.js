@@ -552,5 +552,4 @@ angular.module('influuntApp')
       $scope.podeMostrarPlanosETabelaHoraria = function(controlador) {
         return controlador.controladorConfigurado;
       };
-
     }]);
