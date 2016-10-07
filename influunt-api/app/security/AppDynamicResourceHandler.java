@@ -72,6 +72,13 @@ public class AppDynamicResourceHandler implements DynamicResourceHandler {
             } else if ("Influunt".equals(permissionValue)) {
                 return CompletableFuture.completedFuture(Boolean.TRUE);
             }
+        } else {
+            if ("GET /api/v1/usuarios/$id<[^/]+>".equals(chave) || "PUT /api/v1/usuarios/$id<[^/]+>".equals(chave)) {
+                String usuarioId = getUsuarioIdFromPath(ctx.request().path());
+                if (u.getId().toString().equals(usuarioId)) {
+                    return CompletableFuture.completedFuture(Boolean.TRUE);
+                }
+            }
         }
 
         return CompletableFuture.completedFuture(Boolean.FALSE);
@@ -84,6 +91,15 @@ public class AppDynamicResourceHandler implements DynamicResourceHandler {
 
     private String getControladorIdFromPath(String path) {
         Pattern pathPattern = Pattern.compile("controladores/([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})");
+        Matcher matcher = pathPattern.matcher(path);
+        if (matcher.find() && matcher.groupCount() > 0) {
+            return matcher.group(1);
+        }
+        return "";
+    }
+
+    private String getUsuarioIdFromPath(String path) {
+        Pattern pathPattern = Pattern.compile("usuarios/([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})");
         Matcher matcher = pathPattern.matcher(path);
         if (matcher.find() && matcher.groupCount() > 0) {
             return matcher.group(1);

@@ -34,6 +34,7 @@ angular.module('influuntApp')
       };
 
       checkPermission = function(permissionName) {
+        console.log('cehcando permission: ', permissionName)
         var usuario = getUsuario();
         if (usuario.root || permissionName === 'PUT /api/v1/usuarios/$id<[^/]+>') {
           return true;
@@ -67,12 +68,21 @@ angular.module('influuntApp')
         return !!getUsuario().root;
       };
 
+      var checkRole = function(roleName) {
+        var role = PermRoleStore.getRoleDefinition(roleName);
+        if (role) {
+          return role.validateRole();
+        }
+        return false;
+      };
+
       return {
         loadPermissions: loadPermissions,
         getPermissions: getPermissions,
         podeVisualizarTodasAreas: podeVisualizarTodasAreas,
         getUsuario: getUsuario,
-        isUsuarioRoot: isUsuarioRoot
+        isUsuarioRoot: isUsuarioRoot,
+        checkRole: checkRole
       };
 
     }]);
