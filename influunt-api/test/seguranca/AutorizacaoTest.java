@@ -14,10 +14,7 @@ import play.mvc.Result;
 import play.routing.Router;
 import play.test.Helpers;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -490,6 +487,43 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
         assertEquals(bh.getNome(), json.get("data").get(0).get("nome").asText());
     }
 
+    @Test
+    public void testEditarProprioUsuario() {
+        Iterator<Permissao> it = perfilComAcesso.getPermissoes().iterator();
+        while (it.hasNext()) {
+            Permissao p = it.next();
+            if ("GET /api/v1/usuarios/$id<[^/]+>".equals(p.getChave()) || "PUT /api/v1/usuarios/$id<[^/]+>".equals(p.getChave())) {
+                it.remove();
+            }
+        }
+        perfilComAcesso.update();
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
+                .uri(routes.UsuariosController.findOne(usuarioComAcesso.getId().toString()).url())
+                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+        Result result = route(request);
+        assertEquals(200, result.status());
+
+        request = new Http.RequestBuilder().method("PUT")
+                .uri(routes.UsuariosController.update(usuarioComAcesso.getId().toString()).url())
+                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get())
+                .bodyJson(Json.toJson(usuarioComAcesso));
+        result = route(request);
+        assertEquals(200, result.status());
+
+        request = new Http.RequestBuilder().method("GET")
+                .uri(routes.UsuariosController.findOne(UUID.randomUUID().toString()).url())
+                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+        result = route(request);
+        assertEquals(403, result.status());
+
+        request = new Http.RequestBuilder().method("PUT")
+                .uri(routes.UsuariosController.update(UUID.randomUUID().toString()).url())
+                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get())
+                .bodyJson(Json.toJson(usuarioComAcesso));
+        result = route(request);
+        assertEquals(403, result.status());
+    }
 
     private void testRequestsCrudControlador(Controlador controlador, int expectedResult) {
         // findOne
