@@ -56,9 +56,14 @@ angular.module('influuntApp')
       $rootScope.controladorLocalizacao = localizacao;
     };
 
+    var removeNomeEndereco = function(){
+      $rootScope.controladorLocalizacao = null;
+    };
+
 
     return {
       path: path,
-      setNomeEndereco: setNomeEndereco
+      setNomeEndereco: setNomeEndereco,
+      removeNomeEndereco: removeNomeEndereco
     };
   }]);

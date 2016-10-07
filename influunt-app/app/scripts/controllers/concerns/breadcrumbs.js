@@ -8,7 +8,7 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('BreadcrumbsCtrl', ['$scope', '$state', 'breadcrumbs', 
+  .controller('BreadcrumbsCtrl', ['$scope', '$state', 'breadcrumbs',
     function BreadcrumbsCtrl($scope, $state, breadcrumbs) {
     $scope.DEFAULT_PAGE_TITLE = 'geral.titulo_padrao';
 
@@ -27,6 +27,7 @@ angular.module('influuntApp')
      * @param      {<type>}  state   The state
      */
     $scope.udpateBreadcrumbs = function (state) {
+      breadcrumbs.removeNomeEndereco();
       state = state || $state.current;
       $scope.pageTitle = state.data && state.data.title || $scope.DEFAULT_PAGE_TITLE;
       $scope.breadcrumbs = breadcrumbs.path(state);

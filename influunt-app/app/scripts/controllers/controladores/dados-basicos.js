@@ -8,11 +8,11 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresDadosBasicosCtrl', ['$scope', '$controller', '$filter', 'influuntBlockui', 'influuntAlert', 'Restangular', 'toast', 'PermissionsService', 'PermissionStrategies',
-    function ($scope, $controller, $filter, influuntBlockui, influuntAlert, Restangular, toast, PermissionsService, PermissionStrategies) {
+  .controller('ControladoresDadosBasicosCtrl', ['$scope', '$controller', '$filter', 'influuntBlockui', 'influuntAlert', 'Restangular', 'toast', 'PermissionsService', 'PermissionStrategies', 'breadcrumbs',
+    function ($scope, $controller, $filter, influuntBlockui, influuntAlert, Restangular, toast, PermissionsService, PermissionStrategies, breadcrumbs) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
-      var deletarCroquiNoServidor, inicializaObjetoCroqui, setarAreaControlador;
+      var deletarCroquiNoServidor, inicializaObjetoCroqui, setarAreaControlador, updateBreadcrumbs;
 
       $scope.PermissionStrategies = PermissionStrategies;
 
@@ -20,6 +20,7 @@ angular.module('influuntApp')
         return $scope.inicializaWizard().then(function (){
           inicializaObjetoCroqui();
           setarAreaControlador();
+          updateBreadcrumbs();
         }).finally(influuntBlockui.unblock);
       };
 
@@ -92,6 +93,21 @@ angular.module('influuntApp')
       setarAreaControlador = function() {
         if (!PermissionsService.podeVisualizarTodasAreas() && !PermissionsService.isUsuarioRoot()) {
           $scope.objeto.area = PermissionsService.getUsuario().area;
+        }
+      };
+
+      updateBreadcrumbs = function() {
+        if ($scope.objeto.aneis) {
+          var aneis = _
+            .chain($scope.objeto.aneis)
+            .filter('ativo')
+            .orderBy('posicao')
+            .value();
+          if (aneis.length > 0) {
+            var idJsonEndereco = _.get(aneis[0].endereco, 'idJson');
+            var currentEndereco = _.find($scope.objeto.todosEnderecos, {idJson: idJsonEndereco });
+            breadcrumbs.setNomeEndereco($filter('nomeEndereco')(currentEndereco));
+          }
         }
       };
 

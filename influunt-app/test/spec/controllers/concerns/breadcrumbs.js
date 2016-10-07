@@ -9,7 +9,7 @@ describe('Controller: BreadcrumbsCtrl', function () {
     controlador;
 
 
-  beforeEach(inject(function ($controller, $rootScope, _$state_, $httpBackend) {
+  beforeEach(inject(function ($controller, $rootScope, _$state_, $httpBackend, _$rootScope_) {
     $state = _$state_;
     scope = $rootScope.$new();
     BreadcrumbsCtrl = $controller('BreadcrumbsCtrl', {
@@ -20,6 +20,8 @@ describe('Controller: BreadcrumbsCtrl', function () {
     controlador = {
       nomeEndereco: 'Av Teste 1'
     };
+
+    this.$rootScope = _$rootScope_;
 
   }));
 
@@ -65,5 +67,18 @@ describe('Controller: BreadcrumbsCtrl', function () {
 
     scope.udpateBreadcrumbs(state);
     expect(scope.pageTitle).toBe('geral.titulo_padrao');
+  });
+
+  it('Deve limpar o endereço do anel do $rootScope', function() {
+    var state = {
+      name: 'teste',
+      data: {
+        title: 'teste'
+      }
+    };
+
+    this.$rootScope.controladorLocalizacao = 'endereço';
+    scope.udpateBreadcrumbs(state);
+    expect(this.$rootScope.controladorLocalizacao).toBe(null);
   });
 });
