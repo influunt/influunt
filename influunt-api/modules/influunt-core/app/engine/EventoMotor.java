@@ -41,4 +41,6 @@ public class EventoMotor {
     public void setTimestamp(DateTime timestamp) {
         this.timestamp = timestamp;
     }
+
+
 }

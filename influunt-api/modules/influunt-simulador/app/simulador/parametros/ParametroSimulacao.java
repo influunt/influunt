@@ -88,7 +88,9 @@ public class ParametroSimulacao {
     }
 
     public void setInicioSimulacao(DateTime inicioSimulacao) {
+
         this.inicioSimulacao = inicioSimulacao;
+        this.inicioControlador = inicioSimulacao;
     }
 
     public DateTime getFimSimulacao() {
@@ -135,10 +137,20 @@ public class ParametroSimulacao {
         SimulacaoConfig sc = new SimulacaoConfig();
         sc.setControladorId(getControlador().getId().toString());
         sc.setSimulacaoId(getId().toString());
-        getControlador().getAneis().stream().forEach(anel -> {
+        List<SimulacaoConfig.AnelSimulacaoConfig> aneis = new ArrayList<>();
+
+        getControlador().getAneis().stream()
+                                   .sorted((o1, o2) -> o1.getPosicao()
+                                   .compareTo(o2.getPosicao())).forEach(anel -> {
+            SimulacaoConfig.AnelSimulacaoConfig anelSimulacaoConfig = new SimulacaoConfig.AnelSimulacaoConfig();
+            anelSimulacaoConfig.setNumero(anel.getPosicao());
             anel.getGruposSemaforicos().stream().sorted((o1, o2) -> o1.getPosicao().compareTo(o2.getPosicao()))
-                .forEach(grupoSemaforico -> sc.getTiposGruposSemaforicos().add(grupoSemaforico.getTipo()));
+                    .forEach(grupoSemaforico -> anelSimulacaoConfig.getTiposGruposSemaforicos().add(grupoSemaforico.getTipo()));
+
+            aneis.add(anelSimulacaoConfig);
         });
+
+        sc.setAneis(aneis);
 
         return sc;
     }

@@ -3,11 +3,14 @@ var influunt;
   var components;
   (function (components) {
     var Simulador = (function () {
-      function Simulador(inicioSimulacao, config) {
-        console.log(config);
+      function Simulador(inicioSimulacao,fimSimulacao,velocidade,config) {
+
+        var velocidade = velocidade;
         var config = config;
         var inicioSimulacao = inicioSimulacao;
-
+        var fimSimulacao = fimSimulacao;
+        var duracaoSimulacao = (fimSimulacao.unix() - inicioSimulacao.unix()) / velocidade;
+        
         var game = new Phaser.Game(1000, 700, Phaser.AUTO, 'canvas', { preload: preload, create: create, update: update, render: render });
 
         function preload() {
@@ -18,7 +21,7 @@ var influunt;
           game.load.image('a1_e1', '/images/simulador/fixture/Anel1E1.jpg');
           game.load.start()
         }
- 
+
         var ALTURA_GRUPO = 25;
         var MARGEM_LATERAL = 1000;
         var MARGEM_SUPERIOR = 190;
@@ -34,9 +37,14 @@ var influunt;
         var textoIntervalosGroup;
         var gruposSemaforicosGroup;
         var updateTime;
+        var totalGruposSemaforicos = 0;
         var gruposSemaforicos = [];
         var estadoAtual = [];
         var estadoGrupoSemaforico = {};
+        var log = [];
+        var drawLog = false;
+        var pendingToDraw = {};
+        var aneis={};
 
         var tempo = 0;
   
@@ -45,18 +53,21 @@ var influunt;
         var aneis = {};
         var dataHora = {};
         var client;
-        function processarEstado(estado){
-          console.log("processando estado",estado)
-          var object = JSON.parse(estado);
-
-          var x = object.timestamp - inicioSimulacao.unix();
-          desenhaIntervalos(x,object.estado);
-        }
+        var started = false;
+        
         function create() {
+          
+          game.stage.backgroundColor = '#cccccc';
+          cursors = game.input.keyboard.createCursorKeys();    
+          game.world.setBounds(0, 0, 1000 + (duracaoSimulacao * 10 * Math.max(1,velocidade)), 800);
+          
+          
+          intervalosGroup = game.add.group();
+          textoIntervalosGroup = game.add.group();    
+          gruposSemaforicosGroup = game.add.group();
           
           var onConnect = function () {
                // Once a connection has been made, make a subscription and send a message.
-               console.log('onConnect');
                client.subscribe('simulador/' + config.simulacaoId + '/estado');
           }
           // Create a client instance
@@ -64,134 +75,250 @@ var influunt;
 
           client.onMessageArrived = function(message) {
             if(message.destinationName.endsWith('/estado')){
-              processarEstado(message.payloadString)
+              var json = JSON.parse(message.payloadString);
+              processarEstado(json.estados)
+              processarEventos(json.eventos)
             }
           };
+          
+          function onConnectionLost(responseObject) {
+            if (responseObject.errorCode !== 0) {
+              console.log("onConnectionLost:"+responseObject.errorMessage);
+            }
+          }
 
          // connect the client
          client.connect({onSuccess:onConnect});
-             
-             
-             
-          intervalosGroup = game.add.group();
-          textoIntervalosGroup = game.add.group();    
-          gruposSemaforicosGroup = game.add.group();
-
-          game.stage.backgroundColor = '#cccccc';
-          cursors = game.input.keyboard.createCursorKeys();    
-          game.world.setBounds(0, 0, 86400, 800);
-          inicializaGrupos();
-          game.time.events.repeat(1000, 86400, moveToLeft, this);
-
-          criaAnel(0);
-          criaAnel(1);
-          criaAnel(2);
-          criaAnel(3);
+          
+         criaAneis();
     
-          var style = { font: "30px Open Sans", fill: "#fff" };
-          relogio = game.add.text(990,20, "0", style);
+          var style = { font: "25px Open Sans", fill: "#666" };
+          relogio = game.add.text(990,650, "0", style);
     
           relogio.fixedToCamera = true;
           relogio.anchor.set(1,0);
 
-          style = { font: "15px Open Sans", fill: "blue" };
-          plano = game.add.text(990,60, "Plano Atual: 1", style);
+          style = { font: "15px Open Sans", fill: "#333" };
+          plano = game.add.text(10,680, "Plano Atual: 1", style);
           plano.fixedToCamera = true;
-          plano.anchor.set(1,0);
+          plano.anchor.set(0,1);
 
           style = { font: "15px Open Sans", fill: "#ff6700" };
-          dataHora = game.add.text(990,80, "Seg, 27/09/2016 - 12:11:34", style);
+          dataHora = game.add.text(500,668, "Seg, 27/09/2016 - 12:11:34", style);
           dataHora.fixedToCamera = true;
-          dataHora.anchor.set(1,0);
+          dataHora.anchor.set(0.5);
+
+          // drawLine(10,0,460,'blue',true);
+          // drawLine(30,0,460,'blue',true);
     
-          drawLine(10,0,460,'blue',true);
-          drawLine(30,0,460,'blue',true);
-    
-          var grid = game.add.sprite(89 , MARGEM_SUPERIOR + ALTURA_GRUPO - 4, 'grid');      
+          var grid = game.add.sprite(88 , MARGEM_SUPERIOR + ALTURA_GRUPO - 4, 'grid');      
           grid.fixedToCamera = true;
+          
+          game.time.events.repeat(20000 / velocidade, Math.ceil(duracaoSimulacao / 120), loadMore, this);
+          //addToLog("Ola mundo");
+          
+          desenhaLinha(85,"orange","DV1");
 
         }
-  
-        function criaAnel(anel){
-          var ml = 10;
-          var style = { font: "12px Open Sans", fill: "#000", fontWeight:'bolder' };
-          aneis[anel] = {sprite: game.add.sprite(ml + anel * 155, 20, 'a1_e1') };      
-          aneis[anel]['sprite'].fixedToCamera = true;
-          aneis[anel]['sprite'].tint = TINT_VERDE;
-    
-          aneis[anel]["text"] = game.add.text(ml + anel * 155,3, "Anel " + (anel + 1), style);
-          aneis[anel]["text"].fixedToCamera = true; 
-    
-          style = { font: "12px Open Sans", fill: "blue", fontWeight:'bolder' };
-          aneis[anel]["textTempoCiclo"] = game.add.text(ml + anel * 155,172, "TC: 12/48", style);
-          aneis[anel]["textTempoCiclo"].fixedToCamera = true; 
-
-          style = { font: "12px Open Sans", fill: "#ff6700", fontWeight:'bolder' };
-          aneis[anel]["textNumeroCiclo"] = game.add.text((ml + anel * 155) + 150 ,172, "NC: 2", style);
-          aneis[anel]["textNumeroCiclo"].fixedToCamera = true; 
-          aneis[anel]["textNumeroCiclo"].anchor.set(1,0);
-        }
-
-        function drawLine(x,y1,y2,color,mark){
-    
-         var bmd = game.add.bitmapData(20,y2);
-         var color = color;
-
-         bmd.ctx.closePath();
-         bmd.ctx.beginPath();
-         bmd.ctx.lineWidth = "2";
-         bmd.ctx.setLineDash([5, 5]);
-         bmd.ctx.strokeStyle = color;
-         bmd.ctx.moveTo(10,y1);
-         bmd.ctx.lineTo(10,y2);
-         bmd.ctx.stroke();
-         bmd.ctx.closePath();
-         if(mark){
-           bmd.ctx.fillStyle = color;
-           bmd.ctx.fillRect(0,0,20,20);
-         }
-   
-         bmd.render();
-         game.add.sprite(MARGEM_LATERAL + x, MARGEM_SUPERIOR + y1, bmd);
-        }
-
+        
         function update(time) {
 
         }
-  
-        function moveToLeft(){
-          for(var i = 0; i < config.tiposGruposSemaforicos.length; i++){
-            if(estadoGrupoSemaforico[tempo] && estadoGrupoSemaforico[tempo][i]){
-              gruposSemaforicos[i+1]['sprite'].play(estadoGrupoSemaforico[tempo][i]);            
-            }
-          }
-          tempo++;            
-          relogio.setText(tempo + "s");
-          game.camera.x+=10;
-        }
+
         function render() {
-          //game.debug.text(updateTime.stingify(), 32, 32);
+          if(!started && Object.keys(pendingToDraw).length > 90){
+            game.time.events.repeat(2000,  Math.ceil(duracaoSimulacao / 2), destroySprites,this)
+            game.time.events.repeat(1000, duracaoSimulacao, moveToLeft, this);
+            started = true;
+          }
 
         }
-  
-        function inicializaGrupos(tipos){
-          //Inicializa Grupos Semaforicos
-          for(var grupo = 1; grupo <= config.tiposGruposSemaforicos.length; grupo++){
-            var y;
-            if(grupo == 1){
-              y = (grupo * ALTURA_GRUPO) + 1
+
+        function renderIntervalos(){
+          var limite = Math.max(1,velocidade);
+          for(var i = tempo; i < tempo + limite; i++){
+            if(pendingToDraw[i]!= undefined){
+              desenhaIntervalos(i,pendingToDraw[i])
+              delete pendingToDraw[i];
             }else{
-              y = (grupo * ALTURA_GRUPO) + (1 * grupo);
+              break;
             }
-            criaGrupoSemaforico(grupo, y + MARGEM_SUPERIOR,config.tiposGruposSemaforicos[grupo - 1] == 'VEICULAR');
           }
         }
-  
+                
+        function moveToLeft(){
+          renderIntervalos();
+          for(var i = 0; i < totalGruposSemaforicos; i++){
+            if(estadoGrupoSemaforico[tempo] && estadoGrupoSemaforico[tempo][i]){
+              gruposSemaforicos[i]['sprite'].play(estadoGrupoSemaforico[tempo][i]);            
+            }
+          }
 
-  
-  
+          tempo += (velocidade);
+          relogio.setText(tempo + "s");
+          game.camera.x+=(10 * velocidade);
+          if(drawLog){
+            desenhaLog()
+          }
+        }        
+
+        function loadMore(){
+            var message = new Paho.MQTT.Message("proxima");
+            message.destinationName = 'simulador/' + config.simulacaoId + '/proxima_pagina';
+            client.send(message);
+        }
+       
+        function destroySprites(){
+          intervalosGroup.children.forEach(function(e){
+            if(tempo > e.name + 100){
+              e.kill();
+              intervalosGroup.remove(e,false,true);
+            }
+          })
+        }
+        
+        function criaAneis(){
+          var i = 0;
+
+          config.aneis.forEach(function(anel,indexAnel){
+            if(anel.tiposGruposSemaforicos.length > 0){
+              i = criaAnel(anel,i,indexAnel);
+            }
+          });
+          totalGruposSemaforicos = i;
+        }
+          
+        function processarEstado(estados){
+          estados.forEach(function(e){
+            var x = e.timestamp;
+            pendingToDraw[x] = e.estado;
+          })
+          
+        }
+
+        function processarEventos(eventos){
+          eventos.forEach(function(e){
+            switch(e.tipo){
+              case "ALTERACAO_EVENTO":
+                desenhaEventoMudancaPlano(e);
+                break;
+              case "AGENDAMENTO_TROCA_DE_PLANO":
+                desenhaEventoAgendamentoTrocaDePlano(e);
+                break;
+            }
+          });
+          
+        }
+
+        function criaAnel(anel,index,indexAnel){
+          
+          var indexAtual = inicializaGrupos(anel.tiposGruposSemaforicos,index);
+          aneis[anel.numero] = {}
+          aneis[anel.numero]["inicio_grupo"] = index;
+          aneis[anel.numero]["fim_grupo"] = indexAtual - 1;
+          index = indexAtual;          
+          
+          var ml = 10;
+          var style = { font: "12px Open Sans", fill: "#000", fontWeight:'bolder' };
+          aneis[anel] = {sprite: game.add.sprite(ml + indexAnel * 155, 20, 'a1_e1') };      
+          aneis[anel]['sprite'].fixedToCamera = true;
+          aneis[anel]['sprite'].tint = TINT_VERDE;
+    
+          aneis[anel]["text"] = game.add.text(ml + indexAnel * 155,3, "Anel " + anel.numero, style);
+          aneis[anel]["text"].fixedToCamera = true; 
+    
+          style = { font: "12px Open Sans", fill: "blue", fontWeight:'bolder' };
+          aneis[anel]["textTempoCiclo"] = game.add.text(ml + indexAnel * 155,172, "TC: 12/48", style);
+          aneis[anel]["textTempoCiclo"].fixedToCamera = true; 
+
+          style = { font: "12px Open Sans", fill: "#ff6700", fontWeight:'bolder' };
+          aneis[anel]["textNumeroCiclo"] = game.add.text((ml + indexAnel * 155) + 150 ,172, "NC: 2", style);
+          aneis[anel]["textNumeroCiclo"].fixedToCamera = true; 
+          aneis[anel]["textNumeroCiclo"].anchor.set(1,0);
+
+          return index;
+
+        }
+
+        function inicializaGrupos(tipos,index){
+
+          tipos.forEach(function(tipo){
+            
+            var y;
+            if(index + 1 == 1){
+              y = (index + 1 * ALTURA_GRUPO) + 1
+            }else{
+              y = ((index + 1) * ALTURA_GRUPO) + (1 * (index + 1));
+            }
+            criaGrupoSemaforico(index, y + MARGEM_SUPERIOR, tipo == 'VEICULAR');
+            index++;
+          })
+          return index;
+        }
+
+        function criaGrupoSemaforico(grupo, y,veicular){
+          var grupoSemaforico = {};
+          grupoSemaforico['numero'] = grupo;
+          grupoSemaforico['state']  = 'apagado';
+    
+          if(veicular){
+            grupoSemaforico['sprite'] = game.add.sprite(0 , y, 'veicular');      
+      
+            //Estados
+            grupoSemaforico['DESLIGADO'] = grupoSemaforico['sprite'].animations.add('DESLIGADO', [0]);
+            grupoSemaforico['DESLIGADO'].enableUpdate = true;
+
+            grupoSemaforico['VERMELHO'] = grupoSemaforico['sprite'].animations.add('VERMELHO', [3]);           
+            grupoSemaforico['VERMELHO'].enableUpdate = true;
+
+            grupoSemaforico['VERMELHO_LIMPEZA'] = grupoSemaforico['sprite'].animations.add('VERMELHO_LIMPEZA', [3]);           
+            grupoSemaforico['VERMELHO_LIMPEZA'].enableUpdate = true;
+
+            grupoSemaforico['AMARELO'] = grupoSemaforico['sprite'].animations.add('AMARELO', [2]);           
+            grupoSemaforico['AMARELO'].enableUpdate = true;
+
+            grupoSemaforico['VERDE'] = grupoSemaforico['sprite'].animations.add('VERDE', [1]);           
+            grupoSemaforico['VERDE'].enableUpdate = true;
+
+            grupoSemaforico['AMARELO_INTERMITENTE'] = grupoSemaforico['sprite'].animations.add('AMARELO_INTERMITENTE', [0,2],2,true);           
+            grupoSemaforico['AMARELO_INTERMITENTE'].enableUpdate = true;
+
+          }else{
+
+            grupoSemaforico['sprite'] = game.add.sprite(0 , y, 'pedestre');      
+      
+            //Estados
+            grupoSemaforico['DESLIGADO'] = grupoSemaforico['sprite'].animations.add('DESLIGADO', [0]);
+            grupoSemaforico['DESLIGADO'].enableUpdate = true;
+
+            grupoSemaforico['VERDE'] = grupoSemaforico['sprite'].animations.add('VERDE', [1]);           
+            grupoSemaforico['VERDE'].enableUpdate = true;
+
+            grupoSemaforico['VERMELHO'] = grupoSemaforico['sprite'].animations.add('VERMELHO', [2]);           
+            grupoSemaforico['VERMELHO'].enableUpdate = true;
+      
+            grupoSemaforico['VERMELHO_LIMPEZA'] = grupoSemaforico['sprite'].animations.add('VERMELHO_LIMPEZA', [2]);           
+            grupoSemaforico['VERMELHO_LIMPEZA'].enableUpdate = true;
+
+            grupoSemaforico['VERMELHO_INTERMITENTE'] = grupoSemaforico['sprite'].animations.add('VERMELHO_INTERMITENTE', [0,2],2,true);
+            grupoSemaforico['VERMELHO_INTERMITENTE'].enableUpdate = true;
+      
+          }
+          grupoSemaforico['sprite'].fixedToCamera = true;
+          gruposSemaforicosGroup.add(grupoSemaforico['sprite']);
+          gruposSemaforicos[grupo] = grupoSemaforico;
+    
+          var style = { font: "12px Open Sans", fill: "#000000" };
+          var text = game.add.text(6,y + 27, "G" + grupo, style);
+    
+          text.fixedToCamera = true;
+          text.anchor.set(0,1);
+          gruposSemaforicosGroup.add(text);
+    
+        }
+
         function desenhaIntervalos(inicio, estado){
-          var grupos = decode(estado.split(','));
+          var grupos = decodeEstado(estado.split(','));
           estadoGrupoSemaforico[inicio] = estadoGrupoSemaforico[inicio] || {};
     
           for(var grupo = 1; grupo <= grupos.length; grupo++){
@@ -208,17 +335,17 @@ var influunt;
               y = (grupo * ALTURA_GRUPO) + (1 * grupo);
             }
     
-            intervalosGroup.add(drawIntervalo(x,y + MARGEM_SUPERIOR,grupos[grupo - 1]));      
+            intervalosGroup.add(desenhaEstado(x,y + MARGEM_SUPERIOR,grupos[grupo - 1]));      
             estadoGrupoSemaforico[inicio][grupo - 1] = grupos[grupo - 1];
           }
         }
   
-        function drawIntervalo(x,y,estado){
-          var s = game.add.sprite(x , y, 'estado');      
+        function desenhaEstado(x,y,estado){
+          var s = game.add.sprite(x , y, 'estado');
+          s.name = (x - MARGEM_LATERAL) / 10;
     
           s.animations.add('DESLIGADO', [0]);
-          s.enableUpdate = true;
-    
+
           switch(estado){
             case 'DESLIGADO':
                   s.animations.add('DESLIGADO', [0]);
@@ -252,70 +379,85 @@ var influunt;
     
           return s;
         }
-  
-      
-        function criaGrupoSemaforico(grupo, y,veicular){
-          var grupoSemaforico = {};
-          grupoSemaforico['numero'] = grupo;
-          grupoSemaforico['state']  = 'apagado';
-    
-          if(veicular){
-            grupoSemaforico['sprite'] = game.add.sprite(0 , y, 'veicular');      
-      
-            //Estados
-            grupoSemaforico['DESLIGADO'] = grupoSemaforico['sprite'].animations.add('DESLIGADO', [0]);
-            grupoSemaforico['DESLIGADO'].enableUpdate = true;
+        
+        function desenhaEventoMudancaPlano(evento){
+          desenhaLinha(evento.timestamp,'blue',evento.planoAtual);
+        }
+        function desenhaEventoAgendamentoTrocaDePlano(evento){
+          var y1 = (aneis[evento.anel]["inicio_grupo"] * ALTURA_GRUPO) + (aneis[evento.anel]["inicio_grupo"] * 1);
+          var y2 = ((aneis[evento.anel]["fim_grupo"] + 1) * ALTURA_GRUPO + ((aneis[evento.anel]["fim_grupo"]+ 1) * 1));
+          desenhaSeqmento(evento.timestamp * 10,(evento.momentoTroca * 10) + 10,y1 + 15,y2 + 15,'blue')
+        }
+        
+        function desenhaLinha(x,color,label){
 
-            grupoSemaforico['VERMELHO'] = grupoSemaforico['sprite'].animations.add('VERMELHO', [3]);           
-            grupoSemaforico['VERMELHO'].enableUpdate = true;
+         var bmd = game.add.bitmapData(20,460);
+         var color = color;
 
-            grupoSemaforico['VERMELHO_LIMPEZA'] = grupoSemaforico['sprite'].animations.add('VERMELHO_LIMPEZA', [3]);           
-            grupoSemaforico['VERMELHO_LIMPEZA'].enableUpdate = true;
+         bmd.ctx.closePath();
+         bmd.ctx.beginPath();
+         bmd.ctx.lineWidth = "2";
+         bmd.ctx.setLineDash([5, 5]);
+         bmd.ctx.strokeStyle = color;
+         bmd.ctx.moveTo(10,0);
+         bmd.ctx.lineTo(10,460);
+         bmd.ctx.stroke();
+         bmd.ctx.closePath();
+         bmd.ctx.fillStyle = color;
+         bmd.ctx.fillRect(0,0,20,20);
+         bmd.ctx.fillStyle = "#fff";
+         bmd.ctx.font = "12px Open Sans";
+         bmd.ctx.fillText(label, 7, 15);
+         bmd.render();
+         game.add.sprite((MARGEM_LATERAL + (x * 10)) - 10, MARGEM_SUPERIOR, bmd);
+         
+        }
 
-            grupoSemaforico['AMARELO'] = grupoSemaforico['sprite'].animations.add('AMARELO', [2]);           
-            grupoSemaforico['AMARELO'].enableUpdate = true;
+        function desenhaSeqmento(x1,x2,y1,y2,color){
+          var w  = x2 - x1;
+          var h  = y2 - y1;
+           
 
-            grupoSemaforico['VERDE'] = grupoSemaforico['sprite'].animations.add('VERDE', [1]);           
-            grupoSemaforico['VERDE'].enableUpdate = true;
+          console.log("x1",x1);
+          console.log("x2",x2);
+          console.log("y1",y1);
+          console.log("y1",y2);                              
+          console.log("w",w);
+          console.log("h",h);
+         var bmd = game.add.bitmapData(w,h);
+         var color = color;
 
-            grupoSemaforico['AMARELO_INTERMITENTE'] = grupoSemaforico['sprite'].animations.add('AMARELO_INTERMITENTE', [2,0,2],1,true);           
-            grupoSemaforico['AMARELO_INTERMITENTE'].enableUpdate = true;
+         //bmd.ctx.fillStyle = "#000";
+         // bmd.ctx.fillRect(0,0,x2-x1,y2-y1);
 
-          }else{
+         bmd.ctx.lineWidth = "2";
+         bmd.ctx.setLineDash([5, 5]);
+         bmd.ctx.strokeStyle = color;
 
-            grupoSemaforico['sprite'] = game.add.sprite(0 , y, 'pedestre');      
-      
-            //Estados
-            grupoSemaforico['DESLIGADO'] = grupoSemaforico['sprite'].animations.add('DESLIGADO', [0]);
-            grupoSemaforico['DESLIGADO'].enableUpdate = true;
+         bmd.ctx.beginPath();
+           bmd.ctx.moveTo(w-2,0);
+           bmd.ctx.lineTo(w-2,h);
+           bmd.ctx.stroke();
+        bmd.ctx.closePath();
 
-            grupoSemaforico['VERDE'] = grupoSemaforico['sprite'].animations.add('VERDE', [1]);           
-            grupoSemaforico['VERDE'].enableUpdate = true;
+         bmd.ctx.beginPath();
+           bmd.ctx.moveTo(10,h/2);
+           bmd.ctx.lineTo(w,h/2);
+           bmd.ctx.stroke();  
+         bmd.ctx.closePath();
+         
+         bmd.ctx.fillStyle = color;
+         bmd.ctx.font = "12px Open Sans";
+         bmd.ctx.fillText((w/10) - 1 + "s", w/2, h/2 - 3);
+         
 
-            grupoSemaforico['VERMELHO'] = grupoSemaforico['sprite'].animations.add('VERMELHO', [2]);           
-            grupoSemaforico['VERMELHO'].enableUpdate = true;
-      
-            grupoSemaforico['VERMELHO_LIMPEZA'] = grupoSemaforico['sprite'].animations.add('VERMELHO_LIMPEZA', [2]);           
-            grupoSemaforico['VERMELHO_LIMPEZA'].enableUpdate = true;
-
-            grupoSemaforico['VERMELHO_INTERMITENTE'] = grupoSemaforico['sprite'].animations.add('VERMELHO_INTERMITENTE', [2,0,2],1,true);
-            grupoSemaforico['VERMELHO_INTERMITENTE'].enableUpdate = true;
-      
-          }
-          grupoSemaforico['sprite'].fixedToCamera = true;
-          gruposSemaforicosGroup.add(grupoSemaforico['sprite']);
-          gruposSemaforicos[grupo] = grupoSemaforico;
-    
-          var style = { font: "12px Open Sans", fill: "#000000" };
-          var text = game.add.text(6,y + 27, "G" + grupo, style);
-    
-          text.fixedToCamera = true;
-          text.anchor.set(0,1);
-          gruposSemaforicosGroup.add(text);
-    
+         bmd.render();
+         game.add.sprite((MARGEM_LATERAL + x1) - 10, MARGEM_SUPERIOR + y1 + 15, bmd);
+         
         }
   
-        function decode(data){
+  
+        function decodeEstado(data){
 
           return _.chain(data).map(function(e){ 
             var i = parseInt(e);
@@ -349,6 +491,28 @@ var influunt;
             }).value();
     
         }
+
+        
+
+        // function desenhaLog(){
+        //   style = { font: "12px Open Sans", fill: "#000", wordWrap: true,    wordWrapWidth: 350 };
+        //   for(var i =0; i < log.length; i++){
+        //     var linha = game.add.text(650,15 + i * 40, "(252) 22/02 às 19:00 - O plano 1 vai ser trocado pelo plano 2 no anel 3, controlador ", style);
+        //     linha.fixedToCamera = true;
+        //   }
+        //   return linha;
+        // }
+        //
+        // function addToLog(string){
+        //   log.unshift(string);
+        //   if(log.length > 4){
+        //     log.pop();
+        //   }
+        //   drawLog = true;
+        // }
+        
+ 
+
       }
       return Simulador;
     }());

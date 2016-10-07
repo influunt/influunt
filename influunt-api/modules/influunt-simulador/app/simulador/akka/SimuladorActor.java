@@ -1,20 +1,18 @@
 package simulador.akka;
 
 import akka.actor.UntypedActor;
-import com.google.gson.Gson;
 import engine.EstadoGrupoBaixoNivel;
-import engine.EventoMotor;
-import models.Evento;
-import org.apache.commons.math3.util.Pair;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.joda.time.DateTime;
-import scala.concurrent.duration.Duration;
-import simulador.akka.SimuladorAkka;
+import simulador.log.EventoLog;
 import simulador.parametros.ParametroSimulacao;
 
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by rodrigosol on 10/4/16.
@@ -27,6 +25,10 @@ public class SimuladorActor extends UntypedActor{
     private final String id;
     private int pagina = 0;
     private final static int SEGUNDOS_POR_PAGINA = 120;
+    private final static int ESTADO_BATCH_SIZE = 120;
+    private HashMap<DateTime,EstadoGrupoBaixoNivel> estadoBatch = new HashMap<>();
+    private List<EventoLog> eventosBatch = new ArrayList<>();
+
 
     public SimuladorActor(String host, String port,ParametroSimulacao params){
         this.params = params;
@@ -67,26 +69,41 @@ public class SimuladorActor extends UntypedActor{
     }
 
 
-    public void sendEstado(DateTime timeStamp, EstadoGrupoBaixoNivel estado) {
-        try {
-
-            String msg = "{\"timestamp\":"+timeStamp.getMillis() / 1000 +",\"estado\":\""+estado.toString()+"\"}";
-
-            client.publish("simulador/"+id+"/estado",msg.getBytes(),1,true);
-        } catch (MqttException e) {
-            e.printStackTrace();
+    public void storeEstado(DateTime timeStamp, EstadoGrupoBaixoNivel estado) {
+        estadoBatch.put(timeStamp,estado);
+        if(estadoBatch.size() >= ESTADO_BATCH_SIZE){
+            enviaEstadoBatch();
+            estadoBatch.clear();
+            eventosBatch.clear();
         }
     }
 
-    public void sendEvento(DateTime timeStamp, Evento evento){
+    private void enviaEstadoBatch() {
+        StringBuffer buffer = new StringBuffer("{\"estados\":[");
         try {
+            String estados = estadoBatch.entrySet()
+                                        .stream().map(e -> {
+                                            return e.getValue().toJson(e.getKey());
+                                      }).collect(Collectors.joining(","));
 
-            String msg = "{'timespamp':"+timeStamp.getMillis() / 1000 +",'evento':"+new Gson().toJson(evento.getTipo())+"}";
+            buffer.append(estados).append("],\"eventos\":[");
 
-            client.publish("simulador/"+id+"/estado",msg.getBytes(),1,true);
+
+            String eventos = eventosBatch.stream()
+                                         .map(EventoLog::toJson)
+                                         .collect(Collectors.joining(","));
+
+            buffer.append(eventos).append("]}");
+
+
+            client.publish("simulador/"+id+"/estado",buffer.toString().getBytes(),1,true);
         } catch (MqttException e) {
             e.printStackTrace();
         }
 
+    }
+
+    public void storeEvento(EventoLog evento){
+        eventosBatch.add(evento);
     }
 }

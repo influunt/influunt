@@ -1,12 +1,11 @@
 package simulador.akka;
 
-import akka.actor.ActorRef;
 import engine.EstadoGrupoBaixoNivel;
-import engine.MotorCallback;
 import models.EstadoGrupoSemaforico;
 import models.Evento;
-import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
+import simulador.log.AgendamentoTrocaDePlanoLog;
+import simulador.log.AlteracaoEventoLog;
 import simulador.Simulador;
 import simulador.parametros.ParametroSimulacao;
 
@@ -26,7 +25,7 @@ public class SimuladorAkka extends Simulador {
     private DateTime ponteiro;
 
     public SimuladorAkka(SimuladorActor simuladorActor, ParametroSimulacao parametros){
-        super(parametros.getControlador());
+        super(parametros.getInicioControlador(),parametros.getControlador());
         this.simuladorActor = simuladorActor;
         this.parametros = parametros;
         this.parametros.getDetectores().stream().forEach(param -> addEvento(param.toEvento()));
@@ -54,7 +53,7 @@ public class SimuladorAkka extends Simulador {
 
     @Override
     public void onChangeEvento(DateTime timestamp, Evento eventoAntigo, Evento eventoNovo) {
-        simuladorActor.sendEvento(timestamp,eventoNovo);
+        simuladorActor.storeEvento(new AlteracaoEventoLog(timestamp.minus(dataInicioControlador.getMillis()),eventoAntigo,eventoNovo,1));
     }
 
     @Override
@@ -64,13 +63,12 @@ public class SimuladorAkka extends Simulador {
 
     @Override
     public void onAgendamentoTrocaDePlanos(DateTime timestamp, DateTime momentoAgendamento, int anel, int plano, int planoAnterior) {
-
+        simuladorActor.storeEvento(new AgendamentoTrocaDePlanoLog(timestamp.minus(dataInicioControlador.getMillis()),(momentoAgendamento.minus(dataInicioControlador.getMillis())),anel,plano,planoAnterior));
     }
 
     @Override
     public void onEstado(DateTime timeStamp, EstadoGrupoBaixoNivel estado) {
-
-        simuladorActor.sendEstado(timeStamp,estado);
+        simuladorActor.storeEstado(timeStamp.minus(dataInicioControlador.getMillis()),estado);
     }
 
 }

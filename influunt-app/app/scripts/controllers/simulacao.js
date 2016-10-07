@@ -13,16 +13,19 @@ angular.module('influuntApp')
 function ($scope, $controller,Restangular,influuntBlockui) {
 
   
-  $scope.iniciaSimulacao = function(data,id){
+  $scope.iniciaSimulacao = function(dataInicio,dataFim,velocidade,id){
 
-    Restangular.one('simulacao',id).post(null,{inicioSimulacao: data.format('DD/MM/YYYY HH:mm:ss'), 
+    Restangular.one('simulacao',id).post(null,{inicioSimulacao: dataInicio.format('DD/MM/YYYY HH:mm:ss'), 
+    fimSimulacao: dataFim.format('DD/MM/YYYY HH:mm:ss'),
     idControlador: 'b3d50ca0-383e-4fab-b10c-dd411b453b98'})
     .then(function(resp){
-      return new influunt.components.Simulador(data,resp)
+      return new influunt.components.Simulador(dataInicio,dataFim,velocidade,resp)
     })
     .finally(influuntBlockui.unblock);
   }
   
-  $scope.iniciaSimulacao(moment("20/09/2016 17:01:00", "DD/MM/YYYY HH:mm:ss").utc(+3), "031ef627-34b3-4841-963a-091b3fa19190");
+  $scope.iniciaSimulacao(moment("20/09/2016 16:59:00", "DD/MM/YYYY HH:mm:ss").utc(+3),
+                         moment("20/09/2016 17:05:00", "DD/MM/YYYY HH:mm:ss").utc(+3), 1,
+                        "031ef627-34b3-4841-963a-091b3fa19190");
   
 }]);

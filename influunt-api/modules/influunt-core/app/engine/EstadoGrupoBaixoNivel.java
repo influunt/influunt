@@ -1,6 +1,7 @@
 package engine;
 
 import models.EstadoGrupoSemaforico;
+import org.joda.time.DateTime;
 
 import java.util.Arrays;
 import java.util.List;
@@ -56,5 +57,9 @@ public class EstadoGrupoBaixoNivel {
             estadoGrupoBaixoNivel.mudar(i, estadoAtual.get(i - 1).asByte());
         }
         return estadoGrupoBaixoNivel;
+    }
+
+    public String toJson(DateTime timeStamp) {
+        return "{\"timestamp\":"+timeStamp.getMillis() / 1000 +",\"estado\":\""+this.toString()+"\"}";
     }
 }

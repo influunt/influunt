@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 public class Motor implements MotorEvents, GerenciadorDeIntervalosCallBack {
     private final Controlador controlador;
 
+    private final DateTime inicioSimulacao;
+
     private GerenciadorDeEventos gerenciadorDeEventos;
 
     private GerenciadorDeIntervalos gerenciadorDeIntervalos;
@@ -27,9 +29,10 @@ public class Motor implements MotorEvents, GerenciadorDeIntervalosCallBack {
 
     private List<EstadoGrupoSemaforico> estadoAtual;
 
-    public Motor(Controlador controlador, MotorCallback callback) {
+    public Motor(Controlador controlador, MotorCallback callback, DateTime inicioSimulacao) {
         callbacks.add(callback);
         this.controlador = controlador;
+        this.inicioSimulacao = inicioSimulacao;
         gerenciadorDeEventos = new GerenciadorDeEventos();
         gerenciadorDeEventos.addEventos(controlador.getTabelaHoraria().getEventos());
 
@@ -74,7 +77,7 @@ public class Motor implements MotorEvents, GerenciadorDeIntervalosCallBack {
         }
 
         if (iniciarGrupos) {
-            gerenciadorDeIntervalos = new GerenciadorDeIntervalos(getPlanos(eventoAtual),this);
+            gerenciadorDeIntervalos = new GerenciadorDeIntervalos(inicioSimulacao,getPlanos(eventoAtual),this);
             iniciarGrupos = false;
         }
 
@@ -120,7 +123,6 @@ public class Motor implements MotorEvents, GerenciadorDeIntervalosCallBack {
                 break;
         }
     }
-
 
     private void trataImposicaoPlano(EventoMotor eventoMotor) {
     }

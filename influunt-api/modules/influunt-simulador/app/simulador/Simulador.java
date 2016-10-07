@@ -6,8 +6,11 @@ import engine.MotorCallback;
 import models.*;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
+import simulador.log.AlteracaoEstadoLog;
+import simulador.log.EventoLog;
+import simulador.log.LogSimulacao;
+import simulador.log.TipoEventoLog;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +24,7 @@ import java.util.stream.Stream;
 public abstract class Simulador implements MotorCallback {
     private Controlador controlador;
 
-    private DateTime dataInicioControlador;
+    protected DateTime dataInicioControlador;
 
     private DateTime inicio;
 
@@ -35,9 +38,10 @@ public abstract class Simulador implements MotorCallback {
 
     private int tempoSimulacao = 0;
 
-    public Simulador(Controlador controlador) {
+    public Simulador(DateTime inicioSimulado,Controlador controlador) {
         this.controlador = controlador;
-        motor = new Motor(controlador, this);
+        this.dataInicioControlador = inicioSimulado;
+        motor = new Motor(controlador, this, inicioSimulado);
     }
 
     public void setControlador(Controlador controlador) {
@@ -124,9 +128,9 @@ public abstract class Simulador implements MotorCallback {
         DateTime dataInicio = eventos.get(0).getTimeStamp();
 
         for(EventoLog eventoLog : eventos){
-            AlteracaoEstadoLog  alteracaoEstadoLog = (AlteracaoEstadoLog) eventoLog;
-            int tamanho = (int) (alteracaoEstadoLog.timeStamp.getMillis() / 1000 -  dataInicio.getMillis() / 1000);
-            dataInicio = alteracaoEstadoLog.timeStamp;
+            AlteracaoEstadoLog alteracaoEstadoLog = (AlteracaoEstadoLog) eventoLog;
+            int tamanho = (int) (alteracaoEstadoLog.getTimeStamp().getMillis() / 1000 -  dataInicio.getMillis() / 1000);
+            dataInicio = alteracaoEstadoLog.getTimeStamp();
 
 
             for(int i = 1 ; i <= alteracaoEstadoLog.getAtual().size(); i++){
@@ -140,7 +144,7 @@ public abstract class Simulador implements MotorCallback {
                     Intervalo intervalo = new Intervalo();
                     intervalo.setTamanho(tamanho);
                     intervalo.setEstadoGrupoSemaforico(alteracaoEstadoLog.getAtual().get(i - 1));
-                    mapa.get(i).add(new Pair<DateTime, Intervalo>(alteracaoEstadoLog.timeStamp,intervalo));
+                    mapa.get(i).add(new Pair<DateTime, Intervalo>(alteracaoEstadoLog.getTimeStamp(),intervalo));
                 }else{
                     Intervalo ultimo =  mapa.get(i).get(mapa.get(i).size() -1).getSecond();
                     if(ultimo.getEstadoGrupoSemaforico().equals(alteracaoEstadoLog.getAtual().get(i -1))){
@@ -150,7 +154,7 @@ public abstract class Simulador implements MotorCallback {
                         intervalo.setTamanho(tamanho);
                         ultimo.setTamanho(ultimo.getTamanho() + tamanho);
                         intervalo.setEstadoGrupoSemaforico(alteracaoEstadoLog.getAtual().get(i - 1));
-                        mapa.get(i).add(new Pair<DateTime, Intervalo>(alteracaoEstadoLog.timeStamp,intervalo));
+                        mapa.get(i).add(new Pair<DateTime, Intervalo>(alteracaoEstadoLog.getTimeStamp(),intervalo));
 
                     }
                 }
