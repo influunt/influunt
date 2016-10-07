@@ -202,7 +202,7 @@ module.exports = function() {
   });
 
   this.Given(/^o sistema deverá conter erro no estágio "([^"]*)" do "([^"]*)"$/, function(estagio, anel){
-    return wizardPage.errorTransacaoProibidaEstagio(estagio);
+    return wizardPage.errorTransacaoProibidaEstagio(estagio, anel);
   });
 
 };

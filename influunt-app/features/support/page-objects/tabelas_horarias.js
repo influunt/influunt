@@ -13,8 +13,8 @@ var TabelasHorariasPage = function () {
     'Plano':                           '[name="eventoPlano"]'
   };
 
-  var eventoAdd = 'tr[influunt-evento^="visualizarPlano"]:last-child'
-  var eventAdded = 'tr[data-evento^="evento"]:first-child'
+  var eventoAdd = 'tr[influunt-evento^="visualizarPlano"]:last-child';
+  var eventAdded = 'tr[data-evento^="evento"]:first-child';
 
   this.isTabelaHoraria = function() {
     return world.waitForByXpath('//ng-include[contains(@src, "views/tabela_horarios/tabs-eventos.html")]');
