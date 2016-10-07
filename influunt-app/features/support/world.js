@@ -212,7 +212,7 @@ var World = function () {
   };
 
   this.selectByValue = function(campo, selectSelector, optionText) {
-    var selector = (''+campo+' '+selectSelector+' option[value="'+optionText+'"]')
+    var selector = (''+campo+' '+selectSelector+' option[value="'+optionText+'"]');
     return driver.findElement(webdriver.By.css(selector)).click();
   };
 
