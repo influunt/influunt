@@ -569,6 +569,32 @@ public class Controlador extends Model implements Cloneable, Serializable {
         this.statusControlador = statusControlador;
     }
 
+    public String getStatusControladorReal() {
+        TabelaHorario tabela = getTabelaHoraria();
+        if (tabela != null) {
+            VersaoTabelaHoraria versaoTabelaHoraria = tabela.getVersaoTabelaHoraria();
+            if (versaoTabelaHoraria != null) {
+                StatusVersao statusTabelaHoraria = versaoTabelaHoraria.getStatusVersao();
+                if (StatusVersao.EDITANDO.equals(statusTabelaHoraria)) {
+                    return "EM_EDICAO";
+                }
+            }
+        }
+
+        for (Anel anel : getAneis()) {
+            if (anel.isAtivo()) {
+                VersaoPlano versaoPlano = anel.getVersaoPlano();
+                if (versaoPlano != null) {
+                    StatusVersao statusPlano = versaoPlano.getStatusVersao();
+                    if (StatusVersao.EDITANDO.equals(statusPlano)) {
+                        return "EM_EDICAO";
+                    }
+                }
+            }
+        }
+        return getStatusControlador().toString();
+    }
+
     public void deleteAnelSeNecessario() {
         ListIterator<Anel> it = getAneis().listIterator();
         while (it.hasNext()) {
