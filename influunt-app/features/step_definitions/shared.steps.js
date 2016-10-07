@@ -36,4 +36,8 @@ module.exports = function() {
     return sharedSteps.clicarSimConfirmacaoApagarRegistro();
   });
 
+  this.Given(/^o usuário realize um scroll up$/, function() {
+    return sharedSteps.realizarScrollUp();
+  });
+
 };

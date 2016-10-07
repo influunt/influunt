@@ -46,6 +46,10 @@ var ObjetosComuns = function () {
       return world.clickButton('div[class^="sweet-alert"] button.confirm');
     });
   };
+
+  this.realizarScrollUp = function(){
+    return world.scrollToUp();
+  };
 };
 
 module.exports = ObjetosComuns;

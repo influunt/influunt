@@ -148,6 +148,8 @@ Funcionalidade: Fluxo de cadastro de planos
 
   Cenário: Salvar o Plano no modo Isolado
     Dado que o usuário esteja na página de planos
+    E o usuário realize um scroll up
+    E que o usuário clicar no plano 1
     E que o usuário marque 45 segundos para o "TEMPO DE CICLO"
     E que o usuário clique no botão de configurar o estágio "E1"
     E que o usuário marque 11 segundos para o "Tempo de Verde"

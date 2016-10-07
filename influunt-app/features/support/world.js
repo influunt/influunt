@@ -327,6 +327,12 @@ var World = function () {
     });
   };
 
+  this.scrollToUp = function() {
+    return driver.executeScript('window.scrollTo(0, 0);').then(function() {
+      return driver.sleep(500);
+    });
+  };
+
   this.reloadPage = function() {
     return driver.navigate().refresh();
   };
