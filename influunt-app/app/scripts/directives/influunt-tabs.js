@@ -175,7 +175,6 @@ angular.module('influuntApp')
 
         scope.$watch('activeTab', function(index) {
           if (angular.isDefined(index)) {
-            console.log(index);
             var tabs = $(element).tabs('instance');
             tabs.activate(index);
           }

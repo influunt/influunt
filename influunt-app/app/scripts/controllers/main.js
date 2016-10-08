@@ -100,7 +100,6 @@ angular.module('influuntApp')
       };
 
       $scope.menuVisible = {};
-      var checkRoleForMenuTimeout;
       var checkRoleForMenus = function() {
         return _.each($scope.menus, function(menu) {
           $scope.menuVisible[menu.name] = false;
@@ -111,7 +110,7 @@ angular.module('influuntApp')
 
           _.map(menu.children, function(subMenu) {
             var roleName = _.get($scope.$state.get(subMenu.route), 'data.permissions.only');
-            PermissionsService.checkRole(roleName).then(function(res) { $scope.menuVisible[menu.name] = true; });
+            PermissionsService.checkRole(roleName).then(function() { $scope.menuVisible[menu.name] = true; });
           });
         });
       };
