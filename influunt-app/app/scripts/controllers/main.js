@@ -8,8 +8,10 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('MainCtrl', ['$scope', '$state', '$filter', '$controller', '$http', 'influuntAlert', 'Restangular', 'influuntBlockui',
-    function MainCtrl($scope, $state, $filter, $controller, $http, influuntAlert, Restangular, influuntBlockui) {
+  .controller('MainCtrl', ['$scope', '$state', '$filter', '$controller', '$http', '$timeout', 'influuntAlert',
+                           'Restangular', 'influuntBlockui', 'PermissionsService',
+    function MainCtrl($scope, $state, $filter, $controller, $http, $timeout, influuntAlert,
+                      Restangular, influuntBlockui, PermissionsService) {
       // Herda todo o comportamento de breadcrumbs.
       $controller('BreadcrumbsCtrl', {$scope: $scope});
 
@@ -97,6 +99,23 @@ angular.module('influuntApp')
           .finally(influuntBlockui.unblock);
       };
 
+      $scope.menuVisible = {};
+      var checkRoleForMenuTimeout;
+      var checkRoleForMenus = function() {
+        return _.each($scope.menus, function(menu) {
+          $scope.menuVisible[menu.name] = false;
+          if (!_.isArray(menu.children)) {
+            $scope.menuVisible[menu.name] = true;
+            return true;
+          }
+
+          _.map(menu.children, function(subMenu) {
+            var roleName = _.get($scope.$state.get(subMenu.route), 'data.permissions.only');
+            PermissionsService.checkRole(roleName).then(function(res) { $scope.menuVisible[menu.name] = true; });
+          });
+        });
+      };
+
 
       $scope.getUsuario = function() {
         return JSON.parse(localStorage.usuario);
@@ -104,5 +123,6 @@ angular.module('influuntApp')
 
       $http.get('/json/menus.json').then(function(res) {
         $scope.menus = res.data;
+        checkRoleForMenus();
       });
     }]);

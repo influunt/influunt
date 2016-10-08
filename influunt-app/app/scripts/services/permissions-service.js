@@ -8,8 +8,8 @@
  * Factory in the influuntApp.
  */
 angular.module('influuntApp')
-  .factory('PermissionsService', ['Restangular', 'PermRoleStore', 'PermPermissionStore',
-    function (Restangular, PermRoleStore, PermPermissionStore) {
+  .factory('PermissionsService', ['Restangular', 'PermRoleStore', 'PermPermissionStore', '$q',
+    function (Restangular, PermRoleStore, PermPermissionStore, $q) {
 
       var getPermissions, loadPermissions, checkPermission, resetPermissions, getUsuario, podeVisualizarTodasAreas, isUsuarioRoot;
 
@@ -34,7 +34,6 @@ angular.module('influuntApp')
       };
 
       checkPermission = function(permissionName) {
-        console.log('cehcando permission: ', permissionName)
         var usuario = getUsuario();
         if (usuario.root || permissionName === 'PUT /api/v1/usuarios/$id<[^/]+>') {
           return true;
@@ -73,7 +72,8 @@ angular.module('influuntApp')
         if (role) {
           return role.validateRole();
         }
-        return false;
+
+        return $q.reject(false);
       };
 
       return {
