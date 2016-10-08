@@ -230,6 +230,7 @@ angular.module('influuntApp')
         $scope.selecionaEvento(evento);
         $scope.selecionaAnel(0);
         $('#modalDiagramaIntervalos').modal('show');
+
         return $scope.dadosDiagrama;
       };
 
@@ -423,7 +424,7 @@ angular.module('influuntApp')
           return [];
         }
       };
-      
+
       getErrosEvento = function(evento){
         var indexEvento = _.findIndex($scope.objeto.eventos, {idJson: evento.idJson});
         return $scope.errors.versoesTabelasHorarias[$scope.currentVersaoTabelaHorariaIndex].tabelaHoraria.eventos[indexEvento];
