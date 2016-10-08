@@ -16,6 +16,7 @@ angular.module('influuntApp')
         onActivate: '&',
         beforeRemove: '&', // deve retornar uma Promise
         errorCheck: '&',
+        activeTab: '=',
         aneisAtivos: '=',
         maxTabs: '=',
         canAddTabs: '=',
@@ -116,7 +117,6 @@ angular.module('influuntApp')
         };
 
         var tabRemoved = function(event, data) {
-          
           $timeout(function() {
             checkTabLimit();
             toggleCloseButton();
@@ -160,7 +160,9 @@ angular.module('influuntApp')
               add: tabAdded,
               remove: tabRemoved,
               beforeRemove: _beforeRemove,
-              activate: tabActivated }).tabs('overflowResize');
+              activate: tabActivated
+            })
+            .tabs('overflowResize');
 
             if (initializing) {
               createInitialTabs();
@@ -168,6 +170,14 @@ angular.module('influuntApp')
             }
 
             $compile(element.contents())(scope);
+          }
+        });
+
+        scope.$watch('activeTab', function(index) {
+          if (angular.isDefined(index)) {
+            console.log(index);
+            var tabs = $(element).tabs('instance');
+            tabs.activate(index);
           }
         });
       }
