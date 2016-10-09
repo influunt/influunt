@@ -63,13 +63,7 @@ angular
 
         .state('app.main', {
           url: '/main',
-          templateUrl: 'views/main.html',
-          data: {
-            permissions: {
-              only: 'visualizarStatusControladores',
-              redirectTo: 'login'
-            }
-          }
+          templateUrl: 'views/main.html'
         })
 
         .state('app.dashboard_detalhe_controlador', {
