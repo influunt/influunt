@@ -304,12 +304,12 @@ var WizardControladorPage = function () {
   };
 
   this.addImagens = function(localImagem) {
-    var corquiPath = '../resources/croquigeral.jpg'
-    var anel1Est1  = '../resources/anel1_est1.jpg'
-    var anel1Est2  = '../resources/anel1_est2.jpg'
-    var anel1Est3  = '../resources/anel1_est3.jpg'
-    var anel2Est1  = '../resources/anel2_est1.jpg'
-    var anel2Est2  = '../resources/anel2_est2.jpg'
+    var corquiPath = '../resources/croquigeral.jpg';
+    var anel1Est1  = '../resources/anel1_est1.jpg';
+    var anel1Est2  = '../resources/anel1_est2.jpg';
+    var anel1Est3  = '../resources/anel1_est3.jpg';
+    var anel2Est1  = '../resources/anel2_est1.jpg';
+    var anel2Est2  = '../resources/anel2_est2.jpg';
 
     switch(localImagem) {
       case 'Croqui':
@@ -325,7 +325,7 @@ var WizardControladorPage = function () {
       case 'Anel 2 como Estágio2':
         return this.adicionarImagem(anel2Est2);
       default:
-        throw new Error('Localização da imagem não encontrada: '+localImagem)
+        throw new Error('Localização da imagem não encontrada: '+localImagem);
      }
   };
 

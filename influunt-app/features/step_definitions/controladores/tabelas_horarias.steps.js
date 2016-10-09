@@ -1,6 +1,5 @@
 'use strict';
 
-var expect = require('chai').expect;
 var TabelasHorariasPage = require('../../support/page-objects/tabelas_horarias');
 var ObjetosComuns = require('../../support/page-objects/objetos_comuns');
 

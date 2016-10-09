@@ -57,7 +57,7 @@ module.exports = function() {
   });
 
   this.Given(/^o usuário adicionar (\d+) imagens para os estágios do anel corrente$/, function (qtde) {
-    var path = '../resources/croquigeral.jpg'
+    var path = '../resources/croquigeral.jpg';
     return wizardPage.adicionarImagensEstagios(qtde, path);
   });
 
