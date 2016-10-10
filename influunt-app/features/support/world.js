@@ -183,6 +183,11 @@ var World = function () {
     }, Promise.resolve());
   };
 
+  this.checkText = function(campo, dado) {  
+    var xpath = '//p[text()= " '+dado+'"]//strong[text()="'+campo+'"]';
+    return driver.findElement(webdriver.By.xpath(xpath))
+  };
+
   this.clickButton = function(cssSelector) {
     return driver.findElement(webdriver.By.css(cssSelector)).sendKeys(webdriver.Key.ENTER);
   };
