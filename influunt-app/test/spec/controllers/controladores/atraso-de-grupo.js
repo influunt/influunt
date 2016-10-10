@@ -80,7 +80,7 @@ describe('Controller: ControladoresAtrasoDeGrupoCtrl', function () {
     describe('Configuração inválida', function () {
       it('Deve interromper o "inicializaAtrasoDeGrupo" se o controlador estiver inválido', function() {
         var objeto = {};
-        WizardControladores.fakeInicializaWizard(scope, $q, objeto, function(){scope.inicializaAtrasoDeGrupo(0)});
+        WizardControladores.fakeInicializaWizard(scope, $q, objeto, function(){scope.inicializaAtrasoDeGrupo(0);});
         expect(scope.currentAnelIndex).not.toBeDefined();
       });
     });
@@ -142,7 +142,7 @@ describe('Controller: ControladoresAtrasoDeGrupoCtrl', function () {
           atrasoGrupoMax: 30
         };
 
-        WizardControladores.fakeInicializaWizard(scope, $q, objeto, function(){scope.inicializaAtrasoDeGrupo(0)});
+        WizardControladores.fakeInicializaWizard(scope, $q, objeto, function(){scope.inicializaAtrasoDeGrupo(0);});
       });
 
       it('Deve inicializaros atrasosDeGrupo para cada transição existente', function() {
