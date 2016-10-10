@@ -680,6 +680,13 @@
   "EM_CONFIGURACAO": "Em Configuração",
   "CONFIGURADO": "Configurado",
   "ATIVO": "Ativo",
-  "EM_EDICAO": "Em Edição"
-
+  "EM_EDICAO": "Em Edição",
+  "relatorios": {
+    "auditorias": "Auditorias",
+    "gerar": "Gerar",
+    "inicio": "Início",
+    "fim": "Fim",
+    "titulo": "Relatórios",
+    "tipo": "Tipo Relatório"
+  }
 }

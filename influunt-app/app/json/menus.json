@@ -64,5 +64,16 @@
     "name": "simulacao",
     "label": "simulacao.titulo",
     "route": "app.simulacao"
+  },
+  {
+    "name": "relatorios",
+    "label": "relatorios.titulo",
+    "children": [
+      {
+        "name": "relatorioAuditorias",
+        "label": "relatorios.auditorias",
+        "route": "app.relatorios_auditorias"
+      }
+    ]
   }
 ]

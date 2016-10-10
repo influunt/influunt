@@ -983,6 +983,22 @@ angular
             }
           }
         })
+
+        // RELATORIOS
+        .state('app.relatorios_auditorias', {
+          url: '/relatorio/auditorias',
+          templateUrl: 'views/relatorios/auditorias.html',
+          controller: 'RelatoriosCtrl',
+          controllerAs: 'relatorios',
+          data: {
+            title: 'relatorios.auditorias',
+            permissions: {
+              only: 'visualizarRelatoriosAuditorias',
+              redirectTo: 'app.main'
+            }
+          }
+        })
+
       ;
 
       // Prevent router from automatic state resolving

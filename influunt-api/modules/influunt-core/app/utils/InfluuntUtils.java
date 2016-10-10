@@ -58,6 +58,10 @@ public class InfluuntUtils {
     }
 
     public static String formatDateToString(DateTime date, String format) {
+        if (format == null || format.isEmpty()) {
+            format = DEFAULT_DATE_FORMAT;
+        }
+
         DateTimeFormatter dtfOut = DateTimeFormat.forPattern(format);
         return dtfOut.print(date);
     }
