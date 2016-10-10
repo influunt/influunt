@@ -60,6 +60,7 @@ angular.module('influuntApp')
       };
 
       inicializaTransicoes = function() {
+        $scope.objeto.atrasosDeGrupo = $scope.objeto.atrasosDeGrupo || [];
         var allTransicoes = _.union($scope.objeto.transicoes, $scope.objeto.transicoesComGanhoDePassagem);
         _.forEach(allTransicoes, function(transicao) {
           if (typeof transicao.atrasoDeGrupo === 'undefined') {
