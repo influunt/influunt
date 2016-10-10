@@ -111,14 +111,20 @@ var influunt;
           // drawLine(10,0,460,'blue',true);
           // drawLine(30,0,460,'blue',true);
     
-          var grid = game.add.sprite(88 , MARGEM_SUPERIOR + ALTURA_GRUPO - 4, 'grid');      
+          var grid = game.add.sprite(118 , MARGEM_SUPERIOR + ALTURA_GRUPO - 4, 'grid');      
           grid.fixedToCamera = true;
           
           game.time.events.repeat(20000 / velocidade, Math.ceil(duracaoSimulacao / 120), loadMore, this);
           //addToLog("Ola mundo");
           
-          desenhaLinha(85,"orange","DV1");
-
+          
+          desenhaDetector(3,0,4,"#082536","V1");
+          desenhaDetector(4,5,9,"#082536","P4");
+          desenhaDetector(5,5,9,"#082536","V8");          
+          desenhaDetector(5,10,14,"#082536","V3");          
+          desenhaAlerta(8,"12");          
+          desenhaFalha(10,"44");          
+          
         }
         
         function update(time) {
@@ -211,11 +217,28 @@ var influunt;
         }
 
         function criaAnel(anel,index,indexAnel){
-          
+
           var indexAtual = inicializaGrupos(anel.tiposGruposSemaforicos,index);
           aneis[anel.numero] = {}
           aneis[anel.numero]["inicio_grupo"] = index;
           aneis[anel.numero]["fim_grupo"] = indexAtual - 1;
+
+          var corAnel = "#065159";
+          if(anel.numero % 2 == 0){
+            corAnel = "#082536";
+          }
+          var y1;
+          if(anel.numero == 1){
+            y1 = (index * ALTURA_GRUPO);
+          }else{
+            y1 = (index * ALTURA_GRUPO) + (index - 1) ;            
+          }
+
+          var y2 = (indexAtual * ALTURA_GRUPO) + (indexAtual - 1);
+          
+          desenhaAnel(anel.numero,y1,y2,corAnel);
+
+
           index = indexAtual;          
           
           var ml = 10;
@@ -238,6 +261,32 @@ var influunt;
 
           return index;
 
+        }
+        
+        function desenhaAnel(numero,y1,y2,cor){
+          var h = y2-y1;
+          var bmd = game.add.bitmapData(1000,h);
+          
+          bmd.ctx.fillStyle = cor;
+
+          bmd.ctx.fillRect(0,0,30,h);
+
+          bmd.ctx.beginPath();
+          bmd.ctx.lineWidth = "4";
+          bmd.ctx.strokeStyle = cor;
+          bmd.ctx.moveTo(0,h);
+          bmd.ctx.lineTo(1000,h);
+          bmd.ctx.stroke();
+          bmd.ctx.closePath();
+          bmd.ctx.textAlign = "center";
+          bmd.ctx.fillStyle = "#fff";
+          bmd.ctx.font = "12px Open Sans";
+          bmd.ctx.fillText(numero, 15, h/2 + 6);
+          
+          bmd.render();
+          var sprite = game.add.sprite(0, MARGEM_SUPERIOR + y1 + ALTURA_GRUPO + 1, bmd);
+          sprite.fixedToCamera = true;
+          
         }
 
         function inicializaGrupos(tipos,index){
@@ -262,7 +311,7 @@ var influunt;
           grupoSemaforico['state']  = 'apagado';
     
           if(veicular){
-            grupoSemaforico['sprite'] = game.add.sprite(0 , y, 'veicular');      
+            grupoSemaforico['sprite'] = game.add.sprite(30 , y, 'veicular');      
       
             //Estados
             grupoSemaforico['DESLIGADO'] = grupoSemaforico['sprite'].animations.add('DESLIGADO', [0]);
@@ -285,7 +334,7 @@ var influunt;
 
           }else{
 
-            grupoSemaforico['sprite'] = game.add.sprite(0 , y, 'pedestre');      
+            grupoSemaforico['sprite'] = game.add.sprite(30 , y, 'pedestre');      
       
             //Estados
             grupoSemaforico['DESLIGADO'] = grupoSemaforico['sprite'].animations.add('DESLIGADO', [0]);
@@ -309,7 +358,7 @@ var influunt;
           gruposSemaforicos[grupo] = grupoSemaforico;
     
           var style = { font: "12px Open Sans", fill: "#000000" };
-          var text = game.add.text(6,y + 27, "G" + grupo, style);
+          var text = game.add.text(36,y + 27, "G" + grupo, style);
     
           text.fixedToCamera = true;
           text.anchor.set(0,1);
@@ -381,15 +430,15 @@ var influunt;
         }
         
         function desenhaEventoMudancaPlano(evento){
-          desenhaLinha(evento.timestamp,'blue',evento.planoAtual);
+          desenhaPlano(evento.timestamp,'blue',evento.planoAtual);
         }
         function desenhaEventoAgendamentoTrocaDePlano(evento){
           var y1 = (aneis[evento.anel]["inicio_grupo"] * ALTURA_GRUPO) + (aneis[evento.anel]["inicio_grupo"] * 1);
           var y2 = ((aneis[evento.anel]["fim_grupo"] + 1) * ALTURA_GRUPO + ((aneis[evento.anel]["fim_grupo"]+ 1) * 1));
-          desenhaSeqmento(evento.timestamp * 10,(evento.momentoTroca * 10) + 10,y1 + 15,y2 + 15,'blue')
+          desenhaAgendamento(evento.timestamp * 10,(evento.momentoTroca * 10) + 10,y1 + 15,y2 + 15,'blue')
         }
         
-        function desenhaLinha(x,color,label){
+        function desenhaPlano(x,color,label){
 
          var bmd = game.add.bitmapData(20,460);
          var color = color;
@@ -405,27 +454,36 @@ var influunt;
          bmd.ctx.closePath();
          bmd.ctx.fillStyle = color;
          bmd.ctx.fillRect(0,0,20,20);
+
          bmd.ctx.fillStyle = "#fff";
-         bmd.ctx.font = "12px Open Sans";
-         bmd.ctx.fillText(label, 7, 15);
+
+         if(label.length > 1){
+           bmd.ctx.font = "8px Open Sans";
+           bmd.ctx.fillText(label, 5, 14);
+         }else{
+           bmd.ctx.font = "12px Open Sans";
+           bmd.ctx.fillText(label, 7, 15);
+         }
+
+
          bmd.render();
          game.add.sprite((MARGEM_LATERAL + (x * 10)) - 10, MARGEM_SUPERIOR, bmd);
          
         }
 
-        function desenhaSeqmento(x1,x2,y1,y2,color){
+        function desenhaAlerta(x,label){
+          desenhaPlano(x,"orange",label);
+        }
+
+        function desenhaFalha(x,label){
+          desenhaPlano(x,"#FFB4B6",label);
+        }
+        
+        function desenhaAgendamento(x1,x2,y1,y2,color){
           var w  = x2 - x1;
           var h  = y2 - y1;
-           
-
-          console.log("x1",x1);
-          console.log("x2",x2);
-          console.log("y1",y1);
-          console.log("y1",y2);                              
-          console.log("w",w);
-          console.log("h",h);
-         var bmd = game.add.bitmapData(w,h);
-         var color = color;
+          var bmd = game.add.bitmapData(w,h);
+          var color = color;
 
          //bmd.ctx.fillStyle = "#000";
          // bmd.ctx.fillRect(0,0,x2-x1,y2-y1);
@@ -455,7 +513,42 @@ var influunt;
          game.add.sprite((MARGEM_LATERAL + x1) - 10, MARGEM_SUPERIOR + y1 + 15, bmd);
          
         }
-  
+
+        function desenhaDetector(x,inicio,fim,color,label){
+
+          var y1 = (inicio * ALTURA_GRUPO) + inicio + 15;
+          var y2 = ((fim + 1) * ALTURA_GRUPO + ((fim + 1) * 1)) + 15;
+          x = x * 10;
+
+
+          var w  = ALTURA_GRUPO + 2;
+          var h  = y2 - y1;
+          var bmd = game.add.bitmapData(w,h);
+          var color = color;
+
+         bmd.ctx.lineWidth = "2";
+         bmd.ctx.setLineDash([5, 5]);
+         bmd.ctx.strokeStyle = color;
+
+         bmd.ctx.beginPath();
+           bmd.ctx.moveTo(10,0);
+           bmd.ctx.lineTo(10,h);
+           bmd.ctx.stroke();
+         bmd.ctx.closePath();
+
+
+         bmd.ctx.fillStyle = color;
+         bmd.ctx.arc(10,h/2 - 4,8,0,Math.PI*2,true);
+         bmd.ctx.fill();
+
+         bmd.ctx.fillStyle = "#fff";
+         bmd.ctx.font = "8px Open Sans";
+         bmd.ctx.fillText(label, 5,h/2-1);
+
+         bmd.render();
+         game.add.sprite(((MARGEM_LATERAL + x) - 10) + 3, MARGEM_SUPERIOR + y1 + 15, bmd);
+         
+        }  
   
         function decodeEstado(data){
 
