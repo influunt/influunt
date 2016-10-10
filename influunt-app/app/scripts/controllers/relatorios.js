@@ -25,6 +25,9 @@ angular.module('influuntApp')
         .finally(influuntBlockui.unblock);
       };
 
+      /**
+      * Relatorio de Auditoria
+      */
       $scope.gerarRelatorioAuditoria = function() {
         if (moment.isMoment($scope.relatorio['change.eventTime_start']) &&
             $scope.relatorio['change.eventTime_start'].isValid()) {
@@ -36,12 +39,11 @@ angular.module('influuntApp')
           $scope.relatorio['change.eventTime_end'] = $scope.relatorio['change.eventTime_end'].format('DD/MM/YYYY HH:mm:ss');
         }
 
-        Restangular.all('relatorios').customGET('auditoria', $scope.relatorio)
+        Restangular.all('relatorios').withHttpConfig({ responseType: 'arraybuffer' }).customGET('auditoria', $scope.relatorio)
         .then(function(res) {
           if($scope.relatorio.tipoRelatorio === 'PDF') {
-            // var blob = new Blob([res], {type: "application/pdf"});
-            //saveAs(blob, 'relatorio_auditoria.pdf');
-            saveAs(new Blob([res], {type: 'application/pdf;base64'}), 'relatorio_auditoria.pdf');
+            var blob = new Blob([res], {type: "application/pdf"});
+            saveAs(blob, 'relatorio_auditoria.pdf');
           } else if ($scope.relatorio.tipoRelatorio === 'CSV') {
             var blob = new Blob([res], {type: "text/csv;charset=utf-8"});
             saveAs(blob, 'relatorio_auditoria.csv');
