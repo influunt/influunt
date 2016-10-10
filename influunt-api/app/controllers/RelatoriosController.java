@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import play.mvc.Controller;
 import play.mvc.Result;
 import reports.AuditoriaReportService;
+import reports.ControladoresReportService;
 import reports.ReportType;
 import security.Auditoria;
 import utils.InfluuntQueryBuilder;
@@ -23,6 +24,10 @@ public class RelatoriosController extends Controller {
     @Inject
     public AuditoriaReportService auditoriaReportService;
 
+
+    @Inject
+    public ControladoresReportService controladoresReportService;
+
     public CompletionStage<Result> gerarRelatorioAuditoria() {
         ReportType reportType = ReportType.valueOf(request().getQueryString("tipoRelatorio").toString());
 
@@ -35,4 +40,19 @@ public class RelatoriosController extends Controller {
         InputStream input = auditoriaReportService.generateReport(request().queryString(), result.getResult(), reportType);
         return CompletableFuture.completedFuture(ok(input).as(reportType.getContentType()));
     }
+
+    public CompletionStage<Result> gerarRelatorioControladoersStatus() {
+        ReportType reportType = ReportType.valueOf(request().getQueryString("tipoRelatorio").toString());
+
+        Map<String, String[]> params = new HashMap<>();
+        params.putAll(request().queryString());
+        if (params.containsKey("tipoRelatorio")) {
+            params.remove("tipoRelatorio");
+        }
+        InputStream input = controladoresReportService.generateReport(request().queryString(), null, reportType);
+        return CompletableFuture.completedFuture(ok(input).as(reportType.getContentType()));
+    }
+
+
+
 }
