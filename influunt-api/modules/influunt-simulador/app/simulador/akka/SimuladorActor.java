@@ -6,7 +6,7 @@ import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.joda.time.DateTime;
-import simulador.log.EventoLog;
+import simulador.eventos.EventoLog;
 import simulador.parametros.ParametroSimulacao;
 
 import java.util.ArrayList;

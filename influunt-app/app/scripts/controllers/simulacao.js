@@ -6,7 +6,8 @@
 * @description
 * # SimulacaoCtrl
 * Controller of the influuntApp
-*/
+**/
+
 angular.module('influuntApp')
 
 .controller('SimulacaoCtrl', ['$scope', '$controller','Restangular','influuntBlockui',

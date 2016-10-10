@@ -4,8 +4,8 @@ import engine.EstadoGrupoBaixoNivel;
 import models.EstadoGrupoSemaforico;
 import models.Evento;
 import org.joda.time.DateTime;
-import simulador.log.AgendamentoTrocaDePlanoLog;
-import simulador.log.AlteracaoEventoLog;
+import simulador.eventos.AgendamentoTrocaDePlanoLog;
+import simulador.eventos.AlteracaoEventoLog;
 import simulador.Simulador;
 import simulador.parametros.ParametroSimulacao;
 

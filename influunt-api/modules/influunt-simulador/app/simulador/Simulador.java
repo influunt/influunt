@@ -6,10 +6,10 @@ import engine.MotorCallback;
 import models.*;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
-import simulador.log.AlteracaoEstadoLog;
-import simulador.log.EventoLog;
-import simulador.log.LogSimulacao;
-import simulador.log.TipoEventoLog;
+import simulador.eventos.AlteracaoEstadoLog;
+import simulador.eventos.EventoLog;
+import simulador.eventos.LogSimulacao;
+import simulador.eventos.TipoEventoLog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
