@@ -22,8 +22,6 @@ public class AuditoriaReportService extends ReportService<Auditoria> {
 
     private static final Logger LOG = LoggerFactory.getLogger(AuditoriaReportService.class);
 
-    private final String AUDITORIAS_REPORT_FILE = "/app/templates/reports/auditorias.jasper";
-
     private List<Auditoria> auditorias = new ArrayList<Auditoria>();
 
     @Inject
@@ -64,8 +62,6 @@ public class AuditoriaReportService extends ReportService<Auditoria> {
             buffer.append("Relatório de Auditoria");
             buffer.append(NEW_LINE_SEPARATOR);
 
-            //buffer.append("Gerado por:").append(COMMA_DELIMITER);
-            //buffer.append(String.valueOf(reportMetadata.get("user_name")));
             buffer.append("Gerado em:").append(COMMA_DELIMITER).append(InfluuntUtils.formatDateToString(new DateTime(), FORMAT_DATE_HOUR_COMPLETE));
             buffer.append(NEW_LINE_SEPARATOR);
             buffer.append(NEW_LINE_SEPARATOR);
