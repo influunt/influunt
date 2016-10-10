@@ -31,7 +31,7 @@ public class RelatoriosController extends Controller {
         if (params.containsKey("tipoRelatorio")) {
             params.remove("tipoRelatorio");
         }
-        InfluuntQueryResult result = new InfluuntQueryBuilder(Auditoria.class, params).auditoriaQuery();
+        InfluuntQueryResult result = new InfluuntQueryBuilder(Auditoria.class, params).reportMode().auditoriaQuery();
         InputStream input = auditoriaReportService.generateReport(request().queryString(), result.getResult(), reportType);
         return CompletableFuture.completedFuture(ok(input).as(reportType.getContentType()));
     }
