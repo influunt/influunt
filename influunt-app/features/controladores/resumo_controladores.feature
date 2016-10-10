@@ -9,10 +9,14 @@ Funcionalidade: Vizualizar as informações de um controlador cadastrado
     Então o sistema deverá redirecionar para a revisão do controlador
 
   Cenário: Vizualizar os dados básicos do controlador
-  	Então o sistema deverá mostrar o campo "Cidade:" com a seguinte informação "São Paulo"
-  	Então o sistema deverá mostrar o campo "Área:" com a seguinte informação "1"
-  	Então o sistema deverá mostrar o campo "CLC:" com a seguinte informação "1.000.0001"
-  	Então o sistema deverá mostrar o campo "Fabricante:" com a seguinte informação "Raro Labs"
-  	Então o sistema deverá mostrar o campo "Modelo:" com a seguinte informação "Modelo Básico"
-  	Então o sistema deverá mostrar o campo "Estágios:" com a seguinte informação "6"
-  	Então o sistema deverá mostrar o campo "Controladores.aneis:" com a seguinte informação "2"
+  	Então o sistema deverá mostrar as informações do dados básicos
+
+  Cenário: Vizualizar as informações dos aneis
+    # Dado que o usuário selecione o anel 1
+    Então o sistema deverá mostrar as informações íniciais do anel 1
+    Então o sistema deverá mostrar as informações dos grupos semáforicos
+    Então o sistema deverá mostrar as informações para Associação Estágio x Grupo Semafórico
+    Então o sistema deverá mostrar as informações para Verdes Conflitantes
+    Dado que o usuário selecione o anel 2
+    Então o sistema deverá mostrar as informações íniciais do anel 2
+

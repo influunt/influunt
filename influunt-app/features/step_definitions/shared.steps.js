@@ -40,4 +40,7 @@ module.exports = function() {
     return sharedSteps.realizarScrollUp();
   });
 
+  this.Given(/^que o usuário selecione o anel (\d+)$/, function (numeroAnel) {
+    return sharedSteps.trocarAnel(numeroAnel);
+  });
 };

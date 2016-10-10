@@ -183,9 +183,16 @@ var World = function () {
     }, Promise.resolve());
   };
 
-  this.checkText = function(campo, dado) {  
-    var xpath = '//p[text()= " '+dado+'"]//strong[text()="'+campo+'"]';
-    return driver.findElement(webdriver.By.xpath(xpath))
+  this.checkIsElementPresent = function(xpath, campo, dado) {
+    return driver.isElementPresent(webdriver.By.xpath(xpath)).then(function(isElementPresent) {
+      return new Promise(function(resolve, reject) {
+        if (isElementPresent) {
+          resolve(true);
+        } else {
+          reject('Campo "'+campo+'" com o valor '+dado+' não encontrado');
+        }
+      });
+    });
   };
 
   this.clickButton = function(cssSelector) {
