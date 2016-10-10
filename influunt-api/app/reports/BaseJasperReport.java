@@ -11,7 +11,6 @@ import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import play.Application;
 import play.Logger;
-import security.Auditoria;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -27,7 +26,7 @@ public class BaseJasperReport {
 
     String REPORT_DEFINITION_PATH = "/app/templates/reports/";
 
-    public InputStream generateReport(String reportDefFile, Map reportParams, List<Auditoria> lista) {
+    public InputStream generateReport(String reportDefFile, Map reportParams, List lista) {
         OutputStream os = new ByteArrayOutputStream();
         try {
             Logger.warn("Gerando o relatorio de [".concat(reportDefFile.toUpperCase()).concat("] ..."));

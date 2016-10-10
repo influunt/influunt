@@ -73,6 +73,11 @@
         "name": "relatorioAuditorias",
         "label": "relatorios.auditorias",
         "route": "app.relatorios_auditorias"
+      },
+      {
+        "name": "relatorioControladoresStatus",
+        "label": "relatorios.controladoresStatus",
+        "route": "app.relatorios_controladores_status"
       }
     ]
   }

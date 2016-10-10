@@ -52,4 +52,21 @@ angular.module('influuntApp')
         .finally(influuntBlockui.unblock);
       };
 
+      /**
+      * Relatorio de Controladores por Status
+      */
+      $scope.gerarRelatorioControladoresPorStatus = function() {
+        Restangular.all('relatorios').withHttpConfig({ responseType: 'arraybuffer' }).customGET('controladores_status', $scope.relatorio)
+        .then(function(res) {
+          if($scope.relatorio.tipoRelatorio === 'PDF') {
+            var blob = new Blob([res], {type: 'application/pdf'});
+            saveAs(blob, 'relatorio_controladores_status.pdf');
+          } else if ($scope.relatorio.tipoRelatorio === 'CSV') {
+            var blob = new Blob([res], {type: 'text/csv;charset=utf-8'});
+            saveAs(blob, 'relatorio_controladores_status.csv');
+          }
+        })
+        .finally(influuntBlockui.unblock);
+      };
+
   }]);

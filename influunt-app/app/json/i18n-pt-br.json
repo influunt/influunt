@@ -683,6 +683,7 @@
   "EM_EDICAO": "Em Edição",
   "relatorios": {
     "auditorias": "Auditorias",
+    "controladoresStatus": "Controladores por Status",
     "gerar": "Gerar",
     "inicio": "Início",
     "fim": "Fim",
