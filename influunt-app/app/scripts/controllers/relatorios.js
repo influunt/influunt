@@ -42,10 +42,10 @@ angular.module('influuntApp')
         Restangular.all('relatorios').withHttpConfig({ responseType: 'arraybuffer' }).customGET('auditoria', $scope.relatorio)
         .then(function(res) {
           if($scope.relatorio.tipoRelatorio === 'PDF') {
-            var blob = new Blob([res], {type: "application/pdf"});
+            var blob = new Blob([res], {type: 'application/pdf'});
             saveAs(blob, 'relatorio_auditoria.pdf');
           } else if ($scope.relatorio.tipoRelatorio === 'CSV') {
-            var blob = new Blob([res], {type: "text/csv;charset=utf-8"});
+            var blob = new Blob([res], {type: 'text/csv;charset=utf-8'});
             saveAs(blob, 'relatorio_auditoria.csv');
           }
         })

@@ -70,9 +70,9 @@
     "label": "relatorios.titulo",
     "children": [
       {
-        "name": "acoes",
-        "label": "relatorios.acoes",
-        "route": "app.relatorios_acoes"
+        "name": "relatorioAuditorias",
+        "label": "relatorios.auditorias",
+        "route": "app.relatorios_auditorias"
       }
     ]
   }
