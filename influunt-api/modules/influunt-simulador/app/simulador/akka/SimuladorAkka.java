@@ -16,29 +16,13 @@ import java.util.List;
  */
 public class SimuladorAkka extends Simulador {
 
-
-
-    private final ParametroSimulacao parametros;
-
     private final SimuladorActor simuladorActor;
 
     private DateTime ponteiro;
 
     public SimuladorAkka(SimuladorActor simuladorActor, ParametroSimulacao parametros){
-        super(parametros.getInicioControlador(),parametros.getControlador());
+        super(parametros.getInicioControlador(),parametros.getControlador(),parametros);
         this.simuladorActor = simuladorActor;
-        this.parametros = parametros;
-        this.parametros.getDetectores().stream().forEach(param -> addEvento(param.toEvento()));
-        this.parametros.getImposicoes().stream().forEach(param -> addEvento(param.toEvento()));
-        this.parametros.getFalhas().stream().forEach(param -> addEvento(param.toEvento()));
-        this.ponteiro = parametros.getInicioSimulacao();
-
-    }
-
-    public void avancar(int segundos){
-        DateTime fim = ponteiro.plusSeconds(segundos);
-        simular(ponteiro,fim);
-        ponteiro = fim;
     }
 
     @Override
