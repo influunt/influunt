@@ -985,13 +985,17 @@ angular
         })
 
         // RELATORIOS
-        .state('app.relatorios_acoes', {
-          url: '/acoes',
-          templateUrl: 'views/relatorios/acoes.html',
+        .state('app.relatorios_auditorias', {
+          url: '/relatorio/auditorias',
+          templateUrl: 'views/relatorios/auditorias.html',
           controller: 'RelatoriosCtrl',
           controllerAs: 'relatorios',
           data: {
-            title: 'relatorios.acoes',
+            title: 'relatorios.auditorias',
+            permissions: {
+              only: 'visualizarRelatoriosAuditorias',
+              redirectTo: 'app.main'
+            }
           }
         })
 

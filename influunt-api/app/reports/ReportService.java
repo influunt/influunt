@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import net.sf.jasperreports.engine.JRParameter;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import play.Logger;
 import play.api.Environment;
 import security.Auditoria;
 import utils.InfluuntUtils;
@@ -31,16 +32,12 @@ public abstract class ReportService<T> {
     protected final String FORMAT_DATE_HOUR_COMPLETE = "dd/MM/yyyy HH:mm:ss";
 
     // Delimiter used in CSV file
-    final String COMMA_DELIMITER = ",";
-    final String NEW_LINE_SEPARATOR = "\n";
+    protected final String COMMA_DELIMITER = ";";
+    protected final String NEW_LINE_SEPARATOR = "\n";
 
     public static final Locale LOCALE_PT_BR = new Locale("pt", "BR");
 
     protected DateTimeZone currentTimeZone;
-
-    public ReportService() {
-        super();
-    }
 
     public Map<String, Object> getBasicReportMetadata() {
         Map<String, Object> reportMetadata = new HashMap<>();
@@ -52,7 +49,7 @@ public abstract class ReportService<T> {
             InputStream image = new FileInputStream(env.getFile(LOGO_REPORT_FILE));
             reportMetadata.put(LOGO_REPORT_PARAM_NAME, image);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            Logger.error("ERRO AO CARREGAR LOGO: ".concat(e.getMessage()), e);
         }
 
         return reportMetadata;
