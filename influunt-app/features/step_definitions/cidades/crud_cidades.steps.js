@@ -85,10 +85,6 @@ module.exports = function() {
     });
   });
 
-  this.Given(/^o usuário responde sim$/, function() {
-    return cidadesPage.clicarSimConfirmacaoApagarRegistro();
-  });
-
   this.Given(/^a cidade deverá ser excluida$/, function() {
     return cidadesPage.toastMessage().then(function(text) {
       expect(text).to.match(/Removido com sucesso/);
