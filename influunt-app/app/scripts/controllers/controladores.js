@@ -215,7 +215,6 @@ angular.module('influuntApp')
         idJsonEndereco = _.get(currentAnel.endereco, 'idJson');
         $scope.currentEndereco = _.find($scope.objeto.todosEnderecos, {idJson: idJsonEndereco });
         $scope.currentAnel.localizacao = $filter('nomeEndereco')($scope.currentEndereco);
-
       };
 
       /**
