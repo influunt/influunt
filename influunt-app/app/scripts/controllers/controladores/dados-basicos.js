@@ -8,15 +8,19 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresDadosBasicosCtrl', ['$scope', '$controller', '$filter', 'influuntBlockui', 'influuntAlert', 'Restangular', 'toast',
-    function ($scope, $controller, $filter, influuntBlockui, influuntAlert, Restangular, toast) {
+  .controller('ControladoresDadosBasicosCtrl', ['$scope', '$controller', '$filter', 'influuntBlockui', 'influuntAlert', 'Restangular', 'toast', 'PermissionsService', 'PermissionStrategies', 'breadcrumbs',
+    function ($scope, $controller, $filter, influuntBlockui, influuntAlert, Restangular, toast, PermissionsService, PermissionStrategies, breadcrumbs) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
-      var deletarCroquiNoServidor, inicializaObjetoCroqui;
+      var deletarCroquiNoServidor, inicializaObjetoCroqui, setarAreaControlador, updateBreadcrumbs;
+
+      $scope.PermissionStrategies = PermissionStrategies;
 
       $scope.inicializaWizardDadosBasicos = function() {
         return $scope.inicializaWizard().then(function (){
           inicializaObjetoCroqui();
+          setarAreaControlador();
+          updateBreadcrumbs();
         }).finally(influuntBlockui.unblock);
       };
 
@@ -46,9 +50,8 @@ angular.module('influuntApp')
         $scope.objeto.imagens.push(_imagem);
       };
 
-      $scope.removerCroquiLocal = function(img) {
-        var imagemIndex = _.findIndex($scope.objeto.imagens, { id: img.id });
-        $scope.imagemCroqui = null;
+      $scope.removerCroquiLocal = function() {
+        var imagemIndex = _.findIndex($scope.objeto.imagens, { id: $scope.objeto.croqui.id });
         delete $scope.objeto.croqui;
         $scope.objeto.imagens.splice(imagemIndex, 1);
       };
@@ -84,6 +87,27 @@ angular.module('influuntApp')
             url: $filter('imageSource')(croqui.id),
             nomeImagem: croqui.filename
           };
+        }
+      };
+
+      setarAreaControlador = function() {
+        if (!PermissionsService.podeVisualizarTodasAreas() && !PermissionsService.isUsuarioRoot()) {
+          $scope.objeto.area = PermissionsService.getUsuario().area;
+        }
+      };
+
+      updateBreadcrumbs = function() {
+        if ($scope.objeto.aneis) {
+          var aneis = _
+            .chain($scope.objeto.aneis)
+            .filter('ativo')
+            .orderBy('posicao')
+            .value();
+          if (aneis.length > 0) {
+            var idJsonEndereco = _.get(aneis[0].endereco, 'idJson');
+            var currentEndereco = _.find($scope.objeto.todosEnderecos, {idJson: idJsonEndereco });
+            breadcrumbs.setNomeEndereco($filter('nomeEndereco')(currentEndereco));
+          }
         }
       };
 

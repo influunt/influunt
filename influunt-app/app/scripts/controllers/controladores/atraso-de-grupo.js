@@ -60,6 +60,7 @@ angular.module('influuntApp')
       };
 
       inicializaTransicoes = function() {
+        $scope.objeto.atrasosDeGrupo = $scope.objeto.atrasosDeGrupo || [];
         var allTransicoes = _.union($scope.objeto.transicoes, $scope.objeto.transicoesComGanhoDePassagem);
         _.forEach(allTransicoes, function(transicao) {
           if (typeof transicao.atrasoDeGrupo === 'undefined') {
@@ -77,7 +78,6 @@ angular.module('influuntApp')
         $scope.atualizaGruposSemaforicos();
         $scope.selecionaGrupoSemaforico($scope.currentGruposSemaforicos[0], 0);
         $scope.setAtributos();
-        $scope.inicializaConfirmacaoNadaHaPreencher();
       };
 
       $scope.$watch('currentTransicoesComGanhoDePassagem', function() {

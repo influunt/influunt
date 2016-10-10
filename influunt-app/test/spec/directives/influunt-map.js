@@ -46,7 +46,7 @@ describe('Directive: influuntMap', function () {
     scope.$digest();
   }));
 
-  // aguarda 1 segundo, para que o mapa possa reederizar os markers.
+  // aguarda 1 segundo, para que o mapa possa renderizar os markers.
   beforeEach(function(done) {setTimeout(done, 1000);});
 
   it('Deve criar um objeto de mapa', function() {

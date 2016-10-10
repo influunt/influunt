@@ -15,6 +15,7 @@ import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -95,6 +96,13 @@ public class Perfil extends Model implements Role, Serializable {
 
     public void setPermissoes(List<Permissao> permissoes) {
         this.permissoes = permissoes;
+    }
+
+    public void addPermissao(Permissao permissao) {
+        if (getPermissoes() == null) {
+            setPermissoes(new ArrayList<>());
+        }
+        getPermissoes().add(permissao);
     }
 
     public List<Usuario> getUsuarios() {

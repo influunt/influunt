@@ -2,7 +2,7 @@
 <div class="col-sm-10 campos-pesquisa  m-b">
   <div class="col-sm-12">
     <select ng-model="ngModel[campo.nome].valor" class="form-control">
-      <option ng-repeat="option in campo.options track by $index" value="{{option}}">{{option | humanize}}</option>
+      <option ng-repeat="option in campo.options track by $index" value="{{option}}">{{ option | translate}}</option>
     </select>
   </div>
 </div>

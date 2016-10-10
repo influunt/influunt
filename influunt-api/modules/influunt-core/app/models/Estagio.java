@@ -374,6 +374,28 @@ public class Estagio extends Model implements Serializable, Cloneable {
         return true;
     }
 
+    @AssertTrue(groups = ControladorTransicoesProibidasCheck.class,
+            message = "Esse estágio deve possuir ao menos uma transição válida para outro estágio.")
+    public boolean isEstagioPossuiAoMenosUmaTransicaoOrigemValida() {
+        for (Estagio estagio : getAnel().getEstagios()) {
+            if (!Objects.equals(getIdJson(), estagio.getIdJson()) && !temTransicaoProibidaParaEstagio(estagio)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @AssertTrue(groups = ControladorTransicoesProibidasCheck.class,
+            message = "Pelo menos um estágio deve ter uma transição válida para esse estágio.")
+    public boolean isEstagioPossuiAoMenosUmaTransicaoDestinoValida() {
+        for (Estagio estagio : getAnel().getEstagios()) {
+            if (!Objects.equals(getIdJson(), estagio.getIdJson()) && !estagio.temTransicaoProibidaParaEstagio(this)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -392,7 +414,13 @@ public class Estagio extends Model implements Serializable, Cloneable {
 
 
     public boolean temTransicaoProibidaParaEstagio(Estagio estagio) {
-        return getOrigemDeTransicoesProibidas().stream().filter(transicaoProibida -> transicaoProibida.getDestino().equals(estagio)).count() > 0;
+        for (TransicaoProibida tp : getOrigemDeTransicoesProibidas()) {
+            Estagio destino = tp.getDestino();
+            if (destino != null && destino.equals(estagio)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 

@@ -49,6 +49,7 @@ angular.module('influuntApp')
           {
             nome: 'area.descricao',
             label: 'areas.descricao',
+            permission: 'visualizarTodasAreas',
             tipo: 'texto'
           },
           {
@@ -214,7 +215,6 @@ angular.module('influuntApp')
         idJsonEndereco = _.get(currentAnel.endereco, 'idJson');
         $scope.currentEndereco = _.find($scope.objeto.todosEnderecos, {idJson: idJsonEndereco });
         $scope.currentAnel.localizacao = $filter('nomeEndereco')($scope.currentEndereco);
-
       };
 
       /**
@@ -551,5 +551,4 @@ angular.module('influuntApp')
       $scope.podeMostrarPlanosETabelaHoraria = function(controlador) {
         return controlador.controladorConfigurado;
       };
-
     }]);

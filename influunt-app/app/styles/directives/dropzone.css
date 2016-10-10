@@ -11,6 +11,11 @@
   height: auto;
 }
 
+.dropzone .dz-preview .dz-error-message {
+  top: 50px;
+  left: 10px;
+}
+
 .dz-default.dz-message span {
   border: 1px dashed #898989;
   margin: 0;

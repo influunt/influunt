@@ -63,13 +63,7 @@ angular
 
         .state('app.main', {
           url: '/main',
-          templateUrl: 'views/main.html',
-          data: {
-            permissions: {
-              only: 'visualizarStatusControladores',
-              redirectTo: 'login'
-            }
-          }
+          templateUrl: 'views/main.html'
         })
 
         .state('app.dashboard_detalhe_controlador', {
@@ -989,13 +983,29 @@ angular
             }
           }
         })
+
+        // RELATORIOS
+        .state('app.relatorios_auditorias', {
+          url: '/relatorio/auditorias',
+          templateUrl: 'views/relatorios/auditorias.html',
+          controller: 'RelatoriosCtrl',
+          controllerAs: 'relatorios',
+          data: {
+            title: 'relatorios.auditorias',
+            permissions: {
+              only: 'visualizarRelatoriosAuditorias',
+              redirectTo: 'app.main'
+            }
+          }
+        })
+
       ;
 
       // Prevent router from automatic state resolving
       $urlRouterProvider.deferIntercept();
     }])
 
-    .run(['$rootScope', '$state', '$timeout', 'TELAS_SEM_LOGIN',
+  .run(['$rootScope', '$state', '$timeout', 'TELAS_SEM_LOGIN',
     function($rootScope, $state, $timeout, TELAS_SEM_LOGIN) {
 
       $rootScope.$state = $state;
@@ -1008,9 +1018,9 @@ angular
         return !$rootScope.isAuthenticated() && TELAS_SEM_LOGIN.indexOf(stateName) < 0;
       };
 
-      $rootScope.$on('$stateChangeStart', function() {
+      $rootScope.$on('$stateChangeStart', function(ev, toState) {
         $timeout(function() {
-          if (needLogin()) {
+          if (needLogin(toState.name)) {
             $state.go('login');
           }
         });

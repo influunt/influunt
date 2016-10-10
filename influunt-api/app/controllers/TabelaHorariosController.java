@@ -77,7 +77,7 @@ public class TabelaHorariosController extends Controller {
             VersaoTabelaHoraria versaoTabelaHoraria = controlador.getVersaoTabelaHorariaEmEdicao();
             if (controlador.getVersoesTabelasHorarias().size() > 1 && versaoTabelaHoraria != null) {
                 VersaoTabelaHoraria versaoTabelaHorariaOrigem = versaoTabelaHoraria.getTabelaHorariaOrigem().getVersaoTabelaHoraria();
-                versaoTabelaHorariaOrigem.setStatusVersao(StatusVersao.ATIVO);
+                versaoTabelaHorariaOrigem.setStatusVersao(StatusVersao.CONFIGURADO);
                 versaoTabelaHorariaOrigem.update();
                 versaoTabelaHoraria.delete();
             }

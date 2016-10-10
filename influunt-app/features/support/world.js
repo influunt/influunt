@@ -211,6 +211,11 @@ var World = function () {
     return driver.findElement(webdriver.By.text(text));
   };
 
+  this.selectByValue = function(campo, selectSelector, optionText) {
+    var selector = (''+campo+' '+selectSelector+' option[value="'+optionText+'"]');
+    return driver.findElement(webdriver.By.css(selector)).click();
+  };
+
   this.selectOption = function(selectSelector, optionText) {
     return this.getElements(selectSelector + ' option').then(function(options) {
       return new Promise(function(resolve, reject) {
@@ -318,6 +323,12 @@ var World = function () {
 
   this.scrollToDown = function() {
     return driver.executeScript('window.scrollTo(0, 1000);').then(function() {
+      return driver.sleep(500);
+    });
+  };
+
+  this.scrollToUp = function() {
+    return driver.executeScript('window.scrollTo(0, 0);').then(function() {
       return driver.sleep(500);
     });
   };

@@ -15,6 +15,7 @@ angular.module('influuntApp')
       $scope.inicializaConfirmacaoNadaHaPreencher = function(){
         $scope.confirmacao = {};
         $scope.aneis.forEach(function(anel) {
+          $scope.confirmacao[anel.posicao] = false;
           confirmacaoNadaHaPreencher[anel.posicao] = confirmacaoNadaHaPreencher[anel.posicao] || $scope.possuiInformacoesPreenchidas(anel);
         });
       };
@@ -32,9 +33,8 @@ angular.module('influuntApp')
       };
 
       $scope.verificaConfirmacaoNadaHaPreencher = function(){
-        if($scope.confirmacao){
+        if ($scope.confirmacao && $scope.confirmacao[$scope.currentAnel.posicao] === false) {
           confirmacaoNadaHaPreencher[$scope.currentAnel.posicao] = $scope.possuiInformacoesPreenchidas();
-          $scope.confirmacao[$scope.currentAnel.posicao] = false;
         }
       };
   }]);

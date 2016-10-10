@@ -11,20 +11,18 @@
  * i18n de forma assincrona).
  */
 angular.module('influuntApp')
-  .directive('influuntDropzone', ['APP_ROOT', '$timeout', '$filter', 'Restangular', 'toast', 'influuntBlockui',
-    function (APP_ROOT, $timeout, $filter, Restangular, toast, influuntBlockui) {
+  .directive('influuntDropzone', ['APP_ROOT', '$timeout', '$filter', '$q', 'Restangular', 'toast', 'influuntBlockui', 'dropzoneUtils',
+    function (APP_ROOT, $timeout, $filter, $q, Restangular, toast, influuntBlockui, dropzoneUtils) {
       return {
         restrict: 'A',
         scope: {
-          url: '@',
           anel: '=',
-          imagensUrl: '=',
           options: '=',
           onSuccess: '&',
           onDelete: '&',
           removeButtonText: '@'
         },
-        link: function postLink(scope, element) { 
+        link: function postLink(scope, element) {
           /**
            * A cada troca de anel, este watcher deverá esconder os itens que
            * não são deste anel e exibir aqueles que são deles.
@@ -32,24 +30,33 @@ angular.module('influuntApp')
           var filterVisiblePreviews = function() {
             $timeout(function() {
               if (scope.anel) {
-                $(element).find('.dz-preview[data-anel-id="' + scope.anel.idJson + '"]').show();
-                $(element).find('.dz-preview:not([data-anel-id="' + scope.anel.idJson + '"])').hide();
+                $(element).find('.dz-preview[data-anel-id="' + scope.anel.idJson + '"]').removeClass('hide');
+                $(element).find('.dz-preview:not([data-anel-id="' + scope.anel.idJson + '"])').addClass('hide');
+                dropzoneUtils.countFiles(element[0], scope.options.maxFiles);
               }
             });
           };
 
-          var deleteImage = function(imagemId, dropzoneFile, dropzone) {
-            return Restangular
-              .one('imagens', imagemId).remove()
-                .then(function() {
-                  dropzoneFile.previewElement = null;
-                  dropzone.removeFile(dropzoneFile);
-                  $('.dz-preview[data-imagem-id="'+ imagemId +'"]').remove();
-                  scope.onDelete({ imagem: { id: imagemId } });
-                }).catch(function() {
-                  toast.error($filter('translate')('geral.dropzone.erro_apagar_imagem'));
-                })
-                .finally(influuntBlockui.unblock);
+          var deleteImage = function(imagemId, dropzoneFile, dropzone, e) {
+            var deferred = $q.defer();
+            if (imagemId) {
+              Restangular.one('imagens', imagemId).remove().then(deferred.resolve).catch(deferred.reject);
+            } else {
+              deferred.resolve(true);
+            }
+
+            return deferred.promise
+              .then(function() {
+                dropzoneFile.previewElement = null;
+                dropzone.removeFile(dropzoneFile);
+                $(e.target).parent().remove();
+                dropzoneUtils.countFiles(element[0], scope.options.maxFiles);
+                scope.onDelete({ imagem: { id: imagemId } });
+              })
+              .catch(function() {
+                toast.error($filter('translate')('geral.dropzone.erro_apagar_imagem'));
+              })
+              .finally(influuntBlockui.unblock);
           };
 
           scope.$watch('anel.idJson', function(value) {
@@ -96,10 +103,17 @@ angular.module('influuntApp')
                   e.preventDefault();
                   e.stopPropagation();
                   var imagemId = $(this).parent('.dz-image-preview').attr('data-imagem-id');
-                  deleteImage(imagemId, file, _this);
+                  deleteImage(imagemId, file, _this, e);
                 });
                 file.dropzoneId = this.element.id;
                 file.previewElement.appendChild(removeButton);
+
+                dropzoneUtils.countFiles(element[0], scope.options.maxFiles);
+              })
+              .on('error', function(file, errorMessage) {
+                console.error(errorMessage);
+                var text = $filter('translate')('directives.influuntDropzone.errorMessage');
+                $(file.previewElement).find('.dz-error-message').text(text);
               });
 
               // chamado logo antes de o arquivo ser enviado p/ o servidor

@@ -5,7 +5,7 @@ import akka.stream.javadsl.FileIO;
 import akka.stream.javadsl.Source;
 import akka.util.ByteString;
 import config.WithInfluuntApplicationNoAuthentication;
-import models.Imagem;
+import models.*;
 import org.junit.Test;
 import play.mvc.Http;
 import play.mvc.Http.MultipartFormData.DataPart;
@@ -85,5 +85,59 @@ public class ImagensControllerTest extends WithInfluuntApplicationNoAuthenticati
         assertEquals(404, result.status());
     }
 
+    @Test
+    public void testApagarCroquiAnel() {
+        Imagem imagem = new Imagem();
+        imagem.setContentType("image/jpeg");
+        imagem.setFilename("ubuntu.jpeg");
+        imagem.save();
 
+        Anel anel = new Anel();
+        anel.setCroqui(imagem);
+        anel.save();
+
+        Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
+                .uri(routes.ImagensController.deleteCroqui(imagem.getId().toString()).url());
+        Result result = route(deleteRequest);
+        assertEquals(200, result.status());
+
+        assertNull(Imagem.find.byId(imagem.getId()));
+        assertNull(Anel.find.where().eq("croqui_id", imagem.getId()).findUnique());
+    }
+
+    @Test
+    public void testApagarCroquiControlador() {
+        Imagem imagem = new Imagem();
+        imagem.setContentType("image/jpeg");
+        imagem.setFilename("ubuntu.jpeg");
+        imagem.save();
+
+        Fabricante fabricante = new Fabricante();
+        fabricante.setNome("Tesc");
+        fabricante.save();
+        ModeloControlador modeloControlador = new ModeloControlador();
+        modeloControlador.setFabricante(fabricante);
+        modeloControlador.setDescricao("Modelo 1");
+        modeloControlador.save();
+        Cidade cidade = new Cidade();
+        cidade.setNome("São Paulo");
+        cidade.save();
+        Area area = new Area();
+        area.setCidade(cidade);
+        area.setDescricao(1);
+        area.save();
+        ControladorTestUtil controladorTestUtils = new ControladorTestUtil(area, null, fabricante, modeloControlador);
+
+        Controlador controlador = controladorTestUtils.getControladorDadosBasicos();
+        controlador.setCroqui(imagem);
+        controlador.save();
+
+        Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
+                .uri(routes.ImagensController.deleteCroqui(imagem.getId().toString()).url());
+        Result result = route(deleteRequest);
+        assertEquals(200, result.status());
+
+        assertNull(Imagem.find.byId(imagem.getId()));
+        assertNull(Controlador.find.where().eq("croqui_id", imagem.getId()).findUnique());
+    }
 }

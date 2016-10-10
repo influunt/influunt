@@ -16,7 +16,7 @@ angular.module('influuntApp')
 
       var adicionaTabelaHorario, adicionaEvento, atualizaPlanos, atualizaDiagramaIntervalo, atualizaGruposSemaforicos, atualizaEventos,
       atualizaEventosNormais, atualizaPosicaoEventosDoTipo, atualizaPosicaoEventos, atualizaQuantidadeEventos, removerEventoNoCliente,
-      atualizaQuadroTabelaHoraria;
+      atualizaQuadroTabelaHoraria, atualizaErrosEventos, getErrosEvento;
 
       var qtdEventos, qtdEventosRecorrentes, qtdEventosNaoRecorrentes;
       var NORMAL = 'NORMAL';
@@ -187,8 +187,8 @@ angular.module('influuntApp')
         if(evento.hora && evento.minuto && evento.segundo && evento.posicaoPlano){
           evento.horario = evento.hora + ':' + evento.minuto + ':' + evento.segundo;
 
-          if (($scope.currentTipoEvento !== NORMAL && evento.data && evento.nome) ||
-             ($scope.currentTipoEvento === NORMAL && evento.diaDaSemana) &&
+          if ((($scope.currentTipoEvento !== NORMAL && evento.data && evento.nome) ||
+             ($scope.currentTipoEvento === NORMAL && evento.diaDaSemana)) &&
              !evento.posicao) {
             //Salva Evento
             $scope.objeto.eventos = $scope.objeto.eventos || [];
@@ -230,6 +230,7 @@ angular.module('influuntApp')
         $scope.selecionaEvento(evento);
         $scope.selecionaAnel(0);
         $('#modalDiagramaIntervalos').modal('show');
+
         return $scope.dadosDiagrama;
       };
 
@@ -337,6 +338,8 @@ angular.module('influuntApp')
           $scope.novosEventos,
           {tabelaHoraria: {idJson: $scope.currentTabelaHoraria.idJson}, tipo: $scope.currentTipoEvento}
         );
+
+        atualizaErrosEventos();
         return $scope.currentEventos;
       };
 
@@ -411,7 +414,7 @@ angular.module('influuntApp')
       };
 
       $scope.getErrosTabelaHoraria = function() {
-        if ($scope.errors && $scope.errors.versoesTabelasHorarias[$scope.currentVersaoTabelaHorariaIndex]) {
+        if ($scope.errors && Object.keys($scope.errors).length > 0 && Object.keys($scope.errors.versoesTabelasHorarias[$scope.currentVersaoTabelaHorariaIndex]).length > 0) {
           return _
           .chain($scope.errors.versoesTabelasHorarias[$scope.currentVersaoTabelaHorariaIndex].tabelaHoraria.aoMenosUmEvento)
           .map()
@@ -421,6 +424,25 @@ angular.module('influuntApp')
           return [];
         }
       };
+
+      getErrosEvento = function(evento){
+        var indexEvento = _.findIndex($scope.objeto.eventos, {idJson: evento.idJson});
+        return $scope.errors.versoesTabelasHorarias[$scope.currentVersaoTabelaHorariaIndex].tabelaHoraria.eventos[indexEvento];
+      };
+
+      atualizaErrosEventos = function() {
+        $scope.currentErrosEventos = {};
+        if ($scope.errors && Object.keys($scope.errors).length > 0 && Object.keys($scope.errors.versoesTabelasHorarias[$scope.currentVersaoTabelaHorariaIndex]).length > 0 && Object.keys($scope.errors.versoesTabelasHorarias[$scope.currentVersaoTabelaHorariaIndex].tabelaHoraria.eventos).length > 0){
+          _.each($scope.currentEventos, function(evento, index){
+            $scope.currentErrosEventos[index] = getErrosEvento(evento, index);
+          });
+        }
+        return $scope.currentErrosEventos;
+      };
+
+      $scope.$watch('errors',function(){
+        atualizaErrosEventos();
+      },true);
 
       //Métodos para colorir tabela
       $scope.getTableCell = function(v,i){

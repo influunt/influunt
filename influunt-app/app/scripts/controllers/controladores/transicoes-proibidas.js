@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresTransicoesProibidasCtrl', ['$scope', '$state', '$controller', 'assertControlador', 'removerPlanosTabelasHorarias',
-    function ($scope, $state, $controller, assertControlador, removerPlanosTabelasHorarias) {
+  .controller('ControladoresTransicoesProibidasCtrl', ['$scope', '$state', '$controller', '$timeout', 'assertControlador', 'removerPlanosTabelasHorarias',
+    function ($scope, $state, $controller, $timeout, assertControlador, removerPlanosTabelasHorarias) {
       $controller('ControladoresCtrl', {$scope: $scope});
       $controller('ConfirmacaoNadaHaPreencherCtrl', {$scope: $scope});
 
@@ -171,10 +171,29 @@ angular.module('influuntApp')
           $scope.errors.aneis[indexAnel].estagios[indexEstagioAnel].origemDeTransicoesProibidas[indexDestino];
       };
 
-      $scope.getErrosEstagios = function(index) {
-        var errosEstagios =  _.get($scope.errors, 'aneis['+ $scope.currentAnelIndex +'].estagios['+ index +']');
-        return _.get(errosEstagios, 'naoPossuiTransicaoProibidaCasoDemandaPrioritaria');
 
+
+      $scope.$watch('errors', function(erros) {
+        if (erros) {
+          $scope.getErrosEstagios();
+        }
+      }, true);
+
+      $scope.errosEstagios = [];
+      var errosEstagiosDebouncer;
+      $scope.getErrosEstagios = function() {
+        $timeout.cancel(errosEstagiosDebouncer);
+        errosEstagiosDebouncer = $timeout(function() {
+          if ($scope.errors) {
+            _.forEach($scope.currentAnel.estagios, function(estagio, indexEstagio) {
+              var erros = [];
+              erros.push(_.get($scope.errors, 'aneis['+ $scope.currentAnelIndex +'].estagios['+ indexEstagio +'].naoPossuiTransicaoProibidaCasoDemandaPrioritaria'));
+              erros.push(_.get($scope.errors, 'aneis['+ $scope.currentAnelIndex +'].estagios['+ indexEstagio +'].estagioPossuiAoMenosUmaTransicaoOrigemValida'));
+              erros.push(_.get($scope.errors, 'aneis['+ $scope.currentAnelIndex +'].estagios['+ indexEstagio +'].estagioPossuiAoMenosUmaTransicaoDestinoValida'));
+              $scope.errosEstagios[indexEstagio] = _.compact(erros);
+            });
+          }
+        }, 250);
       };
 
       $scope.selecionaAnelTransicoesProibidas = function(index) {

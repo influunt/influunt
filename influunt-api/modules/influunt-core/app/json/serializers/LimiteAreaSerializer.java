@@ -21,7 +21,7 @@ public class LimiteAreaSerializer extends JsonSerializer<LimiteArea> {
             jgen.writeStringField("id", limiteArea.getId().toString());
         }
         if (limiteArea.getIdJson() != null) {
-            jgen.writeStringField("id", limiteArea.getId().toString());
+            jgen.writeStringField("idJson", limiteArea.getIdJson().toString());
         }
         if (limiteArea.getDataCriacao() != null) {
             jgen.writeStringField("dataCriacao", InfluuntDateTimeSerializer.parse(limiteArea.getDataCriacao()));

@@ -25,7 +25,7 @@
         on-verifica-atualizacao-de-eventos="verificaAtualizacaoDeEventos"
         on-visualizar-plano="visualizarPlano"
         on-remover-evento="removerEvento"
-        erros="errors.versoesTabelasHorarias[currentVersaoTabelaHorariaIndex].tabelaHoraria.eventos[$index]"
+        erros="currentErrosEventos[$index]"
         read-only="somenteVisualizacao">
       </tr>
       <tr influunt-evento="visualizarPlano"
@@ -55,8 +55,9 @@
         <fieldset>
           <influunt-tabs class="tabpanel"
                          data-on-activate="selecionaAnel"
-                         data-aneis-ativos="aneis"
-                         data-error-check="anelTemErro">
+                         active-tab="currentAnelIndex"
+                         data-error-check="anelTemErro"
+                         data-aneis-ativos="aneis">
           </influunt-tabs>
           <div class="col-lg-12 col-sm-12 ibox white-bg no-padding">
             <div class="ibox float-e-margins">

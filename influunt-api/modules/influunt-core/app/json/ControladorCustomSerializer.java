@@ -300,7 +300,8 @@ public class ControladorCustomSerializer {
         if (controlador.getStatusControlador() != null) {
             root.put("statusControlador", controlador.getStatusControlador().toString());
         }
-        Anel anel = controlador.getAneis().stream().filter(anel1 -> anel1.isAtivo()).findFirst().orElse(null);
+        root.put("statusControladorReal", controlador.getStatusControladorReal());
+        Anel anel = controlador.getAneis().stream().filter(Anel::isAtivo).findFirst().orElse(null);
         if (anel != null) {
             root.put("planoConfigurado", anel.getVersaoPlano() != null);
         }
@@ -424,6 +425,7 @@ public class ControladorCustomSerializer {
         if (controlador.getStatusControlador() != null) {
             root.put("statusControlador", controlador.getStatusControlador().toString());
         }
+        root.put("statusControladorReal", controlador.getStatusControladorReal());
 
         if (controlador.getArea() != null && controlador.getArea().getIdJson() != null) {
             root.putObject("area").put("idJson", controlador.getArea().getIdJson());
@@ -471,6 +473,7 @@ public class ControladorCustomSerializer {
         if (controlador.getStatusControlador() != null) {
             root.put("statusControlador", controlador.getStatusControlador().toString());
         }
+        root.put("statusControladorReal", controlador.getStatusControladorReal());
 
         ArrayNode aneisJson = root.putArray("aneis");
         controlador.getAneis().stream().filter(Anel::isAtivo).forEach(anel -> {

@@ -8,8 +8,8 @@
  * Inicializa permissões do app
  */
 angular.module('influuntApp')
-  .run(['$urlRouter', 'PermissionsService', 'influuntBlockui', 'PermRoleStore', 'PermPermissionStore',
-    function ($urlRouter, PermissionsService, influuntBlockui, PermRoleStore, PermPermissionStore) {
+  .run(['$urlRouter', 'PermissionsService', 'influuntBlockui',
+    function ($urlRouter, PermissionsService, influuntBlockui) {
 
       var unblockRendering = function() {
         // Once permissions are set-up
@@ -19,46 +19,7 @@ angular.module('influuntApp')
         $urlRouter.listen();
       };
 
-      var usuarioLogado;
-      var getUsuarioLogado = function() {
-        if (!usuarioLogado) {
-          var dataUsuario = localStorage.usuario || '{}';
-          usuarioLogado = JSON.parse(dataUsuario);
-        }
-        return usuarioLogado;
-      };
-
-      var checkUsuario = function(usuario, permissionName) {
-        return _.some(usuario.permissoes, function(permissao) {
-          return permissao === permissionName;
-        });
-      };
-
-      var permissionHandler = function(permissionName) {
-        var usuario = getUsuarioLogado();
-        if (usuario.root || permissionName === 'PUT /api/v1/usuarios/$id<[^/]+>') {
-          return true;
-        } else {
-          return checkUsuario(usuario, permissionName);
-        }
-      };
-
-      var loadAllPermissions = function() {
-        return PermissionsService.loadPermissions()
-          .then(function(response) {
-            var allPermissions = _.map(response.permissoes, 'chave');
-            PermPermissionStore.defineManyPermissions(allPermissions, permissionHandler);
-
-            var allRoles = {};
-            _.forEach(response.permissoesApp, function(role) {
-              allRoles[role.chave] = _.map(role.permissoes, 'chave');
-            });
-            return PermRoleStore.defineManyRoles(allRoles);
-          });
-      };
-
-
-      loadAllPermissions()
+      PermissionsService.loadPermissions()
         .then(unblockRendering)
         .finally(influuntBlockui.unblock);
 

@@ -14,10 +14,7 @@ import play.mvc.Result;
 import play.routing.Router;
 import play.test.Helpers;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -37,6 +34,8 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
 
     private Optional<String> tokenSemAcesso;
 
+    private Perfil perfilComAcesso;
+
     @Before
     public void setData() {
         List<Router.RouteDocumentation> myRoutes = app.getWrappedApplication().routes().asJava().documentation();
@@ -50,7 +49,7 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
             permissoes.add(p);
         }
 
-        Perfil perfilComAcesso = new Perfil();
+        perfilComAcesso = new Perfil();
         perfilComAcesso.setNome("Deus");
         perfilComAcesso.setPermissoes(permissoes);
         perfilComAcesso.save();
@@ -92,6 +91,15 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
         postResult = route(postRequest);
         assertEquals(OK, postResult.status());
         tokenSemAcesso = postResult.header(SecurityController.AUTH_TOKEN);
+    }
+
+    private void addPermissaoVerAreas() {
+        Permissao permissaoVerAreas = new Permissao();
+        permissaoVerAreas.setChave("visualizarTodasAreas");
+        permissaoVerAreas.setDescricao("ver todas as áreas");
+        permissaoVerAreas.save();
+        perfilComAcesso.addPermissao(permissaoVerAreas);
+        perfilComAcesso.update();
     }
 
     @Test
@@ -184,7 +192,7 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
         bh.save();
 
         Area sul = new Area();
-        sul.setDescricao(2);
+        sul.setDescricao(1);
         sul.setCidade(bh);
         sul.save();
 
@@ -240,7 +248,21 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
 
         assertEquals(1, json.get("cidades").size());
         assertEquals(1, json.get("cidades").get(0).get("areas").size());
-        assertEquals(2, json.get("cidades").get(0).get("areas").get(0).get("descricao").asInt());
+        assertEquals(1, json.get("cidades").get(0).get("areas").get(0).get("descricao").asInt());
+        assertEquals(2, json.get("fabricantes").size());
+        assertNotNull(json.get("fabricantes").get(0).get("modelos"));
+
+        addPermissaoVerAreas();
+
+        request = new Http.RequestBuilder().method("GET")
+                .uri(routes.HelpersController.controladorHelper().url())
+                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+        result = route(request);
+        assertEquals(OK, result.status());
+        json = Json.parse(Helpers.contentAsString(result));
+
+        assertEquals(2, json.get("cidades").size());
+        assertEquals(2, json.get("cidades").get(0).get("areas").size());
         assertEquals(2, json.get("fabricantes").size());
         assertNotNull(json.get("fabricantes").get(0).get("modelos"));
     }
@@ -312,8 +334,196 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
         assertEquals(200, result.status());
         json = Json.parse(Helpers.contentAsString(result));
         assertEquals(1, json.get("data").size());
+
+        addPermissaoVerAreas();
+
+        request = new Http.RequestBuilder().method("GET")
+                .uri(routes.ControladoresController.findAll().url())
+                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+        result = route(request);
+        assertEquals(200, result.status());
+        json = Json.parse(Helpers.contentAsString(result));
+        assertEquals(2, json.get("data").size());
     }
 
+
+    @Test
+    public void testListarSubareasByArea() {
+        Cidade cidade = new Cidade();
+        cidade.setNome("São Paulo");
+        cidade.save();
+
+        Area area1 = new Area();
+        area1.setDescricao(1);
+        area1.setCidade(cidade);
+        area1.save();
+
+        Subarea subarea1 = new Subarea();
+        subarea1.setArea(area1);
+        subarea1.setNome("Subarea 1-1");
+        subarea1.setNumero(1);
+        subarea1.save();
+
+        Subarea subarea2 = new Subarea();
+        subarea2.setArea(area1);
+        subarea2.setNome("Subarea 1-2");
+        subarea2.setNumero(2);
+        subarea2.save();
+
+        Area area2 = new Area();
+        area2.setDescricao(2);
+        area2.setCidade(cidade);
+        area2.save();
+
+        Subarea subarea3 = new Subarea();
+        subarea3.setArea(area2);
+        subarea3.setNome("Subarea 2-1");
+        subarea3.setNumero(1);
+        subarea3.save();
+
+        usuarioComAcesso.setRoot(true);
+        usuarioComAcesso.setArea(null);
+        usuarioComAcesso.update();
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
+                .uri(routes.SubareasController.findAll().url())
+                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+        Result result = route(request);
+
+        assertEquals(OK, result.status());
+        JsonNode json = Json.parse(Helpers.contentAsString(result));
+        assertEquals(3, json.get("total").asInt());
+        assertEquals(3, json.get("data").size());
+
+        usuarioComAcesso.setRoot(false);
+        usuarioComAcesso.setArea(area1);
+        usuarioComAcesso.update();
+
+        request = new Http.RequestBuilder().method("GET")
+                .uri(routes.SubareasController.findAll().url())
+                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+        result = route(request);
+
+        assertEquals(OK, result.status());
+        json = Json.parse(Helpers.contentAsString(result));
+        assertEquals(2, json.get("total").asInt());
+        assertEquals(2, json.get("data").size());
+
+        usuarioComAcesso.setArea(area2);
+        usuarioComAcesso.update();
+
+        request = new Http.RequestBuilder().method("GET")
+                .uri(routes.SubareasController.findAll().url())
+                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+        result = route(request);
+
+        assertEquals(OK, result.status());
+        json = Json.parse(Helpers.contentAsString(result));
+        assertEquals(1, json.get("total").asInt());
+        assertEquals(1, json.get("data").size());
+    }
+
+    @Test
+    public void testListarCidadesByArea() {
+        Cidade sp = new Cidade();
+        sp.setNome("São Paulo");
+        sp.save();
+
+        Area areaSP = new Area();
+        areaSP.setDescricao(1);
+        areaSP.setCidade(sp);
+        areaSP.save();
+
+        Cidade bh = new Cidade();
+        bh.setNome("Belo Horizonte");
+        bh.save();
+
+        Area areaBH = new Area();
+        areaBH.setDescricao(2);
+        areaBH.setCidade(bh);
+        areaBH.save();
+
+        usuarioComAcesso.setRoot(true);
+        usuarioComAcesso.setArea(null);
+        usuarioComAcesso.update();
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
+                .uri(routes.CidadesController.findAll().url())
+                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+        Result result = route(request);
+
+        assertEquals(OK, result.status());
+        JsonNode json = Json.parse(Helpers.contentAsString(result));
+        assertEquals(2, json.get("total").asInt());
+        assertEquals(2, json.get("data").size());
+
+        usuarioComAcesso.setRoot(false);
+        usuarioComAcesso.setArea(areaSP);
+        usuarioComAcesso.update();
+
+        request = new Http.RequestBuilder().method("GET")
+                .uri(routes.CidadesController.findAll().url())
+                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+        result = route(request);
+
+        assertEquals(OK, result.status());
+        json = Json.parse(Helpers.contentAsString(result));
+        assertEquals(1, json.get("total").asInt());
+        assertEquals(1, json.get("data").size());
+        assertEquals(sp.getNome(), json.get("data").get(0).get("nome").asText());
+
+        usuarioComAcesso.setArea(areaBH);
+        usuarioComAcesso.update();
+
+        request = new Http.RequestBuilder().method("GET")
+                .uri(routes.CidadesController.findAll().url())
+                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+        result = route(request);
+
+        assertEquals(OK, result.status());
+        json = Json.parse(Helpers.contentAsString(result));
+        assertEquals(1, json.get("total").asInt());
+        assertEquals(1, json.get("data").size());
+        assertEquals(bh.getNome(), json.get("data").get(0).get("nome").asText());
+    }
+
+    @Test
+    public void testEditarProprioUsuario() {
+        Iterator<Permissao> it = perfilComAcesso.getPermissoes().iterator();
+        while (it.hasNext()) {
+            Permissao p = it.next();
+            if ("GET /api/v1/usuarios/$id<[^/]+>".equals(p.getChave()) || "PUT /api/v1/usuarios/$id<[^/]+>".equals(p.getChave())) {
+                it.remove();
+            }
+        }
+        perfilComAcesso.update();
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
+                .uri(routes.UsuariosController.findOne(usuarioComAcesso.getId().toString()).url())
+                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+        Result result = route(request);
+        assertEquals(200, result.status());
+
+        request = new Http.RequestBuilder().method("PUT")
+                .uri(routes.UsuariosController.update(usuarioComAcesso.getId().toString()).url())
+                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get())
+                .bodyJson(Json.toJson(usuarioComAcesso));
+        result = route(request);
+        assertEquals(200, result.status());
+
+        request = new Http.RequestBuilder().method("GET")
+                .uri(routes.UsuariosController.findOne(UUID.randomUUID().toString()).url())
+                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+        result = route(request);
+        assertEquals(403, result.status());
+
+        request = new Http.RequestBuilder().method("PUT")
+                .uri(routes.UsuariosController.update(UUID.randomUUID().toString()).url())
+                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get())
+                .bodyJson(Json.toJson(usuarioComAcesso));
+        result = route(request);
+        assertEquals(403, result.status());
+    }
 
     private void testRequestsCrudControlador(Controlador controlador, int expectedResult) {
         // findOne

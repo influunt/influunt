@@ -46,7 +46,7 @@
       </div>
     </div>
 
-    <div class="form-group" data-ng-class="{'has-error': errors.area}" permission permission-only="'PUT /api/v1/usuarios/$id<[^/]+>'">
+    <div class="form-group" data-ng-class="{'has-error': errors.area}" permission permission-only="'editarUsuarios'">
       <label class="control-label col-sm-2 control-label">{{ 'usuarios.area' | translate }}</label>
       <div class="col-sm-9">
         <select name="usuario_area" class="form-control"
@@ -56,7 +56,7 @@
       </div>
     </div>
 
-    <div class="form-group" data-ng-class="{'has-error': errors.perfil}" permission permission-only="'PUT /api/v1/usuarios/$id<[^/]+>'">
+    <div class="form-group" data-ng-class="{'has-error': errors.perfil}" permission permission-only="'editarUsuarios'">
       <label class="control-label col-sm-2 control-label">{{ 'usuarios.perfil' | translate }}</label>
       <div class="col-sm-9">
         <select name="usuario_perfil" class="form-control"

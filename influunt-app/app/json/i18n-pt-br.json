@@ -67,7 +67,8 @@
       "agrupamentos": "Agrupamentos",
       "controladores": "Controladores",
       "controladoresImpostos": "Controladores em planos impostos",
-      "controladoresFalhas": "Apenas controladores com falhas",
+      "controladoresFalhas": "Controladores com falhas",
+      "controladoresSobControleManual": "Controladores sob controle manual",
       "filtros": "Filtros",
       "filtrar": "Filtrar",
       "tabelasHorarias": "Tabelas horárias",
@@ -601,6 +602,9 @@
       "maiorQue": "Maior que",
       "menorOuIgualQue": "Menor ou igual que",
       "menorQue": "Menor que"
+    },
+    "influuntDropzone": {
+      "errorMessage": "Não foi possível adicionar este arquivo. Exclua-o e tente novamente."
     }
   },
   "agrupamentos": {
@@ -672,5 +676,17 @@
     "tempoAusenciaDeteccao": "Tempo de Ausência de Detecção",
     "tempoDeteccaoPermanente": "Tempo de Detecção Permanente",
     "veicular": "Veicular"
+  },
+  "EM_CONFIGURACAO": "Em Configuração",
+  "CONFIGURADO": "Configurado",
+  "ATIVO": "Ativo",
+  "EM_EDICAO": "Em Edição",
+  "relatorios": {
+    "auditorias": "Auditorias",
+    "gerar": "Gerar",
+    "inicio": "Início",
+    "fim": "Fim",
+    "titulo": "Relatórios",
+    "tipo": "Tipo Relatório"
   }
 }
