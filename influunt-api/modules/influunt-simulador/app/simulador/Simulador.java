@@ -6,10 +6,12 @@ import engine.MotorCallback;
 import models.*;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
+import simulador.akka.SimuladorActor;
 import simulador.eventos.AlteracaoEstadoLog;
 import simulador.eventos.EventoLog;
 import simulador.eventos.LogSimulacao;
 import simulador.eventos.TipoEventoLog;
+import simulador.parametros.ParametroSimulacao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,10 +40,21 @@ public abstract class Simulador implements MotorCallback {
 
     private int tempoSimulacao = 0;
 
-    public Simulador(DateTime inicioSimulado,Controlador controlador) {
+    private final ParametroSimulacao parametros;
+
+    private DateTime ponteiro;
+
+    public Simulador(DateTime inicioSimulado,Controlador controlador, ParametroSimulacao parametros) {
         this.controlador = controlador;
         this.dataInicioControlador = inicioSimulado;
         motor = new Motor(controlador, this, inicioSimulado);
+        this.parametros = parametros;
+        this.parametros.getDetectores().stream().forEach(param -> addEvento(param.toEvento()));
+        this.parametros.getImposicoes().stream().forEach(param -> addEvento(param.toEvento()));
+        this.parametros.getFalhas().stream().forEach(param -> addEvento(param.toEvento()));
+        this.ponteiro = parametros.getInicioSimulacao();
+
+
     }
 
     public void setControlador(Controlador controlador) {
@@ -93,6 +106,13 @@ public abstract class Simulador implements MotorCallback {
             eventos.get(inicio).stream().forEach(eventoMotor -> motor.onEvento(eventoMotor));
         }
     }
+
+    public void avancar(int segundos){
+        DateTime fim = ponteiro.plusSeconds(segundos);
+        simular(ponteiro,fim);
+        ponteiro = fim;
+    }
+
 
 
     public int getTempoSimulacao() {

@@ -18,10 +18,12 @@
 //import org.joda.time.format.DateTimeFormat;
 //import org.joda.time.format.DateTimeFormatter;
 //import org.junit.Assert;
-//import simulacao.AlteracaoEstadoLog;
-//import simulacao.EventoLog;
-//import simulacao.Simulador;
-//import simulacao.TipoEventoLog;
+//import simulacao.SimuladorTest;
+//import simulador.Simulador;
+//import simulador.eventos.AlteracaoEstadoLog;
+//import simulador.eventos.EventoLog;
+//import simulador.eventos.TipoEventoLog;
+//
 //
 //import java.io.IOException;
 //import java.util.ArrayList;
@@ -59,7 +61,6 @@
 //        provideApp = getApplication(appOptions);
 //        controladores = new HashMap<>();
 //        controlador = null;
-//        simulador = new Simulador();
 //    }
 //
 //    @Dado("^que exista o controlador \"([^\"]*)\"$")
