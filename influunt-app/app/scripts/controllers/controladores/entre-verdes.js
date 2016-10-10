@@ -305,7 +305,9 @@ angular.module('influuntApp')
               return ids.indexOf(tevt.idJson) >= 0;
             }).map(function(tevt) {
               var tempoAmarelo = tevt.tempoVermelhoIntermitente ? tevt.tempoVermelhoIntermitente : tevt.tempoAmarelo;
-              return parseInt(tempoAmarelo) !== 3 || parseInt(tevt.tempoVermelhoLimpeza) !== 0;
+              var tempoAmareloMin = grupo.tipo === 'PEDESTRE' ? $scope.objeto.vermelhoIntermitenteMin : $scope.objeto.amareloMin;
+              var tempoVermelhoLimpezaMin = grupo.tipo === 'PEDESTRE' ? parseInt($scope.objeto.vermelhoLimpezaPedestreMin) : parseInt($scope.objeto.vermelhoLimpezaVeicularMin);
+              return parseInt(tempoAmarelo) !== parseInt(tempoAmareloMin) || parseInt(tevt.tempoVermelhoLimpeza) !== parseInt(tempoVermelhoLimpezaMin);
             }).value();
             return resultados.some(function(e) { return e; });
           }).value();
