@@ -10,6 +10,10 @@ var ResumoControladorPage = function () {
   this.isResumoControlador = function() {
     return world.waitForByXpath('//influunt-revisao[contains(@data-ng-controller, "ControladoresRevisaoCtrl")]');
   };
+
+  this.informacaoDadoBasico = function (campo, texto) {
+    return world.checkText(campo, texto);
+  };
 };
 
 module.exports = ResumoControladorPage;
