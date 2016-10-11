@@ -2,7 +2,6 @@ package simulacao;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import config.WithInfluuntApplicationNoAuthentication;
-import controllers.simulacao.SimuladorController;
 import integracao.ControladorHelper;
 import models.Controlador;
 import org.joda.time.DateTime;
@@ -11,7 +10,7 @@ import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
-import simulador.parametros.ParametroSimulacao;
+import models.simulador.parametros.ParametroSimulacao;
 
 import static play.test.Helpers.route;
 

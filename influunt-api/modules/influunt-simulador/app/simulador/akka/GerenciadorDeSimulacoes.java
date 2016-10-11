@@ -5,10 +5,7 @@ import akka.actor.ActorSystem;
 import akka.actor.Props;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import play.Configuration;
-import play.api.Play;
-import simulador.SimulacaoConfig;
-import simulador.parametros.ParametroSimulacao;
+import models.simulador.parametros.ParametroSimulacao;
 
 import java.util.ArrayList;
 import java.util.List;

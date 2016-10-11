@@ -1,4 +1,4 @@
-package simulador.parametros;
+package models.simulador.parametros;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -7,7 +7,7 @@ import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import models.Controlador;
 import org.joda.time.DateTime;
-import simulador.SimulacaoConfig;
+import models.simulador.SimulacaoConfig;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -33,12 +33,10 @@ public class ParametroSimulacao {
     @NotNull(message = "não pode ficar em branco")
     private DateTime inicioControlador;
 
-    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @NotNull(message = "não pode ficar em branco")
     private DateTime inicioSimulacao;
 
-    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @NotNull(message = "não pode ficar em branco")
     private DateTime fimSimulacao;

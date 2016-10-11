@@ -1,4 +1,4 @@
-package simulador.parametros;
+package models.simulador.parametros;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;

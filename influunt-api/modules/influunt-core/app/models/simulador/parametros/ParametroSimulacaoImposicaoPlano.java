@@ -1,4 +1,4 @@
-package simulador.parametros;
+package models.simulador.parametros;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -6,7 +6,6 @@ import engine.EventoMotor;
 import engine.TipoEvento;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
-import models.TipoDetector;
 import org.joda.time.DateTime;
 
 /**

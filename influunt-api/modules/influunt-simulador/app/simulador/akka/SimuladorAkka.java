@@ -7,7 +7,7 @@ import org.joda.time.DateTime;
 import simulador.eventos.AgendamentoTrocaDePlanoLog;
 import simulador.eventos.AlteracaoEventoLog;
 import simulador.Simulador;
-import simulador.parametros.ParametroSimulacao;
+import models.simulador.parametros.ParametroSimulacao;
 
 import java.util.List;
 
