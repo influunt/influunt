@@ -43,7 +43,7 @@ public class ControladoresReportService extends ReportService<Controlador> {
      * @return {@link InputStream} do pdf
      */
     private InputStream generatePDFReport() {
-        return baseJasperReport.generateReport("controladoresStatusNew", getBasicReportMetadata(), getControladoresPorStatus());
+        return baseJasperReport.generateReport("controladoresStatus", getBasicReportMetadata(), getControladoresPorStatus());
     }
 
     /**
