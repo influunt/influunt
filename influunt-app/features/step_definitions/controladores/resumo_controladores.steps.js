@@ -13,7 +13,7 @@ module.exports = function() {
     return resumoControladorPage.informacaoDadoBasico();
   });
 
-  this.Given(/^o sistema deverá mostrar as informações íniciais do anel 1$/, function () {
+  this.Given(/^o sistema deverá mostrar as informações iniciais do anel 1$/, function () {
     var informacoes = {
       'Logradouro': 'Av. Paulista com R. Bela Cintra',
       'CLA': '1.000.0001.1',
@@ -26,7 +26,7 @@ module.exports = function() {
     return resumoControladorPage.informacaoBasicaAnel(informacoes);
   });
 
-  this.Given(/^o sistema deverá mostrar as informações íniciais do anel 2$/, function () {
+  this.Given(/^o sistema deverá mostrar as informações iniciais do anel 2$/, function () {
      var informacoes = {
       'Logradouro': 'Av. Amazonas com Av. Contorno',
       'CLA': '1.000.0001.2',
@@ -39,7 +39,7 @@ module.exports = function() {
     return resumoControladorPage.informacaoBasicaAnel(informacoes);
   });
 
-  this.Given(/^o sistema deverá mostrar as informações dos grupos semáforicos$/, function () {
+  this.Given(/^o sistema deverá mostrar as informações dos grupos semafóricos$/, function () {
      var informacoes = {
       'Titulo1': 'Grupo 1',
       'Titulo2': 'Grupo 2',
