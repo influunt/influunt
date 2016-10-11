@@ -23,7 +23,6 @@ module.exports = function() {
       'gdp': '2',
       'gdv': '2'
     };
-
     return resumoControladorPage.informacaoBasicaAnel(informacoes);
   });
 
@@ -68,11 +67,100 @@ module.exports = function() {
 
   this.Given(/^o sistema deverá mostrar as informações para Verdes Conflitantes$/, function () {
      var informacoes = {
-      'g1-g2': 'G1-G2',
-      'g2-g3': 'G2-G3'
+      'g1g2': 'G1-G2',
+      'g2g3': 'G2-G3'
     };
     return resumoControladorPage.informacaoVerdesConflitantes(informacoes);
   });
 
+  this.Given(/^o sistema deverá mostrar as informações para Transições Proibidas$/, function () {
+     var informacoes = {
+      'TituloTp': 'Transição Proibida',
+      'TituloAlternativa': 'Alternativa',
+      'Tp1': 'E3-E4',
+      'Tp2': 'E4-E3',
+      'Alternativa1': 'E3',
+      'Alternativa2': 'E1',
+    };
+    return resumoControladorPage.informacaoTransicoesProibidas(informacoes);
+  });
 
+  this.Given(/^o sistema deverá mostrar as informações para Detectores$/, function () {
+     var informacoes = {
+      'Dp1': 'DP1',
+      'Dp2': 'DP1',
+      'Dv1': 'DV1',
+      'Dv2': 'DV2',
+      'E3': 'E3',
+      'E4': 'E4',
+      'E1': 'E1',
+      'E2': 'E2',
+      'temMonitoramento': 'com-monitoramento'
+    };
+    return resumoControladorPage.informacaoDetectores(informacoes);
+  });
+
+  this.Given(/^o sistema deverá mostrar as informações para Tabela Entreverdes do grupo G1$/, function () {
+    var informacoes = {'Padrao1': 'E1-E3', 'Padrao2': 'E1-E2','Padrao3': 'E1-E4'};
+    return resumoControladorPage.informacaoTabelaEntreverdesEAtrasoGrupo(informacoes);
+  });
+
+  this.Given(/^o sistema deverá mostrar as informações para Tabela Entreverdes do grupo G2$/, function () {
+    var informacoes = {'Padrao1': 'E2-E4', 'Padrao2': 'E2-E1','Padrao3': 'E2-E3'};
+    return resumoControladorPage.informacaoTabelaEntreverdesEAtrasoGrupo(informacoes);
+  });
+
+  this.Given(/^o sistema deverá mostrar as informações para Tabela Entreverdes do grupo G3$/, function () {
+    var informacoes = {'Padrao1': 'E4-E1', 'Padrao2': 'E3-E1','Padrao3': 'E4-E2'};
+    return resumoControladorPage.informacaoTabelaEntreverdesEAtrasoGrupo(informacoes);
+  });
+
+  this.Given(/^o sistema deverá mostrar as informações para Tabela Entreverdes do grupo G4$/, function () {
+    var informacoes = {'Padrao1': 'E1-E3'};
+    return resumoControladorPage.informacaoTabelaEntreverdesEAtrasoGrupo(informacoes);
+  });
+
+  this.Given(/^o sistema deverá mostrar as informações para Tabela Entreverdes do grupo G5$/, function () {
+    var informacoes = {'Padrao1': 'E2-E1'};
+    return resumoControladorPage.informacaoTabelaEntreverdesEAtrasoGrupo(informacoes);
+  });
+
+  this.Given(/^que o usuário mudar o grupo semafórico em Tabela Entreverdes clicando no grupo "([^"]*)"$/, function (grupo) {
+    var pathTabelaVerdes = "'views/directives/influunt-revisao/_tabelas-entre-verdes.html'";
+    return resumoControladorPage.selecionarGrupoSemaforico(grupo, pathTabelaVerdes);
+  });
+
+  this.Given(/^o sistema deverá mostrar as informações para Atraso de grupo do grupo G1$/, function () {
+    var informacoes = {'Padrao1': 'E1-E4', 'Padrao2': 'E1-E2','Padrao3': 'E1-E3'};
+    return resumoControladorPage.informacaoTabelaEntreverdesEAtrasoGrupo(informacoes);
+  });
+
+  this.Given(/^que o usuário mudar o grupo semafórico em Atraso de Grupo clicando no grupo "([^"]*)"$/, function (grupo) {
+    var pathAtrasoGrupo = "'views/directives/influunt-revisao/_atraso-grupos.html'";
+    return resumoControladorPage.selecionarGrupoSemaforico(grupo, pathAtrasoGrupo);
+  });
+
+  this.Given(/^o sistema deverá mostrar as informações para Atraso de grupo do grupo G2$/, function () {
+    var informacoes = {'Padrao1': 'E2-E4', 'Padrao2': 'E2-E3','Padrao3': 'E2-E1'};
+    return resumoControladorPage.informacaoTabelaEntreverdesEAtrasoGrupo(informacoes);
+  });
+
+  this.Given(/^o sistema deverá mostrar as informações para Atraso de grupo do grupo G3$/, function () {
+    var informacoes = {'Padrao1': 'E4-E2', 'Padrao2': 'E3-E2','Padrao3': 'E4-E1'};
+    return resumoControladorPage.informacaoTabelaEntreverdesEAtrasoGrupo(informacoes);
+  });
+
+  this.Given(/^o sistema deverá mostrar as informações para Atraso de grupo do grupo G4$/, function () {
+    var informacoes = {'Padrao1': 'E1-E2'};
+    return resumoControladorPage.informacaoTabelaEntreverdesEAtrasoGrupo(informacoes);
+  });
+
+  this.Given(/^o sistema deverá mostrar as informações para Atraso de grupo do grupo G5$/, function () {
+    var informacoes = {'Padrao1': 'E2-E1'};
+    return resumoControladorPage.informacaoTabelaEntreverdesEAtrasoGrupo(informacoes);
+  });
+
+  this.Given(/^que transições proibidas não exista dados a serem exibidos$/, function () {
+    return resumoControladorPage.naoExistemDados();
+  });
 };
