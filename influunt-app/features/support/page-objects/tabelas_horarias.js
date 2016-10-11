@@ -22,7 +22,7 @@ var TabelasHorariasPage = function () {
 
   this.selecionarValor = function(valor, select) {
     return world.waitForOverlayDisappear().then(function (){
-      return world.selectByValue(eventoAdd, selects[select], valor);
+      return world.selectByOptionAtribute(eventoAdd, selects[select], 'value', valor);
     });
   };
 

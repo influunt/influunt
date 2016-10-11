@@ -223,8 +223,8 @@ var World = function () {
     return driver.findElement(webdriver.By.text(text));
   };
 
-  this.selectByValue = function(campo, selectSelector, optionText) {
-    var selector = (''+campo+' '+selectSelector+' option[value="'+optionText+'"]');
+  this.selectByOptionAtribute = function(campo, selectSelector, optionAtribute, value) {
+    var selector = (''+campo+' '+selectSelector+' option['+optionAtribute+'="'+value+'"]');
     return driver.findElement(webdriver.By.css(selector)).click();
   };
 
