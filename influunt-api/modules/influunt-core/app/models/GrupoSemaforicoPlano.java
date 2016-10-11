@@ -167,7 +167,7 @@ public class GrupoSemaforicoPlano extends Model implements Cloneable, Serializab
     public void criarIntervalos(){
         int ordem = 1;
         GrupoSemaforico grupoSemaforico = getGrupoSemaforico();
-        List<EstagioPlano> estagiosPlanos = getPlano().ordenarEstagiosPorPosicao();
+        List<EstagioPlano> estagiosPlanos = getPlano().ordenarEstagiosPorPosicaoSemEstagioDispensavel();
         for (EstagioPlano estagioPlano : estagiosPlanos) {
             Estagio estagioAtual = estagioPlano.getEstagio();
             Estagio estagioAnterior = estagioPlano.getEstagioPlanoAnterior(estagiosPlanos).getEstagio();

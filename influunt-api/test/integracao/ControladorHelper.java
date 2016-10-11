@@ -334,20 +334,20 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         setEntreVerde(anel, 4, 3, 1, 5, 3);
 
         anel = getAnel(2);
-        setEntreVerde(anel, 6, 1, 2, 3, 5);
-        setEntreVerde(anel, 6, 1, 3, 3, 5);
-        setEntreVerde(anel, 10, 1, 2, 3, 5);
-        setEntreVerde(anel, 10, 1, 3, 3, 5);
+        setEntreVerde(anel, 6, 1, 2, 2, 5);
+        setEntreVerde(anel, 6, 1, 3, 4, 5);
+        setEntreVerde(anel, 10, 1, 2, 2, 5);
+        setEntreVerde(anel, 10, 1, 3, 4, 5);
         setEntreVerde(anel, 7, 2, 1, 3, 5);
-        setEntreVerde(anel, 7, 2, 3, 3, 5);
+        setEntreVerde(anel, 7, 2, 3, 4, 5);
         setEntreVerde(anel, 9, 2, 1, 3, 5);
-        setEntreVerde(anel, 9, 2, 3, 3, 5);
-        setEntreVerde(anel, 8, 3, 1, 3, 5);
-        setEntreVerde(anel, 8, 3, 2, 3, 5);
-        setEntreVerde(anel, 9, 3, 1, 3, 5);
-        setEntreVerde(anel, 9, 3, 2, 3, 5);
-        setEntreVerde(anel, 10, 3, 1, 3, 5);
-        setEntreVerde(anel, 10, 3, 2, 3, 5);
+        setEntreVerde(anel, 9, 2, 3, 4, 5);
+        setEntreVerde(anel, 8, 3, 1, 5, 5);
+        setEntreVerde(anel, 8, 3, 2, 5, 5);
+        setEntreVerde(anel, 9, 3, 1, 5, 5);
+        setEntreVerde(anel, 9, 3, 2, 5, 5);
+        setEntreVerde(anel, 10, 3, 1, 5, 5);
+        setEntreVerde(anel, 10, 3, 2, 5, 5);
 
         controlador.save();
     }

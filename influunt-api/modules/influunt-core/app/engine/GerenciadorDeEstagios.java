@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 import static com.google.common.collect.Range.closedOpen;
 import static engine.TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE;
+import static org.asynchttpclient.ws.WebSocketUtils.getKey;
 import static tyrex.util.Configuration.console;
 
 /**
@@ -24,7 +25,7 @@ public class GerenciadorDeEstagios  implements EventoCallback{
 
     private final DateTime inicioExecucao;
 
-    private final List<EstagioPlano> listaEstagioPlanos;
+    private List<EstagioPlano> listaEstagioPlanos;
 
     private final Plano plano;
 
@@ -56,8 +57,9 @@ public class GerenciadorDeEstagios  implements EventoCallback{
         this.intervalos = TreeRangeMap.create();
         Long inicio = 0L;
         Long tempoEstagio;
+        this.listaEstagioPlanos = listaEstagioPlanos.stream().sorted((o1, o2) -> o1.getPosicao().compareTo(o2.getPosicao())).collect(Collectors.toList());
         for (EstagioPlano estagioPlano : listaEstagioPlanos){
-            tempoEstagio = plano.getTempoEstagio(estagioPlano) * 1000L;
+            tempoEstagio = plano.getTempoEstagio(estagioPlano, listaEstagioPlanos) * 1000L;
             this.intervalos.put(closedOpen(inicio, inicio + tempoEstagio), estagioPlano);
             inicio += tempoEstagio;
         }
@@ -77,10 +79,12 @@ public class GerenciadorDeEstagios  implements EventoCallback{
         if (this.intervalos.get(contador) == null){
             contador = 0L;
             numeroCiclos += 1;
-            geraIntervalos();
             if(!estagiosProximoCiclo.isEmpty()){
-                estagiosProximoCiclo.forEach(ep -> atualizaEstagiosPraFrente(ep));
+                estagiosProximoCiclo.forEach(ep -> {
+                    listaEstagioPlanos.add(ep);
+                });
             }
+            geraIntervalos();
             estagiosProximoCiclo.clear();
         }
 
@@ -111,7 +115,18 @@ public class GerenciadorDeEstagios  implements EventoCallback{
         Estagio estagio = detector.getEstagio();
         if(estagio.isDemandaPrioritaria()){
             atualizaEstagiosComDemandaPrioritaria(estagio);
+        } else if (plano.isAtuado()) {
+            atualizaEstagiosAtuado(estagio);
         }
+    }
+
+    private void atualizaEstagiosAtuado(Estagio estagio) {
+        EstagioPlano estagioPlano = plano.getEstagiosPlanos()
+                .stream()
+                .filter(EstagioPlano::isDispensavel)
+                .filter(estagioPlano1 -> estagioPlano1.getEstagio().equals(estagio))
+                .findFirst()
+                .orElse(null);
     }
 
     private void atualizaEstagiosComDemandaPrioritaria(Estagio estagio) {
@@ -130,7 +145,7 @@ public class GerenciadorDeEstagios  implements EventoCallback{
         final long novoTerminoEstagioAtual = tempoDecorridoNoEstagio + tempoFaltanteVerde;
         final long tempoNovoEstagio = tempoEntreVerdePrioritario + tempoVerdeEstagioPrioritario;
         final long offset = tempoNovoEstagio - (tempoEstagioAtual - novoTerminoEstagioAtual);
-        this.intervalos = mergeIntervalos(offset, tempoNovoEstagio, estagioPlano, estagioPlanoProximo.getPosicao(), novoTerminoEstagioAtual);
+//        this.intervalos = mergeIntervalos(offset, tempoNovoEstagio, estagioPlano, estagioPlanoProximo.getPosicao(), novoTerminoEstagioAtual);
     }
 
     private void processaDetectorPedestre(EventoMotor eventoMotor) {
@@ -156,10 +171,14 @@ public class GerenciadorDeEstagios  implements EventoCallback{
     private void atualizaEstagiosPraFrente(EstagioPlano estagioPlano) {
         final long offset = plano.getTempoEstagio(estagioPlano) * 1000L;
         Range<Long> range = this.intervalos.getEntry(contador).getKey();
-        this.intervalos = mergeIntervalos(offset, offset, estagioPlano, estagioPlano.getPosicao(), range.upperEndpoint());
+        Map.Entry<Range<Long>, EstagioPlano> proximo = this.intervalos.getEntry(range.upperEndpoint() + 1);
+        if(proximo == null){
+            proximo = this.intervalos.getEntry(0L);
+        }
+        this.intervalos = mergeIntervalos(offset, offset, estagioPlano, estagioPlano.getPosicao(), range.upperEndpoint(), proximo.getKey().upperEndpoint());
     }
 
-    public RangeMap<Long, EstagioPlano> mergeIntervalos(final long offset, final long tempoNovoEstagio, final EstagioPlano estagioPlano, final int posicaoCorte, final long tempoFinalEstagioAtual) {
+    public RangeMap<Long, EstagioPlano> mergeIntervalos(final long offset, final long tempoNovoEstagio, final EstagioPlano estagioPlano, final int posicaoCorte, final long tempoFinalEstagioAtual, final long tempoFinalEstagioProximo) {
         Range<Long> range = this.intervalos.getEntry(contador).getKey();
         List<Map.Entry<Range<Long>, EstagioPlano>> head = intervalos.asMapOfRanges().entrySet().stream().filter(entry -> {
             return entry.getValue().getPosicao() < posicaoCorte;
