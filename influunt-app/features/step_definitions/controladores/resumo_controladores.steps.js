@@ -126,7 +126,7 @@ module.exports = function() {
   });
 
   this.Given(/^que o usuário mudar o grupo semafórico em Tabela Entreverdes clicando no grupo "([^"]*)"$/, function (grupo) {
-    var pathTabelaVerdes = "'views/directives/influunt-revisao/_tabelas-entre-verdes.html'";
+    var pathTabelaVerdes = "tabelasEntreVerdes";
     return resumoControladorPage.selecionarGrupoSemaforico(grupo, pathTabelaVerdes);
   });
 
@@ -136,7 +136,7 @@ module.exports = function() {
   });
 
   this.Given(/^que o usuário mudar o grupo semafórico em Atraso de Grupo clicando no grupo "([^"]*)"$/, function (grupo) {
-    var pathAtrasoGrupo = "'views/directives/influunt-revisao/_atraso-grupos.html'";
+    var pathAtrasoGrupo = "atrasoDeGrupo";
     return resumoControladorPage.selecionarGrupoSemaforico(grupo, pathAtrasoGrupo);
   });
 

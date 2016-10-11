@@ -165,9 +165,8 @@ var ResumoControladorPage = function () {
   };
 
   this.selecionarGrupoSemaforico = function(grupo, path){
-    var campo = 'ng-include [src="'+path+'"]';
     return world.waitForOverlayDisappear().then(function (){
-      return world.selectByOptionAtribute(campo, '[id="gsTabelasEntreVerdes"]', 'label', grupo);
+      return world.selectByOptionAtribute('div[name='+path+']', '[id="gsTabelasEntreVerdes"]', 'label', grupo);
     });
   };
 };
