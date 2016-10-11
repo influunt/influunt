@@ -41,7 +41,7 @@ public class RelatoriosController extends Controller {
         return CompletableFuture.completedFuture(ok(input).as(reportType.getContentType()));
     }
 
-    public CompletionStage<Result> gerarRelatorioControladoersStatus() {
+    public CompletionStage<Result> gerarRelatorioControladoresStatus() {
         ReportType reportType = ReportType.valueOf(request().getQueryString("tipoRelatorio").toString());
 
         Map<String, String[]> params = new HashMap<>();
