@@ -35,7 +35,9 @@ var TabelasHorariasPage = function () {
   };
 
   this.removerEvento = function(){
-    return world.getElement(''+eventAdded+' i.fa-trash').click();
+    return world.waitForOverlayDisappear().then(function (){
+      return world.getElement(''+eventAdded+' i.fa-trash').click();
+    });
   };
 
   this.eventosRemovidos = function(){
