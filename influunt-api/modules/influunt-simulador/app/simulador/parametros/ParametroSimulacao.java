@@ -17,6 +17,7 @@ import java.util.UUID;
  * Created by rodrigosol on 10/4/16.
  */
 public class ParametroSimulacao {
+
     private UUID id;
 
     @JsonIgnore
@@ -36,7 +37,6 @@ public class ParametroSimulacao {
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     private DateTime fimSimulacao;
 
-
     private List<ParametroSimulacaoDetector> detectores = new ArrayList<>();
 
     private List<ParametroSimulacaoImposicaoPlano> imposicoes = new ArrayList<>();
@@ -44,6 +44,8 @@ public class ParametroSimulacao {
     private List<ParametroFalha> falhas = new ArrayList<>();
 
     private UUID idControlador;
+
+
 
     public ParametroSimulacao() {
         this.id = UUID.randomUUID();
@@ -88,7 +90,6 @@ public class ParametroSimulacao {
     }
 
     public void setInicioSimulacao(DateTime inicioSimulacao) {
-
         this.inicioSimulacao = inicioSimulacao;
         this.inicioControlador = inicioSimulacao;
     }

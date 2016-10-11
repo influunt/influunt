@@ -11,7 +11,6 @@ import models.TipoDetector;
 import org.joda.time.DateTime;
 
 
-
 /**
  * Created by rodrigosol on 10/4/16.
  */
@@ -38,10 +37,10 @@ public class ParametroSimulacaoDetector {
         this.disparo = disparo;
     }
 
-    public EventoMotor toEvento(){
-        if(detector.getTipo().equals(TipoDetector.PEDESTRE)) {
+    public EventoMotor toEvento() {
+        if (detector.getTipo().equals(TipoDetector.PEDESTRE)) {
             return new EventoMotor(disparo, TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector);
-        }else{
+        } else {
             return new EventoMotor(disparo, TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector);
         }
     }

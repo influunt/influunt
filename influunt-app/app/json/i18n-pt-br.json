@@ -26,8 +26,8 @@
     "progImposicao": "Programar imposição de planos",
     "disparoFalhas": "Disparo de falhas",
     "detectorVeicular": "Detector Veicular",
-    "detector": "Parâmetros",
-    "tipo": "Parâmetros",
+    "detector": "Detector",
+    "tipo": "Tipo",
     "plano": "Plano",
     "falhas": "Falhas",
     "problema": "Problema",
@@ -35,11 +35,14 @@
     "simular": "Simular",
     "interromper": "Interromper",
     "reiniciar": "Reiniciar",
-    "data": "Parâmetros",
+    "data": "Data",
     "log": "Log",
     "verLog": "Ver log",
     "trocaEstagio": "Troca de estágio",
-    "velocidade": "Velocidade"
+    "velocidade": "Velocidade",
+    "controlador": "Controlador",
+    "momentoDisparo": "Momento do Disparo",
+    "monitorado": "Monitorado"
   },
   "controladores": {
     "nomeEndereco": "Localização",

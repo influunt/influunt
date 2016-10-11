@@ -247,6 +247,11 @@ public class ControladoresController extends Controller {
         return CompletableFuture.completedFuture(forbidden());
     }
 
+    public CompletionStage<Result> getControladoresForSimulacao() {
+        InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Controlador.class, request().queryString()).fetch(Arrays.asList("aneis", "aneis.detectores")).query());
+        return CompletableFuture.completedFuture(ok(result.toJson("simulação")));
+    }
+
     @Transactional
     @Dynamic(value = "ControladorAreaAuth(path)")
     public CompletionStage<Result> delete(String id) {

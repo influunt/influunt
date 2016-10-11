@@ -292,6 +292,14 @@ public class InfluuntQueryBuilder {
             case SearchFieldDefinition.GTE:
                 expr = Expr.ge(key, value);
                 break;
+            case SearchFieldDefinition.IN:
+                String valueStr = (String) value;
+                String[] values = valueStr.substring(1, valueStr.length() - 1).split(",");
+                expr = Expr.in(key, values);
+                break;
+            case SearchFieldDefinition.EQ:
+                expr = Expr.eq(key, value);
+                break;
             default:
                 expr = Expr.ieq(key, value.toString());
                 break;

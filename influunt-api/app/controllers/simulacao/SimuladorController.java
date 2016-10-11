@@ -29,7 +29,6 @@ import java.util.concurrent.CompletionStage;
 /**
  * Created by lesiopinheiro on 9/26/16.
  */
-@DeferredDeadbolt
 @Security.Authenticated(Secured.class)
 @Dynamic("Influunt")
 public class SimuladorController extends Controller {
@@ -39,18 +38,16 @@ public class SimuladorController extends Controller {
 
 
     public CompletionStage<Result> simular(String id) {
-
         JsonNode json = request().body().asJson();
-
         if (json == null) {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
-        } else {
-            ParametroSimulacao params = Json.fromJson(json, ParametroSimulacao.class);
-            params.setControlador(Controlador.find.byId(params.getIdControlador()));
-            simulacoes.iniciarSimulacao(params);
-
-            return CompletableFuture.completedFuture(ok(Json.toJson(params.getSimulacaoConfig())));
         }
+
+        ParametroSimulacao params = Json.fromJson(json, ParametroSimulacao.class);
+        params.setControlador(Controlador.find.byId(params.getIdControlador()));
+        simulacoes.iniciarSimulacao(params);
+
+        return CompletableFuture.completedFuture(ok(Json.toJson(params.getSimulacaoConfig())));
     }
 
 }
