@@ -40,6 +40,10 @@ module.exports = function() {
     return sharedSteps.realizarScrollUp();
   });
 
+  this.Given(/^o usuário realizar um scroll down$/, function() {
+    return sharedSteps.realizarScrollDown();
+  });
+
   this.Given(/^que o usuário selecione o anel (\d+)$/, function (numeroAnel) {
     return sharedSteps.trocarAnel(numeroAnel);
   });
