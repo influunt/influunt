@@ -9,6 +9,7 @@ import models.Controlador;
 import org.joda.time.DateTime;
 import simulador.SimulacaoConfig;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -21,20 +22,25 @@ public class ParametroSimulacao {
     private UUID id;
 
     @JsonIgnore
+    @NotNull(message = "não pode ficar em branco")
     private Controlador controlador;
 
-    private int velocidade;
+    @NotNull(message = "não pode ficar em branco")
+    private Integer velocidade;
 
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
+    @NotNull(message = "não pode ficar em branco")
     private DateTime inicioControlador;
 
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
+    @NotNull(message = "não pode ficar em branco")
     private DateTime inicioSimulacao;
 
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
+    @NotNull(message = "não pode ficar em branco")
     private DateTime fimSimulacao;
 
     private List<ParametroSimulacaoDetector> detectores = new ArrayList<>();
@@ -64,12 +70,11 @@ public class ParametroSimulacao {
     }
 
     public void setControlador(Controlador controlador) {
-
         this.controlador = controlador;
         this.idControlador = controlador.getId();
     }
 
-    public int getVelocidade() {
+    public Integer getVelocidade() {
         return velocidade;
     }
 
@@ -132,6 +137,7 @@ public class ParametroSimulacao {
 
     public void setIdControlador(UUID idControlador) {
         this.idControlador = idControlador;
+        this.controlador = Controlador.find.byId(idControlador);
     }
 
     public SimulacaoConfig getSimulacaoConfig() {

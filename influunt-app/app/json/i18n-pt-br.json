@@ -18,8 +18,8 @@
     "titulo": "Simulação",
     "parametros": "Parâmetros",
     "simulacaoCompleta": "Simulação Completa",
-    "inicioControl": "Início Controlador",
-    "inicioSimulacao": "Início Simulação",
+    "inicioControl": "Início Operação Controlador",
+    "inicioSimulacao": "Início da Simulação",
     "fimSimulacao": "Fim da Simulação",
     "horario": "Horário",
     "progDisparo": "Programar disparo de detectores",
@@ -42,7 +42,18 @@
     "velocidade": "Velocidade",
     "controlador": "Controlador",
     "momentoDisparo": "Momento do Disparo",
-    "monitorado": "Monitorado"
+    "momentoImposicao": "Momento da Imposicao",
+    "monitorado": "Monitorado",
+    "descricao": "Descrição",
+    "modoOperacao": "Modo de Operação",
+    "detectorAlert": {
+      "title": "Remover disparo de detector?",
+      "text": "Deseja remover este disparo de detector da simulação?"
+    },
+    "planoAlert": {
+      "title": "Remover imposição de plano?",
+      "text": "Deseja remover esta imposição de plano da simulação?"
+    }
   },
   "controladores": {
     "nomeEndereco": "Localização",
@@ -396,10 +407,16 @@
     "modoManual": "Manual",
     "modosOperacao": {
       "atuado": "Atuado",
+      "ATUADO": "Atuado",
       "tempoFixoCoordenado": "Coordenado",
+      "TEMPO_FIXO_COORDENADO": "Coordenado",
       "tempoFixoIsolado": "Isolado",
+      "TEMPO_FIXO_ISOLADO": "Isolado",
       "intermitente": "Intermitente",
-      "apagado": "Apagado"
+      "INTERMITENTE": "Intermitente",
+      "apagado": "Apagado",
+      "APAGADO": "Apagado",
+      "MANUAL": "Manual"
     },
     "estagioSequencia": "Estágio da Sequência"
   },

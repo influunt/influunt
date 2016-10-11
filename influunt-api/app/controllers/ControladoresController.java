@@ -16,6 +16,7 @@ import play.mvc.Security;
 import security.Secured;
 import services.ControladorService;
 import utils.InfluuntQueryBuilder;
+import utils.InfluuntQueryResult;
 import utils.InfluuntResultBuilder;
 
 import java.util.*;
@@ -248,7 +249,8 @@ public class ControladoresController extends Controller {
     }
 
     public CompletionStage<Result> getControladoresForSimulacao() {
-        InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Controlador.class, request().queryString()).fetch(Arrays.asList("aneis", "aneis.detectores")).query());
+        InfluuntQueryBuilder queryBuilder = new InfluuntQueryBuilder(Controlador.class, request().queryString()).fetch(Arrays.asList("aneis", "aneis.detectores", "aneis.versoesPlanos", "aneis.versoesPlanos.planos"));
+        InfluuntResultBuilder result = new InfluuntResultBuilder(queryBuilder.query());
         return CompletableFuture.completedFuture(ok(result.toJson("simulação")));
     }
 

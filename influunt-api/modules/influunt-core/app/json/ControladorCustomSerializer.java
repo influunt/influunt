@@ -521,6 +521,15 @@ public class ControladorCustomSerializer {
                 detectorJson.put("posicao", detector.getPosicao());
                 detectorJson.put("monitorado", detector.isMonitorado());
             });
+
+            ArrayNode planosJson = anelJson.putArray("planos");
+            anel.getPlanos().forEach(plano -> {
+                ObjectNode planoJson = planosJson.addObject();
+                planoJson.put("id", plano.getId().toString());
+                planoJson.put("posicao", plano.getPosicao());
+                planoJson.put("descricao", plano.getDescricao());
+                planoJson.put("modoOperacao", plano.getModoOperacao().toString());
+            });
         });
     }
 

@@ -10,10 +10,10 @@
 
 angular.module('influuntApp')
 
-.controller('SimulacaoCtrl', ['$scope', '$controller', 'Restangular', 'influuntBlockui', 'HorariosService', 'influuntAlert',
-function ($scope, $controller, Restangular, influuntBlockui, HorariosService, influuntAlert) {
+.controller('SimulacaoCtrl', ['$scope', '$controller', 'Restangular', 'influuntBlockui', 'HorariosService', 'influuntAlert', '$filter', 'handleValidations',
+function ($scope, $controller, Restangular, influuntBlockui, HorariosService, influuntAlert, $filter, handleValidations) {
 
-  var loadControladores, atualizaDetectores;
+  var loadControladores, atualizaDetectores, atualizaPlanos;
 
   $scope.init = function() {
     loadControladores();
@@ -27,7 +27,7 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
       { value: 8 }
     ];
 
-    $scope.parametrosSimulacao = { disparoDetectores: [{}] };
+    $scope.parametrosSimulacao = { disparoDetectores: [{}], imposicaoPlanos: [{}] };
   };
 
   loadControladores = function() {
@@ -42,14 +42,18 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
               _.forEach(anel.detectores, function(detector) {
                 detector.nome = 'Anel ' + anel.posicao + ' - D' + detector.tipo[0] + detector.posicao;
               });
+              _.forEach(anel.planos, function(plano) {
+                plano.nome = 'Plano ' + plano.posicao;
+              });
             });
           });
+
+          console.log('controladores: ', $scope.controladores)
         }
       }).finally(influuntBlockui.unblock);
   };
 
-  atualizaDetectores = function(controladorId) {
-    var controlador = _.find($scope.controladores, { id: controladorId });
+  atualizaDetectores = function(controlador) {
     $scope.detectores = _
       .chain(controlador.aneis)
       .map('detectores')
@@ -57,9 +61,21 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
       .value();
   };
 
+  atualizaPlanos = function(controlador) {
+    $scope.planos = _
+      .chain(controlador.aneis)
+      .map('planos')
+      .flatten()
+      .uniqBy('posicao')
+      .orderBy('posicao')
+      .value();
+  };
+
   $scope.$watch('parametrosSimulacao.idControlador', function(controladorId) {
     if (controladorId) {
-      atualizaDetectores(controladorId);
+      var controlador = _.find($scope.controladores, { id: controladorId });
+      atualizaDetectores(controlador);
+      atualizaPlanos(controlador);
     }
   });
 
@@ -67,17 +83,25 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
     if (parametro) {
       var length = $scope.parametrosSimulacao.disparoDetectores.length;
       var disparo = $scope.parametrosSimulacao.disparoDetectores[length - 1];
-      if (disparo.detector && disparo.momentoDisparo) {
+      if (disparo.detector && disparo.disparo) {
         $scope.parametrosSimulacao.disparoDetectores.push({});
-      // } else if (length > 1) {
-      //   $scope.parametrosSimulacao.disparoDetectores.splice(length - 1, 1);
+      }
+    }
+  }, true);
+
+  $scope.$watch('parametrosSimulacao.imposicaoPlanos', function(parametro) {
+    if (parametro) {
+      var length = $scope.parametrosSimulacao.imposicaoPlanos.length;
+      var imposicao = $scope.parametrosSimulacao.imposicaoPlanos[length - 1];
+      if (imposicao.plano && imposicao.disparo) {
+        $scope.parametrosSimulacao.imposicaoPlanos.push({});
       }
     }
   }, true);
 
   $scope.removerDisparoDetector = function(index) {
-    var title = 'Remover disparo de detector?',
-        text = 'Deseja remover este disparo de detector da simulação?';
+    var title = $filter('translate')('simulacao.detectorAlert.title'),
+        text = $filter('translate')('simulacao.detectorAlert.text');
     return influuntAlert.confirm(title, text)
       .then(function(confirmado) {
         if (confirmado) {
@@ -88,6 +112,36 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
           }
         }
       });
+  };
+
+  $scope.removerImposicaoPlano = function(index) {
+    var title = $filter('translate')('simulacao.planoAlert.title'),
+        text = $filter('translate')('simulacao.planoAlert.text');
+    return influuntAlert.confirm(title, text)
+      .then(function(confirmado) {
+        if (confirmado) {
+          if ($scope.parametrosSimulacao.imposicaoPlanos.length > 1) {
+            $scope.parametrosSimulacao.imposicaoPlanos.splice(index, 1);
+          } else {
+            $scope.parametrosSimulacao.imposicaoPlanos = [{}];
+          }
+        }
+      });
+  };
+
+  $scope.submitForm = function() {
+    return Restangular.all('simulacao').post($scope.parametrosSimulacao)
+      .then(function(response) {
+        $scope.errors = {};
+      })
+      .catch(function(response) {
+        if (response.status === 422) {
+          $scope.errors = handleValidations.buildValidationMessages(response.data);
+        } else {
+          console.error(response);
+        }
+      })
+      .finally(influuntBlockui.unblock);
   };
 
 
