@@ -5,7 +5,7 @@ var influunt;
     var Simulador = (function () {
       function Simulador(inicioSimulacao,fimSimulacao,velocidade,config) {
 
-        var velocidade = velocidade;
+        var velocidade = parseFloat(velocidade);
         var config = config;
         var inicioSimulacao = inicioSimulacao;
         var fimSimulacao = fimSimulacao;

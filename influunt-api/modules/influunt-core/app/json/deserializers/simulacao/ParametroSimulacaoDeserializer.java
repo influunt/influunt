@@ -1,4 +1,4 @@
-package json.deserializers;
+package json.deserializers.simulacao;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.ISODateTimeFormat;
 import play.libs.Json;
 import models.simulador.parametros.ParametroSimulacao;
 import models.simulador.parametros.ParametroSimulacaoDetector;
@@ -34,19 +35,19 @@ public class ParametroSimulacaoDeserializer extends JsonDeserializer<ParametroSi
         }
 
         if (node.has("velocidade")) {
-            params.setVelocidade(node.get("velocidade").asInt());
+            params.setVelocidade(node.get("velocidade").asDouble());
         }
 
         if (node.has("inicioControlador")) {
-            params.setInicioControlador(DateTime.parse(node.get("inicioControlador").asText(), DateTimeFormat.forPattern("dd/MM/yyyy HH:ss")));
+            params.setInicioControlador(DateTime.parse(node.get("inicioControlador").asText(), ISODateTimeFormat.dateTimeParser()));
         }
 
         if (node.has("inicioSimulacao")) {
-            params.setInicioSimulacao(DateTime.parse(node.get("inicioSimulacao").asText(), DateTimeFormat.forPattern("dd/MM/yyyy HH:ss")));
+            params.setInicioSimulacao(DateTime.parse(node.get("inicioSimulacao").asText(), ISODateTimeFormat.dateTimeParser()));
         }
 
         if (node.has("fimSimulacao")) {
-            params.setInicioSimulacao(DateTime.parse(node.get("fimSimulacao").asText(), DateTimeFormat.forPattern("dd/MM/yyyy HH:ss")));
+            params.setFimSimulacao(DateTime.parse(node.get("fimSimulacao").asText(), ISODateTimeFormat.dateTimeParser()));
         }
 
         if (node.has("disparoDetectores")) {
@@ -68,3 +69,5 @@ public class ParametroSimulacaoDeserializer extends JsonDeserializer<ParametroSi
         return params;
     }
 }
+
+

@@ -3,7 +3,7 @@ package models.simulador.parametros;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import json.deserializers.InfluuntDateTimeDeserializer;
+import json.deserializers.simulacao.ParametroSimulacaoDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import models.Controlador;
 import org.joda.time.DateTime;
@@ -17,6 +17,7 @@ import java.util.UUID;
 /**
  * Created by rodrigosol on 10/4/16.
  */
+@JsonDeserialize(using = ParametroSimulacaoDeserializer.class)
 public class ParametroSimulacao {
 
     private UUID id;
@@ -26,9 +27,8 @@ public class ParametroSimulacao {
     private Controlador controlador;
 
     @NotNull(message = "não pode ficar em branco")
-    private Integer velocidade;
+    private Double velocidade;
 
-    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @NotNull(message = "não pode ficar em branco")
     private DateTime inicioControlador;
@@ -72,11 +72,11 @@ public class ParametroSimulacao {
         this.idControlador = controlador.getId();
     }
 
-    public Integer getVelocidade() {
+    public Double getVelocidade() {
         return velocidade;
     }
 
-    public void setVelocidade(int velocidade) {
+    public void setVelocidade(Double velocidade) {
         this.velocidade = velocidade;
     }
 

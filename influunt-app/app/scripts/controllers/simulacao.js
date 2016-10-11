@@ -13,7 +13,7 @@ angular.module('influuntApp')
 .controller('SimulacaoCtrl', ['$scope', '$controller', 'Restangular', 'influuntBlockui', 'HorariosService', 'influuntAlert', '$filter', 'handleValidations',
 function ($scope, $controller, Restangular, influuntBlockui, HorariosService, influuntAlert, $filter, handleValidations) {
 
-  var loadControladores, atualizaDetectores, atualizaPlanos;
+  var loadControladores, atualizaDetectores, atualizaPlanos, iniciarSimulacao;
 
   $scope.init = function() {
     loadControladores();
@@ -47,8 +47,6 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
               });
             });
           });
-
-          console.log('controladores: ', $scope.controladores)
         }
       }).finally(influuntBlockui.unblock);
   };
@@ -83,7 +81,7 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
     if (parametro) {
       var length = $scope.parametrosSimulacao.disparoDetectores.length;
       var disparo = $scope.parametrosSimulacao.disparoDetectores[length - 1];
-      if (disparo.detector && disparo.disparo) {
+      if (disparo && disparo.detector && disparo.disparo) {
         $scope.parametrosSimulacao.disparoDetectores.push({});
       }
     }
@@ -93,7 +91,7 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
     if (parametro) {
       var length = $scope.parametrosSimulacao.imposicaoPlanos.length;
       var imposicao = $scope.parametrosSimulacao.imposicaoPlanos[length - 1];
-      if (imposicao.plano && imposicao.disparo) {
+      if (imposicao && imposicao.plano && imposicao.disparo) {
         $scope.parametrosSimulacao.imposicaoPlanos.push({});
       }
     }
@@ -130,13 +128,23 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
   };
 
   $scope.submitForm = function() {
+    $scope.parametrosSimulacao.disparoDetectores = _.filter($scope.parametrosSimulacao.disparoDetectores, 'detector');
+    $scope.parametrosSimulacao.imposicaoPlanos = _.filter($scope.parametrosSimulacao.imposicaoPlanos, 'plano');
+
     return Restangular.all('simulacao').post($scope.parametrosSimulacao)
       .then(function(response) {
         $scope.errors = {};
+        iniciarSimulacao($scope.parametrosSimulacao, response);
       })
       .catch(function(response) {
         if (response.status === 422) {
           $scope.errors = handleValidations.buildValidationMessages(response.data);
+          if (_.isEmpty($scope.parametrosSimulacao.disparoDetectores)) {
+            $scope.parametrosSimulacao.disparoDetectores.push({});
+          }
+          if (_.isEmpty($scope.parametrosSimulacao.imposicaoPlanos)) {
+            $scope.parametrosSimulacao.imposicaoPlanos.push({});
+          }
         } else {
           console.error(response);
         }
@@ -144,27 +152,11 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
       .finally(influuntBlockui.unblock);
   };
 
-
-
-
-
-
-  $scope.iniciaSimulacao = function(dataInicio, dataFim, velocidade, id) {
-    var params = {
-      inicioSimulacao: dataInicio.format('DD/MM/YYYY HH:mm:ss'),
-      fimSimulacao: dataFim.format('DD/MM/YYYY HH:mm:ss'),
-      idControlador: '6a6b7ebe-f985-4eb9-abe2-672a78bd381e'
-    };
-
-    Restangular.one('simulacao',id).post(null, params)
-      .then(function(resp){
-        return new influunt.components.Simulador(dataInicio, dataFim, velocidade, resp);
-      }).finally(influuntBlockui.unblock);
+  iniciarSimulacao = function(params, config) {
+    var inicioSimulacao = moment(params.inicioSimulacao),
+        fimSimulacao = moment(params.fimSimulacao),
+        velocidade = params.velocidade;
+    return new influunt.components.Simulador(inicioSimulacao, fimSimulacao, velocidade, config);
   };
-
-  // $scope.iniciaSimulacao(moment("20/09/2016 16:59:00", "DD/MM/YYYY HH:mm:ss").utc(+3),
-  //                        moment("20/09/2016 17:05:00", "DD/MM/YYYY HH:mm:ss").utc(+3),
-  //                        1,
-  //                        "6a6b7ebe-f985-4eb9-abe2-672a78bd381e");
 
 }]);
