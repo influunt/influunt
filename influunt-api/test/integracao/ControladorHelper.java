@@ -334,20 +334,20 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         setEntreVerde(anel, 4, 3, 1, 5, 3);
 
         anel = getAnel(2);
-        setEntreVerde(anel, 6, 1, 2, 3, 5);
-        setEntreVerde(anel, 6, 1, 3, 3, 5);
-        setEntreVerde(anel, 10, 1, 2, 3, 5);
-        setEntreVerde(anel, 10, 1, 3, 3, 5);
+        setEntreVerde(anel, 6, 1, 2, 2, 5);
+        setEntreVerde(anel, 6, 1, 3, 4, 5);
+        setEntreVerde(anel, 10, 1, 2, 2, 5);
+        setEntreVerde(anel, 10, 1, 3, 4, 5);
         setEntreVerde(anel, 7, 2, 1, 3, 5);
-        setEntreVerde(anel, 7, 2, 3, 3, 5);
+        setEntreVerde(anel, 7, 2, 3, 4, 5);
         setEntreVerde(anel, 9, 2, 1, 3, 5);
-        setEntreVerde(anel, 9, 2, 3, 3, 5);
-        setEntreVerde(anel, 8, 3, 1, 3, 5);
-        setEntreVerde(anel, 8, 3, 2, 3, 5);
-        setEntreVerde(anel, 9, 3, 1, 3, 5);
-        setEntreVerde(anel, 9, 3, 2, 3, 5);
-        setEntreVerde(anel, 10, 3, 1, 3, 5);
-        setEntreVerde(anel, 10, 3, 2, 3, 5);
+        setEntreVerde(anel, 9, 2, 3, 4, 5);
+        setEntreVerde(anel, 8, 3, 1, 5, 5);
+        setEntreVerde(anel, 8, 3, 2, 5, 5);
+        setEntreVerde(anel, 9, 3, 1, 5, 5);
+        setEntreVerde(anel, 9, 3, 2, 5, 5);
+        setEntreVerde(anel, 10, 3, 1, 5, 5);
+        setEntreVerde(anel, 10, 3, 2, 5, 5);
 
         controlador.save();
     }
@@ -387,7 +387,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         versaoPlano.save();
     }
 
-    private Plano criarPlano(Anel anel, Integer posicao, ModoOperacaoPlano modoOperacaoPlano, Integer tempoCiclo) {
+    public Plano criarPlano(Anel anel, Integer posicao, ModoOperacaoPlano modoOperacaoPlano, Integer tempoCiclo) {
         Plano plano = new Plano();
         plano.setPosicao(posicao);
         plano.setDescricao("PLANO " + posicao);
@@ -413,6 +413,24 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         criaVersaoPlanos(anel);
         plano = criarPlano(anel, 1, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 56);
         criarEstagioPlano(anel, plano, new int[]{1, 3, 2}, new int[]{10, 12, 10});
+
+        //Plano com estágio 3 dispensavel no fim
+        plano = criarPlano(anel, 10, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 47);
+        criarEstagioPlano(anel, plano, new int[]{1, 2, 3}, new int[]{10, 5, 10});
+        EstagioPlano estagioPlano = plano.getEstagiosPlanos().stream().filter(e -> e.getEstagio().getPosicao().equals(3)).findFirst().get();
+        estagioPlano.setDispensavel(true);
+
+        //Plano com estágio 3 dispensavel no meio
+        plano = criarPlano(anel, 11, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 47);
+        criarEstagioPlano(anel, plano, new int[]{1, 3, 2}, new int[]{10, 5, 10});
+        estagioPlano = plano.getEstagiosPlanos().stream().filter(e -> e.getEstagio().getPosicao().equals(3)).findFirst().get();
+        estagioPlano.setDispensavel(true);
+
+        //Plano com estágio 3 dispensavel no inicio
+        plano = criarPlano(anel, 12, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 47);
+        criarEstagioPlano(anel, plano, new int[]{3, 2, 1}, new int[]{10, 5, 10});
+        estagioPlano = plano.getEstagiosPlanos().stream().filter(e -> e.getEstagio().getPosicao().equals(3)).findFirst().get();
+        estagioPlano.setDispensavel(true);
 
         controlador.save();
     }
@@ -459,7 +477,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         }
     }
 
-    private void criarEstagioPlano(Anel anel, Plano plano, int posicoes[], int tempos[]) {
+    public void criarEstagioPlano(Anel anel, Plano plano, int posicoes[], int tempos[]) {
         int i = 0;
         plano.setEstagiosPlanos(null);
         for (Estagio estagio : anel.ordenarEstagiosPorPosicao()) {

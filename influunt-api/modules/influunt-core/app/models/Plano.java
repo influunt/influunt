@@ -335,17 +335,43 @@ public class Plano extends Model implements Cloneable, Serializable {
     }
 
     public Estagio getEstagioAnterior(Estagio estagio) {
-        int posicao = getEstagiosPlanos().stream().filter(estagioPlano -> estagioPlano.getEstagio().equals(estagio)).findFirst().get().getPosicao();
-        if (posicao == 1) {
-            return getEstagiosPlanos().get(getEstagiosPlanos().size() - 1).getEstagio();
+        EstagioPlano estagioPlano = getEstagiosPlanos().stream().filter(ep -> ep.getEstagio().equals(estagio)).findFirst().get();
+        final List<EstagioPlano> lista = getEstagiosPlanosSemEstagioDispensavel();
+        int posicao = lista.indexOf(estagioPlano);
+        if (posicao == (lista.size() - 1)) {
+            return getEstagiosPlanosSemEstagioDispensavel().get(0).getEstagio();
         } else {
-            return getEstagiosPlanos().get(posicao - 2).getEstagio();
+            return getEstagiosPlanosSemEstagioDispensavel().get(posicao + 1).getEstagio();
+        }
+    }
+
+    public Estagio getEstagioAnterior(Estagio estagio, List<EstagioPlano> lista) {
+        EstagioPlano estagioPlano = getEstagiosPlanos().stream().filter(ep -> ep.getEstagio().equals(estagio)).findFirst().get();
+        int posicao = lista.indexOf(estagioPlano);
+        if (posicao == (lista.size() - 1)) {
+            return getEstagiosPlanosSemEstagioDispensavel().get(0).getEstagio();
+        } else {
+            return getEstagiosPlanosSemEstagioDispensavel().get(posicao + 1).getEstagio();
         }
     }
 
     public Integer getTempoEstagio(EstagioPlano estagioPlano) {
         Estagio estagio = estagioPlano.getEstagio();
         Estagio estagioAnterior = getEstagioAnterior(estagioPlano.getEstagio());
+
+        Integer tempoEntreVerdes = getTempoEntreVerdeEntreEstagios(estagio, estagioAnterior);
+
+        if (isAtuado()) {
+            return tempoEntreVerdes + estagioPlano.getTempoVerdeMaximo();
+        }
+
+
+        return tempoEntreVerdes + estagioPlano.getTempoVerde();
+    }
+
+    public Integer getTempoEstagio(EstagioPlano estagioPlano, List<EstagioPlano> listaEstagiosPlanos) {
+        Estagio estagio = estagioPlano.getEstagio();
+        Estagio estagioAnterior = getEstagioAnterior(estagioPlano.getEstagio(), listaEstagiosPlanos);
 
         Integer tempoEntreVerdes = getTempoEntreVerdeEntreEstagios(estagio, estagioAnterior);
 
