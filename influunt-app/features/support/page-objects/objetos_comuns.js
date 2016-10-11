@@ -50,6 +50,10 @@ var ObjetosComuns = function () {
   this.realizarScrollUp = function(){
     return world.scrollToUp();
   };
+
+  this.realizarScrollDown = function(){
+    return world.scrollToDown();
+  };
 };
 
 module.exports = ObjetosComuns;
