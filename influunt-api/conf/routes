@@ -186,4 +186,5 @@ GET       /assets/*file                                                         
 
 # RELATORIOS
 GET       /api/v1/relatorios/auditoria                                                          controllers.RelatoriosController.gerarRelatorioAuditoria()
+GET       /api/v1/relatorios/controladores_status                                               controllers.RelatoriosController.gerarRelatorioControladoresStatus()
 
