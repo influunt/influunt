@@ -53,8 +53,6 @@ public abstract class Simulador implements MotorCallback {
         this.parametros.getImposicoes().stream().forEach(param -> addEvento(param.toEvento()));
         this.parametros.getFalhas().stream().forEach(param -> addEvento(param.toEvento()));
         this.ponteiro = parametros.getInicioSimulacao();
-
-
     }
 
     public void setControlador(Controlador controlador) {
