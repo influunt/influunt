@@ -56,7 +56,7 @@
   <logger name="org.jdbcdslog.StatementLogger"  level="OFF" /> <!-- Will log all statements -->
   <logger name="org.jdbcdslog.ResultSetLogger"  level="OFF"  /> <!-- Won' log result sets -->
 
-  <root level="DEBUG">
+  <root level="INFO">
     <appender-ref ref="ASYNCFILE" />
     <appender-ref ref="ASYNCSTDOUT" />
   </root>
