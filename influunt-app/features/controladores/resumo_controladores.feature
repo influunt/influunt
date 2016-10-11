@@ -11,11 +11,11 @@ Funcionalidade: Vizualizar as informações de um controlador cadastrado
   Cenário: Vizualizar os dados básicos do controlador
   	Então o sistema deverá mostrar as informações do dados básicos
 
-  Cenário: Vizualizar as informações dos aneis íniciais do anel 1
-    Então o sistema deverá mostrar as informações íniciais do anel 1
+  Cenário: Vizualizar as informações dos aneis iniciais do anel 1
+    Então o sistema deverá mostrar as informações iniciais do anel 1
 
-  Cenário: Vizualizar as informações do grupos semáforicos do anel 1
-    Então o sistema deverá mostrar as informações dos grupos semáforicos
+  Cenário: Vizualizar as informações do grupos semafóricos do anel 1
+    Então o sistema deverá mostrar as informações dos grupos semafóricos
 
   Cenário: Vizualizar as informações das Associação Estágio x Grupo Semafórico do anel 1
     Então o sistema deverá mostrar as informações para Associação Estágio x Grupo Semafórico
@@ -42,8 +42,8 @@ Funcionalidade: Vizualizar as informações de um controlador cadastrado
   Cenário: Vizualizar as informações dos Detectores do anel 1
     Então o sistema deverá mostrar as informações para Detectores
 
-  Cenário: Vizualizar as informações dos aneis íniciais do anel 1
+  Cenário: Vizualizar as informações dos aneis iniciais do anel 1
     Dado o usuário realize um scroll up
     Dado que o usuário selecione o anel 2
-    Então o sistema deverá mostrar as informações íniciais do anel 2
+    Então o sistema deverá mostrar as informações iniciais do anel 2
     E que transições proibidas não exista dados a serem exibidos

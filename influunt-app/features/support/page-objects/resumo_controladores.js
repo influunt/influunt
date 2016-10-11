@@ -90,9 +90,9 @@ var ResumoControladorPage = function () {
     return Promise.all([
       _this.checkBasicAtribute('strong', 'Titulo', informacoes.TituloTp),
       _this.checkBasicAtribute('strong', 'Titulo', informacoes.TituloAlternativa),
-      _this.checkBasicAtribute('b', 'Trasição Probida', informacoes.Tp1),
+      _this.checkBasicAtribute('b', 'Transição Probida', informacoes.Tp1),
       _this.checkBasicAtribute('b', 'Titulo', informacoes.Alternativa1),
-      _this.checkBasicAtribute('b', 'Trasição Probida', informacoes.Tp2),
+      _this.checkBasicAtribute('b', 'Transição Probida', informacoes.Tp2),
       _this.checkBasicAtribute('b', 'Titulo', informacoes.Alternativa2),
     ]).then(function() {
       return Promise.resolve(true);
@@ -136,9 +136,9 @@ var ResumoControladorPage = function () {
   };
 
   this.naoExistemDados = function(){
-    var pathTrasicoes = "'views/directives/influunt-revisao/_vazio.html'";
-    var mensage = "'Não há dados a serem exibidos nesta seção'";
-    return world.waitForByXpath('//ng-include[contains(@src, '+pathTrasicoes+')]//p[text()='+mensage+']');
+    var pathTransicoes = 'views/directives/influunt-revisao/_vazio.html';
+    var mensage = 'Não há dados a serem exibidos nesta seção';
+    return world.waitForByXpath('//ng-include[contains(@src, "'+pathTransicoes+'")]//p[text()="'+mensage+'"]');
   };
 
   this.checkAtribute = function(campo, dado){
