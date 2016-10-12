@@ -22,7 +22,7 @@ var TabelasHorariasPage = function () {
 
   this.selecionarValor = function(valor, select) {
     return world.waitForOverlayDisappear().then(function (){
-      return world.selectByValue(eventoAdd, selects[select], valor);
+      return world.selectByOptionAtribute(eventoAdd, selects[select], 'value', valor);
     });
   };
 
@@ -35,7 +35,9 @@ var TabelasHorariasPage = function () {
   };
 
   this.removerEvento = function(){
-    return world.getElement(''+eventAdded+' i.fa-trash').click();
+    return world.waitForOverlayDisappear().then(function (){
+      return world.getElement(''+eventAdded+' i.fa-trash').click();
+    });
   };
 
   this.eventosRemovidos = function(){

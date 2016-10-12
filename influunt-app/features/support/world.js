@@ -183,6 +183,18 @@ var World = function () {
     }, Promise.resolve());
   };
 
+  this.checkIsElementPresent = function(xpath, campo, dado) {
+    return driver.isElementPresent(webdriver.By.xpath(xpath)).then(function(isElementPresent) {
+      return new Promise(function(resolve, reject) {
+        if (isElementPresent) {
+          resolve(true);
+        } else {
+          reject('Campo "'+campo+'" com o valor '+dado+' não encontrado');
+        }
+      });
+    });
+  };
+
   this.clickButton = function(cssSelector) {
     return driver.findElement(webdriver.By.css(cssSelector)).sendKeys(webdriver.Key.ENTER);
   };
@@ -211,8 +223,8 @@ var World = function () {
     return driver.findElement(webdriver.By.text(text));
   };
 
-  this.selectByValue = function(campo, selectSelector, optionText) {
-    var selector = (''+campo+' '+selectSelector+' option[value="'+optionText+'"]');
+  this.selectByOptionAtribute = function(campo, selectSelector, optionAtribute, value) {
+    var selector = (''+campo+' '+selectSelector+' option['+optionAtribute+'="'+value+'"]');
     return driver.findElement(webdriver.By.css(selector)).click();
   };
 
