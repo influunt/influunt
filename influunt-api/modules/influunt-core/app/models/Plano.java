@@ -12,6 +12,7 @@ import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.Range;
+import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import utils.RangeUtils;
 
@@ -443,6 +444,44 @@ public class Plano extends Model implements Cloneable, Serializable {
                 + ", dataCriacao=" + dataCriacao
                 + ", dataAtualizacao=" + dataAtualizacao
                 + '}';
+    }
+
+    public HashMap<Pair<Integer, Integer>, Long> tabelaEntreVerde(){
+        HashMap<Pair<Integer, Integer>, Long> tabela = new HashMap<>();
+        preencheTabelaEntreVerde(tabela, getEstagiosPlanosSemEstagioDispensavel());
+        preencheTabelaEntreVerde(tabela, getEstagiosPlanos());
+        this.getAnel().getEstagios().stream().filter(Estagio::isDemandaPrioritaria).forEach(e -> {
+            preencheTabelaEntreVerde(tabela, e);
+        });
+        return tabela;
+    }
+
+    private void preencheTabelaEntreVerde(HashMap<Pair<Integer, Integer>, Long> tabela, List<EstagioPlano> lista) {
+        lista.stream().forEach(ep -> {
+            Estagio atual = ep.getEstagio();
+            Estagio anterior = this.getEstagioAnterior(atual, lista);
+            tabela.put(new Pair<Integer, Integer>(anterior.getPosicao(), atual.getPosicao()),
+                    this.getTempoEntreVerdeEntreEstagios(atual, anterior) * 1000L);
+
+            tabela.put(new Pair<Integer, Integer>(atual.getPosicao(), atual.getPosicao()), 0L);
+        });
+    }
+
+    private void preencheTabelaEntreVerde(HashMap<Pair<Integer, Integer>, Long> tabela, Estagio estagio) {
+        getEstagiosPlanos().stream().forEach(ep -> {
+            Estagio atual = ep.getEstagio();
+            tabela.put(new Pair<Integer, Integer>(estagio.getPosicao(), atual.getPosicao()),
+                    this.getTempoEntreVerdeEntreEstagios(atual, estagio) * 1000L);
+            tabela.put(new Pair<Integer, Integer>(atual.getPosicao(), estagio.getPosicao()),
+                    this.getTempoEntreVerdeEntreEstagios(estagio, atual) * 1000L);
+        });
+    }
+
+    //TODO: Remover a metodo
+    public void imprimirTabelaEntreVerde(){
+        this.tabelaEntreVerde().forEach((key, value) -> {
+            System.out.println("E" + key.getKey() + "-" + "E" + key.getValue() + ": " + value);
+        });
     }
 
 }

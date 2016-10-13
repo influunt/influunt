@@ -369,6 +369,8 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         detector.setTempoDeteccaoPermanente(2);
         detector.setTempoAusenciaDeteccao(4);
 
+        associaDetectorEstagio(anel, 1, TipoDetector.PEDESTRE, 2);
+
         controlador.save();
     }
 
@@ -409,20 +411,23 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         plano = criarPlano(anel, 5, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 47);
         criarEstagioPlano(anel, plano, new int[]{1, 2, 3}, new int[]{10, 5, 10});
 
+        plano = criarPlano(anel, 7, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 58);
+        criarEstagioPlano(anel, plano, new int[]{1, 2, 3}, new int[]{10, 12, 14});
+
         anel = getAnel(2);
         criaVersaoPlanos(anel);
         plano = criarPlano(anel, 1, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 59);
         criarEstagioPlano(anel, plano, new int[]{1, 3, 2}, new int[]{10, 12, 10});
 
         //Plano com estágio 3 dispensavel no fim
-        plano = criarPlano(anel, 10, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 61);
-        criarEstagioPlano(anel, plano, new int[]{1, 2, 3}, new int[]{10, 15, 10});
+        plano = criarPlano(anel, 10, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 63);
+        criarEstagioPlano(anel, plano, new int[]{1, 2, 3}, new int[]{10, 15, 12});
         EstagioPlano estagioPlano = plano.getEstagiosPlanos().stream().filter(e -> e.getEstagio().getPosicao().equals(3)).findFirst().get();
         estagioPlano.setDispensavel(true);
 
         //Plano com estágio 3 dispensavel no meio
-        plano = criarPlano(anel, 11, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 52);
-        criarEstagioPlano(anel, plano, new int[]{1, 3, 2}, new int[]{10, 5, 10});
+        plano = criarPlano(anel, 11, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 54);
+        criarEstagioPlano(anel, plano, new int[]{1, 3, 2}, new int[]{10, 5, 12});
         estagioPlano = plano.getEstagiosPlanos().stream().filter(e -> e.getEstagio().getPosicao().equals(3)).findFirst().get();
         estagioPlano.setDispensavel(true);
 

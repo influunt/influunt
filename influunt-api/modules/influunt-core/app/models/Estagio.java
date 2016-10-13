@@ -22,10 +22,7 @@ import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -522,9 +519,5 @@ public class Estagio extends Model implements Serializable, Cloneable {
 
     public boolean isDemandaPrioritaria() {
         return demandaPrioritaria;
-    }
-
-    public Integer getTempoMaximoVerdeSeguranca() {
-        return getGruposSemaforicos().stream().max((o1, o2) -> o1.getTempoVerdeSeguranca().compareTo(o2.getTempoVerdeSeguranca())).get().getTempoVerdeSeguranca();
     }
 }

@@ -17,6 +17,7 @@ import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -301,6 +302,14 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         return super.clone();
     }
 
+    @Override
+    public String toString() {
+        return "EstagioPlano{" +
+                "posicao=" + posicao +
+                ", estagio=E" + estagio.getPosicao() +
+                '}';
+    }
+
     public EstagioPlano getEstagioPlanoAnterior(List<EstagioPlano> listaEstagioPlanos) {
         Integer index = listaEstagioPlanos.indexOf(this);
         if (index == 0) {
@@ -342,5 +351,20 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
 
     public Integer getDuracaoEstagio() {
         return getPlano().getTempoEstagio(this);
+    }
+
+    public long getTempoVerdeSegurancaFaltante(EstagioPlano estagioPlanoAnterior, long contadorIntervalo) {
+        final long tempoVerdeSeguranca = this.getTempoMaximoVerdeSeguranca(estagioPlanoAnterior) * 1000L;
+
+        return Math.max(0, tempoVerdeSeguranca - contadorIntervalo);
+    }
+
+    public Integer getTempoMaximoVerdeSeguranca(EstagioPlano estagioAnteriorPlano) {
+        return this.getEstagio()
+                .getGruposSemaforicos()
+                .stream()
+                .map(grupoSemaforico -> grupoSemaforico.getTempoVerdeSegurancaFaltante(this, estagioAnteriorPlano))
+                .max(Integer::max)
+                .get();
     }
 }
