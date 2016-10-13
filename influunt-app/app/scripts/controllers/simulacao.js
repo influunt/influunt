@@ -31,7 +31,7 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
   };
 
   loadControladores = function() {
-    return Restangular.one('controladores').customGET('simulacao', { statusControlador_in: '[1,2]' })
+    return Restangular.one('controladores').customGET('simulacao')
       .then(function(response) {
         if (response.data) {
           $scope.controladores = response.data;
