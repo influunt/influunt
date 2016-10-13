@@ -335,17 +335,26 @@ public class Plano extends Model implements Cloneable, Serializable {
     }
 
     public Estagio getEstagioAnterior(Estagio estagio) {
-        int posicao = getEstagiosPlanos().stream().filter(estagioPlano -> estagioPlano.getEstagio().equals(estagio)).findFirst().get().getPosicao();
-        if (posicao == 1) {
-            return getEstagiosPlanos().get(getEstagiosPlanos().size() - 1).getEstagio();
+        return getEstagioAnterior(estagio, getEstagiosPlanos());
+    }
+
+    public Estagio getEstagioAnterior(Estagio estagio, List<EstagioPlano> lista) {
+        EstagioPlano estagioPlano = getEstagiosPlanos().stream().filter(ep -> ep.getEstagio().equals(estagio)).findFirst().get();
+        int posicao = lista.indexOf(estagioPlano);
+        if (posicao == 0) {
+            return lista.get(lista.size() - 1).getEstagio();
         } else {
-            return getEstagiosPlanos().get(posicao - 2).getEstagio();
+            return lista.get(posicao - 1).getEstagio();
         }
     }
 
     public Integer getTempoEstagio(EstagioPlano estagioPlano) {
+        return getTempoEstagio(estagioPlano, getEstagiosPlanos());
+    }
+
+    public Integer getTempoEstagio(EstagioPlano estagioPlano, List<EstagioPlano> listaEstagiosPlanos) {
         Estagio estagio = estagioPlano.getEstagio();
-        Estagio estagioAnterior = getEstagioAnterior(estagioPlano.getEstagio());
+        Estagio estagioAnterior = getEstagioAnterior(estagioPlano.getEstagio(), listaEstagiosPlanos);
 
         Integer tempoEntreVerdes = getTempoEntreVerdeEntreEstagios(estagio, estagioAnterior);
 

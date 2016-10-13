@@ -524,4 +524,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
         return demandaPrioritaria;
     }
 
+    public Integer getTempoMaximoVerdeSeguranca() {
+        return getGruposSemaforicos().stream().max((o1, o2) -> o1.getTempoVerdeSeguranca().compareTo(o2.getTempoVerdeSeguranca())).get().getTempoVerdeSeguranca();
+    }
 }
