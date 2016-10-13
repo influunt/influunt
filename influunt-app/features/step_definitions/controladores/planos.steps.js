@@ -20,10 +20,6 @@ module.exports = function() {
     return planosPage.selecionarModoOperacao(modoOperacao);
   });
 
-  this.Given(/^o diagrama de ciclos deverá marcar o grupo semafórico "([^"]*)" como "([^"]*)"$/, function (grupo, modoOperacao) {
-    return planosPage.isDiagramaModo(grupo, modoOperacao);
-  });
-
   this.Given(/^o usuário não deve ter a opção de selecionar uma tabela entre verdes para o plano$/, function () {
     return planosPage.isTabelaEntreVerdesHidden();
   });
@@ -153,4 +149,14 @@ module.exports = function() {
       expect(text).to.equal('Tem certeza que deseja colocar o tempo de verde menor que o tempo de verde de segurança dos grupos semafóricos?');
     });
   });
+
+  this.Given(/^o sistema deve mostar o diagrama "([^"]*)" no grupo "([^"]*)" com "([^"]*)" em "([^"]*)" segundos$/, function (modoOperacao, grupo, indicacaoCor, tempo) {
+    return planosPage.isDiagramaModo(modoOperacao, grupo, indicacaoCor, tempo);
+  });
+
+  this.Given(/^o sistema deverá apresentar erro no estágio "([^"]*)"$/, function (estagio) {
+    return planosPage.erroInEstagio(estagio);
+  });
+
+
 };

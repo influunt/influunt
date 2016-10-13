@@ -18,7 +18,7 @@ Funcionalidade: Fluxo de cadastro de manutenção de Tabelas Horárias
     E o usuário selecionar o valor "DOMINGO" no campo "Dias" para o evento
     E o usuário selecionar o valor "12" no campo "Hora" para o evento
     E o usuário selecionar o valor "10" no campo "Minuto" para o evento
-    E o usuário selecionar o valor plano "5" no campo "Plano" para o evento
+    E o usuário selecionar o valor plano "7" no campo "Plano" para o evento
     E o usuário clicar em "Salvar"
     Então o sistema deverá apresentar erro no evento
 
@@ -60,4 +60,5 @@ Funcionalidade: Fluxo de cadastro de manutenção de Tabelas Horárias
     E o usuário selecionar o valor plano "3" no campo "Plano" para o evento
     E o usuário clicar em "Salvar"
     Então o sistema deverá apresentar erro no evento
+    E o sistema deverá continuar na tela tabela horária
 
