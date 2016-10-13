@@ -77,13 +77,6 @@ var PlanosPage = function () {
     });
   };
 
-  this.clicarBotaoModal = function(modal) {
-    world.sleep(500);
-    return world.waitForOverlayDisappear().then(function() {
-      return world.getElement('div#'+modal+' div.modal-footer button').click();
-    });
-  };
-
   this.clicarBotaoCopiar = function() {
     return world.getElement('div#modal-copiar-plano div.modal-footer button').click();
   };

@@ -18,6 +18,15 @@ var ObjetosComuns = function () {
     });
   };
 
+  this.clicarBotaoModal = function(modal) {
+    world.sleep(500);
+    return world.waitForOverlayDisappear().then(function() {
+      return world.waitFor('div#'+modal+'').then(function(){
+        return world.getElement('div#'+modal+' div.modal-footer button').click();
+      });
+    });
+  };
+
   this.clicarLinkComTexto = function(texto) {
     return world.waitForOverlayDisappear().then(function (){
       return world.findLinkByText(texto).click();

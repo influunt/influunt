@@ -54,7 +54,7 @@ module.exports = function() {
 
   this.Given(/^que o usuário clique no botão de fechar a caixa de configuração$/, function () {
     var modal = 'modal-configuracao-estagio';
-    return planosPage.clicarBotaoModal(modal);
+    return objetosComuns.clicarBotaoModal(modal);
   });
 
   this.Given(/^que o usuário troque de lugar os estágios "([^"]*)" e "([^"]*)"$/, function (estagio1, estagio2) {
@@ -117,7 +117,7 @@ module.exports = function() {
 
   this.Given(/^o usuário clicar no botão copiar$/, function () {
     var modal = 'modal-copiar-plano';
-    return planosPage.clicarBotaoModal(modal);
+    return objetosComuns.clicarBotaoModal(modal);
   });
 
   this.Given(/^o "([^"]*)" deverá estar ativado$/, function (plano) {
