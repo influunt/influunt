@@ -167,7 +167,8 @@ public class GrupoSemaforicoPlano extends Model implements Cloneable, Serializab
     public void criarIntervalos(){
         int ordem = 1;
         GrupoSemaforico grupoSemaforico = getGrupoSemaforico();
-        List<EstagioPlano> estagiosPlanos = getPlano().ordenarEstagiosPorPosicaoSemEstagioDispensavel();
+        this.setIntervalos(null);
+        List<EstagioPlano> estagiosPlanos = getPlano().ordenarEstagiosPorPosicao();
         for (EstagioPlano estagioPlano : estagiosPlanos) {
             Estagio estagioAtual = estagioPlano.getEstagio();
             Estagio estagioAnterior = estagioPlano.getEstagioPlanoAnterior(estagiosPlanos).getEstagio();
@@ -179,8 +180,13 @@ public class GrupoSemaforicoPlano extends Model implements Cloneable, Serializab
 
             //Caso o grupoSemaforico não tinha o direito de passagem e está ganhando
             if(!estagioAnterior.getGruposSemaforicos().contains(grupoSemaforico) && estagioAtual.getGruposSemaforicos().contains(grupoSemaforico)){
-                ordem = criaIntervalo(ordem, EstadoGrupoSemaforico.VERMELHO, getPlano().getTempoEntreVerdeEntreEstagios(estagioAtual, estagioAnterior));
-                ordem = criaIntervalo(ordem, EstadoGrupoSemaforico.VERDE, estagioPlano.getTempoVerdeEstagio());
+                Transicao transicao = grupoSemaforico.findTransicaoComGanhoDePassagemByOrigemDestino(estagioAnterior, estagioAtual);
+                int tempoAtrasoGanhoPassagem = 0;
+                if(transicao != null && transicao.isAtrasoDeGrupoPresent()){
+                    tempoAtrasoGanhoPassagem = transicao.getTempoAtrasoGrupo();
+                }
+                ordem = criaIntervalo(ordem, EstadoGrupoSemaforico.VERMELHO, getPlano().getTempoEntreVerdeEntreEstagios(estagioAtual, estagioAnterior) - tempoAtrasoGanhoPassagem);
+                ordem = criaIntervalo(ordem, EstadoGrupoSemaforico.VERDE, estagioPlano.getTempoVerdeEstagio() + tempoAtrasoGanhoPassagem);
             }
 
             //Caso o grupoSemaforico tinha o direito de passagem e está perdendo

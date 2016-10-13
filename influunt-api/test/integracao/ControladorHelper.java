@@ -334,9 +334,9 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         setEntreVerde(anel, 4, 3, 1, 5, 3);
 
         anel = getAnel(2);
-        setEntreVerde(anel, 6, 1, 2, 2, 5);
+        setEntreVerde(anel, 6, 1, 2, 3, 4);
         setEntreVerde(anel, 6, 1, 3, 4, 5);
-        setEntreVerde(anel, 10, 1, 2, 2, 5);
+        setEntreVerde(anel, 10, 1, 2, 3, 4);
         setEntreVerde(anel, 10, 1, 3, 4, 5);
         setEntreVerde(anel, 7, 2, 1, 3, 5);
         setEntreVerde(anel, 7, 2, 3, 4, 5);
@@ -411,24 +411,24 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
 
         anel = getAnel(2);
         criaVersaoPlanos(anel);
-        plano = criarPlano(anel, 1, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 56);
+        plano = criarPlano(anel, 1, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 59);
         criarEstagioPlano(anel, plano, new int[]{1, 3, 2}, new int[]{10, 12, 10});
 
         //Plano com estágio 3 dispensavel no fim
-        plano = criarPlano(anel, 10, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 47);
-        criarEstagioPlano(anel, plano, new int[]{1, 2, 3}, new int[]{10, 5, 10});
+        plano = criarPlano(anel, 10, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 61);
+        criarEstagioPlano(anel, plano, new int[]{1, 2, 3}, new int[]{10, 15, 10});
         EstagioPlano estagioPlano = plano.getEstagiosPlanos().stream().filter(e -> e.getEstagio().getPosicao().equals(3)).findFirst().get();
         estagioPlano.setDispensavel(true);
 
         //Plano com estágio 3 dispensavel no meio
-        plano = criarPlano(anel, 11, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 47);
+        plano = criarPlano(anel, 11, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 52);
         criarEstagioPlano(anel, plano, new int[]{1, 3, 2}, new int[]{10, 5, 10});
         estagioPlano = plano.getEstagiosPlanos().stream().filter(e -> e.getEstagio().getPosicao().equals(3)).findFirst().get();
         estagioPlano.setDispensavel(true);
 
         //Plano com estágio 3 dispensavel no inicio
-        plano = criarPlano(anel, 12, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 47);
-        criarEstagioPlano(anel, plano, new int[]{3, 2, 1}, new int[]{10, 5, 10});
+        plano = criarPlano(anel, 12, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 62);
+        criarEstagioPlano(anel, plano, new int[]{3, 2, 1}, new int[]{10, 15, 10});
         estagioPlano = plano.getEstagiosPlanos().stream().filter(e -> e.getEstagio().getPosicao().equals(3)).findFirst().get();
         estagioPlano.setDispensavel(true);
 
