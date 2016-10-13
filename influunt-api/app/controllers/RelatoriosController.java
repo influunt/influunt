@@ -42,6 +42,7 @@ public class RelatoriosController extends Controller {
     }
 
     public CompletionStage<Result> gerarRelatorioControladoresStatus() {
+
         ReportType reportType = ReportType.valueOf(request().getQueryString("tipoRelatorio").toString());
 
         Map<String, String[]> params = new HashMap<>();
@@ -49,10 +50,20 @@ public class RelatoriosController extends Controller {
         if (params.containsKey("tipoRelatorio")) {
             params.remove("tipoRelatorio");
         }
-        InputStream input = controladoresReportService.generateReport(request().queryString(), null, reportType);
+        InputStream input = controladoresReportService.generateControladoresStatusReport(request().queryString(), reportType);
         return CompletableFuture.completedFuture(ok(input).as(reportType.getContentType()));
     }
 
+    public CompletionStage<Result> gerarRelatorioControladoresFalhas() {
+        ReportType reportType = ReportType.valueOf(request().getQueryString("tipoRelatorio").toString());
 
+        Map<String, String[]> params = new HashMap<>();
+        params.putAll(request().queryString());
+        if (params.containsKey("tipoRelatorio")) {
+            params.remove("tipoRelatorio");
+        }
+        InputStream input = controladoresReportService.generateControladoresFalhasReport(request().queryString(), reportType);
+        return CompletableFuture.completedFuture(ok(input).as(reportType.getContentType()));
+    }
 
 }
