@@ -1,14 +1,15 @@
-package simulador.parametros;
+package models.simulador.parametros;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import json.deserializers.InfluuntDateTimeDeserializer;
+import json.deserializers.simulacao.ParametroSimulacaoDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import models.Controlador;
 import org.joda.time.DateTime;
-import simulador.SimulacaoConfig;
+import models.simulador.SimulacaoConfig;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -16,26 +17,29 @@ import java.util.UUID;
 /**
  * Created by rodrigosol on 10/4/16.
  */
+@JsonDeserialize(using = ParametroSimulacaoDeserializer.class)
 public class ParametroSimulacao {
+
     private UUID id;
 
     @JsonIgnore
+    @NotNull(message = "não pode ficar em branco")
     private Controlador controlador;
 
-    private int velocidade;
+    @NotNull(message = "não pode ficar em branco")
+    private Double velocidade;
 
-    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
+    @NotNull(message = "não pode ficar em branco")
     private DateTime inicioControlador;
 
-    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
+    @NotNull(message = "não pode ficar em branco")
     private DateTime inicioSimulacao;
 
-    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
+    @NotNull(message = "não pode ficar em branco")
     private DateTime fimSimulacao;
-
 
     private List<ParametroSimulacaoDetector> detectores = new ArrayList<>();
 
@@ -44,6 +48,8 @@ public class ParametroSimulacao {
     private List<ParametroFalha> falhas = new ArrayList<>();
 
     private UUID idControlador;
+
+
 
     public ParametroSimulacao() {
         this.id = UUID.randomUUID();
@@ -62,16 +68,15 @@ public class ParametroSimulacao {
     }
 
     public void setControlador(Controlador controlador) {
-
         this.controlador = controlador;
         this.idControlador = controlador.getId();
     }
 
-    public int getVelocidade() {
+    public Double getVelocidade() {
         return velocidade;
     }
 
-    public void setVelocidade(int velocidade) {
+    public void setVelocidade(Double velocidade) {
         this.velocidade = velocidade;
     }
 
@@ -88,7 +93,6 @@ public class ParametroSimulacao {
     }
 
     public void setInicioSimulacao(DateTime inicioSimulacao) {
-
         this.inicioSimulacao = inicioSimulacao;
         this.inicioControlador = inicioSimulacao;
     }
@@ -131,6 +135,7 @@ public class ParametroSimulacao {
 
     public void setIdControlador(UUID idControlador) {
         this.idControlador = idControlador;
+        this.controlador = Controlador.find.byId(idControlador);
     }
 
     public SimulacaoConfig getSimulacaoConfig() {

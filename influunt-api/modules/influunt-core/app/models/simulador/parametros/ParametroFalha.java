@@ -1,4 +1,4 @@
-package simulador.parametros;
+package models.simulador.parametros;
 
 import engine.EventoMotor;
 

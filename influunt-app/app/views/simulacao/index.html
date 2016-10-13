@@ -1,9 +1,373 @@
 <div class='container-fluid wrapper wrapper-content animated fadeInRight' data-ng-init='init()'>
   <div class='row simulacao'>
-      <div class='col-lg-12'>
-          <div id="canvas">
-      </div>
+    <div class='col-sm-12'>
 
+      <div class='ibox float-e-margins'>
+        <div class='col-sm-3'>
+          <div class='ibox float-e-margins' >
+            <div class='ibox-title'>
+              <h5>{{ 'simulacao.parametros' | translate }}</h5>
+              <div class='ibox-tools'>
+                <a class='collapse-link'>
+                  <i class='fa fa-chevron-up'></i>
+                </a>
+              </div>
+            </div>
+            <div class='ibox-content'>
+              <div class='row'>
+
+                <div class='col-sm-12'>
+                  <div class='row'>
+                    <div class='col-sm-12 form-group' data-ng-class="{ 'has-error': errors.controlador }">
+                      <label class="control-label">{{ 'simulacao.controlador' | translate }}</label>
+                      <select name="controladores"
+                              select2
+                              class="form-control"
+                              data-ng-options="controlador.id as controlador.nomeEndereco for controlador in controladores"
+                              data-ng-model="parametrosSimulacao.idControlador">
+                      </select>
+                      <p class="help-block error-msg" data-ng-repeat="error in errors.controlador">{{ error }}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class='col-sm-12'>
+                  <div class='row form-group' data-ng-class="{ 'has-error': errors.velocidade }">
+                    <div class='col-sm-12'>
+                      <label class="control-label">{{ 'simulacao.velocidade' | translate }}</label>
+                    </div>
+                    <div class='col-sm-4 form-group' data-ng-repeat="velocidade in velocidades">
+                      <label>
+                        <input type="radio" class="form-control" name="velocidade{{ velocidade.value }}x" ichecks value="{{ velocidade.value }}" data-ng-model="parametrosSimulacao.velocidade">
+                        {{ velocidade.value }}x
+                      </label>
+                    </div>
+                    <div class="col-sm-12">
+                      <p class="help-block error-msg velocidade-error" data-ng-repeat="error in errors.velocidade">{{ error }}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class='col-sm-12'>
+                  <div class='row form-group'>
+                    <div class='col-sm-12' data-ng-class="{ 'has-error': errors.inicioControlador }">
+                      <label class="control-label">{{ 'simulacao.inicioControl' | translate }}</label>
+                      <input type="datetime"
+                             class="form-control"
+                             date-time
+                             data-ng-model="parametrosSimulacao.inicioControlador"
+                             view="month"
+                             auto-close="true"
+                             min-view="minutes"
+                             format="DD/MM/YYYY HH:mm">
+                      <p class="help-block error-msg" data-ng-repeat="error in errors.inicioControlador">{{ error }}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class='col-sm-12'>
+                  <div class='row form-group'>
+                    <div class='col-sm-12' data-ng-class="{ 'has-error': errors.inicioSimulacao }">
+                      <label class="control-label">{{ 'simulacao.inicioSimulacao' | translate }}</label>
+                      <input type="datetime"
+                             class="form-control"
+                             date-time
+                             data-ng-model="parametrosSimulacao.inicioSimulacao"
+                             view="month"
+                             auto-close="true"
+                             min-view="minutes"
+                             format="DD/MM/YYYY HH:mm">
+                      <p class="help-block error-msg" data-ng-repeat="error in errors.inicioSimulacao">{{ error }}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class='col-sm-12'>
+                  <div class='row form-group'>
+                    <div class='col-sm-12' data-ng-class="{ 'has-error': errors.fimSimulacao }">
+                      <label class="control-label">{{ 'simulacao.fimSimulacao' | translate }}</label>
+                      <input type="datetime"
+                             class="form-control"
+                             date-time
+                             data-ng-model="parametrosSimulacao.fimSimulacao"
+                             view="month"
+                             auto-close="true"
+                             min-view="minutes"
+                             format="DD/MM/YYYY HH:mm">
+                      <p class="help-block error-msg" data-ng-repeat="error in errors.fimSimulacao">{{ error }}</p>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class='col-sm-9'>
+          <div class='ibox float-e-margins collapsed'>
+            <div class='ibox-title'>
+              <h5>{{ 'simulacao.progDisparo' | translate }}</h5>
+              <div class='ibox-tools'>
+                <a class='collapse-link'>
+                  <i class='fa fa-chevron-up'></i>
+                </a>
+              </div>
+            </div>
+            <div class='ibox-content'>
+              <div class='row'>
+                <div class='col-sm-12'>
+                  <div class="row">
+                    <div class='col-sm-3'>
+                      <h4>{{ 'simulacao.detector' | translate }}</h4>
+                    </div>
+                    <div class='col-sm-2'>
+                      <h4>{{ 'simulacao.tipo' | translate }}</h4>
+                    </div>
+                    <div class='col-sm-2'>
+                      <h4>{{ 'simulacao.monitorado' | translate }}</h4>
+                    </div>
+                    <div class='col-sm-5'>
+                      <h4>{{ 'simulacao.momentoDisparo' | translate }}</h4>
+                    </div>
+                  </div>
+
+                  <div class='row' data-ng-repeat="disparoDetector in parametrosSimulacao.disparoDetectores">
+                    <div class='col-sm-3'>
+                      <select class='form-control m-b'
+                              name='detector'
+                              data-ng-disabled="!detectores"
+                              data-ng-options="detector as detector.nome for detector in detectores"
+                              data-ng-model="disparoDetector.detector"></select>
+                    </div>
+
+                    <div data-ng-show="disparoDetector.detector">
+                      <div class='col-sm-2'>
+                        <p>
+                          {{ 'simulacao.detector' | translate }} {{ disparoDetector.detector.tipo }}
+                        </p>
+                      </div>
+                      <div class='col-sm-2'>
+                        <i class="fa fa-check" data-ng-show="disparoDetector.detector.monitorado"></i>
+                        <i class="fa fa-times" data-ng-show="!disparoDetector.detector.monitorado"></i>
+                      </div>
+                      <div class='col-sm-4'>
+                        <input type="datetime"
+                               class="form-control"
+                               date-time
+                               data-ng-model="disparoDetector.disparo"
+                               view="month"
+                               auto-close="true"
+                               min-view="minutes"
+                               format="DD/MM/YYYY HH:mm">
+                      </div>
+                      <div class='col-sm-1'>
+                        <a data-ng-click="removerDisparoDetector($index)">
+                          <i class='fa fa-trash text-danger'></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class='ibox float-e-margins collapsed'>
+            <div class='ibox-title'>
+              <h5>{{ 'simulacao.progImposicao' | translate }}</h5>
+              <div class='ibox-tools'>
+                <a class='collapse-link'>
+                  <i class='fa fa-chevron-up'></i>
+                </a>
+              </div>
+            </div>
+            <div class='ibox-content'>
+              <div class='row'>
+                <div class='col-sm-12'>
+                  <div class='row'>
+                    <div class='col-sm-3'>
+                      <h4>{{ 'simulacao.plano' | translate }}</h4>
+                    </div>
+                    <div class='col-sm-2'>
+                      <h4>{{ 'simulacao.descricao' | translate }}</h4>
+                    </div>
+                    <div class='col-sm-2'>
+                      <h4>{{ 'simulacao.modoOperacao' | translate }}</h4>
+                    </div>
+                    <div class='col-sm-5'>
+                      <h4>{{ 'simulacao.momentoImposicao' | translate }}</h4>
+                    </div>
+                  </div>
+
+                  <div class='row' data-ng-repeat="imposicaoPlano in parametrosSimulacao.imposicaoPlanos">
+                    <div class='col-sm-3'>
+                      <select class='form-control m-b'
+                              name='plano'
+                              data-ng-disabled="!planos"
+                              data-ng-options="plano as plano.nome for plano in planos"
+                              data-ng-model="imposicaoPlano.plano"></select>
+                    </div>
+                    <div data-ng-show="imposicaoPlano.plano">
+                      <div class="col-sm-2">
+                        {{ imposicaoPlano.plano.descricao }}
+                      </div>
+                      <div class="col-sm-2">
+                        {{ 'planos.modosOperacao.' + imposicaoPlano.plano.modoOperacao | translate }}
+                      </div>
+                      <div class='col-sm-4'>
+                        <input type="datetime"
+                               class="form-control"
+                               date-time
+                               data-ng-model="imposicaoPlano.disparo"
+                               view="month"
+                               auto-close="true"
+                               min-view="minutes"
+                               format="DD/MM/YYYY HH:mm">
+                      </div>
+                      <div class='col-sm-1'>
+                        <a data-ng-click="removerImposicaoPlano($index)">
+                          <i class='fa fa-trash text-danger'></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class='ibox float-e-margins collapsed ng-hide'>
+            <div class='ibox-title'>
+              <h5>{{ 'simulacao.disparoFalhas' | translate }}</h5>
+              <div class='ibox-tools'>
+                <a class='collapse-link'>
+                  <i class='fa fa-chevron-up'></i>
+                </a>
+              </div>
+            </div>
+            <div class='ibox-content'>
+              <div class='row'>
+                <div class='col-sm-12'>
+                  <div class='row'>
+                    <div class='col-sm-3'>
+                      <h4>{{ 'simulacao.problema' | translate }}</h4>
+                    </div>
+                    <div class='col-sm-2'>
+                      <h4>{{ 'simulacao.falhas' | translate }}</h4>
+                    </div>
+                    <div class='col-sm-3'>
+                      <h4>{{ 'simulacao.data' | translate }}</h4>
+                    </div>
+                    <div class='col-sm-4'>
+                      <h4>{{ 'simulacao.horario' | translate }}</h4>
+                    </div>
+
+                    <div class='col-sm-3'>
+                      <select class='form-control m-b' name='account'>
+                          <option>Problema 1</option>
+                          <option>option 2</option>
+                          <option>option 3</option>
+                          <option>option 4</option>
+                      </select>
+                    </div>
+                    <div class='col-sm-2'>
+                      <select class='form-control m-b' name='account'>
+                          <option>Causar Falha</option>
+                          <option>option 2</option>
+                          <option>option 3</option>
+                          <option>option 4</option>
+                      </select>
+                    </div>
+                    <div class='col-sm-1'>
+                      <select class='form-control m-b' name='account'>
+                          <option>Dia</option>
+                          <option>option 2</option>
+                          <option>option 3</option>
+                          <option>option 4</option>
+                      </select>
+                    </div>
+                    <div class='col-sm-1'>
+                      <select class='form-control m-b' name='account'>
+                          <option>Mês</option>
+                          <option>option 2</option>
+                          <option>option 3</option>
+                          <option>option 4</option>
+                      </select>
+                    </div>
+                    <div class='col-sm-1'>
+                      <select class='form-control m-b' name='account'>
+                          <option>Ano</option>
+                          <option>option 2</option>
+                          <option>option 3</option>
+                          <option>option 4</option>
+                      </select>
+                    </div>
+                    <div class='col-sm-1'>
+                      <select class='form-control m-b' name='account'>
+                          <option>Hora</option>
+                          <option>option 2</option>
+                          <option>option 3</option>
+                          <option>option 4</option>
+                      </select>
+                    </div>
+                    <div class='col-sm-1'>
+                      <select class='form-control m-b' name='account'>
+                          <option>Min</option>
+                          <option>option 2</option>
+                          <option>option 3</option>
+                          <option>option 4</option>
+                      </select>
+                    </div>
+                    <div class='col-sm-1'>
+                      <select class='form-control m-b' name='account'>
+                          <option>Seg</option>
+                          <option>option 2</option>
+                          <option>option 3</option>
+                          <option>option 4</option>
+                      </select>
+                    </div>
+                    <div class='col-sm-1'>
+                      <i class='fa fa-trash'></i>
+                    </div>
+                    <div class='col-sm-3'>
+                      <select class='form-control m-b' name='account'>
+                          <option>-</option>
+                          <option>option 2</option>
+                          <option>option 3</option>
+                          <option>option 4</option>
+                      </select>
+                    </div>
+
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class='col-sm-12'>
+      <div class='row'>
+        <div class='col-sm-12 text-center simular'>
+          <button class='btn btn-primary' type='button' name='button' data-ng-click="submitForm()">
+            <i class='fa fa-play'></i> {{ 'simulacao.simular' | translate }}
+          </button>
+          <button class='btn btn-primary' type='button' name='button'>
+            <i class='fa fa-pause'></i> {{ 'simulacao.interromper' | translate }}
+          </button>
+          <button class='btn btn-primary' type='button' name='button'>
+            <i class='fa fa-undo'></i> {{ 'simulacao.reiniciar' | translate }}
+          </button>
+        </div>
+      </div>
+      <div class='col-sm-12'>
+        <div id="canvas"></div>
+      </div>
     </div>
   </div>
 </div>

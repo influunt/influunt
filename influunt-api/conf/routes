@@ -30,6 +30,7 @@ DELETE    /api/v1/subareas/:id                                        controller
 GET       /api/v1/controladores                                       controllers.ControladoresController.findAll()
 GET       /api/v1/controladores/mapas                                 controllers.ControladoresController.getControladoresForMapa
 GET       /api/v1/controladores/agrupamentos                          controllers.ControladoresController.getControladoresForAgrupamentos
+GET       /api/v1/controladores/simulacao                             controllers.ControladoresController.getControladoresForSimulacao
 POST      /api/v1/controladores/dados_basicos                         controllers.ControladoresController.dadosBasicos()
 POST      /api/v1/controladores/aneis                                 controllers.ControladoresController.aneis()
 POST      /api/v1/controladores/grupos_semaforicos                    controllers.ControladoresController.gruposSemaforicos()
@@ -182,7 +183,8 @@ GET       /api/v1/monitoramento/status/:id/historico/:pagina/:tamanho           
 POST      /api/v1/cucumber                                                                      controllers.CucumberController.createDB()
 
 #Simulação
-POST       /api/v1/simulacao/:id                                  controllers.simulacao.SimuladorController.simular(id)
+POST       /api/v1/simulacao                                                                    controllers.simulacao.SimuladorController.simular
+
 # Asset
 GET       /assets/*file                                                                         controllers.Assets.at(path="/public", file)
 

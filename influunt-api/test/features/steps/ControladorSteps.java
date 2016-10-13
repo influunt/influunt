@@ -13,6 +13,7 @@ import engine.EventoMotor;
 import engine.TipoEvento;
 import json.ControladorCustomDeserializer;
 import models.*;
+import models.simulador.parametros.ParametroSimulacao;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
@@ -24,7 +25,7 @@ import simulador.Simulador;
 import simulador.eventos.AlteracaoEstadoLog;
 import simulador.eventos.EventoLog;
 import simulador.eventos.TipoEventoLog;
-import simulador.parametros.ParametroSimulacao;
+
 
 
 import java.io.IOException;

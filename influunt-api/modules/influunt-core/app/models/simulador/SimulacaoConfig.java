@@ -1,4 +1,4 @@
-package simulador;
+package models.simulador;
 
 import models.Anel;
 import models.TipoGrupoSemaforico;
