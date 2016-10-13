@@ -150,10 +150,6 @@ module.exports = function() {
     });
   });
 
-  this.Given(/^o sistema deve mostar o diagrama "([^"]*)" no grupo "([^"]*)" com "([^"]*)" em "([^"]*)" segundos$/, function (modoOperacao, grupo, indicacaoCor, tempo) {
-    return planosPage.isDiagramaModo(modoOperacao, grupo, indicacaoCor, tempo);
-  });
-
   this.Given(/^o sistema deverá apresentar erro no estágio "([^"]*)"$/, function (estagio) {
     return planosPage.erroInEstagio(estagio);
   });

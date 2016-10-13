@@ -18,46 +18,6 @@ var PlanosPage = function () {
     });
   };
 
-  this.isDiagramaModo = function(modoOperacao, grupo, indicacaoCor, tempo) {
-    var _this = this;
-    var script = 'return $("div#visualization div.vis-left div.vis-label:contains(\''+grupo+'\')").index() + 1;';
-    return world.execJavascript(script).then(function(indexGrupo) {
-      switch(modoOperacao) {
-        case 'Apagado':
-          return _this.isDiagramaApagado();
-        case 'Intermitente':
-          return _this.isDiagramaIntermitente();
-        case 'Coordenado':
-          return _this.verifyDiagramaValues(indexGrupo, indicacaoCor, tempo);
-        case 'Em Vermelho':
-          return _this.isDiagramaVermelho(indexGrupo);
-        default:
-          throw new Error('Modo de operação não reconhecido: '+modoOperacao);
-      }
-    });
-  };
-
-  this.isDiagramaApagado = function() {
-    return world.waitFor('div#visualization div.vis-foreground div.indicacao-apagado');
-  };
-
-  this.isDiagramaVermelho = function(indexGrupo){
-    return world.waitFor('div#visualization div.vis-foreground div.vis-group:nth-child('+indexGrupo+') div.indicacao-vermelho');
-  };
-
-  this.isDiagramaIntermitente = function() {
-    return world.waitFor('div#visualization div.vis-foreground div.indicacao-intermitente');
-  };
-
-  this.verifyDiagramaValues = function(indexGrupo, indicacaoCor, tempo) {
-    var grupo = 'div[contains(@class, "vis-group")]['+indexGrupo+']';
-    var cor = 'div[contains(@class, "'+indicacaoCor+'")]';
-    var time = 'div[text()="'+tempo+'"]';
-
-    var xpathSelector = '//div[contains(@id, "visualization")]//div[contains(@class, "vis-foreground")]//'+grupo+'//'+cor+'//'+time+'';
-    return world.getElementByXpath(xpathSelector);
-  };
-
   this.isTabelaEntreVerdesHidden = function() {
     return world.waitForInverse('select[name="tabelaEntreverdes"]').then(true);
   };
