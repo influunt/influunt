@@ -52,4 +52,8 @@ module.exports = function() {
   this.Given(/^o sistema deve mostar o diagrama "([^"]*)" no grupo "([^"]*)" com "([^"]*)" em "([^"]*)" segundos$/, function (modoOperacao, grupo, indicacaoCor, tempo) {
     return sharedSteps.isDiagramaModo(modoOperacao, grupo, indicacaoCor, tempo);
   });
+
+  this.Given(/^o sistema deverá redirecionar o usuário para a página de listagem de controladores$/, function () {
+    return sharedSteps.isIndexPage();
+  });
 };

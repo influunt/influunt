@@ -84,6 +84,11 @@ var ObjetosComuns = function () {
     });
   };
 
+  this.isIndexPage = function() {
+    var novoControladorButton = 'a[ui-sref="app.wizard_controladores.dados_basicos"]';
+    return world.waitFor(novoControladorButton);
+  };
+
   this.isDiagramaApagado = function() {
     return world.waitFor('div#visualization div.vis-foreground div.indicacao-apagado');
   };
