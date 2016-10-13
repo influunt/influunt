@@ -39,6 +39,10 @@ module.exports = function() {
     return tabelasHorariasPage.eventosRemovidos();
   });
 
+  this.Given(/^o evento "([^"]*)" deverá ser excluído$/, function (evento) {
+    return tabelasHorariasPage.eventoRemovido(evento);
+  });
+
   this.Given(/^o usuário clicar em visualizar o diagrama$/, function () {
     return tabelasHorariasPage.clicarEmVisualizarDiagrama();
   });
@@ -50,5 +54,13 @@ module.exports = function() {
 
   this.Given(/^o sistema deverá adicionar uma cor "([^"]*)" no evento "([^"]*)"$/, function (cor, evento) {
     return tabelasHorariasPage.verificarCorEvento(cor, evento);
+  });
+
+  this.Given(/^do sistema deverá redirecionar para a listagem de controladores"([^"]*)"$/, function (cor, evento) {
+    return tabelasHorariasPage.verificarCorEvento(cor, evento);
+  });
+
+  this.Given(/^o quadro de horário deverá marcar "([^"]*)", na hora "([^"]*)", com a cor "([^"]*)"$/, function (diaSemana, hora, cor) {
+    return tabelasHorariasPage.verificaQuadroHorario(diaSemana, hora, cor);
   });
 };

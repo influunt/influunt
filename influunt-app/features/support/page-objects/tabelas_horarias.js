@@ -40,6 +40,10 @@ var TabelasHorariasPage = function () {
     });
   };
 
+  this.eventoRemovido = function(evento){
+    return world.waitForInverse('tr[data-evento^="evento"]:nth-child('+evento+')');
+  };
+
   this.eventosRemovidos = function(){
     return world.waitForInverse(eventAdded);
   };
@@ -55,6 +59,15 @@ var TabelasHorariasPage = function () {
     return world.waitFor(cssSelector);
   };
 
+  this.verificaQuadroHorario = function(diaSemana, hora, cor) {
+    var _this = this;
+    var cssCor = _this.setCssAtributoCor(cor);
+    var posicaoSemana = _this.setPosicaoByDia(diaSemana);
+
+    var xpathSelector = '//td[text()='+hora+']//following-sibling::td['+posicaoSemana+'][contains(@class, "'+cssCor+'")]';
+    return world.getElementByXpath(xpathSelector);
+  };
+
   this.setCssAtributoCor = function(cor){
     switch(cor){
       case ('Vermelha'):
@@ -67,7 +80,7 @@ var TabelasHorariasPage = function () {
         return 'horarioColor4';
       case ('Laranja'):
         return 'horarioColor5';
-      case ('Preto'):
+      case ('Preta'):
         return 'horarioColor6';
       case ('VerdeEscuro'):
         return 'horarioColor7';
@@ -81,6 +94,27 @@ var TabelasHorariasPage = function () {
         return 'horarioColor11';
       default:
         throw new Error('Cor: '+cor+' não encontrada.');
+    }
+  };
+
+  this.setPosicaoByDia = function(diaSemana) {
+      switch(diaSemana){
+      case ('Domingo'):
+        return '1';
+      case ('Segunda'):
+        return '2';
+      case ('Terça'):
+        return '3';
+      case ('Quarta'):
+        return '4';
+      case ('Quinta'):
+        return '5';
+      case ('Sexta'):
+        return '6';
+      case ('Sabado'):
+        return '7';
+      default:
+        throw new Error('Dia da semana: '+diaSemana+' não encontrado.');
     }
   };
 };
