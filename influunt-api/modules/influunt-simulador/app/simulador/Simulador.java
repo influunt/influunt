@@ -4,6 +4,7 @@ import engine.EventoMotor;
 import engine.Motor;
 import engine.MotorCallback;
 import models.*;
+import models.simulador.parametros.ParametroSimulacao;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import simulador.akka.SimuladorActor;
@@ -11,7 +12,6 @@ import simulador.eventos.AlteracaoEstadoLog;
 import simulador.eventos.EventoLog;
 import simulador.eventos.LogSimulacao;
 import simulador.eventos.TipoEventoLog;
-import simulador.parametros.ParametroSimulacao;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -4,10 +4,10 @@ import engine.EstadoGrupoBaixoNivel;
 import models.Controlador;
 import models.EstadoGrupoSemaforico;
 import models.Evento;
+import models.simulador.parametros.ParametroSimulacao;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import simulador.Simulador;
-import simulador.parametros.ParametroSimulacao;
 
 import java.util.ArrayList;
 import java.util.HashMap;

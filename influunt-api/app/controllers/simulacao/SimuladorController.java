@@ -35,8 +35,8 @@ public class SimuladorController extends Controller {
         }
 
         ParametroSimulacao params = Json.fromJson(json, ParametroSimulacao.class);
-        List<Erro> erros = new InfluuntValidator<ParametroSimulacao>().validate(params, javax.validation.groups.Default.class);
 
+        List<Erro> erros = new InfluuntValidator<ParametroSimulacao>().validate(params, javax.validation.groups.Default.class);
         if (!erros.isEmpty()) {
             return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
         }
