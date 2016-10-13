@@ -43,6 +43,46 @@ var TabelasHorariasPage = function () {
   this.eventosRemovidos = function(){
     return world.waitForInverse(eventAdded);
   };
+
+  this.clicarEmVisualizarDiagrama = function(){
+    return world.getElement(''+eventAdded+' i.fa-eye').click();
+  };
+
+  this.verificarCorEvento = function(cor, evento) {
+    var _this = this;
+    var cssCor = _this.setCssAtributoCor(cor);
+    var cssSelector = 'tr[data-evento^="evento"]:nth-child('+evento+') td.'+cssCor+'';
+    return world.waitFor(cssSelector);
+  };
+
+  this.setCssAtributoCor = function(cor){
+    switch(cor){
+      case ('Vermelha'):
+        return 'horarioColor1';
+      case ('VerdeClara'):
+        return 'horarioColor2';
+      case ('Roxa'):
+        return 'horarioColor3';
+      case ('Azul'):
+        return 'horarioColor4';
+      case ('Laranja'):
+        return 'horarioColor5';
+      case ('Preto'):
+        return 'horarioColor6';
+      case ('VerdeEscuro'):
+        return 'horarioColor7';
+      case ('Branco'):
+        return 'horarioColor8';
+      case ('Rosa'):
+        return 'horarioColor9';
+      case ('Lilas'):
+        return 'horarioColor10';
+      case ('VermelhoClaro'):
+        return 'horarioColor11';
+      default:
+        throw new Error('Cor: '+cor+' não encontrada.');
+    }
+  };
 };
 
 module.exports = TabelasHorariasPage;

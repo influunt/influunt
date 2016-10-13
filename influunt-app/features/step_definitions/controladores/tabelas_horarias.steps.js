@@ -38,4 +38,17 @@ module.exports = function() {
   this.Given(/^não deve mais possuir eventos inseridos$/, function () {
     return tabelasHorariasPage.eventosRemovidos();
   });
+
+  this.Given(/^o usuário clicar em visualizar o diagrama$/, function () {
+    return tabelasHorariasPage.clicarEmVisualizarDiagrama();
+  });
+
+  this.Given(/^o usuário clicar em fechar o diagrama$/, function () {
+    var modalId = 'modalDiagramaIntervalos';
+    return objetosComuns.clicarBotaoModal(modalId);
+  });
+
+  this.Given(/^o sistema deverá adicionar uma cor "([^"]*)" no evento "([^"]*)"$/, function (cor, evento) {
+    return tabelasHorariasPage.verificarCorEvento(cor, evento);
+  });
 };
