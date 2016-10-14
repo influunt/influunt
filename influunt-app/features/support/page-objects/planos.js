@@ -6,16 +6,6 @@ var world = new worldObj.World();
 
 var PlanosPage = function () {
 
-  this.cadastrarControlador = function() {
-    return world.execSqlScript('features/support/scripts/planos/controlador.sql');
-  };
-
-  this.clicarBotao = function(button) {
-    return world.waitForOverlayDisappear().then(function() {
-      return world.findLinkByText(button).click();
-    });
-  };
-
   this.isPlanos = function() {
     return world.waitFor('ul[class="menu-planos"]');
   };
@@ -28,7 +18,7 @@ var PlanosPage = function () {
     });
   };
 
-  this.isDiagramaModo = function(grupo, modoOperacao) {
+  this.isDiagramaModo = function(modoOperacao, grupo, indicacaoCor, tempo) {
     var _this = this;
     var script = 'return $("div#visualization div.vis-left div.vis-label:contains(\''+grupo+'\')").index() + 1;';
     return world.execJavascript(script).then(function(indexGrupo) {
@@ -36,9 +26,9 @@ var PlanosPage = function () {
         case 'Apagado':
           return _this.isDiagramaApagado();
         case 'Intermitente':
-          return _this.isDiagramaIntermitente(indexGrupo);
-        case 'Operação Normal':
-          return _this.isDiagramaOperacaoNormal(indexGrupo);
+          return _this.isDiagramaIntermitente();
+        case 'Coordenado':
+          return _this.verifyDiagramaValues(indexGrupo, indicacaoCor, tempo);
         case 'Em Vermelho':
           return _this.isDiagramaVermelho(indexGrupo);
         default:
@@ -55,14 +45,17 @@ var PlanosPage = function () {
     return world.waitFor('div#visualization div.vis-foreground div.vis-group:nth-child('+indexGrupo+') div.indicacao-vermelho');
   };
 
-  this.isDiagramaIntermitente = function(indexGrupo) {
-    return world.waitFor('div#visualization div.vis-foreground div.vis-group:nth-child('+indexGrupo+') div.indicacao-intermitente');
+  this.isDiagramaIntermitente = function() {
+    return world.waitFor('div#visualization div.vis-foreground div.indicacao-intermitente');
   };
 
-  this.isDiagramaOperacaoNormal = function(indexGrupo) {
-    return world.waitFor('div#visualization div.vis-foreground div.vis-group:nth-child('+indexGrupo+') div.indicacao-vermelho').then(function() {
-      return world.waitFor('div#visualization div.vis-foreground div.vis-group:nth-child('+indexGrupo+') div.indicacao-verde');
-    });
+  this.verifyDiagramaValues = function(indexGrupo, indicacaoCor, tempo) {
+    var grupo = 'div[contains(@class, "vis-group")]['+indexGrupo+']';
+    var cor = 'div[contains(@class, "'+indicacaoCor+'")]';
+    var time = 'div[text()="'+tempo+'"]';
+
+    var xpathSelector = '//div[contains(@id, "visualization")]//div[contains(@class, "vis-foreground")]//'+grupo+'//'+cor+'//'+time+'';
+    return world.getElementByXpath(xpathSelector);
   };
 
   this.isTabelaEntreVerdesHidden = function() {
@@ -198,12 +191,12 @@ var PlanosPage = function () {
     return world.waitForByXpath('//ul[@id="side-menu"]//span[contains(text(), "'+plano+'")]/..//div[contains(@class, "checked")]');
   };
 
-  this.errosImpeditivos = function(texto){
-    return world.waitForByXpath('//div[contains (@class, "alert")]//li[contains(text(), "'+texto+'")]');
-  };
-
   this.errosInPlanos = function(numeroPlano){
     return world.waitForByXpath('//li[contains (@id, "'+numeroPlano+'")]//span[contains (@class, "badge-danger")]');
+  };
+
+  this.erroInEstagio = function(estagio){
+    return world.waitForByXpath('//h4[contains (@id, "'+estagio+'")]//span[contains (@class, "badge-danger")]');
   };
 
   this.clickInPlano = function(numeroPlano){

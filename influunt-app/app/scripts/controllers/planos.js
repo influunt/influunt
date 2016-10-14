@@ -424,9 +424,9 @@ angular.module('influuntApp')
             .chain($scope.objeto.planos)
             .filter(function(plano) { return plano.anel.idJson === versaoPlano.anel.idJson; })
             .orderBy('posicao')
-            .map(function(plano) { return { idJson: plano.idJson } })
+            .map(function(plano) { return { idJson: plano.idJson }; })
             .value();
-        })
+        });
       };
 
       $scope.submitForm = function() {

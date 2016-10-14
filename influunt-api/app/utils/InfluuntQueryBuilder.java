@@ -36,6 +36,8 @@ public class InfluuntQueryBuilder {
 
     private List<String> fetches;
 
+    private boolean reportMode;
+
     public InfluuntQueryBuilder(Class klass, Map<String, String[]> params) {
         this.klass = klass;
         this.perPage = PER_PAGE_DEFAULT;
@@ -154,16 +156,28 @@ public class InfluuntQueryBuilder {
             });
 
             if (getSortField() != null) {
-                pagedList = predicates.orderBy(getSortField().concat(" ").concat(getSortType())).findPagedList(getPage(), getPerPage());
+                if (reportMode) {
+                    pagedList = predicates.orderBy(getSortField().concat(" ").concat(getSortType())).findPagedList();
+                } else {
+                    pagedList = predicates.orderBy(getSortField().concat(" ").concat(getSortType())).findPagedList(getPage(), getPerPage());
+                }
             } else {
-                pagedList = predicates.findPagedList(getPage(), getPerPage());
+                if (reportMode) {
+                    pagedList = predicates.findPagedList();
+                } else {
+                    pagedList = predicates.findPagedList(getPage(), getPerPage());
+                }
             }
         } else {
             if (klass.equals(Controlador.class)) {
                 query.where().add((Expr.in("versaoControlador.statusVersao", Arrays.asList(StatusVersao.CONFIGURADO, StatusVersao.ATIVO, StatusVersao.EDITANDO))));
             }
             if (getSortField() != null) {
-                pagedList = query.orderBy(getSortField().concat(" ").concat(getSortType())).findPagedList(getPage(), getPerPage());
+                if (reportMode) {
+                    pagedList = query.orderBy(getSortField().concat(" ").concat(getSortType())).findPagedList();
+                } else {
+                    pagedList = query.orderBy(getSortField().concat(" ").concat(getSortType())).findPagedList(getPage(), getPerPage());
+                }
             } else {
                 pagedList = query.findPagedList(getPage(), getPerPage());
             }
@@ -209,22 +223,43 @@ public class InfluuntQueryBuilder {
             String query = "{".concat(String.join(",", predicates)).concat("}");
             if (getSortField() != null) {
                 int sortTypeAux = getSortType().equalsIgnoreCase("asc") ? 1 : -1;
-                auditorias = Auditoria.auditorias().find(query).skip(getSkip()).sort("{".concat(getSortType()).concat(String.format(": %s", sortTypeAux)).concat("}")).limit(getPerPage()).as(Auditoria.class);
+                if (reportMode) {
+                    auditorias = Auditoria.auditorias().find(query).sort("{".concat(getSortType()).concat(String.format(": %s", sortTypeAux)).concat("}")).as(Auditoria.class);
+                } else {
+                    auditorias = Auditoria.auditorias().find(query).skip(getSkip()).sort("{".concat(getSortType()).concat(String.format(": %s", sortTypeAux)).concat("}")).limit(getPerPage()).as(Auditoria.class);
+                }
             } else {
-                auditorias = Auditoria.auditorias().find(query).skip(getSkip()).limit(getPerPage()).as(Auditoria.class);
+                if (reportMode) {
+                    auditorias = Auditoria.auditorias().find(query).as(Auditoria.class);
+                } else {
+                    auditorias = Auditoria.auditorias().find(query).skip(getSkip()).limit(getPerPage()).as(Auditoria.class);
+                }
             }
             total = Auditoria.auditorias().find(query).as(Auditoria.class).count();
         } else {
             if (getSortField() != null) {
                 int sortTypeAux = getSortType().equalsIgnoreCase("asc") ? 1 : -1;
-                auditorias = Auditoria.auditorias().find().skip(getSkip()).limit(getPerPage()).sort("{".concat(getSortField()).concat(String.format(": %s", sortTypeAux)).concat("}")).limit(getPerPage()).as(Auditoria.class);
+                if (reportMode) {
+                    auditorias = Auditoria.auditorias().find().sort("{".concat(getSortField()).concat(String.format(": %s", sortTypeAux)).concat("}")).as(Auditoria.class);
+                } else {
+                    auditorias = Auditoria.auditorias().find().skip(getSkip()).sort("{".concat(getSortField()).concat(String.format(": %s", sortTypeAux)).concat("}")).limit(getPerPage()).as(Auditoria.class);
+                }
             } else {
-                auditorias = Auditoria.auditorias().find().skip(getSkip()).limit(getPerPage()).as(Auditoria.class);
+                if (reportMode) {
+                    auditorias = Auditoria.auditorias().find().as(Auditoria.class);
+                } else {
+                    auditorias = Auditoria.auditorias().find().skip(getSkip()).limit(getPerPage()).as(Auditoria.class);
+                }
             }
             total = Auditoria.auditorias().find().as(Auditoria.class).count();
         }
 
         return new InfluuntQueryResult(Auditoria.toList(auditorias), total, klass);
+    }
+
+    public InfluuntQueryBuilder reportMode() {
+        this.reportMode = true;
+        return this;
     }
 
     @NotNull
@@ -290,5 +325,4 @@ public class InfluuntQueryBuilder {
     private int getSkip() {
         return getPage() * getPerPage();
     }
-
 }

@@ -215,7 +215,6 @@ angular.module('influuntApp')
         idJsonEndereco = _.get(currentAnel.endereco, 'idJson');
         $scope.currentEndereco = _.find($scope.objeto.todosEnderecos, {idJson: idJsonEndereco });
         $scope.currentAnel.localizacao = $filter('nomeEndereco')($scope.currentEndereco);
-
       };
 
       /**
@@ -313,11 +312,11 @@ angular.module('influuntApp')
       $scope.atualizaTabelasEntreVerdesTransicoes = function() {
         var ids = _.map($scope.currentTabelaEntreVerdes.tabelaEntreVerdesTransicoes, 'idJson');
 
-
         $scope.currentTabelasEntreVerdesTransicoes = _
           .chain($scope.objeto.tabelasEntreVerdesTransicoes)
           .filter(function(tevt) { return ids.indexOf(tevt.idJson) >= 0; })
           .value();
+
 
         return $scope.currentTabelasEntreVerdesTransicoes;
       };

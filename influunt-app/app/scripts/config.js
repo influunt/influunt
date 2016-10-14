@@ -983,6 +983,36 @@ angular
             }
           }
         })
+
+        // RELATORIOS
+        .state('app.relatorios_auditorias', {
+          url: '/relatorios/auditorias',
+          templateUrl: 'views/relatorios/auditorias.html',
+          controller: 'RelatoriosCtrl',
+          controllerAs: 'relatorios',
+          data: {
+            title: 'relatorios.auditorias',
+            permissions: {
+              only: 'gerarRelatorioAuditorias',
+              redirectTo: 'app.main'
+            }
+          }
+        })
+
+        .state('app.relatorios_controladores_status', {
+          url: '/relatorios/controladores_status',
+          templateUrl: 'views/relatorios/controladoresStatus.html',
+          controller: 'RelatoriosCtrl',
+          controllerAs: 'relatorios',
+          data: {
+            title: 'relatorios.controladoresStatus',
+            permissions: {
+              only: 'gerarRelatorioControladoresStatus',
+              redirectTo: 'app.main'
+            }
+          }
+        })
+
       ;
 
       // Prevent router from automatic state resolving

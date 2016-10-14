@@ -76,12 +76,6 @@ var CidadesPage = function () {
     });
   };
 
-  this.clicarSimConfirmacaoApagarRegistro = function() {
-    return world.waitFor('div[class^="sweet-alert"][class$="visible"]').then(function() {
-      return world.clickButton('div[class^="sweet-alert"] button.confirm');
-    });
-  };
-
   this.clicarNaoConfirmacaoApagarRegistro = function() {
     return world.waitFor('div[class^="sweet-alert"][class$="visible"]').then(function() {
       return world.clickButton('div[class^="sweet-alert"] button.cancel');

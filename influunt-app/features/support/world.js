@@ -183,6 +183,18 @@ var World = function () {
     }, Promise.resolve());
   };
 
+  this.checkIsElementPresent = function(xpath, campo, dado) {
+    return driver.isElementPresent(webdriver.By.xpath(xpath)).then(function(isElementPresent) {
+      return new Promise(function(resolve, reject) {
+        if (isElementPresent) {
+          resolve(true);
+        } else {
+          reject('Campo "'+campo+'" com o valor '+dado+' não encontrado');
+        }
+      });
+    });
+  };
+
   this.clickButton = function(cssSelector) {
     return driver.findElement(webdriver.By.css(cssSelector)).sendKeys(webdriver.Key.ENTER);
   };
@@ -209,6 +221,11 @@ var World = function () {
 
   this.findByText = function(text) {
     return driver.findElement(webdriver.By.text(text));
+  };
+
+  this.selectByOptionAtribute = function(campo, selectSelector, optionAtribute, value) {
+    var selector = (''+campo+' '+selectSelector+' option['+optionAtribute+'="'+value+'"]');
+    return driver.findElement(webdriver.By.css(selector)).click();
   };
 
   this.selectOption = function(selectSelector, optionText) {
@@ -318,6 +335,12 @@ var World = function () {
 
   this.scrollToDown = function() {
     return driver.executeScript('window.scrollTo(0, 1000);').then(function() {
+      return driver.sleep(500);
+    });
+  };
+
+  this.scrollToUp = function() {
+    return driver.executeScript('window.scrollTo(0, 0);').then(function() {
       return driver.sleep(500);
     });
   };
