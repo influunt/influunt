@@ -8,12 +8,32 @@ package reports;
  */
 public class ControladorStatusVO {
 
+    private String idFabricante;
+    private String nomeFabricante;
     private String status;
     private Integer total;
+
+    public ControladorStatusVO() {
+        super();
+    }
+
+    public ControladorStatusVO(String nomeFabricante, String status, int total) {
+        this.nomeFabricante = nomeFabricante;
+        this.status = status;
+        this.total = total;
+    }
 
     public ControladorStatusVO(String status, int total) {
         this.status = status;
         this.total = total;
+    }
+
+    public String getIdFabricante() {
+        return idFabricante;
+    }
+
+    public void setIdFabricante(String idFabricante) {
+        this.idFabricante = idFabricante;
     }
 
     public String getStatus() {
@@ -32,4 +52,13 @@ public class ControladorStatusVO {
         this.total = total;
     }
 
+    @Override
+    public String toString() {
+        return "ControladorStatusVO{" +
+                "idFabricante='" + idFabricante + '\'' +
+                ", nomeFabricante='" + nomeFabricante + '\'' +
+                ", status='" + status + '\'' +
+                ", total=" + total +
+                '}';
+    }
 }
