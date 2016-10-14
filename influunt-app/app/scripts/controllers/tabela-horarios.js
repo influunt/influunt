@@ -10,9 +10,10 @@
 angular.module('influuntApp')
   .controller('TabelaHorariosCtrl', ['$scope', '$state', '$timeout', 'Restangular', '$filter', 'toast',
                            'influuntAlert', 'influuntBlockui', 'geraDadosDiagramaIntervalo',
-                           'handleValidations', 'TabelaHorariaService', 'HorariosService',
+                           'handleValidations', 'TabelaHorariaService', 'HorariosService', 'SimulacaoService',
     function ($scope, $state, $timeout, Restangular, $filter, toast,
-              influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo, handleValidations, TabelaHorariaService, HorariosService) {
+              influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo,
+              handleValidations, TabelaHorariaService, HorariosService, SimulacaoService) {
 
       var adicionaTabelaHorario, adicionaEvento, atualizaPlanos, atualizaDiagramaIntervalo, atualizaGruposSemaforicos, atualizaEventos,
       atualizaEventosNormais, atualizaPosicaoEventosDoTipo, atualizaPosicaoEventos, atualizaQuantidadeEventos, removerEventoNoCliente,
@@ -480,5 +481,8 @@ angular.module('influuntApp')
         var quadroHorarioBuilder = new influunt.components.QuadroTabelaHorario($scope.dias, $scope.eventosNormais);
         $scope.agenda = quadroHorarioBuilder.calcula();
       };
-    }
-  ]);
+
+      $scope.podeSimular = function(controlador) {
+        return SimulacaoService.podeSimular(controlador);
+      };
+    }]);

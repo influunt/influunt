@@ -189,7 +189,7 @@ public class Transicao extends Model implements Cloneable, Serializable {
 
     @AssertTrue(groups = ControladorAtrasoDeGrupoCheck.class, message = "Essa transição deve ter um atraso de grupo.")
     public boolean isAtrasoDeGrupoPresent() {
-        return getAtrasoDeGrupo() != null && getAtrasoDeGrupo().getAtrasoDeGrupo() > 0;
+        return getAtrasoDeGrupo() != null && getAtrasoDeGrupo().getAtrasoDeGrupo() >= 0;
     }
 
     @AssertTrue(groups = ControladorAtrasoDeGrupoCheck.class, message = "O tempo de atraso de grupo deve estar entre {min} e {max}.")

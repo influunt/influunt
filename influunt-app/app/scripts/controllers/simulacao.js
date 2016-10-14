@@ -10,8 +10,8 @@
 
 angular.module('influuntApp')
 
-.controller('SimulacaoCtrl', ['$scope', '$controller', 'Restangular', 'influuntBlockui', 'HorariosService', 'influuntAlert', '$filter', 'handleValidations',
-function ($scope, $controller, Restangular, influuntBlockui, HorariosService, influuntAlert, $filter, handleValidations) {
+.controller('SimulacaoCtrl', ['$scope', '$controller', 'Restangular', 'influuntBlockui', 'HorariosService', 'influuntAlert', '$filter', 'handleValidations', '$stateParams',
+function ($scope, $controller, Restangular, influuntBlockui, HorariosService, influuntAlert, $filter, handleValidations, $stateParams) {
 
   var loadControladores, atualizaDetectores, atualizaPlanos, iniciarSimulacao;
 
@@ -47,6 +47,11 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
               });
             });
           });
+
+          var controladorId = $stateParams.idControlador;
+          if (controladorId) {
+            $scope.parametrosSimulacao.idControlador = controladorId;
+          }
         }
       }).finally(influuntBlockui.unblock);
   };

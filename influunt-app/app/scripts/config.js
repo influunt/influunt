@@ -959,12 +959,16 @@ angular
 
         // SIMULACAO
         .state('app.simulacao', {
-          url: '/simulacao',
+          url: '/simulacao?idControlador',
           templateUrl: 'views/simulacao/index.html',
           controller: 'SimulacaoCtrl',
           controllerAs: 'simulacao',
           data: {
             title: 'simulacao.titulo',
+            permissions: {
+              only: 'simularControlador',
+              redirectTo: 'app.main'
+            }
           }
         })
 

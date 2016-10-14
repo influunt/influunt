@@ -11,11 +11,11 @@ angular.module('influuntApp')
   .controller('PlanosCtrl', ['$scope', '$state', '$timeout', 'Restangular', '$filter',
                              'validaTransicao', 'utilEstagios', 'toast', 'modoOperacaoService',
                              'influuntAlert', 'influuntBlockui', 'geraDadosDiagramaIntervalo',
-                             'handleValidations', 'utilControladores', 'planoService', 'breadcrumbs',
+                             'handleValidations', 'utilControladores', 'planoService', 'breadcrumbs', 'SimulacaoService',
     function ($scope, $state, $timeout, Restangular, $filter,
               validaTransicao, utilEstagios, toast, modoOperacaoService,
               influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo,
-              handleValidations, utilControladores, planoService, breadcrumbs) {
+              handleValidations, utilControladores, planoService, breadcrumbs, SimulacaoService) {
 
       var selecionaAnel, atualizaTabelaEntreVerdes, atualizaEstagios, atualizaGruposSemaforicos, atualizaPlanos,
           atualizaEstagiosPlanos, adicionaEstagioASequencia, atualizaPosicaoEstagiosPlanos,
@@ -934,6 +934,10 @@ angular.module('influuntApp')
             $scope.currentEstagiosPlanos[$scope.currentEstagioPlanoIndex].tempoVerde = oldValue;
           }
         }
+      };
+
+      $scope.podeSimular = function(controlador) {
+        return SimulacaoService.podeSimular(controlador);
       };
 
     }]);
