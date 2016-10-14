@@ -6,6 +6,7 @@ import models.Anel;
 import models.Controlador;
 import models.StatusControlador;
 import models.StatusDevice;
+import org.junit.Ignore;
 import org.junit.Test;
 import protocol.TipoMensagem;
 import status.StatusControladorFisico;
@@ -32,6 +33,7 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
         assertThat(erros, org.hamcrest.Matchers.empty());
     }
 
+    @Ignore
     @Test
     public void configuracaoOK() throws InterruptedException, ExecutionException, TimeoutException {
         startClient();

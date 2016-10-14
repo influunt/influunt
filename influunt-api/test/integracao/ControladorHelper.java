@@ -302,9 +302,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
 
         estagioGrupoSemaforico = criarAssociacaoEstagioGrupoSemaforico(anel, 3, 8);
         estagioGrupoSemaforico.getEstagio().setDemandaPrioritaria(true);
-        criarAssociacaoEstagioGrupoSemaforico(anel, 3, 9);
-        criarAssociacaoEstagioGrupoSemaforico(anel, 3, 10);
-
+        estagioGrupoSemaforico.getEstagio().setTempoVerdeDemandaPrioritaria(30);
 
         anel = getAnel(3);
 
@@ -413,10 +411,6 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         setEntreVerde(anel, 9, 2, 3, 4, 5);
         setEntreVerde(anel, 8, 3, 1, 5, 5);
         setEntreVerde(anel, 8, 3, 2, 5, 5);
-        setEntreVerde(anel, 9, 3, 1, 5, 5);
-        setEntreVerde(anel, 9, 3, 2, 5, 5);
-        setEntreVerde(anel, 10, 3, 1, 5, 5);
-        setEntreVerde(anel, 10, 3, 2, 5, 5);
 
         anel = getAnel(3);
         setEntreVerde(anel, 11, 1, 2, 3, 4);
@@ -434,15 +428,15 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         setEntreVerde(anel, 13, 3, 4, 3, 6);
         setEntreVerde(anel, 13, 3, 5, 3, 6);
 
-        setEntreVerde(anel, 14, 4, 1, 4, 7);
-        setEntreVerde(anel, 14, 4, 2, 4, 7);
-        setEntreVerde(anel, 14, 4, 3, 4, 7);
-        setEntreVerde(anel, 14, 4, 5, 4, 7);
+        setEntreVerde(anel, 14, 4, 1, 6, 5);
+        setEntreVerde(anel, 14, 4, 2, 6, 5);
+        setEntreVerde(anel, 14, 4, 3, 6, 5);
+        setEntreVerde(anel, 14, 4, 5, 6, 5);
 
-        setEntreVerde(anel, 15, 4, 1, 4, 7);
-        setEntreVerde(anel, 15, 4, 2, 4, 7);
-        setEntreVerde(anel, 15, 4, 3, 4, 7);
-        setEntreVerde(anel, 15, 4, 5, 4, 7);
+        setEntreVerde(anel, 15, 4, 1, 6, 5);
+        setEntreVerde(anel, 15, 4, 2, 6, 5);
+        setEntreVerde(anel, 15, 4, 3, 6, 5);
+        setEntreVerde(anel, 15, 4, 5, 6, 5);
 
         setEntreVerde(anel, 16, 5, 1, 4, 4);
         setEntreVerde(anel, 16, 5, 2, 4, 4);

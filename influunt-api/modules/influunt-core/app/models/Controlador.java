@@ -205,8 +205,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
         deleteTabelasEntreVerdes(this);
 
         this.criarPossiveisTransicoes();
-
-        this.criarIntervalos();
     }
 
     private void deleteTabelasEntreVerdes(Controlador controlador) {
@@ -543,21 +541,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
                 grupoSemaforico.criarPossiveisTransicoes();
             }
         }
-    }
-
-    //TODO: Verificar a necessidade de ter os intervalos
-    private void criarIntervalos() {
-        getAneis().stream().filter(Anel::isAtivo).forEach(anel -> {
-            if (anel.getPlanos() != null && !anel.getPlanos().isEmpty()) {
-                anel.getPlanos().stream().forEach(plano -> {
-                    if (plano != null && !plano.isAtuado()) {
-                        plano.getGruposSemaforicosPlanos().forEach(grupoSemaforicoPlano -> {
-                            grupoSemaforicoPlano.criarIntervalos();
-                        });
-                    }
-                });
-            }
-        });
     }
 
     @AssertTrue(groups = TabelaHorariosCheck.class,

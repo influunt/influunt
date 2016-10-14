@@ -97,8 +97,6 @@ public class ControladorCustomDeserializer {
 
     private Map<String, GrupoSemaforicoPlano> gruposSemaforicosPlanosCache;
 
-    private Map<String, Intervalo> intervalosCache;
-
     private Map<String, EstagioPlano> estagiosPlanosCache;
 
     private Map<String, TabelaHorario> tabelasHorariasCache;
@@ -163,9 +161,6 @@ public class ControladorCustomDeserializer {
         gruposSemaforicosPlanosCache = new HashMap<String, GrupoSemaforicoPlano>();
         caches.put(GRUPOS_SEMAFORICOS_PLANOS, gruposSemaforicosPlanosCache);
 
-        intervalosCache = new HashMap<String, Intervalo>();
-        caches.put(INTERVALOS, intervalosCache);
-
         estagiosPlanosCache = new HashMap<String, EstagioPlano>();
         caches.put(ESTAGIOS_PLANOS, estagiosPlanosCache);
 
@@ -204,7 +199,6 @@ public class ControladorCustomDeserializer {
         parseTabelasEntreVerdesTransicoes(node);
         parsePlanos(node);
         parseGruposSemaforicosPlanos(node);
-        parseIntervalos(node);
         parseEstagiosPlanos(node);
         parseTabelasHorarias(node);
         parseEventos(node);
@@ -396,14 +390,6 @@ public class ControladorCustomDeserializer {
         }
     }
 
-    private void parseIntervalos(JsonNode node) {
-        if (node.has("intervalos")) {
-            for (JsonNode nodeIntervalo : node.get("intervalos")) {
-                Intervalo intervalo = parseIntervalo(nodeIntervalo);
-                intervalosCache.put(intervalo.getIdJson().toString(), intervalo);
-            }
-        }
-    }
 
     private void parseEstagiosPlanos(JsonNode node) {
         if (node.has("estagiosPlanos")) {
@@ -1125,43 +1111,9 @@ public class ControladorCustomDeserializer {
             runLater(c);
         }
 
-        List<Intervalo> intervalos = new ArrayList<>();
-        parseCollection("intervalos", node, intervalos, INTERVALOS, GRUPOS_SEMAFORICOS_PLANOS);
-        grupoSemaforicoPlano.setIntervalos(intervalos);
-
         return grupoSemaforicoPlano;
     }
 
-    private Intervalo parseIntervalo(JsonNode node) {
-        Intervalo intervalo = new Intervalo();
-        if (node.has("id")) {
-            intervalo.setId(UUID.fromString(node.get("id").asText()));
-        }
-        if (node.has("idJson")) {
-            intervalo.setIdJson(node.get("idJson").asText());
-        }
-        if (node.has("tamanho")) {
-            intervalo.setTamanho(node.get("tamanho").asInt());
-        }
-        if (node.has("ordem")) {
-            intervalo.setOrdem(node.get("ordem").asInt());
-        }
-        if (node.has("estadoGrupoSemaforico")) {
-            intervalo.setEstadoGrupoSemaforico(EstadoGrupoSemaforico.valueOf(node.get("estadoGrupoSemaforico").asText()));
-        }
-
-        if (node.has("grupoSemaforicoPlano")) {
-            final String grupoSemaforicoPlanoId = node.get("grupoSemaforicoPlano").get("idJson").asText();
-            Consumer<Map<String, Map>> c = (caches) -> {
-                Map map = caches.get(GRUPOS_SEMAFORICOS_PLANOS);
-                intervalo.setGrupoSemaforicoPlano((GrupoSemaforicoPlano) map.get(grupoSemaforicoPlanoId));
-            };
-
-            runLater(c);
-        }
-
-        return intervalo;
-    }
 
     private EstagioPlano parseEstagiosPlano(JsonNode node) {
         EstagioPlano estagioPlano = new EstagioPlano();

@@ -382,27 +382,27 @@
 //        ArrayList<Plano> planos = new ArrayList<>();
 //        GrupoSemaforico g1 = new GrupoSemaforico();
 //        g1.setTempoVerdeSeguranca(5);
-//        Intervalo g1i1 = new Intervalo();
+//        IntervaloEstagio g1i1 = new IntervaloEstagio();
 //        g1i1.setOrdem(0);
 //        g1i1.setTamanho(3);
 //        g1i1.setEstadoGrupoSemaforico(EstadoGrupoSemaforico.VERDE);
-//        Intervalo g1i2 = new Intervalo();
+//        IntervaloEstagio g1i2 = new IntervaloEstagio();
 //        g1i2.setOrdem(1);
 //        g1i2.setTamanho(5);
 //        g1i2.setEstadoGrupoSemaforico(EstadoGrupoSemaforico.AMARELO);
 //
-//        Intervalo g1i3 = new Intervalo();
+//        IntervaloEstagio g1i3 = new IntervaloEstagio();
 //        g1i3.setOrdem(2);
 //        g1i3.setTamanho(9);
 //        g1i3.setEstadoGrupoSemaforico(EstadoGrupoSemaforico.VERMELHO);
 //
 //
-//        Intervalo g1i4 = new Intervalo();
+//        IntervaloEstagio g1i4 = new IntervaloEstagio();
 //        g1i4.setOrdem(3);
 //        g1i4.setTamanho(13);
 //        g1i4.setEstadoGrupoSemaforico(EstadoGrupoSemaforico.VERDE);
 //
-//        List<Intervalo> intervalosG1 = new ArrayList<>();
+//        List<IntervaloEstagio> intervalosG1 = new ArrayList<>();
 //        intervalosG1.add(g1i1);
 //        intervalosG1.add(g1i2);
 //        intervalosG1.add(g1i3);
@@ -433,27 +433,27 @@
 //
 //        GrupoSemaforico g1 = new GrupoSemaforico();
 //        g1.setTempoVerdeSeguranca(11);
-//        Intervalo g1i1 = new Intervalo();
+//        IntervaloEstagio g1i1 = new IntervaloEstagio();
 //        g1i1.setOrdem(0);
 //        g1i1.setTamanho(12);
 //        g1i1.setEstadoGrupoSemaforico(EstadoGrupoSemaforico.VERDE);
-//        Intervalo g1i2 = new Intervalo();
+//        IntervaloEstagio g1i2 = new IntervaloEstagio();
 //        g1i2.setOrdem(1);
 //        g1i2.setTamanho(5);
 //        g1i2.setEstadoGrupoSemaforico(EstadoGrupoSemaforico.AMARELO);
 //
-//        Intervalo g1i3 = new Intervalo();
+//        IntervaloEstagio g1i3 = new IntervaloEstagio();
 //        g1i3.setOrdem(2);
 //        g1i3.setTamanho(9);
 //        g1i3.setEstadoGrupoSemaforico(EstadoGrupoSemaforico.VERMELHO);
 //
 //
-//        Intervalo g1i4 = new Intervalo();
+//        IntervaloEstagio g1i4 = new IntervaloEstagio();
 //        g1i4.setOrdem(3);
 //        g1i4.setTamanho(9);
 //        g1i4.setEstadoGrupoSemaforico(EstadoGrupoSemaforico.VERDE);
 //
-//        List<Intervalo> intervalosG1 = new ArrayList<>();
+//        List<IntervaloEstagio> intervalosG1 = new ArrayList<>();
 //        intervalosG1.add(g1i1);
 //        intervalosG1.add(g1i2);
 //        intervalosG1.add(g1i3);

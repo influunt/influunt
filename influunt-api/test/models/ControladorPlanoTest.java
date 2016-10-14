@@ -595,8 +595,6 @@ public class ControladorPlanoTest extends ControladorTest {
         estagioPlano4Anel4.setTempoVerdeIntermediario(20);
         estagioPlano4Anel4.setTempoExtensaoVerde(10.0);
 
-        criaIntervalos(plano1Anel2);
-        criaIntervalos(plano1Anel4);
         erros = getErros(controlador);
         assertThat(erros, Matchers.empty());
 
@@ -777,7 +775,6 @@ public class ControladorPlanoTest extends ControladorTest {
         estagioPlano3.setTempoVerde(5);
         estagioPlano4.setTempoVerde(6);
 
-        criaIntervalos(plano);
         List<Erro> erros = getErros(controlador);
         assertEquals(2, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(

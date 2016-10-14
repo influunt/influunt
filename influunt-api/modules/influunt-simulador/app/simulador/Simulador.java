@@ -126,50 +126,50 @@ public abstract class Simulador implements MotorCallback {
         return 2;
     }
 
-    public Map<Integer, java.util.List<Pair<DateTime, Intervalo>>> getIntervalos() {
-
-        Map<Integer, java.util.List<Pair<DateTime, Intervalo>>> mapa = new HashMap<>();
-
-
-        List<EventoLog> eventos = logSimulacao.find(TipoEventoLog.ALTERACAO_ESTADO).collect(Collectors.toList());
-        DateTime dataInicio = eventos.get(0).getTimeStamp();
-
-        for (EventoLog eventoLog : eventos) {
-            AlteracaoEstadoLog alteracaoEstadoLog = (AlteracaoEstadoLog) eventoLog;
-            int tamanho = (int) (alteracaoEstadoLog.getTimeStamp().getMillis() / 1000 - dataInicio.getMillis() / 1000);
-            dataInicio = alteracaoEstadoLog.getTimeStamp();
-
-
-            for (int i = 1; i <= alteracaoEstadoLog.getAtual().size(); i++) {
-                if (i > 120) {
-                    System.out.println("P");
-                }
-                if (!mapa.containsKey(i)) {
-                    mapa.put(i, new ArrayList<>());
-                }
-                if (mapa.get(i).isEmpty()) {
-                    Intervalo intervalo = new Intervalo();
-                    intervalo.setTamanho(tamanho);
-                    intervalo.setEstadoGrupoSemaforico(alteracaoEstadoLog.getAtual().get(i - 1));
-                    mapa.get(i).add(new Pair<DateTime, Intervalo>(alteracaoEstadoLog.getTimeStamp(), intervalo));
-                } else {
-                    Intervalo ultimo = mapa.get(i).get(mapa.get(i).size() - 1).getSecond();
-                    if (ultimo.getEstadoGrupoSemaforico().equals(alteracaoEstadoLog.getAtual().get(i - 1))) {
-                        ultimo.setTamanho(ultimo.getTamanho() + tamanho);
-                    } else {
-                        Intervalo intervalo = new Intervalo();
-                        intervalo.setTamanho(tamanho);
-                        ultimo.setTamanho(ultimo.getTamanho() + tamanho);
-                        intervalo.setEstadoGrupoSemaforico(alteracaoEstadoLog.getAtual().get(i - 1));
-                        mapa.get(i).add(new Pair<DateTime, Intervalo>(alteracaoEstadoLog.getTimeStamp(), intervalo));
-
-                    }
-                }
-            }
-        }
-
-        return mapa;
-    }
+//    public Map<Integer, java.util.List<Pair<DateTime, Intervalo>>> getIntervalos() {
+//
+//        Map<Integer, java.util.List<Pair<DateTime, Intervalo>>> mapa = new HashMap<>();
+//
+//
+//        List<EventoLog> eventos = logSimulacao.find(TipoEventoLog.ALTERACAO_ESTADO).collect(Collectors.toList());
+//        DateTime dataInicio = eventos.get(0).getTimeStamp();
+//
+//        for (EventoLog eventoLog : eventos) {
+//            AlteracaoEstadoLog alteracaoEstadoLog = (AlteracaoEstadoLog) eventoLog;
+//            int tamanho = (int) (alteracaoEstadoLog.getTimeStamp().getMillis() / 1000 - dataInicio.getMillis() / 1000);
+//            dataInicio = alteracaoEstadoLog.getTimeStamp();
+//
+//
+//            for (int i = 1; i <= alteracaoEstadoLog.getAtual().size(); i++) {
+//                if (i > 120) {
+//                    System.out.println("P");
+//                }
+//                if (!mapa.containsKey(i)) {
+//                    mapa.put(i, new ArrayList<>());
+//                }
+//                if (mapa.get(i).isEmpty()) {
+//                    Intervalo intervalo = new Intervalo();
+//                    intervalo.setTamanho(tamanho);
+//                    intervalo.setEstadoGrupoSemaforico(alteracaoEstadoLog.getAtual().get(i - 1));
+//                    mapa.get(i).add(new Pair<DateTime, Intervalo>(alteracaoEstadoLog.getTimeStamp(), intervalo));
+//                } else {
+//                    Intervalo ultimo = mapa.get(i).get(mapa.get(i).size() - 1).getSecond();
+//                    if (ultimo.getEstadoGrupoSemaforico().equals(alteracaoEstadoLog.getAtual().get(i - 1))) {
+//                        ultimo.setTamanho(ultimo.getTamanho() + tamanho);
+//                    } else {
+//                        Intervalo intervalo = new Intervalo();
+//                        intervalo.setTamanho(tamanho);
+//                        ultimo.setTamanho(ultimo.getTamanho() + tamanho);
+//                        intervalo.setEstadoGrupoSemaforico(alteracaoEstadoLog.getAtual().get(i - 1));
+//                        mapa.get(i).add(new Pair<DateTime, Intervalo>(alteracaoEstadoLog.getTimeStamp(), intervalo));
+//
+//                    }
+//                }
+//            }
+//        }
+//
+//        return mapa;
+//    }
 
     public List<EventoLog> getMudancaEventos() {
         return logSimulacao.find(TipoEventoLog.ALTERACAO_EVENTO).collect(Collectors.toList());

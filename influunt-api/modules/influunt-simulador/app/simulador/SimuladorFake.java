@@ -145,9 +145,9 @@
 //        return 2;
 //    }
 //
-//    public Map<Integer, List<Pair<DateTime,Intervalo>>> getIntervalos() {
+//    public Map<Integer, List<Pair<DateTime,IntervaloEstagio>>> getIntervalos() {
 //
-//        Map<Integer, List<Pair<DateTime,Intervalo>>>  mapa = new HashMap<>();
+//        Map<Integer, List<Pair<DateTime,IntervaloEstagio>>>  mapa = new HashMap<>();
 //
 //
 //        List<EventoLog> eventos = logSimulacao.find(TipoEventoLog.ALTERACAO_ESTADO).collect(Collectors.toList());
@@ -167,20 +167,20 @@
 //                    mapa.put(i,new ArrayList<>());
 //                }
 //                if(mapa.get(i).isEmpty()){
-//                    Intervalo intervalo = new Intervalo();
+//                    IntervaloEstagio intervalo = new IntervaloEstagio();
 //                    intervalo.setTamanho(tamanho);
 //                    intervalo.setEstadoGrupoSemaforico(alteracaoEstadoLog.getAtual().get(i - 1));
-//                    mapa.get(i).add(new Pair<DateTime, Intervalo>(alteracaoEstadoLog.timeStamp,intervalo));
+//                    mapa.get(i).add(new Pair<DateTime, IntervaloEstagio>(alteracaoEstadoLog.timeStamp,intervalo));
 //                }else{
-//                    Intervalo ultimo =  mapa.get(i).get(mapa.get(i).size() -1).getSecond();
+//                    IntervaloEstagio ultimo =  mapa.get(i).get(mapa.get(i).size() -1).getSecond();
 //                    if(ultimo.getEstadoGrupoSemaforico().equals(alteracaoEstadoLog.getAtual().get(i -1))){
 //                        ultimo.setTamanho(ultimo.getTamanho() + tamanho);
 //                    }else{
-//                        Intervalo intervalo = new Intervalo();
+//                        IntervaloEstagio intervalo = new IntervaloEstagio();
 //                        intervalo.setTamanho(tamanho);
 //                        ultimo.setTamanho(ultimo.getTamanho() + tamanho);
 //                        intervalo.setEstadoGrupoSemaforico(alteracaoEstadoLog.getAtual().get(i - 1));
-//                        mapa.get(i).add(new Pair<DateTime, Intervalo>(alteracaoEstadoLog.timeStamp,intervalo));
+//                        mapa.get(i).add(new Pair<DateTime, IntervaloEstagio>(alteracaoEstadoLog.timeStamp,intervalo));
 //
 //                    }
 //                }

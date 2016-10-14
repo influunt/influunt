@@ -188,7 +188,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
 
     @AssertTrue(groups = PlanosCheck.class, message = "Tempo de verde mínimo deve estar entre {min} e {max}")
     public boolean isTempoVerdeMinimo() {
-        if (getPlano().isAtuado()) {
+        if (getPlano().isAtuado() && getEstagio().isAssociadoAGrupoSemaforicoVeicular()) {
             return RangeUtils.getInstance().TEMPO_VERDE_MINIMO.contains(getTempoVerdeMinimo());
         }
         return true;
@@ -200,7 +200,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
 
     @AssertTrue(groups = PlanosCheck.class, message = "Tempo de verde máximo deve estar entre {min} e {max}")
     public boolean isTempoVerdeMaximo() {
-        if (getPlano().isAtuado()) {
+        if (getPlano().isAtuado() && getEstagio().isAssociadoAGrupoSemaforicoVeicular()) {
             return RangeUtils.getInstance().TEMPO_VERDE_MAXIMO.contains(getTempoVerdeMaximo());
         }
         return true;
@@ -212,7 +212,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
 
     @AssertTrue(groups = PlanosCheck.class, message = "Tempo de verde intermediário deve estar entre {min} e {max}")
     public boolean isTempoVerdeIntermediario() {
-        if (getPlano().isAtuado()) {
+        if (getPlano().isAtuado() && getEstagio().isAssociadoAGrupoSemaforicoVeicular()) {
             return RangeUtils.getInstance().TEMPO_VERDE_INTERMEDIARIO.contains(getTempoVerdeIntermediario());
         }
         return true;
@@ -224,7 +224,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
 
     @AssertTrue(groups = PlanosCheck.class, message = "Tempo de extensão de verde deve estar entre {min} e {max}")
     public boolean isTempoExtensaoVerde() {
-        if (getPlano().isAtuado()) {
+        if (getPlano().isAtuado() && getEstagio().isAssociadoAGrupoSemaforicoVeicular()) {
             return RangeUtils.getInstance().TEMPO_EXTENSAO_VERDE.contains(getTempoExtensaoVerde());
         }
         return true;

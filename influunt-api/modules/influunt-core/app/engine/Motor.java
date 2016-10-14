@@ -21,8 +21,6 @@ public class Motor implements MotorEvents, GerenciadorDeIntervalosCallBack {
 
     private GerenciadorDeEventos gerenciadorDeEventos;
 
-    private GerenciadorDeIntervalos gerenciadorDeIntervalos;
-
     private List<MotorCallback> callbacks = new ArrayList<>();
 
     private Evento eventoAtual;
@@ -72,24 +70,24 @@ public class Motor implements MotorEvents, GerenciadorDeIntervalosCallBack {
             if (!evento.equals(eventoAtual)) {
                 onEventoChange(instante, eventoAtual, evento);
                 eventoAtual = evento;
-                gerenciadorDeIntervalos.trocarPlanos(instante, getPlanos(eventoAtual));
+//                gerenciadorDeIntervalos.trocarPlanos(instante, getPlanos(eventoAtual));
             }
         }
 
         if (iniciarGrupos) {
-            gerenciadorDeIntervalos = new GerenciadorDeIntervalos(inicioSimulacao, getPlanos(eventoAtual), this);
+//            gerenciadorDeIntervalos = new GerenciadorDeIntervalos(inicioSimulacao, getPlanos(eventoAtual), this);
             iniciarGrupos = false;
         }
 
         if (estadoAtual == null) {
-            estadoAtual = gerenciadorDeIntervalos.getEstadosGrupo(instante);
+//            estadoAtual = gerenciadorDeIntervalos.getEstadosGrupo(instante);
             onGrupoChange(instante, null, estadoAtual);
         } else {
-            List<EstadoGrupoSemaforico> estadoGrupoSemaforico = gerenciadorDeIntervalos.getEstadosGrupo(instante);
-            if (!estadoAtual.equals(estadoGrupoSemaforico)) {
-                onGrupoChange(instante, estadoAtual, estadoGrupoSemaforico);
-                estadoAtual = estadoGrupoSemaforico;
-            }
+//            List<EstadoGrupoSemaforico> estadoGrupoSemaforico = gerenciadorDeIntervalos.getEstadosGrupo(instante);
+//            if (!estadoAtual.equals(estadoGrupoSemaforico)) {
+//                onGrupoChange(instante, estadoAtual, estadoGrupoSemaforico);
+//                estadoAtual = estadoGrupoSemaforico;
+//            }
         }
 
         callbacks.stream().forEach(motorCallback -> motorCallback.onEstado(instante, EstadoGrupoBaixoNivel.parse(estadoAtual)));

@@ -1,6 +1,5 @@
 package engine;
 
-import models.EstagioPlano;
 import org.joda.time.DateTime;
 
 /**
@@ -8,5 +7,7 @@ import org.joda.time.DateTime;
  */
 public interface GerenciadorDeEstagiosCallback {
 
-    public void onChangeEstagio(Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, EstagioPlano estagioPlanoAnterior, EstagioPlano estagioPlanoNovo);
+    public void onEstagioChange(Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos);
+    public void onEstagioEnds(Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos);
+
 }
