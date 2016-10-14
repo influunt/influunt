@@ -79,6 +79,7 @@
     "anel": "Anel",
     "area": "Área",
     "subarea": "Subárea",
+    "totalAneis": "Total de Anéis",
     "adicionarGrupo": "Adicionar Grupo",
     "ativo": "Ativo",
     "cidade": "Cidade",
@@ -680,6 +681,14 @@
   "EM_CONFIGURACAO": "Em Configuração",
   "CONFIGURADO": "Configurado",
   "ATIVO": "Ativo",
-  "EM_EDICAO": "Em Edição"
-
+  "EM_EDICAO": "Em Edição",
+  "relatorios": {
+    "auditorias": "Auditorias",
+    "controladoresStatus": "Controladores por Status",
+    "gerar": "Gerar",
+    "inicio": "Início",
+    "fim": "Fim",
+    "titulo": "Relatórios",
+    "tipo": "Tipo Relatório"
+  }
 }

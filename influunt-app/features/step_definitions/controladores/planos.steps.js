@@ -8,14 +8,6 @@ module.exports = function() {
   var planosPage = new PlanosPage();
   var objetosComuns = new ObjetosComuns();
 
-  this.Given(/^que o sistema possui ao menos um controlador configurado$/, function () {
-    return planosPage.cadastrarControlador();
-  });
-
-  this.Given(/^o usuário clicar no botão Planos do controlador$/, function () {
-    return planosPage.clicarBotao('Planos');
-  });
-
   this.Given(/^o sistema deverá redirecionar para a tela de planos$/, function () {
     return planosPage.isPlanos();
   });
@@ -26,10 +18,6 @@ module.exports = function() {
 
   this.Given(/^que o usuário selecione o modo de operação "([^"]*)"$/, function (modoOperacao) {
     return planosPage.selecionarModoOperacao(modoOperacao);
-  });
-
-  this.Given(/^o diagrama de ciclos deverá marcar o grupo semafórico "([^"]*)" como "([^"]*)"$/, function (grupo, modoOperacao) {
-    return planosPage.isDiagramaModo(grupo, modoOperacao);
   });
 
   this.Given(/^o usuário não deve ter a opção de selecionar uma tabela entre verdes para o plano$/, function () {
@@ -136,18 +124,6 @@ module.exports = function() {
     return planosPage.isPlanoAtivo(plano);
   });
 
-  this.Given(/^o usuário clicar em editar$/, function () {
-    return planosPage.clicarBotao('Editar');
-  });
-
-  this.Given(/^o usuário clicar em salvar$/, function () {
-    return planosPage.clicarBotao('Salvar');
-  });
-
-  this.Given(/^que o usuário selecione o anel (\d+)$/, function (numeroAnel) {
-    return objetosComuns.trocarAnel(numeroAnel);
-  });
-
   this.Given(/^clicar em cancelar a edição$/, function () {
     return planosPage.clicarBotao('Cancelar Edição');
   });
@@ -158,10 +134,6 @@ module.exports = function() {
 
   this.Given(/^o usuário queira limpar o plano (\d+)$/, function(numeroPlano){
     return planosPage.clickInPlano(numeroPlano);
-  });
-
-  this.Given(/^o sistema deverá apresentar erro de "([^"]*)"$/, function (texto) {
-    return planosPage.errosImpeditivos(texto);
   });
 
   this.Given(/^o sistema deverá mostrar erro no plano (\d+)$/, function (numeroPlano) {
@@ -177,4 +149,14 @@ module.exports = function() {
       expect(text).to.equal('Tem certeza que deseja colocar o tempo de verde menor que o tempo de verde de segurança dos grupos semafóricos?');
     });
   });
+
+  this.Given(/^o sistema deve mostar o diagrama "([^"]*)" no grupo "([^"]*)" com "([^"]*)" em "([^"]*)" segundos$/, function (modoOperacao, grupo, indicacaoCor, tempo) {
+    return planosPage.isDiagramaModo(modoOperacao, grupo, indicacaoCor, tempo);
+  });
+
+  this.Given(/^o sistema deverá apresentar erro no estágio "([^"]*)"$/, function (estagio) {
+    return planosPage.erroInEstagio(estagio);
+  });
+
+
 };

@@ -12,10 +12,6 @@ module.exports = function() {
     return modelosPage.indexPage();
   });
 
-  this.Given(/^que exista ao menos um modelo cadastrado no sistema$/, function() {
-    return modelosPage.existeAoMenosUmModelo();
-  });
-
   this.Given(/^deve ser exibida uma lista com o modelo já cadastrado no sistema$/, function() {
     return modelosPage.getItensTabela().then(function(itens) {
       expect(itens).to.have.length.at.least(1);

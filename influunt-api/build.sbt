@@ -56,7 +56,7 @@ libraryDependencies ++= Seq(
   "net.jpountz.lz4" % "lz4" % "1.3.0",
   "org.mapdb" % "elsa" % "3.0.0-M6",
   "com.google.guava" % "guava" % "19.0",
-
+  "net.sf.jasperreports" % "jasperreports" % "6.3.1",
   "org.awaitility" % "awaitility-scala" % "2.0.0")
 
 jacoco.settings
@@ -71,6 +71,8 @@ fork in run := false
 fork in Test := false
 resolvers ++= Seq(Resolver.mavenLocal, "Sonatype snapshots repository" at "https://oss.sonatype.org/content/repositories/snapshots/")
 resolvers ++= Seq("Sonatype snapshots repository 2" at "http://dl.bintray.com/andsel/maven/")
+resolvers ++= Seq("Jasper" at "http://jasperreports.sourceforge.net/maven2/")
+resolvers ++= Seq("Jasper Third Party" at "http://jaspersoft.artifactoryonline.com/jaspersoft/third-party-ce-artifacts/")
 
 mappings in Universal <++= (packageBin in Compile) map { jar =>
   val scriptsDir = new java.io.File("app/templates/")
