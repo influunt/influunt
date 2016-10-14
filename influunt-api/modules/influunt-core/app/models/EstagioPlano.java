@@ -353,10 +353,8 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         return getPlano().getTempoEstagio(this);
     }
 
-    public long getTempoVerdeSegurancaFaltante(EstagioPlano estagioPlanoAnterior, long contadorIntervalo) {
-        final long tempoVerdeSeguranca = this.getTempoMaximoVerdeSeguranca(estagioPlanoAnterior) * 1000L;
-
-        return Math.max(0, tempoVerdeSeguranca - contadorIntervalo);
+    public long getTempoVerdeSegurancaFaltante(EstagioPlano estagioPlanoAnterior) {
+        return this.getTempoMaximoVerdeSeguranca(estagioPlanoAnterior) * 1000L;
     }
 
     public Integer getTempoMaximoVerdeSeguranca(EstagioPlano estagioAnteriorPlano) {

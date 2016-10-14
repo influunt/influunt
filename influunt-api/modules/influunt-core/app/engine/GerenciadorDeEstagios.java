@@ -3,10 +3,7 @@ package engine;
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;
 import com.google.common.collect.TreeRangeMap;
-import models.Detector;
-import models.Estagio;
-import models.EstagioPlano;
-import models.Plano;
+import models.*;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 
@@ -76,8 +73,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
         final long tempoEntreVerde = tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(estagioAnterior.getPosicao(), estagioAtual.getPosicao()));
         final long tempoVerde = estagioPlano.getTempoVerdeEstagio() * 1000L;
 
-        this.intervalos.put(Range.closedOpen(0L, tempoEntreVerde), new Intervalo(tempoEntreVerde, true, estagioPlano));
-        this.intervalos.put(Range.closedOpen(tempoEntreVerde, tempoEntreVerde + tempoVerde), new Intervalo(tempoVerde, false, estagioPlano));
+        this.intervalos.put(Range.closedOpen(0L, tempoEntreVerde), new Intervalo(tempoEntreVerde, true, estagioPlano, estagioPlanoAtual));
+        this.intervalos.put(Range.closedOpen(tempoEntreVerde, tempoEntreVerde + tempoVerde), new Intervalo(tempoVerde, false, estagioPlano, estagioPlanoAtual));
     }
 
     public RangeMap<Long, Intervalo> getIntervalos() {
@@ -151,11 +148,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
         if (intervalo.isEntreverde()) {
             range = this.intervalos.getEntry(range.getKey().upperEndpoint() + 1);
             intervalo = range.getValue();
-            intervalo.setDuracao(estagioPlanoAtual.getTempoVerdeSegurancaFaltante(estagioPlanoAnterior, 0));
-        } else {
-            intervalo.setDuracao(estagioPlanoAtual.getTempoVerdeSegurancaFaltante(estagioPlanoAnterior, contadorIntervalo));
         }
-
+        intervalo.setDuracao(estagioPlanoAtual.getTempoVerdeSegurancaFaltante(estagioPlanoAnterior));
         this.intervalos.remove(range.getKey());
         this.intervalos.put(Range.closedOpen(range.getKey().lowerEndpoint(), range.getKey().lowerEndpoint() + intervalo.getDuracao()), intervalo);
     }
@@ -215,25 +209,6 @@ public class GerenciadorDeEstagios implements EventoCallback {
             }
         }
     }
-//
-//    private void atualizaEstagiosComDemandaPrioritaria(Estagio estagio) {
-//        EstagioPlano estagioPlanoAnterior = estagioPlanoAtual.getEstagioPlanoAnterior(listaEstagioPlanos);
-//        EstagioPlano estagioPlanoProximo = estagioPlanoAtual.getEstagioPlanoProximo(listaEstagioPlanos);
-//
-//        final long tempoEstagioAtual = intervalos.getEntry(contador).getKey().upperEndpoint() - intervalos.getEntry(contador).getKey().lowerEndpoint();
-//        final long tempoDecorridoNoEstagio = contador - intervalos.getEntry(contador).getKey().lowerEndpoint();
-//        final long tempoFaltanteVerde = Math.max((estagioPlanoAtual.getEstagio().getTempoMaximoVerdeSeguranca() + plano.getTempoEntreVerdeEntreEstagios(estagioPlanoAnterior.getEstagio(), estagioPlanoAtual.getEstagio())) * 1000 - tempoDecorridoNoEstagio, 0);
-//        final long tempoEntreVerdePrioritario = plano.getTempoEntreVerdeEntreEstagios(estagioPlanoAtual.getEstagio(), estagio) * 1000;
-//        final long tempoVerdeEstagioPrioritario = estagio.getTempoVerdeDemandaPrioritaria() * 1000;
-//        final long tempoEntreVerde = plano.getTempoEntreVerdeEntreEstagios(estagio, estagioPlanoProximo.getEstagio()) * 1000;
-//
-//        EstagioPlano estagioPlano = new EstagioPlano();
-//        estagioPlano.setEstagio(estagio);
-//        final long novoTerminoEstagioAtual = tempoDecorridoNoEstagio + tempoFaltanteVerde;
-//        final long tempoNovoEstagio = tempoEntreVerdePrioritario + tempoVerdeEstagioPrioritario;
-//        final long offset = tempoNovoEstagio - (tempoEstagioAtual - novoTerminoEstagioAtual);
-////        this.intervalos = mergeIntervalos(offset, tempoNovoEstagio, estagioPlano, estagioPlanoProximo.getPosicao(), novoTerminoEstagioAtual);
-//    }
 
     private void atualizaEstagiosCicloAtual(EstagioPlano estagioPlano) {
         List<EstagioPlano> novaLista = new ArrayList<>();
@@ -267,10 +242,83 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
         private EstagioPlano estagioPlano;
 
-        public Intervalo(long duracao, boolean entreverde, EstagioPlano estagioPlano) {
+        private EstagioPlano estagioPlanoAnterior;
+
+        public Intervalo(long duracao, boolean entreverde, EstagioPlano estagioPlano, EstagioPlano estagioPlanoAnterior) {
             this.duracao = duracao;
             this.entreverde = entreverde;
             this.estagioPlano = estagioPlano;
+            this.estagioPlanoAnterior = estagioPlanoAnterior;
+            loadEstados();
+        }
+
+        private void loadEstados() {
+            final Estagio estagio = estagioPlano.getEstagio();
+            final Plano plano = estagioPlano.getPlano();
+            estados = new HashMap<>();
+            estagio.getGruposSemaforicos().forEach(grupoSemaforico -> {
+                estados.put(grupoSemaforico.getPosicao(), loadGrupoSemaforico(grupoSemaforico));
+            });
+
+            plano.getGruposSemaforicosPlanos().stream()
+                    .filter(grupoSemaforicoPlano -> !estagio.getGruposSemaforicos().contains(grupoSemaforicoPlano.getGrupoSemaforico()))
+                    .forEach(grupoSemaforicoPlano -> {
+                        estados.put(grupoSemaforicoPlano.getGrupoSemaforico().getPosicao(), loadGrupoSemaforico(grupoSemaforicoPlano));
+                    });
+
+        }
+
+        //Ganho direito de passagem
+        private RangeMap<Long, EstadoGrupoSemaforico> loadGrupoSemaforico(GrupoSemaforico grupoSemaforico) {
+            RangeMap<Long, EstadoGrupoSemaforico> intervalos = TreeRangeMap.create();
+            if (entreverde) {
+                final Estagio estagioAnterior = estagioPlanoAnterior.getEstagio();
+                if(estagioAnterior.getGruposSemaforicos().contains(grupoSemaforico)) {
+                    intervalos.put(Range.closedOpen(0L, duracao), EstadoGrupoSemaforico.VERDE);
+                } else {
+                    final Estagio estagioAtual = estagioPlano.getEstagio();
+                    final Transicao transicao = grupoSemaforico.findTransicaoComGanhoDePassagemByOrigemDestino(estagioAnterior, estagioAtual);
+                    final long tempoAtraso = transicao.getTempoAtrasoGrupo() * 1000L;
+                    intervalos.put(Range.closedOpen(0L, tempoAtraso), EstadoGrupoSemaforico.VERDE);
+                    intervalos.put(Range.closedOpen(tempoAtraso, duracao), EstadoGrupoSemaforico.VERMELHO);
+                }
+            } else {
+                intervalos.put(Range.closedOpen(0L, duracao), EstadoGrupoSemaforico.VERDE);
+            }
+            return intervalos;
+        }
+
+        //Perdendo o direito de passagem
+        private RangeMap<Long, EstadoGrupoSemaforico> loadGrupoSemaforico(GrupoSemaforicoPlano grupoSemaforicoPlano) {
+            RangeMap<Long, EstadoGrupoSemaforico> intervalos = TreeRangeMap.create();
+            if(entreverde){
+                final Estagio estagioAnterior = estagioPlanoAnterior.getEstagio();
+                final GrupoSemaforico grupoSemaforico = grupoSemaforicoPlano.getGrupoSemaforico();
+                if (estagioAnterior.getGruposSemaforicos().contains(grupoSemaforico)) {
+                    final Plano plano = estagioPlano.getPlano();
+                    final Estagio estagioAtual = estagioPlano.getEstagio();
+                    final Transicao transicao = grupoSemaforico.findTransicaoByOrigemDestino(estagioAnterior, estagioAtual);
+                    final TabelaEntreVerdesTransicao tabelaEntreVerdes = grupoSemaforico.findTabelaEntreVerdesTransicaoByTransicao(plano.getPosicaoTabelaEntreVerde(), transicao);
+                    final long tempo;
+                    final long tempoAtraso = transicao.getTempoAtrasoGrupo() * 1000L;
+
+                    intervalos.put(Range.closedOpen(0L, tempoAtraso), EstadoGrupoSemaforico.VERDE);
+                    if (grupoSemaforico.isPedestre()) {
+                        tempo = tabelaEntreVerdes.getTempoVermelhoIntermitente() + tempoAtraso;
+                        intervalos.put(Range.closedOpen(tempoAtraso, tempo), EstadoGrupoSemaforico.VERMELHO_INTERMITENTE);
+                    } else {
+                        tempo = tabelaEntreVerdes.getTempoAmarelo() + tempoAtraso;
+                        intervalos.put(Range.closedOpen(tempoAtraso, tempo), EstadoGrupoSemaforico.AMARELO);
+                    }
+                    intervalos.put(Range.closedOpen(tempo, duracao), EstadoGrupoSemaforico.VERMELHO_LIMPEZA);
+                } else {
+                    intervalos.put(Range.closedOpen(0L, duracao), EstadoGrupoSemaforico.VERMELHO);
+                }
+            } else {
+                intervalos.put(Range.closedOpen(0L, duracao), EstadoGrupoSemaforico.VERMELHO);
+            }
+
+            return intervalos;
         }
 
         public long getDuracao() {
@@ -301,6 +349,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
             return this.estagioPlano.getEstagio();
         }
 
+        private HashMap<Integer, RangeMap<Long, EstadoGrupoSemaforico>> estados;
+
         @Override
         public String toString() {
             return "Intervalo{" +
@@ -309,52 +359,14 @@ public class GerenciadorDeEstagios implements EventoCallback {
                     ", estagioPlano=" + estagioPlano +
                     '}';
         }
+
+        public List<EstadoGrupoSemaforico> getEstadoGrupoSemaforicos(long instante){
+            return estados.keySet()
+                    .stream()
+                    .sorted()
+                    .map(i -> estados.get(i).get(instante))
+                    .collect(Collectors.toList());
+        }
     }
 
-//    private void atualizaEstagiosProximoCiclo(EstagioPlano estagioPlano) {
-//        List<EstagioPlano> novaLista = new ArrayList<>(listaEstagioPlanos);
-//        final Boolean[] adicionado = {false};
-//        listaEstagioPlanos.forEach(item -> {
-//            if (!(item.getPosicao() < estagioPlano.getPosicao()) && !adicionado[0]) {
-//                novaLista.add(estagioPlano);
-//                adicionado[0] = true;
-//            }
-//            novaLista.add(item);
-//        });
-//        listaEstagioPlanos = novaLista;
-//    }
-
-//    public RangeMap<Long, EstagioPlano> mergeIntervalos(final long offset, final long tempoNovoEstagio, final EstagioPlano estagioPlano, final int posicaoCorte, final long tempoFinalEstagioAtual, final long tempoFinalEstagioProximo) {
-//        Range<Long> range = this.intervalos.getEntry(contador).getKey();
-//        List<Map.Entry<Range<Long>, EstagioPlano>> head = intervalos.asMapOfRanges().entrySet().stream().filter(entry -> {
-//            return entry.getValue().getPosicao() < posicaoCorte;
-//        }).collect(Collectors.toList());
-//
-//        List<Map.Entry<Range<Long>, EstagioPlano>> tail = intervalos.asMapOfRanges().entrySet().stream().filter(entry -> {
-//            return entry.getKey().lowerEndpoint() >= range.upperEndpoint() && entry.getValue().getPosicao() >= posicaoCorte;
-//        }).collect(Collectors.toList());
-//
-//        RangeMap<Long, EstagioPlano> novosIntervalos = TreeRangeMap.create();
-//
-//        final Long[] tempo = {0L};
-//        head.forEach(entry -> {
-//            if (entry.getKey().equals(range)){
-//                novosIntervalos.put(Range.closedOpen(entry.getKey().lowerEndpoint(), tempoFinalEstagioAtual), entry.getValue());
-//                tempo[0] = tempoFinalEstagioAtual;
-//            } else {
-//                novosIntervalos.put(Range.closedOpen(entry.getKey().lowerEndpoint(), entry.getKey().upperEndpoint()), entry.getValue());
-//                tempo[0] = entry.getKey().upperEndpoint();
-//            }
-//        });
-//
-//        Range<Long> novoRange = Range.closedOpen(tempo[0], tempo[0] + tempoNovoEstagio);
-//
-//        novosIntervalos.put(novoRange, estagioPlano);
-//
-//        tail.forEach(entry -> {
-//            novosIntervalos.put(Range.closedOpen(entry.getKey().lowerEndpoint() + offset, entry.getKey().upperEndpoint() + offset), entry.getValue());
-//        });
-//
-//        return novosIntervalos;
-//    }
 }
