@@ -545,17 +545,18 @@ public class Controlador extends Model implements Cloneable, Serializable {
         }
     }
 
+    //TODO: Verificar a necessidade de ter os intervalos
     private void criarIntervalos() {
         getAneis().stream().filter(Anel::isAtivo).forEach(anel -> {
-           if (anel.getPlanos() != null && !anel.getPlanos().isEmpty()) {
-               anel.getPlanos().stream().forEach(plano -> {
-                   if (plano != null){
-                       plano.getGruposSemaforicosPlanos().forEach(grupoSemaforicoPlano -> {
-                           grupoSemaforicoPlano.criarIntervalos();
-                       });
-                   }
-               });
-           }
+            if (anel.getPlanos() != null && !anel.getPlanos().isEmpty()) {
+                anel.getPlanos().stream().forEach(plano -> {
+                    if (plano != null && !plano.isAtuado()) {
+                        plano.getGruposSemaforicosPlanos().forEach(grupoSemaforicoPlano -> {
+                            grupoSemaforicoPlano.criarIntervalos();
+                        });
+                    }
+                });
+            }
         });
     }
 

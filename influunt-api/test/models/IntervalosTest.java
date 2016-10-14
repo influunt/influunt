@@ -1,39 +1,19 @@
 package models;
 
-import checks.Erro;
-import checks.InfluuntValidator;
-import checks.PlanosCheck;
-import com.fasterxml.jackson.databind.JsonNode;
-import config.WithInfluuntApplication;
 import config.WithInfluuntApplicationAuthenticated;
-import controllers.routes;
-import json.ControladorCustomDeserializer;
-import json.ControladorCustomSerializer;
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
-import play.libs.Json;
-import play.mvc.Http;
-import play.mvc.Result;
-import play.test.Helpers;
 
-import javax.validation.groups.Default;
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.Assert.*;
-import static play.mvc.Http.Status.OK;
-import static play.mvc.Http.Status.UNPROCESSABLE_ENTITY;
-import static play.test.Helpers.route;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by lesiopinheiro on 7/13/16.
  */
-public class IntervalosTest extends WithInfluuntApplicationAuthenticated{
-
-    private String CONTROLADOR = "Controlador";
+public class IntervalosTest extends WithInfluuntApplicationAuthenticated {
 
     private static ControladorTestUtil controladorTestUtils;
+
+    private String CONTROLADOR = "Controlador";
 
     @Before
     public void setup() {

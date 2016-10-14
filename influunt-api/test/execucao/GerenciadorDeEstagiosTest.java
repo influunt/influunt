@@ -1,39 +1,42 @@
 package execucao;
 
 import config.WithInfluuntApplicationNoAuthentication;
-import engine.*;
+import engine.EventoMotor;
+import engine.GerenciadorDeEstagios;
+import engine.GerenciadorDeEstagiosCallback;
 import engine.TipoEvento;
 import integracao.ControladorHelper;
 import models.*;
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
-import org.joda.time.LocalTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.HashMap;
 
-import static engine.TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 
 /**
  * Created by rodrigosol on 9/8/16.
  */
-public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthentication{
+public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthentication {
 
-    DateTime inicioControlador = new DateTime(2016,10,10,0,0,0);
+    DateTime inicioControlador = new DateTime(2016, 10, 10, 0, 0, 0);
+
     DateTime inicioExecucao = inicioControlador;
+
     Controlador controlador;
+
     HashMap<DateTime, EstagioPlano> listaEstagios;
+
     GerenciadorDeEstagios gerenciadorDeEstagios;
 
     @Before
-    public void setup(){
+    public void setup() {
         controlador = new ControladorHelper().setPlanos(new ControladorHelper().getControlador());
         controlador.save();
         listaEstagios = new HashMap<>();
@@ -251,25 +254,69 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(446)).getEstagio().getPosicao().intValue());
     }
 
+
+    @Test
+    public void repeticaoDeEstagioAtuadoComDemandaPrioritariaEDispensavelComExecucao() {
+        Anel anel = getAnel(3);
+        Plano plano = getPlano(anel, 1);
+        gerenciadorDeEstagios = getGerenciadorDeEstagios(plano);
+        Detector detector1 = anel.getDetectores().stream().filter(det -> det.getTipo().equals(TipoDetector.VEICULAR) && det.getPosicao().equals(1)).findFirst().get();
+        Detector detector2 = anel.getDetectores().stream().filter(det -> det.getTipo().equals(TipoDetector.VEICULAR) && det.getPosicao().equals(2)).findFirst().get();
+        Detector detector3 = anel.getDetectores().stream().filter(det -> det.getTipo().equals(TipoDetector.VEICULAR) && det.getPosicao().equals(3)).findFirst().get();
+        Detector detector4 = anel.getDetectores().stream().filter(det -> det.getTipo().equals(TipoDetector.VEICULAR) && det.getPosicao().equals(4)).findFirst().get();
+
+        Detector detector5 = anel.getDetectores().stream().filter(det -> det.getTipo().equals(TipoDetector.PEDESTRE) && det.getPosicao().equals(1)).findFirst().get();
+
+//        avancar(gerenciadorDeEstagios, 70);
+//        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector2));
+//        avancar(gerenciadorDeEstagios, 10);
+//        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector));
+//        avancar(gerenciadorDeEstagios, 164);
+//        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector));
+//        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector));
+//        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector2));
+        avancar(gerenciadorDeEstagios, 87);
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector1));
+        avancarAtuado(gerenciadorDeEstagios, 1);
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector1));
+        avancarAtuado(gerenciadorDeEstagios, 1);
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector1));
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector1));
+        avancarAtuado(gerenciadorDeEstagios, 1);
+//        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector1));
+        avancar(gerenciadorDeEstagios, 20);
+//        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector1));
+//        avancarAtuado(gerenciadorDeEstagios, 1000);
+        imprimirListaEstagios(listaEstagios);
+        plano.imprimirTabelaEntreVerde();
+
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(21)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(38)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 4, listaEstagios.get(inicioExecucao.plusSeconds(56)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(75)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(96).plus(300)).getEstagio().getPosicao().intValue());
+    }
+
     @NotNull
     private GerenciadorDeEstagios getGerenciadorDeEstagios(Plano plano) {
         return new GerenciadorDeEstagios(inicioControlador, inicioExecucao, plano, new GerenciadorDeEstagiosCallback() {
-                @Override
-                public void onChangeEstagio(Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, EstagioPlano estagioPlanoAnterior, EstagioPlano estagioPlanoNovo) {
-                    listaEstagios.put(timestamp, estagioPlanoNovo);
-                }
-            });
+            @Override
+            public void onChangeEstagio(Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, EstagioPlano estagioPlanoAnterior, EstagioPlano estagioPlanoNovo) {
+                listaEstagios.put(timestamp, estagioPlanoNovo);
+            }
+        });
     }
 
     private Plano getPlano(Anel anel, int posicao) {
         return anel.getPlanos()
-                    .stream()
-                    .filter(p -> p.getPosicao().equals(posicao))
-                    .findFirst()
-                    .get();
+                .stream()
+                .filter(p -> p.getPosicao().equals(posicao))
+                .findFirst()
+                .get();
     }
 
-    private Plano getPlanoDemandaPrioritaria(Anel anel){
+    private Plano getPlanoDemandaPrioritaria(Anel anel) {
         Plano plano = new ControladorHelper().criarPlano(anel, 13, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 32);
 
         plano.setEstagiosPlanos(null);
@@ -295,7 +342,7 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
     }
 
 
-    private Plano getPlanoDemandaPrioritariaEDispensavel(Anel anel){
+    private Plano getPlanoDemandaPrioritariaEDispensavel(Anel anel) {
         Plano plano = getPlanoDemandaPrioritaria(anel);
         EstagioPlano estagioPlano = new EstagioPlano();
         estagioPlano.setPosicao(3);
@@ -316,12 +363,13 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
     }
 
 
+
     private Anel getAnel(int posicao) {
         return controlador.getAneis()
-                    .stream()
-                    .filter(a -> a.getPosicao().equals(posicao))
-                    .findFirst()
-                    .get();
+                .stream()
+                .filter(a -> a.getPosicao().equals(posicao))
+                .findFirst()
+                .get();
     }
 
     @Test
@@ -356,7 +404,7 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
     @Ignore
     @Test
     public void estagioDispensavelParaFrenteNoMeio() {
-        DateTime inicioControlador = new DateTime(2016,10,10,0,0,0);
+        DateTime inicioControlador = new DateTime(2016, 10, 10, 0, 0, 0);
         DateTime inicioExecucao = inicioControlador;
         Controlador controlador = new ControladorHelper().setPlanos(new ControladorHelper().getControlador());
         controlador.save();
@@ -402,7 +450,7 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
     @Ignore
     @Test
     public void estagioDispensavelParaFrenteNoFim() {
-        DateTime inicioControlador = new DateTime(2016,10,10,0,0,0);
+        DateTime inicioControlador = new DateTime(2016, 10, 10, 0, 0, 0);
         DateTime inicioExecucao = inicioControlador;
         Controlador controlador = new ControladorHelper().setPlanos(new ControladorHelper().getControlador());
         controlador.save();
@@ -448,7 +496,7 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
     @Ignore
     @Test
     public void estagioDispensavelParaTrasNoInicio() {
-        DateTime inicioControlador = new DateTime(2016,10,10,0,0,0);
+        DateTime inicioControlador = new DateTime(2016, 10, 10, 0, 0, 0);
         DateTime inicioExecucao = inicioControlador;
         Controlador controlador = new ControladorHelper().setPlanos(new ControladorHelper().getControlador());
         controlador.save();
@@ -494,7 +542,7 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
     @Ignore
     @Test
     public void estagioDemandaPrioritaria() {
-        DateTime inicioControlador = new DateTime(2016,10,10,0,0,0);
+        DateTime inicioControlador = new DateTime(2016, 10, 10, 0, 0, 0);
         DateTime inicioExecucao = inicioControlador;
         Controlador controlador = new ControladorHelper().setPlanos(new ControladorHelper().getControlador());
         controlador.save();
@@ -560,17 +608,23 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
     }
 
     private void imprimirListaEstagios(HashMap<DateTime, EstagioPlano> listaEstagios) {
-        DateTimeFormatter sdf = DateTimeFormat.forPattern("dd/MM/YYYY - EEE - HH:mm:ss");
+        DateTimeFormatter sdf = DateTimeFormat.forPattern("dd/MM/YYYY - EEE - HH:mm:ss:S");
         listaEstagios.entrySet().stream()
                 .sorted((o1, o2) -> o1.getKey().compareTo(o2.getKey()))
                 .forEach(entry -> System.out.println(sdf.print(entry.getKey()) + " - " + entry.getValue().getEstagio().getPosicao()));
     }
 
     private void avancar(GerenciadorDeEstagios gerenciadorDeEstagios, int i) {
-        while (i-- > 0){
+        i *= 10;
+        while (i-- > 0) {
             gerenciadorDeEstagios.tick();
         }
     }
 
+    private void avancarAtuado(GerenciadorDeEstagios gerenciadorDeEstagios, int i) {
+        while (i-- > 0) {
+            gerenciadorDeEstagios.tick();
+        }
+    }
 
 }

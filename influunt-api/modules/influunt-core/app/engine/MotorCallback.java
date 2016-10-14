@@ -18,7 +18,7 @@ public interface MotorCallback {
 
     public void onGrupoChange(DateTime timestamp, List<EstadoGrupoSemaforico> estadoAntigo, List<EstadoGrupoSemaforico> estadoNovo);
 
-    public void onAgendamentoTrocaDePlanos(DateTime timestamp,DateTime momentoAgendamento, int anel, int plano, int planoAnterior);
+    public void onAgendamentoTrocaDePlanos(DateTime timestamp, DateTime momentoAgendamento, int anel, int plano, int planoAnterior);
 
     public void onEstado(DateTime timestamp, EstadoGrupoBaixoNivel estadoGrupoBaixoNivel);
 

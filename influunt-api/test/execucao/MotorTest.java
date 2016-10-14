@@ -2,11 +2,8 @@ package execucao;
 
 
 import config.WithInfluuntApplicationNoAuthentication;
-import integracao.ControladorHelper;
-import models.Controlador;
 import models.EstadoGrupoSemaforico;
 import models.Evento;
-import org.joda.time.DateTime;
 import org.junit.Test;
 
 import java.io.IOException;

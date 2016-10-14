@@ -47,7 +47,7 @@ public class Motor implements MotorEvents, GerenciadorDeIntervalosCallBack {
     }
 
     public void onEventoChange(DateTime timestamp, Evento atual, Evento novo) {
-        for(MotorCallback callback : callbacks){
+        for (MotorCallback callback : callbacks) {
             callback.onChangeEvento(timestamp, atual, novo);
         }
     }
@@ -58,7 +58,7 @@ public class Motor implements MotorEvents, GerenciadorDeIntervalosCallBack {
 
     @Override
     public void onAgendamentoDeTrocaDePlanos(DateTime timestamp, DateTime momento, int anel, int plano, int planoAnterior) {
-        callbacks.stream().forEach(motorCallback -> motorCallback.onAgendamentoTrocaDePlanos(timestamp,momento, anel, plano, planoAnterior));
+        callbacks.stream().forEach(motorCallback -> motorCallback.onAgendamentoTrocaDePlanos(timestamp, momento, anel, plano, planoAnterior));
     }
 
     public void tick(DateTime instante) {
@@ -72,12 +72,12 @@ public class Motor implements MotorEvents, GerenciadorDeIntervalosCallBack {
             if (!evento.equals(eventoAtual)) {
                 onEventoChange(instante, eventoAtual, evento);
                 eventoAtual = evento;
-                gerenciadorDeIntervalos.trocarPlanos(instante,getPlanos(eventoAtual));
+                gerenciadorDeIntervalos.trocarPlanos(instante, getPlanos(eventoAtual));
             }
         }
 
         if (iniciarGrupos) {
-            gerenciadorDeIntervalos = new GerenciadorDeIntervalos(inicioSimulacao,getPlanos(eventoAtual),this);
+            gerenciadorDeIntervalos = new GerenciadorDeIntervalos(inicioSimulacao, getPlanos(eventoAtual), this);
             iniciarGrupos = false;
         }
 
@@ -92,11 +92,11 @@ public class Motor implements MotorEvents, GerenciadorDeIntervalosCallBack {
             }
         }
 
-        callbacks.stream().forEach(motorCallback -> motorCallback.onEstado(instante,EstadoGrupoBaixoNivel.parse(estadoAtual)));
+        callbacks.stream().forEach(motorCallback -> motorCallback.onEstado(instante, EstadoGrupoBaixoNivel.parse(estadoAtual)));
     }
 
     private List<Plano> getPlanos(Evento evento) {
-        return  controlador.getAneis().stream().sorted((a1,a2) -> a1.getPosicao().compareTo(a2.getPosicao()))
+        return controlador.getAneis().stream().sorted((a1, a2) -> a1.getPosicao().compareTo(a2.getPosicao()))
                 .flatMap(anel -> anel.getPlanos().stream())
                 .filter(plano -> plano.getPosicao() == eventoAtual.getPosicaoPlano())
                 .collect(Collectors.toList());

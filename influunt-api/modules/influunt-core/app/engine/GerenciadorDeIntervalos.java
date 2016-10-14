@@ -4,7 +4,6 @@ import models.*;
 import org.apache.commons.math3.util.ArithmeticUtils;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
-import scala.Int;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +19,10 @@ public class GerenciadorDeIntervalos {
 
     private final DateTime inicioSimulacao;
 
+    private final GerenciadorDeIntervalosCallBack callback;
+
+    private final List<Plano> planos;
+
     private HashMap<Integer, Integer> temposDeCiclo;
 
     private HashMap<Integer, Integer> temposDeCicloPorAnel;
@@ -30,18 +33,16 @@ public class GerenciadorDeIntervalos {
 
     private HashMap<Integer, List<Estagio>> estagios;
 
-    private final GerenciadorDeIntervalosCallBack callback;
+    private HashMap<DateTime, HashMap<Integer, Pair<Long, Plano>>> trocaDePlanos = new HashMap<>();
 
-    private HashMap<DateTime, HashMap<Integer,Pair<Long,Plano>>> trocaDePlanos = new HashMap<>();
-    private HashMap<Integer,List<Integer>> gruposPorAnel;
-    private HashMap<Integer,Integer> delayGrupo = new HashMap<>();
-    private final List<Plano> planos;
+    private HashMap<Integer, List<Integer>> gruposPorAnel;
+
+    private HashMap<Integer, Integer> delayGrupo = new HashMap<>();
 
     private int numeroGrupoSemaforico;
 
 
-
-    public <E> GerenciadorDeIntervalos(DateTime inicioSimulacao,List<Plano> planos, GerenciadorDeIntervalosCallBack callback) {
+    public <E> GerenciadorDeIntervalos(DateTime inicioSimulacao, List<Plano> planos, GerenciadorDeIntervalosCallBack callback) {
         this.inicioSimulacao = inicioSimulacao;
         this.planos = planos;
         this.callback = callback;
@@ -60,7 +61,7 @@ public class GerenciadorDeIntervalos {
     }
 
     public long getIndex(int grupo, DateTime instante) {
-        return ((instante.getMillis() - inicioSimulacao.getMillis())/1000) % temposDeCiclo.get(grupo);
+        return ((instante.getMillis() - inicioSimulacao.getMillis()) / 1000) % temposDeCiclo.get(grupo);
     }
 
     public int getIndexAnel(int anel, int instante) {
@@ -80,9 +81,9 @@ public class GerenciadorDeIntervalos {
 
     public List<EstadoGrupoSemaforico> getProgram(DateTime instante) {
 
-        if(trocaDePlanos.containsKey(instante)){
+        if (trocaDePlanos.containsKey(instante)) {
 
-            for(Map.Entry<Integer, Pair<Long, Plano>> anel : trocaDePlanos.get(instante).entrySet()){
+            for (Map.Entry<Integer, Pair<Long, Plano>> anel : trocaDePlanos.get(instante).entrySet()) {
                 final int posicaoAnel = anel.getKey();
                 planos.set(posicaoAnel, anel.getValue().getSecond());
 //                gruposPorAnel.get(posicaoAnel).stream().forEach(i -> {
@@ -95,10 +96,10 @@ public class GerenciadorDeIntervalos {
         List<EstadoGrupoSemaforico> estadoGrupoSemaforicos = new ArrayList<>(numeroGrupoSemaforico);
         for (int grupo = 1; grupo <= numeroGrupoSemaforico; grupo++) {
             EstadoGrupoSemaforico estado;
-            if(grupos.get(grupo).size() != 0) {
+            if (grupos.get(grupo).size() != 0) {
                 long indexGrupo = getIndex(grupo, instante);
                 estado = grupos.get(grupo).get((int) indexGrupo);
-            }else{
+            } else {
                 estado = EstadoGrupoSemaforico.DESLIGADO;
             }
             estadoGrupoSemaforicos.add(estado);
@@ -106,7 +107,7 @@ public class GerenciadorDeIntervalos {
         return estadoGrupoSemaforicos;
     }
 
-    private void processaPlanos(){
+    private void processaPlanos() {
 
         this.numeroGrupoSemaforico = quantidadeDeGruposSemaforicos();
         grupos = new HashMap<>(numeroGrupoSemaforico);
@@ -119,7 +120,7 @@ public class GerenciadorDeIntervalos {
         for (Plano plano : planos) {
             int indexEstagio = 0;
             ArrayList<Estagio> lista = new ArrayList<>();
-            if(!gruposPorAnel.containsKey(plano.getAnel().getPosicao())) {
+            if (!gruposPorAnel.containsKey(plano.getAnel().getPosicao())) {
                 gruposPorAnel.put(plano.getAnel().getPosicao(), new ArrayList<>());
             }
 
@@ -141,7 +142,7 @@ public class GerenciadorDeIntervalos {
                 temposDeVerdeSeguranca.put(index, grupoSemaforicoPlano.getGrupoSemaforico().getTempoVerdeSeguranca());
                 temposDeCiclo.put(index, plano.getTempoCiclo());
                 index++;
-                if(index > 16){
+                if (index > 16) {
                     System.out.println("Erro");
                 }
             }
@@ -196,15 +197,15 @@ public class GerenciadorDeIntervalos {
 
     public void trocarPlanos(DateTime instante, List<Plano> planos) {
 
-        for(int anel = 1; anel <= planos.size(); anel++){
+        for (int anel = 1; anel <= planos.size(); anel++) {
 
             long delay = ((temposDeCicloPorAnel.get(anel) * 1000) - instante.minus(inicioSimulacao.getMillis()).getMillis() % (temposDeCicloPorAnel.get(anel) * 1000));
             DateTime momento = instante.plus(delay);
-            if(!trocaDePlanos.containsKey(momento)){
-                trocaDePlanos.put(momento,new HashMap<>());
+            if (!trocaDePlanos.containsKey(momento)) {
+                trocaDePlanos.put(momento, new HashMap<>());
             }
-            trocaDePlanos.get(momento).put(anel - 1,new Pair<Long, Plano>(delay,planos.get(anel -1)));
-            callback.onAgendamentoDeTrocaDePlanos(instante,momento,anel,planos.get(anel-1).getPosicao(),this.planos.get(anel-1).getPosicao());
+            trocaDePlanos.get(momento).put(anel - 1, new Pair<Long, Plano>(delay, planos.get(anel - 1)));
+            callback.onAgendamentoDeTrocaDePlanos(instante, momento, anel, planos.get(anel - 1).getPosicao(), this.planos.get(anel - 1).getPosicao());
         }
     }
 

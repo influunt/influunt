@@ -3,11 +3,11 @@ package simulador.akka;
 import engine.EstadoGrupoBaixoNivel;
 import models.EstadoGrupoSemaforico;
 import models.Evento;
+import models.simulador.parametros.ParametroSimulacao;
 import org.joda.time.DateTime;
+import simulador.Simulador;
 import simulador.eventos.AgendamentoTrocaDePlanoLog;
 import simulador.eventos.AlteracaoEventoLog;
-import simulador.Simulador;
-import models.simulador.parametros.ParametroSimulacao;
 
 import java.util.List;
 
@@ -20,8 +20,8 @@ public class SimuladorAkka extends Simulador {
 
     private DateTime ponteiro;
 
-    public SimuladorAkka(SimuladorActor simuladorActor, ParametroSimulacao parametros){
-        super(parametros.getInicioControlador(),parametros.getControlador(),parametros);
+    public SimuladorAkka(SimuladorActor simuladorActor, ParametroSimulacao parametros) {
+        super(parametros.getInicioControlador(), parametros.getControlador(), parametros);
         this.simuladorActor = simuladorActor;
     }
 
@@ -37,7 +37,7 @@ public class SimuladorAkka extends Simulador {
 
     @Override
     public void onChangeEvento(DateTime timestamp, Evento eventoAntigo, Evento eventoNovo) {
-        simuladorActor.storeEvento(new AlteracaoEventoLog(timestamp.minus(dataInicioControlador.getMillis()),eventoAntigo,eventoNovo,1));
+        simuladorActor.storeEvento(new AlteracaoEventoLog(timestamp.minus(dataInicioControlador.getMillis()), eventoAntigo, eventoNovo, 1));
     }
 
     @Override
@@ -47,12 +47,12 @@ public class SimuladorAkka extends Simulador {
 
     @Override
     public void onAgendamentoTrocaDePlanos(DateTime timestamp, DateTime momentoAgendamento, int anel, int plano, int planoAnterior) {
-        simuladorActor.storeEvento(new AgendamentoTrocaDePlanoLog(timestamp.minus(dataInicioControlador.getMillis()),(momentoAgendamento.minus(dataInicioControlador.getMillis())),anel,plano,planoAnterior));
+        simuladorActor.storeEvento(new AgendamentoTrocaDePlanoLog(timestamp.minus(dataInicioControlador.getMillis()), (momentoAgendamento.minus(dataInicioControlador.getMillis())), anel, plano, planoAnterior));
     }
 
     @Override
     public void onEstado(DateTime timeStamp, EstadoGrupoBaixoNivel estado) {
-        simuladorActor.storeEstado(timeStamp.minus(dataInicioControlador.getMillis()),estado);
+        simuladorActor.storeEstado(timeStamp.minus(dataInicioControlador.getMillis()), estado);
     }
 
 }

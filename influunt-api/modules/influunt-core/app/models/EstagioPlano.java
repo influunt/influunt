@@ -17,7 +17,6 @@ import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -342,8 +341,9 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         return tempoVerde;
     }
 
+    //TODO: Verificar como é feito a configuração de verde no caso de estagio de pedestre no modo atuado
     public Integer getTempoVerdeEstagio() {
-        if (this.getPlano().isAtuado()) {
+        if (this.getPlano().isAtuado() && this.getTempoVerdeMinimo() != null) {
             return this.getTempoVerdeMinimo();
         }
         return this.getTempoVerde();

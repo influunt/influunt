@@ -8,22 +8,39 @@ import models.FaixasDeValores;
 public class RangeUtils {
 
     public InfluuntRange TEMPO_DEFASAGEM;
+
     public InfluuntRange TEMPO_AMARELO;
+
     public InfluuntRange TEMPO_VERMELHO_INTERMITENTE;
+
     public InfluuntRange TEMPO_VERMELHO_LIMPEZA_VEICULAR;
+
     public InfluuntRange TEMPO_VERMELHO_LIMPEZA_PEDESTRE;
+
     public InfluuntRange TEMPO_ATRASO_GRUPO;
+
     public InfluuntRange TEMPO_VERDE_SEGURANCA_VEICULAR;
+
     public InfluuntRange TEMPO_VERDE_SEGURANCA_PEDESTRE;
+
     public InfluuntRange TEMPO_MAXIMO_PERMANENCIA_ESTAGIO;
+
     public InfluuntRange TEMPO_CICLO;
+
     public InfluuntRange TEMPO_VERDE_MINIMO;
+
     public InfluuntRange TEMPO_VERDE_MAXIMO;
+
     public InfluuntRange TEMPO_VERDE_INTERMEDIARIO;
+
     public InfluuntRange TEMPO_EXTENSAO_VERDE;
+
     public InfluuntRange TEMPO_VERDE;
+
     public InfluuntRange TEMPO_AUSENCIA_DETECCAO;
+
     public InfluuntRange TEMPO_DETECCAO_PERMANENTE;
+
     private Integer defaultMaximoPermanenciaEstagioVeicular;
 
     private RangeUtils() {

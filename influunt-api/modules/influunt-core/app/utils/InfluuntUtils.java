@@ -47,6 +47,15 @@ public class InfluuntUtils {
         return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, input);
     }
 
+    public static String formatDateToString(DateTime date, String format) {
+        if (format == null || format.isEmpty()) {
+            format = DEFAULT_DATE_FORMAT;
+        }
+
+        DateTimeFormatter dtfOut = DateTimeFormat.forPattern(format);
+        return dtfOut.print(date);
+    }
+
     public boolean multiplo(Integer x, Integer y) {
         if (x == null || y == null || x == 0 || y == 0) {
             return false;
@@ -55,14 +64,5 @@ public class InfluuntUtils {
             return x % y == 0;
         }
         return y % x == 0;
-    }
-
-    public static String formatDateToString(DateTime date, String format) {
-        if (format == null || format.isEmpty()) {
-            format = DEFAULT_DATE_FORMAT;
-        }
-
-        DateTimeFormatter dtfOut = DateTimeFormat.forPattern(format);
-        return dtfOut.print(date);
     }
 }

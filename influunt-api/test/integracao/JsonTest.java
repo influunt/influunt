@@ -26,7 +26,7 @@ public class JsonTest extends WithInfluuntApplicationNoAuthentication {
         Controlador controlador = new ControladorHelper().setPlanos(new ControladorHelper().getControlador());
 
         erros = getErros(controlador);
-            assertThat(erros, org.hamcrest.Matchers.empty());
+        assertThat(erros, org.hamcrest.Matchers.empty());
 
         validaIntervalos(controlador);
 

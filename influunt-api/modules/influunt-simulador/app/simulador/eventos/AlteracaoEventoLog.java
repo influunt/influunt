@@ -12,7 +12,9 @@ import java.util.Locale;
 public class AlteracaoEventoLog extends DefaultLog {
 
     private Evento anterior;
+
     private Evento atual;
+
     private int anel;
 
     public AlteracaoEventoLog(DateTime timeStamp, Evento anterior, Evento atual, int anel) {
@@ -64,19 +66,19 @@ public class AlteracaoEventoLog extends DefaultLog {
         int posicaoEventoAtual = (int) params[1];
         int anel = (int) params[2];
         return this.anterior.getPosicaoPlano().equals(posicaoEventoAnterior) &&
-               this.atual.getPosicaoPlano().equals(posicaoEventoAtual) &&
-               this.anel == anel;
+                this.atual.getPosicaoPlano().equals(posicaoEventoAtual) &&
+                this.anel == anel;
     }
 
     @Override
-    public String toJson(){
+    public String toJson() {
 
-        StringBuffer sb =  new StringBuffer("{\"timestamp\":");
+        StringBuffer sb = new StringBuffer("{\"timestamp\":");
         sb.append(timeStamp.getMillis() / 1000);
         sb.append(",\"tipo\":\"");
         sb.append(this.tipoEventoLog);
         sb.append("\",");
-        if(this.anterior != null) {
+        if (this.anterior != null) {
             sb.append("\"planoAnterior\":");
             sb.append(this.getAnterior().getPosicaoPlano());
             sb.append(",");

@@ -5,13 +5,13 @@ import checks.Erro;
 import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
+import models.simulador.parametros.ParametroSimulacao;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
 import simulador.akka.GerenciadorDeSimulacoes;
-import models.simulador.parametros.ParametroSimulacao;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;

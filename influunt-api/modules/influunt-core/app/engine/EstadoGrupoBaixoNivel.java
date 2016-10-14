@@ -3,7 +3,6 @@ package engine;
 import models.EstadoGrupoSemaforico;
 import org.joda.time.DateTime;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -26,6 +25,14 @@ public class EstadoGrupoBaixoNivel {
 
     private byte[] estadoGlobal = new byte[8];
 
+    public static EstadoGrupoBaixoNivel parse(List<EstadoGrupoSemaforico> estadoAtual) {
+        EstadoGrupoBaixoNivel estadoGrupoBaixoNivel = new EstadoGrupoBaixoNivel();
+        for (int i = 1; i <= estadoAtual.size(); i++) {
+            estadoGrupoBaixoNivel.mudar(i, estadoAtual.get(i - 1).asByte());
+        }
+        return estadoGrupoBaixoNivel;
+    }
+
     public void mudar(int grupo, byte estado) {
         int index = (grupo - 1) / 2;
         if (grupo % 2 != 0) {
@@ -39,27 +46,19 @@ public class EstadoGrupoBaixoNivel {
         return estadoGlobal;
     }
 
-    public String toString(){
+    public String toString() {
         final StringBuffer sb = new StringBuffer();
-        for(int i = 0; i < 8; i++){
-            if(i < 7) {
+        for (int i = 0; i < 8; i++) {
+            if (i < 7) {
                 sb.append(estadoGlobal[i]).append(",");
-            }else{
+            } else {
                 sb.append(estadoGlobal[i]);
             }
         }
         return sb.toString();
     }
 
-    public static EstadoGrupoBaixoNivel parse(List<EstadoGrupoSemaforico> estadoAtual) {
-        EstadoGrupoBaixoNivel estadoGrupoBaixoNivel = new EstadoGrupoBaixoNivel();
-        for (int i = 1; i <= estadoAtual.size(); i++) {
-            estadoGrupoBaixoNivel.mudar(i, estadoAtual.get(i - 1).asByte());
-        }
-        return estadoGrupoBaixoNivel;
-    }
-
     public String toJson(DateTime timeStamp) {
-        return "{\"timestamp\":"+timeStamp.getMillis() / 1000 +",\"estado\":\""+this.toString()+"\"}";
+        return "{\"timestamp\":" + timeStamp.getMillis() / 1000 + ",\"estado\":\"" + this.toString() + "\"}";
     }
 }

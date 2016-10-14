@@ -156,12 +156,12 @@ public class Plano extends Model implements Cloneable, Serializable {
         return estagiosPlanos;
     }
 
-    public List<EstagioPlano> getEstagiosPlanosSemEstagioDispensavel() {
-        return estagiosPlanos.stream().filter(estagioPlano -> !estagioPlano.isDispensavel()).collect(Collectors.toList());
-    }
-
     public void setEstagiosPlanos(List<EstagioPlano> estagios) {
         this.estagiosPlanos = estagios;
+    }
+
+    public List<EstagioPlano> getEstagiosPlanosSemEstagioDispensavel() {
+        return estagiosPlanos.stream().filter(estagioPlano -> !estagioPlano.isDispensavel()).collect(Collectors.toList());
     }
 
     public List<GrupoSemaforicoPlano> getGruposSemaforicosPlanos() {
@@ -446,7 +446,7 @@ public class Plano extends Model implements Cloneable, Serializable {
                 + '}';
     }
 
-    public HashMap<Pair<Integer, Integer>, Long> tabelaEntreVerde(){
+    public HashMap<Pair<Integer, Integer>, Long> tabelaEntreVerde() {
         HashMap<Pair<Integer, Integer>, Long> tabela = new HashMap<>();
         preencheTabelaEntreVerde(tabela, getEstagiosPlanosSemEstagioDispensavel());
         preencheTabelaEntreVerde(tabela, getEstagiosPlanos());
@@ -478,7 +478,7 @@ public class Plano extends Model implements Cloneable, Serializable {
     }
 
     //TODO: Remover a metodo
-    public void imprimirTabelaEntreVerde(){
+    public void imprimirTabelaEntreVerde() {
         this.tabelaEntreVerde().forEach((key, value) -> {
             System.out.println("E" + key.getKey() + "-" + "E" + key.getValue() + ": " + value);
         });
