@@ -5,12 +5,9 @@ import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Detector;
-import models.simulador.parametros.ParametroSimulacaoDetector;
 import models.simulador.parametros.ParametroSimulacaoImposicaoPlano;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
-import play.libs.Json;
 
 import java.io.IOException;
 

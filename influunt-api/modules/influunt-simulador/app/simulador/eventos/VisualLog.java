@@ -7,14 +7,13 @@ import org.jfree.graphics2d.svg.SVGGraphics2D;
 import org.joda.time.DateTime;
 import simulador.Simulador;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.io.IOException;
 import java.util.Map;
 
-import javax.swing.JFrame;
-
-public class VisualLog extends JFrame{
+public class VisualLog extends JFrame {
     private static final Color COR_VERMELHO_LIMPEZA = new Color(212, 106, 106);
 
     private static final Color COR_VERMELHO_INTERMITENTE = new Color(88, 15, 79);
@@ -31,7 +30,7 @@ public class VisualLog extends JFrame{
 
     private static final int ALTURA_PAGINA = 400;
 
-    private  SVGGraphics2D g;
+    private SVGGraphics2D g;
 
 
     private Simulador simulador;

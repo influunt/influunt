@@ -22,10 +22,10 @@ import java.util.Map;
 
 public class BaseJasperReport {
 
+    String REPORT_DEFINITION_PATH = "/app/templates/reports/";
+
     @Inject
     private Provider<Application> provider;
-
-    String REPORT_DEFINITION_PATH = "/app/templates/reports/";
 
     public InputStream generateReport(String reportDefFile, Map reportParams, List<Auditoria> lista) {
         OutputStream os = new ByteArrayOutputStream();
@@ -39,7 +39,7 @@ public class BaseJasperReport {
             pdfExporter.setExporterInput(inp);
             pdfExporter.exportReport();
         } catch (Exception e) {
-            Logger.error("ERRO AO GERAR O RELATORIO: "  + e.getMessage(), e);
+            Logger.error("ERRO AO GERAR O RELATORIO: " + e.getMessage(), e);
         }
         return new ByteArrayInputStream(((ByteArrayOutputStream) os).toByteArray());
     }

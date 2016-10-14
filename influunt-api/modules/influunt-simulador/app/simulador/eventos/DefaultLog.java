@@ -24,6 +24,6 @@ public class DefaultLog extends EventoLog {
 
     @Override
     public String toJson() {
-      return "{\"timestamp\":"+timeStamp.getMillis() / 1000 +",\"tipo\":\""+this.tipoEventoLog+"\",\"msg\":\"" + this.mensagem() + "\"}";
+        return "{\"timestamp\":" + timeStamp.getMillis() / 1000 + ",\"tipo\":\"" + this.tipoEventoLog + "\",\"msg\":\"" + this.mensagem() + "\"}";
     }
 }

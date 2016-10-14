@@ -53,5 +53,6 @@ public abstract class EventoLog {
     public abstract String mensagem();
 
     public abstract boolean match(Object... params);
+
     public abstract String toJson();
 }

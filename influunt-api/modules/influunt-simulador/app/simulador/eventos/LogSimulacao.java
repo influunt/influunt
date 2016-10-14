@@ -27,11 +27,11 @@ public class LogSimulacao {
         }
     }
 
-    public EventoLog filter(TipoEventoLog tipoEventoLog, DateTime timestamp,Object... params) {
-        return find(tipoEventoLog,timestamp).filter(eventoLog -> eventoLog.match(params)).findFirst().orElse(null);
+    public EventoLog filter(TipoEventoLog tipoEventoLog, DateTime timestamp, Object... params) {
+        return find(tipoEventoLog, timestamp).filter(eventoLog -> eventoLog.match(params)).findFirst().orElse(null);
     }
 
-    public Stream<EventoLog> find(TipoEventoLog tipoEventoLog, DateTime timestamp){
+    public Stream<EventoLog> find(TipoEventoLog tipoEventoLog, DateTime timestamp) {
         return logSimulacaos.stream().filter(eventoLog -> eventoLog.getTipoEventoLog().equals(tipoEventoLog))
                 .filter(eventoLog -> eventoLog.timeStamp.equals(timestamp));
     }

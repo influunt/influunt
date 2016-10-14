@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import engine.EventoMotor;
 import engine.TipoEvento;
-import json.deserializers.InfluuntDateTimeDeserializer;
 import json.deserializers.simulacao.ParametroSimulacaoDetectorDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import models.Detector;

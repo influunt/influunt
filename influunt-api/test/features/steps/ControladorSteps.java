@@ -1,6 +1,5 @@
 package features.steps;
 
-import com.avaje.ebeaninternal.server.lib.util.Str;
 import com.fasterxml.jackson.databind.JsonNode;
 import config.WithInfluuntApplicationNoAuthentication;
 import cucumber.api.DataTable;
@@ -19,14 +18,7 @@ import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.junit.Assert;
 import simulacao.SimuladorTest;
-import simulador.Simulador;
-import simulador.eventos.AlteracaoEstadoLog;
-import simulador.eventos.EventoLog;
-import simulador.eventos.TipoEventoLog;
-
-
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -49,6 +41,7 @@ public class ControladorSteps extends WithInfluuntApplicationNoAuthentication {
     private static Controlador controlador;
 
     private static SimuladorTest simulador;
+
     private static ParametroSimulacao parametros = new ParametroSimulacao();
 
     @Before
@@ -137,7 +130,7 @@ public class ControladorSteps extends WithInfluuntApplicationNoAuthentication {
 
     @Então("^a simulacao tera duracao de (\\d+) segundos$")
     public void a_simulacao_tera_duracao_de_segundos(int duracao) throws Throwable {
-        assertEquals(duracao,simulador.getTempoSimulacao());
+        assertEquals(duracao, simulador.getTempoSimulacao());
     }
 
     @Dado("^que esse cenario ainda nao foi implementado$")
@@ -151,8 +144,8 @@ public class ControladorSteps extends WithInfluuntApplicationNoAuthentication {
         List<List<String>> rows = dataTable.asLists(String.class);
 
         int i = 0;
-        for(List<String> row : rows){
-            if(i > 0) {
+        for (List<String> row : rows) {
+            if (i > 0) {
                 int planoAnterior = Integer.valueOf(row.get(0));
                 int planoAtual = Integer.valueOf(row.get(1));
                 DateTime timestamp = parseDate(row.get(2));
@@ -168,8 +161,8 @@ public class ControladorSteps extends WithInfluuntApplicationNoAuthentication {
         List<List<String>> rows = dataTable.asLists(String.class);
 
         int i = 0;
-        for(List<String> row : rows){
-            if(i > 0) {
+        for (List<String> row : rows) {
+            if (i > 0) {
                 int planoAnterior = Integer.valueOf(row.get(0));
                 int planoAtual = Integer.valueOf(row.get(1));
                 DateTime timestamp = parseDate(row.get(2));
@@ -188,11 +181,11 @@ public class ControladorSteps extends WithInfluuntApplicationNoAuthentication {
         // E,K,V must be a scalar (String, Integer, Date, enum etc)
         List<List<String>> rows = dataTable.asLists(String.class);
         int i = 0;
-        for(List<String> row : rows){
-            if(i > 0) {
+        for (List<String> row : rows) {
+            if (i > 0) {
                 DateTime timestamp = parseDate(row.get(0));
-                List<EstadoGrupoSemaforico> estado = parserEstadoGrupoSemaforico(1,row);
-                checkMudancaDeEstado(timestamp,estado);
+                List<EstadoGrupoSemaforico> estado = parserEstadoGrupoSemaforico(1, row);
+                checkMudancaDeEstado(timestamp, estado);
             }
             i++;
         }
@@ -202,7 +195,7 @@ public class ControladorSteps extends WithInfluuntApplicationNoAuthentication {
 
     private List<EstadoGrupoSemaforico> parserEstadoGrupoSemaforico(int i, List<String> row) {
         List<EstadoGrupoSemaforico> result = new ArrayList<>();
-        for(i = 1; i < row.size(); i++){
+        for (i = 1; i < row.size(); i++) {
             result.add(EstadoGrupoSemaforico.valueOf(row.get(i)));
         }
         return result;

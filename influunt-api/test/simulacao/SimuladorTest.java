@@ -9,7 +9,6 @@ import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import simulador.Simulador;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,8 +19,11 @@ import java.util.Map;
 public class SimuladorTest extends Simulador {
 
     public Map<DateTime, Pair<Evento, Evento>> listaEvento = new HashMap<>();
+
     public Map<DateTime, Pair<Integer, Integer>> listaEventoReal = new HashMap<>();
+
     public Map<DateTime, EstadoGrupoBaixoNivel> listaEstado = new HashMap<>();
+
     public Map<DateTime, List<EstadoGrupoSemaforico>> listaEstadoGrupoSemaforico = new HashMap<>();
 
     public SimuladorTest(DateTime inicioSimulado, Controlador controlador, ParametroSimulacao parametros) {

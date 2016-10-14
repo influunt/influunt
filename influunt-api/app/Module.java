@@ -3,7 +3,6 @@ import com.google.inject.Singleton;
 import security.Authenticator;
 import security.DBAuthenticator;
 import security.InfluuntContextManager;
-import simulador.akka.GerenciadorDeSimulacoes;
 import utils.InfluuntEmailService;
 
 import java.text.SimpleDateFormat;

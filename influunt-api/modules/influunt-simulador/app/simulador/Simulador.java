@@ -7,7 +7,6 @@ import models.*;
 import models.simulador.parametros.ParametroSimulacao;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
-import simulador.akka.SimuladorActor;
 import simulador.eventos.AlteracaoEstadoLog;
 import simulador.eventos.EventoLog;
 import simulador.eventos.LogSimulacao;
@@ -24,9 +23,11 @@ import java.util.stream.Stream;
  * Created by rodrigosol on 9/28/16.
  */
 public abstract class Simulador implements MotorCallback {
-    private Controlador controlador;
+    private final ParametroSimulacao parametros;
 
     protected DateTime dataInicioControlador;
+
+    private Controlador controlador;
 
     private DateTime inicio;
 
@@ -40,11 +41,9 @@ public abstract class Simulador implements MotorCallback {
 
     private int tempoSimulacao = 0;
 
-    private final ParametroSimulacao parametros;
-
     private DateTime ponteiro;
 
-    public Simulador(DateTime inicioSimulado,Controlador controlador, ParametroSimulacao parametros) {
+    public Simulador(DateTime inicioSimulado, Controlador controlador, ParametroSimulacao parametros) {
         this.controlador = controlador;
         this.dataInicioControlador = inicioSimulado;
         motor = new Motor(controlador, this, inicioSimulado);
@@ -61,14 +60,6 @@ public abstract class Simulador implements MotorCallback {
 
     public void setDataInicioControlador(DateTime dataInicioControlador) {
         this.dataInicioControlador = dataInicioControlador;
-    }
-
-    public void setInicio(DateTime inicio) {
-        this.inicio = inicio;
-    }
-
-    public void setFim(DateTime fim) {
-        this.fim = fim;
     }
 
     public void addEvento(EventoMotor eventoMotor) {
@@ -100,33 +91,31 @@ public abstract class Simulador implements MotorCallback {
     }
 
     private void processaEventos(DateTime inicio) {
-        if(eventos.containsKey(inicio)) {
+        if (eventos.containsKey(inicio)) {
             eventos.get(inicio).stream().forEach(eventoMotor -> motor.onEvento(eventoMotor));
         }
     }
 
-    public void avancar(int segundos){
+    public void avancar(int segundos) {
         DateTime fim = ponteiro.plusSeconds(segundos);
-        simular(ponteiro,fim);
+        simular(ponteiro, fim);
         ponteiro = fim;
     }
-
-
 
     public int getTempoSimulacao() {
         return tempoSimulacao;
     }
 
     public EventoLog findInLog(TipoEventoLog tipoEventoLog, DateTime timestamp, int planoAnterior, int planoAtual, int anel) {
-        return logSimulacao.filter(tipoEventoLog,timestamp,planoAnterior,planoAtual,anel);
+        return logSimulacao.filter(tipoEventoLog, timestamp, planoAnterior, planoAtual, anel);
     }
 
     public Stream<EventoLog> findInLog(TipoEventoLog alteracaoEstado, DateTime timestamp) {
-        return logSimulacao.find(alteracaoEstado,timestamp);
+        return logSimulacao.find(alteracaoEstado, timestamp);
     }
 
     public EventoLog findFirstInLog(TipoEventoLog alteracaoEstado, DateTime timestamp) {
-        return findInLog(alteracaoEstado,timestamp).findFirst().orElse(null);
+        return findInLog(alteracaoEstado, timestamp).findFirst().orElse(null);
     }
 
     public LogSimulacao getLogSimulacao() {
@@ -137,42 +126,42 @@ public abstract class Simulador implements MotorCallback {
         return 2;
     }
 
-    public Map<Integer, java.util.List<Pair<DateTime,Intervalo>>> getIntervalos() {
+    public Map<Integer, java.util.List<Pair<DateTime, Intervalo>>> getIntervalos() {
 
-        Map<Integer, java.util.List<Pair<DateTime,Intervalo>>>  mapa = new HashMap<>();
+        Map<Integer, java.util.List<Pair<DateTime, Intervalo>>> mapa = new HashMap<>();
 
 
         List<EventoLog> eventos = logSimulacao.find(TipoEventoLog.ALTERACAO_ESTADO).collect(Collectors.toList());
         DateTime dataInicio = eventos.get(0).getTimeStamp();
 
-        for(EventoLog eventoLog : eventos){
+        for (EventoLog eventoLog : eventos) {
             AlteracaoEstadoLog alteracaoEstadoLog = (AlteracaoEstadoLog) eventoLog;
-            int tamanho = (int) (alteracaoEstadoLog.getTimeStamp().getMillis() / 1000 -  dataInicio.getMillis() / 1000);
+            int tamanho = (int) (alteracaoEstadoLog.getTimeStamp().getMillis() / 1000 - dataInicio.getMillis() / 1000);
             dataInicio = alteracaoEstadoLog.getTimeStamp();
 
 
-            for(int i = 1 ; i <= alteracaoEstadoLog.getAtual().size(); i++){
-                if(i > 120){
+            for (int i = 1; i <= alteracaoEstadoLog.getAtual().size(); i++) {
+                if (i > 120) {
                     System.out.println("P");
                 }
-                if(!mapa.containsKey(i)){
-                    mapa.put(i,new ArrayList<>());
+                if (!mapa.containsKey(i)) {
+                    mapa.put(i, new ArrayList<>());
                 }
-                if(mapa.get(i).isEmpty()){
+                if (mapa.get(i).isEmpty()) {
                     Intervalo intervalo = new Intervalo();
                     intervalo.setTamanho(tamanho);
                     intervalo.setEstadoGrupoSemaforico(alteracaoEstadoLog.getAtual().get(i - 1));
-                    mapa.get(i).add(new Pair<DateTime, Intervalo>(alteracaoEstadoLog.getTimeStamp(),intervalo));
-                }else{
-                    Intervalo ultimo =  mapa.get(i).get(mapa.get(i).size() -1).getSecond();
-                    if(ultimo.getEstadoGrupoSemaforico().equals(alteracaoEstadoLog.getAtual().get(i -1))){
+                    mapa.get(i).add(new Pair<DateTime, Intervalo>(alteracaoEstadoLog.getTimeStamp(), intervalo));
+                } else {
+                    Intervalo ultimo = mapa.get(i).get(mapa.get(i).size() - 1).getSecond();
+                    if (ultimo.getEstadoGrupoSemaforico().equals(alteracaoEstadoLog.getAtual().get(i - 1))) {
                         ultimo.setTamanho(ultimo.getTamanho() + tamanho);
-                    }else{
+                    } else {
                         Intervalo intervalo = new Intervalo();
                         intervalo.setTamanho(tamanho);
                         ultimo.setTamanho(ultimo.getTamanho() + tamanho);
                         intervalo.setEstadoGrupoSemaforico(alteracaoEstadoLog.getAtual().get(i - 1));
-                        mapa.get(i).add(new Pair<DateTime, Intervalo>(alteracaoEstadoLog.getTimeStamp(),intervalo));
+                        mapa.get(i).add(new Pair<DateTime, Intervalo>(alteracaoEstadoLog.getTimeStamp(), intervalo));
 
                     }
                 }
@@ -190,7 +179,15 @@ public abstract class Simulador implements MotorCallback {
         return inicio;
     }
 
+    public void setInicio(DateTime inicio) {
+        this.inicio = inicio;
+    }
+
     public DateTime getFim() {
         return fim;
+    }
+
+    public void setFim(DateTime fim) {
+        this.fim = fim;
     }
 }

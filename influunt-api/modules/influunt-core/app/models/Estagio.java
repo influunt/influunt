@@ -22,7 +22,10 @@ import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -202,16 +205,8 @@ public class Estagio extends Model implements Serializable, Cloneable {
         return demandaPrioritaria;
     }
 
-    public void setDemandaPrioritaria(Boolean demandaPrioritaria) {
-        this.demandaPrioritaria = demandaPrioritaria;
-    }
-
     public Integer getTempoVerdeDemandaPrioritaria() {
         return tempoVerdeDemandaPrioritaria;
-    }
-
-    public void setTempoVerdeDemandaPrioritaria(Integer tempoVerdeDemandaPrioritaria) {
-        this.tempoVerdeDemandaPrioritaria = tempoVerdeDemandaPrioritaria;
     }
 
     public List<EstagioGrupoSemaforico> getEstagiosGruposSemaforicos() {
@@ -371,6 +366,10 @@ public class Estagio extends Model implements Serializable, Cloneable {
         return true;
     }
 
+    public void setTempoVerdeDemandaPrioritaria(Integer tempoVerdeDemandaPrioritaria) {
+        this.tempoVerdeDemandaPrioritaria = tempoVerdeDemandaPrioritaria;
+    }
+
     @AssertTrue(groups = ControladorTransicoesProibidasCheck.class,
             message = "Esse estágio deve possuir ao menos uma transição válida para outro estágio.")
     public boolean isEstagioPossuiAoMenosUmaTransicaoOrigemValida() {
@@ -409,7 +408,6 @@ public class Estagio extends Model implements Serializable, Cloneable {
         return id != null ? id.hashCode() : 0;
     }
 
-
     public boolean temTransicaoProibidaParaEstagio(Estagio estagio) {
         for (TransicaoProibida tp : getOrigemDeTransicoesProibidas()) {
             Estagio destino = tp.getDestino();
@@ -419,7 +417,6 @@ public class Estagio extends Model implements Serializable, Cloneable {
         }
         return false;
     }
-
 
     @Override
     public Object clone() throws CloneNotSupportedException {
@@ -519,5 +516,9 @@ public class Estagio extends Model implements Serializable, Cloneable {
 
     public boolean isDemandaPrioritaria() {
         return demandaPrioritaria;
+    }
+
+    public void setDemandaPrioritaria(Boolean demandaPrioritaria) {
+        this.demandaPrioritaria = demandaPrioritaria;
     }
 }

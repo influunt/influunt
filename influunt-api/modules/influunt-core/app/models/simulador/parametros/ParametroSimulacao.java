@@ -6,8 +6,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.simulacao.ParametroSimulacaoDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import models.Controlador;
-import org.joda.time.DateTime;
 import models.simulador.SimulacaoConfig;
+import org.joda.time.DateTime;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -48,7 +48,6 @@ public class ParametroSimulacao {
     private List<ParametroFalha> falhas = new ArrayList<>();
 
     private UUID idControlador;
-
 
 
     public ParametroSimulacao() {
@@ -145,8 +144,8 @@ public class ParametroSimulacao {
         List<SimulacaoConfig.AnelSimulacaoConfig> aneis = new ArrayList<>();
 
         getControlador().getAneis().stream()
-                                   .sorted((o1, o2) -> o1.getPosicao()
-                                   .compareTo(o2.getPosicao())).forEach(anel -> {
+                .sorted((o1, o2) -> o1.getPosicao()
+                        .compareTo(o2.getPosicao())).forEach(anel -> {
             SimulacaoConfig.AnelSimulacaoConfig anelSimulacaoConfig = new SimulacaoConfig.AnelSimulacaoConfig();
             anelSimulacaoConfig.setNumero(anel.getPosicao());
             anel.getGruposSemaforicos().stream().sorted((o1, o2) -> o1.getPosicao().compareTo(o2.getPosicao()))

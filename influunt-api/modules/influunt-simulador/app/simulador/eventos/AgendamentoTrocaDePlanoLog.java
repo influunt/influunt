@@ -13,8 +13,11 @@ import java.util.Locale;
 public class AgendamentoTrocaDePlanoLog extends DefaultLog {
 
     private int anel;
+
     private int plano;
+
     private int planoAnterior;
+
     private DateTime momentoDaTroca;
 
     public AgendamentoTrocaDePlanoLog(DateTime timeStamp, DateTime momentoDaTroca, int anel, int plano, int planoAnterior) {
@@ -57,7 +60,7 @@ public class AgendamentoTrocaDePlanoLog extends DefaultLog {
         Formatter formatter = new Formatter(sb, Locale.forLanguageTag("pt-BR"));
         DateTimeFormatter sdf = DateTimeFormat.forPattern("HH:mm:ss, dd/MM/YYYY");
 
-        return formatter.format("%s O plano %d foi agendado para entrar às %s no anel %d para substituir o plano %d", prefix(), plano,sdf.print(momentoDaTroca),anel,planoAnterior).toString();
+        return formatter.format("%s O plano %d foi agendado para entrar às %s no anel %d para substituir o plano %d", prefix(), plano, sdf.print(momentoDaTroca), anel, planoAnterior).toString();
 
     }
 
@@ -68,14 +71,14 @@ public class AgendamentoTrocaDePlanoLog extends DefaultLog {
         int plano = (int) params[2];
 
         return this.momentoDaTroca.equals(momentoTroca) &&
-               this.anel == anel &&
-               this.plano == plano;
+                this.anel == anel &&
+                this.plano == plano;
     }
 
     @Override
-    public String toJson(){
+    public String toJson() {
 
-        StringBuffer sb =  new StringBuffer("{\"timestamp\":");
+        StringBuffer sb = new StringBuffer("{\"timestamp\":");
         sb.append(timeStamp.getMillis() / 1000);
         sb.append(",\"tipo\":\"");
         sb.append(this.tipoEventoLog);

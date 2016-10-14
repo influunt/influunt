@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import engine.EventoMotor;
 import engine.TipoEvento;
-import json.deserializers.InfluuntDateTimeDeserializer;
 import json.deserializers.simulacao.ParametroSimulacaoImposicaoPlanoDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
@@ -35,7 +34,7 @@ public class ParametroSimulacaoImposicaoPlano {
         this.disparo = disparo;
     }
 
-    public EventoMotor toEvento(){
+    public EventoMotor toEvento() {
         return new EventoMotor(disparo, TipoEvento.IMPOSICAO_PLANO, plano);
     }
 

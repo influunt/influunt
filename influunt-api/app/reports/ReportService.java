@@ -23,21 +23,25 @@ import java.util.Map;
 public abstract class ReportService<T> {
 
 
-    @Inject
-    private Environment env;
+    public static final Locale LOCALE_PT_BR = new Locale("pt", "BR");
 
-    private final String LOGO_REPORT_FILE = "public/images/logo-escura.png";
-    private final String LOGO_REPORT_PARAM_NAME = "logoPath";
-    private final String DATE_REPORT_PARAM_NAME = "date";
     protected final String FORMAT_DATE_HOUR_COMPLETE = "dd/MM/yyyy HH:mm:ss";
 
     // Delimiter used in CSV file
     protected final String COMMA_DELIMITER = ";";
+
     protected final String NEW_LINE_SEPARATOR = "\n";
 
-    public static final Locale LOCALE_PT_BR = new Locale("pt", "BR");
+    private final String LOGO_REPORT_FILE = "public/images/logo-escura.png";
+
+    private final String LOGO_REPORT_PARAM_NAME = "logoPath";
+
+    private final String DATE_REPORT_PARAM_NAME = "date";
 
     protected DateTimeZone currentTimeZone;
+
+    @Inject
+    private Environment env;
 
     public Map<String, Object> getBasicReportMetadata() {
         Map<String, Object> reportMetadata = new HashMap<>();

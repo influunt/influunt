@@ -17,9 +17,10 @@ import java.util.List;
 public class GerenciadorDeSimulacoes {
 
 
- //   private final Configuration mqttSettings;
+    //   private final Configuration mqttSettings;
 
     private final ActorSystem system;
+
     private ActorRef servidor;
 
 //    private Configuration configuration = Play.current().injector().instanceOf(Configuration.class);
@@ -28,8 +29,8 @@ public class GerenciadorDeSimulacoes {
 
     @Inject
     public GerenciadorDeSimulacoes(ActorSystem system) {
-       this.system = system;
-  //      mqttSettings = configuration.getConfig("central").getConfig("mqtt");
+        this.system = system;
+        //      mqttSettings = configuration.getConfig("central").getConfig("mqtt");
     }
 
 
@@ -40,13 +41,11 @@ public class GerenciadorDeSimulacoes {
 //    }
 
 
-
-
     public void finish() {
         system.terminate();
     }
 
-    public void iniciarSimulacao(ParametroSimulacao params){
+    public void iniciarSimulacao(ParametroSimulacao params) {
         ActorRef simulador = system.actorOf(Props.create(SimuladorActor.class,
                 "mosquitto.rarolabs.com.br",
                 "1883",

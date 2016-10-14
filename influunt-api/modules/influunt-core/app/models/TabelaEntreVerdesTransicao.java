@@ -188,6 +188,10 @@ public class TabelaEntreVerdesTransicao extends Model implements Cloneable, Seri
         return true;
     }
 
+    public void setTempoVermelhoIntermitente(Integer tempoVermelhoIntermitente) {
+        this.tempoVermelhoIntermitente = tempoVermelhoIntermitente;
+    }
+
     @AssertTrue(groups = ControladorTabelaEntreVerdesCheck.class, message = "deve estar entre {min} e {max}")
     public boolean isTempoVermelhoIntermitenteOk() {
         if (getTransicao().isPerdaDePassagem() && getTransicao().getGrupoSemaforico().isPedestre()) {
@@ -202,10 +206,6 @@ public class TabelaEntreVerdesTransicao extends Model implements Cloneable, Seri
             return RangeUtils.getInstance().TEMPO_AMARELO.contains(getTempoAmarelo());
         }
         return true;
-    }
-
-    public void setTempoVermelhoIntermitente(Integer tempoVermelhoIntermitente) {
-        this.tempoVermelhoIntermitente = tempoVermelhoIntermitente;
     }
 
     @Override

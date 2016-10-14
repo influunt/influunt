@@ -1,6 +1,5 @@
 package models.simulador;
 
-import models.Anel;
 import models.TipoGrupoSemaforico;
 
 import java.util.ArrayList;
@@ -11,8 +10,11 @@ import java.util.List;
  */
 public class SimulacaoConfig {
     private String simulacaoId;
+
     private String controladorId;
+
     private List<Integer> tempoCicloAnel = new ArrayList<>();
+
     private List<AnelSimulacaoConfig> aneis;
 
     public String getSimulacaoId() {
@@ -47,24 +49,25 @@ public class SimulacaoConfig {
         this.aneis = aneis;
     }
 
-    public static class AnelSimulacaoConfig{
-            private int numero;
-            private List<TipoGrupoSemaforico> tiposGruposSemaforicos = new ArrayList<>();
+    public static class AnelSimulacaoConfig {
+        private int numero;
 
-            public int getNumero() {
-                return numero;
-            }
+        private List<TipoGrupoSemaforico> tiposGruposSemaforicos = new ArrayList<>();
 
-            public void setNumero(int numero) {
-                this.numero = numero;
-            }
-
-            public List<TipoGrupoSemaforico> getTiposGruposSemaforicos() {
-                return tiposGruposSemaforicos;
-            }
-
-            public void setTiposGruposSemaforicos(List<TipoGrupoSemaforico> tiposGruposSemaforicos) {
-                this.tiposGruposSemaforicos = tiposGruposSemaforicos;
-            }
+        public int getNumero() {
+            return numero;
         }
+
+        public void setNumero(int numero) {
+            this.numero = numero;
+        }
+
+        public List<TipoGrupoSemaforico> getTiposGruposSemaforicos() {
+            return tiposGruposSemaforicos;
+        }
+
+        public void setTiposGruposSemaforicos(List<TipoGrupoSemaforico> tiposGruposSemaforicos) {
+            this.tiposGruposSemaforicos = tiposGruposSemaforicos;
+        }
+    }
 }
