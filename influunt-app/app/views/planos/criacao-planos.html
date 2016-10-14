@@ -26,6 +26,15 @@
                 <a class="btn btn-primary"
                    type="button"
                    tooltips tooltip-side="bottom"
+                   tooltip-template="{{ 'controladores.geral.msgTooltipSimular' | translate }}"
+                   ui-sref="app.simulacao({ idControlador: objeto.id })"
+                   data-ng-if="podeSimular(objeto)"
+                   permission permission-sref="'app.simulacao'">
+                  <i class="fa fa-cogs"></i> {{ 'controladores.geral.simular' | translate }}
+                </a>
+                <a class="btn btn-primary"
+                   type="button"
+                   tooltips tooltip-side="bottom"
                    tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.geral.planos' | translate }}"
                    ng-click="editarPlano(objeto.id)" data-ng-if="currentVersaoPlano.statusVersao === 'EDITANDO' || currentVersaoPlano.statusVersao === undefined"
                    permission permission-only="'criarPlanos'">

@@ -247,6 +247,7 @@ public class ControladoresController extends Controller {
         return CompletableFuture.completedFuture(forbidden());
     }
 
+    @Dynamic(value = "Influunt")
     public CompletionStage<Result> getControladoresForSimulacao() {
         Map<String, String[]> params = new HashMap<>();
         String[] statusControlador = {"[1,2]"};

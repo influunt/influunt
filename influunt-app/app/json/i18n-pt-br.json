@@ -163,7 +163,9 @@
       "statusControlador": "Status do controlador",
       "visualizarAcoes": "Visualizar/Ações",
       "acoes": "Ações",
-      "verTelaAnterior": "Ver Resumo"
+      "verTelaAnterior": "Ver Resumo",
+      "simular": "Simular",
+      "msgTooltipSimular": "Simular operação do controlador"
     },
     "associacaoDetectores": {
       "adicionarDetector": "Adicionar Detector",

@@ -5,15 +5,18 @@ describe('Controller: SimulacaoCtrl', function () {
   var SimulacaoCtrl,
     scope,
     httpBackend,
-    controladores;
+    controladores,
+    stateParams;
 
-  beforeEach(inject(function ($controller, $rootScope, $httpBackend) {
+  beforeEach(inject(function ($controller, $rootScope, $httpBackend, $stateParams) {
     scope = $rootScope.$new();
     SimulacaoCtrl = $controller('SimulacaoCtrl', {
       $scope: scope
     });
 
     httpBackend = $httpBackend;
+    stateParams = $stateParams;
+
     controladores = {
       "data": [
         {
@@ -135,7 +138,7 @@ describe('Controller: SimulacaoCtrl', function () {
     expect(Object.keys(scope.parametrosSimulacao.disparoDetectores[1]).length).toBe(0);
   });
 
-  it('deve adicionar novimposição de plano ao preencher o anterior', function() {
+  it('deve adicionar nova imposição de plano ao preencher o anterior', function() {
     scope.parametrosSimulacao = { disparoDetectores: [{}], imposicaoPlanos: [{}] };
     var plano = controladores.data[0].aneis[0].planos[0];
     scope.parametrosSimulacao.imposicaoPlanos[0].plano = plano;
@@ -143,5 +146,20 @@ describe('Controller: SimulacaoCtrl', function () {
     scope.$apply();
     expect(scope.parametrosSimulacao.imposicaoPlanos.length).toBe(2);
     expect(Object.keys(scope.parametrosSimulacao.imposicaoPlanos[1]).length).toBe(0);
+  });
+
+  it('deve escolher controlador de acordo com parametro na query string', function() {
+    httpBackend.expectGET('/controladores/simulacao').respond(controladores);
+    scope.parametrosSimulacao = { disparoDetectores: [{}], imposicaoPlanos: [{}] };
+    scope.$state.go('app.simulacao', { idControlador: controladores.data[0].id });
+    scope.init();
+    httpBackend.flush();
+    scope.$apply();
+
+    expect(scope.parametrosSimulacao.idControlador).toBe(controladores.data[0].id);
+    expect(scope.detectores).toBeDefined();
+    expect(scope.detectores.length).toBe(2);
+    expect(scope.planos).toBeDefined();
+    expect(scope.planos.length).toBe(2);
   });
 });
