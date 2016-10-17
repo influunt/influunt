@@ -41,7 +41,8 @@
     // tests helpers
     "WizardControladores": true,
     "ControladorBasico": true,
-    "ControladorComPlanos": true
+    "ControladorComPlanos": true,
+    "ControladorComPlanoExclusivo": true
   }
 }
 

@@ -45,7 +45,10 @@
 </td>
 <td>
   <div class="ibox-tools">
-    <a class="close-link" data-ng-click="abrirPlano()" data-ng-show="!!evento.posicaoPlano" tooltips tooltip-template="Visualizar o diagrama de intervalos do plano selecionado">
+    <a class="close-link"
+        data-ng-click="abrirPlano()"
+        data-ng-show="!!evento.posicaoPlano"
+        tooltips tooltip-template="Visualizar o diagrama de intervalos do plano selecionado">
       <i class="fa fa-eye fa-2x"></i>
     </a>
     <a class="close-link" data-ng-click="removeEvento()" data-ng-if="podeRemover && !readOnly" tooltips tooltip-template="Remover o evento">
