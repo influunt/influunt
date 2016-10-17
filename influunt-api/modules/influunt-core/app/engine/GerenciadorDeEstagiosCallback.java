@@ -7,7 +7,10 @@ import org.joda.time.DateTime;
  */
 public interface GerenciadorDeEstagiosCallback {
 
-    public void onEstagioChange(Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos);
-    public void onEstagioEnds(Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos);
+    public void onEstagioChange(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos);
+
+    public void onEstagioEnds(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos);
+
+    public void onCicloEnds(int anel, Long numeroCiclos);
 
 }

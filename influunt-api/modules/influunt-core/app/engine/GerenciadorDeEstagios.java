@@ -3,7 +3,10 @@ package engine;
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;
 import com.google.common.collect.TreeRangeMap;
-import models.*;
+import models.Detector;
+import models.Estagio;
+import models.EstagioPlano;
+import models.Plano;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 
@@ -30,6 +33,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private final GerenciadorDeEstagiosCallback callback;
 
+    private final int anel;
+
     RangeMap<Long, IntervaloEstagio> intervalos;
 
     private List<EstagioPlano> listaEstagioPlanos;
@@ -40,17 +45,23 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private EstagioPlano estagioPlanoAnterior;
 
-    private Long numeroCiclos = 1L;
-
     private List<EstagioPlano> estagiosProximoCiclo = new ArrayList<>();
 
     private long contadorIntervalo = 0L;
 
     private int contadorEstagio = 0;
 
+    private long contadorDeCiclos = 0L;
+
     private GetIntervaloGrupoSemaforico intervaloGrupoSemaforicoAtual = null;
 
-    public GerenciadorDeEstagios(DateTime inicioControlador, DateTime inicioExecucao, Plano plano, GerenciadorDeEstagiosCallback callback) {
+    public GerenciadorDeEstagios(int anel,
+                                 DateTime inicioControlador,
+                                 DateTime inicioExecucao,
+                                 Plano plano,
+                                 GerenciadorDeEstagiosCallback callback) {
+
+        this.anel = anel;
         this.inicioControlador = inicioControlador;
         this.inicioExecucao = inicioExecucao;
         this.plano = plano;
@@ -98,6 +109,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
                 atualizaListaEstagiosNovoCiclo(listaOriginalEstagioPlanos);
                 contadorEstagio = 0;
                 geraIntervalos(0);
+                contadorDeCiclos++;
+                callback.onCicloEnds(this.anel, contadorDeCiclos);
             } else {
                 geraIntervalos(contadorEstagio);
             }
@@ -106,13 +119,13 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
         EstagioPlano estagioPlano = intervalo.getEstagioPlano();
         if (!estagioPlano.equals(estagioPlanoAtual)) {
-            if (intervaloGrupoSemaforicoAtual != null){
-                callback.onEstagioEnds(numeroCiclos, tempoDecorrido, inicioExecucao.plus(tempoDecorrido),
+            if (intervaloGrupoSemaforicoAtual != null) {
+                callback.onEstagioEnds(this.anel, contadorDeCiclos, tempoDecorrido, inicioExecucao.plus(tempoDecorrido),
                         new IntervaloGrupoSemaforico(intervaloGrupoSemaforicoAtual.getIntervaloEntreverde(), intervaloGrupoSemaforicoAtual.getIntervaloVerde()));
             }
 
             intervaloGrupoSemaforicoAtual = new GetIntervaloGrupoSemaforico().invoke();
-            callback.onEstagioChange(numeroCiclos, tempoDecorrido, inicioExecucao.plus(tempoDecorrido),
+            callback.onEstagioChange(this.anel, contadorDeCiclos, tempoDecorrido, inicioExecucao.plus(tempoDecorrido),
                     new IntervaloGrupoSemaforico(intervaloGrupoSemaforicoAtual.getIntervaloEntreverde(), intervaloGrupoSemaforicoAtual.getIntervaloVerde()));
 
             estagioPlanoAnterior = estagioPlanoAtual;
@@ -264,7 +277,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
             Map.Entry<Range<Long>, IntervaloEstagio> intervaloFirst = GerenciadorDeEstagios.this.intervalos.getEntry(0L);
             intervaloEntreverde = intervaloFirst.getValue();
             intervaloVerde = null;
-            if (GerenciadorDeEstagios.this.intervalos.getEntry(intervaloFirst.getKey().upperEndpoint() + 1) != null){
+            if (GerenciadorDeEstagios.this.intervalos.getEntry(intervaloFirst.getKey().upperEndpoint() + 1) != null) {
                 intervaloVerde = GerenciadorDeEstagios.this.intervalos.getEntry(intervaloFirst.getKey().upperEndpoint() + 1).getValue();
             }
             if (intervaloVerde == null) {

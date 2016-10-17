@@ -1,13 +1,7 @@
 package engine;
 
-import com.google.common.collect.Range;
-import com.google.common.collect.RangeMap;
-import com.google.common.collect.TreeRangeMap;
-import models.*;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
+import models.Estagio;
+import models.EstagioPlano;
 
 public class IntervaloEstagio {
 

@@ -3,11 +3,12 @@ package simulador;
 import engine.EventoMotor;
 import engine.Motor;
 import engine.MotorCallback;
-import models.*;
+import models.Controlador;
+import models.Detector;
+import models.Plano;
+import models.TipoDetector;
 import models.simulador.parametros.ParametroSimulacao;
-import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
-import simulador.eventos.AlteracaoEstadoLog;
 import simulador.eventos.EventoLog;
 import simulador.eventos.LogSimulacao;
 import simulador.eventos.TipoEventoLog;
@@ -39,14 +40,14 @@ public abstract class Simulador implements MotorCallback {
 
     private Motor motor;
 
-    private int tempoSimulacao = 0;
+    private long tempoSimulacao = 0;
 
     private DateTime ponteiro;
 
     public Simulador(DateTime inicioSimulado, Controlador controlador, ParametroSimulacao parametros) {
         this.controlador = controlador;
         this.dataInicioControlador = inicioSimulado;
-        motor = new Motor(controlador, this, inicioSimulado);
+        motor = new Motor(controlador, parametros.getInicioControlador(), inicioSimulado, this);
         this.parametros = parametros;
         this.parametros.getDetectores().stream().forEach(param -> addEvento(param.toEvento()));
         this.parametros.getImposicoes().stream().forEach(param -> addEvento(param.toEvento()));
@@ -83,10 +84,10 @@ public abstract class Simulador implements MotorCallback {
 
     public void simular(DateTime inicio, DateTime fim) {
         DateTime inicioSimulacao = inicio;
-        while (inicioSimulacao.getMillis() / 1000 < fim.getMillis() / 1000) {
-            motor.tick(inicioSimulacao);
-            tempoSimulacao++;
-            inicioSimulacao = inicioSimulacao.plusSeconds(1);
+        while (inicioSimulacao.getMillis() / 100 < fim.getMillis() / 100) {
+            motor.tick();
+            tempoSimulacao += 100;
+            inicioSimulacao = inicioSimulacao.plus(100);
         }
     }
 
@@ -96,13 +97,13 @@ public abstract class Simulador implements MotorCallback {
         }
     }
 
-    public void avancar(int segundos) {
-        DateTime fim = ponteiro.plusSeconds(segundos);
+    public void avancar(long millis) {
+        DateTime fim = ponteiro.plus(millis);
         simular(ponteiro, fim);
         ponteiro = fim;
     }
 
-    public int getTempoSimulacao() {
+    public long getTempoSimulacao() {
         return tempoSimulacao;
     }
 
@@ -114,80 +115,4 @@ public abstract class Simulador implements MotorCallback {
         return logSimulacao.find(alteracaoEstado, timestamp);
     }
 
-    public EventoLog findFirstInLog(TipoEventoLog alteracaoEstado, DateTime timestamp) {
-        return findInLog(alteracaoEstado, timestamp).findFirst().orElse(null);
-    }
-
-    public LogSimulacao getLogSimulacao() {
-        return logSimulacao;
-    }
-
-    public int getQuantidadeGruposSemaforicos() {
-        return 2;
-    }
-
-//    public Map<Integer, java.util.List<Pair<DateTime, Intervalo>>> getIntervalos() {
-//
-//        Map<Integer, java.util.List<Pair<DateTime, Intervalo>>> mapa = new HashMap<>();
-//
-//
-//        List<EventoLog> eventos = logSimulacao.find(TipoEventoLog.ALTERACAO_ESTADO).collect(Collectors.toList());
-//        DateTime dataInicio = eventos.get(0).getTimeStamp();
-//
-//        for (EventoLog eventoLog : eventos) {
-//            AlteracaoEstadoLog alteracaoEstadoLog = (AlteracaoEstadoLog) eventoLog;
-//            int tamanho = (int) (alteracaoEstadoLog.getTimeStamp().getMillis() / 1000 - dataInicio.getMillis() / 1000);
-//            dataInicio = alteracaoEstadoLog.getTimeStamp();
-//
-//
-//            for (int i = 1; i <= alteracaoEstadoLog.getAtual().size(); i++) {
-//                if (i > 120) {
-//                    System.out.println("P");
-//                }
-//                if (!mapa.containsKey(i)) {
-//                    mapa.put(i, new ArrayList<>());
-//                }
-//                if (mapa.get(i).isEmpty()) {
-//                    Intervalo intervalo = new Intervalo();
-//                    intervalo.setTamanho(tamanho);
-//                    intervalo.setEstadoGrupoSemaforico(alteracaoEstadoLog.getAtual().get(i - 1));
-//                    mapa.get(i).add(new Pair<DateTime, Intervalo>(alteracaoEstadoLog.getTimeStamp(), intervalo));
-//                } else {
-//                    Intervalo ultimo = mapa.get(i).get(mapa.get(i).size() - 1).getSecond();
-//                    if (ultimo.getEstadoGrupoSemaforico().equals(alteracaoEstadoLog.getAtual().get(i - 1))) {
-//                        ultimo.setTamanho(ultimo.getTamanho() + tamanho);
-//                    } else {
-//                        Intervalo intervalo = new Intervalo();
-//                        intervalo.setTamanho(tamanho);
-//                        ultimo.setTamanho(ultimo.getTamanho() + tamanho);
-//                        intervalo.setEstadoGrupoSemaforico(alteracaoEstadoLog.getAtual().get(i - 1));
-//                        mapa.get(i).add(new Pair<DateTime, Intervalo>(alteracaoEstadoLog.getTimeStamp(), intervalo));
-//
-//                    }
-//                }
-//            }
-//        }
-//
-//        return mapa;
-//    }
-
-    public List<EventoLog> getMudancaEventos() {
-        return logSimulacao.find(TipoEventoLog.ALTERACAO_EVENTO).collect(Collectors.toList());
-    }
-
-    public DateTime getInicio() {
-        return inicio;
-    }
-
-    public void setInicio(DateTime inicio) {
-        this.inicio = inicio;
-    }
-
-    public DateTime getFim() {
-        return fim;
-    }
-
-    public void setFim(DateTime fim) {
-        this.fim = fim;
-    }
 }

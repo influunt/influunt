@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import config.WithInfluuntApplicationNoAuthentication;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
-import models.*;
+import models.Controlador;
 import org.junit.Test;
 
 import javax.validation.groups.Default;
