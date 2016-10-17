@@ -188,41 +188,33 @@ public class ControladorPlanoTest extends ControladorTest {
         plano1Anel4.addGruposSemaforicos(grupoPlano);
 
         erros = getErros(controlador);
-        assertEquals(10, erros.size());
+        assertEquals(6, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro(CONTROLADOR, "Configure um detector veicular para cada estágio no modo atuado.", "aneis[0].versoesPlanos[0].planos[0].modoOperacaoValido"),
                 new Erro(CONTROLADOR, "Tempo de ciclo deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].tempoCiclo"),
                 new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[0].versoesPlanos[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
                 new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[0].versoesPlanos[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel"),
                 new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[1].versoesPlanos[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
-                new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[1].versoesPlanos[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].intervalos"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].intervalos"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[2].intervalos"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[1].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].intervalos")
+                new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[1].versoesPlanos[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel")
         ));
 
         criarGrupoSemaforicoPlano(anelCom2Estagios, plano1Anel2);
         criarGrupoSemaforicoPlano(anelCom4Estagios, plano1Anel4);
 
         erros = getErros(controlador);
-        assertEquals(8, erros.size());
+        assertEquals(4, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro(CONTROLADOR, "Configure um detector veicular para cada estágio no modo atuado.", "aneis[0].versoesPlanos[0].planos[0].modoOperacaoValido"),
                 new Erro(CONTROLADOR, "Tempo de ciclo deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].tempoCiclo"),
                 new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[0].versoesPlanos[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
-                new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[1].versoesPlanos[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].intervalos"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].intervalos"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[1].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].intervalos"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[1].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].intervalos")
+                new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[1].versoesPlanos[0].planos[0].quantidadeEstagioIgualQuantidadeAnel")
         ));
 
         criarEstagioPlano(anelCom2Estagios, plano1Anel2, new int[]{1, 1});
         criarEstagioPlano(anelCom4Estagios, plano1Anel4, new int[]{1, 1, 1, 1});
 
         erros = getErros(controlador);
-        assertEquals(26, erros.size());
+        assertEquals(21, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro(CONTROLADOR, "Configure um detector veicular para cada estágio no modo atuado.", "aneis[0].versoesPlanos[0].planos[0].modoOperacaoValido"),
                 new Erro(CONTROLADOR, "Tempo de verde deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerde"),
@@ -245,11 +237,7 @@ public class ControladorPlanoTest extends ControladorTest {
                 new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoVerdeIntermediario"),
                 new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoExtensaoVerde"),
                 new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
-                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[1].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].intervalos"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].intervalos"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[1].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].intervalos"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[1].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].intervalos")
+                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[1].versoesPlanos[0].planos[0].posicaoUnicaEstagio")
         ));
 
         Estagio estagio = anelCom4Estagios.getEstagios().stream().filter(estagio1 -> estagio1.getPosicao().equals(4)).findFirst().get();
@@ -260,7 +248,7 @@ public class ControladorPlanoTest extends ControladorTest {
         estagio.setDetector(detector);
 
         erros = getErros(controlador);
-        assertEquals(25, erros.size());
+        assertEquals(21, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro(CONTROLADOR, "Tempo de verde deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerde"),
                 new Erro(CONTROLADOR, "Tempo de ciclo deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].tempoCiclo"),
@@ -282,11 +270,7 @@ public class ControladorPlanoTest extends ControladorTest {
                 new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoVerdeIntermediario"),
                 new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoExtensaoVerde"),
                 new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
-                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[1].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].intervalos"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].intervalos"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[1].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].intervalos"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[1].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].intervalos")
+                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[1].versoesPlanos[0].planos[0].posicaoUnicaEstagio")
         ));
 
         EstagioPlano estagioPlano1Anel2 = plano1Anel2.getEstagiosPlanos().get(0);
@@ -323,7 +307,7 @@ public class ControladorPlanoTest extends ControladorTest {
 
 
         erros = getErros(controlador);
-        assertEquals(25, erros.size());
+        assertEquals(21, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro(CONTROLADOR, "Tempo de verde deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerde"),
                 new Erro(CONTROLADOR, "Tempo de ciclo deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].tempoCiclo"),
@@ -345,11 +329,7 @@ public class ControladorPlanoTest extends ControladorTest {
                 new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoVerdeIntermediario"),
                 new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoExtensaoVerde"),
                 new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
-                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[1].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].intervalos"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].intervalos"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[1].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].intervalos"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[1].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].intervalos")
+                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[1].versoesPlanos[0].planos[0].posicaoUnicaEstagio")
         ));
 
         estagioPlano1Anel2.setTempoVerde(0);
@@ -378,7 +358,7 @@ public class ControladorPlanoTest extends ControladorTest {
 
 
         erros = getErros(controlador);
-        assertEquals(29, erros.size());
+        assertEquals(25, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro(CONTROLADOR, "Tempo de verde deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerde"),
                 new Erro(CONTROLADOR, "Tempo de ciclo deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].tempoCiclo"),
@@ -404,11 +384,7 @@ public class ControladorPlanoTest extends ControladorTest {
                 new Erro(CONTROLADOR, "O tempo de verde está menor que o tempo de segurança configurado.", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].respeitaVerdesDeSeguranca"),
                 new Erro(CONTROLADOR, "O tempo de verde está menor que o tempo de segurança configurado.", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].respeitaVerdesDeSeguranca"),
                 new Erro(CONTROLADOR, "O tempo de verde está menor que o tempo de segurança configurado.", "aneis[1].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].respeitaVerdesDeSeguranca"),
-                new Erro(CONTROLADOR, "O tempo de verde está menor que o tempo de segurança configurado.", "aneis[1].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].respeitaVerdesDeSeguranca"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].intervalos"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].intervalos"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[1].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].intervalos"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[1].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].intervalos")
+                new Erro(CONTROLADOR, "O tempo de verde está menor que o tempo de segurança configurado.", "aneis[1].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].respeitaVerdesDeSeguranca")
         ));
 
         criarEstagioPlano(anelCom2Estagios, plano1Anel2, new int[]{1, 2});
@@ -443,16 +419,12 @@ public class ControladorPlanoTest extends ControladorTest {
         estagioPlano4Anel4.setTempoExtensaoVerde(10.0);
 
         erros = getErros(controlador);
-        assertEquals(8, erros.size());
+        assertEquals(4, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro(CONTROLADOR, "O tempo de verde intermediário deve estar entre os valores de verde mínimo e verde máximo.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeIntermediarioFieldEntreMinimoMaximo"),
                 new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
                 new Erro(CONTROLADOR, "O tempo de estagio ultrapassa o tempo máximo de permanência.", "aneis[1].versoesPlanos[0].planos[0].estagiosPlanos[0].ultrapassaTempoMaximoPermanencia"),
-                new Erro(CONTROLADOR, "A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).", "aneis[1].versoesPlanos[0].planos[0].ultrapassaTempoCiclo"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].intervalos"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].intervalos"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[1].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].intervalos"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[1].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].intervalos")
+                new Erro(CONTROLADOR, "A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).", "aneis[1].versoesPlanos[0].planos[0].ultrapassaTempoCiclo")
         ));
 
         estagioPlano1Anel2.setTempoVerde(21);
@@ -462,13 +434,9 @@ public class ControladorPlanoTest extends ControladorTest {
         estagioPlano1Anel4.setTempoVerdeIntermediario(20);
 
         erros = getErros(controlador);
-        assertEquals(5, erros.size());
+        assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].intervalos"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].intervalos"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[1].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].intervalos"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[1].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].intervalos")
+                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio")
         ));
 
         criarEstagioPlano(anelCom2Estagios, plano1Anel2, new int[]{1, 2});
@@ -506,13 +474,9 @@ public class ControladorPlanoTest extends ControladorTest {
         estagioPlano4Anel4.setTempoExtensaoVerde(10.0);
 
         erros = getErros(controlador);
-        assertEquals(5, erros.size());
+        assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].sequenciaInvalida"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].intervalos"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].intervalos"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[1].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].intervalos"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[1].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].intervalos")
+                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].sequenciaInvalida")
         ));
 
         criarEstagioPlano(anelCom2Estagios, plano1Anel2, new int[]{2, 1});
@@ -552,13 +516,9 @@ public class ControladorPlanoTest extends ControladorTest {
         estagioPlano1Anel2.setDispensavel(true);
 
         erros = getErros(controlador);
-        assertEquals(5, erros.size());
+        assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].sequenciaInvalida"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].intervalos"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].intervalos"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[1].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].intervalos"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[1].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].intervalos")
+                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].sequenciaInvalida")
         ));
 
         criarEstagioPlano(anelCom2Estagios, plano1Anel2, new int[]{2, 1});
