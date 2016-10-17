@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.apache.commons.lang3.Range;
+import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import utils.RangeUtils;
 
@@ -17,6 +18,7 @@ import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -364,5 +366,42 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
                 .map(grupoSemaforico -> grupoSemaforico.getTempoVerdeSegurancaFaltante(this, estagioAnteriorPlano))
                 .max(Integer::max)
                 .get();
+    }
+
+    public int getTempoVerdeEstagioComTempoDoEstagioDispensavel(HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerde, List<EstagioPlano> listaEstagioPlanos) {
+        //TODO: Como funciona a compensação de estagios em caso de demanda prioritaria
+        int tempoVerdeDoEstagioDispensavel = 0;
+        if(!getEstagio().isDemandaPrioritaria() && getPlano().isTempoFixoCoordenado()){
+            EstagioPlano estagioPlanoAnterior = getEstagioPlanoAnterior(plano.ordenarEstagiosPorPosicao());
+            EstagioPlano estagioPlanoProximo = getEstagioPlanoProximo(plano.ordenarEstagiosPorPosicao());
+            if (estagioPlanoAnterior.isDispensavel() &&
+                    !listaEstagioPlanos.contains(estagioPlanoAnterior) &&
+                    this.equals(estagioPlanoAnterior.getEstagioQueRecebeEstagioDispensavel())){
+                tempoVerdeDoEstagioDispensavel += estagioPlanoAnterior.getTempoVerde();
+                tempoVerdeDoEstagioDispensavel += tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(estagioPlanoAnterior.getEstagio().getPosicao(),
+                        this.getEstagio().getPosicao())) / 1000;
+
+                //TODO: Caso acha diferença entre os entreverdes quando não ocorre o estagio dispensavel também deverá ser adicionado
+                EstagioPlano anterior = estagioPlanoAnterior.getEstagioPlanoAnterior(plano.ordenarEstagiosPorPosicao());
+                long diff = tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(anterior.getEstagio().getPosicao(), estagioPlanoAnterior.getEstagio().getPosicao())) -
+                        tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(anterior.getEstagio().getPosicao(), this.getEstagio().getPosicao()));
+                tempoVerdeDoEstagioDispensavel += (diff / 1000);
+
+            }
+            //TODO: Caso o detector seja acionado quando o tempo de Verde já tenha sido adiciona a outro estagio, como o controlador deve se comportar
+            if (estagioPlanoProximo.isDispensavel() &&
+                    !listaEstagioPlanos.contains(estagioPlanoProximo) &&
+                    this.equals(estagioPlanoProximo.getEstagioQueRecebeEstagioDispensavel())){
+                tempoVerdeDoEstagioDispensavel += estagioPlanoProximo.getTempoVerde();
+                EstagioPlano proximo = estagioPlanoProximo.getEstagioPlanoProximo(plano.ordenarEstagiosPorPosicao());
+                tempoVerdeDoEstagioDispensavel += tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(estagioPlanoProximo.getEstagio().getPosicao(),
+                        proximo.getEstagio().getPosicao())) / 1000;
+                //TODO: Caso acha diferença entre os entreverdes quando não ocorre o estagio dispensavel também deverá ser adicionado
+                long diff = tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(this.getEstagio().getPosicao(), estagioPlanoProximo.getEstagio().getPosicao())) -
+                        tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(this.getEstagio().getPosicao(), proximo.getEstagio().getPosicao()));
+                tempoVerdeDoEstagioDispensavel += (diff / 1000);
+            }
+        }
+        return getTempoVerdeEstagio() + tempoVerdeDoEstagioDispensavel;
     }
 }

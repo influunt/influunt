@@ -182,6 +182,72 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
     }
 
     @Test
+    public void repeticaoDeEstagioComDispensavelComExecucaoNoInicioEmModoCoordenadoEstagioAnterior() {
+        Anel anel = getAnel(2);
+        Plano plano = getPlano(anel, 12);
+        plano.setModoOperacao(ModoOperacaoPlano.TEMPO_FIXO_COORDENADO);
+        EstagioPlano estagioPlano = plano.getEstagiosPlanos().stream().filter(EstagioPlano::isDispensavel).findFirst().get();
+        EstagioPlano estagioPlano3 = plano.getEstagiosPlanos().stream().filter(ep -> ep.getEstagio().getPosicao().equals(1)).findFirst().get();
+        estagioPlano.setEstagioQueRecebeEstagioDispensavel(estagioPlano3);
+
+        gerenciadorDeEstagios = getGerenciadorDeEstagios(plano);
+        Detector detector = anel.getDetectores().stream().filter(det -> det.getPosicao().equals(1)).findFirst().get();
+
+        avancar(gerenciadorDeEstagios, 10);
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector));
+        avancar(gerenciadorDeEstagios, 90);
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector));
+        avancar(gerenciadorDeEstagios, 150);
+        imprimirListaEstagios(listaEstagios);
+        plano.imprimirTabelaEntreVerde();
+
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(22)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(62)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(81)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(106)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(124)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(143)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(168)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(186)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(208)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(248)).getEstagio().getPosicao().intValue());
+    }
+
+    @Test
+    public void repeticaoDeEstagioComDispensavelComExecucaoNoInicioEmModoCoordenadoProximoEstagio() {
+        Anel anel = getAnel(2);
+        Plano plano = getPlano(anel, 12);
+        plano.setModoOperacao(ModoOperacaoPlano.TEMPO_FIXO_COORDENADO);
+        EstagioPlano estagioPlano = plano.getEstagiosPlanos().stream().filter(EstagioPlano::isDispensavel).findFirst().get();
+        EstagioPlano estagioPlano3 = plano.getEstagiosPlanos().stream().filter(ep -> ep.getEstagio().getPosicao().equals(2)).findFirst().get();
+        estagioPlano.setEstagioQueRecebeEstagioDispensavel(estagioPlano3);
+
+        gerenciadorDeEstagios = getGerenciadorDeEstagios(plano);
+        Detector detector = anel.getDetectores().stream().filter(det -> det.getPosicao().equals(1)).findFirst().get();
+
+        avancar(gerenciadorDeEstagios, 10);
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector));
+        avancar(gerenciadorDeEstagios, 90);
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector));
+        avancar(gerenciadorDeEstagios, 150);
+        imprimirListaEstagios(listaEstagios);
+        plano.imprimirTabelaEntreVerde();
+
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(44)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(62)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(81)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(106)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(124)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(143)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(168)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(186)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(230)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(248)).getEstagio().getPosicao().intValue());
+    }
+
+    @Test
     public void repeticaoDeEstagioComDemandaPrioritariaComExecucao() {
         Anel anel = getAnel(2);
         Plano plano = getPlanoDemandaPrioritaria(anel);
@@ -336,6 +402,23 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
         verificaGruposSemaforicos(86, new GrupoCheck(10,9000,39000,EstadoGrupoSemaforico.VERMELHO));
 
         assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(125)).getEstagio().getPosicao().intValue());
+        verificaGruposSemaforicos(86, new GrupoCheck(6,0,4000,EstadoGrupoSemaforico.AMARELO));
+        verificaGruposSemaforicos(86, new GrupoCheck(6,4000,9000,EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
+        verificaGruposSemaforicos(86, new GrupoCheck(6,9000,39000,EstadoGrupoSemaforico.VERMELHO));
+
+        verificaGruposSemaforicos(86, new GrupoCheck(7,0,9000,EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(86, new GrupoCheck(7,9000,39000,EstadoGrupoSemaforico.VERMELHO));
+
+        verificaGruposSemaforicos(86, new GrupoCheck(8,0,9000,EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(86, new GrupoCheck(8,9000,39000,EstadoGrupoSemaforico.VERDE));
+
+        verificaGruposSemaforicos(86, new GrupoCheck(9,0,9000,EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(86, new GrupoCheck(9,9000,39000,EstadoGrupoSemaforico.VERMELHO));
+
+        verificaGruposSemaforicos(86, new GrupoCheck(10,0,4000,EstadoGrupoSemaforico.VERMELHO_INTERMITENTE));
+        verificaGruposSemaforicos(86, new GrupoCheck(10,4000,9000,EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
+        verificaGruposSemaforicos(86, new GrupoCheck(10,9000,39000,EstadoGrupoSemaforico.VERMELHO));
+
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(150)).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(168)).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(193)).getEstagio().getPosicao().intValue());
