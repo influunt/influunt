@@ -231,8 +231,7 @@ public class FaixasDeValores extends Model implements Cloneable, Serializable {
         valores.setTempoVerdeMaximoMax(255);
         valores.setTempoVerdeIntermediarioMin(10);
         valores.setTempoVerdeIntermediarioMax(255);
-        //TODO: Verificar o valor minimo de tempo de extensao de verde
-        valores.setTempoExtensaoVerdeMin(0d);
+        valores.setTempoExtensaoVerdeMin(1d);
         valores.setTempoExtensaoVerdeMax(10d);
         valores.setTempoVerdeMin(1);
         valores.setTempoVerdeMax(255);
