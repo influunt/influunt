@@ -16,7 +16,7 @@ angular.module('influuntApp')
       controlador.versoesTabelasHorarias = controlador.versoesTabelasHorarias || [];
       if(!controlador.enviadoRemoverPlanosETabelaHoraria && (controlador.versoesPlanos.length > 0 || controlador.versoesTabelasHorarias.length > 0)){
         controlador.enviadoRemoverPlanosETabelaHoraria = true;
-        return Restangular.one('controladores', controlador.id).customDELETE('remover_planos_tabelas_horarios').finally(influuntBlockui.unblock);
+        return Restangular.one('controladores', controlador.id).customDELETE('remover_planos_tabelas_horarias').finally(influuntBlockui.unblock);
       }
       return false;
     };

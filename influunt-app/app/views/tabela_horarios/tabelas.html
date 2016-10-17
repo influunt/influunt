@@ -67,7 +67,7 @@
                   <div class="ui-layout-content tab-content">
                     <div id="tabs-1">
                       <section>
-                        <div class="col-lg-12 col-sm-12 no-padding table-create-plan overflow">
+                        <div class="col-lg-12 col-sm-12 no-padding table-create-plan overflow" data-ng-if="plano.modoOperacao !== 'ATUADO' && plano.modoOperacao !== 'MANUAL'">
                           <ng-include src="'views/planos/tabela-planos.html'"></ng-include>
                         </div>
                       </section>

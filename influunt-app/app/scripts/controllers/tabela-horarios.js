@@ -8,15 +8,19 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('TabelaHorariosCtrl', ['$scope', '$state', '$timeout', 'Restangular', '$filter', 'toast',
+  .controller('TabelaHorariosCtrl', ['$controller', '$scope', '$state', '$timeout', 'Restangular', '$filter', 'toast',
                            'influuntAlert', 'influuntBlockui', 'geraDadosDiagramaIntervalo',
-                           'handleValidations', 'TabelaHorariaService', 'HorariosService',
-    function ($scope, $state, $timeout, Restangular, $filter, toast,
-              influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo, handleValidations, TabelaHorariaService, HorariosService) {
+                           'handleValidations', 'TabelaHorariaService', 'HorariosService', 'planoService',
+    function ($controller, $scope, $state, $timeout, Restangular, $filter, toast,
+              influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo,
+              handleValidations, TabelaHorariaService, HorariosService, planoService) {
 
-      var adicionaTabelaHorario, adicionaEvento, atualizaPlanos, atualizaDiagramaIntervalo, atualizaGruposSemaforicos, atualizaEventos,
-      atualizaEventosNormais, atualizaPosicaoEventosDoTipo, atualizaPosicaoEventos, atualizaQuantidadeEventos, removerEventoNoCliente,
-      atualizaQuadroTabelaHoraria, atualizaErrosEventos, getErrosEvento;
+      $controller('HistoricoCtrl', {$scope: $scope});
+      $scope.inicializaResourceHistorico('tabelas_horarias');
+
+      var adicionaTabelaHorario, adicionaEvento, atualizaDiagramaIntervalo, atualizaEventos, atualizaEventosNormais,
+          atualizaPosicaoEventosDoTipo, atualizaPosicaoEventos, atualizaQuantidadeEventos, removerEventoNoCliente,
+          atualizaQuadroTabelaHoraria, atualizaErrosEventos, getErrosEvento;
 
       var qtdEventos, qtdEventosRecorrentes, qtdEventosNaoRecorrentes;
       var NORMAL = 'NORMAL';
@@ -99,54 +103,16 @@ angular.module('influuntApp')
       };
 
       $scope.clonarTabelaHoraria = function(controladorId) {
-        return Restangular.one('controladores', controladorId).all('editar_tabela_horaria').customGET()
-          .then(function() {
-            $state.go('app.tabela_horarios_edit', { id: controladorId });
-          })
-          .catch(function(err) {
-            toast.error($filter('translate')('geral.mensagens.default_erro'));
-            throw new Error(JSON.stringify(err));
-          })
-          .finally(influuntBlockui.unblock);
-      };
-
-      $scope.timeline = function() {
-        return Restangular.one('tabela_horarios', $state.params.id).all('timeline').customGET()
-          .then(function(res) {
-            $scope.versoes = res;
-          })
-          .catch(function(err) {
-            toast.error($filter('translate')('geral.mensagens.default_erro'));
-            throw new Error(JSON.stringify(err));
-          })
-          .finally(influuntBlockui.unblock);
+        return $scope.clonar(controladorId);
       };
 
       $scope.editarTabelaHoraria = function(controladorId) {
-        return Restangular.one('controladores', controladorId).all("pode_editar").customGET()
-          .then(function() {
-            $state.go('app.tabela_horarios_edit', { id: controladorId });
-          })
-          .catch(function(err) {
-            toast.clear();
-            influuntAlert.alert('Controlador', err.data[0].message);
-          })
-          .finally(influuntBlockui.unblock);
+        return $scope.editar(controladorId);
       };
 
-      $scope.cancelarEdicao = function(controladorId) {
-        influuntAlert.delete().then(function(confirmado) {
-          return confirmado && Restangular.one('tabela_horarios', controladorId).all('cancelar_edicao').customDELETE()
-            .then(function() {
-              toast.success($filter('translate')('geral.mensagens.removido_com_sucesso'));
-              $state.go('app.controladores');
-            })
-            .catch(function(err) {
-              toast.error($filter('translate')('geral.mensagens.default_erro'));
-              throw new Error(err);
-            })
-            .finally(influuntBlockui.unblock);
-        });
+      $scope.cancelarEdicao = function() {
+        var tabelaHoraria = _.chain($scope.objeto.tabelasHorarias).filter(function(th) { return !!th.id; }).last().value();
+        return $scope.cancelar(tabelaHoraria);
       };
 
       $scope.selecionaTipoEvento = function(index) {
@@ -170,8 +136,8 @@ angular.module('influuntApp')
       $scope.selecionaAnel = function (index){
         $scope.currentAnelIndex = index;
         $scope.currentAnel = $scope.aneis[$scope.currentAnelIndex];
-        atualizaGruposSemaforicos();
-        atualizaPlanos();
+        $scope.currentGruposSemaforicos = planoService.atualizaGruposSemaforicos($scope.objeto, $scope.currentAnel);
+        $scope.currentPlanos = planoService.atualizaPlanos($scope.objeto, $scope.currentAnel);
         atualizaDiagramaIntervalo();
       };
 
@@ -227,30 +193,19 @@ angular.module('influuntApp')
       };
 
       $scope.visualizarPlano = function(evento){
+
         $scope.selecionaEvento(evento);
         $scope.selecionaAnel(0);
-        $('#modalDiagramaIntervalos').modal('show');
-
-        return $scope.dadosDiagrama;
-      };
-
-      atualizaDiagramaIntervalo = function (){
-        var posicaoPlano = parseInt($scope.currentEvento.posicaoPlano);
-        var plano = _.find($scope.currentPlanos, {posicao: posicaoPlano});
-        if(plano){
-          $scope.currentPlano = plano;
-          $scope.plano = geraDadosDiagramaIntervalo.gerar(
-            plano, $scope.currentAnel, $scope.currentGruposSemaforicos, $scope.objeto
+        if ($scope.plano.modoOperacao === 'ATUADO' || $scope.plano.modoOperacao === 'MANUAL') {
+          influuntAlert.alert(
+            $filter('translate')('planos.modoOperacaoSemDiagrama.tituloAlert'),
+            $filter('translate')('planos.modoOperacaoSemDiagrama.textoAlert')
           );
-          var diagramaBuilder = new influunt.components.DiagramaIntervalos($scope.plano, $scope.valoresMinimos);
-          var result = diagramaBuilder.calcula();
-          _.each(result.gruposSemaforicos, function(g) {
-            g.ativo = true;
-          });
-          $scope.dadosDiagrama = result;
-        }else{
-          $scope.dadosDiagrama = {erros: [$filter('translate')('diagrama_intervalo.erros.nao_existe_plano', {NUMERO: posicaoPlano})]};
+        } else {
+          $('#modalDiagramaIntervalos').modal('show');
+          return $scope.dadosDiagrama;
         }
+
       };
 
       adicionaTabelaHorario = function(controlador) {
@@ -297,31 +252,20 @@ angular.module('influuntApp')
         return evento;
       };
 
+      atualizaDiagramaIntervalo = function () {
+        var posicaoPlano = parseInt($scope.currentEvento.posicaoPlano);
+        $scope.plano = _.find($scope.currentPlanos, {posicao: posicaoPlano});
+        if ($scope.plano) {
+          var estagiosPlanos = planoService.atualizaEstagiosPlanos($scope.objeto, $scope.plano);
+          var valoresMinimos = planoService.montaTabelaValoresMinimos($scope.objeto);
 
-      atualizaPlanos = function() {
-        var ids = _.map($scope.currentAnel.planos, 'idJson');
-        $scope.currentPlanos = _
-          .chain($scope.objeto.planos)
-          .filter(function(e) {
-            return ids.indexOf(e.idJson) >= 0;
-          })
-          .orderBy(['posicao'])
-          .value();
-
-          return $scope.currentPlanos;
-      };
-
-      atualizaGruposSemaforicos = function(){
-        var ids = _.map($scope.currentAnel.gruposSemaforicos, 'idJson');
-        $scope.currentGruposSemaforicos = _
-          .chain($scope.objeto.gruposSemaforicos)
-          .filter(function(e) {
-            return ids.indexOf(e.idJson) >= 0;
-          })
-          .orderBy(['posicao'])
-          .value();
-
-          return $scope.currentGruposSemaforicos;
+          $scope.dadosDiagrama = planoService.atualizaDiagramaIntervalos(
+            $scope.objeto, $scope.currentAnel, $scope.currentGruposSemaforicos,
+            estagiosPlanos, $scope.plano, valoresMinimos
+          );
+        } else {
+          $scope.dadosDiagrama = {erros: [$filter('translate')('diagrama_intervalo.erros.nao_existe_plano', {NUMERO: posicaoPlano})]};
+        }
       };
 
       atualizaEventos = function() {
@@ -376,27 +320,25 @@ angular.module('influuntApp')
         ];
       };
 
+      atualizaEventosNormais = function(){
+        $scope.eventosNormais = _.chain($scope.objeto.eventos)
+        .filter(function(e){
+          return e.tipo === NORMAL && e.tabelaHoraria.idJson === $scope.currentTabelaHoraria.idJson;
+        })
+        .orderBy(['posicao'])
+        .value();
+      };
+
+      atualizaQuadroTabelaHoraria = function(){
+        var quadroHorarioBuilder = new influunt.components.QuadroTabelaHorario($scope.dias, $scope.eventosNormais);
+        $scope.agenda = quadroHorarioBuilder.calcula();
+      };
+
       $scope.submitForm = function() {
-
-        Restangular
-        .all('tabela_horarios')
-        .post($scope.objeto)
-        .then(function(res) {
-          $scope.objeto = res;
-
-          $scope.errors = {};
-          influuntBlockui.unblock();
-          $state.go('app.controladores');
-        })
-        .catch(function(res) {
-          influuntBlockui.unblock();
-          if (res.status === 422) {
-            $scope.errors = handleValidations.buildValidationMessages(res.data);
-          } else {
-            console.error(res);
-          }
-        })
-        .finally(influuntBlockui.unblock);
+        return $scope
+          .submit($scope.objeto)
+          .then(function(res) { $scope.objeto = res; })
+          .catch(function(err) { $scope.errors = err; });
       };
 
       $scope.tipoEventoTemErro = function(indice) {
@@ -432,7 +374,10 @@ angular.module('influuntApp')
 
       atualizaErrosEventos = function() {
         $scope.currentErrosEventos = {};
-        if ($scope.errors && Object.keys($scope.errors).length > 0 && Object.keys($scope.errors.versoesTabelasHorarias[$scope.currentVersaoTabelaHorariaIndex]).length > 0 && Object.keys($scope.errors.versoesTabelasHorarias[$scope.currentVersaoTabelaHorariaIndex].tabelaHoraria.eventos).length > 0){
+        if ($scope.errors && Object.keys($scope.errors).length > 0 &&
+            $scope.errors.versoesTabelasHorarias &&
+            Object.keys($scope.errors.versoesTabelasHorarias[$scope.currentVersaoTabelaHorariaIndex]).length > 0 &&
+            Object.keys($scope.errors.versoesTabelasHorarias[$scope.currentVersaoTabelaHorariaIndex].tabelaHoraria.eventos).length > 0){
           _.each($scope.currentEventos, function(evento, index){
             $scope.currentErrosEventos[index] = getErrosEvento(evento, index);
           });
@@ -466,19 +411,5 @@ angular.module('influuntApp')
           atualizaQuadroTabelaHoraria();
         }
       },true);
-
-      atualizaEventosNormais = function(){
-        $scope.eventosNormais = _.chain($scope.objeto.eventos)
-        .filter(function(e){
-          return e.tipo === NORMAL && e.tabelaHoraria.idJson === $scope.currentTabelaHoraria.idJson;
-        })
-        .orderBy(['posicao'])
-        .value();
-      };
-
-      atualizaQuadroTabelaHoraria = function(){
-        var quadroHorarioBuilder = new influunt.components.QuadroTabelaHorario($scope.dias, $scope.eventosNormais);
-        $scope.agenda = quadroHorarioBuilder.calcula();
-      };
     }
   ]);
