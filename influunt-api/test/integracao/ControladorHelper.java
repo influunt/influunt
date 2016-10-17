@@ -47,6 +47,27 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         return controlador;
     }
 
+    public Controlador getControladorSemTransicaoProibida() {
+        controlador = new Controlador();
+
+        criaRelacaoDadosBasicos();
+
+        setDadosBasicos();
+        setDadosAneis();
+        setDadosGruposSemaforicos();
+        setDadosVerdesConflitantes();
+        setDadosAssociacaoEstagioGrupoSemaforico();
+        setDadosAtrasoDeGrupo();
+        setDadosTabelaEntreVerdesCompleta();
+        setDadosAssociacaoDetectores();
+
+        controlador.setStatusControlador(StatusControlador.CONFIGURADO);
+
+        controlador.save();
+
+        return controlador;
+    }
+
     private void criaRelacaoDadosBasicos() {
         cidade = new Cidade();
         cidade.setNome("São Paulo");
@@ -393,12 +414,75 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
     private void setDadosTabelaEntreVerdes() {
         Anel anel = getAnel(1);
         setEntreVerde(anel, 1, 1, 2, 3, 3);
-        setEntreVerde(anel, 5, 1, 2, 3, 3);
+        setEntreVerde(anel, 5, 1, 2, 5, 3);
         setEntreVerde(anel, 3, 2, 3, 5, 3);
         setEntreVerde(anel, 4, 2, 3, 7, 3);
         setEntreVerde(anel, 5, 2, 3, 5, 3);
         setEntreVerde(anel, 2, 3, 1, 3, 3);
         setEntreVerde(anel, 4, 3, 1, 5, 3);
+
+        anel = getAnel(2);
+        setEntreVerde(anel, 6, 1, 2, 3, 4);
+        setEntreVerde(anel, 6, 1, 3, 4, 5);
+        setEntreVerde(anel, 10, 1, 2, 3, 4);
+        setEntreVerde(anel, 10, 1, 3, 4, 5);
+        setEntreVerde(anel, 7, 2, 1, 3, 5);
+        setEntreVerde(anel, 7, 2, 3, 4, 5);
+        setEntreVerde(anel, 9, 2, 1, 3, 5);
+        setEntreVerde(anel, 9, 2, 3, 4, 5);
+        setEntreVerde(anel, 8, 3, 1, 5, 5);
+        setEntreVerde(anel, 8, 3, 2, 5, 5);
+
+        anel = getAnel(3);
+        setEntreVerde(anel, 11, 1, 2, 3, 4);
+        setEntreVerde(anel, 11, 1, 3, 3, 4);
+        setEntreVerde(anel, 11, 1, 4, 3, 4);
+        setEntreVerde(anel, 11, 1, 5, 3, 4);
+
+        setEntreVerde(anel, 12, 2, 1, 3, 5);
+        setEntreVerde(anel, 12, 2, 3, 3, 5);
+        setEntreVerde(anel, 12, 2, 4, 3, 5);
+        setEntreVerde(anel, 12, 2, 5, 3, 5);
+
+        setEntreVerde(anel, 13, 3, 1, 3, 6);
+        setEntreVerde(anel, 13, 3, 2, 3, 6);
+        setEntreVerde(anel, 13, 3, 4, 3, 6);
+        setEntreVerde(anel, 13, 3, 5, 3, 6);
+
+        setEntreVerde(anel, 14, 4, 1, 6, 5);
+        setEntreVerde(anel, 14, 4, 2, 6, 5);
+        setEntreVerde(anel, 14, 4, 3, 6, 5);
+        setEntreVerde(anel, 14, 4, 5, 6, 5);
+
+        setEntreVerde(anel, 15, 4, 1, 6, 5);
+        setEntreVerde(anel, 15, 4, 2, 6, 5);
+        setEntreVerde(anel, 15, 4, 3, 6, 5);
+        setEntreVerde(anel, 15, 4, 5, 6, 5);
+
+        setEntreVerde(anel, 16, 5, 1, 4, 4);
+        setEntreVerde(anel, 16, 5, 2, 4, 4);
+        setEntreVerde(anel, 16, 5, 3, 4, 4);
+        setEntreVerde(anel, 16, 5, 4, 4, 4);
+
+        controlador.save();
+    }
+
+    private void setDadosTabelaEntreVerdesCompleta() {
+        Anel anel = getAnel(1);
+        setEntreVerde(anel, 1, 1, 2, 3, 3);
+        setEntreVerde(anel, 5, 1, 2, 5, 3);
+        setEntreVerde(anel, 1, 1, 3, 3, 3);
+        setEntreVerde(anel, 5, 1, 3, 3, 3);
+        setEntreVerde(anel, 3, 2, 3, 5, 3);
+        setEntreVerde(anel, 4, 2, 3, 7, 3);
+        setEntreVerde(anel, 5, 2, 3, 5, 3);
+        setEntreVerde(anel, 3, 2, 1, 5, 3);
+        setEntreVerde(anel, 4, 2, 1, 5, 3);
+        setEntreVerde(anel, 5, 2, 1, 5, 3);
+        setEntreVerde(anel, 2, 3, 1, 3, 3);
+        setEntreVerde(anel, 4, 3, 1, 5, 3);
+        setEntreVerde(anel, 2, 3, 2, 3, 3);
+        setEntreVerde(anel, 4, 3, 2, 3, 3);
 
         anel = getAnel(2);
         setEntreVerde(anel, 6, 1, 2, 3, 4);
@@ -542,9 +626,9 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         anel = getAnel(3);
         criaVersaoPlanos(anel);
         plano = criarPlano(anel, 1, ModoOperacaoPlano.ATUADO, null);
-        criarEstagioPlano(anel, plano, 1, 1, new int[]{10, 15, 20, 1}, false);
-        criarEstagioPlano(anel, plano, 2, 2, new int[]{10, 15, 20, 1}, false);
-        criarEstagioPlano(anel, plano, 3, 3, new int[]{10, 15, 20, 1}, false);
+        criarEstagioPlano(anel, plano, 1, 1, new int[]{10, 15, 20, 11}, false);
+        criarEstagioPlano(anel, plano, 2, 2, new int[]{10, 15, 20, 11}, false);
+        criarEstagioPlano(anel, plano, 3, 3, new int[]{10, 15, 20, 11}, false);
         criarEstagioPlano(anel, plano, 4, 4, new int[]{10}, false);
 
         controlador.save();

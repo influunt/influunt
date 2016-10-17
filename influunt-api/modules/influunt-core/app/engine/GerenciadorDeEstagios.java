@@ -84,7 +84,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
         final Estagio estagioAnterior = estagioPlanoAtual.getEstagio();
 
         final long tempoEntreVerde = tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(estagioAnterior.getPosicao(), estagioAtual.getPosicao()));
-        final long tempoVerde = estagioPlano.getTempoVerdeEstagio() * 1000L;
+        final long tempoVerde = estagioPlano.getTempoVerdeEstagioComTempoDoEstagioDispensavel(tabelaDeTemposEntreVerde, listaEstagioPlanos) * 1000L;
 
         this.intervalos.put(Range.closedOpen(0L, tempoEntreVerde), new IntervaloEstagio(tempoEntreVerde, true, estagioPlano, estagioPlanoAtual));
         this.intervalos.put(Range.closedOpen(tempoEntreVerde, tempoEntreVerde + tempoVerde), new IntervaloEstagio(tempoVerde, false, estagioPlano, estagioPlanoAtual));
@@ -185,9 +185,11 @@ public class GerenciadorDeEstagios implements EventoCallback {
         final long tempoExtensao = ((long) (estagioPlano.getTempoExtensaoVerde() * 1000L));
         final long tempoMaximo = estagioPlano.getTempoVerdeMaximo() * 1000L;
 
-        if ((range.getKey().upperEndpoint() - range.getKey().lowerEndpoint()) + tempoExtensao <= tempoMaximo) {
+        IntervaloEstagio intervalo = range.getValue();
+        if ((intervalo.getDuracao() + tempoExtensao) <= tempoMaximo) {
             this.intervalos.remove(range.getKey());
-            this.intervalos.put(Range.closedOpen(range.getKey().lowerEndpoint(), range.getKey().upperEndpoint() + tempoExtensao), range.getValue());
+            intervalo.setDuracao(intervalo.getDuracao() + tempoExtensao);
+            this.intervalos.put(Range.closedOpen(range.getKey().lowerEndpoint(), range.getKey().lowerEndpoint() + intervalo.getDuracao()), intervalo);
         }
     }
 
