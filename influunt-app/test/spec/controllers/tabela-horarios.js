@@ -8,7 +8,6 @@ describe('Controller: TabelaHorariosCtrl', function () {
       $state,
       $controller,
       controlador,
-      timeline,
       controladorId;
 
   beforeEach(inject(function (_$controller_, $rootScope, _$httpBackend_, _$q_, _$state_) {
@@ -26,14 +25,11 @@ describe('Controller: TabelaHorariosCtrl', function () {
 
     // Inicializando, por padrão, o planos em modo de visualizacao. Isto é necessário para acessar os dados
     // em `data`, nas rotas.
-    $state.go('app.tabela_horarios', {id: controladorId});
+    $state.go('app.tabelas_horarias', {id: controladorId});
     scope.$apply();
-
     TabelaHorariosCtrl = $controller('TabelaHorariosCtrl', { $scope: scope });
 
-    timeline = [];
     $httpBackend.expectGET('/controladores/' + controladorId).respond(controlador);
-    // $httpBackend.expectGET('/tabela_horarios/' + anelId + '/timeline').respond(timeline);
     scope.init();
     $httpBackend.flush();
     scope.$apply();
@@ -84,11 +80,11 @@ describe('Controller: TabelaHorariosCtrl', function () {
 
       expect(scope.currentErrosEventos[0]).not.toBeDefined();
       expect(scope.currentErrosEventos[1]).toBeDefined();
-      
+
       scope.selecionaTipoEvento(1);
       expect(scope.currentErrosEventos[0]).toBeDefined();
       expect(scope.currentErrosEventos[1]).not.toBeDefined();
-      
+
       scope.selecionaTipoEvento(2);
       expect(scope.currentErrosEventos[0]).toBeDefined();
     });
@@ -97,7 +93,7 @@ describe('Controller: TabelaHorariosCtrl', function () {
       expect(scope.getErrosTabelaHoraria().length).toBe(0);
     });
   });
-  
+
   describe('não existe erros ao salvar', function () {
     beforeEach(inject(function(handleValidations) {
       scope.objeto = {
@@ -151,9 +147,153 @@ describe('Controller: TabelaHorariosCtrl', function () {
       expect(scope.getErrosTabelaHoraria().length).toBe(0);
     });
   });
-  
+
+  describe('editarTabelaHoraria - função de edição de tabela horaria não ATIVA', function () {
+    beforeEach(function() {
+      beforeEachFn(ControladorComPlanos);
+    });
+
+    it('Deve redirecionar à tela de edicao de tabela horária', function() {
+      $httpBackend.expectGET('/controladores/' + controladorId + '/pode_editar').respond(200, null);
+      scope.editarTabelaHoraria(controladorId);
+      $httpBackend.flush();
+      expect($state.current.name).toBe('app.tabelas_horarias_edit');
+    });
+
+    it('O usuário deve ser alertado que não pode editar o plano, se for o caso', inject(function(toast, influuntAlert) {
+      spyOn(toast, 'clear');
+      spyOn(influuntAlert, 'alert');
+
+      $httpBackend.expectGET('/controladores/' + controladorId + '/pode_editar').respond(403, [{message: 'teste'}]);
+      scope.editarTabelaHoraria(controladorId);
+      $httpBackend.flush();
+
+      expect(toast.clear).toHaveBeenCalled();
+      expect(influuntAlert.alert).toHaveBeenCalled();
+    }));
+
+    it('Os demais erros devem ser tratados via toast.error', inject(function(toast, influuntAlert) {
+      spyOn(toast, 'clear');
+      spyOn(influuntAlert, 'alert');
+      $httpBackend.expectGET('/controladores/' + controladorId + '/pode_editar').respond(403, [{message: 'teste'}]);
+      scope.editarTabelaHoraria(controladorId);
+      $httpBackend.flush();
+
+      expect(toast.clear).toHaveBeenCalled();
+      expect(influuntAlert.alert).toHaveBeenCalled();
+    }));
+  });
+
+  describe('clonarTabelaHoraria - função de edição de tabela horaria ATIVA', function () {
+    beforeEach(function() { beforeEachFn(ControladorComPlanos); });
+
+    it('Deve redirecionar à tela de edicao de tabela horaria', function() {
+      $httpBackend.expectGET('/controladores/' + controladorId + '/pode_editar').respond(200, null);
+      $httpBackend.expectGET('/controladores/' + controladorId + '/editar_tabelas_horarias').respond(controlador);
+      scope.clonarTabelaHoraria(controladorId);
+      $httpBackend.flush();
+      expect($state.current.name).toBe('app.tabelas_horarias_edit');
+    });
+
+    it('O usuário deve ser alertado que não pode editar a tabela horaria, se for o caso', inject(function(influuntAlert) {
+      spyOn(influuntAlert, 'alert');
+
+      $httpBackend.expectGET('/controladores/' + controladorId + '/pode_editar').respond(403, [{message: 'teste'}]);
+      scope.clonarTabelaHoraria(controladorId);
+      $httpBackend.flush();
+
+      expect(influuntAlert.alert).toHaveBeenCalled();
+    }));
+
+    it('Os demais erros devem ser tratados via toast.error', inject(function(toast) {
+      spyOn(toast, 'error');
+
+      $httpBackend.expectGET('/controladores/' + controladorId + '/pode_editar').respond(403);
+      scope.clonarTabelaHoraria(controladorId);
+      $httpBackend.flush();
+
+      expect(toast.error).toHaveBeenCalled();
+    }));
+  });
+
+  describe('cancelarEdicao', function () {
+    var deferred, Restangular;
+    beforeEach(inject(function(influuntAlert, $q, _Restangular_) {
+      Restangular = _Restangular_;
+      deferred = $q.defer();
+      beforeEachFn(ControladorComPlanos);
+      spyOn(influuntAlert, 'delete').and.returnValue(deferred.promise);
+    }));
+
+    it('Não deve executar nada se o usuário não confirmar o cancelamento', function() {
+      spyOn(Restangular, 'one');
+      scope.cancelarEdicao();
+      deferred.resolve(false);
+      scope.$apply();
+      expect(Restangular.one).not.toHaveBeenCalled();
+    });
+
+    it('Deve excluir a copia local de plano se este não for sincronizado à API', function() {
+      scope.objeto.tabelasHorarias = [{}];
+      spyOn(Restangular, 'one');
+      scope.cancelarEdicao();
+      deferred.resolve(true);
+      scope.$apply();
+      expect(Restangular.one).not.toHaveBeenCalled();
+      expect(scope.$state.current.name).toBe('app.controladores');
+    });
+
+    it('Deve enviar à API uma request de cancelamento de edição se uma versão já sincronizada for encontrada', inject(function(toast) {
+      spyOn(toast, 'success');
+      var tabelaHoraria = _.chain(scope.objeto.tabelasHorarias).filter('id').last().value();
+      $httpBackend.expectDELETE('/tabelas_horarias/' + tabelaHoraria.id + '/cancelar_edicao').respond({});
+      scope.cancelarEdicao();
+      deferred.resolve(true);
+      $httpBackend.flush();
+      scope.$apply();
+      expect(toast.success).toHaveBeenCalled();
+      expect(scope.$state.current.name).toBe('app.controladores');
+    }));
+  });
+
+  describe('submitForm', function () {
+    var Restangular;
+    beforeEach(inject(function(_Restangular_) {
+      Restangular = _Restangular_;
+      beforeEachFn(ControladorComPlanos);
+      scope.submitForm();
+    }));
+
+    it('Deve atualizar o controlador com a resposta da API em caso de sucesso.', function() {
+      var resposta = {id: 'controlador_id'};
+      $httpBackend.expectPOST('/tabelas_horarias').respond(200, resposta);
+      $httpBackend.flush();
+      scope.$apply();
+
+      expect(scope.objeto.id).toEqual(resposta.id);
+    });
+
+    it('Deve exibir mensagens de validação em caso de inconsistencia.', inject(function(handleValidations) {
+      spyOn(handleValidations, 'buildValidationMessages');
+      $httpBackend.expectPOST('/tabelas_horarias').respond(422, {});
+      $httpBackend.flush();
+      scope.$apply();
+
+      expect(handleValidations.buildValidationMessages).toHaveBeenCalled();
+    }));
+
+    it('Deve tratar os demais erros que não sejam validações da API', function() {
+      spyOn(console, 'error');
+      $httpBackend.expectPOST('/tabelas_horarias').respond(500, {});
+      $httpBackend.flush();
+      scope.$apply();
+
+      expect(console.error).toHaveBeenCalled();
+    });
+  });
+
   describe('editar eventos.', function () {
-    beforeEach(function() { 
+    beforeEach(function() {
       beforeEachFn(ControladorComPlanos);
     });
 
@@ -180,7 +320,7 @@ describe('Controller: TabelaHorariosCtrl', function () {
       expect(scope.objeto.eventos.length).toBe(1);
       expect(scope.novosEventos.length).toBe(3);
     });
-    
+
     it('Adiciona um novo evento especial ao objeto', function() {
       scope.selecionaTipoEvento(1);
       expect(scope.objeto.eventos.length).toBe(0);
@@ -196,7 +336,7 @@ describe('Controller: TabelaHorariosCtrl', function () {
       expect(scope.objeto.eventos.length).toBe(1);
       expect(scope.novosEventos.length).toBe(3);
     });
-    
+
     it('Adiciona um novo evento nao finalizado', function() {
       expect(scope.objeto.eventos.length).toBe(0);
       var evento = {idJson: 'ev1', diaDaSemana: 'TODOS_OS_DIAS', hora: '17', minuto: '0', segundo: '0', tipo: 'NORMAL', tabelaHoraria: {idJson: scope.currentTabelaHoraria.idJson}};

@@ -6,16 +6,6 @@ var world = new worldObj.World();
 
 var PlanosPage = function () {
 
-  this.cadastrarControlador = function() {
-    return world.execSqlScript('features/support/scripts/planos/controlador.sql');
-  };
-
-  this.clicarBotao = function(button) {
-    return world.waitForOverlayDisappear().then(function() {
-      return world.findLinkByText(button).click();
-    });
-  };
-
   this.isPlanos = function() {
     return world.waitFor('ul[class="menu-planos"]');
   };
@@ -196,10 +186,6 @@ var PlanosPage = function () {
 
   this.isPlanoAtivo = function(plano) {
     return world.waitForByXpath('//ul[@id="side-menu"]//span[contains(text(), "'+plano+'")]/..//div[contains(@class, "checked")]');
-  };
-
-  this.errosImpeditivos = function(texto){
-    return world.waitForByXpath('//div[contains (@class, "alert")]//li[contains(text(), "'+texto+'")]');
   };
 
   this.errosInPlanos = function(numeroPlano){

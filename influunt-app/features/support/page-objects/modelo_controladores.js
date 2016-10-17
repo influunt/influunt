@@ -12,10 +12,6 @@ var ModelosPage = function () {
 
   var totalModelosIndex = 2;
 
-  this.existeAoMenosUmModelo = function() {
-    return world.execSqlScript('features/support/scripts/modelos_controladores/create_modelo_controlador.sql');
-  };
-
   this.indexPage = function() {
     world.visit(INDEX_PATH);
    };

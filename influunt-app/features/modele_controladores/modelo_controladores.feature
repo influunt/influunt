@@ -3,7 +3,7 @@
 Funcionalidade: tela de cadastro de modelos de controladores
 
   Cenário: Listagem de modelos
-    Dado que exista ao menos um modelo cadastrado no sistema
+    Dado que o sistema possui ao menos um controlador cadastrado
     E que o usuário esteja na tela de listagem de modelos
     Então deve ser exibida uma lista com o modelo já cadastrado no sistema
 

@@ -128,7 +128,7 @@
                                     <div class="form-group">
                                       <label>{{'planos.modoOperacao' | translate}}</label>
                                       <span class="form-control" data-ng-if="currentPlano.modoOperacao === 'MANUAL'">{{ 'planos.modoManual' | translate }}</span>
-                                      <select class="form-control" name="modoOperacao" data-ng-model="currentPlano.modoOperacao" data-ng-change="limpaDadosPlano()" ng-disabled="somenteVisualizacao" data-ng-if="currentPlano.modoOperacao != 'MANUAL'">
+                                      <select class="form-control" name="modoOperacao" data-ng-model="currentPlano.modoOperacao" data-ng-change="onChangeModoOperacao()" ng-disabled="somenteVisualizacao" data-ng-if="currentPlano.modoOperacao != 'MANUAL'">
                                         <option value="ATUADO">
                                           {{'planos.modosOperacao.atuado' | translate}}
                                         </option>
@@ -188,23 +188,28 @@
                                         <li class="ui-state-default stage-images card-estagio sortable-card"
                                             data-ng-repeat="estagioPlano in currentEstagiosPlanos"
                                             data-ng-click="selecionaEstagioPlano(estagioPlano, $index)"
-                                            data-ng-class="{'origem-transicao-proibida': estagioPlano.origemTransicaoProibida, 'destino-transicao-proibida': estagioPlano.destinoTransicaoProibida}">
+                                            data-ng-class="{'origem-transicao-proibida': estagioPlano.origemTransicaoProibida, 'destino-transicao-proibida': estagioPlano.destinoTransicaoProibida}"
+                                            ng-init="$$cacheEstagio = getEstagio(estagioPlano)">
                                           <div class="sortable">
-                                              <h4 class="ng-binding" id="E{{ getEstagio(estagioPlano).posicao }}">
+                                              <h4 class="ng-binding" id="E{{ $$cacheEstagio.posicao }}">
                                                 <span class="badge badge-danger"
                                                   data-ng-if="getErrosEstagiosPlanos($index)"
-                                                  inf-tooltip
-                                                  messages="getErrosEstagiosPlanos($index)">
+                                                  inf-tooltip messages="getErrosEstagiosPlanos($index)">
                                                   <i class="fa fa-exclamation"></i>
                                                 </span>
-                                                E{{ getEstagio(estagioPlano).posicao }}
+                                                E{{ $$cacheEstagio.posicao }}
                                                 <i class="fa fa-trash pull-right opcoes-plano-estagio" data-ng-click="removerEstagioPlano(estagioPlano, $index)" data-ng-if="(currentEstagiosPlanos.length > 2) && !somenteVisualizacao"></i>
-                                                <i class="fa fa-files-o pull-right opcoes-plano-estagio" data-ng-click="adicionarEstagioPlano(estagioPlano)" aria-hidden="true" ng-if="!somenteVisualizacao"></i>
+                                                <i class="fa fa-files-o pull-right opcoes-plano-estagio" data-ng-click="adicionarEstagio(estagioPlano.estagio)" aria-hidden="true" ng-if="!somenteVisualizacao"></i>
                                               </h4>
                                             <figure>
-                                              <img ng-src="{{ getImagemDeEstagio(estagioPlano) }}" width="100%">
+                                              <img ng-src="{{ $$cacheEstagio.imagem.id | imageSource }}" width="100%">
                                             </figure>
-                                            <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#modal-configuracao-estagio" ng-disabled="somenteVisualizacao" data-ng-if="currentPlano.modoOperacao != 'MANUAL'">
+                                            <button type="button"
+                                                class="btn btn-primary btn-xs"
+                                                data-toggle="modal"
+                                                data-target="#modal-configuracao-estagio"
+                                                ng-disabled="somenteVisualizacao"
+                                                data-ng-if="currentPlano.modoOperacao != 'MANUAL'">
                                               <i class="fa fa-cog" />
                                               {{'crud.configurar' | translate}}
                                             </button>
@@ -315,7 +320,7 @@
           <!-- /MODAIS -->
 
           <!-- timeline -->
-          <influunt-modal-timeline></influunt-modal-timeline>
+          <influunt-modal-timeline resource="'planos'" resource-id="currentAnel.id"></influunt-modal-timeline>
           <!-- /MODAIS -->
         </fieldset>
       </div>

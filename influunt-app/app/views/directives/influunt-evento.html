@@ -15,6 +15,7 @@
   <input type="datetime" class="form-control" date-time data-ng-model="evento.dataMoment" view="month" auto-close="true" min-view="date" max-view="month" min-date="minDate" max-date="maxDate" default-view="date" format="DD/MM" data-ng-blur="verificaAtualizacao()" ng-disabled="readOnly">
 </td>
 <td>
+
   <select name="eventoHora" data-ng-model="evento.hora" class="form-control" data-ng-change="verificaAtualizacao()" data-ng-if="!readOnly">
     <option data-ng-repeat="hora in horarios track by $index" value="{{$index}}">{{hora}}</option>
   </select>
@@ -34,7 +35,7 @@
 </td>
 <td>
   <select name="eventoPlano" data-ng-model="evento.posicaoPlano" class="form-control" data-ng-change="verificaAtualizacao()"
-      inf-tooltip messages="erros" data-ng-if="!readOnly">
+      inf-tooltip messages="erros" ng-disabled="readOnly">
     <option data-ng-repeat="plano in planos track by $index" value="{{$index+1}}">Plano {{$index + 1}}</option>
   </select>
   <span class="badge badge-danger badge-estagio-alternativo pull-right" data-ng-if="erros" inf-tooltip messages="erros">
@@ -44,7 +45,10 @@
 </td>
 <td>
   <div class="ibox-tools">
-    <a class="close-link" data-ng-click="abrirPlano()" data-ng-show="!!evento.posicaoPlano" tooltips tooltip-template="Visualizar o diagrama de intervalos do plano selecionado">
+    <a class="close-link"
+        data-ng-click="abrirPlano()"
+        data-ng-show="!!evento.posicaoPlano"
+        tooltips tooltip-template="Visualizar o diagrama de intervalos do plano selecionado">
       <i class="fa fa-eye fa-2x"></i>
     </a>
     <a class="close-link" data-ng-click="removeEvento()" data-ng-if="podeRemover && !readOnly" tooltips tooltip-template="Remover o evento">

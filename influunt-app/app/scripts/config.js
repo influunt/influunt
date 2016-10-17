@@ -613,7 +613,7 @@ angular
           }
         })
 
-        .state('app.tabela_horarios', {
+        .state('app.tabelas_horarias', {
           url: '/tabela_horarios/:id',
           templateUrl: 'views/tabela_horarios/configuracao.html',
           controller: 'TabelaHorariosCtrl',
@@ -627,7 +627,7 @@ angular
           }
         })
 
-        .state('app.tabela_horarios_edit', {
+        .state('app.tabelas_horarias_edit', {
           url: '/tabela_horarios/:id/edit',
           templateUrl: 'views/tabela_horarios/configuracao.html',
           controller: 'TabelaHorariosCtrl',
@@ -983,6 +983,36 @@ angular
             }
           }
         })
+
+        // RELATORIOS
+        .state('app.relatorios_auditorias', {
+          url: '/relatorios/auditorias',
+          templateUrl: 'views/relatorios/auditorias.html',
+          controller: 'RelatoriosCtrl',
+          controllerAs: 'relatorios',
+          data: {
+            title: 'relatorios.auditorias',
+            permissions: {
+              only: 'gerarRelatorioAuditorias',
+              redirectTo: 'app.main'
+            }
+          }
+        })
+
+        .state('app.relatorios_controladores_status', {
+          url: '/relatorios/controladores_status',
+          templateUrl: 'views/relatorios/controladoresStatus.html',
+          controller: 'RelatoriosCtrl',
+          controllerAs: 'relatorios',
+          data: {
+            title: 'relatorios.controladoresStatus',
+            permissions: {
+              only: 'gerarRelatorioControladoresStatus',
+              redirectTo: 'app.main'
+            }
+          }
+        })
+
       ;
 
       // Prevent router from automatic state resolving

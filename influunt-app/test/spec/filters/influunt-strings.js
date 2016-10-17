@@ -10,6 +10,10 @@ describe('Filter: influuntStrings', function () {
     camelize = $filter('camelize');
   }));
 
+  it('Não retornará nada se uma string não for enviada.', function() {
+    expect(humanize()).not.toBeDefined();
+  });
+
   it('deveria humanizar a string', function () {
     var text = 'ola_mundo';
     expect(humanize(text)).toBe('Ola Mundo');
