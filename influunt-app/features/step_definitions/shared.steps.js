@@ -47,4 +47,13 @@ module.exports = function() {
   this.Given(/^que o usuário selecione o anel (\d+)$/, function (numeroAnel) {
     return sharedSteps.trocarAnel(numeroAnel);
   });
+
+  // verificar o diagrama
+  this.Given(/^o sistema deve mostar o diagrama "([^"]*)" no grupo "([^"]*)" com "([^"]*)" em "([^"]*)" segundos$/, function (modoOperacao, grupo, indicacaoCor, tempo) {
+    return sharedSteps.isDiagramaModo(modoOperacao, grupo, indicacaoCor, tempo);
+  });
+
+  this.Given(/^o sistema deverá redirecionar o usuário para a página de listagem de controladores$/, function () {
+    return sharedSteps.isIndexPage();
+  });
 };
