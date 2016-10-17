@@ -34,8 +34,8 @@ angular.module('influuntApp')
           $scope.relatorio['change.eventTime_start'] = $scope.relatorio['change.eventTime_start'].format('DD/MM/YYYY HH:mm:ss');
         }
 
-        if (moment.isMoment($scope.relatorio['change.eventTime_start']) &&
-            $scope.relatorio['change.eventTime_start'].isValid()) {
+        if (moment.isMoment($scope.relatorio['change.eventTime_end']) &&
+            $scope.relatorio['change.eventTime_end'].isValid()) {
           $scope.relatorio['change.eventTime_end'] = $scope.relatorio['change.eventTime_end'].format('DD/MM/YYYY HH:mm:ss');
         }
 
@@ -64,6 +64,50 @@ angular.module('influuntApp')
           } else if ($scope.relatorio.tipoRelatorio === 'CSV') {
             var blob = new Blob([res], {type: 'text/csv;charset=utf-8'});
             saveAs(blob, 'relatorio_controladores_status.csv');
+          }
+        })
+        .finally(influuntBlockui.unblock);
+      };
+
+      /**
+      * Relatorio de Controladores por Falhas
+      */
+      $scope.gerarRelatorioControladoresPorFalhas = function() {
+        Restangular.all('relatorios').withHttpConfig({ responseType: 'arraybuffer' }).customGET('controladores_falhas', $scope.relatorio)
+        .then(function(res) {
+          if($scope.relatorio.tipoRelatorio === 'PDF') {
+            var blob = new Blob([res], {type: 'application/pdf'});
+            saveAs(blob, 'relatorio_controladores_falhas.pdf');
+          } else if ($scope.relatorio.tipoRelatorio === 'CSV') {
+            var blob = new Blob([res], {type: 'text/csv;charset=utf-8'});
+            saveAs(blob, 'relatorio_controladores_falhas.csv');
+          }
+        })
+        .finally(influuntBlockui.unblock);
+      };
+
+      /**
+      * Relatorio de Controladores com alteracao de entreverdes no periodo
+      */
+      $scope.gerarRelatorioControladoresEntreverdes = function() {
+        if (moment.isMoment($scope.relatorio['dataAtualizacao_start']) &&
+            $scope.relatorio['dataAtualizacao_start'].isValid()) {
+          $scope.relatorio['dataAtualizacao_start'] = $scope.relatorio['dataAtualizacao_start'].format('DD/MM/YYYY HH:mm:ss');
+        }
+
+        if (moment.isMoment($scope.relatorio['dataAtualizacao_end']) &&
+            $scope.relatorio['dataAtualizacao_end'].isValid()) {
+          $scope.relatorio['dataAtualizacao_end'] = $scope.relatorio['dataAtualizacao_end'].format('DD/MM/YYYY HH:mm:ss');
+        }
+
+        Restangular.all('relatorios').withHttpConfig({ responseType: 'arraybuffer' }).customGET('controladores_entreverdes', $scope.relatorio)
+        .then(function(res) {
+          if($scope.relatorio.tipoRelatorio === 'PDF') {
+            var blob = new Blob([res], {type: 'application/pdf'});
+            saveAs(blob, 'relatorio_controladores_entreverdes.pdf');
+          } else if ($scope.relatorio.tipoRelatorio === 'CSV') {
+            var blob = new Blob([res], {type: 'text/csv;charset=utf-8'});
+            saveAs(blob, 'relatorio_controladores_entreverdes.csv');
           }
         })
         .finally(influuntBlockui.unblock);
