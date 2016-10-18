@@ -189,4 +189,5 @@ GET       /api/v1/relatorios/auditoria                                          
 GET       /api/v1/relatorios/controladores_status                                               controllers.RelatoriosController.gerarRelatorioControladoresStatus()
 GET       /api/v1/relatorios/controladores_falhas                                               controllers.RelatoriosController.gerarRelatorioControladoresFalhas()
 GET       /api/v1/relatorios/controladores_entreverdes                                          controllers.RelatoriosController.gerarRelatoriControladoresEntreverdes()
+GET       /api/v1/relatorios/controladores_historicos                                           controllers.RelatoriosController.gerarRelatoriControladoresHistoricos()
 

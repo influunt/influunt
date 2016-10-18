@@ -1041,7 +1041,19 @@ angular
           }
         })
 
-      ;
+        .state('app.relatorios_controladores_historicos', {
+          url: '/relatorios/controladores_historicos',
+          templateUrl: 'views/relatorios/controladoresHistoricos.html',
+          controller: 'RelatoriosCtrl',
+          controllerAs: 'relatorios',
+          data: {
+            title: 'relatorios.controladoresHistoricos',
+            permissions: {
+              only: 'gerarRelatorioControladoresHistoricos',
+              redirectTo: 'app.main'
+            }
+          }
+        });
 
       // Prevent router from automatic state resolving
       $urlRouterProvider.deferIntercept();

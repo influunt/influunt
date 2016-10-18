@@ -4,10 +4,7 @@ import com.google.inject.Inject;
 import models.TabelaEntreVerdes;
 import play.mvc.Controller;
 import play.mvc.Result;
-import reports.AuditoriaReportService;
-import reports.ControladoresReportService;
-import reports.ReportType;
-import reports.TabelaEntreverdesReportService;
+import reports.*;
 import security.Auditoria;
 import utils.InfluuntQueryBuilder;
 import utils.InfluuntQueryResult;
@@ -25,13 +22,16 @@ import java.util.concurrent.CompletionStage;
 public class RelatoriosController extends Controller {
 
     @Inject
-    public AuditoriaReportService auditoriaReportService;
+    private AuditoriaReportService auditoriaReportService;
 
     @Inject
-    public ControladoresReportService controladoresReportService;
+    private ControladoresReportService controladoresReportService;
 
     @Inject
-    public TabelaEntreverdesReportService tabelaEntreverdesReportService;
+    private TabelaEntreverdesReportService tabelaEntreverdesReportService;
+
+    @Inject
+    private HistoricoControladoresReportService historicoControladoresReportService;
 
     public CompletionStage<Result> gerarRelatorioAuditoria() {
         ReportType reportType = ReportType.valueOf(request().getQueryString("tipoRelatorio").toString());
@@ -81,6 +81,20 @@ public class RelatoriosController extends Controller {
         }
         InfluuntQueryResult result = new InfluuntQueryBuilder(TabelaEntreVerdes.class, params).fetch(Arrays.asList("grupoSemaforico", "grupoSemaforico.anel", "grupoSemaforico.anel.controlador")).query();
         InputStream input = tabelaEntreverdesReportService.generateReport(request().queryString(), result.getResult(), reportType);
+        return CompletableFuture.completedFuture(ok(input).as(reportType.getContentType()));
+    }
+
+    public CompletionStage<Result> gerarRelatoriControladoresHistoricos() {
+        ReportType reportType = ReportType.valueOf(request().getQueryString("tipoRelatorio").toString());
+
+        Map<String, String[]> params = new HashMap<>();
+        params.putAll(request().queryString());
+        if (params.containsKey("tipoRelatorio")) {
+            params.remove("tipoRelatorio");
+        }
+        // TODO - Agrupar por controlador
+        InfluuntQueryResult result = new InfluuntQueryBuilder(Auditoria.class, params).reportMode().auditoriaQuery();
+        InputStream input = historicoControladoresReportService.generateReport(request().queryString(), result.getResult(), reportType);
         return CompletableFuture.completedFuture(ok(input).as(reportType.getContentType()));
     }
 

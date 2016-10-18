@@ -75,6 +75,20 @@ angular.module('influuntApp')
         return generateReport('relatorio_controladores_entreverdes', 'controladores_entreverdes', $scope.relatorio);
       };
 
+      $scope.gerarRelatorioControladoresHistoricos = function() {
+        if (moment.isMoment($scope.relatorio['change.eventTime_start']) &&
+            $scope.relatorio['change.eventTime_start'].isValid()) {
+          $scope.relatorio['change.eventTime_start'] = $scope.relatorio['change.eventTime_start'].format('DD/MM/YYYY HH:mm:ss');
+        }
+
+        if (moment.isMoment($scope.relatorio['change.eventTime_end']) &&
+            $scope.relatorio['change.eventTime_end'].isValid()) {
+          $scope.relatorio['change.eventTime_end'] = $scope.relatorio['change.eventTime_end'].format('DD/MM/YYYY HH:mm:ss');
+        }
+
+        return generateReport('relatorio_controladores_historicos', 'controladores_historicos', $scope.relatorio);
+      };
+
       generateReport = function(reportName, url, relatorio) {
         return Restangular.all('relatorios').withHttpConfig({ responseType: 'arraybuffer' }).customGET(url, relatorio)
           .then(function(res) {

@@ -88,7 +88,13 @@
         "name": "relatorioControladoresEntreVerdes",
         "label": "relatorios.controladoresEntreVerdes",
         "route": "app.relatorios_controladores_entreverdes"
+      },
+      {
+        "name": "relatorioControladoresHistoricos",
+        "label": "relatorios.controladoresHistoricos",
+        "route": "app.relatorios_controladores_historicos"
       }
+
     ]
   }
 ]
