@@ -334,7 +334,9 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         criarAssociacaoEstagioGrupoSemaforico(anel, 4, 14);
         criarAssociacaoEstagioGrupoSemaforico(anel, 4, 15);
 
-        criarAssociacaoEstagioGrupoSemaforico(anel, 5, 16);
+        estagioGrupoSemaforico = criarAssociacaoEstagioGrupoSemaforico(anel, 5, 16);
+        estagioGrupoSemaforico.getEstagio().setDemandaPrioritaria(true);
+        estagioGrupoSemaforico.getEstagio().setTempoVerdeDemandaPrioritaria(30);
 
         controlador.save();
     }

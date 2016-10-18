@@ -372,7 +372,8 @@ public class Plano extends Model implements Cloneable, Serializable {
         ArrayList<Integer> totalTempoEntreverdes = new ArrayList<Integer>();
         if (!estagioAtual.equals(estagioAnterior)) {
             for (EstagioGrupoSemaforico estagioGrupoSemaforico : estagioAnterior.getEstagiosGruposSemaforicos()) {
-                if (!estagioAtual.getGruposSemaforicos().contains(estagioGrupoSemaforico.getGrupoSemaforico())) {
+                GrupoSemaforicoPlano grupoSemaforicoPlano = getGrupoSemaforicoPlano(estagioGrupoSemaforico.getGrupoSemaforico());
+                if (grupoSemaforicoPlano.isAtivado() && !estagioAtual.getGruposSemaforicos().contains(estagioGrupoSemaforico.getGrupoSemaforico())) {
                     totalTempoEntreverdes.add(getTempoEntreVerdes(estagioAtual, estagioAnterior, estagioGrupoSemaforico));
                 } else {
                     totalTempoEntreverdes.add(0);
@@ -382,6 +383,10 @@ public class Plano extends Model implements Cloneable, Serializable {
         }
 
         return tempoEntreVerdes;
+    }
+
+    public GrupoSemaforicoPlano getGrupoSemaforicoPlano(GrupoSemaforico grupoSemaforico) {
+        return getGruposSemaforicosPlanos().stream().filter(gsp -> gsp.getGrupoSemaforico().equals(grupoSemaforico)).findFirst().orElse(null);
     }
 
     private Integer getTempoEntreVerdes(Estagio estagio, Estagio estagioAnterior, EstagioGrupoSemaforico estagioGrupoSemaforico) {
@@ -448,11 +453,21 @@ public class Plano extends Model implements Cloneable, Serializable {
 
     public HashMap<Pair<Integer, Integer>, Long> tabelaEntreVerde() {
         HashMap<Pair<Integer, Integer>, Long> tabela = new HashMap<>();
-        preencheTabelaEntreVerde(tabela, getEstagiosPlanosSemEstagioDispensavel());
-        preencheTabelaEntreVerde(tabela, getEstagiosPlanos());
-        this.getAnel().getEstagios().stream().filter(Estagio::isDemandaPrioritaria).forEach(e -> {
-            preencheTabelaEntreVerde(tabela, e);
-        });
+        if (this.isModoOperacaoVerde()) {
+            preencheTabelaEntreVerde(tabela, getEstagiosPlanosSemEstagioDispensavel());
+            preencheTabelaEntreVerde(tabela, getEstagiosPlanos());
+            this.getAnel().getEstagios().stream().filter(Estagio::isDemandaPrioritaria).forEach(e -> {
+                preencheTabelaEntreVerde(tabela, e);
+            });
+        } else {
+            //TODO: Qual o entreverde do estagio de demanda prioritaria para o modo Intermitente
+            this.getAnel().getEstagios().stream().filter(Estagio::isDemandaPrioritaria).forEach(e -> {
+                preencheTabelaEntreVerde(tabela, e);
+                tabela.put(new Pair<Integer, Integer>(e.getPosicao(), null), 0L);
+                tabela.put(new Pair<Integer, Integer>(null, e.getPosicao()), 3000L);
+            });
+        }
+
         return tabela;
     }
 
