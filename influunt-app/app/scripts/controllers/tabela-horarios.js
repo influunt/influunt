@@ -103,11 +103,11 @@ angular.module('influuntApp')
       };
 
       $scope.clonarTabelaHoraria = function(controladorId) {
-        return $scope.clonar(controladorId);
+        return $scope.clonar(controladorId).finally(influuntBlockui.unblock);
       };
 
       $scope.editarTabelaHoraria = function(controladorId) {
-        return $scope.editar(controladorId);
+        return $scope.editar(controladorId).finally(influuntBlockui.unblock);
       };
 
       $scope.cancelarEdicao = function() {
@@ -338,7 +338,8 @@ angular.module('influuntApp')
         return $scope
           .submit($scope.objeto)
           .then(function(res) { $scope.objeto = res; })
-          .catch(function(err) { $scope.errors = err; });
+          .catch(function(err) { $scope.errors = err; })
+          .finally(influuntBlockui.unblock);
       };
 
       $scope.tipoEventoTemErro = function(indice) {

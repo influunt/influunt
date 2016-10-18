@@ -417,9 +417,9 @@ describe('Controller: PlanosCtrl', function () {
 
           expect(toast.error).toHaveBeenCalled();
 
-          // var p = _.find(scope.objeto.planos, {posicao: planoRemovido.posicao});
-          // expect(p.configurado).toBeFalsy();
-          // expect(_.find(scope.currentAnel.planos, {idJson: p.idJson})).toBeDefined();
+          var p = _.find(scope.objeto.planos, {posicao: planoRemovido.posicao});
+          expect(p.configurado).toBeTruthy();
+          expect(_.find(scope.currentAnel.planos, {idJson: p.idJson})).toBeDefined();
         }));
     });
 

@@ -70,11 +70,11 @@ angular.module('influuntApp')
       };
 
       $scope.clonarPlanos = function(controladorId) {
-        return $scope.clonar(controladorId);
+        return $scope.clonar(controladorId).finally(influuntBlockui.unblock);
       };
 
       $scope.editarPlano = function(controladorId) {
-        return $scope.editar(controladorId);
+        return $scope.editar(controladorId).finally(influuntBlockui.unblock);
       };
 
       $scope.cancelarEdicao = function() {
@@ -294,7 +294,8 @@ angular.module('influuntApp')
         return $scope
           .submit($scope.objeto)
           .then(function(res) { $scope.objeto = res; })
-          .catch(function(err) { $scope.errors = err; });
+          .catch(function(err) { $scope.errors = err; })
+          .finally(influuntBlockui.unblock);
       };
 
       /**
@@ -392,9 +393,7 @@ angular.module('influuntApp')
 
       $scope.$watch('currentEstagiosPlanos', function() {
         $timeout.cancel(diagramaDebouncer);
-        diagramaDebouncer = $timeout(function() {
-          atualizaDiagramaIntervalos();
-        }, 500);
+        diagramaDebouncer = $timeout(atualizaDiagramaIntervalos, 500);
       }, true);
 
       duplicarPlano = function(plano) {

@@ -35,18 +35,9 @@
               <div class="right">
                 <a class="btn btn-primary btn-danger" type="button"
                    tooltips tooltip-side="bottom" tooltip-template="{{ 'controladores.geral.cancelarEdicao' | translate }} {{ 'controladores.geral.tabelaHorario' | translate }}"
-                   data-ng-if="currentVersaoTabelaHoraria.statusVersao === 'EDITANDO' || objeto.versoesTabelasHorarias.length > 0"
                    ng-click="cancelarEdicao()">
                   <i class="fa fa-trash"></i> {{ 'controladores.geral.cancelarEdicao' | translate }}
                 </a>
-                <!--
-                <a class="btn btn-danger" type="button"
-                    tooltips tooltip-side="bottom" tooltip-template="{{ 'controladores.geral.cancelarEdicao' | translate }} {{ 'controladores.geral.tabelaHorario' | translate }}"
-                    ng-click="cancelarEdicao(objeto.id)"
-                    ng-if="currentVersaoTabelaHoraria.statusVersao === 'EDITANDO'">
-                  <i class="fa fa-trash"></i> {{ 'controladores.geral.cancelarEdicao' | translate }}
-                </a>
-                -->
               </div>
             </div>
           </div>

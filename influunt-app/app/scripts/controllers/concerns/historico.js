@@ -23,8 +23,7 @@ angular.module('influuntApp')
           .then(function() {
             $state.go('app.' + resourceName + '_edit', { id: controladorId });
           })
-          .catch(handleErroEditar)
-          .finally(influuntBlockui.unblock);
+          .catch(handleErroEditar);
       };
 
       $scope.clonar = function(controladorId) {
@@ -36,8 +35,7 @@ angular.module('influuntApp')
           .then(function() {
             $state.go('app.' + resourceName + '_edit', { id: controladorId });
           })
-          .catch(handleErroEditar)
-          .finally(influuntBlockui.unblock);
+          .catch(handleErroEditar);
       };
 
       $scope.cancelar = function(obj) {
@@ -76,8 +74,7 @@ angular.module('influuntApp')
             }
 
             return $q.reject(handleValidations.buildValidationMessages(res.data, refObjeto));
-          })
-          .finally(influuntBlockui.unblock);
+          });
       };
 
       handleErroEditar = function(err) {
