@@ -7,10 +7,7 @@ import models.*;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -49,6 +46,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
     private int contadorEstagio = 0;
 
     private GetIntervaloGrupoSemaforico intervaloGrupoSemaforicoAtual = null;
+
+    private String idJsonNovoEstagio;
 
     public GerenciadorDeEstagios(DateTime inicioControlador, DateTime inicioExecucao, Plano plano, GerenciadorDeEstagiosCallback callback) {
         this.inicioControlador = inicioControlador;
@@ -89,7 +88,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
     private void geraIntervalosFixos(){
         Estagio estagio = new Estagio();
         EstagioPlano estagioPlano = new EstagioPlano();
-        estagioPlano.setIdJson(EstadoGrupoSemaforico.AMARELO_INTERMITENTE.toString());
+        idJsonNovoEstagio = UUID.randomUUID().toString();
+        estagioPlano.setIdJson(idJsonNovoEstagio);
         estagioPlano.setPlano(plano);
         estagioPlano.setEstagio(estagio);
         listaEstagioPlanos.add(estagioPlano);
