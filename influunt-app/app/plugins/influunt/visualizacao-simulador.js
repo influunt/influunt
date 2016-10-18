@@ -27,13 +27,10 @@ var influunt;
 
         var ALTURA_GRUPO = 25;
         var MARGEM_LATERAL = 966 ;
-        var MARGEM_SUPERIOR = 20;
+        var MARGEM_SUPERIOR = 60;
         var VERMELHO = 0xFF0000;
         var VERDE = 0x00FF00;
         var AMARELO = 0xFFFF00;
-        var TINT_VERDE = 0x59b159;
-        var TINT_VERMELHO = 0xdd6f6f;
-        var TINT_BRANCO = 0xffffff;
         var grupos = [];
         var cursors;
         var intervalosGroup;
@@ -93,38 +90,30 @@ var influunt;
             }
           }
 
-         // connect the client
-         client.connect({onSuccess:onConnect});
+          // connect the client
+          client.connect({onSuccess:onConnect});
           
-         criaAneis();
+          criaAneis();
     
           var style = { font: "25px Open Sans", fill: "#666" };
-          relogio = game.add.text(990,650, "0", style);
+          relogio = game.add.text(990,5, "0", style);
     
           relogio.fixedToCamera = true;
           relogio.anchor.set(1,0);
 
           style = { font: "15px Open Sans", fill: "#333" };
-          plano = game.add.text(10,680, "Plano Atual: 1", style);
+          plano = game.add.text(10,40, "Plano Atual: 1", style);
           plano.fixedToCamera = true;
           plano.anchor.set(0,1);
 
           style = { font: "15px Open Sans", fill: "#ff6700" };
-          dataHora = game.add.text(500,668, "Seg, 27/09/2016 - 12:11:34", style);
+          dataHora = game.add.text(500,20, "Seg, 27/09/2016 - 12:11:34", style);
           dataHora.fixedToCamera = true;
           dataHora.anchor.set(0.5);
 
-          // drawLine(10,0,460,'blue',true);
-          // drawLine(30,0,460,'blue',true);
-    
-          // var grid = game.add.sprite(118 , MARGEM_SUPERIOR + ALTURA_GRUPO - 4, 'grid');
-          // grid.fixedToCamera = true;
-          
           game.time.events.repeat(20000 / velocidade, Math.ceil(duracaoSimulacao / 120), loadMore, this);
-          //addToLog("Ola mundo");
           
-          
-          // desenhaDetector(3,0,4,"#082536","V1");
+          desenhaDetector(3,0,4,"#082536","V1");
           // desenhaDetector(4,5,9,"#082536","P4");
           // desenhaDetector(5,5,9,"#082536","V8");
           // desenhaDetector(5,10,14,"#082536","V3");
@@ -145,18 +134,6 @@ var influunt;
 
         }
 
-        function renderIntervalos(){
-          // var limite = Math.max(1,velocidade);
-          // for(var i = tempo; i < tempo + limite; i++){
-          //   if(pendingToDraw[i]!= undefined){
-          //     desenhaIntervalos(i,pendingToDraw[i])
-          //     delete pendingToDraw[i];
-          //   }else{
-          //     break;
-          //   }
-          // }
-        }
-                
         function moveToLeft(){
           for(var i = 0; i < totalGruposSemaforicos; i++){
             if(estadoGrupoSemaforico[tempo] && estadoGrupoSemaforico[tempo][i]){
@@ -438,7 +415,6 @@ var influunt;
           gruposSemaforicosGroup.add(text);
     
         }
-
         
         function desenhaEventoMudancaPlano(evento){
           desenhaPlano(evento.timestamp,'blue',evento.planoAtual);

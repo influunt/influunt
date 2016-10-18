@@ -3,10 +3,7 @@ package engine;
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;
 import com.google.common.collect.TreeRangeMap;
-import models.Detector;
-import models.Estagio;
-import models.EstagioPlano;
-import models.Plano;
+import models.*;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 
