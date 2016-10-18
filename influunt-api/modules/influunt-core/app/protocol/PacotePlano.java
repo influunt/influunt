@@ -3,6 +3,7 @@ package protocol;
 import json.ControladorCustomSerializer;
 import models.Controlador;
 import models.StatusControlador;
+import models.StatusVersao;
 
 import java.util.UUID;
 
@@ -17,7 +18,7 @@ public class PacotePlano {
 
     public static Object getPayload(Envelope envelope) {
         Controlador controlador = Controlador.find.byId(UUID.fromString(envelope.getIdControlador()));
-        if (controlador != null && !controlador.getStatusControlador().equals(StatusControlador.EM_CONFIGURACAO)) {
+        if (controlador != null && !controlador.getVersaoControlador().getStatusVersao().equals(StatusVersao.EM_CONFIGURACAO)) {
             return new ControladorCustomSerializer().getPacotePlanosJson(controlador);
         } else {
             return null;

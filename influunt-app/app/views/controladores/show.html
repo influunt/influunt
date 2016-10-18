@@ -15,7 +15,7 @@
                   <a class="btn btn-primary"
                       tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.controlador' | translate }}"
                       type="button" ng-click="configurar(objeto.id)"
-                      ng-if="objeto.statusControlador == 'EM_CONFIGURACAO' || objeto.statusControlador == 'EM_EDICAO'"
+                      ng-if="objeto.statusControlador == 'EM_CONFIGURACAO' || objeto.statusControlador == 'EDITANDO'"
                       permission permission-only="'criarControlador'">
                     <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
                   </a>
@@ -29,7 +29,7 @@
                   <a class="btn btn-danger"
                       tooltips tooltip-side="bottom" tooltip-template="{{ 'controladores.geral.cancelarEdicao' | translate }} {{ 'controladores.controlador' | translate }}"
                       type="button"
-                      ng-if="objeto && objeto.statusControlador == 'EM_EDICAO' && objeto.versaoControlador && getUsuario().id === objeto.versaoControlador.usuario.id"
+                      ng-if="objeto && objeto.statusControlador == 'EDITANDO' && objeto.versaoControlador && getUsuario().id === objeto.versaoControlador.usuario.id"
                       ng-click="cancelarEdicao(objeto.id)"
                       permission permission-only="'criarControlador'">
                     <i class="fa fa-trash"></i> {{ 'controladores.geral.cancelarEdicao' | translate }}

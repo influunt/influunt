@@ -70,10 +70,10 @@ angular.module('influuntApp')
         if (dadosFiltro.tipoCampo === 'texto' || dadosFiltro.tipoCampo === 'numerico') {
           field = (nomeCampo + '_' + dadosFiltro.tipoFiltro).replace(/\_$/, '');
           query[field] = dadosFiltro.valor;
-        } else if(dadosFiltro.tipoCampo === 'select') {
+        } else if (dadosFiltro.tipoCampo === 'select') {
           field = (nomeCampo + '_eq');
-
-          query[field] = getDadosFiltroSelect(dadosFiltro, nomeCampo);
+          query[field] = dadosFiltro.valor;
+          // query[field] = getDadosFiltroSelect(dadosFiltro, nomeCampo);
         } else {
           buildFilterDataFields('start', dadosFiltro, query, nomeCampo);
           buildFilterDataFields('end', dadosFiltro, query, nomeCampo);
@@ -81,28 +81,28 @@ angular.module('influuntApp')
       });
     };
 
-    getDadosFiltroSelect = function(dadosFiltro, nomeCampo) {
-      // TODO - rever enumns na busca, pois mostramos o texto mas temos que enviar o valor numerio da posicao
-      var valor = dadosFiltro.valor;
-      if (nomeCampo === 'statusControlador') {
-        switch(dadosFiltro.valor) {
-          case 'EM_CONFIGURACAO':
-            valor = 0;
-            break;
-          case 'CONFIGURADO':
-            valor = 1;
-            break;
-          case 'ATIVO':
-            valor = 2;
-            break;
-          case 'EM_EDICAO':
-            valor = 3;
-            break;
-        }
-      }
+    // getDadosFiltroSelect = function(dadosFiltro, nomeCampo) {
+    //   // TODO - rever enumns na busca, pois mostramos o texto mas temos que enviar o valor numerico da posicao
+    //   var valor = dadosFiltro.valor;
+    //   if (nomeCampo === 'statusControlador') {
+    //     switch(dadosFiltro.valor) {
+    //       case 'EM_CONFIGURACAO':
+    //         valor = 0;
+    //         break;
+    //       case 'CONFIGURADO':
+    //         valor = 1;
+    //         break;
+    //       case 'ATIVO':
+    //         valor = 2;
+    //         break;
+    //       case 'EM_EDICAO':
+    //         valor = 3;
+    //         break;
+    //     }
+    //   }
 
-      return valor;
-    };
+    //   return valor;
+    // };
 
     buildFilterDataFields = function(type, dadosFiltro, query, nomeCampo) {
       if (dadosFiltro[type]) {

@@ -28,7 +28,7 @@ public class ControladorUtil {
 
     public Controlador deepClone(Controlador controlador) {
 
-        if (controlador.getStatusControlador() != StatusControlador.ATIVO && controlador.getStatusControlador() != StatusControlador.CONFIGURADO) {
+        if (!controlador.podeClonar()) {
             throw new IllegalStateException();
         }
 
@@ -39,7 +39,8 @@ public class ControladorUtil {
         /*
          * DADOS BASICOS
          */
-        controladorClone.setStatusControlador(StatusControlador.EM_EDICAO);
+//        controladorClone.setStatusControlador(StatusControlador.EM_EDICAO);
+        controlador.setStatusVersao(StatusVersao.EDITANDO);
         controladorClone.setArea(controlador.getArea());
         controladorClone.setModelo(controlador.getModelo());
         controladorClone.setSubarea(controlador.getSubarea());
@@ -239,14 +240,14 @@ public class ControladorUtil {
     public void deepClonePlanos(Controlador controlador, Usuario usuario) {
         long startTime = System.nanoTime();
 
-        Map<String, GrupoSemaforico> grupos = new HashMap<String, GrupoSemaforico>();
-        Map<String, Estagio> estagios = new HashMap<String, Estagio>();
+        Map<String, GrupoSemaforico> grupos = new HashMap<>();
+        Map<String, Estagio> estagios = new HashMap<>();
 
         controlador.getAneis().stream().forEach(anel -> {
-            anel.getGruposSemaforicos().stream().forEach(grupoSemaforico -> {
+            anel.getGruposSemaforicos().forEach(grupoSemaforico -> {
                 grupos.put(grupoSemaforico.getIdJson(), grupoSemaforico);
             });
-            anel.getEstagios().stream().forEach(estagio -> {
+            anel.getEstagios().forEach(estagio -> {
                 estagios.put(estagio.getIdJson(), estagio);
             });
         });

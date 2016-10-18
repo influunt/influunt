@@ -686,6 +686,7 @@
   "CONFIGURADO": "Configurado",
   "ATIVO": "Ativo",
   "EM_EDICAO": "Em Edição",
+  "EDITANDO": "Em Edição",
   "relatorios": {
     "auditorias": "Auditorias",
     "controladoresStatus": "Controladores por Status",

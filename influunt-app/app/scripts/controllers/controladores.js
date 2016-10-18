@@ -31,13 +31,13 @@ angular.module('influuntApp')
       $scope.pesquisa = {
         campos: [
           {
-            nome: 'statusControlador',
+            nome: 'versaoControlador.statusVersao',
             label: 'main.status',
             tipo: 'select',
             options: STATUS_CONTROLADOR
           },
           {
-            nome: 'numeroSmee',
+            nome: 'numeroSMEE',
             label: 'controladores.numeroSMEE',
             tipo: 'texto'
           },
@@ -429,7 +429,7 @@ angular.module('influuntApp')
       };
 
       $scope.editarEmRevisao = function(controlador, step) {
-        if (controlador.statusControlador === 'EM_CONFIGURACAO' || controlador.statusControlador === 'EM_EDICAO') {
+        if (controlador.statusControlador === 'EM_CONFIGURACAO' || controlador.statusControlador === 'EDITANDO') {
           $scope.configurar(controlador.id, step);
         } else {
           $scope.copiar(controlador.id, step);
@@ -531,7 +531,7 @@ angular.module('influuntApp')
       };
 
       $scope.podeFinalizar = function(controlador) {
-        return (controlador.statusControlador === 'EM_CONFIGURACAO' || controlador.statusControlador === 'EM_EDICAO') && controlador.planoConfigurado && controlador.tabelaHorariaConfigurado;
+        return (controlador.statusControlador === 'EM_CONFIGURACAO' || controlador.statusControlador === 'EDITANDO') && controlador.planoConfigurado && controlador.tabelaHorariaConfigurado;
       };
 
       $scope.podeMostrarPlanosETabelaHoraria = function(controlador) {

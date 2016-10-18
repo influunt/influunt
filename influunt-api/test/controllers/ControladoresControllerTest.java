@@ -41,8 +41,12 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         usuario.save();
 
         Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
-        controlador.setStatusControlador(StatusControlador.ATIVO);
+//        controlador.setStatusControlador(StatusControlador.ATIVO);
         controlador.update();
+
+        VersaoControlador versaoControlador = controlador.getVersaoControlador();
+        versaoControlador.setStatusVersao(StatusVersao.ATIVO);
+        versaoControlador.update();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
                 .uri(routes.TabelaHorariosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
@@ -65,7 +69,8 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         versao.update();
 
         postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.edit(controladorClonado.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
+                .uri(routes.ControladoresController.edit(controladorClonado.getId().toString()).url())
+                .bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
         postResult = route(postRequest);
 
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
@@ -77,8 +82,12 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
     @Test
     public void deveriaClonar() {
         Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
-        controlador.setStatusControlador(StatusControlador.ATIVO);
+//        controlador.setStatusControlador(StatusControlador.ATIVO);
         controlador.update();
+
+        VersaoControlador versaoControlador = controlador.getVersaoControlador();
+        versaoControlador.setStatusVersao(StatusVersao.ATIVO);
+        versaoControlador.update();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
                 .uri(routes.ControladoresController.edit(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
@@ -230,7 +239,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
         assertEquals(200, postResult.status());
         assertNotNull("ID Controldor Clonado", controladorRetornado.getId());
-        assertEquals("StatusDevice Controlador", controladorRetornado.getStatusControlador(), StatusControlador.ATIVO);
+        assertEquals("StatusDevice Controlador", controladorRetornado.getVersaoControlador().getStatusVersao(), StatusVersao.ATIVO);
         assertFields(controlador, controladorRetornado);
     }
 
@@ -259,17 +268,18 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         int totalImagens = 0;
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.edit(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+                .uri(routes.ControladoresController.edit(controlador.getId().toString()).url())
+                .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
 
         Result postResult = route(postRequest);
+        assertEquals(200, postResult.status());
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
         Controlador controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
 
         controlador.refresh();
-        assertEquals("StatusDevice do Controlador", controlador.getStatusControlador(), StatusControlador.ATIVO);
-        assertEquals("StatusDevice da Versao Controlador", controlador.getVersaoControlador().getStatusVersao(), StatusVersao.ARQUIVADO);
+//        assertEquals("StatusDevice do Controlador", StatusVersao.ATIVO, controlador.getVersaoControlador().getStatusVersao());
+        assertEquals("Status da Versao Controlador antiga", StatusVersao.ARQUIVADO, controlador.getVersaoControlador().getStatusVersao());
 
-        assertEquals(200, postResult.status());
         assertNotNull("ID Controldor Clonado", controladorClonado.getId());
         assertNotEquals("Teste de Id Diferentes", controlador.getId(), controladorClonado.getId());
         assertEquals("Teste de Aneis", controlador.getAneis().size(), controladorClonado.getAneis().size());
@@ -322,8 +332,8 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         assertEquals("Total de Imagens", totalImagens, Imagem.find.findRowCount());
 
         controlador.refresh();
-        assertEquals("StatusDevice do Controlador", controlador.getStatusControlador(), StatusControlador.CONFIGURADO);
-        assertEquals("StatusDevice da Versao Controlador", controlador.getVersaoControlador().getStatusVersao(), StatusVersao.CONFIGURADO);
+        assertEquals("StatusDevice do Controlador", controlador.getVersaoControlador().getStatusVersao(), StatusVersao.CONFIGURADO);
+//        assertEquals("StatusDevice do Controlador", controlador.getVersaoControlador().getStatusVersao(), StatusVersao.CONFIGURADO);
 
     }
 
@@ -334,11 +344,16 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         int totalGruposSemaforicosPlanos = 4;
 
         Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
-        controlador.setStatusControlador(StatusControlador.ATIVO);
+//        controlador.setStatusControlador(StatusControlador.ATIVO);
         controlador.update();
 
+        VersaoControlador versaoControlador = controlador.getVersaoControlador();
+        versaoControlador.setStatusVersao(StatusVersao.ATIVO);
+        versaoControlador.update();
+
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
-                .uri(routes.ControladoresController.editarPlanos(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+                .uri(routes.ControladoresController.editarPlanos(controlador.getId().toString()).url())
+                .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
 
         Result postResult = route(postRequest);
         assertEquals(OK, postResult.status());
@@ -388,8 +403,12 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
     @Test
     public void deveriaClonar5VersoesPlano() {
         Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
-        controlador.setStatusControlador(StatusControlador.ATIVO);
+//        controlador.setStatusControlador(StatusControlador.ATIVO);
         controlador.update();
+
+        VersaoControlador versaoControlador = controlador.getVersaoControlador();
+        versaoControlador.setStatusVersao(StatusVersao.ATIVO);
+        versaoControlador.update();
 
         int totalVersoes = 2;
 
@@ -424,9 +443,12 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
     @Test
     public void deveriaClonarTabelaHorariaEditarTabelaHoraria() {
         Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
-        controlador.setStatusControlador(StatusControlador.ATIVO);
+//        controlador.setStatusControlador(StatusControlador.ATIVO);
         controlador.update();
 
+        VersaoControlador versaoControlador = controlador.getVersaoControlador();
+        versaoControlador.setStatusVersao(StatusVersao.ATIVO);
+        versaoControlador.update();
 
         int totalTabelaHoraria = 1;
         int totalEventos = 3;
@@ -472,8 +494,10 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
     @Test
     public void deveriaClonar5VersoesTabelaHoraria() {
         Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
-        controlador.setStatusControlador(StatusControlador.ATIVO);
         controlador.update();
+        VersaoControlador versaoControlador = controlador.getVersaoControlador();
+        versaoControlador.setStatusVersao(StatusVersao.ATIVO);
+        versaoControlador.update();
 
         int totalTabelaHoraria = 1;
         int totalEventos = 3;
@@ -517,8 +541,12 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         int totalGruposSemaforicosPlanos = 4;
 
         Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
-        controlador.setStatusControlador(StatusControlador.ATIVO);
+//        controlador.setStatusControlador(StatusControlador.ATIVO);
         controlador.update();
+
+        VersaoControlador versaoControlador = controlador.getVersaoControlador();
+        versaoControlador.setStatusVersao(StatusVersao.ATIVO);
+        versaoControlador.update();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
                 .uri(routes.ControladoresController.editarPlanos(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
@@ -582,6 +610,8 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         Controlador controlador = controladorTestUtils.getControladorAgrupamentos();
         controlador.update();
 
+//        controlador.getVersaoControlador().save();
+
         // primeira ativação
         Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
                 .uri(routes.ControladoresController.ativar(controlador.getId().toString()).url());
@@ -590,7 +620,8 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
         // criar nova versão do controlador
         request = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.edit(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+                .uri(routes.ControladoresController.edit(controlador.getId().toString()).url())
+                .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
         result = route(request);
         assertEquals(200, result.status());
 

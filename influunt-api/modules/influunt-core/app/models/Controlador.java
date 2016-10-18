@@ -1,6 +1,7 @@
 package models;
 
 import checks.*;
+import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
@@ -25,6 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.UUID;
+
+import static com.sun.tools.doclint.Entity.nu;
 
 /**
  * Entidade que representa o {@link Controlador} no sistema
@@ -181,7 +184,8 @@ public class Controlador extends Model implements Cloneable, Serializable {
 
     private void antesDeSalvarOuAtualizar() {
         if (this.getId() == null) {
-            this.setStatusControlador(StatusControlador.EM_CONFIGURACAO);
+//            this.setStatusControlador(StatusControlador.EM_CONFIGURACAO);
+            this.setStatusVersao(StatusVersao.EM_CONFIGURACAO);
             int quantidade = this.getModelo().getLimiteAnel();
             for (int i = 0; i < quantidade; i++) {
                 this.addAnel(new Anel(this, i + 1));
@@ -523,6 +527,29 @@ public class Controlador extends Model implements Cloneable, Serializable {
         return versaoControlador;
     }
 
+//    private VersaoControlador getVersaoControladorAtual() {
+//        VersaoControlador versao = Ebean.find(VersaoControlador.class).where().eq("controlador_id", getId().toString()).eq("status_versao", StatusVersao.EDITANDO).findUnique();
+//        if (versao == null) {
+//            versao = Ebean.find(VersaoControlador.class).where().eq("controlador_id", getId().toString()).eq("status_versao", StatusVersao.CONFIGURADO).findUnique();
+//        }
+//        if (versao == null) {
+//            versao = Ebean.find(VersaoControlador.class).where().eq("controlador_id", getId().toString()).eq("status_versao", StatusVersao.ATIVO).findUnique();
+//        }
+//        return versao;
+//    }
+//
+    public StatusVersao getStatusVersao() {
+        return getVersaoControlador().getStatusVersao();
+    }
+
+    public void setStatusVersao(StatusVersao statusVersao) {
+        VersaoControlador versao = getVersaoControlador();
+        if (versao != null) {
+            versao.setStatusVersao(statusVersao);
+            versao.update();
+        }
+    }
+
     public void setVersaoControlador(VersaoControlador versaoControlador) {
         this.versaoControlador = versaoControlador;
     }
@@ -570,7 +597,9 @@ public class Controlador extends Model implements Cloneable, Serializable {
     }
 
     public String getStatusControladorReal() {
-        if (StatusControlador.CONFIGURADO.equals(getStatusControlador())) {
+        StatusVersao statusVersaoControlador = getVersaoControlador().getStatusVersao();
+        if (StatusVersao.CONFIGURADO.equals(statusVersaoControlador)) {
+//        if (StatusControlador.CONFIGURADO.equals(getStatusControlador())) {
             TabelaHorario tabela = getTabelaHoraria();
             if (tabela != null) {
                 VersaoTabelaHoraria versaoTabelaHoraria = tabela.getVersaoTabelaHoraria();
@@ -595,7 +624,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
             }
         }
 
-        return getStatusControlador().toString();
+        return getVersaoControlador().getStatusVersao().toString();
     }
 
     public void deleteAnelSeNecessario() {
@@ -635,7 +664,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
                 }
             });
 
-            this.setStatusControlador(StatusControlador.CONFIGURADO);
+//            this.setStatusControlador(StatusControlador.CONFIGURADO);
 
             Controlador controladorOrigem = versaoControlador.getControladorOrigem();
             if (controladorOrigem != null) {
@@ -663,7 +692,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
                 }
             });
 
-            this.setStatusControlador(StatusControlador.ATIVO);
+//            this.setStatusControlador(StatusControlador.ATIVO);
 
             Controlador controladorOrigem = versaoControlador.getControladorOrigem();
             if (controladorOrigem != null) {
@@ -746,6 +775,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
     }
 
     public boolean podeClonar() {
-        return getStatusControlador() == StatusControlador.ATIVO || getStatusControlador() == StatusControlador.CONFIGURADO;
+        StatusVersao statusVersaoControlador = getVersaoControlador().getStatusVersao();
+        return StatusVersao.ATIVO.equals(statusVersaoControlador) || StatusVersao.CONFIGURADO.equals(statusVersaoControlador);
     }
 }

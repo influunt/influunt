@@ -89,7 +89,6 @@ public class VersaoControlador extends Model implements Serializable {
         this.usuario = usuario;
         this.descricao = "Controlador criado pelo usuário: ".concat(usuario.getNome());
         this.statusVersao = StatusVersao.EDITANDO;
-
     }
 
     public static boolean usuarioPodeEditarControlador(Controlador controlador, Usuario usuario) {
