@@ -2,7 +2,10 @@ package models;
 
 import org.joda.time.LocalTime;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by lesiopinheiro on 8/10/16.

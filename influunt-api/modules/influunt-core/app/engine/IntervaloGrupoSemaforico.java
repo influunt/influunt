@@ -4,7 +4,9 @@ import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;
 import com.google.common.collect.TreeRangeMap;
 import models.*;
+import org.joda.time.DateTime;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,12 +28,13 @@ public class IntervaloGrupoSemaforico {
 
     private final long duracaoVerde;
 
+    private HashMap<Integer, RangeMap<Long, EstadoGrupoSemaforico>> estados;
     private final Plano plano;
 
     public IntervaloGrupoSemaforico(IntervaloEstagio entreverde, IntervaloEstagio verde) {
         this.duracaoEntreverde = (entreverde != null ? entreverde.getDuracao() : 0L);
         this.duracaoVerde = verde.getDuracao();
-        this.duracao =  this.duracaoEntreverde + this.duracaoVerde;
+        this.duracao = this.duracaoEntreverde + this.duracaoVerde;
         this.entreverde = entreverde;
         this.verde = verde;
         this.estagioPlano = verde.getEstagioPlano();
@@ -176,8 +179,6 @@ public class IntervaloGrupoSemaforico {
         return this.estagioPlano.getEstagio();
     }
 
-    private HashMap<Integer, RangeMap<Long, EstadoGrupoSemaforico>> estados;
-
     public HashMap<Integer, RangeMap<Long, EstadoGrupoSemaforico>> getEstados() {
         return estados;
     }
@@ -189,4 +190,41 @@ public class IntervaloGrupoSemaforico {
                 .map(i -> estados.get(i).get(instante))
                 .collect(Collectors.toList());
     }
+
+    public String toJson(DateTime timeStamp) {
+        StringBuffer sb = new StringBuffer("{\"w\":");
+        sb.append(duracao);
+        sb.append(",\"x\":");
+        sb.append(timeStamp.getMillis());
+        sb.append(",\"estagio\":");
+        sb.append(estagioPlano.getEstagio().getPosicao());
+        sb.append(",\"grupos\":{");
+
+        List<String> gruposBuffer = new ArrayList<String>();
+
+        estados.keySet().stream().forEach(key -> {
+
+            StringBuffer sbGrupo = new StringBuffer("\"" + key + "\":[");
+
+            String buffer = estados.get(key).asMapOfRanges().entrySet().stream().map(entry -> {
+                final Long w = entry.getKey().upperEndpoint() - entry.getKey().lowerEndpoint();
+                return "["
+                        .concat(entry.getKey().lowerEndpoint().toString())
+                        .concat(",")
+                        .concat(w.toString())
+                        .concat(",\"").concat(entry.getValue().toString())
+                        .concat("\"]");
+            }).collect(Collectors.joining(","));
+
+            sbGrupo.append(buffer);
+            sbGrupo.append("]");
+            gruposBuffer.add(sbGrupo.toString());
+        });
+        sb.append(gruposBuffer.stream().collect(Collectors.joining(",")));
+
+
+        sb.append("}}");
+        return sb.toString();
+    }
+
 }

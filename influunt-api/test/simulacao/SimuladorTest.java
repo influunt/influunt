@@ -1,78 +1,76 @@
 package simulacao;
 
-import engine.EstadoGrupoBaixoNivel;
+import config.WithInfluuntApplicationNoAuthentication;
+import engine.IntervaloGrupoSemaforico;
+import integracao.ControladorHelper;
 import models.Controlador;
-import models.EstadoGrupoSemaforico;
-import models.Evento;
 import models.simulador.parametros.ParametroSimulacao;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
+import org.junit.Test;
 import simulador.Simulador;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
- * Created by rodrigosol on 10/10/16.
+ * Created by rodrigosol on 10/17/16.
  */
-public class SimuladorTest extends Simulador {
+public class SimuladorTest extends WithInfluuntApplicationNoAuthentication {
+    private HashMap<Integer, List<Pair<DateTime, IntervaloGrupoSemaforico>>> estagios = new HashMap();
 
-    public Map<DateTime, Pair<Evento, Evento>> listaEvento = new HashMap<>();
+    @Test
+    public void simualarTest() {
+        Controlador controlador = new ControladorHelper().setPlanos(new ControladorHelper().getControlador());
+        controlador.save();
+        DateTime inicioSimulacao = new DateTime(2016, 9, 18, 0, 0, 0);
+        ParametroSimulacao parametroSimulacao = new ParametroSimulacao();
+        parametroSimulacao.setControlador(controlador);
+        parametroSimulacao.setInicioControlador(inicioSimulacao);
+        parametroSimulacao.setInicioSimulacao(inicioSimulacao);
 
-    public Map<DateTime, Pair<Integer, Integer>> listaEventoReal = new HashMap<>();
+        Simulador simulador = new Simulador(inicioSimulacao, controlador, parametroSimulacao) {
+            @Override
+            public void onEstagioChange(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
 
-    public Map<DateTime, EstadoGrupoBaixoNivel> listaEstado = new HashMap<>();
+            }
 
-    public Map<DateTime, List<EstadoGrupoSemaforico>> listaEstadoGrupoSemaforico = new HashMap<>();
+            @Override
+            public void onEstagioEnds(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
+                if (!estagios.containsKey(anel)) {
+                    estagios.put(anel, new ArrayList<>());
+                }
+                estagios.get(anel).add(new Pair<DateTime, IntervaloGrupoSemaforico>(timestamp, intervalos));
 
-    public SimuladorTest(DateTime inicioSimulado, Controlador controlador, ParametroSimulacao parametros) {
-        super(inicioSimulado, controlador, parametros);
+            }
+
+            @Override
+            public void onCicloEnds(int anel, Long numeroCiclos) {
+
+            }
+        };
+
+        simulador.simular(inicioSimulacao, inicioSimulacao.plusSeconds(300));
+
+        System.out.println(getJson(parametroSimulacao));
+
     }
 
-    @Override
-    public void onStart(DateTime timestamp) {
+    public String getJson(ParametroSimulacao params) {
 
+        StringBuffer sb = new StringBuffer("\"estagios\":{");
+        String sbAnel = estagios.keySet().stream().map(key -> {
+
+            String buffer = estagios.get(key).stream().map(e -> {
+                return e.getSecond().toJson(e.getFirst().minus(params.getInicioSimulacao().getMillis()));
+            }).collect(Collectors.joining(",")) + "]";
+
+            return "\"" + key.toString() + "\":[" + buffer;
+        }).collect(Collectors.joining(","));
+
+        return "{\"aneis\":{" + sbAnel.toString() + "}}";
     }
 
-    @Override
-    public void onStop(DateTime timestamp) {
-
-    }
-
-    @Override
-    public void onChangeEvento(DateTime timestamp, Evento eventoAntigo, Evento eventoNovo) {
-        listaEvento.put(timestamp, Pair.create(eventoAntigo, eventoNovo));
-    }
-
-    @Override
-    public void onGrupoChange(DateTime timestamp, List<EstadoGrupoSemaforico> estadoAntigo, List<EstadoGrupoSemaforico> estadoNovo) {
-        listaEstadoGrupoSemaforico.put(timestamp, estadoNovo);
-    }
-
-    @Override
-    public void onAgendamentoTrocaDePlanos(DateTime timestamp, DateTime momentoAgendamento, int anel, int plano, int planoAnterior) {
-        listaEventoReal.put(momentoAgendamento, Pair.create(planoAnterior, plano));
-    }
-
-    @Override
-    public void onEstado(DateTime timestamp, EstadoGrupoBaixoNivel estadoGrupoBaixoNivel) {
-        listaEstado.put(timestamp, estadoGrupoBaixoNivel);
-    }
-
-    public Map<DateTime, Pair<Evento, Evento>> getListaEvento() {
-        return listaEvento;
-    }
-
-    public Map<DateTime, Pair<Integer, Integer>> getListaEventoReal() {
-        return listaEventoReal;
-    }
-
-    public Map<DateTime, EstadoGrupoBaixoNivel> getListaEstado() {
-        return listaEstado;
-    }
-
-    public Map<DateTime, List<EstadoGrupoSemaforico>> getListaEstadoGrupoSemaforico() {
-        return listaEstadoGrupoSemaforico;
-    }
 }

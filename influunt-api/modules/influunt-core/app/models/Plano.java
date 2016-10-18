@@ -454,8 +454,8 @@ public class Plano extends Model implements Cloneable, Serializable {
     public HashMap<Pair<Integer, Integer>, Long> tabelaEntreVerde() {
         HashMap<Pair<Integer, Integer>, Long> tabela = new HashMap<>();
         if (this.isModoOperacaoVerde()) {
-            preencheTabelaEntreVerde(tabela, getEstagiosPlanosSemEstagioDispensavel());
-            preencheTabelaEntreVerde(tabela, getEstagiosPlanos());
+            preencheTabelaEntreVerde(tabela, ordenarEstagiosPorPosicaoSemEstagioDispensavel());
+            preencheTabelaEntreVerde(tabela, ordenarEstagiosPorPosicao());
             this.getAnel().getEstagios().stream().filter(Estagio::isDemandaPrioritaria).forEach(e -> {
                 preencheTabelaEntreVerde(tabela, e);
             });
@@ -467,7 +467,6 @@ public class Plano extends Model implements Cloneable, Serializable {
                 tabela.put(new Pair<Integer, Integer>(null, e.getPosicao()), 3000L);
             });
         }
-
         return tabela;
     }
 

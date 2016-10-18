@@ -4,12 +4,15 @@ var influunt;
   (function (components) {
     var Simulador = (function () {
       function Simulador(inicioSimulacao,fimSimulacao,velocidade,config) {
-
+        
         var velocidade = parseFloat(velocidade);
         var config = config;
+        var quantidadeDeAneis = _.filter(config.aneis,function(a){return a.tiposGruposSemaforicos.length > 0}).length;
         var inicioSimulacao = inicioSimulacao;
         var fimSimulacao = fimSimulacao;
         var duracaoSimulacao = (fimSimulacao.unix() - inicioSimulacao.unix()) / velocidade;
+        var imgVI = document.getElementById("modo_vi");
+        var imgAI = document.getElementById("modo_ai");        
         
         var game = new Phaser.Game(1000, 700, Phaser.AUTO, 'canvas', { preload: preload, create: create, update: update, render: render });
 
@@ -23,14 +26,11 @@ var influunt;
         }
 
         var ALTURA_GRUPO = 25;
-        var MARGEM_LATERAL = 1000;
-        var MARGEM_SUPERIOR = 190;
+        var MARGEM_LATERAL = 966 ;
+        var MARGEM_SUPERIOR = 60;
         var VERMELHO = 0xFF0000;
         var VERDE = 0x00FF00;
         var AMARELO = 0xFFFF00;
-        var TINT_VERDE = 0x59b159;
-        var TINT_VERMELHO = 0xdd6f6f;
-        var TINT_BRANCO = 0xffffff;
         var grupos = [];
         var cursors;
         var intervalosGroup;
@@ -45,6 +45,8 @@ var influunt;
         var drawLog = false;
         var pendingToDraw = {};
         var aneis={};
+        var offsetDeAneis = {};
+        var offsetGrupo = {};
 
         var tempo = 0;
   
@@ -76,8 +78,9 @@ var influunt;
           client.onMessageArrived = function(message) {
             if(message.destinationName.endsWith('/estado')){
               var json = JSON.parse(message.payloadString);
-              processarEstado(json.estados)
-              processarEventos(json.eventos)
+              processaEstagios(json.aneis)
+              // processarEstado(json.estados)
+              // processarEventos(json.eventos)
             }
           };
           
@@ -87,43 +90,35 @@ var influunt;
             }
           }
 
-         // connect the client
-         client.connect({onSuccess:onConnect});
+          // connect the client
+          client.connect({onSuccess:onConnect});
           
-         criaAneis();
+          criaAneis();
     
           var style = { font: "25px Open Sans", fill: "#666" };
-          relogio = game.add.text(990,650, "0", style);
+          relogio = game.add.text(990,5, "0", style);
     
           relogio.fixedToCamera = true;
           relogio.anchor.set(1,0);
 
           style = { font: "15px Open Sans", fill: "#333" };
-          plano = game.add.text(10,680, "Plano Atual: 1", style);
+          plano = game.add.text(10,40, "Plano Atual: 1", style);
           plano.fixedToCamera = true;
           plano.anchor.set(0,1);
 
           style = { font: "15px Open Sans", fill: "#ff6700" };
-          dataHora = game.add.text(500,668, "Seg, 27/09/2016 - 12:11:34", style);
+          dataHora = game.add.text(500,20, "Seg, 27/09/2016 - 12:11:34", style);
           dataHora.fixedToCamera = true;
           dataHora.anchor.set(0.5);
 
-          // drawLine(10,0,460,'blue',true);
-          // drawLine(30,0,460,'blue',true);
-    
-          var grid = game.add.sprite(118 , MARGEM_SUPERIOR + ALTURA_GRUPO - 4, 'grid');      
-          grid.fixedToCamera = true;
-          
           game.time.events.repeat(20000 / velocidade, Math.ceil(duracaoSimulacao / 120), loadMore, this);
-          //addToLog("Ola mundo");
-          
           
           desenhaDetector(3,0,4,"#082536","V1");
-          desenhaDetector(4,5,9,"#082536","P4");
-          desenhaDetector(5,5,9,"#082536","V8");          
-          desenhaDetector(5,10,14,"#082536","V3");          
-          desenhaAlerta(8,"12");          
-          desenhaFalha(10,"44");          
+          // desenhaDetector(4,5,9,"#082536","P4");
+          // desenhaDetector(5,5,9,"#082536","V8");
+          // desenhaDetector(5,10,14,"#082536","V3");
+          // desenhaAlerta(8,"12");
+          // desenhaFalha(10,"44");
           
         }
         
@@ -132,28 +127,14 @@ var influunt;
         }
 
         function render() {
-          if(!started && Object.keys(pendingToDraw).length > 90){
-            game.time.events.repeat(2000,  Math.ceil(duracaoSimulacao / 2), destroySprites,this)
+          if(!started && intervalosGroup.children.length > 0){
             game.time.events.repeat(1000, duracaoSimulacao, moveToLeft, this);
             started = true;
           }
 
         }
 
-        function renderIntervalos(){
-          var limite = Math.max(1,velocidade);
-          for(var i = tempo; i < tempo + limite; i++){
-            if(pendingToDraw[i]!= undefined){
-              desenhaIntervalos(i,pendingToDraw[i])
-              delete pendingToDraw[i];
-            }else{
-              break;
-            }
-          }
-        }
-                
         function moveToLeft(){
-          renderIntervalos();
           for(var i = 0; i < totalGruposSemaforicos; i++){
             if(estadoGrupoSemaforico[tempo] && estadoGrupoSemaforico[tempo][i]){
               gruposSemaforicos[i]['sprite'].play(estadoGrupoSemaforico[tempo][i]);            
@@ -193,7 +174,87 @@ var influunt;
           });
           totalGruposSemaforicos = i;
         }
+        
+        function processaEstagios(aneis){
+          Object.keys(aneis).forEach(function(anel){
+            var topOffset = offsetDeAneis[parseInt(anel)];
+            aneis[anel].forEach(function(estagio){
+              desenhaEstagio(topOffset,estagio);
+            })
+          });
+        }
+        
+        function desenhaEstagio(y,estagio){
+
+          var h = Object.keys(estagio.grupos).length * ALTURA_GRUPO + ALTURA_GRUPO + (Object.keys(estagio.grupos).length - 1);
+          var w = estagio.w / 100;
+          var tempoInicio = estagio.x / 1000;
+          console.log("tempoInicio",tempoInicio);
+
+          var x = (estagio.x / 100) + MARGEM_LATERAL;
+          var bmd = game.add.bitmapData(w,h);
           
+          
+          _.each(estagio.grupos,function(grupo,grupoKey){
+
+            console.log("Grupo",grupo);
+            console.log("GrupoKey",grupoKey);            
+
+              
+            var yi =  offsetGrupo[grupoKey] * ALTURA_GRUPO + ALTURA_GRUPO;
+            if(offsetGrupo[grupoKey] > 0){
+              yi += offsetGrupo[grupoKey]
+            }
+            
+            
+          
+            grupo.forEach(function(intervalo){
+              var limite = tempoInicio + intervalo[0] / 1000 + intervalo[1] / 1000;
+              for(var i = tempoInicio + intervalo[0] / 1000; i < limite; i++){
+                estadoGrupoSemaforico[i] = estadoGrupoSemaforico[i] || {};
+                estadoGrupoSemaforico[i][grupoKey - 1] = intervalo[2];
+              }
+                           
+              var xi = intervalo[0] / 100;
+              var wi = intervalo[1] / 100;
+              
+              bmd.ctx.fillStyle = decodeEstado(intervalo[2],bmd.ctx,wi);
+              bmd.ctx.fillRect(xi, yi, wi, ALTURA_GRUPO);
+
+
+            });
+            
+          });
+
+
+          bmd.ctx.fillStyle = "#7788AA";
+          bmd.ctx.strokeStyle = "#426383";
+          bmd.ctx.fillRect(0,0,w,ALTURA_GRUPO);
+          bmd.ctx.lineWidth = "2";
+          bmd.ctx.strokeRect(0,0,w,h);
+          bmd.ctx.textAlign = "left";
+          bmd.ctx.fillStyle = "#fff";
+          bmd.ctx.font = "14px Open Sans";
+          bmd.ctx.fillText("E" + estagio.estagio, 5, 18);
+          bmd.ctx.font = "10px Open Sans";
+
+          bmd.ctx.textAlign = "right";          
+          bmd.ctx.fillText((w /10.0) + "s", w - 5, 16);
+
+          bmd.ctx.lineWidth = "1";
+          bmd.ctx.strokeStyle = "#ccc";
+          for(var i = 10; i < w; i+=10){
+              bmd.ctx.beginPath();
+              bmd.ctx.moveTo(i,ALTURA_GRUPO);
+              bmd.ctx.lineTo(i,h);
+              bmd.ctx.stroke();
+              bmd.ctx.closePath();
+          }
+          
+          bmd.render();
+          intervalosGroup.add(game.add.sprite(x, y, bmd));
+        }
+        
         function processarEstado(estados){
           estados.forEach(function(e){
             var x = e.timestamp;
@@ -217,80 +278,68 @@ var influunt;
         }
 
         function criaAnel(anel,index,indexAnel){
-
-          var indexAtual = inicializaGrupos(anel.tiposGruposSemaforicos,index);
+          var offset =  anel.numero == 1 ? 0 : (anel.numero - 1) * ALTURA_GRUPO;
+          var indexAtual = inicializaGrupos(anel.tiposGruposSemaforicos,index,offset);
           aneis[anel.numero] = {}
           aneis[anel.numero]["inicio_grupo"] = index;
           aneis[anel.numero]["fim_grupo"] = indexAtual - 1;
 
-          var corAnel = "#065159";
+          var corAnel = "#777777";
           if(anel.numero % 2 == 0){
-            corAnel = "#082536";
+            corAnel = "#999999";
           }
           var y1;
+          var y2;
+
           if(anel.numero == 1){
-            y1 = (index * ALTURA_GRUPO);
+            y1 = (index * ALTURA_GRUPO) - ALTURA_GRUPO;
+            y2 = (indexAtual * ALTURA_GRUPO) + (indexAtual - 1);
           }else{
-            y1 = (index * ALTURA_GRUPO) + (index - 1) ;            
+            y1 = (index * ALTURA_GRUPO) + (index - 1)  + (((anel.numero - 1) * ALTURA_GRUPO) - ALTURA_GRUPO);            
+            y2 = (indexAtual * ALTURA_GRUPO) + (indexAtual - 1) + (anel.numero - 1) * ALTURA_GRUPO;
+            offset = anel.numero * ALTURA_GRUPO;
           }
 
-          var y2 = (indexAtual * ALTURA_GRUPO) + (indexAtual - 1);
-          
-          desenhaAnel(anel.numero,y1,y2,corAnel);
-
-
+          desenhaAnel(anel.numero,y1,y2,corAnel,indexAnel + 1 == quantidadeDeAneis );
           index = indexAtual;          
           
-          var ml = 10;
-          var style = { font: "12px Open Sans", fill: "#000", fontWeight:'bolder' };
-          aneis[anel] = {sprite: game.add.sprite(ml + indexAnel * 155, 20, 'a1_e1') };      
-          aneis[anel]['sprite'].fixedToCamera = true;
-          aneis[anel]['sprite'].tint = TINT_VERDE;
-    
-          aneis[anel]["text"] = game.add.text(ml + indexAnel * 155,3, "Anel " + anel.numero, style);
-          aneis[anel]["text"].fixedToCamera = true; 
-    
-          style = { font: "12px Open Sans", fill: "blue", fontWeight:'bolder' };
-          aneis[anel]["textTempoCiclo"] = game.add.text(ml + indexAnel * 155,172, "TC: 12/48", style);
-          aneis[anel]["textTempoCiclo"].fixedToCamera = true; 
-
-          style = { font: "12px Open Sans", fill: "#ff6700", fontWeight:'bolder' };
-          aneis[anel]["textNumeroCiclo"] = game.add.text((ml + indexAnel * 155) + 150 ,172, "NC: 2", style);
-          aneis[anel]["textNumeroCiclo"].fixedToCamera = true; 
-          aneis[anel]["textNumeroCiclo"].anchor.set(1,0);
-
           return index;
 
         }
         
-        function desenhaAnel(numero,y1,y2,cor){
+        function desenhaAnel(numero,y1,y2,cor,ultimo){
+          if(ultimo){
+            y2 += 2;
+          }
+
           var h = y2-y1;
           var bmd = game.add.bitmapData(1000,h);
           
           bmd.ctx.fillStyle = cor;
 
           bmd.ctx.fillRect(0,0,30,h);
-
-          bmd.ctx.beginPath();
-          bmd.ctx.lineWidth = "4";
-          bmd.ctx.strokeStyle = cor;
-          bmd.ctx.moveTo(0,h);
-          bmd.ctx.lineTo(1000,h);
-          bmd.ctx.stroke();
-          bmd.ctx.closePath();
+          bmd.ctx.fillRect(0,0,116,ALTURA_GRUPO);
+          bmd.ctx.fillRect(116,0,1000,2);
+          bmd.ctx.fillRect(966,0,34,h);
+          if(ultimo){
+            bmd.ctx.fillRect(0,h - 2,1000,30);
+          }
+          
           bmd.ctx.textAlign = "center";
           bmd.ctx.fillStyle = "#fff";
           bmd.ctx.font = "12px Open Sans";
           bmd.ctx.fillText(numero, 15, h/2 + 6);
           
           bmd.render();
-          var sprite = game.add.sprite(0, MARGEM_SUPERIOR + y1 + ALTURA_GRUPO + 1, bmd);
+          var spriteY = MARGEM_SUPERIOR + y1 + ALTURA_GRUPO + 1;
+          var sprite = game.add.sprite(0, spriteY, bmd);
+          offsetDeAneis[numero] = spriteY;
           sprite.fixedToCamera = true;
           
         }
 
-        function inicializaGrupos(tipos,index){
-
+        function inicializaGrupos(tipos,index,offset){
+          var posicaoNoAnel = 0;
           tipos.forEach(function(tipo){
             
             var y;
@@ -299,8 +348,9 @@ var influunt;
             }else{
               y = ((index + 1) * ALTURA_GRUPO) + (1 * (index + 1));
             }
-            criaGrupoSemaforico(index, y + MARGEM_SUPERIOR, tipo == 'VEICULAR');
+            criaGrupoSemaforico(index, y + MARGEM_SUPERIOR + offset, tipo == 'VEICULAR');
             index++;
+            offsetGrupo[index] = posicaoNoAnel++;
           })
           return index;
         }
@@ -309,7 +359,7 @@ var influunt;
           var grupoSemaforico = {};
           grupoSemaforico['numero'] = grupo;
           grupoSemaforico['state']  = 'apagado';
-    
+
           if(veicular){
             grupoSemaforico['sprite'] = game.add.sprite(30 , y, 'veicular');      
       
@@ -364,69 +414,6 @@ var influunt;
           text.anchor.set(0,1);
           gruposSemaforicosGroup.add(text);
     
-        }
-
-        function desenhaIntervalos(inicio, estado){
-          var grupos = decodeEstado(estado.split(','));
-          estadoGrupoSemaforico[inicio] = estadoGrupoSemaforico[inicio] || {};
-    
-          for(var grupo = 1; grupo <= grupos.length; grupo++){
-
-            if(estadoAtual[grupo] != grupos[grupo - 1]){
-              estadoAtual[grupo] = grupos[grupo - 1];
-            }
-      
-            var x,y;
-            x = (inicio * 10) + MARGEM_LATERAL;
-            if(grupo == 1){
-              y = (grupo * ALTURA_GRUPO) + 1
-            }else{
-              y = (grupo * ALTURA_GRUPO) + (1 * grupo);
-            }
-    
-            intervalosGroup.add(desenhaEstado(x,y + MARGEM_SUPERIOR,grupos[grupo - 1]));      
-            estadoGrupoSemaforico[inicio][grupo - 1] = grupos[grupo - 1];
-          }
-        }
-  
-        function desenhaEstado(x,y,estado){
-          var s = game.add.sprite(x , y, 'estado');
-          s.name = (x - MARGEM_LATERAL) / 10;
-    
-          s.animations.add('DESLIGADO', [0]);
-
-          switch(estado){
-            case 'DESLIGADO':
-                  s.animations.add('DESLIGADO', [0]);
-                  s.play('DESLIGADO');
-                  break;
-            case 'VERDE':
-                  s.animations.add('VERDE', [0]);
-                  s.play('VERDE');
-                  break;
-            case 'AMARELO':
-                  s.animations.add('AMARELO', [4]);
-                  s.play('AMARELO');
-                  break;
-            case 'VERMELHO':
-                  s.animations.add('VERMELHO', [1]);
-                  s.play('VERMELHO');
-                  break;
-            case 'VERMELHO_INTERMITENTE':
-                  s.animations.add('VERMELHO_INTERMITENTE', [3]);
-                  s.play('VERMELHO_INTERMITENTE');
-                  break;
-            case 'AMARELO_INTERMITENTE':
-                  s.animations.add('AMARELO_INTERMITENTE', [5]);
-                  s.play('AMARELO_INTERMITENTE');
-                  break;
-            case 'VERMELHO_LIMPEZA':
-                  s.animations.add('VERMELHO_LIMPEZA', [2]);
-                  s.play('VERMELHO_LIMPEZA');
-                  break;
-          }
-    
-          return s;
         }
         
         function desenhaEventoMudancaPlano(evento){
@@ -550,38 +537,25 @@ var influunt;
          
         }  
   
-        function decodeEstado(data){
+        function decodeEstado(estado,ctx,w){
 
-          return _.chain(data).map(function(e){ 
-            var i = parseInt(e);
-            var left = i >> 4;
-            var right = i & 15;
-            return [left,right];
-            }).flatten().map(function(e){
-              switch(e){
-                case 0:
-                  return 'DESLIGADO';
-                  break;
-                case 1:
-                  return 'VERDE';
-                  break;
-                case 2:
-                  return 'AMARELO';
-                  break;
-                case 3:
-                  return 'VERMELHO';
-                  break;
-                case 4:
-                  return 'VERMELHO_INTERMITENTE';
-                  break;
-                case 5:
-                  return 'AMARELO_INTERMITENTE';
-                  break;
-                case 6:
-                  return 'VERMELHO_LIMPEZA';
-                  break;
-              }    
-            }).value();
+          switch(estado){
+            case 'DESLIGADO':
+              return "#3d3d3d";
+            case 'VERDE':
+              return "#00ad4d";
+            case 'AMARELO':
+              return "#fffb00";
+            case 'VERMELHO':
+              return "#ff1b00";
+            case 'VERMELHO_INTERMITENTE':
+              return ctx.createPattern(imgVI,"repeat");
+            case 'AMARELO_INTERMITENTE':
+              return ctx.createPattern(imgAI,"repeat");
+
+            case 'VERMELHO_LIMPEZA':
+              return "#a31100";
+            }
     
         }
 

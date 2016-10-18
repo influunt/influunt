@@ -1,15 +1,9 @@
 package simulador.akka;
 
-import engine.EstadoGrupoBaixoNivel;
-import models.EstadoGrupoSemaforico;
-import models.Evento;
+import engine.IntervaloGrupoSemaforico;
 import models.simulador.parametros.ParametroSimulacao;
 import org.joda.time.DateTime;
 import simulador.Simulador;
-import simulador.eventos.AgendamentoTrocaDePlanoLog;
-import simulador.eventos.AlteracaoEventoLog;
-
-import java.util.List;
 
 /**
  * Created by rodrigosol on 10/4/16.
@@ -25,34 +19,19 @@ public class SimuladorAkka extends Simulador {
         this.simuladorActor = simuladorActor;
     }
 
+
     @Override
-    public void onStart(DateTime timestamp) {
+    public void onEstagioChange(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
+        simuladorActor.storeEstagio(anel, timestamp, intervalos);
+    }
+
+    @Override
+    public void onEstagioEnds(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
 
     }
 
     @Override
-    public void onStop(DateTime timestamp) {
+    public void onCicloEnds(int anel, Long numeroCiclos) {
 
     }
-
-    @Override
-    public void onChangeEvento(DateTime timestamp, Evento eventoAntigo, Evento eventoNovo) {
-        simuladorActor.storeEvento(new AlteracaoEventoLog(timestamp.minus(dataInicioControlador.getMillis()), eventoAntigo, eventoNovo, 1));
-    }
-
-    @Override
-    public void onGrupoChange(DateTime timestamp, List<EstadoGrupoSemaforico> estadoAntigo, List<EstadoGrupoSemaforico> estadoNovo) {
-
-    }
-
-    @Override
-    public void onAgendamentoTrocaDePlanos(DateTime timestamp, DateTime momentoAgendamento, int anel, int plano, int planoAnterior) {
-        simuladorActor.storeEvento(new AgendamentoTrocaDePlanoLog(timestamp.minus(dataInicioControlador.getMillis()), (momentoAgendamento.minus(dataInicioControlador.getMillis())), anel, plano, planoAnterior));
-    }
-
-    @Override
-    public void onEstado(DateTime timeStamp, EstadoGrupoBaixoNivel estado) {
-        simuladorActor.storeEstado(timeStamp.minus(dataInicioControlador.getMillis()), estado);
-    }
-
 }
