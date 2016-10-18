@@ -31,10 +31,14 @@ public class BaseJasperReport {
         try {
             Logger.warn("Gerando o relatorio de [".concat(reportDefFile.toUpperCase()).concat("] ..."));
             String compiledFile = provider.get().path().toString().concat(REPORT_DEFINITION_PATH).concat(reportDefFile).concat(".jasper");
+
             JRPdfExporter pdfExporter = new JRPdfExporter();
+
             OutputStreamExporterOutput output = new SimpleOutputStreamExporterOutput(os);
             pdfExporter.setExporterOutput(output);
+
             ExporterInput inp = new SimpleExporterInput(JasperFillManager.fillReport(compiledFile, reportParams, new JRBeanCollectionDataSource(lista)));
+
             pdfExporter.setExporterInput(inp);
             pdfExporter.exportReport();
         } catch (Exception e) {
