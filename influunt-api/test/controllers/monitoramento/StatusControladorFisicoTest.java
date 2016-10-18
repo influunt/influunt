@@ -3,8 +3,8 @@ package controllers.monitoramento;
 import com.fasterxml.jackson.databind.JsonNode;
 import config.WithInfluuntApplicationNoAuthentication;
 import models.Cidade;
-import models.StatusControlador;
 import models.StatusDevice;
+import models.StatusVersao;
 import org.junit.Before;
 import org.junit.Test;
 import play.libs.Json;
@@ -121,8 +121,8 @@ public class StatusControladorFisicoTest extends WithInfluuntApplicationNoAuthen
 
         assertEquals(2, json.size());
 
-        assertEquals(StatusControlador.CONFIGURADO.toString(), json.get("1").asText());
-        assertEquals(StatusControlador.ATIVO.toString(), json.get("2").asText());
+        assertEquals(StatusVersao.CONFIGURADO.toString(), json.get("1").asText());
+        assertEquals(StatusVersao.ATIVO.toString(), json.get("2").asText());
 
     }
 
@@ -151,7 +151,7 @@ public class StatusControladorFisicoTest extends WithInfluuntApplicationNoAuthen
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
 
-        assertEquals(StatusControlador.CONFIGURADO.toString(), json.get(0).get("statusDevice").asText());
+        assertEquals(StatusVersao.CONFIGURADO.toString(), json.get(0).get("statusDevice").asText());
 
 
         postRequest = new Http.RequestBuilder().method("GET")

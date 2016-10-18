@@ -1,7 +1,6 @@
 package models;
 
 import checks.*;
-import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
@@ -27,7 +26,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.UUID;
 
-import static com.sun.tools.doclint.Entity.nu;
 
 /**
  * Entidade que representa o {@link Controlador} no sistema
@@ -68,9 +66,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
-
-    @Column
-    private StatusControlador statusControlador = StatusControlador.EM_CONFIGURACAO;
 
     @Column
     private Integer sequencia;
@@ -527,7 +522,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
         return versaoControlador;
     }
 
-//    private VersaoControlador getVersaoControladorAtual() {
+    //    private VersaoControlador getVersaoControladorAtual() {
 //        VersaoControlador versao = Ebean.find(VersaoControlador.class).where().eq("controlador_id", getId().toString()).eq("status_versao", StatusVersao.EDITANDO).findUnique();
 //        if (versao == null) {
 //            versao = Ebean.find(VersaoControlador.class).where().eq("controlador_id", getId().toString()).eq("status_versao", StatusVersao.CONFIGURADO).findUnique();
@@ -586,14 +581,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
             setGruposSemaforicos(new ArrayList<GrupoSemaforico>());
         }
         getGruposSemaforicos().add(grupoSemaforico);
-    }
-
-    public StatusControlador getStatusControlador() {
-        return statusControlador;
-    }
-
-    public void setStatusControlador(StatusControlador statusControlador) {
-        this.statusControlador = statusControlador;
     }
 
     public String getStatusControladorReal() {

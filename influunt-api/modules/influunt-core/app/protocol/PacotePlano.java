@@ -2,7 +2,6 @@ package protocol;
 
 import json.ControladorCustomSerializer;
 import models.Controlador;
-import models.StatusControlador;
 import models.StatusVersao;
 
 import java.util.UUID;

@@ -686,7 +686,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
             try {
                 if (field.get(origem) == null || Modifier.isFinal(field.getModifiers()) || field.getType().equals(UUID.class)
                         || field.getType().equals(DateTime.class) || field.getType().equals(Fabricante.class) || field.getType().equals(Cidade.class)
-                        || field.getType().equals(StatusControlador.class) || field.getType().equals(DiaDaSemana.class) || "idJson".equals(field.getName())) {
+                        || field.getType().equals(DiaDaSemana.class) || "idJson".equals(field.getName())) {
                     continue;
                 }
                 if (Modifier.isPrivate(field.getModifiers()) && !Modifier.isStatic(field.getModifiers())) {
