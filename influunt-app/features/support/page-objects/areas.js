@@ -51,10 +51,6 @@ var AreasPage = function () {
     return world.clickButton(novaAreaButton);
   };
 
-  this.formAreas = function() {
-    return world.getElement(formAreas);
-  };
-
   this.limetesNaTabela = function() {
     return world.waitFor('td.ng-binding li');
   };
@@ -119,13 +115,6 @@ var AreasPage = function () {
   this.cidadeDeveSerExcluida = function() {
     return world.getElements('tbody tr[data-ng-repeat="cidade in lista"]').then(function(elements) {
       return elements.length === totalAreasIndex - 1;
-    });
-  };
-
-  this.getErrorMessageFor = function(campo) {
-    world.sleep(1000);
-    return world.waitFor('[name="'+campo+'"] + p[class*="error-msg"]').then(function() {
-      return world.getElement('[name="'+campo+'"] + p[class*="error-msg"]').getText();
     });
   };
 

@@ -183,6 +183,20 @@ var World = function () {
     }, Promise.resolve());
   };
 
+  this.countTableSize = function(numberElements) {
+    return driver.findElements(webdriver.By.xpath('//table[contains(@class, "table")]//tbody//tr')).then(function(elements){
+      var sizeElementsOnTabele = elements.length
+      return new Promise(function(resolve, reject) {
+        if (sizeElementsOnTabele == numberElements) {
+          resolve(true);
+        } else {
+          reject('Quantidade de registros na tabela são "'+sizeElementsOnTabele+'" mas o número esperado é "'+numberElements+'"');
+        }
+      });
+    });
+  };
+
+
   this.checkIsElementPresent = function(xpath, campo, dado) {
     return driver.isElementPresent(webdriver.By.xpath(xpath)).then(function(isElementPresent) {
       return new Promise(function(resolve, reject) {
@@ -364,6 +378,27 @@ var World = function () {
 
   this.clearFieldByXpath = function(xpathSelector) {
     return driver.findElement(webdriver.By.xpath(xpathSelector)).clear();
+  };
+
+  this.logar = function(createSQL, user, password) {
+    var _this = this;
+    return _this.execScript('curl -XPOST localhost:9000/api/v1/cucumber').then(function(){
+      return _this.execSqlScript('features/support/scripts/'+createSQL+'.sql');
+    }).then(function () {
+      return _this.visit('/login');
+    }).then(function () {
+      _this.sleep(500);
+      return _this.setValue('input[name="usuario"]', user);
+    }).then(function () {
+      return _this.setValue('input[name="senha"]', password);
+    }).then(function () {
+      return _this.clickButton('#acessar');
+    }).then(function () {
+      return _this.waitFor('a.navbar-brand');
+    }).catch(function(ex) {
+      console.log('ERRO: ', ex);
+      throw new Error(ex);
+    });
   };
 
   this.buscarEndereco = function(query, cssSelector) {

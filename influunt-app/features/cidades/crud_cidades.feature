@@ -24,8 +24,7 @@ Funcionalidade: tela de cadastro de cidades
     Quando o usuário acessar a tela de cadastro de novas cidades
     E o usuário preencher o campo "Nome" com "Belo Horizonte"
     E clicar no botão de salvar
-    Então o sistema deverá indicar erro nos campos nome
-
+    Então o sistema deverá indicar erro no campo "nome"
 
   Cenário: Acesso à tela de detalhes de cidades
     Quando o usuário acessar a tela de listagem de cidades
@@ -47,13 +46,13 @@ Funcionalidade: tela de cadastro de cidades
   Cenário: Exclusão de cidades sem confirmação
     Quando o usuário acessar a tela de listagem de cidades
     E clicar no botão de excluir uma cidade
-    Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir a cidade
+    Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
     Quando o usuário responde não
     Então nenhuma cidade deve ser excluída
 
   Cenário: Exclusão de cidades com confirmação
     Quando o usuário acessar a tela de listagem de cidades
     E clicar no botão de excluir uma cidade
-    Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir a cidade
+    Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
     Quando o usuário responde sim
     Então a cidade deverá ser excluida
