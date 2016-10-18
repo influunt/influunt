@@ -11,6 +11,8 @@ var influunt;
         var inicioSimulacao = inicioSimulacao;
         var fimSimulacao = fimSimulacao;
         var duracaoSimulacao = (fimSimulacao.unix() - inicioSimulacao.unix()) / velocidade;
+        var imgVI = document.getElementById("modo_vi");
+        var imgAI = document.getElementById("modo_ai");        
         
         var game = new Phaser.Game(1000, 700, Phaser.AUTO, 'canvas', { preload: preload, create: create, update: update, render: render });
 
@@ -24,7 +26,7 @@ var influunt;
         }
 
         var ALTURA_GRUPO = 25;
-        var MARGEM_LATERAL = 1000;
+        var MARGEM_LATERAL = 966 ;
         var MARGEM_SUPERIOR = 20;
         var VERMELHO = 0xFF0000;
         var VERDE = 0x00FF00;
@@ -136,8 +138,7 @@ var influunt;
         }
 
         function render() {
-          if(!started && Object.keys(pendingToDraw).length > 90){
-            game.time.events.repeat(2000,  Math.ceil(duracaoSimulacao / 2), destroySprites,this)
+          if(!started && intervalosGroup.children.length > 0){
             game.time.events.repeat(1000, duracaoSimulacao, moveToLeft, this);
             started = true;
           }
@@ -145,19 +146,18 @@ var influunt;
         }
 
         function renderIntervalos(){
-          var limite = Math.max(1,velocidade);
-          for(var i = tempo; i < tempo + limite; i++){
-            if(pendingToDraw[i]!= undefined){
-              desenhaIntervalos(i,pendingToDraw[i])
-              delete pendingToDraw[i];
-            }else{
-              break;
-            }
-          }
+          // var limite = Math.max(1,velocidade);
+          // for(var i = tempo; i < tempo + limite; i++){
+          //   if(pendingToDraw[i]!= undefined){
+          //     desenhaIntervalos(i,pendingToDraw[i])
+          //     delete pendingToDraw[i];
+          //   }else{
+          //     break;
+          //   }
+          // }
         }
                 
         function moveToLeft(){
-          renderIntervalos();
           for(var i = 0; i < totalGruposSemaforicos; i++){
             if(estadoGrupoSemaforico[tempo] && estadoGrupoSemaforico[tempo][i]){
               gruposSemaforicos[i]['sprite'].play(estadoGrupoSemaforico[tempo][i]);            
@@ -197,6 +197,7 @@ var influunt;
           });
           totalGruposSemaforicos = i;
         }
+        
         function processaEstagios(aneis){
           Object.keys(aneis).forEach(function(anel){
             var topOffset = offsetDeAneis[parseInt(anel)];
@@ -207,35 +208,52 @@ var influunt;
         }
         
         function desenhaEstagio(y,estagio){
+
           var h = Object.keys(estagio.grupos).length * ALTURA_GRUPO + ALTURA_GRUPO + (Object.keys(estagio.grupos).length - 1);
           var w = estagio.w / 100;
-          var x = (estagio.x / 100) + 116;
-          var bmd = game.add.bitmapData(w,h);
+          var tempoInicio = estagio.x / 1000;
+          console.log("tempoInicio",tempoInicio);
 
+          var x = (estagio.x / 100) + MARGEM_LATERAL;
+          var bmd = game.add.bitmapData(w,h);
+          
+          
           _.each(estagio.grupos,function(grupo,grupoKey){
+
+            console.log("Grupo",grupo);
+            console.log("GrupoKey",grupoKey);            
+
+              
             var yi =  offsetGrupo[grupoKey] * ALTURA_GRUPO + ALTURA_GRUPO;
             if(offsetGrupo[grupoKey] > 0){
               yi += offsetGrupo[grupoKey]
             }
             
             
-
+          
             grupo.forEach(function(intervalo){
-
+              var limite = tempoInicio + intervalo[0] / 1000 + intervalo[1] / 1000;
+              for(var i = tempoInicio + intervalo[0] / 1000; i < limite; i++){
+                estadoGrupoSemaforico[i] = estadoGrupoSemaforico[i] || {};
+                estadoGrupoSemaforico[i][grupoKey - 1] = intervalo[2];
+              }
+                           
               var xi = intervalo[0] / 100;
               var wi = intervalo[1] / 100;
-              console.log("intervalo x",xi);
-              console.log("intervalo w",xi);
-              console.log("intervalo y",yi);                            
-              bmd.ctx.fillStyle = decodeEstado(intervalo[2]);
+              
+              bmd.ctx.fillStyle = decodeEstado(intervalo[2],bmd.ctx,wi);
               bmd.ctx.fillRect(xi, yi, wi, ALTURA_GRUPO);
+
+
             });
+            
           });
 
 
           bmd.ctx.fillStyle = "#7788AA";
           bmd.ctx.strokeStyle = "#426383";
           bmd.ctx.fillRect(0,0,w,ALTURA_GRUPO);
+          bmd.ctx.lineWidth = "2";
           bmd.ctx.strokeRect(0,0,w,h);
           bmd.ctx.textAlign = "left";
           bmd.ctx.fillStyle = "#fff";
@@ -246,16 +264,18 @@ var influunt;
           bmd.ctx.textAlign = "right";          
           bmd.ctx.fillText((w /10.0) + "s", w - 5, 16);
 
+          bmd.ctx.lineWidth = "1";
+          bmd.ctx.strokeStyle = "#ccc";
+          for(var i = 10; i < w; i+=10){
+              bmd.ctx.beginPath();
+              bmd.ctx.moveTo(i,ALTURA_GRUPO);
+              bmd.ctx.lineTo(i,h);
+              bmd.ctx.stroke();
+              bmd.ctx.closePath();
+          }
           
           bmd.render();
-          var sprite = game.add.sprite(x, y, bmd);
-//intervalosGroup.add()
-          console.log("h",h);
-          console.log("w",w);
-          console.log("x",x);
-          console.log("y",y);          
-          console.log("estagio",estagio);               
-          
+          intervalosGroup.add(game.add.sprite(x, y, bmd));
         }
         
         function processarEstado(estados){
@@ -306,24 +326,6 @@ var influunt;
           desenhaAnel(anel.numero,y1,y2,corAnel,indexAnel + 1 == quantidadeDeAneis );
           index = indexAtual;          
           
-          // var ml = 10;
-          // var style = { font: "12px Open Sans", fill: "#000", fontWeight:'bolder' };
-          // aneis[anel] = {sprite: game.add.sprite(ml + indexAnel * 155, 20, 'a1_e1') };
-          // aneis[anel]['sprite'].fixedToCamera = true;
-          // aneis[anel]['sprite'].tint = TINT_VERDE;
-          //
-          // aneis[anel]["text"] = game.add.text(ml + indexAnel * 155,3, "Anel " + anel.numero, style);
-          // aneis[anel]["text"].fixedToCamera = true;
-          //
-          // style = { font: "12px Open Sans", fill: "blue", fontWeight:'bolder' };
-          // aneis[anel]["textTempoCiclo"] = game.add.text(ml + indexAnel * 155,172, "TC: 12/48", style);
-          // aneis[anel]["textTempoCiclo"].fixedToCamera = true;
-          //
-          // style = { font: "12px Open Sans", fill: "#ff6700", fontWeight:'bolder' };
-          // aneis[anel]["textNumeroCiclo"] = game.add.text((ml + indexAnel * 155) + 150 ,172, "NC: 2", style);
-          // aneis[anel]["textNumeroCiclo"].fixedToCamera = true;
-          // aneis[anel]["textNumeroCiclo"].anchor.set(1,0);
-
           return index;
 
         }
@@ -337,41 +339,15 @@ var influunt;
           var bmd = game.add.bitmapData(1000,h);
           
           bmd.ctx.fillStyle = cor;
-          bmd.ctx.setLineDash([4, 1]);
-          bmd.ctx.lineWidth = "1";
-          bmd.ctx.strokeStyle = "white";
-
-          for(var i = 118; i < 970; i+=10){
-            bmd.ctx.beginPath();
-            bmd.ctx.moveTo(i,0);
-            bmd.ctx.lineTo(i,h);
-            bmd.ctx.stroke();
-            bmd.ctx.closePath();
-          } 
-
-          for(var i = ALTURA_GRUPO, line = 0; i < h; i+=ALTURA_GRUPO + (1 * line), line++){
-            bmd.ctx.beginPath();
-            bmd.ctx.moveTo(0,i);
-            bmd.ctx.lineTo(1000,i);
-            bmd.ctx.stroke();
-            bmd.ctx.closePath();
-          } 
-
 
           bmd.ctx.fillRect(0,0,30,h);
-          bmd.ctx.fillRect(0,0,1000,ALTURA_GRUPO);
-          bmd.ctx.fillRect(968,0,32,h);
+          bmd.ctx.fillRect(0,0,116,ALTURA_GRUPO);
+          bmd.ctx.fillRect(116,0,1000,2);
+          bmd.ctx.fillRect(966,0,34,h);
           if(ultimo){
             bmd.ctx.fillRect(0,h - 2,1000,30);
           }
           
-          // bmd.ctx.beginPath();
-          // bmd.ctx.lineWidth = "4";
-          // bmd.ctx.strokeStyle = cor;
-          // bmd.ctx.moveTo(0,h);
-          // bmd.ctx.lineTo(1000,h);
-          // bmd.ctx.stroke();
-          // bmd.ctx.closePath();
           bmd.ctx.textAlign = "center";
           bmd.ctx.fillStyle = "#fff";
           bmd.ctx.font = "12px Open Sans";
@@ -463,68 +439,6 @@ var influunt;
     
         }
 
-        function desenhaIntervalos(inicio, estado){
-          var grupos = decodeEstado(estado.split(','));
-          estadoGrupoSemaforico[inicio] = estadoGrupoSemaforico[inicio] || {};
-    
-          for(var grupo = 1; grupo <= grupos.length; grupo++){
-
-            if(estadoAtual[grupo] != grupos[grupo - 1]){
-              estadoAtual[grupo] = grupos[grupo - 1];
-            }
-      
-            var x,y;
-            x = (inicio * 10) + MARGEM_LATERAL;
-            if(grupo == 1){
-              y = (grupo * ALTURA_GRUPO) + 1
-            }else{
-              y = (grupo * ALTURA_GRUPO) + (1 * grupo);
-            }
-    
-            intervalosGroup.add(desenhaEstado(x,y + MARGEM_SUPERIOR,grupos[grupo - 1]));      
-            estadoGrupoSemaforico[inicio][grupo - 1] = grupos[grupo - 1];
-          }
-        }
-  
-        function desenhaEstado(x,y,estado){
-          var s = game.add.sprite(x , y, 'estado');
-          s.name = (x - MARGEM_LATERAL) / 10;
-    
-          s.animations.add('DESLIGADO', [0]);
-
-          switch(estado){
-            case 'DESLIGADO':
-                  s.animations.add('DESLIGADO', [0]);
-                  s.play('DESLIGADO');
-                  break;
-            case 'VERDE':
-                  s.animations.add('VERDE', [0]);
-                  s.play('VERDE');
-                  break;
-            case 'AMARELO':
-                  s.animations.add('AMARELO', [4]);
-                  s.play('AMARELO');
-                  break;
-            case 'VERMELHO':
-                  s.animations.add('VERMELHO', [1]);
-                  s.play('VERMELHO');
-                  break;
-            case 'VERMELHO_INTERMITENTE':
-                  s.animations.add('VERMELHO_INTERMITENTE', [3]);
-                  s.play('VERMELHO_INTERMITENTE');
-                  break;
-            case 'AMARELO_INTERMITENTE':
-                  s.animations.add('AMARELO_INTERMITENTE', [5]);
-                  s.play('AMARELO_INTERMITENTE');
-                  break;
-            case 'VERMELHO_LIMPEZA':
-                  s.animations.add('VERMELHO_LIMPEZA', [2]);
-                  s.play('VERMELHO_LIMPEZA');
-                  break;
-          }
-    
-          return s;
-        }
         
         function desenhaEventoMudancaPlano(evento){
           desenhaPlano(evento.timestamp,'blue',evento.planoAtual);
@@ -647,7 +561,7 @@ var influunt;
          
         }  
   
-        function decodeEstado(estado){
+        function decodeEstado(estado,ctx,w){
 
           switch(estado){
             case 'DESLIGADO':
@@ -659,9 +573,10 @@ var influunt;
             case 'VERMELHO':
               return "#ff1b00";
             case 'VERMELHO_INTERMITENTE':
-              return "red";
+              return ctx.createPattern(imgVI,"repeat");
             case 'AMARELO_INTERMITENTE':
-              return "yellow";
+              return ctx.createPattern(imgAI,"repeat");
+
             case 'VERMELHO_LIMPEZA':
               return "#a31100";
             }
