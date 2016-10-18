@@ -365,7 +365,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
                 .stream()
                 .map(grupoSemaforico -> grupoSemaforico.getTempoVerdeSegurancaFaltante(this, estagioAnteriorPlano))
                 .max(Integer::max)
-                .get();
+                .orElse(0);
     }
 
     public int getTempoVerdeEstagioComTempoDoEstagioDispensavel(HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerde, List<EstagioPlano> listaEstagioPlanos) {

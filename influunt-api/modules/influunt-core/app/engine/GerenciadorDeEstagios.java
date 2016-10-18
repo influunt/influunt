@@ -65,29 +65,48 @@ public class GerenciadorDeEstagios implements EventoCallback {
         this.inicioControlador = inicioControlador;
         this.inicioExecucao = inicioExecucao;
         this.plano = plano;
+        this.callback = callback;
+        this.tabelaDeTemposEntreVerde = this.plano.tabelaEntreVerde();
         this.listaOriginalEstagioPlanos = this.plano.ordenarEstagiosPorPosicaoSemEstagioDispensavel();
         this.listaEstagioPlanos = new ArrayList<>(listaOriginalEstagioPlanos);
-        this.estagioPlanoAtual = listaEstagioPlanos.get(listaEstagioPlanos.size() - 1);
-        this.tabelaDeTemposEntreVerde = this.plano.tabelaEntreVerde();
-        this.callback = callback;
-
         contadorEstagio = 0;
-        geraIntervalos(0);
+
+        if (plano.isModoOperacaoVerde()) {
+            this.estagioPlanoAtual = listaEstagioPlanos.get(listaEstagioPlanos.size() - 1);
+            geraIntervalos(0);
+        } else {
+            geraIntervalosFixos();
+        }
+
     }
 
     private void geraIntervalos(Integer index) {
-        System.out.println(listaEstagioPlanos);
+        if (!plano.isModoOperacaoVerde() && index == 0){
+            geraIntervalosFixos();
+        } else {
+            EstagioPlano estagioPlano = listaEstagioPlanos.get(index);
+            Estagio estagioAtual = estagioPlano.getEstagio();
+            final Estagio estagioAnterior = estagioPlanoAtual.getEstagio();
+
+            final long tempoEntreVerde = tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(estagioAnterior.getPosicao(), estagioAtual.getPosicao()));
+            final long tempoVerde = estagioPlano.getTempoVerdeEstagioComTempoDoEstagioDispensavel(tabelaDeTemposEntreVerde, listaEstagioPlanos) * 1000L;
+
+            this.intervalos = TreeRangeMap.create();
+            this.intervalos.put(Range.closedOpen(0L, tempoEntreVerde), new IntervaloEstagio(tempoEntreVerde, true, estagioPlano, estagioPlanoAtual));
+            this.intervalos.put(Range.closedOpen(tempoEntreVerde, tempoEntreVerde + tempoVerde), new IntervaloEstagio(tempoVerde, false, estagioPlano, estagioPlanoAtual));
+        }
+    }
+
+    private void geraIntervalosFixos(){
+        Estagio estagio = new Estagio();
+        EstagioPlano estagioPlano = new EstagioPlano();
+        estagioPlano.setIdJson(EstadoGrupoSemaforico.AMARELO_INTERMITENTE.toString());
+        estagioPlano.setPlano(plano);
+        estagioPlano.setEstagio(estagio);
+        listaEstagioPlanos.add(estagioPlano);
+
         this.intervalos = TreeRangeMap.create();
-
-        EstagioPlano estagioPlano = listaEstagioPlanos.get(index);
-        Estagio estagioAtual = estagioPlano.getEstagio();
-        final Estagio estagioAnterior = estagioPlanoAtual.getEstagio();
-
-        final long tempoEntreVerde = tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(estagioAnterior.getPosicao(), estagioAtual.getPosicao()));
-        final long tempoVerde = estagioPlano.getTempoVerdeEstagioComTempoDoEstagioDispensavel(tabelaDeTemposEntreVerde, listaEstagioPlanos) * 1000L;
-
-        this.intervalos.put(Range.closedOpen(0L, tempoEntreVerde), new IntervaloEstagio(tempoEntreVerde, true, estagioPlano, estagioPlanoAtual));
-        this.intervalos.put(Range.closedOpen(tempoEntreVerde, tempoEntreVerde + tempoVerde), new IntervaloEstagio(tempoVerde, false, estagioPlano, estagioPlanoAtual));
+        this.intervalos.put(Range.closedOpen(0L, 255000L), new IntervaloEstagio(255000L, false, estagioPlano, null));
     }
 
     public RangeMap<Long, IntervaloEstagio> getIntervalos() {
@@ -167,15 +186,20 @@ public class GerenciadorDeEstagios implements EventoCallback {
     }
 
     private void reduzirTempoEstagioAtual(EstagioPlano estagioPlanoAnterior) {
+        final long contador;
         Map.Entry<Range<Long>, IntervaloEstagio> range = this.intervalos.getEntry(contadorIntervalo);
         IntervaloEstagio intervalo = range.getValue();
         if (intervalo.isEntreverde()) {
             range = this.intervalos.getEntry(range.getKey().upperEndpoint() + 1);
             intervalo = range.getValue();
+            contador = 0L;
+        } else {
+            contador = contadorIntervalo - range.getKey().lowerEndpoint();
         }
         intervalo.setDuracao(estagioPlanoAtual.getTempoVerdeSegurancaFaltante(estagioPlanoAnterior));
+        long duracao = Math.max(intervalo.getDuracao(), contador);
         this.intervalos.remove(range.getKey());
-        final Range<Long> novoRange = Range.closedOpen(range.getKey().lowerEndpoint(), range.getKey().lowerEndpoint() + intervalo.getDuracao());
+        final Range<Long> novoRange = Range.closedOpen(range.getKey().lowerEndpoint(), range.getKey().lowerEndpoint() + duracao);
         intervalo.setDuracao(novoRange.upperEndpoint() - novoRange.lowerEndpoint());
         this.intervalos.put(novoRange, intervalo);
     }

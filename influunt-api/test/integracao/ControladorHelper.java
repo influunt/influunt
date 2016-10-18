@@ -334,7 +334,9 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         criarAssociacaoEstagioGrupoSemaforico(anel, 4, 14);
         criarAssociacaoEstagioGrupoSemaforico(anel, 4, 15);
 
-        criarAssociacaoEstagioGrupoSemaforico(anel, 5, 16);
+        estagioGrupoSemaforico = criarAssociacaoEstagioGrupoSemaforico(anel, 5, 16);
+        estagioGrupoSemaforico.getEstagio().setDemandaPrioritaria(true);
+        estagioGrupoSemaforico.getEstagio().setTempoVerdeDemandaPrioritaria(30);
 
         controlador.save();
     }
@@ -630,6 +632,9 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         criarEstagioPlano(anel, plano, 2, 2, new int[]{10, 15, 20, 11}, false);
         criarEstagioPlano(anel, plano, 3, 3, new int[]{10, 15, 20, 11}, false);
         criarEstagioPlano(anel, plano, 4, 4, new int[]{10}, false);
+
+        criarPlano(anel, 5, ModoOperacaoPlano.INTERMITENTE, null);
+        criarPlano(anel, 6, ModoOperacaoPlano.APAGADO, null);
 
         controlador.save();
     }
