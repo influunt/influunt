@@ -13,7 +13,6 @@ import java.util.function.BiConsumer;
 
 import static java.lang.Integer.parseInt;
 import static utils.InfluuntUtils.parseDate;
-import static utils.InfluuntUtils.underscore;
 
 /**
  * Created by lesiopinheiro on 9/6/16.
@@ -268,9 +267,9 @@ public class InfluuntQueryBuilder {
             String[] keyExpression = key.split("_");
             if (!key.contains(SearchFieldDefinition.START) && !key.contains(SearchFieldDefinition.END)) {
                 if (keyExpression.length > 1) {
-                    searchFieldDefinitions.add(new SearchFieldDefinition(underscore(keyExpression[0]), keyExpression[1], value));
+                    searchFieldDefinitions.add(new SearchFieldDefinition((keyExpression[0]), keyExpression[1], value));
                 } else {
-                    searchFieldDefinitions.add(new SearchFieldDefinition(underscore(key), null, value));
+                    searchFieldDefinitions.add(new SearchFieldDefinition((key), null, value));
                 }
             }
         };

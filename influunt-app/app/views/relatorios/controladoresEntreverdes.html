@@ -9,7 +9,35 @@
                 method="post"
                 name="formRelatorioAuditoria"
                 novalidate="novalidate"
-                data-ng-submit="gerarRelatorioControladoresPorStatus()">
+                data-ng-submit="gerarRelatorioControladoresEntreverdes()">
+
+              <div class="form-group">
+                <label class="control-label col-sm-2 control-label">{{ 'relatorios.inicio' | translate }}</label>
+                <div class="col-sm-9">
+                  <input type="datetime"
+                      class="form-control data-inicio"
+                      date-time
+                      data-ng-model="relatorio['dataAtualizacao_start']"
+                      min-view="date"
+                      default-view="date"
+                      auto-close="true"
+                      format="DD/MM/YYYY"/>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label col-sm-2 control-label">{{ 'relatorios.fim' | translate }}</label>
+                <div class="col-sm-9">
+                  <input type="datetime"
+                      class="form-control data-fim"
+                      date-time
+                      data-ng-model="relatorio['dataAtualizacao_end']"
+                      min-view="date"
+                      default-view="date"
+                      auto-close="true"
+                      format="DD/MM/YYYY"/>
+                </div>
+              </div>
 
               <div class="form-group">
                 <label class="control-label col-sm-2 control-label">{{ 'relatorios.tipo' | translate }}</label>

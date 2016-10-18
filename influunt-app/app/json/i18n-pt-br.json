@@ -689,6 +689,8 @@
   "relatorios": {
     "auditorias": "Auditorias",
     "controladoresStatus": "Controladores por Status",
+    "controladoresFalhas": "Controladores por Falhas",
+    "controladoresEntreVerdes": "Controladores com alteração Entreverdes",
     "gerar": "Gerar",
     "inicio": "Início",
     "fim": "Fim",

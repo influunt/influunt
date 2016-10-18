@@ -123,7 +123,7 @@ public class ControladoresReportService extends ReportService<Controlador> {
     private InputStream generateControladoresFalhasCSVReport() {
         StringBuilder buffer = new StringBuilder();
 
-        buffer.append("Relatório de Controladores por Status").append(NEW_LINE_SEPARATOR);
+        buffer.append("Relatório de Controladores por Falhas").append(NEW_LINE_SEPARATOR);
 
         buffer.append("Gerado em:").append(COMMA_DELIMITER).append(InfluuntUtils.formatDateToString(new DateTime(), FORMAT_DATE_HOUR_COMPLETE));
         buffer.append(NEW_LINE_SEPARATOR).append(NEW_LINE_SEPARATOR);

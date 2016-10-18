@@ -9,7 +9,7 @@
                 method="post"
                 name="formRelatorioAuditoria"
                 novalidate="novalidate"
-                data-ng-submit="gerarRelatorioControladoresPorStatus()">
+                data-ng-submit="gerarRelatorioControladoresPorFalhas()">
 
               <div class="form-group">
                 <label class="control-label col-sm-2 control-label">{{ 'relatorios.tipo' | translate }}</label>
@@ -25,7 +25,6 @@
                   <a class="btn btn-default" ui-sref="app.areas">{{ 'geral.crud.voltar' | translate }}</a>
                 </div>
               </div>
-
             </form>
           </div>
 

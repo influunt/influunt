@@ -1013,6 +1013,34 @@ angular
           }
         })
 
+        .state('app.relatorios_controladores_falhas', {
+          url: '/relatorios/controladores_falhas',
+          templateUrl: 'views/relatorios/controladoresFalhas.html',
+          controller: 'RelatoriosCtrl',
+          controllerAs: 'relatorios',
+          data: {
+            title: 'relatorios.controladoresFalhas',
+            permissions: {
+              only: 'gerarRelatorioControladoresFalhas',
+              redirectTo: 'app.main'
+            }
+          }
+        })
+
+        .state('app.relatorios_controladores_entreverdes', {
+          url: '/relatorios/controladores_entreverdes',
+          templateUrl: 'views/relatorios/controladoresEntreverdes.html',
+          controller: 'RelatoriosCtrl',
+          controllerAs: 'relatorios',
+          data: {
+            title: 'relatorios.controladoresEntreVerdes',
+            permissions: {
+              only: 'gerarRelatorioControladoresEntreverdes',
+              redirectTo: 'app.main'
+            }
+          }
+        })
+
       ;
 
       // Prevent router from automatic state resolving

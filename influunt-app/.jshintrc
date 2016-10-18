@@ -20,6 +20,8 @@
     "Dropzone": true,
     "moment": true,
     "humanizeDuration": true,
+    "Blob": true,
+    "saveAs": true,
 
     // leaflet lib
     "L": true,

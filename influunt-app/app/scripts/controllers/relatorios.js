@@ -14,6 +14,8 @@ angular.module('influuntApp')
       $scope.tipoAcao = tipoAcao;
       $scope.relatorio = {tipoRelatorio: 'PDF'};
 
+      var generateReport;
+
       /**
        * Recupera a lista de usuarios.
        */
@@ -34,39 +36,59 @@ angular.module('influuntApp')
           $scope.relatorio['change.eventTime_start'] = $scope.relatorio['change.eventTime_start'].format('DD/MM/YYYY HH:mm:ss');
         }
 
-        if (moment.isMoment($scope.relatorio['change.eventTime_start']) &&
-            $scope.relatorio['change.eventTime_start'].isValid()) {
+        if (moment.isMoment($scope.relatorio['change.eventTime_end']) &&
+            $scope.relatorio['change.eventTime_end'].isValid()) {
           $scope.relatorio['change.eventTime_end'] = $scope.relatorio['change.eventTime_end'].format('DD/MM/YYYY HH:mm:ss');
         }
 
-        Restangular.all('relatorios').withHttpConfig({ responseType: 'arraybuffer' }).customGET('auditoria', $scope.relatorio)
-        .then(function(res) {
-          if($scope.relatorio.tipoRelatorio === 'PDF') {
-            var blob = new Blob([res], {type: 'application/pdf'});
-            saveAs(blob, 'relatorio_auditoria.pdf');
-          } else if ($scope.relatorio.tipoRelatorio === 'CSV') {
-            var blob = new Blob([res], {type: 'text/csv;charset=utf-8'});
-            saveAs(blob, 'relatorio_auditoria.csv');
-          }
-        })
-        .finally(influuntBlockui.unblock);
+        return generateReport('relatorio_auditoria', 'auditoria', $scope.relatorio);
       };
 
       /**
       * Relatorio de Controladores por Status
       */
       $scope.gerarRelatorioControladoresPorStatus = function() {
-        Restangular.all('relatorios').withHttpConfig({ responseType: 'arraybuffer' }).customGET('controladores_status', $scope.relatorio)
-        .then(function(res) {
-          if($scope.relatorio.tipoRelatorio === 'PDF') {
-            var blob = new Blob([res], {type: 'application/pdf'});
-            saveAs(blob, 'relatorio_controladores_status.pdf');
-          } else if ($scope.relatorio.tipoRelatorio === 'CSV') {
-            var blob = new Blob([res], {type: 'text/csv;charset=utf-8'});
-            saveAs(blob, 'relatorio_controladores_status.csv');
-          }
-        })
-        .finally(influuntBlockui.unblock);
+        return generateReport('relatorio_controladores_status', 'controladores_status', $scope.relatorio);
+      };
+
+      /**
+      * Relatorio de Controladores por Falhas
+      */
+      $scope.gerarRelatorioControladoresPorFalhas = function() {
+        return generateReport('relatorio_controladores_falhas', 'controladores_falhas', $scope.relatorio);
+      };
+
+      /**
+      * Relatorio de Controladores com alteracao de entreverdes no periodo
+      */
+      $scope.gerarRelatorioControladoresEntreverdes = function() {
+        if (moment.isMoment($scope.relatorio.dataAtualizacao_start) &&
+            $scope.relatorio.dataAtualizacao_start.isValid()) {
+          $scope.relatorio.dataAtualizacao_start = $scope.relatorio.dataAtualizacao_start.format('DD/MM/YYYY HH:mm:ss');
+        }
+
+        if (moment.isMoment($scope.relatorio.dataAtualizacao_end) &&
+            $scope.relatorio.dataAtualizacao_end.isValid()) {
+          $scope.relatorio.dataAtualizacao_end = $scope.relatorio.dataAtualizacao_end.format('DD/MM/YYYY HH:mm:ss');
+        }
+
+        return generateReport('relatorio_controladores_entreverdes', 'controladores_entreverdes', $scope.relatorio);
+      };
+
+      generateReport = function(reportName, url, relatorio) {
+        return Restangular.all('relatorios').withHttpConfig({ responseType: 'arraybuffer' }).customGET(url, relatorio)
+          .then(function(res) {
+            var blob;
+            if(relatorio.tipoRelatorio === 'PDF') {
+              blob = new Blob([res], {type: 'application/pdf'});
+              saveAs(blob, reportName + '.pdf');
+            } else if (relatorio.tipoRelatorio === 'CSV') {
+              blob = new Blob([res], {type: 'text/csv;charset=utf-8'});
+              saveAs(blob, reportName + '.csv');
+            }
+          })
+          .finally(influuntBlockui.unblock);
+
       };
 
   }]);

@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2016-10-17T14:58:21 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4_Landscape" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0712d8f7-7d9b-4ed2-b7d9-a8f6ee6f053f">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Dataset1" uuid="98687bc1-3908-41fe-b782-bf2d98162bec">
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+	</subDataset>
+	<parameter name="logoPath" class="java.io.InputStream">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="userName" class="java.lang.String"/>
+	<parameter name="date_report" class="java.lang.String"/>
+	<parameter name="date" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="descricao" class="java.lang.String">
+		<fieldDescription><![CDATA[descricao]]></fieldDescription>
+	</field>
+	<field name="grupoSemaforico.descricao" class="java.lang.String">
+		<fieldDescription><![CDATA[grupoSemaforico.descricao]]></fieldDescription>
+	</field>
+	<field name="posicao" class="java.lang.Object">
+		<fieldDescription><![CDATA[posicao]]></fieldDescription>
+	</field>
+	<field name="dataAtualizacao" class="java.lang.Object">
+		<fieldDescription><![CDATA[dataAtualizacao]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch">
+			<property name="local_mesure_unitheight" value="pixel"/>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="147" splitType="Stretch">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<rectangle>
+				<reportElement x="0" y="80" width="555" height="66" uuid="48335dde-ce2f-4a96-af45-3b23de9c6f6c">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="138" y="110" width="138" height="36" forecolor="#000000" backcolor="#C0C0C0" uuid="4089b5e3-a0c7-4091-ad50-0a06232a69f1">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#E5E5E5"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#E5E5E5"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#E5E5E5"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#E5E5E5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Grupo Semafórico]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="276" y="110" width="138" height="36" backcolor="#C0C0C0" uuid="abb5dcc3-76a9-4315-84f8-bfd71e945bb4">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#E5E5E5"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#E5E5E5"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#E5E5E5"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#E5E5E5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Posição]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="414" y="110" width="140" height="36" backcolor="#C0C0C0" uuid="5e5af4bb-e892-4ea9-bd06-b703b137c2be">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#E5E5E5"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#E5E5E5"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#E5E5E5"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#E5E5E5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data Alteração]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="110" width="138" height="36" backcolor="#C0C0C0" uuid="ace77e8e-b7b8-423b-b068-c54a9986661f">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#E5E5E5"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#E5E5E5"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#E5E5E5"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#E5E5E5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descrição]]></text>
+			</staticText>
+			<image onErrorType="Blank">
+				<reportElement x="20" y="20" width="100" height="100" uuid="c9702d7f-bb47-4101-ba0f-d3cbd9bca022"/>
+				<imageExpression><![CDATA[$P{logoPath}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="138" y="20" width="416" height="30" uuid="1ece7ddf-9770-48d4-9a2e-d301380d2a0d">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Relatório Tabela Entreverdes alteradas no periodo]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="138" height="30" uuid="dcf37e3e-8ce1-4798-a5fe-e2d5829cd457">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#E5E5E5"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#E5E5E5"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#E5E5E5"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#E5E5E5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="276" y="0" width="138" height="30" uuid="1838b497-26b7-43e7-96a1-2e8a65ff3a7b">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineColor="#E5E5E5"/>
+					<leftPen lineWidth="1.0" lineColor="#E5E5E5"/>
+					<bottomPen lineWidth="1.0" lineColor="#E5E5E5"/>
+					<rightPen lineWidth="1.0" lineColor="#E5E5E5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{posicao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="414" y="0" width="140" height="30" uuid="88dcaadc-222b-482d-ad20-43e10544e68b">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitx" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineColor="#E5E5E5"/>
+					<leftPen lineWidth="1.0" lineColor="#E5E5E5"/>
+					<bottomPen lineWidth="1.0" lineColor="#E5E5E5"/>
+					<rightPen lineWidth="1.0" lineColor="#E5E5E5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{dataAtualizacao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Table_TH" mode="Opaque" x="138" y="0" width="138" height="30" backcolor="#FFFFFF" uuid="b607d7b4-7879-46b1-a096-19bde407d42c">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineColor="#E5E5E5"/>
+					<leftPen lineWidth="1.0" lineColor="#E5E5E5"/>
+					<bottomPen lineWidth="1.0" lineColor="#E5E5E5"/>
+					<rightPen lineWidth="1.0" lineColor="#E5E5E5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[($F{grupoSemaforico.descricao} != null && $F{grupoSemaforico.descricao} != "") ? $F{grupoSemaforico.descricao} : "-"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="474" y="20" width="30" height="21" uuid="c7b9ca0e-4163-4dd0-a5e0-d910a40fa2c9">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="435" y="20" width="40" height="21" uuid="919cdf53-5b9e-44bd-a91f-f66ac3ceef5d"/>
+				<text><![CDATA[Página:]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="504" y="20" width="50" height="20" uuid="d012f5f6-c9e0-487a-a111-ffc378af3d7e">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[" de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</summary>
+</jasperReport>
