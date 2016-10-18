@@ -14,14 +14,13 @@ angular.module('influuntApp')
             otherModelValue: '=influuntMatch'
         },
         link: function(scope, element, attributes, ngModel) {
+          ngModel.$validators.influuntMatch = function(modelValue) {
+            return modelValue === scope.otherModelValue;
+          };
 
-            ngModel.$validators.influuntMatch = function(modelValue) {
-                return modelValue === scope.otherModelValue;
-            };
-
-            scope.$watch('otherModelValue', function() {
-                ngModel.$validate();
-            });
+          scope.$watch('otherModelValue', function() {
+            ngModel.$validate();
+          });
         }
     };
   });

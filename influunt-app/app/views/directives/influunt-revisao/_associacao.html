@@ -4,13 +4,13 @@
     <p><strong>{{ 'controladores.revisao.estagio' | translate }}</strong></p>
   </div>
   <div class="col-lg-3 col-sm-3">
+    <p><strong>{{ 'controladores.associacaoDetectores.monitoramentoFalha' | translate }}</strong></p>
+  </div>
+  <div class="col-lg-3 col-sm-3">
     <p><strong>{{ 'controladores.revisao.ausenciaDeteccao' | translate }}</strong></p>
   </div>
   <div class="col-lg-3 col-sm-3">
     <p><strong>{{ 'controladores.revisao.ausenciaDeteccaoPermanente' | translate }}</strong></p>
-  </div>
-  <div class="col-lg-3 col-sm-3">
-    <p><strong>{{ 'controladores.associacaoDetectores.monitoramentoFalha' | translate }}</strong></p>
   </div>
 </div>
 <div class="col-sm-12 no-padding" data-ng-repeat="detector in dadosCurrentDetectores">
@@ -21,13 +21,13 @@
     <p class="view-group"><strong>E{{ detector.estagio.posicao }}</strong></p>
   </div>
   <div class="col-lg-3 col-sm-3">
+    <p data-ng-if="detector.monitorado"><i class="fa fa-check com-monitoramento" aria-hidden="true"></i></p>
+    <p data-ng-if="!detector.monitorado"><i class="fa fa-times sem-monitoramento" aria-hidden="true"></i></p>
+  </div>
+  <div class="col-lg-3 col-sm-3">
     <p>{{ detector.tempoAusenciaDeteccao }} min</p>
   </div>
   <div class="col-lg-3 col-sm-3">
     <p>{{ detector.tempoDeteccaoPermanente }} min</p>
-  </div>
-  <div class="col-lg-3 col-sm-3">
-    <p data-ng-if="detector.monitorado"><i class="fa fa-check com-monitoramento" aria-hidden="true"></i></p>
-    <p data-ng-if="!detector.monitorado"><i class="fa fa-times sem-monitoramento" aria-hidden="true"></i></p>
   </div>
 </div>

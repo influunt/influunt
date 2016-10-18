@@ -201,7 +201,6 @@ angular.module('influuntApp')
        *
        * @param      {<type>}  index   The index
        */
-
       $scope.selecionaAnel = function(index) {
         $scope.currentAnelIndex = index;
         $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
@@ -439,7 +438,7 @@ angular.module('influuntApp')
 
       $scope.copiar = function(controladorId, step) {
         step = step || 'app.wizard_controladores.dados_basicos';
-        return Restangular.one('controladores', controladorId).all("edit").customPOST()
+        return Restangular.one('controladores', controladorId).all('edit').customPOST()
           .then(function(res) {
             $state.go(step,{id: res.id});
           })
@@ -459,19 +458,6 @@ angular.module('influuntApp')
           .catch(function(err) {
             toast.clear();
             influuntAlert.alert('Controlador', err.data[0].message);
-          })
-          .finally(influuntBlockui.unblock);
-      };
-
-      $scope.timeline = function() {
-        var id = $state.params.id;
-        return Restangular.one('controladores', id).all("timeline").customGET()
-          .then(function(res) {
-            $scope.versoes = res;
-          })
-          .catch(function(err) {
-            toast.error($filter('translate')('geral.mensagens.default_erro'));
-            throw new Error(JSON.stringify(err));
           })
           .finally(influuntBlockui.unblock);
       };

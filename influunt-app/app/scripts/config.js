@@ -613,7 +613,7 @@ angular
           }
         })
 
-        .state('app.tabela_horarios', {
+        .state('app.tabelas_horarias', {
           url: '/tabela_horarios/:id',
           templateUrl: 'views/tabela_horarios/configuracao.html',
           controller: 'TabelaHorariosCtrl',
@@ -627,7 +627,7 @@ angular
           }
         })
 
-        .state('app.tabela_horarios_edit', {
+        .state('app.tabelas_horarias_edit', {
           url: '/tabela_horarios/:id/edit',
           templateUrl: 'views/tabela_horarios/configuracao.html',
           controller: 'TabelaHorariosCtrl',
