@@ -16,6 +16,7 @@ import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 
 /**
@@ -938,6 +939,44 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
         verificaGruposSemaforicos(52, new GrupoCheck(5,6000,16000,EstadoGrupoSemaforico.VERDE));
 
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(68)).getEstagio().getPosicao().intValue());
+    }
+
+    @Test
+    public void repeticaoDeEstagioModoIntermitente() {
+        Anel anel = getAnel(3);
+        Plano plano = getPlano(anel, 5);
+        gerenciadorDeEstagios = getGerenciadorDeEstagios(plano);
+
+        avancar(gerenciadorDeEstagios, 100);
+
+        plano.imprimirTabelaEntreVerde();
+
+        assertNull("Estagio atual", listaEstagios.get(inicioExecucao).getEstagio());
+        verificaGruposSemaforicos(0, new GrupoCheck(11,0,255000,EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
+        verificaGruposSemaforicos(0, new GrupoCheck(12,0,255000,EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
+        verificaGruposSemaforicos(0, new GrupoCheck(13,0,255000,EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
+        verificaGruposSemaforicos(0, new GrupoCheck(14,0,255000,EstadoGrupoSemaforico.DESLIGADO));
+        verificaGruposSemaforicos(0, new GrupoCheck(15,0,255000,EstadoGrupoSemaforico.DESLIGADO));
+        verificaGruposSemaforicos(0, new GrupoCheck(16,0,255000,EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
+    }
+
+    @Test
+    public void repeticaoDeEstagioModoApagado() {
+        Anel anel = getAnel(3);
+        Plano plano = getPlano(anel, 6);
+        gerenciadorDeEstagios = getGerenciadorDeEstagios(plano);
+
+        avancar(gerenciadorDeEstagios, 100);
+
+        plano.imprimirTabelaEntreVerde();
+
+        assertNull("Estagio atual", listaEstagios.get(inicioExecucao).getEstagio());
+        verificaGruposSemaforicos(0, new GrupoCheck(11,0,255000,EstadoGrupoSemaforico.DESLIGADO));
+        verificaGruposSemaforicos(0, new GrupoCheck(12,0,255000,EstadoGrupoSemaforico.DESLIGADO));
+        verificaGruposSemaforicos(0, new GrupoCheck(13,0,255000,EstadoGrupoSemaforico.DESLIGADO));
+        verificaGruposSemaforicos(0, new GrupoCheck(14,0,255000,EstadoGrupoSemaforico.DESLIGADO));
+        verificaGruposSemaforicos(0, new GrupoCheck(15,0,255000,EstadoGrupoSemaforico.DESLIGADO));
+        verificaGruposSemaforicos(0, new GrupoCheck(16,0,255000,EstadoGrupoSemaforico.DESLIGADO));
     }
 
     @NotNull
