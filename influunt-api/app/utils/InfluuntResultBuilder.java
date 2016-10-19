@@ -36,17 +36,6 @@ public class InfluuntResultBuilder {
                 case "agrupamentos":
                     dataJson = new ControladorCustomSerializer().getControladoresAgrupamentos((List<Controlador>) result.getResult());
                     break;
-                case "simulação":
-                    List<Controlador> controladores = result.getResult();
-                    Iterator<Controlador> it = controladores.iterator();
-                    while (it.hasNext()) {
-                        Controlador c = it.next();
-                        if (!c.isConfigurado()) {
-                            it.remove();
-                        }
-                    }
-                    dataJson = new ControladorCustomSerializer().getControladoresSimulacao(controladores);
-                    break;
                 default:
                     throw new RuntimeException("Serializer type not found: " + serializer);
             }
