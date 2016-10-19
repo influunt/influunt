@@ -111,7 +111,7 @@ public class VersaoControlador extends Model implements Serializable {
         return versoes;
     }
 
-    static void getElement(ArrayList<VersaoControlador> versoes, Controlador controlador) {
+    private static void getElement(ArrayList<VersaoControlador> versoes, Controlador controlador) {
         VersaoControlador versao = findByControlador(controlador);
         if (versao != null) {
             versoes.add(versao);

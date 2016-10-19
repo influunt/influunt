@@ -96,7 +96,7 @@ public class VersaoPlano extends Model implements Serializable {
         return VersaoPlano.find.where().eq("versao_plano_id", versaoAnterior.getId()).findUnique();
     }
 
-    static void getElement(ArrayList<VersaoPlano> versoes, VersaoPlano versaoPlano) {
+    private static void getElement(ArrayList<VersaoPlano> versoes, VersaoPlano versaoPlano) {
         if (versaoPlano != null) {
             VersaoPlano versao = findByVersaoAnterior(versaoPlano);
             if (versao != null) {

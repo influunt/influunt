@@ -1,9 +1,8 @@
 package reports;
 
 /**
- *
  * Classe utilizada para exibir os dados no relatório
- *
+ * <p>
  * Created by lesiopinheiro on 10/10/16.
  */
 public class ControladorStatusVO {

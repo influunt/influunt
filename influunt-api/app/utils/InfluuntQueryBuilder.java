@@ -3,14 +3,16 @@ package utils;
 import com.avaje.ebean.*;
 import models.Controlador;
 import models.ControladorFisico;
-import models.StatusVersao;
 import models.VersaoControlador;
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 import org.jongo.MongoCursor;
 import security.Auditoria;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.BiConsumer;
 
 import static java.lang.Integer.parseInt;
@@ -122,11 +124,9 @@ public class InfluuntQueryBuilder {
         if (!searchFields.isEmpty()) {
             ExpressionList predicates = query.where();
 
-            if (klass.equals(Controlador.class)) {
-                if (!searchFields.containsKey("id")) {
-                    // TODO: fazer somente 1 query para buscar a última versão dos controladores. Está fazendo duas.
-                    predicates.add(Expr.in("id", getControladorIds()));
-                }
+            if (klass.equals(Controlador.class) && !searchFields.containsKey("id")) {
+                // TODO: fazer somente 1 query para buscar a última versão dos controladores. Está fazendo duas.
+                predicates.add(Expr.in("id", getControladorIds()));
             }
 
             ArrayList<SearchFieldDefinition> searchFieldDefinitions = new ArrayList<SearchFieldDefinition>();

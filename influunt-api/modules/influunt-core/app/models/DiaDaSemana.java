@@ -34,7 +34,7 @@ public enum DiaDaSemana {
     }
 
     public boolean equalsName(String otherName) {
-        return otherName != null && name.equals(otherName);
+        return otherName != null && otherName.equals(name);
     }
 
     @Override

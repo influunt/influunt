@@ -9,7 +9,6 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.templateresolver.FileTemplateResolver;
 import play.Application;
 import play.Configuration;
-import play.Logger;
 import play.libs.mailer.Email;
 import play.libs.mailer.MailerClient;
 
