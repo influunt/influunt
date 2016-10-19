@@ -43,16 +43,6 @@ public class InfluuntUtils {
         return null;
     }
 
-    public static String underscoreLast(String input) {
-        String[] splitted = input.split("\\.");
-        if (splitted.length > 1) {
-            splitted[splitted.length - 1] = underscore(splitted[splitted.length - 1]);
-            return String.join(".", splitted);
-        } else {
-            return underscore(input);
-        }
-    }
-
     public static String underscore(String input) {
         return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, input);
     }
