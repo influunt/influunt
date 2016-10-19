@@ -27,8 +27,23 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
       { value: 8 }
     ];
 
-    $scope.parametrosSimulacao = { velocidade: 1, disparoDetectores: [{}], imposicaoPlanos: [{}], inicioControlador: moment("2016-10-19 00:00:00"), 
-                                  inicioSimulacao: moment("2016-10-19 00:00:00"), fimSimulacao: moment("2016-10-19 00:00:00").add(5,"minutes") };
+    $scope.parametrosSimulacao = { velocidade: 1, disparoDetectores: [{}], imposicaoPlanos: [{}], inicioControlador: moment(),
+                                  inicioSimulacao: moment(), fimSimulacao: moment().add(5,"minutes") };
+
+    var now = new Date();
+    $scope.inicioControlador = { time: new Date(0, 0, 0, now.getHours(), now.getMinutes(), now.getSeconds()), date: new Date(new Date().setHours(0,0,0,0)) };
+    $scope.inicioSimulacao = { time: new Date(0, 0, 0, now.getHours(), now.getMinutes(), now.getSeconds()), date: new Date(new Date().setHours(0,0,0,0)) };
+    $scope.fimSimulacao = { time: new Date(0, 0, 0, now.getHours(), now.getMinutes() + 5, now.getSeconds()), date: new Date(new Date().setHours(0,0,0,0)) };
+    $scope.disparosDetectores = { disparos: [] };
+    $scope.imposicoesPlanos = { imposicoes: [] };
+
+    $scope.horas = HorariosService.getHoras();
+    $scope.minutos = HorariosService.getMinutos();
+    $scope.segundos = HorariosService.getSegundos();
+
+    $scope.dateOptions = {
+      showWeeks: false
+    };
   };
 
   loadControladores = function() {
@@ -100,6 +115,57 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
       if (imposicao && imposicao.plano && imposicao.disparo) {
         $scope.parametrosSimulacao.imposicaoPlanos.push({});
       }
+    }
+  }, true);
+
+  $scope.$watch('inicioControlador', function(inicioControlador) {
+    if (inicioControlador && inicioControlador.date && inicioControlador.time) {
+      var date = moment(inicioControlador.date),
+          time = moment(inicioControlador.time);
+      var dateStr = '' + date.year() + '-' + _.padStart(date.month()+1, 2, 0) + '-' + _.padStart(date.date(), 2, 0) + ' ' + _.padStart(time.hour(), 2, 0) + ':' + _.padStart(time.minute(), 2, 0) + ':' + _.padStart(time.second(), 2, 0);
+      $scope.parametrosSimulacao.inicioControlador = moment(dateStr);
+    }
+  }, true);
+
+  $scope.$watch('inicioSimulacao', function(inicioSimulacao) {
+    if (inicioSimulacao && inicioSimulacao.date && inicioSimulacao.time) {
+      var date = moment(inicioSimulacao.date),
+          time = moment(inicioSimulacao.time);
+      var dateStr = '' + date.year() + '-' + _.padStart(date.month()+1, 2, 0) + '-' + _.padStart(date.date(), 2, 0) + ' ' + _.padStart(time.hour(), 2, 0) + ':' + _.padStart(time.minute(), 2, 0) + ':' + _.padStart(time.second(), 2, 0);
+      $scope.parametrosSimulacao.inicioSimulacao = moment(dateStr);
+    }
+  }, true);
+
+  $scope.$watch('fimSimulacao', function(fimSimulacao) {
+    if (fimSimulacao && fimSimulacao.date && fimSimulacao.time) {
+      var date = moment(fimSimulacao.date),
+          time = moment(fimSimulacao.time);
+      var dateStr = '' + date.year() + '-' + _.padStart(date.month()+1, 2, 0) + '-' + _.padStart(date.date(), 2, 0) + ' ' + _.padStart(time.hour(), 2, 0) + ':' + _.padStart(time.minute(), 2, 0) + ':' + _.padStart(time.second(), 2, 0);
+      $scope.parametrosSimulacao.fimSimulacao = moment(dateStr);
+    }
+  }, true);
+
+  $scope.$watch('disparosDetectores.disparos', function(disparos) {
+    if (disparos) {
+      _.forEach($scope.disparosDetectores.disparos, function(disparo, index) {
+        if (disparo.date && disparo.hora && disparo.minuto && disparo.segundo) {
+          var date = moment(disparo.date);
+          var dateStr = '' + date.year() + '-' + _.padStart(date.month()+1, 2, 0) + '-' + _.padStart(date.date(), 2, 0) + ' ' + _.padStart(disparo.hora, 2, 0) + ':' + _.padStart(disparo.minuto, 2, 0) + ':' + _.padStart(disparo.segundo, 2, 0);
+          $scope.parametrosSimulacao.disparoDetectores[index].disparo = moment(dateStr);
+        }
+      });
+    }
+  }, true);
+
+  $scope.$watch('imposicoesPlanos.imposicoes', function(imposicoes) {
+    if (imposicoes) {
+      _.forEach($scope.imposicoesPlanos.imposicoes, function(imposicao, index) {
+        if (imposicao.date && imposicao.hora && imposicao.minuto && imposicao.segundo) {
+          var date = moment(imposicao.date);
+          var dateStr = '' + date.year() + '-' + _.padStart(date.month()+1, 2, 0) + '-' + _.padStart(date.date(), 2, 0) + ' ' + _.padStart(imposicao.hora, 2, 0) + ':' + _.padStart(imposicao.minuto, 2, 0) + ':' + _.padStart(imposicao.segundo, 2, 0);
+          $scope.parametrosSimulacao.imposicaoPlanos[index].disparo = moment(dateStr);
+        }
+      });
     }
   }, true);
 
