@@ -7,8 +7,8 @@
  * # influuntKnob
  */
 angular.module('influuntApp')
-  .directive('influuntKnob', [
-    function () {
+  .directive('influuntKnob', ['influuntAlert', '$filter',
+    function (influuntAlert, $filter) {
 
       var knob;
 
@@ -43,26 +43,33 @@ angular.module('influuntApp')
             tooltipFormat: showLabel
           });
 
-          knob.on('change', function(ev) {
-            var value = ev.value;
-            var oldValue = scope.ngModel;
-
-            if (angular.isDefined(value)) {
-              scope.ngModel = ev.value;
-              scope.$apply();
-
-              if (angular.isFunction(scope.onChange())){
-                scope.onChange()(oldValue, value);
-              }
-            }
-          });
-
-          scope.percentual = function(){
+          scope.percentual = function() {
             if(scope.ngModel && scope.maxPercentual > 0){
               return Math.round((scope.ngModel*100)/scope.maxPercentual) || 0;
             }
             return 0;
           };
+
+          knob.on('change', function(ev) {
+            var value = ev.value;
+            var oldValue = scope.ngModel;
+
+            scope.ngModel = ev.value;
+            scope.$apply();
+            return angular.isFunction(scope.onChange()) && scope.onChange()(oldValue, value);
+          });
+
+          knob.on('outOfBounds', _.debounce(function() {
+            var texto;
+
+            if (scope.ngModel === scope.max) {
+              texto = $filter('translate')('directives.influuntKnob.alertaLimiteMaximo');
+            } else {
+              texto = $filter('translate')('directives.influuntKnob.alertaLimiteMinimo');
+            }
+
+            influuntAlert.alert($filter('translate')('geral.atencao'), texto);
+          }, 300));
 
           scope.$watch('ngModel', function(value) {
             value = value || scope.min;
@@ -70,9 +77,9 @@ angular.module('influuntApp')
           });
 
           scope.$watch('readOnly', function(value) {
-            if(value){
+            if (value) {
               $(element).find('.knob-shape').roundSlider('disable');
-            }else{
+            } else {
               $(element).find('.knob-shape').roundSlider('enable');
             }
           });
