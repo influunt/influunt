@@ -605,6 +605,10 @@
     },
     "influuntDropzone": {
       "errorMessage": "Não foi possível adicionar este arquivo. Exclua-o e tente novamente."
+    },
+    "influuntKnob": {
+      "alertaLimiteMaximo": "O valor digitado é maior que o limite máximo.",
+      "alertaLimiteMinimo": "O valor digitado é menor que o limite mínimo."
     }
   },
   "agrupamentos": {

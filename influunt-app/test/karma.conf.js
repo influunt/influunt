@@ -78,7 +78,7 @@ module.exports = function(config) {
       'app/plugins/inspinia.js',
       'app/plugins/iCheck/icheck.js',
       'app/plugins/dropzone/dropzone.js',
-      'app/plugins/roundSlider-1.3/roundslider.min.js',
+      'app/plugins/roundSlider-1.3/roundslider.js',
       'app/plugins/uiTabs/ui.tabs.overflowResize.js',
       'app/plugins/uiTabs/lib/ui.tabs.addTab.js',
       'app/plugins/uiTabs/lib/ui.tabs.closable.js',
