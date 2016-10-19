@@ -32,3 +32,7 @@ after_success:
   # - "[[ $TRAVIS_BRANCH = 'staging' ]] && cd influunt-app && cap staging deploy"
 notifications:
   slack: influunt:dcSLFuPoNSbWFijZ4jOJFVeE
+branches:
+  only:
+    - staging
+    - master
