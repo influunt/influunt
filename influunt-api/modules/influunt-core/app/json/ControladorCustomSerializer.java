@@ -297,9 +297,6 @@ public class ControladorCustomSerializer {
         root.put("dataCriacao", InfluuntDateTimeSerializer.parse(controlador.getDataCriacao()));
         root.put("dataAtualizacao", InfluuntDateTimeSerializer.parse(controlador.getDataAtualizacao()));
         root.put("CLC", controlador.getCLC());
-//        if (controlador.getStatusControlador() != null) {
-//            root.put("statusControlador", controlador.getStatusControlador().toString());
-//        }
         if (controlador.getVersaoControlador().getStatusVersao() != null) {
             root.put("statusControlador", controlador.getVersaoControlador().getStatusVersao().toString());
         }
@@ -426,9 +423,6 @@ public class ControladorCustomSerializer {
         root.put("deteccaoPermanenteMax", rangeUtils.TEMPO_DETECCAO_PERMANENTE.getMax().toString());
 
 
-//        if (controlador.getStatusControlador() != null) {
-//            root.put("statusControlador", controlador.getStatusControlador().toString());
-//        }
         if (controlador.getVersaoControlador() != null) {
             root.put("statusControlador", controlador.getVersaoControlador().getStatusVersao().toString());
             root.put("statusControladorReal", controlador.getStatusControladorReal());
@@ -477,9 +471,6 @@ public class ControladorCustomSerializer {
 
         root.put("CLC", controlador.getCLC());
 
-//        if (controlador.getStatusControlador() != null) {
-//            root.put("statusControlador", controlador.getStatusControlador().toString());
-//        }
         if (controlador.getVersaoControlador() != null) {
             root.put("statusControlador", controlador.getVersaoControlador().getStatusVersao().toString());
         }

@@ -40,7 +40,6 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         setDadosTabelaEntreVerdes();
         setDadosAssociacaoDetectores();
 
-//        controlador.setStatusControlador(StatusControlador.CONFIGURADO);
         controlador.setStatusVersao(StatusVersao.CONFIGURADO);
 
         controlador.save();

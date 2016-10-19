@@ -57,8 +57,6 @@ public class ControladorTestUtil {
         controlador.setNomeEndereco("Av Paulista com Bela Cintra");
 
         ControladorFisico controladorFisico = new ControladorFisico();
-//        controladorFisico.addVersaoControlador(versaoControlador);
-//        controlador.setVersaoControlador(versaoControlador);
         controladorFisico.setArea(controlador.getArea());
         controlador.save();
         controladorFisico.save();
@@ -476,7 +474,6 @@ public class ControladorTestUtil {
         evento3.setHorario(LocalTime.parse("08:00:00"));
         evento3.setPosicaoPlano(1);
 
-//        controlador.getVersaoControlador().setStatusVersao(StatusVersao.CONFIGURADO);
         controlador.setStatusVersao(StatusVersao.CONFIGURADO);
 
         return controlador;

@@ -41,7 +41,6 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         usuario.save();
 
         Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
-//        controlador.setStatusControlador(StatusControlador.ATIVO);
         controlador.update();
 
         VersaoControlador versaoControlador = controlador.getVersaoControlador();
@@ -82,7 +81,6 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
     @Test
     public void deveriaClonar() {
         Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
-//        controlador.setStatusControlador(StatusControlador.ATIVO);
         controlador.update();
 
         VersaoControlador versaoControlador = controlador.getVersaoControlador();
@@ -277,7 +275,6 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         Controlador controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
 
         controlador.refresh();
-//        assertEquals("StatusDevice do Controlador", StatusVersao.ATIVO, controlador.getVersaoControlador().getStatusVersao());
         assertEquals("Status da Versao Controlador antiga", StatusVersao.ARQUIVADO, controlador.getVersaoControlador().getStatusVersao());
 
         assertNotNull("ID Controldor Clonado", controladorClonado.getId());
@@ -333,8 +330,6 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
         controlador.refresh();
         assertEquals("StatusDevice do Controlador", controlador.getVersaoControlador().getStatusVersao(), StatusVersao.CONFIGURADO);
-//        assertEquals("StatusDevice do Controlador", controlador.getVersaoControlador().getStatusVersao(), StatusVersao.CONFIGURADO);
-
     }
 
     @Test
@@ -344,7 +339,6 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         int totalGruposSemaforicosPlanos = 4;
 
         Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
-//        controlador.setStatusControlador(StatusControlador.ATIVO);
         controlador.update();
 
         VersaoControlador versaoControlador = controlador.getVersaoControlador();
@@ -403,7 +397,6 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
     @Test
     public void deveriaClonar5VersoesPlano() {
         Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
-//        controlador.setStatusControlador(StatusControlador.ATIVO);
         controlador.update();
 
         VersaoControlador versaoControlador = controlador.getVersaoControlador();
@@ -437,13 +430,11 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
             controladorClonado.ativar();
         }
-
     }
 
     @Test
     public void deveriaClonarTabelaHorariaEditarTabelaHoraria() {
         Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
-//        controlador.setStatusControlador(StatusControlador.ATIVO);
         controlador.update();
 
         VersaoControlador versaoControlador = controlador.getVersaoControlador();
@@ -487,7 +478,6 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
                 .uri(routes.TabelaHorariosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
 
         postResult = route(postRequest);
-        json = Json.parse(Helpers.contentAsString(postResult));
         assertEquals(OK, postResult.status());
     }
 
@@ -541,7 +531,6 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         int totalGruposSemaforicosPlanos = 4;
 
         Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
-//        controlador.setStatusControlador(StatusControlador.ATIVO);
         controlador.update();
 
         VersaoControlador versaoControlador = controlador.getVersaoControlador();
@@ -610,7 +599,6 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         Controlador controlador = controladorTestUtils.getControladorAgrupamentos();
         controlador.update();
 
-//        controlador.getVersaoControlador().save();
 
         // primeira ativação
         Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")

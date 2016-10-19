@@ -67,7 +67,6 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
         controlador.save();
         startClient();
 
-//        startClient();
 
         await().until(() -> onPublishFutureList.size() > 4);
 
@@ -98,8 +97,6 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
 
     @Test
     public void naoExisteConfiguracao() throws InterruptedException, ExecutionException, TimeoutException {
-//        controlador.setStatusControlador(StatusControlador.EM_CONFIGURACAO);
-//        controlador.save();
         VersaoControlador versaoControlador = controlador.getVersaoControlador();
         versaoControlador.setStatusVersao(StatusVersao.EM_CONFIGURACAO);
         versaoControlador.update();

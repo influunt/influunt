@@ -39,7 +39,6 @@ public class ControladorUtil {
         /*
          * DADOS BASICOS
          */
-//        controladorClone.setStatusControlador(StatusControlador.EM_EDICAO);
         controlador.setStatusVersao(StatusVersao.EDITANDO);
         controladorClone.setArea(controlador.getArea());
         controladorClone.setModelo(controlador.getModelo());
