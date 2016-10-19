@@ -11,8 +11,10 @@ angular.module('influuntApp')
   .controller('TabelaHorariosCtrl', ['$scope', '$state', '$timeout', 'Restangular', '$filter', 'toast',
                            'influuntAlert', 'influuntBlockui', 'geraDadosDiagramaIntervalo',
                            'handleValidations', 'TabelaHorariaService', 'HorariosService',
+                           'planoService',
     function ($scope, $state, $timeout, Restangular, $filter, toast,
-              influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo, handleValidations, TabelaHorariaService, HorariosService) {
+              influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo, handleValidations, TabelaHorariaService, HorariosService,
+              planoService) {
 
       var adicionaTabelaHorario, adicionaEvento, atualizaPlanos, atualizaDiagramaIntervalo, atualizaGruposSemaforicos, atualizaEventos,
       atualizaEventosNormais, atualizaPosicaoEventosDoTipo, atualizaPosicaoEventos, atualizaQuantidadeEventos, removerEventoNoCliente,
@@ -229,29 +231,52 @@ angular.module('influuntApp')
       $scope.visualizarPlano = function(evento){
         $scope.selecionaEvento(evento);
         $scope.selecionaAnel(0);
-        $('#modalDiagramaIntervalos').modal('show');
-
-        return $scope.dadosDiagrama;
+        if ($scope.plano.modoOperacao === 'ATUADO' || $scope.plano.modoOperacao === 'MANUAL') {
+          influuntAlert.alert(
+            $filter('translate')('planos.modoOperacaoSemDiagrama.tituloAlert'),
+            $filter('translate')('planos.modoOperacaoSemDiagrama.textoAlert')
+          );
+        } else {
+          $('#modalDiagramaIntervalos').modal('show');
+          return $scope.dadosDiagrama;
+        }
       };
 
-      atualizaDiagramaIntervalo = function (){
+
+      atualizaDiagramaIntervalo = function () {
         var posicaoPlano = parseInt($scope.currentEvento.posicaoPlano);
-        var plano = _.find($scope.currentPlanos, {posicao: posicaoPlano});
-        if(plano){
-          $scope.currentPlano = plano;
-          $scope.plano = geraDadosDiagramaIntervalo.gerar(
-            plano, $scope.currentAnel, $scope.currentGruposSemaforicos, $scope.objeto
+        $scope.plano = _.find($scope.currentPlanos, {posicao: posicaoPlano});
+        if ($scope.plano) {
+          var estagiosPlanos = planoService.atualizaEstagiosPlanos($scope.objeto, $scope.plano);
+          var valoresMinimos = planoService.montaTabelaValoresMinimos($scope.objeto);
+
+          $scope.dadosDiagrama = planoService.atualizaDiagramaIntervalos(
+            $scope.objeto, $scope.currentAnel, $scope.currentGruposSemaforicos,
+            estagiosPlanos, $scope.plano, valoresMinimos
           );
-          var diagramaBuilder = new influunt.components.DiagramaIntervalos($scope.plano, $scope.valoresMinimos);
-          var result = diagramaBuilder.calcula();
-          _.each(result.gruposSemaforicos, function(g) {
-            g.ativo = true;
-          });
-          $scope.dadosDiagrama = result;
-        }else{
+        } else {
           $scope.dadosDiagrama = {erros: [$filter('translate')('diagrama_intervalo.erros.nao_existe_plano', {NUMERO: posicaoPlano})]};
         }
       };
+
+      // atualizaDiagramaIntervalo = function (){
+      //   var posicaoPlano = parseInt($scope.currentEvento.posicaoPlano);
+      //   var plano = _.find($scope.currentPlanos, {posicao: posicaoPlano});
+      //   if(plano){
+      //     $scope.currentPlano = plano;
+      //     $scope.plano = geraDadosDiagramaIntervalo.gerar(
+      //       plano, $scope.currentAnel, $scope.currentGruposSemaforicos, $scope.objeto
+      //     );
+      //     var diagramaBuilder = new influunt.components.DiagramaIntervalos($scope.plano, $scope.valoresMinimos);
+      //     var result = diagramaBuilder.calcula();
+      //     _.each(result.gruposSemaforicos, function(g) {
+      //       g.ativo = true;
+      //     });
+      //     $scope.dadosDiagrama = result;
+      //   }else{
+      //     $scope.dadosDiagrama = {erros: [$filter('translate')('diagrama_intervalo.erros.nao_existe_plano', {NUMERO: posicaoPlano})]};
+      //   }
+      // };
 
       adicionaTabelaHorario = function(controlador) {
         var tabelaHoraria = {
