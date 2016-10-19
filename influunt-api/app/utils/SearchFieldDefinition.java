@@ -16,6 +16,8 @@ public class SearchFieldDefinition {
 
     public static final String END = "end";
 
+    public static final String IN = "in";
+
     private String fieldName;
 
     private String fieldOperator;

@@ -268,7 +268,7 @@ public class Anel extends Model implements Cloneable, Serializable {
     @Transient
     public VersaoPlano getVersaoPlanoEmEdicao() {
         if (versaoPlanoEdicao == null) {
-            if (getVersoesPlanos().isEmpty() || getVersoesPlanos() == null) {
+            if (getVersoesPlanos() == null || getVersoesPlanos().isEmpty()) {
                 VersaoPlano versaoPlano = VersaoPlano.find.fetch("planos").where()
                         .and(Expr.eq("anel_id", this.id.toString()), Expr.eq("status_versao", StatusVersao.EDITANDO)).findUnique();
                 this.versaoPlanoEdicao = versaoPlano;

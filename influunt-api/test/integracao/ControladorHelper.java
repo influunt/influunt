@@ -40,7 +40,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         setDadosTabelaEntreVerdes();
         setDadosAssociacaoDetectores();
 
-        controlador.setStatusControlador(StatusControlador.CONFIGURADO);
+        controlador.setStatusVersao(StatusVersao.CONFIGURADO);
 
         controlador.save();
 
@@ -98,13 +98,13 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
 
         controlador.setEndereco(enderecoPaulista);
         ControladorFisico controladorFisico = new ControladorFisico();
-        VersaoControlador versaoControlador = new VersaoControlador(controlador, controladorFisico, getUsuario());
-        controladorFisico.addVersaoControlador(versaoControlador);
         controladorFisico.setArea(controlador.getArea());
-        controlador.setVersaoControlador(versaoControlador);
         controlador.save();
         controladorFisico.save();
-
+        VersaoControlador versaoControlador = new VersaoControlador(controlador, controladorFisico, getUsuario());
+        controladorFisico.addVersaoControlador(versaoControlador);
+        controlador.setVersaoControlador(versaoControlador);
+        versaoControlador.save();
     }
 
     private Anel getAnel(Integer posicao) {

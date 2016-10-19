@@ -192,7 +192,7 @@ public class ControladorDadosBasicosTest extends ControladorTest {
     public void testStatusControlador() {
         Controlador controlador = getControladorDadosBasicos();
         controlador.save();
-        assertEquals(StatusControlador.EM_CONFIGURACAO, Controlador.find.byId(controlador.getId()).getStatusControlador());
+        assertEquals(StatusVersao.EM_CONFIGURACAO, Controlador.find.byId(controlador.getId()).getVersaoControlador().getStatusVersao());
     }
 
     @Test
