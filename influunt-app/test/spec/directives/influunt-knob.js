@@ -81,7 +81,7 @@ describe('Directive: influuntKnob', function () {
       setComponentsValue(element, 142);
       scope.$apply();
     }));
-    beforeEach(function(done) {setTimeout(done, 301);});
+    beforeEach(function(done) {setTimeout(done, 500);});
 
     it('Se o valor setado para o knob for maior que o limite informado, o usuário deverá ser alertado', function() {
       expect(influuntAlert.alert).toHaveBeenCalled();
@@ -97,7 +97,7 @@ describe('Directive: influuntKnob', function () {
       setComponentsValue(element, -42);
       scope.$apply();
     }));
-    beforeEach(function(done) {setTimeout(done, 301);});
+    beforeEach(function(done) {setTimeout(done, 500);});
 
     it('Se o valor setado para o knob for menor que o limite informado, o usuário deverá ser alertado', function() {
       expect(influuntAlert.alert).toHaveBeenCalled();
