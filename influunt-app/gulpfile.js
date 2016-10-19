@@ -90,7 +90,7 @@ var paths = {
     yeoman.app + '/plugins/inspinia.js',
     yeoman.app + '/plugins/iCheck/icheck.js',
     yeoman.app + '/plugins/dropzone/dropzone.js',
-    yeoman.app + '/plugins/roundSlider-1.3/roundslider.min.js',
+    yeoman.app + '/plugins/roundSlider-1.3/roundslider.js',
     yeoman.app + '/plugins/uiTabs/ui.tabs.overflowResize.js',
     yeoman.app + '/plugins/uiTabs/lib/ui.tabs.addTab.js',
     yeoman.app + '/plugins/uiTabs/lib/ui.tabs.closable.js',
