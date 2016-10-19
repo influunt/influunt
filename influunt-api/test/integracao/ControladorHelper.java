@@ -202,11 +202,11 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
 
         anel = getAnel(2);
 
-        criaGrupoSemaforico(anel, TipoGrupoSemaforico.VEICULAR, 6);
-        criaGrupoSemaforico(anel, TipoGrupoSemaforico.VEICULAR, 7);
-        criaGrupoSemaforico(anel, TipoGrupoSemaforico.PEDESTRE, 8);
-        criaGrupoSemaforico(anel, TipoGrupoSemaforico.PEDESTRE, 9);
         criaGrupoSemaforico(anel, TipoGrupoSemaforico.PEDESTRE, 10);
+        criaGrupoSemaforico(anel, TipoGrupoSemaforico.PEDESTRE, 9);
+        criaGrupoSemaforico(anel, TipoGrupoSemaforico.PEDESTRE, 8);
+        criaGrupoSemaforico(anel, TipoGrupoSemaforico.VEICULAR, 7);
+        criaGrupoSemaforico(anel, TipoGrupoSemaforico.VEICULAR, 6);
 
         anel = getAnel(3);
 
@@ -314,9 +314,9 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
 
         anel = getAnel(2);
 
+        criarAssociacaoEstagioGrupoSemaforico(anel, 1, 10);
         estagioGrupoSemaforico = criarAssociacaoEstagioGrupoSemaforico(anel, 1, 6);
         estagioGrupoSemaforico.getEstagio().setTempoMaximoPermanenciaAtivado(false);
-        criarAssociacaoEstagioGrupoSemaforico(anel, 1, 10);
 
         criarAssociacaoEstagioGrupoSemaforico(anel, 2, 7);
         criarAssociacaoEstagioGrupoSemaforico(anel, 2, 9);
@@ -601,6 +601,12 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
 
         plano = criarPlano(anel, 7, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 58);
         criarEstagiosPlanos(anel, plano, new int[]{1, 2, 3}, new int[]{10, 12, 14});
+
+        plano = criarPlano(anel, 10, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 58);
+        criarEstagioPlano(anel, plano, 1, 1, new int[]{15}, false);
+        criarEstagioPlano(anel, plano, 2, 2, new int[]{4}, false);
+        criarEstagioPlano(anel, plano, 2, 3, new int[]{4}, true);
+        criarEstagioPlano(anel, plano, 3, 4, new int[]{20}, false);
 
         anel = getAnel(2);
         criaVersaoPlanos(anel);
