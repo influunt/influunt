@@ -602,11 +602,11 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         plano = criarPlano(anel, 7, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 58);
         criarEstagiosPlanos(anel, plano, new int[]{1, 2, 3}, new int[]{10, 12, 14});
 
-        plano = criarPlano(anel, 10, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 58);
-        criarEstagioPlano(anel, plano, 1, 1, new int[]{15}, false);
-        criarEstagioPlano(anel, plano, 2, 2, new int[]{4}, false);
-        criarEstagioPlano(anel, plano, 2, 3, new int[]{4}, true);
-        criarEstagioPlano(anel, plano, 3, 4, new int[]{20}, false);
+        plano = criarPlano(anel, 10, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 65);
+        criarEstagioPlano(anel, plano, 1, 1, 15, false);
+        criarEstagioPlano(anel, plano, 2, 2, 4, false);
+        criarEstagioPlano(anel, plano, 2, 3, 4, true);
+        criarEstagioPlano(anel, plano, 3, 4, 20, false);
 
         anel = getAnel(2);
         criaVersaoPlanos(anel);
@@ -712,12 +712,26 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
             estagioPlano.setTempoVerdeMaximo(tempos[2]);
             estagioPlano.setTempoExtensaoVerde(tempos[3] / 10.0);
         } else {
-            estagioPlano.setTempoVerde(tempos[0]);
+            estagioPlano.setTempoVerdeMinimo(tempos[0]);
+            estagioPlano.setTempoVerdeIntermediario(tempos[0]);
+            estagioPlano.setTempoVerdeMaximo(tempos[0]);
+            estagioPlano.setTempoExtensaoVerde(1.0);
         }
 
         estagioPlano.setDispensavel(dispensavel);
         plano.addEstagios(estagioPlano);
     }
+
+    public void criarEstagioPlano(Anel anel, Plano plano, int posicaoEstagio, int posicao, int tempo, boolean dispensavel) {
+        EstagioPlano estagioPlano = new EstagioPlano();
+        estagioPlano.setPosicao(posicao);
+        estagioPlano.setPlano(plano);
+        estagioPlano.setEstagio(anel.findEstagioByPosicao(posicaoEstagio));
+        estagioPlano.setTempoVerde(tempo);
+        estagioPlano.setDispensavel(dispensavel);
+        plano.addEstagios(estagioPlano);
+    }
+
 
     private Detector criarDetector(Anel anel, TipoDetector tipo, Integer posicao, Boolean monitorado) {
         Detector detector = new Detector();

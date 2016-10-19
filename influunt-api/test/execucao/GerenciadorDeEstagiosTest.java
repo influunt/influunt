@@ -534,6 +534,7 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector));
         avancar(gerenciadorDeEstagios, 164);
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector));
+//TODO:Tratar eventos iguais e simuntaneos
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector));
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector2));
         avancar(gerenciadorDeEstagios, 500);
@@ -1079,6 +1080,7 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
     public void repeticaoDeEstagioModoIntermitente() {
         Anel anel = getAnel(3);
         Plano plano = getPlano(anel, 5);
+
         gerenciadorDeEstagios = getGerenciadorDeEstagios(3, plano);
 
         avancar(gerenciadorDeEstagios, 300);
@@ -1113,6 +1115,7 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
     public void repeticaoDeEstagioModoIntermitenteComDemandaPrioritaria() {
         Anel anel = getAnel(3);
         Plano plano = getPlano(anel, 5);
+
         gerenciadorDeEstagios = getGerenciadorDeEstagios(3, plano);
         Detector detector = getDetector(anel, 4);
 

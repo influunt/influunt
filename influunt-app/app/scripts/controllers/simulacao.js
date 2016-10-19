@@ -27,8 +27,8 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
       { value: 8 }
     ];
 
-    $scope.parametrosSimulacao = { velocidade: 1, disparoDetectores: [{}], imposicaoPlanos: [{}], inicioControlador: moment(), 
-                                  inicioSimulacao: moment(), fimSimulacao: moment().add(5,"minutes") };
+    $scope.parametrosSimulacao = { velocidade: 1, disparoDetectores: [{}], imposicaoPlanos: [{}], inicioControlador: moment("2016-10-19 00:00:00"), 
+                                  inicioSimulacao: moment("2016-10-19 00:00:00"), fimSimulacao: moment("2016-10-19 00:00:00").add(5,"minutes") };
   };
 
   loadControladores = function() {

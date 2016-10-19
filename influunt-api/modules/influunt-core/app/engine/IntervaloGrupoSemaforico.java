@@ -11,10 +11,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.asynchttpclient.ws.WebSocketUtils.getKey;
+
 public class IntervaloGrupoSemaforico {
 
 
     private final IntervaloEstagio entreverde;
+
+    private final IntervaloEstagio verde;
 
     private final long duracao;
 
@@ -22,7 +26,6 @@ public class IntervaloGrupoSemaforico {
 
     private final EstagioPlano estagioPlanoAnterior;
 
-    private final IntervaloEstagio verde;
 
     private final long duracaoEntreverde;
 
@@ -45,7 +48,6 @@ public class IntervaloGrupoSemaforico {
         } else {
             loadEstados();
         }
-        System.out.println(estados);
     }
 
     private void loadEstados() {
@@ -183,14 +185,6 @@ public class IntervaloGrupoSemaforico {
         return estados;
     }
 
-    public List<EstadoGrupoSemaforico> getEstadoGrupoSemaforicos(long instante) {
-        return estados.keySet()
-                .stream()
-                .sorted()
-                .map(i -> estados.get(i).get(instante))
-                .collect(Collectors.toList());
-    }
-
     public String toJson(DateTime timeStamp) {
         StringBuffer sb = new StringBuffer("{\"w\":");
         sb.append(duracao);
@@ -221,10 +215,37 @@ public class IntervaloGrupoSemaforico {
             gruposBuffer.add(sbGrupo.toString());
         });
         sb.append(gruposBuffer.stream().collect(Collectors.joining(",")));
+        sb.append("}");
+        sb.append(",\"eventos\":[");
 
+        if(entreverde!=null) {
+            sb.append(parseEventos(entreverde));
+        }
 
-        sb.append("}}");
+        sb.append(parseEventos(verde));
+
+        sb.append("]");
+
+        sb.append("}");
+
         return sb.toString();
+    }
+
+    private String parseEventos(IntervaloEstagio intervalo) {
+        return intervalo.getEventos().entrySet().stream().map(entry -> {
+            StringBuffer sbInner = new StringBuffer();
+            sbInner.append(entry.getValue().stream().map(eventoMotor -> {
+                StringBuffer eventosSb = new StringBuffer("[");
+                eventosSb.append(entry.getKey());
+                eventosSb.append(",\"");
+                eventosSb.append(eventoMotor.getTipoEvento().toString());
+                eventosSb.append("\",");
+                eventosSb.append(((Detector)eventoMotor.getParams()[0]).getPosicao());
+                eventosSb.append("]");
+                return eventosSb.toString();
+            }).collect(Collectors.joining(",")));
+            return sbInner.toString();
+        }).collect(Collectors.joining(","));
     }
 
 }

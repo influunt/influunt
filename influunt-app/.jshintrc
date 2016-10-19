@@ -20,7 +20,9 @@
     "Dropzone": true,
     "moment": true,
     "humanizeDuration": true,
-
+    "Phaser": true,
+    "Paho": true,
+    
     // leaflet lib
     "L": true,
     "hull": true,

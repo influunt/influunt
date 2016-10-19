@@ -9,16 +9,13 @@ import models.Plano;
 import models.TipoDetector;
 import models.simulador.parametros.ParametroSimulacao;
 import org.joda.time.DateTime;
-import simulador.eventos.EventoLog;
-import simulador.eventos.LogSimulacao;
-import simulador.eventos.TipoEventoLog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
 
 /**
  * Created by rodrigosol on 9/28/16.
@@ -36,7 +33,7 @@ public abstract class Simulador implements MotorCallback {
 
     private Map<DateTime, List<EventoMotor>> eventos = new HashMap<>();
 
-    private LogSimulacao logSimulacao = new LogSimulacao();
+
 
     private Motor motor;
 
@@ -85,6 +82,7 @@ public abstract class Simulador implements MotorCallback {
     public void simular(DateTime inicio, DateTime fim) {
         DateTime inicioSimulacao = inicio;
         while (inicioSimulacao.getMillis() / 100 < fim.getMillis() / 100) {
+            processaEventos(inicioSimulacao);
             motor.tick();
             tempoSimulacao += 100;
             inicioSimulacao = inicioSimulacao.plus(100);
@@ -103,16 +101,5 @@ public abstract class Simulador implements MotorCallback {
         ponteiro = fim;
     }
 
-    public long getTempoSimulacao() {
-        return tempoSimulacao;
-    }
-
-    public EventoLog findInLog(TipoEventoLog tipoEventoLog, DateTime timestamp, int planoAnterior, int planoAtual, int anel) {
-        return logSimulacao.filter(tipoEventoLog, timestamp, planoAnterior, planoAtual, anel);
-    }
-
-    public Stream<EventoLog> findInLog(TipoEventoLog alteracaoEstado, DateTime timestamp) {
-        return logSimulacao.find(alteracaoEstado, timestamp);
-    }
 
 }

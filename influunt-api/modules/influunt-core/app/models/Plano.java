@@ -249,7 +249,10 @@ public class Plano extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = PlanosCheck.class,
             message = "Deve possuir pelo menos 2 estágios configurados.")
     public boolean isQuantidadeEstagioIgualQuantidadeAnel() {
-        return !(this.getEstagiosPlanos().isEmpty() || this.getEstagiosPlanos().size() < 2);
+        if (isModoOperacaoVerde()) {
+            return !(this.getEstagiosPlanos().isEmpty() || this.getEstagiosPlanos().size() < 2);
+        }
+        return true;
     }
 
     @AssertTrue(groups = PlanosCheck.class,
@@ -335,12 +338,11 @@ public class Plano extends Model implements Cloneable, Serializable {
         getEstagiosPlanos().add(estagioPlano);
     }
 
-    public Estagio getEstagioAnterior(Estagio estagio) {
-        return getEstagioAnterior(estagio, getEstagiosPlanos());
+    public Estagio getEstagioAnterior(EstagioPlano estagioPlano) {
+        return getEstagioAnterior(estagioPlano, getEstagiosPlanos());
     }
 
-    public Estagio getEstagioAnterior(Estagio estagio, List<EstagioPlano> lista) {
-        EstagioPlano estagioPlano = getEstagiosPlanos().stream().filter(ep -> ep.getEstagio().equals(estagio)).findFirst().get();
+    public Estagio getEstagioAnterior(EstagioPlano estagioPlano, List<EstagioPlano> lista) {
         int posicao = lista.indexOf(estagioPlano);
         if (posicao == 0) {
             return lista.get(lista.size() - 1).getEstagio();
@@ -355,7 +357,7 @@ public class Plano extends Model implements Cloneable, Serializable {
 
     public Integer getTempoEstagio(EstagioPlano estagioPlano, List<EstagioPlano> listaEstagiosPlanos) {
         Estagio estagio = estagioPlano.getEstagio();
-        Estagio estagioAnterior = getEstagioAnterior(estagioPlano.getEstagio(), listaEstagiosPlanos);
+        Estagio estagioAnterior = getEstagioAnterior(estagioPlano, listaEstagiosPlanos);
 
         Integer tempoEntreVerdes = getTempoEntreVerdeEntreEstagios(estagio, estagioAnterior);
 
@@ -473,7 +475,7 @@ public class Plano extends Model implements Cloneable, Serializable {
     private void preencheTabelaEntreVerde(HashMap<Pair<Integer, Integer>, Long> tabela, List<EstagioPlano> lista) {
         lista.stream().forEach(ep -> {
             Estagio atual = ep.getEstagio();
-            Estagio anterior = this.getEstagioAnterior(atual, lista);
+            Estagio anterior = this.getEstagioAnterior(ep, lista);
             tabela.put(new Pair<Integer, Integer>(anterior.getPosicao(), atual.getPosicao()),
                     this.getTempoEntreVerdeEntreEstagios(atual, anterior) * 1000L);
 

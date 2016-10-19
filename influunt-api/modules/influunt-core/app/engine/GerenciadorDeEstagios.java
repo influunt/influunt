@@ -110,9 +110,6 @@ public class GerenciadorDeEstagios implements EventoCallback {
         return intervalos;
     }
 
-    public List<Integer> getPosicaoEstagio() {
-        return this.intervalos.asMapOfRanges().entrySet().stream().map(rangeEstagioPlanoEntry -> rangeEstagioPlanoEntry.getValue().getEstagio().getPosicao()).collect(Collectors.toList());
-    }
 
     public Estagio tick() {
         IntervaloEstagio intervalo = this.intervalos.get(contadorIntervalo);
@@ -136,8 +133,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
         EstagioPlano estagioPlano = intervalo.getEstagioPlano();
         if (!estagioPlano.equals(estagioPlanoAtual)) {
             if (intervaloGrupoSemaforicoAtual != null) {
-                callback.onEstagioEnds(this.anel, contadorDeCiclos, tempoDecorrido, inicioExecucao.plus(tempoDecorrido),
-                        new IntervaloGrupoSemaforico(intervaloGrupoSemaforicoAtual.getIntervaloEntreverde(), intervaloGrupoSemaforicoAtual.getIntervaloVerde()));
+                IntervaloGrupoSemaforico intervaloGrupoSemaforico = new IntervaloGrupoSemaforico(intervaloGrupoSemaforicoAtual.getIntervaloEntreverde(), intervaloGrupoSemaforicoAtual.getIntervaloVerde());
+                callback.onEstagioEnds(this.anel, contadorDeCiclos, tempoDecorrido, inicioExecucao.plus(tempoDecorrido), intervaloGrupoSemaforico);
             }
 
             intervaloGrupoSemaforicoAtual = new GetIntervaloGrupoSemaforico().invoke();
@@ -155,14 +152,20 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     @Override
     public void onEvento(EventoMotor eventoMotor) {
-        switch (eventoMotor.getTipoEvento()) {
-            case ACIONAMENTO_DETECTOR_PEDESTRE:
-                processaDetectorPedestre(eventoMotor);
-                break;
-            case ACIONAMENTO_DETECTOR_VEICULAR:
-                processarDetectorVeicular(eventoMotor);
-                break;
-        }
+            long offset = 0;
+            if(this.intervalos.get(contadorIntervalo)==null){
+                offset = contadorIntervalo - 1;
+            }
+            this.intervalos.get(offset).addEvento(contadorIntervalo,eventoMotor);
+            switch (eventoMotor.getTipoEvento()) {
+                case ACIONAMENTO_DETECTOR_PEDESTRE:
+                    processaDetectorPedestre(eventoMotor);
+                    break;
+                case ACIONAMENTO_DETECTOR_VEICULAR:
+                    processarDetectorVeicular(eventoMotor);
+                    break;
+            }
+
     }
 
     private void processarDetectorVeicular(EventoMotor eventoMotor) {
@@ -193,11 +196,10 @@ public class GerenciadorDeEstagios implements EventoCallback {
         } else {
             contador = contadorIntervalo - range.getKey().lowerEndpoint();
         }
-        intervalo.setDuracao(estagioPlanoAtual.getTempoVerdeSegurancaFaltante(estagioPlanoAnterior));
-        long duracao = Math.max(intervalo.getDuracao(), contador);
+        long duracao = Math.max(estagioPlanoAtual.getTempoVerdeSegurancaFaltante(estagioPlanoAnterior), contador);
+        intervalo.setDuracao(duracao);
         this.intervalos.remove(range.getKey());
         final Range<Long> novoRange = Range.closedOpen(range.getKey().lowerEndpoint(), range.getKey().lowerEndpoint() + duracao);
-        intervalo.setDuracao(novoRange.upperEndpoint() - novoRange.lowerEndpoint());
         this.intervalos.put(novoRange, intervalo);
     }
 

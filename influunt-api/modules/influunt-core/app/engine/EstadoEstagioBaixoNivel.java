@@ -41,14 +41,6 @@ public enum EstadoEstagioBaixoNivel {
     }
 
 
-//    public String toString(){
-//        return String.valueOf(estadoGlobal);
-//    }
-
-    public String toJson(DateTime timeStamp) {
-        return "{\"timestamp\":" + timeStamp.getMillis() / 1000 + ",\"estado\":\"" + this.toString() + "\"}";
-    }
-
     public int getValue() {
         return estadoGlobal;
     }

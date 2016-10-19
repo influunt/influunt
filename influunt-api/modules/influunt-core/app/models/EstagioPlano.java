@@ -190,7 +190,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
 
     @AssertTrue(groups = PlanosCheck.class, message = "Tempo de verde mínimo deve estar entre {min} e {max}")
     public boolean isTempoVerdeMinimo() {
-        if (getPlano().isAtuado() && getEstagio().isAssociadoAGrupoSemaforicoVeicular()) {
+        if (getPlano().isAtuado()) {
             return RangeUtils.getInstance().TEMPO_VERDE_MINIMO.contains(getTempoVerdeMinimo());
         }
         return true;
@@ -202,7 +202,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
 
     @AssertTrue(groups = PlanosCheck.class, message = "Tempo de verde máximo deve estar entre {min} e {max}")
     public boolean isTempoVerdeMaximo() {
-        if (getPlano().isAtuado() && getEstagio().isAssociadoAGrupoSemaforicoVeicular()) {
+        if (getPlano().isAtuado()) {
             return RangeUtils.getInstance().TEMPO_VERDE_MAXIMO.contains(getTempoVerdeMaximo());
         }
         return true;
@@ -214,7 +214,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
 
     @AssertTrue(groups = PlanosCheck.class, message = "Tempo de verde intermediário deve estar entre {min} e {max}")
     public boolean isTempoVerdeIntermediario() {
-        if (getPlano().isAtuado() && getEstagio().isAssociadoAGrupoSemaforicoVeicular()) {
+        if (getPlano().isAtuado()) {
             return RangeUtils.getInstance().TEMPO_VERDE_INTERMEDIARIO.contains(getTempoVerdeIntermediario());
         }
         return true;
@@ -226,7 +226,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
 
     @AssertTrue(groups = PlanosCheck.class, message = "Tempo de extensão de verde deve estar entre {min} e {max}")
     public boolean isTempoExtensaoVerde() {
-        if (getPlano().isAtuado() && getEstagio().isAssociadoAGrupoSemaforicoVeicular()) {
+        if (getPlano().isAtuado()) {
             return RangeUtils.getInstance().TEMPO_EXTENSAO_VERDE.contains(getTempoExtensaoVerde());
         }
         return true;
@@ -343,7 +343,6 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         return tempoVerde;
     }
 
-    //TODO: Verificar como é feito a configuração de verde no caso de estagio de pedestre no modo atuado
     public Integer getTempoVerdeEstagio() {
         if (this.getPlano().isAtuado() && this.getTempoVerdeMinimo() != null) {
             return this.getTempoVerdeMinimo();
@@ -363,8 +362,8 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         return this.getEstagio()
                 .getGruposSemaforicos()
                 .stream()
-                .map(grupoSemaforico -> grupoSemaforico.getTempoVerdeSegurancaFaltante(this, estagioAnteriorPlano))
-                .max(Integer::max)
+                .mapToInt(grupoSemaforico -> grupoSemaforico.getTempoVerdeSegurancaFaltante(this, estagioAnteriorPlano))
+                .max()
                 .orElse(0);
     }
 
