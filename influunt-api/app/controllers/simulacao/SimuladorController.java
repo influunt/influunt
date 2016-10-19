@@ -5,6 +5,7 @@ import checks.Erro;
 import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
+import models.Controlador;
 import models.simulador.parametros.ParametroSimulacao;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -40,7 +41,8 @@ public class SimuladorController extends Controller {
         if (!erros.isEmpty()) {
             return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
         }
-
+        params.setControlador(Controlador.find.byId(params.getIdControlador()));
+        params.associa();
         simulacoes.iniciarSimulacao(params);
         return CompletableFuture.completedFuture(ok(Json.toJson(params.getSimulacaoConfig())));
     }

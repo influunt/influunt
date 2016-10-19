@@ -249,7 +249,10 @@ public class Plano extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = PlanosCheck.class,
             message = "Deve possuir pelo menos 2 estágios configurados.")
     public boolean isQuantidadeEstagioIgualQuantidadeAnel() {
-        return !(this.getEstagiosPlanos().isEmpty() || this.getEstagiosPlanos().size() < 2);
+        if (isModoOperacaoVerde()) {
+            return !(this.getEstagiosPlanos().isEmpty() || this.getEstagiosPlanos().size() < 2);
+        }
+        return true;
     }
 
     @AssertTrue(groups = PlanosCheck.class,
@@ -340,7 +343,7 @@ public class Plano extends Model implements Cloneable, Serializable {
     }
 
     public Estagio getEstagioAnterior(Estagio estagio, List<EstagioPlano> lista) {
-        EstagioPlano estagioPlano = getEstagiosPlanos().stream().filter(ep -> ep.getEstagio().equals(estagio)).findFirst().get();
+        EstagioPlano estagioPlano = lista.stream().filter(ep -> ep.getEstagio().equals(estagio)).findFirst().get();
         int posicao = lista.indexOf(estagioPlano);
         if (posicao == 0) {
             return lista.get(lista.size() - 1).getEstagio();

@@ -3,6 +3,10 @@ package engine;
 import models.Estagio;
 import models.EstagioPlano;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 public class IntervaloEstagio {
 
     private long duracao;
@@ -12,6 +16,8 @@ public class IntervaloEstagio {
     private EstagioPlano estagioPlano;
 
     private EstagioPlano estagioPlanoAnterior;
+
+    private HashMap<Long, List<EventoMotor>> eventos = new HashMap<>();
 
     public IntervaloEstagio(long duracao, boolean entreverde, EstagioPlano estagioPlano, EstagioPlano estagioPlanoAnterior) {
         this.duracao = duracao;
@@ -52,6 +58,13 @@ public class IntervaloEstagio {
         return estagioPlanoAnterior;
     }
 
+    public HashMap<Long, List<EventoMotor>> getEventos() {
+        return eventos;
+    }
+
+    public void setEventos(HashMap<Long, List<EventoMotor>> eventos) {
+        this.eventos = eventos;
+    }
 
     @Override
     public String toString() {
@@ -62,4 +75,10 @@ public class IntervaloEstagio {
                 '}';
     }
 
+    public void addEvento(long contadorIntervalo, EventoMotor eventoMotor) {
+        if(!this.eventos.containsKey(contadorIntervalo)){
+            this.eventos.put(contadorIntervalo,new ArrayList<>());
+        }
+        this.eventos.get(contadorIntervalo).add(eventoMotor);
+    }
 }

@@ -90,6 +90,11 @@ public class Motor implements GerenciadorDeEstagiosCallback, EventoCallback {
 
     @Override
     public void onEvento(EventoMotor eventoMotor) {
+        if(eventoMotor.getTipoEvento().equals(TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR) ||
+           eventoMotor.getTipoEvento().equals(TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE)){
+            Integer anel = (Integer) eventoMotor.getParams()[1];
+            estagios.get(anel - 1).onEvento(eventoMotor);
+        }
 
     }
 }

@@ -5,6 +5,7 @@ import engine.IntervaloGrupoSemaforico;
 import integracao.ControladorHelper;
 import models.Controlador;
 import models.simulador.parametros.ParametroSimulacao;
+import models.simulador.parametros.ParametroSimulacaoDetector;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import org.junit.Test;
@@ -30,6 +31,13 @@ public class SimuladorTest extends WithInfluuntApplicationNoAuthentication {
         parametroSimulacao.setControlador(controlador);
         parametroSimulacao.setInicioControlador(inicioSimulacao);
         parametroSimulacao.setInicioSimulacao(inicioSimulacao);
+        ArrayList<ParametroSimulacaoDetector> detectores = new ArrayList<ParametroSimulacaoDetector>();
+        ParametroSimulacaoDetector detector = new ParametroSimulacaoDetector();
+        detector.setDetector(controlador.getAneis().stream().filter(anel -> anel.getPosicao().equals(3)).findFirst().get().getDetectores().get(0));
+        detector.setDisparo(new DateTime(2016, 9, 18, 0, 1, 0));
+        detectores.add(detector);
+        parametroSimulacao.setDetectores(detectores);
+
 
         Simulador simulador = new Simulador(inicioSimulacao, controlador, parametroSimulacao) {
             @Override
@@ -64,6 +72,7 @@ public class SimuladorTest extends WithInfluuntApplicationNoAuthentication {
         String sbAnel = estagios.keySet().stream().map(key -> {
 
             String buffer = estagios.get(key).stream().map(e -> {
+                System.out.println(e.getFirst().minus(params.getInicioSimulacao().getMillis()).getMillis());
                 return e.getSecond().toJson(e.getFirst().minus(params.getInicioSimulacao().getMillis()));
             }).collect(Collectors.joining(",")) + "]";
 
@@ -72,5 +81,6 @@ public class SimuladorTest extends WithInfluuntApplicationNoAuthentication {
 
         return "{\"aneis\":{" + sbAnel.toString() + "}}";
     }
+
 
 }

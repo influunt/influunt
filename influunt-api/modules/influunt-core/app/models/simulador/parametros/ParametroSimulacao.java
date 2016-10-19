@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.simulacao.ParametroSimulacaoDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import models.Controlador;
+import models.Detector;
 import models.simulador.SimulacaoConfig;
 import org.joda.time.DateTime;
 
@@ -84,7 +85,7 @@ public class ParametroSimulacao {
     }
 
     public void setInicioControlador(DateTime inicioControlador) {
-        this.inicioControlador = inicioControlador;
+        this.inicioControlador =  inicioControlador.minus(inicioControlador.millisOfSecond().get());
     }
 
     public DateTime getInicioSimulacao() {
@@ -92,8 +93,7 @@ public class ParametroSimulacao {
     }
 
     public void setInicioSimulacao(DateTime inicioSimulacao) {
-        this.inicioSimulacao = inicioSimulacao;
-        this.inicioControlador = inicioSimulacao;
+        this.inicioSimulacao = inicioSimulacao.minus(inicioSimulacao.millisOfSecond().get());
     }
 
     public DateTime getFimSimulacao() {
@@ -157,5 +157,11 @@ public class ParametroSimulacao {
         sc.setAneis(aneis);
 
         return sc;
+    }
+
+    public void associa() {
+        getDetectores().stream().forEach(parametroSimulacaoDetector -> {
+            parametroSimulacaoDetector.setDetector(Detector.find.byId(parametroSimulacaoDetector.getDetector().getId()));
+        });
     }
 }
