@@ -16,30 +16,16 @@ import java.util.List;
 @Singleton
 public class GerenciadorDeSimulacoes {
 
-
-    //   private final Configuration mqttSettings;
-
     private final ActorSystem system;
 
     private ActorRef servidor;
-
-//    private Configuration configuration = Play.current().injector().instanceOf(Configuration.class);
 
     private List<ActorRef> simuladores = new ArrayList<>();
 
     @Inject
     public GerenciadorDeSimulacoes(ActorSystem system) {
         this.system = system;
-        //      mqttSettings = configuration.getConfig("central").getConfig("mqtt");
     }
-
-
-//    public GerenciadorDeSimulacoes(ActorSystem system) {
-//        this.system = system;
-//        System.out.println("Iniciando a central");
-//        mqttSettings = configuration.getConfig("central").getConfig("mqtt");
-//    }
-
 
     public void finish() {
         system.terminate();

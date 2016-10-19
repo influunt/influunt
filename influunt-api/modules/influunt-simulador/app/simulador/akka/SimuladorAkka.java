@@ -22,12 +22,12 @@ public class SimuladorAkka extends Simulador {
 
     @Override
     public void onEstagioChange(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
-        simuladorActor.storeEstagio(anel, timestamp, intervalos);
+
     }
 
     @Override
     public void onEstagioEnds(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
-
+        simuladorActor.storeEstagio(anel, timestamp, intervalos);
     }
 
     @Override

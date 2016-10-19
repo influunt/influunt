@@ -85,22 +85,8 @@ public class SimuladorActor extends UntypedActor {
 
         StringBuffer buffer = new StringBuffer("{\"estados\":[");
         try {
-//            String estados = estadoBatch.entrySet()
-//                    .stream().map(e -> {
-//                        return e.getValue().toJson(e.getKey());
-//                    }).collect(Collectors.joining(","));
-//
-//            buffer.append(estados).append("],\"eventos\":[");
-//
-//
-//            String eventos = eventosBatch.stream()
-//                    .map(EventoLog::toJson)
-//                    .collect(Collectors.joining(","));
-//
-//            buffer.append(eventos).append("]}");
-
-
             client.publish("simulador/" + id + "/estado", getJson().getBytes(), 1, true);
+            estagios.clear();
         } catch (MqttException e) {
             e.printStackTrace();
         }
@@ -112,7 +98,6 @@ public class SimuladorActor extends UntypedActor {
         String sbAnel = estagios.keySet().stream().map(key -> {
 
             String buffer = estagios.get(key).stream().map(e -> {
-                System.out.println(e.getFirst().minus(params.getInicioSimulacao().getMillis()).getMillis());
                 return e.getSecond().toJson(e.getFirst().minus(params.getInicioSimulacao().getMillis()));
             }).collect(Collectors.joining(",")) + "]";
 

@@ -706,7 +706,10 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
             estagioPlano.setTempoVerdeMaximo(tempos[2]);
             estagioPlano.setTempoExtensaoVerde(tempos[3] / 10.0);
         } else {
-            estagioPlano.setTempoVerde(tempos[0]);
+            estagioPlano.setTempoVerdeMinimo(tempos[0]);
+            estagioPlano.setTempoVerdeIntermediario(tempos[0]);
+            estagioPlano.setTempoVerdeMaximo(tempos[0]);
+            estagioPlano.setTempoExtensaoVerde(1.0);
         }
 
         estagioPlano.setDispensavel(dispensavel);

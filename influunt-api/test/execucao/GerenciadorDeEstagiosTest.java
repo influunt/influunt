@@ -66,7 +66,7 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
     public void repeticaoDeEstagioComGrupoApagado() {
         Anel anel = getAnel(1);
         Plano plano = getPlano(anel, 1);
-        gerenciadorDeEstagios = getGerenciadorDeEstagios(plano);
+        gerenciadorDeEstagios = getGerenciadorDeEstagios(1,plano);
         GrupoSemaforicoPlano grupoSemaforicoPlano4 = getGrupoSemaforicoPlano(plano, 4);
         grupoSemaforicoPlano4.setAtivado(false);
         GrupoSemaforicoPlano grupoSemaforicoPlano5 = getGrupoSemaforicoPlano(plano, 5);
@@ -248,7 +248,7 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
         EstagioPlano estagioPlano3 = plano.getEstagiosPlanos().stream().filter(ep -> ep.getEstagio().getPosicao().equals(1)).findFirst().get();
         estagioPlano.setEstagioQueRecebeEstagioDispensavel(estagioPlano3);
 
-        gerenciadorDeEstagios = getGerenciadorDeEstagios(plano);
+        gerenciadorDeEstagios = getGerenciadorDeEstagios(2,plano);
         Detector detector = getDetector(anel, 1);
 
         avancar(gerenciadorDeEstagios, 10);
@@ -463,7 +463,7 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
         EstagioPlano estagioPlano3 = getEstagioPlano(plano, 2);
         estagioPlano.setEstagioQueRecebeEstagioDispensavel(estagioPlano3);
 
-        gerenciadorDeEstagios = getGerenciadorDeEstagios(plano);
+        gerenciadorDeEstagios = getGerenciadorDeEstagios(2,plano);
         Detector detector = getDetector(anel, 1);
 
         avancar(gerenciadorDeEstagios, 10);
@@ -534,6 +534,7 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector));
         avancar(gerenciadorDeEstagios, 164);
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector));
+//TODO:Tratar eventos iguais e simuntaneos
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector));
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector2));
         avancar(gerenciadorDeEstagios, 500);
@@ -827,7 +828,7 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
     public void repeticaoDeEstagioAtuadoComDemandaPrioritariaEDispensavelComExecucao() {
         Anel anel = getAnel(3);
         Plano plano = getPlano(anel, 1);
-        gerenciadorDeEstagios = getGerenciadorDeEstagios(plano);
+        gerenciadorDeEstagios = getGerenciadorDeEstagios(3,plano);
         Detector detector1 = anel.getDetectores().stream().filter(det -> det.getTipo().equals(TipoDetector.VEICULAR) && det.getPosicao().equals(1)).findFirst().get();
         Detector detector2 = anel.getDetectores().stream().filter(det -> det.getTipo().equals(TipoDetector.VEICULAR) && det.getPosicao().equals(2)).findFirst().get();
         Detector detector3 = anel.getDetectores().stream().filter(det -> det.getTipo().equals(TipoDetector.VEICULAR) && det.getPosicao().equals(3)).findFirst().get();
@@ -902,7 +903,7 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
     public void planoComAtrasoDeGrupoGanhoEPerdaDePassagem() {
         Anel anel = getAnel(1);
         Plano plano = getPlano(anel, 1);
-        gerenciadorDeEstagios = getGerenciadorDeEstagios(plano);
+        gerenciadorDeEstagios = getGerenciadorDeEstagios(1,plano);
 
         avancar(gerenciadorDeEstagios, 105);
 
@@ -996,7 +997,7 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
 
         EstagioPlano estagioPlano = getEstagioPlano(plano, 3);
         estagioPlano.setDispensavel(true);
-        gerenciadorDeEstagios = getGerenciadorDeEstagios(plano);
+        gerenciadorDeEstagios = getGerenciadorDeEstagios(1,plano);
 
         avancar(gerenciadorDeEstagios, 105);
 
@@ -1079,7 +1080,7 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
     public void repeticaoDeEstagioModoIntermitente() {
         Anel anel = getAnel(3);
         Plano plano = getPlano(anel, 5);
-        gerenciadorDeEstagios = getGerenciadorDeEstagios(plano);
+        gerenciadorDeEstagios = getGerenciadorDeEstagios(1,plano);
 
         avancar(gerenciadorDeEstagios, 300);
 
@@ -1113,7 +1114,7 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
     public void repeticaoDeEstagioModoIntermitenteComDemandaPrioritaria() {
         Anel anel = getAnel(3);
         Plano plano = getPlano(anel, 5);
-        gerenciadorDeEstagios = getGerenciadorDeEstagios(plano);
+        gerenciadorDeEstagios = getGerenciadorDeEstagios(3,plano);
         Detector detector = getDetector(anel, 4);
 
         avancar(gerenciadorDeEstagios, 100);
@@ -1165,7 +1166,7 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
     public void repeticaoDeEstagioModoApagado() {
         Anel anel = getAnel(3);
         Plano plano = getPlano(anel, 6);
-        gerenciadorDeEstagios = getGerenciadorDeEstagios(plano);
+        gerenciadorDeEstagios = getGerenciadorDeEstagios(3,plano);
 
         avancar(gerenciadorDeEstagios, 300);
 
@@ -1199,7 +1200,7 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
     public void repeticaoDeEstagioModoApagadoComDemandaPrioritaria() {
         Anel anel = getAnel(3);
         Plano plano = getPlano(anel, 6);
-        gerenciadorDeEstagios = getGerenciadorDeEstagios(plano);
+        gerenciadorDeEstagios = getGerenciadorDeEstagios(3,plano);
         Detector detector = getDetector(anel, 4);
 
         avancar(gerenciadorDeEstagios, 100);
