@@ -156,16 +156,43 @@ public class ControladorCustomSerializer {
         return controladoresJson;
     }
 
-    public JsonNode getControladoresSimulacao(List<Controlador> controladores) {
-        ArrayNode controladoresJson = Json.newArray();
-        for (Controlador controlador : controladores) {
-            inicializaMaps();
-            ObjectNode root = Json.newObject();
-            putControladorSimulacao(controlador, root);
-            controladoresJson.add(root);
+    public JsonNode getControladorSimulacao(Controlador controlador) {
+        ObjectNode root = Json.newObject();
+
+        if (controlador.getId() != null) {
+            root.put("id", controlador.getId().toString());
         }
 
-        return controladoresJson;
+        if (controlador.getNomeEndereco() != null) {
+            root.put("nomeEndereco", controlador.getNomeEndereco());
+        }
+
+        ArrayNode aneisJson = root.putArray("aneis");
+        controlador.getAneis().stream().filter(Anel::isAtivo).forEach(anel -> {
+            ObjectNode anelJson = aneisJson.addObject();
+            anelJson.put("id", anel.getId().toString());
+            anelJson.put("posicao", anel.getPosicao());
+
+            ArrayNode detectoresJson = anelJson.putArray("detectores");
+            anel.getDetectores().forEach(detector -> {
+                ObjectNode detectorJson = detectoresJson.addObject();
+                detectorJson.put("id", detector.getId().toString());
+                detectorJson.put("tipo", detector.getTipo().toString());
+                detectorJson.put("posicao", detector.getPosicao());
+                detectorJson.put("monitorado", detector.isMonitorado());
+            });
+
+            ArrayNode planosJson = anelJson.putArray("planos");
+            anel.getPlanos().forEach(plano -> {
+                ObjectNode planoJson = planosJson.addObject();
+                planoJson.put("id", plano.getId().toString());
+                planoJson.put("posicao", plano.getPosicao());
+                planoJson.put("descricao", plano.getDescricao());
+                planoJson.put("modoOperacao", plano.getModoOperacao().toString());
+            });
+        });
+
+        return root;
     }
 
     public JsonNode getPacoteConfiguracaoJson(Controlador controlador) {
@@ -486,40 +513,40 @@ public class ControladorCustomSerializer {
         });
     }
 
-    private void putControladorSimulacao(Controlador controlador, ObjectNode root) {
-        if (controlador.getId() != null) {
-            root.put("id", controlador.getId().toString());
-        }
-
-        if (controlador.getNomeEndereco() != null) {
-            root.put("nomeEndereco", controlador.getNomeEndereco());
-        }
-
-        ArrayNode aneisJson = root.putArray("aneis");
-        controlador.getAneis().stream().filter(Anel::isAtivo).forEach(anel -> {
-            ObjectNode anelJson = aneisJson.addObject();
-            anelJson.put("id", anel.getId().toString());
-            anelJson.put("posicao", anel.getPosicao());
-
-            ArrayNode detectoresJson = anelJson.putArray("detectores");
-            anel.getDetectores().forEach(detector -> {
-                ObjectNode detectorJson = detectoresJson.addObject();
-                detectorJson.put("id", detector.getId().toString());
-                detectorJson.put("tipo", detector.getTipo().toString());
-                detectorJson.put("posicao", detector.getPosicao());
-                detectorJson.put("monitorado", detector.isMonitorado());
-            });
-
-            ArrayNode planosJson = anelJson.putArray("planos");
-            anel.getPlanos().forEach(plano -> {
-                ObjectNode planoJson = planosJson.addObject();
-                planoJson.put("id", plano.getId().toString());
-                planoJson.put("posicao", plano.getPosicao());
-                planoJson.put("descricao", plano.getDescricao());
-                planoJson.put("modoOperacao", plano.getModoOperacao().toString());
-            });
-        });
-    }
+//    private void putControladorSimulacao(Controlador controlador, ObjectNode root) {
+//        if (controlador.getId() != null) {
+//            root.put("id", controlador.getId().toString());
+//        }
+//
+//        if (controlador.getNomeEndereco() != null) {
+//            root.put("nomeEndereco", controlador.getNomeEndereco());
+//        }
+//
+//        ArrayNode aneisJson = root.putArray("aneis");
+//        controlador.getAneis().stream().filter(Anel::isAtivo).forEach(anel -> {
+//            ObjectNode anelJson = aneisJson.addObject();
+//            anelJson.put("id", anel.getId().toString());
+//            anelJson.put("posicao", anel.getPosicao());
+//
+//            ArrayNode detectoresJson = anelJson.putArray("detectores");
+//            anel.getDetectores().forEach(detector -> {
+//                ObjectNode detectorJson = detectoresJson.addObject();
+//                detectorJson.put("id", detector.getId().toString());
+//                detectorJson.put("tipo", detector.getTipo().toString());
+//                detectorJson.put("posicao", detector.getPosicao());
+//                detectorJson.put("monitorado", detector.isMonitorado());
+//            });
+//
+//            ArrayNode planosJson = anelJson.putArray("planos");
+//            anel.getPlanos().forEach(plano -> {
+//                ObjectNode planoJson = planosJson.addObject();
+//                planoJson.put("id", plano.getId().toString());
+//                planoJson.put("posicao", plano.getPosicao());
+//                planoJson.put("descricao", plano.getDescricao());
+//                planoJson.put("modoOperacao", plano.getModoOperacao().toString());
+//            });
+//        });
+//    }
 
     private void putControladorModelo(ModeloControlador modeloControlador, ObjectNode root) {
         if (modeloControlador == null) {

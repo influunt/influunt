@@ -595,7 +595,10 @@ public class Controlador extends Model implements Cloneable, Serializable {
             }
         }
 
-        return getStatusControlador().toString();
+        if (getStatusControlador() != null) {
+            return getStatusControlador().toString();
+        }
+        return getVersaoControlador().getStatusVersao().toString();
     }
 
     public void deleteAnelSeNecessario() {

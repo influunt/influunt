@@ -17,21 +17,6 @@
               <div class='row'>
 
                 <div class='col-sm-12'>
-                  <div class='row'>
-                    <div class='col-sm-12 form-group' data-ng-class="{ 'has-error': errors.controlador }">
-                      <label class="control-label">{{ 'simulacao.controlador' | translate }}</label>
-                      <select name="controladores"
-                              select2
-                              class="form-control"
-                              data-ng-options="controlador.id as controlador.nomeEndereco for controlador in controladores"
-                              data-ng-model="parametrosSimulacao.idControlador">
-                      </select>
-                      <p class="help-block error-msg" data-ng-repeat="error in errors.controlador">{{ error }}</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class='col-sm-12'>
                   <div class='row form-group' data-ng-class="{ 'has-error': errors.velocidade }">
                     <div class='col-sm-12'>
                       <label class="control-label">{{ 'simulacao.velocidade' | translate }}</label>
@@ -401,6 +386,8 @@
               </div>
             </div>
           </div>
+
+          <pre>{{ parametrosSimulacao | json }}</pre>
 
         </div>
       </div>

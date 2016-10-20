@@ -649,51 +649,51 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         });
     }
 
-    @Test
-    public void testControladoresForSimulacao() {
-        Controlador controladorConfigurado = controladorTestUtils.getControladorTabelaHorario();
-        controladorConfigurado.setStatusControlador(StatusControlador.CONFIGURADO);
-        controladorConfigurado.save();
-
-        Controlador controladorEmConfiguracao = controladorTestUtils.getControladorTabelaDeEntreVerdes();
-        controladorEmConfiguracao.setStatusControlador(StatusControlador.EM_CONFIGURACAO);
-        controladorEmConfiguracao.save();
-
-        Controlador controladorAtivo = controladorTestUtils.getControladorTabelaHorario();
-        controladorAtivo.setStatusControlador(StatusControlador.ATIVO);
-        controladorAtivo.save();
-
-        Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
-                .uri(routes.ControladoresController.getControladoresForSimulacao().url());
-        Result result = route(request);
-        assertEquals(200, result.status());
-
-        JsonNode json = Json.parse(Helpers.contentAsString(result));
-        assertEquals(2, json.get("total").asInt());
-        for (JsonNode controladorJson : json.get("data")) {
-            assertNotNull(controladorJson.get("id"));
-            assertNotNull(controladorJson.get("nomeEndereco"));
-            assertNotNull(controladorJson.get("aneis"));
-            for (JsonNode anelJson : controladorJson.get("aneis")) {
-                assertNotNull(anelJson.get("id"));
-                assertNotNull(anelJson.get("posicao"));
-                assertNotNull(anelJson.get("detectores"));
-                assertNotNull(anelJson.get("planos"));
-                for (JsonNode detectorJson : anelJson.get("detectores")) {
-                    assertNotNull(detectorJson.get("id"));
-                    assertNotNull(detectorJson.get("tipo"));
-                    assertNotNull(detectorJson.get("posicao"));
-                    assertNotNull(detectorJson.get("monitorado"));
-                }
-                for (JsonNode planoJson : anelJson.get("planos")) {
-                    assertNotNull(planoJson.get("id"));
-                    assertNotNull(planoJson.get("posicao"));
-                    assertNotNull(planoJson.get("descricao"));
-                    assertNotNull(planoJson.get("modoOperacao"));
-                }
-            }
-        }
-    }
+//    @Test
+//    public void testControladoresForSimulacao() {
+//        Controlador controladorConfigurado = controladorTestUtils.getControladorTabelaHorario();
+//        controladorConfigurado.setStatusControlador(StatusControlador.CONFIGURADO);
+//        controladorConfigurado.save();
+//
+//        Controlador controladorEmConfiguracao = controladorTestUtils.getControladorTabelaDeEntreVerdes();
+//        controladorEmConfiguracao.setStatusControlador(StatusControlador.EM_CONFIGURACAO);
+//        controladorEmConfiguracao.save();
+//
+//        Controlador controladorAtivo = controladorTestUtils.getControladorTabelaHorario();
+//        controladorAtivo.setStatusControlador(StatusControlador.ATIVO);
+//        controladorAtivo.save();
+//
+//        Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
+//                .uri(routes.ControladoresController.getControladoresForSimulacao().url());
+//        Result result = route(request);
+//        assertEquals(200, result.status());
+//
+//        JsonNode json = Json.parse(Helpers.contentAsString(result));
+//        assertEquals(2, json.get("total").asInt());
+//        for (JsonNode controladorJson : json.get("data")) {
+//            assertNotNull(controladorJson.get("id"));
+//            assertNotNull(controladorJson.get("nomeEndereco"));
+//            assertNotNull(controladorJson.get("aneis"));
+//            for (JsonNode anelJson : controladorJson.get("aneis")) {
+//                assertNotNull(anelJson.get("id"));
+//                assertNotNull(anelJson.get("posicao"));
+//                assertNotNull(anelJson.get("detectores"));
+//                assertNotNull(anelJson.get("planos"));
+//                for (JsonNode detectorJson : anelJson.get("detectores")) {
+//                    assertNotNull(detectorJson.get("id"));
+//                    assertNotNull(detectorJson.get("tipo"));
+//                    assertNotNull(detectorJson.get("posicao"));
+//                    assertNotNull(detectorJson.get("monitorado"));
+//                }
+//                for (JsonNode planoJson : anelJson.get("planos")) {
+//                    assertNotNull(planoJson.get("id"));
+//                    assertNotNull(planoJson.get("posicao"));
+//                    assertNotNull(planoJson.get("descricao"));
+//                    assertNotNull(planoJson.get("modoOperacao"));
+//                }
+//            }
+//        }
+//    }
 
     private <T> void assertFields(T origem, T destino) {
         for (Field field : origem.getClass().getDeclaredFields()) {

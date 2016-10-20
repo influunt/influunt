@@ -553,6 +553,6 @@ angular.module('influuntApp')
       };
 
       $scope.podeSimular = function(controlador) {
-        return SimulacaoService.podeSimular(controlador);
+        return controlador.controladorConfigurado;
       };
     }]);

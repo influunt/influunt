@@ -248,11 +248,13 @@ public class ControladoresController extends Controller {
     }
 
     @Dynamic(value = "Influunt")
-    public CompletionStage<Result> getControladoresForSimulacao() {
-        Map<String, String[]> params = new HashMap<>();
-        InfluuntQueryBuilder queryBuilder = new InfluuntQueryBuilder(Controlador.class, params).fetch(Arrays.asList("aneis", "aneis.detectores", "aneis.versoesPlanos", "aneis.versoesPlanos.planos"));
-        InfluuntResultBuilder result = new InfluuntResultBuilder(queryBuilder.query());
-        return CompletableFuture.completedFuture(ok(result.toJson("simulação")));
+    public CompletionStage<Result> getControladorForSimulacao(String id) {
+        Controlador controlador = Controlador.find.fetch("aneis").fetch("aneis.detectores").fetch("aneis.versoesPlanos").fetch("aneis.versoesPlanos.planos").where().eq("id", id).findUnique();
+        if (controlador == null) {
+            return CompletableFuture.completedFuture(notFound());
+        }
+
+        return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorSimulacao(controlador)));
     }
 
     @Transactional

@@ -13,10 +13,12 @@ angular.module('influuntApp')
 .controller('SimulacaoCtrl', ['$scope', '$controller', 'Restangular', 'influuntBlockui', 'HorariosService', 'influuntAlert', '$filter', 'handleValidations', '$stateParams',
 function ($scope, $controller, Restangular, influuntBlockui, HorariosService, influuntAlert, $filter, handleValidations, $stateParams) {
 
-  var loadControladores, atualizaDetectores, atualizaPlanos, iniciarSimulacao;
+  var loadControlador, atualizaDetectores, atualizaPlanos, iniciarSimulacao;
 
   $scope.init = function() {
-    loadControladores();
+    var controladorId = $stateParams.idControlador;
+    debugger
+    loadControlador(controladorId);
 
     $scope.velocidades = [
       { value: 0.25 },
@@ -27,8 +29,10 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
       { value: 8 }
     ];
 
-    $scope.parametrosSimulacao = { velocidade: 1, disparoDetectores: [{}], imposicaoPlanos: [{}], inicioControlador: moment(),
-                                  inicioSimulacao: moment(), fimSimulacao: moment().add(5,"minutes") };
+    $scope.parametrosSimulacao = { idControlador: controladorId,
+                                   velocidade: 1,
+                                   disparoDetectores: [{}],
+                                   imposicaoPlanos: [{}] };
 
     var now = new Date();
     $scope.inicioControlador = { time: new Date(0, 0, 0, now.getHours(), now.getMinutes(), now.getSeconds()), date: new Date(new Date().setHours(0,0,0,0)) };
@@ -46,57 +50,49 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
     };
   };
 
-  loadControladores = function() {
-    return Restangular.one('controladores').customGET('simulacao')
+  loadControlador = function(controladorId) {
+    console.log('vai loadar controlador. ID: ', controladorId)
+    return Restangular.one('controladores', controladorId).customGET('simulacao')
       .then(function(response) {
-        if (response.data) {
-          $scope.controladores = response.data;
-          _.forEach($scope.controladores, function(controlador) {
-            controlador.aneis = _.orderBy(controlador.aneis, 'posicao');
-            _.forEach(controlador.aneis, function(anel) {
-              anel.detectores = _.orderBy(anel.detectores, ['tipo', 'posicao']);
-              _.forEach(anel.detectores, function(detector) {
-                detector.nome = 'Anel ' + anel.posicao + ' - D' + detector.tipo[0] + detector.posicao;
-              });
-              _.forEach(anel.planos, function(plano) {
-                plano.nome = 'Plano ' + plano.posicao;
-              });
-            });
+        console.log('response: ', response)
+        $scope.controlador = response;
+        $scope.controlador.aneis = _.orderBy($scope.controlador.aneis, 'posicao');
+        _.forEach($scope.controlador.aneis, function(anel) {
+          anel.detectores = _.orderBy(anel.detectores, ['tipo', 'posicao']);
+          _.forEach(anel.detectores, function(detector) {
+            detector.nome = 'Anel ' + anel.posicao + ' - D' + detector.tipo[0] + detector.posicao;
           });
-
-          var controladorId = $stateParams.idControlador;
-          if (controladorId) {
-            $scope.parametrosSimulacao.idControlador = controladorId;
-          }
-        }
+          _.forEach(anel.planos, function(plano) {
+            plano.nome = 'Plano ' + plano.posicao;
+          });
+        });
+        console.log('$scope.controlador', $scope.controlador)
+        atualizaDetectores($scope.controlador);
+        atualizaPlanos($scope.controlador);
       }).finally(influuntBlockui.unblock);
   };
 
   atualizaDetectores = function(controlador) {
-    $scope.detectores = _
-      .chain(controlador.aneis)
-      .map('detectores')
-      .flatten()
-      .value();
+    if (controlador) {
+      $scope.detectores = _
+        .chain(controlador.aneis)
+        .map('detectores')
+        .flatten()
+        .value();
+    }
   };
 
   atualizaPlanos = function(controlador) {
-    $scope.planos = _
-      .chain(controlador.aneis)
-      .map('planos')
-      .flatten()
-      .uniqBy('posicao')
-      .orderBy('posicao')
-      .value();
-  };
-
-  $scope.$watch('parametrosSimulacao.idControlador', function(controladorId) {
-    if (controladorId) {
-      var controlador = _.find($scope.controladores, { id: controladorId });
-      atualizaDetectores(controlador);
-      atualizaPlanos(controlador);
+    if (controlador) {
+      $scope.planos = _
+        .chain(controlador.aneis)
+        .map('planos')
+        .flatten()
+        .uniqBy('posicao')
+        .orderBy('posicao')
+        .value();
     }
-  });
+  };
 
   $scope.$watch('parametrosSimulacao.disparoDetectores', function(parametro) {
     if (parametro) {
