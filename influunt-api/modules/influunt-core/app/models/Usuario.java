@@ -222,16 +222,11 @@ public class Usuario extends Model implements Subject, Serializable {
     }
 
     public boolean isResetPasswordTokenValid(String token) {
-
-        if (this.getResetPasswordToken() == null || this.getResetPasswordToken().compareTo(token) != 0) {
-            return false;
+        if (this.getResetPasswordToken() != null && this.getResetPasswordToken().compareTo(token) == 0) {
+            boolean tokenExpired = Hours.hoursBetween(this.getPasswordTokenExpiration(), new DateTime()).getHours() >= 24;
+            return !tokenExpired;
         }
-
-        if (Hours.hoursBetween(this.getPasswordTokenExpiration(), new DateTime()).getHours() >= 24) {
-            return false;
-        }
-
-        return true;
+        return false;
     }
 
     public void redefinirSenha(String novaSenha, String confirmacaoNovaSenha) throws InfluuntNoMatchException {

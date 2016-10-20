@@ -68,6 +68,21 @@
         "name": "relatorioAuditorias",
         "label": "relatorios.auditorias",
         "route": "app.relatorios_auditorias"
+      },
+      {
+        "name": "relatorioControladoresStatus",
+        "label": "relatorios.controladoresStatus",
+        "route": "app.relatorios_controladores_status"
+      },
+      {
+        "name": "relatorioControladoresFalhas",
+        "label": "relatorios.controladoresFalhas",
+        "route": "app.relatorios_controladores_falhas"
+      },
+      {
+        "name": "relatorioControladoresEntreVerdes",
+        "label": "relatorios.controladoresEntreVerdes",
+        "route": "app.relatorios_controladores_entreverdes"
       }
     ]
   }

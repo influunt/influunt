@@ -82,6 +82,7 @@ var paths = {
     'bower_components/angular-permission/dist/angular-permission.js',
     'bower_components/angular-permission/dist/angular-permission-ui.js',
     'bower_components/angular-permission/dist/angular-permission-ng.js',
+    'bower_components/humanize-duration/humanize-duration.js',
 
     // inspinea scripts.
     yeoman.app + '/plugins/jquery-ui-1.12.0/jquery-ui.js',
@@ -90,7 +91,7 @@ var paths = {
     yeoman.app + '/plugins/inspinia.js',
     yeoman.app + '/plugins/iCheck/icheck.js',
     yeoman.app + '/plugins/dropzone/dropzone.js',
-    yeoman.app + '/plugins/roundSlider-1.3/roundslider.min.js',
+    yeoman.app + '/plugins/roundSlider-1.3/roundslider.js',
     yeoman.app + '/plugins/uiTabs/ui.tabs.overflowResize.js',
     yeoman.app + '/plugins/uiTabs/lib/ui.tabs.addTab.js',
     yeoman.app + '/plugins/uiTabs/lib/ui.tabs.closable.js',

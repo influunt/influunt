@@ -20,10 +20,6 @@ module.exports = function() {
     return planosPage.selecionarModoOperacao(modoOperacao);
   });
 
-  this.Given(/^o diagrama de ciclos deverá marcar o grupo semafórico "([^"]*)" como "([^"]*)"$/, function (grupo, modoOperacao) {
-    return planosPage.isDiagramaModo(grupo, modoOperacao);
-  });
-
   this.Given(/^o usuário não deve ter a opção de selecionar uma tabela entre verdes para o plano$/, function () {
     return planosPage.isTabelaEntreVerdesHidden();
   });
@@ -58,7 +54,7 @@ module.exports = function() {
 
   this.Given(/^que o usuário clique no botão de fechar a caixa de configuração$/, function () {
     var modal = 'modal-configuracao-estagio';
-    return planosPage.clicarBotaoModal(modal);
+    return objetosComuns.clicarBotaoModal(modal);
   });
 
   this.Given(/^que o usuário troque de lugar os estágios "([^"]*)" e "([^"]*)"$/, function (estagio1, estagio2) {
@@ -121,15 +117,11 @@ module.exports = function() {
 
   this.Given(/^o usuário clicar no botão copiar$/, function () {
     var modal = 'modal-copiar-plano';
-    return planosPage.clicarBotaoModal(modal);
+    return objetosComuns.clicarBotaoModal(modal);
   });
 
   this.Given(/^o "([^"]*)" deverá estar ativado$/, function (plano) {
     return planosPage.isPlanoAtivo(plano);
-  });
-
-  this.Given(/^que o usuário selecione o anel (\d+)$/, function (numeroAnel) {
-    return objetosComuns.trocarAnel(numeroAnel);
   });
 
   this.Given(/^clicar em cancelar a edição$/, function () {
@@ -157,4 +149,10 @@ module.exports = function() {
       expect(text).to.equal('Tem certeza que deseja colocar o tempo de verde menor que o tempo de verde de segurança dos grupos semafóricos?');
     });
   });
+
+  this.Given(/^o sistema deverá apresentar erro no estágio "([^"]*)"$/, function (estagio) {
+    return planosPage.erroInEstagio(estagio);
+  });
+
+
 };

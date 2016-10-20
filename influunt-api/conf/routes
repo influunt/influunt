@@ -49,7 +49,7 @@ PUT       /api/v1/controladores/:id/finalizar                         controller
 PUT       /api/v1/controladores/:id/ativar                            controllers.ControladoresController.ativar(id)
 DELETE    /api/v1/controladores/:id/cancelar_edicao                   controllers.ControladoresController.cancelarEdicao(id)
 GET       /api/v1/controladores/:id/editar_planos                     controllers.ControladoresController.editarPlanos(id)
-GET       /api/v1/controladores/:id/editar_tabela_horaria             controllers.ControladoresController.editarTabelaHoraria(id)
+GET       /api/v1/controladores/:id/editar_tabelas_horarias           controllers.ControladoresController.editarTabelaHoraria(id)
 PUT       /api/v1/controladores/:id/atualizar_descricao               controllers.ControladoresController.atualizarDescricao(id)
 DELETE    /api/v1/controladores/:id/remover_planos_tabelas_horarios   controllers.ControladoresController.removerPlanosTabelasHorarios(id)
 
@@ -117,9 +117,9 @@ DELETE    /api/v1/planos/:id                                          controller
 DELETE    /api/v1/planos/:id/cancelar_edicao                          controllers.PlanosController.cancelarEdicao(id)
 
 # Tabela Horario
-POST      /api/v1/tabela_horarios                                     controllers.TabelaHorariosController.create()
-GET       /api/v1/tabela_horarios/:id/timeline                        controllers.TabelaHorariosController.timeline(id)
-DELETE    /api/v1/tabela_horarios/:id/cancelar_edicao                 controllers.TabelaHorariosController.cancelarEdicao(id)
+POST      /api/v1/tabelas_horarias                                    controllers.TabelaHorariosController.create()
+GET       /api/v1/tabelas_horarias/:id/timeline                       controllers.TabelaHorariosController.timeline(id)
+DELETE    /api/v1/tabelas_horarias/:id/cancelar_edicao                controllers.TabelaHorariosController.cancelarEdicao(id)
 
 # Estágios
 DELETE    /api/v1/estagios/:id                                        controllers.EstagiosController.delete(id)
@@ -190,4 +190,7 @@ GET       /assets/*file                                                         
 
 # RELATORIOS
 GET       /api/v1/relatorios/auditoria                                                          controllers.RelatoriosController.gerarRelatorioAuditoria()
+GET       /api/v1/relatorios/controladores_status                                               controllers.RelatoriosController.gerarRelatorioControladoresStatus()
+GET       /api/v1/relatorios/controladores_falhas                                               controllers.RelatoriosController.gerarRelatorioControladoresFalhas()
+GET       /api/v1/relatorios/controladores_entreverdes                                          controllers.RelatoriosController.gerarRelatoriControladoresEntreverdes()
 

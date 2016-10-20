@@ -18,43 +18,6 @@ var PlanosPage = function () {
     });
   };
 
-  this.isDiagramaModo = function(grupo, modoOperacao) {
-    var _this = this;
-    var script = 'return $("div#visualization div.vis-left div.vis-label:contains(\''+grupo+'\')").index() + 1;';
-    return world.execJavascript(script).then(function(indexGrupo) {
-      switch(modoOperacao) {
-        case 'Apagado':
-          return _this.isDiagramaApagado();
-        case 'Intermitente':
-          return _this.isDiagramaIntermitente(indexGrupo);
-        case 'Operação Normal':
-          return _this.isDiagramaOperacaoNormal(indexGrupo);
-        case 'Em Vermelho':
-          return _this.isDiagramaVermelho(indexGrupo);
-        default:
-          throw new Error('Modo de operação não reconhecido: '+modoOperacao);
-      }
-    });
-  };
-
-  this.isDiagramaApagado = function() {
-    return world.waitFor('div#visualization div.vis-foreground div.indicacao-apagado');
-  };
-
-  this.isDiagramaVermelho = function(indexGrupo){
-    return world.waitFor('div#visualization div.vis-foreground div.vis-group:nth-child('+indexGrupo+') div.indicacao-vermelho');
-  };
-
-  this.isDiagramaIntermitente = function(indexGrupo) {
-    return world.waitFor('div#visualization div.vis-foreground div.vis-group:nth-child('+indexGrupo+') div.indicacao-intermitente');
-  };
-
-  this.isDiagramaOperacaoNormal = function(indexGrupo) {
-    return world.waitFor('div#visualization div.vis-foreground div.vis-group:nth-child('+indexGrupo+') div.indicacao-vermelho').then(function() {
-      return world.waitFor('div#visualization div.vis-foreground div.vis-group:nth-child('+indexGrupo+') div.indicacao-verde');
-    });
-  };
-
   this.isTabelaEntreVerdesHidden = function() {
     return world.waitForInverse('select[name="tabelaEntreverdes"]').then(true);
   };
@@ -111,13 +74,6 @@ var PlanosPage = function () {
       }).then(function() {
         return world.sleep(500);
       });
-    });
-  };
-
-  this.clicarBotaoModal = function(modal) {
-    world.sleep(500);
-    return world.waitForOverlayDisappear().then(function() {
-      return world.getElement('div#'+modal+' div.modal-footer button').click();
     });
   };
 
@@ -190,6 +146,10 @@ var PlanosPage = function () {
 
   this.errosInPlanos = function(numeroPlano){
     return world.waitForByXpath('//li[contains (@id, "'+numeroPlano+'")]//span[contains (@class, "badge-danger")]');
+  };
+
+  this.erroInEstagio = function(estagio){
+    return world.waitForByXpath('//h4[contains (@id, "'+estagio+'")]//span[contains (@class, "badge-danger")]');
   };
 
   this.clickInPlano = function(numeroPlano){

@@ -7,8 +7,6 @@ var path = require('path');
 var WizardControladorPage = function () {
   var INDEX_PATH = '/app/controladores';
 
-  var novoControladorButton = 'a[ui-sref="app.wizard_controladores.dados_basicos"]';
-
   this.world = world;
 
   this.indexPage = function() {
@@ -17,6 +15,7 @@ var WizardControladorPage = function () {
   };
 
   this.isIndexPage = function() {
+    var novoControladorButton = 'a[ui-sref="app.wizard_controladores.dados_basicos"]';
     return world.waitFor(novoControladorButton);
   };
 

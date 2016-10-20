@@ -1,6 +1,9 @@
 'use strict';
 
 describe('Directive: influuntKnob', function () {
+  var element,
+    scope,
+    $compile;
 
   var getComponentsValue = function(element) {
     var value = $(element).find('input[type=hidden]').val();
@@ -15,11 +18,8 @@ describe('Directive: influuntKnob', function () {
     scope.$apply();
   };
 
-  var element,
-    scope,
-    $compile;
 
-  beforeEach(inject(function ($rootScope, $timeout, _$compile_) {
+  beforeEach(inject(function ($rootScope, _$compile_) {
     $compile = _$compile_;
     scope = $rootScope.$new();
     scope.teste = {
@@ -30,10 +30,9 @@ describe('Directive: influuntKnob', function () {
       label: 'SEG'
     };
 
-    element = angular.element('<influunt-knob title="{{ teste.title }}" label="{{ teste.label }}" ng-model="teste.knob" max="teste.max" min="scope.min"></influunt-knob>');
+    element = angular.element('<influunt-knob title="{{ teste.title }}" label="{{ teste.label }}" ng-model="teste.knob" max="teste.max" min="teste.min"></influunt-knob>');
     element = $compile(element)(scope);
     scope.$apply();
-    $timeout.flush();
   }));
 
   it('Deve ter o titulo igual ao valor passado por parametro', function() {
@@ -72,4 +71,38 @@ describe('Directive: influuntKnob', function () {
   it('Se não houver valor de ng-model, ele deverá ser atualizado para o valor mínimo', function() {
     expect(scope.teste.knob).toBe(scope.teste.min);
   });
+
+  describe('Valores acima do máximo permitido.', function () {
+    var influuntAlert;
+    beforeEach(inject(function(_influuntAlert_) {
+      influuntAlert = _influuntAlert_;
+      spyOn(influuntAlert, 'alert');
+
+      setComponentsValue(element, 142);
+      scope.$apply();
+    }));
+    beforeEach(function(done) {setTimeout(done, 500);});
+
+    it('Se o valor setado para o knob for maior que o limite informado, o usuário deverá ser alertado', function() {
+      expect(influuntAlert.alert).toHaveBeenCalled();
+    });
+  });
+
+  describe('valores abaixo do mínimo permitido', function () {
+    var influuntAlert;
+    beforeEach(inject(function(_influuntAlert_) {
+      influuntAlert = _influuntAlert_;
+      spyOn(influuntAlert, 'alert');
+
+      setComponentsValue(element, -42);
+      scope.$apply();
+    }));
+    beforeEach(function(done) {setTimeout(done, 500);});
+
+    it('Se o valor setado para o knob for menor que o limite informado, o usuário deverá ser alertado', function() {
+      expect(influuntAlert.alert).toHaveBeenCalled();
+    });
+  });
+
+
 });

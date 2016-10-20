@@ -1,5 +1,6 @@
 package status;
 
+import com.google.gson.Gson;
 import models.MotivoFalhaControlador;
 import org.jetbrains.annotations.NotNull;
 import org.jongo.Aggregate;
@@ -26,20 +27,24 @@ public class ErrosControlador {
 
     public String idControlador;
 
+    public String idFabricante;
+
     public Long timestamp;
 
     public MotivoFalhaControlador motivoFalhaControlador;
 
-    public ErrosControlador(String idControlador, long timestamp, MotivoFalhaControlador motivoFalhaControlador) {
+    public ErrosControlador(String idControlador, long timestamp, MotivoFalhaControlador motivoFalhaControlador, String idFabricante) {
         this.idControlador = idControlador;
         this.timestamp = timestamp;
         this.motivoFalhaControlador = motivoFalhaControlador;
+        this.idFabricante = idFabricante;
     }
 
     public ErrosControlador(Map map) {
         this.idControlador = map.get("idControlador").toString();
         this.timestamp = (long) map.get("timestamp");
         this.motivoFalhaControlador = MotivoFalhaControlador.valueOf(map.get("motivoFalhaControlador").toString());
+        this.idFabricante = map.get("idFabricante").toString();
     }
 
     public static MongoCollection erros() {
@@ -109,8 +114,8 @@ public class ErrosControlador {
         erros().drop();
     }
 
-    public static void log(String idControlador, long carimboDeTempo, MotivoFalhaControlador motivoFalhaControlador) {
-        new ErrosControlador(idControlador, carimboDeTempo, motivoFalhaControlador).save();
+    public static void log(String idControlador, long carimboDeTempo, MotivoFalhaControlador motivoFalhaControlador, String idFabricante) {
+        new ErrosControlador(idControlador, carimboDeTempo, motivoFalhaControlador, idFabricante).save();
 
     }
 
@@ -124,5 +129,17 @@ public class ErrosControlador {
 
     private void save() {
         insert();
+    }
+
+
+    public static List<String> errosPorFabricante() {
+        ArrayList<String> resultado = new ArrayList<>();
+        Aggregate query = erros().aggregate("{$group:{_id:{idFabricante: '$idFabricante','status': '$motivoFalhaControlador'}, total:{$sum:1}}}, {$sort:{'total':-1}}");
+        Aggregate.ResultsIterator<Map> ultimoErro = query.as(Map.class);
+        Gson gson = new Gson();
+        for (Map m : ultimoErro) {
+            resultado.add(gson.toJson(m));
+        }
+        return resultado;
     }
 }

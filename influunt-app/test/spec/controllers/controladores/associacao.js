@@ -188,4 +188,107 @@ describe('Controller: ControladoresAssociacaoCtrl', function () {
       expect(scope.currentEstagios[2].idJson).toBe(3);
     });
   });
+  
+  describe('getErros', function () {
+    beforeEach(inject(function($timeout, handleValidations) {
+      scope.objeto = {
+        aneis: [
+          {
+            idJson: 1,
+            estagios: [
+              {idJson: 'E1A1'},
+              {idJson: 'E2A1'},
+              {idJson: 'E3A1'}
+            ],
+            gruposSemaforicos: [
+              {idJson: 'G1A1'},
+              {idJson: 'G2A1'},
+              {idJson: 'G3A1'}
+            ]
+          },
+          {
+            idJson: 2,
+            estagios: [
+              {idJson: 'E1A2'},
+              {idJson: 'E2A2'}
+            ],
+            gruposSemaforicos: [
+              {idJson: 'G1A1'},
+              {idJson: 'G2A2'}
+            ]
+          }
+        ],
+        estagios: [
+          {idJson: 'E1A1', anel: {idJson: 1}},
+          {idJson: 'E2A1', anel: {idJson: 1}, demandaPrioritaria: true},
+          {idJson: 'E3A1', anel: {idJson: 1}},
+          {idJson: 'E1A2', anel: {idJson: 2}},
+          {idJson: 'E2A2', anel: {idJson: 2}}
+        ],
+        gruposSemaforicos: [
+          {idJson: 'G1A1', anel: {idJson: 1}},
+          {idJson: 'G2A1', anel: {idJson: 1}},
+          {idJson: 'G3A1', anel: {idJson: 1}}
+        ]
+      };
+      var error = [
+        {
+          'root':'Controlador',
+          'message':'Esse grupo semafórico não pode estar associado a um estágio de demanda prioritária e a outro estágio ao mesmo tempo.',
+          'path':'aneis[0].gruposSemaforicos[2].naoEstaAssociadoAEstagioDemandaPrioritariaEOutroEstagio'
+        },
+        {
+          'root':'Controlador',
+          'message':'Estágio de demanda prioritária deve ser associado a um grupo semafórico veicular.',
+          'path':'aneis[0].estagios[1].umGrupoSemaforicoVeicularEmDemandaPrioritaria'
+        },
+        {
+          'root':'Controlador',
+          'message':'Existem grupos semafóricos conflitantes associados a esse estágio.',
+          'path':'aneis[0].estagios[0].naoDevePossuirGruposSemaforicosConflitantes'
+        },
+        {
+          "root": "Controlador",
+          "message": "O anel ativo deve ter somente um estágio de demanda prioritária.",
+          "path": "aneis[0].somenteUmEstagioDeDemandaPrioritaria"
+        }
+      ];
+      scope.errors = handleValidations.buildValidationMessages(error, scope.objeto);
+      scope.selecionaAnel(0);
+      scope.$apply();
+      $timeout.flush();
+    }));
+
+    it('Deve ter erro para o estágio 1', function() {
+      expect(scope.estagioTemErro(0, 0)).toBeTruthy();
+      expect(scope.errors.aneis[0].estagios[0].naoDevePossuirGruposSemaforicosConflitantes[0]).toBe('Existem grupos semafóricos conflitantes associados a esse estágio.');
+    });
+
+    it('Deve ter erro para o estágio 2', function() {
+      expect(scope.estagioTemErro(0, 1)).toBeTruthy();
+      expect(scope.errors.aneis[0].estagios[1].umGrupoSemaforicoVeicularEmDemandaPrioritaria[0]).toBe('Estágio de demanda prioritária deve ser associado a um grupo semafórico veicular.');
+    });
+
+    it('Não deve ter erro para o estágio 3', function() {
+      expect(scope.estagioTemErro(0, 2)).toBeFalsy();
+    });
+
+    it('Não deve ter erro para os grupos semaforicos 1, 2', function() {
+      expect(scope.grupoSemaforicoTemErro(0, {idJson: 'G1A1'})).toBeFalsy();
+      expect(scope.grupoSemaforicoTemErro(0, {idJson: 'G2A1'})).toBeFalsy();
+    });
+
+    it('Deve ter erro no anel', function() {
+      expect(scope.getErrosAneis(scope.errors.aneis[0]).lenght > 0).toBeFalsy();
+      expect(scope.getErrosAneis(scope.errors.aneis[0])[0]).toBe('O anel ativo deve ter somente um estágio de demanda prioritária.');
+    });
+
+    it('Deve ter erro para o grupo semaforico 3', function() {
+      var grupo = {idJson: 'G3A1'};
+      expect(scope.grupoSemaforicoTemErro(0, grupo)).toBeTruthy();
+      expect(scope.getErrosGrupoSemaforico(0, grupo).naoEstaAssociadoAEstagioDemandaPrioritariaEOutroEstagio[0]).toBe('Esse grupo semafórico não pode estar associado a um estágio de demanda prioritária e a outro estágio ao mesmo tempo.');
+    });
+    
+  });
+  
 });

@@ -2,11 +2,7 @@ package integracao;
 
 import checks.*;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Anel;
-import models.Controlador;
-import models.StatusControlador;
-import models.StatusDevice;
-import org.junit.Ignore;
+import models.*;
 import org.junit.Test;
 import protocol.TipoMensagem;
 import status.StatusControladorFisico;
@@ -102,8 +98,9 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
 
     @Test
     public void naoExisteConfiguracao() throws InterruptedException, ExecutionException, TimeoutException {
-        controlador.setStatusControlador(StatusControlador.EM_CONFIGURACAO);
-        controlador.save();
+        VersaoControlador versaoControlador = controlador.getVersaoControlador();
+        versaoControlador.setStatusVersao(StatusVersao.EM_CONFIGURACAO);
+        versaoControlador.update();
         startClient();
 
         await().until(() -> onPublishFutureList.size() > 2);

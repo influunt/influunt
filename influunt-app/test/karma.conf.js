@@ -70,6 +70,7 @@ module.exports = function(config) {
       'bower_components/angular-permission/dist/angular-permission.js',
       'bower_components/angular-permission/dist/angular-permission-ui.js',
       'bower_components/angular-permission/dist/angular-permission-ng.js',
+      'bower_components/humanize-duration/humanize-duration.js',
 
       // inspinea scripts.
       'app/plugins/jquery-ui-1.12.0/jquery-ui.js',
@@ -78,7 +79,7 @@ module.exports = function(config) {
       'app/plugins/inspinia.js',
       'app/plugins/iCheck/icheck.js',
       'app/plugins/dropzone/dropzone.js',
-      'app/plugins/roundSlider-1.3/roundslider.min.js',
+      'app/plugins/roundSlider-1.3/roundslider.js',
       'app/plugins/uiTabs/ui.tabs.overflowResize.js',
       'app/plugins/uiTabs/lib/ui.tabs.addTab.js',
       'app/plugins/uiTabs/lib/ui.tabs.closable.js',
