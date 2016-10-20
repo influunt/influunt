@@ -4,6 +4,7 @@ import config.WithInfluuntApplicationNoAuthentication;
 import engine.IntervaloGrupoSemaforico;
 import integracao.ControladorHelper;
 import models.Controlador;
+import models.Evento;
 import models.simulador.parametros.ParametroSimulacao;
 import models.simulador.parametros.ParametroSimulacaoDetector;
 import org.apache.commons.math3.util.Pair;
@@ -40,6 +41,16 @@ public class SimuladorTest extends WithInfluuntApplicationNoAuthentication {
 
 
         Simulador simulador = new Simulador(inicioSimulacao, controlador, parametroSimulacao) {
+            @Override
+            public void onTrocaDePlano(DateTime timestamp, Evento eventoAnterior, Evento eventoAtual) {
+
+            }
+
+            @Override
+            public void onTrocaDePlanoEfetiva(DateTime timestamp, DateTime origem, int anel, Evento eventoAtual) {
+
+            }
+
             @Override
             public void onEstagioChange(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
 

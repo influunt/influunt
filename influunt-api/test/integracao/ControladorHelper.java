@@ -641,6 +641,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
 
         criarPlano(anel, 5, ModoOperacaoPlano.INTERMITENTE, null);
         criarPlano(anel, 6, ModoOperacaoPlano.APAGADO, null);
+        criarPlano(anel, 10, ModoOperacaoPlano.APAGADO, null);
 
         controlador.save();
     }
@@ -668,9 +669,10 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
 
         criarEvento(tabelaHoraria, 1, TipoEvento.NORMAL, DiaDaSemana.TODOS_OS_DIAS, LocalTime.parse("00:00:00"), 1);
         criarEvento(tabelaHoraria, 2, TipoEvento.NORMAL, DiaDaSemana.SEGUNDA_A_SABADO, LocalTime.parse("08:00:00"), 1);
-        criarEvento(tabelaHoraria, 1, TipoEvento.NORMAL, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("18:00:00"), 1);
-        criarEvento(tabelaHoraria, 3, TipoEvento.ESPECIAL_RECORRENTE, DiaDaSemana.SEGUNDA_A_SABADO, LocalTime.parse("18:00:00"), 1);
-        criarEvento(tabelaHoraria, 4, TipoEvento.ESPECIAL_NAO_RECORRENTE, DiaDaSemana.DOMINGO, LocalTime.parse("08:00:00"), 1);
+        criarEvento(tabelaHoraria, 3, TipoEvento.NORMAL, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("18:00:00"), 1);
+        criarEvento(tabelaHoraria, 4, TipoEvento.NORMAL, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("18:01:00"), 10);
+        criarEvento(tabelaHoraria, 1, TipoEvento.ESPECIAL_RECORRENTE, DiaDaSemana.SEGUNDA_A_SABADO, LocalTime.parse("18:00:00"), 1);
+        criarEvento(tabelaHoraria, 1, TipoEvento.ESPECIAL_NAO_RECORRENTE, DiaDaSemana.DOMINGO, LocalTime.parse("08:00:00"), 1);
 
         controlador.save();
     }

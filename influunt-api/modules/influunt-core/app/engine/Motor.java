@@ -3,17 +3,22 @@ package engine;
 import models.Controlador;
 import models.Evento;
 import models.Plano;
+import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+
+import static com.sun.tools.doclint.Entity.ge;
 
 
 /**
  * Created by rodrigosol on 9/26/16.
  */
-public class Motor implements GerenciadorDeEstagiosCallback, EventoCallback {
+public class Motor implements  EventoCallback, GerenciadorDeEstagiosCallback {
 
     private final DateTime inicioControlador;
 
@@ -29,6 +34,8 @@ public class Motor implements GerenciadorDeEstagiosCallback, EventoCallback {
 
     private Evento eventoAtual;
 
+    private Map<DateTime,List<Pair<DateTime,Pair<GerenciadorDeEstagios,Evento>>>> agendamentos = new HashMap<>() ;
+
 
     public Motor(Controlador controlador, DateTime inicioControlador, DateTime inicioExecucao, MotorCallback callback) {
         this.callback = callback;
@@ -43,16 +50,34 @@ public class Motor implements GerenciadorDeEstagiosCallback, EventoCallback {
     public void tick() {
         Evento evento = gerenciadorDeEventos.eventoAtual(instante);
         boolean iniciarGrupos = false;
-        if (eventoAtual == null) {
-            //onEventoChange(instante, null, evento);
-            eventoAtual = evento;
-            iniciarGrupos = true;
-        } else {
-            if (!evento.equals(eventoAtual)) {
-                //onEventoChange(instante, eventoAtual, evento);
-                eventoAtual = evento;
-//                gerenciadorDeIntervalos.trocarPlanos(instante, getPlanos(eventoAtual));
+        if (eventoAtual == null || !evento.equals(eventoAtual)) {
+            callback.onTrocaDePlano(instante,eventoAtual,evento);
+            if(eventoAtual == null){
+                iniciarGrupos = true;
+            }else{
+                estagios.stream().forEach(gerenciadorDeEstagios -> {
+
+                    DateTime momentoTroca = instante.plus(gerenciadorDeEstagios.proximaJanelaDeTroca());
+
+                    if(!agendamentos.containsKey(momentoTroca)){
+                        agendamentos.put(momentoTroca, new ArrayList<>());
+                    }
+
+                    final Pair<GerenciadorDeEstagios, Evento> agendamento =
+                            new Pair<GerenciadorDeEstagios, Evento>(gerenciadorDeEstagios, evento);
+
+
+                    agendamentos.get(momentoTroca).add(new Pair<DateTime, Pair<GerenciadorDeEstagios, Evento>>(instante,agendamento));
+                });
             }
+            eventoAtual = evento;
+        }
+
+        if(agendamentos.get(instante) != null){
+            agendamentos.get(instante).stream().forEach(ge -> {
+                ge.getSecond().getFirst().trocarPlano(getPlanos(ge.getSecond().getSecond()).get(ge.getSecond().getFirst().getAnel() - 1));
+                callback.onTrocaDePlanoEfetiva(instante,ge.getFirst(),ge.getSecond().getFirst().getAnel(),ge.getSecond().getSecond());
+            });
         }
 
         if (iniciarGrupos) {
@@ -84,7 +109,7 @@ public class Motor implements GerenciadorDeEstagiosCallback, EventoCallback {
     private List<Plano> getPlanos(Evento evento) {
         return controlador.getAneis().stream().sorted((a1, a2) -> a1.getPosicao().compareTo(a2.getPosicao()))
                 .flatMap(anel -> anel.getPlanos().stream())
-                .filter(plano -> plano.getPosicao() == eventoAtual.getPosicaoPlano())
+                .filter(plano -> plano.getPosicao() == evento.getPosicaoPlano())
                 .collect(Collectors.toList());
     }
 

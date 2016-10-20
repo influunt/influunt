@@ -19,11 +19,11 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private final DateTime inicioExecucao;
 
-    private final HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerde;
+    private HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerde;
 
-    private final List<EstagioPlano> listaOriginalEstagioPlanos;
+    private List<EstagioPlano> listaOriginalEstagioPlanos;
 
-    private final Plano plano;
+    private Plano plano;
 
     private final GerenciadorDeEstagiosCallback callback;
 
@@ -60,12 +60,22 @@ public class GerenciadorDeEstagios implements EventoCallback {
         this.anel = anel;
         this.inicioControlador = inicioControlador;
         this.inicioExecucao = inicioExecucao;
-        this.plano = plano;
         this.callback = callback;
+
+        reconhecePlano(plano);
+
+    }
+
+    private void reconhecePlano(Plano plano) {
+
+        this.plano = plano;
         this.tabelaDeTemposEntreVerde = this.plano.tabelaEntreVerde();
         this.listaOriginalEstagioPlanos = this.plano.ordenarEstagiosPorPosicaoSemEstagioDispensavel();
         this.listaEstagioPlanos = new ArrayList<>(listaOriginalEstagioPlanos);
         contadorEstagio = 0;
+        contadorIntervalo = 0l;
+        contadorDeCiclos = 0l;
+        tempoDecorrido = 0l;
 
         if (plano.isModoOperacaoVerde()) {
             this.estagioPlanoAtual = listaEstagioPlanos.get(listaEstagioPlanos.size() - 1);
@@ -73,7 +83,6 @@ public class GerenciadorDeEstagios implements EventoCallback {
         } else {
             geraIntervalosFixos();
         }
-
     }
 
     private void geraIntervalos(Integer index) {
@@ -283,6 +292,18 @@ public class GerenciadorDeEstagios implements EventoCallback {
             atualizaEstagiosCicloAtual(estagioPlano);
         });
         estagiosProximoCiclo.clear();
+    }
+
+    public long proximaJanelaDeTroca() {
+        return 0;
+    }
+
+    public int getAnel() {
+        return anel;
+    }
+
+    public void trocarPlano(Plano novoPlano) {
+        reconhecePlano(novoPlano);
     }
 
     private class GetIntervaloGrupoSemaforico {

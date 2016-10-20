@@ -1,6 +1,7 @@
 package simulador.akka;
 
 import engine.IntervaloGrupoSemaforico;
+import models.Evento;
 import models.simulador.parametros.ParametroSimulacao;
 import org.joda.time.DateTime;
 import simulador.Simulador;
@@ -32,6 +33,16 @@ public class SimuladorAkka extends Simulador {
 
     @Override
     public void onCicloEnds(int anel, Long numeroCiclos) {
+
+    }
+
+    @Override
+    public void onTrocaDePlano(DateTime timestamp, Evento eventoAnterior, Evento eventoAtual) {
+
+    }
+
+    @Override
+    public void onTrocaDePlanoEfetiva(DateTime timestamp, DateTime origem, int anel, Evento eventoAtual) {
 
     }
 }
