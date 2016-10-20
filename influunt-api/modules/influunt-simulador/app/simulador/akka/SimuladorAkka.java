@@ -1,5 +1,6 @@
 package simulador.akka;
 
+import engine.AgendamentoTrocaPlano;
 import engine.IntervaloGrupoSemaforico;
 import models.Evento;
 import models.simulador.parametros.ParametroSimulacao;
@@ -37,12 +38,13 @@ public class SimuladorAkka extends Simulador {
     }
 
     @Override
-    public void onTrocaDePlano(DateTime timestamp, Evento eventoAnterior, Evento eventoAtual) {
+    public void onTrocaDePlanoEfetiva(AgendamentoTrocaPlano agendamentoTrocaPlano) {
 
     }
 
     @Override
-    public void onTrocaDePlanoEfetiva(DateTime timestamp, DateTime origem, int anel, Evento eventoAtual) {
+    public void onTrocaDePlano(DateTime timestamp, Evento eventoAnterior, Evento eventoAtual) {
 
     }
+
 }

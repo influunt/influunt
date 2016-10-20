@@ -8,7 +8,5 @@ import org.joda.time.DateTime;
  */
 public interface MotorCallback extends GerenciadorDeEstagiosCallback {
     public void onTrocaDePlano(DateTime timestamp, Evento eventoAnterior, Evento eventoAtual);
-    public void onTrocaDePlanoEfetiva(DateTime timestamp,DateTime origem, int anel, Evento eventoAtual);
-
 
 }

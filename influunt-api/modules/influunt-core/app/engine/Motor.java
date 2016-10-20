@@ -34,9 +34,6 @@ public class Motor implements  EventoCallback, GerenciadorDeEstagiosCallback {
 
     private Evento eventoAtual;
 
-    private Map<DateTime,List<Pair<DateTime,Pair<GerenciadorDeEstagios,Evento>>>> agendamentos = new HashMap<>() ;
-
-
     public Motor(Controlador controlador, DateTime inicioControlador, DateTime inicioExecucao, MotorCallback callback) {
         this.callback = callback;
         this.controlador = controlador;
@@ -56,28 +53,10 @@ public class Motor implements  EventoCallback, GerenciadorDeEstagiosCallback {
                 iniciarGrupos = true;
             }else{
                 estagios.stream().forEach(gerenciadorDeEstagios -> {
-
-                    DateTime momentoTroca = instante.plus(gerenciadorDeEstagios.proximaJanelaDeTroca());
-
-                    if(!agendamentos.containsKey(momentoTroca)){
-                        agendamentos.put(momentoTroca, new ArrayList<>());
-                    }
-
-                    final Pair<GerenciadorDeEstagios, Evento> agendamento =
-                            new Pair<GerenciadorDeEstagios, Evento>(gerenciadorDeEstagios, evento);
-
-
-                    agendamentos.get(momentoTroca).add(new Pair<DateTime, Pair<GerenciadorDeEstagios, Evento>>(instante,agendamento));
+                    gerenciadorDeEstagios.trocarPlano(new AgendamentoTrocaPlano(evento,getPlanos(evento).get(gerenciadorDeEstagios.getAnel() - 1),instante));
                 });
             }
             eventoAtual = evento;
-        }
-
-        if(agendamentos.get(instante) != null){
-            agendamentos.get(instante).stream().forEach(ge -> {
-                ge.getSecond().getFirst().trocarPlano(getPlanos(ge.getSecond().getSecond()).get(ge.getSecond().getFirst().getAnel() - 1));
-                callback.onTrocaDePlanoEfetiva(instante,ge.getFirst(),ge.getSecond().getFirst().getAnel(),ge.getSecond().getSecond());
-            });
         }
 
         if (iniciarGrupos) {
@@ -104,6 +83,11 @@ public class Motor implements  EventoCallback, GerenciadorDeEstagiosCallback {
     @Override
     public void onCicloEnds(int anel, Long numeroCiclos) {
         callback.onCicloEnds(anel, numeroCiclos);
+    }
+
+    @Override
+    public void onTrocaDePlanoEfetiva(AgendamentoTrocaPlano agendamentoTrocaPlano) {
+        callback.onTrocaDePlanoEfetiva(agendamentoTrocaPlano);
     }
 
     private List<Plano> getPlanos(Evento evento) {

@@ -1,6 +1,7 @@
 package simulacao;
 
 import config.WithInfluuntApplicationNoAuthentication;
+import engine.AgendamentoTrocaPlano;
 import engine.IntervaloGrupoSemaforico;
 import integracao.ControladorHelper;
 import models.Controlador;
@@ -47,11 +48,6 @@ public class SimuladorTest extends WithInfluuntApplicationNoAuthentication {
             }
 
             @Override
-            public void onTrocaDePlanoEfetiva(DateTime timestamp, DateTime origem, int anel, Evento eventoAtual) {
-
-            }
-
-            @Override
             public void onEstagioChange(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
 
             }
@@ -67,6 +63,11 @@ public class SimuladorTest extends WithInfluuntApplicationNoAuthentication {
 
             @Override
             public void onCicloEnds(int anel, Long numeroCiclos) {
+
+            }
+
+            @Override
+            public void onTrocaDePlanoEfetiva(AgendamentoTrocaPlano agendamentoTrocaPlano) {
 
             }
         };

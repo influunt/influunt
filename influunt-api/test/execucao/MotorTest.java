@@ -2,14 +2,13 @@ package execucao;
 
 
 import config.WithInfluuntApplicationNoAuthentication;
-import engine.GerenciadorDeEstagios;
-import engine.IntervaloGrupoSemaforico;
-import engine.Motor;
-import engine.MotorCallback;
+import engine.*;
 import integracao.ControladorHelper;
+import models.Anel;
 import models.Controlador;
 import models.EstadoGrupoSemaforico;
 import models.Evento;
+import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +27,7 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
 
     private Controlador controlador;
     HashMap<DateTime, Evento> listaTrocaPlano;
-    HashMap<DateTime, Evento> listaTrocaPlanoEfetiva;
+    HashMap<DateTime, HashMap<Integer, Evento>> listaTrocaPlanoEfetiva;
 
     @Before
     public void setup() {
@@ -52,6 +51,13 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
 
         assertEquals("Plano Atual", 1, listaTrocaPlano.get(inicioExecucao).getPosicaoPlano().intValue());
         assertEquals("Plano Atual", 10, listaTrocaPlano.get(inicioExecucao.plusSeconds(60)).getPosicaoPlano().intValue());
+
+//        assertEquals("Plano Atual", 1, listaTrocaPlanoEfetiva.get(inicioExecucao).get(1).getPosicaoPlano().intValue());
+//        assertEquals("Plano Atual", 1, listaTrocaPlanoEfetiva.get(inicioExecucao).get(2).getPosicaoPlano().intValue());
+//        assertEquals("Plano Atual", 1, listaTrocaPlanoEfetiva.get(inicioExecucao).get(3).getPosicaoPlano().intValue());
+        assertEquals("Plano Atual", 10, listaTrocaPlanoEfetiva.get(inicioExecucao.plusSeconds(104)).get(1).getPosicaoPlano().intValue());
+        assertEquals("Plano Atual", 10, listaTrocaPlanoEfetiva.get(inicioExecucao.plusSeconds(118)).get(2).getPosicaoPlano().intValue());
+//        assertEquals("Plano Atual", 10, listaTrocaPlanoEfetiva.get(inicioExecucao.plusSeconds(60)).get(3).getPosicaoPlano().intValue());
     }
 
     @Override
@@ -60,9 +66,13 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
     }
 
     @Override
-    public void onTrocaDePlanoEfetiva(DateTime timestamp, DateTime origem, int anel, Evento eventoAtual) {
-        listaTrocaPlanoEfetiva.put(timestamp, eventoAtual);
+    public void onTrocaDePlanoEfetiva(AgendamentoTrocaPlano agendamentoTrocaPlano) {
+        if(!listaTrocaPlanoEfetiva.containsKey(agendamentoTrocaPlano.getMomentoDaTroca())){
+            listaTrocaPlanoEfetiva.put(agendamentoTrocaPlano.getMomentoDaTroca(), new HashMap<>());
+        }
+        listaTrocaPlanoEfetiva.get(agendamentoTrocaPlano.getMomentoDaTroca()).put(agendamentoTrocaPlano.getAnel(), agendamentoTrocaPlano.getEvento());
     }
+
 
     @Override
     public void onEstagioChange(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {

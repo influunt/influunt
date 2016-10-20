@@ -1308,6 +1308,11 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
 
             }
 
+            @Override
+            public void onTrocaDePlanoEfetiva(AgendamentoTrocaPlano agendamentoTrocaPlano) {
+
+            }
+
         });
     }
 

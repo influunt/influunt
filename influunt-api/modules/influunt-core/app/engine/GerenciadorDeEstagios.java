@@ -10,6 +10,8 @@ import org.joda.time.DateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.sun.javafx.tools.resource.DeployResource.Type.data;
+
 /**
  * Created by rodrigosol on 10/11/16.
  */
@@ -48,6 +50,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
     private long contadorDeCiclos = 0L;
 
     private GetIntervaloGrupoSemaforico intervaloGrupoSemaforicoAtual = null;
+    private AgendamentoTrocaPlano agendamento = null;
 
     private String idJsonNovoEstagio;
 
@@ -65,6 +68,58 @@ public class GerenciadorDeEstagios implements EventoCallback {
         reconhecePlano(plano);
 
     }
+
+    public Estagio tick() {
+        IntervaloEstagio intervalo = this.intervalos.get(contadorIntervalo);
+
+        if (this.intervalos.get(contadorIntervalo) == null) {
+            contadorIntervalo = 0L;
+            contadorEstagio++;
+            if (contadorEstagio == listaEstagioPlanos.size()) {
+                atualizaListaEstagiosNovoCiclo(listaOriginalEstagioPlanos);
+                contadorEstagio = 0;
+                geraIntervalos(0);
+                contadorDeCiclos++;
+                callback.onCicloEnds(this.anel, contadorDeCiclos);
+                if(this.agendamento != null){
+                    //Calcular entreverdes
+                    agendamento.setMomentoDaTroca(tempoDecorrido);
+                    callback.onTrocaDePlanoEfetiva(agendamento);
+                    reconhecePlano(this.agendamento.getPlano());
+                    this.agendamento = null;
+                }
+            } else {
+                geraIntervalos(contadorEstagio);
+            }
+            intervalo = this.intervalos.get(contadorIntervalo);
+        }
+
+        EstagioPlano estagioPlano = intervalo.getEstagioPlano();
+        if (!estagioPlano.equals(estagioPlanoAtual)) {
+            if (intervaloGrupoSemaforicoAtual != null) {
+                IntervaloGrupoSemaforico intervaloGrupoSemaforico = new IntervaloGrupoSemaforico(intervaloGrupoSemaforicoAtual.getIntervaloEntreverde(), intervaloGrupoSemaforicoAtual.getIntervaloVerde());
+                callback.onEstagioEnds(this.anel, contadorDeCiclos, tempoDecorrido, inicioExecucao.plus(tempoDecorrido), intervaloGrupoSemaforico);
+            }
+
+            intervaloGrupoSemaforicoAtual = new GetIntervaloGrupoSemaforico().invoke();
+            callback.onEstagioChange(this.anel, contadorDeCiclos, tempoDecorrido, inicioExecucao.plus(tempoDecorrido),
+                    new IntervaloGrupoSemaforico(intervaloGrupoSemaforicoAtual.getIntervaloEntreverde(), intervaloGrupoSemaforicoAtual.getIntervaloVerde()));
+
+            estagioPlanoAnterior = estagioPlanoAtual;
+            estagioPlanoAtual = estagioPlano;
+        }
+
+        contadorIntervalo += 100L;
+        tempoDecorrido += 100L;
+        return estagioPlano.getEstagio();
+    }
+
+    public void trocarPlano(AgendamentoTrocaPlano agendamentoTrocaPlano) {
+        agendamentoTrocaPlano.setMomentoPedidoTroca(tempoDecorrido);
+        agendamentoTrocaPlano.setAnel(anel);
+        agendamento = agendamentoTrocaPlano;
+    }
+
 
     private void reconhecePlano(Plano plano) {
 
@@ -120,44 +175,6 @@ public class GerenciadorDeEstagios implements EventoCallback {
     }
 
 
-    public Estagio tick() {
-        IntervaloEstagio intervalo = this.intervalos.get(contadorIntervalo);
-
-
-        if (this.intervalos.get(contadorIntervalo) == null) {
-            contadorIntervalo = 0L;
-            contadorEstagio++;
-            if (contadorEstagio == listaEstagioPlanos.size()) {
-                atualizaListaEstagiosNovoCiclo(listaOriginalEstagioPlanos);
-                contadorEstagio = 0;
-                geraIntervalos(0);
-                contadorDeCiclos++;
-                callback.onCicloEnds(this.anel, contadorDeCiclos);
-            } else {
-                geraIntervalos(contadorEstagio);
-            }
-            intervalo = this.intervalos.get(contadorIntervalo);
-        }
-
-        EstagioPlano estagioPlano = intervalo.getEstagioPlano();
-        if (!estagioPlano.equals(estagioPlanoAtual)) {
-            if (intervaloGrupoSemaforicoAtual != null) {
-                IntervaloGrupoSemaforico intervaloGrupoSemaforico = new IntervaloGrupoSemaforico(intervaloGrupoSemaforicoAtual.getIntervaloEntreverde(), intervaloGrupoSemaforicoAtual.getIntervaloVerde());
-                callback.onEstagioEnds(this.anel, contadorDeCiclos, tempoDecorrido, inicioExecucao.plus(tempoDecorrido), intervaloGrupoSemaforico);
-            }
-
-            intervaloGrupoSemaforicoAtual = new GetIntervaloGrupoSemaforico().invoke();
-            callback.onEstagioChange(this.anel, contadorDeCiclos, tempoDecorrido, inicioExecucao.plus(tempoDecorrido),
-                    new IntervaloGrupoSemaforico(intervaloGrupoSemaforicoAtual.getIntervaloEntreverde(), intervaloGrupoSemaforicoAtual.getIntervaloVerde()));
-
-            estagioPlanoAnterior = estagioPlanoAtual;
-            estagioPlanoAtual = estagioPlano;
-        }
-
-        contadorIntervalo += 100L;
-        tempoDecorrido += 100L;
-        return estagioPlano.getEstagio();
-    }
 
     @Override
     public void onEvento(EventoMotor eventoMotor) {
@@ -294,16 +311,9 @@ public class GerenciadorDeEstagios implements EventoCallback {
         estagiosProximoCiclo.clear();
     }
 
-    public long proximaJanelaDeTroca() {
-        return 0;
-    }
 
     public int getAnel() {
         return anel;
-    }
-
-    public void trocarPlano(Plano novoPlano) {
-        reconhecePlano(novoPlano);
     }
 
     private class GetIntervaloGrupoSemaforico {
