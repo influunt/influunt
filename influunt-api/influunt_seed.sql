@@ -13,6 +13,7 @@ INSERT INTO `usuarios` (`id`, `login`, `senha`, `email`, `nome`, `root`, `data_c
 -- # Faixas de Valores com valores Padrão
 INSERT INTO `influuntdev`.`faixas_de_valores` (`id`, `id_json`, `tempo_defasagem_min`, `tempo_defasagem_max`, `tempo_amarelo_min`, `tempo_amarelo_max`, `tempo_vermelho_intermitente_min`, `tempo_vermelho_intermitente_max`, `tempo_vermelho_limpeza_veicular_min`, `tempo_vermelho_limpeza_veicular_max`, `tempo_vermelho_limpeza_pedestre_min`, `tempo_vermelho_limpeza_pedestre_max`, `tempo_atraso_grupo_min`, `tempo_atraso_grupo_max`, `tempo_verde_seguranca_veicular_min`, `tempo_verde_seguranca_veicular_max`, `tempo_verde_seguranca_pedestre_min`, `tempo_verde_seguranca_pedestre_max`, `tempo_maximo_permanencia_estagio_min`, `tempo_maximo_permanencia_estagio_max`, `default_tempo_maximo_permanencia_estagio_veicular`, `tempo_ciclo_min`, `tempo_ciclo_max`, `tempo_verde_minimo_min`, `tempo_verde_minimo_max`, `tempo_verde_maximo_min`, `tempo_verde_maximo_max`, `tempo_verde_intermediario_min`, `tempo_verde_intermediario_max`, `tempo_extensao_verde_min`, `tempo_extensao_verde_max`, `tempo_verde_min`, `tempo_verde_max`, `tempo_ausencia_deteccao_min`, `tempo_ausencia_deteccao_max`, `tempo_deteccao_permanente_min`, `tempo_deteccao_permanente_max`, `data_criacao`, `data_atualizacao`) VALUES (UUID(), UUID(), '0', '255', '3', '5', '3', '32', '0', '7', '0', '5', '0', '20', '10', '30', '4', '10', '60', '255', '127', '30', '255', '10', '255', '10', '255', '10', '255', '1.0', '10.0', '1', '255', '0', '4320', '0', '1440', NOW(), NOW());
 
+
 -- Perfis / Permissões
 Set @PerfilAdministradorId = UUID();
 INSERT into `perfis` (`id`, `nome`, `data_criacao`, `data_atualizacao`) VALUE (@PerfilAdministradorId, 'Administrador', NOW(), NOW());
@@ -46,11 +47,10 @@ SET @criarTabelaHorariaId = UUID();
 INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@criarTabelaHorariaId, 'criarTabelaHoraria', '[Programação] Criar Tabelas Horárias', NOW(), NOW());
 SET @EditarUsuariosId = UUID();
 INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@EditarUsuariosId, 'editarUsuarios', '[Usuários] - Editar Usuários', NOW(), NOW());
-SET @SimularId = UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@SimularId, 'simularControlador', '[Simulação] - Simular Operação do Controlador', NOW(), NOW());
 SET @DefinirPermissoesId = UUID();
 INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@DefinirPermissoesId, 'definirPermissoes', '[Perfis] - Definir as permissões dos perfis', NOW(), NOW());
-
+SET @CriarAgrupamentoId = UUID();
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@CriarAgrupamentoId, 'criarAgrupamentos', '[Agrupamentos] - Criar Agrupamentos', NOW(), NOW());
 
 
 
@@ -307,7 +307,6 @@ INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEng
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@CriarAgrupamentoId, @PermissaoId);
 SET @permAppId = UUID();
 INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'criarAgrupamentos', '[Agrupamentos] - Criar Agrupamentos', NOW(), NOW());
-INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 Set @PermissaoId = UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'PUT /api/v1/agrupamentos/$id<[^/]+>', '[Agrupamento] - Editar Agrupamento', NOW(), NOW());
@@ -429,8 +428,6 @@ Set @PermissaoId = UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'POST /api/v1/perfis', '[Perfil] - Criar Novo Perfil', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 -- INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
-INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@DefinirPermissoesId, @PermissaoId);
-
 SET @permAppId = UUID();
 INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'criarPerfis', '[Perfis] - Criar Perfis', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
@@ -441,11 +438,9 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 -- INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@DefinirPermissoesId, @PermissaoId);
-
 SET @permAppId = UUID();
 INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'editarPerfis', '[Perfis] - Editar Perfis', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
-INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@DefinirPermissoesId, @PermissaoId);
 
 Set @PermissaoId = UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/perfis/$id<[^/]+>', '[Perfil] - Exibir Perfil', NOW(), NOW());
@@ -993,9 +988,11 @@ INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atual
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 -- # Permissao Simulação
+Set @SimularId = UUID();
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@SimularId, 'simularControlador', '[Simulação] - Simular Funcionamento de Controlador', NOW(), NOW());
 
 Set @PermissaoId = UUID();
-INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/controladores/simulacao', '[Controladores] - Listar controladores para simulação', NOW(), NOW());
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/controladores/$id<[^/]+>/simulacao', '[Controladores] - Listar controladores para simulação', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@SimularId, @PermissaoId);
 

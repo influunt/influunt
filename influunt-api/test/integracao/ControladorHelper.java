@@ -61,7 +61,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         setDadosTabelaEntreVerdesCompleta();
         setDadosAssociacaoDetectores();
 
-        controlador.setStatusControlador(StatusControlador.CONFIGURADO);
+        controlador.setStatusVersao(StatusVersao.CONFIGURADO);
 
         controlador.save();
 
@@ -322,8 +322,6 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         criarAssociacaoEstagioGrupoSemaforico(anel, 2, 9);
 
         estagioGrupoSemaforico = criarAssociacaoEstagioGrupoSemaforico(anel, 3, 8);
-        estagioGrupoSemaforico.getEstagio().setDemandaPrioritaria(true);
-        estagioGrupoSemaforico.getEstagio().setTempoVerdeDemandaPrioritaria(30);
 
         anel = getAnel(3);
 
