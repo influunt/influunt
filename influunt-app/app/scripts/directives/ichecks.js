@@ -26,7 +26,7 @@ angular.module('influuntApp')
               radioClass: 'iradio_square-green'
             });
 
-            $(element[0]).on('ifChanged', function(ev) {
+            $(element[0]).on('ifToggled', function(ev) {
               $timeout(function() {
                 if(attr.type !== 'radio'){
                   scope.ngModel = ev.target.checked;

@@ -8,12 +8,12 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('TabelaHorariosCtrl', ['$controller', '$scope', '$state', '$timeout', 'Restangular', '$filter', 'toast',
-                           'influuntAlert', 'influuntBlockui', 'geraDadosDiagramaIntervalo',
-                           'handleValidations', 'TabelaHorariaService', 'HorariosService', 'planoService',
-    function ($controller, $scope, $state, $timeout, Restangular, $filter, toast,
-              influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo,
-              handleValidations, TabelaHorariaService, HorariosService, planoService) {
+  .controller('TabelaHorariosCtrl', ['$scope', '$state', '$timeout', 'Restangular', '$filter', 'toast', 'influuntAlert',
+                                     'influuntBlockui', 'geraDadosDiagramaIntervalo', 'handleValidations', 'TabelaHorariaService',
+                                     'HorariosService', 'planoService', '$controller',
+    function ($scope, $state, $timeout, Restangular, $filter, toast, influuntAlert,
+              influuntBlockui, geraDadosDiagramaIntervalo, handleValidations, TabelaHorariaService,
+              HorariosService, planoService, $controller) {
 
       $controller('HistoricoCtrl', {$scope: $scope});
       $scope.inicializaResourceHistorico('tabelas_horarias');
