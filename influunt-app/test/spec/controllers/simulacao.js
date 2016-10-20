@@ -75,6 +75,7 @@ describe('Controller: SimulacaoCtrl', function () {
     httpBackend.expectGET('/controladores/'+ controlador.id +'/simulacao').respond(controlador);
     scope.parametrosSimulacao = { disparoDetectores: [{}], imposicaoPlanos: [{}] };
     scope.$state.go('app.simulacao', { idControlador: controlador.id });
+    scope.$apply();
     scope.init();
     httpBackend.flush();
     scope.$apply();
