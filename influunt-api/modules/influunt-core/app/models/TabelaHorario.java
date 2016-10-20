@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * Entidade que representa o {@link TabelaHorario} no sistema
@@ -126,7 +127,7 @@ public class TabelaHorario extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = TabelaHorariosCheck.class,
             message = "A tabela horária deve ter pelo menos 1 evento configurado.")
     public boolean isAoMenosUmEvento() {
-        return !this.getEventos().isEmpty();
+        return !this.getEventos().stream().filter(ev -> !ev.isDestroy()).collect(Collectors.toList()).isEmpty();
     }
 
     public void addEventos(Evento evento) {

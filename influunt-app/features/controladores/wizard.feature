@@ -158,6 +158,8 @@ Funcionalidade: Fluxo de cadastro de controladores
     E confirma que será utilizada a configuração padrão para esse grupo semafórico
     E que o usuário clique no grupo "G5"
     E que o usuário marque 2 no tempo "Vermelho Intermitente" da transição "E2-E1"
+    Entao o sistema deverá mostrar um alerta para valor digitado menor que o limite mínimo
+    E o usuário responde ok
     E que o usuário marque 2 no tempo "Vermelho de Limpeza" da transição "E2-E1"
     Quando o usuário clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Atraso de Grupo"
@@ -169,6 +171,8 @@ Funcionalidade: Fluxo de cadastro de controladores
     E que o usuário marque 15 no campo 2 para transições com ganho de direito de passagem
     E que o usuário clique no grupo "G2"
     E que o usuário marque 23 no campo 1 para transições com perda de direito de passagem
+    Então o sistema deverá mostrar um alerta para valor digitado menor que o limite mínimo
+    E o usuário responde ok
     E que o usuário marque 15 no campo 2 para transições com perda de direito de passagem
     E que o usuário marque 10 no campo 1 para transições com ganho de direito de passagem
     E que o usuário clique no grupo "G3"
