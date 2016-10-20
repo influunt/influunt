@@ -8,9 +8,6 @@ import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 
 import java.util.*;
-import java.util.stream.Collectors;
-
-import static com.sun.javafx.tools.resource.DeployResource.Type.data;
 
 /**
  * Created by rodrigosol on 10/11/16.
@@ -138,6 +135,14 @@ public class GerenciadorDeEstagios implements EventoCallback {
         } else {
             geraIntervalosFixos();
         }
+
+        if(agendamento!=null){
+            EventoMotor eventoMotor = new EventoMotor(null,TipoEvento.TROCA_DE_PLANO_NO_ANEL,agendamento.getPlano().getPosicao(),agendamento.getAnel(),agendamento.getMomentoDaTroca());
+            this.intervalos.get(0l).addEvento(contadorIntervalo,eventoMotor);
+        }
+
+
+
     }
 
     private void geraIntervalos(Integer index) {

@@ -3,16 +3,11 @@ package engine;
 import models.Controlador;
 import models.Evento;
 import models.Plano;
-import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
-
-import static com.sun.tools.doclint.Entity.ge;
 
 
 /**

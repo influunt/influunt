@@ -9,6 +9,7 @@ import org.joda.time.DateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.asynchttpclient.ws.WebSocketUtils.getKey;
@@ -236,16 +237,50 @@ public class IntervaloGrupoSemaforico {
             StringBuffer sbInner = new StringBuffer();
             sbInner.append(entry.getValue().stream().map(eventoMotor -> {
                 StringBuffer eventosSb = new StringBuffer("[");
-                eventosSb.append(entry.getKey());
-                eventosSb.append(",\"");
-                eventosSb.append(eventoMotor.getTipoEvento().toString());
-                eventosSb.append("\",");
-                eventosSb.append(((Detector)eventoMotor.getParams()[0]).getPosicao());
-                eventosSb.append("]");
+                switch (eventoMotor.getTipoEvento()){
+                    case ACIONAMENTO_DETECTOR_PEDESTRE:
+                    case ACIONAMENTO_DETECTOR_VEICULAR:
+                        eventosSb.append(parseEventoDetector(eventoMotor,entry));
+                         break;
+                    case TROCA_DE_PLANO_NO_ANEL:
+                        eventosSb.append(parseEventoTrocaPlano(eventoMotor,entry));
+                        break;
+
+                }
                 return eventosSb.toString();
             }).collect(Collectors.joining(",")));
             return sbInner.toString();
         }).collect(Collectors.joining(","));
+    }
+
+
+    private String parseEventoTrocaPlano(EventoMotor eventoMotor, Map.Entry<Long, List<EventoMotor>> entry) {
+        StringBuffer sb = new StringBuffer();
+        sb.append(entry.getKey());
+        sb.append(",\"");
+        sb.append(eventoMotor.getTipoEvento().toString());
+        sb.append("\",");
+        sb.append(eventoMotor.getParams()[0].toString());
+        sb.append("\",");
+        sb.append(eventoMotor.getParams()[1].toString());
+        sb.append("\",");
+        sb.append(((DateTime)eventoMotor.getParams()[2]).getMillis());
+        sb.append("]");
+
+        return sb.toString();
+    }
+
+
+    private String parseEventoDetector(EventoMotor eventoMotor, Map.Entry<Long, List<EventoMotor>> entry) {
+        StringBuffer sb = new StringBuffer();
+        sb.append(entry.getKey());
+        sb.append(",\"");
+        sb.append(eventoMotor.getTipoEvento().toString());
+        sb.append("\",");
+        sb.append(((Detector)eventoMotor.getParams()[0]).getPosicao());
+        sb.append("]");
+
+        return sb.toString();
     }
 
 }
