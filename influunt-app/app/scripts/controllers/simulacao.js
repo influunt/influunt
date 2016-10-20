@@ -17,7 +17,10 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
 
   $scope.init = function() {
     var controladorId = $stateParams.idControlador;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 693ca3bf42608389e7ce5bab3c94fce23f7b0a42
     loadControlador(controladorId);
 
     $scope.velocidades = [

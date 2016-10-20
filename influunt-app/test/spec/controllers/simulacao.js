@@ -75,9 +75,9 @@ describe('Controller: SimulacaoCtrl', function () {
     httpBackend.expectGET('/controladores/'+ controlador.id +'/simulacao').respond(controlador);
     scope.parametrosSimulacao = { disparoDetectores: [{}], imposicaoPlanos: [{}] };
     scope.$state.go('app.simulacao', { idControlador: controlador.id });
+    scope.$apply();
     scope.init();
     httpBackend.flush();
-    scope.$apply();
 
     expect(scope.velocidades).toBeDefined();
     expect(scope.parametrosSimulacao).toBeDefined();
@@ -103,19 +103,4 @@ describe('Controller: SimulacaoCtrl', function () {
     expect(scope.parametrosSimulacao.imposicaoPlanos.length).toBe(2);
     expect(Object.keys(scope.parametrosSimulacao.imposicaoPlanos[1]).length).toBe(0);
   });
-
-  // it('deve escolher controlador de acordo com parametro na query string', function() {
-  //   httpBackend.expectGET('/controladores/simulacao').respond(controladores);
-  //   scope.parametrosSimulacao = { disparoDetectores: [{}], imposicaoPlanos: [{}] };
-  //   scope.$state.go('app.simulacao', { idControlador: controladores.data[0].id });
-  //   scope.init();
-  //   httpBackend.flush();
-  //   scope.$apply();
-
-  //   expect(scope.parametrosSimulacao.idControlador).toBe(controladores.data[0].id);
-  //   expect(scope.detectores).toBeDefined();
-  //   expect(scope.detectores.length).toBe(2);
-  //   expect(scope.planos).toBeDefined();
-  //   expect(scope.planos.length).toBe(2);
-  // });
 });

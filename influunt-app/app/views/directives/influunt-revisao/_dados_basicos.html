@@ -12,12 +12,12 @@
   <p><strong>{{ 'controladores.fabricante' | translate }}:</strong> {{ dadosBasicos.fabricante.nome }}</p>
   <p><strong>{{ 'controladores.modelo' | translate }}:</strong> {{ dadosBasicos.modelo.descricao }}</p><br>
   <p><strong>{{ 'controladores.estagios.titulo' | translate }}:</strong> {{ dadosBasicos.numEstagios }}</p>
-  <p><strong>{{ 'controladores.aneis' | translate }}:</strong> {{ dadosBasicos.numAneisAtivos }}</p>
+  <p><strong>{{ 'controladores.totalAneis' | translate }}:</strong> {{ dadosBasicos.numAneisAtivos }}</p>
   <p><strong>{{ 'controladores.maxDetectorVeicular' | translate }}:</strong> {{ dadosBasicos.numDetectoresVeicular }}</p>
   <p><strong>{{ 'controladores.maxDetectorPedestre' | translate }}:</strong> {{ dadosBasicos.numDetectoresPedestre }}</p>
 </div>
 
-<div class="col-lg-3 col-sm-6 padding-bottom-20">
+<div class="col-lg-3 col-sm-6 padding-bottom-20" name="croqui">
   <img data-ng-src="{{ dadosBasicos.croqui }}">
 </div>
 

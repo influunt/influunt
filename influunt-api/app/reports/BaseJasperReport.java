@@ -11,7 +11,6 @@ import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import play.Application;
 import play.Logger;
-import security.Auditoria;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -27,15 +26,19 @@ public class BaseJasperReport {
     @Inject
     private Provider<Application> provider;
 
-    public InputStream generateReport(String reportDefFile, Map reportParams, List<Auditoria> lista) {
+    public InputStream generateReport(String reportDefFile, Map reportParams, List lista) {
         OutputStream os = new ByteArrayOutputStream();
         try {
             Logger.warn("Gerando o relatorio de [".concat(reportDefFile.toUpperCase()).concat("] ..."));
             String compiledFile = provider.get().path().toString().concat(REPORT_DEFINITION_PATH).concat(reportDefFile).concat(".jasper");
+
             JRPdfExporter pdfExporter = new JRPdfExporter();
+
             OutputStreamExporterOutput output = new SimpleOutputStreamExporterOutput(os);
             pdfExporter.setExporterOutput(output);
+
             ExporterInput inp = new SimpleExporterInput(JasperFillManager.fillReport(compiledFile, reportParams, new JRBeanCollectionDataSource(lista)));
+
             pdfExporter.setExporterInput(inp);
             pdfExporter.exportReport();
         } catch (Exception e) {
@@ -43,6 +46,4 @@ public class BaseJasperReport {
         }
         return new ByteArrayInputStream(((ByteArrayOutputStream) os).toByteArray());
     }
-
-
 }

@@ -31,13 +31,13 @@ angular.module('influuntApp')
       $scope.pesquisa = {
         campos: [
           {
-            nome: 'statusControlador',
+            nome: 'versaoControlador.statusVersao',
             label: 'main.status',
             tipo: 'select',
             options: STATUS_CONTROLADOR
           },
           {
-            nome: 'numeroSmee',
+            nome: 'numeroSMEE',
             label: 'controladores.numeroSMEE',
             tipo: 'texto'
           },
@@ -201,7 +201,6 @@ angular.module('influuntApp')
        *
        * @param      {<type>}  index   The index
        */
-
       $scope.selecionaAnel = function(index) {
         $scope.currentAnelIndex = index;
         $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao'], ['asc']);
@@ -312,11 +311,11 @@ angular.module('influuntApp')
       $scope.atualizaTabelasEntreVerdesTransicoes = function() {
         var ids = _.map($scope.currentTabelaEntreVerdes.tabelaEntreVerdesTransicoes, 'idJson');
 
-
         $scope.currentTabelasEntreVerdesTransicoes = _
           .chain($scope.objeto.tabelasEntreVerdesTransicoes)
           .filter(function(tevt) { return ids.indexOf(tevt.idJson) >= 0; })
           .value();
+
 
         return $scope.currentTabelasEntreVerdesTransicoes;
       };
@@ -430,7 +429,7 @@ angular.module('influuntApp')
       };
 
       $scope.editarEmRevisao = function(controlador, step) {
-        if (controlador.statusControlador === 'EM_CONFIGURACAO' || controlador.statusControlador === 'EM_EDICAO') {
+        if (controlador.statusControlador === 'EM_CONFIGURACAO' || controlador.statusControlador === 'EDITANDO') {
           $scope.configurar(controlador.id, step);
         } else {
           $scope.copiar(controlador.id, step);
@@ -439,7 +438,7 @@ angular.module('influuntApp')
 
       $scope.copiar = function(controladorId, step) {
         step = step || 'app.wizard_controladores.dados_basicos';
-        return Restangular.one('controladores', controladorId).all("edit").customPOST()
+        return Restangular.one('controladores', controladorId).all('edit').customPOST()
           .then(function(res) {
             $state.go(step,{id: res.id});
           })
@@ -459,19 +458,6 @@ angular.module('influuntApp')
           .catch(function(err) {
             toast.clear();
             influuntAlert.alert('Controlador', err.data[0].message);
-          })
-          .finally(influuntBlockui.unblock);
-      };
-
-      $scope.timeline = function() {
-        var id = $state.params.id;
-        return Restangular.one('controladores', id).all("timeline").customGET()
-          .then(function(res) {
-            $scope.versoes = res;
-          })
-          .catch(function(err) {
-            toast.error($filter('translate')('geral.mensagens.default_erro'));
-            throw new Error(JSON.stringify(err));
           })
           .finally(influuntBlockui.unblock);
       };
@@ -545,7 +531,7 @@ angular.module('influuntApp')
       };
 
       $scope.podeFinalizar = function(controlador) {
-        return (controlador.statusControlador === 'EM_CONFIGURACAO' || controlador.statusControlador === 'EM_EDICAO') && controlador.planoConfigurado && controlador.tabelaHorariaConfigurado;
+        return (controlador.statusControlador === 'EM_CONFIGURACAO' || controlador.statusControlador === 'EDITANDO') && controlador.planoConfigurado && controlador.tabelaHorariaConfigurado;
       };
 
       $scope.podeMostrarPlanosETabelaHoraria = function(controlador) {

@@ -145,6 +145,7 @@ var ControladorComPlanos = {
     verdeMin: '1',
     verdeMax: '255',
     verdeMinimoMin: '10',
+    extensaoVerdeMin: '0',
     verdeMinimoMax: '255',
     verdeMaximoMin: '10',
     verdeMaximoMax: '255',

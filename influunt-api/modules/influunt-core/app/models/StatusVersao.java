@@ -5,8 +5,9 @@ package models;
  */
 public enum StatusVersao {
 
-    EDITANDO,
+    EM_CONFIGURACAO,
     CONFIGURADO,
+    EDITANDO,
     ATIVO,
     ARQUIVADO
 }

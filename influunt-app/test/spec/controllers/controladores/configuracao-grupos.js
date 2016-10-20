@@ -142,7 +142,7 @@ describe('Controller: ControladoresConfiguracaoGruposCtrl', function () {
       scope.aneis = scope.objeto.aneis;
       deferred = $q.defer();
       spyOn(influuntAlert, 'delete').and.returnValue(deferred.promise);
-      $httpBackend.expectDELETE('/controladores/remover_planos_tabelas_horarios').respond({});
+      $httpBackend.expectDELETE('/controladores/remover_planos_tabelas_horarias').respond({});
       scope.removeGrupo(scope.objeto.gruposSemaforicos[0]);
     }));
 
@@ -196,7 +196,7 @@ describe('Controller: ControladoresConfiguracaoGruposCtrl', function () {
     });
 
     it('Caso algum grupo semaforico seja removido, as posicoes dos posteriores deverão ser atualizadas', function() {
-      $httpBackend.expectDELETE('/controladores/remover_planos_tabelas_horarios').respond({});
+      $httpBackend.expectDELETE('/controladores/remover_planos_tabelas_horarias').respond({});
       deferred.resolve(true);
       scope.$apply();
       var grupo = _.find(scope.objeto.gruposSemaforicos, {idJson: scope.objeto.aneis[1].gruposSemaforicos[0].idJson});

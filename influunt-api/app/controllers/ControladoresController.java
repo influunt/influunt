@@ -111,15 +111,15 @@ public class ControladoresController extends Controller {
     @Dynamic(value = "ControladorAreaAuth(path)")
     public CompletionStage<Result> edit(String id) {
         if (getUsuario() == null) {
-            return CompletableFuture.completedFuture(unauthorized(Json.toJson(Arrays.asList(new Erro("clonar", "usuário não econtrado", "")))));
+            return CompletableFuture.completedFuture(unauthorized(Json.toJson(Collections.singletonList(new Erro("clonar", "usuário não econtrado", "")))));
         }
 
         Controlador controlador = Controlador.find.byId(UUID.fromString(id));
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
-            if (controlador.getStatusControlador().equals(StatusControlador.EM_EDICAO) && !usuarioPodeEditarControlador(controlador, getUsuario())) {
-                return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Arrays.asList(new Erro("editar", "usuário diferente do que está editando controlador!", "")))));
+            if (controlador.getVersaoControlador().getStatusVersao().equals(StatusVersao.EDITANDO) && !usuarioPodeEditarControlador(controlador, getUsuario())) {
+                return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(new Erro("editar", "usuário diferente do que está editando controlador!", "")))));
             }
 
             if (controlador.podeClonar()) {
@@ -136,26 +136,26 @@ public class ControladoresController extends Controller {
     public CompletionStage<Result> editarPlanos(String id) {
 
         if (getUsuario() == null) {
-            return CompletableFuture.completedFuture(unauthorized(Json.toJson(Arrays.asList(new Erro("clonar", "usuário não econtrado", "")))));
+            return CompletableFuture.completedFuture(unauthorized(Json.toJson(Collections.singletonList(new Erro("clonar", "usuário não econtrado", "")))));
         }
 
         Controlador controlador = Controlador.find.byId(UUID.fromString(id));
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
-        } else {
+        }
 
-            if (controlador.getStatusControlador().equals(StatusControlador.EM_EDICAO) && !usuarioPodeEditarControlador(controlador, getUsuario())) {
-                return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Arrays.asList(new Erro("editar", "usuário diferente do que está editando planos", "")))));
-            }
+        if (controlador.getVersaoControlador().getStatusVersao().equals(StatusVersao.EDITANDO) && !usuarioPodeEditarControlador(controlador, getUsuario())) {
+            return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(new Erro("editar", "usuário diferente do que está editando planos", "")))));
+        }
 
-            if (controlador.podeClonar()) {
-                controladorService.criarClonePlanos(controlador, getUsuario());
-                controlador.refresh();
-                return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador)));
-            }
-
+        if (controlador.podeClonar()) {
+            controladorService.criarClonePlanos(controlador, getUsuario());
+            controlador.refresh();
             return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador)));
         }
+
+        return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador)));
+
     }
 
     @Transactional
@@ -166,13 +166,13 @@ public class ControladoresController extends Controller {
             return CompletableFuture.completedFuture(unauthorized(Json.toJson(Arrays.asList(new Erro("clonar", "usuário não econtrado", "")))));
         }
 
-        Controlador controlador = Controlador.find.byId(UUID.fromString(id));
+        Controlador controlador = Controlador.find.fetch("versaoControlador").where().eq("id", id).findUnique();
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
 
-            if (controlador.getStatusControlador().equals(StatusControlador.EM_EDICAO) && !usuarioPodeEditarControlador(controlador, getUsuario())) {
-                return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Arrays.asList(new Erro("editar", "usuário diferente do que está editando planos", "")))));
+            if (controlador.getVersaoControlador().getStatusVersao().equals(StatusVersao.EDITANDO) && !usuarioPodeEditarControlador(controlador, getUsuario())) {
+                return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(new Erro("editar", "usuário diferente do que está editando planos", "")))));
             }
 
             if (controlador.podeClonar()) {
@@ -230,18 +230,21 @@ public class ControladoresController extends Controller {
     @Dynamic(value = "Influunt")
     public CompletionStage<Result> getControladoresForAgrupamentos() {
         Usuario u = getUsuario();
+        Map<String, String[]> params = new HashMap<>();
+        params.putAll(ctx().request().queryString());
+        String[] status = {"[CONFIGURADO,ATIVO]"};
+        params.put("versaoControlador.statusVersao_in", status);
+
         if (u.isRoot()) {
-            InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Controlador.class, request().queryString()).fetch(Collections.singletonList("aneis")).query());
+            InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Controlador.class, params).fetch(Collections.singletonList("aneis")).query());
             return CompletableFuture.completedFuture(ok(result.toJson("agrupamentos")));
         } else if (u.getArea() != null) {
             String[] areaId = {u.getArea().getId().toString()};
-            Map<String, String[]> params = new HashMap<>();
-            params.putAll(ctx().request().queryString());
             if (params.containsKey("area.descricao")) {
                 params.remove("area.descricao");
             }
             params.put("area.id", areaId);
-            InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Controlador.class, params).fetch(Arrays.asList("area", "versaoControlador", "modelo")).query());
+            InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Controlador.class, params).fetch(Arrays.asList("area", "aneis")).query());
             return CompletableFuture.completedFuture(ok(result.toJson("agrupamentos")));
         }
         return CompletableFuture.completedFuture(forbidden());

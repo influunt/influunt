@@ -208,7 +208,7 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
         Controlador controladorRetornado = new ControladorCustomDeserializer().getControladorFromJson(json);
 
         assertNotNull(controladorRetornado.getId());
-        assertEquals(StatusControlador.EM_CONFIGURACAO, controladorRetornado.getStatusControlador());
+        assertEquals(StatusVersao.EM_CONFIGURACAO, controladorRetornado.getVersaoControlador().getStatusVersao());
         Anel anelCom4Estagios = controladorRetornado.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
 
         assertEquals("Total de detectores", 3, anelCom4Estagios.getDetectores().size());

@@ -310,6 +310,15 @@ public class Estagio extends Model implements Serializable, Cloneable {
     }
 
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
+            message = "Estágio de demanda prioritária deve ser associado a um grupo semafórico veicular.")
+    public boolean isUmGrupoSemaforicoVeicularEmDemandaPrioritaria() {
+        if (isEstagiosGrupoSemaforicosNotEmpty() && isDemandaPrioritaria() && isSomenteUmEstagioGrupoSemaforicoEmDemandaPrioritaria()) {
+            return getEstagiosGruposSemaforicos().get(0).getGrupoSemaforico().isVeicular();
+        }
+        return true;
+    }
+
+    @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
             message = "Existem grupos semafóricos conflitantes associados a esse estágio.")
     public boolean isNaoDevePossuirGruposSemaforicosConflitantes() {
         if (isEstagiosGrupoSemaforicosNotEmpty()) {

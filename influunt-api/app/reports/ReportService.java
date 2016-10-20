@@ -6,7 +6,6 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import play.Logger;
 import play.api.Environment;
-import security.Auditoria;
 import utils.InfluuntUtils;
 
 import java.io.FileInputStream;
@@ -59,5 +58,5 @@ public abstract class ReportService<T> {
         return reportMetadata;
     }
 
-    public abstract InputStream generateReport(Map<String, String[]> stringMap, List<Auditoria> lista, ReportType reportType);
+    public abstract InputStream generateReport(Map<String, String[]> stringMap, List<T> lista, ReportType reportType);
 }

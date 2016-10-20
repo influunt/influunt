@@ -1465,11 +1465,15 @@ public class ControladorCustomDeserializer {
         }
 
         if (node.has("versaoControlador") && node.get("versaoControlador").get("id") != null) {
-
-            controlador.setVersaoControlador(VersaoControlador.find.byId(UUID.fromString(node.get("versaoControlador").get("id").asText())));
-            if (controlador.getVersaoControlador() != null && node.get("versaoControlador").get("descricao") != null) {
-
-                controlador.getVersaoControlador().setDescricao(node.get("versaoControlador").get("descricao").asText());
+            VersaoControlador versao = VersaoControlador.find.byId(UUID.fromString(node.get("versaoControlador").get("id").asText()));
+            if (versao != null) {
+                if (node.get("versaoControlador").get("descricao") != null) {
+                    versao.setDescricao(node.get("versaoControlador").get("descricao").asText());
+                }
+                if (node.get("statusControlador") != null) {
+                    versao.setStatusVersao(StatusVersao.valueOf(node.get("statusControlador").asText()));
+                }
+                controlador.setVersaoControlador(versao);
             }
         }
 
@@ -1478,7 +1482,6 @@ public class ControladorCustomDeserializer {
         controlador.setNumeroSMEEConjugado2(node.get("numeroSMEEConjugado2") != null ? node.get("numeroSMEEConjugado2").asText() : null);
         controlador.setNumeroSMEEConjugado3(node.get("numeroSMEEConjugado3") != null ? node.get("numeroSMEEConjugado3").asText() : null);
         controlador.setFirmware(node.get("firmware") != null ? node.get("firmware").asText() : null);
-        controlador.setStatusControlador(node.get("statusControlador") != null ? StatusControlador.valueOf(node.get("statusControlador").asText()) : null);
         controlador.setSequencia(node.get("sequencia") != null ? node.get("sequencia").asInt() : null);
 
         controlador.setNomeEndereco(node.get("nomeEndereco") != null ? node.get("nomeEndereco").asText() : null);

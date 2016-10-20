@@ -2,18 +2,21 @@ package utils;
 
 import com.avaje.ebean.*;
 import models.Controlador;
-import models.StatusVersao;
+import models.ControladorFisico;
+import models.VersaoControlador;
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 import org.jongo.MongoCursor;
 import security.Auditoria;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.BiConsumer;
 
 import static java.lang.Integer.parseInt;
 import static utils.InfluuntUtils.parseDate;
-import static utils.InfluuntUtils.underscore;
 
 /**
  * Created by lesiopinheiro on 9/6/16.
@@ -112,9 +115,7 @@ public class InfluuntQueryBuilder {
         PagedList pagedList;
         Query query = Ebean.find(klass);
 
-        fetches.forEach(fetchAux -> {
-            query.fetch(fetchAux);
-        });
+        fetches.forEach(query::fetch);
 
         if (klass.equals(Controlador.class)) {
             query.fetch("endereco");
@@ -122,6 +123,11 @@ public class InfluuntQueryBuilder {
 
         if (!searchFields.isEmpty()) {
             ExpressionList predicates = query.where();
+
+            if (klass.equals(Controlador.class) && !searchFields.containsKey("id")) {
+                // TODO: fazer somente 1 query para buscar a última versão dos controladores. Está fazendo duas.
+                predicates.add(Expr.in("id", getControladorIds()));
+            }
 
             ArrayList<SearchFieldDefinition> searchFieldDefinitions = new ArrayList<SearchFieldDefinition>();
             searchFields.forEach(buildSearchStatement(searchFieldDefinitions));
@@ -138,10 +144,6 @@ public class InfluuntQueryBuilder {
                     }
                 }
             });
-
-            if (klass.equals(Controlador.class)) {
-                predicates.add(Expr.in("versaoControlador.statusVersao", Arrays.asList(StatusVersao.CONFIGURADO, StatusVersao.ATIVO, StatusVersao.EDITANDO)));
-            }
 
             // Verifica se existem campos com between
             List<BetweenFieldDefinition> betweenFields = BetweenFieldDefinition.getBetweenFileds(searchFields);
@@ -170,7 +172,8 @@ public class InfluuntQueryBuilder {
             }
         } else {
             if (klass.equals(Controlador.class)) {
-                query.where().add((Expr.in("versaoControlador.statusVersao", Arrays.asList(StatusVersao.CONFIGURADO, StatusVersao.ATIVO, StatusVersao.EDITANDO))));
+                // TODO: fazer somente 1 query para buscar a última versão dos controladores. Está fazendo duas.
+                query.where().add(Expr.in("id", getControladorIds()));
             }
             if (getSortField() != null) {
                 if (reportMode) {
@@ -268,9 +271,9 @@ public class InfluuntQueryBuilder {
             String[] keyExpression = key.split("_");
             if (!key.contains(SearchFieldDefinition.START) && !key.contains(SearchFieldDefinition.END)) {
                 if (keyExpression.length > 1) {
-                    searchFieldDefinitions.add(new SearchFieldDefinition(underscore(keyExpression[0]), keyExpression[1], value));
+                    searchFieldDefinitions.add(new SearchFieldDefinition(keyExpression[0], keyExpression[1], value));
                 } else {
-                    searchFieldDefinitions.add(new SearchFieldDefinition(underscore(key), null, value));
+                    searchFieldDefinitions.add(new SearchFieldDefinition(key, null, value));
                 }
             }
         };
@@ -332,5 +335,17 @@ public class InfluuntQueryBuilder {
 
     private int getSkip() {
         return getPage() * getPerPage();
+    }
+
+    private List<String> getControladorIds() {
+        List<ControladorFisico> controladoresFisicos = ControladorFisico.find.fetch("versoes").findList();
+        List<String> ids = new ArrayList<>();
+        controladoresFisicos.forEach(controladorFisico -> {
+            VersaoControlador versaoAtual = controladorFisico.getVersoes().stream().sorted((v1, v2) -> v2.getDataCriacao().compareTo(v1.getDataCriacao())).findFirst().orElse(null);
+            if (versaoAtual != null) {
+                ids.add(versaoAtual.getControlador().getId().toString());
+            }
+        });
+        return ids;
     }
 }
