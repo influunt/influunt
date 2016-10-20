@@ -659,18 +659,6 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(446)).getEstagio().getPosicao().intValue());
     }
 
-    private void verificaHistoricoGruposSemaforicos(int offset, GrupoCheck grupoCheck) {
-        grupoCheck.check(listaHistoricoEstagios, inicioExecucao.plusSeconds(offset));
-    }
-
-    private void verificaHistoricoGruposSemaforicos(int offset, int offset2, GrupoCheck grupoCheck) {
-        grupoCheck.check(listaHistoricoEstagios,inicioExecucao.plusSeconds(offset).plus(offset2));
-    }
-
-    private void verificaGruposSemaforicos(int offset, GrupoCheck grupoCheck) {
-        grupoCheck.check(listaEstagios, inicioExecucao.plusSeconds(offset));
-    }
-
     @Test
     public void repeticaoDeEstagioAtuadoComDemandaPrioritariaEDispensavelSemExecucao() {
         Anel anel = getAnel(3);
@@ -1271,7 +1259,7 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
     @Test
     public void estagioDuploSemUmDispensavel() {
         Anel anel = getAnel(1);
-        Plano plano = getPlano(anel, 10);
+        Plano plano = getPlano(anel, 11);
         Detector detector = anel.getDetectores().stream().filter(det -> det.getTipo().equals(TipoDetector.PEDESTRE) && det.getPosicao().equals(1)).findFirst().get();
 
         gerenciadorDeEstagios = getGerenciadorDeEstagios(2, plano);
@@ -1287,6 +1275,18 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
         assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(33)).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(37)).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(65)).getEstagio().getPosicao().intValue());
+    }
+
+    private void verificaHistoricoGruposSemaforicos(int offset, GrupoCheck grupoCheck) {
+        grupoCheck.check(listaHistoricoEstagios, inicioExecucao.plusSeconds(offset));
+    }
+
+    private void verificaHistoricoGruposSemaforicos(int offset, int offset2, GrupoCheck grupoCheck) {
+        grupoCheck.check(listaHistoricoEstagios,inicioExecucao.plusSeconds(offset).plus(offset2));
+    }
+
+    private void verificaGruposSemaforicos(int offset, GrupoCheck grupoCheck) {
+        grupoCheck.check(listaEstagios, inicioExecucao.plusSeconds(offset));
     }
 
     @NotNull

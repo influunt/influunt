@@ -121,7 +121,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
     }
 
 
-    private void reconhecePlano(Plano plano) {
+    private void reconhecePlano(Plano plano, boolean inicio) {
 
         this.plano = plano;
         this.tabelaDeTemposEntreVerde = this.plano.tabelaEntreVerde();
@@ -130,7 +130,6 @@ public class GerenciadorDeEstagios implements EventoCallback {
         contadorEstagio = 0;
         contadorIntervalo = 0l;
         contadorDeCiclos = 0l;
-        tempoDecorrido = 0l;
 
         if (plano.isModoOperacaoVerde()) {
             this.estagioPlanoAtual = listaEstagioPlanos.get(listaEstagioPlanos.size() - 1);
@@ -138,6 +137,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
         } else {
             geraIntervalosFixos();
         }
+
     }
 
     private void geraIntervalos(Integer index) {
