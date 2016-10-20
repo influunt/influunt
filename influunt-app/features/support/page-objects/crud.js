@@ -42,10 +42,6 @@ var CrudPage = function () {
     'Plano':                           '[name="posicaoPlano"]'
   };
 
-  this.textoConfirmacaoApagarRegistro = function() {
-    return world.getTextInSweetAlert();
-  };
-
   this.toastMessage = function() {
     return world.sleep(1000).then(function() {
       return world.waitFor('#toast-container div.toast-message').then(function() {

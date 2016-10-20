@@ -46,7 +46,6 @@ public class ControladorTestUtil {
         controlador.getModelo().setLimiteDetectorPedestre(4);
         controlador.getModelo().setLimiteDetectorVeicular(8);
         controlador.getModelo().setLimiteEstagio(16);
-        controlador.setNomeEndereco("Av Paulista com Bela Cintra");
 
         Endereco enderecoPaulista = new Endereco();
         enderecoPaulista.setLocalizacao("Av Paulista");
@@ -54,15 +53,20 @@ public class ControladorTestUtil {
         enderecoPaulista.setLatitude(1.0);
         enderecoPaulista.setLongitude(2.0);
         enderecoPaulista.setControlador(controlador);
-
         controlador.setEndereco(enderecoPaulista);
+        controlador.setNomeEndereco("Av Paulista com Bela Cintra");
+
         ControladorFisico controladorFisico = new ControladorFisico();
-        VersaoControlador versaoControlador = new VersaoControlador(controlador, controladorFisico, getUsuario());
-        controladorFisico.addVersaoControlador(versaoControlador);
-        controlador.setVersaoControlador(versaoControlador);
         controladorFisico.setArea(controlador.getArea());
         controlador.save();
         controladorFisico.save();
+
+        VersaoControlador versaoControlador = new VersaoControlador(controlador, controladorFisico, getUsuario());
+        versaoControlador.setStatusVersao(StatusVersao.EM_CONFIGURACAO);
+        versaoControlador.save();
+
+        controlador.setVersaoControlador(versaoControlador);
+        controladorFisico.addVersaoControlador(versaoControlador);
 
         return controlador;
     }
@@ -90,7 +94,7 @@ public class ControladorTestUtil {
         Controlador controlador = getControladorAneis();
         controlador.save();
 
-        Anel anelAtivo = controlador.getAneis().stream().filter(anel -> anel.isAtivo()).findFirst().get();
+        Anel anelAtivo = controlador.getAneis().stream().filter(Anel::isAtivo).findFirst().get();
 
         GrupoSemaforico grupoSemaforicoPedestre = new GrupoSemaforico();
         grupoSemaforicoPedestre.setAnel(anelAtivo);
@@ -274,7 +278,6 @@ public class ControladorTestUtil {
     }
 
     public Controlador getControladorTabelaDeEntreVerdes() {
-
         Controlador controlador = getControladorTransicoesProibidas();
         controlador.save();
 
@@ -470,6 +473,8 @@ public class ControladorTestUtil {
         evento3.setDiaDaSemana(DiaDaSemana.DOMINGO);
         evento3.setHorario(LocalTime.parse("08:00:00"));
         evento3.setPosicaoPlano(1);
+
+        controlador.setStatusVersao(StatusVersao.CONFIGURADO);
 
         return controlador;
     }

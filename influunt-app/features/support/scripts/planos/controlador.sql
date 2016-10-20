@@ -46,15 +46,16 @@ VALUES
   ('cca473c2-47cd-4b08-b68a-75cd284d6f73','0f446e2a-9145-47c4-a5e6-7ba294e5e870','sinal.png','image/png','2016-09-29 13:25:59.286000','2016-09-29 13:25:59.286000'),
   ('dd68da1d-4078-40b9-bf43-a64ce80965ce','feca9e3d-eca4-4405-81d6-9e88dc1aa756','sinal.png','image/png','2016-09-29 13:25:56.823000','2016-09-29 13:25:56.823000'),
   ('e7e558ec-8cec-47ca-acc0-27234b751979','35fea56a-c53c-4e95-b063-21e22178578b','sinal.png','image/png','2016-09-29 13:26:15.546000','2016-09-29 13:26:15.546000'),
-  ('f78953a2-72ed-4bbe-9475-6b6a17a7afc9','4c32f62e-7029-40f9-a94f-9e9d186dc2d5','sinal.png','image/png','2016-09-29 13:26:01.399000','2016-09-29 13:26:01.399000');
+  ('f78953a2-72ed-4bbe-9475-6b6a17a7afc9','4c32f62e-7029-40f9-a94f-9e9d186dc2d5','sinal.png','image/png','2016-09-29 13:26:01.399000','2016-09-29 13:26:01.399000'),
+  ('c52b3617-d233-40d6-8d07-b0284f6717ed','71911768-5744-4fd2-8e10-acbcbf61f4f7','croquigeral.jpg','image/jpeg', '2016-10-05 13:50:26.807','2016-10-05 13:50:26.807');
 
 INSERT INTO `modelo_controladores` (`id`, `id_json`, `fabricante_id`, `descricao`, `limite_estagio`, `limite_grupo_semaforico`, `limite_anel`, `limite_detector_pedestre`, `limite_detector_veicular`, `limite_tabelas_entre_verdes`, `limite_planos`, `data_criacao`, `data_atualizacao`)
 VALUES
   ('24c6f1e4-8661-11e6-9678-1f0de452edaf','24c6f1f8-8661-11e6-9678-1f0de452edaf','24bf38a0-8661-11e6-9678-1f0de452edaf','Modelo Básico',16,16,4,4,8,2,16,'2016-09-29 13:24:06.000000','2016-09-29 13:24:06.000000');
 
-INSERT INTO `controladores` (`id`, `id_json`, `nome_endereco`, `status_controlador`, `sequencia`, `numero_smee`, `numero_smeeconjugado1`, `numero_smeeconjugado2`, `numero_smeeconjugado3`, `firmware`, `modelo_id`, `area_id`, `subarea_id`, `data_criacao`, `data_atualizacao`)
+INSERT INTO `controladores` (`id`, `id_json`, `croqui_id`, `nome_endereco`, `status_controlador`, `sequencia`, `numero_smee`, `numero_smeeconjugado1`, `numero_smeeconjugado2`, `numero_smeeconjugado3`, `firmware`, `modelo_id`, `area_id`, `subarea_id`, `data_criacao`, `data_atualizacao`)
 VALUES
-  ('21440a8c-764d-4605-a23e-ef3103c9f544',NULL,'Av. Paulista com R. Bela Cintra',0,1,NULL,NULL,NULL,NULL,NULL,'24c6f1e4-8661-11e6-9678-1f0de452edaf','24bc8524-8661-11e6-9678-1f0de452edaf',NULL,'2016-09-29 13:25:30.457000','2016-09-29 13:30:42.648000');
+  ('21440a8c-764d-4605-a23e-ef3103c9f544',NULL, 'c52b3617-d233-40d6-8d07-b0284f6717ed', 'Av. Paulista com R. Bela Cintra',0,1,NULL,NULL,NULL,NULL,NULL,'24c6f1e4-8661-11e6-9678-1f0de452edaf','24bc8524-8661-11e6-9678-1f0de452edaf',NULL,'2016-09-29 13:25:30.457000','2016-09-29 13:30:42.648000');
 
 INSERT INTO `aneis` (`id`, `id_json`, `ativo`, `descricao`, `posicao`, `numero_smee`, `aceita_modo_manual`, `controlador_id`, `croqui_id`, `data_criacao`, `data_atualizacao`)
 VALUES

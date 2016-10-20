@@ -30,13 +30,6 @@ module.exports = function() {
     return crudPage.limparEndereco1();
   });
 
-
-  this.Given(/^o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir$/, function() {
-    return crudPage.textoConfirmacaoApagarRegistro().then(function(text) {
-      expect(text).to.equal('Quer mesmo apagar este registro?');
-    });
-  });
-
   this.Given(/^o item deverá ser excluido$/, function() {
     return crudPage.toastMessage().then(function(text) {
       expect(text).to.match(/Removido com sucesso/);

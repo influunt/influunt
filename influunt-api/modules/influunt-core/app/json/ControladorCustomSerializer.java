@@ -297,9 +297,10 @@ public class ControladorCustomSerializer {
         root.put("dataCriacao", InfluuntDateTimeSerializer.parse(controlador.getDataCriacao()));
         root.put("dataAtualizacao", InfluuntDateTimeSerializer.parse(controlador.getDataAtualizacao()));
         root.put("CLC", controlador.getCLC());
-        if (controlador.getStatusControlador() != null) {
-            root.put("statusControlador", controlador.getStatusControlador().toString());
+        if (controlador.getVersaoControlador().getStatusVersao() != null) {
+            root.put("statusControlador", controlador.getVersaoControlador().getStatusVersao().toString());
         }
+
         root.put("statusControladorReal", controlador.getStatusControladorReal());
         Anel anel = controlador.getAneis().stream().filter(Anel::isAtivo).findFirst().orElse(null);
         if (anel != null) {
@@ -422,10 +423,10 @@ public class ControladorCustomSerializer {
         root.put("deteccaoPermanenteMax", rangeUtils.TEMPO_DETECCAO_PERMANENTE.getMax().toString());
 
 
-        if (controlador.getStatusControlador() != null) {
-            root.put("statusControlador", controlador.getStatusControlador().toString());
+        if (controlador.getVersaoControlador() != null) {
+            root.put("statusControlador", controlador.getVersaoControlador().getStatusVersao().toString());
+            root.put("statusControladorReal", controlador.getStatusControladorReal());
         }
-        root.put("statusControladorReal", controlador.getStatusControladorReal());
 
         if (controlador.getArea() != null && controlador.getArea().getIdJson() != null) {
             root.putObject("area").put("idJson", controlador.getArea().getIdJson());
@@ -470,8 +471,8 @@ public class ControladorCustomSerializer {
 
         root.put("CLC", controlador.getCLC());
 
-        if (controlador.getStatusControlador() != null) {
-            root.put("statusControlador", controlador.getStatusControlador().toString());
+        if (controlador.getVersaoControlador() != null) {
+            root.put("statusControlador", controlador.getVersaoControlador().getStatusVersao().toString());
         }
         root.put("statusControladorReal", controlador.getStatusControladorReal());
 
@@ -568,7 +569,7 @@ public class ControladorCustomSerializer {
         if (versaoControlador.getIdJson() == null) {
             versaoJson.putNull("idJson");
         } else {
-            versaoJson.put("idJson", versaoControlador.getIdJson().toString());
+            versaoJson.put("idJson", versaoControlador.getIdJson());
         }
         if (versaoControlador.getDescricao() != null) {
             versaoJson.put("descricao", versaoControlador.getDescricao());
@@ -579,15 +580,15 @@ public class ControladorCustomSerializer {
         }
 
         if (versaoControlador.getControladorOrigem() != null && versaoControlador.getControladorOrigem().getIdJson() != null) {
-            versaoJson.putObject("controladorOrigem").put("idJson", versaoControlador.getControladorOrigem().getIdJson().toString());
+            versaoJson.putObject("controladorOrigem").put("idJson", versaoControlador.getControladorOrigem().getIdJson());
         }
 
         if (versaoControlador.getControlador() != null && versaoControlador.getControlador().getIdJson() != null) {
-            versaoJson.putObject("controlador").put("idJson", versaoControlador.getControlador().getIdJson().toString());
+            versaoJson.putObject("controlador").put("idJson", versaoControlador.getControlador().getIdJson());
         }
 
         if (versaoControlador.getControladorFisico() != null && versaoControlador.getControladorFisico().getIdJson() != null) {
-            versaoJson.putObject("controladorFisico").put("idJson", versaoControlador.getControladorFisico().getIdJson().toString());
+            versaoJson.putObject("controladorFisico").put("idJson", versaoControlador.getControladorFisico().getIdJson());
         }
 
         if (versaoControlador.getUsuario() != null) {
@@ -614,7 +615,7 @@ public class ControladorCustomSerializer {
             }
 
             if (usuario.getArea() != null && usuario.getArea().getIdJson() != null) {
-                usuarioJson.putObject("area").put("idJson", usuario.getArea().getIdJson().toString());
+                usuarioJson.putObject("area").put("idJson", usuario.getArea().getIdJson());
             }
 
             versaoJson.set("usuario", usuarioJson);

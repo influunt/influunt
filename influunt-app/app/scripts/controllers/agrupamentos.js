@@ -61,7 +61,7 @@ angular.module('influuntApp')
       $scope.planos = HorariosService.getPlanos();
 
       loadControladores = function() {
-        Restangular.all('controladores').customGET('agrupamentos', { statusControlador: 1 })
+        Restangular.all('controladores').customGET('agrupamentos')
           .then(function(res) {
             $scope.controladores = [];
             res.data.forEach(function(controlador) {

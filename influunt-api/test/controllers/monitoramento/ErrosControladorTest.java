@@ -34,13 +34,13 @@ public class ErrosControladorTest extends WithInfluuntApplicationNoAuthenticatio
 
         jongo.getCollection(ErrosControlador.COLLECTION).drop();
 
-        ErrosControlador.log("1", System.currentTimeMillis(), MotivoFalhaControlador.AMARELO_INTERMITENTE_POR_FALHA);
+        ErrosControlador.log("1", System.currentTimeMillis(), MotivoFalhaControlador.AMARELO_INTERMITENTE_POR_FALHA, "1");
         Thread.sleep(10);
-        ErrosControlador.log("1", System.currentTimeMillis(), MotivoFalhaControlador.QUEDA_ENERGIA);
+        ErrosControlador.log("1", System.currentTimeMillis(), MotivoFalhaControlador.QUEDA_ENERGIA, "1");
         Thread.sleep(10);
-        ErrosControlador.log("2", System.currentTimeMillis(), MotivoFalhaControlador.FALHA_ACERTO_RELOGIO_GPS);
+        ErrosControlador.log("2", System.currentTimeMillis(), MotivoFalhaControlador.FALHA_ACERTO_RELOGIO_GPS, "2");
         Thread.sleep(10);
-        ErrosControlador.log("2", System.currentTimeMillis(), MotivoFalhaControlador.FASE_PEDESTRE_QUEIMADA);
+        ErrosControlador.log("2", System.currentTimeMillis(), MotivoFalhaControlador.FASE_PEDESTRE_QUEIMADA, "2");
 
     }
 
@@ -64,9 +64,9 @@ public class ErrosControladorTest extends WithInfluuntApplicationNoAuthenticatio
         for (int i = 0; i < 100; i++) {
             Thread.sleep(10);
             if (i < 50) {
-                ErrosControlador.log("1", System.currentTimeMillis(), MotivoFalhaControlador.QUEDA_ENERGIA);
+                ErrosControlador.log("1", System.currentTimeMillis(), MotivoFalhaControlador.QUEDA_ENERGIA, "1");
             } else {
-                ErrosControlador.log("1", System.currentTimeMillis(), MotivoFalhaControlador.FASE_PEDESTRE_QUEIMADA);
+                ErrosControlador.log("1", System.currentTimeMillis(), MotivoFalhaControlador.FASE_PEDESTRE_QUEIMADA, "2");
             }
 
         }

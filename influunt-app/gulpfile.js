@@ -81,6 +81,7 @@ var paths = {
     'bower_components/angular-permission/dist/angular-permission.js',
     'bower_components/angular-permission/dist/angular-permission-ui.js',
     'bower_components/angular-permission/dist/angular-permission-ng.js',
+    'bower_components/humanize-duration/humanize-duration.js',
 
     // inspinea scripts.
     yeoman.app + '/plugins/jquery-ui-1.12.0/jquery-ui.js',

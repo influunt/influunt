@@ -12,14 +12,9 @@ module.exports = function() {
     return agrupamentosPage.existeAoMenosUmAgrupamento();
   });
 
-  this.Given(/^que exista ao menos um controlador cadastrado no sistema$/, function() {
-    return agrupamentosPage.existeUmControladorConfigurado();
-  });
-
-   this.Given(/^que este controlador esteja finalizado$/, function() {
+  this.Given(/^que este controlador esteja finalizado$/, function() {
     return agrupamentosPage.controladorConfigurado();
   });
-
 
   this.Given(/^o usuário acessar a tela de listagem de agrupamentos$/, function() {
     return agrupamentosPage.indexPage();
@@ -45,7 +40,7 @@ module.exports = function() {
     return agrupamentosPage.newPage();
   });
 
-  this.Given(/^o usuario selecionar o valor "([^"]*)" no campo Controladores$/, function (valor) {
+  this.Given(/^o usuário selecionar o valor "([^"]*)" no campo Controladores$/, function (valor) {
     return agrupamentosPage.selecionarControlador(valor);
   });
 

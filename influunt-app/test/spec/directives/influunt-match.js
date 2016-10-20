@@ -6,24 +6,27 @@ describe('Directive: influuntMatch', function () {
   var compiled;
 
   var element,
-    compile,
     scope;
 
   beforeEach(inject(function ($rootScope, $compile) {
     scope = $rootScope.$new();
-    compile = $compile;
+    scope.credentials = {};
+    element = angular.element('<form name="formTest"><input type="password" name="pass" ng-model="credentials.pass"><input type="password" name="confirm" ng-model="credentials.confirm" influunt-match="credentials.pass"></form>');
+    element = $compile(element)(scope);
+    scope.$apply();
   }));
 
-  it('does not throw when no ngModel controller is found', function() {
-    var naTemplate = '<div match="original"></div>';
-    compiled = compile(naTemplate)(scope);
-    scope.$digest();
+  it('Deve acusar um erro de validação quando os campos não forem iguais', function() {
+    scope.credentials.pass = 'test';
+    scope.credentials.confirm = 'test1';
+    scope.$apply();
+    expect(Object.keys(scope.formTest.confirm.$error)).toContain('influuntMatch');
+    expect(scope.formTest.confirm.$error.influuntMatch).toBeTruthy();
+
+    scope.credentials.confirm = 'test';
+    scope.$apply();
+    expect(Object.keys(scope.formTest.confirm.$error)).not.toContain('influuntMatch');
   });
 
 
-  xit('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<influunt-match></influunt-match>');
-    element = $compile(element)(scope);
-    expect(element.text()).toBe('this is the influuntMatch directive');
-  }));
 });

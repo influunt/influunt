@@ -17,7 +17,7 @@ angular.module('influuntApp')
         ifChecked: '&',
         ifUnchecked: '&'
       },
-      link: function postLink(scope, element) {
+      link: function postLink(scope, element, attr) {
         $(document).ready(function() {
           $timeout(function() {
 
@@ -28,7 +28,11 @@ angular.module('influuntApp')
 
             $(element[0]).on('ifToggled', function(ev) {
               $timeout(function() {
-                scope.ngModel = ev.target.checked;
+                if(attr.type !== 'radio'){
+                  scope.ngModel = ev.target.checked;
+                } else {
+                  scope.ngModel = ev.target.value;
+                }
                 return scope.ifChanged && scope.ifChanged();
               });
             });

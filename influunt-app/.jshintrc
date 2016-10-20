@@ -20,6 +20,8 @@
     "Dropzone": true,
     "moment": true,
     "humanizeDuration": true,
+    "Blob": true,
+    "saveAs": true,
 
     // leaflet lib
     "L": true,
@@ -41,7 +43,8 @@
     // tests helpers
     "WizardControladores": true,
     "ControladorBasico": true,
-    "ControladorComPlanos": true
+    "ControladorComPlanos": true,
+    "ControladorComPlanoExclusivo": true
   }
 }
 

@@ -4,7 +4,7 @@ Funcionalidade: tela de cadastro de agrupamentos
 
   @agrupamentos1
   Cenário: Listagem de agrupamentos
-    Dado que exista ao menos um controlador cadastrado no sistema
+    Dado que o sistema possui ao menos um controlador cadastrado
     Dado que exista ao menos um agrupamento cadastrado no sistema
     Quando o usuário acessar a tela de listagem de agrupamentos
     Então deve ser exibida uma lista com os agrupamentos já cadastrados no sistema
@@ -22,19 +22,21 @@ Funcionalidade: tela de cadastro de agrupamentos
     E o usuário responde sim
     Então o sistema deverá indicar erro no campo "nome"
     Então o sistema deverá indicar erro no campo "tipo"
-    #TODO melhor a apresentação do erro caso não tenha anel associado
-    # Então o sistema deverá indicar erro no campo "aneis"
     Então o sistema deverá indicar erro no campo "agrupamentoPlanoDiaSemana"
     Então o sistema deverá indicar erro no campo "planoHora"
 
   Cenário: Cadastro de agrupamentos
-    Dado que exista ao menos um controlador cadastrado no sistema
+    Dado que o sistema possui ao menos um controlador cadastrado
     E que este controlador esteja finalizado
     Quando o usuário acessar a tela de cadastro de novos agrupamentos
     E o usuário preencher o campo "Nome" com "Corredor da Paulista"
     E o usuário preencher o campo "Descrição" com "Agrupamento 1"
     E o usuário selecionar o valor "Corredor" no campo "Tipo"
-    E o usuario selecionar o valor "Av. Paulista com R. Bela Cintra" no campo Controladores
+    E o usuário selecionar o valor "Av. Paulista com R. Bela Cintra" no campo Controladores
+    E o usuário selecionar o valor "Domingo" no campo "Dia"
+    E o usuário selecionar o valor "12" no campo "Hora"
+    E o usuário selecionar o valor "10" no campo "Minuto"
+    E o usuário selecionar o valor "Plano 1" no campo "Plano"
     E clicar no botão de salvar
     Então sistema deverá mostar um alerta se deseja atualizar tabela horária
     E o usuário responde sim

@@ -18,6 +18,7 @@ Funcionalidade: Fluxo de cadastro de controladores
   Cenário: Salvar dados básicos do controlador
     Dado que o usuário esteja no wizard no passo "Dados Básicos"
     E o usuário selecionar o valor "São Paulo" no campo "Cidade"
+    E o usuário adicionar imagem ao "Croqui"
     E o usuário selecionar o valor "1" no campo "Área"
     E o usuário preencher o campo NÚMERO SMEE com 123
     E o usuário buscar o endereço "Av Paulista" no primeiro endereço
@@ -34,11 +35,14 @@ Funcionalidade: Fluxo de cadastro de controladores
     E o usuário buscar o endereço "Av Paulista" no primeiro endereço
     E o usuário limpar o campo endereço 2
     E o usuário buscar o endereço "Rua Bela Cintra" para o endereço 2
-    E o usuário adicionar 3 imagens para os estágios do anel corrente
+    E o usuário adicionar imagem ao "Anel 1 como Estágio1"
+    E o usuário adicionar imagem ao "Anel 1 como Estágio2"
+    E o usuário adicionar imagem ao "Anel 1 como Estágio3"
     E o usuário adicionar um novo anel ativo
+    E o usuário adicionar imagem ao "Anel 2 como Estágio1"
+    E o usuário adicionar imagem ao "Anel 2 como Estágio2"
     E o usuário buscar o endereço "Av Paulista" no primeiro endereço
     E o usuário buscar o endereço "Rua Augusta" para o endereço 2
-    E o usuário adicionar 2 imagens para os estágios do anel corrente
     E clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Grupos Semafóricos"
 
@@ -121,12 +125,23 @@ Funcionalidade: Fluxo de cadastro de controladores
     Então o sistema deverá indicar que o campo de estágio alternativo para a transição "E1-E2" é obrigatório
     E o sistema irá continuar no passo "Transições Proibidas"
 
-  Cenário: Tentar salvar uma transição proibida informando um estágio alternativo
+  Cenário: Tentar salvar uma transição inválida para o estágio
     Dado que o usuário esteja no wizard no passo "Transições Proibidas"
     E o usuário selecionar o anel 1
     E o usuário selecionar o valor "E1" no campo "Alternativa"
     E o usuário selecionar o anel 2
     E o usuário selecionar o valor "E1" no campo "Alternativa"
+    Quando clicar no botão para ir pro próximo passo
+    Então o sistema deverá conter erro no estágio "E1" do "Anel 2"
+    E o sistema irá continuar no passo "Transições Proibidas"
+
+  Cenário: Tentar salvar uma transição proibida informando um estágio alternativo
+    Dado que o usuário esteja no wizard no passo "Transições Proibidas"
+    E o usuário selecionar o anel 1
+    E o usuário selecionar o valor "E1" no campo "Alternativa"
+    E o usuário selecionar o anel 2
+    Quando o usuário desmarcar a transição de "E1" para "E2" como proibida
+    E que o usuário confirme que não há configurações a serem feitas nesse anel
     Quando clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Tabela Entre Verdes"
 

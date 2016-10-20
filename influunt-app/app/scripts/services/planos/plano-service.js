@@ -11,35 +11,34 @@ angular.module('influuntApp')
   .factory('planoService', ['validaTransicao', 'modoOperacaoService', 'geraDadosDiagramaIntervalo',
     function planoService(validaTransicao, modoOperacaoService, geraDadosDiagramaIntervalo) {
 
-        var atualizaDiagramaIntervalos, atualizaTransicoesProibidas, getPlanoParaDiagrama, setDiagramaEstatico, atualizaEstagiosPlanos, atualizaPosicaoEstagiosPlanos, montaTabelaValoresMinimos;
-        var criarPlano, associarEstagios, associarGruposSemaforicos;
+      var criarPlano, associarEstagios, associarGruposSemaforicos, criarPlanoManualExclusivo, adicionar,
+          verdeMinimoDoEstagio, setDiagramaEstatico;
 
-        var verdeMinimoDoEstagio = function(controlador, estagio){
-          var tempoMax = controlador.verdeMin;
-          var veicular = false;
-          _.each(estagio.estagiosGruposSemaforicos, function(gs){
-            var egs = _.find(controlador.estagiosGruposSemaforicos, {idJson: gs.idJson});
-            var grupo = _.find(controlador.gruposSemaforicos, {idJson: egs.grupoSemaforico.idJson});
-            tempoMax = _.max([grupo.tempoVerdeSeguranca, tempoMax]);
-            veicular = grupo.tipo === 'VEICULAR' ? true : veicular;
-          });
-          estagio.verdeMinimoEstagio = tempoMax;
-          estagio.isVeicular = veicular;
-          return tempoMax;
-        };
+      verdeMinimoDoEstagio = function(controlador, estagio) {
+        var tempoMax = controlador.verdeMin;
+        var veicular = false;
+        _.each(estagio.estagiosGruposSemaforicos, function(gs){
+          var egs = _.find(controlador.estagiosGruposSemaforicos, {idJson: gs.idJson});
+          var grupo = _.find(controlador.gruposSemaforicos, {idJson: egs.grupoSemaforico.idJson});
+          tempoMax = _.max([grupo.tempoVerdeSeguranca, tempoMax]);
+          veicular = grupo.tipo === 'VEICULAR' ? true : veicular;
+        });
+        estagio.verdeMinimoEstagio = tempoMax;
+        estagio.isVeicular = veicular;
+        return tempoMax;
+      };
 
+      adicionar = function(controlador, anel, posicao, plano) {
+        plano = plano || _.find(controlador.planos, {posicao: posicao, anel: {idJson: anel.idJson}});
+        if (plano) {
+          plano.configurado = true;
+        } else {
+          plano = criarPlano(controlador, anel, posicao);
+        }
+        return controlador;
+      };
 
-        var adicionar = function(controlador, anel, posicao, plano) {
-          plano = plano || _.find(controlador.planos, {posicao: posicao, anel: {idJson: anel.idJson}});
-          if (plano) {
-            plano.configurado = true;
-          } else {
-            plano = criarPlano(controlador, anel, posicao);
-          }
-          return controlador;
-        };
-
-      var criarPlanoManualExclusivo = function(controlador, anel) {
+      criarPlanoManualExclusivo = function(controlador, anel) {
         var plano = _.find(controlador.planos, {modoOperacao: 'MANUAL', anel: {idJson: anel.idJson}});
         if (plano) {
           plano.configurado = true;
@@ -49,7 +48,6 @@ angular.module('influuntApp')
         plano.manualExclusivo = true;
         delete plano.cicloMin;
       };
-
 
       criarPlano = function(controlador, anel, posicao, descricao, modoOperacao) {
         descricao = descricao || 'PLANO ' + posicao ;
@@ -84,54 +82,109 @@ angular.module('influuntApp')
         return plano;
       };
 
+      associarGruposSemaforicos = function(controlador, anel, plano) {
+        controlador.gruposSemaforicosPlanos = controlador.gruposSemaforicosPlanos || [];
+        anel.gruposSemaforicos.forEach(function (g) {
+          var grupo =  _.find(controlador.gruposSemaforicos, {idJson: g.idJson});
+          var grupoPlano = {
+            idJson: UUID.generate(),
+            ativado: true,
+            grupoSemaforico: {
+              idJson: grupo.idJson
+            },
+            plano: {
+              idJson: plano.idJson
+            }
+          };
 
-        associarGruposSemaforicos = function(controlador, anel, plano) {
-          controlador.gruposSemaforicosPlanos = controlador.gruposSemaforicosPlanos || [];
-          anel.gruposSemaforicos.forEach(function (g) {
-            var grupo =  _.find(controlador.gruposSemaforicos, {idJson: g.idJson});
-            var grupoPlano = {
+          controlador.gruposSemaforicosPlanos.push(grupoPlano);
+          plano.gruposSemaforicosPlanos.push({idJson: grupoPlano.idJson});
+        });
+
+        return controlador;
+      };
+
+      associarEstagios = function(controlador, anel, plano) {
+        controlador.estagiosPlanos = controlador.estagiosPlanos || [];
+        anel.estagios.forEach(function (e){
+          var estagio =  _.find(controlador.estagios, {idJson: e.idJson});
+          if(!estagio.demandaPrioritaria){
+            var estagioPlano = {
               idJson: UUID.generate(),
-              ativado: true,
-              grupoSemaforico: {
-                idJson: grupo.idJson
+              estagio: {
+                idJson: estagio.idJson
               },
               plano: {
                 idJson: plano.idJson
-              }
+              },
+              posicao: estagio.posicao,
+              tempoVerde: verdeMinimoDoEstagio(controlador, estagio),
+              dispensavel: false
             };
 
-            controlador.gruposSemaforicosPlanos.push(grupoPlano);
-            plano.gruposSemaforicosPlanos.push({idJson: grupoPlano.idJson});
-          });
+            controlador.estagiosPlanos.push(estagioPlano);
+            plano.estagiosPlanos.push({idJson: estagioPlano.idJson});
+          }
+        });
 
-          return controlador;
-        };
+        return controlador;
+      };
 
-        associarEstagios = function(controlador, anel, plano) {
-          controlador.estagiosPlanos = controlador.estagiosPlanos || [];
-          anel.estagios.forEach(function (e){
-            var estagio =  _.find(controlador.estagios, {idJson: e.idJson});
-            if(!estagio.demandaPrioritaria){
-              var estagioPlano = {
-                idJson: UUID.generate(),
-                estagio: {
-                  idJson: estagio.idJson
-                },
-                plano: {
-                  idJson: plano.idJson
-                },
-                posicao: estagio.posicao,
-                tempoVerde: verdeMinimoDoEstagio(controlador, estagio),
-                dispensavel: false
-              };
 
-              controlador.estagiosPlanos.push(estagioPlano);
-              plano.estagiosPlanos.push({idJson: estagioPlano.idJson});
-            }
-          });
+      // @todo: verificar se é o melhor local para estes métodos.
+      var atualizaPlanos, atualizaGruposSemaforicos, atualizaEstagios, atualizaTabelaEntreVerdes,
+      atualizaEstagiosPlanos, atualizaPosicaoEstagiosPlanos, atualizaTransicoesProibidas, atualizaDiagramaIntervalos,
+      getPlanoParaDiagrama, montaTabelaValoresMinimos;
 
-          return controlador;
-        };
+      atualizaPlanos = function(controlador, anel) {
+        var ids = _.map(anel.planos, 'idJson');
+        var currentPlanos = _
+          .chain(controlador.planos)
+          .filter(function(e) { return ids.indexOf(e.idJson) >= 0; })
+          .orderBy('posicao')
+          .value();
+
+        anel.planos = _.map(currentPlanos, function(p) {
+          return {
+            idJson: p.idJson
+          };
+        });
+
+        return currentPlanos;
+      };
+
+      atualizaGruposSemaforicos = function(controlador, anel) {
+        var ids = _.map(anel.gruposSemaforicos, 'idJson');
+        return _
+          .chain(controlador.gruposSemaforicos)
+          .filter(function(ep) {
+            return ids.indexOf(ep.idJson) >= 0;
+          })
+          .orderBy('posicao')
+          .value();
+      };
+
+      atualizaEstagios = function(controlador, anel) {
+        var ids = _.map(anel.estagios, 'idJson');
+        return _
+          .chain(controlador.estagios)
+          .filter(function(e) {
+            return ids.indexOf(e.idJson) >= 0 && !e.demandaPrioritaria;
+          })
+          .orderBy('posicao')
+          .value();
+      };
+
+      atualizaTabelaEntreVerdes = function(controlador, gruposSemaforicos) {
+        var grupoSemaforico = _.find(controlador.gruposSemaforicos, {idJson: gruposSemaforicos[0].idJson});
+        var ids = _.map(grupoSemaforico.tabelasEntreVerdes, 'idJson');
+
+        return _
+          .chain(controlador.tabelasEntreVerdes)
+          .filter(function(tev) { return ids.indexOf(tev.idJson) >= 0; })
+          .orderBy('posicao')
+          .value();
+      };
 
       atualizaEstagiosPlanos = function(controlador, plano) {
         var ids = _.map(plano.estagiosPlanos, 'idJson');
@@ -154,13 +207,28 @@ angular.module('influuntApp')
         return currentEstagiosPlanos;
       };
 
-      montaTabelaValoresMinimos = function(controlador) {
-        return {
-          verdeMin: controlador.verdeMin,
-          verdeMinimoMin: controlador.verdeMinimoMin
-        };
+      atualizaTransicoesProibidas = function(controlador, estagiosPlanos) {
+        var transicoesProibidas = validaTransicao.valida(estagiosPlanos, controlador);
+
+        // limpa as transicoes proibidas dos objetos.
+        _.each(estagiosPlanos, function(ep) {
+          ep.origemTransicaoProibida = false;
+          ep.destinoTransicaoProibida = false;
+        });
+
+        // marca as transicoes proibidas nos objetos.
+        _.each(transicoesProibidas, function(t) {
+          estagiosPlanos[t.origem].origemTransicaoProibida = true;
+          estagiosPlanos[t.destino].destinoTransicaoProibida = true;
+        });
+
+        return transicoesProibidas;
       };
 
+      /**
+       * Caso o modo de operação seja intermitente ou apagado, ele deverá renderizar um diagrama estágio, contendo
+       * somente estes modos. Caso contrário, deverá executar o metodo de geração do diagrama a partir do plugin.
+       */
       atualizaDiagramaIntervalos = function(controlador, anel, currentGruposSemaforicos, currentEstagiosPlanos, plano, valoresMinimos) {
         var transicoesProibidas = atualizaTransicoesProibidas(controlador, currentEstagiosPlanos);
         var dadosDiagrama;
@@ -210,24 +278,6 @@ angular.module('influuntApp')
         return dadosDiagrama;
       };
 
-      atualizaTransicoesProibidas = function(controlador, estagiosPlanos) {
-        var transicoesProibidas = validaTransicao.valida(estagiosPlanos, controlador);
-
-        // limpa as transicoes proibidas dos objetos.
-        _.each(estagiosPlanos, function(ep) {
-          ep.origemTransicaoProibida = false;
-          ep.destinoTransicaoProibida = false;
-        });
-
-        // marca as transicoes proibidas nos objetos.
-        _.each(transicoesProibidas, function(t) {
-          estagiosPlanos[t.origem].origemTransicaoProibida = true;
-          estagiosPlanos[t.destino].destinoTransicaoProibida = true;
-        });
-
-        return transicoesProibidas;
-      };
-
       getPlanoParaDiagrama = function(plano, anel, gruposSemaforicos, controlador) {
         return geraDadosDiagramaIntervalo.gerar(plano, anel, gruposSemaforicos, controlador);
       };
@@ -261,13 +311,26 @@ angular.module('influuntApp')
         };
       };
 
+      montaTabelaValoresMinimos = function(controlador) {
+        return {
+          verdeMin: controlador.verdeMin,
+          verdeMinimoMin: controlador.verdeMinimoMin
+        };
+      };
 
       return {
         adicionar: adicionar,
         verdeMinimoDoEstagio: verdeMinimoDoEstagio,
         criarPlanoManualExclusivo: criarPlanoManualExclusivo,
-        atualizaDiagramaIntervalos: atualizaDiagramaIntervalos,
+
+        atualizaPlanos: atualizaPlanos,
+        atualizaGruposSemaforicos: atualizaGruposSemaforicos,
+        atualizaEstagios: atualizaEstagios,
+        atualizaTabelaEntreVerdes: atualizaTabelaEntreVerdes,
         atualizaEstagiosPlanos: atualizaEstagiosPlanos,
+        atualizaPosicaoEstagiosPlanos: atualizaPosicaoEstagiosPlanos,
+        atualizaTransicoesProibidas: atualizaTransicoesProibidas,
+        atualizaDiagramaIntervalos: atualizaDiagramaIntervalos,
         montaTabelaValoresMinimos: montaTabelaValoresMinimos
       };
     }]);

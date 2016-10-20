@@ -52,8 +52,13 @@ module.exports = function() {
     return wizardPage.cadastrarEntidadesDadosBasicos();
   });
 
+  this.Given(/^o usuário adicionar imagem ao "([^"]*)"$/, function (localImagem) {
+    return wizardPage.addImagens(localImagem);
+  });
+
   this.Given(/^o usuário adicionar (\d+) imagens para os estágios do anel corrente$/, function (qtde) {
-    return wizardPage.adicionarImagensEstagios(qtde);
+    var path = '../resources/croquigeral.jpg';
+    return wizardPage.adicionarImagensEstagios(qtde, path);
   });
 
   this.Given(/^o usuário adicionar um novo anel ativo$/, function () {
@@ -104,6 +109,10 @@ module.exports = function() {
     return wizardPage.marcarTransicao(e1, e2);
   });
 
+   this.Given(/^o usuário desmarcar a transição de "([^"]*)" para "([^"]*)" como proibida$/, function (e1, e2) {
+    return wizardPage.marcarTransicao(e1, e2);
+  });
+
   this.Given(/^o sistema deverá indicar que o campo de estágio alternativo para a transição "([^"]*)" é obrigatório$/, function (transicao) {
     return wizardPage.isEstagioAlternativoInvalido(transicao).then(function(res) {
       return expect(res).to.be.true;
@@ -116,10 +125,6 @@ module.exports = function() {
 
   this.Given(/^o usuário preencher os dados dos verdes conflitantes corretamente$/, function () {
     return wizardPage.fillVerdesConflitantes();
-  });
-
-  this.Given(/^o sistema deverá redirecionar o usuário para a página de listagem de controladores$/, function () {
-    return wizardPage.isIndexPage();
   });
 
   this.Given(/^o sistema deverá indicar tabela incompleta para o grupo "([^"]*)"$/, function (grupo) {
@@ -180,6 +185,10 @@ module.exports = function() {
     return wizardPage.selecionarValor();
   });
 
+  this.Given(/^que o usuário confirme que não há configurações a serem feitas nesse anel$/, function(){
+    return wizardPage.confirmaSemConfiguracao();
+  });
+
   this.Given(/^confirma que será utilizada a configuração padrão para esse grupo semafórico$/, function(){
     return wizardPage.confirmaSemConfiguracao();
   });
@@ -187,4 +196,9 @@ module.exports = function() {
   this.Given(/^o usuário deverá preecher a modificação com "([^"]*)"$/, function(valor){
     return wizardPage.preencherModificao(valor);
   });
+
+  this.Given(/^o sistema deverá conter erro no estágio "([^"]*)" do "([^"]*)"$/, function(estagio, anel){
+    return wizardPage.errorTransacaoProibidaEstagio(estagio, anel);
+  });
+
 };

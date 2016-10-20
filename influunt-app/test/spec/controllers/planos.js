@@ -8,7 +8,6 @@ describe('Controller: PlanosCtrl', function () {
       $state,
       $controller,
       controlador,
-      timeline,
       controladorId,
       anelId;
 
@@ -32,9 +31,7 @@ describe('Controller: PlanosCtrl', function () {
 
     PlanosCtrl = $controller('PlanosCtrl', { $scope: scope });
 
-    timeline = [];
     $httpBackend.expectGET('/controladores/' + controladorId).respond(controlador);
-    $httpBackend.expectGET('/planos/' + anelId + '/timeline').respond(timeline);
     scope.init();
     $httpBackend.flush();
   };
@@ -84,75 +81,629 @@ describe('Controller: PlanosCtrl', function () {
     });
   });
 
-  describe('editarPlano - função de edição de planos não ATIVOS', function () {
-    beforeEach(function() {
-      beforeEachFn(ControladorComPlanos);
+  describe('Planos', function () {
+    describe('editarPlano - função de edição de planos não ATIVOS', function () {
+      beforeEach(function() {
+        beforeEachFn(ControladorComPlanos);
+      });
+
+      it('Deve redirecionar à tela de edicao de planos', function() {
+        $httpBackend.expectGET('/controladores/' + controladorId + '/pode_editar').respond(200, null);
+        scope.editarPlano(controladorId);
+        $httpBackend.flush();
+        expect($state.current.name).toBe('app.planos_edit');
+      });
+
+      it('O usuário deve ser alertado que não pode editar o plano, se for o caso', inject(function(toast, influuntAlert) {
+        spyOn(toast, 'clear');
+        spyOn(influuntAlert, 'alert');
+
+        $httpBackend.expectGET('/controladores/' + controladorId + '/pode_editar').respond(403, [{message: 'teste'}]);
+        scope.editarPlano(controladorId);
+        $httpBackend.flush();
+
+        expect(toast.clear).toHaveBeenCalled();
+        expect(influuntAlert.alert).toHaveBeenCalled();
+      }));
     });
 
-    it('Deve redirecionar à tela de edicao de planos', function() {
-      $httpBackend.expectGET('/controladores/' + controladorId + '/pode_editar').respond(200, null);
-      scope.editarPlano(controladorId);
-      $httpBackend.flush();
-      expect($state.current.name).toBe('app.planos_edit');
+    describe('clonarPlanos - função de edição de planos ATIVOS', function () {
+      beforeEach(function() { beforeEachFn(ControladorComPlanos); });
+
+      it('Deve redirecionar à tela de edicao de planos', function() {
+        $httpBackend.expectGET('/controladores/' + controladorId + '/pode_editar').respond(200, null);
+        $httpBackend.expectGET('/controladores/' + controladorId + '/editar_planos').respond(controlador);
+        scope.clonarPlanos(controladorId);
+        $httpBackend.flush();
+        expect($state.current.name).toBe('app.planos_edit');
+      });
+
+      it('O usuário deve ser alertado que não pode editar o plano, se for o caso', inject(function(toast, influuntAlert) {
+        spyOn(toast, 'clear');
+        spyOn(influuntAlert, 'alert');
+
+        $httpBackend.expectGET('/controladores/' + controladorId + '/pode_editar').respond(403, [{message: 'teste'}]);
+        scope.clonarPlanos(controladorId);
+        $httpBackend.flush();
+
+        expect(toast.clear).toHaveBeenCalled();
+        expect(influuntAlert.alert).toHaveBeenCalled();
+      }));
+
+      it('Os demais erros devem ser tratados via toast.error', inject(function(toast) {
+        spyOn(toast, 'error');
+
+        $httpBackend.expectGET('/controladores/' + controladorId + '/pode_editar').respond(403);
+        scope.clonarPlanos(controladorId);
+        $httpBackend.flush();
+
+        expect(toast.error).toHaveBeenCalled();
+      }));
     });
 
-    it('O usuário deve ser alertado que não pode editar o plano, se for o caso', inject(function(toast, influuntAlert) {
-      spyOn(toast, 'clear');
-      spyOn(influuntAlert, 'alert');
+    describe('cancelarEdicao', function () {
+      var deferred, Restangular;
+      beforeEach(inject(function(influuntAlert, $q, _Restangular_) {
+        Restangular = _Restangular_;
+        deferred = $q.defer();
+        beforeEachFn(ControladorComPlanos);
+        spyOn(influuntAlert, 'delete').and.returnValue(deferred.promise);
+      }));
 
-      $httpBackend.expectGET('/controladores/' + controladorId + '/pode_editar').respond(403, [{message: 'teste'}]);
-      scope.editarPlano(controladorId);
-      $httpBackend.flush();
+      it('Não deve executar nada se o usuário não confirmar o cancelamento', function() {
+        spyOn(Restangular, 'one');
+        scope.cancelarEdicao();
+        deferred.resolve(false);
+        scope.$apply();
+        expect(Restangular.one).not.toHaveBeenCalled();
+      });
 
-      expect(toast.clear).toHaveBeenCalled();
-      expect(influuntAlert.alert).toHaveBeenCalled();
-    }));
+      it('Deve excluir a copia local de plano se este não for sincronizado à API', function() {
+        scope.objeto.planos = [{}];
+        spyOn(Restangular, 'one');
+        scope.cancelarEdicao();
+        deferred.resolve(true);
+        scope.$apply();
+        expect(Restangular.one).not.toHaveBeenCalled();
+        expect(scope.$state.current.name).toBe('app.controladores');
+      });
 
-    it('Os demais erros devem ser tratados via toast.error', inject(function(toast) {
-      spyOn(toast, 'error');
+      it('Deve enviar à API uma request de cancelamento de edição se uma versão já sincronizada for encontrada', inject(function(toast) {
+        spyOn(toast, 'success');
+        var plano = _.chain(scope.objeto.planos).filter('id').last().value();
+        $httpBackend.expectDELETE('/planos/' + plano.id + '/cancelar_edicao').respond({});
+        scope.cancelarEdicao();
+        deferred.resolve(true);
+        $httpBackend.flush();
+        scope.$apply();
+        expect(toast.success).toHaveBeenCalled();
+        expect(scope.$state.current.name).toBe('app.controladores');
+      }));
+    });
 
-      $httpBackend.expectGET('/controladores/' + controladorId + '/pode_editar').respond(403);
-      scope.editarPlano(controladorId);
-      $httpBackend.flush();
+    describe('copiarPlano', function () {
+      var plano, tempoCicloTeste, planosCopiados, versaoPlanoOriginal;
+      beforeEach(function() {
+        tempoCicloTeste = 42;
+        beforeEachFn(ControladorComPlanos);
+        plano = _.find(scope.objeto.planos, {posicao: 1});
+        plano.tempoCiclo = tempoCicloTeste;
+        versaoPlanoOriginal = _.cloneDeep(scope.objeto.versoesPlanos[0]);
 
-      expect(toast.error).toHaveBeenCalled();
-    }));
+        scope.copiarPlano(plano);
+        // Pega 3 planos não configurados para testes.
+        scope.planosDestino = _.chain(scope.objeto.planos).reject('configurado').take(3).value();
+        scope.confirmacaoCopiarPlano();
+        scope.$apply();
+
+        // Filtra todos os planos destino exceto o plano de origem.
+        planosCopiados = scope.objeto.planos.filter(function(p) {
+          return _.find(scope.planosDestino, {posicao: p.posicao});
+        });
+      });
+
+      it('Deve copiar a configuração completa do plano origem para os planos destino, mantendo a posição', function() {
+        planosCopiados.forEach(function(dest) {
+          expect(dest.configurado).toBeTruthy();
+          expect(dest.tempoCiclo).toBe(plano.tempoCiclo);
+          expect(dest.id).not.toBe(plano.id);
+          expect(dest.posicao).not.toBe(plano.posicao);
+          expect(dest.descricao).toBe('PLANO ' + dest.posicao);
+
+          expect(dest.gruposSemaforicosPlanos.length).toBe(plano.gruposSemaforicosPlanos.length);
+          expect(dest.estagiosPlanos.length).toBe(plano.estagiosPlanos.length);
+        });
+      });
+
+      it('O plano deve ser atualizado no objeto de versões planos.', function() {
+        scope.planosDestino.forEach(function(dest) {
+          var planoEmVersao = _.find(scope.objeto.versoesPlanos[0].planos, {idJson: dest.idJson});
+          expect(planoEmVersao).not.toBeDefined();
+        });
+
+        planosCopiados.forEach(function(dest) {
+          var planoEmVersao = _.find(scope.objeto.versoesPlanos[0].planos, {idJson: dest.idJson});
+          expect(planoEmVersao).toBeDefined();
+        });
+      });
+
+      it('A quantidade de planos da versão não deve ser alterada', function() {
+        expect(scope.objeto.versoesPlanos[0].planos.length).toBe(versaoPlanoOriginal.planos.length);
+      });
+
+      it('Os planos copiados devem sustituir os planos antigos nas listas de planos', function() {
+        scope.planosDestino.forEach(function(dest) {
+          expect(_.find(scope.objeto.planos, {idJson: dest.idJson})).not.toBeDefined();
+          expect(_.find(scope.currentPlanos, {idJson: dest.idJson})).not.toBeDefined();
+        });
+
+        planosCopiados = scope.objeto.planos.filter(function(p) {
+          return _.find(scope.planosDestino, {posicao: p.posicao});
+        });
+
+        planosCopiados.forEach(function(copy) {
+          expect(_.find(scope.objeto.planos, {idJson: copy.idJson})).toBeDefined();
+          expect(_.find(scope.currentPlanos, {idJson: copy.idJson})).toBeDefined();
+        });
+      });
+
+      it('Se o plano origem for adicionado aos planos destino, ele não deverá ser alterado', function() {
+        scope.copiarPlano(plano);
+        // Pega 3 planos não configurados para testes.
+        scope.planosDestino = _.chain(scope.objeto.planos).reject('configurado').take(3).value();
+        scope.planosDestino.push(plano);
+        scope.confirmacaoCopiarPlano();
+        scope.$apply();
+
+        // O idJson do plano origem não deve ser alterado, ou seja, o objeto não foi
+        // copiado para ele mesmo.
+        expect(_.find(scope.objeto.planos, {idJson: plano.idJson})).toBeDefined();
+        expect(_.find(scope.currentPlanos, {idJson: plano.idJson})).toBeDefined();
+
+        scope.planosDestino
+          .filter(function(p) { return p.posicao !== plano.posicao; })
+          .forEach(function(p) {
+            expect(_.find(scope.objeto.planos, {idJson: p.idJson})).not.toBeDefined();
+            expect(_.find(scope.currentPlanos, {idJson: p.idJson})).not.toBeDefined();
+          });
+      });
+    });
+
+    describe('onChangeModoOperacao', function () {
+      var inicializaTesteModoOperacao = function(modo) {
+        beforeEachFn(ControladorComPlanos);
+        var index = _.findIndex(scope.objeto.planos, {posicao: 1});
+        scope.selecionaPlano(scope.objeto.planos[index], index);
+        scope.currentPlano.modoOperacao = modo;
+        scope.onChangeModoOperacao();
+        scope.$apply();
+      };
+
+      it('Deve ajustar o conteúdo para o plano em modo ATUADO', function() {
+        inicializaTesteModoOperacao('ATUADO');
+        var plano = scope.currentPlano;
+
+        expect(plano.tempoCiclo).toBe(null);
+        expect(plano.defasagem).toBe(null);
+        plano.estagiosPlanos.forEach(function(e) {
+          var estagio = _.find(scope.objeto.estagiosPlanos, {idJson: e.idJson});
+          expect(estagio.tempoVerde).toBe(null);
+          expect(estagio.tempoVerdeMinimo).toBe(scope.objeto.verdeMinimoMin);
+          expect(estagio.tempoVerdeMaximo).toBe(scope.objeto.verdeMaximoMin);
+          expect(estagio.tempoVerdeIntermediario).toBe(scope.objeto.verdeIntermediarioMin);
+          expect(estagio.tempoExtensaoVerde).toBe(scope.objeto.extensaoVerdeMin);
+        });
+      });
+
+      it('Deve ajustar o conteúdo para o plano em modo COORDENADO', function() {
+        inicializaTesteModoOperacao('TEMPO_FIXO_COORDENADO');
+        var plano = scope.currentPlano;
+
+        expect(plano.tempoCiclo).toBe(scope.objeto.cicloMin);
+        expect(plano.defasagem).toBe(scope.objeto.defasagemMin);
+        plano.estagiosPlanos.forEach(function(e) {
+          var estagio = _.find(scope.objeto.estagiosPlanos, {idJson: e.idJson});
+          expect(estagio.tempoVerde).toBe(scope.objeto.verdeMin);
+          expect(estagio.tempoVerdeMinimo).toBe(null);
+          expect(estagio.tempoVerdeMaximo).toBe(null);
+          expect(estagio.tempoVerdeIntermediario).toBe(null);
+          expect(estagio.tempoExtensaoVerde).toBe(null);
+        });
+      });
+
+      it('Deve ajustar o conteúdo para o plano em modo ISOLADO', function() {
+        inicializaTesteModoOperacao('TEMPO_FIXO_ISOLADO');
+        var plano = scope.currentPlano;
+
+        expect(plano.tempoCiclo).toBe(scope.objeto.cicloMin);
+        expect(plano.defasagem).toBe(null);
+        plano.estagiosPlanos.forEach(function(e) {
+          var estagio = _.find(scope.objeto.estagiosPlanos, {idJson: e.idJson});
+          expect(estagio.tempoVerde).toBe(scope.objeto.verdeMin);
+          expect(estagio.tempoVerdeMinimo).toBe(null);
+          expect(estagio.tempoVerdeMaximo).toBe(null);
+          expect(estagio.tempoVerdeIntermediario).toBe(null);
+          expect(estagio.tempoExtensaoVerde).toBe(null);
+        });
+      });
+
+      it('Deve ajustar o conteúdo para o plano em modo INTERMITENTE', function() {
+        inicializaTesteModoOperacao('INTERMITENTE');
+        var plano = scope.currentPlano;
+
+        expect(plano.tempoCiclo).toBe(scope.objeto.cicloMin);
+        expect(plano.defasagem).toBe(null);
+        plano.estagiosPlanos.forEach(function(e) {
+          var estagio = _.find(scope.objeto.estagiosPlanos, {idJson: e.idJson});
+          expect(estagio.tempoVerde).toBe(scope.objeto.verdeMin);
+          expect(estagio.tempoVerdeMinimo).toBe(null);
+          expect(estagio.tempoVerdeMaximo).toBe(null);
+          expect(estagio.tempoVerdeIntermediario).toBe(null);
+          expect(estagio.tempoExtensaoVerde).toBe(null);
+        });
+      });
+
+      it('Deve ajustar o conteúdo para o plano em modo APAGADO', function() {
+        inicializaTesteModoOperacao('APAGADO');
+        var plano = scope.currentPlano;
+
+        expect(plano.tempoCiclo).toBe(scope.objeto.cicloMin);
+        expect(plano.defasagem).toBe(null);
+        plano.estagiosPlanos.forEach(function(e) {
+          var estagio = _.find(scope.objeto.estagiosPlanos, {idJson: e.idJson});
+          expect(estagio.tempoVerde).toBe(scope.objeto.verdeMin);
+          expect(estagio.tempoVerdeMinimo).toBe(null);
+          expect(estagio.tempoVerdeMaximo).toBe(null);
+          expect(estagio.tempoVerdeIntermediario).toBe(null);
+          expect(estagio.tempoExtensaoVerde).toBe(null);
+        });
+      });
+    });
+
+    describe('resetarPlano', function () {
+      var deferred, planoRemovido;
+
+      beforeEach(inject(function(influuntAlert, $q) {
+        beforeEachFn(ControladorComPlanos);
+        var plano = _.find(scope.objeto.planos, {posicao: 1});
+
+        scope.copiarPlano(plano);
+        scope.planosDestino = _.chain(scope.objeto.planos).reject('configurado').take(1).value();
+        scope.confirmacaoCopiarPlano();
+        scope.$apply();
+
+        deferred = $q.defer();
+        spyOn(influuntAlert, 'confirm').and.returnValue(deferred.promise);
+        var index = _.findIndex(scope.objeto.planos, {posicao: scope.planosDestino[0].posicao});
+        planoRemovido = scope.objeto.planos[index];
+        scope.resetarPlano(planoRemovido, index);
+      }));
+
+      it('O plano não deve ser resetado se o usuario marcar "nao" no popup de confirmação', function() {
+        deferred.resolve(false);
+        scope.$apply();
+
+        var p = _.find(scope.objeto.planos, {posicao: planoRemovido.posicao});
+        expect(p.configurado).toBeTruthy();
+      });
+
+      it('Se for um plano ainda não salvo na API, deve remover o plano localmente', function() {
+        deferred.resolve(true);
+        scope.$apply();
+        var p = _.find(scope.objeto.planos, {posicao: planoRemovido.posicao});
+        expect(p.configurado).toBeFalsy();
+        expect(_.find(scope.currentAnel.planos, {idJson: p.idJson})).toBeDefined();
+      });
+
+      it('Se for um plano salvo na API, deve remover na API e localmente.', function() {
+        $httpBackend.expectDELETE('/planos/123').respond({});
+        planoRemovido.id = '123';
+        deferred.resolve(true);
+        $httpBackend.flush();
+        scope.$apply();
+        var p = _.find(scope.objeto.planos, {posicao: planoRemovido.posicao});
+        expect(p.configurado).toBeFalsy();
+        expect(_.find(scope.currentAnel.planos, {idJson: p.idJson})).toBeDefined();
+      });
+
+      it('Deve informar o usuário que houve um erro caso a API não responda com codigo de sucesso',
+        inject(function(toast) {
+          spyOn(toast, 'error');
+          $httpBackend.expectDELETE('/planos/123').respond(500, {});
+          planoRemovido.id = '123';
+          deferred.resolve(true);
+          $httpBackend.flush();
+          scope.$apply();
+
+          expect(toast.error).toHaveBeenCalled();
+
+          var p = _.find(scope.objeto.planos, {posicao: planoRemovido.posicao});
+          expect(p.configurado).toBeTruthy();
+          expect(_.find(scope.currentAnel.planos, {idJson: p.idJson})).toBeDefined();
+        }));
+    });
+
+    describe('renomearPlano', function () {
+      var planoRenomeado, nomeAnteriorPlano, deferred;
+      beforeEach(inject(function(influuntAlert, $q) {
+        beforeEachFn(ControladorComPlanos);
+        planoRenomeado = _.chain(scope.objeto.planos).filter('configurado').first().value();
+        nomeAnteriorPlano = planoRenomeado.descricao;
+
+        deferred = $q.defer();
+        spyOn(influuntAlert, 'prompt').and.returnValue(deferred.promise);
+      }));
+
+      it('Deve manter o nome do plano se o usuário cancelar ou não passar um nome no popup', function() {
+        scope.renomearPlano(planoRenomeado);
+        deferred.resolve(null);
+        scope.$apply();
+        expect(planoRenomeado.descricao).toBe(nomeAnteriorPlano);
+      });
+
+      it('Deve alterar o nome do plano', function() {
+        scope.renomearPlano(planoRenomeado);
+        deferred.resolve('novo nome');
+        scope.$apply();
+        expect(planoRenomeado.descricao).toBe('novo nome');
+      });
+    });
+
+    describe('submitForm', function () {
+      var Restangular;
+      beforeEach(inject(function(_Restangular_) {
+        Restangular = _Restangular_;
+        beforeEachFn(ControladorComPlanos);
+        scope.submitForm();
+      }));
+
+      it('Deve atualizar o controlador com a resposta da API em caso de sucesso.', function() {
+        var resposta = {id: 'controlador_id'};
+        $httpBackend.expectPOST('/planos').respond(200, resposta);
+        $httpBackend.flush();
+        scope.$apply();
+
+        expect(scope.objeto.id).toEqual(resposta.id);
+      });
+
+      it('Deve exibir mensagens de validação em caso de inconsistencia.', inject(function(handleValidations) {
+        spyOn(handleValidations, 'buildValidationMessages');
+        $httpBackend.expectPOST('/planos').respond(422, {});
+        $httpBackend.flush();
+        scope.$apply();
+
+        expect(handleValidations.buildValidationMessages).toHaveBeenCalled();
+      }));
+    });
+
+    describe('verificaVerdeMinimoDoEstagio', function () {
+      var influuntAlert, deferred;
+      beforeEach(inject(function(planoService, _influuntAlert_) {
+        beforeEachFn(ControladorComPlanos);
+        influuntAlert = _influuntAlert_;
+        scope.currentEstagioPlanoIndex = 0;
+        scope.currentEstagiosPlanos = [{idJson: 'ep1', estagio: {idJson: 'e1'}}];
+        scope.objeto = {
+          estagios: [{idJson: 'e1'}]
+        };
+
+        deferred = $q.defer();
+        spyOn(planoService, 'verdeMinimoDoEstagio').and.returnValue(10);
+        spyOn(influuntAlert, 'alert');
+        spyOn(influuntAlert, 'confirm').and.returnValue(deferred.promise);
+      }));
+
+      it('Deve atualizar o valor de tempo de verde do estágio se o tempo informado for maior que o minimo válido', function() {
+        var tempoVerde = 11;
+        scope.currentEstagiosPlanos[scope.currentEstagioPlanoIndex].tempoVerde = tempoVerde;
+        scope.verificaVerdeMinimoDoEstagio(null, tempoVerde);
+        scope.$apply();
+
+        expect(influuntAlert.alert).not.toHaveBeenCalled();
+        expect(influuntAlert.confirm).not.toHaveBeenCalled();
+        expect(scope.currentEstagiosPlanos[scope.currentEstagioPlanoIndex].tempoVerde).toBe(tempoVerde);
+      });
+
+      it('Deve manter o valor antigo se for um estágio de pedestres e valor mínimo for maior que o valor informado', function() {
+        var tempoVerdeAnterior = 15;
+        var tempoVerde = 5;
+        scope.objeto.estagios[0].isVeicular = false;
+        scope.currentEstagiosPlanos[scope.currentEstagioPlanoIndex].tempoVerde = tempoVerde;
+        scope.verificaVerdeMinimoDoEstagio(tempoVerdeAnterior, tempoVerde);
+        scope.$apply();
+
+        expect(influuntAlert.alert).toHaveBeenCalled();
+        expect(influuntAlert.confirm).not.toHaveBeenCalled();
+        expect(scope.currentEstagiosPlanos[scope.currentEstagioPlanoIndex].tempoVerde).toBe(tempoVerdeAnterior);
+      });
+
+      it('O estagio veicular poderá ter um tempo de verde menor que o minimo se o usuario confirmar que isto está correto', function() {
+        var tempoVerdeAnterior = 15;
+        var tempoVerde = 5;
+        scope.objeto.estagios[0].isVeicular = true;
+        scope.currentEstagiosPlanos[scope.currentEstagioPlanoIndex].tempoVerde = tempoVerde;
+
+        scope.verificaVerdeMinimoDoEstagio(tempoVerdeAnterior, tempoVerde);
+        deferred.resolve(true);
+        scope.$apply();
+
+        expect(influuntAlert.alert).not.toHaveBeenCalled();
+        expect(influuntAlert.confirm).toHaveBeenCalled();
+        expect(scope.currentEstagiosPlanos[scope.currentEstagioPlanoIndex].tempoVerde).toBe(tempoVerde);
+      });
+
+      it('O estagio veicular não poderá ter um tempo de verde menor que o minimo se o usuario não confirmar que isto está correto', function() {
+        var tempoVerdeAnterior = 15;
+        var tempoVerde = 5;
+        scope.objeto.estagios[0].isVeicular = true;
+        scope.currentEstagiosPlanos[scope.currentEstagioPlanoIndex].tempoVerde = tempoVerde;
+
+        scope.verificaVerdeMinimoDoEstagio(tempoVerdeAnterior, tempoVerde);
+        deferred.resolve(false);
+        scope.$apply();
+
+        expect(influuntAlert.alert).not.toHaveBeenCalled();
+        expect(influuntAlert.confirm).toHaveBeenCalled();
+        expect(scope.currentEstagiosPlanos[scope.currentEstagioPlanoIndex].tempoVerde).toBe(tempoVerdeAnterior);
+      });
+    });
   });
 
-  describe('clonarPlanos - função de edição de planos ATIVOS', function () {
+  describe('EstagiosPlanos', function () {
+    var sequenciaOriginal;
     beforeEach(function() {
       beforeEachFn(ControladorComPlanos);
+      var plano = _.find(scope.objeto.planos, {configurado: true, posicao: 1});
+      scope.selecionaPlano(plano, 0);
+      scope.$apply();
+
+      sequenciaOriginal = _.clone(scope.currentEstagiosPlanos);
     });
 
-    it('Deve redirecionar à tela de edicao de planos', function() {
-      $httpBackend.expectGET('/controladores/' + controladorId + '/pode_editar').respond(200, null);
-      $httpBackend.expectGET('/controladores/' + controladorId + '/editar_planos').respond(controlador);
-      scope.clonarPlanos(controladorId);
-      $httpBackend.flush();
-      expect($state.current.name).toBe('app.planos_edit');
+    describe('adicionarEstagio', function () {
+      it('Adiciona um estagio plano à sequencia de estágios do plano na ultima posicao', function() {
+        var estagioPlano = scope.currentEstagiosPlanos[0];
+        scope.adicionarEstagio(estagioPlano.estagio);
+        scope.$apply();
+
+        var objeto = _.last(scope.currentEstagiosPlanos);
+        expect(objeto.posicao).toBe(sequenciaOriginal.length + 1);
+        expect(scope.currentEstagiosPlanos.length).toBe(sequenciaOriginal.length + 1);
+        expect(_.find(scope.currentEstagiosPlanos, {idJson: objeto.idJson})).toBeDefined();
+        expect(_.find(scope.objeto.estagiosPlanos, {idJson: objeto.idJson})).toBeDefined();
+        expect(_.find(scope.currentPlano.estagiosPlanos, {idJson: objeto.idJson})).toBeDefined();
+      });
     });
 
-    it('O usuário deve ser alertado que não pode editar o plano, se for o caso', inject(function(toast, influuntAlert) {
-      spyOn(toast, 'clear');
-      spyOn(influuntAlert, 'alert');
+    describe('removerEstagioPlano', function () {
+      var deferred, estagioPlano;
+      beforeEach(inject(function(influuntAlert) {
+        deferred = $q.defer();
+        spyOn(influuntAlert, 'delete').and.returnValue(deferred.promise);
+        estagioPlano = scope.currentEstagiosPlanos[0];
+        scope.removerEstagioPlano(estagioPlano);
+      }));
 
-      $httpBackend.expectGET('/controladores/' + controladorId + '/pode_editar').respond(403, [{message: 'teste'}]);
-      scope.clonarPlanos(controladorId);
-      $httpBackend.flush();
+      it('Nao deve remover o estagio da lista de estagios do plano se o usuario nao confirmar', function() {
+        deferred.resolve(false);
+        scope.$apply();
+        expect(scope.currentEstagiosPlanos.length).toBe(sequenciaOriginal.length);
+      });
 
-      expect(toast.clear).toHaveBeenCalled();
-      expect(influuntAlert.alert).toHaveBeenCalled();
-    }));
+      it('Remove o estagio da sequencia do plano', function() {
+        deferred.resolve(true);
+        scope.$apply();
+        expect(scope.currentEstagiosPlanos.length).toBe(sequenciaOriginal.length - 1);
+        expect(_.find(scope.currentEstagiosPlanos, {idJson: estagioPlano.idJson})).not.toBeDefined();
+        expect(_.find(scope.objeto.estagiosPlanos, {idJson: estagioPlano.idJson})).not.toBeDefined();
+        expect(_.find(scope.currentPlano.estagiosPlanos, {idJson: estagioPlano.idJson})).not.toBeDefined();
+        expect(sequenciaOriginal[1].posicao).toBe(1);
+      });
+    });
 
-    it('Os demais erros devem ser tratados via toast.error', inject(function(toast) {
-      spyOn(toast, 'error');
+    describe('selecionaEstagioPlano', function() {
+      it('Deve carregar o estagio atual e a lista de estágios alternativos para estágio dispensável', function() {
+        var estagioPlano = sequenciaOriginal[1];
+        var opcoesDisponiveis = [sequenciaOriginal[0], sequenciaOriginal[2]].map(function(ep) {
+          return _.find(scope.objeto.estagios, {idJson: ep.estagio.idJson}).idJson;
+        });
+        scope.selecionaEstagioPlano(estagioPlano, 1);
+        scope.$apply();
 
-      $httpBackend.expectGET('/controladores/' + controladorId + '/pode_editar').respond(403);
-      scope.clonarPlanos(controladorId);
-      $httpBackend.flush();
+        expect(scope.currentEstagioPlanoIndex).toBe(1);
+        expect(scope.currentEstagioPlano).toEqual(estagioPlano);
+        expect(_.map(scope.opcoesEstagiosDisponiveis, 'idJson')).toEqual(opcoesDisponiveis);
+      });
+    });
 
-      expect(toast.error).toHaveBeenCalled();
-    }));
+    describe('leftEstagio', function () {
+      it('Nao permite o elemento na posicao 0 trocar de posicao à esquerda', function() {
+        expect(scope.leftEstagio(0)).toBeFalsy();
+      });
+
+      it('Deve trocar a posicao do estagio plano atual com o anterior na lista', function() {
+        scope.leftEstagio(1);
+        scope.$apply();
+
+        expect(sequenciaOriginal[0].idJson).toBe(scope.currentEstagiosPlanos[1].idJson);
+        expect(sequenciaOriginal[1].idJson).toBe(scope.currentEstagiosPlanos[0].idJson);
+        expect(scope.currentEstagiosPlanos[0].posicao).toBe(1);
+        expect(scope.currentEstagiosPlanos[1].posicao).toBe(2);
+      });
+    });
+
+    describe('rightEstagio', function () {
+      it('Nao permite o elemento última posição troque de lugar à direita', function() {
+        var ultimaPosicao = scope.currentEstagiosPlanos.length - 1;
+        expect(scope.rightEstagio(ultimaPosicao)).toBeFalsy();
+      });
+
+      it('Deve trocar a posicao do estagio plano atual com o proximo na lista', function() {
+        scope.rightEstagio(1);
+        scope.$apply();
+
+        expect(sequenciaOriginal[1].idJson).toBe(scope.currentEstagiosPlanos[2].idJson);
+        expect(sequenciaOriginal[2].idJson).toBe(scope.currentEstagiosPlanos[1].idJson);
+        expect(scope.currentEstagiosPlanos[1].posicao).toBe(2);
+        expect(scope.currentEstagiosPlanos[2].posicao).toBe(3);
+      });
+    });
+
+    describe('getEstagio', function () {
+      it('Retorna um estagio de um estagio plano', function() {
+        var estagioPlano = sequenciaOriginal[0];
+        expect(scope.getEstagio(estagioPlano)).toBeDefined();
+      });
+
+      it('Não retorna o estágio se o estágio plano nao existir', function() {
+        expect(scope.getEstagio()).not.toBeDefined();
+      });
+
+      it('Não retorna o estagio se o estagio plano referenciar um estágio não existente', function() {
+        expect(scope.getEstagio({idJson: 'nao_existente'})).not.toBeDefined();
+      });
+    });
+  });
+
+  describe('utils', function () {
+    describe('onChangeCheckboxGrupo', function () {
+      var grupo;
+      beforeEach(function() {
+        grupo = {posicao: 1, intervalos: []};
+        beforeEachFn(ControladorComPlanos);
+      });
+
+      it('Deve ativar/desativar o grupo semafórico no plano', function() {
+        scope.onChangeCheckboxGrupo(grupo, true);
+        scope.$apply();
+        var grupoSemaforico = _.find(scope.objeto.gruposSemaforicos, {posicao: grupo.posicao});
+        var grupoSemaforioPlano = _.find(
+          scope.objeto.gruposSemaforicosPlanos,
+          {plano: {idJson: scope.currentPlano.idJson}, grupoSemaforico: {idJson: grupoSemaforico.idJson}}
+        );
+        expect(grupoSemaforioPlano.ativado).toBeTruthy();
+
+        scope.onChangeCheckboxGrupo(grupo, false);
+        scope.$apply();
+        grupoSemaforico = _.find(scope.objeto.gruposSemaforicos, {posicao: grupo.posicao});
+        grupoSemaforioPlano = _.find(
+          scope.objeto.gruposSemaforicosPlanos,
+          {plano: {idJson: scope.currentPlano.idJson}, grupoSemaforico: {idJson: grupoSemaforico.idJson}}
+        );
+        expect(grupoSemaforioPlano.ativado).toBeFalsy();
+      });
+
+      it('Deve ativar/desativar o grupo semafórico no plano no diagrama', inject(function(modoOperacaoService) {
+        scope.onChangeCheckboxGrupo(grupo, false);
+        scope.$apply();
+        expect(grupo.intervalos[0]).toBeDefined();
+        expect(grupo.intervalos[0].status).toBe(modoOperacaoService.getModoIdByName('APAGADO'));
+
+        scope.onChangeCheckboxGrupo(grupo, true);
+        scope.$apply();
+        expect(grupo.intervalos[0]).not.toBeDefined();
+      }));
+    });
   });
 
   describe('bugs', function () {
@@ -168,278 +719,267 @@ describe('Controller: PlanosCtrl', function () {
       var estagioPlano = _.find(scope.objeto.estagiosPlanos, {idJson: scope.currentPlano.estagiosPlanos[0].idJson});
       expect(scope.currentPlano.estagiosPlanos.length).toBe(3);
 
-      scope.adicionarEstagioPlano(estagioPlano);
+      scope.adicionarEstagio(estagioPlano.estagio);
       expect(scope.currentPlano.estagiosPlanos.length).toBe(4);
 
-      var estagioPlano = _.find(scope.objeto.estagiosPlanos, {idJson: scope.currentPlano.estagiosPlanos[0].idJson});
+      estagioPlano = _.find(scope.objeto.estagiosPlanos, {idJson: scope.currentPlano.estagiosPlanos[0].idJson});
       scope.removerEstagioPlano(estagioPlano);
       deferred.resolve(true);
       scope.$apply();
       expect(scope.currentPlano.estagiosPlanos.length).toBe(3);
 
       scope.currentPlano.modoOperacao = 'ATUADO';
-      scope.limpaDadosPlano();
+      scope.onChangeModoOperacao();
 
       expect(scope.currentPlano.estagiosPlanos.length).toBe(3);
     });
-  });
 
-  describe('erros ao salvar', function () {
-    beforeEach(function() {
-      beforeEachFn(ControladorComPlanos);
-    });
+    describe('erros ao salvar', function () {
+      beforeEach(function() {
+        beforeEachFn(ControladorComPlanos);
+      });
 
-    it('Badge de erro deve aparecer na posição correta', function() {
-      scope.selecionaAnelPlanos(0);
-      scope.errors = {'aneis':[{'versoesPlanos':[{'planos':[{'ultrapassaTempoCiclo':['A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).']},null,{'ultrapassaTempoCiclo':['A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).']}]}],'all':[{'planos':[{'ultrapassaTempoCiclo':['A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).']},null,{'ultrapassaTempoCiclo':['A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).']}]}]}]};
+      it('Badge de erro deve aparecer na posição correta', function() {
+        scope.selecionaAnelPlanos(0);
+        scope.errors = {'aneis':[{'versoesPlanos':[{'planos':[{'ultrapassaTempoCiclo':['A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).']},null,{'ultrapassaTempoCiclo':['A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).']}]}],'all':[{'planos':[{'ultrapassaTempoCiclo':['A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).']},null,{'ultrapassaTempoCiclo':['A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).']}]}]}]};
 
-      expect(scope.planoTemErro(0)).toBe(true);
-      expect(scope.planoTemErro(1)).toBe(false);
-      expect(scope.planoTemErro(2)).toBe(true);
-    });
-  });
-
-
-
-  describe('erros ao salvar anel com plano exclusivo', function () {
-    beforeEach(function() {
-      beforeEachFn(ControladorComPlanoExclusivo);
-    });
-
-    it('Badge de erro deve aparecer na posição correta', function() {
-      scope.selecionaAnelPlanos(0);
-      scope.errors = {'aneis':[{'versoesPlanos':[{'planos':[null, {'ultrapassaTempoCiclo':['A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).']},null,{'ultrapassaTempoCiclo':['A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).']}]}],'all':[{'planos':[{'ultrapassaTempoCiclo':['A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).']},null,{'ultrapassaTempoCiclo':['A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).']}]}]}]};
-
-      expect(scope.planoTemErro(0)).toBe(false);
-      expect(scope.planoTemErro(1)).toBe(true);
-      expect(scope.planoTemErro(2)).toBe(false);
-      expect(scope.planoTemErro(3)).toBe(true);
-    });
-  });
-
-  describe('testar limpar plano de um anel com plano exclusivo', function () {
-    var deferred;
-    beforeEach(inject(function(influuntAlert, $q) {
-      beforeEachFn(ControladorComPlanoExclusivo);
-      deferred = $q.defer();
-      spyOn(influuntAlert, 'confirm').and.returnValue(deferred.promise);
-    }));
-
-    it('Confirmando - Deve permanecer com a numeracao correta', function() {
-      $httpBackend.expectGET('/planos/77cbf85d-9ab8-4cca-9d1d-8d06df2a133f/timeline').respond(timeline);
-      scope.selecionaAnelPlanos(0);
-      $httpBackend.flush();
-
-      expect(scope.currentAnel.aceitaModoManual).toBeTruthy();
-      expect(scope.currentPlanos.length).toBe(17);
-      var plano = scope.currentPlanos[6];
-      plano.configurado = true;
-      scope.selecionaPlano(plano, 6);
-      plano.configurado = false;
-
-      expect(plano.posicao).toBe(6);
-      expect(scope.currentPlano.posicao).toBe(6);
-      scope.resetarPlano(plano, 6);
-      deferred.resolve(true);
-      scope.$apply();
-
-      expect(scope.currentPlanos[0].posicao).toBe(0);
-      expect(scope.currentPlanos[1].posicao).toBe(1);
-      expect(scope.currentPlanos[6].posicao).toBe(6);
-      expect(scope.currentPlanos[16].posicao).toBe(16);
-      expect(scope.currentPlano.posicao).toBe(6);
-
-      expect(scope.currentPlanos.length).toBe(17);
-
-      _.each(scope.currentPlanos, function(plano, index){
-        expect(plano.posicao).toBe(index);
+        expect(scope.planoTemErro(0)).toBe(true);
+        expect(scope.planoTemErro(1)).toBe(false);
+        expect(scope.planoTemErro(2)).toBe(true);
       });
     });
 
-    it('Não Confirmando - Deve permanecer com a numeracao correta', function() {
-      $httpBackend.expectGET('/planos/77cbf85d-9ab8-4cca-9d1d-8d06df2a133f/timeline').respond(timeline);
-      scope.selecionaAnelPlanos(0);
-      $httpBackend.flush();
-
-      expect(scope.currentAnel.aceitaModoManual).toBeTruthy();
-      expect(scope.currentPlanos.length).toBe(17);
-      var plano = scope.currentPlanos[6];
-      plano.configurado = true;
-      scope.selecionaPlano(plano, 6);
-      plano.configurado = false;
-
-      expect(plano.posicao).toBe(6);
-      expect(scope.currentPlano.posicao).toBe(6);
-      scope.resetarPlano(plano, 6);
-      deferred.resolve(false);
-      scope.$apply();
-
-      expect(scope.currentPlano.configurado).toBeTruthy();
-
-      expect(scope.currentPlanos[0].posicao).toBe(0);
-      expect(scope.currentPlanos[1].posicao).toBe(1);
-      expect(scope.currentPlanos[6].posicao).toBe(6);
-      expect(scope.currentPlanos[16].posicao).toBe(16);
-      expect(scope.currentPlano.posicao).toBe(6);
-
-      expect(scope.currentPlanos.length).toBe(17);
-
-      _.each(scope.currentPlanos, function(plano, index){
-        expect(plano.posicao).toBe(index);
+    describe('erros ao salvar anel com plano exclusivo', function () {
+      beforeEach(function() {
+        beforeEachFn(ControladorComPlanoExclusivo);
       });
-    });
-  });
 
-  describe('testar copiar plano de um anel com plano exclusivo', function () {
-    var deferred;
-    beforeEach(inject(function(influuntAlert, $q) {
-      beforeEachFn(ControladorComPlanoExclusivo);
-      deferred = $q.defer();
-      spyOn(influuntAlert, 'confirm').and.returnValue(deferred.promise);
-    }));
+      it('Badge de erro deve aparecer na posição correta', function() {
+        scope.selecionaAnelPlanos(0);
+        scope.errors = {'aneis':[{'versoesPlanos':[{'planos':[null, {'ultrapassaTempoCiclo':['A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).']},null,{'ultrapassaTempoCiclo':['A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).']}]}],'all':[{'planos':[{'ultrapassaTempoCiclo':['A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).']},null,{'ultrapassaTempoCiclo':['A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).']}]}]}]};
 
-    it('Deve permanecer com a numeracao correta', function() {
-      scope.selecionaAnelPlanos(0);
-
-      expect(scope.currentAnel.aceitaModoManual).toBeTruthy();
-      expect(scope.currentPlanos.length).toBe(17);
-      var plano = scope.currentPlanos[1];
-      scope.planoCopiado = plano;
-      scope.planosDestino = [scope.currentPlanos[6], scope.currentPlanos[12], scope.currentPlanos[16]];
-      scope.confirmacaoCopiarPlano();
-
-      expect(scope.currentPlanos.length).toBe(17);
-
-      _.each(scope.currentPlanos, function(plano, index){
-        expect(plano.posicao).toBe(index);
-      });
-    });
-  });
-
-  describe('testar limpar plano de um anel sem plano exclusivo', function () {
-    var deferred;
-    beforeEach(inject(function(influuntAlert, $q) {
-      beforeEachFn(ControladorComPlanos);
-      deferred = $q.defer();
-      spyOn(influuntAlert, 'confirm').and.returnValue(deferred.promise);
-    }));
-
-    it('Confirmando - Deve permanecer com a numeracao correta', function() {
-      $httpBackend.expectGET('/planos/77cbf85d-9ab8-4cca-9d1d-8d06df2a133f/timeline').respond(timeline);
-      scope.selecionaAnelPlanos(0);
-      $httpBackend.flush();
-
-      expect(scope.currentAnel.aceitaModoManual).toBeFalsy();
-      expect(scope.currentPlanos.length).toBe(16);
-      var plano = scope.currentPlanos[10];
-      plano.configurado = true;
-      scope.selecionaPlano(plano, 10);
-      plano.configurado = false;
-
-      expect(plano.posicao).toBe(11);
-      expect(scope.currentPlano.posicao).toBe(11);
-      scope.resetarPlano(plano, 10);
-      deferred.resolve(true);
-      scope.$apply();
-
-      expect(scope.currentPlanos[0].posicao).toBe(1);
-      expect(scope.currentPlanos[1].posicao).toBe(2);
-      expect(scope.currentPlanos[10].posicao).toBe(11);
-      expect(scope.currentPlanos[15].posicao).toBe(16);
-      expect(scope.currentPlano.posicao).toBe(11);
-
-      expect(scope.currentPlanos.length).toBe(16);
-
-      _.each(scope.currentPlanos, function(plano, index){
-        expect(plano.posicao).toBe(index+1);
+        expect(scope.planoTemErro(0)).toBe(false);
+        expect(scope.planoTemErro(1)).toBe(true);
+        expect(scope.planoTemErro(2)).toBe(false);
+        expect(scope.planoTemErro(3)).toBe(true);
       });
     });
 
-    it('Não Confirmando - Deve permanecer com a numeracao correta', function() {
-      $httpBackend.expectGET('/planos/77cbf85d-9ab8-4cca-9d1d-8d06df2a133f/timeline').respond(timeline);
-      scope.selecionaAnelPlanos(0);
-      $httpBackend.flush();
+    describe('testar limpar plano de um anel com plano exclusivo', function () {
+      var deferred;
+      beforeEach(inject(function(influuntAlert, $q) {
+        beforeEachFn(ControladorComPlanoExclusivo);
+        deferred = $q.defer();
+        spyOn(influuntAlert, 'confirm').and.returnValue(deferred.promise);
+      }));
 
-      expect(scope.currentAnel.aceitaManual).toBeFalsy();
-      expect(scope.currentPlanos.length).toBe(16);
-      var plano = scope.currentPlanos[6];
-      plano.configurado = true;
-      scope.selecionaPlano(plano, 6);
-      plano.configurado = false;
+      it('Confirmando - Deve permanecer com a numeracao correta', function() {
+        scope.selecionaAnelPlanos(0);
 
-      expect(plano.posicao).toBe(7);
-      expect(scope.currentPlano.posicao).toBe(7);
-      scope.resetarPlano(plano, 6);
-      deferred.resolve(false);
-      scope.$apply();
+        expect(scope.currentAnel.aceitaModoManual).toBeTruthy();
+        expect(scope.currentPlanos.length).toBe(17);
+        var plano = scope.currentPlanos[6];
+        plano.configurado = true;
+        scope.selecionaPlano(plano, 6);
+        plano.configurado = false;
 
-      expect(scope.currentPlano.configurado).toBeTruthy();
+        expect(plano.posicao).toBe(6);
+        expect(scope.currentPlano.posicao).toBe(6);
+        scope.resetarPlano(plano, 6);
+        deferred.resolve(true);
+        scope.$apply();
 
-      expect(scope.currentPlanos[0].posicao).toBe(1);
-      expect(scope.currentPlanos[1].posicao).toBe(2);
-      expect(scope.currentPlanos[6].posicao).toBe(7);
-      expect(scope.currentPlanos[15].posicao).toBe(16);
-      expect(scope.currentPlano.posicao).toBe(7);
+        expect(scope.currentPlanos[0].posicao).toBe(0);
+        expect(scope.currentPlanos[1].posicao).toBe(1);
+        expect(scope.currentPlanos[6].posicao).toBe(6);
+        expect(scope.currentPlanos[16].posicao).toBe(16);
+        expect(scope.currentPlano.posicao).toBe(6);
 
-      expect(scope.currentPlanos.length).toBe(16);
+        expect(scope.currentPlanos.length).toBe(17);
 
-      _.each(scope.currentPlanos, function(plano, index){
-        expect(plano.posicao).toBe(index+1);
+        _.each(scope.currentPlanos, function(plano, index){
+          expect(plano.posicao).toBe(index);
+        });
+      });
+
+      it('Não Confirmando - Deve permanecer com a numeracao correta', function() {
+        scope.selecionaAnelPlanos(0);
+
+        expect(scope.currentAnel.aceitaModoManual).toBeTruthy();
+        expect(scope.currentPlanos.length).toBe(17);
+        var plano = scope.currentPlanos[6];
+        plano.configurado = true;
+        scope.selecionaPlano(plano, 6);
+        plano.configurado = false;
+
+        expect(plano.posicao).toBe(6);
+        expect(scope.currentPlano.posicao).toBe(6);
+        scope.resetarPlano(plano, 6);
+        deferred.resolve(false);
+        scope.$apply();
+
+        expect(scope.currentPlano.configurado).toBeTruthy();
+
+        expect(scope.currentPlanos[0].posicao).toBe(0);
+        expect(scope.currentPlanos[1].posicao).toBe(1);
+        expect(scope.currentPlanos[6].posicao).toBe(6);
+        expect(scope.currentPlanos[16].posicao).toBe(16);
+        expect(scope.currentPlano.posicao).toBe(6);
+
+        expect(scope.currentPlanos.length).toBe(17);
+
+        _.each(scope.currentPlanos, function(plano, index){
+          expect(plano.posicao).toBe(index);
+        });
+      });
+    });
+
+    describe('testar copiar plano de um anel com plano exclusivo', function () {
+      var deferred;
+      beforeEach(inject(function(influuntAlert, $q) {
+        beforeEachFn(ControladorComPlanoExclusivo);
+        deferred = $q.defer();
+        spyOn(influuntAlert, 'confirm').and.returnValue(deferred.promise);
+      }));
+
+      it('Deve permanecer com a numeracao correta', function() {
+        scope.selecionaAnelPlanos(0);
+
+        expect(scope.currentAnel.aceitaModoManual).toBeTruthy();
+        expect(scope.currentPlanos.length).toBe(17);
+        var plano = scope.currentPlanos[1];
+        scope.planoCopiado = plano;
+        scope.planosDestino = [scope.currentPlanos[6], scope.currentPlanos[12], scope.currentPlanos[16]];
+        scope.confirmacaoCopiarPlano();
+
+        expect(scope.currentPlanos.length).toBe(17);
+
+        _.each(scope.currentPlanos, function(plano, index){
+          expect(plano.posicao).toBe(index);
+        });
+      });
+    });
+
+    describe('testar limpar plano de um anel sem plano exclusivo', function () {
+      var deferred;
+      beforeEach(inject(function(influuntAlert, $q) {
+        beforeEachFn(ControladorComPlanos);
+        deferred = $q.defer();
+        spyOn(influuntAlert, 'confirm').and.returnValue(deferred.promise);
+      }));
+
+      it('Confirmando - Deve permanecer com a numeracao correta', function() {
+        scope.selecionaAnelPlanos(0);
+
+        expect(scope.currentAnel.aceitaModoManual).toBeFalsy();
+        expect(scope.currentPlanos.length).toBe(16);
+        var plano = scope.currentPlanos[10];
+        plano.configurado = true;
+        scope.selecionaPlano(plano, 10);
+        plano.configurado = false;
+
+        expect(plano.posicao).toBe(11);
+        expect(scope.currentPlano.posicao).toBe(11);
+        scope.resetarPlano(plano, 10);
+        deferred.resolve(true);
+        scope.$apply();
+
+        expect(scope.currentPlanos[0].posicao).toBe(1);
+        expect(scope.currentPlanos[1].posicao).toBe(2);
+        expect(scope.currentPlanos[10].posicao).toBe(11);
+        expect(scope.currentPlanos[15].posicao).toBe(16);
+        expect(scope.currentPlano.posicao).toBe(11);
+
+        expect(scope.currentPlanos.length).toBe(16);
+
+        _.each(scope.currentPlanos, function(plano, index){
+          expect(plano.posicao).toBe(index+1);
+        });
+      });
+
+      it('Não Confirmando - Deve permanecer com a numeracao correta', function() {
+        scope.selecionaAnelPlanos(0);
+
+        expect(scope.currentAnel.aceitaManual).toBeFalsy();
+        expect(scope.currentPlanos.length).toBe(16);
+        var plano = scope.currentPlanos[6];
+        plano.configurado = true;
+        scope.selecionaPlano(plano, 6);
+        plano.configurado = false;
+
+        expect(plano.posicao).toBe(7);
+        expect(scope.currentPlano.posicao).toBe(7);
+        scope.resetarPlano(plano, 6);
+        deferred.resolve(false);
+        scope.$apply();
+
+        expect(scope.currentPlano.configurado).toBeTruthy();
+
+        expect(scope.currentPlanos[0].posicao).toBe(1);
+        expect(scope.currentPlanos[1].posicao).toBe(2);
+        expect(scope.currentPlanos[6].posicao).toBe(7);
+        expect(scope.currentPlanos[15].posicao).toBe(16);
+        expect(scope.currentPlano.posicao).toBe(7);
+
+        expect(scope.currentPlanos.length).toBe(16);
+
+        _.each(scope.currentPlanos, function(plano, index){
+          expect(plano.posicao).toBe(index+1);
+        });
+      });
+    });
+
+    describe('testar copiar plano de um anel sem plano exclusivo', function () {
+      var deferred;
+      beforeEach(inject(function(influuntAlert, $q) {
+        beforeEachFn(ControladorComPlanos);
+        deferred = $q.defer();
+        spyOn(influuntAlert, 'confirm').and.returnValue(deferred.promise);
+      }));
+
+      it('Deve permanecer com a numeracao correta', function() {
+        scope.selecionaAnelPlanos(0);
+
+        expect(scope.currentAnel.aceitaModoManual).toBeFalsy();
+        expect(scope.currentPlanos.length).toBe(16);
+        var plano = scope.currentPlanos[1];
+        scope.planoCopiado = plano;
+        scope.planosDestino = [scope.currentPlanos[6], scope.currentPlanos[12], scope.currentPlanos[15]];
+        scope.confirmacaoCopiarPlano();
+
+        expect(scope.currentPlanos.length).toBe(16);
+
+        _.each(scope.currentPlanos, function(plano, index){
+          expect(plano.posicao).toBe(index+1);
+        });
+      });
+    });
+
+    describe('para a badge de erro aparecer corretamente', function () {
+      beforeEach(function() {
+        beforeEachFn(ControladorComPlanos);
+        $httpBackend.expectPOST('/planos');
+      });
+
+      it('os planos devem ser ordenados antes de enviados para o servidor', function() {
+        var orderedIdJson = _
+          .chain(scope.objeto.planos)
+          .orderBy('posicao')
+          .map('idJson')
+          .value();
+        var orderedIdJsonVersoes = _.map(scope.objeto.versoesPlanos[0].planos, 'idJson');
+        expect(orderedIdJson).not.toEqual(orderedIdJsonVersoes);
+
+        scope.submitForm();
+
+        orderedIdJson = _
+          .chain(scope.objeto.planos)
+          .orderBy('posicao')
+          .map('idJson')
+          .value();
+        orderedIdJsonVersoes = _.map(scope.objeto.versoesPlanos[0].planos, 'idJson');
+        expect(orderedIdJson).toEqual(orderedIdJsonVersoes);
       });
     });
   });
-
-  describe('testar copiar plano de um anel sem plano exclusivo', function () {
-    var deferred;
-    beforeEach(inject(function(influuntAlert, $q) {
-      beforeEachFn(ControladorComPlanos);
-      deferred = $q.defer();
-      spyOn(influuntAlert, 'confirm').and.returnValue(deferred.promise);
-    }));
-
-    it('Deve permanecer com a numeracao correta', function() {
-      scope.selecionaAnelPlanos(0);
-
-      expect(scope.currentAnel.aceitaModoManual).toBeFalsy();
-      expect(scope.currentPlanos.length).toBe(16);
-      var plano = scope.currentPlanos[1];
-      scope.planoCopiado = plano;
-      scope.planosDestino = [scope.currentPlanos[6], scope.currentPlanos[12], scope.currentPlanos[15]];
-      scope.confirmacaoCopiarPlano();
-
-      expect(scope.currentPlanos.length).toBe(16);
-
-      _.each(scope.currentPlanos, function(plano, index){
-        expect(plano.posicao).toBe(index+1);
-      });
-    });
-  });
-
-  describe('para a badge de erro aparecer corretamente', function () {
-    beforeEach(function() {
-      beforeEachFn(ControladorComPlanos);
-      $httpBackend.expectPOST('/planos');
-    });
-
-    it('os planos devem ser ordenados antes de enviados para o servidor', function() {
-      var orderedIdJson = _
-        .chain(scope.objeto.planos)
-        .orderBy('posicao')
-        .map('idJson')
-        .value();
-      var orderedIdJsonVersoes = _.map(scope.objeto.versoesPlanos[0].planos, 'idJson');
-      expect(orderedIdJson).not.toEqual(orderedIdJsonVersoes);
-
-      scope.submitForm();
-
-      orderedIdJson = _
-        .chain(scope.objeto.planos)
-        .orderBy('posicao')
-        .map('idJson')
-        .value();
-      orderedIdJsonVersoes = _.map(scope.objeto.versoesPlanos[0].planos, 'idJson');
-      expect(orderedIdJson).toEqual(orderedIdJsonVersoes);
-    });
-  });
-
 });
