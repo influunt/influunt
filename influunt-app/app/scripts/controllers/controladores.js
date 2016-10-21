@@ -164,36 +164,40 @@ angular.module('influuntApp')
         return defer.promise;
       };
 
-      $scope.submitForm = function(form, stepResource, nextStep) {
+      $scope.submitForm = function(stepResource, nextStep) {
         influuntBlockui.block();
         if (angular.isFunction($scope.beforeSubmitForm)) {
           $scope.beforeSubmitForm();
         }
 
-        if (form.$valid) {
-          Restangular
-            .all('controladores')
-            .all(stepResource)
-            .post($scope.objeto)
-            .then(function(res) {
-              $scope.objeto = res;
+        Restangular
+          .all('controladores')
+          .all(stepResource)
+          .post($scope.objeto)
+          .then(function(res) {
+            $scope.objeto = res;
 
-              $scope.errors = {};
-              $state.go(nextStep, {id: $scope.objeto.id});
-            })
-            .catch(function(res) {
-              if (res.status === 422) {
-                if (angular.isFunction($scope.afterSubmitFormOnValidationError)) {
-                  $scope.afterSubmitFormOnValidationError();
-                }
+            $scope.errors = {};
+            $scope.messages = [];
 
-                $scope.buildValidationMessages(res.data, $scope.objeto);
-              } else {
-                console.error(res);
+            if (nextStep === $state.current.name) {
+              toast.success($filter('translate')('geral.mensagens.salvo_com_sucesso'));
+            }
+
+            $state.go(nextStep, {id: $scope.objeto.id});
+          })
+          .catch(function(res) {
+            if (res.status === 422) {
+              if (angular.isFunction($scope.afterSubmitFormOnValidationError)) {
+                $scope.afterSubmitFormOnValidationError();
               }
-            })
-            .finally(influuntBlockui.unblock);
-        }
+
+              $scope.buildValidationMessages(res.data, $scope.objeto);
+            } else {
+              console.error(res);
+            }
+          })
+          .finally(influuntBlockui.unblock);
       };
 
       /**
@@ -469,6 +473,7 @@ angular.module('influuntApp')
           .prompt(titulo, texto)
           .then(function(texto) {
             if (texto) {
+              influuntBlockui.block();
               return Restangular.one('controladores', controladorId)
                 .all('finalizar')
                 .customPUT({descricao: texto})
