@@ -600,7 +600,10 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         plano = criarPlano(anel, 7, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 58);
         criarEstagiosPlanos(anel, plano, new int[]{1, 2, 3}, new int[]{10, 12, 14});
 
-        plano = criarPlano(anel, 10, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 65);
+        plano = criarPlano(anel, 10, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 58);
+        criarEstagiosPlanos(anel, plano, new int[]{2, 3, 1}, new int[]{10, 12, 14});
+
+        plano = criarPlano(anel, 11, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 65);
         criarEstagioPlano(anel, plano, 1, 1, 15, false);
         criarEstagioPlano(anel, plano, 2, 2, 4, false);
         criarEstagioPlano(anel, plano, 2, 3, 4, true);
@@ -639,7 +642,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
 
         criarPlano(anel, 5, ModoOperacaoPlano.INTERMITENTE, null);
         criarPlano(anel, 6, ModoOperacaoPlano.APAGADO, null);
-        criarPlano(anel, 10, ModoOperacaoPlano.APAGADO, null);
+        criarPlano(anel, 10, ModoOperacaoPlano.INTERMITENTE, null);
 
         controlador.save();
     }

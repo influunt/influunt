@@ -4,6 +4,7 @@ import engine.GerenciadorDeEventos;
 import models.DiaDaSemana;
 import models.Evento;
 import models.TipoEvento;
+import org.joda.time.LocalTime;
 import org.junit.Test;
 import utils.CustomCalendar;
 
@@ -33,7 +34,7 @@ public class PrioridadeDeEventosTest {
         Evento normal = new Evento();
         normal.setTipo(TipoEvento.NORMAL);
         normal.setDiaDaSemana(DiaDaSemana.SEGUNDA);
-        normal.setData(new Date());
+        normal.setHorario(new LocalTime());
 
         assertEquals(0, especialNaoRecorrente.compareTo(especialNaoRecorrente));
         assertEquals(-1, especialNaoRecorrente.compareTo(especialRecorrente));
@@ -87,58 +88,57 @@ public class PrioridadeDeEventosTest {
         Evento segunda = new Evento();
         segunda.setTipo(TipoEvento.NORMAL);
         segunda.setDiaDaSemana(DiaDaSemana.SEGUNDA);
-        segunda.setData(calendarSegunda.getTime());
+        segunda.setHorario(getHorario(calendarSegunda.getTime()));
 
         Evento terca = new Evento();
         terca.setTipo(TipoEvento.NORMAL);
         terca.setDiaDaSemana(DiaDaSemana.TERCA);
-        terca.setData(calendarTerca.getTime());
+        terca.setHorario(getHorario(calendarTerca.getTime()));
 
         Evento quarta = new Evento();
         quarta.setTipo(TipoEvento.NORMAL);
         quarta.setDiaDaSemana(DiaDaSemana.QUARTA);
-        quarta.setData(calendarQuarta.getTime());
+        quarta.setHorario(getHorario(calendarQuarta.getTime()));
 
         Evento quinta = new Evento();
         quinta.setTipo(TipoEvento.NORMAL);
         quinta.setDiaDaSemana(DiaDaSemana.QUINTA);
-        quinta.setData(calendarQuinta.getTime());
+        quinta.setHorario(getHorario(calendarQuinta.getTime()));
 
         Evento sexta = new Evento();
         sexta.setTipo(TipoEvento.NORMAL);
         sexta.setDiaDaSemana(DiaDaSemana.SEXTA);
-        sexta.setData(calendarSexta.getTime());
+        sexta.setHorario(getHorario(calendarSexta.getTime()));
 
         Evento sabado = new Evento();
         sabado.setTipo(TipoEvento.NORMAL);
         sabado.setDiaDaSemana(DiaDaSemana.SABADO);
-        sabado.setData(calendarSabado.getTime());
-
+        sabado.setHorario(getHorario(calendarSabado.getTime()));
 
         Evento domingo = new Evento();
         domingo.setTipo(TipoEvento.NORMAL);
         domingo.setDiaDaSemana(DiaDaSemana.DOMINGO);
-        domingo.setData(calendarDomingo.getTime());
+        domingo.setHorario(getHorario(calendarDomingo.getTime()));
 
         Evento todosOsDiasAM = new Evento();
         todosOsDiasAM.setTipo(TipoEvento.NORMAL);
         todosOsDiasAM.setDiaDaSemana(DiaDaSemana.TODOS_OS_DIAS);
-        todosOsDiasAM.setData(calendarDomingo.getTime());
+        todosOsDiasAM.setHorario(getHorario(calendarDomingo.getTime()));
 
         Evento segundaASexta = new Evento();
         segundaASexta.setTipo(TipoEvento.NORMAL);
         segundaASexta.setDiaDaSemana(DiaDaSemana.SEGUNDA_A_SEXTA);
-        segundaASexta.setData(calendarQuinta.getTime());
+        segundaASexta.setHorario(getHorario(calendarQuinta.getTime()));
 
         Evento segundaASabado = new Evento();
         segundaASabado.setTipo(TipoEvento.NORMAL);
         segundaASabado.setDiaDaSemana(DiaDaSemana.SEGUNDA_A_SABADO);
-        segundaASabado.setData(calendarQuinta.getTime());
+        segundaASabado.setHorario(getHorario(calendarQuinta.getTime()));
 
         Evento sabadoADomingo = new Evento();
         sabadoADomingo.setTipo(TipoEvento.NORMAL);
         sabadoADomingo.setDiaDaSemana(DiaDaSemana.SABADO_A_DOMINGO);
-        sabadoADomingo.setData(calendarQuinta.getTime());
+        sabadoADomingo.setHorario(getHorario(calendarQuinta.getTime()));
 
         assertEquals(0, domingo.compareTo(domingo));
         assertEquals(-1, domingo.compareTo(segunda));
@@ -274,18 +274,22 @@ public class PrioridadeDeEventosTest {
 
     }
 
+    private LocalTime getHorario(Date time) {
+        return new LocalTime(time.getHours(), time.getMinutes(), time.getSeconds());
+    }
+
 
     @Test
     public void precedenciaPorDataTest() {
         Evento segunda = new Evento();
         segunda.setTipo(TipoEvento.NORMAL);
         segunda.setDiaDaSemana(DiaDaSemana.SEGUNDA);
-        segunda.setData(new Date(2016, 9, 19, 13, 24, 30));
+        segunda.setHorario(new LocalTime(13, 24, 30));
 
         Evento segunda2 = new Evento();
         segunda2.setTipo(TipoEvento.NORMAL);
         segunda2.setDiaDaSemana(DiaDaSemana.SEGUNDA);
-        segunda2.setData(new Date(2016, 9, 19, 13, 24, 31));
+        segunda2.setHorario(new LocalTime(13, 24, 31));
 
         assertEquals(0, segunda.compareTo(segunda));
         assertEquals(-1, segunda.compareTo(segunda2));

@@ -38,10 +38,6 @@ public class IntervaloEstagio {
         return entreverde;
     }
 
-    public void setEntreverde(boolean entreverde) {
-        this.entreverde = entreverde;
-    }
-
     public EstagioPlano getEstagioPlano() {
         return estagioPlano;
     }
