@@ -307,6 +307,9 @@ public class IntervaloGrupoSemaforico {
         sb.append(eventoMotor.getParams()[1].toString());
         sb.append(",");
         sb.append(((DateTime)eventoMotor.getParams()[2]).getMillis());
+        sb.append(",");
+        sb.append(((DateTime)eventoMotor.getParams()[3]).getMillis());
+
         sb.append("]");
 
         return sb.toString();

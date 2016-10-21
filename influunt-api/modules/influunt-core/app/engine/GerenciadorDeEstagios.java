@@ -146,7 +146,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
         }
 
         if (!inicio) {
-            EventoMotor eventoMotor = new EventoMotor(null,TipoEvento.TROCA_DE_PLANO_NO_ANEL,agendamento.getPlano().getPosicao(),agendamento.getAnel(),agendamento.getMomentoDaTroca());
+            EventoMotor eventoMotor = new EventoMotor(null,TipoEvento.TROCA_DE_PLANO_NO_ANEL,agendamento.getPlano().getPosicao(),agendamento.getAnel(),agendamento.getMomentoOriginal(),agendamento.getMomentoDaTroca());
             this.intervalos.get(0l).addEvento(contadorIntervalo,eventoMotor);
         }
     }

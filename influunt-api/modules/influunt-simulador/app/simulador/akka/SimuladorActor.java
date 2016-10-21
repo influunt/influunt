@@ -114,12 +114,8 @@ public class SimuladorActor extends UntypedActor {
         return "{\"aneis\":{" + sbAnel.toString() + "},\"trocas\":[" + bufferTrocaDePlanos.toString() + "]}";
     }
 
-    public void storeTrocaDePlano(AgendamentoTrocaPlano agendamentoTrocaPlano) {
-        this.trocasDePlanos.add(agendamentoTrocaPlano);
-    }
 
-
-    public void addTrocaDePlano(DateTime timestamp, Evento eventoAnterior, Evento eventoAtual) {
+    public void storeTrocaDePlano(DateTime timestamp, Evento eventoAnterior, Evento eventoAtual) {
 
         if(bufferTrocaDePlanos != null){
             bufferTrocaDePlanos.append(",");
