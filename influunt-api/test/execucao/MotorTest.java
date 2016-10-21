@@ -53,10 +53,11 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
         Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
 
         //Avancar
-        avancarSegundos(motor, 200);
+        avancarSegundos(motor, 210);
 
         assertEquals("Plano Atual", 1, listaTrocaPlano.get(inicioExecucao).getPosicaoPlano().intValue());
         assertEquals("Plano Atual", 10, listaTrocaPlano.get(inicioExecucao.plusSeconds(60)).getPosicaoPlano().intValue());
+        assertEquals("Plano Atual", 1, listaTrocaPlano.get(inicioExecucao.plusSeconds(120)).getPosicaoPlano().intValue());
 
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).get(1).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(18)).get(1).getEstagio().getPosicao().intValue());
@@ -70,6 +71,9 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
         assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(134)).get(1).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(154)).get(1).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(172)).get(1).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(190)).get(1).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(206)).get(1).getEstagio().getPosicao().intValue());
+
 
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).get(2).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(18)).get(2).getEstagio().getPosicao().intValue());
@@ -113,6 +117,26 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
         verificaGruposSemaforicos(75, new GrupoCheck(3, 16, 0, 11000,EstadoGrupoSemaforico.VERMELHO));
         verificaGruposSemaforicos(75, new GrupoCheck(3, 16, 11000, 14000,EstadoGrupoSemaforico.VERMELHO));
         verificaGruposSemaforicos(75, new GrupoCheck(3, 16, 14000, 255000,EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
+
+        assertEquals("Plano Atual", 1, listaTrocaPlanoEfetiva.get(inicioExecucao.plusSeconds(120)).get(3).getPosicaoPlano().intValue());
+//        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).get(120).getEstagio().getPosicao().intValue());
+        verificaGruposSemaforicos(120, new GrupoCheck(3, 11, 0, 3000,EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(120, new GrupoCheck(3, 11, 3000, 13000,EstadoGrupoSemaforico.VERDE));
+
+        verificaGruposSemaforicos(120, new GrupoCheck(3, 12, 0, 3000,EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(120, new GrupoCheck(3, 12, 3000, 13000,EstadoGrupoSemaforico.VERMELHO));
+
+        verificaGruposSemaforicos(120, new GrupoCheck(3, 13, 0, 3000,EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(120, new GrupoCheck(3, 13, 3000, 13000,EstadoGrupoSemaforico.VERMELHO));
+
+        verificaGruposSemaforicos(120, new GrupoCheck(3, 14, 0, 3000,EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(120, new GrupoCheck(3, 14, 3000, 13000,EstadoGrupoSemaforico.VERMELHO));
+
+        verificaGruposSemaforicos(120, new GrupoCheck(3, 15, 0, 3000,EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(120, new GrupoCheck(3, 15, 3000, 13000,EstadoGrupoSemaforico.VERMELHO));
+
+        verificaGruposSemaforicos(120, new GrupoCheck(3, 16, 0, 3000,EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(120, new GrupoCheck(3, 16, 3000, 13000,EstadoGrupoSemaforico.VERMELHO));
     }
 
     @Override

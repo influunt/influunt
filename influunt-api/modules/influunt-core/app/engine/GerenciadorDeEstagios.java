@@ -20,6 +20,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerde;
 
+    private HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerdeAnterior;
+
     private List<EstagioPlano> listaOriginalEstagioPlanos;
 
     private Plano plano;
@@ -54,6 +56,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private String idJsonNovoEstagio;
 
+
     public GerenciadorDeEstagios(int anel,
                                  DateTime inicioControlador,
                                  DateTime inicioExecucao,
@@ -72,25 +75,27 @@ public class GerenciadorDeEstagios implements EventoCallback {
     public Estagio tick() {
         IntervaloEstagio intervalo = this.intervalos.get(contadorIntervalo);
 
-        if (this.intervalos.get(contadorIntervalo) == null) {
-            contadorIntervalo = 0L;
-            contadorEstagio++;
-            if (contadorEstagio == listaEstagioPlanos.size()) {
-                atualizaListaEstagiosNovoCiclo(listaOriginalEstagioPlanos);
-                contadorEstagio = 0;
-                geraIntervalos(0);
-                contadorDeCiclos++;
-                callback.onCicloEnds(this.anel, contadorDeCiclos);
-                if(this.agendamento != null){
-                    agendamento.setMomentoDaTroca(tempoDecorrido);
-                    callback.onTrocaDePlanoEfetiva(agendamento);
-                    reconhecePlano(this.agendamento.getPlano());
-                    this.agendamento = null;
-                }
-            } else {
-                geraIntervalos(contadorEstagio);
-            }
+        if (this.agendamento != null && (this.plano.isIntermitente() || this.plano.isApagada())) {
+            executaAgendamentoTrocaDePlano();
             intervalo = this.intervalos.get(contadorIntervalo);
+        } else {
+            if (this.intervalos.get(contadorIntervalo) == null) {
+                contadorIntervalo = 0L;
+                contadorEstagio++;
+                if (contadorEstagio == listaEstagioPlanos.size()) {
+                    atualizaListaEstagiosNovoCiclo(listaOriginalEstagioPlanos);
+                    contadorEstagio = 0;
+                    geraIntervalos(0);
+                    contadorDeCiclos++;
+                    callback.onCicloEnds(this.anel, contadorDeCiclos);
+                    if (this.agendamento != null) {
+                        executaAgendamentoTrocaDePlano();
+                    }
+                } else {
+                    geraIntervalos(contadorEstagio);
+                }
+                intervalo = this.intervalos.get(contadorIntervalo);
+            }
         }
 
         EstagioPlano estagioPlano = intervalo.getEstagioPlano();
@@ -113,6 +118,13 @@ public class GerenciadorDeEstagios implements EventoCallback {
         return estagioPlano.getEstagio();
     }
 
+    private void executaAgendamentoTrocaDePlano() {
+        agendamento.setMomentoDaTroca(tempoDecorrido);
+        callback.onTrocaDePlanoEfetiva(agendamento);
+        reconhecePlano(this.agendamento.getPlano());
+        this.agendamento = null;
+    }
+
     public void trocarPlano(AgendamentoTrocaPlano agendamentoTrocaPlano) {
         agendamentoTrocaPlano.setMomentoPedidoTroca(tempoDecorrido);
         agendamentoTrocaPlano.setAnel(anel);
@@ -126,7 +138,9 @@ public class GerenciadorDeEstagios implements EventoCallback {
     private void reconhecePlano(Plano plano, boolean inicio) {
         if (this.plano != null) {
             modoAnterior = this.plano.getModoOperacao();
+            this.tabelaDeTemposEntreVerdeAnterior = this.tabelaDeTemposEntreVerde;
         }
+
         this.plano = plano;
         this.tabelaDeTemposEntreVerde = this.plano.tabelaEntreVerde();
         this.listaOriginalEstagioPlanos = this.plano.ordenarEstagiosPorPosicaoSemEstagioDispensavel();
@@ -134,6 +148,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
         contadorEstagio = 0;
         contadorIntervalo = 0L;
         contadorDeCiclos = 0L;
+
 
         if (inicio && listaEstagioPlanos.size() > 0) {
             this.estagioPlanoAtual = listaEstagioPlanos.get(listaEstagioPlanos.size() - 1);
@@ -154,18 +169,41 @@ public class GerenciadorDeEstagios implements EventoCallback {
     private void geraIntervalos(Integer index) {
         if (!plano.isModoOperacaoVerde() && index == 0){
             geraIntervalosFixos();
+        } else if (!isModoAnteriorVerde()) {
+            EstagioPlano estagioPlano = listaEstagioPlanos.get(index);
+            geraIntervaloEstagio(estagioPlano, 3000L, estagioPlano.getTempoVerdeEstagio() * 1000L);
         } else {
             EstagioPlano estagioPlano = listaEstagioPlanos.get(index);
-            Estagio estagioAtual = estagioPlano.getEstagio();
+
+            if (!estagioPlano.getPlano().equals(estagioPlanoAtual.getPlano())) {
+                estagioPlano = atualizaListaEstagiosComTransicoesProibidas(estagioPlanoAtual, estagioPlano);
+            }
+
+            final Estagio estagioAtual = estagioPlano.getEstagio();
             final Estagio estagioAnterior = estagioPlanoAtual.getEstagio();
 
             final long tempoEntreVerde = tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(estagioAnterior.getPosicao(), estagioAtual.getPosicao()));
             final long tempoVerde = estagioPlano.getTempoVerdeEstagioComTempoDoEstagioDispensavel(tabelaDeTemposEntreVerde, listaEstagioPlanos) * 1000L;
 
-            this.intervalos = TreeRangeMap.create();
-            this.intervalos.put(Range.closedOpen(0L, tempoEntreVerde), new IntervaloEstagio(tempoEntreVerde, true, estagioPlano, estagioPlanoAtual));
-            this.intervalos.put(Range.closedOpen(tempoEntreVerde, tempoEntreVerde + tempoVerde), new IntervaloEstagio(tempoVerde, false, estagioPlano, estagioPlanoAtual));
+            geraIntervaloEstagio(estagioPlano, tempoEntreVerde, tempoVerde);
         }
+        modoAnterior = this.plano.getModoOperacao();
+    }
+
+    private EstagioPlano atualizaListaEstagiosComTransicoesProibidas(EstagioPlano estagioPlanoAnterior, EstagioPlano estagioPlano) {
+        final Estagio estagioAnterior = estagioPlanoAnterior.getEstagio();
+        if (estagioAnterior.temTransicaoProibidaParaEstagio(estagioPlano.getEstagio())) {
+            final Estagio estagioAtual = estagioAnterior.getTransicaoProibidaPara(estagioPlano.getEstagio()).getAlternativo();
+            estagioPlano = listaEstagioPlanos.stream().filter(ep -> ep.getEstagio().equals(estagioAtual)).findFirst().orElse(null);
+            contadorEstagio = listaEstagioPlanos.indexOf(estagioPlano);
+        }
+        return estagioPlano;
+    }
+
+    private void geraIntervaloEstagio(EstagioPlano estagioPlano, long tempoEntreVerde, long tempoVerde){
+        this.intervalos = TreeRangeMap.create();
+        this.intervalos.put(Range.closedOpen(0L, tempoEntreVerde), new IntervaloEstagio(tempoEntreVerde, true, estagioPlano, estagioPlanoAtual));
+        this.intervalos.put(Range.closedOpen(tempoEntreVerde, tempoEntreVerde + tempoVerde), new IntervaloEstagio(tempoVerde, false, estagioPlano, estagioPlanoAtual));
     }
 
     private void geraIntervalosFixos(){
@@ -176,7 +214,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
         }
 
         this.intervalos = TreeRangeMap.create();
-        if (modoAnterior != null && !ModoOperacaoPlano.APAGADO.equals(modoAnterior) && !ModoOperacaoPlano.INTERMITENTE.equals(modoAnterior)) {
+        if (isModoAnteriorVerde() && entreverde != null && entreverde.getValue().isEntreverde()) {
             final IntervaloEstagio intervalo = entreverde.getValue();
             final Estagio estagio = intervalo.getEstagioPlano().getEstagio();
 
@@ -193,6 +231,10 @@ public class GerenciadorDeEstagios implements EventoCallback {
             this.intervalos.put(Range.closedOpen(0L, 255000L),
                     new IntervaloEstagio(255000L, false, criaEstagioPlanoInterminteOuApagado(), null));
         }
+    }
+
+    private boolean isModoAnteriorVerde() {
+        return  !ModoOperacaoPlano.APAGADO.equals(modoAnterior) && !ModoOperacaoPlano.INTERMITENTE.equals(modoAnterior);
     }
 
     private EstagioPlano criaEstagioPlanoInterminteOuApagado(Estagio estagio) {

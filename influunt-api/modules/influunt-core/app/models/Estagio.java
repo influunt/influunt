@@ -417,13 +417,13 @@ public class Estagio extends Model implements Serializable, Cloneable {
     }
 
     public boolean temTransicaoProibidaParaEstagio(Estagio estagio) {
-        for (TransicaoProibida tp : getOrigemDeTransicoesProibidas()) {
-            Estagio destino = tp.getDestino();
-            if (destino != null && destino.equals(estagio)) {
-                return true;
-            }
-        }
-        return false;
+        return getTransicaoProibidaPara(estagio) != null;
+    }
+
+    public TransicaoProibida getTransicaoProibidaPara(final Estagio destino) {
+        return getOrigemDeTransicoesProibidas().stream().filter(transicaoProibida -> {
+            return destino.equals(transicaoProibida.getDestino());
+        }).findFirst().orElse(null);
     }
 
     @Override

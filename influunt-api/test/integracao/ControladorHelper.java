@@ -672,6 +672,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         criarEvento(tabelaHoraria, 2, TipoEvento.NORMAL, DiaDaSemana.SEGUNDA_A_SABADO, LocalTime.parse("08:00:00"), 1);
         criarEvento(tabelaHoraria, 3, TipoEvento.NORMAL, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("18:00:00"), 1);
         criarEvento(tabelaHoraria, 4, TipoEvento.NORMAL, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("18:01:00"), 10);
+        criarEvento(tabelaHoraria, 4, TipoEvento.NORMAL, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("18:02:00"), 1);
 //        criarEvento(tabelaHoraria, 1, TipoEvento.ESPECIAL_RECORRENTE, DiaDaSemana.SEGUNDA_A_SABADO, LocalTime.parse("18:00:00"), 1);
 //        criarEvento(tabelaHoraria, 1, TipoEvento.ESPECIAL_NAO_RECORRENTE, DiaDaSemana.DOMINGO, LocalTime.parse("08:00:00"), 1);
 
