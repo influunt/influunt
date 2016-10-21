@@ -687,7 +687,7 @@ var influunt;
           // dataHora.fixedToCamera = true;
           // dataHora.anchor.set(0.5);
 
-          game.time.events.repeat(20000 / velocidade, Math.ceil(duracaoSimulacao / 120) + 1, loadMore, this);
+          game.time.events.repeat(8000 / velocidade, Math.ceil(duracaoSimulacao / 120) + 1, loadMore, this);
           
         }
         
