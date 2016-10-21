@@ -34,7 +34,7 @@ public class RelatoriosController extends Controller {
     public TabelaEntreverdesReportService tabelaEntreverdesReportService;
 
     public CompletionStage<Result> gerarRelatorioAuditoria() {
-        ReportType reportType = ReportType.valueOf(request().getQueryString("tipoRelatorio").toString());
+        ReportType reportType = ReportType.valueOf(request().getQueryString("tipoRelatorio"));
 
         Map<String, String[]> params = new HashMap<>();
         params.putAll(request().queryString());
@@ -48,7 +48,7 @@ public class RelatoriosController extends Controller {
 
     public CompletionStage<Result> gerarRelatorioControladoresStatus() {
 
-        ReportType reportType = ReportType.valueOf(request().getQueryString("tipoRelatorio").toString());
+        ReportType reportType = ReportType.valueOf(request().getQueryString("tipoRelatorio"));
 
         Map<String, String[]> params = new HashMap<>();
         params.putAll(request().queryString());
@@ -60,7 +60,7 @@ public class RelatoriosController extends Controller {
     }
 
     public CompletionStage<Result> gerarRelatorioControladoresFalhas() {
-        ReportType reportType = ReportType.valueOf(request().getQueryString("tipoRelatorio").toString());
+        ReportType reportType = ReportType.valueOf(request().getQueryString("tipoRelatorio"));
 
         Map<String, String[]> params = new HashMap<>();
         params.putAll(request().queryString());

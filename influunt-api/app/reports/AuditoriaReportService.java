@@ -32,7 +32,7 @@ public class AuditoriaReportService extends ReportService<Auditoria> {
         this.auditorias = lista;
         switch (reportType) {
             case PDF:
-                return generatePDFReport();
+                return generatePDFReport(params);
             case CSV:
                 return generateCSVReport();
             default:
@@ -45,8 +45,9 @@ public class AuditoriaReportService extends ReportService<Auditoria> {
      *
      * @return {@link InputStream} do pdf
      */
-    private InputStream generatePDFReport() {
-        return baseJasperReport.generateReport("auditorias", getBasicReportMetadata(), auditorias);
+    private InputStream generatePDFReport(Map<String, String[]> queryStringParams) {
+        Map<String, Object> reportParams = getAuditoriaReportData(queryStringParams);
+        return baseJasperReport.generateReport("auditorias", reportParams, auditorias);
     }
 
     /**
@@ -81,5 +82,26 @@ public class AuditoriaReportService extends ReportService<Auditoria> {
         return new ByteArrayInputStream(buffer.toString().getBytes(Charset.forName("UTF-8")));
     }
 
+    private Map<String, Object> getAuditoriaReportData(Map<String, String[]> queryStringParams) {
+        Map<String, Object> reportParams = getBasicReportMetadata();
+        String startDate = null;
+        String endDate = null;
+        if (queryStringParams.containsKey("change.eventTime_start")) {
+            startDate = queryStringParams.get("change.eventTime_start")[0].substring(0, 11);
+        }
+        if (queryStringParams.containsKey("change.eventTime_end")) {
+            endDate = queryStringParams.get("change.eventTime_end")[0].substring(0, 11);
+        }
+        if (startDate != null && endDate != null) {
+            reportParams.put("reportDateRange", startDate.concat(" a ").concat(endDate));
+        } else if (startDate != null) {
+            reportParams.put("reportDateRange", "A partir de ".concat(startDate));
+        } else if (endDate != null) {
+            reportParams.put("reportDateRange", "Início até ".concat(endDate));
+        } else {
+            reportParams.put("reportDateRange", "Histórico completo");
+        }
 
+        return reportParams;
+    }
 }
