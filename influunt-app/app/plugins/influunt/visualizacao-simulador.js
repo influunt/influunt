@@ -16,8 +16,9 @@ var influunt;
         var imgAI = document.getElementById("modo_ai");        
 
         var ALTURA_GRUPO = 25;
-        var MARGEM_LATERAL = 966 ;
-        var MARGEM_SUPERIOR = 60;
+        var MARGEM_LATERAL = 956 ;
+        var MARGEM_SUPERIOR = 70;
+        var ALTURA_INTERVALOS = 0;
         var cursors;
         var intervalosGroup;
         var textoIntervalosGroup;
@@ -30,6 +31,7 @@ var influunt;
         var offsetDeAneis = {};
         var offsetGrupo = {};
         var tempo = 0;
+        var descolamentoMaximo = 0;
         var relogio;
         var plano;
         var aneis = {};
@@ -83,10 +85,34 @@ var influunt;
             botao.play("ON");            
           }
         }
-        
+        function controleFastBackward(botao){
+          for(var i =0; i < 10; i++){
+            moveToRight();
+          }
+        }
+
+        function controleFastFoward(botao){
+          for(var i =0; i < 10; i++){
+            moveToLeft();
+          }
+        }
+
+        function controleBackward(botao){
+          moveToRight();          
+        }
+
+        function controleFoward(botao){
+          moveToLeft();
+        }
+
         function pause(botao){
           botaoPlay.play("ON");
           botaoFastBackward.play("ON");
+          botaoFastBackward.inputEnabled = true;
+          botaoBackward.inputEnabled = true;
+          botaoFoward.inputEnabled = true;
+          botaoFastFoward.inputEnabled = true;          
+
           botaoBackward.play("ON");
           botaoExport.play("ON");          
           botaoLog.play("ON");          
@@ -95,19 +121,23 @@ var influunt;
           botaoPlay.play("ON");
           botaoPause.play("OFF");
           game.time.events.remove(repeater);
-          botaoPlay.onDown.add(play, self);          
         }
         
         function play(){
           botaoPause.play("ON");
           botaoFastBackward.play("OFF");
+          botaoFastBackward.inputEnabled = false;
+          botaoBackward.inputEnabled = false;    
+          botaoFoward.inputEnabled = false;
+          botaoFastFoward.inputEnabled = false;                    
+                
           botaoBackward.play("OFF");
           botaoExport.play("OFF");          
           botaoLog.play("OFF");          
           botaoFastFoward.play("OFF");                    
           botaoFoward.play("OFF");                              
           botaoPlay.play("OFF");
-          repeater = game.time.events.repeat(1000, duracaoSimulacao - tempo, moveToLeft, this);
+          repeater = game.time.events.repeat(1000, duracaoSimulacao - descolamentoMaximo, moveToLeft, this);
         }
         
         function criaControles(){
@@ -117,9 +147,10 @@ var influunt;
           botaoFastBackward.animations.add('OFF', [8]);          
           botaoFastBackward.animations.add('ON', [16]);
           botaoFastBackward.play('OFF');
-          botaoFastBackward.inputEnabled = true;
+          botaoFastBackward.inputEnabled = false;
           botaoFastBackward.events.onInputOver.add(controleOver,this);
-          botaoFastBackward.events.onInputOut.add(controleOut,this);          
+          botaoFastBackward.events.onInputOut.add(controleOut,this);
+          botaoFastBackward.events.onInputDown.add(controleFastBackward, this);      
 
           grupoControles.add(botaoFastBackward);
 
@@ -131,7 +162,8 @@ var influunt;
           botaoBackward.play('OFF');
           botaoBackward.inputEnabled = true;
           botaoBackward.events.onInputOver.add(controleOver,this);
-          botaoBackward.events.onInputOut.add(controleOut,this);          
+          botaoBackward.events.onInputOut.add(controleOut,this); 
+          botaoBackward.events.onInputDown.add(controleBackward, this);                   
           
           grupoControles.add(botaoBackward);          
 
@@ -141,8 +173,8 @@ var influunt;
           botaoPlay.animations.add('OFF', [10]);          
           botaoPlay.animations.add('ON', [18]);
           botaoPlay.play('OFF');
-          botaoPlay.inputEnabled = true;   
-          botaoPlay.events.onInputDown.add(play,this);          
+          botaoPlay.inputEnabled = false;   
+          botaoPlay.events.onInputDown.add(play, this);      
           botaoPlay.events.onInputOver.add(controleOver,this);
           botaoPlay.events.onInputOut.add(controleOut,this);          
                  
@@ -169,7 +201,8 @@ var influunt;
           botaoFoward.play('OFF');
           botaoFoward.inputEnabled = true;          
           botaoFoward.events.onInputOver.add(controleOver,this);
-          botaoFoward.events.onInputOut.add(controleOut,this);          
+          botaoFoward.events.onInputOut.add(controleOut,this);
+          botaoFoward.events.onInputDown.add(controleFoward, this);                             
 
           grupoControles.add(botaoFoward);          
           
@@ -182,7 +215,8 @@ var influunt;
           botaoFastFoward.inputEnabled = true;      
           botaoFastFoward.events.onInputOver.add(controleOver,this);
           botaoFastFoward.events.onInputOut.add(controleOut,this);          
-              
+          botaoFastFoward.events.onInputDown.add(controleFastFoward, this); 
+          
           grupoControles.add(botaoFastFoward);          
           
           inicio += incremento + 8;
@@ -211,23 +245,67 @@ var influunt;
           grupoControles.add(botaoExport);                    
         }
         
-        function moveToLeft(){
+        function atualizaEstadosGruposSemaforicos(){
           for(var i = 0; i < totalGruposSemaforicos; i++){
             if(estadoGrupoSemaforico[tempo] && estadoGrupoSemaforico[tempo][i]){
               gruposSemaforicos[i].sprite.play(estadoGrupoSemaforico[tempo][i]);            
             }
           }
-
+        }
+        
+        function moveToLeft(){
           tempo += (velocidade);
           relogio.setText(tempo + "s");
           game.camera.x+=(10 * velocidade);
+          atualizaEstadosGruposSemaforicos();          
         }        
+
+        function moveToRight(){
+          tempo = Math.max(0,tempo - velocidade);
+          relogio.setText(tempo + "s");
+          game.camera.x -= (velocidade * 10);
+          atualizaEstadosGruposSemaforicos();          
+        }        
+
 
         function loadMore(){
             var message = new Paho.MQTT.Message("proxima");
             message.destinationName = 'simulador/' + config.simulacaoId + '/proxima_pagina';
             client.send(message);
         }
+        
+        function desenhaAgendamento(x1,x2,y1,y2,color){
+
+          var w  = x2 - x1;
+          var h  = y2 - y1;
+          var bmd = game.add.bitmapData(w,h);
+
+          bmd.ctx.lineWidth = "2";
+          bmd.ctx.setLineDash([5, 1]);
+          bmd.ctx.strokeStyle = color;
+
+          bmd.ctx.beginPath();
+           bmd.ctx.moveTo(w-2,0);
+           bmd.ctx.lineTo(w-2,h);
+           bmd.ctx.stroke();
+          bmd.ctx.closePath();
+
+          bmd.ctx.beginPath();
+           bmd.ctx.moveTo(10,h/2);
+           bmd.ctx.lineTo(w,h/2);
+           bmd.ctx.stroke();
+          bmd.ctx.closePath();
+
+          bmd.ctx.fillStyle = color;
+          bmd.ctx.font = "12px Open Sans";
+          bmd.ctx.fillText((w/10) - 1 + "s", w/2, h/2 - 3);
+
+
+          bmd.render();
+          eventosGroup.add(game.add.sprite((MARGEM_LATERAL + x1) - 10, y1 + ALTURA_GRUPO, bmd));
+
+        }
+
         
         function desenhaDetector(anel,x,color,tipo,label){
           var y1 = offsetDeAneis[anel + 1] + ALTURA_GRUPO;
@@ -272,7 +350,7 @@ var influunt;
         function desenhaEstagio(y,estagio,anel){
           var h = Object.keys(estagio.grupos).length * ALTURA_GRUPO + ALTURA_GRUPO + (Object.keys(estagio.grupos).length - 1);
           var w = estagio.w / 100;
-          var tempoInicio = estagio.x / 1000;
+          var tempoInicio = (estagio.x - estagio.w) / 1000;
 
           var x = ((estagio.x - estagio.w) / 100) + MARGEM_LATERAL;
 
@@ -285,8 +363,6 @@ var influunt;
             if(offsetGrupo[grupoKey] > 0){
               yi += offsetGrupo[grupoKey];
             }
-            
-            
           
             grupo.forEach(function(intervalo){
               var limite = tempoInicio + intervalo[0] / 1000 + intervalo[1] / 1000;
@@ -304,7 +380,19 @@ var influunt;
           });
 
           estagio.eventos.forEach(function(evento){
-            desenhaDetector(parseInt(anel) - 1,x + evento[0] / 100,"#082536",evento[1],evento[2]);
+            if(evento[1] == "ACIONAMENTO_DETECTOR_VEICULAR" || evento[1] == "PEDESTRE"){
+              desenhaDetector(parseInt(anel) - 1,x + evento[0] / 100,"#082536",evento[1],evento[2]);
+            }else if(evento[1] == "TROCA_DE_PLANO_NO_ANEL"){
+              var x1 = (evento[4] - inicioSimulacao.unix() * 1000) / 100;
+              var x2 = ((evento[5] - inicioSimulacao.unix() * 1000) / 100) + 10;
+              var y1 = offsetDeAneis[evento[3]];
+              var y2 = y1 + (config.aneis[anel - 1].tiposGruposSemaforicos.length * ALTURA_GRUPO) +
+                                            config.aneis[anel - 1].tiposGruposSemaforicos.length - 1;
+              desenhaAgendamento(x1,x2,y1,y2,"#2603339");            
+
+              
+
+            }
           });
           
           bmd.ctx.fillStyle = "#7788AA";
@@ -455,6 +543,7 @@ var influunt;
           var spriteY = MARGEM_SUPERIOR + y1 + ALTURA_GRUPO + 1;
           var sprite = game.add.sprite(0, spriteY, bmd);
           offsetDeAneis[numero] = spriteY;
+          ALTURA_INTERVALOS = spriteY + h;
           sprite.fixedToCamera = true;
           
         }
@@ -500,6 +589,45 @@ var influunt;
           totalGruposSemaforicos = i;
         }
   
+        function desenhaPlano(x,color,label){
+            var h = ALTURA_INTERVALOS - 25;
+            var bmd = game.add.bitmapData(20,h);
+
+            bmd.ctx.closePath();
+            bmd.ctx.beginPath();
+            bmd.ctx.lineWidth = "2";
+            bmd.ctx.setLineDash([5, 1]);
+            bmd.ctx.strokeStyle = color;
+            bmd.ctx.moveTo(10,0);
+            bmd.ctx.lineTo(10,h);
+            bmd.ctx.stroke();
+            bmd.ctx.closePath();
+            bmd.ctx.fillStyle = color;
+            bmd.ctx.fillRect(0,0,20,20);
+
+            bmd.ctx.fillStyle = "#fff";
+
+            if(label.length > 1){
+              bmd.ctx.font = "8px Open Sans";
+              bmd.ctx.fillText(label, 5, 14);
+            }else{
+              bmd.ctx.font = "12px Open Sans";
+              bmd.ctx.fillText(label, 7, 15);
+            }
+
+
+            bmd.render();
+            eventosGroup.add(game.add.sprite((MARGEM_LATERAL + x) - 10, MARGEM_SUPERIOR - 25, bmd));
+
+        }
+              
+        function processaPlanos(trocas){
+          trocas.forEach(function(troca){
+            var x = (troca[0] - (inicioSimulacao.unix() * 1000)) / 100;
+            desenhaPlano(x,"#260339",troca[2]);
+          });
+        }
+        
         function create() {
           
           game.stage.backgroundColor = '#cccccc';
@@ -528,6 +656,7 @@ var influunt;
             if(message.destinationName.endsWith('/estado')){
               var json = JSON.parse(message.payloadString);
               processaEstagios(json.aneis);
+              processaPlanos(json.trocas);
             }
           };
           
@@ -568,6 +697,7 @@ var influunt;
             started = true;
             botaoPause.play("ON");
           }
+          game.debug.cameraInfo(game.camera, 32, 32);
         }
 
 
@@ -585,37 +715,6 @@ var influunt;
      //      desenhaAgendamento(evento.timestamp * 10,(evento.momentoTroca * 10) + 10,y1 + 15,y2 + 15,'blue');
      //    }
      //
-     //    function desenhaPlano(x,color,label){
-     //
-     //     var bmd = game.add.bitmapData(20,460);
-     //
-     //     bmd.ctx.closePath();
-     //     bmd.ctx.beginPath();
-     //     bmd.ctx.lineWidth = "2";
-     //     bmd.ctx.setLineDash([5, 5]);
-     //     bmd.ctx.strokeStyle = color;
-     //     bmd.ctx.moveTo(10,0);
-     //     bmd.ctx.lineTo(10,460);
-     //     bmd.ctx.stroke();
-     //     bmd.ctx.closePath();
-     //     bmd.ctx.fillStyle = color;
-     //     bmd.ctx.fillRect(0,0,20,20);
-     //
-     //     bmd.ctx.fillStyle = "#fff";
-     //
-     //     if(label.length > 1){
-     //       bmd.ctx.font = "8px Open Sans";
-     //       bmd.ctx.fillText(label, 5, 14);
-     //     }else{
-     //       bmd.ctx.font = "12px Open Sans";
-     //       bmd.ctx.fillText(label, 7, 15);
-     //     }
-     //
-     //
-     //     bmd.render();
-     //     game.add.sprite((MARGEM_LATERAL + (x * 10)) - 10, MARGEM_SUPERIOR, bmd);
-     //
-     //    }
 
         // function desenhaAlerta(x,label){
         //   desenhaPlano(x,"orange",label);
@@ -623,36 +722,6 @@ var influunt;
         //
         // function desenhaFalha(x,label){
         //   desenhaPlano(x,"#FFB4B6",label);
-        // }
-        // function desenhaAgendamento(x1,x2,y1,y2,color){
-        //   var w  = x2 - x1;
-        //   var h  = y2 - y1;
-        //   var bmd = game.add.bitmapData(w,h);
-        //
-        //  bmd.ctx.lineWidth = "2";
-        //  bmd.ctx.setLineDash([5, 5]);
-        //  bmd.ctx.strokeStyle = color;
-        //
-        //  bmd.ctx.beginPath();
-        //    bmd.ctx.moveTo(w-2,0);
-        //    bmd.ctx.lineTo(w-2,h);
-        //    bmd.ctx.stroke();
-        // bmd.ctx.closePath();
-        //
-        //  bmd.ctx.beginPath(); 
-        //    bmd.ctx.moveTo(10,h/2);
-        //    bmd.ctx.lineTo(w,h/2);
-        //    bmd.ctx.stroke();
-        //  bmd.ctx.closePath();
-        //
-        //  bmd.ctx.fillStyle = color;
-        //  bmd.ctx.font = "12px Open Sans";
-        //  bmd.ctx.fillText((w/10) - 1 + "s", w/2, h/2 - 3);
-        //
-        //
-        //  bmd.render();
-        //  game.add.sprite((MARGEM_LATERAL + x1) - 10, MARGEM_SUPERIOR + y1 + 15, bmd);
-        //
         // }
 
         game = new Phaser.Game(1000, 700, Phaser.AUTO, 'canvas', { preload: preload, create: create, render: render });
