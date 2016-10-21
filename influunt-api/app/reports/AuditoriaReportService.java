@@ -94,14 +94,15 @@ public class AuditoriaReportService extends ReportService<Auditoria> {
         if (queryStringParams.containsKey("change.eventTime_end")) {
             endDate = queryStringParams.get("change.eventTime_end")[0].substring(0, 11);
         }
+        String reportDateRange = "reportDateRange";
         if (startDate != null && endDate != null) {
-            reportParams.put("reportDateRange", startDate.concat(" a ").concat(endDate));
+            reportParams.put(reportDateRange, startDate.concat(" a ").concat(endDate));
         } else if (startDate != null) {
-            reportParams.put("reportDateRange", "A partir de ".concat(startDate));
+            reportParams.put(reportDateRange, "A partir de ".concat(startDate));
         } else if (endDate != null) {
-            reportParams.put("reportDateRange", "Início até ".concat(endDate));
+            reportParams.put(reportDateRange, "Início até ".concat(endDate));
         } else {
-            reportParams.put("reportDateRange", "Histórico completo");
+            reportParams.put(reportDateRange, "Histórico completo");
         }
         if (queryStringParams.containsKey("usuario.id")) {
             Usuario usuario = Usuario.find.byId(UUID.fromString(queryStringParams.get("usuario.id")[0]));
