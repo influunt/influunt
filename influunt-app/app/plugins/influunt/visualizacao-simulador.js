@@ -16,7 +16,7 @@ var influunt;
         var imgAI = document.getElementById("modo_ai");        
 
         var ALTURA_GRUPO = 25;
-        var MARGEM_LATERAL = 966 ;
+        var MARGEM_LATERAL = 956 ;
         var MARGEM_SUPERIOR = 70;
         var ALTURA_INTERVALOS = 0;
         var cursors;
@@ -31,6 +31,7 @@ var influunt;
         var offsetDeAneis = {};
         var offsetGrupo = {};
         var tempo = 0;
+        var descolamentoMaximo = 0;
         var relogio;
         var plano;
         var aneis = {};
@@ -84,10 +85,34 @@ var influunt;
             botao.play("ON");            
           }
         }
-        
+        function controleFastBackward(botao){
+          for(var i =0; i < 10; i++){
+            moveToRight();
+          }
+        }
+
+        function controleFastFoward(botao){
+          for(var i =0; i < 10; i++){
+            moveToLeft();
+          }
+        }
+
+        function controleBackward(botao){
+          moveToRight();          
+        }
+
+        function controleFoward(botao){
+          moveToLeft();
+        }
+
         function pause(botao){
           botaoPlay.play("ON");
           botaoFastBackward.play("ON");
+          botaoFastBackward.inputEnabled = true;
+          botaoBackward.inputEnabled = true;
+          botaoFoward.inputEnabled = true;
+          botaoFastFoward.inputEnabled = true;          
+
           botaoBackward.play("ON");
           botaoExport.play("ON");          
           botaoLog.play("ON");          
@@ -96,19 +121,23 @@ var influunt;
           botaoPlay.play("ON");
           botaoPause.play("OFF");
           game.time.events.remove(repeater);
-          botaoPlay.onDown.add(play, self);          
         }
         
         function play(){
           botaoPause.play("ON");
           botaoFastBackward.play("OFF");
+          botaoFastBackward.inputEnabled = false;
+          botaoBackward.inputEnabled = false;    
+          botaoFoward.inputEnabled = false;
+          botaoFastFoward.inputEnabled = false;                    
+                
           botaoBackward.play("OFF");
           botaoExport.play("OFF");          
           botaoLog.play("OFF");          
           botaoFastFoward.play("OFF");                    
           botaoFoward.play("OFF");                              
           botaoPlay.play("OFF");
-          repeater = game.time.events.repeat(1000, duracaoSimulacao - tempo, moveToLeft, this);
+          repeater = game.time.events.repeat(1000, duracaoSimulacao - descolamentoMaximo, moveToLeft, this);
         }
         
         function criaControles(){
@@ -118,9 +147,10 @@ var influunt;
           botaoFastBackward.animations.add('OFF', [8]);          
           botaoFastBackward.animations.add('ON', [16]);
           botaoFastBackward.play('OFF');
-          botaoFastBackward.inputEnabled = true;
+          botaoFastBackward.inputEnabled = false;
           botaoFastBackward.events.onInputOver.add(controleOver,this);
-          botaoFastBackward.events.onInputOut.add(controleOut,this);          
+          botaoFastBackward.events.onInputOut.add(controleOut,this);
+          botaoFastBackward.events.onInputDown.add(controleFastBackward, this);      
 
           grupoControles.add(botaoFastBackward);
 
@@ -132,7 +162,8 @@ var influunt;
           botaoBackward.play('OFF');
           botaoBackward.inputEnabled = true;
           botaoBackward.events.onInputOver.add(controleOver,this);
-          botaoBackward.events.onInputOut.add(controleOut,this);          
+          botaoBackward.events.onInputOut.add(controleOut,this); 
+          botaoBackward.events.onInputDown.add(controleBackward, this);                   
           
           grupoControles.add(botaoBackward);          
 
@@ -142,8 +173,8 @@ var influunt;
           botaoPlay.animations.add('OFF', [10]);          
           botaoPlay.animations.add('ON', [18]);
           botaoPlay.play('OFF');
-          botaoPlay.inputEnabled = true;   
-          botaoPlay.events.onInputDown.add(play,this);          
+          botaoPlay.inputEnabled = false;   
+          botaoPlay.events.onInputDown.add(play, this);      
           botaoPlay.events.onInputOver.add(controleOver,this);
           botaoPlay.events.onInputOut.add(controleOut,this);          
                  
@@ -170,7 +201,8 @@ var influunt;
           botaoFoward.play('OFF');
           botaoFoward.inputEnabled = true;          
           botaoFoward.events.onInputOver.add(controleOver,this);
-          botaoFoward.events.onInputOut.add(controleOut,this);          
+          botaoFoward.events.onInputOut.add(controleOut,this);
+          botaoFoward.events.onInputDown.add(controleFoward, this);                             
 
           grupoControles.add(botaoFoward);          
           
@@ -183,7 +215,8 @@ var influunt;
           botaoFastFoward.inputEnabled = true;      
           botaoFastFoward.events.onInputOver.add(controleOver,this);
           botaoFastFoward.events.onInputOut.add(controleOut,this);          
-              
+          botaoFastFoward.events.onInputDown.add(controleFastFoward, this); 
+          
           grupoControles.add(botaoFastFoward);          
           
           inicio += incremento + 8;
@@ -212,17 +245,28 @@ var influunt;
           grupoControles.add(botaoExport);                    
         }
         
-        function moveToLeft(){
+        function atualizaEstadosGruposSemaforicos(){
           for(var i = 0; i < totalGruposSemaforicos; i++){
             if(estadoGrupoSemaforico[tempo] && estadoGrupoSemaforico[tempo][i]){
               gruposSemaforicos[i].sprite.play(estadoGrupoSemaforico[tempo][i]);            
             }
           }
-
+        }
+        
+        function moveToLeft(){
           tempo += (velocidade);
           relogio.setText(tempo + "s");
           game.camera.x+=(10 * velocidade);
+          atualizaEstadosGruposSemaforicos();          
         }        
+
+        function moveToRight(){
+          tempo = Math.max(0,tempo - velocidade);
+          relogio.setText(tempo + "s");
+          game.camera.x -= (velocidade * 10);
+          atualizaEstadosGruposSemaforicos();          
+        }        
+
 
         function loadMore(){
             var message = new Paho.MQTT.Message("proxima");
@@ -653,6 +697,7 @@ var influunt;
             started = true;
             botaoPause.play("ON");
           }
+          game.debug.cameraInfo(game.camera, 32, 32);
         }
 
 
