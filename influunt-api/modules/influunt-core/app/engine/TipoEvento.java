@@ -25,7 +25,10 @@ public enum TipoEvento {
     ACIONAMENTO_DETECTOR_PEDESTRE(TipoEventoControlador.DETECTOR_PEDESTRE, 2, "Acionamento de detector pedestre", "%s foi acionado"),
 
     //Imposicao de Planos
-    IMPOSICAO_PLANO(TipoEventoControlador.IMPOSICAO_PLANO, 1, "Imposição de Plano", "Plano %s foi imposto");
+    IMPOSICAO_PLANO(TipoEventoControlador.IMPOSICAO_PLANO, 1, "Imposição de Plano", "Plano %s foi imposto"),
+
+    //Troca de PLanos
+    TROCA_DE_PLANO_NO_ANEL(TipoEventoControlador.TROCA_PLANO,1,"Troca de Plano no Anel", "Plano %s está ativo");
 
     private static Formatter formatter = new Formatter();
 

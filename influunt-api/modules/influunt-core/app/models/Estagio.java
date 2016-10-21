@@ -408,8 +408,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
 
         Estagio estagio = (Estagio) o;
 
-        return id != null ? id.equals(estagio.id) : estagio.id == null;
-
+        return id != null ? id.equals(estagio.id) : idJson != null ? idJson.equals(estagio.idJson) : estagio.id == null;
     }
 
     @Override

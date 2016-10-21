@@ -642,7 +642,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
 
         criarPlano(anel, 5, ModoOperacaoPlano.INTERMITENTE, null);
         criarPlano(anel, 6, ModoOperacaoPlano.APAGADO, null);
-        criarPlano(anel, 10, ModoOperacaoPlano.APAGADO, null);
+        criarPlano(anel, 10, ModoOperacaoPlano.INTERMITENTE, null);
 
         controlador.save();
     }

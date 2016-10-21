@@ -1,7 +1,9 @@
 package simulador.akka;
 
 import akka.actor.UntypedActor;
+import engine.AgendamentoTrocaPlano;
 import engine.IntervaloGrupoSemaforico;
+import models.Evento;
 import models.simulador.parametros.ParametroSimulacao;
 import org.apache.commons.math3.util.Pair;
 import org.eclipse.paho.client.mqttv3.MqttClient;
@@ -32,6 +34,12 @@ public class SimuladorActor extends UntypedActor {
     private int pagina = 0;
 
     private HashMap<Integer, List<Pair<DateTime, IntervaloGrupoSemaforico>>> estagios = new HashMap();
+
+    private List<AgendamentoTrocaPlano> trocasDePlanos;
+
+    private String jsonTrocas;
+
+    private StringBuffer bufferTrocaDePlanos = null;
 
 
     public SimuladorActor(String host, String port, ParametroSimulacao params) {
@@ -82,11 +90,10 @@ public class SimuladorActor extends UntypedActor {
 
 
     public void send() {
-
-        StringBuffer buffer = new StringBuffer("{\"estados\":[");
         try {
             client.publish("simulador/" + id + "/estado", getJson().getBytes(), 1, true);
             estagios.clear();
+            bufferTrocaDePlanos = null;
         } catch (MqttException e) {
             e.printStackTrace();
         }
@@ -104,7 +111,33 @@ public class SimuladorActor extends UntypedActor {
             return "\"" + key.toString() + "\":[" + buffer;
         }).collect(Collectors.joining(","));
 
-        return "{\"aneis\":{" + sbAnel.toString() + "}}";
+        return "{\"aneis\":{" + sbAnel.toString() + "},\"trocas\":[" + bufferTrocaDePlanos.toString() + "]}";
     }
 
+    public void storeTrocaDePlano(AgendamentoTrocaPlano agendamentoTrocaPlano) {
+        this.trocasDePlanos.add(agendamentoTrocaPlano);
+    }
+
+
+    public void addTrocaDePlano(DateTime timestamp, Evento eventoAnterior, Evento eventoAtual) {
+
+        if(bufferTrocaDePlanos != null){
+            bufferTrocaDePlanos.append(",");
+        }else{
+            bufferTrocaDePlanos = new StringBuffer();
+        }
+
+        bufferTrocaDePlanos.append("[");
+        bufferTrocaDePlanos.append(timestamp.getMillis());
+        bufferTrocaDePlanos.append(",");
+        if(eventoAnterior!=null) {
+            bufferTrocaDePlanos.append(eventoAnterior.getPosicao());
+        }else{
+            bufferTrocaDePlanos.append("null");
+        }
+        bufferTrocaDePlanos.append(",");
+        bufferTrocaDePlanos.append(eventoAtual.getPosicao());
+        bufferTrocaDePlanos.append("]");
+
+    }
 }

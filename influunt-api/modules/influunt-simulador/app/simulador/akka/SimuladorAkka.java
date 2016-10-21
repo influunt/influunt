@@ -40,11 +40,12 @@ public class SimuladorAkka extends Simulador {
     @Override
     public void onTrocaDePlanoEfetiva(AgendamentoTrocaPlano agendamentoTrocaPlano) {
 
+
     }
 
     @Override
     public void onTrocaDePlano(DateTime timestamp, Evento eventoAnterior, Evento eventoAtual) {
-
+        simuladorActor.addTrocaDePlano(timestamp,eventoAnterior,eventoAtual);
     }
 
 }
