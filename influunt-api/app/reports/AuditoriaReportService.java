@@ -1,6 +1,7 @@
 package reports;
 
 import com.google.inject.Inject;
+import models.Usuario;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -14,6 +15,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by lesiopinheiro on 06/10/16.
@@ -22,7 +24,7 @@ public class AuditoriaReportService extends ReportService<Auditoria> {
 
     private static final Logger LOG = LoggerFactory.getLogger(AuditoriaReportService.class);
 
-    private List<Auditoria> auditorias = new ArrayList<Auditoria>();
+    private List<Auditoria> auditorias = new ArrayList<>();
 
     @Inject
     private BaseJasperReport baseJasperReport;
@@ -101,6 +103,23 @@ public class AuditoriaReportService extends ReportService<Auditoria> {
         } else {
             reportParams.put("reportDateRange", "Histórico completo");
         }
+        if (queryStringParams.containsKey("usuario.id")) {
+            Usuario usuario = Usuario.find.byId(UUID.fromString(queryStringParams.get("usuario.id")[0]));
+            if (usuario != null) {
+                reportParams.put("usuario", usuario.getNome().concat(" (").concat(usuario.getEmail()).concat(")"));
+            } else {
+                reportParams.put("usuario", "-");
+            }
+        }
+        if (queryStringParams.containsKey("change.table")) {
+            reportParams.put("classe", queryStringParams.get("change.table")[0]);
+        }
+        if (queryStringParams.containsKey("change.type")) {
+            reportParams.put("tipoOperacao", queryStringParams.get("change.type")[0]);
+        }
+
+        reportParams.put("totalAuditorias", auditorias.size());
+
 
         return reportParams;
     }

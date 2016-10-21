@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2016-10-21T10:22:16 -->
+<!-- 2016-10-21T15:03:46 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4_Landscape" pageWidth="595" pageHeight="842" columnWidth="509" leftMargin="29" rightMargin="57" topMargin="29" bottomMargin="57" uuid="0712d8f7-7d9b-4ed2-b7d9-a8f6ee6f053f">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="ireport.zoom" value="1.0"/>
@@ -50,10 +50,11 @@
 	<parameter name="logoPath" class="java.io.InputStream">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="userName" class="java.lang.String"/>
-	<parameter name="date_report" class="java.lang.String"/>
-	<parameter name="date" class="java.lang.String"/>
-	<parameter name="reportDateRange" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="reportDateRange" class="java.lang.String"/>
+	<parameter name="totalAuditorias" class="java.lang.Integer"/>
+	<parameter name="usuario" class="java.lang.String"/>
+	<parameter name="tipoOperacao" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="classe" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -69,14 +70,14 @@
 	<field name="change.table" class="java.lang.String">
 		<fieldDescription><![CDATA[change.table]]></fieldDescription>
 	</field>
-	<background>
-		<band splitType="Stretch"/>
-	</background>
+	<variable name="TOTAL_PAGES" class="java.lang.String"/>
 	<title>
-		<band height="120">
+		<band height="140">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<rectangle>
-				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="-29" y="-30" width="595" height="127" forecolor="#FFFFFF" backcolor="#2F4050" uuid="0cdd624d-f2eb-4c9b-bb23-25c32f52ad78"/>
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="-29" y="-30" width="595" height="100" forecolor="#FFFFFF" backcolor="#2F4050" uuid="0cdd624d-f2eb-4c9b-bb23-25c32f52ad78">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
 			</rectangle>
 			<staticText>
 				<reportElement mode="Transparent" x="0" y="0" width="300" height="33" forecolor="#FFFFFF" uuid="008e5499-cb50-4b2e-912f-febf67b1cdde"/>
@@ -86,20 +87,39 @@
 				<text><![CDATA[RELATÓRIO DE AUDITORIA]]></text>
 			</staticText>
 			<textField>
-				<reportElement mode="Transparent" x="0" y="33" width="254" height="30" forecolor="#A3A3A3" uuid="5fadadba-240e-482e-b2f6-23f7ff900a97"/>
+				<reportElement mode="Transparent" x="0" y="30" width="254" height="19" forecolor="#A3A3A3" uuid="5fadadba-240e-482e-b2f6-23f7ff900a97"/>
 				<textFieldExpression><![CDATA[$P{reportDateRange}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="82" width="280" height="20" uuid="3a6dbbcc-3c62-4c66-be50-871c8539840f"/>
+				<textFieldExpression><![CDATA["Total de Registros: "+ $P{totalAuditorias}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="102" width="280" height="20" uuid="8c08d7ad-4f19-46c3-811d-153e3ef3d2aa">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$P{usuario} == null ? null : ("-".equals($P{usuario}) ? "" : "Usuário: " + $P{usuario})]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="280" y="82" width="228" height="20" uuid="e1fc4bee-d015-465e-88cf-d238faa3ef78"/>
+				<textFieldExpression><![CDATA[$P{classe} == null || $P{classe}.isEmpty() ? null : "Classe: " + $P{classe}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="280" y="102" width="229" height="20" uuid="d2a57231-a15e-4f15-8fc9-9ef5489e4aad">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$P{tipoOperacao} == null || $P{tipoOperacao}.isEmpty() ? null : "Tipo Operação: " + $P{tipoOperacao}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
 	<columnHeader>
-		<band height="53" splitType="Stretch">
+		<band height="30" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<staticText>
-				<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="127" y="23" width="127" height="30" forecolor="#000000" backcolor="#C0C0C0" uuid="fec2a912-b5bb-4ec3-885a-7514130fa785">
+				<reportElement mode="Opaque" x="127" y="0" width="127" height="30" forecolor="#000000" backcolor="#C0C0C0" uuid="fec2a912-b5bb-4ec3-885a-7514130fa785">
 					<property name="local_mesure_unitwidth" value="pixel"/>
 					<property name="local_mesure_unitx" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="local_mesure_unity" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="local_mesure_unitheight" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
@@ -115,7 +135,7 @@
 				<text><![CDATA[Ação]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="254" y="23" width="127" height="30" backcolor="#C0C0C0" uuid="85ec12e1-76e5-439a-acfe-eece06d4556f">
+				<reportElement mode="Opaque" x="254" y="0" width="127" height="30" backcolor="#C0C0C0" uuid="85ec12e1-76e5-439a-acfe-eece06d4556f">
 					<property name="local_mesure_unitwidth" value="pixel"/>
 					<property name="local_mesure_unitx" value="pixel"/>
 					<property name="local_mesure_unitheight" value="pixel"/>
@@ -137,7 +157,7 @@
 				<text><![CDATA[Usuário]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="381" y="23" width="127" height="30" backcolor="#C0C0C0" uuid="1a1cf9dc-92cc-4ed3-b388-3870a36674ba">
+				<reportElement mode="Opaque" x="381" y="0" width="127" height="30" backcolor="#C0C0C0" uuid="1a1cf9dc-92cc-4ed3-b388-3870a36674ba">
 					<property name="local_mesure_unitwidth" value="pixel"/>
 					<property name="local_mesure_unitx" value="pixel"/>
 					<property name="local_mesure_unitheight" value="pixel"/>
@@ -159,7 +179,7 @@
 				<text><![CDATA[Data Alteração]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="0" y="23" width="127" height="30" backcolor="#C0C0C0" uuid="3f456426-2ac1-4876-9928-336f722432f3">
+				<reportElement mode="Opaque" x="0" y="0" width="127" height="30" backcolor="#C0C0C0" uuid="3f456426-2ac1-4876-9928-336f722432f3">
 					<property name="local_mesure_unitx" value="pixel"/>
 					<property name="local_mesure_unitheight" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -181,14 +201,16 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="30" splitType="Stretch">
+		<band height="20" splitType="Stretch">
 			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="0" width="127" height="30" uuid="dcf37e3e-8ce1-4798-a5fe-e2d5829cd457">
+				<reportElement x="0" y="0" width="127" height="20" uuid="dcf37e3e-8ce1-4798-a5fe-e2d5829cd457">
 					<property name="local_mesure_unitx" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#E5E5E5"/>
@@ -200,7 +222,7 @@
 				<textFieldExpression><![CDATA[$F{change.table}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="254" y="0" width="127" height="30" uuid="1838b497-26b7-43e7-96a1-2e8a65ff3a7b">
+				<reportElement x="254" y="0" width="127" height="20" uuid="1838b497-26b7-43e7-96a1-2e8a65ff3a7b">
 					<property name="local_mesure_unity" value="pixel"/>
 					<property name="local_mesure_unitwidth" value="pixel"/>
 					<property name="local_mesure_unitx" value="pixel"/>
@@ -217,7 +239,7 @@
 				<textFieldExpression><![CDATA[($F{usuario.login} != null && $F{usuario.login} != "") ? $F{usuario.login} : "-"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="380" y="0" width="128" height="30" uuid="88dcaadc-222b-482d-ad20-43e10544e68b">
+				<reportElement x="380" y="0" width="128" height="20" uuid="88dcaadc-222b-482d-ad20-43e10544e68b">
 					<property name="local_mesure_unity" value="pixel"/>
 					<property name="local_mesure_unitwidth" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
@@ -234,11 +256,12 @@
 				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format($F{change.eventTime})]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Table_TH" mode="Opaque" x="127" y="0" width="127" height="30" backcolor="#FFFFFF" uuid="b607d7b4-7879-46b1-a096-19bde407d42c">
+				<reportElement style="Table_TH" mode="Opaque" x="127" y="0" width="127" height="20" backcolor="#FFFFFF" uuid="b607d7b4-7879-46b1-a096-19bde407d42c">
 					<property name="local_mesure_unity" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 					<property name="local_mesure_unitwidth" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<box>
 					<topPen lineWidth="1.0" lineColor="#E5E5E5"/>
@@ -252,29 +275,14 @@
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="21" splitType="Stretch">
+		<band height="20" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-			<textField>
-				<reportElement x="429" y="0" width="30" height="21" uuid="c7b9ca0e-4163-4dd0-a5e0-d910a40fa2c9">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="local_mesure_unity" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+			<textField evaluationTime="Master">
+				<reportElement x="217" y="0" width="292" height="20" uuid="0be9c67a-b98c-4dfd-b9e5-5931f1cd24d4">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="390" y="0" width="40" height="21" uuid="919cdf53-5b9e-44bd-a91f-f66ac3ceef5d"/>
-				<text><![CDATA[Página:]]></text>
-			</staticText>
-			<textField evaluationTime="Report">
-				<reportElement x="459" y="0" width="50" height="20" uuid="d012f5f6-c9e0-487a-a111-ffc378af3d7e">
-					<property name="local_mesure_unity" value="pixel"/>
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.y" value="px"/>
-				</reportElement>
-				<textElement textAlignment="Left"/>
-				<textFieldExpression><![CDATA[" de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				<textElement textAlignment="Right" verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA["Página " + $V{MASTER_CURRENT_PAGE} + " de " + $V{MASTER_TOTAL_PAGES}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>
