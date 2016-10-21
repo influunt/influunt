@@ -261,9 +261,9 @@ public class IntervaloGrupoSemaforico {
         sb.append(eventoMotor.getTipoEvento().toString());
         sb.append("\",");
         sb.append(eventoMotor.getParams()[0].toString());
-        sb.append("\",");
+        sb.append(",");
         sb.append(eventoMotor.getParams()[1].toString());
-        sb.append("\",");
+        sb.append(",");
         sb.append(((DateTime)eventoMotor.getParams()[2]).getMillis());
         sb.append("]");
 

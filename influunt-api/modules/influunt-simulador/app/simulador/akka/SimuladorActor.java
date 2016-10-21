@@ -131,12 +131,12 @@ public class SimuladorActor extends UntypedActor {
         bufferTrocaDePlanos.append(timestamp.getMillis());
         bufferTrocaDePlanos.append(",");
         if(eventoAnterior!=null) {
-            bufferTrocaDePlanos.append(eventoAnterior.getPosicao());
+            bufferTrocaDePlanos.append(eventoAnterior.getPosicaoPlano());
         }else{
             bufferTrocaDePlanos.append("null");
         }
         bufferTrocaDePlanos.append(",");
-        bufferTrocaDePlanos.append(eventoAtual.getPosicao());
+        bufferTrocaDePlanos.append(eventoAtual.getPosicaoPlano());
         bufferTrocaDePlanos.append("]");
 
     }

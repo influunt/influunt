@@ -34,9 +34,12 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
                                    imposicaoPlanos: [{}] };
 
     var now = new Date();
-    $scope.inicioControlador = { time: new Date(0, 0, 0, now.getHours(), now.getMinutes(), now.getSeconds()), date: new Date(new Date().setHours(0,0,0,0)) };
-    $scope.inicioSimulacao = { time: new Date(0, 0, 0, now.getHours(), now.getMinutes(), now.getSeconds()), date: new Date(new Date().setHours(0,0,0,0)) };
-    $scope.fimSimulacao = { time: new Date(0, 0, 0, now.getHours(), now.getMinutes() + 5, now.getSeconds()), date: new Date(new Date().setHours(0,0,0,0)) };
+    $scope.inicioControlador = { time: new Date(0, 0, 0, 0, 0, 0), date: new Date(new Date().setHours(0,0,0,0)) };
+    
+    $scope.inicioSimulacao = { time: new Date(0, 0, 0, 0, 0,0), date: new Date(new Date().setHours(0,0,0,0)) };
+    
+    $scope.fimSimulacao = { time: new Date(0, 0, 0, 0, 5, 0), date: new Date(new Date().setHours(0,0,0,0)) };
+
     $scope.disparosDetectores = { disparos: [] };
     $scope.imposicoesPlanos = { imposicoes: [] };
 
