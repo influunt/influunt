@@ -20,7 +20,7 @@ angular.module('influuntApp')
 
       var adicionaTabelaHorario, adicionaEvento, atualizaDiagramaIntervalo, atualizaEventos, atualizaEventosNormais,
           atualizaPosicaoEventosDoTipo, atualizaPosicaoEventos, atualizaQuantidadeEventos, removerEventoNoCliente,
-          atualizaQuadroTabelaHoraria, atualizaErrosEventos, getErrosEvento;
+          removerEventoRemoto, atualizaQuadroTabelaHoraria, atualizaErrosEventos, getErrosEvento;
 
       var qtdEventos, qtdEventosRecorrentes, qtdEventosNaoRecorrentes;
       var NORMAL = 'NORMAL';
@@ -178,18 +178,14 @@ angular.module('influuntApp')
         atualizaEventosNormais();
       };
 
+      removerEventoRemoto = function(evento) {
+        evento._destroy = true;
+        atualizaEventos();
+        atualizaEventosNormais();
+      };
+
       $scope.removerEvento = function(evento) {
-        if (angular.isUndefined(evento.id)) {
-          removerEventoNoCliente(evento);
-        } else {
-          Restangular.one('eventos', evento.id).remove()
-            .then(function() {
-              removerEventoNoCliente(evento);
-            }).catch(function() {
-              toast.error($filter('translate')('controladores.eventos.msg_erro_apagar_evento'));
-            })
-            .finally(influuntBlockui.unblock);
-        }
+        return angular.isDefined(evento.id) ? removerEventoRemoto(evento) : removerEventoNoCliente(evento);
       };
 
       $scope.visualizarPlano = function(evento){
@@ -275,7 +271,8 @@ angular.module('influuntApp')
           .filter(function(e){
             return e.tipo === $scope.currentTipoEvento && e.tabelaHoraria.idJson === $scope.currentTabelaHoraria.idJson;
           })
-          .orderBy(['posicao'])
+          .reject('_destroy')
+          .orderBy('posicao')
           .value();
 
         $scope.currentNovoEvento = _.find(
@@ -309,9 +306,9 @@ angular.module('influuntApp')
       };
 
       atualizaQuantidadeEventos = function() {
-        qtdEventos = _.filter($scope.objeto.eventos, {tipo: NORMAL}).length;
-        qtdEventosRecorrentes = _.filter($scope.objeto.eventos, {tipo: ESPECIAL_RECORRENTE}).length;
-        qtdEventosNaoRecorrentes = _.filter($scope.objeto.eventos, {tipo: ESPECIAL_NAO_RECORRENTE}).length;
+        qtdEventos = _.chain($scope.objeto.eventos).filter({tipo: NORMAL}).reject('_destroy').value().length;
+        qtdEventosRecorrentes = _.chain($scope.objeto.eventos).filter({tipo: ESPECIAL_RECORRENTE}).reject('_destroy').value().length;
+        qtdEventosNaoRecorrentes = _.chain($scope.objeto.eventos).filter({tipo: ESPECIAL_NAO_RECORRENTE}).reject('_destroy').value().length;
 
         $scope.nomesTabs = [
           $filter('translate')('tabelaHorarios.eventos') + '<span class=\'badge badge-success m-l-xs\'>' + qtdEventos + '</span>',
@@ -325,7 +322,8 @@ angular.module('influuntApp')
         .filter(function(e){
           return e.tipo === NORMAL && e.tabelaHoraria.idJson === $scope.currentTabelaHoraria.idJson;
         })
-        .orderBy(['posicao'])
+        .orderBy('posicao')
+        .reject('_destroy')
         .value();
       };
 
@@ -378,6 +376,7 @@ angular.module('influuntApp')
         if ($scope.errors && Object.keys($scope.errors).length > 0 &&
             $scope.errors.versoesTabelasHorarias &&
             Object.keys($scope.errors.versoesTabelasHorarias[$scope.currentVersaoTabelaHorariaIndex]).length > 0 &&
+            $scope.errors.versoesTabelasHorarias[$scope.currentVersaoTabelaHorariaIndex].tabelaHoraria.eventos &&
             Object.keys($scope.errors.versoesTabelasHorarias[$scope.currentVersaoTabelaHorariaIndex].tabelaHoraria.eventos).length > 0){
           _.each($scope.currentEventos, function(evento, index){
             $scope.currentErrosEventos[index] = getErrosEvento(evento, index);

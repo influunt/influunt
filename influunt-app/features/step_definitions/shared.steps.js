@@ -49,7 +49,7 @@ module.exports = function() {
   });
 
   // verificar o diagrama
-  this.Given(/^o sistema deve mostar o diagrama "([^"]*)" no grupo "([^"]*)" com "([^"]*)" em "([^"]*)" segundos$/, function (modoOperacao, grupo, indicacaoCor, tempo) {
+  this.Given(/^o sistema deve mostrar o diagrama "([^"]*)" no grupo "([^"]*)" com "([^"]*)" em "([^"]*)" segundos$/, function (modoOperacao, grupo, indicacaoCor, tempo) {
     return sharedSteps.isDiagramaModo(modoOperacao, grupo, indicacaoCor, tempo);
   });
 

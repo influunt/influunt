@@ -53,9 +53,9 @@ INSERT INTO `modelo_controladores` (`id`, `id_json`, `fabricante_id`, `descricao
 VALUES
   ('24c6f1e4-8661-11e6-9678-1f0de452edaf','24c6f1f8-8661-11e6-9678-1f0de452edaf','24bf38a0-8661-11e6-9678-1f0de452edaf','Modelo Básico',16,16,4,4,8,2,16,'2016-09-29 13:24:06.000000','2016-09-29 13:24:06.000000');
 
-INSERT INTO `controladores` (`id`, `id_json`, `croqui_id`, `nome_endereco`, `status_controlador`, `sequencia`, `numero_smee`, `numero_smeeconjugado1`, `numero_smeeconjugado2`, `numero_smeeconjugado3`, `firmware`, `modelo_id`, `area_id`, `subarea_id`, `data_criacao`, `data_atualizacao`)
+INSERT INTO `controladores` (`id`, `id_json`, `croqui_id`, `nome_endereco`, `sequencia`, `numero_smee`, `numero_smeeconjugado1`, `numero_smeeconjugado2`, `numero_smeeconjugado3`, `firmware`, `modelo_id`, `area_id`, `subarea_id`, `data_criacao`, `data_atualizacao`)
 VALUES
-  ('21440a8c-764d-4605-a23e-ef3103c9f544',NULL, 'c52b3617-d233-40d6-8d07-b0284f6717ed', 'Av. Paulista com R. Bela Cintra',0,1,NULL,NULL,NULL,NULL,NULL,'24c6f1e4-8661-11e6-9678-1f0de452edaf','24bc8524-8661-11e6-9678-1f0de452edaf',NULL,'2016-09-29 13:25:30.457000','2016-09-29 13:30:42.648000');
+  ('21440a8c-764d-4605-a23e-ef3103c9f544',NULL, 'c52b3617-d233-40d6-8d07-b0284f6717ed', 'Av. Paulista com R. Bela Cintra',1,NULL,NULL,NULL,NULL,NULL,'24c6f1e4-8661-11e6-9678-1f0de452edaf','24bc8524-8661-11e6-9678-1f0de452edaf',NULL,'2016-09-29 13:25:30.457000','2016-09-29 13:30:42.648000');
 
 INSERT INTO `aneis` (`id`, `id_json`, `ativo`, `descricao`, `posicao`, `numero_smee`, `aceita_modo_manual`, `controlador_id`, `croqui_id`, `data_criacao`, `data_atualizacao`)
 VALUES

@@ -201,8 +201,18 @@ public class Controlador extends Model implements Cloneable, Serializable {
         deleteEstagiosGruposSemaforicos(this);
         deleteTransicoesProibidas(this);
         deleteTabelasEntreVerdes(this);
-
+        deleteEventos(this);
         this.criarPossiveisTransicoes();
+    }
+
+    private void deleteEventos(Controlador controlador) {
+        if (controlador.getId() != null && controlador.getTabelaHoraria() != null) {
+            controlador.getTabelaHoraria().getEventos().forEach(estagio -> {
+                if (estagio.isDestroy()) {
+                    estagio.delete();
+                }
+            });
+        }
     }
 
     private void deleteTabelasEntreVerdes(Controlador controlador) {

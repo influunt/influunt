@@ -85,6 +85,9 @@ public class Evento extends Model implements Cloneable, Serializable, Comparable
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
 
+    @Transient
+    private boolean isDestroy = false;
+
 
     public Evento() {
         super();
@@ -342,5 +345,13 @@ public class Evento extends Model implements Cloneable, Serializable, Comparable
 
     public void setAgrupamento(Agrupamento agrupamento) {
         this.agrupamento = agrupamento;
+    }
+
+    public boolean isDestroy() {
+        return isDestroy;
+    }
+
+    public void setDestroy(boolean destroy) {
+        isDestroy = destroy;
     }
 }

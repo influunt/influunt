@@ -345,4 +345,54 @@ describe('Controller: TabelaHorariosCtrl', function () {
       expect(scope.objeto.eventos.length).toBe(0);
     });
   });
+
+  describe('remover eventos', function () {
+    beforeEach(function() {
+      beforeEachFn(ControladorComPlanos);
+    });
+
+    describe('remover eventos não sincronizados à api', function () {
+      beforeEach(function() {
+        scope.objeto.tabelasHorarias[0].eventos = [ {idJson: 'E1'}, {idJson: 'E2'} ];
+        scope.objeto.eventos = [
+          {idJson: 'E1', tipo: 'NORMAL', tabelaHoraria: {idJson: scope.objeto.tabelasHorarias[0].idJson}},
+          {idJson: 'E2', tipo: 'NORMAL', tabelaHoraria: {idJson: scope.objeto.tabelasHorarias[0].idJson}}
+        ];
+        var evento = scope.objeto.eventos[0];
+
+        scope.removerEvento(evento);
+        scope.$apply();
+      });
+
+      it('O elemento deve ser removido da coleção, das referências em Tabelas horarias e dos currentEventos', function() {
+        expect(_.find(scope.objeto.tabelasHorarias[0].eventos, {idJson: 'E1'})).not.toBeDefined();
+        expect(_.find(scope.objeto.eventos, {idJson: 'E1'})).not.toBeDefined();
+        expect(_.find(scope.currentEventos, {idJson: 'E1'})).not.toBeDefined();
+      });
+    });
+
+    describe('remover eventos sincronizados à api', function () {
+      beforeEach(function() {
+        scope.objeto.tabelasHorarias[0].eventos = [ {idJson: 'E1'}, {idJson: 'E2'} ];
+        scope.objeto.eventos = [
+          {id: 1, idJson: 'E1', tipo: 'NORMAL', tabelaHoraria: {idJson: scope.objeto.tabelasHorarias[0].idJson}},
+          {id: 2, idJson: 'E2', tipo: 'NORMAL', tabelaHoraria: {idJson: scope.objeto.tabelasHorarias[0].idJson}}
+        ];
+        var evento = scope.objeto.eventos[0];
+
+        scope.removerEvento(evento);
+        scope.$apply();
+      });
+
+      it('O elemento deve ser removido dos currentEventos, mas permanecer nas demais coleções', function() {
+        expect(_.find(scope.objeto.tabelasHorarias[0].eventos, {idJson: 'E1'})).toBeDefined();
+        expect(_.find(scope.objeto.eventos, {idJson: 'E1'})).toBeDefined();
+        expect(_.find(scope.currentEventos, {idJson: 'E1'})).not.toBeDefined();
+      });
+
+      it('O evento deve ser marcado como _destroy na coleção dos eventos', function() {
+        expect(_.find(scope.objeto.eventos, {idJson: 'E1'})._destroy).toBeTruthy();
+      });
+    });
+  });
 });

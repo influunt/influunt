@@ -107,6 +107,10 @@ var ObjetosComuns = function () {
       return world.getElementByXpath(xpathSelector);
     });
   };
+
+  this.alertInfluuntKnob = function() {
+    return world.getTextInSweetAlert();
+  };
 };
 
 module.exports = ObjetosComuns;
