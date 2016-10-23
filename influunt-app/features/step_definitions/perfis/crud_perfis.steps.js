@@ -7,10 +7,6 @@ module.exports = function() {
   var perfisPage = new PerfisPage();
   var objetosComuns = new ObjetosComuns();
 
-  this.Given(/^o usuário deverá ter acesso a "([^"]*)"$/, function (local) {
-    return perfisPage.deveTerAcesso(local);
-  });
-
   this.Given(/^que o usuário acesse a página de listagem de perfis$/, function() {
     return perfisPage.indexPage();
   });

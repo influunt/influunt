@@ -61,7 +61,7 @@ var PerfisPage = function () {
   };
 
   this.checarPossuiBotao = function(botao) {
-    return world.getElementByXpath('//a[contains(text(), "'+botao+'")][co]');
+    return world.getElementByXpath('//a[contains(text(), "'+botao+'")]');
   };
 
   this.desabilitarPermissoes = function() {

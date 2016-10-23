@@ -90,7 +90,9 @@ var ObjetosComuns = function () {
 
   this.deslogar = function(){
     return world.waitForOverlayDisappear().then(function() {
-      return world.getElement('i.fa-sign-out').click();
+      return world.waitForToastMessageDisapear().then(function() {
+        return world.getElement('i.fa-sign-out').click();
+      });
     });
   };
 
