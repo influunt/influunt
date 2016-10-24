@@ -184,10 +184,11 @@ var World = function () {
   };
 
   this.countTableSize = function(numberElements) {
+    var numeroElementosEsperado = numberElements;
     return driver.findElements(webdriver.By.xpath('//table[contains(@class, "table")]//tbody//tr')).then(function(elements){
-      var sizeElementsOnTabele = elements.length
+      var sizeElementsOnTabele = elements.length.toString();
       return new Promise(function(resolve, reject) {
-        if (sizeElementsOnTabele == numberElements) {
+        if (sizeElementsOnTabele === numeroElementosEsperado) {
           resolve(true);
         } else {
           reject('Quantidade de registros na tabela são "'+sizeElementsOnTabele+'" mas o número esperado é "'+numberElements+'"');
@@ -387,7 +388,6 @@ var World = function () {
     }).then(function () {
       return _this.visit('/login');
     }).then(function () {
-      _this.sleep(500);
       return _this.setValue('input[name="usuario"]', user);
     }).then(function () {
       return _this.setValue('input[name="senha"]', password);

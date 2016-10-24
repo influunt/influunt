@@ -120,8 +120,10 @@ var ObjetosComuns = function () {
   };
 
   this.checarTotalInseridosNaTabela = function(quantidade) {
-    return world.countTableSize(quantidade);
-  }
+    return world.sleep(300).then(function(){
+      return world.countTableSize(quantidade);
+    });
+  };
 
   this.verifyDiagramaValues = function(indexGrupo, indicacaoCor, tempo) {
     var grupo = 'div[contains(@class, "vis-group")]['+indexGrupo+']';
@@ -139,7 +141,7 @@ var ObjetosComuns = function () {
   };
 
   this.getErrorMessageFor = function(campo) {
-    world.sleep(400)
+    world.sleep(400);
     return world.waitFor('[name="'+campo+'"] + p[class*="error-msg"]').then(function() {
       return world.getElement('[name="'+campo+'"] + p[class*="error-msg"]').getText();
     });

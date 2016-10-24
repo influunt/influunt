@@ -27,8 +27,8 @@ module.exports = function() {
     return perfisPage.naoDeveTerAcesso(local);
   });
 
-  this.Given(/^o usuário deverá ter acesso a "([^"]*)"$/, function (local) {
-    return perfisPage.deveTerAcesso(local);
+  this.Given(/^o usuário deverá ter acesso a "([^"]*)" com o título "([^"]*)"$/, function (local, titulo) {
+    return perfisPage.deveTerAcesso(local, titulo);
   });
 
   this.Given(/^o usuário terá a opção visualizar o botão "([^"]*)"$/, function (botao) {

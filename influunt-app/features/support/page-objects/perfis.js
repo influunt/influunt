@@ -8,16 +8,6 @@ var PerfisPage = function () {
   var totalPerfis = 0;
 
   var INDEX_PATH = '/app/perfis';
-  var auditoriaPath = '/app/auditorias';
-  var programacaoPath = '/app/controladores';
-  var cidadesPath = '/app/cidades';
-  var areasPath = '/app/areas';
-  var modelosPath = '/app/modelos';
-  var subareasPath = '/app/subareas';
-  var perfisPath = '/app/perfis';
-  var simulacaoPath = '/app/simulacao';
-  var usuariosPath = '/app/usuarios';
-  var fabricantesPath = '/app/fabricantes';
 
   this.indexPage = function() {
     world.visit(INDEX_PATH);
@@ -41,7 +31,7 @@ var PerfisPage = function () {
   };
 
   this.naoPossuiMenu = function(menu) {
-    return world.getElementByXpath(menu+'[contains(@class, "ng-hide")]');
+    return world.getElementByXpath('//a[contains(@href, "#'+menu+'")][contains(@class, "ng-hide")]');
   };
 
   this.checkPerfilNaTabela = function(permissao) {
@@ -85,7 +75,7 @@ var PerfisPage = function () {
 
   this.possuiAcesso = function(path, title) {
     return world.visit(path).then(function(){
-      return world.getElementByXpath('//div[contains(@class, "ibox-title")]//h5[contains(text(), '+title+')]');
+      return world.getElementByXpath('//div[contains(@class, "ibox-title")]//h5[contains(text(), "'+title+'")]');
     });
   };
 
@@ -97,57 +87,17 @@ var PerfisPage = function () {
     });
   };
 
-  this.naoDeveTerAcessoMenu = function(menu) {
+  this.naoDeveTerAcessoMenu = function(pathName) {
+    var menu = '/app/'+pathName+'';
     var _this = this;
-      switch(menu){
-      case ('Auditoria'):
-        return _this.naoPossuiMenu('//a[contains(@href, "#'+auditoriaPath+'")]');
-      case ('Programação'):
-        return _this.naoPossuiMenu('//a[contains(@href, "#'+programacaoPath+'")]');
-      case ('Cidades'):
-        return _this.naoPossuiMenu('//a[contains(@href, "#'+cidadesPath+'")]');
-      case ('Simulação'):
-        return _this.naoPossuiMenu('//a[contains(@href, "#'+simulacaoPath+'")]');
-      case ('Modelos'):
-        return _this.naoPossuiMenu('//a[contains(@href, "#'+modelosPath+'")]');
-      case ('Perfis'):
-        return _this.naoPossuiMenu('//a[contains(@href, "#'+perfisPath+'")]');
-      case ('Usuários'):
-        return _this.naoPossuiMenu('//a[contains(@href, "#'+usuariosPath+'")]');
-      case ('Áreas'):
-        return _this.naoPossuiMenu('//a[contains(@href, "#'+areasPath+'")]');
-      default:
-        throw new Error('Menu: '+menu+' não encontrado.');
-    }
+    return _this.naoPossuiMenu(menu);
   };
 
-  this.deveTerAcesso = function(local) {
+  this.deveTerAcesso = function(local, titulo) {
+    var path = '/app/'+local+'';
     var _this = this;
-      switch(local){
-      case ('Auditoria'):
-        return _this.possuiAcesso(auditoriaPath, 'Auditorias');
-      case ('Programação'):
-        return _this.possuiAcesso(programacaoPath, 'Controladores');
-      case ('Cidades'):
-        return _this.possuiAcesso(cidadesPath, 'Cidades');
-      case ('Simulação'):
-        return _this.possuiAcesso(simulacaoPath, 'Simulação');
-      case ('Modelos'):
-        return _this.possuiAcesso(modelosPath, 'Modelos');
-      case ('Perfis'):
-        return _this.possuiAcesso(perfisPath, 'Perfis');
-      case ('Usuários'):
-        return _this.possuiAcesso(usuariosPath, 'Usuários');
-      case ('Áreas'):
-        return _this.possuiAcesso(areasPath, 'Áreas');
-      case ('Fabricantes'):
-        return _this.possuiAcesso(fabricantesPath, 'Fabricantes');
-      case ('Subáreas'):
-        return _this.possuiAcesso(subareasPath, 'Subáreas');
 
-      default:
-        throw new Error('Path: '+local+' não encontrado.');
-    }
+    return _this.possuiAcesso(path, titulo);
   };
 };
 
