@@ -23,7 +23,7 @@ public class Motor implements  EventoCallback, GerenciadorDeEstagiosCallback {
 
     private DateTime instante;
 
-    private GerenciadorDeEventos gerenciadorDeEventos;
+    private GerenciadorDeTabelaHoraria gerenciadorDeTabelaHoraria;
 
     private List<GerenciadorDeEstagios> estagios = new ArrayList<>();
 
@@ -33,14 +33,14 @@ public class Motor implements  EventoCallback, GerenciadorDeEstagiosCallback {
         this.callback = callback;
         this.controlador = controlador;
         this.inicioControlador = inicioControlador;
-        gerenciadorDeEventos = new GerenciadorDeEventos();
-        gerenciadorDeEventos.addEventos(controlador.getTabelaHoraria().getEventos());
+        gerenciadorDeTabelaHoraria = new GerenciadorDeTabelaHoraria();
+        gerenciadorDeTabelaHoraria.addEventos(controlador.getTabelaHoraria().getEventos());
         this.instante = inicioExecucao;
     }
 
 
     public void tick() {
-        Evento evento = gerenciadorDeEventos.eventoAtual(instante);
+        Evento evento = gerenciadorDeTabelaHoraria.eventoAtual(instante);
         boolean iniciarGrupos = false;
         if (eventoAtual == null || !evento.equals(eventoAtual)) {
             callback.onTrocaDePlano(instante,eventoAtual,evento);

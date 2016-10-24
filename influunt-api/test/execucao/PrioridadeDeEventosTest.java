@@ -1,6 +1,6 @@
 package execucao;
 
-import engine.GerenciadorDeEventos;
+import engine.GerenciadorDeTabelaHoraria;
 import models.DiaDaSemana;
 import models.Evento;
 import models.TipoEvento;
@@ -83,7 +83,7 @@ public class PrioridadeDeEventosTest {
         Calendar calendarTodosDiasPm = CustomCalendar.getCalendar();
         calendarTodosDiasPm.set(2016, 8, 25, 16, 0, 0);
 
-        GerenciadorDeEventos ge = new GerenciadorDeEventos();
+        GerenciadorDeTabelaHoraria ge = new GerenciadorDeTabelaHoraria();
 
         Evento segunda = new Evento();
         segunda.setTipo(TipoEvento.NORMAL);

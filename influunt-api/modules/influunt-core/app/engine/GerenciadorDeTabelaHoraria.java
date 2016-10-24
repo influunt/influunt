@@ -20,7 +20,7 @@ import static utils.ConstantesDeTempo.*;
 /**
  * Created by rodrigosol on 9/20/16.
  */
-public class GerenciadorDeEventos {
+public class GerenciadorDeTabelaHoraria {
 
     RangeMap<Integer, Evento> rangeMap = TreeRangeMap.create();
 
