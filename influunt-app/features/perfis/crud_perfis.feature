@@ -37,7 +37,7 @@ Funcionalidade: Realizar os cadastros
   Cenário: Usuário sem permisão para perfis
     Dado que o usuário não possa definir perfis
     E que o usuário acesse a página de listagem de perfis
-    Então o botão "Definir permissões" não deverá aparecer 
+    Então o botão "Definir permissões" não deverá aparecer
 
   Cenário: Edição de cidades
     Dado que o usuário acesse a página de listagem de perfis
@@ -51,7 +51,7 @@ Funcionalidade: Realizar os cadastros
     Dado que o usuário acesse a página de listagem de perfis
     E clicar no botão de "Excluir" o "Perfil Teste 2"
     Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
-    Quando o usuário responde sim
+    Quando o usuário confirmar
     Então perfil "Perfil Teste 2" deve ser excluído
 
-    
+

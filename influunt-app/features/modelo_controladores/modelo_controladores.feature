@@ -62,5 +62,5 @@ Funcionalidade: tela de cadastro de modelos de controladores
     Dado que o usuário esteja na tela de listagem de modelos
     E clicar no botão de excluir um modelo
     Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
-    Quando o usuário responde sim
+    Quando o usuário confirmar
     Então o item deverá ser excluido

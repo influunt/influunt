@@ -54,5 +54,5 @@ Funcionalidade: tela de cadastro de cidades
     Quando o usuário acessar a tela de listagem de cidades
     E clicar no botão de excluir uma cidade
     Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
-    Quando o usuário responde sim
+    Quando o usuário confirmar
     Então a cidade deverá ser excluida
