@@ -166,7 +166,7 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
 
   getTimeStr = function(ano, mes, dia, hora, minuto, segundo) {
     return moment([ano, mes, dia, hora, minuto, segundo]).format('YYYY-MM-DD HH:mm');
-  }
+  };
 
   $scope.removerDisparoDetector = function(index) {
     var title = $filter('translate')('simulacao.detectorAlert.title'),
