@@ -27,7 +27,21 @@ angular.module('influuntApp')
       var ESPECIAL_RECORRENTE = 'ESPECIAL_RECORRENTE';
       var ESPECIAL_NAO_RECORRENTE = 'ESPECIAL_NAO_RECORRENTE';
 
+      $scope.tipoEventos = [
+        {posicao: ''},
+        {posicao: 'Especiais Recorrentes'},
+        {posicao: 'Especiais Não Recorrentes'}
+      ];
+
+      $scope.tiposTabs = [NORMAL, ESPECIAL_RECORRENTE, ESPECIAL_NAO_RECORRENTE];
+      $scope.nomesTabs = [
+        $filter('translate')('tabelaHorarios.eventos') + '<span class=\'badge badge-success m-l-xs\'>' + $scope.qtdEventos + '</span>',
+        $filter('translate')('tabelaHorarios.eventosRecorrentes') + '<span class=\'badge badge-success m-l-xs\'>' + $scope.qtdEventosRecorrentes + '</span>',
+        $filter('translate')('tabelaHorarios.eventosNaoRecorrentes') + '<span class=\'badge badge-success m-l-xs\'>' + $scope.qtdEventosNaoRecorrentes + '</span>'
+      ];
+
       $scope.somenteVisualizacao = $state.current.data.somenteVisualizacao;
+
       /**
        * Inicializa a tela de tabela horario.
        */
@@ -45,19 +59,7 @@ angular.module('influuntApp')
             $scope.segundos = HorariosService.getSegundos();
             $scope.planos = HorariosService.getPlanos();
 
-            $scope.tipoEventos = [
-              {posicao: ''},
-              {posicao: 'Especiais Recorrentes'},
-              {posicao: 'Especiais Não Recorrentes'}
-            ];
-
             $scope.qtdEventos = 0;
-
-            $scope.nomesTabs = [
-              $filter('translate')('tabelaHorarios.eventos') + '<span class=\'badge badge-success m-l-xs\'>' + $scope.qtdEventos + '</span>',
-              $filter('translate')('tabelaHorarios.eventosRecorrentes') + '<span class=\'badge badge-success m-l-xs\'>' + $scope.qtdEventosRecorrentes + '</span>',
-              $filter('translate')('tabelaHorarios.eventosNaoRecorrentes') + '<span class=\'badge badge-success m-l-xs\'>' + $scope.qtdEventosNaoRecorrentes + '</span>'
-            ];
 
             $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
             $scope.aneis = _.filter($scope.objeto.aneis, {ativo: true});
@@ -71,6 +73,7 @@ angular.module('influuntApp')
               }
               if(!!evento.data){
                 evento.data = moment(evento.data, 'DD-MM-YYYY');
+                evento.dataMoment = evento.data;
               }
             });
 
@@ -245,6 +248,7 @@ angular.module('influuntApp')
         if(tipo === NORMAL){
           atualizaEventosNormais();
         }
+
         return evento;
       };
 
@@ -306,9 +310,18 @@ angular.module('influuntApp')
       };
 
       atualizaQuantidadeEventos = function() {
-        qtdEventos = _.chain($scope.objeto.eventos).filter({tipo: NORMAL}).reject('_destroy').value().length;
-        qtdEventosRecorrentes = _.chain($scope.objeto.eventos).filter({tipo: ESPECIAL_RECORRENTE}).reject('_destroy').value().length;
-        qtdEventosNaoRecorrentes = _.chain($scope.objeto.eventos).filter({tipo: ESPECIAL_NAO_RECORRENTE}).reject('_destroy').value().length;
+        var eventosVersao = _.find(
+            $scope.objeto.tabelasHorarias,
+            {idJson: $scope.currentVersaoTabelaHoraria.tabelaHoraria.idJson}
+          )
+          .eventos
+          .map(function(ev) {
+            return _.find($scope.objeto.eventos, {idJson: ev.idJson});
+          });
+
+        qtdEventos = _.chain(eventosVersao).filter({tipo: NORMAL}).reject('_destroy').value().length;
+        qtdEventosRecorrentes = _.chain(eventosVersao).filter({tipo: ESPECIAL_RECORRENTE}).reject('_destroy').value().length;
+        qtdEventosNaoRecorrentes = _.chain(eventosVersao).filter({tipo: ESPECIAL_NAO_RECORRENTE}).reject('_destroy').value().length;
 
         $scope.nomesTabs = [
           $filter('translate')('tabelaHorarios.eventos') + '<span class=\'badge badge-success m-l-xs\'>' + qtdEventos + '</span>',
@@ -340,20 +353,6 @@ angular.module('influuntApp')
           .finally(influuntBlockui.unblock);
       };
 
-      $scope.tipoEventoTemErro = function(indice) {
-        var hasError = false;
-        if($scope.errors && $scope.errors.tabelaHoraria && $scope.errors.tabelaHoraria.eventos){
-          _.each($scope.errors.tabelaHoraria.eventos, function (eventoError, eventoIndex) {
-            if($scope.currentTabelaHoraria.eventos[eventoIndex]) {
-              var evento = _.find($scope.objeto.eventos, {idJson: $scope.currentTabelaHoraria.eventos[eventoIndex].idJson});
-
-              hasError = hasError || ((evento.tipo === NORMAL && indice === 0) || (evento.tipo === ESPECIAL_RECORRENTE && indice === 1) || (evento.tipo === ESPECIAL_NAO_RECORRENTE && indice === 2));
-            }
-          });
-        }
-        return hasError;
-      };
-
       $scope.getErrosTabelaHoraria = function() {
         if ($scope.errors && Object.keys($scope.errors).length > 0 && Object.keys($scope.errors.versoesTabelasHorarias[$scope.currentVersaoTabelaHorariaIndex]).length > 0) {
           return _
@@ -366,28 +365,38 @@ angular.module('influuntApp')
         }
       };
 
-      getErrosEvento = function(evento){
-        var indexEvento = _.findIndex($scope.objeto.eventos, {idJson: evento.idJson});
+      getErrosEvento = function(evento) {
+        var indexEvento = _.findIndex($scope.currentTabelaHoraria.eventos, {idJson: evento.idJson});
         return $scope.errors.versoesTabelasHorarias[$scope.currentVersaoTabelaHorariaIndex].tabelaHoraria.eventos[indexEvento];
       };
 
+      $scope.tabTemErro = function(indice) {
+        return $scope.tabErrors[$scope.tiposTabs[indice]];
+      };
+
       atualizaErrosEventos = function() {
+        $scope.tabErrors = {};
         $scope.currentErrosEventos = {};
         if ($scope.errors && Object.keys($scope.errors).length > 0 &&
             $scope.errors.versoesTabelasHorarias &&
             Object.keys($scope.errors.versoesTabelasHorarias[$scope.currentVersaoTabelaHorariaIndex]).length > 0 &&
             $scope.errors.versoesTabelasHorarias[$scope.currentVersaoTabelaHorariaIndex].tabelaHoraria.eventos &&
             Object.keys($scope.errors.versoesTabelasHorarias[$scope.currentVersaoTabelaHorariaIndex].tabelaHoraria.eventos).length > 0){
-          _.each($scope.currentEventos, function(evento, index){
+
+          _.each($scope.currentEventos, function(evento, index) {
             $scope.currentErrosEventos[index] = getErrosEvento(evento, index);
           });
+
+          $scope.errors.versoesTabelasHorarias[0].tabelaHoraria.eventos.forEach(function(v, k) {
+            var evento = _.find($scope.objeto.eventos, {idJson: $scope.currentTabelaHoraria.eventos[k].idJson});
+            $scope.tabErrors[evento.tipo] = $scope.tabErrors[evento.tipo] || !!v;
+          });
         }
+
         return $scope.currentErrosEventos;
       };
 
-      $scope.$watch('errors',function(){
-        atualizaErrosEventos();
-      },true);
+      $scope.$watch('errors', atualizaErrosEventos ,true);
 
       //Métodos para colorir tabela
       $scope.getTableCell = function(v,i){

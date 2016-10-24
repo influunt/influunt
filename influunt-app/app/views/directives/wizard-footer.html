@@ -1,0 +1,52 @@
+<div class="row">
+  <div class="col-lg-12 col-sm-12 bg-border-footer pg-bt-footer actions clearfix">
+    <!-- ver resumo -->
+    <a data-toggle="modal"
+        data-target="#myModal"
+        class="left btn btn-info btn-footer"
+        tooltips tooltip-template="{{ 'plugins.steps.labels.last_screen' | translate }}">
+      <i class="fa fa-eye"></i> {{ 'plugins.steps.labels.last_screen' | translate }}
+    </a>
+
+    <!-- salvar e proximo -->
+    <div class="right">
+      <a data-ng-if="!requireAssertion || podeSalvar()"
+          go-to-top data-ng-click="submitForm(url, nextStep)"
+          tooltips tooltip-template="<b>{{ 'geral.tooltip.salvarAvancarPara' | translate }}</b> {{ getStepTitle(nextStep) }}"
+          class="go-to-top btn btn-primary btn-footer right">
+        {{ 'plugins.steps.labels.saveNext' | translate }} <i class="fa fa-arrow-right"></i>
+      </a>
+      <a data-ng-if="requireAssertion && !podeSalvar()"
+          disabled="disabled"
+          tooltips tooltip-template="<b><span>{{ 'geral.tooltip.naoPodeSalvarSemConfirmacao' | translate }}</span></b>"
+          class="go-to-top btn btn-primary btn-footer right">
+        {{ 'plugins.steps.labels.saveNext' | translate }} <i class="fa fa-arrow-right"></i>
+      </a>
+    </div>
+
+    <!-- salvar -->
+    <div class="right">
+      <a data-ng-if="!requireAssertion || podeSalvar()"
+          go-to-top data-ng-click="submitForm(url, currentStep)"
+          tooltips tooltip-template="<b>{{ 'geral.tooltip.salvarPermanecer' | translate }}</b> {{ getStepTitle(currentStep) }}"
+          class="btn btn-outline btn-primary btn-footer right m-r-sm right">
+        {{ 'plugins.steps.labels.save' | translate }}
+      </a>
+      <a data-ng-if="requireAssertion && !podeSalvar()"
+          disabled="disabled"
+          tooltips tooltip-template="<b><span>{{ 'geral.tooltip.naoPodeSalvarSemConfirmacao' | translate }}</span></b>"
+          class="btn btn-primary btn-footer right m-r-sm right">
+        {{ 'plugins.steps.labels.save' | translate }}
+      </a>
+    </div>
+
+    <!-- voltar sem salvar -->
+    <div class="right">
+      <a ng-click="voltarSemSalvar(previousStep)"
+          tooltips tooltip-template="<b><span>{{ 'geral.tooltip.voltarSemPara' | translate }}</span></b> {{ getStepTitle(previousStep) }}"
+          class="btn btn-outline btn-primary btn-footer right m-r-sm right">
+        <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.back' | translate }}
+      </a>
+    </div>
+  </div>
+</div>

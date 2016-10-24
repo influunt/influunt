@@ -76,6 +76,16 @@ angular.module('influuntApp')
         $scope.verdesConflitantes[y][x] = !$scope.verdesConflitantes[y][x];
       };
 
+      $scope.closeMensagensVerdes = function() {
+        $scope.messages = [];
+      };
+
+      $scope.selecionaAnelVerdesConflitantes = function(index) {
+        $scope.selecionaAnel(index);
+        $scope.atualizaGruposSemaforicos();
+        $scope.atualizaEstagios();
+      };
+
       adicionaVerdeConflitante = function(verdeConflitante, grupos) {
         if (verdeConflitante) {
           delete verdeConflitante._destroy;
@@ -114,16 +124,6 @@ angular.module('influuntApp')
           grupos[1].verdesConflitantesDestino.splice(indexY, 1);
           $scope.objeto.verdesConflitantes.splice(index, 1);
         }
-      };
-
-      $scope.closeMensagensVerdes = function() {
-        $scope.messages = [];
-      };
-
-      $scope.selecionaAnelVerdesConflitantes = function(index) {
-        $scope.selecionaAnel(index);
-        $scope.atualizaGruposSemaforicos();
-        $scope.atualizaEstagios();
       };
 
       /**
