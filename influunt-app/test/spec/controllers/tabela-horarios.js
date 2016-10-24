@@ -70,6 +70,7 @@ describe('Controller: TabelaHorariosCtrl', function () {
       {'root':'Controlador','message':'O plano selecionado não está configurado em todos os anéis.','path':'versoesTabelasHorarias[0].tabelaHoraria.eventos[4].planosConfigurados'}];
       scope.currentTabelaHoraria = _.find(scope.objeto.tabelasHorarias, {idJson: 'th1'});
       scope.currentVersaoTabelaHorariaIndex = 0;
+      scope.currentVersaoTabelaHoraria = scope.objeto.versoesTabelasHorarias[scope.currentVersaoTabelaHorariaIndex];
       scope.selecionaTipoEvento(0);
 
       scope.errors = handleValidations.buildValidationMessages(error, scope.objeto);
@@ -77,7 +78,6 @@ describe('Controller: TabelaHorariosCtrl', function () {
     }));
 
     it('Badge de erro deve aparecer na posição correta', function() {
-
       expect(scope.currentErrosEventos[0]).not.toBeDefined();
       expect(scope.currentErrosEventos[1]).toBeDefined();
 
@@ -92,6 +92,20 @@ describe('Controller: TabelaHorariosCtrl', function () {
     it('Não deve ter erro na tabela horária', function() {
       expect(scope.getErrosTabelaHoraria().length).toBe(0);
     });
+
+    it('Deve apresentar alertas de erros nas tabs com eventos não válidos', inject(function(handleValidations) {
+      expect(scope.tabTemErro(0)).toBeTruthy();
+      expect(scope.tabTemErro(1)).toBeTruthy();
+      expect(scope.tabTemErro(2)).toBeTruthy();
+
+      var error = [{'root':'Controlador','message':'O plano selecionado não está configurado em todos os anéis.','path':'versoesTabelasHorarias[0].tabelaHoraria.eventos[2].planosConfigurados'}];
+      scope.errors = handleValidations.buildValidationMessages(error, scope.objeto);
+      scope.$apply();
+
+      expect(scope.tabTemErro(0)).toBeFalsy();
+      expect(scope.tabTemErro(1)).toBeTruthy();
+      expect(scope.tabTemErro(2)).toBeFalsy();
+    }));
   });
 
   describe('não existe erros ao salvar', function () {
@@ -128,6 +142,7 @@ describe('Controller: TabelaHorariosCtrl', function () {
       scope.errors = handleValidations.buildValidationMessages(error, scope.objeto);
       scope.currentTabelaHoraria = _.find(scope.objeto.tabelasHorarias, {idJson: 'th1'});
       scope.currentVersaoTabelaHorariaIndex = 0;
+      scope.currentVersaoTabelaHoraria = scope.objeto.versoesTabelasHorarias[scope.currentVersaoTabelaHorariaIndex];
     }));
 
     it('Badge de erro deve aparecer na posição correta', function() {

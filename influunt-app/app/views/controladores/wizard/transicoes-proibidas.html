@@ -92,33 +92,12 @@
     </div>
   </div>
 
-	<div class="row">
-    <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix">
-      <a data-toggle="modal" data-target="#myModal" class="left btn btn-info btn-footer" tooltips tooltip-template="{{ 'plugins.steps.labels.last_screen' | translate }}">
-        <i class="fa fa-eye"></i> {{ 'plugins.steps.labels.last_screen' | translate }}
-      </a>
-      <div class="right">
-        <a data-ng-if="podeSalvar()" go-to-top data-ng-click="submitForm({$valid: true}, 'transicoes_proibidas', 'app.wizard_controladores.entre_verdes')" tooltips tooltip-template="<b>{{ 'geral.tooltip.salvarAvancarPara' | translate }}</b> {{ 'controladores.entreVerdes.titulo' | translate }}" class="go-to-top btn btn-primary btn-footer right">
-          {{ 'plugins.steps.labels.saveNext' | translate }} <i class="fa fa-arrow-right"></i>
-        </a>
-        <a data-ng-if="!podeSalvar()" disabled="disabled" tooltips tooltip-template="<b><span>{{ 'geral.tooltip.naoPodeSalvarSemConfirmacao' | translate }}</span></b>" class="go-to-top btn btn-primary btn-footer right">
-          {{ 'plugins.steps.labels.saveNext' | translate }} <i class="fa fa-arrow-right"></i>
-        </a>
-      </div>
-      <div class="right">
-        <a data-ng-if="podeSalvar()" go-to-top data-ng-click="submitForm({$valid: true}, 'transicoes_proibidas', 'app.wizard_controladores.transicoes_proibidas'); atualizaTransicoesProibidas" tooltips tooltip-template="<b>{{ 'geral.tooltip.salvarPermanecer' | translate }}</b> Transições Proíbidas" class="btn btn-outline btn-primary btn-footer right m-r-sm right">{{ 'plugins.steps.labels.save' | translate }}
-        </a>
-        <a data-ng-if="!podeSalvar()" disabled="disabled" tooltips tooltip-template="<b><span>{{ 'geral.tooltip.naoPodeSalvarSemConfirmacao' | translate }}</span></b>" class="btn btn-primary btn-footer right m-r-sm right">{{ 'plugins.steps.labels.save' | translate }}
-        </a>
-      </div>
-      <div class="right">
-        <a data-ng-click="voltarSemSalvar('app.wizard_controladores.associacao')" tooltips tooltip-template="<b><span>{{ 'geral.tooltip.voltarSemPara' | translate }}</span></b> {{ 'controladores.associacao.titulo' | translate }}" class="btn btn-outline btn-primary btn-footer right m-r-sm right">
-          <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.back' | translate }}
-        </a>
-      </div>
-    </div>
-  </div>
-
+  <wizard-footer url="transicoes_proibidas"
+      current-step="app.wizard_controladores.transicoes_proibidas"
+      next-step="app.wizard_controladores.entre_verdes"
+      previous-step="app.wizard_controladores.associacao"
+      require-assertion="true">
+  </wizard-footer>
 </fieldset>
 
 <ng-include src="'views/controladores/wizard/common/popup-revisao.html'">

@@ -183,4 +183,80 @@ describe('Controller: ControladoresCtrl', function () {
       expect(scope.errors).toEqual(originalErrors);
     });
   });
+
+  describe('submitForm', function () {
+
+    var beforeEachFn = function(step, next, status, response) {
+      $httpBackend.expectPOST('/controladores/' + step).respond(status, response);
+
+      scope.submitForm(step, next);
+      scope.$apply();
+
+      $httpBackend.flush();
+    };
+
+    it('Se houver uma funcao "beforeSubmitForm" definida, ela sera executada', function() {
+      scope.beforeSubmitForm = function() {};
+      spyOn(scope, 'beforeSubmitForm');
+      beforeEachFn('dados_basicos', 'app.wizard_controladores.aneis', 200, {});
+      expect(scope.beforeSubmitForm).toHaveBeenCalled();
+    });
+
+    describe('Salvos com sucesso', function () {
+      var response, step, next;
+      beforeEach(function() {
+        step = 'dados_basicos';
+        next = 'app.wizard_controladores.aneis';
+        response = {id: 1};
+        beforeEachFn(step, next, 200, response);
+      });
+
+      it('Deve atualizar o objeto com a resposta do POST', function() {
+        expect(scope.objeto.id).toEqual(response.id);
+      });
+
+      it('Deve limpar as variaveis de erro', function() {
+        expect(scope.errors).toEqual({});
+        expect(scope.messages).toEqual([]);
+      });
+
+      it('Deve redirecionar o usuário para a proxima rota.', function() {
+        expect(scope.$state.current.name).toBe(next);
+      });
+
+      it('Deve mostrar a mensagem de "salvo com sucesso" se as rotas de origem e destino forem iguais', inject(function(toast) {
+        spyOn(toast, 'success');
+        beforeEachFn('aneis', next, 200, response);
+        expect(toast.success).toHaveBeenCalled();
+      }));
+    });
+
+    describe('Salvos com erro', function () {
+      var response, step, next;
+      beforeEach(function() {
+        spyOn(scope, 'buildValidationMessages');
+        step = 'dados_basicos';
+        next = 'app.wizard_controladores.aneis';
+        response = {id: 1};
+        beforeEachFn(step, next, 422, response);
+      });
+
+      it('Deve preparar as mensagens de validação para exibi-las na tela', function() {
+        expect(scope.buildValidationMessages).toHaveBeenCalled();
+      });
+
+      it('se houver uma função de "afterSubmitFormOnValidationError", ela deve ser chamada', function() {
+        scope.afterSubmitFormOnValidationError = function() {};
+        spyOn(scope, 'afterSubmitFormOnValidationError');
+        beforeEachFn(step, next, 422, response);
+        expect(scope.afterSubmitFormOnValidationError).toHaveBeenCalled();
+      });
+
+      it('Deve notificar via console.log erros de api', function() {
+        spyOn(console, 'error');
+        beforeEachFn(step, next, 500, response);
+        expect(console.error).toHaveBeenCalled();
+      });
+    });
+  });
 });
