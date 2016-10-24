@@ -41,12 +41,12 @@ Funcionalidade: Fluxo de cadastro de planos
     E que o usuário clique no botão de configurar o estágio "E1"
     E que o usuário marque 9 segundos para o "Tempo de Verde"
     Então o sistema deverá mostrar um alerta para verdes segurança menor
-    E o usuário responde sim para verde de segurança
+    E o usuário confirmar para verde de segurança
     E que o usuário clique no botão de fechar a caixa de configuração
     E que o usuário clique no botão de configurar o estágio "E2"
     E que o usuário marque 9 segundos para o "Tempo de Verde"
     Então o sistema deverá mostrar um alerta para verdes segurança menor
-    Quando o usuário responde sim para verde de segurança
+    Quando o usuário confirmar para verde de segurança
     E que o usuário clique no botão de fechar a caixa de configuração
     E que o usuário clique no botão de configurar o estágio "E3"
     E que o usuário marque 6 segundos para o "Tempo de Verde"
