@@ -2,8 +2,8 @@
   <thead>
 		<tr>
 			<th class="diagonal no-padding">
-		    <div class="text-right m-r-xs">De</div>
-		    <div class="text-left m-l-xs">Para</div>
+        <div class="text-right m-r-xs">{{ 'controladores.transicoesProibidas.para' | translate }}</div>
+		    <div class="text-left m-l-xs">{{ 'controladores.transicoesProibidas.de' | translate }}</div>
 	    </th>
       <th data-ng-repeat="estagio in currentEstagios">E{{ estagio.posicao }}</th>
     </tr>
@@ -16,9 +16,9 @@
 
       <td data-ng-repeat="td in currentEstagios" class="clickable"
         data-ng-class="{disabled: tr === td }"
-        data-ng-click="toggleTransicaoProibida(td, tr, (tr.idJson === td.idJson))">
+        data-ng-click="toggleTransicaoProibida(tr, td, (tr.idJson === td.idJson))">
         <i class="fa fa-times transicao-proibida"
-        data-ng-class="{ ativo : currentTransicoesProibidas['E' + td.posicao + '-E' + tr.posicao] }"></i>
+        data-ng-class="{ ativo : currentTransicoesProibidas['E' + tr.posicao + '-E' + td.posicao] }"></i>
       </td>
     </tr>
   </tbody>

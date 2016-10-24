@@ -407,10 +407,10 @@ var WizardControladorPage = function () {
   };
 
   this.marcarTransicao = function(e1, e2) {
-    var row = parseInt(e2.substring(1));
-    var col = parseInt(e1.substring(1)) + (row === 1 ? 2 : 1);
+    var tr = parseInt(e1.substring(1));
+    var td = parseInt(e2.substring(1)) + 1;
     return world.scrollToDown().then(function() {
-      return world.getElement('tbody tr:nth-child('+row+') td:nth-child('+col+')').click();
+      return world.getElement('tbody tr:nth-child('+tr+') td:nth-child('+td+')').click();
     });
   };
 
