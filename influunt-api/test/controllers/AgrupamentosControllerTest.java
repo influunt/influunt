@@ -21,13 +21,7 @@ import static play.test.Helpers.route;
 public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthentication {
 
     private Controlador getControlador() {
-        Cidade cidade = new Cidade();
-        cidade.setNome("São Paulo");
-        cidade.save();
-
-        Area area = new Area();
-        area.setDescricao(1);
-        area.setCidade(cidade);
+        Area area = getArea(1);
         area.save();
 
         Subarea subarea = new Subarea();
@@ -46,6 +40,18 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
         modeloControlador.save();
 
         return new ControladorTestUtil(area, subarea, fabricante, modeloControlador).getControladorTabelaHorario();
+    }
+
+    private Area getArea(int descricao) {
+        Cidade cidade = new Cidade();
+        cidade.setNome("São Paulo");
+        cidade.save();
+
+        Area area = new Area();
+        area.setDescricao(1);
+        area.setCidade(cidade);
+
+        return area;
     }
 
     private Agrupamento getAgrupamento() {
@@ -85,6 +91,19 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
         List<Anel> aneis = agrupamento.getAneis();
         agrupamento.setAneis(new ArrayList<Anel>());
 
+        request = new Http.RequestBuilder().method("POST")
+                .uri(routes.AgrupamentosController.create().url()).bodyJson(Json.toJson(agrupamento));
+        result = route(request);
+        assertEquals(422, result.status());
+        assertEquals(0, Agrupamento.find.findRowCount());
+
+        Controlador controlador2 = getControlador();
+        Area area2 = getArea(2);
+        area2.save();
+        controlador2.setArea(area2);
+        controlador2.save();
+        controlador.getAneis().stream().filter(Anel::isAtivo).forEach(agrupamento::addAnel);
+        controlador2.getAneis().stream().filter(Anel::isAtivo).forEach(agrupamento::addAnel);
         request = new Http.RequestBuilder().method("POST")
                 .uri(routes.AgrupamentosController.create().url()).bodyJson(Json.toJson(agrupamento));
         result = route(request);
@@ -142,7 +161,6 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
             assertEquals(TipoEvento.NORMAL, evento.getTipo());
         });
     }
-
 
     @Test
     public void testAtualizarAgrupamentoNaoExistente() {
@@ -227,7 +245,6 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
             assertEquals(LocalTime.parse("13:00:00"), evento.getHorario());
         });
     }
-
 
     @Test
     public void testApagarAgrupamentoExistente() {

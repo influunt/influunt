@@ -1,9 +1,10 @@
 <div class="col-lg-12 col-sm-12 ibox-content">
 
-  <uib-alert type="danger" data-ng-if="errors.planoConfiguradoEmTodosOsAneis">
+  <uib-alert type="danger" data-ng-if="errors.planoConfiguradoEmTodosOsAneis || errors.todosOsAneisDaMesmaArea">
     <div>
       <ul>
         <li data-ng-repeat="message in errors.planoConfiguradoEmTodosOsAneis">{{ message }}</li>
+        <li data-ng-repeat="message in errors.todosOsAneisDaMesmaArea">{{ message }}</li>
       </ul>
     </div>
   </uib-alert>
