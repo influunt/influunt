@@ -164,6 +164,16 @@ var PlanosPage = function () {
     });
   };
 
+  this.clicarConfirmacaoAlert = function(){
+    return world.waitFor('div[class^="sweet-alert"][class$="visible"]')
+      .then(function() {
+        return world.getElementByXpath('//button[contains(@class, "confirm")]').click();
+      })
+      .then(function() {
+        return world.sleep(100);
+      });
+  };
+
   this.alertVerdeSeguranca = function() {
     return world.getTextInSweetAlert();
   };

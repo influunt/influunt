@@ -49,11 +49,44 @@ module.exports = function() {
   });
 
   // verificar o diagrama
-  this.Given(/^o sistema deve mostar o diagrama "([^"]*)" no grupo "([^"]*)" com "([^"]*)" em "([^"]*)" segundos$/, function (modoOperacao, grupo, indicacaoCor, tempo) {
+  this.Given(/^o sistema deve mostrar o diagrama "([^"]*)" no grupo "([^"]*)" com "([^"]*)" em "([^"]*)" segundos$/, function (modoOperacao, grupo, indicacaoCor, tempo) {
     return sharedSteps.isDiagramaModo(modoOperacao, grupo, indicacaoCor, tempo);
   });
 
   this.Given(/^o sistema deverá redirecionar o usuário para a página de listagem de controladores$/, function () {
     return sharedSteps.isIndexPage();
   });
+
+  this.Given(/^que o usuário deslogue no sistema$/, function () {
+    return sharedSteps.deslogar();
+  });
+
+  this.Given(/^o usuário navegar pelo breadcrumb clicando em "([^"]*)"$/, function (opcao) {
+    return sharedSteps.navegarBreadcrumb(opcao);
+  });
+
+  this.Given(/^o sistema deverá mostrar "([^"]*)" controladores cadastrados$/, function (numero) {
+    return sharedSteps.checarTotalInseridosNaTabela(numero);
+  });
+
+  this.Given(/^o sistema deverá mostrar "([^"]*)" na listagem$/, function (numero) {
+    return sharedSteps.checarTotalInseridosNaTabela(numero);
+  });
+
+  this.Given(/^que possua controladores com áreas diferentes cadastrados$/, function () {
+    return sharedSteps.controladoresAreasDiferentes();
+  });
+
+  this.Given(/^o sistema deverá indicar erro no campo "([^"]*)"$/, function (nomeCampo) {
+    return sharedSteps.getErrorMessageFor(nomeCampo).then(function(result) {
+      return expect(result).to.exist;
+    });
+  });
+
+  this.Given(/^o sistema deverá redirecionar para o formulário "([^"]*)"$/, function(formName) {
+    return sharedSteps.form(formName).then(function(form) {
+      return expect(form).to.exist;
+    });
+  });
+
 };

@@ -104,10 +104,4 @@ module.exports = function() {
 	this.Given(/^que exista uma cidade cadastrada no sistema com o nome "([^"]*)"$/, function (nome) {
 	  return cidadesPage.existeAoMenosUmaCidadeComNome(nome);
 	});
-
-	this.Given(/^o sistema deverá indicar erro nos campos nome$/, function () {
-    return cidadesPage.getErrorMessageFor('nome').then(function(result) {
-      return expect(result).to.exist;
-    });
-	});
 };

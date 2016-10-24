@@ -460,8 +460,6 @@ INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atual
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 
-
-
 -- # CRUD Permissões
 
 Set @PermissaoId = UUID();

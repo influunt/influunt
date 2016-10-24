@@ -54,9 +54,11 @@ angular.module('influuntApp')
             var value = ev.value;
             var oldValue = scope.ngModel;
 
-            scope.ngModel = ev.value;
-            scope.$apply();
-            return angular.isFunction(scope.onChange()) && scope.onChange()(oldValue, value);
+            if (value) {
+              scope.ngModel = ev.value;
+              scope.$apply();
+              return angular.isFunction(scope.onChange()) && scope.onChange()(oldValue, value);
+            }
           });
 
           knob.on('outOfBounds', _.debounce(function() {

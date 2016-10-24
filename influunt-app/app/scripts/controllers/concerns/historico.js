@@ -11,7 +11,7 @@ angular.module('influuntApp')
   .controller('HistoricoCtrl', ['$scope', '$state', '$filter', '$q', 'Restangular', 'influuntBlockui', 'toast', 'influuntAlert', 'handleValidations',
     function HistoricoCtrl($scope, $state, $filter, $q, Restangular, influuntBlockui, toast, influuntAlert, handleValidations) {
 
-      var handleErroEditar, sortPlanos;
+      var handleErroEditar, sortPlanos, sortEventos;
       var resourceName = null;
 
       $scope.inicializaResourceHistorico = function(param) {
@@ -59,6 +59,7 @@ angular.module('influuntApp')
         // para que os erros voltem ordenados da API.
         // @todo: Testar se isso pode causar problemas no submit de tabelas horárias.
         sortPlanos(refObjeto);
+        sortEventos(refObjeto);
 
         return Restangular.all(resourceName).post(refObjeto)
           .then(function(res) {
@@ -84,6 +85,22 @@ angular.module('influuntApp')
         } else {
           toast.error($filter('translate')('geral.mensagens.default_erro'));
         }
+      };
+
+      sortEventos = function(refObjeto) {
+        return angular.isDefined(refObjeto.versoesTabelasHorarias) &&
+          _.each(refObjeto.versoesTabelasHorarias, function(versao) {
+            var orderers = ['NORMAL', 'ESPECIAL_RECORRENTE', 'ESPECIAL_NAO_RECORRENTE'];
+            var tabelaHoraria = _.find($scope.objeto.tabelasHorarias, {idJson: versao.tabelaHoraria.idJson});
+            var idsEventos = _.map(tabelaHoraria.eventos, 'idJson');
+            tabelaHoraria.eventos = _
+              .chain(refObjeto.eventos)
+              .filter(function(ev) { return idsEventos.indexOf(ev.idJson) >= 0; })
+              .sortBy([function(ev) { return orderers.indexOf(ev.tipo); }, 'posicao'])
+              .orderBy('posicao')
+              .map(function(ev) { return { idJson: ev.idJson }; })
+              .value();
+          });
       };
 
       sortPlanos = function(refObjeto) {

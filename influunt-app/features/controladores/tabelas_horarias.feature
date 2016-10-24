@@ -169,25 +169,25 @@ Funcionalidade: Fluxo de cadastro de manutenção de Tabelas Horárias
 
   Cenário: Visulizar um diagrama em modo isolado
     Quando o usuário clicar em visualizar o diagrama
-    Então o sistema deve mostar o diagrama "Isolado" no grupo "G1" com "indicacao-amarelo" em "3s" segundos
-    Então o sistema deve mostar o diagrama "Isolado" no grupo "G1" com "indicacao-vermelho" em "31s" segundos
-    Então o sistema deve mostar o diagrama "Isolado" no grupo "G1" com "indicacao-verde" em "11s" segundos
-    Então o sistema deve mostar o diagrama "Isolado" no grupo "G2" com "indicacao-vermelho" em "3s" segundos
-    Então o sistema deve mostar o diagrama "Isolado" no grupo "G2" com "indicacao-verde" em "12s" segundos
-    Então o sistema deve mostar o diagrama "Isolado" no grupo "G2" com "indicacao-amarelo" em "3s" segundos
-    Então o sistema deve mostar o diagrama "Isolado" no grupo "G2" com "indicacao-vermelho" em "27s" segundos
-    Então o sistema deve mostar o diagrama "Isolado" no grupo "G3" com "indicacao-vermelho" em "18s" segundos
-    Então o sistema deve mostar o diagrama "Isolado" no grupo "G3" com "indicacao-verde" em "13s" segundos
-    Então o sistema deve mostar o diagrama "Isolado" no grupo "G3" com "indicacao-vermelho-intermitente" em "3s" segundos
-    Então o sistema deve mostar o diagrama "Isolado" no grupo "G3" com "indicacao-vermelho" em "11s" segundos
+    Então o sistema deve mostrar o diagrama "Isolado" no grupo "G1" com "indicacao-amarelo" em "3s" segundos
+    Então o sistema deve mostrar o diagrama "Isolado" no grupo "G1" com "indicacao-vermelho" em "31s" segundos
+    Então o sistema deve mostrar o diagrama "Isolado" no grupo "G1" com "indicacao-verde" em "11s" segundos
+    Então o sistema deve mostrar o diagrama "Isolado" no grupo "G2" com "indicacao-vermelho" em "3s" segundos
+    Então o sistema deve mostrar o diagrama "Isolado" no grupo "G2" com "indicacao-verde" em "12s" segundos
+    Então o sistema deve mostrar o diagrama "Isolado" no grupo "G2" com "indicacao-amarelo" em "3s" segundos
+    Então o sistema deve mostrar o diagrama "Isolado" no grupo "G2" com "indicacao-vermelho" em "27s" segundos
+    Então o sistema deve mostrar o diagrama "Isolado" no grupo "G3" com "indicacao-vermelho" em "18s" segundos
+    Então o sistema deve mostrar o diagrama "Isolado" no grupo "G3" com "indicacao-verde" em "13s" segundos
+    Então o sistema deve mostrar o diagrama "Isolado" no grupo "G3" com "indicacao-vermelho-intermitente" em "3s" segundos
+    Então o sistema deve mostrar o diagrama "Isolado" no grupo "G3" com "indicacao-vermelho" em "11s" segundos
     E que o usuário selecione o anel 2
-    Então o sistema deve mostar o diagrama "Isolado" no grupo "G4" com "indicacao-vermelho" em "3s" segundos
-    Então o sistema deve mostar o diagrama "Isolado" no grupo "G4" com "indicacao-verde" em "18s" segundos
-    Então o sistema deve mostar o diagrama "Isolado" no grupo "G4" com "indicacao-amarelo" em "3s" segundos
-    Então o sistema deve mostar o diagrama "Isolado" no grupo "G4" com "indicacao-vermelho" em "21s" segundos
-    Então o sistema deve mostar o diagrama "Isolado" no grupo "G5" com "indicacao-amarelo" em "3s" segundos
-    Então o sistema deve mostar o diagrama "Isolado" no grupo "G5" com "indicacao-vermelho" em "21s" segundos
-    Então o sistema deve mostar o diagrama "Isolado" no grupo "G5" com "indicacao-verde" em "21s" segundos
+    Então o sistema deve mostrar o diagrama "Isolado" no grupo "G4" com "indicacao-vermelho" em "3s" segundos
+    Então o sistema deve mostrar o diagrama "Isolado" no grupo "G4" com "indicacao-verde" em "18s" segundos
+    Então o sistema deve mostrar o diagrama "Isolado" no grupo "G4" com "indicacao-amarelo" em "3s" segundos
+    Então o sistema deve mostrar o diagrama "Isolado" no grupo "G4" com "indicacao-vermelho" em "21s" segundos
+    Então o sistema deve mostrar o diagrama "Isolado" no grupo "G5" com "indicacao-amarelo" em "3s" segundos
+    Então o sistema deve mostrar o diagrama "Isolado" no grupo "G5" com "indicacao-vermelho" em "21s" segundos
+    Então o sistema deve mostrar o diagrama "Isolado" no grupo "G5" com "indicacao-verde" em "21s" segundos
     Dado o usuário clicar em fechar o diagrama
 
   Cenário: Salvar tabela horária

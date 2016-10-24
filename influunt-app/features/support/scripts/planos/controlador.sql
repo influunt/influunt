@@ -20,6 +20,7 @@ DELETE FROM `controladores_fisicos`;
 DELETE FROM `controladores`;
 DELETE FROM `agrupamentos`;
 DELETE FROM `limite_area`;
+UPDATE usuarios SET area_id=NULL WHERE login='mobilab';
 DELETE FROM `areas`;
 DELETE FROM `cidades`;
 DELETE FROM `modelo_controladores`;
@@ -27,13 +28,17 @@ DELETE FROM `fabricantes`;
 DELETE FROM `imagens`;
 DELETE FROM `faixas_de_valores`;
 
+SET @UsurioId = (SELECT id FROM "usuarios" where login = 'mobilab');
+
 INSERT INTO `cidades` (`id`, `id_json`, `nome`, `data_criacao`, `data_atualizacao`)
 VALUES
-  ('24b4e422-8661-11e6-9678-1f0de452edaf','24b792c6-8661-11e6-9678-1f0de452edaf','São Paulo','2016-09-29 13:24:06.000000','2016-09-29 13:24:06.000000');
+  ('24b4e422-8661-11e6-9678-1f0de452edaf','24b792c6-8661-11e6-9678-1f0de452edaf','São Paulo',NOW(),NOW());
 
 INSERT INTO `areas` (`id`, `id_json`, `descricao`, `cidade_id`, `data_criacao`, `data_atualizacao`)
 VALUES
   ('24bc8524-8661-11e6-9678-1f0de452edaf','24bc8538-8661-11e6-9678-1f0de452edaf',1,'24b4e422-8661-11e6-9678-1f0de452edaf','2016-09-29 13:24:06.000000','2016-09-29 13:24:06.000000');
+
+UPDATE usuarios SET area_id='24bc8524-8661-11e6-9678-1f0de452edaf' WHERE login='mobilab';
 
 INSERT INTO `fabricantes` (`id`, `id_json`, `nome`, `data_criacao`, `data_atualizacao`)
 VALUES
@@ -53,9 +58,9 @@ INSERT INTO `modelo_controladores` (`id`, `id_json`, `fabricante_id`, `descricao
 VALUES
   ('24c6f1e4-8661-11e6-9678-1f0de452edaf','24c6f1f8-8661-11e6-9678-1f0de452edaf','24bf38a0-8661-11e6-9678-1f0de452edaf','Modelo Básico',16,16,4,4,8,2,16,'2016-09-29 13:24:06.000000','2016-09-29 13:24:06.000000');
 
-INSERT INTO `controladores` (`id`, `id_json`, `croqui_id`, `nome_endereco`, `status_controlador`, `sequencia`, `numero_smee`, `numero_smeeconjugado1`, `numero_smeeconjugado2`, `numero_smeeconjugado3`, `firmware`, `modelo_id`, `area_id`, `subarea_id`, `data_criacao`, `data_atualizacao`)
+INSERT INTO `controladores` (`id`, `id_json`, `croqui_id`, `nome_endereco`, `sequencia`, `numero_smee`, `numero_smeeconjugado1`, `numero_smeeconjugado2`, `numero_smeeconjugado3`, `firmware`, `modelo_id`, `area_id`, `subarea_id`, `data_criacao`, `data_atualizacao`)
 VALUES
-  ('21440a8c-764d-4605-a23e-ef3103c9f544',NULL, 'c52b3617-d233-40d6-8d07-b0284f6717ed', 'Av. Paulista com R. Bela Cintra',0,1,NULL,NULL,NULL,NULL,NULL,'24c6f1e4-8661-11e6-9678-1f0de452edaf','24bc8524-8661-11e6-9678-1f0de452edaf',NULL,'2016-09-29 13:25:30.457000','2016-09-29 13:30:42.648000');
+  ('21440a8c-764d-4605-a23e-ef3103c9f544',NULL, 'c52b3617-d233-40d6-8d07-b0284f6717ed', 'Av. Paulista com R. Bela Cintra',1,NULL,NULL,NULL,NULL,NULL,'24c6f1e4-8661-11e6-9678-1f0de452edaf','24bc8524-8661-11e6-9678-1f0de452edaf',NULL,'2016-09-29 13:25:30.457000','2016-09-29 13:30:42.648000');
 
 INSERT INTO `aneis` (`id`, `id_json`, `ativo`, `descricao`, `posicao`, `numero_smee`, `aceita_modo_manual`, `controlador_id`, `croqui_id`, `data_criacao`, `data_atualizacao`)
 VALUES
@@ -208,4 +213,4 @@ VALUES
 
 INSERT INTO `versoes_controladores` (`id`, `id_json`, `controlador_origem_id`, `controlador_id`, `controlador_fisico_id`, `usuario_id`, `descricao`, `status_versao`, `data_criacao`)
 VALUES
-  ('45a311d6-f7c1-4231-a851-13851641121b',NULL,NULL,'21440a8c-764d-4605-a23e-ef3103c9f544','fbac66f8-7d51-4a27-98e5-6a290aa48a45','2f0e0547-3135-428b-8f6d-0a1098eca0a5','Controlador criado pelo usuário: Administrador Geral','EDITANDO','2016-09-29 13:25:30.531000');
+  ('45a311d6-f7c1-4231-a851-13851641121b',NULL,NULL,'21440a8c-764d-4605-a23e-ef3103c9f544','fbac66f8-7d51-4a27-98e5-6a290aa48a45','90574f0a-cd7b-477c-9fa6-98c426813ea8','Controlador criado pelo usuário: Administrador Geral','EDITANDO','2016-09-29 13:25:30.531000');

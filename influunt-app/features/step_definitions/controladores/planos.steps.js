@@ -144,9 +144,25 @@ module.exports = function() {
     return planosPage.clicarSimVerdeSeguranca();
   });
 
-  this.Given(/^o sistema deverá mostar um alerta para verdes segurança menor$/, function () {
+  this.Given(/^o usuário responde ok/, function () {
+    return planosPage.clicarConfirmacaoAlert();
+  });
+
+  this.Given(/^o sistema deverá mostrar um alerta para verdes segurança menor$/, function () {
     return planosPage.alertVerdeSeguranca().then(function(text) {
       expect(text).to.equal('Tem certeza que deseja colocar o tempo de verde menor que o tempo de verde de segurança dos grupos semafóricos?');
+    });
+  });
+
+  this.Then(/^o sistema deverá mostrar um alerta para valor digitado maior que o limite máximo$/, function () {
+    return objetosComuns.alertInfluuntKnob().then(function(text) {
+      expect(text).to.equal('O valor digitado é maior que o limite máximo.');
+    });
+  });
+
+  this.Then(/^o sistema deverá mostrar um alerta para valor digitado menor que o limite mínimo$/, function () {
+    return objetosComuns.alertInfluuntKnob().then(function(text) {
+      expect(text).to.equal('O valor digitado é menor que o limite mínimo.');
     });
   });
 

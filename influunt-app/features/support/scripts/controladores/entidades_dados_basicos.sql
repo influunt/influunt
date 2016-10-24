@@ -23,6 +23,7 @@ DELETE FROM `versoes_tabelas_horarias`;
 DELETE FROM `controladores`;
 DELETE FROM `agrupamentos`;
 DELETE FROM `limite_area`;
+UPDATE usuarios SET area_id=NULL WHERE login='mobilab';
 DELETE FROM `areas`;
 DELETE FROM `cidades`;
 DELETE FROM `modelo_controladores`;

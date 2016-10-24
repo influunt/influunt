@@ -70,6 +70,7 @@ describe('Controller: TabelaHorariosCtrl', function () {
       {'root':'Controlador','message':'O plano selecionado não está configurado em todos os anéis.','path':'versoesTabelasHorarias[0].tabelaHoraria.eventos[4].planosConfigurados'}];
       scope.currentTabelaHoraria = _.find(scope.objeto.tabelasHorarias, {idJson: 'th1'});
       scope.currentVersaoTabelaHorariaIndex = 0;
+      scope.currentVersaoTabelaHoraria = scope.objeto.versoesTabelasHorarias[scope.currentVersaoTabelaHorariaIndex];
       scope.selecionaTipoEvento(0);
 
       scope.errors = handleValidations.buildValidationMessages(error, scope.objeto);
@@ -77,7 +78,6 @@ describe('Controller: TabelaHorariosCtrl', function () {
     }));
 
     it('Badge de erro deve aparecer na posição correta', function() {
-
       expect(scope.currentErrosEventos[0]).not.toBeDefined();
       expect(scope.currentErrosEventos[1]).toBeDefined();
 
@@ -92,6 +92,20 @@ describe('Controller: TabelaHorariosCtrl', function () {
     it('Não deve ter erro na tabela horária', function() {
       expect(scope.getErrosTabelaHoraria().length).toBe(0);
     });
+
+    it('Deve apresentar alertas de erros nas tabs com eventos não válidos', inject(function(handleValidations) {
+      expect(scope.tabTemErro(0)).toBeTruthy();
+      expect(scope.tabTemErro(1)).toBeTruthy();
+      expect(scope.tabTemErro(2)).toBeTruthy();
+
+      var error = [{'root':'Controlador','message':'O plano selecionado não está configurado em todos os anéis.','path':'versoesTabelasHorarias[0].tabelaHoraria.eventos[2].planosConfigurados'}];
+      scope.errors = handleValidations.buildValidationMessages(error, scope.objeto);
+      scope.$apply();
+
+      expect(scope.tabTemErro(0)).toBeFalsy();
+      expect(scope.tabTemErro(1)).toBeTruthy();
+      expect(scope.tabTemErro(2)).toBeFalsy();
+    }));
   });
 
   describe('não existe erros ao salvar', function () {
@@ -128,6 +142,7 @@ describe('Controller: TabelaHorariosCtrl', function () {
       scope.errors = handleValidations.buildValidationMessages(error, scope.objeto);
       scope.currentTabelaHoraria = _.find(scope.objeto.tabelasHorarias, {idJson: 'th1'});
       scope.currentVersaoTabelaHorariaIndex = 0;
+      scope.currentVersaoTabelaHoraria = scope.objeto.versoesTabelasHorarias[scope.currentVersaoTabelaHorariaIndex];
     }));
 
     it('Badge de erro deve aparecer na posição correta', function() {
@@ -343,6 +358,56 @@ describe('Controller: TabelaHorariosCtrl', function () {
       scope.verificaAtualizacaoDeEventos(evento);
 
       expect(scope.objeto.eventos.length).toBe(0);
+    });
+  });
+
+  describe('remover eventos', function () {
+    beforeEach(function() {
+      beforeEachFn(ControladorComPlanos);
+    });
+
+    describe('remover eventos não sincronizados à api', function () {
+      beforeEach(function() {
+        scope.objeto.tabelasHorarias[0].eventos = [ {idJson: 'E1'}, {idJson: 'E2'} ];
+        scope.objeto.eventos = [
+          {idJson: 'E1', tipo: 'NORMAL', tabelaHoraria: {idJson: scope.objeto.tabelasHorarias[0].idJson}},
+          {idJson: 'E2', tipo: 'NORMAL', tabelaHoraria: {idJson: scope.objeto.tabelasHorarias[0].idJson}}
+        ];
+        var evento = scope.objeto.eventos[0];
+
+        scope.removerEvento(evento);
+        scope.$apply();
+      });
+
+      it('O elemento deve ser removido da coleção, das referências em Tabelas horarias e dos currentEventos', function() {
+        expect(_.find(scope.objeto.tabelasHorarias[0].eventos, {idJson: 'E1'})).not.toBeDefined();
+        expect(_.find(scope.objeto.eventos, {idJson: 'E1'})).not.toBeDefined();
+        expect(_.find(scope.currentEventos, {idJson: 'E1'})).not.toBeDefined();
+      });
+    });
+
+    describe('remover eventos sincronizados à api', function () {
+      beforeEach(function() {
+        scope.objeto.tabelasHorarias[0].eventos = [ {idJson: 'E1'}, {idJson: 'E2'} ];
+        scope.objeto.eventos = [
+          {id: 1, idJson: 'E1', tipo: 'NORMAL', tabelaHoraria: {idJson: scope.objeto.tabelasHorarias[0].idJson}},
+          {id: 2, idJson: 'E2', tipo: 'NORMAL', tabelaHoraria: {idJson: scope.objeto.tabelasHorarias[0].idJson}}
+        ];
+        var evento = scope.objeto.eventos[0];
+
+        scope.removerEvento(evento);
+        scope.$apply();
+      });
+
+      it('O elemento deve ser removido dos currentEventos, mas permanecer nas demais coleções', function() {
+        expect(_.find(scope.objeto.tabelasHorarias[0].eventos, {idJson: 'E1'})).toBeDefined();
+        expect(_.find(scope.objeto.eventos, {idJson: 'E1'})).toBeDefined();
+        expect(_.find(scope.currentEventos, {idJson: 'E1'})).not.toBeDefined();
+      });
+
+      it('O evento deve ser marcado como _destroy na coleção dos eventos', function() {
+        expect(_.find(scope.objeto.eventos, {idJson: 'E1'})._destroy).toBeTruthy();
+      });
     });
   });
 });

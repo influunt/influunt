@@ -1298,6 +1298,10 @@ public class ControladorCustomDeserializer {
             runLater(c);
         }
 
+        if (node.has("_destroy")) {
+            evento.setDestroy(node.get("_destroy").asBoolean());
+        }
+
         return evento;
     }
 

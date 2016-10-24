@@ -176,4 +176,3 @@ public class ControladoresReportService extends ReportService<Controlador> {
         return controladoresFalhas;
     }
 }
-
