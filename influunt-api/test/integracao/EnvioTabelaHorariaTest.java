@@ -10,6 +10,8 @@ import checks.TabelaHorariosCheck;
 import com.fasterxml.jackson.databind.JsonNode;
 import json.ControladorCustomSerializer;
 import models.Controlador;
+import org.junit.Ignore;
+import org.junit.Test;
 import protocol.Envelope;
 import protocol.EtapaTransacao;
 import protocol.TipoMensagem;
@@ -29,7 +31,8 @@ import static org.junit.Assert.assertThat;
  */
 public class EnvioTabelaHorariaTest extends BasicMQTTTest {
 
-    //    @Test
+    @Ignore
+    @Test
     public void configuracaoValida() {
         startClient();
         controlador = new ControladorHelper().setPlanos(controlador);
@@ -37,7 +40,8 @@ public class EnvioTabelaHorariaTest extends BasicMQTTTest {
         assertThat(erros, org.hamcrest.Matchers.empty());
     }
 
-    //    @Test
+    @Ignore
+    @Test
     public void enviarPlanosOK() {
         startClient();
         controlador = new ControladorHelper().setPlanos(controlador);
@@ -92,7 +96,8 @@ public class EnvioTabelaHorariaTest extends BasicMQTTTest {
         assertEquals(idTransacao, jsonConteudo.get("transacaoId").asText());
     }
 
-    //    @Test
+    @Ignore
+    @Test
     public void enviarPlanosNaoOK() {
         startClient();
         controlador = new ControladorHelper().getControlador();
