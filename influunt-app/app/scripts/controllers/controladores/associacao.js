@@ -160,8 +160,7 @@ angular.module('influuntApp')
        * @return     {<type>}  { description_of_the_return_value }
        */
       $scope.shouldShowValidationAlert = function(grupo, estagio, errorList) {
-          return grupo.estagiosRelacionados[estagio.id] ||
-            errorList.hasOwnProperty('associadoAoMenosAUmEstágio')
+        return grupo.estagiosRelacionados[estagio.id] || errorList.hasOwnProperty('associadoAoMenosAUmEstágio');
       };
 
       $scope.getErrosGrupoSemaforico = function(indiceAnel, grupo) {
