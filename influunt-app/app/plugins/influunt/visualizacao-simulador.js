@@ -161,8 +161,6 @@ var influunt;
             }
             grupoControles.add(botoes[botaoSpec.nome]);
           }); 
-                
-          botoes.pause.play("ON");
         }
    
         function botaoPlay(){
@@ -626,7 +624,7 @@ var influunt;
           if(!started && intervalosGroup.children.length > 0){
             repeater = game.time.events.repeat(1000, duracaoSimulacao, moveToLeft, this);
             started = true;
-            botaoPause.play("ON");
+            botoes.pause.play("ON");
           }
           // game.debug.cameraInfo(game.camera, 32, 32);
         }
