@@ -10,8 +10,8 @@
 
 angular.module('influuntApp')
 
-.controller('SimulacaoCtrl', ['$scope', '$controller', 'Restangular', 'influuntBlockui', 'HorariosService', 'influuntAlert', '$filter', 'handleValidations', '$stateParams',
-function ($scope, $controller, Restangular, influuntBlockui, HorariosService, influuntAlert, $filter, handleValidations, $stateParams) {
+.controller('SimulacaoCtrl', ['$scope', '$controller', 'Restangular', 'influuntBlockui', 'HorariosService', 'influuntAlert', '$filter', 'handleValidations', '$stateParams', 'MQTT_ROOT',
+function ($scope, $controller, Restangular, influuntBlockui, HorariosService, influuntAlert, $filter, handleValidations, $stateParams, MQTT_ROOT) {
 
   var loadControlador, atualizaDetectores, atualizaPlanos, iniciarSimulacao;
 
@@ -35,9 +35,9 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
 
     var now = new Date();
     $scope.inicioControlador = { time: new Date(0, 0, 0, 0, 0, 0), date: new Date(new Date().setHours(0,0,0,0)) };
-    
+
     $scope.inicioSimulacao = { time: new Date(0, 0, 0, 0, 0,0), date: new Date(new Date().setHours(0,0,0,0)) };
-    
+
     $scope.fimSimulacao = { time: new Date(0, 0, 0, 0, 5, 0), date: new Date(new Date().setHours(0,0,0,0)) };
 
     $scope.disparosDetectores = { disparos: [] };
@@ -226,7 +226,9 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
     var inicioSimulacao = moment(params.inicioSimulacao),
         fimSimulacao = moment(params.fimSimulacao),
         velocidade = params.velocidade;
-    return new influunt.components.Simulador(inicioSimulacao, fimSimulacao, velocidade, config);
+    return new influunt.components.Simulador(
+      inicioSimulacao, fimSimulacao, velocidade, config, MQTT_ROOT.url, MQTT_ROOT.port
+    );
   };
 
 }]);
