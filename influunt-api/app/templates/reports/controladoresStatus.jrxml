@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="controladoresStatus" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1e9d5627-c81e-4e40-8235-b391946f831d">
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2016-10-21T15:55:45 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="controladoresStatus" pageWidth="595" pageHeight="842" columnWidth="509" leftMargin="29" rightMargin="57" topMargin="29" bottomMargin="57" uuid="1e9d5627-c81e-4e40-8235-b391946f831d">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<parameter name="logoPath" class="java.io.InputStream"/>
 	<field name="status" class="java.lang.String">
 		<fieldDescription><![CDATA[status]]></fieldDescription>
@@ -13,29 +25,31 @@
 	<background>
 		<band splitType="Stretch"/>
 	</background>
-	<pageHeader>
-		<band height="142" splitType="Stretch">
-			<staticText>
-				<reportElement x="129" y="4" width="343" height="30" uuid="8353f64f-b29d-4a67-afd7-bde7e11848c8">
-					<property name="local_mesure_unity" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+	<title>
+		<band height="120">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<rectangle>
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="-29" y="-34" width="595" height="100" forecolor="#FFFFFF" backcolor="#2F4050" uuid="94ae0eb2-cea3-4342-a937-f9089d0308eb">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="16" isBold="true"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="0" width="503" height="33" forecolor="#FFFFFF" uuid="f30c0766-5680-44eb-ab02-5c0f4968d03d"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="18" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Relatório Controladores Por Status]]></text>
+				<text><![CDATA[RELATÓRIO DE CONTROLADORES POR STATUS]]></text>
 			</staticText>
-			<image onErrorType="Blank">
-				<reportElement x="17" y="4" width="100" height="100" uuid="a686b780-06c0-48d6-9840-2dc7935a8e4a"/>
-				<imageExpression><![CDATA[$P{logoPath}]]></imageExpression>
-			</image>
 		</band>
-	</pageHeader>
+	</title>
 	<summary>
-		<band height="268">
+		<band height="240">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<bar3DChart>
 				<chart>
-					<reportElement x="47" y="16" width="456" height="236" uuid="f001ecd9-9adb-4571-8ba6-b3bd6b4f89f2"/>
+					<reportElement isPrintRepeatedValues="false" x="40" y="0" width="456" height="240" uuid="b4d8560a-65de-47fb-a5ac-1882f27cba55">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>
