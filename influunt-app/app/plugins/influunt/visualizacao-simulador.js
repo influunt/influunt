@@ -12,8 +12,8 @@ var influunt;
 
         var quantidadeDeAneis = _.filter(config.aneis,function(a){return a.tiposGruposSemaforicos.length > 0;}).length;
         var duracaoSimulacao = (fimSimulacao.unix() - inicioSimulacao.unix()) / velocidade;
-        var imgVI = document.getElementById("modo_vi");
-        var imgAI = document.getElementById("modo_ai");        
+        var imgVI = document.getElementById('modo_vi');
+        var imgAI = document.getElementById('modo_ai');        
 
         var ALTURA_GRUPO = 25;
         var MARGEM_LATERAL = 956 ;
@@ -45,19 +45,19 @@ var influunt;
 
           switch(estado){
             case 'DESLIGADO':
-              return "#3d3d3d";
+              return '#3d3d3d';
             case 'VERDE':
-              return "#00ad4d";
+              return '#00ad4d';
             case 'AMARELO':
-              return "#fffb00";
+              return '#fffb00';
             case 'VERMELHO':
-              return "#ff1b00";
+              return '#ff1b00';
             case 'VERMELHO_INTERMITENTE':
-              return ctx.createPattern(imgVI,"repeat");
+              return ctx.createPattern(imgVI,'repeat');
             case 'AMARELO_INTERMITENTE':
-              return ctx.createPattern(imgAI,"repeat");
+              return ctx.createPattern(imgAI,'repeat');
             case 'VERMELHO_LIMPEZA':
-              return "#a31100";
+              return '#a31100';
             }
         }
         
@@ -72,14 +72,14 @@ var influunt;
         }
         
         function botaoOver(botao){
-          if(botao.animations.name === "ON"){
-            botao.play("HOVER");            
+          if(botao.animations.name === 'ON'){
+            botao.play('HOVER');            
           }
 
         }
         function botaoOut(botao){
-          if(botao.animations.name === "HOVER"){
-            botao.play("ON");            
+          if(botao.animations.name === 'HOVER'){
+            botao.play('ON');            
           }
         }
         function botaoFastBackward(){
@@ -111,20 +111,20 @@ var influunt;
         }
 
         function botaoPause(){
-          botoes.play.play("ON");
-          botoes.fastBackward.play("ON");
+          botoes.play.play('ON');
+          botoes.fastBackward.play('ON');
           botoes.fastBackward.inputEnabled = true;
           botoes.backward.inputEnabled = true;
           botoes.foward.inputEnabled = true;
           botoes.fastFoward.inputEnabled = true;          
 
-          botoes.backward.play("ON");
-          botoes.export.play("ON");          
-          botoes.log.play("ON");          
-          botoes.fastFoward.play("ON");                    
-          botoes.foward.play("ON");                              
-          botoes.play.play("ON");
-          botoes.pause.play("OFF");
+          botoes.backward.play('ON');
+          botoes.export.play('ON');          
+          botoes.log.play('ON');          
+          botoes.fastFoward.play('ON');                    
+          botoes.foward.play('ON');                              
+          botoes.play.play('ON');
+          botoes.pause.play('OFF');
 
           game.time.events.remove(repeater);
         }
@@ -134,20 +134,20 @@ var influunt;
           var inicio = 375, y = 10;
           
           [
-              {nome: "fastBackward",action: botaoFastBackward},
-              {nome: "backward",action: botaoBackward},            
-              {nome: "play",action: botaoPlay},            
-              {nome: "pause",action: botaoPause},            
-              {nome: "foward",action: botaoFoward},            
-              {nome: "fastFoward",action: botaoFastFoward},            
-              {nome: "log",action: botaoLog,incremento: 39},            
-              {nome: "export",action: botaoExport}
+              {nome: 'fastBackward',action: botaoFastBackward},
+              {nome: 'backward',action: botaoBackward},            
+              {nome: 'play',action: botaoPlay},            
+              {nome: 'pause',action: botaoPause},            
+              {nome: 'foward',action: botaoFoward},            
+              {nome: 'fastFoward',action: botaoFastFoward},            
+              {nome: 'log',action: botaoLog,incremento: 39},            
+              {nome: 'export',action: botaoExport}
           ].forEach(function(botaoSpec,index){
             botoes[botaoSpec.nome] = game.add.sprite(inicio ,y , 'controles');
             botoes[botaoSpec.nome].animations.add('HOVER', [index]);
             botoes[botaoSpec.nome].animations.add('OFF', [index + 8]);          
             botoes[botaoSpec.nome].animations.add('ON', [index + 16]);
-            botoes[botaoSpec.nome].animations.play("OFF");
+            botoes[botaoSpec.nome].animations.play('OFF');
             botoes[botaoSpec.nome].inputEnabled = false;            
             botoes[botaoSpec.nome].events.onInputOver.add(botaoOver,this);
             botoes[botaoSpec.nome].events.onInputOut.add(botaoOut,this);
@@ -164,18 +164,18 @@ var influunt;
         }
    
         function botaoPlay(){
-          botoes.pause.play("ON");
-          botoes.fastBackward.play("OFF");
+          botoes.pause.play('ON');
+          botoes.fastBackward.play('OFF');
           botoes.fastBackward.inputEnabled = false;
           botoes.backward.inputEnabled = false;    
           botoes.foward.inputEnabled = false;
           botoes.fastFoward.inputEnabled = false;                    
-          botoes.backward.play("OFF");
-          botoes.export.play("OFF");          
-          botoes.log.play("OFF");          
-          botoes.fastFoward.play("OFF");                    
-          botoes.foward.play("OFF");                              
-          botoes.play.play("OFF");
+          botoes.backward.play('OFF');
+          botoes.export.play('OFF');          
+          botoes.log.play('OFF');          
+          botoes.fastFoward.play('OFF');                    
+          botoes.foward.play('OFF');                              
+          botoes.play.play('OFF');
           repeater = game.time.events.repeat(1000, duracaoSimulacao - descolamentoMaximo, moveToLeft, this);
         }     
         function atualizaEstadosGruposSemaforicos(){
@@ -188,21 +188,21 @@ var influunt;
         
         function moveToLeft(){
           tempo += (velocidade);
-          relogio.setText(tempo + "s");
+          relogio.setText(tempo + 's');
           game.camera.x+=(10 * velocidade);
           atualizaEstadosGruposSemaforicos();          
         }        
 
         function moveToRight(){
           tempo = Math.max(0,tempo - velocidade);
-          relogio.setText(tempo + "s");
+          relogio.setText(tempo + 's');
           game.camera.x -= (velocidade * 10);
           atualizaEstadosGruposSemaforicos();          
         }        
 
 
         function loadMore(){
-            var message = new Paho.MQTT.Message("proxima");
+            var message = new Paho.MQTT.Message('proxima');
             message.destinationName = 'simulador/' + config.simulacaoId + '/proxima_pagina';
             client.send(message);
         }
@@ -213,7 +213,7 @@ var influunt;
           var h  = y2 - y1;
           var bmd = game.add.bitmapData(w,h);
 
-          bmd.ctx.lineWidth = "2";
+          bmd.ctx.lineWidth = '2';
           bmd.ctx.setLineDash([5, 1]);
           bmd.ctx.strokeStyle = color;
 
@@ -230,8 +230,8 @@ var influunt;
           bmd.ctx.closePath();
 
           bmd.ctx.fillStyle = color;
-          bmd.ctx.font = "12px Open Sans";
-          bmd.ctx.fillText((w/10) - 1 + "s", w/2, h/2 - 3);
+          bmd.ctx.font = '12px Open Sans';
+          bmd.ctx.fillText((w/10) - 1 + 's', w/2, h/2 - 3);
 
 
           bmd.render();
@@ -251,7 +251,7 @@ var influunt;
           var bmd = game.add.bitmapData(w,h);
 
 
-          bmd.ctx.lineWidth = "2";
+          bmd.ctx.lineWidth = '2';
           bmd.ctx.setLineDash([5, 5]);
           bmd.ctx.strokeStyle = color;
 
@@ -266,12 +266,12 @@ var influunt;
           bmd.ctx.arc(10,h/2 - 4,8,0,Math.PI*2,true);
           bmd.ctx.fill();
 
-          bmd.ctx.fillStyle = "#fff";
-          bmd.ctx.font = "8px Open Sans";
-          if(tipo === "ACIONAMENTO_DETECTOR_VEICULAR"){
-            label = "V" + label;
+          bmd.ctx.fillStyle = '#fff';
+          bmd.ctx.font = '8px Open Sans';
+          if(tipo === 'ACIONAMENTO_DETECTOR_VEICULAR'){
+            label = 'V' + label;
           }else{
-            label = "P" + label;
+            label = 'P' + label;
           }
           bmd.ctx.fillText(label, 5,h/2-1);
 
@@ -298,8 +298,8 @@ var influunt;
             }
           
             grupo.forEach(function(intervalo){
-              var limite = tempoInicio + intervalo[0] / 1000 + intervalo[1] / 1000;
-              for(var i = tempoInicio + intervalo[0] / 1000; i < limite; i++){
+              var limite = tempoInicio + (intervalo[0] / 1000) + (intervalo[1] / 1000);
+              for(var i = tempoInicio + (intervalo[0] / 1000); i < limite; i++){
                 estadoGrupoSemaforico[i] = estadoGrupoSemaforico[i] || {};
                 estadoGrupoSemaforico[i][grupoKey - 1] = intervalo[2];
               }
@@ -313,38 +313,38 @@ var influunt;
           });
 
           estagio.eventos.forEach(function(evento){
-            if(evento[1] === "ACIONAMENTO_DETECTOR_VEICULAR" || evento[1] === "PEDESTRE"){
-              desenhaDetector(parseInt(anel) - 1,x + evento[0] / 100,"#082536",evento[1],evento[2]);
-            }else if(evento[1] === "TROCA_DE_PLANO_NO_ANEL"){
+            if(evento[1] === 'ACIONAMENTO_DETECTOR_VEICULAR' || evento[1] === 'PEDESTRE'){
+              desenhaDetector(parseInt(anel) - 1,x + evento[0] / 100,'#082536',evento[1],evento[2]);
+            }else if(evento[1] === 'TROCA_DE_PLANO_NO_ANEL'){
               var x1 = (evento[4] - inicioSimulacao.unix() * 1000) / 100;
               var x2 = ((evento[5] - inicioSimulacao.unix() * 1000) / 100) + 10;
               var y1 = offsetDeAneis[evento[3]];
               var y2 = y1 + (config.aneis[anel - 1].tiposGruposSemaforicos.length * ALTURA_GRUPO) +
                                             config.aneis[anel - 1].tiposGruposSemaforicos.length - 1;
-              desenhaAgendamento(x1,x2,y1,y2,"#2603339");            
+              desenhaAgendamento(x1,x2,y1,y2,'#2603339');            
             }
           });
           
-          bmd.ctx.fillStyle = "#7788AA";
-          bmd.ctx.strokeStyle = "#426383";
+          bmd.ctx.fillStyle = '#7788AA';
+          bmd.ctx.strokeStyle = '#426383';
           bmd.ctx.fillRect(0,0,w,ALTURA_GRUPO);
-          bmd.ctx.lineWidth = "2";
+          bmd.ctx.lineWidth = '2';
           bmd.ctx.strokeRect(0,0,w,h);
-          bmd.ctx.textAlign = "left";
-          bmd.ctx.fillStyle = "#fff";
+          bmd.ctx.textAlign = 'left';
+          bmd.ctx.fillStyle = '#fff';
 
           if(estagio.estagio !== null){
-            bmd.ctx.font = "14px Open Sans";
-            bmd.ctx.fillText("E" + estagio.estagio, 5, 18);
+            bmd.ctx.font = '14px Open Sans';
+            bmd.ctx.fillText('E' + estagio.estagio, 5, 18);
           }
 
-          bmd.ctx.font = "10px Open Sans";
+          bmd.ctx.font = '10px Open Sans';
 
-          bmd.ctx.textAlign = "right";          
-          bmd.ctx.fillText((w /10.0) + "s", w - 5, 16);
+          bmd.ctx.textAlign = 'right';          
+          bmd.ctx.fillText((w /10.0) + 's', w - 5, 16);
 
-          bmd.ctx.lineWidth = "1";
-          bmd.ctx.strokeStyle = "#ccc";
+          bmd.ctx.lineWidth = '1';
+          bmd.ctx.strokeStyle = '#ccc';
           
           for(var i = 10; i < w; i+=10){
               bmd.ctx.beginPath();
@@ -419,8 +419,8 @@ var influunt;
           gruposSemaforicosGroup.add(grupoSemaforico.sprite);
           gruposSemaforicos[grupo] = grupoSemaforico;
     
-          var style = { font: "12px Open Sans", fill: "#000000" };
-          var text = game.add.text(36,y + 27, "G" + (grupo + 1), style);
+          var style = { font: '12px Open Sans', fill: '#000000' };
+          var text = game.add.text(36,y + 27, 'G' + (grupo + 1), style);
     
           text.fixedToCamera = true;
           text.anchor.set(0,1);
@@ -432,12 +432,8 @@ var influunt;
           var posicaoNoAnel = 0;
           tipos.forEach(function(tipo){
             
-            var y;
-            if(index + 1 === 1){
-              y = (index + 1 * ALTURA_GRUPO) + 1;
-            }else{
-              y = ((index + 1) * ALTURA_GRUPO) + (1 * (index + 1));
-            }
+            var y = ((index + 1) * ALTURA_GRUPO) + (1 * (index + 1));
+
             criaGrupoSemaforico(index, y + MARGEM_SUPERIOR + offset, tipo === 'VEICULAR');
             index++;
             offsetGrupo[index] = posicaoNoAnel++;
@@ -464,9 +460,9 @@ var influunt;
             bmd.ctx.fillRect(0,h - 2,1000,30);
           }
           
-          bmd.ctx.textAlign = "center";
-          bmd.ctx.fillStyle = "#fff";
-          bmd.ctx.font = "12px Open Sans";
+          bmd.ctx.textAlign = 'center';
+          bmd.ctx.fillStyle = '#fff';
+          bmd.ctx.font = '12px Open Sans';
           bmd.ctx.fillText(numero, 15, h/2 + 6);
           
           bmd.render();
@@ -479,15 +475,15 @@ var influunt;
         }
         
         function criaAnel(anel,index,indexAnel){
-          var offset =  parseInt(anel.numero) === 1 ? 0 : (anel.numero - 1) * ALTURA_GRUPO;
+          var offset = (anel.numero - 1) * ALTURA_GRUPO;
           var indexAtual = inicializaGrupos(anel.tiposGruposSemaforicos,index,offset);
           aneis[anel.numero] = {};
           aneis[anel.numero].inicio_grupo = index;
           aneis[anel.numero].fim_grupo = indexAtual - 1;
 
-          var corAnel = "#777777";
+          var corAnel = '#777777';
           if(parseInt(anel.numero) % 2 === 0){
-            corAnel = "#999999";
+            corAnel = '#999999';
           }
           var y1;
           var y2;
@@ -525,7 +521,7 @@ var influunt;
 
             bmd.ctx.closePath();
             bmd.ctx.beginPath();
-            bmd.ctx.lineWidth = "2";
+            bmd.ctx.lineWidth = '2';
             bmd.ctx.setLineDash([5, 1]);
             bmd.ctx.strokeStyle = color;
             bmd.ctx.moveTo(10,0);
@@ -535,13 +531,13 @@ var influunt;
             bmd.ctx.fillStyle = color;
             bmd.ctx.fillRect(0,0,20,20);
 
-            bmd.ctx.fillStyle = "#fff";
+            bmd.ctx.fillStyle = '#fff';
 
             if(label.length > 1){
-              bmd.ctx.font = "8px Open Sans";
+              bmd.ctx.font = '8px Open Sans';
               bmd.ctx.fillText(label, 5, 14);
             }else{
-              bmd.ctx.font = "12px Open Sans";
+              bmd.ctx.font = '12px Open Sans';
               bmd.ctx.fillText(label, 7, 15);
             }
 
@@ -554,7 +550,7 @@ var influunt;
         function processaPlanos(trocas){
           trocas.forEach(function(troca){
             var x = (troca[0] - (inicioSimulacao.unix() * 1000)) / 100;
-            desenhaPlano(x,"#260339",troca[2]);
+            desenhaPlano(x,'#260339',troca[2]);
           });
         }
         
@@ -592,7 +588,7 @@ var influunt;
           
           function onConnectionLost(responseObject) {
             if (responseObject.errorCode !== 0) {
-              console.log("onConnectionLost:"+responseObject.errorMessage);
+              console.log('onConnectionLost:'+responseObject.errorMessage);
             }
           }
 
@@ -601,19 +597,19 @@ var influunt;
           
           criaAneis();
     
-          var style = { font: "25px Open Sans", fill: "#666" };
-          relogio = game.add.text(1000,5, "0", style);
+          var style = { font: '25px Open Sans', fill: '#666' };
+          relogio = game.add.text(1000,5, '0', style);
     
           relogio.fixedToCamera = true;
           relogio.anchor.set(1,0);
 
-          style = { font: "15px Open Sans", fill: "#333" };
-          plano = game.add.text(10,40, "Plano Atual: 1", style);
+          style = { font: '15px Open Sans', fill: '#333' };
+          plano = game.add.text(10,40, 'Plano Atual: 1', style);
           plano.fixedToCamera = true;
           plano.anchor.set(0,1);
 
-          // style = { font: "15px Open Sans", fill: "#ff6700" };
-          // dataHora = game.add.text(500,20, "Seg, 27/09/2016 - 12:11:34", style);
+          // style = { font: '15px Open Sans', fill: '#ff6700' };
+          // dataHora = game.add.text(500,20, 'Seg, 27/09/2016 - 12:11:34', style);
           // dataHora.fixedToCamera = true;
           // dataHora.anchor.set(0.5);
           game.time.events.repeat(8000 / velocidade, Math.ceil(duracaoSimulacao / 120) + 1, loadMore, this);
@@ -624,7 +620,7 @@ var influunt;
           if(!started && intervalosGroup.children.length > 0){
             repeater = game.time.events.repeat(1000, duracaoSimulacao, moveToLeft, this);
             started = true;
-            botoes.pause.play("ON");
+            botoes.pause.play('ON');
           }
           // game.debug.cameraInfo(game.camera, 32, 32);
         }
@@ -646,11 +642,11 @@ var influunt;
      //
 
         // function desenhaAlerta(x,label){
-        //   desenhaPlano(x,"orange",label);
+        //   desenhaPlano(x,'orange',label);
         // }
         //
         // function desenhaFalha(x,label){
-        //   desenhaPlano(x,"#FFB4B6",label);
+        //   desenhaPlano(x,'#FFB4B6',label);
         // }
 
         game = new Phaser.Game(1000, 700, Phaser.AUTO, 'canvas', { preload: preload, create: create, render: render });
