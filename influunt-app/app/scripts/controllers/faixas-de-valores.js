@@ -27,6 +27,7 @@ angular.module('influuntApp')
         return Restangular.one(resourceName, '').customPUT($scope.objeto)
           .then(function() {
             $state.go('app.main');
+            toast.success($filter('translate')('geral.mensagens.salvo_com_sucesso'));
           })
           .catch(function(err) {
             if (err.status === 422) {
