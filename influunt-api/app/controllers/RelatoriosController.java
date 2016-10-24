@@ -71,15 +71,17 @@ public class RelatoriosController extends Controller {
         return CompletableFuture.completedFuture(ok(input).as(reportType.getContentType()));
     }
 
-    public CompletionStage<Result> gerarRelatoriControladoresEntreverdes() {
-        ReportType reportType = ReportType.valueOf(request().getQueryString("tipoRelatorio").toString());
+    public CompletionStage<Result> gerarRelatorioControladoresEntreverdes() {
+        ReportType reportType = ReportType.valueOf(request().getQueryString("tipoRelatorio"));
 
         Map<String, String[]> params = new HashMap<>();
         params.putAll(request().queryString());
         if (params.containsKey("tipoRelatorio")) {
             params.remove("tipoRelatorio");
         }
-        InfluuntQueryResult result = new InfluuntQueryBuilder(TabelaEntreVerdes.class, params).fetch(Arrays.asList("grupoSemaforico", "grupoSemaforico.anel", "grupoSemaforico.anel.controlador")).query();
+        params.put("sort", new String[]{"dataAtualizacao"});
+        params.put("sort_type", new String[]{"ASC"});
+        InfluuntQueryResult result = new InfluuntQueryBuilder(TabelaEntreVerdes.class, params).fetch(Arrays.asList("grupoSemaforico", "grupoSemaforico.anel", "grupoSemaforico.anel.endereco")).query();
         InputStream input = tabelaEntreverdesReportService.generateReport(request().queryString(), result.getResult(), reportType);
         return CompletableFuture.completedFuture(ok(input).as(reportType.getContentType()));
     }
