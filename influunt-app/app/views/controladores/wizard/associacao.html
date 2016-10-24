@@ -68,8 +68,8 @@
                                 </label>
                                 <p>{{ grupo.label }}</p>
                                 <span class="badge badge-danger badge-notification badge-associacao-estagio-grupo"
-                                  data-ng-show="grupoSemaforicoTemErro(currentAnelIndex, grupo) && grupo.estagiosRelacionados[estagio.id]"
                                   inf-tooltip
+                                  data-ng-show="grupoSemaforicoTemErro(currentAnelIndex, grupo) && shouldShowValidationAlert(grupo, estagio, getErrosGrupoSemaforico(currentAnelIndex, grupo))"
                                   messages="getErrosGrupoSemaforico(currentAnelIndex, grupo)">
                                   <i class="fa fa-exclamation"></i>
                                 </span>

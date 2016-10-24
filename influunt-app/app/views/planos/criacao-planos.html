@@ -127,7 +127,7 @@
                                   <aside>
                                     <div class="form-group">
                                       <label>{{'planos.modoOperacao' | translate}}</label>
-                                      <span class="form-control" data-ng-if="currentPlano.modoOperacao === 'MANUAL'">{{ 'planos.modoManual' | translate }}</span>
+                                      <input type="text" class="form-control" data-ng-model="currentPlano.modoOperacao" disabled="disabled" readonly="readonly" data-ng-if="currentPlano.modoOperacao === 'MANUAL'">
                                       <select class="form-control" name="modoOperacao" data-ng-model="currentPlano.modoOperacao" data-ng-change="onChangeModoOperacao()" ng-disabled="somenteVisualizacao" data-ng-if="currentPlano.modoOperacao != 'MANUAL'">
                                         <option value="ATUADO">
                                           {{'planos.modosOperacao.atuado' | translate}}

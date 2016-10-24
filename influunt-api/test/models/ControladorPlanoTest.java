@@ -867,7 +867,7 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "A sequência de estágios não é válida, pois existe uma transição proibida devido a não execução do estágio dispensável.", "aneis[0].versoesPlanos[0].planos[0].sequenciaInvalidaSeExisteEstagioDispensavel")
+                new Erro(CONTROLADOR, "A sequência de estágios não é válida, pois existe uma transição proibida devido à não execução do estágio dispensável.", "aneis[0].versoesPlanos[0].planos[0].sequenciaInvalidaSeExisteEstagioDispensavel")
         ));
     }
 

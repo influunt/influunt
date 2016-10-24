@@ -149,10 +149,26 @@ angular.module('influuntApp')
         return _.isObject(errors) && Object.keys(errors).length > 0;
       };
 
+      /**
+       * Deverá mostrar o alert de erros somente se houver uma validação do tipo "associadoAoMenosAUmEstágio"
+       * ou a validações que se refiram diretamente à relação entre estágio e grupo semafórico, por exemplo,
+       * "isNaoDevePossuirGruposSemaforicosConflitantes".
+       *
+       * @param      {<type>}  grupoSemaforico  The grupo semaforico
+       * @param      {<type>}  estagio          The estagio
+       * @param      {<type>}  errorList        The error list
+       * @return     {<type>}  { description_of_the_return_value }
+       */
+      $scope.shouldShowValidationAlert = function(grupo, estagio, errorList) {
+        return grupo.estagiosRelacionados[estagio.id] || errorList.hasOwnProperty('associadoAoMenosAUmEstágio');
+      };
+
       $scope.getErrosGrupoSemaforico = function(indiceAnel, grupo) {
-        var indiceGrupo = _.findIndex($scope.currentAnel.gruposSemaforicos, {idJson: grupo.idJson});
-        var errors = _.get($scope.errors, 'aneis[' + indiceAnel + '].gruposSemaforicos[' + indiceGrupo + ']');
-        return errors;
+        if ($scope.errors) {
+          var indiceGrupo = _.findIndex($scope.currentAnel.gruposSemaforicos, {idJson: grupo.idJson});
+          var errors = _.get($scope.errors, 'aneis[' + indiceAnel + '].gruposSemaforicos[' + indiceGrupo + ']');
+          return errors;
+        }
       };
 
       $scope.getErrosAneis = function(listaErros) {
