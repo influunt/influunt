@@ -14,7 +14,7 @@
         <p ng-show="loginForm.senha.$invalid && (!loginForm.senha.$pristine || submited)" class="help-block error-msg">{{ 'geral.campo_obrigatorio' | translate }}</p>
       </div>
 
-      <check-browser required="browsersRequired" rejected="browsersbrowsersRejected"></check-browser>
+      <check-browser required="browsersRequired" rejected="browsersRejected"></check-browser>
       <button type="submit" class="btn btn-primary block full-width m-b" id="acessar" >{{ 'login.acessar' | translate }}</button>
       <a ui-sref="recuperar_senha"><small>{{ 'login.esqueceu_sua_senha' | translate }}</small></a>
     </form>
