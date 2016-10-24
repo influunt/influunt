@@ -10,8 +10,8 @@
 
 angular.module('influuntApp')
 
-.controller('SimulacaoCtrl', ['$scope', '$controller', 'Restangular', 'influuntBlockui', 'HorariosService', 'influuntAlert', '$filter', 'handleValidations', '$stateParams',
-function ($scope, $controller, Restangular, influuntBlockui, HorariosService, influuntAlert, $filter, handleValidations, $stateParams) {
+.controller('SimulacaoCtrl', ['$scope', '$controller', 'Restangular', 'influuntBlockui', 'HorariosService', 'influuntAlert', '$filter', 'handleValidations', '$stateParams', 'MQTT_ROOT',
+function ($scope, $controller, Restangular, influuntBlockui, HorariosService, influuntAlert, $filter, handleValidations, $stateParams, MQTT_ROOT) {
 
   var loadControlador, atualizaDetectores, atualizaPlanos, iniciarSimulacao, getTimeStr;
 
@@ -227,7 +227,9 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
     var inicioSimulacao = moment(params.inicioSimulacao),
         fimSimulacao = moment(params.fimSimulacao),
         velocidade = params.velocidade;
-    return new influunt.components.Simulador(inicioSimulacao, fimSimulacao, velocidade, config);
+    return new influunt.components.Simulador(
+      inicioSimulacao, fimSimulacao, velocidade, config, MQTT_ROOT.url, MQTT_ROOT.port
+    );
   };
 
 }]);
