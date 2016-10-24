@@ -64,10 +64,6 @@ public class IntervaloGrupoSemaforico {
     private void loadEstados() {
         estados = new HashMap<>();
 
-        if (duracaoEntreverde == 3000) {
-            System.out.println("teste");
-        }
-
         if (estagioPlanoAnterior != null &&
                 !estagioPlanoAnterior.getPlano().isModoOperacaoVerde()){
 

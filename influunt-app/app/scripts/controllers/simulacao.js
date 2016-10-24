@@ -53,10 +53,8 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
   };
 
   loadControlador = function(controladorId) {
-    console.log('vai loadar controlador. ID: ', controladorId)
     return Restangular.one('controladores', controladorId).customGET('simulacao')
       .then(function(response) {
-        console.log('response: ', response)
         $scope.controlador = response;
         $scope.controlador.aneis = _.orderBy($scope.controlador.aneis, 'posicao');
         _.forEach($scope.controlador.aneis, function(anel) {
@@ -68,7 +66,6 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
             plano.nome = 'Plano ' + plano.posicao;
           });
         });
-        console.log('$scope.controlador', $scope.controlador)
         atualizaDetectores($scope.controlador);
         atualizaPlanos($scope.controlador);
       }).finally(influuntBlockui.unblock);
