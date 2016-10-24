@@ -39,7 +39,8 @@ var CrudPage = function () {
     'Hora':                            '[name="planoHora"]',
     'Minuto':                          '[name="planoMinuto"]',
     'Segundo':                         '[name="planoSegundo"]',
-    'Plano':                           '[name="posicaoPlano"]'
+    'Plano':                           '[name="posicaoPlano"]',
+    'Nome Perfil':                     '[name="perfil_nome"]'
   };
 
   this.toastMessage = function() {

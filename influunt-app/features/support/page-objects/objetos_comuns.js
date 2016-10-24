@@ -12,6 +12,10 @@ var ObjetosComuns = function () {
     return world.execSqlScript('features/support/scripts/controladores/plano_controlador.sql');
   };
 
+  this.controladoresAreasDiferentes = function() {
+    return world.execSqlScript('features/support/scripts/controladores/controladores_por_areas.sql');
+  };
+
   this.clicarLinkNovo = function() {
     return world.waitForOverlayDisappear().then(function (){
       return world.getElement('i[class="fa fa-plus"]').click();
@@ -84,6 +88,24 @@ var ObjetosComuns = function () {
     });
   };
 
+  this.deslogar = function(){
+    return world.waitForOverlayDisappear().then(function() {
+      return world.waitForToastMessageDisapear().then(function() {
+        return world.getElement('i.fa-sign-out').click();
+      });
+    });
+  };
+
+  this.logarNoSistema = function(createSqlpath, user, password){
+    return world.logar(createSqlpath, user, password);
+  };
+
+  this.navegarBreadcrumb = function(opcao){
+    return world.waitForOverlayDisappear().then(function() {
+      return world.getElementByXpath('//li[contains(@data-ng-repeat, "breadcrumb")]//a[contains(text(), "'+opcao+'")]').click();
+    });
+  };
+
   this.isIndexPage = function() {
     var novoControladorButton = 'a[ui-sref="app.wizard_controladores.dados_basicos"]';
     return world.waitFor(novoControladorButton);
@@ -95,6 +117,12 @@ var ObjetosComuns = function () {
 
   this.isDiagramaIntermitente = function() {
     return world.waitFor('div#visualization div.vis-foreground div.indicacao-intermitente');
+  };
+
+  this.checarTotalInseridosNaTabela = function(quantidade) {
+    return world.sleep(300).then(function(){
+      return world.countTableSize(quantidade);
+    });
   };
 
   this.verifyDiagramaValues = function(indexGrupo, indicacaoCor, tempo) {
@@ -110,6 +138,17 @@ var ObjetosComuns = function () {
 
   this.alertInfluuntKnob = function() {
     return world.getTextInSweetAlert();
+  };
+
+  this.getErrorMessageFor = function(campo) {
+    world.sleep(400);
+    return world.waitFor('[name="'+campo+'"] + p[class*="error-msg"]').then(function() {
+      return world.getElement('[name="'+campo+'"] + p[class*="error-msg"]').getText();
+    });
+  };
+
+  this.form = function(nameForm) {
+    return world.getElement('form[name="form'+nameForm+'"]');
   };
 };
 

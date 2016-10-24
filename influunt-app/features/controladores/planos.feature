@@ -165,6 +165,7 @@ Funcionalidade: Fluxo de cadastro de planos
     Então o sistema deve mostrar o diagrama "Coordenado" no grupo "G3" com "indicacao-vermelho-intermitente" em "3s" segundos
     Então o sistema deve mostrar o diagrama "Coordenado" no grupo "G3" com "indicacao-vermelho" em "34s" segundos
     Então o sistema deve mostrar o diagrama "Coordenado" no grupo "G3" com "indicacao-verde" em "13s" segundos
+    E o usuário realize um scroll up
     E que o usuário selecione o anel 2
     E que o usuário clicar no plano 2
     E que o usuário clique no botão de configurar o estágio "E1"
@@ -274,6 +275,7 @@ Funcionalidade: Fluxo de cadastro de planos
     E que o usuário marque 11 segundos para o "TEMPO DE VERDE INTERMEDIÁRIO"
     E que o usuário marque 5 segundos para o "EXTENSÃO DE VERDE"
     E que o usuário clique no botão de fechar a caixa de configuração
+    E o usuário realize um scroll up
     Dado que o usuário selecione o anel 2
     E que o usuário clicar no plano 5
     E que o usuário selecione o modo de operação "Atuado"

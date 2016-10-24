@@ -26,12 +26,6 @@ module.exports = function() {
     return objetosComuns.clicarLinkNovo();
   });
 
-  this.Given(/^o sistema deverá redirecionar para o formulário de Cadastro de novas Áreas$/, function() {
-    return areasPage.formAreas().then(function(form) {
-      return expect(form).to.exist;
-    });
-  });
-
   this.Given(/^o usuário acessar a tela de cadastro de novas áreas$/, function() {
     return areasPage.newPage();
   });
@@ -92,12 +86,6 @@ module.exports = function() {
   this.Given(/^nenhuma área deve ser excluída$/, function() {
     return areasPage.nenhumaAreaDeveSerExcluida().then(function(res) {
       return expect(res).to.be.true;
-    });
-  });
-
-  this.Given(/^o sistema deverá indicar erro no campo "([^"]*)"$/, function (campo) {
-    return areasPage.getErrorMessageFor(campo).then(function(result) {
-      return expect(result).to.exist;
     });
   });
 

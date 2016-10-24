@@ -7,6 +7,10 @@ DELETE FROM `permissoes_app_permissoes`;
 DELETE FROM `perfis`;
 DELETE FROM `usuarios`;
 
+-- Set @AreaId = (SELECT m.id FROM AREAS m WHERE m.descricao = '1');
+
+SELECT @AreaId = id FROM areas WHERE descricao = '1';
+
 
 -- Perfis / Permissões
 Set @PerfilAdministradorId = RANDOM_UUID();
@@ -20,7 +24,7 @@ INSERT into `perfis` (`id`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (
 
 -- # Usuario Mobilab
 INSERT INTO `usuarios` (`id`, `login`, `senha`, `email`, `nome`, `root`, `area_id`, `perfil_id`, `data_criacao`, `data_atualizacao`) VALUES
-                       (RANDOM_UUID(), 'mobilab', '$2a$10$bfiF2TyTirIyEh6AmWK1huI5.ol0.OxBC3hM9a7Nrc2x9TM.SBooG', 'mobilab@mobilab.com.br', 'Mobilab',             false, @AreaId, @PerfilAdministradorId, NOW(), NOW()),
+                       ('90574f0a-cd7b-477c-9fa6-98c426813ea8', 'mobilab', '$2a$10$bfiF2TyTirIyEh6AmWK1huI5.ol0.OxBC3hM9a7Nrc2x9TM.SBooG', 'mobilab@mobilab.com.br', 'Mobilab',             false, @AreaId, @PerfilAdministradorId, NOW(), NOW()),
                        ('2f0e0547-3135-428b-8f6d-0a1098eca0a5', 'root',    '$2a$10$EzudGIqkxquJjLGawuMrOu9K6S28yc/R/YSAVxsvb5bSryOYWd5eq', 'root@influunt.com.br',   'Administrador Geral', true,  @AreaId, @PerfilAdministradorId, NOW(), NOW());
 
 
@@ -43,6 +47,8 @@ SET @criarTabelaHorariaId = RANDOM_UUID();
 INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@criarTabelaHorariaId, 'criarTabelaHoraria', '[Programação] Criar Tabelas Horárias', NOW(), NOW());
 SET @CriarAgrupamentoId = RANDOM_UUID();
 INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@CriarAgrupamentoId, 'criarAgrupamentos', '[Agrupamentos] - Criar Agrupamentos', NOW(), NOW());
+SET @DefinirPermissoesId = RANDOM_UUID();
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@DefinirPermissoesId, 'definirPermissoes', '[Perfis] - Definir as permissões dos perfis', NOW(), NOW());
 
 
 -- # CRUD Cidades
@@ -405,45 +411,43 @@ INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VAL
 Set @PermissaoId = RANDOM_UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/perfis', '[Perfil] - Listar Perfis', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
--- INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'listarPerfis', '[Perfis] - Listar Perfis', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'listarPerfis', '[Perfis] - Ver a lista de Perfis', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@DefinirPermissoesId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'POST /api/v1/perfis', '[Perfil] - Criar Novo Perfil', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
--- INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
+-- INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@DefinirPermissoesId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
 INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'criarPerfis', '[Perfis] - Criar Perfis', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
+-- INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@DefinirPermissoesId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'PUT /api/v1/perfis/$id<[^/]+>', '[Perfil] - Editar Perfil', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
--- INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
+-- INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@DefinirPermissoesId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
 INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'editarPerfis', '[Perfis] - Editar Perfis', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
+-- INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@DefinirPermissoesId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/perfis/$id<[^/]+>', '[Perfil] - Exibir Perfil', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
--- INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
 INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'visualizarPerfis', '[Perfis] - Ver Detalhes de Perfis', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
+-- INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@DefinirPermissoesId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'DELETE /api/v1/perfis/$id<[^/]+>', '[Perfil] - Remover Perfil', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
--- INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'removerPerfis', '[Perfis] - Remover Perfis', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'removerPerfis', '[Perfis] - Excluir Perfis', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
-
-
-
 
 -- # CRUD Permissões
 
@@ -693,24 +697,23 @@ INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEng
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@criarPlanosId, @PermissaoId);
 
 
-
 -- #Tabela Horária
 
 Set @PermissaoId = RANDOM_UUID();
-INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'POST /api/v1/tabela_horarios', '[Controladores] - Visualizar Tabela Horária', NOW(), NOW());
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'POST /api/v1/tabelas_horarias', '[Controladores] - Visualizar Tabela Horária', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@criarTabelaHorariaId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
-INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/tabela_horarios/$id<[^/]+>/timeline', '[Tabela Horária] - Visualizar Histórico de Tabela Horária', NOW(), NOW());
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/tabelas_horarias/$id<[^/]+>/timeline', '[Tabela Horária] - Visualizar Histórico de Tabela Horária', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@verTabelaHorariaId, @PermissaoId);
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@criarTabelaHorariaId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
-INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'DELETE /api/v1/tabela_horarios/$id<[^/]+>/cancelar_edicao', '[Tabela Horária] - Cancelar edição', NOW(), NOW());
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'DELETE /api/v1/tabelas_horarias/$id<[^/]+>/cancelar_edicao', '[Tabela Horária] - Cancelar edição', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@criarTabelaHorariaId, @PermissaoId);

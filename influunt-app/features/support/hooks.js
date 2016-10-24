@@ -24,30 +24,12 @@ var myHooks = function () {
 
 
   this.registerHandler('BeforeFeatures', function () {
-    return world.execScript('curl -XPOST localhost:9000/api/v1/cucumber').then(function(){
-      return world.execSqlScript('features/support/scripts/create_usuario.sql');
-    }).then(function () {
-      return world.visit('/login');
-    }).then(function () {
-      world.sleep(1000);
-      return world.setValue('input[name="usuario"]', 'root');
-    }).then(function () {
-      return world.setValue('input[name="senha"]', '1234');
-    }).then(function () {
-      return world.clickButton('#acessar');
-    }).then(function () {
-      return world.waitFor('a.navbar-brand');
-    }).catch(function(ex) {
-      console.log('ERRO: ', ex);
-      throw new Error(ex);
-    });
+    return world.logar('create_usuario', 'mobilab', 'mobilab');
   });
 
   this.registerHandler('AfterFeatures', function () {
     return driver.quit();
   });
-
-
 
   if (trackMouseMovement) {
     this.registerHandler('BeforeFeatures', function () {
