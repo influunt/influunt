@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  */
 public class SimuladorActor extends UntypedActor {
 
-    private final static int SEGUNDOS_POR_PAGINA = 120;
+    private final static int SEGUNDOS_POR_PAGINA = 300;
 
     private final ParametroSimulacao params;
 
