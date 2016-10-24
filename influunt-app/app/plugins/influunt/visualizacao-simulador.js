@@ -117,7 +117,8 @@ var influunt;
           botoes.backward.inputEnabled = true;
           botoes.foward.inputEnabled = true;
           botoes.fastFoward.inputEnabled = true;
-
+          botoes.play.inputEnabled = true;
+          
           botoes.backward.play('ON');
           botoes.export.play('ON');
           botoes.log.play('ON');
@@ -608,10 +609,6 @@ var influunt;
           plano.fixedToCamera = true;
           plano.anchor.set(0,1);
 
-          // style = { font: '15px Open Sans', fill: '#ff6700' };
-          // dataHora = game.add.text(500,20, 'Seg, 27/09/2016 - 12:11:34', style);
-          // dataHora.fixedToCamera = true;
-          // dataHora.anchor.set(0.5);
           game.time.events.repeat(8000 / velocidade, Math.ceil(duracaoSimulacao / 120) + 1, loadMore, this);
 
         }
@@ -621,33 +618,9 @@ var influunt;
             repeater = game.time.events.repeat(1000, duracaoSimulacao, moveToLeft, this);
             started = true;
             botoes.pause.play('ON');
+            botoes.pause.inputEnabled = true;
           }
-          // game.debug.cameraInfo(game.camera, 32, 32);
         }
-
-
-
-
-
-
-        //TODO: Habilitar Na proxima versao
-        // function desenhaEventoMudancaPlano(evento){
-     //      desenhaPlano(evento.timestamp,'blue',evento.planoAtual);
-     //    }
-     //    function desenhaEventoAgendamentoTrocaDePlano(evento){
-     //      var y1 = (aneis[evento.anel].inicio_grupo * ALTURA_GRUPO) + (aneis[evento.anel].inicio_grupo * 1);
-     //      var y2 = ((aneis[evento.anel].fim_grupo + 1) * ALTURA_GRUPO + ((aneis[evento.anel].fim_grupo + 1) * 1));
-     //      desenhaAgendamento(evento.timestamp * 10,(evento.momentoTroca * 10) + 10,y1 + 15,y2 + 15,'blue');
-     //    }
-     //
-
-        // function desenhaAlerta(x,label){
-        //   desenhaPlano(x,'orange',label);
-        // }
-        //
-        // function desenhaFalha(x,label){
-        //   desenhaPlano(x,'#FFB4B6',label);
-        // }
 
         game = new Phaser.Game(1000, 700, Phaser.AUTO, 'canvas', { preload: preload, create: create, render: render });
       }

@@ -85,7 +85,7 @@ public class ParametroSimulacao {
     }
 
     public void setInicioControlador(DateTime inicioControlador) {
-        this.inicioControlador =  inicioControlador.minus(inicioControlador.millisOfSecond().get());
+        this.inicioControlador =  inicioControlador;
     }
 
     public DateTime getInicioSimulacao() {
@@ -93,7 +93,7 @@ public class ParametroSimulacao {
     }
 
     public void setInicioSimulacao(DateTime inicioSimulacao) {
-        this.inicioSimulacao = inicioSimulacao.minus(inicioSimulacao.millisOfSecond().get());
+        this.inicioSimulacao = inicioSimulacao;
     }
 
     public DateTime getFimSimulacao() {
