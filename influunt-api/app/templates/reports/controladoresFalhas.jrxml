@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2016-10-21T17:24:29 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="controladoresFalhas" pageWidth="595" pageHeight="842" columnWidth="509" leftMargin="29" rightMargin="57" topMargin="29" bottomMargin="57" uuid="d37bb7a8-ed99-4975-9e05-5f4b9c6db74f">
+<!-- 2016-10-24T19:34:36 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="controladoresFalhas" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="509" leftMargin="29" rightMargin="57" topMargin="29" bottomMargin="57" uuid="d37bb7a8-ed99-4975-9e05-5f4b9c6db74f">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
