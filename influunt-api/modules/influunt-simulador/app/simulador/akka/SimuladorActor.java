@@ -1,7 +1,8 @@
 package simulador.akka;
 
 import akka.actor.UntypedActor;
-import engine.AgendamentoTrocaPlano;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import engine.IntervaloGrupoSemaforico;
 import models.Evento;
 import models.simulador.parametros.ParametroSimulacao;
@@ -10,11 +11,13 @@ import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.joda.time.DateTime;
+import play.libs.Json;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static play.libs.Json.newObject;
 
 /**
  * Created by rodrigosol on 10/4/16.
@@ -35,7 +38,7 @@ public class SimuladorActor extends UntypedActor {
 
     private HashMap<Integer, List<Pair<DateTime, IntervaloGrupoSemaforico>>> estagios = new HashMap();
 
-    private List<AgendamentoTrocaPlano> trocasDePlanos;
+    private List<ArrayNode> trocasDePlanos = new ArrayList<>();
 
     private String jsonTrocas;
 
@@ -100,40 +103,35 @@ public class SimuladorActor extends UntypedActor {
     }
 
     public String getJson() {
+        ObjectNode root = newObject();
+        ObjectNode aneis = root.putObject("aneis");
 
-        StringBuffer sb = new StringBuffer("\"estagios\":{");
-        String sbAnel = estagios.keySet().stream().map(key -> {
+        estagios.keySet().stream().forEach(key -> {
+            ArrayNode anelArray = aneis.putArray(key.toString());
+            estagios.get(key).stream().forEach(e -> {
+                 anelArray.add(e.getSecond().toJson(e.getFirst().minus(params.getInicioSimulacao().getMillis())));
+            });
+        });
+        ArrayNode trocas = root.putArray("trocas");
+        trocasDePlanos.forEach(troca -> trocas.add(troca));
 
-            String buffer = estagios.get(key).stream().map(e -> {
-                return e.getSecond().toJson(e.getFirst().minus(params.getInicioSimulacao().getMillis()));
-            }).collect(Collectors.joining(",")) + "]";
 
-            return "\"" + key.toString() + "\":[" + buffer;
-        }).collect(Collectors.joining(","));
-
-        return "{\"aneis\":{" + sbAnel.toString() + "},\"trocas\":[" + bufferTrocaDePlanos.toString() + "]}";
+        return root.toString();
     }
 
 
     public void storeTrocaDePlano(DateTime timestamp, Evento eventoAnterior, Evento eventoAtual) {
+        ArrayNode troca = Json.newArray();
 
-        if(bufferTrocaDePlanos != null){
-            bufferTrocaDePlanos.append(",");
-        }else{
-            bufferTrocaDePlanos = new StringBuffer();
-        }
+        troca.add(timestamp.getMillis());
 
-        bufferTrocaDePlanos.append("[");
-        bufferTrocaDePlanos.append(timestamp.getMillis());
-        bufferTrocaDePlanos.append(",");
         if(eventoAnterior!=null) {
-            bufferTrocaDePlanos.append(eventoAnterior.getPosicaoPlano());
+            troca.add(eventoAnterior.getPosicaoPlano());
         }else{
-            bufferTrocaDePlanos.append("null");
+            troca.add("null");
         }
-        bufferTrocaDePlanos.append(",");
-        bufferTrocaDePlanos.append(eventoAtual.getPosicaoPlano());
-        bufferTrocaDePlanos.append("]");
+        troca.add(eventoAtual.getPosicaoPlano());
+        trocasDePlanos.add(troca);
 
     }
 }

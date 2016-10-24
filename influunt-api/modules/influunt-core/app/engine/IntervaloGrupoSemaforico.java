@@ -1,18 +1,19 @@
 package engine;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;
 import com.google.common.collect.TreeRangeMap;
 import models.*;
 import org.joda.time.DateTime;
+import play.libs.Json;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import static org.asynchttpclient.ws.WebSocketUtils.getKey;
 
 public class IntervaloGrupoSemaforico {
 
@@ -245,102 +246,72 @@ public class IntervaloGrupoSemaforico {
         return estados;
     }
 
-    public String toJson(DateTime timeStamp) {
-        StringBuffer sb = new StringBuffer("{\"w\":");
-        sb.append(duracao);
-        sb.append(",\"x\":");
-        sb.append(timeStamp.getMillis());
-        sb.append(",\"estagio\":");
-        sb.append(estagioPlano.getEstagio().getPosicao());
-        sb.append(",\"grupos\":{");
+    public ObjectNode toJson(DateTime timeStamp) {
+        ObjectNode root = Json.newObject();
+        root.put("w",duracao);
+        root.put("x",timeStamp.getMillis());
+        root.put("estagio",estagioPlano.getEstagio().getPosicao());
+        ObjectNode grupos = root.putObject("grupos");
 
         List<String> gruposBuffer = new ArrayList<String>();
 
         estados.keySet().stream().forEach(key -> {
+            ArrayNode grupo = grupos.putArray(key.toString());
 
             StringBuffer sbGrupo = new StringBuffer("\"" + key + "\":[");
 
-            String buffer = estados.get(key).asMapOfRanges().entrySet().stream().map(entry -> {
-                final Long w = entry.getKey().upperEndpoint() - entry.getKey().lowerEndpoint();
-                return "["
-                        .concat(entry.getKey().lowerEndpoint().toString())
-                        .concat(",")
-                        .concat(w.toString())
-                        .concat(",\"").concat(entry.getValue().toString())
-                        .concat("\"]");
-            }).collect(Collectors.joining(","));
-
-            sbGrupo.append(buffer);
-            sbGrupo.append("]");
-            gruposBuffer.add(sbGrupo.toString());
+            estados.get(key).asMapOfRanges().entrySet().stream().forEach(entry -> {
+                ArrayNode fields = grupo.addArray();
+                fields.add(entry.getKey().lowerEndpoint().toString());
+                fields.add(entry.getKey().upperEndpoint() - entry.getKey().lowerEndpoint());
+                fields.add(entry.getValue().toString());
+            });
         });
-        sb.append(gruposBuffer.stream().collect(Collectors.joining(",")));
-        sb.append("}");
-        sb.append(",\"eventos\":[");
+
+        ArrayNode eventos = root.putArray("eventos");
 
         if(entreverde!=null) {
-            sb.append(parseEventos(entreverde));
+            parseEventos(entreverde,eventos);
+
         }
 
-        sb.append(parseEventos(verde));
+        parseEventos(verde, eventos);
 
-        sb.append("]");
-
-        sb.append("}");
-
-        return sb.toString();
+        return root;
     }
 
-    private String parseEventos(IntervaloEstagio intervalo) {
-        return intervalo.getEventos().entrySet().stream().map(entry -> {
-            StringBuffer sbInner = new StringBuffer();
-            sbInner.append(entry.getValue().stream().map(eventoMotor -> {
-                StringBuffer eventosSb = new StringBuffer("[");
+    private void parseEventos(IntervaloEstagio intervalo, ArrayNode eventos) {
+        ArrayNode fields = eventos.addArray();
+        intervalo.getEventos().entrySet().stream().forEach(entry -> {
+            entry.getValue().stream().forEach(eventoMotor -> {
                 switch (eventoMotor.getTipoEvento()){
                     case ACIONAMENTO_DETECTOR_PEDESTRE:
                     case ACIONAMENTO_DETECTOR_VEICULAR:
-                        eventosSb.append(parseEventoDetector(eventoMotor,entry));
+                        parseEventoDetector(eventoMotor,entry,fields);
                          break;
                     case TROCA_DE_PLANO_NO_ANEL:
-                        eventosSb.append(parseEventoTrocaPlano(eventoMotor,entry));
+                        parseEventoTrocaPlano(eventoMotor,entry,fields);
                         break;
 
                 }
-                return eventosSb.toString();
-            }).collect(Collectors.joining(",")));
-            return sbInner.toString();
-        }).collect(Collectors.joining(","));
+            });
+        });
     }
 
-    private String parseEventoTrocaPlano(EventoMotor eventoMotor, Map.Entry<Long, List<EventoMotor>> entry) {
-        StringBuffer sb = new StringBuffer();
-        sb.append(entry.getKey());
-        sb.append(",\"");
-        sb.append(eventoMotor.getTipoEvento().toString());
-        sb.append("\",");
-        sb.append(eventoMotor.getParams()[0].toString());
-        sb.append(",");
-        sb.append(eventoMotor.getParams()[1].toString());
-        sb.append(",");
-        sb.append(((DateTime)eventoMotor.getParams()[2]).getMillis());
-        sb.append(",");
-        sb.append(((DateTime)eventoMotor.getParams()[3]).getMillis());
+    private void parseEventoTrocaPlano(EventoMotor eventoMotor, Map.Entry<Long, List<EventoMotor>> entry, ArrayNode fields) {
 
-        sb.append("]");
-
-        return sb.toString();
+        fields.add(entry.getKey());
+        fields.add(eventoMotor.getTipoEvento().toString());
+        fields.add(eventoMotor.getParams()[0].toString());
+        fields.add(eventoMotor.getParams()[1].toString());
+        fields.add(((DateTime)eventoMotor.getParams()[2]).getMillis());
+        fields.add(((DateTime)eventoMotor.getParams()[3]).getMillis());
     }
 
-    private String parseEventoDetector(EventoMotor eventoMotor, Map.Entry<Long, List<EventoMotor>> entry) {
-        StringBuffer sb = new StringBuffer();
-        sb.append(entry.getKey());
-        sb.append(",\"");
-        sb.append(eventoMotor.getTipoEvento().toString());
-        sb.append("\",");
-        sb.append(((Detector)eventoMotor.getParams()[0]).getPosicao());
-        sb.append("]");
-
-        return sb.toString();
+    private void parseEventoDetector(EventoMotor eventoMotor, Map.Entry<Long, List<EventoMotor>> entry, ArrayNode fields) {
+        fields.add(entry.getKey());
+        fields.add(eventoMotor.getTipoEvento().toString());
+        fields.add(((Detector)eventoMotor.getParams()[0]).getPosicao());
     }
 
 }
