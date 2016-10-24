@@ -35,13 +35,10 @@ var influunt;
         var relogio;
         var plano;
         var aneis = {};
-        var dataHora = {};
         var client;
         var repeater;
         var started = false;
-        var botaoPlay, botaoPause, botaoBackward, 
-            botaoFoward, botaoFastBackward, botaoFastFoward,
-            botaoLog, botaoExport;
+        var botoes = {};
 
 
         function decodeEstado(estado,ctx){
@@ -74,177 +71,115 @@ var influunt;
           game.load.start();
         }
         
-        function controleOver(botao){
+        function botaoOver(botao){
           if(botao.animations.name === "ON"){
             botao.play("HOVER");            
           }
 
         }
-        function controleOut(botao){
+        function botaoOut(botao){
           if(botao.animations.name === "HOVER"){
             botao.play("ON");            
           }
         }
-        function controleFastBackward(botao){
+        function botaoFastBackward(){
           for(var i =0; i < 10; i++){
             moveToRight();
           }
         }
 
-        function controleFastFoward(botao){
+        function botaoFastFoward(){
           for(var i =0; i < 10; i++){
             moveToLeft();
           }
         }
+        
+        function botaoLog(){
+          
+        }
+        
+        function botaoExport(){
+          
+        }
 
-        function controleBackward(botao){
+        function botaoBackward(){
           moveToRight();          
         }
 
-        function controleFoward(botao){
+        function botaoFoward(){
           moveToLeft();
         }
 
-        function pause(botao){
-          botaoPlay.play("ON");
-          botaoFastBackward.play("ON");
-          botaoFastBackward.inputEnabled = true;
-          botaoBackward.inputEnabled = true;
-          botaoFoward.inputEnabled = true;
-          botaoFastFoward.inputEnabled = true;          
+        function botaoPause(){
+          botoes.play.play("ON");
+          botoes.fastBackward.play("ON");
+          botoes.fastBackward.inputEnabled = true;
+          botoes.backward.inputEnabled = true;
+          botoes.foward.inputEnabled = true;
+          botoes.fastFoward.inputEnabled = true;          
 
-          botaoBackward.play("ON");
-          botaoExport.play("ON");          
-          botaoLog.play("ON");          
-          botaoFastFoward.play("ON");                    
-          botaoFoward.play("ON");                              
-          botaoPlay.play("ON");
-          botaoPause.play("OFF");
+          botoes.backward.play("ON");
+          botoes.export.play("ON");          
+          botoes.log.play("ON");          
+          botoes.fastFoward.play("ON");                    
+          botoes.foward.play("ON");                              
+          botoes.play.play("ON");
+          botoes.pause.play("OFF");
+
           game.time.events.remove(repeater);
         }
         
-        function play(){
-          botaoPause.play("ON");
-          botaoFastBackward.play("OFF");
-          botaoFastBackward.inputEnabled = false;
-          botaoBackward.inputEnabled = false;    
-          botaoFoward.inputEnabled = false;
-          botaoFastFoward.inputEnabled = false;                    
-                
-          botaoBackward.play("OFF");
-          botaoExport.play("OFF");          
-          botaoLog.play("OFF");          
-          botaoFastFoward.play("OFF");                    
-          botaoFoward.play("OFF");                              
-          botaoPlay.play("OFF");
-          repeater = game.time.events.repeat(1000, duracaoSimulacao - descolamentoMaximo, moveToLeft, this);
-        }
-        
         function criaControles(){
-          var inicio = 375, incremento = 31, y = 10;
-          botaoFastBackward = game.add.sprite(inicio ,y , 'controles');
-          botaoFastBackward.animations.add('HOVER', [0]);
-          botaoFastBackward.animations.add('OFF', [8]);          
-          botaoFastBackward.animations.add('ON', [16]);
-          botaoFastBackward.play('OFF');
-          botaoFastBackward.inputEnabled = false;
-          botaoFastBackward.events.onInputOver.add(controleOver,this);
-          botaoFastBackward.events.onInputOut.add(controleOut,this);
-          botaoFastBackward.events.onInputDown.add(controleFastBackward, this);      
-
-          grupoControles.add(botaoFastBackward);
-
-          inicio += incremento;
-          botaoBackward = game.add.sprite(inicio , y, 'controles');
-          botaoBackward.animations.add('HOVER', [1]);
-          botaoBackward.animations.add('OFF', [9]);          
-          botaoBackward.animations.add('ON', [17]);
-          botaoBackward.play('OFF');
-          botaoBackward.inputEnabled = true;
-          botaoBackward.events.onInputOver.add(controleOver,this);
-          botaoBackward.events.onInputOut.add(controleOut,this); 
-          botaoBackward.events.onInputDown.add(controleBackward, this);                   
           
-          grupoControles.add(botaoBackward);          
-
-          inicio += incremento;
-          botaoPlay =  game.add.sprite(inicio , y, 'controles');
-          botaoPlay.animations.add('HOVER', [2]);
-          botaoPlay.animations.add('OFF', [10]);          
-          botaoPlay.animations.add('ON', [18]);
-          botaoPlay.play('OFF');
-          botaoPlay.inputEnabled = false;   
-          botaoPlay.events.onInputDown.add(play, this);      
-          botaoPlay.events.onInputOver.add(controleOver,this);
-          botaoPlay.events.onInputOut.add(controleOut,this);          
-                 
-          grupoControles.add(botaoPlay);          
+          var inicio = 375, y = 10;
           
-          inicio += incremento;
-          botaoPause = game.add.sprite(inicio , y, 'controles');
-          botaoPause.animations.add('HOVER', [3]);
-          botaoPause.animations.add('OFF', [11]);          
-          botaoPause.animations.add('ON', [19]);
-          botaoPause.play('OFF');
-          botaoPause.inputEnabled = true;   
-          botaoPause.events.onInputOver.add(controleOver,this);
-          botaoPause.events.onInputOut.add(controleOut,this);          
-          botaoPause.events.onInputDown.add(pause, this);                 
-          grupoControles.add(botaoPause);          
-
-          
-          inicio += incremento;
-          botaoFoward = game.add.sprite(inicio , y, 'controles');
-          botaoFoward.animations.add('HOVER', [4]);
-          botaoFoward.animations.add('OFF', [12]);          
-          botaoFoward.animations.add('ON', [20]);
-          botaoFoward.play('OFF');
-          botaoFoward.inputEnabled = true;          
-          botaoFoward.events.onInputOver.add(controleOver,this);
-          botaoFoward.events.onInputOut.add(controleOut,this);
-          botaoFoward.events.onInputDown.add(controleFoward, this);                             
-
-          grupoControles.add(botaoFoward);          
-          
-          inicio += incremento;
-          botaoFastFoward = game.add.sprite(inicio , y, 'controles');
-          botaoFastFoward.animations.add('HOVER', [5]);
-          botaoFastFoward.animations.add('OFF', [13]);          
-          botaoFastFoward.animations.add('ON', [21]);
-          botaoFastFoward.play('OFF');
-          botaoFastFoward.inputEnabled = true;      
-          botaoFastFoward.events.onInputOver.add(controleOver,this);
-          botaoFastFoward.events.onInputOut.add(controleOut,this);          
-          botaoFastFoward.events.onInputDown.add(controleFastFoward, this); 
-          
-          grupoControles.add(botaoFastFoward);          
-          
-          inicio += incremento + 8;
-          botaoLog = game.add.sprite(inicio , y, 'controles');
-          botaoLog.animations.add('HOVER', [6]);
-          botaoLog.animations.add('OFF', [14]);          
-          botaoLog.animations.add('ON', [22]);
-          botaoLog.play('OFF');
-          botaoLog.inputEnabled = true;          
-          botaoLog.events.onInputOver.add(controleOver,this);
-          botaoLog.events.onInputOut.add(controleOut,this);          
-          
-          grupoControles.add(botaoLog);          
-          
-          inicio += incremento;
-          botaoExport = game.add.sprite(inicio , y, 'controles');
-          botaoExport.animations.add('HOVER', [7]);
-          botaoExport.animations.add('OFF', [15]);          
-          botaoExport.animations.add('ON', [23]);
-          botaoExport.inputEnabled = true;
-          botaoExport.play('OFF');
-          botaoExport.events.onInputOver.add(controleOver,this);
-          botaoExport.events.onInputOut.add(controleOut,this);          
-          
-
-          grupoControles.add(botaoExport);                    
+          [
+              {nome: "fastBackward",action: botaoFastBackward},
+              {nome: "backward",action: botaoBackward},            
+              {nome: "play",action: botaoPlay},            
+              {nome: "pause",action: botaoPause},            
+              {nome: "foward",action: botaoFoward},            
+              {nome: "fastFoward",action: botaoFastFoward},            
+              {nome: "log",action: botaoLog,incremento: 39},            
+              {nome: "export",action: botaoExport}
+          ].forEach(function(botaoSpec,index){
+            botoes[botaoSpec.nome] = game.add.sprite(inicio ,y , 'controles');
+            botoes[botaoSpec.nome].animations.add('HOVER', [index]);
+            botoes[botaoSpec.nome].animations.add('OFF', [index + 8]);          
+            botoes[botaoSpec.nome].animations.add('ON', [index + 16]);
+            botoes[botaoSpec.nome].animations.play("OFF");
+            botoes[botaoSpec.nome].inputEnabled = false;            
+            botoes[botaoSpec.nome].events.onInputOver.add(botaoOver,this);
+            botoes[botaoSpec.nome].events.onInputOut.add(botaoOut,this);
+            if(botaoSpec.action !== undefined){
+              botoes[botaoSpec.nome].events.onInputDown.add(botaoSpec.action, this);      
+            }
+            if(botaoSpec.incremento === undefined){
+              inicio += 31;              
+            }else{
+              inicio += botaoSpec.incremento;
+            }
+            grupoControles.add(botoes[botaoSpec.nome]);
+          }); 
+                
+          botoes.pause.play("ON");
         }
-        
+   
+        function botaoPlay(){
+          botoes.pause.play("ON");
+          botoes.fastBackward.play("OFF");
+          botoes.fastBackward.inputEnabled = false;
+          botoes.backward.inputEnabled = false;    
+          botoes.foward.inputEnabled = false;
+          botoes.fastFoward.inputEnabled = false;                    
+          botoes.backward.play("OFF");
+          botoes.export.play("OFF");          
+          botoes.log.play("OFF");          
+          botoes.fastFoward.play("OFF");                    
+          botoes.foward.play("OFF");                              
+          botoes.play.play("OFF");
+          repeater = game.time.events.repeat(1000, duracaoSimulacao - descolamentoMaximo, moveToLeft, this);
+        }     
         function atualizaEstadosGruposSemaforicos(){
           for(var i = 0; i < totalGruposSemaforicos; i++){
             if(estadoGrupoSemaforico[tempo] && estadoGrupoSemaforico[tempo][i]){
@@ -380,18 +315,15 @@ var influunt;
           });
 
           estagio.eventos.forEach(function(evento){
-            if(evento[1] == "ACIONAMENTO_DETECTOR_VEICULAR" || evento[1] == "PEDESTRE"){
+            if(evento[1] === "ACIONAMENTO_DETECTOR_VEICULAR" || evento[1] === "PEDESTRE"){
               desenhaDetector(parseInt(anel) - 1,x + evento[0] / 100,"#082536",evento[1],evento[2]);
-            }else if(evento[1] == "TROCA_DE_PLANO_NO_ANEL"){
+            }else if(evento[1] === "TROCA_DE_PLANO_NO_ANEL"){
               var x1 = (evento[4] - inicioSimulacao.unix() * 1000) / 100;
               var x2 = ((evento[5] - inicioSimulacao.unix() * 1000) / 100) + 10;
               var y1 = offsetDeAneis[evento[3]];
               var y2 = y1 + (config.aneis[anel - 1].tiposGruposSemaforicos.length * ALTURA_GRUPO) +
                                             config.aneis[anel - 1].tiposGruposSemaforicos.length - 1;
               desenhaAgendamento(x1,x2,y1,y2,"#2603339");            
-
-              
-
             }
           });
           
