@@ -15,6 +15,8 @@ import play.test.Helpers;
 import javax.validation.groups.Default;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.junit.Assert.*;
 import static play.mvc.Http.Status.OK;
@@ -50,6 +52,16 @@ public class ControladorVerdesConflitantesTest extends ControladorTest {
 
         GrupoSemaforico grupoSemaforico3 = anelAtivo.getGruposSemaforicos().get(0);
         GrupoSemaforico grupoSemaforico4 = anelAtivo.getGruposSemaforicos().get(1);
+
+        controlador.getAneis().stream().filter(Anel::isAtivo).forEach(anel -> {
+            IntStream.range(0, anel.getGruposSemaforicos().size()).forEach(i -> {
+                GrupoSemaforico g = anel.getGruposSemaforicos().get(i);
+                Estagio e = anel.getEstagios().get(i);
+                EstagioGrupoSemaforico eg = new EstagioGrupoSemaforico(e, g);
+                g.addEstagioGrupoSemaforico(eg);
+                e.addEstagioGrupoSemaforico(eg);
+            });
+        });
 
         List<Erro> erros = getErros(controlador);
 
@@ -125,6 +137,15 @@ public class ControladorVerdesConflitantesTest extends ControladorTest {
     public void testNoValidationErro() {
         Controlador controlador = getControladorVerdesConflitantes();
         controlador.save();
+        controlador.getAneis().stream().filter(Anel::isAtivo).forEach(anel -> {
+            IntStream.range(0, anel.getGruposSemaforicos().size()).forEach(i -> {
+                GrupoSemaforico g = anel.getGruposSemaforicos().get(i);
+                Estagio e = anel.getEstagios().get(i);
+                EstagioGrupoSemaforico eg = new EstagioGrupoSemaforico(e, g);
+                g.addEstagioGrupoSemaforico(eg);
+                e.addEstagioGrupoSemaforico(eg);
+            });
+        });
         List<Erro> erros = getErros(controlador);
         assertThat(erros, Matchers.empty());
     }
@@ -204,6 +225,16 @@ public class ControladorVerdesConflitantesTest extends ControladorTest {
         Controlador controlador = getControladorGrupoSemaforicos();
         controlador.save();
 
+        controlador.getAneis().stream().filter(Anel::isAtivo).forEach(anel -> {
+            IntStream.range(0, anel.getGruposSemaforicos().size()).forEach(i -> {
+                GrupoSemaforico g = anel.getGruposSemaforicos().get(i);
+                Estagio e = anel.getEstagios().get(i);
+                EstagioGrupoSemaforico eg = new EstagioGrupoSemaforico(e, g);
+                g.addEstagioGrupoSemaforico(eg);
+                e.addEstagioGrupoSemaforico(eg);
+            });
+        });
+
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
                 .uri(routes.ControladoresController.verdesConflitantes().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
         Result postResult = route(postRequest);
@@ -219,6 +250,16 @@ public class ControladorVerdesConflitantesTest extends ControladorTest {
     @Test
     public void testController() {
         Controlador controlador = getControladorVerdesConflitantes();
+
+        controlador.getAneis().stream().filter(Anel::isAtivo).forEach(anel -> {
+            IntStream.range(0, anel.getGruposSemaforicos().size()).forEach(i -> {
+                GrupoSemaforico g = anel.getGruposSemaforicos().get(i);
+                Estagio e = anel.getEstagios().get(i);
+                EstagioGrupoSemaforico eg = new EstagioGrupoSemaforico(e, g);
+                g.addEstagioGrupoSemaforico(eg);
+                e.addEstagioGrupoSemaforico(eg);
+            });
+        });
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
                 .uri(routes.ControladoresController.verdesConflitantes().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));

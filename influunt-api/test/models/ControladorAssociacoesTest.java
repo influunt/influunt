@@ -39,12 +39,12 @@ public class ControladorAssociacoesTest extends ControladorTest {
 
         assertEquals(6, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[0].aoMenosUmEstagioGrupoSemaforico"),
-                new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[1].aoMenosUmEstagioGrupoSemaforico"),
-                new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[2].aoMenosUmEstagioGrupoSemaforico"),
-                new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[3].aoMenosUmEstagioGrupoSemaforico"),
-                new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[1].estagios[0].aoMenosUmEstagioGrupoSemaforico"),
-                new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[1].estagios[1].aoMenosUmEstagioGrupoSemaforico")
+            new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[3].aoMenosUmEstagioGrupoSemaforico"),
+            new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[0].aoMenosUmEstagioGrupoSemaforico"),
+            new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[1].estagios[1].aoMenosUmEstagioGrupoSemaforico"),
+            new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[1].estagios[0].aoMenosUmEstagioGrupoSemaforico"),
+            new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[1].aoMenosUmEstagioGrupoSemaforico"),
+            new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[2].aoMenosUmEstagioGrupoSemaforico")
         ));
 
         Anel anelCom2Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
@@ -65,16 +65,18 @@ public class ControladorAssociacoesTest extends ControladorTest {
 
         estagio1.addEstagioGrupoSemaforico(estagioGrupoSemaforico1);
         estagio1.addEstagioGrupoSemaforico(estagioGrupoSemaforico2);
+        grupoSemaforico1.addEstagioGrupoSemaforico(estagioGrupoSemaforico1);
+        grupoSemaforico2.addEstagioGrupoSemaforico(estagioGrupoSemaforico2);
 
         erros = getErros(controlador);
         assertEquals(6, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro(CONTROLADOR, "Existem grupos semafóricos conflitantes associados a esse estágio.", "aneis[0].estagios[0].naoDevePossuirGruposSemaforicosConflitantes"),
-                new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[1].aoMenosUmEstagioGrupoSemaforico"),
-                new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[2].aoMenosUmEstagioGrupoSemaforico"),
-                new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[3].aoMenosUmEstagioGrupoSemaforico"),
-                new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[1].estagios[0].aoMenosUmEstagioGrupoSemaforico"),
-                new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[1].estagios[1].aoMenosUmEstagioGrupoSemaforico")
+            new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[2].aoMenosUmEstagioGrupoSemaforico"),
+            new Erro(CONTROLADOR, "Existem grupos semafóricos conflitantes associados a esse estágio.", "aneis[0].estagios[0].naoDevePossuirGruposSemaforicosConflitantes"),
+            new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[1].estagios[1].aoMenosUmEstagioGrupoSemaforico"),
+            new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[1].estagios[0].aoMenosUmEstagioGrupoSemaforico"),
+            new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[1].aoMenosUmEstagioGrupoSemaforico"),
+            new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[3].aoMenosUmEstagioGrupoSemaforico")
         ));
 
         estagioGrupoSemaforico1 = new EstagioGrupoSemaforico(estagio1, grupoSemaforico1);
@@ -109,6 +111,9 @@ public class ControladorAssociacoesTest extends ControladorTest {
         EstagioGrupoSemaforico estagioGrupoSemaforicoNovo2 = new EstagioGrupoSemaforico(estagioNovo2, grupoSemaforicoNovo2);
         estagioNovo.addEstagioGrupoSemaforico(estagioGrupoSemaforicoNovo);
         estagioNovo2.addEstagioGrupoSemaforico(estagioGrupoSemaforicoNovo2);
+
+        grupoSemaforicoNovo.addEstagioGrupoSemaforico(estagioGrupoSemaforicoNovo);
+        grupoSemaforicoNovo2.addEstagioGrupoSemaforico(estagioGrupoSemaforicoNovo2);
 
         erros = getErros(controlador);
         assertEquals(1, erros.size());
@@ -151,6 +156,7 @@ public class ControladorAssociacoesTest extends ControladorTest {
 
         EstagioGrupoSemaforico estagioGrupoSemaforico5 = new EstagioGrupoSemaforico(estagio2, grupoSemaforico5);
         estagio2.addEstagioGrupoSemaforico(estagioGrupoSemaforico5);
+        grupoSemaforico5.addEstagioGrupoSemaforico(estagioGrupoSemaforico5);
 
         erros = getErros(controlador);
         assertEquals(2, erros.size());
