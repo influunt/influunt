@@ -54,9 +54,6 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private AgendamentoTrocaPlano agendamento = null;
 
-    private String idJsonNovoEstagio;
-
-
     public GerenciadorDeEstagios(int anel,
                                  DateTime inicioControlador,
                                  DateTime inicioExecucao,
@@ -167,11 +164,11 @@ public class GerenciadorDeEstagios implements EventoCallback {
     }
 
     private void geraIntervalos(Integer index) {
-        if (!plano.isModoOperacaoVerde() && index == 0){
+        if ((!plano.isModoOperacaoVerde() && index == 0) || (!plano.isModoOperacaoVerde() && modoAnterior != null && !modoAnterior.equals(this.plano.getModoOperacao()))){
             geraIntervalosFixos();
         } else if (!isModoAnteriorVerde()) {
             EstagioPlano estagioPlano = listaEstagioPlanos.get(index);
-            geraIntervaloEstagio(estagioPlano, 3000L, estagioPlano.getTempoVerdeEstagio() * 1000L);
+            geraIntervaloEstagio(estagioPlano, 3000L, 0L);
         } else {
             EstagioPlano estagioPlano = listaEstagioPlanos.get(index);
 
@@ -220,16 +217,18 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
             final long tempoEntreVerde = entreverde.getKey().upperEndpoint() + 3000L;
 
+            String idJsonNovoEstagio = UUID.randomUUID().toString();
+
             this.intervalos.put(Range.closedOpen(0L, tempoEntreVerde),
                     new IntervaloEstagio(tempoEntreVerde, true,
-                            criaEstagioPlanoInterminteOuApagado(), null));
+                            criaEstagioPlanoInterminteOuApagado(idJsonNovoEstagio), null));
 
             this.intervalos.put(Range.closedOpen(tempoEntreVerde, 255000L),
                     new IntervaloEstagio(255000L - tempoEntreVerde, false,
-                            criaEstagioPlanoInterminteOuApagado(estagio), intervalo.getEstagioPlanoAnterior()));
+                            criaEstagioPlanoInterminteOuApagado(idJsonNovoEstagio, estagio), intervalo.getEstagioPlanoAnterior()));
         } else {
             this.intervalos.put(Range.closedOpen(0L, 255000L),
-                    new IntervaloEstagio(255000L, false, criaEstagioPlanoInterminteOuApagado(), null));
+                    new IntervaloEstagio(255000L, false, criaEstagioPlanoInterminteOuApagado(UUID.randomUUID().toString()), null));
         }
     }
 
@@ -237,18 +236,17 @@ public class GerenciadorDeEstagios implements EventoCallback {
         return  !ModoOperacaoPlano.APAGADO.equals(modoAnterior) && !ModoOperacaoPlano.INTERMITENTE.equals(modoAnterior);
     }
 
-    private EstagioPlano criaEstagioPlanoInterminteOuApagado(Estagio estagio) {
+    private EstagioPlano criaEstagioPlanoInterminteOuApagado(String idJsonNovoEstagio, Estagio estagio) {
         Estagio novoEstagio = new Estagio();
         novoEstagio.setIdJson(estagio.getIdJson());
-        EstagioPlano estagioPlano = criaEstagioPlanoInterminteOuApagado();
+        EstagioPlano estagioPlano = criaEstagioPlanoInterminteOuApagado(idJsonNovoEstagio);
         estagioPlano.setEstagio(novoEstagio);
         return estagioPlano;
     }
 
-    private EstagioPlano criaEstagioPlanoInterminteOuApagado() {
+    private EstagioPlano criaEstagioPlanoInterminteOuApagado(String idJsonNovoEstagio) {
         Estagio estagio = new Estagio();
         EstagioPlano estagioPlano = new EstagioPlano();
-        idJsonNovoEstagio = UUID.randomUUID().toString();
         estagioPlano.setIdJson(idJsonNovoEstagio);
         estagioPlano.setPlano(plano);
         estagioPlano.setEstagio(estagio);

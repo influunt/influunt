@@ -686,7 +686,6 @@ var influunt;
           // dataHora = game.add.text(500,20, "Seg, 27/09/2016 - 12:11:34", style);
           // dataHora.fixedToCamera = true;
           // dataHora.anchor.set(0.5);
-
           game.time.events.repeat(8000 / velocidade, Math.ceil(duracaoSimulacao / 120) + 1, loadMore, this);
           
         }
@@ -697,7 +696,7 @@ var influunt;
             started = true;
             botaoPause.play("ON");
           }
-          game.debug.cameraInfo(game.camera, 32, 32);
+          // game.debug.cameraInfo(game.camera, 32, 32);
         }
 
 
