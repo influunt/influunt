@@ -79,7 +79,7 @@ angular.module('influuntApp')
         return Restangular.all('relatorios').withHttpConfig({ responseType: 'arraybuffer' }).customGET(url, relatorio)
           .then(function(res) {
             var blob;
-            if(relatorio.tipoRelatorio === 'PDF') {
+            if (relatorio.tipoRelatorio === 'PDF') {
               blob = new Blob([res], {type: 'application/pdf'});
               saveAs(blob, reportName + '.pdf');
             } else if (relatorio.tipoRelatorio === 'CSV') {
