@@ -13,7 +13,7 @@ angular.module('influuntApp')
 .controller('SimulacaoCtrl', ['$scope', '$controller', 'Restangular', 'influuntBlockui', 'HorariosService', 'influuntAlert', '$filter', 'handleValidations', '$stateParams',
 function ($scope, $controller, Restangular, influuntBlockui, HorariosService, influuntAlert, $filter, handleValidations, $stateParams) {
 
-  var loadControlador, atualizaDetectores, atualizaPlanos, iniciarSimulacao;
+  var loadControlador, atualizaDetectores, atualizaPlanos, iniciarSimulacao, getTimeStr;
 
   $scope.init = function() {
     var controladorId = $stateParams.idControlador;
@@ -35,9 +35,9 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
 
     var now = new Date();
     $scope.inicioControlador = { time: new Date(0, 0, 0, 0, 0, 0), date: new Date(new Date().setHours(0,0,0,0)) };
-    
+
     $scope.inicioSimulacao = { time: new Date(0, 0, 0, 0, 0,0), date: new Date(new Date().setHours(0,0,0,0)) };
-    
+
     $scope.fimSimulacao = { time: new Date(0, 0, 0, 0, 5, 0), date: new Date(new Date().setHours(0,0,0,0)) };
 
     $scope.disparosDetectores = { disparos: [] };
@@ -117,7 +117,7 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
     if (inicioControlador && inicioControlador.date && inicioControlador.time) {
       var date = moment(inicioControlador.date),
           time = moment(inicioControlador.time);
-      var dateStr = '' + date.year() + '-' + _.padStart(date.month()+1, 2, 0) + '-' + _.padStart(date.date(), 2, 0) + ' ' + _.padStart(time.hour(), 2, 0) + ':' + _.padStart(time.minute(), 2, 0) + ':' + _.padStart(time.second(), 2, 0);
+      var dateStr = getTimeStr(date.year(), date.month()+1, date.date(), time.hour(), time.minute(), time.second());
       $scope.parametrosSimulacao.inicioControlador = moment(dateStr);
     }
   }, true);
@@ -126,7 +126,7 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
     if (inicioSimulacao && inicioSimulacao.date && inicioSimulacao.time) {
       var date = moment(inicioSimulacao.date),
           time = moment(inicioSimulacao.time);
-      var dateStr = '' + date.year() + '-' + _.padStart(date.month()+1, 2, 0) + '-' + _.padStart(date.date(), 2, 0) + ' ' + _.padStart(time.hour(), 2, 0) + ':' + _.padStart(time.minute(), 2, 0) + ':' + _.padStart(time.second(), 2, 0);
+      var dateStr = getTimeStr(date.year(), date.month()+1, date.date(), time.hour(), time.minute(), time.second());
       $scope.parametrosSimulacao.inicioSimulacao = moment(dateStr);
     }
   }, true);
@@ -135,7 +135,7 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
     if (fimSimulacao && fimSimulacao.date && fimSimulacao.time) {
       var date = moment(fimSimulacao.date),
           time = moment(fimSimulacao.time);
-      var dateStr = '' + date.year() + '-' + _.padStart(date.month()+1, 2, 0) + '-' + _.padStart(date.date(), 2, 0) + ' ' + _.padStart(time.hour(), 2, 0) + ':' + _.padStart(time.minute(), 2, 0) + ':' + _.padStart(time.second(), 2, 0);
+      var dateStr = getTimeStr(date.year(), date.month()+1, date.date(), time.hour(), time.minute(), time.second());
       $scope.parametrosSimulacao.fimSimulacao = moment(dateStr);
     }
   }, true);
@@ -145,7 +145,7 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
       _.forEach($scope.disparosDetectores.disparos, function(disparo, index) {
         if (disparo.date && disparo.hora && disparo.minuto && disparo.segundo) {
           var date = moment(disparo.date);
-          var dateStr = '' + date.year() + '-' + _.padStart(date.month()+1, 2, 0) + '-' + _.padStart(date.date(), 2, 0) + ' ' + _.padStart(disparo.hora, 2, 0) + ':' + _.padStart(disparo.minuto, 2, 0) + ':' + _.padStart(disparo.segundo, 2, 0);
+          var dateStr = getTimeStr(date.year(), date.month()+1, date.date(), disparo.hora, disparo.minuto, disparo.segundo);
           $scope.parametrosSimulacao.disparoDetectores[index].disparo = moment(dateStr);
         }
       });
@@ -157,12 +157,16 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
       _.forEach($scope.imposicoesPlanos.imposicoes, function(imposicao, index) {
         if (imposicao.date && imposicao.hora && imposicao.minuto && imposicao.segundo) {
           var date = moment(imposicao.date);
-          var dateStr = '' + date.year() + '-' + _.padStart(date.month()+1, 2, 0) + '-' + _.padStart(date.date(), 2, 0) + ' ' + _.padStart(imposicao.hora, 2, 0) + ':' + _.padStart(imposicao.minuto, 2, 0) + ':' + _.padStart(imposicao.segundo, 2, 0);
+          var dateStr = getTimeStr(date.year(), date.month()+1, date.date(), imposicao.hora, imposicao.minuto, imposicao.segundo);
           $scope.parametrosSimulacao.imposicaoPlanos[index].disparo = moment(dateStr);
         }
       });
     }
   }, true);
+
+  getTimeStr = function(ano, mes, dia, hora, minuto, segundo) {
+    return moment([ano, mes, dia, hora, minuto, segundo]).format('YYYY-MM-DD HH:mm');
+  }
 
   $scope.removerDisparoDetector = function(index) {
     var title = $filter('translate')('simulacao.detectorAlert.title'),
