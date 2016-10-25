@@ -39,7 +39,6 @@
                   <td>{{ perfil.nome }}</td>
                   <td>
                     <a ui-sref="app.perfis_permissoes({id: perfil.id})" permission permission-only="'definirPermissoes'" class="btn btn-primary btn-xs">{{ 'perfis.definir_permissoes' | translate }}</a>
-                    <a ui-sref="app.perfis_show({id: perfil.id})" permission permission-sref="'app.perfis_show'" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
                     <a ui-sref="app.perfis_edit({id: perfil.id})" permission permission-sref="'app.perfis_edit'" class="btn btn-primary btn-xs">{{ 'geral.crud.editar' | translate }}</a>
                     <a data-ng-click="confirmDelete(perfil.id)" permission permission-only="'removerPerfis'" class="btn btn-danger btn-xs">{{ 'geral.crud.excluir' | translate }}</a>
                   </td>
