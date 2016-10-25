@@ -269,11 +269,14 @@ angular.module('influuntApp')
 
       $scope.selecionaAnelPlanos = function(index) {
         selecionaAnel(index);
-        if ($scope.currentAnel.aceitaModoManual) {
-          $scope.selecionaPlano($scope.currentPlanos[1], 1);
-        } else {
-          $scope.selecionaPlano($scope.currentPlanos[0], 0);
+
+        var indexPlano = 0;
+        if (angular.isDefined($scope.currentPlano)) {
+          indexPlano = _.findIndex($scope.currentPlanos, {posicao: $scope.currentPlano.posicao});
+          indexPlano = indexPlano >= 0 ? indexPlano : 0;
         }
+
+        $scope.selecionaPlano($scope.currentPlanos[indexPlano], indexPlano);
       };
 
       $scope.selecionaPlano = function(plano, index) {
