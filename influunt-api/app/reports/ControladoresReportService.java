@@ -42,7 +42,7 @@ public class ControladoresReportService extends ReportService<Controlador> {
     public InputStream generateControladoresFalhasReport(Map<String, String[]> params, ReportType reportType) {
         switch (reportType) {
             case PDF:
-                return generateControladoresFalhasPDFReport();
+                return generateControladoresFalhasPDFReport(params);
             case CSV:
                 return generateControladoresFalhasCSVReport();
             default:
@@ -107,10 +107,9 @@ public class ControladoresReportService extends ReportService<Controlador> {
      *
      * @return {@link InputStream} do pdf
      */
-    private InputStream generateControladoresFalhasPDFReport() {
-        Map<String, Object> params = getBasicReportMetadata();
-
-        return baseJasperReport.generateReport("controladoresFalhas", getBasicReportMetadata(), getControladoresPorFalhas());
+    private InputStream generateControladoresFalhasPDFReport(Map<String, String[]> queryStringParams) {
+        Map<String, Object> params = controladoresFalhasReportParams(queryStringParams);
+        return baseJasperReport.generateReport("controladoresFalhas", params, getControladoresPorFalhas());
     }
 
     /**
@@ -174,5 +173,11 @@ public class ControladoresReportService extends ReportService<Controlador> {
         }
 
         return controladoresFalhas;
+    }
+
+    private Map<String, Object> controladoresFalhasReportParams(Map<String, String[]> queryStringParams) {
+        Map<String, Object> params = getBasicReportMetadata();
+        params.put("relatorioPor", "Fabricante");
+        return params;
     }
 }
