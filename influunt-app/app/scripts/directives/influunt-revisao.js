@@ -19,7 +19,6 @@ angular.module('influuntApp')
     return {
       restrict: 'E',
       templateUrl: 'views/directives/influunt-revisao/edit-in-revisao.html',
-      objeto: '=',
       scope: {
         condition: '=',
         onClick: '&',
