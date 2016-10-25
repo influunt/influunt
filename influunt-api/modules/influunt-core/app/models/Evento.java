@@ -272,7 +272,7 @@ public class Evento extends Model implements Cloneable, Serializable, Comparable
         if (this.getTipo().compareTo(o.getTipo()) == 0) {
             if (this.getTipo().equals(TipoEvento.NORMAL)) {
                 if (this.getDiaDaSemana().compareTo(o.getDiaDaSemana()) == 0) {
-                    return this.getData().compareTo(o.getData());
+                    return this.getHorario().compareTo(o.getHorario());
                 } else {
                     return this.getDiaDaSemana().compareTo(o.getDiaDaSemana());
                 }

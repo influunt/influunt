@@ -18,14 +18,17 @@ public enum TipoEvento {
     RETIRADA_DO_PLUG(TipoEventoControlador.ALARME, 6, "Retirada de plug", null),
 
     //Falhas
-    FASE_VERMELHA_DE_GRUPO_SEMAFORICO_APAGADA(TipoEventoControlador.ALARME, 1, "Fase vermelha do grupo semafórico apagada", "%s: Fase vermelha do grupo semafórico apagada"),
+    FASE_VERMELHA_DE_GRUPO_SEMAFORICO_APAGADA(TipoEventoControlador.FALHA, 1, "Fase vermelha do grupo semafórico apagada", "%s: Fase vermelha do grupo semafórico apagada"),
 
     //Detector
     ACIONAMENTO_DETECTOR_VEICULAR(TipoEventoControlador.DETECTOR_VEICULAR, 1, "Acionamento de detector veicular", "%s foi acionado"),
     ACIONAMENTO_DETECTOR_PEDESTRE(TipoEventoControlador.DETECTOR_PEDESTRE, 2, "Acionamento de detector pedestre", "%s foi acionado"),
 
     //Imposicao de Planos
-    IMPOSICAO_PLANO(TipoEventoControlador.IMPOSICAO_PLANO, 1, "Imposição de Plano", "Plano %s foi imposto");
+    IMPOSICAO_PLANO(TipoEventoControlador.IMPOSICAO_PLANO, 1, "Imposição de Plano", "Plano %s foi imposto"),
+
+    //Troca de PLanos
+    TROCA_DE_PLANO_NO_ANEL(TipoEventoControlador.TROCA_PLANO,1,"Troca de Plano no Anel", "Plano %s está ativo");
 
     private static Formatter formatter = new Formatter();
 

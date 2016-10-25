@@ -30,6 +30,7 @@ libraryDependencies ++= Seq(
   "commons-beanutils" % "commons-beanutils" % "1.9.2",
   "net.coobird" % "thumbnailator" % "0.4.8",
   "com.google.code.gson" % "gson" % "2.7",
+  "org.jfree" % "jfreesvg" % "3.1",
   "org.mindrot" % "jbcrypt" % "0.3m")
 
 jacoco.settings

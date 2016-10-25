@@ -197,6 +197,51 @@ public class FaixasDeValores extends Model implements Cloneable, Serializable {
         this.idJson = UUID.randomUUID().toString();
     }
 
+    public static FaixasDeValores getInstance() {
+        FaixasDeValores valores = Ebean.find(FaixasDeValores.class).setMaxRows(1).findUnique();
+        return valores != null ? valores : getDefault();
+    }
+
+    private static FaixasDeValores getDefault() {
+        FaixasDeValores valores = new FaixasDeValores();
+        valores.setTempoDefasagemMin(0);
+        valores.setTempoDefasagemMax(255);
+        valores.setTempoAmareloMin(3);
+        valores.setTempoAmareloMax(5);
+        valores.setTempoVermelhoIntermitenteMin(3);
+        valores.setTempoVermelhoIntermitenteMax(32);
+        valores.setTempoVermelhoLimpezaVeicularMin(0);
+        valores.setTempoVermelhoLimpezaVeicularMax(7);
+        valores.setTempoVermelhoLimpezaPedestreMin(0);
+        valores.setTempoVermelhoLimpezaPedestreMax(5);
+        valores.setTempoAtrasoGrupoMin(0);
+        valores.setTempoAtrasoGrupoMax(20);
+        valores.setTempoVerdeSegurancaVeicularMin(10);
+        valores.setTempoVerdeSegurancaVeicularMax(30);
+        valores.setTempoVerdeSegurancaPedestreMin(4);
+        valores.setTempoVerdeSegurancaPedestreMax(10);
+        valores.setTempoMaximoPermanenciaEstagioMin(60);
+        valores.setTempoMaximoPermanenciaEstagioMax(255);
+        valores.setDefaultTempoMaximoPermanenciaEstagioVeicular(127);
+        valores.setTempoCicloMin(30);
+        valores.setTempoCicloMax(255);
+        valores.setTempoVerdeMinimoMin(10);
+        valores.setTempoVerdeMinimoMax(255);
+        valores.setTempoVerdeMaximoMin(10);
+        valores.setTempoVerdeMaximoMax(255);
+        valores.setTempoVerdeIntermediarioMin(10);
+        valores.setTempoVerdeIntermediarioMax(255);
+        valores.setTempoExtensaoVerdeMin(1d);
+        valores.setTempoExtensaoVerdeMax(10d);
+        valores.setTempoVerdeMin(1);
+        valores.setTempoVerdeMax(255);
+        valores.setTempoAusenciaDeteccaoMin(0);
+        valores.setTempoAusenciaDeteccaoMax(4320);
+        valores.setTempoDeteccaoPermanenteMin(0);
+        valores.setTempoDeteccaoPermanenteMax(1440);
+        return valores;
+    }
+
     public UUID getId() {
         return id;
     }
@@ -509,53 +554,8 @@ public class FaixasDeValores extends Model implements Cloneable, Serializable {
         this.dataAtualizacao = dataAtualizacao;
     }
 
-    public static FaixasDeValores getInstance() {
-        FaixasDeValores valores = Ebean.find(FaixasDeValores.class).setMaxRows(1).findUnique();
-        return valores != null ? valores : getDefault();
-    }
-
     @AssertTrue(groups = FaixaDeValoresCheck.class, message = "o valor padrão deve estar entre o minímo e o máximo.")
     public boolean isTempoMaximoPermanenciaEstagioVeicularValido() {
         return Range.between(getTempoMaximoPermanenciaEstagioMin(), getTempoMaximoPermanenciaEstagioMax()).contains(defaultTempoMaximoPermanenciaEstagioVeicular);
-    }
-
-    private static FaixasDeValores getDefault() {
-        FaixasDeValores valores = new FaixasDeValores();
-        valores.setTempoDefasagemMin(0);
-        valores.setTempoDefasagemMax(255);
-        valores.setTempoAmareloMin(3);
-        valores.setTempoAmareloMax(5);
-        valores.setTempoVermelhoIntermitenteMin(3);
-        valores.setTempoVermelhoIntermitenteMax(32);
-        valores.setTempoVermelhoLimpezaVeicularMin(0);
-        valores.setTempoVermelhoLimpezaVeicularMax(7);
-        valores.setTempoVermelhoLimpezaPedestreMin(0);
-        valores.setTempoVermelhoLimpezaPedestreMax(5);
-        valores.setTempoAtrasoGrupoMin(0);
-        valores.setTempoAtrasoGrupoMax(20);
-        valores.setTempoVerdeSegurancaVeicularMin(10);
-        valores.setTempoVerdeSegurancaVeicularMax(30);
-        valores.setTempoVerdeSegurancaPedestreMin(4);
-        valores.setTempoVerdeSegurancaPedestreMax(10);
-        valores.setTempoMaximoPermanenciaEstagioMin(60);
-        valores.setTempoMaximoPermanenciaEstagioMax(255);
-        valores.setDefaultTempoMaximoPermanenciaEstagioVeicular(127);
-        valores.setTempoCicloMin(30);
-        valores.setTempoCicloMax(255);
-        valores.setTempoVerdeMinimoMin(10);
-        valores.setTempoVerdeMinimoMax(255);
-        valores.setTempoVerdeMaximoMin(10);
-        valores.setTempoVerdeMaximoMax(255);
-        valores.setTempoVerdeIntermediarioMin(10);
-        valores.setTempoVerdeIntermediarioMax(255);
-        valores.setTempoExtensaoVerdeMin(1d);
-        valores.setTempoExtensaoVerdeMax(10d);
-        valores.setTempoVerdeMin(1);
-        valores.setTempoVerdeMax(255);
-        valores.setTempoAusenciaDeteccaoMin(0);
-        valores.setTempoAusenciaDeteccaoMax(4320);
-        valores.setTempoDeteccaoPermanenteMin(0);
-        valores.setTempoDeteccaoPermanenteMax(1440);
-        return valores;
     }
 }

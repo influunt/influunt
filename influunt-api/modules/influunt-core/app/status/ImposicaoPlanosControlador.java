@@ -104,18 +104,6 @@ public class ImposicaoPlanosControlador {
 
     }
 
-    public Boolean isPlanoImposto() {
-        return planoImposto;
-    }
-
-    public void insert() {
-        status().insert(this);
-    }
-
-    private void save() {
-        insert();
-    }
-
     private static HashMap<String, Boolean> ultimoStatusPlanoImpostoDosControladoresPorSituacao(Boolean planoImposto) {
         //TODO: Confirmar se o last nao pega um registro aleatorio. Ele pode ser causa de inconsitencia
         HashMap<String, Boolean> hash = new HashMap<>();
@@ -126,5 +114,17 @@ public class ImposicaoPlanosControlador {
             hash.put(m.get("_id").toString(), (boolean) m.get("planoImposto"));
         }
         return hash;
+    }
+
+    public Boolean isPlanoImposto() {
+        return planoImposto;
+    }
+
+    public void insert() {
+        status().insert(this);
+    }
+
+    private void save() {
+        insert();
     }
 }

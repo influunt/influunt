@@ -48,8 +48,6 @@ public class ControladorCustomSerializer {
 
     private Map<String, GrupoSemaforicoPlano> grupoSemaforicoPlanoMap = new HashMap<String, GrupoSemaforicoPlano>();
 
-    private Map<String, Intervalo> intervalosMap = new HashMap<String, Intervalo>();
-
     private Map<String, EstagioPlano> estagioPlanoMap = new HashMap<String, EstagioPlano>();
 
     private Map<String, VersaoTabelaHoraria> versoesTabelasHorariasMap = new HashMap<String, VersaoTabelaHoraria>();
@@ -87,7 +85,6 @@ public class ControladorCustomSerializer {
 
         putControladorPlano(root);
         putControladorGruposSemaforicosPlanos(root);
-        putControladorIntervalos(root);
         putControladorEstagiosPlanos(root);
 
         putControladorCidades(root);
@@ -159,6 +156,45 @@ public class ControladorCustomSerializer {
         return controladoresJson;
     }
 
+    public JsonNode getControladorSimulacao(Controlador controlador) {
+        ObjectNode root = Json.newObject();
+
+        if (controlador.getId() != null) {
+            root.put("id", controlador.getId().toString());
+        }
+
+        if (controlador.getNomeEndereco() != null) {
+            root.put("nomeEndereco", controlador.getNomeEndereco());
+        }
+
+        ArrayNode aneisJson = root.putArray("aneis");
+        controlador.getAneis().stream().filter(Anel::isAtivo).forEach(anel -> {
+            ObjectNode anelJson = aneisJson.addObject();
+            anelJson.put("id", anel.getId().toString());
+            anelJson.put("posicao", anel.getPosicao());
+
+            ArrayNode detectoresJson = anelJson.putArray("detectores");
+            anel.getDetectores().forEach(detector -> {
+                ObjectNode detectorJson = detectoresJson.addObject();
+                detectorJson.put("id", detector.getId().toString());
+                detectorJson.put("tipo", detector.getTipo().toString());
+                detectorJson.put("posicao", detector.getPosicao());
+                detectorJson.put("monitorado", detector.isMonitorado());
+            });
+
+            ArrayNode planosJson = anelJson.putArray("planos");
+            anel.getPlanos().forEach(plano -> {
+                ObjectNode planoJson = planosJson.addObject();
+                planoJson.put("id", plano.getId().toString());
+                planoJson.put("posicao", plano.getPosicao());
+                planoJson.put("descricao", plano.getDescricao());
+                planoJson.put("modoOperacao", plano.getModoOperacao().toString());
+            });
+        });
+
+        return root;
+    }
+
     public JsonNode getPacoteConfiguracaoJson(Controlador controlador) {
         controlador.setVersoesTabelasHorarias(null);
         controlador.setVersaoControlador(null);
@@ -180,7 +216,6 @@ public class ControladorCustomSerializer {
         putControladorVersoesPlanos(root);
         putControladorPlano(root);
         putControladorGruposSemaforicosPlanos(root);
-        putControladorIntervalos(root);
         putControladorEstagiosPlanos(root);
 
         if (controlador.getVersaoTabelaHoraria() != null) {
@@ -223,14 +258,6 @@ public class ControladorCustomSerializer {
             grupoSemaforicoPlanoJson.add(getGrupoSemaforicoPlanoJson(grupoSemaforicoPlano));
         });
         root.set("gruposSemaforicosPlanos", grupoSemaforicoPlanoJson);
-    }
-
-    private void putControladorIntervalos(ObjectNode root) {
-        ArrayNode intervalosJson = Json.newArray();
-        intervalosMap.values().stream().forEach(intervalo -> {
-            intervalosJson.add(getIntervaloJson(intervalo));
-        });
-        root.set("intervalos", intervalosJson);
     }
 
     private void putControladorEstagiosPlanos(ObjectNode root) {
@@ -835,7 +862,6 @@ public class ControladorCustomSerializer {
         versoesPlanosMap = new HashMap<String, VersaoPlano>();
         planosMap = new HashMap<String, Plano>();
         grupoSemaforicoPlanoMap = new HashMap<String, GrupoSemaforicoPlano>();
-        intervalosMap = new HashMap<String, Intervalo>();
         estagioPlanoMap = new HashMap<String, EstagioPlano>();
         versoesTabelasHorariasMap = new HashMap<String, VersaoTabelaHoraria>();
         tabelasHorariasMap = new HashMap<String, TabelaHorario>();
@@ -933,40 +959,7 @@ public class ControladorCustomSerializer {
 
         grupoSemaforicoPlanoJson.put("ativado", grupoSemaforicoPlano.isAtivado());
 
-        refIntervalos("intervalos", grupoSemaforicoPlano.getIntervalos(), grupoSemaforicoPlanoJson);
-
         return grupoSemaforicoPlanoJson;
-    }
-
-    private JsonNode getIntervaloJson(Intervalo intervalo) {
-        ObjectNode intervaloJson = Json.newObject();
-
-        if (intervalo.getId() != null) {
-            intervaloJson.put("id", intervalo.getId().toString());
-        }
-
-        if (intervalo.getIdJson() != null) {
-            intervaloJson.put("idJson", intervalo.getIdJson().toString());
-        }
-
-        if (intervalo.getTamanho() != null) {
-            intervaloJson.put("tamanho", intervalo.getTamanho().toString());
-        }
-
-        if (intervalo.getOrdem() != null) {
-            intervaloJson.put("ordem", intervalo.getOrdem().toString());
-        }
-
-        if (intervalo.getEstadoGrupoSemaforico() != null) {
-            intervaloJson.put("estadoGrupoSemaforico", intervalo.getEstadoGrupoSemaforico().toString());
-        }
-
-        if (intervalo.getGrupoSemaforicoPlano() != null && intervalo.getGrupoSemaforicoPlano().getIdJson() != null) {
-            intervaloJson.putObject("grupoSemaforicoPlano").put("idJson", intervalo.getGrupoSemaforicoPlano().getIdJson().toString());
-        }
-
-
-        return intervaloJson;
     }
 
     private JsonNode getEstagioPlanoJson(EstagioPlano estagioPlano) {
@@ -1726,19 +1719,6 @@ public class ControladorCustomSerializer {
             }
         }
         parentJson.set(name, grupoSemaforicoPlanosJson);
-    }
-
-    private void refIntervalos(String name, List<Intervalo> intervalos, ObjectNode parentJson) {
-        ArrayNode intervalosJson = Json.newArray();
-        for (Intervalo intervalo : intervalos) {
-            if (intervalo != null && intervalo.getIdJson() != null) {
-                intervalosMap.put(intervalo.getIdJson().toString(), intervalo);
-                ObjectNode intervaloJson = Json.newObject();
-                intervaloJson.put("idJson", intervalo.getIdJson().toString());
-                intervalosJson.add(intervaloJson);
-            }
-        }
-        parentJson.set(name, intervalosJson);
     }
 
     private void refEventos(String name, List<Evento> eventos, ObjectNode parentJson) {

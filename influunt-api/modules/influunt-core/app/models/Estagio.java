@@ -205,16 +205,8 @@ public class Estagio extends Model implements Serializable, Cloneable {
         return demandaPrioritaria;
     }
 
-    public void setDemandaPrioritaria(Boolean demandaPrioritaria) {
-        this.demandaPrioritaria = demandaPrioritaria;
-    }
-
     public Integer getTempoVerdeDemandaPrioritaria() {
         return tempoVerdeDemandaPrioritaria;
-    }
-
-    public void setTempoVerdeDemandaPrioritaria(Integer tempoVerdeDemandaPrioritaria) {
-        this.tempoVerdeDemandaPrioritaria = tempoVerdeDemandaPrioritaria;
     }
 
     public List<EstagioGrupoSemaforico> getEstagiosGruposSemaforicos() {
@@ -383,6 +375,10 @@ public class Estagio extends Model implements Serializable, Cloneable {
         return true;
     }
 
+    public void setTempoVerdeDemandaPrioritaria(Integer tempoVerdeDemandaPrioritaria) {
+        this.tempoVerdeDemandaPrioritaria = tempoVerdeDemandaPrioritaria;
+    }
+
     @AssertTrue(groups = ControladorTransicoesProibidasCheck.class,
             message = "Esse estágio deve possuir ao menos uma transição válida para outro estágio.")
     public boolean isEstagioPossuiAoMenosUmaTransicaoOrigemValida() {
@@ -412,8 +408,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
 
         Estagio estagio = (Estagio) o;
 
-        return id != null ? id.equals(estagio.id) : estagio.id == null;
-
+        return id != null ? id.equals(estagio.id) : idJson != null ? idJson.equals(estagio.idJson) : estagio.id == null;
     }
 
     @Override
@@ -421,17 +416,15 @@ public class Estagio extends Model implements Serializable, Cloneable {
         return id != null ? id.hashCode() : 0;
     }
 
-
     public boolean temTransicaoProibidaParaEstagio(Estagio estagio) {
-        for (TransicaoProibida tp : getOrigemDeTransicoesProibidas()) {
-            Estagio destino = tp.getDestino();
-            if (destino != null && destino.equals(estagio)) {
-                return true;
-            }
-        }
-        return false;
+        return getTransicaoProibidaPara(estagio) != null;
     }
 
+    public TransicaoProibida getTransicaoProibidaPara(final Estagio destino) {
+        return getOrigemDeTransicoesProibidas().stream().filter(transicaoProibida -> {
+            return destino.equals(transicaoProibida.getDestino());
+        }).findFirst().orElse(null);
+    }
 
     @Override
     public Object clone() throws CloneNotSupportedException {
@@ -531,5 +524,9 @@ public class Estagio extends Model implements Serializable, Cloneable {
 
     public boolean isDemandaPrioritaria() {
         return demandaPrioritaria;
+    }
+
+    public void setDemandaPrioritaria(Boolean demandaPrioritaria) {
+        this.demandaPrioritaria = demandaPrioritaria;
     }
 }

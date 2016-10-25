@@ -5,12 +5,12 @@ package models;
  */
 public enum EstadoGrupoSemaforico {
 
-    APAGADO((byte) 0),
+    DESLIGADO((byte) 0),
     VERDE((byte) 1),
     AMARELO((byte) 2),
     VERMELHO((byte) 3),
     VERMELHO_INTERMITENTE((byte) 4),
-    INTERMITENTE((byte) 5),
+    AMARELO_INTERMITENTE((byte) 5),
     VERMELHO_LIMPEZA((byte) 6);
 
     private byte estado;

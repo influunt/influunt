@@ -12,11 +12,9 @@ import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
-import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -39,12 +37,6 @@ public class GrupoSemaforicoPlano extends Model implements Cloneable, Serializab
     @ManyToOne
     @NotNull(message = "não pode ficar em branco")
     private GrupoSemaforico grupoSemaforico;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @NotNull(message = "não pode ficar em branco")
-    @Valid
-    private List<Intervalo> intervalos;
-
 
     @ManyToOne
     @NotNull(message = "não pode ficar em branco")
@@ -126,14 +118,6 @@ public class GrupoSemaforicoPlano extends Model implements Cloneable, Serializab
         this.dataAtualizacao = dataAtualizacao;
     }
 
-    public List<Intervalo> getIntervalos() {
-        return intervalos;
-    }
-
-    public void setIntervalos(List<Intervalo> intervalos) {
-        this.intervalos = intervalos;
-    }
-
     @AssertTrue(groups = PlanosCheck.class, message = "O tempo de verde está menor que o tempo de segurança configurado.")
     public boolean isRespeitaVerdesDeSeguranca() {
         if (isAtivado() && this.getPlano().isModoOperacaoVerde() && this.getGrupoSemaforico().getTempoVerdeSeguranca() != null) {
@@ -151,16 +135,4 @@ public class GrupoSemaforicoPlano extends Model implements Cloneable, Serializab
         return super.clone();
     }
 
-    public void addIntervalos(Intervalo intervalo) {
-        if (getIntervalos() == null) {
-            setIntervalos(new ArrayList<Intervalo>());
-        }
-        getIntervalos().add(intervalo);
-    }
-
-    public List<Intervalo> ordenarIntervalos() {
-        List<Intervalo> listaIntervalos = this.getIntervalos();
-        listaIntervalos.sort((anterior, proximo) -> anterior.getOrdem().compareTo(proximo.getOrdem()));
-        return listaIntervalos;
-    }
 }

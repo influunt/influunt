@@ -1,6 +1,6 @@
 package execucao;
 
-import engine.GerenciadorDeEventos;
+import engine.GerenciadorDeTabelaHoraria;
 import models.DiaDaSemana;
 import models.Evento;
 import models.TabelaHorario;
@@ -44,7 +44,7 @@ public class GerenteProgramacaoTest {
         especialNaoRecorrente.setData(dt.toCalendar(Locale.forLanguageTag("pt-BR")).getTime());
         especialNaoRecorrente.setPosicaoPlano(3);
 
-        GerenciadorDeEventos g = new GerenciadorDeEventos();
+        GerenciadorDeTabelaHoraria g = new GerenciadorDeTabelaHoraria();
         List<Evento> eventoList = new ArrayList<>();
 
         eventoList.add(normal);
@@ -129,7 +129,7 @@ public class GerenteProgramacaoTest {
 
 
     public void sobreposicaoPrioridadePlanoRecorrenteTest() {
-        GerenciadorDeEventos g = new GerenciadorDeEventos();
+        GerenciadorDeTabelaHoraria g = new GerenciadorDeTabelaHoraria();
         List<Evento> eventoList = new ArrayList<>();
 
         DateTime dt = new DateTime(2016, 9, 18, 0, 0, 0);
@@ -170,7 +170,7 @@ public class GerenteProgramacaoTest {
         eventoList.add(criaEvento(TipoEvento.NORMAL, DiaDaSemana.SEGUNDA_A_SABADO, instante.getTime(), 2));
         eventoList.add(criaEvento(TipoEvento.NORMAL, DiaDaSemana.TODOS_OS_DIAS, instante.getTime(), 1));
 
-        g = new GerenciadorDeEventos();
+        g = new GerenciadorDeTabelaHoraria();
 
         g.addEventos(eventoList);
         assertFalse(g.getIntervalos().asMapOfRanges()
@@ -183,7 +183,7 @@ public class GerenteProgramacaoTest {
 
     @Test
     public void sobreposicaoPrioridadeTest() {
-        GerenciadorDeEventos g = new GerenciadorDeEventos();
+        GerenciadorDeTabelaHoraria g = new GerenciadorDeTabelaHoraria();
         List<Evento> eventoList = new ArrayList<>();
 
         DateTime dt = new DateTime(2016, 9, 18, 0, 0, 0);
@@ -222,7 +222,7 @@ public class GerenteProgramacaoTest {
         eventoList.add(criaEvento(TipoEvento.NORMAL, DiaDaSemana.SEGUNDA_A_SABADO, instante.getTime(), 2));
         eventoList.add(criaEvento(TipoEvento.NORMAL, DiaDaSemana.TODOS_OS_DIAS, instante.getTime(), 1));
 
-        g = new GerenciadorDeEventos();
+        g = new GerenciadorDeTabelaHoraria();
 
         g.addEventos(eventoList);
         assertFalse(g.getIntervalos().asMapOfRanges()
@@ -236,7 +236,7 @@ public class GerenteProgramacaoTest {
 
     @Test
     public void propagacaoTest() {
-        GerenciadorDeEventos g = new GerenciadorDeEventos();
+        GerenciadorDeTabelaHoraria g = new GerenciadorDeTabelaHoraria();
 
         DateTime dt = new DateTime(2016, 9, 20, 10, 0, 0);
         Calendar instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
@@ -276,7 +276,7 @@ public class GerenteProgramacaoTest {
 
     @Test
     public void sobreposicaoTest() {
-        GerenciadorDeEventos g = new GerenciadorDeEventos();
+        GerenciadorDeTabelaHoraria g = new GerenciadorDeTabelaHoraria();
 
         DateTime dt = new DateTime(2016, 9, 18, 0, 0, 0);
         Calendar instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
@@ -348,7 +348,7 @@ public class GerenteProgramacaoTest {
 
     @Test
     public void tabelaSabadoDomingoTest() {
-        GerenciadorDeEventos g = new GerenciadorDeEventos();
+        GerenciadorDeTabelaHoraria g = new GerenciadorDeTabelaHoraria();
 
         DateTime dt = new DateTime(2016, 9, 18, 0, 0, 0);
         Calendar instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
@@ -409,7 +409,7 @@ public class GerenteProgramacaoTest {
     @Test
     public void tabelaComplicadaTest() {
 
-        GerenciadorDeEventos g = new GerenciadorDeEventos();
+        GerenciadorDeTabelaHoraria g = new GerenciadorDeTabelaHoraria();
 
         DateTime dt = new DateTime(2016, 9, 18, 0, 0, 0);
         Calendar instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
@@ -602,7 +602,7 @@ public class GerenteProgramacaoTest {
 
     @Test
     public void planoAtualTest() {
-        GerenciadorDeEventos g = new GerenciadorDeEventos();
+        GerenciadorDeTabelaHoraria g = new GerenciadorDeTabelaHoraria();
 
         DateTime instante = new DateTime(2016, 9, 18, 11, 20, 1);
 
@@ -638,7 +638,7 @@ public class GerenteProgramacaoTest {
 
     @Test
     public void eventoDePrioridadeMenorNaoDeveSobreporTest() {
-        GerenciadorDeEventos g = new GerenciadorDeEventos();
+        GerenciadorDeTabelaHoraria g = new GerenciadorDeTabelaHoraria();
 
         DateTime instante = new DateTime(2016, 9, 19, 11, 0, 1);
 
@@ -685,7 +685,7 @@ public class GerenteProgramacaoTest {
 
     @Test
     public void sobreposicaoNoMesmoDiaTes() {
-        GerenciadorDeEventos g = new GerenciadorDeEventos();
+        GerenciadorDeTabelaHoraria g = new GerenciadorDeTabelaHoraria();
 
         Calendar instante = Calendar.getInstance();
         instante.set(2016, 8, 19, 11, 0, 1);
