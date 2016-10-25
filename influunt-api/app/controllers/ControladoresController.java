@@ -250,6 +250,16 @@ public class ControladoresController extends Controller {
         return CompletableFuture.completedFuture(forbidden());
     }
 
+    @Dynamic(value = "Influunt")
+    public CompletionStage<Result> getControladorForSimulacao(String id) {
+        Controlador controlador = Controlador.find.fetch("aneis").fetch("aneis.detectores").fetch("aneis.versoesPlanos").fetch("aneis.versoesPlanos.planos").where().eq("id", id).findUnique();
+        if (controlador == null) {
+            return CompletableFuture.completedFuture(notFound());
+        }
+
+        return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorSimulacao(controlador)));
+    }
+
     @Transactional
     @Dynamic(value = "ControladorAreaAuth(path)")
     public CompletionStage<Result> delete(String id) {

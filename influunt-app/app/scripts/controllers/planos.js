@@ -11,11 +11,11 @@ angular.module('influuntApp')
   .controller('PlanosCtrl', ['$controller', '$scope', '$state', '$timeout', 'Restangular', '$filter',
                              'validaTransicao', 'utilEstagios', 'toast', 'modoOperacaoService',
                              'influuntAlert', 'influuntBlockui', 'geraDadosDiagramaIntervalo',
-                             'handleValidations', 'utilControladores', 'planoService', 'breadcrumbs',
+                             'handleValidations', 'utilControladores', 'planoService', 'breadcrumbs', 'SimulacaoService',
     function ($controller, $scope, $state, $timeout, Restangular, $filter,
               validaTransicao, utilEstagios, toast, modoOperacaoService,
               influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo,
-              handleValidations, utilControladores, planoService, breadcrumbs) {
+              handleValidations, utilControladores, planoService, breadcrumbs, SimulacaoService) {
 
       $controller('HistoricoCtrl', {$scope: $scope});
       $scope.inicializaResourceHistorico('planos');
@@ -623,5 +623,9 @@ angular.module('influuntApp')
       getIndexPlano = function(anel, plano){
         var planos = _.find($scope.objeto.versoesPlanos, {idJson: anel.versaoPlano.idJson}).planos;
         return _.findIndex(planos, {idJson: plano.idJson});
+      };
+
+      $scope.podeSimular = function(controlador) {
+        return SimulacaoService.podeSimular(controlador);
       };
     }]);

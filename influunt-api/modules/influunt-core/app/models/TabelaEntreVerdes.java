@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
+import utils.InfluuntUtils;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -66,6 +67,9 @@ public class TabelaEntreVerdes extends Model implements Cloneable, Serializable 
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
+
+    @Transient
+    private String dataAtualizacaoFormatted;
 
     public TabelaEntreVerdes(GrupoSemaforico grupoSemaforico, Integer posicao) {
         super();
@@ -162,5 +166,13 @@ public class TabelaEntreVerdes extends Model implements Cloneable, Serializable 
 
     public void setDestroy(boolean destroy) {
         this.destroy = destroy;
+    }
+
+    public void setDataAtualizacaoFormatted() {
+        this.dataAtualizacaoFormatted = InfluuntUtils.formatDateToString(getDataAtualizacao(), "dd/MM/yyyy HH:mm:ss");
+    }
+
+    public String getDataAtualizacaoFormatted() {
+        return dataAtualizacaoFormatted;
     }
 }

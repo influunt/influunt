@@ -36,9 +36,9 @@ public class AppDynamicResourceHandler implements DynamicResourceHandler {
                                               Http.Context ctx) {
 
         InfluuntContextManager ctxManager = new InfluuntContextManager(authenticator);
-        Usuario u = ctxManager.getUsuario(ctx);
+        Usuario usuario = ctxManager.getUsuario(ctx);
 
-        if (u.isRoot()) {
+        if (usuario.isRoot()) {
             return CompletableFuture.completedFuture(Boolean.TRUE);
         }
 
@@ -51,16 +51,16 @@ public class AppDynamicResourceHandler implements DynamicResourceHandler {
             return CompletableFuture.completedFuture(Boolean.TRUE);
         }
 
-        if (isUsuarioAuthorized(u, chave)) {
+        if (isUsuarioAuthorized(usuario, chave)) {
 
             if ("ControladorAreaAuth(bodyArea)".equals(permissionValue)) {
-                if (u.podeAcessarTodasAreas()) return CompletableFuture.completedFuture(Boolean.TRUE);
+                if (usuario.podeAcessarTodasAreas()) return CompletableFuture.completedFuture(Boolean.TRUE);
                 String areaId = getAreaIdFromRequestBody(ctx.request().body());
-                boolean authorized = u.getArea() != null && u.getArea().getId().toString().equals(areaId);
+                boolean authorized = usuario.getArea() != null && usuario.getArea().getId().toString().equals(areaId);
                 return CompletableFuture.completedFuture(authorized);
 
             } else if ("ControladorAreaAuth(path)".equals(permissionValue) || "ControladorAreaAuth(body)".equals(permissionValue)) {
-                if (u.podeAcessarTodasAreas()) return CompletableFuture.completedFuture(Boolean.TRUE);
+                if (usuario.podeAcessarTodasAreas()) return CompletableFuture.completedFuture(Boolean.TRUE);
                 String controladorId = null;
                 if ("ControladorAreaAuth(path)".equals(permissionValue)) {
                     controladorId = getControladorIdFromPath(ctx.request().path());
@@ -68,10 +68,10 @@ public class AppDynamicResourceHandler implements DynamicResourceHandler {
                     controladorId = getControladorIdFromRequestBody(ctx.request().body());
                 }
 
-                if (controladorId != null && u.getArea() != null) {
+                if (controladorId != null && usuario.getArea() != null) {
 
                     // TODO fazer uma query com melhor performance do que buscar um controlador inteiro no banco
-                    Controlador controlador = Controlador.findUniqueByArea(controladorId, u.getArea().getId().toString());
+                    Controlador controlador = Controlador.findUniqueByArea(controladorId, usuario.getArea().getId().toString());
                     if (controlador != null) {
                         return CompletableFuture.completedFuture(Boolean.TRUE);
                     }
@@ -83,7 +83,7 @@ public class AppDynamicResourceHandler implements DynamicResourceHandler {
         } else {
             if ("GET /api/v1/usuarios/$id<[^/]+>".equals(chave) || "PUT /api/v1/usuarios/$id<[^/]+>".equals(chave)) {
                 String usuarioId = getUsuarioIdFromPath(ctx.request().path());
-                if (u.getId().toString().equals(usuarioId)) {
+                if (usuario.getId().toString().equals(usuarioId)) {
                     return CompletableFuture.completedFuture(Boolean.TRUE);
                 }
             }

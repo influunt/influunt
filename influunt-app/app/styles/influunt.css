@@ -2910,3 +2910,7 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
   font-size: 18px;
   color: #ec4758;
 }
+
+p.velocidade-error {
+  margin-top: -15px;
+}

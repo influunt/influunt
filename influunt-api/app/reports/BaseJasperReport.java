@@ -21,10 +21,10 @@ import java.util.Map;
 
 public class BaseJasperReport {
 
+    String REPORT_DEFINITION_PATH = "/app/templates/reports/";
+
     @Inject
     private Provider<Application> provider;
-
-    String REPORT_DEFINITION_PATH = "/app/templates/reports/";
 
     public InputStream generateReport(String reportDefFile, Map reportParams, List lista) {
         OutputStream os = new ByteArrayOutputStream();
@@ -46,6 +46,4 @@ public class BaseJasperReport {
         }
         return new ByteArrayInputStream(((ByteArrayOutputStream) os).toByteArray());
     }
-
-
 }

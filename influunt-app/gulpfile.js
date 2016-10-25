@@ -24,7 +24,8 @@ var yeoman = {
 
 var paths = {
   scripts: [
-    yeoman.app + '/scripts/**/*.js'
+    yeoman.app + '/scripts/**/*.js',
+    yeoman.app + '/plugins/influunt/**/*.js'
   ],
 
   styles: [yeoman.app + '/styles/**/*.scss'],

@@ -93,6 +93,15 @@
                          permission permission-only="'criarControlador'">
                         <i class="fa fa-check"></i> {{ 'controladores.geral.finalizar' | translate }}
                       </a>
+                      <a class="btn btn-outline btn-primary"
+                         tooltips tooltip-side="left"
+                         tooltip-template="{{ 'controladores.geral.msgTooltipSimular' | translate }}"
+                         type="button"
+                         data-ng-if="podeSimular(controlador)"
+                         ui-sref="app.simulacao({ idControlador: controlador.id })"
+                         permission permission-sref="'app.simulacao'">
+                        <i class="fa fa-cogs"></i> {{ 'controladores.geral.simular' | translate }}
+                      </a>
                     </hgroup>
                   </td>
                 </tr>

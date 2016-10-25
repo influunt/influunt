@@ -177,6 +177,18 @@ public class StatusConexaoControlador {
         new StatusConexaoControlador(idControlador, carimboDeTempo, online).save();
     }
 
+    private static HashMap<String, Object> ultimoStatusDosControladoresPorSituacao(Boolean online) {
+        //TODO: Confirmar se o last nao pega um registro aleatorio. Ele pode ser causa de inconsitencia
+        HashMap<String, Object> hash = new HashMap<>();
+        Aggregate.ResultsIterator<Map> ultimoStatus =
+                status().aggregate("{$sort:{timestamp:-1}}").and("{$match: {'conectado': " + online + "}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'},'conectado': {$first: '$conectado'}}}").
+                        as(Map.class);
+        for (Map m : ultimoStatus) {
+            hash.put(m.get("_id").toString(), m);
+        }
+        return hash;
+    }
+
     public boolean isConectado() {
         return conectado;
     }
@@ -197,18 +209,6 @@ public class StatusConexaoControlador {
                 ", timestamp=" + timestamp +
                 ", conectado=" + conectado +
                 '}';
-    }
-
-    private static HashMap<String, Object> ultimoStatusDosControladoresPorSituacao(Boolean online) {
-        //TODO: Confirmar se o last nao pega um registro aleatorio. Ele pode ser causa de inconsitencia
-        HashMap<String, Object> hash = new HashMap<>();
-        Aggregate.ResultsIterator<Map> ultimoStatus =
-                status().aggregate("{$sort:{timestamp:-1}}").and("{$match: {'conectado': " + online + "}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'},'conectado': {$first: '$conectado'}}}").
-                        as(Map.class);
-        for (Map m : ultimoStatus) {
-            hash.put(m.get("_id").toString(), m);
-        }
-        return hash;
     }
 
 

@@ -76,7 +76,7 @@ public class Intervalos {
     }
 
     public void status() {
-        System.out.println("Intervalo Atual:" + intervalo);
+        System.out.println("IntervaloEstagio Atual:" + intervalo);
     }
 
     public void pararExecucao() {

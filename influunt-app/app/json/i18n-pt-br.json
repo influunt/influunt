@@ -18,16 +18,16 @@
     "titulo": "Simulação",
     "parametros": "Parâmetros",
     "simulacaoCompleta": "Simulação Completa",
-    "inicioControl": "Início Controlador",
-    "inicioSimulacao": "Início Simulação",
+    "inicioControl": "Início Operação Controlador",
+    "inicioSimulacao": "Início da Simulação",
     "fimSimulacao": "Fim da Simulação",
     "horario": "Horário",
     "progDisparo": "Programar disparo de detectores",
     "progImposicao": "Programar imposição de planos",
     "disparoFalhas": "Disparo de falhas",
     "detectorVeicular": "Detector Veicular",
-    "detector": "Parâmetros",
-    "tipo": "Parâmetros",
+    "detector": "Detector",
+    "tipo": "Tipo",
     "plano": "Plano",
     "falhas": "Falhas",
     "problema": "Problema",
@@ -35,11 +35,27 @@
     "simular": "Simular",
     "interromper": "Interromper",
     "reiniciar": "Reiniciar",
-    "data": "Parâmetros",
+    "data": "Data",
     "log": "Log",
     "verLog": "Ver log",
     "trocaEstagio": "Troca de estágio",
-    "velocidade": "Velocidade"
+    "velocidade": "Velocidade",
+    "controlador": "Controlador",
+    "dataDisparo": "Data do Disparo",
+    "horarioDisparo": "Horário do Disparo",
+    "dataImposicao": "Data da Imposição",
+    "horarioImposicao": "Horário da Imposição",
+    "monitorado": "Monitorado",
+    "descricao": "Descrição",
+    "modoOperacao": "Modo Operação",
+    "detectorAlert": {
+      "title": "Remover disparo de detector?",
+      "text": "Deseja remover este disparo de detector da simulação?"
+    },
+    "planoAlert": {
+      "title": "Remover imposição de plano?",
+      "text": "Deseja remover esta imposição de plano da simulação?"
+    }
   },
   "controladores": {
     "nomeEndereco": "Localização",
@@ -150,7 +166,9 @@
       "statusControlador": "Status do controlador",
       "visualizarAcoes": "Visualizar/Ações",
       "acoes": "Ações",
-      "verTelaAnterior": "Ver Resumo"
+      "verTelaAnterior": "Ver Resumo",
+      "simular": "Simular",
+      "msgTooltipSimular": "Simular operação do controlador"
     },
     "associacaoDetectores": {
       "adicionarDetector": "Adicionar Detector",
@@ -403,10 +421,16 @@
     "modoManual": "Manual",
     "modosOperacao": {
       "atuado": "Atuado",
+      "ATUADO": "Atuado",
       "tempoFixoCoordenado": "Coordenado",
+      "TEMPO_FIXO_COORDENADO": "Coordenado",
       "tempoFixoIsolado": "Isolado",
+      "TEMPO_FIXO_ISOLADO": "Isolado",
       "intermitente": "Intermitente",
-      "apagado": "Apagado"
+      "INTERMITENTE": "Intermitente",
+      "apagado": "Apagado",
+      "APAGADO": "Apagado",
+      "MANUAL": "Manual"
     },
     "estagioSequencia": "Estágio da Sequência"
   },

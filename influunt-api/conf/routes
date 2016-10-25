@@ -41,6 +41,7 @@ POST      /api/v1/controladores/entre_verdes                          controller
 POST      /api/v1/controladores/associacao_detectores                 controllers.ControladoresController.associacaoDetectores()
 GET       /api/v1/controladores/:id                                   controllers.ControladoresController.findOne(id)
 DELETE    /api/v1/controladores/:id                                   controllers.ControladoresController.delete(id)
+GET       /api/v1/controladores/:id/simulacao                         controllers.ControladoresController.getControladorForSimulacao(id)
 POST      /api/v1/controladores/:id/edit                              controllers.ControladoresController.edit(id)
 GET       /api/v1/controladores/:id/timeline                          controllers.ControladoresController.timeline(id)
 GET       /api/v1/controladores/:id/pode_editar                       controllers.ControladoresController.podeEditar(id)
@@ -181,6 +182,9 @@ GET       /api/v1/monitoramento/status/:id/historico/:pagina/:tamanho           
 # Rota para o cucumber conseguir criar o banco de dados durante o teste
 POST      /api/v1/cucumber                                                                      controllers.CucumberController.createDB()
 
+#Simulação
+POST       /api/v1/simulacao                                                                    controllers.simulacao.SimuladorController.simular
+
 # Asset
 GET       /assets/*file                                                                         controllers.Assets.at(path="/public", file)
 
@@ -188,5 +192,5 @@ GET       /assets/*file                                                         
 GET       /api/v1/relatorios/auditoria                                                          controllers.RelatoriosController.gerarRelatorioAuditoria()
 GET       /api/v1/relatorios/controladores_status                                               controllers.RelatoriosController.gerarRelatorioControladoresStatus()
 GET       /api/v1/relatorios/controladores_falhas                                               controllers.RelatoriosController.gerarRelatorioControladoresFalhas()
-GET       /api/v1/relatorios/controladores_entreverdes                                          controllers.RelatoriosController.gerarRelatoriControladoresEntreverdes()
+GET       /api/v1/relatorios/controladores_entreverdes                                          controllers.RelatoriosController.gerarRelatorioControladoresEntreverdes()
 

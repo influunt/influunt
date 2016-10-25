@@ -1,7 +1,6 @@
 package engine;
 
 import models.Controlador;
-import models.EstadoGrupoSemaforico;
 import models.Evento;
 import models.Plano;
 import org.joda.time.DateTime;
@@ -14,81 +13,92 @@ import java.util.stream.Collectors;
 /**
  * Created by rodrigosol on 9/26/16.
  */
-public class Motor implements MotorEvents {
+public class Motor implements  EventoCallback, GerenciadorDeEstagiosCallback {
+
+    private final DateTime inicioControlador;
+
     private final Controlador controlador;
 
-    private GerenciadorDeEventos gerenciadorDeEventos;
+    private final MotorCallback callback;
 
-    private GerenciadorDeIntervalos gerenciadorDeIntervalos;
+    private DateTime instante;
 
-    private List<MotorCallback> callbacks = new ArrayList<>();
+    private GerenciadorDeTabelaHoraria gerenciadorDeTabelaHoraria;
+
+    private List<GerenciadorDeEstagios> estagios = new ArrayList<>();
 
     private Evento eventoAtual;
 
-    private List<EstadoGrupoSemaforico> estadoAtual;
-
-    public Motor(Controlador controlador, MotorCallback callback) {
-        callbacks.add(callback);
+    public Motor(Controlador controlador, DateTime inicioControlador, DateTime inicioExecucao, MotorCallback callback) {
+        this.callback = callback;
         this.controlador = controlador;
-        gerenciadorDeEventos = new GerenciadorDeEventos();
-        gerenciadorDeEventos.addEventos(controlador.getTabelaHoraria().getEventos());
-
+        this.inicioControlador = inicioControlador;
+        gerenciadorDeTabelaHoraria = new GerenciadorDeTabelaHoraria();
+        gerenciadorDeTabelaHoraria.addEventos(controlador.getTabelaHoraria().getEventos());
+        this.instante = inicioExecucao;
     }
 
-    public void start(DateTime timestamp) {
-        callbacks.stream().forEach(motorCallback -> motorCallback.onStart(timestamp));
-    }
 
-    public void stop(DateTime timestamp) {
-        callbacks.stream().forEach(motorCallback -> motorCallback.onStop(timestamp));
-    }
-
-    public void onEventoChange(DateTime timestamp, Evento atual, Evento novo) {
-        callbacks.stream().forEach(motorCallback -> motorCallback.onChangeEvento(timestamp, atual, novo));
-    }
-
-    public void onGrupoChange(DateTime timestamp, List<EstadoGrupoSemaforico> atual, List<EstadoGrupoSemaforico> novo) {
-        callbacks.stream().forEach(motorCallback -> motorCallback.onGrupoChange(timestamp, atual, novo));
-    }
-
-    public void tick(DateTime instante) {
-        Evento evento = gerenciadorDeEventos.eventoAtual(instante);
+    public void tick() {
+        Evento evento = gerenciadorDeTabelaHoraria.eventoAtual(instante);
         boolean iniciarGrupos = false;
-        if (eventoAtual == null) {
-            onEventoChange(instante, null, evento);
-            eventoAtual = evento;
-            iniciarGrupos = true;
-        } else {
-            if (!evento.equals(eventoAtual)) {
-                onEventoChange(instante, eventoAtual, evento);
-                eventoAtual = evento;
+        if (eventoAtual == null || !evento.equals(eventoAtual)) {
+            callback.onTrocaDePlano(instante,eventoAtual,evento,getPlanos(evento).stream().map(p -> p.getModoOperacao().toString()).collect(Collectors.toList()));
+            if(eventoAtual == null){
                 iniciarGrupos = true;
+            }else{
+                estagios.stream().forEach(gerenciadorDeEstagios -> {
+                    gerenciadorDeEstagios.trocarPlano(new AgendamentoTrocaPlano(evento,getPlanos(evento).get(gerenciadorDeEstagios.getAnel() - 1),instante));
+                });
             }
+            eventoAtual = evento;
         }
 
         if (iniciarGrupos) {
-            List<Plano> planos = controlador.getAneis().stream()
-                    .flatMap(anel -> anel.getPlanos().stream())
-                    .filter(plano -> plano.getPosicao() == eventoAtual.getPosicaoPlano())
-                    .collect(Collectors.toList());
-
-            gerenciadorDeIntervalos = new GerenciadorDeIntervalos(planos);
-        }
-        if (estadoAtual == null) {
-            estadoAtual = gerenciadorDeIntervalos.getEstadosGrupo(instante);
-            onGrupoChange(instante, null, estadoAtual);
-        } else {
-            List<EstadoGrupoSemaforico> estadoGrupoSemaforico = gerenciadorDeIntervalos.getEstadosGrupo(instante);
-            if (!estadoAtual.equals(estadoGrupoSemaforico)) {
-                onGrupoChange(instante, estadoAtual, estadoGrupoSemaforico);
-                estadoAtual = estadoGrupoSemaforico;
+            List<Plano> planos = getPlanos(eventoAtual);
+            for (int i = 1; i <= planos.size(); i++) {
+                estagios.add(new GerenciadorDeEstagios(i, inicioControlador, instante, planos.get(i - 1), this));
             }
         }
+
+        estagios.forEach(e -> e.tick());
+        instante = instante.plus(100);
     }
 
+    @Override
+    public void onEstagioChange(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
+        callback.onEstagioChange(anel, numeroCiclos, tempoDecorrido, timestamp, intervalos);
+    }
+
+    @Override
+    public void onEstagioEnds(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
+        callback.onEstagioEnds(anel, numeroCiclos, tempoDecorrido, timestamp, intervalos);
+    }
+
+    @Override
+    public void onCicloEnds(int anel, Long numeroCiclos) {
+        callback.onCicloEnds(anel, numeroCiclos);
+    }
+
+    @Override
+    public void onTrocaDePlanoEfetiva(AgendamentoTrocaPlano agendamentoTrocaPlano) {
+        callback.onTrocaDePlanoEfetiva(agendamentoTrocaPlano);
+    }
+
+    private List<Plano> getPlanos(Evento evento) {
+        return controlador.getAneis().stream().sorted((a1, a2) -> a1.getPosicao().compareTo(a2.getPosicao()))
+                .flatMap(anel -> anel.getPlanos().stream())
+                .filter(plano -> plano.getPosicao() == evento.getPosicaoPlano())
+                .collect(Collectors.toList());
+    }
 
     @Override
     public void onEvento(EventoMotor eventoMotor) {
+        if(eventoMotor.getTipoEvento().equals(TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR) ||
+           eventoMotor.getTipoEvento().equals(TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE)){
+            Integer anel = (Integer) eventoMotor.getParams()[1];
+            estagios.get(anel - 1).onEvento(eventoMotor);
+        }
 
     }
 }

@@ -5,10 +5,14 @@ name := """influunt-api"""
 version := "0.1.0"
 
 lazy val root = (project in file(".")).enablePlugins(PlayJava, PlayEbean)
-    .dependsOn(influuntCore,influuntDevice,influuntCentral)
-    .aggregate(influuntCore,influuntDevice,influuntCentral)
+    .dependsOn(influuntCore,influuntDevice,influuntCentral,influuntSimulador)
+    .aggregate(influuntCore,influuntDevice,influuntCentral,influuntSimulador)
 
 lazy val influuntCentral = (project in file("modules/influunt-central")).enablePlugins(PlayJava, PlayEbean)
+  .dependsOn(influuntCore)
+  .aggregate(influuntCore)
+
+lazy val influuntSimulador = (project in file("modules/influunt-simulador")).enablePlugins(PlayJava, PlayEbean)
   .dependsOn(influuntCore)
   .aggregate(influuntCore)
 
@@ -56,6 +60,7 @@ libraryDependencies ++= Seq(
   "net.jpountz.lz4" % "lz4" % "1.3.0",
   "org.mapdb" % "elsa" % "3.0.0-M6",
   "com.google.guava" % "guava" % "19.0",
+  "org.jfree" % "jfreesvg" % "3.1",
   "net.sf.jasperreports" % "jasperreports" % "6.3.1",
   "org.awaitility" % "awaitility-scala" % "2.0.0")
 

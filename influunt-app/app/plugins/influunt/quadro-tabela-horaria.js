@@ -1,3 +1,5 @@
+'use strict';
+
 var influunt;
 (function (influunt) {
   var components;
@@ -32,11 +34,11 @@ var influunt;
             programas.push(programa);
           }
         });
-        var trocas = this.getTrocas(programas)
-        var ultimo = undefined;
+        var trocas = this.getTrocas(programas);
+        var ultimo;
         ultimo = this.passada(trocas,ultimo);
         this.passada(trocas,ultimo);
-        this.intervalos()
+        this.intervalos();
         return this.agenda;
       };
       QuadroTabelaHorario.prototype.inicializa = function () {
@@ -68,17 +70,16 @@ var influunt;
           var minuto = 0;
           var dia = _.find(dias, {value: programa.dia});
           dia.dias.forEach(function(dia){
-            hash[dia] = hash[dia] || {}
-            hash[dia][hora] = hash[dia][hora] || {}
+            hash[dia] = hash[dia] || {};
+            hash[dia][hora] = hash[dia][hora] || {};
             if(hash[dia][hora][minuto]){
               if(_this.comparePrograma(programa,hash[dia][hora][minuto]) > 0){
-                hash[dia][hora][minuto] = programa
+                hash[dia][hora][minuto] = programa;
               }
             }else{
-              hash[dia][hora][minuto] = programa
+              hash[dia][hora][minuto] = programa;
             }
-
-          })
+          });
         });
         return hash;
       };
@@ -116,11 +117,11 @@ var influunt;
         var intervaloDia = this.intervaloDia;
         var intervaloHora = this.intervaloHora;
 
-        if(agenda['dom'][0][0].state === 'unset'){
+        if(agenda.dom[0][0].state === 'unset'){
           return;
         }
 
-        var currentIndex = undefined;
+        var currentIndex;
 
         diasDaSemana.forEach(function(dia){
           for(var i = 0; i < intervaloDia; i++){
@@ -134,12 +135,12 @@ var influunt;
             if(typeof currentIndex === 'undefined'){
               currentIndex = slotIndex;
               intervalo[currentIndex] = intervalo[currentIndex] || [];
-              intervalo[currentIndex].push([[dia,hora,minuto],[dia,hora,minuto]])
+              intervalo[currentIndex].push([[dia,hora,minuto],[dia,hora,minuto]]);
             }else{
               if(currentIndex !== slotIndex){
                 currentIndex = slotIndex;
                 intervalo[currentIndex] = intervalo[currentIndex] || [];
-                intervalo[currentIndex].push([[dia,hora,minuto],[dia,hora,minuto]])
+                intervalo[currentIndex].push([[dia,hora,minuto],[dia,hora,minuto]]);
               }else{
                 var last = intervalo[currentIndex][intervalo[currentIndex].length - 1];
                 last[1][0]= dia;
