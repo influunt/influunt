@@ -13,7 +13,7 @@ var TabelasHorariasPage = function () {
     'Plano':                           '[name="eventoPlano"]'
   };
 
-  var eventoAdd = 'tr[influunt-evento^="visualizarPlano"]:last-child';
+  var eventoAdd = 'tr[influunt-evento]:last-child';
   var eventAdded = 'tr[data-evento^="evento"]:first-child';
 
   this.isTabelaHoraria = function() {
