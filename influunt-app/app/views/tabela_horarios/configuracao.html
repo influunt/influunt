@@ -12,6 +12,7 @@
                    data-target="#modal-timeline" data-toggle="modal">
                   <i class="fa fa-code-fork"></i> {{ 'controladores.geral.historico' | translate }}
                 </a>
+                <!-- Botões "editar" habilitados -->
                 <a class="btn btn-primary" type="button"
                    tooltips tooltip-side="bottom" tooltip-template="{{ 'controladores.geral.msgTooltipSimular' | translate }}"
                    data-ng-if="podeSimular(objeto)"
@@ -22,15 +23,23 @@
                 <a class="btn btn-primary" type="button"
                    tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.geral.tabelaHorario' | translate }}"
                    ng-click="editarTabelaHoraria(objeto.id)"
-                   ng-if="currentVersaoTabelaHoraria.statusVersao === 'EDITANDO' || currentVersaoTabelaHoraria.statusVersao === undefined"
+                   ng-if="(currentVersaoTabelaHoraria.statusVersao === 'EDITANDO' || currentVersaoTabelaHoraria.statusVersao === undefined) && !podeEditarControlador()"
                    permission permission-only="'criarTabelaHoraria'">
                   <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
                 </a>
                 <a class="btn btn-primary" type="button"
                    tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.geral.tabelaHorario' | translate }}"
                    ng-click="clonarTabelaHoraria(objeto.id)"
-                   ng-if="currentVersaoTabelaHoraria.statusVersao === 'ATIVO' || currentVersaoTabelaHoraria.statusVersao === 'CONFIGURADO'"
+                   ng-if="(currentVersaoTabelaHoraria.statusVersao === 'ATIVO' || currentVersaoTabelaHoraria.statusVersao === 'CONFIGURADO') && !podeEditarControlador()"
                    permission permission-only="'criarTabelaHoraria'">
+                  <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
+                </a>
+
+                <!-- Botão "editar" desabilitado -->
+                <a  data-ng-if="!podeEditarControlador()"
+                    disabled="disabled"
+                    tooltips tooltip-side="left" tooltip-template="{{ 'controladores.revisao.controladorEmEdicaoPor' | translate: {nomeUsuario: objeto.versaoControlador.usuario.nome} }}"
+                    class="btn btn-primary">
                   <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
                 </a>
               </div>

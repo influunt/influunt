@@ -172,6 +172,10 @@ angular.module('influuntApp')
         }
       };
 
+      $scope.podeEditarControlador = function() {
+        return planoService.podeEditarControlador($scope.objeto);
+      };
+
       removerEventoNoCliente = function(evento) {
         var eventoObjetoIndex = _.findIndex($scope.objeto.eventos, {idJson: evento.idJson});
         var eventoIndex = _.findIndex($scope.currentTabelaHoraria.eventos, {idJson: evento.idJson});

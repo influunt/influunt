@@ -11,9 +11,11 @@ angular.module('influuntApp')
   .controller('ControladoresCtrl', ['$controller', '$scope', '$state', '$filter', 'Restangular', '$q',
                                     'handleValidations', 'APP_ROOT', 'influuntBlockui', 'toast', 'influuntAlert',
                                     'STATUS_CONTROLADOR', 'breadcrumbs', 'assertControlador', 'SimulacaoService',
-    function ($controller, $scope, $state, $filter, Restangular, $q,
-              handleValidations, APP_ROOT, influuntBlockui, toast, influuntAlert,
-              STATUS_CONTROLADOR, breadcrumbs, assertControlador, SimulacaoService) {
+                                    'planoService',
+    function($controller, $scope, $state, $filter, Restangular, $q,
+             handleValidations, APP_ROOT, influuntBlockui, toast, influuntAlert,
+             STATUS_CONTROLADOR, breadcrumbs, assertControlador, SimulacaoService,
+             planoService) {
 
       var setLocalizacaoNoCurrentAnel;
       // Herda todo o comportamento do crud basico.
@@ -529,6 +531,10 @@ angular.module('influuntApp')
               $state.go(destino, {id: $scope.objeto.id});
             }
           });
+      };
+
+      $scope.podeEditarControlador = function() {
+        return planoService.podeEditarControlador($scope.objeto);
       };
 
       $scope.podeAtivar = function(controlador) {

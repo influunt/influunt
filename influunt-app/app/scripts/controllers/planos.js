@@ -152,6 +152,10 @@ angular.module('influuntApp')
           });
       };
 
+      $scope.podeEditarControlador = function() {
+        return planoService.podeEditarControlador($scope.objeto);
+      };
+
       /**
        * Evita que dados informados para um plano em determinado modo de operação vaze
        * para o diagrama criado.
