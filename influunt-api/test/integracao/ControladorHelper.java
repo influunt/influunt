@@ -326,10 +326,10 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
     private void setDadosTabelaEntreVerdes() {
         Anel anel = getAnel(1);
         setEntreVerde(anel, 1, 1, 2, 3, 3);
-        setEntreVerde(anel, 5, 1, 2, 3, 3);
+
         setEntreVerde(anel, 3, 2, 3, 5, 3);
-        setEntreVerde(anel, 4, 2, 3, 7, 3);
         setEntreVerde(anel, 5, 2, 3, 5, 3);
+
         setEntreVerde(anel, 2, 3, 1, 3, 3);
         setEntreVerde(anel, 4, 3, 1, 5, 3);
 
@@ -337,16 +337,14 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         setEntreVerde(anel, 6, 1, 2, 3, 5);
         setEntreVerde(anel, 6, 1, 3, 3, 5);
         setEntreVerde(anel, 10, 1, 2, 3, 5);
-        setEntreVerde(anel, 10, 1, 3, 3, 5);
+
         setEntreVerde(anel, 7, 2, 1, 3, 5);
         setEntreVerde(anel, 7, 2, 3, 3, 5);
         setEntreVerde(anel, 9, 2, 1, 3, 5);
-        setEntreVerde(anel, 9, 2, 3, 3, 5);
+
         setEntreVerde(anel, 8, 3, 1, 3, 5);
         setEntreVerde(anel, 8, 3, 2, 3, 5);
         setEntreVerde(anel, 9, 3, 1, 3, 5);
-        setEntreVerde(anel, 9, 3, 2, 3, 5);
-        setEntreVerde(anel, 10, 3, 1, 3, 5);
         setEntreVerde(anel, 10, 3, 2, 3, 5);
 
         controlador.save();

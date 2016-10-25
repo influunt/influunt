@@ -38,8 +38,8 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
         assertEquals("Total de transicoes Anel 2 Estagios - G1", 1, anelCom2Estagios.getGruposSemaforicos().get(0).getTransicoesComGanhoDePassagem().size());
         assertEquals("Total de transicoes Anel 2 Estagios - G2", 1, anelCom2Estagios.getGruposSemaforicos().get(1).getTransicoesComGanhoDePassagem().size());
 
-        assertEquals("Total de transicoes Anel 4 Estagios - G1", 6, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComGanhoDePassagem().size());
-        assertEquals("Total de transicoes Anel 4 Estagios - G2", 6, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComGanhoDePassagem().size());
+        assertEquals("Total de transicoes Anel 4 Estagios - G1", 4, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComGanhoDePassagem().size());
+        assertEquals("Total de transicoes Anel 4 Estagios - G2", 4, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComGanhoDePassagem().size());
 
         List<Erro> erros = getErros(controlador);
 
