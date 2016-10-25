@@ -120,14 +120,14 @@ var influunt;
         }
 
         function estagioOut(estagio){
-          if(estagios[estagio.name].visible == true){
+          if(estagios[estagio.name] && estagios[estagio.name].visible == true){
             estagios[estagio.name].visible = false;
           }
         }
         
         function estagioDown(estagio){
           console.log("EsT Down",estagio.name);
-          if(estagios[estagio.name].visible){
+          if(estagios[estagio.name] && estagios[estagio.name].visible){
             estagios[estagio.name].visible = false;
           }else{
             estagios[estagio.name].x = estagio.x - 150;
