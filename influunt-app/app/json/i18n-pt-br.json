@@ -180,7 +180,12 @@
       "faseVermelhaIntermitente": "Colocar em amarelo intermitente"
     },
     "transicoesProibidas": {
-      "titulo": "Transições Proibidas"
+      "alternativa": "Alternativa",
+      "de": "De",
+      "estagiosAlternativos": "Estágios alternativos",
+      "para":"Para",
+      "titulo": "Transições Proibidas",
+      "transicaoProibida": "Transição proibida"
     },
     "verdesConflitantes": {
       "titulo": "Verdes Conflitantes"
