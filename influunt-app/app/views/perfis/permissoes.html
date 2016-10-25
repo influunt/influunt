@@ -16,25 +16,24 @@
                   <table class="table table-bordered table-striped">
                     <thead>
                       <tr>
+                        <th></th>
                         <th sortable-th
-                          data-ng-model="pesquisaPermissoes"
                           data-name="descricao"
                           data-label="{{ 'perfis.permissoes.descricao' | translate }}"
                           data-ng-click="show()">
                         </th>
-                        <th>{{ 'perfis.permissoes.permite' | translate}}</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr data-ng-repeat="role in roles">
-                        <td>{{ role.nome }}</td>
-                        <td width="5%">
+                        <td class="text-center" width="5%">
                           <input type="checkbox"
                                  ichecks
                                  data-ng-model="rolesAtivados[role.id]"
                                  data-if-checked="atualizarPermissoes()"
                                  data-if-unchecked="atualizarPermissoes()">
                         </td>
+                        <td>{{ role.nome }}</td>
                       </tr>
                     </tbody>
                   </table>

@@ -1,13 +1,19 @@
 <div class="col-lg-12 col-sm-12 no-padding padding-top-20 ibox-content">
-  <div class="col-sm-6 no-padding-left review-page" data-ng-repeat="estagio in dadosCurrentEstagios">
-    <img data-ng-src="{{ estagio.imagem }}">
-    <h3>E{{ estagio.posicao }}</h3>
-    <div>{{ estagio.gruposSemaforicosStr }}</div>
-    <div class="m-t-xs" data-ng-if="estagio.tempoMaximoPermanenciaAtivado">
-      {{ 'controladores.revisao.tempoMaximoPermanencia' | translate }}: {{ estagio.tempoMaximoPermanencia }}s
-    </div>
-    <div class="m-t-xs" data-ng-if="estagio.demandaPrioritaria">
-      {{ 'controladores.revisao.demandaPrioritaria' | translate }}: {{ estagio.tempoVerdeDemandaPrioritaria }}s
+  <div class="col-sm-4 no-padding-left review-page" data-ng-repeat="estagio in dadosCurrentEstagios">
+    <div class="row">
+      <div class="col-sm-12">
+        <img data-ng-src="{{ estagio.imagem }}">
+      </div>
+      <div class="col-sm-12">
+        <h3>E{{ estagio.posicao }}</h3>
+        <div>{{ estagio.gruposSemaforicosStr }}</div>
+        <div class="m-t-xs" data-ng-if="estagio.tempoMaximoPermanenciaAtivado">
+          {{ 'controladores.revisao.tempoMaximoPermanencia' | translate }}: {{ estagio.tempoMaximoPermanencia }}s
+        </div>
+        <div class="m-t-xs" data-ng-if="estagio.demandaPrioritaria">
+          {{ 'controladores.revisao.demandaPrioritaria' | translate }}: {{ estagio.tempoVerdeDemandaPrioritaria }}s
+        </div>
+      </div>
     </div>
   </div>
 </div>
