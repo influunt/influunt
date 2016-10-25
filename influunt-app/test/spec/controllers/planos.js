@@ -279,6 +279,17 @@ describe('Controller: PlanosCtrl', function () {
         scope.$apply();
       };
 
+      var isEstagioVeicular = function(controlador, estagioPlano) {
+        var veicular = false;
+        var estagio = _.find(controlador.estagios, {idJson: estagioPlano.estagio.idJson});
+        _.each(estagio.estagiosGruposSemaforicos, function(gs){
+          var egs = _.find(controlador.estagiosGruposSemaforicos, {idJson: gs.idJson});
+          var grupo = _.find(controlador.gruposSemaforicos, {idJson: egs.grupoSemaforico.idJson});
+          veicular = grupo.tipo === 'VEICULAR' ? true : veicular;
+        });
+        return veicular;
+      };
+
       it('Deve ajustar o conteúdo para o plano em modo ATUADO', function() {
         inicializaTesteModoOperacao('ATUADO');
         var plano = scope.currentPlano;
@@ -288,7 +299,7 @@ describe('Controller: PlanosCtrl', function () {
         plano.estagiosPlanos.forEach(function(e) {
           var estagio = _.find(scope.objeto.estagiosPlanos, {idJson: e.idJson});
           expect(estagio.tempoVerde).toBe(null);
-          expect(estagio.tempoVerdeMinimo).toBe(scope.objeto.verdeMinimoMin);
+          expect(estagio.tempoVerdeMinimo).toBe(10);
           expect(estagio.tempoVerdeMaximo).toBe(scope.objeto.verdeMaximoMin);
           expect(estagio.tempoVerdeIntermediario).toBe(scope.objeto.verdeIntermediarioMin);
           expect(estagio.tempoExtensaoVerde).toBe(scope.objeto.extensaoVerdeMin);
@@ -303,7 +314,11 @@ describe('Controller: PlanosCtrl', function () {
         expect(plano.defasagem).toBe(scope.objeto.defasagemMin);
         plano.estagiosPlanos.forEach(function(e) {
           var estagio = _.find(scope.objeto.estagiosPlanos, {idJson: e.idJson});
-          expect(estagio.tempoVerde).toBe(scope.objeto.verdeMin);
+          if (isEstagioVeicular(scope.objeto, estagio)) {
+            expect(estagio.tempoVerde).toBe(10);
+          } else {
+            expect(estagio.tempoVerde).toBe(4);
+          }
           expect(estagio.tempoVerdeMinimo).toBe(null);
           expect(estagio.tempoVerdeMaximo).toBe(null);
           expect(estagio.tempoVerdeIntermediario).toBe(null);
@@ -319,7 +334,11 @@ describe('Controller: PlanosCtrl', function () {
         expect(plano.defasagem).toBe(null);
         plano.estagiosPlanos.forEach(function(e) {
           var estagio = _.find(scope.objeto.estagiosPlanos, {idJson: e.idJson});
-          expect(estagio.tempoVerde).toBe(scope.objeto.verdeMin);
+          if (isEstagioVeicular(scope.objeto, estagio)) {
+            expect(estagio.tempoVerde).toBe(10);
+          } else {
+            expect(estagio.tempoVerde).toBe(4);
+          }
           expect(estagio.tempoVerdeMinimo).toBe(null);
           expect(estagio.tempoVerdeMaximo).toBe(null);
           expect(estagio.tempoVerdeIntermediario).toBe(null);
@@ -335,7 +354,11 @@ describe('Controller: PlanosCtrl', function () {
         expect(plano.defasagem).toBe(null);
         plano.estagiosPlanos.forEach(function(e) {
           var estagio = _.find(scope.objeto.estagiosPlanos, {idJson: e.idJson});
-          expect(estagio.tempoVerde).toBe(scope.objeto.verdeMin);
+          if (isEstagioVeicular(scope.objeto, estagio)) {
+            expect(estagio.tempoVerde).toBe(10);
+          } else {
+            expect(estagio.tempoVerde).toBe(4);
+          }
           expect(estagio.tempoVerdeMinimo).toBe(null);
           expect(estagio.tempoVerdeMaximo).toBe(null);
           expect(estagio.tempoVerdeIntermediario).toBe(null);
@@ -351,7 +374,11 @@ describe('Controller: PlanosCtrl', function () {
         expect(plano.defasagem).toBe(null);
         plano.estagiosPlanos.forEach(function(e) {
           var estagio = _.find(scope.objeto.estagiosPlanos, {idJson: e.idJson});
-          expect(estagio.tempoVerde).toBe(scope.objeto.verdeMin);
+          if (isEstagioVeicular(scope.objeto, estagio)) {
+            expect(estagio.tempoVerde).toBe(10);
+          } else {
+            expect(estagio.tempoVerde).toBe(4);
+          }
           expect(estagio.tempoVerdeMinimo).toBe(null);
           expect(estagio.tempoVerdeMaximo).toBe(null);
           expect(estagio.tempoVerdeIntermediario).toBe(null);

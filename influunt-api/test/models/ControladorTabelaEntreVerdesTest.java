@@ -40,8 +40,8 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
         assertEquals("Quantidade de tabela entre-verdes", 1, anelCom2Estagios.getGruposSemaforicos().get(1).getTabelasEntreVerdes().size());
         assertEquals("Quantidade de tabela entre-verdes", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTabelasEntreVerdes().size());
         assertEquals("Quantidade de tabela entre-verdes", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTabelasEntreVerdes().size());
-        assertEquals("Quantidade de transicoes G1", 4, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().size());
-        assertEquals("Quantidade de transicoes G2", 6, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().size());
+        assertEquals("Quantidade de transicoes G1", 3, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().size());
+        assertEquals("Quantidade de transicoes G2", 4, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().size());
         assertEquals("Quantidade de transicoes G3", 1, anelCom2Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().size());
         assertEquals("Quantidade de transicoes G4", 1, anelCom2Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().size());
 
@@ -50,22 +50,18 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
         TabelaEntreVerdesTransicao tabelaEntreVerdesTransicao = transicao1Anel2EstagiosGS1.getTabelaEntreVerdesTransicoes().get(0);
 
         List<Erro> erros = getErros(controlador);
-        assertEquals(16, erros.size());
+        assertEquals(12, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[1].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[2].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[3].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
                 new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitenteOk"),
                 new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[1].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitenteOk"),
                 new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[2].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitenteOk"),
-                new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[3].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitenteOk"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[1].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[2].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[3].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[4].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[5].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[1].gruposSemaforicos[1].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmarelo")
         ));
@@ -75,7 +71,7 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
 
         erros = getErros(controlador);
 
-        assertEquals(17, erros.size());
+        assertEquals(13, erros.size());
         Collections.sort(erros, (Erro e1, Erro e2) -> e1.path.compareTo(e2.path));
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
@@ -84,14 +80,10 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
                 new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[1].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitenteOk"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[2].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
                 new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[2].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitenteOk"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[3].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
-                new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[3].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitenteOk"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[1].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[2].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[3].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[4].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[5].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
                 new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmareloOk"),
                 new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoLimpezaFieldVeicular"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[1].gruposSemaforicos[1].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmarelo")
@@ -105,7 +97,7 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
 
         erros = getErros(controlador);
 
-        assertEquals(17, erros.size());
+        assertEquals(13, erros.size());
         Collections.sort(erros, (Erro e1, Erro e2) -> e1.path.compareTo(e2.path));
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitenteOk"),
@@ -114,14 +106,10 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
                 new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[1].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitenteOk"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[2].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
                 new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[2].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitenteOk"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[3].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
-                new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[3].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitenteOk"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[1].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[2].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[3].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[4].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[5].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
                 new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmareloOk"),
                 new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoLimpezaFieldVeicular"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[1].gruposSemaforicos[1].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmarelo")
@@ -134,7 +122,7 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
 
         erros = getErros(controlador);
 
-        assertEquals(18, erros.size());
+        assertEquals(14, erros.size());
         Collections.sort(erros, (Erro e1, Erro e2) -> e1.path.compareTo(e2.path));
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro(CONTROLADOR, "Esse grupo semafórico deve ter no máximo o número de tabelas entre-verdes definido na configuração do controlador.", "aneis[0].gruposSemaforicos[0].numeroCorretoTabelasEntreVerdes"),
@@ -144,14 +132,10 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
                 new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[1].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitenteOk"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[2].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
                 new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[2].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitenteOk"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[3].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
-                new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[3].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitenteOk"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[1].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[2].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[3].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[4].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].transicoes[5].tabelaEntreVerdesTransicoes[0].tempoAmarelo"),
                 new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmareloOk"),
                 new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[1].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoLimpezaFieldVeicular"),
                 new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[1].gruposSemaforicos[1].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoAmarelo")
@@ -180,8 +164,8 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
         assertEquals("Total de transicoes Anel 2 Estagios - G1", 1, anelCom2Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().size());
         assertEquals("Total de transicoes Anel 2 Estagios - G2", 1, anelCom2Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().size());
 
-        assertEquals("Total de transicoes Anel 4 Estagios - G1", 4, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().size());
-        assertEquals("Total de transicoes Anel 4 Estagios - G2", 6, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().size());
+        assertEquals("Total de transicoes Anel 4 Estagios - G1", 3, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().size());
+        assertEquals("Total de transicoes Anel 4 Estagios - G2", 4, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().size());
 
         assertEquals("Total tabela EntreVerdes Anel 2 Estagios - G1", 1, anelCom2Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().get(0).getTabelaEntreVerdesTransicoes().size());
         assertEquals("Total tabela EntreVerdes Anel 2 Estagios - G2", 1, anelCom2Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().get(0).getTabelaEntreVerdesTransicoes().size());
@@ -189,14 +173,11 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
         assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().get(0).getTabelaEntreVerdesTransicoes().size());
         assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().get(1).getTabelaEntreVerdesTransicoes().size());
         assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().get(2).getTabelaEntreVerdesTransicoes().size());
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().get(3).getTabelaEntreVerdesTransicoes().size());
 
         assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().get(0).getTabelaEntreVerdesTransicoes().size());
         assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().get(1).getTabelaEntreVerdesTransicoes().size());
         assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().get(2).getTabelaEntreVerdesTransicoes().size());
         assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().get(3).getTabelaEntreVerdesTransicoes().size());
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().get(4).getTabelaEntreVerdesTransicoes().size());
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().get(5).getTabelaEntreVerdesTransicoes().size());
     }
 
     @Override
@@ -216,8 +197,8 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
         assertEquals("Total de transicoes Anel 2 Estagios - G1", 1, anelCom2Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().size());
         assertEquals("Total de transicoes Anel 2 Estagios - G2", 1, anelCom2Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().size());
 
-        assertEquals("Total de transicoes Anel 4 Estagios - G1", 4, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().size());
-        assertEquals("Total de transicoes Anel 4 Estagios - G2", 6, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().size());
+        assertEquals("Total de transicoes Anel 4 Estagios - G1", 3, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().size());
+        assertEquals("Total de transicoes Anel 4 Estagios - G2", 4, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().size());
 
         assertEquals("Total tabela EntreVerdes Anel 2 Estagios - G1", 1, anelCom2Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().get(0).getTabelaEntreVerdesTransicoes().size());
         assertEquals("Total tabela EntreVerdes Anel 2 Estagios - G2", 1, anelCom2Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().get(0).getTabelaEntreVerdesTransicoes().size());
@@ -225,14 +206,11 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
         assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().get(0).getTabelaEntreVerdesTransicoes().size());
         assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().get(1).getTabelaEntreVerdesTransicoes().size());
         assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().get(2).getTabelaEntreVerdesTransicoes().size());
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, anelCom4Estagios.getGruposSemaforicos().get(0).getTransicoesComPerdaDePassagem().get(3).getTabelaEntreVerdesTransicoes().size());
 
         assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().get(0).getTabelaEntreVerdesTransicoes().size());
         assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().get(1).getTabelaEntreVerdesTransicoes().size());
         assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().get(2).getTabelaEntreVerdesTransicoes().size());
         assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().get(3).getTabelaEntreVerdesTransicoes().size());
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().get(4).getTabelaEntreVerdesTransicoes().size());
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, anelCom4Estagios.getGruposSemaforicos().get(1).getTransicoesComPerdaDePassagem().get(5).getTabelaEntreVerdesTransicoes().size());
     }
 
     @Override
@@ -248,7 +226,7 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
-        assertEquals(16, json.size());
+        assertEquals(12, json.size());
     }
 
     @Override
@@ -276,8 +254,8 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
         assertEquals("Total de transicoes Anel 2 Estagios - G3", 1, g3.getTransicoesComPerdaDePassagem().size());
         assertEquals("Total de transicoes Anel 2 Estagios - G4", 1, g4.getTransicoesComPerdaDePassagem().size());
 
-        assertEquals("Total de transicoes Anel 4 Estagios - G1", 4, g1.getTransicoesComPerdaDePassagem().size());
-        assertEquals("Total de transicoes Anel 4 Estagios - G2", 6, g2.getTransicoesComPerdaDePassagem().size());
+        assertEquals("Total de transicoes Anel 4 Estagios - G1", 3, g1.getTransicoesComPerdaDePassagem().size());
+        assertEquals("Total de transicoes Anel 4 Estagios - G2", 4, g2.getTransicoesComPerdaDePassagem().size());
 
         assertEquals("Total tabela EntreVerdes Anel 2 Estagios - G3", 1, g3.getTransicoesComPerdaDePassagem().get(0).getTabelaEntreVerdesTransicoes().size());
         assertEquals("Total tabela EntreVerdes Anel 2 Estagios - G4", 1, g4.getTransicoesComPerdaDePassagem().get(0).getTabelaEntreVerdesTransicoes().size());
@@ -285,14 +263,11 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
         assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, g1.getTransicoesComPerdaDePassagem().get(0).getTabelaEntreVerdesTransicoes().size());
         assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, g1.getTransicoesComPerdaDePassagem().get(1).getTabelaEntreVerdesTransicoes().size());
         assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, g1.getTransicoesComPerdaDePassagem().get(2).getTabelaEntreVerdesTransicoes().size());
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G1", 1, g1.getTransicoesComPerdaDePassagem().get(3).getTabelaEntreVerdesTransicoes().size());
 
         assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, g2.getTransicoesComPerdaDePassagem().get(0).getTabelaEntreVerdesTransicoes().size());
         assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, g2.getTransicoesComPerdaDePassagem().get(1).getTabelaEntreVerdesTransicoes().size());
         assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, g2.getTransicoesComPerdaDePassagem().get(2).getTabelaEntreVerdesTransicoes().size());
         assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, g2.getTransicoesComPerdaDePassagem().get(3).getTabelaEntreVerdesTransicoes().size());
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, g2.getTransicoesComPerdaDePassagem().get(4).getTabelaEntreVerdesTransicoes().size());
-        assertEquals("Total tabela EntreVerdes Anel 4 Estagios - G2", 1, g2.getTransicoesComPerdaDePassagem().get(5).getTabelaEntreVerdesTransicoes().size());
     }
 
     @Override

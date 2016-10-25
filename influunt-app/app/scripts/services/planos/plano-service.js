@@ -14,8 +14,8 @@ angular.module('influuntApp')
       var criarPlano, associarEstagios, associarGruposSemaforicos, criarPlanoManualExclusivo, adicionar,
           verdeMinimoDoEstagio, setDiagramaEstatico, podeEditarControlador;
 
-      verdeMinimoDoEstagio = function(controlador, estagio) {
-        var tempoMax = controlador.verdeMin;
+      verdeMinimoDoEstagio = function(controlador, verdeMin, estagio) {
+        var tempoMax = verdeMin;
         var veicular = false;
         _.each(estagio.estagiosGruposSemaforicos, function(gs){
           var egs = _.find(controlador.estagiosGruposSemaforicos, {idJson: gs.idJson});
@@ -118,7 +118,7 @@ angular.module('influuntApp')
                 idJson: plano.idJson
               },
               posicao: estagio.posicao,
-              tempoVerde: verdeMinimoDoEstagio(controlador, estagio),
+              tempoVerde: verdeMinimoDoEstagio(controlador, controlador.verdeMin, estagio),
               dispensavel: false
             };
 
