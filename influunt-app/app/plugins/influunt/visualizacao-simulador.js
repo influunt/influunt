@@ -126,7 +126,6 @@ var influunt;
         }
         
         function estagioDown(estagio){
-          console.log("EsT Down",estagio.name);
           if(estagios[estagio.name] && estagios[estagio.name].visible){
             estagios[estagio.name].visible = false;
           }else{
