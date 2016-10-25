@@ -154,6 +154,12 @@ module.exports = function() {
     });
   });
 
+  this.Given(/^o sistema deverá mostrar um alerta para verdes segurança mínimo de pedestre$/, function () {
+    return planosPage.alertVerdeSeguranca().then(function(text) {
+      expect(text).to.equal('Não é permitido colocar o tempo de verde menor que o tempo de verde de segurança em estágio de pedestre.');
+    });
+  });
+
   this.Then(/^o sistema deverá mostrar um alerta para valor digitado maior que o limite máximo$/, function () {
     return objetosComuns.alertInfluuntKnob().then(function(text) {
       expect(text).to.equal('O valor digitado é maior que o limite máximo.');

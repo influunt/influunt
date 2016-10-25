@@ -26,7 +26,7 @@ var PerfisPage = function () {
 
   this.marcarPermissao = function(permissao) {
     return world.waitForOverlayDisappear().then(function (){
-      return world.getElementByXpath('//tr//td[contains(text(), "'+permissao+'")]//following-sibling::td').click();
+      return world.getElementByXpath('//*[ancestor::tr[td[text()="'+permissao+'"]]][1]').click();
     });
   };
 

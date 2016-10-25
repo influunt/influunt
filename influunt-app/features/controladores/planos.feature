@@ -136,11 +136,25 @@ Funcionalidade: Fluxo de cadastro de planos
     Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
     Quando o usuário confirmar
     E que o usuário marque 50 segundos para o "TEMPO DE CICLO"
+    E que o usuário clique no botão de configurar o estágio "E1"
+    E que o usuário marque 9 segundos para o "Tempo de Verde"
+    Então o sistema deverá mostrar um alerta para verdes segurança menor
+    E o usuário responde sim para verde de segurança
+    E que o usuário clique no botão de fechar a caixa de configuração
+    E que o usuário clique no botão de configurar o estágio "E2"
+    E que o usuário marque 9 segundos para o "Tempo de Verde"
+    Então o sistema deverá mostrar um alerta para verdes segurança menor
+    E o usuário responde sim para verde de segurança
+    E que o usuário clique no botão de fechar a caixa de configuração
+    E que o usuário clique no botão de configurar o estágio "E3"
+    E que o usuário marque 1 segundos para o "Tempo de Verde"
+    Então o sistema deverá mostrar um alerta para verdes segurança mínimo de pedestre
+    E o usuário responde ok
+    E que o usuário clique no botão de fechar a caixa de configuração
     E o usuário clicar em "Salvar"
     Então o sistema deverá apresentar erro de "G1 - O tempo de verde está menor que o tempo de segurança configurado."
     Então o sistema deverá apresentar erro de "G2 - O tempo de verde está menor que o tempo de segurança configurado."
-    Então o sistema deverá apresentar erro de "G3 - O tempo de verde está menor que o tempo de segurança configurado."
-    Então o sistema deverá apresentar erro de "A soma dos tempos dos estágios (12s) é diferente do tempo de ciclo (50s)."
+    Então o sistema deverá apresentar erro de "A soma dos tempos dos estágios (31s) é diferente do tempo de ciclo (50s)."
 
   Cenário: Configurar um plano em modo coordenado
     Dado que o usuário esteja na página de planos
