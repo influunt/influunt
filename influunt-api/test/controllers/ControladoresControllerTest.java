@@ -260,9 +260,9 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         int totalEstagioGruposSemaforicos = 6;
         int totalVerdesConflitantes = 4;
         int totalTabelaEntreVerdes = 4;
-        int totalTabelaEntreVerdesTransicao = 12;
-        int totalTransicoes = 24;
-        int totalAtrasoDeGrupo = 24;
+        int totalTabelaEntreVerdesTransicao = 9;
+        int totalTransicoes = 18;
+        int totalAtrasoDeGrupo = 18;
         int totalImagens = 0;
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
