@@ -138,6 +138,10 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         anel.setPosicao(1);
         anel.setAtivo(true);
         List<Estagio> estagios = Arrays.asList(new Estagio(1), new Estagio(2), new Estagio(3));
+        estagios.forEach(estagio -> {
+            Imagem imagem = criarImagem();
+            estagio.setImagem(imagem);
+        });
         anel.setEstagios(estagios);
 
         Endereco haddock = new Endereco(1.0, 1.0, "Av. Paulista com Haddock Lobo");
@@ -150,6 +154,10 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         anel.setPosicao(2);
         anel.setAtivo(true);
         List<Estagio> estagios2 = Arrays.asList(new Estagio(1), new Estagio(2), new Estagio(3));
+        estagios2.forEach(estagio -> {
+            Imagem imagem = criarImagem();
+            estagio.setImagem(imagem);
+        });
         anel.setEstagios(estagios2);
 
         Endereco augusta = new Endereco(1.0, 1.0, "Av. Paulista com Rua Augusta");
@@ -162,6 +170,10 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         anel.setPosicao(3);
         anel.setAtivo(true);
         List<Estagio> estagios3 = Arrays.asList(new Estagio(1), new Estagio(2), new Estagio(3), new Estagio(4), new Estagio(5));
+        estagios3.forEach(estagio -> {
+            Imagem imagem = criarImagem();
+            estagio.setImagem(imagem);
+        });
         anel.setEstagios(estagios3);
 
         augusta = new Endereco(1.0, 1.0, "Av. Paulista com Rua da Consolação");
@@ -765,5 +777,12 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         }
 
         return usuario;
+    }
+
+    private Imagem criarImagem() {
+        Imagem imagem = new Imagem();
+        imagem.setContentType("image/png");
+        imagem.save();
+        return imagem;
     }
 }

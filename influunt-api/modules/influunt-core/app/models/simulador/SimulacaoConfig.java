@@ -49,10 +49,30 @@ public class SimulacaoConfig {
         this.aneis = aneis;
     }
 
+    public static class EstagioSimulacaoConfig {
+
+        private final Integer posicao;
+
+        private final String imagem;
+
+        public EstagioSimulacaoConfig(Integer posicao, String imagem) {
+            this.posicao = posicao;
+            this.imagem = imagem;
+        }
+
+        public Integer getPosicao() {
+            return posicao;
+        }
+
+        public String getImagem() {
+            return imagem;
+        }
+    }
     public static class AnelSimulacaoConfig {
         private int numero;
 
         private List<TipoGrupoSemaforico> tiposGruposSemaforicos = new ArrayList<>();
+        public List<EstagioSimulacaoConfig> estagios = new ArrayList<>();
 
         public int getNumero() {
             return numero;
@@ -68,6 +88,14 @@ public class SimulacaoConfig {
 
         public void setTiposGruposSemaforicos(List<TipoGrupoSemaforico> tiposGruposSemaforicos) {
             this.tiposGruposSemaforicos = tiposGruposSemaforicos;
+        }
+
+        public List<EstagioSimulacaoConfig> getEstagios() {
+            return estagios;
+        }
+
+        public void setEstagios(List<EstagioSimulacaoConfig> estagios) {
+            this.estagios = estagios;
         }
     }
 }
