@@ -208,6 +208,14 @@ public class Agrupamento extends Model implements Cloneable, Serializable {
         this.diaDaSemana = diaDaSemana;
     }
 
+    @AssertTrue(message = "Todos os aneis deste agrupamento devem pertencer à mesma área")
+    public boolean isTodosOsAneisDaMesmaArea() {
+        return this.getAneis().stream().map(anel -> {
+            anel.getControlador().refresh();
+            return anel.getControlador().getArea().getId();
+        }).distinct().count() == 1;
+    }
+
     @AssertTrue(message = "O plano associado ao agrupamento deve estar configurado em todos os anéis")
     public boolean isPlanoConfiguradoEmTodosOsAneis() {
         if (getPosicaoPlano() != null) {
