@@ -194,7 +194,7 @@ Funcionalidade: Fluxo de cadastro de manutenção de Tabelas Horárias
     E o quadro de horário deverá marcar "Quinta", na hora "15", com a cor "Laranja"
     E o quadro de horário deverá marcar "Domingo", na hora "11", com a cor "Laranja"
 
-  Cenário: Visulizar um diagrama em modo isolado
+  Cenário: Visualizar um diagrama em modo isolado
     Quando o usuário clicar em visualizar o diagrama do evento "1"
     Então o sistema deve mostrar o diagrama "Isolado" no grupo "G1" com "indicacao-amarelo" em "3s" segundos
     Então o sistema deve mostrar o diagrama "Isolado" no grupo "G1" com "indicacao-vermelho" em "31s" segundos
@@ -217,7 +217,7 @@ Funcionalidade: Fluxo de cadastro de manutenção de Tabelas Horárias
     Então o sistema deve mostrar o diagrama "Isolado" no grupo "G5" com "indicacao-verde" em "21s" segundos
     Dado o usuário clicar em fechar o diagrama
 
-  Cenário: Visulizar um diagrama em modo Coordenado
+  Cenário: Visualizar um diagrama em modo Coordenado
     Quando o usuário clicar em visualizar o diagrama do evento "2"
     Então o sistema deve mostrar o diagrama "Coordenado" no grupo "G1" com "indicacao-vermelho" em "3s" segundos
     Então o sistema deve mostrar o diagrama "Coordenado" no grupo "G1" com "indicacao-verde" em "14s" segundos
@@ -237,7 +237,7 @@ Funcionalidade: Fluxo de cadastro de manutenção de Tabelas Horárias
     Então o sistema deve mostrar o diagrama "Coordenado" no grupo "G5" com "indicacao-verde" em "12s" segundos
     Dado o usuário clicar em fechar o diagrama
 
-  Cenário: Visulizar um diagrama em modo Intermitente
+  Cenário: Visualizar um diagrama em modo Intermitente
     Quando o usuário clicar em visualizar o diagrama do evento "3"
     Então o sistema deve mostrar o diagrama "Intermitente" no grupo "G1" com "indicacao-amarelo-intermitente" em "30s" segundos
     Então o sistema deve mostrar o diagrama "Intermitente" no grupo "G2" com "indicacao-amarelo-intermitente" em "30s" segundos
@@ -247,7 +247,7 @@ Funcionalidade: Fluxo de cadastro de manutenção de Tabelas Horárias
     Então o sistema deve mostrar o diagrama "Intermitente" no grupo "G4" com "indicacao-amarelo-intermitente" em "30s" segundos
     Dado o usuário clicar em fechar o diagrama
 
-  Cenário: Visulizar um diagrama em modo Apagado
+  Cenário: Visualizar um diagrama em modo Apagado
     Quando o usuário clicar em visualizar o diagrama do evento "4"
     Então o sistema deve mostrar o diagrama "Apagado" no grupo "G1" com "indicacao-apagado" em "30s" segundos
     Então o sistema deve mostrar o diagrama "Apagado" no grupo "G2" com "indicacao-apagado" em "30s" segundos
@@ -257,7 +257,7 @@ Funcionalidade: Fluxo de cadastro de manutenção de Tabelas Horárias
     Então o sistema deve mostrar o diagrama "Apagado" no grupo "G4" com "indicacao-apagado" em "30s" segundos
     Dado o usuário clicar em fechar o diagrama
 
-  Cenário: Visulizar um diagrama em modo Atuado
+  Cenário: Visualizar um diagrama em modo Atuado
     Quando o usuário clicar em visualizar o diagrama do evento "5"
     Então o sistema deve mostrar um alert com a mensagem atuado não possue diagrama
     E o usuário confirmar
