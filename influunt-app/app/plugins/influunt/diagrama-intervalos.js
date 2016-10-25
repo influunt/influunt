@@ -51,10 +51,10 @@ var influunt;
               tabelaEntreVerde = _.find(grupo.tabelasEntreVerdes, {'posicao': plano.posicaoTabelaEntreVerde});
               transicao = _.find(grupo.transicoes, {'origem': {'idJson': estagioAnterior.idJson}, 'destino': {'idJson': estagioAtual.idJson}});
               tabelaEntreVerdesTransicao = _.find(transicao.tabelaEntreVerdesTransicoes, {'tabelaEntreVerdes': {'idJson': tabelaEntreVerde.idJson}});
-              tempoAmarelo = !_.isUndefined(tabelaEntreVerdesTransicao.tempoAmarelo) ? parseInt(tabelaEntreVerdesTransicao.tempoAmarelo) : 0;
-              tempoVermelhoIntermitente = !_.isUndefined(tabelaEntreVerdesTransicao.tempoVermelhoIntermitente) ? parseInt(tabelaEntreVerdesTransicao.tempoVermelhoIntermitente) : 0;
-              tempoAtrasoGrupo = !_.isUndefined(tabelaEntreVerdesTransicao.tempoAtrasoGrupo) ? parseInt(tabelaEntreVerdesTransicao.tempoAtrasoGrupo) : 0;
-              tempoVermelhoLimpeza = !_.isUndefined(tabelaEntreVerdesTransicao.tempoVermelhoLimpeza) ? parseInt(tabelaEntreVerdesTransicao.tempoVermelhoLimpeza) : 0;
+              tempoAmarelo = tabelaEntreVerdesTransicao.tempoAmarelo ? parseInt(tabelaEntreVerdesTransicao.tempoAmarelo) : 0;
+              tempoVermelhoIntermitente = tabelaEntreVerdesTransicao.tempoVermelhoIntermitente ? parseInt(tabelaEntreVerdesTransicao.tempoVermelhoIntermitente) : 0;
+              tempoAtrasoGrupo = tabelaEntreVerdesTransicao.tempoAtrasoGrupo ? parseInt(tabelaEntreVerdesTransicao.tempoAtrasoGrupo) : 0;
+              tempoVermelhoLimpeza = tabelaEntreVerdesTransicao.tempoVermelhoLimpeza ? parseInt(tabelaEntreVerdesTransicao.tempoVermelhoLimpeza) : 0;
 
               tempoAmareloOuVermelhoIntermitente = grupo.tipo === 'VEICULAR' ? tempoAmarelo : tempoVermelhoIntermitente;
               tempoEntreVerde = tempoAmareloOuVermelhoIntermitente + tempoVermelhoLimpeza;
@@ -80,7 +80,7 @@ var influunt;
              var inicio;
              if(!_.find(estagioAnterior.gruposSemaforicos, {'id': grupo.id})){
                transicao = _.find(grupo.transicoesComGanhoDePassagem, {'origem': {'idJson': estagioAnterior.idJson}, 'destino': {'idJson': estagioAtual.idJson}});
-               tempoAtrasoGrupo = !_.isUndefined(transicao) && !_.isUndefined(transicao.tempoAtrasoGrupo) ? parseInt(transicao.tempoAtrasoGrupo) : 0;
+               tempoAtrasoGrupo = transicao && transicao.tempoAtrasoGrupo ? parseInt(transicao.tempoAtrasoGrupo) : 0;
                inicio = instante + tempoCiclo - tempoAtrasoGrupo;
              }else{
                inicio = tempoCiclo;

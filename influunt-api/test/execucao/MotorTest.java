@@ -117,7 +117,6 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
         verificaGruposSemaforicos(75, new GrupoCheck(3, 16, 14000, 255000,EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
 
         assertEquals("Plano Atual", 1, listaTrocaPlanoEfetiva.get(inicioExecucao.plusSeconds(120)).get(3).getPosicaoPlano().intValue());
-//        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).get(120).getEstagio().getPosicao().intValue());
         verificaGruposSemaforicos(120, new GrupoCheck(3, 11, 0, 3000,EstadoGrupoSemaforico.VERMELHO));
         verificaGruposSemaforicos(120, new GrupoCheck(3, 11, 3000, 13000,EstadoGrupoSemaforico.VERDE));
 
