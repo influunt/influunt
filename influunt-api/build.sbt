@@ -85,3 +85,17 @@ mappings in Universal <++= (packageBin in Compile) map { jar =>
     f -> ("/app/templates/" + f.getName)
   }
 }
+
+mappings in Universal <++= (packageBin in Compile) map { jar =>
+  val scriptsDir = new java.io.File("app/templates/reports/")
+  scriptsDir.listFiles.toSeq.map { f =>
+    f -> ("app/templates/reports/" + f.getName)
+  }
+}
+
+mappings in Universal <++= (packageBin in Compile) map { jar =>
+  val scriptsDir = new java.io.File("public/images/")
+  scriptsDir.listFiles.toSeq.map { f =>
+    f -> ("public/images/" + f.getName)
+  }
+}
