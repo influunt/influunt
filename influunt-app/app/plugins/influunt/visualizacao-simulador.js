@@ -126,12 +126,14 @@ var influunt;
         }
         
         function estagioDown(estagio){
-          if(estagios[estagio.name] && estagios[estagio.name].visible){
-            estagios[estagio.name].visible = false;
-          }else{
-            estagios[estagio.name].x = estagio.x - 150;
-            estagios[estagio.name].y = estagio.y;
-            estagios[estagio.name].visible = true;
+          if(estagios[estagio.name]){
+            if(estagios[estagio.name].visible){
+              estagios[estagio.name].visible = false;
+            }else{
+              estagios[estagio.name].x = estagio.x - 150;
+              estagios[estagio.name].y = estagio.y;
+              estagios[estagio.name].visible = true;
+            }
           }
         }
         
