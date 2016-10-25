@@ -127,7 +127,7 @@ Funcionalidade: Fluxo de cadastro de planos
     E que o usuário marque 21 segundos para o "Tempo de Verde"
     E que o usuário clique no botão de fechar a caixa de configuração
 
-    Cenário: Em modo Cordenado o sitema deve apresentar erro ao tentar salvar com tempo entre verde não configurado
+  Cenário: Em modo Cordenado o sitema deve apresentar erro ao tentar salvar com tempo entre verde não configurado
     Dado que o usuário esteja na página de planos
     E que o usuário selecione o anel 1
     E que o usuário clicar no plano 2
