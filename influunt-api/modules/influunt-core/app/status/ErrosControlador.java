@@ -134,7 +134,7 @@ public class ErrosControlador {
 
     public static List<String> errosPorFabricante() {
         ArrayList<String> resultado = new ArrayList<>();
-        Aggregate query = erros().aggregate("{$group:{_id:{idFabricante: '$idFabricante','status': '$motivoFalhaControlador'}, total:{$sum:1}}}, {$sort:{'total':-1}}");
+        Aggregate query = erros().aggregate("{ $group: { _id: { idFabricante: '$idFabricante', 'status': '$motivoFalhaControlador' }, total: { $sum:1 } } }, { $sort: { 'total': -1 } }");
         Aggregate.ResultsIterator<Map> ultimoErro = query.as(Map.class);
         Gson gson = new Gson();
         for (Map m : ultimoErro) {

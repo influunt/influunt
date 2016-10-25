@@ -38,7 +38,7 @@ angular.module('influuntApp')
 
         if (moment.isMoment($scope.relatorio['change.eventTime_end']) &&
             $scope.relatorio['change.eventTime_end'].isValid()) {
-          $scope.relatorio['change.eventTime_end'] = $scope.relatorio['change.eventTime_end'].format('DD/MM/YYYY HH:mm:ss');
+          $scope.relatorio['change.eventTime_end'] = $scope.relatorio['change.eventTime_end'].format('DD/MM/YYYY') + ' 23:59:59';
         }
 
         return generateReport('relatorio_auditoria', 'auditoria', $scope.relatorio);
@@ -69,7 +69,7 @@ angular.module('influuntApp')
 
         if (moment.isMoment($scope.relatorio.dataAtualizacao_end) &&
             $scope.relatorio.dataAtualizacao_end.isValid()) {
-          $scope.relatorio.dataAtualizacao_end = $scope.relatorio.dataAtualizacao_end.format('DD/MM/YYYY HH:mm:ss');
+          $scope.relatorio.dataAtualizacao_end = $scope.relatorio.dataAtualizacao_end.format('DD/MM/YYYY') + ' 23:59:59';
         }
 
         return generateReport('relatorio_controladores_entreverdes', 'controladores_entreverdes', $scope.relatorio);
