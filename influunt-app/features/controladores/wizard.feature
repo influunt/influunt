@@ -171,7 +171,7 @@ Funcionalidade: Fluxo de cadastro de controladores
     E que o usuário marque 15 no campo 2 para transições com ganho de direito de passagem
     E que o usuário clique no grupo "G2"
     E que o usuário marque 23 no campo 1 para transições com perda de direito de passagem
-    Então o sistema deverá mostrar um alerta para valor digitado menor que o limite mínimo
+    Então o sistema deverá mostrar um alerta para valor digitado maior que o limite máximo
     E o usuário responde ok
     E que o usuário marque 15 no campo 2 para transições com perda de direito de passagem
     E que o usuário marque 10 no campo 1 para transições com ganho de direito de passagem
