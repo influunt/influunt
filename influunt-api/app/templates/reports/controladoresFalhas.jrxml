@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2016-10-24T20:22:42 -->
+<!-- 2016-10-25T15:33:46 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="controladoresFalhas" pageWidth="595" pageHeight="842" columnWidth="509" leftMargin="29" rightMargin="57" topMargin="29" bottomMargin="57" uuid="d37bb7a8-ed99-4975-9e05-5f4b9c6db74f">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
@@ -16,6 +16,7 @@
 		<parameterDescription><![CDATA[]]></parameterDescription>
 	</parameter>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String"/>
+	<parameter name="relatorioPor" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -43,6 +44,10 @@
 				</textElement>
 				<text><![CDATA[RELATÓRIO DE FALHAS DE CONTROLADORES]]></text>
 			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="0" y="30" width="254" height="19" forecolor="#A3A3A3" uuid="34bef5ff-f7c4-438c-9d33-91c5b5706b8f"/>
+				<textFieldExpression><![CDATA["Falhas por " + $P{relatorioPor}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<detail>
@@ -56,7 +61,7 @@
 				<reportElement x="-1" y="0" width="510" height="31" uuid="c77d4c61-54ba-40c1-aba2-96f3c4c0a330"/>
 			</rectangle>
 			<textField>
-				<reportElement x="80" y="1" width="429" height="30" uuid="45524781-9a23-4cd9-b92a-e755a3818480"/>
+				<reportElement x="80" y="1" width="210" height="30" uuid="45524781-9a23-4cd9-b92a-e755a3818480"/>
 				<textElement verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
@@ -69,6 +74,13 @@
 				</textElement>
 				<text><![CDATA[Fabricante:]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="320" y="0" width="179" height="30" uuid="b26502b1-28a6-4902-8f62-ca9e4d52b7b7"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Total: " + $F{falhas}.size()]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<pageFooter>
