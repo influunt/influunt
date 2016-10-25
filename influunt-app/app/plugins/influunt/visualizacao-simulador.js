@@ -19,6 +19,8 @@ var influunt;
         var MARGEM_LATERAL = 956 ;
         var MARGEM_SUPERIOR = 70;
         var ALTURA_INTERVALOS = 0;
+        var planos = [];
+        var modos = [];
         var cursors;
         var intervalosGroup;
         var textoIntervalosGroup;
@@ -140,8 +142,8 @@ var influunt;
               {nome: 'play',action: botaoPlay},
               {nome: 'pause',action: botaoPause},
               {nome: 'foward',action: botaoFoward},
-              {nome: 'fastFoward',action: botaoFastFoward},
-              {nome: 'log',action: botaoLog,incremento: 39},
+              {nome: 'fastFoward',action: botaoFastFoward,incremento: 39},
+              {nome: 'log',action: botaoLog},
               {nome: 'export',action: botaoExport}
           ].forEach(function(botaoSpec,index){
             botoes[botaoSpec.nome] = game.add.sprite(inicio ,y , 'controles');
@@ -187,16 +189,44 @@ var influunt;
           }
         }
 
+        function getPlanoAtual(tempo){
+          for(var i =  planos.length - 1; i >= 0 ; i--){
+            if(tempo >= planos[i][0]){
+              return planos[i];
+            }
+          }
+        }
+        
+        function getModo(modo){
+          switch(modo){
+            case "TEMPO_FIXO_ISOLADO": return "TFI";
+            case "TEMPO_FIXO_COORDENADO": return "TFC";
+            case "ATUADO": return "ATU";
+            case "APAGADO": return "APA";
+            case "INTERMITENTE": return "INT";
+            case "MANUAL": return "MAN";
+          }
+        }
+        function desenhaPlanoAtual(planoSpec){
+          plano.setText("Plano " + planoSpec[1]);
+          planoSpec[2].forEach(function(modo,index){
+            modos[index].setText(getModo(modo));
+          })
+        }
+
         function moveToLeft(){
           tempo += (velocidade);
           relogio.setText(tempo + 's');
+          desenhaPlanoAtual(getPlanoAtual(tempo));
           game.camera.x+=(10 * velocidade);
           atualizaEstadosGruposSemaforicos();
+
         }
 
         function moveToRight(){
           tempo = Math.max(0,tempo - velocidade);
           relogio.setText(tempo + 's');
+          desenhaPlanoAtual(getPlanoAtual(tempo));
           game.camera.x -= (velocidade * 10);
           atualizaEstadosGruposSemaforicos();
         }
@@ -341,8 +371,10 @@ var influunt;
 
           bmd.ctx.font = '10px Open Sans';
 
-          bmd.ctx.textAlign = 'right';
-          bmd.ctx.fillText((w /10.0) + 's', w - 5, 16);
+          if(w > 50){
+            bmd.ctx.textAlign = 'right';
+            bmd.ctx.fillText((w /10.0) + 's', w - 5, 16);
+          }
 
           bmd.ctx.lineWidth = '1';
           bmd.ctx.strokeStyle = '#ccc';
@@ -467,11 +499,19 @@ var influunt;
           bmd.ctx.fillText(numero, 15, h/2 + 6);
 
           bmd.render();
+          
           var spriteY = MARGEM_SUPERIOR + y1 + ALTURA_GRUPO + 1;
           var sprite = game.add.sprite(0, spriteY, bmd);
           offsetDeAneis[numero] = spriteY;
           ALTURA_INTERVALOS = spriteY + h;
           sprite.fixedToCamera = true;
+
+          var style = { font: '12px Open Sans', fill: '#fff' };
+          
+          var modo = game.add.text(982,spriteY + h/2 , '?', style);
+          modo.fixedToCamera = true;
+          modo.anchor.setTo(0.5, 0.5);
+          modos.push(modo);
 
         }
 
@@ -551,6 +591,7 @@ var influunt;
         function processaPlanos(trocas){
           trocas.forEach(function(troca){
             var x = (troca[0] - (inicioSimulacao.unix() * 1000)) / 100;
+            planos.push([x / 10,troca[2],troca[3]]);
             desenhaPlano(x,'#260339',troca[2]);
           });
         }
@@ -605,7 +646,7 @@ var influunt;
           relogio.anchor.set(1,0);
 
           style = { font: '15px Open Sans', fill: '#333' };
-          plano = game.add.text(10,40, 'Plano Atual: 1', style);
+          plano = game.add.text(10,40, 'Plano Atual:?', style);
           plano.fixedToCamera = true;
           plano.anchor.set(0,1);
 

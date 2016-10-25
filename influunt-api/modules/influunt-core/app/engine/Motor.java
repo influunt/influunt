@@ -43,7 +43,7 @@ public class Motor implements  EventoCallback, GerenciadorDeEstagiosCallback {
         Evento evento = gerenciadorDeTabelaHoraria.eventoAtual(instante);
         boolean iniciarGrupos = false;
         if (eventoAtual == null || !evento.equals(eventoAtual)) {
-            callback.onTrocaDePlano(instante,eventoAtual,evento);
+            callback.onTrocaDePlano(instante,eventoAtual,evento,getPlanos(evento).stream().map(p -> p.getModoOperacao().toString()).collect(Collectors.toList()));
             if(eventoAtual == null){
                 iniciarGrupos = true;
             }else{

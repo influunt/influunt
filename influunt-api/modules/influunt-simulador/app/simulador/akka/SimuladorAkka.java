@@ -7,6 +7,8 @@ import models.simulador.parametros.ParametroSimulacao;
 import org.joda.time.DateTime;
 import simulador.Simulador;
 
+import java.util.List;
+
 /**
  * Created by rodrigosol on 10/4/16.
  */
@@ -44,8 +46,8 @@ public class SimuladorAkka extends Simulador {
     }
 
     @Override
-    public void onTrocaDePlano(DateTime timestamp, Evento eventoAnterior, Evento eventoAtual) {
-        simuladorActor.storeTrocaDePlano(timestamp,eventoAnterior,eventoAtual);
+    public void onTrocaDePlano(DateTime timestamp, Evento eventoAnterior, Evento eventoAtual, List<String> modos) {
+        simuladorActor.storeTrocaDePlano(timestamp,eventoAnterior,eventoAtual,modos);
     }
 
 }

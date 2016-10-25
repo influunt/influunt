@@ -78,7 +78,10 @@ public class GerenciadorDeEstagios implements EventoCallback {
     public void tick() {
         IntervaloEstagio intervalo = this.intervalos.get(contadorIntervalo);
 
+        //TODO: Se o intermitente sair antes de terminar o entreverde do estágio anterior o que deve acontecer?
         if (this.agendamento != null && (this.plano.isIntermitente() || this.plano.isApagada())) {
+
+            intervalo.setDuracao(contadorIntervalo - (this.intervalos.get(0L).getDuracao()));
             executaAgendamentoTrocaDePlano();
             intervalo = this.intervalos.get(contadorIntervalo);
         } else {

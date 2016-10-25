@@ -96,6 +96,7 @@ public class SimuladorActor extends UntypedActor {
         try {
             client.publish("simulador/" + id + "/estado", getJson().getBytes(), 1, true);
             estagios.clear();
+            trocasDePlanos.clear();
             bufferTrocaDePlanos = null;
         } catch (MqttException e) {
             e.printStackTrace();
@@ -120,7 +121,7 @@ public class SimuladorActor extends UntypedActor {
     }
 
 
-    public void storeTrocaDePlano(DateTime timestamp, Evento eventoAnterior, Evento eventoAtual) {
+    public void storeTrocaDePlano(DateTime timestamp, Evento eventoAnterior, Evento eventoAtual, List<String> modos) {
         ArrayNode troca = Json.newArray();
 
         troca.add(timestamp.getMillis());
@@ -131,6 +132,10 @@ public class SimuladorActor extends UntypedActor {
             troca.add("null");
         }
         troca.add(eventoAtual.getPosicaoPlano());
+        ArrayNode modosJson = Json.newArray();
+        modos.forEach(modo -> modosJson.add(modo));
+        troca.add(modosJson);
+
         trocasDePlanos.add(troca);
 
     }

@@ -4,11 +4,9 @@ package execucao;
 import config.WithInfluuntApplicationNoAuthentication;
 import engine.*;
 import integracao.ControladorHelper;
-import models.Anel;
 import models.Controlador;
 import models.EstadoGrupoSemaforico;
 import models.Evento;
-import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -140,7 +138,7 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
     }
 
     @Override
-    public void onTrocaDePlano(DateTime timestamp, Evento eventoAnterior, Evento eventoAtual) {
+    public void onTrocaDePlano(DateTime timestamp, Evento eventoAnterior, Evento eventoAtual, List<String> modos) {
         listaTrocaPlano.put(timestamp, eventoAtual);
     }
 
