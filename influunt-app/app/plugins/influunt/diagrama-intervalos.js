@@ -48,18 +48,19 @@ var influunt;
           if(estagioAtual.idJson !== estagioAnterior.idJson){
             for(j = 0; j < estagioAnterior.gruposSemaforicos.length; j++){
               grupo = estagioAnterior.gruposSemaforicos[j];
-              tabelaEntreVerde = _.find(grupo.tabelasEntreVerdes, {'posicao': plano.posicaoTabelaEntreVerde});
-              transicao = _.find(grupo.transicoes, {'origem': {'idJson': estagioAnterior.idJson}, 'destino': {'idJson': estagioAtual.idJson}});
-              tabelaEntreVerdesTransicao = _.find(transicao.tabelaEntreVerdesTransicoes, {'tabelaEntreVerdes': {'idJson': tabelaEntreVerde.idJson}});
-              tempoAmarelo = tabelaEntreVerdesTransicao.tempoAmarelo ? parseInt(tabelaEntreVerdesTransicao.tempoAmarelo) : 0;
-              tempoVermelhoIntermitente = tabelaEntreVerdesTransicao.tempoVermelhoIntermitente ? parseInt(tabelaEntreVerdesTransicao.tempoVermelhoIntermitente) : 0;
-              tempoAtrasoGrupo = tabelaEntreVerdesTransicao.tempoAtrasoGrupo ? parseInt(tabelaEntreVerdesTransicao.tempoAtrasoGrupo) : 0;
-              tempoVermelhoLimpeza = tabelaEntreVerdesTransicao.tempoVermelhoLimpeza ? parseInt(tabelaEntreVerdesTransicao.tempoVermelhoLimpeza) : 0;
-
-              tempoAmareloOuVermelhoIntermitente = grupo.tipo === 'VEICULAR' ? tempoAmarelo : tempoVermelhoIntermitente;
-              tempoEntreVerde = tempoAmareloOuVermelhoIntermitente + tempoVermelhoLimpeza;
-              posicao = plano.posicaoGruposSemaforicos['G' + grupo.posicao];
               if(!_.find(estagioAtual.gruposSemaforicos, {'id': grupo.id})){
+                tabelaEntreVerde = _.find(grupo.tabelasEntreVerdes, {'posicao': plano.posicaoTabelaEntreVerde});
+                transicao = _.find(grupo.transicoes, {'origem': {'idJson': estagioAnterior.idJson}, 'destino': {'idJson': estagioAtual.idJson}});
+                tabelaEntreVerdesTransicao = _.find(transicao.tabelaEntreVerdesTransicoes, {'tabelaEntreVerdes': {'idJson': tabelaEntreVerde.idJson}});
+                tempoAmarelo = tabelaEntreVerdesTransicao.tempoAmarelo ? parseInt(tabelaEntreVerdesTransicao.tempoAmarelo) : 0;
+                tempoVermelhoIntermitente = tabelaEntreVerdesTransicao.tempoVermelhoIntermitente ? parseInt(tabelaEntreVerdesTransicao.tempoVermelhoIntermitente) : 0;
+                tempoAtrasoGrupo = tabelaEntreVerdesTransicao.tempoAtrasoGrupo ? parseInt(tabelaEntreVerdesTransicao.tempoAtrasoGrupo) : 0;
+                tempoVermelhoLimpeza = tabelaEntreVerdesTransicao.tempoVermelhoLimpeza ? parseInt(tabelaEntreVerdesTransicao.tempoVermelhoLimpeza) : 0;
+
+                tempoAmareloOuVermelhoIntermitente = grupo.tipo === 'VEICULAR' ? tempoAmarelo : tempoVermelhoIntermitente;
+                tempoEntreVerde = tempoAmareloOuVermelhoIntermitente + tempoVermelhoLimpeza;
+                posicao = plano.posicaoGruposSemaforicos['G' + grupo.posicao];
+
                 if(tempoAtrasoGrupo > 0){
                   for(t = tempoCiclo; t < tempoCiclo + tempoAtrasoGrupo; t++){
                     diagrama[posicao][t] = 1;
