@@ -14,7 +14,7 @@ angular.module('influuntApp')
     function ($scope, $state, $filter, $timeout,
               Restangular, toast, influuntAlert, handleValidations,
               influuntBlockui) {
-    var buildFilterQuery, buildSortQuery, buildFilterDataFields, getDadosFiltroSelect;
+    var buildFilterQuery, buildSortQuery, buildFilterDataFields;
     var resourceName = null;
     $scope.pagination = {
       current: 1,

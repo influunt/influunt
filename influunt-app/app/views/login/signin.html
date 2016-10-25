@@ -14,29 +14,9 @@
         <p ng-show="loginForm.senha.$invalid && (!loginForm.senha.$pristine || submited)" class="help-block error-msg">{{ 'geral.campo_obrigatorio' | translate }}</p>
       </div>
 
-      <div class="widget red-bg p-xl" id="alert" style="display:none">
-
-        <h2>
-          {{'geral.atencao' | translate}}
-        </h2>
-        <br>
-        <p data-ng-bind-html="'navegador.aviso' | translate"></p>
-        <p data-ng-bind-html="'navegador.recomendacao' | translate"></p>
-      </div>
-
+      <check-browser required="browsersRequired" rejected="browsersRejected"></check-browser>
       <button type="submit" class="btn btn-primary block full-width m-b" id="acessar" >{{ 'login.acessar' | translate }}</button>
-
       <a ui-sref="recuperar_senha"><small>{{ 'login.esqueceu_sua_senha' | translate }}</small></a>
     </form>
   </div>
 </div>
-
-<script type="text/javascript">
-$( document ).ready(function() {
-  if(!(bowser.check({chrome: "51"}, window.navigator.userAgent))){
-    $('#nav').html(bowser.name + " (" + bowser.version + ")");
-    $('#alert').show();
-  };
-});
-
-</script>

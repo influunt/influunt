@@ -306,7 +306,7 @@ public class Plano extends Model implements Cloneable, Serializable {
         return true;
     }
 
-    @AssertTrue(groups = PlanosCheck.class, message = "A sequência de estágios não é válida, pois existe uma transição proibida devido a não execução do estágio dispensável.")
+    @AssertTrue(groups = PlanosCheck.class, message = "A sequência de estágios não é válida, pois existe uma transição proibida devido à não execução do estágio dispensável.")
     public boolean isSequenciaInvalidaSeExisteEstagioDispensavel() {
         if (!this.getEstagiosPlanos().isEmpty() && getEstagiosPlanos().stream().anyMatch(EstagioPlano::isDispensavel)) {
             return this.sequenciaDeEstagioValida(this.ordenarEstagiosPorPosicaoSemEstagioDispensavel());

@@ -14,6 +14,8 @@ angular.module('influuntApp')
       var getTokenFromLocation, saveUsuario;
 
       $scope.credenciais = {};
+      $scope.browsersRequired = [{chrome: '51'}];
+      $scope.browsersRejected = ['msie', 'msedge'];
 
       $scope.submitLogin = function(formValido) {
         $scope.submited = true;

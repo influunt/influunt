@@ -24,6 +24,7 @@
     "Paho": true,
     "Blob": true,
     "saveAs": true,
+    "bowser": true,
 
     // leaflet lib
     "L": true,
