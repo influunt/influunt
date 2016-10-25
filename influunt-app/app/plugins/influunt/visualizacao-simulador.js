@@ -41,7 +41,7 @@ var influunt;
         var repeater;
         var started = false;
         var botoes = {};
-
+        var estagios = {};
 
         function decodeEstado(estado,ctx){
 
@@ -69,7 +69,14 @@ var influunt;
           game.load.spritesheet('estado', '/images/simulador/modos.png', 10, 25);
           game.load.spritesheet('controles', '/images/simulador/controles.png', 30, 26);
           game.load.image('grid', '/images/simulador/grid.png');
-          game.load.image('a1_e1', '/images/simulador/fixture/Anel1E1.jpg');
+
+          config.aneis.forEach(function(anel,index){
+            anel.estagios.forEach(function(estagio){
+              var id = "A" + index + "E" + estagio.posicao;
+              game.load.image(id, estagio.imagem);
+            });
+          });
+
           game.load.start();
         }
 
@@ -112,6 +119,23 @@ var influunt;
           moveToLeft();
         }
 
+        function estagioOut(estagio){
+          if(estagios[estagio.name].visible == true){
+            estagios[estagio.name].visible = false;
+          }
+        }
+        
+        function estagioDown(estagio){
+          console.log("EsT Down",estagio.name);
+          if(estagios[estagio.name].visible){
+            estagios[estagio.name].visible = false;
+          }else{
+            estagios[estagio.name].x = estagio.x - 150;
+            estagios[estagio.name].y = estagio.y;
+            estagios[estagio.name].visible = true;
+          }
+        }
+        
         function botaoPause(){
           botoes.play.play('ON');
           botoes.fastBackward.play('ON');
@@ -388,7 +412,12 @@ var influunt;
           }
 
           bmd.render();
-          intervalosGroup.add(game.add.sprite(x, y, bmd));
+          var sprite = game.add.sprite(x, y, bmd);
+          sprite.name = "A" + (anel - 1) + "E" + estagio.estagio;
+          sprite.events.onInputDown.add(estagioDown,this);
+          sprite.events.onInputOut.add(estagioOut,this);          
+          sprite.inputEnabled = true;
+          intervalosGroup.add(sprite);
         }
 
         function processaEstagios(aneis){
@@ -608,6 +637,15 @@ var influunt;
           gruposSemaforicosGroup = game.add.group();
           grupoControles = game.add.group();
           grupoControles.fixedToCamera = true;
+          
+          config.aneis.forEach(function(anel,index){
+            anel.estagios.forEach(function(estagio){
+              var id = "A" + index + "E" + estagio.posicao;
+              estagios[id] = game.add.sprite(0, 0, id);
+              estagios[id].visible = false;
+            });
+          });
+          
 
 
           criaControles();

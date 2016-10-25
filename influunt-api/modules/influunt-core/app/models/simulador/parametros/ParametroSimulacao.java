@@ -150,7 +150,10 @@ public class ParametroSimulacao {
             anelSimulacaoConfig.setNumero(anel.getPosicao());
             anel.getGruposSemaforicos().stream().sorted((o1, o2) -> o1.getPosicao().compareTo(o2.getPosicao()))
                     .forEach(grupoSemaforico -> anelSimulacaoConfig.getTiposGruposSemaforicos().add(grupoSemaforico.getTipo()));
-
+            anel.getEstagios().forEach( estagio -> {
+                anelSimulacaoConfig.getEstagios().add(new SimulacaoConfig.EstagioSimulacaoConfig(estagio.getPosicao(),
+                        "api/v1/imagens/" + estagio.getImagem().getId() + "/thumb"));
+            });
             aneis.add(anelSimulacaoConfig);
         });
 
