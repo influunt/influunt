@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2016-10-13T17:56:51 -->
+<!-- 2016-10-24T20:19:34 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="falhas" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a08b10e1-4b04-445f-b500-1cdf9fcf4473">
 	<queryString>
 		<![CDATA[]]>
@@ -24,13 +24,16 @@
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="35" splitType="Stretch">
+		<band height="20" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField>
-				<reportElement x="0" y="0" width="360" height="30" uuid="88324bd3-49d4-4368-b62b-4a77b94827bf"/>
+				<reportElement x="0" y="0" width="360" height="20" uuid="88324bd3-49d4-4368-b62b-4a77b94827bf">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
 				<textFieldExpression><![CDATA[$F{falha}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="360" y="0" width="182" height="30" uuid="60c3f6c3-ca54-43b1-801c-5f16b7804845"/>
+				<reportElement x="360" y="0" width="190" height="20" uuid="60c3f6c3-ca54-43b1-801c-5f16b7804845"/>
 				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
 			</textField>
 		</band>

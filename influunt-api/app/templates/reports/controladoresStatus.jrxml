@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2016-10-21T15:55:45 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="controladoresStatus" pageWidth="595" pageHeight="842" columnWidth="509" leftMargin="29" rightMargin="57" topMargin="29" bottomMargin="57" uuid="1e9d5627-c81e-4e40-8235-b391946f831d">
+<!-- 2016-10-24T19:32:55 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="controladoresStatus" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="509" leftMargin="29" rightMargin="57" topMargin="29" bottomMargin="57" uuid="1e9d5627-c81e-4e40-8235-b391946f831d">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -16,6 +16,7 @@
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<parameter name="logoPath" class="java.io.InputStream"/>
+	<parameter name="date" class="java.lang.String"/>
 	<field name="status" class="java.lang.String">
 		<fieldDescription><![CDATA[status]]></fieldDescription>
 	</field>
@@ -40,6 +41,10 @@
 				</textElement>
 				<text><![CDATA[RELATÓRIO DE CONTROLADORES POR STATUS]]></text>
 			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="0" y="30" width="254" height="19" forecolor="#A3A3A3" uuid="5bcaa679-ab35-4ea8-97da-b035d3c83209"/>
+				<textFieldExpression><![CDATA[$P{date}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<summary>

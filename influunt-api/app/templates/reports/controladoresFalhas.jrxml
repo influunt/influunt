@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2016-10-21T17:24:29 -->
+<!-- 2016-10-24T20:22:42 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="controladoresFalhas" pageWidth="595" pageHeight="842" columnWidth="509" leftMargin="29" rightMargin="57" topMargin="29" bottomMargin="57" uuid="d37bb7a8-ed99-4975-9e05-5f4b9c6db74f">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
@@ -48,28 +48,27 @@
 	<detail>
 		<band height="107">
 			<subreport>
-				<reportElement x="10" y="39" width="535" height="60" uuid="d35c21cb-f726-4b70-9ba9-675bb15777e9"/>
+				<reportElement x="0" y="31" width="509" height="76" uuid="d35c21cb-f726-4b70-9ba9-675bb15777e9"/>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{falhas})]]></dataSourceExpression>
 				<subreportExpression><![CDATA["falhas.jasper"]]></subreportExpression>
 			</subreport>
 			<rectangle>
-				<reportElement x="-1" y="0" width="561" height="31" uuid="c77d4c61-54ba-40c1-aba2-96f3c4c0a330"/>
+				<reportElement x="-1" y="0" width="510" height="31" uuid="c77d4c61-54ba-40c1-aba2-96f3c4c0a330"/>
 			</rectangle>
 			<textField>
-				<reportElement x="73" y="1" width="470" height="30" uuid="45524781-9a23-4cd9-b92a-e755a3818480"/>
+				<reportElement x="80" y="1" width="429" height="30" uuid="45524781-9a23-4cd9-b92a-e755a3818480"/>
 				<textElement verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nomeFabricante}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement mode="Opaque" x="0" y="0" width="70" height="30" backcolor="#D4D4D4" uuid="5c4e3c16-ebdc-4ea1-b5f6-44348ed24390"/>
-				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
+			<staticText>
+				<reportElement x="0" y="1" width="80" height="30" uuid="dc2e62bc-8cac-4e82-9999-b83fd22af79f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Falha:"]]></textFieldExpression>
-			</textField>
+				<text><![CDATA[Fabricante:]]></text>
+			</staticText>
 		</band>
 	</detail>
 	<pageFooter>
