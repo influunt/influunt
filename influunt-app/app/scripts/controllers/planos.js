@@ -351,7 +351,7 @@ angular.module('influuntApp')
       $scope.verificaVerdeMinimoDoEstagio = function(oldValue, value){
         var estagio = _.find($scope.objeto.estagios, {idJson: $scope.currentEstagiosPlanos[$scope.currentEstagioPlanoIndex].estagio.idJson});
         var tempoVerde = value;
-        var verdeMinimo = estagio.verdeMinimoEstagio || planoService.verdeMinimoDoEstagio($scope.objeto, estagio);
+        var verdeMinimo = estagio.verdeMinimoEstagio || planoService.verdeMinimoDoEstagio($scope.objeto, $scope.objeto.verdeMin, estagio);
         if (tempoVerde < verdeMinimo) {
           if (estagio.isVeicular) {
             influuntAlert
@@ -509,7 +509,7 @@ angular.module('influuntApp')
             idJson: planoIdJson
           },
           posicao: posicao,
-          tempoVerde: planoService.verdeMinimoDoEstagio($scope.objeto, estagio),
+          tempoVerde: planoService.verdeMinimoDoEstagio($scope.objeto, $scope.objeto.verdeMin, estagio),
           dispensavel: false
         };
 
@@ -559,17 +559,19 @@ angular.module('influuntApp')
       carregaDadosPlano = function(plano){
         if (plano.modoOperacao === 'ATUADO') {
           plano.estagiosPlanos.forEach(function(e) {
-            var estagio = _.find($scope.objeto.estagiosPlanos, {idJson: e.idJson});
-            estagio.tempoVerdeMinimo = $scope.objeto.verdeMinimoMin;
-            estagio.tempoVerdeMaximo = $scope.objeto.verdeMaximoMin;
-            estagio.tempoVerdeIntermediario = $scope.objeto.verdeIntermediarioMin;
-            estagio.tempoExtensaoVerde = $scope.objeto.extensaoVerdeMin;
+            var estagioPlano = _.find($scope.objeto.estagiosPlanos, {idJson: e.idJson});
+            var estagio = _.find($scope.objeto.estagios, {idJson: estagioPlano.estagio.idJson});
+            estagioPlano.tempoVerdeMinimo = planoService.verdeMinimoDoEstagio($scope.objeto, $scope.objeto.verdeMinimoMin, estagio);
+            estagioPlano.tempoVerdeMaximo = $scope.objeto.verdeMaximoMin;
+            estagioPlano.tempoVerdeIntermediario = $scope.objeto.verdeIntermediarioMin;
+            estagioPlano.tempoExtensaoVerde = $scope.objeto.extensaoVerdeMin;
           });
         } else {
           plano.tempoCiclo = $scope.objeto.cicloMin;
           plano.estagiosPlanos.forEach(function(e) {
-            var estagio = _.find($scope.objeto.estagiosPlanos, {idJson: e.idJson});
-            estagio.tempoVerde = $scope.objeto.verdeMin;
+            var estagioPlano = _.find($scope.objeto.estagiosPlanos, {idJson: e.idJson});
+            var estagio = _.find($scope.objeto.estagios, {idJson: estagioPlano.estagio.idJson});
+            estagioPlano.tempoVerde = planoService.verdeMinimoDoEstagio($scope.objeto, $scope.objeto.verdeMin, estagio);
           });
         }
 
