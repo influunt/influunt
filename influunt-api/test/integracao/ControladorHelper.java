@@ -47,6 +47,27 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         return controlador;
     }
 
+    public Controlador getControladorSemTransicaoProibida() {
+        controlador = new Controlador();
+
+        criaRelacaoDadosBasicos();
+
+        setDadosBasicos();
+        setDadosAneis();
+        setDadosGruposSemaforicos();
+        setDadosVerdesConflitantes();
+        setDadosAssociacaoEstagioGrupoSemaforico();
+        setDadosAtrasoDeGrupo();
+        setDadosTabelaEntreVerdesCompleta();
+        setDadosAssociacaoDetectores();
+
+        controlador.setStatusVersao(StatusVersao.CONFIGURADO);
+
+        controlador.save();
+
+        return controlador;
+    }
+
     private void criaRelacaoDadosBasicos() {
         cidade = new Cidade();
         cidade.setNome("São Paulo");
@@ -125,13 +146,25 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         anel.setEndereco(haddock);
 
         anel = getAnel(2);
-        anel.setDescricao("Av. Paulista com Haddock Lobo");
+        anel.setDescricao("Av. Paulista com Rua Augusta");
         anel.setPosicao(2);
         anel.setAtivo(true);
         List<Estagio> estagios2 = Arrays.asList(new Estagio(1), new Estagio(2), new Estagio(3));
         anel.setEstagios(estagios2);
 
         Endereco augusta = new Endereco(1.0, 1.0, "Av. Paulista com Rua Augusta");
+        augusta.setAnel(anel);
+        augusta.setAlturaNumerica(145);
+        anel.setEndereco(augusta);
+
+        anel = getAnel(3);
+        anel.setDescricao("Av. Paulista com Rua da Consolação");
+        anel.setPosicao(3);
+        anel.setAtivo(true);
+        List<Estagio> estagios3 = Arrays.asList(new Estagio(1), new Estagio(2), new Estagio(3), new Estagio(4), new Estagio(5));
+        anel.setEstagios(estagios3);
+
+        augusta = new Endereco(1.0, 1.0, "Av. Paulista com Rua da Consolação");
         augusta.setAnel(anel);
         augusta.setAlturaNumerica(145);
         anel.setEndereco(augusta);
@@ -169,11 +202,20 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
 
         anel = getAnel(2);
 
-        criaGrupoSemaforico(anel, TipoGrupoSemaforico.VEICULAR, 6);
-        criaGrupoSemaforico(anel, TipoGrupoSemaforico.VEICULAR, 7);
-        criaGrupoSemaforico(anel, TipoGrupoSemaforico.PEDESTRE, 8);
-        criaGrupoSemaforico(anel, TipoGrupoSemaforico.PEDESTRE, 9);
         criaGrupoSemaforico(anel, TipoGrupoSemaforico.PEDESTRE, 10);
+        criaGrupoSemaforico(anel, TipoGrupoSemaforico.PEDESTRE, 9);
+        criaGrupoSemaforico(anel, TipoGrupoSemaforico.PEDESTRE, 8);
+        criaGrupoSemaforico(anel, TipoGrupoSemaforico.VEICULAR, 7);
+        criaGrupoSemaforico(anel, TipoGrupoSemaforico.VEICULAR, 6);
+
+        anel = getAnel(3);
+
+        criaGrupoSemaforico(anel, TipoGrupoSemaforico.VEICULAR, 11);
+        criaGrupoSemaforico(anel, TipoGrupoSemaforico.VEICULAR, 12);
+        criaGrupoSemaforico(anel, TipoGrupoSemaforico.VEICULAR, 13);
+        criaGrupoSemaforico(anel, TipoGrupoSemaforico.PEDESTRE, 14);
+        criaGrupoSemaforico(anel, TipoGrupoSemaforico.PEDESTRE, 15);
+        criaGrupoSemaforico(anel, TipoGrupoSemaforico.VEICULAR, 16);
 
         controlador.save();
     }
@@ -202,6 +244,42 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         criarVerdeConflitante(anel, 6, 9);
         criarVerdeConflitante(anel, 7, 8);
         criarVerdeConflitante(anel, 7, 10);
+
+        anel = getAnel(3);
+
+        criarVerdeConflitante(anel, 11, 12);
+        criarVerdeConflitante(anel, 11, 13);
+        criarVerdeConflitante(anel, 11, 14);
+        criarVerdeConflitante(anel, 11, 15);
+        criarVerdeConflitante(anel, 11, 16);
+
+        criarVerdeConflitante(anel, 12, 11);
+        criarVerdeConflitante(anel, 12, 13);
+        criarVerdeConflitante(anel, 12, 14);
+        criarVerdeConflitante(anel, 12, 15);
+        criarVerdeConflitante(anel, 12, 16);
+
+        criarVerdeConflitante(anel, 13, 11);
+        criarVerdeConflitante(anel, 13, 12);
+        criarVerdeConflitante(anel, 13, 14);
+        criarVerdeConflitante(anel, 13, 15);
+        criarVerdeConflitante(anel, 13, 16);
+
+        criarVerdeConflitante(anel, 14, 11);
+        criarVerdeConflitante(anel, 14, 12);
+        criarVerdeConflitante(anel, 14, 13);
+        criarVerdeConflitante(anel, 14, 16);
+
+        criarVerdeConflitante(anel, 15, 11);
+        criarVerdeConflitante(anel, 15, 12);
+        criarVerdeConflitante(anel, 15, 13);
+        criarVerdeConflitante(anel, 15, 16);
+
+        criarVerdeConflitante(anel, 16, 11);
+        criarVerdeConflitante(anel, 16, 12);
+        criarVerdeConflitante(anel, 16, 13);
+        criarVerdeConflitante(anel, 16, 14);
+        criarVerdeConflitante(anel, 16, 15);
 
         controlador.save();
     }
@@ -236,17 +314,27 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
 
         anel = getAnel(2);
 
+        criarAssociacaoEstagioGrupoSemaforico(anel, 1, 10);
         estagioGrupoSemaforico = criarAssociacaoEstagioGrupoSemaforico(anel, 1, 6);
         estagioGrupoSemaforico.getEstagio().setTempoMaximoPermanenciaAtivado(false);
-        criarAssociacaoEstagioGrupoSemaforico(anel, 1, 10);
 
         criarAssociacaoEstagioGrupoSemaforico(anel, 2, 7);
         criarAssociacaoEstagioGrupoSemaforico(anel, 2, 9);
 
         estagioGrupoSemaforico = criarAssociacaoEstagioGrupoSemaforico(anel, 3, 8);
+
+        anel = getAnel(3);
+
+        criarAssociacaoEstagioGrupoSemaforico(anel, 1, 11);
+        criarAssociacaoEstagioGrupoSemaforico(anel, 2, 12);
+        criarAssociacaoEstagioGrupoSemaforico(anel, 3, 13);
+
+        criarAssociacaoEstagioGrupoSemaforico(anel, 4, 14);
+        criarAssociacaoEstagioGrupoSemaforico(anel, 4, 15);
+
+        estagioGrupoSemaforico = criarAssociacaoEstagioGrupoSemaforico(anel, 5, 16);
         estagioGrupoSemaforico.getEstagio().setDemandaPrioritaria(true);
-        criarAssociacaoEstagioGrupoSemaforico(anel, 3, 9);
-        criarAssociacaoEstagioGrupoSemaforico(anel, 3, 10);
+        estagioGrupoSemaforico.getEstagio().setTempoVerdeDemandaPrioritaria(30);
 
         controlador.save();
     }
@@ -326,7 +414,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
     private void setDadosTabelaEntreVerdes() {
         Anel anel = getAnel(1);
         setEntreVerde(anel, 1, 1, 2, 3, 3);
-        setEntreVerde(anel, 5, 1, 2, 3, 3);
+        setEntreVerde(anel, 5, 1, 2, 5, 3);
         setEntreVerde(anel, 3, 2, 3, 5, 3);
         setEntreVerde(anel, 4, 2, 3, 7, 3);
         setEntreVerde(anel, 5, 2, 3, 5, 3);
@@ -334,20 +422,110 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         setEntreVerde(anel, 4, 3, 1, 5, 3);
 
         anel = getAnel(2);
-        setEntreVerde(anel, 6, 1, 2, 3, 5);
-        setEntreVerde(anel, 6, 1, 3, 3, 5);
-        setEntreVerde(anel, 10, 1, 2, 3, 5);
-        setEntreVerde(anel, 10, 1, 3, 3, 5);
+        setEntreVerde(anel, 6, 1, 2, 3, 4);
+        setEntreVerde(anel, 6, 1, 3, 4, 5);
+        setEntreVerde(anel, 10, 1, 2, 3, 4);
+        setEntreVerde(anel, 10, 1, 3, 4, 5);
         setEntreVerde(anel, 7, 2, 1, 3, 5);
-        setEntreVerde(anel, 7, 2, 3, 3, 5);
+        setEntreVerde(anel, 7, 2, 3, 4, 5);
         setEntreVerde(anel, 9, 2, 1, 3, 5);
-        setEntreVerde(anel, 9, 2, 3, 3, 5);
-        setEntreVerde(anel, 8, 3, 1, 3, 5);
-        setEntreVerde(anel, 8, 3, 2, 3, 5);
-        setEntreVerde(anel, 9, 3, 1, 3, 5);
-        setEntreVerde(anel, 9, 3, 2, 3, 5);
-        setEntreVerde(anel, 10, 3, 1, 3, 5);
-        setEntreVerde(anel, 10, 3, 2, 3, 5);
+        setEntreVerde(anel, 9, 2, 3, 4, 5);
+        setEntreVerde(anel, 8, 3, 1, 5, 5);
+        setEntreVerde(anel, 8, 3, 2, 5, 5);
+
+        anel = getAnel(3);
+        setEntreVerde(anel, 11, 1, 2, 3, 4);
+        setEntreVerde(anel, 11, 1, 3, 3, 4);
+        setEntreVerde(anel, 11, 1, 4, 3, 4);
+        setEntreVerde(anel, 11, 1, 5, 3, 4);
+
+        setEntreVerde(anel, 12, 2, 1, 3, 5);
+        setEntreVerde(anel, 12, 2, 3, 3, 5);
+        setEntreVerde(anel, 12, 2, 4, 3, 5);
+        setEntreVerde(anel, 12, 2, 5, 3, 5);
+
+        setEntreVerde(anel, 13, 3, 1, 3, 6);
+        setEntreVerde(anel, 13, 3, 2, 3, 6);
+        setEntreVerde(anel, 13, 3, 4, 3, 6);
+        setEntreVerde(anel, 13, 3, 5, 3, 6);
+
+        setEntreVerde(anel, 14, 4, 1, 6, 5);
+        setEntreVerde(anel, 14, 4, 2, 6, 5);
+        setEntreVerde(anel, 14, 4, 3, 6, 5);
+        setEntreVerde(anel, 14, 4, 5, 6, 5);
+
+        setEntreVerde(anel, 15, 4, 1, 6, 5);
+        setEntreVerde(anel, 15, 4, 2, 6, 5);
+        setEntreVerde(anel, 15, 4, 3, 6, 5);
+        setEntreVerde(anel, 15, 4, 5, 6, 5);
+
+        setEntreVerde(anel, 16, 5, 1, 4, 4);
+        setEntreVerde(anel, 16, 5, 2, 4, 4);
+        setEntreVerde(anel, 16, 5, 3, 4, 4);
+        setEntreVerde(anel, 16, 5, 4, 4, 4);
+
+        controlador.save();
+    }
+
+    private void setDadosTabelaEntreVerdesCompleta() {
+        Anel anel = getAnel(1);
+        setEntreVerde(anel, 1, 1, 2, 3, 3);
+        setEntreVerde(anel, 5, 1, 2, 5, 3);
+        setEntreVerde(anel, 1, 1, 3, 3, 3);
+        setEntreVerde(anel, 5, 1, 3, 3, 3);
+        setEntreVerde(anel, 3, 2, 3, 5, 3);
+        setEntreVerde(anel, 4, 2, 3, 7, 3);
+        setEntreVerde(anel, 5, 2, 3, 5, 3);
+        setEntreVerde(anel, 3, 2, 1, 5, 3);
+        setEntreVerde(anel, 4, 2, 1, 5, 3);
+        setEntreVerde(anel, 5, 2, 1, 5, 3);
+        setEntreVerde(anel, 2, 3, 1, 3, 3);
+        setEntreVerde(anel, 4, 3, 1, 5, 3);
+        setEntreVerde(anel, 2, 3, 2, 3, 3);
+        setEntreVerde(anel, 4, 3, 2, 3, 3);
+
+        anel = getAnel(2);
+        setEntreVerde(anel, 6, 1, 2, 3, 4);
+        setEntreVerde(anel, 6, 1, 3, 4, 5);
+        setEntreVerde(anel, 10, 1, 2, 3, 4);
+        setEntreVerde(anel, 10, 1, 3, 4, 5);
+        setEntreVerde(anel, 7, 2, 1, 3, 5);
+        setEntreVerde(anel, 7, 2, 3, 4, 5);
+        setEntreVerde(anel, 9, 2, 1, 3, 5);
+        setEntreVerde(anel, 9, 2, 3, 4, 5);
+        setEntreVerde(anel, 8, 3, 1, 5, 5);
+        setEntreVerde(anel, 8, 3, 2, 5, 5);
+
+        anel = getAnel(3);
+        setEntreVerde(anel, 11, 1, 2, 3, 4);
+        setEntreVerde(anel, 11, 1, 3, 3, 4);
+        setEntreVerde(anel, 11, 1, 4, 3, 4);
+        setEntreVerde(anel, 11, 1, 5, 3, 4);
+
+        setEntreVerde(anel, 12, 2, 1, 3, 5);
+        setEntreVerde(anel, 12, 2, 3, 3, 5);
+        setEntreVerde(anel, 12, 2, 4, 3, 5);
+        setEntreVerde(anel, 12, 2, 5, 3, 5);
+
+        setEntreVerde(anel, 13, 3, 1, 3, 6);
+        setEntreVerde(anel, 13, 3, 2, 3, 6);
+        setEntreVerde(anel, 13, 3, 4, 3, 6);
+        setEntreVerde(anel, 13, 3, 5, 3, 6);
+
+        setEntreVerde(anel, 14, 4, 1, 6, 5);
+        setEntreVerde(anel, 14, 4, 2, 6, 5);
+        setEntreVerde(anel, 14, 4, 3, 6, 5);
+        setEntreVerde(anel, 14, 4, 5, 6, 5);
+
+        setEntreVerde(anel, 15, 4, 1, 6, 5);
+        setEntreVerde(anel, 15, 4, 2, 6, 5);
+        setEntreVerde(anel, 15, 4, 3, 6, 5);
+        setEntreVerde(anel, 15, 4, 5, 6, 5);
+
+        setEntreVerde(anel, 16, 5, 1, 4, 4);
+        setEntreVerde(anel, 16, 5, 2, 4, 4);
+        setEntreVerde(anel, 16, 5, 3, 4, 4);
+        setEntreVerde(anel, 16, 5, 4, 4, 4);
 
         controlador.save();
     }
@@ -369,6 +547,16 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         detector.setTempoDeteccaoPermanente(2);
         detector.setTempoAusenciaDeteccao(4);
 
+        associaDetectorEstagio(anel, 1, TipoDetector.PEDESTRE, 2);
+
+
+        anel = getAnel(3);
+        associaDetectorEstagio(anel, 1, TipoDetector.VEICULAR, 1);
+        associaDetectorEstagio(anel, 2, TipoDetector.VEICULAR, 2);
+        associaDetectorEstagio(anel, 3, TipoDetector.VEICULAR, 3);
+        associaDetectorEstagio(anel, 4, TipoDetector.PEDESTRE, 1);
+        associaDetectorEstagio(anel, 5, TipoDetector.VEICULAR, 4);
+
         controlador.save();
     }
 
@@ -387,7 +575,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         versaoPlano.save();
     }
 
-    private Plano criarPlano(Anel anel, Integer posicao, ModoOperacaoPlano modoOperacaoPlano, Integer tempoCiclo) {
+    public Plano criarPlano(Anel anel, Integer posicao, ModoOperacaoPlano modoOperacaoPlano, Integer tempoCiclo) {
         Plano plano = new Plano();
         plano.setPosicao(posicao);
         plano.setDescricao("PLANO " + posicao);
@@ -404,114 +592,59 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         Anel anel = getAnel(1);
         criaVersaoPlanos(anel);
         Plano plano = criarPlano(anel, 1, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 52);
-        criarEstagioPlano(anel, plano, new int[]{1, 2, 3}, new int[]{10, 10, 10});
-
-        criarIntervalo(plano, 1, 1, EstadoGrupoSemaforico.VERMELHO, 6);
-        criarIntervalo(plano, 1, 2, EstadoGrupoSemaforico.VERDE, 12);
-        criarIntervalo(plano, 1, 3, EstadoGrupoSemaforico.AMARELO, 3);
-        criarIntervalo(plano, 1, 4, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, 3);
-        criarIntervalo(plano, 1, 5, EstadoGrupoSemaforico.VERMELHO, 28);
-
-        criarIntervalo(plano, 2, 1, EstadoGrupoSemaforico.VERDE, 2);
-        criarIntervalo(plano, 2, 2, EstadoGrupoSemaforico.AMARELO, 3);
-        criarIntervalo(plano, 2, 3, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, 3);
-        criarIntervalo(plano, 2, 4, EstadoGrupoSemaforico.VERMELHO, 34);
-        criarIntervalo(plano, 2, 5, EstadoGrupoSemaforico.VERDE, 10);
-
-        criarIntervalo(plano, 3, 1, EstadoGrupoSemaforico.VERMELHO, 24);
-        criarIntervalo(plano, 3, 2, EstadoGrupoSemaforico.VERMELHO_INTERMITENTE, 5);
-        criarIntervalo(plano, 3, 3, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, 3);
-        criarIntervalo(plano, 3, 4, EstadoGrupoSemaforico.VERDE, 10);
-        criarIntervalo(plano, 3, 5, EstadoGrupoSemaforico.VERMELHO, 10);
-
-        criarIntervalo(plano, 4, 1, EstadoGrupoSemaforico.VERMELHO_INTERMITENTE, 5);
-        criarIntervalo(plano, 4, 2, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, 3);
-        criarIntervalo(plano, 4, 3, EstadoGrupoSemaforico.VERMELHO, 16);
-        criarIntervalo(plano, 4, 4, EstadoGrupoSemaforico.VERDE, 28);
-
-        criarIntervalo(plano, 5, 1, EstadoGrupoSemaforico.VERMELHO, 8);
-        criarIntervalo(plano, 5, 2, EstadoGrupoSemaforico.VERDE, 26);
-        criarIntervalo(plano, 5, 3, EstadoGrupoSemaforico.VERMELHO_INTERMITENTE, 5);
-        criarIntervalo(plano, 5, 4, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, 3);
-        criarIntervalo(plano, 5, 5, EstadoGrupoSemaforico.VERMELHO, 10);
+        criarEstagiosPlanos(anel, plano, new int[]{1, 2, 3}, new int[]{10, 10, 10});
 
         plano = criarPlano(anel, 5, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 47);
-        criarEstagioPlano(anel, plano, new int[]{1, 2, 3}, new int[]{10, 5, 10});
+        criarEstagiosPlanos(anel, plano, new int[]{1, 2, 3}, new int[]{10, 5, 10});
 
-        criarIntervalo(plano, 1, 1, EstadoGrupoSemaforico.VERMELHO, 8);
-        criarIntervalo(plano, 1, 2, EstadoGrupoSemaforico.VERDE, 10);
-        criarIntervalo(plano, 1, 3, EstadoGrupoSemaforico.AMARELO, 3);
-        criarIntervalo(plano, 1, 4, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, 3);
-        criarIntervalo(plano, 1, 5, EstadoGrupoSemaforico.VERMELHO, 28);
+        plano = criarPlano(anel, 7, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 58);
+        criarEstagiosPlanos(anel, plano, new int[]{1, 2, 3}, new int[]{10, 12, 14});
 
-        criarIntervalo(plano, 2, 1, EstadoGrupoSemaforico.VERDE, 2);
-        criarIntervalo(plano, 2, 2, EstadoGrupoSemaforico.AMARELO, 3);
-        criarIntervalo(plano, 2, 3, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, 3);
-        criarIntervalo(plano, 2, 4, EstadoGrupoSemaforico.VERMELHO, 34);
-        criarIntervalo(plano, 2, 5, EstadoGrupoSemaforico.VERDE, 10);
+        plano = criarPlano(anel, 10, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 58);
+        criarEstagiosPlanos(anel, plano, new int[]{2, 3, 1}, new int[]{10, 12, 14});
 
-        criarIntervalo(plano, 3, 1, EstadoGrupoSemaforico.VERMELHO, 24);
-        criarIntervalo(plano, 3, 2, EstadoGrupoSemaforico.VERMELHO_INTERMITENTE, 5);
-        criarIntervalo(plano, 3, 3, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, 3);
-        criarIntervalo(plano, 3, 4, EstadoGrupoSemaforico.VERDE, 5);
-        criarIntervalo(plano, 3, 5, EstadoGrupoSemaforico.VERMELHO, 10);
-
-        criarIntervalo(plano, 4, 1, EstadoGrupoSemaforico.VERMELHO_INTERMITENTE, 5);
-        criarIntervalo(plano, 4, 2, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, 3);
-        criarIntervalo(plano, 4, 3, EstadoGrupoSemaforico.VERMELHO, 16);
-        criarIntervalo(plano, 4, 4, EstadoGrupoSemaforico.VERDE, 23);
-
-        criarIntervalo(plano, 5, 1, EstadoGrupoSemaforico.VERMELHO, 8);
-        criarIntervalo(plano, 5, 2, EstadoGrupoSemaforico.VERDE, 21);
-        criarIntervalo(plano, 5, 3, EstadoGrupoSemaforico.VERMELHO_INTERMITENTE, 5);
-        criarIntervalo(plano, 5, 4, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, 3);
-        criarIntervalo(plano, 5, 5, EstadoGrupoSemaforico.VERMELHO, 10);
+        plano = criarPlano(anel, 11, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 65);
+        criarEstagioPlano(anel, plano, 1, 1, 15, false);
+        criarEstagioPlano(anel, plano, 2, 2, 4, false);
+        criarEstagioPlano(anel, plano, 2, 3, 4, true);
+        criarEstagioPlano(anel, plano, 3, 4, 20, false);
 
         anel = getAnel(2);
         criaVersaoPlanos(anel);
-        plano = criarPlano(anel, 1, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 56);
-        criarEstagioPlano(anel, plano, new int[]{1, 3, 2}, new int[]{10, 12, 10});
+        plano = criarPlano(anel, 1, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 59);
+        criarEstagiosPlanos(anel, plano, new int[]{1, 3, 2}, new int[]{10, 12, 10});
 
-        criarIntervalo(plano, 6, 1, EstadoGrupoSemaforico.VERMELHO, 8);
-        criarIntervalo(plano, 6, 2, EstadoGrupoSemaforico.VERDE, 10);
-        criarIntervalo(plano, 6, 3, EstadoGrupoSemaforico.AMARELO, 3);
-        criarIntervalo(plano, 6, 4, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, 5);
-        criarIntervalo(plano, 6, 5, EstadoGrupoSemaforico.VERMELHO, 30);
+        //Plano com estágio 3 dispensavel no fim
+        plano = criarPlano(anel, 10, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 63);
+        criarEstagiosPlanos(anel, plano, new int[]{1, 2, 3}, new int[]{10, 15, 12});
+        EstagioPlano estagioPlano = plano.getEstagiosPlanos().stream().filter(e -> e.getEstagio().getPosicao().equals(3)).findFirst().get();
+        estagioPlano.setDispensavel(true);
 
-        criarIntervalo(plano, 7, 1, EstadoGrupoSemaforico.VERMELHO, 18);
-        criarIntervalo(plano, 7, 2, EstadoGrupoSemaforico.VERDE, 12);
-        criarIntervalo(plano, 7, 3, EstadoGrupoSemaforico.AMARELO, 3);
-        criarIntervalo(plano, 7, 4, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, 5);
-        criarIntervalo(plano, 7, 5, EstadoGrupoSemaforico.VERMELHO, 18);
+        //Plano com estágio 3 dispensavel no meio
+        plano = criarPlano(anel, 11, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 54);
+        criarEstagiosPlanos(anel, plano, new int[]{1, 3, 2}, new int[]{10, 5, 12});
+        estagioPlano = plano.getEstagiosPlanos().stream().filter(e -> e.getEstagio().getPosicao().equals(3)).findFirst().get();
+        estagioPlano.setDispensavel(true);
 
-        criarIntervalo(plano, 8, 1, EstadoGrupoSemaforico.VERMELHO_INTERMITENTE, 3);
-        criarIntervalo(plano, 8, 2, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, 5);
-        criarIntervalo(plano, 8, 3, EstadoGrupoSemaforico.VERMELHO, 38);
-        criarIntervalo(plano, 8, 4, EstadoGrupoSemaforico.VERDE, 10);
+        //Plano com estágio 3 dispensavel no inicio
+        plano = criarPlano(anel, 12, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 62);
+        criarEstagiosPlanos(anel, plano, new int[]{3, 2, 1}, new int[]{10, 15, 10});
+        estagioPlano = plano.getEstagiosPlanos().stream().filter(e -> e.getEstagio().getPosicao().equals(3)).findFirst().get();
+        estagioPlano.setDispensavel(true);
 
-        criarIntervalo(plano, 9, 1, EstadoGrupoSemaforico.VERDE, 18);
-        criarIntervalo(plano, 9, 2, EstadoGrupoSemaforico.VERMELHO_INTERMITENTE, 3);
-        criarIntervalo(plano, 9, 3, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, 5);
-        criarIntervalo(plano, 9, 4, EstadoGrupoSemaforico.VERMELHO, 20);
-        criarIntervalo(plano, 9, 5, EstadoGrupoSemaforico.VERDE, 10);
+        anel = getAnel(3);
+        criaVersaoPlanos(anel);
+        plano = criarPlano(anel, 1, ModoOperacaoPlano.ATUADO, null);
+        criarEstagioPlano(anel, plano, 1, 1, new int[]{10, 15, 20, 11}, false);
+        criarEstagioPlano(anel, plano, 2, 2, new int[]{10, 15, 20, 11}, false);
+        criarEstagioPlano(anel, plano, 3, 3, new int[]{10, 15, 20, 11}, false);
+        criarEstagioPlano(anel, plano, 4, 4, new int[]{10}, false);
 
-        criarIntervalo(plano, 10, 1, EstadoGrupoSemaforico.VERMELHO_INTERMITENTE, 3);
-        criarIntervalo(plano, 10, 2, EstadoGrupoSemaforico.VERMELHO_LIMPEZA, 5);
-        criarIntervalo(plano, 10, 3, EstadoGrupoSemaforico.VERMELHO, 18);
-        criarIntervalo(plano, 10, 4, EstadoGrupoSemaforico.VERDE, 30);
-        criarIntervalo(plano, 10, 5, EstadoGrupoSemaforico.VERMELHO, 10);
+        criarPlano(anel, 5, ModoOperacaoPlano.INTERMITENTE, null);
+        criarPlano(anel, 6, ModoOperacaoPlano.APAGADO, null);
+        criarPlano(anel, 10, ModoOperacaoPlano.INTERMITENTE, null);
 
         controlador.save();
-    }
-
-    private void criarIntervalo(Plano plano, int posicaoGrupo, int ordem, EstadoGrupoSemaforico estagoGrupoSemaforico, int tamanho) {
-        Intervalo intervalo = new Intervalo();
-        GrupoSemaforicoPlano grupoSemaforicoPlano = plano.getGruposSemaforicosPlanos().stream().filter(gsp -> gsp.getGrupoSemaforico().getPosicao().equals(posicaoGrupo)).findFirst().get();
-        intervalo.setGrupoSemaforicoPlano(grupoSemaforicoPlano);
-        intervalo.setEstadoGrupoSemaforico(estagoGrupoSemaforico);
-        intervalo.setOrdem(ordem);
-        intervalo.setTamanho(tamanho);
-        grupoSemaforicoPlano.addIntervalos(intervalo);
     }
 
     private void criarEvento(TabelaHorario tabelaHoraria, int posicao, TipoEvento tipoEvento, DiaDaSemana diaDaSemana, LocalTime horario, int posicaoPlano) {
@@ -537,9 +670,11 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
 
         criarEvento(tabelaHoraria, 1, TipoEvento.NORMAL, DiaDaSemana.TODOS_OS_DIAS, LocalTime.parse("00:00:00"), 1);
         criarEvento(tabelaHoraria, 2, TipoEvento.NORMAL, DiaDaSemana.SEGUNDA_A_SABADO, LocalTime.parse("08:00:00"), 1);
-        criarEvento(tabelaHoraria, 1, TipoEvento.NORMAL, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("18:00:00"), 1);
-        criarEvento(tabelaHoraria, 3, TipoEvento.ESPECIAL_RECORRENTE, DiaDaSemana.SEGUNDA_A_SABADO, LocalTime.parse("18:00:00"), 1);
-        criarEvento(tabelaHoraria, 4, TipoEvento.ESPECIAL_NAO_RECORRENTE, DiaDaSemana.DOMINGO, LocalTime.parse("08:00:00"), 1);
+        criarEvento(tabelaHoraria, 3, TipoEvento.NORMAL, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("18:00:00"), 1);
+        criarEvento(tabelaHoraria, 4, TipoEvento.NORMAL, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("18:01:00"), 10);
+        criarEvento(tabelaHoraria, 4, TipoEvento.NORMAL, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("18:02:00"), 1);
+//        criarEvento(tabelaHoraria, 1, TipoEvento.ESPECIAL_RECORRENTE, DiaDaSemana.SEGUNDA_A_SABADO, LocalTime.parse("18:00:00"), 1);
+//        criarEvento(tabelaHoraria, 1, TipoEvento.ESPECIAL_NAO_RECORRENTE, DiaDaSemana.DOMINGO, LocalTime.parse("08:00:00"), 1);
 
         controlador.save();
     }
@@ -556,7 +691,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         }
     }
 
-    private void criarEstagioPlano(Anel anel, Plano plano, int posicoes[], int tempos[]) {
+    public void criarEstagiosPlanos(Anel anel, Plano plano, int posicoes[], int tempos[]) {
         int i = 0;
         plano.setEstagiosPlanos(null);
         for (Estagio estagio : anel.ordenarEstagiosPorPosicao()) {
@@ -568,6 +703,37 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
             plano.addEstagios(estagioPlano);
             i++;
         }
+    }
+
+    public void criarEstagioPlano(Anel anel, Plano plano, int posicaoEstagio, int posicao, int[] tempos, boolean dispensavel) {
+        EstagioPlano estagioPlano = new EstagioPlano();
+        estagioPlano.setPosicao(posicao);
+        estagioPlano.setPlano(plano);
+        estagioPlano.setEstagio(anel.findEstagioByPosicao(posicaoEstagio));
+        if (tempos.length > 1) {
+            estagioPlano.setTempoVerdeMinimo(tempos[0]);
+            estagioPlano.setTempoVerdeIntermediario(tempos[1]);
+            estagioPlano.setTempoVerdeMaximo(tempos[2]);
+            estagioPlano.setTempoExtensaoVerde(tempos[3] / 10.0);
+        } else {
+            estagioPlano.setTempoVerdeMinimo(tempos[0]);
+            estagioPlano.setTempoVerdeIntermediario(tempos[0]);
+            estagioPlano.setTempoVerdeMaximo(tempos[0]);
+            estagioPlano.setTempoExtensaoVerde(1.0);
+        }
+
+        estagioPlano.setDispensavel(dispensavel);
+        plano.addEstagios(estagioPlano);
+    }
+
+    public void criarEstagioPlano(Anel anel, Plano plano, int posicaoEstagio, int posicao, int tempo, boolean dispensavel) {
+        EstagioPlano estagioPlano = new EstagioPlano();
+        estagioPlano.setPosicao(posicao);
+        estagioPlano.setPlano(plano);
+        estagioPlano.setEstagio(anel.findEstagioByPosicao(posicaoEstagio));
+        estagioPlano.setTempoVerde(tempo);
+        estagioPlano.setDispensavel(dispensavel);
+        plano.addEstagios(estagioPlano);
     }
 
 

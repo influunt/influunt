@@ -485,7 +485,16 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
     }
 
     public Transicao findTransicaoByOrigemDestino(Estagio origem, Estagio destino) {
-        return getTransicoes().stream().filter(transicao -> transicao.getOrigem().equals(origem) && transicao.getDestino().equals(destino)).findFirst().orElse(null);
+        return getTransicoesComPerdaDePassagem().stream().filter(transicao -> origem.equals(transicao.getOrigem()) && destino.equals(transicao.getDestino())).findFirst().orElse(null);
+    }
+
+    public Transicao findTransicaoComGanhoDePassagemByOrigemDestino(Estagio origem, Estagio destino) {
+        return getTransicoesComGanhoDePassagem().stream().filter(transicao -> transicao.getOrigem().equals(origem) && transicao.getDestino().equals(destino)).findFirst().orElse(null);
+    }
+
+    public TabelaEntreVerdesTransicao findTabelaEntreVerdesTransicaoByTransicao(Integer posicaoTabelaEntreVerde, Transicao transicao) {
+        TabelaEntreVerdes tabelaEntreVerdes = getTabelasEntreVerdes().stream().filter(tev -> tev.getPosicao().equals(posicaoTabelaEntreVerde)).findFirst().orElse(null);
+        return tabelaEntreVerdes.getTabelaEntreVerdesTransicoes().stream().filter(tevt -> tevt.getTransicao().equals(transicao)).findFirst().orElse(null);
     }
 
     public void addTransicao(Transicao transicao) {
@@ -503,5 +512,18 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
         isDestroy = destroy;
     }
 
+    public Integer getTempoVerdeSegurancaFaltante(EstagioPlano estagioPlano, EstagioPlano estagioPlanoAnterior) {
+        int tempoDecorrido = 0;
+        if (estagioPlanoAnterior.getEstagio().getGruposSemaforicos().contains(this)) {
+            tempoDecorrido += estagioPlanoAnterior.getTempoVerde();
+            tempoDecorrido += estagioPlanoAnterior.getPlano().getTempoEntreVerdeEntreEstagios(estagioPlano.getEstagio(), estagioPlanoAnterior.getEstagio());
+        } else {
+            Transicao transicao = findTransicaoComGanhoDePassagemByOrigemDestino(estagioPlanoAnterior.getEstagio(), estagioPlano.getEstagio());
+            if (transicao != null) {
+                tempoDecorrido += transicao.getTempoAtrasoGrupo();
+            }
+        }
+        return Math.max(0, getTempoVerdeSeguranca() - tempoDecorrido);
+    }
 }
 

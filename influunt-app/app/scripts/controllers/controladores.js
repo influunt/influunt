@@ -10,10 +10,10 @@
 angular.module('influuntApp')
   .controller('ControladoresCtrl', ['$controller', '$scope', '$state', '$filter', 'Restangular', '$q',
                                     'handleValidations', 'APP_ROOT', 'influuntBlockui', 'toast', 'influuntAlert',
-                                    'STATUS_CONTROLADOR', 'breadcrumbs', 'assertControlador',
+                                    'STATUS_CONTROLADOR', 'breadcrumbs', 'assertControlador', 'SimulacaoService',
     function ($controller, $scope, $state, $filter, Restangular, $q,
               handleValidations, APP_ROOT, influuntBlockui, toast, influuntAlert,
-              STATUS_CONTROLADOR, breadcrumbs, assertControlador) {
+              STATUS_CONTROLADOR, breadcrumbs, assertControlador, SimulacaoService) {
 
       var setLocalizacaoNoCurrentAnel;
       // Herda todo o comportamento do crud basico.
@@ -540,6 +540,10 @@ angular.module('influuntApp')
       };
 
       $scope.podeMostrarPlanosETabelaHoraria = function(controlador) {
+        return controlador.controladorConfigurado;
+      };
+
+      $scope.podeSimular = function(controlador) {
         return controlador.controladorConfigurado;
       };
     }]);

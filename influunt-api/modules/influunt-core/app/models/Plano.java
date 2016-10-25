@@ -12,6 +12,7 @@ import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.Range;
+import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import utils.RangeUtils;
 
@@ -155,12 +156,12 @@ public class Plano extends Model implements Cloneable, Serializable {
         return estagiosPlanos;
     }
 
-    public List<EstagioPlano> getEstagiosPlanosSemEstagioDispensavel() {
-        return estagiosPlanos.stream().filter(estagioPlano -> !estagioPlano.isDispensavel()).collect(Collectors.toList());
-    }
-
     public void setEstagiosPlanos(List<EstagioPlano> estagios) {
         this.estagiosPlanos = estagios;
+    }
+
+    public List<EstagioPlano> getEstagiosPlanosSemEstagioDispensavel() {
+        return estagiosPlanos.stream().filter(estagioPlano -> !estagioPlano.isDispensavel()).collect(Collectors.toList());
     }
 
     public List<GrupoSemaforicoPlano> getGruposSemaforicosPlanos() {
@@ -248,7 +249,10 @@ public class Plano extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = PlanosCheck.class,
             message = "Deve possuir pelo menos 2 estágios configurados.")
     public boolean isQuantidadeEstagioIgualQuantidadeAnel() {
-        return !(this.getEstagiosPlanos().isEmpty() || this.getEstagiosPlanos().size() < 2);
+        if (isModoOperacaoVerde()) {
+            return !(this.getEstagiosPlanos().isEmpty() || this.getEstagiosPlanos().size() < 2);
+        }
+        return true;
     }
 
     @AssertTrue(groups = PlanosCheck.class,
@@ -334,38 +338,60 @@ public class Plano extends Model implements Cloneable, Serializable {
         getEstagiosPlanos().add(estagioPlano);
     }
 
-    public Estagio getEstagioAnterior(Estagio estagio) {
-        int posicao = getEstagiosPlanos().stream().filter(estagioPlano -> estagioPlano.getEstagio().equals(estagio)).findFirst().get().getPosicao();
-        if (posicao == 1) {
-            return getEstagiosPlanos().get(getEstagiosPlanos().size() - 1).getEstagio();
+    public Estagio getEstagioAnterior(EstagioPlano estagioPlano) {
+        return getEstagioAnterior(estagioPlano, getEstagiosPlanos());
+    }
+
+    public Estagio getEstagioAnterior(EstagioPlano estagioPlano, List<EstagioPlano> lista) {
+        int posicao = lista.indexOf(estagioPlano);
+        if (posicao == 0) {
+            return lista.get(lista.size() - 1).getEstagio();
         } else {
-            return getEstagiosPlanos().get(posicao - 2).getEstagio();
+            return lista.get(posicao - 1).getEstagio();
         }
     }
 
     public Integer getTempoEstagio(EstagioPlano estagioPlano) {
+        return getTempoEstagio(estagioPlano, getEstagiosPlanos());
+    }
+
+    public Integer getTempoEstagio(EstagioPlano estagioPlano, List<EstagioPlano> listaEstagiosPlanos) {
         Estagio estagio = estagioPlano.getEstagio();
-        Estagio estagioAnterior = getEstagioAnterior(estagioPlano.getEstagio());
-        ArrayList<Integer> totalTempoEntreverdes = new ArrayList<Integer>();
+        Estagio estagioAnterior = getEstagioAnterior(estagioPlano, listaEstagiosPlanos);
+
+        Integer tempoEntreVerdes = getTempoEntreVerdeEntreEstagios(estagio, estagioAnterior);
+
+        if (isAtuado()) {
+            return tempoEntreVerdes + estagioPlano.getTempoVerdeMaximo();
+        }
+
+
+        return tempoEntreVerdes + estagioPlano.getTempoVerde();
+    }
+
+    public Integer getTempoEntreVerdeEntreEstagios(Estagio estagioAtual, Estagio estagioAnterior) {
         Integer tempoEntreVerdes = 0;
-        if (!estagio.equals(estagioAnterior)) {
+        ArrayList<Integer> totalTempoEntreverdes = new ArrayList<Integer>();
+        if (!estagioAtual.equals(estagioAnterior)) {
             for (EstagioGrupoSemaforico estagioGrupoSemaforico : estagioAnterior.getEstagiosGruposSemaforicos()) {
-                if (!estagio.getGruposSemaforicos().contains(estagioGrupoSemaforico.getGrupoSemaforico())) {
-                    totalTempoEntreverdes.add(tempoEntreVerdes(estagio, estagioAnterior, estagioGrupoSemaforico));
+                GrupoSemaforicoPlano grupoSemaforicoPlano = getGrupoSemaforicoPlano(estagioGrupoSemaforico.getGrupoSemaforico());
+                if (grupoSemaforicoPlano.isAtivado() && !estagioAtual.getGruposSemaforicos().contains(estagioGrupoSemaforico.getGrupoSemaforico())) {
+                    totalTempoEntreverdes.add(getTempoEntreVerdes(estagioAtual, estagioAnterior, estagioGrupoSemaforico));
                 } else {
                     totalTempoEntreverdes.add(0);
                 }
             }
             tempoEntreVerdes = Collections.max(totalTempoEntreverdes);
         }
-        if (isAtuado()) {
-            return tempoEntreVerdes + estagioPlano.getTempoVerdeMaximo();
-        }
 
-        return tempoEntreVerdes + estagioPlano.getTempoVerde();
+        return tempoEntreVerdes;
     }
 
-    private Integer tempoEntreVerdes(Estagio estagio, Estagio estagioAnterior, EstagioGrupoSemaforico estagioGrupoSemaforico) {
+    public GrupoSemaforicoPlano getGrupoSemaforicoPlano(GrupoSemaforico grupoSemaforico) {
+        return getGruposSemaforicosPlanos().stream().filter(gsp -> gsp.getGrupoSemaforico().equals(grupoSemaforico)).findFirst().orElse(null);
+    }
+
+    private Integer getTempoEntreVerdes(Estagio estagio, Estagio estagioAnterior, EstagioGrupoSemaforico estagioGrupoSemaforico) {
         TabelaEntreVerdes tabelaEntreVerdes = estagioGrupoSemaforico.getGrupoSemaforico().getTabelasEntreVerdes().stream().filter(tev -> tev.getPosicao().equals(getPosicaoTabelaEntreVerde())).findFirst().orElse(null);
         Transicao transicao = estagioGrupoSemaforico.getGrupoSemaforico().findTransicaoByOrigemDestino(estagioAnterior, estagio);
 
@@ -425,6 +451,53 @@ public class Plano extends Model implements Cloneable, Serializable {
                 + ", dataCriacao=" + dataCriacao
                 + ", dataAtualizacao=" + dataAtualizacao
                 + '}';
+    }
+
+    public HashMap<Pair<Integer, Integer>, Long> tabelaEntreVerde() {
+        HashMap<Pair<Integer, Integer>, Long> tabela = new HashMap<>();
+        if (this.isModoOperacaoVerde()) {
+            preencheTabelaEntreVerde(tabela, ordenarEstagiosPorPosicaoSemEstagioDispensavel());
+            preencheTabelaEntreVerde(tabela, ordenarEstagiosPorPosicao());
+            this.getAnel().getEstagios().stream().filter(Estagio::isDemandaPrioritaria).forEach(e -> {
+                preencheTabelaEntreVerde(tabela, e);
+            });
+        } else {
+            //TODO: Qual o entreverde do estagio de demanda prioritaria para o modo Intermitente
+            this.getAnel().getEstagios().stream().filter(Estagio::isDemandaPrioritaria).forEach(e -> {
+                preencheTabelaEntreVerde(tabela, e);
+                tabela.put(new Pair<Integer, Integer>(e.getPosicao(), null), 0L);
+                tabela.put(new Pair<Integer, Integer>(null, e.getPosicao()), 3000L);
+            });
+        }
+        return tabela;
+    }
+
+    private void preencheTabelaEntreVerde(HashMap<Pair<Integer, Integer>, Long> tabela, List<EstagioPlano> lista) {
+        lista.stream().forEach(ep -> {
+            Estagio atual = ep.getEstagio();
+            Estagio anterior = this.getEstagioAnterior(ep, lista);
+            tabela.put(new Pair<Integer, Integer>(anterior.getPosicao(), atual.getPosicao()),
+                    this.getTempoEntreVerdeEntreEstagios(atual, anterior) * 1000L);
+
+            tabela.put(new Pair<Integer, Integer>(atual.getPosicao(), atual.getPosicao()), 0L);
+        });
+    }
+
+    private void preencheTabelaEntreVerde(HashMap<Pair<Integer, Integer>, Long> tabela, Estagio estagio) {
+        getEstagiosPlanos().stream().forEach(ep -> {
+            Estagio atual = ep.getEstagio();
+            tabela.put(new Pair<Integer, Integer>(estagio.getPosicao(), atual.getPosicao()),
+                    this.getTempoEntreVerdeEntreEstagios(atual, estagio) * 1000L);
+            tabela.put(new Pair<Integer, Integer>(atual.getPosicao(), estagio.getPosicao()),
+                    this.getTempoEntreVerdeEntreEstagios(estagio, atual) * 1000L);
+        });
+    }
+
+    //TODO: Remover a metodo
+    public void imprimirTabelaEntreVerde() {
+        this.tabelaEntreVerde().forEach((key, value) -> {
+            System.out.println("E" + key.getKey() + "-" + "E" + key.getValue() + ": " + value);
+        });
     }
 
 }
