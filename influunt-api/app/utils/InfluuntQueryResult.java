@@ -8,7 +8,9 @@ import java.util.List;
 public class InfluuntQueryResult {
 
     private List result;
+
     private Integer total;
+
     private Class klass;
 
     public InfluuntQueryResult(List result, Integer total, Class klass) {

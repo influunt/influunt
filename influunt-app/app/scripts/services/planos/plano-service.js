@@ -8,11 +8,11 @@
 * Factory in the influuntApp.
 */
 angular.module('influuntApp')
-  .factory('planoService', ['validaTransicao', 'modoOperacaoService', 'geraDadosDiagramaIntervalo',
-    function planoService(validaTransicao, modoOperacaoService, geraDadosDiagramaIntervalo) {
+  .factory('planoService', ['validaTransicao', 'modoOperacaoService', 'geraDadosDiagramaIntervalo', 'PermissionsService',
+    function planoService(validaTransicao, modoOperacaoService, geraDadosDiagramaIntervalo, PermissionsService) {
 
       var criarPlano, associarEstagios, associarGruposSemaforicos, criarPlanoManualExclusivo, adicionar,
-          verdeMinimoDoEstagio, setDiagramaEstatico;
+          verdeMinimoDoEstagio, setDiagramaEstatico, podeEditarControlador;
 
       verdeMinimoDoEstagio = function(controlador, verdeMin, estagio) {
         var tempoMax = verdeMin;
@@ -318,6 +318,13 @@ angular.module('influuntApp')
         };
       };
 
+      podeEditarControlador = function(controlador) {
+        var usuario = PermissionsService.getUsuario();
+        var editor = _.get(controlador, 'versaoControlador.usuario');
+        var statusVersao = _.get(controlador, 'statusVersao');
+        return statusVersao !== 'EDITANDO' || !editor || usuario.id === editor.id;
+      };
+
       return {
         adicionar: adicionar,
         verdeMinimoDoEstagio: verdeMinimoDoEstagio,
@@ -331,6 +338,7 @@ angular.module('influuntApp')
         atualizaPosicaoEstagiosPlanos: atualizaPosicaoEstagiosPlanos,
         atualizaTransicoesProibidas: atualizaTransicoesProibidas,
         atualizaDiagramaIntervalos: atualizaDiagramaIntervalos,
-        montaTabelaValoresMinimos: montaTabelaValoresMinimos
+        montaTabelaValoresMinimos: montaTabelaValoresMinimos,
+        podeEditarControlador: podeEditarControlador
       };
     }]);

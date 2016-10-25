@@ -64,7 +64,7 @@ angular.module('influuntApp')
           knob.on('outOfBounds', _.debounce(function() {
             var texto;
 
-            if (scope.ngModel === scope.max) {
+            if (parseFloat(scope.ngModel) === parseFloat(scope.max)) {
               texto = $filter('translate')('directives.influuntKnob.alertaLimiteMaximo');
             } else {
               texto = $filter('translate')('directives.influuntKnob.alertaLimiteMinimo');

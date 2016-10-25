@@ -20,6 +20,8 @@
     "Dropzone": true,
     "moment": true,
     "humanizeDuration": true,
+    "Phaser": true,
+    "Paho": true,
     "Blob": true,
     "saveAs": true,
     "bowser": true,

@@ -14,7 +14,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr data-ng-repeat="evento in currentEventos" influunt-evento
+      <tr data-ng-repeat="evento in currentEventos"
+        influunt-evento
         data-evento="evento"
         data-planos="planos"
         data-dias="dias"
@@ -28,7 +29,7 @@
         erros="currentErrosEventos[$index]"
         read-only="somenteVisualizacao">
       </tr>
-      <tr influunt-evento="visualizarPlano"
+      <tr influunt-evento
         data-evento="currentNovoEvento"
         data-planos="planos"
         data-dias="dias"

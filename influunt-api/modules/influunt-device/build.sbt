@@ -52,7 +52,7 @@ lazy val influuntDevice = (project in file(".")).enablePlugins(PlayJava, PlayEbe
       "org.eclipse.paho" % "org.eclipse.paho.client.mqttv3" % "1.1.0",
       "org.fusesource.mqtt-client" % "mqtt-client" % "1.14",
       "com.google.code.gson" % "gson" % "2.7",
-
+      "de.erichseifert.vectorgraphics2d" % "VectorGraphics2D" % "0.11",
       "org.jetbrains.kotlin" % "kotlin-stdlib" % "1.0.3",
       "org.eclipse.collections" % "eclipse-collections-api" % "7.1.0",
       "org.eclipse.collections" % "eclipse-collections" % "7.1.0",

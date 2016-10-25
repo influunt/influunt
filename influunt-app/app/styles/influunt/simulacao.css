@@ -82,3 +82,11 @@
   cursor: col-resize;
   z-index: 999;
 }
+
+#canvas {
+  background-color: #CCC;
+}
+
+#canvas canvas {
+  margin: auto;
+}

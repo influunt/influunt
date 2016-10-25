@@ -35,6 +35,7 @@ public abstract class WithInfluuntApplication extends WithApplication {
         appOptions.put("play.evolutions.db.default.enabled", "false");
         appOptions.put("central.mqtt.host", "127.0.0.1");
         appOptions.put("central.mqtt.port", "1883");
+
         provideApp = getApplication(appOptions);
         return provideApp;
     }

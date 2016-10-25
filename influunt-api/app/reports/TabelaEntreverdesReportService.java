@@ -1,6 +1,7 @@
 package reports;
 
 import com.google.inject.Inject;
+import models.Endereco;
 import models.TabelaEntreVerdes;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
@@ -25,9 +26,14 @@ public class TabelaEntreverdesReportService extends ReportService<TabelaEntreVer
     @Override
     public InputStream generateReport(Map<String, String[]> stringMap, List<TabelaEntreVerdes> lista, ReportType reportType) {
         this.tabelas = lista;
+        tabelas.forEach(TabelaEntreVerdes::setDataAtualizacaoFormatted);
+        tabelas.forEach(tabela -> {
+            Endereco endereco = tabela.getGrupoSemaforico().getAnel().getEndereco();
+            endereco.setOutraLocalizacao(endereco.getLocalizacao2());
+        });
         switch (reportType) {
             case PDF:
-                return generatePDFReport();
+                return generatePDFReport(stringMap);
             case CSV:
                 return generateCSVReport();
             default:
@@ -40,10 +46,9 @@ public class TabelaEntreverdesReportService extends ReportService<TabelaEntreVer
      *
      * @return {@link InputStream} do pdf
      */
-    private InputStream generatePDFReport() {
-        Map<String, Object> params = getBasicReportMetadata();
-
-        return baseJasperReport.generateReport("controladoresEntreverdes", getBasicReportMetadata(), tabelas);
+    private InputStream generatePDFReport(Map<String, String[]> queryStringParams) {
+        Map<String, Object> reportParams = getEntreverdesReportData(queryStringParams);
+        return baseJasperReport.generateReport("controladoresEntreverdes", reportParams, tabelas);
     }
 
     /**
@@ -76,6 +81,19 @@ public class TabelaEntreverdesReportService extends ReportService<TabelaEntreVer
 
 
         return new ByteArrayInputStream(buffer.toString().getBytes(Charset.forName("UTF-8")));
+    }
+
+    private Map<String, Object> getEntreverdesReportData(Map<String, String[]> queryStringParams) {
+        Map<String, Object> reportParams = getBasicReportMetadata();
+        if (queryStringParams.containsKey("dataAtualizacao_start")) {
+            reportParams.put("startDate", queryStringParams.get("dataAtualizacao_start")[0].substring(0, 11));
+        }
+        if (queryStringParams.containsKey("dataAtualizacao_end")) {
+            reportParams.put("endDate", queryStringParams.get("dataAtualizacao_end")[0].substring(0, 11));
+        }
+        reportParams.put("totalAlteracoes", tabelas.size());
+
+        return reportParams;
     }
 
 }

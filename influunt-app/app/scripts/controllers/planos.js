@@ -11,11 +11,11 @@ angular.module('influuntApp')
   .controller('PlanosCtrl', ['$controller', '$scope', '$state', '$timeout', 'Restangular', '$filter',
                              'validaTransicao', 'utilEstagios', 'toast', 'modoOperacaoService',
                              'influuntAlert', 'influuntBlockui', 'geraDadosDiagramaIntervalo',
-                             'handleValidations', 'utilControladores', 'planoService', 'breadcrumbs',
+                             'handleValidations', 'utilControladores', 'planoService', 'breadcrumbs', 'SimulacaoService',
     function ($controller, $scope, $state, $timeout, Restangular, $filter,
               validaTransicao, utilEstagios, toast, modoOperacaoService,
               influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo,
-              handleValidations, utilControladores, planoService, breadcrumbs) {
+              handleValidations, utilControladores, planoService, breadcrumbs, SimulacaoService) {
 
       $controller('HistoricoCtrl', {$scope: $scope});
       $scope.inicializaResourceHistorico('planos');
@@ -152,6 +152,10 @@ angular.module('influuntApp')
           });
       };
 
+      $scope.podeEditarControlador = function() {
+        return planoService.podeEditarControlador($scope.objeto);
+      };
+
       /**
        * Evita que dados informados para um plano em determinado modo de operação vaze
        * para o diagrama criado.
@@ -269,11 +273,14 @@ angular.module('influuntApp')
 
       $scope.selecionaAnelPlanos = function(index) {
         selecionaAnel(index);
-        if ($scope.currentAnel.aceitaModoManual) {
-          $scope.selecionaPlano($scope.currentPlanos[1], 1);
-        } else {
-          $scope.selecionaPlano($scope.currentPlanos[0], 0);
+
+        var indexPlano = 0;
+        if (angular.isDefined($scope.currentPlano)) {
+          indexPlano = _.findIndex($scope.currentPlanos, {posicao: $scope.currentPlano.posicao});
+          indexPlano = indexPlano >= 0 ? indexPlano : 0;
         }
+
+        $scope.selecionaPlano($scope.currentPlanos[indexPlano], indexPlano);
       };
 
       $scope.selecionaPlano = function(plano, index) {
@@ -622,5 +629,9 @@ angular.module('influuntApp')
       getIndexPlano = function(anel, plano){
         var planos = _.find($scope.objeto.versoesPlanos, {idJson: anel.versaoPlano.idJson}).planos;
         return _.findIndex(planos, {idJson: plano.idJson});
+      };
+
+      $scope.podeSimular = function(controlador) {
+        return SimulacaoService.podeSimular(controlador);
       };
     }]);

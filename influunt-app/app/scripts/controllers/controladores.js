@@ -10,10 +10,12 @@
 angular.module('influuntApp')
   .controller('ControladoresCtrl', ['$controller', '$scope', '$state', '$filter', 'Restangular', '$q',
                                     'handleValidations', 'APP_ROOT', 'influuntBlockui', 'toast', 'influuntAlert',
-                                    'STATUS_CONTROLADOR', 'breadcrumbs', 'assertControlador',
-    function ($controller, $scope, $state, $filter, Restangular, $q,
-              handleValidations, APP_ROOT, influuntBlockui, toast, influuntAlert,
-              STATUS_CONTROLADOR, breadcrumbs, assertControlador) {
+                                    'STATUS_CONTROLADOR', 'breadcrumbs', 'assertControlador', 'SimulacaoService',
+                                    'planoService',
+    function($controller, $scope, $state, $filter, Restangular, $q,
+             handleValidations, APP_ROOT, influuntBlockui, toast, influuntAlert,
+             STATUS_CONTROLADOR, breadcrumbs, assertControlador, SimulacaoService,
+             planoService) {
 
       var setLocalizacaoNoCurrentAnel;
       // Herda todo o comportamento do crud basico.
@@ -531,6 +533,10 @@ angular.module('influuntApp')
           });
       };
 
+      $scope.podeEditarControlador = function() {
+        return planoService.podeEditarControlador($scope.objeto);
+      };
+
       $scope.podeAtivar = function(controlador) {
         return controlador.statusControlador === 'CONFIGURADO' && controlador.planoConfigurado && controlador.tabelaHorariaConfigurado;
       };
@@ -540,6 +546,10 @@ angular.module('influuntApp')
       };
 
       $scope.podeMostrarPlanosETabelaHoraria = function(controlador) {
+        return controlador.controladorConfigurado;
+      };
+
+      $scope.podeSimular = function(controlador) {
         return controlador.controladorConfigurado;
       };
     }]);

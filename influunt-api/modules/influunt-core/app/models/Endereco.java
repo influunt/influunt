@@ -60,6 +60,9 @@ public class Endereco extends Model implements Serializable {
     @Column
     private String localizacao2;
 
+    @Transient
+    private String outraLocalizacao;
+
     @Column
     private Integer alturaNumerica;
 
@@ -190,5 +193,13 @@ public class Endereco extends Model implements Serializable {
 
     public void setLocalizacao2(String localizacao2) {
         this.localizacao2 = localizacao2;
+    }
+
+    public String getOutraLocalizacao() {
+        return outraLocalizacao;
+    }
+
+    public void setOutraLocalizacao(String outraLocalizacao) {
+        this.outraLocalizacao = outraLocalizacao;
     }
 }

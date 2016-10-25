@@ -96,6 +96,7 @@ angular.module('influuntApp')
         }
         $scope.dadosBasicos = {
           area: area,
+          subarea: $scope.objeto.subarea,
           cidade: _.find($scope.objeto.cidades, { idJson: area.cidade.idJson }),
           numeroSMEE: $scope.objeto.numeroSMEE || '-',
           numeroSMEEConjugado1: $scope.objeto.numeroSMEEConjugado1 || '-',

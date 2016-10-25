@@ -8,12 +8,13 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('TabelaHorariosCtrl', ['$scope', '$state', '$timeout', 'Restangular', '$filter', 'toast', 'influuntAlert',
-                                     'influuntBlockui', 'geraDadosDiagramaIntervalo', 'handleValidations', 'TabelaHorariaService',
-                                     'HorariosService', 'planoService', '$controller',
-    function ($scope, $state, $timeout, Restangular, $filter, toast, influuntAlert,
-              influuntBlockui, geraDadosDiagramaIntervalo, handleValidations, TabelaHorariaService,
-              HorariosService, planoService, $controller) {
+  .controller('TabelaHorariosCtrl', ['$controller', '$scope', '$state', '$timeout', 'Restangular', '$filter', 'toast',
+                           'influuntAlert', 'influuntBlockui', 'geraDadosDiagramaIntervalo',
+                           'handleValidations', 'TabelaHorariaService', 'HorariosService', 'planoService', 'SimulacaoService',
+    function ($controller, $scope, $state, $timeout, Restangular, $filter, toast,
+              influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo,
+              handleValidations, TabelaHorariaService, HorariosService, planoService, SimulacaoService) {
+
 
       $controller('HistoricoCtrl', {$scope: $scope});
       $scope.inicializaResourceHistorico('tabelas_horarias');
@@ -169,6 +170,10 @@ angular.module('influuntApp')
 
           atualizaEventos();
         }
+      };
+
+      $scope.podeEditarControlador = function() {
+        return planoService.podeEditarControlador($scope.objeto);
       };
 
       removerEventoNoCliente = function(evento) {
@@ -420,5 +425,8 @@ angular.module('influuntApp')
           atualizaQuadroTabelaHoraria();
         }
       },true);
-    }
-  ]);
+
+      $scope.podeSimular = function(controlador) {
+        return SimulacaoService.podeSimular(controlador);
+      };
+    }]);
