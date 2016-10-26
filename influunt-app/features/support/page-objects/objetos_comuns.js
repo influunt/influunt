@@ -39,7 +39,9 @@ var ObjetosComuns = function () {
 
   this.trocarAnel = function(numeroAnel) {
     var xpath = ('//li[contains(@aria-selected, "false")]//a[contains(text(), "Anel '+numeroAnel+'")]');
-    return world.getElementByXpath(xpath).click();
+    return  world.sleep(300).then(function(){
+      return world.getElementByXpath(xpath).click();
+    });
   };
 
   this.limparCampo = function(campo) {
@@ -54,7 +56,7 @@ var ObjetosComuns = function () {
     return world.getTextInSweetAlert();
   };
 
-  this.clicarSimConfirmacaoApagarRegistro = function() {
+  this.botaoConfirmSweetAlert = function() {
     return world.waitFor('div[class^="sweet-alert"][class$="visible"]').then(function() {
       return world.clickButton('div[class^="sweet-alert"] button.confirm');
     });

@@ -1,7 +1,7 @@
 'use strict';
 
 var worldObj = require('../world');
-
+var expect = require('chai').expect;
 var world = new worldObj.World();
 
 var TabelasHorariasPage = function () {
@@ -48,8 +48,15 @@ var TabelasHorariasPage = function () {
     return world.waitForInverse(eventAdded);
   };
 
-  this.clicarEmVisualizarDiagrama = function(){
-    return world.getElement(''+eventAdded+' i.fa-eye').click();
+  this.clicarEmVisualizarDiagrama = function(evento){
+    var xpath = '//td[contains(@class, "horarioColor'+evento+'")]//following-sibling::td[6]//i[contains(@class, "fa-eye")]';
+    return world.getElementByXpath(xpath).click();
+  };
+
+  this.checkTextInSweetAlertAtuado= function(){
+    return world.getTextInSweetAlert().then(function(text) {
+      return expect(text).to.be.equal('Os modos de operação MANUAL E ATUADO não possuem diagrama de intervalos para exibir');
+    });
   };
 
   this.verificarCorEvento = function(cor, evento) {

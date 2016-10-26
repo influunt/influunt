@@ -32,8 +32,8 @@ module.exports = function() {
     });
   });
 
-  this.Given(/^o usuário responde sim$/, function() {
-    return sharedSteps.clicarSimConfirmacaoApagarRegistro();
+  this.Given(/^o usuário confirmar$/, function() {
+    return sharedSteps.botaoConfirmSweetAlert();
   });
 
   this.Given(/^o usuário realize um scroll up$/, function() {
