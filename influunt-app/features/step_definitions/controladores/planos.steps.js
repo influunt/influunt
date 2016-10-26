@@ -175,6 +175,4 @@ module.exports = function() {
   this.Given(/^o sistema deverá apresentar erro no estágio "([^"]*)"$/, function (estagio) {
     return planosPage.erroInEstagio(estagio);
   });
-
-
 };

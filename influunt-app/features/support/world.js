@@ -162,7 +162,7 @@ var World = function () {
 
   this.setValueByXpath = function(xpathSelector, value) {
     var _this = this;
-    _this.waitFor(xpathSelector);
+    _this.waitForByXpath(xpathSelector);
     return driver.findElement(webdriver.By.xpath(xpathSelector)).sendKeys(value);
   };
 
@@ -196,7 +196,6 @@ var World = function () {
       });
     });
   };
-
 
   this.checkIsElementPresent = function(xpath, campo, dado) {
     return driver.isElementPresent(webdriver.By.xpath(xpath)).then(function(isElementPresent) {
