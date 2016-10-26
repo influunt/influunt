@@ -8,7 +8,7 @@ Funcionalidade: Verificar o perfil e seus acessos
   Cenário: Para alterar o perfil do usuário ele deverá deslogar do sistema
     Dado que o usuário esteja logado no sistema
     E que o usuário deslogue no sistema
-    E o usuário responde sim
+    E o usuário confirmar
 
   Cenário: O usuário so poderá ver o controlador que ele está associado
     Dado o usuário logue no sistema com usuário "mobilab" e perfil "programador"

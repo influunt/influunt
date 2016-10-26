@@ -76,5 +76,5 @@ Funcionalidade: tela de cadastro de áreas
     Quando o usuário acessar a tela de listagem de áreas
     E clicar no botão de excluir uma área
     Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir a área
-    Quando o usuário responde sim
+    Quando o usuário confirmar
     Então a área deverá ser excluida

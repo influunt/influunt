@@ -13,7 +13,7 @@ Funcionalidade: Fluxo de cadastro de planos
     Quando o usuário clicar em "Editar"
     E o usuário clicar em "Cancelar Edição"
     Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
-    Quando o usuário responde sim
+    Quando o usuário confirmar
     Então o sistema deverá redirecionar o usuário para a página de listagem de controladores
 
   Cenário: Editar os planos
@@ -32,7 +32,7 @@ Funcionalidade: Fluxo de cadastro de planos
     E que o usuário selecione o modo de operação "Apagado"
     E que o usuário clique no botão apagar o estagio "E4"
     Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
-    Quando o usuário responde sim
+    Quando o usuário confirmar
     Então a quantidade de estagios na lista deverá ser 3
 
   Cenário: Configurar Plano Isolado
@@ -67,7 +67,7 @@ Funcionalidade: Fluxo de cadastro de planos
     E que o usuário selecione o modo de operação "Isolado"
     E que o usuário clique no botão apagar o estagio "E1"
     Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
-    Quando o usuário responde sim
+    Quando o usuário confirmar
     Então a quantidade de estagios na lista deverá ser 2
 
   Cenário: Adicionar estágio novamente para o plano
@@ -89,7 +89,7 @@ Funcionalidade: Fluxo de cadastro de planos
     E que o usuário clicar em editar o "PLANO 1"
     Então o sistema exibe uma caixa para renomear o plano
     E o usuário prenche o campo com "PLANO 77"
-    Quando o usuário responde sim
+    Quando o usuário confirmar
     Então o sistema deve alterar o nome para "PLANO 77"
 
   Cenário: Tentar salvar o plano incorreto
@@ -101,7 +101,7 @@ Funcionalidade: Fluxo de cadastro de planos
     E o sistema deverá mostrar erro no plano 1
     E o sistema deverá mostrar erro no plano 16
     Então o usuário queira limpar o plano 16
-    E o usuário responde sim
+    E o usuário confirmar
 
   Cenário: Reconfigurar um plano modo Isolado de forma correta
     Dado que o usuário esteja na página de planos
@@ -134,13 +134,27 @@ Funcionalidade: Fluxo de cadastro de planos
     E que o usuário selecione o modo de operação "Coordenado"
     E que o usuário clique no botão apagar o estagio "E4"
     Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
-    Quando o usuário responde sim
+    Quando o usuário confirmar
     E que o usuário marque 50 segundos para o "TEMPO DE CICLO"
+    E que o usuário clique no botão de configurar o estágio "E1"
+    E que o usuário marque 9 segundos para o "Tempo de Verde"
+    Então o sistema deverá mostrar um alerta para verdes segurança menor
+    E o usuário responde sim para verde de segurança
+    E que o usuário clique no botão de fechar a caixa de configuração
+    E que o usuário clique no botão de configurar o estágio "E2"
+    E que o usuário marque 9 segundos para o "Tempo de Verde"
+    Então o sistema deverá mostrar um alerta para verdes segurança menor
+    E o usuário responde sim para verde de segurança
+    E que o usuário clique no botão de fechar a caixa de configuração
+    E que o usuário clique no botão de configurar o estágio "E3"
+    E que o usuário marque 1 segundos para o "Tempo de Verde"
+    Então o sistema deverá mostrar um alerta para verdes segurança mínimo de pedestre
+    E o usuário responde ok
+    E que o usuário clique no botão de fechar a caixa de configuração
     E o usuário clicar em "Salvar"
     Então o sistema deverá apresentar erro de "G1 - O tempo de verde está menor que o tempo de segurança configurado."
     Então o sistema deverá apresentar erro de "G2 - O tempo de verde está menor que o tempo de segurança configurado."
-    Então o sistema deverá apresentar erro de "G3 - O tempo de verde está menor que o tempo de segurança configurado."
-    Então o sistema deverá apresentar erro de "A soma dos tempos dos estágios (12s) é diferente do tempo de ciclo (50s)."
+    Então o sistema deverá apresentar erro de "A soma dos tempos dos estágios (31s) é diferente do tempo de ciclo (50s)."
 
   Cenário: Configurar um plano em modo coordenado
     Dado que o usuário esteja na página de planos
@@ -189,7 +203,7 @@ Funcionalidade: Fluxo de cadastro de planos
     E que o usuário selecione o modo de operação "Intermitente"
     E que o usuário clique no botão apagar o estagio "E4"
     Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
-    Quando o usuário responde sim
+    Quando o usuário confirmar
     Então o sistema deve mostrar o diagrama "Intermitente" no grupo "G3" com "indicacao-intermitente" em "30s" segundos
     E o sistema deve mostrar o diagrama "Intermitente" no grupo "G2" com "indicacao-intermitente" em "30s" segundos
     E o sistema deve mostrar o diagrama "Intermitente" no grupo "G3" com "indicacao-intermitente" em "30s" segundos
@@ -209,7 +223,7 @@ Funcionalidade: Fluxo de cadastro de planos
     E que o usuário selecione o modo de operação "Apagado"
     E que o usuário clique no botão apagar o estagio "E4"
     Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
-    Quando o usuário responde sim
+    Quando o usuário confirmar
     Então o sistema deve mostrar o diagrama "Apagado" no grupo "G1" com "indicacao-apagado" em "30s" segundos
     Então o sistema deve mostrar o diagrama "Apagado" no grupo "G2" com "indicacao-apagado" em "30s" segundos
     Então o sistema deve mostrar o diagrama "Apagado" no grupo "G3" com "indicacao-apagado" em "30s" segundos
@@ -232,7 +246,7 @@ Funcionalidade: Fluxo de cadastro de planos
     E que o usuário selecione o modo de operação "Atuado"
     E que o usuário clique no botão apagar o estagio "E4"
     Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
-    Quando o usuário responde sim
+    Quando o usuário confirmar
     Então o diagrama de intervalos não deverá aparecer
     E que o usuário clique no botão de configurar o estágio "E1"
     E que o usuário marque 10 segundos para o "TEMPO DE VERDE MIN."

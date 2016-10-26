@@ -19,7 +19,7 @@ Funcionalidade: tela de cadastro de agrupamentos
     E clicar no botão de Novo Agrupamento
     E clicar no botão de salvar
     Então sistema deverá mostar um alerta se deseja atualizar tabela horária
-    E o usuário responde sim
+    E o usuário confirmar
     Então o sistema deverá indicar erro no campo "nome"
     Então o sistema deverá indicar erro no campo "tipo"
     Então o sistema deverá indicar erro no campo "agrupamentoPlanoDiaSemana"
@@ -39,7 +39,7 @@ Funcionalidade: tela de cadastro de agrupamentos
     E o usuário selecionar o valor "Plano 1" no campo "Plano"
     E clicar no botão de salvar
     Então sistema deverá mostar um alerta se deseja atualizar tabela horária
-    E o usuário responde sim
+    E o usuário confirmar
     Então deve ser exibida uma lista com os agrupamentos já cadastrados no sistema
 
   Cenário: Acesso à tela de detalhes de um agrupamento
@@ -59,7 +59,7 @@ Funcionalidade: tela de cadastro de agrupamentos
     E o usuário selecionar o valor "Rota" no campo "Tipo"
     E clicar no botão de salvar
     Então sistema deverá mostar um alerta se deseja atualizar tabela horária
-    E o usuário responde sim
+    E o usuário confirmar
 
   Cenário: Exclusão de agrupamentos sem confirmação do usuário
     Quando o usuário acessar a tela de listagem de agrupamentos
@@ -72,5 +72,5 @@ Funcionalidade: tela de cadastro de agrupamentos
     Quando o usuário acessar a tela de listagem de agrupamentos
     E clicar no botão de excluir um agrupamento
     Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir o agrupamento
-    Quando o usuário responde sim
+    Quando o usuário confirmar
     Então o item deverá ser excluido

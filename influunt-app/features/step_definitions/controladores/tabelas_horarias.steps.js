@@ -43,8 +43,12 @@ module.exports = function() {
     return tabelasHorariasPage.eventoRemovido(evento);
   });
 
-  this.Given(/^o usuário clicar em visualizar o diagrama$/, function () {
-    return tabelasHorariasPage.clicarEmVisualizarDiagrama();
+  this.Given(/^o usuário clicar em visualizar o diagrama do evento "([^"]*)"$/, function (evento) {
+    return tabelasHorariasPage.clicarEmVisualizarDiagrama(evento);
+  });
+
+  this.Given(/^o sistema deve mostrar um alert com a mensagem atuado não possue diagrama$/, function () {
+    return tabelasHorariasPage.checkTextInSweetAlertAtuado();
   });
 
   this.Given(/^o usuário clicar em fechar o diagrama$/, function () {
