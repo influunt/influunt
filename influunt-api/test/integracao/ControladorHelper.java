@@ -646,6 +646,10 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         estagioPlano = plano.getEstagiosPlanos().stream().filter(e -> e.getEstagio().getPosicao().equals(3)).findFirst().get();
         estagioPlano.setDispensavel(true);
 
+        plano = criarPlano(anel, 13, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 40);
+        criarEstagioPlano(anel, plano, 1, 1, 15, false);
+        criarEstagioPlano(anel, plano, 2, 2, 10, true);
+
         anel = getAnel(3);
         criaVersaoPlanos(anel);
         plano = criarPlano(anel, 1, ModoOperacaoPlano.ATUADO, null);

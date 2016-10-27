@@ -4,12 +4,10 @@ import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;
 import engine.eventos.GerenciadorDeEventos;
 import engine.intervalos.GeradorDeIntervalos;
-import models.Estagio;
 import models.EstagioPlano;
 import models.ModoOperacaoPlano;
 import models.Plano;
 import org.apache.commons.math3.util.Pair;
-import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
@@ -117,7 +115,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private void verificaETrocaEstagio(IntervaloEstagio intervalo) {
         EstagioPlano estagioPlano = intervalo.getEstagioPlano();
-        if (!estagioPlano.equals(estagioPlanoAtual)) {
+        if (!estagioPlano.equals(estagioPlanoAtual) || planoComEstagioUnico()) {
             if (intervaloGrupoSemaforicoAtual != null) {
                 IntervaloGrupoSemaforico intervaloGrupoSemaforico = new IntervaloGrupoSemaforico(intervaloGrupoSemaforicoAtual.getIntervaloEntreverde(), intervaloGrupoSemaforicoAtual.getIntervaloVerde());
                 callback.onEstagioEnds(this.anel, contadorDeCiclos, tempoDecorrido, inicioExecucao.plus(tempoDecorrido), intervaloGrupoSemaforico);
@@ -130,6 +128,10 @@ public class GerenciadorDeEstagios implements EventoCallback {
             estagioPlanoAnterior = estagioPlanoAtual;
             estagioPlanoAtual = estagioPlano;
         }
+    }
+
+    private boolean planoComEstagioUnico() {
+        return this.plano.isModoOperacaoVerde() && this.listaEstagioPlanos.size() == 1 && contadorIntervalo == 0L;
     }
 
     private void executaAgendamentoTrocaDePlano() {
