@@ -110,32 +110,47 @@ public class ControladoresController extends Controller {
     @Transactional
     @Dynamic(value = "ControladorAreaAuth(path)")
     public CompletionStage<Result> edit(String id) {
-        if (getUsuario() == null) {
+        Usuario usuario = getUsuario();
+        if (usuario == null) {
             return CompletableFuture.completedFuture(unauthorized(Json.toJson(Collections.singletonList(new Erro("clonar", "usuário não econtrado", "")))));
         }
 
         Controlador controlador = Controlador.find.byId(UUID.fromString(id));
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
-        } else {
-            if (controlador.getVersaoControlador().getStatusVersao().equals(StatusVersao.EDITANDO) && !usuarioPodeEditarControlador(controlador, getUsuario())) {
-                return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(new Erro("editar", "usuário diferente do que está editando controlador!", "")))));
-            }
-
-            if (controlador.podeClonar()) {
-                Controlador controladorEdicao = controladorService.criarCloneControlador(controlador, getUsuario());
-                return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controladorEdicao)));
-            }
-
-            return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador)));
         }
+
+        if (StatusVersao.EDITANDO.equals(controlador.getVersaoControlador().getStatusVersao()) && !controlador.podeSerEditadoPorUsuario(usuario)) {
+            return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(new Erro("editar", "usuário diferente do que está editando controlador!", "")))));
+        }
+
+        if (!controlador.podeClonar()) {
+            return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(new Erro("clonar", "controlador não pode ser clonado", "")))));
+        }
+
+        Controlador controladorEdicao = controladorService.criarCloneControlador(controlador, usuario);
+//        controladorService.criarClonePlanos(controladorEdicao, usuario);
+//        controladorEdicao.getAneis().stream().filter(Anel::isAtivo).forEach(anel -> {
+//            VersaoPlano versaoPlano = anel.getVersaoPlanoEmEdicao();
+//            if (versaoPlano != null) {
+//                versaoPlano.setUsuario(usuario);
+//                versaoPlano.update();
+//            }
+//        });
+//        controladorService.criarCloneTabelaHoraria(controladorEdicao, getUsuario());
+//        VersaoTabelaHoraria versaoTabela = controladorEdicao.getVersaoTabelaHorariaEmEdicao();
+//        if (versaoTabela != null) {
+//            versaoTabela.setUsuario(usuario);
+//            versaoTabela.update();
+//        }
+        return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controladorEdicao)));
     }
 
     @Transactional
     @Dynamic(value = "ControladorAreaAuth(path)")
     public CompletionStage<Result> editarPlanos(String id) {
-
-        if (getUsuario() == null) {
+        Usuario usuario = getUsuario();
+        if (usuario == null) {
             return CompletableFuture.completedFuture(unauthorized(Json.toJson(Collections.singletonList(new Erro("clonar", "usuário não econtrado", "")))));
         }
 
@@ -144,12 +159,12 @@ public class ControladoresController extends Controller {
             return CompletableFuture.completedFuture(notFound());
         }
 
-        if (controlador.getVersaoControlador().getStatusVersao().equals(StatusVersao.EDITANDO) && !usuarioPodeEditarControlador(controlador, getUsuario())) {
+        if (controlador.getVersaoControlador().getStatusVersao().equals(StatusVersao.EDITANDO) && !usuarioPodeEditarControlador(controlador, usuario)) {
             return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(new Erro("editar", "usuário diferente do que está editando planos", "")))));
         }
 
         if (controlador.podeClonar()) {
-            controladorService.criarClonePlanos(controlador, getUsuario());
+            controladorService.criarClonePlanos(controlador, usuario);
             controlador.refresh();
             return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador)));
         }
@@ -161,9 +176,8 @@ public class ControladoresController extends Controller {
     @Transactional
     @Dynamic(value = "ControladorAreaAuth(path)")
     public CompletionStage<Result> editarTabelaHoraria(String id) {
-
         if (getUsuario() == null) {
-            return CompletableFuture.completedFuture(unauthorized(Json.toJson(Arrays.asList(new Erro("clonar", "usuário não econtrado", "")))));
+            return CompletableFuture.completedFuture(unauthorized(Json.toJson(Collections.singletonList(new Erro("clonar", "usuário não econtrado", "")))));
         }
 
         Controlador controlador = Controlador.find.fetch("versaoControlador").where().eq("id", id).findUnique();
@@ -343,10 +357,12 @@ public class ControladoresController extends Controller {
         Controlador controlador = Controlador.find.byId(UUID.fromString(id));
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
-        } else {
-            controladorService.cancelar(controlador);
+        }
+
+        if (controladorService.cancelar(controlador)) {
             return CompletableFuture.completedFuture(ok());
         }
+        return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY));
     }
 
     @Transactional
@@ -409,6 +425,7 @@ public class ControladoresController extends Controller {
                     // Criar a prmieira versao e o controlador fisico
                     ControladorFisico controladorFisico = new ControladorFisico();
                     VersaoControlador versaoControlador = new VersaoControlador(controlador, controladorFisico, getUsuario());
+                    versaoControlador.setStatusVersao(StatusVersao.EM_CONFIGURACAO);
                     controladorFisico.addVersaoControlador(versaoControlador);
                     controladorFisico.setArea(controlador.getArea());
                     controlador.save();

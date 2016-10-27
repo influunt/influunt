@@ -760,4 +760,16 @@ public class Controlador extends Model implements Cloneable, Serializable {
         StatusVersao statusVersaoControlador = getVersaoControlador().getStatusVersao();
         return StatusVersao.ATIVO.equals(statusVersaoControlador) || StatusVersao.CONFIGURADO.equals(statusVersaoControlador);
     }
+
+    public boolean podeSerEditadoPorUsuario(Usuario usuario) {
+        VersaoControlador versao = VersaoControlador.findByControlador(this);
+        return versao != null && usuario.equals(versao.getUsuario());
+    }
+
+    public VersaoTabelaHoraria getVersaoTabelaHorariaAtivaOuConfigurada() {
+        if (getVersaoTabelaHorariaAtiva() != null) {
+            return getVersaoTabelaHorariaAtiva();
+        }
+        return getVersaoTabelaHorariaConfigurada();
+    }
 }

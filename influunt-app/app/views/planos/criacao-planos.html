@@ -24,7 +24,6 @@
                   <i class="fa fa-code-fork"></i> {{ 'controladores.geral.historico' | translate }}
                 </a>
 
-                <!-- Botões "editar" habilitados -->
                 <a class="btn btn-primary"
                    type="button"
                    tooltips tooltip-side="bottom"
@@ -34,6 +33,8 @@
                    permission permission-sref="'app.simulacao'">
                   <i class="fa fa-cogs"></i> {{ 'controladores.geral.simular' | translate }}
                 </a>
+
+                <!-- Botões "editar" habilitados -->
                 <a class="btn btn-primary"
                    type="button"
                    tooltips tooltip-side="bottom"
@@ -50,7 +51,6 @@
                    permission permission-only="'criarPlanos'">
                   <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
                 </a>
-
                 <!-- Botão "editar" desabilitado -->
                 <a  data-ng-if="!podeEditarControlador()"
                     disabled="disabled"

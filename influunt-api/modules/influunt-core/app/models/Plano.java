@@ -344,7 +344,7 @@ public class Plano extends Model implements Cloneable, Serializable {
     }
 
 
-    public void addGruposSemaforicos(GrupoSemaforicoPlano grupoPlano) {
+    public void addGruposSemaforicoPlano(GrupoSemaforicoPlano grupoPlano) {
         if (getGruposSemaforicosPlanos() == null) {
             setGruposSemaforicosPlanos(new ArrayList<GrupoSemaforicoPlano>());
         }

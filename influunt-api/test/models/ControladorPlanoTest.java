@@ -164,7 +164,7 @@ public class ControladorPlanoTest extends ControladorTest {
             grupoPlano.setAtivado(true);
             grupoPlano.setPlano(plano1Anel2);
             grupoPlano.setGrupoSemaforico(grupoSemaforico);
-            plano1Anel2.addGruposSemaforicos(grupoPlano);
+            plano1Anel2.addGruposSemaforicoPlano(grupoPlano);
         }
 
         plano1Anel4.setModoOperacao(ModoOperacaoPlano.ATUADO);
@@ -178,7 +178,7 @@ public class ControladorPlanoTest extends ControladorTest {
         grupoPlano.setAtivado(true);
         grupoPlano.setPlano(plano1Anel4);
         grupoPlano.setGrupoSemaforico(anelCom4Estagios.getGruposSemaforicos().get(0));
-        plano1Anel4.addGruposSemaforicos(grupoPlano);
+        plano1Anel4.addGruposSemaforicoPlano(grupoPlano);
 
         erros = getErros(controlador);
         assertEquals(6, erros.size());

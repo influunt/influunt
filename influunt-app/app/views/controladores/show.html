@@ -30,10 +30,10 @@
                   </a>
 
                   <!-- Botão "editar" desabilitado -->
-                  <a  data-ng-if="!podeEditarControlador()"
-                      disabled="disabled"
-                      tooltips tooltip-side="left" tooltip-template="{{ 'controladores.revisao.controladorEmEdicaoPor' | translate: {nomeUsuario: objeto.versaoControlador.usuario.nome} }}"
-                      class="btn btn-primary">
+                  <a data-ng-if="!podeEditarControlador()"
+                     disabled="disabled"
+                     tooltips tooltip-side="left" tooltip-template="{{ 'controladores.revisao.controladorEmEdicaoPor' | translate: {nomeUsuario: objeto.versaoControlador.usuario.nome} }}"
+                     class="btn btn-primary">
                     <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
                   </a>
 

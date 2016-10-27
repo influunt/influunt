@@ -508,7 +508,7 @@ public class ControladorTestUtil {
             grupoPlano.setAtivado(true);
             grupoPlano.setPlano(plano);
             grupoPlano.setGrupoSemaforico(grupoSemaforico);
-            plano.addGruposSemaforicos(grupoPlano);
+            plano.addGruposSemaforicoPlano(grupoPlano);
         }
     }
 
