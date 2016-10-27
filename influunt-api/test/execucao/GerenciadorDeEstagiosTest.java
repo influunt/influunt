@@ -811,7 +811,6 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
         assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(100).plus(400)).getEstagio().getPosicao().intValue());
     }
 
-
     @Test
     public void repeticaoDeEstagioAtuadoComDemandaPrioritariaEDispensavelComExecucao() {
         Anel anel = getAnel(3);

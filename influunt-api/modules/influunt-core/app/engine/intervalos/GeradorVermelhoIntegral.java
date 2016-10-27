@@ -17,7 +17,7 @@ public class GeradorVermelhoIntegral extends GeradorDeIntervalos {
     @Override
     public Pair<Integer, RangeMap<Long, IntervaloEstagio>> gerar(int index) {
         EstagioPlano estagioPlano = listaEstagioPlanos.get(index);
-        geraIntervaloEstagio(estagioPlano, 3000L, 0L);
+        geraIntervaloEstagio(estagioPlano, 3000L, estagioPlano.getTempoVerdeEstagio() * 1000L);
         return new Pair<Integer, RangeMap<Long, IntervaloEstagio>>(0, this.intervalos);
     }
 
