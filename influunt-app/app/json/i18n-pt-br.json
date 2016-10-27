@@ -252,7 +252,7 @@
     },
     "aneis": {
       "aceitaModoManual": "Aceita Modo Manual",
-      "titulo": "Configuração de Aneis",
+      "titulo": "Configuração de Anéis",
       "titulo_msg_apagar_anel": "Deseja mesmo apagar este anel?",
       "corpo_msg_apagar_anel": "Ao apagar esse anel todos os relacionamentos previamente cadastrados serão apagados.",
       "remover_estagio": "Remover Estágio",

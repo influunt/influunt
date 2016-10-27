@@ -46,10 +46,6 @@ var PerfisPage = function () {
     });
   };
 
-  this.checarControladorListagem = function(numero) {
-    return world.getElementByXpath('//td[contains(text(), "'+numero+'.000.0001")]');
-  };
-
   this.checarPossuiBotao = function(botao) {
     return world.getElementByXpath('//a[contains(text(), "'+botao+'")]');
   };
