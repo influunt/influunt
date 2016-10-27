@@ -10,12 +10,12 @@ module.exports = function() {
     return sharedSteps.cadastrarControlador();
   });
 
-  this.Given(/^que o sistema possui planos para o controlador cadastrado$/, function() {
+  this.Given(/^que o sistema possua planos para o controlador cadastrado$/, function() {
     return sharedSteps.cadastrarPlanoParaControlador();
   });
 
-  this.Given(/^que esse controlador possue planos configurado para ele$/, function () {
-    return sharedSteps.cadastrarPlanoParaControlador();
+  this.Given(/^que o sistema possua tabela horária para o controlador cadastrado$/, function() {
+    return sharedSteps.cadastrarTabelaHorariaParaControlador();
   });
 
   this.Given(/^o usuário clicar em "([^"]*)"$/, function (botao) {
@@ -27,7 +27,7 @@ module.exports = function() {
   });
 
   this.Given(/^o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir$/, function() {
-    return sharedSteps.textoConfirmacaoApagarRegistro().then(function(text) {
+    return sharedSteps.textoSweetAlert().then(function(text) {
       expect(text).to.equal('Quer mesmo apagar este registro?');
     });
   });
@@ -77,6 +77,10 @@ module.exports = function() {
     return sharedSteps.controladoresAreasDiferentes();
   });
 
+  this.Given(/^o usuário preencha o alert com "([^"]*)"$/, function (descricao) {
+    return sharedSteps.preencherSweetAlert(descricao);
+  });
+
   this.Given(/^o sistema deverá indicar erro no campo "([^"]*)"$/, function (nomeCampo) {
     return sharedSteps.getErrorMessageFor(nomeCampo).then(function(result) {
       return expect(result).to.exist;
@@ -89,4 +93,15 @@ module.exports = function() {
     });
   });
 
+  this.Given(/^o sistema deverá mostrar o controlador da área "([^"]*)"$/, function (numeroClc) {
+    return sharedSteps.checarClcControladorListagem(numeroClc);
+  });
+
+  this.Given(/^o sistema deverá mostrar o status do controlador como "([^"]*)"$/, function (status) {
+    return sharedSteps.checarStatusControladorListagem(status);
+  });
+
+  this.Given(/^em resumo clicar em "([^"]*)"$/, function (tooltipSelector) {
+    return sharedSteps.clicarEditarEmResumo(tooltipSelector);
+  });
 };

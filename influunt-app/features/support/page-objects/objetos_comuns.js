@@ -12,6 +12,10 @@ var ObjetosComuns = function () {
     return world.execSqlScript('features/support/scripts/controladores/plano_controlador.sql');
   };
 
+  this.cadastrarTabelaHorariaParaControlador = function() {
+    return world.execSqlScript('features/support/scripts/controladores/tabela_horaria_controlador.sql');
+  };
+
   this.controladoresAreasDiferentes = function() {
     return world.execSqlScript('features/support/scripts/controladores/controladores_por_areas.sql');
   };
@@ -52,7 +56,7 @@ var ObjetosComuns = function () {
     return world.waitForByXpath('//div[contains (@class, "alert")]//li[contains(text(), "'+texto+'")]');
   };
 
-  this.textoConfirmacaoApagarRegistro = function() {
+  this.textoSweetAlert = function() {
     return world.getTextInSweetAlert();
   };
 
@@ -61,6 +65,13 @@ var ObjetosComuns = function () {
       return world.clickButton('div[class^="sweet-alert"] button.confirm');
     });
   };
+
+   this.preencherSweetAlert = function(descricao) {
+    return world.waitFor('div[class^="sweet-alert"][class$="visible"]').then(function() {
+      return world.setValueByXpath('//input[contains(@type, "text")][contains(@tabindex, "3")]', descricao);
+    });
+  };
+
 
   this.realizarScrollUp = function(){
     return world.scrollToUp();
@@ -151,6 +162,21 @@ var ObjetosComuns = function () {
 
   this.form = function(nameForm) {
     return world.getElement('form[name="form'+nameForm+'"]');
+  };
+
+  this.checarClcControladorListagem = function(numero) {
+    return world.getElementByXpath('//td[contains(text(), "'+numero+'.000.0001")]');
+  };
+
+  this.checarStatusControladorListagem = function(status) {
+    return world.waitForOverlayDisappear().then(function() {
+      world.sleep(400);
+      return world.getElementByXpath('//td[contains(text(), "'+status+'")]');
+    });
+  };
+
+  this.clicarEditarEmResumo = function(selectorText) {
+    return world.getElementByXpath('//button[contains(@tooltip-template, "'+selectorText+'")]').click();
   };
 };
 

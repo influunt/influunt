@@ -46,11 +46,6 @@ module.exports = function() {
   this.Given(/^a área 2 for setada para o usuário$/, function () {
     return perfisPage.setArea2();
   });
-
-  this.Given(/^o sistema deverá mostrar o controlador da área "([^"]*)"$/, function (numeroClc) {
-    return perfisPage.checarControladorListagem(numeroClc);
-  });
-
 };
 
 
