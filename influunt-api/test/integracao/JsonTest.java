@@ -42,7 +42,7 @@ public class JsonTest extends WithInfluuntApplicationNoAuthentication {
         erros = getErros(novoControlador);
         assertThat(erros, org.hamcrest.Matchers.empty());
 
-        assertEquals("Deve ter planos", 13, novoControlador.getAneis().stream().mapToInt(anel -> anel.getPlanos().size()).sum());
+        assertEquals("Deve ter planos", 14, novoControlador.getAneis().stream().mapToInt(anel -> anel.getPlanos().size()).sum());
         assertNotNull("Deve ter 1 tabela horária", novoControlador.getTabelaHoraria());
 
     }

@@ -811,7 +811,6 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
         assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(100).plus(400)).getEstagio().getPosicao().intValue());
     }
 
-
     @Test
     public void repeticaoDeEstagioAtuadoComDemandaPrioritariaEDispensavelComExecucao() {
         Anel anel = getAnel(3);
@@ -1262,7 +1261,7 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
         Plano plano = getPlano(anel, 11);
         Detector detector = anel.getDetectores().stream().filter(det -> det.getTipo().equals(TipoDetector.PEDESTRE) && det.getPosicao().equals(1)).findFirst().get();
 
-        gerenciadorDeEstagios = getGerenciadorDeEstagios(2, plano);
+        gerenciadorDeEstagios = getGerenciadorDeEstagios(1, plano);
 
         avancar(gerenciadorDeEstagios, 2);
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector));
@@ -1275,6 +1274,25 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
         assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(33)).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(37)).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(65)).getEstagio().getPosicao().intValue());
+    }
+
+    @Test
+    public void doisEstagiosSemUmDispensavel() {
+        Anel anel = getAnel(2);
+        Plano plano = getPlano(anel, 13);
+
+        gerenciadorDeEstagios = getGerenciadorDeEstagios(2, plano);
+
+        avancar(gerenciadorDeEstagios, 100);
+
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).getEstagio().getPosicao().intValue());
+        verificaGruposSemaforicos(0, new GrupoCheck(6,0,15000,EstadoGrupoSemaforico.VERDE));
+        verificaGruposSemaforicos(0, new GrupoCheck(10,0,15000,EstadoGrupoSemaforico.VERDE));
+        verificaGruposSemaforicos(0, new GrupoCheck(7,0,15000,EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(0, new GrupoCheck(9,0,15000,EstadoGrupoSemaforico.VERMELHO));
+        assertNull("Estagio atual", listaEstagios.get(inicioExecucao.plusSeconds(1)));
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(15)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(30)).getEstagio().getPosicao().intValue());
     }
 
     private void verificaHistoricoGruposSemaforicos(int offset, GrupoCheck grupoCheck) {

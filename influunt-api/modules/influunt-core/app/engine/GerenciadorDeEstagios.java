@@ -117,7 +117,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private void verificaETrocaEstagio(IntervaloEstagio intervalo) {
         EstagioPlano estagioPlano = intervalo.getEstagioPlano();
-        if (!estagioPlano.equals(estagioPlanoAtual)) {
+        if (!estagioPlano.equals(estagioPlanoAtual) || planoComEstagioUnicio()) {
             if (intervaloGrupoSemaforicoAtual != null) {
                 IntervaloGrupoSemaforico intervaloGrupoSemaforico = new IntervaloGrupoSemaforico(intervaloGrupoSemaforicoAtual.getIntervaloEntreverde(), intervaloGrupoSemaforicoAtual.getIntervaloVerde());
                 callback.onEstagioEnds(this.anel, contadorDeCiclos, tempoDecorrido, inicioExecucao.plus(tempoDecorrido), intervaloGrupoSemaforico);
@@ -130,6 +130,10 @@ public class GerenciadorDeEstagios implements EventoCallback {
             estagioPlanoAnterior = estagioPlanoAtual;
             estagioPlanoAtual = estagioPlano;
         }
+    }
+
+    private boolean planoComEstagioUnicio() {
+        return this.plano.isModoOperacaoVerde() && this.listaEstagioPlanos.size() == 1 && contadorIntervalo == 0L;
     }
 
     private void executaAgendamentoTrocaDePlano() {
