@@ -1,0 +1,26 @@
+<div class="form-group">
+  <label class="control-label col-sm-2 control-label">{{ name | translate }}</label>
+  <div class="col-sm-5">
+    <div class="input-group">
+      <span class="input-group-addon">{{ 'faixas_de_valores.de' | translate }}</span>
+      <input type="number"
+             class="input-sm form-control"
+             name="{{nameMin}}"
+             data-ng-model="min"
+             permission
+             permission-only="'editarFaixasDeValores'"
+             permission-on-authorized="PermissionStrategies.enableElement"
+             permission-on-unauthorized="PermissionStrategies.disableElement">
+      <span class="input-group-addon">{{ 'faixas_de_valores.ate' | translate }}</span>
+      <input type="number"
+             class="input-sm form-control"
+             name="{{nameMax}}"
+             ng-model="max"
+             permission
+             permission-only="'editarFaixasDeValores'"
+             permission-on-authorized="PermissionStrategies.enableElement"
+             permission-on-unauthorized="PermissionStrategies.disableElement">
+      <span class="input-group-addon">{{ unidade | translate }}</span>
+    </div>
+  </div>
+</div>
