@@ -1,20 +1,19 @@
 'use strict';
 
 describe('Directive: influuntFaixaValores', function () {
-
-  // load the directive's module
-  beforeEach(module('influuntApp'));
-
-  var element,
-    scope;
+  var element, scope;
 
   beforeEach(inject(function ($rootScope) {
     scope = $rootScope.$new();
   }));
 
-  it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<influunt-faixa-valores></influunt-faixa-valores>');
+  it('Teste name do input', inject(function ($compile) {
+    element = angular.element('<influunt-faixa-valores name="\'faixa_de_valores.teste1\'" min="0" max="10" unidade="segundo"></influunt-faixa-valores>');
     element = $compile(element)(scope);
-    expect(element.text()).toBe('this is the influuntFaixaValores directive');
+    scope.$apply();
+
+    expect($(element).find('input[name="teste1Min"]')[0]).toBeDefined();
+
+    expect($(element).find('input[name="teste1Max"]')[0]).toBeDefined();
   }));
 });
