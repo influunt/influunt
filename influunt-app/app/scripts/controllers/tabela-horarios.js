@@ -115,8 +115,7 @@ angular.module('influuntApp')
       };
 
       $scope.cancelarEdicao = function() {
-        var tabelaHoraria = _.chain($scope.objeto.tabelasHorarias).filter(function(th) { return !!th.id; }).last().value();
-        return $scope.cancelar(tabelaHoraria);
+        return $scope.cancelar($scope.currentTabelaHoraria);
       };
 
       $scope.selecionaTipoEvento = function(index) {

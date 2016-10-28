@@ -57,7 +57,7 @@ public class ControladorService {
     }
 
     public boolean cancelar(Controlador controlador) {
-        boolean result = DBUtils.executeWithTransaction(() -> {
+        return DBUtils.executeWithTransaction(() -> {
             VersaoControlador versaoControlador = controlador.getVersaoControlador();
             Controlador controladorOrigem = versaoControlador.getControladorOrigem();
             controladorOrigem.setStatusVersao(StatusVersao.CONFIGURADO);
@@ -65,14 +65,13 @@ public class ControladorService {
 
             controlador.delete();
         });
-        return result;
     }
 
     public void criarClonePlanos(Controlador controlador, Usuario usuario) {
         DBUtils.executeWithTransaction(() -> new ControladorUtil().provider(provider).deepClonePlanos(controlador, usuario));
     }
 
-    public void criarCloneTabelaHoraria(Controlador controlador, Usuario usuario) {
-        DBUtils.executeWithTransaction(() -> new ControladorUtil().provider(provider).deepCloneTabelaHoraria(controlador, usuario));
+    public boolean criarCloneTabelaHoraria(Controlador controlador, Usuario usuario) {
+        return DBUtils.executeWithTransaction(() -> new ControladorUtil().provider(provider).deepCloneTabelaHoraria(controlador, usuario));
     }
 }

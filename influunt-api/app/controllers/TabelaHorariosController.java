@@ -73,8 +73,7 @@ public class TabelaHorariosController extends Controller {
             return CompletableFuture.completedFuture(notFound());
         }
 
-        boolean success = DBUtils.executeWithTransaction(tabelaHoraria::voltarVersaoAnterior);
-        if (success) {
+        if (DBUtils.executeWithTransaction(tabelaHoraria::voltarVersaoAnterior)) {
             return CompletableFuture.completedFuture(ok());
         }
         return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY));

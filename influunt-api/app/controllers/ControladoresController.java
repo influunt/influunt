@@ -179,9 +179,12 @@ public class ControladoresController extends Controller {
             return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(new Erro("editar", "tabela horária não pode ser clonada", "")))));
         }
 
-        controladorService.criarCloneTabelaHoraria(controlador, getUsuario());
-        controlador.refresh();
-        return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador)));
+        if (controladorService.criarCloneTabelaHoraria(controlador, getUsuario())) {
+            controlador.refresh();
+            return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador)));
+        }
+
+        return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(new Erro("editar", "erro ao clonar tabela horária", "")))));
     }
 
     @Transactional

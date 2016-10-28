@@ -672,6 +672,8 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
         assertEquals("Total Tabela Horarias", totalTabelaHorarias * 2, Ebean.find(TabelaHorario.class).findRowCount());
         assertEquals("Total Versoes Tabela Horarias", totalVersoesTabelasHorarias * 2, Ebean.find(VersaoTabelaHoraria.class).findRowCount());
+        assertTrue("Controlador deveria estar bloqueado para edição", controladorClonado.isBloqueado());
+        assertTrue("Planos deveriam estar bloqueado para edição", controladorClonado.isPlanosBloqueado());
 
         TabelaHorario tabela = controladorClonado.getTabelaHoraria();
         request = new Http.RequestBuilder().method("DELETE")
@@ -679,8 +681,11 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         result = route(request);
         assertEquals(200, result.status());
 
+        controladorClonado.refresh();
         assertEquals("Total Tabela Horarias", totalTabelaHorarias, Ebean.find(TabelaHorario.class).findRowCount());
         assertEquals("Total Versoes Tabela Horarias", totalVersoesTabelasHorarias, Ebean.find(VersaoTabelaHoraria.class).findRowCount());
+        assertFalse("Controlador não deveria estar bloqueado para edição", controladorClonado.isBloqueado());
+        assertFalse("Planos não deveriam estar bloqueado para edição", controladorClonado.isPlanosBloqueado());
     }
 
     @Test

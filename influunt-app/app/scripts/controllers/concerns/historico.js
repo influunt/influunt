@@ -40,14 +40,18 @@ angular.module('influuntApp')
 
       $scope.cancelar = function(obj) {
         influuntAlert.delete().then(function(confirmado) {
-          if (confirmado && obj && obj.id) {
-            return Restangular.one(resourceName, obj.id).all('cancelar_edicao').customDELETE()
-              .then(function() {
-                toast.success($filter('translate')('geral.mensagens.removido_com_sucesso'));
-                $state.go('app.controladores');
-              })
-              .catch(handleErroEditar)
-              .finally(influuntBlockui.unblock);
+          if (confirmado) {
+            if (obj && obj.id) {
+              return Restangular.one(resourceName, obj.id).all('cancelar_edicao').customDELETE()
+                .then(function() {
+                  toast.success($filter('translate')('geral.mensagens.removido_com_sucesso'));
+                  $state.go('app.controladores');
+                })
+                .catch(handleErroEditar)
+                .finally(influuntBlockui.unblock);
+            } else {
+              $state.go('app.controladores')
+            }
           }
         });
       };

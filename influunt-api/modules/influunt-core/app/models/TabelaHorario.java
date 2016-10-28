@@ -176,10 +176,13 @@ public class TabelaHorario extends Model implements Cloneable, Serializable {
             VersaoTabelaHoraria versaoAnterior = versaoAtual.getVersaoAnterior();
             if (versaoAnterior != null) {
                 versaoAnterior.setStatusVersao(StatusVersao.CONFIGURADO);
+                Controlador controlador = getControlador();
+                controlador.setBloqueado(false);
+                controlador.setPlanosBloqueado(false);
+                controlador.update();
                 versaoAnterior.update();
                 versaoAtual.delete();
             }
         }
     }
 }
-

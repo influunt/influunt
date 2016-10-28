@@ -87,7 +87,7 @@
                 <a class="btn btn-primary btn-danger"
                    tooltips tooltip-side="bottom" tooltip-template="{{ 'controladores.geral.cancelarEdicao' | translate }} {{ 'controladores.geral.planos' | translate }}"
                    type="button"
-                   data-ng-if="currentVersaoPlano.statusVersao === 'EDITANDO' || objeto.versoesPlanos.length > 1"
+                   data-ng-if="objeto.bloqueado && (currentVersaoPlano.statusVersao === 'EDITANDO' || objeto.versoesPlanos.length > 1)"
                    data-ng-click="cancelarEdicao()">
                   <i class="fa fa-trash"></i> {{ 'controladores.geral.cancelarEdicao' | translate }}
                 </a>
