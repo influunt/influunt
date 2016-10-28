@@ -118,7 +118,6 @@ angular.module('influuntApp')
         if ($scope.aneis.length > 0) {
           var gruposSemaforicosCount = getNumGruposSemaforicosAnel($scope.currentAnel);
           var detectoresCount = getNumDetectoresAnel($scope.currentAnel);
-          console.log($scope.currentAnel);
           $scope.dadosCurrentAnel = {
             CLA: $scope.currentAnel.CLA,
             localizacao: $scope.currentAnel.localizacao,

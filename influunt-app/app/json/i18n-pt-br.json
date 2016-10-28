@@ -470,7 +470,7 @@
       "voltarSemPara": "Voltar sem salvar para",
       "salvarAvancarPara": "Salvar e avançar para", 
       "naoPodeSalvarSemConfirmacao": "É necessário preencher os dados ou confirmar que não há nada a ser feito em todos os anéis.",
-      "naoPodeSalvarSemConfirmacaoEntreVerdes": "É necessário preencher os dados ou confirmar que não há nada a ser feito em cada grupo semafórico. Verifique todos os grupos.",
+      "naoPodeSalvarSemConfirmacaoEntreVerdes": "É necessário preencher os dados ou confirmar que não há nada a ser feito em cada grupo semafórico. Verifique todos os grupos ",
       "ver": "Visualizar",
       "verEditar": "Ver ou editar",
       "copiar": "Copiar",
