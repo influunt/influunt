@@ -102,7 +102,7 @@ public class Anel extends Model implements Cloneable, Serializable {
     private Endereco endereco;
 
     @Column
-    private boolean aceitaModoManual;
+    private boolean aceitaModoManual = true;
 
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
