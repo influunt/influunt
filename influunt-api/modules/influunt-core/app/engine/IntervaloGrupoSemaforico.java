@@ -279,9 +279,6 @@ public class IntervaloGrupoSemaforico {
 
     public ObjectNode toJson(DateTime timeStamp) {
         ObjectNode root = Json.newObject();
-        if (duracao < 0) {
-            System.out.println("teste");
-        }
         root.put("w",duracao);
         root.put("x",timeStamp.getMillis());
         root.put("estagio",estagioPlano.getEstagio().getPosicao());
