@@ -43,7 +43,10 @@ public abstract class GeradorDeIntervalos {
         if ((!plano.isModoOperacaoVerde() && index == 0) || (!plano.isModoOperacaoVerde() && modoAnterior != null && !modoAnterior.equals(plano.getModoOperacao()))){
             return new GeradorIntermitente(intervalos, plano, modoAnterior, listaEstagioPlanos, estagioPlanoAtual, tabelaDeTemposEntreVerde);
         } else if (!isModoAnteriorVerde(modoAnterior)) {
-            return new GeradorVermelhoIntegral(intervalos, plano, modoAnterior, listaEstagioPlanos, estagioPlanoAtual, tabelaDeTemposEntreVerde);
+            if (modoAnterior.equals(ModoOperacaoPlano.INTERMITENTE)) {
+                return new GeradorVermelhoIntegral(intervalos, plano, modoAnterior, listaEstagioPlanos, estagioPlanoAtual, tabelaDeTemposEntreVerde);
+            }
+            return new GeradorSequenciaPartida(intervalos, plano, modoAnterior, listaEstagioPlanos, estagioPlanoAtual, tabelaDeTemposEntreVerde);
         } else {
             return new GeradorModosVerde(intervalos, plano, modoAnterior, listaEstagioPlanos, estagioPlanoAtual, tabelaDeTemposEntreVerde);
         }
