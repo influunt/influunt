@@ -369,7 +369,7 @@ var influunt;
           });
 
           estagio.eventos.forEach(function(evento){
-            if(evento[1] === 'ACIONAMENTO_DETECTOR_VEICULAR' || evento[1] === 'PEDESTRE'){
+            if(evento[1] === 'ACIONAMENTO_DETECTOR_VEICULAR' || evento[1] === 'ACIONAMENTO_DETECTOR_PEDESTRE'){
               desenhaDetector(parseInt(anel) - 1,x + evento[0] / 100,'#082536',evento[1],evento[2]);
             }else if(evento[1] === 'TROCA_DE_PLANO_NO_ANEL'){
               var x1 = (evento[4] - inicioSimulacao.unix() * 1000) / 100;
