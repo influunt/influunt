@@ -68,7 +68,12 @@ public class IntervaloGrupoSemaforico {
         if (estagioPlanoAnterior != null &&
                 !estagioPlanoAnterior.getPlano().isModoOperacaoVerde()){
 
-            loadEstagioPosModoIntermitente(estagioPlano.getTempoVerdeEstagio());
+            if (estagioPlanoAnterior.getPlano().isIntermitente()) {
+                loadEstagioPosModoIntermitente(estagioPlano.getTempoVerdeEstagio());
+            } else {
+                loadEstagioSequenciaPartida(estagioPlano.getTempoVerdeEstagio());
+            }
+
 
         } else {
             estagio.getGruposSemaforicos().forEach(grupoSemaforico -> {
@@ -82,6 +87,32 @@ public class IntervaloGrupoSemaforico {
                     });
         }
 
+    }
+
+    private void loadEstagioSequenciaPartida(Integer tempoVerdeEstagio) {
+        final long tempoVerde = 8000L + (tempoVerdeEstagio * 1000L);
+
+        plano.getGruposSemaforicosPlanos().stream()
+                .forEach(grupoSemaforicoPlano -> {
+                    final GrupoSemaforico grupo = grupoSemaforicoPlano.getGrupoSemaforico();
+                    RangeMap<Long, EstadoGrupoSemaforico> intervalo = TreeRangeMap.create();
+
+                    if (grupo.isVeicular()) {
+                        intervalo.put(Range.closedOpen(0L, 5000L), EstadoGrupoSemaforico.AMARELO_INTERMITENTE);
+                    } else {
+                        intervalo.put(Range.closedOpen(0L, 5000L), EstadoGrupoSemaforico.DESLIGADO);
+                    }
+
+                    intervalo.put(Range.closedOpen(5000L, 8000L), EstadoGrupoSemaforico.VERMELHO);
+
+                    if (estagio.getGruposSemaforicos().contains(grupo)) {
+                        intervalo.put(Range.closedOpen(8000L, tempoVerde), EstadoGrupoSemaforico.VERDE);
+                    } else {
+                        intervalo.put(Range.closedOpen(8000L, tempoVerde), EstadoGrupoSemaforico.VERMELHO);
+                    }
+
+                    estados.put(grupo.getPosicao(), intervalo);
+                });
     }
 
     private void loadEstagioPosModoIntermitente(Integer tempoVerdeEstagio) {

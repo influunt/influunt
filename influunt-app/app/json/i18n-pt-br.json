@@ -500,7 +500,9 @@
     "dropzone": {
       "mensagem": "Clique ou Arraste imagens para este local",
       "erro_apagar_imagem": "Não foi possível apagar a imagem."
-    }
+    },
+    "segundo": "Seg.",
+    "minuto": "Min."
   },
   "login": {
     "acessar": "Acessar",
@@ -696,6 +698,7 @@
     "ate": "até",
     "default": "Padrão",
     "editar": "Editar",
+    "valor": "Valor",
     "tempoDefasagem": "Tempo de Defasagem",
     "tempoAmarelo": "Tempo de Amarelo",
     "tempoVermelhoIntermitente": "Tempo de Vermelho Intermitente",
@@ -705,6 +708,7 @@
     "tempoVerdeSegurancaVeicular": "Tempo de Verde de Segurança Veicular",
     "tempoVerdeSegurancaPedestre": "Tempo de Verde de Segurança Pedestre",
     "tempoMaximoPermanenciaEstagio": "Tempo Máximo de Permanência no Estágio",
+    "defaultTempoMaximoPermanenciaEstagioVeicular": "Padrão para tempo máximo de permanência de estágio veicular",
     "tempoCiclo": "Tempo de Ciclo",
     "tempoVerdeMinimo": "Tempo de Verde Mínimo",
     "tempoVerdeMaximo": "Tempo de Verde Máximo",
