@@ -126,6 +126,7 @@ angular.module('influuntApp')
             numGruposVeicular: gruposSemaforicosCount.totalVeicular,
             numDetectoresPedestre: detectoresCount.totalPedestre,
             numDetectoresVeicular: detectoresCount.totalVeicular,
+            aceitaModoManual: $scope.currentAnel.aceitaModoManual,
             croqui: $scope.getImagemDeCroqui($scope.currentAnel)
           };
         }
