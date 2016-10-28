@@ -289,7 +289,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
     }
 
     // TODO: habilitar esse teste assim que a issue #825 for resolvida
-//    @Test
+    //@Test
     public void deveriaCancelarControladorClonadoEVoltarStatusControladorOrigemParaAtivo() {
         Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
         controlador.ativar();
@@ -388,10 +388,12 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
         Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
         controlador.update();
+        controlador.setStatusVersao(StatusVersao.ATIVO);
 
-        VersaoControlador versaoControlador = controlador.getVersaoControlador();
-        versaoControlador.setStatusVersao(StatusVersao.ATIVO);
-        versaoControlador.update();
+        int totalTabelasHorarias = TabelaHorario.find.findRowCount();
+        int totalEventos = Evento.find.findRowCount();
+
+        assertFalse(controlador.isBloqueado());
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
                 .uri(routes.ControladoresController.editarPlanos(controlador.getId().toString()).url())
@@ -404,8 +406,9 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         Controlador controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
         controladorClonado.refresh();
 
-        controladorClonado.getAneis().forEach(anel -> {
+        assertTrue(controladorClonado.isBloqueado());
 
+        controladorClonado.getAneis().forEach(anel -> {
             if (!CollectionUtils.isEmpty(anel.getVersoesPlanos())) {
                 VersaoPlano versaoEdicao = anel.getVersaoPlanoEmEdicao();
                 VersaoPlano versaoAnterior = versaoEdicao.getVersaoAnterior();
@@ -435,48 +438,62 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
             }
         });
 
-
         assertEquals("Total de Estagios Planos", totalEstagiosPlanos * 2, Ebean.find(EstagioPlano.class).findRowCount());
         assertEquals("Total de Planos", totalPlanos * 2, Plano.find.findRowCount());
         assertEquals("Total de GrupoSemaforicoPlano", totalGruposSemaforicosPlanos * 2, Ebean.find(GrupoSemaforicoPlano.class).findRowCount());
+        assertEquals("Total de tabelas horárias", totalTabelasHorarias * 2, Ebean.find(TabelaHorario.class).findRowCount());
+        assertEquals("Total de Eventos", totalEventos * 2, Ebean.find(Evento.class).findRowCount());
 
+        VersaoTabelaHoraria versaoAntiga = controladorClonado.getVersoesTabelasHorarias().stream().filter(vth -> StatusVersao.ARQUIVADO.equals(vth.getStatusVersao())).findFirst().orElse(null);
+        VersaoTabelaHoraria noveVersao = controladorClonado.getVersaoTabelaHorariaEmEdicao();
+        assertEquals("Total de eventos tabela horária", versaoAntiga.getTabelaHoraria().getEventos().size(), noveVersao.getTabelaHoraria().getEventos().size());
     }
 
     @Test
     public void deveriaClonar5VersoesPlano() {
         Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
         controlador.update();
+        controlador.setStatusVersao(StatusVersao.CONFIGURADO);
 
-        VersaoControlador versaoControlador = controlador.getVersaoControlador();
-        versaoControlador.setStatusVersao(StatusVersao.ATIVO);
-        versaoControlador.update();
+        int totalVersoesPlano = 2;
+        int totalVersoesTabelaHoraria = 1;
 
-        int totalVersoes = 2;
+        assertEquals("Total de Versão Plano", totalVersoesPlano, VersaoPlano.find.findRowCount());
+        assertEquals("Total de Versão Tabela Horária", totalVersoesTabelaHoraria, VersaoTabelaHoraria.find.findRowCount());
 
-        assertEquals("Total de Versão Plano", totalVersoes, VersaoPlano.find.findRowCount());
+        assertFalse("Controlador não deveria estar bloqueado para edição", controlador.isBloqueado());
+        assertFalse("Planos não deveriam estar bloqueado para edição", controlador.isPlanosBloqueado());
 
         for (int i = 2; i < 7; i++) {
-            Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
-                    .uri(routes.ControladoresController.editarPlanos(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
+                    .uri(routes.ControladoresController.editarPlanos(controlador.getId().toString()).url())
+                    .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
 
-
-            Result postResult = route(postRequest);
-            JsonNode json = Json.parse(Helpers.contentAsString(postResult));
+            Result result = route(request);
+            JsonNode json = Json.parse(Helpers.contentAsString(result));
             Controlador controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
 
-            assertEquals("Total de Versão Plano", totalVersoes * i, VersaoPlano.find.findRowCount());
+            assertTrue("Controlador deveria estar bloqueado para edição", controladorClonado.isBloqueado());
+            assertFalse("Planos não deveriam estar bloqueado para edição", controladorClonado.isPlanosBloqueado());
 
-            postRequest = new Http.RequestBuilder().method("POST")
-                    .uri(routes.PlanosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
+            assertEquals("Total de Versão Plano", totalVersoesPlano * i, VersaoPlano.find.findRowCount());
+            assertEquals("Total de Versão Tabela Horária", totalVersoesTabelaHoraria * i, VersaoTabelaHoraria.find.findRowCount());
 
-            postResult = route(postRequest);
-            json = Json.parse(Helpers.contentAsString(postResult));
-            assertEquals(OK, postResult.status());
+            request = new Http.RequestBuilder().method("POST")
+                    .uri(routes.PlanosController.create().url())
+                    .bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
+
+            result = route(request);
+            json = Json.parse(Helpers.contentAsString(result));
+            assertEquals(OK, result.status());
             controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
 
-            assertEquals("Total de Versão Plano", totalVersoes * i, VersaoPlano.find.findRowCount());
+            assertEquals("Total de Versão Plano", totalVersoesPlano * i, VersaoPlano.find.findRowCount());
+            assertEquals("Total de Versão Tabela Horária", totalVersoesTabelaHoraria * i, VersaoTabelaHoraria.find.findRowCount());
 
-            controladorClonado.ativar();
+            controladorClonado.finalizar();
+            assertFalse("Controlador não deveria estar bloqueado para edição", controladorClonado.isBloqueado());
+            assertFalse("Planos não deveriam estar bloqueado para edição", controladorClonado.isPlanosBloqueado());
         }
     }
 
@@ -485,24 +502,28 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
         controlador.update();
 
-        VersaoControlador versaoControlador = controlador.getVersaoControlador();
-        versaoControlador.setStatusVersao(StatusVersao.ATIVO);
-        versaoControlador.update();
+        controlador.setStatusVersao(StatusVersao.CONFIGURADO);
 
         int totalTabelaHoraria = 1;
         int totalEventos = 3;
 
         assertEquals("Total de Tabelas Horarias", totalTabelaHoraria, TabelaHorario.find.findRowCount());
         assertEquals("Total de Eventos", totalEventos, Evento.find.findRowCount());
+        assertFalse(controlador.isBloqueado());
+        assertFalse(controlador.isPlanosBloqueado());
 
-        Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
-                .uri(routes.ControladoresController.editarTabelaHoraria(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+        Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
+                .uri(routes.ControladoresController.editarTabelaHoraria(controlador.getId().toString()).url())
+                .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
 
-        Result postResult = route(postRequest);
-        assertEquals(OK, postResult.status());
+        Result result = route(request);
+        assertEquals(OK, result.status());
 
-        JsonNode json = Json.parse(Helpers.contentAsString(postResult));
+        JsonNode json = Json.parse(Helpers.contentAsString(result));
         Controlador controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
+
+        assertTrue(controladorClonado.isBloqueado());
+        assertTrue(controladorClonado.isPlanosBloqueado());
 
         assertEquals("Total de Tabelas Horarias", totalTabelaHoraria * 2, TabelaHorario.find.findRowCount());
         assertEquals("Total de Versão Tabelas Horarias", totalTabelaHoraria * 2, VersaoTabelaHoraria.find.findRowCount());
@@ -510,10 +531,10 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
         if (controlador.getTabelaHoraria() != null) {
             assertFields(controlador.getTabelaHoraria(), controladorClonado.getTabelaHoraria());
-            controlador.getTabelaHoraria().getEventos().forEach(evento -> {
+            for (Evento evento : controladorClonado.getTabelaHoraria().getEventos()) {
                 Evento eventoClonado = controladorClonado.getTabelaHoraria().getEventos().stream().filter(aux -> aux.getPosicao().equals(evento.getPosicao())).findFirst().orElse(null);
                 assertFields(evento, eventoClonado);
-            });
+            }
         }
 
         controladorClonado.update();
@@ -522,20 +543,27 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         assertEquals("Total de Tabelas Horarias", totalTabelaHoraria * 2, TabelaHorario.find.findRowCount());
 
 
-        postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.TabelaHorariosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
+        request = new Http.RequestBuilder().method("POST")
+                .uri(routes.TabelaHorariosController.create().url())
+                .bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
 
-        postResult = route(postRequest);
-        assertEquals(OK, postResult.status());
+        result = route(request);
+        assertEquals(OK, result.status());
+        json = Json.parse(Helpers.contentAsString(result));
+        controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
+
+        controladorClonado.finalizar();
+
+        assertFalse(controladorClonado.isBloqueado());
+        assertFalse(controladorClonado.isPlanosBloqueado());
     }
 
     @Test
     public void deveriaClonar5VersoesTabelaHoraria() {
         Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
         controlador.update();
-        VersaoControlador versaoControlador = controlador.getVersaoControlador();
-        versaoControlador.setStatusVersao(StatusVersao.ATIVO);
-        versaoControlador.update();
+
+        controlador.setStatusVersao(StatusVersao.CONFIGURADO);
 
         int totalTabelaHoraria = 1;
         int totalEventos = 3;
@@ -543,55 +571,65 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         assertEquals("Total de Tabelas Horarias", totalTabelaHoraria, TabelaHorario.find.findRowCount());
         assertEquals("Total de Eventos", totalEventos, Evento.find.findRowCount());
 
+        assertFalse("Controlador não deveria estar bloqueado para edição", controlador.isBloqueado());
+        assertFalse("Planos não deveriam estar bloqueado para edição", controlador.isPlanosBloqueado());
+
         for (int i = 2; i < 7; i++) {
-            Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
-                    .uri(routes.ControladoresController.editarTabelaHoraria(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
+                    .uri(routes.ControladoresController.editarTabelaHoraria(controlador.getId().toString()).url())
+                    .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
 
-            Result postResult = route(postRequest);
-            assertEquals(OK, postResult.status());
+            Result result = route(request);
+            assertEquals(OK, result.status());
 
-            JsonNode json = Json.parse(Helpers.contentAsString(postResult));
+            JsonNode json = Json.parse(Helpers.contentAsString(result));
             Controlador controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
+
+            assertTrue("Controlador deveria estar bloqueado para edição", controladorClonado.isBloqueado());
+            assertTrue("Planos deveriam estar bloqueado para edição", controladorClonado.isPlanosBloqueado());
 
             assertEquals("Total de Tabelas Horarias", totalTabelaHoraria * i, TabelaHorario.find.findRowCount());
             assertEquals("Total de Versão Tabelas Horarias", totalTabelaHoraria * i, VersaoTabelaHoraria.find.findRowCount());
             assertEquals("Total de Eventos", totalEventos * i, Evento.find.findRowCount());
 
-            postRequest = new Http.RequestBuilder().method("POST")
-                    .uri(routes.TabelaHorariosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
+            request = new Http.RequestBuilder().method("POST")
+                    .uri(routes.TabelaHorariosController.create().url())
+                    .bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
 
-            postResult = route(postRequest);
-            json = Json.parse(Helpers.contentAsString(postResult));
-            assertEquals(OK, postResult.status());
+            result = route(request);
+            json = Json.parse(Helpers.contentAsString(result));
+            assertEquals(OK, result.status());
             controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
 
             assertEquals("Total de Versão Tabelas Horarias", totalTabelaHoraria * i, VersaoTabelaHoraria.find.findRowCount());
             assertEquals("Total de Tabelas Horarias", totalTabelaHoraria * i, TabelaHorario.find.findRowCount());
 
-            controladorClonado.ativar();
+            controladorClonado.finalizar();
+
+            assertFalse("Controlador não deveria estar bloqueado para edição", controladorClonado.isBloqueado());
+            assertFalse("Planos não deveriam estar bloqueado para edição", controladorClonado.isPlanosBloqueado());
         }
     }
 
     @Test
     public void deveriaClonarPlanosAnelCom2EstagiosEAtualizarPlano() {
+        Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
+        controlador.update();
+        controlador.setStatusVersao(StatusVersao.CONFIGURADO);
+
         int totalEstagiosPlanos = 6;
         int totalPlanos = 2;
         int totalGruposSemaforicosPlanos = 4;
+        int totalTabelasHorarias = TabelaHorario.find.findRowCount();
+        int totalEventos = Evento.find.findRowCount();
 
-        Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
-        controlador.update();
+        Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
+                .uri(routes.ControladoresController.editarPlanos(controlador.getId().toString()).url())
+                .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
 
-        VersaoControlador versaoControlador = controlador.getVersaoControlador();
-        versaoControlador.setStatusVersao(StatusVersao.ATIVO);
-        versaoControlador.update();
-
-        Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
-                .uri(routes.ControladoresController.editarPlanos(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
-
-        Result postResult = route(postRequest);
-        assertEquals(OK, postResult.status());
-
-        JsonNode json = Json.parse(Helpers.contentAsString(postResult));
+        Result result = route(request);
+        assertEquals(OK, result.status());
+        JsonNode json = Json.parse(Helpers.contentAsString(result));
         Controlador controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
 
         Anel anelCom2Estagios = controladorClonado.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
@@ -599,17 +637,18 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         Plano plano = anelCom2Estagios.getVersaoPlano().getPlanos().get(0);
         plano.setDescricao("Nova Descricao");
 
-        postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.PlanosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
+        request = new Http.RequestBuilder().method("POST")
+                .uri(routes.PlanosController.create().url())
+                .bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
 
-
-        postResult = route(postRequest);
-        assertEquals(OK, postResult.status());
+        result = route(request);
+        assertEquals(OK, result.status());
 
         assertEquals("Total de Estagios Planos", totalEstagiosPlanos * 2, Ebean.find(EstagioPlano.class).findRowCount());
         assertEquals("Total de Planos", totalPlanos * 2, Plano.find.findRowCount());
         assertEquals("Total de GrupoSemaforicoPlano", totalGruposSemaforicosPlanos * 2, Ebean.find(GrupoSemaforicoPlano.class).findRowCount());
-
+        assertEquals("Total Tabelas Horárias", totalTabelasHorarias * 2, TabelaHorario.find.findRowCount());
+        assertEquals("Total Eventos", totalEventos * 2, Evento.find.findRowCount());
     }
 
 
@@ -621,22 +660,24 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         int totalTabelaHorarias = Ebean.find(TabelaHorario.class).findRowCount();
         int totalVersoesTabelasHorarias = Ebean.find(VersaoTabelaHoraria.class).findRowCount();
 
-        Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
-                .uri(routes.ControladoresController.editarTabelaHoraria(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+        Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
+                .uri(routes.ControladoresController.editarTabelaHoraria(controlador.getId().toString()).url())
+                .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
 
-        Result postResult = route(postRequest);
-        JsonNode json = Json.parse(Helpers.contentAsString(postResult));
+        Result result = route(request);
+        assertEquals(200, result.status());
+
+        JsonNode json = Json.parse(Helpers.contentAsString(result));
         Controlador controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
 
-        assertEquals(200, postResult.status());
         assertEquals("Total Tabela Horarias", totalTabelaHorarias * 2, Ebean.find(TabelaHorario.class).findRowCount());
         assertEquals("Total Versoes Tabela Horarias", totalVersoesTabelasHorarias * 2, Ebean.find(VersaoTabelaHoraria.class).findRowCount());
 
-
-        Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.TabelaHorariosController.cancelarEdicao(controladorClonado.getId().toString()).url());
-        Result deleteResult = route(deleteRequest);
-        assertEquals(200, deleteResult.status());
+        TabelaHorario tabela = controladorClonado.getTabelaHoraria();
+        request = new Http.RequestBuilder().method("DELETE")
+                .uri(routes.TabelaHorariosController.cancelarEdicao(tabela.getId().toString()).url());
+        result = route(request);
+        assertEquals(200, result.status());
 
         assertEquals("Total Tabela Horarias", totalTabelaHorarias, Ebean.find(TabelaHorario.class).findRowCount());
         assertEquals("Total Versoes Tabela Horarias", totalVersoesTabelasHorarias, Ebean.find(VersaoTabelaHoraria.class).findRowCount());

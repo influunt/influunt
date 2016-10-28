@@ -447,7 +447,7 @@ public class ControladorTestUtil {
 
         Evento evento = new Evento();
         evento.setTabelaHorario(tabelaHoraria);
-        tabelaHoraria.addEventos(evento);
+        tabelaHoraria.addEvento(evento);
         evento.setTipo(TipoEvento.NORMAL);
         evento.setPosicao(1);
         evento.setDiaDaSemana(DiaDaSemana.DOMINGO);
@@ -456,7 +456,7 @@ public class ControladorTestUtil {
 
         Evento evento2 = new Evento();
         evento2.setTabelaHorario(tabelaHoraria);
-        tabelaHoraria.addEventos(evento2);
+        tabelaHoraria.addEvento(evento2);
         evento2.setTipo(TipoEvento.ESPECIAL_RECORRENTE);
         evento2.setPosicao(2);
         evento2.setData(new Date());
@@ -466,7 +466,7 @@ public class ControladorTestUtil {
 
         Evento evento3 = new Evento();
         evento3.setTabelaHorario(tabelaHoraria);
-        tabelaHoraria.addEventos(evento3);
+        tabelaHoraria.addEvento(evento3);
         evento3.setTipo(TipoEvento.ESPECIAL_NAO_RECORRENTE);
         evento3.setPosicao(3);
         evento3.setData(new Date());

@@ -22,7 +22,7 @@ import java.util.UUID;
  * Created by lesiopinheiro on 8/3/16.
  */
 @Singleton
-@SuppressWarnings({"ConstantConditions", "MismatchedQueryAndUpdateOfCollection"})
+@SuppressWarnings({"ConstantConditions", "MismatchedQueryAndUpdateOfCollection", "Duplicates"})
 public class ControladorUtil {
 
     private Provider<Application> provider;
@@ -277,7 +277,7 @@ public class ControladorUtil {
                 eventoClonado.setPosicaoPlano(evento.getPosicaoPlano());
                 eventoClonado.setData(evento.getData());
                 eventoClonado.setAgrupamento(evento.getAgrupamento());
-                tabelaClonada.addEventos(eventoClonado);
+                tabelaClonada.addEvento(eventoClonado);
             });
 
             versaoAntiga.setStatusVersao(StatusVersao.ARQUIVADO);
@@ -390,6 +390,31 @@ public class ControladorUtil {
             });
         });
 
+        // Clone de tabela horária
+        VersaoTabelaHoraria versaoAntiga = controlador.getVersaoTabelaHorariaAtivaOuConfigurada();
+        if (versaoAntiga != null && versaoAntiga.getTabelaHoraria() != null) {
+            TabelaHorario tabelaClonada = copyPrimitveFields(versaoAntiga.getTabelaHoraria());
+            tabelaClonada.setIdJson(UUID.randomUUID().toString());
+            VersaoTabelaHoraria novaVersao = new VersaoTabelaHoraria(controlador, versaoAntiga.getTabelaHoraria(), tabelaClonada, usuario);
+            tabelaClonada.setVersaoTabelaHoraria(novaVersao);
+
+            versaoAntiga.getTabelaHoraria().getEventos().forEach(evento -> {
+                Evento eventoClonado = copyPrimitveFields(evento);
+                eventoClonado.setIdJson(UUID.randomUUID().toString());
+                eventoClonado.setTabelaHorario(tabelaClonada);
+                eventoClonado.setDiaDaSemana(evento.getDiaDaSemana());
+                eventoClonado.setTipo(evento.getTipo());
+                eventoClonado.setHorario(evento.getHorario());
+                eventoClonado.setPosicaoPlano(evento.getPosicaoPlano());
+                eventoClonado.setData(evento.getData());
+                eventoClonado.setAgrupamento(evento.getAgrupamento());
+                tabelaClonada.addEvento(eventoClonado);
+            });
+
+            versaoAntiga.setStatusVersao(StatusVersao.ARQUIVADO);
+            controlador.addVersaoTabelaHoraria(novaVersao);
+        }
+
         //Atualizando IDJson de Planos
         controlador.getAneis().forEach(anel -> {
             anel.getPlanos().forEach(plano -> {
@@ -398,6 +423,7 @@ public class ControladorUtil {
                 plano.setIdJson(UUID.randomUUID().toString());
             });
         });
+        controlador.setBloqueado(true);
         Ebean.update(controlador);
 
         long elapsed = System.nanoTime() - startTime;
@@ -424,13 +450,15 @@ public class ControladorUtil {
                 eventoClonado.setPosicaoPlano(evento.getPosicaoPlano());
                 eventoClonado.setData(evento.getData());
                 eventoClonado.setAgrupamento(evento.getAgrupamento());
-                tabelaClonada.addEventos(eventoClonado);
+                tabelaClonada.addEvento(eventoClonado);
             });
 
             versaoAntiga.setStatusVersao(StatusVersao.ARQUIVADO);
             controlador.addVersaoTabelaHoraria(novaVersao);
 
             // FIM CLONE TABELA HORARIA
+            controlador.setBloqueado(true);
+            controlador.setPlanosBloqueado(true);
             Ebean.update(controlador);
         }
 

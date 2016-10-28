@@ -9,6 +9,7 @@ import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import models.Controlador;
 import models.StatusVersao;
+import models.TabelaHorario;
 import models.VersaoTabelaHoraria;
 import play.db.ebean.Transactional;
 import play.libs.Json;
@@ -33,22 +34,20 @@ public class TabelaHorariosController extends Controller {
     @Dynamic("Influunt")
     public CompletionStage<Result> create() {
         JsonNode json = request().body().asJson();
-
         if (json == null) {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
+        }
+
+        Controlador controlador = new ControladorCustomDeserializer().getControladorFromJson(request().body().asJson());
+        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, TabelaHorariosCheck.class);
+
+        if (erros.isEmpty()) {
+            controlador.update();
+            Controlador controlador1 = Controlador.find.byId(controlador.getId());
+            controlador1.getVersoesTabelasHorarias();
+            return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador1)));
         } else {
-
-            Controlador controlador = new ControladorCustomDeserializer().getControladorFromJson(request().body().asJson());
-            List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, TabelaHorariosCheck.class);
-
-            if (erros.isEmpty()) {
-                controlador.update();
-                Controlador controlador1 = Controlador.find.byId(controlador.getId());
-                controlador1.getVersoesTabelasHorarias();
-                return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador1)));
-            } else {
-                return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
-            }
+            return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
         }
     }
 
@@ -69,20 +68,12 @@ public class TabelaHorariosController extends Controller {
     @Transactional
     @Dynamic("Influunt")
     public CompletionStage<Result> cancelarEdicao(String id) {
-        Controlador controlador = Controlador.find.byId(UUID.fromString(id));
-        if (controlador == null) {
+        TabelaHorario tabelaHoraria = TabelaHorario.find.byId(UUID.fromString(id));
+        if (tabelaHoraria == null) {
             return CompletableFuture.completedFuture(notFound());
         }
-        boolean success = DBUtils.executeWithTransaction(() -> {
-            VersaoTabelaHoraria versaoTabelaHoraria = controlador.getVersaoTabelaHorariaEmEdicao();
-            if (controlador.getVersoesTabelasHorarias().size() > 1 && versaoTabelaHoraria != null) {
-                VersaoTabelaHoraria versaoTabelaHorariaOrigem = versaoTabelaHoraria.getTabelaHorariaOrigem().getVersaoTabelaHoraria();
-                versaoTabelaHorariaOrigem.setStatusVersao(StatusVersao.CONFIGURADO);
-                versaoTabelaHorariaOrigem.update();
-                versaoTabelaHoraria.delete();
-            }
-        });
 
+        boolean success = DBUtils.executeWithTransaction(tabelaHoraria::voltarVersaoAnterior);
         if (success) {
             return CompletableFuture.completedFuture(ok());
         }

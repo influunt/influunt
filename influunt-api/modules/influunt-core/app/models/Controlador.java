@@ -124,6 +124,12 @@ public class Controlador extends Model implements Cloneable, Serializable {
     @Valid
     private List<VersaoTabelaHoraria> versoesTabelasHorarias;
 
+    @Column
+    private boolean bloqueado;
+
+    @Column
+    private boolean planosBloqueado;
+
     @JsonIgnore
     @Transient
     private VersaoTabelaHoraria versaoTabelaHorariaAtiva;
@@ -581,7 +587,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
         getGruposSemaforicos().add(grupoSemaforico);
     }
 
-    public String getStatusControladorReal() {
+    public StatusVersao getStatusControladorReal() {
         StatusVersao statusVersaoControlador = getVersaoControlador().getStatusVersao();
         if (StatusVersao.CONFIGURADO.equals(statusVersaoControlador)) {
             TabelaHorario tabela = getTabelaHoraria();
@@ -590,7 +596,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
                 if (versaoTabelaHoraria != null) {
                     StatusVersao statusTabelaHoraria = versaoTabelaHoraria.getStatusVersao();
                     if (StatusVersao.EDITANDO.equals(statusTabelaHoraria)) {
-                        return "EM_EDICAO";
+                        return StatusVersao.EDITANDO;
                     }
                 }
             }
@@ -601,14 +607,14 @@ public class Controlador extends Model implements Cloneable, Serializable {
                     if (versaoPlano != null) {
                         StatusVersao statusPlano = versaoPlano.getStatusVersao();
                         if (StatusVersao.EDITANDO.equals(statusPlano)) {
-                            return "EM_EDICAO";
+                            return StatusVersao.EDITANDO;
                         }
                     }
                 }
             }
         }
 
-        return getVersaoControlador().getStatusVersao().toString();
+        return getVersaoControlador().getStatusVersao();
     }
 
     public void deleteAnelSeNecessario() {
@@ -648,11 +654,13 @@ public class Controlador extends Model implements Cloneable, Serializable {
                 }
             });
 
-
             Controlador controladorOrigem = versaoControlador.getControladorOrigem();
             if (controladorOrigem != null) {
                 this.reassociarAgrupamentos(controladorOrigem);
             }
+
+            setBloqueado(false);
+            setPlanosBloqueado(false);
             this.update();
         });
     }
@@ -771,5 +779,21 @@ public class Controlador extends Model implements Cloneable, Serializable {
             return getVersaoTabelaHorariaAtiva();
         }
         return getVersaoTabelaHorariaConfigurada();
+    }
+
+    public boolean isBloqueado() {
+        return bloqueado;
+    }
+
+    public void setBloqueado(boolean bloqueado) {
+        this.bloqueado = bloqueado;
+    }
+
+    public boolean isPlanosBloqueado() {
+        return planosBloqueado;
+    }
+
+    public void setPlanosBloqueado(boolean planosBloqueado) {
+        this.planosBloqueado = planosBloqueado;
     }
 }

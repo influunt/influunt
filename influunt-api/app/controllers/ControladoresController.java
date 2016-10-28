@@ -129,20 +129,6 @@ public class ControladoresController extends Controller {
         }
 
         Controlador controladorEdicao = controladorService.criarCloneControlador(controlador, usuario);
-//        controladorService.criarClonePlanos(controladorEdicao, usuario);
-//        controladorEdicao.getAneis().stream().filter(Anel::isAtivo).forEach(anel -> {
-//            VersaoPlano versaoPlano = anel.getVersaoPlanoEmEdicao();
-//            if (versaoPlano != null) {
-//                versaoPlano.setUsuario(usuario);
-//                versaoPlano.update();
-//            }
-//        });
-//        controladorService.criarCloneTabelaHoraria(controladorEdicao, getUsuario());
-//        VersaoTabelaHoraria versaoTabela = controladorEdicao.getVersaoTabelaHorariaEmEdicao();
-//        if (versaoTabela != null) {
-//            versaoTabela.setUsuario(usuario);
-//            versaoTabela.update();
-//        }
         return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controladorEdicao)));
     }
 
@@ -163,40 +149,39 @@ public class ControladoresController extends Controller {
             return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(new Erro("editar", "usuário diferente do que está editando planos", "")))));
         }
 
-        if (controlador.podeClonar()) {
-            controladorService.criarClonePlanos(controlador, usuario);
-            controlador.refresh();
-            return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador)));
+        if (!controlador.podeClonar()) {
+            return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(new Erro("clonar", "plano não pode ser clonado", "")))));
         }
 
+        controladorService.criarClonePlanos(controlador, usuario);
+        controlador.refresh();
         return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador)));
-
     }
 
     @Transactional
     @Dynamic(value = "ControladorAreaAuth(path)")
     public CompletionStage<Result> editarTabelaHoraria(String id) {
-        if (getUsuario() == null) {
+        Usuario usuario = getUsuario();
+        if (usuario == null) {
             return CompletableFuture.completedFuture(unauthorized(Json.toJson(Collections.singletonList(new Erro("clonar", "usuário não econtrado", "")))));
         }
 
         Controlador controlador = Controlador.find.fetch("versaoControlador").where().eq("id", id).findUnique();
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
-        } else {
-
-            if (controlador.getVersaoControlador().getStatusVersao().equals(StatusVersao.EDITANDO) && !usuarioPodeEditarControlador(controlador, getUsuario())) {
-                return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(new Erro("editar", "usuário diferente do que está editando planos", "")))));
-            }
-
-            if (controlador.podeClonar()) {
-                controladorService.criarCloneTabelaHoraria(controlador, getUsuario());
-                controlador.refresh();
-                return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador)));
-            }
-
-            return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador)));
         }
+
+        if (controlador.getVersaoControlador().getStatusVersao().equals(StatusVersao.EDITANDO) && !usuarioPodeEditarControlador(controlador, usuario)) {
+            return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(new Erro("editar", "usuário diferente do que está editando planos", "")))));
+        }
+
+        if (!controlador.podeClonar()) {
+            return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(new Erro("editar", "tabela horária não pode ser clonada", "")))));
+        }
+
+        controladorService.criarCloneTabelaHoraria(controlador, getUsuario());
+        controlador.refresh();
+        return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador)));
     }
 
     @Transactional

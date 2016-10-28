@@ -227,6 +227,8 @@
       "ausenciaMaxima": "Ausência de Detecção Máxima",
       "ausenciaMinima": "Ausência de Detecção Mínima",
       "controladorEmEdicaoPor": "Controlador em edição com o usuário: <span><b>{nomeUsuario}</span></b>",
+      "controladorBloqueado": "Controlador bloqueado para edição. Finalize a configuração de planos e tabelas horárias para desbloquear.",
+      "planosBloqueados": "Planos bloqueados para edição. Finalize a configuração da tabela horária para desbloquear.",
       "demandaPrioritaria": "Demanda Prioritaria",
       "desativacaoTempoMax": "Desativ. Tempo max",
       "descricao": "Descrição",

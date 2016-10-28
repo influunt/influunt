@@ -157,6 +157,10 @@ angular.module('influuntApp')
         return planoService.podeEditarControlador($scope.objeto);
       };
 
+      $scope.planosBloqueadosParaEdicao = function() {
+        return _.get($scope.objeto, 'planosBloqueado');
+      };
+
       /**
        * Evita que dados informados para um plano em determinado modo de operação vaze
        * para o diagrama criado.

@@ -130,7 +130,7 @@ public class TabelaHorario extends Model implements Cloneable, Serializable {
         return !this.getEventos().stream().filter(ev -> !ev.isDestroy()).collect(Collectors.toList()).isEmpty();
     }
 
-    public void addEventos(Evento evento) {
+    public void addEvento(Evento evento) {
         if (getEventos() == null) {
             setEventos(new ArrayList<Evento>());
         }
@@ -168,6 +168,18 @@ public class TabelaHorario extends Model implements Cloneable, Serializable {
                 ", dataCriacao=" + dataCriacao +
                 ", dataAtualizacao=" + dataAtualizacao +
                 '}';
+    }
+
+    public void voltarVersaoAnterior() {
+        VersaoTabelaHoraria versaoAtual = getVersaoTabelaHoraria();
+        if (versaoAtual != null && StatusVersao.EDITANDO.equals(versaoAtual.getStatusVersao())) {
+            VersaoTabelaHoraria versaoAnterior = versaoAtual.getVersaoAnterior();
+            if (versaoAnterior != null) {
+                versaoAnterior.setStatusVersao(StatusVersao.CONFIGURADO);
+                versaoAnterior.update();
+                versaoAtual.delete();
+            }
+        }
     }
 }
 
