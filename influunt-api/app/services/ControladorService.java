@@ -67,8 +67,8 @@ public class ControladorService {
         });
     }
 
-    public void criarClonePlanos(Controlador controlador, Usuario usuario) {
-        DBUtils.executeWithTransaction(() -> new ControladorUtil().provider(provider).deepClonePlanos(controlador, usuario));
+    public boolean criarClonePlanos(Controlador controlador, Usuario usuario) {
+        return DBUtils.executeWithTransaction(() -> new ControladorUtil().provider(provider).deepClonePlanos(controlador, usuario));
     }
 
     public boolean criarCloneTabelaHoraria(Controlador controlador, Usuario usuario) {

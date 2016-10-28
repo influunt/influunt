@@ -50,7 +50,7 @@ angular.module('influuntApp')
                 .catch(handleErroEditar)
                 .finally(influuntBlockui.unblock);
             } else {
-              $state.go('app.controladores')
+              $state.go('app.controladores');
             }
           }
         });

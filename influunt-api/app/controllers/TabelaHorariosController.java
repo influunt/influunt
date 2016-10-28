@@ -8,7 +8,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import models.Controlador;
-import models.StatusVersao;
 import models.TabelaHorario;
 import models.VersaoTabelaHoraria;
 import play.db.ebean.Transactional;
@@ -46,9 +45,9 @@ public class TabelaHorariosController extends Controller {
             Controlador controlador1 = Controlador.find.byId(controlador.getId());
             controlador1.getVersoesTabelasHorarias();
             return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador1)));
-        } else {
-            return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
         }
+
+        return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
     }
 
     @Transactional
@@ -58,10 +57,10 @@ public class TabelaHorariosController extends Controller {
 
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
-        } else {
-            List<VersaoTabelaHoraria> versoes = controlador.getVersoesTabelasHorarias();
-            return CompletableFuture.completedFuture(ok(Json.toJson(versoes)));
         }
+
+        List<VersaoTabelaHoraria> versoes = controlador.getVersoesTabelasHorarias();
+        return CompletableFuture.completedFuture(ok(Json.toJson(versoes)));
     }
 
 

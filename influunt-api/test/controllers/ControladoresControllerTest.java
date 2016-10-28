@@ -3,7 +3,6 @@ package controllers;
 import checks.Erro;
 import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
-import cucumber.api.Pending;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import models.*;
@@ -140,8 +139,8 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
                 origem.getEstagiosGruposSemaforicos().forEach(egs -> {
                     EstagioGrupoSemaforico egsClonado = destino.getEstagiosGruposSemaforicos().stream().filter(aux ->
                             aux.getEstagio().getPosicao().equals(egs.getEstagio().getPosicao()) &&
-                            aux.getGrupoSemaforico().getTipo().equals(egs.getGrupoSemaforico().getTipo()) &&
-                            aux.getGrupoSemaforico().getPosicao().equals(egs.getGrupoSemaforico().getPosicao())
+                                    aux.getGrupoSemaforico().getTipo().equals(egs.getGrupoSemaforico().getTipo()) &&
+                                    aux.getGrupoSemaforico().getPosicao().equals(egs.getGrupoSemaforico().getPosicao())
                     ).findFirst().orElse(null);
                     assertEquals("Teste Anel | Estagio Grupo Smaforico | Estagio: ", egs.getEstagio().getPosicao(), egsClonado.getEstagio().getPosicao());
                     assertEquals("Teste Anel | Estagio Grupo Smaforico | Grupo Semaforico: (tipo)", egs.getGrupoSemaforico().getTipo(), egsClonado.getGrupoSemaforico().getTipo());
@@ -152,8 +151,8 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
                 origem.getAlternativaDeTransicoesProibidas().forEach(transicaoProibida -> {
                     TransicaoProibida tpClonada = destino.getAlternativaDeTransicoesProibidas().stream().filter(aux ->
                             aux.getOrigem().getPosicao().equals(transicaoProibida.getOrigem().getPosicao()) &&
-                            aux.getDestino().getPosicao().equals(transicaoProibida.getDestino().getPosicao()) &&
-                            aux.getAlternativo().getPosicao().equals(transicaoProibida.getAlternativo().getPosicao())
+                                    aux.getDestino().getPosicao().equals(transicaoProibida.getDestino().getPosicao()) &&
+                                    aux.getAlternativo().getPosicao().equals(transicaoProibida.getAlternativo().getPosicao())
                     ).findFirst().orElse(null);
 
                     assertEquals("Teste Anel | Transicao Proibida | Alternativo: ", transicaoProibida.getAlternativo().getPosicao(), tpClonada.getAlternativo().getPosicao());
@@ -163,8 +162,8 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
                 origem.getDestinoDeTransicoesProibidas().forEach(transicaoProibida -> {
                     TransicaoProibida tpClonada = destino.getDestinoDeTransicoesProibidas().stream().filter(aux ->
                             aux.getOrigem().getPosicao().equals(transicaoProibida.getOrigem().getPosicao()) &&
-                            aux.getDestino().getPosicao().equals(transicaoProibida.getDestino().getPosicao()) &&
-                            aux.getAlternativo().getPosicao().equals(transicaoProibida.getAlternativo().getPosicao())
+                                    aux.getDestino().getPosicao().equals(transicaoProibida.getDestino().getPosicao()) &&
+                                    aux.getAlternativo().getPosicao().equals(transicaoProibida.getAlternativo().getPosicao())
                     ).findFirst().orElse(null);
                     assertEquals("Teste Anel | Transicao Proibida | Destino: ", transicaoProibida.getDestino().getPosicao(), tpClonada.getDestino().getPosicao());
                     assertFields(transicaoProibida, tpClonada);
@@ -173,8 +172,8 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
                 origem.getOrigemDeTransicoesProibidas().forEach(transicaoProibida -> {
                     TransicaoProibida tpClonada = destino.getOrigemDeTransicoesProibidas().stream().filter(aux ->
                             aux.getOrigem().getPosicao().equals(transicaoProibida.getOrigem().getPosicao()) &&
-                            aux.getDestino().getPosicao().equals(transicaoProibida.getDestino().getPosicao()) &&
-                            aux.getAlternativo().getPosicao().equals(transicaoProibida.getAlternativo().getPosicao())
+                                    aux.getDestino().getPosicao().equals(transicaoProibida.getDestino().getPosicao()) &&
+                                    aux.getAlternativo().getPosicao().equals(transicaoProibida.getAlternativo().getPosicao())
                     ).findFirst().orElse(null);
                     assertEquals("Teste Anel | Transicao Proibida | Origem: ", transicaoProibida.getOrigem().getPosicao(), tpClonada.getOrigem().getPosicao());
                     assertFields(transicaoProibida, tpClonada);
@@ -204,7 +203,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
                 origem.getVerdesConflitantesOrigem().forEach(vc -> {
                     VerdesConflitantes vcClonado = destino.getVerdesConflitantesOrigem().stream().filter(aux ->
                             aux.getOrigem().getPosicao().equals(vc.getOrigem().getPosicao()) &&
-                            aux.getDestino().getPosicao().equals(vc.getDestino().getPosicao())
+                                    aux.getDestino().getPosicao().equals(vc.getDestino().getPosicao())
                     ).findFirst().orElse(null);
                     assertEquals("Teste Anel | Grupo Semaforico | Verdes Conflitantes Origem | Grupo Semaforico: (tipo)", vc.getOrigem().getTipo(), vcClonado.getOrigem().getTipo());
                     assertEquals("Teste Anel | Grupo Semaforico | Verdes Conflitantes Origem | Grupo Semaforico: (posição)", vc.getOrigem().getPosicao(), vcClonado.getOrigem().getPosicao());
@@ -234,7 +233,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
                     tev.getTabelaEntreVerdesTransicoes().forEach(tevt -> {
                         TabelaEntreVerdesTransicao tevtClonada = tevClonada.getTabelaEntreVerdesTransicoes().stream().filter(aux ->
                                 aux.getTransicao().getOrigem().getPosicao().equals(tevt.getTransicao().getOrigem().getPosicao()) &&
-                                aux.getTransicao().getDestino().getPosicao().equals(tevt.getTransicao().getDestino().getPosicao())
+                                        aux.getTransicao().getDestino().getPosicao().equals(tevt.getTransicao().getDestino().getPosicao())
                         ).findFirst().orElse(null);
                         assertEquals("Teste Anel | Grupo Smaforico | Tabela Entre Verdes | Tabela Entre Verde Transicao | Tabela Entre Verde: (posição)", tevt.getTabelaEntreVerdes().getPosicao(), tevtClonada.getTabelaEntreVerdes().getPosicao());
                         assertEquals("Teste Anel | Grupo Smaforico | Tabela Entre Verdes | Tabela Entre Verde Transicao | Tabela Entre Verde: (grupo semaforico)", tevt.getTabelaEntreVerdes().getGrupoSemaforico().getPosicao(), tevtClonada.getTabelaEntreVerdes().getGrupoSemaforico().getPosicao());
@@ -247,7 +246,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
                 origem.getTransicoes().forEach(transicao -> {
                     Transicao transicaoClonada = destino.getTransicoes().stream().filter(aux ->
                             aux.getOrigem().getPosicao().equals(transicao.getOrigem().getPosicao()) &&
-                            aux.getDestino().getPosicao().equals(transicao.getDestino().getPosicao())
+                                    aux.getDestino().getPosicao().equals(transicao.getDestino().getPosicao())
                     ).findFirst().orElse(null);
                     assertEquals("Teste Anel | Grupo Smaforico | Transicoes |  Grupo Semaforico: ", transicao.getGrupoSemaforico().getPosicao(), transicaoClonada.getGrupoSemaforico().getPosicao());
                     assertEquals("Teste Anel | Grupo Smaforico | Transicoes |  Estagio Origem: ", transicao.getOrigem().getPosicao(), transicaoClonada.getOrigem().getPosicao());
@@ -258,7 +257,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
                     transicao.getTabelaEntreVerdesTransicoes().forEach(tevt -> {
                         TabelaEntreVerdesTransicao tevtClonada = transicaoClonada.getTabelaEntreVerdesTransicoes().stream().filter(aux ->
                                 aux.getTabelaEntreVerdes().getPosicao().equals(tevt.getTabelaEntreVerdes().getPosicao()) &&
-                                aux.getTabelaEntreVerdes().getGrupoSemaforico().getPosicao().equals(tevt.getTabelaEntreVerdes().getGrupoSemaforico().getPosicao())
+                                        aux.getTabelaEntreVerdes().getGrupoSemaforico().getPosicao().equals(tevt.getTabelaEntreVerdes().getGrupoSemaforico().getPosicao())
                         ).findFirst().orElse(null);
                         assertEquals("Teste Anel | Grupo Smaforico | Tabela Entre Verdes | Tabela Entre Verde Transicao | Tabela Entre Verde: (posição)", tevt.getTabelaEntreVerdes().getPosicao(), tevtClonada.getTabelaEntreVerdes().getPosicao());
                         assertEquals("Teste Anel | Grupo Smaforico | Tabela Entre Verdes | Tabela Entre Verde Transicao | Tabela Entre Verde: (grupo semaforico)", tevt.getTabelaEntreVerdes().getGrupoSemaforico().getPosicao(), tevtClonada.getTabelaEntreVerdes().getGrupoSemaforico().getPosicao());

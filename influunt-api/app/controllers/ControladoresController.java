@@ -153,9 +153,12 @@ public class ControladoresController extends Controller {
             return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(new Erro("clonar", "plano não pode ser clonado", "")))));
         }
 
-        controladorService.criarClonePlanos(controlador, usuario);
-        controlador.refresh();
-        return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador)));
+        if (controladorService.criarClonePlanos(controlador, usuario)) {
+            controlador.refresh();
+            return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador)));
+        }
+
+        return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(new Erro("clonar", "erro ao clonar planos", "")))));
     }
 
     @Transactional
@@ -410,7 +413,7 @@ public class ControladoresController extends Controller {
                 if (checkIfExists) {
                     controlador.update();
                 } else {
-                    // Criar a prmieira versao e o controlador fisico
+                    // Criar a primeira versão e o controlador físico
                     ControladorFisico controladorFisico = new ControladorFisico();
                     VersaoControlador versaoControlador = new VersaoControlador(controlador, controladorFisico, getUsuario());
                     versaoControlador.setStatusVersao(StatusVersao.EM_CONFIGURACAO);

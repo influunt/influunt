@@ -393,12 +393,12 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
     public int getTempoVerdeEstagioComTempoDoEstagioDispensavel(HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerde, List<EstagioPlano> listaEstagioPlanos) {
         //TODO: Como funciona a compensação de estagios em caso de demanda prioritaria
         int tempoVerdeDoEstagioDispensavel = 0;
-        if(!getEstagio().isDemandaPrioritaria() && getPlano().isTempoFixoCoordenado()){
+        if (!getEstagio().isDemandaPrioritaria() && getPlano().isTempoFixoCoordenado()) {
             EstagioPlano estagioPlanoAnterior = getEstagioPlanoAnterior(plano.ordenarEstagiosPorPosicao());
             EstagioPlano estagioPlanoProximo = getEstagioPlanoProximo(plano.ordenarEstagiosPorPosicao());
             if (estagioPlanoAnterior.isDispensavel() &&
                     !listaEstagioPlanos.contains(estagioPlanoAnterior) &&
-                    this.equals(estagioPlanoAnterior.getEstagioQueRecebeEstagioDispensavel())){
+                    this.equals(estagioPlanoAnterior.getEstagioQueRecebeEstagioDispensavel())) {
                 tempoVerdeDoEstagioDispensavel += estagioPlanoAnterior.getTempoVerde();
                 tempoVerdeDoEstagioDispensavel += tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(estagioPlanoAnterior.getEstagio().getPosicao(),
                         this.getEstagio().getPosicao())) / 1000;
@@ -413,7 +413,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
             //TODO: Caso o detector seja acionado quando o tempo de Verde já tenha sido adiciona a outro estagio, como o controlador deve se comportar
             if (estagioPlanoProximo.isDispensavel() &&
                     !listaEstagioPlanos.contains(estagioPlanoProximo) &&
-                    this.equals(estagioPlanoProximo.getEstagioQueRecebeEstagioDispensavel())){
+                    this.equals(estagioPlanoProximo.getEstagioQueRecebeEstagioDispensavel())) {
                 tempoVerdeDoEstagioDispensavel += estagioPlanoProximo.getTempoVerde();
                 EstagioPlano proximo = estagioPlanoProximo.getEstagioPlanoProximo(plano.ordenarEstagiosPorPosicao());
                 tempoVerdeDoEstagioDispensavel += tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(estagioPlanoProximo.getEstagio().getPosicao(),

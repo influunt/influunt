@@ -297,10 +297,8 @@ public class Anel extends Model implements Cloneable, Serializable {
     public VersaoPlano getVersaoPlanoAtivoOuConfigurado() {
         if (getVersaoPlanoAtivo() != null) {
             return getVersaoPlanoAtivo();
-        } else if (getVersaoPlanoConfigurado() != null) {
-            return getVersaoPlanoConfigurado();
         }
-        return null;
+        return getVersaoPlanoConfigurado();
     }
 
 

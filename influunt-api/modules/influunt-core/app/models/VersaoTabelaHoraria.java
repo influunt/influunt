@@ -187,6 +187,9 @@ public class VersaoTabelaHoraria extends Model implements Serializable {
 
     @JsonIgnore
     public VersaoTabelaHoraria getVersaoAnterior() {
-        return getTabelaHorariaOrigem().getVersaoTabelaHoraria();
+        if (getTabelaHorariaOrigem() != null) {
+            return getTabelaHorariaOrigem().getVersaoTabelaHoraria();
+        }
+        return null;
     }
 }
