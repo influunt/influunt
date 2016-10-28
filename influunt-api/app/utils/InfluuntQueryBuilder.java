@@ -193,6 +193,7 @@ public class InfluuntQueryBuilder {
         List<String> predicates = new ArrayList<>();
         MongoCursor<Auditoria> auditorias;
         int total = 0;
+        int maxAuditoriasReport = 10000;
         if (!searchFields.isEmpty()) {
 
             ArrayList<SearchFieldDefinition> searchFieldDefinitions = new ArrayList<SearchFieldDefinition>();
@@ -227,13 +228,13 @@ public class InfluuntQueryBuilder {
             if (getSortField() != null) {
                 int sortTypeAux = getSortType().equalsIgnoreCase("asc") ? 1 : -1;
                 if (reportMode) {
-                    auditorias = Auditoria.auditorias().find(query).sort("{".concat(getSortType()).concat(String.format(": %s", sortTypeAux)).concat("}")).as(Auditoria.class);
+                    auditorias = Auditoria.auditorias().find(query).sort("{".concat(getSortType()).concat(String.format(": %s", sortTypeAux)).concat("}")).limit(maxAuditoriasReport).as(Auditoria.class);
                 } else {
                     auditorias = Auditoria.auditorias().find(query).skip(getSkip()).sort("{".concat(getSortType()).concat(String.format(": %s", sortTypeAux)).concat("}")).limit(getPerPage()).as(Auditoria.class);
                 }
             } else {
                 if (reportMode) {
-                    auditorias = Auditoria.auditorias().find(query).as(Auditoria.class);
+                    auditorias = Auditoria.auditorias().find(query).limit(maxAuditoriasReport).as(Auditoria.class);
                 } else {
                     auditorias = Auditoria.auditorias().find(query).skip(getSkip()).limit(getPerPage()).as(Auditoria.class);
                 }
@@ -243,13 +244,13 @@ public class InfluuntQueryBuilder {
             if (getSortField() != null) {
                 int sortTypeAux = getSortType().equalsIgnoreCase("asc") ? 1 : -1;
                 if (reportMode) {
-                    auditorias = Auditoria.auditorias().find().sort("{".concat(getSortField()).concat(String.format(": %s", sortTypeAux)).concat("}")).as(Auditoria.class);
+                    auditorias = Auditoria.auditorias().find().sort("{".concat(getSortField()).concat(String.format(": %s", sortTypeAux)).concat("}")).limit(maxAuditoriasReport).as(Auditoria.class);
                 } else {
                     auditorias = Auditoria.auditorias().find().skip(getSkip()).sort("{".concat(getSortField()).concat(String.format(": %s", sortTypeAux)).concat("}")).limit(getPerPage()).as(Auditoria.class);
                 }
             } else {
                 if (reportMode) {
-                    auditorias = Auditoria.auditorias().find().as(Auditoria.class);
+                    auditorias = Auditoria.auditorias().find().limit(maxAuditoriasReport).as(Auditoria.class);
                 } else {
                     auditorias = Auditoria.auditorias().find().skip(getSkip()).limit(getPerPage()).as(Auditoria.class);
                 }
